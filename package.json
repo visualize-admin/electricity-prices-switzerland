@@ -1,0 +1,34 @@
+{
+  "name": "elcom-electricity-price-website",
+  "version": "0.1.0",
+  "main": "index.js",
+  "repository": "git@github.com:interactivethings/elcom-electricity-price-website.git",
+  "author": "Jeremy Stucki <jeremy@interactivethings.com>",
+  "private": true,
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start -p $PORT",
+    "lint": "tsc --noEmit -p ./src",
+    "setup": "yarn",
+    "preversion": "yarn lint",
+    "postversion": "git push --follow-tags"
+  },
+  "dependencies": {
+    "@lingui/react": "^2.9.1",
+    "next": "^9.4.4",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "theme-ui": "^0.3.1"
+  },
+  "devDependencies": {
+    "@types/lingui__core": "^2.7.0",
+    "@types/lingui__macro": "^2.7.3",
+    "@types/lingui__react": "^2.8.2",
+    "@types/node": "12",
+    "@types/theme-ui": "^0.3.4",
+    "babel-plugin-macros": "^2.8.0",
+    "prettier": "^2.0.5",
+    "typescript": "^3.9.5"
+  }
+}

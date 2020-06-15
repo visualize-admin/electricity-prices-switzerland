@@ -1,0 +1,8 @@
+/node_modules
+.next
+.DS_Store
+*.log
+
+/public/dist/**/*.js
+/build
+.now
