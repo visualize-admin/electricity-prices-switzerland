@@ -7,7 +7,7 @@
   "private": true,
   "scripts": {
     "dev": "next",
-    "build": "next build",
+    "build": "lingui compile && next build",
     "start": "next start -p $PORT",
     "lint": "tsc --noEmit",
     "setup": "yarn",
