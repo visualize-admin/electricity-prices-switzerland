@@ -1,0 +1,5 @@
+query Municipalities($locale: String!, $query: String) {
+  municipalities(locale: $locale, query: $query) {
+    name
+  }
+}

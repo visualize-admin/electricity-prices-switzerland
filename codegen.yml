@@ -1,0 +1,33 @@
+overwrite: true
+schema: "./src/graphql/schema.graphql"
+documents: ["./src/**/*.tsx", "./src/**/*.ts", "./src/graphql/queries.graphql"]
+generates:
+  src/graphql/queries.ts:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-urql"
+    config:
+      nonOptionalTypename: true
+      preResolveTypes: true
+      withComponent: false
+      withHooks: true
+  src/graphql/resolver-types.ts:
+    plugins:
+      - "typescript"
+      - "typescript-resolvers"
+    config:
+      useIndexSignature: true
+      noSchemaStitching: true
+      # scalars:
+      #   Observation: "../domain/data#Observation"
+      #   RawObservation: "../domain/data#RawObservation"
+      #   Filters: "../domain/config-types#Filters"
+      # mappers:
+      #   DataCube: "./shared-types#ResolvedDataCube"
+      #   ObservationsQuery: "./shared-types#ResolvedObservationsQuery"
+      #   Measure: "./shared-types#ResolvedMeasure"
+      #   Dimension: "./shared-types#ResolvedDimension"
+      #   NominalDimension: "./shared-types#ResolvedDimension"
+      #   OrdinalDimension: "./shared-types#ResolvedDimension"
+      #   TemporalDimension: "./shared-types#ResolvedDimension"
