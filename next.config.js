@@ -6,7 +6,7 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 
 const VERSION = `v${pkg.version}`;
 
-const DEPLOYMENT = process.env.VERCEL_GITHUB_COMMIT_REF || "dev";
+const DEPLOYMENT = process.env.DEPLOYMENT;
 
 console.log("Version", VERSION);
 
