@@ -1,11 +1,16 @@
 import { Trans } from "@lingui/macro";
 import { Header } from "../../components/header";
+import { Footer } from "../../components/footer";
+import { Box, Flex } from "theme-ui";
 
 export default function IndexPage() {
   return (
-    <div>
+    <Flex sx={{ minHeight: "100vh", flexDirection: "column" }}>
       <Header></Header>
-      <Trans id="test.hello">Hallo</Trans>
-    </div>
+      <Box sx={{ pt: 96, flexGrow: 1 }}>
+        <Trans id="test.hello">Hallo</Trans>
+      </Box>
+      <Footer></Footer>
+    </Flex>
   );
 }
