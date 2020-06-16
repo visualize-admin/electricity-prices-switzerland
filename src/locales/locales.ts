@@ -8,16 +8,15 @@
 // import timeFormatFr from "d3-time-format/locale/fr-FR.json";
 // import timeFormatIt from "d3-time-format/locale/it-IT.json";
 import catalogDe from "./de/messages.js";
-// import catalogEn from "./en/messages.js";
-// import catalogFr from "./fr/messages.js";
-// import catalogIt from "./it/messages.js";
+import catalogFr from "./fr/messages.js";
+import catalogIt from "./it/messages.js";
 
 export const defaultLocale = "de";
 
 // The order specified here will determine the fallback order when strings are not available in the preferred language
-export const locales = ["de"] as const;
+export const locales = ["de", "fr", "it"] as const;
 
-export type Locales = "de" | "fr" | "it" | "en";
+export type Locales = "de" | "fr" | "it";
 
 /**
  * Parses a valid app locale from a locale string (e.g. a Accept-Language header).
@@ -25,15 +24,14 @@ export type Locales = "de" | "fr" | "it" | "en";
  * @param localeString locale string, e.g. de,en-US;q=0.7,en;q=0.3
  */
 export const parseLocaleString = (localeString: string): Locales => {
-  const result = /^(de|fr|it|en)/.exec(localeString);
+  const result = /^(de|fr|it)/.exec(localeString);
   return result ? (result[1] as Locales) : defaultLocale;
 };
 
 export const catalogs = {
   de: catalogDe,
-  // fr: catalogFr,
-  // it: catalogIt,
-  // en: catalogEn,
+  fr: catalogFr,
+  it: catalogIt,
 } as const;
 
 export const d3TimeFormatLocales = {

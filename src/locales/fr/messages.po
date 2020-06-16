@@ -1,11 +1,11 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2020-06-16 10:06+0200\n"
+"POT-Creation-Date: 2020-06-16 11:02+0200\n"
 "Mime-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
-"Language: de\n"
+"Language: fr\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: \n"
@@ -16,12 +16,12 @@ msgstr ""
 #: src/components/header.tsx:71
 #: src/components/header.tsx:82
 msgid "logo.swiss.confederation"
-msgstr "Logo of the Swiss Confederation"
+msgstr ""
 
 #: src/components/header.tsx:64
 msgid "site.title"
-msgstr "Strompreise Schweiz"
+msgstr "Prix de l'électricité de la Suisse"
 
 #: src/pages/[locale]/index.tsx:6
 msgid "test.hello"
-msgstr "Hallo"
+msgstr "Bonjour"

@@ -1,9 +1,10 @@
-import { Trans } from "@lingui/macro";
+import { GetServerSideProps } from "next";
+import { defaultLocale } from "../locales/locales";
 
-export default function IndexPage() {
-  return (
-    <div>
-      <Trans id="test.hello">Hallo</Trans>
-    </div>
-  );
-}
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  res.writeHead(302, { Location: `/${defaultLocale}` });
+  res.end();
+  return { props: {} };
+};
+
+export default () => <div></div>;

@@ -183,29 +183,29 @@ export const theme: Theme = {
           fontFamily: "FrutigerNeue",
           fontStyle: "normal",
           fontWeight: 700,
-          src: `url("/static/fonts/FrutigerNeueW02-Bd.woff2") format("woff2"),
-          url("/static/fonts/FrutigerNeueW02-Bd.woff") format("woff")`,
+          src: `url("/fonts/FrutigerNeueW02-Bd.woff2") format("woff2"),
+          url("/fonts/FrutigerNeueW02-Bd.woff") format("woff")`,
         },
         {
           fontFamily: "FrutigerNeue",
           fontStyle: "normal",
           fontWeight: 400,
-          src: `url("/static/fonts/FrutigerNeueW02-Regular.woff2") format("woff2"),
-          url("/static/fonts/FrutigerNeueW02-Regular.woff") format("woff")`,
+          src: `url("/fonts/FrutigerNeueW02-Regular.woff2") format("woff2"),
+          url("/fonts/FrutigerNeueW02-Regular.woff") format("woff")`,
         },
         {
           fontFamily: "FrutigerNeue",
           fontStyle: "normal",
           fontWeight: 300,
-          src: `url("/static/fonts/FrutigerNeueW02-Light.woff2") format("woff2"),
-          url("/static/fonts/FrutigerNeueW02-Light.woff") format("woff")`,
+          src: `url("/fonts/FrutigerNeueW02-Light.woff2") format("woff2"),
+          url("/fonts/FrutigerNeueW02-Light.woff") format("woff")`,
         },
         {
           fontFamily: "FrutigerNeue",
           fontStyle: "italic",
           fontWeight: 400,
-          src: `url("/static/fonts/FrutigerNeueW02-It.woff2") format("woff2"),
-          url("/static/fonts/FrutigerNeueW02-It.woff") format("woff")`,
+          src: `url("/fonts/FrutigerNeueW02-It.woff2") format("woff2"),
+          url("/fonts/FrutigerNeueW02-It.woff") format("woff")`,
         },
       ],
 
@@ -366,7 +366,7 @@ export const theme: Theme = {
  * Use WOFF2 fonts if possible!
  */
 export const preloadFonts = [
-  "/static/fonts/FrutigerNeueW02-Bd.woff2",
-  "/static/fonts/FrutigerNeueW02-Regular.woff2",
-  "/static/fonts/FrutigerNeueW02-Light.woff2",
+  "/fonts/FrutigerNeueW02-Bd.woff2",
+  "/fonts/FrutigerNeueW02-Regular.woff2",
+  "/fonts/FrutigerNeueW02-Light.woff2",
 ];
