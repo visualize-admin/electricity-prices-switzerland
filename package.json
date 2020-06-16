@@ -9,7 +9,7 @@
     "dev": "next",
     "build": "next build",
     "start": "next start -p $PORT",
-    "lint": "tsc --noEmit -p ./src",
+    "lint": "tsc --noEmit",
     "setup": "yarn",
     "locales:extract": "lingui extract --verbose",
     "locales:compile": "lingui compile --verbose",
