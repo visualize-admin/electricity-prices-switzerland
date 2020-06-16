@@ -3,6 +3,9 @@
 .DS_Store
 *.log
 
+/src/locales/_build
+/src/locales/**/*.js
+
 /public/dist/**/*.js
 /build
 .now

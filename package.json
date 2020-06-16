@@ -47,6 +47,7 @@
     "@types/lingui__react": "^2.8.2",
     "@types/node": "12",
     "@types/theme-ui": "^0.3.4",
+    "babel-core": "^7.0.0-bridge.0",
     "babel-plugin-macros": "^2.8.0",
     "prettier": "^2.0.5",
     "typescript": "^3.9.5"
