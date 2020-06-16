@@ -93,6 +93,7 @@ export const Logo = () => {
           sx={{ pl: [0, 6], textDecoration: "none", color: "monochrome800" }}
         >
           <Trans id="site.title">Strompreise Schweiz</Trans>
+          {process.env.DEPLOYMENT && ` [${process.env.DEPLOYMENT.toLocaleUpperCase()}]`}
         </Text>
       </Flex>
     </HomeLink>

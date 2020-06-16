@@ -6,13 +6,16 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 
 const VERSION = `v${pkg.version}`;
 
+const DEPLOYMENT = process.env.VERCEL_GITHUB_COMMIT_REF || "dev";
+
 console.log("Version", VERSION);
 
 module.exports = withBundleAnalyzer(
   withMDX({
     // Build-time env variables
     env: {
-      VERSION
+      VERSION,
+      DEPLOYMENT
     },
 
     pageExtensions: ["js", "ts", "tsx", "mdx"],
