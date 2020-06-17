@@ -2,9 +2,7 @@ import { Button } from "@theme-ui/components";
 import { markdown, ReactSpecimen } from "catalog";
 
 export default () => markdown`
-> Buttons are used to trigger an event after a user interaction.
-
-There are four basic styles that are styles defined in \`rebass\`'s \`variants\`:
+> There are four basic styles that are defined as Rebass \`variant\`s:
 
 - \`primary\`
 - \`secondary\`
