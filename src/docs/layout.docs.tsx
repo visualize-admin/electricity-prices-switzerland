@@ -1,4 +1,6 @@
 import { markdown, TableSpecimen } from "catalog";
+import { theme } from "../themes/elcom";
+import { Box } from "theme-ui";
 
 export default () => markdown`
 
@@ -7,17 +9,17 @@ The application uses a limited set of space-variables, to construct the user int
 
 ${(
   <TableSpecimen
-    rows={[
-      { Variable: "space-0", Measurements: "0 rem" },
-      { Variable: "space-1", Measurements: "0.25 rem" },
-      { Variable: "space-2", Measurements: "0.5 rem" },
-      { Variable: "space-3", Measurements: "0.75 rem" },
-      { Variable: "space-4", Measurements: "1 rem (16px)" },
-      { Variable: "space-5", Measurements: "1.5 rem" },
-      { Variable: "space-6", Measurements: "2 rem" },
-      { Variable: "space-7", Measurements: "4 rem" },
-    ]}
+    rows={theme.space.map((s, i) => ({
+      Variable: `space-${i}`,
+      Measurement: s,
+      Space: <Space width={s} />,
+    }))}
+    span={4}
   />
 )}
 
 `;
+
+const Space = ({ width }: { width: string }) => (
+  <Box sx={{ width, height: "2rem", bg: "darkgrey" }} />
+);
