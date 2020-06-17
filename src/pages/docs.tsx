@@ -19,6 +19,16 @@ import { useEffect, useState } from "react";
 
 const pages: ConfigPageOrGroup[] = [
   { path: "/", title: "Introduction", content: require("../docs/index.mdx") },
+  {
+    title: "Components",
+    pages: [
+      {
+        path: "/components/form",
+        title: "Form",
+        content: require("../docs/form.docs"),
+      },
+    ],
+  },
 ];
 
 const mdxComponents = {
