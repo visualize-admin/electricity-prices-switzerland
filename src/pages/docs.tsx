@@ -20,6 +20,31 @@ import { useEffect, useState } from "react";
 const pages: ConfigPageOrGroup[] = [
   { path: "/", title: "Introduction", content: require("../docs/index.mdx") },
   {
+    title: "Theming",
+    pages: [
+      {
+        path: "/colors",
+        title: "Colors",
+        content: require("../docs/colors.mdx"),
+      },
+      // {
+      //   path: "/typography",
+      //   title: "Typography",
+      //   content: require("../docs/typography.mdx")
+      // },
+      // {
+      //   path: "/iconography",
+      //   title: "Iconography",
+      //   content: require("../docs/icons.docs.tsx")
+      // },
+      {
+        path: "/layout",
+        title: "Layout",
+        content: require("../docs/layout.docs"),
+      },
+    ],
+  },
+  {
     title: "Components",
     pages: [
       {
