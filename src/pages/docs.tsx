@@ -23,6 +23,11 @@ const pages: ConfigPageOrGroup[] = [
     title: "Components",
     pages: [
       {
+        path: "/components/buttons",
+        title: "Buttons",
+        content: require("../docs/button.docs"),
+      },
+      {
         path: "/components/form",
         title: "Form",
         content: require("../docs/form.docs"),
