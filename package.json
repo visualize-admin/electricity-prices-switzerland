@@ -19,11 +19,14 @@
     "postversion": "git push origin master master:test --follow-tags"
   },
   "dependencies": {
+    "@babel/standalone": "^7.10.2",
     "@lingui/react": "^2.9.1",
+    "@mdx-js/react": "^1.6.5",
     "@next/bundle-analyzer": "^9.4.4",
     "@next/mdx": "^9.4.4",
     "@types/graphql-type-json": "^0.3.2",
     "apollo-server-micro": "^2.14.4",
+    "catalog": "^4.0.1-canary.2",
     "cors": "^2.8.5",
     "global-agent": "^2.1.12",
     "graphql": "^15.1.0",
