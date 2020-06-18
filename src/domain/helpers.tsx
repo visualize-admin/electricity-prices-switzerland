@@ -16,6 +16,7 @@ import {
   timeDay,
   timeMonth,
   timeYear,
+  timeParse,
 } from "d3";
 
 export const isNumber = (x: $IntentionalAny): boolean =>
@@ -28,6 +29,53 @@ export const useFormatNumber = () => {
     const { format } = d3FormatLocales[locale];
     return format(",.2~f");
   }, [locale]);
+  return formatter;
+};
+
+const parseTime = timeParse("%Y-%m-%dT%H:%M:%S");
+const parseDay = timeParse("%Y-%m-%d");
+const parseMonth = timeParse("%Y-%m");
+const parseYear = timeParse("%Y");
+export const parseDate = (dateStr: string): Date =>
+  parseTime(dateStr) ??
+  parseDay(dateStr) ??
+  parseMonth(dateStr) ??
+  parseYear(dateStr) ??
+  // This should probably not happen
+  new Date(dateStr);
+
+/**
+ * Formats dates automatically based on their precision in LONG form.
+ *
+ * Use wherever dates are displayed without being in context of other dates (e.g. in tooltips)
+ */
+export const useFormatFullDateAuto = () => {
+  const locale = useLocale();
+  const formatter = React.useMemo(() => {
+    const { format } = d3TimeFormatLocales[locale];
+
+    const formatSecond = format("%d.%m.%Y %H:%M:%S");
+    const formatMinute = format("%d.%m.%Y %H:%M");
+    const formatHour = format("%d.%m.%Y %H:%M");
+    const formatDay = format("%d.%m.%Y");
+    const formatMonth = format("%m.%Y");
+    const formatYear = format("%Y");
+
+    return (date: Date) => {
+      return (timeMinute(date) < date
+        ? formatSecond
+        : timeHour(date) < date
+        ? formatMinute
+        : timeDay(date) < date
+        ? formatHour
+        : timeMonth(date) < date
+        ? formatDay
+        : timeYear(date) < date
+        ? formatMonth
+        : formatYear)(date);
+    };
+  }, [locale]);
+
   return formatter;
 };
 
