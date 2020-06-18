@@ -1,3 +1,5 @@
+import * as t from "io-ts";
+
 // Chart Config
 const SortingOrder = t.union([t.literal("asc"), t.literal("desc")]);
 export type SortingOrder = t.TypeOf<typeof SortingOrder>;
@@ -58,16 +60,7 @@ const BarFields = t.intersection([
     segment: SegmentField,
   }),
 ]);
-const BarConfig = t.type(
-  {
-    chartType: t.literal("bar"),
-    filters: Filters,
-    fields: BarFields,
-  },
-  "BarConfig"
-);
 export type BarFields = t.TypeOf<typeof BarFields>;
-export type BarConfig = t.TypeOf<typeof BarConfig>;
 
 const ColumnFields = t.intersection([
   t.type({
@@ -88,13 +81,42 @@ const ColumnFields = t.intersection([
     segment: SegmentField,
   }),
 ]);
-const ColumnConfig = t.type(
-  {
-    chartType: t.literal("column"),
-    filters: Filters,
-    fields: ColumnFields,
-  },
-  "ColumnConfig"
-);
 export type ColumnFields = t.TypeOf<typeof ColumnFields>;
-export type ColumnConfig = t.TypeOf<typeof ColumnConfig>;
+
+// const AreaFields = t.intersection([
+//   t.type({
+//     x: GenericField,
+//     y: GenericField,
+//   }),
+
+//   t.partial({
+//     segment: t.intersection([
+//       t.type({
+//         componentIri: t.string,
+//       }),
+//       t.type({ palette: t.string }),
+//       t.partial({
+//         colorMapping: ColorMapping,
+//       }),
+//       t.partial({
+//         sorting: t.type({
+//           sortingType: SortingType,
+//           sortingOrder: SortingOrder,
+//         }),
+//       }),
+//     ]),
+//   }),
+// ]);
+// const AreaConfig = t.type(
+//   {
+//     chartType: t.literal("area"),
+//     filters: Filters,
+//     fields: AreaFields,
+//   },
+//   "AreaConfig"
+// );
+
+// export type AreaFields = t.TypeOf<typeof AreaFields>;
+// export type AreaConfig = t.TypeOf<typeof AreaConfig>;
+
+export type ChartFields = ColumnFields | BarFields;
