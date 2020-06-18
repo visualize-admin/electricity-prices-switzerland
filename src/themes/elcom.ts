@@ -249,8 +249,7 @@ export const theme: Theme = {
       bg: "primary",
       color: "monochrome100",
       borderRadius: "default",
-      width: ["100%", "auto"],
-      minWidth: "160px",
+      width: "100%",
       px: 4,
       py: 3,
       fontFamily: "body",
@@ -261,21 +260,35 @@ export const theme: Theme = {
         bg: "primaryHover",
       },
       ":active": {
-        bg: "primaryHover",
+        bg: "primaryActive",
       },
       ":disabled": {
         cursor: "initial",
         bg: "primaryDisabled",
       },
     },
+    secondary: {
+      variant: "buttons.primary",
+      bg: "secondary",
+      ":hover": {
+        bg: "secondaryHover",
+      },
+      ":active": {
+        bg: "secondaryActive",
+      },
+      ":disabled": {
+        cursor: "initial",
+        bg: "secondaryDisabled",
+      },
+    },
     success: {
       variant: "buttons.primary",
-      bg: "successBase",
+      bg: "success",
       ":hover": {
         bg: "successHover",
       },
       ":active": {
-        bg: "successHover",
+        bg: "successActive",
       },
       ":disabled": {
         cursor: "initial",
@@ -301,26 +314,11 @@ export const theme: Theme = {
         bg: "muted",
       },
     },
-    secondary: {
-      variant: "buttons.primary",
-      bg: "secondary",
-      ":hover": {
-        bg: "secondaryHover",
-      },
-      ":active": {
-        bg: "secondaryHover",
-      },
-      ":disabled": {
-        cursor: "initial",
-        bg: "secondaryDisabled",
-      },
-    },
     inverted: {
       bg: "monochrome100",
       color: "monochrome800",
       borderRadius: "default",
       width: ["100%", "auto"],
-      minWidth: 160,
       px: 4,
       py: 3,
       fontFamily: "body",
