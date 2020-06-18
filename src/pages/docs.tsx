@@ -59,6 +59,21 @@ const pages: ConfigPageOrGroup[] = [
       },
     ],
   },
+  {
+    title: "Charts",
+    pages: [
+      {
+        path: "/charts/columns",
+        title: "Columns",
+        content: require("../docs/columns.docs"),
+      },
+      // {
+      //   path: "/charts/form",
+      //   title: "Form",
+      //   content: require("../docs/form.docs"),
+      // },
+    ],
+  },
 ];
 
 const mdxComponents = {
