@@ -131,7 +131,7 @@ export default () => {
   return mounted ? (
     <MDXProvider components={mdxComponents}>
       <Catalog
-        title="Visualization Tool"
+        title="🔌 ⚡️"
         pages={pages}
         theme={{
           brandColor: "#333",
