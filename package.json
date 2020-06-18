@@ -30,6 +30,7 @@
     "apollo-server-micro": "^2.14.4",
     "catalog": "^4.0.1-canary.2",
     "cors": "^2.8.5",
+    "d3": "^5.16.0",
     "fp-ts": "^2.6.6",
     "global-agent": "^2.1.12",
     "graphql": "^15.1.0",
