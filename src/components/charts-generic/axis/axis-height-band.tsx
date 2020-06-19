@@ -50,33 +50,3 @@ export const AxisHeightBand = () => {
     />
   );
 };
-
-// export const AxisHeightBandDomain = () => {
-//   const ref = useRef<SVGGElement>(null);
-//   const { xScale, yScale, bounds } = useChartState() as ColumnsState;
-//   const { chartHeight, margins } = bounds;
-//   const { domainColor } = useChartTheme();
-
-//   const mkAxisDomain = (
-//     g: Selection<SVGGElement, unknown, null, undefined>
-//   ) => {
-//     g.call(axisRight(xScale).tickSizeOuter(0));
-//     g.selectAll(".tick line").remove();
-//     g.selectAll(".tick text").remove();
-//     g.select(".domain")
-//       .attr("transform", `translate(0, -${bounds.chartHeight - yScale(0)})`)
-//       .attr("stroke", domainColor);
-//   };
-
-//   useEffect(() => {
-//     const g = select(ref.current);
-//     mkAxisDomain(g as Selection<SVGGElement, unknown, null, undefined>);
-//   });
-
-//   return (
-//     <g
-//       ref={ref}
-//       transform={`translate(${margins.left}, ${chartHeight + margins.top})`}
-//     />
-//   );
-// };

@@ -43,17 +43,12 @@ export default () => {
             __typename: "Measure",
           },
         ]}
-        aspectRatio={0.4}
       >
         <ChartContainer>
           <ChartSvg>
-            {/* <AxisHeightLinear /> <AxisWidthBand /> */}
             <Bars />
             <AxisHeightBand />
-            {/* <AxisWidthBandDomain /> */}
-            {/* <InteractionColumns /> */}
           </ChartSvg>
-          <Tooltip type="single" />
         </ChartContainer>
       </BarChart>
     </ReactSpecimen>

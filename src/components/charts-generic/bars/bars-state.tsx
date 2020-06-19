@@ -31,11 +31,10 @@ export interface BarsState {
   xScale: ScaleLinear<number, number>;
   getY: (d: Observation) => string;
   yScale: ScaleBand<string>;
-  yScaleInteraction: ScaleBand<string>;
+  // yScaleInteraction: ScaleBand<string>;
   getSegment: (d: Observation) => string;
   segments: string[];
   colors: ScaleOrdinal<string, string>;
-  // yAxisLabel: string;
   getAnnotationInfo: (d: Observation) => Tooltip;
 }
 
@@ -43,10 +42,8 @@ const useBarsState = ({
   data,
   fields,
   measures,
-}: // aspectRatio,
-Pick<ChartProps, "data" | "measures"> & {
+}: Pick<ChartProps, "data" | "measures"> & {
   fields: BarFields;
-  // aspectRatio: number;
 }): BarsState => {
   const width = useWidth();
   const formatNumber = useFormatNumber();
@@ -87,9 +84,6 @@ Pick<ChartProps, "data" | "measures"> & {
   const xScale = scaleLinear()
     .domain([mkNumber(minValue), mkNumber(maxValue)])
     .nice();
-  const yAxisLabel =
-    measures.find((d) => d.iri === fields.y.componentIri)?.label ??
-    fields.y.componentIri;
 
   // y
   const bandDomain = [...new Set(sortedData.map((d) => getY(d)))];
@@ -97,10 +91,10 @@ Pick<ChartProps, "data" | "measures"> & {
     .domain(bandDomain)
     .paddingInner(VERTICAL_PADDING)
     .paddingOuter(VERTICAL_PADDING);
-  const yScaleInteraction = scaleBand()
-    .domain(bandDomain)
-    .paddingInner(0)
-    .paddingOuter(0);
+  // const yScaleInteraction = scaleBand()
+  //   .domain(bandDomain)
+  //   .paddingInner(0)
+  //   .paddingOuter(0);
 
   // Dimensions
   const left = Math.max(
@@ -129,7 +123,7 @@ Pick<ChartProps, "data" | "measures"> & {
   console.log({ chartHeight }, data.length);
   xScale.range([0, chartWidth]);
   yScale.rangeRound([0, chartHeight]);
-  yScaleInteraction.rangeRound([0, chartHeight]);
+  // yScaleInteraction.rangeRound([0, chartHeight]);
 
   // Tooltip
   const getAnnotationInfo = (datum: Observation): Tooltip => {
@@ -187,11 +181,10 @@ Pick<ChartProps, "data" | "measures"> & {
     sortedData,
     getX,
     xScale,
-    yScaleInteraction,
+    // yScaleInteraction,
     getY,
     yScale,
     getSegment,
-    // yAxisLabel,
     segments,
     colors,
     getAnnotationInfo,
@@ -202,18 +195,15 @@ const BarChartProvider = ({
   data,
   fields,
   measures,
-  // aspectRatio,
   children,
 }: Pick<ChartProps, "data" | "measures"> & {
   children: ReactNode;
   fields: BarFields;
-  // aspectRatio: number;
 }) => {
   const state = useBarsState({
     data,
     fields,
     measures,
-    // aspectRatio,
   });
   return (
     <ChartContext.Provider value={state}>{children}</ChartContext.Provider>
@@ -224,22 +214,15 @@ export const BarChart = ({
   data,
   fields,
   measures,
-  // aspectRatio,
   children,
 }: Pick<ChartProps, "data" | "measures"> & {
-  // aspectRatio: number;
   children: ReactNode;
   fields: BarFields;
 }) => {
   return (
     <Observer>
       <InteractionProvider>
-        <BarChartProvider
-          data={data}
-          fields={fields}
-          measures={measures}
-          // aspectRatio={aspectRatio}
-        >
+        <BarChartProvider data={data} fields={fields} measures={measures}>
           {children}
         </BarChartProvider>
       </InteractionProvider>
@@ -270,6 +253,6 @@ const sortData = ({
     return [...data].sort((a, b) => ascending(getX(a), getX(b)));
   } else {
     // default to ascending alphabetical
-    return [...data].sort((a, b) => ascending(getX(a), getX(b)));
+    return [...data].sort((a, b) => ascending(getY(a), getY(b)));
   }
 };
