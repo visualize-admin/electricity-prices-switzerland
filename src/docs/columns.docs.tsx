@@ -140,7 +140,7 @@ export default () => {
         measures={[
           {
             iri: "value",
-            label: "value",
+            label: "Price (CHF)",
             __typename: "Measure",
           },
         ]}
