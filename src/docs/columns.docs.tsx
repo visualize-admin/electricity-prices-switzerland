@@ -18,12 +18,17 @@ import { ColumnsGrouped } from "../components/charts-generic/columns/columns-gro
 import { LegendColor } from "../components/charts-generic/legends/color";
 import { StackedColumnsChart } from "../components/charts-generic/columns/columns-stacked-state";
 import { ColumnsStacked } from "../components/charts-generic/columns/columns-stacked";
+import { pivot_longer } from "../domain/helpers";
 
 export default () => {
   const observations = zurichAndGeneva.filter(
     (d) => d.Kategorie === "H1" && d.Produkt === "standard"
   );
-  console.log(observations);
+  const longer = pivot_longer({
+    data: observations.filter((d) => d.ID === 692),
+    cols: ["Netznutzung", "Energie", "Abgabe", "KEV"],
+    name_to: "priceComponent",
+  });
 
   return markdown`
 > Columns Chart
@@ -117,33 +122,37 @@ export default () => {
   ${(
     <ReactSpecimen span={6}>
       <StackedColumnsChart
-        data={observations}
+        data={longer}
         fields={{
           x: {
             componentIri: "Jahr",
             sorting: { sortingType: "byDimensionLabel", sortingOrder: "asc" },
           },
           y: {
-            componentIri: "Total exkl. MWST",
+            componentIri: "value",
           },
           segment: {
-            componentIri: "ID",
+            componentIri: "priceComponent",
             type: "stacked",
             palette: "set2",
           },
         }}
         measures={[
           {
-            iri: "Jahr",
-            label: "Jahr",
+            iri: "value",
+            label: "value",
             __typename: "Measure",
           },
         ]}
         dimensions={[
           {
-            iri: "ID",
-            label: "ID",
-
+            iri: "Jahr",
+            label: "Jahr",
+            __typename: "TemporalDimension",
+          },
+          {
+            iri: "priceComponent",
+            label: "priceComponent",
             __typename: "NominalDimension",
           },
         ]}
