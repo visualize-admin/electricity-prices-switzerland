@@ -140,3 +140,38 @@ export const getPalette = (
       return schemeCategory10;
   }
 };
+
+type Key = string | number;
+export const pivot_longer = <
+  T extends { [K in Key]: string | number },
+  K extends keyof T
+>({
+  data,
+  cols,
+  name_to,
+}: {
+  data: Array<T>;
+  cols: Array<K>;
+  name_to: Key;
+}) => {
+  const pivoted = cols
+    .map((col) =>
+      data.map((d) => {
+        const keysToKeep = Object.keys(d).filter(
+          (k) => !cols.some((c) => c == k)
+        );
+        const keep = keysToKeep.reduce(
+          (obj, cur) => ({ ...obj, [cur]: d[cur] }),
+          {}
+        );
+
+        return {
+          ...keep,
+          [name_to]: col,
+          value: d[col],
+        };
+      })
+    )
+    .reduce((acc, val) => acc.concat(val), []);
+  return pivoted;
+};
