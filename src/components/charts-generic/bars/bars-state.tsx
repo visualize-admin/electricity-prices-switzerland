@@ -97,16 +97,16 @@ const useBarsState = ({
   //   .paddingOuter(0);
 
   // Dimensions
-  const left = Math.max(
-    estimateTextWidth(formatNumber(xScale.domain()[0])),
-    estimateTextWidth(formatNumber(xScale.domain()[1]))
-  );
-  const bottom = max(bandDomain, (d) => estimateTextWidth(d)) || 70;
+  // const left = Math.max(
+  //   estimateTextWidth(formatNumber(xScale.domain()[0])),
+  //   estimateTextWidth(formatNumber(xScale.domain()[1]))
+  // );
+  // const bottom = max(bandDomain, (d) => estimateTextWidth(d)) || 70;
   const margins = {
     top: 50,
     right: 40,
-    bottom: bottom + BOTTOM_MARGIN_OFFSET,
-    left: left + LEFT_MARGIN_OFFSET,
+    bottom: BOTTOM_MARGIN_OFFSET,
+    left: LEFT_MARGIN_OFFSET,
   };
 
   const chartWidth = width - margins.left - margins.right;

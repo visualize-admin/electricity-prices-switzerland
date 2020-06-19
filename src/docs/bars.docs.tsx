@@ -9,14 +9,21 @@ import {
 } from "../components/charts-generic/containers";
 import { pivot_longer } from "../domain/helpers";
 import { zurichAndGeneva } from "./fixtures";
+import { GroupedBarsChart } from "../components/charts-generic/bars/bars-grouped-state";
+import { BarsGrouped } from "../components/charts-generic/bars/bars-grouped";
 
 export default () => {
   const observations = zurichAndGeneva.filter(
     (d) => d.Kategorie === "H1" && d.Produkt === "standard"
   );
-  const longer = pivot_longer({
-    data: observations.filter((d) => d.ID === 692),
-    cols: ["Netznutzung", "Energie", "Abgabe", "KEV"],
+  const longer_simple = pivot_longer({
+    data: observations.filter((d) => d.ID === 692 && d.Jahr === "2020"),
+    cols: ["Total exkl. MWST", "Netznutzung", "Energie", "Abgabe", "KEV"],
+    name_to: "priceComponent",
+  });
+  const longer_grouped = pivot_longer({
+    data: observations.filter((d) => d.Jahr === "2020"),
+    cols: ["Total exkl. MWST", "Netznutzung", "Energie", "Abgabe", "KEV"],
     name_to: "priceComponent",
   });
 
@@ -26,20 +33,20 @@ export default () => {
   ${(
     <ReactSpecimen span={6}>
       <BarChart
-        data={observations.filter((d) => d.ID === 565)}
+        data={longer_simple}
         fields={{
           x: {
-            componentIri: "Total exkl. MWST",
+            componentIri: "value",
           },
           y: {
-            componentIri: "Jahr",
+            componentIri: "priceComponent",
             sorting: { sortingType: "byDimensionLabel", sortingOrder: "asc" },
           },
         }}
         measures={[
           {
-            iri: "Total exkl. MWST",
-            label: "Total exkl. MWST",
+            iri: "value",
+            label: "value",
             __typename: "Measure",
           },
         ]}
@@ -51,6 +58,52 @@ export default () => {
           </ChartSvg>
         </ChartContainer>
       </BarChart>
+    </ReactSpecimen>
+  )}
+
+
+  > Grouped Bars Chart
+
+  ${(
+    <ReactSpecimen span={6}>
+      <GroupedBarsChart
+        data={longer_grouped}
+        fields={{
+          x: {
+            componentIri: "value",
+          },
+          y: {
+            componentIri: "priceComponent",
+            sorting: { sortingType: "byDimensionLabel", sortingOrder: "asc" },
+          },
+          segment: {
+            componentIri: "ID",
+            type: "grouped",
+            palette: "set2",
+          },
+        }}
+        measures={[
+          {
+            iri: "value",
+            label: "value",
+            __typename: "Measure",
+          },
+        ]}
+        dimensions={[
+          {
+            iri: "ID",
+            label: "ID",
+            __typename: "NominalDimension",
+          },
+        ]}
+      >
+        <ChartContainer>
+          <ChartSvg>
+            <BarsGrouped />
+            <AxisHeightBand />
+          </ChartSvg>
+        </ChartContainer>
+      </GroupedBarsChart>
     </ReactSpecimen>
   )}
 
