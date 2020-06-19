@@ -37,29 +37,3 @@ export type ComponentFieldsFragment =
   | ComponentFields_TemporalDimension_Fragment
   | ComponentFields_Measure_Fragment
   | ComponentFields_Attribute_Fragment;
-
-type DimensionFieldsWithValues_NominalDimension_Fragment = {
-  __typename: "NominalDimension";
-  iri: string;
-  label: string;
-  values: Array<{ __typename: "DimensionValue"; value: string; label: string }>;
-};
-
-type DimensionFieldsWithValues_OrdinalDimension_Fragment = {
-  __typename: "OrdinalDimension";
-  iri: string;
-  label: string;
-  values: Array<{ __typename: "DimensionValue"; value: string; label: string }>;
-};
-
-type DimensionFieldsWithValues_TemporalDimension_Fragment = {
-  __typename: "TemporalDimension";
-  iri: string;
-  label: string;
-  values: Array<{ __typename: "DimensionValue"; value: string; label: string }>;
-};
-
-export type DimensionFieldsWithValuesFragment =
-  | DimensionFieldsWithValues_NominalDimension_Fragment
-  | DimensionFieldsWithValues_OrdinalDimension_Fragment
-  | DimensionFieldsWithValues_TemporalDimension_Fragment;

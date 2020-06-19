@@ -52,18 +52,6 @@ export default () => {
           {
             iri: "ID",
             label: "ID",
-            values: [
-              {
-                value: "565",
-                label: "ewz Elektrizitätswerk der Stadt Zürich (Zürich)",
-                __typename: "DimensionValue",
-              },
-              {
-                value: "692",
-                label: "Services Industriels de Genève SIG",
-                __typename: "DimensionValue",
-              },
-            ],
             __typename: "NominalDimension",
           },
         ]}
