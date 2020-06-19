@@ -1,22 +1,29 @@
 import { createContext, useContext } from "react";
 import { ChartFields } from "../../domain/config-types";
-import { Observation } from "../../domain/data";
-import { ComponentFieldsFragment } from "../../graphql/query-hooks";
+import {
+  Observation,
+  ComponentFieldsFragment,
+  DimensionFieldsWithValuesFragment,
+} from "../../domain/data";
 import { GroupedColumnsState } from "./columns/columns-grouped-state";
 import { StackedColumnsState } from "./columns/columns-stacked-state";
 import { ColumnsState } from "./columns/columns-state";
+import { AreasState } from "./areas/areas-state";
+import { LinesState } from "./lines/lines-state";
 
 export interface ChartProps {
   data: Observation[];
   fields: ChartFields;
-  dimensions: ComponentFieldsFragment[];
+  dimensions: DimensionFieldsWithValuesFragment[];
   measures: ComponentFieldsFragment[];
 }
 
 export type ChartState =
   | ColumnsState
   | StackedColumnsState
-  | GroupedColumnsState;
+  | GroupedColumnsState
+  | AreasState
+  | LinesState;
 
 export const ChartContext = createContext<ChartState>(undefined);
 
