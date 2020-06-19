@@ -17,7 +17,7 @@ import {
 import { getPalette, mkNumber, useFormatNumber } from "../../../domain/helpers";
 import { estimateTextWidth } from "../../../lib/estimate-text-width";
 import { Tooltip } from "../annotations/tooltip";
-import { PADDING_INNER, PADDING_OUTER } from "../constants";
+import { VERTICAL_PADDING, BAR_HEIGHT } from "../constants";
 import { Bounds, Observer, useWidth } from "../use-width";
 import { ChartContext, ChartProps } from "../use-chart-state";
 import { InteractionProvider } from "../use-interaction";
@@ -43,10 +43,10 @@ const useBarsState = ({
   data,
   fields,
   measures,
-  aspectRatio,
-}: Pick<ChartProps, "data" | "measures"> & {
+}: // aspectRatio,
+Pick<ChartProps, "data" | "measures"> & {
   fields: BarFields;
-  aspectRatio: number;
+  // aspectRatio: number;
 }): BarsState => {
   const width = useWidth();
   const formatNumber = useFormatNumber();
@@ -95,8 +95,8 @@ const useBarsState = ({
   const bandDomain = [...new Set(sortedData.map((d) => getY(d)))];
   const yScale = scaleBand()
     .domain(bandDomain)
-    .paddingInner(PADDING_INNER)
-    .paddingOuter(PADDING_OUTER);
+    .paddingInner(VERTICAL_PADDING)
+    .paddingOuter(VERTICAL_PADDING);
   const yScaleInteraction = scaleBand()
     .domain(bandDomain)
     .paddingInner(0)
@@ -114,8 +114,11 @@ const useBarsState = ({
     bottom: bottom + BOTTOM_MARGIN_OFFSET,
     left: left + LEFT_MARGIN_OFFSET,
   };
+
   const chartWidth = width - margins.left - margins.right;
-  const chartHeight = chartWidth * aspectRatio;
+
+  const baseHeight = BAR_HEIGHT * data.length;
+  const chartHeight = baseHeight + baseHeight * (1 + VERTICAL_PADDING);
   const bounds = {
     width,
     height: chartHeight + margins.top + margins.bottom,
@@ -123,10 +126,10 @@ const useBarsState = ({
     chartWidth,
     chartHeight,
   };
-
+  console.log({ chartHeight }, data.length);
   xScale.range([0, chartWidth]);
-  yScale.range([0, chartHeight]);
-  yScaleInteraction.range([0, chartHeight]);
+  yScale.rangeRound([0, chartHeight]);
+  yScaleInteraction.rangeRound([0, chartHeight]);
 
   // Tooltip
   const getAnnotationInfo = (datum: Observation): Tooltip => {
@@ -199,18 +202,18 @@ const BarChartProvider = ({
   data,
   fields,
   measures,
-  aspectRatio,
+  // aspectRatio,
   children,
 }: Pick<ChartProps, "data" | "measures"> & {
   children: ReactNode;
   fields: BarFields;
-  aspectRatio: number;
+  // aspectRatio: number;
 }) => {
   const state = useBarsState({
     data,
     fields,
     measures,
-    aspectRatio,
+    // aspectRatio,
   });
   return (
     <ChartContext.Provider value={state}>{children}</ChartContext.Provider>
@@ -221,10 +224,10 @@ export const BarChart = ({
   data,
   fields,
   measures,
-  aspectRatio,
+  // aspectRatio,
   children,
 }: Pick<ChartProps, "data" | "measures"> & {
-  aspectRatio: number;
+  // aspectRatio: number;
   children: ReactNode;
   fields: BarFields;
 }) => {
@@ -235,7 +238,7 @@ export const BarChart = ({
           data={data}
           fields={fields}
           measures={measures}
-          aspectRatio={aspectRatio}
+          // aspectRatio={aspectRatio}
         >
           {children}
         </BarChartProvider>
