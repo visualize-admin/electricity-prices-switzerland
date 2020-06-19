@@ -217,6 +217,7 @@ const useLinesState = ({
       })),
     };
   };
+
   return {
     data,
     bounds,

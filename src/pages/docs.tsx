@@ -67,11 +67,16 @@ const pages: ConfigPageOrGroup[] = [
         title: "Columns",
         content: require("../docs/columns.docs"),
       },
-      // {
-      //   path: "/charts/form",
-      //   title: "Form",
-      //   content: require("../docs/form.docs"),
-      // },
+      {
+        path: "/charts/lines",
+        title: "Lines",
+        content: require("../docs/lines.docs"),
+      },
+      {
+        path: "/charts/areas",
+        title: "Areas",
+        content: require("../docs/areas.docs"),
+      },
     ],
   },
 ];

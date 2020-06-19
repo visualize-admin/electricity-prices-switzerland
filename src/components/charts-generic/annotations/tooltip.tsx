@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import { Observation } from "../../../domain";
+import { Observation } from "../../../domain/data";
 import { LinesState } from "../lines/lines-state";
 import { useChartState } from "../use-chart-state";
 import { useInteraction } from "../use-interaction";
@@ -41,7 +41,7 @@ export interface Tooltip {
 const TooltipInner = ({
   d,
   mouse,
-  type
+  type,
 }: {
   d: Observation;
   mouse?: { x: number; y: number };
@@ -56,7 +56,7 @@ const TooltipInner = ({
     xValue,
     tooltipContent,
     datum,
-    values
+    values,
   } = getAnnotationInfo(d);
 
   return (

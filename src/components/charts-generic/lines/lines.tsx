@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useChartState } from "../use-chart-state";
 import { line } from "d3-shape";
-import { Observation } from "../../../domain";
+import { Observation } from "../../../domain/data";
 import { LinesState } from "./lines-state";
 import { useTheme } from "../../../themes";
 
@@ -13,14 +13,15 @@ export const Lines = () => {
     yScale,
     grouped,
     colors,
-    bounds
+    bounds,
   } = useChartState() as LinesState;
   const theme = useTheme();
+  console.log("lines");
 
   const lineGenerator = line<Observation>()
     // .defined(d => !isNaN(d))
-    .x(d => xScale(getX(d)))
-    .y(d => yScale(getY(d)));
+    .x((d) => xScale(getX(d)))
+    .y((d) => yScale(getY(d)));
 
   return (
     <g transform={`translate(${bounds.margins.left} ${bounds.margins.top})`}>
