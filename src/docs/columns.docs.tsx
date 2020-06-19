@@ -7,22 +7,47 @@ import {
 import { Columns } from "../components/charts-generic/columns/columns-simple";
 import { InteractionColumns } from "../components/charts-generic/interaction/interaction-columns";
 import { Tooltip } from "../components/charts-generic/annotations/tooltip";
-import { observations, fields, measures } from "./fixtures";
+import { zurichAndGeneva, fields, measures } from "./fixtures";
 import {
   AxisWidthBand,
   AxisWidthBandDomain,
 } from "../components/charts-generic/axis/axis-width-band";
 import { AxisHeightLinear } from "../components/charts-generic/axis/axis-height-linear";
+import { GroupedColumnChart } from "../components/charts-generic/columns/columns-grouped-state";
+import { ColumnsGrouped } from "../components/charts-generic/columns/columns-grouped";
+import { LegendColor } from "../components/charts-generic/legends/color";
+import { StackedColumnsChart } from "../components/charts-generic/columns/columns-stacked-state";
+import { ColumnsStacked } from "../components/charts-generic/columns/columns-stacked";
 
-export default () => markdown`
-> Column Chart
+export default () => {
+  const observations = zurichAndGeneva.filter(
+    (d) => d.Kategorie === "H1" && d.Produkt === "standard"
+  );
+  console.log(observations);
+
+  return markdown`
+> Columns Chart
 
   ${(
     <ReactSpecimen span={6}>
       <ColumnChart
-        data={observations}
-        fields={fields}
-        measures={measures}
+        data={observations.filter((d) => d.ID === 565)}
+        fields={{
+          x: {
+            componentIri: "Jahr",
+            sorting: { sortingType: "byDimensionLabel", sortingOrder: "asc" },
+          },
+          y: {
+            componentIri: "Total exkl. MWST",
+          },
+        }}
+        measures={[
+          {
+            iri: "Jahr",
+            label: "Jahr",
+            __typename: "Measure",
+          },
+        ]}
         aspectRatio={0.4}
       >
         <ChartContainer>
@@ -37,5 +62,129 @@ export default () => markdown`
     </ReactSpecimen>
   )}
 
+  > Grouped Columns Chart
+
+  ${(
+    <ReactSpecimen span={6}>
+      <GroupedColumnChart
+        data={observations}
+        fields={{
+          x: {
+            componentIri: "Jahr",
+            sorting: { sortingType: "byDimensionLabel", sortingOrder: "asc" },
+          },
+          y: {
+            componentIri: "Total exkl. MWST",
+          },
+          segment: {
+            componentIri: "ID",
+            type: "grouped",
+            palette: "set2",
+          },
+        }}
+        measures={[
+          {
+            iri: "Jahr",
+            label: "Jahr",
+            __typename: "Measure",
+          },
+        ]}
+        dimensions={[
+          {
+            iri: "ID",
+            label: "ID",
+            values: [
+              {
+                value: "565",
+                label: "ewz Elektrizitätswerk der Stadt Zürich (Zürich)",
+                __typename: "DimensionValue",
+              },
+              {
+                value: "692",
+                label: "Services Industriels de Genève SIG",
+                __typename: "DimensionValue",
+              },
+            ],
+            __typename: "NominalDimension",
+          },
+        ]}
+        aspectRatio={0.4}
+      >
+        <ChartContainer>
+          <ChartSvg>
+            <AxisHeightLinear /> <AxisWidthBand />
+            <ColumnsGrouped /> <AxisWidthBandDomain />
+            <InteractionColumns />
+          </ChartSvg>
+          <Tooltip type="multiple" />
+        </ChartContainer>
+
+        <LegendColor symbol="square" />
+      </GroupedColumnChart>
+    </ReactSpecimen>
+  )}
+
+  > Stacked Columns Chart
+
+  ${(
+    <ReactSpecimen span={6}>
+      <StackedColumnsChart
+        data={observations}
+        fields={{
+          x: {
+            componentIri: "Jahr",
+            sorting: { sortingType: "byDimensionLabel", sortingOrder: "asc" },
+          },
+          y: {
+            componentIri: "Total exkl. MWST",
+          },
+          segment: {
+            componentIri: "ID",
+            type: "stacked",
+            palette: "set2",
+          },
+        }}
+        measures={[
+          {
+            iri: "Jahr",
+            label: "Jahr",
+            __typename: "Measure",
+          },
+        ]}
+        dimensions={[
+          {
+            iri: "ID",
+            label: "ID",
+            values: [
+              {
+                value: "565",
+                label: "ewz Elektrizitätswerk der Stadt Zürich (Zürich)",
+                __typename: "DimensionValue",
+              },
+              {
+                value: "692",
+                label: "Services Industriels de Genève SIG",
+                __typename: "DimensionValue",
+              },
+            ],
+            __typename: "NominalDimension",
+          },
+        ]}
+        aspectRatio={0.4}
+      >
+        <ChartContainer>
+          <ChartSvg>
+            <AxisHeightLinear /> <AxisWidthBand />
+            <ColumnsStacked /> <AxisWidthBandDomain />
+            <InteractionColumns />
+          </ChartSvg>
+          <Tooltip type="multiple" />
+        </ChartContainer>
+
+        <LegendColor symbol="square" />
+      </StackedColumnsChart>
+    </ReactSpecimen>
+  )}
 
 `;
+};
