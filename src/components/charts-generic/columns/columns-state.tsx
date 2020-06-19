@@ -1,4 +1,4 @@
-import { ascending, max, min, descending } from "d3-array";
+import { ascending, descending, max, min } from "d3-array";
 import {
   scaleBand,
   ScaleBand,
@@ -8,21 +8,21 @@ import {
   scaleOrdinal,
 } from "d3-scale";
 import * as React from "react";
-import { ReactNode, useMemo, useCallback } from "react";
+import { ReactNode, useCallback, useMemo } from "react";
 import {
   ColumnFields,
   SortingOrder,
   SortingType,
 } from "../../../domain/config-types";
+import { Observation } from "../../../domain/data";
 import { getPalette, mkNumber, useFormatNumber } from "../../../domain/helpers";
 import { estimateTextWidth } from "../../../lib/estimate-text-width";
 import { Tooltip } from "../annotations/tooltip";
-import { PADDING_INNER, PADDING_OUTER } from "../constants";
-import { Bounds, Observer, useWidth } from "../use-width";
+import { BOTTOM_MARGIN_OFFSET, LEFT_MARGIN_OFFSET } from "../constants";
 import { ChartContext, ChartProps } from "../use-chart-state";
 import { InteractionProvider } from "../use-interaction";
-import { BOTTOM_MARGIN_OFFSET, LEFT_MARGIN_OFFSET } from "../constants";
-import { Observation } from "../../../domain/data";
+import { Bounds, Observer, useWidth } from "../use-width";
+import { PADDING_INNER, PADDING_OUTER } from "./constants";
 
 export interface ColumnsState {
   bounds: Bounds;

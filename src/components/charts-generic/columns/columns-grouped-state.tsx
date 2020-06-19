@@ -13,13 +13,7 @@ import { Observation, ObservationValue } from "../../../domain/data";
 import { getPalette, mkNumber, useFormatNumber } from "../../../domain/helpers";
 import { estimateTextWidth } from "../../../lib/estimate-text-width";
 import { Tooltip } from "../annotations/tooltip";
-import {
-  PADDING_INNER,
-  PADDING_OUTER,
-  PADDING_WITHIN,
-  BOTTOM_MARGIN_OFFSET,
-  LEFT_MARGIN_OFFSET,
-} from "../constants";
+import { BOTTOM_MARGIN_OFFSET, LEFT_MARGIN_OFFSET } from "../constants";
 import { Bounds, Observer, useWidth } from "../use-width";
 import { ChartContext, ChartProps } from "../use-chart-state";
 import { InteractionProvider } from "../use-interaction";
@@ -29,6 +23,7 @@ import {
   SortingType,
   SortingOrder,
 } from "../../../domain/config-types";
+import { PADDING_INNER, PADDING_OUTER, PADDING_WITHIN } from "./constants";
 
 export interface GroupedColumnsState {
   sortedData: Observation[];
