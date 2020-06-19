@@ -15,12 +15,17 @@ import {
 import { InteractionHorizontal } from "../components/charts-generic/interaction/interaction-horizontal";
 import { LegendColor } from "../components/charts-generic/legends/color";
 import { zurichAndGeneva } from "./fixtures";
+import { pivot_longer } from "../domain/helpers";
 
 export default () => {
   const observations = zurichAndGeneva.filter(
-    (d) => d.Kategorie === "H1" && d.Produkt === "standard"
+    (d) => d.Kategorie === "H1" && d.Produkt === "standard" && d.ID === 565
   );
-  console.log(observations);
+  const longer = pivot_longer({
+    data: observations,
+    cols: ["Netznutzung", "Energie", "Abgabe", "KEV"],
+    name_to: "priceComponent",
+  });
 
   return markdown`
 > Area Chart
@@ -28,30 +33,35 @@ export default () => {
   ${(
     <ReactSpecimen span={6}>
       <AreaChart
-        data={observations}
+        data={longer}
         fields={{
           x: {
             componentIri: "Jahr",
           },
           y: {
-            componentIri: "Total exkl. MWST",
+            componentIri: "value",
           },
           segment: {
-            componentIri: "ID",
+            componentIri: "priceComponent",
             palette: "set2",
           },
         }}
         measures={[
           {
-            iri: "Jahr",
-            label: "Jahr",
+            iri: "value",
+            label: "value",
             __typename: "Measure",
           },
         ]}
         dimensions={[
           {
-            iri: "ID",
-            label: "ID",
+            iri: "Jahr",
+            label: "Jahr",
+            __typename: "TemporalDimension",
+          },
+          {
+            iri: "priceComponent",
+            label: "priceComponent",
             __typename: "NominalDimension",
           },
         ]}
