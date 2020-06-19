@@ -19,7 +19,7 @@ import {
   PADDING_WITHIN,
   BOTTOM_MARGIN_OFFSET,
   LEFT_MARGIN_OFFSET,
-} from "../columns/constants";
+} from "../constants";
 import { Bounds, Observer, useWidth } from "../use-width";
 import { ChartContext, ChartProps } from "../use-chart-state";
 import { InteractionProvider } from "../use-interaction";
