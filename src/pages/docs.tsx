@@ -27,16 +27,6 @@ const pages: ConfigPageOrGroup[] = [
         title: "Colors",
         content: require("../docs/colors.mdx"),
       },
-      // {
-      //   path: "/typography",
-      //   title: "Typography",
-      //   content: require("../docs/typography.mdx")
-      // },
-      // {
-      //   path: "/iconography",
-      //   title: "Iconography",
-      //   content: require("../docs/icons.docs.tsx")
-      // },
       {
         path: "/layout",
         title: "Layout",
@@ -63,6 +53,16 @@ const pages: ConfigPageOrGroup[] = [
     title: "Charts",
     pages: [
       {
+        path: "/charts/areas",
+        title: "Areas",
+        content: require("../docs/areas.docs"),
+      },
+      {
+        path: "/charts/bars",
+        title: "Bars",
+        content: require("../docs/bars.docs"),
+      },
+      {
         path: "/charts/columns",
         title: "Columns",
         content: require("../docs/columns.docs"),
@@ -71,11 +71,6 @@ const pages: ConfigPageOrGroup[] = [
         path: "/charts/lines",
         title: "Lines",
         content: require("../docs/lines.docs"),
-      },
-      {
-        path: "/charts/areas",
-        title: "Areas",
-        content: require("../docs/areas.docs"),
       },
     ],
   },
