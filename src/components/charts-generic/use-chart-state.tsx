@@ -6,6 +6,7 @@ import { GroupedColumnsState } from "./columns/columns-grouped-state";
 import { StackedColumnsState } from "./columns/columns-stacked-state";
 import { ColumnsState } from "./columns/columns-state";
 import { LinesState } from "./lines/lines-state";
+import { BarsState } from "./bars/bars-state";
 
 export interface ChartProps {
   data: Observation[];
@@ -16,6 +17,7 @@ export interface ChartProps {
 
 export type ChartState =
   | ColumnsState
+  | BarsState
   | StackedColumnsState
   | GroupedColumnsState
   | AreasState
