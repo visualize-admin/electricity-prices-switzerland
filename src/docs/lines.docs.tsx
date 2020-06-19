@@ -68,7 +68,7 @@ export default () => {
 
           <HoverDotMultiple />
 
-          <Tooltip type={fields.segment ? "multiple" : "single"} />
+          <Tooltip type={"multiple"} />
         </ChartContainer>
         <LegendColor symbol="line" />
       </LineChart>
