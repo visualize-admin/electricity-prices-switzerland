@@ -1,11 +1,33 @@
-type Municipality {
-  name: String
+type PriceComponents {
+  total: Float!
+  # TODO: Add more price components
 }
-# The "Query" type is special: it lists all of the available queries that
-# clients can execute, along with the return type for each.
+
+type Municipality {
+  name: String!
+  canton: Canton!
+  providers: [Provider!]!
+  priceComponents: PriceComponents!
+}
+
+type Provider {
+  name: String!
+  municipalities: [Municipality!]!
+  priceComponents: PriceComponents!
+}
+
+type Canton {
+  name: String!
+  municipalities: [Municipality!]!
+  priceComponents: PriceComponents!
+}
+
 type Query {
-  municipalities(
-    locale: String
-    query: String
-  ): [Municipality!]!
+  # TODO: Figure out proper query parameters!
+  municipalities(locale: String, query: String): [Municipality!]!
+  cantons(locale: String, query: String): [Canton!]!
+  providers(locale: String, query: String): [Provider!]!
+  municipality(id: String!, locale: String, query: String): Municipality
+  canton(id: String!, locale: String, query: String): Canton
+  provider(id: String!, locale: String, query: String): Provider
 }
