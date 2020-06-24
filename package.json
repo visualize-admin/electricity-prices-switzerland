@@ -29,6 +29,7 @@
     "apollo-server-micro": "^2.14.4",
     "catalog": "^4.0.1-canary.2",
     "cors": "^2.8.5",
+    "downshift": "^5.4.5",
     "global-agent": "^2.1.12",
     "graphql": "^15.1.0",
     "graphql-tag": "^2.10.3",
