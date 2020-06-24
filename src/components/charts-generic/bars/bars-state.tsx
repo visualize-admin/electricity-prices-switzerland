@@ -15,7 +15,6 @@ import {
   SortingType,
 } from "../../../domain/config-types";
 import { getPalette, mkNumber, useFormatNumber } from "../../../domain/helpers";
-import { estimateTextWidth } from "../../../lib/estimate-text-width";
 import { Tooltip } from "../annotations/tooltip";
 import { VERTICAL_PADDING, BAR_HEIGHT } from "../constants";
 import { Bounds, Observer, useWidth } from "../use-width";
@@ -31,7 +30,8 @@ export interface BarsState {
   xScale: ScaleLinear<number, number>;
   getY: (d: Observation) => string;
   yScale: ScaleBand<string>;
-  // yScaleInteraction: ScaleBand<string>;
+  getHeight: (d: Observation) => string;
+  heightScale: ScaleOrdinal<string, number>;
   getSegment: (d: Observation) => string;
   segments: string[];
   colors: ScaleOrdinal<string, string>;
@@ -56,6 +56,13 @@ const useBarsState = ({
     (d: Observation) => d[fields.y.componentIri] as string,
     [fields.y.componentIri]
   );
+  const getHeight = useCallback(
+    (d: Observation): string =>
+      fields.height && fields.height.componentIri
+        ? (d[fields.height.componentIri] as string)
+        : undefined,
+    [fields.height]
+  );
   const getSegment = useCallback(
     (d: Observation): string =>
       fields.segment && fields.segment.componentIri
@@ -63,7 +70,6 @@ const useBarsState = ({
         : "segment",
     [fields.segment]
   );
-
   // Sort data
   const sortingType = fields.y.sorting?.sortingType;
   const sortingOrder = fields.y.sorting?.sortingOrder;
@@ -96,11 +102,22 @@ const useBarsState = ({
   //   .paddingInner(0)
   //   .paddingOuter(0);
 
+  // Height
+  const heightDomain = [...new Set(sortedData.map((d) => getHeight(d)))];
+  // FIXME: Bar height range
+  const heightRange = heightDomain
+    .map((_, i) => BAR_HEIGHT * (i + 1))
+    .reverse();
+  const heightScale = scaleOrdinal<string, number>()
+    .domain(heightDomain)
+    .range(heightRange);
+
   // Dimensions
   // const left = Math.max(
   //   estimateTextWidth(formatNumber(xScale.domain()[0])),
   //   estimateTextWidth(formatNumber(xScale.domain()[1]))
   // );
+
   // const bottom = max(bandDomain, (d) => estimateTextWidth(d)) || 70;
   const margins = {
     top: 50,
@@ -181,9 +198,10 @@ const useBarsState = ({
     sortedData,
     getX,
     xScale,
-    // yScaleInteraction,
     getY,
     yScale,
+    getHeight,
+    heightScale,
     getSegment,
     segments,
     colors,

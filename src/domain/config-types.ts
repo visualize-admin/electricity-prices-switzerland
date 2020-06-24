@@ -57,6 +57,9 @@ const BarFields = t.intersection([
     ]),
   }),
   t.partial({
+    height: GenericField,
+  }),
+  t.partial({
     segment: SegmentField,
   }),
 ]);

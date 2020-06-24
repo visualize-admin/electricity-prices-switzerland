@@ -10,6 +10,8 @@ export const Bars = () => {
     getX,
     xScale,
     getY,
+    getHeight,
+    heightScale,
     yScale,
   } = useChartState() as BarsState;
   const theme = useTheme();
@@ -23,7 +25,7 @@ export const Bars = () => {
           x={0}
           width={xScale(getX(d))}
           y={yScale(getY(d))}
-          height={yScale.bandwidth()}
+          height={getHeight ? heightScale(getHeight(d)) : yScale.bandwidth()}
           color={getX(d) <= 0 ? theme.colors.secondary : theme.colors.primary}
         />
       ))}
