@@ -6,7 +6,7 @@ export default () => markdown`
 
   ${(
     <ReactSpecimen>
-      <ComboboxMulti items={["apple", "banana", "cherry", "date", ""]} />
+      <ComboboxMulti items={["apple", "banana", "cherry", "date", "asparagus"]} />
     </ReactSpecimen>
   )}
 

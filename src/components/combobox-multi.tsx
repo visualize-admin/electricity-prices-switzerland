@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useMultipleSelection, useCombobox } from "downshift";
+import { Input, Box, Flex, Button } from "theme-ui";
+import { Icon } from "../icons";
 
 type Props = {
   items: string[];
@@ -69,34 +71,94 @@ export const ComboboxMulti = ({ items }: Props) => {
   return (
     <div>
       <label {...getLabelProps()}>Choose some elements:</label>
-      <div style={{}}>
-        {selectedItems.map((selectedItem, index) => (
-          <span
-            style={{}}
-            key={`selected-item-${index}`}
-            {...getSelectedItemProps({ selectedItem, index })}
-          >
-            {selectedItem}
-            <span
-              style={{}}
-              onClick={(e) => {
-                e.stopPropagation();
-                removeSelectedItem(selectedItem);
+      <Flex
+        sx={{
+          display: "block",
+          width: "100%",
+          py: 0,
+          pl: 2,
+          pr: 6,
+
+          appearance: "none",
+          fontSize: "inherit",
+          lineHeight: "inherit",
+          border: "1px solid",
+          borderRadius: 4,
+          color: "inherit",
+          borderColor: "monochrome500",
+          bg: "monochrome100",
+          flexWrap: "wrap",
+          ":focus-within": { borderColor: "primary" },
+          position: "relative",
+        }}
+      >
+        <Box sx={{ mt: 2 }}>
+          {selectedItems.map((selectedItem, index) => (
+            <Box
+              sx={{
+                display: "inline-block",
+                p: 1,
+                mr: 2,
+                mb: 2,
+                borderRadius: "default",
+                fontSize: 3,
+                bg: "primaryLight",
               }}
+              key={`selected-item-${index}`}
+              {...getSelectedItemProps({ selectedItem, index })}
             >
-              &#10005;
-            </span>
-          </span>
-        ))}
-        <div {...getComboboxProps()}>
-          <input
+              {selectedItem}{" "}
+              <span
+                style={{}}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  removeSelectedItem(selectedItem);
+                }}
+              >
+                &#10005;
+              </span>
+            </Box>
+          ))}
+        </Box>
+        <Box
+          {...getComboboxProps()}
+          sx={{ flexGrow: 1, minWidth: 200, alignSelf: "center",my:2 }}
+        >
+          <Input
             {...getInputProps(getDropdownProps({ preventKeyAction: isOpen }))}
+            sx={{
+              display: "block",
+              // width: "100%",
+              appearance: "none",
+              fontSize: "inherit",
+              lineHeight: "inherit",
+              border: "none",
+              color: "inherit",
+              bg: "transparent",
+              borderRadius: 0,
+              p: 0,
+              ":focus": { outline: 0 },
+            }}
           />
-          <button {...getToggleButtonProps()} aria-label={"toggle menu"}>
-            &#8595;
-          </button>
-        </div>
-      </div>
+        </Box>
+        <Button
+          {...getToggleButtonProps()}
+          aria-label={"toggle menu"}
+          variant="reset"
+          sx={{
+            color: "monochrome800",
+            p: 0,
+            mr: 1,
+            position: "absolute",
+            right: 0,
+            top: "50%",
+            height: 24,
+            transform: "translateY(-50%)",
+          }}
+        >
+          <Icon name="chevrondown" />
+        </Button>
+      </Flex>
       <ul {...getMenuProps()}>
         {isOpen &&
           getFilteredItems(items).map((item, index) => (
