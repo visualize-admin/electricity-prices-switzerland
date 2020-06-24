@@ -1,4 +1,5 @@
 import { GraphQLResolveInfo } from 'graphql';
+import { ResolvedCanton, ResolvedMunicipality, ResolvedProvider } from './shared-types';
 export type Maybe<T> = T | null;
 export type RequireFields<T, K extends keyof T> = { [X in Exclude<keyof T, K>]?: T[X] } & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
@@ -10,18 +11,78 @@ export type Scalars = {
   Float: number;
 };
 
+export type PriceComponents = {
+  __typename?: 'PriceComponents';
+  total: Scalars['Float'];
+};
+
 export type Municipality = {
   __typename?: 'Municipality';
-  name?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  canton: Canton;
+  providers: Array<Provider>;
+  priceComponents: PriceComponents;
+};
+
+export type Provider = {
+  __typename?: 'Provider';
+  name: Scalars['String'];
+  municipalities: Array<Municipality>;
+  priceComponents: PriceComponents;
+};
+
+export type Canton = {
+  __typename?: 'Canton';
+  name: Scalars['String'];
+  municipalities: Array<Municipality>;
+  priceComponents: PriceComponents;
 };
 
 export type Query = {
   __typename?: 'Query';
   municipalities: Array<Municipality>;
+  cantons: Array<Canton>;
+  providers: Array<Provider>;
+  municipality?: Maybe<Municipality>;
+  canton?: Maybe<Canton>;
+  provider?: Maybe<Provider>;
 };
 
 
 export type QueryMunicipalitiesArgs = {
+  locale?: Maybe<Scalars['String']>;
+  query?: Maybe<Scalars['String']>;
+};
+
+
+export type QueryCantonsArgs = {
+  locale?: Maybe<Scalars['String']>;
+  query?: Maybe<Scalars['String']>;
+};
+
+
+export type QueryProvidersArgs = {
+  locale?: Maybe<Scalars['String']>;
+  query?: Maybe<Scalars['String']>;
+};
+
+
+export type QueryMunicipalityArgs = {
+  id: Scalars['String'];
+  locale?: Maybe<Scalars['String']>;
+  query?: Maybe<Scalars['String']>;
+};
+
+
+export type QueryCantonArgs = {
+  id: Scalars['String'];
+  locale?: Maybe<Scalars['String']>;
+  query?: Maybe<Scalars['String']>;
+};
+
+
+export type QueryProviderArgs = {
+  id: Scalars['String'];
   locale?: Maybe<Scalars['String']>;
   query?: Maybe<Scalars['String']>;
 };
@@ -92,31 +153,69 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
-  Municipality: ResolverTypeWrapper<Municipality>;
+  PriceComponents: ResolverTypeWrapper<PriceComponents>;
+  Float: ResolverTypeWrapper<Scalars['Float']>;
+  Municipality: ResolverTypeWrapper<ResolvedMunicipality>;
   String: ResolverTypeWrapper<Scalars['String']>;
+  Provider: ResolverTypeWrapper<ResolvedProvider>;
+  Canton: ResolverTypeWrapper<ResolvedCanton>;
   Query: ResolverTypeWrapper<{}>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
 }>;
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
-  Municipality: Municipality;
+  PriceComponents: PriceComponents;
+  Float: Scalars['Float'];
+  Municipality: ResolvedMunicipality;
   String: Scalars['String'];
+  Provider: ResolvedProvider;
+  Canton: ResolvedCanton;
   Query: {};
   Boolean: Scalars['Boolean'];
 }>;
 
+export type PriceComponentsResolvers<ContextType = any, ParentType extends ResolversParentTypes['PriceComponents'] = ResolversParentTypes['PriceComponents']> = ResolversObject<{
+  total?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+}>;
+
 export type MunicipalityResolvers<ContextType = any, ParentType extends ResolversParentTypes['Municipality'] = ResolversParentTypes['Municipality']> = ResolversObject<{
-  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  canton?: Resolver<ResolversTypes['Canton'], ParentType, ContextType>;
+  providers?: Resolver<Array<ResolversTypes['Provider']>, ParentType, ContextType>;
+  priceComponents?: Resolver<ResolversTypes['PriceComponents'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+}>;
+
+export type ProviderResolvers<ContextType = any, ParentType extends ResolversParentTypes['Provider'] = ResolversParentTypes['Provider']> = ResolversObject<{
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  municipalities?: Resolver<Array<ResolversTypes['Municipality']>, ParentType, ContextType>;
+  priceComponents?: Resolver<ResolversTypes['PriceComponents'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+}>;
+
+export type CantonResolvers<ContextType = any, ParentType extends ResolversParentTypes['Canton'] = ResolversParentTypes['Canton']> = ResolversObject<{
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  municipalities?: Resolver<Array<ResolversTypes['Municipality']>, ParentType, ContextType>;
+  priceComponents?: Resolver<ResolversTypes['PriceComponents'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 }>;
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   municipalities?: Resolver<Array<ResolversTypes['Municipality']>, ParentType, ContextType, RequireFields<QueryMunicipalitiesArgs, never>>;
+  cantons?: Resolver<Array<ResolversTypes['Canton']>, ParentType, ContextType, RequireFields<QueryCantonsArgs, never>>;
+  providers?: Resolver<Array<ResolversTypes['Provider']>, ParentType, ContextType, RequireFields<QueryProvidersArgs, never>>;
+  municipality?: Resolver<Maybe<ResolversTypes['Municipality']>, ParentType, ContextType, RequireFields<QueryMunicipalityArgs, 'id'>>;
+  canton?: Resolver<Maybe<ResolversTypes['Canton']>, ParentType, ContextType, RequireFields<QueryCantonArgs, 'id'>>;
+  provider?: Resolver<Maybe<ResolversTypes['Provider']>, ParentType, ContextType, RequireFields<QueryProviderArgs, 'id'>>;
 }>;
 
 export type Resolvers<ContextType = any> = ResolversObject<{
+  PriceComponents?: PriceComponentsResolvers<ContextType>;
   Municipality?: MunicipalityResolvers<ContextType>;
+  Provider?: ProviderResolvers<ContextType>;
+  Canton?: CantonResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
 }>;
 
