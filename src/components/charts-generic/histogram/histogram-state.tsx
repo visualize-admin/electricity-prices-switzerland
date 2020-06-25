@@ -8,11 +8,12 @@ import {
   SortingType,
 } from "../../../domain/config-types";
 import { Observation } from "../../../domain/data";
-import { mkNumber } from "../../../domain/helpers";
+import { mkNumber, useFormatNumber } from "../../../domain/helpers";
 import { BOTTOM_MARGIN_OFFSET, LEFT_MARGIN_OFFSET } from "../constants";
 import { ChartContext, ChartProps } from "../use-chart-state";
 import { InteractionProvider } from "../use-interaction";
 import { Bounds, Observer, useWidth } from "../use-width";
+import { estimateTextWidth } from "../../../lib/estimate-text-width";
 
 export interface HistogramState {
   bounds: Bounds;
@@ -21,6 +22,7 @@ export interface HistogramState {
   xScale: ScaleLinear<number, number>;
   getY: (d: $FixMe[]) => number;
   yScale: ScaleLinear<number, number>;
+  xAxisLabel?: string;
   bins: Bin<number, number>[];
   // getSegment: (d: Observation) => string;
   // segments: string[];
@@ -38,6 +40,7 @@ const useHistogramState = ({
   aspectRatio: number;
 }): HistogramState => {
   const width = useWidth();
+  const formatNumber = useFormatNumber();
 
   const getX = useCallback(
     (d: Observation) => d[fields.x.componentIri] as number,
@@ -80,7 +83,7 @@ const useHistogramState = ({
   const minValue = min(data, (d) => getX(d));
   const maxValue = max(data, (d) => getX(d));
   const xDomain = [mkNumber(minValue), mkNumber(maxValue)];
-  const xScale = scaleLinear().domain(xDomain);
+  const xScale = scaleLinear().domain(xDomain).nice();
 
   const bins = histogram()
     // @ts-ignore
@@ -91,11 +94,19 @@ const useHistogramState = ({
   console.log("bins", bins);
 
   const yScale = scaleLinear().domain([0, max(bins, (d) => d.length)]);
+
+  // Dimensions
+  const left = Math.max(
+    estimateTextWidth(formatNumber(yScale.domain()[0])),
+    estimateTextWidth(formatNumber(yScale.domain()[1]))
+  );
+  const bottom = max(xDomain, (d) => estimateTextWidth(formatNumber(d))) || 70;
+
   const margins = {
     top: 50,
     right: 40,
-    bottom: BOTTOM_MARGIN_OFFSET,
-    left: LEFT_MARGIN_OFFSET,
+    bottom: bottom + BOTTOM_MARGIN_OFFSET,
+    left: left + LEFT_MARGIN_OFFSET,
   };
 
   const chartWidth = width - margins.left - margins.right;

@@ -1,6 +1,9 @@
 import { markdown, ReactSpecimen } from "catalog";
 import { Tooltip } from "../components/charts-generic/annotations/tooltip";
-import { AxisHeightLinear } from "../components/charts-generic/axis/axis-height-linear";
+import {
+  AxisHeightLinear,
+  AxisHeightLinearDomain,
+} from "../components/charts-generic/axis/axis-height-linear";
 import {
   AxisWidthBand,
   AxisWidthBandDomain,
@@ -17,6 +20,10 @@ import { zurichAndGeneva } from "./fixtures";
 import { standard2020 } from "./data/standard-2020";
 import { HistogramColumns } from "../components/charts-generic/histogram/histogram";
 import { Histogram } from "../components/charts-generic/histogram/histogram-state";
+import {
+  AxisWidthLinear,
+  AxisWidthLinearDomain,
+} from "../components/charts-generic/axis/axis-width-linear";
 export default () => {
   const data = standard2020.filter(
     (d) => d.Jahr === "2020" && d.Kategorie === "H4"
@@ -47,8 +54,13 @@ export default () => {
       >
         <ChartContainer>
           <ChartSvg>
-            {/* <AxisHeightLinear /> <AxisWidthBand />
-            <Columns /> <AxisWidthBandDomain />
+            <AxisHeightLinear />
+            <AxisHeightLinearDomain />
+            <AxisWidthLinear />
+            <AxisWidthLinearDomain />
+            {/* <AxisWidthBand />
+            <Columns />
+            <AxisWidthBandDomain />
             <InteractionColumns /> */}
             <HistogramColumns />
           </ChartSvg>
