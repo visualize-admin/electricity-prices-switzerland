@@ -222,7 +222,7 @@ export const Input = ({
   value,
   checked,
   disabled,
-  onChange,
+  onChange
 }: {
   label?: string | React.ReactNode;
   disabled?: boolean;

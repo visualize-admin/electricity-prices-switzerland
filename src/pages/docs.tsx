@@ -43,6 +43,11 @@ const pages: ConfigPageOrGroup[] = [
         content: require("../docs/button.docs"),
       },
       {
+        path: "/components/combobox",
+        title: "Combobox",
+        content: require("../docs/combobox.docs"),
+      },
+      {
         path: "/components/form",
         title: "Form",
         content: require("../docs/form.docs"),
