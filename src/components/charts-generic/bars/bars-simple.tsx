@@ -3,7 +3,7 @@ import { useTheme } from "../../../themes";
 import { useChartState } from "../use-chart-state";
 import { BarsState } from "./bars-state";
 import { Box } from "theme-ui";
-import { BAR_HEIGHT } from "../constants";
+import { BAR_HEIGHT, BAR_SPACE_ON_TOP, BAR_AXIS_OFFSET } from "../constants";
 import { useChartTheme } from "../use-chart-theme";
 
 export const Bars = () => {
@@ -35,9 +35,9 @@ export const Bars = () => {
             <g transform={`translate(0, ${yScale(getY(d))})`}>
               <line
                 x1={0}
-                y1={yScale.bandwidth() * (1 / 2) - 8}
+                y1={BAR_SPACE_ON_TOP - BAR_AXIS_OFFSET * 2}
                 x2={0}
-                y2={yScale.bandwidth() * (1 / 2) + BAR_HEIGHT + 8}
+                y2={yScale.bandwidth()}
                 stroke={domainColor}
               />
               <text
@@ -55,7 +55,7 @@ export const Bars = () => {
                 key={i}
                 x={0}
                 width={xScale(getX(d))}
-                y={yScale.bandwidth() * (1 / 2)}
+                y={BAR_SPACE_ON_TOP - BAR_AXIS_OFFSET}
                 height={BAR_HEIGHT}
                 color={
                   getX(d) <= 0 ? theme.colors.secondary : theme.colors.primary
@@ -69,7 +69,7 @@ export const Bars = () => {
   );
 };
 
-const Bar = React.memo(
+export const Bar = React.memo(
   ({
     x,
     y,

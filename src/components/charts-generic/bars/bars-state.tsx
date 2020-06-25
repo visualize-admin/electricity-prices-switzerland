@@ -1,4 +1,4 @@
-import { ascending, max, min, descending } from "d3-array";
+import { ascending, descending, max, min } from "d3-array";
 import {
   scaleBand,
   ScaleBand,
@@ -6,23 +6,25 @@ import {
   scaleLinear,
   ScaleOrdinal,
   scaleOrdinal,
-  scaleThreshold,
 } from "d3-scale";
 import * as React from "react";
-import { ReactNode, useMemo, useCallback } from "react";
+import { ReactNode, useCallback, useMemo } from "react";
 import {
   BarFields,
   SortingOrder,
   SortingType,
 } from "../../../domain/config-types";
-import { getPalette, mkNumber, useFormatNumber } from "../../../domain/helpers";
-import { Tooltip } from "../annotations/tooltip";
-import { VERTICAL_PADDING, BAR_HEIGHT } from "../constants";
-import { Bounds, Observer, useWidth } from "../use-width";
+import { Observation } from "../../../domain/data";
+import { getPalette, mkNumber } from "../../../domain/helpers";
+import {
+  BAR_HEIGHT,
+  BOTTOM_MARGIN_OFFSET,
+  LEFT_MARGIN_OFFSET,
+  BAR_SPACE_ON_TOP,
+} from "../constants";
 import { ChartContext, ChartProps } from "../use-chart-state";
 import { InteractionProvider } from "../use-interaction";
-import { BOTTOM_MARGIN_OFFSET, LEFT_MARGIN_OFFSET } from "../constants";
-import { Observation } from "../../../domain/data";
+import { Bounds, Observer, useWidth } from "../use-width";
 
 export interface BarsState {
   bounds: Bounds;
@@ -47,7 +49,6 @@ const useBarsState = ({
   fields: BarFields;
 }): BarsState => {
   const width = useWidth();
-  const formatNumber = useFormatNumber();
 
   const getX = useCallback(
     (d: Observation) => d[fields.x.componentIri] as number,
@@ -109,7 +110,7 @@ const useBarsState = ({
   // y
   const bandDomain = [...new Set(sortedData.map((d) => getY(d)))];
 
-  const chartHeight = bandDomain.length * BAR_HEIGHT * 3;
+  const chartHeight = bandDomain.length * (BAR_HEIGHT + BAR_SPACE_ON_TOP);
   const yScale = scaleBand<string>().domain(bandDomain).range([0, chartHeight]);
 
   const margins = {
