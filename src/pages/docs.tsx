@@ -136,7 +136,7 @@ export default () => {
   return mounted ? (
     <MDXProvider components={mdxComponents}>
       <Catalog
-        title="🔌 ⚡️"
+        title="Strompreis-Webseite der ElCom"
         pages={pages}
         theme={{
           brandColor: "#333",
