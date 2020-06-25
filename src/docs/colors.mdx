@@ -80,3 +80,37 @@ These colors should be used to display notifications or alerts, as described on 
     { name: "Danger (BG)", value: "#f2dede" },
   ]}
 />
+
+# Chart Colors
+
+Separate from the interface colors, the colors defined below are used to encode information in the various data visualizations.
+
+### Diverging Colors
+
+The price color scale encodes the divergence from the Swiss median.
+
+<ColorPaletteSpecimen
+  horizontal
+  colors={[
+    { name: "Dark green", value: "#24B39C" },
+    { name: "Light Green", value: "#A8DC90" },
+    { name: "Yellow", value: "#E7EC83" },
+    { name: "Light Red", value: "#F1B865" },
+    { name: "Dark Red", value: "#D64B47" },
+  ]}
+/>
+
+### Categorical Colors
+
+These colors are used to differentiate the selected entities in the comparison view.
+
+<ColorPaletteSpecimen
+  horizontal
+  colors={[
+    { value: "#7FC6FF" },
+    { value: "#7286FF" },
+    { value: "#CE9FF0" },
+    { value: "#E780B6" },
+    { value: "#EA8181" },
+  ]}
+/>
