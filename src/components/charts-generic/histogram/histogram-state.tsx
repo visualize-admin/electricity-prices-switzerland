@@ -1,5 +1,5 @@
 import { ascending, descending, histogram, max, min, Bin } from "d3-array";
-import { ScaleLinear, scaleLinear } from "d3-scale";
+import { ScaleLinear, scaleLinear, scaleOrdinal, ScaleOrdinal } from "d3-scale";
 import * as React from "react";
 import { ReactNode, useCallback } from "react";
 import {
@@ -26,7 +26,7 @@ export interface HistogramState {
   bins: Bin<Observation, number>[];
   // getSegment: (d: Observation) => string;
   // segments: string[];
-  // colors: ScaleOrdinal<string, string>;
+  colors: ScaleOrdinal<string, string>;
   // getAnnotationInfo: (d: Observation) => Tooltip;
 }
 
@@ -75,9 +75,7 @@ const useHistogramState = ({
 
   // segments
   // const segments = Array.from(new Set(sortedData.map((d) => getSegment(d))));
-  // const colors = scaleOrdinal(getPalette(fields.segment?.palette)).domain(
-  //   segments
-  // );
+  const colors = scaleOrdinal();
 
   // x
   const minValue = min(data, (d) => getX(d));
@@ -180,7 +178,7 @@ const useHistogramState = ({
     bins,
     // getSegment,
     // segments,
-    // colors,
+    colors,
     // getAnnotationInfo,
   };
 };
