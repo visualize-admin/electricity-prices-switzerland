@@ -55,7 +55,7 @@ const pages: ConfigPageOrGroup[] = [
       {
         path: "/components/combobox",
         title: "Combobox",
-        content: require("../docs/combobox-multi.docs"),
+        content: require("../docs/combobox.docs"),
       },
       {
         path: "/components/form",
