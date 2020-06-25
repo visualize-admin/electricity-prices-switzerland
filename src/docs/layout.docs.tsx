@@ -17,7 +17,9 @@ ${
       }))}
       span={4}
     />
-  ) : null
+  ) : (
+    <Box>Space: {theme.space}</Box>
+  )
 }
 `;
 
