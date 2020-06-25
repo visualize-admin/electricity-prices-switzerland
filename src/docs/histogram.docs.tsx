@@ -5,31 +5,19 @@ import {
   AxisHeightLinearDomain,
 } from "../components/charts-generic/axis/axis-height-linear";
 import {
-  AxisWidthBand,
-  AxisWidthBandDomain,
-} from "../components/charts-generic/axis/axis-width-band";
-import { Columns } from "../components/charts-generic/columns/columns-simple";
-import { ColumnChart } from "../components/charts-generic/columns/columns-state";
+  AxisWidthLinear,
+  AxisWidthLinearDomain,
+} from "../components/charts-generic/axis/axis-width-linear";
 import {
   ChartContainer,
   ChartSvg,
 } from "../components/charts-generic/containers";
-import { InteractionColumns } from "../components/charts-generic/interaction/interaction-columns";
-import { pivot_longer } from "../domain/helpers";
-import { zurichAndGeneva } from "./fixtures";
-import { standard2020 } from "./data/standard-2020";
 import { HistogramColumns } from "../components/charts-generic/histogram/histogram";
 import { Histogram } from "../components/charts-generic/histogram/histogram-state";
-import {
-  AxisWidthLinear,
-  AxisWidthLinearDomain,
-} from "../components/charts-generic/axis/axis-width-linear";
+import { standardH12020 } from "./data/2020-standard-H1";
+
 export default () => {
-  const data = standard2020.filter(
-    (d) => d.Jahr === "2020" && d.Kategorie === "H4"
-  );
-  console.table(data);
-  console.log(data.length);
+  const data = standardH12020;
 
   return markdown`
 > Histogram
