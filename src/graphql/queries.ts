@@ -12,18 +12,78 @@ export type Scalars = {
   Float: number;
 };
 
+export type PriceComponents = {
+  __typename: 'PriceComponents';
+  total: Scalars['Float'];
+};
+
 export type Municipality = {
   __typename: 'Municipality';
-  name?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  canton: Canton;
+  providers: Array<Provider>;
+  priceComponents: PriceComponents;
+};
+
+export type Provider = {
+  __typename: 'Provider';
+  name: Scalars['String'];
+  municipalities: Array<Municipality>;
+  priceComponents: PriceComponents;
+};
+
+export type Canton = {
+  __typename: 'Canton';
+  name: Scalars['String'];
+  municipalities: Array<Municipality>;
+  priceComponents: PriceComponents;
 };
 
 export type Query = {
   __typename: 'Query';
   municipalities: Array<Municipality>;
+  cantons: Array<Canton>;
+  providers: Array<Provider>;
+  municipality?: Maybe<Municipality>;
+  canton?: Maybe<Canton>;
+  provider?: Maybe<Provider>;
 };
 
 
 export type QueryMunicipalitiesArgs = {
+  locale?: Maybe<Scalars['String']>;
+  query?: Maybe<Scalars['String']>;
+};
+
+
+export type QueryCantonsArgs = {
+  locale?: Maybe<Scalars['String']>;
+  query?: Maybe<Scalars['String']>;
+};
+
+
+export type QueryProvidersArgs = {
+  locale?: Maybe<Scalars['String']>;
+  query?: Maybe<Scalars['String']>;
+};
+
+
+export type QueryMunicipalityArgs = {
+  id: Scalars['String'];
+  locale?: Maybe<Scalars['String']>;
+  query?: Maybe<Scalars['String']>;
+};
+
+
+export type QueryCantonArgs = {
+  id: Scalars['String'];
+  locale?: Maybe<Scalars['String']>;
+  query?: Maybe<Scalars['String']>;
+};
+
+
+export type QueryProviderArgs = {
+  id: Scalars['String'];
   locale?: Maybe<Scalars['String']>;
   query?: Maybe<Scalars['String']>;
 };
@@ -34,7 +94,7 @@ export type MunicipalitiesQueryVariables = Exact<{
 }>;
 
 
-export type MunicipalitiesQuery = { __typename: 'Query', municipalities: Array<{ __typename: 'Municipality', name?: Maybe<string> }> };
+export type MunicipalitiesQuery = { __typename: 'Query', municipalities: Array<{ __typename: 'Municipality', name: string }> };
 
 
 export const MunicipalitiesDocument = gql`
