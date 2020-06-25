@@ -2,6 +2,9 @@ import * as React from "react";
 import { useTheme } from "../../../themes";
 import { useChartState } from "../use-chart-state";
 import { BarsState } from "./bars-state";
+import { Box } from "theme-ui";
+import { BAR_HEIGHT } from "../constants";
+import { useChartTheme } from "../use-chart-theme";
 
 export const Bars = () => {
   const {
@@ -10,26 +13,59 @@ export const Bars = () => {
     getX,
     xScale,
     getY,
-    getHeight,
-    heightScale,
+    getBarHeight,
+    barHeightScale,
     yScale,
   } = useChartState() as BarsState;
   const theme = useTheme();
+  const {
+    labelColor,
+    gridColor,
+    labelFontSize,
+    fontFamily,
+    domainColor,
+  } = useChartTheme();
   const { margins } = bounds;
 
   return (
-    <g transform={`translate(${margins.left} ${margins.top})`}>
-      {sortedData.map((d, i) => (
-        <Bar
-          key={i}
-          x={0}
-          width={xScale(getX(d))}
-          y={yScale(getY(d))}
-          height={getHeight ? heightScale(getHeight(d)) : yScale.bandwidth()}
-          color={getX(d) <= 0 ? theme.colors.secondary : theme.colors.primary}
-        />
-      ))}
-    </g>
+    <>
+      <g transform={`translate(${margins.left}, ${margins.top})`}>
+        {sortedData.map((d, i) => {
+          return (
+            <g transform={`translate(0, ${yScale(getY(d))})`}>
+              <line
+                x1={0}
+                y1={yScale.bandwidth() * (1 / 2) - 8}
+                x2={0}
+                y2={yScale.bandwidth() * (1 / 2) + BAR_HEIGHT + 8}
+                stroke={domainColor}
+              />
+              <text
+                x={0}
+                y={yScale.bandwidth() * (1 / 3)}
+                style={{
+                  fontFamily,
+                  fill: labelColor,
+                  fontSize: labelFontSize,
+                }}
+              >
+                {getY(d)}
+              </text>
+              <Bar
+                key={i}
+                x={0}
+                width={xScale(getX(d))}
+                y={yScale.bandwidth() * (1 / 2)}
+                height={BAR_HEIGHT}
+                color={
+                  getX(d) <= 0 ? theme.colors.secondary : theme.colors.primary
+                }
+              />
+            </g>
+          );
+        })}
+      </g>
+    </>
   );
 };
 
