@@ -1,6 +1,7 @@
+import { Trans } from "@lingui/macro";
+import { useCombobox, useMultipleSelection } from "downshift";
 import { useState } from "react";
-import { useMultipleSelection, useCombobox } from "downshift";
-import { Input, Box, Flex, Button } from "theme-ui";
+import { Box, Button, Flex, Input } from "theme-ui";
 import { Icon } from "../icons";
 
 type Props = {
@@ -69,7 +70,7 @@ export const ComboboxMulti = ({ items }: Props) => {
     },
   });
   return (
-    <div>
+    <Box sx={{ position: "relative" }}>
       <label {...getLabelProps()}>Choose some elements:</label>
       <Flex
         sx={{
@@ -84,8 +85,8 @@ export const ComboboxMulti = ({ items }: Props) => {
           lineHeight: "inherit",
           border: "1px solid",
           borderRadius: 4,
-          color: "inherit",
-          borderColor: "monochrome500",
+          color: "text",
+          borderColor: isOpen ? "primary" : "monochrome500",
           bg: "monochrome100",
           flexWrap: "wrap",
           ":focus-within": { borderColor: "primary" },
@@ -101,7 +102,7 @@ export const ComboboxMulti = ({ items }: Props) => {
                 mr: 2,
                 mb: 2,
                 borderRadius: "default",
-                fontSize: 3,
+                fontSize: 2,
                 bg: "primaryLight",
               }}
               key={`selected-item-${index}`}
@@ -122,7 +123,7 @@ export const ComboboxMulti = ({ items }: Props) => {
         </Box>
         <Box
           {...getComboboxProps()}
-          sx={{ flexGrow: 1, minWidth: 200, alignSelf: "center",my:2 }}
+          sx={{ flexGrow: 1, minWidth: 200, alignSelf: "center", my: 2 }}
         >
           <Input
             {...getInputProps(getDropdownProps({ preventKeyAction: isOpen }))}
@@ -133,7 +134,7 @@ export const ComboboxMulti = ({ items }: Props) => {
               fontSize: "inherit",
               lineHeight: "inherit",
               border: "none",
-              color: "inherit",
+              color: "text",
               bg: "transparent",
               borderRadius: 0,
               p: 0,
@@ -156,23 +157,54 @@ export const ComboboxMulti = ({ items }: Props) => {
             transform: "translateY(-50%)",
           }}
         >
-          <Icon name="chevrondown" />
+          {isOpen ? <Icon name="chevronup" /> : <Icon name="chevrondown" />}
         </Button>
       </Flex>
-      <ul {...getMenuProps()}>
+      <Box
+        as="ul"
+        sx={{
+          listStyle: "none",
+          borderRadius: "default",
+          boxShadow: "tooltip",
+          bg: "monochrome100",
+          mt: 1,
+          p: 0,
+          position: "absolute",
+          width: "100%",
+          zIndex: 999,
+        }}
+        style={{ display: isOpen ? "block" : "none" }}
+        {...getMenuProps()}
+      >
         {isOpen &&
           getFilteredItems(items).map((item, index) => (
-            <li
-              style={
-                highlightedIndex === index ? { backgroundColor: "#bde4ff" } : {}
-              }
+            <Box
+              as="li"
+              sx={{
+                color: "text",
+                bg: highlightedIndex === index ? "primaryLight" : "transparent",
+                p: 3,
+                m: 0,
+              }}
               key={`${item}${index}`}
               {...getItemProps({ item, index })}
             >
               {item}
-            </li>
+            </Box>
           ))}
-      </ul>
-    </div>
+        {isOpen && getFilteredItems(items).length === 0 && (
+          <Box
+            as="li"
+            sx={{
+              color: "secondary",
+              p: 3,
+              m: 0,
+            }}
+          >
+            <Trans id="combobox.noitems">No items</Trans>
+          </Box>
+        )}
+      </Box>
+    </Box>
   );
 };
