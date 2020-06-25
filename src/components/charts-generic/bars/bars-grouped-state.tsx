@@ -1,4 +1,4 @@
-import { ascending, group, max, min, rollup, sum, descending } from "d3-array";
+import { ascending, descending, group, max, min, rollup, sum } from "d3-array";
 import {
   scaleBand,
   ScaleBand,
@@ -9,30 +9,23 @@ import {
 } from "d3-scale";
 import * as React from "react";
 import { ReactNode, useCallback, useMemo } from "react";
-import { Observation, ObservationValue } from "../../../domain/data";
-import { getPalette, mkNumber, useFormatNumber } from "../../../domain/helpers";
-import { estimateTextWidth } from "../../../lib/estimate-text-width";
-import { Tooltip } from "../annotations/tooltip";
-import {
-  BOTTOM_MARGIN_OFFSET,
-  LEFT_MARGIN_OFFSET,
-  BAR_HEIGHT,
-  VERTICAL_PADDING,
-} from "../constants";
-import { Bounds, Observer, useWidth } from "../use-width";
-import { ChartContext, ChartProps } from "../use-chart-state";
-import { InteractionProvider } from "../use-interaction";
-import { sortByIndex } from "../../../lib/array";
 import {
   BarFields,
-  SortingType,
   SortingOrder,
+  SortingType,
 } from "../../../domain/config-types";
+import { Observation, ObservationValue } from "../../../domain/data";
+import { getPalette, mkNumber, useFormatNumber } from "../../../domain/helpers";
+import { sortByIndex } from "../../../lib/array";
 import {
-  VERTICAL_PADDING_INNER,
-  VERTICAL_PADDING_OUTER,
-  VERTICAL_PADDING_WITHIN,
+  BAR_HEIGHT,
+  BAR_SPACE_ON_TOP,
+  BOTTOM_MARGIN_OFFSET,
+  LEFT_MARGIN_OFFSET,
 } from "../constants";
+import { ChartContext, ChartProps } from "../use-chart-state";
+import { InteractionProvider } from "../use-interaction";
+import { Bounds, Observer, useWidth } from "../use-width";
 
 export interface GroupedBarsState {
   sortedData: Observation[];
@@ -154,31 +147,24 @@ const useGroupedBarsState = ({
   }
 
   // x
-  const bandDomain = [...new Set(sortedData.map((d) => getY(d) as string))];
-  const yScale = scaleBand()
-    .domain(bandDomain)
-    .paddingInner(VERTICAL_PADDING)
-    .paddingOuter(VERTICAL_PADDING);
-  // const yScaleInteraction = scaleBand()
-  //   .domain(bandDomain)
-  //   .paddingInner(0)
-  //   .paddingOuter(0);
-
-  // const inBandDomain = [...new Set(sortedData.map(getSegment))];
-  const yScaleIn = scaleBand()
-    .domain(segments)
-    .padding(VERTICAL_PADDING_WITHIN);
-
-  // y
   const minValue = Math.min(mkNumber(min(sortedData, (d) => getX(d))), 0);
   const maxValue = max(sortedData, (d) => getX(d)) as number;
   const xScale = scaleLinear()
     .domain([mkNumber(minValue), mkNumber(maxValue)])
     .nice();
-  // const yAxisLabel =
-  //   measures.find((d) => d.iri === fields.y.componentIri)?.label ??
-  //   fields.y.componentIri;
 
+  // y
+  const bandDomain = [...new Set(sortedData.map((d) => getY(d) as string))];
+  const chartHeight =
+    bandDomain.length * (BAR_HEIGHT * segments.length + BAR_SPACE_ON_TOP);
+
+  const yScale = scaleBand<string>().domain(bandDomain).range([0, chartHeight]);
+
+  // const inBandDomain = [...new Set(sortedData.map(getSegment))];
+  const yScaleIn = scaleBand()
+    .domain(segments)
+    // .padding(0)
+    .range([0, BAR_HEIGHT * segments.length]);
   // Group
   const groupedMap = group(sortedData, getY);
   const grouped = [...groupedMap];
@@ -210,7 +196,7 @@ const useGroupedBarsState = ({
   };
   const chartWidth = width - margins.left - margins.right;
   const baseHeight = BAR_HEIGHT * data.length;
-  const chartHeight = baseHeight + baseHeight * (1 + VERTICAL_PADDING);
+  // const chartHeight = baseHeight + baseHeight * (1 + VERTICAL_PADDING);
   const bounds = {
     width,
     height: chartHeight + margins.top + margins.bottom,
@@ -220,8 +206,8 @@ const useGroupedBarsState = ({
   };
 
   xScale.range([0, chartWidth]);
-  yScale.rangeRound([0, chartHeight]);
-  yScaleIn.range([0, yScale.bandwidth()]);
+  // yScale.rangeRound([0, chartHeight]);
+  // yScaleIn.range([0, yScale.bandwidth()]);
 
   // Tooltip
   // const getAnnotationInfo = (datum: Observation): Tooltip => {

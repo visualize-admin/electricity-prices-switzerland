@@ -1,10 +1,9 @@
 import * as React from "react";
 import { useTheme } from "../../../themes";
+import { BAR_AXIS_OFFSET, BAR_HEIGHT, BAR_SPACE_ON_TOP } from "../constants";
 import { useChartState } from "../use-chart-state";
-import { BarsState } from "./bars-state";
-import { Box } from "theme-ui";
-import { BAR_HEIGHT, BAR_SPACE_ON_TOP, BAR_AXIS_OFFSET } from "../constants";
 import { useChartTheme } from "../use-chart-theme";
+import { BarsState } from "./bars-state";
 
 export const Bars = () => {
   const {
@@ -42,7 +41,7 @@ export const Bars = () => {
               />
               <text
                 x={0}
-                y={yScale.bandwidth() * (1 / 3)}
+                y={BAR_SPACE_ON_TOP * (1 / 2)}
                 style={{
                   fontFamily,
                   fill: labelColor,

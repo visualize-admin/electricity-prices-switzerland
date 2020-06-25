@@ -1,6 +1,6 @@
 import { markdown, ReactSpecimen } from "catalog";
-import { Tooltip } from "../components/charts-generic/annotations/tooltip";
-import { AxisHeightBand } from "../components/charts-generic/axis/axis-height-band";
+import { BarsGrouped } from "../components/charts-generic/bars/bars-grouped";
+import { GroupedBarsChart } from "../components/charts-generic/bars/bars-grouped-state";
 import { Bars } from "../components/charts-generic/bars/bars-simple";
 import { BarChart } from "../components/charts-generic/bars/bars-state";
 import {
@@ -9,8 +9,6 @@ import {
 } from "../components/charts-generic/containers";
 import { pivot_longer } from "../domain/helpers";
 import { zurichAndGeneva } from "./fixtures";
-import { GroupedBarsChart } from "../components/charts-generic/bars/bars-grouped-state";
-import { BarsGrouped } from "../components/charts-generic/bars/bars-grouped";
 
 export default () => {
   const observations = zurichAndGeneva.filter(
@@ -60,9 +58,7 @@ export default () => {
         <ChartContainer>
           <ChartSvg>
             <Bars />
-            {/* <AxisHeightBand /> */}
           </ChartSvg>
-          {/* <Tooltip type="single" /> */}
         </ChartContainer>
       </BarChart>
     </ReactSpecimen>
@@ -107,7 +103,6 @@ export default () => {
         <ChartContainer>
           <ChartSvg>
             <BarsGrouped />
-            <AxisHeightBand />
           </ChartSvg>
         </ChartContainer>
       </GroupedBarsChart>
