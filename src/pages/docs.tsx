@@ -20,6 +20,11 @@ import { useEffect, useState } from "react";
 const pages: ConfigPageOrGroup[] = [
   { path: "/", title: "Introduction", content: require("../docs/index.mdx") },
   {
+    path: "/design-concept",
+    title: "Design Concept",
+    content: require("../docs/design.mdx"),
+  },
+  {
     title: "Theming",
     pages: [
       {
