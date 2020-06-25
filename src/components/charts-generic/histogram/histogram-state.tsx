@@ -23,7 +23,7 @@ export interface HistogramState {
   getY: (d: $FixMe[]) => number;
   yScale: ScaleLinear<number, number>;
   xAxisLabel?: string;
-  bins: Bin<number, number>[];
+  bins: Bin<Observation, number>[];
   // getSegment: (d: Observation) => string;
   // segments: string[];
   // colors: ScaleOrdinal<string, string>;
@@ -85,13 +85,10 @@ const useHistogramState = ({
   const xDomain = [mkNumber(minValue), mkNumber(maxValue)];
   const xScale = scaleLinear().domain(xDomain).nice();
 
-  const bins = histogram()
-    // @ts-ignore
+  const bins = histogram<Observation, number>()
     .value((x) => getX(x))
     .domain([mkNumber(minValue), mkNumber(maxValue)])
-    // @ts-ignore
     .thresholds(xScale.ticks(20))(data);
-  console.log("bins", bins);
 
   const yScale = scaleLinear().domain([0, max(bins, (d) => d.length)]);
 
