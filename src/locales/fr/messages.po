@@ -13,15 +13,28 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/components/header.tsx:71
-#: src/components/header.tsx:82
+#: src/components/combobox.tsx:135
+#: src/components/combobox.tsx:242
+msgid "combobox.noitems"
+msgstr ""
+
+#: src/components/form.tsx:110
+msgid "controls.search.clear"
+msgstr ""
+
+#: src/components/footer.tsx:34
+msgid "footer.institution.name"
+msgstr ""
+
+#: src/components/logo.tsx:4
+#: src/components/logo.tsx:15
 msgid "logo.swiss.confederation"
 msgstr ""
 
-#: src/components/header.tsx:64
+#: src/components/header.tsx:65
 msgid "site.title"
 msgstr "Prix de l'électricité de la Suisse"
 
-#: src/pages/[locale]/index.tsx:6
+#: src/pages/[locale]/index.tsx:9
 msgid "test.hello"
 msgstr "Bonjour"

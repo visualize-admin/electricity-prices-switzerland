@@ -13,15 +13,28 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/components/header.tsx:71
-#: src/components/header.tsx:82
+#: src/components/combobox.tsx:135
+#: src/components/combobox.tsx:242
+msgid "combobox.noitems"
+msgstr "No items"
+
+#: src/components/form.tsx:110
+msgid "controls.search.clear"
+msgstr "Clear search field"
+
+#: src/components/footer.tsx:34
+msgid "footer.institution.name"
+msgstr "ElCom"
+
+#: src/components/logo.tsx:4
+#: src/components/logo.tsx:15
 msgid "logo.swiss.confederation"
 msgstr "Logo of the Swiss Confederation"
 
-#: src/components/header.tsx:64
+#: src/components/header.tsx:65
 msgid "site.title"
 msgstr "Strompreise Schweiz"
 
-#: src/pages/[locale]/index.tsx:6
+#: src/pages/[locale]/index.tsx:9
 msgid "test.hello"
 msgstr "Hallo"
