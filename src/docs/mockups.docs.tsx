@@ -16,7 +16,6 @@ Please also note that the data used in the visualizations is not always accurate
 
 > For an interactive experience, see the [Design Concept Prototype](./docs/prototype/index.html).
 
-
 # Desktop
 
 ## Homepage
@@ -52,7 +51,7 @@ src: "./docs/mockups/2.2_l_details-provider_comparison.jpg"
 description: "[Open full-size image](./docs/mockups/2.2_l_details-provider_comparison.jpg)"
 ~~~
 
-The visualizations are updated and an additional color is used when a new entity is added for comparison, in this example "ewz".
+The visualizations are updated and an additional color is used when a new entity is added for comparison, in this example "Services Industriels de Genève SIG".
 
 ~~~image
 imageContainerStyle: {border: "1px solid #ddd"}
@@ -80,5 +79,13 @@ plain: true
 span: 2
 src: "./docs/mockups/1.2_s_home_list-default.png"
 description: "[Open full-size image](./docs/mockups/1.2_s_home_list-default.png)"
+~~~
+
+~~~image
+imageContainerStyle: {border: "1px solid #ddd"}
+plain: true
+span: 2
+src: "./docs/mockups/2.1_s_details-provider_default.png"
+description: "[Open full-size image](./docs/mockups/2.1_s_details-provider_default.png)"
 ~~~
   `;
