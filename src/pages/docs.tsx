@@ -22,7 +22,7 @@ const pages: ConfigPageOrGroup[] = [
   {
     path: "/mockups",
     title: "Design Concept",
-    content: require("../docs/mockups.mdx"),
+    content: require("../docs/mockups.docs"),
   },
   {
     title: "Styleguide",
