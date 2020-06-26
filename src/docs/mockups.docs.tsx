@@ -2,14 +2,14 @@ import { markdown } from "catalog";
 
 export default () =>
   markdown`
-~~~hint|span-3
+~~~hint|span-4
 **Disclaimer**
 
 This document specifies the concept framework and project scope of the ElCom electricity prices website.
 
 This document is not a reference for the visual design or a specification for implementation. Do not use the illustrations in this document as a blueprint for implementation or master for graphical asset production.
 
-Please also note that the data used in the visualization is not always accurate.
+Please also note that the data used in the visualizations is not always accurate.
 ~~~
 
 # Desktop
@@ -23,7 +23,9 @@ src: "./docs/mockups/1.1_l_home_default.jpg"
 description: "[Open full-size image](./docs/mockups/1.1_l_home_default.jpg)"
 ~~~
 
-## Comparison View
+## Detail and Comparison View
+
+This is the default detail page for a municipality, a canton, or an electricity provider, in this example "Werke am Zürichsee".
 
 ~~~image
 plain: true
@@ -32,12 +34,16 @@ src: "./docs/mockups/2.1_l_details-provider_default.jpg"
 description: "[Open full-size image](./docs/mockups/2.1_l_details-provider_default.jpg)"
 ~~~
 
+When adding parameters for comparison, the visualizations update. Here we can see the prices for "Werke am Zürichsee" in 2020, 2019 and 2018.
+
 ~~~image
 plain: true
 span: 4
 src: "./docs/mockups/2.2_l_details-provider_comparison.jpg"
 description: "[Open full-size image](./docs/mockups/2.2_l_details-provider_comparison.jpg)"
 ~~~
+
+The visualizations are updated and an additional color is used when a new entity is added for comparison, in this example "ewz".
 
 ~~~image
 plain: true
