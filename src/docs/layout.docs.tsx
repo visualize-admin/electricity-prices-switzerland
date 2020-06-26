@@ -5,7 +5,7 @@ import { Box } from "theme-ui";
 export default () => markdown`
 
 ### Spacings
-The application uses a limited set of space-variables, to construct the user interface structure. This allows for the great flexibility, while allowing to define relationships between elements on a global level. The system of global space-variables is documented below:
+The application uses a limited set of space variables to construct the user interface. This allows for great flexibility, while allowing to define relationships between elements on a global level.
 
 ${
   Array.isArray(theme.space) ? (

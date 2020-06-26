@@ -20,6 +20,11 @@ import { useEffect, useState } from "react";
 const pages: ConfigPageOrGroup[] = [
   { path: "/", title: "Introduction", content: require("../docs/index.mdx") },
   {
+    path: "/design-concept",
+    title: "Design Concept",
+    content: require("../docs/design.mdx"),
+  },
+  {
     title: "Theming",
     pages: [
       {
@@ -41,6 +46,11 @@ const pages: ConfigPageOrGroup[] = [
         path: "/components/buttons",
         title: "Buttons",
         content: require("../docs/button.docs"),
+      },
+      {
+        path: "/components/combobox",
+        title: "Combobox",
+        content: require("../docs/combobox.docs"),
       },
       {
         path: "/components/form",
@@ -136,7 +146,7 @@ export default () => {
   return mounted ? (
     <MDXProvider components={mdxComponents}>
       <Catalog
-        title="🔌 ⚡️"
+        title="Strompreis-Webseite der ElCom"
         pages={pages}
         theme={{
           brandColor: "#333",
