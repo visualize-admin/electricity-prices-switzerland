@@ -1,5 +1,5 @@
 import { markdown, ReactSpecimen } from "catalog";
-import { ComboboxMulti, Combobox } from "../components/combobox";
+import { ComboboxMulti, Combobox, QueryCombobox } from "../components/combobox";
 
 export default () => markdown`
 >
@@ -8,7 +8,7 @@ export default () => markdown`
 
   ${(
     <ReactSpecimen>
-      <Combobox
+      {/* <Combobox
         label="Choose something"
         items={[
           "AEK Energie AG",
@@ -23,7 +23,7 @@ export default () => markdown`
           "Services Industriels de Genève SIG",
           "ewz",
         ]}
-      />
+      /> */}
     </ReactSpecimen>
   )}
 
@@ -49,5 +49,15 @@ export default () => markdown`
       />
     </ReactSpecimen>
   )}
+
+## Query Combobox
+
+${(
+  <ReactSpecimen>
+    <QueryCombobox
+      label="Choose a municipality"
+    />
+  </ReactSpecimen>
+)}
 
 `;

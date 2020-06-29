@@ -3,6 +3,7 @@ import { useCombobox, useMultipleSelection } from "downshift";
 import { useState } from "react";
 import { Box, Button, Flex, Input } from "theme-ui";
 import { Icon } from "../icons";
+import { useMunicipalitiesQuery } from "../graphql/queries";
 
 type Props = {
   label: React.ReactNode;
@@ -210,16 +211,20 @@ export const ComboboxMulti = ({ label, items }: Props) => {
   );
 };
 
-export const Combobox = ({ label, items }: Props) => {
-  const [inputValue, setInputValue] = useState("");
-  const [selectedItem, setSelectedItem] = useState<string | undefined>();
-
-  const getFilteredItems = (_items: string[]) =>
-    _items.filter(
-      (item) =>
-        selectedItem !== item &&
-        item.toLowerCase().startsWith(inputValue.toLowerCase())
-    );
+export const Combobox = ({
+  label,
+  items,
+  itemPlaceholder,
+  inputValue,
+  onChangeInputValue,
+}: {
+  label: string;
+  items: string[];
+  inputValue: string;
+  itemPlaceholder?: React.ReactNode;
+  onChangeInputValue: (v: string) => void;
+}) => {
+  const [selectedItem, setSelectedItem] = useState<string | null>(null);
 
   const {
     isOpen,
@@ -232,20 +237,21 @@ export const Combobox = ({ label, items }: Props) => {
     getItemProps,
   } = useCombobox({
     inputValue,
+    selectedItem,
     defaultHighlightedIndex: 0, // after selection, highlight the first item.
-    selectedItem: null,
-    items: getFilteredItems(items),
+    items,
     onStateChange: ({ inputValue, type, selectedItem }: $FixMe) => {
       switch (type) {
         case useCombobox.stateChangeTypes.InputChange:
-          setInputValue(inputValue);
-          setSelectedItem(undefined);
+          // setInputValue(inputValue);
+          onChangeInputValue(inputValue);
+
           break;
         case useCombobox.stateChangeTypes.InputKeyDownEnter:
         case useCombobox.stateChangeTypes.ItemClick:
         case useCombobox.stateChangeTypes.InputBlur:
           if (selectedItem) {
-            setInputValue(selectedItem);
+            // setInputValue(selectedItem);
             setSelectedItem(selectedItem);
           }
           break;
@@ -334,7 +340,7 @@ export const Combobox = ({ label, items }: Props) => {
         {...getMenuProps()}
       >
         {isOpen &&
-          getFilteredItems(items).map((item, index) => (
+          items.map((item, index) => (
             <Box
               as="li"
               sx={{
@@ -349,19 +355,46 @@ export const Combobox = ({ label, items }: Props) => {
               {item}
             </Box>
           ))}
-        {isOpen && getFilteredItems(items).length === 0 && (
-          <Box
-            as="li"
-            sx={{
-              color: "secondary",
-              p: 3,
-              m: 0,
-            }}
-          >
-            <Trans id="combobox.noitems">No items</Trans>
-          </Box>
-        )}
+        {isOpen && items.length === 0 && itemPlaceholder}
       </Box>
     </Box>
+  );
+};
+
+export const QueryCombobox = ({ label }: { label: string }) => {
+  const [queryString, setQueryString] = useState("");
+
+  const [result] = useMunicipalitiesQuery({
+    pause: !queryString,
+    variables: { locale: "de", query: queryString },
+  });
+
+  const items =
+    queryString && result.data
+      ? result.data.municipalities.map((d) => d.name)
+      : [];
+
+  const itemPlaceholder = (
+    <Box sx={{ p: 3, color: "secondary" }}>
+      {result.fetching ? (
+        <Trans id="combobox.loading">Loading ...</Trans>
+      ) : queryString.length === 0 ? (
+        <Trans id="combobox.pleasetype">Type to search</Trans>
+      ) : (
+        <Trans id="combobox.noitems">No items</Trans>
+      )}
+    </Box>
+  );
+
+  return (
+    <>
+      <Combobox
+        label={label}
+        inputValue={queryString}
+        onChangeInputValue={setQueryString}
+        itemPlaceholder={itemPlaceholder}
+        items={items}
+      />
+    </>
   );
 };

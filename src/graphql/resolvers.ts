@@ -9,8 +9,12 @@ import {
 
 const MOCK_DATA = {
   municipalities: {
-    "1": { id: "1", name: "A", canton: "1", providers: ["1", "2"] },
-    "2": { id: "2", name: "B", canton: "1", providers: ["2"] },
+    "1": { id: "1", name: "Adelboden", canton: "1", providers: ["1", "2"] },
+    "2": { id: "2", name: "Bösigen", canton: "1", providers: ["2"] },
+    "3": { id: "3", name: "Alfikon", canton: "1", providers: ["2"] },
+    "4": { id: "4", name: "Bettlen", canton: "1", providers: ["2"] },
+    "5": { id: "5", name: "Catan", canton: "1", providers: ["2"] },
+    "6": { id: "6", name: "Dulis", canton: "1", providers: ["2"] },
   },
   cantons: {
     "1": { id: "1", name: "Canton 1" },
@@ -23,7 +27,7 @@ const MOCK_DATA = {
 };
 
 const Query: QueryResolvers = {
-  municipalities: async () => [{ id: "1" }, { id: "2" }],
+  municipalities: async (_, {query}) => Object.values(MOCK_DATA.municipalities).filter(m => m.name.toLocaleLowerCase().startsWith(query.toLocaleLowerCase())),
   cantons: async () => [{ id: "1" }, { id: "2" }],
   providers: async () => [{ id: "1" }, { id: "2" }],
   municipality: async (_, { id }) => ({ id }),
