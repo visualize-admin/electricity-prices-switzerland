@@ -1,5 +1,19 @@
-import { ascending, descending, histogram, max, min, Bin, median } from "d3-array";
-import { ScaleLinear, scaleLinear, scaleOrdinal, ScaleOrdinal, ScaleThreshold } from "d3-scale";
+import {
+  ascending,
+  descending,
+  histogram,
+  max,
+  min,
+  Bin,
+  median,
+} from "d3-array";
+import {
+  ScaleLinear,
+  scaleLinear,
+  scaleOrdinal,
+  ScaleOrdinal,
+  ScaleThreshold,
+} from "d3-scale";
 import * as React from "react";
 import { ReactNode, useCallback } from "react";
 import {
@@ -25,8 +39,6 @@ export interface HistogramState {
   yScale: ScaleLinear<number, number>;
   xAxisLabel?: string;
   bins: Bin<Observation, number>[];
-  // getSegment: (d: Observation) => string;
-  // segments: string[];
   colors: ScaleThreshold<number, string>;
   // getAnnotationInfo: (d: Observation) => Tooltip;
 }
@@ -48,10 +60,6 @@ const useHistogramState = ({
     [fields.x.componentIri]
   );
 
-  // segments
-  // const segments = Array.from(new Set(sortedData.map((d) => getSegment(d))));
-
-
   // x
   const minValue = min(data, (d) => getX(d));
   const maxValue = max(data, (d) => getX(d));
@@ -59,13 +67,21 @@ const useHistogramState = ({
   const xScale = scaleLinear().domain(xDomain).nice();
 
   // Colors
-  const colorRange = ["#d01c8b", "#f1b6da", "#f7f7f7", "#b8e186", "#4dac26"].reverse()
-  const m = median(data, d => getX(d))
-  const colorDomain = [m - m * 0.15, m - m * 0.05, m + m * 0.05, m + m * 0.15]
-  const colors = scaleThreshold<number, string>().domain(colorDomain).range(colorRange)
-  console.log(colorDomain)
+  const colorRange = [
+    "#d01c8b",
+    "#f1b6da",
+    "#f7f7f7",
+    "#b8e186",
+    "#4dac26",
+  ].reverse();
+  const m = median(data, (d) => getX(d));
+  const colorDomain = [m - m * 0.15, m - m * 0.05, m + m * 0.05, m + m * 0.15];
+  const colors = scaleThreshold<number, string>()
+    .domain(colorDomain)
+    .range(colorRange);
 
   // y
+  // FIXME: bin domain to contain specific values from the color domain
   const bins = histogram<Observation, number>()
     .value((x) => getX(x))
     .domain([mkNumber(minValue), mkNumber(maxValue)])
@@ -83,7 +99,7 @@ const useHistogramState = ({
   const margins = {
     top: 50,
     right: 40,
-    bottom: bottom + BOTTOM_MARGIN_OFFSET,
+    bottom: 100, // bottom + BOTTOM_MARGIN_OFFSET,
     left: left + LEFT_MARGIN_OFFSET,
   };
 
@@ -159,8 +175,6 @@ const useHistogramState = ({
     getY: (d) => d.length,
     yScale,
     bins,
-    // getSegment,
-    // segments,
     colors,
     // getAnnotationInfo,
   };

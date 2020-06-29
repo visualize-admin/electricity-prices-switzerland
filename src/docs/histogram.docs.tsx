@@ -50,7 +50,7 @@ export default () => {
             <AxisWidthBandDomain />
             <InteractionColumns /> */}
             <HistogramColumns />
-            <Median />
+            <Median label="CH Median" />
           </ChartSvg>
           <Tooltip type="single" />
         </ChartContainer>
