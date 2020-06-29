@@ -12,6 +12,5 @@
   "search.exclude": {
     "**/.yarn": true,
     "yarn.lock": true
-  },
-  "typescript.tsserver.experimental.enableProjectDiagnostics": true
+  }
 }
