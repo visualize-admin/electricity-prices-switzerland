@@ -11,9 +11,20 @@ import { HistogramState } from "../histogram/histogram-state";
 
 export const AxisWidthLinear = () => {
   const formatNumber = useFormatNumber();
-  const { xScale, bounds, xAxisLabel } = useChartState() as HistogramState;
+  const {
+    xScale,
+    bounds,
+    xAxisLabel,
+    colors,
+  } = useChartState() as HistogramState;
   const { chartWidth, chartHeight, margins } = bounds;
-  const { labelColor, labelFontSize, gridColor, fontFamily } = useChartTheme();
+  const {
+    labelColor,
+    domainColor,
+    labelFontSize,
+    gridColor,
+    fontFamily,
+  } = useChartTheme();
   const xAxisRef = useRef<SVGGElement>(null);
 
   const mkAxis = (g: Selection<SVGGElement, unknown, null, undefined>) => {
@@ -23,15 +34,17 @@ export const AxisWidthLinear = () => {
 
     g.call(
       axisBottom(xScale)
-        .tickValues(tickValues)
-        .tickSizeInner(-chartHeight)
+        .tickValues(colors.domain())
+        // .tickValues(tickValues)
+        .tickSizeInner(16)
+        // .tickSizeInner(-chartHeight)
         .tickSizeOuter(xAxisLabel ? -chartHeight : 0)
         .tickFormat(formatNumber)
     );
 
     g.selectAll(".tick line")
       // FIXME: stroke should depend on whether there is a colorScale defined for the bars
-      .attr("stroke", xAxisLabel ? gridColor : "none")
+      .attr("stroke", domainColor)
       .attr("stroke-width", 1);
     g.selectAll(".tick text")
       .attr("font-size", labelFontSize)

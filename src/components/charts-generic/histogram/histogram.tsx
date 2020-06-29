@@ -7,10 +7,12 @@ import { Column } from "../columns/columns-simple";
 export const HistogramColumns = () => {
   const {
     bounds,
+    getX,
     xScale,
     getY,
     yScale,
     bins,
+    colors,
   } = useChartState() as HistogramState;
   const theme = useTheme();
   const { margins } = bounds;
@@ -25,7 +27,8 @@ export const HistogramColumns = () => {
           y={yScale(getY(d))}
           // height={yScale(0) - yScale(getY(d))}
           height={Math.abs(yScale(getY(d)) - yScale(0))}
-          color={getY(d) <= 0 ? theme.colors.secondary : theme.colors.primary}
+          color={!colors ? theme.colors.primary : colors(d.x0)}
+          // color={getY(d) <= 0 ? theme.colors.secondary : theme.colors.primary}
         />
       ))}
     </g>

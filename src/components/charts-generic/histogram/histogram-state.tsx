@@ -1,5 +1,5 @@
-import { ascending, descending, histogram, max, min, Bin } from "d3-array";
-import { ScaleLinear, scaleLinear, scaleOrdinal, ScaleOrdinal } from "d3-scale";
+import { ascending, descending, histogram, max, min, Bin, median } from "d3-array";
+import { ScaleLinear, scaleLinear, scaleOrdinal, ScaleOrdinal, ScaleThreshold } from "d3-scale";
 import * as React from "react";
 import { ReactNode, useCallback } from "react";
 import {
@@ -14,6 +14,7 @@ import { ChartContext, ChartProps } from "../use-chart-state";
 import { InteractionProvider } from "../use-interaction";
 import { Bounds, Observer, useWidth } from "../use-width";
 import { estimateTextWidth } from "../../../lib/estimate-text-width";
+import { scaleThreshold } from "d3";
 
 export interface HistogramState {
   bounds: Bounds;
@@ -26,7 +27,7 @@ export interface HistogramState {
   bins: Bin<Observation, number>[];
   // getSegment: (d: Observation) => string;
   // segments: string[];
-  colors: ScaleOrdinal<string, string>;
+  colors: ScaleThreshold<number, string>;
   // getAnnotationInfo: (d: Observation) => Tooltip;
 }
 
@@ -46,36 +47,10 @@ const useHistogramState = ({
     (d: Observation) => d[fields.x.componentIri] as number,
     [fields.x.componentIri]
   );
-  const getY = (d: Observation) => d.value;
-  // const getY = useCallback(
-  //   (d: Observation) => d[fields.y.componentIri] as string,
-  //   [fields.y.componentIri]
-  // );
-  // const getBarHeight = useCallback(
-  //   (d: Observation): string =>
-  //     fields.height && fields.height.componentIri
-  //       ? (d[fields.height.componentIri] as string)
-  //       : undefined,
-  //   [fields.height]
-  // );
-  // const getSegment = useCallback(
-  //   (d: Observation): string =>
-  //     fields.segment && fields.segment.componentIri
-  //       ? (d[fields.segment.componentIri] as string)
-  //       : "segment",
-  //   [fields.segment]
-  // );
-  // Sort data
-  // const sortingType = fields.y.sorting?.sortingType;
-  // const sortingOrder = fields.y.sorting?.sortingOrder;
-
-  // const sortedData = useMemo(() => {
-  //   return sortData({ data, sortingType, sortingOrder, getX, getY });
-  // }, [data, getX, getY, sortingType, sortingOrder]);
 
   // segments
   // const segments = Array.from(new Set(sortedData.map((d) => getSegment(d))));
-  const colors = scaleOrdinal();
+
 
   // x
   const minValue = min(data, (d) => getX(d));
@@ -83,13 +58,21 @@ const useHistogramState = ({
   const xDomain = [mkNumber(minValue), mkNumber(maxValue)];
   const xScale = scaleLinear().domain(xDomain).nice();
 
+  // Colors
+  const colorRange = ["#d01c8b", "#f1b6da", "#f7f7f7", "#b8e186", "#4dac26"].reverse()
+  const m = median(data, d => getX(d))
+  const colorDomain = [m - m * 0.15, m - m * 0.05, m + m * 0.05, m + m * 0.15]
+  const colors = scaleThreshold<number, string>().domain(colorDomain).range(colorRange)
+  console.log(colorDomain)
+
+  // y
   const bins = histogram<Observation, number>()
     .value((x) => getX(x))
     .domain([mkNumber(minValue), mkNumber(maxValue)])
-    .thresholds(xScale.ticks(20))(data);
+    // .thresholds(colorDomain)(data);
+    .thresholds(xScale.ticks(40))(data);
 
   const yScale = scaleLinear().domain([0, max(bins, (d) => d.length)]);
-
   // Dimensions
   const left = Math.max(
     estimateTextWidth(formatNumber(yScale.domain()[0])),
