@@ -1,20 +1,32 @@
 import { ChoroplethMap } from "../../../components/map";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import { GetServerSideProps } from "next";
 
-const Page = () => {
-  const { query, replace } = useRouter();
+type Props = {
+  locale: string;
+  year: string;
+};
+
+export const getServerSideProps: GetServerSideProps<Props> = async ({
+  params: { locale, year },
+}) => {
+  return { props: { locale: locale.toString(), year: year.toString() } };
+};
+
+const Page = ({ year, locale }: Props) => {
+  const { replace } = useRouter();
 
   return (
     <div>
-      <ChoroplethMap year={query.year.toString()} />
+      <ChoroplethMap year={year} />
       <div style={{ position: "absolute", zIndex: 999 }}>
         <select
-          value={query.year.toString()}
+          value={year}
           onChange={(e) =>
             replace(
               "/[locale]/map/[year]",
-              `/${query.locale}/map/${e.currentTarget.value}`
+              `/${locale}/map/${e.currentTarget.value}`
             )
           }
         >
