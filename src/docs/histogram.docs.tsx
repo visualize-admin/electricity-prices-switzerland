@@ -17,15 +17,13 @@ import { Histogram } from "../components/charts-generic/histogram/histogram-stat
 import { standardH12020 } from "./data/2020-standard-H1";
 
 export default () => {
-  const data = standardH12020;
-
   return markdown`
 > Histogram
 
   ${(
     <ReactSpecimen span={6}>
       <Histogram
-        data={data}
+        data={standardH12020}
         fields={{
           x: {
             componentIri: "Total exkl. MWST",
@@ -57,7 +55,5 @@ export default () => {
       </Histogram>
     </ReactSpecimen>
   )}
-
-
   `;
 };
