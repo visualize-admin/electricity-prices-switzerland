@@ -15,6 +15,7 @@ import {
 import { HistogramColumns } from "../components/charts-generic/histogram/histogram";
 import { Histogram } from "../components/charts-generic/histogram/histogram-state";
 import { standardH12020 } from "./data/2020-standard-H1";
+import { Median } from "../components/charts-generic/histogram/median";
 
 export default () => {
   return markdown`
@@ -49,6 +50,7 @@ export default () => {
             <AxisWidthBandDomain />
             <InteractionColumns /> */}
             <HistogramColumns />
+            <Median />
           </ChartSvg>
           <Tooltip type="single" />
         </ChartContainer>
