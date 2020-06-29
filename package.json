@@ -20,6 +20,9 @@
   },
   "dependencies": {
     "@babel/standalone": "^7.10.2",
+    "@deck.gl/core": "^8.2.0",
+    "@deck.gl/layers": "^8.2.0",
+    "@deck.gl/react": "^8.2.0",
     "@juggle/resize-observer": "^3.2.0",
     "@lingui/react": "^2.9.1",
     "@mdx-js/react": "^1.6.5",
@@ -43,6 +46,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "theme-ui": "^0.3.1",
+    "topojson-client": "^3.1.0",
     "urql": "^1.9.8"
   },
   "devDependencies": {
@@ -62,6 +66,7 @@
     "@types/lingui__react": "^2.8.2",
     "@types/node": "12",
     "@types/theme-ui": "^0.3.4",
+    "@types/topojson-client": "^3.0.0",
     "babel-core": "^7.0.0-bridge.0",
     "babel-plugin-macros": "^2.8.0",
     "prettier": "^2.0.5",
