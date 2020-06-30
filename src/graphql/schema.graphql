@@ -22,9 +22,33 @@ type Canton {
   priceComponents: PriceComponents!
 }
 
+type TemporalDimension {
+  iri: String!
+  name: String
+  min: String!
+  max: String!
+}
+
+type Observation {
+  municipality: String!
+  provider: String!
+  category: String!
+  period: String!
+
+  aidfee: Float!
+  fixcosts: Float!
+  charge: Float!
+  gridusage: Float!
+  energy: Float!
+  fixcostspercent: Float!
+}
+
 type Cube {
   name: String!
   iri: String!
+  dimensionPeriod: TemporalDimension
+
+  observations(period:String!) : [Observation!]!
 }
 
 type Query {
