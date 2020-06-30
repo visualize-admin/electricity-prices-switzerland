@@ -1,11 +1,25 @@
+import { Source } from "@zazuko/rdf-cube-view-query";
+import namespace from "@rdfjs/namespace";
+
 import {
   QueryResolvers,
   Resolvers,
+  CubeResolvers,
   PriceComponentsResolvers,
   MunicipalityResolvers,
   CantonResolvers,
   ProviderResolvers,
 } from "./resolver-types";
+
+const ns = {
+  dc: namespace("http://purl.org/dc/elements/1.1/"),
+  energyPricing: namespace(
+    "https://energy.ld.admin.ch/elcom/energy-pricing/dimension/"
+  ),
+  rdf: namespace("http://www.w3.org/1999/02/22-rdf-syntax-ns#"),
+  schema: namespace("http://schema.org/"),
+  xsd: namespace("http://www.w3.org/2001/XMLSchema#"),
+};
 
 const MOCK_DATA = {
   municipalities: {
@@ -23,6 +37,30 @@ const MOCK_DATA = {
 };
 
 const Query: QueryResolvers = {
+  cubes: async (_, { locale }) => {
+    const source = new Source({
+      endpointUrl: "https://test.lindas.admin.ch/query",
+      sourceGraph: "https://lindas.admin.ch/elcom/electricityprice",
+      // user: '',
+      // password: ''
+    });
+
+    const cubes = await source.cubes();
+
+    return cubes.map((cube) => ({ locale, cube }));
+  },
+  cubeByIri: async (_, { locale, iri }) => {
+    const source = new Source({
+      endpointUrl: "https://test.lindas.admin.ch/query",
+      sourceGraph: "https://lindas.admin.ch/elcom/electricityprice",
+      // user: '',
+      // password: ''
+    });
+
+    const cubes = await source.cubes();
+
+    return { locale, cube: cubes.find((cube) => cube.term?.value === iri) };
+  },
   municipalities: async () => [{ id: "1" }, { id: "2" }],
   cantons: async () => [{ id: "1" }, { id: "2" }],
   providers: async () => [{ id: "1" }, { id: "2" }],
@@ -70,9 +108,20 @@ const Provider: ProviderResolvers = {
   },
 };
 
+const Cube: CubeResolvers = {
+  iri: ({ cube }) => cube.term?.value,
+  name: ({ cube, locale }) => {
+    const term =
+      cube.out(ns.schema.name).terms.find((term) => term.language === locale) ??
+      cube.out(ns.schema.name).terms.find((term) => term.language === "de");
+    return term?.value;
+  },
+};
+
 export const resolvers: Resolvers = {
   Query,
   Municipality,
   Provider,
   Canton,
+  Cube,
 };

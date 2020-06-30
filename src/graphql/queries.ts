@@ -39,14 +39,33 @@ export type Canton = {
   priceComponents: PriceComponents;
 };
 
+export type Cube = {
+  __typename: 'Cube';
+  name: Scalars['String'];
+  iri: Scalars['String'];
+};
+
 export type Query = {
   __typename: 'Query';
+  cubes: Array<Cube>;
+  cubeByIri?: Maybe<Cube>;
   municipalities: Array<Municipality>;
   cantons: Array<Canton>;
   providers: Array<Provider>;
   municipality?: Maybe<Municipality>;
   canton?: Maybe<Canton>;
   provider?: Maybe<Provider>;
+};
+
+
+export type QueryCubesArgs = {
+  locale?: Maybe<Scalars['String']>;
+};
+
+
+export type QueryCubeByIriArgs = {
+  iri: Scalars['String'];
+  locale?: Maybe<Scalars['String']>;
 };
 
 

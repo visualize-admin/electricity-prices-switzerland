@@ -22,7 +22,14 @@ type Canton {
   priceComponents: PriceComponents!
 }
 
+type Cube {
+  name: String!
+  iri: String!
+}
+
 type Query {
+  cubes(locale: String): [Cube!]!
+  cubeByIri(iri:String!, locale:String): Cube
   # TODO: Figure out proper query parameters!
   municipalities(locale: String, query: String): [Municipality!]!
   cantons(locale: String, query: String): [Canton!]!
