@@ -2,11 +2,12 @@ import * as React from "react";
 import { memo } from "react";
 import { Flex } from "theme-ui";
 import { useChartState } from "../use-chart-state";
+import { ColumnsState } from "../columns/columns-state";
 
 type LegendSymbol = "square" | "line" | "circle";
 
 export const LegendColor = memo(({ symbol }: { symbol: LegendSymbol }) => {
-  const { colors } = useChartState();
+  const { colors } = useChartState() as ColumnsState;
 
   return (
     <Flex
@@ -15,7 +16,7 @@ export const LegendColor = memo(({ symbol }: { symbol: LegendSymbol }) => {
         justifyContent: "flex-start",
         alignItems: "flex-start",
         flexWrap: "wrap",
-        minHeight: "20px"
+        minHeight: "20px",
       }}
     >
       {colors.domain().map((item, i) => (
@@ -28,7 +29,7 @@ export const LegendColor = memo(({ symbol }: { symbol: LegendSymbol }) => {
 export const LegendItem = ({
   item,
   color,
-  symbol
+  symbol,
 }: {
   item: string;
   color: string;
@@ -56,8 +57,8 @@ export const LegendItem = ({
         width: ".5rem",
         height: symbol === "square" || symbol === "circle" ? `.5rem` : 2,
         borderRadius: symbol === "circle" ? "50%" : 0,
-        bg: color
-      }
+        bg: color,
+      },
     }}
   >
     {item}

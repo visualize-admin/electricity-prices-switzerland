@@ -86,6 +86,16 @@ const ColumnFields = t.intersection([
 ]);
 export type ColumnFields = t.TypeOf<typeof ColumnFields>;
 
+const HistogramFields = t.intersection([
+  t.type({
+    x: GenericField,
+  }),
+  t.partial({
+    segment: SegmentField,
+  }),
+]);
+export type HistogramFields = t.TypeOf<typeof HistogramFields>;
+
 const LineFields = t.intersection([
   t.type({
     x: GenericField,

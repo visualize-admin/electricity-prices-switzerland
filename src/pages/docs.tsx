@@ -78,6 +78,11 @@ const pages: ConfigPageOrGroup[] = [
         content: require("../docs/columns.docs"),
       },
       {
+        path: "/charts/histogram",
+        title: "Histogram",
+        content: require("../docs/histogram.docs"),
+      },
+      {
         path: "/charts/lines",
         title: "Lines",
         content: require("../docs/lines.docs"),
