@@ -41,6 +41,8 @@ const SegmentField = t.intersection([
 export type SegmentField = t.TypeOf<typeof SegmentField>;
 export type SegmentFields = Record<string, SegmentField | undefined>;
 
+// ----
+
 const BarFields = t.intersection([
   t.type({
     x: GenericField,
@@ -85,16 +87,6 @@ const ColumnFields = t.intersection([
   }),
 ]);
 export type ColumnFields = t.TypeOf<typeof ColumnFields>;
-
-const HistogramFields = t.intersection([
-  t.type({
-    x: GenericField,
-  }),
-  t.partial({
-    segment: SegmentField,
-  }),
-]);
-export type HistogramFields = t.TypeOf<typeof HistogramFields>;
 
 const LineFields = t.intersection([
   t.type({
@@ -143,4 +135,28 @@ const AreaFields = t.intersection([
 
 export type AreaFields = t.TypeOf<typeof AreaFields>;
 
-export type ChartFields = ColumnFields | BarFields | AreaFields | LineFields;
+const HistogramFields = t.intersection([
+  t.type({
+    x: GenericField,
+    // FIXME: Add a diverging color palette. t.type({ palette: t.string }),
+  }),
+  t.partial({
+    segment: SegmentField,
+  }),
+]);
+export type HistogramFields = t.TypeOf<typeof HistogramFields>;
+
+const BoxPlotFields = t.type({
+  x: GenericField,
+  y: GenericField,
+});
+
+export type BoxPlotFields = t.TypeOf<typeof BoxPlotFields>;
+
+export type ChartFields =
+  | ColumnFields
+  | BarFields
+  | AreaFields
+  | LineFields
+  | HistogramFields
+  | BoxPlotFields;
