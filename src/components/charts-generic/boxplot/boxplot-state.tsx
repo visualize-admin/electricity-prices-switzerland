@@ -1,9 +1,11 @@
 import {
-  scaleThreshold,
+  scaleSequential,
   scaleBand,
   ScaleBand,
   ScaleSequential,
   interpolateRainbow,
+  interpolateLab,
+  interpolateViridis,
 } from "d3";
 import {
   ascending,
@@ -14,13 +16,9 @@ import {
   min,
   extent,
   group,
+  rollup,
 } from "d3-array";
-import {
-  ScaleLinear,
-  scaleLinear,
-  ScaleThreshold,
-  scaleSequential,
-} from "d3-scale";
+import { ScaleLinear, scaleLinear } from "d3-scale";
 import * as React from "react";
 import { ReactNode, useCallback } from "react";
 import {
@@ -35,6 +33,7 @@ import { LEFT_MARGIN_OFFSET, BOTTOM_MARGIN_OFFSET } from "../constants";
 import { ChartContext, ChartProps } from "../use-chart-state";
 import { InteractionProvider } from "../use-interaction";
 import { Bounds, Observer, useWidth } from "../use-width";
+import { sortByIndex } from "../../../lib/array";
 
 export const DOT_RADIUS = 8;
 export const SPACE_ABOVE = 8;
@@ -46,8 +45,8 @@ export interface BoxPlotState {
   xScale: ScaleLinear<number, number>;
   getY: (d: Observation) => string;
   yScale: ScaleBand<string>;
-  colors: ScaleSequential<string>;
-  grouped: [string, Record<string, ObservationValue>[]][];
+  colors: ScaleLinear<string, string>;
+  sortedGroups: [string, Record<string, ObservationValue>[]][];
 }
 
 const useBoxPlotState = ({
@@ -73,11 +72,17 @@ const useBoxPlotState = ({
 
   // y
   const bandDomain = [...new Set(data.map((d) => getY(d)))];
-  console.log({ bandDomain });
+
   const chartHeight = bandDomain.length * (DOT_RADIUS * 2 + SPACE_ABOVE);
   const yScale = scaleBand<string>().domain(bandDomain).range([0, chartHeight]);
 
-  const colors = scaleSequential(interpolateRainbow).domain(xDomain);
+  const m = median(data, (d) => getX(d));
+  const colorDomain = [xDomain[0], m - m * 0.15, m, m + m * 0.15, xDomain[1]];
+  const colorRange = ["#24B39C", "#A8DC90", "#E7EC83", "#F1B865", "#D64B47"];
+  const colors = scaleLinear<string, string>()
+    .domain(colorDomain)
+    .range(colorRange)
+    .interpolate(interpolateLab);
 
   const left = Math.max(
     estimateTextWidth(yScale.domain()[0]),
@@ -86,7 +91,7 @@ const useBoxPlotState = ({
   const margins = {
     top: 50,
     right: 40,
-    bottom: BOTTOM_MARGIN_OFFSET,
+    bottom: 100, // BOTTOM_MARGIN_OFFSET,
     left: left + LEFT_MARGIN_OFFSET,
   };
   const chartWidth = width - margins.left - margins.right;
@@ -101,8 +106,23 @@ const useBoxPlotState = ({
   xScale.range([0, chartWidth]);
 
   // Group
+  // Sort by group median
+  const yOrder = [
+    ...rollup(
+      data,
+      (v) => median(v, (x) => getX(x)),
+      (x) => getY(x)
+    ),
+  ]
+    .sort((a, b) => ascending(a[1], b[1]))
+    .map((d) => d[0]);
   const groupedMap = group(data, getY);
-  const grouped = [...groupedMap];
+  const sortedGroups = sortByIndex({
+    data: [...groupedMap],
+    order: yOrder,
+    getCategory: (d) => d[0],
+    sortOrder: "asc",
+  });
 
   return {
     bounds,
@@ -112,7 +132,7 @@ const useBoxPlotState = ({
     getY,
     yScale,
     colors,
-    grouped,
+    sortedGroups,
   };
 };
 

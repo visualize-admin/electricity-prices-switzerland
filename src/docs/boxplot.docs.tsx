@@ -38,8 +38,8 @@ export default () => {
       >
         <ChartContainer>
           <ChartSvg>
-            {/* <AxisWidthLinear />
-            <AxisWidthLinearDomain /> */}
+            <AxisWidthLinear />
+            <AxisWidthLinearDomain />
             <BoxPlotRows />
           </ChartSvg>
         </ChartContainer>
