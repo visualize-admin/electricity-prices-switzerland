@@ -45,10 +45,6 @@ export default () => {
             <AxisHeightLinearDomain />
             <AxisWidthLinear />
             <AxisWidthLinearDomain />
-            {/* <AxisWidthBand />
-            <Columns />
-            <AxisWidthBandDomain />
-            <InteractionColumns /> */}
             <HistogramColumns />
             <Median label="CH Median" />
           </ChartSvg>

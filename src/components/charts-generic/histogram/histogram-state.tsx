@@ -1,19 +1,14 @@
+import { scaleThreshold } from "d3";
 import {
   ascending,
+  Bin,
   descending,
   histogram,
   max,
-  min,
-  Bin,
   median,
+  min,
 } from "d3-array";
-import {
-  ScaleLinear,
-  scaleLinear,
-  scaleOrdinal,
-  ScaleOrdinal,
-  ScaleThreshold,
-} from "d3-scale";
+import { ScaleLinear, scaleLinear, ScaleThreshold } from "d3-scale";
 import * as React from "react";
 import { ReactNode, useCallback } from "react";
 import {
@@ -23,12 +18,11 @@ import {
 } from "../../../domain/config-types";
 import { Observation } from "../../../domain/data";
 import { mkNumber, useFormatNumber } from "../../../domain/helpers";
-import { BOTTOM_MARGIN_OFFSET, LEFT_MARGIN_OFFSET } from "../constants";
+import { estimateTextWidth } from "../../../lib/estimate-text-width";
+import { LEFT_MARGIN_OFFSET } from "../constants";
 import { ChartContext, ChartProps } from "../use-chart-state";
 import { InteractionProvider } from "../use-interaction";
 import { Bounds, Observer, useWidth } from "../use-width";
-import { estimateTextWidth } from "../../../lib/estimate-text-width";
-import { scaleThreshold } from "d3";
 
 export interface HistogramState {
   bounds: Bounds;
@@ -40,7 +34,6 @@ export interface HistogramState {
   xAxisLabel?: string;
   bins: Bin<Observation, number>[];
   colors: ScaleThreshold<number, string>;
-  // getAnnotationInfo: (d: Observation) => Tooltip;
 }
 
 const useHistogramState = ({
@@ -81,25 +74,24 @@ const useHistogramState = ({
     .range(colorRange);
 
   // y
-  // FIXME: bin domain to contain specific values from the color domain
   const bins = histogram<Observation, number>()
     .value((x) => getX(x))
     .domain([mkNumber(minValue), mkNumber(maxValue)])
-    // .thresholds(colorDomain)(data);
-    .thresholds(xScale.ticks(40))(data);
+    .thresholds(colorDomain)(data);
+  // .thresholds(xScale.ticks(20))(data);
 
   const yScale = scaleLinear().domain([0, max(bins, (d) => d.length)]);
+
   // Dimensions
   const left = Math.max(
     estimateTextWidth(formatNumber(yScale.domain()[0])),
     estimateTextWidth(formatNumber(yScale.domain()[1]))
   );
-  const bottom = max(xDomain, (d) => estimateTextWidth(formatNumber(d))) || 70;
 
   const margins = {
     top: 50,
     right: 40,
-    bottom: 100, // bottom + BOTTOM_MARGIN_OFFSET,
+    bottom: 100,
     left: left + LEFT_MARGIN_OFFSET,
   };
 
@@ -116,57 +108,6 @@ const useHistogramState = ({
   xScale.range([0, chartWidth]);
   yScale.range([chartHeight, 0]);
 
-  // Tooltip
-  // const getAnnotationInfo = (datum: Observation): Tooltip => {
-  //   const xRef = xScale(getX(datum));
-  //   const xOffset = 10; // xScale.bandwidth() / 2;
-  //   const yRef = yScale(getY(datum));
-  //   const yAnchor = yRef;
-
-  //   const yPlacement = yAnchor < chartHeight * 0.33 ? "middle" : "top";
-
-  //   const getXPlacement = () => {
-  //     if (yPlacement === "top") {
-  //       return xRef < chartWidth * 0.33
-  //         ? "right"
-  //         : xRef > chartWidth * 0.66
-  //         ? "left"
-  //         : "center";
-  //     } else {
-  //       // yPlacement === "middle"
-  //       return xRef < chartWidth * 0.5 ? "right" : "left";
-  //     }
-  //   };
-  //   const xPlacement = getXPlacement();
-
-  //   const getXAnchor = () => {
-  //     if (yPlacement === "top") {
-  //       return xPlacement === "right"
-  //         ? xRef
-  //         : xPlacement === "center"
-  //         ? xRef + xOffset
-  //         : xRef + xOffset * 2;
-  //     } else {
-  //       // yPlacement === "middle"
-  //       return xPlacement === "right" ? xRef + xOffset * 2 : xRef;
-  //     }
-  //   };
-  //   const xAnchor = getXAnchor();
-
-  //   return {
-  //     xAnchor,
-  //     yAnchor,
-  //     placement: { x: xPlacement, y: yPlacement },
-  //     xValue: getY(datum), // FIXME: x !== y
-  //     datum: {
-  //       label: fields.segment?.componentIri && getSegment(datum),
-  //       value: formatNumber(getX(datum)),
-  //       color: colors(getSegment(datum)) as string,
-  //     },
-  //     values: undefined,
-  //   };
-  // };
-
   return {
     bounds,
     data,
@@ -176,7 +117,6 @@ const useHistogramState = ({
     yScale,
     bins,
     colors,
-    // getAnnotationInfo,
   };
 };
 

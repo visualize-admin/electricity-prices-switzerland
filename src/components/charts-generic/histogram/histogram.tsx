@@ -7,7 +7,6 @@ import { Column } from "../columns/columns-simple";
 export const HistogramColumns = () => {
   const {
     bounds,
-    getX,
     xScale,
     getY,
     yScale,
