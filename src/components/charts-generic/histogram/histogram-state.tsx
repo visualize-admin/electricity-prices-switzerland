@@ -60,13 +60,7 @@ const useHistogramState = ({
   const xScale = scaleLinear().domain(xDomain).nice();
 
   // Colors
-  const colorRange = [
-    "#d01c8b",
-    "#f1b6da",
-    "#f7f7f7",
-    "#b8e186",
-    "#4dac26",
-  ].reverse();
+  const colorRange = ["#24B39C", "#A8DC90", "#E7EC83", "#F1B865", "#D64B47"];
   const m = median(data, (d) => getX(d));
   const colorDomain = [m - m * 0.15, m - m * 0.05, m + m * 0.05, m + m * 0.15];
   const colors = scaleThreshold<number, string>()
