@@ -39,7 +39,6 @@ export interface GroupedBarsState {
   segments: string[];
   colors: ScaleOrdinal<string, string>;
   grouped: [string, Record<string, ObservationValue>[]][];
-  // getAnnotationInfo: (d: Observation) => Tooltip;
 }
 
 const useGroupedBarsState = ({
@@ -51,7 +50,6 @@ const useGroupedBarsState = ({
   fields: BarFields;
 }): GroupedBarsState => {
   const width = useWidth();
-  const formatNumber = useFormatNumber();
   const getX = useCallback(
     (d: Observation) => d[fields.x.componentIri] as number,
     [fields.x.componentIri]
@@ -160,11 +158,11 @@ const useGroupedBarsState = ({
 
   const yScale = scaleBand<string>().domain(bandDomain).range([0, chartHeight]);
 
-  // const inBandDomain = [...new Set(sortedData.map(getSegment))];
   const yScaleIn = scaleBand()
     .domain(segments)
     // .padding(0)
     .range([0, BAR_HEIGHT * segments.length]);
+
   // Group
   const groupedMap = group(sortedData, getY);
   const grouped = [...groupedMap];
@@ -182,12 +180,6 @@ const useGroupedBarsState = ({
     ];
   });
 
-  // Dimensions
-  // const left = Math.max(
-  //   estimateTextWidth(formatNumber(xScale.domain()[0])),
-  //   estimateTextWidth(formatNumber(xScale.domain()[1]))
-  // );
-  // const bottom = max(bandDomain, (d) => estimateTextWidth(d)) || 70;
   const margins = {
     top: 50,
     right: 40,
@@ -195,8 +187,6 @@ const useGroupedBarsState = ({
     left: LEFT_MARGIN_OFFSET,
   };
   const chartWidth = width - margins.left - margins.right;
-  const baseHeight = BAR_HEIGHT * data.length;
-  // const chartHeight = baseHeight + baseHeight * (1 + VERTICAL_PADDING);
   const bounds = {
     width,
     height: chartHeight + margins.top + margins.bottom,
@@ -206,79 +196,12 @@ const useGroupedBarsState = ({
   };
 
   xScale.range([0, chartWidth]);
-  // yScale.rangeRound([0, chartHeight]);
-  // yScaleIn.range([0, yScale.bandwidth()]);
-
-  // Tooltip
-  // const getAnnotationInfo = (datum: Observation): Tooltip => {
-  //   const xRef = xScale(getX(datum)) as number;
-  //   const xOffset = xScale.bandwidth() / 2;
-  //   const yRef = yScale(getY(datum));
-  //   const yAnchor = yRef;
-
-  //   const tooltipValues = data.filter((j) => getX(j) === getX(datum));
-  //   const sortedTooltipValues = sortByIndex({
-  //     data: tooltipValues,
-  //     order: segments,
-  //     getCategory: getSegment,
-  //     // Always ascending to match visual order of colors of the stack
-  //     sortOrder: "asc",
-  //   });
-
-  //   const yPlacement = yAnchor < chartHeight * 0.33 ? "middle" : "top";
-
-  //   const getXPlacement = () => {
-  //     if (yPlacement === "top") {
-  //       return xRef < chartWidth * 0.33
-  //         ? "right"
-  //         : xRef > chartWidth * 0.66
-  //         ? "left"
-  //         : "center";
-  //     } else {
-  //       // yPlacement === "middle"
-  //       return xRef < chartWidth * 0.5 ? "right" : "left";
-  //     }
-  //   };
-  //   const xPlacement = getXPlacement();
-
-  //   const getXAnchor = () => {
-  //     if (yPlacement === "top") {
-  //       return xPlacement === "right"
-  //         ? xRef
-  //         : xPlacement === "center"
-  //         ? xRef + xOffset
-  //         : xRef + xOffset * 2;
-  //     } else {
-  //       // yPlacement === "middle"
-  //       return xPlacement === "right" ? xRef + xOffset * 2 : xRef;
-  //     }
-  //   };
-  //   const xAnchor = getXAnchor();
-
-  //   return {
-  //     xAnchor,
-  //     yAnchor,
-  //     placement: { x: xPlacement, y: yPlacement },
-  //     xValue: getX(datum),
-  //     datum: {
-  //       label: fields.segment && getSegment(datum),
-  //       value: formatNumber(getY(datum)),
-  //       color: colors(getSegment(datum)) as string,
-  //     },
-  //     values: sortedTooltipValues.map((td) => ({
-  //       label: getSegment(td),
-  //       value: formatNumber(getY(td)),
-  //       color: colors(getSegment(td)) as string,
-  //     })),
-  //   };
-  // };
 
   return {
     sortedData,
     bounds,
     getX,
     xScale,
-    // yScaleInteraction,
     getY,
     yScale,
     yScaleIn,
@@ -286,7 +209,6 @@ const useGroupedBarsState = ({
     segments,
     colors,
     grouped,
-    // getAnnotationInfo,
   };
 };
 
