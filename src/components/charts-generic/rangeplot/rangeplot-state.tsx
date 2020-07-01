@@ -11,10 +11,13 @@ import { BOTTOM_MARGIN_OFFSET, LEFT_MARGIN_OFFSET } from "../constants";
 import { ChartContext, ChartProps } from "../use-chart-state";
 import { InteractionProvider } from "../use-interaction";
 import { Bounds, Observer, useWidth } from "../use-width";
+import { useAnnotation } from "../use-annotation";
 
 export const DOT_RADIUS = 8;
 export const SPACE_ABOVE = 8;
 export const ANNOTATION_DOT_RADIUS = 2.5;
+export const ANNOTATION_SQUARE_SIDE = 8;
+export const ANNOTATION_LABEL_HEIGHT = 20;
 
 export interface RangePlotState {
   bounds: Bounds;
@@ -35,7 +38,9 @@ const useRangePlotState = ({
 }): RangePlotState => {
   const width = useWidth();
   const formatNumber = useFormatNumber();
+  const [annotation] = useAnnotation();
 
+  console.log({ annotation });
   const getX = useCallback(
     (d: Observation) => d[fields.x.componentIri] as number,
     [fields.x.componentIri]
@@ -60,10 +65,15 @@ const useRangePlotState = ({
     .sort((a, b) => ascending(a[1], b[1]))
     .map((d) => d[0]);
 
-  const chartHeight = yOrderedDomain.length * (DOT_RADIUS * 2 + SPACE_ABOVE);
+  const annotationSpace = annotation.d
+    ? annotation.d.length * ANNOTATION_LABEL_HEIGHT
+    : 0;
+  const chartHeight =
+    yOrderedDomain.length * (DOT_RADIUS * 2 + SPACE_ABOVE) + annotationSpace;
+
   const yScale = scaleBand<string>()
     .domain(yOrderedDomain)
-    .range([0, chartHeight]);
+    .range([annotationSpace, chartHeight]);
 
   const m = median(data, (d) => getX(d));
   const colorDomain = [xDomain[0], m - m * 0.1, m, m + m * 0.1, xDomain[1]];
