@@ -78,9 +78,9 @@ const pages: ConfigPageOrGroup[] = [
         content: require("../docs/columns.docs"),
       },
       {
-        path: "/charts/boxplot",
-        title: "Boxplot",
-        content: require("../docs/boxplot.docs"),
+        path: "/charts/rangeplot",
+        title: "Range",
+        content: require("../docs/rangeplot.docs"),
       },
       {
         path: "/charts/histogram",

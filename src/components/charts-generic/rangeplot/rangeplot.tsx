@@ -2,10 +2,10 @@ import { max, median, min } from "d3-array";
 import * as React from "react";
 import { useChartState } from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
-import { BoxPlotState, DOT_RADIUS } from "./boxplot-state";
+import { RangePlotState, DOT_RADIUS } from "./rangeplot-state";
 import { normalize } from "../../../lib/array";
 
-export const BoxPlotRows = () => {
+export const RangePlotRows = () => {
   const {
     bounds,
     xScale,
@@ -14,7 +14,7 @@ export const BoxPlotRows = () => {
     yScale,
     colors,
     sortedGroups,
-  } = useChartState() as BoxPlotState;
+  } = useChartState() as RangePlotState;
 
   const { margins, chartWidth } = bounds;
   const {

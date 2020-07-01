@@ -22,7 +22,7 @@ import { ScaleLinear, scaleLinear } from "d3-scale";
 import * as React from "react";
 import { ReactNode, useCallback } from "react";
 import {
-  BoxPlotFields,
+  RangePlotFields,
   SortingOrder,
   SortingType,
 } from "../../../domain/config-types";
@@ -38,7 +38,7 @@ import { sortByIndex } from "../../../lib/array";
 export const DOT_RADIUS = 8;
 export const SPACE_ABOVE = 8;
 
-export interface BoxPlotState {
+export interface RangePlotState {
   bounds: Bounds;
   data: Observation[];
   getX: (d: Observation) => number;
@@ -49,12 +49,12 @@ export interface BoxPlotState {
   sortedGroups: [string, Record<string, ObservationValue>[]][];
 }
 
-const useBoxPlotState = ({
+const useRangePlotState = ({
   data,
   fields,
 }: Pick<ChartProps, "data" | "measures"> & {
-  fields: BoxPlotFields;
-}): BoxPlotState => {
+  fields: RangePlotFields;
+}): RangePlotState => {
   const width = useWidth();
   const formatNumber = useFormatNumber();
 
@@ -143,9 +143,9 @@ const BoxPlotProvider = ({
   children,
 }: Pick<ChartProps, "data" | "measures"> & {
   children: ReactNode;
-  fields: BoxPlotFields;
+  fields: RangePlotFields;
 }) => {
-  const state = useBoxPlotState({
+  const state = useRangePlotState({
     data,
     fields,
     measures,
@@ -155,14 +155,14 @@ const BoxPlotProvider = ({
   );
 };
 
-export const BoxPlot = ({
+export const RangePlot = ({
   data,
   fields,
   measures,
   children,
 }: Pick<ChartProps, "data" | "measures"> & {
   children: ReactNode;
-  fields: BoxPlotFields;
+  fields: RangePlotFields;
 }) => {
   return (
     <Observer>

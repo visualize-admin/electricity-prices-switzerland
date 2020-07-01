@@ -3,8 +3,8 @@ import {
   AxisWidthLinear,
   AxisWidthLinearDomain,
 } from "../components/charts-generic/axis/axis-width-linear";
-import { BoxPlotRows } from "../components/charts-generic/boxplot/boxplot";
-import { BoxPlot } from "../components/charts-generic/boxplot/boxplot-state";
+import { RangePlotRows } from "../components/charts-generic/rangeplot/rangeplot";
+import { RangePlot } from "../components/charts-generic/rangeplot/rangeplot-state";
 import {
   ChartContainer,
   ChartSvg,
@@ -14,11 +14,11 @@ import { boxPlotData } from "./data/boxplotdata";
 
 export default () => {
   return markdown`
-> Boxplot
+> Range
 
   ${(
     <ReactSpecimen span={6}>
-      <BoxPlot
+      <RangePlot
         data={boxPlotData}
         fields={{
           x: {
@@ -40,10 +40,10 @@ export default () => {
           <ChartSvg>
             <AxisWidthLinear />
             <AxisWidthLinearDomain />
-            <BoxPlotRows />
+            <RangePlotRows />
           </ChartSvg>
         </ChartContainer>
-      </BoxPlot>
+      </RangePlot>
     </ReactSpecimen>
   )}
   `;

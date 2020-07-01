@@ -146,12 +146,12 @@ const HistogramFields = t.intersection([
 ]);
 export type HistogramFields = t.TypeOf<typeof HistogramFields>;
 
-const BoxPlotFields = t.type({
+const RangePlotFields = t.type({
   x: GenericField,
   y: GenericField,
 });
 
-export type BoxPlotFields = t.TypeOf<typeof BoxPlotFields>;
+export type RangePlotFields = t.TypeOf<typeof RangePlotFields>;
 
 export type ChartFields =
   | ColumnFields
@@ -159,4 +159,4 @@ export type ChartFields =
   | AreaFields
   | LineFields
   | HistogramFields
-  | BoxPlotFields;
+  | RangePlotFields;
