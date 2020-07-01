@@ -71,10 +71,21 @@ const useRangePlotState = ({
   const xScale = scaleLinear().domain(xDomain).nice();
 
   // y
-  const bandDomain = [...new Set(data.map((d) => getY(d)))];
+  // Sort by group median
+  const yOrderedDomain = [
+    ...rollup(
+      data,
+      (v) => median(v, (x) => getX(x)),
+      (x) => getY(x)
+    ),
+  ]
+    .sort((a, b) => ascending(a[1], b[1]))
+    .map((d) => d[0]);
 
-  const chartHeight = bandDomain.length * (DOT_RADIUS * 2 + SPACE_ABOVE);
-  const yScale = scaleBand<string>().domain(bandDomain).range([0, chartHeight]);
+  const chartHeight = yOrderedDomain.length * (DOT_RADIUS * 2 + SPACE_ABOVE);
+  const yScale = scaleBand<string>()
+    .domain(yOrderedDomain)
+    .range([0, chartHeight]);
 
   const m = median(data, (d) => getX(d));
   const colorDomain = [xDomain[0], m - m * 0.15, m, m + m * 0.15, xDomain[1]];
@@ -106,20 +117,9 @@ const useRangePlotState = ({
   xScale.range([0, chartWidth]);
 
   // Group
-  // Sort by group median
-  const yOrder = [
-    ...rollup(
-      data,
-      (v) => median(v, (x) => getX(x)),
-      (x) => getY(x)
-    ),
-  ]
-    .sort((a, b) => ascending(a[1], b[1]))
-    .map((d) => d[0]);
-  const groupedMap = group(data, getY);
   const sortedGroups = sortByIndex({
-    data: [...groupedMap],
-    order: yOrder,
+    data: [...group(data, getY)],
+    order: yOrderedDomain,
     getCategory: (d) => d[0],
     sortOrder: "asc",
   });
