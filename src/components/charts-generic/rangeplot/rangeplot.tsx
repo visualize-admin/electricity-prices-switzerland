@@ -2,8 +2,13 @@ import { max, median, min } from "d3-array";
 import * as React from "react";
 import { useChartState } from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
-import { RangePlotState, DOT_RADIUS } from "./rangeplot-state";
+import {
+  RangePlotState,
+  DOT_RADIUS,
+  ANNOTATION_DOT_RADIUS,
+} from "./rangeplot-state";
 import { normalize } from "../../../lib/array";
+import { useAnnotation } from "../use-annotation";
 
 export const Range = () => {
   const {
@@ -22,7 +27,6 @@ export const Range = () => {
       <g transform={`translate(${margins.left} ${margins.top})`}>
         {rangeGroups.map((row) => {
           const xMin = min(row[1], (d) => getX(d));
-          const m = median(row[1], (d) => getX(d));
           const xMax = max(row[1], (d) => getX(d));
 
           return (
@@ -136,5 +140,36 @@ export const RangePoints = () => {
         })}
       </g>
     </>
+  );
+};
+
+export const RangeAnnotation = () => {
+  const {
+    bounds,
+    xScale,
+    getX,
+    yScale,
+    getY,
+    colors,
+  } = useChartState() as RangePlotState;
+
+  const { margins, chartWidth } = bounds;
+  const [{ d }] = useAnnotation();
+  console.log(d);
+  return (
+    <g transform={`translate(${margins.left} ${margins.top})`}>
+      {d.map((datum, i) => {
+        return (
+          <React.Fragment key={i}>
+            <circle
+              cx={xScale(getX(datum))}
+              cy={yScale(getY(datum)) + DOT_RADIUS}
+              r={ANNOTATION_DOT_RADIUS}
+              fill={"black"}
+            />
+          </React.Fragment>
+        );
+      })}
+    </g>
   );
 };
