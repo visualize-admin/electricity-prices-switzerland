@@ -79,7 +79,7 @@ export const useInteraction = () => {
   const ctx = useContext(InteractionStateContext);
   if (ctx === undefined) {
     throw Error(
-      "You need to wrap your component in <Chart /> to useChartState()"
+      "You need to wrap your component in <InteractionProvider /> to useInteraction()"
     );
   }
   return ctx;
