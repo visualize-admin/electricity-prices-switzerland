@@ -1,5 +1,5 @@
 import { markdown, ReactSpecimen } from "catalog";
-import { Tooltip } from "../components/charts-generic/annotations/tooltip";
+import { Tooltip } from "../components/charts-generic/interaction/tooltip";
 import {
   AxisHeightLinear,
   AxisHeightLinearDomain,

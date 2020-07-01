@@ -1,7 +1,7 @@
 import { markdown, ReactSpecimen } from "catalog";
-import { HoverDotMultiple } from "../components/charts-generic/annotations/hover-dots-multiple";
-import { Ruler } from "../components/charts-generic/annotations/ruler";
-import { Tooltip } from "../components/charts-generic/annotations/tooltip";
+import { HoverDotMultiple } from "../components/charts-generic/interaction/hover-dots-multiple";
+import { Ruler } from "../components/charts-generic/interaction/ruler";
+import { Tooltip } from "../components/charts-generic/interaction/tooltip";
 import { AxisHeightLinear } from "../components/charts-generic/axis/axis-height-linear";
 import {
   AxisTime,
@@ -11,7 +11,7 @@ import {
   ChartContainer,
   ChartSvg,
 } from "../components/charts-generic/containers";
-import { InteractionHorizontal } from "../components/charts-generic/interaction/interaction-horizontal";
+import { InteractionHorizontal } from "../components/charts-generic/overlay/interaction-horizontal";
 import { LegendColor } from "../components/charts-generic/legends/color";
 import { Lines } from "../components/charts-generic/lines/lines";
 import { LineChart } from "../components/charts-generic/lines/lines-state";
