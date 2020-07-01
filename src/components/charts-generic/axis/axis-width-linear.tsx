@@ -81,12 +81,12 @@ export const AxisWidthLinearTop = () => {
 
   const mkAxis = (g: Selection<SVGGElement, unknown, null, undefined>) => {
     const maxLabelLength = estimateTextWidth(formatNumber(xScale.domain()[1]));
-    // const ticks = Math.min(bounds.chartWidth / (maxLabelLength + 20), 4);
-    // const tickValues = xScale.ticks(ticks);
+    const ticks = Math.min(bounds.chartWidth / (maxLabelLength + 20), 4);
+    const tickValues = xScale.ticks(ticks);
 
     g.call(
       axisTop(xScale)
-        // .tickValues(tickValues)
+        .tickValues(tickValues)
         .tickSizeInner(-chartHeight - margins.bottom - margins.top / 2)
         .tickSizeOuter(-chartHeight - margins.bottom - margins.top / 2)
         .tickFormat(formatNumber)

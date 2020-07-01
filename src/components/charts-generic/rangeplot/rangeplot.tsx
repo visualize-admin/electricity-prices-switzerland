@@ -77,7 +77,7 @@ export const RangePoints = () => {
     rangeGroups,
   } = useChartState() as RangePlotState;
 
-  const { margins, chartWidth } = bounds;
+  const { margins } = bounds;
   const {
     labelColor,
     labelFontSize,
