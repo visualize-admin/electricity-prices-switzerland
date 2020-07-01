@@ -81,7 +81,7 @@ export const AxisWidthLinearTop = () => {
 
   const mkAxis = (g: Selection<SVGGElement, unknown, null, undefined>) => {
     const maxLabelLength = estimateTextWidth(formatNumber(xScale.domain()[1]));
-    const ticks = Math.min(bounds.chartWidth / (maxLabelLength + 20), 4);
+    const ticks = Math.min(bounds.chartWidth / (maxLabelLength + 20), 10);
     const tickValues = xScale.ticks(ticks);
 
     g.call(
