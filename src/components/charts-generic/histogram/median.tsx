@@ -5,7 +5,13 @@ import { useChartTheme } from "../use-chart-theme";
 import { HistogramState } from "./histogram-state";
 
 export const Median = ({ label }: { label: string }) => {
-  const { data, bounds, getX, xScale } = useChartState() as HistogramState;
+  const {
+    data,
+    bounds,
+    getX,
+    xScale,
+    yScale,
+  } = useChartState() as HistogramState;
   const { margins } = bounds;
   const {
     labelColor,
@@ -22,7 +28,7 @@ export const Median = ({ label }: { label: string }) => {
         x1={xScale(m)}
         y1={bounds.chartHeight + 44}
         x2={xScale(m)}
-        y2={0}
+        y2={yScale(yScale.domain()[1])}
         stroke={domainColor}
         strokeDasharray="4px 2px"
       />
