@@ -4,10 +4,7 @@ import {
   AxisHeightLinear,
   AxisHeightLinearDomain,
 } from "../components/charts-generic/axis/axis-height-linear";
-import {
-  AxisWidthLinear,
-  AxisWidthLinearDomain,
-} from "../components/charts-generic/axis/axis-width-linear";
+
 import {
   ChartContainer,
   ChartSvg,
@@ -16,6 +13,10 @@ import { HistogramColumns } from "../components/charts-generic/histogram/histogr
 import { Histogram } from "../components/charts-generic/histogram/histogram-state";
 import { standardH12020 } from "./data/2020-standard-H1";
 import { Median } from "../components/charts-generic/histogram/median";
+import {
+  AxisWidthHistogram,
+  AxisWidthHistogramDomain,
+} from "../components/charts-generic/axis/axis-width-histogram";
 
 export default () => {
   return markdown`
@@ -43,8 +44,8 @@ export default () => {
           <ChartSvg>
             <AxisHeightLinear />
             <AxisHeightLinearDomain />
-            <AxisWidthLinear />
-            <AxisWidthLinearDomain />
+            <AxisWidthHistogram />
+            <AxisWidthHistogramDomain />
             <HistogramColumns />
             <Median label="CH Median" />
           </ChartSvg>

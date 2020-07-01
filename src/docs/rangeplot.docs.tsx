@@ -1,8 +1,5 @@
 import { markdown, ReactSpecimen } from "catalog";
-import {
-  AxisWidthLinear,
-  AxisWidthLinearDomain,
-} from "../components/charts-generic/axis/axis-width-linear";
+
 import { RangePlotRows } from "../components/charts-generic/rangeplot/rangeplot";
 import { RangePlot } from "../components/charts-generic/rangeplot/rangeplot-state";
 import {
@@ -11,6 +8,7 @@ import {
 } from "../components/charts-generic/containers";
 
 import { boxPlotData } from "./data/boxplotdata";
+import { AxisWidthLinear } from "../components/charts-generic/axis/axis-width-linear";
 
 export default () => {
   return markdown`
@@ -38,8 +36,7 @@ export default () => {
       >
         <ChartContainer>
           <ChartSvg>
-            <AxisWidthLinear />
-            <AxisWidthLinearDomain />
+            <AxisWidthLinear position="top" />
             <RangePlotRows />
           </ChartSvg>
         </ChartContainer>

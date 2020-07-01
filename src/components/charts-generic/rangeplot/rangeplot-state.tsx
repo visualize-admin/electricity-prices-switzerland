@@ -100,9 +100,9 @@ const useRangePlotState = ({
     estimateTextWidth(yScale.domain()[1])
   );
   const margins = {
-    top: 50,
-    right: 40,
-    bottom: 100, // BOTTOM_MARGIN_OFFSET,
+    top: 70,
+    right: 1,
+    bottom: BOTTOM_MARGIN_OFFSET,
     left: left + LEFT_MARGIN_OFFSET,
   };
   const chartWidth = width - margins.left - margins.right;

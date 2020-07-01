@@ -52,14 +52,12 @@ export const RangePlotRows = () => {
                   fillOpacity={0.3}
                   clipPath={`url(#cut-off-range-${row[0]})`}
                 />
-
                 <circle
                   cx={xScale(xMin)}
                   cy={DOT_RADIUS}
                   r={DOT_RADIUS}
                   fill={colors(xMin)}
                 />
-
                 <line
                   x1={xScale(m)}
                   y1={0}
