@@ -8,12 +8,6 @@ import React, {
 } from "react";
 import { Observation } from "../../domain/data";
 
-export interface AnnotationElement {
-  visible: boolean;
-  mouse?: { x: number; y: number } | undefined;
-  d: Observation | undefined;
-}
-
 interface AnnotationState {
   d: Observation[] | undefined;
 }
@@ -21,10 +15,6 @@ interface AnnotationState {
 type AnnotationStateAction = {
   type: "ADD_ANNOTATION";
   value: AnnotationState;
-};
-
-const ANNOTATION_INITIAL_STATE: AnnotationState = {
-  d: undefined,
 };
 
 // Reducer
