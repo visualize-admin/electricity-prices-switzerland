@@ -59,10 +59,16 @@ export const useAnnotation = () => {
 };
 
 // Component
-export const AnnotationProvider = ({ children }: { children: ReactNode }) => {
+export const AnnotationProvider = ({
+  d,
+  children,
+}: {
+  d: Observation[] | undefined;
+  children: ReactNode;
+}) => {
   const [state, dispatch] = useReducer<
     Reducer<AnnotationState, AnnotationStateAction>
-  >(AnnotationStateReducer, ANNOTATION_INITIAL_STATE);
+  >(AnnotationStateReducer, { d });
 
   return (
     <AnnotationStateContext.Provider value={[state, dispatch]}>
