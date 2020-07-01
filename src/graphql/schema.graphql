@@ -41,6 +41,14 @@ type Observation {
   gridusage: Float!
   energy: Float!
   fixcostspercent: Float!
+
+}
+
+input ObservationFilters {
+  period: [String]
+  municipality: [String]
+  provider: [String]
+  category: [String]
 }
 
 type Cube {
@@ -48,12 +56,12 @@ type Cube {
   iri: String!
   dimensionPeriod: TemporalDimension
 
-  observations(period:String!) : [Observation!]!
+  observations(filters: ObservationFilters): [Observation!]!
 }
 
 type Query {
   cubes(locale: String): [Cube!]!
-  cubeByIri(iri:String!, locale:String): Cube
+  cubeByIri(iri: String!, locale: String): Cube
   # TODO: Figure out proper query parameters!
   municipalities(locale: String, query: String): [Municipality!]!
   cantons(locale: String, query: String): [Canton!]!

@@ -61,6 +61,13 @@ export type Observation = {
   fixcostspercent: Scalars['Float'];
 };
 
+export type ObservationFilters = {
+  period?: Maybe<Array<Maybe<Scalars['String']>>>;
+  municipality?: Maybe<Array<Maybe<Scalars['String']>>>;
+  provider?: Maybe<Array<Maybe<Scalars['String']>>>;
+  category?: Maybe<Array<Maybe<Scalars['String']>>>;
+};
+
 export type Cube = {
   __typename: 'Cube';
   name: Scalars['String'];
@@ -71,7 +78,7 @@ export type Cube = {
 
 
 export type CubeObservationsArgs = {
-  period: Scalars['String'];
+  filters?: Maybe<ObservationFilters>;
 };
 
 export type Query = {

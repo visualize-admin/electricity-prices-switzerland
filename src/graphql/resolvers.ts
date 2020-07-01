@@ -1,6 +1,11 @@
-import rdf from "rdf-ext";
 import { parseObservationValue } from "../lib/observations";
-import { getCubeDimension, getName, getObservations, getSource } from "./rdf";
+import {
+  buildDimensionFilter,
+  getCubeDimension,
+  getName,
+  getObservations,
+  getSource,
+} from "./rdf";
 import {
   CantonResolvers,
   CubeResolvers,
@@ -92,22 +97,16 @@ const Cube: CubeResolvers = {
   dimensionPeriod: ({ cube, locale }) => {
     return getCubeDimension(cube, "period", { locale });
   },
-  observations: async ({ cube, locale }, { period }) => {
-    const periodDim = getCubeDimension(cube, "period", { locale });
-    const categoryDim = getCubeDimension(cube, "category", { locale });
+  observations: async ({ cube, locale }, { filters }) => {
+    const queryFilters = filters
+      ? Object.entries(filters).map(([dimensionKey, filterValues]) =>
+          buildDimensionFilter(cube, dimensionKey, filterValues)
+        )
+      : [];
 
-    const periodFilter = periodDim.dimension.filter.eq(
-      rdf.literal(period, periodDim.datatype)
-    );
-    const categoryFilter = categoryDim.dimension.filter.eq(
-      rdf.namedNode(
-        "https://energy.ld.admin.ch/elcom/energy-pricing/category/H4"
-      )
-    );
-
-    const filters = [periodFilter, categoryFilter];
-
-    const rawObservations = await getObservations(cube, { filters });
+    const rawObservations = await getObservations(cube, {
+      filters: queryFilters,
+    });
 
     return rawObservations.map((d) => {
       let parsed: Partial<Observation> = {};

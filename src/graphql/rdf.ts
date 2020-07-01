@@ -1,3 +1,4 @@
+import rdf from "rdf-ext";
 import { Clownface } from "clownface";
 import { Source, View } from "@zazuko/rdf-cube-view-query";
 import namespace from "@rdfjs/namespace";
@@ -17,8 +18,6 @@ const ns = {
   schema: namespace("http://schema.org/"),
   xsd: namespace("http://www.w3.org/2001/XMLSchema#"),
 };
-
-console.log(ns.energyPricing);
 
 export const getSource = () =>
   new Source({
@@ -49,8 +48,10 @@ export const getObservations = async (
   cube: Cube,
   { filters }: { filters: $FixMe[] }
 ) => {
-  const ogView = View.fromCube(cube);
-  const view = View.fromCube(cube, { dimensions: ogView.dimensions, filters });
+  const view = View.fromCube(cube, { filters });
+
+  console.log(view.observationsQuery().query.toString());
+
   return view.observations();
 };
 
@@ -86,4 +87,41 @@ export const getCubeDimension = (
     datatype: cubeDimension.datatype,
     dimension: viewDimension,
   };
+};
+
+export const buildDimensionFilter = (
+  cube: Cube,
+  dimensionKey: string,
+  filters: string[]
+) => {
+  const view = getView(cube);
+
+  const viewDimension = view.dimensions.find((dimension) => {
+    return dimension.cubeDimensions.some((cubeDimension) =>
+      cubeDimension.path.equals(ns.energyPricing(dimensionKey))
+    );
+  });
+
+  const cubeDimension = viewDimension?.cubeDimensions[0];
+
+  if (!cubeDimension) {
+    throw Error(`No dimension for '${dimensionKey}'`);
+  }
+
+  const { datatype } = cubeDimension;
+
+  const dimensionFilter =
+    filters.length === 1
+      ? viewDimension.filter.eq(
+          datatype
+            ? rdf.literal(filters[0], datatype)
+            : rdf.namedNode(filters[0])
+        )
+      : viewDimension.filter.in(
+          filters.map((f) => {
+            return datatype ? rdf.literal(f, datatype) : rdf.namedNode(f);
+          })
+        );
+
+  return dimensionFilter;
 };

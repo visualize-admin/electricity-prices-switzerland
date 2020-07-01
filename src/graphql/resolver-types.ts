@@ -60,6 +60,13 @@ export type Observation = {
   fixcostspercent: Scalars['Float'];
 };
 
+export type ObservationFilters = {
+  period?: Maybe<Array<Maybe<Scalars['String']>>>;
+  municipality?: Maybe<Array<Maybe<Scalars['String']>>>;
+  provider?: Maybe<Array<Maybe<Scalars['String']>>>;
+  category?: Maybe<Array<Maybe<Scalars['String']>>>;
+};
+
 export type Cube = {
   __typename?: 'Cube';
   name: Scalars['String'];
@@ -70,7 +77,7 @@ export type Cube = {
 
 
 export type CubeObservationsArgs = {
-  period: Scalars['String'];
+  filters?: Maybe<ObservationFilters>;
 };
 
 export type Query = {
@@ -209,6 +216,7 @@ export type ResolversTypes = ResolversObject<{
   Canton: ResolverTypeWrapper<ResolvedCanton>;
   TemporalDimension: ResolverTypeWrapper<TemporalDimension>;
   Observation: ResolverTypeWrapper<Observation>;
+  ObservationFilters: ObservationFilters;
   Cube: ResolverTypeWrapper<ResolvedCube>;
   Query: ResolverTypeWrapper<{}>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
@@ -224,6 +232,7 @@ export type ResolversParentTypes = ResolversObject<{
   Canton: ResolvedCanton;
   TemporalDimension: TemporalDimension;
   Observation: Observation;
+  ObservationFilters: ObservationFilters;
   Cube: ResolvedCube;
   Query: {};
   Boolean: Scalars['Boolean'];
@@ -282,7 +291,7 @@ export type CubeResolvers<ContextType = any, ParentType extends ResolversParentT
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   iri?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   dimensionPeriod?: Resolver<Maybe<ResolversTypes['TemporalDimension']>, ParentType, ContextType>;
-  observations?: Resolver<Array<ResolversTypes['Observation']>, ParentType, ContextType, RequireFields<CubeObservationsArgs, 'period'>>;
+  observations?: Resolver<Array<ResolversTypes['Observation']>, ParentType, ContextType, RequireFields<CubeObservationsArgs, never>>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 }>;
 
