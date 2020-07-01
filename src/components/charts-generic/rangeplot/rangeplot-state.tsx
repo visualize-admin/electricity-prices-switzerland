@@ -1,42 +1,20 @@
-import {
-  scaleSequential,
-  scaleBand,
-  ScaleBand,
-  ScaleSequential,
-  interpolateRainbow,
-  interpolateLab,
-  interpolateViridis,
-} from "d3";
-import {
-  ascending,
-  Bin,
-  descending,
-  max,
-  median,
-  min,
-  extent,
-  group,
-  rollup,
-} from "d3-array";
+import { interpolateLab, scaleBand, ScaleBand } from "d3";
+import { ascending, extent, group, median, rollup } from "d3-array";
 import { ScaleLinear, scaleLinear } from "d3-scale";
 import * as React from "react";
 import { ReactNode, useCallback } from "react";
-import {
-  RangePlotFields,
-  SortingOrder,
-  SortingType,
-} from "../../../domain/config-types";
+import { RangePlotFields } from "../../../domain/config-types";
 import { Observation, ObservationValue } from "../../../domain/data";
-import { mkNumber, useFormatNumber } from "../../../domain/helpers";
+import { useFormatNumber } from "../../../domain/helpers";
 import { estimateTextWidth } from "../../../lib/estimate-text-width";
-import { LEFT_MARGIN_OFFSET, BOTTOM_MARGIN_OFFSET } from "../constants";
+import { BOTTOM_MARGIN_OFFSET, LEFT_MARGIN_OFFSET } from "../constants";
 import { ChartContext, ChartProps } from "../use-chart-state";
 import { InteractionProvider } from "../use-interaction";
 import { Bounds, Observer, useWidth } from "../use-width";
-import { sortByIndex } from "../../../lib/array";
 
 export const DOT_RADIUS = 8;
 export const SPACE_ABOVE = 8;
+export const ANNOTATION_DOT_RADIUS = 2.5;
 
 export interface RangePlotState {
   bounds: Bounds;
