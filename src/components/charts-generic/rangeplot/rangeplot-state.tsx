@@ -68,7 +68,7 @@ const useRangePlotState = ({
   );
 
   const xDomain = extent(data, (d) => getX(d));
-  const xScale = scaleLinear().domain(xDomain).nice();
+  const xScale = scaleLinear().domain(xDomain);
 
   // y
   // Sort by group median
@@ -101,7 +101,7 @@ const useRangePlotState = ({
   );
   const margins = {
     top: 70,
-    right: 1,
+    right: 5,
     bottom: BOTTOM_MARGIN_OFFSET,
     left: left + LEFT_MARGIN_OFFSET,
   };
@@ -114,7 +114,7 @@ const useRangePlotState = ({
     chartHeight,
   };
 
-  xScale.range([0, chartWidth]);
+  xScale.range([0, chartWidth]).nice();
 
   // Group
   const rangeGroups = [...group(data, getY)];
