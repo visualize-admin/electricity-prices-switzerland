@@ -5,7 +5,7 @@ import { useChartTheme } from "../use-chart-theme";
 import { RangePlotState, DOT_RADIUS } from "./rangeplot-state";
 import { normalize } from "../../../lib/array";
 
-export const RangePlotRows = () => {
+export const Range = () => {
   const {
     bounds,
     xScale,
@@ -16,12 +16,6 @@ export const RangePlotRows = () => {
   } = useChartState() as RangePlotState;
 
   const { margins, chartWidth } = bounds;
-  const {
-    labelColor,
-    labelFontSize,
-    fontFamily,
-    domainColor,
-  } = useChartTheme();
 
   return (
     <>
@@ -52,6 +46,56 @@ export const RangePlotRows = () => {
                   fillOpacity={0.3}
                   clipPath={`url(#cut-off-range-${row[0]})`}
                 />
+              </g>
+            </React.Fragment>
+          );
+        })}
+      </g>
+      <defs>
+        <linearGradient id="priceRange" x1="0%" y1="0%" x2="100%" y2="0%">
+          {colors.range().map((color, i) => {
+            const normalized = normalize(
+              colors.domain()[i],
+              colors.domain().slice(-1).pop(),
+              colors.domain()[0]
+            );
+            return <stop key={color} offset={normalized} stopColor={color} />;
+          })}
+        </linearGradient>
+      </defs>
+    </>
+  );
+};
+
+export const RangePoints = () => {
+  const {
+    bounds,
+    xScale,
+    getX,
+    yScale,
+    colors,
+    rangeGroups,
+  } = useChartState() as RangePlotState;
+
+  const { margins, chartWidth } = bounds;
+  const {
+    labelColor,
+    labelFontSize,
+    fontFamily,
+    domainColor,
+  } = useChartTheme();
+
+  return (
+    <>
+      <g transform={`translate(${margins.left} ${margins.top})`}>
+        {rangeGroups.map((row) => {
+          const xMin = min(row[1], (d) => getX(d));
+          const m = median(row[1], (d) => getX(d));
+          const xMax = max(row[1], (d) => getX(d));
+
+          return (
+            <React.Fragment key={row[0]}>
+              <g key={row[0]} transform={`translate(0, ${yScale(row[0])})`}>
                 <circle
                   cx={xScale(xMin)}
                   cy={DOT_RADIUS}
@@ -91,18 +135,6 @@ export const RangePlotRows = () => {
           );
         })}
       </g>
-      <defs>
-        <linearGradient id="priceRange" x1="0%" y1="0%" x2="100%" y2="0%">
-          {colors.range().map((color, i) => {
-            const normalized = normalize(
-              colors.domain()[i],
-              colors.domain().slice(-1).pop(),
-              colors.domain()[0]
-            );
-            return <stop key={color} offset={normalized} stopColor={color} />;
-          })}
-        </linearGradient>
-      </defs>
     </>
   );
 };

@@ -1,6 +1,9 @@
 import { markdown, ReactSpecimen } from "catalog";
 
-import { RangePlotRows } from "../components/charts-generic/rangeplot/rangeplot";
+import {
+  Range,
+  RangePoints,
+} from "../components/charts-generic/rangeplot/rangeplot";
 import { RangePlot } from "../components/charts-generic/rangeplot/rangeplot-state";
 import {
   ChartContainer,
@@ -36,8 +39,9 @@ export default () => {
       >
         <ChartContainer>
           <ChartSvg>
+            <Range />
             <AxisWidthLinear position="top" />
-            <RangePlotRows />
+            <RangePoints />
           </ChartSvg>
         </ChartContainer>
       </RangePlot>
