@@ -10,28 +10,24 @@ export const RangePlotRows = () => {
     bounds,
     xScale,
     getX,
-    getY,
     yScale,
     colors,
-    sortedGroups,
+    rangeGroups,
   } = useChartState() as RangePlotState;
 
   const { margins, chartWidth } = bounds;
   const {
     labelColor,
-    gridColor,
     labelFontSize,
     fontFamily,
     domainColor,
   } = useChartTheme();
-  console.log({ sortedGroups });
+
   return (
     <>
       <g transform={`translate(${margins.left} ${margins.top})`}>
-        {sortedGroups.map((row) => {
-          console.log({ row });
+        {rangeGroups.map((row) => {
           const xMin = min(row[1], (d) => getX(d));
-
           const m = median(row[1], (d) => getX(d));
           const xMax = max(row[1], (d) => getX(d));
 
@@ -43,7 +39,7 @@ export const RangePlotRows = () => {
                   width={xScale(xMax) - xScale(xMin) + DOT_RADIUS * 2}
                   height={DOT_RADIUS * 2}
                   rx={DOT_RADIUS}
-                  fillOpacity={0.3}
+                  fillOpacity={0.2}
                 />
               </clipPath>
               <g key={row[0]} transform={`translate(0, ${yScale(row[0])})`}>

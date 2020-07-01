@@ -46,7 +46,7 @@ export interface RangePlotState {
   getY: (d: Observation) => string;
   yScale: ScaleBand<string>;
   colors: ScaleLinear<string, string>;
-  sortedGroups: [string, Record<string, ObservationValue>[]][];
+  rangeGroups: [string, Record<string, ObservationValue>[]][];
 }
 
 const useRangePlotState = ({
@@ -88,7 +88,7 @@ const useRangePlotState = ({
     .range([0, chartHeight]);
 
   const m = median(data, (d) => getX(d));
-  const colorDomain = [xDomain[0], m - m * 0.15, m, m + m * 0.15, xDomain[1]];
+  const colorDomain = [xDomain[0], m - m * 0.1, m, m + m * 0.1, xDomain[1]];
   const colorRange = ["#24B39C", "#A8DC90", "#E7EC83", "#F1B865", "#D64B47"];
   const colors = scaleLinear<string, string>()
     .domain(colorDomain)
@@ -117,12 +117,7 @@ const useRangePlotState = ({
   xScale.range([0, chartWidth]);
 
   // Group
-  const sortedGroups = sortByIndex({
-    data: [...group(data, getY)],
-    order: yOrderedDomain,
-    getCategory: (d) => d[0],
-    sortOrder: "asc",
-  });
+  const rangeGroups = [...group(data, getY)];
 
   return {
     bounds,
@@ -132,7 +127,7 @@ const useRangePlotState = ({
     getY,
     yScale,
     colors,
-    sortedGroups,
+    rangeGroups,
   };
 };
 
