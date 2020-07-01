@@ -8,12 +8,16 @@ export const useChartTheme = () => {
   const gridColor = theme.colors.monochrome300;
   const labelFontSize = 12;
   const fontFamily = theme.fonts.body;
+  const annotationfontSize = 14;
+  const annotationColor = theme.colors.monochrome900;
   return {
     labelColor,
     labelFontSize,
     domainColor,
     gridColor,
     legendLabelColor,
-    fontFamily
+    fontFamily,
+    annotationfontSize,
+    annotationColor,
   };
 };
