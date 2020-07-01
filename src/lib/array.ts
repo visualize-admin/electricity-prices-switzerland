@@ -21,3 +21,5 @@ export const sortByIndex = <T>({
 
   return data;
 };
+
+export const normalize = (val, max, min) => (val - min) / (max - min);

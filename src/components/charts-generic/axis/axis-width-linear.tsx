@@ -1,4 +1,4 @@
-import { axisBottom } from "d3-axis";
+import { axisBottom, axisTop } from "d3-axis";
 import { select, Selection } from "d3-selection";
 import * as React from "react";
 import { useEffect, useRef } from "react";
@@ -7,24 +7,16 @@ import { useChartTheme } from "../use-chart-theme";
 
 import { estimateTextWidth } from "../../../lib/estimate-text-width";
 import { useFormatNumber } from "../../../domain/helpers";
-import { HistogramState } from "../histogram/histogram-state";
+import { RangePlotState } from "../rangeplot/rangeplot-state";
 
-export const AxisWidthLinear = () => {
+export const AxisWidthLinear = ({ position }: { position: "top" | "bottom" }) =>
+  position === "bottom" ? <AxisWidthLinearBottom /> : <AxisWidthLinearTop />;
+
+export const AxisWidthLinearBottom = () => {
   const formatNumber = useFormatNumber();
-  const {
-    xScale,
-    bounds,
-    xAxisLabel,
-    colors,
-  } = useChartState() as HistogramState;
+  const { xScale, bounds } = useChartState() as RangePlotState;
   const { chartWidth, chartHeight, margins } = bounds;
-  const {
-    labelColor,
-    domainColor,
-    labelFontSize,
-    gridColor,
-    fontFamily,
-  } = useChartTheme();
+  const { labelColor, labelFontSize, gridColor, fontFamily } = useChartTheme();
   const xAxisRef = useRef<SVGGElement>(null);
 
   const mkAxis = (g: Selection<SVGGElement, unknown, null, undefined>) => {
@@ -34,18 +26,13 @@ export const AxisWidthLinear = () => {
 
     g.call(
       axisBottom(xScale)
-        .tickValues(colors.domain())
-        // .tickValues(tickValues)
-        .tickSizeInner(16)
-        // .tickSizeInner(-chartHeight)
-        .tickSizeOuter(xAxisLabel ? -chartHeight : 0)
+        .tickValues(tickValues)
+        .tickSizeInner(-chartHeight)
+        .tickSizeOuter(-chartHeight)
         .tickFormat(formatNumber)
     );
 
-    g.selectAll(".tick line")
-      // FIXME: stroke should depend on whether there is a colorScale defined for the bars
-      .attr("stroke", domainColor)
-      .attr("stroke-width", 1);
+    g.selectAll(".tick line").attr("stroke", gridColor).attr("stroke-width", 1);
     g.selectAll(".tick text")
       .attr("font-size", labelFontSize)
       .attr("font-family", fontFamily)
@@ -64,19 +51,18 @@ export const AxisWidthLinear = () => {
 
   return (
     <>
-      {xAxisLabel && (
-        <g transform={`translate(${margins.left}, ${margins.top})`}>
-          <text
-            x={chartWidth}
-            y={chartHeight + margins.bottom}
-            dy={-labelFontSize}
-            fontSize={labelFontSize}
-            textAnchor="end"
-          >
-            {xAxisLabel}
-          </text>
-        </g>
-      )}
+      {/*
+      <g transform={`translate(${margins.left}, ${margins.top})`}>
+     <text
+          x={chartWidth}
+          y={chartHeight + margins.bottom}
+          dy={-labelFontSize}
+          fontSize={labelFontSize}
+          textAnchor="end"
+        >
+          {xAxisLabel}
+        </text>
+      </g> */}
       <g
         ref={xAxisRef}
         key="x-axis-linear"
@@ -86,8 +72,71 @@ export const AxisWidthLinear = () => {
   );
 };
 
+export const AxisWidthLinearTop = () => {
+  const formatNumber = useFormatNumber();
+  const { xScale, bounds } = useChartState() as RangePlotState;
+  const { chartWidth, chartHeight, margins } = bounds;
+  const { labelColor, labelFontSize, gridColor, fontFamily } = useChartTheme();
+  const xAxisRef = useRef<SVGGElement>(null);
+
+  const mkAxis = (g: Selection<SVGGElement, unknown, null, undefined>) => {
+    const maxLabelLength = estimateTextWidth(formatNumber(xScale.domain()[1]));
+    const ticks = Math.min(bounds.chartWidth / (maxLabelLength + 20), 4);
+    const tickValues = xScale.ticks(ticks);
+
+    g.call(
+      axisTop(xScale)
+        .tickValues(tickValues)
+        .tickSizeInner(-chartHeight - margins.bottom - margins.top / 2)
+        .tickSizeOuter(-chartHeight - margins.bottom - margins.top / 2)
+        .tickFormat(formatNumber)
+        .tickPadding(6)
+    );
+
+    g.selectAll(".tick line").attr("stroke", gridColor).attr("stroke-width", 1);
+    g.selectAll(".tick text")
+      .attr("font-size", labelFontSize)
+      .attr("font-family", fontFamily)
+      .attr("fill", labelColor)
+      .attr("x", 0)
+      .attr("text-anchor", "middle");
+
+    g.selectAll(".tick:first-of-type text").attr("text-anchor", "start");
+    g.selectAll(".tick:last-of-type text").attr("text-anchor", "end");
+
+    g.select("path.domain").remove();
+  };
+
+  useEffect(() => {
+    const g = select(xAxisRef.current);
+    mkAxis(g as Selection<SVGGElement, unknown, null, undefined>);
+  });
+
+  return (
+    <>
+      <g transform={`translate(${margins.left}, 0)`}>
+        <text
+          x={chartWidth + margins.right}
+          y={0}
+          dy={labelFontSize}
+          fontSize={labelFontSize}
+          textAnchor="end"
+        >
+          {/* FIXME */}
+          {"CHF"}
+        </text>
+      </g>
+      <g
+        ref={xAxisRef}
+        key="x-axis-linear"
+        transform={`translate(${margins.left}, ${margins.top / 2})`}
+      />
+    </>
+  );
+};
+
 export const AxisWidthLinearDomain = () => {
-  const { xScale, yScale, bounds } = useChartState() as HistogramState;
+  const { xScale, yScale, bounds } = useChartState() as RangePlotState;
   const { chartHeight, margins } = bounds;
   const { domainColor } = useChartTheme();
   const xAxisDomainRef = useRef<SVGGElement>(null);
@@ -100,7 +149,7 @@ export const AxisWidthLinearDomain = () => {
     g.selectAll(".tick text").remove();
     g.select("path.domain")
       .attr("data-name", "width-axis-domain")
-      .attr("transform", `translate(0, -${bounds.chartHeight - yScale(0)})`)
+      .attr("transform", `translate(0, -${bounds.chartHeight})`)
       .attr("stroke", domainColor);
   };
 

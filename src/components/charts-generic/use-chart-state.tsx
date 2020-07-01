@@ -9,6 +9,7 @@ import { HistogramState } from "./histogram/histogram-state";
 import { LinesState } from "./lines/lines-state";
 import { BarsState } from "./bars/bars-state";
 import { GroupedBarsState } from "./bars/bars-grouped-state";
+import { RangePlotState } from "./rangeplot/rangeplot-state";
 
 export interface ChartProps {
   data: Observation[];
@@ -25,7 +26,8 @@ export type ChartState =
   | GroupedColumnsState
   | AreasState
   | LinesState
-  | HistogramState;
+  | HistogramState
+  | RangePlotState;
 
 export const ChartContext = createContext<ChartState>(undefined);
 
