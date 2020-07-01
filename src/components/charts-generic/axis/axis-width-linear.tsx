@@ -149,7 +149,7 @@ export const AxisWidthLinearDomain = () => {
     g.selectAll(".tick text").remove();
     g.select("path.domain")
       .attr("data-name", "width-axis-domain")
-      .attr("transform", `translate(0, -${bounds.chartHeight - yScale(0)})`)
+      .attr("transform", `translate(0, -${bounds.chartHeight})`)
       .attr("stroke", domainColor);
   };
 
