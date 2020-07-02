@@ -151,6 +151,14 @@ export type MunicipalitiesQueryVariables = Exact<{
 
 export type MunicipalitiesQuery = { __typename: 'Query', municipalities: Array<{ __typename: 'Municipality', name: string }> };
 
+export type ObservationsQueryVariables = Exact<{
+  locale?: Maybe<Scalars['String']>;
+  filters: ObservationFilters;
+}>;
+
+
+export type ObservationsQuery = { __typename: 'Query', cubeByIri?: Maybe<{ __typename: 'Cube', observations: Array<{ __typename: 'Observation', period: string, municipality: string, provider: string, category: string, aidfee: number, charge: number, fixcosts: number, fixcostspercent: number, energy: number, gridusage: number }> }> };
+
 
 export const MunicipalitiesDocument = gql`
     query Municipalities($locale: String!, $query: String) {
@@ -162,4 +170,26 @@ export const MunicipalitiesDocument = gql`
 
 export function useMunicipalitiesQuery(options: Omit<Urql.UseQueryArgs<MunicipalitiesQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<MunicipalitiesQuery>({ query: MunicipalitiesDocument, ...options });
+};
+export const ObservationsDocument = gql`
+    query Observations($locale: String, $filters: ObservationFilters!) {
+  cubeByIri(iri: "https://energy.ld.admin.ch/elcom/energy-pricing/cube", locale: $locale) {
+    observations(filters: $filters) {
+      period
+      municipality
+      provider
+      category
+      aidfee
+      charge
+      fixcosts
+      fixcostspercent
+      energy
+      gridusage
+    }
+  }
+}
+    `;
+
+export function useObservationsQuery(options: Omit<Urql.UseQueryArgs<ObservationsQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<ObservationsQuery>({ query: ObservationsDocument, ...options });
 };

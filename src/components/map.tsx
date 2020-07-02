@@ -3,6 +3,7 @@ import { MapController } from "@deck.gl/core";
 import DeckGL from "@deck.gl/react";
 import { useEffect, useMemo, useState } from "react";
 import { feature as topojsonFeature } from "topojson-client";
+import { useObservationsQuery } from "../graphql/queries";
 
 const INITIAL_VIEW_STATE = {
   latitude: 46.8182,
@@ -17,6 +18,17 @@ export const ChoroplethMap = ({ year }: { year: string }) => {
   const [data, setData] = useState<GeoJSON.Feature | undefined>();
   const [hovered, setHovered] = useState();
 
+  const [observations] = useObservationsQuery({
+    variables: {
+      filters: {
+        period: [(parseInt(year, 10) + 1).toString()],
+        category: [
+          "https://energy.ld.admin.ch/elcom/energy-pricing/category/H4",
+        ],
+      },
+    },
+  });
+
   useEffect(() => {
     const load = async () => {
       const topo = await fetch(
@@ -28,37 +40,90 @@ export const ChoroplethMap = ({ year }: { year: string }) => {
     load();
   }, [year]);
 
-  const layer = useMemo(() => {
-    return new GeoJsonLayer({
-      id: "municipalities",
-      data,
-      pickable: true,
-      stroked: false,
-      filled: true,
-      extruded: false,
-      // lineWidthScale: 20,
-      lineWidthMinPixels: 1,
-      autoHighlight: true,
-      getFillColor: (d) => {
-        return [Math.round(Math.random() * 255), 160, 180];
-      },
-      highlightColor: [0, 0, 0,50],
-      getLineColor: [255, 255, 255],
-      getRadius: 100,
-      getLineWidth: 1,
-      onHover: (info) => {
-        setHovered(info.object?.id.toString());
-      },
-    });
-  }, [data]);
+  const empty = useMemo(() => [], []);
 
-  return data ? (
-    <DeckGL
-      controller={{ type: MapController }}
-      initialViewState={INITIAL_VIEW_STATE}
-      layers={[layer]}
-    />
-  ) : (
-    <div>Loading</div>
+  const municipalityObservations =
+    observations.data?.cubeByIri?.observations ?? empty;
+
+  const observationsByMunicipalityId = useMemo(() => {
+    console.log(municipalityObservations.length);
+    return new Map(
+      municipalityObservations.map((d) => [
+        d.municipality.replace(
+          "http://classifications.data.admin.ch/municipality/",
+          ""
+        ),
+        d,
+      ])
+    );
+  }, [year, municipalityObservations]);
+
+  // const layer = useMemo(() => {
+  //   console.log("new layer",year)
+  //   return new GeoJsonLayer({
+  //     id: "municipalities"+year,
+  //     data,
+  //     pickable: true,
+  //     stroked: false,
+  //     filled: true,
+  //     extruded: false,
+  //     // lineWidthScale: 20,
+  //     lineWidthMinPixels: 1,
+  //     autoHighlight: true,
+  //     getFillColor: (d) => {
+  //       const obs = observationsByMunicipalityId.get(d.id.toString());
+  //       return obs ? [Math.round(obs.charge * 50), 160, 180] : [0, 0, 0, 20];
+  //     },
+  //     highlightColor: [0, 0, 0, 50],
+  //     getLineColor: [255, 255, 255],
+  //     getRadius: 100,
+  //     getLineWidth: 1,
+  //     onHover: (info) => {
+  //       setHovered(info.object?.id.toString());
+  //     },
+  //   });
+  // }, [year, observationsByMunicipalityId, data]);
+
+  const layerProps = {
+    id: "municipalities",
+    data,
+    pickable: true,
+    stroked: false,
+    filled: true,
+    extruded: false,
+    // lineWidthScale: 20,
+    lineWidthMinPixels: 1,
+    autoHighlight: true,
+    getFillColor: (d) => {
+      const obs = observationsByMunicipalityId.get(d.id.toString());
+      return obs ? [Math.round(obs.charge * 50), 160, 180] : [0, 0, 0, 20];
+    },
+    highlightColor: [0, 0, 0, 50],
+    getLineColor: [255, 255, 255],
+    getRadius: 100,
+    getLineWidth: 1,
+    onHover: (info) => {
+      setHovered(info.object?.id.toString());
+    },
+    updateTriggers: { getFillColor: [observationsByMunicipalityId] },
+  };
+
+  return (
+    <>
+      <div>
+        {!data && <span>Loading map</span>}
+        {observations.fetching && <span>Loading observations</span>}
+      </div>
+
+      {data ? (
+        <DeckGL
+          controller={{ type: MapController }}
+          initialViewState={INITIAL_VIEW_STATE}
+          // layers={[layer]}
+        >
+          <GeoJsonLayer {...layerProps} />
+        </DeckGL>
+      ) : null}
+    </>
   );
 };

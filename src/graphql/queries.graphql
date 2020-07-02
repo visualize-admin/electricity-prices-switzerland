@@ -3,3 +3,24 @@ query Municipalities($locale: String!, $query: String) {
     name
   }
 }
+
+query Observations($locale: String, $filters: ObservationFilters!) {
+  cubeByIri(
+    iri: "https://energy.ld.admin.ch/elcom/energy-pricing/cube"
+    locale: $locale
+  ) {
+    observations(filters: $filters) {
+      period
+      municipality
+      provider
+      category
+
+      aidfee
+      charge
+      fixcosts
+      fixcostspercent
+      energy
+      gridusage
+    }
+  }
+}
