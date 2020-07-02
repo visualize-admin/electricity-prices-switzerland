@@ -1,10 +1,12 @@
-import { GeoJsonLayer } from "@deck.gl/layers";
 import { MapController } from "@deck.gl/core";
+import { GeoJsonLayer } from "@deck.gl/layers";
 import DeckGL from "@deck.gl/react";
+import { color, interpolateRdYlGn } from "d3";
+import { group } from "d3-array";
+import { scaleQuantile } from "d3-scale";
 import { useEffect, useMemo, useState } from "react";
 import { feature as topojsonFeature } from "topojson-client";
-import { useObservationsQuery, Observation } from "../graphql/queries";
-import { group } from "d3-array";
+import { Observation, useObservationsQuery } from "../graphql/queries";
 
 const INITIAL_VIEW_STATE = {
   latitude: 46.8182,
@@ -56,6 +58,23 @@ export const ChoroplethMap = ({ year }: { year: string }) => {
     );
   }, [municipalityObservations]);
 
+  useEffect(() => {
+    if (hovered) {
+      console.log(observationsByMunicipalityId.get(hovered));
+    }
+  }, [hovered]);
+
+  const colorScale = scaleQuantile(
+    // @ts-ignore
+    municipalityObservations.map((d) => d.charge),
+    [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]
+  );
+
+  const getColor = (v: number) => {
+    const c = interpolateRdYlGn(1 - colorScale(v));
+    const rgb = color(c).rgb();
+    return [rgb.r, rgb.g, rgb.b];
+  };
   // const layer = useMemo(() => {
   //   console.log("new layer",year)
   //   return new GeoJsonLayer({
@@ -94,7 +113,7 @@ export const ChoroplethMap = ({ year }: { year: string }) => {
     autoHighlight: true,
     getFillColor: (d) => {
       const obs = observationsByMunicipalityId.get(d.id.toString())?.[0];
-      return obs ? [Math.round(obs.charge * 50), 160, 180] : [0, 0, 0, 20];
+      return obs ? getColor(obs.charge) : [0, 0, 0, 20];
     },
     highlightColor: [0, 0, 0, 50],
     getLineColor: [255, 255, 255],
