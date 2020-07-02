@@ -1,10 +1,20 @@
+import { parseObservationValue } from "../lib/observations";
 import {
+  buildDimensionFilter,
+  getCubeDimension,
+  getName,
+  getObservations,
+  getSource,
+  getView,
+} from "./rdf";
+import {
+  CantonResolvers,
+  CubeResolvers,
+  MunicipalityResolvers,
+  Observation,
+  ProviderResolvers,
   QueryResolvers,
   Resolvers,
-  PriceComponentsResolvers,
-  MunicipalityResolvers,
-  CantonResolvers,
-  ProviderResolvers,
 } from "./resolver-types";
 
 const MOCK_DATA = {
@@ -23,6 +33,16 @@ const MOCK_DATA = {
 };
 
 const Query: QueryResolvers = {
+  cubes: async (_, { locale }) => {
+    const source = getSource();
+    const cubes = await source.cubes();
+    return cubes.map((cube) => ({ locale, cube }));
+  },
+  cubeByIri: async (_, { locale, iri }) => {
+    const source = getSource();
+    const cube = await source.cube(iri);
+    return { locale, cube, view: getView(cube) };
+  },
   municipalities: async () => [{ id: "1" }, { id: "2" }],
   cantons: async () => [{ id: "1" }, { id: "2" }],
   providers: async () => [{ id: "1" }, { id: "2" }],
@@ -70,9 +90,44 @@ const Provider: ProviderResolvers = {
   },
 };
 
+const Cube: CubeResolvers = {
+  iri: ({ cube }) => cube.term?.value,
+  name: ({ cube, locale }) => {
+    return getName(cube, { locale });
+  },
+  dimensionPeriod: ({ cube, locale }) => {
+    return getCubeDimension(cube, "period", { locale });
+  },
+  observations: async ({ view, locale }, { filters }) => {
+    const queryFilters = filters
+      ? Object.entries(filters).map(([dimensionKey, filterValues]) =>
+          buildDimensionFilter(view, dimensionKey, filterValues)
+        )
+      : [];
+
+    const rawObservations = await getObservations(view, {
+      filters: queryFilters,
+    });
+
+    return rawObservations.map((d) => {
+      let parsed: Partial<Observation> = {};
+      for (const [k, v] of Object.entries(d)) {
+        parsed[
+          k.replace(
+            "https://energy.ld.admin.ch/elcom/energy-pricing/dimension/",
+            ""
+          )
+        ] = parseObservationValue(v as $FixMe);
+      }
+      return parsed;
+    });
+  },
+};
+
 export const resolvers: Resolvers = {
   Query,
   Municipality,
   Provider,
   Canton,
+  Cube,
 };

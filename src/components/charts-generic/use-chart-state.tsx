@@ -5,9 +5,11 @@ import { AreasState } from "./areas/areas-state";
 import { GroupedColumnsState } from "./columns/columns-grouped-state";
 import { StackedColumnsState } from "./columns/columns-stacked-state";
 import { ColumnsState } from "./columns/columns-state";
+import { HistogramState } from "./histogram/histogram-state";
 import { LinesState } from "./lines/lines-state";
 import { BarsState } from "./bars/bars-state";
 import { GroupedBarsState } from "./bars/bars-grouped-state";
+import { RangePlotState } from "./rangeplot/rangeplot-state";
 
 export interface ChartProps {
   data: Observation[];
@@ -23,7 +25,9 @@ export type ChartState =
   | StackedColumnsState
   | GroupedColumnsState
   | AreasState
-  | LinesState;
+  | LinesState
+  | HistogramState
+  | RangePlotState;
 
 export const ChartContext = createContext<ChartState>(undefined);
 

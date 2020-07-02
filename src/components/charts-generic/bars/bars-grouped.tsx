@@ -25,11 +25,10 @@ export const BarsGrouped = () => {
     fontFamily,
     domainColor,
   } = useChartTheme();
-  console.log(grouped);
+
   return (
     <g transform={`translate(${margins.left} ${margins.top})`}>
       {grouped.map((segment) => {
-        console.log("segment[0]", segment[0]);
         return (
           <g key={segment[0]} transform={`translate(0, ${yScale(segment[0])})`}>
             <line
