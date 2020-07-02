@@ -101,9 +101,6 @@ export const AxisWidthLinearTop = () => {
       .attr("x", 0)
       .attr("text-anchor", "middle");
 
-    g.selectAll(".tick:first-of-type text").attr("text-anchor", "start");
-    g.selectAll(".tick:last-of-type text").attr("text-anchor", "end");
-
     g.select("path.domain").remove();
   };
 

@@ -89,7 +89,7 @@ const useRangePlotState = ({
   );
   const margins = {
     top: 70,
-    right: 5,
+    right: 20,
     bottom: BOTTOM_MARGIN_OFFSET,
     left: left + LEFT_MARGIN_OFFSET,
   };
