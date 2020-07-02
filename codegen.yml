@@ -23,6 +23,7 @@ generates:
         Canton: "./shared-types#ResolvedCanton"
         Municipality: "./shared-types#ResolvedMunicipality"
         Provider: "./shared-types#ResolvedProvider"
+        Cube: "./shared-types#ResolvedCube"
       # scalars:
       #   Observation: "../domain/data#Observation"
       #   RawObservation: "../domain/data#RawObservation"

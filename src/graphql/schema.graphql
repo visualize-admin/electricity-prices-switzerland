@@ -22,7 +22,46 @@ type Canton {
   priceComponents: PriceComponents!
 }
 
+type TemporalDimension {
+  iri: String!
+  name: String
+  min: String!
+  max: String!
+}
+
+type Observation {
+  municipality: String!
+  provider: String!
+  category: String!
+  period: String!
+
+  aidfee: Float!
+  fixcosts: Float!
+  charge: Float!
+  gridusage: Float!
+  energy: Float!
+  fixcostspercent: Float!
+
+}
+
+input ObservationFilters {
+  period: [String]
+  municipality: [String]
+  provider: [String]
+  category: [String]
+}
+
+type Cube {
+  name: String!
+  iri: String!
+  dimensionPeriod: TemporalDimension
+
+  observations(filters: ObservationFilters): [Observation!]!
+}
+
 type Query {
+  cubes(locale: String): [Cube!]!
+  cubeByIri(iri: String!, locale: String): Cube
   # TODO: Figure out proper query parameters!
   municipalities(locale: String, query: String): [Municipality!]!
   cantons(locale: String, query: String): [Canton!]!

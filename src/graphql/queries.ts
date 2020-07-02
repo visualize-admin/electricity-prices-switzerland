@@ -39,14 +39,69 @@ export type Canton = {
   priceComponents: PriceComponents;
 };
 
+export type TemporalDimension = {
+  __typename: 'TemporalDimension';
+  iri: Scalars['String'];
+  name?: Maybe<Scalars['String']>;
+  min: Scalars['String'];
+  max: Scalars['String'];
+};
+
+export type Observation = {
+  __typename: 'Observation';
+  municipality: Scalars['String'];
+  provider: Scalars['String'];
+  category: Scalars['String'];
+  period: Scalars['String'];
+  aidfee: Scalars['Float'];
+  fixcosts: Scalars['Float'];
+  charge: Scalars['Float'];
+  gridusage: Scalars['Float'];
+  energy: Scalars['Float'];
+  fixcostspercent: Scalars['Float'];
+};
+
+export type ObservationFilters = {
+  period?: Maybe<Array<Maybe<Scalars['String']>>>;
+  municipality?: Maybe<Array<Maybe<Scalars['String']>>>;
+  provider?: Maybe<Array<Maybe<Scalars['String']>>>;
+  category?: Maybe<Array<Maybe<Scalars['String']>>>;
+};
+
+export type Cube = {
+  __typename: 'Cube';
+  name: Scalars['String'];
+  iri: Scalars['String'];
+  dimensionPeriod?: Maybe<TemporalDimension>;
+  observations: Array<Observation>;
+};
+
+
+export type CubeObservationsArgs = {
+  filters?: Maybe<ObservationFilters>;
+};
+
 export type Query = {
   __typename: 'Query';
+  cubes: Array<Cube>;
+  cubeByIri?: Maybe<Cube>;
   municipalities: Array<Municipality>;
   cantons: Array<Canton>;
   providers: Array<Provider>;
   municipality?: Maybe<Municipality>;
   canton?: Maybe<Canton>;
   provider?: Maybe<Provider>;
+};
+
+
+export type QueryCubesArgs = {
+  locale?: Maybe<Scalars['String']>;
+};
+
+
+export type QueryCubeByIriArgs = {
+  iri: Scalars['String'];
+  locale?: Maybe<Scalars['String']>;
 };
 
 
