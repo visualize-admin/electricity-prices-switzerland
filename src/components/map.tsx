@@ -42,11 +42,11 @@ export const ChoroplethMap = ({ year }: { year: string }) => {
 
   const empty = useMemo(() => [], []);
 
-  const municipalityObservations =
-    observations.data?.cubeByIri?.observations ?? empty;
+  const municipalityObservations = observations.fetching
+    ? empty
+    : observations.data?.cubeByIri?.observations ?? empty;
 
   const observationsByMunicipalityId = useMemo(() => {
-    console.log(municipalityObservations.length);
     return new Map(
       municipalityObservations.map((d) => [
         d.municipality.replace(
