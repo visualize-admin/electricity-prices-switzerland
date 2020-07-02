@@ -19,6 +19,11 @@ export type GenericField = t.TypeOf<typeof GenericField>;
 
 export type GenericFields = Record<string, GenericField | undefined>;
 
+const Observation = t.record(
+  t.string,
+  t.union([t.string, t.number, t.boolean])
+);
+
 const SegmentField = t.intersection([
   t.type({
     componentIri: t.string,
@@ -143,13 +148,17 @@ const HistogramFields = t.intersection([
   t.partial({
     segment: SegmentField,
   }),
+  t.partial({ annotation: t.array(Observation) }),
 ]);
 export type HistogramFields = t.TypeOf<typeof HistogramFields>;
 
-const RangePlotFields = t.type({
-  x: GenericField,
-  y: GenericField,
-});
+const RangePlotFields = t.intersection([
+  t.type({
+    x: GenericField,
+    y: GenericField,
+  }),
+  t.partial({ annotation: t.array(Observation) }),
+]);
 
 export type RangePlotFields = t.TypeOf<typeof RangePlotFields>;
 
