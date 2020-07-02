@@ -11,7 +11,6 @@ import { BOTTOM_MARGIN_OFFSET, LEFT_MARGIN_OFFSET } from "../constants";
 import { ChartContext, ChartProps } from "../use-chart-state";
 import { InteractionProvider } from "../use-interaction";
 import { Bounds, Observer, useWidth } from "../use-width";
-import { useAnnotation } from "../use-annotation";
 
 export const DOT_RADIUS = 8;
 export const SPACE_ABOVE = 8;
@@ -38,9 +37,7 @@ const useRangePlotState = ({
 }): RangePlotState => {
   const width = useWidth();
   const formatNumber = useFormatNumber();
-  const [annotation] = useAnnotation();
 
-  console.log({ annotation });
   const getX = useCallback(
     (d: Observation) => d[fields.x.componentIri] as number,
     [fields.x.componentIri]
@@ -49,9 +46,10 @@ const useRangePlotState = ({
     (d: Observation) => d[fields.y.componentIri] as string,
     [fields.y.componentIri]
   );
+  const { annotation } = fields;
 
   const xDomain = extent(data, (d) => getX(d));
-  const xScale = scaleLinear().domain(xDomain);
+  const xScale = scaleLinear().domain(xDomain).nice();
 
   // y
   // Sort by group median
@@ -65,8 +63,8 @@ const useRangePlotState = ({
     .sort((a, b) => ascending(a[1], b[1]))
     .map((d) => d[0]);
 
-  const annotationSpace = annotation.d
-    ? annotation.d.length * ANNOTATION_LABEL_HEIGHT
+  const annotationSpace = annotation
+    ? annotation.length * ANNOTATION_LABEL_HEIGHT
     : 0;
   const chartHeight =
     yOrderedDomain.length * (DOT_RADIUS * 2 + SPACE_ABOVE) + annotationSpace;
@@ -102,7 +100,7 @@ const useRangePlotState = ({
     chartHeight,
   };
 
-  xScale.range([0, chartWidth]).nice();
+  xScale.range([0, chartWidth]);
 
   // Group
   const rangeGroups = [...group(data, getY)];

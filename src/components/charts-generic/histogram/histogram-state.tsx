@@ -23,7 +23,6 @@ import { LEFT_MARGIN_OFFSET } from "../constants";
 import { ChartContext, ChartProps } from "../use-chart-state";
 import { InteractionProvider } from "../use-interaction";
 import { Bounds, Observer, useWidth } from "../use-width";
-import { useAnnotation } from "../use-annotation";
 
 export const ANNOTATION_DOT_RADIUS = 2.5;
 export const ANNOTATION_SQUARE_SIDE = 8;
@@ -52,13 +51,12 @@ const useHistogramState = ({
 }): HistogramState => {
   const width = useWidth();
   const formatNumber = useFormatNumber();
-  const [annotation] = useAnnotation();
 
-  console.log(annotation);
   const getX = useCallback(
     (d: Observation) => d[fields.x.componentIri] as number,
     [fields.x.componentIri]
   );
+  const { annotation } = fields;
 
   // x
   const minValue = min(data, (d) => getX(d));
@@ -97,8 +95,8 @@ const useHistogramState = ({
   };
 
   const chartWidth = width - margins.left - margins.right;
-  const annotationSpace = annotation.d
-    ? annotation.d.length * ANNOTATION_LABEL_HEIGHT
+  const annotationSpace = annotation
+    ? annotation.length * ANNOTATION_LABEL_HEIGHT
     : 0;
   const chartHeight = chartWidth * aspectRatio + annotationSpace;
 
