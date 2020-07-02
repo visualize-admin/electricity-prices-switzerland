@@ -30,6 +30,9 @@ export default () => {
           y: {
             componentIri: "Jahr",
           },
+          label: {
+            componentIri: "Netzbetreiber",
+          },
         }}
         measures={[
           {
@@ -61,6 +64,9 @@ export default () => {
           },
           y: {
             componentIri: "Jahr",
+          },
+          label: {
+            componentIri: "Netzbetreiber",
           },
           annotation: annotationData,
         }}

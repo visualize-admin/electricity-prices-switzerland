@@ -58,6 +58,10 @@ const useHistogramState = ({
     (d: Observation) => d[fields.x.componentIri] as number,
     [fields.x.componentIri]
   );
+  const getLabel = useCallback(
+    (d: Observation) => d[fields.label.componentIri] as string,
+    [fields.label.componentIri]
+  );
   const { annotation } = fields;
 
   // x
@@ -122,7 +126,7 @@ const useHistogramState = ({
         x: xScale(getX(datum)),
         y: yScale(0),
         value: formatNumber(getX(datum)),
-        label: "label",
+        label: getLabel(datum),
         onTheLeft: xScale(getX(datum)) <= chartWidth / 2,
       }));
 

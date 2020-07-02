@@ -30,6 +30,9 @@ export default () => {
           x: {
             componentIri: "Total exkl. MWST",
           },
+          label: {
+            componentIri: "Netzbetreiber",
+          },
         }}
         measures={[
           {
@@ -59,41 +62,14 @@ export default () => {
 
   ${(
     <ReactSpecimen span={6}>
-      {/* <AnnotationProvider
-        d={[
-          {
-            ID: 3,
-            Netzbetreiber: "Administration Communale Courchapoix",
-            "VSE-ID": "10819012345",
-            Kategorie: "H1",
-            Netznutzung: 17.0975,
-            Energie: 8.6,
-            Abgabe: 1.2,
-            KEV: 2.3,
-            "Total exkl. MWST": 29.1975,
-            Jahr: "2020",
-            Produkt: "standard",
-          },
-          {
-            ID: 757,
-            Netzbetreiber: "Technische Betriebe Weinfelden AG",
-            "VSE-ID": "10269012345",
-            Kategorie: "H1",
-            Netznutzung: 15.9256,
-            Energie: 7.6197,
-            Abgabe: 0,
-            KEV: 2.3,
-            "Total exkl. MWST": 25.8453,
-            Jahr: "2020",
-            Produkt: "standard",
-          },
-        ]}
-      > */}
       <Histogram
         data={standardH12020}
         fields={{
           x: {
             componentIri: "Total exkl. MWST",
+          },
+          label: {
+            componentIri: "Netzbetreiber",
           },
           annotation: [
             {

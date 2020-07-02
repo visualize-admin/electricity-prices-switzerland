@@ -48,6 +48,11 @@ const useRangePlotState = ({
     (d: Observation) => d[fields.y.componentIri] as string,
     [fields.y.componentIri]
   );
+  const getLabel = useCallback(
+    (d: Observation) => d[fields.label.componentIri] as string,
+    [fields.label.componentIri]
+  );
+
   const { annotation } = fields;
 
   const xDomain = extent(data, (d) => getX(d));
@@ -117,7 +122,7 @@ const useRangePlotState = ({
         x: xScale(getX(datum)),
         y: yScale(getY(datum)),
         value: formatNumber(getX(datum)),
-        label: "label",
+        label: getLabel(datum),
         onTheLeft: xScale(getX(datum)) <= chartWidth / 2,
       }));
 
