@@ -1,17 +1,9 @@
-import { max, median, min, ascending } from "d3-array";
+import { max, median, min } from "d3-array";
 import * as React from "react";
-import { RangePlotFields } from "../../../domain/config-types";
-import { useFormatNumber } from "../../../domain/helpers";
 import { normalize } from "../../../lib/array";
 import { useChartState } from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
-import {
-  ANNOTATION_DOT_RADIUS,
-  ANNOTATION_LABEL_HEIGHT,
-  ANNOTATION_SQUARE_SIDE,
-  DOT_RADIUS,
-  RangePlotState,
-} from "./rangeplot-state";
+import { DOT_RADIUS, RangePlotState } from "./rangeplot-state";
 
 export const Range = () => {
   const {
@@ -43,7 +35,10 @@ export const Range = () => {
                   fillOpacity={0.2}
                 />
               </clipPath>
-              <g key={row[0]} transform={`translate(0, ${yScale(row[0])})`}>
+              <g
+                key={row[0]}
+                transform={`translate(0, ${yScale(row[0]) - DOT_RADIUS})`}
+              >
                 <rect
                   x={0}
                   width={chartWidth}
@@ -102,7 +97,10 @@ export const RangePoints = () => {
 
           return (
             <React.Fragment key={row[0]}>
-              <g key={row[0]} transform={`translate(0, ${yScale(row[0])})`}>
+              <g
+                key={row[0]}
+                transform={`translate(0, ${yScale(row[0]) - DOT_RADIUS})`}
+              >
                 <circle
                   cx={xScale(xMin)}
                   cy={DOT_RADIUS}
@@ -143,71 +141,5 @@ export const RangePoints = () => {
         })}
       </g>
     </>
-  );
-};
-
-export const RangeAnnotation = ({
-  annotation,
-}: Pick<RangePlotFields, "annotation">) => {
-  const {
-    bounds,
-    xScale,
-    getX,
-    yScale,
-    getY,
-  } = useChartState() as RangePlotState;
-  const formatNumber = useFormatNumber();
-  const { margins, chartWidth } = bounds;
-  const { annotationfontSize, fontFamily, annotationColor } = useChartTheme();
-
-  return (
-    <g transform={`translate(${margins.left} ${margins.top})`}>
-      {annotation
-        .sort((a, b) => ascending(getX(a), getX(b)))
-        .map((datum, i) => {
-          const xPosition = xScale(getX(datum));
-          const onTheLeft = xPosition <= chartWidth / 2;
-          return (
-            <React.Fragment key={i}>
-              <text
-                x={
-                  onTheLeft
-                    ? xPosition + ANNOTATION_SQUARE_SIDE
-                    : xPosition - ANNOTATION_SQUARE_SIDE
-                }
-                y={ANNOTATION_LABEL_HEIGHT * i + ANNOTATION_SQUARE_SIDE / 2}
-                fill={annotationColor}
-                style={{
-                  textAnchor: onTheLeft ? "start" : "end",
-                  fontFamily,
-                  fontSize: annotationfontSize,
-                  dominantBaseline: "central",
-                }}
-              >
-                {formatNumber(getX(datum))}
-              </text>
-              <rect
-                x={xPosition - ANNOTATION_SQUARE_SIDE / 2}
-                y={ANNOTATION_LABEL_HEIGHT * i}
-                width={ANNOTATION_SQUARE_SIDE}
-                height={ANNOTATION_SQUARE_SIDE}
-              />
-              <line
-                x1={xPosition}
-                y1={ANNOTATION_LABEL_HEIGHT * i}
-                x2={xPosition}
-                y2={yScale(getY(datum)) + DOT_RADIUS}
-                stroke={annotationColor}
-              />
-              <circle
-                cx={xPosition}
-                cy={yScale(getY(datum)) + DOT_RADIUS}
-                r={ANNOTATION_DOT_RADIUS}
-                fill={annotationColor}
-              />
-            </React.Fragment>
-          );
-        })}
-    </g>
   );
 };
