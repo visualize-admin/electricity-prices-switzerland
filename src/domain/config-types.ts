@@ -144,6 +144,7 @@ const HistogramFields = t.intersection([
   t.type({
     x: GenericField,
     // FIXME: Add a diverging color palette. t.type({ palette: t.string }),
+    label: GenericField,
   }),
   t.partial({
     segment: SegmentField,
@@ -156,6 +157,7 @@ const RangePlotFields = t.intersection([
   t.type({
     x: GenericField,
     y: GenericField,
+    label: GenericField,
   }),
   t.partial({ annotation: t.array(Observation) }),
 ]);
