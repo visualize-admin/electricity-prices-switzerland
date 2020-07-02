@@ -1,26 +1,21 @@
 import { markdown, ReactSpecimen } from "catalog";
-import { Tooltip } from "../components/charts-generic/interaction/tooltip";
 import {
   AxisHeightLinear,
   AxisHeightLinearDomain,
 } from "../components/charts-generic/axis/axis-height-linear";
-
-import {
-  ChartContainer,
-  ChartSvg,
-} from "../components/charts-generic/containers";
-import {
-  HistogramColumns,
-  HistogramAnnotation,
-} from "../components/charts-generic/histogram/histogram";
-import { Histogram } from "../components/charts-generic/histogram/histogram-state";
-import { standardH12020 } from "./data/2020-standard-H1";
-import { Median } from "../components/charts-generic/histogram/median";
 import {
   AxisWidthHistogram,
   AxisWidthHistogramDomain,
 } from "../components/charts-generic/axis/axis-width-histogram";
-import { AnnotationProvider } from "../components/charts-generic/use-annotation";
+import {
+  ChartContainer,
+  ChartSvg,
+} from "../components/charts-generic/containers";
+import { HistogramColumns } from "../components/charts-generic/histogram/histogram";
+import { Histogram } from "../components/charts-generic/histogram/histogram-state";
+import { Median } from "../components/charts-generic/histogram/median";
+import { Tooltip } from "../components/charts-generic/interaction/tooltip";
+import { standardH12020 } from "./data/2020-standard-H1";
 
 export default () => {
   return markdown`
@@ -28,37 +23,34 @@ export default () => {
 
   ${(
     <ReactSpecimen span={6}>
-      <AnnotationProvider d={undefined}>
-        <Histogram
-          data={standardH12020}
-          fields={{
-            x: {
-              componentIri: "Total exkl. MWST",
-            },
-          }}
-          measures={[
-            {
-              iri: "Total exkl. MWST",
-              label: "Total exkl. MWST",
-              __typename: "Measure",
-            },
-          ]}
-          aspectRatio={0.4}
-        >
-          <ChartContainer>
-            <ChartSvg>
-              <AxisHeightLinear />
-              <AxisHeightLinearDomain />
-              <AxisWidthHistogram />
-              <AxisWidthHistogramDomain />
-              <HistogramAnnotation />
-              <HistogramColumns />
-              <Median label="CH Median" />
-            </ChartSvg>
-            <Tooltip type="single" />
-          </ChartContainer>
-        </Histogram>
-      </AnnotationProvider>
+      <Histogram
+        data={standardH12020}
+        fields={{
+          x: {
+            componentIri: "Total exkl. MWST",
+          },
+        }}
+        measures={[
+          {
+            iri: "Total exkl. MWST",
+            label: "Total exkl. MWST",
+            __typename: "Measure",
+          },
+        ]}
+        aspectRatio={0.4}
+      >
+        <ChartContainer>
+          <ChartSvg>
+            <AxisHeightLinear />
+            <AxisHeightLinearDomain />
+            <AxisWidthHistogram />
+            <AxisWidthHistogramDomain />
+            <HistogramColumns />
+            <Median label="CH Median" />
+          </ChartSvg>
+          <Tooltip type="single" />
+        </ChartContainer>
+      </Histogram>
     </ReactSpecimen>
   )}
 
@@ -66,7 +58,7 @@ export default () => {
 
   ${(
     <ReactSpecimen span={6}>
-      <AnnotationProvider
+      {/* <AnnotationProvider
         d={[
           {
             ID: 3,
@@ -95,37 +87,36 @@ export default () => {
             Produkt: "standard",
           },
         ]}
+      > */}
+      <Histogram
+        data={standardH12020}
+        fields={{
+          x: {
+            componentIri: "Total exkl. MWST",
+          },
+        }}
+        measures={[
+          {
+            iri: "Total exkl. MWST",
+            label: "Total exkl. MWST",
+            __typename: "Measure",
+          },
+        ]}
+        aspectRatio={0.4}
       >
-        <Histogram
-          data={standardH12020}
-          fields={{
-            x: {
-              componentIri: "Total exkl. MWST",
-            },
-          }}
-          measures={[
-            {
-              iri: "Total exkl. MWST",
-              label: "Total exkl. MWST",
-              __typename: "Measure",
-            },
-          ]}
-          aspectRatio={0.4}
-        >
-          <ChartContainer>
-            <ChartSvg>
-              <AxisHeightLinear />
-              <AxisHeightLinearDomain />
-              <AxisWidthHistogram />
-              <AxisWidthHistogramDomain />
-              <HistogramAnnotation />
-              <HistogramColumns />
-              <Median label="CH Median" />
-            </ChartSvg>
-            <Tooltip type="single" />
-          </ChartContainer>
-        </Histogram>
-      </AnnotationProvider>
+        <ChartContainer>
+          <ChartSvg>
+            <AxisHeightLinear />
+            <AxisHeightLinearDomain />
+            <AxisWidthHistogram />
+            <AxisWidthHistogramDomain />
+
+            <HistogramColumns />
+            <Median label="CH Median" />
+          </ChartSvg>
+          <Tooltip type="single" />
+        </ChartContainer>
+      </Histogram>
     </ReactSpecimen>
   )}
   `;
