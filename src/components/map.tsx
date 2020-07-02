@@ -17,17 +17,21 @@ const INITIAL_VIEW_STATE = {
   bearing: 0,
 };
 
-export const ChoroplethMap = ({ year }: { year: string }) => {
+export const ChoroplethMap = ({
+  year,
+  category,
+}: {
+  year: string;
+  category: string;
+}) => {
   const [data, setData] = useState<GeoJSON.Feature | undefined>();
   const [hovered, setHovered] = useState();
 
   const [observations] = useObservationsQuery({
     variables: {
       filters: {
-        period: [(parseInt(year, 10) + 1).toString()],
-        category: [
-          "https://energy.ld.admin.ch/elcom/energy-pricing/category/H4",
-        ],
+        period: [year],
+        category: [category],
       },
     },
   });
@@ -35,7 +39,7 @@ export const ChoroplethMap = ({ year }: { year: string }) => {
   useEffect(() => {
     const load = async () => {
       const topo = await fetch(
-        `/topojson/${year}/ch-municipalities.json`
+        `/topojson/${parseInt(year, 10) - 1}/ch-municipalities.json`
       ).then((res) => res.json());
       const geojson = topojsonFeature(topo, topo.objects.municipalities);
       setData(geojson);
