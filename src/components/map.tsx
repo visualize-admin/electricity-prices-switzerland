@@ -70,7 +70,7 @@ export const ChoroplethMap = ({
 
   const colorScale = scaleQuantile(
     // @ts-ignore
-    municipalityObservations.map((d) => d.charge),
+    municipalityObservations.map((d) => d.gridusage),
     [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]
   );
 
@@ -117,7 +117,7 @@ export const ChoroplethMap = ({
     autoHighlight: true,
     getFillColor: (d) => {
       const obs = observationsByMunicipalityId.get(d.id.toString())?.[0];
-      return obs ? getColor(obs.charge) : [0, 0, 0, 20];
+      return obs ? getColor(obs.gridusage) : [0, 0, 0, 20];
     },
     highlightColor: [0, 0, 0, 50],
     getLineColor: [255, 255, 255],
