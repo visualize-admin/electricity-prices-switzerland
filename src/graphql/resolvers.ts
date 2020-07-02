@@ -5,6 +5,7 @@ import {
   getName,
   getObservations,
   getSource,
+  getView,
 } from "./rdf";
 import {
   CantonResolvers,
@@ -39,8 +40,8 @@ const Query: QueryResolvers = {
   },
   cubeByIri: async (_, { locale, iri }) => {
     const source = getSource();
-    const cubes = await source.cubes();
-    return { locale, cube: cubes.find((cube) => cube.term?.value === iri) };
+    const cube = await source.cube(iri);
+    return { locale, cube, view: getView(cube) };
   },
   municipalities: async () => [{ id: "1" }, { id: "2" }],
   cantons: async () => [{ id: "1" }, { id: "2" }],
@@ -97,14 +98,14 @@ const Cube: CubeResolvers = {
   dimensionPeriod: ({ cube, locale }) => {
     return getCubeDimension(cube, "period", { locale });
   },
-  observations: async ({ cube, locale }, { filters }) => {
+  observations: async ({ view, locale }, { filters }) => {
     const queryFilters = filters
       ? Object.entries(filters).map(([dimensionKey, filterValues]) =>
-          buildDimensionFilter(cube, dimensionKey, filterValues)
+          buildDimensionFilter(view, dimensionKey, filterValues)
         )
       : [];
 
-    const rawObservations = await getObservations(cube, {
+    const rawObservations = await getObservations(view, {
       filters: queryFilters,
     });
 

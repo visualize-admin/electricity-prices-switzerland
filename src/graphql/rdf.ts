@@ -4,6 +4,7 @@ import { Source, View } from "@zazuko/rdf-cube-view-query";
 import namespace from "@rdfjs/namespace";
 import { defaultLocale } from "../locales/locales";
 
+type View = $FixMe;
 type Cube = $FixMe;
 type Node = {
   out: (...args) => Clownface;
@@ -42,30 +43,26 @@ export const getName = (node: Node, { locale }: { locale: string }) => {
   return term?.value;
 };
 
-export const getView = (cube: Cube) => View.fromCube(cube);
+export const getView = (cube: Cube): View => View.fromCube(cube);
 
 export const getObservations = async (
-  cube: Cube,
+  view: View,
   { filters }: { filters: $FixMe[] }
 ) => {
-  const view = View.fromCube(cube, { filters });
+  const filterView = new View({ dimensions: view.dimensions, filters });
 
-  console.log(view.observationsQuery().query.toString());
+  console.log(filterView.observationsQuery().query.toString());
 
-  return view.observations();
+  return filterView.observations();
 };
 
 export const getCubeDimension = (
-  cube: Cube,
+  view: View,
   dimensionKey: string,
   { locale }: { locale: string }
 ) => {
-  const view = getView(cube);
-
-  const viewDimension = view.dimensions.find((dimension) => {
-    return dimension.cubeDimensions.some((cubeDimension) =>
-      cubeDimension.path.equals(ns.energyPricing(dimensionKey))
-    );
+  const viewDimension = view.dimension({
+    cubeDimension: ns.energyPricing(dimensionKey),
   });
 
   const cubeDimension = viewDimension?.cubeDimensions[0];
@@ -90,16 +87,12 @@ export const getCubeDimension = (
 };
 
 export const buildDimensionFilter = (
-  cube: Cube,
+  view: View,
   dimensionKey: string,
   filters: string[]
 ) => {
-  const view = getView(cube);
-
-  const viewDimension = view.dimensions.find((dimension) => {
-    return dimension.cubeDimensions.some((cubeDimension) =>
-      cubeDimension.path.equals(ns.energyPricing(dimensionKey))
-    );
+  const viewDimension = view.dimension({
+    cubeDimension: ns.energyPricing(dimensionKey),
   });
 
   const cubeDimension = viewDimension?.cubeDimensions[0];

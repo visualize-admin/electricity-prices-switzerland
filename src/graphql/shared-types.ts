@@ -4,4 +4,5 @@ export type ResolvedProvider = { id: string };
 export type ResolvedCube = {
   locale: string;
   cube: $FixMe;
+  view: $FixMe;
 };
