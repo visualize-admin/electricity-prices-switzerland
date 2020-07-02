@@ -23,6 +23,7 @@ import { LEFT_MARGIN_OFFSET } from "../constants";
 import { ChartContext, ChartProps } from "../use-chart-state";
 import { InteractionProvider } from "../use-interaction";
 import { Bounds, Observer, useWidth } from "../use-width";
+import { Annotation } from "../annotation/annotation-x";
 
 export const ANNOTATION_DOT_RADIUS = 2.5;
 export const ANNOTATION_SQUARE_SIDE = 8;
@@ -33,11 +34,12 @@ export interface HistogramState {
   data: Observation[];
   getX: (d: Observation) => number;
   xScale: ScaleLinear<number, number>;
-  getY: (d: $FixMe[]) => number;
+  getY: (d: Observation[]) => number;
   yScale: ScaleLinear<number, number>;
   xAxisLabel?: string;
   bins: Bin<Observation, number>[];
   colors: ScaleThreshold<number, string>;
+  annotations: Annotation[];
 }
 
 const useHistogramState = ({
@@ -110,6 +112,20 @@ const useHistogramState = ({
   xScale.range([0, chartWidth]);
   yScale.range([chartHeight, annotationSpace]);
 
+  // Annotations
+  const annotations =
+    annotation &&
+    annotation
+      .sort((a, b) => ascending(getX(a), getX(b)))
+      .map((datum) => ({
+        datum,
+        x: xScale(getX(datum)),
+        y: yScale(0),
+        value: formatNumber(getX(datum)),
+        label: "label",
+        onTheLeft: xScale(getX(datum)) <= chartWidth / 2,
+      }));
+
   return {
     bounds,
     data,
@@ -119,6 +135,7 @@ const useHistogramState = ({
     yScale,
     bins,
     colors,
+    annotations,
   };
 };
 

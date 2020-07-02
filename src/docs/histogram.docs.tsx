@@ -16,6 +16,7 @@ import { Histogram } from "../components/charts-generic/histogram/histogram-stat
 import { Median } from "../components/charts-generic/histogram/median";
 import { Tooltip } from "../components/charts-generic/interaction/tooltip";
 import { standardH12020 } from "./data/2020-standard-H1";
+import { AnnotationX } from "../components/charts-generic/annotation/annotation-x";
 
 export default () => {
   return markdown`
@@ -94,6 +95,34 @@ export default () => {
           x: {
             componentIri: "Total exkl. MWST",
           },
+          annotation: [
+            {
+              ID: 3,
+              Netzbetreiber: "Administration Communale Courchapoix",
+              "VSE-ID": "10819012345",
+              Kategorie: "H1",
+              Netznutzung: 17.0975,
+              Energie: 8.6,
+              Abgabe: 1.2,
+              KEV: 2.3,
+              "Total exkl. MWST": 29.1975,
+              Jahr: "2020",
+              Produkt: "standard",
+            },
+            {
+              ID: 757,
+              Netzbetreiber: "Technische Betriebe Weinfelden AG",
+              "VSE-ID": "10269012345",
+              Kategorie: "H1",
+              Netznutzung: 15.9256,
+              Energie: 7.6197,
+              Abgabe: 0,
+              KEV: 2.3,
+              "Total exkl. MWST": 25.8453,
+              Jahr: "2020",
+              Produkt: "standard",
+            },
+          ],
         }}
         measures={[
           {
@@ -110,7 +139,7 @@ export default () => {
             <AxisHeightLinearDomain />
             <AxisWidthHistogram />
             <AxisWidthHistogramDomain />
-
+            <AnnotationX />
             <HistogramColumns />
             <Median label="CH Median" />
           </ChartSvg>

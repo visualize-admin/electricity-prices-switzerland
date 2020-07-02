@@ -38,7 +38,6 @@ export interface BarsState {
   getSegment: (d: Observation) => string;
   segments: string[];
   colors: ScaleOrdinal<string, string>;
-  // getAnnotationInfo: (d: Observation) => Tooltip;
 }
 
 const useBarsState = ({
@@ -95,10 +94,6 @@ const useBarsState = ({
 
   // Bar Height FIXME
   const barHeightDomain = [...new Set(sortedData.map((d) => getBarHeight(d)))];
-  // FIXME: Bar height range
-  // const thisBarHeight = getBarHeight
-  //   ? barHeightScale(getBarHeight(d))
-  //   : BAR_HEIGHT;
   const barHeightRange = barHeightDomain
     .map((_, i) => BAR_HEIGHT * (i + 1))
     .reverse();
@@ -131,57 +126,6 @@ const useBarsState = ({
   };
   xScale.range([0, chartWidth]);
 
-  // Tooltip
-  // const getAnnotationInfo = (datum: Observation): Tooltip => {
-  //   const xRef = xScale(getX(datum));
-  //   const xOffset = 10; // xScale.bandwidth() / 2;
-  //   const yRef = yScale(getY(datum));
-  //   const yAnchor = yRef;
-
-  //   const yPlacement = yAnchor < chartHeight * 0.33 ? "middle" : "top";
-
-  //   const getXPlacement = () => {
-  //     if (yPlacement === "top") {
-  //       return xRef < chartWidth * 0.33
-  //         ? "right"
-  //         : xRef > chartWidth * 0.66
-  //         ? "left"
-  //         : "center";
-  //     } else {
-  //       // yPlacement === "middle"
-  //       return xRef < chartWidth * 0.5 ? "right" : "left";
-  //     }
-  //   };
-  //   const xPlacement = getXPlacement();
-
-  //   const getXAnchor = () => {
-  //     if (yPlacement === "top") {
-  //       return xPlacement === "right"
-  //         ? xRef
-  //         : xPlacement === "center"
-  //         ? xRef + xOffset
-  //         : xRef + xOffset * 2;
-  //     } else {
-  //       // yPlacement === "middle"
-  //       return xPlacement === "right" ? xRef + xOffset * 2 : xRef;
-  //     }
-  //   };
-  //   const xAnchor = getXAnchor();
-
-  //   return {
-  //     xAnchor,
-  //     yAnchor,
-  //     placement: { x: xPlacement, y: yPlacement },
-  //     xValue: getY(datum), // FIXME: x !== y
-  //     datum: {
-  //       label: fields.segment?.componentIri && getSegment(datum),
-  //       value: formatNumber(getX(datum)),
-  //       color: colors(getSegment(datum)) as string,
-  //     },
-  //     values: undefined,
-  //   };
-  // };
-
   return {
     bounds,
     sortedData,
@@ -194,7 +138,6 @@ const useBarsState = ({
     getSegment,
     segments,
     colors,
-    // getAnnotationInfo,
   };
 };
 

@@ -3,7 +3,6 @@ import { markdown, ReactSpecimen } from "catalog";
 import {
   Range,
   RangePoints,
-  RangeAnnotation,
 } from "../components/charts-generic/rangeplot/rangeplot";
 import { RangePlot } from "../components/charts-generic/rangeplot/rangeplot-state";
 import {
@@ -13,6 +12,7 @@ import {
 
 import { rangePlotData, annotationData } from "./data/boxplotdata";
 import { AxisWidthLinear } from "../components/charts-generic/axis/axis-width-linear";
+import { AnnotationX } from "../components/charts-generic/annotation/annotation-x";
 
 export default () => {
   return markdown`
@@ -77,7 +77,7 @@ export default () => {
             <Range />
             <AxisWidthLinear position="top" />
             <RangePoints />
-            <RangeAnnotation annotation={annotationData} />
+            <AnnotationX />
           </ChartSvg>
         </ChartContainer>
       </RangePlot>

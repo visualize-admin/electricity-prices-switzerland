@@ -11,12 +11,13 @@ import { BOTTOM_MARGIN_OFFSET, LEFT_MARGIN_OFFSET } from "../constants";
 import { ChartContext, ChartProps } from "../use-chart-state";
 import { InteractionProvider } from "../use-interaction";
 import { Bounds, Observer, useWidth } from "../use-width";
+import {
+  ANNOTATION_LABEL_HEIGHT,
+  Annotation,
+} from "../annotation/annotation-x";
 
 export const DOT_RADIUS = 8;
 export const SPACE_ABOVE = 8;
-export const ANNOTATION_DOT_RADIUS = 2.5;
-export const ANNOTATION_SQUARE_SIDE = 8;
-export const ANNOTATION_LABEL_HEIGHT = 20;
 
 export interface RangePlotState {
   bounds: Bounds;
@@ -27,6 +28,7 @@ export interface RangePlotState {
   yScale: ScaleBand<string>;
   colors: ScaleLinear<string, string>;
   rangeGroups: [string, Record<string, ObservationValue>[]][];
+  annotations: Annotation[];
 }
 
 const useRangePlotState = ({
@@ -105,6 +107,20 @@ const useRangePlotState = ({
   // Group
   const rangeGroups = [...group(data, getY)];
 
+  // Annotations
+  const annotations =
+    annotation &&
+    annotation
+      .sort((a, b) => ascending(getX(a), getX(b)))
+      .map((datum) => ({
+        datum,
+        x: xScale(getX(datum)),
+        y: yScale(getY(datum)),
+        value: formatNumber(getX(datum)),
+        label: "label",
+        onTheLeft: xScale(getX(datum)) <= chartWidth / 2,
+      }));
+
   return {
     bounds,
     data,
@@ -114,10 +130,11 @@ const useRangePlotState = ({
     yScale,
     colors,
     rangeGroups,
+    annotations,
   };
 };
 
-const BoxPlotProvider = ({
+const RangePlotProvider = ({
   data,
   fields,
   measures,
@@ -148,9 +165,9 @@ export const RangePlot = ({
   return (
     <Observer>
       <InteractionProvider>
-        <BoxPlotProvider data={data} fields={fields} measures={measures}>
+        <RangePlotProvider data={data} fields={fields} measures={measures}>
           {children}
-        </BoxPlotProvider>
+        </RangePlotProvider>
       </InteractionProvider>
     </Observer>
   );
