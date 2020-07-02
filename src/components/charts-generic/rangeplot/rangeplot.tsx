@@ -1,4 +1,4 @@
-import { max, median, min } from "d3-array";
+import { max, median, min, ascending } from "d3-array";
 import * as React from "react";
 import { RangePlotFields } from "../../../domain/config-types";
 import { useFormatNumber } from "../../../domain/helpers";
@@ -162,50 +162,52 @@ export const RangeAnnotation = ({
 
   return (
     <g transform={`translate(${margins.left} ${margins.top})`}>
-      {annotation.map((datum, i) => {
-        const xPosition = xScale(getX(datum));
-        const onTheLeft = xPosition <= chartWidth / 2;
-        return (
-          <React.Fragment key={i}>
-            <text
-              x={
-                onTheLeft
-                  ? xPosition + ANNOTATION_SQUARE_SIDE
-                  : xPosition - ANNOTATION_SQUARE_SIDE
-              }
-              y={ANNOTATION_LABEL_HEIGHT * i + ANNOTATION_SQUARE_SIDE / 2}
-              fill={annotationColor}
-              style={{
-                textAnchor: onTheLeft ? "start" : "end",
-                fontFamily,
-                fontSize: annotationfontSize,
-                dominantBaseline: "central",
-              }}
-            >
-              {formatNumber(getX(datum))}
-            </text>
-            <rect
-              x={xPosition - ANNOTATION_SQUARE_SIDE / 2}
-              y={ANNOTATION_LABEL_HEIGHT * i}
-              width={ANNOTATION_SQUARE_SIDE}
-              height={ANNOTATION_SQUARE_SIDE}
-            />
-            <line
-              x1={xPosition}
-              y1={ANNOTATION_LABEL_HEIGHT * i}
-              x2={xPosition}
-              y2={yScale(getY(datum)) + DOT_RADIUS}
-              stroke={annotationColor}
-            />
-            <circle
-              cx={xPosition}
-              cy={yScale(getY(datum)) + DOT_RADIUS}
-              r={ANNOTATION_DOT_RADIUS}
-              fill={annotationColor}
-            />
-          </React.Fragment>
-        );
-      })}
+      {annotation
+        .sort((a, b) => ascending(getX(a), getX(b)))
+        .map((datum, i) => {
+          const xPosition = xScale(getX(datum));
+          const onTheLeft = xPosition <= chartWidth / 2;
+          return (
+            <React.Fragment key={i}>
+              <text
+                x={
+                  onTheLeft
+                    ? xPosition + ANNOTATION_SQUARE_SIDE
+                    : xPosition - ANNOTATION_SQUARE_SIDE
+                }
+                y={ANNOTATION_LABEL_HEIGHT * i + ANNOTATION_SQUARE_SIDE / 2}
+                fill={annotationColor}
+                style={{
+                  textAnchor: onTheLeft ? "start" : "end",
+                  fontFamily,
+                  fontSize: annotationfontSize,
+                  dominantBaseline: "central",
+                }}
+              >
+                {formatNumber(getX(datum))}
+              </text>
+              <rect
+                x={xPosition - ANNOTATION_SQUARE_SIDE / 2}
+                y={ANNOTATION_LABEL_HEIGHT * i}
+                width={ANNOTATION_SQUARE_SIDE}
+                height={ANNOTATION_SQUARE_SIDE}
+              />
+              <line
+                x1={xPosition}
+                y1={ANNOTATION_LABEL_HEIGHT * i}
+                x2={xPosition}
+                y2={yScale(getY(datum)) + DOT_RADIUS}
+                stroke={annotationColor}
+              />
+              <circle
+                cx={xPosition}
+                cy={yScale(getY(datum)) + DOT_RADIUS}
+                r={ANNOTATION_DOT_RADIUS}
+                fill={annotationColor}
+              />
+            </React.Fragment>
+          );
+        })}
     </g>
   );
 };
