@@ -3,7 +3,8 @@ import { MapController } from "@deck.gl/core";
 import DeckGL from "@deck.gl/react";
 import { useEffect, useMemo, useState } from "react";
 import { feature as topojsonFeature } from "topojson-client";
-import { useObservationsQuery } from "../graphql/queries";
+import { useObservationsQuery, Observation } from "../graphql/queries";
+import { group } from "d3-array";
 
 const INITIAL_VIEW_STATE = {
   latitude: 46.8182,
@@ -47,16 +48,13 @@ export const ChoroplethMap = ({ year }: { year: string }) => {
     : observations.data?.cubeByIri?.observations ?? empty;
 
   const observationsByMunicipalityId = useMemo(() => {
-    return new Map(
-      municipalityObservations.map((d) => [
-        d.municipality.replace(
-          "http://classifications.data.admin.ch/municipality/",
-          ""
-        ),
-        d,
-      ])
+    return group<Observation, string>(municipalityObservations, (d) =>
+      d.municipality.replace(
+        "http://classifications.data.admin.ch/municipality/",
+        ""
+      )
     );
-  }, [year, municipalityObservations]);
+  }, [municipalityObservations]);
 
   // const layer = useMemo(() => {
   //   console.log("new layer",year)
@@ -95,7 +93,7 @@ export const ChoroplethMap = ({ year }: { year: string }) => {
     lineWidthMinPixels: 1,
     autoHighlight: true,
     getFillColor: (d) => {
-      const obs = observationsByMunicipalityId.get(d.id.toString());
+      const obs = observationsByMunicipalityId.get(d.id.toString())?.[0];
       return obs ? [Math.round(obs.charge * 50), 160, 180] : [0, 0, 0, 20];
     },
     highlightColor: [0, 0, 0, 50],
