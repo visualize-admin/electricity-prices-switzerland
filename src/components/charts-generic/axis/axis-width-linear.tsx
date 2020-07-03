@@ -74,7 +74,7 @@ export const AxisWidthLinearBottom = () => {
 
 export const AxisWidthLinearTop = () => {
   const formatNumber = useFormatNumber();
-  const { xScale, bounds } = useChartState() as RangePlotState;
+  const { xScale, yScale, bounds } = useChartState() as RangePlotState;
   const { chartWidth, chartHeight, margins } = bounds;
   const { labelColor, labelFontSize, gridColor, fontFamily } = useChartTheme();
   const xAxisRef = useRef<SVGGElement>(null);
@@ -111,7 +111,7 @@ export const AxisWidthLinearTop = () => {
 
   return (
     <>
-      <g transform={`translate(${margins.left}, 0)`}>
+      <g transform={`translate(${margins.left}, ${yScale.range()[0]})`}>
         <text
           x={chartWidth + margins.right}
           y={0}
@@ -126,7 +126,9 @@ export const AxisWidthLinearTop = () => {
       <g
         ref={xAxisRef}
         key="x-axis-linear"
-        transform={`translate(${margins.left}, ${margins.top / 2})`}
+        transform={`translate(${margins.left}, ${
+          yScale.range()[0] + margins.top / 2
+        })`}
       />
     </>
   );

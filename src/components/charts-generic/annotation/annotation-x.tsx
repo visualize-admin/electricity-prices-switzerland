@@ -31,11 +31,11 @@ export const AnnotationX = () => {
 
   return (
     <>
-      {annotations && (
-        <g transform={`translate(${margins.left} ${margins.top})`}>
-          {annotations.map((a, i) => {
-            return (
-              <React.Fragment key={i}>
+      {annotations &&
+        annotations.map((a, i) => {
+          return (
+            <>
+              <g transform={`translate(${margins.left}, 0)`}>
                 <rect
                   x={a.x - ANNOTATION_SQUARE_SIDE / 2}
                   y={a.yLabel}
@@ -46,21 +46,21 @@ export const AnnotationX = () => {
                   x1={a.x}
                   y1={a.yLabel}
                   x2={a.x}
-                  y2={a.y}
+                  y2={a.y + margins.top}
                   stroke={annotationColor}
                 />
+
                 {/* Data Point indicator */}
                 <circle
                   cx={a.x}
-                  cy={a.y}
+                  cy={a.y + margins.top}
                   r={ANNOTATION_DOT_RADIUS}
                   fill={annotationColor}
                 />
-              </React.Fragment>
-            );
-          })}
-        </g>
-      )}
+              </g>
+            </>
+          );
+        })}
     </>
   );
 };
@@ -85,7 +85,7 @@ export const AnnotationXLabel = () => {
               zIndex: 2,
               position: "absolute",
               left: a.xLabel! + margins.left,
-              top: a.yLabel + margins.top,
+              top: a.yLabel,
               pointerEvents: "none",
               textAlign: a.onTheLeft ? "right" : "left",
               transform: mkTranslation(a.onTheLeft, ANNOTATION_SQUARE_SIDE),
