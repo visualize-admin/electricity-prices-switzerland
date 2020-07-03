@@ -24,6 +24,7 @@ import { ChartContext, ChartProps } from "../use-chart-state";
 import { InteractionProvider } from "../use-interaction";
 import { Bounds, Observer, useWidth } from "../use-width";
 import { Annotation } from "../annotation/annotation-x";
+import { useChartTheme } from "../use-chart-theme";
 
 export const ANNOTATION_DOT_RADIUS = 2.5;
 export const ANNOTATION_SQUARE_SIDE = 8;
@@ -53,6 +54,7 @@ const useHistogramState = ({
 }): HistogramState => {
   const width = useWidth();
   const formatNumber = useFormatNumber();
+  const { annotationfontSize } = useChartTheme();
 
   const getX = useCallback(
     (d: Observation) => d[fields.x.componentIri] as number,
@@ -101,9 +103,30 @@ const useHistogramState = ({
   };
 
   const chartWidth = width - margins.left - margins.right;
-  const annotationSpace = annotation
-    ? annotation.length * ANNOTATION_LABEL_HEIGHT
-    : 0;
+  // Added space for annotations above the chart
+  const annotationSpaces = annotation
+    ? annotation.reduce(
+        (acc, datum, i) => {
+          // FIXME: Should be word based, not character based?
+          const oneFullLine =
+            estimateTextWidth(formatNumber(getX(datum)), annotationfontSize) +
+            estimateTextWidth(getLabel(datum), annotationfontSize);
+          // On smaller screens, anotations may break on several lines
+          const nbOfLines = Math.ceil(oneFullLine / (chartWidth * 0.5));
+          acc.push(
+            acc[i] +
+              // annotation height
+              nbOfLines * ANNOTATION_LABEL_HEIGHT +
+              // padding + margin between annotations
+              40
+          );
+          return acc;
+        },
+        [0]
+      )
+    : [0];
+
+  const annotationSpace = annotationSpaces.pop();
   const chartHeight = chartWidth * aspectRatio + annotationSpace;
 
   const bounds = {
@@ -121,14 +144,18 @@ const useHistogramState = ({
     annotation &&
     annotation
       .sort((a, b) => ascending(getX(a), getX(b)))
-      .map((datum) => ({
-        datum,
-        x: xScale(getX(datum)),
-        y: yScale(0),
-        value: formatNumber(getX(datum)),
-        label: getLabel(datum),
-        onTheLeft: xScale(getX(datum)) <= chartWidth / 2,
-      }));
+      .map((datum, i) => {
+        return {
+          datum,
+          x: xScale(getX(datum)),
+          y: yScale(0),
+          xLabel: xScale(getX(datum)),
+          yLabel: annotationSpaces[i],
+          value: formatNumber(getX(datum)),
+          label: getLabel(datum),
+          onTheLeft: xScale(getX(datum)) <= chartWidth / 2 ? false : true,
+        };
+      });
 
   return {
     bounds,

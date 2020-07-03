@@ -1,13 +1,10 @@
-import { max, median, min, ascending } from "d3-array";
 import * as React from "react";
-import { RangePlotFields } from "../../../domain/config-types";
-import { useFormatNumber, isNumber } from "../../../domain/helpers";
-import { normalize } from "../../../lib/array";
+import { Box } from "theme-ui";
+import { Observation } from "../../../domain/data";
+import { HistogramState } from "../histogram/histogram-state";
+import { RangePlotState } from "../rangeplot/rangeplot-state";
 import { useChartState } from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
-import { RangePlotState } from "../rangeplot/rangeplot-state";
-import { HistogramState } from "../histogram/histogram-state";
-import { Observation } from "../../../domain/data";
 
 export const ANNOTATION_DOT_RADIUS = 2.5;
 export const ANNOTATION_SQUARE_SIDE = 8;
@@ -17,6 +14,8 @@ export interface Annotation {
   datum: Observation;
   x: number;
   y: number;
+  xLabel: number;
+  yLabel: number;
   value: string;
   label: string;
   onTheLeft: boolean;
@@ -27,8 +26,8 @@ export const AnnotationX = () => {
     | RangePlotState
     | HistogramState;
 
-  const { margins, chartWidth } = bounds;
-  const { annotationfontSize, fontFamily, annotationColor } = useChartTheme();
+  const { margins } = bounds;
+  const { annotationColor } = useChartTheme();
 
   return (
     <>
@@ -37,36 +36,20 @@ export const AnnotationX = () => {
           {annotations.map((a, i) => {
             return (
               <React.Fragment key={i}>
-                <text
-                  x={
-                    a.onTheLeft
-                      ? a.x + ANNOTATION_SQUARE_SIDE
-                      : a.x - ANNOTATION_SQUARE_SIDE
-                  }
-                  y={ANNOTATION_LABEL_HEIGHT * i + ANNOTATION_SQUARE_SIDE / 2}
-                  fill={annotationColor}
-                  style={{
-                    textAnchor: a.onTheLeft ? "start" : "end",
-                    fontFamily,
-                    fontSize: annotationfontSize,
-                    dominantBaseline: "central",
-                  }}
-                >
-                  <tspan fontWeight="bold">{a.value}</tspan> {a.label}
-                </text>
                 <rect
                   x={a.x - ANNOTATION_SQUARE_SIDE / 2}
-                  y={ANNOTATION_LABEL_HEIGHT * i}
+                  y={a.yLabel}
                   width={ANNOTATION_SQUARE_SIDE}
                   height={ANNOTATION_SQUARE_SIDE}
                 />
                 <line
                   x1={a.x}
-                  y1={ANNOTATION_LABEL_HEIGHT * i}
+                  y1={a.yLabel}
                   x2={a.x}
                   y2={a.y}
                   stroke={annotationColor}
                 />
+                {/* Data Point indicator */}
                 <circle
                   cx={a.x}
                   cy={a.y}
@@ -81,3 +64,49 @@ export const AnnotationX = () => {
     </>
   );
 };
+
+export const AnnotationXLabel = () => {
+  const { bounds, annotations } = useChartState() as
+    | RangePlotState
+    | HistogramState;
+
+  const { annotationfontSize, fontFamily, annotationColor } = useChartTheme();
+
+  const { chartWidth, margins } = bounds;
+  return (
+    <>
+      {annotations &&
+        annotations.map((a) => (
+          <Box
+            key={a.label}
+            sx={{
+              width: chartWidth * 0.5,
+              p: 1,
+              zIndex: 2,
+              position: "absolute",
+              left: a.xLabel! + margins.left,
+              top: a.yLabel + margins.top,
+              pointerEvents: "none",
+              textAlign: a.onTheLeft ? "right" : "left",
+              transform: mkTranslation(a.onTheLeft, ANNOTATION_SQUARE_SIDE),
+              fontFamily,
+              fontSize: annotationfontSize,
+              color: annotationColor,
+              bg: "monochrome100",
+              wordBreak: ["break-all", "break-word", "break-word"],
+            }}
+          >
+            <Box as="span" sx={{ fontWeight: "bold" }}>
+              {a.value}{" "}
+            </Box>
+            {a.label}
+          </Box>
+        ))}
+    </>
+  );
+};
+
+const mkTranslation = (onTheLeft: boolean, offset: number) =>
+  onTheLeft
+    ? `translate3d(calc(-100% - ${offset}px), -50%, 0)`
+    : `translate3d(${offset}px, -50%, 0)`;

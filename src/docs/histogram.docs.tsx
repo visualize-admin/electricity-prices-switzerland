@@ -16,7 +16,10 @@ import { Histogram } from "../components/charts-generic/histogram/histogram-stat
 import { Median } from "../components/charts-generic/histogram/median";
 import { Tooltip } from "../components/charts-generic/interaction/tooltip";
 import { standardH12020 } from "./data/2020-standard-H1";
-import { AnnotationX } from "../components/charts-generic/annotation/annotation-x";
+import {
+  AnnotationX,
+  AnnotationXLabel,
+} from "../components/charts-generic/annotation/annotation-x";
 
 export default () => {
   return markdown`
@@ -114,12 +117,13 @@ export default () => {
             <AxisHeightLinear />
             <AxisHeightLinearDomain />
             <AxisWidthHistogram />
-            <AxisWidthHistogramDomain />
             <AnnotationX />
             <HistogramColumns />
+            <AxisWidthHistogramDomain />
             <Median label="CH Median" />
           </ChartSvg>
-          <Tooltip type="single" />
+
+          <AnnotationXLabel />
         </ChartContainer>
       </Histogram>
     </ReactSpecimen>

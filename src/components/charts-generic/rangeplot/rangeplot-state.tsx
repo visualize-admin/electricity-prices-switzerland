@@ -15,6 +15,7 @@ import {
   ANNOTATION_LABEL_HEIGHT,
   Annotation,
 } from "../annotation/annotation-x";
+import { useChartTheme } from "../use-chart-theme";
 
 export const DOT_RADIUS = 8;
 export const SPACE_ABOVE = 8;
@@ -39,6 +40,7 @@ const useRangePlotState = ({
 }): RangePlotState => {
   const width = useWidth();
   const formatNumber = useFormatNumber();
+  const { annotationfontSize } = useChartTheme();
 
   const getX = useCallback(
     (d: Observation) => d[fields.x.componentIri] as number,
@@ -70,15 +72,7 @@ const useRangePlotState = ({
     .sort((a, b) => ascending(a[1], b[1]))
     .map((d) => d[0]);
 
-  const annotationSpace = annotation
-    ? annotation.length * ANNOTATION_LABEL_HEIGHT
-    : 0;
-  const chartHeight =
-    yOrderedDomain.length * (DOT_RADIUS * 2 + SPACE_ABOVE) + annotationSpace;
-
-  const yScale = scaleBand<string>()
-    .domain(yOrderedDomain)
-    .range([annotationSpace, chartHeight]);
+  const yScale = scaleBand<string>().domain(yOrderedDomain);
 
   const m = median(data, (d) => getX(d));
   const colorDomain = [xDomain[0], m - m * 0.1, m, m + m * 0.1, xDomain[1]];
@@ -99,6 +93,35 @@ const useRangePlotState = ({
     left: left + LEFT_MARGIN_OFFSET,
   };
   const chartWidth = width - margins.left - margins.right;
+
+  // Added space for annotations above the chart
+  const annotationSpaces = annotation
+    ? annotation.reduce(
+        (acc, datum, i) => {
+          // FIXME: Should be word based, not character based?
+          const oneFullLine =
+            estimateTextWidth(formatNumber(getX(datum)), annotationfontSize) +
+            estimateTextWidth(getLabel(datum), annotationfontSize);
+          // On smaller screens, anotations may break on several lines
+          const nbOfLines = Math.ceil(oneFullLine / (chartWidth * 0.5));
+          acc.push(
+            acc[i] +
+              // annotation height
+              nbOfLines * ANNOTATION_LABEL_HEIGHT +
+              // padding + margin between annotations
+              20
+          );
+          return acc;
+        },
+        [0]
+      )
+    : [0];
+
+  const annotationSpace = annotationSpaces.pop();
+
+  const chartHeight =
+    yOrderedDomain.length * (DOT_RADIUS * 2 + SPACE_ABOVE) + annotationSpace;
+
   const bounds = {
     width,
     height: chartHeight + margins.top + margins.bottom,
@@ -108,6 +131,7 @@ const useRangePlotState = ({
   };
 
   xScale.range([0, chartWidth]);
+  yScale.range([annotationSpace, chartHeight]);
 
   // Group
   const rangeGroups = [...group(data, getY)];
@@ -117,14 +141,18 @@ const useRangePlotState = ({
     annotation &&
     annotation
       .sort((a, b) => ascending(getX(a), getX(b)))
-      .map((datum) => ({
-        datum,
-        x: xScale(getX(datum)),
-        y: yScale(getY(datum)),
-        value: formatNumber(getX(datum)),
-        label: getLabel(datum),
-        onTheLeft: xScale(getX(datum)) <= chartWidth / 2,
-      }));
+      .map((datum, i) => {
+        return {
+          datum,
+          x: xScale(getX(datum)),
+          y: yScale(getY(datum)),
+          xLabel: xScale(getX(datum)),
+          yLabel: annotationSpaces[i],
+          value: formatNumber(getX(datum)),
+          label: getLabel(datum),
+          onTheLeft: xScale(getX(datum)) <= chartWidth / 2 ? false : true,
+        };
+      });
 
   return {
     bounds,
