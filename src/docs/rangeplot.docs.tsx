@@ -16,6 +16,7 @@ import {
   AnnotationX,
   AnnotationXLabel,
 } from "../components/charts-generic/annotation/annotation-x";
+import { Observation } from "../domain/data";
 
 export default () => {
   return markdown`
@@ -24,7 +25,7 @@ export default () => {
   ${(
     <ReactSpecimen span={6}>
       <RangePlot
-        data={rangePlotData}
+        data={rangePlotData as Observation[]}
         fields={{
           x: {
             componentIri: "Total exkl. MWST",
@@ -63,7 +64,7 @@ export default () => {
     ${(
       <ReactSpecimen span={6}>
         <RangePlot
-          data={rangePlotData}
+          data={rangePlotData as Observation[]}
           fields={{
             x: {
               componentIri: "Total exkl. MWST",

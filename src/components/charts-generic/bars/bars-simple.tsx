@@ -12,8 +12,6 @@ export const Bars = () => {
     getX,
     xScale,
     getY,
-    getBarHeight,
-    barHeightScale,
     yScale,
   } = useChartState() as BarsState;
   const theme = useTheme();

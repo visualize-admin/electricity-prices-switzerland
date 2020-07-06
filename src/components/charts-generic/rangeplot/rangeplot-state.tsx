@@ -1,11 +1,11 @@
 import { interpolateLab, scaleBand, ScaleBand } from "d3";
-import { ascending, extent, group, median, rollup } from "d3-array";
+import { ascending, extent, group, median, rollup, max, min } from "d3-array";
 import { ScaleLinear, scaleLinear } from "d3-scale";
 import * as React from "react";
 import { ReactNode, useCallback } from "react";
 import { RangePlotFields } from "../../../domain/config-types";
 import { Observation, ObservationValue } from "../../../domain/data";
-import { useFormatNumber } from "../../../domain/helpers";
+import { useFormatNumber, mkNumber } from "../../../domain/helpers";
 import { estimateTextWidth } from "../../../lib/estimate-text-width";
 import { BOTTOM_MARGIN_OFFSET, LEFT_MARGIN_OFFSET } from "../constants";
 import { ChartContext, ChartProps } from "../use-chart-state";
@@ -29,7 +29,7 @@ export interface RangePlotState {
   yScale: ScaleBand<string>;
   colors: ScaleLinear<string, string>;
   rangeGroups: [string, Record<string, ObservationValue>[]][];
-  annotations: Annotation[];
+  annotations?: Annotation[];
 }
 
 const useRangePlotState = ({
@@ -57,7 +57,9 @@ const useRangePlotState = ({
 
   const { annotation } = fields;
 
-  const xDomain = extent(data, (d) => getX(d));
+  const minValue = min(data, (d) => getX(d));
+  const maxValue = max(data, (d) => getX(d));
+  const xDomain = [mkNumber(minValue), mkNumber(maxValue)];
   const xScale = scaleLinear().domain(xDomain).nice();
 
   // y
@@ -75,7 +77,10 @@ const useRangePlotState = ({
   const yScale = scaleBand<string>().domain(yOrderedDomain);
 
   const m = median(data, (d) => getX(d));
-  const colorDomain = [xDomain[0], m - m * 0.1, m, m + m * 0.1, xDomain[1]];
+  const colorDomain = m
+    ? [xDomain[0], m - m * 0.1, m, m + m * 0.1, xDomain[1]]
+    : xScale.ticks(5);
+
   const colorRange = ["#24B39C", "#A8DC90", "#E7EC83", "#F1B865", "#D64B47"];
   const colors = scaleLinear<string, string>()
     .domain(colorDomain)
@@ -117,7 +122,7 @@ const useRangePlotState = ({
       )
     : [0];
 
-  const annotationSpace = annotationSpaces.pop();
+  const annotationSpace = annotationSpaces.pop() || 0;
 
   const chartHeight =
     yOrderedDomain.length * (DOT_RADIUS * 2 + SPACE_ABOVE) + annotationSpace;
@@ -145,7 +150,7 @@ const useRangePlotState = ({
         return {
           datum,
           x: xScale(getX(datum)),
-          y: yScale(getY(datum)),
+          y: yScale(getY(datum)) || 0,
           xLabel: xScale(getX(datum)),
           yLabel: annotationSpaces[i],
           value: formatNumber(getX(datum)),

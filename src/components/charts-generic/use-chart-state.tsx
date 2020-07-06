@@ -29,7 +29,8 @@ export type ChartState =
   | AreasState
   | LinesState
   | HistogramState
-  | RangePlotState;
+  | RangePlotState
+  | undefined;
 
 export const ChartContext = createContext<ChartState>(undefined);
 

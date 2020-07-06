@@ -33,8 +33,6 @@ export interface BarsState {
   xScale: ScaleLinear<number, number>;
   getY: (d: Observation) => string;
   yScale: ScaleBand<string>;
-  getBarHeight: (d: Observation) => string;
-  barHeightScale: ScaleOrdinal<string, number>;
   getSegment: (d: Observation) => string;
   segments: string[];
   colors: ScaleOrdinal<string, string>;
@@ -57,13 +55,7 @@ const useBarsState = ({
     (d: Observation) => d[fields.y.componentIri] as string,
     [fields.y.componentIri]
   );
-  const getBarHeight = useCallback(
-    (d: Observation): string =>
-      fields.height && fields.height.componentIri
-        ? (d[fields.height.componentIri] as string)
-        : undefined,
-    [fields.height]
-  );
+
   const getSegment = useCallback(
     (d: Observation): string =>
       fields.segment && fields.segment.componentIri
@@ -91,16 +83,6 @@ const useBarsState = ({
   const xScale = scaleLinear()
     .domain([mkNumber(minValue), mkNumber(maxValue)])
     .nice();
-
-  // Bar Height FIXME
-  const barHeightDomain = [...new Set(sortedData.map((d) => getBarHeight(d)))];
-  const barHeightRange = barHeightDomain
-    .map((_, i) => BAR_HEIGHT * (i + 1))
-    .reverse();
-
-  const barHeightScale = scaleOrdinal<string, number>()
-    .domain(barHeightDomain)
-    .range(barHeightRange);
 
   // y
   const bandDomain = [...new Set(sortedData.map((d) => getY(d)))];
@@ -133,8 +115,6 @@ const useBarsState = ({
     xScale,
     getY,
     yScale,
-    getBarHeight,
-    barHeightScale,
     getSegment,
     segments,
     colors,

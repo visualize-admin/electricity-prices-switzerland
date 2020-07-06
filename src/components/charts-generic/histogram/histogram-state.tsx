@@ -19,12 +19,12 @@ import {
 import { Observation } from "../../../domain/data";
 import { mkNumber, useFormatNumber } from "../../../domain/helpers";
 import { estimateTextWidth } from "../../../lib/estimate-text-width";
+import { Annotation } from "../annotation/annotation-x";
 import { LEFT_MARGIN_OFFSET } from "../constants";
 import { ChartContext, ChartProps } from "../use-chart-state";
+import { useChartTheme } from "../use-chart-theme";
 import { InteractionProvider } from "../use-interaction";
 import { Bounds, Observer, useWidth } from "../use-width";
-import { Annotation } from "../annotation/annotation-x";
-import { useChartTheme } from "../use-chart-theme";
 
 export const ANNOTATION_DOT_RADIUS = 2.5;
 export const ANNOTATION_SQUARE_SIDE = 8;
@@ -40,7 +40,7 @@ export interface HistogramState {
   xAxisLabel?: string;
   bins: Bin<Observation, number>[];
   colors: ScaleThreshold<number, string>;
-  annotations: Annotation[];
+  annotations?: Annotation[];
 }
 
 const useHistogramState = ({
@@ -74,8 +74,13 @@ const useHistogramState = ({
 
   // Colors
   const colorRange = ["#24B39C", "#A8DC90", "#E7EC83", "#F1B865", "#D64B47"];
+
+  // CH Median (all data points)
   const m = median(data, (d) => getX(d));
-  const colorDomain = [m - m * 0.15, m - m * 0.05, m + m * 0.05, m + m * 0.15];
+  const colorDomain = m
+    ? [m - m * 0.15, m - m * 0.05, m + m * 0.05, m + m * 0.15]
+    : xScale.ticks(5);
+
   const colors = scaleThreshold<number, string>()
     .domain(colorDomain)
     .range(colorRange);
@@ -84,10 +89,9 @@ const useHistogramState = ({
   const bins = histogram<Observation, number>()
     .value((x) => getX(x))
     .domain([mkNumber(minValue), mkNumber(maxValue)])
-    .thresholds(colorDomain)(data);
-  // .thresholds(xScale.ticks(20))(data);
+    .thresholds(colorDomain || xScale.ticks(20))(data);
 
-  const yScale = scaleLinear().domain([0, max(bins, (d) => d.length)]);
+  const yScale = scaleLinear().domain([0, max(bins, (d) => d.length) || 100]);
 
   // Dimensions
   const left = Math.max(
@@ -126,7 +130,7 @@ const useHistogramState = ({
       )
     : [0];
 
-  const annotationSpace = annotationSpaces.pop();
+  const annotationSpace = annotationSpaces.pop() || 0;
   const chartHeight = chartWidth * aspectRatio + annotationSpace;
 
   const bounds = {
@@ -137,7 +141,7 @@ const useHistogramState = ({
     chartHeight,
   };
   xScale.range([0, chartWidth]);
-  yScale.range([chartHeight, annotationSpace]);
+  yScale.range([chartHeight, annotationSpace || 0]);
 
   // Annotations
   const annotations =

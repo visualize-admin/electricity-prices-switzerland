@@ -18,10 +18,7 @@ export default () => {
     data: observations.filter((d) => d.ID === 692 && d.Jahr === "2020"),
     cols: ["Total exkl. MWST", "Netznutzung", "Energie", "Abgabe", "KEV"],
     name_to: "priceComponent",
-  }).map((d) => ({
-    isTotal: d["priceComponent"] === "Total exkl. MWST",
-    ...d,
-  }));
+  });
   const longer_grouped = pivot_longer({
     data: observations.filter((d) => d.Jahr === "2020"),
     cols: ["Total exkl. MWST", "Netznutzung", "Energie", "Abgabe", "KEV"],
@@ -43,9 +40,6 @@ export default () => {
             componentIri: "priceComponent",
             sorting: { sortingType: "byMeasure", sortingOrder: "desc" },
           },
-          // height: {
-          //   componentIri: "isTotal",
-          // },
         }}
         measures={[
           {
