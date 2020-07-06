@@ -94,7 +94,7 @@ export const AnnotationXLabel = () => {
               color: annotationColor,
               bg: "monochrome100",
               hyphens: "auto",
-              wordBreak: ["break-word", "break-word", "break-word"],
+              wordBreak: "break-word",
             }}
           >
             <Box as="span" sx={{ fontWeight: "bold" }}>
