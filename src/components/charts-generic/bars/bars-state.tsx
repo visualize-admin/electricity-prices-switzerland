@@ -33,12 +33,9 @@ export interface BarsState {
   xScale: ScaleLinear<number, number>;
   getY: (d: Observation) => string;
   yScale: ScaleBand<string>;
-  getBarHeight: (d: Observation) => string;
-  barHeightScale: ScaleOrdinal<string, number>;
   getSegment: (d: Observation) => string;
   segments: string[];
   colors: ScaleOrdinal<string, string>;
-  // getAnnotationInfo: (d: Observation) => Tooltip;
 }
 
 const useBarsState = ({
@@ -58,13 +55,7 @@ const useBarsState = ({
     (d: Observation) => d[fields.y.componentIri] as string,
     [fields.y.componentIri]
   );
-  const getBarHeight = useCallback(
-    (d: Observation): string =>
-      fields.height && fields.height.componentIri
-        ? (d[fields.height.componentIri] as string)
-        : undefined,
-    [fields.height]
-  );
+
   const getSegment = useCallback(
     (d: Observation): string =>
       fields.segment && fields.segment.componentIri
@@ -93,20 +84,6 @@ const useBarsState = ({
     .domain([mkNumber(minValue), mkNumber(maxValue)])
     .nice();
 
-  // Bar Height FIXME
-  const barHeightDomain = [...new Set(sortedData.map((d) => getBarHeight(d)))];
-  // FIXME: Bar height range
-  // const thisBarHeight = getBarHeight
-  //   ? barHeightScale(getBarHeight(d))
-  //   : BAR_HEIGHT;
-  const barHeightRange = barHeightDomain
-    .map((_, i) => BAR_HEIGHT * (i + 1))
-    .reverse();
-
-  const barHeightScale = scaleOrdinal<string, number>()
-    .domain(barHeightDomain)
-    .range(barHeightRange);
-
   // y
   const bandDomain = [...new Set(sortedData.map((d) => getY(d)))];
 
@@ -131,57 +108,6 @@ const useBarsState = ({
   };
   xScale.range([0, chartWidth]);
 
-  // Tooltip
-  // const getAnnotationInfo = (datum: Observation): Tooltip => {
-  //   const xRef = xScale(getX(datum));
-  //   const xOffset = 10; // xScale.bandwidth() / 2;
-  //   const yRef = yScale(getY(datum));
-  //   const yAnchor = yRef;
-
-  //   const yPlacement = yAnchor < chartHeight * 0.33 ? "middle" : "top";
-
-  //   const getXPlacement = () => {
-  //     if (yPlacement === "top") {
-  //       return xRef < chartWidth * 0.33
-  //         ? "right"
-  //         : xRef > chartWidth * 0.66
-  //         ? "left"
-  //         : "center";
-  //     } else {
-  //       // yPlacement === "middle"
-  //       return xRef < chartWidth * 0.5 ? "right" : "left";
-  //     }
-  //   };
-  //   const xPlacement = getXPlacement();
-
-  //   const getXAnchor = () => {
-  //     if (yPlacement === "top") {
-  //       return xPlacement === "right"
-  //         ? xRef
-  //         : xPlacement === "center"
-  //         ? xRef + xOffset
-  //         : xRef + xOffset * 2;
-  //     } else {
-  //       // yPlacement === "middle"
-  //       return xPlacement === "right" ? xRef + xOffset * 2 : xRef;
-  //     }
-  //   };
-  //   const xAnchor = getXAnchor();
-
-  //   return {
-  //     xAnchor,
-  //     yAnchor,
-  //     placement: { x: xPlacement, y: yPlacement },
-  //     xValue: getY(datum), // FIXME: x !== y
-  //     datum: {
-  //       label: fields.segment?.componentIri && getSegment(datum),
-  //       value: formatNumber(getX(datum)),
-  //       color: colors(getSegment(datum)) as string,
-  //     },
-  //     values: undefined,
-  //   };
-  // };
-
   return {
     bounds,
     sortedData,
@@ -189,12 +115,9 @@ const useBarsState = ({
     xScale,
     getY,
     yScale,
-    getBarHeight,
-    barHeightScale,
     getSegment,
     segments,
     colors,
-    // getAnnotationInfo,
   };
 };
 

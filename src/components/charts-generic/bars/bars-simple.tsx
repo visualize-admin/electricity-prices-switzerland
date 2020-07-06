@@ -12,8 +12,6 @@ export const Bars = () => {
     getX,
     xScale,
     getY,
-    getBarHeight,
-    barHeightScale,
     yScale,
   } = useChartState() as BarsState;
   const theme = useTheme();
@@ -31,7 +29,7 @@ export const Bars = () => {
       <g transform={`translate(${margins.left}, ${margins.top})`}>
         {sortedData.map((d, i) => {
           return (
-            <g transform={`translate(0, ${yScale(getY(d))})`}>
+            <g transform={`translate(0, ${yScale(getY(d))})`} key={i}>
               <line
                 x1={0}
                 y1={BAR_SPACE_ON_TOP - BAR_AXIS_OFFSET * 2}

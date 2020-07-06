@@ -74,14 +74,14 @@ export const AxisWidthLinearBottom = () => {
 
 export const AxisWidthLinearTop = () => {
   const formatNumber = useFormatNumber();
-  const { xScale, bounds } = useChartState() as RangePlotState;
+  const { xScale, yScale, bounds } = useChartState() as RangePlotState;
   const { chartWidth, chartHeight, margins } = bounds;
   const { labelColor, labelFontSize, gridColor, fontFamily } = useChartTheme();
   const xAxisRef = useRef<SVGGElement>(null);
 
   const mkAxis = (g: Selection<SVGGElement, unknown, null, undefined>) => {
     const maxLabelLength = estimateTextWidth(formatNumber(xScale.domain()[1]));
-    const ticks = Math.min(bounds.chartWidth / (maxLabelLength + 20), 4);
+    const ticks = Math.min(bounds.chartWidth / (maxLabelLength + 20), 10);
     const tickValues = xScale.ticks(ticks);
 
     g.call(
@@ -101,9 +101,6 @@ export const AxisWidthLinearTop = () => {
       .attr("x", 0)
       .attr("text-anchor", "middle");
 
-    g.selectAll(".tick:first-of-type text").attr("text-anchor", "start");
-    g.selectAll(".tick:last-of-type text").attr("text-anchor", "end");
-
     g.select("path.domain").remove();
   };
 
@@ -114,7 +111,7 @@ export const AxisWidthLinearTop = () => {
 
   return (
     <>
-      <g transform={`translate(${margins.left}, 0)`}>
+      <g transform={`translate(${margins.left}, ${yScale.range()[0]})`}>
         <text
           x={chartWidth + margins.right}
           y={0}
@@ -129,7 +126,9 @@ export const AxisWidthLinearTop = () => {
       <g
         ref={xAxisRef}
         key="x-axis-linear"
-        transform={`translate(${margins.left}, ${margins.top / 2})`}
+        transform={`translate(${margins.left}, ${
+          yScale.range()[0] + margins.top / 2
+        })`}
       />
     </>
   );

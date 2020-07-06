@@ -10,17 +10,22 @@ import {
   ChartSvg,
 } from "../components/charts-generic/containers";
 
-import { boxPlotData } from "./data/boxplotdata";
+import { rangePlotData, annotationData } from "./data/boxplotdata";
 import { AxisWidthLinear } from "../components/charts-generic/axis/axis-width-linear";
+import {
+  AnnotationX,
+  AnnotationXLabel,
+} from "../components/charts-generic/annotation/annotation-x";
+import { Observation } from "../domain/data";
 
 export default () => {
   return markdown`
-> Range
+  ## With annotations
 
   ${(
     <ReactSpecimen span={6}>
       <RangePlot
-        data={boxPlotData}
+        data={rangePlotData as Observation[]}
         fields={{
           x: {
             componentIri: "Total exkl. MWST",
@@ -28,6 +33,10 @@ export default () => {
           y: {
             componentIri: "Jahr",
           },
+          label: {
+            componentIri: "Netzbetreiber",
+          },
+          annotation: annotationData,
         }}
         measures={[
           {
@@ -42,10 +51,48 @@ export default () => {
             <Range />
             <AxisWidthLinear position="top" />
             <RangePoints />
-          </ChartSvg>
+            <AnnotationX />
+          </ChartSvg>{" "}
+          <AnnotationXLabel />
         </ChartContainer>
       </RangePlot>
     </ReactSpecimen>
   )}
+
+## Base Range Plot
+
+    ${(
+      <ReactSpecimen span={6}>
+        <RangePlot
+          data={rangePlotData as Observation[]}
+          fields={{
+            x: {
+              componentIri: "Total exkl. MWST",
+            },
+            y: {
+              componentIri: "Jahr",
+            },
+            label: {
+              componentIri: "Netzbetreiber",
+            },
+          }}
+          measures={[
+            {
+              iri: "Total exkl. MWST",
+              label: "Total exkl. MWST",
+              __typename: "Measure",
+            },
+          ]}
+        >
+          <ChartContainer>
+            <ChartSvg>
+              <Range />
+              <AxisWidthLinear position="top" />
+              <RangePoints />
+            </ChartSvg>
+          </ChartContainer>
+        </RangePlot>
+      </ReactSpecimen>
+    )}
   `;
 };

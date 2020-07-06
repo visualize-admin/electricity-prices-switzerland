@@ -5,8 +5,8 @@ import {
   ChartSvg,
 } from "../components/charts-generic/containers";
 import { Columns } from "../components/charts-generic/columns/columns-simple";
-import { InteractionColumns } from "../components/charts-generic/interaction/interaction-columns";
-import { Tooltip } from "../components/charts-generic/annotations/tooltip";
+import { InteractionColumns } from "../components/charts-generic/overlay/interaction-columns";
+import { Tooltip } from "../components/charts-generic/interaction/tooltip";
 import { zurichAndGeneva, fields, measures } from "./fixtures";
 import {
   AxisWidthBand,

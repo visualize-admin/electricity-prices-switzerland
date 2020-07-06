@@ -10,6 +10,8 @@ import { LinesState } from "./lines/lines-state";
 import { BarsState } from "./bars/bars-state";
 import { GroupedBarsState } from "./bars/bars-grouped-state";
 import { RangePlotState } from "./rangeplot/rangeplot-state";
+import { Bounds } from "./use-width";
+import { ScaleLinear, ScaleBand, ScaleThreshold } from "d3";
 
 export interface ChartProps {
   data: Observation[];
@@ -27,7 +29,8 @@ export type ChartState =
   | AreasState
   | LinesState
   | HistogramState
-  | RangePlotState;
+  | RangePlotState
+  | undefined;
 
 export const ChartContext = createContext<ChartState>(undefined);
 
@@ -40,3 +43,13 @@ export const useChartState = () => {
   }
   return ctx;
 };
+
+// export type SharedChartState = {
+//   bounds: Bounds;
+//   data: Observation[];
+//   getX: (d: Observation) => number;
+//   xScale: ScaleLinear<number, number>;
+//   getY: (d: Observation) => string | number;
+//   yScale: ScaleBand<string> | ScaleLinear<number, number>;
+//   colors: ScaleLinear<string, string> | ScaleThreshold<number, string>;
+// };
