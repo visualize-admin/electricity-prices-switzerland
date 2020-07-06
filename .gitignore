@@ -9,3 +9,5 @@
 /public/dist/**/*.js
 /build
 .now
+
+/geodata
