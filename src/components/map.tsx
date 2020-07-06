@@ -39,7 +39,7 @@ export const ChoroplethMap = ({
   useEffect(() => {
     const load = async () => {
       const topo = await fetch(
-        `/topojson/${parseInt(year, 10) - 1}/ch-municipalities.json`
+        `/topojson/ch-${parseInt(year, 10) - 1}.json`
       ).then((res) => res.json());
       const geojson = topojsonFeature(topo, topo.objects.municipalities);
       setData(geojson);

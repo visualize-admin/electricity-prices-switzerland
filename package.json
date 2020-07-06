@@ -74,6 +74,7 @@
     "@types/topojson-client": "^3.0.0",
     "babel-core": "^7.0.0-bridge.0",
     "babel-plugin-macros": "^2.8.0",
+    "mapshaper": "^0.5.10",
     "prettier": "^2.0.5",
     "typescript": "^3.9.5"
   }
