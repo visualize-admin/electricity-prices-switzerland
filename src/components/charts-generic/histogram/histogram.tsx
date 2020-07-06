@@ -19,10 +19,9 @@ export const HistogramColumns = () => {
   return (
     <g transform={`translate(${margins.left} ${margins.top})`}>
       {bins.map((d, i) => (
-        <>
+        <React.Fragment key={i}>
           {d.x0 && d.x1 && (
             <Column
-              key={i}
               x={xScale(d.x0) + 1}
               width={Math.max(0, xScale(d.x1) - xScale(d.x0) - 1)}
               y={yScale(getY(d))}
@@ -30,7 +29,7 @@ export const HistogramColumns = () => {
               color={!colors ? theme.colors.primary : colors(d.x0)}
             />
           )}
-        </>
+        </React.Fragment>
       ))}
     </g>
   );

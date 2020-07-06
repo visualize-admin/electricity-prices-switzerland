@@ -1,21 +1,9 @@
 import { scaleThreshold } from "d3";
-import {
-  ascending,
-  Bin,
-  descending,
-  histogram,
-  max,
-  median,
-  min,
-} from "d3-array";
+import { ascending, Bin, histogram, max, median, min } from "d3-array";
 import { ScaleLinear, scaleLinear, ScaleThreshold } from "d3-scale";
 import * as React from "react";
 import { ReactNode, useCallback } from "react";
-import {
-  HistogramFields,
-  SortingOrder,
-  SortingType,
-} from "../../../domain/config-types";
+import { HistogramFields } from "../../../domain/config-types";
 import { Observation } from "../../../domain/data";
 import { mkNumber, useFormatNumber } from "../../../domain/helpers";
 import { estimateTextWidth } from "../../../lib/estimate-text-width";
@@ -221,31 +209,4 @@ export const Histogram = ({
       </InteractionProvider>
     </Observer>
   );
-};
-
-const sortData = ({
-  data,
-  getX,
-  getY,
-  sortingType,
-  sortingOrder,
-}: {
-  data: Observation[];
-  getX: (d: Observation) => number;
-  getY: (d: Observation) => string;
-  sortingType?: SortingType;
-  sortingOrder?: SortingOrder;
-}) => {
-  if (sortingOrder === "desc" && sortingType === "byDimensionLabel") {
-    return [...data].sort((a, b) => descending(getY(a), getY(b)));
-  } else if (sortingOrder === "asc" && sortingType === "byDimensionLabel") {
-    return [...data].sort((a, b) => ascending(getY(a), getY(b)));
-  } else if (sortingOrder === "desc" && sortingType === "byMeasure") {
-    return [...data].sort((a, b) => descending(getX(a), getX(b)));
-  } else if (sortingOrder === "asc" && sortingType === "byMeasure") {
-    return [...data].sort((a, b) => ascending(getX(a), getX(b)));
-  } else {
-    // default to ascending alphabetical
-    return [...data].sort((a, b) => ascending(getY(a), getY(b)));
-  }
 };

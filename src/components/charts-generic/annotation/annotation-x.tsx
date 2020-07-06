@@ -34,7 +34,7 @@ export const AnnotationX = () => {
       {annotations &&
         annotations.map((a, i) => {
           return (
-            <>
+            <React.Fragment key={i}>
               <g transform={`translate(${margins.left}, 0)`}>
                 <rect
                   x={a.x - ANNOTATION_SQUARE_SIDE / 2}
@@ -58,7 +58,7 @@ export const AnnotationX = () => {
                   fill={annotationColor}
                 />
               </g>
-            </>
+            </React.Fragment>
           );
         })}
     </>
@@ -93,7 +93,8 @@ export const AnnotationXLabel = () => {
               fontSize: annotationfontSize,
               color: annotationColor,
               bg: "monochrome100",
-              wordBreak: ["break-all", "break-word", "break-word"],
+              hyphens: "auto",
+              wordBreak: ["break-word", "break-word", "break-word"],
             }}
           >
             <Box as="span" sx={{ fontWeight: "bold" }}>
