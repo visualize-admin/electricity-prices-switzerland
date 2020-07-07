@@ -54,9 +54,31 @@ export const getView = (cube: Cube): View => View.fromCube(cube);
 
 export const getObservations = async (
   view: View,
-  { filters }: { filters: Filter[] }
+  {
+    filters,
+    dimensions,
+  }: {
+    filters?: { [key: string]: string[] | null | undefined } | null;
+    dimensions?: string[];
+  }
 ) => {
-  const filterView = new View({ dimensions: view.dimensions, filters });
+  const queryFilters = filters
+    ? Object.entries(filters).flatMap(([dimensionKey, filterValues]) =>
+        filterValues
+          ? buildDimensionFilter(view, dimensionKey, filterValues)
+          : []
+      )
+    : [];
+
+  const filterView = new View({
+    dimensions: dimensions
+      ? dimensions.flatMap((d) => {
+          const vDim = view.dimension({ cubeDimension: ns.energyPricing(d) });
+          return vDim ? [vDim] : [];
+        })
+      : view.dimensions,
+    filters: queryFilters,
+  });
 
   console.log(filterView.observationsQuery().query.toString());
 
@@ -84,7 +106,7 @@ export const getDimensionValuesAndLabels = async ({
     cubeDimension: ns.energyPricing(dimensionKey),
   });
 
-  if(!dimension) {
+  if (!dimension) {
     throw Error(`No dimension for '${dimensionKey}'`);
   }
 

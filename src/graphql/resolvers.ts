@@ -1,3 +1,4 @@
+import { parseResolveInfo } from "graphql-parse-resolve-info";
 import { parseObservationValue } from "../lib/observations";
 import {
   buildDimensionFilter,
@@ -18,6 +19,7 @@ import {
   Resolvers,
 } from "./resolver-types";
 import { defaultLocale } from "../locales/locales";
+import { GraphQLResolveInfo } from "graphql";
 
 const Query: QueryResolvers = {
   cubes: async (_, { locale }) => {
@@ -86,6 +88,19 @@ const Query: QueryResolvers = {
 //   },
 // };
 
+const getResolverFields = (info: GraphQLResolveInfo, type: string) => {
+  const resolveInfo = parseResolveInfo(info);
+
+  if (resolveInfo) {
+    const fieldMap = resolveInfo.fieldsByTypeName[type];
+    if (fieldMap) {
+      return Object.keys(fieldMap);
+    }
+  }
+
+  return undefined;
+};
+
 const Cube: CubeResolvers = {
   iri: ({ cube }) => cube.term?.value ?? "???",
   name: ({ cube, locale }) => {
@@ -94,17 +109,14 @@ const Cube: CubeResolvers = {
   dimensionPeriod: ({ view, locale }) => {
     return getCubeDimension(view, "period", { locale });
   },
-  observations: async ({ view, locale }, { filters }) => {
-    const queryFilters = filters
-      ? Object.entries(filters).flatMap(([dimensionKey, filterValues]) =>
-          filterValues
-            ? buildDimensionFilter(view, dimensionKey, filterValues)
-            : []
-        )
-      : [];
+  observations: async ({ view, locale }, { filters }, ctx, info) => {
+
+    // Look ahead to select proper dimensions for query
+    const dimensionKeys = getResolverFields(info, "Observation");
 
     const rawObservations = await getObservations(view, {
-      filters: queryFilters,
+      filters,
+      dimensions: dimensionKeys,
     });
 
     const observations = rawObservations.map((d) => {
