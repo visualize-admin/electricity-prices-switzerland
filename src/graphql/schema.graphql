@@ -55,17 +55,18 @@ type Cube {
   iri: String!
   dimensionPeriod: TemporalDimension
 
+  # TODO: Figure out proper query parameters!
+  municipalities(query: String): [Municipality!]!
+  cantons(query: String): [Canton!]!
+  providers(query: String): [Provider!]!
+  municipality(id: String!, query: String): Municipality
+  canton(id: String!, query: String): Canton
+  provider(id: String!, query: String): Provider
+
   observations(filters: ObservationFilters): [Observation!]!
 }
 
 type Query {
   cubes(locale: String): [Cube!]!
   cubeByIri(iri: String!, locale: String): Cube
-  # TODO: Figure out proper query parameters!
-  # municipalities(locale: String, query: String): [Municipality!]!
-  # cantons(locale: String, query: String): [Canton!]!
-  # providers(locale: String, query: String): [Provider!]!
-  # municipality(id: String!, locale: String, query: String): Municipality
-  # canton(id: String!, locale: String, query: String): Canton
-  # provider(id: String!, locale: String, query: String): Provider
 }

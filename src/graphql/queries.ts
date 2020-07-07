@@ -73,7 +73,46 @@ export type Cube = {
   name: Scalars['String'];
   iri: Scalars['String'];
   dimensionPeriod?: Maybe<TemporalDimension>;
+  municipalities: Array<Municipality>;
+  cantons: Array<Canton>;
+  providers: Array<Provider>;
+  municipality?: Maybe<Municipality>;
+  canton?: Maybe<Canton>;
+  provider?: Maybe<Provider>;
   observations: Array<Observation>;
+};
+
+
+export type CubeMunicipalitiesArgs = {
+  query?: Maybe<Scalars['String']>;
+};
+
+
+export type CubeCantonsArgs = {
+  query?: Maybe<Scalars['String']>;
+};
+
+
+export type CubeProvidersArgs = {
+  query?: Maybe<Scalars['String']>;
+};
+
+
+export type CubeMunicipalityArgs = {
+  id: Scalars['String'];
+  query?: Maybe<Scalars['String']>;
+};
+
+
+export type CubeCantonArgs = {
+  id: Scalars['String'];
+  query?: Maybe<Scalars['String']>;
+};
+
+
+export type CubeProviderArgs = {
+  id: Scalars['String'];
+  query?: Maybe<Scalars['String']>;
 };
 
 
@@ -85,12 +124,6 @@ export type Query = {
   __typename: 'Query';
   cubes: Array<Cube>;
   cubeByIri?: Maybe<Cube>;
-  municipalities: Array<Municipality>;
-  cantons: Array<Canton>;
-  providers: Array<Provider>;
-  municipality?: Maybe<Municipality>;
-  canton?: Maybe<Canton>;
-  provider?: Maybe<Provider>;
 };
 
 
@@ -104,52 +137,13 @@ export type QueryCubeByIriArgs = {
   locale?: Maybe<Scalars['String']>;
 };
 
-
-export type QueryMunicipalitiesArgs = {
-  locale?: Maybe<Scalars['String']>;
-  query?: Maybe<Scalars['String']>;
-};
-
-
-export type QueryCantonsArgs = {
-  locale?: Maybe<Scalars['String']>;
-  query?: Maybe<Scalars['String']>;
-};
-
-
-export type QueryProvidersArgs = {
-  locale?: Maybe<Scalars['String']>;
-  query?: Maybe<Scalars['String']>;
-};
-
-
-export type QueryMunicipalityArgs = {
-  id: Scalars['String'];
-  locale?: Maybe<Scalars['String']>;
-  query?: Maybe<Scalars['String']>;
-};
-
-
-export type QueryCantonArgs = {
-  id: Scalars['String'];
-  locale?: Maybe<Scalars['String']>;
-  query?: Maybe<Scalars['String']>;
-};
-
-
-export type QueryProviderArgs = {
-  id: Scalars['String'];
-  locale?: Maybe<Scalars['String']>;
-  query?: Maybe<Scalars['String']>;
-};
-
 export type MunicipalitiesQueryVariables = Exact<{
   locale: Scalars['String'];
   query?: Maybe<Scalars['String']>;
 }>;
 
 
-export type MunicipalitiesQuery = { __typename: 'Query', municipalities: Array<{ __typename: 'Municipality', name: string }> };
+export type MunicipalitiesQuery = { __typename: 'Query', cubeByIri?: Maybe<{ __typename: 'Cube', municipalities: Array<{ __typename: 'Municipality', name: string }> }> };
 
 export type ObservationsQueryVariables = Exact<{
   locale?: Maybe<Scalars['String']>;
@@ -162,8 +156,10 @@ export type ObservationsQuery = { __typename: 'Query', cubeByIri?: Maybe<{ __typ
 
 export const MunicipalitiesDocument = gql`
     query Municipalities($locale: String!, $query: String) {
-  municipalities(locale: $locale, query: $query) {
-    name
+  cubeByIri(iri: "https://energy.ld.admin.ch/elcom/energy-pricing/cube", locale: $locale) {
+    municipalities(query: $query) {
+      name
+    }
   }
 }
     `;

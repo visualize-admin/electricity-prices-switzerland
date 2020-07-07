@@ -72,7 +72,46 @@ export type Cube = {
   name: Scalars['String'];
   iri: Scalars['String'];
   dimensionPeriod?: Maybe<TemporalDimension>;
+  municipalities: Array<Municipality>;
+  cantons: Array<Canton>;
+  providers: Array<Provider>;
+  municipality?: Maybe<Municipality>;
+  canton?: Maybe<Canton>;
+  provider?: Maybe<Provider>;
   observations: Array<Observation>;
+};
+
+
+export type CubeMunicipalitiesArgs = {
+  query?: Maybe<Scalars['String']>;
+};
+
+
+export type CubeCantonsArgs = {
+  query?: Maybe<Scalars['String']>;
+};
+
+
+export type CubeProvidersArgs = {
+  query?: Maybe<Scalars['String']>;
+};
+
+
+export type CubeMunicipalityArgs = {
+  id: Scalars['String'];
+  query?: Maybe<Scalars['String']>;
+};
+
+
+export type CubeCantonArgs = {
+  id: Scalars['String'];
+  query?: Maybe<Scalars['String']>;
+};
+
+
+export type CubeProviderArgs = {
+  id: Scalars['String'];
+  query?: Maybe<Scalars['String']>;
 };
 
 
@@ -84,12 +123,6 @@ export type Query = {
   __typename?: 'Query';
   cubes: Array<Cube>;
   cubeByIri?: Maybe<Cube>;
-  municipalities: Array<Municipality>;
-  cantons: Array<Canton>;
-  providers: Array<Provider>;
-  municipality?: Maybe<Municipality>;
-  canton?: Maybe<Canton>;
-  provider?: Maybe<Provider>;
 };
 
 
@@ -101,45 +134,6 @@ export type QueryCubesArgs = {
 export type QueryCubeByIriArgs = {
   iri: Scalars['String'];
   locale?: Maybe<Scalars['String']>;
-};
-
-
-export type QueryMunicipalitiesArgs = {
-  locale?: Maybe<Scalars['String']>;
-  query?: Maybe<Scalars['String']>;
-};
-
-
-export type QueryCantonsArgs = {
-  locale?: Maybe<Scalars['String']>;
-  query?: Maybe<Scalars['String']>;
-};
-
-
-export type QueryProvidersArgs = {
-  locale?: Maybe<Scalars['String']>;
-  query?: Maybe<Scalars['String']>;
-};
-
-
-export type QueryMunicipalityArgs = {
-  id: Scalars['String'];
-  locale?: Maybe<Scalars['String']>;
-  query?: Maybe<Scalars['String']>;
-};
-
-
-export type QueryCantonArgs = {
-  id: Scalars['String'];
-  locale?: Maybe<Scalars['String']>;
-  query?: Maybe<Scalars['String']>;
-};
-
-
-export type QueryProviderArgs = {
-  id: Scalars['String'];
-  locale?: Maybe<Scalars['String']>;
-  query?: Maybe<Scalars['String']>;
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -291,6 +285,12 @@ export type CubeResolvers<ContextType = any, ParentType extends ResolversParentT
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   iri?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   dimensionPeriod?: Resolver<Maybe<ResolversTypes['TemporalDimension']>, ParentType, ContextType>;
+  municipalities?: Resolver<Array<ResolversTypes['Municipality']>, ParentType, ContextType, RequireFields<CubeMunicipalitiesArgs, never>>;
+  cantons?: Resolver<Array<ResolversTypes['Canton']>, ParentType, ContextType, RequireFields<CubeCantonsArgs, never>>;
+  providers?: Resolver<Array<ResolversTypes['Provider']>, ParentType, ContextType, RequireFields<CubeProvidersArgs, never>>;
+  municipality?: Resolver<Maybe<ResolversTypes['Municipality']>, ParentType, ContextType, RequireFields<CubeMunicipalityArgs, 'id'>>;
+  canton?: Resolver<Maybe<ResolversTypes['Canton']>, ParentType, ContextType, RequireFields<CubeCantonArgs, 'id'>>;
+  provider?: Resolver<Maybe<ResolversTypes['Provider']>, ParentType, ContextType, RequireFields<CubeProviderArgs, 'id'>>;
   observations?: Resolver<Array<ResolversTypes['Observation']>, ParentType, ContextType, RequireFields<CubeObservationsArgs, never>>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 }>;
@@ -298,12 +298,6 @@ export type CubeResolvers<ContextType = any, ParentType extends ResolversParentT
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   cubes?: Resolver<Array<ResolversTypes['Cube']>, ParentType, ContextType, RequireFields<QueryCubesArgs, never>>;
   cubeByIri?: Resolver<Maybe<ResolversTypes['Cube']>, ParentType, ContextType, RequireFields<QueryCubeByIriArgs, 'iri'>>;
-  municipalities?: Resolver<Array<ResolversTypes['Municipality']>, ParentType, ContextType, RequireFields<QueryMunicipalitiesArgs, never>>;
-  cantons?: Resolver<Array<ResolversTypes['Canton']>, ParentType, ContextType, RequireFields<QueryCantonsArgs, never>>;
-  providers?: Resolver<Array<ResolversTypes['Provider']>, ParentType, ContextType, RequireFields<QueryProvidersArgs, never>>;
-  municipality?: Resolver<Maybe<ResolversTypes['Municipality']>, ParentType, ContextType, RequireFields<QueryMunicipalityArgs, 'id'>>;
-  canton?: Resolver<Maybe<ResolversTypes['Canton']>, ParentType, ContextType, RequireFields<QueryCantonArgs, 'id'>>;
-  provider?: Resolver<Maybe<ResolversTypes['Provider']>, ParentType, ContextType, RequireFields<QueryProviderArgs, 'id'>>;
 }>;
 
 export type Resolvers<ContextType = any> = ResolversObject<{

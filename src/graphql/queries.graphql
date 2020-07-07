@@ -1,6 +1,11 @@
 query Municipalities($locale: String!, $query: String) {
-  municipalities(locale: $locale, query: $query) {
-    name
+  cubeByIri(
+    iri: "https://energy.ld.admin.ch/elcom/energy-pricing/cube"
+    locale: $locale
+  ) {
+    municipalities(query: $query) {
+      name
+    }
   }
 }
 

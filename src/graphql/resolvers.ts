@@ -38,12 +38,6 @@ const Query: QueryResolvers = {
 
     return { locale: locale ?? defaultLocale, cube, view: getView(cube) };
   },
-  municipalities: async () => [{ id: "1" }, { id: "2" }],
-  cantons: async () => [{ id: "1" }, { id: "2" }],
-  providers: async () => [{ id: "1" }, { id: "2" }],
-  municipality: async (_, { id }) => ({ id }),
-  canton: async (_, { id }) => ({ id }),
-  provider: async (_, { id }) => ({ id }),
 };
 
 // const Municipality: MunicipalityResolvers = {
@@ -124,6 +118,12 @@ const Cube: CubeResolvers = {
     // Should we type-check with io-ts here? Probably not necessary because the GraphQL API will also type-check against the schema.
     return observations as Observation[];
   },
+  municipalities: async () => [{ id: "1" }, { id: "2" }],
+  cantons: async () => [{ id: "1" }, { id: "2" }],
+  providers: async () => [{ id: "1" }, { id: "2" }],
+  municipality: async (_, { id }) => ({ id }),
+  canton: async (_, { id }) => ({ id }),
+  provider: async (_, { id }) => ({ id }),
 };
 
 export const resolvers: Resolvers = {
