@@ -26,6 +26,7 @@ export type Municipality = {
 
 export type Provider = {
   __typename?: 'Provider';
+  id: Scalars['String'];
   name: Scalars['String'];
   municipalities: Array<Municipality>;
   priceComponents: PriceComponents;
@@ -58,6 +59,7 @@ export type Observation = {
   gridusage: Scalars['Float'];
   energy: Scalars['Float'];
   fixcostspercent: Scalars['Float'];
+  total: Scalars['Float'];
 };
 
 export type ObservationFilters = {
@@ -246,6 +248,7 @@ export type MunicipalityResolvers<ContextType = any, ParentType extends Resolver
 }>;
 
 export type ProviderResolvers<ContextType = any, ParentType extends ResolversParentTypes['Provider'] = ResolversParentTypes['Provider']> = ResolversObject<{
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   municipalities?: Resolver<Array<ResolversTypes['Municipality']>, ParentType, ContextType>;
   priceComponents?: Resolver<ResolversTypes['PriceComponents'], ParentType, ContextType>;
@@ -278,6 +281,7 @@ export type ObservationResolvers<ContextType = any, ParentType extends Resolvers
   gridusage?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   energy?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   fixcostspercent?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  total?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 }>;
 

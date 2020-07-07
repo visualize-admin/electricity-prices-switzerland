@@ -27,6 +27,7 @@ export type Municipality = {
 
 export type Provider = {
   __typename: 'Provider';
+  id: Scalars['String'];
   name: Scalars['String'];
   municipalities: Array<Municipality>;
   priceComponents: PriceComponents;
@@ -59,6 +60,7 @@ export type Observation = {
   gridusage: Scalars['Float'];
   energy: Scalars['Float'];
   fixcostspercent: Scalars['Float'];
+  total: Scalars['Float'];
 };
 
 export type ObservationFilters = {
@@ -151,7 +153,7 @@ export type ObservationsQueryVariables = Exact<{
 }>;
 
 
-export type ObservationsQuery = { __typename: 'Query', cubeByIri?: Maybe<{ __typename: 'Cube', observations: Array<{ __typename: 'Observation', period: string, municipality: string, provider: string, category: string, aidfee: number, charge: number, fixcosts: number, fixcostspercent: number, energy: number, gridusage: number }> }> };
+export type ObservationsQuery = { __typename: 'Query', cubeByIri?: Maybe<{ __typename: 'Cube', observations: Array<{ __typename: 'Observation', period: string, municipality: string, provider: string, category: string, total: number }> }> };
 
 
 export const MunicipalitiesDocument = gql`
@@ -175,12 +177,7 @@ export const ObservationsDocument = gql`
       municipality
       provider
       category
-      aidfee
-      charge
-      fixcosts
-      fixcostspercent
-      energy
-      gridusage
+      total
     }
   }
 }

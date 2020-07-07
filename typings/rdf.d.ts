@@ -70,9 +70,11 @@ declare module "@zazuko/rdf-cube-view-query" {
     static fromCube(cube: Cube): View;
     out: Clownface["out"];
     dimensions: Dimension[];
-    dimension(options: { cubeDimension: CubeDimension }): Dimension | null;
+    dimension(options: { cubeDimension: NamedNode }): Dimension | null;
     observationsQuery(): { query: $FixMe; dimensionMap: Map };
-    async observations(): Record<string, Literal | NamedNode>[];
+    async observations(): Promise<Record<string, Literal | NamedNode>[]>;
+    addDimension(dimension: Dimension): View;
+    createDimension(options: $FixMe): Dimension;
   }
   export class Source extends Node {
     constructor(
@@ -83,14 +85,11 @@ declare module "@zazuko/rdf-cube-view-query" {
         password?: string;
       }
     );
-    async cube(term: Term | string): Cube | null;
-    async cubes(): Cube[];
+    async cube(term: Term | string): Promise<Cube | null>;
+    async cubes(): Promise<Cube[]>;
   }
-  export class LookupSource extends Source {}
+  export class LookupSource extends Source {
+    static fromSource(source: Source): LookupSource;
+  }
   export class CubeSource extends Source {}
-}
-
-declare module "@rdfjs/namespace" {
-  const namespace = $FixMe;
-  export default namespace;
 }

@@ -19,13 +19,7 @@ query Observations($locale: String, $filters: ObservationFilters!) {
       municipality
       provider
       category
-
-      aidfee
-      charge
-      fixcosts
-      fixcostspercent
-      energy
-      gridusage
+      total
     }
   }
 }

@@ -7,6 +7,7 @@ import {
   Cube,
   CubeDimension,
   Filter,
+  LookupSource,
 } from "@zazuko/rdf-cube-view-query";
 import namespace from "@rdfjs/namespace";
 import { defaultLocale } from "../locales/locales";
@@ -19,6 +20,7 @@ const ns = {
   rdf: namespace("http://www.w3.org/1999/02/22-rdf-syntax-ns#"),
   schema: namespace("http://schema.org/"),
   xsd: namespace("http://www.w3.org/2001/XMLSchema#"),
+  classifications: namespace("http://classifications.data.admin.ch/"),
 };
 
 export const getSource = () =>
@@ -35,16 +37,15 @@ export const getName = (
 ) => {
   const term =
     node
-      .out(ns.schema.name)
+      .out(ns.schema`name`)
       .terms.find(
         (term) => term.termType === "Literal" && term.language === locale
       ) ??
     node
-      .out(ns.schema.name)
+      .out(ns.schema`name`)
       .terms.find(
         (term) => term.termType === "Literal" && term.language === defaultLocale
       ); // FIXME: fall back to all languages in order
-
 
   return term?.value ?? "---";
 };
@@ -65,6 +66,49 @@ export const getObservations = async (
   filterView.clear();
 
   return observations;
+};
+
+export const getDimensionValuesAndLabels = async ({
+  view,
+  source,
+  dimensionKey,
+}: {
+  view: View;
+  source: Source;
+  dimensionKey: string;
+}): Promise<{ id: string; name: string }[]> => {
+  const lookup = LookupSource.fromSource(source);
+  const lookupView = new View({ parent: source });
+
+  const dimension = view.dimension({
+    cubeDimension: ns.energyPricing(dimensionKey),
+  });
+
+  if(!dimension) {
+    throw Error(`No dimension for '${dimensionKey}'`);
+  }
+
+  const labelDimension = lookupView.createDimension({
+    source: lookup,
+    path: ns.schema.name,
+    join: dimension,
+    as: ns.energyPricing(`${dimensionKey}Label`),
+  });
+  lookupView.addDimension(dimension).addDimension(labelDimension);
+
+  console.log(lookupView.observationsQuery().query.toString());
+
+  const observations = await lookupView.observations();
+
+  lookupView.clear();
+  lookup.clear();
+
+  return observations.map((obs) => {
+    return {
+      id: obs[ns.energyPricing(dimensionKey).value].value as string,
+      name: obs[ns.energyPricing(`${dimensionKey}Label`).value].value as string,
+    };
+  });
 };
 
 export const getCubeDimension = (

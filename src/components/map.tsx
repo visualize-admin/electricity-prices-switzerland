@@ -54,7 +54,7 @@ export const ChoroplethMap = ({
     : observations.data?.cubeByIri?.observations ?? empty;
 
   const observationsByMunicipalityId = useMemo(() => {
-    return group<Observation, string>(municipalityObservations, (d) =>
+    return group(municipalityObservations, (d) =>
       d.municipality.replace(
         "http://classifications.data.admin.ch/municipality/",
         ""
@@ -70,7 +70,7 @@ export const ChoroplethMap = ({
 
   const colorScale = scaleQuantile(
     // @ts-ignore
-    municipalityObservations.map((d) => d.gridusage),
+    municipalityObservations.map((d) => d.total),
     [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]
   );
 
@@ -117,7 +117,7 @@ export const ChoroplethMap = ({
     autoHighlight: true,
     getFillColor: (d: $FixMe) => {
       const obs = observationsByMunicipalityId.get(d.id.toString())?.[0];
-      return obs ? getColor(obs.gridusage) : [0, 0, 0, 20];
+      return obs ? getColor(obs.total) : [0, 0, 0, 20];
     },
     highlightColor: [0, 0, 0, 50],
     getLineColor: [255, 255, 255],

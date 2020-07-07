@@ -2777,6 +2777,13 @@
   dependencies:
     "@types/node" "*"
 
+"@types/rdfjs__namespace@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@types/rdfjs__namespace/-/rdfjs__namespace-1.1.1.tgz#0f4b901fe3936d9b6e4d38560386d37ee1e6a6ad"
+  integrity sha512-IgPTKBbKC4Hm5j7kO9XpJMtWMXCRc9x308VD/e/ibdDiaSc27c7dzwPtgQeWUK0q1IQ5hobOAuHZVvlhIH8eMg==
+  dependencies:
+    "@types/rdf-js" "*"
+
 "@types/react@*":
   version "16.9.36"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-16.9.36.tgz#ade589ff51e2a903e34ee4669e05dbfa0c1ce849"

@@ -6,6 +6,7 @@ import {
   getObservations,
   getSource,
   getView,
+  getDimensionValuesAndLabels,
 } from "./rdf";
 import {
   CantonResolvers,
@@ -26,6 +27,7 @@ const Query: QueryResolvers = {
       locale: locale ?? defaultLocale,
       cube,
       view: getView(cube),
+      source,
     }));
   },
   cubeByIri: async (_, { locale, iri }) => {
@@ -36,7 +38,12 @@ const Query: QueryResolvers = {
       return null;
     }
 
-    return { locale: locale ?? defaultLocale, cube, view: getView(cube) };
+    return {
+      locale: locale ?? defaultLocale,
+      cube,
+      view: getView(cube),
+      source,
+    };
   },
 };
 
@@ -79,8 +86,6 @@ const Query: QueryResolvers = {
 //   },
 // };
 
-type ObsKey = keyof Omit<Observation, "__typename">;
-
 const Cube: CubeResolvers = {
   iri: ({ cube }) => cube.term?.value ?? "???",
   name: ({ cube, locale }) => {
@@ -118,9 +123,15 @@ const Cube: CubeResolvers = {
     // Should we type-check with io-ts here? Probably not necessary because the GraphQL API will also type-check against the schema.
     return observations as Observation[];
   },
-  municipalities: async () => [{ id: "1" }, { id: "2" }],
+  providers: async ({ view, source }) => {
+    return getDimensionValuesAndLabels({
+      view,
+      source,
+      dimensionKey: "provider",
+    });
+  },
   cantons: async () => [{ id: "1" }, { id: "2" }],
-  providers: async () => [{ id: "1" }, { id: "2" }],
+  municipalities: async () => [{ id: "1" }, { id: "2" }],
   municipality: async (_, { id }) => ({ id }),
   canton: async (_, { id }) => ({ id }),
   provider: async (_, { id }) => ({ id }),
