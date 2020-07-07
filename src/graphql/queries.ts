@@ -62,10 +62,10 @@ export type Observation = {
 };
 
 export type ObservationFilters = {
-  period?: Maybe<Array<Maybe<Scalars['String']>>>;
-  municipality?: Maybe<Array<Maybe<Scalars['String']>>>;
-  provider?: Maybe<Array<Maybe<Scalars['String']>>>;
-  category?: Maybe<Array<Maybe<Scalars['String']>>>;
+  period?: Maybe<Array<Scalars['String']>>;
+  municipality?: Maybe<Array<Scalars['String']>>;
+  provider?: Maybe<Array<Scalars['String']>>;
+  category?: Maybe<Array<Scalars['String']>>;
 };
 
 export type Cube = {

@@ -25,7 +25,7 @@ export const ChoroplethMap = ({
   category: string;
 }) => {
   const [data, setData] = useState<GeoJSON.Feature | undefined>();
-  const [hovered, setHovered] = useState();
+  const [hovered, setHovered] = useState<string>();
 
   const [observations] = useObservationsQuery({
     variables: {
@@ -76,8 +76,8 @@ export const ChoroplethMap = ({
 
   const getColor = (v: number) => {
     const c = interpolateRdYlGn(1 - colorScale(v));
-    const rgb = color(c).rgb();
-    return [rgb.r, rgb.g, rgb.b];
+    const rgb = color(c)?.rgb();
+    return rgb ? [rgb.r, rgb.g, rgb.b] : [0, 0, 0];
   };
   // const layer = useMemo(() => {
   //   console.log("new layer",year)
@@ -115,7 +115,7 @@ export const ChoroplethMap = ({
     // lineWidthScale: 20,
     lineWidthMinPixels: 1,
     autoHighlight: true,
-    getFillColor: (d) => {
+    getFillColor: (d: $FixMe) => {
       const obs = observationsByMunicipalityId.get(d.id.toString())?.[0];
       return obs ? getColor(obs.gridusage) : [0, 0, 0, 20];
     },
@@ -123,7 +123,7 @@ export const ChoroplethMap = ({
     getLineColor: [255, 255, 255],
     getRadius: 100,
     getLineWidth: 1,
-    onHover: (info) => {
+    onHover: (info: $FixMe) => {
       setHovered(info.object?.id.toString());
     },
     updateTriggers: { getFillColor: [observationsByMunicipalityId] },

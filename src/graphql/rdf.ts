@@ -1,14 +1,15 @@
 import rdf from "rdf-ext";
 import { Clownface } from "clownface";
-import { Source, View } from "@zazuko/rdf-cube-view-query";
+import {
+  Source,
+  View,
+  Node,
+  Cube,
+  CubeDimension,
+  Filter,
+} from "@zazuko/rdf-cube-view-query";
 import namespace from "@rdfjs/namespace";
 import { defaultLocale } from "../locales/locales";
-
-type View = $FixMe;
-type Cube = $FixMe;
-type Node = {
-  out: (...args) => Clownface;
-};
 
 const ns = {
   dc: namespace("http://purl.org/dc/elements/1.1/"),
@@ -28,7 +29,10 @@ export const getSource = () =>
     // password: ''
   });
 
-export const getName = (node: Node, { locale }: { locale: string }) => {
+export const getName = (
+  node: Cube | CubeDimension,
+  { locale }: { locale: string }
+) => {
   const term =
     node
       .out(ns.schema.name)
@@ -40,20 +44,27 @@ export const getName = (node: Node, { locale }: { locale: string }) => {
       .terms.find(
         (term) => term.termType === "Literal" && term.language === defaultLocale
       ); // FIXME: fall back to all languages in order
-  return term?.value;
+
+
+  return term?.value ?? "---";
 };
 
 export const getView = (cube: Cube): View => View.fromCube(cube);
 
 export const getObservations = async (
   view: View,
-  { filters }: { filters: $FixMe[] }
+  { filters }: { filters: Filter[] }
 ) => {
   const filterView = new View({ dimensions: view.dimensions, filters });
 
   console.log(filterView.observationsQuery().query.toString());
 
-  return filterView.observations();
+  const observations = await filterView.observations();
+
+  // Clean up
+  filterView.clear();
+
+  return observations;
 };
 
 export const getCubeDimension = (
@@ -97,7 +108,7 @@ export const buildDimensionFilter = (
 
   const cubeDimension = viewDimension?.cubeDimensions[0];
 
-  if (!cubeDimension) {
+  if (!viewDimension || !cubeDimension) {
     throw Error(`No dimension for '${dimensionKey}'`);
   }
 

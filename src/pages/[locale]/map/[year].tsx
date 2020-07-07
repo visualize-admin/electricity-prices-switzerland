@@ -8,9 +8,10 @@ type Props = {
   year: string;
 };
 
-export const getServerSideProps: GetServerSideProps<Props> = async ({
-  params: { locale, year },
+export const getServerSideProps: GetServerSideProps<Props, Props> = async ({
+  params
 }) => {
+  const { locale, year } = params!
   return { props: { locale: locale.toString(), year: year.toString() } };
 };
 

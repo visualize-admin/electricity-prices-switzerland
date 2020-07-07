@@ -8,7 +8,7 @@ export type RawObservationValue = {
 
 export type RawObservation = Record<string, RawObservationValue>;
 
-export type ObservationValue = string | number | boolean | Date;
+export type ObservationValue = string | number | boolean;
 
 export type Observation = Record<string, ObservationValue>;
 

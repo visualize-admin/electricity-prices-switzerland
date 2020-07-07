@@ -16,32 +16,27 @@ import {
   QueryResolvers,
   Resolvers,
 } from "./resolver-types";
-
-const MOCK_DATA = {
-  municipalities: {
-    "1": { id: "1", name: "A", canton: "1", providers: ["1", "2"] },
-    "2": { id: "2", name: "B", canton: "1", providers: ["2"] },
-  },
-  cantons: {
-    "1": { id: "1", name: "Canton 1" },
-    "2": { id: "2", name: "Canton 2" },
-  },
-  providers: {
-    "1": { id: "1", name: "Provider 1" },
-    "2": { id: "2", name: "Provider 2" },
-  },
-};
+import { defaultLocale } from "../locales/locales";
 
 const Query: QueryResolvers = {
   cubes: async (_, { locale }) => {
     const source = getSource();
     const cubes = await source.cubes();
-    return cubes.map((cube) => ({ locale, cube }));
+    return cubes.map((cube) => ({
+      locale: locale ?? defaultLocale,
+      cube,
+      view: getView(cube),
+    }));
   },
   cubeByIri: async (_, { locale, iri }) => {
     const source = getSource();
     const cube = await source.cube(iri);
-    return { locale, cube, view: getView(cube) };
+
+    if (!cube) {
+      return null;
+    }
+
+    return { locale: locale ?? defaultLocale, cube, view: getView(cube) };
   },
   municipalities: async () => [{ id: "1" }, { id: "2" }],
   cantons: async () => [{ id: "1" }, { id: "2" }],
@@ -51,57 +46,61 @@ const Query: QueryResolvers = {
   provider: async (_, { id }) => ({ id }),
 };
 
-const Municipality: MunicipalityResolvers = {
-  name: (municipality) => MOCK_DATA.municipalities[municipality.id].name,
-  canton: (municipality) => {
-    return { id: MOCK_DATA.municipalities[municipality.id].canton };
-  },
-  providers: (municipality) => {
-    return MOCK_DATA.municipalities[municipality.id].providers.map((id) => ({
-      id,
-    }));
-  },
-  priceComponents: () => {
-    return { total: 100 };
-  },
-};
+// const Municipality: MunicipalityResolvers = {
+//   name: (municipality) => MOCK_DATA.municipalities[municipality.id].name,
+//   canton: (municipality) => {
+//     return { id: MOCK_DATA.municipalities[municipality.id].canton };
+//   },
+//   providers: (municipality) => {
+//     return MOCK_DATA.municipalities[municipality.id].providers.map((id) => ({
+//       id,
+//     }));
+//   },
+//   priceComponents: () => {
+//     return { total: 100 };
+//   },
+// };
 
-const Canton: CantonResolvers = {
-  name: (canton) => MOCK_DATA.cantons[canton.id].name,
-  municipalities: (canton) => {
-    return Object.values(MOCK_DATA.municipalities).filter(
-      (m) => m.canton === canton.id
-    );
-  },
-  priceComponents: () => {
-    return { total: 85 };
-  },
-};
+// const Canton: CantonResolvers = {
+//   name: (canton) => MOCK_DATA.cantons[canton.id].name,
+//   municipalities: (canton) => {
+//     return Object.values(MOCK_DATA.municipalities).filter(
+//       (m) => m.canton === canton.id
+//     );
+//   },
+//   priceComponents: () => {
+//     return { total: 85 };
+//   },
+// };
 
-const Provider: ProviderResolvers = {
-  name: (provider) => MOCK_DATA.providers[provider.id].name,
-  municipalities: (provider) => {
-    return Object.values(MOCK_DATA.municipalities).filter((m) =>
-      m.providers.includes(provider.id)
-    );
-  },
-  priceComponents: () => {
-    return { total: 63 };
-  },
-};
+// const Provider: ProviderResolvers = {
+//   name: (provider) => MOCK_DATA.providers[provider.id].name,
+//   municipalities: (provider) => {
+//     return Object.values(MOCK_DATA.municipalities).filter((m) =>
+//       m.providers.includes(provider.id)
+//     );
+//   },
+//   priceComponents: () => {
+//     return { total: 63 };
+//   },
+// };
+
+type ObsKey = keyof Omit<Observation, "__typename">;
 
 const Cube: CubeResolvers = {
-  iri: ({ cube }) => cube.term?.value,
+  iri: ({ cube }) => cube.term?.value ?? "???",
   name: ({ cube, locale }) => {
     return getName(cube, { locale });
   },
-  dimensionPeriod: ({ cube, locale }) => {
-    return getCubeDimension(cube, "period", { locale });
+  dimensionPeriod: ({ view, locale }) => {
+    return getCubeDimension(view, "period", { locale });
   },
   observations: async ({ view, locale }, { filters }) => {
     const queryFilters = filters
-      ? Object.entries(filters).map(([dimensionKey, filterValues]) =>
-          buildDimensionFilter(view, dimensionKey, filterValues)
+      ? Object.entries(filters).flatMap(([dimensionKey, filterValues]) =>
+          filterValues
+            ? buildDimensionFilter(view, dimensionKey, filterValues)
+            : []
         )
       : [];
 
@@ -109,25 +108,28 @@ const Cube: CubeResolvers = {
       filters: queryFilters,
     });
 
-    return rawObservations.map((d) => {
-      let parsed: Partial<Observation> = {};
+    const observations = rawObservations.map((d) => {
+      let parsed: { [k: string]: string | number | boolean } = {};
       for (const [k, v] of Object.entries(d)) {
-        parsed[
-          k.replace(
-            "https://energy.ld.admin.ch/elcom/energy-pricing/dimension/",
-            ""
-          )
-        ] = parseObservationValue(v as $FixMe);
+        const key = k.replace(
+          "https://energy.ld.admin.ch/elcom/energy-pricing/dimension/",
+          ""
+        );
+
+        parsed[key] = parseObservationValue(v);
       }
       return parsed;
     });
+
+    // Should we type-check with io-ts here? Probably not necessary because the GraphQL API will also type-check against the schema.
+    return observations as Observation[];
   },
 };
 
 export const resolvers: Resolvers = {
   Query,
-  Municipality,
-  Provider,
-  Canton,
+  // Municipality,
+  // Provider,
+  // Canton,
   Cube,
 };
