@@ -26,7 +26,7 @@ export const List = () => {
       }}
     >
       <Link
-        href={{ pathname: `/[locale]/[municipality]/[id]`, query }}
+        href={{ pathname: `/[locale]/municipality/[id]`, query }}
         as={{
           pathname: `/${locale}/municipality/zürich`,
           query,
@@ -47,6 +47,54 @@ export const List = () => {
           }}
         >
           Link to the municipality: Zürich
+        </UILink>
+      </Link>
+      <Link
+        href={{ pathname: `/[locale]/provider/[id]`, query }}
+        as={{
+          pathname: `/${locale}/provider/ewz`,
+          query,
+        }}
+        passHref
+      >
+        <UILink
+          sx={{
+            p: 1,
+            color: "primary",
+            cursor: "pointer",
+            ":hover": {
+              color: "primaryHover",
+            },
+            ":active": {
+              color: "primaryActive",
+            },
+          }}
+        >
+          Link to the provider: ewz
+        </UILink>
+      </Link>
+      <Link
+        href={{ pathname: `/[locale]/canton/[id]`, query }}
+        as={{
+          pathname: `/${locale}/canton/vaud`,
+          query,
+        }}
+        passHref
+      >
+        <UILink
+          sx={{
+            p: 1,
+            color: "primary",
+            cursor: "pointer",
+            ":hover": {
+              color: "primaryHover",
+            },
+            ":active": {
+              color: "primaryActive",
+            },
+          }}
+        >
+          Link to the canton: Vaud
         </UILink>
       </Link>
     </Flex>
