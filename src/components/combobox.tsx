@@ -1,5 +1,5 @@
 import { Trans } from "@lingui/macro";
-import { useCombobox, useMultipleSelection } from "downshift";
+import { useCombobox, useMultipleSelection, UseComboboxState } from "downshift";
 import { useState, ReactNode } from "react";
 import { Box, Button, Flex, Input } from "theme-ui";
 import { Icon } from "../icons";
@@ -220,8 +220,11 @@ export const Combobox = ({
   label: string | ReactNode;
   items: string[];
   selectedItem: string;
-
-  handleSelectedItemChange: ({ selectedItem: any }) => void;
+  handleSelectedItemChange: ({
+    selectedItem,
+  }: {
+    selectedItem: string;
+  }) => void;
 }) => {
   const [inputItems, setInputItems] = useState(items);
   const {
@@ -237,11 +240,15 @@ export const Combobox = ({
     defaultHighlightedIndex: 0, // after selection, highlight the first item.
     selectedItem,
     items: inputItems,
-    onSelectedItemChange: handleSelectedItemChange,
+    onSelectedItemChange: handleSelectedItemChange as (
+      changes: Partial<UseComboboxState<string>>
+    ) => void,
     onInputValueChange: ({ inputValue }) => {
       setInputItems(
         items.filter((item) =>
-          item.toLowerCase().startsWith(inputValue.toLowerCase())
+          inputValue
+            ? item.toLowerCase().startsWith(inputValue.toLowerCase())
+            : items
         )
       );
     },
