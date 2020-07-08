@@ -7,9 +7,6 @@ import { ChoroplethMap } from "../../components/map";
 import { List } from "../../components/list";
 
 const IndexPage = () => {
-  const { query } = useRouter();
-  const { year, priceComponent, category, product } = query;
-
   return (
     <Flex sx={{ minHeight: "100vh", flexDirection: "column" }}>
       <Header></Header>
@@ -22,10 +19,10 @@ const IndexPage = () => {
           alignItems: "flex-end",
         }}
       >
-        <ChoroplethMap
+        {/* <ChoroplethMap
           year={(year as string) ?? "2020"}
           category={(category as string) ?? "H4"}
-        />
+        /> */}
         <Selector />
         <List />
       </Flex>

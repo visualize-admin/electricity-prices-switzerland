@@ -271,7 +271,6 @@ export const Combobox = ({
     //       break;
     //   }
   });
-  console.log({ ...getInputProps() });
   return (
     <Box sx={{ position: "relative" }}>
       <Label label={label} smaller {...getLabelProps()}></Label>
