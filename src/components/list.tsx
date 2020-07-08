@@ -36,13 +36,14 @@ export const List = () => {
             <Link
               href={{ pathname: `/[locale]/[municipality]/[id]`, query }}
               as={{
-                pathname: `/${locale}/${localizedMunicipality[locale]}/zürich`,
+                pathname: `/${locale}/municipality/zürich`,
                 query,
               }}
+              passHref
             >
               <UILink
                 sx={{
-                  p: 4,
+                  p: 2,
                   bg: "primary",
                   color: "monochrome100",
                   cursor: "pointer",
@@ -52,13 +53,9 @@ export const List = () => {
                   ":active": {
                     bg: "primaryActive",
                   },
-                  ":disabled": {
-                    cursor: "initial",
-                    bg: "primaryDisabled",
-                  },
                 }}
               >
-                Zürich
+                Link to the municipality: Zürich
               </UILink>
             </Link>
           );
