@@ -1,21 +1,21 @@
-import { Trans } from "@lingui/macro";
+import { Trans, t } from "@lingui/macro";
 import { useRouter } from "next/router";
 import { Flex, Text } from "theme-ui";
 import { format } from "url";
 import { Combobox } from "./../components/combobox";
 import { useLocale } from "./../lib/use-locale";
-
+import { I18n } from "@lingui/react";
 interface Props {
-  locale: string;
   year: string;
   priceComponent: string;
-  categorie: string;
+  category: string;
   product: string;
 }
-const years = ["2020", "2019", "2018", "2017", "2016", "2015"];
-const priceComponents = ["Total", "Abgabe", "KEV", "Grid usage"];
-const products = ["Standard", "Günstig"];
-const categories = [
+
+export const years = ["2020", "2019", "2018", "2017", "2016", "2015"];
+export const priceComponents = ["Total", "Abgabe", "KEV", "Grid usage"];
+export const products = ["Standard", "Günstig"];
+export const categories = [
   "H1",
   "H2",
   "H3",
@@ -39,28 +39,15 @@ export const Selector = () => {
 
   const updateQueryParams = (queryObject: { [x: string]: string }) => {
     replace(
-      format({
+      {
         pathname: `/[locale]/index`,
         query: { ...query, ...queryObject },
-      }),
-      format({ pathname: `/${locale}`, query: { ...query, ...queryObject } }),
-      { shallow: true }
+      },
+      { pathname: `/${locale}`, query: { ...query, ...queryObject } }
     );
   };
   const { year, priceComponent, category, product } = query;
 
-  const updateYear = ({ selectedItem }) => {
-    updateQueryParams({ year: selectedItem });
-  };
-  const updatePriceComponent = ({ selectedItem }) => {
-    updateQueryParams({ priceComponent: selectedItem });
-  };
-  const updateCategory = ({ selectedItem }) => {
-    updateQueryParams({ category: selectedItem });
-  };
-  const updateProduct = ({ selectedItem }) => {
-    updateQueryParams({ product: selectedItem });
-  };
   return (
     <Flex
       as="fieldset"
@@ -82,32 +69,43 @@ export const Selector = () => {
           Parameter auswählen
         </Trans>
       </Text>
-      <Combobox
-        label={<Trans id="selector.year">Jahr</Trans>}
-        items={years}
-        // FIXME: What if several years?
-        selectedItem={(year as string) ?? "2020"}
-        handleSelectedItemChange={updateYear}
-      />
-      <Combobox
-        label={<Trans id="selector.priceComponent">Preiskomponent</Trans>}
-        items={priceComponents}
-        selectedItem={(priceComponent as string) ?? "Total"}
-        handleSelectedItemChange={updatePriceComponent}
-      />
 
-      <Combobox
-        label={<Trans id="selector.category">Kategorie</Trans>}
-        items={categories}
-        selectedItem={(category as string) ?? "H4"}
-        handleSelectedItemChange={updateCategory}
-      />
-      <Combobox
-        label={<Trans id="selector.product">Produkt</Trans>}
-        items={products}
-        selectedItem={(product as string) ?? "Standard"}
-        handleSelectedItemChange={updateProduct}
-      />
+      <>
+        <Combobox
+          label={<Trans id="selector.year">Jahr</Trans>}
+          items={years}
+          // FIXME: What if several years?
+          selectedItem={(year as string) ?? "2020"}
+          handleSelectedItemChange={({ selectedItem }) =>
+            updateQueryParams({ year: selectedItem })
+          }
+        />
+        <Combobox
+          label={<Trans id="selector.priceComponent">Preiskomponent</Trans>}
+          items={priceComponents}
+          selectedItem={(priceComponent as string) ?? "Total"}
+          handleSelectedItemChange={({ selectedItem }) =>
+            updateQueryParams({ priceComponent: selectedItem })
+          }
+        />
+
+        <Combobox
+          label={<Trans id="selector.category">Kategorie</Trans>}
+          items={categories}
+          selectedItem={(category as string) ?? "H4"}
+          handleSelectedItemChange={({ selectedItem }) =>
+            updateQueryParams({ category: selectedItem })
+          }
+        />
+        <Combobox
+          label={<Trans id="selector.product">Produkt</Trans>}
+          items={products}
+          selectedItem={(product as string) ?? "Standard"}
+          handleSelectedItemChange={({ selectedItem }) =>
+            updateQueryParams({ product: selectedItem })
+          }
+        />
+      </>
     </Flex>
   );
 };
