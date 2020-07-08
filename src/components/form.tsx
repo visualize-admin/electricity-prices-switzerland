@@ -58,7 +58,6 @@ export const Label = ({
           textAlign: "left",
           fontFamily: "body",
           pr: 1,
-          fontSize: [3, 3, 4],
         }}
       >
         {label}
