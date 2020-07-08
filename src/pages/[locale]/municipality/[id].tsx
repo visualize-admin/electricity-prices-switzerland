@@ -5,9 +5,8 @@ import { Selector } from "../../../components/selector";
 import { useRouter } from "next/router";
 
 const MunicipalityPage = () => {
-  const { query } = useRouter();
-  const { year, priceComponent, category, product, id } = query;
-  console.log({ year, priceComponent, category, product, id });
+  const { id } = useRouter().query;
+
   return (
     <Flex sx={{ minHeight: "100vh", flexDirection: "column" }}>
       <Header></Header>
@@ -22,7 +21,7 @@ const MunicipalityPage = () => {
       >
         <Selector />
         <Text variant="heading2" sx={{ mr: 4 }}>
-          Zürich Detail Page
+          Detail Page for: {id}
         </Text>
       </Flex>
       <Footer></Footer>
