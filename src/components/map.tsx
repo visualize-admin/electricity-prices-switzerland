@@ -24,7 +24,14 @@ export const ChoroplethMap = ({
   year: string;
   category: string;
 }) => {
-  const [data, setData] = useState<GeoJSON.Feature | undefined>();
+  const [data, setData] = useState<
+    | {
+        municipalities: GeoJSON.Feature;
+        cantons: GeoJSON.Feature;
+        lakes: GeoJSON.Feature;
+      }
+    | undefined
+  >();
   const [hovered, setHovered] = useState<string>();
 
   const [observations] = useObservationsQuery({
@@ -41,8 +48,10 @@ export const ChoroplethMap = ({
       const topo = await fetch(
         `/topojson/ch-${parseInt(year, 10) - 1}.json`
       ).then((res) => res.json());
-      const geojson = topojsonFeature(topo, topo.objects.municipalities);
-      setData(geojson);
+      const municipalities = topojsonFeature(topo, topo.objects.municipalities);
+      const cantons = topojsonFeature(topo, topo.objects.cantons);
+      const lakes = topojsonFeature(topo, topo.objects.lakes);
+      setData({ municipalities, cantons, lakes });
     };
     load();
   }, [year]);
@@ -105,30 +114,6 @@ export const ChoroplethMap = ({
   //   });
   // }, [year, observationsByMunicipalityId, data]);
 
-  const layerProps = {
-    id: "municipalities",
-    data,
-    pickable: true,
-    stroked: false,
-    filled: true,
-    extruded: false,
-    // lineWidthScale: 20,
-    lineWidthMinPixels: 1,
-    autoHighlight: true,
-    getFillColor: (d: $FixMe) => {
-      const obs = observationsByMunicipalityId.get(d.id.toString())?.[0];
-      return obs ? getColor(obs.total) : [0, 0, 0, 20];
-    },
-    highlightColor: [0, 0, 0, 50],
-    getLineColor: [255, 255, 255],
-    getRadius: 100,
-    getLineWidth: 1,
-    onHover: (info: $FixMe) => {
-      setHovered(info.object?.id.toString());
-    },
-    updateTriggers: { getFillColor: [observationsByMunicipalityId] },
-  };
-
   return (
     <>
       <div>
@@ -140,9 +125,56 @@ export const ChoroplethMap = ({
         <DeckGL
           controller={{ type: MapController }}
           initialViewState={INITIAL_VIEW_STATE}
-          // layers={[layer]}
         >
-          <GeoJsonLayer {...layerProps} />
+          <GeoJsonLayer
+            id="municipalities"
+            data={data.municipalities}
+            pickable={true}
+            stroked={true}
+            filled={true}
+            extruded={false}
+            lineWidthScale={20}
+            lineWidthMinPixels={0.5}
+            autoHighlight={true}
+            getFillColor={(d: $FixMe) => {
+              const obs = observationsByMunicipalityId.get(
+                d.id.toString()
+              )?.[0];
+              return obs ? getColor(obs.total) : [0, 0, 0, 20];
+            }}
+            highlightColor={[0, 0, 0, 50]}
+            getLineColor={[255, 255, 255, 50]}
+            getRadius={100}
+            getLineWidth={1}
+            onHover={(info: $FixMe) => {
+              setHovered(info.object?.id.toString());
+            }}
+            updateTriggers={{ getFillColor: [observationsByMunicipalityId] }}
+          />
+          <GeoJsonLayer
+            id="cantons"
+            data={data.cantons}
+            pickable={false}
+            stroked={true}
+            filled={false}
+            extruded={false}
+            lineWidthMinPixels={1.2}
+            lineWidthMaxPixels={1.2}
+            lineMiterLimit={1}
+            getLineColor={[255, 255, 255]}
+          />
+          <GeoJsonLayer
+            id="lakes"
+            data={data.lakes}
+            pickable={false}
+            stroked={true}
+            filled={true}
+            extruded={false}
+            lineWidthMinPixels={0.5}
+            getLineWidth={0.5}
+            getFillColor={[102, 175, 233]}
+            getLineColor={[255, 255, 255, 50]}
+          />
         </DeckGL>
       ) : null}
     </>
