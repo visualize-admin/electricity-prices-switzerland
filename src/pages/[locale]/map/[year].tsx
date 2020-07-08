@@ -9,9 +9,9 @@ type Props = {
 };
 
 export const getServerSideProps: GetServerSideProps<Props, Props> = async ({
-  params
+  params,
 }) => {
-  const { locale, year } = params!
+  const { locale, year } = params!;
   return { props: { locale: locale.toString(), year: year.toString() } };
 };
 
@@ -28,15 +28,16 @@ const Page = ({ year, locale }: Props) => {
         <select
           value={year}
           onChange={(e) =>
-            replace(
-              "/[locale]/map/[year]",
-              `/${locale}/map/${e.currentTarget.value}`
-            )
+            replace("/[locale]/map/[year]", {
+              pathname: `/${locale}/map/${e.currentTarget.value}`,
+              query: { foo: "bar" },
+            })
           }
         >
           <option value="2021">2021</option>
           <option value="2020">2020</option>
           <option value="2019">2019</option>
+          <option value="2018">2018</option>
         </select>
         <select
           value={category}

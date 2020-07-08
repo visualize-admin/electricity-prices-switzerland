@@ -1,10 +1,14 @@
-import { MapController } from "@deck.gl/core";
+import {
+  MapController,
+  FlyToInterpolator,
+  WebMercatorViewport,
+} from "@deck.gl/core";
 import { GeoJsonLayer } from "@deck.gl/layers";
 import DeckGL from "@deck.gl/react";
-import { color, interpolateRdYlGn } from "d3";
+import { color, interpolateRdYlGn, geoBounds, geoCentroid } from "d3";
 import { group } from "d3-array";
 import { scaleQuantile } from "d3-scale";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useCallback } from "react";
 import { feature as topojsonFeature } from "topojson-client";
 import { Observation, useObservationsQuery } from "../graphql/queries";
 
@@ -13,9 +17,15 @@ const INITIAL_VIEW_STATE = {
   longitude: 8.2275,
   zoom: 8,
   maxZoom: 16,
+  minZoom: 2,
   pitch: 0,
   bearing: 0,
 };
+
+const CH_BBOX = [
+  [5.956800664952974, 45.81912371940225],
+  [10.493446773955753, 47.80741209797084],
+];
 
 export const ChoroplethMap = ({
   year,
@@ -42,6 +52,67 @@ export const ChoroplethMap = ({
       },
     },
   });
+
+  const [viewState, setViewState] = useState(INITIAL_VIEW_STATE);
+
+  const onViewStateChange = useCallback(({ viewState }) => {
+    const vp = new WebMercatorViewport(viewState);
+
+    const { width, height, zoom, longitude, latitude } = viewState;
+
+    const [x, y] = vp.project([longitude, latitude]);
+    const [x0, y1] = vp.project(CH_BBOX[0]);
+    const [x1, y0] = vp.project(CH_BBOX[1]);
+
+    const sy =
+      viewState.height - (y1 - y0) > 1e-9 ? viewState.height / (y1 - y0) : 0;
+    const sx =
+      viewState.width - (x1 - x0) > 1e-9 ? viewState.width / (x1 - x0) : 0;
+    // how much the map should scale to fit the screen into given latitude/longitude ranges
+    const s = Math.min(sx || 0, sy || 0);
+
+    console.log("s", s, sx, sy);
+
+    // if (s) {
+    //   const p = vp.unproject([sx ? (x0 + x1) / 2 : x, sy ? (y0 + y1) / 2 : y]);
+
+    //   console.log(p)
+    //   setViewState({
+    //     ...viewState,
+    //     zoom: s ? zoom + Math.log(s) / Math.LN2 : zoom,
+    //     longitude: p[0],
+    //     latitude: p[1],
+    //   });
+
+    //   return;
+    // }
+
+    const h2 = height / 2;
+    const w2 = width / 2;
+
+    const y2 = y - h2 < y0 ? y0 + h2 : y + h2 > y1 ? y1 - h2 : y;
+    const x2 = x - w2 < x0 ? x0 + w2 : x + w2 > x1 ? x1 - w2 : x;
+
+    const p = vp.unproject([x2, y2]);
+
+    if (sx || sy) {
+      const p = vp.unproject([sx ? (x0 + x1) / 2 : x, sy ? (y0 + y1) / 2 : y]);
+      setViewState({
+        ...viewState,
+        zoom: s ? zoom + Math.log(s) / Math.LN2 : zoom,
+        longitude: sy ? p[0] : longitude,
+        latitude: sx ? p[1] : latitude,
+      });
+      return;
+    }
+
+    setViewState({
+      ...viewState,
+      // zoom: s ? zoom + Math.log(s) / Math.LN2 : zoom,
+      longitude: p[0],
+      latitude: p[1],
+    });
+  }, []);
 
   useEffect(() => {
     const load = async () => {
@@ -124,7 +195,8 @@ export const ChoroplethMap = ({
       {data ? (
         <DeckGL
           controller={{ type: MapController }}
-          initialViewState={INITIAL_VIEW_STATE}
+          viewState={viewState}
+          onViewStateChange={onViewStateChange}
         >
           <GeoJsonLayer
             id="municipalities"
@@ -146,15 +218,33 @@ export const ChoroplethMap = ({
             getLineColor={[255, 255, 255, 50]}
             getRadius={100}
             getLineWidth={1}
-            onHover={(info: $FixMe) => {
-              setHovered(info.object?.id.toString());
+            onHover={({ layer, object }: $FixMe) => {
+              setHovered(object?.id.toString());
+            }}
+            onClick={({ layer, object }: $FixMe) => {
+              if (object) {
+                const { viewport } = layer.context;
+                const bounds = geoBounds(object);
+                const { zoom, longitude, latitude } = viewport.fitBounds(
+                  bounds
+                );
+
+                setViewState((oldViewState) => ({
+                  ...oldViewState,
+                  zoom: Math.min(zoom, 10),
+                  latitude,
+                  longitude,
+                  transitionDuration: 1000,
+                  transitionInterpolator: new FlyToInterpolator(),
+                }));
+              }
             }}
             updateTriggers={{ getFillColor: [observationsByMunicipalityId] }}
           />
           <GeoJsonLayer
             id="cantons"
             data={data.cantons}
-            pickable={false}
+            pickable={true}
             stroked={true}
             filled={false}
             extruded={false}
@@ -162,6 +252,9 @@ export const ChoroplethMap = ({
             lineWidthMaxPixels={1.2}
             lineMiterLimit={1}
             getLineColor={[255, 255, 255]}
+            onClick={({ layer, object }: $FixMe) => {
+              console.log("canton", object);
+            }}
           />
           <GeoJsonLayer
             id="lakes"
