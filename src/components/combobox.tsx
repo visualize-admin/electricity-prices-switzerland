@@ -4,6 +4,7 @@ import { useState, ReactNode } from "react";
 import { Box, Button, Flex, Input } from "theme-ui";
 import { Icon } from "../icons";
 import { Label } from "./form";
+import { getLocalizedLabel } from "../domain/translation";
 
 type Props = {
   label: React.ReactNode;
@@ -245,11 +246,11 @@ export const Combobox = ({
     ) => void,
     onInputValueChange: ({ inputValue }) => {
       setInputItems(
-        items.filter((item) =>
-          inputValue
-            ? item.toLowerCase().startsWith(inputValue.toLowerCase())
-            : items
-        )
+        inputValue
+          ? items.filter((item) =>
+              item.toLowerCase().startsWith(inputValue.toLowerCase())
+            )
+          : items
       );
     },
     // onStateChange: ({ inputValue, type, selectedItem }: $FixMe) => {
@@ -270,7 +271,7 @@ export const Combobox = ({
     //       break;
     //   }
   });
-
+  console.log({ ...getInputProps() });
   return (
     <Box sx={{ position: "relative" }}>
       <Label label={label} smaller {...getLabelProps()}></Label>
@@ -365,7 +366,7 @@ export const Combobox = ({
               key={`${item}${index}`}
               {...getItemProps({ item, index })}
             >
-              {item}
+              {getLocalizedLabel(item)}
             </Box>
           ))}
         {isOpen && inputItems.length === 0 && (

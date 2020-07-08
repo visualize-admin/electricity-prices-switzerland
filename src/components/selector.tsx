@@ -12,9 +12,29 @@ interface Props {
   product: string;
 }
 
-export const years = ["2020", "2019", "2018", "2017", "2016", "2015"];
-export const priceComponents = ["Total", "Abgabe", "KEV", "Grid usage"];
-export const products = ["Standard", "Günstig"];
+export const years = [
+  "2021",
+  "2020",
+  "2019",
+  "2018",
+  "2017",
+  "2016",
+  "2015",
+  "2014",
+  "2013",
+  "2012",
+  "2011",
+  "2010",
+  "2009",
+];
+export const priceComponents = [
+  "total",
+  "gridusage",
+  "energy",
+  "charge",
+  "aidfee",
+];
+export const products = ["standard", "economic"];
 export const categories = [
   "H1",
   "H2",
@@ -32,6 +52,7 @@ export const categories = [
   "C6",
   "C7",
 ];
+
 export const Selector = () => {
   const locale = useLocale();
 
@@ -74,7 +95,6 @@ export const Selector = () => {
         <Combobox
           label={<Trans id="selector.year">Jahr</Trans>}
           items={years}
-          // FIXME: What if several years?
           selectedItem={(year as string) ?? "2020"}
           handleSelectedItemChange={({ selectedItem }) =>
             updateQueryParams({ year: selectedItem })
@@ -97,6 +117,7 @@ export const Selector = () => {
             updateQueryParams({ category: selectedItem })
           }
         />
+
         <Combobox
           label={<Trans id="selector.product">Produkt</Trans>}
           items={products}
