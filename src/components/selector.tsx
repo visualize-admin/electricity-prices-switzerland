@@ -40,7 +40,7 @@ export const Selector = () => {
   const updateQueryParams = (queryObject: { [x: string]: string }) => {
     replace(
       format({
-        pathname: `/${locale}`,
+        pathname: `/[locale]/index`,
         query: { ...query, ...queryObject },
       }),
       format({ pathname: `/${locale}`, query: { ...query, ...queryObject } }),
