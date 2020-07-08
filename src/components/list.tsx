@@ -25,42 +25,30 @@ export const List = () => {
         "> button": { mt: 2 },
       }}
     >
-      <I18n>
-        {({ i18n }) => {
-          const localizedMunicipality = {
-            de: i18n._(t("entity.municipality")`gemeinde`),
-            fr: i18n._(t("entity.municipality")`commune`),
-            it: i18n._(t("entity.municipality")`comune`),
-          };
-          return (
-            <Link
-              href={{ pathname: `/[locale]/[municipality]/[id]`, query }}
-              as={{
-                pathname: `/${locale}/municipality/zürich`,
-                query,
-              }}
-              passHref
-            >
-              <UILink
-                sx={{
-                  p: 2,
-                  bg: "primary",
-                  color: "monochrome100",
-                  cursor: "pointer",
-                  ":hover": {
-                    bg: "primaryHover",
-                  },
-                  ":active": {
-                    bg: "primaryActive",
-                  },
-                }}
-              >
-                Link to the municipality: Zürich
-              </UILink>
-            </Link>
-          );
+      <Link
+        href={{ pathname: `/[locale]/[municipality]/[id]`, query }}
+        as={{
+          pathname: `/${locale}/municipality/zürich`,
+          query,
         }}
-      </I18n>
+        passHref
+      >
+        <UILink
+          sx={{
+            p: 1,
+            color: "primary",
+            cursor: "pointer",
+            ":hover": {
+              color: "primaryHover",
+            },
+            ":active": {
+              color: "primaryActive",
+            },
+          }}
+        >
+          Link to the municipality: Zürich
+        </UILink>
+      </Link>
     </Flex>
   );
 };
