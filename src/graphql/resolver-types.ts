@@ -18,6 +18,7 @@ export type PriceComponents = {
 
 export type Municipality = {
   __typename?: 'Municipality';
+  id: Scalars['String'];
   name: Scalars['String'];
   canton: Canton;
   providers: Array<Provider>;
@@ -34,6 +35,7 @@ export type Provider = {
 
 export type Canton = {
   __typename?: 'Canton';
+  id: Scalars['String'];
   name: Scalars['String'];
   municipalities: Array<Municipality>;
   priceComponents: PriceComponents;
@@ -240,6 +242,7 @@ export type PriceComponentsResolvers<ContextType = any, ParentType extends Resol
 }>;
 
 export type MunicipalityResolvers<ContextType = any, ParentType extends ResolversParentTypes['Municipality'] = ResolversParentTypes['Municipality']> = ResolversObject<{
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   canton?: Resolver<ResolversTypes['Canton'], ParentType, ContextType>;
   providers?: Resolver<Array<ResolversTypes['Provider']>, ParentType, ContextType>;
@@ -256,6 +259,7 @@ export type ProviderResolvers<ContextType = any, ParentType extends ResolversPar
 }>;
 
 export type CantonResolvers<ContextType = any, ParentType extends ResolversParentTypes['Canton'] = ResolversParentTypes['Canton']> = ResolversObject<{
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   municipalities?: Resolver<Array<ResolversTypes['Municipality']>, ParentType, ContextType>;
   priceComponents?: Resolver<ResolversTypes['PriceComponents'], ParentType, ContextType>;

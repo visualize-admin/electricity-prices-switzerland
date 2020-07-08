@@ -4,6 +4,7 @@ type PriceComponents {
 }
 
 type Municipality {
+  id: String!
   name: String!
   canton: Canton!
   providers: [Provider!]!
@@ -18,6 +19,7 @@ type Provider {
 }
 
 type Canton {
+  id: String!
   name: String!
   municipalities: [Municipality!]!
   priceComponents: PriceComponents!

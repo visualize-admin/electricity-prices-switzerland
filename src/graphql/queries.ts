@@ -19,6 +19,7 @@ export type PriceComponents = {
 
 export type Municipality = {
   __typename: 'Municipality';
+  id: Scalars['String'];
   name: Scalars['String'];
   canton: Canton;
   providers: Array<Provider>;
@@ -35,6 +36,7 @@ export type Provider = {
 
 export type Canton = {
   __typename: 'Canton';
+  id: Scalars['String'];
   name: Scalars['String'];
   municipalities: Array<Municipality>;
   priceComponents: PriceComponents;

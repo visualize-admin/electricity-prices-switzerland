@@ -12,6 +12,8 @@ import {
 import namespace from "@rdfjs/namespace";
 import { defaultLocale } from "../locales/locales";
 
+type Filters = { [key: string]: string[] | null | undefined } | null;
+
 const ns = {
   dc: namespace("http://purl.org/dc/elements/1.1/"),
   energyPricing: namespace(
@@ -58,7 +60,7 @@ export const getObservations = async (
     filters,
     dimensions,
   }: {
-    filters?: { [key: string]: string[] | null | undefined } | null;
+    filters?: Filters;
     dimensions?: string[];
   }
 ) => {
@@ -94,13 +96,22 @@ export const getDimensionValuesAndLabels = async ({
   view,
   source,
   dimensionKey,
+  filters,
 }: {
   view: View;
   source: Source;
   dimensionKey: string;
+  filters?: Filters;
 }): Promise<{ id: string; name: string }[]> => {
   const lookup = LookupSource.fromSource(source);
-  const lookupView = new View({ parent: source });
+
+  const queryFilters = filters
+    ? Object.entries(filters).flatMap(([dim, filterValues]) =>
+        filterValues ? buildDimensionFilter(view, dim, filterValues) : []
+      )
+    : [];
+
+  const lookupView = new View({ parent: source, filters: queryFilters });
 
   const dimension = view.dimension({
     cubeDimension: ns.energyPricing(dimensionKey),
@@ -125,11 +136,73 @@ export const getDimensionValuesAndLabels = async ({
   lookupView.clear();
   lookup.clear();
 
-  return observations.map((obs) => {
-    return {
-      id: obs[ns.energyPricing(dimensionKey).value].value as string,
-      name: obs[ns.energyPricing(`${dimensionKey}Label`).value].value as string,
-    };
+  return observations.flatMap((obs) => {
+    // Filter out "empty" observations
+    return obs[ns.energyPricing(dimensionKey).value]
+      ? [
+          {
+            id: obs[ns.energyPricing(dimensionKey).value].value as string,
+            name: obs[ns.energyPricing(`${dimensionKey}Label`).value]
+              .value as string,
+          },
+        ]
+      : [];
+  });
+};
+
+export const getMunicipalities = async ({
+  view,
+  source,
+  filters,
+}: {
+  view: View;
+  source: Source;
+  filters?: Filters;
+}): Promise<{ id: string; name: string }[]> => {
+  const lookup = LookupSource.fromSource(source);
+
+  const queryFilters = filters
+    ? Object.entries(filters).flatMap(([dim, filterValues]) =>
+        filterValues ? buildDimensionFilter(view, dim, filterValues) : []
+      )
+    : [];
+
+  const lookupView = new View({ parent: source, filters: queryFilters });
+
+  const dimension = view.dimension({
+    cubeDimension: ns.energyPricing("municipality"),
+  });
+
+  if (!dimension) {
+    throw Error(`No dimension for '${"municipality"}'`);
+  }
+
+  // TODO: Implement proper label lookup for municipalities
+  // const labelDimension = lookupView.createDimension({
+  //   source: lookup,
+  //   path: ns.schema.name,
+  //   join: dimension,
+  //   as: ns.energyPricing(`${dimensionKey}Label`),
+  // });
+  lookupView.addDimension(dimension);
+
+  console.log(lookupView.observationsQuery().query.toString());
+
+  const observations = await lookupView.observations();
+
+  lookupView.clear();
+  lookup.clear();
+
+  return observations.flatMap((obs) => {
+    // Filter out "empty" observations
+    return obs[ns.energyPricing("municipality").value]
+      ? [
+          {
+            id: obs[ns.energyPricing("municipality").value].value as string,
+            name: obs[ns.energyPricing("municipality").value].value as string,
+          },
+        ]
+      : [];
   });
 };
 

@@ -8,6 +8,7 @@ import {
   getSource,
   getView,
   getDimensionValuesAndLabels,
+  getMunicipalities,
 } from "./rdf";
 import {
   CantonResolvers,
@@ -110,7 +111,6 @@ const Cube: CubeResolvers = {
     return getCubeDimension(view, "period", { locale });
   },
   observations: async ({ view, locale }, { filters }, ctx, info) => {
-
     // Look ahead to select proper dimensions for query
     const dimensionKeys = getResolverFields(info, "Observation");
 
@@ -143,10 +143,32 @@ const Cube: CubeResolvers = {
     });
   },
   cantons: async () => [{ id: "1" }, { id: "2" }],
-  municipalities: async () => [{ id: "1" }, { id: "2" }],
-  municipality: async (_, { id }) => ({ id }),
+  municipalities: async ({ view, source }) => {
+    return getMunicipalities({
+      view,
+      source,
+    });
+  },
+  municipality: async ({ view, source }, { id }) => {
+    const results = await getMunicipalities({
+      view,
+      source,
+      filters: { municipality: [id] },
+    });
+
+    return results[0];
+  },
   canton: async (_, { id }) => ({ id }),
-  provider: async (_, { id }) => ({ id }),
+  provider: async ({ view, source }, { id }) => {
+    const results = await getDimensionValuesAndLabels({
+      view,
+      source,
+      dimensionKey: "provider",
+      filters: { provider: [id] },
+    });
+
+    return results[0];
+  },
 };
 
 export const resolvers: Resolvers = {
