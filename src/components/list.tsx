@@ -1,9 +1,10 @@
-import { Trans } from "@lingui/macro";
+import { Trans, t } from "@lingui/macro";
 
 import Link from "next/link";
 import { useLocale } from "../lib/use-locale";
 import { Flex, Link as UILink } from "@theme-ui/components";
 import { useRouter } from "next/router";
+import { I18n } from "@lingui/react";
 
 export const List = () => {
   const locale = useLocale();
@@ -24,31 +25,45 @@ export const List = () => {
         "> button": { mt: 2 },
       }}
     >
-      <Link
-        href={{ pathname: `/[locale]/municipality/[id]`, query }}
-        as={{ pathname: `/${locale}/municipality/zürich`, query }}
-      >
-        <UILink
-          sx={{
-            p: 4,
-            bg: "primary",
-            color: "monochrome100",
-            cursor: "pointer",
-            ":hover": {
-              bg: "primaryHover",
-            },
-            ":active": {
-              bg: "primaryActive",
-            },
-            ":disabled": {
-              cursor: "initial",
-              bg: "primaryDisabled",
-            },
-          }}
-        >
-          Zürich
-        </UILink>
-      </Link>
+      <I18n>
+        {({ i18n }) => {
+          const localizedMunicipality = {
+            de: i18n._(t("entity.municipality")`gemeinde`),
+            fr: i18n._(t("entity.municipality")`commune`),
+            it: i18n._(t("entity.municipality")`comune`),
+          };
+          return (
+            <Link
+              href={{ pathname: `/[locale]/[municipality]/[id]`, query }}
+              as={{
+                pathname: `/${locale}/${localizedMunicipality[locale]}/zürich`,
+                query,
+              }}
+            >
+              <UILink
+                sx={{
+                  p: 4,
+                  bg: "primary",
+                  color: "monochrome100",
+                  cursor: "pointer",
+                  ":hover": {
+                    bg: "primaryHover",
+                  },
+                  ":active": {
+                    bg: "primaryActive",
+                  },
+                  ":disabled": {
+                    cursor: "initial",
+                    bg: "primaryDisabled",
+                  },
+                }}
+              >
+                Zürich
+              </UILink>
+            </Link>
+          );
+        }}
+      </I18n>
     </Flex>
   );
 };
