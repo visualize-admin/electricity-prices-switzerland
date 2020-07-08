@@ -39,7 +39,6 @@ export const Label = ({
 }) => (
   <RebassLabel
     htmlFor={htmlFor}
-    mb={1}
     sx={{
       width: "auto",
       color: disabled ? "monochrome600" : "monochrome700",
@@ -221,7 +220,7 @@ export const Input = ({
   value,
   checked,
   disabled,
-  onChange
+  onChange,
 }: {
   label?: string | React.ReactNode;
   disabled?: boolean;

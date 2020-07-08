@@ -72,6 +72,7 @@ export const Selector = () => {
         m: 4,
         bg: "primaryLight",
         p: 5,
+        pb: 6,
         borderRadius: "default",
         "> div": { mt: 5 },
       }}
