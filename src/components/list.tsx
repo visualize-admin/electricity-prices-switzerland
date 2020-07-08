@@ -1,14 +1,11 @@
-import { Trans, t } from "@lingui/macro";
-
-import Link from "next/link";
-import { useLocale } from "../lib/use-locale";
 import { Flex, Link as UILink } from "@theme-ui/components";
+import Link from "next/link";
 import { useRouter } from "next/router";
-import { I18n } from "@lingui/react";
+import { useLocale } from "../lib/use-locale";
 
 export const List = () => {
   const locale = useLocale();
-  const { query } = useRouter();
+  const { year, priceComponent, category, product } = useRouter().query;
 
   return (
     <Flex
@@ -26,10 +23,23 @@ export const List = () => {
       }}
     >
       <Link
-        href={{ pathname: `/[locale]/municipality/[id]`, query }}
+        href={{
+          pathname: `/[locale]/municipality/[id]`,
+          query: {
+            year: year ?? "2020",
+            priceComponent: priceComponent ?? "total",
+            category: category ?? "H1",
+            product: product ?? "standard",
+          },
+        }}
         as={{
           pathname: `/${locale}/municipality/zürich`,
-          query,
+          query: {
+            year: year ?? "2020",
+            priceComponent: priceComponent ?? "total",
+            category: category ?? "H1",
+            product: product ?? "standard",
+          },
         }}
         passHref
       >
@@ -50,10 +60,23 @@ export const List = () => {
         </UILink>
       </Link>
       <Link
-        href={{ pathname: `/[locale]/provider/[id]`, query }}
+        href={{
+          pathname: `/[locale]/provider/[id]`,
+          query: {
+            year: year ?? "2020",
+            priceComponent: priceComponent ?? "total",
+            category: category ?? "H1",
+            product: product ?? "standard",
+          },
+        }}
         as={{
           pathname: `/${locale}/provider/ewz`,
-          query,
+          query: {
+            year: year ?? "2020",
+            priceComponent: priceComponent ?? "total",
+            category: category ?? "H1",
+            product: product ?? "standard",
+          },
         }}
         passHref
       >
@@ -74,10 +97,23 @@ export const List = () => {
         </UILink>
       </Link>
       <Link
-        href={{ pathname: `/[locale]/canton/[id]`, query }}
+        href={{
+          pathname: `/[locale]/canton/[id]`,
+          query: {
+            year: year ?? "2020",
+            priceComponent: priceComponent ?? "total",
+            category: category ?? "H1",
+            product: product ?? "standard",
+          },
+        }}
         as={{
           pathname: `/${locale}/canton/vaud`,
-          query,
+          query: {
+            year: year ?? "2020",
+            priceComponent: priceComponent ?? "total",
+            category: category ?? "H1",
+            product: product ?? "standard",
+          },
         }}
         passHref
       >
