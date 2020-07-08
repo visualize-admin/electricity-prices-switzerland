@@ -19,7 +19,6 @@ const MunicipalityPage = () => {
           alignItems: "flex-end",
         }}
       >
-        <Selector />
         <Text variant="heading2" sx={{ mr: 4 }}>
           Detail Page for: {id}
         </Text>
