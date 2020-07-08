@@ -89,6 +89,11 @@ export const getObservations = async (
   // Clean up
   filterView.clear();
 
+  // Workaround for faulty empty query result
+  if (observations.length === 1 && Object.values(observations[0]).some(v => v===undefined)) {
+    return []
+  } 
+
   return observations;
 };
 
