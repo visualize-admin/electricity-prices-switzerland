@@ -1,8 +1,9 @@
 import { Trans } from "@lingui/macro";
 import { useCombobox, useMultipleSelection } from "downshift";
-import { useState } from "react";
+import { useState, ReactNode } from "react";
 import { Box, Button, Flex, Input } from "theme-ui";
 import { Icon } from "../icons";
+import { Label } from "./form";
 
 type Props = {
   label: React.ReactNode;
@@ -72,7 +73,7 @@ export const ComboboxMulti = ({ label, items }: Props) => {
   });
   return (
     <Box sx={{ position: "relative" }}>
-      <label {...getLabelProps()}>{label}</label>
+      <label {...getLabelProps()}></label>
       <Flex
         sx={{
           display: "block",
@@ -210,17 +211,19 @@ export const ComboboxMulti = ({ label, items }: Props) => {
   );
 };
 
-export const Combobox = ({ label, items }: Props) => {
-  const [inputValue, setInputValue] = useState("");
-  const [selectedItem, setSelectedItem] = useState<string | undefined>();
+export const Combobox = ({
+  label,
+  items,
+  selectedItem,
+  handleSelectedItemChange,
+}: {
+  label: string | ReactNode;
+  items: string[];
+  selectedItem: string;
 
-  const getFilteredItems = (_items: string[]) =>
-    _items.filter(
-      (item) =>
-        selectedItem !== item &&
-        item.toLowerCase().startsWith(inputValue.toLowerCase())
-    );
-
+  handleSelectedItemChange: ({ selectedItem: any }) => void;
+}) => {
+  const [inputItems, setInputItems] = useState(items);
   const {
     isOpen,
     getToggleButtonProps,
@@ -231,32 +234,39 @@ export const Combobox = ({ label, items }: Props) => {
     highlightedIndex,
     getItemProps,
   } = useCombobox({
-    inputValue,
     defaultHighlightedIndex: 0, // after selection, highlight the first item.
-    selectedItem: null,
-    items: getFilteredItems(items),
-    onStateChange: ({ inputValue, type, selectedItem }: $FixMe) => {
-      switch (type) {
-        case useCombobox.stateChangeTypes.InputChange:
-          setInputValue(inputValue);
-          setSelectedItem(undefined);
-          break;
-        case useCombobox.stateChangeTypes.InputKeyDownEnter:
-        case useCombobox.stateChangeTypes.ItemClick:
-        case useCombobox.stateChangeTypes.InputBlur:
-          if (selectedItem) {
-            setInputValue(selectedItem);
-            setSelectedItem(selectedItem);
-          }
-          break;
-        default:
-          break;
-      }
+    selectedItem,
+    items: inputItems,
+    onSelectedItemChange: handleSelectedItemChange,
+    onInputValueChange: ({ inputValue }) => {
+      setInputItems(
+        items.filter((item) =>
+          item.toLowerCase().startsWith(inputValue.toLowerCase())
+        )
+      );
     },
+    // onStateChange: ({ inputValue, type, selectedItem }: $FixMe) => {
+    //   switch (type) {
+    //     case useCombobox.stateChangeTypes.InputChange:
+    //       setInputValue(inputValue);
+    //       setSelectedItem(undefined);
+    //       break;
+    //     case useCombobox.stateChangeTypes.InputKeyDownEnter:
+    //     case useCombobox.stateChangeTypes.ItemClick:
+    //     case useCombobox.stateChangeTypes.InputBlur:
+    //       if (selectedItem) {
+    //         setInputValue(selectedItem);
+    //         setSelectedItem(selectedItem);
+    //       }
+    //       break;
+    //     default:
+    //       break;
+    //   }
   });
+
   return (
     <Box sx={{ position: "relative" }}>
-      <label {...getLabelProps()}>Choose some elements:</label>
+      <Label label={label} smaller {...getLabelProps()}></Label>
       <Flex
         sx={{
           display: "block",
@@ -264,6 +274,7 @@ export const Combobox = ({ label, items }: Props) => {
           py: 0,
           pl: 2,
           pr: 6,
+          height: 48,
 
           appearance: "none",
           fontSize: "inherit",
@@ -310,13 +321,14 @@ export const Combobox = ({ label, items }: Props) => {
             position: "absolute",
             right: 0,
             top: "50%",
-            height: 24,
+            height: 48,
             transform: "translateY(-50%)",
           }}
         >
           {isOpen ? <Icon name="chevronup" /> : <Icon name="chevrondown" />}
         </Button>
       </Flex>
+
       <Box
         as="ul"
         sx={{
@@ -334,7 +346,7 @@ export const Combobox = ({ label, items }: Props) => {
         {...getMenuProps()}
       >
         {isOpen &&
-          getFilteredItems(items).map((item, index) => (
+          inputItems.map((item, index) => (
             <Box
               as="li"
               sx={{
@@ -349,7 +361,7 @@ export const Combobox = ({ label, items }: Props) => {
               {item}
             </Box>
           ))}
-        {isOpen && getFilteredItems(items).length === 0 && (
+        {isOpen && inputItems.length === 0 && (
           <Box
             as="li"
             sx={{
