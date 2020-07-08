@@ -1,8 +1,18 @@
 import { Cube, View, Source } from "@zazuko/rdf-cube-view-query";
 
-export type ResolvedMunicipality = { id: string };
+export type ResolvedMunicipality = {
+  id: string;
+  name: string;
+  view: View;
+  source: Source;
+};
+export type ResolvedProvider = {
+  id: string;
+  name: string;
+  view: View;
+  source: Source;
+};
 export type ResolvedCanton = { id: string };
-export type ResolvedProvider = { id: string };
 export type ResolvedCube = {
   locale: string;
   cube: Cube;

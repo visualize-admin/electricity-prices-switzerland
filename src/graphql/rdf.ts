@@ -102,7 +102,7 @@ export const getDimensionValuesAndLabels = async ({
   source: Source;
   dimensionKey: string;
   filters?: Filters;
-}): Promise<{ id: string; name: string }[]> => {
+}): Promise<{ id: string; name: string; view: View; source: Source }[]> => {
   const lookup = LookupSource.fromSource(source);
 
   const queryFilters = filters
@@ -144,6 +144,8 @@ export const getDimensionValuesAndLabels = async ({
             id: obs[ns.energyPricing(dimensionKey).value].value as string,
             name: obs[ns.energyPricing(`${dimensionKey}Label`).value]
               .value as string,
+            view,
+            source,
           },
         ]
       : [];
@@ -158,7 +160,7 @@ export const getMunicipalities = async ({
   view: View;
   source: Source;
   filters?: Filters;
-}): Promise<{ id: string; name: string }[]> => {
+}): Promise<{ id: string; name: string; view: View; source: Source }[]> => {
   const lookup = LookupSource.fromSource(source);
 
   const queryFilters = filters
@@ -200,6 +202,8 @@ export const getMunicipalities = async ({
           {
             id: obs[ns.energyPricing("municipality").value].value as string,
             name: obs[ns.energyPricing("municipality").value].value as string,
+            view,
+            source,
           },
         ]
       : [];

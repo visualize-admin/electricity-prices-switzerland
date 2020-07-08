@@ -50,20 +50,32 @@ const Query: QueryResolvers = {
   },
 };
 
-// const Municipality: MunicipalityResolvers = {
-//   name: (municipality) => MOCK_DATA.municipalities[municipality.id].name,
-//   canton: (municipality) => {
-//     return { id: MOCK_DATA.municipalities[municipality.id].canton };
-//   },
-//   providers: (municipality) => {
-//     return MOCK_DATA.municipalities[municipality.id].providers.map((id) => ({
-//       id,
-//     }));
-//   },
-//   priceComponents: () => {
-//     return { total: 100 };
-//   },
-// };
+const Municipality: MunicipalityResolvers = {
+  providers: async ({ id, view, source }) => {
+    return getDimensionValuesAndLabels({
+      view,
+      source,
+      dimensionKey: "provider",
+      filters: { municipality: [id] },
+    });
+  },
+  priceComponents: () => {
+    return { total: 100 };
+  },
+};
+
+const Provider: ProviderResolvers = {
+  municipalities: async ({ id, view, source }) => {
+    return getMunicipalities({
+      view,
+      source,
+      filters: { provider: [id] },
+    });
+  },
+  priceComponents: () => {
+    return { total: 63 };
+  },
+};
 
 // const Canton: CantonResolvers = {
 //   name: (canton) => MOCK_DATA.cantons[canton.id].name,
@@ -74,18 +86,6 @@ const Query: QueryResolvers = {
 //   },
 //   priceComponents: () => {
 //     return { total: 85 };
-//   },
-// };
-
-// const Provider: ProviderResolvers = {
-//   name: (provider) => MOCK_DATA.providers[provider.id].name,
-//   municipalities: (provider) => {
-//     return Object.values(MOCK_DATA.municipalities).filter((m) =>
-//       m.providers.includes(provider.id)
-//     );
-//   },
-//   priceComponents: () => {
-//     return { total: 63 };
 //   },
 // };
 
@@ -173,8 +173,8 @@ const Cube: CubeResolvers = {
 
 export const resolvers: Resolvers = {
   Query,
-  // Municipality,
-  // Provider,
+  Municipality,
+  Provider,
   // Canton,
   Cube,
 };
