@@ -37,3 +37,44 @@ export type ComponentFieldsFragment =
   | ComponentFields_TemporalDimension_Fragment
   | ComponentFields_Measure_Fragment
   | ComponentFields_Attribute_Fragment;
+
+export const years = [
+  "2021",
+  "2020",
+  "2019",
+  "2018",
+  "2017",
+  "2016",
+  "2015",
+  "2014",
+  "2013",
+  "2012",
+  "2011",
+  "2010",
+  "2009",
+];
+export const priceComponents = [
+  "total",
+  "gridusage",
+  "energy",
+  "charge",
+  "aidfee",
+];
+export const products = ["standard", "economic"];
+export const categories = [
+  "H1",
+  "H2",
+  "H3",
+  "H4",
+  "H5",
+  "H6",
+  "H7",
+  "H8",
+  "C1",
+  "C2",
+  "C3",
+  "C4",
+  "C5",
+  "C6",
+  "C7",
+];

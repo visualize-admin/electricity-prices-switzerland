@@ -5,7 +5,7 @@ import React from "react";
 import { Link as UILink } from "theme-ui";
 import { Icon, IconName } from "../icons";
 import { useLocale } from "../lib/use-locale";
-const createDynamicRouteProps = ({
+export const createDynamicRouteProps = ({
   pathname,
   query,
 }: {

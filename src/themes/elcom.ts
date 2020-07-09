@@ -238,6 +238,7 @@ export const theme: Theme = {
         margin: 0,
         minWidth: 0,
       },
+      legend: { p: 0, m: 0 },
     },
   },
   buttons: {
