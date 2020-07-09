@@ -67,6 +67,14 @@ const IndexPage = ({
     ? EMPTY_ARRAY
     : observationsQuery.data?.cubeByIri?.observations ?? EMPTY_ARRAY;
 
+  const _colorScale = scaleQuantile()
+    .domain(observations.map((d) => d.value))
+    .range([0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]);
+
+  // TODO: Replace with proper color interpolator
+  const colorScale = scaleSequential((t) =>
+    interpolateRdYlGn(1 - _colorScale(t))
+  );
   return (
     <Flex sx={{ minHeight: "100vh", flexDirection: "column" }}>
       <Header></Header>
@@ -79,25 +87,18 @@ const IndexPage = ({
           alignItems: "flex-end",
         }}
       >
-        {/* <ChoroplethMap
-          year={(year as string) ?? "2020"}
-          category={(category as string) ?? "H4"}
-        /> */}
+        <ChoroplethMap
+          year={year}
+          observations={observations}
+          colorScale={colorScale}
+        />
         <Selector
-          year={(query.year as string) ?? initialParams.year}
-          priceComponent={
-            (query.priceComponent as string) ?? initialParams.priceComponent
-          }
-          category={(query.category as string) ?? initialParams.category}
+          year={year}
+          priceComponent={priceComponent}
+          category={category}
           updateQueryParams={updateQueryParams}
         />
-        <List
-          year={(query.year as string) ?? initialParams.year}
-          priceComponent={
-            (query.priceComponent as string) ?? initialParams.priceComponent
-          }
-          category={(query.category as string) ?? initialParams.category}
-        />
+        <List year={year} priceComponent={priceComponent} category={category} />
       </Flex>
       <Footer></Footer>
     </Flex>
