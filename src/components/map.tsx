@@ -9,7 +9,10 @@ import { color, interpolateRdYlGn, geoBounds, geoCentroid } from "d3";
 import { group } from "d3-array";
 import { scaleQuantile } from "d3-scale";
 import { useEffect, useMemo, useState, useCallback } from "react";
-import { feature as topojsonFeature } from "topojson-client";
+import {
+  feature as topojsonFeature,
+  mesh as topojsonMesh,
+} from "topojson-client";
 import { Observation, useObservationsQuery } from "../graphql/queries";
 
 const INITIAL_VIEW_STATE = {
@@ -69,6 +72,8 @@ const constrainZoom = (
 
   return {
     ...viewState,
+    transitionDuration: 0,
+    transitionInterpolator: null,
     zoom: Math.max(zoom, fitted.zoom),
     longitude: p[0],
     latitude: p[1],
@@ -99,6 +104,7 @@ export const ChoroplethMap = ({
   const [data, setData] = useState<
     | {
         municipalities: GeoJSON.Feature;
+        municipalityMesh: GeoJSON.MultiLineString;
         cantons: GeoJSON.Feature;
         lakes: GeoJSON.Feature;
       }
@@ -117,12 +123,13 @@ export const ChoroplethMap = ({
 
   const [viewState, setViewState] = useState(INITIAL_VIEW_STATE);
 
-  const onViewStateChange = useCallback(
-    ({ viewState }) => {
+  const onViewStateChange = useCallback(({ viewState, interactionState }) => {
+    if (interactionState.inTransition) {
+      setViewState(viewState);
+    } else {
       setViewState(constrainZoom(viewState, CH_BBOX));
-    },
-    [setViewState]
-  );
+    }
+  }, []);
 
   const onResize = useCallback(
     ({ width, height }) => {
@@ -139,9 +146,16 @@ export const ChoroplethMap = ({
         `/topojson/ch-${parseInt(year, 10) - 1}.json`
       ).then((res) => res.json());
       const municipalities = topojsonFeature(topo, topo.objects.municipalities);
+      const municipalityMesh = topojsonMesh(
+        topo,
+        topo.objects.municipalities,
+        (a, b) => a !== b
+      );
       const cantons = topojsonFeature(topo, topo.objects.cantons);
       const lakes = topojsonFeature(topo, topo.objects.lakes);
-      setData({ municipalities, cantons, lakes });
+
+      console.log(municipalityMesh);
+      setData({ municipalities, municipalityMesh, cantons, lakes });
     };
     load();
   }, [year]);
@@ -197,7 +211,7 @@ export const ChoroplethMap = ({
             id="municipalities"
             data={data.municipalities}
             pickable={true}
-            stroked={true}
+            stroked={false}
             filled={true}
             extruded={false}
             lineWidthScale={20}
@@ -217,29 +231,41 @@ export const ChoroplethMap = ({
               setHovered(object?.id.toString());
             }}
             onClick={({ layer, object }: $FixMe) => {
-              if (object) {
-                const { viewport } = layer.context;
-                const bounds = geoBounds(object);
-                const { zoom, longitude, latitude } = viewport.fitBounds(
-                  bounds
-                );
+              // if (object) {
+              //   const { viewport } = layer.context;
+              //   const bounds = geoBounds(object);
+              //   const { zoom, longitude, latitude } = viewport.fitBounds(
+              //     bounds
+              //   );
 
-                setViewState((oldViewState) => ({
-                  ...oldViewState,
-                  zoom: Math.min(zoom, 10),
-                  latitude,
-                  longitude,
-                  transitionDuration: 1000,
-                  transitionInterpolator: new FlyToInterpolator(),
-                }));
-              }
+              //   setViewState((oldViewState) => ({
+              //     ...oldViewState,
+              //     zoom,
+              //     latitude,
+              //     longitude,
+              //     transitionDuration: 1000,
+              //     transitionInterpolator: new FlyToInterpolator(),
+              //   }));
+              // }
             }}
             updateTriggers={{ getFillColor: [observationsByMunicipalityId] }}
           />
           <GeoJsonLayer
+            id="municipality-mesh"
+            data={data.municipalityMesh}
+            pickable={false}
+            stroked={true}
+            filled={false}
+            extruded={false}
+            lineWidthMinPixels={0.6}
+            lineWidthMaxPixels={1}
+            lineMiterLimit={1}
+            getLineColor={[255, 255, 255, 100]}
+          />
+          <GeoJsonLayer
             id="cantons"
             data={data.cantons}
-            pickable={true}
+            pickable={false}
             stroked={true}
             filled={false}
             extruded={false}
@@ -247,9 +273,6 @@ export const ChoroplethMap = ({
             lineWidthMaxPixels={1.2}
             lineMiterLimit={1}
             getLineColor={[255, 255, 255]}
-            onClick={({ layer, object }: $FixMe) => {
-              console.log("canton", object);
-            }}
           />
           <GeoJsonLayer
             id="lakes"
@@ -261,7 +284,7 @@ export const ChoroplethMap = ({
             lineWidthMinPixels={0.5}
             getLineWidth={0.5}
             getFillColor={[102, 175, 233]}
-            getLineColor={[255, 255, 255, 50]}
+            getLineColor={[255, 255, 255, 100]}
           />
         </DeckGL>
       ) : null}
