@@ -55,22 +55,12 @@ export type Observation = {
   provider: Scalars['String'];
   category: Scalars['String'];
   period: Scalars['String'];
-  aidfee: Scalars['Float'];
-  fixcosts: Scalars['Float'];
-  charge: Scalars['Float'];
-  gridusage: Scalars['Float'];
-  energy: Scalars['Float'];
-  fixcostspercent: Scalars['Float'];
-  total: Scalars['Float'];
+  value: Scalars['Float'];
 };
 
-export type SinglePriceComponentObservation = {
-  __typename?: 'SinglePriceComponentObservation';
-  municipality: Scalars['String'];
-  provider: Scalars['String'];
-  category: Scalars['String'];
-  period: Scalars['String'];
-  value: Scalars['Float'];
+
+export type ObservationValueArgs = {
+  priceComponent: PriceComponent;
 };
 
 export type ObservationFilters = {
@@ -101,7 +91,7 @@ export type Cube = {
   municipality?: Maybe<Municipality>;
   canton?: Maybe<Canton>;
   provider?: Maybe<Provider>;
-  observations: Array<SinglePriceComponentObservation>;
+  observations: Array<Observation>;
 };
 
 
@@ -139,7 +129,6 @@ export type CubeProviderArgs = {
 
 
 export type CubeObservationsArgs = {
-  priceComponent: PriceComponent;
   filters?: Maybe<ObservationFilters>;
 };
 
@@ -234,7 +223,6 @@ export type ResolversTypes = ResolversObject<{
   Canton: ResolverTypeWrapper<ResolvedCanton>;
   TemporalDimension: ResolverTypeWrapper<TemporalDimension>;
   Observation: ResolverTypeWrapper<Observation>;
-  SinglePriceComponentObservation: ResolverTypeWrapper<SinglePriceComponentObservation>;
   ObservationFilters: ObservationFilters;
   PriceComponent: PriceComponent;
   Cube: ResolverTypeWrapper<ResolvedCube>;
@@ -252,7 +240,6 @@ export type ResolversParentTypes = ResolversObject<{
   Canton: ResolvedCanton;
   TemporalDimension: TemporalDimension;
   Observation: Observation;
-  SinglePriceComponentObservation: SinglePriceComponentObservation;
   ObservationFilters: ObservationFilters;
   Cube: ResolvedCube;
   Query: {};
@@ -302,22 +289,7 @@ export type ObservationResolvers<ContextType = any, ParentType extends Resolvers
   provider?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   category?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   period?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  aidfee?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
-  fixcosts?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
-  charge?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
-  gridusage?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
-  energy?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
-  fixcostspercent?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
-  total?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
-}>;
-
-export type SinglePriceComponentObservationResolvers<ContextType = any, ParentType extends ResolversParentTypes['SinglePriceComponentObservation'] = ResolversParentTypes['SinglePriceComponentObservation']> = ResolversObject<{
-  municipality?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  provider?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  category?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  period?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  value?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  value?: Resolver<ResolversTypes['Float'], ParentType, ContextType, RequireFields<ObservationValueArgs, 'priceComponent'>>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 }>;
 
@@ -331,7 +303,7 @@ export type CubeResolvers<ContextType = any, ParentType extends ResolversParentT
   municipality?: Resolver<Maybe<ResolversTypes['Municipality']>, ParentType, ContextType, RequireFields<CubeMunicipalityArgs, 'id'>>;
   canton?: Resolver<Maybe<ResolversTypes['Canton']>, ParentType, ContextType, RequireFields<CubeCantonArgs, 'id'>>;
   provider?: Resolver<Maybe<ResolversTypes['Provider']>, ParentType, ContextType, RequireFields<CubeProviderArgs, 'id'>>;
-  observations?: Resolver<Array<ResolversTypes['SinglePriceComponentObservation']>, ParentType, ContextType, RequireFields<CubeObservationsArgs, 'priceComponent'>>;
+  observations?: Resolver<Array<ResolversTypes['Observation']>, ParentType, ContextType, RequireFields<CubeObservationsArgs, never>>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 }>;
 
@@ -347,7 +319,6 @@ export type Resolvers<ContextType = any> = ResolversObject<{
   Canton?: CantonResolvers<ContextType>;
   TemporalDimension?: TemporalDimensionResolvers<ContextType>;
   Observation?: ObservationResolvers<ContextType>;
-  SinglePriceComponentObservation?: SinglePriceComponentObservationResolvers<ContextType>;
   Cube?: CubeResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
 }>;

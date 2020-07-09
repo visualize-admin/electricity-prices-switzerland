@@ -18,12 +18,12 @@ query Observations(
     iri: "https://energy.ld.admin.ch/elcom/energy-pricing/cube"
     locale: $locale
   ) {
-    observations(filters: $filters, priceComponent: $priceComponent) {
+    observations(filters: $filters) {
       period
       municipality
       provider
       category
-      value
+      value(priceComponent: $priceComponent)
     }
   }
 }

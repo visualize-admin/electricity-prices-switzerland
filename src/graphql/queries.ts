@@ -56,22 +56,12 @@ export type Observation = {
   provider: Scalars['String'];
   category: Scalars['String'];
   period: Scalars['String'];
-  aidfee: Scalars['Float'];
-  fixcosts: Scalars['Float'];
-  charge: Scalars['Float'];
-  gridusage: Scalars['Float'];
-  energy: Scalars['Float'];
-  fixcostspercent: Scalars['Float'];
-  total: Scalars['Float'];
+  value: Scalars['Float'];
 };
 
-export type SinglePriceComponentObservation = {
-  __typename: 'SinglePriceComponentObservation';
-  municipality: Scalars['String'];
-  provider: Scalars['String'];
-  category: Scalars['String'];
-  period: Scalars['String'];
-  value: Scalars['Float'];
+
+export type ObservationValueArgs = {
+  priceComponent: PriceComponent;
 };
 
 export type ObservationFilters = {
@@ -102,7 +92,7 @@ export type Cube = {
   municipality?: Maybe<Municipality>;
   canton?: Maybe<Canton>;
   provider?: Maybe<Provider>;
-  observations: Array<SinglePriceComponentObservation>;
+  observations: Array<Observation>;
 };
 
 
@@ -140,7 +130,6 @@ export type CubeProviderArgs = {
 
 
 export type CubeObservationsArgs = {
-  priceComponent: PriceComponent;
   filters?: Maybe<ObservationFilters>;
 };
 
@@ -176,7 +165,7 @@ export type ObservationsQueryVariables = Exact<{
 }>;
 
 
-export type ObservationsQuery = { __typename: 'Query', cubeByIri?: Maybe<{ __typename: 'Cube', observations: Array<{ __typename: 'SinglePriceComponentObservation', period: string, municipality: string, provider: string, category: string, value: number }> }> };
+export type ObservationsQuery = { __typename: 'Query', cubeByIri?: Maybe<{ __typename: 'Cube', observations: Array<{ __typename: 'Observation', period: string, municipality: string, provider: string, category: string, value: number }> }> };
 
 
 export const MunicipalitiesDocument = gql`
@@ -195,12 +184,12 @@ export function useMunicipalitiesQuery(options: Omit<Urql.UseQueryArgs<Municipal
 export const ObservationsDocument = gql`
     query Observations($locale: String, $priceComponent: PriceComponent!, $filters: ObservationFilters!) {
   cubeByIri(iri: "https://energy.ld.admin.ch/elcom/energy-pricing/cube", locale: $locale) {
-    observations(filters: $filters, priceComponent: $priceComponent) {
+    observations(filters: $filters) {
       period
       municipality
       provider
       category
-      value
+      value(priceComponent: $priceComponent)
     }
   }
 }

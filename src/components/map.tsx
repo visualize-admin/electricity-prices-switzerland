@@ -11,7 +11,6 @@ import {
 } from "topojson-client";
 import {
   Observation,
-  SinglePriceComponentObservation,
 } from "../graphql/queries";
 
 const INITIAL_VIEW_STATE = {
@@ -99,7 +98,7 @@ export const ChoroplethMap = ({
   colorScale,
 }: {
   year: string;
-  observations: SinglePriceComponentObservation[];
+  observations: Observation[];
   colorScale: ScaleSequential<string>;
 }) => {
   const [data, setData] = useState<

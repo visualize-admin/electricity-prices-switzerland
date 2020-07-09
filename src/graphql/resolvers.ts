@@ -1,4 +1,4 @@
-import { parseResolveInfo } from "graphql-parse-resolve-info";
+import { parseResolveInfo, ResolveTree } from "graphql-parse-resolve-info";
 import { parseObservationValue } from "../lib/observations";
 import {
   buildDimensionFilter,
@@ -21,7 +21,6 @@ import {
 } from "./resolver-types";
 import { defaultLocale } from "../locales/locales";
 import { GraphQLResolveInfo } from "graphql";
-import { SinglePriceComponentObservation } from "./queries";
 
 const Query: QueryResolvers = {
   cubes: async (_, { locale }) => {
@@ -95,9 +94,7 @@ const getResolverFields = (info: GraphQLResolveInfo, type: string) => {
 
   if (resolveInfo) {
     const fieldMap = resolveInfo.fieldsByTypeName[type];
-    if (fieldMap) {
-      return Object.keys(fieldMap);
-    }
+    return fieldMap;
   }
 
   return undefined;
@@ -111,22 +108,22 @@ const Cube: CubeResolvers = {
   dimensionPeriod: ({ view, locale }) => {
     return getCubeDimension(view, "period", { locale });
   },
-  observations: async (
-    { view, locale },
-    { priceComponent, filters },
-    ctx,
-    info
-  ) => {
+  observations: async ({ view, locale }, { filters }, ctx, info) => {
     // Look ahead to select proper dimensions for query
-    // const dimensionKeys = getResolverFields(info, "Observation");
+    const resolverFields = getResolverFields(info, "Observation");
 
-    const dimensionKeys = [
-      priceComponent,
+    console.log(resolverFields);
+
+    const dimensionKeys = Object.values<ResolveTree>(
+      resolverFields! as $FixMe
+    ).map((fieldInfo) => {
+      return (fieldInfo.args.priceComponent as string) ?? fieldInfo.name;
+    });
+
+    const categoryKeys = new Set(["period",
       "municipality",
       "provider",
-      "category",
-      "period",
-    ];
+      "category",])
 
     const rawObservations = await getObservations(view, {
       filters,
@@ -141,7 +138,8 @@ const Cube: CubeResolvers = {
           ""
         );
 
-        parsed[key === priceComponent ? "value" : key] = parseObservationValue(
+        // FIXME: Properly use field aliases from resolverFields here! Otherwise we can only return one value!
+        parsed[categoryKeys.has(key) ? key : "value"] = parseObservationValue(
           v
         );
       }
@@ -149,7 +147,7 @@ const Cube: CubeResolvers = {
     });
 
     // Should we type-check with io-ts here? Probably not necessary because the GraphQL API will also type-check against the schema.
-    return observations as SinglePriceComponentObservation[];
+    return observations as Observation[];
   },
   providers: async ({ view, source }) => {
     return getDimensionValuesAndLabels({
