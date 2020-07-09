@@ -148,6 +148,8 @@ export const ChoroplethMap = ({
   const [viewState, setViewState] = useState(INITIAL_VIEW_STATE);
 
   const onViewStateChange = useCallback(({ viewState, interactionState }) => {
+    setHovered(undefined);
+    
     if (interactionState.inTransition) {
       setViewState(viewState);
     } else {
@@ -209,7 +211,7 @@ export const ChoroplethMap = ({
 
   return (
     <>
-      <Box sx={{ position: "relative", height: "100vh", width:"100%" }}>
+      <Box sx={{ position: "relative", height: "100vh", width: "100%" }}>
         <div>{!data && <span>Loading map</span>}</div>
 
         {hovered && tooltipContent && (
