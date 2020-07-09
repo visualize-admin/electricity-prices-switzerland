@@ -37,7 +37,7 @@ const IndexPage = ({
 
   const updateQueryParams = (queryObject: { [x: string]: string }) => {
     const { href, as } = createDynamicRouteProps({
-      pathname: `/[locale]/index`,
+      pathname: `/[locale]`,
       query: { ...query, ...queryObject },
     });
     replace(href, as);
