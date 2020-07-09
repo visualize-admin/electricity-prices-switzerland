@@ -54,14 +54,14 @@ const Page = ({ year, locale }: Props) => {
       <ChoroplethMap
         year={year}
         observations={observations}
-        colorScale={colorScale}
+        colorScale={undefined}
       />
       <div style={{ position: "absolute", zIndex: 999 }}>
         <select
           value={year}
           onChange={(e) =>
             replace("/[locale]/map/[year]", {
-              pathname: `/${locale}/map/${e.currentTarget.value}`
+              pathname: `/${locale}/map/${e.currentTarget.value}`,
             })
           }
         >

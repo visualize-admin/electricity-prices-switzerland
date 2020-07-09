@@ -9,9 +9,7 @@ import {
   feature as topojsonFeature,
   mesh as topojsonMesh,
 } from "topojson-client";
-import {
-  Observation,
-} from "../graphql/queries";
+import { Observation } from "../graphql/queries";
 
 const INITIAL_VIEW_STATE = {
   latitude: 46.8182,
@@ -41,7 +39,7 @@ const CH_BBOX: BBox = [
 const constrainZoom = (
   viewState: $FixMe,
   bbox: BBox,
-  { padding = 20 }: { padding?: number } = {}
+  { padding = 100 }: { padding?: number } = {}
 ) => {
   const vp = new WebMercatorViewport(viewState);
 
@@ -99,7 +97,7 @@ export const ChoroplethMap = ({
 }: {
   year: string;
   observations: Observation[];
-  colorScale: ScaleSequential<string>;
+  colorScale: ScaleThreshold<number, string> | undefined | 0;
 }) => {
   const [data, setData] = useState<
     | {
@@ -165,8 +163,8 @@ export const ChoroplethMap = ({
   }, [hovered]);
 
   const getColor = (v: number) => {
-    const c = colorScale(v);
-    const rgb = color(c)?.rgb();
+    const c = colorScale && colorScale(v);
+    const rgb = c && color(c)?.rgb();
     return rgb ? [rgb.r, rgb.g, rgb.b] : [0, 0, 0];
   };
 
