@@ -33,6 +33,7 @@ export const Selector = ({
         p: 5,
         pb: 6,
         borderRadius: "default",
+        zIndex: 13,
         "> div": { mt: 5 },
       }}
     >
