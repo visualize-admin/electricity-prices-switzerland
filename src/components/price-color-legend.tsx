@@ -3,13 +3,14 @@ import { Box, Flex, Grid, Text } from "@theme-ui/components";
 import * as React from "react";
 import { PRICE_COLORS } from "../domain/colors";
 
+const LEGEND_WIDTH = 154;
 const TOP_LABEL_HEIGHT = 16;
 const COLOR_HEIGHT = 12;
 const BOTTOM_LABEL_HEIGHT = 16;
 
 export const PriceColorLegend = () => {
   return (
-    <Box sx={{ width: 340 }}>
+    <Box sx={{ width: LEGEND_WIDTH }}>
       <Flex
         sx={{
           justifyContent: "space-between",
