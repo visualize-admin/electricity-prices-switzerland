@@ -3,6 +3,19 @@ declare module "@deck.gl/core" {
   export class FlyToInterpolator {}
   export class WebMercatorViewport {
     constructor(viewState: $FixMe);
+    project(lonlat: [number, number]): [number, number];
+    unproject(xy: [number, number]): [number, number];
+    fitBounds(
+      bbox: [[number, number], [number, number]],
+      options?: {
+        padding?: number;
+        offset?: [number, number];
+      }
+    ): {
+      zoom: number;
+      longitude: number;
+      latitude: number;
+    };
   }
 }
 declare module "@deck.gl/layers" {

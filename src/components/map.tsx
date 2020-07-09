@@ -15,17 +15,79 @@ import { Observation, useObservationsQuery } from "../graphql/queries";
 const INITIAL_VIEW_STATE = {
   latitude: 46.8182,
   longitude: 8.2275,
-  zoom: 8,
+  zoom: 2,
   maxZoom: 16,
   minZoom: 2,
   pitch: 0,
   bearing: 0,
 };
 
-const CH_BBOX = [
+type BBox = [[number, number], [number, number]];
+
+const CH_BBOX: BBox = [
   [5.956800664952974, 45.81912371940225],
   [10.493446773955753, 47.80741209797084],
 ];
+
+/**
+ * Constrain the viewState to always _contain_ the supplied bbox.
+ *
+ * (Other implementations ensure that the bbox _covers_ the viewport)
+ *
+ * @param viewState deck.gl viewState
+ * @param bbox Bounding box of the feature to be contained
+ */
+const constrainZoom = (
+  viewState: $FixMe,
+  bbox: BBox,
+  { padding = 20 }: { padding?: number } = {}
+) => {
+  const vp = new WebMercatorViewport(viewState);
+
+  const { width, height, zoom, longitude, latitude } = viewState;
+
+  const [x, y] = vp.project([longitude, latitude]);
+  const [x0, y1] = vp.project(bbox[0]);
+  const [x1, y0] = vp.project(bbox[1]);
+
+  const fitted = vp.fitBounds(bbox, { padding });
+
+  const [cx, cy] = vp.project([fitted.longitude, fitted.latitude]);
+
+  const h = height - padding * 2;
+  const w = width - padding * 2;
+
+  const h2 = h / 2;
+  const w2 = w / 2;
+
+  const y2 =
+    y1 - y0 < h ? cy : y - h2 < y0 ? y0 + h2 : y + h2 > y1 ? y1 - h2 : y;
+  const x2 =
+    x1 - x0 < w ? cx : x - w2 < x0 ? x0 + w2 : x + w2 > x1 ? x1 - w2 : x;
+
+  const p = vp.unproject([x2, y2]);
+
+  return {
+    ...viewState,
+    zoom: Math.max(zoom, fitted.zoom),
+    longitude: p[0],
+    latitude: p[1],
+  };
+};
+
+/**
+ * Simple fitZoom to bbox
+ * @param viewState deck.gl viewState
+ */
+// const fitZoom = (viewState: $FixMe, bbox: BBox) => {
+//   const vp = new WebMercatorViewport(viewState);
+//   const fitted = vp.fitBounds(bbox);
+
+//   return {
+//     ...viewState,
+//     ...fitted,
+//   };
+// };
 
 export const ChoroplethMap = ({
   year,
@@ -55,64 +117,21 @@ export const ChoroplethMap = ({
 
   const [viewState, setViewState] = useState(INITIAL_VIEW_STATE);
 
-  const onViewStateChange = useCallback(({ viewState }) => {
-    const vp = new WebMercatorViewport(viewState);
+  const onViewStateChange = useCallback(
+    ({ viewState }) => {
+      setViewState(constrainZoom(viewState, CH_BBOX));
+    },
+    [setViewState]
+  );
 
-    const { width, height, zoom, longitude, latitude } = viewState;
-
-    const [x, y] = vp.project([longitude, latitude]);
-    const [x0, y1] = vp.project(CH_BBOX[0]);
-    const [x1, y0] = vp.project(CH_BBOX[1]);
-
-    const sy =
-      viewState.height - (y1 - y0) > 1e-9 ? viewState.height / (y1 - y0) : 0;
-    const sx =
-      viewState.width - (x1 - x0) > 1e-9 ? viewState.width / (x1 - x0) : 0;
-    // how much the map should scale to fit the screen into given latitude/longitude ranges
-    const s = Math.min(sx || 0, sy || 0);
-
-    console.log("s", s, sx, sy);
-
-    // if (s) {
-    //   const p = vp.unproject([sx ? (x0 + x1) / 2 : x, sy ? (y0 + y1) / 2 : y]);
-
-    //   console.log(p)
-    //   setViewState({
-    //     ...viewState,
-    //     zoom: s ? zoom + Math.log(s) / Math.LN2 : zoom,
-    //     longitude: p[0],
-    //     latitude: p[1],
-    //   });
-
-    //   return;
-    // }
-
-    const h2 = height / 2;
-    const w2 = width / 2;
-
-    const y2 = y - h2 < y0 ? y0 + h2 : y + h2 > y1 ? y1 - h2 : y;
-    const x2 = x - w2 < x0 ? x0 + w2 : x + w2 > x1 ? x1 - w2 : x;
-
-    const p = vp.unproject([x2, y2]);
-
-    if (sx || sy) {
-      const p = vp.unproject([sx ? (x0 + x1) / 2 : x, sy ? (y0 + y1) / 2 : y]);
-      setViewState({
-        ...viewState,
-        zoom: s ? zoom + Math.log(s) / Math.LN2 : zoom,
-        longitude: sy ? p[0] : longitude,
-        latitude: sx ? p[1] : latitude,
-      });
-      return;
-    }
-
-    setViewState({
-      ...viewState,
-      // zoom: s ? zoom + Math.log(s) / Math.LN2 : zoom,
-      longitude: p[0],
-      latitude: p[1],
-    });
-  }, []);
+  const onResize = useCallback(
+    ({ width, height }) => {
+      setViewState((viewState) =>
+        constrainZoom({ ...viewState, width, height }, CH_BBOX)
+      );
+    },
+    [setViewState]
+  );
 
   useEffect(() => {
     const load = async () => {
@@ -159,31 +178,6 @@ export const ChoroplethMap = ({
     const rgb = color(c)?.rgb();
     return rgb ? [rgb.r, rgb.g, rgb.b] : [0, 0, 0];
   };
-  // const layer = useMemo(() => {
-  //   console.log("new layer",year)
-  //   return new GeoJsonLayer({
-  //     id: "municipalities"+year,
-  //     data,
-  //     pickable: true,
-  //     stroked: false,
-  //     filled: true,
-  //     extruded: false,
-  //     // lineWidthScale: 20,
-  //     lineWidthMinPixels: 1,
-  //     autoHighlight: true,
-  //     getFillColor: (d) => {
-  //       const obs = observationsByMunicipalityId.get(d.id.toString());
-  //       return obs ? [Math.round(obs.charge * 50), 160, 180] : [0, 0, 0, 20];
-  //     },
-  //     highlightColor: [0, 0, 0, 50],
-  //     getLineColor: [255, 255, 255],
-  //     getRadius: 100,
-  //     getLineWidth: 1,
-  //     onHover: (info) => {
-  //       setHovered(info.object?.id.toString());
-  //     },
-  //   });
-  // }, [year, observationsByMunicipalityId, data]);
 
   return (
     <>
@@ -197,6 +191,7 @@ export const ChoroplethMap = ({
           controller={{ type: MapController }}
           viewState={viewState}
           onViewStateChange={onViewStateChange}
+          onResize={onResize}
         >
           <GeoJsonLayer
             id="municipalities"
