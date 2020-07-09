@@ -69,14 +69,20 @@ export const ColorsLine = () => (
       }}
     >
       {[...PRICE_COLORS].map((bg, i) => (
-        <Flex sx={{ flexDirection: "column", alignItems: "flex-end" }}>
+        <Flex
+          key={bg}
+          sx={{
+            flexDirection: "column",
+            alignItems: "flex-end",
+            ":last-of-type > div": { borderRight: 0 },
+          }}
+        >
           <Box
             sx={{
               bg,
               width: "100%",
               height: COLOR_HEIGHT,
               borderRight: "1px solid #FFF",
-              ":last-of-type": { borderRight: 0 },
             }}
           />
           <Text
