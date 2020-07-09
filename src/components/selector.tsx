@@ -11,7 +11,8 @@ interface Props {
   year: string;
   priceComponent: string;
   category: string;
-  product: string;
+  // product: string;
+  updateQueryParams: (queryObject: { [x: string]: string }) => void;
 }
 
 export const years = [
@@ -55,22 +56,14 @@ export const categories = [
   "C7",
 ];
 
-export const Selector = () => {
+export const Selector = ({
+  year,
+  priceComponent,
+  category,
+  updateQueryParams,
+}: Props) => {
   // FIXME: remove when products are in the data
   const [product, updateProduct] = useState("standard");
-
-  const { replace, query } = useRouter();
-
-  const updateQueryParams = (queryObject: { [x: string]: string }) => {
-    const { href, as } = createDynamicRouteProps({
-      pathname: `/[locale]/index`,
-      query: { ...query, ...queryObject },
-    });
-    replace(href, as);
-  };
-
-  // FIXME: Add "product" when it is data-ready
-  const { year, priceComponent, category } = query;
 
   return (
     <Flex
@@ -106,7 +99,7 @@ export const Selector = () => {
         <Combobox
           label={<Trans id="selector.priceComponent">Preiskomponent</Trans>}
           items={priceComponents}
-          selectedItem={(priceComponent as string) ?? "Total"}
+          selectedItem={(priceComponent as string) ?? "total"}
           handleSelectedItemChange={({ selectedItem }) =>
             updateQueryParams({ priceComponent: selectedItem })
           }
