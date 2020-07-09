@@ -6,6 +6,7 @@ import { Combobox } from "./../components/combobox";
 import { useLocale } from "./../lib/use-locale";
 import { I18n } from "@lingui/react";
 import { createDynamicRouteProps } from "./links";
+import { useState } from "react";
 interface Props {
   year: string;
   priceComponent: string;
@@ -55,7 +56,8 @@ export const categories = [
 ];
 
 export const Selector = () => {
-  const locale = useLocale();
+  // FIXME: remove when products are in the data
+  const [product, updateProduct] = useState("standard");
 
   const { replace, query } = useRouter();
 
@@ -66,7 +68,9 @@ export const Selector = () => {
     });
     replace(href, as);
   };
-  const { year, priceComponent, category, product } = query;
+
+  // FIXME: Add "product" when it is data-ready
+  const { year, priceComponent, category } = query;
 
   return (
     <Flex
@@ -120,10 +124,13 @@ export const Selector = () => {
         <Combobox
           label={<Trans id="selector.product">Produkt</Trans>}
           items={products}
-          selectedItem={(product as string) ?? "Standard"}
+          selectedItem={(product as string) ?? "standard"}
           handleSelectedItemChange={({ selectedItem }) =>
-            updateQueryParams({ product: selectedItem })
+            updateProduct(selectedItem)
           }
+          // handleSelectedItemChange={({ selectedItem }) =>
+          //   updateQueryParams({ product: selectedItem })
+          // }
         />
       </>
     </Flex>
