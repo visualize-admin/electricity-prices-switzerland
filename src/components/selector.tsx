@@ -1,12 +1,8 @@
-import { Trans, t } from "@lingui/macro";
-import { useRouter } from "next/router";
-import { Flex, Text } from "theme-ui";
-import { format } from "url";
-import { Combobox } from "./../components/combobox";
-import { useLocale } from "./../lib/use-locale";
-import { I18n } from "@lingui/react";
-import { createDynamicRouteProps } from "./links";
+import { Trans } from "@lingui/macro";
 import { useState } from "react";
+import { Flex, Text } from "theme-ui";
+import { categories, priceComponents, products, years } from "../domain/data";
+import { Combobox } from "./../components/combobox";
 interface Props {
   year: string;
   priceComponent: string;
@@ -14,47 +10,6 @@ interface Props {
   // product: string;
   updateQueryParams: (queryObject: { [x: string]: string }) => void;
 }
-
-export const years = [
-  "2021",
-  "2020",
-  "2019",
-  "2018",
-  "2017",
-  "2016",
-  "2015",
-  "2014",
-  "2013",
-  "2012",
-  "2011",
-  "2010",
-  "2009",
-];
-export const priceComponents = [
-  "total",
-  "gridusage",
-  "energy",
-  "charge",
-  "aidfee",
-];
-export const products = ["standard", "economic"];
-export const categories = [
-  "H1",
-  "H2",
-  "H3",
-  "H4",
-  "H5",
-  "H6",
-  "H7",
-  "H8",
-  "C1",
-  "C2",
-  "C3",
-  "C4",
-  "C5",
-  "C6",
-  "C7",
-];
 
 export const Selector = ({
   year,
