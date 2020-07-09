@@ -5,6 +5,7 @@ import { format } from "url";
 import { Combobox } from "./../components/combobox";
 import { useLocale } from "./../lib/use-locale";
 import { I18n } from "@lingui/react";
+import { createDynamicRouteProps } from "./links";
 interface Props {
   year: string;
   priceComponent: string;
@@ -59,13 +60,11 @@ export const Selector = () => {
   const { replace, query } = useRouter();
 
   const updateQueryParams = (queryObject: { [x: string]: string }) => {
-    replace(
-      {
-        pathname: `/[locale]/index`,
-        query: { ...query, ...queryObject },
-      },
-      { pathname: `/${locale}`, query: { ...query, ...queryObject } }
-    );
+    const { href, as } = createDynamicRouteProps({
+      pathname: `/[locale]/index`,
+      query: { ...query, ...queryObject },
+    });
+    replace(href, as);
   };
   const { year, priceComponent, category, product } = query;
 
