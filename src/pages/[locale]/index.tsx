@@ -9,6 +9,7 @@ import { InferGetStaticPropsType } from "next";
 import { createDynamicRouteProps } from "../../components/links";
 import { useObservationsQuery, PriceComponent } from "../../graphql/queries";
 import { scaleSequential, scaleQuantile, interpolateRdYlGn } from "d3";
+import { getColorScale } from "../../domain/data";
 
 const EMPTY_ARRAY: never[] = [];
 
@@ -50,7 +51,7 @@ const IndexPage = ({
   const year = (query.year as string) ?? initialParams.year;
   const priceComponent = PriceComponent.Total; // TODO: parameterize priceComponent
   const category = (query.category as string) ?? initialParams.category;
-  console.log({ year, priceComponent, category });
+
   const [observationsQuery] = useObservationsQuery({
     variables: {
       priceComponent: PriceComponent.Total,
@@ -67,14 +68,8 @@ const IndexPage = ({
     ? EMPTY_ARRAY
     : observationsQuery.data?.cubeByIri?.observations ?? EMPTY_ARRAY;
 
-  const _colorScale = scaleQuantile()
-    .domain(observations.map((d) => d.value))
-    .range([0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]);
+  const colorScale = getColorScale({ observations, accessor: (d) => d.value });
 
-  // TODO: Replace with proper color interpolator
-  const colorScale = scaleSequential((t) =>
-    interpolateRdYlGn(1 - _colorScale(t))
-  );
   return (
     <Flex sx={{ minHeight: "100vh", flexDirection: "column" }}>
       <Header></Header>
