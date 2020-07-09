@@ -1,19 +1,18 @@
-import {
-  MapController,
-  FlyToInterpolator,
-  WebMercatorViewport,
-} from "@deck.gl/core";
+import { MapController, WebMercatorViewport } from "@deck.gl/core";
 import { GeoJsonLayer } from "@deck.gl/layers";
 import DeckGL from "@deck.gl/react";
-import { color, interpolateRdYlGn, geoBounds, geoCentroid } from "d3";
+import { color, interpolateRdYlGn } from "d3";
 import { group } from "d3-array";
-import { scaleQuantile } from "d3-scale";
-import { useEffect, useMemo, useState, useCallback } from "react";
+import { ScaleQuantile, ScaleThreshold, ScaleSequential } from "d3-scale";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   feature as topojsonFeature,
   mesh as topojsonMesh,
 } from "topojson-client";
-import { Observation, useObservationsQuery } from "../graphql/queries";
+import {
+  Observation,
+  SinglePriceComponentObservation,
+} from "../graphql/queries";
 
 const INITIAL_VIEW_STATE = {
   latitude: 46.8182,
@@ -96,10 +95,12 @@ const constrainZoom = (
 
 export const ChoroplethMap = ({
   year,
-  category,
+  observations,
+  colorScale,
 }: {
   year: string;
-  category: string;
+  observations: SinglePriceComponentObservation[];
+  colorScale: ScaleSequential<string>;
 }) => {
   const [data, setData] = useState<
     | {
@@ -111,15 +112,6 @@ export const ChoroplethMap = ({
     | undefined
   >();
   const [hovered, setHovered] = useState<string>();
-
-  const [observations] = useObservationsQuery({
-    variables: {
-      filters: {
-        period: [year],
-        category: [category],
-      },
-    },
-  });
 
   const [viewState, setViewState] = useState(INITIAL_VIEW_STATE);
 
@@ -153,27 +145,19 @@ export const ChoroplethMap = ({
       );
       const cantons = topojsonFeature(topo, topo.objects.cantons);
       const lakes = topojsonFeature(topo, topo.objects.lakes);
-
-      console.log(municipalityMesh);
       setData({ municipalities, municipalityMesh, cantons, lakes });
     };
     load();
   }, [year]);
 
-  const empty = useMemo(() => [], []);
-
-  const municipalityObservations = observations.fetching
-    ? empty
-    : observations.data?.cubeByIri?.observations ?? empty;
-
   const observationsByMunicipalityId = useMemo(() => {
-    return group(municipalityObservations, (d) =>
-      d.municipality.replace(
+    return group(observations, (d) =>
+      d.municipality!.replace(
         "http://classifications.data.admin.ch/municipality/",
         ""
       )
     );
-  }, [municipalityObservations]);
+  }, [observations]);
 
   useEffect(() => {
     if (hovered) {
@@ -181,24 +165,15 @@ export const ChoroplethMap = ({
     }
   }, [hovered]);
 
-  const colorScale = scaleQuantile(
-    // @ts-ignore
-    municipalityObservations.map((d) => d.total),
-    [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]
-  );
-
   const getColor = (v: number) => {
-    const c = interpolateRdYlGn(1 - colorScale(v));
+    const c = colorScale(v);
     const rgb = color(c)?.rgb();
     return rgb ? [rgb.r, rgb.g, rgb.b] : [0, 0, 0];
   };
 
   return (
     <>
-      <div>
-        {!data && <span>Loading map</span>}
-        {observations.fetching && <span>Loading observations</span>}
-      </div>
+      <div>{!data && <span>Loading map</span>}</div>
 
       {data ? (
         <DeckGL
@@ -221,7 +196,7 @@ export const ChoroplethMap = ({
               const obs = observationsByMunicipalityId.get(
                 d.id.toString()
               )?.[0];
-              return obs ? getColor(obs.total) : [0, 0, 0, 20];
+              return obs ? getColor(obs.value) : [0, 0, 0, 20];
             }}
             highlightColor={[0, 0, 0, 50]}
             getLineColor={[255, 255, 255, 50]}
@@ -237,7 +212,6 @@ export const ChoroplethMap = ({
               //   const { zoom, longitude, latitude } = viewport.fitBounds(
               //     bounds
               //   );
-
               //   setViewState((oldViewState) => ({
               //     ...oldViewState,
               //     zoom,

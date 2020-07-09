@@ -47,11 +47,30 @@ type Observation {
   total: Float!
 }
 
+type SinglePriceComponentObservation {
+  municipality: String!
+  provider: String!
+  category: String!
+  period: String!
+  
+  value: Float!
+}
+
 input ObservationFilters {
   period: [String!]
   municipality: [String!]
   provider: [String!]
   category: [String!]
+}
+
+enum PriceComponent {
+  aidfee
+  fixcosts
+  charge
+  gridusage
+  energy
+  fixcostspercent
+  total
 }
 
 type Cube {
@@ -67,7 +86,10 @@ type Cube {
   canton(id: String!, query: String): Canton
   provider(id: String!, query: String): Provider
 
-  observations(filters: ObservationFilters): [Observation!]!
+  observations(
+    priceComponent: PriceComponent!
+    filters: ObservationFilters
+  ): [SinglePriceComponentObservation!]!
 }
 
 type Query {

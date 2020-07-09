@@ -21,6 +21,7 @@ import {
 } from "./resolver-types";
 import { defaultLocale } from "../locales/locales";
 import { GraphQLResolveInfo } from "graphql";
+import { SinglePriceComponentObservation } from "./queries";
 
 const Query: QueryResolvers = {
   cubes: async (_, { locale }) => {
@@ -110,9 +111,22 @@ const Cube: CubeResolvers = {
   dimensionPeriod: ({ view, locale }) => {
     return getCubeDimension(view, "period", { locale });
   },
-  observations: async ({ view, locale }, { filters }, ctx, info) => {
+  observations: async (
+    { view, locale },
+    { priceComponent, filters },
+    ctx,
+    info
+  ) => {
     // Look ahead to select proper dimensions for query
-    const dimensionKeys = getResolverFields(info, "Observation");
+    // const dimensionKeys = getResolverFields(info, "Observation");
+
+    const dimensionKeys = [
+      priceComponent,
+      "municipality",
+      "provider",
+      "category",
+      "period",
+    ];
 
     const rawObservations = await getObservations(view, {
       filters,
@@ -127,13 +141,15 @@ const Cube: CubeResolvers = {
           ""
         );
 
-        parsed[key] = parseObservationValue(v);
+        parsed[key === priceComponent ? "value" : key] = parseObservationValue(
+          v
+        );
       }
       return parsed;
     });
 
     // Should we type-check with io-ts here? Probably not necessary because the GraphQL API will also type-check against the schema.
-    return observations as Observation[];
+    return observations as SinglePriceComponentObservation[];
   },
   providers: async ({ view, source }) => {
     return getDimensionValuesAndLabels({

@@ -64,12 +64,31 @@ export type Observation = {
   total: Scalars['Float'];
 };
 
+export type SinglePriceComponentObservation = {
+  __typename?: 'SinglePriceComponentObservation';
+  municipality: Scalars['String'];
+  provider: Scalars['String'];
+  category: Scalars['String'];
+  period: Scalars['String'];
+  value: Scalars['Float'];
+};
+
 export type ObservationFilters = {
   period?: Maybe<Array<Scalars['String']>>;
   municipality?: Maybe<Array<Scalars['String']>>;
   provider?: Maybe<Array<Scalars['String']>>;
   category?: Maybe<Array<Scalars['String']>>;
 };
+
+export enum PriceComponent {
+  Aidfee = 'aidfee',
+  Fixcosts = 'fixcosts',
+  Charge = 'charge',
+  Gridusage = 'gridusage',
+  Energy = 'energy',
+  Fixcostspercent = 'fixcostspercent',
+  Total = 'total'
+}
 
 export type Cube = {
   __typename?: 'Cube';
@@ -82,7 +101,7 @@ export type Cube = {
   municipality?: Maybe<Municipality>;
   canton?: Maybe<Canton>;
   provider?: Maybe<Provider>;
-  observations: Array<Observation>;
+  observations: Array<SinglePriceComponentObservation>;
 };
 
 
@@ -120,6 +139,7 @@ export type CubeProviderArgs = {
 
 
 export type CubeObservationsArgs = {
+  priceComponent: PriceComponent;
   filters?: Maybe<ObservationFilters>;
 };
 
@@ -214,7 +234,9 @@ export type ResolversTypes = ResolversObject<{
   Canton: ResolverTypeWrapper<ResolvedCanton>;
   TemporalDimension: ResolverTypeWrapper<TemporalDimension>;
   Observation: ResolverTypeWrapper<Observation>;
+  SinglePriceComponentObservation: ResolverTypeWrapper<SinglePriceComponentObservation>;
   ObservationFilters: ObservationFilters;
+  PriceComponent: PriceComponent;
   Cube: ResolverTypeWrapper<ResolvedCube>;
   Query: ResolverTypeWrapper<{}>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
@@ -230,6 +252,7 @@ export type ResolversParentTypes = ResolversObject<{
   Canton: ResolvedCanton;
   TemporalDimension: TemporalDimension;
   Observation: Observation;
+  SinglePriceComponentObservation: SinglePriceComponentObservation;
   ObservationFilters: ObservationFilters;
   Cube: ResolvedCube;
   Query: {};
@@ -289,6 +312,15 @@ export type ObservationResolvers<ContextType = any, ParentType extends Resolvers
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 }>;
 
+export type SinglePriceComponentObservationResolvers<ContextType = any, ParentType extends ResolversParentTypes['SinglePriceComponentObservation'] = ResolversParentTypes['SinglePriceComponentObservation']> = ResolversObject<{
+  municipality?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  provider?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  category?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  period?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  value?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+}>;
+
 export type CubeResolvers<ContextType = any, ParentType extends ResolversParentTypes['Cube'] = ResolversParentTypes['Cube']> = ResolversObject<{
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   iri?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -299,7 +331,7 @@ export type CubeResolvers<ContextType = any, ParentType extends ResolversParentT
   municipality?: Resolver<Maybe<ResolversTypes['Municipality']>, ParentType, ContextType, RequireFields<CubeMunicipalityArgs, 'id'>>;
   canton?: Resolver<Maybe<ResolversTypes['Canton']>, ParentType, ContextType, RequireFields<CubeCantonArgs, 'id'>>;
   provider?: Resolver<Maybe<ResolversTypes['Provider']>, ParentType, ContextType, RequireFields<CubeProviderArgs, 'id'>>;
-  observations?: Resolver<Array<ResolversTypes['Observation']>, ParentType, ContextType, RequireFields<CubeObservationsArgs, never>>;
+  observations?: Resolver<Array<ResolversTypes['SinglePriceComponentObservation']>, ParentType, ContextType, RequireFields<CubeObservationsArgs, 'priceComponent'>>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 }>;
 
@@ -315,6 +347,7 @@ export type Resolvers<ContextType = any> = ResolversObject<{
   Canton?: CantonResolvers<ContextType>;
   TemporalDimension?: TemporalDimensionResolvers<ContextType>;
   Observation?: ObservationResolvers<ContextType>;
+  SinglePriceComponentObservation?: SinglePriceComponentObservationResolvers<ContextType>;
   Cube?: CubeResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
 }>;

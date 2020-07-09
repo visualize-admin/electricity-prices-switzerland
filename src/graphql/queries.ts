@@ -65,12 +65,31 @@ export type Observation = {
   total: Scalars['Float'];
 };
 
+export type SinglePriceComponentObservation = {
+  __typename: 'SinglePriceComponentObservation';
+  municipality: Scalars['String'];
+  provider: Scalars['String'];
+  category: Scalars['String'];
+  period: Scalars['String'];
+  value: Scalars['Float'];
+};
+
 export type ObservationFilters = {
   period?: Maybe<Array<Scalars['String']>>;
   municipality?: Maybe<Array<Scalars['String']>>;
   provider?: Maybe<Array<Scalars['String']>>;
   category?: Maybe<Array<Scalars['String']>>;
 };
+
+export enum PriceComponent {
+  Aidfee = 'aidfee',
+  Fixcosts = 'fixcosts',
+  Charge = 'charge',
+  Gridusage = 'gridusage',
+  Energy = 'energy',
+  Fixcostspercent = 'fixcostspercent',
+  Total = 'total'
+}
 
 export type Cube = {
   __typename: 'Cube';
@@ -83,7 +102,7 @@ export type Cube = {
   municipality?: Maybe<Municipality>;
   canton?: Maybe<Canton>;
   provider?: Maybe<Provider>;
-  observations: Array<Observation>;
+  observations: Array<SinglePriceComponentObservation>;
 };
 
 
@@ -121,6 +140,7 @@ export type CubeProviderArgs = {
 
 
 export type CubeObservationsArgs = {
+  priceComponent: PriceComponent;
   filters?: Maybe<ObservationFilters>;
 };
 
@@ -151,11 +171,12 @@ export type MunicipalitiesQuery = { __typename: 'Query', cubeByIri?: Maybe<{ __t
 
 export type ObservationsQueryVariables = Exact<{
   locale?: Maybe<Scalars['String']>;
+  priceComponent: PriceComponent;
   filters: ObservationFilters;
 }>;
 
 
-export type ObservationsQuery = { __typename: 'Query', cubeByIri?: Maybe<{ __typename: 'Cube', observations: Array<{ __typename: 'Observation', period: string, municipality: string, provider: string, category: string, total: number }> }> };
+export type ObservationsQuery = { __typename: 'Query', cubeByIri?: Maybe<{ __typename: 'Cube', observations: Array<{ __typename: 'SinglePriceComponentObservation', period: string, municipality: string, provider: string, category: string, value: number }> }> };
 
 
 export const MunicipalitiesDocument = gql`
@@ -172,14 +193,14 @@ export function useMunicipalitiesQuery(options: Omit<Urql.UseQueryArgs<Municipal
   return Urql.useQuery<MunicipalitiesQuery>({ query: MunicipalitiesDocument, ...options });
 };
 export const ObservationsDocument = gql`
-    query Observations($locale: String, $filters: ObservationFilters!) {
+    query Observations($locale: String, $priceComponent: PriceComponent!, $filters: ObservationFilters!) {
   cubeByIri(iri: "https://energy.ld.admin.ch/elcom/energy-pricing/cube", locale: $locale) {
-    observations(filters: $filters) {
+    observations(filters: $filters, priceComponent: $priceComponent) {
       period
       municipality
       provider
       category
-      total
+      value
     }
   }
 }
