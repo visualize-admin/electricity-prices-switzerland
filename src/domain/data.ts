@@ -1,3 +1,8 @@
+import { median } from "d3-array";
+import { Observation as QueryObservation } from "../graphql/queries";
+import { scaleThreshold } from "d3";
+import { PRICE_COLORS } from "./colors";
+
 export type ObservationValue = string | number | boolean | Date;
 export type Observation = Record<string, ObservationValue>;
 
@@ -38,6 +43,30 @@ export type ComponentFieldsFragment =
   | ComponentFields_Measure_Fragment
   | ComponentFields_Attribute_Fragment;
 
+export const getColorDomain = ({
+  observations,
+  accessor,
+}: {
+  observations: QueryObservation[];
+  accessor: (x: QueryObservation) => number;
+}) => {
+  const m = median(observations, (d) => accessor(d));
+  return m && [m * 0.85, m * 0.95, m * 1.05, m * 1.15];
+};
+
+export const getColorScale = ({
+  observations,
+  accessor,
+}: {
+  observations: QueryObservation[];
+  accessor: (x: QueryObservation) => number;
+}) => {
+  const domain = getColorDomain({ observations, accessor });
+  const scale =
+    domain &&
+    scaleThreshold<number, string>().domain(domain).range(PRICE_COLORS);
+  return scale;
+};
 export const years = [
   "2021",
   "2020",
