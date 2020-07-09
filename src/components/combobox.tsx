@@ -365,7 +365,7 @@ export const Combobox = ({
               key={`${item}${index}`}
               {...getItemProps({ item, index })}
             >
-              {getLocalizedLabel(item)}
+              {item}
             </Box>
           ))}
         {isOpen && inputItems.length === 0 && (
