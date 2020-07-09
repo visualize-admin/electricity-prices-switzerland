@@ -3,9 +3,15 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useLocale } from "../lib/use-locale";
 
-export const List = () => {
+interface Props {
+  year: string;
+  priceComponent: string;
+  category: string;
+  // product: string;
+}
+
+export const List = ({ year, priceComponent, category }: Props) => {
   const locale = useLocale();
-  const { year, priceComponent, category, product } = useRouter().query;
 
   return (
     <Flex
@@ -29,7 +35,7 @@ export const List = () => {
             year: year ?? "2020",
             priceComponent: priceComponent ?? "total",
             category: category ?? "H1",
-            product: product ?? "standard",
+            product: "standard",
           },
         }}
         as={{
@@ -38,7 +44,7 @@ export const List = () => {
             year: year ?? "2020",
             priceComponent: priceComponent ?? "total",
             category: category ?? "H1",
-            product: product ?? "standard",
+            product: "standard",
           },
         }}
         passHref
@@ -66,7 +72,7 @@ export const List = () => {
             year: year ?? "2020",
             priceComponent: priceComponent ?? "total",
             category: category ?? "H1",
-            product: product ?? "standard",
+            // product: product ?? "standard",
           },
         }}
         as={{
@@ -75,7 +81,7 @@ export const List = () => {
             year: year ?? "2020",
             priceComponent: priceComponent ?? "total",
             category: category ?? "H1",
-            product: product ?? "standard",
+            // product: product ?? "standard",
           },
         }}
         passHref
@@ -103,7 +109,7 @@ export const List = () => {
             year: year ?? "2020",
             priceComponent: priceComponent ?? "total",
             category: category ?? "H1",
-            product: product ?? "standard",
+            // product: product ?? "standard",
           },
         }}
         as={{
@@ -112,7 +118,7 @@ export const List = () => {
             year: year ?? "2020",
             priceComponent: priceComponent ?? "total",
             category: category ?? "H1",
-            product: product ?? "standard",
+            // product: product ?? "standard",
           },
         }}
         passHref

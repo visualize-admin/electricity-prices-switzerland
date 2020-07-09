@@ -67,7 +67,13 @@ const IndexPage = ({
           category={(query.category as string) ?? initialParams.category}
           updateQueryParams={updateQueryParams}
         />
-        <List />
+        <List
+          year={(query.year as string) ?? initialParams.year}
+          priceComponent={
+            (query.priceComponent as string) ?? initialParams.priceComponent
+          }
+          category={(query.category as string) ?? initialParams.category}
+        />
       </Flex>
       <Footer></Footer>
     </Flex>
