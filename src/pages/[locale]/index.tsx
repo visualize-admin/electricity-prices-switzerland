@@ -7,6 +7,10 @@ import { ChoroplethMap } from "../../components/map";
 import { List } from "../../components/list";
 import { InferGetStaticPropsType } from "next";
 import { createDynamicRouteProps } from "../../components/links";
+import { useObservationsQuery, PriceComponent } from "../../graphql/queries";
+import { scaleSequential, scaleQuantile, interpolateRdYlGn } from "d3";
+
+const EMPTY_ARRAY: never[] = [];
 
 type Props = {
   year: string;
@@ -42,6 +46,26 @@ const IndexPage = ({
     });
     replace(href, as);
   };
+
+  const year = (query.year as string) ?? initialParams.year;
+  const priceComponent = PriceComponent.Total; // TODO: parameterize priceComponent
+  const category = (query.category as string) ?? initialParams.category;
+  console.log({ year, priceComponent, category });
+  const [observationsQuery] = useObservationsQuery({
+    variables: {
+      priceComponent: PriceComponent.Total,
+      filters: {
+        period: [year],
+        category: [
+          `https://energy.ld.admin.ch/elcom/energy-pricing/category/${category}`,
+        ],
+      },
+    },
+  });
+
+  const observations = observationsQuery.fetching
+    ? EMPTY_ARRAY
+    : observationsQuery.data?.cubeByIri?.observations ?? EMPTY_ARRAY;
 
   return (
     <Flex sx={{ minHeight: "100vh", flexDirection: "column" }}>
