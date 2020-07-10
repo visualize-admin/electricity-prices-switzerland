@@ -26,6 +26,10 @@ msgstr "Clear search field"
 msgid "footer.institution.name"
 msgstr "ElCom"
 
+#: src/components/loading.tsx:34
+msgid "hint.loading.data"
+msgstr "Lade Daten…"
+
 #: src/components/logo.tsx:4
 #: src/components/logo.tsx:15
 msgid "logo.swiss.confederation"

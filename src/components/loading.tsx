@@ -39,7 +39,7 @@ export const Loading = ({ delayMs = 1000 }: { delayMs?: number }) => (
       <Icon name="loading" size={48} />
     </Box>
     <Text variant="heading4">
-      <Trans id="hint.loading.data">Loading data…</Trans>
+      <Trans id="hint.loading.data">Lade Daten…</Trans>
     </Text>
   </Flex>
 );

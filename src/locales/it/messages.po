@@ -26,6 +26,10 @@ msgstr "Azzerare"
 msgid "footer.institution.name"
 msgstr ""
 
+#: src/components/loading.tsx:34
+msgid "hint.loading.data"
+msgstr "caricamento dei dati"
+
 #: src/components/logo.tsx:4
 #: src/components/logo.tsx:15
 msgid "logo.swiss.confederation"
