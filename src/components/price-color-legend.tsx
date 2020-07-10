@@ -9,7 +9,16 @@ const BOTTOM_LABEL_HEIGHT = 16;
 
 export const PriceColorLegend = () => {
   return (
-    <Box sx={{ width: LEGEND_WIDTH }}>
+    <Box
+      sx={{
+        width: LEGEND_WIDTH,
+        zIndex: 13,
+        bg: "monochrome100",
+        borderRadius: "default",
+        height: "fit-content",
+        p: 2,
+      }}
+    >
       <Flex
         sx={{
           justifyContent: "space-between",
@@ -30,7 +39,7 @@ export const PriceColorLegend = () => {
               borderLeft: "1px solid black",
               height: TOP_LABEL_HEIGHT + COLOR_HEIGHT,
               overflowY: "visible",
-              zIndex: 12,
+              zIndex: 14,
             }}
           ></Box>
         </Flex>
@@ -46,8 +55,7 @@ export const PriceColorLegend = () => {
 export const ColorsLine = () => (
   <Flex
     sx={{
-      height: COLOR_HEIGHT,
-      zIndex: 10,
+      height: COLOR_HEIGHT + BOTTOM_LABEL_HEIGHT,
     }}
   >
     <Box
