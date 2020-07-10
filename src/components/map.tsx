@@ -55,7 +55,7 @@ const CH_BBOX: BBox = [
 const constrainZoom = (
   viewState: $FixMe,
   bbox: BBox,
-  { padding = 100 }: { padding?: number } = {}
+  { padding = 24 }: { padding?: number } = {}
 ) => {
   const vp = new WebMercatorViewport(viewState);
 

@@ -89,20 +89,21 @@ const IndexPage = ({
         <Grid
           sx={{
             width: "100%",
-            gridTemplateColumns: ["1fr", "1fr 1fr", "1fr 1fr"],
+            gridTemplateColumns: ["1fr", "1fr 200px", "1fr 300px"],
             columnGap: 0,
-            px: [4, 5, 5],
-            py: 4,
+            minHeight: "32rem",
+            height: ["50vh", "calc(100vh - 96px - 60px)"],
           }}
         >
           <Box
             sx={{
-              position: ["relative", "absolute"],
+              bg: "monochrome200",
+              position: ["relative", "relative"],
               top: 0,
               left: 0,
               width: "100%",
-              order: [3, 3, 3],
-              height: ["50vh", "100vh"],
+              order: [3, 1, 1],
+              height: ["50vh", "100%"],
             }}
           >
             <ChoroplethMap
@@ -110,14 +111,17 @@ const IndexPage = ({
               observations={observations}
               colorScale={colorScale}
             />
+            <Box sx={{ zIndex: 13, position: "absolute", top: 0,left:0, mt:3,ml:3 }}>
+              <PriceColorLegend />
+            </Box>
           </Box>
           <Flex
             sx={{
-              alignSelf: "end",
+              // alignSelf: "end",
               flexDirection: "column",
-              justifyContent: "flex-start",
-              alignItems: ["unset", "flex-end", "flex-end"],
-              order: [1, 2, 2],
+              // justifyContent: "flex-start",
+              // alignItems: ["unset", "flex-end", "flex-end"],
+              order: [2, 1, 1],
               width: "auto",
             }}
           >
@@ -133,10 +137,6 @@ const IndexPage = ({
               category={category}
             /> */}
           </Flex>
-
-          <Box sx={{ order: [2, 1, 1], zIndex: 13, width: "fit-content" }}>
-            <PriceColorLegend />
-          </Box>
         </Grid>
       </Flex>
       <Footer></Footer>
