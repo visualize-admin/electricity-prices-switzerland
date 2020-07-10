@@ -28,7 +28,6 @@ export const Selector = ({
         height: "fit-content",
         flexDirection: "column",
         justifyContent: "flex-start",
-        m: 4,
         bg: "primaryLight",
         p: 5,
         pb: 6,

@@ -1,4 +1,4 @@
-import { Flex, Box } from "theme-ui";
+import { Flex, Box, Grid } from "theme-ui";
 import { Footer } from "../../components/footer";
 import { Header } from "../../components/header";
 import { Selector } from "../../components/selector";
@@ -84,7 +84,6 @@ const IndexPage = ({
           position: "relative",
         }}
       >
-        <PriceColorLegend />
         {colorScale && (
           <ChoroplethMap
             year={year}
@@ -92,25 +91,38 @@ const IndexPage = ({
             colorScale={colorScale}
           />
         )}
-        <Flex
+        <Grid
           sx={{
-            flexDirection: "column",
-            justifyContent: "flex-start",
-            alignItems: "flex-end",
+            width: "100%",
+            gridTemplateColumns: " 1fr 1fr",
+            columnGap: 0,
+            mx: 5,
+            my: 4,
           }}
         >
-          <Selector
-            year={year}
-            priceComponent={priceComponent}
-            category={category}
-            updateQueryParams={updateQueryParams}
-          />
-          <List
-            year={year}
-            priceComponent={priceComponent}
-            category={category}
-          />
-        </Flex>
+          <Box>
+            <PriceColorLegend />
+          </Box>
+          <Flex
+            sx={{
+              flexDirection: "column",
+              justifyContent: "flex-start",
+              alignItems: "flex-end",
+            }}
+          >
+            <Selector
+              year={year}
+              priceComponent={priceComponent}
+              category={category}
+              updateQueryParams={updateQueryParams}
+            />
+            <List
+              year={year}
+              priceComponent={priceComponent}
+              category={category}
+            />
+          </Flex>
+        </Grid>
       </Flex>
       <Footer></Footer>
     </Flex>
