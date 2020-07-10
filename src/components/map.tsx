@@ -24,6 +24,8 @@ import { useFormatNumber } from "../domain/helpers";
 import { Observation } from "../graphql/queries";
 import { TooltipBox } from "./charts-generic/interaction/tooltip-box";
 import { Loading } from "./loading";
+import { useRouter } from "next/router";
+import { createDynamicRouteProps } from "./links";
 
 const INITIAL_VIEW_STATE = {
   latitude: 46.8182,
@@ -134,6 +136,7 @@ export const ChoroplethMap = ({
   observations: Observation[];
   colorScale: ScaleThreshold<number, string> | undefined | 0;
 }) => {
+  const { push, query } = useRouter();
   const [data, setData] = useState<
     | {
         municipalities: GeoJSON.Feature;
@@ -286,6 +289,11 @@ export const ChoroplethMap = ({
                 );
               }}
               onClick={({ layer, object }: $FixMe) => {
+                const { href, as } = createDynamicRouteProps({
+                  pathname: `/[locale]/municipality/${object?.id.toString()}`,
+                  query: { ...query },
+                });
+                push(href, as);
                 // if (object) {
                 //   const { viewport } = layer.context;
                 //   const bounds = geoBounds(object);
