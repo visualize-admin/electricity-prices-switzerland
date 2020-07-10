@@ -85,31 +85,21 @@ const IndexPage = ({
           // mb: "-67px",
         }}
       >
-        <Box sx={{ position: "absolute", top: 0, left: 0, width: "100%" }}>
-          {colorScale && (
-            <ChoroplethMap
-              year={year}
-              observations={observations}
-              colorScale={colorScale}
-            />
-          )}
-        </Box>
         <Grid
           sx={{
             width: "100%",
-            gridTemplateColumns: "1fr 1fr",
+            gridTemplateColumns: ["1fr", "1fr 1fr", "1fr 1fr"],
             columnGap: 0,
-            px: 5,
+            px: [4, 5, 5],
             py: 4,
           }}
         >
-          <PriceColorLegend />
-
           <Flex
             sx={{
               flexDirection: "column",
               justifyContent: "flex-start",
-              alignItems: "flex-end",
+              alignItems: ["unset", "flex-end", "flex-end"],
+              order: [1, 2, 2],
             }}
           >
             <Selector
@@ -124,6 +114,28 @@ const IndexPage = ({
               category={category}
             />
           </Flex>
+
+          <Box sx={{ order: [2, 1, 1], zIndex: 13 }}>
+            <PriceColorLegend />
+          </Box>
+
+          <Box
+            sx={{
+              position: ["relative", "absolute"],
+              top: 0,
+              left: 0,
+              width: "100%",
+              order: [3, 3, 3],
+            }}
+          >
+            {colorScale && (
+              <ChoroplethMap
+                year={year}
+                observations={observations}
+                colorScale={colorScale}
+              />
+            )}
+          </Box>
         </Grid>
       </Flex>
       <Footer></Footer>

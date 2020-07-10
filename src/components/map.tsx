@@ -214,7 +214,9 @@ export const ChoroplethMap = ({
 
   return (
     <>
-      <Box sx={{ position: "relative", height: "100vh", width: "100%" }}>
+      <Box
+        sx={{ position: "relative", height: ["50vh", "100vh"], width: "100%" }}
+      >
         <div>{!data && <span>Loading map</span>}</div>
 
         {hovered && tooltipContent && colorScale && (
