@@ -11,7 +11,6 @@ import { useObservationsQuery, PriceComponent } from "../../graphql/queries";
 import { scaleSequential, scaleQuantile, interpolateRdYlGn } from "d3";
 import { getColorScale, getColorDomain } from "../../domain/data";
 import { PriceColorLegend } from "../../components/price-color-legend";
-import { Loading } from "../../components/loading";
 
 const EMPTY_ARRAY: never[] = [];
 
@@ -51,12 +50,13 @@ const IndexPage = ({
   };
 
   const year = (query.year as string) ?? initialParams.year;
-  const priceComponent = PriceComponent.Total; // TODO: parameterize priceComponent
+  const priceComponent =
+    (query.priceComponent as PriceComponent) ?? PriceComponent.Total; // TODO: parameterize priceComponent
   const category = (query.category as string) ?? initialParams.category;
 
   const [observationsQuery] = useObservationsQuery({
     variables: {
-      priceComponent: PriceComponent.Total,
+      priceComponent,
       filters: {
         period: [year],
         category: [
@@ -127,11 +127,11 @@ const IndexPage = ({
               category={category}
               updateQueryParams={updateQueryParams}
             />
-            <List
+            {/* <List
               year={year}
               priceComponent={priceComponent}
               category={category}
-            />
+            /> */}
           </Flex>
 
           <Box sx={{ order: [2, 1, 1], zIndex: 13, width: "fit-content" }}>
