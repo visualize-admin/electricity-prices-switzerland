@@ -79,7 +79,7 @@ const IndexPage = ({
       <Header></Header>
       <Flex
         sx={{
-          pt: 96,
+          pt: [110, 96, 96],
           flexGrow: 1,
           position: "relative",
           // mb: "-67px",
@@ -94,31 +94,6 @@ const IndexPage = ({
             py: 4,
           }}
         >
-          <Flex
-            sx={{
-              flexDirection: "column",
-              justifyContent: "flex-start",
-              alignItems: ["unset", "flex-end", "flex-end"],
-              order: [1, 2, 2],
-            }}
-          >
-            <Selector
-              year={year}
-              priceComponent={priceComponent}
-              category={category}
-              updateQueryParams={updateQueryParams}
-            />
-            <List
-              year={year}
-              priceComponent={priceComponent}
-              category={category}
-            />
-          </Flex>
-
-          <Box sx={{ order: [2, 1, 1], zIndex: 13 }}>
-            <PriceColorLegend />
-          </Box>
-
           <Box
             sx={{
               position: ["relative", "absolute"],
@@ -135,6 +110,32 @@ const IndexPage = ({
                 colorScale={colorScale}
               />
             )}
+          </Box>
+          <Flex
+            sx={{
+              alignSelf: "end",
+              flexDirection: "column",
+              justifyContent: "flex-start",
+              alignItems: ["unset", "flex-end", "flex-end"],
+              order: [1, 2, 2],
+              width: "auto",
+            }}
+          >
+            <Selector
+              year={year}
+              priceComponent={priceComponent}
+              category={category}
+              updateQueryParams={updateQueryParams}
+            />
+            <List
+              year={year}
+              priceComponent={priceComponent}
+              category={category}
+            />
+          </Flex>
+
+          <Box sx={{ order: [2, 1, 1], zIndex: 13, width: "fit-content" }}>
+            <PriceColorLegend />
           </Box>
         </Grid>
       </Flex>
