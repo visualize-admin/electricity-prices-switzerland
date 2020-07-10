@@ -2,7 +2,7 @@ import { Trans } from "@lingui/macro";
 import { Box, Flex, Grid, Text } from "@theme-ui/components";
 import * as React from "react";
 
-const LEGEND_WIDTH = 154;
+const LEGEND_WIDTH = 176;
 const TOP_LABEL_HEIGHT = 16;
 const COLOR_HEIGHT = 12;
 const BOTTOM_LABEL_HEIGHT = 16;
@@ -16,7 +16,8 @@ export const PriceColorLegend = () => {
         bg: "monochrome100",
         borderRadius: "default",
         height: "fit-content",
-        p: 2,
+        px: 4,
+        py: 2,
       }}
     >
       <Flex

@@ -82,11 +82,10 @@ const IndexPage = ({
           pt: 96,
           flexGrow: 1,
           position: "relative",
+          // mb: "-67px",
         }}
       >
-        <Box
-          sx={{ position: "absolute", top: 0, left: 0, width: "100%", p: 6 }}
-        >
+        <Box sx={{ position: "absolute", top: 0, left: 0, width: "100%" }}>
           {colorScale && (
             <ChoroplethMap
               year={year}
@@ -98,10 +97,10 @@ const IndexPage = ({
         <Grid
           sx={{
             width: "100%",
-            gridTemplateColumns: " 1fr 1fr",
+            gridTemplateColumns: "1fr 1fr",
             columnGap: 0,
-            mx: 5,
-            my: 4,
+            px: 5,
+            py: 4,
           }}
         >
           <PriceColorLegend />
