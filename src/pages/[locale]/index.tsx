@@ -11,6 +11,7 @@ import { useObservationsQuery, PriceComponent } from "../../graphql/queries";
 import { scaleSequential, scaleQuantile, interpolateRdYlGn } from "d3";
 import { getColorScale, getColorDomain } from "../../domain/data";
 import { PriceColorLegend } from "../../components/price-color-legend";
+import { Loading } from "../../components/loading";
 
 const EMPTY_ARRAY: never[] = [];
 
@@ -101,14 +102,17 @@ const IndexPage = ({
               left: 0,
               width: "100%",
               order: [3, 3, 3],
+              height: ["50vh", "100vh"],
             }}
           >
-            {colorScale && (
+            {colorScale && observations.length > 0 ? (
               <ChoroplethMap
                 year={year}
                 observations={observations}
                 colorScale={colorScale}
               />
+            ) : (
+              <Loading />
             )}
           </Box>
           <Flex

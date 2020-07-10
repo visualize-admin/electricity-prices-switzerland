@@ -23,6 +23,7 @@ import {
 import { useFormatNumber } from "../domain/helpers";
 import { Observation } from "../graphql/queries";
 import { TooltipBox } from "./charts-generic/interaction/tooltip-box";
+import { Loading } from "./loading";
 
 const INITIAL_VIEW_STATE = {
   latitude: 46.8182,
@@ -214,47 +215,45 @@ export const ChoroplethMap = ({
 
   return (
     <>
-      <Box
-        sx={{ position: "relative", height: ["50vh", "100vh"], width: "100%" }}
-      >
-        <div>{!data && <span>Loading map</span>}</div>
+      {!data ? (
+        <Loading />
+      ) : (
+        <>
+          {hovered && tooltipContent && colorScale && (
+            <MapTooltip x={hovered.x} y={hovered.y}>
+              <Text variant="meta" sx={{ fontWeight: "bold", mb: 2 }}>
+                {tooltipContent.name}
+              </Text>
+              <Grid
+                sx={{
+                  width: "100%",
+                  gridTemplateColumns: "1fr auto",
+                  gap: 1,
+                }}
+              >
+                {tooltipContent.observations?.map((d, i) => {
+                  return (
+                    <Fragment key={i}>
+                      <Text variant="meta" sx={{}}>
+                        {d.provider.replace(/^https.+provider\//, "")}
+                      </Text>
+                      <Box
+                        sx={{
+                          borderRadius: "circle",
+                          px: 2,
+                          display: "inline-block",
+                        }}
+                        style={{ background: colorScale(d.value) }}
+                      >
+                        <Text variant="meta">{formatNumber(d.value)}</Text>
+                      </Box>
+                    </Fragment>
+                  );
+                })}
+              </Grid>
+            </MapTooltip>
+          )}
 
-        {hovered && tooltipContent && colorScale && (
-          <MapTooltip x={hovered.x} y={hovered.y}>
-            <Text variant="meta" sx={{ fontWeight: "bold", mb: 2 }}>
-              {tooltipContent.name}
-            </Text>
-            <Grid
-              sx={{
-                width: "100%",
-                gridTemplateColumns: "1fr auto",
-                gap: 1,
-              }}
-            >
-              {tooltipContent.observations?.map((d, i) => {
-                return (
-                  <Fragment key={i}>
-                    <Text variant="meta" sx={{}}>
-                      {d.provider.replace(/^https.+provider\//, "")}
-                    </Text>
-                    <Box
-                      sx={{
-                        borderRadius: "circle",
-                        px: 2,
-                        display: "inline-block",
-                      }}
-                      style={{ background: colorScale(d.value) }}
-                    >
-                      <Text variant="meta">{formatNumber(d.value)}</Text>
-                    </Box>
-                  </Fragment>
-                );
-              })}
-            </Grid>
-          </MapTooltip>
-        )}
-
-        {data ? (
           <DeckGL
             controller={{ type: MapController }}
             viewState={viewState}
@@ -303,7 +302,9 @@ export const ChoroplethMap = ({
                 //   }));
                 // }
               }}
-              updateTriggers={{ getFillColor: [observationsByMunicipalityId] }}
+              updateTriggers={{
+                getFillColor: [observationsByMunicipalityId],
+              }}
             />
             <GeoJsonLayer
               id="municipality-mesh"
@@ -342,8 +343,8 @@ export const ChoroplethMap = ({
               getLineColor={[255, 255, 255, 100]}
             />
           </DeckGL>
-        ) : null}
-      </Box>
+        </>
+      )}
     </>
   );
 };
