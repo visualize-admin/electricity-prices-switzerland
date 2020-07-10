@@ -1,9 +1,9 @@
 import { MapController, WebMercatorViewport } from "@deck.gl/core";
 import { GeoJsonLayer } from "@deck.gl/layers";
 import DeckGL from "@deck.gl/react";
-import { color, interpolateRdYlGn } from "d3";
+import { color } from "d3";
 import { group } from "d3-array";
-import { ScaleQuantile, ScaleThreshold, ScaleSequential } from "d3-scale";
+import { ScaleThreshold } from "d3-scale";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   feature as topojsonFeature,

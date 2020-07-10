@@ -9,7 +9,8 @@ import { InferGetStaticPropsType } from "next";
 import { createDynamicRouteProps } from "../../components/links";
 import { useObservationsQuery, PriceComponent } from "../../graphql/queries";
 import { scaleSequential, scaleQuantile, interpolateRdYlGn } from "d3";
-import { getColorScale } from "../../domain/data";
+import { getColorScale, getColorDomain } from "../../domain/data";
+import { PriceColorLegend } from "../../components/price-color-legend";
 
 const EMPTY_ARRAY: never[] = [];
 
@@ -68,7 +69,10 @@ const IndexPage = ({
     ? EMPTY_ARRAY
     : observationsQuery.data?.cubeByIri?.observations ?? EMPTY_ARRAY;
 
-  const colorScale = getColorScale({ observations, accessor: (d) => d.value });
+  const colorScale = getColorScale({
+    observations,
+    accessor: (d) => d.value,
+  });
 
   return (
     <Flex sx={{ minHeight: "100vh", flexDirection: "column" }}>
@@ -77,23 +81,36 @@ const IndexPage = ({
         sx={{
           pt: 96,
           flexGrow: 1,
-          flexDirection: "column",
-          justifyContent: "flex-start",
-          alignItems: "flex-end",
+          position: "relative",
         }}
       >
-        <ChoroplethMap
-          year={year}
-          observations={observations}
-          colorScale={colorScale}
-        />
-        <Selector
-          year={year}
-          priceComponent={priceComponent}
-          category={category}
-          updateQueryParams={updateQueryParams}
-        />
-        <List year={year} priceComponent={priceComponent} category={category} />
+        <PriceColorLegend />
+        {colorScale && (
+          <ChoroplethMap
+            year={year}
+            observations={observations}
+            colorScale={colorScale}
+          />
+        )}
+        <Flex
+          sx={{
+            flexDirection: "column",
+            justifyContent: "flex-start",
+            alignItems: "flex-end",
+          }}
+        >
+          <Selector
+            year={year}
+            priceComponent={priceComponent}
+            category={category}
+            updateQueryParams={updateQueryParams}
+          />
+          <List
+            year={year}
+            priceComponent={priceComponent}
+            category={category}
+          />
+        </Flex>
       </Flex>
       <Footer></Footer>
     </Flex>

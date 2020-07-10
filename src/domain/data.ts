@@ -1,7 +1,6 @@
 import { median } from "d3-array";
 import { Observation as QueryObservation } from "../graphql/queries";
 import { scaleThreshold } from "d3";
-import { PRICE_COLORS } from "./colors";
 
 export type ObservationValue = string | number | boolean | Date;
 export type Observation = Record<string, ObservationValue>;
@@ -51,7 +50,8 @@ export const getColorDomain = ({
   accessor: (x: QueryObservation) => number;
 }) => {
   const m = median(observations, (d) => accessor(d));
-  return m && [m * 0.85, m * 0.95, m * 1.05, m * 1.15];
+  const domain = m && [m * 0.85, m * 0.95, m * 1.05, m * 1.15];
+  return domain;
 };
 
 export const getColorScale = ({
@@ -64,7 +64,9 @@ export const getColorScale = ({
   const domain = getColorDomain({ observations, accessor });
   const scale =
     domain &&
-    scaleThreshold<number, string>().domain(domain).range(PRICE_COLORS);
+    scaleThreshold<number, string>()
+      .domain(domain)
+      .range(["#24B39C", "#A8DC90", "#E7EC83", "#F1B865", "#D64B47"]);
   return scale;
 };
 export const years = [

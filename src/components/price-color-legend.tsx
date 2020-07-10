@@ -1,7 +1,6 @@
 import { Trans } from "@lingui/macro";
 import { Box, Flex, Grid, Text } from "@theme-ui/components";
 import * as React from "react";
-import { PRICE_COLORS } from "../domain/colors";
 
 const LEGEND_WIDTH = 154;
 const TOP_LABEL_HEIGHT = 16;
@@ -57,7 +56,7 @@ export const ColorsLine = () => (
         height: 0,
         borderTop: `${COLOR_HEIGHT / 2}px solid transparent`,
         borderBottom: `${COLOR_HEIGHT / 2}px solid transparent`,
-        borderRight: `${COLOR_HEIGHT / 2}px solid  ${PRICE_COLORS[0]}`,
+        borderRight: `${COLOR_HEIGHT / 2}px solid  #24B39C`,
       }}
     />
     <Grid
@@ -68,7 +67,7 @@ export const ColorsLine = () => (
         width: "100%",
       }}
     >
-      {[...PRICE_COLORS].map((bg, i) => (
+      {["#24B39C", "#A8DC90", "#E7EC83", "#F1B865", "#D64B47"].map((bg, i) => (
         <Flex
           key={bg}
           sx={{
@@ -106,7 +105,7 @@ export const ColorsLine = () => (
         height: 0,
         borderTop: `${COLOR_HEIGHT / 2}px solid transparent`,
         borderBottom: `${COLOR_HEIGHT / 2}px solid transparent`,
-        borderLeft: `${COLOR_HEIGHT / 2}px solid  ${PRICE_COLORS.pop()}`,
+        borderLeft: `${COLOR_HEIGHT / 2}px solid #D64B47`,
       }}
     />
   </Flex>
