@@ -84,13 +84,17 @@ const IndexPage = ({
           position: "relative",
         }}
       >
-        {colorScale && (
-          <ChoroplethMap
-            year={year}
-            observations={observations}
-            colorScale={colorScale}
-          />
-        )}
+        <Box
+          sx={{ position: "absolute", top: 0, left: 0, width: "100%", p: 6 }}
+        >
+          {colorScale && (
+            <ChoroplethMap
+              year={year}
+              observations={observations}
+              colorScale={colorScale}
+            />
+          )}
+        </Box>
         <Grid
           sx={{
             width: "100%",
