@@ -25,6 +25,7 @@ export const List = ({ year, priceComponent, category }: Props) => {
         p: 5,
         pb: 6,
         zIndex: 12,
+        borderRadius: "default",
         "> button": { mt: 2 },
       }}
     >
