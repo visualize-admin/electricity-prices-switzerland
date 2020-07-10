@@ -23,9 +23,9 @@ type Props = {
 export const getServerSideProps = async () => {
   // FIXME: Add "product" when it is data-ready
   const initialParams = {
-    year: "2020",
+    year: "2019",
     priceComponent: "total",
-    category: "H4",
+    category: "H1",
     // product: "standard"
   };
 
