@@ -100,9 +100,8 @@ const IndexPage = ({
             my: 4,
           }}
         >
-          <Box>
-            <PriceColorLegend />
-          </Box>
+          <PriceColorLegend />
+
           <Flex
             sx={{
               flexDirection: "column",

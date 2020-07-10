@@ -20,7 +20,7 @@ export const List = ({ year, priceComponent, category }: Props) => {
         height: "fit-content",
         flexDirection: "column",
         justifyContent: "flex-start",
-        m: 4,
+        mt: 4,
         bg: "monochrome100",
         p: 5,
         pb: 6,
