@@ -105,15 +105,11 @@ const IndexPage = ({
               height: ["50vh", "100vh"],
             }}
           >
-            {colorScale && observations.length > 0 ? (
-              <ChoroplethMap
-                year={year}
-                observations={observations}
-                colorScale={colorScale}
-              />
-            ) : (
-              <Loading />
-            )}
+            <ChoroplethMap
+              year={year}
+              observations={observations}
+              colorScale={colorScale}
+            />
           </Box>
           <Flex
             sx={{

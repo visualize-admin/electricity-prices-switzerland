@@ -3,6 +3,7 @@ import { Flex, Text, Box } from "@theme-ui/components";
 import { Trans } from "@lingui/macro";
 import { Icon, IconName } from "../icons";
 import { keyframes } from "@emotion/core";
+import { relative } from "path";
 
 const delayedShow = keyframes`
   0% { opacity: 0 }
@@ -29,11 +30,14 @@ export const Loading = ({ delayMs = 1000 }: { delayMs?: number }) => (
       padding: 2,
       opacity: 0,
       animation: `0s linear ${delayMs}ms forwards ${delayedShow}`,
+      position: "relative",
+      zIndex: 100,
     }}
   >
     <Box
       sx={{
         animation: `1s linear infinite ${spin}`,
+        transformOrigin: "center",
       }}
     >
       <Icon name="loading" size={48} />

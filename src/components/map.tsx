@@ -218,45 +218,44 @@ export const ChoroplethMap = ({
 
   return (
     <>
-      {!data ? (
-        <Loading />
-      ) : (
-        <>
-          {hovered && tooltipContent && colorScale && (
-            <MapTooltip x={hovered.x} y={hovered.y}>
-              <Text variant="meta" sx={{ fontWeight: "bold", mb: 2 }}>
-                {tooltipContent.name}
-              </Text>
-              <Grid
-                sx={{
-                  width: "100%",
-                  gridTemplateColumns: "1fr auto",
-                  gap: 1,
-                }}
-              >
-                {tooltipContent.observations?.map((d, i) => {
-                  return (
-                    <Fragment key={i}>
-                      <Text variant="meta" sx={{}}>
-                        {d.provider.replace(/^https.+provider\//, "")}
-                      </Text>
-                      <Box
-                        sx={{
-                          borderRadius: "circle",
-                          px: 2,
-                          display: "inline-block",
-                        }}
-                        style={{ background: colorScale(d.value) }}
-                      >
-                        <Text variant="meta">{formatNumber(d.value)}</Text>
-                      </Box>
-                    </Fragment>
-                  );
-                })}
-              </Grid>
-            </MapTooltip>
-          )}
+      {!data || (observations.length === 0 && <Loading />)}
+      <>
+        {hovered && tooltipContent && colorScale && (
+          <MapTooltip x={hovered.x} y={hovered.y}>
+            <Text variant="meta" sx={{ fontWeight: "bold", mb: 2 }}>
+              {tooltipContent.name}
+            </Text>
+            <Grid
+              sx={{
+                width: "100%",
+                gridTemplateColumns: "1fr auto",
+                gap: 1,
+              }}
+            >
+              {tooltipContent.observations?.map((d, i) => {
+                return (
+                  <Fragment key={i}>
+                    <Text variant="meta" sx={{}}>
+                      {d.provider.replace(/^https.+provider\//, "")}
+                    </Text>
+                    <Box
+                      sx={{
+                        borderRadius: "circle",
+                        px: 2,
+                        display: "inline-block",
+                      }}
+                      style={{ background: colorScale(d.value) }}
+                    >
+                      <Text variant="meta">{formatNumber(d.value)}</Text>
+                    </Box>
+                  </Fragment>
+                );
+              })}
+            </Grid>
+          </MapTooltip>
+        )}
 
+        {data && (
           <DeckGL
             controller={{ type: MapController }}
             viewState={viewState}
@@ -351,8 +350,8 @@ export const ChoroplethMap = ({
               getLineColor={[255, 255, 255, 100]}
             />
           </DeckGL>
-        </>
-      )}
+        )}
+      </>
     </>
   );
 };

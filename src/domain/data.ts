@@ -49,8 +49,8 @@ export const getColorDomain = ({
   observations: QueryObservation[];
   accessor: (x: QueryObservation) => number;
 }) => {
-  const m = median(observations, (d) => accessor(d));
-  const domain = m && [m * 0.85, m * 0.95, m * 1.05, m * 1.15];
+  const m = median(observations, (d) => accessor(d)) ?? 0;
+  const domain = [m * 0.85, m * 0.95, m * 1.05, m * 1.15];
   return domain;
 };
 
@@ -62,11 +62,9 @@ export const getColorScale = ({
   accessor: (x: QueryObservation) => number;
 }) => {
   const domain = getColorDomain({ observations, accessor });
-  const scale =
-    domain &&
-    scaleThreshold<number, string>()
-      .domain(domain)
-      .range(["#24B39C", "#A8DC90", "#E7EC83", "#F1B865", "#D64B47"]);
+  const scale = scaleThreshold<number, string>()
+    .domain(domain)
+    .range(["#24B39C", "#A8DC90", "#E7EC83", "#F1B865", "#D64B47"]);
   return scale;
 };
 export const years = [
