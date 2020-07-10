@@ -106,6 +106,36 @@ const constrainZoom = (
 //   };
 // };
 
+const __debugCheckObservationsWithoutShapes = (
+  observationsByMunicipalityId: Map<string, Observation[]>,
+  feature: GeoJSON.FeatureCollection
+) => {
+  const observationIds = new Set(observationsByMunicipalityId.keys());
+  const featureIds = new Set(
+    feature.features.flatMap((f) => (f.id ? [f.id.toString()] : []))
+  );
+
+  if (observationIds.size !== featureIds.size) {
+    const obsWithoutFeatures = [...observationIds].filter(
+      (id) => !featureIds.has(id)
+    );
+
+    if (obsWithoutFeatures.length > 0) {
+      console.log("Obervations without features", obsWithoutFeatures);
+    }
+
+    const featuresWithoutObs = [...featureIds].filter(
+      (id) => !observationIds.has(id)
+    );
+
+    if (featuresWithoutObs.length > 0) {
+      console.log("Features without observations", featuresWithoutObs);
+    }
+  } else {
+    console.log("Obervations vs. Features OK");
+  }
+};
+
 const MapTooltip = ({
   x,
   y,
@@ -139,10 +169,10 @@ export const ChoroplethMap = ({
   const { push, query } = useRouter();
   const [data, setData] = useState<
     | {
-        municipalities: GeoJSON.Feature;
+        municipalities: GeoJSON.FeatureCollection | GeoJSON.Feature;
         municipalityMesh: GeoJSON.MultiLineString;
-        cantons: GeoJSON.Feature;
-        lakes: GeoJSON.Feature;
+        cantons: GeoJSON.FeatureCollection | GeoJSON.Feature;
+        lakes: GeoJSON.FeatureCollection | GeoJSON.Feature;
       }
     | undefined
   >();
@@ -175,9 +205,9 @@ export const ChoroplethMap = ({
 
   useEffect(() => {
     const load = async () => {
-      const topo = await fetch(
-        `/topojson/ch-${parseInt(year, 10) - 1}.json`
-      ).then((res) => res.json());
+      const topo = await fetch(`/topojson/ch-${parseInt(year,10)-1}.json`).then((res) =>
+        res.json()
+      );
       const municipalities = topojsonFeature(topo, topo.objects.municipalities);
       const municipalityMesh = topojsonMesh(
         topo,
@@ -199,6 +229,15 @@ export const ChoroplethMap = ({
       )
     );
   }, [observations]);
+
+  useEffect(() => {
+    if (data && observationsByMunicipalityId.size > 0) {
+      __debugCheckObservationsWithoutShapes(
+        observationsByMunicipalityId,
+        data.municipalities as GeoJSON.FeatureCollection
+      );
+    }
+  }, [data, observationsByMunicipalityId]);
 
   const formatNumber = useFormatNumber();
 
