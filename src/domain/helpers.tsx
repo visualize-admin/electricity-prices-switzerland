@@ -1,6 +1,3 @@
-import { useLocale } from "../lib/use-locale";
-import React from "react";
-import { d3FormatLocales, d3TimeFormatLocales } from "../locales/locales";
 import {
   schemeAccent,
   schemeCategory10,
@@ -11,13 +8,16 @@ import {
   schemeSet1,
   schemeSet2,
   schemeSet3,
-  timeMinute,
-  timeHour,
   timeDay,
+  timeHour,
+  timeMinute,
   timeMonth,
-  timeYear,
   timeParse,
+  timeYear,
 } from "d3";
+import React from "react";
+import { useLocale } from "../lib/use-locale";
+import { d3FormatLocales, d3TimeFormatLocales } from "../locales/locales";
 
 export const isNumber = (x: $IntentionalAny): boolean =>
   typeof x === "number" && !isNaN(x);

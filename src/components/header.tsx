@@ -44,7 +44,7 @@ export const Header = ({
               left: 0,
               width: "100%",
               overflowY: "hidden",
-              zIndex: 13,
+              zIndex: 15,
             }
       }
     >

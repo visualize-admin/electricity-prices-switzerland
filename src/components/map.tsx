@@ -3,7 +3,8 @@ import { GeoJsonLayer } from "@deck.gl/layers";
 import DeckGL from "@deck.gl/react";
 import { color } from "d3";
 import { group } from "d3-array";
-import { ScaleSequential } from "d3-scale";
+
+import { ScaleThreshold } from "d3-scale";
 import {
   Fragment,
   ReactNode,
@@ -13,13 +14,18 @@ import {
   useState,
 } from "react";
 import { Box, Grid, Text } from "theme-ui";
+
 import {
   feature as topojsonFeature,
   mesh as topojsonMesh,
 } from "topojson-client";
+
 import { useFormatNumber } from "../domain/helpers";
 import { Observation } from "../graphql/queries";
 import { TooltipBox } from "./charts-generic/interaction/tooltip-box";
+import { Loading } from "./loading";
+import { useRouter } from "next/router";
+import { createDynamicRouteProps } from "./links";
 
 const INITIAL_VIEW_STATE = {
   latitude: 46.8182,
@@ -49,7 +55,7 @@ const CH_BBOX: BBox = [
 const constrainZoom = (
   viewState: $FixMe,
   bbox: BBox,
-  { padding = 20 }: { padding?: number } = {}
+  { padding = 100 }: { padding?: number } = {}
 ) => {
   const vp = new WebMercatorViewport(viewState);
 
@@ -128,8 +134,9 @@ export const ChoroplethMap = ({
 }: {
   year: string;
   observations: Observation[];
-  colorScale: ScaleSequential<string>;
+  colorScale: ScaleThreshold<number, string> | undefined | 0;
 }) => {
+  const { push, query } = useRouter();
   const [data, setData] = useState<
     | {
         municipalities: GeoJSON.Feature;
@@ -149,7 +156,7 @@ export const ChoroplethMap = ({
 
   const onViewStateChange = useCallback(({ viewState, interactionState }) => {
     setHovered(undefined);
-    
+
     if (interactionState.inTransition) {
       setViewState(viewState);
     } else {
@@ -196,8 +203,8 @@ export const ChoroplethMap = ({
   const formatNumber = useFormatNumber();
 
   const getColor = (v: number) => {
-    const c = colorScale(v);
-    const rgb = color(c)?.rgb();
+    const c = colorScale && colorScale(v);
+    const rgb = c && color(c)?.rgb();
     return rgb ? [rgb.r, rgb.g, rgb.b] : [0, 0, 0];
   };
 
@@ -211,45 +218,45 @@ export const ChoroplethMap = ({
 
   return (
     <>
-      <Box sx={{ position: "relative", height: "100vh", width: "100%" }}>
-        <div>{!data && <span>Loading map</span>}</div>
+      {!data ? (
+        <Loading />
+      ) : (
+        <>
+          {hovered && tooltipContent && colorScale && (
+            <MapTooltip x={hovered.x} y={hovered.y}>
+              <Text variant="meta" sx={{ fontWeight: "bold", mb: 2 }}>
+                {tooltipContent.name}
+              </Text>
+              <Grid
+                sx={{
+                  width: "100%",
+                  gridTemplateColumns: "1fr auto",
+                  gap: 1,
+                }}
+              >
+                {tooltipContent.observations?.map((d, i) => {
+                  return (
+                    <Fragment key={i}>
+                      <Text variant="meta" sx={{}}>
+                        {d.provider.replace(/^https.+provider\//, "")}
+                      </Text>
+                      <Box
+                        sx={{
+                          borderRadius: "circle",
+                          px: 2,
+                          display: "inline-block",
+                        }}
+                        style={{ background: colorScale(d.value) }}
+                      >
+                        <Text variant="meta">{formatNumber(d.value)}</Text>
+                      </Box>
+                    </Fragment>
+                  );
+                })}
+              </Grid>
+            </MapTooltip>
+          )}
 
-        {hovered && tooltipContent && (
-          <MapTooltip x={hovered.x} y={hovered.y}>
-            <Text variant="meta" sx={{ fontWeight: "bold", mb: 2 }}>
-              {tooltipContent.name}
-            </Text>
-            <Grid
-              sx={{
-                width: "100%",
-                gridTemplateColumns: "1fr auto",
-                gap: 1,
-              }}
-            >
-              {tooltipContent.observations?.map((d, i) => {
-                return (
-                  <Fragment key={i}>
-                    <Text variant="meta" sx={{}}>
-                      {d.provider.replace(/^https.+provider\//, "")}
-                    </Text>
-                    <Box
-                      sx={{
-                        borderRadius: "circle",
-                        px: 2,
-                        display: "inline-block",
-                      }}
-                      style={{ background: colorScale(d.value) }}
-                    >
-                      <Text variant="meta">{formatNumber(d.value)}</Text>
-                    </Box>
-                  </Fragment>
-                );
-              })}
-            </Grid>
-          </MapTooltip>
-        )}
-
-        {data ? (
           <DeckGL
             controller={{ type: MapController }}
             viewState={viewState}
@@ -282,6 +289,11 @@ export const ChoroplethMap = ({
                 );
               }}
               onClick={({ layer, object }: $FixMe) => {
+                const { href, as } = createDynamicRouteProps({
+                  pathname: `/[locale]/municipality/${object?.id.toString()}`,
+                  query: { ...query },
+                });
+                push(href, as);
                 // if (object) {
                 //   const { viewport } = layer.context;
                 //   const bounds = geoBounds(object);
@@ -298,7 +310,9 @@ export const ChoroplethMap = ({
                 //   }));
                 // }
               }}
-              updateTriggers={{ getFillColor: [observationsByMunicipalityId] }}
+              updateTriggers={{
+                getFillColor: [observationsByMunicipalityId],
+              }}
             />
             <GeoJsonLayer
               id="municipality-mesh"
@@ -337,8 +351,8 @@ export const ChoroplethMap = ({
               getLineColor={[255, 255, 255, 100]}
             />
           </DeckGL>
-        ) : null}
-      </Box>
+        </>
+      )}
     </>
   );
 };

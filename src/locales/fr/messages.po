@@ -13,22 +13,198 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/components/combobox.tsx:135
-#: src/components/combobox.tsx:242
+#: src/components/combobox.tsx:136
+#: src/components/combobox.tsx:229
 msgid "combobox.noitems"
-msgstr ""
+msgstr "Aucun éléments"
 
-#: src/components/form.tsx:110
+#: src/components/form.tsx:109
 msgid "controls.search.clear"
-msgstr ""
+msgstr "Supprimer"
 
 #: src/components/footer.tsx:34
 msgid "footer.institution.name"
 msgstr ""
 
+#: src/components/loading.tsx:34
+msgid "hint.loading.data"
+msgstr "Chargement des données"
+
 #: src/components/logo.tsx:4
 #: src/components/logo.tsx:15
 msgid "logo.swiss.confederation"
+msgstr ""
+
+#: src/components/price-color-legend.tsx:39
+msgid "price.legend.max"
+msgstr "max"
+
+#: src/components/price-color-legend.tsx:28
+msgid "price.legend.median"
+msgstr "médiane"
+
+#: src/components/price-color-legend.tsx:24
+msgid "price.legend.min"
+msgstr "min"
+
+#: src/components/selector.tsx:32
+msgid "selector.category"
+msgstr "Catégorie"
+
+#: src/domain/translation.tsx:64
+msgid "selector.category.C1"
+msgstr ""
+
+#: src/domain/translation.tsx:66
+msgid "selector.category.C2"
+msgstr ""
+
+#: src/domain/translation.tsx:68
+msgid "selector.category.C3"
+msgstr ""
+
+#: src/domain/translation.tsx:70
+msgid "selector.category.C4"
+msgstr ""
+
+#: src/domain/translation.tsx:72
+msgid "selector.category.C5"
+msgstr ""
+
+#: src/domain/translation.tsx:74
+msgid "selector.category.C6"
+msgstr ""
+
+#: src/domain/translation.tsx:76
+msgid "selector.category.C7"
+msgstr ""
+
+#: src/domain/translation.tsx:48
+msgid "selector.category.H1"
+msgstr ""
+
+#: src/domain/translation.tsx:50
+msgid "selector.category.H2"
+msgstr ""
+
+#: src/domain/translation.tsx:52
+msgid "selector.category.H3"
+msgstr ""
+
+#: src/domain/translation.tsx:54
+msgid "selector.category.H4"
+msgstr ""
+
+#: src/domain/translation.tsx:56
+msgid "selector.category.H5"
+msgstr ""
+
+#: src/domain/translation.tsx:58
+msgid "selector.category.H6"
+msgstr ""
+
+#: src/domain/translation.tsx:60
+msgid "selector.category.H7"
+msgstr ""
+
+#: src/domain/translation.tsx:62
+msgid "selector.category.H8"
+msgstr ""
+
+#: src/components/selector.tsx:23
+msgid "selector.legend.select.parameters"
+msgstr "Sélectionner les paramètres"
+
+#: src/components/selector.tsx:30
+msgid "selector.priceComponent"
+msgstr "Composante du prix"
+
+#: src/domain/translation.tsx:44
+msgid "selector.pricecomponent.aidfee"
+msgstr ""
+
+#: src/domain/translation.tsx:40
+msgid "selector.pricecomponent.charge"
+msgstr ""
+
+#: src/domain/translation.tsx:38
+msgid "selector.pricecomponent.energy"
+msgstr ""
+
+#: src/domain/translation.tsx:36
+msgid "selector.pricecomponent.gridusage"
+msgstr ""
+
+#: src/domain/translation.tsx:46
+msgid "selector.pricecomponent.total"
+msgstr ""
+
+#: src/components/selector.tsx:34
+msgid "selector.product"
+msgstr "Produit"
+
+#: src/domain/translation.tsx:34
+msgid "selector.product.economic"
+msgstr "meilleur marché"
+
+#: src/domain/translation.tsx:32
+msgid "selector.product.standard"
+msgstr "Standard"
+
+#: src/components/selector.tsx:29
+msgid "selector.year"
+msgstr "Année"
+
+#: src/domain/translation.tsx:30
+msgid "selector.year.2009"
+msgstr ""
+
+#: src/domain/translation.tsx:28
+msgid "selector.year.2010"
+msgstr ""
+
+#: src/domain/translation.tsx:26
+msgid "selector.year.2011"
+msgstr ""
+
+#: src/domain/translation.tsx:24
+msgid "selector.year.2012"
+msgstr ""
+
+#: src/domain/translation.tsx:22
+msgid "selector.year.2013"
+msgstr ""
+
+#: src/domain/translation.tsx:20
+msgid "selector.year.2014"
+msgstr ""
+
+#: src/domain/translation.tsx:18
+msgid "selector.year.2015"
+msgstr ""
+
+#: src/domain/translation.tsx:16
+msgid "selector.year.2016"
+msgstr ""
+
+#: src/domain/translation.tsx:14
+msgid "selector.year.2017"
+msgstr ""
+
+#: src/domain/translation.tsx:12
+msgid "selector.year.2018"
+msgstr ""
+
+#: src/domain/translation.tsx:10
+msgid "selector.year.2019"
+msgstr ""
+
+#: src/domain/translation.tsx:8
+msgid "selector.year.2020"
+msgstr ""
+
+#: src/domain/translation.tsx:6
+msgid "selector.year.2021"
 msgstr ""
 
 #: src/components/header.tsx:65
@@ -36,5 +212,5 @@ msgid "site.title"
 msgstr "Prix de l'électricité de la Suisse"
 
 #: src/pages/[locale]/index.tsx:9
-msgid "test.hello"
-msgstr "Bonjour"
+#~ msgid "test.hello"
+#~ msgstr "Bonjour"

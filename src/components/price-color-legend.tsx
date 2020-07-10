@@ -1,16 +1,25 @@
 import { Trans } from "@lingui/macro";
 import { Box, Flex, Grid, Text } from "@theme-ui/components";
 import * as React from "react";
-import { PRICE_COLORS } from "../domain/colors";
 
-const LEGEND_WIDTH = 154;
+const LEGEND_WIDTH = 176;
 const TOP_LABEL_HEIGHT = 16;
 const COLOR_HEIGHT = 12;
 const BOTTOM_LABEL_HEIGHT = 16;
 
 export const PriceColorLegend = () => {
   return (
-    <Box sx={{ width: LEGEND_WIDTH }}>
+    <Box
+      sx={{
+        width: LEGEND_WIDTH,
+        zIndex: 13,
+        bg: "monochrome100",
+        borderRadius: "default",
+        height: "fit-content",
+        px: 4,
+        py: 2,
+      }}
+    >
       <Flex
         sx={{
           justifyContent: "space-between",
@@ -31,7 +40,7 @@ export const PriceColorLegend = () => {
               borderLeft: "1px solid black",
               height: TOP_LABEL_HEIGHT + COLOR_HEIGHT,
               overflowY: "visible",
-              zIndex: 12,
+              zIndex: 14,
             }}
           ></Box>
         </Flex>
@@ -47,8 +56,7 @@ export const PriceColorLegend = () => {
 export const ColorsLine = () => (
   <Flex
     sx={{
-      height: COLOR_HEIGHT,
-      zIndex: 10,
+      height: COLOR_HEIGHT + BOTTOM_LABEL_HEIGHT,
     }}
   >
     <Box
@@ -57,7 +65,7 @@ export const ColorsLine = () => (
         height: 0,
         borderTop: `${COLOR_HEIGHT / 2}px solid transparent`,
         borderBottom: `${COLOR_HEIGHT / 2}px solid transparent`,
-        borderRight: `${COLOR_HEIGHT / 2}px solid  ${PRICE_COLORS[0]}`,
+        borderRight: `${COLOR_HEIGHT / 2}px solid  #24B39C`,
       }}
     />
     <Grid
@@ -68,7 +76,7 @@ export const ColorsLine = () => (
         width: "100%",
       }}
     >
-      {[...PRICE_COLORS].map((bg, i) => (
+      {["#24B39C", "#A8DC90", "#E7EC83", "#F1B865", "#D64B47"].map((bg, i) => (
         <Flex
           key={bg}
           sx={{
@@ -106,7 +114,7 @@ export const ColorsLine = () => (
         height: 0,
         borderTop: `${COLOR_HEIGHT / 2}px solid transparent`,
         borderBottom: `${COLOR_HEIGHT / 2}px solid transparent`,
-        borderLeft: `${COLOR_HEIGHT / 2}px solid  ${PRICE_COLORS.pop()}`,
+        borderLeft: `${COLOR_HEIGHT / 2}px solid #D64B47`,
       }}
     />
   </Flex>
