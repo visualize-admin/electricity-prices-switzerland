@@ -12,6 +12,7 @@ geodata: \
 	public/topojson/ch-2018.json \
 	public/topojson/ch-2017.json \
 	public/topojson/ch-2016.json \
+	public/topojson/ch-2015.json \
 	public/topojson/ch-2014.json \
 	public/topojson/ch-2013.json
 
@@ -34,7 +35,12 @@ public/topojson/ch-20%.json: geodata/g1g%.shp geodata/g1k%.shp geodata/g1s%.shp 
 #   - extensions (shp, dbf, prj)
 #
 # Examples: geodata/g1g19.shp, geodata/g1k18.dbf, etc.
+geodata/2015/GGG_15_V161025.zip: geodata/src/2015.zip
+	mkdir -p $(dir $@)
+	unzip -p $< GGG_15_V161025.zip > $@
 define extract_from_archive
+geodata/g1$(1)15.$(2): geodata/2015/GGG_15_V161025.zip
+	unzip -p $$< $$(patsubst geodata/%,shp/%,$$@) > $$@
 geodata/g1$(1)%.$(2): geodata/src/20%.zip
 	unzip -p $$< $$(patsubst geodata/%,ggg_20$$*-LV95/shp/%,$$@) > $$@ \
 	|| unzip -p $$< $$(patsubst geodata/%,ggg_20$$*/shp/LV95/%,$$@) > $$@ \
