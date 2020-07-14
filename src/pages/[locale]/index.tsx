@@ -1,4 +1,4 @@
-import { Flex, Box, Grid } from "theme-ui";
+import { Flex, Box, Grid, Text } from "theme-ui";
 import { Footer } from "../../components/footer";
 import { Header } from "../../components/header";
 import { Selector } from "../../components/selector";
@@ -35,6 +35,9 @@ export const getServerSideProps = async () => {
     },
   };
 };
+
+const HEADER_HEIGHT_S = "107px";
+const HEADER_HEIGHT_M_UP = "96px";
 
 const IndexPage = ({
   initialParams,
@@ -76,71 +79,106 @@ const IndexPage = ({
   });
 
   return (
-    <Flex sx={{ minHeight: "100vh", flexDirection: "column" }}>
-      <Header></Header>
-      <Flex
+    <>
+      <Grid
         sx={{
-          pt: [110, 96, 96],
-          flexGrow: 1,
-          position: "relative",
-          // mb: "-67px",
+          minHeight: "100vh",
+          gap: 0,
+          gridTemplateRows: [
+            `${HEADER_HEIGHT_S} 1fr auto`,
+            `${HEADER_HEIGHT_M_UP} 1fr auto`,
+          ],
         }}
       >
-        <Grid
+        <Box>
+          <Header></Header>
+        </Box>
+        <Box
           sx={{
-            width: "100%",
-            gridTemplateColumns: ["1fr", "1fr 1fr", "1fr 1fr"],
-            columnGap: 0,
-            px: [4, 5, 5],
-            py: 4,
+            position: "relative",
           }}
         >
-          <Box
-            sx={{
-              position: ["relative", "absolute"],
-              top: 0,
-              left: 0,
-              width: "100%",
-              order: [3, 3, 3],
-              height: ["50vh", "100vh"],
-            }}
-          >
-            <ChoroplethMap
-              year={year}
-              observations={observations}
-              colorScale={colorScale}
-            />
-          </Box>
           <Flex
             sx={{
-              alignSelf: "end",
+              py: 6,
               flexDirection: "column",
-              justifyContent: "flex-start",
-              alignItems: ["unset", "flex-end", "flex-end"],
-              order: [1, 2, 2],
-              width: "auto",
+              alignItems: "center",
+              borderBottomWidth: 1,
+              borderBottomStyle: "solid",
+              borderBottomColor: "monochrome500",
             }}
           >
-            <Selector
-              year={year}
-              priceComponent={priceComponent}
-              category={category}
-              updateQueryParams={updateQueryParams}
-            />
-            {/* <List
+            <Text as="h1" variant="giga" sx={{ textAlign: "center" }}>
+              Titel
+            </Text>
+          </Flex>
+
+          <Grid
+            sx={{
+              width: "100%",
+              gridTemplateColumns: ["1fr", "1fr 20rem"],
+              gridTemplateAreas: [`"controls" "map"`, `"map controls"`],
+              gap: 0,
+              position: "relative",
+            }}
+          >
+            <Box
+              sx={{
+                bg: "monochrome200",
+                top: [0, HEADER_HEIGHT_M_UP],
+                width: "100%",
+                gridArea: "map",
+                height: ["70vw", `calc(100vh - ${HEADER_HEIGHT_M_UP})`],
+                maxHeight: ["50vh", "100vh"],
+                position: ["relative", "sticky"],
+              }}
+            >
+              <ChoroplethMap
+                year={year}
+                observations={observations}
+                colorScale={colorScale}
+              />
+              <Box
+                sx={{
+                  zIndex: 13,
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  mt: 3,
+                  ml: 3,
+                }}
+              >
+                <PriceColorLegend />
+              </Box>
+            </Box>
+            <Box sx={{ gridArea: "controls" }}>
+              <Box
+                sx={{
+                  position: ["relative", "sticky"],
+                  top: [0, HEADER_HEIGHT_M_UP],
+                }}
+              >
+                <Selector
+                  year={year}
+                  priceComponent={priceComponent}
+                  category={category}
+                  updateQueryParams={updateQueryParams}
+                />
+              </Box>
+              <Box sx={{ height: "200vh", background: "teal" }}>THe list</Box>
+              {/* <List
               year={year}
               priceComponent={priceComponent}
               category={category}
             /> */}
-          </Flex>
+            </Box>
+          </Grid>
 
-          <Box sx={{ order: [2, 1, 1], zIndex: 13, width: "fit-content" }}>
-            <PriceColorLegend />
-          </Box>
-        </Grid>
-      </Flex>
-      <Footer></Footer>
-    </Flex>
+          <Box sx={{ height: "50vh", bg: "hotpink" }}>Other content</Box>
+        </Box>
+        <Footer></Footer>
+      </Grid>
+    </>
   );
 };
 

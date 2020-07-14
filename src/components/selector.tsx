@@ -24,14 +24,11 @@ export const Selector = ({
     <Flex
       as="fieldset"
       sx={{
-        width: ["auto", 320, 320],
-        height: "fit-content",
         flexDirection: "column",
         justifyContent: "flex-start",
         bg: "primaryLight",
         p: 5,
         pb: 6,
-        borderRadius: "default",
         zIndex: 13,
         "> div": { mt: 5 },
       }}
