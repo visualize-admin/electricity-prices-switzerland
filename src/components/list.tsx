@@ -24,7 +24,6 @@ const ListItem = ({
 }) => {
   return (
     <Flex
-      key={id}
       sx={{
         py: 1,
         px: 2,
@@ -79,6 +78,7 @@ const ListItems = ({
       {listItems.map(([id, d]) => {
         return (
           <ListItem
+            key={id}
             id={id}
             value={d.value}
             label={id}
