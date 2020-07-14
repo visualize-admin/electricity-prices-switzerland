@@ -1,145 +1,106 @@
-import { Flex, Link as UILink } from "@theme-ui/components";
-import Link from "next/link";
-import { useRouter } from "next/router";
+import { Grid, Box, Text, Button, Flex } from "theme-ui";
 import { useLocale } from "../lib/use-locale";
+import { Fragment, useState, useMemo } from "react";
+import { Icon } from "../icons";
+import { Observation } from "../graphql/queries";
+import { group, rollup } from "d3-array";
+import { ScaleThreshold } from "d3";
+import { useFormatNumber, useFormatCurrency } from "../domain/helpers";
 
-interface Props {
-  year: string;
-  priceComponent: string;
-  category: string;
-  // product: string;
-}
-
-export const List = ({ year, priceComponent, category }: Props) => {
-  const locale = useLocale();
-
+const ListItem = ({
+  id,
+  label,
+  value,
+  colorScale,
+  formatNumber,
+}: {
+  id: string;
+  label: string;
+  value: number;
+  colorScale: (d: number) => string;
+  formatNumber: (d: number) => string;
+}) => {
   return (
     <Flex
+      key={id}
       sx={{
-        width: ["auto", 320, 320],
-        height: "fit-content",
-        flexDirection: "column",
-        justifyContent: "flex-start",
-        mt: 4,
-        bg: "monochrome100",
-        p: 5,
-        pb: 6,
-        zIndex: 12,
-        borderRadius: "default",
-        "> button": { mt: 2 },
+        py: 1,
+        px: 2,
+        borderTopWidth: "1px",
+        borderTopStyle: "solid",
+        borderTopColor: "monochrome300",
+        alignItems: "center",
+        height: "3.5rem",
+        lineHeight: 1
       }}
     >
-      <Link
-        href={{
-          pathname: `/[locale]/municipality/[id]`,
-          query: {
-            year: year ?? "2020",
-            priceComponent: priceComponent ?? "total",
-            category: category ?? "H1",
-            product: "standard",
-          },
+      <Text variant="meta">{label}</Text>
+      <Box
+        sx={{
+          borderRadius: "circle",
+          px: 2,
+          flexShrink: 0,
         }}
-        as={{
-          pathname: `/${locale}/municipality/zürich`,
-          query: {
-            year: year ?? "2020",
-            priceComponent: priceComponent ?? "total",
-            category: category ?? "H1",
-            product: "standard",
-          },
-        }}
-        passHref
+        style={{ background: colorScale(value) }}
       >
-        <UILink
-          sx={{
-            p: 1,
-            color: "primary",
-            cursor: "pointer",
-            ":hover": {
-              color: "primaryHover",
-            },
-            ":active": {
-              color: "primaryActive",
-            },
-          }}
-        >
-          Link to the municipality: Zürich
-        </UILink>
-      </Link>
-      <Link
-        href={{
-          pathname: `/[locale]/provider/[id]`,
-          query: {
-            year: year ?? "2020",
-            priceComponent: priceComponent ?? "total",
-            category: category ?? "H1",
-            // product: product ?? "standard",
-          },
-        }}
-        as={{
-          pathname: `/${locale}/provider/ewz`,
-          query: {
-            year: year ?? "2020",
-            priceComponent: priceComponent ?? "total",
-            category: category ?? "H1",
-            // product: product ?? "standard",
-          },
-        }}
-        passHref
-      >
-        <UILink
-          sx={{
-            p: 1,
-            color: "primary",
-            cursor: "pointer",
-            ":hover": {
-              color: "primaryHover",
-            },
-            ":active": {
-              color: "primaryActive",
-            },
-          }}
-        >
-          Link to the provider: ewz
-        </UILink>
-      </Link>
-      <Link
-        href={{
-          pathname: `/[locale]/canton/[id]`,
-          query: {
-            year: year ?? "2020",
-            priceComponent: priceComponent ?? "total",
-            category: category ?? "H1",
-            // product: product ?? "standard",
-          },
-        }}
-        as={{
-          pathname: `/${locale}/canton/vaud`,
-          query: {
-            year: year ?? "2020",
-            priceComponent: priceComponent ?? "total",
-            category: category ?? "H1",
-            // product: product ?? "standard",
-          },
-        }}
-        passHref
-      >
-        <UILink
-          sx={{
-            p: 1,
-            color: "primary",
-            cursor: "pointer",
-            ":hover": {
-              color: "primaryHover",
-            },
-            ":active": {
-              color: "primaryActive",
-            },
-          }}
-        >
-          Link to the canton: Vaud
-        </UILink>
-      </Link>
+        <Text variant="meta">{formatNumber(value)}</Text>
+      </Box>
+      <Box sx={{ width: "24px", flexShrink: 0 }}>
+        <Icon name="chevronright"></Icon>
+      </Box>
     </Flex>
+  );
+};
+
+interface Props {
+  observations: Observation[];
+  colorScale: ScaleThreshold<number, string>;
+}
+
+type ListState = "MUNICIPALITIES" | "PROVIDERS";
+
+export const List = ({ observations, colorScale }: Props) => {
+  const locale = useLocale();
+
+  const [listState, setListState] = useState<ListState>("MUNICIPALITIES");
+  const [truncated, setTruncated] = useState<boolean>(true);
+
+  const formatNumber = useFormatCurrency();
+
+  const grouped = useMemo(() => {
+    console.log(observations);
+    return Array.from(
+      rollup(
+        observations,
+        (values) => values[0],
+        (d) => (listState === "PROVIDERS" ? d.provider : d.municipality)
+      )
+    );
+  }, [observations, listState]);
+
+  const listItems = truncated ? grouped.slice(0, 20) : grouped;
+
+  return (
+    <Box>
+      <Box sx={{}}>
+        {listItems.map(([id, d]) => {
+          return (
+            <ListItem
+              id={id}
+              value={d.value}
+              label={id}
+              colorScale={colorScale}
+              formatNumber={formatNumber}
+            />
+          );
+        })}
+      </Box>
+
+      {truncated && (
+        <Box>
+          <Button onClick={() => setTruncated(false)}>Show rest</Button>
+        </Box>
+      )}
+    </Box>
   );
 };

@@ -14,6 +14,7 @@ import {
   timeMonth,
   timeParse,
   timeYear,
+  formatLocale,
 } from "d3";
 import React from "react";
 import { useLocale } from "../lib/use-locale";
@@ -30,6 +31,19 @@ export const useFormatNumber = () => {
     return format(",.2~f");
   }, [locale]);
   return formatter;
+};
+
+// Swiss currency format uses a decimal point, not a comma!
+
+const chCurrencyFormatLocale = formatLocale({
+  decimal: ".",
+  thousands: "'",
+  grouping: [3],
+  currency: ["CHF ", ""],
+}).format(",.2f");
+
+export const useFormatCurrency = () => {
+  return chCurrencyFormatLocale;
 };
 
 const parseTime = timeParse("%Y-%m-%dT%H:%M:%S");
