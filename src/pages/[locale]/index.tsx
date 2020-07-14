@@ -155,8 +155,9 @@ const IndexPage = ({
             <Box sx={{ gridArea: "controls" }}>
               <Box
                 sx={{
-                  position: ["relative", "sticky"],
-                  top: [0, HEADER_HEIGHT_M_UP],
+                  // position: ["relative", "sticky"],
+                  // top: [0, HEADER_HEIGHT_M_UP],
+                  // zIndex: 1,
                 }}
               >
                 <Selector
@@ -166,9 +167,7 @@ const IndexPage = ({
                   updateQueryParams={updateQueryParams}
                 />
               </Box>
-              <Box sx={{  }}>
-                <List observations={observations} colorScale={colorScale} />
-              </Box>
+              <List observations={observations} colorScale={colorScale} />
             </Box>
           </Grid>
 

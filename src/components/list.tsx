@@ -1,12 +1,13 @@
-import { Grid, Box, Text, Button, Flex } from "theme-ui";
-import { useLocale } from "../lib/use-locale";
-import { Fragment, useState, useMemo } from "react";
-import { Icon } from "../icons";
-import { Observation } from "../graphql/queries";
-import { group, rollup, ascending, descending } from "d3-array";
+import { t, Trans } from "@lingui/macro";
+import { I18n } from "@lingui/react";
 import { ScaleThreshold } from "d3";
-import { useFormatNumber, useFormatCurrency } from "../domain/helpers";
-import { Trans } from "@lingui/macro";
+import { ascending, descending, rollup } from "d3-array";
+import { useMemo, useState } from "react";
+import { Box, Button, Flex, Text } from "theme-ui";
+import { useFormatCurrency } from "../domain/helpers";
+import { Observation } from "../graphql/queries";
+import { Icon } from "../icons";
+import { MiniSelect, SearchField } from "./form";
 
 const ListItem = ({
   id,
@@ -27,9 +28,9 @@ const ListItem = ({
       sx={{
         py: 1,
         px: 2,
-        borderTopWidth: "1px",
-        borderTopStyle: "solid",
-        borderTopColor: "monochrome300",
+        borderBottomWidth: "1px",
+        borderBottomStyle: "solid",
+        borderBottomColor: "monochrome300",
         alignItems: "center",
         height: "3.5rem",
         lineHeight: 1,
@@ -58,65 +59,43 @@ interface Props {
   colorScale: ScaleThreshold<number, string>;
 }
 
-type ListState = "MUNICIPALITIES" | "PROVIDERS";
-type SortState = "ASC" | "DESC";
-
 const TRUNCATION_INCREMENT = 20;
 
-export const List = ({ observations, colorScale }: Props) => {
-  const locale = useLocale();
-
-  const [listState, setListState] = useState<ListState>("MUNICIPALITIES");
-  const [sortState, setSortState] = useState<SortState>("ASC");
+const ListItems = ({
+  items,
+  colorScale,
+}: {
+  items: [string, Observation][];
+  colorScale: ScaleThreshold<number, string>;
+}) => {
   const [truncated, setTruncated] = useState<number>(TRUNCATION_INCREMENT);
-
   const formatNumber = useFormatCurrency();
 
-  const grouped = useMemo(() => {
-    console.log(observations);
-    return Array.from(
-      rollup(
-        observations,
-        (values) => values[0],
-        (d) => (listState === "PROVIDERS" ? d.provider : d.municipality)
-      )
-    );
-  }, [observations, listState]);
-
-  const sorted = useMemo(() => {
-    return [...grouped].sort(([, a], [, b]) => {
-      return sortState === "ASC"
-        ? ascending(a.value, b.value)
-        : descending(a.value, b.value);
-    });
-  }, [grouped, sortState]);
-
-  const listItems = truncated ? sorted.slice(0, truncated) : sorted;
+  const listItems =
+    items.length > truncated ? items.slice(0, truncated) : items;
 
   return (
-    <Box>
-      <Box sx={{}}>
-        {listItems.map(([id, d]) => {
-          return (
-            <ListItem
-              id={id}
-              value={d.value}
-              label={id}
-              colorScale={colorScale}
-              formatNumber={formatNumber}
-            />
-          );
-        })}
-      </Box>
+    <Box sx={{}}>
+      {listItems.map(([id, d]) => {
+        return (
+          <ListItem
+            id={id}
+            value={d.value}
+            label={id}
+            colorScale={colorScale}
+            formatNumber={formatNumber}
+          />
+        );
+      })}
 
-      {truncated && (
+      {items.length > truncated && (
         <Box
           sx={{
             textAlign: "center",
             p: 3,
-            borderTopWidth: "1px",
-            borderTopStyle: "solid",
-            borderTopColor: "monochrome300",
+            borderBottomWidth: "1px",
+            borderBottomStyle: "solid",
+            borderBottomColor: "monochrome300",
           }}
         >
           <Button
@@ -128,5 +107,112 @@ export const List = ({ observations, colorScale }: Props) => {
         </Box>
       )}
     </Box>
+  );
+};
+
+type ListState = "MUNICIPALITIES" | "PROVIDERS";
+type SortState = "ASC" | "DESC";
+
+export const List = ({ observations, colorScale }: Props) => {
+  const [listState, setListState] = useState<ListState>("MUNICIPALITIES");
+  const [sortState, setSortState] = useState<SortState>("ASC");
+  const [searchQuery, setSearchQuery] = useState<string>("");
+
+  const grouped = useMemo(() => {
+    return Array.from(
+      rollup(
+        observations,
+        (values) => values[0],
+        (d) => (listState === "PROVIDERS" ? d.provider : d.municipality)
+      )
+    );
+  }, [observations, listState]);
+
+  const filtered = useMemo(() => {
+    if (searchQuery === "") {
+      return grouped;
+    }
+    const filterRe = new RegExp(`${searchQuery}`, "i");
+    // FIXME: match on label, not key
+    return grouped.filter(([k]) => k.match(filterRe));
+  }, [grouped, searchQuery]);
+
+  const sorted = useMemo(() => {
+    return [...filtered].sort(([, a], [, b]) => {
+      return sortState === "ASC"
+        ? ascending(a.value, b.value)
+        : descending(a.value, b.value);
+    });
+  }, [filtered, sortState]);
+
+  const listItems = sorted;
+
+  return (
+    <>
+      <I18n>
+        {({ i18n }) => {
+          const options = [
+            {
+              value: "ASC" as SortState,
+              label: i18n._(t("list.order.asc")`Günstigste zuerst`),
+            },
+            {
+              value: "DESC" as SortState,
+              label: i18n._(t("list.order.desc")`Teuerste zuerst`),
+            },
+          ];
+          const searchLabel = i18n._(t("list.search.label")`Liste filtern`);
+
+          return (
+            <Box
+              sx={{
+                p: 2,
+                borderBottomWidth: "1px",
+                borderBottomStyle: "solid",
+                borderBottomColor: "monochrome300",
+              }}
+            >
+              <SearchField
+                id="listSearch"
+                value={searchQuery}
+                onChange={(e) => {
+                  setSearchQuery(e.currentTarget.value);
+                }}
+                onReset={() => {
+                  setSearchQuery("");
+                }}
+                label={searchLabel}
+                placeholder={searchLabel}
+              />
+
+              <Flex sx={{ justifyContent: "space-between", mt: 2 }}>
+                <label htmlFor="listSort">
+                  <Text
+                    color="secondary"
+                    sx={{
+                      fontFamily: "body",
+                      fontSize: [1, 2, 2],
+                      lineHeight: "24px",
+                    }}
+                  >
+                    <Trans id="dataset.sortby">Sortieren</Trans>
+                  </Text>
+                </label>
+
+                <MiniSelect
+                  id="listSort"
+                  value={sortState}
+                  options={options}
+                  onChange={(e) => {
+                    setSortState(e.currentTarget.value as SortState);
+                  }}
+                ></MiniSelect>
+              </Flex>
+            </Box>
+          );
+        }}
+      </I18n>
+      <ListItems items={listItems} colorScale={colorScale} />
+    </>
   );
 };
