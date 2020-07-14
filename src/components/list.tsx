@@ -3,9 +3,10 @@ import { useLocale } from "../lib/use-locale";
 import { Fragment, useState, useMemo } from "react";
 import { Icon } from "../icons";
 import { Observation } from "../graphql/queries";
-import { group, rollup } from "d3-array";
+import { group, rollup, ascending, descending } from "d3-array";
 import { ScaleThreshold } from "d3";
 import { useFormatNumber, useFormatCurrency } from "../domain/helpers";
+import { Trans } from "@lingui/macro";
 
 const ListItem = ({
   id,
@@ -31,7 +32,7 @@ const ListItem = ({
         borderTopColor: "monochrome300",
         alignItems: "center",
         height: "3.5rem",
-        lineHeight: 1
+        lineHeight: 1,
       }}
     >
       <Text variant="meta">{label}</Text>
@@ -58,12 +59,16 @@ interface Props {
 }
 
 type ListState = "MUNICIPALITIES" | "PROVIDERS";
+type SortState = "ASC" | "DESC";
+
+const TRUNCATION_INCREMENT = 20;
 
 export const List = ({ observations, colorScale }: Props) => {
   const locale = useLocale();
 
   const [listState, setListState] = useState<ListState>("MUNICIPALITIES");
-  const [truncated, setTruncated] = useState<boolean>(true);
+  const [sortState, setSortState] = useState<SortState>("ASC");
+  const [truncated, setTruncated] = useState<number>(TRUNCATION_INCREMENT);
 
   const formatNumber = useFormatCurrency();
 
@@ -78,7 +83,15 @@ export const List = ({ observations, colorScale }: Props) => {
     );
   }, [observations, listState]);
 
-  const listItems = truncated ? grouped.slice(0, 20) : grouped;
+  const sorted = useMemo(() => {
+    return [...grouped].sort(([, a], [, b]) => {
+      return sortState === "ASC"
+        ? ascending(a.value, b.value)
+        : descending(a.value, b.value);
+    });
+  }, [grouped, sortState]);
+
+  const listItems = truncated ? sorted.slice(0, truncated) : sorted;
 
   return (
     <Box>
@@ -97,8 +110,21 @@ export const List = ({ observations, colorScale }: Props) => {
       </Box>
 
       {truncated && (
-        <Box>
-          <Button onClick={() => setTruncated(false)}>Show rest</Button>
+        <Box
+          sx={{
+            textAlign: "center",
+            p: 3,
+            borderTopWidth: "1px",
+            borderTopStyle: "solid",
+            borderTopColor: "monochrome300",
+          }}
+        >
+          <Button
+            variant="inline"
+            onClick={() => setTruncated((n) => n + TRUNCATION_INCREMENT)}
+          >
+            <Trans id="list.showmore">Mehr anzeigen …</Trans>
+          </Button>
         </Box>
       )}
     </Box>
