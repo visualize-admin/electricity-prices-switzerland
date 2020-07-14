@@ -40,7 +40,7 @@ const useRangePlotState = ({
 }): RangePlotState => {
   const width = useWidth();
   const formatNumber = useFormatNumber();
-  const { annotationfontSize } = useChartTheme();
+  const { annotationfontSize, palettes } = useChartTheme();
 
   const getX = useCallback(
     (d: Observation) => d[fields.x.componentIri] as number,
@@ -81,10 +81,9 @@ const useRangePlotState = ({
     ? [xDomain[0], m - m * 0.1, m, m + m * 0.1, xDomain[1]]
     : xScale.ticks(5);
 
-  const colorRange = ["#24B39C", "#A8DC90", "#E7EC83", "#F1B865", "#D64B47"];
   const colors = scaleLinear<string, string>()
     .domain(colorDomain)
-    .range(colorRange)
+    .range(palettes.diverging)
     .interpolate(interpolateLab);
 
   const left = Math.max(

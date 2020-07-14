@@ -19,5 +19,6 @@ export const useChartTheme = () => {
     fontFamily,
     annotationfontSize,
     annotationColor,
+    palettes: theme.palettes
   };
 };

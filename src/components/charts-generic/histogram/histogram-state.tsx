@@ -42,7 +42,7 @@ const useHistogramState = ({
 }): HistogramState => {
   const width = useWidth();
   const formatNumber = useFormatNumber();
-  const { annotationfontSize } = useChartTheme();
+  const { annotationfontSize, palettes } = useChartTheme();
 
   const getX = useCallback(
     (d: Observation) => d[fields.x.componentIri] as number,
@@ -60,9 +60,6 @@ const useHistogramState = ({
   const xDomain = [mkNumber(minValue), mkNumber(maxValue)];
   const xScale = scaleLinear().domain(xDomain).nice();
 
-  // Colors
-  const colorRange = ["#24B39C", "#A8DC90", "#E7EC83", "#F1B865", "#D64B47"];
-
   // CH Median (all data points)
   const m = median(data, (d) => getX(d));
   const colorDomain = m
@@ -71,7 +68,7 @@ const useHistogramState = ({
 
   const colors = scaleThreshold<number, string>()
     .domain(colorDomain)
-    .range(colorRange);
+    .range(palettes.diverging);
 
   // y
   const bins = histogram<Observation, number>()

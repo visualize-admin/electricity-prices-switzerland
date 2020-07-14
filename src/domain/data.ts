@@ -1,6 +1,8 @@
+import { scaleThreshold } from "d3";
 import { median } from "d3-array";
 import { Observation as QueryObservation } from "../graphql/queries";
-import { scaleThreshold } from "d3";
+import { useTheme } from "../themes";
+import { useMemo } from "react";
 
 export type ObservationValue = string | number | boolean | Date;
 export type Observation = Record<string, ObservationValue>;
@@ -42,7 +44,7 @@ export type ComponentFieldsFragment =
   | ComponentFields_Measure_Fragment
   | ComponentFields_Attribute_Fragment;
 
-export const getColorDomain = ({
+const getColorDomain = ({
   observations,
   accessor,
 }: {
@@ -54,19 +56,25 @@ export const getColorDomain = ({
   return domain;
 };
 
-export const getColorScale = ({
+export const useColorScale = ({
   observations,
   accessor,
 }: {
   observations: QueryObservation[];
   accessor: (x: QueryObservation) => number;
 }) => {
-  const domain = getColorDomain({ observations, accessor });
-  const scale = scaleThreshold<number, string>()
-    .domain(domain)
-    .range(["#24B39C", "#A8DC90", "#E7EC83", "#F1B865", "#D64B47"]);
-  return scale;
+  const { palettes } = useTheme();
+
+  return useMemo(() => {
+    const domain = getColorDomain({ observations, accessor });
+    const scale = scaleThreshold<number, string>()
+      .domain(domain)
+      .range(palettes.diverging);
+
+    return scale;
+  }, [observations, accessor, palettes.diverging]);
 };
+
 export const years = [
   "2021",
   "2020",

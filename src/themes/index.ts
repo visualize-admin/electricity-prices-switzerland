@@ -22,6 +22,10 @@ export type Theme = Omit<
       monospace: string;
     };
     colors: Record<string, string>;
+    palettes: {
+      diverging: string[];
+      categorical: string[];
+    };
     text: SystemStyleObject;
     buttons: SystemStyleObject;
     styles?: SystemStyleObject;

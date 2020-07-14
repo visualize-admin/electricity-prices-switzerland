@@ -1,16 +1,15 @@
-import { Flex, Box, Grid, Text } from "theme-ui";
+import { InferGetStaticPropsType } from "next";
+import { useRouter } from "next/router";
+import { Box, Flex, Grid, Text } from "theme-ui";
 import { Footer } from "../../components/footer";
 import { Header } from "../../components/header";
-import { Selector } from "../../components/selector";
-import { useRouter } from "next/router";
-import { ChoroplethMap } from "../../components/map";
-import { List } from "../../components/list";
-import { InferGetStaticPropsType } from "next";
 import { createDynamicRouteProps } from "../../components/links";
-import { useObservationsQuery, PriceComponent } from "../../graphql/queries";
-import { scaleSequential, scaleQuantile, interpolateRdYlGn } from "d3";
-import { getColorScale, getColorDomain } from "../../domain/data";
+import { ChoroplethMap } from "../../components/map";
 import { PriceColorLegend } from "../../components/price-color-legend";
+import { Selector } from "../../components/selector";
+import { useColorScale } from "../../domain/data";
+import { PriceComponent, useObservationsQuery } from "../../graphql/queries";
+import { useCallback } from "react";
 
 const EMPTY_ARRAY: never[] = [];
 
@@ -73,9 +72,10 @@ const IndexPage = ({
     ? EMPTY_ARRAY
     : observationsQuery.data?.cubeByIri?.observations ?? EMPTY_ARRAY;
 
-  const colorScale = getColorScale({
+  const colorAccessor = useCallback((d) => d.value, []);
+  const colorScale = useColorScale({
     observations,
-    accessor: (d) => d.value,
+    accessor: colorAccessor,
   });
 
   return (
