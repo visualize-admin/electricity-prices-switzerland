@@ -22,32 +22,52 @@ msgstr ""
 msgid "controls.search.clear"
 msgstr "Azzerare"
 
+#: src/components/list.tsx:114
+msgid "dataset.sortby"
+msgstr ""
+
 #: src/components/footer.tsx:34
 msgid "footer.institution.name"
 msgstr ""
 
-#: src/components/loading.tsx:34
+#: src/components/loading.tsx:37
 msgid "hint.loading.data"
 msgstr "caricamento dei dati"
+
+#: src/components/list.tsx:87
+msgid "list.order.asc"
+msgstr ""
+
+#: src/components/list.tsx:91
+msgid "list.order.desc"
+msgstr ""
+
+#: src/components/list.tsx:94
+msgid "list.search.label"
+msgstr ""
+
+#: src/components/list.tsx:53
+msgid "list.showmore"
+msgstr ""
 
 #: src/components/logo.tsx:4
 #: src/components/logo.tsx:15
 msgid "logo.swiss.confederation"
 msgstr ""
 
-#: src/components/price-color-legend.tsx:39
+#: src/components/price-color-legend.tsx:40
 msgid "price.legend.max"
 msgstr "max"
 
-#: src/components/price-color-legend.tsx:28
+#: src/components/price-color-legend.tsx:29
 msgid "price.legend.median"
 msgstr "mediana"
 
-#: src/components/price-color-legend.tsx:24
+#: src/components/price-color-legend.tsx:25
 msgid "price.legend.min"
 msgstr "min"
 
-#: src/components/selector.tsx:32
+#: src/components/selector.tsx:29
 msgid "selector.category"
 msgstr "Categoria"
 
@@ -111,11 +131,11 @@ msgstr ""
 msgid "selector.category.H8"
 msgstr ""
 
-#: src/components/selector.tsx:23
+#: src/components/selector.tsx:20
 msgid "selector.legend.select.parameters"
 msgstr "selezionare i parametri"
 
-#: src/components/selector.tsx:30
+#: src/components/selector.tsx:27
 msgid "selector.priceComponent"
 msgstr "Componente del prezzo"
 
@@ -139,7 +159,7 @@ msgstr ""
 msgid "selector.pricecomponent.total"
 msgstr ""
 
-#: src/components/selector.tsx:34
+#: src/components/selector.tsx:31
 msgid "selector.product"
 msgstr "Prodotto"
 
@@ -151,7 +171,7 @@ msgstr ""
 msgid "selector.product.standard"
 msgstr ""
 
-#: src/components/selector.tsx:29
+#: src/components/selector.tsx:26
 msgid "selector.year"
 msgstr "Anno"
 
