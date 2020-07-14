@@ -8,6 +8,7 @@ import { useFormatCurrency } from "../domain/helpers";
 import { Observation } from "../graphql/queries";
 import { Icon } from "../icons";
 import { MiniSelect, SearchField } from "./form";
+import { LocalizedLink } from "./links";
 
 const ListItem = ({
   id,
@@ -23,35 +24,53 @@ const ListItem = ({
   formatNumber: (d: number) => string;
 }) => {
   return (
-    <Flex
-      sx={{
-        py: 1,
-        px: 2,
-        borderBottomWidth: "1px",
-        borderBottomStyle: "solid",
-        borderBottomColor: "monochrome300",
-        alignItems: "center",
-        height: "3.5rem",
-        lineHeight: 1,
+    <LocalizedLink
+      pathname="/[locale]/municipality/[id]"
+      query={{
+        id: id.replace(
+          "http://classifications.data.admin.ch/municipality/",
+          ""
+        ),
       }}
+      passHref
     >
-      <Text variant="meta" sx={{ flexGrow: 1 }}>
-        {label}
-      </Text>
-      <Box
+      <Flex
+        as="a"
         sx={{
-          borderRadius: "circle",
+          py: 1,
           px: 2,
-          flexShrink: 0,
+          borderBottomWidth: "1px",
+          borderBottomStyle: "solid",
+          borderBottomColor: "monochrome300",
+          alignItems: "center",
+          height: "3.5rem",
+          lineHeight: 1,
+          color: "text",
+          textDecoration: "none",
+          ":focus": {
+            outline: 0,
+            bg: "primaryLight"
+          }
         }}
-        style={{ background: colorScale(value) }}
       >
-        <Text variant="meta">{formatNumber(value)}</Text>
-      </Box>
-      <Box sx={{ width: "24px", flexShrink: 0 }}>
-        <Icon name="chevronright"></Icon>
-      </Box>
-    </Flex>
+        <Text variant="meta" sx={{ flexGrow: 1 }}>
+          {label}
+        </Text>
+        <Box
+          sx={{
+            borderRadius: "circle",
+            px: 2,
+            flexShrink: 0,
+          }}
+          style={{ background: colorScale(value) }}
+        >
+          <Text variant="meta">{formatNumber(value)}</Text>
+        </Box>
+        <Box sx={{ width: "24px", flexShrink: 0 }}>
+          <Icon name="chevronright"></Icon>
+        </Box>
+      </Flex>
+    </LocalizedLink>
   );
 };
 
