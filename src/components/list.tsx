@@ -35,7 +35,9 @@ const ListItem = ({
         lineHeight: 1,
       }}
     >
-      <Text variant="meta">{label}</Text>
+      <Text variant="meta" sx={{ flexGrow: 1 }}>
+        {label}
+      </Text>
       <Box
         sx={{
           borderRadius: "circle",
