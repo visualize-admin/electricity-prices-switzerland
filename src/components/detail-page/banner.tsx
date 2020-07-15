@@ -2,7 +2,7 @@ import { Trans } from "@lingui/macro";
 import { Box, Flex, Text } from "@theme-ui/components";
 import * as React from "react";
 import { Link as UILink } from "theme-ui";
-import { LocalizedLink } from "./../../components/links";
+import { LocalizedLink } from "../links";
 
 export const DetailPageBanner = ({
   entity,
@@ -14,8 +14,17 @@ export const DetailPageBanner = ({
   linkedIds: string[];
 }) => {
   return (
-    <Box sx={{ px: 4, py: 6, bg: "monochrome100" }}>
-      <Box sx={{ maxWidth: "65rem", mx: "auto", my: 2 }}>
+    <Box
+      sx={{
+        px: 4,
+        py: 6,
+        bg: "monochrome100",
+        borderBottomWidth: "1px",
+        borderBottomStyle: "solid",
+        borderBottomColor: "monochrome500",
+      }}
+    >
+      <Box sx={{ maxWidth: "67rem", mx: "auto", my: 2, px: 4 }}>
         <Text as="h1" variant="heading1" sx={{ color: "monochrome800" }}>
           {entity}
         </Text>
