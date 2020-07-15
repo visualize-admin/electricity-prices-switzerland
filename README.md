@@ -73,3 +73,15 @@ yarn locales:compile
 ```
 
 To make the translations available to the application. _Note: this step will run automatically on `yarn build`._
+
+## Preparing geodata
+
+Run
+
+```sh
+make geodata
+```
+
+Since Switzerland's municipalities can change each year, the yearly [Shapefiles from 2010 on prepared by BFS](https://www.bfs.admin.ch/bfs/de/home/dienstleistungen/geostat/geodaten-bundesstatistik/administrative-grenzen/generalisierte-gemeindegrenzen.html) will be downloaded and transformed into [TopoJSON](https://github.com/topojson/topojson) format which can be loaded efficiently client-side.
+
+The detailed transformation steps are described in this project's `Makefile`.
