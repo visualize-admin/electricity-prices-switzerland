@@ -41,6 +41,7 @@ export const Selector = ({
 
       <>
         <Combobox
+          id="year"
           label={<Trans id="selector.year">Jahr</Trans>}
           items={years}
           selectedItem={(year as string) ?? "2020"}
@@ -49,6 +50,7 @@ export const Selector = ({
           }
         />
         <Combobox
+          id="priceComponent"
           label={<Trans id="selector.priceComponent">Preiskomponent</Trans>}
           items={priceComponents}
           selectedItem={(priceComponent as string) ?? "total"}
@@ -58,6 +60,7 @@ export const Selector = ({
         />
 
         <Combobox
+          id="category"
           label={<Trans id="selector.category">Kategorie</Trans>}
           items={categories}
           selectedItem={(category as string) ?? "H4"}
@@ -67,6 +70,7 @@ export const Selector = ({
         />
 
         <Combobox
+          id="product"
           label={<Trans id="selector.product">Produkt</Trans>}
           items={products}
           selectedItem={(product as string) ?? "standard"}

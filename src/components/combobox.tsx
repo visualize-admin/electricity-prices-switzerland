@@ -7,11 +7,12 @@ import { Label } from "./form";
 import { getLocalizedLabel } from "../domain/translation";
 
 type Props = {
+  id: string;
   label: React.ReactNode;
   items: string[];
 };
 
-export const ComboboxMulti = ({ label, items }: Props) => {
+export const ComboboxMulti = ({ id, label, items }: Props) => {
   const [inputValue, setInputValue] = useState("");
   const {
     getSelectedItemProps,
@@ -39,6 +40,7 @@ export const ComboboxMulti = ({ label, items }: Props) => {
     getItemProps,
     openMenu,
   } = useCombobox({
+    id: `combobox-multi-${id}`,
     inputValue,
     defaultHighlightedIndex: 0,
     selectedItem: null,
@@ -223,11 +225,13 @@ export const ComboboxMulti = ({ label, items }: Props) => {
 };
 
 export const Combobox = ({
+  id,
   label,
   items,
   selectedItem,
   handleSelectedItemChange,
 }: {
+  id: string;
   label: string | ReactNode;
   items: string[];
   selectedItem: string;
@@ -256,6 +260,7 @@ export const Combobox = ({
     getItemProps,
     openMenu,
   } = useCombobox({
+    id: `combobox-${id}`,
     inputValue,
     selectedItem,
     items: inputItems,

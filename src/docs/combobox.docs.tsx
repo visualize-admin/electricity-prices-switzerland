@@ -18,6 +18,7 @@ export default () => markdown`
   ${(
     <ReactSpecimen>
       <ComboboxMulti
+        id="ex1"
         label="Choose something"
         items={[
           "AEK Energie AG",
@@ -44,6 +45,7 @@ const ComboboxExample = () => {
     update(selectedItem);
   return (
     <Combobox
+      id="ex2"
       label="Choose something"
       items={[
         "AEK Energie AG",
