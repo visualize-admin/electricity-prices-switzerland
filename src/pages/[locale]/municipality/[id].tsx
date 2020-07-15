@@ -7,7 +7,7 @@ import { LocalizedLink } from "../../../components/links";
 import { Link as UILink } from "theme-ui";
 import { useObservationsQuery, PriceComponent } from "../../../graphql/queries";
 import * as React from "react";
-import { DetailPageBanner } from "../../../components/detail-page/detail-page-banner";
+import { DetailPageBanner } from "../../../components/detail-page/banner";
 import { BarChart } from "../../../components/charts-generic/bars/bars-state";
 import {
   ChartContainer,
@@ -26,6 +26,7 @@ import { Ruler } from "../../../components/charts-generic/interaction/ruler";
 import { HoverDotMultiple } from "../../../components/charts-generic/interaction/hover-dots-multiple";
 import { Tooltip } from "../../../components/charts-generic/interaction/tooltip";
 import { LegendColor } from "../../../components/charts-generic/legends/color";
+import { Card } from "../../../components/detail-page/card";
 
 const EMPTY_ARRAY: never[] = [];
 
@@ -77,12 +78,14 @@ const MunicipalityPage = () => {
           linkedIds={["xxx", "yyy"]}
         />
 
-        <Box sx={{ width: "100%", maxWidth: "65rem", mx: "auto", my: 2 }}>
-          {/* BAR CHART */}
-          <Box sx={{ bg: "monochrome100", p: 5, m: 4 }}>
-            <Text as="h2" variant="heading2" sx={{ pt: 1 }}>
-              <Trans id="detail.card.price.components">Preiskomponenten</Trans>
-            </Text>
+        <Box sx={{ width: "100%", maxWidth: "67rem", mx: "auto", my: 2 }}>
+          <Card
+            title={
+              <Trans id="detail.card.title.price.components">
+                Preiskomponenten
+              </Trans>
+            }
+          >
             <BarChart
               data={observations
                 .filter((obs) => obs.period === "2018")
@@ -113,13 +116,16 @@ const MunicipalityPage = () => {
                 </ChartSvg>
               </ChartContainer>
             </BarChart>
-          </Box>
+          </Card>
 
           {/* LINE CHART */}
-          <Box sx={{ bg: "monochrome100", p: 5, m: 4 }}>
-            <Text as="h2" variant="heading2" sx={{ pt: 1 }}>
-              <Trans id="detail.card.price.components">Preiskomponenten</Trans>
-            </Text>
+          <Card
+            title={
+              <Trans id="detail.card.title.prices.evolution">
+                Tarifentwicklung
+              </Trans>
+            }
+          >
             <LineChart
               data={observations.map((obs) => ({
                 priceComponent: "Total (exkl. MwSt.)",
@@ -164,7 +170,61 @@ const MunicipalityPage = () => {
               </ChartContainer>
               <LegendColor symbol="line" />
             </LineChart>
-          </Box>
+          </Card>
+
+          {/* HISTOGRAM */}
+          <Card
+            title={
+              <Trans id="detail.card.title.prices.distribution">
+                Preisverteilung in der Schweiz
+              </Trans>
+            }
+          >
+            <LineChart
+              data={observations.map((obs) => ({
+                priceComponent: "Total (exkl. MwSt.)",
+                ...obs,
+              }))}
+              fields={{
+                x: {
+                  componentIri: "period",
+                },
+                y: {
+                  componentIri: "value",
+                },
+              }}
+              measures={[
+                {
+                  iri: "value",
+                  label: "value",
+                  __typename: "Measure",
+                },
+              ]}
+              dimensions={[
+                {
+                  iri: "period",
+                  label: "period",
+                  __typename: "TemporalDimension",
+                },
+              ]}
+              aspectRatio={0.4}
+            >
+              <ChartContainer>
+                <ChartSvg>
+                  <AxisHeightLinear /> <AxisTime /> <AxisTimeDomain />
+                  <Lines />
+                  <InteractionHorizontal />
+                </ChartSvg>
+
+                <Ruler />
+
+                <HoverDotMultiple />
+
+                <Tooltip type={"multiple"} />
+              </ChartContainer>
+              <LegendColor symbol="line" />
+            </LineChart>
+          </Card>
         </Box>
       </Flex>
       <Footer></Footer>
