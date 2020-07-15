@@ -5,7 +5,11 @@ import { Header } from "../../../components/header";
 import { Trans } from "@lingui/macro";
 import { LocalizedLink } from "../../../components/links";
 import { Link as UILink } from "theme-ui";
-import { useObservationsQuery, PriceComponent } from "../../../graphql/queries";
+import {
+  useObservationsQuery,
+  PriceComponent,
+  Observation,
+} from "../../../graphql/queries";
 import * as React from "react";
 import { DetailPageBanner } from "../../../components/detail-page/banner";
 import { BarChart } from "../../../components/charts-generic/bars/bars-state";
@@ -14,7 +18,10 @@ import {
   ChartSvg,
 } from "../../../components/charts-generic/containers";
 import { Bars } from "../../../components/charts-generic/bars/bars-simple";
-import { AxisHeightLinear } from "../../../components/charts-generic/axis/axis-height-linear";
+import {
+  AxisHeightLinear,
+  AxisHeightLinearDomain,
+} from "../../../components/charts-generic/axis/axis-height-linear";
 import { LineChart } from "../../../components/charts-generic/lines/lines-state";
 import {
   AxisTime,
@@ -27,8 +34,17 @@ import { HoverDotMultiple } from "../../../components/charts-generic/interaction
 import { Tooltip } from "../../../components/charts-generic/interaction/tooltip";
 import { LegendColor } from "../../../components/charts-generic/legends/color";
 import { Card } from "../../../components/detail-page/card";
+import { Histogram } from "../../../components/charts-generic/histogram/histogram-state";
+import { standardH12020 } from "../../../docs/data/2020-standard-H1";
+import {
+  AxisWidthHistogram,
+  AxisWidthHistogramDomain,
+} from "../../../components/charts-generic/axis/axis-width-histogram";
+import { HistogramColumns } from "../../../components/charts-generic/histogram/histogram";
+import { Median } from "../../../components/charts-generic/histogram/median";
+import { PriceComponents } from "../../../components/detail-page/price-components";
 
-const EMPTY_ARRAY: never[] = [];
+export const EMPTY_ARRAY: never[] = [];
 
 const MunicipalityPage = () => {
   const { query } = useRouter();
@@ -48,18 +64,15 @@ const MunicipalityPage = () => {
         category: [
           `https://energy.ld.admin.ch/elcom/energy-pricing/category/${category}`,
         ],
-        municipality: [
-          `http://classifications.data.admin.ch/municipality/${query.id}`,
-        ],
+        // municipality: [
+        //   `http://classifications.data.admin.ch/municipality/${query.id}`,
+        // ],
       },
     },
   });
   const observations = observationsQuery.fetching
     ? EMPTY_ARRAY
     : observationsQuery.data?.cubeByIri?.observations ?? EMPTY_ARRAY;
-
-  console.log({ municipalityId });
-  console.table(observations);
 
   return (
     <Flex sx={{ minHeight: "100vh", flexDirection: "column" }}>
@@ -79,44 +92,7 @@ const MunicipalityPage = () => {
         />
 
         <Box sx={{ width: "100%", maxWidth: "67rem", mx: "auto", my: 2 }}>
-          <Card
-            title={
-              <Trans id="detail.card.title.price.components">
-                Preiskomponenten
-              </Trans>
-            }
-          >
-            <BarChart
-              data={observations
-                .filter((obs) => obs.period === "2018")
-                .map((obs) => ({
-                  priceComponent: "Total (exkl. MwSt.)",
-                  ...obs,
-                }))}
-              fields={{
-                x: {
-                  componentIri: "value",
-                },
-                y: {
-                  componentIri: "priceComponent",
-                  sorting: { sortingType: "byMeasure", sortingOrder: "desc" },
-                },
-              }}
-              measures={[
-                {
-                  iri: "value",
-                  label: "value",
-                  __typename: "Measure",
-                },
-              ]}
-            >
-              <ChartContainer>
-                <ChartSvg>
-                  <Bars />
-                </ChartSvg>
-              </ChartContainer>
-            </BarChart>
-          </Card>
+          <PriceComponents />
 
           {/* LINE CHART */}
           <Card
@@ -127,10 +103,16 @@ const MunicipalityPage = () => {
             }
           >
             <LineChart
-              data={observations.map((obs) => ({
-                priceComponent: "Total (exkl. MwSt.)",
-                ...obs,
-              }))}
+              data={observations
+                .filter(
+                  (obs) =>
+                    obs.municipality ===
+                    `http://classifications.data.admin.ch/municipality/${query.id}`
+                )
+                .map((obs) => ({
+                  priceComponent: "Total (exkl. MwSt.)",
+                  ...obs,
+                }))}
               fields={{
                 x: {
                   componentIri: "period",
@@ -166,7 +148,7 @@ const MunicipalityPage = () => {
 
                 <HoverDotMultiple />
 
-                <Tooltip type={"multiple"} />
+                <Tooltip type={"single"} />
               </ChartContainer>
               <LegendColor symbol="line" />
             </LineChart>
@@ -180,17 +162,14 @@ const MunicipalityPage = () => {
               </Trans>
             }
           >
-            <LineChart
-              data={observations.map((obs) => ({
-                priceComponent: "Total (exkl. MwSt.)",
-                ...obs,
-              }))}
+            <Histogram
+              data={observations}
               fields={{
                 x: {
-                  componentIri: "period",
-                },
-                y: {
                   componentIri: "value",
+                },
+                label: {
+                  componentIri: "Netzbetreiber",
                 },
               }}
               measures={[
@@ -200,30 +179,20 @@ const MunicipalityPage = () => {
                   __typename: "Measure",
                 },
               ]}
-              dimensions={[
-                {
-                  iri: "period",
-                  label: "period",
-                  __typename: "TemporalDimension",
-                },
-              ]}
               aspectRatio={0.4}
             >
               <ChartContainer>
                 <ChartSvg>
-                  <AxisHeightLinear /> <AxisTime /> <AxisTimeDomain />
-                  <Lines />
-                  <InteractionHorizontal />
+                  <AxisHeightLinear />
+                  <AxisHeightLinearDomain />
+                  <AxisWidthHistogram />
+                  <AxisWidthHistogramDomain />
+                  <HistogramColumns />
+                  <Median label="CH Median" />
                 </ChartSvg>
-
-                <Ruler />
-
-                <HoverDotMultiple />
-
-                <Tooltip type={"multiple"} />
+                <Tooltip type="single" />
               </ChartContainer>
-              <LegendColor symbol="line" />
-            </LineChart>
+            </Histogram>
           </Card>
         </Box>
       </Flex>
