@@ -260,7 +260,6 @@ export const Combobox = ({
     selectedItem,
     items: inputItems,
     onStateChange: (changes: $FixMe) => {
-      console.log(changes);
       switch (changes.type) {
         case useCombobox.stateChangeTypes.InputChange:
           setInputValue(changes.inputValue);
