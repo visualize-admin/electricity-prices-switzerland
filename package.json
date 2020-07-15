@@ -10,7 +10,7 @@
     "build": "lingui compile && next build",
     "start": "next start -p $PORT",
     "lint": "tsc --noEmit",
-    "setup": "yarn",
+    "setup": "yarn && yarn locales:compile && yarn graphql:codegen",
     "locales:extract": "lingui extract --verbose",
     "locales:compile": "lingui compile --verbose",
     "graphql:codegen": "graphql-codegen --config codegen.yml",

@@ -27,10 +27,10 @@ export const Selector = ({
         flexDirection: "column",
         justifyContent: "flex-start",
         bg: "primaryLight",
-        p: 5,
-        pb: 6,
+        px: 2,
+        py: 4,
         zIndex: 13,
-        "> div": { mt: 5 },
+        "> div": { mt: 3 },
       }}
     >
       <Text as="legend" variant="lead" sx={{ display: "contents" }}>
