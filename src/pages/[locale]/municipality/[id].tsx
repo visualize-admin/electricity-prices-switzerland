@@ -1,8 +1,8 @@
-import { Flex, Text } from "@theme-ui/components";
+import { Flex, Box, Text } from "@theme-ui/components";
+import { useRouter } from "next/router";
 import { Footer } from "../../../components/footer";
 import { Header } from "../../../components/header";
-import { Selector } from "../../../components/selector";
-import { useRouter } from "next/router";
+import { Trans } from "@lingui/macro";
 
 const MunicipalityPage = () => {
   const { id } = useRouter().query;
@@ -14,14 +14,31 @@ const MunicipalityPage = () => {
         sx={{
           pt: 96,
           flexGrow: 1,
+          bg: "monochrome200",
           flexDirection: "column",
-          justifyContent: "flex-start",
-          alignItems: "flex-end",
         }}
       >
-        <Text variant="heading2" sx={{ mr: 4 }}>
-          Detail Page for: {id}
-        </Text>
+        <Box sx={{ px: 4, py: 6, bg: "monochrome100" }}>
+          <Box sx={{ maxWidth: "65rem", mx: "auto", my: 2 }}>
+            <Text as="h1" variant="heading1" sx={{ color: "monochrome800" }}>
+              Municipality {id}
+            </Text>
+            <Flex sx={{ flexWrap: "wrap" }}>
+              <Box sx={{ pr: 3, my: 1 }}>
+                <Trans id="detail.canton">Kanton</Trans>:{" "}
+                <Box as="span" sx={{ color: "primary" }}>
+                  KantonName
+                </Box>
+              </Box>
+              <Box sx={{ pr: 3, my: 1 }}>
+                <Trans id="detail.municipality">Gemeinde</Trans>:{" "}
+                <Box as="span" sx={{ color: "primary" }}>
+                  Gemeinde Name(s)
+                </Box>
+              </Box>
+            </Flex>
+          </Box>
+        </Box>
       </Flex>
       <Footer></Footer>
     </Flex>
