@@ -99,6 +99,11 @@ const pages: ConfigPageOrGroup[] = [
       },
     ],
   },
+  {
+    title: "Architecture",
+    path: "/architecture",
+    content: require("../docs/architecture.mdx"),
+  },
 ];
 
 const mdxComponents = {
