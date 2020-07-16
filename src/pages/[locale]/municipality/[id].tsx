@@ -135,8 +135,9 @@ const MunicipalityPage = () => {
                   __typename: "TemporalDimension",
                 },
               ]}
-              aspectRatio={0.4}
+              aspectRatio={0.2}
             >
+              <LegendColor symbol="line" />
               <ChartContainer>
                 <ChartSvg>
                   <AxisHeightLinear /> <AxisTime /> <AxisTimeDomain />
@@ -150,7 +151,6 @@ const MunicipalityPage = () => {
 
                 <Tooltip type={"single"} />
               </ChartContainer>
-              <LegendColor symbol="line" />
             </LineChart>
           </Card>
 
@@ -179,12 +179,12 @@ const MunicipalityPage = () => {
                   __typename: "Measure",
                 },
               ]}
-              aspectRatio={0.4}
+              aspectRatio={0.3}
             >
               <ChartContainer>
                 <ChartSvg>
                   <AxisHeightLinear />
-                  <AxisHeightLinearDomain />
+
                   <AxisWidthHistogram />
                   <AxisWidthHistogramDomain />
                   <HistogramColumns />
