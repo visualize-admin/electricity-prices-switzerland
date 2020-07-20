@@ -24,6 +24,7 @@ generates:
         Municipality: "./shared-types#ResolvedMunicipality"
         Provider: "./shared-types#ResolvedProvider"
         Cube: "./shared-types#ResolvedCube"
+        Observation: "./shared-types#ResolvedObservation"
       # scalars:
       #   Observation: "../domain/data#Observation"
       #   RawObservation: "../domain/data#RawObservation"

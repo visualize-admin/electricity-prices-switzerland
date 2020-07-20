@@ -19,3 +19,10 @@ export type ResolvedCube = {
   view: View;
   source: Source;
 };
+
+export type ResolvedObservation = {
+  municipality?: string;
+  provider?: string;
+  category?: string;
+  period?: string;
+} & { [key: string]: number };

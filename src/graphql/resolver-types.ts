@@ -1,6 +1,7 @@
 import { GraphQLResolveInfo } from 'graphql';
-import { ResolvedCanton, ResolvedMunicipality, ResolvedProvider, ResolvedCube } from './shared-types';
+import { ResolvedCanton, ResolvedMunicipality, ResolvedProvider, ResolvedCube, ResolvedObservation } from './shared-types';
 export type Maybe<T> = T | null;
+export type Exact<T extends { [key: string]: any }> = { [K in keyof T]: T[K] };
 export type RequireFields<T, K extends keyof T> = { [X in Exclude<keyof T, K>]?: T[X] } & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -222,7 +223,7 @@ export type ResolversTypes = ResolversObject<{
   Provider: ResolverTypeWrapper<ResolvedProvider>;
   Canton: ResolverTypeWrapper<ResolvedCanton>;
   TemporalDimension: ResolverTypeWrapper<TemporalDimension>;
-  Observation: ResolverTypeWrapper<Observation>;
+  Observation: ResolverTypeWrapper<ResolvedObservation>;
   ObservationFilters: ObservationFilters;
   PriceComponent: PriceComponent;
   Cube: ResolverTypeWrapper<ResolvedCube>;
@@ -239,7 +240,7 @@ export type ResolversParentTypes = ResolversObject<{
   Provider: ResolvedProvider;
   Canton: ResolvedCanton;
   TemporalDimension: TemporalDimension;
-  Observation: Observation;
+  Observation: ResolvedObservation;
   ObservationFilters: ObservationFilters;
   Cube: ResolvedCube;
   Query: {};
