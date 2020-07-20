@@ -53,7 +53,9 @@ export type TemporalDimension = {
 export type Observation = {
   __typename?: 'Observation';
   municipality: Scalars['String'];
+  municipalityLabel?: Maybe<Scalars['String']>;
   provider: Scalars['String'];
+  providerLabel?: Maybe<Scalars['String']>;
   category: Scalars['String'];
   period: Scalars['String'];
   value: Scalars['Float'];
@@ -287,7 +289,9 @@ export type TemporalDimensionResolvers<ContextType = any, ParentType extends Res
 
 export type ObservationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Observation'] = ResolversParentTypes['Observation']> = ResolversObject<{
   municipality?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  municipalityLabel?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   provider?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  providerLabel?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   category?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   period?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   value?: Resolver<ResolversTypes['Float'], ParentType, ContextType, RequireFields<ObservationValueArgs, 'priceComponent'>>;
