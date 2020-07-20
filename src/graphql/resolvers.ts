@@ -14,13 +14,14 @@ import {
   CantonResolvers,
   CubeResolvers,
   MunicipalityResolvers,
-  Observation,
   ProviderResolvers,
   QueryResolvers,
   Resolvers,
+  ObservationResolvers,
 } from "./resolver-types";
 import { defaultLocale } from "../locales/locales";
 import { GraphQLResolveInfo } from "graphql";
+import { ResolvedObservation } from "./shared-types";
 
 const Query: QueryResolvers = {
   cubes: async (_, { locale }) => {
@@ -100,6 +101,18 @@ const getResolverFields = (info: GraphQLResolveInfo, type: string) => {
   return undefined;
 };
 
+const Observation: ObservationResolvers = {
+  /**
+   * Since the value field can be aliased and is commonly used multiple times _and_
+   * we return all values from the parent resolver keyed by priceComponent (e.g. `{ total: 12.3, energy: 4.5 }`),
+   * it's necessary to resolve these values again here by returning the correct priceComponent value
+   * to ensure that field aliases are properly resolved.
+   */
+  value: (parent, args) => {
+    return parent[args.priceComponent];
+  },
+};
+
 const Cube: CubeResolvers = {
   iri: ({ cube }) => cube.term?.value ?? "???",
   name: ({ cube, locale }) => {
@@ -112,18 +125,11 @@ const Cube: CubeResolvers = {
     // Look ahead to select proper dimensions for query
     const resolverFields = getResolverFields(info, "Observation");
 
-    console.log(resolverFields);
-
     const dimensionKeys = Object.values<ResolveTree>(
       resolverFields! as $FixMe
     ).map((fieldInfo) => {
       return (fieldInfo.args.priceComponent as string) ?? fieldInfo.name;
     });
-
-    const categoryKeys = new Set(["period",
-      "municipality",
-      "provider",
-      "category",])
 
     const rawObservations = await getObservations(view, {
       filters,
@@ -138,16 +144,13 @@ const Cube: CubeResolvers = {
           ""
         );
 
-        // FIXME: Properly use field aliases from resolverFields here! Otherwise we can only return one value!
-        parsed[categoryKeys.has(key) ? key : "value"] = parseObservationValue(
-          v
-        );
+        parsed[key] = parseObservationValue(v);
       }
       return parsed;
     });
 
     // Should we type-check with io-ts here? Probably not necessary because the GraphQL API will also type-check against the schema.
-    return observations as Observation[];
+    return observations as ResolvedObservation[];
   },
   providers: async ({ view, source }) => {
     return getDimensionValuesAndLabels({
@@ -189,6 +192,7 @@ export const resolvers: Resolvers = {
   Query,
   Municipality,
   Provider,
+  Observation,
   // Canton,
   Cube,
 };
