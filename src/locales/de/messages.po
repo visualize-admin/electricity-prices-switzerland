@@ -13,8 +13,8 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/components/combobox.tsx:136
-#: src/components/combobox.tsx:229
+#: src/components/combobox.tsx:144
+#: src/components/combobox.tsx:264
 msgid "combobox.noitems"
 msgstr "No items"
 
@@ -22,7 +22,7 @@ msgstr "No items"
 msgid "controls.search.clear"
 msgstr "Clear search field"
 
-#: src/components/list.tsx:114
+#: src/components/list.tsx:137
 msgid "dataset.sortby"
 msgstr "Sortieren"
 
@@ -34,19 +34,27 @@ msgstr "ElCom"
 msgid "hint.loading.data"
 msgstr "Lade Daten…"
 
-#: src/components/list.tsx:87
+#: src/components/list.tsx:101
+msgid "list.municipalities"
+msgstr "Gemeinden"
+
+#: src/components/list.tsx:110
 msgid "list.order.asc"
 msgstr "Günstigste zuerst"
 
-#: src/components/list.tsx:91
+#: src/components/list.tsx:114
 msgid "list.order.desc"
 msgstr "Teuerste zuerst"
 
-#: src/components/list.tsx:94
+#: src/components/list.tsx:97
+msgid "list.providers"
+msgstr "Netzbetreiber"
+
+#: src/components/list.tsx:117
 msgid "list.search.label"
 msgstr "Liste filtern"
 
-#: src/components/list.tsx:53
+#: src/components/list.tsx:65
 msgid "list.showmore"
 msgstr "Mehr anzeigen …"
 
@@ -54,6 +62,10 @@ msgstr "Mehr anzeigen …"
 #: src/components/logo.tsx:15
 msgid "logo.swiss.confederation"
 msgstr "Logo of the Swiss Confederation"
+
+#: src/components/map.tsx:173
+msgid "map.tooltipnodata"
+msgstr "Keine Daten"
 
 #: src/components/price-color-legend.tsx:40
 msgid "price.legend.max"
