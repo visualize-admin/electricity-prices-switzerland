@@ -1,4 +1,4 @@
-import { Trans } from "@lingui/macro";
+import { Trans, select } from "@lingui/macro";
 import { useCombobox, useMultipleSelection, UseComboboxState } from "downshift";
 import { useState, ReactNode } from "react";
 import { Box, Button, Flex, Input } from "theme-ui";
@@ -7,11 +7,12 @@ import { Label } from "./form";
 import { getLocalizedLabel } from "../domain/translation";
 
 type Props = {
+  id: string;
   label: React.ReactNode;
   items: string[];
 };
 
-export const ComboboxMulti = ({ label, items }: Props) => {
+export const ComboboxMulti = ({ id, label, items }: Props) => {
   const [inputValue, setInputValue] = useState("");
   const {
     getSelectedItemProps,
@@ -37,9 +38,11 @@ export const ComboboxMulti = ({ label, items }: Props) => {
     getComboboxProps,
     highlightedIndex,
     getItemProps,
+    openMenu,
   } = useCombobox({
+    id: `combobox-multi-${id}`,
     inputValue,
-    defaultHighlightedIndex: 0, // after selection, highlight the first item.
+    defaultHighlightedIndex: 0,
     selectedItem: null,
     items: getFilteredItems(items),
     stateReducer: (state, actionAndChanges) => {
@@ -61,11 +64,13 @@ export const ComboboxMulti = ({ label, items }: Props) => {
           break;
         case useCombobox.stateChangeTypes.InputKeyDownEnter:
         case useCombobox.stateChangeTypes.ItemClick:
-        case useCombobox.stateChangeTypes.InputBlur:
           if (selectedItem) {
             setInputValue("");
             addSelectedItem(selectedItem);
           }
+          break;
+        case useCombobox.stateChangeTypes.InputBlur:
+          setInputValue("");
           break;
         default:
           break;
@@ -129,7 +134,14 @@ export const ComboboxMulti = ({ label, items }: Props) => {
           sx={{ flexGrow: 1, minWidth: 80, alignSelf: "center", my: 2 }}
         >
           <Input
-            {...getInputProps(getDropdownProps({ preventKeyAction: isOpen }))}
+            {...getInputProps(
+              getDropdownProps({
+                preventKeyAction: isOpen,
+                onClick: () => {
+                  openMenu();
+                },
+              })
+            )}
             sx={{
               display: "block",
               // width: "100%",
@@ -213,21 +225,30 @@ export const ComboboxMulti = ({ label, items }: Props) => {
 };
 
 export const Combobox = ({
+  id,
   label,
   items,
   selectedItem,
   handleSelectedItemChange,
 }: {
+  id: string;
   label: string | ReactNode;
   items: string[];
   selectedItem: string;
-  handleSelectedItemChange: ({
-    selectedItem,
-  }: {
-    selectedItem: string;
-  }) => void;
+  handleSelectedItemChange: (changes: { selectedItem: string }) => void;
 }) => {
-  const [inputItems, setInputItems] = useState(items);
+  const [inputValue, setInputValue] = useState(selectedItem);
+
+  const getFilteredItems = () => {
+    return inputValue && inputValue !== selectedItem
+      ? items.filter((item) =>
+          item.toLowerCase().startsWith(inputValue.toLowerCase())
+        )
+      : items;
+  };
+
+  const inputItems = getFilteredItems();
+
   const {
     isOpen,
     getToggleButtonProps,
@@ -237,40 +258,33 @@ export const Combobox = ({
     getComboboxProps,
     highlightedIndex,
     getItemProps,
+    openMenu,
   } = useCombobox({
-    defaultHighlightedIndex: 0, // after selection, highlight the first item.
+    id: `combobox-${id}`,
+    inputValue,
     selectedItem,
     items: inputItems,
-    onSelectedItemChange: handleSelectedItemChange as (
-      changes: Partial<UseComboboxState<string>>
-    ) => void,
-    onInputValueChange: ({ inputValue }) => {
-      setInputItems(
-        inputValue
-          ? items.filter((item) =>
-              item.toLowerCase().startsWith(inputValue.toLowerCase())
-            )
-          : items
-      );
+    onStateChange: (changes: $FixMe) => {
+      switch (changes.type) {
+        case useCombobox.stateChangeTypes.InputChange:
+          setInputValue(changes.inputValue);
+          break;
+        case useCombobox.stateChangeTypes.InputKeyDownEnter:
+        case useCombobox.stateChangeTypes.ItemClick:
+          if (changes.selectedItem) {
+            setInputValue(changes.inputValue);
+            handleSelectedItemChange({ selectedItem: changes.inputValue });
+          }
+          break;
+        case useCombobox.stateChangeTypes.InputBlur:
+          setInputValue(selectedItem);
+          break;
+        default:
+          break;
+      }
     },
-    // onStateChange: ({ inputValue, type, selectedItem }: $FixMe) => {
-    //   switch (type) {
-    //     case useCombobox.stateChangeTypes.InputChange:
-    //       setInputValue(inputValue);
-    //       setSelectedItem(undefined);
-    //       break;
-    //     case useCombobox.stateChangeTypes.InputKeyDownEnter:
-    //     case useCombobox.stateChangeTypes.ItemClick:
-    //     case useCombobox.stateChangeTypes.InputBlur:
-    //       if (selectedItem) {
-    //         setInputValue(selectedItem);
-    //         setSelectedItem(selectedItem);
-    //       }
-    //       break;
-    //     default:
-    //       break;
-    //   }
   });
+
   return (
     <Box sx={{ position: "relative" }}>
       <Label label={label} smaller {...getLabelProps()}></Label>
@@ -301,7 +315,14 @@ export const Combobox = ({
           sx={{ flexGrow: 1, minWidth: 80, alignSelf: "center", my: 2 }}
         >
           <Input
-            {...getInputProps()}
+            {...getInputProps({
+              onFocus: (e) => {
+                e.currentTarget.select();
+              },
+              onClick: () => {
+                openMenu();
+              },
+            })}
             sx={{
               display: "block",
               // width: "100%",
