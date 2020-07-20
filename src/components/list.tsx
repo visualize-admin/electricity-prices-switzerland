@@ -2,7 +2,7 @@ import { t, Trans } from "@lingui/macro";
 import { I18n } from "@lingui/react";
 import { ScaleThreshold } from "d3";
 import { ascending, descending, rollup } from "d3-array";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useCallback } from "react";
 import { Box, Button, Flex, Text } from "theme-ui";
 import { useFormatCurrency } from "../domain/helpers";
 import { Observation } from "../graphql/queries";
@@ -83,9 +83,11 @@ interface Props {
 const TRUNCATION_INCREMENT = 20;
 
 const ListItems = ({
+  getLabel,
   items,
   colorScale,
 }: {
+  getLabel: (observation: Observation) => string;
   items: [string, Observation][];
   colorScale: ScaleThreshold<number, string>;
 }) => {
@@ -103,7 +105,7 @@ const ListItems = ({
             key={id}
             id={id}
             value={d.value}
-            label={id}
+            label={getLabel(d)}
             colorScale={colorScale}
             formatNumber={formatNumber}
           />
@@ -140,6 +142,12 @@ export const List = ({ observations, colorScale }: Props) => {
   const [sortState, setSortState] = useState<SortState>("ASC");
   const [searchQuery, setSearchQuery] = useState<string>("");
 
+  const getLabel = useCallback(
+    (d: Observation) =>
+      (listState === "PROVIDERS" ? d.providerLabel : d.municipality) ?? "???",
+    [listState]
+  );
+
   const grouped = useMemo(() => {
     return Array.from(
       rollup(
@@ -155,9 +163,8 @@ export const List = ({ observations, colorScale }: Props) => {
       return grouped;
     }
     const filterRe = new RegExp(`${searchQuery}`, "i");
-    // FIXME: match on label, not key
-    return grouped.filter(([k]) => k.match(filterRe));
-  }, [grouped, searchQuery]);
+    return grouped.filter(([k, d]) => getLabel(d).match(filterRe));
+  }, [grouped, searchQuery, getLabel]);
 
   const sorted = useMemo(() => {
     return [...filtered].sort(([, a], [, b]) => {
@@ -250,7 +257,11 @@ export const List = ({ observations, colorScale }: Props) => {
           );
         }}
       </I18n>
-      <ListItems items={listItems} colorScale={colorScale} />
+      <ListItems
+        items={listItems}
+        getLabel={getLabel}
+        colorScale={colorScale}
+      />
     </>
   );
 };

@@ -22,6 +22,7 @@ query Observations(
       period
       municipality
       provider
+      providerLabel
       category
       value(priceComponent: $priceComponent)
     }
