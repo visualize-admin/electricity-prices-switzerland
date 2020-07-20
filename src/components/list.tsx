@@ -9,6 +9,7 @@ import { Observation } from "../graphql/queries";
 import { Icon } from "../icons";
 import { MiniSelect, SearchField } from "./form";
 import { LocalizedLink } from "./links";
+import { RadioTabs } from "./radio-tabs";
 
 const ListItem = ({
   id,
@@ -49,8 +50,8 @@ const ListItem = ({
           textDecoration: "none",
           ":focus": {
             outline: 0,
-            bg: "primaryLight"
-          }
+            bg: "primaryLight",
+          },
         }}
       >
         <Text variant="meta" sx={{ flexGrow: 1 }}>
@@ -170,6 +171,22 @@ export const List = ({ observations, colorScale }: Props) => {
 
   return (
     <>
+      <RadioTabs<ListState>
+        name="list-state-tabs"
+        options={[
+          {
+            value: "PROVIDERS",
+            label: <Trans id="list.providers">Netzbetreiber</Trans>,
+          },
+          {
+            value: "MUNICIPALITIES",
+            label: <Trans id="list.municipalities">Gemeinden</Trans>,
+          },
+        ]}
+        value={listState}
+        setValue={setListState}
+      />
+
       <I18n>
         {({ i18n }) => {
           const options = [
