@@ -1,6 +1,7 @@
 import { MapController, WebMercatorViewport } from "@deck.gl/core";
 import { GeoJsonLayer } from "@deck.gl/layers";
 import DeckGL from "@deck.gl/react";
+import { Trans } from "@lingui/macro";
 import { color } from "d3";
 import { group } from "d3-array";
 import { ScaleThreshold } from "d3-scale";
@@ -266,27 +267,34 @@ export const ChoroplethMap = ({
                 width: "100%",
                 gridTemplateColumns: "1fr auto",
                 gap: 1,
+                alignItems: "center",
               }}
             >
-              {tooltipContent.observations?.map((d, i) => {
-                return (
-                  <Fragment key={i}>
-                    <Text variant="meta" sx={{}}>
-                      {d.provider.replace(/^https.+provider\//, "")}
-                    </Text>
-                    <Box
-                      sx={{
-                        borderRadius: "circle",
-                        px: 2,
-                        display: "inline-block",
-                      }}
-                      style={{ background: colorScale(d.value) }}
-                    >
-                      <Text variant="meta">{formatNumber(d.value)}</Text>
-                    </Box>
-                  </Fragment>
-                );
-              })}
+              {tooltipContent.observations ? (
+                tooltipContent.observations.map((d, i) => {
+                  return (
+                    <Fragment key={i}>
+                      <Text variant="meta" sx={{}}>
+                        {d.providerLabel}
+                      </Text>
+                      <Box
+                        sx={{
+                          borderRadius: "circle",
+                          px: 2,
+                          display: "inline-block",
+                        }}
+                        style={{ background: colorScale(d.value) }}
+                      >
+                        <Text variant="meta">{formatNumber(d.value)}</Text>
+                      </Box>
+                    </Fragment>
+                  );
+                })
+              ) : (
+                <Text variant="meta" sx={{ color: "secondary" }}>
+                  <Trans id="map.tooltipnodata">Keine Daten</Trans>
+                </Text>
+              )}
             </Grid>
           </MapTooltip>
         )}
