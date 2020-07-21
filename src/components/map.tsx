@@ -220,12 +220,7 @@ export const ChoroplethMap = ({
   }, [year]);
 
   const observationsByMunicipalityId = useMemo(() => {
-    return group(observations, (d) =>
-      d.municipality!.replace(
-        "http://classifications.data.admin.ch/municipality/",
-        ""
-      )
-    );
+    return group(observations, (d) => d.municipality);
   }, [observations]);
 
   useEffect(() => {

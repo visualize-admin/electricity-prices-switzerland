@@ -173,7 +173,10 @@ export const getDimensionValuesAndLabels = async ({
     return obs[ns.energyPricing(dimensionKey).value]
       ? [
           {
-            id: obs[ns.energyPricing(dimensionKey).value].value as string,
+            id: stripNamespaceFromIri({
+              dimension: dimensionKey,
+              iri: obs[ns.energyPricing(dimensionKey).value].value as string,
+            }),
             name: obs[ns.energyPricing(`${dimensionKey}Label`).value]
               .value as string,
             view,
@@ -232,8 +235,14 @@ export const getMunicipalities = async ({
     return obs[ns.energyPricing("municipality").value]
       ? [
           {
-            id: obs[ns.energyPricing("municipality").value].value as string,
-            name: obs[ns.energyPricing("municipality").value].value as string,
+            id: stripNamespaceFromIri({
+              dimension: "municipality",
+              iri: obs[ns.energyPricing("municipality").value].value as string,
+            }),
+            name: stripNamespaceFromIri({
+              dimension: "municipality",
+              iri: obs[ns.energyPricing("municipality").value].value as string,
+            }),
             view,
             source,
           },
@@ -294,13 +303,65 @@ export const buildDimensionFilter = (
       ? viewDimension.filter.eq(
           datatype
             ? rdf.literal(filters[0], datatype)
-            : rdf.namedNode(filters[0])
+            : rdf.namedNode(
+                addNamespaceToID({ id: filters[0], dimension: dimensionKey })
+              )
         )
       : viewDimension.filter.in(
           filters.map((f) => {
-            return datatype ? rdf.literal(f, datatype) : rdf.namedNode(f);
+            return datatype
+              ? rdf.literal(f, datatype)
+              : rdf.namedNode(
+                  addNamespaceToID({ id: f, dimension: dimensionKey })
+                );
           })
         );
 
   return dimensionFilter;
+};
+
+/**
+ * Strips the namespace from an IRI to get shorter IDs
+ *
+ * E.g. "http://classifications.data.admin.ch/municipality/123" -> "123"
+ * E.g. "https://energy.ld.admin.ch/elcom/energy-pricing/category/H1" -> "H1"
+ */
+export const stripNamespaceFromIri = ({
+  dimension,
+  iri,
+}: {
+  dimension: string;
+  iri: string;
+}): string => {
+  const matches = iri.match(/\/([a-zA-Z0-9]+)$/);
+
+  if (!matches) {
+    // Warn?
+    return iri;
+  }
+
+  return matches[1];
+};
+
+/**
+ * Adds the namespace to an ID to get the full IRI
+ *
+ * E.g. "municipality" "123" -> "http://classifications.data.admin.ch/municipality/123"
+ * E.g. "category" "H1" -> "https://energy.ld.admin.ch/elcom/energy-pricing/category/H1"
+ */
+export const addNamespaceToID = ({
+  dimension,
+  id,
+}: {
+  dimension: string;
+  id: string;
+}): string => {
+  // Check for full IRIs
+  if (id.match(/^http(s)?:\/\//)) {
+    return id;
+  }
+  if (dimension === "municipality") {
+    return ns.classifications(`municipality/${id}`).value;
+  }
+  return ns.energyPricing(`${dimension}/${id}`).value;
 };

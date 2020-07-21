@@ -9,6 +9,7 @@ import {
   getView,
   getDimensionValuesAndLabels,
   getMunicipalities,
+  stripNamespaceFromIri,
 } from "./rdf";
 import {
   CantonResolvers,
@@ -146,8 +147,12 @@ const Cube: CubeResolvers = {
           "https://energy.ld.admin.ch/elcom/energy-pricing/dimension/",
           ""
         );
+        const parsedValue = parseObservationValue(v);
 
-        parsed[key] = parseObservationValue(v);
+        parsed[key] =
+          typeof parsedValue === "string"
+            ? stripNamespaceFromIri({ dimension: key, iri: parsedValue })
+            : parsedValue;
       }
       return parsed;
     });

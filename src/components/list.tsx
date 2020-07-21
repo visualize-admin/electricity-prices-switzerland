@@ -28,10 +28,7 @@ const ListItem = ({
     <LocalizedLink
       pathname="/[locale]/municipality/[id]"
       query={{
-        id: id.replace(
-          "http://classifications.data.admin.ch/municipality/",
-          ""
-        ),
+        id,
       }}
       passHref
     >
