@@ -2,7 +2,7 @@ import { Box, Flex } from "@theme-ui/components";
 import { useRouter } from "next/router";
 import * as React from "react";
 import { DetailPageBanner } from "../../../components/detail-page/banner";
-import { CantonsComparisonRangePlot } from "../../../components/detail-page/cantons-comparison";
+import { CantonsComparisonRangePlot } from "../../../components/detail-page/cantons-comparison-range";
 import { SelectorMulti } from "../../../components/detail-page/selector-multi";
 import { Footer } from "../../../components/footer";
 import { Header } from "../../../components/header";
@@ -24,6 +24,7 @@ const MunicipalityPage = () => {
   // FIXME: use query
   const kantonId = "261";
   const providerIds = ["xxx", "yyy"];
+
   const municipalityId = query.id;
 
   const updateQueryParams = (queryObject: { [x: string]: string }) => {
@@ -39,17 +40,12 @@ const MunicipalityPage = () => {
     (query.priceComponent as PriceComponent) ?? PriceComponent.Total; // TODO: parameterize priceComponent
   const category = query.category as string;
 
-  console.log(year);
-
   const [municipality] = useMunicipalitiesQuery({
     variables: {
       locale,
       query: "",
     },
   });
-  // const observations = observationsQuery.fetching
-  //   ? EMPTY_ARRAY
-  //   : observationsQuery.data?.cubeByIri?.observations ?? EMPTY_ARRAY;
   if (!municipality.fetching) {
     console.log(municipality);
   }
@@ -73,7 +69,8 @@ const MunicipalityPage = () => {
         <Box sx={{ width: "100%", maxWidth: "67rem", mx: "auto", my: 2 }}>
           <Flex sx={{ width: "100%" }}>
             <Box sx={{ flex: `2 2 ${2 / 3}%` }}>
-              <PriceEvolutionLineChart />
+              {/* <PriceComponents /> */}
+              {/* <PriceEvolutionLineChart /> */}
               <PriceDistributionHistogram period={year as string[]} />
               <CantonsComparisonRangePlot period={year as string[]} />
             </Box>
@@ -82,11 +79,9 @@ const MunicipalityPage = () => {
                 year={"2019"}
                 priceComponent={priceComponent}
                 category={category}
-                updateQueryParams={updateQueryParams}
               />
             </Box>
           </Flex>
-          {/* <PriceComponents /> */}
         </Box>
       </Flex>
       <Footer></Footer>

@@ -10,6 +10,7 @@ import { Selector } from "../../components/selector";
 import { useColorScale } from "../../domain/data";
 import { PriceComponent, useObservationsQuery } from "../../graphql/queries";
 import { useCallback } from "react";
+import { useQueryStateSingle } from "../../lib/use-query-state";
 
 const EMPTY_ARRAY: never[] = [];
 
@@ -41,20 +42,12 @@ const HEADER_HEIGHT_M_UP = "96px";
 const IndexPage = ({
   initialParams,
 }: InferGetStaticPropsType<typeof getServerSideProps>) => {
-  const { replace, query } = useRouter();
+  const [queryState] = useQueryStateSingle();
 
-  const updateQueryParams = (queryObject: { [x: string]: string }) => {
-    const { href, as } = createDynamicRouteProps({
-      pathname: `/[locale]`,
-      query: { ...query, ...queryObject },
-    });
-    replace(href, as);
-  };
-
-  const year = (query.year as string) ?? initialParams.year;
+  const year = queryState.period ?? initialParams.year;
   const priceComponent =
-    (query.priceComponent as PriceComponent) ?? PriceComponent.Total; // TODO: parameterize priceComponent
-  const category = (query.category as string) ?? initialParams.category;
+    (queryState.priceComponent as PriceComponent) ?? PriceComponent.Total; // TODO: parameterize priceComponent
+  const category = (queryState.category as string) ?? initialParams.category;
 
   const [observationsQuery] = useObservationsQuery({
     variables: {
@@ -158,12 +151,7 @@ const IndexPage = ({
                   top: [0, HEADER_HEIGHT_M_UP],
                 }}
               >
-                <Selector
-                  year={year}
-                  priceComponent={priceComponent}
-                  category={category}
-                  updateQueryParams={updateQueryParams}
-                />
+                <Selector />
               </Box>
               <Box sx={{ height: "200vh", background: "teal" }}>THe list</Box>
               {/* <List
