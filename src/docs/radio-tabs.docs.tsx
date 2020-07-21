@@ -24,9 +24,28 @@ export default () => {
     </ReactSpecimen>
   )}
 
+  ${(<div>Selected value: {state}</div>)}
+
+### RadioTabs (segmented variant)
+
   ${(
-  <div>Selected value: {state}</div>
+    <ReactSpecimen>
+      <RadioTabs
+        name="example2"
+        options={[
+          { value: "one", label: "One" },
+          { value: "two", label: "Two" },
+          { value: "three", label: "Three" },
+          { value: "four", label: "Four" },
+        ]}
+        value={state}
+        setValue={setState}
+        variant="segmented"
+      />
+    </ReactSpecimen>
   )}
+
+  ${(<div>Selected value: {state}</div>)}
 
 `;
 };
