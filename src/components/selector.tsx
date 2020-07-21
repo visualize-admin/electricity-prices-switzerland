@@ -4,9 +4,8 @@ import { Flex, Text } from "theme-ui";
 import { categories, priceComponents, products, periods } from "../domain/data";
 import { Combobox } from "./../components/combobox";
 import { useQueryStateSingle } from "../lib/use-query-state";
-interface Props {}
 
-export const Selector = ({}: Props) => {
+export const Selector = () => {
   const [queryState, setQueryState] = useQueryStateSingle();
 
   return (
