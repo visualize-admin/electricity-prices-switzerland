@@ -85,10 +85,11 @@ const useRangePlotState = ({
     .domain(colorDomain)
     .range(palettes.diverging)
     .interpolate(interpolateLab);
-
   const left = Math.max(
     estimateTextWidth(yScale.domain()[0]),
-    estimateTextWidth(yScale.domain()[1])
+    estimateTextWidth(
+      yScale.domain().length > 1 ? yScale.domain()[1] : yScale.domain()[0]
+    )
   );
   const margins = {
     top: 70,
