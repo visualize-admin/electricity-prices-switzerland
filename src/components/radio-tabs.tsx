@@ -64,7 +64,11 @@ export const RadioTabs = <T extends string>({
         const isActive = option.value === value;
 
         return (
-          <Box as="label" sx={isActive ? activeStyle : inactiveStyle}>
+          <Box
+            key={option.value}
+            as="label"
+            sx={isActive ? activeStyle : inactiveStyle}
+          >
             {isActive && (
               <Box
                 sx={{
