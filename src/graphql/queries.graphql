@@ -28,3 +28,29 @@ query Observations(
     }
   }
 }
+
+query ObservationsWithAllPriceComponents(
+  $locale: String
+  $filters: ObservationFilters!
+) {
+  cubeByIri(
+    iri: "https://energy.ld.admin.ch/elcom/energy-pricing/cube"
+    locale: $locale
+  ) {
+    observations(filters: $filters) {
+      period
+      municipality
+      provider
+      providerLabel
+      category
+
+      aidfee: value(priceComponent: aidfee)
+      fixcosts: value(priceComponent: fixcosts)
+      charge: value(priceComponent: charge)
+      gridusage: value(priceComponent: gridusage)
+      energy: value(priceComponent: energy)
+      fixcostspercent: value(priceComponent: fixcostspercent)
+      total: value(priceComponent: total)
+    }
+  }
+}
