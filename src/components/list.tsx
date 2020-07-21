@@ -1,145 +1,267 @@
-import { Flex, Link as UILink } from "@theme-ui/components";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useLocale } from "../lib/use-locale";
+import { t, Trans } from "@lingui/macro";
+import { I18n } from "@lingui/react";
+import { ScaleThreshold } from "d3";
+import { ascending, descending, rollup } from "d3-array";
+import { useMemo, useState, useCallback } from "react";
+import { Box, Button, Flex, Text } from "theme-ui";
+import { useFormatCurrency } from "../domain/helpers";
+import { Observation } from "../graphql/queries";
+import { Icon } from "../icons";
+import { MiniSelect, SearchField } from "./form";
+import { LocalizedLink } from "./links";
+import { RadioTabs } from "./radio-tabs";
+
+const ListItem = ({
+  id,
+  label,
+  value,
+  colorScale,
+  formatNumber,
+}: {
+  id: string;
+  label: string;
+  value: number;
+  colorScale: (d: number) => string;
+  formatNumber: (d: number) => string;
+}) => {
+  return (
+    <LocalizedLink
+      pathname="/[locale]/municipality/[id]"
+      query={{
+        id: id.replace(
+          "http://classifications.data.admin.ch/municipality/",
+          ""
+        ),
+      }}
+      passHref
+    >
+      <Flex
+        as="a"
+        sx={{
+          py: 1,
+          px: 2,
+          borderBottomWidth: "1px",
+          borderBottomStyle: "solid",
+          borderBottomColor: "monochrome300",
+          alignItems: "center",
+          height: "3.5rem",
+          lineHeight: 1,
+          color: "text",
+          textDecoration: "none",
+          ":focus": {
+            outline: 0,
+            bg: "primaryLight",
+          },
+        }}
+      >
+        <Text variant="meta" sx={{ flexGrow: 1 }}>
+          {label}
+        </Text>
+        <Box
+          sx={{
+            borderRadius: "circle",
+            px: 2,
+            flexShrink: 0,
+          }}
+          style={{ background: colorScale(value) }}
+        >
+          <Text variant="meta">{formatNumber(value)}</Text>
+        </Box>
+        <Box sx={{ width: "24px", flexShrink: 0 }}>
+          <Icon name="chevronright"></Icon>
+        </Box>
+      </Flex>
+    </LocalizedLink>
+  );
+};
 
 interface Props {
-  year: string;
-  priceComponent: string;
-  category: string;
-  // product: string;
+  observations: Observation[];
+  colorScale: ScaleThreshold<number, string>;
 }
 
-export const List = ({ year, priceComponent, category }: Props) => {
-  const locale = useLocale();
+const TRUNCATION_INCREMENT = 20;
+
+const ListItems = ({
+  getLabel,
+  items,
+  colorScale,
+}: {
+  getLabel: (observation: Observation) => string;
+  items: [string, Observation][];
+  colorScale: ScaleThreshold<number, string>;
+}) => {
+  const [truncated, setTruncated] = useState<number>(TRUNCATION_INCREMENT);
+  const formatNumber = useFormatCurrency();
+
+  const listItems =
+    items.length > truncated ? items.slice(0, truncated) : items;
 
   return (
-    <Flex
-      sx={{
-        width: ["auto", 320, 320],
-        height: "fit-content",
-        flexDirection: "column",
-        justifyContent: "flex-start",
-        mt: 4,
-        bg: "monochrome100",
-        p: 5,
-        pb: 6,
-        zIndex: 12,
-        borderRadius: "default",
-        "> button": { mt: 2 },
-      }}
-    >
-      <Link
-        href={{
-          pathname: `/[locale]/municipality/[id]`,
-          query: {
-            year: year ?? "2020",
-            priceComponent: priceComponent ?? "total",
-            category: category ?? "H1",
-            product: "standard",
-          },
-        }}
-        as={{
-          pathname: `/${locale}/municipality/zürich`,
-          query: {
-            year: year ?? "2020",
-            priceComponent: priceComponent ?? "total",
-            category: category ?? "H1",
-            product: "standard",
-          },
-        }}
-        passHref
-      >
-        <UILink
+    <Box sx={{}}>
+      {listItems.map(([id, d]) => {
+        return (
+          <ListItem
+            key={id}
+            id={id}
+            value={d.value}
+            label={getLabel(d)}
+            colorScale={colorScale}
+            formatNumber={formatNumber}
+          />
+        );
+      })}
+
+      {items.length > truncated && (
+        <Box
           sx={{
-            p: 1,
-            color: "primary",
-            cursor: "pointer",
-            ":hover": {
-              color: "primaryHover",
-            },
-            ":active": {
-              color: "primaryActive",
-            },
+            textAlign: "center",
+            p: 3,
+            borderBottomWidth: "1px",
+            borderBottomStyle: "solid",
+            borderBottomColor: "monochrome300",
           }}
         >
-          Link to the municipality: Zürich
-        </UILink>
-      </Link>
-      <Link
-        href={{
-          pathname: `/[locale]/provider/[id]`,
-          query: {
-            year: year ?? "2020",
-            priceComponent: priceComponent ?? "total",
-            category: category ?? "H1",
-            // product: product ?? "standard",
+          <Button
+            variant="inline"
+            onClick={() => setTruncated((n) => n + TRUNCATION_INCREMENT)}
+          >
+            <Trans id="list.showmore">Mehr anzeigen …</Trans>
+          </Button>
+        </Box>
+      )}
+    </Box>
+  );
+};
+
+type ListState = "MUNICIPALITIES" | "PROVIDERS";
+type SortState = "ASC" | "DESC";
+
+export const List = ({ observations, colorScale }: Props) => {
+  const [listState, setListState] = useState<ListState>("MUNICIPALITIES");
+  const [sortState, setSortState] = useState<SortState>("ASC");
+  const [searchQuery, setSearchQuery] = useState<string>("");
+
+  const getLabel = useCallback(
+    (d: Observation) =>
+      (listState === "PROVIDERS" ? d.providerLabel : d.municipality) ?? "???",
+    [listState]
+  );
+
+  const grouped = useMemo(() => {
+    return Array.from(
+      rollup(
+        observations,
+        (values) => values[0],
+        (d) => (listState === "PROVIDERS" ? d.provider : d.municipality)
+      )
+    );
+  }, [observations, listState]);
+
+  const filtered = useMemo(() => {
+    if (searchQuery === "") {
+      return grouped;
+    }
+    const filterRe = new RegExp(`${searchQuery}`, "i");
+    return grouped.filter(([k, d]) => getLabel(d).match(filterRe));
+  }, [grouped, searchQuery, getLabel]);
+
+  const sorted = useMemo(() => {
+    return [...filtered].sort(([, a], [, b]) => {
+      return sortState === "ASC"
+        ? ascending(a.value, b.value)
+        : descending(a.value, b.value);
+    });
+  }, [filtered, sortState]);
+
+  const listItems = sorted;
+
+  return (
+    <>
+      <RadioTabs<ListState>
+        name="list-state-tabs"
+        options={[
+          {
+            value: "PROVIDERS",
+            label: <Trans id="list.providers">Netzbetreiber</Trans>,
           },
-        }}
-        as={{
-          pathname: `/${locale}/provider/ewz`,
-          query: {
-            year: year ?? "2020",
-            priceComponent: priceComponent ?? "total",
-            category: category ?? "H1",
-            // product: product ?? "standard",
+          {
+            value: "MUNICIPALITIES",
+            label: <Trans id="list.municipalities">Gemeinden</Trans>,
           },
+        ]}
+        value={listState}
+        setValue={setListState}
+      />
+
+      <I18n>
+        {({ i18n }) => {
+          const options = [
+            {
+              value: "ASC" as SortState,
+              label: i18n._(t("list.order.asc")`Günstigste zuerst`),
+            },
+            {
+              value: "DESC" as SortState,
+              label: i18n._(t("list.order.desc")`Teuerste zuerst`),
+            },
+          ];
+          const searchLabel = i18n._(t("list.search.label")`Liste filtern`);
+
+          return (
+            <Box
+              sx={{
+                p: 2,
+                borderBottomWidth: "1px",
+                borderBottomStyle: "solid",
+                borderBottomColor: "monochrome300",
+              }}
+            >
+              <SearchField
+                id="listSearch"
+                value={searchQuery}
+                onChange={(e) => {
+                  setSearchQuery(e.currentTarget.value);
+                }}
+                onReset={() => {
+                  setSearchQuery("");
+                }}
+                label={searchLabel}
+                placeholder={searchLabel}
+              />
+
+              <Flex sx={{ justifyContent: "space-between", mt: 2 }}>
+                <label htmlFor="listSort">
+                  <Text
+                    color="secondary"
+                    sx={{
+                      fontFamily: "body",
+                      fontSize: [1, 2, 2],
+                      lineHeight: "24px",
+                    }}
+                  >
+                    <Trans id="dataset.sortby">Sortieren</Trans>
+                  </Text>
+                </label>
+
+                <MiniSelect
+                  id="listSort"
+                  value={sortState}
+                  options={options}
+                  onChange={(e) => {
+                    setSortState(e.currentTarget.value as SortState);
+                  }}
+                ></MiniSelect>
+              </Flex>
+            </Box>
+          );
         }}
-        passHref
-      >
-        <UILink
-          sx={{
-            p: 1,
-            color: "primary",
-            cursor: "pointer",
-            ":hover": {
-              color: "primaryHover",
-            },
-            ":active": {
-              color: "primaryActive",
-            },
-          }}
-        >
-          Link to the provider: ewz
-        </UILink>
-      </Link>
-      <Link
-        href={{
-          pathname: `/[locale]/canton/[id]`,
-          query: {
-            year: year ?? "2020",
-            priceComponent: priceComponent ?? "total",
-            category: category ?? "H1",
-            // product: product ?? "standard",
-          },
-        }}
-        as={{
-          pathname: `/${locale}/canton/vaud`,
-          query: {
-            year: year ?? "2020",
-            priceComponent: priceComponent ?? "total",
-            category: category ?? "H1",
-            // product: product ?? "standard",
-          },
-        }}
-        passHref
-      >
-        <UILink
-          sx={{
-            p: 1,
-            color: "primary",
-            cursor: "pointer",
-            ":hover": {
-              color: "primaryHover",
-            },
-            ":active": {
-              color: "primaryActive",
-            },
-          }}
-        >
-          Link to the canton: Vaud
-        </UILink>
-      </Link>
-    </Flex>
+      </I18n>
+      <ListItems
+        items={listItems}
+        getLabel={getLabel}
+        colorScale={colorScale}
+      />
+    </>
   );
 };

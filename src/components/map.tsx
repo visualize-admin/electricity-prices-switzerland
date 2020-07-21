@@ -1,10 +1,11 @@
 import { MapController, WebMercatorViewport } from "@deck.gl/core";
 import { GeoJsonLayer } from "@deck.gl/layers";
 import DeckGL from "@deck.gl/react";
+import { Trans } from "@lingui/macro";
 import { color } from "d3";
 import { group } from "d3-array";
-
 import { ScaleThreshold } from "d3-scale";
+import { useRouter } from "next/router";
 import {
   Fragment,
   ReactNode,
@@ -14,18 +15,15 @@ import {
   useState,
 } from "react";
 import { Box, Grid, Text } from "theme-ui";
-
 import {
   feature as topojsonFeature,
   mesh as topojsonMesh,
 } from "topojson-client";
-
-import { useFormatNumber } from "../domain/helpers";
+import { useFormatCurrency } from "../domain/helpers";
 import { Observation } from "../graphql/queries";
 import { TooltipBox } from "./charts-generic/interaction/tooltip-box";
-import { Loading } from "./loading";
-import { useRouter } from "next/router";
 import { createDynamicRouteProps } from "./links";
+import { Loading } from "./loading";
 
 const INITIAL_VIEW_STATE = {
   latitude: 46.8182,
@@ -205,9 +203,9 @@ export const ChoroplethMap = ({
 
   useEffect(() => {
     const load = async () => {
-      const topo = await fetch(`/topojson/ch-${parseInt(year,10)-1}.json`).then((res) =>
-        res.json()
-      );
+      const topo = await fetch(
+        `/topojson/ch-${parseInt(year, 10) - 1}.json`
+      ).then((res) => res.json());
       const municipalities = topojsonFeature(topo, topo.objects.municipalities);
       const municipalityMesh = topojsonMesh(
         topo,
@@ -239,7 +237,7 @@ export const ChoroplethMap = ({
     }
   }, [data, observationsByMunicipalityId]);
 
-  const formatNumber = useFormatNumber();
+  const formatNumber = useFormatCurrency();
 
   const getColor = (v: number) => {
     const c = colorScale && colorScale(v);
@@ -269,27 +267,34 @@ export const ChoroplethMap = ({
                 width: "100%",
                 gridTemplateColumns: "1fr auto",
                 gap: 1,
+                alignItems: "center",
               }}
             >
-              {tooltipContent.observations?.map((d, i) => {
-                return (
-                  <Fragment key={i}>
-                    <Text variant="meta" sx={{}}>
-                      {d.provider.replace(/^https.+provider\//, "")}
-                    </Text>
-                    <Box
-                      sx={{
-                        borderRadius: "circle",
-                        px: 2,
-                        display: "inline-block",
-                      }}
-                      style={{ background: colorScale(d.value) }}
-                    >
-                      <Text variant="meta">{formatNumber(d.value)}</Text>
-                    </Box>
-                  </Fragment>
-                );
-              })}
+              {tooltipContent.observations ? (
+                tooltipContent.observations.map((d, i) => {
+                  return (
+                    <Fragment key={i}>
+                      <Text variant="meta" sx={{}}>
+                        {d.providerLabel}
+                      </Text>
+                      <Box
+                        sx={{
+                          borderRadius: "circle",
+                          px: 2,
+                          display: "inline-block",
+                        }}
+                        style={{ background: colorScale(d.value) }}
+                      >
+                        <Text variant="meta">{formatNumber(d.value)}</Text>
+                      </Box>
+                    </Fragment>
+                  );
+                })
+              ) : (
+                <Text variant="meta" sx={{ color: "secondary" }}>
+                  <Trans id="map.tooltipnodata">Keine Daten</Trans>
+                </Text>
+              )}
             </Grid>
           </MapTooltip>
         )}
