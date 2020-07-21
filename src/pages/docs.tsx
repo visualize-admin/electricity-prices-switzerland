@@ -62,6 +62,11 @@ const pages: ConfigPageOrGroup[] = [
         title: "Price Color Legend",
         content: require("../docs/price-color-legend.docs"),
       },
+      {
+        path: "/components/radio-tabs",
+        title: "Radio Tabs",
+        content: require("../docs/radio-tabs.docs"),
+      },
     ],
   },
   {

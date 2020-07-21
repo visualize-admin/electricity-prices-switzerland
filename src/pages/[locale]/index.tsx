@@ -10,6 +10,7 @@ import { Selector } from "../../components/selector";
 import { useColorScale } from "../../domain/data";
 import { PriceComponent, useObservationsQuery } from "../../graphql/queries";
 import { useCallback } from "react";
+import { List } from "../../components/list";
 
 const EMPTY_ARRAY: never[] = [];
 
@@ -154,8 +155,9 @@ const IndexPage = ({
             <Box sx={{ gridArea: "controls" }}>
               <Box
                 sx={{
-                  position: ["relative", "sticky"],
-                  top: [0, HEADER_HEIGHT_M_UP],
+                  // position: ["relative", "sticky"],
+                  // top: [0, HEADER_HEIGHT_M_UP],
+                  // zIndex: 1,
                 }}
               >
                 <Selector
@@ -165,12 +167,7 @@ const IndexPage = ({
                   updateQueryParams={updateQueryParams}
                 />
               </Box>
-              <Box sx={{ height: "200vh", background: "teal" }}>THe list</Box>
-              {/* <List
-              year={year}
-              priceComponent={priceComponent}
-              category={category}
-            /> */}
+              <List observations={observations} colorScale={colorScale} />
             </Box>
           </Grid>
 

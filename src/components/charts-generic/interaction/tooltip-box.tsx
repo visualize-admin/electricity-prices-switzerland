@@ -42,7 +42,6 @@ export const TooltipBox = ({
         sx={{
           width: "fit-content",
           padding: 3,
-          whiteSpace: "nowrap",
           pointerEvents: "none",
           backgroundColor: "monochrome100",
           filter: `drop-shadow(${theme.shadows?.tooltip})`,

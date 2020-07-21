@@ -167,7 +167,7 @@ export type ObservationsQueryVariables = Exact<{
 }>;
 
 
-export type ObservationsQuery = { __typename: 'Query', cubeByIri?: Maybe<{ __typename: 'Cube', observations: Array<{ __typename: 'Observation', period: string, municipality: string, provider: string, category: string, value: number }> }> };
+export type ObservationsQuery = { __typename: 'Query', cubeByIri?: Maybe<{ __typename: 'Cube', observations: Array<{ __typename: 'Observation', period: string, municipality: string, provider: string, providerLabel?: Maybe<string>, category: string, value: number }> }> };
 
 
 export const MunicipalitiesDocument = gql`
@@ -190,6 +190,7 @@ export const ObservationsDocument = gql`
       period
       municipality
       provider
+      providerLabel
       category
       value(priceComponent: $priceComponent)
     }
