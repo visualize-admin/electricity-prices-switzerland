@@ -9,26 +9,22 @@ import { Loading } from "../loading";
 import { ChartContainer, ChartSvg } from "../charts-generic/containers";
 import { Card } from "./card";
 import { PriceComponent, useObservationsQuery } from "../../graphql/queries";
+import { useQueryState } from "../../lib/use-query-state";
 
-export const CantonsComparisonRangePlot = ({
-  period,
-}: {
-  period: string[];
-}) => {
-  const { query } = useRouter();
-
-  const priceComponent = PriceComponent.Total; // TODO: parameterize priceComponent
-  const category = (query.category as string) ?? "H4";
-  const year = (query.year as string) ?? "2019";
+export const CantonsComparisonRangePlot = () => {
+  const [queryState, setQueryState] = useQueryState();
 
   const [observationsQuery] = useObservationsQuery({
     variables: {
-      priceComponent,
+      priceComponent: (queryState.priceComponent as unknown) as PriceComponent,
       filters: {
-        period,
-        category: [
-          `https://energy.ld.admin.ch/elcom/energy-pricing/category/${category}`,
-        ],
+        period: queryState.period,
+        category: queryState.category
+          ? queryState.category.map(
+              (category) =>
+                `https://energy.ld.admin.ch/elcom/energy-pricing/category/${category}`
+            )
+          : [`https://energy.ld.admin.ch/elcom/energy-pricing/category/H1`],
       },
     },
   });
