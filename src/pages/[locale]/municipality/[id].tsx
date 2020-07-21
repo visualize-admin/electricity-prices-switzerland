@@ -2,7 +2,7 @@ import { Box, Flex } from "@theme-ui/components";
 import { useRouter } from "next/router";
 import * as React from "react";
 import { DetailPageBanner } from "../../../components/detail-page/banner";
-import { CantonsComparison } from "../../../components/detail-page/cantons-comparison";
+import { CantonsComparisonRangePlot } from "../../../components/detail-page/cantons-comparison";
 import { SelectorMulti } from "../../../components/detail-page/selector-multi";
 import { Footer } from "../../../components/footer";
 import { Header } from "../../../components/header";
@@ -12,6 +12,8 @@ import {
   useMunicipalitiesQuery,
 } from "../../../graphql/queries";
 import { useLocale } from "../../../lib/use-locale";
+import { PriceDistributionHistogram } from "../../../components/detail-page/price-distribution-histogram";
+import { PriceEvolutionLineChart } from "../../../components/detail-page/price-evolution-line-chart";
 
 export const EMPTY_ARRAY: never[] = [];
 
@@ -71,9 +73,11 @@ const MunicipalityPage = () => {
         <Box sx={{ width: "100%", maxWidth: "67rem", mx: "auto", my: 2 }}>
           <Flex sx={{ width: "100%" }}>
             <Box sx={{ flex: `2 2 ${2 / 3}%` }}>
-              <CantonsComparison period={year as string[]} />
+              <PriceEvolutionLineChart />
+              <PriceDistributionHistogram period={year as string[]} />
+              <CantonsComparisonRangePlot period={year as string[]} />
             </Box>
-            <Box sx={{ flex: `1 1 ${1 / 3}%`, my: 2 }}>
+            <Box sx={{ flex: `1 1 ${1 / 3}%` }}>
               <SelectorMulti
                 year={"2019"}
                 priceComponent={priceComponent}
@@ -82,108 +86,7 @@ const MunicipalityPage = () => {
               />
             </Box>
           </Flex>
-          {/* <PriceComponents />
-
-
-          <Card
-            title={
-              <Trans id="detail.card.title.prices.evolution">
-                Tarifentwicklung
-              </Trans>
-            }
-          >
-            <LineChart
-              data={observations
-                .filter(
-                  (obs) =>
-                    obs.municipality ===
-                    `http://classifications.data.admin.ch/municipality/${query.id}`
-                )
-                .map((obs) => ({
-                  priceComponent: "Total (exkl. MwSt.)",
-                  ...obs,
-                }))}
-              fields={{
-                x: {
-                  componentIri: "period",
-                },
-                y: {
-                  componentIri: "value",
-                },
-              }}
-              measures={[
-                {
-                  iri: "value",
-                  label: "value",
-                  __typename: "Measure",
-                },
-              ]}
-              dimensions={[
-                {
-                  iri: "period",
-                  label: "period",
-                  __typename: "TemporalDimension",
-                },
-              ]}
-              aspectRatio={0.2}
-            >
-              <LegendColor symbol="line" />
-              <ChartContainer>
-                <ChartSvg>
-                  <AxisHeightLinear /> <AxisTime /> <AxisTimeDomain />
-                  <Lines />
-                  <InteractionHorizontal />
-                </ChartSvg>
-
-                <Ruler />
-
-                <HoverDotMultiple />
-
-                <Tooltip type={"single"} />
-              </ChartContainer>
-            </LineChart>
-          </Card> */}
-
-          {/* HISTOGRAM */}
-          {/* <Card
-            title={
-              <Trans id="detail.card.title.prices.distribution">
-                Preisverteilung in der Schweiz
-              </Trans>
-            }
-          >
-            <Histogram
-              data={observations}
-              fields={{
-                x: {
-                  componentIri: "value",
-                },
-                label: {
-                  componentIri: "Netzbetreiber",
-                },
-              }}
-              measures={[
-                {
-                  iri: "value",
-                  label: "value",
-                  __typename: "Measure",
-                },
-              ]}
-              aspectRatio={0.3}
-            >
-              <ChartContainer>
-                <ChartSvg>
-                  <AxisHeightLinear />
-
-                  <AxisWidthHistogram />
-                  <AxisWidthHistogramDomain />
-                  <HistogramColumns />
-                  <Median label="CH Median" />
-                </ChartSvg>
-                <Tooltip type="single" />
-              </ChartContainer>
-            </Histogram>
-          </Card> */}
+          {/* <PriceComponents /> */}
         </Box>
       </Flex>
       <Footer></Footer>

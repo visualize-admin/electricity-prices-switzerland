@@ -2,9 +2,15 @@ import { Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
 import * as React from "react";
 import { EMPTY_ARRAY } from "../../pages/[locale]/municipality/[id]";
-import { AxisWidthLinear } from "../charts-generic/axis/axis-width-linear";
-import { Range, RangePoints } from "../charts-generic/rangeplot/rangeplot";
-import { RangePlot } from "../charts-generic/rangeplot/rangeplot-state";
+import { AxisHeightLinear } from "../charts-generic/axis/axis-height-linear";
+import {
+  AxisWidthHistogram,
+  AxisWidthHistogramDomain,
+} from "../charts-generic/axis/axis-width-histogram";
+import { HistogramColumns } from "../charts-generic/histogram/histogram";
+import { Histogram } from "../charts-generic/histogram/histogram-state";
+import { Median } from "../charts-generic/histogram/median";
+import { Tooltip } from "../charts-generic/interaction/tooltip";
 import { Loading } from "../loading";
 import {
   ChartContainer,
@@ -12,15 +18,6 @@ import {
 } from "./../../components/charts-generic/containers";
 import { Card } from "./../../components/detail-page/card";
 import { PriceComponent, useObservationsQuery } from "./../../graphql/queries";
-import { Histogram } from "../charts-generic/histogram/histogram-state";
-import { AxisHeightLinear } from "../charts-generic/axis/axis-height-linear";
-import {
-  AxisWidthHistogram,
-  AxisWidthHistogramDomain,
-} from "../charts-generic/axis/axis-width-histogram";
-import { HistogramColumns } from "../charts-generic/histogram/histogram";
-import { Median } from "../charts-generic/histogram/median";
-import { Tooltip } from "../charts-generic/interaction/tooltip";
 
 export const PriceDistributionHistogram = ({
   period,
