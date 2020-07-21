@@ -13,7 +13,11 @@ import {
 import { Card } from "./../../components/detail-page/card";
 import { PriceComponent, useObservationsQuery } from "./../../graphql/queries";
 
-export const CantonsComparison = ({ period }: { period: string[] }) => {
+export const CantonsComparisonRangePlot = ({
+  period,
+}: {
+  period: string[];
+}) => {
   const { query } = useRouter();
 
   const priceComponent = PriceComponent.Total; // TODO: parameterize priceComponent
