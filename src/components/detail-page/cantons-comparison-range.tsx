@@ -10,19 +10,23 @@ import { ChartContainer, ChartSvg } from "../charts-generic/containers";
 import { Card } from "./card";
 import { PriceComponent, useObservationsQuery } from "../../graphql/queries";
 import { useQueryState } from "../../lib/use-query-state";
+import { useState } from "react";
 
 export const CantonsComparisonRangePlot = () => {
-  const [queryState, setQueryState] = useQueryState();
+  const [{ period, category }] = useQueryState();
+  const [priceComponent, setPriceComponent] = useState<PriceComponent>(
+    PriceComponent.Total
+  );
 
   const [observationsQuery] = useObservationsQuery({
     variables: {
-      priceComponent: (queryState.priceComponent as unknown) as PriceComponent,
+      priceComponent,
       filters: {
-        period: queryState.period,
-        category: queryState.category
-          ? queryState.category.map(
-              (category) =>
-                `https://energy.ld.admin.ch/elcom/energy-pricing/category/${category}`
+        period: period,
+        category: category
+          ? category.map(
+              (cat) =>
+                `https://energy.ld.admin.ch/elcom/energy-pricing/category/${cat}`
             )
           : [`https://energy.ld.admin.ch/elcom/energy-pricing/category/H1`],
       },
