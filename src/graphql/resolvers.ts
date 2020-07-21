@@ -121,7 +121,7 @@ const Cube: CubeResolvers = {
   dimensionPeriod: ({ view, locale }) => {
     return getCubeDimension(view, "period", { locale });
   },
-  observations: async ({ view, locale }, { filters }, ctx, info) => {
+  observations: async ({ view, source, locale }, { filters }, ctx, info) => {
     // Look ahead to select proper dimensions for query
     const resolverFields = getResolverFields(info, "Observation");
 
@@ -131,10 +131,13 @@ const Cube: CubeResolvers = {
       return (fieldInfo.args.priceComponent as string) ?? fieldInfo.name;
     });
 
-    const rawObservations = await getObservations(view, {
-      filters,
-      dimensions: dimensionKeys,
-    });
+    const rawObservations = await getObservations(
+      { view, source },
+      {
+        filters,
+        dimensions: dimensionKeys,
+      }
+    );
 
     const observations = rawObservations.map((d) => {
       let parsed: { [k: string]: string | number | boolean } = {};

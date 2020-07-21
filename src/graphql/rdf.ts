@@ -55,7 +55,7 @@ export const getName = (
 export const getView = (cube: Cube): View => View.fromCube(cube);
 
 export const getObservations = async (
-  view: View,
+  { view, source }: { view: View; source: Source },
   {
     filters,
     dimensions,
@@ -72,11 +72,34 @@ export const getObservations = async (
       )
     : [];
 
+  const lookupSource = LookupSource.fromSource(source);
+
   const filterView = new View({
     dimensions: dimensions
       ? dimensions.flatMap((d) => {
-          const vDim = view.dimension({ cubeDimension: ns.energyPricing(d) });
-          return vDim ? [vDim] : [];
+          const matches = d.match(/^(.+)Label$/);
+          const dimensionKey = matches ? matches[1] : d;
+
+          // FIXME: remove provider dimension check!
+          if (matches && dimensionKey === "provider") {
+            const dimension = view.dimension({
+              cubeDimension: ns.energyPricing(dimensionKey),
+            });
+
+            const labelDimension = view.createDimension({
+              source: lookupSource,
+              path: ns.schema.name,
+              join: dimension,
+              as: ns.energyPricing(`${dimensionKey}Label`),
+            });
+
+            return dimension ? [dimension, labelDimension] : [];
+          }
+
+          const dimension = view.dimension({
+            cubeDimension: ns.energyPricing(d),
+          });
+          return dimension ? [dimension] : [];
         })
       : view.dimensions,
     filters: queryFilters,
@@ -88,11 +111,15 @@ export const getObservations = async (
 
   // Clean up
   filterView.clear();
+  lookupSource.clear();
 
   // Workaround for faulty empty query result
-  if (observations.length === 1 && Object.values(observations[0]).some(v => v===undefined)) {
-    return []
-  } 
+  if (
+    observations.length === 1 &&
+    Object.values(observations[0]).some((v) => v === undefined)
+  ) {
+    return [];
+  }
 
   return observations;
 };

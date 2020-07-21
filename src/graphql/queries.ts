@@ -53,7 +53,9 @@ export type TemporalDimension = {
 export type Observation = {
   __typename: 'Observation';
   municipality: Scalars['String'];
+  municipalityLabel?: Maybe<Scalars['String']>;
   provider: Scalars['String'];
+  providerLabel?: Maybe<Scalars['String']>;
   category: Scalars['String'];
   period: Scalars['String'];
   value: Scalars['Float'];
