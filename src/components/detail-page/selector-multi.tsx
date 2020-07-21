@@ -1,13 +1,7 @@
 import { Trans } from "@lingui/macro";
-import { useState } from "react";
 import { Flex, Text } from "theme-ui";
-import {
-  categories,
-  priceComponents,
-  products,
-  periods,
-} from "../../domain/data";
-import { Combobox, ComboboxMulti } from "../../components/combobox";
+import { ComboboxMulti } from "../../components/combobox";
+import { categories, periods, products } from "../../domain/data";
 import { useQueryState } from "../../lib/use-query-state";
 
 export const SelectorMulti = () => {
@@ -39,7 +33,7 @@ export const SelectorMulti = () => {
         <ComboboxMulti
           id="municipality"
           label={<Trans id="selector.municipality">Gemeinde</Trans>}
-          items={periods}
+          items={periods} // FIXME: municipalities
           selectedItems={queryState.municipality ?? ["261"]}
           minSelectedItems={0}
           setSelectedItems={(items) => setQueryState({ municipality: items })}
@@ -48,7 +42,7 @@ export const SelectorMulti = () => {
           id="periods"
           label={<Trans id="selector.year">Jahr</Trans>}
           items={periods}
-          selectedItems={queryState.period ?? ["2020"]}
+          selectedItems={queryState.period}
           minSelectedItems={1}
           setSelectedItems={(items) => setQueryState({ period: items })}
         />
@@ -56,7 +50,7 @@ export const SelectorMulti = () => {
           id="categories"
           label={<Trans id="selector.category">Kategorie</Trans>}
           items={categories}
-          selectedItems={queryState.category ?? ["H1"]}
+          selectedItems={queryState.category}
           minSelectedItems={1}
           setSelectedItems={(items) => setQueryState({ category: items })}
         />
@@ -64,7 +58,7 @@ export const SelectorMulti = () => {
           id="products"
           label={<Trans id="selector.product">Produkt</Trans>}
           items={products}
-          selectedItems={queryState.product ?? ["standard"]}
+          selectedItems={queryState.product}
           minSelectedItems={1}
           setSelectedItems={(items) => setQueryState({ product: items })}
         />
