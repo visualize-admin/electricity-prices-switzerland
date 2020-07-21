@@ -5,25 +5,13 @@ import {
   categories,
   priceComponents,
   products,
-  years,
+  periods,
 } from "../../domain/data";
-import { Combobox } from "../../components/combobox";
-interface Props {
-  year: string;
-  priceComponent: string;
-  category: string;
-  // product: string;
-  updateQueryParams: (queryObject: { [x: string]: string }) => void;
-}
+import { Combobox, ComboboxMulti } from "../../components/combobox";
+import { useQueryState } from "../../lib/use-query-state";
 
-export const SelectorMulti = ({
-  year,
-  priceComponent,
-  category,
-  updateQueryParams,
-}: Props) => {
-  // FIXME: remove when products are in the data
-  const [product, updateProduct] = useState("standard");
+export const SelectorMulti = () => {
+  const [queryState, setQueryState] = useQueryState();
 
   return (
     <Flex
@@ -48,46 +36,13 @@ export const SelectorMulti = ({
       </Text>
 
       <>
-        <Combobox
-          id="year"
+        <ComboboxMulti
+          id="periods"
           label={<Trans id="selector.year">Jahr</Trans>}
-          items={years}
-          selectedItem={(year as string) ?? "2020"}
-          handleSelectedItemChange={({ selectedItem }) =>
-            updateQueryParams({ year: selectedItem })
-          }
-        />
-        <Combobox
-          id="priceComponent"
-          label={<Trans id="selector.priceComponent">Preiskomponent</Trans>}
-          items={priceComponents}
-          selectedItem={(priceComponent as string) ?? "total"}
-          handleSelectedItemChange={({ selectedItem }) =>
-            updateQueryParams({ priceComponent: selectedItem })
-          }
-        />
-
-        <Combobox
-          id="category"
-          label={<Trans id="selector.category">Kategorie</Trans>}
-          items={categories}
-          selectedItem={(category as string) ?? "H4"}
-          handleSelectedItemChange={({ selectedItem }) =>
-            updateQueryParams({ category: selectedItem })
-          }
-        />
-
-        <Combobox
-          id="product"
-          label={<Trans id="selector.product">Produkt</Trans>}
-          items={products}
-          selectedItem={(product as string) ?? "standard"}
-          handleSelectedItemChange={({ selectedItem }) =>
-            updateProduct(selectedItem)
-          }
-          // handleSelectedItemChange={({ selectedItem }) =>
-          //   updateQueryParams({ product: selectedItem })
-          // }
+          items={periods}
+          selectedItems={queryState.period ?? ["2020"]}
+          minSelectedItems={1}
+          setSelectedItems={(items) => setQueryState({ period: items })}
         />
       </>
     </Flex>
