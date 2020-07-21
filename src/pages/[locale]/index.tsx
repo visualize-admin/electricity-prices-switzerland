@@ -14,46 +14,23 @@ import { useQueryStateSingle } from "../../lib/use-query-state";
 
 const EMPTY_ARRAY: never[] = [];
 
-type Props = {
-  year: string;
-  priceComponent: string;
-  category: string;
-  // product: string;
-};
 export const getServerSideProps = async () => {
-  // FIXME: Add "product" when it is data-ready
-  const initialParams = {
-    year: "2019",
-    priceComponent: "total",
-    category: "H1",
-    // product: "standard"
-  };
-
   return {
-    props: {
-      initialParams,
-    },
+    props: {},
   };
 };
 
 const HEADER_HEIGHT_S = "107px";
 const HEADER_HEIGHT_M_UP = "96px";
 
-const IndexPage = ({
-  initialParams,
-}: InferGetStaticPropsType<typeof getServerSideProps>) => {
-  const [queryState] = useQueryStateSingle();
-
-  const year = queryState.period ?? initialParams.year;
-  const priceComponent =
-    (queryState.priceComponent as PriceComponent) ?? PriceComponent.Total; // TODO: parameterize priceComponent
-  const category = (queryState.category as string) ?? initialParams.category;
+const IndexPage = () => {
+  const [{ period, priceComponent, category }] = useQueryStateSingle();
 
   const [observationsQuery] = useObservationsQuery({
     variables: {
-      priceComponent,
+      priceComponent: priceComponent as PriceComponent,
       filters: {
-        period: [year],
+        period: [period],
         category: [
           `https://energy.ld.admin.ch/elcom/energy-pricing/category/${category}`,
         ],
@@ -127,7 +104,7 @@ const IndexPage = ({
               }}
             >
               <ChoroplethMap
-                year={year}
+                year={period}
                 observations={observations}
                 colorScale={colorScale}
               />

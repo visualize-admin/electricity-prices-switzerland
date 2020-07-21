@@ -14,8 +14,12 @@ import {
 import { useLocale } from "../../../lib/use-locale";
 import { PriceDistributionHistogram } from "../../../components/detail-page/price-distribution-histogram";
 import { PriceEvolutionLineChart } from "../../../components/detail-page/price-evolution-line-chart";
+import { PriceComponents } from "../../../components/detail-page/price-components";
 
 export const EMPTY_ARRAY: never[] = [];
+
+// Prevent router.query from being undefined on first render!
+export const getServerSideProps = async () => ({ props: {} });
 
 const MunicipalityPage = () => {
   const locale = useLocale();
@@ -72,14 +76,10 @@ const MunicipalityPage = () => {
               {/* <PriceComponents /> */}
               {/* <PriceEvolutionLineChart /> */}
               <PriceDistributionHistogram period={year as string[]} />
-              <CantonsComparisonRangePlot period={year as string[]} />
+              <CantonsComparisonRangePlot />
             </Box>
             <Box sx={{ flex: `1 1 ${1 / 3}%` }}>
-              <SelectorMulti
-                year={"2019"}
-                priceComponent={priceComponent}
-                category={category}
-              />
+              <SelectorMulti />
             </Box>
           </Flex>
         </Box>
