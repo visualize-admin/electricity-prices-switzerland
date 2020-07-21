@@ -1,7 +1,7 @@
 import { Trans } from "@lingui/macro";
 import { useState } from "react";
 import { Flex, Text } from "theme-ui";
-import { categories, priceComponents, products, years } from "../domain/data";
+import { categories, priceComponents, products, periods } from "../domain/data";
 import { Combobox } from "./../components/combobox";
 import { useQueryStateSingle } from "../lib/use-query-state";
 interface Props {}
@@ -32,7 +32,7 @@ export const Selector = ({}: Props) => {
         <Combobox
           id="year"
           label={<Trans id="selector.year">Jahr</Trans>}
-          items={years}
+          items={periods}
           selectedItem={queryState.period ?? "2020"}
           handleSelectedItemChange={({ selectedItem }) =>
             setQueryState({ period: selectedItem })

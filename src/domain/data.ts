@@ -75,7 +75,7 @@ export const useColorScale = ({
   }, [observations, accessor, palettes.diverging]);
 };
 
-export const years = [
+export const periods = [
   "2021",
   "2020",
   "2019",
