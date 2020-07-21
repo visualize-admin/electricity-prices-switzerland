@@ -1,79 +1,56 @@
-import { Flex, Box, Text } from "@theme-ui/components";
+import { Box, Flex } from "@theme-ui/components";
 import { useRouter } from "next/router";
-import { Footer } from "../../../components/footer";
-import { Header } from "../../../components/header";
-import { Trans } from "@lingui/macro";
-import { LocalizedLink } from "../../../components/links";
-import { Link as UILink } from "theme-ui";
-import {
-  useObservationsQuery,
-  PriceComponent,
-  Observation,
-} from "../../../graphql/queries";
 import * as React from "react";
 import { DetailPageBanner } from "../../../components/detail-page/banner";
-import { BarChart } from "../../../components/charts-generic/bars/bars-state";
+import { CantonsComparison } from "../../../components/detail-page/cantons-comparison";
+import { SelectorMulti } from "../../../components/detail-page/selector-multi";
+import { Footer } from "../../../components/footer";
+import { Header } from "../../../components/header";
+import { createDynamicRouteProps } from "../../../components/links";
 import {
-  ChartContainer,
-  ChartSvg,
-} from "../../../components/charts-generic/containers";
-import { Bars } from "../../../components/charts-generic/bars/bars-simple";
-import {
-  AxisHeightLinear,
-  AxisHeightLinearDomain,
-} from "../../../components/charts-generic/axis/axis-height-linear";
-import { LineChart } from "../../../components/charts-generic/lines/lines-state";
-import {
-  AxisTime,
-  AxisTimeDomain,
-} from "../../../components/charts-generic/axis/axis-width-time";
-import { Lines } from "../../../components/charts-generic/lines/lines";
-import { InteractionHorizontal } from "../../../components/charts-generic/overlay/interaction-horizontal";
-import { Ruler } from "../../../components/charts-generic/interaction/ruler";
-import { HoverDotMultiple } from "../../../components/charts-generic/interaction/hover-dots-multiple";
-import { Tooltip } from "../../../components/charts-generic/interaction/tooltip";
-import { LegendColor } from "../../../components/charts-generic/legends/color";
-import { Card } from "../../../components/detail-page/card";
-import { Histogram } from "../../../components/charts-generic/histogram/histogram-state";
-import { standardH12020 } from "../../../docs/data/2020-standard-H1";
-import {
-  AxisWidthHistogram,
-  AxisWidthHistogramDomain,
-} from "../../../components/charts-generic/axis/axis-width-histogram";
-import { HistogramColumns } from "../../../components/charts-generic/histogram/histogram";
-import { Median } from "../../../components/charts-generic/histogram/median";
-import { PriceComponents } from "../../../components/detail-page/price-components";
+  PriceComponent,
+  useMunicipalitiesQuery,
+} from "../../../graphql/queries";
+import { useLocale } from "../../../lib/use-locale";
 
 export const EMPTY_ARRAY: never[] = [];
 
 const MunicipalityPage = () => {
-  const { query } = useRouter();
+  const locale = useLocale();
+  const { query, replace } = useRouter();
 
+  // FIXME: use query
   const kantonId = "261";
   const providerIds = ["xxx", "yyy"];
-
   const municipalityId = query.id;
 
-  const priceComponent = PriceComponent.Total; // TODO: parameterize priceComponent
-  const category = (query.category as string) ?? "H4";
+  const updateQueryParams = (queryObject: { [x: string]: string }) => {
+    const { href, as } = createDynamicRouteProps({
+      pathname: `/[locale]/municipality/${municipalityId}`,
+      query: { ...query, ...queryObject },
+    });
+    replace(href, as);
+  };
 
-  const [observationsQuery] = useObservationsQuery({
+  const year = query.year ? (query.year as string).split(",") : ["2019"];
+  const priceComponent =
+    (query.priceComponent as PriceComponent) ?? PriceComponent.Total; // TODO: parameterize priceComponent
+  const category = query.category as string;
+
+  console.log(year);
+
+  const [municipality] = useMunicipalitiesQuery({
     variables: {
-      priceComponent,
-      filters: {
-        category: [
-          `https://energy.ld.admin.ch/elcom/energy-pricing/category/${category}`,
-        ],
-        // municipality: [
-        //   `http://classifications.data.admin.ch/municipality/${query.id}`,
-        // ],
-      },
+      locale,
+      query: "",
     },
   });
-  const observations = observationsQuery.fetching
-    ? EMPTY_ARRAY
-    : observationsQuery.data?.cubeByIri?.observations ?? EMPTY_ARRAY;
-
+  // const observations = observationsQuery.fetching
+  //   ? EMPTY_ARRAY
+  //   : observationsQuery.data?.cubeByIri?.observations ?? EMPTY_ARRAY;
+  if (!municipality.fetching) {
+    console.log(municipality);
+  }
   return (
     <Flex sx={{ minHeight: "100vh", flexDirection: "column" }}>
       <Header></Header>
@@ -92,9 +69,22 @@ const MunicipalityPage = () => {
         />
 
         <Box sx={{ width: "100%", maxWidth: "67rem", mx: "auto", my: 2 }}>
-          <PriceComponents />
+          <Flex sx={{ width: "100%" }}>
+            <Box sx={{ flex: `2 2 ${2 / 3}%` }}>
+              <CantonsComparison period={year as string[]} />
+            </Box>
+            <Box sx={{ flex: `1 1 ${1 / 3}%`, my: 2 }}>
+              <SelectorMulti
+                year={"2019"}
+                priceComponent={priceComponent}
+                category={category}
+                updateQueryParams={updateQueryParams}
+              />
+            </Box>
+          </Flex>
+          {/* <PriceComponents />
 
-          {/* LINE CHART */}
+
           <Card
             title={
               <Trans id="detail.card.title.prices.evolution">
@@ -152,10 +142,10 @@ const MunicipalityPage = () => {
                 <Tooltip type={"single"} />
               </ChartContainer>
             </LineChart>
-          </Card>
+          </Card> */}
 
           {/* HISTOGRAM */}
-          <Card
+          {/* <Card
             title={
               <Trans id="detail.card.title.prices.distribution">
                 Preisverteilung in der Schweiz
@@ -193,7 +183,7 @@ const MunicipalityPage = () => {
                 <Tooltip type="single" />
               </ChartContainer>
             </Histogram>
-          </Card>
+          </Card> */}
         </Box>
       </Flex>
       <Footer></Footer>
