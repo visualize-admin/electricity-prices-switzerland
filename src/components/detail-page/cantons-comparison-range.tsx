@@ -6,12 +6,9 @@ import { AxisWidthLinear } from "../charts-generic/axis/axis-width-linear";
 import { Range, RangePoints } from "../charts-generic/rangeplot/rangeplot";
 import { RangePlot } from "../charts-generic/rangeplot/rangeplot-state";
 import { Loading } from "../loading";
-import {
-  ChartContainer,
-  ChartSvg,
-} from "./../../components/charts-generic/containers";
-import { Card } from "./../../components/detail-page/card";
-import { PriceComponent, useObservationsQuery } from "./../../graphql/queries";
+import { ChartContainer, ChartSvg } from "../charts-generic/containers";
+import { Card } from "./card";
+import { PriceComponent, useObservationsQuery } from "../../graphql/queries";
 
 export const CantonsComparisonRangePlot = ({
   period,
