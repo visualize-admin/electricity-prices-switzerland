@@ -160,7 +160,13 @@ export const ComboboxMulti = ({
         </Box>
         <Box
           {...getComboboxProps()}
-          sx={{ flexGrow: 1, minWidth: 80, alignSelf: "center", my: 2 }}
+          sx={{
+            flexGrow: 1,
+            minWidth: 30,
+            flexBasis: 0,
+            alignSelf: "center",
+            my: 2,
+          }}
         >
           <Input
             {...getInputProps(
