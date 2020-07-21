@@ -24,7 +24,7 @@ export default () => {
     <ReactSpecimen>
       <ComboboxMulti
         id="ex1"
-        label="Choose something"
+        label="Choose some things"
         items={[
           "AEK Energie AG",
           "Aare Versorgungs AG",

@@ -92,7 +92,7 @@ export const ComboboxMulti = ({
   });
   return (
     <Box sx={{ position: "relative" }}>
-      <label {...getLabelProps()}></label>
+      <Label label={label} smaller {...getLabelProps()}></Label>
       <Flex
         sx={{
           display: "block",
