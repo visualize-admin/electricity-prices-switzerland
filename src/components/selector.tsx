@@ -3,22 +3,11 @@ import { useState } from "react";
 import { Flex, Text } from "theme-ui";
 import { categories, priceComponents, products, years } from "../domain/data";
 import { Combobox } from "./../components/combobox";
-interface Props {
-  year: string;
-  priceComponent: string;
-  category: string;
-  // product: string;
-  updateQueryParams: (queryObject: { [x: string]: string }) => void;
-}
+import { useQueryStateSingle } from "../lib/use-query-state";
+interface Props {}
 
-export const Selector = ({
-  year,
-  priceComponent,
-  category,
-  updateQueryParams,
-}: Props) => {
-  // FIXME: remove when products are in the data
-  const [product, updateProduct] = useState("standard");
+export const Selector = ({}: Props) => {
+  const [queryState, setQueryState] = useQueryStateSingle();
 
   return (
     <Flex
@@ -44,18 +33,18 @@ export const Selector = ({
           id="year"
           label={<Trans id="selector.year">Jahr</Trans>}
           items={years}
-          selectedItem={(year as string) ?? "2020"}
+          selectedItem={queryState.period ?? "2020"}
           handleSelectedItemChange={({ selectedItem }) =>
-            updateQueryParams({ year: selectedItem })
+            setQueryState({ period: selectedItem })
           }
         />
         <Combobox
           id="priceComponent"
           label={<Trans id="selector.priceComponent">Preiskomponent</Trans>}
           items={priceComponents}
-          selectedItem={(priceComponent as string) ?? "total"}
+          selectedItem={queryState.priceComponent ?? "total"}
           handleSelectedItemChange={({ selectedItem }) =>
-            updateQueryParams({ priceComponent: selectedItem })
+            setQueryState({ priceComponent: selectedItem })
           }
         />
 
@@ -63,9 +52,9 @@ export const Selector = ({
           id="category"
           label={<Trans id="selector.category">Kategorie</Trans>}
           items={categories}
-          selectedItem={(category as string) ?? "H4"}
+          selectedItem={queryState.category ?? "H4"}
           handleSelectedItemChange={({ selectedItem }) =>
-            updateQueryParams({ category: selectedItem })
+            setQueryState({ category: selectedItem })
           }
         />
 
@@ -73,13 +62,10 @@ export const Selector = ({
           id="product"
           label={<Trans id="selector.product">Produkt</Trans>}
           items={products}
-          selectedItem={(product as string) ?? "standard"}
+          selectedItem={queryState.product ?? "standard"}
           handleSelectedItemChange={({ selectedItem }) =>
-            updateProduct(selectedItem)
+            setQueryState({ product: selectedItem })
           }
-          // handleSelectedItemChange={({ selectedItem }) =>
-          //   updateQueryParams({ product: selectedItem })
-          // }
         />
       </>
     </Flex>
