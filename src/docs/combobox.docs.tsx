@@ -2,7 +2,12 @@ import { markdown, ReactSpecimen } from "catalog";
 import { ComboboxMulti, Combobox } from "../components/combobox";
 import { useState } from "react";
 
-export default () => markdown`
+export default () => {
+  const [selectedItems, setSelectedItems] = useState<string[]>([
+    "AEK Energie AG",
+  ]);
+
+  return markdown`
 >
 
 ## Combobox (single select)
@@ -33,11 +38,15 @@ export default () => markdown`
           "Services Industriels de Genève SIG",
           "ewz",
         ]}
+        selectedItems={selectedItems}
+        setSelectedItems={setSelectedItems}
+        minSelectedItems={1}
       />
     </ReactSpecimen>
   )}
 
 `;
+};
 
 const ComboboxExample = () => {
   const [selectedItem, update] = useState("Werke am Zürichsee (Zollikon)");

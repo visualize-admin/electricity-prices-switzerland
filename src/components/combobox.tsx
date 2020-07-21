@@ -1,26 +1,39 @@
 import { Trans, select } from "@lingui/macro";
 import { useCombobox, useMultipleSelection, UseComboboxState } from "downshift";
-import { useState, ReactNode } from "react";
+import { useState, useCallback, ReactNode } from "react";
 import { Box, Button, Flex, Input } from "theme-ui";
 import { Icon } from "../icons";
 import { Label } from "./form";
-import { getLocalizedLabel } from "../domain/translation";
 
 type Props = {
   id: string;
   label: React.ReactNode;
   items: string[];
+  selectedItems: string[];
+  setSelectedItems: (items: string[]) => void;
+  minSelectedItems?: number;
 };
 
-export const ComboboxMulti = ({ id, label, items }: Props) => {
+export const ComboboxMulti = ({
+  id,
+  label,
+  items,
+  selectedItems,
+  setSelectedItems,
+  minSelectedItems = 0,
+}: Props) => {
   const [inputValue, setInputValue] = useState("");
-  const {
-    getSelectedItemProps,
-    getDropdownProps,
-    addSelectedItem,
-    removeSelectedItem,
+
+  const canRemoveItems = selectedItems.length > minSelectedItems;
+
+  const { getSelectedItemProps, getDropdownProps } = useMultipleSelection({
     selectedItems,
-  } = useMultipleSelection({ initialSelectedItems: [items[0], items[1]] });
+    onSelectedItemsChange: (props) => {
+      if (canRemoveItems) {
+        setSelectedItems(props.selectedItems ?? []);
+      }
+    },
+  });
 
   const getFilteredItems = (_items: string[]) =>
     _items.filter(
@@ -66,7 +79,7 @@ export const ComboboxMulti = ({ id, label, items }: Props) => {
         case useCombobox.stateChangeTypes.ItemClick:
           if (selectedItem) {
             setInputValue("");
-            addSelectedItem(selectedItem);
+            setSelectedItems([...selectedItems, selectedItem]);
           }
           break;
         case useCombobox.stateChangeTypes.InputBlur:
@@ -112,16 +125,32 @@ export const ComboboxMulti = ({ id, label, items }: Props) => {
                 borderRadius: "default",
                 fontSize: 2,
                 bg: "primaryLight",
+                ":focus": {
+                  outline: 0,
+                  bg: "primary",
+                  color: "monochrome100",
+                },
               }}
               key={`selected-item-${index}`}
-              {...getSelectedItemProps({ selectedItem, index })}
+              {...getSelectedItemProps({
+                selectedItem,
+                index,
+                onKeyDown: (e) => {
+                  // Prevent default, otherwise Firefox navigates back when Delete is pressed
+                  e.preventDefault();
+                },
+              })}
             >
               {selectedItem}{" "}
               <span
-                style={{}}
+                style={{ visibility: canRemoveItems ? "visible" : "hidden" }}
                 onClick={(e) => {
                   e.stopPropagation();
-                  removeSelectedItem(selectedItem);
+                  if (canRemoveItems) {
+                    setSelectedItems(
+                      selectedItems.filter((d) => d !== selectedItem)
+                    );
+                  }
                 }}
               >
                 &#10005;
