@@ -37,12 +37,36 @@ export const SelectorMulti = () => {
 
       <>
         <ComboboxMulti
+          id="municipality"
+          label={<Trans id="selector.municipality">Gemeinde</Trans>}
+          items={periods}
+          selectedItems={queryState.municipality ?? ["261"]}
+          minSelectedItems={0}
+          setSelectedItems={(items) => setQueryState({ municipality: items })}
+        />
+        <ComboboxMulti
           id="periods"
           label={<Trans id="selector.year">Jahr</Trans>}
           items={periods}
           selectedItems={queryState.period ?? ["2020"]}
           minSelectedItems={1}
           setSelectedItems={(items) => setQueryState({ period: items })}
+        />
+        <ComboboxMulti
+          id="categories"
+          label={<Trans id="selector.category">Kategorie</Trans>}
+          items={categories}
+          selectedItems={queryState.category ?? ["H1"]}
+          minSelectedItems={1}
+          setSelectedItems={(items) => setQueryState({ category: items })}
+        />
+        <ComboboxMulti
+          id="products"
+          label={<Trans id="selector.product">Produkt</Trans>}
+          items={products}
+          selectedItems={queryState.product ?? ["standard"]}
+          minSelectedItems={1}
+          setSelectedItems={(items) => setQueryState({ product: items })}
         />
       </>
     </Flex>
