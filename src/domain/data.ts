@@ -75,6 +75,7 @@ export const useColorScale = ({
   }, [observations, accessor, palettes.diverging]);
 };
 
+export const municipalities = ["261", "5590", "5398", "1062", "4221", "3932"];
 export const periods = [
   "2020",
   "2019",
