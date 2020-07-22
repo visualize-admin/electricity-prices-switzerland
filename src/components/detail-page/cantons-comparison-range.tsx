@@ -6,36 +6,33 @@ import { getLocalizedLabel } from "../../domain/translation";
 import { PriceComponent, useObservationsQuery } from "../../graphql/queries";
 import { useQueryState } from "../../lib/use-query-state";
 import { EMPTY_ARRAY } from "../../pages/[locale]/municipality/[id]";
-import { AxisWidthLinear } from "../charts-generic/axis/axis-width-linear";
-import { ChartContainer, ChartSvg } from "../charts-generic/containers";
-import { Range, RangePoints } from "../charts-generic/rangeplot/rangeplot";
-import { RangePlot } from "../charts-generic/rangeplot/rangeplot-state";
-import { Loading } from "../loading";
-import { RadioTabs } from "../radio-tabs";
-import { Card } from "./card";
-import { FilterSetDescription } from "./filter-set-description";
-import { useI18n } from "../i18n-context";
 import {
   AnnotationX,
   AnnotationXLabel,
 } from "../charts-generic/annotation/annotation-x";
+import { AxisWidthLinear } from "../charts-generic/axis/axis-width-linear";
+import { ChartContainer, ChartSvg } from "../charts-generic/containers";
+import { Range, RangePoints } from "../charts-generic/rangeplot/rangeplot";
+import { RangePlot } from "../charts-generic/rangeplot/rangeplot-state";
+import { useI18n } from "../i18n-context";
+import { Loading } from "../loading";
+import { RadioTabs } from "../radio-tabs";
+import { Card } from "./card";
+import { FilterSetDescription } from "./filter-set-description";
 
-// Prevent router.query from being undefined on first render!
-export const getServerSideProps = async () => ({ props: {} });
+export const CantonsComparisonRangePlots = ({ id }: { id: string }) => {
+  const [{ period, municipality }] = useQueryState();
 
-export const CantonsComparisonRangePlots = () => {
-  const [{ id, period, municipality }] = useQueryState();
   const i18n = useI18n();
   const [priceComponent, setPriceComponent] = useState<PriceComponent>(
     PriceComponent.Total
   );
-  console.log({ id }, { municipality });
-  const annotationIds = municipality?.some((m) => m !== undefined)
-    ? [...municipality, id]
-    : [id];
-  console.log(annotationIds);
-  const updatePriceComponent = (c: string) =>
-    setPriceComponent(c as PriceComponent);
+
+  const annotationIds =
+    municipality?.some((m) => m !== undefined) || id
+      ? [...municipality, id]
+      : [id];
+
   return (
     <Card
       title={
@@ -55,7 +52,7 @@ export const CantonsComparisonRangePlots = () => {
           { value: "total", label: getLocalizedLabel({ i18n, id: "total" }) },
         ]}
         value={priceComponent as string}
-        setValue={updatePriceComponent}
+        setValue={(c) => setPriceComponent(c as PriceComponent)}
         variant="segmented"
       />
       {period.map((p) => (
@@ -76,7 +73,7 @@ export const CantonsComparisonRangePlot = memo(
     year,
     priceComponent,
   }: {
-    annotationIds?: string[];
+    annotationIds: string[];
     year: string;
     priceComponent: PriceComponent;
   }) => {
@@ -106,7 +103,9 @@ export const CantonsComparisonRangePlot = memo(
     const annotations =
       annotationIds &&
       observations.filter((obs) => annotationIds.includes(obs.municipality));
+
     console.log(category, year, priceComponent, { annotations });
+
     return (
       <>
         <FilterSetDescription
