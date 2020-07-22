@@ -16,14 +16,20 @@ import { PriceDistributionHistograms } from "../../../components/detail-page/pri
 import { PriceEvolutionLineChart } from "../../../components/detail-page/price-evolution-line-chart";
 import { PriceComponents } from "../../../components/detail-page/price-components";
 import { useQueryState } from "../../../lib/use-query-state";
+import { GetServerSideProps } from "next";
 
 export const EMPTY_ARRAY: never[] = [];
 
-// Prevent router.query from being undefined on first render!
-export const getServerSideProps = async () => ({ props: {} });
+type Props = { id: string };
+export const getServerSideProps: GetServerSideProps<Props, Props> = async ({
+  params,
+}) => {
+  const { id } = params!;
+  return { props: { id } };
+};
 
-const MunicipalityPage = () => {
-  const [{ id, category }] = useQueryState();
+const MunicipalityPage = ({ id }: Props) => {
+  const [{ category }] = useQueryState();
   console.log({ id });
   return (
     <Flex sx={{ minHeight: "100vh", flexDirection: "column" }}>
