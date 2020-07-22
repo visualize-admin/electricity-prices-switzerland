@@ -5,7 +5,7 @@ import { useTheme } from "../themes";
 import { useMemo } from "react";
 
 export type ObservationValue = string | number | boolean | Date;
-export type Observation = Record<string, ObservationValue>;
+export type GenericObservation = Record<string, ObservationValue>;
 
 type ComponentFields_NominalDimension_Fragment = {
   __typename: "NominalDimension";

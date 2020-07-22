@@ -2,7 +2,7 @@ import { bisector } from "d3-array";
 import { clientPoint } from "d3-selection";
 import * as React from "react";
 import { useRef } from "react";
-import { Observation } from "../../../domain/data";
+import { GenericObservation } from "../../../domain/data";
 import { AreasState } from "../areas/areas-state";
 import { useChartState } from "../use-chart-state";
 import { useInteraction } from "../use-interaction";
@@ -20,7 +20,8 @@ export const InteractionHorizontal = React.memo(
       const [x, y] = clientPoint(ref.current!, e);
 
       const bisectDate = bisector(
-        (ds: Observation, date: Date) => getX(ds).getTime() - date.getTime()
+        (ds: GenericObservation, date: Date) =>
+          getX(ds).getTime() - date.getTime()
       ).left;
 
       const thisDate = xScale.invert(x);

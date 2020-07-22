@@ -4,7 +4,7 @@ import { ScaleLinear, scaleLinear, ScaleThreshold } from "d3-scale";
 import * as React from "react";
 import { ReactNode, useCallback } from "react";
 import { HistogramFields } from "../../../domain/config-types";
-import { Observation } from "../../../domain/data";
+import { GenericObservation } from "../../../domain/data";
 import { mkNumber, useFormatNumber } from "../../../domain/helpers";
 import { estimateTextWidth } from "../../../lib/estimate-text-width";
 import { Annotation } from "../annotation/annotation-x";
@@ -20,13 +20,13 @@ export const ANNOTATION_LABEL_HEIGHT = 20;
 
 export interface HistogramState {
   bounds: Bounds;
-  data: Observation[];
-  getX: (d: Observation) => number;
+  data: GenericObservation[];
+  getX: (d: GenericObservation) => number;
   xScale: ScaleLinear<number, number>;
-  getY: (d: Observation[]) => number;
+  getY: (d: GenericObservation[]) => number;
   yScale: ScaleLinear<number, number>;
   xAxisLabel?: string;
-  bins: Bin<Observation, number>[];
+  bins: Bin<GenericObservation, number>[];
   colors: ScaleThreshold<number, string>;
   annotations?: Annotation[];
 }
@@ -45,11 +45,11 @@ const useHistogramState = ({
   const { annotationfontSize, palettes } = useChartTheme();
 
   const getX = useCallback(
-    (d: Observation) => d[fields.x.componentIri] as number,
+    (d: GenericObservation) => d[fields.x.componentIri] as number,
     [fields.x.componentIri]
   );
   const getLabel = useCallback(
-    (d: Observation) => d[fields.label.componentIri] as string,
+    (d: GenericObservation) => d[fields.label.componentIri] as string,
     [fields.label.componentIri]
   );
   const { annotation } = fields;
@@ -71,7 +71,7 @@ const useHistogramState = ({
     .range(palettes.diverging);
 
   // y
-  const bins = histogram<Observation, number>()
+  const bins = histogram<GenericObservation, number>()
     .value((x) => getX(x))
     .domain([mkNumber(minValue), mkNumber(maxValue)])
     .thresholds(colorDomain || xScale.ticks(20))(data);

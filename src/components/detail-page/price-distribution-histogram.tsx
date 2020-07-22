@@ -23,6 +23,7 @@ import { useState } from "react";
 import { getLocalizedLabel } from "../../domain/translation";
 import { RadioTabs } from "../radio-tabs";
 import { FilterSetDescription } from "./filter-set-description";
+import { GenericObservation } from "../../domain/data";
 
 export const PriceDistributionHistograms = () => {
   const [{ period }] = useQueryState();
@@ -94,7 +95,7 @@ export const PriceDistributionHistogram = ({
         <Loading />
       ) : (
         <Histogram
-          data={observations}
+          data={observations as GenericObservation[]}
           fields={{
             x: {
               componentIri: "value",

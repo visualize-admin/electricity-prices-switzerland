@@ -21,6 +21,7 @@ import {
 } from "./../../components/charts-generic/containers";
 import { Card } from "./../../components/detail-page/card";
 import { PriceComponent, useObservationsQuery } from "./../../graphql/queries";
+import { GenericObservation } from "../../domain/data";
 
 export const PriceEvolutionLineChart = () => {
   const { query } = useRouter();
@@ -53,7 +54,7 @@ export const PriceEvolutionLineChart = () => {
         <Loading />
       ) : (
         <LineChart
-          data={observations
+          data={(observations as GenericObservation[])
             .filter(
               (obs) =>
                 obs.municipality ===

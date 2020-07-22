@@ -1,6 +1,6 @@
 import React from "react";
 import { Box } from "theme-ui";
-import { Observation } from "../../../domain/data";
+import { GenericObservation } from "../../../domain/data";
 import { LinesState } from "../lines/lines-state";
 import { Margins } from "../use-width";
 import { useChartState } from "../use-chart-state";
@@ -13,7 +13,7 @@ export const Ruler = () => {
   return <>{visible && d && <RulerInner d={d} />}</>;
 };
 
-const RulerInner = ({ d }: { d: Observation }) => {
+const RulerInner = ({ d }: { d: GenericObservation }) => {
   const { getAnnotationInfo, bounds } = useChartState() as LinesState;
   const {
     xAnchor,

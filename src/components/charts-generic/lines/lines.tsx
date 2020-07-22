@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useChartState } from "../use-chart-state";
 import { line } from "d3-shape";
-import { Observation } from "../../../domain/data";
+import { GenericObservation } from "../../../domain/data";
 import { LinesState } from "./lines-state";
 import { useTheme } from "../../../themes";
 
@@ -18,7 +18,7 @@ export const Lines = () => {
   const theme = useTheme();
   console.log("lines");
 
-  const lineGenerator = line<Observation>()
+  const lineGenerator = line<GenericObservation>()
     // .defined(d => !isNaN(d))
     .x((d) => xScale(getX(d)))
     .y((d) => yScale(getY(d)));

@@ -14,7 +14,7 @@ import {
   SortingOrder,
   SortingType,
 } from "../../../domain/config-types";
-import { Observation, ObservationValue } from "../../../domain/data";
+import { GenericObservation, ObservationValue } from "../../../domain/data";
 import { getPalette, mkNumber, useFormatNumber } from "../../../domain/helpers";
 import { sortByIndex } from "../../../lib/array";
 import {
@@ -28,14 +28,14 @@ import { InteractionProvider } from "../use-interaction";
 import { Bounds, Observer, useWidth } from "../use-width";
 
 export interface GroupedBarsState {
-  sortedData: Observation[];
+  sortedData: GenericObservation[];
   bounds: Bounds;
-  getX: (d: Observation) => number;
+  getX: (d: GenericObservation) => number;
   xScale: ScaleLinear<number, number>;
-  getY: (d: Observation) => string;
+  getY: (d: GenericObservation) => string;
   yScale: ScaleBand<string>;
   yScaleIn: ScaleBand<string>;
-  getSegment: (d: Observation) => string;
+  getSegment: (d: GenericObservation) => string;
   segments: string[];
   colors: ScaleOrdinal<string, string>;
   grouped: [string, Record<string, ObservationValue>[]][];
@@ -51,15 +51,15 @@ const useGroupedBarsState = ({
 }): GroupedBarsState => {
   const width = useWidth();
   const getX = useCallback(
-    (d: Observation) => d[fields.x.componentIri] as number,
+    (d: GenericObservation) => d[fields.x.componentIri] as number,
     [fields.x.componentIri]
   );
   const getY = useCallback(
-    (d: Observation) => d[fields.y.componentIri] as string,
+    (d: GenericObservation) => d[fields.y.componentIri] as string,
     [fields.y.componentIri]
   );
   const getSegment = useCallback(
-    (d: Observation): string =>
+    (d: GenericObservation): string =>
       fields.segment && fields.segment.componentIri
         ? (d[fields.segment.componentIri] as string)
         : "segment",
@@ -267,8 +267,8 @@ const sortData = ({
   ySortingOrder,
   yOrder,
 }: {
-  data: Observation[];
-  getY: (d: Observation) => string;
+  data: GenericObservation[];
+  getY: (d: GenericObservation) => string;
   ySortingType: SortingType | undefined;
   ySortingOrder: SortingOrder | undefined;
   yOrder: string[];

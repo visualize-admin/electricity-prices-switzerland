@@ -6,12 +6,12 @@ import React, {
   useContext,
   useReducer,
 } from "react";
-import { Observation } from "../../domain/data";
+import { GenericObservation } from "../../domain/data";
 
 export interface InteractionElement {
   visible: boolean;
   mouse?: { x: number; y: number } | undefined;
-  d: Observation | undefined;
+  d: GenericObservation | undefined;
 }
 
 interface InteractionState {

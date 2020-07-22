@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Box } from "theme-ui";
-import { Observation } from "../../../domain/data";
+import { GenericObservation } from "../../../domain/data";
 import { HistogramState } from "../histogram/histogram-state";
 import { RangePlotState } from "../rangeplot/rangeplot-state";
 import { useChartState } from "../use-chart-state";
@@ -11,7 +11,7 @@ export const ANNOTATION_SQUARE_SIDE = 8;
 export const ANNOTATION_LABEL_HEIGHT = 20;
 
 export interface Annotation {
-  datum: Observation;
+  datum: GenericObservation;
   x: number;
   y: number;
   xLabel: number;

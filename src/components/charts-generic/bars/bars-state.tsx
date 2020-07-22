@@ -14,7 +14,7 @@ import {
   SortingOrder,
   SortingType,
 } from "../../../domain/config-types";
-import { Observation } from "../../../domain/data";
+import { GenericObservation } from "../../../domain/data";
 import { getPalette, mkNumber } from "../../../domain/helpers";
 import {
   BAR_HEIGHT,
@@ -28,12 +28,12 @@ import { Bounds, Observer, useWidth } from "../use-width";
 
 export interface BarsState {
   bounds: Bounds;
-  sortedData: Observation[];
-  getX: (d: Observation) => number;
+  sortedData: GenericObservation[];
+  getX: (d: GenericObservation) => number;
   xScale: ScaleLinear<number, number>;
-  getY: (d: Observation) => string;
+  getY: (d: GenericObservation) => string;
   yScale: ScaleBand<string>;
-  getSegment: (d: Observation) => string;
+  getSegment: (d: GenericObservation) => string;
   segments: string[];
   colors: ScaleOrdinal<string, string>;
 }
@@ -48,16 +48,16 @@ const useBarsState = ({
   const width = useWidth();
 
   const getX = useCallback(
-    (d: Observation) => d[fields.x.componentIri] as number,
+    (d: GenericObservation) => d[fields.x.componentIri] as number,
     [fields.x.componentIri]
   );
   const getY = useCallback(
-    (d: Observation) => d[fields.y.componentIri] as string,
+    (d: GenericObservation) => d[fields.y.componentIri] as string,
     [fields.y.componentIri]
   );
 
   const getSegment = useCallback(
-    (d: Observation): string =>
+    (d: GenericObservation): string =>
       fields.segment && fields.segment.componentIri
         ? (d[fields.segment.componentIri] as string)
         : "segment",
@@ -167,9 +167,9 @@ const sortData = ({
   sortingType,
   sortingOrder,
 }: {
-  data: Observation[];
-  getX: (d: Observation) => number;
-  getY: (d: Observation) => string;
+  data: GenericObservation[];
+  getX: (d: GenericObservation) => number;
+  getY: (d: GenericObservation) => string;
   sortingType?: SortingType;
   sortingOrder?: SortingOrder;
 }) => {

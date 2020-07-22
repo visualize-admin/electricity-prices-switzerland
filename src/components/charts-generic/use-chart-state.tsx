@@ -1,6 +1,6 @@
 import { createContext, useContext } from "react";
 import { ChartFields } from "../../domain/config-types";
-import { ComponentFieldsFragment, Observation } from "../../domain/data";
+import { ComponentFieldsFragment, GenericObservation } from "../../domain/data";
 import { AreasState } from "./areas/areas-state";
 import { GroupedColumnsState } from "./columns/columns-grouped-state";
 import { StackedColumnsState } from "./columns/columns-stacked-state";
@@ -14,7 +14,7 @@ import { Bounds } from "./use-width";
 import { ScaleLinear, ScaleBand, ScaleThreshold } from "d3";
 
 export interface ChartProps {
-  data: Observation[];
+  data: GenericObservation[];
   fields: ChartFields;
   dimensions: ComponentFieldsFragment[];
   measures: ComponentFieldsFragment[];

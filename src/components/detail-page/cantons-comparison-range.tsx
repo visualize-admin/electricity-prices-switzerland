@@ -13,6 +13,7 @@ import { Loading } from "../loading";
 import { RadioTabs } from "../radio-tabs";
 import { Card } from "./card";
 import { FilterSetDescription } from "./filter-set-description";
+import { GenericObservation } from "../../domain/data";
 
 export const CantonsComparisonRangePlots = ({
   annotationIds,
@@ -103,7 +104,7 @@ export const CantonsComparisonRangePlot = memo(
           <Loading />
         ) : (
           <RangePlot
-            data={observations}
+            data={observations as GenericObservation[]}
             fields={{
               x: {
                 componentIri: "value",

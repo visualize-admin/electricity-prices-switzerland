@@ -24,7 +24,7 @@ import {
 } from "d3-shape";
 import * as React from "react";
 import { ReactNode, useCallback, useMemo } from "react";
-import { Observation } from "../../../domain/data";
+import { GenericObservation } from "../../../domain/data";
 import {
   getPalette,
   isNumber,
@@ -42,20 +42,20 @@ import { Bounds, Observer, useWidth } from "../use-width";
 import { AreaFields } from "../../../domain/config-types";
 
 export interface AreasState {
-  data: Observation[];
+  data: GenericObservation[];
   bounds: Bounds;
-  getX: (d: Observation) => Date;
+  getX: (d: GenericObservation) => Date;
   xScale: ScaleTime<number, number>;
   xUniqueValues: Date[];
-  getY: (d: Observation) => number;
+  getY: (d: GenericObservation) => number;
   yScale: ScaleLinear<number, number>;
-  getSegment: (d: Observation) => string;
+  getSegment: (d: GenericObservation) => string;
   segments: string[];
   colors: ScaleOrdinal<string, string>;
   yAxisLabel: string;
   wide: { [key: string]: number | string }[];
   series: $FixMe[];
-  getAnnotationInfo: (d: Observation) => Tooltip;
+  getAnnotationInfo: (d: GenericObservation) => Tooltip;
 }
 
 const useAreasState = ({
@@ -74,14 +74,16 @@ const useAreasState = ({
 
   const hasSegment = fields.segment;
 
-  const getGroups = (d: Observation): string =>
+  const getGroups = (d: GenericObservation): string =>
     d[fields.x.componentIri] as string;
   const getX = useCallback(
-    (d: Observation): Date => parseDate(d[fields.x.componentIri].toString()),
+    (d: GenericObservation): Date =>
+      parseDate(d[fields.x.componentIri].toString()),
     [fields.x.componentIri]
   );
-  const getY = (d: Observation): number => +d[fields.y.componentIri] as number;
-  const getSegment = (d: Observation): string =>
+  const getY = (d: GenericObservation): number =>
+    +d[fields.y.componentIri] as number;
+  const getSegment = (d: GenericObservation): string =>
     fields.segment ? (d[fields.segment.componentIri] as string) : "segment";
 
   // data / groups for stack
@@ -228,7 +230,7 @@ const useAreasState = ({
   yScale.range([chartHeight, 0]);
 
   // Tooltip
-  const getAnnotationInfo = (datum: Observation): Tooltip => {
+  const getAnnotationInfo = (datum: GenericObservation): Tooltip => {
     const xAnchor = xScale(getX(datum));
 
     const tooltipValues = sortedData.filter(
@@ -240,7 +242,8 @@ const useAreasState = ({
       getCategory: getSegment,
       sortOrder: "asc",
     });
-    const cumulativeSum = ((sum) => (d: Observation) => (sum += getY(d)))(0);
+    const cumulativeSum = ((sum) => (d: GenericObservation) =>
+      (sum += getY(d)))(0);
     const cumulativeRulerItemValues = [
       ...sortedTooltipValues.map(cumulativeSum),
     ];
