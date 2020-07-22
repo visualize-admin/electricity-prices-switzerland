@@ -1,6 +1,16 @@
 import { markdown, ReactSpecimen } from "catalog";
 import { ComboboxMulti, Combobox } from "../components/combobox";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useClient } from "urql";
+import {
+  MunicipalitiesDocument,
+  MunicipalitiesQuery,
+  MunicipalitiesQueryVariables,
+} from "../graphql/queries";
+import {
+  MunicipalitiesCombobox,
+  ProvidersCombobox,
+} from "../components/query-combobox";
 
 const EXAMPLE_ITEMS = new Map([
   ["item0", "AEK Energie AG"],
@@ -19,6 +29,10 @@ const EXAMPLE_ITEMS = new Map([
 export default () => {
   const [selectedItem, setSelectedItem] = useState<string>("item4");
   const [selectedItems, setSelectedItems] = useState<string[]>(["item4"]);
+  const [selectedMunicipalities, setSelectedMunicipalities] = useState<
+    string[]
+  >([]);
+  const [selectedProviders, setSelectedProviders] = useState<string[]>([]);
 
   return markdown`
 >
@@ -56,6 +70,36 @@ export default () => {
           minSelectedItems={1}
         />
         <p>Selected: {selectedItems.join(", ")}</p>
+      </>
+    </ReactSpecimen>
+  )}
+
+## Municipalities Combobox (multi select)
+
+  ${(
+    <ReactSpecimen>
+      <>
+        <MunicipalitiesCombobox
+          label="Choose some municipalities"
+          selectedItems={selectedMunicipalities}
+          setSelectedItems={setSelectedMunicipalities}
+        />
+        <p>Selected: {selectedMunicipalities.join(", ")}</p>
+      </>
+    </ReactSpecimen>
+  )}
+
+## Providers Combobox (multi select)
+
+  ${(
+    <ReactSpecimen>
+      <>
+        <ProvidersCombobox
+          label="Choose some providers"
+          selectedItems={selectedProviders}
+          setSelectedItems={setSelectedProviders}
+        />
+        <p>Selected: {selectedProviders.join(", ")}</p>
       </>
     </ReactSpecimen>
   )}

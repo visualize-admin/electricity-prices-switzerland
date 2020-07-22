@@ -158,7 +158,15 @@ export type MunicipalitiesQueryVariables = Exact<{
 }>;
 
 
-export type MunicipalitiesQuery = { __typename: 'Query', cubeByIri?: Maybe<{ __typename: 'Cube', municipalities: Array<{ __typename: 'Municipality', name: string }> }> };
+export type MunicipalitiesQuery = { __typename: 'Query', cubeByIri?: Maybe<{ __typename: 'Cube', municipalities: Array<{ __typename: 'Municipality', id: string, name: string }> }> };
+
+export type ProvidersQueryVariables = Exact<{
+  locale: Scalars['String'];
+  query?: Maybe<Scalars['String']>;
+}>;
+
+
+export type ProvidersQuery = { __typename: 'Query', cubeByIri?: Maybe<{ __typename: 'Cube', providers: Array<{ __typename: 'Provider', id: string, name: string }> }> };
 
 export type ObservationsQueryVariables = Exact<{
   locale?: Maybe<Scalars['String']>;
@@ -182,6 +190,7 @@ export const MunicipalitiesDocument = gql`
     query Municipalities($locale: String!, $query: String) {
   cubeByIri(iri: "https://energy.ld.admin.ch/elcom/energy-pricing/cube", locale: $locale) {
     municipalities(query: $query) {
+      id
       name
     }
   }
@@ -190,6 +199,20 @@ export const MunicipalitiesDocument = gql`
 
 export function useMunicipalitiesQuery(options: Omit<Urql.UseQueryArgs<MunicipalitiesQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<MunicipalitiesQuery>({ query: MunicipalitiesDocument, ...options });
+};
+export const ProvidersDocument = gql`
+    query Providers($locale: String!, $query: String) {
+  cubeByIri(iri: "https://energy.ld.admin.ch/elcom/energy-pricing/cube", locale: $locale) {
+    providers(query: $query) {
+      id
+      name
+    }
+  }
+}
+    `;
+
+export function useProvidersQuery(options: Omit<Urql.UseQueryArgs<ProvidersQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<ProvidersQuery>({ query: ProvidersDocument, ...options });
 };
 export const ObservationsDocument = gql`
     query Observations($locale: String, $priceComponent: PriceComponent!, $filters: ObservationFilters!) {

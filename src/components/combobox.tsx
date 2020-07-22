@@ -5,7 +5,7 @@ import { Box, Button, Flex, Input } from "theme-ui";
 import { Icon } from "../icons";
 import { Label } from "./form";
 
-type ComboboxMultiProps = {
+export type ComboboxMultiProps = {
   id: string;
   label: React.ReactNode;
   items: string[];
@@ -13,6 +13,10 @@ type ComboboxMultiProps = {
   setSelectedItems: (items: string[]) => void;
   minSelectedItems?: number;
   getItemLabel?: (item: string) => string;
+  // For lazy combobox
+  lazy?: boolean;
+  onInputValueChange?: (inputValue: string) => void;
+  isLoading?: boolean;
 };
 
 const defaultGetItemLabel = (d: string) => d;
@@ -25,6 +29,9 @@ export const ComboboxMulti = ({
   setSelectedItems,
   minSelectedItems = 0,
   getItemLabel = defaultGetItemLabel,
+  lazy,
+  onInputValueChange,
+  isLoading,
 }: ComboboxMultiProps) => {
   const [inputValue, setInputValue] = useState("");
 
@@ -40,11 +47,15 @@ export const ComboboxMulti = ({
   });
 
   const getFilteredItems = (_items: string[]) =>
-    _items.filter(
-      (item) =>
-        selectedItems.indexOf(item) < 0 &&
-        getItemLabel(item).toLowerCase().startsWith(inputValue.toLowerCase())
-    );
+    lazy
+      ? _items
+      : _items.filter(
+          (item) =>
+            selectedItems.indexOf(item) < 0 &&
+            getItemLabel(item)
+              .toLowerCase()
+              .startsWith(inputValue.toLowerCase())
+        );
 
   const {
     isOpen,
@@ -78,6 +89,7 @@ export const ComboboxMulti = ({
       switch (type) {
         case useCombobox.stateChangeTypes.InputChange:
           setInputValue(inputValue);
+          onInputValueChange?.(inputValue);
           break;
         case useCombobox.stateChangeTypes.InputKeyDownEnter:
         case useCombobox.stateChangeTypes.ItemClick:
@@ -229,6 +241,19 @@ export const ComboboxMulti = ({
         style={{ display: isOpen ? "block" : "none" }}
         {...getMenuProps()}
       >
+        {" "}
+        {isOpen && isLoading && (
+          <Box
+            as="li"
+            sx={{
+              color: "secondary",
+              p: 3,
+              m: 0,
+            }}
+          >
+            <Trans id="combobox.isloading">Lade …</Trans>
+          </Box>
+        )}
         {isOpen &&
           getFilteredItems(items).map((item, index) => (
             <Box
