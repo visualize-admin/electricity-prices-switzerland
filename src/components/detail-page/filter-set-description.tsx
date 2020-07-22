@@ -23,7 +23,7 @@ export const FilterSetDescription = ({
       {Object.keys(filters).map((filterKey, i) => (
         <>
           <span>{getLocalizedLabel(filterKey)}</span> (
-          <span>{filters[filterKey]}</span>)
+          <span>{filters[filterKey as keyof FilterSet]}</span>)
           {i < Object.keys(filters).length - 1 && ", "}
         </>
       ))}
