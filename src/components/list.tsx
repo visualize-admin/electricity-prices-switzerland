@@ -140,7 +140,7 @@ export const List = ({ observations, colorScale }: Props) => {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const i18n = useI18n();
 
-  const options = [
+  const sortOptions = [
     {
       value: "ASC" as SortState,
       label: i18n._(t("list.order.asc")`Günstigste zuerst`),
@@ -242,7 +242,7 @@ export const List = ({ observations, colorScale }: Props) => {
           <MiniSelect
             id="listSort"
             value={sortState}
-            options={options}
+            options={sortOptions}
             onChange={(e) => {
               setSortState(e.currentTarget.value as SortState);
             }}
