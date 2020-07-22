@@ -11,5 +11,6 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
+          build: "yarn locales:compile"
           start: "yarn dev -p 3333"
           wait-on: "http://localhost:3333"
