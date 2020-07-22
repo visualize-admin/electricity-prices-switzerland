@@ -20,6 +20,9 @@ import {
   AnnotationXLabel,
 } from "../charts-generic/annotation/annotation-x";
 
+// Prevent router.query from being undefined on first render!
+export const getServerSideProps = async () => ({ props: {} });
+
 export const CantonsComparisonRangePlots = () => {
   const [{ id, period, municipality }] = useQueryState();
   const i18n = useI18n();
