@@ -37,6 +37,7 @@ export const CantonsComparisonRangePlots = () => {
         ]}
         value={priceComponent}
         setValue={setPriceComponent}
+        variant="segmented"
       />
       {period.map((p) => (
         <CantonsComparisonRangePlot year={p} priceComponent={priceComponent} />
@@ -78,7 +79,7 @@ export const CantonsComparisonRangePlot = ({
         filters={{
           period: year,
           category: category[0],
-          priceComponent: priceComponent,
+          priceComponent: getLocalizedLabel(priceComponent),
         }}
       />
       {observations.length === 0 ? (

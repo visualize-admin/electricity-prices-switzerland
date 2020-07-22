@@ -9,7 +9,7 @@ type FilterSet = {
   canton?: string;
   period?: string;
   category?: string;
-  priceComponent?: string;
+  priceComponent?: string | React.ReactNode;
   product?: string;
 };
 
