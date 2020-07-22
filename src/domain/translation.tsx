@@ -81,6 +81,14 @@ export const getLocalizedLabel = (id: string): string | React.ReactNode => {
       return <Trans id="selector.category.C6">C6</Trans>;
     case "C7":
       return <Trans id="selector.category.C7">C7</Trans>;
+    case "period":
+      return <Trans id="filters.year">Jahr</Trans>;
+    case "category":
+      return <Trans id="filters.category">Kategorie</Trans>;
+    case "product":
+      return <Trans id="filters.product">Produkt</Trans>;
+    case "priceComponent":
+      return <Trans id="filters.price.component">PreisKomponent</Trans>;
 
     default:
       return id;

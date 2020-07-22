@@ -1,8 +1,9 @@
 import { Trans } from "@lingui/macro";
 import { Text } from "@theme-ui/components";
 import * as React from "react";
+import { getLocalizedLabel } from "../../domain/translation";
 
-interface Filterset {
+type FilterSet = {
   provider?: string;
   municipality?: string;
   canton?: string;
@@ -10,9 +11,13 @@ interface Filterset {
   category?: string;
   priceComponent?: string;
   product?: string;
-}
+};
 
-export const FilterSetDescription = (filters: Filterset) => {
+export const FilterSetDescription = ({
+  filters,
+}: {
+  filters: Partial<FilterSet>;
+}) => {
   return (
     <Text variant="paragraph1" color="monochrome800" sx={{ my: 2 }}>
       {Object.keys(filters).map((filterKey, i) => (
@@ -24,19 +29,4 @@ export const FilterSetDescription = (filters: Filterset) => {
       ))}
     </Text>
   );
-};
-
-const getLocalizedLabel = (filterKey: string) => {
-  switch (filterKey) {
-    case "period":
-      return <Trans id="filters.year">Jahr</Trans>;
-    case "category":
-      return <Trans id="filters.category">Kategorie</Trans>;
-    case "product":
-      return <Trans id="filters.product">Produkt</Trans>;
-    case "priceComponent":
-      return <Trans id="filters.price.component">PreisKomponent</Trans>;
-    default:
-      return null;
-  }
 };
