@@ -48,7 +48,7 @@ const MunicipalityPage = () => {
               {/* <PriceComponents /> */}
               {/* <PriceEvolutionLineChart /> */}
               {/* <PriceDistributionHistograms /> */}
-              <CantonsComparisonRangePlots annotationIds={[id]} />
+              <CantonsComparisonRangePlots />
             </Box>
             <Box sx={{ flex: `1 1 ${1 / 3}%` }}>
               <SelectorMulti />

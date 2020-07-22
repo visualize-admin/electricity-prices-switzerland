@@ -1,6 +1,7 @@
 import { Trans } from "@lingui/macro";
 import * as React from "react";
 import { memo, useState } from "react";
+import { GenericObservation } from "../../domain/data";
 import { getLocalizedLabel } from "../../domain/translation";
 import { PriceComponent, useObservationsQuery } from "../../graphql/queries";
 import { useQueryState } from "../../lib/use-query-state";
@@ -13,14 +14,9 @@ import { Loading } from "../loading";
 import { RadioTabs } from "../radio-tabs";
 import { Card } from "./card";
 import { FilterSetDescription } from "./filter-set-description";
-import { GenericObservation } from "../../domain/data";
 
-export const CantonsComparisonRangePlots = ({
-  annotationIds,
-}: {
-  annotationIds: string[];
-}) => {
-  const [{ period }] = useQueryState();
+export const CantonsComparisonRangePlots = () => {
+  const [{ id, period }] = useQueryState();
   const [priceComponent, setPriceComponent] = useState<PriceComponent>(
     PriceComponent.Total
   );
@@ -51,7 +47,7 @@ export const CantonsComparisonRangePlots = ({
           key={p}
           year={p}
           priceComponent={priceComponent}
-          annotationIds={annotationIds}
+          annotationIds={[id]}
         />
       ))}
     </Card>
@@ -116,7 +112,9 @@ export const CantonsComparisonRangePlot = memo(
               label: {
                 componentIri: "municipality",
               },
-              // annotation: annotations,
+              annotation: annotations as {
+                [x: string]: string | number | boolean;
+              }[],
             }}
             measures={[
               {
