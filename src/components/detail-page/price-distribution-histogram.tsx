@@ -18,23 +18,57 @@ import {
 } from "./../../components/charts-generic/containers";
 import { Card } from "./../../components/detail-page/card";
 import { PriceComponent, useObservationsQuery } from "./../../graphql/queries";
+import { useQueryState } from "../../lib/use-query-state";
+import { useState } from "react";
+import { getLocalizedLabel } from "../../domain/translation";
+import { RadioTabs } from "../radio-tabs";
+import { FilterSetDescription } from "./filter-set-description";
+
+export const PriceDistributionHistograms = () => {
+  const [{ period }] = useQueryState();
+  const [priceComponent, setPriceComponent] = useState<PriceComponent>(
+    PriceComponent.Total
+  );
+  return (
+    <Card
+      title={
+        <Trans id="detail.card.title.prices.distribution">
+          Preisverteilung in der Schweiz
+        </Trans>
+      }
+    >
+      <RadioTabs
+        name="priceComponents"
+        options={[
+          { value: "gridusage", label: getLocalizedLabel("gridusage") },
+          { value: "energy", label: getLocalizedLabel("energy") },
+          { value: "total", label: getLocalizedLabel("total") },
+        ]}
+        value={priceComponent}
+        setValue={setPriceComponent}
+        variant="segmented"
+      />
+      {period.map((p) => (
+        <PriceDistributionHistogram year={p} priceComponent={priceComponent} />
+      ))}
+    </Card>
+  );
+};
 
 export const PriceDistributionHistogram = ({
-  period,
+  year,
+  priceComponent,
 }: {
-  period: string[];
+  year: string;
+  priceComponent: PriceComponent;
 }) => {
-  const { query } = useRouter();
-
-  const priceComponent = PriceComponent.Total; // TODO: parameterize priceComponent
-  const category = (query.category as string) ?? "H4";
-  const year = (query.year as string) ?? "2019";
+  const [{ category }] = useQueryState();
 
   const [observationsQuery] = useObservationsQuery({
     variables: {
       priceComponent,
       filters: {
-        period,
+        period: [year],
         category: [
           `https://energy.ld.admin.ch/elcom/energy-pricing/category/${category}`,
         ],
@@ -44,15 +78,16 @@ export const PriceDistributionHistogram = ({
   const observations = observationsQuery.fetching
     ? EMPTY_ARRAY
     : observationsQuery.data?.cubeByIri?.observations ?? EMPTY_ARRAY;
-
+  console.log({ observations });
   return (
-    <Card
-      title={
-        <Trans id="detail.card.title.prices.distribution">
-          Preisverteilung in der Schweiz
-        </Trans>
-      }
-    >
+    <>
+      <FilterSetDescription
+        filters={{
+          period: year,
+          category: category[0],
+          priceComponent: getLocalizedLabel(priceComponent),
+        }}
+      />
       {observations.length === 0 ? (
         <Loading />
       ) : (
@@ -88,6 +123,6 @@ export const PriceDistributionHistogram = ({
           </ChartContainer>
         </Histogram>
       )}
-    </Card>
+    </>
   );
 };

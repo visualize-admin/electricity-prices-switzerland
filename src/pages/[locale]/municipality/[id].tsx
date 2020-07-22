@@ -2,10 +2,7 @@ import { Box, Flex } from "@theme-ui/components";
 import { useRouter } from "next/router";
 import * as React from "react";
 import { DetailPageBanner } from "../../../components/detail-page/banner";
-import {
-  CantonsComparisonRangePlot,
-  CantonsComparisonRangePlots,
-} from "../../../components/detail-page/cantons-comparison-range";
+import { CantonsComparisonRangePlots } from "../../../components/detail-page/cantons-comparison-range";
 import { SelectorMulti } from "../../../components/detail-page/selector-multi";
 import { Footer } from "../../../components/footer";
 import { Header } from "../../../components/header";
@@ -15,7 +12,7 @@ import {
   useMunicipalitiesQuery,
 } from "../../../graphql/queries";
 import { useLocale } from "../../../lib/use-locale";
-import { PriceDistributionHistogram } from "../../../components/detail-page/price-distribution-histogram";
+import { PriceDistributionHistograms } from "../../../components/detail-page/price-distribution-histogram";
 import { PriceEvolutionLineChart } from "../../../components/detail-page/price-evolution-line-chart";
 import { PriceComponents } from "../../../components/detail-page/price-components";
 
@@ -78,8 +75,8 @@ const MunicipalityPage = () => {
             <Box sx={{ flex: `2 2 ${2 / 3}%` }}>
               {/* <PriceComponents /> */}
               {/* <PriceEvolutionLineChart /> */}
-              {/* <PriceDistributionHistogram period={year as string[]} /> */}
-              <CantonsComparisonRangePlots />
+              <PriceDistributionHistograms />
+              {/* <CantonsComparisonRangePlots /> */}
             </Box>
             <Box sx={{ flex: `1 1 ${1 / 3}%` }}>
               <SelectorMulti />
