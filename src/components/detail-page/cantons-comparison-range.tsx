@@ -1,19 +1,18 @@
 import { Trans } from "@lingui/macro";
-import { useRouter } from "next/router";
 import * as React from "react";
+import { memo, useState } from "react";
+import { getLocalizedLabel } from "../../domain/translation";
+import { PriceComponent, useObservationsQuery } from "../../graphql/queries";
+import { useQueryState } from "../../lib/use-query-state";
 import { EMPTY_ARRAY } from "../../pages/[locale]/municipality/[id]";
 import { AxisWidthLinear } from "../charts-generic/axis/axis-width-linear";
+import { ChartContainer, ChartSvg } from "../charts-generic/containers";
 import { Range, RangePoints } from "../charts-generic/rangeplot/rangeplot";
 import { RangePlot } from "../charts-generic/rangeplot/rangeplot-state";
 import { Loading } from "../loading";
-import { ChartContainer, ChartSvg } from "../charts-generic/containers";
-import { Card } from "./card";
-import { PriceComponent, useObservationsQuery } from "../../graphql/queries";
-import { useQueryState } from "../../lib/use-query-state";
-import { useState } from "react";
-import { FilterSetDescription } from "./filter-set-description";
 import { RadioTabs } from "../radio-tabs";
-import { getLocalizedLabel } from "../../domain/translation";
+import { Card } from "./card";
+import { FilterSetDescription } from "./filter-set-description";
 
 export const CantonsComparisonRangePlots = () => {
   const [{ period }] = useQueryState();
@@ -46,76 +45,83 @@ export const CantonsComparisonRangePlots = () => {
   );
 };
 
-export const CantonsComparisonRangePlot = ({
-  year,
-  priceComponent,
-}: {
-  year: string;
-  priceComponent: PriceComponent;
-}) => {
-  const [{ category }] = useQueryState();
+export const CantonsComparisonRangePlot = memo(
+    annotationIds,
+    year,
+    priceComponent,
+    annotationIds: string[];
+    year: string;
+    priceComponent: PriceComponent;
+  }) => {
+    const [{ category }] = useQueryState();
 
-  const [observationsQuery] = useObservationsQuery({
-    variables: {
-      priceComponent,
-      filters: {
-        period: [year],
-        category: category
-          ? category.map(
-              (cat) =>
-                `https://energy.ld.admin.ch/elcom/energy-pricing/category/${cat}`
-            )
-          : [`https://energy.ld.admin.ch/elcom/energy-pricing/category/H1`],
+    const [observationsQuery] = useObservationsQuery({
+      variables: {
+        priceComponent,
+        filters: {
+          period: [year],
+          category: category
+            ? category.map(
+                (cat) =>
+                  `https://energy.ld.admin.ch/elcom/energy-pricing/category/${cat}`
+              )
+            : [`https://energy.ld.admin.ch/elcom/energy-pricing/category/H1`],
+        },
       },
-    },
-  });
-  const observations = observationsQuery.fetching
-    ? EMPTY_ARRAY
-    : observationsQuery.data?.cubeByIri?.observations ?? EMPTY_ARRAY;
+    });
+    const observations = observationsQuery.fetching
+      ? EMPTY_ARRAY
+      : observationsQuery.data?.cubeByIri?.observations ?? EMPTY_ARRAY;
 
-  return (
-    <>
-      <FilterSetDescription
-        filters={{
-          period: year,
-          category: category[0],
-          priceComponent: getLocalizedLabel(priceComponent),
-        }}
-      />
-      {observations.length === 0 ? (
-        <Loading />
-      ) : (
-        <RangePlot
-          data={observations}
-          fields={{
-            x: {
-              componentIri: "value",
-            },
-            y: {
-              componentIri: "period",
-            },
-            label: {
-              componentIri: "municipality",
-            },
-            annotation: undefined,
+    const annotations = observations.filter((obs) =>
+      annotationIds.includes(obs.municipality)
+    );
+
+    console.log(annotations);
+    return (
+      <>
+        <FilterSetDescription
+          filters={{
+            period: year,
+            category: category[0],
+            priceComponent: getLocalizedLabel(priceComponent),
           }}
-          measures={[
-            {
-              iri: "value",
-              label: "value",
-              __typename: "Measure",
-            },
-          ]}
-        >
-          <ChartContainer>
-            <ChartSvg>
-              <Range />
-              <AxisWidthLinear position="top" />
-              <RangePoints />
-            </ChartSvg>
-          </ChartContainer>
-        </RangePlot>
-      )}
-    </>
-  );
-};
+        />
+        {observations.length === 0 ? (
+          <Loading />
+        ) : (
+          <RangePlot
+            data={observations}
+            fields={{
+              x: {
+                componentIri: "value",
+              },
+              y: {
+                componentIri: "period",
+              },
+              label: {
+                componentIri: "municipality",
+              },
+              // annotation: annotations,
+            }}
+            measures={[
+              {
+                iri: "value",
+                label: "value",
+                __typename: "Measure",
+              },
+            ]}
+          >
+            <ChartContainer>
+              <ChartSvg>
+                <Range />
+                <AxisWidthLinear position="top" />
+                <RangePoints />
+              </ChartSvg>
+            </ChartContainer>
+          </RangePlot>
+        )}
+      </>
+    );
+  }
+);
