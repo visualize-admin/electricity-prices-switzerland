@@ -80,7 +80,8 @@ export const AnnotationXLabel = () => {
           <Box
             key={a.label}
             sx={{
-              width: chartWidth * 0.5,
+              // width: chartWidth * 0.5,
+              width: "fit-content",
               p: 1,
               zIndex: 2,
               position: "absolute",
@@ -109,5 +110,5 @@ export const AnnotationXLabel = () => {
 
 const mkTranslation = (onTheLeft: boolean, offset: number) =>
   onTheLeft
-    ? `translate3d(calc(-100% - ${offset}px), -50%, 0)`
-    : `translate3d(${offset}px, -50%, 0)`;
+    ? `translate3d(calc(-100% - ${offset}px), -40%, 0)`
+    : `translate3d(${offset}px, -40%, 0)`;
