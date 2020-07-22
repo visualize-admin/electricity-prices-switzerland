@@ -1,12 +1,10 @@
 import { Trans } from "@lingui/macro";
-import { useState } from "react";
 import { Flex, Text } from "theme-ui";
-import { categories, priceComponents, products, periods } from "../domain/data";
-import { Combobox } from "./../components/combobox";
-import { useQueryStateSingle } from "../lib/use-query-state";
-import { I18n } from "@lingui/react";
-import { useI18n } from "./i18n-context";
+import { categories, periods, priceComponents, products } from "../domain/data";
 import { getLocalizedLabel } from "../domain/translation";
+import { useQueryStateSingle } from "../lib/use-query-state";
+import { Combobox } from "./../components/combobox";
+import { useI18n } from "./i18n-context";
 
 export const Selector = () => {
   const [queryState, setQueryState] = useQueryStateSingle();
