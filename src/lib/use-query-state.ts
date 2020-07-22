@@ -28,7 +28,7 @@ const queryStateDefaults = {
 } as const;
 
 type QueryState = {
-  id?: string;
+  id: string;
   provider?: string[];
   municipality?: string[];
   canton?: string[];
