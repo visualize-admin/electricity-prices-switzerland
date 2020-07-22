@@ -21,12 +21,16 @@ import {
 } from "../charts-generic/annotation/annotation-x";
 
 export const CantonsComparisonRangePlots = () => {
-  const [{ id, period }] = useQueryState();
+  const [{ id, period, municipality }] = useQueryState();
   const i18n = useI18n();
   const [priceComponent, setPriceComponent] = useState<PriceComponent>(
     PriceComponent.Total
   );
-
+  console.log({ id }, { municipality });
+  const annotationIds = municipality?.some((m) => m !== undefined)
+    ? [...municipality, id]
+    : [id];
+  console.log(annotationIds);
   const updatePriceComponent = (c: string) =>
     setPriceComponent(c as PriceComponent);
   return (
@@ -56,7 +60,7 @@ export const CantonsComparisonRangePlots = () => {
           key={p}
           year={p}
           priceComponent={priceComponent}
-          annotationIds={[id]}
+          annotationIds={annotationIds}
         />
       ))}
     </Card>
