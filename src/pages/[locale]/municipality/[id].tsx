@@ -53,6 +53,7 @@ const MunicipalityPage = () => {
   if (!municipality.fetching) {
     console.log(municipality);
   }
+  console.log({ id });
   return (
     <Flex sx={{ minHeight: "100vh", flexDirection: "column" }}>
       <Header></Header>
