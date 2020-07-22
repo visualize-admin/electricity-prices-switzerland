@@ -14,11 +14,18 @@ import { RadioTabs } from "../radio-tabs";
 import { Card } from "./card";
 import { FilterSetDescription } from "./filter-set-description";
 
-export const CantonsComparisonRangePlots = () => {
+export const CantonsComparisonRangePlots = ({
+  annotationIds,
+}: {
+  annotationIds: string[];
+}) => {
   const [{ period }] = useQueryState();
   const [priceComponent, setPriceComponent] = useState<PriceComponent>(
     PriceComponent.Total
   );
+
+  const updatePriceComponent = (c: string) =>
+    setPriceComponent(c as PriceComponent);
   return (
     <Card
       title={
@@ -34,21 +41,27 @@ export const CantonsComparisonRangePlots = () => {
           { value: "energy", label: getLocalizedLabel("energy") },
           { value: "total", label: getLocalizedLabel("total") },
         ]}
-        value={priceComponent}
-        setValue={setPriceComponent}
+        value={priceComponent as string}
+        setValue={updatePriceComponent}
         variant="segmented"
       />
       {period.map((p) => (
-        <CantonsComparisonRangePlot year={p} priceComponent={priceComponent} />
+        <CantonsComparisonRangePlot
+          year={p}
+          priceComponent={priceComponent}
+          annotationIds={annotationIds}
+        />
       ))}
     </Card>
   );
 };
 
 export const CantonsComparisonRangePlot = memo(
+  ({
     annotationIds,
     year,
     priceComponent,
+  }: {
     annotationIds: string[];
     year: string;
     priceComponent: PriceComponent;
@@ -77,7 +90,6 @@ export const CantonsComparisonRangePlot = memo(
       annotationIds.includes(obs.municipality)
     );
 
-    console.log(annotations);
     return (
       <>
         <FilterSetDescription

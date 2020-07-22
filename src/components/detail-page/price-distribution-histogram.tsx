@@ -29,6 +29,8 @@ export const PriceDistributionHistograms = () => {
   const [priceComponent, setPriceComponent] = useState<PriceComponent>(
     PriceComponent.Total
   );
+  const updatePriceComponent = (c: string) =>
+    setPriceComponent(c as PriceComponent);
   return (
     <Card
       title={
@@ -44,8 +46,8 @@ export const PriceDistributionHistograms = () => {
           { value: "energy", label: getLocalizedLabel("energy") },
           { value: "total", label: getLocalizedLabel("total") },
         ]}
-        value={priceComponent}
-        setValue={setPriceComponent}
+        value={priceComponent as string}
+        setValue={updatePriceComponent}
         variant="segmented"
       />
       {period.map((p) => (
