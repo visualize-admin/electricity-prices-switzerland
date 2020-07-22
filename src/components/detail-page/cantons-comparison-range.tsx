@@ -48,6 +48,7 @@ export const CantonsComparisonRangePlots = ({
       />
       {period.map((p) => (
         <CantonsComparisonRangePlot
+          key={p}
           year={p}
           priceComponent={priceComponent}
           annotationIds={annotationIds}

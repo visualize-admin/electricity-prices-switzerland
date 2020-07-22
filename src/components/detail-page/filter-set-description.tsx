@@ -21,11 +21,11 @@ export const FilterSetDescription = ({
   return (
     <Text variant="paragraph1" color="monochrome800" sx={{ my: 2 }}>
       {Object.keys(filters).map((filterKey, i) => (
-        <>
+        <React.Fragment key={filterKey}>
           <span>{getLocalizedLabel(filterKey)}</span> (
           <span>{filters[filterKey as keyof FilterSet]}</span>)
           {i < Object.keys(filters).length - 1 && ", "}
-        </>
+        </React.Fragment>
       ))}
     </Text>
   );
