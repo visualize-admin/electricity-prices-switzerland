@@ -52,7 +52,7 @@ export default () => {
             <AxisWidthLinear position="top" />
             <RangePoints />
             <AnnotationX />
-          </ChartSvg>{" "}
+          </ChartSvg>
           <AnnotationXLabel />
         </ChartContainer>
       </RangePlot>

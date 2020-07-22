@@ -15,6 +15,10 @@ import { RadioTabs } from "../radio-tabs";
 import { Card } from "./card";
 import { FilterSetDescription } from "./filter-set-description";
 import { useI18n } from "../i18n-context";
+import {
+  AnnotationX,
+  AnnotationXLabel,
+} from "../charts-generic/annotation/annotation-x";
 
 export const CantonsComparisonRangePlots = () => {
   const [{ id, period }] = useQueryState();
@@ -65,7 +69,7 @@ export const CantonsComparisonRangePlot = memo(
     year,
     priceComponent,
   }: {
-    annotationIds: string[];
+    annotationIds?: string[];
     year: string;
     priceComponent: PriceComponent;
   }) => {
@@ -77,12 +81,14 @@ export const CantonsComparisonRangePlot = memo(
         priceComponent,
         filters: {
           period: [year],
-          category: category
-            ? category.map(
-                (cat) =>
-                  `https://energy.ld.admin.ch/elcom/energy-pricing/category/${cat}`
-              )
-            : [`https://energy.ld.admin.ch/elcom/energy-pricing/category/H1`],
+          category:
+            // FIXME: category should be a string?
+            category
+              ? category.map(
+                  (cat) =>
+                    `https://energy.ld.admin.ch/elcom/energy-pricing/category/${cat}`
+                )
+              : [`https://energy.ld.admin.ch/elcom/energy-pricing/category/H1`],
         },
       },
     });
@@ -90,10 +96,10 @@ export const CantonsComparisonRangePlot = memo(
       ? EMPTY_ARRAY
       : observationsQuery.data?.cubeByIri?.observations ?? EMPTY_ARRAY;
 
-    const annotations = observations.filter((obs) =>
-      annotationIds.includes(obs.municipality)
-    );
-
+    const annotations =
+      annotationIds &&
+      observations.filter((obs) => annotationIds.includes(obs.municipality));
+    console.log(category, year, priceComponent, { annotations });
     return (
       <>
         <FilterSetDescription
@@ -135,7 +141,9 @@ export const CantonsComparisonRangePlot = memo(
                 <Range />
                 <AxisWidthLinear position="top" />
                 <RangePoints />
+                <AnnotationX />
               </ChartSvg>
+              <AnnotationXLabel />
             </ChartContainer>
           </RangePlot>
         )}
