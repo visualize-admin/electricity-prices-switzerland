@@ -3,10 +3,13 @@ import { Flex, Text } from "theme-ui";
 import { ComboboxMulti, Combobox } from "../../components/combobox";
 import { categories, periods, products } from "../../domain/data";
 import { useQueryState } from "../../lib/use-query-state";
+import { useI18n } from "../i18n-context";
+import { getLocalizedLabel } from "../../domain/translation";
 
 export const SelectorMulti = () => {
   const [queryState, setQueryState] = useQueryState();
-
+  const i18n = useI18n();
+  const getItemLabel = (id: string) => getLocalizedLabel({ i18n, id });
   return (
     <Flex
       as="fieldset"
@@ -50,6 +53,7 @@ export const SelectorMulti = () => {
           id="categories"
           label={<Trans id="selector.category">Kategorie</Trans>}
           items={categories}
+          getItemLabel={getItemLabel}
           selectedItem={queryState.category[0]}
           setSelectedItem={(selectedItem) =>
             setQueryState({ category: [selectedItem] })
@@ -59,6 +63,7 @@ export const SelectorMulti = () => {
           id="products"
           label={<Trans id="selector.product">Produkt</Trans>}
           items={products}
+          getItemLabel={getItemLabel}
           selectedItem={queryState.product[0]}
           setSelectedItem={(selectedItem) =>
             setQueryState({ product: [selectedItem] })
