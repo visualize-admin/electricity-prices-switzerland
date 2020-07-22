@@ -9,7 +9,7 @@ export const DetailPageBanner = ({
   kanton,
   linkedIds,
 }: {
-  entity: string;
+  entity?: string;
   kanton?: string;
   linkedIds: string[];
 }) => {
@@ -25,9 +25,11 @@ export const DetailPageBanner = ({
       }}
     >
       <Box sx={{ maxWidth: "67rem", mx: "auto", my: 2, px: 4 }}>
-        <Text as="h1" variant="heading1" sx={{ color: "monochrome800" }}>
-          {entity}
-        </Text>
+        {entity && (
+          <Text as="h1" variant="heading1" sx={{ color: "monochrome800" }}>
+            {entity}
+          </Text>
+        )}
 
         <Flex sx={{ flexWrap: "wrap" }}>
           {kanton && (
