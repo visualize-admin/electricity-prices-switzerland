@@ -33,16 +33,16 @@ export const Selector = () => {
           label={<Trans id="selector.year">Jahr</Trans>}
           items={periods}
           selectedItem={queryState.period ?? "2020"}
-          handleSelectedItemChange={({ selectedItem }) =>
+          setSelectedItem={(selectedItem) =>
             setQueryState({ period: selectedItem })
           }
         />
         <Combobox
           id="priceComponent"
-          label={<Trans id="selector.priceComponent">Preiskomponent</Trans>}
+          label={<Trans id="selector.priceComponent">Preiskomponente</Trans>}
           items={priceComponents}
           selectedItem={queryState.priceComponent ?? "total"}
-          handleSelectedItemChange={({ selectedItem }) =>
+          setSelectedItem={(selectedItem) =>
             setQueryState({ priceComponent: selectedItem })
           }
         />
@@ -52,7 +52,7 @@ export const Selector = () => {
           label={<Trans id="selector.category">Kategorie</Trans>}
           items={categories}
           selectedItem={queryState.category ?? "H4"}
-          handleSelectedItemChange={({ selectedItem }) =>
+          setSelectedItem={(selectedItem) =>
             setQueryState({ category: selectedItem })
           }
         />
@@ -62,7 +62,7 @@ export const Selector = () => {
           label={<Trans id="selector.product">Produkt</Trans>}
           items={products}
           selectedItem={queryState.product ?? "standard"}
-          handleSelectedItemChange={({ selectedItem }) =>
+          setSelectedItem={(selectedItem) =>
             setQueryState({ product: selectedItem })
           }
         />

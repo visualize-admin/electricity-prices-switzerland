@@ -5,14 +5,17 @@ import { Box, Button, Flex, Input } from "theme-ui";
 import { Icon } from "../icons";
 import { Label } from "./form";
 
-type Props = {
+type ComboboxMultiProps = {
   id: string;
   label: React.ReactNode;
   items: string[];
   selectedItems: string[];
   setSelectedItems: (items: string[]) => void;
   minSelectedItems?: number;
+  getItemLabel?: (item: string) => string;
 };
+
+const defaultGetItemLabel = (d: string) => d;
 
 export const ComboboxMulti = ({
   id,
@@ -21,7 +24,8 @@ export const ComboboxMulti = ({
   selectedItems,
   setSelectedItems,
   minSelectedItems = 0,
-}: Props) => {
+  getItemLabel = defaultGetItemLabel,
+}: ComboboxMultiProps) => {
   const [inputValue, setInputValue] = useState("");
 
   const canRemoveItems = selectedItems.length > minSelectedItems;
@@ -39,7 +43,7 @@ export const ComboboxMulti = ({
     _items.filter(
       (item) =>
         selectedItems.indexOf(item) < 0 &&
-        item.toLowerCase().startsWith(inputValue.toLowerCase())
+        getItemLabel(item).toLowerCase().startsWith(inputValue.toLowerCase())
     );
 
   const {
@@ -141,20 +145,19 @@ export const ComboboxMulti = ({
                 },
               })}
             >
-              {selectedItem}{" "}
-              <span
-                style={{ visibility: canRemoveItems ? "visible" : "hidden" }}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  if (canRemoveItems) {
+              {getItemLabel(selectedItem)}{" "}
+              {canRemoveItems && (
+                <span
+                  onClick={(e) => {
+                    e.stopPropagation();
                     setSelectedItems(
                       selectedItems.filter((d) => d !== selectedItem)
                     );
-                  }
-                }}
-              >
-                &#10005;
-              </span>
+                  }}
+                >
+                  &#10005;
+                </span>
+              )}
             </Box>
           ))}
         </Box>
@@ -239,7 +242,7 @@ export const ComboboxMulti = ({
               key={`${item}${index}`}
               {...getItemProps({ item, index })}
             >
-              {item}
+              {getItemLabel(item)}
             </Box>
           ))}
         {isOpen && getFilteredItems(items).length === 0 && (
@@ -264,20 +267,22 @@ export const Combobox = ({
   label,
   items,
   selectedItem,
-  handleSelectedItemChange,
+  setSelectedItem,
+  getItemLabel = defaultGetItemLabel,
 }: {
   id: string;
   label: string | ReactNode;
   items: string[];
   selectedItem: string;
-  handleSelectedItemChange: (changes: { selectedItem: string }) => void;
+  setSelectedItem: (selectedItem: string) => void;
+  getItemLabel?: (item: string) => string;
 }) => {
-  const [inputValue, setInputValue] = useState(selectedItem);
+  const [inputValue, setInputValue] = useState(getItemLabel(selectedItem));
 
   const getFilteredItems = () => {
-    return inputValue && inputValue !== selectedItem
+    return inputValue && inputValue !== getItemLabel(selectedItem)
       ? items.filter((item) =>
-          item.toLowerCase().startsWith(inputValue.toLowerCase())
+          getItemLabel(item).toLowerCase().startsWith(inputValue.toLowerCase())
         )
       : items;
   };
@@ -307,12 +312,12 @@ export const Combobox = ({
         case useCombobox.stateChangeTypes.InputKeyDownEnter:
         case useCombobox.stateChangeTypes.ItemClick:
           if (changes.selectedItem) {
-            setInputValue(changes.inputValue);
-            handleSelectedItemChange({ selectedItem: changes.inputValue });
+            setInputValue(getItemLabel(changes.inputValue));
+            setSelectedItem(changes.inputValue);
           }
           break;
         case useCombobox.stateChangeTypes.InputBlur:
-          setInputValue(selectedItem);
+          setInputValue(getItemLabel(selectedItem));
           break;
         default:
           break;
@@ -421,7 +426,7 @@ export const Combobox = ({
               key={`${item}${index}`}
               {...getItemProps({ item, index })}
             >
-              {item}
+              {getItemLabel(item)}
             </Box>
           ))}
         {isOpen && inputItems.length === 0 && (
@@ -433,7 +438,7 @@ export const Combobox = ({
               m: 0,
             }}
           >
-            <Trans id="combobox.noitems">No items</Trans>
+            <Trans id="combobox.noitems">Keine Einträge</Trans>
           </Box>
         )}
       </Box>

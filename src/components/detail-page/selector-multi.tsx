@@ -51,7 +51,7 @@ export const SelectorMulti = () => {
           label={<Trans id="selector.category">Kategorie</Trans>}
           items={categories}
           selectedItem={queryState.category[0]}
-          handleSelectedItemChange={({ selectedItem }) =>
+          setSelectedItem={(selectedItem) =>
             setQueryState({ category: [selectedItem] })
           }
         />
@@ -60,7 +60,7 @@ export const SelectorMulti = () => {
           label={<Trans id="selector.product">Produkt</Trans>}
           items={products}
           selectedItem={queryState.product[0]}
-          handleSelectedItemChange={({ selectedItem }) =>
+          setSelectedItem={(selectedItem) =>
             setQueryState({ product: [selectedItem] })
           }
         />
