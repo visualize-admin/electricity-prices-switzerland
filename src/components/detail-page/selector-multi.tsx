@@ -1,6 +1,6 @@
 import { Trans } from "@lingui/macro";
 import { Flex, Text } from "theme-ui";
-import { ComboboxMulti } from "../../components/combobox";
+import { ComboboxMulti, Combobox } from "../../components/combobox";
 import { categories, periods, products } from "../../domain/data";
 import { useQueryState } from "../../lib/use-query-state";
 
@@ -46,21 +46,23 @@ export const SelectorMulti = () => {
           minSelectedItems={1}
           setSelectedItems={(items) => setQueryState({ period: items })}
         />
-        <ComboboxMulti
+        <Combobox
           id="categories"
           label={<Trans id="selector.category">Kategorie</Trans>}
           items={categories}
-          selectedItems={queryState.category}
-          minSelectedItems={1}
-          setSelectedItems={(items) => setQueryState({ category: items })}
+          selectedItem={queryState.category[0]}
+          handleSelectedItemChange={({ selectedItem }) =>
+            setQueryState({ category: [selectedItem] })
+          }
         />
-        <ComboboxMulti
+        <Combobox
           id="products"
           label={<Trans id="selector.product">Produkt</Trans>}
           items={products}
-          selectedItems={queryState.product}
-          minSelectedItems={1}
-          setSelectedItems={(items) => setQueryState({ product: items })}
+          selectedItem={queryState.product[0]}
+          handleSelectedItemChange={({ selectedItem }) =>
+            setQueryState({ product: [selectedItem] })
+          }
         />
       </>
     </Flex>
