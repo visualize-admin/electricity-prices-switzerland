@@ -11,18 +11,54 @@ import { Card } from "./card";
 import { PriceComponent, useObservationsQuery } from "../../graphql/queries";
 import { useQueryState } from "../../lib/use-query-state";
 import { useState } from "react";
+import { FilterSetDescription } from "./filter-set-description";
+import { RadioTabs } from "../radio-tabs";
+import { getLocalizedLabel } from "../../domain/translation";
 
-export const CantonsComparisonRangePlot = () => {
-  const [{ period, category }] = useQueryState();
+export const CantonsComparisonRangePlots = () => {
+  const [{ period }] = useQueryState();
   const [priceComponent, setPriceComponent] = useState<PriceComponent>(
     PriceComponent.Total
   );
+  return (
+    <Card
+      title={
+        <Trans id="detail.card.title.cantons.comparison">
+          Kantonsvergleich
+        </Trans>
+      }
+    >
+      <RadioTabs
+        name="priceComponents"
+        options={[
+          { value: "gridusage", label: getLocalizedLabel("gridusage") },
+          { value: "energy", label: getLocalizedLabel("energy") },
+          { value: "total", label: getLocalizedLabel("total") },
+        ]}
+        value={priceComponent}
+        setValue={setPriceComponent}
+      />
+      {period.map((p) => (
+        <CantonsComparisonRangePlot year={p} priceComponent={priceComponent} />
+      ))}
+    </Card>
+  );
+};
+
+export const CantonsComparisonRangePlot = ({
+  year,
+  priceComponent,
+}: {
+  year: string;
+  priceComponent: PriceComponent;
+}) => {
+  const [{ category }] = useQueryState();
 
   const [observationsQuery] = useObservationsQuery({
     variables: {
       priceComponent,
       filters: {
-        period: period,
+        period: [year],
         category: category
           ? category.map(
               (cat) =>
@@ -37,13 +73,14 @@ export const CantonsComparisonRangePlot = () => {
     : observationsQuery.data?.cubeByIri?.observations ?? EMPTY_ARRAY;
 
   return (
-    <Card
-      title={
-        <Trans id="detail.card.title.cantons.comparison">
-          Kantonsvergleich
-        </Trans>
-      }
-    >
+    <>
+      <FilterSetDescription
+        filters={{
+          period: year,
+          category: category[0],
+          priceComponent: priceComponent,
+        }}
+      />
       {observations.length === 0 ? (
         <Loading />
       ) : (
@@ -78,6 +115,6 @@ export const CantonsComparisonRangePlot = () => {
           </ChartContainer>
         </RangePlot>
       )}
-    </Card>
+    </>
   );
 };

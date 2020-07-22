@@ -2,7 +2,10 @@ import { Box, Flex } from "@theme-ui/components";
 import { useRouter } from "next/router";
 import * as React from "react";
 import { DetailPageBanner } from "../../../components/detail-page/banner";
-import { CantonsComparisonRangePlot } from "../../../components/detail-page/cantons-comparison-range";
+import {
+  CantonsComparisonRangePlot,
+  CantonsComparisonRangePlots,
+} from "../../../components/detail-page/cantons-comparison-range";
 import { SelectorMulti } from "../../../components/detail-page/selector-multi";
 import { Footer } from "../../../components/footer";
 import { Header } from "../../../components/header";
@@ -75,8 +78,8 @@ const MunicipalityPage = () => {
             <Box sx={{ flex: `2 2 ${2 / 3}%` }}>
               {/* <PriceComponents /> */}
               {/* <PriceEvolutionLineChart /> */}
-              <PriceDistributionHistogram period={year as string[]} />
-              <CantonsComparisonRangePlot />
+              {/* <PriceDistributionHistogram period={year as string[]} /> */}
+              <CantonsComparisonRangePlots />
             </Box>
             <Box sx={{ flex: `1 1 ${1 / 3}%` }}>
               <SelectorMulti />
