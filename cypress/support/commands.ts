@@ -24,4 +24,4 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
-require("@cypress/snapshot").register();
+import "cypress-plugin-snapshots/commands";

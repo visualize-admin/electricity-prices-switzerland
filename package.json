@@ -17,7 +17,7 @@
     "graphql:codegen:dev": "graphql-codegen --config codegen.yml --watch",
     "preversion": "yarn lint",
     "postversion": "git push origin master master:test --follow-tags",
-    "e2e:open": "start-test 'yarn dev -p 3333' 3333 'yarn cypress open'",
+    "e2e:dev": "CYPRESS_BASE_URL=http://localhost:3000 cypress open",
     "e2e": "start-test 'yarn dev -p 3333' 3333 'yarn cypress run'"
   },
   "dependencies": {
@@ -55,7 +55,6 @@
     "urql": "^1.9.8"
   },
   "devDependencies": {
-    "@cypress/snapshot": "^2.1.7",
     "@graphql-codegen/cli": "^1.17.0",
     "@graphql-codegen/typescript": "^1.17.0",
     "@graphql-codegen/typescript-operations": "^1.17.0",
@@ -81,9 +80,13 @@
     "babel-core": "^7.0.0-bridge.0",
     "babel-plugin-macros": "^2.8.0",
     "cypress": "^4.11.0",
+    "cypress-plugin-snapshots": "^1.4.3",
     "mapshaper": "^0.5.11",
     "prettier": "^2.0.5",
     "start-server-and-test": "^1.11.2",
     "typescript": "^3.9.6"
+  },
+  "resolutions": {
+    "js-base64": "2.5.2"
   }
 }
