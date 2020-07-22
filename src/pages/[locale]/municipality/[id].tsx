@@ -15,6 +15,7 @@ import { useLocale } from "../../../lib/use-locale";
 import { PriceDistributionHistograms } from "../../../components/detail-page/price-distribution-histogram";
 import { PriceEvolutionLineChart } from "../../../components/detail-page/price-evolution-line-chart";
 import { PriceComponents } from "../../../components/detail-page/price-components";
+import { useQueryState } from "../../../lib/use-query-state";
 
 export const EMPTY_ARRAY: never[] = [];
 
@@ -22,37 +23,7 @@ export const EMPTY_ARRAY: never[] = [];
 export const getServerSideProps = async () => ({ props: {} });
 
 const MunicipalityPage = () => {
-  const locale = useLocale();
-  const { query, replace } = useRouter();
-
-  // FIXME: use query
-  const kantonId = "261";
-  const providerIds = ["xxx", "yyy"];
-
-  const municipalityId = query.id;
-
-  const updateQueryParams = (queryObject: { [x: string]: string }) => {
-    const { href, as } = createDynamicRouteProps({
-      pathname: `/[locale]/municipality/${municipalityId}`,
-      query: { ...query, ...queryObject },
-    });
-    replace(href, as);
-  };
-
-  const year = query.year ? (query.year as string).split(",") : ["2019"];
-  const priceComponent =
-    (query.priceComponent as PriceComponent) ?? PriceComponent.Total; // TODO: parameterize priceComponent
-  const category = query.category as string;
-
-  const [municipality] = useMunicipalitiesQuery({
-    variables: {
-      locale,
-      query: "",
-    },
-  });
-  if (!municipality.fetching) {
-    console.log(municipality);
-  }
+  const [{ id, category }] = useQueryState();
   console.log({ id });
   return (
     <Flex sx={{ minHeight: "100vh", flexDirection: "column" }}>
@@ -66,7 +37,7 @@ const MunicipalityPage = () => {
         }}
       >
         <DetailPageBanner
-          entity={municipalityId as string}
+          entity={id}
           kanton={"kanton"}
           linkedIds={["xxx", "yyy"]}
         />
@@ -76,8 +47,8 @@ const MunicipalityPage = () => {
             <Box sx={{ flex: `2 2 ${2 / 3}%` }}>
               {/* <PriceComponents /> */}
               {/* <PriceEvolutionLineChart /> */}
-              <PriceDistributionHistograms />
-              {/* <CantonsComparisonRangePlots /> */}
+              {/* <PriceDistributionHistograms /> */}
+              <CantonsComparisonRangePlots annotationIds={[id]} />
             </Box>
             <Box sx={{ flex: `1 1 ${1 / 3}%` }}>
               <SelectorMulti />
