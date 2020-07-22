@@ -21,7 +21,10 @@ export const FilterSetDescription = ({
 }) => {
   const i18n = useI18n();
   return (
-    <Text variant="paragraph1" color="monochrome800" sx={{ my: 2 }}>
+    <Text
+      variant="paragraph1"
+      sx={{ my: 6, color: "monochrome800", fontWeight: "light" }}
+    >
       {Object.keys(filters).map((filterKey, i) => (
         <React.Fragment key={filterKey}>
           <span>{getLocalizedLabel({ i18n, id: filterKey })}</span> (

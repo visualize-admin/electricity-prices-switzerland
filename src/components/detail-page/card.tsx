@@ -21,7 +21,11 @@ export const Card = ({
         boxShadow: "primary",
       }}
     >
-      <Text as="h2" variant="heading2" sx={{ pt: 1, color: "monochrome800" }}>
+      <Text
+        as="h2"
+        variant="heading2"
+        sx={{ pt: 1, color: "monochrome800", mb: 4 }}
+      >
         {title}
       </Text>
       {children}
