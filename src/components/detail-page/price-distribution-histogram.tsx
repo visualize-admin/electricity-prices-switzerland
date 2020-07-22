@@ -24,9 +24,11 @@ import { getLocalizedLabel } from "../../domain/translation";
 import { RadioTabs } from "../radio-tabs";
 import { FilterSetDescription } from "./filter-set-description";
 import { GenericObservation } from "../../domain/data";
+import { useI18n } from "../i18n-context";
 
 export const PriceDistributionHistograms = () => {
   const [{ period }] = useQueryState();
+  const i18n = useI18n();
   const [priceComponent, setPriceComponent] = useState<PriceComponent>(
     PriceComponent.Total
   );
@@ -43,9 +45,12 @@ export const PriceDistributionHistograms = () => {
       <RadioTabs
         name="priceComponents"
         options={[
-          { value: "gridusage", label: getLocalizedLabel("gridusage") },
-          { value: "energy", label: getLocalizedLabel("energy") },
-          { value: "total", label: getLocalizedLabel("total") },
+          {
+            value: "gridusage",
+            label: getLocalizedLabel({ i18n, id: "gridusage" }),
+          },
+          { value: "energy", label: getLocalizedLabel({ i18n, id: "energy" }) },
+          { value: "total", label: getLocalizedLabel({ i18n, id: "total" }) },
         ]}
         value={priceComponent as string}
         setValue={updatePriceComponent}
@@ -66,6 +71,7 @@ export const PriceDistributionHistogram = ({
   priceComponent: PriceComponent;
 }) => {
   const [{ category }] = useQueryState();
+  const i18n = useI18n();
 
   const [observationsQuery] = useObservationsQuery({
     variables: {
@@ -88,7 +94,7 @@ export const PriceDistributionHistogram = ({
         filters={{
           period: year,
           category: category[0],
-          priceComponent: getLocalizedLabel(priceComponent),
+          priceComponent: getLocalizedLabel({ i18n, id: priceComponent }),
         }}
       />
       {observations.length === 0 ? (

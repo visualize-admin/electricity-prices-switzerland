@@ -13,10 +13,10 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/components/combobox.tsx:144
-#: src/components/combobox.tsx:264
+#: src/components/combobox.tsx:172
+#: src/components/combobox.tsx:292
 msgid "combobox.noitems"
-msgstr "No items"
+msgstr "Keine Einträge"
 
 #: src/components/form.tsx:109
 msgid "controls.search.clear"
@@ -25,6 +25,46 @@ msgstr "Clear search field"
 #: src/components/list.tsx:137
 msgid "dataset.sortby"
 msgstr "Sortieren"
+
+#: src/components/detail-page/banner.tsx:22
+msgid "detail.canton"
+msgstr "Kanton"
+
+#: src/components/detail-page/cantons-comparison-range.tsx:22
+msgid "detail.card.title.cantons.comparison"
+msgstr "Kantonsvergleich"
+
+#: src/components/detail-page/price-components.tsx:33
+msgid "detail.card.title.price.components"
+msgstr "Preiskomponenten"
+
+#: src/components/detail-page/price-distribution-histogram.tsx:25
+msgid "detail.card.title.prices.distribution"
+msgstr "Preisverteilung in der Schweiz"
+
+#: src/components/detail-page/price-evolution-line-chart.tsx:37
+msgid "detail.card.title.prices.evolution"
+msgstr "Tarifentwicklung"
+
+#: src/components/detail-page/banner.tsx:28
+msgid "detail.municipality"
+msgstr "Netzbetrieber"
+
+#: src/domain/translation.tsx:51
+msgid "filters.category"
+msgstr "Kategorie"
+
+#: src/domain/translation.tsx:55
+msgid "filters.price.component"
+msgstr "Preiskomponente"
+
+#: src/domain/translation.tsx:53
+msgid "filters.product"
+msgstr "Produkt"
+
+#: src/domain/translation.tsx:49
+msgid "filters.year"
+msgstr "Jahr"
 
 #: src/components/footer.tsx:34
 msgid "footer.institution.name"
@@ -79,165 +119,173 @@ msgstr "median"
 msgid "price.legend.min"
 msgstr "min"
 
-#: src/components/selector.tsx:29
+#: src/components/detail-page/selector-multi.tsx:31
+#: src/components/selector.tsx:31
 msgid "selector.category"
 msgstr "Kategorie"
 
-#: src/domain/translation.tsx:64
+#: src/domain/translation.tsx:35
 msgid "selector.category.C1"
 msgstr "C1"
 
-#: src/domain/translation.tsx:66
+#: src/domain/translation.tsx:37
 msgid "selector.category.C2"
 msgstr "C2"
 
-#: src/domain/translation.tsx:68
+#: src/domain/translation.tsx:39
 msgid "selector.category.C3"
 msgstr "C3"
 
-#: src/domain/translation.tsx:70
+#: src/domain/translation.tsx:41
 msgid "selector.category.C4"
 msgstr "C4"
 
-#: src/domain/translation.tsx:72
+#: src/domain/translation.tsx:43
 msgid "selector.category.C5"
 msgstr "C5"
 
-#: src/domain/translation.tsx:74
+#: src/domain/translation.tsx:45
 msgid "selector.category.C6"
 msgstr "C6"
 
-#: src/domain/translation.tsx:76
+#: src/domain/translation.tsx:47
 msgid "selector.category.C7"
 msgstr "C7"
 
-#: src/domain/translation.tsx:48
+#: src/domain/translation.tsx:19
 msgid "selector.category.H1"
 msgstr "H1"
 
-#: src/domain/translation.tsx:50
+#: src/domain/translation.tsx:21
 msgid "selector.category.H2"
 msgstr "H2"
 
-#: src/domain/translation.tsx:52
+#: src/domain/translation.tsx:23
 msgid "selector.category.H3"
 msgstr "H3"
 
-#: src/domain/translation.tsx:54
+#: src/domain/translation.tsx:25
 msgid "selector.category.H4"
 msgstr "H4"
 
-#: src/domain/translation.tsx:56
+#: src/domain/translation.tsx:27
 msgid "selector.category.H5"
 msgstr "H5"
 
-#: src/domain/translation.tsx:58
+#: src/domain/translation.tsx:29
 msgid "selector.category.H6"
 msgstr "H6"
 
-#: src/domain/translation.tsx:60
+#: src/domain/translation.tsx:31
 msgid "selector.category.H7"
 msgstr "H7"
 
-#: src/domain/translation.tsx:62
+#: src/domain/translation.tsx:33
 msgid "selector.category.H8"
 msgstr "H8"
 
-#: src/components/selector.tsx:20
+#: src/components/detail-page/selector-multi.tsx:22
+#: src/components/selector.tsx:23
 msgid "selector.legend.select.parameters"
 msgstr "Parameter auswählen"
 
-#: src/components/selector.tsx:27
-msgid "selector.priceComponent"
-msgstr "Preiskomponent"
+#: src/components/detail-page/selector-multi.tsx:28
+msgid "selector.municipality"
+msgstr "Gemeinde"
 
-#: src/domain/translation.tsx:44
+#: src/components/selector.tsx:29
+msgid "selector.priceComponent"
+msgstr "Preiskomponente"
+
+#: src/domain/translation.tsx:15
 msgid "selector.pricecomponent.aidfee"
 msgstr "Förderabgaben (KEV)"
 
-#: src/domain/translation.tsx:40
+#: src/domain/translation.tsx:13
 msgid "selector.pricecomponent.charge"
 msgstr "Abgaben an das Gemeinwesen"
 
-#: src/domain/translation.tsx:38
+#: src/domain/translation.tsx:11
 msgid "selector.pricecomponent.energy"
 msgstr "Energie"
 
-#: src/domain/translation.tsx:36
+#: src/domain/translation.tsx:9
 msgid "selector.pricecomponent.gridusage"
 msgstr "Netznutzung"
 
-#: src/domain/translation.tsx:46
+#: src/domain/translation.tsx:17
 msgid "selector.pricecomponent.total"
 msgstr "Total"
 
-#: src/components/selector.tsx:31
+#: src/components/detail-page/selector-multi.tsx:32
+#: src/components/selector.tsx:33
 msgid "selector.product"
 msgstr "Produkt"
 
-#: src/domain/translation.tsx:34
+#: src/domain/translation.tsx:7
 msgid "selector.product.economic"
 msgstr "Günstig"
 
-#: src/domain/translation.tsx:32
+#: src/domain/translation.tsx:5
 msgid "selector.product.standard"
 msgstr "Standard"
 
-#: src/components/selector.tsx:26
+#: src/components/detail-page/selector-multi.tsx:30
+#: src/components/selector.tsx:28
 msgid "selector.year"
 msgstr "Jahr"
 
 #: src/domain/translation.tsx:30
-msgid "selector.year.2009"
-msgstr "2009"
+#~ msgid "selector.year.2009"
+#~ msgstr "2009"
 
 #: src/domain/translation.tsx:28
-msgid "selector.year.2010"
-msgstr "2010"
+#~ msgid "selector.year.2010"
+#~ msgstr "2010"
 
 #: src/domain/translation.tsx:26
-msgid "selector.year.2011"
-msgstr "2011"
+#~ msgid "selector.year.2011"
+#~ msgstr "2011"
 
 #: src/domain/translation.tsx:24
-msgid "selector.year.2012"
-msgstr "2012"
+#~ msgid "selector.year.2012"
+#~ msgstr "2012"
 
 #: src/domain/translation.tsx:22
-msgid "selector.year.2013"
-msgstr "2013"
+#~ msgid "selector.year.2013"
+#~ msgstr "2013"
 
 #: src/domain/translation.tsx:20
-msgid "selector.year.2014"
-msgstr "2014"
+#~ msgid "selector.year.2014"
+#~ msgstr "2014"
 
 #: src/domain/translation.tsx:18
-msgid "selector.year.2015"
-msgstr "2015"
+#~ msgid "selector.year.2015"
+#~ msgstr "2015"
 
 #: src/domain/translation.tsx:16
-msgid "selector.year.2016"
-msgstr "2016"
+#~ msgid "selector.year.2016"
+#~ msgstr "2016"
 
 #: src/domain/translation.tsx:14
-msgid "selector.year.2017"
-msgstr "2017"
+#~ msgid "selector.year.2017"
+#~ msgstr "2017"
 
 #: src/domain/translation.tsx:12
-msgid "selector.year.2018"
-msgstr "2018"
+#~ msgid "selector.year.2018"
+#~ msgstr "2018"
 
 #: src/domain/translation.tsx:10
-msgid "selector.year.2019"
-msgstr "2019"
+#~ msgid "selector.year.2019"
+#~ msgstr "2019"
 
 #: src/domain/translation.tsx:8
-msgid "selector.year.2020"
-msgstr "2020"
+#~ msgid "selector.year.2020"
+#~ msgstr "2020"
 
 #: src/domain/translation.tsx:6
-msgid "selector.year.2021"
-msgstr "2021"
+#~ msgid "selector.year.2021"
+#~ msgstr "2021"
 
 #: src/components/header.tsx:65
 msgid "site.title"

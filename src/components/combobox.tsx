@@ -254,7 +254,7 @@ export const ComboboxMulti = ({
               m: 0,
             }}
           >
-            <Trans id="combobox.noitems">No items</Trans>
+            <Trans id="combobox.noitems">Keine Einträge</Trans>
           </Box>
         )}
       </Box>
