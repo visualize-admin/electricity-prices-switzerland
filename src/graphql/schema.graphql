@@ -66,16 +66,14 @@ type Cube {
   dimensionPeriod: TemporalDimension
 
   # TODO: Figure out proper query parameters!
-  municipalities(query: String): [Municipality!]!
-  cantons(query: String): [Canton!]!
-  providers(query: String): [Provider!]!
-  municipality(id: String!, query: String): Municipality
-  canton(id: String!, query: String): Canton
-  provider(id: String!, query: String): Provider
+  municipalities(query: String, ids: [String!]): [Municipality!]!
+  cantons(query: String, ids: [String!]): [Canton!]!
+  providers(query: String, ids: [String!]): [Provider!]!
+  municipality(id: String!): Municipality
+  canton(id: String!): Canton
+  provider(id: String!): Provider
 
-  observations(
-    filters: ObservationFilters
-  ): [Observation!]!
+  observations(filters: ObservationFilters): [Observation!]!
 }
 
 type Query {

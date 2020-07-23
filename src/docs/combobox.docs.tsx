@@ -31,8 +31,10 @@ export default () => {
   const [selectedItems, setSelectedItems] = useState<string[]>(["item4"]);
   const [selectedMunicipalities, setSelectedMunicipalities] = useState<
     string[]
-  >([]);
-  const [selectedProviders, setSelectedProviders] = useState<string[]>([]);
+  >(["261"]);
+  const [selectedProviders, setSelectedProviders] = useState<string[]>([
+    "10636012345",
+  ]);
 
   return markdown`
 >

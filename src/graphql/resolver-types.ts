@@ -100,34 +100,34 @@ export type Cube = {
 
 export type CubeMunicipalitiesArgs = {
   query?: Maybe<Scalars['String']>;
+  ids?: Maybe<Array<Scalars['String']>>;
 };
 
 
 export type CubeCantonsArgs = {
   query?: Maybe<Scalars['String']>;
+  ids?: Maybe<Array<Scalars['String']>>;
 };
 
 
 export type CubeProvidersArgs = {
   query?: Maybe<Scalars['String']>;
+  ids?: Maybe<Array<Scalars['String']>>;
 };
 
 
 export type CubeMunicipalityArgs = {
   id: Scalars['String'];
-  query?: Maybe<Scalars['String']>;
 };
 
 
 export type CubeCantonArgs = {
   id: Scalars['String'];
-  query?: Maybe<Scalars['String']>;
 };
 
 
 export type CubeProviderArgs = {
   id: Scalars['String'];
-  query?: Maybe<Scalars['String']>;
 };
 
 

@@ -329,12 +329,14 @@ export const search = async ({
   view,
   source,
   query,
+  ids,
   types = ["municipality", "provider"],
   limit = 10,
 }: {
   view: View;
   source: Source;
   query: string;
+  ids: string[];
   types?: SearchType[];
   limit?: number;
 }) => {
@@ -346,7 +348,11 @@ export const search = async ({
           ?municipality a <https://gont.ch/Municipality> .
           ?municipality <http://www.w3.org/2000/01/rdf-schema#label> ?municipalityLabel.    
         }
-        FILTER regex(?municipalityLabel, ".*${query}.*", "i")
+        FILTER (regex(?municipalityLabel, ".*${
+          query || "-------"
+        }.*", "i") || ?municipality IN (${ids
+    .map((id) => `<${addNamespaceToID({ dimension: "municipality", id })}>`)
+    .join(",")}))
       }
     } UNION {
       SELECT ("provider" AS ?type) (?provider AS ?iri) (?providerLabel AS ?name) WHERE {
@@ -354,12 +360,16 @@ export const search = async ({
           ?provider a <http://schema.org/Organization> .
           ?provider <http://schema.org/name> ?providerLabel.    
         }
-        FILTER regex(?providerLabel, ".*${query}.*", "i")
+        FILTER (regex(?providerLabel, ".*${
+          query || "-------"
+        }.*", "i") || ?provider IN (${ids
+    .map((id) => `<${addNamespaceToID({ dimension: "provider", id })}>`)
+    .join(",")}))
       }
     }
     FILTER (?type IN (${types.map((t) => JSON.stringify(t)).join(",")}))
   }
-  LIMIT ${limit}
+  LIMIT ${limit + ids.length}
   `;
 
   // and also provides a SPARQL client

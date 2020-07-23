@@ -159,22 +159,24 @@ const Cube: CubeResolvers = {
     // Should we type-check with io-ts here? Probably not necessary because the GraphQL API will also type-check against the schema.
     return observations as ResolvedObservation[];
   },
-  providers: async ({ view, source }, { query }) => {
+  providers: async ({ view, source }, { query, ids }) => {
     const results = await search({
       view,
       source,
       query: query ?? "",
+      ids: ids ?? [],
       types: ["provider"],
     });
 
     return results;
   },
   cantons: async () => [{ id: "1" }, { id: "2" }],
-  municipalities: async ({ view, source }, { query }) => {
+  municipalities: async ({ view, source }, { query, ids }) => {
     const results = await search({
       view,
       source,
       query: query ?? "",
+      ids: ids ?? [],
       types: ["municipality"],
     });
 

@@ -100,34 +100,34 @@ export type Cube = {
 
 export type CubeMunicipalitiesArgs = {
   query?: Maybe<Scalars['String']>;
+  ids?: Maybe<Array<Scalars['String']>>;
 };
 
 
 export type CubeCantonsArgs = {
   query?: Maybe<Scalars['String']>;
+  ids?: Maybe<Array<Scalars['String']>>;
 };
 
 
 export type CubeProvidersArgs = {
   query?: Maybe<Scalars['String']>;
+  ids?: Maybe<Array<Scalars['String']>>;
 };
 
 
 export type CubeMunicipalityArgs = {
   id: Scalars['String'];
-  query?: Maybe<Scalars['String']>;
 };
 
 
 export type CubeCantonArgs = {
   id: Scalars['String'];
-  query?: Maybe<Scalars['String']>;
 };
 
 
 export type CubeProviderArgs = {
   id: Scalars['String'];
-  query?: Maybe<Scalars['String']>;
 };
 
 
@@ -155,6 +155,7 @@ export type QueryCubeByIriArgs = {
 export type MunicipalitiesQueryVariables = Exact<{
   locale: Scalars['String'];
   query?: Maybe<Scalars['String']>;
+  ids?: Maybe<Array<Scalars['String']>>;
 }>;
 
 
@@ -163,6 +164,7 @@ export type MunicipalitiesQuery = { __typename: 'Query', cubeByIri?: Maybe<{ __t
 export type ProvidersQueryVariables = Exact<{
   locale: Scalars['String'];
   query?: Maybe<Scalars['String']>;
+  ids?: Maybe<Array<Scalars['String']>>;
 }>;
 
 
@@ -187,9 +189,9 @@ export type ObservationsWithAllPriceComponentsQuery = { __typename: 'Query', cub
 
 
 export const MunicipalitiesDocument = gql`
-    query Municipalities($locale: String!, $query: String) {
+    query Municipalities($locale: String!, $query: String, $ids: [String!]) {
   cubeByIri(iri: "https://energy.ld.admin.ch/elcom/energy-pricing/cube", locale: $locale) {
-    municipalities(query: $query) {
+    municipalities(query: $query, ids: $ids) {
       id
       name
     }
@@ -201,9 +203,9 @@ export function useMunicipalitiesQuery(options: Omit<Urql.UseQueryArgs<Municipal
   return Urql.useQuery<MunicipalitiesQuery>({ query: MunicipalitiesDocument, ...options });
 };
 export const ProvidersDocument = gql`
-    query Providers($locale: String!, $query: String) {
+    query Providers($locale: String!, $query: String, $ids: [String!]) {
   cubeByIri(iri: "https://energy.ld.admin.ch/elcom/energy-pricing/cube", locale: $locale) {
-    providers(query: $query) {
+    providers(query: $query, ids: $ids) {
       id
       name
     }

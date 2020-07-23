@@ -13,8 +13,12 @@ export const MunicipalitiesCombobox = (
   const locale = useLocale();
   const [inputValue, setInputValue] = useState<string>("");
   const [gqlQuery] = useMunicipalitiesQuery({
-    variables: { locale, query: inputValue },
-    pause: inputValue === "",
+    variables: {
+      locale,
+      query: inputValue,
+      ids: comboboxMultiProps.selectedItems,
+    },
+    pause: inputValue === "" && comboboxMultiProps.selectedItems.length === 0,
   });
 
   const items = gqlQuery.data?.cubeByIri?.municipalities ?? [];
@@ -35,7 +39,7 @@ export const MunicipalitiesCombobox = (
       getItemLabel={(id) => itemById.get(id)?.name ?? `[${id}]`}
       lazy
       onInputValueChange={setInputValue}
-      isLoading={gqlQuery.fetching}
+      isLoading={gqlQuery.fetching && inputValue.length > 0}
     />
   );
 };
@@ -49,8 +53,12 @@ export const ProvidersCombobox = (
   const locale = useLocale();
   const [inputValue, setInputValue] = useState<string>("");
   const [gqlQuery] = useProvidersQuery({
-    variables: { locale, query: inputValue },
-    pause: inputValue === "",
+    variables: {
+      locale,
+      query: inputValue,
+      ids: comboboxMultiProps.selectedItems,
+    },
+    pause: inputValue === "" && comboboxMultiProps.selectedItems.length === 0,
   });
 
   const items = gqlQuery.data?.cubeByIri?.providers ?? [];
@@ -71,7 +79,7 @@ export const ProvidersCombobox = (
       getItemLabel={(id) => itemById.get(id)?.name ?? `[${id}]`}
       lazy
       onInputValueChange={setInputValue}
-      isLoading={gqlQuery.fetching}
+      isLoading={gqlQuery.fetching && inputValue.length > 0}
     />
   );
 };
