@@ -6,12 +6,18 @@ import {
   periods,
   products,
   municipalities,
+  Entity,
+  providers,
 } from "../../domain/data";
 import { useQueryState } from "../../lib/use-query-state";
 import { useI18n } from "../i18n-context";
 import { getLocalizedLabel } from "../../domain/translation";
 
-export const SelectorMulti = () => {
+export const SelectorMulti = ({
+  entity = "municipality",
+}: {
+  entity?: Entity;
+}) => {
   const [queryState, setQueryState] = useQueryState();
   const i18n = useI18n();
   const getItemLabel = (id: string) => getLocalizedLabel({ i18n, id });
@@ -38,15 +44,27 @@ export const SelectorMulti = () => {
       </Text>
 
       <>
-        <ComboboxMulti
-          id="municipality"
-          label={<Trans id="selector.municipality">Gemeinde</Trans>}
-          items={municipalities} // FIXME: municipalities
-          // FIXME: should be possible to have no item selected:
-          selectedItems={queryState.municipality ?? ["261"]}
-          minSelectedItems={0}
-          setSelectedItems={(items) => setQueryState({ municipality: items })}
-        />
+        {entity === "provider" ? (
+          <ComboboxMulti
+            id="provider"
+            label={<Trans id="selector.provider">Netzbetreiber</Trans>}
+            items={providers}
+            // FIXME: should be possible to have no item selected:
+            selectedItems={queryState.municipality ?? ["10481012345"]}
+            minSelectedItems={0}
+            setSelectedItems={(items) => setQueryState({ provider: items })}
+          />
+        ) : (
+          <ComboboxMulti
+            id="municipality"
+            label={<Trans id="selector.municipality">Gemeinde</Trans>}
+            items={municipalities} // FIXME: municipalities
+            // FIXME: should be possible to have no item selected:
+            selectedItems={queryState.municipality ?? ["261"]}
+            minSelectedItems={0}
+            setSelectedItems={(items) => setQueryState({ municipality: items })}
+          />
+        )}
         <ComboboxMulti
           id="periods"
           label={<Trans id="selector.year">Jahr</Trans>}
