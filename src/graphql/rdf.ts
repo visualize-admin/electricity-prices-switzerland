@@ -237,10 +237,10 @@ export const getMunicipalities = async ({
               dimension: "municipality",
               iri: obs[ns.energyPricing("municipality").value].value as string,
             }),
-            name: stripNamespaceFromIri({
+            name: `Gemeinde [${stripNamespaceFromIri({
               dimension: "municipality",
               iri: obs[ns.energyPricing("municipality").value].value as string,
-            }),
+            })}]`,
             view,
             source,
           },
