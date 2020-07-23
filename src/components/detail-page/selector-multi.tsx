@@ -50,7 +50,7 @@ export const SelectorMulti = ({
             label={<Trans id="selector.provider">Netzbetreiber</Trans>}
             items={providers}
             // FIXME: should be possible to have no item selected:
-            selectedItems={queryState.municipality ?? ["10481012345"]}
+            selectedItems={queryState.provider ?? ["10481012345"]}
             minSelectedItems={0}
             setSelectedItems={(items) => setQueryState({ provider: items })}
           />
