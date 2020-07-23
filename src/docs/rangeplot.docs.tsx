@@ -15,6 +15,7 @@ import { AxisWidthLinear } from "../components/charts-generic/axis/axis-width-li
 import {
   AnnotationX,
   AnnotationXLabel,
+  AnnotationXDataPoint,
 } from "../components/charts-generic/annotation/annotation-x";
 import { GenericObservation } from "../domain/data";
 
@@ -51,7 +52,7 @@ export default () => {
             <Range />
             <AxisWidthLinear position="top" />
             <RangePoints />
-            <AnnotationX />
+            <AnnotationX /> <AnnotationXDataPoint />
           </ChartSvg>
           <AnnotationXLabel />
         </ChartContainer>

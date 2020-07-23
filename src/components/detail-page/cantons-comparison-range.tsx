@@ -13,6 +13,7 @@ import { EMPTY_ARRAY } from "../../pages/[locale]/municipality/[id]";
 import {
   AnnotationX,
   AnnotationXLabel,
+  AnnotationXDataPoint,
 } from "../charts-generic/annotation/annotation-x";
 import { AxisWidthLinear } from "../charts-generic/axis/axis-width-linear";
 import { ChartContainer, ChartSvg } from "../charts-generic/containers";
@@ -168,6 +169,7 @@ export const CantonsComparisonRangePlot = memo(
                 <AxisWidthLinear position="top" />
                 <RangePoints />
                 <AnnotationX />
+                <AnnotationXDataPoint />
               </ChartSvg>
               <AnnotationXLabel />
             </ChartContainer>

@@ -49,7 +49,29 @@ export const AnnotationX = () => {
                   y2={a.y + margins.top}
                   stroke={annotationColor}
                 />
+              </g>
+            </React.Fragment>
+          );
+        })}
+    </>
+  );
+};
 
+export const AnnotationXDataPoint = () => {
+  const { bounds, annotations } = useChartState() as
+    | RangePlotState
+    | HistogramState;
+
+  const { margins } = bounds;
+  const { annotationColor } = useChartTheme();
+
+  return (
+    <>
+      {annotations &&
+        annotations.map((a, i) => {
+          return (
+            <React.Fragment key={i}>
+              <g transform={`translate(${margins.left}, 0)`}>
                 {/* Data Point indicator */}
                 <circle
                   cx={a.x}
