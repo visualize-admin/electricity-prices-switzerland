@@ -15,6 +15,7 @@ import { Loading } from "../loading";
 import { Card } from "./card";
 import { getLocalizedLabel } from "../../domain/translation";
 import { useI18n } from "../i18n-context";
+import { FilterSetDescription } from "./filter-set-description";
 
 export const PriceComponentsBarChart = ({
   id,
@@ -70,6 +71,11 @@ export const PriceComponentsBarChart = ({
         <Trans id="detail.card.title.price.components">Preiskomponenten</Trans>
       }
     >
+      <FilterSetDescription
+        filters={{
+          category: category[0],
+        }}
+      />
       {observations.length === 0 ? (
         <Loading />
       ) : (
