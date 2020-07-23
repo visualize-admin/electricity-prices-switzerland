@@ -23,20 +23,36 @@ import { useState } from "react";
 import { getLocalizedLabel } from "../../domain/translation";
 import { RadioTabs } from "../radio-tabs";
 import { FilterSetDescription } from "./filter-set-description";
-import {
-  GenericObservation,
-  getPriceComponentOptions,
-} from "../../domain/data";
+import { GenericObservation } from "../../domain/data";
 import { useI18n } from "../i18n-context";
+import {
+  AnnotationXLabel,
+  AnnotationX,
+} from "../charts-generic/annotation/annotation-x";
 
-export const PriceDistributionHistograms = () => {
-  const [{ period }] = useQueryState();
+export const PriceDistributionHistograms = ({
+  entity,
+}: {
+  entity: "municipality" | "provider" | "canton";
+}) => {
+  const [{ id, period, municipality, provider, canton }] = useQueryState();
   const i18n = useI18n();
   const [priceComponent, setPriceComponent] = useState<PriceComponent>(
     PriceComponent.Total
   );
-  const updatePriceComponent = (c: string) =>
-    setPriceComponent(c as PriceComponent);
+
+  const comparisonIds =
+    entity === "municipality"
+      ? municipality
+      : entity === "provider"
+      ? provider
+      : canton;
+
+  const annotationIds =
+    comparisonIds && comparisonIds?.some((m) => m !== "")
+      ? [...comparisonIds, id]
+      : [id];
+
   return (
     <Card
       title={
@@ -58,22 +74,29 @@ export const PriceDistributionHistograms = () => {
           { value: "aidfee", label: getLocalizedLabel({ i18n, id: "aidfee" }) },
         ]}
         value={priceComponent as string}
-        setValue={updatePriceComponent}
+        setValue={(c) => setPriceComponent(c as PriceComponent)}
         variant="segmented"
       />
       {period.map((p) => (
-        <PriceDistributionHistogram year={p} priceComponent={priceComponent} />
+        <PriceDistributionHistogram
+          key={p}
+          year={p}
+          priceComponent={priceComponent}
+          annotationIds={annotationIds}
+        />
       ))}
     </Card>
   );
 };
 
 export const PriceDistributionHistogram = ({
+  annotationIds,
   year,
   priceComponent,
 }: {
   year: string;
   priceComponent: PriceComponent;
+  annotationIds: string[];
 }) => {
   const [{ category }] = useQueryState();
   const i18n = useI18n();
@@ -92,7 +115,10 @@ export const PriceDistributionHistogram = ({
   const observations = observationsQuery.fetching
     ? EMPTY_ARRAY
     : observationsQuery.data?.cubeByIri?.observations ?? EMPTY_ARRAY;
-  console.log({ observations });
+
+  const annotations =
+    annotationIds &&
+    observations.filter((obs) => annotationIds.includes(obs.municipality));
   return (
     <>
       <FilterSetDescription
@@ -114,6 +140,9 @@ export const PriceDistributionHistogram = ({
             label: {
               componentIri: "Netzbetreiber",
             },
+            annotation: annotations as {
+              [x: string]: string | number | boolean;
+            }[],
           }}
           measures={[
             {
@@ -130,10 +159,11 @@ export const PriceDistributionHistogram = ({
 
               <AxisWidthHistogram />
               <AxisWidthHistogramDomain />
+              <AnnotationX />
               <HistogramColumns />
               <Median label="CH Median" />
             </ChartSvg>
-            <Tooltip type="single" />
+            <AnnotationXLabel />
           </ChartContainer>
         </Histogram>
       )}
