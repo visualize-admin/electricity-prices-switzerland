@@ -1,21 +1,21 @@
 import { interpolateLab, scaleBand, ScaleBand } from "d3";
-import { ascending, extent, group, median, rollup, max, min } from "d3-array";
+import { ascending, group, max, median, min, rollup } from "d3-array";
 import { ScaleLinear, scaleLinear } from "d3-scale";
 import * as React from "react";
 import { ReactNode, useCallback } from "react";
 import { RangePlotFields } from "../../../domain/config-types";
 import { GenericObservation, ObservationValue } from "../../../domain/data";
-import { useFormatNumber, mkNumber } from "../../../domain/helpers";
+import { mkNumber, useFormatCurrency } from "../../../domain/helpers";
 import { estimateTextWidth } from "../../../lib/estimate-text-width";
+import {
+  Annotation,
+  ANNOTATION_LABEL_HEIGHT,
+} from "../annotation/annotation-x";
 import { BOTTOM_MARGIN_OFFSET, LEFT_MARGIN_OFFSET } from "../constants";
 import { ChartContext, ChartProps } from "../use-chart-state";
+import { useChartTheme } from "../use-chart-theme";
 import { InteractionProvider } from "../use-interaction";
 import { Bounds, Observer, useWidth } from "../use-width";
-import {
-  ANNOTATION_LABEL_HEIGHT,
-  Annotation,
-} from "../annotation/annotation-x";
-import { useChartTheme } from "../use-chart-theme";
 
 export const DOT_RADIUS = 8;
 export const SPACE_ABOVE = 8;
@@ -39,7 +39,7 @@ const useRangePlotState = ({
   fields: RangePlotFields;
 }): RangePlotState => {
   const width = useWidth();
-  const formatNumber = useFormatNumber();
+  const formatCurrency = useFormatCurrency();
   const { annotationfontSize, palettes } = useChartTheme();
 
   const getX = useCallback(
@@ -63,7 +63,7 @@ const useRangePlotState = ({
   );
 
   const { annotation } = fields;
-  console.log("annotation in range plt", annotation);
+
   const minValue = min(data, (d) => getX(d));
   const maxValue = max(data, (d) => getX(d));
   const xDomain = [mkNumber(minValue), mkNumber(maxValue)];
@@ -112,7 +112,7 @@ const useRangePlotState = ({
         (acc, datum, i) => {
           // FIXME: Should be word based, not character based?
           const oneFullLine =
-            estimateTextWidth(formatNumber(getX(datum)), annotationfontSize) +
+            estimateTextWidth(formatCurrency(getX(datum)), annotationfontSize) +
             estimateTextWidth(getLabel(datum), annotationfontSize);
           // On smaller screens, anotations may break on several lines
           const nbOfLines = Math.ceil(oneFullLine / (chartWidth * 0.5));
@@ -160,7 +160,7 @@ const useRangePlotState = ({
           y: yScale(getY(datum)) || 0,
           xLabel: xScale(getX(datum)),
           yLabel: annotationSpaces[i],
-          value: formatNumber(getX(datum)),
+          value: formatCurrency(getX(datum)),
           label: getLabel(datum),
           onTheLeft: xScale(getX(datum)) <= chartWidth / 2 ? false : true,
         };

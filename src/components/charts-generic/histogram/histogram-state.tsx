@@ -5,7 +5,11 @@ import * as React from "react";
 import { ReactNode, useCallback } from "react";
 import { HistogramFields } from "../../../domain/config-types";
 import { GenericObservation } from "../../../domain/data";
-import { mkNumber, useFormatNumber } from "../../../domain/helpers";
+import {
+  mkNumber,
+  useFormatNumber,
+  useFormatCurrency,
+} from "../../../domain/helpers";
 import { estimateTextWidth } from "../../../lib/estimate-text-width";
 import { Annotation } from "../annotation/annotation-x";
 import { LEFT_MARGIN_OFFSET } from "../constants";
@@ -41,7 +45,7 @@ const useHistogramState = ({
   aspectRatio: number;
 }): HistogramState => {
   const width = useWidth();
-  const formatNumber = useFormatNumber();
+  const formatCurrency = useFormatCurrency();
   const { annotationfontSize, palettes } = useChartTheme();
 
   const getX = useCallback(
@@ -80,9 +84,9 @@ const useHistogramState = ({
 
   // Dimensions
   const left = Math.max(
-    estimateTextWidth(formatNumber(yScale.domain()[0])),
+    estimateTextWidth(formatCurrency(yScale.domain()[0])),
     estimateTextWidth(
-      formatNumber(
+      formatCurrency(
         yScale.domain().length > 1 ? yScale.domain()[1] : yScale.domain()[0]
       )
     )
@@ -102,7 +106,7 @@ const useHistogramState = ({
         (acc, datum, i) => {
           // FIXME: Should be word based, not character based?
           const oneFullLine =
-            estimateTextWidth(formatNumber(getX(datum)), annotationfontSize) +
+            estimateTextWidth(formatCurrency(getX(datum)), annotationfontSize) +
             estimateTextWidth(getLabel(datum), annotationfontSize);
           // On smaller screens, anotations may break on several lines
           const nbOfLines = Math.ceil(oneFullLine / (chartWidth * 0.5));
@@ -144,7 +148,7 @@ const useHistogramState = ({
           y: yScale(0),
           xLabel: xScale(getX(datum)),
           yLabel: annotationSpaces[i],
-          value: formatNumber(getX(datum)),
+          value: formatCurrency(getX(datum)),
           label: getLabel(datum),
           onTheLeft: xScale(getX(datum)) <= chartWidth / 2 ? false : true,
         };
