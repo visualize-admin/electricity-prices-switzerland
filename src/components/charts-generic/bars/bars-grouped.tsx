@@ -49,18 +49,52 @@ export const BarsGrouped = () => {
             >
               {segment[0]}
             </text>
+          </g>
+        );
+      })}
+    </g>
+  );
+};
+
+export const BarsGroupedLabels = () => {
+  const {
+    bounds,
+    xScale,
+    yScaleIn,
+    getX,
+    getY,
+    yScale,
+    getSegment,
+    colors,
+    grouped,
+  } = useChartState() as GroupedBarsState;
+  const { margins } = bounds;
+  const { axisLabelColor, labelFontSize, fontFamily } = useChartTheme();
+  const formatCurrency = useFormatCurrency();
+
+  return (
+    <g transform={`translate(${margins.left} ${margins.top})`}>
+      {grouped.map((segment) => {
+        return (
+          <g key={segment[0]} transform={`translate(0, ${yScale(segment[0])})`}>
             <g
               transform={`translate(0, ${BAR_SPACE_ON_TOP - BAR_AXIS_OFFSET})`}
             >
               {segment[1].map((d, i) => (
-                <Bar
-                  key={i}
-                  y={yScaleIn(getSegment(d)) as number}
+                <text
+                  style={{
+                    fontFamily,
+                    fill: axisLabelColor,
+                    fontSize: labelFontSize,
+                  }}
                   x={0}
-                  width={xScale(Math.max(0, getX(d)))}
-                  height={yScaleIn.bandwidth()}
-                  color={colors(getSegment(d))}
-                />
+                  y={yScaleIn(getSegment(d)) as number}
+                  dx={6}
+                  dy={labelFontSize * 1.5}
+                >
+                  <tspan fontWeight="bold">{formatCurrency(getX(d))}</tspan>{" "}
+                  {getSegment(d)}
+                </text>
               ))}
             </g>
           </g>
