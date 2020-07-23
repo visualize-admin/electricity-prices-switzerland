@@ -1,19 +1,20 @@
 import { Trans } from "@lingui/macro";
+import { Box } from "@theme-ui/components";
 import * as React from "react";
-import { memo, useState } from "react";
+import { useState, memo } from "react";
 import {
-  GenericObservation,
   Entity,
+  GenericObservation,
   getEntityLabelField,
+  priceComponents,
 } from "../../domain/data";
 import { getLocalizedLabel } from "../../domain/translation";
 import { PriceComponent, useObservationsQuery } from "../../graphql/queries";
 import { useQueryState } from "../../lib/use-query-state";
-import { EMPTY_ARRAY } from "../../pages/[locale]/municipality/[id]";
 import {
   AnnotationX,
-  AnnotationXLabel,
   AnnotationXDataPoint,
+  AnnotationXLabel,
 } from "../charts-generic/annotation/annotation-x";
 import { AxisWidthLinear } from "../charts-generic/axis/axis-width-linear";
 import { ChartContainer, ChartSvg } from "../charts-generic/containers";
@@ -24,6 +25,8 @@ import { Loading } from "../loading";
 import { RadioTabs } from "../radio-tabs";
 import { Card } from "./card";
 import { FilterSetDescription } from "./filter-set-description";
+import { Combobox } from "../combobox";
+import { EMPTY_ARRAY } from "../../pages/[locale]/municipality/[id]";
 
 export const CantonsComparisonRangePlots = ({
   id,
@@ -38,6 +41,7 @@ export const CantonsComparisonRangePlots = ({
   const [priceComponent, setPriceComponent] = useState<PriceComponent>(
     PriceComponent.Total
   );
+  const getItemLabel = (id: string) => getLocalizedLabel({ i18n, id });
 
   const comparisonIds =
     entity === "municipality"
@@ -59,22 +63,45 @@ export const CantonsComparisonRangePlots = ({
         </Trans>
       }
     >
-      <RadioTabs
-        name="priceComponents"
-        options={[
-          { value: "total", label: getLocalizedLabel({ i18n, id: "total" }) },
-          {
-            value: "gridusage",
-            label: getLocalizedLabel({ i18n, id: "gridusage" }),
-          },
-          { value: "energy", label: getLocalizedLabel({ i18n, id: "energy" }) },
-          { value: "charge", label: getLocalizedLabel({ i18n, id: "charge" }) },
-          { value: "aidfee", label: getLocalizedLabel({ i18n, id: "aidfee" }) },
-        ]}
-        value={priceComponent as string}
-        setValue={(c) => setPriceComponent(c as PriceComponent)}
-        variant="segmented"
-      />
+      <Box sx={{ display: ["none", "none", "block"] }}>
+        <RadioTabs
+          name="priceComponents"
+          options={[
+            { value: "total", label: getLocalizedLabel({ i18n, id: "total" }) },
+            {
+              value: "gridusage",
+              label: getLocalizedLabel({ i18n, id: "gridusage" }),
+            },
+            {
+              value: "energy",
+              label: getLocalizedLabel({ i18n, id: "energy" }),
+            },
+            {
+              value: "charge",
+              label: getLocalizedLabel({ i18n, id: "charge" }),
+            },
+            {
+              value: "aidfee",
+              label: getLocalizedLabel({ i18n, id: "aidfee" }),
+            },
+          ]}
+          value={priceComponent as string}
+          setValue={(c) => setPriceComponent(c as PriceComponent)}
+          variant="segmented"
+        />
+      </Box>
+      <Box sx={{ display: ["block", "block", "none"] }}>
+        <Combobox
+          id="priceComponents"
+          label={<Trans id="selector.priceComponents">Preis Komponenten</Trans>}
+          items={priceComponents}
+          getItemLabel={getItemLabel}
+          selectedItem={priceComponent}
+          setSelectedItem={(c) => setPriceComponent(c as PriceComponent)}
+          showLabel={false}
+        />
+      </Box>
+
       {period.map((p) => (
         <CantonsComparisonRangePlot
           key={p}

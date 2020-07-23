@@ -1,7 +1,20 @@
 import { Trans } from "@lingui/macro";
-import { useRouter } from "next/router";
+import { Box } from "@theme-ui/components";
 import * as React from "react";
+import { useState } from "react";
+import {
+  Entity,
+  GenericObservation,
+  getEntityLabelField,
+  priceComponents,
+} from "../../domain/data";
+import { getLocalizedLabel } from "../../domain/translation";
+import { useQueryState } from "../../lib/use-query-state";
 import { EMPTY_ARRAY } from "../../pages/[locale]/municipality/[id]";
+import {
+  AnnotationX,
+  AnnotationXLabel,
+} from "../charts-generic/annotation/annotation-x";
 import { AxisHeightLinear } from "../charts-generic/axis/axis-height-linear";
 import {
   AxisWidthHistogram,
@@ -10,29 +23,17 @@ import {
 import { HistogramColumns } from "../charts-generic/histogram/histogram";
 import { Histogram } from "../charts-generic/histogram/histogram-state";
 import { Median } from "../charts-generic/histogram/median";
-import { Tooltip } from "../charts-generic/interaction/tooltip";
+import { Combobox } from "../combobox";
+import { useI18n } from "../i18n-context";
 import { Loading } from "../loading";
+import { RadioTabs } from "../radio-tabs";
 import {
   ChartContainer,
   ChartSvg,
 } from "./../../components/charts-generic/containers";
 import { Card } from "./../../components/detail-page/card";
 import { PriceComponent, useObservationsQuery } from "./../../graphql/queries";
-import { useQueryState } from "../../lib/use-query-state";
-import { useState } from "react";
-import { getLocalizedLabel } from "../../domain/translation";
-import { RadioTabs } from "../radio-tabs";
 import { FilterSetDescription } from "./filter-set-description";
-import {
-  GenericObservation,
-  Entity,
-  getEntityLabelField,
-} from "../../domain/data";
-import { useI18n } from "../i18n-context";
-import {
-  AnnotationXLabel,
-  AnnotationX,
-} from "../charts-generic/annotation/annotation-x";
 
 export const PriceDistributionHistograms = ({
   id,
@@ -46,6 +47,7 @@ export const PriceDistributionHistograms = ({
   const [priceComponent, setPriceComponent] = useState<PriceComponent>(
     PriceComponent.Total
   );
+  const getItemLabel = (id: string) => getLocalizedLabel({ i18n, id });
 
   const comparisonIds =
     entity === "municipality"
@@ -67,22 +69,45 @@ export const PriceDistributionHistograms = ({
         </Trans>
       }
     >
-      <RadioTabs
-        name="priceComponents"
-        options={[
-          { value: "total", label: getLocalizedLabel({ i18n, id: "total" }) },
-          {
-            value: "gridusage",
-            label: getLocalizedLabel({ i18n, id: "gridusage" }),
-          },
-          { value: "energy", label: getLocalizedLabel({ i18n, id: "energy" }) },
-          { value: "charge", label: getLocalizedLabel({ i18n, id: "charge" }) },
-          { value: "aidfee", label: getLocalizedLabel({ i18n, id: "aidfee" }) },
-        ]}
-        value={priceComponent as string}
-        setValue={(c) => setPriceComponent(c as PriceComponent)}
-        variant="segmented"
-      />
+      <Box sx={{ display: ["none", "none", "block"] }}>
+        <RadioTabs
+          name="priceComponents"
+          options={[
+            { value: "total", label: getLocalizedLabel({ i18n, id: "total" }) },
+            {
+              value: "gridusage",
+              label: getLocalizedLabel({ i18n, id: "gridusage" }),
+            },
+            {
+              value: "energy",
+              label: getLocalizedLabel({ i18n, id: "energy" }),
+            },
+            {
+              value: "charge",
+              label: getLocalizedLabel({ i18n, id: "charge" }),
+            },
+            {
+              value: "aidfee",
+              label: getLocalizedLabel({ i18n, id: "aidfee" }),
+            },
+          ]}
+          value={priceComponent as string}
+          setValue={(c) => setPriceComponent(c as PriceComponent)}
+          variant="segmented"
+        />
+      </Box>
+      <Box sx={{ display: ["block", "block", "none"] }}>
+        <Combobox
+          id="priceComponents"
+          label={<Trans id="selector.priceComponents">Preis Komponenten</Trans>}
+          items={priceComponents}
+          getItemLabel={getItemLabel}
+          selectedItem={priceComponent}
+          setSelectedItem={(c) => setPriceComponent(c as PriceComponent)}
+          showLabel={false}
+        />
+      </Box>
+
       {period.map((p) => (
         <PriceDistributionHistogram
           key={p}
