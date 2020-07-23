@@ -23,9 +23,9 @@ const queryStateDefaults = {
   category: "C1",
   priceComponent: "total",
   product: "standard",
-  provider: undefined,
+  provider: "",
   municipality: "",
-  canton: undefined,
+  canton: "",
 } as const;
 
 type QueryState = {
