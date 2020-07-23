@@ -329,7 +329,7 @@ export const ChoroplethMap = ({
               onClick={({ layer, object }: $FixMe) => {
                 const { href, as } = createDynamicRouteProps({
                   pathname: `/[locale]/municipality/${object?.id.toString()}`,
-                  query: { ...query },
+                  query,
                 });
                 push(href, as);
                 // if (object) {

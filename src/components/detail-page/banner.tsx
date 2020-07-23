@@ -3,6 +3,7 @@ import { Box, Flex, Text } from "@theme-ui/components";
 import * as React from "react";
 import { Link as UILink } from "theme-ui";
 import { LocalizedLink } from "../links";
+import { useRouter } from "next/router";
 
 export const DetailPageBanner = ({
   id,
@@ -17,6 +18,7 @@ export const DetailPageBanner = ({
   providers?: { id: string; name: string }[];
   municipalities?: { id: string; name: string }[];
 }) => {
+  const { query } = useRouter();
   return (
     <Box
       sx={{
@@ -39,7 +41,7 @@ export const DetailPageBanner = ({
               <Trans id="detail.canton">Kanton</Trans>:{" "}
               <LocalizedLink
                 pathname="/[locale]/canton/[id]"
-                query={{ id: canton.id }}
+                query={{ ...query, id: canton.id }}
                 passHref
               >
                 <UILink variant="inline">{canton.name}</UILink>
@@ -53,7 +55,7 @@ export const DetailPageBanner = ({
                 <React.Fragment key={id}>
                   <LocalizedLink
                     pathname={`/[locale]/municipality/[id]`}
-                    query={{ id }}
+                    query={{ ...query, id }}
                     passHref
                   >
                     <UILink variant="inline">{name}</UILink>
@@ -70,7 +72,7 @@ export const DetailPageBanner = ({
                 <React.Fragment key={id}>
                   <LocalizedLink
                     pathname={`/[locale]/provider/[id]`}
-                    query={{ id }}
+                    query={{ ...query, id }}
                     passHref
                   >
                     <UILink variant="inline">{name}</UILink>

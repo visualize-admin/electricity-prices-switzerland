@@ -10,6 +10,7 @@ import { MiniSelect, SearchField } from "./form";
 import { useI18n } from "./i18n-context";
 import { LocalizedLink } from "./links";
 import { RadioTabs } from "./radio-tabs";
+import { useRouter } from "next/router";
 
 const ListItem = ({
   id,
@@ -24,10 +25,12 @@ const ListItem = ({
   colorScale: (d: number) => string;
   formatNumber: (d: number) => string;
 }) => {
+  const { query } = useRouter();
   return (
     <LocalizedLink
       pathname="/[locale]/municipality/[id]"
       query={{
+        ...query,
         id,
       }}
       passHref
