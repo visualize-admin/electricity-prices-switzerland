@@ -14,7 +14,7 @@ import {
 import { useLocale } from "../../../lib/use-locale";
 import { PriceDistributionHistograms } from "../../../components/detail-page/price-distribution-histogram";
 import { PriceEvolution } from "../../../components/detail-page/price-evolution-line-chart";
-import { PriceComponents } from "../../../components/detail-page/price-components";
+import { PriceComponentsBarChart } from "../../../components/detail-page/price-components-bars";
 import { useQueryState } from "../../../lib/use-query-state";
 import { GetServerSideProps } from "next";
 
@@ -32,7 +32,6 @@ export const getServerSideProps: GetServerSideProps<Props, Props> = async ({
 
 const MunicipalityPage = ({ id }: Props) => {
   const [{ category }] = useQueryState();
-  console.log({ id });
   return (
     <Flex sx={{ minHeight: "100vh", flexDirection: "column" }}>
       <Header></Header>
@@ -53,7 +52,8 @@ const MunicipalityPage = ({ id }: Props) => {
         <Box sx={{ width: "100%", maxWidth: "67rem", mx: "auto", my: 2 }}>
           <Flex sx={{ width: "100%" }}>
             <Box sx={{ flex: `2 2 ${2 / 3}%` }}>
-              {/* <PriceComponents /> */}
+              <PriceComponentsBarChart id={id} entity="municipality" />
+              {/* <PriceComponentsBarChart id={"10219012345"} entity="provider" /> */}
               <PriceEvolution id={id} entity="municipality" />
               <PriceDistributionHistograms id={id} entity="municipality" />
               <CantonsComparisonRangePlots id={id} entity="municipality" />

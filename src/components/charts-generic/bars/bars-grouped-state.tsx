@@ -181,10 +181,10 @@ const useGroupedBarsState = ({
   });
 
   const margins = {
-    top: 50,
+    top: 0,
     right: 40,
     bottom: BOTTOM_MARGIN_OFFSET,
-    left: LEFT_MARGIN_OFFSET,
+    left: 0,
   };
   const chartWidth = width - margins.left - margins.right;
   const bounds = {

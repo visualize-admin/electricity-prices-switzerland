@@ -64,7 +64,7 @@ export const PriceEvolution = ({
   const [observationsQuery] = useObservationsWithAllPriceComponentsQuery({
     variables: {
       filters: {
-        municipality: entityIds,
+        [entity]: entityIds,
         category: [
           `https://energy.ld.admin.ch/elcom/energy-pricing/category/${category[0]}`,
         ],
