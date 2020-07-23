@@ -68,8 +68,6 @@ export const getServerSideProps: GetServerSideProps<
 };
 
 const ProviderPage = ({ id, name, municipalities }: Props) => {
-  console.log({ municipalities });
-
   return (
     <Flex sx={{ minHeight: "100vh", flexDirection: "column" }}>
       <Header></Header>

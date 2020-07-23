@@ -103,7 +103,7 @@ const MunicipalityPage = ({ id, name, providers }: Props) => {
                 flex: ["1 1 100%", "1 1 100%", `1 1 ${1 / 3}%`],
               }}
             >
-              <SelectorMulti />
+              <SelectorMulti entity="municipality" />
             </Box>
           </Flex>
         </Box>
