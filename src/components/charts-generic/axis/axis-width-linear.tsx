@@ -75,14 +75,16 @@ export const AxisWidthLinearBottom = () => {
 };
 
 export const AxisWidthLinearTop = () => {
-  const formatNumber = useFormatNumber();
+  const formatCurrency = useFormatCurrency();
   const { xScale, yScale, bounds } = useChartState() as RangePlotState;
   const { chartWidth, chartHeight, margins } = bounds;
   const { labelColor, labelFontSize, gridColor, fontFamily } = useChartTheme();
   const xAxisRef = useRef<SVGGElement>(null);
 
   const mkAxis = (g: Selection<SVGGElement, unknown, null, undefined>) => {
-    const maxLabelLength = estimateTextWidth(formatNumber(xScale.domain()[1]));
+    const maxLabelLength = estimateTextWidth(
+      formatCurrency(xScale.domain()[1])
+    );
     const ticks = Math.min(bounds.chartWidth / (maxLabelLength + 20), 10);
     const tickValues = xScale.ticks(ticks);
 
@@ -91,7 +93,7 @@ export const AxisWidthLinearTop = () => {
         .tickValues(tickValues)
         .tickSizeInner(-chartHeight - margins.bottom - margins.top / 2)
         .tickSizeOuter(-chartHeight - margins.bottom - margins.top / 2)
-        .tickFormat(formatNumber)
+        .tickFormat(formatCurrency)
         .tickPadding(6)
     );
 

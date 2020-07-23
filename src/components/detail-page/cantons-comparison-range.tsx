@@ -152,7 +152,7 @@ export const CantonsComparisonRangePlot = memo(
 
     const annotations =
       annotationIds &&
-      observations.filter((obs) => annotationIds.includes(obs.municipality));
+      observations.filter((obs) => annotationIds.includes(obs[entity]));
 
     return (
       <>

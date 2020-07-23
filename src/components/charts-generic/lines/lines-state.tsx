@@ -9,23 +9,23 @@ import {
 } from "d3-scale";
 import * as React from "react";
 import { ReactNode, useCallback, useMemo } from "react";
+import { LineFields } from "../../../domain/config-types";
 import { GenericObservation, ObservationValue } from "../../../domain/data";
 import {
   getPalette,
   mkNumber,
   parseDate,
+  useFormatCurrency,
   useFormatFullDateAuto,
-  useFormatNumber,
 } from "../../../domain/helpers";
 import { sortByIndex } from "../../../lib/array";
 import { estimateTextWidth } from "../../../lib/estimate-text-width";
 import { useTheme } from "../../../themes";
-import { Tooltip } from "../interaction/tooltip";
 import { LEFT_MARGIN_OFFSET } from "../constants";
+import { Tooltip } from "../interaction/tooltip";
 import { ChartContext, ChartProps } from "../use-chart-state";
 import { InteractionProvider } from "../use-interaction";
 import { Bounds, Observer, useWidth } from "../use-width";
-import { LineFields } from "../../../domain/config-types";
 
 export interface LinesState {
   data: GenericObservation[];
@@ -58,7 +58,7 @@ const useLinesState = ({
 }): LinesState => {
   const theme = useTheme();
   const width = useWidth();
-  const formatNumber = useFormatNumber();
+  const formatCurrency = useFormatCurrency();
   const formatDateAuto = useFormatFullDateAuto();
 
   const getGroups = (d: GenericObservation): string =>
@@ -153,8 +153,8 @@ const useLinesState = ({
 
   // Dimensions
   const left = Math.max(
-    estimateTextWidth(formatNumber(yScale.domain()[0])),
-    estimateTextWidth(formatNumber(yScale.domain()[1]))
+    estimateTextWidth(formatCurrency(yScale.domain()[0])),
+    estimateTextWidth(formatCurrency(yScale.domain()[1]))
   );
   const margins = {
     top: 40,
@@ -205,12 +205,12 @@ const useLinesState = ({
       xValue: formatDateAuto(getX(datum)),
       datum: {
         label: fields.segment && getSegment(datum),
-        value: formatNumber(getY(datum)),
+        value: formatCurrency(getY(datum)),
         color: colors(getSegment(datum)) as string,
       },
       values: sortedTooltipValues.map((td) => ({
         label: getSegment(td),
-        value: formatNumber(getY(td)),
+        value: formatCurrency(getY(td)),
         color:
           segments.length > 1
             ? (colors(getSegment(td)) as string)

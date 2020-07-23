@@ -104,6 +104,7 @@ export const BarsGroupedLabels = () => {
             >
               {segment[1].map((d, i) => (
                 <text
+                  key={getSegment(d)}
                   style={{
                     fontFamily,
                     fill: axisLabelColor,

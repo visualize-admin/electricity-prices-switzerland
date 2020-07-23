@@ -18,17 +18,21 @@ const ListItem = ({
   value,
   colorScale,
   formatNumber,
+  listState,
 }: {
   id: string;
   label: string;
   value: number;
   colorScale: (d: number) => string;
   formatNumber: (d: number) => string;
+  listState: ListState;
 }) => {
   const { query } = useRouter();
   return (
     <LocalizedLink
-      pathname="/[locale]/municipality/[id]"
+      pathname={`/[locale]/${
+        listState === "MUNICIPALITIES" ? "municipality" : "provider"
+      }/[id]`}
       query={{
         ...query,
         id,
@@ -86,10 +90,12 @@ const ListItems = ({
   getLabel,
   items,
   colorScale,
+  listState,
 }: {
   getLabel: (observation: Observation) => string;
   items: [string, Observation][];
   colorScale: ScaleThreshold<number, string>;
+  listState: ListState;
 }) => {
   const [truncated, setTruncated] = useState<number>(TRUNCATION_INCREMENT);
   const formatNumber = useFormatCurrency();
@@ -108,6 +114,7 @@ const ListItems = ({
             label={getLabel(d)}
             colorScale={colorScale}
             formatNumber={formatNumber}
+            listState={listState}
           />
         );
       })}
@@ -257,6 +264,7 @@ export const List = ({ observations, colorScale }: Props) => {
         items={listItems}
         getLabel={getLabel}
         colorScale={colorScale}
+        listState={listState}
       />
     </>
   );

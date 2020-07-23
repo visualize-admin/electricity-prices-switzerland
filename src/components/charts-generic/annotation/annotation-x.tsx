@@ -102,7 +102,7 @@ export const AnnotationXLabel = () => {
           <Box
             key={a.label}
             sx={{
-              // width: chartWidth * 0.5,
+              maxWidth: chartWidth * 0.5,
               width: "fit-content",
               p: 1,
               zIndex: 2,

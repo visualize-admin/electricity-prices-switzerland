@@ -80,7 +80,7 @@ export const useColorScale = ({
   }, [observations, accessor, palettes.diverging]);
 };
 
-export type Entity = "municipality" | "provider" | "canton";
+export type Entity = "municipality" | "provider"; //| "canton";
 export const getEntityLabelField = (entity: Entity): keyof Observation =>
   entity === "municipality"
     ? // FIXME: use "municipalityLabel" here when it is data-ready
@@ -89,6 +89,15 @@ export const getEntityLabelField = (entity: Entity): keyof Observation =>
     ? "providerLabel"
     : // FIXME: use "canton" here when it is data-ready
       "municipality";
+
+export const providers = [
+  "10481012345",
+  "10219012345",
+  "10453012345",
+  "10142012345",
+  "10299012345",
+  "10818012345",
+];
 
 export const municipalities = [
   "261",

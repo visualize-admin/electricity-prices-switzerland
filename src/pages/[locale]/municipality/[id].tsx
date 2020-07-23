@@ -25,7 +25,6 @@ type Props = {
   providers: { id: string; name: string }[];
 };
 
-// FIXME: Should we get the is from the query instead?
 export const getServerSideProps: GetServerSideProps<
   Props,
   { locale: string; id: string }
@@ -70,8 +69,6 @@ export const getServerSideProps: GetServerSideProps<
 };
 
 const MunicipalityPage = ({ id, name, providers }: Props) => {
-  const [{ category }] = useQueryState();
-
   return (
     <Flex sx={{ minHeight: "100vh", flexDirection: "column" }}>
       <Header></Header>
@@ -106,7 +103,7 @@ const MunicipalityPage = ({ id, name, providers }: Props) => {
                 flex: ["1 1 100%", "1 1 100%", `1 1 ${1 / 3}%`],
               }}
             >
-              <SelectorMulti />
+              <SelectorMulti entity="municipality" />
             </Box>
           </Flex>
         </Box>
