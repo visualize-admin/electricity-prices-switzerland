@@ -90,6 +90,15 @@ export const getEntityLabelField = (entity: Entity): keyof Observation =>
     : // FIXME: use "canton" here when it is data-ready
       "municipality";
 
+export const providers = [
+  "10481012345",
+  "10219012345",
+  "10453012345",
+  "10142012345",
+  "10299012345",
+  "10818012345",
+];
+
 export const municipalities = [
   "261",
   "3992",
