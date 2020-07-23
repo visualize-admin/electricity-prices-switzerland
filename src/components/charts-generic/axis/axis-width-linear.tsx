@@ -6,21 +6,23 @@ import { useChartState } from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
 
 import { estimateTextWidth } from "../../../lib/estimate-text-width";
-import { useFormatNumber } from "../../../domain/helpers";
+import { useFormatNumber, useFormatCurrency } from "../../../domain/helpers";
 import { RangePlotState } from "../rangeplot/rangeplot-state";
 
 export const AxisWidthLinear = ({ position }: { position: "top" | "bottom" }) =>
   position === "bottom" ? <AxisWidthLinearBottom /> : <AxisWidthLinearTop />;
 
 export const AxisWidthLinearBottom = () => {
-  const formatNumber = useFormatNumber();
+  const formatCurrency = useFormatCurrency();
   const { xScale, bounds } = useChartState() as RangePlotState;
   const { chartWidth, chartHeight, margins } = bounds;
   const { labelColor, labelFontSize, gridColor, fontFamily } = useChartTheme();
   const xAxisRef = useRef<SVGGElement>(null);
 
   const mkAxis = (g: Selection<SVGGElement, unknown, null, undefined>) => {
-    const maxLabelLength = estimateTextWidth(formatNumber(xScale.domain()[1]));
+    const maxLabelLength = estimateTextWidth(
+      formatCurrency(xScale.domain()[1])
+    );
     const ticks = Math.min(bounds.chartWidth / (maxLabelLength + 20), 4);
     const tickValues = xScale.ticks(ticks);
 
@@ -29,7 +31,7 @@ export const AxisWidthLinearBottom = () => {
         .tickValues(tickValues)
         .tickSizeInner(-chartHeight)
         .tickSizeOuter(-chartHeight)
-        .tickFormat(formatNumber)
+        .tickFormat(formatCurrency)
     );
 
     g.selectAll(".tick line").attr("stroke", gridColor).attr("stroke-width", 1);
