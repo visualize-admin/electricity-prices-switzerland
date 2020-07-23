@@ -70,7 +70,17 @@ export const HomeLink = (
   }
 ) => {
   const locale = useLocale();
-  return <Link {...props} href={`/${locale}`} as={`/${locale}`} />;
+  const { query } = useRouter();
+
+  return (
+    <Link
+      {...props}
+      {...createDynamicRouteProps({
+        pathname: "/[locale]",
+        query: { ...query, locale },
+      })}
+    />
+  );
 };
 
 export const CurrentPageLink = ({

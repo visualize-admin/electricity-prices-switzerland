@@ -3,16 +3,22 @@ import { Box, Flex, Text } from "@theme-ui/components";
 import * as React from "react";
 import { Link as UILink } from "theme-ui";
 import { LocalizedLink } from "../links";
+import { useRouter } from "next/router";
 
 export const DetailPageBanner = ({
-  entity,
-  kanton,
-  linkedIds,
+  id,
+  name,
+  canton,
+  providers,
+  municipalities,
 }: {
-  entity?: string;
-  kanton?: string;
-  linkedIds: string[];
+  id: string;
+  name: string;
+  canton?: { id: string; name: string };
+  providers?: { id: string; name: string }[];
+  municipalities?: { id: string; name: string }[];
 }) => {
+  const { query } = useRouter();
   return (
     <Box
       sx={{
@@ -25,40 +31,57 @@ export const DetailPageBanner = ({
       }}
     >
       <Box sx={{ maxWidth: "67rem", mx: "auto", my: 2, px: 4 }}>
-        {entity && (
-          <Text as="h1" variant="heading1" sx={{ color: "monochrome800" }}>
-            {entity}
-          </Text>
-        )}
+        <Text as="h1" variant="heading1" sx={{ color: "monochrome800" }}>
+          {name}
+        </Text>
 
         <Flex sx={{ flexWrap: "wrap" }}>
-          {kanton && (
+          {canton && (
             <Box sx={{ pr: 3, my: 1 }}>
               <Trans id="detail.canton">Kanton</Trans>:{" "}
               <LocalizedLink
                 pathname="/[locale]/canton/[id]"
-                query={{ id: kanton }}
+                query={{ ...query, id: canton.id }}
                 passHref
               >
-                <UILink variant="inline">{kanton}</UILink>
+                <UILink variant="inline">{canton.name}</UILink>
               </LocalizedLink>
             </Box>
           )}
-          <Box sx={{ pr: 3, my: 1 }}>
-            <Trans id="detail.municipality">Netzbetrieber</Trans>:{" "}
-            {linkedIds.map((id, i) => (
-              <React.Fragment key={i}>
-                <LocalizedLink
-                  pathname="/[locale]/provider/[id]"
-                  query={{ id: id }}
-                  passHref
-                >
-                  <UILink variant="inline">{id}</UILink>
-                </LocalizedLink>
-                {i < linkedIds.length - 1 && ", "}
-              </React.Fragment>
-            ))}
-          </Box>
+          {municipalities && (
+            <Box sx={{ pr: 3, my: 1 }}>
+              <Trans id="detail.municipalities">Gemeinden</Trans>:{" "}
+              {municipalities.map(({ id, name }, i) => (
+                <React.Fragment key={id}>
+                  <LocalizedLink
+                    pathname={`/[locale]/municipality/[id]`}
+                    query={{ ...query, id }}
+                    passHref
+                  >
+                    <UILink variant="inline">{name}</UILink>
+                  </LocalizedLink>
+                  {i < municipalities.length - 1 && ", "}
+                </React.Fragment>
+              ))}
+            </Box>
+          )}
+          {providers && (
+            <Box sx={{ pr: 3, my: 1 }}>
+              <Trans id="detail.providers">Netzbetreiber</Trans>:{" "}
+              {providers.map(({ id, name }, i) => (
+                <React.Fragment key={id}>
+                  <LocalizedLink
+                    pathname={`/[locale]/provider/[id]`}
+                    query={{ ...query, id }}
+                    passHref
+                  >
+                    <UILink variant="inline">{name}</UILink>
+                  </LocalizedLink>
+                  {i < providers.length - 1 && ", "}
+                </React.Fragment>
+              ))}
+            </Box>
+          )}
         </Flex>
       </Box>
     </Box>
