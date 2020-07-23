@@ -300,6 +300,7 @@ export const Combobox = ({
   selectedItem,
   setSelectedItem,
   getItemLabel = defaultGetItemLabel,
+  showLabel = true,
 }: {
   id: string;
   label: string | ReactNode;
@@ -307,6 +308,7 @@ export const Combobox = ({
   selectedItem: string;
   setSelectedItem: (selectedItem: string) => void;
   getItemLabel?: (item: string) => string;
+  showLabel?: boolean;
 }) => {
   const [inputValue, setInputValue] = useState(getItemLabel(selectedItem));
 
@@ -358,7 +360,12 @@ export const Combobox = ({
 
   return (
     <Box sx={{ position: "relative" }}>
-      <Label label={label} smaller {...getLabelProps()}></Label>
+      <Label
+        showLabel={showLabel}
+        label={label}
+        smaller
+        {...getLabelProps()}
+      ></Label>
       <Flex
         sx={{
           display: "block",

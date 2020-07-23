@@ -30,12 +30,14 @@ export const Label = ({
   disabled,
   smaller = false,
   children,
+  showLabel = true,
 }: {
   label?: string | React.ReactNode;
   htmlFor: string;
   disabled?: boolean;
   smaller?: boolean;
   children: React.ReactNode;
+  showLabel?: boolean;
 }) => (
   <RebassLabel
     htmlFor={htmlFor}
@@ -57,6 +59,7 @@ export const Label = ({
           textAlign: "left",
           fontFamily: "body",
           pr: 1,
+          visibility: showLabel ? "visible" : "hidden",
         }}
       >
         {label}
