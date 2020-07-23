@@ -21,6 +21,8 @@ import { GetServerSideProps } from "next";
 export const EMPTY_ARRAY: never[] = [];
 
 type Props = { id: string };
+
+// FIXME: Should we get the is from the query instead?
 export const getServerSideProps: GetServerSideProps<Props, Props> = async ({
   params,
 }) => {
@@ -53,8 +55,8 @@ const MunicipalityPage = ({ id }: Props) => {
             <Box sx={{ flex: `2 2 ${2 / 3}%` }}>
               {/* <PriceComponents /> */}
               {/* <PriceEvolutionLineChart /> */}
-              {/* <PriceDistributionHistograms /> */}
-              <CantonsComparisonRangePlots id={id} />
+              <PriceDistributionHistograms entity="municipality" />
+              <CantonsComparisonRangePlots id={id} entity="municipality" />
             </Box>
             <Box sx={{ flex: `1 1 ${1 / 3}%` }}>
               <SelectorMulti />
