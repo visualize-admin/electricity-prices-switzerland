@@ -36,6 +36,7 @@ import { memo } from "react";
 import { FilterSetDescription } from "./filter-set-description";
 import { getLocalizedLabel } from "../../domain/translation";
 import { useI18n } from "../i18n-context";
+import { group } from "d3-array";
 
 export const PriceEvolution = ({
   id,
@@ -74,9 +75,6 @@ export const PriceEvolution = ({
   const observations = observationsQuery.fetching
     ? EMPTY_ARRAY
     : observationsQuery.data?.cubeByIri?.observations ?? EMPTY_ARRAY;
-
-  console.table(observations);
-  console.log("entityIds in line chart", entityIds);
 
   return (
     <Card
@@ -125,61 +123,70 @@ const PriceEvolutionLineChart = memo(
   }) => {
     const i18n = useI18n();
 
+    const withUniqueEntityId = observations.map((obs) => ({
+      uniqueId: `${obs.municipality}-${obs.providerLabel}`,
+      ...obs,
+    }));
+
     return (
-      <Box sx={{ my: 4 }}>
-        <LineChart
-          data={observations}
-          fields={{
-            x: {
-              componentIri: "period",
-            },
-            y: {
-              componentIri: priceComponent,
-            },
-            segment: hasMultipleLines
-              ? {
-                  componentIri: getEntityLabelField(entity),
-                  palette: "accent",
-                }
-              : undefined,
-          }}
-          measures={[
-            {
-              iri: priceComponent,
-              label: getLocalizedLabel({ i18n, id: priceComponent }),
-              __typename: "Measure",
-            },
-          ]}
-          dimensions={[
-            {
-              iri: "period",
-              label: "period",
-              __typename: "TemporalDimension",
-            },
-          ]}
-          aspectRatio={0.2}
-        >
-          {withLegend && (
-            <Box sx={{ mb: 6 }}>
-              <LegendColor symbol="line" />
-            </Box>
-          )}
-          <ChartContainer>
-            <ChartSvg>
-              <AxisHeightLinear /> <AxisTime />
-              {/* <AxisTimeDomain /> */}
-              <Lines />
-              <InteractionHorizontal />
-            </ChartSvg>
+      <>
+        <Box sx={{ my: 4 }}>
+          <LineChart
+            data={entity === "municipality" ? withUniqueEntityId : observations}
+            fields={{
+              x: {
+                componentIri: "period",
+              },
+              y: {
+                componentIri: priceComponent,
+              },
+              segment: hasMultipleLines
+                ? {
+                    componentIri:
+                      entity === "municipality"
+                        ? "uniqueId"
+                        : getEntityLabelField(entity),
+                    palette: "accent",
+                  }
+                : undefined,
+            }}
+            measures={[
+              {
+                iri: priceComponent,
+                label: getLocalizedLabel({ i18n, id: priceComponent }),
+                __typename: "Measure",
+              },
+            ]}
+            dimensions={[
+              {
+                iri: "period",
+                label: "period",
+                __typename: "TemporalDimension",
+              },
+            ]}
+            aspectRatio={0.2}
+          >
+            {withLegend && (
+              <Box sx={{ mb: 6 }}>
+                <LegendColor symbol="line" />
+              </Box>
+            )}
+            <ChartContainer>
+              <ChartSvg>
+                <AxisHeightLinear /> <AxisTime />
+                <Lines />
+                <InteractionHorizontal />
+              </ChartSvg>
 
-            {hasMultipleLines && <Ruler />}
+              {hasMultipleLines && <Ruler />}
 
-            <HoverDotMultiple />
+              <HoverDotMultiple />
 
-            <Tooltip type={hasMultipleLines ? "multiple" : "single"} />
-          </ChartContainer>
-        </LineChart>
-      </Box>
+              <Tooltip type={hasMultipleLines ? "multiple" : "single"} />
+            </ChartContainer>
+          </LineChart>
+        </Box>
+      </>
     );
   }
 );
