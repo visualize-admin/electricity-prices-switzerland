@@ -6,27 +6,52 @@ import { Bars } from "../charts-generic/bars/bars-simple";
 import { BarChart } from "../charts-generic/bars/bars-state";
 import { ChartContainer, ChartSvg } from "../charts-generic/containers";
 import { Card } from "./card";
-import { PriceComponent, useObservationsQuery } from "../../graphql/queries";
+import {
+  PriceComponent,
+  useObservationsQuery,
+  useObservationsWithAllPriceComponentsQuery,
+} from "../../graphql/queries";
 import { EMPTY_ARRAY } from "../../pages/[locale]/municipality/[id]";
+import { Entity, priceComponents, GenericObservation } from "../../domain/data";
+import { useQueryState } from "../../lib/use-query-state";
+import { Loading } from "../loading";
+import { GroupedBarsChart } from "../charts-generic/bars/bars-grouped-state";
+import { pivot_longer } from "../../domain/helpers";
+import { BarsGrouped } from "../charts-generic/bars/bars-grouped";
 
-export const PriceComponentsBarChart = () => {
-  const { query } = useRouter();
+export const PriceComponentsBarChart = ({
+  id,
+  entity,
+}: {
+  id: string;
+  entity: Entity;
+}) => {
+  const [
+    { period, category, municipality, provider, canton },
+  ] = useQueryState();
 
-  const priceComponent = PriceComponent.Total; // TODO: parameterize priceComponent
-  const category = (query.category as string) ?? "H4";
-  const year = (query.year as string) ?? "2019";
+  const comparisonIds =
+    entity === "municipality"
+      ? municipality
+      : entity === "provider"
+      ? provider
+      : canton;
 
-  const [observationsQuery] = useObservationsQuery({
+  const entityIds =
+    comparisonIds && comparisonIds?.some((m) => m !== "")
+      ? [...comparisonIds, id]
+      : [id];
+  console.log({ id });
+  console.log({ entityIds });
+
+  const [observationsQuery] = useObservationsWithAllPriceComponentsQuery({
     variables: {
-      priceComponent,
       filters: {
-        period: [year],
+        [entity]: entityIds,
         category: [
-          `https://energy.ld.admin.ch/elcom/energy-pricing/category/${category}`,
+          `https://energy.ld.admin.ch/elcom/energy-pricing/category/${category[0]}`,
         ],
-        municipality: [
-          `http://classifications.data.admin.ch/municipality/${query.id}`,
-        ],
+        // product: [product]
       },
     },
   });
@@ -34,40 +59,60 @@ export const PriceComponentsBarChart = () => {
     ? EMPTY_ARRAY
     : observationsQuery.data?.cubeByIri?.observations ?? EMPTY_ARRAY;
 
+  const pivoted = pivot_longer({
+    data: observations as $FixMe[],
+    cols: priceComponents,
+    name_to: "priceComponent",
+  });
+
+  // const uniqueIds = muni+provider+year
   return (
     <Card
       title={
         <Trans id="detail.card.title.price.components">Preiskomponenten</Trans>
       }
     >
-      <BarChart
-        data={observations.map((obs: $FixMe) => ({
-          priceComponent: "Total (exkl. MwSt.)",
-          ...obs,
-        }))}
-        fields={{
-          x: {
-            componentIri: "value",
-          },
-          y: {
-            componentIri: "priceComponent",
-            sorting: { sortingType: "byMeasure", sortingOrder: "desc" },
-          },
-        }}
-        measures={[
-          {
-            iri: "value",
-            label: "value",
-            __typename: "Measure",
-          },
-        ]}
-      >
-        <ChartContainer>
-          <ChartSvg>
-            <Bars />
-          </ChartSvg>
-        </ChartContainer>
-      </BarChart>
+      {observations.length === 0 ? (
+        <Loading />
+      ) : (
+        <GroupedBarsChart
+          data={pivoted}
+          fields={{
+            x: {
+              componentIri: "value",
+            },
+            y: {
+              componentIri: "priceComponent",
+              sorting: { sortingType: "byMeasure", sortingOrder: "desc" },
+            },
+            segment: {
+              componentIri: "municipality",
+              type: "grouped",
+              palette: "elcom",
+            },
+          }}
+          measures={[
+            {
+              iri: "value",
+              label: "value",
+              __typename: "Measure",
+            },
+          ]}
+          dimensions={[
+            {
+              iri: "priceComponent",
+              label: "priceComponent",
+              __typename: "NominalDimension",
+            },
+          ]}
+        >
+          <ChartContainer>
+            <ChartSvg>
+              <BarsGrouped />
+            </ChartSvg>
+          </ChartContainer>
+        </GroupedBarsChart>
+      )}
     </Card>
   );
 };
