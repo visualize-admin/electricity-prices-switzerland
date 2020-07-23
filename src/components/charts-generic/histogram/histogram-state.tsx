@@ -81,7 +81,11 @@ const useHistogramState = ({
   // Dimensions
   const left = Math.max(
     estimateTextWidth(formatNumber(yScale.domain()[0])),
-    estimateTextWidth(formatNumber(yScale.domain()[1]))
+    estimateTextWidth(
+      formatNumber(
+        yScale.domain().length > 1 ? yScale.domain()[1] : yScale.domain()[0]
+      )
+    )
   );
 
   const margins = {
