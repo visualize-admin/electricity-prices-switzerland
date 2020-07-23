@@ -9,9 +9,13 @@ import { estimateTextWidth } from "../../../lib/estimate-text-width";
 import { useFormatNumber } from "../../../domain/helpers";
 import { HistogramState } from "../histogram/histogram-state";
 
+import { min, max } from "d3-array";
+
 export const AxisWidthHistogram = () => {
   const formatNumber = useFormatNumber();
   const {
+    data,
+    getX,
     xScale,
     bounds,
     xAxisLabel,
@@ -30,11 +34,13 @@ export const AxisWidthHistogram = () => {
   const mkAxis = (g: Selection<SVGGElement, unknown, null, undefined>) => {
     const maxLabelLength = estimateTextWidth(formatNumber(xScale.domain()[1]));
     const ticks = Math.min(bounds.chartWidth / (maxLabelLength + 20), 4);
-    const tickValues = xScale.ticks(ticks);
-
+    // const tickValues = xScale.ticks(ticks);
+    const minValue = min(data, (d) => getX(d)) || 0;
+    const maxValue = max(data, (d) => getX(d)) || 10000;
+    const tickValues = [minValue, ...colors.domain(), maxValue];
     g.call(
       axisBottom(xScale)
-        .tickValues(colors.domain())
+        .tickValues(tickValues)
         // .tickValues(tickValues)
         .tickSizeInner(16)
         // .tickSizeInner(-chartHeight)
