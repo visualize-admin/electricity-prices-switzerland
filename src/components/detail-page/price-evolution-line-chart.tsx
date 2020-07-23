@@ -33,6 +33,7 @@ import {
 import { useQueryState } from "../../lib/use-query-state";
 import { Box } from "@theme-ui/components";
 import { memo } from "react";
+import { FilterSetDescription } from "./filter-set-description";
 
 export const PriceEvolution = ({
   id,
@@ -81,6 +82,11 @@ export const PriceEvolution = ({
         <Trans id="detail.card.title.prices.evolution">Tarifentwicklung</Trans>
       }
     >
+      <FilterSetDescription
+        filters={{
+          category: category[0],
+        }}
+      />
       {observations.length === 0 ? (
         <Loading />
       ) : (
@@ -113,7 +119,7 @@ const PriceEvolutionLineChart = memo(
     priceComponent: PriceComponent;
   }) => {
     return (
-      <Box sx={{ my: 4 }}>
+      <Box sx={{ my: 6 }}>
         <LineChart
           data={observations}
           fields={{
