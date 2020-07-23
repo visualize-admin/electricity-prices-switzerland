@@ -73,7 +73,7 @@ export const PriceEvolution = ({
     ? EMPTY_ARRAY
     : observationsQuery.data?.cubeByIri?.observations ?? EMPTY_ARRAY;
 
-  console.log("observations in line chart", observations);
+  console.table(observations);
   console.log("entityIds in line chart", entityIds);
 
   return (
@@ -91,13 +91,14 @@ export const PriceEvolution = ({
         <Loading />
       ) : (
         <>
-          {priceComponents.map((pc) => (
+          {priceComponents.map((pc, i) => (
             <PriceEvolutionLineChart
               key={pc}
               hasMultipleLines={entityIds.length > 1}
               observations={observations as GenericObservation[]}
               entity={entity}
               priceComponent={pc as PriceComponent}
+              withLegend={i === 0 && entityIds.length > 1}
             />
           ))}
         </>
@@ -112,11 +113,13 @@ const PriceEvolutionLineChart = memo(
     observations,
     entity,
     priceComponent,
+    withLegend,
   }: {
     hasMultipleLines: boolean;
     observations: GenericObservation[];
     entity: Entity;
     priceComponent: PriceComponent;
+    withLegend: boolean;
   }) => {
     return (
       <Box sx={{ my: 6 }}>
@@ -152,7 +155,11 @@ const PriceEvolutionLineChart = memo(
           ]}
           aspectRatio={0.2}
         >
-          <LegendColor symbol="line" />
+          {withLegend && (
+            <Box sx={{ mb: 6 }}>
+              <LegendColor symbol="line" />
+            </Box>
+          )}
           <ChartContainer>
             <ChartSvg>
               <AxisHeightLinear /> <AxisTime /> <AxisTimeDomain />
