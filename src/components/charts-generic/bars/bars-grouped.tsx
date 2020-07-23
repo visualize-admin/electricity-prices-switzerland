@@ -5,6 +5,8 @@ import { useChartTheme } from "../use-chart-theme";
 import { GroupedBarsState } from "./bars-grouped-state";
 import { Bar } from "./bars-simple";
 import { useFormatCurrency } from "../../../domain/helpers";
+import { getLocalizedLabel } from "../../../domain/translation";
+import { useI18n } from "../../i18n-context";
 
 export const BarsGrouped = () => {
   const {
@@ -26,7 +28,11 @@ export const BarsGrouped = () => {
     fontFamily,
     domainColor,
     markBorderColor,
+    axisLabelFontSize,
+    axisLabelFontWeight,
+    axisLabelColor,
   } = useChartTheme();
+  const i18n = useI18n();
 
   return (
     <g transform={`translate(${margins.left} ${margins.top})`}>
@@ -58,13 +64,12 @@ export const BarsGrouped = () => {
             <text
               x={0}
               y={BAR_SPACE_ON_TOP * (1 / 2)}
-              style={{
-                fontFamily,
-                fill: labelColor,
-                fontSize: labelFontSize,
-              }}
+              fontSize={axisLabelFontSize}
+              fontWeight={axisLabelFontWeight}
+              fill={axisLabelColor}
             >
-              {segment[0]}
+              {/* FIXME: the label shouldn't be localized here */}
+              {getLocalizedLabel({ i18n, id: segment[0] })}
             </text>
           </g>
         );
