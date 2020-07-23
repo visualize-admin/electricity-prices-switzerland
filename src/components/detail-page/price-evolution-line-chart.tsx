@@ -1,5 +1,5 @@
 import { Trans } from "@lingui/macro";
-import { useRouter } from "next/router";
+
 import * as React from "react";
 import { EMPTY_ARRAY } from "../../pages/[locale]/municipality/[id]";
 import { AxisHeightLinear } from "../charts-generic/axis/axis-height-linear";
@@ -20,29 +20,59 @@ import {
   ChartSvg,
 } from "./../../components/charts-generic/containers";
 import { Card } from "./../../components/detail-page/card";
-import { PriceComponent, useObservationsQuery } from "./../../graphql/queries";
-import { GenericObservation } from "../../domain/data";
+import {
+  PriceComponent,
+  useObservationsWithAllPriceComponentsQuery,
+} from "./../../graphql/queries";
+import {
+  GenericObservation,
+  Entity,
+  getEntityLabelField,
+  priceComponents,
+} from "../../domain/data";
+import { useQueryState } from "../../lib/use-query-state";
+import { Box } from "@theme-ui/components";
 
-export const PriceEvolutionLineChart = () => {
-  const { query } = useRouter();
+export const PriceEvolutionLineChart = ({
+  id,
+  entity,
+}: {
+  id: string;
+  entity: Entity;
+}) => {
+  const [
+    { period, category, municipality, provider, canton },
+  ] = useQueryState();
 
-  const priceComponent = PriceComponent.Total; // TODO: parameterize priceComponent
-  const category = (query.category as string) ?? "H4";
-  const year = (query.year as string) ?? "2019";
+  const comparisonIds =
+    entity === "municipality"
+      ? municipality
+      : entity === "provider"
+      ? provider
+      : canton;
 
-  const [observationsQuery] = useObservationsQuery({
+  const entityIds =
+    comparisonIds && comparisonIds?.some((m) => m !== "")
+      ? [...comparisonIds, id]
+      : [id];
+
+  const [observationsQuery] = useObservationsWithAllPriceComponentsQuery({
     variables: {
-      priceComponent,
       filters: {
+        municipality: entityIds,
         category: [
-          `https://energy.ld.admin.ch/elcom/energy-pricing/category/${category}`,
+          `https://energy.ld.admin.ch/elcom/energy-pricing/category/${category[0]}`,
         ],
+        // product: [product]
       },
     },
   });
   const observations = observationsQuery.fetching
     ? EMPTY_ARRAY
     : observationsQuery.data?.cubeByIri?.observations ?? EMPTY_ARRAY;
+
+  console.log("observations in line chart", observations);
+  console.log("entityIds in line chart", entityIds);
 
   return (
     <Card
@@ -53,56 +83,60 @@ export const PriceEvolutionLineChart = () => {
       {observations.length === 0 ? (
         <Loading />
       ) : (
-        <LineChart
-          data={(observations as GenericObservation[])
-            .filter(
-              (obs) =>
-                obs.municipality ===
-                `http://classifications.data.admin.ch/municipality/${query.id}`
-            )
-            .map((obs) => ({
-              priceComponent: "Total (exkl. MwSt.)",
-              ...obs,
-            }))}
-          fields={{
-            x: {
-              componentIri: "period",
-            },
-            y: {
-              componentIri: "value",
-            },
-          }}
-          measures={[
-            {
-              iri: "value",
-              label: "value",
-              __typename: "Measure",
-            },
-          ]}
-          dimensions={[
-            {
-              iri: "period",
-              label: "period",
-              __typename: "TemporalDimension",
-            },
-          ]}
-          aspectRatio={0.2}
-        >
-          <LegendColor symbol="line" />
-          <ChartContainer>
-            <ChartSvg>
-              <AxisHeightLinear /> <AxisTime /> <AxisTimeDomain />
-              <Lines />
-              <InteractionHorizontal />
-            </ChartSvg>
+        <>
+          {priceComponents.map((pc) => (
+            <Box sx={{ my: 4 }}>
+              <LineChart
+                data={observations as GenericObservation[]}
+                fields={{
+                  x: {
+                    componentIri: "period",
+                  },
+                  y: {
+                    componentIri: pc,
+                  },
+                  segment:
+                    entityIds.length > 1
+                      ? {
+                          componentIri: getEntityLabelField(entity),
+                          palette: "accent",
+                        }
+                      : undefined,
+                }}
+                measures={[
+                  {
+                    iri: pc,
+                    label: pc,
+                    __typename: "Measure",
+                  },
+                ]}
+                dimensions={[
+                  {
+                    iri: "period",
+                    label: "period",
+                    __typename: "TemporalDimension",
+                  },
+                ]}
+                aspectRatio={0.2}
+              >
+                <LegendColor symbol="line" />
+                <ChartContainer>
+                  <ChartSvg>
+                    <AxisHeightLinear /> <AxisTime /> <AxisTimeDomain />
+                    <Lines />
+                    <InteractionHorizontal />
+                  </ChartSvg>
 
-            <Ruler />
+                  <Ruler />
 
-            <HoverDotMultiple />
+                  <HoverDotMultiple />
 
-            <Tooltip type={"single"} />
-          </ChartContainer>
-        </LineChart>
+                  <Tooltip type={"single"} />
+                </ChartContainer>
+              </LineChart>{" "}
+            </Box>
+          ))}
+        </>
       )}
     </Card>
   );
