@@ -126,7 +126,7 @@ const PriceEvolutionLineChart = memo(
     const i18n = useI18n();
 
     return (
-      <Box sx={{ my: 6 }}>
+      <Box sx={{ my: 4 }}>
         <LineChart
           data={observations}
           fields={{
@@ -166,7 +166,8 @@ const PriceEvolutionLineChart = memo(
           )}
           <ChartContainer>
             <ChartSvg>
-              <AxisHeightLinear /> <AxisTime /> <AxisTimeDomain />
+              <AxisHeightLinear /> <AxisTime />
+              {/* <AxisTimeDomain /> */}
               <Lines />
               <InteractionHorizontal />
             </ChartSvg>

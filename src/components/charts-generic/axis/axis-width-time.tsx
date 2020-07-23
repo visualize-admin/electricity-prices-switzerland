@@ -43,10 +43,7 @@ export const AxisTime = () => {
         .tickFormat((x) => formatDateAuto(x as Date))
     );
     g.select(".domain").remove();
-    g.selectAll(".tick line").attr(
-      "stroke",
-      hasNegativeValues ? gridColor : domainColor
-    );
+    g.selectAll(".tick line").attr("stroke", gridColor);
     g.selectAll(".tick text")
       .attr("font-size", labelFontSize)
       .attr("font-family", fontFamily)
