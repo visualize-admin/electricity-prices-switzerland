@@ -25,7 +25,6 @@ type Props = {
   providers: { id: string; name: string }[];
 };
 
-// FIXME: Should we get the is from the query instead?
 export const getServerSideProps: GetServerSideProps<
   Props,
   { locale: string; id: string }

@@ -12,17 +12,64 @@ import { PriceEvolution } from "../../../components/detail-page/price-evolution-
 import { PriceDistributionHistograms } from "../../../components/detail-page/price-distribution-histogram";
 import { CantonsComparisonRangePlots } from "../../../components/detail-page/cantons-comparison-range";
 import { SelectorMulti } from "../../../components/detail-page/selector-multi";
+import {
+  getSource,
+  getView,
+  getDimensionValuesAndLabels,
+  getMunicipalities,
+} from "../../../graphql/rdf";
 
-type Props = { id: string };
-
-export const getServerSideProps: GetServerSideProps<Props, Props> = async ({
-  params,
-}) => {
+type Props = {
+  id: string;
+  name: string;
+  municipalities: { id: string; name: string }[];
+};
+export const getServerSideProps: GetServerSideProps<
+  Props,
+  { locale: string; id: string }
+> = async ({ params }) => {
   const { id } = params!;
-  return { props: { id } };
+
+  const source = getSource();
+  const cube = await source.cube(
+    "https://energy.ld.admin.ch/elcom/energy-pricing/cube"
+  );
+
+  if (!cube) {
+    throw Error(
+      `No cube ${"https://energy.ld.admin.ch/elcom/energy-pricing/cube"}`
+    );
+  }
+
+  const view = getView(cube);
+
+  const provider = (
+    await getDimensionValuesAndLabels({
+      view,
+      source,
+      dimensionKey: "provider",
+      filters: { provider: [id] },
+    })
+  )[0];
+
+  const municipalities = await getMunicipalities({
+    view,
+    source,
+    filters: { provider: [id] },
+  });
+
+  return {
+    props: {
+      id,
+      name: provider.name,
+      municipalities: municipalities.map(({ id, name }) => ({ id, name })),
+    },
+  };
 };
 
-const ProviderPage = ({ id }: Props) => {
+const ProviderPage = ({ id, name, municipalities }: Props) => {
+  console.log({ municipalities });
+
   return (
     <Flex sx={{ minHeight: "100vh", flexDirection: "column" }}>
       <Header></Header>
@@ -34,11 +81,7 @@ const ProviderPage = ({ id }: Props) => {
           flexDirection: "column",
         }}
       >
-        <DetailPageBanner
-          entity={id}
-          kanton={"kanton"}
-          linkedIds={["xxx", "yyy"]}
-        />
+        <DetailPageBanner id={id} name={name} municipalities={municipalities} />
 
         <Box sx={{ width: "100%", maxWidth: "67rem", mx: "auto", my: 2 }}>
           <Flex
