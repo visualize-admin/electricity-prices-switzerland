@@ -47,7 +47,16 @@ export const PriceDistributionHistograms = () => {
     >
       <RadioTabs
         name="priceComponents"
-        options={getPriceComponentOptions()}
+        options={[
+          { value: "total", label: getLocalizedLabel({ i18n, id: "total" }) },
+          {
+            value: "gridusage",
+            label: getLocalizedLabel({ i18n, id: "gridusage" }),
+          },
+          { value: "energy", label: getLocalizedLabel({ i18n, id: "energy" }) },
+          { value: "charge", label: getLocalizedLabel({ i18n, id: "charge" }) },
+          { value: "aidfee", label: getLocalizedLabel({ i18n, id: "aidfee" }) },
+        ]}
         value={priceComponent as string}
         setValue={updatePriceComponent}
         variant="segmented"

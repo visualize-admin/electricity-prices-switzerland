@@ -77,20 +77,6 @@ export const useColorScale = ({
   }, [observations, accessor, palettes.diverging]);
 };
 
-export const getPriceComponentOptions = () => {
-  const i18n = useI18n();
-
-  return [
-    { value: "total", label: getLocalizedLabel({ i18n, id: "total" }) },
-    {
-      value: "gridusage",
-      label: getLocalizedLabel({ i18n, id: "gridusage" }),
-    },
-    { value: "energy", label: getLocalizedLabel({ i18n, id: "energy" }) },
-    { value: "charge", label: getLocalizedLabel({ i18n, id: "charge" }) },
-    { value: "aidfee", label: getLocalizedLabel({ i18n, id: "aidfee" }) },
-  ];
-};
 export const municipalities = [
   "261",
   "3992",

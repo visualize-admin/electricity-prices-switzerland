@@ -46,7 +46,16 @@ export const CantonsComparisonRangePlots = ({ id }: { id: string }) => {
     >
       <RadioTabs
         name="priceComponents"
-        options={getPriceComponentOptions()}
+        options={[
+          { value: "total", label: getLocalizedLabel({ i18n, id: "total" }) },
+          {
+            value: "gridusage",
+            label: getLocalizedLabel({ i18n, id: "gridusage" }),
+          },
+          { value: "energy", label: getLocalizedLabel({ i18n, id: "energy" }) },
+          { value: "charge", label: getLocalizedLabel({ i18n, id: "charge" }) },
+          { value: "aidfee", label: getLocalizedLabel({ i18n, id: "aidfee" }) },
+        ]}
         value={priceComponent as string}
         setValue={(c) => setPriceComponent(c as PriceComponent)}
         variant="segmented"
