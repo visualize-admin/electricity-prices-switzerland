@@ -1,7 +1,12 @@
 import { Trans } from "@lingui/macro";
 import { Flex, Text } from "theme-ui";
 import { ComboboxMulti, Combobox } from "../../components/combobox";
-import { categories, periods, products } from "../../domain/data";
+import {
+  categories,
+  periods,
+  products,
+  municipalities,
+} from "../../domain/data";
 import { useQueryState } from "../../lib/use-query-state";
 import { useI18n } from "../i18n-context";
 import { getLocalizedLabel } from "../../domain/translation";
@@ -36,7 +41,8 @@ export const SelectorMulti = () => {
         <ComboboxMulti
           id="municipality"
           label={<Trans id="selector.municipality">Gemeinde</Trans>}
-          items={periods} // FIXME: municipalities
+          items={municipalities} // FIXME: municipalities
+          // FIXME: should be possible to have no item selected:
           selectedItems={queryState.municipality ?? ["261"]}
           minSelectedItems={0}
           setSelectedItems={(items) => setQueryState({ municipality: items })}
