@@ -1,7 +1,11 @@
 import { Trans } from "@lingui/macro";
 import * as React from "react";
 import { memo, useState } from "react";
-import { GenericObservation } from "../../domain/data";
+import {
+  GenericObservation,
+  Entity,
+  getEntityLabelField,
+} from "../../domain/data";
 import { getLocalizedLabel } from "../../domain/translation";
 import { PriceComponent, useObservationsQuery } from "../../graphql/queries";
 import { useQueryState } from "../../lib/use-query-state";
@@ -25,7 +29,7 @@ export const CantonsComparisonRangePlots = ({
   entity,
 }: {
   id: string;
-  entity: "municipality" | "provider" | "canton";
+  entity: Entity;
 }) => {
   const [{ period, municipality, provider, canton }] = useQueryState();
 
@@ -76,6 +80,7 @@ export const CantonsComparisonRangePlots = ({
           year={p}
           priceComponent={priceComponent}
           annotationIds={annotationIds}
+          entity={entity}
         />
       ))}
     </Card>
@@ -87,10 +92,12 @@ export const CantonsComparisonRangePlot = memo(
     annotationIds,
     year,
     priceComponent,
+    entity,
   }: {
     annotationIds: string[];
     year: string;
     priceComponent: PriceComponent;
+    entity: Entity;
   }) => {
     const [{ category }] = useQueryState();
     const i18n = useI18n();
@@ -119,8 +126,6 @@ export const CantonsComparisonRangePlot = memo(
       annotationIds &&
       observations.filter((obs) => annotationIds.includes(obs.municipality));
 
-    console.log(category, year, priceComponent, { annotations });
-
     return (
       <>
         <FilterSetDescription
@@ -143,7 +148,7 @@ export const CantonsComparisonRangePlot = memo(
                 componentIri: "period",
               },
               label: {
-                componentIri: "municipality",
+                componentIri: getEntityLabelField(entity),
               },
               annotation: annotations as {
                 [x: string]: string | number | boolean;

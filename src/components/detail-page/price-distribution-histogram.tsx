@@ -23,18 +23,18 @@ import { useState } from "react";
 import { getLocalizedLabel } from "../../domain/translation";
 import { RadioTabs } from "../radio-tabs";
 import { FilterSetDescription } from "./filter-set-description";
-import { GenericObservation } from "../../domain/data";
+import {
+  GenericObservation,
+  Entity,
+  getEntityLabelField,
+} from "../../domain/data";
 import { useI18n } from "../i18n-context";
 import {
   AnnotationXLabel,
   AnnotationX,
 } from "../charts-generic/annotation/annotation-x";
 
-export const PriceDistributionHistograms = ({
-  entity,
-}: {
-  entity: "municipality" | "provider" | "canton";
-}) => {
+export const PriceDistributionHistograms = ({ entity }: { entity: Entity }) => {
   const [{ id, period, municipality, provider, canton }] = useQueryState();
   const i18n = useI18n();
   const [priceComponent, setPriceComponent] = useState<PriceComponent>(
@@ -83,6 +83,7 @@ export const PriceDistributionHistograms = ({
           year={p}
           priceComponent={priceComponent}
           annotationIds={annotationIds}
+          entity={entity}
         />
       ))}
     </Card>
@@ -93,10 +94,12 @@ export const PriceDistributionHistogram = ({
   annotationIds,
   year,
   priceComponent,
+  entity,
 }: {
   year: string;
   priceComponent: PriceComponent;
   annotationIds: string[];
+  entity: Entity;
 }) => {
   const [{ category }] = useQueryState();
   const i18n = useI18n();
@@ -138,7 +141,7 @@ export const PriceDistributionHistogram = ({
               componentIri: "value",
             },
             label: {
-              componentIri: "Netzbetreiber",
+              componentIri: getEntityLabelField(entity),
             },
             annotation: annotations as {
               [x: string]: string | number | boolean;

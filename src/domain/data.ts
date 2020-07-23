@@ -1,6 +1,9 @@
 import { scaleThreshold } from "d3";
 import { median } from "d3-array";
-import { Observation as QueryObservation } from "../graphql/queries";
+import {
+  Observation as QueryObservation,
+  Observation,
+} from "../graphql/queries";
 import { useTheme } from "../themes";
 import { useMemo } from "react";
 import { getLocalizedLabel } from "./translation";
@@ -76,6 +79,16 @@ export const useColorScale = ({
     return scale;
   }, [observations, accessor, palettes.diverging]);
 };
+
+export type Entity = "municipality" | "provider" | "canton";
+export const getEntityLabelField = (entity: Entity): keyof Observation =>
+  entity === "municipality"
+    ? // FIXME: use "municipalityLabel" here when it is data-ready
+      "municipality"
+    : entity === "provider"
+    ? "providerLabel"
+    : // FIXME: use "canton" here when it is data-ready
+      "municipality";
 
 export const municipalities = [
   "261",
