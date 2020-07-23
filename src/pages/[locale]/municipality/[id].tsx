@@ -54,9 +54,9 @@ const MunicipalityPage = ({ id }: Props) => {
           <Flex sx={{ width: "100%" }}>
             <Box sx={{ flex: `2 2 ${2 / 3}%` }}>
               {/* <PriceComponents /> */}
-              {/* <PriceEvolutionLineChart /> */}
-              <PriceDistributionHistograms entity="municipality" />
-              <CantonsComparisonRangePlots id={id} entity="municipality" />
+              <PriceEvolutionLineChart id={id} entity="municipality" />
+              {/* <PriceDistributionHistograms entity="municipality" />
+              <CantonsComparisonRangePlots id={id} entity="municipality" /> */}
             </Box>
             <Box sx={{ flex: `1 1 ${1 / 3}%` }}>
               <SelectorMulti />
