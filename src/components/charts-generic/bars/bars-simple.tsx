@@ -73,12 +73,14 @@ export const Bar = React.memo(
     width,
     height,
     color,
+    stroke,
   }: {
     x: number;
     y: number;
     width: number;
     height: number;
     color: string;
+    stroke?: string;
   }) => {
     return (
       <rect
@@ -87,7 +89,7 @@ export const Bar = React.memo(
         width={width}
         height={height}
         fill={color}
-        stroke="none"
+        stroke={stroke}
       />
     );
   }
