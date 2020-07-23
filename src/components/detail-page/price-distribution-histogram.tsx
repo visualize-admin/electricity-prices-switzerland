@@ -34,8 +34,14 @@ import {
   AnnotationX,
 } from "../charts-generic/annotation/annotation-x";
 
-export const PriceDistributionHistograms = ({ entity }: { entity: Entity }) => {
-  const [{ id, period, municipality, provider, canton }] = useQueryState();
+export const PriceDistributionHistograms = ({
+  id,
+  entity,
+}: {
+  id: string;
+  entity: Entity;
+}) => {
+  const [{ period, municipality, provider, canton }] = useQueryState();
   const i18n = useI18n();
   const [priceComponent, setPriceComponent] = useState<PriceComponent>(
     PriceComponent.Total
