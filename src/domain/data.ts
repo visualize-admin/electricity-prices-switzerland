@@ -80,7 +80,7 @@ export const useColorScale = ({
   }, [observations, accessor, palettes.diverging]);
 };
 
-export type Entity = "municipality" | "provider" | "canton";
+export type Entity = "municipality" | "provider"; //| "canton";
 export const getEntityLabelField = (entity: Entity): keyof Observation =>
   entity === "municipality"
     ? // FIXME: use "municipalityLabel" here when it is data-ready

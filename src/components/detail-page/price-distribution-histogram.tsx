@@ -152,7 +152,8 @@ export const PriceDistributionHistogram = ({
 
   const annotations =
     annotationIds &&
-    observations.filter((obs) => annotationIds.includes(obs.municipality)); // FIXME: should be generic (also cantons & providers)
+    observations.filter((obs) => annotationIds.includes(obs[entity]));
+
   return (
     <>
       <FilterSetDescription
