@@ -2,17 +2,14 @@ import { Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
 import * as React from "react";
 
-import { Bars } from "./../../components/charts-generic/bars/bars-simple";
-import { BarChart } from "./../../components/charts-generic/bars/bars-state";
-import {
-  ChartContainer,
-  ChartSvg,
-} from "./../../components/charts-generic/containers";
-import { Card } from "./../../components/detail-page/card";
-import { PriceComponent, useObservationsQuery } from "./../../graphql/queries";
+import { Bars } from "../charts-generic/bars/bars-simple";
+import { BarChart } from "../charts-generic/bars/bars-state";
+import { ChartContainer, ChartSvg } from "../charts-generic/containers";
+import { Card } from "./card";
+import { PriceComponent, useObservationsQuery } from "../../graphql/queries";
 import { EMPTY_ARRAY } from "../../pages/[locale]/municipality/[id]";
 
-export const PriceComponents = () => {
+export const PriceComponentsBarChart = () => {
   const { query } = useRouter();
 
   const priceComponent = PriceComponent.Total; // TODO: parameterize priceComponent
