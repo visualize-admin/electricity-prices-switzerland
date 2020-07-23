@@ -3,6 +3,8 @@ import { median } from "d3-array";
 import { Observation as QueryObservation } from "../graphql/queries";
 import { useTheme } from "../themes";
 import { useMemo } from "react";
+import { getLocalizedLabel } from "./translation";
+import { useI18n } from "../components/i18n-context";
 
 export type ObservationValue = string | number | boolean | Date;
 export type GenericObservation = Record<string, ObservationValue>;
@@ -75,6 +77,18 @@ export const useColorScale = ({
   }, [observations, accessor, palettes.diverging]);
 };
 
+export const getPriceComponentOptions = () => {
+  const i18n = useI18n();
+
+  return [
+    {
+      value: "gridusage",
+      label: getLocalizedLabel({ i18n, id: "gridusage" }),
+    },
+    { value: "energy", label: getLocalizedLabel({ i18n, id: "energy" }) },
+    { value: "total", label: getLocalizedLabel({ i18n, id: "total" }) },
+  ];
+};
 export const municipalities = [
   "261",
   "3992",

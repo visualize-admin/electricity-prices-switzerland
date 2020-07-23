@@ -1,7 +1,10 @@
 import { Trans } from "@lingui/macro";
 import * as React from "react";
 import { memo, useState } from "react";
-import { GenericObservation } from "../../domain/data";
+import {
+  GenericObservation,
+  getPriceComponentOptions,
+} from "../../domain/data";
 import { getLocalizedLabel } from "../../domain/translation";
 import { PriceComponent, useObservationsQuery } from "../../graphql/queries";
 import { useQueryState } from "../../lib/use-query-state";
@@ -43,14 +46,7 @@ export const CantonsComparisonRangePlots = ({ id }: { id: string }) => {
     >
       <RadioTabs
         name="priceComponents"
-        options={[
-          {
-            value: "gridusage",
-            label: getLocalizedLabel({ i18n, id: "gridusage" }),
-          },
-          { value: "energy", label: getLocalizedLabel({ i18n, id: "energy" }) },
-          { value: "total", label: getLocalizedLabel({ i18n, id: "total" }) },
-        ]}
+        options={getPriceComponentOptions()}
         value={priceComponent as string}
         setValue={(c) => setPriceComponent(c as PriceComponent)}
         variant="segmented"

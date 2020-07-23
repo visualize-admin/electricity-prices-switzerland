@@ -23,7 +23,10 @@ import { useState } from "react";
 import { getLocalizedLabel } from "../../domain/translation";
 import { RadioTabs } from "../radio-tabs";
 import { FilterSetDescription } from "./filter-set-description";
-import { GenericObservation } from "../../domain/data";
+import {
+  GenericObservation,
+  getPriceComponentOptions,
+} from "../../domain/data";
 import { useI18n } from "../i18n-context";
 
 export const PriceDistributionHistograms = () => {
@@ -44,14 +47,7 @@ export const PriceDistributionHistograms = () => {
     >
       <RadioTabs
         name="priceComponents"
-        options={[
-          {
-            value: "gridusage",
-            label: getLocalizedLabel({ i18n, id: "gridusage" }),
-          },
-          { value: "energy", label: getLocalizedLabel({ i18n, id: "energy" }) },
-          { value: "total", label: getLocalizedLabel({ i18n, id: "total" }) },
-        ]}
+        options={getPriceComponentOptions()}
         value={priceComponent as string}
         setValue={updatePriceComponent}
         variant="segmented"
