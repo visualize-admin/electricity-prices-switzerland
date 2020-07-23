@@ -1,10 +1,7 @@
 import { Trans } from "@lingui/macro";
 import * as React from "react";
 import { memo, useState } from "react";
-import {
-  GenericObservation,
-  getPriceComponentOptions,
-} from "../../domain/data";
+import { GenericObservation } from "../../domain/data";
 import { getLocalizedLabel } from "../../domain/translation";
 import { PriceComponent, useObservationsQuery } from "../../graphql/queries";
 import { useQueryState } from "../../lib/use-query-state";
@@ -23,17 +20,30 @@ import { RadioTabs } from "../radio-tabs";
 import { Card } from "./card";
 import { FilterSetDescription } from "./filter-set-description";
 
-export const CantonsComparisonRangePlots = ({ id }: { id: string }) => {
-  const [{ period, municipality }] = useQueryState();
+export const CantonsComparisonRangePlots = ({
+  id,
+  entity,
+}: {
+  id: string;
+  entity: "municipality" | "provider" | "canton";
+}) => {
+  const [{ period, municipality, provider, canton }] = useQueryState();
 
   const i18n = useI18n();
   const [priceComponent, setPriceComponent] = useState<PriceComponent>(
     PriceComponent.Total
   );
 
+  const comparisonIds =
+    entity === "municipality"
+      ? municipality
+      : entity === "provider"
+      ? provider
+      : canton;
+
   const annotationIds =
-    municipality && municipality?.some((m) => m !== "")
-      ? [...municipality, id]
+    comparisonIds && comparisonIds?.some((m) => m !== "")
+      ? [...comparisonIds, id]
       : [id];
 
   return (
