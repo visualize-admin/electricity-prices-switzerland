@@ -23,7 +23,7 @@ export const FilterSetDescription = ({
   return (
     <Text
       variant="paragraph1"
-      sx={{ my: 6, color: "monochrome800", fontWeight: "light" }}
+      sx={{ my: 4, color: "monochrome800", fontWeight: "light" }}
     >
       {Object.keys(filters).map((filterKey, i) => (
         <React.Fragment key={filterKey}>
