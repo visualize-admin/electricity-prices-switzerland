@@ -14,7 +14,7 @@ import {
   SortingOrder,
   SortingType,
 } from "../../../domain/config-types";
-import { Observation } from "../../../domain/data";
+import { GenericObservation } from "../../../domain/data";
 import { getPalette, mkNumber, useFormatNumber } from "../../../domain/helpers";
 import { estimateTextWidth } from "../../../lib/estimate-text-width";
 import { Tooltip } from "../interaction/tooltip";
@@ -26,17 +26,17 @@ import { PADDING_INNER, PADDING_OUTER } from "./constants";
 
 export interface ColumnsState {
   bounds: Bounds;
-  sortedData: Observation[];
-  getX: (d: Observation) => string;
+  sortedData: GenericObservation[];
+  getX: (d: GenericObservation) => string;
   xScale: ScaleBand<string>;
   xScaleInteraction: ScaleBand<string>;
-  getY: (d: Observation) => number;
+  getY: (d: GenericObservation) => number;
   yScale: ScaleLinear<number, number>;
-  getSegment: (d: Observation) => string;
+  getSegment: (d: GenericObservation) => string;
   segments: string[];
   colors: ScaleOrdinal<string, string>;
   yAxisLabel: string;
-  getAnnotationInfo: (d: Observation) => Tooltip;
+  getAnnotationInfo: (d: GenericObservation) => Tooltip;
 }
 
 const useColumnsState = ({
@@ -52,15 +52,15 @@ const useColumnsState = ({
   const formatNumber = useFormatNumber();
 
   const getX = useCallback(
-    (d: Observation): string => d[fields.x.componentIri] as string,
+    (d: GenericObservation): string => d[fields.x.componentIri] as string,
     [fields.x.componentIri]
   );
   const getY = useCallback(
-    (d: Observation): number => +d[fields.y.componentIri],
+    (d: GenericObservation): number => +d[fields.y.componentIri],
     [fields.y.componentIri]
   );
   const getSegment = useCallback(
-    (d: Observation): string =>
+    (d: GenericObservation): string =>
       fields.segment && fields.segment.componentIri
         ? (d[fields.segment.componentIri] as string)
         : "segment",
@@ -129,7 +129,7 @@ const useColumnsState = ({
   yScale.range([chartHeight, 0]);
 
   // Tooltip
-  const getAnnotationInfo = (datum: Observation): Tooltip => {
+  const getAnnotationInfo = (datum: GenericObservation): Tooltip => {
     const xRef = xScale(getX(datum)) as number;
     const xOffset = xScale.bandwidth() / 2;
     const yRef = yScale(Math.max(getY(datum), 0));
@@ -251,9 +251,9 @@ const sortData = ({
   sortingType,
   sortingOrder,
 }: {
-  data: Observation[];
-  getX: (d: Observation) => string;
-  getY: (d: Observation) => number;
+  data: GenericObservation[];
+  getX: (d: GenericObservation) => string;
+  getY: (d: GenericObservation) => number;
   sortingType?: SortingType;
   sortingOrder?: SortingOrder;
 }) => {

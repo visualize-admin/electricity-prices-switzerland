@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import { Observation } from "../../../domain/data";
+import { GenericObservation } from "../../../domain/data";
 import { LinesState } from "../lines/lines-state";
 import { useChartState } from "../use-chart-state";
 import { useInteraction } from "../use-interaction";
@@ -43,7 +43,7 @@ const TooltipInner = ({
   mouse,
   type,
 }: {
-  d: Observation;
+  d: GenericObservation;
   mouse?: { x: number; y: number };
   type: TooltipType;
 }) => {

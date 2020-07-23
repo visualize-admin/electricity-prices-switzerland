@@ -21,7 +21,7 @@ import {
   SortingOrder,
   SortingType,
 } from "../../../domain/config-types";
-import { Observation, ObservationValue } from "../../../domain/data";
+import { GenericObservation, ObservationValue } from "../../../domain/data";
 import { getPalette, isNumber, useFormatNumber } from "../../../domain/helpers";
 import { sortByIndex } from "../../../lib/array";
 import { estimateTextWidth } from "../../../lib/estimate-text-width";
@@ -33,21 +33,24 @@ import { Bounds, Observer, useWidth } from "../use-width";
 import { PADDING_INNER, PADDING_OUTER } from "./constants";
 
 export interface StackedColumnsState {
-  sortedData: Observation[];
+  sortedData: GenericObservation[];
   bounds: Bounds;
-  getX: (d: Observation) => string;
+  getX: (d: GenericObservation) => string;
   xScale: ScaleBand<string>;
   xScaleInteraction: ScaleBand<string>;
-  getY: (d: Observation) => number;
+  getY: (d: GenericObservation) => number;
   yScale: ScaleLinear<number, number>;
-  getSegment: (d: Observation) => string;
+  getSegment: (d: GenericObservation) => string;
   segments: string[];
   colors: ScaleOrdinal<string, string>;
   yAxisLabel: string;
   wide: Record<string, ObservationValue>[];
   grouped: [string, Record<string, ObservationValue>[]][];
   series: $FixMe[];
-  getAnnotationInfo: (d: Observation, orderedSegments: string[]) => Tooltip;
+  getAnnotationInfo: (
+    d: GenericObservation,
+    orderedSegments: string[]
+  ) => Tooltip;
 }
 
 const useColumnsStackedState = ({
@@ -64,15 +67,15 @@ const useColumnsStackedState = ({
   const formatNumber = useFormatNumber();
 
   const getX = useCallback(
-    (d: Observation): string => d[fields.x.componentIri] as string,
+    (d: GenericObservation): string => d[fields.x.componentIri] as string,
     [fields.x.componentIri]
   );
   const getY = useCallback(
-    (d: Observation): number => +d[fields.y.componentIri],
+    (d: GenericObservation): number => +d[fields.y.componentIri],
     [fields.y.componentIri]
   );
   const getSegment = useCallback(
-    (d: Observation): string =>
+    (d: GenericObservation): string =>
       fields.segment && fields.segment.componentIri
         ? (d[fields.segment.componentIri] as string)
         : "segment",
@@ -249,7 +252,7 @@ const useColumnsStackedState = ({
   yScale.range([chartHeight, 0]);
 
   // Tooltip
-  const getAnnotationInfo = (datum: Observation): Tooltip => {
+  const getAnnotationInfo = (datum: GenericObservation): Tooltip => {
     const xRef = xScale(getX(datum)) as number;
     const xOffset = xScale.bandwidth() / 2;
 
@@ -262,7 +265,8 @@ const useColumnsStackedState = ({
       sortOrder: "asc",
     });
 
-    const cumulativeSum = ((sum) => (d: Observation) => (sum += getY(d)))(0);
+    const cumulativeSum = ((sum) => (d: GenericObservation) =>
+      (sum += getY(d)))(0);
     const cumulativeRulerItemValues = [
       ...sortedTooltipValues.map(cumulativeSum),
     ];
@@ -402,9 +406,9 @@ const sortData = ({
   sortingOrder,
   xOrder,
 }: {
-  data: Observation[];
-  getX: (d: Observation) => string;
-  getY: (d: Observation) => number;
+  data: GenericObservation[];
+  getX: (d: GenericObservation) => string;
+  getY: (d: GenericObservation) => number;
   sortingType: SortingType | undefined;
   sortingOrder: SortingOrder | undefined;
   xOrder: string[];

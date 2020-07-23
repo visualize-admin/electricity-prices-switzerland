@@ -1,11 +1,16 @@
 import { scaleThreshold } from "d3";
 import { median } from "d3-array";
-import { Observation as QueryObservation } from "../graphql/queries";
+import {
+  Observation as QueryObservation,
+  Observation,
+} from "../graphql/queries";
 import { useTheme } from "../themes";
 import { useMemo } from "react";
+import { getLocalizedLabel } from "./translation";
+import { useI18n } from "../components/i18n-context";
 
 export type ObservationValue = string | number | boolean | Date;
-export type Observation = Record<string, ObservationValue>;
+export type GenericObservation = Record<string, ObservationValue>;
 
 type ComponentFields_NominalDimension_Fragment = {
   __typename: "NominalDimension";
@@ -75,8 +80,26 @@ export const useColorScale = ({
   }, [observations, accessor, palettes.diverging]);
 };
 
-export const years = [
-  "2021",
+export type Entity = "municipality" | "provider" | "canton";
+export const getEntityLabelField = (entity: Entity): keyof Observation =>
+  entity === "municipality"
+    ? // FIXME: use "municipalityLabel" here when it is data-ready
+      "municipality"
+    : entity === "provider"
+    ? "providerLabel"
+    : // FIXME: use "canton" here when it is data-ready
+      "municipality";
+
+export const municipalities = [
+  "261",
+  "3992",
+  "5590",
+  "5398",
+  "1062",
+  "4221",
+  "3932",
+];
+export const periods = [
   "2020",
   "2019",
   "2018",

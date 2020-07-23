@@ -1,25 +1,15 @@
 import { Trans } from "@lingui/macro";
-import { useState } from "react";
 import { Flex, Text } from "theme-ui";
-import { categories, priceComponents, products, years } from "../domain/data";
+import { categories, periods, priceComponents, products } from "../domain/data";
+import { getLocalizedLabel } from "../domain/translation";
+import { useQueryStateSingle } from "../lib/use-query-state";
 import { Combobox } from "./../components/combobox";
-interface Props {
-  year: string;
-  priceComponent: string;
-  category: string;
-  // product: string;
-  updateQueryParams: (queryObject: { [x: string]: string }) => void;
-}
+import { useI18n } from "./i18n-context";
 
-export const Selector = ({
-  year,
-  priceComponent,
-  category,
-  updateQueryParams,
-}: Props) => {
-  // FIXME: remove when products are in the data
-  const [product, updateProduct] = useState("standard");
-
+export const Selector = () => {
+  const [queryState, setQueryState] = useQueryStateSingle();
+  const i18n = useI18n();
+  const getItemLabel = (id: string) => getLocalizedLabel({ i18n, id });
   return (
     <Flex
       as="fieldset"
@@ -39,49 +29,47 @@ export const Selector = ({
         </Trans>
       </Text>
 
-      <>
-        <Combobox
-          id="year"
-          label={<Trans id="selector.year">Jahr</Trans>}
-          items={years}
-          selectedItem={(year as string) ?? "2020"}
-          handleSelectedItemChange={({ selectedItem }) =>
-            updateQueryParams({ year: selectedItem })
-          }
-        />
-        <Combobox
-          id="priceComponent"
-          label={<Trans id="selector.priceComponent">Preiskomponent</Trans>}
-          items={priceComponents}
-          selectedItem={(priceComponent as string) ?? "total"}
-          handleSelectedItemChange={({ selectedItem }) =>
-            updateQueryParams({ priceComponent: selectedItem })
-          }
-        />
+      <Combobox
+        id="year"
+        label={<Trans id="selector.year">Jahr</Trans>}
+        items={periods}
+        selectedItem={queryState.period ?? "2020"}
+        setSelectedItem={(selectedItem) =>
+          setQueryState({ period: selectedItem })
+        }
+      />
+      <Combobox
+        id="priceComponent"
+        label={<Trans id="selector.priceComponent">Preiskomponente</Trans>}
+        items={priceComponents}
+        getItemLabel={getItemLabel}
+        selectedItem={queryState.priceComponent ?? "total"}
+        setSelectedItem={(selectedItem) =>
+          setQueryState({ priceComponent: selectedItem })
+        }
+      />
 
-        <Combobox
-          id="category"
-          label={<Trans id="selector.category">Kategorie</Trans>}
-          items={categories}
-          selectedItem={(category as string) ?? "H4"}
-          handleSelectedItemChange={({ selectedItem }) =>
-            updateQueryParams({ category: selectedItem })
-          }
-        />
+      <Combobox
+        id="category"
+        label={<Trans id="selector.category">Kategorie</Trans>}
+        items={categories}
+        getItemLabel={getItemLabel}
+        selectedItem={queryState.category ?? "H4"}
+        setSelectedItem={(selectedItem) =>
+          setQueryState({ category: selectedItem })
+        }
+      />
 
-        <Combobox
-          id="product"
-          label={<Trans id="selector.product">Produkt</Trans>}
-          items={products}
-          selectedItem={(product as string) ?? "standard"}
-          handleSelectedItemChange={({ selectedItem }) =>
-            updateProduct(selectedItem)
-          }
-          // handleSelectedItemChange={({ selectedItem }) =>
-          //   updateQueryParams({ product: selectedItem })
-          // }
-        />
-      </>
+      <Combobox
+        id="product"
+        label={<Trans id="selector.product">Produkt</Trans>}
+        items={products}
+        getItemLabel={getItemLabel}
+        selectedItem={queryState.product ?? "standard"}
+        setSelectedItem={(selectedItem) =>
+          setQueryState({ product: selectedItem })
+        }
+      />
     </Flex>
   );
 };

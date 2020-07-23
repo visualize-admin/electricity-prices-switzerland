@@ -4,8 +4,12 @@ import { ScaleLinear, scaleLinear, ScaleThreshold } from "d3-scale";
 import * as React from "react";
 import { ReactNode, useCallback } from "react";
 import { HistogramFields } from "../../../domain/config-types";
-import { Observation } from "../../../domain/data";
-import { mkNumber, useFormatNumber } from "../../../domain/helpers";
+import { GenericObservation } from "../../../domain/data";
+import {
+  mkNumber,
+  useFormatNumber,
+  useFormatCurrency,
+} from "../../../domain/helpers";
 import { estimateTextWidth } from "../../../lib/estimate-text-width";
 import { Annotation } from "../annotation/annotation-x";
 import { LEFT_MARGIN_OFFSET } from "../constants";
@@ -20,13 +24,13 @@ export const ANNOTATION_LABEL_HEIGHT = 20;
 
 export interface HistogramState {
   bounds: Bounds;
-  data: Observation[];
-  getX: (d: Observation) => number;
+  data: GenericObservation[];
+  getX: (d: GenericObservation) => number;
   xScale: ScaleLinear<number, number>;
-  getY: (d: Observation[]) => number;
+  getY: (d: GenericObservation[]) => number;
   yScale: ScaleLinear<number, number>;
   xAxisLabel?: string;
-  bins: Bin<Observation, number>[];
+  bins: Bin<GenericObservation, number>[];
   colors: ScaleThreshold<number, string>;
   annotations?: Annotation[];
 }
@@ -41,15 +45,15 @@ const useHistogramState = ({
   aspectRatio: number;
 }): HistogramState => {
   const width = useWidth();
-  const formatNumber = useFormatNumber();
+  const formatCurrency = useFormatCurrency();
   const { annotationfontSize, palettes } = useChartTheme();
 
   const getX = useCallback(
-    (d: Observation) => d[fields.x.componentIri] as number,
+    (d: GenericObservation) => d[fields.x.componentIri] as number,
     [fields.x.componentIri]
   );
   const getLabel = useCallback(
-    (d: Observation) => d[fields.label.componentIri] as string,
+    (d: GenericObservation) => d[fields.label.componentIri] as string,
     [fields.label.componentIri]
   );
   const { annotation } = fields;
@@ -71,7 +75,7 @@ const useHistogramState = ({
     .range(palettes.diverging);
 
   // y
-  const bins = histogram<Observation, number>()
+  const bins = histogram<GenericObservation, number>()
     .value((x) => getX(x))
     .domain([mkNumber(minValue), mkNumber(maxValue)])
     .thresholds(colorDomain || xScale.ticks(20))(data);
@@ -80,8 +84,12 @@ const useHistogramState = ({
 
   // Dimensions
   const left = Math.max(
-    estimateTextWidth(formatNumber(yScale.domain()[0])),
-    estimateTextWidth(formatNumber(yScale.domain()[1]))
+    estimateTextWidth(formatCurrency(yScale.domain()[0])),
+    estimateTextWidth(
+      formatCurrency(
+        yScale.domain().length > 1 ? yScale.domain()[1] : yScale.domain()[0]
+      )
+    )
   );
 
   const margins = {
@@ -98,7 +106,7 @@ const useHistogramState = ({
         (acc, datum, i) => {
           // FIXME: Should be word based, not character based?
           const oneFullLine =
-            estimateTextWidth(formatNumber(getX(datum)), annotationfontSize) +
+            estimateTextWidth(formatCurrency(getX(datum)), annotationfontSize) +
             estimateTextWidth(getLabel(datum), annotationfontSize);
           // On smaller screens, anotations may break on several lines
           const nbOfLines = Math.ceil(oneFullLine / (chartWidth * 0.5));
@@ -140,7 +148,7 @@ const useHistogramState = ({
           y: yScale(0),
           xLabel: xScale(getX(datum)),
           yLabel: annotationSpaces[i],
-          value: formatNumber(getX(datum)),
+          value: formatCurrency(getX(datum)),
           label: getLabel(datum),
           onTheLeft: xScale(getX(datum)) <= chartWidth / 2 ? false : true,
         };

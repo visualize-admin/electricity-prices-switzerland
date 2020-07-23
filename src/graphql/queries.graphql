@@ -4,6 +4,19 @@ query Municipalities($locale: String!, $query: String) {
     locale: $locale
   ) {
     municipalities(query: $query) {
+      id
+      name
+    }
+  }
+}
+
+query Providers($locale: String!, $query: String) {
+  cubeByIri(
+    iri: "https://energy.ld.admin.ch/elcom/energy-pricing/cube"
+    locale: $locale
+  ) {
+    providers(query: $query) {
+      id
       name
     }
   }
@@ -25,6 +38,32 @@ query Observations(
       providerLabel
       category
       value(priceComponent: $priceComponent)
+    }
+  }
+}
+
+query ObservationsWithAllPriceComponents(
+  $locale: String
+  $filters: ObservationFilters!
+) {
+  cubeByIri(
+    iri: "https://energy.ld.admin.ch/elcom/energy-pricing/cube"
+    locale: $locale
+  ) {
+    observations(filters: $filters) {
+      period
+      municipality
+      provider
+      providerLabel
+      category
+
+      aidfee: value(priceComponent: aidfee)
+      fixcosts: value(priceComponent: fixcosts)
+      charge: value(priceComponent: charge)
+      gridusage: value(priceComponent: gridusage)
+      energy: value(priceComponent: energy)
+      fixcostspercent: value(priceComponent: fixcostspercent)
+      total: value(priceComponent: total)
     }
   }
 }

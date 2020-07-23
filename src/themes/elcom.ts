@@ -361,6 +361,21 @@ export const theme: Theme = {
       },
     },
   },
+  links: {
+    inline: {
+      color: "primary",
+      textDecoration: "none",
+      "&:hover": {
+        color: "primaryHover",
+      },
+      "&:active": {
+        color: "primaryActive",
+      },
+      "&:visited": {
+        color: "primary",
+      },
+    },
+  },
 };
 
 /**

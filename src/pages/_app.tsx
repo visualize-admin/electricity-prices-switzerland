@@ -1,8 +1,8 @@
-import { I18nProvider } from "@lingui/react";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { ThemeProvider } from "theme-ui";
+import { I18nProvider } from "../components/i18n-context";
 import { GraphqlProvider } from "../graphql/context";
 import { LocaleProvider } from "../lib/use-locale";
 import { catalogs, parseLocaleString } from "../locales/locales";

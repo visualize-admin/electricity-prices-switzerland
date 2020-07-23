@@ -1,13 +1,13 @@
 import { t, Trans } from "@lingui/macro";
-import { I18n } from "@lingui/react";
 import { ScaleThreshold } from "d3";
 import { ascending, descending, rollup } from "d3-array";
-import { useMemo, useState, useCallback } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { Box, Button, Flex, Text } from "theme-ui";
 import { useFormatCurrency } from "../domain/helpers";
 import { Observation } from "../graphql/queries";
 import { Icon } from "../icons";
 import { MiniSelect, SearchField } from "./form";
+import { useI18n } from "./i18n-context";
 import { LocalizedLink } from "./links";
 import { RadioTabs } from "./radio-tabs";
 
@@ -28,10 +28,7 @@ const ListItem = ({
     <LocalizedLink
       pathname="/[locale]/municipality/[id]"
       query={{
-        id: id.replace(
-          "http://classifications.data.admin.ch/municipality/",
-          ""
-        ),
+        id,
       }}
       passHref
     >
@@ -141,6 +138,19 @@ export const List = ({ observations, colorScale }: Props) => {
   const [listState, setListState] = useState<ListState>("MUNICIPALITIES");
   const [sortState, setSortState] = useState<SortState>("ASC");
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const i18n = useI18n();
+
+  const sortOptions = [
+    {
+      value: "ASC" as SortState,
+      label: i18n._(t("list.order.asc")`Günstigste zuerst`),
+    },
+    {
+      value: "DESC" as SortState,
+      label: i18n._(t("list.order.desc")`Teuerste zuerst`),
+    },
+  ];
+  const searchLabel = i18n._(t("list.search.label")`Liste filtern`);
 
   const getLabel = useCallback(
     (d: Observation) =>
@@ -194,69 +204,52 @@ export const List = ({ observations, colorScale }: Props) => {
         setValue={setListState}
       />
 
-      <I18n>
-        {({ i18n }) => {
-          const options = [
-            {
-              value: "ASC" as SortState,
-              label: i18n._(t("list.order.asc")`Günstigste zuerst`),
-            },
-            {
-              value: "DESC" as SortState,
-              label: i18n._(t("list.order.desc")`Teuerste zuerst`),
-            },
-          ];
-          const searchLabel = i18n._(t("list.search.label")`Liste filtern`);
+      <Box
+        sx={{
+          p: 2,
+          borderBottomWidth: "1px",
+          borderBottomStyle: "solid",
+          borderBottomColor: "monochrome300",
+        }}
+      >
+        <SearchField
+          id="listSearch"
+          value={searchQuery}
+          onChange={(e) => {
+            setSearchQuery(e.currentTarget.value);
+          }}
+          onReset={() => {
+            setSearchQuery("");
+          }}
+          label={searchLabel}
+          placeholder={searchLabel}
+        />
 
-          return (
-            <Box
+        <Flex sx={{ justifyContent: "space-between", mt: 2 }}>
+          <label htmlFor="listSort">
+            <Text
+              color="secondary"
               sx={{
-                p: 2,
-                borderBottomWidth: "1px",
-                borderBottomStyle: "solid",
-                borderBottomColor: "monochrome300",
+                fontFamily: "body",
+                fontSize: [1, 2, 2],
+                lineHeight: "24px",
               }}
             >
-              <SearchField
-                id="listSearch"
-                value={searchQuery}
-                onChange={(e) => {
-                  setSearchQuery(e.currentTarget.value);
-                }}
-                onReset={() => {
-                  setSearchQuery("");
-                }}
-                label={searchLabel}
-                placeholder={searchLabel}
-              />
+              <Trans id="dataset.sortby">Sortieren</Trans>
+            </Text>
+          </label>
 
-              <Flex sx={{ justifyContent: "space-between", mt: 2 }}>
-                <label htmlFor="listSort">
-                  <Text
-                    color="secondary"
-                    sx={{
-                      fontFamily: "body",
-                      fontSize: [1, 2, 2],
-                      lineHeight: "24px",
-                    }}
-                  >
-                    <Trans id="dataset.sortby">Sortieren</Trans>
-                  </Text>
-                </label>
+          <MiniSelect
+            id="listSort"
+            value={sortState}
+            options={sortOptions}
+            onChange={(e) => {
+              setSortState(e.currentTarget.value as SortState);
+            }}
+          ></MiniSelect>
+        </Flex>
+      </Box>
 
-                <MiniSelect
-                  id="listSort"
-                  value={sortState}
-                  options={options}
-                  onChange={(e) => {
-                    setSortState(e.currentTarget.value as SortState);
-                  }}
-                ></MiniSelect>
-              </Flex>
-            </Box>
-          );
-        }}
-      </I18n>
       <ListItems
         items={listItems}
         getLabel={getLabel}

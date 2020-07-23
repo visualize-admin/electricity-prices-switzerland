@@ -9,7 +9,7 @@ import {
 } from "d3-scale";
 import * as React from "react";
 import { ReactNode, useCallback, useMemo } from "react";
-import { Observation, ObservationValue } from "../../../domain/data";
+import { GenericObservation, ObservationValue } from "../../../domain/data";
 import { getPalette, mkNumber, useFormatNumber } from "../../../domain/helpers";
 import { estimateTextWidth } from "../../../lib/estimate-text-width";
 import { Tooltip } from "../interaction/tooltip";
@@ -26,20 +26,20 @@ import {
 import { PADDING_INNER, PADDING_OUTER, PADDING_WITHIN } from "./constants";
 
 export interface GroupedColumnsState {
-  sortedData: Observation[];
+  sortedData: GenericObservation[];
   bounds: Bounds;
-  getX: (d: Observation) => string;
+  getX: (d: GenericObservation) => string;
   xScale: ScaleBand<string>;
   xScaleInteraction: ScaleBand<string>;
   xScaleIn: ScaleBand<string>;
-  getY: (d: Observation) => number;
+  getY: (d: GenericObservation) => number;
   yScale: ScaleLinear<number, number>;
-  getSegment: (d: Observation) => string;
+  getSegment: (d: GenericObservation) => string;
   segments: string[];
   colors: ScaleOrdinal<string, string>;
   yAxisLabel: string;
   grouped: [string, Record<string, ObservationValue>[]][];
-  getAnnotationInfo: (d: Observation) => Tooltip;
+  getAnnotationInfo: (d: GenericObservation) => Tooltip;
 }
 
 const useGroupedColumnsState = ({
@@ -56,15 +56,15 @@ const useGroupedColumnsState = ({
   const formatNumber = useFormatNumber();
 
   const getX = useCallback(
-    (d: Observation): string => d[fields.x.componentIri] as string,
+    (d: GenericObservation): string => d[fields.x.componentIri] as string,
     [fields.x.componentIri]
   );
   const getY = useCallback(
-    (d: Observation): number => +d[fields.y.componentIri],
+    (d: GenericObservation): number => +d[fields.y.componentIri],
     [fields.y.componentIri]
   );
   const getSegment = useCallback(
-    (d: Observation): string =>
+    (d: GenericObservation): string =>
       fields.segment && fields.segment.componentIri
         ? (d[fields.segment.componentIri] as string)
         : "segment",
@@ -218,7 +218,7 @@ const useGroupedColumnsState = ({
   yScale.range([chartHeight, 0]);
 
   // Tooltip
-  const getAnnotationInfo = (datum: Observation): Tooltip => {
+  const getAnnotationInfo = (datum: GenericObservation): Tooltip => {
     const xRef = xScale(getX(datum)) as number;
     const xOffset = xScale.bandwidth() / 2;
     const yRef = yScale(getY(datum));
@@ -359,8 +359,8 @@ const sortData = ({
   xSortingOrder,
   xOrder,
 }: {
-  data: Observation[];
-  getX: (d: Observation) => string;
+  data: GenericObservation[];
+  getX: (d: GenericObservation) => string;
   xSortingType: SortingType | undefined;
   xSortingOrder: SortingOrder | undefined;
   xOrder: string[];

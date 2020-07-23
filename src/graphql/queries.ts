@@ -158,7 +158,15 @@ export type MunicipalitiesQueryVariables = Exact<{
 }>;
 
 
-export type MunicipalitiesQuery = { __typename: 'Query', cubeByIri?: Maybe<{ __typename: 'Cube', municipalities: Array<{ __typename: 'Municipality', name: string }> }> };
+export type MunicipalitiesQuery = { __typename: 'Query', cubeByIri?: Maybe<{ __typename: 'Cube', municipalities: Array<{ __typename: 'Municipality', id: string, name: string }> }> };
+
+export type ProvidersQueryVariables = Exact<{
+  locale: Scalars['String'];
+  query?: Maybe<Scalars['String']>;
+}>;
+
+
+export type ProvidersQuery = { __typename: 'Query', cubeByIri?: Maybe<{ __typename: 'Cube', providers: Array<{ __typename: 'Provider', id: string, name: string }> }> };
 
 export type ObservationsQueryVariables = Exact<{
   locale?: Maybe<Scalars['String']>;
@@ -169,11 +177,20 @@ export type ObservationsQueryVariables = Exact<{
 
 export type ObservationsQuery = { __typename: 'Query', cubeByIri?: Maybe<{ __typename: 'Cube', observations: Array<{ __typename: 'Observation', period: string, municipality: string, provider: string, providerLabel?: Maybe<string>, category: string, value: number }> }> };
 
+export type ObservationsWithAllPriceComponentsQueryVariables = Exact<{
+  locale?: Maybe<Scalars['String']>;
+  filters: ObservationFilters;
+}>;
+
+
+export type ObservationsWithAllPriceComponentsQuery = { __typename: 'Query', cubeByIri?: Maybe<{ __typename: 'Cube', observations: Array<{ __typename: 'Observation', period: string, municipality: string, provider: string, providerLabel?: Maybe<string>, category: string, aidfee: number, fixcosts: number, charge: number, gridusage: number, energy: number, fixcostspercent: number, total: number }> }> };
+
 
 export const MunicipalitiesDocument = gql`
     query Municipalities($locale: String!, $query: String) {
   cubeByIri(iri: "https://energy.ld.admin.ch/elcom/energy-pricing/cube", locale: $locale) {
     municipalities(query: $query) {
+      id
       name
     }
   }
@@ -182,6 +199,20 @@ export const MunicipalitiesDocument = gql`
 
 export function useMunicipalitiesQuery(options: Omit<Urql.UseQueryArgs<MunicipalitiesQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<MunicipalitiesQuery>({ query: MunicipalitiesDocument, ...options });
+};
+export const ProvidersDocument = gql`
+    query Providers($locale: String!, $query: String) {
+  cubeByIri(iri: "https://energy.ld.admin.ch/elcom/energy-pricing/cube", locale: $locale) {
+    providers(query: $query) {
+      id
+      name
+    }
+  }
+}
+    `;
+
+export function useProvidersQuery(options: Omit<Urql.UseQueryArgs<ProvidersQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<ProvidersQuery>({ query: ProvidersDocument, ...options });
 };
 export const ObservationsDocument = gql`
     query Observations($locale: String, $priceComponent: PriceComponent!, $filters: ObservationFilters!) {
@@ -200,4 +231,28 @@ export const ObservationsDocument = gql`
 
 export function useObservationsQuery(options: Omit<Urql.UseQueryArgs<ObservationsQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<ObservationsQuery>({ query: ObservationsDocument, ...options });
+};
+export const ObservationsWithAllPriceComponentsDocument = gql`
+    query ObservationsWithAllPriceComponents($locale: String, $filters: ObservationFilters!) {
+  cubeByIri(iri: "https://energy.ld.admin.ch/elcom/energy-pricing/cube", locale: $locale) {
+    observations(filters: $filters) {
+      period
+      municipality
+      provider
+      providerLabel
+      category
+      aidfee: value(priceComponent: aidfee)
+      fixcosts: value(priceComponent: fixcosts)
+      charge: value(priceComponent: charge)
+      gridusage: value(priceComponent: gridusage)
+      energy: value(priceComponent: energy)
+      fixcostspercent: value(priceComponent: fixcostspercent)
+      total: value(priceComponent: total)
+    }
+  }
+}
+    `;
+
+export function useObservationsWithAllPriceComponentsQuery(options: Omit<Urql.UseQueryArgs<ObservationsWithAllPriceComponentsQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<ObservationsWithAllPriceComponentsQuery>({ query: ObservationsWithAllPriceComponentsDocument, ...options });
 };

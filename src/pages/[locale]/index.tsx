@@ -10,58 +10,28 @@ import { Selector } from "../../components/selector";
 import { useColorScale } from "../../domain/data";
 import { PriceComponent, useObservationsQuery } from "../../graphql/queries";
 import { useCallback } from "react";
+import { useQueryStateSingle } from "../../lib/use-query-state";
 import { List } from "../../components/list";
 
 const EMPTY_ARRAY: never[] = [];
 
-type Props = {
-  year: string;
-  priceComponent: string;
-  category: string;
-  // product: string;
-};
 export const getServerSideProps = async () => {
-  // FIXME: Add "product" when it is data-ready
-  const initialParams = {
-    year: "2019",
-    priceComponent: "total",
-    category: "H1",
-    // product: "standard"
-  };
-
   return {
-    props: {
-      initialParams,
-    },
+    props: {},
   };
 };
 
 const HEADER_HEIGHT_S = "107px";
 const HEADER_HEIGHT_M_UP = "96px";
 
-const IndexPage = ({
-  initialParams,
-}: InferGetStaticPropsType<typeof getServerSideProps>) => {
-  const { replace, query } = useRouter();
-
-  const updateQueryParams = (queryObject: { [x: string]: string }) => {
-    const { href, as } = createDynamicRouteProps({
-      pathname: `/[locale]`,
-      query: { ...query, ...queryObject },
-    });
-    replace(href, as);
-  };
-
-  const year = (query.year as string) ?? initialParams.year;
-  const priceComponent =
-    (query.priceComponent as PriceComponent) ?? PriceComponent.Total; // TODO: parameterize priceComponent
-  const category = (query.category as string) ?? initialParams.category;
+const IndexPage = () => {
+  const [{ period, priceComponent, category }] = useQueryStateSingle();
 
   const [observationsQuery] = useObservationsQuery({
     variables: {
-      priceComponent,
+      priceComponent: priceComponent as PriceComponent,
       filters: {
-        period: [year],
+        period: [period],
         category: [
           `https://energy.ld.admin.ch/elcom/energy-pricing/category/${category}`,
         ],
@@ -135,7 +105,7 @@ const IndexPage = ({
               }}
             >
               <ChoroplethMap
-                year={year}
+                year={period}
                 observations={observations}
                 colorScale={colorScale}
               />
@@ -154,18 +124,15 @@ const IndexPage = ({
             </Box>
             <Box sx={{ gridArea: "controls" }}>
               <Box
-                sx={{
-                  // position: ["relative", "sticky"],
-                  // top: [0, HEADER_HEIGHT_M_UP],
-                  // zIndex: 1,
-                }}
+                sx={
+                  {
+                    // position: ["relative", "sticky"],
+                    // top: [0, HEADER_HEIGHT_M_UP],
+                    // zIndex: 1,
+                  }
+                }
               >
-                <Selector
-                  year={year}
-                  priceComponent={priceComponent}
-                  category={category}
-                  updateQueryParams={updateQueryParams}
-                />
+                <Selector />
               </Box>
               <List observations={observations} colorScale={colorScale} />
             </Box>

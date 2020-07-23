@@ -13,8 +13,8 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/components/combobox.tsx:144
-#: src/components/combobox.tsx:264
+#: src/components/combobox.tsx:172
+#: src/components/combobox.tsx:292
 msgid "combobox.noitems"
 msgstr ""
 
@@ -24,6 +24,46 @@ msgstr "Azzerare"
 
 #: src/components/list.tsx:137
 msgid "dataset.sortby"
+msgstr ""
+
+#: src/components/detail-page/banner.tsx:22
+msgid "detail.canton"
+msgstr ""
+
+#: src/components/detail-page/cantons-comparison-range.tsx:22
+msgid "detail.card.title.cantons.comparison"
+msgstr ""
+
+#: src/components/detail-page/price-components.tsx:33
+msgid "detail.card.title.price.components"
+msgstr ""
+
+#: src/components/detail-page/price-distribution-histogram.tsx:25
+msgid "detail.card.title.prices.distribution"
+msgstr ""
+
+#: src/components/detail-page/price-evolution-line-chart.tsx:37
+msgid "detail.card.title.prices.evolution"
+msgstr ""
+
+#: src/components/detail-page/banner.tsx:28
+msgid "detail.municipality"
+msgstr ""
+
+#: src/domain/translation.tsx:51
+msgid "filters.category"
+msgstr ""
+
+#: src/domain/translation.tsx:55
+msgid "filters.price.component"
+msgstr ""
+
+#: src/domain/translation.tsx:53
+msgid "filters.product"
+msgstr ""
+
+#: src/domain/translation.tsx:49
+msgid "filters.year"
 msgstr ""
 
 #: src/components/footer.tsx:34
@@ -79,165 +119,173 @@ msgstr "mediana"
 msgid "price.legend.min"
 msgstr "min"
 
-#: src/components/selector.tsx:29
+#: src/components/detail-page/selector-multi.tsx:31
+#: src/components/selector.tsx:31
 msgid "selector.category"
 msgstr "Categoria"
 
-#: src/domain/translation.tsx:64
+#: src/domain/translation.tsx:35
 msgid "selector.category.C1"
 msgstr ""
 
-#: src/domain/translation.tsx:66
+#: src/domain/translation.tsx:37
 msgid "selector.category.C2"
 msgstr ""
 
-#: src/domain/translation.tsx:68
+#: src/domain/translation.tsx:39
 msgid "selector.category.C3"
 msgstr ""
 
-#: src/domain/translation.tsx:70
+#: src/domain/translation.tsx:41
 msgid "selector.category.C4"
 msgstr ""
 
-#: src/domain/translation.tsx:72
+#: src/domain/translation.tsx:43
 msgid "selector.category.C5"
 msgstr ""
 
-#: src/domain/translation.tsx:74
+#: src/domain/translation.tsx:45
 msgid "selector.category.C6"
 msgstr ""
 
-#: src/domain/translation.tsx:76
+#: src/domain/translation.tsx:47
 msgid "selector.category.C7"
 msgstr ""
 
-#: src/domain/translation.tsx:48
+#: src/domain/translation.tsx:19
 msgid "selector.category.H1"
 msgstr ""
 
-#: src/domain/translation.tsx:50
+#: src/domain/translation.tsx:21
 msgid "selector.category.H2"
 msgstr ""
 
-#: src/domain/translation.tsx:52
+#: src/domain/translation.tsx:23
 msgid "selector.category.H3"
 msgstr ""
 
-#: src/domain/translation.tsx:54
+#: src/domain/translation.tsx:25
 msgid "selector.category.H4"
 msgstr ""
 
-#: src/domain/translation.tsx:56
+#: src/domain/translation.tsx:27
 msgid "selector.category.H5"
 msgstr ""
 
-#: src/domain/translation.tsx:58
+#: src/domain/translation.tsx:29
 msgid "selector.category.H6"
 msgstr ""
 
-#: src/domain/translation.tsx:60
+#: src/domain/translation.tsx:31
 msgid "selector.category.H7"
 msgstr ""
 
-#: src/domain/translation.tsx:62
+#: src/domain/translation.tsx:33
 msgid "selector.category.H8"
 msgstr ""
 
-#: src/components/selector.tsx:20
+#: src/components/detail-page/selector-multi.tsx:22
+#: src/components/selector.tsx:23
 msgid "selector.legend.select.parameters"
 msgstr "selezionare i parametri"
 
-#: src/components/selector.tsx:27
+#: src/components/detail-page/selector-multi.tsx:28
+msgid "selector.municipality"
+msgstr ""
+
+#: src/components/selector.tsx:29
 msgid "selector.priceComponent"
 msgstr "Componente del prezzo"
 
-#: src/domain/translation.tsx:44
+#: src/domain/translation.tsx:15
 msgid "selector.pricecomponent.aidfee"
 msgstr ""
 
-#: src/domain/translation.tsx:40
+#: src/domain/translation.tsx:13
 msgid "selector.pricecomponent.charge"
 msgstr ""
 
-#: src/domain/translation.tsx:38
+#: src/domain/translation.tsx:11
 msgid "selector.pricecomponent.energy"
 msgstr ""
 
-#: src/domain/translation.tsx:36
+#: src/domain/translation.tsx:9
 msgid "selector.pricecomponent.gridusage"
 msgstr ""
 
-#: src/domain/translation.tsx:46
+#: src/domain/translation.tsx:17
 msgid "selector.pricecomponent.total"
 msgstr ""
 
-#: src/components/selector.tsx:31
+#: src/components/detail-page/selector-multi.tsx:32
+#: src/components/selector.tsx:33
 msgid "selector.product"
 msgstr "Prodotto"
 
-#: src/domain/translation.tsx:34
+#: src/domain/translation.tsx:7
 msgid "selector.product.economic"
 msgstr ""
 
-#: src/domain/translation.tsx:32
+#: src/domain/translation.tsx:5
 msgid "selector.product.standard"
 msgstr ""
 
-#: src/components/selector.tsx:26
+#: src/components/detail-page/selector-multi.tsx:30
+#: src/components/selector.tsx:28
 msgid "selector.year"
 msgstr "Anno"
 
 #: src/domain/translation.tsx:30
-msgid "selector.year.2009"
-msgstr ""
+#~ msgid "selector.year.2009"
+#~ msgstr ""
 
 #: src/domain/translation.tsx:28
-msgid "selector.year.2010"
-msgstr ""
+#~ msgid "selector.year.2010"
+#~ msgstr ""
 
 #: src/domain/translation.tsx:26
-msgid "selector.year.2011"
-msgstr ""
+#~ msgid "selector.year.2011"
+#~ msgstr ""
 
 #: src/domain/translation.tsx:24
-msgid "selector.year.2012"
-msgstr ""
+#~ msgid "selector.year.2012"
+#~ msgstr ""
 
 #: src/domain/translation.tsx:22
-msgid "selector.year.2013"
-msgstr ""
+#~ msgid "selector.year.2013"
+#~ msgstr ""
 
 #: src/domain/translation.tsx:20
-msgid "selector.year.2014"
-msgstr ""
+#~ msgid "selector.year.2014"
+#~ msgstr ""
 
 #: src/domain/translation.tsx:18
-msgid "selector.year.2015"
-msgstr ""
+#~ msgid "selector.year.2015"
+#~ msgstr ""
 
 #: src/domain/translation.tsx:16
-msgid "selector.year.2016"
-msgstr ""
+#~ msgid "selector.year.2016"
+#~ msgstr ""
 
 #: src/domain/translation.tsx:14
-msgid "selector.year.2017"
-msgstr ""
+#~ msgid "selector.year.2017"
+#~ msgstr ""
 
 #: src/domain/translation.tsx:12
-msgid "selector.year.2018"
-msgstr ""
+#~ msgid "selector.year.2018"
+#~ msgstr ""
 
 #: src/domain/translation.tsx:10
-msgid "selector.year.2019"
-msgstr ""
+#~ msgid "selector.year.2019"
+#~ msgstr ""
 
 #: src/domain/translation.tsx:8
-msgid "selector.year.2020"
-msgstr ""
+#~ msgid "selector.year.2020"
+#~ msgstr ""
 
 #: src/domain/translation.tsx:6
-msgid "selector.year.2021"
-msgstr ""
+#~ msgid "selector.year.2021"
+#~ msgstr ""
 
 #: src/components/header.tsx:65
 msgid "site.title"

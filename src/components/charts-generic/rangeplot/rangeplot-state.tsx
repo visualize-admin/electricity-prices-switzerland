@@ -1,31 +1,31 @@
 import { interpolateLab, scaleBand, ScaleBand } from "d3";
-import { ascending, extent, group, median, rollup, max, min } from "d3-array";
+import { ascending, group, max, median, min, rollup } from "d3-array";
 import { ScaleLinear, scaleLinear } from "d3-scale";
 import * as React from "react";
 import { ReactNode, useCallback } from "react";
 import { RangePlotFields } from "../../../domain/config-types";
-import { Observation, ObservationValue } from "../../../domain/data";
-import { useFormatNumber, mkNumber } from "../../../domain/helpers";
+import { GenericObservation, ObservationValue } from "../../../domain/data";
+import { mkNumber, useFormatCurrency } from "../../../domain/helpers";
 import { estimateTextWidth } from "../../../lib/estimate-text-width";
+import {
+  Annotation,
+  ANNOTATION_LABEL_HEIGHT,
+} from "../annotation/annotation-x";
 import { BOTTOM_MARGIN_OFFSET, LEFT_MARGIN_OFFSET } from "../constants";
 import { ChartContext, ChartProps } from "../use-chart-state";
+import { useChartTheme } from "../use-chart-theme";
 import { InteractionProvider } from "../use-interaction";
 import { Bounds, Observer, useWidth } from "../use-width";
-import {
-  ANNOTATION_LABEL_HEIGHT,
-  Annotation,
-} from "../annotation/annotation-x";
-import { useChartTheme } from "../use-chart-theme";
 
 export const DOT_RADIUS = 8;
 export const SPACE_ABOVE = 8;
 
 export interface RangePlotState {
   bounds: Bounds;
-  data: Observation[];
-  getX: (d: Observation) => number;
+  data: GenericObservation[];
+  getX: (d: GenericObservation) => number;
   xScale: ScaleLinear<number, number>;
-  getY: (d: Observation) => string;
+  getY: (d: GenericObservation) => string;
   yScale: ScaleBand<string>;
   colors: ScaleLinear<string, string>;
   rangeGroups: [string, Record<string, ObservationValue>[]][];
@@ -39,19 +39,26 @@ const useRangePlotState = ({
   fields: RangePlotFields;
 }): RangePlotState => {
   const width = useWidth();
-  const formatNumber = useFormatNumber();
+  const formatCurrency = useFormatCurrency();
   const { annotationfontSize, palettes } = useChartTheme();
 
   const getX = useCallback(
-    (d: Observation) => d[fields.x.componentIri] as number,
+    (d: GenericObservation) => d[fields.x.componentIri] as number,
     [fields.x.componentIri]
   );
+  // const getY = useCallback(
+  //   (d: Observation) =>
+  //     fields.y && fields.y.componentIri
+  //       ? (d[fields.y.componentIri] as string)
+  //       : undefined,
+  //   [fields.y]
+  // );
   const getY = useCallback(
-    (d: Observation) => d[fields.y.componentIri] as string,
+    (d: GenericObservation) => d[fields.y.componentIri] as string,
     [fields.y.componentIri]
   );
   const getLabel = useCallback(
-    (d: Observation) => d[fields.label.componentIri] as string,
+    (d: GenericObservation) => d[fields.label.componentIri] as string,
     [fields.label.componentIri]
   );
 
@@ -85,10 +92,11 @@ const useRangePlotState = ({
     .domain(colorDomain)
     .range(palettes.diverging)
     .interpolate(interpolateLab);
-
   const left = Math.max(
     estimateTextWidth(yScale.domain()[0]),
-    estimateTextWidth(yScale.domain()[1])
+    estimateTextWidth(
+      yScale.domain().length > 1 ? yScale.domain()[1] : yScale.domain()[0]
+    )
   );
   const margins = {
     top: 70,
@@ -104,7 +112,7 @@ const useRangePlotState = ({
         (acc, datum, i) => {
           // FIXME: Should be word based, not character based?
           const oneFullLine =
-            estimateTextWidth(formatNumber(getX(datum)), annotationfontSize) +
+            estimateTextWidth(formatCurrency(getX(datum)), annotationfontSize) +
             estimateTextWidth(getLabel(datum), annotationfontSize);
           // On smaller screens, anotations may break on several lines
           const nbOfLines = Math.ceil(oneFullLine / (chartWidth * 0.5));
@@ -152,7 +160,7 @@ const useRangePlotState = ({
           y: yScale(getY(datum)) || 0,
           xLabel: xScale(getX(datum)),
           yLabel: annotationSpaces[i],
-          value: formatNumber(getX(datum)),
+          value: formatCurrency(getX(datum)),
           label: getLabel(datum),
           onTheLeft: xScale(getX(datum)) <= chartWidth / 2 ? false : true,
         };

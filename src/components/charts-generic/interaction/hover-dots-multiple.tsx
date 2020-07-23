@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Box } from "theme-ui";
-import { Observation } from "../../../domain/data";
+import { GenericObservation } from "../../../domain/data";
 import { LinesState } from "../lines/lines-state";
 import { useChartState } from "../use-chart-state";
 import { useInteraction } from "../use-interaction";
@@ -13,7 +13,7 @@ export const HoverDotMultiple = () => {
   return <>{visible && d && <HoverDots d={d} />}</>;
 };
 
-const HoverDots = ({ d }: { d: Observation }) => {
+const HoverDots = ({ d }: { d: GenericObservation }) => {
   const { getAnnotationInfo, bounds } = useChartState() as LinesState;
 
   const { xAnchor, values } = getAnnotationInfo(d);

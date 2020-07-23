@@ -15,8 +15,9 @@ import { AxisWidthLinear } from "../components/charts-generic/axis/axis-width-li
 import {
   AnnotationX,
   AnnotationXLabel,
+  AnnotationXDataPoint,
 } from "../components/charts-generic/annotation/annotation-x";
-import { Observation } from "../domain/data";
+import { GenericObservation } from "../domain/data";
 
 export default () => {
   return markdown`
@@ -25,7 +26,7 @@ export default () => {
   ${(
     <ReactSpecimen span={6}>
       <RangePlot
-        data={rangePlotData as Observation[]}
+        data={rangePlotData as GenericObservation[]}
         fields={{
           x: {
             componentIri: "Total exkl. MWST",
@@ -51,8 +52,8 @@ export default () => {
             <Range />
             <AxisWidthLinear position="top" />
             <RangePoints />
-            <AnnotationX />
-          </ChartSvg>{" "}
+            <AnnotationX /> <AnnotationXDataPoint />
+          </ChartSvg>
           <AnnotationXLabel />
         </ChartContainer>
       </RangePlot>
@@ -64,7 +65,7 @@ export default () => {
     ${(
       <ReactSpecimen span={6}>
         <RangePlot
-          data={rangePlotData as Observation[]}
+          data={rangePlotData as GenericObservation[]}
           fields={{
             x: {
               componentIri: "Total exkl. MWST",

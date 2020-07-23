@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Box } from "theme-ui";
-import { Observation } from "../../../domain/data";
+import { GenericObservation } from "../../../domain/data";
 import { HistogramState } from "../histogram/histogram-state";
 import { RangePlotState } from "../rangeplot/rangeplot-state";
 import { useChartState } from "../use-chart-state";
@@ -11,7 +11,7 @@ export const ANNOTATION_SQUARE_SIDE = 8;
 export const ANNOTATION_LABEL_HEIGHT = 20;
 
 export interface Annotation {
-  datum: Observation;
+  datum: GenericObservation;
   x: number;
   y: number;
   xLabel: number;
@@ -49,7 +49,29 @@ export const AnnotationX = () => {
                   y2={a.y + margins.top}
                   stroke={annotationColor}
                 />
+              </g>
+            </React.Fragment>
+          );
+        })}
+    </>
+  );
+};
 
+export const AnnotationXDataPoint = () => {
+  const { bounds, annotations } = useChartState() as
+    | RangePlotState
+    | HistogramState;
+
+  const { margins } = bounds;
+  const { annotationColor } = useChartTheme();
+
+  return (
+    <>
+      {annotations &&
+        annotations.map((a, i) => {
+          return (
+            <React.Fragment key={i}>
+              <g transform={`translate(${margins.left}, 0)`}>
                 {/* Data Point indicator */}
                 <circle
                   cx={a.x}
@@ -80,7 +102,8 @@ export const AnnotationXLabel = () => {
           <Box
             key={a.label}
             sx={{
-              width: chartWidth * 0.5,
+              // width: chartWidth * 0.5,
+              width: "fit-content",
               p: 1,
               zIndex: 2,
               position: "absolute",
@@ -109,5 +132,5 @@ export const AnnotationXLabel = () => {
 
 const mkTranslation = (onTheLeft: boolean, offset: number) =>
   onTheLeft
-    ? `translate3d(calc(-100% - ${offset}px), -50%, 0)`
-    : `translate3d(${offset}px, -50%, 0)`;
+    ? `translate3d(calc(-100% - ${offset}px), -40%, 0)`
+    : `translate3d(${offset}px, -40%, 0)`;

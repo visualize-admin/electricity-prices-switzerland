@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Observation } from "../../../domain/data";
+import { GenericObservation } from "../../../domain/data";
 import { useChartState } from "../use-chart-state";
 import { useInteraction } from "../use-interaction";
 import { ColumnsState } from "../columns/columns-state";
@@ -15,7 +15,7 @@ export const InteractionColumns = () => {
   } = useChartState() as ColumnsState;
   const { margins, chartHeight } = bounds;
 
-  const showTooltip = (d: Observation) => {
+  const showTooltip = (d: GenericObservation) => {
     dispatch({
       type: "INTERACTION_UPDATE",
       value: { interaction: { visible: true, d } },
