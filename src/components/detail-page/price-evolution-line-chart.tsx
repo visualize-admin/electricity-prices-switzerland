@@ -32,8 +32,9 @@ import {
 } from "../../domain/data";
 import { useQueryState } from "../../lib/use-query-state";
 import { Box } from "@theme-ui/components";
+import { memo } from "react";
 
-export const PriceEvolutionLineChart = ({
+export const PriceEvolution = ({
   id,
   entity,
 }: {
@@ -85,59 +86,82 @@ export const PriceEvolutionLineChart = ({
       ) : (
         <>
           {priceComponents.map((pc) => (
-            <Box sx={{ my: 4 }}>
-              <LineChart
-                data={observations as GenericObservation[]}
-                fields={{
-                  x: {
-                    componentIri: "period",
-                  },
-                  y: {
-                    componentIri: pc,
-                  },
-                  segment:
-                    entityIds.length > 1
-                      ? {
-                          componentIri: getEntityLabelField(entity),
-                          palette: "accent",
-                        }
-                      : undefined,
-                }}
-                measures={[
-                  {
-                    iri: pc,
-                    label: pc,
-                    __typename: "Measure",
-                  },
-                ]}
-                dimensions={[
-                  {
-                    iri: "period",
-                    label: "period",
-                    __typename: "TemporalDimension",
-                  },
-                ]}
-                aspectRatio={0.2}
-              >
-                <LegendColor symbol="line" />
-                <ChartContainer>
-                  <ChartSvg>
-                    <AxisHeightLinear /> <AxisTime /> <AxisTimeDomain />
-                    <Lines />
-                    <InteractionHorizontal />
-                  </ChartSvg>
-
-                  <Ruler />
-
-                  <HoverDotMultiple />
-
-                  <Tooltip type={"single"} />
-                </ChartContainer>
-              </LineChart>{" "}
-            </Box>
+            <PriceEvolutionLineChart
+              key={pc}
+              hasMultipleLines={entityIds.length > 1}
+              observations={observations as GenericObservation[]}
+              entity={entity}
+              priceComponent={pc as PriceComponent}
+            />
           ))}
         </>
       )}
     </Card>
   );
 };
+
+const PriceEvolutionLineChart = memo(
+  ({
+    hasMultipleLines,
+    observations,
+    entity,
+    priceComponent,
+  }: {
+    hasMultipleLines: boolean;
+    observations: GenericObservation[];
+    entity: Entity;
+    priceComponent: PriceComponent;
+  }) => {
+    return (
+      <Box sx={{ my: 4 }}>
+        <LineChart
+          data={observations}
+          fields={{
+            x: {
+              componentIri: "period",
+            },
+            y: {
+              componentIri: priceComponent,
+            },
+            segment: hasMultipleLines
+              ? {
+                  componentIri: getEntityLabelField(entity),
+                  palette: "accent",
+                }
+              : undefined,
+          }}
+          measures={[
+            {
+              iri: priceComponent,
+              label: priceComponent,
+              __typename: "Measure",
+            },
+          ]}
+          dimensions={[
+            {
+              iri: "period",
+              label: "period",
+              __typename: "TemporalDimension",
+            },
+          ]}
+          aspectRatio={0.2}
+        >
+          <LegendColor symbol="line" />
+          <ChartContainer>
+            <ChartSvg>
+              <AxisHeightLinear /> <AxisTime /> <AxisTimeDomain />
+              <Lines />
+              <InteractionHorizontal />
+            </ChartSvg>
+
+            {hasMultipleLines && <Ruler />}
+
+            <HoverDotMultiple />
+
+            <Tooltip type={hasMultipleLines ? "multiple" : "single"} />
+          </ChartContainer>
+        </LineChart>
+      </Box>
+    );
+  }
+);
