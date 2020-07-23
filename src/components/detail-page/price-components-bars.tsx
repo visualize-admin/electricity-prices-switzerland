@@ -1,26 +1,20 @@
 import { Trans } from "@lingui/macro";
-import { useRouter } from "next/router";
 import * as React from "react";
-
-import { Bars } from "../charts-generic/bars/bars-simple";
-import { BarChart } from "../charts-generic/bars/bars-state";
-import { ChartContainer, ChartSvg } from "../charts-generic/containers";
-import { Card } from "./card";
-import {
-  PriceComponent,
-  useObservationsQuery,
-  useObservationsWithAllPriceComponentsQuery,
-} from "../../graphql/queries";
-import { EMPTY_ARRAY } from "../../pages/[locale]/municipality/[id]";
-import { Entity, priceComponents, GenericObservation } from "../../domain/data";
-import { useQueryState } from "../../lib/use-query-state";
-import { Loading } from "../loading";
-import { GroupedBarsChart } from "../charts-generic/bars/bars-grouped-state";
+import { Entity, priceComponents } from "../../domain/data";
 import { pivot_longer } from "../../domain/helpers";
+import { useObservationsWithAllPriceComponentsQuery } from "../../graphql/queries";
+import { useQueryState } from "../../lib/use-query-state";
+import { EMPTY_ARRAY } from "../../pages/[locale]/municipality/[id]";
 import {
   BarsGrouped,
   BarsGroupedLabels,
 } from "../charts-generic/bars/bars-grouped";
+import { GroupedBarsChart } from "../charts-generic/bars/bars-grouped-state";
+import { ChartContainer, ChartSvg } from "../charts-generic/containers";
+import { Loading } from "../loading";
+import { Card } from "./card";
+import { getLocalizedLabel } from "../../domain/translation";
+import { useI18n } from "../i18n-context";
 
 export const PriceComponentsBarChart = ({
   id,
@@ -44,9 +38,6 @@ export const PriceComponentsBarChart = ({
     comparisonIds && comparisonIds?.some((m) => m !== "")
       ? [...comparisonIds, id]
       : [id];
-  console.log({ id });
-  console.log({ entityIds });
-
   const [observationsQuery] = useObservationsWithAllPriceComponentsQuery({
     variables: {
       filters: {
@@ -65,7 +56,7 @@ export const PriceComponentsBarChart = ({
 
   // const uniqueIds = muni+provider+year
   const withUniqueEntityId = observations.map((obs) => ({
-    uniqueId: `${obs.period}-${obs.municipality}-${obs.providerLabel}`,
+    uniqueId: `${obs.period}, ${obs.municipality}, ${obs.providerLabel}`,
     ...obs,
   }));
   const pivoted = pivot_longer({

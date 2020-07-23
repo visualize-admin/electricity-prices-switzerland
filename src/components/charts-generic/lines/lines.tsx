@@ -16,7 +16,6 @@ export const Lines = () => {
     bounds,
   } = useChartState() as LinesState;
   const theme = useTheme();
-  console.log("lines");
 
   const lineGenerator = line<GenericObservation>()
     // .defined(d => !isNaN(d))
