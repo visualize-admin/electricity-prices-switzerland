@@ -17,7 +17,10 @@ import { useQueryState } from "../../lib/use-query-state";
 import { Loading } from "../loading";
 import { GroupedBarsChart } from "../charts-generic/bars/bars-grouped-state";
 import { pivot_longer } from "../../domain/helpers";
-import { BarsGrouped } from "../charts-generic/bars/bars-grouped";
+import {
+  BarsGrouped,
+  BarsGroupedLabels,
+} from "../charts-generic/bars/bars-grouped";
 
 export const PriceComponentsBarChart = ({
   id,
@@ -47,6 +50,7 @@ export const PriceComponentsBarChart = ({
   const [observationsQuery] = useObservationsWithAllPriceComponentsQuery({
     variables: {
       filters: {
+        period: period,
         [entity]: entityIds,
         category: [
           `https://energy.ld.admin.ch/elcom/energy-pricing/category/${category[0]}`,
@@ -59,13 +63,16 @@ export const PriceComponentsBarChart = ({
     ? EMPTY_ARRAY
     : observationsQuery.data?.cubeByIri?.observations ?? EMPTY_ARRAY;
 
+  // const uniqueIds = muni+provider+year
+  const withUniqueEntityId = observations.map((obs) => ({
+    uniqueId: `${obs.period}-${obs.municipality}-${obs.providerLabel}`,
+    ...obs,
+  }));
   const pivoted = pivot_longer({
-    data: observations as $FixMe[],
+    data: withUniqueEntityId as $FixMe[],
     cols: priceComponents,
     name_to: "priceComponent",
   });
-
-  // const uniqueIds = muni+provider+year
   return (
     <Card
       title={
@@ -86,7 +93,7 @@ export const PriceComponentsBarChart = ({
               sorting: { sortingType: "byMeasure", sortingOrder: "desc" },
             },
             segment: {
-              componentIri: "municipality",
+              componentIri: "uniqueId",
               type: "grouped",
               palette: "elcom",
             },
@@ -109,6 +116,7 @@ export const PriceComponentsBarChart = ({
           <ChartContainer>
             <ChartSvg>
               <BarsGrouped />
+              <BarsGroupedLabels />
             </ChartSvg>
           </ChartContainer>
         </GroupedBarsChart>
