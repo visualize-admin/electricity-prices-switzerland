@@ -18,12 +18,13 @@ const queryStateKeys = [
 ] as const;
 
 const queryStateDefaults = {
+  id: "261",
   period: "2020",
   category: "C1",
   priceComponent: "total",
   product: "standard",
   provider: undefined,
-  municipality: undefined,
+  municipality: "",
   canton: undefined,
 } as const;
 

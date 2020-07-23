@@ -29,7 +29,7 @@ export const CantonsComparisonRangePlots = ({ id }: { id: string }) => {
   );
 
   const annotationIds =
-    municipality?.some((m) => m !== undefined) || id
+    municipality && municipality?.some((m) => m !== "")
       ? [...municipality, id]
       : [id];
 
