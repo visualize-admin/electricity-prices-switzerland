@@ -1,9 +1,10 @@
 import * as React from "react";
-import { BAR_AXIS_OFFSET, BAR_SPACE_ON_TOP } from "../constants";
+import { BAR_AXIS_OFFSET, BAR_SPACE_ON_TOP, BAR_HEIGHT } from "../constants";
 import { useChartState } from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
 import { GroupedBarsState } from "./bars-grouped-state";
 import { Bar } from "./bars-simple";
+import { useFormatCurrency } from "../../../domain/helpers";
 
 export const BarsGrouped = () => {
   const {
@@ -24,6 +25,7 @@ export const BarsGrouped = () => {
     labelFontSize,
     fontFamily,
     domainColor,
+    markBorderColor,
   } = useChartTheme();
 
   return (
@@ -31,6 +33,21 @@ export const BarsGrouped = () => {
       {grouped.map((segment) => {
         return (
           <g key={segment[0]} transform={`translate(0, ${yScale(segment[0])})`}>
+            <g
+              transform={`translate(0, ${BAR_SPACE_ON_TOP - BAR_AXIS_OFFSET})`}
+            >
+              {segment[1].map((d, i) => (
+                <Bar
+                  key={i}
+                  y={yScaleIn(getSegment(d)) as number}
+                  x={0}
+                  width={xScale(Math.max(0, getX(d)))}
+                  height={yScaleIn.bandwidth()}
+                  color={colors(getSegment(d))}
+                  stroke={markBorderColor}
+                />
+              ))}
+            </g>
             <line
               x1={0}
               y1={BAR_SPACE_ON_TOP - BAR_AXIS_OFFSET * 2}
