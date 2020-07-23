@@ -56,7 +56,6 @@ export default () => {
             <HistogramColumns />
             <Median label="CH Median" />
           </ChartSvg>
-          <Tooltip type="single" />
         </ChartContainer>
       </Histogram>
     </ReactSpecimen>
@@ -123,7 +122,6 @@ export default () => {
             <AxisWidthHistogramDomain />
             <Median label="CH Median" />
           </ChartSvg>
-
           <AnnotationXLabel />
         </ChartContainer>
       </Histogram>
