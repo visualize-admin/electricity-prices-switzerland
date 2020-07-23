@@ -19,6 +19,7 @@ import {
 import React from "react";
 import { useLocale } from "../lib/use-locale";
 import { d3FormatLocales, d3TimeFormatLocales } from "../locales/locales";
+import { useTheme } from "../themes";
 
 export const isNumber = (x: $IntentionalAny): boolean =>
   typeof x === "number" && !isNaN(x);
@@ -131,6 +132,7 @@ export const useFormatShortDateAuto = () => {
 export const getPalette = (
   palette: string | undefined
 ): ReadonlyArray<string> => {
+  const theme = useTheme();
   switch (palette) {
     case "accent":
       return schemeAccent;
@@ -150,6 +152,8 @@ export const getPalette = (
       return schemeSet2;
     case "set3":
       return schemeSet3;
+    case "elcom":
+      return theme.palettes.categorical;
     default:
       return schemeCategory10;
   }

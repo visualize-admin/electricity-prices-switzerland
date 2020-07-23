@@ -146,7 +146,7 @@ const PriceEvolutionLineChart = memo(
                       entity === "municipality"
                         ? "uniqueId"
                         : getEntityLabelField(entity),
-                    palette: "accent",
+                    palette: "elcom",
                   }
                 : undefined,
             }}
