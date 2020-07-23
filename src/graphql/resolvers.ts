@@ -1,27 +1,26 @@
+import { GraphQLResolveInfo } from "graphql";
 import { parseResolveInfo, ResolveTree } from "graphql-parse-resolve-info";
 import { parseObservationValue } from "../lib/observations";
+import { defaultLocale } from "../locales/locales";
 import {
-  buildDimensionFilter,
   getCubeDimension,
+  getDimensionValuesAndLabels,
+  getMunicipalities,
   getName,
   getObservations,
   getSource,
   getView,
-  getDimensionValuesAndLabels,
-  getMunicipalities,
+  search,
   stripNamespaceFromIri,
 } from "./rdf";
 import {
-  CantonResolvers,
   CubeResolvers,
   MunicipalityResolvers,
+  ObservationResolvers,
   ProviderResolvers,
   QueryResolvers,
   Resolvers,
-  ObservationResolvers,
 } from "./resolver-types";
-import { defaultLocale } from "../locales/locales";
-import { GraphQLResolveInfo } from "graphql";
 import { ResolvedObservation } from "./shared-types";
 
 const Query: QueryResolvers = {
@@ -161,34 +160,23 @@ const Cube: CubeResolvers = {
     return observations as ResolvedObservation[];
   },
   providers: async ({ view, source }, { query }) => {
-    const results = await getDimensionValuesAndLabels({
+    const results = await search({
       view,
       source,
-      dimensionKey: "provider",
+      query: query ?? "",
+      types: ["provider"],
     });
-
-    // TODO filter with SPARQL query!
-    if (query) {
-      return results.filter((d) =>
-        d.name.toLowerCase().startsWith(query.toLowerCase())
-      );
-    }
 
     return results;
   },
   cantons: async () => [{ id: "1" }, { id: "2" }],
   municipalities: async ({ view, source }, { query }) => {
-    const results = await getMunicipalities({
+    const results = await search({
       view,
       source,
+      query: query ?? "",
+      types: ["municipality"],
     });
-
-    // TODO filter with SPARQL query!
-    if (query) {
-      return results.filter((d) =>
-        d.name.toLowerCase().startsWith(query.toLowerCase())
-      );
-    }
 
     return results;
   },

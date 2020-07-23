@@ -50,7 +50,7 @@ export const ProvidersCombobox = (
   const [inputValue, setInputValue] = useState<string>("");
   const [gqlQuery] = useProvidersQuery({
     variables: { locale, query: inputValue },
-    pause: inputValue.length < 3,
+    pause: inputValue === "",
   });
 
   const items = gqlQuery.data?.cubeByIri?.providers ?? [];

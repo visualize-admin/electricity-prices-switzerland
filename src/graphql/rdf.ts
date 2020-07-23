@@ -1,15 +1,13 @@
-import rdf from "rdf-ext";
-import { Clownface } from "clownface";
+import namespace from "@rdfjs/namespace";
 import {
-  Source,
-  View,
-  Node,
   Cube,
   CubeDimension,
-  Filter,
   LookupSource,
+  Source,
+  View,
 } from "@zazuko/rdf-cube-view-query";
-import namespace from "@rdfjs/namespace";
+import rdf from "rdf-ext";
+import { Literal, NamedNode } from "rdf-js";
 import { defaultLocale } from "../locales/locales";
 
 type Filters = { [key: string]: string[] | null | undefined } | null;
@@ -318,6 +316,73 @@ export const buildDimensionFilter = (
         );
 
   return dimensionFilter;
+};
+
+// regex based search query for municipalities and providers
+
+type SearchType = "municipality" | "provider";
+
+export const search = async ({
+  view,
+  source,
+  query,
+  types = ["municipality", "provider"],
+  limit = 10,
+}: {
+  view: View;
+  source: Source;
+  query: string;
+  types?: SearchType[];
+  limit?: number;
+}) => {
+  const sparql = `
+  SELECT ?type ?iri ?name {
+    {
+      SELECT ("municipality" AS ?type) (?municipality AS ?iri) (?municipalityLabel AS ?name) WHERE {
+        GRAPH <https://linked.opendata.swiss/graph/blv/animalpest> {
+          ?municipality a <https://gont.ch/Municipality> .
+          ?municipality <http://www.w3.org/2000/01/rdf-schema#label> ?municipalityLabel.    
+        }
+        FILTER regex(?municipalityLabel, ".*${query}.*", "i")
+      }
+    } UNION {
+      SELECT ("provider" AS ?type) (?provider AS ?iri) (?providerLabel AS ?name) WHERE {
+        GRAPH <https://lindas.admin.ch/elcom/electricityprice> {
+          ?provider a <http://schema.org/Organization> .
+          ?provider <http://schema.org/name> ?providerLabel.    
+        }
+        FILTER regex(?providerLabel, ".*${query}.*", "i")
+      }
+    }
+    FILTER (?type IN (${types.map((t) => JSON.stringify(t)).join(",")}))
+  }
+  LIMIT ${limit}
+  `;
+
+  // and also provides a SPARQL client
+  const client = (source as $FixMe).client;
+
+  console.log(sparql);
+
+  const results: {
+    type: Literal;
+    iri: NamedNode;
+    name: Literal;
+  }[] = await client.query.select(sparql);
+
+  return results.map((d) => {
+    const iri = d.iri.value;
+    const type = d.type.value;
+    const name = d.name.value;
+
+    return {
+      id: stripNamespaceFromIri({ dimension: type, iri }),
+      name,
+      type,
+      view,
+      source,
+    };
+  });
 };
 
 /**

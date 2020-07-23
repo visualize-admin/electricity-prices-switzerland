@@ -1,7 +1,7 @@
-import { Trans, select } from "@lingui/macro";
-import { useCombobox, useMultipleSelection, UseComboboxState } from "downshift";
-import { useState, useCallback, ReactNode } from "react";
-import { Box, Button, Flex, Input } from "theme-ui";
+import { Trans } from "@lingui/macro";
+import { useCombobox, useMultipleSelection } from "downshift";
+import { ReactNode, useState } from "react";
+import { Box, Button, Flex, Input, Text } from "theme-ui";
 import { Icon } from "../icons";
 import { Label } from "./form";
 
@@ -48,7 +48,9 @@ export const ComboboxMulti = ({
 
   const getFilteredItems = (_items: string[]) =>
     lazy
-      ? _items
+      ? inputValue !== ""
+        ? _items.filter((item) => selectedItems.indexOf(item) < 0)
+        : []
       : _items.filter(
           (item) =>
             selectedItems.indexOf(item) < 0 &&
@@ -241,20 +243,35 @@ export const ComboboxMulti = ({
         style={{ display: isOpen ? "block" : "none" }}
         {...getMenuProps()}
       >
-        {" "}
-        {isOpen && isLoading && (
-          <Box
+        {isOpen && isLoading ? (
+          <Text
             as="li"
+            variant="paragraph2"
             sx={{
               color: "secondary",
               p: 3,
               m: 0,
             }}
           >
-            <Trans id="combobox.isloading">Lade …</Trans>
-          </Box>
-        )}
-        {isOpen &&
+            <Trans id="combobox.isloading">Resultate laden …</Trans>
+          </Text>
+        ) : isOpen && !isLoading && getFilteredItems(items).length === 0 ? (
+          <Text
+            as="li"
+            variant="paragraph2"
+            sx={{
+              color: "secondary",
+              p: 3,
+              m: 0,
+            }}
+          >
+            {inputValue === "" && lazy ? (
+              <Trans id="combobox.prompt">Bezeichnung eingeben …</Trans>
+            ) : (
+              <Trans id="combobox.noitems">Keine Einträge</Trans>
+            )}
+          </Text>
+        ) : isOpen && !isLoading ? (
           getFilteredItems(items).map((item, index) => (
             <Box
               as="li"
@@ -269,19 +286,8 @@ export const ComboboxMulti = ({
             >
               {getItemLabel(item)}
             </Box>
-          ))}
-        {isOpen && getFilteredItems(items).length === 0 && (
-          <Box
-            as="li"
-            sx={{
-              color: "secondary",
-              p: 3,
-              m: 0,
-            }}
-          >
-            <Trans id="combobox.noitems">Keine Einträge</Trans>
-          </Box>
-        )}
+          ))
+        ) : null}
       </Box>
     </Box>
   );
