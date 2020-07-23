@@ -34,6 +34,8 @@ import { useQueryState } from "../../lib/use-query-state";
 import { Box } from "@theme-ui/components";
 import { memo } from "react";
 import { FilterSetDescription } from "./filter-set-description";
+import { getLocalizedLabel } from "../../domain/translation";
+import { useI18n } from "../i18n-context";
 
 export const PriceEvolution = ({
   id,
@@ -121,6 +123,8 @@ const PriceEvolutionLineChart = memo(
     priceComponent: PriceComponent;
     withLegend: boolean;
   }) => {
+    const i18n = useI18n();
+
     return (
       <Box sx={{ my: 6 }}>
         <LineChart
@@ -142,7 +146,7 @@ const PriceEvolutionLineChart = memo(
           measures={[
             {
               iri: priceComponent,
-              label: priceComponent,
+              label: getLocalizedLabel({ i18n, id: priceComponent }),
               __typename: "Measure",
             },
           ]}
