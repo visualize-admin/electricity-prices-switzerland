@@ -6,13 +6,13 @@ import { useChartState } from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
 
 import { estimateTextWidth } from "../../../lib/estimate-text-width";
-import { useFormatNumber } from "../../../domain/helpers";
+import { useFormatNumber, useFormatCurrency } from "../../../domain/helpers";
 import { HistogramState } from "../histogram/histogram-state";
 
 import { min, max } from "d3-array";
 
 export const AxisWidthHistogram = () => {
-  const formatNumber = useFormatNumber();
+  const formatCurrency = useFormatCurrency();
   const {
     data,
     getX,
@@ -32,7 +32,9 @@ export const AxisWidthHistogram = () => {
   const xAxisRef = useRef<SVGGElement>(null);
 
   const mkAxis = (g: Selection<SVGGElement, unknown, null, undefined>) => {
-    const maxLabelLength = estimateTextWidth(formatNumber(xScale.domain()[1]));
+    const maxLabelLength = estimateTextWidth(
+      formatCurrency(xScale.domain()[1])
+    );
     const ticks = Math.min(bounds.chartWidth / (maxLabelLength + 20), 4);
     // const tickValues = xScale.ticks(ticks);
     const minValue = min(data, (d) => getX(d)) || 0;
@@ -45,7 +47,7 @@ export const AxisWidthHistogram = () => {
         .tickSizeInner(16)
         // .tickSizeInner(-chartHeight)
         .tickSizeOuter(xAxisLabel ? -chartHeight : 0)
-        .tickFormat(formatNumber)
+        .tickFormat(formatCurrency)
     );
 
     g.selectAll(".tick line")

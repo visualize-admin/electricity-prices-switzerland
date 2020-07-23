@@ -157,7 +157,7 @@ const useLinesState = ({
     estimateTextWidth(formatNumber(yScale.domain()[1]))
   );
   const margins = {
-    top: 50,
+    top: 40,
     right: 40,
     bottom: 40,
     left: left + LEFT_MARGIN_OFFSET,

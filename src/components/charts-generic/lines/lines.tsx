@@ -43,5 +43,5 @@ export const Lines = () => {
 };
 
 const Line = React.memo(({ path, color }: { path: string; color: string }) => {
-  return <path d={path} stroke={color} fill="none" />;
+  return <path d={path} stroke={color} fill="none" strokeWidth={2} />;
 });

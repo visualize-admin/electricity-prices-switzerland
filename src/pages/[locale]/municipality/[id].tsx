@@ -13,7 +13,7 @@ import {
 } from "../../../graphql/queries";
 import { useLocale } from "../../../lib/use-locale";
 import { PriceDistributionHistograms } from "../../../components/detail-page/price-distribution-histogram";
-import { PriceEvolutionLineChart } from "../../../components/detail-page/price-evolution-line-chart";
+import { PriceEvolution } from "../../../components/detail-page/price-evolution-line-chart";
 import { PriceComponents } from "../../../components/detail-page/price-components";
 import { useQueryState } from "../../../lib/use-query-state";
 import { GetServerSideProps } from "next";
@@ -54,8 +54,8 @@ const MunicipalityPage = ({ id }: Props) => {
           <Flex sx={{ width: "100%" }}>
             <Box sx={{ flex: `2 2 ${2 / 3}%` }}>
               {/* <PriceComponents /> */}
-              {/* <PriceEvolutionLineChart /> */}
-              <PriceDistributionHistograms entity="municipality" />
+              <PriceEvolution id={id} entity="municipality" />
+              <PriceDistributionHistograms id={id} entity="municipality" />
               <CantonsComparisonRangePlots id={id} entity="municipality" />
             </Box>
             <Box sx={{ flex: `1 1 ${1 / 3}%` }}>

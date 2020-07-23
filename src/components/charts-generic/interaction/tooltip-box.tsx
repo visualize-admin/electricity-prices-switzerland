@@ -41,6 +41,7 @@ export const TooltipBox = ({
       <Box
         sx={{
           width: "fit-content",
+          minWidth: 250,
           padding: 3,
           pointerEvents: "none",
           backgroundColor: "monochrome100",

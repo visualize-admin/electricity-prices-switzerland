@@ -22,7 +22,15 @@ export const AxisHeightLinear = () => {
 
   const ticks = Math.min(bounds.chartHeight / TICK_MIN_HEIGHT, 4);
 
-  const { labelColor, labelFontSize, gridColor, fontFamily } = useChartTheme();
+  const {
+    axisLabelFontWeight,
+    axisLabelColor,
+    axisLabelFontSize,
+    labelColor,
+    labelFontSize,
+    gridColor,
+    fontFamily,
+  } = useChartTheme();
 
   const mkAxis = (g: Selection<SVGGElement, unknown, null, undefined>) => {
     g.call(
@@ -51,7 +59,14 @@ export const AxisHeightLinear = () => {
   return (
     <>
       <g>
-        <text x={0} y={0} dy={labelFontSize} fontSize={labelFontSize}>
+        <text
+          x={0}
+          y={0}
+          dy={axisLabelFontSize}
+          fontSize={axisLabelFontSize}
+          fontWeight={axisLabelFontWeight}
+          fill={axisLabelColor}
+        >
           {yAxisLabel}
         </text>
       </g>
