@@ -17,6 +17,9 @@ const ns = {
   energyPricing: namespace(
     "https://energy.ld.admin.ch/elcom/energy-pricing/dimension/"
   ),
+  energyPricingValue: namespace(
+    "https://energy.ld.admin.ch/elcom/energy-pricing/"
+  ),
   rdf: namespace("http://www.w3.org/1999/02/22-rdf-syntax-ns#"),
   schema: namespace("http://schema.org/"),
   xsd: namespace("http://www.w3.org/2001/XMLSchema#"),
@@ -428,5 +431,5 @@ export const addNamespaceToID = ({
   if (dimension === "municipality") {
     return ns.classifications(`municipality/${id}`).value;
   }
-  return ns.energyPricing(`${dimension}/${id}`).value;
+  return ns.energyPricingValue(`${dimension}/${id}`).value;
 };
