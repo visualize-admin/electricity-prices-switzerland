@@ -36,9 +36,7 @@ const Query: QueryResolvers = {
   },
   cubeByIri: async (_, { locale, iri }) => {
     const source = getSource();
-    console.time("Cube");
     const cube = await source.cube(iri);
-    console.timeEnd("Cube");
 
     if (!cube) {
       return null;
