@@ -94,7 +94,7 @@ export const AnnotationXLabel = () => {
 
   const { annotationfontSize, fontFamily, annotationColor } = useChartTheme();
 
-  const { chartWidth, margins } = bounds;
+  const { width, margins } = bounds;
   return (
     <>
       {annotations &&
@@ -102,7 +102,7 @@ export const AnnotationXLabel = () => {
           <Box
             key={`${a.label}-${i}`}
             sx={{
-              maxWidth: chartWidth * 0.5,
+              maxWidth: width * 0.5,
               width: "fit-content",
               p: 1,
               zIndex: 2,
