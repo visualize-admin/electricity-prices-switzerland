@@ -152,7 +152,12 @@ export const CantonsComparisonRangePlot = memo(
 
     const annotations =
       annotationIds &&
-      observations.filter((obs) => annotationIds.includes(obs[entity]));
+      observations
+        .filter((obs) => annotationIds.includes(obs[entity]))
+        .map((obs) => ({
+          muniProvider: `${obs.municipality} ${obs.providerLabel}`,
+          ...obs,
+        }));
 
     return (
       <>
@@ -176,7 +181,7 @@ export const CantonsComparisonRangePlot = memo(
                 componentIri: "period",
               },
               label: {
-                componentIri: getEntityLabelField(entity),
+                componentIri: "muniProvider", // getEntityLabelField(entity),
               },
               annotation: annotations as {
                 [x: string]: string | number | boolean;
