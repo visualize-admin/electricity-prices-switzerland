@@ -85,7 +85,7 @@ export const AxisWidthLinearTop = () => {
     const maxLabelLength = estimateTextWidth(
       formatCurrency(xScale.domain()[1])
     );
-    const ticks = Math.min(bounds.chartWidth / (maxLabelLength + 20), 10);
+    const ticks = Math.min(bounds.chartWidth / (maxLabelLength + 40), 10);
     const tickValues = xScale.ticks(ticks);
 
     g.call(
