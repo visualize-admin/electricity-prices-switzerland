@@ -36,9 +36,12 @@ export const BarsGrouped = () => {
 
   return (
     <g transform={`translate(${margins.left} ${margins.top})`}>
-      {grouped.map((segment) => {
+      {grouped.map((segment, i) => {
         return (
-          <g key={segment[0]} transform={`translate(0, ${yScale(segment[0])})`}>
+          <g
+            key={`${segment[0]}-${i}`}
+            transform={`translate(0, ${yScale(segment[0])})`}
+          >
             <g
               transform={`translate(0, ${BAR_SPACE_ON_TOP - BAR_AXIS_OFFSET})`}
             >
@@ -96,15 +99,18 @@ export const BarsGroupedLabels = () => {
 
   return (
     <g transform={`translate(${margins.left} ${margins.top})`}>
-      {grouped.map((segment) => {
+      {grouped.map((segment, i) => {
         return (
-          <g key={segment[0]} transform={`translate(0, ${yScale(segment[0])})`}>
+          <g
+            key={`${segment[0]}-${i}`}
+            transform={`translate(0, ${yScale(segment[0])})`}
+          >
             <g
               transform={`translate(0, ${BAR_SPACE_ON_TOP - BAR_AXIS_OFFSET})`}
             >
               {segment[1].map((d, i) => (
                 <text
-                  key={getSegment(d)}
+                  key={i}
                   style={{
                     fontFamily,
                     fill: axisLabelColor,

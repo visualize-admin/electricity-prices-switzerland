@@ -157,7 +157,7 @@ const RangePlotFields = t.intersection([
   t.type({
     x: GenericField,
     y: GenericField,
-    label: GenericField,
+    label: GenericField, // FIXME: Should label be part of "annotation" below?
   }),
   t.partial({ annotation: t.array(Observation) }),
 ]);

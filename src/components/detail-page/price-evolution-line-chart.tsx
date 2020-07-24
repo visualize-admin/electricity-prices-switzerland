@@ -36,7 +36,6 @@ import { memo } from "react";
 import { FilterSetDescription } from "./filter-set-description";
 import { getLocalizedLabel } from "../../domain/translation";
 import { useI18n } from "../i18n-context";
-import { group } from "d3-array";
 
 export const PriceEvolution = ({
   id,
@@ -76,6 +75,15 @@ export const PriceEvolution = ({
     ? EMPTY_ARRAY
     : observationsQuery.data?.cubeByIri?.observations ?? EMPTY_ARRAY;
 
+  // Add a unique ID for the combinations municipality+provider
+  const withUniqueEntityId = observations.map((obs) => ({
+    uniqueId: `${obs.municipality}-${obs.providerLabel}`,
+    ...obs,
+  }));
+
+  const hasMultipleLines =
+    new Set(withUniqueEntityId.map((obs) => obs.uniqueId)).size > 1;
+  console.log({ withUniqueEntityId });
   return (
     <Card
       title={
@@ -94,11 +102,11 @@ export const PriceEvolution = ({
           {priceComponents.map((pc, i) => (
             <PriceEvolutionLineChart
               key={pc}
-              hasMultipleLines={entityIds.length > 1}
-              observations={observations as GenericObservation[]}
+              hasMultipleLines={hasMultipleLines}
+              observations={withUniqueEntityId as GenericObservation[]}
               entity={entity}
               priceComponent={pc as PriceComponent}
-              withLegend={i === 0 && entityIds.length > 1}
+              withLegend={i === 0 && hasMultipleLines}
             />
           ))}
         </>
@@ -123,16 +131,13 @@ const PriceEvolutionLineChart = memo(
   }) => {
     const i18n = useI18n();
 
-    const withUniqueEntityId = observations.map((obs) => ({
-      uniqueId: `${obs.municipality}-${obs.providerLabel}`,
-      ...obs,
-    }));
+    console.log({ hasMultipleLines });
 
     return (
       <>
         <Box sx={{ my: 4 }}>
           <LineChart
-            data={entity === "municipality" ? withUniqueEntityId : observations}
+            data={observations}
             fields={{
               x: {
                 componentIri: "period",
@@ -142,10 +147,8 @@ const PriceEvolutionLineChart = memo(
               },
               segment: hasMultipleLines
                 ? {
-                    componentIri:
-                      entity === "municipality"
-                        ? "uniqueId"
-                        : getEntityLabelField(entity),
+                    componentIri: "uniqueId",
+
                     palette: "elcom",
                   }
                 : undefined,

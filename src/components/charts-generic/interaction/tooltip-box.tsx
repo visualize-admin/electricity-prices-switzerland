@@ -9,6 +9,7 @@ import {
   Yplacement,
 } from "./tooltip";
 import { useTheme } from "../../../themes";
+import { useChartState } from "../use-chart-state";
 
 export interface TooltipBoxProps {
   x: number | undefined;
@@ -27,6 +28,7 @@ export const TooltipBox = ({
 }: TooltipBoxProps) => {
   const triangle = mkTriangle(placement);
   const theme = useTheme();
+  const { bounds } = useChartState();
   return (
     <Box
       style={{
@@ -41,7 +43,7 @@ export const TooltipBox = ({
       <Box
         sx={{
           width: "fit-content",
-          minWidth: 250,
+          minWidth: [bounds.width / 2, bounds.width / 2, 200],
           padding: 3,
           pointerEvents: "none",
           backgroundColor: "monochrome100",

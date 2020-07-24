@@ -74,7 +74,7 @@ export const ProvidersCombobox = (
   return (
     <ComboboxMulti
       {...comboboxMultiProps}
-      id="municipalities"
+      id="providers"
       items={items.map(({ id }) => id)}
       getItemLabel={(id) => itemById.get(id)?.name ?? `[${id}]`}
       lazy
