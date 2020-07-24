@@ -47,8 +47,12 @@ export const SelectorMulti = ({
       <>
         {entity === "provider" ? (
           <ProvidersCombobox
-            label={<Trans id="selector.provider">Netzbetreiber</Trans>}
-            selectedItems={queryState.provider ?? ["10481012345"]}
+            label={
+              <Trans id="selector.compareproviders">
+                Netzbetreiber zum Vergleich
+              </Trans>
+            }
+            selectedItems={queryState.provider ?? []}
             setSelectedItems={(items) => setQueryState({ provider: items })}
           />
         ) : (
@@ -62,7 +66,11 @@ export const SelectorMulti = ({
           //   setSelectedItems={(items) => setQueryState({ provider: items })}
           // />
           <MunicipalitiesCombobox
-            label={<Trans id="selector.provider">Netzbetreiber</Trans>}
+            label={
+              <Trans id="selector.comparemunicipalities">
+                Gemeinden zum Vergleich
+              </Trans>
+            }
             selectedItems={queryState.municipality ?? []}
             setSelectedItems={(items) => setQueryState({ municipality: items })}
           />
