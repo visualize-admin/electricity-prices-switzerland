@@ -98,9 +98,9 @@ export const AnnotationXLabel = () => {
   return (
     <>
       {annotations &&
-        annotations.map((a) => (
+        annotations.map((a, i) => (
           <Box
-            key={a.label}
+            key={`${a.label}-${i}`}
             sx={{
               maxWidth: chartWidth * 0.5,
               width: "fit-content",
