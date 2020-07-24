@@ -62,7 +62,7 @@ export const useQueryState = () => {
         query: { ...query, ...newQuery },
       });
 
-      replace(href, as);
+      replace(href, as, { shallow: true });
     },
     [replace, pathname, query]
   );
@@ -110,7 +110,7 @@ export const useQueryStateSingle = () => {
         query: { ...query, ...newQuery },
       });
 
-      replace(href, as);
+      replace(href, as, { shallow: true });
     },
     [replace, pathname, query]
   );
