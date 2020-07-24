@@ -3,8 +3,9 @@ import * as React from "react";
 import { useChartState } from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
 import { HistogramState } from "./histogram-state";
+import { useFormatCurrency } from "../../../domain/helpers";
 
-export const Median = ({ label }: { label: string }) => {
+export const HistogramMedian = ({ label }: { label: string }) => {
   const {
     data,
     bounds,
@@ -19,6 +20,7 @@ export const Median = ({ label }: { label: string }) => {
     labelFontSize,
     fontFamily,
   } = useChartTheme();
+  const formatCurrency = useFormatCurrency();
 
   const m = median(data, (d) => getX(d));
 
@@ -28,7 +30,7 @@ export const Median = ({ label }: { label: string }) => {
         <g transform={`translate(${margins.left} ${margins.top})`}>
           <line
             x1={xScale(m)}
-            y1={bounds.chartHeight + 44}
+            y1={bounds.chartHeight + 38}
             x2={xScale(m)}
             y2={yScale(yScale.domain()[1])}
             stroke={domainColor}
@@ -36,7 +38,19 @@ export const Median = ({ label }: { label: string }) => {
           />
           <text
             x={xScale(m)}
-            y={bounds.chartHeight + 56}
+            y={bounds.chartHeight + 54}
+            style={{
+              fontFamily,
+              fill: domainColor,
+              fontSize: labelFontSize,
+              textAnchor: "middle",
+            }}
+          >
+            {formatCurrency(m)}
+          </text>
+          <text
+            x={xScale(m)}
+            y={bounds.chartHeight + 70}
             style={{
               fontFamily,
               fill: labelColor,
