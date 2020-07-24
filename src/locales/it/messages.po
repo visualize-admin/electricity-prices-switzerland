@@ -333,6 +333,7 @@ msgid "selector.years"
 msgstr ""
 
 #: src/components/header.tsx:65
+#: src/pages/[locale]/index.tsx:76
 msgid "site.title"
 msgstr "Tariffe elettriche della Svizzera"
 

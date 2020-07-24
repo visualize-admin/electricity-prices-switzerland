@@ -12,6 +12,7 @@ import { PriceComponent, useObservationsQuery } from "../../graphql/queries";
 import { useCallback } from "react";
 import { useQueryStateSingle } from "../../lib/use-query-state";
 import { List } from "../../components/list";
+import { Trans } from "@lingui/macro";
 
 const EMPTY_ARRAY: never[] = [];
 
@@ -80,7 +81,7 @@ const IndexPage = () => {
             }}
           >
             <Text as="h1" variant="giga" sx={{ textAlign: "center" }}>
-              Titel
+              <Trans id="site.title">Strompreise Schweiz</Trans>
             </Text>
           </Flex>
 
@@ -138,7 +139,7 @@ const IndexPage = () => {
             </Box>
           </Grid>
 
-          <Box sx={{ height: "50vh", bg: "hotpink" }}>Other content</Box>
+          {/* <Box sx={{ height: "50vh", bg: "secondaryLight" }}></Box> */}
         </Box>
         <Footer></Footer>
       </Grid>
