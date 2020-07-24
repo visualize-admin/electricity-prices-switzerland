@@ -13,7 +13,7 @@ import {
 } from "../components/charts-generic/containers";
 import { HistogramColumns } from "../components/charts-generic/histogram/histogram";
 import { Histogram } from "../components/charts-generic/histogram/histogram-state";
-import { Median } from "../components/charts-generic/histogram/median";
+import { HistogramMedian } from "../components/charts-generic/histogram/median";
 import { Tooltip } from "../components/charts-generic/interaction/tooltip";
 import { standardH12020 } from "./data/2020-standard-H1";
 import {
@@ -54,7 +54,7 @@ export default () => {
             <AxisWidthHistogram />
             <AxisWidthHistogramDomain />
             <HistogramColumns />
-            <Median label="CH Median" />
+            <HistogramMedian label="CH Median" />
           </ChartSvg>
         </ChartContainer>
       </Histogram>
@@ -120,7 +120,7 @@ export default () => {
             <AnnotationX />
             <HistogramColumns />
             <AxisWidthHistogramDomain />
-            <Median label="CH Median" />
+            <HistogramMedian label="CH Median" />
           </ChartSvg>
           <AnnotationXLabel />
         </ChartContainer>
