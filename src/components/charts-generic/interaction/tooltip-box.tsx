@@ -76,6 +76,61 @@ export const TooltipBox = ({
   );
 };
 
+export const TooltipBoxWithoutChartState = ({
+  x,
+  y,
+  placement,
+  margins,
+  children,
+}: TooltipBoxProps) => {
+  const triangle = mkTriangle(placement);
+  const theme = useTheme();
+  return (
+    <Box
+      style={{
+        zIndex: 2,
+        position: "absolute",
+        left: x! + margins.left,
+        top: mxYOffset(y!, placement) + margins.top,
+        pointerEvents: "none",
+        transform: mkTranslation(placement),
+      }}
+    >
+      <Box
+        sx={{
+          width: "fit-content",
+          padding: 3,
+          pointerEvents: "none",
+          backgroundColor: "monochrome100",
+          filter: `drop-shadow(${theme.shadows?.tooltip})`,
+
+          "&::before": {
+            content: "''",
+            display: "block",
+            position: "absolute",
+            pointerEvents: "none",
+            zIndex: -1,
+            width: 0,
+            height: 0,
+            borderStyle: "solid",
+            top: triangle.top,
+            right: triangle.right,
+            bottom: triangle.bottom,
+            left: triangle.left,
+            borderWidth: triangle.borderWidth,
+            borderTopColor: triangle.borderTopColor,
+            borderRightColor: triangle.borderRightColor,
+            borderBottomColor: triangle.borderBottomColor,
+            borderLeftColor: triangle.borderLeftColor,
+          },
+        }}
+      >
+        {children}
+      </Box>
+    </Box>
+  );
+};
+
 // PLACEMENT ---------------------------------------------------------------------------------------------------
 export interface TooltipAnchorAndPlacementProps {
   xRef: number;

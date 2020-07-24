@@ -21,7 +21,7 @@ import {
 } from "topojson-client";
 import { useFormatCurrency } from "../domain/helpers";
 import { Observation } from "../graphql/queries";
-import { TooltipBox } from "./charts-generic/interaction/tooltip-box";
+import { TooltipBoxWithoutChartState } from "./charts-generic/interaction/tooltip-box";
 import { createDynamicRouteProps } from "./links";
 import { Loading } from "./loading";
 
@@ -144,14 +144,14 @@ const MapTooltip = ({
   children: ReactNode;
 }) => {
   return (
-    <TooltipBox
+    <TooltipBoxWithoutChartState
       x={x}
       y={y - 20}
       placement={{ x: "center", y: "top" }}
       margins={{ bottom: 0, left: 0, right: 0, top: 0 }}
     >
       <Box sx={{ width: 200 }}>{children}</Box>
-    </TooltipBox>
+    </TooltipBoxWithoutChartState>
   );
 };
 
