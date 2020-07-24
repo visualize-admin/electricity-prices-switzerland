@@ -80,8 +80,6 @@ const useHistogramState = ({
     .domain([mkNumber(minValue), mkNumber(maxValue)])
     .thresholds(xScale.ticks(30))(data);
 
-  console.log({ bins });
-
   const yScale = scaleLinear().domain([0, max(bins, (d) => d.length) || 100]);
 
   // Dimensions

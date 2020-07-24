@@ -83,7 +83,7 @@ export const PriceEvolution = ({
 
   const hasMultipleLines =
     new Set(withUniqueEntityId.map((obs) => obs.uniqueId)).size > 1;
-  console.log({ withUniqueEntityId });
+
   return (
     <Card
       title={
@@ -130,8 +130,6 @@ const PriceEvolutionLineChart = memo(
     withLegend: boolean;
   }) => {
     const i18n = useI18n();
-
-    console.log({ hasMultipleLines });
 
     return (
       <>
