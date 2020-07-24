@@ -17,7 +17,7 @@ export const Selector = () => {
         flexDirection: "column",
         justifyContent: "flex-start",
         bg: "primaryLight",
-        px: 2,
+        px: 4,
         py: 4,
         zIndex: 13,
         "> div": { mt: 3 },
