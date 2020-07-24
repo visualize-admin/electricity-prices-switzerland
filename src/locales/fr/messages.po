@@ -13,99 +13,123 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/components/combobox.tsx:172
-#: src/components/combobox.tsx:292
+#: src/components/combobox.tsx:170
+msgid "combobox.isloading"
+msgstr "Chargement..."
+
+#: src/components/combobox.tsx:176
+#: src/components/combobox.tsx:303
 msgid "combobox.noitems"
 msgstr "Aucun éléments"
 
-#: src/components/form.tsx:109
+#: src/components/combobox.tsx:176
+msgid "combobox.prompt"
+msgstr "Commencez à écrire..."
+
+#: src/components/form.tsx:110
 msgid "controls.search.clear"
 msgstr "Supprimer"
 
-#: src/components/list.tsx:137
+#: src/components/list.tsx:136
 msgid "dataset.sortby"
-msgstr ""
+msgstr "Trier"
 
-#: src/components/detail-page/banner.tsx:22
+#: src/components/detail-page/banner.tsx:24
 msgid "detail.canton"
-msgstr ""
+msgstr "Canton"
 
-#: src/components/detail-page/cantons-comparison-range.tsx:22
+#: src/components/detail-page/cantons-comparison-range.tsx:34
 msgid "detail.card.title.cantons.comparison"
-msgstr ""
+msgstr "Comparaison des cantons"
 
-#: src/components/detail-page/price-components.tsx:33
+#: src/components/detail-page/price-components-bars.tsx:46
 msgid "detail.card.title.price.components"
-msgstr ""
+msgstr "Composantes du prix"
 
-#: src/components/detail-page/price-distribution-histogram.tsx:25
+#: src/components/detail-page/price-distribution-histogram.tsx:37
 msgid "detail.card.title.prices.distribution"
-msgstr ""
+msgstr "Distribution des prix"
 
-#: src/components/detail-page/price-evolution-line-chart.tsx:37
+#: src/components/detail-page/price-evolution-line-chart.tsx:51
 msgid "detail.card.title.prices.evolution"
-msgstr ""
+msgstr "Évolution des tarifs"
+
+#: src/components/detail-page/banner.tsx:30
+msgid "detail.municipalities"
+msgstr "Communes"
 
 #: src/components/detail-page/banner.tsx:28
-msgid "detail.municipality"
-msgstr ""
+#~ msgid "detail.municipality"
+#~ msgstr ""
+
+#: src/components/detail-page/banner.tsx:39
+msgid "detail.providers"
+msgstr "Gestionnaires de réseau"
 
 #: src/domain/translation.tsx:51
 msgid "filters.category"
-msgstr ""
+msgstr "Categorie"
 
 #: src/domain/translation.tsx:55
 msgid "filters.price.component"
-msgstr ""
+msgstr "Composantes du prix"
 
 #: src/domain/translation.tsx:53
 msgid "filters.product"
-msgstr ""
+msgstr "Produit"
 
 #: src/domain/translation.tsx:49
 msgid "filters.year"
-msgstr ""
+msgstr "Année"
 
 #: src/components/footer.tsx:34
 msgid "footer.institution.name"
-msgstr ""
+msgstr "Elcom"
 
 #: src/components/loading.tsx:37
 msgid "hint.loading.data"
-msgstr "Chargement des données"
+msgstr "Chargement des données…"
 
-#: src/components/list.tsx:101
+#: src/components/charts-generic/histogram/histogram-min-max-values.tsx:48
+msgid "histogram.max"
+msgstr "Max"
+
+#: src/components/charts-generic/histogram/histogram-min-max-values.tsx:30
+msgid "histogram.min"
+msgstr "Min"
+
+#: src/components/list.tsx:113
 msgid "list.municipalities"
-msgstr ""
+msgstr "Communes"
 
-#: src/components/list.tsx:110
+#: src/components/list.tsx:78
 msgid "list.order.asc"
-msgstr ""
+msgstr "croissant"
 
-#: src/components/list.tsx:114
+#: src/components/list.tsx:82
 msgid "list.order.desc"
-msgstr ""
+msgstr "décroissant"
 
-#: src/components/list.tsx:97
+#: src/components/list.tsx:109
 msgid "list.providers"
-msgstr ""
+msgstr "Gestionnaires de réseau"
 
-#: src/components/list.tsx:117
+#: src/components/list.tsx:85
 msgid "list.search.label"
-msgstr ""
+msgstr "Filtrer"
 
 #: src/components/list.tsx:65
 msgid "list.showmore"
-msgstr ""
+msgstr "Suite…"
 
 #: src/components/logo.tsx:4
 #: src/components/logo.tsx:15
 msgid "logo.swiss.confederation"
-msgstr ""
+msgstr "Logo de la confédération suisse"
 
 #: src/components/map.tsx:173
 msgid "map.tooltipnodata"
-msgstr ""
+msgstr "Aucune donnée"
 
 #: src/components/price-color-legend.tsx:40
 msgid "price.legend.max"
@@ -119,7 +143,7 @@ msgstr "médiane"
 msgid "price.legend.min"
 msgstr "min"
 
-#: src/components/detail-page/selector-multi.tsx:31
+#: src/components/detail-page/selector-multi.tsx:55
 #: src/components/selector.tsx:31
 msgid "selector.category"
 msgstr "Catégorie"
@@ -184,40 +208,45 @@ msgstr ""
 msgid "selector.category.H8"
 msgstr ""
 
-#: src/components/detail-page/selector-multi.tsx:22
+#: src/components/detail-page/selector-multi.tsx:27
 #: src/components/selector.tsx:23
 msgid "selector.legend.select.parameters"
 msgstr "Sélectionner les paramètres"
 
 #: src/components/detail-page/selector-multi.tsx:28
-msgid "selector.municipality"
-msgstr ""
+#~ msgid "selector.municipality"
+#~ msgstr ""
 
 #: src/components/selector.tsx:29
 msgid "selector.priceComponent"
-msgstr "Composante du prix"
+msgstr "Composantes du prix"
+
+#: src/components/detail-page/cantons-comparison-range.tsx:59
+#: src/components/detail-page/price-distribution-histogram.tsx:62
+msgid "selector.priceComponents"
+msgstr "Composantes du prix"
 
 #: src/domain/translation.tsx:15
 msgid "selector.pricecomponent.aidfee"
-msgstr ""
+msgstr "Taxes d'encouragement (RPC)"
 
 #: src/domain/translation.tsx:13
 msgid "selector.pricecomponent.charge"
-msgstr ""
+msgstr "Redevances publiques"
 
 #: src/domain/translation.tsx:11
 msgid "selector.pricecomponent.energy"
-msgstr ""
+msgstr "Énergie"
 
 #: src/domain/translation.tsx:9
 msgid "selector.pricecomponent.gridusage"
-msgstr ""
+msgstr "Utilisation du réseau"
 
 #: src/domain/translation.tsx:17
 msgid "selector.pricecomponent.total"
-msgstr ""
+msgstr "Total"
 
-#: src/components/detail-page/selector-multi.tsx:32
+#: src/components/detail-page/selector-multi.tsx:56
 #: src/components/selector.tsx:33
 msgid "selector.product"
 msgstr "Produit"
@@ -230,7 +259,12 @@ msgstr "meilleur marché"
 msgid "selector.product.standard"
 msgstr "Standard"
 
-#: src/components/detail-page/selector-multi.tsx:30
+#: src/components/detail-page/selector-multi.tsx:33
+#: src/components/detail-page/selector-multi.tsx:43
+msgid "selector.provider"
+msgstr "Gestionnaire de réseau"
+
+#: src/components/detail-page/selector-multi.tsx:54
 #: src/components/selector.tsx:28
 msgid "selector.year"
 msgstr "Année"
