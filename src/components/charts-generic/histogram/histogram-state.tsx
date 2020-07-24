@@ -1,15 +1,11 @@
-import { scaleThreshold } from "d3";
+import { interpolateHsl } from "d3";
 import { ascending, Bin, histogram, max, median, min } from "d3-array";
-import { ScaleLinear, scaleLinear, ScaleThreshold } from "d3-scale";
+import { ScaleLinear, scaleLinear } from "d3-scale";
 import * as React from "react";
 import { ReactNode, useCallback } from "react";
 import { HistogramFields } from "../../../domain/config-types";
 import { GenericObservation } from "../../../domain/data";
-import {
-  mkNumber,
-  useFormatNumber,
-  useFormatCurrency,
-} from "../../../domain/helpers";
+import { mkNumber, useFormatCurrency } from "../../../domain/helpers";
 import { estimateTextWidth } from "../../../lib/estimate-text-width";
 import { Annotation } from "../annotation/annotation-x";
 import { LEFT_MARGIN_OFFSET } from "../constants";
@@ -31,7 +27,7 @@ export interface HistogramState {
   yScale: ScaleLinear<number, number>;
   xAxisLabel?: string;
   bins: Bin<GenericObservation, number>[];
-  colors: ScaleThreshold<number, string>;
+  colors: ScaleLinear<string, string>;
   annotations?: Annotation[];
 }
 
@@ -59,26 +55,27 @@ const useHistogramState = ({
   const { annotation } = fields;
 
   // x
-  const minValue = min(data, (d) => getX(d));
-  const maxValue = max(data, (d) => getX(d));
+  const minValue = min(data, (d) => getX(d)) || 0;
+  const maxValue = max(data, (d) => getX(d)) || 10000;
   const xDomain = [mkNumber(minValue), mkNumber(maxValue)];
   const xScale = scaleLinear().domain(xDomain).nice();
 
   // CH Median (all data points)
   const m = median(data, (d) => getX(d));
   const colorDomain = m
-    ? [m - m * 0.15, m - m * 0.05, m + m * 0.05, m + m * 0.15]
+    ? [minValue, m - m * 0.1, m, m + m * 0.1, maxValue]
     : xScale.ticks(5);
 
-  const colors = scaleThreshold<number, string>()
+  const colors = scaleLinear<string>()
     .domain(colorDomain)
-    .range(palettes.diverging);
-
+    .range(palettes.diverging)
+    .interpolate(interpolateHsl);
   // y
   const bins = histogram<GenericObservation, number>()
     .value((x) => getX(x))
     .domain([mkNumber(minValue), mkNumber(maxValue)])
-    .thresholds(xScale.ticks(30))(data);
+    .thresholds(xScale.ticks(25))(data);
+  // .thresholds(thresholdSturges)(data);
 
   const yScale = scaleLinear().domain([0, max(bins, (d) => d.length) || 100]);
 
@@ -91,6 +88,7 @@ const useHistogramState = ({
       )
     )
   );
+  // const piecewiseColor = piecewise(interpolateHsl, palettes.diverging);
 
   const margins = {
     top: 50,
