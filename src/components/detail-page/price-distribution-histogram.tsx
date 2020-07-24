@@ -22,7 +22,7 @@ import {
 } from "../charts-generic/axis/axis-width-histogram";
 import { HistogramColumns } from "../charts-generic/histogram/histogram";
 import { Histogram } from "../charts-generic/histogram/histogram-state";
-import { Median } from "../charts-generic/histogram/median";
+import { HistogramMedian } from "../charts-generic/histogram/median";
 import { Combobox } from "../combobox";
 import { useI18n } from "../i18n-context";
 import { Loading } from "../loading";
@@ -34,6 +34,7 @@ import {
 import { Card } from "./../../components/detail-page/card";
 import { PriceComponent, useObservationsQuery } from "./../../graphql/queries";
 import { FilterSetDescription } from "./filter-set-description";
+import { HistogramMinMaxValues } from "../charts-generic/histogram/histogram-min-max-values";
 
 export const PriceDistributionHistograms = ({
   id,
@@ -197,11 +198,13 @@ export const PriceDistributionHistogram = ({
             <ChartSvg>
               <AxisHeightLinear />
 
-              <AxisWidthHistogram />
+              {/* <AxisWidthHistogram /> */}
+              <HistogramMinMaxValues />
               <AxisWidthHistogramDomain />
+
               <AnnotationX />
               <HistogramColumns />
-              <Median label="CH Median" />
+              <HistogramMedian label="CH Median" />
             </ChartSvg>
             <AnnotationXLabel />
           </ChartContainer>

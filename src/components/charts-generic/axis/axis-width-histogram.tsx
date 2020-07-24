@@ -39,7 +39,11 @@ export const AxisWidthHistogram = () => {
     // const tickValues = xScale.ticks(ticks);
     const minValue = min(data, (d) => getX(d)) || 0;
     const maxValue = max(data, (d) => getX(d)) || 10000;
-    const tickValues = [minValue, ...colors.domain(), maxValue];
+    const tickValues = [
+      minValue,
+      //...colors.domain(),
+      maxValue,
+    ];
     g.call(
       axisBottom(xScale)
         .tickValues(tickValues)
