@@ -143,7 +143,7 @@ msgstr "médiane"
 msgid "price.legend.min"
 msgstr "min"
 
-#: src/components/detail-page/selector-multi.tsx:55
+#: src/components/detail-page/selector-multi.tsx:59
 #: src/components/selector.tsx:31
 msgid "selector.category"
 msgstr "Catégorie"
@@ -208,6 +208,14 @@ msgstr ""
 msgid "selector.category.H8"
 msgstr ""
 
+#: src/components/detail-page/selector-multi.tsx:45
+msgid "selector.comparemunicipalities"
+msgstr ""
+
+#: src/components/detail-page/selector-multi.tsx:33
+msgid "selector.compareproviders"
+msgstr ""
+
 #: src/components/detail-page/selector-multi.tsx:27
 #: src/components/selector.tsx:23
 msgid "selector.legend.select.parameters"
@@ -246,7 +254,7 @@ msgstr "Utilisation du réseau"
 msgid "selector.pricecomponent.total"
 msgstr "Total"
 
-#: src/components/detail-page/selector-multi.tsx:56
+#: src/components/detail-page/selector-multi.tsx:60
 #: src/components/selector.tsx:33
 msgid "selector.product"
 msgstr "Produit"
@@ -261,10 +269,9 @@ msgstr "Standard"
 
 #: src/components/detail-page/selector-multi.tsx:33
 #: src/components/detail-page/selector-multi.tsx:43
-msgid "selector.provider"
-msgstr "Gestionnaire de réseau"
+#~ msgid "selector.provider"
+#~ msgstr "Gestionnaire de réseau"
 
-#: src/components/detail-page/selector-multi.tsx:54
 #: src/components/selector.tsx:28
 msgid "selector.year"
 msgstr "Année"
@@ -320,6 +327,10 @@ msgstr "Année"
 #: src/domain/translation.tsx:6
 #~ msgid "selector.year.2021"
 #~ msgstr ""
+
+#: src/components/detail-page/selector-multi.tsx:58
+msgid "selector.years"
+msgstr ""
 
 #: src/components/header.tsx:65
 msgid "site.title"

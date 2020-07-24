@@ -86,7 +86,7 @@ export const SelectorMulti = ({
         )}
         <ComboboxMulti
           id="periods"
-          label={<Trans id="selector.year">Jahr</Trans>}
+          label={<Trans id="selector.years">Jahre</Trans>}
           items={periods}
           selectedItems={queryState.period}
           minSelectedItems={1}
