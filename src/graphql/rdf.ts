@@ -65,6 +65,8 @@ export const getObservations = async (
     dimensions?: string[];
   }
 ) => {
+  console.time("getOvervations prep");
+
   const queryFilters = filters
     ? Object.entries(filters).flatMap(([dimensionKey, filterValues]) =>
         filterValues
@@ -107,8 +109,11 @@ export const getObservations = async (
   });
 
   console.log(filterView.observationsQuery().query.toString());
+  console.timeEnd("getOvervations prep");
 
+  console.time("getObservations");
   const observations = await filterView.observations();
+  console.timeEnd("getObservations");
 
   // Clean up
   filterView.clear();
