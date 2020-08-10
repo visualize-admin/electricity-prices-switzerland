@@ -24,13 +24,15 @@ const ns = {
   schema: namespace("http://schema.org/"),
   xsd: namespace("http://www.w3.org/2001/XMLSchema#"),
   classifications: namespace("http://classifications.data.admin.ch/"),
+  municipality: namespace(
+    "https://register.ld.admin.ch/fso/agvch/municipality/"
+  ),
 };
 
 export const getSource = () =>
   new Source({
     endpointUrl:
       process.env.SPARQL_ENDPOINT ?? "https://test.lindas.admin.ch/query",
-    sourceGraph: "https://lindas.admin.ch/elcom/electricityprice",
     // user: '',
     // password: ''
   });
@@ -83,7 +85,7 @@ export const getObservations = async (
           const dimensionKey = matches ? matches[1] : d;
 
           // FIXME: remove provider dimension check!
-          if (matches && dimensionKey === "provider") {
+          if (matches) {
             const dimension = view.dimension({
               cubeDimension: ns.energyPricing(dimensionKey),
             });
@@ -440,7 +442,7 @@ export const addNamespaceToID = ({
     return id;
   }
   if (dimension === "municipality") {
-    return ns.classifications(`municipality/${id}`).value;
+    return ns.municipality(`${id}`).value;
   }
   return ns.energyPricingValue(`${dimension}/${id}`).value;
 };

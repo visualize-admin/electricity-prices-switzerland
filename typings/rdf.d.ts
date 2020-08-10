@@ -80,7 +80,7 @@ declare module "@zazuko/rdf-cube-view-query" {
     constructor(
       options: NodeInit & {
         endpointUrl: string;
-        sourceGraph: string;
+        sourceGraph?: string;
         user?: string;
         password?: string;
       }
