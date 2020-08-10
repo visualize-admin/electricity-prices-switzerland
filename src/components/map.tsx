@@ -243,7 +243,8 @@ export const ChoroplethMap = ({
   const tooltipContent = hovered
     ? {
         id: hovered.id,
-        name: hovered.id,
+        name: observationsByMunicipalityId.get(hovered.id)?.[0]
+          ?.municipalityLabel,
         observations: observationsByMunicipalityId.get(hovered.id),
       }
     : undefined;
