@@ -11,11 +11,9 @@ import { Footer } from "../../../components/footer";
 import { Header } from "../../../components/header";
 import {
   getDimensionValuesAndLabels,
-  getMunicipalities,
   getSource,
   getView,
 } from "../../../graphql/rdf";
-import { useQueryState } from "../../../lib/use-query-state";
 
 export const EMPTY_ARRAY: never[] = [];
 
@@ -47,7 +45,12 @@ export const getServerSideProps: GetServerSideProps<
   const view = getView(cube);
 
   const municipality = (
-    await getMunicipalities({ view, source, filters: { municipality: [id] } })
+    await getDimensionValuesAndLabels({
+      view,
+      source,
+      dimensionKey: "municipality",
+      filters: { municipality: [id] },
+    })
   )[0];
 
   const providers = await getDimensionValuesAndLabels({
