@@ -347,9 +347,9 @@ export const search = async ({
   SELECT ?type ?iri ?name {
     {
       SELECT ("municipality" AS ?type) (?municipality AS ?iri) (?municipalityLabel AS ?name) WHERE {
-        GRAPH <https://linked.opendata.swiss/graph/blv/animalpest> {
-          ?municipality a <https://gont.ch/Municipality> .
-          ?municipality <http://www.w3.org/2000/01/rdf-schema#label> ?municipalityLabel.    
+        GRAPH <https://lindas.admin.ch/fso/agvch> {
+          ?municipality a <https://schema.ld.admin.ch/Municipality> .
+          ?municipality <http://schema.org/name> ?municipalityLabel.    
         }
         FILTER (regex(?municipalityLabel, ".*${
           query || "-------"
