@@ -25,7 +25,7 @@ export const PriceComponentsBarChart = ({
   entity: Entity;
 }) => {
   const [
-    { period, category, municipality, provider, canton },
+    { period, category, municipality, provider, canton, product },
   ] = useQueryState();
 
   const comparisonIds =
@@ -47,7 +47,7 @@ export const PriceComponentsBarChart = ({
         category: [
           `https://energy.ld.admin.ch/elcom/energy-pricing/category/${category[0]}`,
         ],
-        // product: [product]
+        product,
       },
     },
   });
@@ -57,7 +57,7 @@ export const PriceComponentsBarChart = ({
 
   // const uniqueIds = muni+provider+year
   const withUniqueEntityId = observations.map((obs) => ({
-    uniqueId: `${obs.period}, ${obs.municipality}, ${obs.providerLabel}`,
+    uniqueId: `${obs.period}, ${obs.municipalityLabel}, ${obs.providerLabel}`,
     ...obs,
   }));
   const pivoted = pivot_longer({

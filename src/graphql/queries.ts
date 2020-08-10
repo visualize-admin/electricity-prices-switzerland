@@ -186,7 +186,7 @@ export type ObservationsWithAllPriceComponentsQueryVariables = Exact<{
 }>;
 
 
-export type ObservationsWithAllPriceComponentsQuery = { __typename: 'Query', cubeByIri?: Maybe<{ __typename: 'Cube', observations: Array<{ __typename: 'Observation', period: string, municipality: string, provider: string, providerLabel?: Maybe<string>, category: string, aidfee: number, fixcosts: number, charge: number, gridusage: number, energy: number, fixcostspercent: number, total: number }> }> };
+export type ObservationsWithAllPriceComponentsQuery = { __typename: 'Query', cubeByIri?: Maybe<{ __typename: 'Cube', observations: Array<{ __typename: 'Observation', period: string, municipality: string, municipalityLabel?: Maybe<string>, provider: string, providerLabel?: Maybe<string>, category: string, aidfee: number, fixcosts: number, charge: number, gridusage: number, energy: number, fixcostspercent: number, total: number }> }> };
 
 
 export const MunicipalitiesDocument = gql`
@@ -242,6 +242,7 @@ export const ObservationsWithAllPriceComponentsDocument = gql`
     observations(filters: $filters) {
       period
       municipality
+      municipalityLabel
       provider
       providerLabel
       category

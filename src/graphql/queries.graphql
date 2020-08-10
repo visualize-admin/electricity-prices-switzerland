@@ -54,6 +54,7 @@ query ObservationsWithAllPriceComponents(
     observations(filters: $filters) {
       period
       municipality
+      municipalityLabel
       provider
       providerLabel
       category

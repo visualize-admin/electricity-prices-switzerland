@@ -155,7 +155,7 @@ export const PriceDistributionHistogram = ({
     observations
       .filter((obs) => annotationIds.includes(obs[entity]))
       .map((obs) => ({
-        muniProvider: `${obs.municipality} ${obs.providerLabel}`,
+        muniProvider: `${obs.municipalityLabel}, ${obs.providerLabel}`,
         ...obs,
       }));
 
