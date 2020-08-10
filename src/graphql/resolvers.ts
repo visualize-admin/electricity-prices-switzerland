@@ -5,7 +5,6 @@ import { defaultLocale } from "../locales/locales";
 import {
   getCubeDimension,
   getDimensionValuesAndLabels,
-  getMunicipalities,
   getName,
   getObservations,
   getSource,
@@ -67,9 +66,10 @@ const Municipality: MunicipalityResolvers = {
 
 const Provider: ProviderResolvers = {
   municipalities: async ({ id, view, source }) => {
-    return getMunicipalities({
+    return getDimensionValuesAndLabels({
       view,
       source,
+      dimensionKey: "municipality",
       filters: { provider: [id] },
     });
   },
@@ -183,9 +183,10 @@ const Cube: CubeResolvers = {
     return results;
   },
   municipality: async ({ view, source }, { id }) => {
-    const results = await getMunicipalities({
+    const results = await getDimensionValuesAndLabels({
       view,
       source,
+      dimensionKey: "municipality",
       filters: { municipality: [id] },
     });
 

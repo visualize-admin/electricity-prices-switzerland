@@ -154,7 +154,9 @@ export const getDimensionValuesAndLabels = async ({
   });
 
   if (!dimension) {
-    throw Error(`No dimension for '${dimensionKey}'`);
+    throw Error(
+      `getDimensionValuesAndLabels: No dimension for '${dimensionKey}'`
+    );
   }
 
   const labelDimension = lookupView.createDimension({
@@ -191,70 +193,6 @@ export const getDimensionValuesAndLabels = async ({
   });
 };
 
-export const getMunicipalities = async ({
-  view,
-  source,
-  filters,
-}: {
-  view: View;
-  source: Source;
-  filters?: Filters;
-}): Promise<{ id: string; name: string; view: View; source: Source }[]> => {
-  const lookup = LookupSource.fromSource(source);
-
-  const queryFilters = filters
-    ? Object.entries(filters).flatMap(([dim, filterValues]) =>
-        filterValues ? buildDimensionFilter(view, dim, filterValues) : []
-      )
-    : [];
-
-  const lookupView = new View({ parent: source, filters: queryFilters });
-
-  const dimension = view.dimension({
-    cubeDimension: ns.energyPricing("municipality"),
-  });
-
-  if (!dimension) {
-    throw Error(`No dimension for '${"municipality"}'`);
-  }
-
-  // TODO: Implement proper label lookup for municipalities
-  // const labelDimension = lookupView.createDimension({
-  //   source: lookup,
-  //   path: ns.schema.name,
-  //   join: dimension,
-  //   as: ns.energyPricing(`${dimensionKey}Label`),
-  // });
-  lookupView.addDimension(dimension);
-
-  console.log(lookupView.observationsQuery().query.toString());
-
-  const observations = await lookupView.observations();
-
-  lookupView.clear();
-  lookup.clear();
-
-  return observations.flatMap((obs) => {
-    // Filter out "empty" observations
-    return obs[ns.energyPricing("municipality").value]
-      ? [
-          {
-            id: stripNamespaceFromIri({
-              dimension: "municipality",
-              iri: obs[ns.energyPricing("municipality").value].value as string,
-            }),
-            name: `Gemeinde [${stripNamespaceFromIri({
-              dimension: "municipality",
-              iri: obs[ns.energyPricing("municipality").value].value as string,
-            })}]`,
-            view,
-            source,
-          },
-        ]
-      : [];
-  });
-};
-
 export const getCubeDimension = (
   view: View,
   dimensionKey: string,
@@ -267,7 +205,7 @@ export const getCubeDimension = (
   const cubeDimension = viewDimension?.cubeDimensions[0];
 
   if (!cubeDimension) {
-    throw Error(`No dimension for '${dimensionKey}'`);
+    throw Error(`getCubeDimension: No dimension for '${dimensionKey}'`);
   }
 
   const iri = cubeDimension.path.value;
@@ -297,7 +235,7 @@ export const buildDimensionFilter = (
   const cubeDimension = viewDimension?.cubeDimensions[0];
 
   if (!viewDimension || !cubeDimension) {
-    throw Error(`No dimension for '${dimensionKey}'`);
+    throw Error(`buildDimensionFilter: No dimension for '${dimensionKey}'`);
   }
 
   const { datatype } = cubeDimension;
