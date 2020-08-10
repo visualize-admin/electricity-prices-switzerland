@@ -28,7 +28,8 @@ const ns = {
 
 export const getSource = () =>
   new Source({
-    endpointUrl: "https://test.lindas.admin.ch/query",
+    endpointUrl:
+      process.env.SPARQL_ENDPOINT ?? "https://test.lindas.admin.ch/query",
     sourceGraph: "https://lindas.admin.ch/elcom/electricityprice",
     // user: '',
     // password: ''
