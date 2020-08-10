@@ -133,7 +133,7 @@ export const PriceDistributionHistogram = ({
   annotationIds: string[];
   entity: Entity;
 }) => {
-  const [{ category }] = useQueryState();
+  const [{ category, product }] = useQueryState();
   const i18n = useI18n();
 
   const [observationsQuery] = useObservationsQuery({
@@ -141,9 +141,8 @@ export const PriceDistributionHistogram = ({
       priceComponent,
       filters: {
         period: [year],
-        category: [
-          `https://energy.ld.admin.ch/elcom/energy-pricing/category/${category}`,
-        ],
+        category,
+        product,
       },
     },
   });

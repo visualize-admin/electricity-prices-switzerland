@@ -127,7 +127,7 @@ export const CantonsComparisonRangePlot = memo(
     priceComponent: PriceComponent;
     entity: Entity;
   }) => {
-    const [{ category }] = useQueryState();
+    const [{ category, product }] = useQueryState();
     const i18n = useI18n();
 
     const [observationsQuery] = useObservationsQuery({
@@ -135,14 +135,8 @@ export const CantonsComparisonRangePlot = memo(
         priceComponent,
         filters: {
           period: [year],
-          category:
-            // FIXME: category should be a string?
-            category
-              ? category.map(
-                  (cat) =>
-                    `https://energy.ld.admin.ch/elcom/energy-pricing/category/${cat}`
-                )
-              : [`https://energy.ld.admin.ch/elcom/energy-pricing/category/H1`],
+          category,
+          product,
         },
       },
     });

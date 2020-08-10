@@ -71,6 +71,7 @@ export type ObservationFilters = {
   municipality?: Maybe<Array<Scalars['String']>>;
   provider?: Maybe<Array<Scalars['String']>>;
   category?: Maybe<Array<Scalars['String']>>;
+  product?: Maybe<Array<Scalars['String']>>;
 };
 
 export enum PriceComponent {

@@ -48,6 +48,7 @@ input ObservationFilters {
   municipality: [String!]
   provider: [String!]
   category: [String!]
+  product: [String!]
 }
 
 enum PriceComponent {
