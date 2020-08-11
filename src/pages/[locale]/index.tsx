@@ -13,6 +13,7 @@ import { useCallback } from "react";
 import { useQueryStateSingle } from "../../lib/use-query-state";
 import { List } from "../../components/list";
 import { Trans } from "@lingui/macro";
+import { Search } from "../../components/search";
 
 const EMPTY_ARRAY: never[] = [];
 
@@ -83,6 +84,7 @@ const IndexPage = () => {
             <Text as="h1" variant="giga" sx={{ textAlign: "center" }}>
               <Trans id="site.title">Strompreise Schweiz</Trans>
             </Text>
+            <Search />
           </Flex>
 
           <Grid
