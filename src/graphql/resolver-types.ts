@@ -1,5 +1,6 @@
 import { GraphQLResolveInfo } from 'graphql';
-import { ResolvedCanton, ResolvedMunicipality, ResolvedProvider, ResolvedCube, ResolvedObservation } from './shared-types';
+import { ResolvedCanton, ResolvedMunicipality, ResolvedProvider, ResolvedObservation } from './shared-types';
+import { ServerContext } from './server-context';
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: any }> = { [K in keyof T]: T[K] };
 export type RequireFields<T, K extends keyof T> = { [X in Exclude<keyof T, K>]?: T[X] } & { [P in K]-?: NonNullable<T[P]> };
@@ -56,6 +57,8 @@ export type Observation = {
   municipalityLabel?: Maybe<Scalars['String']>;
   provider: Scalars['String'];
   providerLabel?: Maybe<Scalars['String']>;
+  canton: Scalars['String'];
+  cantonLabel?: Maybe<Scalars['String']>;
   category: Scalars['String'];
   period: Scalars['String'];
   value: Scalars['Float'];
@@ -74,6 +77,13 @@ export type ObservationFilters = {
   product?: Maybe<Array<Scalars['String']>>;
 };
 
+export type CantonObservationFilters = {
+  period?: Maybe<Array<Scalars['String']>>;
+  canton?: Maybe<Array<Scalars['String']>>;
+  provider?: Maybe<Array<Scalars['String']>>;
+  category?: Maybe<Array<Scalars['String']>>;
+};
+
 export enum PriceComponent {
   Aidfee = 'aidfee',
   Fixcosts = 'fixcosts',
@@ -84,11 +94,8 @@ export enum PriceComponent {
   Total = 'total'
 }
 
-export type Cube = {
-  __typename?: 'Cube';
-  name: Scalars['String'];
-  iri: Scalars['String'];
-  dimensionPeriod?: Maybe<TemporalDimension>;
+export type Query = {
+  __typename?: 'Query';
   municipalities: Array<Municipality>;
   cantons: Array<Canton>;
   providers: Array<Provider>;
@@ -96,61 +103,58 @@ export type Cube = {
   canton?: Maybe<Canton>;
   provider?: Maybe<Provider>;
   observations: Array<Observation>;
+  cantonObservations: Array<Observation>;
 };
 
 
-export type CubeMunicipalitiesArgs = {
+export type QueryMunicipalitiesArgs = {
+  locale?: Maybe<Scalars['String']>;
   query?: Maybe<Scalars['String']>;
   ids?: Maybe<Array<Scalars['String']>>;
 };
 
 
-export type CubeCantonsArgs = {
+export type QueryCantonsArgs = {
+  locale?: Maybe<Scalars['String']>;
   query?: Maybe<Scalars['String']>;
   ids?: Maybe<Array<Scalars['String']>>;
 };
 
 
-export type CubeProvidersArgs = {
+export type QueryProvidersArgs = {
+  locale?: Maybe<Scalars['String']>;
   query?: Maybe<Scalars['String']>;
   ids?: Maybe<Array<Scalars['String']>>;
 };
 
 
-export type CubeMunicipalityArgs = {
+export type QueryMunicipalityArgs = {
+  locale?: Maybe<Scalars['String']>;
   id: Scalars['String'];
 };
 
 
-export type CubeCantonArgs = {
+export type QueryCantonArgs = {
+  locale?: Maybe<Scalars['String']>;
   id: Scalars['String'];
 };
 
 
-export type CubeProviderArgs = {
+export type QueryProviderArgs = {
+  locale?: Maybe<Scalars['String']>;
   id: Scalars['String'];
 };
 
 
-export type CubeObservationsArgs = {
+export type QueryObservationsArgs = {
+  locale?: Maybe<Scalars['String']>;
   filters?: Maybe<ObservationFilters>;
 };
 
-export type Query = {
-  __typename?: 'Query';
-  cubes: Array<Cube>;
-  cubeByIri?: Maybe<Cube>;
-};
 
-
-export type QueryCubesArgs = {
+export type QueryCantonObservationsArgs = {
   locale?: Maybe<Scalars['String']>;
-};
-
-
-export type QueryCubeByIriArgs = {
-  iri: Scalars['String'];
-  locale?: Maybe<Scalars['String']>;
+  filters?: Maybe<CantonObservationFilters>;
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -228,8 +232,8 @@ export type ResolversTypes = ResolversObject<{
   TemporalDimension: ResolverTypeWrapper<TemporalDimension>;
   Observation: ResolverTypeWrapper<ResolvedObservation>;
   ObservationFilters: ObservationFilters;
+  CantonObservationFilters: CantonObservationFilters;
   PriceComponent: PriceComponent;
-  Cube: ResolverTypeWrapper<ResolvedCube>;
   Query: ResolverTypeWrapper<{}>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
 }>;
@@ -245,17 +249,17 @@ export type ResolversParentTypes = ResolversObject<{
   TemporalDimension: TemporalDimension;
   Observation: ResolvedObservation;
   ObservationFilters: ObservationFilters;
-  Cube: ResolvedCube;
+  CantonObservationFilters: CantonObservationFilters;
   Query: {};
   Boolean: Scalars['Boolean'];
 }>;
 
-export type PriceComponentsResolvers<ContextType = any, ParentType extends ResolversParentTypes['PriceComponents'] = ResolversParentTypes['PriceComponents']> = ResolversObject<{
+export type PriceComponentsResolvers<ContextType = ServerContext, ParentType extends ResolversParentTypes['PriceComponents'] = ResolversParentTypes['PriceComponents']> = ResolversObject<{
   total?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 }>;
 
-export type MunicipalityResolvers<ContextType = any, ParentType extends ResolversParentTypes['Municipality'] = ResolversParentTypes['Municipality']> = ResolversObject<{
+export type MunicipalityResolvers<ContextType = ServerContext, ParentType extends ResolversParentTypes['Municipality'] = ResolversParentTypes['Municipality']> = ResolversObject<{
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   canton?: Resolver<ResolversTypes['Canton'], ParentType, ContextType>;
@@ -264,7 +268,7 @@ export type MunicipalityResolvers<ContextType = any, ParentType extends Resolver
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 }>;
 
-export type ProviderResolvers<ContextType = any, ParentType extends ResolversParentTypes['Provider'] = ResolversParentTypes['Provider']> = ResolversObject<{
+export type ProviderResolvers<ContextType = ServerContext, ParentType extends ResolversParentTypes['Provider'] = ResolversParentTypes['Provider']> = ResolversObject<{
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   municipalities?: Resolver<Array<ResolversTypes['Municipality']>, ParentType, ContextType>;
@@ -272,7 +276,7 @@ export type ProviderResolvers<ContextType = any, ParentType extends ResolversPar
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 }>;
 
-export type CantonResolvers<ContextType = any, ParentType extends ResolversParentTypes['Canton'] = ResolversParentTypes['Canton']> = ResolversObject<{
+export type CantonResolvers<ContextType = ServerContext, ParentType extends ResolversParentTypes['Canton'] = ResolversParentTypes['Canton']> = ResolversObject<{
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   municipalities?: Resolver<Array<ResolversTypes['Municipality']>, ParentType, ContextType>;
@@ -280,7 +284,7 @@ export type CantonResolvers<ContextType = any, ParentType extends ResolversParen
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 }>;
 
-export type TemporalDimensionResolvers<ContextType = any, ParentType extends ResolversParentTypes['TemporalDimension'] = ResolversParentTypes['TemporalDimension']> = ResolversObject<{
+export type TemporalDimensionResolvers<ContextType = ServerContext, ParentType extends ResolversParentTypes['TemporalDimension'] = ResolversParentTypes['TemporalDimension']> = ResolversObject<{
   iri?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   min?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -288,44 +292,37 @@ export type TemporalDimensionResolvers<ContextType = any, ParentType extends Res
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 }>;
 
-export type ObservationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Observation'] = ResolversParentTypes['Observation']> = ResolversObject<{
+export type ObservationResolvers<ContextType = ServerContext, ParentType extends ResolversParentTypes['Observation'] = ResolversParentTypes['Observation']> = ResolversObject<{
   municipality?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   municipalityLabel?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   provider?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   providerLabel?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  canton?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  cantonLabel?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   category?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   period?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   value?: Resolver<ResolversTypes['Float'], ParentType, ContextType, RequireFields<ObservationValueArgs, 'priceComponent'>>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 }>;
 
-export type CubeResolvers<ContextType = any, ParentType extends ResolversParentTypes['Cube'] = ResolversParentTypes['Cube']> = ResolversObject<{
-  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  iri?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  dimensionPeriod?: Resolver<Maybe<ResolversTypes['TemporalDimension']>, ParentType, ContextType>;
-  municipalities?: Resolver<Array<ResolversTypes['Municipality']>, ParentType, ContextType, RequireFields<CubeMunicipalitiesArgs, never>>;
-  cantons?: Resolver<Array<ResolversTypes['Canton']>, ParentType, ContextType, RequireFields<CubeCantonsArgs, never>>;
-  providers?: Resolver<Array<ResolversTypes['Provider']>, ParentType, ContextType, RequireFields<CubeProvidersArgs, never>>;
-  municipality?: Resolver<Maybe<ResolversTypes['Municipality']>, ParentType, ContextType, RequireFields<CubeMunicipalityArgs, 'id'>>;
-  canton?: Resolver<Maybe<ResolversTypes['Canton']>, ParentType, ContextType, RequireFields<CubeCantonArgs, 'id'>>;
-  provider?: Resolver<Maybe<ResolversTypes['Provider']>, ParentType, ContextType, RequireFields<CubeProviderArgs, 'id'>>;
-  observations?: Resolver<Array<ResolversTypes['Observation']>, ParentType, ContextType, RequireFields<CubeObservationsArgs, never>>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+export type QueryResolvers<ContextType = ServerContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
+  municipalities?: Resolver<Array<ResolversTypes['Municipality']>, ParentType, ContextType, RequireFields<QueryMunicipalitiesArgs, never>>;
+  cantons?: Resolver<Array<ResolversTypes['Canton']>, ParentType, ContextType, RequireFields<QueryCantonsArgs, never>>;
+  providers?: Resolver<Array<ResolversTypes['Provider']>, ParentType, ContextType, RequireFields<QueryProvidersArgs, never>>;
+  municipality?: Resolver<Maybe<ResolversTypes['Municipality']>, ParentType, ContextType, RequireFields<QueryMunicipalityArgs, 'id'>>;
+  canton?: Resolver<Maybe<ResolversTypes['Canton']>, ParentType, ContextType, RequireFields<QueryCantonArgs, 'id'>>;
+  provider?: Resolver<Maybe<ResolversTypes['Provider']>, ParentType, ContextType, RequireFields<QueryProviderArgs, 'id'>>;
+  observations?: Resolver<Array<ResolversTypes['Observation']>, ParentType, ContextType, RequireFields<QueryObservationsArgs, never>>;
+  cantonObservations?: Resolver<Array<ResolversTypes['Observation']>, ParentType, ContextType, RequireFields<QueryCantonObservationsArgs, never>>;
 }>;
 
-export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
-  cubes?: Resolver<Array<ResolversTypes['Cube']>, ParentType, ContextType, RequireFields<QueryCubesArgs, never>>;
-  cubeByIri?: Resolver<Maybe<ResolversTypes['Cube']>, ParentType, ContextType, RequireFields<QueryCubeByIriArgs, 'iri'>>;
-}>;
-
-export type Resolvers<ContextType = any> = ResolversObject<{
+export type Resolvers<ContextType = ServerContext> = ResolversObject<{
   PriceComponents?: PriceComponentsResolvers<ContextType>;
   Municipality?: MunicipalityResolvers<ContextType>;
   Provider?: ProviderResolvers<ContextType>;
   Canton?: CantonResolvers<ContextType>;
   TemporalDimension?: TemporalDimensionResolvers<ContextType>;
   Observation?: ObservationResolvers<ContextType>;
-  Cube?: CubeResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
 }>;
 
@@ -334,4 +331,4 @@ export type Resolvers<ContextType = any> = ResolversObject<{
  * @deprecated
  * Use "Resolvers" root object instead. If you wish to get "IResolvers", add "typesPrefix: I" to your config.
  */
-export type IResolvers<ContextType = any> = Resolvers<ContextType>;
+export type IResolvers<ContextType = ServerContext> = Resolvers<ContextType>;

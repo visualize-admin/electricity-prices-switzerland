@@ -21,7 +21,7 @@ export const MunicipalitiesCombobox = (
     pause: inputValue === "" && comboboxMultiProps.selectedItems.length === 0,
   });
 
-  const items = gqlQuery.data?.cubeByIri?.municipalities ?? [];
+  const items = gqlQuery.data?.municipalities ?? [];
 
   const itemById = useMemo(() => {
     return rollup(
@@ -61,7 +61,7 @@ export const ProvidersCombobox = (
     pause: inputValue === "" && comboboxMultiProps.selectedItems.length === 0,
   });
 
-  const items = gqlQuery.data?.cubeByIri?.providers ?? [];
+  const items = gqlQuery.data?.providers ?? [];
 
   const itemById = useMemo(() => {
     return rollup(

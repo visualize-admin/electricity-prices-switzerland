@@ -37,7 +37,7 @@ const Page = ({ year, locale }: Props) => {
 
   const observations = observationsQuery.fetching
     ? EMPTY_ARRAY
-    : observationsQuery.data?.cubeByIri?.observations ?? EMPTY_ARRAY;
+    : observationsQuery.data?.observations ?? EMPTY_ARRAY;
 
   // TODO: Replace this with proper color scale
   const _colorScale = scaleQuantile()

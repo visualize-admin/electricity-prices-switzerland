@@ -56,6 +56,8 @@ export type Observation = {
   municipalityLabel?: Maybe<Scalars['String']>;
   provider: Scalars['String'];
   providerLabel?: Maybe<Scalars['String']>;
+  canton: Scalars['String'];
+  cantonLabel?: Maybe<Scalars['String']>;
   category: Scalars['String'];
   period: Scalars['String'];
   value: Scalars['Float'];
@@ -74,6 +76,13 @@ export type ObservationFilters = {
   product?: Maybe<Array<Scalars['String']>>;
 };
 
+export type CantonObservationFilters = {
+  period?: Maybe<Array<Scalars['String']>>;
+  canton?: Maybe<Array<Scalars['String']>>;
+  provider?: Maybe<Array<Scalars['String']>>;
+  category?: Maybe<Array<Scalars['String']>>;
+};
+
 export enum PriceComponent {
   Aidfee = 'aidfee',
   Fixcosts = 'fixcosts',
@@ -84,11 +93,8 @@ export enum PriceComponent {
   Total = 'total'
 }
 
-export type Cube = {
-  __typename: 'Cube';
-  name: Scalars['String'];
-  iri: Scalars['String'];
-  dimensionPeriod?: Maybe<TemporalDimension>;
+export type Query = {
+  __typename: 'Query';
   municipalities: Array<Municipality>;
   cantons: Array<Canton>;
   providers: Array<Provider>;
@@ -96,61 +102,58 @@ export type Cube = {
   canton?: Maybe<Canton>;
   provider?: Maybe<Provider>;
   observations: Array<Observation>;
+  cantonObservations: Array<Observation>;
 };
 
 
-export type CubeMunicipalitiesArgs = {
+export type QueryMunicipalitiesArgs = {
+  locale?: Maybe<Scalars['String']>;
   query?: Maybe<Scalars['String']>;
   ids?: Maybe<Array<Scalars['String']>>;
 };
 
 
-export type CubeCantonsArgs = {
+export type QueryCantonsArgs = {
+  locale?: Maybe<Scalars['String']>;
   query?: Maybe<Scalars['String']>;
   ids?: Maybe<Array<Scalars['String']>>;
 };
 
 
-export type CubeProvidersArgs = {
+export type QueryProvidersArgs = {
+  locale?: Maybe<Scalars['String']>;
   query?: Maybe<Scalars['String']>;
   ids?: Maybe<Array<Scalars['String']>>;
 };
 
 
-export type CubeMunicipalityArgs = {
+export type QueryMunicipalityArgs = {
+  locale?: Maybe<Scalars['String']>;
   id: Scalars['String'];
 };
 
 
-export type CubeCantonArgs = {
+export type QueryCantonArgs = {
+  locale?: Maybe<Scalars['String']>;
   id: Scalars['String'];
 };
 
 
-export type CubeProviderArgs = {
+export type QueryProviderArgs = {
+  locale?: Maybe<Scalars['String']>;
   id: Scalars['String'];
 };
 
 
-export type CubeObservationsArgs = {
+export type QueryObservationsArgs = {
+  locale?: Maybe<Scalars['String']>;
   filters?: Maybe<ObservationFilters>;
 };
 
-export type Query = {
-  __typename: 'Query';
-  cubes: Array<Cube>;
-  cubeByIri?: Maybe<Cube>;
-};
 
-
-export type QueryCubesArgs = {
+export type QueryCantonObservationsArgs = {
   locale?: Maybe<Scalars['String']>;
-};
-
-
-export type QueryCubeByIriArgs = {
-  iri: Scalars['String'];
-  locale?: Maybe<Scalars['String']>;
+  filters?: Maybe<CantonObservationFilters>;
 };
 
 export type MunicipalitiesQueryVariables = Exact<{
@@ -160,7 +163,7 @@ export type MunicipalitiesQueryVariables = Exact<{
 }>;
 
 
-export type MunicipalitiesQuery = { __typename: 'Query', cubeByIri?: Maybe<{ __typename: 'Cube', municipalities: Array<{ __typename: 'Municipality', id: string, name: string }> }> };
+export type MunicipalitiesQuery = { __typename: 'Query', municipalities: Array<{ __typename: 'Municipality', id: string, name: string }> };
 
 export type ProvidersQueryVariables = Exact<{
   locale: Scalars['String'];
@@ -169,7 +172,7 @@ export type ProvidersQueryVariables = Exact<{
 }>;
 
 
-export type ProvidersQuery = { __typename: 'Query', cubeByIri?: Maybe<{ __typename: 'Cube', providers: Array<{ __typename: 'Provider', id: string, name: string }> }> };
+export type ProvidersQuery = { __typename: 'Query', providers: Array<{ __typename: 'Provider', id: string, name: string }> };
 
 export type ObservationsQueryVariables = Exact<{
   locale?: Maybe<Scalars['String']>;
@@ -178,7 +181,7 @@ export type ObservationsQueryVariables = Exact<{
 }>;
 
 
-export type ObservationsQuery = { __typename: 'Query', cubeByIri?: Maybe<{ __typename: 'Cube', observations: Array<{ __typename: 'Observation', period: string, municipality: string, municipalityLabel?: Maybe<string>, provider: string, providerLabel?: Maybe<string>, category: string, value: number }> }> };
+export type ObservationsQuery = { __typename: 'Query', observations: Array<{ __typename: 'Observation', period: string, municipality: string, municipalityLabel?: Maybe<string>, provider: string, providerLabel?: Maybe<string>, category: string, value: number }> };
 
 export type ObservationsWithAllPriceComponentsQueryVariables = Exact<{
   locale?: Maybe<Scalars['String']>;
@@ -186,16 +189,14 @@ export type ObservationsWithAllPriceComponentsQueryVariables = Exact<{
 }>;
 
 
-export type ObservationsWithAllPriceComponentsQuery = { __typename: 'Query', cubeByIri?: Maybe<{ __typename: 'Cube', observations: Array<{ __typename: 'Observation', period: string, municipality: string, municipalityLabel?: Maybe<string>, provider: string, providerLabel?: Maybe<string>, category: string, aidfee: number, fixcosts: number, charge: number, gridusage: number, energy: number, fixcostspercent: number, total: number }> }> };
+export type ObservationsWithAllPriceComponentsQuery = { __typename: 'Query', observations: Array<{ __typename: 'Observation', period: string, municipality: string, municipalityLabel?: Maybe<string>, provider: string, providerLabel?: Maybe<string>, category: string, aidfee: number, fixcosts: number, charge: number, gridusage: number, energy: number, fixcostspercent: number, total: number }> };
 
 
 export const MunicipalitiesDocument = gql`
     query Municipalities($locale: String!, $query: String, $ids: [String!]) {
-  cubeByIri(iri: "https://energy.ld.admin.ch/elcom/energy-pricing/cube", locale: $locale) {
-    municipalities(query: $query, ids: $ids) {
-      id
-      name
-    }
+  municipalities(locale: $locale, query: $query, ids: $ids) {
+    id
+    name
   }
 }
     `;
@@ -205,11 +206,9 @@ export function useMunicipalitiesQuery(options: Omit<Urql.UseQueryArgs<Municipal
 };
 export const ProvidersDocument = gql`
     query Providers($locale: String!, $query: String, $ids: [String!]) {
-  cubeByIri(iri: "https://energy.ld.admin.ch/elcom/energy-pricing/cube", locale: $locale) {
-    providers(query: $query, ids: $ids) {
-      id
-      name
-    }
+  providers(locale: $locale, query: $query, ids: $ids) {
+    id
+    name
   }
 }
     `;
@@ -219,16 +218,14 @@ export function useProvidersQuery(options: Omit<Urql.UseQueryArgs<ProvidersQuery
 };
 export const ObservationsDocument = gql`
     query Observations($locale: String, $priceComponent: PriceComponent!, $filters: ObservationFilters!) {
-  cubeByIri(iri: "https://energy.ld.admin.ch/elcom/energy-pricing/cube", locale: $locale) {
-    observations(filters: $filters) {
-      period
-      municipality
-      municipalityLabel
-      provider
-      providerLabel
-      category
-      value(priceComponent: $priceComponent)
-    }
+  observations(locale: $locale, filters: $filters) {
+    period
+    municipality
+    municipalityLabel
+    provider
+    providerLabel
+    category
+    value(priceComponent: $priceComponent)
   }
 }
     `;
@@ -238,22 +235,20 @@ export function useObservationsQuery(options: Omit<Urql.UseQueryArgs<Observation
 };
 export const ObservationsWithAllPriceComponentsDocument = gql`
     query ObservationsWithAllPriceComponents($locale: String, $filters: ObservationFilters!) {
-  cubeByIri(iri: "https://energy.ld.admin.ch/elcom/energy-pricing/cube", locale: $locale) {
-    observations(filters: $filters) {
-      period
-      municipality
-      municipalityLabel
-      provider
-      providerLabel
-      category
-      aidfee: value(priceComponent: aidfee)
-      fixcosts: value(priceComponent: fixcosts)
-      charge: value(priceComponent: charge)
-      gridusage: value(priceComponent: gridusage)
-      energy: value(priceComponent: energy)
-      fixcostspercent: value(priceComponent: fixcostspercent)
-      total: value(priceComponent: total)
-    }
+  observations(locale: $locale, filters: $filters) {
+    period
+    municipality
+    municipalityLabel
+    provider
+    providerLabel
+    category
+    aidfee: value(priceComponent: aidfee)
+    fixcosts: value(priceComponent: fixcosts)
+    charge: value(priceComponent: charge)
+    gridusage: value(priceComponent: gridusage)
+    energy: value(priceComponent: energy)
+    fixcostspercent: value(priceComponent: fixcostspercent)
+    total: value(priceComponent: total)
   }
 }
     `;

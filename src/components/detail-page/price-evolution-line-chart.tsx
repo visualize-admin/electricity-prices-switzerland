@@ -71,7 +71,7 @@ export const PriceEvolution = ({
   });
   const observations = observationsQuery.fetching
     ? EMPTY_ARRAY
-    : observationsQuery.data?.cubeByIri?.observations ?? EMPTY_ARRAY;
+    : observationsQuery.data?.observations ?? EMPTY_ARRAY;
 
   // Add a unique ID for the combinations municipality+provider
   const withUniqueEntityId = observations.map((obs) => ({

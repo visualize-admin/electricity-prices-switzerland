@@ -142,7 +142,7 @@ export const CantonsComparisonRangePlot = memo(
     });
     const observations = observationsQuery.fetching
       ? EMPTY_ARRAY
-      : observationsQuery.data?.cubeByIri?.observations ?? EMPTY_ARRAY;
+      : observationsQuery.data?.observations ?? EMPTY_ARRAY;
 
     const annotations =
       annotationIds &&

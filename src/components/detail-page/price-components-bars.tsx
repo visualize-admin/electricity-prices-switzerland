@@ -53,7 +53,7 @@ export const PriceComponentsBarChart = ({
   });
   const observations = observationsQuery.fetching
     ? EMPTY_ARRAY
-    : observationsQuery.data?.cubeByIri?.observations ?? EMPTY_ARRAY;
+    : observationsQuery.data?.observations ?? EMPTY_ARRAY;
 
   // const uniqueIds = muni+provider+year
   const withUniqueEntityId = observations.map((obs) => ({
