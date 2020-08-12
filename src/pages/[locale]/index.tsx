@@ -26,7 +26,7 @@ const HEADER_HEIGHT_S = "107px";
 const HEADER_HEIGHT_M_UP = "96px";
 
 const IndexPage = () => {
-  const [{ period, priceComponent, category }] = useQueryStateSingle();
+  const [{ period, priceComponent, category, product }] = useQueryStateSingle();
 
   const [observationsQuery] = useObservationsQuery({
     variables: {
@@ -36,13 +36,14 @@ const IndexPage = () => {
         category: [
           `https://energy.ld.admin.ch/elcom/energy-pricing/category/${category}`,
         ],
+        product: [product],
       },
     },
   });
 
   const observations = observationsQuery.fetching
     ? EMPTY_ARRAY
-    : observationsQuery.data?.cubeByIri?.observations ?? EMPTY_ARRAY;
+    : observationsQuery.data?.observations ?? EMPTY_ARRAY;
 
   const colorAccessor = useCallback((d) => d.value, []);
   const colorScale = useColorScale({

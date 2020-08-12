@@ -13,12 +13,6 @@ export type ResolvedProvider = {
   source: Source;
 };
 export type ResolvedCanton = { id: string };
-export type ResolvedCube = {
-  locale: string;
-  cube: Cube;
-  view: View;
-  source: Source;
-};
 
 export type ResolvedObservation = {
   municipality?: string;

@@ -164,7 +164,8 @@ export const List = ({ observations, colorScale }: Props) => {
 
   const getLabel = useCallback(
     (d: Observation) =>
-      (listState === "PROVIDERS" ? d.providerLabel : d.municipality) ?? "???",
+      (listState === "PROVIDERS" ? d.providerLabel : d.municipalityLabel) ??
+      "???",
     [listState]
   );
 

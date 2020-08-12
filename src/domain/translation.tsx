@@ -11,8 +11,8 @@ export const getLocalizedLabel = ({
   switch (id) {
     case "standard":
       return i18n._(t("selector.product.standard")`Standard`);
-    case "economic":
-      return i18n._(t("selector.product.economic")`Günstig`);
+    case "cheapest":
+      return i18n._(t("selector.product.cheapest")`Günstigstes`);
     case "gridusage":
       return i18n._(t("selector.pricecomponent.gridusage")`Netznutzung`);
     case "energy":

@@ -37,6 +37,8 @@ type Observation {
   municipalityLabel: String
   provider: String!
   providerLabel: String
+  canton: String
+  cantonLabel: String
   category: String!
   period: String!
 
@@ -46,6 +48,14 @@ type Observation {
 input ObservationFilters {
   period: [String!]
   municipality: [String!]
+  provider: [String!]
+  category: [String!]
+  product: [String!]
+}
+
+input CantonObservationFilters {
+  period: [String!]
+  canton: [String!]
   provider: [String!]
   category: [String!]
 }
@@ -60,23 +70,21 @@ enum PriceComponent {
   total
 }
 
-type Cube {
-  name: String!
-  iri: String!
-  dimensionPeriod: TemporalDimension
-
-  # TODO: Figure out proper query parameters!
-  municipalities(query: String, ids: [String!]): [Municipality!]!
-  cantons(query: String, ids: [String!]): [Canton!]!
-  providers(query: String, ids: [String!]): [Provider!]!
-  municipality(id: String!): Municipality
-  canton(id: String!): Canton
-  provider(id: String!): Provider
-
-  observations(filters: ObservationFilters): [Observation!]!
-}
-
 type Query {
-  cubes(locale: String): [Cube!]!
-  cubeByIri(iri: String!, locale: String): Cube
+  municipalities(
+    locale: String
+    query: String
+    ids: [String!]
+  ): [Municipality!]!
+  cantons(locale: String, query: String, ids: [String!]): [Canton!]!
+  providers(locale: String, query: String, ids: [String!]): [Provider!]!
+  municipality(locale: String, id: String!): Municipality
+  canton(locale: String, id: String!): Canton
+  provider(locale: String, id: String!): Provider
+
+  observations(locale: String, filters: ObservationFilters): [Observation!]!
+  cantonObservations(
+    locale: String
+    filters: CantonObservationFilters
+  ): [Observation!]!
 }

@@ -5,7 +5,6 @@ import { defaultLocale } from "../locales/locales";
 import {
   getCubeDimension,
   getDimensionValuesAndLabels,
-  getMunicipalities,
   getName,
   getObservations,
   getSource,
@@ -14,7 +13,6 @@ import {
   stripNamespaceFromIri,
 } from "./rdf";
 import {
-  CubeResolvers,
   MunicipalityResolvers,
   ObservationResolvers,
   ProviderResolvers,
@@ -24,30 +22,112 @@ import {
 import { ResolvedObservation } from "./shared-types";
 
 const Query: QueryResolvers = {
-  cubes: async (_, { locale }) => {
-    const source = getSource();
-    const cubes = await source.cubes();
-    return cubes.map((cube) => ({
-      locale: locale ?? defaultLocale,
-      cube,
-      view: getView(cube),
-      source,
-    }));
+  // cubeByIri: async (_, { locale, iri }) => {
+  //   const source = getSource();
+  //   const cube = await source.cube(iri);
+
+  //   if (!cube) {
+  //     return null;
+  //   }
+
+  //   return {
+  //     locale: locale ?? defaultLocale,
+  //     cube,
+  //     view: getView(cube),
+  //     source,
+  //   };
+  // },
+
+  observations: async (
+    _,
+    { locale, filters },
+    { source, observationsView: view },
+    info
+  ) => {
+    // Look ahead to select proper dimensions for query
+    const resolverFields = getResolverFields(info, "Observation");
+
+    const dimensionKeys = Object.values<ResolveTree>(
+      resolverFields! as $FixMe
+    ).map((fieldInfo) => {
+      return (fieldInfo.args.priceComponent as string) ?? fieldInfo.name;
+    });
+
+    const rawObservations = await getObservations(
+      { view, source },
+      {
+        filters,
+        dimensions: dimensionKeys,
+      }
+    );
+
+    const observations = rawObservations.map((d) => {
+      let parsed: { [k: string]: string | number | boolean } = {};
+      for (const [k, v] of Object.entries(d)) {
+        const key = k.replace(
+          "https://energy.ld.admin.ch/elcom/energy-pricing/dimension/",
+          ""
+        );
+        const parsedValue = parseObservationValue(v);
+
+        parsed[key] =
+          typeof parsedValue === "string"
+            ? stripNamespaceFromIri({ dimension: key, iri: parsedValue })
+            : parsedValue;
+      }
+      return parsed;
+    });
+
+    // Should we type-check with io-ts here? Probably not necessary because the GraphQL API will also type-check against the schema.
+    return observations as ResolvedObservation[];
   },
-  cubeByIri: async (_, { locale, iri }) => {
-    const source = getSource();
-    const cube = await source.cube(iri);
-
-    if (!cube) {
-      return null;
-    }
-
-    return {
-      locale: locale ?? defaultLocale,
-      cube,
-      view: getView(cube),
+  providers: async (_, { query, ids }, { source, observationsView: view }) => {
+    const results = await search({
+      view,
       source,
-    };
+      query: query ?? "",
+      ids: ids ?? [],
+      types: ["provider"],
+    });
+
+    return results;
+  },
+  cantons: async () => [{ id: "1" }, { id: "2" }],
+  municipalities: async (
+    _,
+    { query, ids },
+    { source, observationsView: view }
+  ) => {
+    const results = await search({
+      view,
+      source,
+      query: query ?? "",
+      ids: ids ?? [],
+      types: ["municipality"],
+    });
+
+    return results;
+  },
+  municipality: async (_, { id }, { source, observationsView: view }) => {
+    const results = await getDimensionValuesAndLabels({
+      view,
+      source,
+      dimensionKey: "municipality",
+      filters: { municipality: [id] },
+    });
+
+    return results[0];
+  },
+  canton: async (_, { id }) => ({ id }),
+  provider: async (_, { id }, { source, observationsView: view }) => {
+    const results = await getDimensionValuesAndLabels({
+      view,
+      source,
+      dimensionKey: "provider",
+      filters: { provider: [id] },
+    });
+
+    return results[0];
   },
 };
 
@@ -67,9 +147,10 @@ const Municipality: MunicipalityResolvers = {
 
 const Provider: ProviderResolvers = {
   municipalities: async ({ id, view, source }) => {
-    return getMunicipalities({
+    return getDimensionValuesAndLabels({
       view,
       source,
+      dimensionKey: "municipality",
       filters: { provider: [id] },
     });
   },
@@ -113,96 +194,16 @@ const Observation: ObservationResolvers = {
   },
 };
 
-const Cube: CubeResolvers = {
-  iri: ({ cube }) => cube.term?.value ?? "???",
-  name: ({ cube, locale }) => {
-    return getName(cube, { locale });
-  },
-  dimensionPeriod: ({ view, locale }) => {
-    return getCubeDimension(view, "period", { locale });
-  },
-  observations: async ({ view, source, locale }, { filters }, ctx, info) => {
-    // Look ahead to select proper dimensions for query
-    const resolverFields = getResolverFields(info, "Observation");
+// const Cube: CubeResolvers = {
+//   iri: ({ cube }) => cube.term?.value ?? "???",
+//   name: ({ cube, locale }) => {
+//     return getName(cube, { locale });
+//   },
+//   dimensionPeriod: ({ view, locale }) => {
+//     return getCubeDimension(view, "period", { locale });
+//   },
 
-    const dimensionKeys = Object.values<ResolveTree>(
-      resolverFields! as $FixMe
-    ).map((fieldInfo) => {
-      return (fieldInfo.args.priceComponent as string) ?? fieldInfo.name;
-    });
-
-    const rawObservations = await getObservations(
-      { view, source },
-      {
-        filters,
-        dimensions: dimensionKeys,
-      }
-    );
-
-    const observations = rawObservations.map((d) => {
-      let parsed: { [k: string]: string | number | boolean } = {};
-      for (const [k, v] of Object.entries(d)) {
-        const key = k.replace(
-          "https://energy.ld.admin.ch/elcom/energy-pricing/dimension/",
-          ""
-        );
-        const parsedValue = parseObservationValue(v);
-
-        parsed[key] =
-          typeof parsedValue === "string"
-            ? stripNamespaceFromIri({ dimension: key, iri: parsedValue })
-            : parsedValue;
-      }
-      return parsed;
-    });
-
-    // Should we type-check with io-ts here? Probably not necessary because the GraphQL API will also type-check against the schema.
-    return observations as ResolvedObservation[];
-  },
-  providers: async ({ view, source }, { query, ids }) => {
-    const results = await search({
-      view,
-      source,
-      query: query ?? "",
-      ids: ids ?? [],
-      types: ["provider"],
-    });
-
-    return results;
-  },
-  cantons: async () => [{ id: "1" }, { id: "2" }],
-  municipalities: async ({ view, source }, { query, ids }) => {
-    const results = await search({
-      view,
-      source,
-      query: query ?? "",
-      ids: ids ?? [],
-      types: ["municipality"],
-    });
-
-    return results;
-  },
-  municipality: async ({ view, source }, { id }) => {
-    const results = await getMunicipalities({
-      view,
-      source,
-      filters: { municipality: [id] },
-    });
-
-    return results[0];
-  },
-  canton: async (_, { id }) => ({ id }),
-  provider: async ({ view, source }, { id }) => {
-    const results = await getDimensionValuesAndLabels({
-      view,
-      source,
-      dimensionKey: "provider",
-      filters: { provider: [id] },
-    });
-
-    return results[0];
-  },
-};
+// };
 
 export const resolvers: Resolvers = {
   Query,
@@ -210,5 +211,4 @@ export const resolvers: Resolvers = {
   Provider,
   Observation,
   // Canton,
-  Cube,
 };

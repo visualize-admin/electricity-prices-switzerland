@@ -1,24 +1,14 @@
 query Municipalities($locale: String!, $query: String, $ids: [String!]) {
-  cubeByIri(
-    iri: "https://energy.ld.admin.ch/elcom/energy-pricing/cube"
-    locale: $locale
-  ) {
-    municipalities(query: $query, ids: $ids) {
-      id
-      name
-    }
+  municipalities(locale: $locale, query: $query, ids: $ids) {
+    id
+    name
   }
 }
 
 query Providers($locale: String!, $query: String, $ids: [String!]) {
-  cubeByIri(
-    iri: "https://energy.ld.admin.ch/elcom/energy-pricing/cube"
-    locale: $locale
-  ) {
-    providers(query: $query, ids: $ids) {
-      id
-      name
-    }
+  providers(locale: $locale, query: $query, ids: $ids) {
+    id
+    name
   }
 }
 
@@ -27,18 +17,14 @@ query Observations(
   $priceComponent: PriceComponent!
   $filters: ObservationFilters!
 ) {
-  cubeByIri(
-    iri: "https://energy.ld.admin.ch/elcom/energy-pricing/cube"
-    locale: $locale
-  ) {
-    observations(filters: $filters) {
-      period
-      municipality
-      provider
-      providerLabel
-      category
-      value(priceComponent: $priceComponent)
-    }
+  observations(locale: $locale, filters: $filters) {
+    period
+    municipality
+    municipalityLabel
+    provider
+    providerLabel
+    category
+    value(priceComponent: $priceComponent)
   }
 }
 
@@ -46,24 +32,20 @@ query ObservationsWithAllPriceComponents(
   $locale: String
   $filters: ObservationFilters!
 ) {
-  cubeByIri(
-    iri: "https://energy.ld.admin.ch/elcom/energy-pricing/cube"
-    locale: $locale
-  ) {
-    observations(filters: $filters) {
-      period
-      municipality
-      provider
-      providerLabel
-      category
+  observations(locale: $locale, filters: $filters) {
+    period
+    municipality
+    municipalityLabel
+    provider
+    providerLabel
+    category
 
-      aidfee: value(priceComponent: aidfee)
-      fixcosts: value(priceComponent: fixcosts)
-      charge: value(priceComponent: charge)
-      gridusage: value(priceComponent: gridusage)
-      energy: value(priceComponent: energy)
-      fixcostspercent: value(priceComponent: fixcostspercent)
-      total: value(priceComponent: total)
-    }
+    aidfee: value(priceComponent: aidfee)
+    fixcosts: value(priceComponent: fixcosts)
+    charge: value(priceComponent: charge)
+    gridusage: value(priceComponent: gridusage)
+    energy: value(priceComponent: energy)
+    fixcostspercent: value(priceComponent: fixcostspercent)
+    total: value(priceComponent: total)
   }
 }

@@ -260,7 +260,7 @@ msgid "selector.product"
 msgstr "Produit"
 
 #: src/domain/translation.tsx:7
-msgid "selector.product.economic"
+msgid "selector.product.cheapest"
 msgstr "meilleur marché"
 
 #: src/domain/translation.tsx:5
