@@ -79,12 +79,13 @@ const IndexPage = () => {
               borderBottomWidth: 1,
               borderBottomStyle: "solid",
               borderBottomColor: "monochrome500",
+              mx: 4,
             }}
           >
             <Text as="h1" variant="giga" sx={{ textAlign: "center" }}>
               <Trans id="site.title">Strompreise Schweiz</Trans>
             </Text>
-            <Search />
+            <Search showLabel />
           </Flex>
 
           <Grid

@@ -10,7 +10,7 @@ import { Icon } from "../icons";
 import { LocalizedLink } from "./links";
 import { useRouter } from "next/router";
 
-export const Search = () => {
+export const Search = ({ showLabel = true }: { showLabel?: boolean }) => {
   const locale = useLocale();
   const [inputValue, setInputValue] = useState<string>("");
   const [gqlQuery] = useProvidersQuery({
@@ -44,6 +44,7 @@ export const Search = () => {
       getItemLabel={(id) => itemById.get(id)?.name ?? `[${id}]`}
       onInputValueChange={setInputValue}
       isLoading={gqlQuery.fetching && inputValue.length > 0}
+      showLabel={showLabel}
       // lazy
     />
   );
@@ -57,6 +58,7 @@ export type SearchFieldProps = {
   onInputValueChange: (inputValue: string) => void;
   isLoading: boolean;
   // lazy: boolean;
+  showLabel: boolean;
 };
 
 export const SearchField = ({
@@ -66,6 +68,7 @@ export const SearchField = ({
   getItemLabel,
   onInputValueChange,
   isLoading,
+  showLabel,
 }: // lazy,
 SearchFieldProps) => {
   const { query } = useRouter();
@@ -112,8 +115,14 @@ SearchFieldProps) => {
   });
 
   return (
-    <Box sx={{ position: "relative", width: "100%", maxWidth: "44rem", mx: 4 }}>
-      <RebassLabel {...getLabelProps()}>
+    <Box sx={{ position: "relative", width: "100%", maxWidth: "44rem" }}>
+      <RebassLabel
+        {...getLabelProps()}
+        sx={{
+          visibility: showLabel ? "visible" : "hidden",
+          height: showLabel ? "2rem" : 0,
+        }}
+      >
         <Text
           variant="paragraph2"
           sx={{
