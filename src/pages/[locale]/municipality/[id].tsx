@@ -1,5 +1,5 @@
 import { Box, Flex } from "@theme-ui/components";
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, GetStaticPaths, GetStaticProps } from "next";
 import * as React from "react";
 import { DetailPageBanner } from "../../../components/detail-page/banner";
 import { CantonsComparisonRangePlots } from "../../../components/detail-page/cantons-comparison-range";
@@ -23,7 +23,11 @@ type Props = {
   providers: { id: string; name: string }[];
 };
 
-export const getServerSideProps: GetServerSideProps<
+export const getStaticPaths: GetStaticPaths = async () => {
+  return { paths: [], fallback: "unstable_blocking" };
+};
+
+export const getStaticProps: GetStaticProps<
   Props,
   { locale: string; id: string }
 > = async ({ params }) => {
@@ -68,6 +72,7 @@ export const getServerSideProps: GetServerSideProps<
       name: municipality.name,
       providers: providers.map(({ id, name }) => ({ id, name })),
     },
+    revalidate: 5,
   };
 };
 
