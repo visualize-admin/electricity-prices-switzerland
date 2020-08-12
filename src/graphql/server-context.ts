@@ -13,7 +13,6 @@ export type ServerContext = {
 };
 
 export const context = async (): Promise<ServerContext> => {
-  console.time("Cubes");
   const source = getSource();
   const [observationsCube, cantonObservationsCube] = await Promise.all([
     source.cube(OBSERVATIONS_CUBE),
@@ -26,8 +25,6 @@ export const context = async (): Promise<ServerContext> => {
   if (!cantonObservationsCube) {
     throw Error(`Cube ${CANTON_OBSERVATIONS_CUBE} not found`);
   }
-
-  console.timeEnd("Cubes");
 
   return {
     source,
