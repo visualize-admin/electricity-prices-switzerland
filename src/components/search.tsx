@@ -101,10 +101,10 @@ SearchFieldProps) => {
           //   setSelectedItem(changes.inputValue);
           // }
           break;
-        case useCombobox.stateChangeTypes.InputBlur:
-          setInputValue("");
-          onInputValueChange("");
-          break;
+        // case useCombobox.stateChangeTypes.InputBlur:
+        // setInputValue("");
+        // onInputValueChange("");
+        // break;
         default:
           break;
       }
