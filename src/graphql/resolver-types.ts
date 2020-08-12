@@ -2,7 +2,7 @@ import { GraphQLResolveInfo } from 'graphql';
 import { ResolvedCanton, ResolvedMunicipality, ResolvedProvider, ResolvedObservation, ResolvedSearchResult } from './resolver-mapped-types';
 import { ServerContext } from './server-context';
 export type Maybe<T> = T | null;
-export type Exact<T extends { [key: string]: any }> = { [K in keyof T]: T[K] };
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type RequireFields<T, K extends keyof T> = { [X in Exclude<keyof T, K>]?: T[X] } & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -381,7 +381,7 @@ export type QueryResolvers<ContextType = ServerContext, ParentType extends Resol
 
 export type Resolvers<ContextType = ServerContext> = ResolversObject<{
   PriceComponents?: PriceComponentsResolvers<ContextType>;
-  SearchResult?: SearchResultResolvers;
+  SearchResult?: SearchResultResolvers<ContextType>;
   MunicipalityResult?: MunicipalityResultResolvers<ContextType>;
   ProviderResult?: ProviderResultResolvers<ContextType>;
   CantonResult?: CantonResultResolvers<ContextType>;
