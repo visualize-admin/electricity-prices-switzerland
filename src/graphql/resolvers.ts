@@ -107,13 +107,24 @@ const Query: QueryResolvers = {
 
     return results;
   },
+  cantons: async (_, { query, ids }, { source, observationsView: view }) => {
+    const results = await search({
+      view,
+      source,
+      query: query ?? "",
+      ids: ids ?? [],
+      types: ["canton"],
+    });
+
+    return results;
+  },
   search: async (_, { query }, { source, observationsView: view }) => {
     const results = await search({
       view,
       source,
       query: query ?? "",
       ids: [],
-      types: ["municipality", "provider"],
+      types: ["municipality", "provider", "canton"],
     });
 
     return results;

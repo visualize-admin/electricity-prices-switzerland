@@ -334,7 +334,7 @@ export const buildDimensionFilter = (
 
 // regex based search query for municipalities and providers
 
-type SearchType = "municipality" | "provider";
+type SearchType = "municipality" | "provider" | "canton";
 
 export const search = async ({
   view,
@@ -375,6 +375,18 @@ export const search = async ({
           query || "-------"
         }.*", "i") || ?provider IN (${ids
     .map((id) => `<${addNamespaceToID({ dimension: "provider", id })}>`)
+    .join(",")}))
+      }
+    } UNION {
+      SELECT ("canton" AS ?type) (?canton AS ?iri) (?cantonLabel AS ?name) WHERE {
+        GRAPH <https://linked.opendata.swiss/graph/eCH-0071> {
+          ?canton a <https://gont.ch/Canton> .
+          ?canton <https://gont.ch/longName> ?cantonLabel.    
+        }
+        FILTER (regex(?cantonLabel, ".*${
+          query || "-------"
+        }.*", "i") || ?canton IN (${ids
+    .map((id) => `<${addNamespaceToID({ dimension: "canton", id })}>`)
     .join(",")}))
       }
     }
@@ -451,6 +463,9 @@ export const addNamespaceToID = ({
   }
   if (dimension === "municipality") {
     return ns.municipality(`${id}`).value;
+  }
+  if (dimension === "canton") {
+    return ns.classifications(`canton/${id}`).value;
   }
   return ns.energyPricingValue(`${dimension}/${id}`).value;
 };
