@@ -24,6 +24,7 @@ const ns = {
   schema: namespace("http://schema.org/"),
   xsd: namespace("http://www.w3.org/2001/XMLSchema#"),
   classifications: namespace("http://classifications.data.admin.ch/"),
+  gont: namespace("https://gont.ch/"),
   municipality: namespace(
     "https://register.ld.admin.ch/fso/agvch/municipality/"
   ),
@@ -90,9 +91,12 @@ export const getObservations = async (
               cubeDimension: ns.energyPricing(dimensionKey),
             });
 
+            console.log(dimensionKey);
+
             const labelDimension = view.createDimension({
               source: lookupSource,
-              path: ns.schema.name,
+              path:
+                dimensionKey === "region" ? ns.gont.longName : ns.schema.name,
               join: dimension,
               as: ns.energyPricing(`${dimensionKey}Label`),
             });

@@ -33,4 +33,6 @@ export type ResolvedObservation = {
   provider?: string;
   category?: string;
   period?: string;
+  region?: string;
+  regionLabel?: string;
 } & { [key: string]: number };
