@@ -17,6 +17,29 @@ export type PriceComponents = {
   total: Scalars['Float'];
 };
 
+export type SearchResult = {
+  id: Scalars['String'];
+  name: Scalars['String'];
+};
+
+export type MunicipalityResult = SearchResult & {
+  __typename: 'MunicipalityResult';
+  id: Scalars['String'];
+  name: Scalars['String'];
+};
+
+export type ProviderResult = SearchResult & {
+  __typename: 'ProviderResult';
+  id: Scalars['String'];
+  name: Scalars['String'];
+};
+
+export type CantonResult = SearchResult & {
+  __typename: 'CantonResult';
+  id: Scalars['String'];
+  name: Scalars['String'];
+};
+
 export type Municipality = {
   __typename: 'Municipality';
   id: Scalars['String'];
@@ -98,6 +121,7 @@ export type Query = {
   municipalities: Array<Municipality>;
   cantons: Array<Canton>;
   providers: Array<Provider>;
+  search: Array<SearchResult>;
   municipality?: Maybe<Municipality>;
   canton?: Maybe<Canton>;
   provider?: Maybe<Provider>;
@@ -124,6 +148,12 @@ export type QueryProvidersArgs = {
   locale?: Maybe<Scalars['String']>;
   query?: Maybe<Scalars['String']>;
   ids?: Maybe<Array<Scalars['String']>>;
+};
+
+
+export type QuerySearchArgs = {
+  locale?: Maybe<Scalars['String']>;
+  query?: Maybe<Scalars['String']>;
 };
 
 
@@ -174,6 +204,14 @@ export type ProvidersQueryVariables = Exact<{
 
 export type ProvidersQuery = { __typename: 'Query', providers: Array<{ __typename: 'Provider', id: string, name: string }> };
 
+export type SearchQueryVariables = Exact<{
+  locale: Scalars['String'];
+  query?: Maybe<Scalars['String']>;
+}>;
+
+
+export type SearchQuery = { __typename: 'Query', providers: Array<{ __typename: 'Provider', id: string, name: string }> };
+
 export type ObservationsQueryVariables = Exact<{
   locale?: Maybe<Scalars['String']>;
   priceComponent: PriceComponent;
@@ -215,6 +253,18 @@ export const ProvidersDocument = gql`
 
 export function useProvidersQuery(options: Omit<Urql.UseQueryArgs<ProvidersQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<ProvidersQuery>({ query: ProvidersDocument, ...options });
+};
+export const SearchDocument = gql`
+    query Search($locale: String!, $query: String) {
+  providers(locale: $locale, query: $query) {
+    id
+    name
+  }
+}
+    `;
+
+export function useSearchQuery(options: Omit<Urql.UseQueryArgs<SearchQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<SearchQuery>({ query: SearchDocument, ...options });
 };
 export const ObservationsDocument = gql`
     query Observations($locale: String, $priceComponent: PriceComponent!, $filters: ObservationFilters!) {

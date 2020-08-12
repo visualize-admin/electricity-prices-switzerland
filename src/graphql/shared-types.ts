@@ -1,5 +1,11 @@
 import { Cube, View, Source } from "@zazuko/rdf-cube-view-query";
 
+export type ResolvedSearchResult = {
+  id: string;
+  name: string;
+  type: string;
+};
+
 export type ResolvedMunicipality = {
   id: string;
   name: string;

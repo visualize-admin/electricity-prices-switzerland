@@ -3,6 +3,23 @@ type PriceComponents {
   # TODO: Add more price components
 }
 
+interface SearchResult {
+  id: String!
+  name: String!
+}
+type MunicipalityResult implements SearchResult {
+  id: String!
+  name: String!
+}
+type ProviderResult implements SearchResult {
+  id: String!
+  name: String!
+}
+type CantonResult implements SearchResult {
+  id: String!
+  name: String!
+}
+
 type Municipality {
   id: String!
   name: String!
@@ -78,6 +95,7 @@ type Query {
   ): [Municipality!]!
   cantons(locale: String, query: String, ids: [String!]): [Canton!]!
   providers(locale: String, query: String, ids: [String!]): [Provider!]!
+  search(locale: String, query: String): [SearchResult!]!
   municipality(locale: String, id: String!): Municipality
   canton(locale: String, id: String!): Canton
   provider(locale: String, id: String!): Provider

@@ -92,7 +92,6 @@ const Query: QueryResolvers = {
 
     return results;
   },
-  cantons: async () => [{ id: "1" }, { id: "2" }],
   municipalities: async (
     _,
     { query, ids },
@@ -104,6 +103,17 @@ const Query: QueryResolvers = {
       query: query ?? "",
       ids: ids ?? [],
       types: ["municipality"],
+    });
+
+    return results;
+  },
+  search: async (_, { query }, { source, observationsView: view }) => {
+    const results = await search({
+      view,
+      source,
+      query: query ?? "",
+      ids: [],
+      types: ["municipality", "provider"],
     });
 
     return results;
@@ -211,4 +221,18 @@ export const resolvers: Resolvers = {
   Provider,
   Observation,
   // Canton,
+  SearchResult: {
+    __resolveType: (obj) => {
+      switch (obj.type) {
+        case "municipality":
+          return "MunicipalityResult";
+        case "provider":
+          return "ProviderResult";
+        case "canton":
+          return "CantonResult";
+        default:
+          throw Error("Could not resolve type of Entity");
+      }
+    },
+  },
 };
