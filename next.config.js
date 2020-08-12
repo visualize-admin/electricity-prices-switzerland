@@ -18,6 +18,16 @@ module.exports = withBundleAnalyzer(
 
     pageExtensions: ["js", "ts", "tsx", "mdx"],
 
+    redirects: async () => {
+      return [
+        {
+          source: "/",
+          destination: "/de",
+          permanent: false,
+        },
+      ];
+    },
+
     webpack(config, { dev, isServer, defaultLoaders }) {
       config.module.rules.push({
         test: /\.(graphql|gql)$/,
