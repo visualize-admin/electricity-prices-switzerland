@@ -30,7 +30,6 @@ export const Search = () => {
       (d) => d.id
     );
   }, [items]);
-  console.log({ items });
 
   return (
     <SearchField
@@ -44,7 +43,7 @@ export const Search = () => {
       items={items.map(({ id }) => id)}
       getItemLabel={(id) => itemById.get(id)?.name ?? `[${id}]`}
       onInputValueChange={setInputValue}
-      // isLoading={gqlQuery.fetching && inputValue.length > 0}
+      isLoading={gqlQuery.fetching && inputValue.length > 0}
       // lazy
     />
   );
@@ -56,7 +55,7 @@ export type SearchFieldProps = {
   items: string[];
   getItemLabel: (item: string) => string;
   onInputValueChange: (inputValue: string) => void;
-  // isLoading: boolean;
+  isLoading: boolean;
   // lazy: boolean;
 };
 
@@ -66,8 +65,8 @@ export const SearchField = ({
   items,
   getItemLabel,
   onInputValueChange,
-}: // isLoading,
-// lazy,
+  isLoading,
+}: // lazy,
 SearchFieldProps) => {
   const { query } = useRouter();
 
@@ -152,7 +151,6 @@ SearchFieldProps) => {
             })}
             sx={{
               display: "block",
-              // width: "100%",
               appearance: "none",
               fontSize: "inherit",
               lineHeight: "inherit",
@@ -200,75 +198,77 @@ SearchFieldProps) => {
         style={{ display: isOpen ? "block" : "none" }}
         {...getMenuProps()}
       >
-        {isOpen &&
-          inputItems.map((item, index) => (
-            <LocalizedLink
-              key={`${item}${index}`}
-              pathname="/[locale]/provider/[id]"
-              query={{ ...query, id: item }}
-              passHref
-            >
-              <Flex
-                {...getItemProps({ item, index })}
-                as="a"
-                sx={{
-                  mx: 4,
-                  py: 1,
-                  px: 4,
-                  alignItems: "center",
-                  height: "3.5rem",
-                  lineHeight: 1,
-                  color: "text",
-                  textDecoration: "none",
-                  ":hover": {
-                    cursor: "pointer",
-                    bg: "mutedDarker",
-                  },
-                  ":focus": {
-                    outline: 0,
-                    bg: "primaryLight",
-                  },
-                }}
-              >
-                <Text variant="paragraph1" sx={{ flexGrow: 1 }}>
-                  {getItemLabel(item)}
-                </Text>
-
-                <Box sx={{ width: "24px", flexShrink: 0 }}>
-                  <Icon name="chevronright"></Icon>
-                </Box>
-              </Flex>
-              {/*
-              <Box
-                as="a"
-                sx={{
-                  color: "monochrome700",
-                  bg: "monochrome100",
-                  p: 3,
-                  m: 0,
-                  ":hover": {
-                    cursor: "pointer",
-                    bg: "mutedDarker",
-                  },
-                }}
-                key={`${item}${index}`}
-                {...getItemProps({ item, index })}
-              >
-                {getItemLabel(item)}
-              </Box> */}
-            </LocalizedLink>
-          ))}
-        {isOpen && inputItems.length === 0 && (
-          <Box
+        {isOpen && isLoading ? (
+          <Text
             as="li"
+            variant="paragraph2"
             sx={{
               color: "secondary",
               p: 3,
               m: 0,
             }}
           >
-            <Trans id="combobox.noitems">Keine Einträge</Trans>
-          </Box>
+            <Trans id="combobox.isloading">Resultate laden …</Trans>
+          </Text>
+        ) : isOpen && !isLoading && inputItems.length === 0 ? (
+          <Text
+            as="li"
+            variant="paragraph2"
+            sx={{
+              color: "secondary",
+              p: 3,
+              m: 0,
+            }}
+          >
+            {inputValue === "" ? (
+              // && lazy
+              <Trans id="combobox.prompt">Bezeichnung eingeben …</Trans>
+            ) : (
+              <Trans id="combobox.noitems">Keine Einträge</Trans>
+            )}
+          </Text>
+        ) : (
+          <>
+            {inputItems.map((item, index) => (
+              <LocalizedLink
+                key={`${item}${index}`}
+                pathname="/[locale]/provider/[id]"
+                query={{ ...query, id: item }}
+                passHref
+              >
+                <Flex
+                  {...getItemProps({ item, index })}
+                  as="a"
+                  sx={{
+                    mx: 4,
+                    py: 1,
+                    px: 4,
+                    alignItems: "center",
+                    height: "3.5rem",
+                    lineHeight: 1,
+                    color: "text",
+                    textDecoration: "none",
+                    ":hover": {
+                      cursor: "pointer",
+                      bg: "mutedDarker",
+                    },
+                    ":focus": {
+                      outline: 0,
+                      bg: "primaryLight",
+                    },
+                  }}
+                >
+                  <Text variant="paragraph1" sx={{ flexGrow: 1 }}>
+                    {getItemLabel(item)}
+                  </Text>
+
+                  <Box sx={{ width: "24px", flexShrink: 0 }}>
+                    <Icon name="chevronright"></Icon>
+                  </Box>
+                </Flex>
+              </LocalizedLink>
+            ))}
+          </>
         )}
       </Box>
     </Box>
