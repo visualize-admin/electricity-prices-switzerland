@@ -19,7 +19,7 @@ import {
   QueryResolvers,
   Resolvers,
 } from "./resolver-types";
-import { ResolvedObservation } from "./shared-types";
+import { ResolvedObservation } from "./resolver-mapped-types";
 
 const Query: QueryResolvers = {
   // cubeByIri: async (_, { locale, iri }) => {
