@@ -1,5 +1,5 @@
 import { Label } from "./form";
-import { Box, Button, Flex, Input, Text } from "theme-ui";
+import { Box, Button, Flex, Input, Text, Label as RebassLabel } from "theme-ui";
 import { Trans } from "@lingui/macro";
 import { rollup } from "d3-array";
 import { useMemo, useState, ReactNode } from "react";
@@ -113,7 +113,20 @@ SearchFieldProps) => {
 
   return (
     <Box sx={{ position: "relative", width: "100%", maxWidth: "44rem", mx: 4 }}>
-      <Label showLabel label={label} {...getLabelProps()}></Label>
+      <RebassLabel {...getLabelProps()}>
+        <Text
+          variant="paragraph2"
+          sx={{
+            width: "100%",
+            textAlign: "center",
+            color: "monochrome800",
+            mt: 2,
+            mb: 2,
+          }}
+        >
+          {label}
+        </Text>
+      </RebassLabel>
       <Flex
         sx={{
           display: "block",
