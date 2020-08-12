@@ -56,7 +56,7 @@ export type Observation = {
   municipalityLabel?: Maybe<Scalars['String']>;
   provider: Scalars['String'];
   providerLabel?: Maybe<Scalars['String']>;
-  canton: Scalars['String'];
+  canton?: Maybe<Scalars['String']>;
   cantonLabel?: Maybe<Scalars['String']>;
   category: Scalars['String'];
   period: Scalars['String'];

@@ -57,7 +57,7 @@ export type Observation = {
   municipalityLabel?: Maybe<Scalars['String']>;
   provider: Scalars['String'];
   providerLabel?: Maybe<Scalars['String']>;
-  canton: Scalars['String'];
+  canton?: Maybe<Scalars['String']>;
   cantonLabel?: Maybe<Scalars['String']>;
   category: Scalars['String'];
   period: Scalars['String'];
@@ -297,7 +297,7 @@ export type ObservationResolvers<ContextType = ServerContext, ParentType extends
   municipalityLabel?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   provider?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   providerLabel?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  canton?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  canton?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   cantonLabel?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   category?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   period?: Resolver<ResolversTypes['String'], ParentType, ContextType>;

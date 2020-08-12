@@ -37,7 +37,7 @@ type Observation {
   municipalityLabel: String
   provider: String!
   providerLabel: String
-  canton: String!
+  canton: String
   cantonLabel: String
   category: String!
   period: String!
