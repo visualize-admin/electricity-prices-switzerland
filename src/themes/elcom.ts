@@ -126,7 +126,7 @@ export const theme: Theme = {
     giga: {
       fontFamily: "body",
       lineHeight: [9, 10, 10],
-      fontWeight: "light",
+      fontWeight: "bold",
       fontSize: [8, 9, 9],
     },
     heading1: {

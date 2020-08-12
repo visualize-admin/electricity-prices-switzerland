@@ -73,7 +73,7 @@ const IndexPage = () => {
         >
           <Flex
             sx={{
-              py: 6,
+              py: 8,
               flexDirection: "column",
               alignItems: "center",
               borderBottomWidth: 1,
