@@ -12,7 +12,13 @@ export type ServerContext = {
   cantonObservationsView: View;
 };
 
+let contextCache: ServerContext | undefined;
+
 export const context = async (): Promise<ServerContext> => {
+  if (contextCache) {
+    return contextCache;
+  }
+
   const source = getSource();
   const [observationsCube, cantonObservationsCube] = await Promise.all([
     source.cube(OBSERVATIONS_CUBE),
@@ -26,9 +32,11 @@ export const context = async (): Promise<ServerContext> => {
     throw Error(`Cube ${CANTON_OBSERVATIONS_CUBE} not found`);
   }
 
-  return {
+  contextCache = {
     source,
     observationsView: getView(observationsCube),
     cantonObservationsView: getView(cantonObservationsCube),
   };
+
+  return contextCache;
 };

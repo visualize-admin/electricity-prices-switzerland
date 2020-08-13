@@ -22,22 +22,6 @@ import {
 import { ResolvedObservation } from "./resolver-mapped-types";
 
 const Query: QueryResolvers = {
-  // cubeByIri: async (_, { locale, iri }) => {
-  //   const source = getSource();
-  //   const cube = await source.cube(iri);
-
-  //   if (!cube) {
-  //     return null;
-  //   }
-
-  //   return {
-  //     locale: locale ?? defaultLocale,
-  //     cube,
-  //     view: getView(cube),
-  //     source,
-  //   };
-  // },
-
   observations: async (
     _,
     { locale, filters },
@@ -81,16 +65,61 @@ const Query: QueryResolvers = {
     // Should we type-check with io-ts here? Probably not necessary because the GraphQL API will also type-check against the schema.
     return observations as ResolvedObservation[];
   },
+  cantonObservations: async (
+    _,
+    { locale, filters },
+    { source, cantonObservationsView: view },
+    info
+  ) => {
+    // Look ahead to select proper dimensions for query
+    const resolverFields = getResolverFields(info, "Observation");
+
+    const dimensionKeys = Object.values<ResolveTree>(
+      resolverFields! as $FixMe
+    ).map((fieldInfo) => {
+      return (
+        (fieldInfo.args.priceComponent as string) ??
+        fieldInfo.name.replace(/^canton/, "region") // Map "canton*" fields to "region*" dimension
+      );
+    });
+
+    const rawObservations = await getObservations(
+      { view, source },
+      {
+        filters,
+        dimensions: dimensionKeys,
+      }
+    );
+
+    const observations = rawObservations.map((d) => {
+      let parsed: { [k: string]: string | number | boolean } = {};
+      for (const [k, v] of Object.entries(d)) {
+        const key = k.replace(
+          "https://energy.ld.admin.ch/elcom/energy-pricing/dimension/",
+          ""
+        );
+        const parsedValue = parseObservationValue(v);
+
+        parsed[key] =
+          typeof parsedValue === "string"
+            ? stripNamespaceFromIri({ dimension: key, iri: parsedValue })
+            : parsedValue;
+      }
+      return parsed;
+    });
+
+    // Should we type-check with io-ts here? Probably not necessary because the GraphQL API will also type-check against the schema.
+    return observations as ResolvedObservation[];
+  },
   providers: async (_, { query, ids }, { source, observationsView: view }) => {
     const results = await search({
-      view,
       source,
       query: query ?? "",
       ids: ids ?? [],
       types: ["provider"],
     });
 
-    return results;
+    return results.map((r) => ({ ...r, source, view }));
   },
   municipalities: async (
     _,
@@ -98,22 +127,30 @@ const Query: QueryResolvers = {
     { source, observationsView: view }
   ) => {
     const results = await search({
-      view,
       source,
       query: query ?? "",
       ids: ids ?? [],
       types: ["municipality"],
     });
 
-    return results;
+    return results.map((r) => ({ ...r, source, view }));
   },
-  search: async (_, { query }, { source, observationsView: view }) => {
+  cantons: async (_, { query, ids }, { source, observationsView: view }) => {
     const results = await search({
-      view,
+      source,
+      query: query ?? "",
+      ids: ids ?? [],
+      types: ["canton"],
+    });
+
+    return results.map((r) => ({ ...r, source, view }));
+  },
+  search: async (_, { query }, { source }) => {
+    const results = await search({
       source,
       query: query ?? "",
       ids: [],
-      types: ["municipality", "provider"],
+      types: ["municipality", "provider", "canton"],
     });
 
     return results;
@@ -202,6 +239,11 @@ const Observation: ObservationResolvers = {
   value: (parent, args) => {
     return parent[args.priceComponent];
   },
+  /**
+   * Map "region*" to "canton*" field name
+   */
+  canton: (parent) => parent.region!,
+  cantonLabel: (parent) => parent.regionLabel!,
 };
 
 // const Cube: CubeResolvers = {

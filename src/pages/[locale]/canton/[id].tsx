@@ -3,10 +3,40 @@ import { Footer } from "../../../components/footer";
 import { Header } from "../../../components/header";
 import { Selector } from "../../../components/selector";
 import { useRouter } from "next/router";
+import { GetServerSideProps } from "next";
+import { getSource, getView, search } from "../../../graphql/rdf";
+import { DetailPageBanner } from "../../../components/detail-page/banner";
+import { context } from "../../../graphql/server-context";
 
-const CantonPage = () => {
-  const { id } = useRouter().query;
+type Props = {
+  id: string;
+  name: string;
+  // providers: { id: string; name: string }[];
+};
 
+export const getServerSideProps: GetServerSideProps<
+  Props,
+  { locale: string; id: string }
+> = async ({ params, res }) => {
+  const { id } = params!;
+
+  const canton = (
+    await search({
+      source: getSource(),
+      query: "",
+      types: ["canton"],
+      ids: [id],
+    })
+  )[0];
+
+  if (!canton) {
+    res.statusCode = 404;
+  }
+
+  return { props: { id, name: canton.name } };
+};
+
+const CantonPage = ({ id, name }: Props) => {
   return (
     <Flex sx={{ minHeight: "100vh", flexDirection: "column" }}>
       <Header></Header>
@@ -14,14 +44,11 @@ const CantonPage = () => {
         sx={{
           pt: 96,
           flexGrow: 1,
+          bg: "monochrome200",
           flexDirection: "column",
-          justifyContent: "flex-start",
-          alignItems: "flex-end",
         }}
       >
-        <Text variant="heading2" sx={{ mr: 4 }}>
-          Detail Page for: {id}
-        </Text>
+        <DetailPageBanner id={id} name={name} />
       </Flex>
       <Footer></Footer>
     </Flex>

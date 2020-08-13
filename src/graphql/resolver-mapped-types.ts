@@ -13,7 +13,6 @@ export type ResolvedSearchResult = {
   name: string;
   type: string;
 };
-
 export type ResolvedMunicipality = {
   id: string;
   name: string;
@@ -33,4 +32,6 @@ export type ResolvedObservation = {
   provider?: string;
   category?: string;
   period?: string;
+  region?: string;
+  regionLabel?: string;
 } & { [key: string]: number };
