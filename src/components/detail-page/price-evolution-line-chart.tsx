@@ -45,7 +45,7 @@ export const PriceEvolution = ({
   entity: Entity;
 }) => {
   const [
-    { period, category, municipality, provider, canton },
+    { period, category, municipality, provider, canton, product },
   ] = useQueryState();
 
   const comparisonIds =
@@ -64,20 +64,18 @@ export const PriceEvolution = ({
     variables: {
       filters: {
         [entity]: entityIds,
-        category: [
-          `https://energy.ld.admin.ch/elcom/energy-pricing/category/${category[0]}`,
-        ],
-        // product: [product]
+        category,
+        product,
       },
     },
   });
   const observations = observationsQuery.fetching
     ? EMPTY_ARRAY
-    : observationsQuery.data?.cubeByIri?.observations ?? EMPTY_ARRAY;
+    : observationsQuery.data?.observations ?? EMPTY_ARRAY;
 
   // Add a unique ID for the combinations municipality+provider
   const withUniqueEntityId = observations.map((obs) => ({
-    uniqueId: `${obs.municipality}-${obs.providerLabel}`,
+    uniqueId: `${obs.municipalityLabel}, ${obs.providerLabel}`,
     ...obs,
   }));
 

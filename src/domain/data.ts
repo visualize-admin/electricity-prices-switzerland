@@ -129,7 +129,7 @@ export const priceComponents = [
   "charge",
   "aidfee",
 ];
-export const products = ["standard", "economic"];
+export const products = ["standard", "cheapest"];
 export const categories = [
   "H1",
   "H2",

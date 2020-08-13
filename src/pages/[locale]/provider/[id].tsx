@@ -1,22 +1,17 @@
-import { Flex, Text, Box } from "@theme-ui/components";
+import { Box, Flex } from "@theme-ui/components";
+import { GetServerSideProps } from "next";
+import { DetailPageBanner } from "../../../components/detail-page/banner";
+import { CantonsComparisonRangePlots } from "../../../components/detail-page/cantons-comparison-range";
+import { PriceComponentsBarChart } from "../../../components/detail-page/price-components-bars";
+import { PriceDistributionHistograms } from "../../../components/detail-page/price-distribution-histogram";
+import { PriceEvolution } from "../../../components/detail-page/price-evolution-line-chart";
+import { SelectorMulti } from "../../../components/detail-page/selector-multi";
 import { Footer } from "../../../components/footer";
 import { Header } from "../../../components/header";
-import { Selector } from "../../../components/selector";
-import { useRouter } from "next/router";
-import { GetServerSideProps } from "next";
-import { useQueryState } from "../../../lib/use-query-state";
-import { DetailPageBanner } from "../../../components/detail-page/banner";
-
-import { PriceComponentsBarChart } from "../../../components/detail-page/price-components-bars";
-import { PriceEvolution } from "../../../components/detail-page/price-evolution-line-chart";
-import { PriceDistributionHistograms } from "../../../components/detail-page/price-distribution-histogram";
-import { CantonsComparisonRangePlots } from "../../../components/detail-page/cantons-comparison-range";
-import { SelectorMulti } from "../../../components/detail-page/selector-multi";
 import {
+  getDimensionValuesAndLabels,
   getSource,
   getView,
-  getDimensionValuesAndLabels,
-  getMunicipalities,
 } from "../../../graphql/rdf";
 
 type Props = {
@@ -52,9 +47,10 @@ export const getServerSideProps: GetServerSideProps<
     })
   )[0];
 
-  const municipalities = await getMunicipalities({
+  const municipalities = await getDimensionValuesAndLabels({
     view,
     source,
+    dimensionKey: "municipality",
     filters: { provider: [id] },
   });
 

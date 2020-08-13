@@ -19,12 +19,15 @@ generates:
     config:
       useIndexSignature: true
       noSchemaStitching: true
+      contextType: "./server-context#ServerContext"
       mappers:
-        Canton: "./shared-types#ResolvedCanton"
-        Municipality: "./shared-types#ResolvedMunicipality"
-        Provider: "./shared-types#ResolvedProvider"
-        Cube: "./shared-types#ResolvedCube"
-        Observation: "./shared-types#ResolvedObservation"
+        Canton: "./resolver-mapped-types#ResolvedCanton"
+        Municipality: "./resolver-mapped-types#ResolvedMunicipality"
+        Provider: "./resolver-mapped-types#ResolvedProvider"
+        Observation: "./resolver-mapped-types#ResolvedObservation"
+        MunicipalityResult: "./resolver-mapped-types#ResolvedSearchResult"
+        ProviderResult: "./resolver-mapped-types#ResolvedSearchResult"
+        CantonResult: "./resolver-mapped-types#ResolvedSearchResult"
       # scalars:
       #   Observation: "../domain/data#Observation"
       #   RawObservation: "../domain/data#RawObservation"

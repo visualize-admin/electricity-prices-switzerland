@@ -13,7 +13,6 @@ export const I18nProvider = ({ children, ...props }: I18nProviderProps) => {
     <LinguiI18nProvider {...props}>
       <LinguiI18n>
         {({ i18n }) => {
-          console.log("render i18n");
           return (
             <I18nContext.Provider value={i18n}>{children}</I18nContext.Provider>
           );
