@@ -31,7 +31,6 @@ export const getServerSideProps: GetServerSideProps<
 
   if (!canton) {
     res.statusCode = 404;
-    throw Error("Not found");
   }
 
   return { props: { id, name: canton.name } };
