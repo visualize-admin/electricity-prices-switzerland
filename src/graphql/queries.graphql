@@ -33,6 +33,13 @@ query Observations(
     category
     value(priceComponent: $priceComponent)
   }
+  cantonObservations(locale: $locale, filters: $filters) {
+    period
+    canton
+    cantonLabel
+    category
+    value(priceComponent: $priceComponent)
+  }
 }
 
 query ObservationsWithAllPriceComponents(

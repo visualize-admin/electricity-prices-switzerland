@@ -72,7 +72,7 @@ export const getObservations = async (
   const queryFilters = filters
     ? Object.entries(filters).flatMap(([dimensionKey, filterValues]) =>
         filterValues
-          ? buildDimensionFilter(view, dimensionKey, filterValues)
+          ? buildDimensionFilter(view, dimensionKey, filterValues) ?? []
           : []
       )
     : [];
@@ -145,7 +145,7 @@ export const getCantonObservations = async (
   const queryFilters = filters
     ? Object.entries(filters).flatMap(([dimensionKey, filterValues]) =>
         filterValues
-          ? buildDimensionFilter(view, dimensionKey, filterValues)
+          ? buildDimensionFilter(view, dimensionKey, filterValues) ?? []
           : []
       )
     : [];
@@ -217,7 +217,7 @@ export const getDimensionValuesAndLabels = async ({
 
   const queryFilters = filters
     ? Object.entries(filters).flatMap(([dim, filterValues]) =>
-        filterValues ? buildDimensionFilter(view, dim, filterValues) : []
+        filterValues ? buildDimensionFilter(view, dim, filterValues) ?? [] : []
       )
     : [];
 
@@ -309,7 +309,8 @@ export const buildDimensionFilter = (
   const cubeDimension = viewDimension?.cubeDimensions[0];
 
   if (!viewDimension || !cubeDimension) {
-    throw Error(`buildDimensionFilter: No dimension for '${dimensionKey}'`);
+    console.warn(`buildDimensionFilter: No dimension for '${dimensionKey}'`);
+    return;
   }
 
   const { datatype } = cubeDimension;
