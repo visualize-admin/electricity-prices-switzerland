@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { GetServerSideProps } from "next";
 import { getSource, getView, search } from "../../../graphql/rdf";
 import { DetailPageBanner } from "../../../components/detail-page/banner";
+import { context } from "../../../graphql/server-context";
 
 type Props = {
   id: string;
@@ -19,18 +20,7 @@ export const getServerSideProps: GetServerSideProps<
 > = async ({ params, res }) => {
   const { id } = params!;
 
-  const source = getSource();
-  const cube = await source.cube(
-    "https://energy.ld.admin.ch/elcom/energy-pricing/mediancube"
-  );
-
-  if (!cube) {
-    throw Error(
-      `No cube ${"https://energy.ld.admin.ch/elcom/energy-pricing/cube"}`
-    );
-  }
-
-  const view = getView(cube);
+  const { source, cantonObservationsView: view } = await context();
 
   const canton = (
     await search({
