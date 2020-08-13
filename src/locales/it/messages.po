@@ -30,7 +30,7 @@ msgstr ""
 msgid "controls.search.clear"
 msgstr "Azzerare"
 
-#: src/components/list.tsx:136
+#: src/components/list.tsx:160
 msgid "dataset.sortby"
 msgstr ""
 
@@ -42,7 +42,7 @@ msgstr ""
 msgid "detail.card.title.cantons.comparison"
 msgstr ""
 
-#: src/components/detail-page/price-components-bars.tsx:46
+#: src/components/detail-page/price-components-bars.tsx:47
 msgid "detail.card.title.price.components"
 msgstr ""
 
@@ -50,7 +50,7 @@ msgstr ""
 msgid "detail.card.title.prices.distribution"
 msgstr ""
 
-#: src/components/detail-page/price-evolution-line-chart.tsx:51
+#: src/components/detail-page/price-evolution-line-chart.tsx:50
 msgid "detail.card.title.prices.evolution"
 msgstr ""
 
@@ -98,27 +98,31 @@ msgstr ""
 msgid "histogram.min"
 msgstr ""
 
-#: src/components/list.tsx:113
+#: src/components/list.tsx:133
+msgid "list.cantons"
+msgstr ""
+
+#: src/components/list.tsx:129
 msgid "list.municipalities"
 msgstr ""
 
-#: src/components/list.tsx:78
+#: src/components/list.tsx:82
 msgid "list.order.asc"
 msgstr ""
 
-#: src/components/list.tsx:82
+#: src/components/list.tsx:86
 msgid "list.order.desc"
 msgstr ""
 
-#: src/components/list.tsx:109
+#: src/components/list.tsx:137
 msgid "list.providers"
 msgstr ""
 
-#: src/components/list.tsx:85
+#: src/components/list.tsx:89
 msgid "list.search.label"
 msgstr ""
 
-#: src/components/list.tsx:65
+#: src/components/list.tsx:69
 msgid "list.showmore"
 msgstr ""
 
@@ -127,7 +131,7 @@ msgstr ""
 msgid "logo.swiss.confederation"
 msgstr ""
 
-#: src/components/map.tsx:173
+#: src/components/map.tsx:174
 msgid "map.tooltipnodata"
 msgstr ""
 
@@ -333,7 +337,7 @@ msgid "selector.years"
 msgstr ""
 
 #: src/components/header.tsx:65
-#: src/pages/[locale]/index.tsx:76
+#: src/pages/[locale]/index.tsx:80
 msgid "site.title"
 msgstr "Tariffe elettriche della Svizzera"
 
