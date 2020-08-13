@@ -36,7 +36,11 @@ const ListItem = ({
   return (
     <LocalizedLink
       pathname={`/[locale]/${
-        listState === "MUNICIPALITIES" ? "municipality" : "provider"
+        listState === "MUNICIPALITIES"
+          ? "municipality"
+          : listState === "PROVIDERS"
+          ? "provider"
+          : "canton"
       }/[id]`}
       query={{
         ...query,
