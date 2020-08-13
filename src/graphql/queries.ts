@@ -198,6 +198,15 @@ export type ProvidersQueryVariables = Exact<{
 
 export type ProvidersQuery = { __typename: 'Query', providers: Array<{ __typename: 'Provider', id: string, name: string }> };
 
+export type CantonsQueryVariables = Exact<{
+  locale: Scalars['String'];
+  query?: Maybe<Scalars['String']>;
+  ids?: Maybe<Array<Scalars['String']>>;
+}>;
+
+
+export type CantonsQuery = { __typename: 'Query', cantons: Array<{ __typename: 'Canton', id: string, name: string }> };
+
 export type SearchQueryVariables = Exact<{
   locale: Scalars['String'];
   query?: Maybe<Scalars['String']>;
@@ -221,7 +230,7 @@ export type ObservationsWithAllPriceComponentsQueryVariables = Exact<{
 }>;
 
 
-export type ObservationsWithAllPriceComponentsQuery = { __typename: 'Query', observations: Array<{ __typename: 'Observation', period: string, municipality: string, municipalityLabel?: Maybe<string>, provider: string, providerLabel?: Maybe<string>, category: string, aidfee: number, fixcosts: number, charge: number, gridusage: number, energy: number, fixcostspercent: number, total: number }> };
+export type ObservationsWithAllPriceComponentsQuery = { __typename: 'Query', observations: Array<{ __typename: 'Observation', period: string, municipality: string, municipalityLabel?: Maybe<string>, provider: string, providerLabel?: Maybe<string>, category: string, aidfee: number, fixcosts: number, charge: number, gridusage: number, energy: number, fixcostspercent: number, total: number }>, cantonObservations: Array<{ __typename: 'Observation', period: string, canton?: Maybe<string>, cantonLabel?: Maybe<string>, category: string, aidfee: number, charge: number, gridusage: number, energy: number, total: number }> };
 
 
 export const MunicipalitiesDocument = gql`
@@ -247,6 +256,18 @@ export const ProvidersDocument = gql`
 
 export function useProvidersQuery(options: Omit<Urql.UseQueryArgs<ProvidersQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<ProvidersQuery>({ query: ProvidersDocument, ...options });
+};
+export const CantonsDocument = gql`
+    query Cantons($locale: String!, $query: String, $ids: [String!]) {
+  cantons(locale: $locale, query: $query, ids: $ids) {
+    id
+    name
+  }
+}
+    `;
+
+export function useCantonsQuery(options: Omit<Urql.UseQueryArgs<CantonsQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<CantonsQuery>({ query: CantonsDocument, ...options });
 };
 export const SearchDocument = gql`
     query Search($locale: String!, $query: String) {
@@ -299,6 +320,17 @@ export const ObservationsWithAllPriceComponentsDocument = gql`
     gridusage: value(priceComponent: gridusage)
     energy: value(priceComponent: energy)
     fixcostspercent: value(priceComponent: fixcostspercent)
+    total: value(priceComponent: total)
+  }
+  cantonObservations(locale: $locale, filters: $filters) {
+    period
+    canton
+    cantonLabel
+    category
+    aidfee: value(priceComponent: aidfee)
+    charge: value(priceComponent: charge)
+    gridusage: value(priceComponent: gridusage)
+    energy: value(priceComponent: energy)
     total: value(priceComponent: total)
   }
 }

@@ -26,7 +26,7 @@ import { RadioTabs } from "../radio-tabs";
 import { Card } from "./card";
 import { FilterSetDescription } from "./filter-set-description";
 import { Combobox } from "../combobox";
-import { EMPTY_ARRAY } from "../../pages/[locale]/municipality/[id]";
+import { EMPTY_ARRAY } from "../../lib/empty-array";
 
 export const CantonsComparisonRangePlots = ({
   id,

@@ -4,7 +4,6 @@ import { Entity, priceComponents } from "../../domain/data";
 import { pivot_longer } from "../../domain/helpers";
 import { useObservationsWithAllPriceComponentsQuery } from "../../graphql/queries";
 import { useQueryState } from "../../lib/use-query-state";
-import { EMPTY_ARRAY } from "../../pages/[locale]/municipality/[id]";
 import {
   BarsGrouped,
   BarsGroupedLabels,
@@ -16,6 +15,7 @@ import { Card } from "./card";
 import { getLocalizedLabel } from "../../domain/translation";
 import { useI18n } from "../i18n-context";
 import { FilterSetDescription } from "./filter-set-description";
+import { EMPTY_ARRAY } from "../../lib/empty-array";
 
 export const PriceComponentsBarChart = ({
   id,
@@ -44,20 +44,23 @@ export const PriceComponentsBarChart = ({
       filters: {
         period: period,
         [entity]: entityIds,
-        category: [
-          `https://energy.ld.admin.ch/elcom/energy-pricing/category/${category[0]}`,
-        ],
+        category,
         product,
       },
     },
   });
   const observations = observationsQuery.fetching
     ? EMPTY_ARRAY
+    : entity === "canton"
+    ? observationsQuery.data?.cantonObservations ?? EMPTY_ARRAY
     : observationsQuery.data?.observations ?? EMPTY_ARRAY;
 
   // const uniqueIds = muni+provider+year
   const withUniqueEntityId = observations.map((obs) => ({
-    uniqueId: `${obs.period}, ${obs.municipalityLabel}, ${obs.providerLabel}`,
+    uniqueId:
+      entity === "canton"
+        ? `${obs.period}, ${obs.cantonLabel}`
+        : `${obs.period}, ${obs.municipalityLabel}, ${obs.providerLabel}`,
     ...obs,
   }));
   const pivoted = pivot_longer({

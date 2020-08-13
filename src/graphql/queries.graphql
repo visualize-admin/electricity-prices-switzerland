@@ -12,6 +12,13 @@ query Providers($locale: String!, $query: String, $ids: [String!]) {
   }
 }
 
+query Cantons($locale: String!, $query: String, $ids: [String!]) {
+  cantons(locale: $locale, query: $query, ids: $ids) {
+    id
+    name
+  }
+}
+
 query Search($locale: String!, $query: String) {
   providers(locale: $locale, query: $query) {
     id
@@ -60,6 +67,20 @@ query ObservationsWithAllPriceComponents(
     gridusage: value(priceComponent: gridusage)
     energy: value(priceComponent: energy)
     fixcostspercent: value(priceComponent: fixcostspercent)
+    total: value(priceComponent: total)
+  }
+  cantonObservations(locale: $locale, filters: $filters) {
+    period
+    canton
+    cantonLabel
+    category
+
+    aidfee: value(priceComponent: aidfee)
+    # fixcosts: value(priceComponent: fixcosts)
+    charge: value(priceComponent: charge)
+    gridusage: value(priceComponent: gridusage)
+    energy: value(priceComponent: energy)
+    # fixcostspercent: value(priceComponent: fixcostspercent)
     total: value(priceComponent: total)
   }
 }

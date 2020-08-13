@@ -42,7 +42,7 @@ msgstr "Canton"
 msgid "detail.card.title.cantons.comparison"
 msgstr "Comparaison des cantons"
 
-#: src/components/detail-page/price-components-bars.tsx:47
+#: src/components/detail-page/price-components-bars.tsx:48
 msgid "detail.card.title.price.components"
 msgstr "Composantes du prix"
 
@@ -147,7 +147,7 @@ msgstr "médiane"
 msgid "price.legend.min"
 msgstr "min"
 
-#: src/components/detail-page/selector-multi.tsx:59
+#: src/components/detail-page/selector-multi.tsx:39
 #: src/components/selector.tsx:31
 msgid "selector.category"
 msgstr "Catégorie"
@@ -212,7 +212,11 @@ msgstr ""
 msgid "selector.category.H8"
 msgstr ""
 
-#: src/components/detail-page/selector-multi.tsx:45
+#: src/components/detail-page/selector-multi.tsx:37
+msgid "selector.comparecantons"
+msgstr ""
+
+#: src/components/detail-page/selector-multi.tsx:35
 msgid "selector.comparemunicipalities"
 msgstr ""
 
@@ -258,7 +262,7 @@ msgstr "Utilisation du réseau"
 msgid "selector.pricecomponent.total"
 msgstr "Total"
 
-#: src/components/detail-page/selector-multi.tsx:60
+#: src/components/detail-page/selector-multi.tsx:40
 #: src/components/selector.tsx:33
 msgid "selector.product"
 msgstr "Produit"
@@ -332,7 +336,7 @@ msgstr "Année"
 #~ msgid "selector.year.2021"
 #~ msgstr ""
 
-#: src/components/detail-page/selector-multi.tsx:58
+#: src/components/detail-page/selector-multi.tsx:38
 msgid "selector.years"
 msgstr ""
 

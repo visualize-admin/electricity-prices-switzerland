@@ -10,7 +10,6 @@ import {
 } from "../../domain/data";
 import { getLocalizedLabel } from "../../domain/translation";
 import { useQueryState } from "../../lib/use-query-state";
-import { EMPTY_ARRAY } from "../../pages/[locale]/municipality/[id]";
 import {
   AnnotationX,
   AnnotationXLabel,
@@ -35,6 +34,7 @@ import { Card } from "./../../components/detail-page/card";
 import { PriceComponent, useObservationsQuery } from "./../../graphql/queries";
 import { FilterSetDescription } from "./filter-set-description";
 import { HistogramMinMaxValues } from "../charts-generic/histogram/histogram-min-max-values";
+import { EMPTY_ARRAY } from "../../lib/empty-array";
 
 export const PriceDistributionHistograms = ({
   id,

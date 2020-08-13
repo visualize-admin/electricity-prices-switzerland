@@ -1,18 +1,15 @@
 import { Trans } from "@lingui/macro";
 import { Flex, Text } from "theme-ui";
-import { ComboboxMulti, Combobox } from "../../components/combobox";
-import {
-  categories,
-  periods,
-  products,
-  municipalities,
-  Entity,
-  providers,
-} from "../../domain/data";
+import { Combobox, ComboboxMulti } from "../../components/combobox";
+import { categories, Entity, periods, products } from "../../domain/data";
+import { getLocalizedLabel } from "../../domain/translation";
 import { useQueryState } from "../../lib/use-query-state";
 import { useI18n } from "../i18n-context";
-import { getLocalizedLabel } from "../../domain/translation";
-import { MunicipalitiesCombobox, ProvidersCombobox } from "../query-combobox";
+import {
+  CantonsCombobox,
+  MunicipalitiesCombobox,
+  ProvidersCombobox,
+} from "../query-combobox";
 
 export const SelectorMulti = ({
   entity = "municipality",
@@ -55,16 +52,7 @@ export const SelectorMulti = ({
             selectedItems={queryState.provider ?? []}
             setSelectedItems={(items) => setQueryState({ provider: items })}
           />
-        ) : (
-          // <ComboboxMulti
-          //   id="provider"
-          //   label={<Trans id="selector.provider">Netzbetreiber</Trans>}
-          //   items={providers}
-          //   // FIXME: should be possible to have no item selected:
-          //   selectedItems={queryState.provider ?? ["10481012345"]}
-          //   minSelectedItems={0}
-          //   setSelectedItems={(items) => setQueryState({ provider: items })}
-          // />
+        ) : entity === "municipality" ? (
           <MunicipalitiesCombobox
             label={
               <Trans id="selector.comparemunicipalities">
@@ -74,15 +62,14 @@ export const SelectorMulti = ({
             selectedItems={queryState.municipality ?? []}
             setSelectedItems={(items) => setQueryState({ municipality: items })}
           />
-          // <ComboboxMulti
-          //   id="municipality"
-          //   label={<Trans id="selector.municipality">Gemeinde</Trans>}
-          //   items={municipalities} // FIXME: municipalities
-          //   // FIXME: should be possible to have no item selected:
-          //   selectedItems={queryState.municipality ?? ["261"]}
-          //   minSelectedItems={0}
-          //   setSelectedItems={(items) => setQueryState({ municipality: items })}
-          // />
+        ) : (
+          <CantonsCombobox
+            label={
+              <Trans id="selector.comparecantons">Kantone zum Vergleich</Trans>
+            }
+            selectedItems={queryState.canton ?? []}
+            setSelectedItems={(items) => setQueryState({ canton: items })}
+          />
         )}
         <ComboboxMulti
           id="periods"

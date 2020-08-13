@@ -1,7 +1,6 @@
 import { Trans } from "@lingui/macro";
 
 import * as React from "react";
-import { EMPTY_ARRAY } from "../../pages/[locale]/municipality/[id]";
 import { AxisHeightLinear } from "../charts-generic/axis/axis-height-linear";
 import {
   AxisTime,
@@ -36,6 +35,7 @@ import { memo } from "react";
 import { FilterSetDescription } from "./filter-set-description";
 import { getLocalizedLabel } from "../../domain/translation";
 import { useI18n } from "../i18n-context";
+import { EMPTY_ARRAY } from "../../lib/empty-array";
 
 export const PriceEvolution = ({
   id,
