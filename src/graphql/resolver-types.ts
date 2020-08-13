@@ -95,16 +95,10 @@ export type ObservationValueArgs = {
 export type ObservationFilters = {
   period?: Maybe<Array<Scalars['String']>>;
   municipality?: Maybe<Array<Scalars['String']>>;
-  provider?: Maybe<Array<Scalars['String']>>;
-  category?: Maybe<Array<Scalars['String']>>;
-  product?: Maybe<Array<Scalars['String']>>;
-};
-
-export type CantonObservationFilters = {
-  period?: Maybe<Array<Scalars['String']>>;
   canton?: Maybe<Array<Scalars['String']>>;
   provider?: Maybe<Array<Scalars['String']>>;
   category?: Maybe<Array<Scalars['String']>>;
+  product?: Maybe<Array<Scalars['String']>>;
 };
 
 export enum PriceComponent {
@@ -184,7 +178,7 @@ export type QueryObservationsArgs = {
 
 export type QueryCantonObservationsArgs = {
   locale?: Maybe<Scalars['String']>;
-  filters?: Maybe<CantonObservationFilters>;
+  filters?: Maybe<ObservationFilters>;
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -266,7 +260,6 @@ export type ResolversTypes = ResolversObject<{
   TemporalDimension: ResolverTypeWrapper<TemporalDimension>;
   Observation: ResolverTypeWrapper<ResolvedObservation>;
   ObservationFilters: ObservationFilters;
-  CantonObservationFilters: CantonObservationFilters;
   PriceComponent: PriceComponent;
   Query: ResolverTypeWrapper<{}>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
@@ -287,7 +280,6 @@ export type ResolversParentTypes = ResolversObject<{
   TemporalDimension: TemporalDimension;
   Observation: ResolvedObservation;
   ObservationFilters: ObservationFilters;
-  CantonObservationFilters: CantonObservationFilters;
   Query: {};
   Boolean: Scalars['Boolean'];
 }>;
