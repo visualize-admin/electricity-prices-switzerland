@@ -113,14 +113,13 @@ const Query: QueryResolvers = {
   },
   providers: async (_, { query, ids }, { source, observationsView: view }) => {
     const results = await search({
-      view,
       source,
       query: query ?? "",
       ids: ids ?? [],
       types: ["provider"],
     });
 
-    return results;
+    return results.map((r) => ({ ...r, source, view }));
   },
   municipalities: async (
     _,
@@ -128,29 +127,26 @@ const Query: QueryResolvers = {
     { source, observationsView: view }
   ) => {
     const results = await search({
-      view,
       source,
       query: query ?? "",
       ids: ids ?? [],
       types: ["municipality"],
     });
 
-    return results;
+    return results.map((r) => ({ ...r, source, view }));
   },
   cantons: async (_, { query, ids }, { source, observationsView: view }) => {
     const results = await search({
-      view,
       source,
       query: query ?? "",
       ids: ids ?? [],
       types: ["canton"],
     });
 
-    return results;
+    return results.map((r) => ({ ...r, source, view }));
   },
-  search: async (_, { query }, { source, observationsView: view }) => {
+  search: async (_, { query }, { source }) => {
     const results = await search({
-      view,
       source,
       query: query ?? "",
       ids: [],

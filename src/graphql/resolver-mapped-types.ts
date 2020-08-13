@@ -13,7 +13,6 @@ export type ResolvedSearchResult = {
   name: string;
   type: string;
 };
-
 export type ResolvedMunicipality = {
   id: string;
   name: string;

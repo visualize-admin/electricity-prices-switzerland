@@ -341,14 +341,12 @@ export const buildDimensionFilter = (
 type SearchType = "municipality" | "provider" | "canton";
 
 export const search = async ({
-  view,
   source,
   query,
   ids,
   types = ["municipality", "provider"],
   limit = 10,
 }: {
-  view: View;
   source: Source;
   query: string;
   ids: string[];
@@ -419,8 +417,6 @@ export const search = async ({
       id: stripNamespaceFromIri({ dimension: type, iri }),
       name,
       type,
-      view,
-      source,
     };
   });
 };

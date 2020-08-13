@@ -20,12 +20,9 @@ export const getServerSideProps: GetServerSideProps<
 > = async ({ params, res }) => {
   const { id } = params!;
 
-  const { source, cantonObservationsView: view } = await context();
-
   const canton = (
     await search({
-      view,
-      source,
+      source: getSource(),
       query: "",
       types: ["canton"],
       ids: [id],
