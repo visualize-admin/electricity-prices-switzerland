@@ -1,16 +1,21 @@
 import { t, Trans } from "@lingui/macro";
 import { ScaleThreshold } from "d3";
 import { ascending, descending, rollup } from "d3-array";
+import { useRouter } from "next/router";
 import { useCallback, useMemo, useState } from "react";
 import { Box, Button, Flex, Text } from "theme-ui";
 import { useFormatCurrency } from "../domain/helpers";
-import { Observation } from "../graphql/queries";
+import { Observation, ObservationsQuery } from "../graphql/queries";
 import { Icon } from "../icons";
 import { MiniSelect, SearchField } from "./form";
 import { useI18n } from "./i18n-context";
 import { LocalizedLink } from "./links";
 import { RadioTabs } from "./radio-tabs";
-import { useRouter } from "next/router";
+
+type PartialObservation = Pick<
+  Observation,
+  "value" | "municipalityLabel" | "providerLabel" | "cantonLabel"
+>;
 
 const ListItem = ({
   id,
@@ -31,7 +36,11 @@ const ListItem = ({
   return (
     <LocalizedLink
       pathname={`/[locale]/${
-        listState === "MUNICIPALITIES" ? "municipality" : "provider"
+        listState === "MUNICIPALITIES"
+          ? "municipality"
+          : listState === "PROVIDERS"
+          ? "provider"
+          : "canton"
       }/[id]`}
       query={{
         ...query,
@@ -80,7 +89,8 @@ const ListItem = ({
 };
 
 interface Props {
-  observations: Observation[];
+  observations: ObservationsQuery["observations"];
+  cantonObservations: ObservationsQuery["cantonObservations"];
   colorScale: ScaleThreshold<number, string>;
 }
 
@@ -92,8 +102,8 @@ const ListItems = ({
   colorScale,
   listState,
 }: {
-  getLabel: (observation: Observation) => string;
-  items: [string, Observation][];
+  getLabel: (observation: PartialObservation) => string;
+  items: [string, PartialObservation][];
   colorScale: ScaleThreshold<number, string>;
   listState: ListState;
 }) => {
@@ -141,10 +151,14 @@ const ListItems = ({
   );
 };
 
-type ListState = "MUNICIPALITIES" | "PROVIDERS";
+type ListState = "MUNICIPALITIES" | "PROVIDERS" | "CANTONS";
 type SortState = "ASC" | "DESC";
 
-export const List = ({ observations, colorScale }: Props) => {
+export const List = ({
+  observations,
+  cantonObservations,
+  colorScale,
+}: Props) => {
   const [listState, setListState] = useState<ListState>("MUNICIPALITIES");
   const [sortState, setSortState] = useState<SortState>("ASC");
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -163,21 +177,51 @@ export const List = ({ observations, colorScale }: Props) => {
   const searchLabel = i18n._(t("list.search.label")`Liste filtern`);
 
   const getLabel = useCallback(
-    (d: Observation) =>
-      (listState === "PROVIDERS" ? d.providerLabel : d.municipalityLabel) ??
-      "???",
+    (d: PartialObservation) =>
+      (listState === "PROVIDERS"
+        ? d.providerLabel
+        : listState === "MUNICIPALITIES"
+        ? d.municipalityLabel
+        : d.cantonLabel) ?? "???",
     [listState]
   );
 
-  const grouped = useMemo(() => {
+  const groupedByMunicipality = useMemo(() => {
     return Array.from(
       rollup(
         observations,
         (values) => values[0],
-        (d) => (listState === "PROVIDERS" ? d.provider : d.municipality)
+        (d) => d.municipality
       )
     );
-  }, [observations, listState]);
+  }, [observations]);
+
+  const groupedByProvider = useMemo(() => {
+    return Array.from(
+      rollup(
+        observations,
+        (values) => values[0],
+        (d) => d.provider
+      )
+    );
+  }, [observations]);
+
+  const groupedByCanton = useMemo(() => {
+    return Array.from(
+      rollup(
+        cantonObservations,
+        (values) => values[0],
+        (d) => d.canton! // FIXME
+      )
+    );
+  }, [cantonObservations]);
+
+  const grouped: [string, PartialObservation][] =
+    listState === "MUNICIPALITIES"
+      ? groupedByMunicipality
+      : listState === "PROVIDERS"
+      ? groupedByProvider
+      : groupedByCanton;
 
   const filtered = useMemo(() => {
     if (searchQuery === "") {
@@ -203,12 +247,16 @@ export const List = ({ observations, colorScale }: Props) => {
         name="list-state-tabs"
         options={[
           {
-            value: "PROVIDERS",
-            label: <Trans id="list.providers">Netzbetreiber</Trans>,
-          },
-          {
             value: "MUNICIPALITIES",
             label: <Trans id="list.municipalities">Gemeinden</Trans>,
+          },
+          {
+            value: "CANTONS",
+            label: <Trans id="list.cantons">Kantone</Trans>,
+          },
+          {
+            value: "PROVIDERS",
+            label: <Trans id="list.providers">Netzbetreiber</Trans>,
           },
         ]}
         value={listState}

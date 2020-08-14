@@ -65,16 +65,10 @@ type Observation {
 input ObservationFilters {
   period: [String!]
   municipality: [String!]
-  provider: [String!]
-  category: [String!]
-  product: [String!]
-}
-
-input CantonObservationFilters {
-  period: [String!]
   canton: [String!]
   provider: [String!]
   category: [String!]
+  product: [String!]
 }
 
 enum PriceComponent {
@@ -103,6 +97,6 @@ type Query {
   observations(locale: String, filters: ObservationFilters): [Observation!]!
   cantonObservations(
     locale: String
-    filters: CantonObservationFilters
+    filters: ObservationFilters
   ): [Observation!]!
 }

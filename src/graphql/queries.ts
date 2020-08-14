@@ -94,16 +94,10 @@ export type ObservationValueArgs = {
 export type ObservationFilters = {
   period?: Maybe<Array<Scalars['String']>>;
   municipality?: Maybe<Array<Scalars['String']>>;
-  provider?: Maybe<Array<Scalars['String']>>;
-  category?: Maybe<Array<Scalars['String']>>;
-  product?: Maybe<Array<Scalars['String']>>;
-};
-
-export type CantonObservationFilters = {
-  period?: Maybe<Array<Scalars['String']>>;
   canton?: Maybe<Array<Scalars['String']>>;
   provider?: Maybe<Array<Scalars['String']>>;
   category?: Maybe<Array<Scalars['String']>>;
+  product?: Maybe<Array<Scalars['String']>>;
 };
 
 export enum PriceComponent {
@@ -183,7 +177,7 @@ export type QueryObservationsArgs = {
 
 export type QueryCantonObservationsArgs = {
   locale?: Maybe<Scalars['String']>;
-  filters?: Maybe<CantonObservationFilters>;
+  filters?: Maybe<ObservationFilters>;
 };
 
 export type MunicipalitiesQueryVariables = Exact<{
@@ -219,7 +213,7 @@ export type ObservationsQueryVariables = Exact<{
 }>;
 
 
-export type ObservationsQuery = { __typename: 'Query', observations: Array<{ __typename: 'Observation', period: string, municipality: string, municipalityLabel?: Maybe<string>, provider: string, providerLabel?: Maybe<string>, category: string, value: number }> };
+export type ObservationsQuery = { __typename: 'Query', observations: Array<{ __typename: 'Observation', period: string, municipality: string, municipalityLabel?: Maybe<string>, provider: string, providerLabel?: Maybe<string>, category: string, value: number }>, cantonObservations: Array<{ __typename: 'Observation', period: string, canton?: Maybe<string>, cantonLabel?: Maybe<string>, category: string, value: number }> };
 
 export type ObservationsWithAllPriceComponentsQueryVariables = Exact<{
   locale?: Maybe<Scalars['String']>;
@@ -274,6 +268,13 @@ export const ObservationsDocument = gql`
     municipalityLabel
     provider
     providerLabel
+    category
+    value(priceComponent: $priceComponent)
+  }
+  cantonObservations(locale: $locale, filters: $filters) {
+    period
+    canton
+    cantonLabel
     category
     value(priceComponent: $priceComponent)
   }

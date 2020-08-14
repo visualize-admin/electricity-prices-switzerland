@@ -70,7 +70,9 @@ export const HomeLink = (
   }
 ) => {
   const locale = useLocale();
-  const { query } = useRouter();
+  const {
+    query: { id, ...query },
+  } = useRouter();
 
   return (
     <Link

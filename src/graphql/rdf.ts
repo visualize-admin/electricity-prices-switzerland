@@ -24,6 +24,7 @@ const ns = {
   schema: namespace("http://schema.org/"),
   xsd: namespace("http://www.w3.org/2001/XMLSchema#"),
   classifications: namespace("http://classifications.data.admin.ch/"),
+  gont: namespace("https://gont.ch/"),
   municipality: namespace(
     "https://register.ld.admin.ch/fso/agvch/municipality/"
   ),
@@ -71,7 +72,7 @@ export const getObservations = async (
   const queryFilters = filters
     ? Object.entries(filters).flatMap(([dimensionKey, filterValues]) =>
         filterValues
-          ? buildDimensionFilter(view, dimensionKey, filterValues)
+          ? buildDimensionFilter(view, dimensionKey, filterValues) ?? []
           : []
       )
     : [];
@@ -90,9 +91,12 @@ export const getObservations = async (
               cubeDimension: ns.energyPricing(dimensionKey),
             });
 
+            console.log(dimensionKey);
+
             const labelDimension = view.createDimension({
               source: lookupSource,
-              path: ns.schema.name,
+              path:
+                dimensionKey === "region" ? ns.gont.longName : ns.schema.name,
               join: dimension,
               as: ns.energyPricing(`${dimensionKey}Label`),
             });
@@ -141,7 +145,7 @@ export const getCantonObservations = async (
   const queryFilters = filters
     ? Object.entries(filters).flatMap(([dimensionKey, filterValues]) =>
         filterValues
-          ? buildDimensionFilter(view, dimensionKey, filterValues)
+          ? buildDimensionFilter(view, dimensionKey, filterValues) ?? []
           : []
       )
     : [];
@@ -213,7 +217,7 @@ export const getDimensionValuesAndLabels = async ({
 
   const queryFilters = filters
     ? Object.entries(filters).flatMap(([dim, filterValues]) =>
-        filterValues ? buildDimensionFilter(view, dim, filterValues) : []
+        filterValues ? buildDimensionFilter(view, dim, filterValues) ?? [] : []
       )
     : [];
 
@@ -305,7 +309,8 @@ export const buildDimensionFilter = (
   const cubeDimension = viewDimension?.cubeDimensions[0];
 
   if (!viewDimension || !cubeDimension) {
-    throw Error(`buildDimensionFilter: No dimension for '${dimensionKey}'`);
+    console.warn(`buildDimensionFilter: No dimension for '${dimensionKey}'`);
+    return;
   }
 
   const { datatype } = cubeDimension;
@@ -334,17 +339,15 @@ export const buildDimensionFilter = (
 
 // regex based search query for municipalities and providers
 
-type SearchType = "municipality" | "provider";
+type SearchType = "municipality" | "provider" | "canton";
 
 export const search = async ({
-  view,
   source,
   query,
   ids,
   types = ["municipality", "provider"],
   limit = 10,
 }: {
-  view: View;
   source: Source;
   query: string;
   ids: string[];
@@ -377,6 +380,18 @@ export const search = async ({
     .map((id) => `<${addNamespaceToID({ dimension: "provider", id })}>`)
     .join(",")}))
       }
+    } UNION {
+      SELECT ("canton" AS ?type) (?canton AS ?iri) (?cantonLabel AS ?name) WHERE {
+        GRAPH <https://linked.opendata.swiss/graph/eCH-0071> {
+          ?canton a <https://gont.ch/Canton> .
+          ?canton <https://gont.ch/longName> ?cantonLabel.    
+        }
+        FILTER (regex(?cantonLabel, ".*${
+          query || "-------"
+        }.*", "i") || ?canton IN (${ids
+    .map((id) => `<${addNamespaceToID({ dimension: "canton", id })}>`)
+    .join(",")}))
+      }
     }
     FILTER (?type IN (${types.map((t) => JSON.stringify(t)).join(",")}))
   }
@@ -403,8 +418,6 @@ export const search = async ({
       id: stripNamespaceFromIri({ dimension: type, iri }),
       name,
       type,
-      view,
-      source,
     };
   });
 };
@@ -451,6 +464,9 @@ export const addNamespaceToID = ({
   }
   if (dimension === "municipality") {
     return ns.municipality(`${id}`).value;
+  }
+  if (dimension === "canton") {
+    return ns.classifications(`canton/${id}`).value;
   }
   return ns.energyPricingValue(`${dimension}/${id}`).value;
 };

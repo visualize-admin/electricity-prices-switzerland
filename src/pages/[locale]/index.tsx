@@ -45,6 +45,9 @@ const IndexPage = () => {
   const observations = observationsQuery.fetching
     ? EMPTY_ARRAY
     : observationsQuery.data?.observations ?? EMPTY_ARRAY;
+  const cantonObservations = observationsQuery.fetching
+    ? EMPTY_ARRAY
+    : observationsQuery.data?.cantonObservations ?? EMPTY_ARRAY;
 
   const colorAccessor = useCallback((d) => d.value, []);
   const colorScale = useColorScale({
@@ -139,7 +142,11 @@ const IndexPage = () => {
               >
                 <Selector />
               </Box>
-              <List observations={observations} colorScale={colorScale} />
+              <List
+                observations={observations}
+                cantonObservations={cantonObservations}
+                colorScale={colorScale}
+              />
             </Box>
           </Grid>
 
