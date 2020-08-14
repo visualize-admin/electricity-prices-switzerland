@@ -3,25 +3,28 @@ import { Box, Button, Flex, Input, Text, Label as RebassLabel } from "theme-ui";
 import { Trans } from "@lingui/macro";
 import { rollup } from "d3-array";
 import { useMemo, useState, ReactNode } from "react";
-import { useProvidersQuery } from "../graphql/queries";
+import { useSearchQuery, useProvidersQuery } from "../graphql/queries";
 import { useLocale } from "../lib/use-locale";
 import { useCombobox } from "downshift";
 import { Icon } from "../icons";
-import { LocalizedLink } from "./links";
+import { LocalizedLink, createDynamicRouteProps } from "./links";
 import { useRouter } from "next/router";
 
 export const Search = ({ showLabel = true }: { showLabel?: boolean }) => {
   const locale = useLocale();
-  const [inputValue, setInputValue] = useState<string>("");
-  const [gqlQuery] = useProvidersQuery({
+  const [searchString, setSearchString] = useState<string>("");
+  console.log({ searchString });
+
+  const [gqlQuery] = useSearchQuery({
     variables: {
       locale,
-      query: inputValue,
+      query: searchString,
     },
-    pause: inputValue === "",
+    pause: searchString === "",
   });
 
-  const items = gqlQuery.data?.cubeByIri?.providers ?? [];
+  // FIXME: use search results, not providers
+  const items = gqlQuery.data?.providers ?? [];
 
   const itemById = useMemo(() => {
     return rollup(
@@ -30,9 +33,24 @@ export const Search = ({ showLabel = true }: { showLabel?: boolean }) => {
       (d) => d.id
     );
   }, [items]);
-
+  // console.log("items", items);
+  // const items = ["one", "two", "three"];
   return (
-    <SearchField
+    <>
+      <SF
+        items={items.map(({ id }) => id)}
+        getItemLabel={(id) => itemById.get(id)?.name ?? `[${id}]`}
+        setSearchString={setSearchString}
+        label={
+          <Trans id="search.global">
+            Siehe die detaillierte Preisanalyse von Kantone, Gemeinde,
+            Netzbetreiber.
+          </Trans>
+        }
+        // getItemLabel={(d) => d}
+        // items={items}
+      />
+      {/* <SearchField
       id="global-search"
       label={
         <Trans id="search.global">
@@ -46,7 +64,8 @@ export const Search = ({ showLabel = true }: { showLabel?: boolean }) => {
       isLoading={gqlQuery.fetching && inputValue.length > 0}
       showLabel={showLabel}
       // lazy
-    />
+    />*/}
+    </>
   );
 };
 
@@ -59,6 +78,111 @@ export type SearchFieldProps = {
   isLoading: boolean;
   // lazy: boolean;
   showLabel: boolean;
+};
+
+export const SF = ({
+  label,
+  items,
+  setSearchString,
+  getItemLabel,
+}: {
+  items: string[];
+  setSearchString: (searchString: string) => void;
+  getItemLabel: (item: string) => string;
+  label: string | ReactNode;
+}) => {
+  const { query, pathname, push } = useRouter();
+  const [inputValue, setInputValue] = useState("");
+  // const [inputItems, setInputItems] = useState(items);
+  const {
+    isOpen,
+    selectedItem,
+    getToggleButtonProps,
+    getLabelProps,
+    getMenuProps,
+    getInputProps,
+    getComboboxProps,
+    highlightedIndex,
+    getItemProps,
+  } = useCombobox({
+    items,
+    onStateChange: (changes: $FixMe) => {
+      const { href, as } = createDynamicRouteProps({
+        pathname,
+        query,
+      });
+      switch (changes.type) {
+        case useCombobox.stateChangeTypes.InputChange:
+          console.log("input value change", changes.inputValue);
+          setInputValue(changes.inputValue);
+          setSearchString(inputValue);
+          break;
+        case useCombobox.stateChangeTypes.InputKeyDownEnter:
+        case useCombobox.stateChangeTypes.ItemClick:
+          console.log("click");
+          push(href, as);
+          break;
+        default:
+          return changes;
+      }
+    },
+  });
+
+  return (
+    <>
+      <RebassLabel {...getLabelProps()}>
+        <Text
+          variant="paragraph1"
+          sx={{
+            width: "100%",
+            textAlign: ["left", "left", "center"],
+            color: "monochrome800",
+            mt: 2,
+            mb: 2,
+          }}
+        >
+          {label}
+        </Text>
+      </RebassLabel>
+
+      <div {...getComboboxProps()}>
+        <button
+          type="button"
+          {...getToggleButtonProps()}
+          aria-label={"toggle menu"}
+        >
+          &#8595;
+        </button>
+        {isOpen && <input {...getInputProps()} />}
+      </div>
+
+      <Box as="ul" {...getMenuProps()}>
+        {
+          // isOpen &&
+          items.map((item, index) => (
+            <li
+              {...getItemProps({
+                item,
+                index,
+              })}
+              style={
+                highlightedIndex === index ? { backgroundColor: "#bde4ff" } : {}
+              }
+              key={`${item}${index}`}
+            >
+              <LocalizedLink
+                pathname="/[locale]/provider/[id]"
+                query={{ ...query, id: item }}
+                passHref
+              >
+                <Flex as="a">{getItemLabel(item)}</Flex>
+              </LocalizedLink>
+            </li>
+          ))
+        }
+      </Box>
+    </>
+  );
 };
 
 export const SearchField = ({
