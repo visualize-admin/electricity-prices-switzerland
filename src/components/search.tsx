@@ -9,7 +9,7 @@ import {
   Link as TUILink,
 } from "theme-ui";
 import { Trans } from "@lingui/macro";
-import { rollup } from "d3-array";
+import { rollup, group } from "d3-array";
 import { useMemo, useState, ReactNode } from "react";
 import { useSearchQuery, useProvidersQuery } from "../graphql/queries";
 import { useLocale } from "../lib/use-locale";
@@ -45,7 +45,10 @@ export const Search = ({ showLabel = true }: { showLabel?: boolean }) => {
   return (
     <>
       <SearchField
-        items={items.map(({ id }) => id)}
+        items={items.map(({ id, __typename }) => ({
+          id,
+          __typename,
+        }))}
         getItemLabel={(id) => itemById.get(id)?.name ?? `[${id}]`}
         setSearchString={setSearchString}
         label={
@@ -64,17 +67,17 @@ export const Search = ({ showLabel = true }: { showLabel?: boolean }) => {
   );
 };
 
-export type SearchFieldProps = {
-  label: string | ReactNode;
-  id: string;
-  items: string[];
-  getItemLabel: (item: string) => string;
-  onInputValueChange: (inputValue: string) => void;
-  isLoading: boolean;
-  // lazy: boolean;
-  showLabel: boolean;
-};
-
+// export type SearchFieldProps = {
+//   label: string | ReactNode;
+//   id: string;
+//   items: string[];
+//   getItemLabel: (item: string) => string;
+//   onInputValueChange: (inputValue: string) => void;
+//   isLoading: boolean;
+//   // lazy: boolean;
+//   showLabel: boolean;
+// };
+type Item = { id: string; __typename: "Provider" | "Municipality" | "Canton" };
 export const SearchField = ({
   label,
   items,
@@ -82,7 +85,7 @@ export const SearchField = ({
   getItemLabel,
   isLoading,
 }: {
-  items: string[];
+  items: Item[];
   setSearchString: (searchString: string) => void;
   getItemLabel: (item: string) => string;
   label: string | ReactNode;
@@ -260,34 +263,58 @@ export const SearchField = ({
           </Text>
         ) : (
           <>
-            {items.map((item, index) => (
-              <LocalizedLink
-                pathname="/[locale]/provider/[id]"
-                query={{ ...query, id: item }}
-                passHref
-                key={`${item}${index}`}
-              >
-                <TUILink
-                  {...getItemProps({
-                    item,
-                    index,
+            {[...group(items, (d) => d.__typename)].map(([entity, items]) => {
+              return (
+                <>
+                  <Box
+                    sx={{
+                      color: "monochrome600",
+                      fontSize: 3,
+                      borderBottom: "1px solid",
+                      borderBottomColor: "monochrome300",
+                      px: 3,
+                      py: 2,
+                    }}
+                  >
+                    {entity}
+                  </Box>
+                  {items.map((item, index) => {
+                    return (
+                      <LocalizedLink
+                        pathname="/[locale]/provider/[id]"
+                        query={{ ...query, id: item.id }}
+                        passHref
+                        key={`${item}${index}`}
+                      >
+                        <TUILink
+                          {...getItemProps({
+                            item,
+                            index,
+                          })}
+                          sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            backgroundColor:
+                              highlightedIndex === index
+                                ? "mutedDarker"
+                                : "inherit",
+                            color: "monochrome800",
+                            fontSize: [4],
+                            lineHeight: 1.2,
+                            textDecoration: "none",
+                            px: 3,
+                            py: 3,
+                          }}
+                        >
+                          {getItemLabel(item.id)}
+                        </TUILink>
+                      </LocalizedLink>
+                    );
                   })}
-                  sx={{
-                    height: 48,
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    backgroundColor:
-                      highlightedIndex === index ? "mutedDarker" : "inherit",
-                    color: "monochrome800",
-                    fontSize: [3],
-                    lineHeight: 1.2,
-                    pl: 3,
-                  }}
-                >
-                  {getItemLabel(item)}
-                </TUILink>
-              </LocalizedLink>
-            ))}
+                </>
+              );
+            })}
           </>
         )}
       </Flex>
