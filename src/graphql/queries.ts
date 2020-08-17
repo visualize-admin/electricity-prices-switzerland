@@ -204,7 +204,7 @@ export type SearchQueryVariables = Exact<{
 }>;
 
 
-export type SearchQuery = { __typename: 'Query', providers: Array<{ __typename: 'Provider', id: string, name: string }> };
+export type SearchQuery = { __typename: 'Query', search: Array<{ __typename: 'MunicipalityResult', id: string, name: string } | { __typename: 'ProviderResult', id: string, name: string } | { __typename: 'CantonResult', id: string, name: string }> };
 
 export type ObservationsQueryVariables = Exact<{
   locale?: Maybe<Scalars['String']>;
@@ -250,7 +250,7 @@ export function useProvidersQuery(options: Omit<Urql.UseQueryArgs<ProvidersQuery
 };
 export const SearchDocument = gql`
     query Search($locale: String!, $query: String) {
-  providers(locale: $locale, query: $query) {
+  search(locale: $locale, query: $query) {
     id
     name
   }

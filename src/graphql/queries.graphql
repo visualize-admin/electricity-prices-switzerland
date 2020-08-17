@@ -13,7 +13,7 @@ query Providers($locale: String!, $query: String, $ids: [String!]) {
 }
 
 query Search($locale: String!, $query: String) {
-  providers(locale: $locale, query: $query) {
+  search(locale: $locale, query: $query) {
     id
     name
   }

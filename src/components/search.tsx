@@ -33,7 +33,7 @@ export const Search = ({ showLabel = true }: { showLabel?: boolean }) => {
   });
 
   // FIXME: use search results, not providers
-  const items = gqlQuery.data?.providers ?? [];
+  const items = gqlQuery.data?.search ?? [];
 
   const itemById = useMemo(() => {
     return rollup(
