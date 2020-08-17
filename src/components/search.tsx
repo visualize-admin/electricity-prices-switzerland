@@ -339,7 +339,7 @@ export const SearchField = ({
               ) : (
                 <>
                   {[...group(items, (d) => d.__typename)].map(
-                    ([entity, items]) => {
+                    ([entity, items], entityIndex) => {
                       return (
                         <>
                           <Box
@@ -356,12 +356,13 @@ export const SearchField = ({
                           </Box>
                           {items.map((item, index) => {
                             const ent = getEntity(entity);
+                            const thisIndex = +`${entityIndex}${index}`; // FIXME: max 100 items per entity
                             return (
                               <Box
-                                key={`${item}${index}`}
+                                key={`${item}${entity}${index}`}
                                 {...getItemProps({
                                   item: item.id,
-                                  index,
+                                  index: thisIndex,
                                   onKeyDown: (event) => {
                                     if (event.key === "Enter") {
                                       // @ts-ignore
@@ -386,7 +387,7 @@ export const SearchField = ({
                                       justifyContent: "space-between",
                                       alignItems: "center",
                                       backgroundColor:
-                                        highlightedIndex === index
+                                        highlightedIndex === thisIndex
                                           ? "mutedDarker"
                                           : "inherit",
                                       color: "monochrome800",
