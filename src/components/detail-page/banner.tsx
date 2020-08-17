@@ -34,33 +34,41 @@ export const DetailPageBanner = ({
         sx={{
           flexDirection: ["column", "column", "row"],
           justifyContent: "flex-start",
-          alignItems: ["flex-start", "flex-start", "baseline"],
+          alignItems: ["flex-start", "flex-start", "center"],
           width: "100%",
+          mt: 4,
+          mb: 6,
         }}
       >
         <Box
           sx={{
             order: [2, 2, 1],
-            flexGrow: 1,
-            mt: 4,
-            mb: 6,
-            visibility: ["visible", "visible", "hidden"],
+            flexGrow: 0,
+            flexShrink: 0,
+            mr: 6,
+            mt: [4, 4, 0],
           }}
         >
           <HomeLink passHref>
             <UILink
               variant="inline"
-              sx={{ display: "flex", alignItems: "center", "> svg": { mr: 2 } }}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                fontSize: 3,
+                "> svg": { mr: 2 },
+              }}
             >
               <Icon name="chevronleft" size={24}></Icon>
               <Trans id="detail.homelink">Zurück zur Übersicht</Trans>
             </UILink>
           </HomeLink>
         </Box>
-        <Box sx={{ order: [1, 1, 2], flexGrow: [1, 1, 4], width: "100%" }}>
+        <Box sx={{ order: [1, 1, 2], flexGrow: 1, width: "100%" }}>
           <Search />
         </Box>
       </Flex>
+
       <Box sx={{ maxWidth: "67rem", mx: "auto", my: 2 }}>
         <Text as="h1" variant="heading1" sx={{ color: "monochrome800" }}>
           {name}

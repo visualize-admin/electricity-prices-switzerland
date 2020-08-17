@@ -143,7 +143,7 @@ export const SearchField = ({
   console.log({ items });
 
   return (
-    <Box sx={{ width: "100%", maxWidth: "44rem" }}>
+    <Box sx={{ width: "100%", maxWidth: "44rem", mx: "auto" }}>
       <VisuallyHidden>
         <label {...getLabelProps()}>{label}</label>
       </VisuallyHidden>
@@ -238,8 +238,6 @@ export const SearchField = ({
                 borderBottom: "1px solid",
                 borderBottomColor: "monochrome500",
                 borderRadius: [0, 0, "default"],
-
-                // visibility: isOpen ? "visible" : "hidden",
               }}
             >
               {/* Mobile back button */}
