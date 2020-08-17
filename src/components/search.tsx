@@ -101,7 +101,7 @@ export const SearchField = ({
   const theme = useTheme();
   const i18n = useI18n();
 
-  const inputEl = useRef(null);
+  const inputEl = useRef<HTMLInputElement>(null);
   const { query, pathname, push } = useRouter();
   const [inputValue, setInputValue] = useState("");
   // const [inputItems, setInputItems] = useState(items);
