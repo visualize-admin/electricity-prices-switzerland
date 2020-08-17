@@ -364,7 +364,7 @@ export const SearchField = ({
                               <Box
                                 key={`${item}${entity}${index}`}
                                 {...getItemProps({
-                                  item: item.id,
+                                  item: item,
                                   index: thisIndex,
                                   onKeyDown: (event) => {
                                     if (event.key === "Enter") {
