@@ -229,95 +229,103 @@ export const SearchField = ({
             sx={{ height: "100%", flexGrow: 1, border: "none" }}
           />
         </Flex>
-      </div>
+        <Flex
+          {...getMenuProps()}
+          sx={{
+            position: ["fixed", "fixed", "absolute"],
+            top: [48, 48, 48],
+            left: 0,
+            zIndex: 21,
 
-      <Flex
-        {...getMenuProps()}
-        sx={{
-          position: "fixed",
-          top: 48,
-          left: 0,
-          zIndex: 21,
+            width: ["100vw", "100vw", "auto"],
+            height: "calc(100vh - 48px)",
 
-          width: "100vw",
-          height: "calc(100vh - 48px)",
+            bg: "monochrome100",
+            p: 4,
+            flexDirection: "column",
 
-          bg: "monochrome100",
-          p: 4,
-          flexDirection: "column",
-
-          visibility: isOpen ? "visible" : "hidden",
-        }}
-      >
-        {isOpen && inputValue === "" ? (
-          <Text variant="paragraph1" sx={{ color: "monochrome800" }}>
-            {label}
-          </Text>
-        ) : inputValue !== "" && isLoading ? (
-          <Text variant="paragraph1" sx={{ color: "monochrome800" }}>
-            <Trans id="combobox.isloading">Resultate laden …</Trans>
-          </Text>
-        ) : inputValue !== "" && !isLoading && items.length === 0 ? (
-          <Text variant="paragraph1" sx={{ color: "monochrome800" }}>
-            <Trans id="combobox.noitems">Keine Einträge</Trans>
-          </Text>
-        ) : (
-          <>
-            {[...group(items, (d) => d.__typename)].map(([entity, items]) => {
-              return (
-                <>
-                  <Box
-                    sx={{
-                      color: "monochrome600",
-                      fontSize: 3,
-                      borderBottom: "1px solid",
-                      borderBottomColor: "monochrome300",
-                      px: 3,
-                      py: 2,
-                    }}
-                  >
-                    {entity}
-                  </Box>
-                  {items.map((item, index) => {
-                    return (
-                      <LocalizedLink
-                        pathname="/[locale]/provider/[id]"
-                        query={{ ...query, id: item.id }}
-                        passHref
-                        key={`${item}${index}`}
-                      >
-                        <TUILink
+            visibility: isOpen ? "visible" : "hidden",
+          }}
+        >
+          {isOpen && inputValue === "" ? (
+            <Text variant="paragraph1" sx={{ color: "monochrome800" }}>
+              {label}
+            </Text>
+          ) : inputValue !== "" && isLoading ? (
+            <Text variant="paragraph1" sx={{ color: "monochrome800" }}>
+              <Trans id="combobox.isloading">Resultate laden …</Trans>
+            </Text>
+          ) : inputValue !== "" && !isLoading && items.length === 0 ? (
+            <Text variant="paragraph1" sx={{ color: "monochrome800" }}>
+              <Trans id="combobox.noitems">Keine Einträge</Trans>
+            </Text>
+          ) : (
+            <>
+              {[...group(items, (d) => d.__typename)].map(([entity, items]) => {
+                return (
+                  <>
+                    <Box
+                      sx={{
+                        color: "monochrome600",
+                        fontSize: 3,
+                        borderBottom: "1px solid",
+                        borderBottomColor: "monochrome300",
+                        px: 3,
+                        py: 2,
+                      }}
+                    >
+                      {entity}
+                    </Box>
+                    {items.map((item, index) => {
+                      return (
+                        <Box
                           {...getItemProps({
                             item,
                             index,
+                            onKeyDown: (event) => {
+                              if (event.key === "Enter") {
+                                // @ts-ignore
+                                event.nativeEvent.preventDownshiftDefault = true;
+                              }
+                            },
                           })}
-                          sx={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                            backgroundColor:
-                              highlightedIndex === index
-                                ? "mutedDarker"
-                                : "inherit",
-                            color: "monochrome800",
-                            fontSize: [4],
-                            lineHeight: 1.2,
-                            textDecoration: "none",
-                            px: 3,
-                            py: 3,
-                          }}
                         >
-                          {getItemLabel(item.id)}
-                        </TUILink>
-                      </LocalizedLink>
-                    );
-                  })}
-                </>
-              );
-            })}
-          </>
-        )}
-      </Flex>
+                          <LocalizedLink
+                            pathname="/[locale]/provider/[id]"
+                            query={{ ...query, id: item.id }}
+                            passHref
+                            key={`${item}${index}`}
+                          >
+                            <TUILink
+                              sx={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                alignItems: "center",
+                                backgroundColor:
+                                  highlightedIndex === index
+                                    ? "mutedDarker"
+                                    : "inherit",
+                                color: "monochrome800",
+                                fontSize: [4],
+                                lineHeight: 1.2,
+                                textDecoration: "none",
+                                px: 3,
+                                py: 3,
+                              }}
+                            >
+                              {getItemLabel(item.id)}
+                            </TUILink>
+                          </LocalizedLink>
+                        </Box>
+                      );
+                    })}
+                  </>
+                );
+              })}
+            </>
+          )}
+        </Flex>
+      </div>
     </Box>
   );
 };
