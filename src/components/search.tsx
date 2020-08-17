@@ -91,6 +91,7 @@ export const SearchField = ({
   label: string | ReactNode;
   isLoading: boolean;
 }) => {
+  const inputEl = useRef(null);
   const { query, pathname, push } = useRouter();
   const [inputValue, setInputValue] = useState("");
   // const [inputItems, setInputItems] = useState(items);
@@ -113,6 +114,9 @@ export const SearchField = ({
         query,
       });
       switch (changes.type) {
+        case useCombobox.stateChangeTypes.ToggleButtonClick:
+          inputEl.current.focus();
+          break;
         case useCombobox.stateChangeTypes.InputChange:
           console.log("input value change", changes.inputValue);
           setInputValue(changes.inputValue);
