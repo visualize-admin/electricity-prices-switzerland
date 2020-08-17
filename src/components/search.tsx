@@ -355,6 +355,7 @@ export const SearchField = ({
                             {getLocalizedLabel({ i18n, id: entity })}
                           </Box>
                           {items.map((item, index) => {
+                            const ent = getEntity(entity);
                             return (
                               <Box
                                 key={`${item}${index}`}
@@ -375,7 +376,7 @@ export const SearchField = ({
                                 })}
                               >
                                 <LocalizedLink
-                                  pathname="/[locale]/provider/[id]"
+                                  pathname={`/[locale]/${ent}/[id]`}
                                   query={{ ...query, id: item.id }}
                                   passHref
                                 >
@@ -414,4 +415,17 @@ export const SearchField = ({
       </div>
     </Box>
   );
+};
+
+const getEntity = (e: ResultType) => {
+  switch (e) {
+    case "ProviderResult":
+      return "provider";
+    case "MunicipalityResult":
+      return "municipality";
+    case "CantonResult":
+      return "canton";
+    default:
+      "provider";
+  }
 };
