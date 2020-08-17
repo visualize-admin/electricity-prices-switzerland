@@ -61,9 +61,6 @@ export const Search = ({ showLabel = true }: { showLabel?: boolean }) => {
           </Trans>
         }
         isLoading={gqlQuery.fetching && searchString.length > 0}
-        // getItemLabel={(d) => d}
-        // items={items}
-
         // lazy
       />
     </>
@@ -104,7 +101,7 @@ export const SearchField = ({
   const inputEl = useRef<HTMLInputElement>(null);
   const { query, pathname, push } = useRouter();
   const [inputValue, setInputValue] = useState("");
-  // const [inputItems, setInputItems] = useState(items);
+
   const {
     isOpen,
     selectedItem,
@@ -120,10 +117,6 @@ export const SearchField = ({
     id: `search-global`,
     items,
     onStateChange: (changes: $FixMe) => {
-      // const { href, as } = createDynamicRouteProps({
-      //   pathname,
-      //   query,
-      // });
       switch (changes.type) {
         case useCombobox.stateChangeTypes.ToggleButtonClick:
           if (null !== inputEl.current) {
@@ -135,16 +128,18 @@ export const SearchField = ({
           setInputValue(changes.inputValue);
           setSearchString(inputValue);
           break;
-        case useCombobox.stateChangeTypes.InputKeyDownEnter:
-        case useCombobox.stateChangeTypes.ItemClick:
-          console.log("click");
-          // push(href, as);
-          break;
+        // case useCombobox.stateChangeTypes.InputKeyDownEnter:
+        // case useCombobox.stateChangeTypes.ItemClick:
+        //   console.log("click");
+        //   push(href, as);
+        //   break;
         default:
           return changes;
       }
     },
   });
+
+  console.log({ items });
 
   return (
     <Box sx={{ width: "100%", maxWidth: "44rem" }}>
@@ -366,17 +361,6 @@ export const SearchField = ({
                                 {...getItemProps({
                                   item: item,
                                   index: thisIndex,
-                                  onKeyDown: (event) => {
-                                    if (event.key === "Enter") {
-                                      // @ts-ignore
-                                      event.nativeEvent.preventDownshiftDefault = true;
-                                      // const { href, as } = createDynamicRouteProps({
-                                      //   pathname: "/[locale]/provider/[id]",
-                                      //   query: { ...query, id: item.id },
-                                      // });
-                                      // push(href, as);
-                                    }
-                                  },
                                 })}
                               >
                                 <LocalizedLink
