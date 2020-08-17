@@ -246,9 +246,13 @@ export const SearchField = ({
             <Icon name="chevronleft" size={24}></Icon>
           </Button>
           <Input
-            {...getInputProps()}
-            ref={inputEl}
-            sx={{ height: "100%", flexGrow: 1, border: "none" }}
+            {...getInputProps({ ref: inputEl })}
+            sx={{
+              height: "100%",
+              flexGrow: 1,
+              border: "none",
+              "&:focus": { outline: "none" },
+            }}
           />
         </Flex>
         <Flex
