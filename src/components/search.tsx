@@ -18,6 +18,8 @@ import { Icon } from "../icons";
 import { LocalizedLink, createDynamicRouteProps } from "./links";
 import { useRouter } from "next/router";
 import { useTheme } from "../themes";
+import { getLocalizedLabel } from "../domain/translation";
+import { useI18n } from "./i18n-context";
 
 export const Search = ({ showLabel = true }: { showLabel?: boolean }) => {
   const locale = useLocale();
@@ -97,6 +99,8 @@ export const SearchField = ({
   isLoading: boolean;
 }) => {
   const theme = useTheme();
+  const i18n = useI18n();
+
   const inputEl = useRef(null);
   const { query, pathname, push } = useRouter();
   const [inputValue, setInputValue] = useState("");
@@ -348,7 +352,7 @@ export const SearchField = ({
                               py: 2,
                             }}
                           >
-                            {entity}
+                            {getLocalizedLabel({ i18n, id: entity })}
                           </Box>
                           {items.map((item, index) => {
                             return (
