@@ -1,3 +1,4 @@
+import { Icon } from "../../icons";
 import { Trans } from "@lingui/macro";
 import { Box, Flex, Text, Link as UILink } from "@theme-ui/components";
 import * as React from "react";
@@ -47,7 +48,11 @@ export const DetailPageBanner = ({
           }}
         >
           <HomeLink passHref>
-            <UILink variant="inline">
+            <UILink
+              variant="inline"
+              sx={{ display: "flex", alignItems: "center", "> svg": { mr: 2 } }}
+            >
+              <Icon name="chevronleft" size={24}></Icon>
               <Trans id="detail.homelink">Zurück zur Übersicht</Trans>
             </UILink>
           </HomeLink>
