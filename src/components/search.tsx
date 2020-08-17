@@ -115,6 +115,7 @@ export const SearchField = ({
     getComboboxProps,
     highlightedIndex,
     getItemProps,
+    closeMenu,
   } = useCombobox({
     id: `search-global`,
     items,
@@ -257,7 +258,7 @@ export const SearchField = ({
             >
               {/* Mobile back button */}
               <Button
-                {...getToggleButtonProps()} // reuse of toggleButtonProps to close input field.
+                onClick={() => closeMenu()}
                 variant="reset"
                 type="button"
                 sx={{
