@@ -37,7 +37,15 @@ export const DetailPageBanner = ({
           width: "100%",
         }}
       >
-        <Box sx={{ order: [2, 2, 1], flexGrow: 1, mt: 4, mb: 6 }}>
+        <Box
+          sx={{
+            order: [2, 2, 1],
+            flexGrow: 1,
+            mt: 4,
+            mb: 6,
+            visibility: ["visible", "visible", "hidden"],
+          }}
+        >
           <HomeLink passHref>
             <UILink variant="inline">
               <Trans id="detail.homelink">Zurück zur Übersicht</Trans>
