@@ -44,7 +44,7 @@ export const DetailPageBanner = ({
             </UILink>
           </HomeLink>
         </Box>
-        <Box sx={{ order: [1, 1, 2], flexGrow: [1, 1, 4] }}>
+        <Box sx={{ order: [1, 1, 2], flexGrow: [1, 1, 4], width: "100%" }}>
           <Search showLabel={false} />
         </Box>
       </Flex>
