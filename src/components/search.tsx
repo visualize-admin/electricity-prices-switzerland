@@ -78,7 +78,11 @@ export const Search = ({ showLabel = true }: { showLabel?: boolean }) => {
 //   // lazy: boolean;
 //   showLabel: boolean;
 // };
-type Item = { id: string; __typename: "Provider" | "Municipality" | "Canton" };
+type ResultType = "ProviderResult" | "MunicipalityResult" | "CantonResult";
+type Item = {
+  id: string;
+  __typename: ResultType;
+};
 export const SearchField = ({
   label,
   items,
