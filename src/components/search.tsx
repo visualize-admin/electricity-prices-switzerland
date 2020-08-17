@@ -20,8 +20,9 @@ import { useRouter } from "next/router";
 import { useTheme } from "../themes";
 import { getLocalizedLabel } from "../domain/translation";
 import { useI18n } from "./i18n-context";
+import VisuallyHidden from "@reach/visually-hidden";
 
-export const Search = ({ showLabel = true }: { showLabel?: boolean }) => {
+export const Search = () => {
   const locale = useLocale();
   const [searchString, setSearchString] = useState<string>("");
   console.log({ searchString });
@@ -143,21 +144,9 @@ export const SearchField = ({
 
   return (
     <Box sx={{ width: "100%", maxWidth: "44rem" }}>
-      <TUILabel {...getLabelProps()}>
-        <Text
-          variant="paragraph1"
-          sx={{
-            width: "100%",
-            textAlign: ["left", "left", "center"],
-            color: "monochrome800",
-            mt: 2,
-            mb: 2,
-          }}
-        >
-          {label}
-        </Text>
-      </TUILabel>
-
+      <VisuallyHidden>
+        <label {...getLabelProps()}>{label}</label>
+      </VisuallyHidden>
       <div {...getComboboxProps()} style={{ position: "relative" }}>
         {/* BUTTON */}
         <Flex

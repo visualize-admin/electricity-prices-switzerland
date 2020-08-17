@@ -58,7 +58,7 @@ export const DetailPageBanner = ({
           </HomeLink>
         </Box>
         <Box sx={{ order: [1, 1, 2], flexGrow: [1, 1, 4], width: "100%" }}>
-          <Search showLabel={false} />
+          <Search />
         </Box>
       </Flex>
       <Box sx={{ maxWidth: "67rem", mx: "auto", my: 2 }}>

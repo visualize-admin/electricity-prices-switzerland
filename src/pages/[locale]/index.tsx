@@ -93,7 +93,26 @@ const IndexPage = () => {
             >
               <Trans id="site.title">Strompreise Schweiz</Trans>
             </Text>
-            <Search showLabel />
+
+            <Text
+              variant="paragraph1"
+              sx={{
+                width: "100%",
+                textAlign: ["left", "left", "center"],
+                color: "monochrome800",
+                mt: 2,
+                mb: 2,
+                height: [0, 0, "unset"],
+                visibility: ["hidden", "hidden", "visible"],
+              }}
+            >
+              <Trans id="search.global">
+                Siehe die detaillierte Preisanalyse von Kantone, Gemeinde,
+                Netzbetreiber.
+              </Trans>
+            </Text>
+
+            <Search />
           </Flex>
 
           <Grid
