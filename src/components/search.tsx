@@ -126,7 +126,9 @@ export const SearchField = ({
       // });
       switch (changes.type) {
         case useCombobox.stateChangeTypes.ToggleButtonClick:
-          inputEl.current.focus();
+          if (null !== inputEl.current) {
+            inputEl.current.focus();
+          }
           break;
         case useCombobox.stateChangeTypes.InputChange:
           console.log("input value change", changes.inputValue);
