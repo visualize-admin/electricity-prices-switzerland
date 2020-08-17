@@ -83,7 +83,7 @@ const IndexPage = () => {
               borderBottomWidth: 1,
               borderBottomStyle: "solid",
               borderBottomColor: "monochrome500",
-              mx: 4,
+              px: 4,
             }}
           >
             <Text
