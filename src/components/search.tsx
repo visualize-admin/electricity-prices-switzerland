@@ -10,13 +10,14 @@ import {
 } from "theme-ui";
 import { Trans } from "@lingui/macro";
 import { rollup, group } from "d3-array";
-import { useMemo, useState, ReactNode } from "react";
+import { useMemo, useState, ReactNode, useRef } from "react";
 import { useSearchQuery, useProvidersQuery } from "../graphql/queries";
 import { useLocale } from "../lib/use-locale";
 import { useCombobox } from "downshift";
 import { Icon } from "../icons";
 import { LocalizedLink, createDynamicRouteProps } from "./links";
 import { useRouter } from "next/router";
+import { useTheme } from "../themes";
 
 export const Search = ({ showLabel = true }: { showLabel?: boolean }) => {
   const locale = useLocale();
@@ -91,6 +92,7 @@ export const SearchField = ({
   label: string | ReactNode;
   isLoading: boolean;
 }) => {
+  const theme = useTheme();
   const inputEl = useRef(null);
   const { query, pathname, push } = useRouter();
   const [inputValue, setInputValue] = useState("");
@@ -150,12 +152,12 @@ export const SearchField = ({
         </Text>
       </TUILabel>
 
-      <div {...getComboboxProps()}>
+      <div {...getComboboxProps()} style={{ position: "relative" }}>
         <Flex
           as="button"
           type="button"
           {...getToggleButtonProps()}
-          aria-label={"toggle menu"}
+          aria-label={"toggle menu"} // FIXME: localize
           sx={{
             py: 0,
             pl: 4,
@@ -173,12 +175,26 @@ export const SearchField = ({
             color: "text",
             borderColor: isOpen ? "primary" : "monochrome500",
             bg: "monochrome100",
+
+            "&:hover": {
+              borderColor: "primary",
+            },
           }}
         >
-          <Icon name="search" size={32}></Icon>
+          <Icon
+            name="search"
+            size={24}
+            color={theme.colors.monochrome700}
+          ></Icon>
           <Text
             variant="heading3"
-            sx={{ fontWeight: "regular", ml: 4, width: "auto", flexShrink: 0 }}
+            sx={{
+              fontWeight: "regular",
+              ml: 4,
+              width: "auto",
+              flexShrink: 0,
+              color: "monochrome800",
+            }}
           >
             <Trans id="search.global.hint.go.to">Gehe zu…</Trans>
           </Text>
@@ -198,22 +214,23 @@ export const SearchField = ({
             </Trans>
           </Text>
         </Flex>
-
         <Flex
           sx={{
-            position: "fixed",
+            position: ["fixed", "fixed", "absolute"],
             top: 0,
             left: 0,
             zIndex: 20,
 
-            width: "100vw",
+            width: ["100vw", "100vw", "100%"],
             height: 48,
 
             bg: "monochrome100",
 
-            border: "none",
+            border: ["none", "none", "1px solid"],
+            borderColor: ["none", "none", "primary"],
             borderBottom: "1px solid",
             borderBottomColor: "monochrome500",
+            borderRadius: [0, 0, "default"],
 
             justifyContent: "flex-start",
             alignItems: "center",
@@ -230,6 +247,7 @@ export const SearchField = ({
           </Button>
           <Input
             {...getInputProps()}
+            ref={inputEl}
             sx={{ height: "100%", flexGrow: 1, border: "none" }}
           />
         </Flex>
@@ -237,18 +255,20 @@ export const SearchField = ({
           {...getMenuProps()}
           sx={{
             position: ["fixed", "fixed", "absolute"],
-            top: [48, 48, 48],
+            top: [48, 48, 54],
             left: 0,
             zIndex: 21,
 
-            width: ["100vw", "100vw", "auto"],
-            height: "calc(100vh - 48px)",
+            width: ["100vw", "100vw", "100%"],
+            height: ["calc(100vh - 48px)", "calc(100vh - 48px)", "auto"],
 
             bg: "monochrome100",
             p: 4,
             flexDirection: "column",
 
             visibility: isOpen ? "visible" : "hidden",
+
+            boxShadow: ["none", "none", "tooltip"],
           }}
         >
           {isOpen && inputValue === "" ? (
@@ -284,7 +304,7 @@ export const SearchField = ({
                       return (
                         <Box
                           {...getItemProps({
-                            item,
+                            item: item.id,
                             index,
                             onKeyDown: (event) => {
                               if (event.key === "Enter") {
