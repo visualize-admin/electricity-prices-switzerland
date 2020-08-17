@@ -111,10 +111,10 @@ export const SearchField = ({
     id: `search-global`,
     items,
     onStateChange: (changes: $FixMe) => {
-      const { href, as } = createDynamicRouteProps({
-        pathname,
-        query,
-      });
+      // const { href, as } = createDynamicRouteProps({
+      //   pathname,
+      //   query,
+      // });
       switch (changes.type) {
         case useCombobox.stateChangeTypes.ToggleButtonClick:
           inputEl.current.focus();
@@ -127,7 +127,7 @@ export const SearchField = ({
         case useCombobox.stateChangeTypes.InputKeyDownEnter:
         case useCombobox.stateChangeTypes.ItemClick:
           console.log("click");
-          push(href, as);
+          // push(href, as);
           break;
         default:
           return changes;
@@ -153,6 +153,7 @@ export const SearchField = ({
       </TUILabel>
 
       <div {...getComboboxProps()} style={{ position: "relative" }}>
+        {/* BUTTON */}
         <Flex
           as="button"
           type="button"
@@ -214,145 +215,194 @@ export const SearchField = ({
             </Trans>
           </Text>
         </Flex>
-        <Flex
-          sx={{
-            position: ["fixed", "fixed", "absolute"],
-            top: 0,
-            left: 0,
-            zIndex: 20,
 
-            width: ["100vw", "100vw", "100%"],
-            height: 48,
+        {isOpen && (
+          <>
+            {/* INPUT */}
+            <Flex
+              sx={{
+                position: ["fixed", "fixed", "absolute"],
+                top: 0,
+                left: 0,
+                zIndex: 20,
 
-            bg: "monochrome100",
+                py: 0,
+                pl: 4,
+                pr: 4,
 
-            border: ["none", "none", "1px solid"],
-            borderColor: ["none", "none", "primary"],
-            borderBottom: "1px solid",
-            borderBottomColor: "monochrome500",
-            borderRadius: [0, 0, "default"],
+                justifyContent: "flex-start",
+                alignItems: "center",
 
-            justifyContent: "flex-start",
-            alignItems: "center",
+                width: ["100vw", "100vw", "100%"],
+                height: 48,
 
-            visibility: isOpen ? "visible" : "hidden",
-          }}
-        >
-          <Button
-            {...getToggleButtonProps()} // reuse of toggleButtonProps to close input field.
-            variant="reset"
-            sx={{ width: 48, height: 48, color: "primary" }}
-          >
-            <Icon name="chevronleft" size={24}></Icon>
-          </Button>
-          <Input
-            {...getInputProps({ ref: inputEl })}
-            sx={{
-              height: "100%",
-              flexGrow: 1,
-              border: "none",
-              "&:focus": { outline: "none" },
-            }}
-          />
-        </Flex>
-        <Flex
-          {...getMenuProps()}
-          sx={{
-            position: ["fixed", "fixed", "absolute"],
-            top: [48, 48, 54],
-            left: 0,
-            zIndex: 21,
+                bg: "monochrome100",
 
-            width: ["100vw", "100vw", "100%"],
-            height: ["calc(100vh - 48px)", "calc(100vh - 48px)", "auto"],
+                border: ["none", "none", "1px solid"],
+                borderColor: ["none", "none", "primary"],
+                borderBottom: "1px solid",
+                borderBottomColor: "monochrome500",
+                borderRadius: [0, 0, "default"],
 
-            bg: "monochrome100",
-            p: 4,
-            flexDirection: "column",
+                // visibility: isOpen ? "visible" : "hidden",
+              }}
+            >
+              {/* Mobile back button */}
+              <Button
+                {...getToggleButtonProps()} // reuse of toggleButtonProps to close input field.
+                variant="reset"
+                type="button"
+                sx={{
+                  p: 0,
+                  cursor: "pointer",
+                  color: "primary",
+                  display: ["block", "block", "none"],
+                }}
+              >
+                <Icon name="chevronleft" size={24}></Icon>
+              </Button>
 
-            visibility: isOpen ? "visible" : "hidden",
+              {/* Desktop Magnifying Glass icon */}
+              <Box as="span" sx={{ display: ["none", "none", "block"] }}>
+                <Icon
+                  name="search"
+                  size={24}
+                  color={theme.colors.monochrome700}
+                ></Icon>
+              </Box>
 
-            boxShadow: ["none", "none", "tooltip"],
-          }}
-        >
-          {isOpen && inputValue === "" ? (
-            <Text variant="paragraph1" sx={{ color: "monochrome800" }}>
-              {label}
-            </Text>
-          ) : inputValue !== "" && isLoading ? (
-            <Text variant="paragraph1" sx={{ color: "monochrome800" }}>
-              <Trans id="combobox.isloading">Resultate laden …</Trans>
-            </Text>
-          ) : inputValue !== "" && !isLoading && items.length === 0 ? (
-            <Text variant="paragraph1" sx={{ color: "monochrome800" }}>
-              <Trans id="combobox.noitems">Keine Einträge</Trans>
-            </Text>
-          ) : (
-            <>
-              {[...group(items, (d) => d.__typename)].map(([entity, items]) => {
-                return (
-                  <>
-                    <Box
-                      sx={{
-                        color: "monochrome600",
-                        fontSize: 3,
-                        borderBottom: "1px solid",
-                        borderBottomColor: "monochrome300",
-                        px: 3,
-                        py: 2,
-                      }}
-                    >
-                      {entity}
-                    </Box>
-                    {items.map((item, index) => {
+              {/* Actual Input Field */}
+              <Input
+                {...getInputProps({ ref: inputEl, value: inputValue })}
+                sx={{
+                  height: "100%",
+                  flexGrow: 1,
+                  border: "none",
+                  "&:focus": { outline: "none" },
+                }}
+              />
+              {/* clear input */}
+              <Button
+                variant="reset"
+                sx={{ cursor: "pointer" }}
+                onClick={() => setInputValue("")}
+              >
+                <Icon
+                  name="clear"
+                  size={24}
+                  color={theme.colors.monochrome700}
+                ></Icon>
+              </Button>
+            </Flex>
+
+            {/* MENU */}
+            <Flex
+              {...getMenuProps()}
+              sx={{
+                position: ["fixed", "fixed", "absolute"],
+                top: [48, 48, 54],
+                left: 0,
+                zIndex: 21,
+
+                width: ["100vw", "100vw", "100%"],
+                height: ["calc(100vh - 48px)", "calc(100vh - 48px)", "auto"],
+
+                bg: "monochrome100",
+                p: 4,
+                flexDirection: "column",
+
+                visibility: isOpen ? "visible" : "hidden",
+
+                boxShadow: ["none", "none", "tooltip"],
+              }}
+            >
+              {isOpen && inputValue === "" ? (
+                <Text variant="paragraph1" sx={{ color: "monochrome800" }}>
+                  {label}
+                </Text>
+              ) : inputValue !== "" && isLoading ? (
+                <Text variant="paragraph1" sx={{ color: "monochrome800" }}>
+                  <Trans id="combobox.isloading">Resultate laden …</Trans>
+                </Text>
+              ) : inputValue !== "" && !isLoading && items.length === 0 ? (
+                <Text variant="paragraph1" sx={{ color: "monochrome800" }}>
+                  <Trans id="combobox.noitems">Keine Einträge</Trans>
+                </Text>
+              ) : (
+                <>
+                  {[...group(items, (d) => d.__typename)].map(
+                    ([entity, items]) => {
                       return (
-                        <Box
-                          {...getItemProps({
-                            item: item.id,
-                            index,
-                            onKeyDown: (event) => {
-                              if (event.key === "Enter") {
-                                // @ts-ignore
-                                event.nativeEvent.preventDownshiftDefault = true;
-                              }
-                            },
-                          })}
-                        >
-                          <LocalizedLink
-                            pathname="/[locale]/provider/[id]"
-                            query={{ ...query, id: item.id }}
-                            passHref
-                            key={`${item}${index}`}
+                        <>
+                          <Box
+                            sx={{
+                              color: "monochrome600",
+                              fontSize: 3,
+                              borderBottom: "1px solid",
+                              borderBottomColor: "monochrome300",
+                              px: 3,
+                              py: 2,
+                            }}
                           >
-                            <TUILink
-                              sx={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                alignItems: "center",
-                                backgroundColor:
-                                  highlightedIndex === index
-                                    ? "mutedDarker"
-                                    : "inherit",
-                                color: "monochrome800",
-                                fontSize: [4],
-                                lineHeight: 1.2,
-                                textDecoration: "none",
-                                px: 3,
-                                py: 3,
-                              }}
-                            >
-                              {getItemLabel(item.id)}
-                            </TUILink>
-                          </LocalizedLink>
-                        </Box>
+                            {entity}
+                          </Box>
+                          {items.map((item, index) => {
+                            return (
+                              <Box
+                                key={`${item}${index}`}
+                                {...getItemProps({
+                                  item: item.id,
+                                  index,
+                                  onKeyDown: (event) => {
+                                    if (event.key === "Enter") {
+                                      // @ts-ignore
+                                      event.nativeEvent.preventDownshiftDefault = true;
+                                      // const { href, as } = createDynamicRouteProps({
+                                      //   pathname: "/[locale]/provider/[id]",
+                                      //   query: { ...query, id: item.id },
+                                      // });
+                                      // push(href, as);
+                                    }
+                                  },
+                                })}
+                              >
+                                <LocalizedLink
+                                  pathname="/[locale]/provider/[id]"
+                                  query={{ ...query, id: item.id }}
+                                  passHref
+                                >
+                                  <TUILink
+                                    sx={{
+                                      display: "flex",
+                                      justifyContent: "space-between",
+                                      alignItems: "center",
+                                      backgroundColor:
+                                        highlightedIndex === index
+                                          ? "mutedDarker"
+                                          : "inherit",
+                                      color: "monochrome800",
+                                      fontSize: [4],
+                                      lineHeight: 1.2,
+                                      textDecoration: "none",
+                                      px: 3,
+                                      py: 3,
+                                    }}
+                                  >
+                                    {getItemLabel(item.id)}
+                                  </TUILink>
+                                </LocalizedLink>
+                              </Box>
+                            );
+                          })}
+                        </>
                       );
-                    })}
-                  </>
-                );
-              })}
-            </>
-          )}
-        </Flex>
+                    }
+                  )}
+                </>
+              )}
+            </Flex>
+          </>
+        )}
       </div>
     </Box>
   );
