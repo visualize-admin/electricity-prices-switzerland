@@ -86,7 +86,11 @@ const IndexPage = () => {
               mx: 4,
             }}
           >
-            <Text as="h1" variant="giga" sx={{ textAlign: "center" }}>
+            <Text
+              as="h1"
+              variant="giga"
+              sx={{ textAlign: ["left", "left", "center"] }}
+            >
               <Trans id="site.title">Strompreise Schweiz</Trans>
             </Text>
             <Search showLabel />
