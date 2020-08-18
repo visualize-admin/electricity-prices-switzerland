@@ -122,7 +122,12 @@ export const PriceComponentsBarChart = ({
           </GroupedBarsChart>
         </div>
       )}
-      <DownloadImage elementId="price-component" fileName={"iio"} />
+      <DownloadImage
+        elementId="price-component"
+        fileName={"iio"}
+        entity={entity}
+        id={id}
+      />
     </Card>
   );
 };
