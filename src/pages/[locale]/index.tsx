@@ -125,6 +125,8 @@ const IndexPage = () => {
             }}
           >
             <Box
+              // id "map" used by the screenshot service
+              id="map"
               sx={{
                 bg: "monochrome200",
                 top: [0, HEADER_HEIGHT_M_UP],
@@ -135,6 +137,9 @@ const IndexPage = () => {
                 position: ["relative", "sticky"],
               }}
             >
+              <a href="http://localhost:3000/api/screenshot?url=http://localhost:3000/de&element=map&download=map-image">
+                download image
+              </a>
               <ChoroplethMap
                 year={period}
                 observations={observations}
