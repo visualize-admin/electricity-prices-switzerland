@@ -1,17 +1,9 @@
 import { Label } from "./form";
-import {
-  Box,
-  Button,
-  Flex,
-  Input,
-  Text,
-  Label as TUILabel,
-  Link as TUILink,
-} from "theme-ui";
+import { Box, Button, Flex, Input, Text, Link as TUILink } from "theme-ui";
 import { Trans } from "@lingui/macro";
 import { rollup, group } from "d3-array";
-import { useSearchQuery, useProvidersQuery } from "../graphql/queries";
 import { useMemo, useState, ReactNode, useRef, Fragment } from "react";
+import { useSearchQuery } from "../graphql/queries";
 import { useLocale } from "../lib/use-locale";
 import { useCombobox } from "downshift";
 import { Icon } from "../icons";
@@ -62,7 +54,6 @@ export const Search = () => {
           </Trans>
         }
         isLoading={gqlQuery.fetching && searchString.length > 0}
-        // lazy
       />
     </>
   );
@@ -105,7 +96,6 @@ export const SearchField = ({
 
   const {
     isOpen,
-    selectedItem,
     getToggleButtonProps,
     getLabelProps,
     getMenuProps,
