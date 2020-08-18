@@ -14,11 +14,13 @@ msgstr ""
 "Plural-Forms: \n"
 
 #: src/components/combobox.tsx:170
+#: src/components/search.tsx:196
 msgid "combobox.isloading"
 msgstr "Resultate laden …"
 
 #: src/components/combobox.tsx:176
 #: src/components/combobox.tsx:303
+#: src/components/search.tsx:198
 msgid "combobox.noitems"
 msgstr "Keine Einträge"
 
@@ -34,7 +36,7 @@ msgstr "Clear search field"
 msgid "dataset.sortby"
 msgstr "Sortieren"
 
-#: src/components/detail-page/banner.tsx:24
+#: src/components/detail-page/banner.tsx:56
 msgid "detail.canton"
 msgstr "Kanton"
 
@@ -54,7 +56,11 @@ msgstr "Preisverteilung in der Schweiz"
 msgid "detail.card.title.prices.evolution"
 msgstr "Tarifentwicklung"
 
-#: src/components/detail-page/banner.tsx:30
+#: src/components/detail-page/banner.tsx:40
+msgid "detail.homelink"
+msgstr "Zurück zur Übersicht"
+
+#: src/components/detail-page/banner.tsx:62
 msgid "detail.municipalities"
 msgstr "Gemeinden"
 
@@ -62,7 +68,7 @@ msgstr "Gemeinden"
 #~ msgid "detail.municipality"
 #~ msgstr "Netzbetrieber"
 
-#: src/components/detail-page/banner.tsx:39
+#: src/components/detail-page/banner.tsx:71
 msgid "detail.providers"
 msgstr "Netzbetreiber"
 
@@ -146,6 +152,31 @@ msgstr "median"
 #: src/components/price-color-legend.tsx:25
 msgid "price.legend.min"
 msgstr "min"
+
+#: src/components/search.tsx:36
+#: src/pages/[locale]/index.tsx:94
+msgid "search.global"
+msgstr "Siehe die detaillierte Preisanalyse von Kantone, Gemeinde, Netzbetreiber."
+
+#: src/components/search.tsx:120
+msgid "search.global.hint.canton.muni.provider"
+msgstr "Gemeinde, Netzbetreiber, Kanton"
+
+#: src/components/search.tsx:110
+msgid "search.global.hint.go.to"
+msgstr "Gehe zu…"
+
+#: src/domain/translation.tsx:61
+msgid "search.result.canton"
+msgstr "Kanton"
+
+#: src/domain/translation.tsx:59
+msgid "search.result.municipality"
+msgstr "Gemeinde"
+
+#: src/domain/translation.tsx:57
+msgid "search.result.provider"
+msgstr "Netzbetreiber"
 
 #: src/components/detail-page/selector-multi.tsx:59
 #: src/components/selector.tsx:31
@@ -337,7 +368,7 @@ msgid "selector.years"
 msgstr "Jahre"
 
 #: src/components/header.tsx:65
-#: src/pages/[locale]/index.tsx:80
+#: src/pages/[locale]/index.tsx:82
 msgid "site.title"
 msgstr "Strompreise Schweiz"
 
