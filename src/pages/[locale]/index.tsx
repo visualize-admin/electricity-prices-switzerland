@@ -14,6 +14,7 @@ import { useQueryStateSingle } from "../../lib/use-query-state";
 import { List } from "../../components/list";
 import { Trans } from "@lingui/macro";
 import { Search } from "../../components/search";
+import { DownloadImage } from "../../components/detail-page/download-image";
 
 const EMPTY_ARRAY: never[] = [];
 
@@ -137,9 +138,8 @@ const IndexPage = () => {
                 position: ["relative", "sticky"],
               }}
             >
-              <a href="http://localhost:3000/api/screenshot?url=http://localhost:3000/de&element=map&download=map-image">
-                download image
-              </a>
+              <DownloadImage elementId="price-component" fileName={"iio"} />
+
               <ChoroplethMap
                 year={period}
                 observations={observations}

@@ -16,6 +16,7 @@ import { Card } from "./card";
 import { getLocalizedLabel } from "../../domain/translation";
 import { useI18n } from "../i18n-context";
 import { FilterSetDescription } from "./filter-set-description";
+import { DownloadImage } from "./download-image";
 
 export const PriceComponentsBarChart = ({
   id,
@@ -121,9 +122,7 @@ export const PriceComponentsBarChart = ({
           </GroupedBarsChart>
         </div>
       )}
-      <a href="http://localhost:3000/api/screenshot?url=http://localhost:3000/de/municipality/261&element=price-component&download=price-component-image">
-        download image
-      </a>
+      <DownloadImage elementId="price-component" fileName={"iio"} />
     </Card>
   );
 };
