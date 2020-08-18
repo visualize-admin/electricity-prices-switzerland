@@ -232,12 +232,16 @@ export const SearchField = ({
                 height: 48,
 
                 bg: "monochrome100",
-
-                border: ["none", "none", "1px solid"],
-                borderColor: ["none", "none", "primary"],
-                borderBottom: "1px solid",
-                borderBottomColor: "monochrome500",
                 borderRadius: [0, 0, "default"],
+
+                border: ["0px solid", "0px solid", "1px solid"],
+                borderColor: ["monochrome500", "monochrome500", "primary"],
+                borderBottom: ["1px solid", "1px solid", "1px solid"],
+                borderBottomColor: [
+                  "monochrome500",
+                  "monochrome500",
+                  "primary",
+                ],
               }}
             >
               {/* Mobile back button */}
