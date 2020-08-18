@@ -138,7 +138,11 @@ const IndexPage = () => {
                 position: ["relative", "sticky"],
               }}
             >
-              <DownloadImage elementId="price-component" fileName={"iio"} />
+              <DownloadImage
+                elementId="price-component"
+                fileName={"iio"}
+                chart="map"
+              />
 
               <ChoroplethMap
                 year={period}

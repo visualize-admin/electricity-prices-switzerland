@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { Link as TUILink } from "@theme-ui/components";
 
 export type DownloadChart =
+  | "map"
   | "components"
   | "evolution"
   | "distribution"
@@ -45,7 +46,7 @@ export const DownloadImage = ({
 
   // FIXME: use encodeURIComponent
   const downLoadUrl =
-    entity && id && chart
+    entity && id && chart !== "map"
       ? `${origin}/api/screenshot?url=${url}&element=${elementId}&download=${fileName}-image&deviceScaleFactor=1.5`
       : // Map
         `${origin}/api/screenshot?url=${origin}/${locale}&element=${elementId}&download=${fileName}-image&deviceScaleFactor=1.5`;
