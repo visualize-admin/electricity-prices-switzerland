@@ -14,11 +14,13 @@ msgstr ""
 "Plural-Forms: \n"
 
 #: src/components/combobox.tsx:170
+#: src/components/search.tsx:196
 msgid "combobox.isloading"
 msgstr ""
 
 #: src/components/combobox.tsx:176
 #: src/components/combobox.tsx:303
+#: src/components/search.tsx:198
 msgid "combobox.noitems"
 msgstr ""
 
@@ -30,11 +32,11 @@ msgstr ""
 msgid "controls.search.clear"
 msgstr "Azzerare"
 
-#: src/components/list.tsx:160
+#: src/components/list.tsx:161
 msgid "dataset.sortby"
 msgstr ""
 
-#: src/components/detail-page/banner.tsx:24
+#: src/components/detail-page/banner.tsx:56
 msgid "detail.canton"
 msgstr ""
 
@@ -42,7 +44,7 @@ msgstr ""
 msgid "detail.card.title.cantons.comparison"
 msgstr ""
 
-#: src/components/detail-page/price-components-bars.tsx:48
+#: src/components/detail-page/price-components-bars.tsx:50
 msgid "detail.card.title.price.components"
 msgstr ""
 
@@ -50,19 +52,19 @@ msgstr ""
 msgid "detail.card.title.prices.distribution"
 msgstr ""
 
-#: src/components/detail-page/price-evolution-line-chart.tsx:50
+#: src/components/detail-page/price-evolution-line-chart.tsx:55
 msgid "detail.card.title.prices.evolution"
 msgstr ""
 
-#: src/components/detail-page/banner.tsx:30
+#: src/components/detail-page/banner.tsx:40
+msgid "detail.homelink"
+msgstr ""
+
+#: src/components/detail-page/banner.tsx:62
 msgid "detail.municipalities"
 msgstr ""
 
-#: src/components/detail-page/banner.tsx:28
-#~ msgid "detail.municipality"
-#~ msgstr ""
-
-#: src/components/detail-page/banner.tsx:39
+#: src/components/detail-page/banner.tsx:71
 msgid "detail.providers"
 msgstr ""
 
@@ -98,11 +100,11 @@ msgstr ""
 msgid "histogram.min"
 msgstr ""
 
-#: src/components/list.tsx:133
+#: src/components/list.tsx:134
 msgid "list.cantons"
 msgstr ""
 
-#: src/components/list.tsx:129
+#: src/components/list.tsx:130
 msgid "list.municipalities"
 msgstr ""
 
@@ -114,7 +116,7 @@ msgstr ""
 msgid "list.order.desc"
 msgstr ""
 
-#: src/components/list.tsx:137
+#: src/components/list.tsx:138
 msgid "list.providers"
 msgstr ""
 
@@ -145,7 +147,32 @@ msgstr "mediana"
 
 #: src/components/price-color-legend.tsx:25
 msgid "price.legend.min"
-msgstr "min"
+msgstr "min<<<<<<< HEAD"
+
+#: src/components/search.tsx:36
+#: src/pages/[locale]/index.tsx:94
+msgid "search.global"
+msgstr ""
+
+#: src/components/search.tsx:120
+msgid "search.global.hint.canton.muni.provider"
+msgstr ""
+
+#: src/components/search.tsx:110
+msgid "search.global.hint.go.to"
+msgstr ""
+
+#: src/domain/translation.tsx:61
+msgid "search.result.canton"
+msgstr ""
+
+#: src/domain/translation.tsx:59
+msgid "search.result.municipality"
+msgstr ""
+
+#: src/domain/translation.tsx:57
+msgid "search.result.provider"
+msgstr ""
 
 #: src/components/detail-page/selector-multi.tsx:39
 #: src/components/selector.tsx:31
@@ -229,10 +256,6 @@ msgstr ""
 msgid "selector.legend.select.parameters"
 msgstr "selezionare i parametri"
 
-#: src/components/detail-page/selector-multi.tsx:28
-#~ msgid "selector.municipality"
-#~ msgstr ""
-
 #: src/components/selector.tsx:29
 msgid "selector.priceComponent"
 msgstr "Componente del prezzo"
@@ -275,14 +298,9 @@ msgstr ""
 msgid "selector.product.standard"
 msgstr ""
 
-#: src/components/detail-page/selector-multi.tsx:33
-#: src/components/detail-page/selector-multi.tsx:43
-#~ msgid "selector.provider"
-#~ msgstr ""
-
 #: src/components/selector.tsx:28
 msgid "selector.year"
-msgstr "Anno"
+msgstr "Anno<<<<<<< HEAD"
 
 #: src/domain/translation.tsx:30
 #~ msgid "selector.year.2009"
@@ -341,10 +359,6 @@ msgid "selector.years"
 msgstr ""
 
 #: src/components/header.tsx:65
-#: src/pages/[locale]/index.tsx:80
+#: src/pages/[locale]/index.tsx:82
 msgid "site.title"
 msgstr "Tariffe elettriche della Svizzera"
-
-#: src/pages/[locale]/index.tsx:9
-#~ msgid "test.hello"
-#~ msgstr "Buon giorno"

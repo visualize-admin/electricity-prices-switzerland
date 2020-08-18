@@ -20,7 +20,7 @@ const queryStateKeys = [
 const queryStateDefaults = {
   id: "261",
   period: "2020",
-  category: "C1",
+  category: "H4",
   priceComponent: "total",
   product: "standard",
   provider: undefined,

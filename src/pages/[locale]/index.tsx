@@ -18,6 +18,7 @@ import { useQueryStateSingle } from "../../lib/use-query-state";
 import { List } from "../../components/list";
 import { Trans } from "@lingui/macro";
 import { EMPTY_ARRAY } from "../../lib/empty-array";
+import { Search } from "../../components/search";
 
 export const getServerSideProps = async () => {
   return {
@@ -85,17 +86,42 @@ const IndexPage = () => {
         >
           <Flex
             sx={{
-              py: 6,
+              py: 8,
               flexDirection: "column",
               alignItems: "center",
               borderBottomWidth: 1,
               borderBottomStyle: "solid",
               borderBottomColor: "monochrome500",
+              px: 4,
             }}
           >
-            <Text as="h1" variant="giga" sx={{ textAlign: "center" }}>
+            <Text
+              as="h1"
+              variant="giga"
+              sx={{ textAlign: ["left", "left", "center"] }}
+            >
               <Trans id="site.title">Strompreise Schweiz</Trans>
             </Text>
+
+            <Text
+              variant="paragraph1"
+              sx={{
+                width: "100%",
+                textAlign: ["left", "left", "center"],
+                color: "monochrome800",
+                mt: 2,
+                mb: 2,
+                height: [0, 0, "unset"],
+                visibility: ["hidden", "hidden", "visible"],
+              }}
+            >
+              <Trans id="search.global">
+                Siehe die detaillierte Preisanalyse von Kantone, Gemeinde,
+                Netzbetreiber.
+              </Trans>
+            </Text>
+
+            <Search />
           </Flex>
 
           <Grid

@@ -226,7 +226,7 @@ export type SearchQueryVariables = Exact<{
 }>;
 
 
-export type SearchQuery = { __typename: 'Query', providers: Array<{ __typename: 'Provider', id: string, name: string }> };
+export type SearchQuery = { __typename: 'Query', search: Array<{ __typename: 'MunicipalityResult', id: string, name: string } | { __typename: 'ProviderResult', id: string, name: string } | { __typename: 'CantonResult', id: string, name: string }> };
 
 export type ProviderObservationFieldsFragment = { __typename: 'ProviderObservation', period: string, municipality: string, municipalityLabel?: Maybe<string>, provider: string, providerLabel?: Maybe<string>, category: string, value: number };
 
@@ -355,7 +355,7 @@ export function useCantonsQuery(options: Omit<Urql.UseQueryArgs<CantonsQueryVari
 };
 export const SearchDocument = gql`
     query Search($locale: String!, $query: String) {
-  providers(locale: $locale, query: $query) {
+  search(locale: $locale, query: $query) {
     id
     name
   }
