@@ -38,18 +38,20 @@ export const DownloadImage = ({
     setOrigin(window.location.origin);
   }, [setOrigin]);
 
-  const params = `${period.reduce(
+  const years = `${period.reduce(
     (acc, cur, i) => acc.concat(`${i > 0 ? "&" : ""}period=${cur}`),
     ""
   )}`;
-  const url = `${origin}/${locale}/${entity}/${id}?chart=${chart}`;
 
-  // FIXME: use encodeURIComponent
+  const url = encodeURIComponent(
+    `${origin}/${locale}/${entity}/${id}?chart=${chart}&category=${category}&product=${product}&${years}`
+  );
+
   const downLoadUrl =
     entity && id && chart !== "map"
-      ? `${origin}/api/screenshot?url=${url}&element=${elementId}&download=${fileName}-image&deviceScaleFactor=1.5`
+      ? `${origin}/api/screenshot?url=${url}&element=${elementId}&download=${fileName}-image&deviceScaleFactor=2`
       : // Map
-        `${origin}/api/screenshot?url=${origin}/${locale}&element=${elementId}&download=${fileName}-image&deviceScaleFactor=1.5`;
+        `${origin}/api/screenshot?url=${origin}/${locale}&element=${elementId}&download=${fileName}-image&deviceScaleFactor=2`;
 
   return (
     <TUILink
