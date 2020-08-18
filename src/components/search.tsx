@@ -134,6 +134,9 @@ export const SearchField = ({
         //   console.log("click");
         //   push(href, as);
         //   break;
+        case useCombobox.stateChangeTypes.InputBlur:
+          setInputValue("");
+          break;
         default:
           return changes;
       }
