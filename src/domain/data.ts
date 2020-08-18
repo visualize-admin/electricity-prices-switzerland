@@ -79,12 +79,6 @@ export const useColorScale = ({
 };
 
 export type Entity = "municipality" | "provider" | "canton"; //| "canton";
-export const getEntityLabelField = (entity: Entity): keyof Observation =>
-  entity === "municipality"
-    ? "municipalityLabel"
-    : entity === "provider"
-    ? "providerLabel"
-    : "cantonLabel";
 
 export const periods = [
   "2020",

@@ -1,11 +1,13 @@
 import { Trans } from "@lingui/macro";
-
+import { Box } from "@theme-ui/components";
 import * as React from "react";
+import { memo } from "react";
+import { Entity, GenericObservation, priceComponents } from "../../domain/data";
+import { getLocalizedLabel } from "../../domain/translation";
+import { EMPTY_ARRAY } from "../../lib/empty-array";
+import { useQueryState } from "../../lib/use-query-state";
 import { AxisHeightLinear } from "../charts-generic/axis/axis-height-linear";
-import {
-  AxisTime,
-  AxisTimeDomain,
-} from "../charts-generic/axis/axis-width-time";
+import { AxisTime } from "../charts-generic/axis/axis-width-time";
 import { HoverDotMultiple } from "../charts-generic/interaction/hover-dots-multiple";
 import { Ruler } from "../charts-generic/interaction/ruler";
 import { Tooltip } from "../charts-generic/interaction/tooltip";
@@ -13,6 +15,7 @@ import { LegendColor } from "../charts-generic/legends/color";
 import { Lines } from "../charts-generic/lines/lines";
 import { LineChart } from "../charts-generic/lines/lines-state";
 import { InteractionHorizontal } from "../charts-generic/overlay/interaction-horizontal";
+import { useI18n } from "../i18n-context";
 import { Loading } from "../loading";
 import {
   ChartContainer,
@@ -20,22 +23,11 @@ import {
 } from "./../../components/charts-generic/containers";
 import { Card } from "./../../components/detail-page/card";
 import {
+  ObservationType,
   PriceComponent,
   useObservationsWithAllPriceComponentsQuery,
 } from "./../../graphql/queries";
-import {
-  GenericObservation,
-  Entity,
-  getEntityLabelField,
-  priceComponents,
-} from "../../domain/data";
-import { useQueryState } from "../../lib/use-query-state";
-import { Box } from "@theme-ui/components";
-import { memo } from "react";
 import { FilterSetDescription } from "./filter-set-description";
-import { getLocalizedLabel } from "../../domain/translation";
-import { useI18n } from "../i18n-context";
-import { EMPTY_ARRAY } from "../../lib/empty-array";
 
 export const PriceEvolution = ({
   id,
@@ -67,6 +59,10 @@ export const PriceEvolution = ({
         category,
         product,
       },
+      observationType:
+        entity === "canton"
+          ? ObservationType.MedianObservation
+          : ObservationType.ProviderObservation,
     },
   });
   const observations = observationsQuery.fetching
@@ -75,7 +71,10 @@ export const PriceEvolution = ({
 
   // Add a unique ID for the combinations municipality+provider
   const withUniqueEntityId = observations.map((obs) => ({
-    uniqueId: `${obs.municipalityLabel}, ${obs.providerLabel}`,
+    uniqueId:
+      obs.__typename === "ProviderObservation"
+        ? `${obs.municipalityLabel}, ${obs.providerLabel}`
+        : obs.cantonLabel,
     ...obs,
   }));
 

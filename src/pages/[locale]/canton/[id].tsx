@@ -63,9 +63,9 @@ const CantonPage = ({ id, name }: Props) => {
               }}
             >
               <PriceComponentsBarChart id={id} entity="canton" />
-              {/* <PriceEvolution id={id} entity="canton" />
+              <PriceEvolution id={id} entity="canton" />
               <PriceDistributionHistograms id={id} entity="canton" />
-              <CantonsComparisonRangePlots id={id} entity="canton" /> */}
+              <CantonsComparisonRangePlots id={id} entity="canton" />
             </Box>
             <Box
               sx={{
