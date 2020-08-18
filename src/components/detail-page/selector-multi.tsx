@@ -56,15 +56,6 @@ export const SelectorMulti = ({
             setSelectedItems={(items) => setQueryState({ provider: items })}
           />
         ) : (
-          // <ComboboxMulti
-          //   id="provider"
-          //   label={<Trans id="selector.provider">Netzbetreiber</Trans>}
-          //   items={providers}
-          //   // FIXME: should be possible to have no item selected:
-          //   selectedItems={queryState.provider ?? ["10481012345"]}
-          //   minSelectedItems={0}
-          //   setSelectedItems={(items) => setQueryState({ provider: items })}
-          // />
           <MunicipalitiesCombobox
             label={
               <Trans id="selector.comparemunicipalities">
@@ -74,15 +65,6 @@ export const SelectorMulti = ({
             selectedItems={queryState.municipality ?? []}
             setSelectedItems={(items) => setQueryState({ municipality: items })}
           />
-          // <ComboboxMulti
-          //   id="municipality"
-          //   label={<Trans id="selector.municipality">Gemeinde</Trans>}
-          //   items={municipalities} // FIXME: municipalities
-          //   // FIXME: should be possible to have no item selected:
-          //   selectedItems={queryState.municipality ?? ["261"]}
-          //   minSelectedItems={0}
-          //   setSelectedItems={(items) => setQueryState({ municipality: items })}
-          // />
         )}
         <ComboboxMulti
           id="periods"
