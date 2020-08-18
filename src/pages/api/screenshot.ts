@@ -11,16 +11,16 @@ import { URL } from "url";
  * but gives us a clean browser each time.
  */
 async function withBrowser<T>(f: (browser: Browser) => Promise<T>) {
-  const browser = await chromium.puppeteer.launch({
+  const browser = await chromium.default.puppeteer.launch({
     dumpio: true,
     args: [
       "--no-sandbox",
       "--disable-setuid-sandbox",
       "--hide-scrollbars",
       "--disable-extensions",
-      ...chromium.args,
+      ...chromium.default.args,
     ],
-    executablePath: await chromium.executablePath,
+    executablePath: await chromium.default.executablePath,
   });
 
   try {
