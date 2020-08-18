@@ -10,8 +10,8 @@ import {
 } from "theme-ui";
 import { Trans } from "@lingui/macro";
 import { rollup, group } from "d3-array";
-import { useMemo, useState, ReactNode, useRef } from "react";
 import { useSearchQuery, useProvidersQuery } from "../graphql/queries";
+import { useMemo, useState, ReactNode, useRef, Fragment } from "react";
 import { useLocale } from "../lib/use-locale";
 import { useCombobox } from "downshift";
 import { Icon } from "../icons";
@@ -335,7 +335,7 @@ export const SearchField = ({
                     ),
                   ].map(([entity, items], entityIndex) => {
                     return (
-                      <>
+                      <Fragment key={entityIndex}>
                         <Box
                           sx={{
                             color: "monochrome600",
@@ -394,7 +394,7 @@ export const SearchField = ({
                             </Box>
                           );
                         })}
-                      </>
+                      </Fragment>
                     );
                   })}
                 </>
