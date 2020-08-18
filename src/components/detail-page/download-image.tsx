@@ -4,6 +4,12 @@ import { useLocale } from "../../lib/use-locale";
 import { Entity } from "../../domain/data";
 import { Link as TUILink } from "@theme-ui/components";
 
+export type DownloadChart =
+  | "components"
+  | "evolution"
+  | "distribution"
+  | "comparison";
+
 interface Props {
   entity?: Entity;
   id?: string;
