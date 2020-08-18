@@ -327,73 +327,76 @@ export const SearchField = ({
                 </Text>
               ) : (
                 <>
-                  {[...group(items, (d) => d.__typename)].map(
-                    ([entity, items], entityIndex) => {
-                      return (
-                        <>
-                          <Box
-                            sx={{
-                              color: "monochrome600",
-                              fontSize: 3,
-                              borderBottom: "1px solid",
-                              borderBottomColor: "monochrome300",
-                              px: 3,
-                              py: 2,
-                            }}
-                          >
-                            {getLocalizedLabel({ i18n, id: entity })}
-                          </Box>
-                          {items.map((item, index) => {
-                            const ent = getEntity(entity);
-                            const thisIndex = +`${entityIndex}${index}`; // FIXME: max 100 items per entity
-                            return (
-                              <Box
-                                key={`${item}${entity}${index}`}
-                                {...getItemProps({
-                                  item: item,
-                                  index: thisIndex,
-                                })}
+                  {[
+                    ...group(
+                      // Create ad hoc index for items list
+                      items.map((item, i) => ({ listId: i, ...item })),
+                      (d) => d.__typename
+                    ),
+                  ].map(([entity, items], entityIndex) => {
+                    return (
+                      <>
+                        <Box
+                          sx={{
+                            color: "monochrome600",
+                            fontSize: 3,
+                            borderBottom: "1px solid",
+                            borderBottomColor: "monochrome300",
+                            px: 3,
+                            py: 2,
+                          }}
+                        >
+                          {getLocalizedLabel({ i18n, id: entity })}
+                        </Box>
+                        {items.map((item, index) => {
+                          const ent = getEntity(entity);
+                          return (
+                            <Box
+                              key={`${item}${entity}${index}`}
+                              {...getItemProps({
+                                item: item,
+                                index: item.listId,
+                              })}
+                            >
+                              <LocalizedLink
+                                pathname={`/[locale]/${ent}/[id]`}
+                                query={{ ...query, id: item.id }}
+                                passHref
                               >
-                                <LocalizedLink
-                                  pathname={`/[locale]/${ent}/[id]`}
-                                  query={{ ...query, id: item.id }}
-                                  passHref
-                                >
-                                  <TUILink
-                                    sx={{
-                                      display: "flex",
-                                      justifyContent: "space-between",
-                                      alignItems: "center",
-                                      backgroundColor:
-                                        highlightedIndex === thisIndex
-                                          ? "mutedDarker"
-                                          : "inherit",
-                                      color: "monochrome800",
-                                      fontSize: [4],
-                                      lineHeight: 1.2,
-                                      textDecoration: "none",
-                                      px: 3,
-                                      py: 3,
-                                      "> svg": {
-                                        visibility: "hidden",
-                                      },
+                                <TUILink
+                                  sx={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    alignItems: "center",
+                                    backgroundColor:
+                                      highlightedIndex === item.listId
+                                        ? "mutedDarker"
+                                        : "inherit",
+                                    color: "monochrome800",
+                                    fontSize: [4],
+                                    lineHeight: 1.2,
+                                    textDecoration: "none",
+                                    px: 3,
+                                    py: 3,
+                                    "> svg": {
+                                      visibility: "hidden",
+                                    },
 
-                                      "&:hover > svg": {
-                                        visibility: "visible",
-                                      },
-                                    }}
-                                  >
-                                    {getItemLabel(item.id)}
-                                    <Icon name="chevronright"></Icon>
-                                  </TUILink>
-                                </LocalizedLink>
-                              </Box>
-                            );
-                          })}
-                        </>
-                      );
-                    }
-                  )}
+                                    "&:hover > svg": {
+                                      visibility: "visible",
+                                    },
+                                  }}
+                                >
+                                  {getItemLabel(item.id)}
+                                  <Icon name="chevronright"></Icon>
+                                </TUILink>
+                              </LocalizedLink>
+                            </Box>
+                          );
+                        })}
+                      </>
+                    );
+                  })}
                 </>
               )}
             </Flex>
