@@ -25,7 +25,7 @@ export const DownloadImage = ({ elementId, fileName, entity, id }: Props) => {
 
   return (
     <a href={url}>
-      <Trans id="image.download">Bild herunterlden</Trans>
+      <Trans id="image.download">Bild herunterladen</Trans>
     </a>
   );
 };
