@@ -5,17 +5,17 @@ import { useRouter } from "next/router";
 import { useCallback, useMemo, useState } from "react";
 import { Box, Button, Flex, Text } from "theme-ui";
 import { useFormatCurrency } from "../domain/helpers";
-import { Observation, ObservationsQuery } from "../graphql/queries";
+import {
+  Observation,
+  ObservationsQuery,
+  MedianObservationFieldsFragment,
+  ProviderObservationFieldsFragment,
+} from "../graphql/queries";
 import { Icon } from "../icons";
 import { MiniSelect, SearchField } from "./form";
 import { useI18n } from "./i18n-context";
 import { LocalizedLink } from "./links";
 import { RadioTabs } from "./radio-tabs";
-
-type PartialObservation = Pick<
-  Observation,
-  "value" | "municipalityLabel" | "providerLabel" | "cantonLabel"
->;
 
 const ListItem = ({
   id,
@@ -90,20 +90,17 @@ const ListItem = ({
 
 interface Props {
   observations: ObservationsQuery["observations"];
-  cantonObservations: ObservationsQuery["cantonObservations"];
   colorScale: ScaleThreshold<number, string>;
 }
 
 const TRUNCATION_INCREMENT = 20;
 
 const ListItems = ({
-  getLabel,
   items,
   colorScale,
   listState,
 }: {
-  getLabel: (observation: PartialObservation) => string;
-  items: [string, PartialObservation][];
+  items: [string, { id: string; label?: string | null; value: number }][];
   colorScale: ScaleThreshold<number, string>;
   listState: ListState;
 }) => {
@@ -121,7 +118,7 @@ const ListItems = ({
             key={id}
             id={id}
             value={d.value}
-            label={getLabel(d)}
+            label={d.label || d.id}
             colorScale={colorScale}
             formatNumber={formatNumber}
             listState={listState}
@@ -154,11 +151,7 @@ const ListItems = ({
 type ListState = "MUNICIPALITIES" | "PROVIDERS" | "CANTONS";
 type SortState = "ASC" | "DESC";
 
-export const List = ({
-  observations,
-  cantonObservations,
-  colorScale,
-}: Props) => {
+export const List = ({ observations, colorScale }: Props) => {
   const [listState, setListState] = useState<ListState>("MUNICIPALITIES");
   const [sortState, setSortState] = useState<SortState>("ASC");
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -176,60 +169,54 @@ export const List = ({
   ];
   const searchLabel = i18n._(t("list.search.label")`Liste filtern`);
 
-  const getLabel = useCallback(
-    (d: PartialObservation) =>
-      (listState === "PROVIDERS"
-        ? d.providerLabel
-        : listState === "MUNICIPALITIES"
-        ? d.municipalityLabel
-        : d.cantonLabel) ?? "???",
-    [listState]
-  );
-
-  const groupedByMunicipality = useMemo(() => {
-    return Array.from(
-      rollup(
-        observations,
-        (values) => values[0],
-        (d) => d.municipality
-      )
-    );
-  }, [observations]);
-
-  const groupedByProvider = useMemo(() => {
-    return Array.from(
-      rollup(
-        observations,
-        (values) => values[0],
-        (d) => d.provider
-      )
-    );
-  }, [observations]);
-
-  const groupedByCanton = useMemo(() => {
-    return Array.from(
-      rollup(
-        cantonObservations,
-        (values) => values[0],
-        (d) => d.canton! // FIXME
-      )
-    );
-  }, [cantonObservations]);
-
-  const grouped: [string, PartialObservation][] =
-    listState === "MUNICIPALITIES"
-      ? groupedByMunicipality
-      : listState === "PROVIDERS"
-      ? groupedByProvider
-      : groupedByCanton;
+  const grouped = useMemo(() => {
+    return listState === "CANTONS"
+      ? Array.from(
+          rollup(
+            observations.filter(
+              (d): d is MedianObservationFieldsFragment =>
+                d.__typename === "MedianObservation"
+            ),
+            (values) => {
+              const d = values[0];
+              return {
+                id: d.canton,
+                label: d.cantonLabel,
+                value: d.value,
+              };
+            },
+            (d) => d.canton
+          )
+        )
+      : Array.from(
+          rollup(
+            observations.filter(
+              (d): d is ProviderObservationFieldsFragment =>
+                d.__typename === "ProviderObservation"
+            ),
+            (values) => {
+              const d = values[0];
+              return {
+                id: listState === "PROVIDERS" ? d.provider : d.municipality,
+                label:
+                  listState === "PROVIDERS"
+                    ? d.providerLabel
+                    : d.municipalityLabel,
+                value: d.value,
+              };
+            },
+            (d) => (listState === "PROVIDERS" ? d.provider : d.municipality)
+          )
+        );
+  }, [observations, listState]);
 
   const filtered = useMemo(() => {
     if (searchQuery === "") {
       return grouped;
     }
     const filterRe = new RegExp(`${searchQuery}`, "i");
-    return grouped.filter(([k, d]) => getLabel(d).match(filterRe));
-  }, [grouped, searchQuery, getLabel]);
+    return grouped.filter(([k, d]) => d.label?.match(filterRe));
+  }, [grouped, searchQuery]);
 
   const sorted = useMemo(() => {
     return [...filtered].sort(([, a], [, b]) => {
@@ -311,7 +298,6 @@ export const List = ({
 
       <ListItems
         items={listItems}
-        getLabel={getLabel}
         colorScale={colorScale}
         listState={listState}
       />
