@@ -70,6 +70,7 @@ export const PriceComponentsBarChart = ({
       title={
         <Trans id="detail.card.title.price.components">Preiskomponenten</Trans>
       }
+      id="price-component"
     >
       <FilterSetDescription
         filters={{
@@ -118,6 +119,9 @@ export const PriceComponentsBarChart = ({
           </ChartContainer>
         </GroupedBarsChart>
       )}
+      <a href="http://localhost:3000/api/screenshot?url=http://localhost:3000/de/municipality/261&element=price-component&download=price-component-image">
+        download image
+      </a>
     </Card>
   );
 };
