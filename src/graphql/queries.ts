@@ -73,13 +73,25 @@ export type TemporalDimension = {
   max: Scalars['String'];
 };
 
-export type Observation = {
-  __typename: 'Observation';
+export type ProviderObservation = {
+  __typename: 'ProviderObservation';
   municipality: Scalars['String'];
   municipalityLabel?: Maybe<Scalars['String']>;
   provider: Scalars['String'];
   providerLabel?: Maybe<Scalars['String']>;
-  canton?: Maybe<Scalars['String']>;
+  category: Scalars['String'];
+  period: Scalars['String'];
+  value: Scalars['Float'];
+};
+
+
+export type ProviderObservationValueArgs = {
+  priceComponent: PriceComponent;
+};
+
+export type MedianObservation = {
+  __typename: 'MedianObservation';
+  canton: Scalars['String'];
   cantonLabel?: Maybe<Scalars['String']>;
   category: Scalars['String'];
   period: Scalars['String'];
@@ -87,9 +99,11 @@ export type Observation = {
 };
 
 
-export type ObservationValueArgs = {
+export type MedianObservationValueArgs = {
   priceComponent: PriceComponent;
 };
+
+export type Observation = ProviderObservation | MedianObservation;
 
 export type ObservationFilters = {
   period?: Maybe<Array<Scalars['String']>>;
@@ -120,7 +134,6 @@ export type Query = {
   canton?: Maybe<Canton>;
   provider?: Maybe<Provider>;
   observations: Array<Observation>;
-  cantonObservations: Array<Observation>;
 };
 
 
@@ -174,12 +187,6 @@ export type QueryObservationsArgs = {
   filters?: Maybe<ObservationFilters>;
 };
 
-
-export type QueryCantonObservationsArgs = {
-  locale?: Maybe<Scalars['String']>;
-  filters?: Maybe<ObservationFilters>;
-};
-
 export type MunicipalitiesQueryVariables = Exact<{
   locale: Scalars['String'];
   query?: Maybe<Scalars['String']>;
@@ -215,6 +222,10 @@ export type SearchQueryVariables = Exact<{
 
 export type SearchQuery = { __typename: 'Query', providers: Array<{ __typename: 'Provider', id: string, name: string }> };
 
+export type ProviderObservationFieldsFragment = { __typename: 'ProviderObservation', period: string, municipality: string, municipalityLabel?: Maybe<string>, provider: string, providerLabel?: Maybe<string>, category: string, value: number };
+
+export type MedianObservationFieldsFragment = { __typename: 'MedianObservation', period: string, canton: string, cantonLabel?: Maybe<string>, category: string, value: number };
+
 export type ObservationsQueryVariables = Exact<{
   locale?: Maybe<Scalars['String']>;
   priceComponent: PriceComponent;
@@ -222,7 +233,17 @@ export type ObservationsQueryVariables = Exact<{
 }>;
 
 
-export type ObservationsQuery = { __typename: 'Query', observations: Array<{ __typename: 'Observation', period: string, municipality: string, municipalityLabel?: Maybe<string>, provider: string, providerLabel?: Maybe<string>, category: string, value: number }>, cantonObservations: Array<{ __typename: 'Observation', period: string, canton?: Maybe<string>, cantonLabel?: Maybe<string>, category: string, value: number }> };
+export type ObservationsQuery = { __typename: 'Query', observations: Array<(
+    { __typename: 'ProviderObservation' }
+    & ProviderObservationFieldsFragment
+  ) | (
+    { __typename: 'MedianObservation' }
+    & MedianObservationFieldsFragment
+  )> };
+
+export type ProviderObservationWithAllPriceComponentsFieldsFragment = { __typename: 'ProviderObservation', period: string, municipality: string, municipalityLabel?: Maybe<string>, provider: string, providerLabel?: Maybe<string>, category: string, aidfee: number, fixcosts: number, charge: number, gridusage: number, energy: number, fixcostspercent: number, total: number };
+
+export type MedianObservationWithAllPriceComponentsFieldsFragment = { __typename: 'MedianObservation', period: string, canton: string, cantonLabel?: Maybe<string>, category: string, aidfee: number, charge: number, gridusage: number, energy: number, total: number };
 
 export type ObservationsWithAllPriceComponentsQueryVariables = Exact<{
   locale?: Maybe<Scalars['String']>;
@@ -230,9 +251,64 @@ export type ObservationsWithAllPriceComponentsQueryVariables = Exact<{
 }>;
 
 
-export type ObservationsWithAllPriceComponentsQuery = { __typename: 'Query', observations: Array<{ __typename: 'Observation', period: string, municipality: string, municipalityLabel?: Maybe<string>, provider: string, providerLabel?: Maybe<string>, category: string, aidfee: number, fixcosts: number, charge: number, gridusage: number, energy: number, fixcostspercent: number, total: number }>, cantonObservations: Array<{ __typename: 'Observation', period: string, canton?: Maybe<string>, cantonLabel?: Maybe<string>, category: string, aidfee: number, charge: number, gridusage: number, energy: number, total: number }> };
+export type ObservationsWithAllPriceComponentsQuery = { __typename: 'Query', observations: Array<(
+    { __typename: 'ProviderObservation' }
+    & ProviderObservationWithAllPriceComponentsFieldsFragment
+  ) | (
+    { __typename: 'MedianObservation' }
+    & MedianObservationWithAllPriceComponentsFieldsFragment
+  )> };
 
-
+export const ProviderObservationFieldsFragmentDoc = gql`
+    fragment providerObservationFields on ProviderObservation {
+  period
+  municipality
+  municipalityLabel
+  provider
+  providerLabel
+  category
+  value(priceComponent: $priceComponent)
+}
+    `;
+export const MedianObservationFieldsFragmentDoc = gql`
+    fragment medianObservationFields on MedianObservation {
+  period
+  canton
+  cantonLabel
+  category
+  value(priceComponent: $priceComponent)
+}
+    `;
+export const ProviderObservationWithAllPriceComponentsFieldsFragmentDoc = gql`
+    fragment providerObservationWithAllPriceComponentsFields on ProviderObservation {
+  period
+  municipality
+  municipalityLabel
+  provider
+  providerLabel
+  category
+  aidfee: value(priceComponent: aidfee)
+  fixcosts: value(priceComponent: fixcosts)
+  charge: value(priceComponent: charge)
+  gridusage: value(priceComponent: gridusage)
+  energy: value(priceComponent: energy)
+  fixcostspercent: value(priceComponent: fixcostspercent)
+  total: value(priceComponent: total)
+}
+    `;
+export const MedianObservationWithAllPriceComponentsFieldsFragmentDoc = gql`
+    fragment medianObservationWithAllPriceComponentsFields on MedianObservation {
+  period
+  canton
+  cantonLabel
+  category
+  aidfee: value(priceComponent: aidfee)
+  charge: value(priceComponent: charge)
+  gridusage: value(priceComponent: gridusage)
+  energy: value(priceComponent: energy)
+  total: value(priceComponent: total)
+}
+    `;
 export const MunicipalitiesDocument = gql`
     query Municipalities($locale: String!, $query: String, $ids: [String!]) {
   municipalities(locale: $locale, query: $query, ids: $ids) {
@@ -284,23 +360,16 @@ export function useSearchQuery(options: Omit<Urql.UseQueryArgs<SearchQueryVariab
 export const ObservationsDocument = gql`
     query Observations($locale: String, $priceComponent: PriceComponent!, $filters: ObservationFilters!) {
   observations(locale: $locale, filters: $filters) {
-    period
-    municipality
-    municipalityLabel
-    provider
-    providerLabel
-    category
-    value(priceComponent: $priceComponent)
-  }
-  cantonObservations(locale: $locale, filters: $filters) {
-    period
-    canton
-    cantonLabel
-    category
-    value(priceComponent: $priceComponent)
+    ... on ProviderObservation {
+      ...providerObservationFields
+    }
+    ... on MedianObservation {
+      ...medianObservationFields
+    }
   }
 }
-    `;
+    ${ProviderObservationFieldsFragmentDoc}
+${MedianObservationFieldsFragmentDoc}`;
 
 export function useObservationsQuery(options: Omit<Urql.UseQueryArgs<ObservationsQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<ObservationsQuery>({ query: ObservationsDocument, ...options });
@@ -308,33 +377,16 @@ export function useObservationsQuery(options: Omit<Urql.UseQueryArgs<Observation
 export const ObservationsWithAllPriceComponentsDocument = gql`
     query ObservationsWithAllPriceComponents($locale: String, $filters: ObservationFilters!) {
   observations(locale: $locale, filters: $filters) {
-    period
-    municipality
-    municipalityLabel
-    provider
-    providerLabel
-    category
-    aidfee: value(priceComponent: aidfee)
-    fixcosts: value(priceComponent: fixcosts)
-    charge: value(priceComponent: charge)
-    gridusage: value(priceComponent: gridusage)
-    energy: value(priceComponent: energy)
-    fixcostspercent: value(priceComponent: fixcostspercent)
-    total: value(priceComponent: total)
-  }
-  cantonObservations(locale: $locale, filters: $filters) {
-    period
-    canton
-    cantonLabel
-    category
-    aidfee: value(priceComponent: aidfee)
-    charge: value(priceComponent: charge)
-    gridusage: value(priceComponent: gridusage)
-    energy: value(priceComponent: energy)
-    total: value(priceComponent: total)
+    ... on ProviderObservation {
+      ...providerObservationWithAllPriceComponentsFields
+    }
+    ... on MedianObservation {
+      ...medianObservationWithAllPriceComponentsFields
+    }
   }
 }
-    `;
+    ${ProviderObservationWithAllPriceComponentsFieldsFragmentDoc}
+${MedianObservationWithAllPriceComponentsFieldsFragmentDoc}`;
 
 export function useObservationsWithAllPriceComponentsQuery(options: Omit<Urql.UseQueryArgs<ObservationsWithAllPriceComponentsQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<ObservationsWithAllPriceComponentsQuery>({ query: ObservationsWithAllPriceComponentsDocument, ...options });
