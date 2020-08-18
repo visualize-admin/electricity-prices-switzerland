@@ -370,9 +370,17 @@ export const SearchField = ({
                                       textDecoration: "none",
                                       px: 3,
                                       py: 3,
+                                      "> svg": {
+                                        visibility: "hidden",
+                                      },
+
+                                      "&:hover > svg": {
+                                        visibility: "visible",
+                                      },
                                     }}
                                   >
                                     {getItemLabel(item.id)}
+                                    <Icon name="chevronright"></Icon>
                                   </TUILink>
                                 </LocalizedLink>
                               </Box>
