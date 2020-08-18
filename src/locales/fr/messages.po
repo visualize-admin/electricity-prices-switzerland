@@ -298,58 +298,6 @@ msgstr "Standard"
 msgid "selector.year"
 msgstr "Année"
 
-#: src/domain/translation.tsx:30
-#~ msgid "selector.year.2009"
-#~ msgstr ""
-
-#: src/domain/translation.tsx:28
-#~ msgid "selector.year.2010"
-#~ msgstr ""
-
-#: src/domain/translation.tsx:26
-#~ msgid "selector.year.2011"
-#~ msgstr ""
-
-#: src/domain/translation.tsx:24
-#~ msgid "selector.year.2012"
-#~ msgstr ""
-
-#: src/domain/translation.tsx:22
-#~ msgid "selector.year.2013"
-#~ msgstr ""
-
-#: src/domain/translation.tsx:20
-#~ msgid "selector.year.2014"
-#~ msgstr ""
-
-#: src/domain/translation.tsx:18
-#~ msgid "selector.year.2015"
-#~ msgstr ""
-
-#: src/domain/translation.tsx:16
-#~ msgid "selector.year.2016"
-#~ msgstr ""
-
-#: src/domain/translation.tsx:14
-#~ msgid "selector.year.2017"
-#~ msgstr ""
-
-#: src/domain/translation.tsx:12
-#~ msgid "selector.year.2018"
-#~ msgstr ""
-
-#: src/domain/translation.tsx:10
-#~ msgid "selector.year.2019"
-#~ msgstr ""
-
-#: src/domain/translation.tsx:8
-#~ msgid "selector.year.2020"
-#~ msgstr ""
-
-#: src/domain/translation.tsx:6
-#~ msgid "selector.year.2021"
-#~ msgstr ""
-
 #: src/components/detail-page/selector-multi.tsx:58
 msgid "selector.years"
 msgstr "Années"
@@ -358,7 +306,3 @@ msgstr "Années"
 #: src/pages/[locale]/index.tsx:82
 msgid "site.title"
 msgstr "Prix de l'électricité de la Suisse"
-
-#: src/pages/[locale]/index.tsx:9
-#~ msgid "test.hello"
-#~ msgstr "Bonjour"
