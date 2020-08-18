@@ -14,6 +14,7 @@ import {
   getSource,
   getView,
 } from "../../../graphql/rdf";
+import { useRouter } from "next/router";
 
 export const EMPTY_ARRAY: never[] = [];
 
@@ -72,6 +73,7 @@ export const getServerSideProps: GetServerSideProps<
 };
 
 const MunicipalityPage = ({ id, name, providers }: Props) => {
+  const { query } = useRouter();
   return (
     <Flex sx={{ minHeight: "100vh", flexDirection: "column" }}>
       <Header></Header>
@@ -95,19 +97,29 @@ const MunicipalityPage = ({ id, name, providers }: Props) => {
                 flex: ["1 1 100%", "1 1 100%", `2 2 ${2 / 3}%`],
               }}
             >
-              <PriceComponentsBarChart id={id} entity="municipality" />
-              <PriceEvolution id={id} entity="municipality" />
-              <PriceDistributionHistograms id={id} entity="municipality" />
-              <CantonsComparisonRangePlots id={id} entity="municipality" />
+              {(!query.chart || query.chart === "components") && (
+                <PriceComponentsBarChart id={id} entity="municipality" />
+              )}
+              {(!query.chart || query.chart === "evolution") && (
+                <PriceEvolution id={id} entity="municipality" />
+              )}
+              {(!query.chart || query.chart === "distribution") && (
+                <PriceDistributionHistograms id={id} entity="municipality" />
+              )}
+              {(!query.chart || query.chart === "comparison") && (
+                <CantonsComparisonRangePlots id={id} entity="municipality" />
+              )}
             </Box>
-            <Box
-              sx={{
-                order: [1, 1, 2],
-                flex: ["1 1 100%", "1 1 100%", `1 1 ${1 / 3}%`],
-              }}
-            >
-              <SelectorMulti entity="municipality" />
-            </Box>
+            {!query.chart && (
+              <Box
+                sx={{
+                  order: [1, 1, 2],
+                  flex: ["1 1 100%", "1 1 100%", `1 1 ${1 / 3}%`],
+                }}
+              >
+                <SelectorMulti entity="municipality" />
+              </Box>
+            )}
           </Flex>
         </Box>
       </Flex>
