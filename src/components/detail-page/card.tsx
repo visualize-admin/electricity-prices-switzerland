@@ -4,13 +4,16 @@ import { ReactNode } from "react";
 
 export const Card = ({
   title,
+  id,
   children,
 }: {
   title: string | ReactNode;
+  id?: string;
   children: ReactNode;
 }) => {
   return (
     <Box
+      id={id}
       sx={{
         bg: "monochrome100",
         p: 5,
