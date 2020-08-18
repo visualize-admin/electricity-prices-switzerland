@@ -2,7 +2,10 @@ import { Trans } from "@lingui/macro";
 import * as React from "react";
 import { Entity, priceComponents } from "../../domain/data";
 import { pivot_longer } from "../../domain/helpers";
-import { useObservationsWithAllPriceComponentsQuery } from "../../graphql/queries";
+import {
+  useObservationsWithAllPriceComponentsQuery,
+  ObservationType,
+} from "../../graphql/queries";
 import { useQueryState } from "../../lib/use-query-state";
 import {
   BarsGrouped,
@@ -47,18 +50,20 @@ export const PriceComponentsBarChart = ({
         category,
         product,
       },
+      observationType:
+        entity === "canton"
+          ? ObservationType.MedianObservation
+          : ObservationType.ProviderObservation,
     },
   });
   const observations = observationsQuery.fetching
     ? EMPTY_ARRAY
-    : entity === "canton"
-    ? observationsQuery.data?.cantonObservations ?? EMPTY_ARRAY
     : observationsQuery.data?.observations ?? EMPTY_ARRAY;
 
   // const uniqueIds = muni+provider+year
   const withUniqueEntityId = observations.map((obs) => ({
     uniqueId:
-      entity === "canton"
+      obs.__typename === "MedianObservation"
         ? `${obs.period}, ${obs.cantonLabel}`
         : `${obs.period}, ${obs.municipalityLabel}, ${obs.providerLabel}`,
     ...obs,

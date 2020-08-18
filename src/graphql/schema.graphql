@@ -91,6 +91,11 @@ enum PriceComponent {
   total
 }
 
+enum ObservationType {
+  MedianObservation
+  ProviderObservation
+}
+
 type Query {
   municipalities(
     locale: String
@@ -104,7 +109,11 @@ type Query {
   canton(locale: String, id: String!): Canton
   provider(locale: String, id: String!): Provider
 
-  observations(locale: String, filters: ObservationFilters): [Observation!]!
+  observations(
+    locale: String
+    filters: ObservationFilters
+    observationType: ObservationType
+  ): [Observation!]!
   # cantonObservations(
   #   locale: String
   #   filters: ObservationFilters

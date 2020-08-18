@@ -48,8 +48,13 @@ query Observations(
   $locale: String
   $priceComponent: PriceComponent!
   $filters: ObservationFilters!
+  $observationType: ObservationType
 ) {
-  observations(locale: $locale, filters: $filters) {
+  observations(
+    locale: $locale
+    filters: $filters
+    observationType: $observationType
+  ) {
     ... on ProviderObservation {
       ...providerObservationFields
     }
@@ -94,8 +99,13 @@ fragment medianObservationWithAllPriceComponentsFields on MedianObservation {
 query ObservationsWithAllPriceComponents(
   $locale: String
   $filters: ObservationFilters!
+  $observationType: ObservationType
 ) {
-  observations(locale: $locale, filters: $filters) {
+  observations(
+    locale: $locale
+    filters: $filters
+    observationType: $observationType
+  ) {
     ... on ProviderObservation {
       ...providerObservationWithAllPriceComponentsFields
     }

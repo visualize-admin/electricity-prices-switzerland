@@ -125,6 +125,11 @@ export enum PriceComponent {
   Total = 'total'
 }
 
+export enum ObservationType {
+  MedianObservation = 'MedianObservation',
+  ProviderObservation = 'ProviderObservation'
+}
+
 export type Query = {
   __typename?: 'Query';
   municipalities: Array<Municipality>;
@@ -186,6 +191,7 @@ export type QueryProviderArgs = {
 export type QueryObservationsArgs = {
   locale?: Maybe<Scalars['String']>;
   filters?: Maybe<ObservationFilters>;
+  observationType?: Maybe<ObservationType>;
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -270,6 +276,7 @@ export type ResolversTypes = ResolversObject<{
   Observation: ResolverTypeWrapper<ResolvedObservation>;
   ObservationFilters: ObservationFilters;
   PriceComponent: PriceComponent;
+  ObservationType: ObservationType;
   Query: ResolverTypeWrapper<{}>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
 }>;

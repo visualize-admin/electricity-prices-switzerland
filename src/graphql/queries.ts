@@ -124,6 +124,11 @@ export enum PriceComponent {
   Total = 'total'
 }
 
+export enum ObservationType {
+  MedianObservation = 'MedianObservation',
+  ProviderObservation = 'ProviderObservation'
+}
+
 export type Query = {
   __typename: 'Query';
   municipalities: Array<Municipality>;
@@ -185,6 +190,7 @@ export type QueryProviderArgs = {
 export type QueryObservationsArgs = {
   locale?: Maybe<Scalars['String']>;
   filters?: Maybe<ObservationFilters>;
+  observationType?: Maybe<ObservationType>;
 };
 
 export type MunicipalitiesQueryVariables = Exact<{
@@ -230,6 +236,7 @@ export type ObservationsQueryVariables = Exact<{
   locale?: Maybe<Scalars['String']>;
   priceComponent: PriceComponent;
   filters: ObservationFilters;
+  observationType?: Maybe<ObservationType>;
 }>;
 
 
@@ -248,6 +255,7 @@ export type MedianObservationWithAllPriceComponentsFieldsFragment = { __typename
 export type ObservationsWithAllPriceComponentsQueryVariables = Exact<{
   locale?: Maybe<Scalars['String']>;
   filters: ObservationFilters;
+  observationType?: Maybe<ObservationType>;
 }>;
 
 
@@ -358,8 +366,8 @@ export function useSearchQuery(options: Omit<Urql.UseQueryArgs<SearchQueryVariab
   return Urql.useQuery<SearchQuery>({ query: SearchDocument, ...options });
 };
 export const ObservationsDocument = gql`
-    query Observations($locale: String, $priceComponent: PriceComponent!, $filters: ObservationFilters!) {
-  observations(locale: $locale, filters: $filters) {
+    query Observations($locale: String, $priceComponent: PriceComponent!, $filters: ObservationFilters!, $observationType: ObservationType) {
+  observations(locale: $locale, filters: $filters, observationType: $observationType) {
     ... on ProviderObservation {
       ...providerObservationFields
     }
@@ -375,8 +383,8 @@ export function useObservationsQuery(options: Omit<Urql.UseQueryArgs<Observation
   return Urql.useQuery<ObservationsQuery>({ query: ObservationsDocument, ...options });
 };
 export const ObservationsWithAllPriceComponentsDocument = gql`
-    query ObservationsWithAllPriceComponents($locale: String, $filters: ObservationFilters!) {
-  observations(locale: $locale, filters: $filters) {
+    query ObservationsWithAllPriceComponents($locale: String, $filters: ObservationFilters!, $observationType: ObservationType) {
+  observations(locale: $locale, filters: $filters, observationType: $observationType) {
     ... on ProviderObservation {
       ...providerObservationWithAllPriceComponentsFields
     }
