@@ -1,9 +1,10 @@
+import { Icon } from "../../icons";
 import { Trans } from "@lingui/macro";
-import { Box, Flex, Text } from "@theme-ui/components";
+import { Box, Flex, Text, Link as UILink } from "@theme-ui/components";
 import * as React from "react";
-import { Link as UILink } from "theme-ui";
-import { LocalizedLink } from "../links";
+import { LocalizedLink, HomeLink } from "../links";
 import { useRouter } from "next/router";
+import { Search } from "../search";
 
 export const DetailPageBanner = ({
   id,
@@ -22,15 +23,53 @@ export const DetailPageBanner = ({
   return (
     <Box
       sx={{
-        px: 4,
-        py: 6,
+        p: 4,
         bg: "monochrome100",
         borderBottomWidth: "1px",
         borderBottomStyle: "solid",
         borderBottomColor: "monochrome500",
       }}
     >
-      <Box sx={{ maxWidth: "67rem", mx: "auto", my: 2, px: 4 }}>
+      <Flex
+        sx={{
+          flexDirection: ["column", "column", "row"],
+          justifyContent: "flex-start",
+          alignItems: ["flex-start", "flex-start", "center"],
+          width: "100%",
+          mt: 4,
+          mb: 6,
+        }}
+      >
+        <Box
+          sx={{
+            order: [2, 2, 1],
+            flexGrow: 0,
+            flexShrink: 0,
+            mr: 6,
+            mt: [4, 4, 0],
+          }}
+        >
+          <HomeLink passHref>
+            <UILink
+              variant="inline"
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                fontSize: 3,
+                "> svg": { mr: 2 },
+              }}
+            >
+              <Icon name="chevronleft" size={24}></Icon>
+              <Trans id="detail.homelink">Zurück zur Übersicht</Trans>
+            </UILink>
+          </HomeLink>
+        </Box>
+        <Box sx={{ order: [1, 1, 2], flexGrow: 1, width: "100%" }}>
+          <Search />
+        </Box>
+      </Flex>
+
+      <Box sx={{ maxWidth: "67rem", mx: "auto", my: 2 }}>
         <Text as="h1" variant="heading1" sx={{ color: "monochrome800" }}>
           {name}
         </Text>

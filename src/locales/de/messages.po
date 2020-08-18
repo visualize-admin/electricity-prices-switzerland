@@ -14,11 +14,13 @@ msgstr ""
 "Plural-Forms: \n"
 
 #: src/components/combobox.tsx:170
+#: src/components/search.tsx:196
 msgid "combobox.isloading"
 msgstr "Resultate laden …"
 
 #: src/components/combobox.tsx:176
 #: src/components/combobox.tsx:303
+#: src/components/search.tsx:198
 msgid "combobox.noitems"
 msgstr "Keine Einträge"
 
@@ -34,7 +36,7 @@ msgstr "Clear search field"
 msgid "dataset.sortby"
 msgstr "Sortieren"
 
-#: src/components/detail-page/banner.tsx:24
+#: src/components/detail-page/banner.tsx:56
 msgid "detail.canton"
 msgstr "Kanton"
 
@@ -54,15 +56,15 @@ msgstr "Preisverteilung in der Schweiz"
 msgid "detail.card.title.prices.evolution"
 msgstr "Tarifentwicklung"
 
-#: src/components/detail-page/banner.tsx:30
+#: src/components/detail-page/banner.tsx:40
+msgid "detail.homelink"
+msgstr "Zurück zur Übersicht"
+
+#: src/components/detail-page/banner.tsx:62
 msgid "detail.municipalities"
 msgstr "Gemeinden"
 
-#: src/components/detail-page/banner.tsx:28
-#~ msgid "detail.municipality"
-#~ msgstr "Netzbetrieber"
-
-#: src/components/detail-page/banner.tsx:39
+#: src/components/detail-page/banner.tsx:71
 msgid "detail.providers"
 msgstr "Netzbetreiber"
 
@@ -147,6 +149,31 @@ msgstr "median"
 msgid "price.legend.min"
 msgstr "min"
 
+#: src/components/search.tsx:36
+#: src/pages/[locale]/index.tsx:94
+msgid "search.global"
+msgstr "Siehe die detaillierte Preisanalyse von Kantone, Gemeinde, Netzbetreiber."
+
+#: src/components/search.tsx:120
+msgid "search.global.hint.canton.muni.provider"
+msgstr "Gemeinde, Netzbetreiber, Kanton"
+
+#: src/components/search.tsx:110
+msgid "search.global.hint.go.to"
+msgstr "Gehe zu…"
+
+#: src/domain/translation.tsx:61
+msgid "search.result.canton"
+msgstr "Kanton"
+
+#: src/domain/translation.tsx:59
+msgid "search.result.municipality"
+msgstr "Gemeinde"
+
+#: src/domain/translation.tsx:57
+msgid "search.result.provider"
+msgstr "Netzbetreiber"
+
 #: src/components/detail-page/selector-multi.tsx:59
 #: src/components/selector.tsx:31
 msgid "selector.category"
@@ -225,10 +252,6 @@ msgstr "Netzbetreiber zum Vergleich"
 msgid "selector.legend.select.parameters"
 msgstr "Parameter auswählen"
 
-#: src/components/detail-page/selector-multi.tsx:28
-#~ msgid "selector.municipality"
-#~ msgstr "Gemeinde"
-
 #: src/components/selector.tsx:29
 msgid "selector.priceComponent"
 msgstr "Preiskomponente"
@@ -271,76 +294,15 @@ msgstr "Günstigstes"
 msgid "selector.product.standard"
 msgstr "Standard"
 
-#: src/components/detail-page/selector-multi.tsx:33
-#: src/components/detail-page/selector-multi.tsx:43
-#~ msgid "selector.provider"
-#~ msgstr "Netzbetreiber"
-
 #: src/components/selector.tsx:28
 msgid "selector.year"
 msgstr "Jahr"
-
-#: src/domain/translation.tsx:30
-#~ msgid "selector.year.2009"
-#~ msgstr "2009"
-
-#: src/domain/translation.tsx:28
-#~ msgid "selector.year.2010"
-#~ msgstr "2010"
-
-#: src/domain/translation.tsx:26
-#~ msgid "selector.year.2011"
-#~ msgstr "2011"
-
-#: src/domain/translation.tsx:24
-#~ msgid "selector.year.2012"
-#~ msgstr "2012"
-
-#: src/domain/translation.tsx:22
-#~ msgid "selector.year.2013"
-#~ msgstr "2013"
-
-#: src/domain/translation.tsx:20
-#~ msgid "selector.year.2014"
-#~ msgstr "2014"
-
-#: src/domain/translation.tsx:18
-#~ msgid "selector.year.2015"
-#~ msgstr "2015"
-
-#: src/domain/translation.tsx:16
-#~ msgid "selector.year.2016"
-#~ msgstr "2016"
-
-#: src/domain/translation.tsx:14
-#~ msgid "selector.year.2017"
-#~ msgstr "2017"
-
-#: src/domain/translation.tsx:12
-#~ msgid "selector.year.2018"
-#~ msgstr "2018"
-
-#: src/domain/translation.tsx:10
-#~ msgid "selector.year.2019"
-#~ msgstr "2019"
-
-#: src/domain/translation.tsx:8
-#~ msgid "selector.year.2020"
-#~ msgstr "2020"
-
-#: src/domain/translation.tsx:6
-#~ msgid "selector.year.2021"
-#~ msgstr "2021"
 
 #: src/components/detail-page/selector-multi.tsx:58
 msgid "selector.years"
 msgstr "Jahre"
 
 #: src/components/header.tsx:65
-#: src/pages/[locale]/index.tsx:80
+#: src/pages/[locale]/index.tsx:82
 msgid "site.title"
 msgstr "Strompreise Schweiz"
-
-#: src/pages/[locale]/index.tsx:9
-#~ msgid "test.hello"
-#~ msgstr "Hallo"
