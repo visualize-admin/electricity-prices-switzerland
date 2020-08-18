@@ -2,6 +2,7 @@ import * as React from "react";
 import { Trans } from "@lingui/macro";
 import { useLocale } from "../../lib/use-locale";
 import { Entity } from "../../domain/data";
+import { Link as TUILink } from "@theme-ui/components";
 
 interface Props {
   entity?: Entity;
@@ -24,8 +25,13 @@ export const DownloadImage = ({ elementId, fileName, entity, id }: Props) => {
       : `${origin}/api/screenshot?url=${origin}/${locale}&element=${elementId}&download=${fileName}-image`;
 
   return (
-    <a href={url}>
+    <TUILink
+      variant="inline"
+      href={downLoadUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
       <Trans id="image.download">Bild herunterladen</Trans>
-    </a>
+    </TUILink>
   );
 };
