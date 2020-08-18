@@ -120,6 +120,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                * The request is for a screenshot of a specific element. This element may not
                * exist though. If it doesn't, it's treated as a client error (status 400).
                */
+              await page.waitForSelector(`.${query.element}`);
+
               const elementHandle = await page.$(`#${query.element}`);
               if (!elementHandle) {
                 return {

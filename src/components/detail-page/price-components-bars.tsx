@@ -80,44 +80,46 @@ export const PriceComponentsBarChart = ({
       {observations.length === 0 ? (
         <Loading />
       ) : (
-        <GroupedBarsChart
-          data={pivoted}
-          fields={{
-            x: {
-              componentIri: "value",
-            },
-            y: {
-              componentIri: "priceComponent",
-              sorting: { sortingType: "byMeasure", sortingOrder: "desc" },
-            },
-            segment: {
-              componentIri: "uniqueId",
-              type: "grouped",
-              palette: "elcom",
-            },
-          }}
-          measures={[
-            {
-              iri: "value",
-              label: "value",
-              __typename: "Measure",
-            },
-          ]}
-          dimensions={[
-            {
-              iri: "priceComponent",
-              label: "priceComponent",
-              __typename: "NominalDimension",
-            },
-          ]}
-        >
-          <ChartContainer>
-            <ChartSvg>
-              <BarsGrouped />
-              <BarsGroupedLabels />
-            </ChartSvg>
-          </ChartContainer>
-        </GroupedBarsChart>
+        <div className="price-component">
+          <GroupedBarsChart
+            data={pivoted}
+            fields={{
+              x: {
+                componentIri: "value",
+              },
+              y: {
+                componentIri: "priceComponent",
+                sorting: { sortingType: "byMeasure", sortingOrder: "desc" },
+              },
+              segment: {
+                componentIri: "uniqueId",
+                type: "grouped",
+                palette: "elcom",
+              },
+            }}
+            measures={[
+              {
+                iri: "value",
+                label: "value",
+                __typename: "Measure",
+              },
+            ]}
+            dimensions={[
+              {
+                iri: "priceComponent",
+                label: "priceComponent",
+                __typename: "NominalDimension",
+              },
+            ]}
+          >
+            <ChartContainer>
+              <ChartSvg>
+                <BarsGrouped />
+                <BarsGroupedLabels />
+              </ChartSvg>
+            </ChartContainer>
+          </GroupedBarsChart>
+        </div>
       )}
       <a href="http://localhost:3000/api/screenshot?url=http://localhost:3000/de/municipality/261&element=price-component&download=price-component-image">
         download image
