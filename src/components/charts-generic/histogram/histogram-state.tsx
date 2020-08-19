@@ -15,7 +15,6 @@ import { InteractionProvider } from "../use-interaction";
 import { Bounds, Observer, useWidth } from "../use-width";
 
 export const ANNOTATION_DOT_RADIUS = 2.5;
-export const ANNOTATION_SQUARE_SIDE = 8;
 export const ANNOTATION_LABEL_HEIGHT = 20;
 
 export interface HistogramState {

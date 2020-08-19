@@ -7,7 +7,7 @@ import { useChartState } from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
 
 export const ANNOTATION_DOT_RADIUS = 2.5;
-export const ANNOTATION_SQUARE_SIDE = 8;
+export const ANNOTATION_SQUARE_SIDE = 5;
 export const ANNOTATION_LABEL_HEIGHT = 20;
 
 export interface Annotation {
@@ -27,7 +27,7 @@ export const AnnotationX = () => {
     | HistogramState;
 
   const { margins } = bounds;
-  const { annotationLineColor } = useChartTheme();
+  const { annotationLineColor, annotationColor } = useChartTheme();
 
   return (
     <>
@@ -36,18 +36,20 @@ export const AnnotationX = () => {
           return (
             <React.Fragment key={i}>
               <g transform={`translate(${margins.left}, 0)`}>
-                <rect
-                  x={a.x - ANNOTATION_SQUARE_SIDE / 2}
-                  y={a.yLabel}
-                  width={ANNOTATION_SQUARE_SIDE}
-                  height={ANNOTATION_SQUARE_SIDE}
-                />
                 <line
                   x1={a.x}
                   y1={a.yLabel}
                   x2={a.x}
                   y2={a.y + margins.top}
                   stroke={annotationLineColor}
+                />
+                <polygon
+                  points={`${a.x - ANNOTATION_SQUARE_SIDE},${a.yLabel} ${
+                    a.x + ANNOTATION_SQUARE_SIDE
+                  },${a.yLabel} ${a.x},${
+                    a.yLabel + ANNOTATION_SQUARE_SIDE * 1.5
+                  } `}
+                  fill={annotationColor}
                 />
               </g>
             </React.Fragment>
