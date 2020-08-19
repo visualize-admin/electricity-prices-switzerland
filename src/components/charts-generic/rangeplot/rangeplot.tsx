@@ -25,37 +25,39 @@ export const Range = () => {
           const xMin = min(row[1], (d) => getX(d)) ?? 0;
           const xMax = max(row[1], (d) => getX(d));
 
+          const clipPathId = `cut-off-range-${row[0].replace(/\W+/g, "-")}`;
+
           return (
             <React.Fragment key={row[0]}>
-              {xMin && xMax && isNumber(yScale(row[0])) && (
-                <>
-                  <clipPath id={`cut-off-range-${row[0]}`}>
-                    <rect
-                      x={xScale(xMin) - DOT_RADIUS}
-                      width={xScale(xMax) - xScale(xMin) + DOT_RADIUS * 2}
-                      height={DOT_RADIUS * 2}
-                      rx={DOT_RADIUS}
-                      fillOpacity={0.2}
-                    />
-                  </clipPath>
-                  <g
-                    key={row[0]}
-                    transform={`translate(0, ${
-                      (yScale(row[0]) as number) - DOT_RADIUS
-                    })`}
-                  >
-                    <rect
-                      x={0}
-                      width={chartWidth}
-                      height={DOT_RADIUS * 2}
-                      rx={DOT_RADIUS}
-                      fill="url(#priceRange)"
-                      fillOpacity={0.3}
-                      clipPath={`url(#cut-off-range-${row[0]})`}
-                    />
-                  </g>
-                </>
-              )}
+              {xMin !== undefined &&
+                xMax !== undefined &&
+                isNumber(yScale(row[0])) && (
+                  <>
+                    <clipPath id={clipPathId}>
+                      <rect
+                        x={xScale(xMin)}
+                        width={xScale(xMax) - xScale(xMin)}
+                        height={DOT_RADIUS * 2}
+                        fillOpacity={0.2}
+                      />
+                    </clipPath>
+                    <g
+                      key={row[0]}
+                      transform={`translate(0, ${
+                        (yScale(row[0]) as number) - DOT_RADIUS
+                      })`}
+                    >
+                      <rect
+                        x={0}
+                        width={chartWidth}
+                        height={DOT_RADIUS * 2}
+                        fill="url(#priceRange)"
+                        fillOpacity={0.3}
+                        clipPath={`url(#${clipPathId})`}
+                      />
+                    </g>
+                  </>
+                )}
             </React.Fragment>
           );
         })}
@@ -104,49 +106,52 @@ export const RangePoints = () => {
 
           return (
             <React.Fragment key={row[0]}>
-              {xMin && m && xMax && isNumber(yScale(row[0])) && (
-                <g
-                  key={row[0]}
-                  transform={`translate(0, ${
-                    (yScale(row[0]) as number) - DOT_RADIUS
-                  })`}
-                >
-                  <circle
-                    cx={xScale(xMin)}
-                    cy={DOT_RADIUS}
-                    r={DOT_RADIUS}
-                    fill={colors(xMin)}
-                  />
-                  <line
-                    x1={xScale(m)}
-                    y1={0}
-                    x2={xScale(m)}
-                    y2={DOT_RADIUS * 2}
-                    strokeWidth={1}
-                    stroke={domainColor}
-                    strokeDasharray="4 2"
-                  />
-                  <circle
-                    cx={xScale(xMax)}
-                    cy={DOT_RADIUS}
-                    r={DOT_RADIUS}
-                    fill={colors(xMax)}
-                  />
-                  <text
-                    x={xScale(xMin) - 16}
-                    y={DOT_RADIUS}
-                    style={{
-                      fontFamily,
-                      fill: labelColor,
-                      fontSize: labelFontSize,
-                      textAnchor: "end",
-                      dominantBaseline: "central",
-                    }}
+              {xMin !== undefined &&
+                m !== undefined &&
+                xMax !== undefined &&
+                isNumber(yScale(row[0])) && (
+                  <g
+                    key={row[0]}
+                    transform={`translate(0, ${
+                      (yScale(row[0]) as number) - DOT_RADIUS
+                    })`}
                   >
-                    {row[0]}
-                  </text>
-                </g>
-              )}
+                    <circle
+                      cx={xScale(xMin)}
+                      cy={DOT_RADIUS}
+                      r={DOT_RADIUS}
+                      fill={colors(xMin)}
+                    />
+                    <circle
+                      cx={xScale(xMax)}
+                      cy={DOT_RADIUS}
+                      r={DOT_RADIUS}
+                      fill={colors(xMax)}
+                    />
+                    <line
+                      x1={xScale(m)}
+                      y1={0}
+                      x2={xScale(m)}
+                      y2={DOT_RADIUS * 2}
+                      strokeWidth={1}
+                      stroke={domainColor}
+                      strokeDasharray="4 2"
+                    />
+                    <text
+                      x={-15}
+                      y={DOT_RADIUS}
+                      style={{
+                        fontFamily,
+                        fill: labelColor,
+                        fontSize: labelFontSize,
+                        textAnchor: "end",
+                        dominantBaseline: "central",
+                      }}
+                    >
+                      {row[0]}
+                    </text>
+                  </g>
+                )}
             </React.Fragment>
           );
         })}
