@@ -230,7 +230,6 @@ const getResolverFields = (info: GraphQLResolveInfo, type: string) => {
 
   if (resolveInfo) {
     const fieldMap = resolveInfo.fieldsByTypeName[type];
-    console.log(fieldMap);
     return fieldMap as { [s: string]: ResolveTree };
   }
 
