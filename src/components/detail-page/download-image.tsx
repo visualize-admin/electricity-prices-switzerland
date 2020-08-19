@@ -39,19 +39,18 @@ export const DownloadImage = ({
   }, [setOrigin]);
 
   const years = `${period.reduce(
-    (acc, cur, i) => acc.concat(`period=${cur}`),
+    (acc, cur, i) => acc.concat(`${i > 0 ? "&" : ""}period=${cur}`),
     ""
   )}`;
 
-  const url = encodeURIComponent(
-    `${origin}/${locale}/${entity}/${id}?download=${download}&category=${category}&product=${product}&${years}`
-  );
-
-  const downLoadUrl =
+  const url =
     entity && id && download !== "map"
-      ? `${origin}/api/screenshot?url=${url}&element=${elementId}&download=${fileName}-image&deviceScaleFactor=2`
-      : // Map
-        `${origin}/api/screenshot?url=${origin}/${locale}&element=${elementId}&download=${fileName}-image&deviceScaleFactor=2`;
+      ? `${origin}/${locale}/${entity}/${id}?download=${download}&category=${category}&product=${product}&${years}`
+      : `${origin}/${locale}?download=${download}&category=${category}&product=${product}&${years}`;
+
+  const downLoadUrl = `${origin}/api/screenshot?url=${encodeURIComponent(
+    url
+  )}&element=${elementId}&download=${fileName}-image&deviceScaleFactor=2`;
 
   return (
     <TUILink
