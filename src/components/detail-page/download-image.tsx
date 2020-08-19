@@ -29,8 +29,9 @@ export const DownloadImage = ({
   download,
 }: Props) => {
   const locale = useLocale();
-  const [{ period, category, product }] = useQueryState();
-  const { query, replace, pathname } = useRouter();
+  const [
+    { period, category, product, municipality, provider, canton },
+  ] = useQueryState();
 
   const [origin, setOrigin] = React.useState<undefined | string>(undefined);
 
@@ -38,19 +39,29 @@ export const DownloadImage = ({
     setOrigin(window.location.origin);
   }, [setOrigin]);
 
-  const years = `${period.reduce(
-    (acc, cur, i) => acc.concat(`${i > 0 ? "&" : ""}period=${cur}`),
-    ""
-  )}`;
+  const constructParamsFromArray = (
+    param: string[] | undefined,
+    paramName: string
+  ): string =>
+    param
+      ? `${param.reduce((acc, cur) => acc.concat(`&${paramName}=${cur}`), "")}`
+      : "";
+
+  const periods = constructParamsFromArray(period, "period");
+  const municipalities = constructParamsFromArray(municipality, "municipality");
+  const providers = constructParamsFromArray(provider, "provider");
+  const cantons = constructParamsFromArray(canton, "canton");
+
+  const queryParams = `download=${download}${municipalities}${providers}${cantons}&category=${category}&product=${product}&${periods}`;
 
   const url =
     entity && id && download !== "map"
-      ? `${origin}/${locale}/${entity}/${id}?download=${download}&category=${category}&product=${product}&${years}`
-      : `${origin}/${locale}?download=${download}&category=${category}&product=${product}&${years}`;
+      ? `${origin}/${locale}/${entity}/${id}?${queryParams}`
+      : `${origin}/${locale}?${queryParams}`;
 
   const downLoadUrl = `${origin}/api/screenshot?url=${encodeURIComponent(
     url
-  )}&element=${elementId}&download=${fileName}-image&deviceScaleFactor=2`;
+  )}&element=${elementId}&filename=${fileName}-image&deviceScaleFactor=2`;
 
   return (
     <TUILink
