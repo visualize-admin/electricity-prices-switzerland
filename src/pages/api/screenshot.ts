@@ -55,7 +55,7 @@ const Query = t.strict({
   url: t.string,
   deviceScaleFactor: t.union([t.undefined, NumberFromString]),
   element: t.union([t.undefined, t.string]),
-  download: t.union([t.undefined, t.string]),
+  filename: t.union([t.undefined, t.string]),
 });
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
@@ -109,10 +109,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             const headers: Record<string, string> = {
               "Content-Type": "image/png",
             };
-            if (query.download) {
+            if (query.filename) {
               headers[
                 "Content-Disposition"
-              ] = `attachment; filename=${query.download}.png`;
+              ] = `attachment; filename=${query.filename}.png`;
             }
 
             if (query.element) {
