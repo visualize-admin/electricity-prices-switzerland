@@ -92,6 +92,14 @@ msgstr "ElCom"
 msgid "hint.loading.data"
 msgstr "Lade Daten…"
 
+#: src/components/hint.tsx:84
+msgid "hint.nodata.message"
+msgstr "Für die aktuelle Auswahl konnten keine Daten geladen werden."
+
+#: src/components/hint.tsx:81
+msgid "hint.nodata.title"
+msgstr "Keine Daten"
+
 #: src/components/charts-generic/histogram/histogram-min-max-values.tsx:48
 msgid "histogram.max"
 msgstr "Max"

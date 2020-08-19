@@ -92,6 +92,14 @@ msgstr "Elcom"
 msgid "hint.loading.data"
 msgstr "Chargement des données…"
 
+#: src/components/hint.tsx:84
+msgid "hint.nodata.message"
+msgstr ""
+
+#: src/components/hint.tsx:81
+msgid "hint.nodata.title"
+msgstr ""
+
 #: src/components/charts-generic/histogram/histogram-min-max-values.tsx:48
 msgid "histogram.max"
 msgstr "Max"
