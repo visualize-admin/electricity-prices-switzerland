@@ -3,8 +3,8 @@ import { Trans } from "@lingui/macro";
 import { useLocale } from "../../lib/use-locale";
 import { Entity } from "../../domain/data";
 import { useQueryState } from "../../lib/use-query-state";
-import { useRouter } from "next/router";
-import { Link as TUILink } from "@theme-ui/components";
+
+import { Link as TUILink, Box } from "@theme-ui/components";
 
 export type Download =
   | "map"
@@ -72,13 +72,15 @@ export const DownloadImage = ({
   )}&element=${elementId}&filename=${fileName}&deviceScaleFactor=2`;
 
   return (
-    <TUILink
-      variant="inline"
-      href={downLoadUrl}
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      <Trans id="image.download">Bild herunterladen</Trans>
-    </TUILink>
+    <Box sx={{ mt: 4 }}>
+      <TUILink
+        variant="inline"
+        href={downLoadUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <Trans id="image.download">Bild herunterladen</Trans>
+      </TUILink>
+    </Box>
   );
 };
