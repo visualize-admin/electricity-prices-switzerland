@@ -147,7 +147,7 @@ msgstr "median"
 
 #: src/components/price-color-legend.tsx:25
 msgid "price.legend.min"
-msgstr "min<<<<<<< HEAD"
+msgstr "min"
 
 #: src/components/search.tsx:36
 #: src/pages/[locale]/index.tsx:94
@@ -300,7 +300,7 @@ msgstr "Standard"
 
 #: src/components/selector.tsx:28
 msgid "selector.year"
-msgstr "Jahr<<<<<<< HEAD"
+msgstr "Jahr"
 
 #: src/domain/translation.tsx:30
 #~ msgid "selector.year.2009"
