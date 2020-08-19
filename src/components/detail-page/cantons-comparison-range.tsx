@@ -39,12 +39,13 @@ export const CantonsComparisonRangePlots = ({
   id: string;
   entity: Entity;
 }) => {
-  const [{ period, municipality, provider, canton }] = useQueryState();
+  const [
+    { period, municipality, provider, canton, priceComponent },
+    setQueryState,
+  ] = useQueryState();
 
   const i18n = useI18n();
-  const [priceComponent, setPriceComponent] = useState<PriceComponent>(
-    PriceComponent.Total
-  );
+
   const getItemLabel = (id: string) => getLocalizedLabel({ i18n, id });
 
   const comparisonIds =
@@ -90,8 +91,8 @@ export const CantonsComparisonRangePlots = ({
               label: getLocalizedLabel({ i18n, id: "aidfee" }),
             },
           ]}
-          value={priceComponent as string}
-          setValue={(c) => setPriceComponent(c as PriceComponent)}
+          value={priceComponent[0] as string}
+          setValue={(pc) => setQueryState({ priceComponent: [pc] })}
           variant="segmented"
         />
       </Box>
@@ -101,8 +102,8 @@ export const CantonsComparisonRangePlots = ({
           label={<Trans id="selector.priceComponents">Preis Komponenten</Trans>}
           items={priceComponents}
           getItemLabel={getItemLabel}
-          selectedItem={priceComponent}
-          setSelectedItem={(c) => setPriceComponent(c as PriceComponent)}
+          selectedItem={priceComponent[0]}
+          setSelectedItem={(pc) => setQueryState({ priceComponent: [pc] })}
           showLabel={false}
         />
       </Box>
@@ -111,7 +112,7 @@ export const CantonsComparisonRangePlots = ({
         <CantonsComparisonRangePlot
           key={p}
           year={p}
-          priceComponent={priceComponent}
+          priceComponent={priceComponent[0] as PriceComponent}
           annotationIds={annotationIds}
           entity={entity}
         />

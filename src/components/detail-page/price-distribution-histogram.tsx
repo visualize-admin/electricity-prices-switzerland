@@ -1,13 +1,7 @@
 import { Trans } from "@lingui/macro";
 import { Box } from "@theme-ui/components";
 import * as React from "react";
-import { useState } from "react";
-import {
-  Entity,
-  GenericObservation,
-  getEntityLabelField,
-  priceComponents,
-} from "../../domain/data";
+import { Entity, GenericObservation, priceComponents } from "../../domain/data";
 import { getLocalizedLabel } from "../../domain/translation";
 import { useQueryState } from "../../lib/use-query-state";
 import { EMPTY_ARRAY } from "../../pages/[locale]/municipality/[id]";
@@ -16,11 +10,9 @@ import {
   AnnotationXLabel,
 } from "../charts-generic/annotation/annotation-x";
 import { AxisHeightLinear } from "../charts-generic/axis/axis-height-linear";
-import {
-  AxisWidthHistogram,
-  AxisWidthHistogramDomain,
-} from "../charts-generic/axis/axis-width-histogram";
+import { AxisWidthHistogramDomain } from "../charts-generic/axis/axis-width-histogram";
 import { HistogramColumns } from "../charts-generic/histogram/histogram";
+import { HistogramMinMaxValues } from "../charts-generic/histogram/histogram-min-max-values";
 import { Histogram } from "../charts-generic/histogram/histogram-state";
 import { HistogramMedian } from "../charts-generic/histogram/median";
 import { Combobox } from "../combobox";
@@ -33,9 +25,8 @@ import {
 } from "./../../components/charts-generic/containers";
 import { Card } from "./../../components/detail-page/card";
 import { PriceComponent, useObservationsQuery } from "./../../graphql/queries";
+import { Download, DownloadImage } from "./download-image";
 import { FilterSetDescription } from "./filter-set-description";
-import { HistogramMinMaxValues } from "../charts-generic/histogram/histogram-min-max-values";
-import { DownloadImage, Download } from "./download-image";
 import { WithClassName } from "./with-classname";
 
 const DOWNLOAD_ID: Download = "distribution";
@@ -47,11 +38,12 @@ export const PriceDistributionHistograms = ({
   id: string;
   entity: Entity;
 }) => {
-  const [{ period, municipality, provider, canton }] = useQueryState();
+  const [
+    { period, municipality, provider, canton, priceComponent },
+    setQueryState,
+  ] = useQueryState();
   const i18n = useI18n();
-  const [priceComponent, setPriceComponent] = useState<PriceComponent>(
-    PriceComponent.Total
-  );
+
   const getItemLabel = (id: string) => getLocalizedLabel({ i18n, id });
 
   const comparisonIds =
@@ -97,8 +89,8 @@ export const PriceDistributionHistograms = ({
               label: getLocalizedLabel({ i18n, id: "aidfee" }),
             },
           ]}
-          value={priceComponent as string}
-          setValue={(c) => setPriceComponent(c as PriceComponent)}
+          value={priceComponent[0] as string}
+          setValue={(pc) => setQueryState({ priceComponent: [pc] })}
           variant="segmented"
         />
       </Box>
@@ -108,8 +100,8 @@ export const PriceDistributionHistograms = ({
           label={<Trans id="selector.priceComponents">Preis Komponenten</Trans>}
           items={priceComponents}
           getItemLabel={getItemLabel}
-          selectedItem={priceComponent}
-          setSelectedItem={(c) => setPriceComponent(c as PriceComponent)}
+          selectedItem={priceComponent[0]}
+          setSelectedItem={(pc) => setQueryState({ priceComponent: [pc] })}
           showLabel={false}
         />
       </Box>
@@ -117,7 +109,7 @@ export const PriceDistributionHistograms = ({
         <PriceDistributionHistogram
           key={p}
           year={p}
-          priceComponent={priceComponent}
+          priceComponent={priceComponent[0] as PriceComponent}
           annotationIds={annotationIds}
           entity={entity}
         />

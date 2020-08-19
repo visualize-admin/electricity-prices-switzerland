@@ -16,7 +16,7 @@ export type Download =
 interface Props {
   entity?: Entity;
   id?: string;
-  elementId: string;
+  elementId: Download;
   fileName: string;
   download: Download;
 }
@@ -30,7 +30,15 @@ export const DownloadImage = ({
 }: Props) => {
   const locale = useLocale();
   const [
-    { period, category, product, municipality, provider, canton },
+    {
+      period,
+      category,
+      product,
+      priceComponent,
+      municipality,
+      provider,
+      canton,
+    },
   ] = useQueryState();
 
   const [origin, setOrigin] = React.useState<undefined | string>(undefined);
@@ -52,7 +60,7 @@ export const DownloadImage = ({
   const providers = constructParamsFromArray(provider, "provider");
   const cantons = constructParamsFromArray(canton, "canton");
 
-  const queryParams = `download=${download}${municipalities}${providers}${cantons}${periods}&category=${category}&product=${product}`;
+  const queryParams = `download=${download}${municipalities}${providers}${cantons}${periods}&category=${category}&product=${product}&priceComponent=${priceComponent}`;
 
   const url =
     entity && id && download !== "map"
