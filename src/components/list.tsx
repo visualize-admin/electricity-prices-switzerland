@@ -61,7 +61,13 @@ const ListItem = ({
           lineHeight: 1,
           color: "text",
           textDecoration: "none",
-          ":focus": {
+          "&:hover": {
+            bg: "mutedDarker",
+          },
+          "&:active": {
+            bg: "primaryLight",
+          },
+          "&:focus": {
             outline: 0,
             bg: "primaryLight",
           },
