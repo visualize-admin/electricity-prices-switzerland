@@ -36,6 +36,7 @@ import { memo } from "react";
 import { FilterSetDescription } from "./filter-set-description";
 import { getLocalizedLabel } from "../../domain/translation";
 import { useI18n } from "../i18n-context";
+import { DownloadImage } from "./download-image";
 
 export const PriceEvolution = ({
   id,
@@ -87,6 +88,7 @@ export const PriceEvolution = ({
       title={
         <Trans id="detail.card.title.prices.evolution">Tarifentwicklung</Trans>
       }
+      id="evolution"
     >
       <FilterSetDescription
         filters={{
@@ -96,7 +98,7 @@ export const PriceEvolution = ({
       {observations.length === 0 ? (
         <Loading />
       ) : (
-        <>
+        <div className="evolution">
           {priceComponents.map((pc, i) => (
             <PriceEvolutionLineChart
               key={pc}
@@ -107,8 +109,15 @@ export const PriceEvolution = ({
               withLegend={i === 0 && hasMultipleLines}
             />
           ))}
-        </>
+        </div>
       )}
+      <DownloadImage
+        elementId="evolution"
+        fileName="evolution"
+        entity={entity}
+        id={id}
+        download="evolution"
+      />
     </Card>
   );
 };

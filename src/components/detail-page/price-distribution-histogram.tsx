@@ -35,6 +35,7 @@ import { Card } from "./../../components/detail-page/card";
 import { PriceComponent, useObservationsQuery } from "./../../graphql/queries";
 import { FilterSetDescription } from "./filter-set-description";
 import { HistogramMinMaxValues } from "../charts-generic/histogram/histogram-min-max-values";
+import { DownloadImage } from "./download-image";
 
 export const PriceDistributionHistograms = ({
   id,
@@ -69,6 +70,7 @@ export const PriceDistributionHistograms = ({
           Preisverteilung in der Schweiz
         </Trans>
       }
+      id="distribution"
     >
       <Box sx={{ display: ["none", "none", "block"] }}>
         <RadioTabs
@@ -108,7 +110,6 @@ export const PriceDistributionHistograms = ({
           showLabel={false}
         />
       </Box>
-
       {period.map((p) => (
         <PriceDistributionHistogram
           key={p}
@@ -118,6 +119,13 @@ export const PriceDistributionHistograms = ({
           entity={entity}
         />
       ))}
+      <DownloadImage
+        elementId="distribution"
+        fileName="distribution"
+        entity={entity}
+        id={id}
+        download="distribution"
+      />
     </Card>
   );
 };

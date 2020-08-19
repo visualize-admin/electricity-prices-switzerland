@@ -27,6 +27,7 @@ import { Card } from "./card";
 import { FilterSetDescription } from "./filter-set-description";
 import { Combobox } from "../combobox";
 import { EMPTY_ARRAY } from "../../pages/[locale]/municipality/[id]";
+import { DownloadImage } from "./download-image";
 
 export const CantonsComparisonRangePlots = ({
   id,
@@ -62,6 +63,7 @@ export const CantonsComparisonRangePlots = ({
           Kantonsvergleich
         </Trans>
       }
+      id="comparison"
     >
       <Box sx={{ display: ["none", "none", "block"] }}>
         <RadioTabs
@@ -111,6 +113,13 @@ export const CantonsComparisonRangePlots = ({
           entity={entity}
         />
       ))}
+      <DownloadImage
+        elementId="comparison"
+        fileName="comparison"
+        entity={entity}
+        id={id}
+        download="comparison"
+      />
     </Card>
   );
 };

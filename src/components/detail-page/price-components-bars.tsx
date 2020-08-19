@@ -71,7 +71,7 @@ export const PriceComponentsBarChart = ({
       title={
         <Trans id="detail.card.title.price.components">Preiskomponenten</Trans>
       }
-      id="price-component"
+      id="components"
     >
       <FilterSetDescription
         filters={{
@@ -81,7 +81,7 @@ export const PriceComponentsBarChart = ({
       {observations.length === 0 ? (
         <Loading />
       ) : (
-        <div className="price-component">
+        <div className="components">
           <GroupedBarsChart
             data={pivoted}
             fields={{
@@ -123,8 +123,8 @@ export const PriceComponentsBarChart = ({
         </div>
       )}
       <DownloadImage
-        elementId="price-component"
-        fileName={"iio"}
+        elementId="components"
+        fileName="components"
         entity={entity}
         id={id}
         download="components"
