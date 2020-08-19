@@ -73,7 +73,7 @@ const ListItem = ({
           },
         }}
       >
-        <Text variant="meta" sx={{ flexGrow: 1 }}>
+        <Text variant="paragraph1" sx={{ flexGrow: 1 }}>
           {label}
         </Text>
         <Box
@@ -84,7 +84,7 @@ const ListItem = ({
           }}
           style={{ background: colorScale(value) }}
         >
-          <Text variant="meta">{formatNumber(value)}</Text>
+          <Text variant="paragraph1">{formatNumber(value)}</Text>
         </Box>
         <Box sx={{ width: "24px", flexShrink: 0 }}>
           <Icon name="chevronright"></Icon>
