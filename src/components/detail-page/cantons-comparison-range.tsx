@@ -1,15 +1,15 @@
 import { Trans } from "@lingui/macro";
 import { Box } from "@theme-ui/components";
 import * as React from "react";
-import { useState, memo } from "react";
-import {
-  Entity,
-  GenericObservation,
-  getEntityLabelField,
-  priceComponents,
-} from "../../domain/data";
+import { memo, useState } from "react";
+import { Entity, GenericObservation, priceComponents } from "../../domain/data";
 import { getLocalizedLabel } from "../../domain/translation";
-import { PriceComponent, useObservationsQuery } from "../../graphql/queries";
+import {
+  ObservationType,
+  PriceComponent,
+  useObservationsQuery,
+} from "../../graphql/queries";
+import { EMPTY_ARRAY } from "../../lib/empty-array";
 import { useQueryState } from "../../lib/use-query-state";
 import {
   AnnotationX,
@@ -20,13 +20,12 @@ import { AxisWidthLinear } from "../charts-generic/axis/axis-width-linear";
 import { ChartContainer, ChartSvg } from "../charts-generic/containers";
 import { Range, RangePoints } from "../charts-generic/rangeplot/rangeplot";
 import { RangePlot } from "../charts-generic/rangeplot/rangeplot-state";
+import { Combobox } from "../combobox";
 import { useI18n } from "../i18n-context";
 import { Loading } from "../loading";
 import { RadioTabs } from "../radio-tabs";
 import { Card } from "./card";
 import { FilterSetDescription } from "./filter-set-description";
-import { Combobox } from "../combobox";
-import { EMPTY_ARRAY } from "../../pages/[locale]/municipality/[id]";
 
 export const CantonsComparisonRangePlots = ({
   id,
@@ -138,6 +137,10 @@ export const CantonsComparisonRangePlot = memo(
           category,
           product,
         },
+        observationType:
+          entity === "canton"
+            ? ObservationType.MedianObservation
+            : ObservationType.ProviderObservation,
       },
     });
     const observations = observationsQuery.fetching
@@ -147,9 +150,12 @@ export const CantonsComparisonRangePlot = memo(
     const annotations =
       annotationIds &&
       observations
-        .filter((obs) => annotationIds.includes(obs[entity]))
+        .filter((obs) => annotationIds.includes((obs as $FixMe)[entity]))
         .map((obs) => ({
-          muniProvider: `${obs.municipalityLabel}, ${obs.providerLabel}`,
+          muniProvider:
+            obs.__typename === "ProviderObservation"
+              ? `${obs.municipalityLabel}, ${obs.providerLabel}`
+              : obs.cantonLabel,
           ...obs,
         }));
 

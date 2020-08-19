@@ -15,8 +15,6 @@ import {
   getView,
 } from "../../../graphql/rdf";
 
-export const EMPTY_ARRAY: never[] = [];
-
 type Props = {
   id: string;
   name: string;

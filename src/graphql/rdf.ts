@@ -72,7 +72,11 @@ export const getObservations = async (
   const queryFilters = filters
     ? Object.entries(filters).flatMap(([dimensionKey, filterValues]) =>
         filterValues
-          ? buildDimensionFilter(view, dimensionKey, filterValues) ?? []
+          ? buildDimensionFilter(
+              view,
+              dimensionKey.replace(/^canton/, "region"),
+              filterValues
+            ) ?? []
           : []
       )
     : [];
@@ -114,77 +118,6 @@ export const getObservations = async (
   });
 
   console.log(filterView.observationsQuery().query.toString());
-
-  const observations = await filterView.observations();
-
-  // Clean up
-  filterView.clear();
-  lookupSource.clear();
-
-  // Workaround for faulty empty query result
-  if (
-    observations.length === 1 &&
-    Object.values(observations[0]).some((v) => v === undefined)
-  ) {
-    return [];
-  }
-
-  return observations;
-};
-
-export const getCantonObservations = async (
-  { view, source }: { view: View; source: Source },
-  {
-    filters,
-    dimensions,
-  }: {
-    filters?: Filters;
-    dimensions?: string[];
-  }
-) => {
-  const queryFilters = filters
-    ? Object.entries(filters).flatMap(([dimensionKey, filterValues]) =>
-        filterValues
-          ? buildDimensionFilter(view, dimensionKey, filterValues) ?? []
-          : []
-      )
-    : [];
-
-  const lookupSource = LookupSource.fromSource(source);
-
-  const filterView = new View({
-    dimensions: dimensions
-      ? dimensions.flatMap((d) => {
-          const matches = d.match(/^(.+)Label$/);
-          const dimensionKey = matches ? matches[1] : d;
-
-          // FIXME: remove provider dimension check!
-          if (matches) {
-            const dimension = view.dimension({
-              cubeDimension: ns.energyPricing(dimensionKey),
-            });
-
-            const labelDimension = view.createDimension({
-              source: lookupSource,
-              path: ns.schema.name,
-              join: dimension,
-              as: ns.energyPricing(`${dimensionKey}Label`),
-            });
-
-            return dimension ? [dimension, labelDimension] : [];
-          }
-
-          const dimension = view.dimension({
-            cubeDimension: ns.energyPricing(d),
-          });
-          return dimension ? [dimension] : [];
-        })
-      : view.dimensions,
-    filters: queryFilters,
-  });
-
-  console.log(filterView.observationsQuery().query.toString());
-
   const observations = await filterView.observations();
 
   // Clean up
@@ -217,7 +150,13 @@ export const getDimensionValuesAndLabels = async ({
 
   const queryFilters = filters
     ? Object.entries(filters).flatMap(([dim, filterValues]) =>
-        filterValues ? buildDimensionFilter(view, dim, filterValues) ?? [] : []
+        filterValues
+          ? buildDimensionFilter(
+              view,
+              dim.replace(/^canton/, "region"),
+              filterValues
+            ) ?? []
+          : []
       )
     : [];
 
@@ -465,7 +404,7 @@ export const addNamespaceToID = ({
   if (dimension === "municipality") {
     return ns.municipality(`${id}`).value;
   }
-  if (dimension === "canton") {
+  if (dimension === "canton" || dimension === "region") {
     return ns.classifications(`canton/${id}`).value;
   }
   return ns.energyPricingValue(`${dimension}/${id}`).value;

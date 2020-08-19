@@ -1,52 +1,103 @@
 import { GraphQLResolveInfo } from "graphql";
 import { parseResolveInfo, ResolveTree } from "graphql-parse-resolve-info";
 import { parseObservationValue } from "../lib/observations";
-import { defaultLocale } from "../locales/locales";
 import {
-  getCubeDimension,
   getDimensionValuesAndLabels,
-  getName,
   getObservations,
-  getSource,
-  getView,
   search,
   stripNamespaceFromIri,
 } from "./rdf";
+import { ResolvedObservation } from "./resolver-mapped-types";
 import {
+  MedianObservationResolvers,
   MunicipalityResolvers,
   ObservationResolvers,
+  ProviderObservationResolvers,
   ProviderResolvers,
   QueryResolvers,
   Resolvers,
+  ObservationType,
 } from "./resolver-types";
-import { ResolvedObservation } from "./resolver-mapped-types";
 
 const Query: QueryResolvers = {
   observations: async (
     _,
-    { locale, filters },
-    { source, observationsView: view },
+    { locale, filters, observationType },
+    { source, observationsView, cantonObservationsView },
     info
   ) => {
     // Look ahead to select proper dimensions for query
-    const resolverFields = getResolverFields(info, "Observation");
+    const observationFields = getResolverFields(info, "ProviderObservation");
 
-    const dimensionKeys = Object.values<ResolveTree>(
-      resolverFields! as $FixMe
-    ).map((fieldInfo) => {
-      return (fieldInfo.args.priceComponent as string) ?? fieldInfo.name;
-    });
+    const observationDimensionKeys = observationFields
+      ? Object.values<ResolveTree>(observationFields).map((fieldInfo) => {
+          return (
+            (fieldInfo.args.priceComponent as string) ??
+            fieldInfo.name.replace(/^canton/, "region")
+          );
+        })
+      : [];
 
-    const rawObservations = await getObservations(
-      { view, source },
-      {
-        filters,
-        dimensions: dimensionKeys,
-      }
+    const rawProviderObservations =
+      observationType !== ObservationType.MedianObservation &&
+      observationDimensionKeys.length > 0
+        ? await getObservations(
+            { view: observationsView, source },
+            {
+              filters,
+              dimensions: observationDimensionKeys,
+            }
+          )
+        : [];
+
+    const medianObservationFields = getResolverFields(
+      info,
+      "MedianObservation"
     );
 
-    const observations = rawObservations.map((d) => {
-      let parsed: { [k: string]: string | number | boolean } = {};
+    const medianDimensionKeys = medianObservationFields
+      ? Object.values<ResolveTree>(medianObservationFields).map((fieldInfo) => {
+          return (
+            (fieldInfo.args.priceComponent as string) ??
+            fieldInfo.name.replace(/^canton/, "region")
+          );
+        })
+      : [];
+
+    const rawMedianObservations =
+      observationType !== ObservationType.ProviderObservation &&
+      medianDimensionKeys.length > 0
+        ? await getObservations(
+            { view: cantonObservationsView, source },
+            {
+              filters,
+              dimensions: medianDimensionKeys,
+            }
+          )
+        : [];
+
+    const providerObservations = rawProviderObservations.map((d) => {
+      let parsed: { [k: string]: string | number | boolean } = {
+        __typename: "ProviderObservation",
+      };
+      for (const [k, v] of Object.entries(d)) {
+        const key = k.replace(
+          "https://energy.ld.admin.ch/elcom/energy-pricing/dimension/",
+          ""
+        );
+        const parsedValue = parseObservationValue(v);
+
+        parsed[key] =
+          typeof parsedValue === "string"
+            ? stripNamespaceFromIri({ dimension: key, iri: parsedValue })
+            : parsedValue;
+      }
+      return parsed;
+    });
+    const medianObservations = rawMedianObservations.map((d) => {
+      let parsed: { [k: string]: string | number | boolean } = {
+        __typename: "MedianObservation",
+      };
       for (const [k, v] of Object.entries(d)) {
         const key = k.replace(
           "https://energy.ld.admin.ch/elcom/energy-pricing/dimension/",
@@ -62,51 +113,7 @@ const Query: QueryResolvers = {
       return parsed;
     });
 
-    // Should we type-check with io-ts here? Probably not necessary because the GraphQL API will also type-check against the schema.
-    return observations as ResolvedObservation[];
-  },
-  cantonObservations: async (
-    _,
-    { locale, filters },
-    { source, cantonObservationsView: view },
-    info
-  ) => {
-    // Look ahead to select proper dimensions for query
-    const resolverFields = getResolverFields(info, "Observation");
-
-    const dimensionKeys = Object.values<ResolveTree>(
-      resolverFields! as $FixMe
-    ).map((fieldInfo) => {
-      return (
-        (fieldInfo.args.priceComponent as string) ??
-        fieldInfo.name.replace(/^canton/, "region") // Map "canton*" fields to "region*" dimension
-      );
-    });
-
-    const rawObservations = await getObservations(
-      { view, source },
-      {
-        filters,
-        dimensions: dimensionKeys,
-      }
-    );
-
-    const observations = rawObservations.map((d) => {
-      let parsed: { [k: string]: string | number | boolean } = {};
-      for (const [k, v] of Object.entries(d)) {
-        const key = k.replace(
-          "https://energy.ld.admin.ch/elcom/energy-pricing/dimension/",
-          ""
-        );
-        const parsedValue = parseObservationValue(v);
-
-        parsed[key] =
-          typeof parsedValue === "string"
-            ? stripNamespaceFromIri({ dimension: key, iri: parsedValue })
-            : parsedValue;
-      }
-      return parsed;
-    });
+    const observations = [...medianObservations, ...providerObservations];
 
     // Should we type-check with io-ts here? Probably not necessary because the GraphQL API will also type-check against the schema.
     return observations as ResolvedObservation[];
@@ -223,13 +230,30 @@ const getResolverFields = (info: GraphQLResolveInfo, type: string) => {
 
   if (resolveInfo) {
     const fieldMap = resolveInfo.fieldsByTypeName[type];
-    return fieldMap;
+    console.log(fieldMap);
+    return fieldMap as { [s: string]: ResolveTree };
   }
 
   return undefined;
 };
 
 const Observation: ObservationResolvers = {
+  __resolveType: (obj) => obj.__typename,
+};
+
+const ProviderObservation: ProviderObservationResolvers = {
+  /**
+   * Since the value field can be aliased and is commonly used multiple times _and_
+   * we return all values from the parent resolver keyed by priceComponent (e.g. `{ total: 12.3, energy: 4.5 }`),
+   * it's necessary to resolve these values again here by returning the correct priceComponent value
+   * to ensure that field aliases are properly resolved.
+   */
+  value: (parent, args) => {
+    return parent[args.priceComponent];
+  },
+};
+
+const MedianObservation: MedianObservationResolvers = {
   /**
    * Since the value field can be aliased and is commonly used multiple times _and_
    * we return all values from the parent resolver keyed by priceComponent (e.g. `{ total: 12.3, energy: 4.5 }`),
@@ -262,6 +286,8 @@ export const resolvers: Resolvers = {
   Municipality,
   Provider,
   Observation,
+  ProviderObservation,
+  MedianObservation,
   // Canton,
   SearchResult: {
     __resolveType: (obj) => {

@@ -2,25 +2,18 @@ import { Trans } from "@lingui/macro";
 import { Box } from "@theme-ui/components";
 import * as React from "react";
 import { useState } from "react";
-import {
-  Entity,
-  GenericObservation,
-  getEntityLabelField,
-  priceComponents,
-} from "../../domain/data";
+import { Entity, GenericObservation, priceComponents } from "../../domain/data";
 import { getLocalizedLabel } from "../../domain/translation";
+import { EMPTY_ARRAY } from "../../lib/empty-array";
 import { useQueryState } from "../../lib/use-query-state";
-import { EMPTY_ARRAY } from "../../pages/[locale]/municipality/[id]";
 import {
   AnnotationX,
   AnnotationXLabel,
 } from "../charts-generic/annotation/annotation-x";
 import { AxisHeightLinear } from "../charts-generic/axis/axis-height-linear";
-import {
-  AxisWidthHistogram,
-  AxisWidthHistogramDomain,
-} from "../charts-generic/axis/axis-width-histogram";
+import { AxisWidthHistogramDomain } from "../charts-generic/axis/axis-width-histogram";
 import { HistogramColumns } from "../charts-generic/histogram/histogram";
+import { HistogramMinMaxValues } from "../charts-generic/histogram/histogram-min-max-values";
 import { Histogram } from "../charts-generic/histogram/histogram-state";
 import { HistogramMedian } from "../charts-generic/histogram/median";
 import { Combobox } from "../combobox";
@@ -32,9 +25,12 @@ import {
   ChartSvg,
 } from "./../../components/charts-generic/containers";
 import { Card } from "./../../components/detail-page/card";
-import { PriceComponent, useObservationsQuery } from "./../../graphql/queries";
+import {
+  ObservationType,
+  PriceComponent,
+  useObservationsQuery,
+} from "./../../graphql/queries";
 import { FilterSetDescription } from "./filter-set-description";
-import { HistogramMinMaxValues } from "../charts-generic/histogram/histogram-min-max-values";
 
 export const PriceDistributionHistograms = ({
   id,
@@ -144,6 +140,10 @@ export const PriceDistributionHistogram = ({
         category,
         product,
       },
+      observationType:
+        entity === "canton"
+          ? ObservationType.MedianObservation
+          : ObservationType.ProviderObservation,
     },
   });
   const observations = observationsQuery.fetching
@@ -153,9 +153,12 @@ export const PriceDistributionHistogram = ({
   const annotations =
     annotationIds &&
     observations
-      .filter((obs) => annotationIds.includes(obs[entity]))
+      .filter((obs) => annotationIds.includes((obs as $FixMe)[entity]))
       .map((obs) => ({
-        muniProvider: `${obs.municipalityLabel}, ${obs.providerLabel}`,
+        muniProvider:
+          obs.__typename === "ProviderObservation"
+            ? `${obs.municipalityLabel}, ${obs.providerLabel}`
+            : `${obs.cantonLabel}`,
         ...obs,
       }));
 
