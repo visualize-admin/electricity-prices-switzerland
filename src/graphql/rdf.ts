@@ -187,9 +187,7 @@ export const getObservations = async (
 
   console.log(filterView.observationsQuery().query.toString());
 
-  console.time("wat");
   const observations = await filterView.observations();
-  console.timeEnd("wat");
 
   // Clean up
   filterView.clear();
