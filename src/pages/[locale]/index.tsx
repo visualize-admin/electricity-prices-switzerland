@@ -19,6 +19,9 @@ import { List } from "../../components/list";
 import { Trans } from "@lingui/macro";
 import { EMPTY_ARRAY } from "../../lib/empty-array";
 import { Search } from "../../components/search";
+import { DownloadImage } from "../../components/detail-page/download-image";
+
+const DOWNLOAD_ID = "map";
 
 export const getServerSideProps = async () => {
   return {
@@ -30,7 +33,9 @@ const HEADER_HEIGHT_S = "107px";
 const HEADER_HEIGHT_M_UP = "96px";
 
 const IndexPage = () => {
-  const [{ period, priceComponent, category, product }] = useQueryStateSingle();
+  const [
+    { period, priceComponent, category, product, download },
+  ] = useQueryStateSingle();
 
   const [observationsQuery] = useObservationsQuery({
     variables: {
@@ -134,6 +139,8 @@ const IndexPage = () => {
             }}
           >
             <Box
+              // id used by the screenshot service
+              id={DOWNLOAD_ID}
               sx={{
                 bg: "monochrome200",
                 top: [0, HEADER_HEIGHT_M_UP],
@@ -162,6 +169,25 @@ const IndexPage = () => {
               >
                 <PriceColorLegend />
               </Box>
+
+              {!download && (
+                <Box
+                  sx={{
+                    zIndex: 13,
+                    position: "absolute",
+                    bottom: 0,
+                    left: 0,
+                    mb: 3,
+                    ml: 3,
+                  }}
+                >
+                  <DownloadImage
+                    elementId={DOWNLOAD_ID}
+                    fileName={DOWNLOAD_ID}
+                    download={DOWNLOAD_ID}
+                  />
+                </Box>
+              )}
             </Box>
             <Box sx={{ gridArea: "controls" }}>
               <Box

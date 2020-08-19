@@ -17,6 +17,10 @@ import { ChartContainer, ChartSvg } from "../charts-generic/containers";
 import { Loading, NoDataHint } from "../hint";
 import { Card } from "./card";
 import { FilterSetDescription } from "./filter-set-description";
+import { DownloadImage, Download } from "./download-image";
+import { WithClassName } from "./with-classname";
+
+const DOWNLOAD_ID: Download = "components";
 
 export const PriceComponentsBarChart = ({
   id,
@@ -76,6 +80,7 @@ export const PriceComponentsBarChart = ({
       title={
         <Trans id="detail.card.title.price.components">Preiskomponenten</Trans>
       }
+      id={DOWNLOAD_ID}
     >
       <FilterSetDescription
         filters={{
@@ -87,45 +92,54 @@ export const PriceComponentsBarChart = ({
       ) : observations.length === 0 ? (
         <NoDataHint />
       ) : (
-        <GroupedBarsChart
-          data={pivoted}
-          fields={{
-            x: {
-              componentIri: "value",
-            },
-            y: {
-              componentIri: "priceComponent",
-              sorting: { sortingType: "byMeasure", sortingOrder: "desc" },
-            },
-            segment: {
-              componentIri: "uniqueId",
-              type: "grouped",
-              palette: "elcom",
-            },
-          }}
-          measures={[
-            {
-              iri: "value",
-              label: "value",
-              __typename: "Measure",
-            },
-          ]}
-          dimensions={[
-            {
-              iri: "priceComponent",
-              label: "priceComponent",
-              __typename: "NominalDimension",
-            },
-          ]}
-        >
-          <ChartContainer>
-            <ChartSvg>
-              <BarsGrouped />
-              <BarsGroupedLabels />
-            </ChartSvg>
-          </ChartContainer>
-        </GroupedBarsChart>
+        <WithClassName downloadId={DOWNLOAD_ID}>
+          <GroupedBarsChart
+            data={pivoted}
+            fields={{
+              x: {
+                componentIri: "value",
+              },
+              y: {
+                componentIri: "priceComponent",
+                sorting: { sortingType: "byMeasure", sortingOrder: "desc" },
+              },
+              segment: {
+                componentIri: "uniqueId",
+                type: "grouped",
+                palette: "elcom",
+              },
+            }}
+            measures={[
+              {
+                iri: "value",
+                label: "value",
+                __typename: "Measure",
+              },
+            ]}
+            dimensions={[
+              {
+                iri: "priceComponent",
+                label: "priceComponent",
+                __typename: "NominalDimension",
+              },
+            ]}
+          >
+            <ChartContainer>
+              <ChartSvg>
+                <BarsGrouped />
+                <BarsGroupedLabels />
+              </ChartSvg>
+            </ChartContainer>
+          </GroupedBarsChart>
+        </WithClassName>
       )}
+      <DownloadImage
+        elementId={DOWNLOAD_ID}
+        fileName={DOWNLOAD_ID}
+        entity={entity}
+        id={id}
+        download={DOWNLOAD_ID}
+      />
     </Card>
   );
 };

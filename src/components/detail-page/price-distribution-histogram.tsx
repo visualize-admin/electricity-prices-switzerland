@@ -1,7 +1,7 @@
 import { Trans } from "@lingui/macro";
-import { Box } from "@theme-ui/components";
+import { Box, Text } from "@theme-ui/components";
+import { useRouter } from "next/router";
 import * as React from "react";
-import { useState } from "react";
 import { Entity, GenericObservation, priceComponents } from "../../domain/data";
 import { getLocalizedLabel } from "../../domain/translation";
 import { EMPTY_ARRAY } from "../../lib/empty-array";
@@ -17,8 +17,8 @@ import { HistogramMinMaxValues } from "../charts-generic/histogram/histogram-min
 import { Histogram } from "../charts-generic/histogram/histogram-state";
 import { HistogramMedian } from "../charts-generic/histogram/median";
 import { Combobox } from "../combobox";
-import { useI18n } from "../i18n-context";
 import { Loading, NoDataHint } from "../hint";
+import { useI18n } from "../i18n-context";
 import { RadioTabs } from "../radio-tabs";
 import {
   ChartContainer,
@@ -30,7 +30,11 @@ import {
   PriceComponent,
   useObservationsQuery,
 } from "./../../graphql/queries";
+import { Download, DownloadImage } from "./download-image";
 import { FilterSetDescription } from "./filter-set-description";
+import { WithClassName } from "./with-classname";
+
+const DOWNLOAD_ID: Download = "distribution";
 
 export const PriceDistributionHistograms = ({
   id,
@@ -39,11 +43,14 @@ export const PriceDistributionHistograms = ({
   id: string;
   entity: Entity;
 }) => {
-  const [{ period, municipality, provider, canton }] = useQueryState();
+  const [
+    { period, municipality, provider, canton, priceComponent },
+    setQueryState,
+  ] = useQueryState();
+  const { query } = useRouter();
+
   const i18n = useI18n();
-  const [priceComponent, setPriceComponent] = useState<PriceComponent>(
-    PriceComponent.Total
-  );
+
   const getItemLabel = (id: string) => getLocalizedLabel({ i18n, id });
 
   const comparisonIds =
@@ -65,55 +72,76 @@ export const PriceDistributionHistograms = ({
           Preisverteilung in der Schweiz
         </Trans>
       }
+      id={DOWNLOAD_ID}
     >
-      <Box sx={{ display: ["none", "none", "block"] }}>
-        <RadioTabs
-          name="priceComponents"
-          options={[
-            { value: "total", label: getLocalizedLabel({ i18n, id: "total" }) },
-            {
-              value: "gridusage",
-              label: getLocalizedLabel({ i18n, id: "gridusage" }),
-            },
-            {
-              value: "energy",
-              label: getLocalizedLabel({ i18n, id: "energy" }),
-            },
-            {
-              value: "charge",
-              label: getLocalizedLabel({ i18n, id: "charge" }),
-            },
-            {
-              value: "aidfee",
-              label: getLocalizedLabel({ i18n, id: "aidfee" }),
-            },
-          ]}
-          value={priceComponent as string}
-          setValue={(c) => setPriceComponent(c as PriceComponent)}
-          variant="segmented"
-        />
-      </Box>
-      <Box sx={{ display: ["block", "block", "none"] }}>
-        <Combobox
-          id="priceComponents"
-          label={<Trans id="selector.priceComponents">Preis Komponenten</Trans>}
-          items={priceComponents}
-          getItemLabel={getItemLabel}
-          selectedItem={priceComponent}
-          setSelectedItem={(c) => setPriceComponent(c as PriceComponent)}
-          showLabel={false}
-        />
-      </Box>
-
+      {!query.download ? (
+        <>
+          <Box sx={{ display: ["none", "none", "block"] }}>
+            <RadioTabs
+              name="priceComponents"
+              options={[
+                {
+                  value: "total",
+                  label: getLocalizedLabel({ i18n, id: "total" }),
+                },
+                {
+                  value: "gridusage",
+                  label: getLocalizedLabel({ i18n, id: "gridusage" }),
+                },
+                {
+                  value: "energy",
+                  label: getLocalizedLabel({ i18n, id: "energy" }),
+                },
+                {
+                  value: "charge",
+                  label: getLocalizedLabel({ i18n, id: "charge" }),
+                },
+                {
+                  value: "aidfee",
+                  label: getLocalizedLabel({ i18n, id: "aidfee" }),
+                },
+              ]}
+              value={priceComponent[0] as string}
+              setValue={(pc) => setQueryState({ priceComponent: [pc] })}
+              variant="segmented"
+            />
+          </Box>
+          <Box sx={{ display: ["block", "block", "none"] }}>
+            <Combobox
+              id="priceComponents"
+              label={
+                <Trans id="selector.priceComponents">Preis Komponenten</Trans>
+              }
+              items={priceComponents}
+              getItemLabel={getItemLabel}
+              selectedItem={priceComponent[0]}
+              setSelectedItem={(pc) => setQueryState({ priceComponent: [pc] })}
+              showLabel={false}
+            />
+          </Box>{" "}
+        </>
+      ) : (
+        <Text>
+          <Trans id="detail.card.priceComponent">Preis Komponent:</Trans>{" "}
+          {getLocalizedLabel({ i18n, id: priceComponent[0] })}
+        </Text>
+      )}
       {period.map((p) => (
         <PriceDistributionHistogram
           key={p}
           year={p}
-          priceComponent={priceComponent}
+          priceComponent={priceComponent[0] as PriceComponent}
           annotationIds={annotationIds}
           entity={entity}
         />
       ))}
+      <DownloadImage
+        elementId={DOWNLOAD_ID}
+        fileName={DOWNLOAD_ID}
+        entity={entity}
+        id={id}
+        download={DOWNLOAD_ID}
+      />
     </Card>
   );
 };
@@ -176,43 +204,45 @@ export const PriceDistributionHistogram = ({
       ) : observations.length === 0 ? (
         <NoDataHint />
       ) : (
-        <Histogram
-          data={observations as GenericObservation[]}
-          fields={{
-            x: {
-              componentIri: "value",
-            },
-            label: {
-              componentIri: "muniProvider", // getEntityLabelField(entity),
-            },
-            annotation: annotations as {
-              [x: string]: string | number | boolean;
-            }[],
-          }}
-          measures={[
-            {
-              iri: "value",
-              label: "value",
-              __typename: "Measure",
-            },
-          ]}
-          aspectRatio={0.3}
-        >
-          <ChartContainer>
-            <ChartSvg>
-              <AxisHeightLinear />
+        <WithClassName downloadId={DOWNLOAD_ID}>
+          <Histogram
+            data={observations as GenericObservation[]}
+            fields={{
+              x: {
+                componentIri: "value",
+              },
+              label: {
+                componentIri: "muniProvider", // getEntityLabelField(entity),
+              },
+              annotation: annotations as {
+                [x: string]: string | number | boolean;
+              }[],
+            }}
+            measures={[
+              {
+                iri: "value",
+                label: "value",
+                __typename: "Measure",
+              },
+            ]}
+            aspectRatio={0.3}
+          >
+            <ChartContainer>
+              <ChartSvg>
+                <AxisHeightLinear />
 
-              {/* <AxisWidthHistogram /> */}
-              <HistogramMinMaxValues />
-              <AxisWidthHistogramDomain />
+                {/* <AxisWidthHistogram /> */}
+                <HistogramMinMaxValues />
+                <AxisWidthHistogramDomain />
 
-              <AnnotationX />
-              <HistogramColumns />
-              <HistogramMedian label="CH Median" />
-            </ChartSvg>
-            <AnnotationXLabel />
-          </ChartContainer>
-        </Histogram>
+                <AnnotationX />
+                <HistogramColumns />
+                <HistogramMedian label="CH Median" />
+              </ChartSvg>
+              <AnnotationXLabel />
+            </ChartContainer>
+          </Histogram>
+        </WithClassName>
       )}
     </>
   );

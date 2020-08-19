@@ -14,6 +14,7 @@ import {
   getSource,
   getView,
 } from "../../../graphql/rdf";
+import { useRouter } from "next/router";
 
 type Props = {
   id: string;
@@ -70,9 +71,10 @@ export const getServerSideProps: GetServerSideProps<
 };
 
 const MunicipalityPage = ({ id, name, providers }: Props) => {
+  const { query } = useRouter();
   return (
     <Flex sx={{ minHeight: "100vh", flexDirection: "column" }}>
-      <Header></Header>
+      {!query.download && <Header></Header>}
       <Flex
         sx={{
           pt: 96,
@@ -93,19 +95,29 @@ const MunicipalityPage = ({ id, name, providers }: Props) => {
                 flex: ["1 1 100%", "1 1 100%", `2 2 ${2 / 3}%`],
               }}
             >
-              <PriceComponentsBarChart id={id} entity="municipality" />
-              <PriceEvolution id={id} entity="municipality" />
-              <PriceDistributionHistograms id={id} entity="municipality" />
-              <CantonsComparisonRangePlots id={id} entity="municipality" />
+              {(!query.download || query.download === "components") && (
+                <PriceComponentsBarChart id={id} entity="municipality" />
+              )}
+              {(!query.download || query.download === "evolution") && (
+                <PriceEvolution id={id} entity="municipality" />
+              )}
+              {(!query.download || query.download === "distribution") && (
+                <PriceDistributionHistograms id={id} entity="municipality" />
+              )}
+              {(!query.download || query.download === "comparison") && (
+                <CantonsComparisonRangePlots id={id} entity="municipality" />
+              )}
             </Box>
-            <Box
-              sx={{
-                order: [1, 1, 2],
-                flex: ["1 1 100%", "1 1 100%", `1 1 ${1 / 3}%`],
-              }}
-            >
-              <SelectorMulti entity="municipality" />
-            </Box>
+            {!query.download && (
+              <Box
+                sx={{
+                  order: [1, 1, 2],
+                  flex: ["1 1 100%", "1 1 100%", `1 1 ${1 / 3}%`],
+                }}
+              >
+                <SelectorMulti entity="municipality" />
+              </Box>
+            )}
           </Flex>
         </Box>
       </Flex>

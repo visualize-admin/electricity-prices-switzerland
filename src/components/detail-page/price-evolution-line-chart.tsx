@@ -4,7 +4,6 @@ import * as React from "react";
 import { memo } from "react";
 import { Entity, GenericObservation, priceComponents } from "../../domain/data";
 import { getLocalizedLabel } from "../../domain/translation";
-import { EMPTY_ARRAY } from "../../lib/empty-array";
 import { useQueryState } from "../../lib/use-query-state";
 import { AxisHeightLinear } from "../charts-generic/axis/axis-height-linear";
 import { AxisTime } from "../charts-generic/axis/axis-width-time";
@@ -15,8 +14,8 @@ import { LegendColor } from "../charts-generic/legends/color";
 import { Lines } from "../charts-generic/lines/lines";
 import { LineChart } from "../charts-generic/lines/lines-state";
 import { InteractionHorizontal } from "../charts-generic/overlay/interaction-horizontal";
+import { NoDataHint, Loading } from "../hint";
 import { useI18n } from "../i18n-context";
-import { Loading, NoDataHint } from "../hint";
 import {
   ChartContainer,
   ChartSvg,
@@ -27,7 +26,12 @@ import {
   PriceComponent,
   useObservationsWithAllPriceComponentsQuery,
 } from "./../../graphql/queries";
+import { Download, DownloadImage } from "./download-image";
 import { FilterSetDescription } from "./filter-set-description";
+import { WithClassName } from "./with-classname";
+import { EMPTY_ARRAY } from "../../lib/empty-array";
+
+const DOWNLOAD_ID: Download = "evolution";
 
 export const PriceEvolution = ({
   id,
@@ -86,6 +90,7 @@ export const PriceEvolution = ({
       title={
         <Trans id="detail.card.title.prices.evolution">Tarifentwicklung</Trans>
       }
+      id={DOWNLOAD_ID}
     >
       <FilterSetDescription
         filters={{
@@ -97,7 +102,7 @@ export const PriceEvolution = ({
       ) : observations.length === 0 ? (
         <NoDataHint />
       ) : (
-        <>
+        <div className={DOWNLOAD_ID}>
           {priceComponents.map((pc, i) => (
             <PriceEvolutionLineChart
               key={pc}
@@ -108,8 +113,15 @@ export const PriceEvolution = ({
               withLegend={i === 0 && hasMultipleLines}
             />
           ))}
-        </>
+        </div>
       )}
+      <DownloadImage
+        elementId={DOWNLOAD_ID}
+        fileName={DOWNLOAD_ID}
+        entity={entity}
+        id={id}
+        download={DOWNLOAD_ID}
+      />
     </Card>
   );
 };
@@ -131,7 +143,7 @@ const PriceEvolutionLineChart = memo(
     const i18n = useI18n();
 
     return (
-      <>
+      <WithClassName downloadId={DOWNLOAD_ID}>
         <Box sx={{ my: 4 }}>
           <LineChart
             data={observations}
@@ -186,7 +198,7 @@ const PriceEvolutionLineChart = memo(
             </ChartContainer>
           </LineChart>
         </Box>
-      </>
+      </WithClassName>
     );
   }
 );

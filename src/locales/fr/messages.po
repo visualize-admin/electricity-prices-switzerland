@@ -40,19 +40,24 @@ msgstr "Trier"
 msgid "detail.canton"
 msgstr "Canton"
 
-#: src/components/detail-page/cantons-comparison-range.tsx:34
+#: src/components/detail-page/cantons-comparison-range.tsx:71
+#: src/components/detail-page/price-distribution-histogram.tsx:72
+msgid "detail.card.priceComponent"
+msgstr "Composante du prix"
+
+#: src/components/detail-page/cantons-comparison-range.tsx:39
 msgid "detail.card.title.cantons.comparison"
 msgstr "Comparaison des cantons"
 
-#: src/components/detail-page/price-components-bars.tsx:50
+#: src/components/detail-page/price-components-bars.tsx:53
 msgid "detail.card.title.price.components"
 msgstr "Composantes du prix"
 
-#: src/components/detail-page/price-distribution-histogram.tsx:37
+#: src/components/detail-page/price-distribution-histogram.tsx:40
 msgid "detail.card.title.prices.distribution"
 msgstr "Distribution des prix"
 
-#: src/components/detail-page/price-evolution-line-chart.tsx:55
+#: src/components/detail-page/price-evolution-line-chart.tsx:58
 msgid "detail.card.title.prices.evolution"
 msgstr "Évolution des tarifs"
 
@@ -94,11 +99,11 @@ msgstr "Chargement des données…"
 
 #: src/components/hint.tsx:84
 msgid "hint.nodata.message"
-msgstr ""
+msgstr "Aucune donnée ne peut être téléchargée avec les paramètres de recherches choisis."
 
 #: src/components/hint.tsx:81
 msgid "hint.nodata.title"
-msgstr ""
+msgstr "Aucune donnée"
 
 #: src/components/charts-generic/histogram/histogram-min-max-values.tsx:48
 msgid "histogram.max"
@@ -107,6 +112,10 @@ msgstr "Max"
 #: src/components/charts-generic/histogram/histogram-min-max-values.tsx:30
 msgid "histogram.min"
 msgstr "Min"
+
+#: src/components/detail-page/download-image.tsx:27
+msgid "image.download"
+msgstr "Télécharger comme image"
 
 #: src/components/list.tsx:134
 msgid "list.cantons"
@@ -141,7 +150,7 @@ msgstr "Suite…"
 msgid "logo.swiss.confederation"
 msgstr "Logo de la confédération suisse"
 
-#: src/components/map.tsx:198
+#: src/components/map.tsx:201
 msgid "map.tooltipnodata"
 msgstr "Aucune donnée"
 
@@ -158,7 +167,7 @@ msgid "price.legend.min"
 msgstr "min"
 
 #: src/components/search.tsx:35
-#: src/pages/[locale]/index.tsx:94
+#: src/pages/[locale]/index.tsx:96
 msgid "search.global"
 msgstr "Voir l'analyse détaillée des prix par cantons, communes et gestionnaires de réseau."
 
@@ -249,7 +258,7 @@ msgstr "H8"
 
 #: src/components/detail-page/selector-multi.tsx:37
 msgid "selector.comparecantons"
-msgstr ""
+msgstr "Compararer avec…"
 
 #: src/components/detail-page/selector-multi.tsx:35
 msgid "selector.comparemunicipalities"
@@ -268,8 +277,8 @@ msgstr "Sélectionner les paramètres"
 msgid "selector.priceComponent"
 msgstr "Composantes du prix"
 
-#: src/components/detail-page/cantons-comparison-range.tsx:59
-#: src/components/detail-page/price-distribution-histogram.tsx:62
+#: src/components/detail-page/cantons-comparison-range.tsx:68
+#: src/components/detail-page/price-distribution-histogram.tsx:69
 msgid "selector.priceComponents"
 msgstr "Composantes du prix"
 
@@ -310,63 +319,11 @@ msgstr "Standard"
 msgid "selector.year"
 msgstr "Année"
 
-#: src/domain/translation.tsx:30
-#~ msgid "selector.year.2009"
-#~ msgstr ""
-
-#: src/domain/translation.tsx:28
-#~ msgid "selector.year.2010"
-#~ msgstr ""
-
-#: src/domain/translation.tsx:26
-#~ msgid "selector.year.2011"
-#~ msgstr ""
-
-#: src/domain/translation.tsx:24
-#~ msgid "selector.year.2012"
-#~ msgstr ""
-
-#: src/domain/translation.tsx:22
-#~ msgid "selector.year.2013"
-#~ msgstr ""
-
-#: src/domain/translation.tsx:20
-#~ msgid "selector.year.2014"
-#~ msgstr ""
-
-#: src/domain/translation.tsx:18
-#~ msgid "selector.year.2015"
-#~ msgstr ""
-
-#: src/domain/translation.tsx:16
-#~ msgid "selector.year.2016"
-#~ msgstr ""
-
-#: src/domain/translation.tsx:14
-#~ msgid "selector.year.2017"
-#~ msgstr ""
-
-#: src/domain/translation.tsx:12
-#~ msgid "selector.year.2018"
-#~ msgstr ""
-
-#: src/domain/translation.tsx:10
-#~ msgid "selector.year.2019"
-#~ msgstr ""
-
-#: src/domain/translation.tsx:8
-#~ msgid "selector.year.2020"
-#~ msgstr ""
-
-#: src/domain/translation.tsx:6
-#~ msgid "selector.year.2021"
-#~ msgstr ""
-
 #: src/components/detail-page/selector-multi.tsx:38
 msgid "selector.years"
 msgstr "Années"
 
 #: src/components/header.tsx:65
-#: src/pages/[locale]/index.tsx:82
+#: src/pages/[locale]/index.tsx:84
 msgid "site.title"
 msgstr "Prix de l'électricité de la Suisse"
