@@ -101,7 +101,7 @@ export const priceComponents = [
   "charge",
   "aidfee",
 ];
-export const products = ["standard", "cheapest"];
+export const products = ["cheapest", "standard"];
 export const categories = [
   "H1",
   "H2",
