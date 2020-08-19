@@ -27,7 +27,7 @@ export const AnnotationX = () => {
     | HistogramState;
 
   const { margins } = bounds;
-  const { annotationColor } = useChartTheme();
+  const { annotationLineColor } = useChartTheme();
 
   return (
     <>
@@ -47,7 +47,7 @@ export const AnnotationX = () => {
                   y1={a.yLabel}
                   x2={a.x}
                   y2={a.y + margins.top}
-                  stroke={annotationColor}
+                  stroke={annotationLineColor}
                 />
               </g>
             </React.Fragment>

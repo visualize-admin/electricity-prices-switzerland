@@ -13,6 +13,7 @@ export const useChartTheme = () => {
   const fontFamily = theme.fonts.body;
   const annotationfontSize = 14;
   const annotationColor = theme.colors.monochrome900;
+  const annotationLineColor = theme.colors.monochrome500;
   const markBorderColor = theme.colors.monochrome100;
   return {
     axisLabelFontSize,
@@ -26,6 +27,7 @@ export const useChartTheme = () => {
     fontFamily,
     annotationfontSize,
     annotationColor,
+    annotationLineColor,
     palettes: theme.palettes,
     markBorderColor,
   };
