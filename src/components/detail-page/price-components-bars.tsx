@@ -127,7 +127,7 @@ export const PriceComponentsBarChart = ({
         fileName={"iio"}
         entity={entity}
         id={id}
-        chart="components"
+        download="components"
       />
     </Card>
   );

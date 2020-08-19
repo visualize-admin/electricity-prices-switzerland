@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { useRouter } from "next/router";
 import { createDynamicRouteProps } from "../components/links";
-import { DownloadChart } from "../components/detail-page/download-image";
+import { Download } from "../components/detail-page/download-image";
 
 const ensureArray = (input: string | string[]): string[] =>
   Array.isArray(input) ? input : [input];
@@ -27,7 +27,7 @@ const queryStateDefaults = {
   provider: undefined,
   municipality: undefined,
   canton: undefined,
-  chart: "all",
+  download: undefined,
 } as const;
 
 type QueryState = {
@@ -39,7 +39,7 @@ type QueryState = {
   category: string[];
   priceComponent: string[];
   product: string[];
-  chart?: DownloadChart;
+  download?: Download;
 };
 
 // e.g. /de/municipality/4096?municipality=261&period=2020&period=2019
@@ -92,6 +92,7 @@ type QueryStateSingle = {
   category: string;
   priceComponent: string;
   product: string;
+  download?: Download;
 };
 
 export const useQueryStateSingle = () => {

@@ -6,7 +6,7 @@ import { useQueryState } from "../../lib/use-query-state";
 import { useRouter } from "next/router";
 import { Link as TUILink } from "@theme-ui/components";
 
-export type DownloadChart =
+export type Download =
   | "map"
   | "components"
   | "evolution"
@@ -18,7 +18,7 @@ interface Props {
   id?: string;
   elementId: string;
   fileName: string;
-  chart: DownloadChart;
+  download: Download;
 }
 
 export const DownloadImage = ({
@@ -26,7 +26,7 @@ export const DownloadImage = ({
   fileName,
   entity,
   id,
-  chart,
+  download,
 }: Props) => {
   const locale = useLocale();
   const [{ period, category, product }] = useQueryState();
@@ -39,16 +39,16 @@ export const DownloadImage = ({
   }, [setOrigin]);
 
   const years = `${period.reduce(
-    (acc, cur, i) => acc.concat(`${i > 0 ? "&" : ""}period=${cur}`),
+    (acc, cur, i) => acc.concat(`period=${cur}`),
     ""
   )}`;
 
   const url = encodeURIComponent(
-    `${origin}/${locale}/${entity}/${id}?chart=${chart}&category=${category}&product=${product}&${years}`
+    `${origin}/${locale}/${entity}/${id}?download=${download}&category=${category}&product=${product}&${years}`
   );
 
   const downLoadUrl =
-    entity && id && chart !== "map"
+    entity && id && download !== "map"
       ? `${origin}/api/screenshot?url=${url}&element=${elementId}&download=${fileName}-image&deviceScaleFactor=2`
       : // Map
         `${origin}/api/screenshot?url=${origin}/${locale}&element=${elementId}&download=${fileName}-image&deviceScaleFactor=2`;
