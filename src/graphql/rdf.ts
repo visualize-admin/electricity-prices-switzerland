@@ -59,8 +59,61 @@ export const getName = (
 
 export const getView = (cube: Cube): View => View.fromCube(cube);
 
+const getRegionDimensionsAndFilter = ({
+  view,
+  lookupSource,
+}: {
+  view: View;
+  lookupSource: LookupSource;
+}) => {
+  const muniDimension = view.dimension({
+    cubeDimension: ns.energyPricing("municipality"),
+  });
+
+  const regionDimension = view.createDimension({
+    source: lookupSource,
+    path: ns.schema("containedInPlace"),
+    join: muniDimension,
+    as: ns.energyPricing("region"),
+  });
+
+  const regionLabelDimension = view.createDimension({
+    source: lookupSource,
+    path: ns.gont("longName"),
+    join: regionDimension,
+    as: ns.energyPricing("regionLabel"),
+  });
+
+  const regionTypeDimension = view.createDimension({
+    source: lookupSource,
+    path: ns.rdf.type,
+    join: regionDimension,
+    as: ns.energyPricing("regionType"),
+  });
+
+  const regionTypeFilter = regionTypeDimension.filter.eq(
+    rdf.namedNode(ns.gont("Canton").value)
+  );
+
+  return muniDimension
+    ? {
+        dimensions: [
+          muniDimension,
+          regionDimension,
+          regionLabelDimension,
+          regionTypeDimension,
+        ],
+        filter: regionTypeFilter,
+      }
+    : undefined;
+};
+
 export const getObservations = async (
-  { view, source }: { view: View; source: Source },
+  {
+    view,
+    source,
+    isCantons,
+  }: { view: View; source: Source; isCantons?: boolean },
   {
     filters,
     dimensions,
@@ -69,6 +122,7 @@ export const getObservations = async (
     dimensions?: string[];
   }
 ) => {
+  console.log(dimensions);
   const queryFilters = filters
     ? Object.entries(filters).flatMap(([dimensionKey, filterValues]) =>
         filterValues
@@ -83,42 +137,59 @@ export const getObservations = async (
 
   const lookupSource = LookupSource.fromSource(source);
 
-  const filterView = new View({
-    dimensions: dimensions
-      ? dimensions.flatMap((d) => {
-          const matches = d.match(/^(.+)Label$/);
-          const dimensionKey = matches ? matches[1] : d;
+  const regionDimensionsAndFilter =
+    !isCantons && dimensions?.some((d) => d.match(/^region/))
+      ? getRegionDimensionsAndFilter({ view, lookupSource })
+      : undefined;
 
-          // FIXME: remove provider dimension check!
-          if (matches) {
-            const dimension = view.dimension({
-              cubeDimension: ns.energyPricing(dimensionKey),
-            });
+  const filterViewDimensions = dimensions
+    ? dimensions.flatMap((d) => {
+        const labelMatches =
+          !isCantons && d === "regionLabel" ? null : d.match(/^(.+)Label$/);
+        const dimensionKey = labelMatches ? labelMatches[1] : d;
 
-            console.log(dimensionKey);
-
-            const labelDimension = view.createDimension({
-              source: lookupSource,
-              path:
-                dimensionKey === "region" ? ns.gont.longName : ns.schema.name,
-              join: dimension,
-              as: ns.energyPricing(`${dimensionKey}Label`),
-            });
-
-            return dimension ? [dimension, labelDimension] : [];
-          }
-
+        if (labelMatches) {
           const dimension = view.dimension({
-            cubeDimension: ns.energyPricing(d),
+            cubeDimension: ns.energyPricing(dimensionKey),
           });
-          return dimension ? [dimension] : [];
-        })
-      : view.dimensions,
-    filters: queryFilters,
-  });
+
+          const labelDimension = view.createDimension({
+            source: lookupSource,
+            path: dimensionKey === "region" ? ns.gont.longName : ns.schema.name,
+            join: dimension,
+            as: ns.energyPricing(`${dimensionKey}Label`),
+          });
+
+          return dimension ? [dimension, labelDimension] : [];
+        }
+
+        const dimension = view.dimension({
+          cubeDimension: ns.energyPricing(d),
+        });
+        return dimension ? [dimension] : [];
+      })
+    : view.dimensions;
+
+  const filterView = new View(
+    regionDimensionsAndFilter
+      ? {
+          dimensions: [
+            ...filterViewDimensions,
+            ...regionDimensionsAndFilter.dimensions,
+          ],
+          filters: [...queryFilters, regionDimensionsAndFilter.filter],
+        }
+      : {
+          dimensions: filterViewDimensions,
+          filters: queryFilters,
+        }
+  );
 
   console.log(filterView.observationsQuery().query.toString());
+
+  console.time("wat");
   const observations = await filterView.observations();
+  console.timeEnd("wat");
 
   // Clean up
   filterView.clear();

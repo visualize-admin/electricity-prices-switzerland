@@ -1,10 +1,7 @@
 import { scaleThreshold } from "d3";
 import { median } from "d3-array";
 import { useMemo } from "react";
-import {
-  Observation,
-  Observation as QueryObservation,
-} from "../graphql/queries";
+import { Observation as QueryObservation } from "../graphql/queries";
 import { useTheme } from "../themes";
 
 export type ObservationValue = string | number | boolean | Date;

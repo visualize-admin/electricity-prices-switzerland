@@ -32,6 +32,8 @@ fragment providerObservationFields on ProviderObservation {
   municipalityLabel
   provider
   providerLabel
+  canton
+  cantonLabel
   category
   value(priceComponent: $priceComponent)
 }
