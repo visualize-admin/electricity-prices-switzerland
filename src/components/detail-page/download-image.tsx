@@ -61,7 +61,7 @@ export const DownloadImage = ({
 
   const downLoadUrl = `${origin}/api/screenshot?url=${encodeURIComponent(
     url
-  )}&element=${elementId}&filename=${fileName}-image&deviceScaleFactor=2`;
+  )}&element=${elementId}&filename=${fileName}&deviceScaleFactor=2`;
 
   return (
     <TUILink
