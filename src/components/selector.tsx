@@ -17,10 +17,11 @@ export const Selector = () => {
         flexDirection: "column",
         justifyContent: "flex-start",
         bg: "primaryLight",
-        px: 4,
-        py: 4,
+        px: 5,
+        py: 6,
+
         zIndex: 13,
-        "> div": { mt: 3 },
+        "> div": { mt: 5 },
       }}
     >
       <Text as="legend" variant="lead" sx={{ display: "contents" }}>
