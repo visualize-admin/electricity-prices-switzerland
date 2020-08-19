@@ -1,5 +1,5 @@
 import { Trans } from "@lingui/macro";
-import { Box } from "@theme-ui/components";
+import { Box, Text } from "@theme-ui/components";
 import * as React from "react";
 import { useState, memo } from "react";
 import {
@@ -29,6 +29,7 @@ import { Combobox } from "../combobox";
 import { EMPTY_ARRAY } from "../../pages/[locale]/municipality/[id]";
 import { DownloadImage, Download } from "./download-image";
 import { WithClassName } from "./with-classname";
+import { useRouter } from "next/router";
 
 const DOWNLOAD_ID: Download = "comparison";
 
@@ -40,10 +41,12 @@ export const CantonsComparisonRangePlots = ({
   entity: Entity;
 }) => {
   const [
-    { period, municipality, provider, canton, priceComponent },
+    { period, municipality, provider, canton, priceComponent, download },
     setQueryState,
   ] = useQueryState();
+  const { query } = useRouter();
 
+  console.log({ download });
   const i18n = useI18n();
 
   const getItemLabel = (id: string) => getLocalizedLabel({ i18n, id });
@@ -69,44 +72,58 @@ export const CantonsComparisonRangePlots = ({
       }
       id={DOWNLOAD_ID}
     >
-      <Box sx={{ display: ["none", "none", "block"] }}>
-        <RadioTabs
-          name="priceComponents"
-          options={[
-            { value: "total", label: getLocalizedLabel({ i18n, id: "total" }) },
-            {
-              value: "gridusage",
-              label: getLocalizedLabel({ i18n, id: "gridusage" }),
-            },
-            {
-              value: "energy",
-              label: getLocalizedLabel({ i18n, id: "energy" }),
-            },
-            {
-              value: "charge",
-              label: getLocalizedLabel({ i18n, id: "charge" }),
-            },
-            {
-              value: "aidfee",
-              label: getLocalizedLabel({ i18n, id: "aidfee" }),
-            },
-          ]}
-          value={priceComponent[0] as string}
-          setValue={(pc) => setQueryState({ priceComponent: [pc] })}
-          variant="segmented"
-        />
-      </Box>
-      <Box sx={{ display: ["block", "block", "none"] }}>
-        <Combobox
-          id="priceComponents"
-          label={<Trans id="selector.priceComponents">Preis Komponenten</Trans>}
-          items={priceComponents}
-          getItemLabel={getItemLabel}
-          selectedItem={priceComponent[0]}
-          setSelectedItem={(pc) => setQueryState({ priceComponent: [pc] })}
-          showLabel={false}
-        />
-      </Box>
+      {!query.download ? (
+        <>
+          <Box sx={{ display: ["none", "none", "block"] }}>
+            <RadioTabs
+              name="priceComponents"
+              options={[
+                {
+                  value: "total",
+                  label: getLocalizedLabel({ i18n, id: "total" }),
+                },
+                {
+                  value: "gridusage",
+                  label: getLocalizedLabel({ i18n, id: "gridusage" }),
+                },
+                {
+                  value: "energy",
+                  label: getLocalizedLabel({ i18n, id: "energy" }),
+                },
+                {
+                  value: "charge",
+                  label: getLocalizedLabel({ i18n, id: "charge" }),
+                },
+                {
+                  value: "aidfee",
+                  label: getLocalizedLabel({ i18n, id: "aidfee" }),
+                },
+              ]}
+              value={priceComponent[0] as string}
+              setValue={(pc) => setQueryState({ priceComponent: [pc] })}
+              variant="segmented"
+            />
+          </Box>
+          <Box sx={{ display: ["block", "block", "none"] }}>
+            <Combobox
+              id="priceComponents"
+              label={
+                <Trans id="selector.priceComponents">Preis Komponenten</Trans>
+              }
+              items={priceComponents}
+              getItemLabel={getItemLabel}
+              selectedItem={priceComponent[0]}
+              setSelectedItem={(pc) => setQueryState({ priceComponent: [pc] })}
+              showLabel={false}
+            />
+          </Box>
+        </>
+      ) : (
+        <Text>
+          <Trans id="detail.card.priceComponent">Preis Komponent:</Trans>{" "}
+          {getLocalizedLabel({ i18n, id: priceComponent[0] })}
+        </Text>
+      )}
 
       {period.map((p) => (
         <CantonsComparisonRangePlot
