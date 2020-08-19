@@ -16,7 +16,10 @@ import { Card } from "./card";
 import { getLocalizedLabel } from "../../domain/translation";
 import { useI18n } from "../i18n-context";
 import { FilterSetDescription } from "./filter-set-description";
-import { DownloadImage } from "./download-image";
+import { DownloadImage, Download } from "./download-image";
+import { WithClassName } from "./with-classname";
+
+const DOWNLOAD_ID: Download = "components";
 
 export const PriceComponentsBarChart = ({
   id,
@@ -71,7 +74,7 @@ export const PriceComponentsBarChart = ({
       title={
         <Trans id="detail.card.title.price.components">Preiskomponenten</Trans>
       }
-      id="components"
+      id={DOWNLOAD_ID}
     >
       <FilterSetDescription
         filters={{
@@ -81,7 +84,7 @@ export const PriceComponentsBarChart = ({
       {observations.length === 0 ? (
         <Loading />
       ) : (
-        <div className="components">
+        <WithClassName downloadId={DOWNLOAD_ID}>
           <GroupedBarsChart
             data={pivoted}
             fields={{
@@ -120,14 +123,14 @@ export const PriceComponentsBarChart = ({
               </ChartSvg>
             </ChartContainer>
           </GroupedBarsChart>
-        </div>
+        </WithClassName>
       )}
       <DownloadImage
-        elementId="components"
-        fileName="components"
+        elementId={DOWNLOAD_ID}
+        fileName={DOWNLOAD_ID}
         entity={entity}
         id={id}
-        download="components"
+        download={DOWNLOAD_ID}
       />
     </Card>
   );

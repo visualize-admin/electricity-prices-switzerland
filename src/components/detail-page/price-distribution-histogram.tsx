@@ -35,7 +35,10 @@ import { Card } from "./../../components/detail-page/card";
 import { PriceComponent, useObservationsQuery } from "./../../graphql/queries";
 import { FilterSetDescription } from "./filter-set-description";
 import { HistogramMinMaxValues } from "../charts-generic/histogram/histogram-min-max-values";
-import { DownloadImage } from "./download-image";
+import { DownloadImage, Download } from "./download-image";
+import { WithClassName } from "./with-classname";
+
+const DOWNLOAD_ID: Download = "distribution";
 
 export const PriceDistributionHistograms = ({
   id,
@@ -70,7 +73,7 @@ export const PriceDistributionHistograms = ({
           Preisverteilung in der Schweiz
         </Trans>
       }
-      id="distribution"
+      id={DOWNLOAD_ID}
     >
       <Box sx={{ display: ["none", "none", "block"] }}>
         <RadioTabs
@@ -120,11 +123,11 @@ export const PriceDistributionHistograms = ({
         />
       ))}
       <DownloadImage
-        elementId="distribution"
-        fileName="distribution"
+        elementId={DOWNLOAD_ID}
+        fileName={DOWNLOAD_ID}
         entity={entity}
         id={id}
-        download="distribution"
+        download={DOWNLOAD_ID}
       />
     </Card>
   );
@@ -179,43 +182,45 @@ export const PriceDistributionHistogram = ({
       {observations.length === 0 ? (
         <Loading />
       ) : (
-        <Histogram
-          data={observations as GenericObservation[]}
-          fields={{
-            x: {
-              componentIri: "value",
-            },
-            label: {
-              componentIri: "muniProvider", // getEntityLabelField(entity),
-            },
-            annotation: annotations as {
-              [x: string]: string | number | boolean;
-            }[],
-          }}
-          measures={[
-            {
-              iri: "value",
-              label: "value",
-              __typename: "Measure",
-            },
-          ]}
-          aspectRatio={0.3}
-        >
-          <ChartContainer>
-            <ChartSvg>
-              <AxisHeightLinear />
+        <WithClassName downloadId={DOWNLOAD_ID}>
+          <Histogram
+            data={observations as GenericObservation[]}
+            fields={{
+              x: {
+                componentIri: "value",
+              },
+              label: {
+                componentIri: "muniProvider", // getEntityLabelField(entity),
+              },
+              annotation: annotations as {
+                [x: string]: string | number | boolean;
+              }[],
+            }}
+            measures={[
+              {
+                iri: "value",
+                label: "value",
+                __typename: "Measure",
+              },
+            ]}
+            aspectRatio={0.3}
+          >
+            <ChartContainer>
+              <ChartSvg>
+                <AxisHeightLinear />
 
-              {/* <AxisWidthHistogram /> */}
-              <HistogramMinMaxValues />
-              <AxisWidthHistogramDomain />
+                {/* <AxisWidthHistogram /> */}
+                <HistogramMinMaxValues />
+                <AxisWidthHistogramDomain />
 
-              <AnnotationX />
-              <HistogramColumns />
-              <HistogramMedian label="CH Median" />
-            </ChartSvg>
-            <AnnotationXLabel />
-          </ChartContainer>
-        </Histogram>
+                <AnnotationX />
+                <HistogramColumns />
+                <HistogramMedian label="CH Median" />
+              </ChartSvg>
+              <AnnotationXLabel />
+            </ChartContainer>
+          </Histogram>
+        </WithClassName>
       )}
     </>
   );

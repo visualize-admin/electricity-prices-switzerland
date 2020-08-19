@@ -1,12 +1,13 @@
 import { Trans } from "@lingui/macro";
-
+import { Box } from "@theme-ui/components";
 import * as React from "react";
+import { memo } from "react";
+import { Entity, GenericObservation, priceComponents } from "../../domain/data";
+import { getLocalizedLabel } from "../../domain/translation";
+import { useQueryState } from "../../lib/use-query-state";
 import { EMPTY_ARRAY } from "../../pages/[locale]/municipality/[id]";
 import { AxisHeightLinear } from "../charts-generic/axis/axis-height-linear";
-import {
-  AxisTime,
-  AxisTimeDomain,
-} from "../charts-generic/axis/axis-width-time";
+import { AxisTime } from "../charts-generic/axis/axis-width-time";
 import { HoverDotMultiple } from "../charts-generic/interaction/hover-dots-multiple";
 import { Ruler } from "../charts-generic/interaction/ruler";
 import { Tooltip } from "../charts-generic/interaction/tooltip";
@@ -14,6 +15,7 @@ import { LegendColor } from "../charts-generic/legends/color";
 import { Lines } from "../charts-generic/lines/lines";
 import { LineChart } from "../charts-generic/lines/lines-state";
 import { InteractionHorizontal } from "../charts-generic/overlay/interaction-horizontal";
+import { useI18n } from "../i18n-context";
 import { Loading } from "../loading";
 import {
   ChartContainer,
@@ -24,19 +26,11 @@ import {
   PriceComponent,
   useObservationsWithAllPriceComponentsQuery,
 } from "./../../graphql/queries";
-import {
-  GenericObservation,
-  Entity,
-  getEntityLabelField,
-  priceComponents,
-} from "../../domain/data";
-import { useQueryState } from "../../lib/use-query-state";
-import { Box } from "@theme-ui/components";
-import { memo } from "react";
+import { Download, DownloadImage } from "./download-image";
 import { FilterSetDescription } from "./filter-set-description";
-import { getLocalizedLabel } from "../../domain/translation";
-import { useI18n } from "../i18n-context";
-import { DownloadImage } from "./download-image";
+import { WithClassName } from "./with-classname";
+
+const DOWNLOAD_ID: Download = "evolution";
 
 export const PriceEvolution = ({
   id,
@@ -88,7 +82,7 @@ export const PriceEvolution = ({
       title={
         <Trans id="detail.card.title.prices.evolution">Tarifentwicklung</Trans>
       }
-      id="evolution"
+      id={DOWNLOAD_ID}
     >
       <FilterSetDescription
         filters={{
@@ -98,7 +92,7 @@ export const PriceEvolution = ({
       {observations.length === 0 ? (
         <Loading />
       ) : (
-        <div className="evolution">
+        <div className={DOWNLOAD_ID}>
           {priceComponents.map((pc, i) => (
             <PriceEvolutionLineChart
               key={pc}
@@ -112,11 +106,11 @@ export const PriceEvolution = ({
         </div>
       )}
       <DownloadImage
-        elementId="evolution"
-        fileName="evolution"
+        elementId={DOWNLOAD_ID}
+        fileName={DOWNLOAD_ID}
         entity={entity}
         id={id}
-        download="evolution"
+        download={DOWNLOAD_ID}
       />
     </Card>
   );
@@ -139,7 +133,7 @@ const PriceEvolutionLineChart = memo(
     const i18n = useI18n();
 
     return (
-      <>
+      <WithClassName downloadId={DOWNLOAD_ID}>
         <Box sx={{ my: 4 }}>
           <LineChart
             data={observations}
@@ -194,7 +188,7 @@ const PriceEvolutionLineChart = memo(
             </ChartContainer>
           </LineChart>
         </Box>
-      </>
+      </WithClassName>
     );
   }
 );

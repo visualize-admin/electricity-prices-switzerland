@@ -27,7 +27,10 @@ import { Card } from "./card";
 import { FilterSetDescription } from "./filter-set-description";
 import { Combobox } from "../combobox";
 import { EMPTY_ARRAY } from "../../pages/[locale]/municipality/[id]";
-import { DownloadImage } from "./download-image";
+import { DownloadImage, Download } from "./download-image";
+import { WithClassName } from "./with-classname";
+
+const DOWNLOAD_ID: Download = "comparison";
 
 export const CantonsComparisonRangePlots = ({
   id,
@@ -63,7 +66,7 @@ export const CantonsComparisonRangePlots = ({
           Kantonsvergleich
         </Trans>
       }
-      id="comparison"
+      id={DOWNLOAD_ID}
     >
       <Box sx={{ display: ["none", "none", "block"] }}>
         <RadioTabs
@@ -114,11 +117,11 @@ export const CantonsComparisonRangePlots = ({
         />
       ))}
       <DownloadImage
-        elementId="comparison"
-        fileName="comparison"
+        elementId={DOWNLOAD_ID}
+        fileName={DOWNLOAD_ID}
         entity={entity}
         id={id}
-        download="comparison"
+        download={DOWNLOAD_ID}
       />
     </Card>
   );
@@ -174,41 +177,43 @@ export const CantonsComparisonRangePlot = memo(
         {observations.length === 0 ? (
           <Loading />
         ) : (
-          <RangePlot
-            data={observations as GenericObservation[]}
-            fields={{
-              x: {
-                componentIri: "value",
-              },
-              y: {
-                componentIri: "period",
-              },
-              label: {
-                componentIri: "muniProvider", // getEntityLabelField(entity),
-              },
-              annotation: annotations as {
-                [x: string]: string | number | boolean;
-              }[],
-            }}
-            measures={[
-              {
-                iri: "value",
-                label: "value",
-                __typename: "Measure",
-              },
-            ]}
-          >
-            <ChartContainer>
-              <ChartSvg>
-                <Range />
-                <AxisWidthLinear position="top" />
-                <RangePoints />
-                <AnnotationX />
-                <AnnotationXDataPoint />
-              </ChartSvg>
-              <AnnotationXLabel />
-            </ChartContainer>
-          </RangePlot>
+          <WithClassName downloadId={DOWNLOAD_ID}>
+            <RangePlot
+              data={observations as GenericObservation[]}
+              fields={{
+                x: {
+                  componentIri: "value",
+                },
+                y: {
+                  componentIri: "period",
+                },
+                label: {
+                  componentIri: "muniProvider",
+                },
+                annotation: annotations as {
+                  [x: string]: string | number | boolean;
+                }[],
+              }}
+              measures={[
+                {
+                  iri: "value",
+                  label: "value",
+                  __typename: "Measure",
+                },
+              ]}
+            >
+              <ChartContainer>
+                <ChartSvg>
+                  <Range />
+                  <AxisWidthLinear position="top" />
+                  <RangePoints />
+                  <AnnotationX />
+                  <AnnotationXDataPoint />
+                </ChartSvg>
+                <AnnotationXLabel />
+              </ChartContainer>
+            </RangePlot>
+          </WithClassName>
         )}
       </>
     );
