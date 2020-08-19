@@ -14,7 +14,7 @@ export const PriceColorLegend = () => {
       sx={{
         width: LEGEND_WIDTH,
         zIndex: 13,
-        bg: "monochrome100",
+        bg: "rgba(245, 245, 245, 0.8)",
         borderRadius: "default",
         height: "fit-content",
         px: 4,
