@@ -147,6 +147,7 @@ const IndexPage = () => {
               <ChoroplethMap
                 year={period}
                 observations={providerObservations}
+                observationsQueryFetching={observationsQuery.fetching}
                 colorScale={colorScale}
               />
               <Box

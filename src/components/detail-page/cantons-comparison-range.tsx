@@ -22,7 +22,7 @@ import { Range, RangePoints } from "../charts-generic/rangeplot/rangeplot";
 import { RangePlot } from "../charts-generic/rangeplot/rangeplot-state";
 import { Combobox } from "../combobox";
 import { useI18n } from "../i18n-context";
-import { Loading } from "../loading";
+import { Loading, NoDataHint } from "../hint";
 import { RadioTabs } from "../radio-tabs";
 import { Card } from "./card";
 import { FilterSetDescription } from "./filter-set-description";
@@ -168,8 +168,10 @@ export const CantonsComparisonRangePlot = memo(
             priceComponent: getLocalizedLabel({ i18n, id: priceComponent }),
           }}
         />
-        {observations.length === 0 ? (
+        {observationsQuery.fetching ? (
           <Loading />
+        ) : observations.length === 0 ? (
+          <NoDataHint />
         ) : (
           <RangePlot
             data={observations as GenericObservation[]}

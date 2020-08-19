@@ -23,7 +23,7 @@ import { useFormatCurrency } from "../domain/helpers";
 import { ProviderObservationFieldsFragment } from "../graphql/queries";
 import { TooltipBoxWithoutChartState } from "./charts-generic/interaction/tooltip-box";
 import { createDynamicRouteProps } from "./links";
-import { Loading } from "./loading";
+import { Loading, NoDataHint } from "./hint";
 
 const INITIAL_VIEW_STATE = {
   latitude: 46.8182,
@@ -158,25 +158,47 @@ const MapTooltip = ({
   );
 };
 
+const HintBox = ({ children }: { children: ReactNode }) => (
+  <Box
+    sx={{
+      width: "100%",
+      height: "100%",
+      zIndex: 1,
+      position: "relative",
+    }}
+  >
+    {children}
+  </Box>
+);
+
+type GeoDataState =
+  | {
+      state: "fetching";
+    }
+  | {
+      state: "error";
+    }
+  | {
+      state: "loaded";
+      municipalities: GeoJSON.FeatureCollection | GeoJSON.Feature;
+      municipalityMesh: GeoJSON.MultiLineString;
+      cantons: GeoJSON.FeatureCollection | GeoJSON.Feature;
+      lakes: GeoJSON.FeatureCollection | GeoJSON.Feature;
+    };
+
 export const ChoroplethMap = ({
   year,
   observations,
+  observationsQueryFetching,
   colorScale,
 }: {
   year: string;
   observations: ProviderObservationFieldsFragment[];
+  observationsQueryFetching: boolean;
   colorScale: ScaleThreshold<number, string> | undefined | 0;
 }) => {
   const { push, query } = useRouter();
-  const [data, setData] = useState<
-    | {
-        municipalities: GeoJSON.FeatureCollection | GeoJSON.Feature;
-        municipalityMesh: GeoJSON.MultiLineString;
-        cantons: GeoJSON.FeatureCollection | GeoJSON.Feature;
-        lakes: GeoJSON.FeatureCollection | GeoJSON.Feature;
-      }
-    | undefined
-  >();
+  const [geoData, setGeoData] = useState<GeoDataState>({ state: "fetching" });
   const [hovered, setHovered] = useState<{
     x: number;
     y: number;
@@ -206,18 +228,31 @@ export const ChoroplethMap = ({
 
   useEffect(() => {
     const load = async () => {
-      const topo = await fetch(
-        `/topojson/ch-${parseInt(year, 10) - 1}.json`
-      ).then((res) => res.json());
-      const municipalities = topojsonFeature(topo, topo.objects.municipalities);
-      const municipalityMesh = topojsonMesh(
-        topo,
-        topo.objects.municipalities,
-        (a, b) => a !== b
-      );
-      const cantons = topojsonFeature(topo, topo.objects.cantons);
-      const lakes = topojsonFeature(topo, topo.objects.lakes);
-      setData({ municipalities, municipalityMesh, cantons, lakes });
+      try {
+        const res = await fetch(`/topojson/ch-${parseInt(year, 10) - 1}.json`);
+        const topo = await res.json();
+
+        const municipalities = topojsonFeature(
+          topo,
+          topo.objects.municipalities
+        );
+        const municipalityMesh = topojsonMesh(
+          topo,
+          topo.objects.municipalities,
+          (a, b) => a !== b
+        );
+        const cantons = topojsonFeature(topo, topo.objects.cantons);
+        const lakes = topojsonFeature(topo, topo.objects.lakes);
+        setGeoData({
+          state: "loaded",
+          municipalities,
+          municipalityMesh,
+          cantons,
+          lakes,
+        });
+      } catch (e) {
+        setGeoData({ state: "error" });
+      }
     };
     load();
   }, [year]);
@@ -227,13 +262,13 @@ export const ChoroplethMap = ({
   }, [observations]);
 
   useEffect(() => {
-    if (data && observationsByMunicipalityId.size > 0) {
+    if (geoData.state === "loaded" && observationsByMunicipalityId.size > 0) {
       __debugCheckObservationsWithoutShapes(
         observationsByMunicipalityId,
-        data.municipalities as GeoJSON.FeatureCollection
+        geoData.municipalities as GeoJSON.FeatureCollection
       );
     }
-  }, [data, observationsByMunicipalityId]);
+  }, [geoData, observationsByMunicipalityId]);
 
   const formatNumber = useFormatCurrency();
 
@@ -254,7 +289,15 @@ export const ChoroplethMap = ({
 
   return (
     <>
-      {!data || (observations.length === 0 && <Loading />)}
+      {geoData.state === "fetching" || observationsQueryFetching ? (
+        <HintBox>
+          <Loading />
+        </HintBox>
+      ) : geoData.state === "error" || observations.length === 0 ? (
+        <HintBox>
+          <NoDataHint />
+        </HintBox>
+      ) : null}
       <>
         {hovered && tooltipContent && colorScale && (
           <MapTooltip x={hovered.x} y={hovered.y}>
@@ -298,7 +341,7 @@ export const ChoroplethMap = ({
           </MapTooltip>
         )}
 
-        {data && (
+        {geoData.state === "loaded" && (
           <DeckGL
             controller={{ type: MapController }}
             viewState={viewState}
@@ -307,7 +350,7 @@ export const ChoroplethMap = ({
           >
             <GeoJsonLayer
               id="municipalities"
-              data={data.municipalities}
+              data={geoData.municipalities}
               pickable={true}
               stroked={false}
               filled={true}
@@ -358,7 +401,7 @@ export const ChoroplethMap = ({
             />
             <GeoJsonLayer
               id="municipality-mesh"
-              data={data.municipalityMesh}
+              data={geoData.municipalityMesh}
               pickable={false}
               stroked={true}
               filled={false}
@@ -370,7 +413,7 @@ export const ChoroplethMap = ({
             />
             <GeoJsonLayer
               id="cantons"
-              data={data.cantons}
+              data={geoData.cantons}
               pickable={false}
               stroked={true}
               filled={false}
@@ -382,7 +425,7 @@ export const ChoroplethMap = ({
             />
             <GeoJsonLayer
               id="lakes"
-              data={data.lakes}
+              data={geoData.lakes}
               pickable={false}
               stroked={true}
               filled={true}

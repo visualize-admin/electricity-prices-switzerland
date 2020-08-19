@@ -14,13 +14,13 @@ msgstr ""
 "Plural-Forms: \n"
 
 #: src/components/combobox.tsx:170
-#: src/components/search.tsx:196
+#: src/components/search.tsx:193
 msgid "combobox.isloading"
 msgstr "Chargement..."
 
 #: src/components/combobox.tsx:176
 #: src/components/combobox.tsx:303
-#: src/components/search.tsx:198
+#: src/components/search.tsx:195
 msgid "combobox.noitems"
 msgstr "Aucun éléments"
 
@@ -88,7 +88,7 @@ msgstr "Année"
 msgid "footer.institution.name"
 msgstr "Elcom"
 
-#: src/components/loading.tsx:37
+#: src/components/hint.tsx:55
 msgid "hint.loading.data"
 msgstr "Chargement des données…"
 
@@ -133,7 +133,7 @@ msgstr "Suite…"
 msgid "logo.swiss.confederation"
 msgstr "Logo de la confédération suisse"
 
-#: src/components/map.tsx:174
+#: src/components/map.tsx:198
 msgid "map.tooltipnodata"
 msgstr "Aucune donnée"
 
@@ -149,16 +149,16 @@ msgstr "médiane"
 msgid "price.legend.min"
 msgstr "min"
 
-#: src/components/search.tsx:36
+#: src/components/search.tsx:35
 #: src/pages/[locale]/index.tsx:94
 msgid "search.global"
 msgstr "Voir l'analyse détaillée des prix par cantons, communes et gestionnaires de réseau."
 
-#: src/components/search.tsx:120
+#: src/components/search.tsx:117
 msgid "search.global.hint.canton.muni.provider"
 msgstr "Communes, gestionnaires de réseau, cantons"
 
-#: src/components/search.tsx:110
+#: src/components/search.tsx:107
 msgid "search.global.hint.go.to"
 msgstr "Aller à…"
 

@@ -16,7 +16,7 @@ import { Lines } from "../charts-generic/lines/lines";
 import { LineChart } from "../charts-generic/lines/lines-state";
 import { InteractionHorizontal } from "../charts-generic/overlay/interaction-horizontal";
 import { useI18n } from "../i18n-context";
-import { Loading } from "../loading";
+import { Loading, NoDataHint } from "../hint";
 import {
   ChartContainer,
   ChartSvg,
@@ -92,8 +92,10 @@ export const PriceEvolution = ({
           category: category[0],
         }}
       />
-      {observations.length === 0 ? (
+      {observationsQuery.fetching ? (
         <Loading />
+      ) : observations.length === 0 ? (
+        <NoDataHint />
       ) : (
         <>
           {priceComponents.map((pc, i) => (

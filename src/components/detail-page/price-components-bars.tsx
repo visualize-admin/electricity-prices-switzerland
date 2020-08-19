@@ -14,7 +14,7 @@ import {
 } from "../charts-generic/bars/bars-grouped";
 import { GroupedBarsChart } from "../charts-generic/bars/bars-grouped-state";
 import { ChartContainer, ChartSvg } from "../charts-generic/containers";
-import { Loading } from "../loading";
+import { Loading, NoDataHint } from "../hint";
 import { Card } from "./card";
 import { FilterSetDescription } from "./filter-set-description";
 
@@ -82,8 +82,10 @@ export const PriceComponentsBarChart = ({
           category: category[0],
         }}
       />
-      {observations.length === 0 ? (
+      {observationsQuery.fetching ? (
         <Loading />
+      ) : observations.length === 0 ? (
+        <NoDataHint />
       ) : (
         <GroupedBarsChart
           data={pivoted}

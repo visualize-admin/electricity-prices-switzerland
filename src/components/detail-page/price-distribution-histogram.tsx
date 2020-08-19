@@ -18,7 +18,7 @@ import { Histogram } from "../charts-generic/histogram/histogram-state";
 import { HistogramMedian } from "../charts-generic/histogram/median";
 import { Combobox } from "../combobox";
 import { useI18n } from "../i18n-context";
-import { Loading } from "../loading";
+import { Loading, NoDataHint } from "../hint";
 import { RadioTabs } from "../radio-tabs";
 import {
   ChartContainer,
@@ -171,8 +171,10 @@ export const PriceDistributionHistogram = ({
           priceComponent: getLocalizedLabel({ i18n, id: priceComponent }),
         }}
       />
-      {observations.length === 0 ? (
+      {observationsQuery.fetching ? (
         <Loading />
+      ) : observations.length === 0 ? (
+        <NoDataHint />
       ) : (
         <Histogram
           data={observations as GenericObservation[]}
