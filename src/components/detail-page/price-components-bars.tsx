@@ -2,19 +2,20 @@ import { Trans } from "@lingui/macro";
 import * as React from "react";
 import { Entity, priceComponents } from "../../domain/data";
 import { pivot_longer } from "../../domain/helpers";
-import { useObservationsWithAllPriceComponentsQuery } from "../../graphql/queries";
+import {
+  ObservationType,
+  useObservationsWithAllPriceComponentsQuery,
+} from "../../graphql/queries";
+import { EMPTY_ARRAY } from "../../lib/empty-array";
 import { useQueryState } from "../../lib/use-query-state";
-import { EMPTY_ARRAY } from "../../pages/[locale]/municipality/[id]";
 import {
   BarsGrouped,
   BarsGroupedLabels,
 } from "../charts-generic/bars/bars-grouped";
 import { GroupedBarsChart } from "../charts-generic/bars/bars-grouped-state";
 import { ChartContainer, ChartSvg } from "../charts-generic/containers";
-import { Loading } from "../loading";
+import { Loading, NoDataHint } from "../hint";
 import { Card } from "./card";
-import { getLocalizedLabel } from "../../domain/translation";
-import { useI18n } from "../i18n-context";
 import { FilterSetDescription } from "./filter-set-description";
 import { DownloadImage, Download } from "./download-image";
 import { WithClassName } from "./with-classname";
@@ -48,11 +49,13 @@ export const PriceComponentsBarChart = ({
       filters: {
         period: period,
         [entity]: entityIds,
-        category: [
-          `https://energy.ld.admin.ch/elcom/energy-pricing/category/${category[0]}`,
-        ],
+        category,
         product,
       },
+      observationType:
+        entity === "canton"
+          ? ObservationType.MedianObservation
+          : ObservationType.ProviderObservation,
     },
   });
   const observations = observationsQuery.fetching
@@ -61,7 +64,10 @@ export const PriceComponentsBarChart = ({
 
   // const uniqueIds = muni+provider+year
   const withUniqueEntityId = observations.map((obs) => ({
-    uniqueId: `${obs.period}, ${obs.municipalityLabel}, ${obs.providerLabel}`,
+    uniqueId:
+      obs.__typename === "MedianObservation"
+        ? `${obs.period}, ${obs.cantonLabel}`
+        : `${obs.period}, ${obs.municipalityLabel}, ${obs.providerLabel}`,
     ...obs,
   }));
   const pivoted = pivot_longer({
@@ -81,8 +87,10 @@ export const PriceComponentsBarChart = ({
           category: category[0],
         }}
       />
-      {observations.length === 0 ? (
+      {observationsQuery.fetching ? (
         <Loading />
+      ) : observations.length === 0 ? (
+        <NoDataHint />
       ) : (
         <WithClassName downloadId={DOWNLOAD_ID}>
           <GroupedBarsChart

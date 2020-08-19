@@ -17,7 +17,6 @@ import VisuallyHidden from "@reach/visually-hidden";
 export const Search = () => {
   const locale = useLocale();
   const [searchString, setSearchString] = useState<string>("");
-  console.log({ searchString });
 
   const [gqlQuery] = useSearchQuery({
     variables: {
@@ -115,7 +114,6 @@ export const SearchField = ({
           }
           break;
         case useCombobox.stateChangeTypes.InputChange:
-          console.log("input value change", changes.inputValue);
           setInputValue(changes.inputValue);
           setSearchString(inputValue);
           break;
@@ -132,8 +130,6 @@ export const SearchField = ({
       }
     },
   });
-
-  console.log({ items });
 
   return (
     <Box sx={{ width: "100%", maxWidth: "44rem", mx: "auto" }}>

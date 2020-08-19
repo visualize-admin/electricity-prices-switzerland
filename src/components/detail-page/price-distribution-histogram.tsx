@@ -1,10 +1,11 @@
 import { Trans } from "@lingui/macro";
 import { Box, Text } from "@theme-ui/components";
+import { useRouter } from "next/router";
 import * as React from "react";
 import { Entity, GenericObservation, priceComponents } from "../../domain/data";
 import { getLocalizedLabel } from "../../domain/translation";
+import { EMPTY_ARRAY } from "../../lib/empty-array";
 import { useQueryState } from "../../lib/use-query-state";
-import { EMPTY_ARRAY } from "../../pages/[locale]/municipality/[id]";
 import {
   AnnotationX,
   AnnotationXLabel,
@@ -16,19 +17,22 @@ import { HistogramMinMaxValues } from "../charts-generic/histogram/histogram-min
 import { Histogram } from "../charts-generic/histogram/histogram-state";
 import { HistogramMedian } from "../charts-generic/histogram/median";
 import { Combobox } from "../combobox";
+import { Loading, NoDataHint } from "../hint";
 import { useI18n } from "../i18n-context";
-import { Loading } from "../loading";
 import { RadioTabs } from "../radio-tabs";
 import {
   ChartContainer,
   ChartSvg,
 } from "./../../components/charts-generic/containers";
 import { Card } from "./../../components/detail-page/card";
-import { PriceComponent, useObservationsQuery } from "./../../graphql/queries";
+import {
+  ObservationType,
+  PriceComponent,
+  useObservationsQuery,
+} from "./../../graphql/queries";
 import { Download, DownloadImage } from "./download-image";
 import { FilterSetDescription } from "./filter-set-description";
 import { WithClassName } from "./with-classname";
-import { useRouter } from "next/router";
 
 const DOWNLOAD_ID: Download = "distribution";
 
@@ -164,6 +168,10 @@ export const PriceDistributionHistogram = ({
         category,
         product,
       },
+      observationType:
+        entity === "canton"
+          ? ObservationType.MedianObservation
+          : ObservationType.ProviderObservation,
     },
   });
   const observations = observationsQuery.fetching
@@ -173,9 +181,12 @@ export const PriceDistributionHistogram = ({
   const annotations =
     annotationIds &&
     observations
-      .filter((obs) => annotationIds.includes(obs[entity]))
+      .filter((obs) => annotationIds.includes((obs as $FixMe)[entity]))
       .map((obs) => ({
-        muniProvider: `${obs.municipalityLabel}, ${obs.providerLabel}`,
+        muniProvider:
+          obs.__typename === "ProviderObservation"
+            ? `${obs.municipalityLabel}, ${obs.providerLabel}`
+            : `${obs.cantonLabel}`,
         ...obs,
       }));
 
@@ -188,8 +199,10 @@ export const PriceDistributionHistogram = ({
           priceComponent: getLocalizedLabel({ i18n, id: priceComponent }),
         }}
       />
-      {observations.length === 0 ? (
+      {observationsQuery.fetching ? (
         <Loading />
+      ) : observations.length === 0 ? (
+        <NoDataHint />
       ) : (
         <WithClassName downloadId={DOWNLOAD_ID}>
           <Histogram

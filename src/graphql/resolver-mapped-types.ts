@@ -27,11 +27,22 @@ export type ResolvedProvider = {
 };
 export type ResolvedCanton = { id: string };
 
-export type ResolvedObservation = {
-  municipality?: string;
-  provider?: string;
+export type ResolvedMedianObservation = {
+  __typename: "MedianObservation";
   category?: string;
   period?: string;
   region?: string;
   regionLabel?: string;
 } & { [key: string]: number };
+
+export type ResolvedProviderObservation = {
+  __typename: "ProviderObservation";
+  municipality?: string;
+  provider?: string;
+  category?: string;
+  period?: string;
+} & { [key: string]: number };
+
+export type ResolvedObservation =
+  | ResolvedMedianObservation
+  | ResolvedProviderObservation;

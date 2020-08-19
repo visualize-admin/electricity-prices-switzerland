@@ -23,7 +23,7 @@ const queryStateDefaults = {
   period: "2020",
   category: "H4",
   priceComponent: "total",
-  product: "standard",
+  product: "cheapest",
   provider: undefined,
   municipality: undefined,
   canton: undefined,

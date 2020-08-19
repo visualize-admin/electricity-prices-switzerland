@@ -1,15 +1,16 @@
 import { Trans } from "@lingui/macro";
 import { Box, Text } from "@theme-ui/components";
+import { useRouter } from "next/router";
 import * as React from "react";
-import { useState, memo } from "react";
-import {
-  Entity,
-  GenericObservation,
-  getEntityLabelField,
-  priceComponents,
-} from "../../domain/data";
+import { memo } from "react";
+import { Entity, GenericObservation, priceComponents } from "../../domain/data";
 import { getLocalizedLabel } from "../../domain/translation";
-import { PriceComponent, useObservationsQuery } from "../../graphql/queries";
+import {
+  ObservationType,
+  PriceComponent,
+  useObservationsQuery,
+} from "../../graphql/queries";
+import { EMPTY_ARRAY } from "../../lib/empty-array";
 import { useQueryState } from "../../lib/use-query-state";
 import {
   AnnotationX,
@@ -20,16 +21,14 @@ import { AxisWidthLinear } from "../charts-generic/axis/axis-width-linear";
 import { ChartContainer, ChartSvg } from "../charts-generic/containers";
 import { Range, RangePoints } from "../charts-generic/rangeplot/rangeplot";
 import { RangePlot } from "../charts-generic/rangeplot/rangeplot-state";
+import { Combobox } from "../combobox";
+import { Loading, NoDataHint } from "../hint";
 import { useI18n } from "../i18n-context";
-import { Loading } from "../loading";
 import { RadioTabs } from "../radio-tabs";
 import { Card } from "./card";
+import { Download, DownloadImage } from "./download-image";
 import { FilterSetDescription } from "./filter-set-description";
-import { Combobox } from "../combobox";
-import { EMPTY_ARRAY } from "../../pages/[locale]/municipality/[id]";
-import { DownloadImage, Download } from "./download-image";
 import { WithClassName } from "./with-classname";
-import { useRouter } from "next/router";
 
 const DOWNLOAD_ID: Download = "comparison";
 
@@ -168,6 +167,10 @@ export const CantonsComparisonRangePlot = memo(
           category,
           product,
         },
+        observationType:
+          entity === "canton"
+            ? ObservationType.MedianObservation
+            : ObservationType.ProviderObservation,
       },
     });
     const observations = observationsQuery.fetching
@@ -177,9 +180,12 @@ export const CantonsComparisonRangePlot = memo(
     const annotations =
       annotationIds &&
       observations
-        .filter((obs) => annotationIds.includes(obs[entity]))
+        .filter((obs) => annotationIds.includes((obs as $FixMe)[entity]))
         .map((obs) => ({
-          muniProvider: `${obs.municipalityLabel}, ${obs.providerLabel}`,
+          muniProvider:
+            obs.__typename === "ProviderObservation"
+              ? `${obs.municipalityLabel}, ${obs.providerLabel}`
+              : obs.cantonLabel,
           ...obs,
         }));
 
@@ -192,8 +198,10 @@ export const CantonsComparisonRangePlot = memo(
             priceComponent: getLocalizedLabel({ i18n, id: priceComponent }),
           }}
         />
-        {observations.length === 0 ? (
+        {observationsQuery.fetching ? (
           <Loading />
+        ) : observations.length === 0 ? (
+          <NoDataHint />
         ) : (
           <WithClassName downloadId={DOWNLOAD_ID}>
             <RangePlot

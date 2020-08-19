@@ -14,13 +14,13 @@ msgstr ""
 "Plural-Forms: \n"
 
 #: src/components/combobox.tsx:170
-#: src/components/search.tsx:196
+#: src/components/search.tsx:193
 msgid "combobox.isloading"
 msgstr ""
 
 #: src/components/combobox.tsx:176
 #: src/components/combobox.tsx:303
-#: src/components/search.tsx:198
+#: src/components/search.tsx:195
 msgid "combobox.noitems"
 msgstr ""
 
@@ -32,7 +32,7 @@ msgstr ""
 msgid "controls.search.clear"
 msgstr "Azzerare"
 
-#: src/components/list.tsx:160
+#: src/components/list.tsx:161
 msgid "dataset.sortby"
 msgstr ""
 
@@ -44,7 +44,7 @@ msgstr ""
 msgid "detail.card.title.cantons.comparison"
 msgstr ""
 
-#: src/components/detail-page/price-components-bars.tsx:47
+#: src/components/detail-page/price-components-bars.tsx:50
 msgid "detail.card.title.price.components"
 msgstr ""
 
@@ -52,7 +52,7 @@ msgstr ""
 msgid "detail.card.title.prices.distribution"
 msgstr ""
 
-#: src/components/detail-page/price-evolution-line-chart.tsx:50
+#: src/components/detail-page/price-evolution-line-chart.tsx:55
 msgid "detail.card.title.prices.evolution"
 msgstr ""
 
@@ -88,9 +88,17 @@ msgstr ""
 msgid "footer.institution.name"
 msgstr ""
 
-#: src/components/loading.tsx:37
+#: src/components/hint.tsx:55
 msgid "hint.loading.data"
 msgstr "caricamento dei dati…"
+
+#: src/components/hint.tsx:84
+msgid "hint.nodata.message"
+msgstr ""
+
+#: src/components/hint.tsx:81
+msgid "hint.nodata.title"
+msgstr ""
 
 #: src/components/charts-generic/histogram/histogram-min-max-values.tsx:48
 msgid "histogram.max"
@@ -100,11 +108,11 @@ msgstr ""
 msgid "histogram.min"
 msgstr ""
 
-#: src/components/list.tsx:133
+#: src/components/list.tsx:134
 msgid "list.cantons"
 msgstr ""
 
-#: src/components/list.tsx:129
+#: src/components/list.tsx:130
 msgid "list.municipalities"
 msgstr ""
 
@@ -116,7 +124,7 @@ msgstr ""
 msgid "list.order.desc"
 msgstr ""
 
-#: src/components/list.tsx:137
+#: src/components/list.tsx:138
 msgid "list.providers"
 msgstr ""
 
@@ -133,7 +141,7 @@ msgstr ""
 msgid "logo.swiss.confederation"
 msgstr ""
 
-#: src/components/map.tsx:174
+#: src/components/map.tsx:198
 msgid "map.tooltipnodata"
 msgstr ""
 
@@ -149,16 +157,16 @@ msgstr "mediana"
 msgid "price.legend.min"
 msgstr "min"
 
-#: src/components/search.tsx:36
+#: src/components/search.tsx:35
 #: src/pages/[locale]/index.tsx:94
 msgid "search.global"
 msgstr ""
 
-#: src/components/search.tsx:120
+#: src/components/search.tsx:117
 msgid "search.global.hint.canton.muni.provider"
 msgstr ""
 
-#: src/components/search.tsx:110
+#: src/components/search.tsx:107
 msgid "search.global.hint.go.to"
 msgstr ""
 
@@ -174,7 +182,7 @@ msgstr ""
 msgid "search.result.provider"
 msgstr ""
 
-#: src/components/detail-page/selector-multi.tsx:59
+#: src/components/detail-page/selector-multi.tsx:39
 #: src/components/selector.tsx:31
 msgid "selector.category"
 msgstr "Categoria"
@@ -239,7 +247,11 @@ msgstr ""
 msgid "selector.category.H8"
 msgstr ""
 
-#: src/components/detail-page/selector-multi.tsx:45
+#: src/components/detail-page/selector-multi.tsx:37
+msgid "selector.comparecantons"
+msgstr ""
+
+#: src/components/detail-page/selector-multi.tsx:35
 msgid "selector.comparemunicipalities"
 msgstr ""
 
@@ -281,7 +293,7 @@ msgstr ""
 msgid "selector.pricecomponent.total"
 msgstr ""
 
-#: src/components/detail-page/selector-multi.tsx:60
+#: src/components/detail-page/selector-multi.tsx:40
 #: src/components/selector.tsx:33
 msgid "selector.product"
 msgstr "Prodotto"
@@ -298,7 +310,59 @@ msgstr ""
 msgid "selector.year"
 msgstr "Anno"
 
-#: src/components/detail-page/selector-multi.tsx:58
+#: src/domain/translation.tsx:30
+#~ msgid "selector.year.2009"
+#~ msgstr ""
+
+#: src/domain/translation.tsx:28
+#~ msgid "selector.year.2010"
+#~ msgstr ""
+
+#: src/domain/translation.tsx:26
+#~ msgid "selector.year.2011"
+#~ msgstr ""
+
+#: src/domain/translation.tsx:24
+#~ msgid "selector.year.2012"
+#~ msgstr ""
+
+#: src/domain/translation.tsx:22
+#~ msgid "selector.year.2013"
+#~ msgstr ""
+
+#: src/domain/translation.tsx:20
+#~ msgid "selector.year.2014"
+#~ msgstr ""
+
+#: src/domain/translation.tsx:18
+#~ msgid "selector.year.2015"
+#~ msgstr ""
+
+#: src/domain/translation.tsx:16
+#~ msgid "selector.year.2016"
+#~ msgstr ""
+
+#: src/domain/translation.tsx:14
+#~ msgid "selector.year.2017"
+#~ msgstr ""
+
+#: src/domain/translation.tsx:12
+#~ msgid "selector.year.2018"
+#~ msgstr ""
+
+#: src/domain/translation.tsx:10
+#~ msgid "selector.year.2019"
+#~ msgstr ""
+
+#: src/domain/translation.tsx:8
+#~ msgid "selector.year.2020"
+#~ msgstr ""
+
+#: src/domain/translation.tsx:6
+#~ msgid "selector.year.2021"
+#~ msgstr ""
+
+#: src/components/detail-page/selector-multi.tsx:38
 msgid "selector.years"
 msgstr ""
 

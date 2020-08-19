@@ -16,8 +16,6 @@ import {
 } from "../../../graphql/rdf";
 import { useRouter } from "next/router";
 
-export const EMPTY_ARRAY: never[] = [];
-
 type Props = {
   id: string;
   name: string;

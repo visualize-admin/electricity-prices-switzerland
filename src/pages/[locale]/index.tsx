@@ -8,16 +8,21 @@ import { ChoroplethMap } from "../../components/map";
 import { PriceColorLegend } from "../../components/price-color-legend";
 import { Selector } from "../../components/selector";
 import { useColorScale } from "../../domain/data";
-import { PriceComponent, useObservationsQuery } from "../../graphql/queries";
-import { useCallback } from "react";
+import {
+  PriceComponent,
+  useObservationsQuery,
+  ProviderObservationFieldsFragment,
+} from "../../graphql/queries";
+import { useCallback, useMemo } from "react";
 import { useQueryStateSingle } from "../../lib/use-query-state";
 import { List } from "../../components/list";
 import { Trans } from "@lingui/macro";
+import { EMPTY_ARRAY } from "../../lib/empty-array";
 import { Search } from "../../components/search";
 import { DownloadImage } from "../../components/detail-page/download-image";
 
-const EMPTY_ARRAY: never[] = [];
 const DOWNLOAD_ID = "map";
+
 export const getServerSideProps = async () => {
   return {
     props: {},
@@ -48,9 +53,15 @@ const IndexPage = () => {
   const observations = observationsQuery.fetching
     ? EMPTY_ARRAY
     : observationsQuery.data?.observations ?? EMPTY_ARRAY;
-  const cantonObservations = observationsQuery.fetching
-    ? EMPTY_ARRAY
-    : observationsQuery.data?.cantonObservations ?? EMPTY_ARRAY;
+
+  const providerObservations = useMemo<
+    ProviderObservationFieldsFragment[]
+  >(() => {
+    return observations.filter(
+      (d): d is ProviderObservationFieldsFragment =>
+        d.__typename === "ProviderObservation"
+    );
+  }, [observations]);
 
   const colorAccessor = useCallback((d) => d.value, []);
   const colorScale = useColorScale({
@@ -142,7 +153,8 @@ const IndexPage = () => {
             >
               <ChoroplethMap
                 year={period}
-                observations={observations}
+                observations={providerObservations}
+                observationsQueryFetching={observationsQuery.fetching}
                 colorScale={colorScale}
               />
               <Box
@@ -189,11 +201,7 @@ const IndexPage = () => {
               >
                 <Selector />
               </Box>
-              <List
-                observations={observations}
-                cantonObservations={cantonObservations}
-                colorScale={colorScale}
-              />
+              <List observations={observations} colorScale={colorScale} />
             </Box>
           </Grid>
 

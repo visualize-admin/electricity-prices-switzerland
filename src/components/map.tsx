@@ -20,10 +20,10 @@ import {
   mesh as topojsonMesh,
 } from "topojson-client";
 import { useFormatCurrency } from "../domain/helpers";
-import { Observation } from "../graphql/queries";
+import { ProviderObservationFieldsFragment } from "../graphql/queries";
 import { TooltipBoxWithoutChartState } from "./charts-generic/interaction/tooltip-box";
 import { createDynamicRouteProps } from "./links";
-import { Loading } from "./loading";
+import { Loading, NoDataHint } from "./hint";
 
 const INITIAL_VIEW_STATE = {
   latitude: 46.8182,
@@ -105,7 +105,10 @@ const constrainZoom = (
 // };
 
 const __debugCheckObservationsWithoutShapes = (
-  observationsByMunicipalityId: Map<string, Observation[]>,
+  observationsByMunicipalityId: Map<
+    string,
+    ProviderObservationFieldsFragment[]
+  >,
   feature: GeoJSON.FeatureCollection
 ) => {
   const observationIds = new Set(observationsByMunicipalityId.keys());
@@ -155,26 +158,48 @@ const MapTooltip = ({
   );
 };
 
+const HintBox = ({ children }: { children: ReactNode }) => (
+  <Box
+    sx={{
+      width: "100%",
+      height: "100%",
+      zIndex: 1,
+      position: "relative",
+    }}
+  >
+    {children}
+  </Box>
+);
+
+type GeoDataState =
+  | {
+      state: "fetching";
+    }
+  | {
+      state: "error";
+    }
+  | {
+      state: "loaded";
+      municipalities: GeoJSON.FeatureCollection | GeoJSON.Feature;
+      municipalityMesh: GeoJSON.MultiLineString;
+      cantons: GeoJSON.FeatureCollection | GeoJSON.Feature;
+      lakes: GeoJSON.FeatureCollection | GeoJSON.Feature;
+    };
+
 export const ChoroplethMap = ({
   year,
   observations,
+  observationsQueryFetching,
   colorScale,
 }: {
   year: string;
-  observations: Observation[];
+  observations: ProviderObservationFieldsFragment[];
+  observationsQueryFetching: boolean;
   colorScale: ScaleThreshold<number, string> | undefined | 0;
 }) => {
   const [dataIsLoading, updateDataLoadingState] = useState(true);
   const { push, query } = useRouter();
-  const [data, setData] = useState<
-    | {
-        municipalities: GeoJSON.FeatureCollection | GeoJSON.Feature;
-        municipalityMesh: GeoJSON.MultiLineString;
-        cantons: GeoJSON.FeatureCollection | GeoJSON.Feature;
-        lakes: GeoJSON.FeatureCollection | GeoJSON.Feature;
-      }
-    | undefined
-  >();
+  const [geoData, setGeoData] = useState<GeoDataState>({ state: "fetching" });
   const [hovered, setHovered] = useState<{
     x: number;
     y: number;
@@ -204,18 +229,31 @@ export const ChoroplethMap = ({
 
   useEffect(() => {
     const load = async () => {
-      const topo = await fetch(
-        `/topojson/ch-${parseInt(year, 10) - 1}.json`
-      ).then((res) => res.json());
-      const municipalities = topojsonFeature(topo, topo.objects.municipalities);
-      const municipalityMesh = topojsonMesh(
-        topo,
-        topo.objects.municipalities,
-        (a, b) => a !== b
-      );
-      const cantons = topojsonFeature(topo, topo.objects.cantons);
-      const lakes = topojsonFeature(topo, topo.objects.lakes);
-      setData({ municipalities, municipalityMesh, cantons, lakes });
+      try {
+        const res = await fetch(`/topojson/ch-${parseInt(year, 10) - 1}.json`);
+        const topo = await res.json();
+
+        const municipalities = topojsonFeature(
+          topo,
+          topo.objects.municipalities
+        );
+        const municipalityMesh = topojsonMesh(
+          topo,
+          topo.objects.municipalities,
+          (a, b) => a !== b
+        );
+        const cantons = topojsonFeature(topo, topo.objects.cantons);
+        const lakes = topojsonFeature(topo, topo.objects.lakes);
+        setGeoData({
+          state: "loaded",
+          municipalities,
+          municipalityMesh,
+          cantons,
+          lakes,
+        });
+      } catch (e) {
+        setGeoData({ state: "error" });
+      }
     };
     load();
   }, [year]);
@@ -225,14 +263,13 @@ export const ChoroplethMap = ({
   }, [observations]);
 
   useEffect(() => {
-    if (data && observationsByMunicipalityId.size > 0) {
-      updateDataLoadingState(false);
+    if (geoData.state === "loaded" && observationsByMunicipalityId.size > 0) {
       __debugCheckObservationsWithoutShapes(
         observationsByMunicipalityId,
-        data.municipalities as GeoJSON.FeatureCollection
+        geoData.municipalities as GeoJSON.FeatureCollection
       );
     }
-  }, [data, observationsByMunicipalityId]);
+  }, [geoData, observationsByMunicipalityId]);
 
   const formatNumber = useFormatCurrency();
 
@@ -253,7 +290,15 @@ export const ChoroplethMap = ({
 
   return (
     <>
-      {!data || (observations.length === 0 && <Loading />)}
+      {geoData.state === "fetching" || observationsQueryFetching ? (
+        <HintBox>
+          <Loading />
+        </HintBox>
+      ) : geoData.state === "error" || observations.length === 0 ? (
+        <HintBox>
+          <NoDataHint />
+        </HintBox>
+      ) : null}
       <>
         {hovered && tooltipContent && colorScale && (
           <MapTooltip x={hovered.x} y={hovered.y}>
@@ -297,106 +342,101 @@ export const ChoroplethMap = ({
           </MapTooltip>
         )}
 
-        {data && (
-          // "map" classname waited for by the screenshot service
-          <div className={dataIsLoading ? "map-loading" : "map"}>
-            <DeckGL
-              controller={{ type: MapController }}
-              viewState={viewState}
-              onViewStateChange={onViewStateChange}
-              onResize={onResize}
-            >
-              <GeoJsonLayer
-                id="municipalities"
-                data={data.municipalities}
-                pickable={true}
-                stroked={false}
-                filled={true}
-                extruded={false}
-                lineWidthScale={20}
-                lineWidthMinPixels={0.5}
-                autoHighlight={true}
-                getFillColor={(d: $FixMe) => {
-                  const obs = observationsByMunicipalityId.get(
-                    d.id.toString()
-                  )?.[0];
-                  return obs ? getColor(obs.value) : [0, 0, 0, 20];
-                }}
-                highlightColor={[0, 0, 0, 50]}
-                getLineColor={[255, 255, 255, 50]}
-                getRadius={100}
-                getLineWidth={1}
-                onHover={({ x, y, object }: $FixMe) => {
-                  setHovered(
-                    object
-                      ? { x: x, y: y, id: object?.id.toString() }
-                      : undefined
-                  );
-                }}
-                onClick={({ layer, object }: $FixMe) => {
-                  const { href, as } = createDynamicRouteProps({
-                    pathname: `/[locale]/municipality/${object?.id.toString()}`,
-                    query,
-                  });
-                  push(href, as);
-                  // if (object) {
-                  //   const { viewport } = layer.context;
-                  //   const bounds = geoBounds(object);
-                  //   const { zoom, longitude, latitude } = viewport.fitBounds(
-                  //     bounds
-                  //   );
-                  //   setViewState((oldViewState) => ({
-                  //     ...oldViewState,
-                  //     zoom,
-                  //     latitude,
-                  //     longitude,
-                  //     transitionDuration: 1000,
-                  //     transitionInterpolator: new FlyToInterpolator(),
-                  //   }));
-                  // }
-                }}
-                updateTriggers={{
-                  getFillColor: [observationsByMunicipalityId],
-                }}
-              />
-              <GeoJsonLayer
-                id="municipality-mesh"
-                data={data.municipalityMesh}
-                pickable={false}
-                stroked={true}
-                filled={false}
-                extruded={false}
-                lineWidthMinPixels={0.6}
-                lineWidthMaxPixels={1}
-                lineMiterLimit={1}
-                getLineColor={[255, 255, 255, 100]}
-              />
-              <GeoJsonLayer
-                id="cantons"
-                data={data.cantons}
-                pickable={false}
-                stroked={true}
-                filled={false}
-                extruded={false}
-                lineWidthMinPixels={1.2}
-                lineWidthMaxPixels={1.2}
-                lineMiterLimit={1}
-                getLineColor={[255, 255, 255]}
-              />
-              <GeoJsonLayer
-                id="lakes"
-                data={data.lakes}
-                pickable={false}
-                stroked={true}
-                filled={true}
-                extruded={false}
-                lineWidthMinPixels={0.5}
-                getLineWidth={0.5}
-                getFillColor={[102, 175, 233]}
-                getLineColor={[255, 255, 255, 100]}
-              />
-            </DeckGL>
-          </div>
+        {geoData.state === "loaded" && (
+          <DeckGL
+            controller={{ type: MapController }}
+            viewState={viewState}
+            onViewStateChange={onViewStateChange}
+            onResize={onResize}
+          >
+            <GeoJsonLayer
+              id="municipalities"
+              data={geoData.municipalities}
+              pickable={true}
+              stroked={false}
+              filled={true}
+              extruded={false}
+              lineWidthScale={20}
+              lineWidthMinPixels={0.5}
+              autoHighlight={true}
+              getFillColor={(d: $FixMe) => {
+                const obs = observationsByMunicipalityId.get(
+                  d.id.toString()
+                )?.[0];
+                return obs ? getColor(obs.value) : [0, 0, 0, 20];
+              }}
+              highlightColor={[0, 0, 0, 50]}
+              getLineColor={[255, 255, 255, 50]}
+              getRadius={100}
+              getLineWidth={1}
+              onHover={({ x, y, object }: $FixMe) => {
+                setHovered(
+                  object ? { x: x, y: y, id: object?.id.toString() } : undefined
+                );
+              }}
+              onClick={({ layer, object }: $FixMe) => {
+                const { href, as } = createDynamicRouteProps({
+                  pathname: `/[locale]/municipality/${object?.id.toString()}`,
+                  query,
+                });
+                push(href, as);
+                // if (object) {
+                //   const { viewport } = layer.context;
+                //   const bounds = geoBounds(object);
+                //   const { zoom, longitude, latitude } = viewport.fitBounds(
+                //     bounds
+                //   );
+                //   setViewState((oldViewState) => ({
+                //     ...oldViewState,
+                //     zoom,
+                //     latitude,
+                //     longitude,
+                //     transitionDuration: 1000,
+                //     transitionInterpolator: new FlyToInterpolator(),
+                //   }));
+                // }
+              }}
+              updateTriggers={{
+                getFillColor: [observationsByMunicipalityId],
+              }}
+            />
+            <GeoJsonLayer
+              id="municipality-mesh"
+              data={geoData.municipalityMesh}
+              pickable={false}
+              stroked={true}
+              filled={false}
+              extruded={false}
+              lineWidthMinPixels={0.6}
+              lineWidthMaxPixels={1}
+              lineMiterLimit={1}
+              getLineColor={[255, 255, 255, 100]}
+            />
+            <GeoJsonLayer
+              id="cantons"
+              data={geoData.cantons}
+              pickable={false}
+              stroked={true}
+              filled={false}
+              extruded={false}
+              lineWidthMinPixels={1.2}
+              lineWidthMaxPixels={1.2}
+              lineMiterLimit={1}
+              getLineColor={[255, 255, 255]}
+            />
+            <GeoJsonLayer
+              id="lakes"
+              data={geoData.lakes}
+              pickable={false}
+              stroked={true}
+              filled={true}
+              extruded={false}
+              lineWidthMinPixels={0.5}
+              getLineWidth={0.5}
+              getFillColor={[102, 175, 233]}
+              getLineColor={[255, 255, 255, 100]}
+            />
+          </DeckGL>
         )}
       </>
     </>

@@ -12,6 +12,13 @@ query Providers($locale: String!, $query: String, $ids: [String!]) {
   }
 }
 
+query Cantons($locale: String!, $query: String, $ids: [String!]) {
+  cantons(locale: $locale, query: $query, ids: $ids) {
+    id
+    name
+  }
+}
+
 query Search($locale: String!, $query: String) {
   search(locale: $locale, query: $query) {
     id
@@ -19,47 +26,91 @@ query Search($locale: String!, $query: String) {
   }
 }
 
+fragment providerObservationFields on ProviderObservation {
+  period
+  municipality
+  municipalityLabel
+  provider
+  providerLabel
+  category
+  value(priceComponent: $priceComponent)
+}
+
+fragment medianObservationFields on MedianObservation {
+  period
+  canton
+  cantonLabel
+  category
+  value(priceComponent: $priceComponent)
+}
+
 query Observations(
   $locale: String
   $priceComponent: PriceComponent!
   $filters: ObservationFilters!
+  $observationType: ObservationType
 ) {
-  observations(locale: $locale, filters: $filters) {
-    period
-    municipality
-    municipalityLabel
-    provider
-    providerLabel
-    category
-    value(priceComponent: $priceComponent)
+  observations(
+    locale: $locale
+    filters: $filters
+    observationType: $observationType
+  ) {
+    ... on ProviderObservation {
+      ...providerObservationFields
+    }
+    ... on MedianObservation {
+      ...medianObservationFields
+    }
   }
-  cantonObservations(locale: $locale, filters: $filters) {
-    period
-    canton
-    cantonLabel
-    category
-    value(priceComponent: $priceComponent)
-  }
+}
+
+fragment providerObservationWithAllPriceComponentsFields on ProviderObservation {
+  period
+  municipality
+  municipalityLabel
+  provider
+  providerLabel
+  category
+
+  aidfee: value(priceComponent: aidfee)
+  fixcosts: value(priceComponent: fixcosts)
+  charge: value(priceComponent: charge)
+  gridusage: value(priceComponent: gridusage)
+  energy: value(priceComponent: energy)
+  fixcostspercent: value(priceComponent: fixcostspercent)
+  total: value(priceComponent: total)
+}
+
+fragment medianObservationWithAllPriceComponentsFields on MedianObservation {
+  period
+  canton
+  cantonLabel
+  category
+
+  aidfee: value(priceComponent: aidfee)
+  # fixcosts: value(priceComponent: fixcosts)
+  charge: value(priceComponent: charge)
+  gridusage: value(priceComponent: gridusage)
+  energy: value(priceComponent: energy)
+  # fixcostspercent: value(priceComponent: fixcostspercent)
+  total: value(priceComponent: total)
 }
 
 query ObservationsWithAllPriceComponents(
   $locale: String
   $filters: ObservationFilters!
+  $observationType: ObservationType
 ) {
-  observations(locale: $locale, filters: $filters) {
-    period
-    municipality
-    municipalityLabel
-    provider
-    providerLabel
-    category
-
-    aidfee: value(priceComponent: aidfee)
-    fixcosts: value(priceComponent: fixcosts)
-    charge: value(priceComponent: charge)
-    gridusage: value(priceComponent: gridusage)
-    energy: value(priceComponent: energy)
-    fixcostspercent: value(priceComponent: fixcostspercent)
-    total: value(priceComponent: total)
+  observations(
+    locale: $locale
+    filters: $filters
+    observationType: $observationType
+  ) {
+    ... on ProviderObservation {
+      ...providerObservationWithAllPriceComponentsFields
+    }
+    ... on MedianObservation {
+      ...medianObservationWithAllPriceComponentsFields
+    }
   }
 }
