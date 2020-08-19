@@ -17,7 +17,7 @@ import { Search } from "../../components/search";
 import { DownloadImage } from "../../components/detail-page/download-image";
 
 const EMPTY_ARRAY: never[] = [];
-
+const DOWNLOAD_ID = "map";
 export const getServerSideProps = async () => {
   return {
     props: {},
@@ -128,8 +128,8 @@ const IndexPage = () => {
             }}
           >
             <Box
-              // id "map" used by the screenshot service
-              id="map"
+              // id used by the screenshot service
+              id={DOWNLOAD_ID}
               sx={{
                 bg: "monochrome200",
                 top: [0, HEADER_HEIGHT_M_UP],
@@ -170,9 +170,9 @@ const IndexPage = () => {
                   }}
                 >
                   <DownloadImage
-                    elementId="map"
-                    fileName="map"
-                    download="map"
+                    elementId={DOWNLOAD_ID}
+                    fileName={DOWNLOAD_ID}
+                    download={DOWNLOAD_ID}
                   />
                 </Box>
               )}
