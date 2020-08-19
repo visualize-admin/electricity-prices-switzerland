@@ -76,7 +76,7 @@ const MunicipalityPage = ({ id, name, providers }: Props) => {
   const { query } = useRouter();
   return (
     <Flex sx={{ minHeight: "100vh", flexDirection: "column" }}>
-      <Header></Header>
+      {!query.download && <Header></Header>}
       <Flex
         sx={{
           pt: 96,
@@ -97,20 +97,20 @@ const MunicipalityPage = ({ id, name, providers }: Props) => {
                 flex: ["1 1 100%", "1 1 100%", `2 2 ${2 / 3}%`],
               }}
             >
-              {(!query.chart || query.chart === "components") && (
+              {(!query.download || query.download === "components") && (
                 <PriceComponentsBarChart id={id} entity="municipality" />
               )}
-              {(!query.chart || query.chart === "evolution") && (
+              {(!query.download || query.download === "evolution") && (
                 <PriceEvolution id={id} entity="municipality" />
               )}
-              {(!query.chart || query.chart === "distribution") && (
+              {(!query.download || query.download === "distribution") && (
                 <PriceDistributionHistograms id={id} entity="municipality" />
               )}
-              {(!query.chart || query.chart === "comparison") && (
+              {(!query.download || query.download === "comparison") && (
                 <CantonsComparisonRangePlots id={id} entity="municipality" />
               )}
             </Box>
-            {!query.chart && (
+            {!query.download && (
               <Box
                 sx={{
                   order: [1, 1, 2],
