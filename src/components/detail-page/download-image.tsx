@@ -52,7 +52,7 @@ export const DownloadImage = ({
   const providers = constructParamsFromArray(provider, "provider");
   const cantons = constructParamsFromArray(canton, "canton");
 
-  const queryParams = `download=${download}${municipalities}${providers}${cantons}&category=${category}&product=${product}&${periods}`;
+  const queryParams = `download=${download}${municipalities}${providers}${cantons}${periods}&category=${category}&product=${product}`;
 
   const url =
     entity && id && download !== "map"
