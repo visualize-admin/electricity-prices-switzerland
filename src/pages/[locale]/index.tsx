@@ -28,7 +28,9 @@ const HEADER_HEIGHT_S = "107px";
 const HEADER_HEIGHT_M_UP = "96px";
 
 const IndexPage = () => {
-  const [{ period, priceComponent, category, product }] = useQueryStateSingle();
+  const [
+    { period, priceComponent, category, product, download },
+  ] = useQueryStateSingle();
 
   const [observationsQuery] = useObservationsQuery({
     variables: {
@@ -138,12 +140,6 @@ const IndexPage = () => {
                 position: ["relative", "sticky"],
               }}
             >
-              <DownloadImage
-                elementId="price-component"
-                fileName={"iio"}
-                chart="map"
-              />
-
               <ChoroplethMap
                 year={period}
                 observations={observations}
@@ -161,6 +157,25 @@ const IndexPage = () => {
               >
                 <PriceColorLegend />
               </Box>
+
+              {!download && (
+                <Box
+                  sx={{
+                    zIndex: 13,
+                    position: "absolute",
+                    bottom: 0,
+                    left: 0,
+                    mb: 3,
+                    ml: 3,
+                  }}
+                >
+                  <DownloadImage
+                    elementId="map"
+                    fileName="map"
+                    download="map"
+                  />
+                </Box>
+              )}
             </Box>
             <Box sx={{ gridArea: "controls" }}>
               <Box
