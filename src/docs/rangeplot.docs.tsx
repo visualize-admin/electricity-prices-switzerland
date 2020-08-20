@@ -49,7 +49,7 @@ export default () => {
       >
         <ChartContainer>
           <ChartSvg>
-            <Range />
+            <Range id="ex1" />
             <AxisWidthLinear position="top" />
             <RangePoints />
             <AnnotationX /> <AnnotationXDataPoint />
@@ -87,7 +87,7 @@ export default () => {
         >
           <ChartContainer>
             <ChartSvg>
-              <Range />
+              <Range id="ex2" />
               <AxisWidthLinear position="top" />
               <RangePoints />
             </ChartSvg>
