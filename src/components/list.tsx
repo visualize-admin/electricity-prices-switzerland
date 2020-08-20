@@ -74,7 +74,7 @@ const ListItem = ({
           },
         }}
       >
-        <Text variant="paragraph2" sx={{ flexGrow: 1 }}>
+        <Text variant="paragraph2" sx={{ flexGrow: 1, mr: 1 }}>
           {label}
         </Text>
         <Box
@@ -98,6 +98,7 @@ const ListItem = ({
 interface Props {
   observations: ObservationsQuery["observations"];
   colorScale: ScaleThreshold<number, string>;
+  observationsQueryFetching: boolean;
 }
 
 const TRUNCATION_INCREMENT = 20;
@@ -138,9 +139,6 @@ const ListItems = ({
           sx={{
             textAlign: "center",
             p: 3,
-            borderBottomWidth: "1px",
-            borderBottomStyle: "solid",
-            borderBottomColor: "monochrome300",
           }}
         >
           <Button
@@ -155,10 +153,79 @@ const ListItems = ({
   );
 };
 
+const placeholderListItems = Array.from(
+  { length: TRUNCATION_INCREMENT },
+  (_, id) => id
+);
+
+const PlaceholderListItem = ({}: {}) => {
+  const { query } = useRouter();
+  return (
+    <Flex
+      sx={{
+        pl: 2,
+        py: 1,
+        mx: [2, 4, 4],
+        borderBottomWidth: "1px",
+        borderBottomStyle: "solid",
+        borderBottomColor: "monochrome300",
+        alignItems: "center",
+        height: "3.5rem",
+        lineHeight: 1,
+        color: "text",
+      }}
+    >
+      <Text
+        variant="paragraph2"
+        sx={{ flexGrow: 1, bg: "monochrome200", mr: 5 }}
+      >
+        &nbsp;
+      </Text>
+      <Box
+        sx={{
+          borderRadius: "circle",
+          px: 2,
+          flexShrink: 0,
+          bg: "monochrome200",
+          width: "5ch",
+        }}
+      >
+        <Text variant="paragraph2">&nbsp;</Text>
+      </Box>
+      <Box sx={{ width: "24px", flexShrink: 0, color: "monochrome200" }}>
+        <Icon name="chevronright"></Icon>
+      </Box>
+    </Flex>
+  );
+};
+
+const PlaceholderListItems = () => {
+  return (
+    <Box>
+      {placeholderListItems.map((id) => {
+        return <PlaceholderListItem key={id} />;
+      })}
+
+      <Box
+        sx={{
+          textAlign: "center",
+          p: 3,
+        }}
+      >
+        <Box variant="buttons.inline">&nbsp;</Box>
+      </Box>
+    </Box>
+  );
+};
+
 type ListState = "MUNICIPALITIES" | "PROVIDERS" | "CANTONS";
 type SortState = "ASC" | "DESC";
 
-export const List = ({ observations, colorScale }: Props) => {
+export const List = ({
+  observations,
+  colorScale,
+  observationsQueryFetching,
+}: Props) => {
   const [listState, setListState] = useState<ListState>("MUNICIPALITIES");
   const [sortState, setSortState] = useState<SortState>("ASC");
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -307,11 +374,15 @@ export const List = ({ observations, colorScale }: Props) => {
         </Flex>
       </Box>
 
-      <ListItems
-        items={listItems}
-        colorScale={colorScale}
-        listState={listState}
-      />
+      {observationsQueryFetching ? (
+        <PlaceholderListItems />
+      ) : (
+        <ListItems
+          items={listItems}
+          colorScale={colorScale}
+          listState={listState}
+        />
+      )}
     </>
   );
 };

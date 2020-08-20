@@ -201,7 +201,11 @@ const IndexPage = () => {
               >
                 <Selector />
               </Box>
-              <List observations={observations} colorScale={colorScale} />
+              <List
+                observations={observations}
+                colorScale={colorScale}
+                observationsQueryFetching={observationsQuery.fetching}
+              />
             </Box>
           </Grid>
 
