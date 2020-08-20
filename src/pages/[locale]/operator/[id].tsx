@@ -28,23 +28,23 @@ export const getServerSideProps: GetServerSideProps<
 
   const source = getSource();
   const cube = await source.cube(
-    "https://energy.ld.admin.ch/elcom/energy-pricing/cube"
+    "https://energy.ld.admin.ch/elcom/electricity-price/cube"
   );
 
   if (!cube) {
     throw Error(
-      `No cube ${"https://energy.ld.admin.ch/elcom/energy-pricing/cube"}`
+      `No cube ${"https://energy.ld.admin.ch/elcom/electricity-price/cube"}`
     );
   }
 
   const view = getView(cube);
 
-  const provider = (
+  const operator = (
     await getDimensionValuesAndLabels({
       view,
       source,
-      dimensionKey: "provider",
-      filters: { provider: [id] },
+      dimensionKey: "operator",
+      filters: { operator: [id] },
     })
   )[0];
 
@@ -52,19 +52,19 @@ export const getServerSideProps: GetServerSideProps<
     view,
     source,
     dimensionKey: "municipality",
-    filters: { provider: [id] },
+    filters: { operator: [id] },
   });
 
   return {
     props: {
       id,
-      name: provider.name,
+      name: operator.name,
       municipalities: municipalities.map(({ id, name }) => ({ id, name })),
     },
   };
 };
 
-const ProviderPage = ({ id, name, municipalities }: Props) => {
+const OperatorPage = ({ id, name, municipalities }: Props) => {
   const { query } = useRouter();
 
   return (
@@ -91,16 +91,16 @@ const ProviderPage = ({ id, name, municipalities }: Props) => {
               }}
             >
               {(!query.download || query.download === "components") && (
-                <PriceComponentsBarChart id={id} entity="provider" />
+                <PriceComponentsBarChart id={id} entity="operator" />
               )}
               {(!query.download || query.download === "evolution") && (
-                <PriceEvolution id={id} entity="provider" />
+                <PriceEvolution id={id} entity="operator" />
               )}
               {(!query.download || query.download === "distribution") && (
-                <PriceDistributionHistograms id={id} entity="provider" />
+                <PriceDistributionHistograms id={id} entity="operator" />
               )}
               {(!query.download || query.download === "comparison") && (
-                <CantonsComparisonRangePlots id={id} entity="provider" />
+                <CantonsComparisonRangePlots id={id} entity="operator" />
               )}
             </Box>
             {!query.download && (
@@ -110,7 +110,7 @@ const ProviderPage = ({ id, name, municipalities }: Props) => {
                   flex: ["1 1 100%", "1 1 100%", `1 1 ${1 / 3}%`],
                 }}
               >
-                <SelectorMulti entity="provider" />
+                <SelectorMulti entity="operator" />
               </Box>
             )}
           </Flex>
@@ -121,4 +121,4 @@ const ProviderPage = ({ id, name, municipalities }: Props) => {
   );
 };
 
-export default ProviderPage;
+export default OperatorPage;

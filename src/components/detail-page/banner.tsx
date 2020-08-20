@@ -10,13 +10,13 @@ export const DetailPageBanner = ({
   id,
   name,
   canton,
-  providers,
+  operators,
   municipalities,
 }: {
   id: string;
   name: string;
   canton?: { id: string; name: string };
-  providers?: { id: string; name: string }[];
+  operators?: { id: string; name: string }[];
   municipalities?: { id: string; name: string }[];
 }) => {
   const { query } = useRouter();
@@ -104,19 +104,19 @@ export const DetailPageBanner = ({
               ))}
             </Box>
           )}
-          {providers && (
+          {operators && (
             <Box sx={{ pr: 3, my: 1 }}>
-              <Trans id="detail.providers">Netzbetreiber</Trans>:{" "}
-              {providers.map(({ id, name }, i) => (
+              <Trans id="detail.operators">Netzbetreiber</Trans>:{" "}
+              {operators.map(({ id, name }, i) => (
                 <React.Fragment key={id}>
                   <LocalizedLink
-                    pathname={`/[locale]/provider/[id]`}
+                    pathname={`/[locale]/operator/[id]`}
                     query={{ ...query, id }}
                     passHref
                   >
                     <UILink variant="inline">{name}</UILink>
                   </LocalizedLink>
-                  {i < providers.length - 1 && ", "}
+                  {i < operators.length - 1 && ", "}
                 </React.Fragment>
               ))}
             </Box>

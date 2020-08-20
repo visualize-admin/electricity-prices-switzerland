@@ -28,8 +28,8 @@ export type MunicipalityResult = SearchResult & {
   name: Scalars['String'];
 };
 
-export type ProviderResult = SearchResult & {
-  __typename: 'ProviderResult';
+export type OperatorResult = SearchResult & {
+  __typename: 'OperatorResult';
   id: Scalars['String'];
   name: Scalars['String'];
 };
@@ -45,12 +45,12 @@ export type Municipality = {
   id: Scalars['String'];
   name: Scalars['String'];
   canton: Canton;
-  providers: Array<Provider>;
+  operators: Array<Operator>;
   priceComponents: PriceComponents;
 };
 
-export type Provider = {
-  __typename: 'Provider';
+export type Operator = {
+  __typename: 'Operator';
   id: Scalars['String'];
   name: Scalars['String'];
   municipalities: Array<Municipality>;
@@ -73,12 +73,12 @@ export type TemporalDimension = {
   max: Scalars['String'];
 };
 
-export type ProviderObservation = {
-  __typename: 'ProviderObservation';
+export type OperatorObservation = {
+  __typename: 'OperatorObservation';
   municipality: Scalars['String'];
   municipalityLabel?: Maybe<Scalars['String']>;
-  provider: Scalars['String'];
-  providerLabel?: Maybe<Scalars['String']>;
+  operator: Scalars['String'];
+  operatorLabel?: Maybe<Scalars['String']>;
   canton: Scalars['String'];
   cantonLabel?: Maybe<Scalars['String']>;
   category: Scalars['String'];
@@ -87,7 +87,7 @@ export type ProviderObservation = {
 };
 
 
-export type ProviderObservationValueArgs = {
+export type OperatorObservationValueArgs = {
   priceComponent: PriceComponent;
 };
 
@@ -105,13 +105,13 @@ export type MedianObservationValueArgs = {
   priceComponent: PriceComponent;
 };
 
-export type Observation = ProviderObservation | MedianObservation;
+export type Observation = OperatorObservation | MedianObservation;
 
 export type ObservationFilters = {
   period?: Maybe<Array<Scalars['String']>>;
   municipality?: Maybe<Array<Scalars['String']>>;
   canton?: Maybe<Array<Scalars['String']>>;
-  provider?: Maybe<Array<Scalars['String']>>;
+  operator?: Maybe<Array<Scalars['String']>>;
   category?: Maybe<Array<Scalars['String']>>;
   product?: Maybe<Array<Scalars['String']>>;
 };
@@ -128,18 +128,18 @@ export enum PriceComponent {
 
 export enum ObservationType {
   MedianObservation = 'MedianObservation',
-  ProviderObservation = 'ProviderObservation'
+  OperatorObservation = 'OperatorObservation'
 }
 
 export type Query = {
   __typename: 'Query';
   municipalities: Array<Municipality>;
   cantons: Array<Canton>;
-  providers: Array<Provider>;
+  operators: Array<Operator>;
   search: Array<SearchResult>;
   municipality?: Maybe<Municipality>;
   canton?: Maybe<Canton>;
-  provider?: Maybe<Provider>;
+  operator?: Maybe<Operator>;
   observations: Array<Observation>;
 };
 
@@ -158,7 +158,7 @@ export type QueryCantonsArgs = {
 };
 
 
-export type QueryProvidersArgs = {
+export type QueryOperatorsArgs = {
   locale?: Maybe<Scalars['String']>;
   query?: Maybe<Scalars['String']>;
   ids?: Maybe<Array<Scalars['String']>>;
@@ -183,7 +183,7 @@ export type QueryCantonArgs = {
 };
 
 
-export type QueryProviderArgs = {
+export type QueryOperatorArgs = {
   locale?: Maybe<Scalars['String']>;
   id: Scalars['String'];
 };
@@ -204,14 +204,14 @@ export type MunicipalitiesQueryVariables = Exact<{
 
 export type MunicipalitiesQuery = { __typename: 'Query', municipalities: Array<{ __typename: 'Municipality', id: string, name: string }> };
 
-export type ProvidersQueryVariables = Exact<{
+export type OperatorsQueryVariables = Exact<{
   locale: Scalars['String'];
   query?: Maybe<Scalars['String']>;
   ids?: Maybe<Array<Scalars['String']>>;
 }>;
 
 
-export type ProvidersQuery = { __typename: 'Query', providers: Array<{ __typename: 'Provider', id: string, name: string }> };
+export type OperatorsQuery = { __typename: 'Query', operators: Array<{ __typename: 'Operator', id: string, name: string }> };
 
 export type CantonsQueryVariables = Exact<{
   locale: Scalars['String'];
@@ -228,9 +228,9 @@ export type SearchQueryVariables = Exact<{
 }>;
 
 
-export type SearchQuery = { __typename: 'Query', search: Array<{ __typename: 'MunicipalityResult', id: string, name: string } | { __typename: 'ProviderResult', id: string, name: string } | { __typename: 'CantonResult', id: string, name: string }> };
+export type SearchQuery = { __typename: 'Query', search: Array<{ __typename: 'MunicipalityResult', id: string, name: string } | { __typename: 'OperatorResult', id: string, name: string } | { __typename: 'CantonResult', id: string, name: string }> };
 
-export type ProviderObservationFieldsFragment = { __typename: 'ProviderObservation', period: string, municipality: string, municipalityLabel?: Maybe<string>, provider: string, providerLabel?: Maybe<string>, canton: string, cantonLabel?: Maybe<string>, category: string, value: number };
+export type OperatorObservationFieldsFragment = { __typename: 'OperatorObservation', period: string, municipality: string, municipalityLabel?: Maybe<string>, operator: string, operatorLabel?: Maybe<string>, canton: string, cantonLabel?: Maybe<string>, category: string, value: number };
 
 export type MedianObservationFieldsFragment = { __typename: 'MedianObservation', period: string, canton: string, cantonLabel?: Maybe<string>, category: string, value: number };
 
@@ -243,14 +243,14 @@ export type ObservationsQueryVariables = Exact<{
 
 
 export type ObservationsQuery = { __typename: 'Query', observations: Array<(
-    { __typename: 'ProviderObservation' }
-    & ProviderObservationFieldsFragment
+    { __typename: 'OperatorObservation' }
+    & OperatorObservationFieldsFragment
   ) | (
     { __typename: 'MedianObservation' }
     & MedianObservationFieldsFragment
   )> };
 
-export type ProviderObservationWithAllPriceComponentsFieldsFragment = { __typename: 'ProviderObservation', period: string, municipality: string, municipalityLabel?: Maybe<string>, provider: string, providerLabel?: Maybe<string>, category: string, aidfee: number, fixcosts: number, charge: number, gridusage: number, energy: number, fixcostspercent: number, total: number };
+export type OperatorObservationWithAllPriceComponentsFieldsFragment = { __typename: 'OperatorObservation', period: string, municipality: string, municipalityLabel?: Maybe<string>, operator: string, operatorLabel?: Maybe<string>, category: string, aidfee: number, fixcosts: number, charge: number, gridusage: number, energy: number, fixcostspercent: number, total: number };
 
 export type MedianObservationWithAllPriceComponentsFieldsFragment = { __typename: 'MedianObservation', period: string, canton: string, cantonLabel?: Maybe<string>, category: string, aidfee: number, charge: number, gridusage: number, energy: number, total: number };
 
@@ -262,20 +262,20 @@ export type ObservationsWithAllPriceComponentsQueryVariables = Exact<{
 
 
 export type ObservationsWithAllPriceComponentsQuery = { __typename: 'Query', observations: Array<(
-    { __typename: 'ProviderObservation' }
-    & ProviderObservationWithAllPriceComponentsFieldsFragment
+    { __typename: 'OperatorObservation' }
+    & OperatorObservationWithAllPriceComponentsFieldsFragment
   ) | (
     { __typename: 'MedianObservation' }
     & MedianObservationWithAllPriceComponentsFieldsFragment
   )> };
 
-export const ProviderObservationFieldsFragmentDoc = gql`
-    fragment providerObservationFields on ProviderObservation {
+export const OperatorObservationFieldsFragmentDoc = gql`
+    fragment operatorObservationFields on OperatorObservation {
   period
   municipality
   municipalityLabel
-  provider
-  providerLabel
+  operator
+  operatorLabel
   canton
   cantonLabel
   category
@@ -291,13 +291,13 @@ export const MedianObservationFieldsFragmentDoc = gql`
   value(priceComponent: $priceComponent)
 }
     `;
-export const ProviderObservationWithAllPriceComponentsFieldsFragmentDoc = gql`
-    fragment providerObservationWithAllPriceComponentsFields on ProviderObservation {
+export const OperatorObservationWithAllPriceComponentsFieldsFragmentDoc = gql`
+    fragment operatorObservationWithAllPriceComponentsFields on OperatorObservation {
   period
   municipality
   municipalityLabel
-  provider
-  providerLabel
+  operator
+  operatorLabel
   category
   aidfee: value(priceComponent: aidfee)
   fixcosts: value(priceComponent: fixcosts)
@@ -333,17 +333,17 @@ export const MunicipalitiesDocument = gql`
 export function useMunicipalitiesQuery(options: Omit<Urql.UseQueryArgs<MunicipalitiesQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<MunicipalitiesQuery>({ query: MunicipalitiesDocument, ...options });
 };
-export const ProvidersDocument = gql`
-    query Providers($locale: String!, $query: String, $ids: [String!]) {
-  providers(locale: $locale, query: $query, ids: $ids) {
+export const OperatorsDocument = gql`
+    query Operators($locale: String!, $query: String, $ids: [String!]) {
+  operators(locale: $locale, query: $query, ids: $ids) {
     id
     name
   }
 }
     `;
 
-export function useProvidersQuery(options: Omit<Urql.UseQueryArgs<ProvidersQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<ProvidersQuery>({ query: ProvidersDocument, ...options });
+export function useOperatorsQuery(options: Omit<Urql.UseQueryArgs<OperatorsQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<OperatorsQuery>({ query: OperatorsDocument, ...options });
 };
 export const CantonsDocument = gql`
     query Cantons($locale: String!, $query: String, $ids: [String!]) {
@@ -372,15 +372,15 @@ export function useSearchQuery(options: Omit<Urql.UseQueryArgs<SearchQueryVariab
 export const ObservationsDocument = gql`
     query Observations($locale: String, $priceComponent: PriceComponent!, $filters: ObservationFilters!, $observationType: ObservationType) {
   observations(locale: $locale, filters: $filters, observationType: $observationType) {
-    ... on ProviderObservation {
-      ...providerObservationFields
+    ... on OperatorObservation {
+      ...operatorObservationFields
     }
     ... on MedianObservation {
       ...medianObservationFields
     }
   }
 }
-    ${ProviderObservationFieldsFragmentDoc}
+    ${OperatorObservationFieldsFragmentDoc}
 ${MedianObservationFieldsFragmentDoc}`;
 
 export function useObservationsQuery(options: Omit<Urql.UseQueryArgs<ObservationsQueryVariables>, 'query'> = {}) {
@@ -389,15 +389,15 @@ export function useObservationsQuery(options: Omit<Urql.UseQueryArgs<Observation
 export const ObservationsWithAllPriceComponentsDocument = gql`
     query ObservationsWithAllPriceComponents($locale: String, $filters: ObservationFilters!, $observationType: ObservationType) {
   observations(locale: $locale, filters: $filters, observationType: $observationType) {
-    ... on ProviderObservation {
-      ...providerObservationWithAllPriceComponentsFields
+    ... on OperatorObservation {
+      ...operatorObservationWithAllPriceComponentsFields
     }
     ... on MedianObservation {
       ...medianObservationWithAllPriceComponentsFields
     }
   }
 }
-    ${ProviderObservationWithAllPriceComponentsFieldsFragmentDoc}
+    ${OperatorObservationWithAllPriceComponentsFieldsFragmentDoc}
 ${MedianObservationWithAllPriceComponentsFieldsFragmentDoc}`;
 
 export function useObservationsWithAllPriceComponentsQuery(options: Omit<Urql.UseQueryArgs<ObservationsWithAllPriceComponentsQueryVariables>, 'query'> = {}) {

@@ -9,7 +9,7 @@ import {
 } from "../graphql/queries";
 import {
   MunicipalitiesCombobox,
-  ProvidersCombobox,
+  OperatorsCombobox,
 } from "../components/query-combobox";
 
 const EXAMPLE_ITEMS = new Map([
@@ -32,7 +32,7 @@ export default () => {
   const [selectedMunicipalities, setSelectedMunicipalities] = useState<
     string[]
   >(["261"]);
-  const [selectedProviders, setSelectedProviders] = useState<string[]>([
+  const [selectedOperators, setSelectedOperators] = useState<string[]>([
     "10636012345",
   ]);
 
@@ -91,17 +91,17 @@ export default () => {
     </ReactSpecimen>
   )}
 
-## Providers Combobox (multi select)
+## Operators Combobox (multi select)
 
   ${(
     <ReactSpecimen>
       <>
-        <ProvidersCombobox
-          label="Choose some providers"
-          selectedItems={selectedProviders}
-          setSelectedItems={setSelectedProviders}
+        <OperatorsCombobox
+          label="Choose some operators"
+          selectedItems={selectedOperators}
+          setSelectedItems={setSelectedOperators}
         />
-        <p>Selected: {selectedProviders.join(", ")}</p>
+        <p>Selected: {selectedOperators.join(", ")}</p>
       </>
     </ReactSpecimen>
   )}

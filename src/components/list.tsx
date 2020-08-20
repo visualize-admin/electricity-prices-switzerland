@@ -9,7 +9,7 @@ import {
   Observation,
   ObservationsQuery,
   MedianObservationFieldsFragment,
-  ProviderObservationFieldsFragment,
+  OperatorObservationFieldsFragment,
 } from "../graphql/queries";
 import { Icon } from "../icons";
 import { MiniSelect, SearchField } from "./form";
@@ -39,7 +39,7 @@ const ListItem = ({
         listState === "MUNICIPALITIES"
           ? "municipality"
           : listState === "PROVIDERS"
-          ? "provider"
+          ? "operator"
           : "canton"
       }/[id]`}
       query={{
@@ -265,24 +265,24 @@ export const List = ({
       : Array.from(
           rollup(
             observations.filter(
-              (d): d is ProviderObservationFieldsFragment =>
-                d.__typename === "ProviderObservation"
+              (d): d is OperatorObservationFieldsFragment =>
+                d.__typename === "OperatorObservation"
             ),
             (values) => {
               const first = values[0];
               return {
                 id:
                   listState === "PROVIDERS"
-                    ? first.provider
+                    ? first.operator
                     : first.municipality,
                 label:
                   listState === "PROVIDERS"
-                    ? first.providerLabel
+                    ? first.operatorLabel
                     : first.municipalityLabel,
                 value: mean(values, (d) => d.value) ?? first.value,
               };
             },
-            (d) => (listState === "PROVIDERS" ? d.provider : d.municipality)
+            (d) => (listState === "PROVIDERS" ? d.operator : d.municipality)
           )
         );
   }, [observations, listState]);
@@ -320,7 +320,7 @@ export const List = ({
           },
           {
             value: "PROVIDERS",
-            label: <Trans id="list.providers">Netzbetreiber</Trans>,
+            label: <Trans id="list.operators">Netzbetreiber</Trans>,
           },
         ]}
         value={listState}

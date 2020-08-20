@@ -2,7 +2,7 @@ import { rollup } from "d3-array";
 import { useMemo, useState } from "react";
 import {
   useMunicipalitiesQuery,
-  useProvidersQuery,
+  useOperatorsQuery,
   useCantonsQuery,
 } from "../graphql/queries";
 import { useLocale } from "../lib/use-locale";
@@ -48,7 +48,7 @@ export const MunicipalitiesCombobox = (
   );
 };
 
-export const ProvidersCombobox = (
+export const OperatorsCombobox = (
   comboboxMultiProps: Pick<
     ComboboxMultiProps,
     "label" | "selectedItems" | "setSelectedItems"
@@ -56,7 +56,7 @@ export const ProvidersCombobox = (
 ) => {
   const locale = useLocale();
   const [inputValue, setInputValue] = useState<string>("");
-  const [gqlQuery] = useProvidersQuery({
+  const [gqlQuery] = useOperatorsQuery({
     variables: {
       locale,
       query: inputValue,
@@ -65,7 +65,7 @@ export const ProvidersCombobox = (
     pause: inputValue === "" && comboboxMultiProps.selectedItems.length === 0,
   });
 
-  const items = gqlQuery.data?.providers ?? [];
+  const items = gqlQuery.data?.operators ?? [];
 
   const itemById = useMemo(() => {
     return rollup(
@@ -78,7 +78,7 @@ export const ProvidersCombobox = (
   return (
     <ComboboxMulti
       {...comboboxMultiProps}
-      id="providers"
+      id="operators"
       items={items.map(({ id }) => id)}
       getItemLabel={(id) => itemById.get(id)?.name ?? `[${id}]`}
       lazy
@@ -118,7 +118,7 @@ export const CantonsCombobox = (
   return (
     <ComboboxMulti
       {...comboboxMultiProps}
-      id="providers"
+      id="operators"
       items={items.map(({ id }) => id)}
       getItemLabel={(id) => itemById.get(id)?.name ?? `[${id}]`}
       lazy

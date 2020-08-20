@@ -9,7 +9,7 @@ const ensureString = (input: string | string[]): string =>
   Array.isArray(input) ? input[0] : input;
 
 const queryStateKeys = [
-  "provider",
+  "operator",
   "period",
   "municipality",
   "canton",
@@ -24,7 +24,7 @@ const queryStateDefaults = {
   category: "H4",
   priceComponent: "total",
   product: "cheapest",
-  provider: undefined,
+  operator: undefined,
   municipality: undefined,
   canton: undefined,
   download: undefined,
@@ -32,7 +32,7 @@ const queryStateDefaults = {
 
 type QueryState = {
   id: string;
-  provider?: string[];
+  operator?: string[];
   municipality?: string[];
   canton?: string[];
   period: string[];
@@ -85,7 +85,7 @@ export const useQueryState = () => {
 };
 
 type QueryStateSingle = {
-  provider?: string;
+  operator?: string;
   municipality?: string;
   canton?: string;
   period: string;
