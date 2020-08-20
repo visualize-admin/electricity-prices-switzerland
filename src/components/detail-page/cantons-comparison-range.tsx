@@ -229,7 +229,7 @@ export const CantonsComparisonRangePlot = memo(
             >
               <ChartContainer>
                 <ChartSvg>
-                  <Range />
+                  <Range id={year} />
                   <AxisWidthLinear position="top" />
                   <RangePoints />
                   <AnnotationX />
