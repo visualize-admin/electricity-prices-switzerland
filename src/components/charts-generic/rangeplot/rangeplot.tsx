@@ -6,7 +6,7 @@ import { useChartTheme } from "../use-chart-theme";
 import { DOT_RADIUS, RangePlotState } from "./rangeplot-state";
 import { mkNumber, isNumber } from "../../../domain/helpers";
 
-export const Range = () => {
+export const Range = ({ id }: { id: string }) => {
   const {
     bounds,
     xScale,
@@ -25,7 +25,10 @@ export const Range = () => {
           const xMin = min(row[1], (d) => getX(d)) ?? 0;
           const xMax = max(row[1], (d) => getX(d));
 
-          const clipPathId = `cut-off-range-${row[0].replace(/\W+/g, "-")}`;
+          const clipPathId = `cut-off-range-${id}-${row[0]}`.replace(
+            /\W+/g,
+            "-"
+          );
 
           return (
             <React.Fragment key={row[0]}>
