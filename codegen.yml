@@ -23,12 +23,12 @@ generates:
       mappers:
         Canton: "./resolver-mapped-types#ResolvedCanton"
         Municipality: "./resolver-mapped-types#ResolvedMunicipality"
-        Provider: "./resolver-mapped-types#ResolvedProvider"
+        Operator: "./resolver-mapped-types#ResolvedOperator"
         Observation: "./resolver-mapped-types#ResolvedObservation"
         MedianObservation: "./resolver-mapped-types#ResolvedMedianObservation"
-        ProviderObservation: "./resolver-mapped-types#ResolvedProviderObservation"
+        OperatorObservation: "./resolver-mapped-types#ResolvedOperatorObservation"
         MunicipalityResult: "./resolver-mapped-types#ResolvedSearchResult"
-        ProviderResult: "./resolver-mapped-types#ResolvedSearchResult"
+        OperatorResult: "./resolver-mapped-types#ResolvedSearchResult"
         CantonResult: "./resolver-mapped-types#ResolvedSearchResult"
       # scalars:
       #   Observation: "../domain/data#Observation"

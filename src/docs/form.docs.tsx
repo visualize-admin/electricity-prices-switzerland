@@ -9,7 +9,7 @@ import {
 } from "../components/form";
 
 export default () => markdown`
-> Form elements are used to select the municipalities, electricity providers or cantons to compare.
+> Form elements are used to select the municipalities, electricity operators or cantons to compare.
 
 ## Radio button
 

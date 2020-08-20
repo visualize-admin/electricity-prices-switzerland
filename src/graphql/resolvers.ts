@@ -12,8 +12,8 @@ import {
   MedianObservationResolvers,
   MunicipalityResolvers,
   ObservationResolvers,
-  ProviderObservationResolvers,
-  ProviderResolvers,
+  OperatorObservationResolvers,
+  OperatorResolvers,
   QueryResolvers,
   Resolvers,
   ObservationType,
@@ -27,7 +27,7 @@ const Query: QueryResolvers = {
     info
   ) => {
     // Look ahead to select proper dimensions for query
-    const observationFields = getResolverFields(info, "ProviderObservation");
+    const observationFields = getResolverFields(info, "OperatorObservation");
 
     const observationDimensionKeys = observationFields
       ? Object.values<ResolveTree>(observationFields).map((fieldInfo) => {
@@ -38,7 +38,7 @@ const Query: QueryResolvers = {
         })
       : [];
 
-    const rawProviderObservations =
+    const rawOperatorObservations =
       observationType !== ObservationType.MedianObservation &&
       observationDimensionKeys.length > 0
         ? await getObservations(
@@ -65,7 +65,7 @@ const Query: QueryResolvers = {
       : [];
 
     const rawMedianObservations =
-      observationType !== ObservationType.ProviderObservation &&
+      observationType !== ObservationType.OperatorObservation &&
       medianDimensionKeys.length > 0
         ? await getObservations(
             { view: cantonObservationsView, source, isCantons: true },
@@ -76,13 +76,13 @@ const Query: QueryResolvers = {
           )
         : [];
 
-    const providerObservations = rawProviderObservations.map((d) => {
+    const operatorObservations = rawOperatorObservations.map((d) => {
       let parsed: { [k: string]: string | number | boolean } = {
-        __typename: "ProviderObservation",
+        __typename: "OperatorObservation",
       };
       for (const [k, v] of Object.entries(d)) {
         const key = k.replace(
-          "https://energy.ld.admin.ch/elcom/energy-pricing/dimension/",
+          "https://energy.ld.admin.ch/elcom/electricity-price/dimension/",
           ""
         );
         const parsedValue = parseObservationValue(v);
@@ -100,7 +100,7 @@ const Query: QueryResolvers = {
       };
       for (const [k, v] of Object.entries(d)) {
         const key = k.replace(
-          "https://energy.ld.admin.ch/elcom/energy-pricing/dimension/",
+          "https://energy.ld.admin.ch/elcom/electricity-price/dimension/",
           ""
         );
         const parsedValue = parseObservationValue(v);
@@ -113,17 +113,17 @@ const Query: QueryResolvers = {
       return parsed;
     });
 
-    const observations = [...medianObservations, ...providerObservations];
+    const observations = [...medianObservations, ...operatorObservations];
 
     // Should we type-check with io-ts here? Probably not necessary because the GraphQL API will also type-check against the schema.
     return observations as ResolvedObservation[];
   },
-  providers: async (_, { query, ids }, { source, observationsView: view }) => {
+  operators: async (_, { query, ids }, { source, observationsView: view }) => {
     const results = await search({
       source,
       query: query ?? "",
       ids: ids ?? [],
-      types: ["provider"],
+      types: ["operator"],
     });
 
     return results.map((r) => ({ ...r, source, view }));
@@ -157,7 +157,7 @@ const Query: QueryResolvers = {
       source,
       query: query ?? "",
       ids: [],
-      types: ["municipality", "provider", "canton"],
+      types: ["municipality", "operator", "canton"],
     });
 
     return results;
@@ -173,12 +173,12 @@ const Query: QueryResolvers = {
     return results[0];
   },
   canton: async (_, { id }) => ({ id }),
-  provider: async (_, { id }, { source, observationsView: view }) => {
+  operator: async (_, { id }, { source, observationsView: view }) => {
     const results = await getDimensionValuesAndLabels({
       view,
       source,
-      dimensionKey: "provider",
-      filters: { provider: [id] },
+      dimensionKey: "operator",
+      filters: { operator: [id] },
     });
 
     return results[0];
@@ -186,11 +186,11 @@ const Query: QueryResolvers = {
 };
 
 const Municipality: MunicipalityResolvers = {
-  providers: async ({ id, view, source }) => {
+  operators: async ({ id, view, source }) => {
     return getDimensionValuesAndLabels({
       view,
       source,
-      dimensionKey: "provider",
+      dimensionKey: "operator",
       filters: { municipality: [id] },
     });
   },
@@ -199,13 +199,13 @@ const Municipality: MunicipalityResolvers = {
   },
 };
 
-const Provider: ProviderResolvers = {
+const Operator: OperatorResolvers = {
   municipalities: async ({ id, view, source }) => {
     return getDimensionValuesAndLabels({
       view,
       source,
       dimensionKey: "municipality",
-      filters: { provider: [id] },
+      filters: { operator: [id] },
     });
   },
   priceComponents: () => {
@@ -240,7 +240,7 @@ const Observation: ObservationResolvers = {
   __resolveType: (obj) => obj.__typename,
 };
 
-const ProviderObservation: ProviderObservationResolvers = {
+const OperatorObservation: OperatorObservationResolvers = {
   /**
    * Since the value field can be aliased and is commonly used multiple times _and_
    * we return all values from the parent resolver keyed by priceComponent (e.g. `{ total: 12.3, energy: 4.5 }`),
@@ -288,9 +288,9 @@ const MedianObservation: MedianObservationResolvers = {
 export const resolvers: Resolvers = {
   Query,
   Municipality,
-  Provider,
+  Operator,
   Observation,
-  ProviderObservation,
+  OperatorObservation,
   MedianObservation,
   // Canton,
   SearchResult: {
@@ -298,8 +298,8 @@ export const resolvers: Resolvers = {
       switch (obj.type) {
         case "municipality":
           return "MunicipalityResult";
-        case "provider":
-          return "ProviderResult";
+        case "operator":
+          return "OperatorResult";
         case "canton":
           return "CantonResult";
         default:

@@ -2,9 +2,9 @@ import { getSource, getView } from "./rdf";
 import { Source, View } from "@zazuko/rdf-cube-view-query";
 
 const OBSERVATIONS_CUBE =
-  "https://energy.ld.admin.ch/elcom/energy-pricing/cube";
+  "https://energy.ld.admin.ch/elcom/electricity-price/cube";
 const CANTON_OBSERVATIONS_CUBE =
-  "https://energy.ld.admin.ch/elcom/energy-pricing/median/cube";
+  "https://energy.ld.admin.ch/elcom/electricity-price/median/cube";
 
 export type ServerContext = {
   source: Source;

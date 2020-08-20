@@ -41,14 +41,14 @@ export const PriceEvolution = ({
   entity: Entity;
 }) => {
   const [
-    { period, category, municipality, provider, canton, product },
+    { period, category, municipality, operator, canton, product },
   ] = useQueryState();
 
   const comparisonIds =
     entity === "municipality"
       ? municipality
-      : entity === "provider"
-      ? provider
+      : entity === "operator"
+      ? operator
       : canton;
 
   const entityIds =
@@ -66,18 +66,18 @@ export const PriceEvolution = ({
       observationType:
         entity === "canton"
           ? ObservationType.MedianObservation
-          : ObservationType.ProviderObservation,
+          : ObservationType.OperatorObservation,
     },
   });
   const observations = observationsQuery.fetching
     ? EMPTY_ARRAY
     : observationsQuery.data?.observations ?? EMPTY_ARRAY;
 
-  // Add a unique ID for the combinations municipality+provider
+  // Add a unique ID for the combinations municipality+operator
   const withUniqueEntityId = observations.map((obs) => ({
     uniqueId:
-      obs.__typename === "ProviderObservation"
-        ? `${obs.municipalityLabel}, ${obs.providerLabel}`
+      obs.__typename === "OperatorObservation"
+        ? `${obs.municipalityLabel}, ${obs.operatorLabel}`
         : obs.cantonLabel,
     ...obs,
   }));

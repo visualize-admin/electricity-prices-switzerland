@@ -19,7 +19,7 @@ export type ResolvedMunicipality = {
   view: View;
   source: Source;
 };
-export type ResolvedProvider = {
+export type ResolvedOperator = {
   id: string;
   name: string;
   view: View;
@@ -35,10 +35,10 @@ export type ResolvedMedianObservation = {
   regionLabel?: string;
 } & { [key: string]: number };
 
-export type ResolvedProviderObservation = {
-  __typename: "ProviderObservation";
+export type ResolvedOperatorObservation = {
+  __typename: "OperatorObservation";
   municipality?: string;
-  provider?: string;
+  operator?: string;
   category?: string;
   period?: string;
   region?: string;
@@ -47,4 +47,4 @@ export type ResolvedProviderObservation = {
 
 export type ResolvedObservation =
   | ResolvedMedianObservation
-  | ResolvedProviderObservation;
+  | ResolvedOperatorObservation;

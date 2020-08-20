@@ -5,8 +5,8 @@ query Municipalities($locale: String!, $query: String, $ids: [String!]) {
   }
 }
 
-query Providers($locale: String!, $query: String, $ids: [String!]) {
-  providers(locale: $locale, query: $query, ids: $ids) {
+query Operators($locale: String!, $query: String, $ids: [String!]) {
+  operators(locale: $locale, query: $query, ids: $ids) {
     id
     name
   }
@@ -26,12 +26,12 @@ query Search($locale: String!, $query: String) {
   }
 }
 
-fragment providerObservationFields on ProviderObservation {
+fragment operatorObservationFields on OperatorObservation {
   period
   municipality
   municipalityLabel
-  provider
-  providerLabel
+  operator
+  operatorLabel
   canton
   cantonLabel
   category
@@ -57,8 +57,8 @@ query Observations(
     filters: $filters
     observationType: $observationType
   ) {
-    ... on ProviderObservation {
-      ...providerObservationFields
+    ... on OperatorObservation {
+      ...operatorObservationFields
     }
     ... on MedianObservation {
       ...medianObservationFields
@@ -66,12 +66,12 @@ query Observations(
   }
 }
 
-fragment providerObservationWithAllPriceComponentsFields on ProviderObservation {
+fragment operatorObservationWithAllPriceComponentsFields on OperatorObservation {
   period
   municipality
   municipalityLabel
-  provider
-  providerLabel
+  operator
+  operatorLabel
   category
 
   aidfee: value(priceComponent: aidfee)
@@ -108,8 +108,8 @@ query ObservationsWithAllPriceComponents(
     filters: $filters
     observationType: $observationType
   ) {
-    ... on ProviderObservation {
-      ...providerObservationWithAllPriceComponentsFields
+    ... on OperatorObservation {
+      ...operatorObservationWithAllPriceComponentsFields
     }
     ... on MedianObservation {
       ...medianObservationWithAllPriceComponentsFields

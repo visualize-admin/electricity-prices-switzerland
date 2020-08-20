@@ -30,14 +30,14 @@ description: "[Open full-size image](./docs/mockups/1.1_l_home_default.jpg)"
 
 ## Detail and Comparison View
 
-This is the default detail page for a municipality, a canton, or an electricity provider, in this example "Werke am Zürichsee".
+This is the default detail page for a municipality, a canton, or an electricity operator, in this example "Werke am Zürichsee".
 
 ~~~image
 imageContainerStyle: {border: "1px solid #ddd"}
 plain: true
 span: 4
-src: "./docs/mockups/2.1_l_details-provider_default.jpg"
-description: "[Open full-size image](./docs/mockups/2.1_l_details-provider_default.jpg)"
+src: "./docs/mockups/2.1_l_details-operator_default.jpg"
+description: "[Open full-size image](./docs/mockups/2.1_l_details-operator_default.jpg)"
 ~~~
 
 When adding parameters for comparison, the visualizations update.
@@ -47,8 +47,8 @@ Here we can see the prices for "Werke am Zürichsee" in 2020, 2019 and 2018.
 imageContainerStyle: {border: "1px solid #ddd"}
 plain: true
 span: 4
-src: "./docs/mockups/2.2_l_details-provider_comparison.jpg"
-description: "[Open full-size image](./docs/mockups/2.2_l_details-provider_comparison.jpg)"
+src: "./docs/mockups/2.2_l_details-operator_comparison.jpg"
+description: "[Open full-size image](./docs/mockups/2.2_l_details-operator_comparison.jpg)"
 ~~~
 
 The visualizations are updated and an additional color is used when a new entity is added for comparison, in this example "Services Industriels de Genève SIG".
@@ -57,8 +57,8 @@ The visualizations are updated and an additional color is used when a new entity
 imageContainerStyle: {border: "1px solid #ddd"}
 plain: true
 span: 4
-src: "./docs/mockups/2.3_l_details-provider_comparison.jpg"
-description: "[Open full-size image](./docs/mockups/2.3_l_details-provider_comparison.jpg)"
+src: "./docs/mockups/2.3_l_details-operator_comparison.jpg"
+description: "[Open full-size image](./docs/mockups/2.3_l_details-operator_comparison.jpg)"
 ~~~
 
 # Mobile
@@ -85,7 +85,7 @@ description: "[Open full-size image](./docs/mockups/1.2_s_home_list-default.png)
 imageContainerStyle: {border: "1px solid #ddd"}
 plain: true
 span: 2
-src: "./docs/mockups/2.1_s_details-provider_default.png"
-description: "[Open full-size image](./docs/mockups/2.1_s_details-provider_default.png)"
+src: "./docs/mockups/2.1_s_details-operator_default.png"
+description: "[Open full-size image](./docs/mockups/2.1_s_details-operator_default.png)"
 ~~~
   `;

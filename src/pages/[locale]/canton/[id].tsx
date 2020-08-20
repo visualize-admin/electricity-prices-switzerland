@@ -13,7 +13,7 @@ import { getSource, search } from "../../../graphql/rdf";
 type Props = {
   id: string;
   name: string;
-  // providers: { id: string; name: string }[];
+  // operators: { id: string; name: string }[];
 };
 
 export const getServerSideProps: GetServerSideProps<

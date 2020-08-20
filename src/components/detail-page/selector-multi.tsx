@@ -8,7 +8,7 @@ import { useI18n } from "../i18n-context";
 import {
   CantonsCombobox,
   MunicipalitiesCombobox,
-  ProvidersCombobox,
+  OperatorsCombobox,
 } from "../query-combobox";
 
 export const SelectorMulti = ({
@@ -42,15 +42,15 @@ export const SelectorMulti = ({
       </Text>
 
       <>
-        {entity === "provider" ? (
-          <ProvidersCombobox
+        {entity === "operator" ? (
+          <OperatorsCombobox
             label={
-              <Trans id="selector.compareproviders">
+              <Trans id="selector.compareoperators">
                 Netzbetreiber zum Vergleich
               </Trans>
             }
-            selectedItems={queryState.provider ?? []}
-            setSelectedItems={(items) => setQueryState({ provider: items })}
+            selectedItems={queryState.operator ?? []}
+            setSelectedItems={(items) => setQueryState({ operator: items })}
           />
         ) : entity === "municipality" ? (
           <MunicipalitiesCombobox

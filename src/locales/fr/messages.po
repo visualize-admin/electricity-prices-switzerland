@@ -70,7 +70,7 @@ msgid "detail.municipalities"
 msgstr "Communes"
 
 #: src/components/detail-page/banner.tsx:71
-msgid "detail.providers"
+msgid "detail.operators"
 msgstr "Gestionnaires de réseau"
 
 #: src/domain/translation.tsx:51
@@ -134,7 +134,7 @@ msgid "list.order.desc"
 msgstr "décroissant"
 
 #: src/components/list.tsx:138
-msgid "list.providers"
+msgid "list.operators"
 msgstr "Gestionnaires de réseau"
 
 #: src/components/list.tsx:89
@@ -172,7 +172,7 @@ msgid "search.global"
 msgstr "Voir l'analyse détaillée des prix par cantons, communes et gestionnaires de réseau."
 
 #: src/components/search.tsx:117
-msgid "search.global.hint.canton.muni.provider"
+msgid "search.global.hint.canton.muni.operator"
 msgstr "Communes, gestionnaires de réseau, cantons"
 
 #: src/components/search.tsx:107
@@ -188,7 +188,7 @@ msgid "search.result.municipality"
 msgstr "Commune"
 
 #: src/domain/translation.tsx:57
-msgid "search.result.provider"
+msgid "search.result.operator"
 msgstr "Canton"
 
 #: src/components/detail-page/selector-multi.tsx:39
@@ -265,7 +265,7 @@ msgid "selector.comparemunicipalities"
 msgstr "Compararer avec…"
 
 #: src/components/detail-page/selector-multi.tsx:33
-msgid "selector.compareproviders"
+msgid "selector.compareoperators"
 msgstr "Compararer avec…"
 
 #: src/components/detail-page/selector-multi.tsx:27

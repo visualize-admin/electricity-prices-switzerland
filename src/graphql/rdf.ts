@@ -15,19 +15,18 @@ type Filters = { [key: string]: string[] | null | undefined } | null;
 const ns = {
   dc: namespace("http://purl.org/dc/elements/1.1/"),
   energyPricing: namespace(
-    "https://energy.ld.admin.ch/elcom/energy-pricing/dimension/"
+    "https://energy.ld.admin.ch/elcom/electricity-price/dimension/"
   ),
   energyPricingValue: namespace(
-    "https://energy.ld.admin.ch/elcom/energy-pricing/"
+    "https://energy.ld.admin.ch/elcom/electricity-price/"
   ),
   rdf: namespace("http://www.w3.org/1999/02/22-rdf-syntax-ns#"),
   schema: namespace("http://schema.org/"),
   xsd: namespace("http://www.w3.org/2001/XMLSchema#"),
   classifications: namespace("http://classifications.data.admin.ch/"),
-  gont: namespace("https://gont.ch/"),
-  municipality: namespace(
-    "https://register.ld.admin.ch/fso/agvch/municipality/"
-  ),
+  schemaAdmin: namespace("https://schema.ld.admin.ch/"),
+  municipality: namespace("https://register.ld.admin.ch/municipality/"),
+  canton: namespace("https://register.ld.admin.ch/canton/"),
 };
 
 export const getSource = () =>
@@ -79,7 +78,7 @@ const getRegionDimensionsAndFilter = ({
 
   const regionLabelDimension = view.createDimension({
     source: lookupSource,
-    path: ns.gont("longName"),
+    path: ns.schema.alternateName,
     join: regionDimension,
     as: ns.energyPricing("regionLabel"),
   });
@@ -92,7 +91,7 @@ const getRegionDimensionsAndFilter = ({
   });
 
   const regionTypeFilter = regionTypeDimension.filter.eq(
-    rdf.namedNode(ns.gont("Canton").value)
+    rdf.namedNode(ns.schemaAdmin("Canton").value)
   );
 
   return muniDimension
@@ -155,7 +154,10 @@ export const getObservations = async (
 
           const labelDimension = view.createDimension({
             source: lookupSource,
-            path: dimensionKey === "region" ? ns.gont.longName : ns.schema.name,
+            path:
+              dimensionKey === "region"
+                ? ns.schema.alternateName
+                : ns.schema.name,
             join: dimension,
             as: ns.energyPricing(`${dimensionKey}Label`),
           });
@@ -243,7 +245,7 @@ export const getDimensionValuesAndLabels = async ({
 
   const labelDimension = lookupView.createDimension({
     source: lookup,
-    path: ns.schema.name,
+    path: dimensionKey === "region" ? ns.schema.alternateName : ns.schema.name,
     join: dimension,
     as: ns.energyPricing(`${dimensionKey}Label`),
   });
@@ -345,15 +347,15 @@ export const buildDimensionFilter = (
   return dimensionFilter;
 };
 
-// regex based search query for municipalities and providers
+// regex based search query for municipalities and operators
 
-type SearchType = "municipality" | "provider" | "canton";
+type SearchType = "municipality" | "operator" | "canton";
 
 export const search = async ({
   source,
   query,
   ids,
-  types = ["municipality", "provider"],
+  types = ["municipality", "operator"],
   limit = 10,
 }: {
   source: Source;
@@ -377,28 +379,28 @@ export const search = async ({
     .join(",")}))
       }
     } UNION {
-      SELECT ("provider" AS ?type) (?provider AS ?iri) (?providerLabel AS ?name) WHERE {
+      SELECT ("operator" AS ?type) (?operator AS ?iri) (?operatorLabel AS ?name) WHERE {
         GRAPH <https://lindas.admin.ch/elcom/electricityprice> {
-          ?provider a <http://schema.org/Organization> .
-          ?provider <http://schema.org/name> ?providerLabel.    
+          ?operator a <http://schema.org/Organization> .
+          ?operator <http://schema.org/name> ?operatorLabel.    
         }
-        FILTER (regex(?providerLabel, ".*${
+        FILTER (regex(?operatorLabel, ".*${
           query || "-------"
-        }.*", "i") || ?provider IN (${ids
-    .map((id) => `<${addNamespaceToID({ dimension: "provider", id })}>`)
+        }.*", "i") || ?operator IN (${ids
+    .map((id) => `<${addNamespaceToID({ dimension: "operator", id })}>`)
     .join(",")}))
       }
     } UNION {
       SELECT ("canton" AS ?type) (?canton AS ?iri) (?cantonLabel AS ?name) WHERE {
-        GRAPH <https://linked.opendata.swiss/graph/eCH-0071> {
-          ?canton a <https://gont.ch/Canton> .
-          ?canton <https://gont.ch/longName> ?cantonLabel.    
+        GRAPH <https://lindas.admin.ch/fso/agvch> {
+          ?canton a <https://schema.ld.admin.ch/Canton> .
+          ?canton <http://schema.org/name> ?cantonLabel .    
         }
-        FILTER (regex(?cantonLabel, ".*${
+        FILTER (LANGMATCHES(LANG(?cantonLabel), "de") && (regex(?cantonLabel, ".*${
           query || "-------"
         }.*", "i") || ?canton IN (${ids
     .map((id) => `<${addNamespaceToID({ dimension: "canton", id })}>`)
-    .join(",")}))
+    .join(",")})))
       }
     }
     FILTER (?type IN (${types.map((t) => JSON.stringify(t)).join(",")}))
@@ -434,7 +436,7 @@ export const search = async ({
  * Strips the namespace from an IRI to get shorter IDs
  *
  * E.g. "http://classifications.data.admin.ch/municipality/123" -> "123"
- * E.g. "https://energy.ld.admin.ch/elcom/energy-pricing/category/H1" -> "H1"
+ * E.g. "https://energy.ld.admin.ch/elcom/electricity-price/category/H1" -> "H1"
  */
 export const stripNamespaceFromIri = ({
   dimension,
@@ -457,7 +459,7 @@ export const stripNamespaceFromIri = ({
  * Adds the namespace to an ID to get the full IRI
  *
  * E.g. "municipality" "123" -> "http://classifications.data.admin.ch/municipality/123"
- * E.g. "category" "H1" -> "https://energy.ld.admin.ch/elcom/energy-pricing/category/H1"
+ * E.g. "category" "H1" -> "https://energy.ld.admin.ch/elcom/electricity-price/category/H1"
  */
 export const addNamespaceToID = ({
   dimension,
@@ -474,7 +476,7 @@ export const addNamespaceToID = ({
     return ns.municipality(`${id}`).value;
   }
   if (dimension === "canton" || dimension === "region") {
-    return ns.classifications(`canton/${id}`).value;
+    return ns.canton(`${id}`).value;
   }
   return ns.energyPricingValue(`${dimension}/${id}`).value;
 };

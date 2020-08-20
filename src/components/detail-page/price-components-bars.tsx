@@ -30,14 +30,14 @@ export const PriceComponentsBarChart = ({
   entity: Entity;
 }) => {
   const [
-    { period, category, municipality, provider, canton, product },
+    { period, category, municipality, operator, canton, product },
   ] = useQueryState();
 
   const comparisonIds =
     entity === "municipality"
       ? municipality
-      : entity === "provider"
-      ? provider
+      : entity === "operator"
+      ? operator
       : canton;
 
   const entityIds =
@@ -55,19 +55,19 @@ export const PriceComponentsBarChart = ({
       observationType:
         entity === "canton"
           ? ObservationType.MedianObservation
-          : ObservationType.ProviderObservation,
+          : ObservationType.OperatorObservation,
     },
   });
   const observations = observationsQuery.fetching
     ? EMPTY_ARRAY
     : observationsQuery.data?.observations ?? EMPTY_ARRAY;
 
-  // const uniqueIds = muni+provider+year
+  // const uniqueIds = muni+operator+year
   const withUniqueEntityId = observations.map((obs) => ({
     uniqueId:
       obs.__typename === "MedianObservation"
         ? `${obs.period}, ${obs.cantonLabel}`
-        : `${obs.period}, ${obs.municipalityLabel}, ${obs.providerLabel}`,
+        : `${obs.period}, ${obs.municipalityLabel}, ${obs.operatorLabel}`,
     ...obs,
   }));
   const pivoted = pivot_longer({

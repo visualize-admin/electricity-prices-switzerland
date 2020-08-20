@@ -19,7 +19,7 @@ import { useRouter } from "next/router";
 type Props = {
   id: string;
   name: string;
-  providers: { id: string; name: string }[];
+  operators: { id: string; name: string }[];
 };
 
 export const getServerSideProps: GetServerSideProps<
@@ -32,12 +32,12 @@ export const getServerSideProps: GetServerSideProps<
 
   const source = getSource();
   const cube = await source.cube(
-    "https://energy.ld.admin.ch/elcom/energy-pricing/cube"
+    "https://energy.ld.admin.ch/elcom/electricity-price/cube"
   );
 
   if (!cube) {
     throw Error(
-      `No cube ${"https://energy.ld.admin.ch/elcom/energy-pricing/cube"}`
+      `No cube ${"https://energy.ld.admin.ch/elcom/electricity-price/cube"}`
     );
   }
 
@@ -52,10 +52,10 @@ export const getServerSideProps: GetServerSideProps<
     })
   )[0];
 
-  const providers = await getDimensionValuesAndLabels({
+  const operators = await getDimensionValuesAndLabels({
     view,
     source,
-    dimensionKey: "provider",
+    dimensionKey: "operator",
     filters: { municipality: [id] },
   });
 
@@ -65,12 +65,12 @@ export const getServerSideProps: GetServerSideProps<
     props: {
       id,
       name: municipality.name,
-      providers: providers.map(({ id, name }) => ({ id, name })),
+      operators: operators.map(({ id, name }) => ({ id, name })),
     },
   };
 };
 
-const MunicipalityPage = ({ id, name, providers }: Props) => {
+const MunicipalityPage = ({ id, name, operators }: Props) => {
   const { query } = useRouter();
   return (
     <Flex sx={{ minHeight: "100vh", flexDirection: "column" }}>
@@ -83,7 +83,7 @@ const MunicipalityPage = ({ id, name, providers }: Props) => {
           flexDirection: "column",
         }}
       >
-        <DetailPageBanner id={id} name={name} providers={providers} />
+        <DetailPageBanner id={id} name={name} operators={operators} />
 
         <Box sx={{ width: "100%", maxWidth: "67rem", mx: "auto", my: 2 }}>
           <Flex
