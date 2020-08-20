@@ -20,6 +20,7 @@ import { Trans } from "@lingui/macro";
 import { EMPTY_ARRAY } from "../../lib/empty-array";
 import { Search } from "../../components/search";
 import { DownloadImage } from "../../components/detail-page/download-image";
+import { extent } from "d3-array";
 
 const DOWNLOAD_ID = "map";
 
@@ -157,18 +158,6 @@ const IndexPage = () => {
                 observationsQueryFetching={observationsQuery.fetching}
                 colorScale={colorScale}
               />
-              <Box
-                sx={{
-                  zIndex: 13,
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                  mt: 3,
-                  ml: 3,
-                }}
-              >
-                <PriceColorLegend />
-              </Box>
 
               {!download && (
                 <Box
