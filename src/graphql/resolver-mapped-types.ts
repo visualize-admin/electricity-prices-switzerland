@@ -41,6 +41,8 @@ export type ResolvedProviderObservation = {
   provider?: string;
   category?: string;
   period?: string;
+  region?: string;
+  regionLabel?: string;
 } & { [key: string]: number };
 
 export type ResolvedObservation =

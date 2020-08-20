@@ -45,7 +45,6 @@ export const CantonsComparisonRangePlots = ({
   ] = useQueryState();
   const { query } = useRouter();
 
-  console.log({ download });
   const i18n = useI18n();
 
   const getItemLabel = (id: string) => getLocalizedLabel({ i18n, id });
@@ -211,7 +210,7 @@ export const CantonsComparisonRangePlot = memo(
                   componentIri: "value",
                 },
                 y: {
-                  componentIri: "period",
+                  componentIri: "cantonLabel",
                 },
                 label: {
                   componentIri: "muniProvider",

@@ -79,6 +79,8 @@ export type ProviderObservation = {
   municipalityLabel?: Maybe<Scalars['String']>;
   provider: Scalars['String'];
   providerLabel?: Maybe<Scalars['String']>;
+  canton: Scalars['String'];
+  cantonLabel?: Maybe<Scalars['String']>;
   category: Scalars['String'];
   period: Scalars['String'];
   value: Scalars['Float'];
@@ -228,7 +230,7 @@ export type SearchQueryVariables = Exact<{
 
 export type SearchQuery = { __typename: 'Query', search: Array<{ __typename: 'MunicipalityResult', id: string, name: string } | { __typename: 'ProviderResult', id: string, name: string } | { __typename: 'CantonResult', id: string, name: string }> };
 
-export type ProviderObservationFieldsFragment = { __typename: 'ProviderObservation', period: string, municipality: string, municipalityLabel?: Maybe<string>, provider: string, providerLabel?: Maybe<string>, category: string, value: number };
+export type ProviderObservationFieldsFragment = { __typename: 'ProviderObservation', period: string, municipality: string, municipalityLabel?: Maybe<string>, provider: string, providerLabel?: Maybe<string>, canton: string, cantonLabel?: Maybe<string>, category: string, value: number };
 
 export type MedianObservationFieldsFragment = { __typename: 'MedianObservation', period: string, canton: string, cantonLabel?: Maybe<string>, category: string, value: number };
 
@@ -274,6 +276,8 @@ export const ProviderObservationFieldsFragmentDoc = gql`
   municipalityLabel
   provider
   providerLabel
+  canton
+  cantonLabel
   category
   value(priceComponent: $priceComponent)
 }

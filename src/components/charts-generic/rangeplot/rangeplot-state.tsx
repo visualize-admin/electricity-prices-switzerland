@@ -66,7 +66,7 @@ const useRangePlotState = ({
 
   const minValue = min(data, (d) => getX(d));
   const maxValue = max(data, (d) => getX(d));
-  const xDomain = [mkNumber(minValue), mkNumber(maxValue)];
+  const xDomain = [0, mkNumber(maxValue)];
   const xScale = scaleLinear().domain(xDomain).nice();
 
   // y
@@ -92,11 +92,11 @@ const useRangePlotState = ({
     .domain(colorDomain)
     .range(palettes.diverging)
     .interpolate(interpolateLab);
-  const left = Math.max(
-    estimateTextWidth(yScale.domain()[0]),
-    estimateTextWidth(
-      yScale.domain().length > 1 ? yScale.domain()[1] : yScale.domain()[0]
-    )
+  const left = estimateTextWidth(
+    yScale.domain().length > 1
+      ? [...yScale.domain()].sort((a, b) => b.length - a.length)[0]
+      : yScale.domain()[0],
+    12
   );
   const margins = {
     top: 70,

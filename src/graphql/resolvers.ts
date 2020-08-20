@@ -68,7 +68,7 @@ const Query: QueryResolvers = {
       observationType !== ObservationType.ProviderObservation &&
       medianDimensionKeys.length > 0
         ? await getObservations(
-            { view: cantonObservationsView, source },
+            { view: cantonObservationsView, source, isCantons: true },
             {
               filters,
               dimensions: medianDimensionKeys,
@@ -250,6 +250,11 @@ const ProviderObservation: ProviderObservationResolvers = {
   value: (parent, args) => {
     return parent[args.priceComponent];
   },
+  /**
+   * Map "region*" to "canton*" field name
+   */
+  canton: (parent) => parent.region!,
+  cantonLabel: (parent) => parent.regionLabel!,
 };
 
 const MedianObservation: MedianObservationResolvers = {
