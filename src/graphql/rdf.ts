@@ -15,16 +15,17 @@ type Filters = { [key: string]: string[] | null | undefined } | null;
 const ns = {
   dc: namespace("http://purl.org/dc/elements/1.1/"),
   energyPricing: namespace(
-    "https://energy.ld.admin.ch/elcom/energy-pricing/dimension/"
+    "https://energy.ld.admin.ch/elcom/electricity-price/dimension/"
   ),
   energyPricingValue: namespace(
-    "https://energy.ld.admin.ch/elcom/energy-pricing/"
+    "https://energy.ld.admin.ch/elcom/electricity-price/"
   ),
   rdf: namespace("http://www.w3.org/1999/02/22-rdf-syntax-ns#"),
   schema: namespace("http://schema.org/"),
   xsd: namespace("http://www.w3.org/2001/XMLSchema#"),
   classifications: namespace("http://classifications.data.admin.ch/"),
   gont: namespace("https://gont.ch/"),
+  schemaAdmin: namespace("https://schema.ld.admin.ch/"),
   municipality: namespace(
     "https://register.ld.admin.ch/fso/agvch/municipality/"
   ),
@@ -79,7 +80,7 @@ const getRegionDimensionsAndFilter = ({
 
   const regionLabelDimension = view.createDimension({
     source: lookupSource,
-    path: ns.gont("longName"),
+    path: ns.schema.name,
     join: regionDimension,
     as: ns.energyPricing("regionLabel"),
   });
@@ -92,7 +93,7 @@ const getRegionDimensionsAndFilter = ({
   });
 
   const regionTypeFilter = regionTypeDimension.filter.eq(
-    rdf.namedNode(ns.gont("Canton").value)
+    rdf.namedNode(ns.schemaAdmin("Canton").value)
   );
 
   return muniDimension
@@ -155,7 +156,7 @@ export const getObservations = async (
 
           const labelDimension = view.createDimension({
             source: lookupSource,
-            path: dimensionKey === "region" ? ns.gont.longName : ns.schema.name,
+            path: ns.schema.name,
             join: dimension,
             as: ns.energyPricing(`${dimensionKey}Label`),
           });
@@ -390,9 +391,9 @@ export const search = async ({
       }
     } UNION {
       SELECT ("canton" AS ?type) (?canton AS ?iri) (?cantonLabel AS ?name) WHERE {
-        GRAPH <https://linked.opendata.swiss/graph/eCH-0071> {
-          ?canton a <https://gont.ch/Canton> .
-          ?canton <https://gont.ch/longName> ?cantonLabel.    
+        GRAPH <https://lindas.admin.ch/fso/agvch> {
+          ?canton a <https://schema.admin.ch/Canton> .
+          ?canton <http://schema.org/name> ?cantonLabel.    
         }
         FILTER (regex(?cantonLabel, ".*${
           query || "-------"
@@ -434,7 +435,7 @@ export const search = async ({
  * Strips the namespace from an IRI to get shorter IDs
  *
  * E.g. "http://classifications.data.admin.ch/municipality/123" -> "123"
- * E.g. "https://energy.ld.admin.ch/elcom/energy-pricing/category/H1" -> "H1"
+ * E.g. "https://energy.ld.admin.ch/elcom/electricity-price/category/H1" -> "H1"
  */
 export const stripNamespaceFromIri = ({
   dimension,
@@ -457,7 +458,7 @@ export const stripNamespaceFromIri = ({
  * Adds the namespace to an ID to get the full IRI
  *
  * E.g. "municipality" "123" -> "http://classifications.data.admin.ch/municipality/123"
- * E.g. "category" "H1" -> "https://energy.ld.admin.ch/elcom/energy-pricing/category/H1"
+ * E.g. "category" "H1" -> "https://energy.ld.admin.ch/elcom/electricity-price/category/H1"
  */
 export const addNamespaceToID = ({
   dimension,

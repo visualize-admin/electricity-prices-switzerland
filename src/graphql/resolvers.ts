@@ -82,7 +82,7 @@ const Query: QueryResolvers = {
       };
       for (const [k, v] of Object.entries(d)) {
         const key = k.replace(
-          "https://energy.ld.admin.ch/elcom/energy-pricing/dimension/",
+          "https://energy.ld.admin.ch/elcom/electricity-price/dimension/",
           ""
         );
         const parsedValue = parseObservationValue(v);
@@ -100,7 +100,7 @@ const Query: QueryResolvers = {
       };
       for (const [k, v] of Object.entries(d)) {
         const key = k.replace(
-          "https://energy.ld.admin.ch/elcom/energy-pricing/dimension/",
+          "https://energy.ld.admin.ch/elcom/electricity-price/dimension/",
           ""
         );
         const parsedValue = parseObservationValue(v);

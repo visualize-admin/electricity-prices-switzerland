@@ -43,7 +43,7 @@ const IndexPage = () => {
       filters: {
         period: [period],
         category: [
-          `https://energy.ld.admin.ch/elcom/energy-pricing/category/${category}`,
+          `https://energy.ld.admin.ch/elcom/electricity-price/category/${category}`,
         ],
         product: [product],
       },
