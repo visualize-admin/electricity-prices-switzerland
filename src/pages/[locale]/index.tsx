@@ -11,7 +11,7 @@ import { useColorScale } from "../../domain/data";
 import {
   PriceComponent,
   useObservationsQuery,
-  ProviderObservationFieldsFragment,
+  OperatorObservationFieldsFragment,
 } from "../../graphql/queries";
 import { useCallback, useMemo } from "react";
 import { useQueryStateSingle } from "../../lib/use-query-state";
@@ -54,12 +54,12 @@ const IndexPage = () => {
     ? EMPTY_ARRAY
     : observationsQuery.data?.observations ?? EMPTY_ARRAY;
 
-  const providerObservations = useMemo<
-    ProviderObservationFieldsFragment[]
+  const operatorObservations = useMemo<
+    OperatorObservationFieldsFragment[]
   >(() => {
     return observations.filter(
-      (d): d is ProviderObservationFieldsFragment =>
-        d.__typename === "ProviderObservation"
+      (d): d is OperatorObservationFieldsFragment =>
+        d.__typename === "OperatorObservation"
     );
   }, [observations]);
 
@@ -153,7 +153,7 @@ const IndexPage = () => {
             >
               <ChoroplethMap
                 year={period}
-                observations={providerObservations}
+                observations={operatorObservations}
                 observationsQueryFetching={observationsQuery.fetching}
                 colorScale={colorScale}
               />

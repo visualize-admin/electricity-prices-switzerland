@@ -26,7 +26,7 @@ export const Search = () => {
     pause: searchString === "",
   });
 
-  // FIXME: use search results, not providers
+  // FIXME: use search results, not operators
   const items = gqlQuery.data?.search ?? [];
 
   const itemById = useMemo(() => {
@@ -68,7 +68,7 @@ export const Search = () => {
 //   // lazy: boolean;
 //   showLabel: boolean;
 // };
-type ResultType = "ProviderResult" | "MunicipalityResult" | "CantonResult";
+type ResultType = "OperatorResult" | "MunicipalityResult" | "CantonResult";
 type Item = {
   id: string;
   __typename: ResultType;
@@ -194,7 +194,7 @@ export const SearchField = ({
               textOverflow: "ellipsis",
             }}
           >
-            <Trans id="search.global.hint.canton.muni.provider">
+            <Trans id="search.global.hint.canton.muni.operator">
               Gemeinde, Netzbetreiber, Kanton
             </Trans>
           </Text>
@@ -398,13 +398,13 @@ export const SearchField = ({
 
 const getEntity = (e: ResultType) => {
   switch (e) {
-    case "ProviderResult":
-      return "provider";
+    case "OperatorResult":
+      return "operator";
     case "MunicipalityResult":
       return "municipality";
     case "CantonResult":
       return "canton";
     default:
-      "provider";
+      "operator";
   }
 };

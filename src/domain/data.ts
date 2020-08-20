@@ -75,7 +75,7 @@ export const useColorScale = ({
   }, [observations, accessor, palettes.diverging]);
 };
 
-export type Entity = "municipality" | "provider" | "canton"; //| "canton";
+export type Entity = "municipality" | "operator" | "canton"; //| "canton";
 
 export const periods = [
   "2020",

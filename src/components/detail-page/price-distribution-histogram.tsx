@@ -44,7 +44,7 @@ export const PriceDistributionHistograms = ({
   entity: Entity;
 }) => {
   const [
-    { period, municipality, provider, canton, priceComponent },
+    { period, municipality, operator, canton, priceComponent },
     setQueryState,
   ] = useQueryState();
   const { query } = useRouter();
@@ -56,8 +56,8 @@ export const PriceDistributionHistograms = ({
   const comparisonIds =
     entity === "municipality"
       ? municipality
-      : entity === "provider"
-      ? provider
+      : entity === "operator"
+      ? operator
       : canton;
 
   const annotationIds =
@@ -171,7 +171,7 @@ export const PriceDistributionHistogram = ({
       observationType:
         entity === "canton"
           ? ObservationType.MedianObservation
-          : ObservationType.ProviderObservation,
+          : ObservationType.OperatorObservation,
     },
   });
   const observations = observationsQuery.fetching
@@ -183,9 +183,9 @@ export const PriceDistributionHistogram = ({
     observations
       .filter((obs) => annotationIds.includes((obs as $FixMe)[entity]))
       .map((obs) => ({
-        muniProvider:
-          obs.__typename === "ProviderObservation"
-            ? `${obs.municipalityLabel}, ${obs.providerLabel}`
+        muniOperator:
+          obs.__typename === "OperatorObservation"
+            ? `${obs.municipalityLabel}, ${obs.operatorLabel}`
             : `${obs.cantonLabel}`,
         ...obs,
       }));
@@ -212,7 +212,7 @@ export const PriceDistributionHistogram = ({
                 componentIri: "value",
               },
               label: {
-                componentIri: "muniProvider", // getEntityLabelField(entity),
+                componentIri: "muniOperator", // getEntityLabelField(entity),
               },
               annotation: annotations as {
                 [x: string]: string | number | boolean;

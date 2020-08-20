@@ -26,9 +26,7 @@ const ns = {
   classifications: namespace("http://classifications.data.admin.ch/"),
   gont: namespace("https://gont.ch/"),
   schemaAdmin: namespace("https://schema.ld.admin.ch/"),
-  municipality: namespace(
-    "https://register.ld.admin.ch/fso/agvch/municipality/"
-  ),
+  municipality: namespace("https://register.ld.admin.ch/municipality/"),
 };
 
 export const getSource = () =>
@@ -346,15 +344,15 @@ export const buildDimensionFilter = (
   return dimensionFilter;
 };
 
-// regex based search query for municipalities and providers
+// regex based search query for municipalities and operators
 
-type SearchType = "municipality" | "provider" | "canton";
+type SearchType = "municipality" | "operator" | "canton";
 
 export const search = async ({
   source,
   query,
   ids,
-  types = ["municipality", "provider"],
+  types = ["municipality", "operator"],
   limit = 10,
 }: {
   source: Source;
@@ -378,15 +376,15 @@ export const search = async ({
     .join(",")}))
       }
     } UNION {
-      SELECT ("provider" AS ?type) (?provider AS ?iri) (?providerLabel AS ?name) WHERE {
+      SELECT ("operator" AS ?type) (?operator AS ?iri) (?operatorLabel AS ?name) WHERE {
         GRAPH <https://lindas.admin.ch/elcom/electricityprice> {
-          ?provider a <http://schema.org/Organization> .
-          ?provider <http://schema.org/name> ?providerLabel.    
+          ?operator a <http://schema.org/Organization> .
+          ?operator <http://schema.org/name> ?operatorLabel.    
         }
-        FILTER (regex(?providerLabel, ".*${
+        FILTER (regex(?operatorLabel, ".*${
           query || "-------"
-        }.*", "i") || ?provider IN (${ids
-    .map((id) => `<${addNamespaceToID({ dimension: "provider", id })}>`)
+        }.*", "i") || ?operator IN (${ids
+    .map((id) => `<${addNamespaceToID({ dimension: "operator", id })}>`)
     .join(",")}))
       }
     } UNION {

@@ -40,7 +40,7 @@ export const CantonsComparisonRangePlots = ({
   entity: Entity;
 }) => {
   const [
-    { period, municipality, provider, canton, priceComponent, download },
+    { period, municipality, operator, canton, priceComponent, download },
     setQueryState,
   ] = useQueryState();
   const { query } = useRouter();
@@ -52,8 +52,8 @@ export const CantonsComparisonRangePlots = ({
   const comparisonIds =
     entity === "municipality"
       ? municipality
-      : entity === "provider"
-      ? provider
+      : entity === "operator"
+      ? operator
       : canton;
 
   const annotationIds =
@@ -169,7 +169,7 @@ export const CantonsComparisonRangePlot = memo(
         observationType:
           entity === "canton"
             ? ObservationType.MedianObservation
-            : ObservationType.ProviderObservation,
+            : ObservationType.OperatorObservation,
       },
     });
     const observations = observationsQuery.fetching
@@ -181,9 +181,9 @@ export const CantonsComparisonRangePlot = memo(
       observations
         .filter((obs) => annotationIds.includes((obs as $FixMe)[entity]))
         .map((obs) => ({
-          muniProvider:
-            obs.__typename === "ProviderObservation"
-              ? `${obs.municipalityLabel}, ${obs.providerLabel}`
+          muniOperator:
+            obs.__typename === "OperatorObservation"
+              ? `${obs.municipalityLabel}, ${obs.operatorLabel}`
               : obs.cantonLabel,
           ...obs,
         }));
@@ -213,7 +213,7 @@ export const CantonsComparisonRangePlot = memo(
                   componentIri: "cantonLabel",
                 },
                 label: {
-                  componentIri: "muniProvider",
+                  componentIri: "muniOperator",
                 },
                 annotation: annotations as {
                   [x: string]: string | number | boolean;

@@ -11,7 +11,7 @@ type MunicipalityResult implements SearchResult {
   id: String!
   name: String!
 }
-type ProviderResult implements SearchResult {
+type OperatorResult implements SearchResult {
   id: String!
   name: String!
 }
@@ -24,11 +24,11 @@ type Municipality {
   id: String!
   name: String!
   canton: Canton!
-  providers: [Provider!]!
+  operators: [Operator!]!
   priceComponents: PriceComponents!
 }
 
-type Provider {
+type Operator {
   id: String!
   name: String!
   municipalities: [Municipality!]!
@@ -49,11 +49,11 @@ type TemporalDimension {
   max: String!
 }
 
-type ProviderObservation {
+type OperatorObservation {
   municipality: String!
   municipalityLabel: String
-  provider: String!
-  providerLabel: String
+  operator: String!
+  operatorLabel: String
   canton: String!
   cantonLabel: String
   category: String!
@@ -72,13 +72,13 @@ type MedianObservation {
   value(priceComponent: PriceComponent!): Float!
 }
 
-union Observation = ProviderObservation | MedianObservation
+union Observation = OperatorObservation | MedianObservation
 
 input ObservationFilters {
   period: [String!]
   municipality: [String!]
   canton: [String!]
-  provider: [String!]
+  operator: [String!]
   category: [String!]
   product: [String!]
 }
@@ -95,7 +95,7 @@ enum PriceComponent {
 
 enum ObservationType {
   MedianObservation
-  ProviderObservation
+  OperatorObservation
 }
 
 type Query {
@@ -105,11 +105,11 @@ type Query {
     ids: [String!]
   ): [Municipality!]!
   cantons(locale: String, query: String, ids: [String!]): [Canton!]!
-  providers(locale: String, query: String, ids: [String!]): [Provider!]!
+  operators(locale: String, query: String, ids: [String!]): [Operator!]!
   search(locale: String, query: String): [SearchResult!]!
   municipality(locale: String, id: String!): Municipality
   canton(locale: String, id: String!): Canton
-  provider(locale: String, id: String!): Provider
+  operator(locale: String, id: String!): Operator
 
   observations(
     locale: String

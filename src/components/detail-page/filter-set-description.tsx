@@ -5,7 +5,7 @@ import { getLocalizedLabel } from "../../domain/translation";
 import { useI18n } from "../i18n-context";
 
 type FilterSet = {
-  provider?: string;
+  operator?: string;
   municipality?: string;
   canton?: string;
   period?: string;

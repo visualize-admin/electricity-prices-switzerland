@@ -20,7 +20,7 @@ import {
   mesh as topojsonMesh,
 } from "topojson-client";
 import { useFormatCurrency } from "../domain/helpers";
-import { ProviderObservationFieldsFragment } from "../graphql/queries";
+import { OperatorObservationFieldsFragment } from "../graphql/queries";
 import { TooltipBoxWithoutChartState } from "./charts-generic/interaction/tooltip-box";
 import { createDynamicRouteProps } from "./links";
 import { Loading, NoDataHint } from "./hint";
@@ -110,7 +110,7 @@ const constrainZoom = (
 const __debugCheckObservationsWithoutShapes = (
   observationsByMunicipalityId: Map<
     string,
-    ProviderObservationFieldsFragment[]
+    OperatorObservationFieldsFragment[]
   >,
   feature: GeoJSON.FeatureCollection
 ) => {
@@ -196,7 +196,7 @@ export const ChoroplethMap = ({
   colorScale,
 }: {
   year: string;
-  observations: ProviderObservationFieldsFragment[];
+  observations: OperatorObservationFieldsFragment[];
   observationsQueryFetching: boolean;
   colorScale: ScaleThreshold<number, string> | undefined | 0;
 }) => {
@@ -324,7 +324,7 @@ export const ChoroplethMap = ({
                   return (
                     <Fragment key={i}>
                       <Text variant="meta" sx={{}}>
-                        {d.providerLabel}
+                        {d.operatorLabel}
                       </Text>
                       <Box
                         sx={{
