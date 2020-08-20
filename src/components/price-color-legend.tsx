@@ -2,13 +2,19 @@ import { Trans } from "@lingui/macro";
 import { Box, Flex, Grid, Text } from "@theme-ui/components";
 import * as React from "react";
 import { useTheme } from "../themes";
+import { useFormatCurrency } from "../domain/helpers";
 
 const LEGEND_WIDTH = 176;
 const TOP_LABEL_HEIGHT = 16;
 const COLOR_HEIGHT = 12;
 const BOTTOM_LABEL_HEIGHT = 16;
 
-export const PriceColorLegend = () => {
+export const PriceColorLegend = ({
+  stats,
+}: {
+  stats: [number, number, number];
+}) => {
+  const formatCurrency = useFormatCurrency();
   return (
     <Box
       sx={{
@@ -24,30 +30,51 @@ export const PriceColorLegend = () => {
       <Flex
         sx={{
           justifyContent: "space-between",
-          height: TOP_LABEL_HEIGHT,
+          height: TOP_LABEL_HEIGHT * 2,
           color: "text",
+          fontSize: 1,
         }}
       >
-        <Text sx={{ fontSize: 1 }}>
-          <Trans id="price.legend.min">min</Trans>
-        </Text>
-        <Flex sx={{ flexDirection: "column", alignItems: "center" }}>
-          <Text sx={{ fontSize: 1 }}>
+        <Flex
+          sx={{
+            flexDirection: "column",
+            flexGrow: 1,
+            flexShrink: 1,
+            alignItems: "center",
+          }}
+        >
+          <Text>{formatCurrency(stats[0])}</Text>
+          <Text sx={{ color: "monochrome600" }}>
+            <Trans id="price.legend.min">min</Trans>
+          </Text>
+        </Flex>
+
+        <Flex
+          sx={{
+            flexDirection: "column",
+            flexGrow: 1,
+            flexShrink: 1,
+            alignItems: "center",
+          }}
+        >
+          <Text>{formatCurrency(stats[1])}</Text>
+          <Text sx={{ color: "monochrome600" }}>
             <Trans id="price.legend.median">median</Trans>
           </Text>
-          <Box
-            sx={{
-              width: 0,
-              borderLeft: "1px solid black",
-              height: TOP_LABEL_HEIGHT + COLOR_HEIGHT,
-              overflowY: "visible",
-              zIndex: 14,
-            }}
-          ></Box>
         </Flex>
-        <Text sx={{ fontSize: 1 }}>
-          <Trans id="price.legend.max">max</Trans>
-        </Text>
+        <Flex
+          sx={{
+            flexDirection: "column",
+            flexGrow: 1,
+            flexShrink: 1,
+            alignItems: "center",
+          }}
+        >
+          <Text>{formatCurrency(stats[2])}</Text>
+          <Text sx={{ color: "monochrome600" }}>
+            <Trans id="price.legend.max">max</Trans>
+          </Text>
+        </Flex>
       </Flex>
       <ColorsLine />
     </Box>
