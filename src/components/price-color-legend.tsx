@@ -12,7 +12,7 @@ const BOTTOM_LABEL_HEIGHT = 16;
 export const PriceColorLegend = ({
   stats,
 }: {
-  stats: [number, number, number];
+  stats: [number | undefined, number | undefined, number | undefined];
 }) => {
   const formatCurrency = useFormatCurrency();
   return (
@@ -25,56 +25,53 @@ export const PriceColorLegend = ({
         height: "fit-content",
         px: 4,
         py: 2,
+        position: "relative",
       }}
     >
+      <Box
+        sx={{
+          position: "absolute",
+          left: LEGEND_WIDTH / 2,
+          top: TOP_LABEL_HEIGHT * 2,
+          width: 0,
+          borderLeft: "1px dashed",
+          borderLeftColor: "text",
+          height: TOP_LABEL_HEIGHT + COLOR_HEIGHT,
+          overflowY: "visible",
+          zIndex: 14,
+        }}
+      ></Box>
+
       <Flex
         sx={{
           justifyContent: "space-between",
-          height: TOP_LABEL_HEIGHT * 2,
           color: "text",
           fontSize: 1,
         }}
       >
-        <Flex
-          sx={{
-            flexDirection: "column",
-            flexGrow: 1,
-            flexShrink: 1,
-            alignItems: "center",
-          }}
-        >
-          <Text>{formatCurrency(stats[0])}</Text>
-          <Text sx={{ color: "monochrome600" }}>
-            <Trans id="price.legend.min">min</Trans>
-          </Text>
-        </Flex>
+        <Text>{stats[0] && formatCurrency(stats[0])}</Text>
+        <Text>{stats[1] && formatCurrency(stats[1])}</Text>
+        <Text>{stats[2] && formatCurrency(stats[2])}</Text>
+      </Flex>
+      <Flex
+        sx={{
+          justifyContent: "space-between",
+          color: "monochrome600",
+          fontSize: 1,
+          mb: 2,
+        }}
+      >
+        <Text>
+          <Trans id="price.legend.min">min</Trans>
+        </Text>
 
-        <Flex
-          sx={{
-            flexDirection: "column",
-            flexGrow: 1,
-            flexShrink: 1,
-            alignItems: "center",
-          }}
-        >
-          <Text>{formatCurrency(stats[1])}</Text>
-          <Text sx={{ color: "monochrome600" }}>
-            <Trans id="price.legend.median">median</Trans>
-          </Text>
-        </Flex>
-        <Flex
-          sx={{
-            flexDirection: "column",
-            flexGrow: 1,
-            flexShrink: 1,
-            alignItems: "center",
-          }}
-        >
-          <Text>{formatCurrency(stats[2])}</Text>
-          <Text sx={{ color: "monochrome600" }}>
-            <Trans id="price.legend.max">max</Trans>
-          </Text>
-        </Flex>
+        <Text>
+          <Trans id="price.legend.median">median</Trans>
+        </Text>
+
+        <Text>
+          <Trans id="price.legend.max">max</Trans>
+        </Text>
       </Flex>
       <ColorsLine />
     </Box>
@@ -123,6 +120,7 @@ export const ColorsLine = () => {
                 borderRight: "1px solid #FFF",
               }}
             />
+
             <Text
               sx={{
                 fontSize: 1,
