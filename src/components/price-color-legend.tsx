@@ -5,7 +5,7 @@ import { useTheme } from "../themes";
 import { useFormatCurrency } from "../domain/helpers";
 
 const LEGEND_WIDTH = 176;
-const TOP_LABEL_HEIGHT = 16;
+const TOP_LABEL_HEIGHT = 14;
 const COLOR_HEIGHT = 12;
 const BOTTOM_LABEL_HEIGHT = 16;
 
@@ -41,12 +41,12 @@ export const PriceColorLegend = ({
           zIndex: 14,
         }}
       ></Box>
-
       <Flex
         sx={{
           justifyContent: "space-between",
           color: "text",
           fontSize: 1,
+          height: TOP_LABEL_HEIGHT,
         }}
       >
         <Text>{stats[0] && formatCurrency(stats[0])}</Text>
