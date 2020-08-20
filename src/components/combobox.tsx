@@ -115,11 +115,10 @@ export const ComboboxMulti = ({
         sx={{
           display: "block",
           width: "100%",
-          minHeight: 48,
           py: 0,
           pl: 2,
           pr: 6,
-          alignItems: "center",
+
           appearance: "none",
           fontSize: "inherit",
           lineHeight: "inherit",

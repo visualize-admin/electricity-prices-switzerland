@@ -27,12 +27,12 @@ export const SelectorMulti = ({
         justifyContent: "flex-start",
         bg: "primaryLight",
         m: 4,
-        px: 5,
-        py: 6,
-
+        px: 4,
+        py: 4,
         zIndex: 13,
         borderRadius: "default",
-        "> div": { mt: 5 },
+        "> div": { mt: 4 },
+        "> fieldset": { mt: 4 },
       }}
     >
       <Text as="legend" variant="lead" sx={{ display: "contents" }}>
