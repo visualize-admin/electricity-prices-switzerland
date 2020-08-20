@@ -1,6 +1,6 @@
 import { t, Trans } from "@lingui/macro";
 import { ScaleThreshold } from "d3";
-import { ascending, descending, rollup } from "d3-array";
+import { ascending, descending, rollup, mean } from "d3-array";
 import { useRouter } from "next/router";
 import { useCallback, useMemo, useState } from "react";
 import { Box, Button, Flex, Text } from "theme-ui";
@@ -185,11 +185,11 @@ export const List = ({ observations, colorScale }: Props) => {
                 d.__typename === "MedianObservation"
             ),
             (values) => {
-              const d = values[0];
+              const first = values[0];
               return {
-                id: d.canton,
-                label: d.cantonLabel,
-                value: d.value,
+                id: first.canton,
+                label: first.cantonLabel,
+                value: mean(values, (d) => d.value) ?? first.value,
               };
             },
             (d) => d.canton
@@ -202,14 +202,17 @@ export const List = ({ observations, colorScale }: Props) => {
                 d.__typename === "ProviderObservation"
             ),
             (values) => {
-              const d = values[0];
+              const first = values[0];
               return {
-                id: listState === "PROVIDERS" ? d.provider : d.municipality,
+                id:
+                  listState === "PROVIDERS"
+                    ? first.provider
+                    : first.municipality,
                 label:
                   listState === "PROVIDERS"
-                    ? d.providerLabel
-                    : d.municipalityLabel,
-                value: d.value,
+                    ? first.providerLabel
+                    : first.municipalityLabel,
+                value: mean(values, (d) => d.value) ?? first.value,
               };
             },
             (d) => (listState === "PROVIDERS" ? d.provider : d.municipality)

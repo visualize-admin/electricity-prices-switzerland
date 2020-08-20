@@ -3,7 +3,7 @@ import { GeoJsonLayer } from "@deck.gl/layers";
 import DeckGL from "@deck.gl/react";
 import { Trans } from "@lingui/macro";
 import { color } from "d3";
-import { group } from "d3-array";
+import { group, mean } from "d3-array";
 import { ScaleThreshold } from "d3-scale";
 import { useRouter } from "next/router";
 import {
@@ -276,7 +276,10 @@ export const ChoroplethMap = ({
 
   const formatNumber = useFormatCurrency();
 
-  const getColor = (v: number) => {
+  const getColor = (v: number | undefined) => {
+    if (v === undefined) {
+      return [0, 0, 0];
+    }
     const c = colorScale && colorScale(v);
     const rgb = c && color(c)?.rgb();
     return rgb ? [rgb.r, rgb.g, rgb.b] : [0, 0, 0];
@@ -364,10 +367,10 @@ export const ChoroplethMap = ({
                 lineWidthMinPixels={0.5}
                 autoHighlight={true}
                 getFillColor={(d: $FixMe) => {
-                  const obs = observationsByMunicipalityId.get(
-                    d.id.toString()
-                  )?.[0];
-                  return obs ? getColor(obs.value) : [0, 0, 0, 20];
+                  const obs = observationsByMunicipalityId.get(d.id.toString());
+                  return obs
+                    ? getColor(mean(obs, (d) => d.value))
+                    : [0, 0, 0, 20];
                 }}
                 highlightColor={[0, 0, 0, 50]}
                 getLineColor={[255, 255, 255, 50]}
