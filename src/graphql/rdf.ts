@@ -78,7 +78,7 @@ const getRegionDimensionsAndFilter = ({
 
   const regionLabelDimension = view.createDimension({
     source: lookupSource,
-    path: ns.schema.name,
+    path: ns.schema.alternateName,
     join: regionDimension,
     as: ns.energyPricing("regionLabel"),
   });
@@ -154,7 +154,10 @@ export const getObservations = async (
 
           const labelDimension = view.createDimension({
             source: lookupSource,
-            path: ns.schema.name,
+            path:
+              dimensionKey === "region"
+                ? ns.schema.alternateName
+                : ns.schema.name,
             join: dimension,
             as: ns.energyPricing(`${dimensionKey}Label`),
           });
@@ -242,7 +245,7 @@ export const getDimensionValuesAndLabels = async ({
 
   const labelDimension = lookupView.createDimension({
     source: lookup,
-    path: ns.schema.name,
+    path: dimensionKey === "region" ? ns.schema.alternateName : ns.schema.name,
     join: dimension,
     as: ns.energyPricing(`${dimensionKey}Label`),
   });
@@ -391,13 +394,13 @@ export const search = async ({
       SELECT ("canton" AS ?type) (?canton AS ?iri) (?cantonLabel AS ?name) WHERE {
         GRAPH <https://lindas.admin.ch/fso/agvch> {
           ?canton a <https://schema.ld.admin.ch/Canton> .
-          ?canton <http://schema.org/name> ?cantonLabel.    
+          ?canton <http://schema.org/name> ?cantonLabel .    
         }
-        FILTER (regex(?cantonLabel, ".*${
+        FILTER (LANGMATCHES(LANG(?cantonLabel), "de") && (regex(?cantonLabel, ".*${
           query || "-------"
         }.*", "i") || ?canton IN (${ids
     .map((id) => `<${addNamespaceToID({ dimension: "canton", id })}>`)
-    .join(",")}))
+    .join(",")})))
       }
     }
     FILTER (?type IN (${types.map((t) => JSON.stringify(t)).join(",")}))
