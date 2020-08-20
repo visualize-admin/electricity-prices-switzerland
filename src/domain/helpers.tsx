@@ -20,6 +20,8 @@ import React from "react";
 import { useLocale } from "../lib/use-locale";
 import { d3FormatLocales, d3TimeFormatLocales } from "../locales/locales";
 import { useTheme } from "../themes";
+import { estimateTextWidth } from "../lib/estimate-text-width";
+import { GenericObservation } from "./data";
 
 export const isNumber = (x: $IntentionalAny): boolean =>
   typeof x === "number" && !isNaN(x);
@@ -192,4 +194,42 @@ export const pivot_longer = <
     )
     .reduce((acc, val) => acc.concat(val), []);
   return pivoted;
+};
+
+export const getAnnotationSpaces = ({
+  annotation,
+  getX,
+  getLabel,
+  format,
+  chartWidth,
+  annotationfontSize,
+}: {
+  annotation: { [x: string]: string | number | boolean }[];
+  getX: (x: GenericObservation) => number;
+  getLabel: (x: GenericObservation) => string;
+  format: (n: number) => string;
+  chartWidth: number;
+  annotationfontSize: number;
+}) => {
+  return annotation
+    ? annotation.reduce(
+        (acc, datum, i) => {
+          // FIXME: Should be word based, not character based?
+          const oneFullLine =
+            estimateTextWidth(format(getX(datum)), annotationfontSize) +
+            estimateTextWidth(getLabel(datum), annotationfontSize);
+          // On smaller screens, anotations may break on several lines
+          const nbOfLines = Math.ceil(oneFullLine / (chartWidth * 0.5));
+          acc.push(
+            acc[i] +
+              // annotation height
+              nbOfLines * annotationfontSize +
+              // padding + margin between annotations
+              10
+          );
+          return acc;
+        },
+        [0]
+      )
+    : [0];
 };
