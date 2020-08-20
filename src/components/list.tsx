@@ -51,8 +51,9 @@ const ListItem = ({
       <Flex
         as="a"
         sx={{
+          pl: 2,
           py: 1,
-          px: 2,
+          mx: [2, 4, 4],
           borderBottomWidth: "1px",
           borderBottomStyle: "solid",
           borderBottomColor: "monochrome300",
@@ -73,7 +74,7 @@ const ListItem = ({
           },
         }}
       >
-        <Text variant="paragraph1" sx={{ flexGrow: 1 }}>
+        <Text variant="paragraph2" sx={{ flexGrow: 1 }}>
           {label}
         </Text>
         <Box
@@ -84,7 +85,7 @@ const ListItem = ({
           }}
           style={{ background: colorScale(value) }}
         >
-          <Text variant="paragraph1">{formatNumber(value)}</Text>
+          <Text variant="paragraph2">{formatNumber(value)}</Text>
         </Box>
         <Box sx={{ width: "24px", flexShrink: 0 }}>
           <Icon name="chevronright"></Icon>
@@ -117,7 +118,7 @@ const ListItems = ({
     items.length > truncated ? items.slice(0, truncated) : items;
 
   return (
-    <Box sx={{}}>
+    <Box>
       {listItems.map(([id, d]) => {
         return (
           <ListItem
@@ -258,7 +259,8 @@ export const List = ({ observations, colorScale }: Props) => {
 
       <Box
         sx={{
-          p: 2,
+          mx: [2, 4, 4],
+          py: [2, 4, 4],
           borderBottomWidth: "1px",
           borderBottomStyle: "solid",
           borderBottomColor: "monochrome300",
