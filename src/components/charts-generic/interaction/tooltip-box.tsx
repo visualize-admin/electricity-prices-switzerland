@@ -32,6 +32,7 @@ export const TooltipBox = ({
   return (
     <Box
       style={{
+        width: "fit-content",
         zIndex: 2,
         position: "absolute",
         left: x! + margins.left,
@@ -42,8 +43,6 @@ export const TooltipBox = ({
     >
       <Box
         sx={{
-          width: "fit-content",
-          minWidth: [bounds.width / 2, bounds.width / 2, 200],
           padding: 3,
           pointerEvents: "none",
           backgroundColor: "monochrome100",
@@ -88,6 +87,7 @@ export const TooltipBoxWithoutChartState = ({
   return (
     <Box
       style={{
+        width: "fit-content",
         zIndex: 2,
         position: "absolute",
         left: x! + margins.left,
@@ -98,7 +98,6 @@ export const TooltipBoxWithoutChartState = ({
     >
       <Box
         sx={{
-          width: "fit-content",
           padding: 3,
           pointerEvents: "none",
           backgroundColor: "monochrome100",
