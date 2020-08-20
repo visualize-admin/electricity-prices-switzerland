@@ -24,9 +24,9 @@ const ns = {
   schema: namespace("http://schema.org/"),
   xsd: namespace("http://www.w3.org/2001/XMLSchema#"),
   classifications: namespace("http://classifications.data.admin.ch/"),
-  gont: namespace("https://gont.ch/"),
   schemaAdmin: namespace("https://schema.ld.admin.ch/"),
   municipality: namespace("https://register.ld.admin.ch/municipality/"),
+  canton: namespace("https://register.ld.admin.ch/canton/"),
 };
 
 export const getSource = () =>
@@ -390,7 +390,7 @@ export const search = async ({
     } UNION {
       SELECT ("canton" AS ?type) (?canton AS ?iri) (?cantonLabel AS ?name) WHERE {
         GRAPH <https://lindas.admin.ch/fso/agvch> {
-          ?canton a <https://schema.admin.ch/Canton> .
+          ?canton a <https://schema.ld.admin.ch/Canton> .
           ?canton <http://schema.org/name> ?cantonLabel.    
         }
         FILTER (regex(?cantonLabel, ".*${
@@ -473,7 +473,7 @@ export const addNamespaceToID = ({
     return ns.municipality(`${id}`).value;
   }
   if (dimension === "canton" || dimension === "region") {
-    return ns.classifications(`canton/${id}`).value;
+    return ns.canton(`${id}`).value;
   }
   return ns.energyPricingValue(`${dimension}/${id}`).value;
 };
