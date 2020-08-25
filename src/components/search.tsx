@@ -117,7 +117,19 @@ export const SearchField = ({
           setInputValue(changes.inputValue);
           setSearchString(changes.inputValue);
           break;
-        // case useCombobox.stateChangeTypes.InputKeyDownEnter:
+        case useCombobox.stateChangeTypes.InputKeyDownEnter:
+          const { selectedItem } = changes;
+          if (selectedItem) {
+            const ent = getEntity(selectedItem.__typename);
+
+            const { href, as } = createDynamicRouteProps({
+              pathname: `/[locale]/${ent}/[id]`,
+              query: { ...query, id: selectedItem.id },
+            });
+
+            push(href, as);
+          }
+          break;
         // case useCombobox.stateChangeTypes.ItemClick:
         //   console.log("click");
         //   push(href, as);
@@ -200,197 +212,188 @@ export const SearchField = ({
           </Text>
         </Flex>
 
-        {isOpen && (
-          <>
-            {/* INPUT */}
-            <Flex
-              sx={{
-                position: ["fixed", "fixed", "absolute"],
-                top: 0,
-                left: 0,
-                zIndex: 20,
+        {/* INPUT */}
+        <Flex
+          data-id="input"
+          style={{ display: isOpen ? undefined : "none" }}
+          sx={{
+            position: ["fixed", "fixed", "absolute"],
+            top: 0,
+            left: 0,
+            zIndex: 20,
 
-                py: 0,
-                pl: 4,
-                pr: 4,
+            py: 0,
+            pl: 4,
+            pr: 4,
 
-                justifyContent: "flex-start",
-                alignItems: "center",
+            justifyContent: "flex-start",
+            alignItems: "center",
 
-                width: ["100vw", "100vw", "100%"],
-                height: 48,
+            width: ["100vw", "100vw", "100%"],
+            height: 48,
 
-                bg: "monochrome100",
-                borderRadius: [0, 0, "default"],
+            bg: "monochrome100",
+            borderRadius: [0, 0, "default"],
 
-                border: ["0px solid", "0px solid", "1px solid"],
-                borderColor: ["monochrome500", "monochrome500", "primary"],
-                borderBottom: ["1px solid", "1px solid", "1px solid"],
-                borderBottomColor: [
-                  "monochrome500",
-                  "monochrome500",
-                  "primary",
-                ],
-              }}
-            >
-              {/* Mobile back button */}
-              <Button
-                onClick={() => closeMenu()}
-                variant="reset"
-                type="button"
-                sx={{
-                  p: 0,
-                  cursor: "pointer",
-                  color: "primary",
-                  display: ["block", "block", "none"],
-                }}
-              >
-                <Icon name="chevronleft" size={24}></Icon>
-              </Button>
+            border: ["0px solid", "0px solid", "1px solid"],
+            borderColor: ["monochrome500", "monochrome500", "primary"],
+            borderBottom: ["1px solid", "1px solid", "1px solid"],
+            borderBottomColor: ["monochrome500", "monochrome500", "primary"],
+          }}
+        >
+          {/* Mobile back button */}
+          <Button
+            onClick={() => closeMenu()}
+            variant="reset"
+            type="button"
+            sx={{
+              p: 0,
+              cursor: "pointer",
+              color: "primary",
+              display: ["block", "block", "none"],
+            }}
+          >
+            <Icon name="chevronleft" size={24}></Icon>
+          </Button>
 
-              {/* Desktop Magnifying Glass icon */}
-              <Box as="span" sx={{ display: ["none", "none", "block"] }}>
-                <Icon
-                  name="search"
-                  size={24}
-                  color={theme.colors.monochrome700}
-                ></Icon>
-              </Box>
+          {/* Desktop Magnifying Glass icon */}
+          <Box as="span" sx={{ display: ["none", "none", "block"] }}>
+            <Icon
+              name="search"
+              size={24}
+              color={theme.colors.monochrome700}
+            ></Icon>
+          </Box>
 
-              {/* Actual Input Field */}
-              <Input
-                {...getInputProps({ ref: inputEl, value: inputValue })}
-                sx={{
-                  height: "100%",
-                  flexGrow: 1,
-                  border: "none",
-                  "&:focus": { outline: "none" },
-                }}
-              />
-              {/* clear input */}
-              <Button
-                variant="reset"
-                sx={{ cursor: "pointer" }}
-                onClick={() => setInputValue("")}
-              >
-                <Icon
-                  name="clear"
-                  size={24}
-                  color={theme.colors.monochrome700}
-                ></Icon>
-              </Button>
-            </Flex>
+          {/* Actual Input Field */}
+          <Input
+            {...getInputProps({ ref: inputEl, value: inputValue })}
+            sx={{
+              height: "100%",
+              flexGrow: 1,
+              border: "none",
+              "&:focus": { outline: "none" },
+            }}
+          />
+          {/* clear input */}
+          <Button
+            variant="reset"
+            sx={{ cursor: "pointer" }}
+            onClick={() => setInputValue("")}
+          >
+            <Icon
+              name="clear"
+              size={24}
+              color={theme.colors.monochrome700}
+            ></Icon>
+          </Button>
+        </Flex>
 
-            {/* MENU */}
-            <Flex
-              {...getMenuProps()}
-              sx={{
-                position: ["fixed", "fixed", "absolute"],
-                top: [48, 48, 54],
-                left: 0,
-                zIndex: 21,
+        {/* MENU */}
+        <Flex
+          {...getMenuProps()}
+          sx={{
+            position: ["fixed", "fixed", "absolute"],
+            top: [48, 48, 54],
+            left: 0,
+            zIndex: 21,
 
-                width: ["100vw", "100vw", "100%"],
-                height: ["calc(100vh - 48px)", "calc(100vh - 48px)", "auto"],
+            width: ["100vw", "100vw", "100%"],
+            height: ["calc(100vh - 48px)", "calc(100vh - 48px)", "auto"],
 
-                bg: "monochrome100",
-                p: 4,
-                flexDirection: "column",
+            bg: "monochrome100",
+            p: 4,
+            flexDirection: "column",
 
-                visibility: isOpen ? "visible" : "hidden",
+            visibility: isOpen ? "visible" : "hidden",
 
-                boxShadow: ["none", "none", "tooltip"],
-              }}
-            >
-              {isOpen && inputValue === "" ? (
-                <Text variant="paragraph1" sx={{ color: "monochrome800" }}>
-                  {label}
-                </Text>
-              ) : inputValue !== "" && isLoading ? (
-                <Text variant="paragraph1" sx={{ color: "monochrome800" }}>
-                  <Trans id="combobox.isloading">Resultate laden …</Trans>
-                </Text>
-              ) : inputValue !== "" && !isLoading && items.length === 0 ? (
-                <Text variant="paragraph1" sx={{ color: "monochrome800" }}>
-                  <Trans id="combobox.noitems">Keine Einträge</Trans>
-                </Text>
-              ) : (
-                <>
-                  {[
-                    ...group(
-                      // Create ad hoc index for items list
-                      items.map((item, i) => ({ listId: i, ...item })),
-                      (d) => d.__typename
-                    ),
-                  ].map(([entity, items], entityIndex) => {
-                    return (
-                      <Fragment key={entityIndex}>
-                        <Box
-                          sx={{
-                            color: "monochrome600",
-                            fontSize: 3,
-                            borderBottom: "1px solid",
-                            borderBottomColor: "monochrome300",
-                            px: 3,
-                            py: 2,
-                          }}
+            boxShadow: ["none", "none", "tooltip"],
+          }}
+        >
+          {isOpen && inputValue === "" ? (
+            <Text variant="paragraph1" sx={{ color: "monochrome800" }}>
+              {label}
+            </Text>
+          ) : inputValue !== "" && isLoading ? (
+            <Text variant="paragraph1" sx={{ color: "monochrome800" }}>
+              <Trans id="combobox.isloading">Resultate laden …</Trans>
+            </Text>
+          ) : inputValue !== "" && !isLoading && items.length === 0 ? (
+            <Text variant="paragraph1" sx={{ color: "monochrome800" }}>
+              <Trans id="combobox.noitems">Keine Einträge</Trans>
+            </Text>
+          ) : (
+            <>
+              {[
+                ...group(
+                  // Create ad hoc index for items list
+                  items.map((item, i) => ({ listId: i, ...item })),
+                  (d) => d.__typename
+                ),
+              ].map(([entity, items], entityIndex) => {
+                return (
+                  <Fragment key={entityIndex}>
+                    <Box
+                      sx={{
+                        color: "monochrome600",
+                        fontSize: 3,
+                        borderBottom: "1px solid",
+                        borderBottomColor: "monochrome300",
+                        px: 3,
+                        py: 2,
+                      }}
+                    >
+                      {getLocalizedLabel({ i18n, id: entity })}
+                    </Box>
+                    {items.map((item, index) => {
+                      const ent = getEntity(entity);
+                      return (
+                        <LocalizedLink
+                          key={`${item}${entity}${index}`}
+                          pathname={`/[locale]/${ent}/[id]`}
+                          query={{ ...query, id: item.id }}
+                          passHref
                         >
-                          {getLocalizedLabel({ i18n, id: entity })}
-                        </Box>
-                        {items.map((item, index) => {
-                          const ent = getEntity(entity);
-                          return (
-                            <Box
-                              key={`${item}${entity}${index}`}
-                              {...getItemProps({
-                                item: item,
-                                index: item.listId,
-                              })}
-                            >
-                              <LocalizedLink
-                                pathname={`/[locale]/${ent}/[id]`}
-                                query={{ ...query, id: item.id }}
-                                passHref
-                              >
-                                <TUILink
-                                  sx={{
-                                    display: "flex",
-                                    justifyContent: "space-between",
-                                    alignItems: "center",
-                                    backgroundColor:
-                                      highlightedIndex === item.listId
-                                        ? "mutedDarker"
-                                        : "inherit",
-                                    color: "monochrome800",
-                                    fontSize: [4],
-                                    lineHeight: 1.2,
-                                    textDecoration: "none",
-                                    px: 3,
-                                    py: 3,
-                                    "> svg": {
-                                      visibility: "hidden",
-                                    },
+                          <TUILink
+                            {...getItemProps({
+                              item: item,
+                              index: item.listId,
+                            })}
+                            sx={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                              alignItems: "center",
+                              backgroundColor:
+                                highlightedIndex === item.listId
+                                  ? "mutedDarker"
+                                  : "inherit",
+                              color: "monochrome800",
+                              fontSize: [4],
+                              lineHeight: 1.2,
+                              textDecoration: "none",
+                              px: 3,
+                              py: 3,
+                              "> svg": {
+                                visibility: "hidden",
+                              },
 
-                                    "&:hover > svg": {
-                                      visibility: "visible",
-                                    },
-                                  }}
-                                >
-                                  {getItemLabel(item.id)}
-                                  <Icon name="chevronright"></Icon>
-                                </TUILink>
-                              </LocalizedLink>
-                            </Box>
-                          );
-                        })}
-                      </Fragment>
-                    );
-                  })}
-                </>
-              )}
-            </Flex>
-          </>
-        )}
+                              "&:hover > svg": {
+                                visibility: "visible",
+                              },
+                            }}
+                          >
+                            {getItemLabel(item.id)}
+                            <Icon name="chevronright"></Icon>
+                          </TUILink>
+                        </LocalizedLink>
+                      );
+                    })}
+                  </Fragment>
+                );
+              })}
+            </>
+          )}
+        </Flex>
       </div>
     </Box>
   );
