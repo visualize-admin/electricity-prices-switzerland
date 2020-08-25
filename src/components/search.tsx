@@ -115,7 +115,7 @@ export const SearchField = ({
           break;
         case useCombobox.stateChangeTypes.InputChange:
           setInputValue(changes.inputValue);
-          setSearchString(inputValue);
+          setSearchString(changes.inputValue);
           break;
         // case useCombobox.stateChangeTypes.InputKeyDownEnter:
         // case useCombobox.stateChangeTypes.ItemClick:
