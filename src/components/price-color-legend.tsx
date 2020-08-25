@@ -28,17 +28,20 @@ export const PriceColorLegend = ({
         pointerEvents: "none",
       }}
     >
+      <Text sx={{ fontSize: 1, lineHeight: 1.5 }}>
+        <Trans id="map.legend.title">Tarifvergleich in Rp./kWh</Trans>
+      </Text>
       <Flex
         sx={{
           justifyContent: "space-between",
           color: "text",
           fontSize: 1,
+          lineHeight: 1.5,
           height: TOP_LABEL_HEIGHT,
         }}
       >
-        <Text sx={{ flex: "1 1 0px" }}>
-          {stats[0] && formatCurrency(stats[0])}{" "}
-          <Trans id="price.unit">Rp./kWh</Trans>
+        <Text sx={{ flex: "1 1 0px", display: "flex" }}>
+          {stats[0] && formatCurrency(stats[0])}
         </Text>
         <Text sx={{ flex: "1 1 0px", textAlign: "center" }}>
           {stats[1] && formatCurrency(stats[1])}
