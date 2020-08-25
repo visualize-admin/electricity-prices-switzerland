@@ -150,23 +150,27 @@ msgstr "Suite…"
 msgid "logo.swiss.confederation"
 msgstr "Logo de la confédération suisse"
 
-#: src/components/map.tsx:207
+#: src/components/map.tsx:211
 msgid "map.tooltipnodata"
 msgstr "Aucune donnée"
 
-#: src/components/price-color-legend.tsx:40
+#: src/components/price-color-legend.tsx:54
 msgid "price.legend.max"
 msgstr "max"
 
-#: src/components/price-color-legend.tsx:29
+#: src/components/price-color-legend.tsx:50
 msgid "price.legend.median"
 msgstr "médiane"
 
-#: src/components/price-color-legend.tsx:25
+#: src/components/price-color-legend.tsx:46
 msgid "price.legend.min"
 msgstr "min"
 
-#: src/pages/[locale]/index.tsx:96
+#: src/components/price-color-legend.tsx:30
+msgid "price.unit"
+msgstr "cent./kWh"
+
+#: src/pages/[locale]/index.tsx:95
 msgid "search.global"
 msgstr "Voir l'analyse détaillée des prix par cantons, communes et gestionnaires de réseau."
 
@@ -180,7 +184,7 @@ msgstr "Aller à…"
 
 #: src/components/search.tsx:35
 msgid "search.global.label"
-msgstr ""
+msgstr "Saisissez un nom de la commune, code postal, opérateur réseau, canton…"
 
 #: src/domain/translation.tsx:61
 msgid "search.result.canton"
@@ -327,6 +331,6 @@ msgid "selector.years"
 msgstr "Années"
 
 #: src/components/header.tsx:65
-#: src/pages/[locale]/index.tsx:84
+#: src/pages/[locale]/index.tsx:83
 msgid "site.title"
 msgstr "Prix de l'électricité de la Suisse"

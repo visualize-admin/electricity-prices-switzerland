@@ -150,23 +150,27 @@ msgstr ""
 msgid "logo.swiss.confederation"
 msgstr ""
 
-#: src/components/map.tsx:207
+#: src/components/map.tsx:211
 msgid "map.tooltipnodata"
 msgstr ""
 
-#: src/components/price-color-legend.tsx:40
+#: src/components/price-color-legend.tsx:54
 msgid "price.legend.max"
 msgstr "max"
 
-#: src/components/price-color-legend.tsx:29
+#: src/components/price-color-legend.tsx:50
 msgid "price.legend.median"
 msgstr "mediana"
 
-#: src/components/price-color-legend.tsx:25
+#: src/components/price-color-legend.tsx:46
 msgid "price.legend.min"
 msgstr "min"
 
-#: src/pages/[locale]/index.tsx:96
+#: src/components/price-color-legend.tsx:30
+msgid "price.unit"
+msgstr ""
+
+#: src/pages/[locale]/index.tsx:95
 msgid "search.global"
 msgstr ""
 
@@ -327,6 +331,6 @@ msgid "selector.years"
 msgstr ""
 
 #: src/components/header.tsx:65
-#: src/pages/[locale]/index.tsx:84
+#: src/pages/[locale]/index.tsx:83
 msgid "site.title"
 msgstr "Tariffe elettriche della Svizzera"
