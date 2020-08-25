@@ -40,24 +40,19 @@ msgstr ""
 msgid "detail.canton"
 msgstr ""
 
-#: src/components/detail-page/cantons-comparison-range.tsx:70
-#: src/components/detail-page/price-distribution-histogram.tsx:72
-msgid "detail.card.priceComponent"
-msgstr ""
-
-#: src/components/detail-page/cantons-comparison-range.tsx:38
+#: src/components/detail-page/cantons-comparison-range.tsx:37
 msgid "detail.card.title.cantons.comparison"
 msgstr ""
 
-#: src/components/detail-page/price-components-bars.tsx:53
+#: src/components/detail-page/price-components-bars.tsx:54
 msgid "detail.card.title.price.components"
 msgstr ""
 
-#: src/components/detail-page/price-distribution-histogram.tsx:40
+#: src/components/detail-page/price-distribution-histogram.tsx:39
 msgid "detail.card.title.prices.distribution"
 msgstr ""
 
-#: src/components/detail-page/price-evolution-line-chart.tsx:58
+#: src/components/detail-page/price-evolution-line-chart.tsx:57
 msgid "detail.card.title.prices.evolution"
 msgstr ""
 
@@ -113,8 +108,16 @@ msgstr ""
 msgid "histogram.min"
 msgstr ""
 
-#: src/components/detail-page/download-image.tsx:27
+#: src/components/detail-page/download-image.tsx:29
 msgid "image.download"
+msgstr ""
+
+#: src/components/detail-page/download-image.tsx:31
+msgid "image.download.source"
+msgstr ""
+
+#: src/components/detail-page/download-image.tsx:34
+msgid "image.download.unit"
 msgstr ""
 
 #: src/components/list.tsx:188
@@ -154,7 +157,7 @@ msgstr ""
 msgid "map.legend.title"
 msgstr ""
 
-#: src/components/map.tsx:211
+#: src/components/map.tsx:210
 msgid "map.tooltipnodata"
 msgstr ""
 
@@ -170,7 +173,7 @@ msgstr "mediana"
 msgid "price.legend.min"
 msgstr "min"
 
-#: src/pages/[locale]/index.tsx:95
+#: src/pages/[locale]/index.tsx:97
 msgid "search.global"
 msgstr ""
 
@@ -284,8 +287,8 @@ msgstr "selezionare i parametri"
 msgid "selector.priceComponent"
 msgstr "Componente del prezzo"
 
-#: src/components/detail-page/cantons-comparison-range.tsx:67
-#: src/components/detail-page/price-distribution-histogram.tsx:69
+#: src/components/detail-page/cantons-comparison-range.tsx:66
+#: src/components/detail-page/price-distribution-histogram.tsx:68
 msgid "selector.priceComponents"
 msgstr ""
 
@@ -331,6 +334,6 @@ msgid "selector.years"
 msgstr ""
 
 #: src/components/header.tsx:65
-#: src/pages/[locale]/index.tsx:83
+#: src/pages/[locale]/index.tsx:85
 msgid "site.title"
 msgstr "Tariffe elettriche della Svizzera"
