@@ -7,7 +7,8 @@ import { useChartState } from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
 
 export const ANNOTATION_DOT_RADIUS = 2.5;
-export const ANNOTATION_SQUARE_SIDE = 5;
+export const ANNOTATION_TRIANGLE_WIDTH = 5;
+export const ANNOTATION_TRIANGLE_HEIGHT = ANNOTATION_TRIANGLE_WIDTH * 1.5;
 export const ANNOTATION_LABEL_HEIGHT = 20;
 
 export interface Annotation {
@@ -44,10 +45,10 @@ export const AnnotationX = () => {
                   stroke={annotationLineColor}
                 />
                 <polygon
-                  points={`${a.x - ANNOTATION_SQUARE_SIDE},${a.yLabel} ${
-                    a.x + ANNOTATION_SQUARE_SIDE
+                  points={`${a.x - ANNOTATION_TRIANGLE_WIDTH},${a.yLabel} ${
+                    a.x + ANNOTATION_TRIANGLE_WIDTH
                   },${a.yLabel} ${a.x},${
-                    a.yLabel + ANNOTATION_SQUARE_SIDE * 1.5
+                    a.yLabel + ANNOTATION_TRIANGLE_HEIGHT
                   } `}
                   fill={annotationColor}
                 />
@@ -113,7 +114,7 @@ export const AnnotationXLabel = () => {
               top: a.yLabel,
               pointerEvents: "none",
               textAlign: a.onTheLeft ? "right" : "left",
-              transform: mkTranslation(a.onTheLeft, ANNOTATION_SQUARE_SIDE),
+              transform: mkTranslation(a.onTheLeft, ANNOTATION_TRIANGLE_WIDTH),
               fontFamily,
               fontSize: annotationfontSize,
               color: annotationColor,

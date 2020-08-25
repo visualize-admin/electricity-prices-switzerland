@@ -5,7 +5,11 @@ import * as React from "react";
 import { ReactNode, useCallback } from "react";
 import { HistogramFields } from "../../../domain/config-types";
 import { GenericObservation } from "../../../domain/data";
-import { mkNumber, useFormatCurrency } from "../../../domain/helpers";
+import {
+  mkNumber,
+  useFormatCurrency,
+  getAnnotationSpaces,
+} from "../../../domain/helpers";
 import { estimateTextWidth } from "../../../lib/estimate-text-width";
 import { Annotation } from "../annotation/annotation-x";
 import { LEFT_MARGIN_OFFSET } from "../constants";
@@ -97,27 +101,17 @@ const useHistogramState = ({
   };
 
   const chartWidth = width - margins.left - margins.right;
+
   // Added space for annotations above the chart
   const annotationSpaces = annotation
-    ? annotation.reduce(
-        (acc, datum, i) => {
-          // FIXME: Should be word based, not character based?
-          const oneFullLine =
-            estimateTextWidth(formatCurrency(getX(datum)), annotationfontSize) +
-            estimateTextWidth(getLabel(datum), annotationfontSize);
-          // On smaller screens, anotations may break on several lines
-          const nbOfLines = Math.ceil(oneFullLine / (chartWidth * 0.5));
-          acc.push(
-            acc[i] +
-              // annotation height
-              nbOfLines * ANNOTATION_LABEL_HEIGHT +
-              // padding + margin between annotations
-              40
-          );
-          return acc;
-        },
-        [0]
-      )
+    ? getAnnotationSpaces({
+        annotation,
+        getX,
+        getLabel,
+        format: formatCurrency,
+        chartWidth,
+        annotationfontSize,
+      })
     : [0];
 
   const annotationSpace = annotationSpaces.pop() || 0;

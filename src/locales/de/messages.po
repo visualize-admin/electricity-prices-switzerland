@@ -150,23 +150,27 @@ msgstr "Mehr anzeigen …"
 msgid "logo.swiss.confederation"
 msgstr "Logo of the Swiss Confederation"
 
-#: src/components/map.tsx:207
+#: src/components/price-color-legend.tsx:23
+msgid "map.legend.title"
+msgstr "Tarifvergleich in Rp./kWh"
+
+#: src/components/map.tsx:211
 msgid "map.tooltipnodata"
 msgstr "Keine Daten"
 
-#: src/components/price-color-legend.tsx:40
+#: src/components/price-color-legend.tsx:57
 msgid "price.legend.max"
 msgstr "max"
 
-#: src/components/price-color-legend.tsx:29
+#: src/components/price-color-legend.tsx:53
 msgid "price.legend.median"
 msgstr "median"
 
-#: src/components/price-color-legend.tsx:25
+#: src/components/price-color-legend.tsx:49
 msgid "price.legend.min"
 msgstr "min"
 
-#: src/pages/[locale]/index.tsx:96
+#: src/pages/[locale]/index.tsx:95
 msgid "search.global"
 msgstr "Detaillierte Preisanalysen von Kantonen, Gemeinden und Netzbetreibern."
 
@@ -327,6 +331,6 @@ msgid "selector.years"
 msgstr "Jahre"
 
 #: src/components/header.tsx:65
-#: src/pages/[locale]/index.tsx:84
+#: src/pages/[locale]/index.tsx:83
 msgid "site.title"
 msgstr "Strompreise Schweiz"

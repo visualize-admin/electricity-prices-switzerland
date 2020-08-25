@@ -1,3 +1,5 @@
+import { PriceColorLegend } from "./price-color-legend";
+import { extent, median } from "d3-array";
 import { MapController, WebMercatorViewport } from "@deck.gl/core";
 import { GeoJsonLayer } from "@deck.gl/layers";
 import DeckGL from "@deck.gl/react";
@@ -299,7 +301,8 @@ export const ChoroplethMap = ({
         observations: observationsByMunicipalityId.get(hovered.id),
       }
     : undefined;
-
+  const d = extent(observations, (d) => d.value);
+  const m = median(observations, (d) => d.value);
   return (
     <>
       {geoData.state === "fetching" || observationsQueryFetching ? (
@@ -356,6 +359,19 @@ export const ChoroplethMap = ({
 
         {geoData.state === "loaded" && (
           <WithClassName downloadId={DOWNLOAD_ID}>
+            <Box
+              sx={{
+                zIndex: 13,
+                position: "absolute",
+                top: 0,
+                left: 0,
+                mt: 3,
+                ml: 3,
+              }}
+            >
+              <PriceColorLegend stats={[d[0], m, d[1]]} />
+            </Box>
+
             <DeckGL
               controller={{ type: MapController }}
               viewState={viewState}
