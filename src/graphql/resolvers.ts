@@ -118,9 +118,14 @@ const Query: QueryResolvers = {
     // Should we type-check with io-ts here? Probably not necessary because the GraphQL API will also type-check against the schema.
     return observations as ResolvedObservation[];
   },
-  operators: async (_, { query, ids }, { source, observationsView: view }) => {
+  operators: async (
+    _,
+    { query, ids, locale },
+    { source, observationsView: view }
+  ) => {
     const results = await search({
       source,
+      locale,
       query: query ?? "",
       ids: ids ?? [],
       types: ["operator"],
@@ -130,11 +135,12 @@ const Query: QueryResolvers = {
   },
   municipalities: async (
     _,
-    { query, ids },
+    { query, ids, locale },
     { source, observationsView: view }
   ) => {
     const results = await search({
       source,
+      locale,
       query: query ?? "",
       ids: ids ?? [],
       types: ["municipality"],
@@ -142,9 +148,14 @@ const Query: QueryResolvers = {
 
     return results.map((r) => ({ ...r, source, view }));
   },
-  cantons: async (_, { query, ids }, { source, observationsView: view }) => {
+  cantons: async (
+    _,
+    { query, ids, locale },
+    { source, observationsView: view }
+  ) => {
     const results = await search({
       source,
+      locale,
       query: query ?? "",
       ids: ids ?? [],
       types: ["canton"],
@@ -152,9 +163,10 @@ const Query: QueryResolvers = {
 
     return results.map((r) => ({ ...r, source, view }));
   },
-  search: async (_, { query }, { source }) => {
+  search: async (_, { query, locale }, { source }) => {
     const results = await search({
       source,
+      locale,
       query: query ?? "",
       ids: [],
       types: ["municipality", "operator", "canton"],

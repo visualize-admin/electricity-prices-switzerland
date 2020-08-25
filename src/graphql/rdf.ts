@@ -355,29 +355,48 @@ export const search = async ({
   source,
   query,
   ids,
+  locale = defaultLocale,
   types = ["municipality", "operator"],
   limit = 10,
 }: {
   source: Source;
   query: string;
   ids: string[];
+  locale: string | null | undefined;
   types?: SearchType[];
   limit?: number;
 }) => {
   const sparql = `
+  PREFIX schema: <http://schema.org/>
+  PREFIX lac: <https://schema.ld.admin.ch/>
   SELECT ?type ?iri ?name {
     {
       SELECT ("municipality" AS ?type) (?municipality AS ?iri) (?municipalityLabel AS ?name) WHERE {
         GRAPH <https://lindas.admin.ch/fso/agvch> {
-          ?municipality a <https://schema.ld.admin.ch/Municipality> .
-          ?municipality <http://schema.org/name> ?municipalityLabel.    
+          {
+            ?municipality a <https://schema.ld.admin.ch/Municipality> .
+          } UNION {
+            ?municipality a <https://schema.ld.admin.ch/AbolishedMunicipality> .
+          }
+          ?municipality <http://schema.org/name> ?municipalityLabel.
         }
         FILTER (regex(?municipalityLabel, ".*${
           query || "-------"
         }.*", "i") || ?municipality IN (${ids
     .map((id) => `<${addNamespaceToID({ dimension: "municipality", id })}>`)
     .join(",")}))
-      }
+      } ORDER BY ?municipalityLabel LIMIT ${limit + ids.length}
+    } UNION {
+      SELECT DISTINCT ("municipality" AS ?type) (?municipality AS ?iri) (?municipalityLabel AS ?name)
+        WHERE { GRAPH <https://lindas.admin.ch/elcom/electricityprice> {
+          ?offer a schema:Offer ;
+            schema:areaServed ?municipality;
+            schema:postalCode "${query}" .
+          }
+          { GRAPH <https://lindas.admin.ch/fso/agvch> {
+            ?municipality schema:name ?municipalityLabel .
+          }}
+      } ORDER BY ?municipalityLabel LIMIT ${limit + ids.length}
     } UNION {
       SELECT ("operator" AS ?type) (?operator AS ?iri) (?operatorLabel AS ?name) WHERE {
         GRAPH <https://lindas.admin.ch/elcom/electricityprice> {
@@ -389,23 +408,22 @@ export const search = async ({
         }.*", "i") || ?operator IN (${ids
     .map((id) => `<${addNamespaceToID({ dimension: "operator", id })}>`)
     .join(",")}))
-      }
+      } ORDER BY ?operatorLabel LIMIT ${limit + ids.length}
     } UNION {
       SELECT ("canton" AS ?type) (?canton AS ?iri) (?cantonLabel AS ?name) WHERE {
         GRAPH <https://lindas.admin.ch/fso/agvch> {
           ?canton a <https://schema.ld.admin.ch/Canton> .
           ?canton <http://schema.org/name> ?cantonLabel .    
         }
-        FILTER (LANGMATCHES(LANG(?cantonLabel), "de") && (regex(?cantonLabel, ".*${
-          query || "-------"
-        }.*", "i") || ?canton IN (${ids
+        FILTER (LANGMATCHES(LANG(?cantonLabel), "${locale}") && (regex(?cantonLabel, ".*${
+    query || "-------"
+  }.*", "i") || ?canton IN (${ids
     .map((id) => `<${addNamespaceToID({ dimension: "canton", id })}>`)
     .join(",")})))
-      }
+      } ORDER BY ?cantonLabel LIMIT ${limit + ids.length}
     }
     FILTER (?type IN (${types.map((t) => JSON.stringify(t)).join(",")}))
   }
-  LIMIT ${limit + ids.length}
   `;
 
   // and also provides a SPARQL client

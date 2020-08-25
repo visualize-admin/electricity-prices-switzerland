@@ -108,6 +108,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
             const headers: Record<string, string> = {
               "Content-Type": "image/png",
+              "Cache-Control":
+                "public, max-age=300, s-maxage=300, stale-while-revalidate",
             };
             if (query.filename) {
               headers[

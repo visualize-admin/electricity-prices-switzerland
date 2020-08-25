@@ -3734,12 +3734,12 @@
 
 "@zazuko/rdf-cube-view-query@https://github.com/zazuko/rdf-cube-view-query.git":
   version "0.0.0"
-  resolved "https://github.com/zazuko/rdf-cube-view-query.git#35f45b01dffb099e495a46898a9f071eb96fe6bf"
+  resolved "https://github.com/zazuko/rdf-cube-view-query.git#f4e0bc9735ab9d559485188af3b192252a2ec470"
   dependencies:
     "@rdfjs/namespace" "^1.1.0"
     "@rdfjs/term-map" "^1.0.0"
     "@rdfjs/term-set" "^1.0.1"
-    clownface "^0.12.4"
+    clownface "^1.0.0"
     commander "^5.1.0"
     rdf-ext "^1.3.0"
     rdf-sparql-builder "^0.1.3"
@@ -5212,10 +5212,10 @@ clone@^1.0.2:
   resolved "https://registry.yarnpkg.com/clone/-/clone-1.0.4.tgz#da309cc263df15994c688ca902179ca3c7cd7c7e"
   integrity sha1-2jCcwmPfFZlMaIypAheco8fNfH4=
 
-clownface@^0.12.4:
-  version "0.12.4"
-  resolved "https://registry.yarnpkg.com/clownface/-/clownface-0.12.4.tgz#32b835453a0b86ab74a78a3bd4622da79d7e8265"
-  integrity sha512-Y2SSy8pME3gg79sDoIj1AYUlrQNoq19DfEfiu7S4wv3R6P+wlXXhDmq7I78SOnYglwJudqhh7FgLbMMx//+ryw==
+clownface@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/clownface/-/clownface-1.0.0.tgz#77c8937241f02c08a49ac0370cb8628cde324e91"
+  integrity sha512-8gAAqdD5ueYt62FHE9Zd4OTrcYEfiyQlxV/5NYxzKY5uO/HZbTv1+jhFHgYa3XD7BC+mkg+LFR9Mh168wj9aQQ==
   dependencies:
     "@rdfjs/data-model" "^1.1.0"
     "@rdfjs/namespace" "^1.0.0"

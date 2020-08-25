@@ -40,6 +40,8 @@ const INITIAL_VIEW_STATE = {
   bearing: 0,
 };
 
+const LINE_COLOR = [100, 100, 100, 127] as const;
+
 type BBox = [[number, number], [number, number]];
 
 const CH_BBOX: BBox = [
@@ -187,7 +189,7 @@ type GeoDataState =
       state: "loaded";
       municipalities: GeoJSON.FeatureCollection | GeoJSON.Feature;
       municipalityMesh: GeoJSON.MultiLineString;
-      cantons: GeoJSON.FeatureCollection | GeoJSON.Feature;
+      cantonMesh: GeoJSON.MultiLineString;
       lakes: GeoJSON.FeatureCollection | GeoJSON.Feature;
     };
 
@@ -247,13 +249,17 @@ export const ChoroplethMap = ({
           topo.objects.municipalities,
           (a, b) => a !== b
         );
-        const cantons = topojsonFeature(topo, topo.objects.cantons);
+        const cantonMesh = topojsonMesh(
+          topo,
+          topo.objects.cantons
+          // (a, b) => a !== b
+        );
         const lakes = topojsonFeature(topo, topo.objects.lakes);
         setGeoData({
           state: "loaded",
           municipalities,
           municipalityMesh,
-          cantons,
+          cantonMesh,
           lakes,
         });
       } catch (e) {
@@ -379,8 +385,6 @@ export const ChoroplethMap = ({
                 stroked={false}
                 filled={true}
                 extruded={false}
-                lineWidthScale={20}
-                lineWidthMinPixels={0.5}
                 autoHighlight={true}
                 getFillColor={(d: $FixMe) => {
                   const obs = observationsByMunicipalityId.get(d.id.toString());
@@ -389,7 +393,6 @@ export const ChoroplethMap = ({
                     : [0, 0, 0, 20];
                 }}
                 highlightColor={[0, 0, 0, 50]}
-                getLineColor={[255, 255, 255, 50]}
                 getRadius={100}
                 getLineWidth={1}
                 onHover={({ x, y, object }: $FixMe) => {
@@ -401,8 +404,11 @@ export const ChoroplethMap = ({
                 }}
                 onClick={({ layer, object }: $FixMe) => {
                   const { href, as } = createDynamicRouteProps({
-                    pathname: `/[locale]/municipality/${object?.id.toString()}`,
-                    query,
+                    pathname: `/[locale]/municipality/[id]`,
+                    query: {
+                      ...query,
+                      id: object?.id.toString(),
+                    },
                   });
                   push(href, as);
                   // if (object) {
@@ -432,22 +438,11 @@ export const ChoroplethMap = ({
                 stroked={true}
                 filled={false}
                 extruded={false}
-                lineWidthMinPixels={0.6}
+                lineWidthMinPixels={0.5}
                 lineWidthMaxPixels={1}
+                getLineWidth={100}
                 lineMiterLimit={1}
-                getLineColor={[255, 255, 255, 100]}
-              />
-              <GeoJsonLayer
-                id="cantons"
-                data={geoData.cantons}
-                pickable={false}
-                stroked={true}
-                filled={false}
-                extruded={false}
-                lineWidthMinPixels={1.2}
-                lineWidthMaxPixels={1.2}
-                lineMiterLimit={1}
-                getLineColor={[255, 255, 255]}
+                getLineColor={LINE_COLOR}
               />
               <GeoJsonLayer
                 id="lakes"
@@ -457,9 +452,23 @@ export const ChoroplethMap = ({
                 filled={true}
                 extruded={false}
                 lineWidthMinPixels={0.5}
-                getLineWidth={0.5}
+                lineWidthMaxPixels={1}
+                getLineWidth={100}
                 getFillColor={[102, 175, 233]}
-                getLineColor={[255, 255, 255, 100]}
+                getLineColor={LINE_COLOR}
+              />
+              <GeoJsonLayer
+                id="cantons"
+                data={geoData.cantonMesh}
+                pickable={false}
+                stroked={true}
+                filled={false}
+                extruded={false}
+                lineWidthMinPixels={1.2}
+                lineWidthMaxPixels={3.6}
+                getLineWidth={200}
+                lineMiterLimit={1}
+                getLineColor={[120, 120, 120]}
               />
             </DeckGL>
           </WithClassName>
