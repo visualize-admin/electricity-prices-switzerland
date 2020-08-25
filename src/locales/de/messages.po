@@ -150,25 +150,25 @@ msgstr "Mehr anzeigen …"
 msgid "logo.swiss.confederation"
 msgstr "Logo of the Swiss Confederation"
 
+#: src/components/price-color-legend.tsx:23
+msgid "map.legend.title"
+msgstr "Tarifvergleich in Rp./kWh"
+
 #: src/components/map.tsx:211
 msgid "map.tooltipnodata"
 msgstr "Keine Daten"
 
-#: src/components/price-color-legend.tsx:54
+#: src/components/price-color-legend.tsx:57
 msgid "price.legend.max"
 msgstr "max"
 
-#: src/components/price-color-legend.tsx:50
+#: src/components/price-color-legend.tsx:53
 msgid "price.legend.median"
 msgstr "median"
 
-#: src/components/price-color-legend.tsx:46
+#: src/components/price-color-legend.tsx:49
 msgid "price.legend.min"
 msgstr "min"
-
-#: src/components/price-color-legend.tsx:30
-msgid "price.unit"
-msgstr "Rp./kWh"
 
 #: src/pages/[locale]/index.tsx:95
 msgid "search.global"

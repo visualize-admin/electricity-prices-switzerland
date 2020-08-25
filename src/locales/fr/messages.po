@@ -150,25 +150,25 @@ msgstr "Suite…"
 msgid "logo.swiss.confederation"
 msgstr "Logo de la confédération suisse"
 
+#: src/components/price-color-legend.tsx:23
+msgid "map.legend.title"
+msgstr "Comparaison tarifaire en cent./kWh"
+
 #: src/components/map.tsx:211
 msgid "map.tooltipnodata"
 msgstr "Aucune donnée"
 
-#: src/components/price-color-legend.tsx:54
+#: src/components/price-color-legend.tsx:57
 msgid "price.legend.max"
 msgstr "max"
 
-#: src/components/price-color-legend.tsx:50
+#: src/components/price-color-legend.tsx:53
 msgid "price.legend.median"
 msgstr "médiane"
 
-#: src/components/price-color-legend.tsx:46
+#: src/components/price-color-legend.tsx:49
 msgid "price.legend.min"
 msgstr "min"
-
-#: src/components/price-color-legend.tsx:30
-msgid "price.unit"
-msgstr "cent./kWh"
 
 #: src/pages/[locale]/index.tsx:95
 msgid "search.global"
