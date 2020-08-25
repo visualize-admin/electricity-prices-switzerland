@@ -388,8 +388,11 @@ export const ChoroplethMap = ({
                 }}
                 onClick={({ layer, object }: $FixMe) => {
                   const { href, as } = createDynamicRouteProps({
-                    pathname: `/[locale]/municipality/${object?.id.toString()}`,
-                    query,
+                    pathname: `/[locale]/municipality/[id]`,
+                    query: {
+                      ...query,
+                      id: object?.id.toString(),
+                    },
                   });
                   push(href, as);
                   // if (object) {
@@ -419,7 +422,7 @@ export const ChoroplethMap = ({
                 stroked={true}
                 filled={false}
                 extruded={false}
-                lineWidthMinPixels={0.3}
+                lineWidthMinPixels={0.5}
                 lineWidthMaxPixels={1}
                 getLineWidth={100}
                 lineMiterLimit={1}
