@@ -4,7 +4,8 @@ import { useLocale } from "../../lib/use-locale";
 import { Entity } from "../../domain/data";
 import { useQueryState } from "../../lib/use-query-state";
 
-import { Link as TUILink, Box } from "@theme-ui/components";
+import { Link as TUILink, Box, Text } from "@theme-ui/components";
+import { useRouter } from "next/router";
 
 export type Download =
   | "map"
@@ -40,7 +41,7 @@ export const DownloadImage = ({
       canton,
     },
   ] = useQueryState();
-
+  const { query } = useRouter();
   const [origin, setOrigin] = React.useState<undefined | string>(undefined);
 
   React.useEffect(() => {
@@ -73,14 +74,23 @@ export const DownloadImage = ({
 
   return (
     <Box sx={{ mt: 4 }}>
-      <TUILink
-        variant="inline"
-        href={downLoadUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <Trans id="image.download">Bild herunterladen</Trans>
-      </TUILink>
+      {!query.download ? (
+        <TUILink
+          variant="inline"
+          href={downLoadUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Trans id="image.download">Bild herunterladen</Trans>
+        </TUILink>
+      ) : (
+        <Text variant="meta" sx={{ mt: 4 }}>
+          <Trans id="image.download.source">
+            Eidgenössische Elektrizitätskommission ElCom
+          </Trans>{" "}
+          - <Trans id="image.download.unit">Tarifvergleich in Rp./kWh</Trans>
+        </Text>
+      )}
     </Box>
   );
 };
