@@ -72,7 +72,7 @@ export const CantonsComparisonRangePlots = ({
       id={id}
       entity={entity}
     >
-      {!query.download ? (
+      {!query.download && (
         <>
           <Box sx={{ display: ["none", "none", "block"] }}>
             <RadioTabs
@@ -118,11 +118,6 @@ export const CantonsComparisonRangePlots = ({
             />
           </Box>
         </>
-      ) : (
-        <Text>
-          <Trans id="detail.card.priceComponent">Preis Komponent:</Trans>{" "}
-          {getLocalizedLabel({ i18n, id: priceComponent[0] })}
-        </Text>
       )}
 
       {period.map((p) => (
