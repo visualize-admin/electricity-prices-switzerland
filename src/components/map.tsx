@@ -204,7 +204,6 @@ export const ChoroplethMap = ({
   observationsQueryFetching: boolean;
   colorScale: ScaleThreshold<number, string> | undefined | 0;
 }) => {
-  const [dataIsLoading, updateDataLoadingState] = useState(true);
   const { push, query } = useRouter();
   const [geoData, setGeoData] = useState<GeoDataState>({ state: "fetching" });
   const [hovered, setHovered] = useState<{
