@@ -25,22 +25,8 @@ export const PriceColorLegend = ({
         height: "fit-content",
         px: 4,
         py: 2,
-        position: "relative",
       }}
     >
-      <Box
-        sx={{
-          position: "absolute",
-          left: LEGEND_WIDTH / 2,
-          top: TOP_LABEL_HEIGHT * 2,
-          width: 0,
-          borderLeft: "1px dashed",
-          borderLeftColor: "text",
-          height: TOP_LABEL_HEIGHT + COLOR_HEIGHT,
-          overflowY: "visible",
-          zIndex: 14,
-        }}
-      ></Box>
       <Flex
         sx={{
           justifyContent: "space-between",
@@ -73,6 +59,7 @@ export const PriceColorLegend = ({
           <Trans id="price.legend.max">max</Trans>
         </Text>
       </Flex>
+
       <ColorsLine />
     </Box>
   );
@@ -81,11 +68,20 @@ export const PriceColorLegend = ({
 export const ColorsLine = () => {
   const { palettes } = useTheme();
   return (
-    <Flex
-      sx={{
-        height: COLOR_HEIGHT + BOTTOM_LABEL_HEIGHT,
-      }}
-    >
+    <Flex sx={{ height: COLOR_HEIGHT + BOTTOM_LABEL_HEIGHT }}>
+      <Box
+        sx={{
+          position: "absolute",
+          left: LEGEND_WIDTH / 2,
+          width: 0,
+          borderLeft: "1px dashed",
+          borderLeftColor: "text",
+          height: COLOR_HEIGHT * 1.5,
+          overflowY: "visible",
+          zIndex: 14,
+          transform: "translateY(-15%)",
+        }}
+      ></Box>
       <Box
         sx={{
           width: 0,
