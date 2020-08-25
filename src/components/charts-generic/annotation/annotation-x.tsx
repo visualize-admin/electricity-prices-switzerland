@@ -105,18 +105,16 @@ export const AnnotationXLabel = () => {
           <Box
             key={`${a.label}-${i}`}
             sx={{
-              maxWidth: width,
-              width: width,
+              maxWidth: width * 0.5,
+              width: "fit-content",
               p: 1,
               zIndex: 2,
               position: "absolute",
-              left: 0,
-              // a.xLabel! +
-              // margins.left,
+              left: a.xLabel! + margins.left,
               top: a.yLabel,
               pointerEvents: "none",
               textAlign: a.onTheLeft ? "right" : "left",
-              transform: `translate3d(${ANNOTATION_TRIANGLE_WIDTH}px, -40%, 0)`, //mkTranslation(a.onTheLeft, ANNOTATION_SQUARE_SIDE),
+              transform: mkTranslation(a.onTheLeft, ANNOTATION_TRIANGLE_WIDTH),
               fontFamily,
               fontSize: annotationfontSize,
               color: annotationColor,
