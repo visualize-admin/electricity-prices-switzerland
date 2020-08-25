@@ -34,9 +34,8 @@ const HEADER_HEIGHT_S = "107px";
 const HEADER_HEIGHT_M_UP = "96px";
 
 const IndexPage = () => {
-  const [
-    { period, priceComponent, category, product, download },
-  ] = useQueryStateSingle();
+  const [{ period, priceComponent, category, product }] = useQueryStateSingle();
+  const { query } = useRouter();
 
   const [observationsQuery] = useObservationsQuery({
     variables: {
@@ -159,7 +158,7 @@ const IndexPage = () => {
                 colorScale={colorScale}
               />
 
-              {!download && (
+              {!query.download && (
                 <Box
                   sx={{
                     zIndex: 13,
