@@ -95,6 +95,7 @@ export const PriceEvolution = ({
       <FilterSetDescription
         filters={{
           category: category[0],
+          product: product[0],
         }}
       />
       {observationsQuery.fetching ? (

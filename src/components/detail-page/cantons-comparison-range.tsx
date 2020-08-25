@@ -194,6 +194,7 @@ export const CantonsComparisonRangePlot = memo(
           filters={{
             period: year,
             category: category[0],
+            product: product[0],
             priceComponent: getLocalizedLabel({ i18n, id: priceComponent }),
           }}
         />
