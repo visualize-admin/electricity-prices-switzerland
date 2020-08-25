@@ -26,7 +26,7 @@ import { Loading, NoDataHint } from "../hint";
 import { useI18n } from "../i18n-context";
 import { RadioTabs } from "../radio-tabs";
 import { Card } from "./card";
-import { Download, DownloadImage } from "./download-image";
+import { Download } from "./download-image";
 import { FilterSetDescription } from "./filter-set-description";
 import { WithClassName } from "./with-classname";
 
@@ -68,9 +68,11 @@ export const CantonsComparisonRangePlots = ({
           Kantonsvergleich
         </Trans>
       }
-      id={DOWNLOAD_ID}
+      downloadId={DOWNLOAD_ID}
+      id={id}
+      entity={entity}
     >
-      {!query.download ? (
+      {!query.download && (
         <>
           <Box sx={{ display: ["none", "none", "block"] }}>
             <RadioTabs
@@ -116,11 +118,6 @@ export const CantonsComparisonRangePlots = ({
             />
           </Box>
         </>
-      ) : (
-        <Text>
-          <Trans id="detail.card.priceComponent">Preis Komponent:</Trans>{" "}
-          {getLocalizedLabel({ i18n, id: priceComponent[0] })}
-        </Text>
       )}
 
       {period.map((p) => (
@@ -132,13 +129,6 @@ export const CantonsComparisonRangePlots = ({
           entity={entity}
         />
       ))}
-      <DownloadImage
-        elementId={DOWNLOAD_ID}
-        fileName={DOWNLOAD_ID}
-        entity={entity}
-        id={id}
-        download={DOWNLOAD_ID}
-      />
     </Card>
   );
 };
@@ -194,6 +184,7 @@ export const CantonsComparisonRangePlot = memo(
           filters={{
             period: year,
             category: category[0],
+            product: product[0],
             priceComponent: getLocalizedLabel({ i18n, id: priceComponent }),
           }}
         />

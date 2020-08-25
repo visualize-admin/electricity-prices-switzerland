@@ -19,6 +19,7 @@ import { Card } from "./card";
 import { FilterSetDescription } from "./filter-set-description";
 import { DownloadImage, Download } from "./download-image";
 import { WithClassName } from "./with-classname";
+import { useRouter } from "next/router";
 
 const DOWNLOAD_ID: Download = "components";
 
@@ -32,6 +33,7 @@ export const PriceComponentsBarChart = ({
   const [
     { period, category, municipality, operator, canton, product },
   ] = useQueryState();
+  const { query } = useRouter();
 
   const comparisonIds =
     entity === "municipality"
@@ -80,11 +82,14 @@ export const PriceComponentsBarChart = ({
       title={
         <Trans id="detail.card.title.price.components">Preiskomponenten</Trans>
       }
-      id={DOWNLOAD_ID}
+      downloadId={DOWNLOAD_ID}
+      id={id}
+      entity={entity}
     >
       <FilterSetDescription
         filters={{
           category: category[0],
+          product: product[0],
         }}
       />
       {observationsQuery.fetching ? (
@@ -133,13 +138,6 @@ export const PriceComponentsBarChart = ({
           </GroupedBarsChart>
         </WithClassName>
       )}
-      <DownloadImage
-        elementId={DOWNLOAD_ID}
-        fileName={DOWNLOAD_ID}
-        entity={entity}
-        id={id}
-        download={DOWNLOAD_ID}
-      />
     </Card>
   );
 };

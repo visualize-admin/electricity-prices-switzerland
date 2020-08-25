@@ -4,6 +4,7 @@ import * as React from "react";
 import { memo } from "react";
 import { Entity, GenericObservation, priceComponents } from "../../domain/data";
 import { getLocalizedLabel } from "../../domain/translation";
+import { EMPTY_ARRAY } from "../../lib/empty-array";
 import { useQueryState } from "../../lib/use-query-state";
 import { AxisHeightLinear } from "../charts-generic/axis/axis-height-linear";
 import { AxisTime } from "../charts-generic/axis/axis-width-time";
@@ -14,7 +15,7 @@ import { LegendColor } from "../charts-generic/legends/color";
 import { Lines } from "../charts-generic/lines/lines";
 import { LineChart } from "../charts-generic/lines/lines-state";
 import { InteractionHorizontal } from "../charts-generic/overlay/interaction-horizontal";
-import { NoDataHint, Loading } from "../hint";
+import { Loading, NoDataHint } from "../hint";
 import { useI18n } from "../i18n-context";
 import {
   ChartContainer,
@@ -26,10 +27,9 @@ import {
   PriceComponent,
   useObservationsWithAllPriceComponentsQuery,
 } from "./../../graphql/queries";
-import { Download, DownloadImage } from "./download-image";
+import { Download } from "./download-image";
 import { FilterSetDescription } from "./filter-set-description";
 import { WithClassName } from "./with-classname";
-import { EMPTY_ARRAY } from "../../lib/empty-array";
 
 const DOWNLOAD_ID: Download = "evolution";
 
@@ -90,11 +90,14 @@ export const PriceEvolution = ({
       title={
         <Trans id="detail.card.title.prices.evolution">Tarifentwicklung</Trans>
       }
-      id={DOWNLOAD_ID}
+      downloadId={DOWNLOAD_ID}
+      id={id}
+      entity={entity}
     >
       <FilterSetDescription
         filters={{
           category: category[0],
+          product: product[0],
         }}
       />
       {observationsQuery.fetching ? (
@@ -115,13 +118,6 @@ export const PriceEvolution = ({
           ))}
         </div>
       )}
-      <DownloadImage
-        elementId={DOWNLOAD_ID}
-        fileName={DOWNLOAD_ID}
-        entity={entity}
-        id={id}
-        download={DOWNLOAD_ID}
-      />
     </Card>
   );
 };
