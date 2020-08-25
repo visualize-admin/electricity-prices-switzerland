@@ -1,21 +1,27 @@
 import { Box, Text } from "@theme-ui/components";
 import * as React from "react";
 import { ReactNode } from "react";
-import { Download } from "./download-image";
+import { Entity } from "../../domain/data";
+import { Download, DownloadImage } from "./download-image";
 
 export const Card = ({
   title,
+  downloadId,
   id,
+  entity,
   children,
 }: {
   title: string | ReactNode;
-  id?: Download;
+  downloadId: Download;
+  id: string;
+  entity: Entity;
+
   children: ReactNode;
 }) => {
   return (
     <Box
       // This id is used by the screenshot function
-      id={id}
+      id={downloadId}
       sx={{
         bg: "monochrome100",
         p: 5,
@@ -34,6 +40,13 @@ export const Card = ({
         {title}
       </Text>
       {children}
+      <DownloadImage
+        elementId={downloadId}
+        fileName={downloadId}
+        entity={entity}
+        id={id}
+        download={downloadId}
+      />
     </Box>
   );
 };
