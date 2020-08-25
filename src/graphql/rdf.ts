@@ -355,12 +355,14 @@ export const search = async ({
   source,
   query,
   ids,
+  locale = defaultLocale,
   types = ["municipality", "operator"],
   limit = 10,
 }: {
   source: Source;
   query: string;
   ids: string[];
+  locale: string | null | undefined;
   types?: SearchType[];
   limit?: number;
 }) => {
@@ -400,9 +402,9 @@ export const search = async ({
           ?canton a <https://schema.ld.admin.ch/Canton> .
           ?canton <http://schema.org/name> ?cantonLabel .    
         }
-        FILTER (LANGMATCHES(LANG(?cantonLabel), "de") && (regex(?cantonLabel, ".*${
-          query || "-------"
-        }.*", "i") || ?canton IN (${ids
+        FILTER (LANGMATCHES(LANG(?cantonLabel), "${locale}") && (regex(?cantonLabel, ".*${
+    query || "-------"
+  }.*", "i") || ?canton IN (${ids
     .map((id) => `<${addNamespaceToID({ dimension: "canton", id })}>`)
     .join(",")})))
       } ORDER BY ?cantonLabel LIMIT ${limit + ids.length}

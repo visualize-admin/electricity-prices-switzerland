@@ -20,11 +20,12 @@ export const getServerSideProps: GetServerSideProps<
   Props,
   { locale: string; id: string }
 > = async ({ params, res }) => {
-  const { id } = params!;
+  const { id, locale } = params!;
 
   const canton = (
     await search({
       source: getSource(),
+      locale,
       query: "",
       types: ["canton"],
       ids: [id],
