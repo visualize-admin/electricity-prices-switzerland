@@ -82,7 +82,9 @@ export const PriceComponentsBarChart = ({
       title={
         <Trans id="detail.card.title.price.components">Preiskomponenten</Trans>
       }
-      id={DOWNLOAD_ID}
+      downloadId={DOWNLOAD_ID}
+      id={id}
+      entity={entity}
     >
       <FilterSetDescription
         filters={{
@@ -136,13 +138,6 @@ export const PriceComponentsBarChart = ({
           </GroupedBarsChart>
         </WithClassName>
       )}
-      {/* {!query.download ?<DownloadImage
-        elementId={DOWNLOAD_ID}
-        fileName={DOWNLOAD_ID}
-        entity={entity}
-        id={id}
-        download={DOWNLOAD_ID}
-      />: } */}
     </Card>
   );
 };

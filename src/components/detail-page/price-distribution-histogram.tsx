@@ -30,7 +30,7 @@ import {
   PriceComponent,
   useObservationsQuery,
 } from "./../../graphql/queries";
-import { Download, DownloadImage } from "./download-image";
+import { Download } from "./download-image";
 import { FilterSetDescription } from "./filter-set-description";
 import { WithClassName } from "./with-classname";
 
@@ -72,7 +72,9 @@ export const PriceDistributionHistograms = ({
           Preisverteilung in der Schweiz
         </Trans>
       }
-      id={DOWNLOAD_ID}
+      downloadId={DOWNLOAD_ID}
+      id={id}
+      entity={entity}
     >
       {!query.download ? (
         <>
@@ -135,13 +137,6 @@ export const PriceDistributionHistograms = ({
           entity={entity}
         />
       ))}
-      <DownloadImage
-        elementId={DOWNLOAD_ID}
-        fileName={DOWNLOAD_ID}
-        entity={entity}
-        id={id}
-        download={DOWNLOAD_ID}
-      />
     </Card>
   );
 };

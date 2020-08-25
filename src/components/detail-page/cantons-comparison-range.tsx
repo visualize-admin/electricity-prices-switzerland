@@ -26,7 +26,7 @@ import { Loading, NoDataHint } from "../hint";
 import { useI18n } from "../i18n-context";
 import { RadioTabs } from "../radio-tabs";
 import { Card } from "./card";
-import { Download, DownloadImage } from "./download-image";
+import { Download } from "./download-image";
 import { FilterSetDescription } from "./filter-set-description";
 import { WithClassName } from "./with-classname";
 
@@ -68,7 +68,9 @@ export const CantonsComparisonRangePlots = ({
           Kantonsvergleich
         </Trans>
       }
-      id={DOWNLOAD_ID}
+      downloadId={DOWNLOAD_ID}
+      id={id}
+      entity={entity}
     >
       {!query.download ? (
         <>
@@ -132,13 +134,6 @@ export const CantonsComparisonRangePlots = ({
           entity={entity}
         />
       ))}
-      <DownloadImage
-        elementId={DOWNLOAD_ID}
-        fileName={DOWNLOAD_ID}
-        entity={entity}
-        id={id}
-        download={DOWNLOAD_ID}
-      />
     </Card>
   );
 };
