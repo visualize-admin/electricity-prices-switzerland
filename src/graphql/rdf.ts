@@ -367,6 +367,8 @@ export const search = async ({
   limit?: number;
 }) => {
   const sparql = `
+  PREFIX schema: <http://schema.org/>
+  PREFIX lac: <https://schema.ld.admin.ch/>
   SELECT ?type ?iri ?name {
     {
       SELECT ("municipality" AS ?type) (?municipality AS ?iri) (?municipalityLabel AS ?name) WHERE {
@@ -383,6 +385,17 @@ export const search = async ({
         }.*", "i") || ?municipality IN (${ids
     .map((id) => `<${addNamespaceToID({ dimension: "municipality", id })}>`)
     .join(",")}))
+      } ORDER BY ?municipalityLabel LIMIT ${limit + ids.length}
+    } UNION {
+      SELECT DISTINCT ("municipality" AS ?type) (?municipality AS ?iri) (?municipalityLabel AS ?name)
+        WHERE { GRAPH <https://lindas.admin.ch/elcom/electricityprice> {
+          ?offer a schema:Offer ;
+            schema:areaServed ?municipality;
+            schema:postalCode "${query}" .
+          }
+          { GRAPH <https://lindas.admin.ch/fso/agvch> {
+            ?municipality schema:name ?municipalityLabel .
+          }}
       } ORDER BY ?municipalityLabel LIMIT ${limit + ids.length}
     } UNION {
       SELECT ("operator" AS ?type) (?operator AS ?iri) (?operatorLabel AS ?name) WHERE {
