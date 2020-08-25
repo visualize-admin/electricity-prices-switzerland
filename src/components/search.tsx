@@ -47,9 +47,8 @@ export const Search = () => {
         getItemLabel={(id) => itemById.get(id)?.name ?? `[${id}]`}
         setSearchString={setSearchString}
         label={
-          <Trans id="search.global">
-            Siehe die detaillierte Preisanalyse von Kantone, Gemeinde,
-            Netzbetreiber.
+          <Trans id="search.global.label">
+            Suche nach Gemeindename, PLZ, Netzbetreiber, Kanton
           </Trans>
         }
         isLoading={gqlQuery.fetching && searchString.length > 0}
@@ -207,7 +206,7 @@ export const SearchField = ({
             }}
           >
             <Trans id="search.global.hint.canton.muni.operator">
-              Gemeinde, Netzbetreiber, Kanton
+              Gemeindename, PLZ, Netzbetreiber, Kanton
             </Trans>
           </Text>
         </Flex>

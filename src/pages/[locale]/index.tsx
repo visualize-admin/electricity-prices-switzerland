@@ -121,8 +121,8 @@ const IndexPage = () => {
               }}
             >
               <Trans id="search.global">
-                Siehe die detaillierte Preisanalyse von Kantone, Gemeinde,
-                Netzbetreiber.
+                Detaillierte Preisanalysen von Kantonen, Gemeinden und
+                Netzbetreibern.
               </Trans>
             </Text>
 
