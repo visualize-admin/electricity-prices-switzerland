@@ -4,7 +4,7 @@ import * as React from "react";
 import { useTheme } from "../themes";
 import { useFormatCurrency } from "../domain/helpers";
 
-const LEGEND_WIDTH = 176;
+const LEGEND_WIDTH = 200;
 const TOP_LABEL_HEIGHT = 14;
 const COLOR_HEIGHT = 12;
 const BOTTOM_LABEL_HEIGHT = 16;
@@ -25,6 +25,7 @@ export const PriceColorLegend = ({
         height: "fit-content",
         px: 4,
         py: 2,
+        pointerEvents: "none",
       }}
     >
       <Flex
@@ -35,9 +36,16 @@ export const PriceColorLegend = ({
           height: TOP_LABEL_HEIGHT,
         }}
       >
-        <Text>{stats[0] && formatCurrency(stats[0])}</Text>
-        <Text>{stats[1] && formatCurrency(stats[1])}</Text>
-        <Text>{stats[2] && formatCurrency(stats[2])}</Text>
+        <Text sx={{ flex: "1 1 0px" }}>
+          {stats[0] && formatCurrency(stats[0])}{" "}
+          <Trans id="price.unit">Rp./kWh</Trans>
+        </Text>
+        <Text sx={{ flex: "1 1 0px", textAlign: "center" }}>
+          {stats[1] && formatCurrency(stats[1])}
+        </Text>
+        <Text sx={{ flex: "1 1 0px", textAlign: "right" }}>
+          {stats[2] && formatCurrency(stats[2])}
+        </Text>
       </Flex>
       <Flex
         sx={{
@@ -47,15 +55,15 @@ export const PriceColorLegend = ({
           mb: 2,
         }}
       >
-        <Text>
+        <Text sx={{ flex: "1 1 0px" }}>
           <Trans id="price.legend.min">min</Trans>
         </Text>
 
-        <Text>
+        <Text sx={{ flex: "1 1 0px", textAlign: "center" }}>
           <Trans id="price.legend.median">median</Trans>
         </Text>
 
-        <Text>
+        <Text sx={{ flex: "1 1 0px", textAlign: "right" }}>
           <Trans id="price.legend.max">max</Trans>
         </Text>
       </Flex>
