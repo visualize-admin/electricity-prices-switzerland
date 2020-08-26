@@ -33,6 +33,7 @@ import {
 import { Download } from "./download-image";
 import { FilterSetDescription } from "./filter-set-description";
 import { WithClassName } from "./with-classname";
+import { group } from "d3-array";
 
 const DOWNLOAD_ID: Download = "distribution";
 
@@ -179,6 +180,21 @@ export const PriceDistributionHistogram = ({
         ...obs,
       }));
 
+  // To avoid too many annotations, we group entities by value
+  // when more than one entity has the same value.
+  const groupedAnnotations = [...group(annotations, (d) => d.value)].map((d) =>
+    d[1].length === 1
+      ? // If only one entity has this value, we show the full name
+        { ...d[1][0] }
+      : {
+          value: d[0],
+          // Made up label with the number of entities
+          muniOperator: `${d[1].length} ${getLocalizedLabel({
+            i18n,
+            id: entity === "operator" ? "municipality" : "operator",
+          })}`,
+        }
+  );
   return (
     <>
       <FilterSetDescription
@@ -202,9 +218,9 @@ export const PriceDistributionHistogram = ({
                 componentIri: "value",
               },
               label: {
-                componentIri: "muniOperator", // getEntityLabelField(entity),
+                componentIri: "muniOperator",
               },
-              annotation: annotations as {
+              annotation: groupedAnnotations as {
                 [x: string]: string | number | boolean;
               }[],
             }}
