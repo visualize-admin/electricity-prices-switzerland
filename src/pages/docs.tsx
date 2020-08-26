@@ -111,8 +111,18 @@ const pages: ConfigPageOrGroup[] = [
   },
   {
     title: "Architecture",
-    path: "/architecture",
-    content: require("../docs/architecture.mdx"),
+    pages: [
+      {
+        path: "/dependencies",
+        title: "Dependencies",
+        content: require("../docs/architecture/dependencies.mdx"),
+      },
+      {
+        path: "/sparql-queries",
+        title: "Example Queries",
+        content: require("../docs/architecture/sparql-queries.mdx"),
+      },
+    ],
   },
 ];
 

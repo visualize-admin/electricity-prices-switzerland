@@ -1,0 +1,155 @@
+## Examples of generated SPARQL queries
+
+### Overview municipality-level
+
+```
+SELECT DISTINCT ?dimension0 ?dimension1 ?dimension2 ?dimension3 ?dimension4 ?dimension5 ?dimension6 ?dimension7 ?dimension8 ?dimension9 WHERE {
+  <https://energy.ld.admin.ch/elcom/electricity-price/cube> <http://ns.bergnet.org/cube/observationSet> ?observationSet0 .
+  ?observationSet0 <http://ns.bergnet.org/cube/observation> ?observation0 .
+  ?observation0 <https://energy.ld.admin.ch/elcom/electricity-price/dimension/municipality> ?dimension1 .
+  ?observation0 <https://energy.ld.admin.ch/elcom/electricity-price/dimension/category> ?dimension5 .
+  ?observation0 <https://energy.ld.admin.ch/elcom/electricity-price/dimension/operator> ?dimension3 .
+  ?observation0 <https://energy.ld.admin.ch/elcom/electricity-price/dimension/product> ?dimension10 .
+  ?observation0 <https://energy.ld.admin.ch/elcom/electricity-price/dimension/period> ?dimension0 .
+  ?observation0 <https://energy.ld.admin.ch/elcom/electricity-price/dimension/total> ?dimension6 .
+  ?dimension1 <http://schema.org/containedInPlace> ?dimension7 .
+  ?dimension7 <http://schema.org/alternateName> ?dimension8 .
+  ?dimension7 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?dimension9 .
+  ?dimension1 <http://schema.org/name> ?dimension2 .
+  ?dimension3 <http://schema.org/name> ?dimension4 .
+  FILTER (
+    (?dimension0 = "2020"^^<http://www.w3.org/2001/XMLSchema#gYear>) &&
+    (?dimension5 = <https://energy.ld.admin.ch/elcom/electricity-price/category/H4>) &&
+    (?dimension10 = <https://energy.ld.admin.ch/elcom/electricity-price/product/cheapest>) &&
+    (?dimension9 = <https://schema.ld.admin.ch/Canton>)
+  )
+}
+GROUP BY ?dimension0 ?dimension1 ?dimension2 ?dimension3 ?dimension4 ?dimension5 ?dimension6 ?dimension7 ?dimension8 ?dimension9
+```
+
+### Overview canton-level (calculated median values)
+
+```
+SELECT DISTINCT ?dimension0 ?dimension1 ?dimension2 ?dimension3 ?dimension4 WHERE {
+  <https://energy.ld.admin.ch/elcom/electricity-price/median/cube> <http://ns.bergnet.org/cube/observationSet> ?observationSet0 .
+  ?observationSet0 <http://ns.bergnet.org/cube/observation> ?observation0 .
+  ?observation0 <https://energy.ld.admin.ch/elcom/electricity-price/dimension/region> ?dimension1 .
+  ?observation0 <https://energy.ld.admin.ch/elcom/electricity-price/dimension/category> ?dimension3 .
+  ?observation0 <https://energy.ld.admin.ch/elcom/electricity-price/dimension/period> ?dimension0 .
+  ?observation0 <https://energy.ld.admin.ch/elcom/electricity-price/dimension/total> ?dimension4 .
+  ?dimension1 <http://schema.org/alternateName> ?dimension2 .
+  FILTER (
+    (?dimension0 = "2020"^^<http://www.w3.org/2001/XMLSchema#gYear>) &&
+    (?dimension3 = <https://energy.ld.admin.ch/elcom/electricity-price/category/H4>)
+  )
+}
+GROUP BY ?dimension0 ?dimension1 ?dimension2 ?dimension3 ?dimension4
+```
+
+### Search query "züri"
+
+```
+PREFIX schema: <http://schema.org/>
+PREFIX lac: <https://schema.ld.admin.ch/>
+SELECT ?type ?iri ?name {
+  {
+    SELECT ("municipality" AS ?type) (?municipality AS ?iri) (?municipalityLabel AS ?name) WHERE {
+      GRAPH <https://lindas.admin.ch/fso/agvch> {
+        {
+          ?municipality a <https://schema.ld.admin.ch/Municipality> .
+        } UNION {
+          ?municipality a <https://schema.ld.admin.ch/AbolishedMunicipality> .
+        }
+        ?municipality <http://schema.org/name> ?municipalityLabel.
+      }
+      FILTER (regex(?municipalityLabel, ".*züri.*", "i") || ?municipality IN ())
+    } ORDER BY ?municipalityLabel LIMIT 10
+  } UNION {
+    SELECT DISTINCT ("municipality" AS ?type) (?municipality AS ?iri) (?municipalityLabel AS ?name)
+      WHERE { GRAPH <https://lindas.admin.ch/elcom/electricityprice> {
+        ?offer a schema:Offer ;
+          schema:areaServed ?municipality;
+          schema:postalCode "züri" .
+        }
+        { GRAPH <https://lindas.admin.ch/fso/agvch> {
+          ?municipality schema:name ?municipalityLabel .
+        }}
+    } ORDER BY ?municipalityLabel LIMIT 10
+  } UNION {
+    SELECT ("operator" AS ?type) (?operator AS ?iri) (?operatorLabel AS ?name) WHERE {
+      GRAPH <https://lindas.admin.ch/elcom/electricityprice> {
+        ?operator a <http://schema.org/Organization> .
+        ?operator <http://schema.org/name> ?operatorLabel.
+      }
+      FILTER (regex(?operatorLabel, ".*züri.*", "i") || ?operator IN ())
+    } ORDER BY ?operatorLabel LIMIT 10
+  } UNION {
+    SELECT ("canton" AS ?type) (?canton AS ?iri) (?cantonLabel AS ?name) WHERE {
+      GRAPH <https://lindas.admin.ch/fso/agvch> {
+        ?canton a <https://schema.ld.admin.ch/Canton> .
+        ?canton <http://schema.org/name> ?cantonLabel .
+      }
+      FILTER (LANGMATCHES(LANG(?cantonLabel), "de") && (regex(?cantonLabel, ".*züri.*", "i") || ?canton IN ()))
+    } ORDER BY ?cantonLabel LIMIT 10
+  }
+  FILTER (?type IN ("municipality","operator","canton"))
+}
+```
+
+### Metadata (operator)
+
+Municipalities and cantons analogous.
+
+```
+SELECT DISTINCT ?dimension0 ?dimension1 WHERE {
+  <https://energy.ld.admin.ch/elcom/electricity-price/cube> <http://ns.bergnet.org/cube/observationSet> ?observationSet0 .
+  ?observationSet0 <http://ns.bergnet.org/cube/observation> ?observation0 .
+  ?observation0 <https://energy.ld.admin.ch/elcom/electricity-price/dimension/operator> ?dimension0 .
+  ?dimension0 <http://schema.org/name> ?dimension1 .
+  FILTER (
+    (?dimension0 = <https://energy.ld.admin.ch/elcom/electricity-price/operator/565>)
+  )
+}
+GROUP BY ?dimension0 ?dimension1
+SELECT DISTINCT ?dimension0 ?dimension1 WHERE {
+  <https://energy.ld.admin.ch/elcom/electricity-price/cube> <http://ns.bergnet.org/cube/observationSet> ?observationSet0 .
+  ?observationSet0 <http://ns.bergnet.org/cube/observation> ?observation0 .
+  ?observation0 <https://energy.ld.admin.ch/elcom/electricity-price/dimension/municipality> ?dimension0 .
+  ?observation0 <https://energy.ld.admin.ch/elcom/electricity-price/dimension/operator> ?dimension2 .
+  ?dimension0 <http://schema.org/name> ?dimension1 .
+  FILTER (
+    (?dimension2 = <https://energy.ld.admin.ch/elcom/electricity-price/operator/565>)
+  )
+}
+GROUP BY ?dimension0 ?dimension1
+```
+
+### Chart data (operator)
+
+```
+SELECT DISTINCT ?dimension0 ?dimension1 ?dimension2 ?dimension3 ?dimension4 ?dimension5 ?dimension6 ?dimension7 ?dimension8 ?dimension9 ?dimension10 ?dimension11 ?dimension12 WHERE {
+  <https://energy.ld.admin.ch/elcom/electricity-price/cube> <http://ns.bergnet.org/cube/observationSet> ?observationSet0 .
+  ?observationSet0 <http://ns.bergnet.org/cube/observation> ?observation0 .
+  ?observation0 <https://energy.ld.admin.ch/elcom/electricity-price/dimension/municipality> ?dimension1 .
+  ?observation0 <https://energy.ld.admin.ch/elcom/electricity-price/dimension/category> ?dimension5 .
+  ?observation0 <https://energy.ld.admin.ch/elcom/electricity-price/dimension/operator> ?dimension3 .
+  ?observation0 <https://energy.ld.admin.ch/elcom/electricity-price/dimension/product> ?dimension13 .
+  ?observation0 <https://energy.ld.admin.ch/elcom/electricity-price/dimension/gridusage> ?dimension9 .
+  ?observation0 <https://energy.ld.admin.ch/elcom/electricity-price/dimension/period> ?dimension0 .
+  ?observation0 <https://energy.ld.admin.ch/elcom/electricity-price/dimension/charge> ?dimension8 .
+  ?observation0 <https://energy.ld.admin.ch/elcom/electricity-price/dimension/total> ?dimension12 .
+  ?observation0 <https://energy.ld.admin.ch/elcom/electricity-price/dimension/fixcostspercent> ?dimension11 .
+  ?observation0 <https://energy.ld.admin.ch/elcom/electricity-price/dimension/aidfee> ?dimension6 .
+  ?observation0 <https://energy.ld.admin.ch/elcom/electricity-price/dimension/fixcosts> ?dimension7 .
+  ?observation0 <https://energy.ld.admin.ch/elcom/electricity-price/dimension/energy> ?dimension10 .
+  ?dimension1 <http://schema.org/name> ?dimension2 .
+  ?dimension3 <http://schema.org/name> ?dimension4 .
+  FILTER (
+    (?dimension0 = "2020"^^<http://www.w3.org/2001/XMLSchema#gYear>) &&
+    (?dimension3 = <https://energy.ld.admin.ch/elcom/electricity-price/operator/565>) &&
+    (?dimension5 = <https://energy.ld.admin.ch/elcom/electricity-price/category/H4>) &&
+    (?dimension13 = <https://energy.ld.admin.ch/elcom/electricity-price/product/standard>)
+  )
+}
+GROUP BY ?dimension0 ?dimension1 ?dimension2 ?dimension3 ?dimension4 ?dimension5 ?dimension6 ?dimension7 ?dimension8 ?dimension9 ?dimension10 ?dimension11 ?dimension12
+```
