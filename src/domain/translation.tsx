@@ -65,10 +65,13 @@ export const getLocalizedLabel = ({
     case "priceComponent":
       return i18n._(t("filters.price.component")`Preiskomponente`);
     case "OperatorResult":
+    case "operator":
       return i18n._(t("search.result.operator")`Netzbetreiber`);
     case "MunicipalityResult":
+    case "municipality":
       return i18n._(t("search.result.municipality")`Gemeinde`);
     case "CantonResult":
+    case "canton":
       return i18n._(t("search.result.canton")`Kanton`);
 
     default:

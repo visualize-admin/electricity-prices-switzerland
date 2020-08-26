@@ -17,6 +17,7 @@ export interface Annotation {
   y: number;
   xLabel: number;
   yLabel: number;
+  nbOfLines: number;
   value: string;
   label: string;
   onTheLeft: boolean;
@@ -27,29 +28,42 @@ export const AnnotationX = () => {
     | RangePlotState
     | HistogramState;
 
-  const { margins } = bounds;
-  const { annotationLineColor, annotationColor } = useChartTheme();
+  const { margins, width } = bounds;
+  const {
+    annotationLineColor,
+    annotationColor,
+    annotationfontSize,
+    annotationLabelUnderlineColor,
+  } = useChartTheme();
 
   return (
     <>
       {annotations &&
         annotations.map((a, i) => {
+          const x = margins.left + a.x;
+          const y1 = a.yLabel + annotationfontSize * a.nbOfLines;
           return (
             <React.Fragment key={i}>
-              <g transform={`translate(${margins.left}, 0)`}>
+              <g>
                 <line
-                  x1={a.x}
-                  y1={a.yLabel}
-                  x2={a.x}
+                  x1={x}
+                  y1={y1}
+                  x2={x}
                   y2={a.y + margins.top}
                   stroke={annotationLineColor}
                 />
+                <line
+                  x1={0}
+                  y1={y1 + 0.5}
+                  x2={x}
+                  y2={y1 + 0.5}
+                  stroke={annotationLabelUnderlineColor}
+                  strokeDasharray="2px 4px"
+                />
                 <polygon
-                  points={`${a.x - ANNOTATION_TRIANGLE_WIDTH},${a.yLabel} ${
-                    a.x + ANNOTATION_TRIANGLE_WIDTH
-                  },${a.yLabel} ${a.x},${
-                    a.yLabel + ANNOTATION_TRIANGLE_HEIGHT
-                  } `}
+                  points={`${x - ANNOTATION_TRIANGLE_WIDTH},${y1} ${
+                    x + ANNOTATION_TRIANGLE_WIDTH
+                  },${y1} ${x},${y1 + ANNOTATION_TRIANGLE_HEIGHT} `}
                   fill={annotationColor}
                 />
               </g>
@@ -105,16 +119,15 @@ export const AnnotationXLabel = () => {
           <Box
             key={`${a.label}-${i}`}
             sx={{
-              maxWidth: width * 0.5,
-              width: "fit-content",
+              width: width,
               p: 1,
               zIndex: 2,
               position: "absolute",
-              left: a.xLabel! + margins.left,
+              left: 0,
               top: a.yLabel,
               pointerEvents: "none",
-              textAlign: a.onTheLeft ? "right" : "left",
-              transform: mkTranslation(a.onTheLeft, ANNOTATION_TRIANGLE_WIDTH),
+              textAlign: "left",
+              transform: `translate3d(${ANNOTATION_TRIANGLE_WIDTH}px, -40%, 0)`,
               fontFamily,
               fontSize: annotationfontSize,
               color: annotationColor,

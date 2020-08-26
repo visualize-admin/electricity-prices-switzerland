@@ -22,6 +22,7 @@ import { d3FormatLocales, d3TimeFormatLocales } from "../locales/locales";
 import { useTheme } from "../themes";
 import { estimateTextWidth } from "../lib/estimate-text-width";
 import { GenericObservation } from "./data";
+import { ANNOTATION_TRIANGLE_HEIGHT } from "../components/charts-generic/annotation/annotation-x";
 
 export const isNumber = (x: $IntentionalAny): boolean =>
   typeof x === "number" && !isNaN(x);
@@ -201,35 +202,50 @@ export const getAnnotationSpaces = ({
   getX,
   getLabel,
   format,
-  chartWidth,
+  width,
   annotationfontSize,
 }: {
   annotation: { [x: string]: string | number | boolean }[];
   getX: (x: GenericObservation) => number;
   getLabel: (x: GenericObservation) => string;
   format: (n: number) => string;
-  chartWidth: number;
+  width: number;
   annotationfontSize: number;
 }) => {
   return annotation
     ? annotation.reduce(
         (acc, datum, i) => {
-          // FIXME: Should be word based, not character based?
+          const splitLabel = getLabel(datum).split(" ");
+          // Nb of spaces in the label + 1 space between value and label
+          const nbOfSpaces = splitLabel.length + 1;
+          const labelLength =
+            splitLabel.reduce(
+              (acc, cur) => acc + estimateTextWidth(cur, annotationfontSize),
+              0
+            ) +
+            nbOfSpaces * estimateTextWidth(" ", annotationfontSize);
+
           const oneFullLine =
             estimateTextWidth(format(getX(datum)), annotationfontSize) +
-            estimateTextWidth(getLabel(datum), annotationfontSize);
+            labelLength;
+
           // On smaller screens, anotations may break on several lines
-          const nbOfLines = Math.ceil(oneFullLine / (chartWidth * 0.5));
-          acc.push(
-            acc[i] +
+          const nbOfLines = Math.ceil(oneFullLine / width);
+
+          acc.push({
+            height:
+              acc[i].height +
               // annotation height
               nbOfLines * annotationfontSize +
-              // padding + margin between annotations
-              10
-          );
+              // size of annotation indicator (triangle below label)
+              ANNOTATION_TRIANGLE_HEIGHT +
+              // + margin between annotations
+              20,
+            nbOfLines,
+          });
           return acc;
         },
-        [0]
+        [{ height: 0, nbOfLines: 1 }]
       )
-    : [0];
+    : [{ height: 0, nbOfLines: 1 }];
 };

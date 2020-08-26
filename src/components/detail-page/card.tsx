@@ -45,7 +45,7 @@ export const Card = ({
         fileName={downloadId}
         entity={entity}
         id={id}
-        download={downloadId}
+        downloadType={downloadId}
       />
     </Box>
   );

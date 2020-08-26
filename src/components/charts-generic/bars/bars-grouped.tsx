@@ -1,5 +1,5 @@
 import * as React from "react";
-import { BAR_AXIS_OFFSET, BAR_SPACE_ON_TOP, BAR_HEIGHT } from "../constants";
+import { BAR_AXIS_OFFSET, BAR_SPACE_ON_TOP } from "../constants";
 import { useChartState } from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
 import { GroupedBarsState } from "./bars-grouped-state";
@@ -22,16 +22,13 @@ export const BarsGrouped = () => {
   } = useChartState() as GroupedBarsState;
   const { margins } = bounds;
   const {
-    labelColor,
-    gridColor,
-    labelFontSize,
-    fontFamily,
     domainColor,
     markBorderColor,
     axisLabelFontSize,
     axisLabelFontWeight,
     axisLabelColor,
   } = useChartTheme();
+
   const i18n = useI18n();
 
   return (
@@ -84,13 +81,10 @@ export const BarsGrouped = () => {
 export const BarsGroupedLabels = () => {
   const {
     bounds,
-    xScale,
     yScaleIn,
     getX,
-    getY,
     yScale,
     getSegment,
-    colors,
     grouped,
   } = useChartState() as GroupedBarsState;
   const { margins } = bounds;

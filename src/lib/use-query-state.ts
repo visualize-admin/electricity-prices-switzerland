@@ -16,6 +16,7 @@ const queryStateKeys = [
   "category",
   "priceComponent",
   "product",
+  "download",
 ] as const;
 
 const queryStateDefaults = {
@@ -39,7 +40,7 @@ type QueryState = {
   category: string[];
   priceComponent: string[];
   product: string[];
-  download?: Download;
+  download?: string[];
 };
 
 // e.g. /de/municipality/4096?municipality=261&period=2020&period=2019
@@ -92,7 +93,7 @@ type QueryStateSingle = {
   category: string;
   priceComponent: string;
   product: string;
-  download?: Download;
+  download?: string;
 };
 
 export const useQueryStateSingle = () => {

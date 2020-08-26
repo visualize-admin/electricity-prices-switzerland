@@ -33,7 +33,6 @@ export const PriceComponentsBarChart = ({
   const [
     { period, category, municipality, operator, canton, product },
   ] = useQueryState();
-  const { query } = useRouter();
 
   const comparisonIds =
     entity === "municipality"

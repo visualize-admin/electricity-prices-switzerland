@@ -19,7 +19,7 @@ interface Props {
   id?: string;
   elementId: Download;
   fileName: string;
-  download: Download;
+  downloadType: Download;
 }
 
 export const DownloadImage = ({
@@ -27,7 +27,7 @@ export const DownloadImage = ({
   fileName,
   entity,
   id,
-  download,
+  downloadType,
 }: Props) => {
   const locale = useLocale();
   const [
@@ -39,9 +39,10 @@ export const DownloadImage = ({
       municipality,
       operator,
       canton,
+      download,
     },
   ] = useQueryState();
-  const { query } = useRouter();
+
   const [origin, setOrigin] = React.useState<undefined | string>(undefined);
 
   React.useEffect(() => {
@@ -61,10 +62,10 @@ export const DownloadImage = ({
   const operators = constructParamsFromArray(operator, "operator");
   const cantons = constructParamsFromArray(canton, "canton");
 
-  const queryParams = `download=${download}${municipalities}${operators}${cantons}${periods}&category=${category}&product=${product}&priceComponent=${priceComponent}`;
+  const queryParams = `download=${downloadType}${municipalities}${operators}${cantons}${periods}&category=${category}&product=${product}&priceComponent=${priceComponent}`;
 
   const url =
-    entity && id && download !== "map"
+    entity && id && downloadType !== "map"
       ? `${origin}/${locale}/${entity}/${id}?${queryParams}`
       : `${origin}/${locale}?${queryParams}`;
 
@@ -74,7 +75,7 @@ export const DownloadImage = ({
 
   return (
     <Box sx={{ mt: 4 }}>
-      {!query.download ? (
+      {!download ? (
         <TUILink
           variant="inline"
           href={downLoadUrl}

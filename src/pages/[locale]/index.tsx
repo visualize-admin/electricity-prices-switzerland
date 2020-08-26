@@ -1,26 +1,21 @@
-import { InferGetStaticPropsType } from "next";
-import { useRouter } from "next/router";
+import { Trans } from "@lingui/macro";
+import { useCallback, useMemo } from "react";
 import { Box, Flex, Grid, Text } from "theme-ui";
+import { DownloadImage } from "../../components/detail-page/download-image";
 import { Footer } from "../../components/footer";
 import { Header } from "../../components/header";
-import { createDynamicRouteProps } from "../../components/links";
+import { List } from "../../components/list";
 import { ChoroplethMap } from "../../components/map";
-import { PriceColorLegend } from "../../components/price-color-legend";
+import { Search } from "../../components/search";
 import { Selector } from "../../components/selector";
 import { useColorScale } from "../../domain/data";
 import {
+  OperatorObservationFieldsFragment,
   PriceComponent,
   useObservationsQuery,
-  OperatorObservationFieldsFragment,
 } from "../../graphql/queries";
-import { useCallback, useMemo } from "react";
-import { useQueryStateSingle } from "../../lib/use-query-state";
-import { List } from "../../components/list";
-import { Trans } from "@lingui/macro";
 import { EMPTY_ARRAY } from "../../lib/empty-array";
-import { Search } from "../../components/search";
-import { DownloadImage } from "../../components/detail-page/download-image";
-import { extent } from "d3-array";
+import { useQueryStateSingle } from "../../lib/use-query-state";
 
 const DOWNLOAD_ID = "map";
 
@@ -34,8 +29,9 @@ const HEADER_HEIGHT_S = "107px";
 const HEADER_HEIGHT_M_UP = "96px";
 
 const IndexPage = () => {
-  const [{ period, priceComponent, category, product }] = useQueryStateSingle();
-  const { query } = useRouter();
+  const [
+    { period, priceComponent, category, product, download },
+  ] = useQueryStateSingle();
 
   const [observationsQuery] = useObservationsQuery({
     variables: {
@@ -158,7 +154,7 @@ const IndexPage = () => {
                 colorScale={colorScale}
               />
 
-              {!query.download && (
+              {!download && (
                 <Box
                   sx={{
                     zIndex: 13,
@@ -172,7 +168,7 @@ const IndexPage = () => {
                   <DownloadImage
                     elementId={DOWNLOAD_ID}
                     fileName={DOWNLOAD_ID}
-                    download={DOWNLOAD_ID}
+                    downloadType={DOWNLOAD_ID}
                   />
                 </Box>
               )}
@@ -196,8 +192,6 @@ const IndexPage = () => {
               />
             </Box>
           </Grid>
-
-          {/* <Box sx={{ height: "50vh", bg: "secondaryLight" }}></Box> */}
         </Box>
         <Footer></Footer>
       </Grid>
