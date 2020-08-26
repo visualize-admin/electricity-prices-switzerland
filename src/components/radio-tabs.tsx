@@ -32,6 +32,10 @@ const STYLES = {
       borderRightWidth: 0,
       ":last-of-type": {
         borderRightWidth: 1,
+        borderRightColor: "monochrome100",
+      },
+      ":first-of-type": {
+        borderLeftColor: "monochrome100",
       },
     },
     inactive: {
@@ -135,9 +139,9 @@ export const RadioTabs = <T extends string>({
                   bg: "primary",
                   position: "absolute",
                   top: 0,
-                  left: 0,
+                  left: "-1px",
+                  right: "-1px",
                   mt: "-1px",
-                  width: "100%",
                   height: 4,
                 }}
               />
