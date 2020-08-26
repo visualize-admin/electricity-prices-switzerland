@@ -58,7 +58,7 @@ export const AnnotationX = () => {
                   fill={annotationColor}
                 />
                 <line
-                  x1={a.onTheLeft ? width : 0}
+                  x1={0}
                   y1={y1 + 0.5}
                   x2={x}
                   y2={y1 + 0.5}
@@ -117,16 +117,15 @@ export const AnnotationXLabel = () => {
           <Box
             key={`${a.label}-${i}`}
             sx={{
-              // maxWidth: width * 0.5,
-              width: width, //"fit-content",
+              width: width,
               p: 1,
               zIndex: 2,
               position: "absolute",
-              left: 0, //a.xLabel! + margins.left, // 0, // a.xLabel! + margins.left,
+              left: 0,
               top: a.yLabel,
               pointerEvents: "none",
-              textAlign: a.onTheLeft ? "right" : "left",
-              transform: `translate3d(${ANNOTATION_TRIANGLE_WIDTH}px, -40%, 0)`, // mkTranslation(a.onTheLeft, ANNOTATION_SQUARE_SIDE),
+              textAlign: "left",
+              transform: `translate3d(${ANNOTATION_TRIANGLE_WIDTH}px, -40%, 0)`,
               fontFamily,
               fontSize: annotationfontSize,
               color: annotationColor,
