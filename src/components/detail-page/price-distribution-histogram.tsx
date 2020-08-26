@@ -44,10 +44,9 @@ export const PriceDistributionHistograms = ({
   entity: Entity;
 }) => {
   const [
-    { period, municipality, operator, canton, priceComponent },
+    { period, municipality, operator, canton, priceComponent, download },
     setQueryState,
   ] = useQueryState();
-  const { query } = useRouter();
 
   const i18n = useI18n();
 
@@ -76,7 +75,7 @@ export const PriceDistributionHistograms = ({
       id={id}
       entity={entity}
     >
-      {!query.download && (
+      {!download && (
         <>
           <Box sx={{ display: ["none", "none", "block"] }}>
             <RadioTabs

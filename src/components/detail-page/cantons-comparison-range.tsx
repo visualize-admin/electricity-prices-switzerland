@@ -43,7 +43,6 @@ export const CantonsComparisonRangePlots = ({
     { period, municipality, operator, canton, priceComponent, download },
     setQueryState,
   ] = useQueryState();
-  const { query } = useRouter();
 
   const i18n = useI18n();
 
@@ -72,7 +71,7 @@ export const CantonsComparisonRangePlots = ({
       id={id}
       entity={entity}
     >
-      {!query.download && (
+      {!download && (
         <>
           <Box sx={{ display: ["none", "none", "block"] }}>
             <RadioTabs
