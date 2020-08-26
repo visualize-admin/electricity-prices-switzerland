@@ -33,6 +33,7 @@ export const AnnotationX = () => {
     annotationLineColor,
     annotationColor,
     annotationfontSize,
+    annotationLabelUnderlineColor,
   } = useChartTheme();
 
   return (
@@ -51,18 +52,19 @@ export const AnnotationX = () => {
                   y2={a.y + margins.top}
                   stroke={annotationLineColor}
                 />
-                <polygon
-                  points={`${x - ANNOTATION_TRIANGLE_WIDTH},${y1} ${
-                    x + ANNOTATION_TRIANGLE_WIDTH
-                  },${y1} ${x},${y1 + ANNOTATION_TRIANGLE_HEIGHT} `}
-                  fill={annotationColor}
-                />
                 <line
                   x1={0}
                   y1={y1 + 0.5}
                   x2={x}
                   y2={y1 + 0.5}
-                  stroke={annotationColor}
+                  stroke={annotationLabelUnderlineColor}
+                  strokeDasharray="2px 4px"
+                />
+                <polygon
+                  points={`${x - ANNOTATION_TRIANGLE_WIDTH},${y1} ${
+                    x + ANNOTATION_TRIANGLE_WIDTH
+                  },${y1} ${x},${y1 + ANNOTATION_TRIANGLE_HEIGHT} `}
+                  fill={annotationColor}
                 />
               </g>
             </React.Fragment>
