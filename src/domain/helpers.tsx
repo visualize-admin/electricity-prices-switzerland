@@ -22,6 +22,7 @@ import { d3FormatLocales, d3TimeFormatLocales } from "../locales/locales";
 import { useTheme } from "../themes";
 import { estimateTextWidth } from "../lib/estimate-text-width";
 import { GenericObservation } from "./data";
+import { ANNOTATION_TRIANGLE_HEIGHT } from "../components/charts-generic/annotation/annotation-x";
 
 export const isNumber = (x: $IntentionalAny): boolean =>
   typeof x === "number" && !isNaN(x);
@@ -219,17 +220,21 @@ export const getAnnotationSpaces = ({
             estimateTextWidth(format(getX(datum)), annotationfontSize) +
             estimateTextWidth(getLabel(datum), annotationfontSize);
           // On smaller screens, anotations may break on several lines
-          const nbOfLines = Math.ceil(oneFullLine / (chartWidth * 0.5));
-          acc.push(
-            acc[i] +
+          const nbOfLines = Math.ceil(oneFullLine / chartWidth);
+          acc.push({
+            height:
+              acc[i].height +
               // annotation height
               nbOfLines * annotationfontSize +
-              // padding + margin between annotations
-              10
-          );
+              // size of annotation indicator (triangle below label)
+              ANNOTATION_TRIANGLE_HEIGHT +
+              // + margin between annotations
+              20,
+            nbOfLines,
+          });
           return acc;
         },
-        [0]
+        [{ height: 0, nbOfLines: 1 }]
       )
-    : [0];
+    : [{ height: 0, nbOfLines: 1 }];
 };

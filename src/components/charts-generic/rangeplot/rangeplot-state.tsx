@@ -120,9 +120,10 @@ const useRangePlotState = ({
         chartWidth,
         annotationfontSize,
       })
-    : [0];
+    : [{ height: 0, nbOfLines: 1 }];
 
-  const annotationSpace = annotationSpaces.pop() || 0;
+  const annotationSpace =
+    annotationSpaces[annotationSpaces.length - 1].height || 0;
 
   const chartHeight =
     yOrderedDomain.length * (DOT_RADIUS * 2 + SPACE_ABOVE) + annotationSpace;
@@ -152,7 +153,8 @@ const useRangePlotState = ({
           x: xScale(getX(datum)),
           y: yScale(getY(datum)) || 0,
           xLabel: xScale(getX(datum)),
-          yLabel: annotationSpaces[i],
+          yLabel: annotationSpaces[i].height,
+          nbOfLines: annotationSpaces[i].nbOfLines,
           value: formatCurrency(getX(datum)),
           label: getLabel(datum),
           onTheLeft: xScale(getX(datum)) <= chartWidth / 2 ? false : true,

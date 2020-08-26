@@ -57,16 +57,6 @@ export const Search = () => {
   );
 };
 
-// export type SearchFieldProps = {
-//   label: string | ReactNode;
-//   id: string;
-//   items: string[];
-//   getItemLabel: (item: string) => string;
-//   onInputValueChange: (inputValue: string) => void;
-//   isLoading: boolean;
-//   // lazy: boolean;
-//   showLabel: boolean;
-// };
 type ResultType = "OperatorResult" | "MunicipalityResult" | "CantonResult";
 type Item = {
   id: string;

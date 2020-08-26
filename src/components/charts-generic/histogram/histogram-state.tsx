@@ -112,9 +112,11 @@ const useHistogramState = ({
         chartWidth,
         annotationfontSize,
       })
-    : [0];
+    : [{ height: 0, nbOfLines: 1 }];
 
-  const annotationSpace = annotationSpaces.pop() || 0;
+  const annotationSpace =
+    annotationSpaces[annotationSpaces.length - 1].height || 0;
+
   const chartHeight = chartWidth * aspectRatio + annotationSpace;
 
   const bounds = {
@@ -138,7 +140,8 @@ const useHistogramState = ({
           x: xScale(getX(datum)),
           y: yScale(0),
           xLabel: xScale(getX(datum)),
-          yLabel: annotationSpaces[i],
+          yLabel: annotationSpaces[i].height,
+          nbOfLines: annotationSpaces[i].nbOfLines,
           value: formatCurrency(getX(datum)),
           label: getLabel(datum),
           onTheLeft: xScale(getX(datum)) <= chartWidth / 2 ? false : true,
