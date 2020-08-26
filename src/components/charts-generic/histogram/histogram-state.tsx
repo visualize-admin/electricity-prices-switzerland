@@ -109,7 +109,7 @@ const useHistogramState = ({
         getX,
         getLabel,
         format: formatCurrency,
-        chartWidth,
+        width,
         annotationfontSize,
       })
     : [{ height: 0, nbOfLines: 1 }];
@@ -140,8 +140,8 @@ const useHistogramState = ({
           x: xScale(getX(datum)),
           y: yScale(0),
           xLabel: xScale(getX(datum)),
-          yLabel: annotationSpaces[i].height,
-          nbOfLines: annotationSpaces[i].nbOfLines,
+          yLabel: annotationSpaces[i + 1].height,
+          nbOfLines: annotationSpaces[i + 1].nbOfLines,
           value: formatCurrency(getX(datum)),
           label: getLabel(datum),
           onTheLeft: xScale(getX(datum)) <= chartWidth / 2 ? false : true,

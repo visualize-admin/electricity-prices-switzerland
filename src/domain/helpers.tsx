@@ -202,25 +202,36 @@ export const getAnnotationSpaces = ({
   getX,
   getLabel,
   format,
-  chartWidth,
+  width,
   annotationfontSize,
 }: {
   annotation: { [x: string]: string | number | boolean }[];
   getX: (x: GenericObservation) => number;
   getLabel: (x: GenericObservation) => string;
   format: (n: number) => string;
-  chartWidth: number;
+  width: number;
   annotationfontSize: number;
 }) => {
   return annotation
     ? annotation.reduce(
         (acc, datum, i) => {
-          // FIXME: Should be word based, not character based?
+          const splitLabel = getLabel(datum).split(" ");
+          // Nb of spaces in the label + 1 space between value and label
+          const nbOfSpaces = splitLabel.length + 1;
+          const labelLength =
+            splitLabel.reduce(
+              (acc, cur) => acc + estimateTextWidth(cur, annotationfontSize),
+              0
+            ) +
+            nbOfSpaces * estimateTextWidth(" ", annotationfontSize);
+
           const oneFullLine =
             estimateTextWidth(format(getX(datum)), annotationfontSize) +
-            estimateTextWidth(getLabel(datum), annotationfontSize);
+            labelLength;
+
           // On smaller screens, anotations may break on several lines
-          const nbOfLines = Math.ceil(oneFullLine / chartWidth);
+          const nbOfLines = Math.ceil(oneFullLine / width);
+
           acc.push({
             height:
               acc[i].height +
