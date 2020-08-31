@@ -279,6 +279,14 @@ export type ObservationsWithAllPriceComponentsQuery = { __typename: 'Query', obs
     & MedianObservationWithAllPriceComponentsFieldsFragment
   )> };
 
+export type OperatorDocumentsQueryVariables = Exact<{
+  id: Scalars['String'];
+  locale?: Maybe<Scalars['String']>;
+}>;
+
+
+export type OperatorDocumentsQuery = { __typename: 'Query', operator?: Maybe<{ __typename: 'Operator', documents: Array<{ __typename: 'OperatorDocument', id: string, name: string, url: string, year: string, category: string }> }> };
+
 export const OperatorObservationFieldsFragmentDoc = gql`
     fragment operatorObservationFields on OperatorObservation {
   period
@@ -412,4 +420,21 @@ ${MedianObservationWithAllPriceComponentsFieldsFragmentDoc}`;
 
 export function useObservationsWithAllPriceComponentsQuery(options: Omit<Urql.UseQueryArgs<ObservationsWithAllPriceComponentsQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<ObservationsWithAllPriceComponentsQuery>({ query: ObservationsWithAllPriceComponentsDocument, ...options });
+};
+export const OperatorDocumentsDocument = gql`
+    query OperatorDocuments($id: String!, $locale: String) {
+  operator(id: $id, locale: $locale) {
+    documents {
+      id
+      name
+      url
+      year
+      category
+    }
+  }
+}
+    `;
+
+export function useOperatorDocumentsQuery(options: Omit<Urql.UseQueryArgs<OperatorDocumentsQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<OperatorDocumentsQuery>({ query: OperatorDocumentsDocument, ...options });
 };

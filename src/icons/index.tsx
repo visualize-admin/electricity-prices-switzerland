@@ -40,6 +40,8 @@ import { IconText } from "./ic-text";
 import { IconInfo } from "./ic-info";
 import { IconArrowRight } from "./ic-arrow-right";
 import { IconArrowDown } from "./ic-arrow-down";
+import { IconExcel } from "./ic-excel";
+import { IconPdf } from "./ic-pdf";
 
 export const Icons = {
   check: IconCheck,
@@ -82,7 +84,9 @@ export const Icons = {
   text: IconText,
   info: IconInfo,
   arrowRight: IconArrowRight,
-  arrowDown: IconArrowDown
+  arrowDown: IconArrowDown,
+  pdf: IconPdf,
+  excel: IconExcel,
 };
 
 export type IconName = keyof typeof Icons;

@@ -116,3 +116,15 @@ query ObservationsWithAllPriceComponents(
     }
   }
 }
+
+query OperatorDocuments($id: String!, $locale: String) {
+  operator(id: $id, locale: $locale) {
+    documents {
+      id
+      name
+      url
+      year
+      category
+    }
+  }
+}
