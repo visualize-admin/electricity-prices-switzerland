@@ -55,6 +55,16 @@ export type Operator = {
   name: Scalars['String'];
   municipalities: Array<Municipality>;
   priceComponents: PriceComponents;
+  documents: Array<OperatorDocument>;
+};
+
+export type OperatorDocument = {
+  __typename: 'OperatorDocument';
+  id: Scalars['String'];
+  name: Scalars['String'];
+  url: Scalars['String'];
+  year: Scalars['String'];
+  category: Scalars['String'];
 };
 
 export type Canton = {
