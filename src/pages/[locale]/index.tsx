@@ -16,19 +16,48 @@ import {
 } from "../../graphql/queries";
 import { EMPTY_ARRAY } from "../../lib/empty-array";
 import { useQueryStateSingle } from "../../lib/use-query-state";
+import { locales } from "../../locales/locales";
+import { GetStaticPaths, GetStaticProps } from "next";
+import { Hint, HintBlue } from "../../components/hint";
+import { getBannerFromGitLabWiki } from "../../domain/gitlab-wiki-api";
 
 const DOWNLOAD_ID = "map";
 
-export const getServerSideProps = async () => {
+type Props = { locale: string; bannerEnabled: boolean; bannerContent: string };
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  return { paths: locales.map((l) => `/${l}`), fallback: false };
+};
+
+export const getStaticProps: GetStaticProps<
+  Props,
+  { locale: string }
+> = async ({ params }) => {
+  const locale = params!.locale;
+
+  try {
+    const { bannerEnabled, bannerContent } = await getBannerFromGitLabWiki({
+      locale,
+    });
+
+    return {
+      props: { locale, bannerEnabled, bannerContent },
+      revalidate: 60 * 5,
+    };
+  } catch (e) {
+    console.error(e);
+  }
+
   return {
-    props: {},
+    props: { locale, bannerEnabled: false, bannerContent: "" },
+    revalidate: 60 * 5,
   };
 };
 
 const HEADER_HEIGHT_S = "107px";
 const HEADER_HEIGHT_M_UP = "96px";
 
-const IndexPage = () => {
+const IndexPage = ({ locale, bannerEnabled, bannerContent }: Props) => {
   const [
     { period, priceComponent, category, product, download },
   ] = useQueryStateSingle();
@@ -85,6 +114,9 @@ const IndexPage = () => {
             position: "relative",
           }}
         >
+          {bannerEnabled ? (
+            <HintBlue iconName="info">{bannerContent}</HintBlue>
+          ) : null}
           <Flex
             sx={{
               py: 8,
@@ -124,7 +156,6 @@ const IndexPage = () => {
 
             <Search />
           </Flex>
-
           <Grid
             sx={{
               width: "100%",
