@@ -1,20 +1,23 @@
 import { Icon } from "../../icons";
 import { Trans } from "@lingui/macro";
-import { Box, Flex, Text, Link as UILink } from "@theme-ui/components";
+import { Box, Flex, Text, Link as UILink, Grid } from "@theme-ui/components";
 import * as React from "react";
 import { LocalizedLink, HomeLink } from "../links";
 import { useRouter } from "next/router";
 import { Search } from "../search";
+import { Entity } from "../../domain/data";
 
 export const DetailPageBanner = ({
   id,
   name,
+  entity,
   canton,
   operators,
   municipalities,
 }: {
   id: string;
   name: string;
+  entity: Entity;
   canton?: { id: string; name: string };
   operators?: { id: string; name: string }[];
   municipalities?: { id: string; name: string }[];
@@ -23,30 +26,39 @@ export const DetailPageBanner = ({
   return (
     <Box
       sx={{
-        p: 4,
+        px: [4, 6],
+        py: 5,
         bg: "monochrome100",
         borderBottomWidth: "1px",
         borderBottomStyle: "solid",
         borderBottomColor: "monochrome500",
       }}
     >
-      <Flex
+      <Grid
         sx={{
-          flexDirection: ["column", "column", "row"],
-          justifyContent: "flex-start",
-          alignItems: ["flex-start", "flex-start", "center"],
-          width: "100%",
-          mt: 4,
           mb: 6,
+          gridTemplateColumns: [
+            `1fr`,
+            `minmax(150px,1fr) minmax(300px,3fr) minmax(150px,1fr)`,
+          ],
+          gridTemplateRows: [`auto 3rem 0`, `auto`],
+          gridTemplateAreas: [
+            `"search"
+             "back"
+             "."`,
+            `"back search ."`,
+          ],
+          gap: 0,
+          alignItems: "center",
+          // flexDirection: ["column", "column", "row"],
+          // justifyContent: "flex-start",
+          // alignItems: ["flex-start", "flex-start", "center"],
+          // width: "100%",
         }}
       >
         <Box
           sx={{
-            order: [2, 2, 1],
-            flexGrow: 0,
-            flexShrink: 0,
-            mr: 6,
-            mt: [4, 4, 0],
+            gridArea: "back",
           }}
         >
           <HomeLink passHref>
@@ -56,7 +68,8 @@ export const DetailPageBanner = ({
                 display: "flex",
                 alignItems: "center",
                 fontSize: 3,
-                "> svg": { mr: 2 },
+                "> svg": { mr: 1 },
+                ml: "-8px",
               }}
             >
               <Icon name="chevronleft" size={24}></Icon>
@@ -64,13 +77,22 @@ export const DetailPageBanner = ({
             </UILink>
           </HomeLink>
         </Box>
-        <Box sx={{ order: [1, 1, 2], flexGrow: 1, width: "100%" }}>
+        <Box sx={{ gridArea: "search" }}>
           <Search />
         </Box>
-      </Flex>
+      </Grid>
 
-      <Box sx={{ maxWidth: "67rem", mx: "auto", my: 2 }}>
+      <Box sx={{ mx: "auto", my: 2 }}>
         <Text as="h1" variant="heading1" sx={{ color: "monochrome800" }}>
+          <Text variant="meta" sx={{ color: "secondary" }}>
+            {entity === "canton" ? (
+              <Trans id="detail.canton">Kanton</Trans>
+            ) : entity === "municipality" ? (
+              <Trans id="detail.municipality">Gemeinde</Trans>
+            ) : (
+              <Trans id="detail.operator">Netzbetreiber</Trans>
+            )}
+          </Text>
           {name}
         </Text>
 

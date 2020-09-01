@@ -73,13 +73,18 @@ const OperatorPage = ({ id, name, municipalities }: Props) => {
       <Header></Header>
       <Flex
         sx={{
-          pt: 96,
+          pt: [107, 96],
           flexGrow: 1,
           bg: "monochrome200",
           flexDirection: "column",
         }}
       >
-        <DetailPageBanner id={id} name={name} municipalities={municipalities} />
+        <DetailPageBanner
+          id={id}
+          name={name}
+          municipalities={municipalities}
+          entity="operator"
+        />
 
         <Box sx={{ width: "100%", maxWidth: "67rem", mx: "auto", my: 2 }}>
           <Flex

@@ -167,11 +167,13 @@ export const SearchField = ({
             },
           }}
         >
-          <Icon
-            name="search"
-            size={24}
-            color={theme.colors.monochrome700}
-          ></Icon>
+          <Box sx={{ flexShrink: 0 }}>
+            <Icon
+              name="search"
+              size={24}
+              color={theme.colors.monochrome700}
+            ></Icon>
+          </Box>
           <Text
             variant="heading3"
             sx={{
