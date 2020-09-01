@@ -20,6 +20,7 @@ import { FilterSetDescription } from "./filter-set-description";
 import { DownloadImage, Download } from "./download-image";
 import { WithClassName } from "./with-classname";
 import { useRouter } from "next/router";
+import { useLocale } from "../../lib/use-locale";
 
 const DOWNLOAD_ID: Download = "components";
 
@@ -30,6 +31,7 @@ export const PriceComponentsBarChart = ({
   id: string;
   entity: Entity;
 }) => {
+  const locale = useLocale();
   const [
     { period, category, municipality, operator, canton, product },
   ] = useQueryState();
@@ -47,6 +49,7 @@ export const PriceComponentsBarChart = ({
       : [id];
   const [observationsQuery] = useObservationsWithAllPriceComponentsQuery({
     variables: {
+      locale,
       filters: {
         period: period,
         [entity]: entityIds,

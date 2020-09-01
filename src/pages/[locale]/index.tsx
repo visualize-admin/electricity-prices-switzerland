@@ -64,6 +64,7 @@ const IndexPage = ({ locale, bannerEnabled, bannerContent }: Props) => {
 
   const [observationsQuery] = useObservationsQuery({
     variables: {
+      locale,
       priceComponent: priceComponent as PriceComponent,
       filters: {
         period: [period],

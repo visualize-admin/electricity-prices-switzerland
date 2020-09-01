@@ -8,6 +8,7 @@ import {
 } from "../graphql/queries";
 import { Icon } from "../icons";
 import { EMPTY_ARRAY } from "../lib/empty-array";
+import { useLocale } from "../lib/use-locale";
 
 const CATEGORIES = [
   {
@@ -72,7 +73,10 @@ const DocumentList = ({
 };
 
 export const OperatorDocuments = ({ id }: { id: string }) => {
-  const [documentsQuery] = useOperatorDocumentsQuery({ variables: { id } });
+  const locale = useLocale();
+  const [documentsQuery] = useOperatorDocumentsQuery({
+    variables: { locale, id },
+  });
 
   const documents = documentsQuery.data?.operator?.documents ?? EMPTY_ARRAY;
 

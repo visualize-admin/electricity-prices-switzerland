@@ -44,6 +44,7 @@ declare module "@zazuko/rdf-cube-view-query" {
     lte(arg: $FixMe): Filter;
     gte(arg: $FixMe): Filter;
     in(arg: $FixMe): Filter;
+    lang(langs: string[]): Filter;
   }
 
   class Filter extends Node {

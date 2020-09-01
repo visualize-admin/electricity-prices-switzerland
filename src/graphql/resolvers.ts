@@ -19,6 +19,7 @@ import {
   Resolvers,
   ObservationType,
 } from "./resolver-types";
+import { defaultLocale } from "../locales/locales";
 
 const Query: QueryResolvers = {
   observations: async (
@@ -43,7 +44,7 @@ const Query: QueryResolvers = {
       observationType !== ObservationType.MedianObservation &&
       observationDimensionKeys.length > 0
         ? await getObservations(
-            { view: observationsView, source },
+            { view: observationsView, source, locale: locale ?? defaultLocale },
             {
               filters,
               dimensions: observationDimensionKeys,
@@ -69,7 +70,12 @@ const Query: QueryResolvers = {
       observationType !== ObservationType.OperatorObservation &&
       medianDimensionKeys.length > 0
         ? await getObservations(
-            { view: cantonObservationsView, source, isCantons: true },
+            {
+              view: cantonObservationsView,
+              source,
+              isCantons: true,
+              locale: locale ?? defaultLocale,
+            },
             {
               filters,
               dimensions: medianDimensionKeys,

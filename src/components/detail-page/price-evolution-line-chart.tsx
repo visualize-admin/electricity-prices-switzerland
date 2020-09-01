@@ -30,6 +30,7 @@ import {
 import { Download } from "./download-image";
 import { FilterSetDescription } from "./filter-set-description";
 import { WithClassName } from "./with-classname";
+import { useLocale } from "../../lib/use-locale";
 
 const DOWNLOAD_ID: Download = "evolution";
 
@@ -40,6 +41,7 @@ export const PriceEvolution = ({
   id: string;
   entity: Entity;
 }) => {
+  const locale = useLocale();
   const [
     { period, category, municipality, operator, canton, product },
   ] = useQueryState();
@@ -58,6 +60,7 @@ export const PriceEvolution = ({
 
   const [observationsQuery] = useObservationsWithAllPriceComponentsQuery({
     variables: {
+      locale,
       filters: {
         [entity]: entityIds,
         category,

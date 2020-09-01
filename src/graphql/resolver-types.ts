@@ -156,46 +156,46 @@ export type Query = {
 
 
 export type QueryMunicipalitiesArgs = {
-  locale?: Maybe<Scalars['String']>;
+  locale: Scalars['String'];
   query?: Maybe<Scalars['String']>;
   ids?: Maybe<Array<Scalars['String']>>;
 };
 
 
 export type QueryCantonsArgs = {
-  locale?: Maybe<Scalars['String']>;
+  locale: Scalars['String'];
   query?: Maybe<Scalars['String']>;
   ids?: Maybe<Array<Scalars['String']>>;
 };
 
 
 export type QueryOperatorsArgs = {
-  locale?: Maybe<Scalars['String']>;
+  locale: Scalars['String'];
   query?: Maybe<Scalars['String']>;
   ids?: Maybe<Array<Scalars['String']>>;
 };
 
 
 export type QuerySearchArgs = {
-  locale?: Maybe<Scalars['String']>;
+  locale: Scalars['String'];
   query?: Maybe<Scalars['String']>;
 };
 
 
 export type QueryMunicipalityArgs = {
-  locale?: Maybe<Scalars['String']>;
+  locale: Scalars['String'];
   id: Scalars['String'];
 };
 
 
 export type QueryCantonArgs = {
-  locale?: Maybe<Scalars['String']>;
+  locale: Scalars['String'];
   id: Scalars['String'];
 };
 
 
 export type QueryOperatorArgs = {
-  locale?: Maybe<Scalars['String']>;
+  locale: Scalars['String'];
   id: Scalars['String'];
 };
 
@@ -415,13 +415,13 @@ export type ObservationResolvers<ContextType = ServerContext, ParentType extends
 }>;
 
 export type QueryResolvers<ContextType = ServerContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
-  municipalities?: Resolver<Array<ResolversTypes['Municipality']>, ParentType, ContextType, RequireFields<QueryMunicipalitiesArgs, never>>;
-  cantons?: Resolver<Array<ResolversTypes['Canton']>, ParentType, ContextType, RequireFields<QueryCantonsArgs, never>>;
-  operators?: Resolver<Array<ResolversTypes['Operator']>, ParentType, ContextType, RequireFields<QueryOperatorsArgs, never>>;
-  search?: Resolver<Array<ResolversTypes['SearchResult']>, ParentType, ContextType, RequireFields<QuerySearchArgs, never>>;
-  municipality?: Resolver<Maybe<ResolversTypes['Municipality']>, ParentType, ContextType, RequireFields<QueryMunicipalityArgs, 'id'>>;
-  canton?: Resolver<Maybe<ResolversTypes['Canton']>, ParentType, ContextType, RequireFields<QueryCantonArgs, 'id'>>;
-  operator?: Resolver<Maybe<ResolversTypes['Operator']>, ParentType, ContextType, RequireFields<QueryOperatorArgs, 'id'>>;
+  municipalities?: Resolver<Array<ResolversTypes['Municipality']>, ParentType, ContextType, RequireFields<QueryMunicipalitiesArgs, 'locale'>>;
+  cantons?: Resolver<Array<ResolversTypes['Canton']>, ParentType, ContextType, RequireFields<QueryCantonsArgs, 'locale'>>;
+  operators?: Resolver<Array<ResolversTypes['Operator']>, ParentType, ContextType, RequireFields<QueryOperatorsArgs, 'locale'>>;
+  search?: Resolver<Array<ResolversTypes['SearchResult']>, ParentType, ContextType, RequireFields<QuerySearchArgs, 'locale'>>;
+  municipality?: Resolver<Maybe<ResolversTypes['Municipality']>, ParentType, ContextType, RequireFields<QueryMunicipalityArgs, 'locale' | 'id'>>;
+  canton?: Resolver<Maybe<ResolversTypes['Canton']>, ParentType, ContextType, RequireFields<QueryCantonArgs, 'locale' | 'id'>>;
+  operator?: Resolver<Maybe<ResolversTypes['Operator']>, ParentType, ContextType, RequireFields<QueryOperatorArgs, 'locale' | 'id'>>;
   observations?: Resolver<Array<ResolversTypes['Observation']>, ParentType, ContextType, RequireFields<QueryObservationsArgs, never>>;
 }>;
 

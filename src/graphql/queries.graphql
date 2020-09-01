@@ -47,7 +47,7 @@ fragment medianObservationFields on MedianObservation {
 }
 
 query Observations(
-  $locale: String
+  $locale: String!
   $priceComponent: PriceComponent!
   $filters: ObservationFilters!
   $observationType: ObservationType
@@ -99,7 +99,7 @@ fragment medianObservationWithAllPriceComponentsFields on MedianObservation {
 }
 
 query ObservationsWithAllPriceComponents(
-  $locale: String
+  $locale: String!
   $filters: ObservationFilters!
   $observationType: ObservationType
 ) {
@@ -117,7 +117,7 @@ query ObservationsWithAllPriceComponents(
   }
 }
 
-query OperatorDocuments($id: String!, $locale: String) {
+query OperatorDocuments($id: String!, $locale: String!) {
   operator(id: $id, locale: $locale) {
     documents {
       id

@@ -109,16 +109,16 @@ enum ObservationType {
 
 type Query {
   municipalities(
-    locale: String
+    locale: String!
     query: String
     ids: [String!]
   ): [Municipality!]!
-  cantons(locale: String, query: String, ids: [String!]): [Canton!]!
-  operators(locale: String, query: String, ids: [String!]): [Operator!]!
-  search(locale: String, query: String): [SearchResult!]!
-  municipality(locale: String, id: String!): Municipality
-  canton(locale: String, id: String!): Canton
-  operator(locale: String, id: String!): Operator
+  cantons(locale: String!, query: String, ids: [String!]): [Canton!]!
+  operators(locale: String!, query: String, ids: [String!]): [Operator!]!
+  search(locale: String!, query: String): [SearchResult!]!
+  municipality(locale: String!, id: String!): Municipality
+  canton(locale: String!, id: String!): Canton
+  operator(locale: String!, id: String!): Operator
 
   observations(
     locale: String

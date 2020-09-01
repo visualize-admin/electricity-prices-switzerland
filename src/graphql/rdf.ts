@@ -61,9 +61,11 @@ export const getView = (cube: Cube): View => View.fromCube(cube);
 const getRegionDimensionsAndFilter = ({
   view,
   lookupSource,
+  locale,
 }: {
   view: View;
   lookupSource: LookupSource;
+  locale: string;
 }) => {
   const muniDimension = view.dimension({
     cubeDimension: ns.energyPricing("municipality"),
@@ -78,7 +80,7 @@ const getRegionDimensionsAndFilter = ({
 
   const regionLabelDimension = view.createDimension({
     source: lookupSource,
-    path: ns.schema.alternateName,
+    path: ns.schema.name,
     join: regionDimension,
     as: ns.energyPricing("regionLabel"),
   });
@@ -94,6 +96,8 @@ const getRegionDimensionsAndFilter = ({
     rdf.namedNode(ns.schemaAdmin("Canton").value)
   );
 
+  const labelLangFilter = regionLabelDimension.filter.lang([locale]);
+
   return muniDimension
     ? {
         dimensions: [
@@ -102,7 +106,7 @@ const getRegionDimensionsAndFilter = ({
           regionLabelDimension,
           regionTypeDimension,
         ],
-        filter: regionTypeFilter,
+        filters: [regionTypeFilter, labelLangFilter],
       }
     : undefined;
 };
@@ -112,7 +116,8 @@ export const getObservations = async (
     view,
     source,
     isCantons,
-  }: { view: View; source: Source; isCantons?: boolean },
+    locale,
+  }: { view: View; source: Source; isCantons?: boolean; locale: string },
   {
     filters,
     dimensions,
@@ -138,7 +143,7 @@ export const getObservations = async (
 
   const regionDimensionsAndFilter =
     !isCantons && dimensions?.some((d) => d.match(/^region/))
-      ? getRegionDimensionsAndFilter({ view, lookupSource })
+      ? getRegionDimensionsAndFilter({ view, lookupSource, locale })
       : undefined;
 
   const filterViewDimensions = dimensions
@@ -154,13 +159,19 @@ export const getObservations = async (
 
           const labelDimension = view.createDimension({
             source: lookupSource,
-            path:
-              dimensionKey === "region"
-                ? ns.schema.alternateName
-                : ns.schema.name,
+            path: ns.schema.name,
             join: dimension,
             as: ns.energyPricing(`${dimensionKey}Label`),
           });
+
+          // FIXME: we only add the language filter on region labels because we can't use it on strings without language tag (yet?!)
+          if (dimension && d === "regionLabel") {
+            const labelLangFilter = labelDimension.filter.lang([locale]);
+
+            queryFilters.push(labelLangFilter);
+          }
+
+          console.log("dimkey", dimensionKey);
 
           return dimension ? [dimension, labelDimension] : [];
         }
@@ -179,7 +190,7 @@ export const getObservations = async (
             ...filterViewDimensions,
             ...regionDimensionsAndFilter.dimensions,
           ],
-          filters: [...queryFilters, regionDimensionsAndFilter.filter],
+          filters: [...queryFilters, ...regionDimensionsAndFilter.filters],
         }
       : {
           dimensions: filterViewDimensions,
@@ -187,6 +198,7 @@ export const getObservations = async (
         }
   );
 
+  console.log("> getObservations");
   console.log(filterView.observationsQuery().query.toString());
 
   const observations = await filterView.observations();

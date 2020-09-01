@@ -34,6 +34,7 @@ import { Download } from "./download-image";
 import { FilterSetDescription } from "./filter-set-description";
 import { WithClassName } from "./with-classname";
 import { group } from "d3-array";
+import { useLocale } from "../../lib/use-locale";
 
 const DOWNLOAD_ID: Download = "distribution";
 
@@ -147,11 +148,13 @@ export const PriceDistributionHistogram = ({
   annotationIds: string[];
   entity: Entity;
 }) => {
+  const locale = useLocale();
   const [{ category, product }] = useQueryState();
   const i18n = useI18n();
 
   const [observationsQuery] = useObservationsQuery({
     variables: {
+      locale,
       priceComponent,
       filters: {
         period: [year],

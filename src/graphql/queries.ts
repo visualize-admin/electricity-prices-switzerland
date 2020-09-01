@@ -155,46 +155,46 @@ export type Query = {
 
 
 export type QueryMunicipalitiesArgs = {
-  locale?: Maybe<Scalars['String']>;
+  locale: Scalars['String'];
   query?: Maybe<Scalars['String']>;
   ids?: Maybe<Array<Scalars['String']>>;
 };
 
 
 export type QueryCantonsArgs = {
-  locale?: Maybe<Scalars['String']>;
+  locale: Scalars['String'];
   query?: Maybe<Scalars['String']>;
   ids?: Maybe<Array<Scalars['String']>>;
 };
 
 
 export type QueryOperatorsArgs = {
-  locale?: Maybe<Scalars['String']>;
+  locale: Scalars['String'];
   query?: Maybe<Scalars['String']>;
   ids?: Maybe<Array<Scalars['String']>>;
 };
 
 
 export type QuerySearchArgs = {
-  locale?: Maybe<Scalars['String']>;
+  locale: Scalars['String'];
   query?: Maybe<Scalars['String']>;
 };
 
 
 export type QueryMunicipalityArgs = {
-  locale?: Maybe<Scalars['String']>;
+  locale: Scalars['String'];
   id: Scalars['String'];
 };
 
 
 export type QueryCantonArgs = {
-  locale?: Maybe<Scalars['String']>;
+  locale: Scalars['String'];
   id: Scalars['String'];
 };
 
 
 export type QueryOperatorArgs = {
-  locale?: Maybe<Scalars['String']>;
+  locale: Scalars['String'];
   id: Scalars['String'];
 };
 
@@ -245,7 +245,7 @@ export type OperatorObservationFieldsFragment = { __typename: 'OperatorObservati
 export type MedianObservationFieldsFragment = { __typename: 'MedianObservation', period: string, canton: string, cantonLabel?: Maybe<string>, category: string, value: number };
 
 export type ObservationsQueryVariables = Exact<{
-  locale?: Maybe<Scalars['String']>;
+  locale: Scalars['String'];
   priceComponent: PriceComponent;
   filters: ObservationFilters;
   observationType?: Maybe<ObservationType>;
@@ -265,7 +265,7 @@ export type OperatorObservationWithAllPriceComponentsFieldsFragment = { __typena
 export type MedianObservationWithAllPriceComponentsFieldsFragment = { __typename: 'MedianObservation', period: string, canton: string, cantonLabel?: Maybe<string>, category: string, aidfee: number, charge: number, gridusage: number, energy: number, total: number };
 
 export type ObservationsWithAllPriceComponentsQueryVariables = Exact<{
-  locale?: Maybe<Scalars['String']>;
+  locale: Scalars['String'];
   filters: ObservationFilters;
   observationType?: Maybe<ObservationType>;
 }>;
@@ -281,7 +281,7 @@ export type ObservationsWithAllPriceComponentsQuery = { __typename: 'Query', obs
 
 export type OperatorDocumentsQueryVariables = Exact<{
   id: Scalars['String'];
-  locale?: Maybe<Scalars['String']>;
+  locale: Scalars['String'];
 }>;
 
 
@@ -388,7 +388,7 @@ export function useSearchQuery(options: Omit<Urql.UseQueryArgs<SearchQueryVariab
   return Urql.useQuery<SearchQuery>({ query: SearchDocument, ...options });
 };
 export const ObservationsDocument = gql`
-    query Observations($locale: String, $priceComponent: PriceComponent!, $filters: ObservationFilters!, $observationType: ObservationType) {
+    query Observations($locale: String!, $priceComponent: PriceComponent!, $filters: ObservationFilters!, $observationType: ObservationType) {
   observations(locale: $locale, filters: $filters, observationType: $observationType) {
     ... on OperatorObservation {
       ...operatorObservationFields
@@ -405,7 +405,7 @@ export function useObservationsQuery(options: Omit<Urql.UseQueryArgs<Observation
   return Urql.useQuery<ObservationsQuery>({ query: ObservationsDocument, ...options });
 };
 export const ObservationsWithAllPriceComponentsDocument = gql`
-    query ObservationsWithAllPriceComponents($locale: String, $filters: ObservationFilters!, $observationType: ObservationType) {
+    query ObservationsWithAllPriceComponents($locale: String!, $filters: ObservationFilters!, $observationType: ObservationType) {
   observations(locale: $locale, filters: $filters, observationType: $observationType) {
     ... on OperatorObservation {
       ...operatorObservationWithAllPriceComponentsFields
@@ -422,7 +422,7 @@ export function useObservationsWithAllPriceComponentsQuery(options: Omit<Urql.Us
   return Urql.useQuery<ObservationsWithAllPriceComponentsQuery>({ query: ObservationsWithAllPriceComponentsDocument, ...options });
 };
 export const OperatorDocumentsDocument = gql`
-    query OperatorDocuments($id: String!, $locale: String) {
+    query OperatorDocuments($id: String!, $locale: String!) {
   operator(id: $id, locale: $locale) {
     documents {
       id
