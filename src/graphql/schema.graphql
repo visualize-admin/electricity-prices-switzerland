@@ -33,6 +33,15 @@ type Operator {
   name: String!
   municipalities: [Municipality!]!
   priceComponents: PriceComponents!
+  documents: [OperatorDocument!]!
+}
+
+type OperatorDocument {
+  id: String!
+  name: String!
+  url: String!
+  year: String!
+  category: String!
 }
 
 type Canton {

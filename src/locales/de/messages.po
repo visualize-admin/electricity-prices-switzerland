@@ -40,15 +40,15 @@ msgstr "Sortieren"
 msgid "detail.canton"
 msgstr "Kanton"
 
-#: src/components/detail-page/cantons-comparison-range.tsx:37
+#: src/components/detail-page/cantons-comparison-range.tsx:36
 msgid "detail.card.title.cantons.comparison"
 msgstr "Kantonsvergleich"
 
-#: src/components/detail-page/price-components-bars.tsx:54
+#: src/components/detail-page/price-components-bars.tsx:52
 msgid "detail.card.title.price.components"
 msgstr "Preiskomponenten"
 
-#: src/components/detail-page/price-distribution-histogram.tsx:39
+#: src/components/detail-page/price-distribution-histogram.tsx:38
 msgid "detail.card.title.prices.distribution"
 msgstr "Preisverteilung in der Schweiz"
 
@@ -67,6 +67,38 @@ msgstr "Gemeinden"
 #: src/components/detail-page/banner.tsx:71
 msgid "detail.operators"
 msgstr "Netzbetreiber"
+
+#: src/components/operator-documents.tsx:21
+msgid "download.category.annualreport"
+msgstr "Geschäftsbericht"
+
+#: src/components/operator-documents.tsx:22
+msgid "download.category.annualreports"
+msgstr "Geschäftsberichte"
+
+#: src/components/operator-documents.tsx:16
+msgid "download.category.financialstatement"
+msgstr "Jahresrechnung"
+
+#: src/components/operator-documents.tsx:17
+msgid "download.category.financialstatements"
+msgstr "Jahresrechnungen"
+
+#: src/components/operator-documents.tsx:11
+msgid "download.category.tariff"
+msgstr "Tarifblatt"
+
+#: src/components/operator-documents.tsx:12
+msgid "download.category.tariffs"
+msgstr "Tarifblätter"
+
+#: src/components/operator-documents.tsx:35
+msgid "download.filetype.pdf"
+msgstr "PDF-Datei"
+
+#: src/components/operator-documents.tsx:55
+msgid "download.nooperatordocuments"
+msgstr "Keine Netzbetreiber-Dokumente"
 
 #: src/domain/translation.tsx:51
 msgid "filters.category"
@@ -108,15 +140,15 @@ msgstr "Max"
 msgid "histogram.min"
 msgstr "Min"
 
-#: src/components/detail-page/download-image.tsx:29
+#: src/components/detail-page/download-image.tsx:27
 msgid "image.download"
 msgstr "Bild herunterladen"
 
-#: src/components/detail-page/download-image.tsx:31
+#: src/components/detail-page/download-image.tsx:29
 msgid "image.download.source"
 msgstr "Eidgenössische Elektrizitätskommission ElCom"
 
-#: src/components/detail-page/download-image.tsx:34
+#: src/components/detail-page/download-image.tsx:32
 msgid "image.download.unit"
 msgstr "Tarifvergleich in Rp./kWh"
 
@@ -173,7 +205,7 @@ msgstr "median"
 msgid "price.legend.min"
 msgstr "min"
 
-#: src/pages/[locale]/index.tsx:97
+#: src/pages/[locale]/index.tsx:95
 msgid "search.global"
 msgstr "Detaillierte Preisanalysen von Kantonen, Gemeinden und Netzbetreibern."
 
@@ -189,15 +221,15 @@ msgstr "Gehe zu…"
 msgid "search.global.label"
 msgstr "Geben Sie Gemeindename, PLZ, Netzbetreiber, Kanton ein …"
 
-#: src/domain/translation.tsx:61
+#: src/domain/translation.tsx:64
 msgid "search.result.canton"
 msgstr "Kanton"
 
-#: src/domain/translation.tsx:59
+#: src/domain/translation.tsx:61
 msgid "search.result.municipality"
 msgstr "Gemeinde"
 
-#: src/domain/translation.tsx:57
+#: src/domain/translation.tsx:58
 msgid "search.result.operator"
 msgstr "Netzbetreiber"
 
@@ -287,8 +319,8 @@ msgstr "Parameter auswählen"
 msgid "selector.priceComponent"
 msgstr "Preiskomponente"
 
-#: src/components/detail-page/cantons-comparison-range.tsx:66
-#: src/components/detail-page/price-distribution-histogram.tsx:68
+#: src/components/detail-page/cantons-comparison-range.tsx:65
+#: src/components/detail-page/price-distribution-histogram.tsx:67
 msgid "selector.priceComponents"
 msgstr "Preis Komponenten"
 
@@ -334,6 +366,6 @@ msgid "selector.years"
 msgstr "Jahre"
 
 #: src/components/header.tsx:65
-#: src/pages/[locale]/index.tsx:85
+#: src/pages/[locale]/index.tsx:83
 msgid "site.title"
 msgstr "Strompreise Schweiz"

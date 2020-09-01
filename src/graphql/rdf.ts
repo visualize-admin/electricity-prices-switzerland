@@ -450,6 +450,60 @@ export const search = async ({
   });
 };
 
+export const getOperatorDocuments = async ({
+  operatorId,
+  source,
+}: {
+  operatorId: string;
+  source: Source;
+}) => {
+  const operatorIri = addNamespaceToID({
+    dimension: "operator",
+    id: operatorId,
+  });
+
+  const sparql = `
+PREFIX schema: <http://schema.org/>
+SELECT DISTINCT ?download ?name ?url ?year ?category
+FROM <https://lindas.admin.ch/elcom/electricityprice>  {
+  ?download a schema:CreativeWork ;
+    schema:name ?name ;
+    schema:url ?url ;
+    schema:temporalCoverage ?year ;
+    schema:category ?category ;
+    schema:creator <${operatorIri}> .
+}
+  `;
+
+  const client = (source as $FixMe).client;
+
+  console.log(sparql);
+
+  const results: {
+    name: Literal;
+    url: Literal;
+    year: Literal;
+    category: NamedNode;
+    download: NamedNode;
+  }[] = await client.query.select(sparql);
+
+  return results.map((d) => {
+    const id = d.download.value;
+    const year = d.year.value;
+    const category = d.category.value;
+    const name = d.name.value;
+    const url = d.url.value;
+
+    return {
+      id,
+      name,
+      category,
+      year,
+      url,
+    };
+  });
+};
+
 /**
  * Strips the namespace from an IRI to get shorter IDs
  *

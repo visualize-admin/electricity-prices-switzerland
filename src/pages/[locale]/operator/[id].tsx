@@ -14,6 +14,7 @@ import {
   getView,
 } from "../../../graphql/rdf";
 import { useRouter } from "next/router";
+import { OperatorDocuments } from "../../../components/operator-documents";
 
 type Props = {
   id: string;
@@ -111,6 +112,7 @@ const OperatorPage = ({ id, name, municipalities }: Props) => {
                 }}
               >
                 <SelectorMulti entity="operator" />
+                <OperatorDocuments id={id} />
               </Box>
             )}
           </Flex>

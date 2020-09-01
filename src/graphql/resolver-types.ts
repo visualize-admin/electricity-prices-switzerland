@@ -56,6 +56,16 @@ export type Operator = {
   name: Scalars['String'];
   municipalities: Array<Municipality>;
   priceComponents: PriceComponents;
+  documents: Array<OperatorDocument>;
+};
+
+export type OperatorDocument = {
+  __typename?: 'OperatorDocument';
+  id: Scalars['String'];
+  name: Scalars['String'];
+  url: Scalars['String'];
+  year: Scalars['String'];
+  category: Scalars['String'];
 };
 
 export type Canton = {
@@ -271,6 +281,7 @@ export type ResolversTypes = ResolversObject<{
   CantonResult: ResolverTypeWrapper<ResolvedSearchResult>;
   Municipality: ResolverTypeWrapper<ResolvedMunicipality>;
   Operator: ResolverTypeWrapper<ResolvedOperator>;
+  OperatorDocument: ResolverTypeWrapper<OperatorDocument>;
   Canton: ResolverTypeWrapper<ResolvedCanton>;
   TemporalDimension: ResolverTypeWrapper<TemporalDimension>;
   OperatorObservation: ResolverTypeWrapper<ResolvedOperatorObservation>;
@@ -294,6 +305,7 @@ export type ResolversParentTypes = ResolversObject<{
   CantonResult: ResolvedSearchResult;
   Municipality: ResolvedMunicipality;
   Operator: ResolvedOperator;
+  OperatorDocument: OperatorDocument;
   Canton: ResolvedCanton;
   TemporalDimension: TemporalDimension;
   OperatorObservation: ResolvedOperatorObservation;
@@ -347,6 +359,16 @@ export type OperatorResolvers<ContextType = ServerContext, ParentType extends Re
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   municipalities?: Resolver<Array<ResolversTypes['Municipality']>, ParentType, ContextType>;
   priceComponents?: Resolver<ResolversTypes['PriceComponents'], ParentType, ContextType>;
+  documents?: Resolver<Array<ResolversTypes['OperatorDocument']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+}>;
+
+export type OperatorDocumentResolvers<ContextType = ServerContext, ParentType extends ResolversParentTypes['OperatorDocument'] = ResolversParentTypes['OperatorDocument']> = ResolversObject<{
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  url?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  year?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  category?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 }>;
 
@@ -411,6 +433,7 @@ export type Resolvers<ContextType = ServerContext> = ResolversObject<{
   CantonResult?: CantonResultResolvers<ContextType>;
   Municipality?: MunicipalityResolvers<ContextType>;
   Operator?: OperatorResolvers<ContextType>;
+  OperatorDocument?: OperatorDocumentResolvers<ContextType>;
   Canton?: CantonResolvers<ContextType>;
   TemporalDimension?: TemporalDimensionResolvers<ContextType>;
   OperatorObservation?: OperatorObservationResolvers<ContextType>;

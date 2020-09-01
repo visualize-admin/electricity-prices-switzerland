@@ -6,6 +6,7 @@ import {
   getObservations,
   search,
   stripNamespaceFromIri,
+  getOperatorDocuments,
 } from "./rdf";
 import { ResolvedObservation } from "./resolver-mapped-types";
 import {
@@ -222,6 +223,9 @@ const Operator: OperatorResolvers = {
   },
   priceComponents: () => {
     return { total: 63 };
+  },
+  documents: async ({ id, source }) => {
+    return getOperatorDocuments({ operatorId: id, source });
   },
 };
 
