@@ -12,12 +12,12 @@ export type ServerContext = {
   cantonObservationsView: View;
 };
 
-let contextCache: ServerContext | undefined;
-
 export const context = async (): Promise<ServerContext> => {
-  if (contextCache) {
-    return contextCache;
-  }
+  // FIXME: Cache disabled – for now because of out-of-memory errors
+  let contextCache: ServerContext | undefined;
+  // if (contextCache) {
+  //   return contextCache;
+  // }
 
   const source = getSource();
   const [observationsCube, cantonObservationsCube] = await Promise.all([
