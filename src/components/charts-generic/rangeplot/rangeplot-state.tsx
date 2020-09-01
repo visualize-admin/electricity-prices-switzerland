@@ -100,7 +100,7 @@ const useRangePlotState = ({
     yScale.domain().length > 1
       ? [...yScale.domain()].sort((a, b) => b.length - a.length)[0]
       : yScale.domain()[0],
-    12
+    13
   );
   const margins = {
     top: 70,
