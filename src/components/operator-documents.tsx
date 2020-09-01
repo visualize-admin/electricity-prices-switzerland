@@ -113,7 +113,7 @@ export const OperatorDocuments = ({ id }: { id: string }) => {
         }
 
         return (
-          <Box key={category.id} sx={{ m: 6 }}>
+          <Box key={category.id} sx={{ mx: 4, my: 6 }}>
             <Text as="h4" sx={{ mb: 3 }} variant="lead">
               {category.categoryLabel}
             </Text>

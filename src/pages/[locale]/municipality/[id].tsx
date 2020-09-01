@@ -1,8 +1,10 @@
 import { Box, Flex } from "@theme-ui/components";
 import { GetServerSideProps } from "next";
+import { useRouter } from "next/router";
 import * as React from "react";
 import { DetailPageBanner } from "../../../components/detail-page/banner";
 import { CantonsComparisonRangePlots } from "../../../components/detail-page/cantons-comparison-range";
+import { DetailPageLayout } from "../../../components/detail-page/layout";
 import { PriceComponentsBarChart } from "../../../components/detail-page/price-components-bars";
 import { PriceDistributionHistograms } from "../../../components/detail-page/price-distribution-histogram";
 import { PriceEvolution } from "../../../components/detail-page/price-evolution-line-chart";
@@ -14,7 +16,6 @@ import {
   getSource,
   getView,
 } from "../../../graphql/rdf";
-import { useRouter } from "next/router";
 
 type Props = {
   id: string;
@@ -75,12 +76,11 @@ const MunicipalityPage = ({ id, name, operators }: Props) => {
   return (
     <Flex sx={{ minHeight: "100vh", flexDirection: "column" }}>
       {!query.download && <Header></Header>}
-      <Flex
+      <Box
         sx={{
           pt: [107, 96],
           flexGrow: 1,
           bg: "monochrome200",
-          flexDirection: "column",
         }}
       >
         <DetailPageBanner
@@ -90,42 +90,42 @@ const MunicipalityPage = ({ id, name, operators }: Props) => {
           entity="municipality"
         />
 
-        <Box sx={{ width: "100%", maxWidth: "67rem", mx: "auto", my: 2 }}>
-          <Flex
-            sx={{ width: "100%", flexDirection: ["column", "column", "row"] }}
-          >
-            <Box
-              sx={{
-                order: [2, 2, 1],
-                flex: ["1 1 100%", "1 1 100%", `2 2 ${2 / 3}%`],
-              }}
-            >
-              {(!query.download || query.download === "components") && (
+        {query.download ? (
+          <DetailPageLayout
+            main={
+              <>
+                {query.download === "components" && (
+                  <PriceComponentsBarChart id={id} entity="municipality" />
+                )}
+                {query.download === "evolution" && (
+                  <PriceEvolution id={id} entity="municipality" />
+                )}
+                {query.download === "distribution" && (
+                  <PriceDistributionHistograms id={id} entity="municipality" />
+                )}
+                {query.download === "comparison" && (
+                  <CantonsComparisonRangePlots id={id} entity="municipality" />
+                )}
+              </>
+            }
+            selector={null}
+            aside={null}
+          />
+        ) : (
+          <DetailPageLayout
+            main={
+              <>
                 <PriceComponentsBarChart id={id} entity="municipality" />
-              )}
-              {(!query.download || query.download === "evolution") && (
                 <PriceEvolution id={id} entity="municipality" />
-              )}
-              {(!query.download || query.download === "distribution") && (
                 <PriceDistributionHistograms id={id} entity="municipality" />
-              )}
-              {(!query.download || query.download === "comparison") && (
                 <CantonsComparisonRangePlots id={id} entity="municipality" />
-              )}
-            </Box>
-            {!query.download && (
-              <Box
-                sx={{
-                  order: [1, 1, 2],
-                  flex: ["1 1 100%", "1 1 100%", `1 1 ${1 / 3}%`],
-                }}
-              >
-                <SelectorMulti entity="municipality" />
-              </Box>
-            )}
-          </Flex>
-        </Box>
-      </Flex>
+              </>
+            }
+            selector={<SelectorMulti entity="municipality" />}
+            aside={null}
+          />
+        )}
+      </Box>
       <Footer></Footer>
     </Flex>
   );

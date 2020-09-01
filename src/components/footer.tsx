@@ -20,7 +20,7 @@ export const Footer = () => {
         bg: "monochrome200",
         borderTopWidth: "1px",
         borderTopStyle: "solid",
-        borderTopColor: "monochrome100",
+        borderTopColor: "monochrome500",
       }}
     >
       <Box

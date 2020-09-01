@@ -177,6 +177,9 @@ const IndexPage = ({ locale, bannerEnabled, bannerContent }: Props) => {
                 height: ["70vw", `calc(100vh - ${HEADER_HEIGHT_M_UP})`],
                 maxHeight: ["50vh", "100vh"],
                 position: ["relative", "sticky"],
+                borderRightWidth: "1px",
+                borderRightStyle: "solid",
+                borderRightColor: "monochrome500",
               }}
             >
               <ChoroplethMap

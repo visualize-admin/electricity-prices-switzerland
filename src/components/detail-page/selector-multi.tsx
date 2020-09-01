@@ -26,11 +26,9 @@ export const SelectorMulti = ({
         flexDirection: "column",
         justifyContent: "flex-start",
         bg: "primaryLight",
-        m: 4,
         px: 4,
         py: 4,
         zIndex: 13,
-        borderRadius: "default",
         "> div": { mt: 4 },
         "> fieldset": { mt: 4 },
       }}

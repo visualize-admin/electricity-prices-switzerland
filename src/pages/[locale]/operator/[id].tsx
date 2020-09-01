@@ -1,20 +1,21 @@
-import { Box, Flex } from "@theme-ui/components";
+import { Flex } from "@theme-ui/components";
 import { GetServerSideProps } from "next";
+import { useRouter } from "next/router";
 import { DetailPageBanner } from "../../../components/detail-page/banner";
 import { CantonsComparisonRangePlots } from "../../../components/detail-page/cantons-comparison-range";
+import { DetailPageLayout } from "../../../components/detail-page/layout";
 import { PriceComponentsBarChart } from "../../../components/detail-page/price-components-bars";
 import { PriceDistributionHistograms } from "../../../components/detail-page/price-distribution-histogram";
 import { PriceEvolution } from "../../../components/detail-page/price-evolution-line-chart";
 import { SelectorMulti } from "../../../components/detail-page/selector-multi";
 import { Footer } from "../../../components/footer";
 import { Header } from "../../../components/header";
+import { OperatorDocuments } from "../../../components/operator-documents";
 import {
   getDimensionValuesAndLabels,
   getSource,
   getView,
 } from "../../../graphql/rdf";
-import { useRouter } from "next/router";
-import { OperatorDocuments } from "../../../components/operator-documents";
 
 type Props = {
   id: string;
@@ -70,7 +71,7 @@ const OperatorPage = ({ id, name, municipalities }: Props) => {
 
   return (
     <Flex sx={{ minHeight: "100vh", flexDirection: "column" }}>
-      <Header></Header>
+      {!query.download && <Header></Header>}
       <Flex
         sx={{
           pt: [107, 96],
@@ -86,42 +87,41 @@ const OperatorPage = ({ id, name, municipalities }: Props) => {
           entity="operator"
         />
 
-        <Box sx={{ width: "100%", maxWidth: "67rem", mx: "auto", my: 2 }}>
-          <Flex
-            sx={{ width: "100%", flexDirection: ["column", "column", "row"] }}
-          >
-            <Box
-              sx={{
-                order: [2, 2, 1],
-                flex: ["1 1 100%", "1 1 100%", `2 2 ${2 / 3}%`],
-              }}
-            >
-              {(!query.download || query.download === "components") && (
+        {query.download ? (
+          <DetailPageLayout
+            main={
+              <>
+                {query.download === "components" && (
+                  <PriceComponentsBarChart id={id} entity="operator" />
+                )}
+                {query.download === "evolution" && (
+                  <PriceEvolution id={id} entity="operator" />
+                )}
+                {query.download === "distribution" && (
+                  <PriceDistributionHistograms id={id} entity="operator" />
+                )}
+                {query.download === "comparison" && (
+                  <CantonsComparisonRangePlots id={id} entity="operator" />
+                )}
+              </>
+            }
+            selector={null}
+            aside={null}
+          />
+        ) : (
+          <DetailPageLayout
+            main={
+              <>
                 <PriceComponentsBarChart id={id} entity="operator" />
-              )}
-              {(!query.download || query.download === "evolution") && (
                 <PriceEvolution id={id} entity="operator" />
-              )}
-              {(!query.download || query.download === "distribution") && (
                 <PriceDistributionHistograms id={id} entity="operator" />
-              )}
-              {(!query.download || query.download === "comparison") && (
                 <CantonsComparisonRangePlots id={id} entity="operator" />
-              )}
-            </Box>
-            {!query.download && (
-              <Box
-                sx={{
-                  order: [1, 1, 2],
-                  flex: ["1 1 100%", "1 1 100%", `1 1 ${1 / 3}%`],
-                }}
-              >
-                <SelectorMulti entity="operator" />
-                <OperatorDocuments id={id} />
-              </Box>
-            )}
-          </Flex>
-        </Box>
+              </>
+            }
+            selector={<SelectorMulti entity="operator" />}
+            aside={<OperatorDocuments id={id} />}
+          />
+        )}
       </Flex>
       <Footer></Footer>
     </Flex>
