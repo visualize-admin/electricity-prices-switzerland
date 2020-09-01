@@ -7,6 +7,7 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 const buildEnv = {
   VERSION: `v${pkg.version}`,
   DEPLOYMENT: process.env.DEPLOYMENT,
+  MATOMO_ID: process.env.MATOMO_ID,
 };
 
 console.log("Build Environment:", buildEnv);
