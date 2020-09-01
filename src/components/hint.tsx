@@ -127,8 +127,6 @@ export const HintBlue = ({
     sx={{
       width: "auto",
       height: "auto",
-      mb: 4,
-      mx: 6,
       p: 5,
       bg: "primaryLight",
       color: "primary",
