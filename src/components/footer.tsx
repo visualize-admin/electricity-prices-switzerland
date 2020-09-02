@@ -6,68 +6,95 @@ import { ReactNode } from "react";
 import contentRoutes from "../content-routes.json";
 import { useLocale } from "../lib/use-locale";
 import { LogoDesktop } from "./logo";
+import { Icon } from "../icons";
+import { useQueryStateSingle } from "../lib/use-query-state";
 
 export const Footer = () => {
   const locale = useLocale();
+  const [{ period }] = useQueryStateSingle();
 
   return (
-    <Flex
-      as="footer"
-      sx={{
-        flexDirection: ["column", "row"],
-        justifyContent: ["flex-start", "space-between"],
-        alignItems: ["flex-start", "center"],
-        bg: "monochrome200",
-        borderTopWidth: "1px",
-        borderTopStyle: "solid",
-        borderTopColor: "monochrome500",
-      }}
-    >
+    <>
       <Box
         sx={{
-          width: ["100%", "auto"],
+          bg: "monochrome200",
+          borderTopWidth: "1px",
+          borderTopStyle: "solid",
+          borderTopColor: "monochrome500",
           px: 4,
-          py: 5,
-          color: ["monochrome900", "monochrome700"],
+          py: 6,
         }}
       >
-        <Trans id="footer.institution.name">ElCom</Trans>
+        <Link
+          href={`/api/data-export?period=${period}&locale=${locale}`}
+          variant="inline"
+        >
+          <Flex>
+            <Box sx={{ flexShrink: 0, mr: 2 }}>
+              <Icon name="excel" size={20} />
+            </Box>{" "}
+            <Trans id="download.rawdata">Rohdaten</Trans> {period} (
+            <Trans id="download.filetype.csv">CSV-Datei</Trans>)
+          </Flex>
+        </Link>
       </Box>
-
       <Flex
+        as="footer"
         sx={{
           flexDirection: ["column", "row"],
+          justifyContent: ["flex-start", "space-between"],
           alignItems: ["flex-start", "center"],
+          bg: "monochrome200",
+          borderTopWidth: "1px",
+          borderTopStyle: "solid",
+          borderTopColor: "monochrome500",
         }}
       >
-        <Flex sx={{ flexDirection: ["column", "row"] }} pb={[4, 0]}>
-          {/* <FooterLink>
+        <Box
+          sx={{
+            width: ["100%", "auto"],
+            px: 4,
+            py: 5,
+            color: ["monochrome900", "monochrome700"],
+          }}
+        >
+          <Trans id="footer.institution.name">ElCom</Trans>
+        </Box>
+
+        <Flex
+          sx={{
+            flexDirection: ["column", "row"],
+            alignItems: ["flex-start", "center"],
+          }}
+        >
+          <Flex sx={{ flexDirection: ["column", "row"] }} pb={[4, 0]}>
+            {/* <FooterLink>
             <Trans id="footer.help">Help</Trans>
           </FooterLink>
           <FooterLink>
             <Trans id="footer.contact">Contact</Trans>
           </FooterLink> */}
-        </Flex>
+          </Flex>
 
-        <Box
-          sx={{
-            width: "100vw",
-            display: ["block", "none"],
-            px: 4,
-            py: 5,
-            borderTopWidth: "1px",
-            borderBottomWidth: "1px",
-            borderTopStyle: "solid",
-            borderBottomStyle: "solid",
-            borderTopColor: "monochrome500",
-            borderBottomColor: "monochrome500",
-          }}
-        >
-          <LogoDesktop />
-        </Box>
+          <Box
+            sx={{
+              width: "100vw",
+              display: ["block", "none"],
+              px: 4,
+              py: 5,
+              borderTopWidth: "1px",
+              borderBottomWidth: "1px",
+              borderTopStyle: "solid",
+              borderBottomStyle: "solid",
+              borderTopColor: "monochrome500",
+              borderBottomColor: "monochrome500",
+            }}
+          >
+            <LogoDesktop />
+          </Box>
 
-        <Flex sx={{ justifyContent: "flex-end", width: ["100%", "auto"] }}>
-          {/* <NextLink href={contentRoutes.legal[locale].path} passHref>
+          <Flex sx={{ justifyContent: "flex-end", width: ["100%", "auto"] }}>
+            {/* <NextLink href={contentRoutes.legal[locale].path} passHref>
             <FooterLinkBottom>
               {contentRoutes.legal[locale].title}
             </FooterLinkBottom>
@@ -77,9 +104,10 @@ export const Footer = () => {
               {contentRoutes.imprint[locale].title}
             </FooterLinkBottom>
           </NextLink> */}
+          </Flex>
         </Flex>
       </Flex>
-    </Flex>
+    </>
   );
 };
 
