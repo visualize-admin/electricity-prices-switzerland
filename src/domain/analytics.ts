@@ -4,7 +4,32 @@ declare global {
   }
 }
 
-export const analyticsPageView = (path: string) => {
-  console.log(window._paq);
-  window._paq?.push(["trackPageView"]);
+// See https://developer.matomo.org/guides/spa-tracking
+export const analyticsPageView = (path: string): void => {
+  console.log("analytics", path);
+
+  const { _paq } = window;
+
+  if (!_paq) {
+    return;
+  }
+
+  _paq.push(["setCustomUrl", path]);
+  _paq.push(["deleteCustomVariables", "page"]);
+  _paq.push(["setGenerationTimeMs", 0]); // TODO: should we track real navigation time?
+  _paq.push(["trackPageView"]);
+  _paq.push(["enableLinkTracking"]);
+};
+
+// See https://developer.matomo.org/guides/tracking-javascript-guide
+export const analyticsSiteSearch = (query: string, results: number): void => {
+  console.log("analytics search", query, results);
+
+  const { _paq } = window;
+
+  if (!_paq) {
+    return;
+  }
+
+  _paq.push(["trackSiteSearch", query, false, results]);
 };

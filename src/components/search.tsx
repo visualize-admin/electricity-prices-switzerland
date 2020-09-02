@@ -2,7 +2,14 @@ import { Label } from "./form";
 import { Box, Button, Flex, Input, Text, Link as TUILink } from "theme-ui";
 import { Trans } from "@lingui/macro";
 import { rollup, group } from "d3-array";
-import { useMemo, useState, ReactNode, useRef, Fragment } from "react";
+import {
+  useMemo,
+  useState,
+  ReactNode,
+  useRef,
+  Fragment,
+  useEffect,
+} from "react";
 import { useSearchQuery } from "../graphql/queries";
 import { useLocale } from "../lib/use-locale";
 import { useCombobox } from "downshift";
@@ -13,6 +20,8 @@ import { useTheme } from "../themes";
 import { getLocalizedLabel } from "../domain/translation";
 import { useI18n } from "./i18n-context";
 import VisuallyHidden from "@reach/visually-hidden";
+import { EMPTY_ARRAY } from "../lib/empty-array";
+import { analyticsSiteSearch } from "../domain/analytics";
 
 export const Search = () => {
   const locale = useLocale();
@@ -26,8 +35,27 @@ export const Search = () => {
     pause: searchString === "",
   });
 
-  // FIXME: use search results, not operators
-  const items = gqlQuery.data?.search ?? [];
+  const items = gqlQuery.data?.search ?? EMPTY_ARRAY;
+
+  useEffect(() => {
+    const currentVariables = gqlQuery.operation?.variables as
+      | {
+          locale: string;
+          query: string;
+        }
+      | undefined;
+
+    // Make sure that we only track search when the actual query matches the search string.
+    // If this is not checked, we get a false results because fetching is updated in a 2nd render pass.
+    // Effectively, searches are only tracked _after_ the results have loaded
+    if (
+      currentVariables?.query === searchString &&
+      !gqlQuery.fetching &&
+      searchString !== ""
+    ) {
+      analyticsSiteSearch(searchString, items.length);
+    }
+  }, [gqlQuery, searchString, items]);
 
   const itemById = useMemo(() => {
     return rollup(
@@ -79,7 +107,7 @@ export const SearchField = ({
   const i18n = useI18n();
 
   const inputEl = useRef<HTMLInputElement>(null);
-  const { query, pathname, push } = useRouter();
+  const { query, push } = useRouter();
   const [inputValue, setInputValue] = useState("");
 
   const {
