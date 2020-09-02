@@ -13,6 +13,7 @@ export const analyticsPageView = (path: string): void => {
   }
 
   _paq.push(["setCustomUrl", path]);
+  _paq.push(["setDocumentTitle", document.title]);
   _paq.push(["deleteCustomVariables", "page"]);
   _paq.push(["setGenerationTimeMs", 0]); // TODO: should we track real navigation time?
   _paq.push(["trackPageView"]);

@@ -20,6 +20,8 @@ import { locales } from "../../locales/locales";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { Hint, HintBlue } from "../../components/hint";
 import { getBannerFromGitLabWiki } from "../../domain/gitlab-wiki-api";
+import Head from "next/head";
+import { useI18n } from "../../components/i18n-context";
 
 const DOWNLOAD_ID = "map";
 
@@ -62,6 +64,8 @@ const IndexPage = ({ locale, bannerEnabled, bannerContent }: Props) => {
     { period, priceComponent, category, product, download },
   ] = useQueryStateSingle();
 
+  const i18n = useI18n();
+
   const [observationsQuery] = useObservationsQuery({
     variables: {
       locale,
@@ -97,6 +101,9 @@ const IndexPage = ({ locale, bannerEnabled, bannerContent }: Props) => {
 
   return (
     <>
+      <Head>
+        <title>{i18n._("site.title")}</title>
+      </Head>
       <Grid
         sx={{
           minHeight: "100vh",

@@ -11,6 +11,8 @@ import { SelectorMulti } from "../../../components/detail-page/selector-multi";
 import { Footer } from "../../../components/footer";
 import { Header } from "../../../components/header";
 import { getSource, search } from "../../../graphql/rdf";
+import { useI18n } from "../../../components/i18n-context";
+import Head from "next/head";
 
 type Props = {
   id: string;
@@ -42,58 +44,66 @@ export const getServerSideProps: GetServerSideProps<
 };
 
 const CantonPage = ({ id, name }: Props) => {
+  const i18n = useI18n();
   const { query } = useRouter();
 
   return (
-    <Flex sx={{ minHeight: "100vh", flexDirection: "column" }}>
-      {!query.download && <Header></Header>}
-      <Box
-        sx={{
-          pt: [107, 96],
-          flexGrow: 1,
-          bg: "monochrome200",
-        }}
-      >
-        <DetailPageBanner id={id} name={name} entity="canton" />
+    <>
+      <Head>
+        <title>{`${i18n._("detail.operator")} ${name} – ${i18n._(
+          "site.title"
+        )}`}</title>
+      </Head>
+      <Flex sx={{ minHeight: "100vh", flexDirection: "column" }}>
+        {!query.download && <Header></Header>}
+        <Box
+          sx={{
+            pt: [107, 96],
+            flexGrow: 1,
+            bg: "monochrome200",
+          }}
+        >
+          <DetailPageBanner id={id} name={name} entity="canton" />
 
-        {query.download ? (
-          <DetailPageLayout
-            main={
-              <>
-                {query.download === "components" && (
+          {query.download ? (
+            <DetailPageLayout
+              main={
+                <>
+                  {query.download === "components" && (
+                    <PriceComponentsBarChart id={id} entity="canton" />
+                  )}
+                  {query.download === "evolution" && (
+                    <PriceEvolution id={id} entity="canton" />
+                  )}
+                  {query.download === "distribution" && (
+                    <PriceDistributionHistograms id={id} entity="canton" />
+                  )}
+                  {query.download === "comparison" && (
+                    <CantonsComparisonRangePlots id={id} entity="canton" />
+                  )}
+                </>
+              }
+              selector={null}
+              aside={null}
+            />
+          ) : (
+            <DetailPageLayout
+              main={
+                <>
                   <PriceComponentsBarChart id={id} entity="canton" />
-                )}
-                {query.download === "evolution" && (
                   <PriceEvolution id={id} entity="canton" />
-                )}
-                {query.download === "distribution" && (
                   <PriceDistributionHistograms id={id} entity="canton" />
-                )}
-                {query.download === "comparison" && (
                   <CantonsComparisonRangePlots id={id} entity="canton" />
-                )}
-              </>
-            }
-            selector={null}
-            aside={null}
-          />
-        ) : (
-          <DetailPageLayout
-            main={
-              <>
-                <PriceComponentsBarChart id={id} entity="canton" />
-                <PriceEvolution id={id} entity="canton" />
-                <PriceDistributionHistograms id={id} entity="canton" />
-                <CantonsComparisonRangePlots id={id} entity="canton" />
-              </>
-            }
-            selector={<SelectorMulti entity="canton" />}
-            aside={null}
-          />
-        )}
-      </Box>
-      <Footer></Footer>
-    </Flex>
+                </>
+              }
+              selector={<SelectorMulti entity="canton" />}
+              aside={null}
+            />
+          )}
+        </Box>
+        <Footer></Footer>
+      </Flex>
+    </>
   );
 };
 

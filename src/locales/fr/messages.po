@@ -66,10 +66,13 @@ msgid "detail.municipalities"
 msgstr "Communes"
 
 #: src/components/detail-page/banner.tsx:58
+#: src/pages/[locale]/municipality/[id].tsx:60
 msgid "detail.municipality"
 msgstr ""
 
 #: src/components/detail-page/banner.tsx:58
+#: src/pages/[locale]/canton/[id].tsx:43
+#: src/pages/[locale]/operator/[id].tsx:58
 msgid "detail.operator"
 msgstr ""
 
@@ -101,12 +104,20 @@ msgstr ""
 msgid "download.category.tariffs"
 msgstr ""
 
+#: src/components/footer.tsx:37
+msgid "download.filetype.csv"
+msgstr ""
+
 #: src/components/operator-documents.tsx:36
 msgid "download.filetype.pdf"
 msgstr ""
 
 #: src/components/operator-documents.tsx:59
 msgid "download.nooperatordocuments"
+msgstr ""
+
+#: src/components/footer.tsx:36
+msgid "download.rawdata"
 msgstr ""
 
 #: src/domain/translation.tsx:51
@@ -125,9 +136,9 @@ msgstr "Produit"
 msgid "filters.year"
 msgstr "Année"
 
-#: src/components/footer.tsx:34
+#: src/components/footer.tsx:56
 msgid "footer.institution.name"
-msgstr "Elcom"
+msgstr "Commission fédérale de l'électricité ElCom"
 
 #: src/components/hint.tsx:55
 msgid "hint.loading.data"
@@ -214,7 +225,7 @@ msgstr "médiane"
 msgid "price.legend.min"
 msgstr "min"
 
-#: src/pages/[locale]/index.tsx:117
+#: src/pages/[locale]/index.tsx:123
 msgid "search.global"
 msgstr "Voir l'analyse détaillée des prix par cantons, communes et gestionnaires de réseau."
 
@@ -375,6 +386,10 @@ msgid "selector.years"
 msgstr "Années"
 
 #: src/components/header.tsx:65
-#: src/pages/[locale]/index.tsx:105
+#: src/pages/[locale]/canton/[id].tsx:43
+#: src/pages/[locale]/index.tsx:84
+#: src/pages/[locale]/index.tsx:111
+#: src/pages/[locale]/municipality/[id].tsx:60
+#: src/pages/[locale]/operator/[id].tsx:58
 msgid "site.title"
 msgstr "Prix de l'électricité de la Suisse"
