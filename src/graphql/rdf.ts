@@ -381,9 +381,9 @@ export const search = async ({
   const sparql = `
   PREFIX schema: <http://schema.org/>
   PREFIX lac: <https://schema.ld.admin.ch/>
-  SELECT ?type ?iri ?name {
+  SELECT DISTINCT ?type ?iri ?name {
     {
-      SELECT ("municipality" AS ?type) (?municipality AS ?iri) (?municipalityLabel AS ?name) WHERE {
+      SELECT DISTINCT ("municipality" AS ?type) (?municipality AS ?iri) (?municipalityLabel AS ?name) WHERE {
         GRAPH <https://lindas.admin.ch/fso/agvch> {
           {
             ?municipality a <https://schema.ld.admin.ch/Municipality> .
@@ -410,7 +410,7 @@ export const search = async ({
           }}
       } ORDER BY ?municipalityLabel LIMIT ${limit + ids.length}
     } UNION {
-      SELECT ("operator" AS ?type) (?operator AS ?iri) (?operatorLabel AS ?name) WHERE {
+      SELECT DISTINCT ("operator" AS ?type) (?operator AS ?iri) (?operatorLabel AS ?name) WHERE {
         GRAPH <https://lindas.admin.ch/elcom/electricityprice> {
           ?operator a <http://schema.org/Organization> .
           ?operator <http://schema.org/name> ?operatorLabel.    
@@ -422,7 +422,7 @@ export const search = async ({
     .join(",")}))
       } ORDER BY ?operatorLabel LIMIT ${limit + ids.length}
     } UNION {
-      SELECT ("canton" AS ?type) (?canton AS ?iri) (?cantonLabel AS ?name) WHERE {
+      SELECT DISTINCT ("canton" AS ?type) (?canton AS ?iri) (?cantonLabel AS ?name) WHERE {
         GRAPH <https://lindas.admin.ch/fso/agvch> {
           ?canton a <https://schema.ld.admin.ch/Canton> .
           ?canton <http://schema.org/name> ?cantonLabel .    
