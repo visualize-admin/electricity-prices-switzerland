@@ -14,13 +14,13 @@ msgstr ""
 "Plural-Forms: \n"
 
 #: src/components/combobox.tsx:172
-#: src/components/search.tsx:197
+#: src/components/search.tsx:212
 msgid "combobox.isloading"
 msgstr "Chargement..."
 
 #: src/components/combobox.tsx:178
 #: src/components/combobox.tsx:305
-#: src/components/search.tsx:199
+#: src/components/search.tsx:214
 msgid "combobox.noitems"
 msgstr "Aucun éléments"
 
@@ -36,67 +36,76 @@ msgstr "Supprimer"
 msgid "dataset.sortby"
 msgstr "Trier"
 
-#: src/components/detail-page/banner.tsx:56
+#: src/components/detail-page/banner.tsx:58
+#: src/components/detail-page/banner.tsx:65
 msgid "detail.canton"
 msgstr "Canton"
 
-#: src/components/detail-page/cantons-comparison-range.tsx:36
+#: src/components/detail-page/cantons-comparison-range.tsx:37
 msgid "detail.card.title.cantons.comparison"
 msgstr "Comparaison des cantons"
 
-#: src/components/detail-page/price-components-bars.tsx:52
+#: src/components/detail-page/price-components-bars.tsx:55
 msgid "detail.card.title.price.components"
 msgstr "Composantes du prix"
 
-#: src/components/detail-page/price-distribution-histogram.tsx:38
+#: src/components/detail-page/price-distribution-histogram.tsx:39
 msgid "detail.card.title.prices.distribution"
 msgstr "Distribution des prix"
 
-#: src/components/detail-page/price-evolution-line-chart.tsx:57
+#: src/components/detail-page/price-evolution-line-chart.tsx:60
 msgid "detail.card.title.prices.evolution"
 msgstr "Évolution des tarifs"
 
-#: src/components/detail-page/banner.tsx:40
+#: src/components/detail-page/banner.tsx:46
 msgid "detail.homelink"
 msgstr "Retour à la vue d'ensemble"
 
-#: src/components/detail-page/banner.tsx:62
+#: src/components/detail-page/banner.tsx:71
 msgid "detail.municipalities"
 msgstr "Communes"
 
-#: src/components/detail-page/banner.tsx:71
+#: src/components/detail-page/banner.tsx:58
+msgid "detail.municipality"
+msgstr ""
+
+#: src/components/detail-page/banner.tsx:58
+msgid "detail.operator"
+msgstr ""
+
+#: src/components/detail-page/banner.tsx:80
 msgid "detail.operators"
 msgstr "Gestionnaires de réseau"
 
-#: src/components/operator-documents.tsx:21
+#: src/components/operator-documents.tsx:22
 msgid "download.category.annualreport"
 msgstr ""
 
-#: src/components/operator-documents.tsx:22
+#: src/components/operator-documents.tsx:23
 msgid "download.category.annualreports"
 msgstr ""
 
-#: src/components/operator-documents.tsx:16
+#: src/components/operator-documents.tsx:17
 msgid "download.category.financialstatement"
 msgstr ""
 
-#: src/components/operator-documents.tsx:17
+#: src/components/operator-documents.tsx:18
 msgid "download.category.financialstatements"
 msgstr ""
 
-#: src/components/operator-documents.tsx:11
+#: src/components/operator-documents.tsx:12
 msgid "download.category.tariff"
 msgstr ""
 
-#: src/components/operator-documents.tsx:12
+#: src/components/operator-documents.tsx:13
 msgid "download.category.tariffs"
 msgstr ""
 
-#: src/components/operator-documents.tsx:35
+#: src/components/operator-documents.tsx:36
 msgid "download.filetype.pdf"
 msgstr ""
 
-#: src/components/operator-documents.tsx:55
+#: src/components/operator-documents.tsx:59
 msgid "download.nooperatordocuments"
 msgstr ""
 
@@ -205,19 +214,19 @@ msgstr "médiane"
 msgid "price.legend.min"
 msgstr "min"
 
-#: src/pages/[locale]/index.tsx:95
+#: src/pages/[locale]/index.tsx:117
 msgid "search.global"
 msgstr "Voir l'analyse détaillée des prix par cantons, communes et gestionnaires de réseau."
 
-#: src/components/search.tsx:126
+#: src/components/search.tsx:141
 msgid "search.global.hint.canton.muni.operator"
 msgstr "Communes, gestionnaires de réseau, cantons"
 
-#: src/components/search.tsx:116
+#: src/components/search.tsx:131
 msgid "search.global.hint.go.to"
 msgstr "Aller à…"
 
-#: src/components/search.tsx:35
+#: src/components/search.tsx:48
 msgid "search.global.label"
 msgstr "Saisissez un nom de la commune, code postal, opérateur réseau, canton…"
 
@@ -233,7 +242,7 @@ msgstr "Commune"
 msgid "search.result.operator"
 msgstr "Canton"
 
-#: src/components/detail-page/selector-multi.tsx:39
+#: src/components/detail-page/selector-multi.tsx:37
 #: src/components/selector.tsx:31
 msgid "selector.category"
 msgstr "Catégorie"
@@ -298,19 +307,19 @@ msgstr "H7"
 msgid "selector.category.H8"
 msgstr "H8"
 
-#: src/components/detail-page/selector-multi.tsx:37
+#: src/components/detail-page/selector-multi.tsx:35
 msgid "selector.comparecantons"
 msgstr "Compararer avec…"
 
-#: src/components/detail-page/selector-multi.tsx:35
+#: src/components/detail-page/selector-multi.tsx:33
 msgid "selector.comparemunicipalities"
 msgstr "Compararer avec…"
 
-#: src/components/detail-page/selector-multi.tsx:33
+#: src/components/detail-page/selector-multi.tsx:31
 msgid "selector.compareoperators"
 msgstr "Compararer avec…"
 
-#: src/components/detail-page/selector-multi.tsx:27
+#: src/components/detail-page/selector-multi.tsx:25
 #: src/components/selector.tsx:23
 msgid "selector.legend.select.parameters"
 msgstr "Sélectionner les paramètres"
@@ -319,8 +328,8 @@ msgstr "Sélectionner les paramètres"
 msgid "selector.priceComponent"
 msgstr "Composantes du prix"
 
-#: src/components/detail-page/cantons-comparison-range.tsx:65
-#: src/components/detail-page/price-distribution-histogram.tsx:67
+#: src/components/detail-page/cantons-comparison-range.tsx:66
+#: src/components/detail-page/price-distribution-histogram.tsx:68
 msgid "selector.priceComponents"
 msgstr "Composantes du prix"
 
@@ -344,7 +353,7 @@ msgstr "Utilisation du réseau"
 msgid "selector.pricecomponent.total"
 msgstr "Total"
 
-#: src/components/detail-page/selector-multi.tsx:40
+#: src/components/detail-page/selector-multi.tsx:38
 #: src/components/selector.tsx:33
 msgid "selector.product"
 msgstr "Produit"
@@ -361,11 +370,11 @@ msgstr "Standard"
 msgid "selector.year"
 msgstr "Année"
 
-#: src/components/detail-page/selector-multi.tsx:38
+#: src/components/detail-page/selector-multi.tsx:36
 msgid "selector.years"
 msgstr "Années"
 
 #: src/components/header.tsx:65
-#: src/pages/[locale]/index.tsx:83
+#: src/pages/[locale]/index.tsx:105
 msgid "site.title"
 msgstr "Prix de l'électricité de la Suisse"
