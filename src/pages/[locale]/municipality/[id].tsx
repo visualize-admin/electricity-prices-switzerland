@@ -18,18 +18,20 @@ import {
 } from "../../../graphql/rdf";
 import { useI18n } from "../../../components/i18n-context";
 import Head from "next/head";
+import { getHelpCalculationPageFromGitLabWiki } from "../../../domain/gitlab-wiki-api";
 
 type Props = {
   id: string;
   name: string;
   operators: { id: string; name: string }[];
+  calculationHelpText: string;
 };
 
 export const getServerSideProps: GetServerSideProps<
   Props,
   { locale: string; id: string }
 > = async ({ params }) => {
-  const { id } = params!;
+  const { id, locale } = params!;
 
   console.time("Muni");
 
@@ -64,20 +66,29 @@ export const getServerSideProps: GetServerSideProps<
 
   console.timeEnd("Muni");
 
+  const calculationHelpText = await getHelpCalculationPageFromGitLabWiki({
+    locale,
+  });
+
   return {
     props: {
       id,
       name: municipality.name,
       operators: operators.map(({ id, name }) => ({ id, name })),
+      calculationHelpText,
     },
   };
 };
 
-const MunicipalityPage = ({ id, name, operators }: Props) => {
+const MunicipalityPage = ({
+  id,
+  name,
+  operators,
+  calculationHelpText,
+}: Props) => {
   const i18n = useI18n();
   const { query } = useRouter();
 
-  console.log(i18n.language);
   return (
     <>
       <Head>
@@ -143,7 +154,7 @@ const MunicipalityPage = ({ id, name, operators }: Props) => {
             />
           )}
         </Box>
-        <Footer></Footer>
+        <Footer calculationHelpText={calculationHelpText}></Footer>
       </Flex>
     </>
   );

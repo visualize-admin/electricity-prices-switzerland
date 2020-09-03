@@ -19,13 +19,21 @@ import { useQueryStateSingle } from "../../lib/use-query-state";
 import { locales } from "../../locales/locales";
 import { GetServerSideProps } from "next";
 import { Hint, HintBlue } from "../../components/hint";
-import { getBannerFromGitLabWiki } from "../../domain/gitlab-wiki-api";
+import {
+  getBannerFromGitLabWiki,
+  getHelpCalculationPageFromGitLabWiki,
+} from "../../domain/gitlab-wiki-api";
 import Head from "next/head";
 import { useI18n } from "../../components/i18n-context";
 
 const DOWNLOAD_ID = "map";
 
-type Props = { locale: string; bannerEnabled: boolean; bannerContent: string };
+type Props = {
+  locale: string;
+  bannerEnabled: boolean;
+  bannerContent: string;
+  calculationHelpText: string;
+};
 
 export const getServerSideProps: GetServerSideProps<
   Props,
@@ -38,27 +46,43 @@ export const getServerSideProps: GetServerSideProps<
       locale,
     });
 
+    const calculationHelpText = await getHelpCalculationPageFromGitLabWiki({
+      locale,
+    });
+
     return {
-      props: { locale, bannerEnabled, bannerContent },
+      props: { locale, bannerEnabled, bannerContent, calculationHelpText },
     };
   } catch (e) {
     console.error(e);
   }
 
   return {
-    props: { locale, bannerEnabled: false, bannerContent: "" },
+    props: {
+      locale,
+      bannerEnabled: false,
+      bannerContent: "",
+      calculationHelpText: "",
+    },
   };
 };
 
 const HEADER_HEIGHT_S = "107px";
 const HEADER_HEIGHT_M_UP = "96px";
 
-const IndexPage = ({ locale, bannerEnabled, bannerContent }: Props) => {
+const IndexPage = ({
+  locale,
+  bannerEnabled,
+  bannerContent,
+  calculationHelpText,
+}: Props) => {
   const [
     { period, priceComponent, category, product, download },
   ] = useQueryStateSingle();
 
   const i18n = useI18n();
+
+  console.log(calculationHelpText);
 
   const [observationsQuery] = useObservationsQuery({
     variables: {
@@ -229,7 +253,7 @@ const IndexPage = ({ locale, bannerEnabled, bannerContent }: Props) => {
             </Box>
           </Grid>
         </Box>
-        <Footer></Footer>
+        <Footer calculationHelpText={calculationHelpText}></Footer>
       </Grid>
     </>
   );

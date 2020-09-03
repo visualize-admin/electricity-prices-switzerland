@@ -11,6 +11,8 @@ import { catalogs, parseLocaleString } from "../locales/locales";
 import { preloadFonts, theme } from "../themes/elcom";
 import { analyticsPageView } from "../domain/analytics";
 
+import "@reach/dialog/styles.css";
+
 export default function App({ Component, pageProps }: AppProps) {
   const { query, events: routerEvents } = useRouter();
   const locale = parseLocaleString(query.locale as string);

@@ -1,20 +1,86 @@
 import { Trans } from "@lingui/macro";
-import { Box, Flex, Link } from "@theme-ui/components";
+import { Box, Flex, Link, Button, Heading } from "@theme-ui/components";
 import NextLink from "next/link";
-import * as React from "react";
-import { ReactNode } from "react";
+import { useState, ReactNode, forwardRef } from "react";
 import contentRoutes from "../content-routes.json";
 import { useLocale } from "../lib/use-locale";
 import { LogoDesktop } from "./logo";
 import { Icon } from "../icons";
 import { useQueryStateSingle } from "../lib/use-query-state";
+import { Dialog, DialogOverlay, DialogContent } from "@reach/dialog";
+import VisuallyHidden from "@reach/visually-hidden";
+import { useI18n } from "./i18n-context";
 
-export const Footer = () => {
+export const Footer = ({
+  calculationHelpText,
+}: {
+  calculationHelpText: string;
+}) => {
   const locale = useLocale();
+  const i18n = useI18n();
   const [{ period }] = useQueryStateSingle();
+
+  const [showHelpDialog, setShowHelpDialog] = useState<boolean>(false);
 
   return (
     <>
+      <Box
+        sx={{
+          bg: "monochrome200",
+          borderTopWidth: "1px",
+          borderTopStyle: "solid",
+          borderTopColor: "monochrome500",
+          px: 4,
+          py: 6,
+          position: "relative",
+        }}
+      >
+        <Button
+          variant="inline"
+          sx={{ fontSize: [3, 4, 4] }}
+          onClick={() => {
+            setShowHelpDialog(true);
+          }}
+        >
+          <Flex sx={{ alignItems: "center" }}>
+            <Box sx={{ flexShrink: 0, mr: 2 }}>
+              <Icon name="info" size={20} />
+            </Box>{" "}
+            <Trans id="help.calculation">Berechnungsgrundlagen</Trans>
+          </Flex>
+        </Button>
+        <Dialog
+          style={{ zIndex: 999, position: "relative" }}
+          isOpen={showHelpDialog}
+          onDismiss={() => {
+            setShowHelpDialog(false);
+          }}
+          aria-label={i18n._("help.calculation")}
+        >
+          <Button
+            variant="reset"
+            sx={{
+              color: "text",
+              p: 0,
+              position: "absolute",
+              right: "20px",
+              top: "20px",
+            }}
+            onClick={() => {
+              setShowHelpDialog(false);
+            }}
+          >
+            <VisuallyHidden>Close</VisuallyHidden>{" "}
+            <Box aria-hidden>
+              <Icon name="clear" />
+            </Box>
+          </Button>
+          <Heading variant="heading2">
+            <Trans id="help.calculation">Berechnungsgrundlagen</Trans>
+          </Heading>
+          <Box dangerouslySetInnerHTML={{ __html: calculationHelpText }}></Box>
+        </Dialog>
+      </Box>
       <Box
         sx={{
           bg: "monochrome200",
@@ -28,8 +94,9 @@ export const Footer = () => {
         <Link
           href={`/api/data-export?period=${period}&locale=${locale}`}
           variant="inline"
+          sx={{ fontSize: [3, 4, 4] }}
         >
-          <Flex>
+          <Flex sx={{ alignItems: "center" }}>
             <Box sx={{ flexShrink: 0, mr: 2 }}>
               <Icon name="excel" size={20} />
             </Box>{" "}
@@ -139,36 +206,35 @@ const FooterLink = ({ children, ...props }: { children: ReactNode }) => (
   </Link>
 );
 
-const FooterLinkBottom = React.forwardRef<
-  HTMLAnchorElement,
-  { children: ReactNode }
->(({ children, ...props }, ref) => (
-  <Link
-    ref={ref}
-    {...props}
-    sx={{
-      px: [4, 3],
-      py: [3, 4],
-      color: "primary",
-      fontSize: 3,
-      fontFamily: "body",
-      borderLeftWidth: ["1px", 0],
-      borderLeftStyle: "solid",
-      borderLeftColor: "monochrome500",
-      textDecoration: "none",
-      cursor: "pointer",
-      ":hover": {
-        color: "primaryHover",
-      },
-      ":active": {
-        color: "primaryHover",
-      },
-      ":disabled": {
-        cursor: "initial",
-        color: "primaryDisabled",
-      },
-    }}
-  >
-    {children}
-  </Link>
-));
+const FooterLinkBottom = forwardRef<HTMLAnchorElement, { children: ReactNode }>(
+  ({ children, ...props }, ref) => (
+    <Link
+      ref={ref}
+      {...props}
+      sx={{
+        px: [4, 3],
+        py: [3, 4],
+        color: "primary",
+        fontSize: 3,
+        fontFamily: "body",
+        borderLeftWidth: ["1px", 0],
+        borderLeftStyle: "solid",
+        borderLeftColor: "monochrome500",
+        textDecoration: "none",
+        cursor: "pointer",
+        ":hover": {
+          color: "primaryHover",
+        },
+        ":active": {
+          color: "primaryHover",
+        },
+        ":disabled": {
+          cursor: "initial",
+          color: "primaryDisabled",
+        },
+      }}
+    >
+      {children}
+    </Link>
+  )
+);

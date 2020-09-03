@@ -26,11 +26,14 @@ declare module "@mdx-js/react" {
   export class MDXProvider extends React.Component<MDXProps> {}
 }
 
-
 // GraphQL
 declare module "*.graphql" {
   import { DocumentNode } from "graphql";
   const Schema: DocumentNode;
 
   export = Schema;
+}
+
+declare module "micromark" {
+  export default function (md: string): string;
 }
