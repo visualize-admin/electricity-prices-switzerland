@@ -82,8 +82,6 @@ const IndexPage = ({
 
   const i18n = useI18n();
 
-  console.log(calculationHelpText);
-
   const [observationsQuery] = useObservationsQuery({
     variables: {
       locale,
