@@ -96,7 +96,7 @@ const getRegionDimensionsAndFilter = ({
     rdf.namedNode(ns.schemaAdmin("Canton").value)
   );
 
-  const labelLangFilter = regionLabelDimension.filter.lang([locale]);
+  const labelLangFilter = regionLabelDimension.filter.lang([locale, ""]);
 
   return muniDimension
     ? {
@@ -165,13 +165,11 @@ export const getObservations = async (
           });
 
           // FIXME: we only add the language filter on region labels because we can't use it on strings without language tag (yet?!)
-          if (dimension && d === "regionLabel") {
-            const labelLangFilter = labelDimension.filter.lang([locale]);
+          if (dimension) {
+            const labelLangFilter = labelDimension.filter.lang([locale, ""]);
 
             queryFilters.push(labelLangFilter);
           }
-
-          console.log("dimkey", dimensionKey);
 
           return dimension ? [dimension, labelDimension] : [];
         }
