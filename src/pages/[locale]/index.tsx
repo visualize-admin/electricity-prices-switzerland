@@ -17,7 +17,7 @@ import {
 import { EMPTY_ARRAY } from "../../lib/empty-array";
 import { useQueryStateSingle } from "../../lib/use-query-state";
 import { locales } from "../../locales/locales";
-import { GetStaticPaths, GetStaticProps } from "next";
+import { GetServerSideProps } from "next";
 import { Hint, HintBlue } from "../../components/hint";
 import { getBannerFromGitLabWiki } from "../../domain/gitlab-wiki-api";
 import Head from "next/head";
@@ -27,11 +27,7 @@ const DOWNLOAD_ID = "map";
 
 type Props = { locale: string; bannerEnabled: boolean; bannerContent: string };
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  return { paths: locales.map((l) => `/${l}`), fallback: false };
-};
-
-export const getStaticProps: GetStaticProps<
+export const getServerSideProps: GetServerSideProps<
   Props,
   { locale: string }
 > = async ({ params }) => {
@@ -44,7 +40,6 @@ export const getStaticProps: GetStaticProps<
 
     return {
       props: { locale, bannerEnabled, bannerContent },
-      revalidate: 60 * 5,
     };
   } catch (e) {
     console.error(e);
@@ -52,7 +47,6 @@ export const getStaticProps: GetStaticProps<
 
   return {
     props: { locale, bannerEnabled: false, bannerContent: "" },
-    revalidate: 60 * 5,
   };
 };
 

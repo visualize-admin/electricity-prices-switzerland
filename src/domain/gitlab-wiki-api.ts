@@ -1,3 +1,50 @@
+import fs from "fs-extra";
+import path from "path";
+import os from "os";
+import { number } from "@lingui/core";
+
+type WikiPages = {
+  format: string;
+  slug: string;
+  title: string;
+  content: string;
+}[];
+
+type WikiCacheJson = {
+  _created: number;
+  pages: WikiPages;
+};
+
+const CACHE_TTL = 1000 * 5 * 60;
+
+const getCachedWikiPages = async (
+  url: string,
+  token: string
+): Promise<WikiPages> => {
+  const filePath = path.join(os.tmpdir(), url.replace(/\W+/g, "-") + ".json");
+
+  if (fs.existsSync(filePath)) {
+    const json: WikiCacheJson = await fs.readJSON(filePath);
+
+    if (Date.now() - json._created < CACHE_TTL) {
+      console.log("Using cached wiki pages");
+      return json.pages;
+    }
+
+    await fs.remove(filePath);
+  }
+
+  const res = await fetch(url, {
+    headers: { "PRIVATE-TOKEN": token },
+  });
+  const pages: WikiPages = await res.json();
+
+  const json: WikiCacheJson = { _created: Date.now(), pages };
+  await fs.writeJSON(filePath, json);
+
+  return pages;
+};
+
 export const getBannerFromGitLabWiki = async ({
   locale,
 }: {
@@ -9,16 +56,10 @@ export const getBannerFromGitLabWiki = async ({
     );
   }
 
-  const res = await fetch(`${process.env.GITLAB_WIKI_URL}?with_content=1`, {
-    headers: { "PRIVATE-TOKEN": process.env.GITLAB_WIKI_TOKEN },
-  });
-
-  const wikiPages: {
-    format: string;
-    slug: string;
-    title: string;
-    content: string;
-  }[] = await res.json();
+  const wikiPages = await getCachedWikiPages(
+    `${process.env.GITLAB_WIKI_URL}?with_content=1`,
+    process.env.GITLAB_WIKI_TOKEN
+  );
 
   const bannerEnabled = wikiPages
     .find((page) => page.slug === "home")
