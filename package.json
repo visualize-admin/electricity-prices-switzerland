@@ -32,7 +32,7 @@
     "@next/mdx": "^9.5.3",
     "@rdfjs/namespace": "^1.1.0",
     "@reach/visually-hidden": "^0.10.4",
-    "@zazuko/rdf-cube-view-query": "https://github.com/zazuko/rdf-cube-view-query.git#d8c2a8be795910fc1377b9ca3233abdddeab13df",
+    "@zazuko/rdf-cube-view-query": "https://github.com/zazuko/rdf-cube-view-query.git",
     "apollo-server-micro": "^2.16.1",
     "catalog": "^4.0.1-canary.2",
     "chrome-aws-lambda": "^5.2.1",
