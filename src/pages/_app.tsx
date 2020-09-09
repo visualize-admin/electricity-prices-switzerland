@@ -10,23 +10,33 @@ import { LocaleProvider } from "../lib/use-locale";
 import { catalogs, parseLocaleString } from "../locales/locales";
 import { preloadFonts, theme } from "../themes/elcom";
 import { analyticsPageView } from "../domain/analytics";
+import NProgress from "nprogress";
 
 import "@reach/dialog/styles.css";
+import "../nprogress.css";
 
 export default function App({ Component, pageProps }: AppProps) {
   const { query, events: routerEvents } = useRouter();
   const locale = parseLocaleString(query.locale as string);
 
   useEffect(() => {
+    NProgress.configure({ showSpinner: false });
+    const startProgress = () => NProgress.start();
+    const stopProgress = () => NProgress.done();
     const handleRouteChange = (url: string) => {
       analyticsPageView(url);
+      stopProgress();
     };
 
+    routerEvents.on("routeChangeStart", startProgress);
+    routerEvents.on("routeChangeError", stopProgress);
     routerEvents.on("routeChangeComplete", handleRouteChange);
     return () => {
+      routerEvents.off("routeChangeStart", startProgress);
+      routerEvents.off("routeChangeError", stopProgress);
       routerEvents.off("routeChangeComplete", handleRouteChange);
     };
-  }, []);
+  }, [routerEvents]);
 
   return (
     <>
