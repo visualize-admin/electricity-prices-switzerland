@@ -323,6 +323,8 @@ export const SearchField = ({
 
             width: ["100vw", "100vw", "100%"],
             height: ["calc(100vh - 48px)", "calc(100vh - 48px)", "auto"],
+            maxHeight: ["100vh", "100vh", "50vh"],
+            overflowY: "auto",
 
             bg: "monochrome100",
             p: 4,
