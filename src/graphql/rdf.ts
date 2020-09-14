@@ -376,6 +376,8 @@ export const search = async ({
   types?: SearchType[];
   limit?: number;
 }) => {
+  const trimmedQuery = query.trim();
+
   const sparql = `
   PREFIX schema: <http://schema.org/>
   PREFIX lac: <https://schema.ld.admin.ch/>
@@ -391,7 +393,7 @@ export const search = async ({
           ?municipality <http://schema.org/name> ?municipalityLabel.
         }
         FILTER (regex(?municipalityLabel, ".*${
-          query || "-------"
+          trimmedQuery || "-------"
         }.*", "i") || ?municipality IN (${ids
     .map((id) => `<${addNamespaceToID({ dimension: "municipality", id })}>`)
     .join(",")}))
@@ -401,7 +403,7 @@ export const search = async ({
         WHERE { GRAPH <https://lindas.admin.ch/elcom/electricityprice> {
           ?offer a schema:Offer ;
             schema:areaServed ?municipality;
-            schema:postalCode "${query}" .
+            schema:postalCode "${trimmedQuery}" .
           }
           { GRAPH <https://lindas.admin.ch/fso/agvch> {
             ?municipality schema:name ?municipalityLabel .
@@ -414,7 +416,7 @@ export const search = async ({
           ?operator <http://schema.org/name> ?operatorLabel.    
         }
         FILTER (regex(?operatorLabel, ".*${
-          query || "-------"
+          trimmedQuery || "-------"
         }.*", "i") || ?operator IN (${ids
     .map((id) => `<${addNamespaceToID({ dimension: "operator", id })}>`)
     .join(",")}))
@@ -426,7 +428,7 @@ export const search = async ({
           ?canton <http://schema.org/name> ?cantonLabel .    
         }
         FILTER (LANGMATCHES(LANG(?cantonLabel), "${locale}") && (regex(?cantonLabel, ".*${
-    query || "-------"
+    trimmedQuery || "-------"
   }.*", "i") || ?canton IN (${ids
     .map((id) => `<${addNamespaceToID({ dimension: "canton", id })}>`)
     .join(",")})))
