@@ -2,7 +2,7 @@ import { Flex, Box } from "theme-ui";
 import VisuallyHidden from "@reach/visually-hidden";
 import { useCallback, ChangeEventHandler } from "react";
 
-type RadioTabsVariants = "tabs" | "segmented";
+type RadioTabsVariants = "tabs" | "borderlessTabs" | "segmented";
 
 interface RadioTabsProps<T> {
   name: string;
@@ -37,6 +37,17 @@ const STYLES = {
       ":first-of-type": {
         borderLeftColor: "monochrome100",
       },
+      "::before": {
+        content: "''",
+        display: "block",
+        bg: "primary",
+        position: "absolute",
+        top: 0,
+        left: "-1px",
+        right: "-1px",
+        mt: "-1px",
+        height: 4,
+      },
     },
     inactive: {
       display: "block",
@@ -53,6 +64,63 @@ const STYLES = {
       borderRightWidth: 0,
       ":last-of-type": {
         borderRightWidth: 1,
+      },
+    },
+  },
+  borderlessTabs: {
+    active: {
+      display: "block",
+      position: "relative",
+      color: "primary",
+      bg: "monochrome100",
+      flex: "1 0 auto",
+      textAlign: "center",
+      px: 2,
+      py: 4,
+      fontSize: 4,
+      borderStyle: "solid",
+      borderWidth: 1,
+      borderColor: "monochrome500",
+      borderTopColor: "transparent",
+      borderBottomColor: "transparent",
+      borderRightWidth: 0,
+      ":last-of-type": {
+        borderRightWidth: 1,
+        borderRightColor: "monochrome100",
+      },
+      ":first-of-type": {
+        borderLeftColor: "monochrome100",
+      },
+      "::before": {
+        content: "''",
+        display: "block",
+        bg: "primary",
+        position: "absolute",
+        top: 0,
+        left: "-1px",
+        right: "-1px",
+        mt: "-1px",
+        height: 4,
+      },
+    },
+    inactive: {
+      display: "block",
+      color: "secondary",
+      bg: "monochrome200",
+      flex: "1 0 auto",
+      textAlign: "center",
+      px: 2,
+      py: 4,
+      fontSize: 4,
+      borderColor: "monochrome500",
+      borderStyle: "solid",
+      borderWidth: 1,
+      borderRightWidth: 0,
+      ":first-of-type": {
+        borderLeftWidth: 0,
+      },
+      ":last-of-type": {
+        borderRightWidth: 0,
       },
     },
   },
@@ -132,20 +200,6 @@ export const RadioTabs = <T extends string>({
             as="label"
             sx={isActive ? styles.active : styles.inactive}
           >
-            {isActive && variant === "tabs" && (
-              <Box
-                sx={{
-                  display: "block",
-                  bg: "primary",
-                  position: "absolute",
-                  top: 0,
-                  left: "-1px",
-                  right: "-1px",
-                  mt: "-1px",
-                  height: 4,
-                }}
-              />
-            )}
             <VisuallyHidden>
               <input
                 key={option.value}
