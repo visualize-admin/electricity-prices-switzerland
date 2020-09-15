@@ -94,7 +94,9 @@ export const PriceComponentsBarChart = ({
   const perPriceComponent = [...group(pivoted, (d) => d.priceComponent)];
   console.log({ perPriceComponent });
   const colorDomain = [...new Set(pivoted.map((p) => p[entity]))];
+  const opacityDomain = [...new Set(pivoted.map((p) => p.period))];
   console.log({ colorDomain });
+  console.log({ opacityDomain });
   return (
     <Card
       title={
@@ -133,6 +135,7 @@ export const PriceComponentsBarChart = ({
                       value: value[0],
                       number: value[1].length,
                       [entity]: value[1][0][entity],
+                      period: value[1][0].period,
                       uniqueId: `${value[1][0].period}, ${value[0]}: ${value[1].length} entities with this value`,
                       label: `${value[1][0].period}, ${
                         value[1].length
@@ -164,9 +167,13 @@ export const PriceComponentsBarChart = ({
                   label: {
                     componentIri: "label",
                   },
-                  color: {
-                    domain: colorDomain,
-                    entity: entity as string,
+                  style: {
+                    colorDomain,
+                    opacityDomain,
+                    colorAcc: entity as string,
+                    opacityAcc: "period",
+                    otherEntity:
+                      entity === "operator" ? "municipality" : "operator",
                   },
                 }}
                 measures={[

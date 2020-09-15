@@ -73,7 +73,13 @@ const BarFields = t.intersection([
     label: GenericField,
   }),
   t.partial({
-    color: t.type({ domain: t.array(t.string), entity: t.string }),
+    style: t.type({
+      colorDomain: t.array(t.string),
+      opacityDomain: t.array(t.string),
+      colorAcc: t.string,
+      opacityAcc: t.string,
+      otherEntity: t.string,
+    }),
   }),
 ]);
 export type BarFields = t.TypeOf<typeof BarFields>;

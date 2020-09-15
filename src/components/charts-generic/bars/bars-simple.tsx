@@ -73,6 +73,7 @@ export const Bar = React.memo(
     width,
     height,
     color,
+    fillOpacity = 1,
     stroke,
   }: {
     x: number;
@@ -80,6 +81,7 @@ export const Bar = React.memo(
     width: number;
     height: number;
     color: string;
+    fillOpacity?: number;
     stroke?: string;
   }) => {
     return (
@@ -89,6 +91,7 @@ export const Bar = React.memo(
         width={width}
         height={height}
         fill={color}
+        fillOpacity={fillOpacity}
         stroke={stroke}
       />
     );

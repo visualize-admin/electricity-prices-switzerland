@@ -6,6 +6,7 @@ import {
   scaleLinear,
   ScaleOrdinal,
   scaleOrdinal,
+  ScalePoint,
 } from "d3-scale";
 import * as React from "react";
 import { ReactNode, useCallback, useMemo } from "react";
@@ -26,6 +27,7 @@ import {
 import { ChartContext, ChartProps } from "../use-chart-state";
 import { InteractionProvider } from "../use-interaction";
 import { Bounds, Observer, useWidth } from "../use-width";
+import { scaleThreshold, scalePoint } from "d3";
 
 export interface GroupedBarsState {
   sortedData: GenericObservation[];
@@ -37,9 +39,11 @@ export interface GroupedBarsState {
   yScaleIn: ScaleBand<string>;
   getSegment: (d: GenericObservation) => string;
   getLabel: (d: GenericObservation) => string;
-  getEntity: (d: GenericObservation) => string;
+  getColor: (d: GenericObservation) => string;
+  getOpacity: (d: GenericObservation) => string;
   segments: string[];
   colors: ScaleOrdinal<string, string>;
+  opacityScale: ScalePoint<string>;
   grouped: [string, Record<string, ObservationValue>[]][];
 }
 
@@ -74,14 +78,21 @@ const useGroupedBarsState = ({
         : "label",
     [fields.label]
   );
-  const getEntity = useCallback(
+  const getColor = useCallback(
     (d: GenericObservation): string =>
-      fields.color && fields.color.entity
-        ? (d[fields.color.entity] as string)
+      fields.style && fields.style.colorAcc
+        ? (d[fields.style.colorAcc] as string)
         : "entity",
-    [fields.color]
+    [fields.style]
   );
-
+  const getOpacity = useCallback(
+    (d: GenericObservation): string =>
+      fields.style && fields.style.opacityAcc
+        ? (d[fields.style.opacityAcc] as string)
+        : "period",
+    [fields.style]
+  );
+  const otherEntity = fields.style?.otherEntity || "operator";
   // Sort
   const ySortingType = fields.y.sorting?.sortingType;
   const ySortingOrder = fields.y.sorting?.sortingOrder;
@@ -107,36 +118,23 @@ const useGroupedBarsState = ({
       }),
     [data, getX, ySortingType, ySortingOrder, yOrder]
   );
+
   // segments
-  const segmentSortingType = fields.segment?.sorting?.sortingType;
-  const segmentSortingOrder = fields.segment?.sorting?.sortingOrder;
-  const segmentsOrderedByName = Array.from(
-    new Set(sortedData.map((d) => getSegment(d)))
-  ).sort((a, b) =>
-    segmentSortingOrder === "asc" ? ascending(a, b) : descending(a, b)
-  );
-
-  const segmentsOrderedByTotalValue = [
-    ...rollup(
-      sortedData,
-      (v) => sum(v, (x) => getX(x)),
-      (x) => getSegment(x)
-    ),
-  ]
-    .sort((a, b) =>
-      segmentSortingOrder === "asc"
-        ? ascending(a[1], b[1])
-        : descending(a[1], b[1])
+  const orderedSegments = sortedData
+    .sort(
+      (a, b) =>
+        ascending(getColor(a), getColor(b)) ||
+        descending(getOpacity(a), getOpacity(b)) ||
+        ascending(a[otherEntity], b[otherEntity])
     )
-    .map((d) => d[0]);
+    .map((d) => getSegment(d));
 
-  const segments =
-    segmentSortingType === "byDimensionLabel"
-      ? segmentsOrderedByName
-      : segmentsOrderedByTotalValue;
-  console.log({ segments });
+  const segments = orderedSegments;
 
-  const colorDomain = fields.color?.domain ? fields.color?.domain : segments;
+  // Colors (unrelated to segments!)
+  const colorDomain = fields.style?.colorDomain
+    ? fields.style?.colorDomain
+    : segments;
   const colors = scaleOrdinal<string, string>()
     .domain(colorDomain)
     .range(getPalette(fields.segment?.palette));
@@ -164,6 +162,14 @@ const useGroupedBarsState = ({
   //   colors.range(getPalette(fields.segment?.palette));
   // }
 
+  // opacity
+  const opacityDomain = fields.style?.opacityDomain
+    ? fields.style?.opacityDomain
+    : [];
+  console.log(opacityDomain.sort((a, b) => descending(a, b)));
+  const opacityScale = scalePoint()
+    .domain(opacityDomain.sort((a, b) => descending(a, b)))
+    .range([1, 0.4]);
   // x
   const minValue = Math.min(mkNumber(min(sortedData, (d) => getX(d))), 0);
   const maxValue = max(sortedData, (d) => getX(d)) as number;
@@ -174,7 +180,7 @@ const useGroupedBarsState = ({
   // Group
   const groupedMap = group(sortedData, getY);
   const grouped = [...groupedMap];
-  console.log({ grouped });
+
   // y
   const bandDomain = [...new Set(sortedData.map((d) => getY(d) as string))];
   const chartHeight =
@@ -196,7 +202,6 @@ const useGroupedBarsState = ({
         data: group[1],
         order: segments,
         getCategory: getSegment,
-        sortOrder: segmentSortingOrder,
       }),
     ];
   });
@@ -228,9 +233,11 @@ const useGroupedBarsState = ({
     yScaleIn,
     getSegment,
     getLabel,
-    getEntity,
+    getColor,
+    getOpacity,
     segments,
     colors,
+    opacityScale,
     grouped,
   };
 };

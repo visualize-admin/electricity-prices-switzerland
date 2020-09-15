@@ -17,8 +17,10 @@ export const BarsGrouped = () => {
     getY,
     yScale,
     getSegment,
-    getEntity,
+    getColor,
+    getOpacity,
     colors,
+    opacityScale,
     grouped,
   } = useChartState() as GroupedBarsState;
   const { margins } = bounds;
@@ -50,7 +52,8 @@ export const BarsGrouped = () => {
                   x={0}
                   width={xScale(Math.max(0, getX(d)))}
                   height={yScaleIn.bandwidth()}
-                  color={colors(getEntity(d))}
+                  color={colors(getColor(d))}
+                  fillOpacity={opacityScale(getOpacity(d))}
                   stroke={markBorderColor}
                 />
               ))}
