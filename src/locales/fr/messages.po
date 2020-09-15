@@ -13,18 +13,18 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/components/combobox.tsx:172
+#: src/components/combobox.tsx:173
 #: src/components/search.tsx:220
 msgid "combobox.isloading"
 msgstr "Chargement des résultats…"
 
-#: src/components/combobox.tsx:178
-#: src/components/combobox.tsx:305
+#: src/components/combobox.tsx:179
+#: src/components/combobox.tsx:309
 #: src/components/search.tsx:222
 msgid "combobox.noitems"
 msgstr "Aucune entrée"
 
-#: src/components/combobox.tsx:178
+#: src/components/combobox.tsx:179
 msgid "combobox.prompt"
 msgstr "Saisir la description…"
 
@@ -82,6 +82,10 @@ msgstr "Gestionnaires de réseau"
 
 #: src/components/info-dialog.tsx:48
 msgid "dialog.close"
+msgstr ""
+
+#: src/components/info-dialog.tsx:55
+msgid "dialog.infoprefix"
 msgstr ""
 
 #: src/components/operator-documents.tsx:22
@@ -147,6 +151,10 @@ msgstr "Commission fédérale de l'électricité ElCom"
 #: src/components/footer.tsx:35
 msgid "help.calculation"
 msgstr "Base de calcul"
+
+#: src/components/price-color-legend.tsx:28
+msgid "help.price-comparison"
+msgstr ""
 
 #: src/components/hint.tsx:55
 msgid "hint.loading.data"
@@ -225,7 +233,7 @@ msgstr "Voir plus ..."
 msgid "logo.swiss.confederation"
 msgstr "Logo de la Confédération suisse"
 
-#: src/components/price-color-legend.tsx:23
+#: src/components/price-color-legend.tsx:26
 msgid "map.legend.title"
 msgstr "Comparaison des tarifs en ct./kWh"
 
@@ -233,17 +241,17 @@ msgstr "Comparaison des tarifs en ct./kWh"
 msgid "map.tooltipnodata"
 msgstr "Aucune donnée"
 
-#: src/components/price-color-legend.tsx:57
+#: src/components/price-color-legend.tsx:63
 msgid "price.legend.max"
-msgstr "max"
+msgstr "Max"
 
-#: src/components/price-color-legend.tsx:53
+#: src/components/price-color-legend.tsx:59
 msgid "price.legend.median"
-msgstr "médiane"
+msgstr "Médiane"
 
-#: src/components/price-color-legend.tsx:49
+#: src/components/price-color-legend.tsx:55
 msgid "price.legend.min"
-msgstr "min"
+msgstr "Min"
 
 #: src/pages/[locale]/index.tsx:125
 msgid "search.global"

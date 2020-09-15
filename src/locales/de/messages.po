@@ -13,18 +13,18 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/components/combobox.tsx:172
+#: src/components/combobox.tsx:173
 #: src/components/search.tsx:220
 msgid "combobox.isloading"
 msgstr "Resultate laden …"
 
-#: src/components/combobox.tsx:178
-#: src/components/combobox.tsx:305
+#: src/components/combobox.tsx:179
+#: src/components/combobox.tsx:309
 #: src/components/search.tsx:222
 msgid "combobox.noitems"
 msgstr "Keine Einträge"
 
-#: src/components/combobox.tsx:178
+#: src/components/combobox.tsx:179
 msgid "combobox.prompt"
 msgstr "Bezeichnung eingeben …"
 
@@ -83,6 +83,10 @@ msgstr "Netzbetreiber"
 #: src/components/info-dialog.tsx:48
 msgid "dialog.close"
 msgstr "Dialog schliessen"
+
+#: src/components/info-dialog.tsx:55
+msgid "dialog.infoprefix"
+msgstr "Info:"
 
 #: src/components/operator-documents.tsx:22
 msgid "download.category.annualreport"
@@ -147,6 +151,10 @@ msgstr "Eidgenössische Elektrizitätskommission ElCom"
 #: src/components/footer.tsx:35
 msgid "help.calculation"
 msgstr "Berechnungsgrundlagen"
+
+#: src/components/price-color-legend.tsx:28
+msgid "help.price-comparison"
+msgstr "Tarifvergleich"
 
 #: src/components/hint.tsx:55
 msgid "hint.loading.data"
@@ -225,7 +233,7 @@ msgstr "Mehr anzeigen …"
 msgid "logo.swiss.confederation"
 msgstr "Logo of the Swiss Confederation"
 
-#: src/components/price-color-legend.tsx:23
+#: src/components/price-color-legend.tsx:26
 msgid "map.legend.title"
 msgstr "Tarifvergleich in Rp./kWh"
 
@@ -233,17 +241,17 @@ msgstr "Tarifvergleich in Rp./kWh"
 msgid "map.tooltipnodata"
 msgstr "Keine Daten"
 
-#: src/components/price-color-legend.tsx:57
+#: src/components/price-color-legend.tsx:63
 msgid "price.legend.max"
-msgstr "max"
+msgstr "Max"
 
-#: src/components/price-color-legend.tsx:53
+#: src/components/price-color-legend.tsx:59
 msgid "price.legend.median"
-msgstr "median"
+msgstr "Median"
 
-#: src/components/price-color-legend.tsx:49
+#: src/components/price-color-legend.tsx:55
 msgid "price.legend.min"
-msgstr "min"
+msgstr "Min"
 
 #: src/pages/[locale]/index.tsx:125
 msgid "search.global"
