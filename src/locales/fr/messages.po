@@ -13,6 +13,14 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+#: src/domain/translation.tsx:65
+msgid "chart.annotation.municipalities"
+msgstr "communes"
+
+#: src/domain/translation.tsx:60
+msgid "chart.annotation.operators"
+msgstr "gestionnaires de réseau"
+
 #: src/components/combobox.tsx:172
 #: src/components/search.tsx:220
 msgid "combobox.isloading"
@@ -45,7 +53,7 @@ msgstr "Canton"
 msgid "detail.card.title.cantons.comparison"
 msgstr "Comparaison des cantons"
 
-#: src/components/detail-page/price-components-bars.tsx:55
+#: src/components/detail-page/price-components-bars.tsx:63
 msgid "detail.card.title.price.components"
 msgstr "Composantes du prix"
 
@@ -255,11 +263,11 @@ msgstr "Aller à…"
 msgid "search.global.label"
 msgstr "Entrez le nom de la commune, le code postal, le gestionnaire de réseau, le canton…"
 
-#: src/domain/translation.tsx:64
+#: src/domain/translation.tsx:68
 msgid "search.result.canton"
 msgstr "Canton"
 
-#: src/domain/translation.tsx:61
+#: src/domain/translation.tsx:63
 msgid "search.result.municipality"
 msgstr "Commune"
 
