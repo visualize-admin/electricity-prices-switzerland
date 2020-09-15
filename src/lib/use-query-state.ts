@@ -21,7 +21,7 @@ const queryStateKeys = [
 
 const queryStateDefaults = {
   id: "261",
-  period: "2020",
+  period: "2021",
   category: "H4",
   priceComponent: "total",
   product: "cheapest",
