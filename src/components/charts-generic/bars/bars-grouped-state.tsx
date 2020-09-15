@@ -138,29 +138,6 @@ const useGroupedBarsState = ({
     .domain(colorDomain)
     .range(getPalette(fields.segment?.palette));
 
-  // const segmentDimension = dimensions.find(
-  //   (d) => d.iri === fields.segment?.componentIri
-  // ) as $FixMe;
-
-  // if (fields.segment && segmentDimension && fields.segment.colorMapping) {
-  //   const orderedSegmentLabelsAndColors = segments.map((segment) => {
-  //     const dvIri = segmentDimension.values.find(
-  //       (s: $FixMe) => s.label === segment
-  //     ).value;
-
-  //     return {
-  //       label: segment,
-  //       color: fields.segment?.colorMapping![dvIri] || "#006699",
-  //     };
-  //   });
-
-  //   colors.domain(orderedSegmentLabelsAndColors.map((s) => s.label));
-  //   colors.range(orderedSegmentLabelsAndColors.map((s) => s.color));
-  // } else {
-  //   colors.domain(segments);
-  //   colors.range(getPalette(fields.segment?.palette));
-  // }
-
   // opacity
   const opacityDomain = fields.style?.opacityDomain
     ? fields.style?.opacityDomain
