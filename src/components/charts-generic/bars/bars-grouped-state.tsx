@@ -166,7 +166,7 @@ const useGroupedBarsState = ({
   const opacityDomain = fields.style?.opacityDomain
     ? fields.style?.opacityDomain
     : [];
-  console.log(opacityDomain.sort((a, b) => descending(a, b)));
+
   const opacityScale = scalePoint()
     .domain(opacityDomain.sort((a, b) => descending(a, b)))
     .range([1, 0.4]);

@@ -1,6 +1,6 @@
 import { Trans } from "@lingui/macro";
 import * as React from "react";
-import { Entity, priceComponents } from "../../domain/data";
+import { Entity, priceComponents, GenericObservation } from "../../domain/data";
 import { pivot_longer } from "../../domain/helpers";
 import {
   ObservationType,
@@ -21,9 +21,11 @@ import { DownloadImage, Download } from "./download-image";
 import { WithClassName } from "./with-classname";
 import { useRouter } from "next/router";
 import { useLocale } from "../../lib/use-locale";
+// @ts-ignore
 import { group, groups } from "d3-array";
 import { getLocalizedLabel } from "../../domain/translation";
 import { useI18n } from "../i18n-context";
+import { groupSort } from "fp-ts/lib/NonEmptyArray";
 
 const DOWNLOAD_ID: Download = "components";
 
@@ -79,24 +81,17 @@ export const PriceComponentsBarChart = ({
         : `${obs.period}, ${obs.municipalityLabel}, ${obs.operatorLabel}`,
     ...obs,
   }));
-  console.log({ withUniqueEntityId });
 
-  const pivoted: {
-    value: number;
-    priceComponent: string;
-  }[] = pivot_longer({
+  const pivoted: GenericObservation[] = pivot_longer({
     data: withUniqueEntityId as $FixMe[],
     cols: priceComponents,
     name_to: "priceComponent",
   });
 
-  console.log({ pivoted });
   const perPriceComponent = [...group(pivoted, (d) => d.priceComponent)];
-  console.log({ perPriceComponent });
-  const colorDomain = [...new Set(pivoted.map((p) => p[entity]))];
-  const opacityDomain = [...new Set(pivoted.map((p) => p.period))];
-  console.log({ colorDomain });
-  console.log({ opacityDomain });
+  const colorDomain = [...new Set(pivoted.map((p) => p[entity]))] as string[];
+  const opacityDomain = [...new Set(pivoted.map((p) => p.period))] as string[];
+
   return (
     <Card
       title={
@@ -118,16 +113,15 @@ export const PriceComponentsBarChart = ({
         <NoDataHint />
       ) : (
         <WithClassName downloadId={DOWNLOAD_ID}>
-          {perPriceComponent.map((pc: $FixMe) => {
+          {perPriceComponent.map((pc) => {
             const grouped = groups(
               pc[1],
-              (d) => d.period,
-              (d) => d.value
+              (d: GenericObservation) => d.period,
+              (d: GenericObservation) => d.value
             );
-            console.log({ grouped });
 
-            const observations = grouped.flatMap((year) =>
-              year[1].flatMap((value) =>
+            const observations = grouped.flatMap((year: $FixMe) =>
+              year[1].flatMap((value: $FixMe) =>
                 value[1].length === 1
                   ? { ...value[1][0], label: value[1][0].uniqueId }
                   : {
