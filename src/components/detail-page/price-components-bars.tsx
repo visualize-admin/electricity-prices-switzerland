@@ -108,7 +108,10 @@ export const PriceComponentsBarChart = ({
   );
   console.log({ grouped_pivoted });
   console.log({ grouped_observations });
-
+  const grouped_groups = [
+    ...group(grouped_observations, (d) => d.priceComponent),
+  ];
+  console.log({ grouped_groups });
   return (
     <Card
       title={
@@ -130,47 +133,51 @@ export const PriceComponentsBarChart = ({
         <NoDataHint />
       ) : (
         <WithClassName downloadId={DOWNLOAD_ID}>
-          <GroupedBarsChart
-            data={grouped_observations}
-            fields={{
-              x: {
-                componentIri: "value",
-              },
-              y: {
-                componentIri: "priceComponent",
-                sorting: { sortingType: "byMeasure", sortingOrder: "desc" },
-              },
-              segment: {
-                componentIri: "uniqueId",
-                type: "grouped",
-                palette: "elcom",
-              },
-              label: {
-                componentIri: "label",
-              },
-            }}
-            measures={[
-              {
-                iri: "value",
-                label: "value",
-                __typename: "Measure",
-              },
-            ]}
-            dimensions={[
-              {
-                iri: "priceComponent",
-                label: "priceComponent",
-                __typename: "NominalDimension",
-              },
-            ]}
-          >
-            <ChartContainer>
-              <ChartSvg>
-                <BarsGrouped />
-                <BarsGroupedLabels />
-              </ChartSvg>
-            </ChartContainer>
-          </GroupedBarsChart>
+          {grouped_groups.map((g) => {
+            return (
+              <GroupedBarsChart
+                data={g[1]}
+                fields={{
+                  x: {
+                    componentIri: "value",
+                  },
+                  y: {
+                    componentIri: "priceComponent",
+                    sorting: { sortingType: "byMeasure", sortingOrder: "desc" },
+                  },
+                  segment: {
+                    componentIri: "uniqueId",
+                    type: "grouped",
+                    palette: "elcom",
+                  },
+                  label: {
+                    componentIri: "label",
+                  },
+                }}
+                measures={[
+                  {
+                    iri: "value",
+                    label: "value",
+                    __typename: "Measure",
+                  },
+                ]}
+                dimensions={[
+                  {
+                    iri: "priceComponent",
+                    label: "priceComponent",
+                    __typename: "NominalDimension",
+                  },
+                ]}
+              >
+                <ChartContainer>
+                  <ChartSvg>
+                    <BarsGrouped />
+                    <BarsGroupedLabels />
+                  </ChartSvg>
+                </ChartContainer>
+              </GroupedBarsChart>
+            );
+          })}
         </WithClassName>
       )}
     </Card>
