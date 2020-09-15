@@ -204,6 +204,19 @@ const Query: QueryResolvers = {
     return results[0];
   },
   wikiContent: async (_, { locale, slug }) => {
+    // Exit early if home-banner is requested and it's disabled
+    if (slug === "home-banner") {
+      const bannerEnabled = (await getWikiPage("home"))?.content.match(
+        /home_banner_enabled:\W*true/
+      )
+        ? true
+        : false;
+
+      if (!bannerEnabled) {
+        return null;
+      }
+    }
+
     const wikiPage = await getWikiPage(`${slug}/${locale}`);
 
     if (!wikiPage) {

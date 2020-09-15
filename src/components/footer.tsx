@@ -8,11 +8,7 @@ import { useI18n } from "./i18n-context";
 import { InfoDialogButton } from "./info-dialog";
 import { LogoDesktop } from "./logo";
 
-export const Footer = ({
-  calculationHelpText,
-}: {
-  calculationHelpText: string;
-}) => {
+export const Footer = () => {
   const locale = useLocale();
   const i18n = useI18n();
   const [{ period }] = useQueryStateSingle();

@@ -19,20 +19,15 @@ import { useQueryStateSingle } from "../../lib/use-query-state";
 import { locales } from "../../locales/locales";
 import { GetServerSideProps } from "next";
 import { Hint, HintBlue } from "../../components/hint";
-import {
-  getBannerFromGitLabWiki,
-  getHelpCalculationPageFromGitLabWiki,
-} from "../../domain/gitlab-wiki-api";
+
 import Head from "next/head";
 import { useI18n } from "../../components/i18n-context";
+import { InfoBanner } from "../../components/info-banner";
 
 const DOWNLOAD_ID = "map";
 
 type Props = {
   locale: string;
-  bannerEnabled: boolean;
-  bannerContent: string;
-  calculationHelpText: string;
 };
 
 export const getServerSideProps: GetServerSideProps<
@@ -41,28 +36,9 @@ export const getServerSideProps: GetServerSideProps<
 > = async ({ params }) => {
   const locale = params!.locale;
 
-  try {
-    const { bannerEnabled, bannerContent } = await getBannerFromGitLabWiki({
-      locale,
-    });
-
-    const calculationHelpText = await getHelpCalculationPageFromGitLabWiki({
-      locale,
-    });
-
-    return {
-      props: { locale, bannerEnabled, bannerContent, calculationHelpText },
-    };
-  } catch (e) {
-    console.error(e);
-  }
-
   return {
     props: {
       locale,
-      bannerEnabled: false,
-      bannerContent: "",
-      calculationHelpText: "",
     },
   };
 };
@@ -70,12 +46,7 @@ export const getServerSideProps: GetServerSideProps<
 const HEADER_HEIGHT_S = "107px";
 const HEADER_HEIGHT_M_UP = "96px";
 
-const IndexPage = ({
-  locale,
-  bannerEnabled,
-  bannerContent,
-  calculationHelpText,
-}: Props) => {
+const IndexPage = ({ locale }: Props) => {
   const [
     { period, priceComponent, category, product, download },
   ] = useQueryStateSingle();
@@ -138,9 +109,7 @@ const IndexPage = ({
             position: "relative",
           }}
         >
-          {bannerEnabled ? (
-            <HintBlue iconName="info">{bannerContent}</HintBlue>
-          ) : null}
+          <InfoBanner />
           <Flex
             sx={{
               py: 8,
@@ -251,7 +220,7 @@ const IndexPage = ({
             </Box>
           </Grid>
         </Box>
-        <Footer calculationHelpText={calculationHelpText}></Footer>
+        <Footer />
       </Grid>
     </>
   );
