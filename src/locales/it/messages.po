@@ -66,13 +66,13 @@ msgid "detail.municipalities"
 msgstr "Comuni"
 
 #: src/components/detail-page/banner.tsx:58
-#: src/pages/[locale]/municipality/[id].tsx:65
+#: src/pages/[locale]/municipality/[id].tsx:60
 msgid "detail.municipality"
 msgstr "Comune"
 
 #: src/components/detail-page/banner.tsx:58
-#: src/pages/[locale]/canton/[id].tsx:47
-#: src/pages/[locale]/operator/[id].tsx:63
+#: src/pages/[locale]/canton/[id].tsx:43
+#: src/pages/[locale]/operator/[id].tsx:58
 msgid "detail.operator"
 msgstr "Gestore di rete"
 
@@ -253,7 +253,7 @@ msgstr "Mediana"
 msgid "price.legend.min"
 msgstr "Min"
 
-#: src/pages/[locale]/index.tsx:125
+#: src/pages/[locale]/index.tsx:107
 msgid "search.global"
 msgstr "Visualizzare l'analisi dettagliata dei prezzi per cantone, comune e gestore di rete."
 
@@ -414,10 +414,10 @@ msgid "selector.years"
 msgstr "Anni"
 
 #: src/components/header.tsx:65
-#: src/pages/[locale]/canton/[id].tsx:47
-#: src/pages/[locale]/index.tsx:86
-#: src/pages/[locale]/index.tsx:113
-#: src/pages/[locale]/municipality/[id].tsx:65
-#: src/pages/[locale]/operator/[id].tsx:63
+#: src/pages/[locale]/canton/[id].tsx:43
+#: src/pages/[locale]/index.tsx:68
+#: src/pages/[locale]/index.tsx:95
+#: src/pages/[locale]/municipality/[id].tsx:60
+#: src/pages/[locale]/operator/[id].tsx:58
 msgid "site.title"
 msgstr "Tariffe elettriche della Svizzera"
