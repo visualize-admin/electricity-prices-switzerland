@@ -37,6 +37,7 @@ export interface GroupedBarsState {
   yScaleIn: ScaleBand<string>;
   getSegment: (d: GenericObservation) => string;
   getLabel: (d: GenericObservation) => string;
+  getEntity: (d: GenericObservation) => string;
   segments: string[];
   colors: ScaleOrdinal<string, string>;
   grouped: [string, Record<string, ObservationValue>[]][];
@@ -72,6 +73,13 @@ const useGroupedBarsState = ({
         ? (d[fields.label.componentIri] as string)
         : "label",
     [fields.label]
+  );
+  const getEntity = useCallback(
+    (d: GenericObservation): string =>
+      fields.color && fields.color.entity
+        ? (d[fields.color.entity] as string)
+        : "entity",
+    [fields.color]
   );
 
   // Sort
@@ -126,31 +134,35 @@ const useGroupedBarsState = ({
     segmentSortingType === "byDimensionLabel"
       ? segmentsOrderedByName
       : segmentsOrderedByTotalValue;
+  console.log({ segments });
 
-  // Map ordered segments to colors
-  const colors = scaleOrdinal<string, string>();
-  const segmentDimension = dimensions.find(
-    (d) => d.iri === fields.segment?.componentIri
-  ) as $FixMe;
+  const colorDomain = fields.color?.domain ? fields.color?.domain : segments;
+  const colors = scaleOrdinal<string, string>()
+    .domain(colorDomain)
+    .range(getPalette(fields.segment?.palette));
 
-  if (fields.segment && segmentDimension && fields.segment.colorMapping) {
-    const orderedSegmentLabelsAndColors = segments.map((segment) => {
-      const dvIri = segmentDimension.values.find(
-        (s: $FixMe) => s.label === segment
-      ).value;
+  // const segmentDimension = dimensions.find(
+  //   (d) => d.iri === fields.segment?.componentIri
+  // ) as $FixMe;
 
-      return {
-        label: segment,
-        color: fields.segment?.colorMapping![dvIri] || "#006699",
-      };
-    });
+  // if (fields.segment && segmentDimension && fields.segment.colorMapping) {
+  //   const orderedSegmentLabelsAndColors = segments.map((segment) => {
+  //     const dvIri = segmentDimension.values.find(
+  //       (s: $FixMe) => s.label === segment
+  //     ).value;
 
-    colors.domain(orderedSegmentLabelsAndColors.map((s) => s.label));
-    colors.range(orderedSegmentLabelsAndColors.map((s) => s.color));
-  } else {
-    colors.domain(segments);
-    colors.range(getPalette(fields.segment?.palette));
-  }
+  //     return {
+  //       label: segment,
+  //       color: fields.segment?.colorMapping![dvIri] || "#006699",
+  //     };
+  //   });
+
+  //   colors.domain(orderedSegmentLabelsAndColors.map((s) => s.label));
+  //   colors.range(orderedSegmentLabelsAndColors.map((s) => s.color));
+  // } else {
+  //   colors.domain(segments);
+  //   colors.range(getPalette(fields.segment?.palette));
+  // }
 
   // x
   const minValue = Math.min(mkNumber(min(sortedData, (d) => getX(d))), 0);
@@ -159,21 +171,22 @@ const useGroupedBarsState = ({
     .domain([mkNumber(minValue), mkNumber(maxValue)])
     .nice();
 
+  // Group
+  const groupedMap = group(sortedData, getY);
+  const grouped = [...groupedMap];
+  console.log({ grouped });
   // y
   const bandDomain = [...new Set(sortedData.map((d) => getY(d) as string))];
   const chartHeight =
     bandDomain.length * (BAR_HEIGHT * segments.length + BAR_SPACE_ON_TOP);
 
   const yScale = scaleBand<string>().domain(bandDomain).range([0, chartHeight]);
+  // const yScale = scaleOrdinal<string>().domain(bandDomain).range([0]);
 
   const yScaleIn = scaleBand()
     .domain(segments)
     // .padding(0)
     .range([0, BAR_HEIGHT * segments.length]);
-
-  // Group
-  const groupedMap = group(sortedData, getY);
-  const grouped = [...groupedMap];
 
   // sort by segments
   grouped.forEach((group) => {
@@ -215,6 +228,7 @@ const useGroupedBarsState = ({
     yScaleIn,
     getSegment,
     getLabel,
+    getEntity,
     segments,
     colors,
     grouped,
