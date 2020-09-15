@@ -47,7 +47,9 @@ const getCachedWikiPages = async (
   return pages;
 };
 
-const getWikiPage = async (slug: string): Promise<WikiPage | undefined> => {
+export const getWikiPage = async (
+  slug: string
+): Promise<WikiPage | undefined> => {
   if (!process.env.GITLAB_WIKI_URL || !process.env.GITLAB_WIKI_TOKEN) {
     throw Error(
       "Please set GITLAB_WIKI_URL and GITLAB_WIKI_TOKEN environment variables to fetch content from GitLab Wiki."
