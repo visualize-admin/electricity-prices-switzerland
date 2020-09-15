@@ -77,6 +77,8 @@ export const getLocalizedLabel = ({
     case "CantonResult":
     case "canton":
       return i18n._(t("search.result.canton")`Kanton`);
+    case "cantons":
+      return i18n._(t("chart.annotation.cantons")`Kantone`);
 
     default:
       return id;

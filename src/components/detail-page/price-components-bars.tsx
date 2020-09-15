@@ -131,15 +131,23 @@ export const PriceComponentsBarChart = ({
                       [entity]: value[1][0][entity],
                       period: value[1][0].period,
                       uniqueId: `${value[1][0].period}, ${value[0]}: ${value[1].length} entities with this value`,
-                      label: `${value[1][0].period}, ${
-                        value[1][0].operatorLabel
-                      }, ${value[1].length} ${getLocalizedLabel({
-                        i18n,
-                        id:
-                          entity === "operator"
-                            ? "municipalities"
-                            : "operators",
-                      })}`,
+                      label:
+                        entity === "canton"
+                          ? `${value[1][0].period}, ${
+                              value[1].length
+                            } ${getLocalizedLabel({
+                              i18n,
+                              id: "cantons",
+                            })}`
+                          : `${value[1][0].period}, ${
+                              value[1][0].operatorLabel
+                            }, ${value[1].length} ${getLocalizedLabel({
+                              i18n,
+                              id:
+                                entity === "operator"
+                                  ? "municipalities"
+                                  : "operators",
+                            })}`,
                       entities: value[1],
                     }
               )
@@ -167,7 +175,7 @@ export const PriceComponentsBarChart = ({
                   style: {
                     colorDomain,
                     opacityDomain,
-                    colorAcc: "operator", // entity as string,
+                    colorAcc: entity as string,
                     opacityAcc: "period",
                   },
                 }}
