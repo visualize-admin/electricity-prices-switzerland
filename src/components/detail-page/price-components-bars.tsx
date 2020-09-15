@@ -21,7 +21,7 @@ import { DownloadImage, Download } from "./download-image";
 import { WithClassName } from "./with-classname";
 import { useRouter } from "next/router";
 import { useLocale } from "../../lib/use-locale";
-// @ts-ignore
+
 import { group, groups } from "d3-array";
 import { getLocalizedLabel } from "../../domain/translation";
 import { useI18n } from "../i18n-context";
