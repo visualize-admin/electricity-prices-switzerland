@@ -92,7 +92,7 @@ const useGroupedBarsState = ({
         : "period",
     [fields.style]
   );
-  const otherEntity = fields.style?.otherEntity || "operator";
+
   // Sort
   const ySortingType = fields.y.sorting?.sortingType;
   const ySortingOrder = fields.y.sorting?.sortingOrder;
@@ -119,17 +119,16 @@ const useGroupedBarsState = ({
     [data, getX, ySortingType, ySortingOrder, yOrder]
   );
 
-  // segments
-  const orderedSegments = sortedData
+  // segments ordered
+  // operator, then year, then municipality
+  const segments = sortedData
     .sort(
       (a, b) =>
         ascending(getColor(a), getColor(b)) ||
         descending(getOpacity(a), getOpacity(b)) ||
-        ascending(a[otherEntity], b[otherEntity])
+        ascending(a.municipality, b.municipality)
     )
     .map((d) => getSegment(d));
-
-  const segments = orderedSegments;
 
   // Colors (unrelated to segments!)
   const colorDomain = fields.style?.colorDomain

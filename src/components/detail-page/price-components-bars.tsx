@@ -164,10 +164,8 @@ export const PriceComponentsBarChart = ({
                   style: {
                     colorDomain,
                     opacityDomain,
-                    colorAcc: entity as string,
+                    colorAcc: "operator", // entity as string,
                     opacityAcc: "period",
-                    otherEntity:
-                      entity === "operator" ? "municipality" : "operator",
                   },
                 }}
                 measures={[

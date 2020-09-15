@@ -78,7 +78,6 @@ const BarFields = t.intersection([
       opacityDomain: t.array(t.string),
       colorAcc: t.string,
       opacityAcc: t.string,
-      otherEntity: t.string,
     }),
   }),
 ]);
