@@ -16,7 +16,12 @@ import {
   SortingType,
 } from "../../../domain/config-types";
 import { GenericObservation, ObservationValue } from "../../../domain/data";
-import { getPalette, mkNumber, useFormatNumber } from "../../../domain/helpers";
+import {
+  getPalette,
+  mkNumber,
+  useFormatNumber,
+  getOpacityRanges,
+} from "../../../domain/helpers";
 import { sortByIndex } from "../../../lib/array";
 import {
   BAR_HEIGHT,
@@ -43,7 +48,7 @@ export interface GroupedBarsState {
   getOpacity: (d: GenericObservation) => string;
   segments: string[];
   colors: ScaleOrdinal<string, string>;
-  opacityScale: ScalePoint<string>;
+  opacityScale: ScaleOrdinal<string, number>;
   grouped: [string, Record<string, ObservationValue>[]][];
 }
 
@@ -143,9 +148,10 @@ const useGroupedBarsState = ({
     ? fields.style?.opacityDomain
     : [];
 
-  const opacityScale = scalePoint()
+  const opacityScale = scaleOrdinal<string, number>()
     .domain(opacityDomain.sort((a, b) => descending(a, b)))
-    .range([1, 0.4]);
+    .range(getOpacityRanges(opacityDomain.length));
+
   // x
   const minValue = Math.min(mkNumber(min(sortedData, (d) => getX(d))), 0);
   const maxValue = max(sortedData, (d) => getX(d)) as number;
@@ -163,11 +169,9 @@ const useGroupedBarsState = ({
     bandDomain.length * (BAR_HEIGHT * segments.length + BAR_SPACE_ON_TOP);
 
   const yScale = scaleBand<string>().domain(bandDomain).range([0, chartHeight]);
-  // const yScale = scaleOrdinal<string>().domain(bandDomain).range([0]);
 
   const yScaleIn = scaleBand()
     .domain(segments)
-    // .padding(0)
     .range([0, BAR_HEIGHT * segments.length]);
 
   // sort by segments
