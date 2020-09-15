@@ -1,4 +1,3 @@
-import "@reach/dialog/styles.css";
 import "core-js/features/array/flat-map";
 import { AppProps } from "next/app";
 import Head from "next/head";
@@ -11,7 +10,8 @@ import { GraphqlProvider } from "../graphql/context";
 import { LocaleProvider } from "../lib/use-locale";
 import { useNProgress } from "../lib/use-nprogress";
 import { catalogs, parseLocaleString } from "../locales/locales";
-import "../nprogress.css";
+import "../styles/nprogress.css";
+import "../styles/reach-dialog.css";
 import { preloadFonts, theme } from "../themes/elcom";
 
 export default function App({ Component, pageProps }: AppProps) {

@@ -116,6 +116,32 @@ export const NoDataHint = () => (
   </Flex>
 );
 
+export const NoGeoDataHint = () => (
+  <Flex
+    sx={{
+      width: "100%",
+      height: "100%",
+      color: "hint",
+      margin: "auto",
+      textAlign: "center",
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center",
+      flexGrow: 1,
+    }}
+  >
+    <Icon name="warning" size={64} />
+    <Text variant="heading2" sx={{ my: 3 }}>
+      <Trans id="hint.nogeodata.title">Keine Kartendarstellung möglich</Trans>
+    </Text>
+    <Text variant="paragraph2" sx={{ maxWidth: "40rem" }}>
+      <Trans id="hint.nogeodata.message">
+        Für das ausgewählte Jahr kann keine Karte angezeigt werden.
+      </Trans>
+    </Text>
+  </Flex>
+);
+
 export const HintBlue = ({
   iconName,
   children,

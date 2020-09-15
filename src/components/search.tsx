@@ -126,9 +126,7 @@ export const SearchField = ({
     onStateChange: (changes: $FixMe) => {
       switch (changes.type) {
         case useCombobox.stateChangeTypes.ToggleButtonClick:
-          if (null !== inputEl.current) {
-            inputEl.current.focus();
-          }
+          inputEl.current?.focus();
           break;
         case useCombobox.stateChangeTypes.InputChange:
           setInputValue(changes.inputValue);
@@ -234,7 +232,10 @@ export const SearchField = ({
         {/* INPUT */}
         <Flex
           data-id="input"
-          style={{ display: isOpen ? undefined : "none" }}
+          style={{
+            /* Always render input element, so .focus() works on iOS Safari too (it won't if element has display: none) */
+            top: isOpen ? undefined : "-10000px",
+          }}
           sx={{
             position: ["fixed", "fixed", "absolute"],
             top: 0,
@@ -298,7 +299,10 @@ export const SearchField = ({
           <Button
             variant="reset"
             sx={{ cursor: "pointer" }}
-            onClick={() => setInputValue("")}
+            onClick={() => {
+              setInputValue("");
+              inputEl.current?.focus();
+            }}
           >
             <Icon
               name="clear"
@@ -319,6 +323,8 @@ export const SearchField = ({
 
             width: ["100vw", "100vw", "100%"],
             height: ["calc(100vh - 48px)", "calc(100vh - 48px)", "auto"],
+            maxHeight: ["100vh", "100vh", "50vh"],
+            overflowY: "auto",
 
             bg: "monochrome100",
             p: 4,
