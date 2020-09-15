@@ -80,6 +80,10 @@ msgstr "Netzbetreiber"
 msgid "detail.operators"
 msgstr "Netzbetreiber"
 
+#: src/components/info-dialog.tsx:48
+msgid "dialog.close"
+msgstr "Dialog schliessen"
+
 #: src/components/operator-documents.tsx:22
 msgid "download.category.annualreport"
 msgstr "Geschäftsbericht"
@@ -104,7 +108,7 @@ msgstr "Tarifblatt"
 msgid "download.category.tariffs"
 msgstr "Tarifblätter"
 
-#: src/components/footer.tsx:84
+#: src/components/footer.tsx:51
 msgid "download.filetype.csv"
 msgstr "CSV-Datei"
 
@@ -116,7 +120,7 @@ msgstr "PDF-Datei"
 msgid "download.nooperatordocuments"
 msgstr "Keine Netzbetreiber-Dokumente"
 
-#: src/components/footer.tsx:83
+#: src/components/footer.tsx:50
 msgid "download.rawdata"
 msgstr "Rohdaten"
 
@@ -136,13 +140,11 @@ msgstr "Produkt"
 msgid "filters.year"
 msgstr "Jahr"
 
-#: src/components/footer.tsx:103
+#: src/components/footer.tsx:70
 msgid "footer.institution.name"
 msgstr "Eidgenössische Elektrizitätskommission ElCom"
 
-#: src/components/footer.tsx:44
-#: src/components/footer.tsx:49
-#: src/components/footer.tsx:65
+#: src/components/footer.tsx:35
 msgid "help.calculation"
 msgstr "Berechnungsgrundlagen"
 
@@ -150,19 +152,23 @@ msgstr "Berechnungsgrundlagen"
 msgid "hint.loading.data"
 msgstr "Lade Daten…"
 
-#: src/components/hint.tsx:84
+#: src/components/hint.tsx:123
+msgid "hint.nocontent.message"
+msgstr "Dieser Inhalt konnte nicht geladen werden"
+
+#: src/components/hint.tsx:104
 msgid "hint.nodata.message"
 msgstr "Für die aktuelle Auswahl konnten keine Daten geladen werden."
 
-#: src/components/hint.tsx:81
+#: src/components/hint.tsx:101
 msgid "hint.nodata.title"
 msgstr "Keine Daten"
 
-#: src/components/hint.tsx:105
+#: src/components/hint.tsx:144
 msgid "hint.nogeodata.message"
 msgstr "Für das ausgewählte Jahr kann keine Karte angezeigt werden."
 
-#: src/components/hint.tsx:102
+#: src/components/hint.tsx:141
 msgid "hint.nogeodata.title"
 msgstr "Keine Kartendarstellung möglich"
 

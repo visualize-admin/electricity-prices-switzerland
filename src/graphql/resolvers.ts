@@ -20,6 +20,8 @@ import {
   ObservationType,
 } from "./resolver-types";
 import { defaultLocale } from "../locales/locales";
+import { getWikiPage } from "../domain/gitlab-wiki-api";
+import micromark from "micromark";
 
 const Query: QueryResolvers = {
   observations: async (
@@ -201,6 +203,17 @@ const Query: QueryResolvers = {
     });
 
     return results[0];
+  },
+  wikiContent: async (_, { locale, slug }) => {
+    const wikiPage = await getWikiPage(`${slug}/${locale}`);
+
+    if (!wikiPage) {
+      return null;
+    }
+
+    return {
+      html: micromark(wikiPage.content),
+    };
   },
 };
 

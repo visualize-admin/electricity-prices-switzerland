@@ -1,15 +1,12 @@
 import { Trans } from "@lingui/macro";
-import { Box, Flex, Link, Button, Heading } from "@theme-ui/components";
-import NextLink from "next/link";
-import { useState, ReactNode, forwardRef } from "react";
-import contentRoutes from "../content-routes.json";
-import { useLocale } from "../lib/use-locale";
-import { LogoDesktop } from "./logo";
+import { Box, Flex, Link } from "@theme-ui/components";
+import { forwardRef, ReactNode } from "react";
 import { Icon } from "../icons";
+import { useLocale } from "../lib/use-locale";
 import { useQueryStateSingle } from "../lib/use-query-state";
-import { Dialog, DialogOverlay, DialogContent } from "@reach/dialog";
-import VisuallyHidden from "@reach/visually-hidden";
 import { useI18n } from "./i18n-context";
+import { InfoDialogButton } from "./info-dialog";
+import { LogoDesktop } from "./logo";
 
 export const Footer = ({
   calculationHelpText,
@@ -19,8 +16,6 @@ export const Footer = ({
   const locale = useLocale();
   const i18n = useI18n();
   const [{ period }] = useQueryStateSingle();
-
-  const [showHelpDialog, setShowHelpDialog] = useState<boolean>(false);
 
   return (
     <>
@@ -35,51 +30,10 @@ export const Footer = ({
           position: "relative",
         }}
       >
-        <Button
-          variant="inline"
-          sx={{ fontSize: [3, 4, 4] }}
-          onClick={() => {
-            setShowHelpDialog(true);
-          }}
-        >
-          <Flex sx={{ alignItems: "center" }}>
-            <Box sx={{ flexShrink: 0, mr: 2 }}>
-              <Icon name="info" size={20} />
-            </Box>{" "}
-            <Trans id="help.calculation">Berechnungsgrundlagen</Trans>
-          </Flex>
-        </Button>
-        <Dialog
-          style={{ zIndex: 999, position: "relative" }}
-          isOpen={showHelpDialog}
-          onDismiss={() => {
-            setShowHelpDialog(false);
-          }}
-          aria-label={i18n._("help.calculation")}
-        >
-          <Button
-            variant="reset"
-            sx={{
-              color: "text",
-              p: 0,
-              position: "absolute",
-              right: "20px",
-              top: "20px",
-            }}
-            onClick={() => {
-              setShowHelpDialog(false);
-            }}
-          >
-            <VisuallyHidden>Close</VisuallyHidden>{" "}
-            <Box aria-hidden>
-              <Icon name="clear" />
-            </Box>
-          </Button>
-          <Heading variant="heading2">
-            <Trans id="help.calculation">Berechnungsgrundlagen</Trans>
-          </Heading>
-          <Box dangerouslySetInnerHTML={{ __html: calculationHelpText }}></Box>
-        </Dialog>
+        <InfoDialogButton
+          slug="help-calculation"
+          label={i18n._("help.calculation")}
+        />
       </Box>
       <Box
         sx={{

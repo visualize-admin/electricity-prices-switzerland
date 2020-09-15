@@ -80,6 +80,10 @@ msgstr "Gestore di rete"
 msgid "detail.operators"
 msgstr "Gestori di rete"
 
+#: src/components/info-dialog.tsx:48
+msgid "dialog.close"
+msgstr ""
+
 #: src/components/operator-documents.tsx:22
 msgid "download.category.annualreport"
 msgstr "Rapporto di gestione"
@@ -104,7 +108,7 @@ msgstr "Foglio tariffario"
 msgid "download.category.tariffs"
 msgstr "Fogli tariffari"
 
-#: src/components/footer.tsx:84
+#: src/components/footer.tsx:51
 msgid "download.filetype.csv"
 msgstr "Documento CVS"
 
@@ -116,7 +120,7 @@ msgstr "Documento PDF"
 msgid "download.nooperatordocuments"
 msgstr "Nessun documento del gestore di rete"
 
-#: src/components/footer.tsx:83
+#: src/components/footer.tsx:50
 msgid "download.rawdata"
 msgstr "Dati grezzi"
 
@@ -136,13 +140,11 @@ msgstr "Prodotto"
 msgid "filters.year"
 msgstr "Anno"
 
-#: src/components/footer.tsx:103
+#: src/components/footer.tsx:70
 msgid "footer.institution.name"
 msgstr "Commissione federale dell'energia elettrica Elcom"
 
-#: src/components/footer.tsx:44
-#: src/components/footer.tsx:49
-#: src/components/footer.tsx:65
+#: src/components/footer.tsx:35
 msgid "help.calculation"
 msgstr "Base di calcolo"
 
@@ -150,19 +152,23 @@ msgstr "Base di calcolo"
 msgid "hint.loading.data"
 msgstr "Caricamento dei dati…"
 
-#: src/components/hint.tsx:84
+#: src/components/hint.tsx:123
+msgid "hint.nocontent.message"
+msgstr ""
+
+#: src/components/hint.tsx:104
 msgid "hint.nodata.message"
 msgstr "Per i parametri di ricerca selezionati non è stato trovato nessun risultato."
 
-#: src/components/hint.tsx:81
+#: src/components/hint.tsx:101
 msgid "hint.nodata.title"
 msgstr "Nessun dato"
 
-#: src/components/hint.tsx:105
+#: src/components/hint.tsx:144
 msgid "hint.nogeodata.message"
 msgstr ""
 
-#: src/components/hint.tsx:102
+#: src/components/hint.tsx:141
 msgid "hint.nogeodata.title"
 msgstr ""
 

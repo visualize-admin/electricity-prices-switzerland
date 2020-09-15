@@ -141,6 +141,11 @@ export enum ObservationType {
   OperatorObservation = 'OperatorObservation'
 }
 
+export type WikiContent = {
+  __typename: 'WikiContent';
+  html: Scalars['String'];
+};
+
 export type Query = {
   __typename: 'Query';
   municipalities: Array<Municipality>;
@@ -151,6 +156,7 @@ export type Query = {
   canton?: Maybe<Canton>;
   operator?: Maybe<Operator>;
   observations: Array<Observation>;
+  wikiContent?: Maybe<WikiContent>;
 };
 
 
@@ -203,6 +209,12 @@ export type QueryObservationsArgs = {
   locale?: Maybe<Scalars['String']>;
   filters?: Maybe<ObservationFilters>;
   observationType?: Maybe<ObservationType>;
+};
+
+
+export type QueryWikiContentArgs = {
+  locale: Scalars['String'];
+  slug: Scalars['String'];
 };
 
 export type MunicipalitiesQueryVariables = Exact<{
@@ -286,6 +298,14 @@ export type OperatorDocumentsQueryVariables = Exact<{
 
 
 export type OperatorDocumentsQuery = { __typename: 'Query', operator?: Maybe<{ __typename: 'Operator', documents: Array<{ __typename: 'OperatorDocument', id: string, name: string, url: string, year: string, category: string }> }> };
+
+export type WikiContentQueryVariables = Exact<{
+  locale: Scalars['String'];
+  slug: Scalars['String'];
+}>;
+
+
+export type WikiContentQuery = { __typename: 'Query', wikiContent?: Maybe<{ __typename: 'WikiContent', html: string }> };
 
 export const OperatorObservationFieldsFragmentDoc = gql`
     fragment operatorObservationFields on OperatorObservation {
@@ -437,4 +457,15 @@ export const OperatorDocumentsDocument = gql`
 
 export function useOperatorDocumentsQuery(options: Omit<Urql.UseQueryArgs<OperatorDocumentsQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<OperatorDocumentsQuery>({ query: OperatorDocumentsDocument, ...options });
+};
+export const WikiContentDocument = gql`
+    query WikiContent($locale: String!, $slug: String!) {
+  wikiContent(locale: $locale, slug: $slug) {
+    html
+  }
+}
+    `;
+
+export function useWikiContentQuery(options: Omit<Urql.UseQueryArgs<WikiContentQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<WikiContentQuery>({ query: WikiContentDocument, ...options });
 };
