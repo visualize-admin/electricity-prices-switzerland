@@ -1,8 +1,10 @@
-import { Trans } from "@lingui/macro";
+import { Trans, t } from "@lingui/macro";
 import { Box, Flex, Grid, Text } from "@theme-ui/components";
 import * as React from "react";
 import { useTheme } from "../themes";
 import { useFormatCurrency } from "../domain/helpers";
+import { InfoDialogButton } from "./info-dialog";
+import { useI18n } from "./i18n-context";
 
 const LEGEND_WIDTH = 200;
 const TOP_LABEL_HEIGHT = 14;
@@ -15,6 +17,7 @@ export const PriceColorLegend = ({
   stats: [number | undefined, number | undefined, number | undefined];
 }) => {
   const formatCurrency = useFormatCurrency();
+  const i18n = useI18n();
   return (
     <Box
       sx={{
@@ -25,12 +28,19 @@ export const PriceColorLegend = ({
         height: "fit-content",
         px: 4,
         py: 2,
-        pointerEvents: "none",
       }}
     >
-      <Text sx={{ fontSize: 1, lineHeight: 1.5 }}>
-        <Trans id="map.legend.title">Tarifvergleich in Rp./kWh</Trans>
-      </Text>
+      <Flex sx={{ alignItems: "center" }}>
+        <Text sx={{ fontSize: 1, lineHeight: 1.5, mr: 1 }}>
+          <Trans id="map.legend.title">Tarifvergleich in Rp./kWh</Trans>
+        </Text>
+        <InfoDialogButton
+          smaller
+          iconOnly
+          slug="help-price-comparison"
+          label={i18n._(t("help.price-comparison")`Tarifvergleich`)}
+        />
+      </Flex>
       <Flex
         sx={{
           justifyContent: "space-between",
@@ -38,6 +48,7 @@ export const PriceColorLegend = ({
           fontSize: 1,
           lineHeight: 1.5,
           height: TOP_LABEL_HEIGHT,
+          pointerEvents: "none",
         }}
       >
         <Text sx={{ flex: "1 1 0px", display: "flex" }}>

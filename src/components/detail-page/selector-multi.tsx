@@ -1,4 +1,4 @@
-import { Trans } from "@lingui/macro";
+import { Trans, t } from "@lingui/macro";
 import { Flex, Text } from "theme-ui";
 import { Combobox, ComboboxMulti } from "../../components/combobox";
 import { categories, Entity, periods, products } from "../../domain/data";
@@ -79,23 +79,25 @@ export const SelectorMulti = ({
         />
         <Combobox
           id="categories"
-          label={<Trans id="selector.category">Kategorie</Trans>}
+          label={i18n._(t("selector.category")`Kategorie`)}
           items={categories}
           getItemLabel={getItemLabel}
           selectedItem={queryState.category[0]}
           setSelectedItem={(selectedItem) =>
             setQueryState({ category: [selectedItem] })
           }
+          infoDialogSlug="help-categories"
         />
         <Combobox
           id="products"
-          label={<Trans id="selector.product">Produkt</Trans>}
+          label={i18n._(t("selector.product")`Produkt`)}
           items={products}
           getItemLabel={getItemLabel}
           selectedItem={queryState.product[0]}
           setSelectedItem={(selectedItem) =>
             setQueryState({ product: [selectedItem] })
           }
+          infoDialogSlug="help-products"
         />
       </>
     </Flex>

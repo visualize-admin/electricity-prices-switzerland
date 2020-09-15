@@ -1,4 +1,4 @@
-import { Trans } from "@lingui/macro";
+import { Trans, t } from "@lingui/macro";
 import { Flex, Text } from "theme-ui";
 import { categories, periods, priceComponents, products } from "../domain/data";
 import { getLocalizedLabel } from "../domain/translation";
@@ -32,7 +32,7 @@ export const Selector = () => {
 
       <Combobox
         id="year"
-        label={<Trans id="selector.year">Jahr</Trans>}
+        label={i18n._(t("selector.year")`Jahr`)}
         items={periods}
         selectedItem={queryState.period ?? "2020"}
         setSelectedItem={(selectedItem) =>
@@ -41,35 +41,38 @@ export const Selector = () => {
       />
       <Combobox
         id="priceComponent"
-        label={<Trans id="selector.priceComponent">Preiskomponente</Trans>}
+        label={i18n._(t("selector.priceComponent")`Preiskomponente`)}
         items={priceComponents}
         getItemLabel={getItemLabel}
         selectedItem={queryState.priceComponent ?? "total"}
         setSelectedItem={(selectedItem) =>
           setQueryState({ priceComponent: selectedItem })
         }
+        infoDialogSlug="help-price-components"
       />
 
       <Combobox
         id="category"
-        label={<Trans id="selector.category">Kategorie</Trans>}
+        label={i18n._(t("selector.category")`Kategorie`)}
         items={categories}
         getItemLabel={getItemLabel}
         selectedItem={queryState.category ?? "H4"}
         setSelectedItem={(selectedItem) =>
           setQueryState({ category: selectedItem })
         }
+        infoDialogSlug="help-categories"
       />
 
       <Combobox
         id="product"
-        label={<Trans id="selector.product">Produkt</Trans>}
+        label={i18n._(t("selector.product")`Produkt`)}
         items={products}
         getItemLabel={getItemLabel}
         selectedItem={queryState.product ?? "standard"}
         setSelectedItem={(selectedItem) =>
           setQueryState({ product: selectedItem })
         }
+        infoDialogSlug="help-products"
       />
     </Flex>
   );

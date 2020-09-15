@@ -31,6 +31,7 @@ const DialogContent = ({ slug }: { slug: string }) => {
 
   return (
     <Box
+      as="section"
       dangerouslySetInnerHTML={{ __html: contentQuery.data.wikiContent.html }}
     />
   );
@@ -40,10 +41,12 @@ export const InfoDialogButton = ({
   label,
   slug,
   iconOnly,
+  smaller,
 }: {
   label: string;
   slug: string;
   iconOnly?: boolean;
+  smaller?: boolean;
 }) => {
   const [showHelpDialog, setShowDialog] = useState<boolean>(false);
   const close = () => setShowDialog(false);
@@ -51,10 +54,14 @@ export const InfoDialogButton = ({
 
   return (
     <>
-      <Button variant="inline" sx={{ fontSize: [3, 4, 4] }} onClick={open}>
+      <Button
+        variant="inline"
+        sx={{ fontSize: smaller ? [2, 2, 2] : [3, 4, 4] }}
+        onClick={open}
+      >
         <Flex sx={{ alignItems: "center" }}>
-          <Box sx={{ flexShrink: 0, mr: 2 }}>
-            <Icon name="info" size={20} />
+          <Box sx={{ flexShrink: 0, mr: iconOnly ? 0 : 2 }}>
+            <Icon name="info" size={smaller ? 16 : 20} />
           </Box>{" "}
           {iconOnly ? <VisuallyHidden>{label}</VisuallyHidden> : label}
         </Flex>
@@ -83,7 +90,9 @@ export const InfoDialogButton = ({
             <Icon name="clear" />
           </Box>
         </Button>
-        <Heading variant="heading1">{label}</Heading>
+        <Heading variant="paragraph2" sx={{ color: "secondary" }}>
+          <Trans id="dialog.infoprefix">Info:</Trans> {label}
+        </Heading>
         <DialogContent slug={slug} />
       </Dialog>
     </>

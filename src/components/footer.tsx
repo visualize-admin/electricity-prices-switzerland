@@ -1,4 +1,4 @@
-import { Trans } from "@lingui/macro";
+import { Trans, t } from "@lingui/macro";
 import { Box, Flex, Link } from "@theme-ui/components";
 import { forwardRef, ReactNode } from "react";
 import { Icon } from "../icons";
@@ -32,7 +32,7 @@ export const Footer = ({
       >
         <InfoDialogButton
           slug="help-calculation"
-          label={i18n._("help.calculation")}
+          label={i18n._(t("help.calculation")`Berechnungsgrundlage`)}
         />
       </Box>
       <Box

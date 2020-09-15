@@ -4,6 +4,7 @@ import { ReactNode, useState } from "react";
 import { Box, Button, Flex, Input, Text } from "theme-ui";
 import { Icon } from "../icons";
 import { Label } from "./form";
+import { InfoDialogButton } from "./info-dialog";
 
 export type ComboboxMultiProps = {
   id: string;
@@ -300,16 +301,18 @@ export const Combobox = ({
   items,
   selectedItem,
   setSelectedItem,
+  infoDialogSlug,
   getItemLabel = defaultGetItemLabel,
   showLabel = true,
 }: {
   id: string;
-  label: string | ReactNode;
+  label: string;
   items: string[];
   selectedItem: string;
   setSelectedItem: (selectedItem: string) => void;
   getItemLabel?: (item: string) => string;
   showLabel?: boolean;
+  infoDialogSlug?: string;
 }) => {
   const [inputValue, setInputValue] = useState(getItemLabel(selectedItem));
 
@@ -361,12 +364,22 @@ export const Combobox = ({
 
   return (
     <Box sx={{ position: "relative" }}>
-      <Label
-        showLabel={showLabel}
-        label={label}
-        smaller
-        {...getLabelProps()}
-      ></Label>
+      <Flex sx={{ justifyContent: "space-between", alignItems: "center" }}>
+        <Label
+          showLabel={showLabel}
+          label={label}
+          smaller
+          {...getLabelProps()}
+        ></Label>
+        {infoDialogSlug ? (
+          <InfoDialogButton
+            iconOnly
+            slug={infoDialogSlug}
+            label={label}
+            smaller
+          />
+        ) : null}
+      </Flex>
       <Flex
         sx={{
           display: "block",
