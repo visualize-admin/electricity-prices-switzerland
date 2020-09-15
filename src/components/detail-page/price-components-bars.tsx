@@ -21,6 +21,7 @@ import { DownloadImage, Download } from "./download-image";
 import { WithClassName } from "./with-classname";
 import { useRouter } from "next/router";
 import { useLocale } from "../../lib/use-locale";
+import { group, groups } from "d3-array";
 
 const DOWNLOAD_ID: Download = "components";
 
@@ -74,11 +75,40 @@ export const PriceComponentsBarChart = ({
         : `${obs.period}, ${obs.municipalityLabel}, ${obs.operatorLabel}`,
     ...obs,
   }));
-  const pivoted = pivot_longer({
+  console.log({ withUniqueEntityId });
+
+  const pivoted: {
+    value: number;
+    priceComponent: string;
+  }[] = pivot_longer({
     data: withUniqueEntityId as $FixMe[],
     cols: priceComponents,
     name_to: "priceComponent",
   });
+
+  console.log({ pivoted });
+  const grouped_pivoted = groups(
+    pivoted,
+    (d) => d.priceComponent,
+    (d) => d.value
+  );
+  const grouped_observations = grouped_pivoted.flatMap((pc) =>
+    pc[1].flatMap((v) =>
+      v[1].length === 1
+        ? { ...v[1][0], label: v[1][0].uniqueId }
+        : {
+            priceComponent: pc[0],
+            value: v[0],
+            number: v[1].length,
+            uniqueId: `${pc[0]}${v[1][0].period}${v[0]}: ${v[1].length} entities with this value`,
+            label: `${pc[0]}${v[1][0].period}${v[0]}: ${v[1].length} entities with this value`,
+            entities: v[1],
+          }
+    )
+  );
+  console.log({ grouped_pivoted });
+  console.log({ grouped_observations });
+
   return (
     <Card
       title={
@@ -101,7 +131,7 @@ export const PriceComponentsBarChart = ({
       ) : (
         <WithClassName downloadId={DOWNLOAD_ID}>
           <GroupedBarsChart
-            data={pivoted}
+            data={grouped_observations}
             fields={{
               x: {
                 componentIri: "value",
