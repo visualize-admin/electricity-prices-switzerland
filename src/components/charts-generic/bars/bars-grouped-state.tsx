@@ -6,7 +6,6 @@ import {
   scaleLinear,
   ScaleOrdinal,
   scaleOrdinal,
-  ScalePoint,
 } from "d3-scale";
 import * as React from "react";
 import { ReactNode, useCallback, useMemo } from "react";
@@ -17,22 +16,19 @@ import {
 } from "../../../domain/config-types";
 import { GenericObservation, ObservationValue } from "../../../domain/data";
 import {
+  getOpacityRanges,
   getPalette,
   mkNumber,
-  useFormatNumber,
-  getOpacityRanges,
 } from "../../../domain/helpers";
 import { sortByIndex } from "../../../lib/array";
 import {
   BAR_HEIGHT,
   BAR_SPACE_ON_TOP,
   BOTTOM_MARGIN_OFFSET,
-  LEFT_MARGIN_OFFSET,
 } from "../constants";
 import { ChartContext, ChartProps } from "../use-chart-state";
 import { InteractionProvider } from "../use-interaction";
 import { Bounds, Observer, useWidth } from "../use-width";
-import { scaleThreshold, scalePoint } from "d3";
 
 export interface GroupedBarsState {
   sortedData: GenericObservation[];
