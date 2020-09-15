@@ -115,6 +115,9 @@ export const PriceComponentsBarChart = ({
                 type: "grouped",
                 palette: "elcom",
               },
+              label: {
+                componentIri: "label",
+              },
             }}
             measures={[
               {

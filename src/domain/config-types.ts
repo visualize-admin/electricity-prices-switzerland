@@ -69,6 +69,9 @@ const BarFields = t.intersection([
   t.partial({
     segment: SegmentField,
   }),
+  t.partial({
+    label: GenericField,
+  }),
 ]);
 export type BarFields = t.TypeOf<typeof BarFields>;
 
