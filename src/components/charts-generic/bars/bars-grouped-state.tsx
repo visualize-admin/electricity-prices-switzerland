@@ -131,7 +131,8 @@ const useGroupedBarsState = ({
       (a, b) =>
         ascending(getColor(a), getColor(b)) ||
         descending(getOpacity(a), getOpacity(b)) ||
-        ascending(a.municipality, b.municipality)
+        // ascending(a.municipality, b.municipality) ||
+        descending(getX(a), getX(b))
     )
     .map((d) => getSegment(d));
 
