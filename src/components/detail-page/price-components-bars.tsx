@@ -78,7 +78,7 @@ export const PriceComponentsBarChart = ({
     uniqueId:
       obs.__typename === "MedianObservation"
         ? `${obs.period}, ${obs.cantonLabel}`
-        : `${obs.period}, ${obs.municipalityLabel}, ${obs.operatorLabel}`,
+        : `${obs.period}, ${obs.operatorLabel}, ${obs.municipalityLabel}`,
     ...obs,
   }));
 
@@ -132,8 +132,8 @@ export const PriceComponentsBarChart = ({
                       period: value[1][0].period,
                       uniqueId: `${value[1][0].period}, ${value[0]}: ${value[1].length} entities with this value`,
                       label: `${value[1][0].period}, ${
-                        value[1].length
-                      } ${getLocalizedLabel({
+                        value[1][0].operatorLabel
+                      }, ${value[1].length} ${getLocalizedLabel({
                         i18n,
                         id:
                           entity === "operator"
