@@ -22,6 +22,8 @@ import { WithClassName } from "./with-classname";
 import { useRouter } from "next/router";
 import { useLocale } from "../../lib/use-locale";
 import { group, groups } from "d3-array";
+import { getLocalizedLabel } from "../../domain/translation";
+import { useI18n } from "../i18n-context";
 
 const DOWNLOAD_ID: Download = "components";
 
@@ -32,6 +34,8 @@ export const PriceComponentsBarChart = ({
   id: string;
   entity: Entity;
 }) => {
+  const i18n = useI18n();
+
   const locale = useLocale();
   const [
     { period, category, municipality, operator, canton, product },
@@ -87,31 +91,9 @@ export const PriceComponentsBarChart = ({
   });
 
   console.log({ pivoted });
-  const grouped_pivoted = groups(
-    pivoted,
-    (d) => d.priceComponent,
-    (d) => d.value
-  );
-  const grouped_observations = grouped_pivoted.flatMap((pc) =>
-    pc[1].flatMap((v) =>
-      v[1].length === 1
-        ? { ...v[1][0], label: v[1][0].uniqueId }
-        : {
-            priceComponent: pc[0],
-            value: v[0],
-            number: v[1].length,
-            uniqueId: `${pc[0]}${v[1][0].period}${v[0]}: ${v[1].length} entities with this value`,
-            label: `${pc[0]}${v[1][0].period}${v[0]}: ${v[1].length} entities with this value`,
-            entities: v[1],
-          }
-    )
-  );
-  console.log({ grouped_pivoted });
-  console.log({ grouped_observations });
-  const grouped_groups = [
-    ...group(grouped_observations, (d) => d.priceComponent),
-  ];
-  console.log({ grouped_groups });
+  const perPriceComponent = [...group(pivoted, (d) => d.priceComponent)];
+  console.log({ perPriceComponent });
+
   return (
     <Card
       title={
@@ -133,10 +115,37 @@ export const PriceComponentsBarChart = ({
         <NoDataHint />
       ) : (
         <WithClassName downloadId={DOWNLOAD_ID}>
-          {grouped_groups.map((g) => {
+          {perPriceComponent.map((pc: $FixMe) => {
+            const grouped = groups(
+              pc[1],
+              (d) => d.period,
+              (d) => d.value
+            );
+            console.log({ grouped });
+
+            const observations = grouped.flatMap((year) =>
+              year[1].flatMap((value) =>
+                value[1].length === 1
+                  ? { ...value[1][0], label: value[1][0].uniqueId }
+                  : {
+                      priceComponent: pc[0],
+                      value: value[0],
+                      number: value[1].length,
+                      uniqueId: `${value[1][0].period}, ${value[0]}: ${value[1].length} entities with this value`,
+                      label: `${value[1][0].period}, ${
+                        value[1].length
+                      } ${getLocalizedLabel({
+                        i18n,
+                        id: entity === "operator" ? "municipality" : "operator",
+                      })}`,
+                      entities: value[1],
+                    }
+              )
+            );
+
             return (
               <GroupedBarsChart
-                data={g[1]}
+                data={observations}
                 fields={{
                   x: {
                     componentIri: "value",
