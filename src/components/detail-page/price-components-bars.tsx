@@ -135,7 +135,10 @@ export const PriceComponentsBarChart = ({
                         value[1].length
                       } ${getLocalizedLabel({
                         i18n,
-                        id: entity === "operator" ? "municipality" : "operator",
+                        id:
+                          entity === "operator"
+                            ? "municipalities"
+                            : "operators",
                       })}`,
                       entities: value[1],
                     }

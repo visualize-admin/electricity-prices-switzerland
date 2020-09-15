@@ -67,9 +67,13 @@ export const getLocalizedLabel = ({
     case "OperatorResult":
     case "operator":
       return i18n._(t("search.result.operator")`Netzbetreiber`);
+    case "operators":
+      return i18n._(t("chart.annotation.operators")`Netzbetreiber`);
     case "MunicipalityResult":
     case "municipality":
       return i18n._(t("search.result.municipality")`Gemeinde`);
+    case "municipalities":
+      return i18n._(t("chart.annotation.municipalities")`Gemeinden`);
     case "CantonResult":
     case "canton":
       return i18n._(t("search.result.canton")`Kanton`);
