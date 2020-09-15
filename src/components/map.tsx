@@ -25,7 +25,7 @@ import { useFormatCurrency } from "../domain/helpers";
 import { OperatorObservationFieldsFragment } from "../graphql/queries";
 import { TooltipBoxWithoutChartState } from "./charts-generic/interaction/tooltip-box";
 import { createDynamicRouteProps } from "./links";
-import { Loading, NoDataHint } from "./hint";
+import { Loading, NoDataHint, NoGeoDataHint } from "./hint";
 import { WithClassName } from "./detail-page/with-classname";
 
 const DOWNLOAD_ID = "map";
@@ -308,9 +308,13 @@ export const ChoroplethMap = ({
         <HintBox>
           <Loading />
         </HintBox>
-      ) : geoData.state === "error" || observations.length === 0 ? (
+      ) : observations.length === 0 ? (
         <HintBox>
           <NoDataHint />
+        </HintBox>
+      ) : geoData.state === "error" ? (
+        <HintBox>
+          <NoGeoDataHint />
         </HintBox>
       ) : null}
       <>

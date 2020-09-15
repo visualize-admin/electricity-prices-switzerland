@@ -6,15 +6,21 @@ msgstr ""
 "X-Generator: POEditor.com\n"
 "Project-Id-Version: elcom-electricity-website\n"
 "Language: de\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
 
 #: src/components/combobox.tsx:172
-#: src/components/search.tsx:212
+#: src/components/search.tsx:220
 msgid "combobox.isloading"
 msgstr "Resultate laden …"
 
 #: src/components/combobox.tsx:178
 #: src/components/combobox.tsx:305
-#: src/components/search.tsx:214
+#: src/components/search.tsx:222
 msgid "combobox.noitems"
 msgstr "Keine Einträge"
 
@@ -152,6 +158,14 @@ msgstr "Für die aktuelle Auswahl konnten keine Daten geladen werden."
 msgid "hint.nodata.title"
 msgstr "Keine Daten"
 
+#: src/components/hint.tsx:105
+msgid "hint.nogeodata.message"
+msgstr "Für das ausgewählte Jahr kann keine Karte angezeigt werden."
+
+#: src/components/hint.tsx:102
+msgid "hint.nogeodata.title"
+msgstr "Keine Kartendarstellung möglich"
+
 #: src/components/charts-generic/histogram/histogram-min-max-values.tsx:48
 msgid "histogram.max"
 msgstr "Max"
@@ -209,7 +223,7 @@ msgstr "Logo of the Swiss Confederation"
 msgid "map.legend.title"
 msgstr "Tarifvergleich in Rp./kWh"
 
-#: src/components/map.tsx:210
+#: src/components/map.tsx:212
 msgid "map.tooltipnodata"
 msgstr "Keine Daten"
 
@@ -229,11 +243,11 @@ msgstr "min"
 msgid "search.global"
 msgstr "Detaillierte Preisanalysen von Kantonen, Gemeinden und Netzbetreibern."
 
-#: src/components/search.tsx:141
+#: src/components/search.tsx:140
 msgid "search.global.hint.canton.muni.operator"
 msgstr "Gemeindename, PLZ, Netzbetreiber, Kanton"
 
-#: src/components/search.tsx:131
+#: src/components/search.tsx:130
 msgid "search.global.hint.go.to"
 msgstr "Gehe zu…"
 
@@ -393,4 +407,3 @@ msgstr "Jahre"
 #: src/pages/[locale]/operator/[id].tsx:63
 msgid "site.title"
 msgstr "Strompreise Schweiz"
-
