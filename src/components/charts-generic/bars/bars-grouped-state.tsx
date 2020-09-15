@@ -36,6 +36,7 @@ export interface GroupedBarsState {
   yScale: ScaleBand<string>;
   yScaleIn: ScaleBand<string>;
   getSegment: (d: GenericObservation) => string;
+  getLabel: (d: GenericObservation) => string;
   segments: string[];
   colors: ScaleOrdinal<string, string>;
   grouped: [string, Record<string, ObservationValue>[]][];
@@ -64,6 +65,13 @@ const useGroupedBarsState = ({
         ? (d[fields.segment.componentIri] as string)
         : "segment",
     [fields.segment]
+  );
+  const getLabel = useCallback(
+    (d: GenericObservation): string =>
+      fields.label && fields.label.componentIri
+        ? (d[fields.label.componentIri] as string)
+        : "label",
+    [fields.label]
   );
 
   // Sort
@@ -206,6 +214,7 @@ const useGroupedBarsState = ({
     yScale,
     yScaleIn,
     getSegment,
+    getLabel,
     segments,
     colors,
     grouped,

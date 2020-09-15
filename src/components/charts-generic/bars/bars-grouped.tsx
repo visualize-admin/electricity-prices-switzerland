@@ -84,7 +84,7 @@ export const BarsGroupedLabels = () => {
     yScaleIn,
     getX,
     yScale,
-    getSegment,
+    getLabel,
     grouped,
   } = useChartState() as GroupedBarsState;
   const { margins } = bounds;
@@ -111,12 +111,12 @@ export const BarsGroupedLabels = () => {
                     fontSize: labelFontSize,
                   }}
                   x={0}
-                  y={yScaleIn(getSegment(d)) as number}
+                  y={yScaleIn(getLabel(d)) as number}
                   dx={6}
                   dy={labelFontSize * 1.5}
                 >
                   <tspan fontWeight="bold">{formatCurrency(getX(d))}</tspan>{" "}
-                  {getSegment(d)}
+                  {getLabel(d)}
                 </text>
               ))}
             </g>
