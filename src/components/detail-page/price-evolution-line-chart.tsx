@@ -120,16 +120,24 @@ const PriceEvolutionLineCharts = memo(
     const i18n = useI18n();
 
     // Add a unique ID for the combinations municipality+operator
-    const withUniqueEntityId = observations.map((obs) => ({
-      uniqueId:
-        obs.__typename === "OperatorObservation"
-          ? `${obs.municipalityLabel}, ${obs.operatorLabel}`
-          : obs.cantonLabel,
-      ...obs,
-    }));
+    const withUniqueEntityId: GenericObservation[] = observations.map(
+      (obs) => ({
+        uniqueId:
+          obs.__typename === "OperatorObservation"
+            ? `${obs.municipalityLabel}, ${obs.operatorLabel}`
+            : obs.cantonLabel,
+        ...obs,
+      })
+    );
 
     const hasMultipleLines =
       new Set(withUniqueEntityId.map((obs) => obs.uniqueId)).size > 1;
+
+    const colorDomain = [
+      ...new Set(withUniqueEntityId.map((p) => p[`${entity}Label`])),
+    ] as string[];
+
+    const opacityDomain = ["", ""];
 
     return (
       <>
@@ -149,8 +157,16 @@ const PriceEvolutionLineCharts = memo(
                     ? {
                         componentIri: "uniqueId",
                         palette: "elcom",
+                        // colorMapping. sadly, we can't use colorMapping here because colors should not match segment values
                       }
                     : undefined,
+                  // This field doesn't respect the chart system and context
+                  style: {
+                    colorDomain,
+                    opacityDomain,
+                    colorAcc: `${entity}Label`,
+                    opacityAcc: "period",
+                  },
                 }}
                 measures={[
                   {
