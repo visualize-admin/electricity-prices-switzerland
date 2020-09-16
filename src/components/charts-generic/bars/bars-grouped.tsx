@@ -1,12 +1,12 @@
 import * as React from "react";
+import { useFormatCurrency } from "../../../domain/helpers";
+import { getLocalizedLabel } from "../../../domain/translation";
+import { useI18n } from "../../i18n-context";
 import { BAR_AXIS_OFFSET, BAR_SPACE_ON_TOP } from "../constants";
 import { useChartState } from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
 import { GroupedBarsState } from "./bars-grouped-state";
 import { Bar } from "./bars-simple";
-import { useFormatCurrency } from "../../../domain/helpers";
-import { getLocalizedLabel } from "../../../domain/translation";
-import { useI18n } from "../../i18n-context";
 
 export const BarsGrouped = () => {
   const {
@@ -17,7 +17,10 @@ export const BarsGrouped = () => {
     getY,
     yScale,
     getSegment,
+    getColor,
+    getOpacity,
     colors,
+    opacityScale,
     grouped,
   } = useChartState() as GroupedBarsState;
   const { margins } = bounds;
@@ -49,7 +52,8 @@ export const BarsGrouped = () => {
                   x={0}
                   width={xScale(Math.max(0, getX(d)))}
                   height={yScaleIn.bandwidth()}
-                  color={colors(getSegment(d))}
+                  color={colors(getColor(d))}
+                  fillOpacity={opacityScale(getOpacity(d))}
                   stroke={markBorderColor}
                 />
               ))}
@@ -85,6 +89,7 @@ export const BarsGroupedLabels = () => {
     getX,
     yScale,
     getSegment,
+    getLabel,
     grouped,
   } = useChartState() as GroupedBarsState;
   const { margins } = bounds;
@@ -116,7 +121,7 @@ export const BarsGroupedLabels = () => {
                   dy={labelFontSize * 1.5}
                 >
                   <tspan fontWeight="bold">{formatCurrency(getX(d))}</tspan>{" "}
-                  {getSegment(d)}
+                  {getLabel(d)}
                 </text>
               ))}
             </g>
