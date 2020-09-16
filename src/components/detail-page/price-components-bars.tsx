@@ -1,8 +1,8 @@
 import { Trans } from "@lingui/macro";
-import { group, groups } from "d3-array";
+import { group, groups, min, max } from "d3-array";
 import * as React from "react";
 import { Entity, GenericObservation, priceComponents } from "../../domain/data";
-import { pivot_longer } from "../../domain/helpers";
+import { pivot_longer, mkNumber } from "../../domain/helpers";
 import { getLocalizedLabel } from "../../domain/translation";
 import {
   ObservationType,
@@ -85,6 +85,12 @@ export const PriceComponentsBarChart = ({
   });
 
   const perPriceComponent = [...group(pivoted, (d) => d.priceComponent)];
+  const minValue = Math.min(
+    mkNumber(min(pivoted, (d) => d.value as number)),
+    0
+  );
+  const maxValue = max(pivoted, (d) => d.value as number);
+  const xDomain = [mkNumber(minValue), mkNumber(maxValue)];
   const colorDomain = [...new Set(pivoted.map((p) => p[entity]))] as string[];
   const opacityDomain = [...new Set(pivoted.map((p) => p.period))] as string[];
 
@@ -109,7 +115,7 @@ export const PriceComponentsBarChart = ({
         <NoDataHint />
       ) : (
         <WithClassName downloadId={DOWNLOAD_ID}>
-          {perPriceComponent.map((pc) => {
+          {perPriceComponent.map((pc, i) => {
             const grouped = groups(
               pc[1],
               (d: GenericObservation) => d.period,
@@ -150,53 +156,59 @@ export const PriceComponentsBarChart = ({
             );
 
             return (
-              <GroupedBarsChart
-                data={observations}
-                fields={{
-                  x: {
-                    componentIri: "value",
-                  },
-                  y: {
-                    componentIri: "priceComponent",
-                    sorting: { sortingType: "byMeasure", sortingOrder: "desc" },
-                  },
-                  segment: {
-                    componentIri: "uniqueId", // year+muni+operator
-                    type: "grouped",
-                    palette: "elcom",
-                  },
-                  label: {
-                    componentIri: "label",
-                  },
-                  style: {
-                    colorDomain,
-                    opacityDomain,
-                    colorAcc: entity as string,
-                    opacityAcc: "period",
-                  },
-                }}
-                measures={[
-                  {
-                    iri: "value",
-                    label: "value",
-                    __typename: "Measure",
-                  },
-                ]}
-                dimensions={[
-                  {
-                    iri: "priceComponent",
-                    label: "priceComponent",
-                    __typename: "NominalDimension",
-                  },
-                ]}
-              >
-                <ChartContainer>
-                  <ChartSvg>
-                    <BarsGrouped />
-                    <BarsGroupedLabels />
-                  </ChartSvg>
-                </ChartContainer>
-              </GroupedBarsChart>
+              <React.Fragment key={i}>
+                <GroupedBarsChart
+                  data={observations}
+                  fields={{
+                    x: {
+                      componentIri: "value",
+                      domain: xDomain,
+                    },
+                    y: {
+                      componentIri: "priceComponent",
+                      sorting: {
+                        sortingType: "byMeasure",
+                        sortingOrder: "desc",
+                      },
+                    },
+                    segment: {
+                      componentIri: "uniqueId", // year+muni+operator
+                      type: "grouped",
+                      palette: "elcom",
+                    },
+                    label: {
+                      componentIri: "label",
+                    },
+                    style: {
+                      colorDomain,
+                      opacityDomain,
+                      colorAcc: entity as string,
+                      opacityAcc: "period",
+                    },
+                  }}
+                  measures={[
+                    {
+                      iri: "value",
+                      label: "value",
+                      __typename: "Measure",
+                    },
+                  ]}
+                  dimensions={[
+                    {
+                      iri: "priceComponent",
+                      label: "priceComponent",
+                      __typename: "NominalDimension",
+                    },
+                  ]}
+                >
+                  <ChartContainer>
+                    <ChartSvg>
+                      <BarsGrouped />
+                      <BarsGroupedLabels />
+                    </ChartSvg>
+                  </ChartContainer>
+                </GroupedBarsChart>
+              </React.Fragment>
             );
           })}
         </WithClassName>

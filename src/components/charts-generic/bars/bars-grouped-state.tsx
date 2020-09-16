@@ -151,9 +151,7 @@ const useGroupedBarsState = ({
   // x
   const minValue = Math.min(mkNumber(min(sortedData, (d) => getX(d))), 0);
   const maxValue = max(sortedData, (d) => getX(d)) as number;
-  const xScale = scaleLinear()
-    .domain([mkNumber(minValue), mkNumber(maxValue)])
-    .nice();
+  const xScale = scaleLinear().domain(fields.x.domain).nice();
 
   // Group
   const groupedMap = group(sortedData, getY);

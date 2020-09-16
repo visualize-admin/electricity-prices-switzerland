@@ -50,7 +50,10 @@ export type SegmentFields = Record<string, SegmentField | undefined>;
 
 const BarFields = t.intersection([
   t.type({
-    x: GenericField,
+    x: t.type({
+      componentIri: t.string,
+      domain: t.array(t.number),
+    }),
     y: t.intersection([
       t.type({
         componentIri: t.string,
