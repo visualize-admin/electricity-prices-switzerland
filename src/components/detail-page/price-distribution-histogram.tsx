@@ -192,7 +192,7 @@ export const PriceDistributionHistogram = ({
           // Made up label with the number of entities
           muniOperator: `${d[1].length} ${getLocalizedLabel({
             i18n,
-            id: entity === "operator" ? "municipality" : "operator",
+            id: entity === "operator" ? "municipalities" : "operators",
           })}`,
         }
   );
