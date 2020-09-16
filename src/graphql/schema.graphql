@@ -107,6 +107,10 @@ enum ObservationType {
   OperatorObservation
 }
 
+type WikiContent {
+  html: String!
+}
+
 type Query {
   municipalities(
     locale: String!
@@ -129,4 +133,5 @@ type Query {
   #   locale: String
   #   filters: ObservationFilters
   # ): [Observation!]!
+  wikiContent(locale: String!, slug: String!): WikiContent
 }

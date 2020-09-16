@@ -13,12 +13,10 @@ import { Header } from "../../../components/header";
 import { getSource, search } from "../../../graphql/rdf";
 import { useI18n } from "../../../components/i18n-context";
 import Head from "next/head";
-import { getHelpCalculationPageFromGitLabWiki } from "../../../domain/gitlab-wiki-api";
 
 type Props = {
   id: string;
   name: string;
-  calculationHelpText: string;
   // operators: { id: string; name: string }[];
 };
 
@@ -41,13 +39,11 @@ export const getServerSideProps: GetServerSideProps<
   if (!canton) {
     res.statusCode = 404;
   }
-  const calculationHelpText = await getHelpCalculationPageFromGitLabWiki({
-    locale,
-  });
-  return { props: { id, name: canton.name, calculationHelpText } };
+
+  return { props: { id, name: canton.name } };
 };
 
-const CantonPage = ({ id, name, calculationHelpText }: Props) => {
+const CantonPage = ({ id, name }: Props) => {
   const i18n = useI18n();
   const { query } = useRouter();
 
@@ -105,7 +101,7 @@ const CantonPage = ({ id, name, calculationHelpText }: Props) => {
             />
           )}
         </Box>
-        <Footer calculationHelpText={calculationHelpText}></Footer>
+        <Footer />
       </Flex>
     </>
   );

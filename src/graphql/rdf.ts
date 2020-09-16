@@ -12,6 +12,11 @@ import { defaultLocale } from "../locales/locales";
 
 type Filters = { [key: string]: string[] | null | undefined } | null;
 
+const OBSERVATIONS_CUBE =
+  "https://energy.ld.admin.ch/elcom/electricity-price/cube";
+const CANTON_OBSERVATIONS_CUBE =
+  "https://energy.ld.admin.ch/elcom/electricity-price/median/cube";
+
 const ns = {
   dc: namespace("http://purl.org/dc/elements/1.1/"),
   energyPricing: namespace(
@@ -36,6 +41,27 @@ export const getSource = () =>
     // user: '',
     // password: ''
   });
+
+export const getSourceAndCubeViews = async () => {
+  const source = getSource();
+  const [observationsCube, cantonObservationsCube] = await Promise.all([
+    source.cube(OBSERVATIONS_CUBE),
+    source.cube(CANTON_OBSERVATIONS_CUBE),
+  ]);
+
+  if (!observationsCube) {
+    throw Error(`Cube ${OBSERVATIONS_CUBE} not found`);
+  }
+  if (!cantonObservationsCube) {
+    throw Error(`Cube ${CANTON_OBSERVATIONS_CUBE} not found`);
+  }
+
+  return {
+    source,
+    observationsView: getView(observationsCube),
+    cantonObservationsView: getView(cantonObservationsCube),
+  };
+};
 
 export const getName = (
   node: Cube | CubeDimension,

@@ -7,6 +7,8 @@ import {
   search,
   stripNamespaceFromIri,
   getOperatorDocuments,
+  getSourceAndCubeViews,
+  getSource,
 } from "./rdf";
 import { ResolvedObservation } from "./resolver-mapped-types";
 import {
@@ -20,14 +22,16 @@ import {
   ObservationType,
 } from "./resolver-types";
 import { defaultLocale } from "../locales/locales";
+import { getWikiPage } from "../domain/gitlab-wiki-api";
+import micromark from "micromark";
 
 const Query: QueryResolvers = {
-  observations: async (
-    _,
-    { locale, filters, observationType },
-    { source, observationsView, cantonObservationsView },
-    info
-  ) => {
+  observations: async (_, { locale, filters, observationType }, ctx, info) => {
+    const {
+      source,
+      observationsView,
+      cantonObservationsView,
+    } = await getSourceAndCubeViews();
     // Look ahead to select proper dimensions for query
     const observationFields = getResolverFields(info, "OperatorObservation");
 
@@ -125,11 +129,8 @@ const Query: QueryResolvers = {
     // Should we type-check with io-ts here? Probably not necessary because the GraphQL API will also type-check against the schema.
     return observations as ResolvedObservation[];
   },
-  operators: async (
-    _,
-    { query, ids, locale },
-    { source, observationsView: view }
-  ) => {
+  operators: async (_, { query, ids, locale }) => {
+    const { source, observationsView: view } = await getSourceAndCubeViews();
     const results = await search({
       source,
       locale,
@@ -140,11 +141,8 @@ const Query: QueryResolvers = {
 
     return results.map((r) => ({ ...r, source, view }));
   },
-  municipalities: async (
-    _,
-    { query, ids, locale },
-    { source, observationsView: view }
-  ) => {
+  municipalities: async (_, { query, ids, locale }) => {
+    const { source, observationsView: view } = await getSourceAndCubeViews();
     const results = await search({
       source,
       locale,
@@ -155,11 +153,9 @@ const Query: QueryResolvers = {
 
     return results.map((r) => ({ ...r, source, view }));
   },
-  cantons: async (
-    _,
-    { query, ids, locale },
-    { source, observationsView: view }
-  ) => {
+  cantons: async (_, { query, ids, locale }) => {
+    const { source, observationsView: view } = await getSourceAndCubeViews();
+
     const results = await search({
       source,
       locale,
@@ -170,7 +166,8 @@ const Query: QueryResolvers = {
 
     return results.map((r) => ({ ...r, source, view }));
   },
-  search: async (_, { query, locale }, { source }) => {
+  search: async (_, { query, locale }) => {
+    const source = getSource();
     const results = await search({
       source,
       locale,
@@ -181,7 +178,9 @@ const Query: QueryResolvers = {
 
     return results;
   },
-  municipality: async (_, { id }, { source, observationsView: view }) => {
+  municipality: async (_, { id }) => {
+    const { source, observationsView: view } = await getSourceAndCubeViews();
+
     const results = await getDimensionValuesAndLabels({
       view,
       source,
@@ -192,7 +191,9 @@ const Query: QueryResolvers = {
     return results[0];
   },
   canton: async (_, { id }) => ({ id }),
-  operator: async (_, { id }, { source, observationsView: view }) => {
+  operator: async (_, { id }) => {
+    const { source, observationsView: view } = await getSourceAndCubeViews();
+
     const results = await getDimensionValuesAndLabels({
       view,
       source,
@@ -201,6 +202,30 @@ const Query: QueryResolvers = {
     });
 
     return results[0];
+  },
+  wikiContent: async (_, { locale, slug }) => {
+    // Exit early if home-banner is requested and it's disabled
+    if (slug === "home-banner") {
+      const bannerEnabled = (await getWikiPage("home"))?.content.match(
+        /home_banner_enabled:\W*true/
+      )
+        ? true
+        : false;
+
+      if (!bannerEnabled) {
+        return null;
+      }
+    }
+
+    const wikiPage = await getWikiPage(`${slug}/${locale}`);
+
+    if (!wikiPage) {
+      return null;
+    }
+
+    return {
+      html: micromark(wikiPage.content),
+    };
   },
 };
 

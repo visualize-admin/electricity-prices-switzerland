@@ -128,3 +128,9 @@ query OperatorDocuments($id: String!, $locale: String!) {
     }
   }
 }
+
+query WikiContent($locale: String!, $slug: String!) {
+  wikiContent(locale: $locale, slug: $slug) {
+    html
+  }
+}

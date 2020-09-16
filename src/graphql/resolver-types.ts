@@ -142,6 +142,11 @@ export enum ObservationType {
   OperatorObservation = 'OperatorObservation'
 }
 
+export type WikiContent = {
+  __typename?: 'WikiContent';
+  html: Scalars['String'];
+};
+
 export type Query = {
   __typename?: 'Query';
   municipalities: Array<Municipality>;
@@ -152,6 +157,7 @@ export type Query = {
   canton?: Maybe<Canton>;
   operator?: Maybe<Operator>;
   observations: Array<Observation>;
+  wikiContent?: Maybe<WikiContent>;
 };
 
 
@@ -204,6 +210,12 @@ export type QueryObservationsArgs = {
   locale?: Maybe<Scalars['String']>;
   filters?: Maybe<ObservationFilters>;
   observationType?: Maybe<ObservationType>;
+};
+
+
+export type QueryWikiContentArgs = {
+  locale: Scalars['String'];
+  slug: Scalars['String'];
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -290,6 +302,7 @@ export type ResolversTypes = ResolversObject<{
   ObservationFilters: ObservationFilters;
   PriceComponent: PriceComponent;
   ObservationType: ObservationType;
+  WikiContent: ResolverTypeWrapper<WikiContent>;
   Query: ResolverTypeWrapper<{}>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
 }>;
@@ -312,6 +325,7 @@ export type ResolversParentTypes = ResolversObject<{
   MedianObservation: ResolvedMedianObservation;
   Observation: ResolvedObservation;
   ObservationFilters: ObservationFilters;
+  WikiContent: WikiContent;
   Query: {};
   Boolean: Scalars['Boolean'];
 }>;
@@ -414,6 +428,11 @@ export type ObservationResolvers<ContextType = ServerContext, ParentType extends
   __resolveType: TypeResolveFn<'OperatorObservation' | 'MedianObservation', ParentType, ContextType>;
 }>;
 
+export type WikiContentResolvers<ContextType = ServerContext, ParentType extends ResolversParentTypes['WikiContent'] = ResolversParentTypes['WikiContent']> = ResolversObject<{
+  html?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+}>;
+
 export type QueryResolvers<ContextType = ServerContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   municipalities?: Resolver<Array<ResolversTypes['Municipality']>, ParentType, ContextType, RequireFields<QueryMunicipalitiesArgs, 'locale'>>;
   cantons?: Resolver<Array<ResolversTypes['Canton']>, ParentType, ContextType, RequireFields<QueryCantonsArgs, 'locale'>>;
@@ -423,6 +442,7 @@ export type QueryResolvers<ContextType = ServerContext, ParentType extends Resol
   canton?: Resolver<Maybe<ResolversTypes['Canton']>, ParentType, ContextType, RequireFields<QueryCantonArgs, 'locale' | 'id'>>;
   operator?: Resolver<Maybe<ResolversTypes['Operator']>, ParentType, ContextType, RequireFields<QueryOperatorArgs, 'locale' | 'id'>>;
   observations?: Resolver<Array<ResolversTypes['Observation']>, ParentType, ContextType, RequireFields<QueryObservationsArgs, never>>;
+  wikiContent?: Resolver<Maybe<ResolversTypes['WikiContent']>, ParentType, ContextType, RequireFields<QueryWikiContentArgs, 'locale' | 'slug'>>;
 }>;
 
 export type Resolvers<ContextType = ServerContext> = ResolversObject<{
@@ -439,6 +459,7 @@ export type Resolvers<ContextType = ServerContext> = ResolversObject<{
   OperatorObservation?: OperatorObservationResolvers<ContextType>;
   MedianObservation?: MedianObservationResolvers<ContextType>;
   Observation?: ObservationResolvers<ContextType>;
+  WikiContent?: WikiContentResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
 }>;
 

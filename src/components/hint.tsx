@@ -75,6 +75,33 @@ export const Loading = ({ delayMs = 1000 }: { delayMs?: number }) => (
   </Flex>
 );
 
+export const LoadingIcon = ({ delayMs = 200 }: { delayMs?: number }) => (
+  <Flex
+    sx={{
+      width: "100%",
+      height: "100%",
+      color: "hint",
+      margin: "auto",
+      textAlign: "center",
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center",
+      flexGrow: 1,
+      padding: 2,
+      opacity: 0,
+      animation: `0s linear ${delayMs}ms forwards ${delayedShow}`,
+    }}
+  >
+    <Box
+      sx={{
+        animation: `1s linear infinite ${spin}`,
+      }}
+    >
+      <Icon name="loading" size={32} />
+    </Box>
+  </Flex>
+);
+
 export const LoadingOverlay = () => (
   <Box
     sx={{
@@ -111,6 +138,30 @@ export const NoDataHint = () => (
     <Text variant="paragraph2" sx={{ maxWidth: "40rem" }}>
       <Trans id="hint.nodata.message">
         Für die aktuelle Auswahl konnten keine Daten geladen werden.
+      </Trans>
+    </Text>
+  </Flex>
+);
+
+export const NoContentHint = () => (
+  <Flex
+    sx={{
+      width: "100%",
+      height: "100%",
+      color: "hint",
+      margin: "auto",
+      textAlign: "center",
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center",
+      flexGrow: 1,
+    }}
+  >
+    <Icon name="warning" size={48} />
+
+    <Text variant="paragraph2" sx={{ maxWidth: "40rem" }}>
+      <Trans id="hint.nocontent.message">
+        Dieser Inhalt konnte nicht geladen werden
       </Trans>
     </Text>
   </Flex>

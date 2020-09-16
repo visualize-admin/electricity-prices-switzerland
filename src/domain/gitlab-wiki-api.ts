@@ -47,7 +47,9 @@ const getCachedWikiPages = async (
   return pages;
 };
 
-const getWikiPage = async (slug: string): Promise<WikiPage | undefined> => {
+export const getWikiPage = async (
+  slug: string
+): Promise<WikiPage | undefined> => {
   if (!process.env.GITLAB_WIKI_URL || !process.env.GITLAB_WIKI_TOKEN) {
     throw Error(
       "Please set GITLAB_WIKI_URL and GITLAB_WIKI_TOKEN environment variables to fetch content from GitLab Wiki."
@@ -60,44 +62,4 @@ const getWikiPage = async (slug: string): Promise<WikiPage | undefined> => {
   );
 
   return wikiPages.find((page) => page.slug === slug);
-};
-
-export const getBannerFromGitLabWiki = async ({
-  locale,
-}: {
-  locale: string;
-}) => {
-  if (!process.env.GITLAB_WIKI_URL || !process.env.GITLAB_WIKI_TOKEN) {
-    throw Error(
-      "Please set GITLAB_WIKI_URL and GITLAB_WIKI_TOKEN environment variables to fetch content from GitLab Wiki."
-    );
-  }
-
-  const wikiPages = await getCachedWikiPages(
-    `${process.env.GITLAB_WIKI_URL}?with_content=1`,
-    process.env.GITLAB_WIKI_TOKEN
-  );
-
-  const bannerEnabled = (await getWikiPage("home"))?.content.match(
-    /home_banner_enabled:\W*true/
-  )
-    ? true
-    : false;
-
-  return {
-    bannerEnabled,
-    bannerContent: bannerEnabled
-      ? (await getWikiPage(`home-banner/${locale}`))?.content ?? ""
-      : "",
-  };
-};
-
-export const getHelpCalculationPageFromGitLabWiki = async ({
-  locale,
-}: {
-  locale: string;
-}): Promise<string> => {
-  return micromark(
-    (await getWikiPage(`help-calculation/${locale}`))?.content ?? ""
-  );
 };

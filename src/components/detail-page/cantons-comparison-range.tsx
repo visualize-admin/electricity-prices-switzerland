@@ -1,4 +1,4 @@
-import { Trans } from "@lingui/macro";
+import { Trans, t } from "@lingui/macro";
 import { Box, Text } from "@theme-ui/components";
 import { useRouter } from "next/router";
 import * as React from "react";
@@ -108,9 +108,7 @@ export const CantonsComparisonRangePlots = ({
           <Box sx={{ display: ["block", "block", "none"] }}>
             <Combobox
               id="priceComponents"
-              label={
-                <Trans id="selector.priceComponents">Preis Komponenten</Trans>
-              }
+              label={i18n._(t("selector.priceComponents")`Preiskomponenten`)}
               items={priceComponents}
               getItemLabel={getItemLabel}
               selectedItem={priceComponent[0]}
