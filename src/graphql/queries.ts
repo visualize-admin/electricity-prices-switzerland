@@ -12,11 +12,6 @@ export type Scalars = {
   Float: number;
 };
 
-export type PriceComponents = {
-  __typename: 'PriceComponents';
-  total: Scalars['Float'];
-};
-
 export type SearchResult = {
   id: Scalars['String'];
   name: Scalars['String'];
@@ -46,7 +41,6 @@ export type Municipality = {
   name: Scalars['String'];
   canton: Canton;
   operators: Array<Operator>;
-  priceComponents: PriceComponents;
 };
 
 export type Operator = {
@@ -54,7 +48,7 @@ export type Operator = {
   id: Scalars['String'];
   name: Scalars['String'];
   municipalities: Array<Municipality>;
-  priceComponents: PriceComponents;
+  cantons: Array<Canton>;
   documents: Array<OperatorDocument>;
 };
 
@@ -72,15 +66,7 @@ export type Canton = {
   id: Scalars['String'];
   name: Scalars['String'];
   municipalities: Array<Municipality>;
-  priceComponents: PriceComponents;
-};
-
-export type TemporalDimension = {
-  __typename: 'TemporalDimension';
-  iri: Scalars['String'];
-  name?: Maybe<Scalars['String']>;
-  min: Scalars['String'];
-  max: Scalars['String'];
+  operator: Array<Operator>;
 };
 
 export type OperatorObservation = {
