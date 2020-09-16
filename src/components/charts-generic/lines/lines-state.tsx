@@ -37,6 +37,7 @@ export interface LinesState {
   getY: (d: GenericObservation) => number;
   yScale: ScaleLinear<number, number>;
   getSegment: (d: GenericObservation) => string;
+  getColor: (d: GenericObservation) => string;
   colors: ScaleOrdinal<string, string>;
   xAxisLabel: string;
   yAxisLabel: string;
@@ -72,6 +73,14 @@ const useLinesState = ({
     +d[fields.y.componentIri] as number;
   const getSegment = (d: GenericObservation): string =>
     fields.segment ? (d[fields.segment.componentIri] as string) : "fixme";
+
+  const getColor = useCallback(
+    (d: GenericObservation): string =>
+      fields.style && fields.style.colorAcc
+        ? (d[fields.style.colorAcc] as string)
+        : "entity",
+    [fields.style]
+  );
 
   // data
   const sortedData = useMemo(
@@ -112,24 +121,29 @@ const useLinesState = ({
     (d) => d.iri === fields.segment?.componentIri
   ) as $FixMe;
 
-  if (fields.segment && segmentDimension && fields.segment.colorMapping) {
-    const orderedSegmentLabelsAndColors = segments.map((segment) => {
-      const dvIri = segmentDimension.values.find(
-        (s: $FixMe) => s.label === segment
-      ).value;
+  // if (fields.segment && segmentDimension && fields.segment.colorMapping) {
+  //   const orderedSegmentLabelsAndColors = segments.map((segment) => {
+  //     const dvIri = segmentDimension.values.find(
+  //       (s: $FixMe) => s.label === segment
+  //     ).value;
 
-      return {
-        label: segment,
-        color: fields.segment?.colorMapping![dvIri] || "#006699",
-      };
-    });
+  //     return {
+  //       label: segment,
+  //       color: fields.segment?.colorMapping![dvIri] || "#006699",
+  //     };
+  //   });
 
-    colors.domain(orderedSegmentLabelsAndColors.map((s) => s.label));
-    colors.range(orderedSegmentLabelsAndColors.map((s) => s.color));
-  } else {
-    colors.domain(segments);
-    colors.range(getPalette(fields.segment?.palette));
-  }
+  //   colors.domain(orderedSegmentLabelsAndColors.map((s) => s.label));
+  //   colors.range(orderedSegmentLabelsAndColors.map((s) => s.color));
+  // } else {
+  //   colors.domain(segments);
+  //   colors.range(getPalette(fields.segment?.palette));
+  // }
+  const colorDomain = fields.style?.colorDomain
+    ? fields.style?.colorDomain
+    : segments;
+  colors.domain(colorDomain);
+  colors.range(getPalette(fields.segment?.palette));
 
   const xKey = fields.x.componentIri;
 
@@ -206,14 +220,14 @@ const useLinesState = ({
       datum: {
         label: fields.segment && getSegment(datum),
         value: formatCurrency(getY(datum)),
-        color: colors(getSegment(datum)) as string,
+        color: colors(getColor(datum)) as string,
       },
       values: sortedTooltipValues.map((td) => ({
         label: getSegment(td),
         value: formatCurrency(getY(td)),
         color:
           segments.length > 1
-            ? (colors(getSegment(td)) as string)
+            ? (colors(getColor(td)) as string)
             : theme.colors.primary,
         yPos: yScale(getY(td)),
       })),
@@ -229,6 +243,7 @@ const useLinesState = ({
     getY,
     yScale,
     getSegment,
+    getColor,
     xAxisLabel,
     yAxisLabel,
     segments,

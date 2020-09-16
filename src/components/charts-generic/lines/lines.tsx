@@ -13,6 +13,7 @@ export const Lines = () => {
     yScale,
     grouped,
     colors,
+    getColor,
     bounds,
   } = useChartState() as LinesState;
   const theme = useTheme();
@@ -21,7 +22,6 @@ export const Lines = () => {
     // .defined(d => !isNaN(d))
     .x((d) => xScale(getX(d)))
     .y((d) => yScale(getY(d)));
-
   return (
     <g transform={`translate(${bounds.margins.left} ${bounds.margins.top})`}>
       {Array.from(grouped).map((observation, index) => {
@@ -31,7 +31,7 @@ export const Lines = () => {
             path={lineGenerator(observation[1]) as string}
             color={
               Array.from(grouped).length > 1
-                ? colors(observation[0])
+                ? colors(getColor(observation[1][0]))
                 : theme.colors.primary
             }
           />

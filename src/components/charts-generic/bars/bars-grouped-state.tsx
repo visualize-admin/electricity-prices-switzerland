@@ -131,7 +131,7 @@ const useGroupedBarsState = ({
     )
     .map((d) => getSegment(d));
 
-  // Colors (unrelated to segments!)
+  // Colors (shouldn't be segments!)
   const colorDomain = fields.style?.colorDomain
     ? fields.style?.colorDomain
     : segments;
