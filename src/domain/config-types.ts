@@ -123,6 +123,14 @@ const LineFields = t.intersection([
       }),
     ]),
   }),
+  t.partial({
+    style: t.type({
+      colorDomain: t.array(t.string),
+      opacityDomain: t.array(t.string),
+      colorAcc: t.string,
+      opacityAcc: t.string,
+    }),
+  }),
 ]);
 
 export type LineFields = t.TypeOf<typeof LineFields>;
