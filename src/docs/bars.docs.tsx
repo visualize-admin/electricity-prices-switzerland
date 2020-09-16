@@ -35,6 +35,7 @@ export default () => {
         fields={{
           x: {
             componentIri: "value",
+            domain: [0, 40],
           },
           y: {
             componentIri: "priceComponent",
@@ -68,6 +69,7 @@ export default () => {
         fields={{
           x: {
             componentIri: "value",
+            domain: [0, 40],
           },
           y: {
             componentIri: "priceComponent",
