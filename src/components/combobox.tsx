@@ -1,6 +1,6 @@
 import { Trans } from "@lingui/macro";
 import { useCombobox, useMultipleSelection } from "downshift";
-import { ReactNode, useState } from "react";
+import { ReactNode, useState, useEffect } from "react";
 import { Box, Button, Flex, Input, Text } from "theme-ui";
 import { Icon } from "../icons";
 import { Label } from "./form";
@@ -323,6 +323,12 @@ export const Combobox = ({
         )
       : items;
   };
+
+  // Update  when locale changes
+  useEffect(() => {
+    setInputValue(getItemLabel(selectedItem));
+    console.log(selectedItem);
+  }, [getItemLabel, selectedItem]);
 
   const inputItems = getFilteredItems();
 
