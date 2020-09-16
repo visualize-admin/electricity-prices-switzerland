@@ -26,7 +26,6 @@ export const FilterSetDescription = ({
       sx={{ my: 4, color: "monochrome800", fontWeight: "light" }}
     >
       {Object.entries(filters).map(([key, value], i) => {
-        console.log(key);
         if (!value) {
           return null;
         }
