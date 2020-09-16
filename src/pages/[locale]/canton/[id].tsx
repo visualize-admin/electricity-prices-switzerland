@@ -52,7 +52,7 @@ const CantonPage = (props: Props) => {
   return (
     <>
       <Head>
-        <title>{`${i18n._("detail.operator")} ${name} – ${i18n._(
+        <title>{`${i18n._("detail.canton")} ${name} – ${i18n._(
           "site.title"
         )}`}</title>
       </Head>
