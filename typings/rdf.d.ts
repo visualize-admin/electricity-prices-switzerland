@@ -1,7 +1,7 @@
 declare module "@zazuko/rdf-cube-view-query" {
   import { Clownface, ClownfaceInit } from "clownface";
   import { Term, NamedNode, Literal } from "rdf-js";
-
+  import { ParsingClient } from "sparql-http-client/ParsingClient";
   type NodeInit = {
     parent?: Node;
   } & ClownfaceInit;
@@ -88,6 +88,7 @@ declare module "@zazuko/rdf-cube-view-query" {
     );
     async cube(term: Term | string): Promise<Cube | null>;
     async cubes(): Promise<Cube[]>;
+    client: ParsingClient;
   }
   export class LookupSource extends Source {
     static fromSource(source: Source): LookupSource;

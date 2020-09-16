@@ -3759,6 +3759,13 @@
   resolved "https://registry.yarnpkg.com/@types/sizzle/-/sizzle-2.3.2.tgz#a811b8c18e2babab7d542b3365887ae2e4d9de47"
   integrity sha512-7EJYyKTL7tFR8+gDbB6Wwz/arpGa0Mywk1TJbNzKzHtzbwVmY4HR9WqS5VV7dsBUKQmPNr192jHr/VpBluj/hg==
 
+"@types/sparql-http-client@^2.2.5":
+  version "2.2.5"
+  resolved "https://registry.yarnpkg.com/@types/sparql-http-client/-/sparql-http-client-2.2.5.tgz#fd42a8ba3d85198d063b73acbb1feddae4bcda4d"
+  integrity sha512-bk9fctozEqrdenjfdCcYlPsiFKcZ9aKI8joDwwzUQBpHGl4uEP+Rpxi6j0+S3pp+KfhxxRTTnyHbULfQ4BFNxQ==
+  dependencies:
+    "@types/rdf-js" "*"
+
 "@types/styled-system@*":
   version "5.1.9"
   resolved "https://registry.yarnpkg.com/@types/styled-system/-/styled-system-5.1.9.tgz#8baac8f6eca9e0bd5768c175ca5ce1f2d6f61ade"

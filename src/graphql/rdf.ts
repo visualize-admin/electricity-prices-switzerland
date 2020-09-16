@@ -464,16 +464,13 @@ export const search = async ({
   }
   `;
 
-  // and also provides a SPARQL client
-  const client = (source as $FixMe).client;
-
   console.log(sparql);
 
-  const results: {
+  const results = (await source.client.query.select(sparql)) as {
     type: Literal;
     iri: NamedNode;
     name: Literal;
-  }[] = await client.query.select(sparql);
+  }[];
 
   return results.map((d) => {
     const iri = d.iri.value;
@@ -486,6 +483,83 @@ export const search = async ({
       type,
     };
   });
+};
+
+export const getMunicipality = async ({
+  id,
+  source,
+}: {
+  id: string;
+  source: Source;
+}): Promise<{ id: string; name: string } | null> => {
+  const iri = addNamespaceToID({
+    dimension: "municipality",
+    id,
+  });
+
+  const sparql = `
+SELECT DISTINCT ?name {
+  <${iri}> <http://schema.org/name> ?name.
+}
+  `;
+
+  const result = (await source.client.query.select(sparql))[0] as {
+    name: Literal;
+  };
+
+  return result ? { id, name: result.name.value } : null;
+};
+
+export const getCanton = async ({
+  id,
+  source,
+  locale,
+}: {
+  id: string;
+  source: Source;
+  locale: string;
+}): Promise<{ id: string; name: string } | null> => {
+  const iri = addNamespaceToID({
+    dimension: "canton",
+    id,
+  });
+
+  const sparql = `
+SELECT DISTINCT ?name {
+  <${iri}> <http://schema.org/name> ?name.
+  FILTER (LANGMATCHES(LANG(?name), "${locale}"))
+}
+  `;
+
+  const result = (await source.client.query.select(sparql))[0] as {
+    name: Literal;
+  };
+  return result ? { id, name: result.name.value } : null;
+};
+
+export const getOperator = async ({
+  id,
+  source,
+}: {
+  id: string;
+  source: Source;
+}): Promise<{ id: string; name: string } | null> => {
+  const iri = addNamespaceToID({
+    dimension: "operator",
+    id,
+  });
+
+  const sparql = `
+SELECT DISTINCT ?name {
+  <${iri}> <http://schema.org/name> ?name.
+}
+  `;
+
+  const result = (await source.client.query.select(sparql))[0] as {
+    name: Literal;
+  };
+
+  return result ? { id, name: result.name.value } : null;
 };
 
 export const getOperatorDocuments = async ({
@@ -513,17 +587,15 @@ FROM <https://lindas.admin.ch/elcom/electricityprice>  {
 }
   `;
 
-  const client = (source as $FixMe).client;
-
   console.log(sparql);
 
-  const results: {
+  const results = (await source.client.query.select(sparql)) as {
     name: Literal;
     url: Literal;
     year: Literal;
     category: NamedNode;
     download: NamedNode;
-  }[] = await client.query.select(sparql);
+  }[];
 
   return results.map((d) => {
     const id = d.download.value;
