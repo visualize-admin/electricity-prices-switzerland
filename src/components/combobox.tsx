@@ -327,7 +327,6 @@ export const Combobox = ({
   // Update  when locale changes
   useEffect(() => {
     setInputValue(getItemLabel(selectedItem));
-    console.log(selectedItem);
   }, [getItemLabel, selectedItem]);
 
   const inputItems = getFilteredItems();
