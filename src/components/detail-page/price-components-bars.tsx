@@ -1,12 +1,15 @@
 import { Trans } from "@lingui/macro";
+import { group, groups } from "d3-array";
 import * as React from "react";
-import { Entity, priceComponents, GenericObservation } from "../../domain/data";
+import { Entity, GenericObservation, priceComponents } from "../../domain/data";
 import { pivot_longer } from "../../domain/helpers";
+import { getLocalizedLabel } from "../../domain/translation";
 import {
   ObservationType,
   useObservationsWithAllPriceComponentsQuery,
 } from "../../graphql/queries";
 import { EMPTY_ARRAY } from "../../lib/empty-array";
+import { useLocale } from "../../lib/use-locale";
 import { useQueryState } from "../../lib/use-query-state";
 import {
   BarsGrouped,
@@ -15,17 +18,11 @@ import {
 import { GroupedBarsChart } from "../charts-generic/bars/bars-grouped-state";
 import { ChartContainer, ChartSvg } from "../charts-generic/containers";
 import { Loading, NoDataHint } from "../hint";
-import { Card } from "./card";
-import { FilterSetDescription } from "./filter-set-description";
-import { DownloadImage, Download } from "./download-image";
-import { WithClassName } from "./with-classname";
-import { useRouter } from "next/router";
-import { useLocale } from "../../lib/use-locale";
-
-import { group, groups } from "d3-array";
-import { getLocalizedLabel } from "../../domain/translation";
 import { useI18n } from "../i18n-context";
-import { groupSort } from "fp-ts/lib/NonEmptyArray";
+import { Card } from "./card";
+import { Download } from "./download-image";
+import { FilterSetDescription } from "./filter-set-description";
+import { WithClassName } from "./with-classname";
 
 const DOWNLOAD_ID: Download = "components";
 
@@ -73,7 +70,6 @@ export const PriceComponentsBarChart = ({
     ? EMPTY_ARRAY
     : observationsQuery.data?.observations ?? EMPTY_ARRAY;
 
-  // const uniqueIds = muni+operator+year
   const withUniqueEntityId = observations.map((obs) => ({
     uniqueId:
       obs.__typename === "MedianObservation"

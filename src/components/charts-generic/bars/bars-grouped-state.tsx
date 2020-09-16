@@ -121,7 +121,6 @@ const useGroupedBarsState = ({
   );
 
   // segments ordered
-  // operator, then year, then municipality
   const segments = sortedData
     .sort(
       (a, b) =>

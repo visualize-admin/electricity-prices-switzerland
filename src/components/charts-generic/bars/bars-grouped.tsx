@@ -1,12 +1,12 @@
 import * as React from "react";
+import { useFormatCurrency } from "../../../domain/helpers";
+import { getLocalizedLabel } from "../../../domain/translation";
+import { useI18n } from "../../i18n-context";
 import { BAR_AXIS_OFFSET, BAR_SPACE_ON_TOP } from "../constants";
 import { useChartState } from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
 import { GroupedBarsState } from "./bars-grouped-state";
 import { Bar } from "./bars-simple";
-import { useFormatCurrency } from "../../../domain/helpers";
-import { getLocalizedLabel } from "../../../domain/translation";
-import { useI18n } from "../../i18n-context";
 
 export const BarsGrouped = () => {
   const {
