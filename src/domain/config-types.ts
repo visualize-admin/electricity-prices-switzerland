@@ -125,6 +125,7 @@ const LineFields = t.intersection([
   }),
   t.partial({
     style: t.type({
+      entity: t.string,
       colorDomain: t.array(t.string),
       colorAcc: t.string,
     }),

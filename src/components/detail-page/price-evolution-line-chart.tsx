@@ -166,6 +166,7 @@ const PriceEvolutionLineCharts = memo(
                     : undefined,
                   // This field doesn't respect the chart system and context
                   style: {
+                    entity,
                     colorDomain,
                     colorAcc: `${entity}Label`,
                   },
