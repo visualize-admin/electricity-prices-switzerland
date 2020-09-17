@@ -71,9 +71,14 @@ const useLinesState = ({
   );
   const getY = (d: GenericObservation): number =>
     +d[fields.y.componentIri] as number;
-  const getSegment = (d: GenericObservation): string =>
-    fields.segment ? (d[fields.segment.componentIri] as string) : "fixme";
 
+  const getSegment = useCallback(
+    (d: GenericObservation): string =>
+      fields.segment && fields.segment.componentIri
+        ? (d[fields.segment.componentIri] as string)
+        : "segment",
+    [fields.style]
+  );
   const getColor = useCallback(
     (d: GenericObservation): string =>
       fields.style && fields.style.colorAcc
