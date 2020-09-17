@@ -55,7 +55,7 @@ export const LegendItem = ({
         display: "block",
         left: -2,
         width: ".5rem",
-        height: symbol === "square" || symbol === "circle" ? `.5rem` : 2,
+        height: symbol === "square" || symbol === "circle" ? `.5rem` : 3,
         borderRadius: symbol === "circle" ? "50%" : 0,
         bg: color,
       },
