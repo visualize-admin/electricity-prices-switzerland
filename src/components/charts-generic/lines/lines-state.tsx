@@ -83,7 +83,7 @@ const useLinesState = ({
     (d: GenericObservation): string =>
       fields.style && fields.style.colorAcc
         ? (d[fields.style.colorAcc] as string)
-        : "entity",
+        : "municipalityLabel",
     [fields.style]
   );
 
@@ -144,7 +144,14 @@ const useLinesState = ({
         lineData[1].push({
           period: `${xValue.getFullYear()}`,
           [fields.y.componentIri]: (undefined as unknown) as ObservationValue,
-          uniqueId: `${lineData[1][0].municipalityLabel}, ${lineData[1][0].operatorLabel}`,
+          uniqueId:
+            lineData[1][0].__typename === "OperatorObservation"
+              ? `${lineData[1][0].municipalityLabel}, ${lineData[1][0].operatorLabel}`
+              : lineData[1][0].cantonLabel,
+          municipalityLabel: lineData[1][0].municipalityLabel,
+          operatorLabel: lineData[1][0].operatorLabel,
+          municipality: lineData[1][0].municipality,
+          operator: lineData[1][0].operator,
         });
       }
     });
