@@ -21,7 +21,6 @@ export const Lines = () => {
   const theme = useTheme();
 
   const lineGenerator = line<GenericObservation>()
-    // .defined(d => !isNaN(d))
     .x((d) => xScale(getX(d)))
     .y((d) => yScale(getY(d)))
     .defined((d) => !isNaN(getY(d)) || getY(d) === undefined);

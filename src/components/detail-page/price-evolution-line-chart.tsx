@@ -2,7 +2,12 @@ import { Trans } from "@lingui/macro";
 import { Box } from "@theme-ui/components";
 import * as React from "react";
 import { memo } from "react";
-import { Entity, GenericObservation, priceComponents } from "../../domain/data";
+import {
+  Entity,
+  GenericObservation,
+  priceComponents,
+  ObservationValue,
+} from "../../domain/data";
 import { getLocalizedLabel } from "../../domain/translation";
 import { EMPTY_ARRAY } from "../../lib/empty-array";
 import { useQueryState } from "../../lib/use-query-state";
@@ -31,6 +36,7 @@ import { Download } from "./download-image";
 import { FilterSetDescription } from "./filter-set-description";
 import { WithClassName } from "./with-classname";
 import { useLocale } from "../../lib/use-locale";
+import { group } from "d3-array";
 
 const DOWNLOAD_ID: Download = "evolution";
 
@@ -137,8 +143,6 @@ const PriceEvolutionLineCharts = memo(
       ...new Set(withUniqueEntityId.map((p) => p[`${entity}Label`])),
     ] as string[];
 
-    const opacityDomain = ["", ""];
-
     return (
       <>
         {priceComponents.map((pc, i) => {
@@ -163,9 +167,7 @@ const PriceEvolutionLineCharts = memo(
                   // This field doesn't respect the chart system and context
                   style: {
                     colorDomain,
-                    opacityDomain,
                     colorAcc: `${entity}Label`,
-                    opacityAcc: "period",
                   },
                 }}
                 measures={[
