@@ -1,19 +1,23 @@
 query Municipalities($locale: String!, $query: String, $ids: [String!]) {
-  municipalities(locale: $locale, query: $query, ids: $ids) {
+  municipalities: searchMunicipalities(
+    locale: $locale
+    query: $query
+    ids: $ids
+  ) {
     id
     name
   }
 }
 
 query Operators($locale: String!, $query: String, $ids: [String!]) {
-  operators(locale: $locale, query: $query, ids: $ids) {
+  operators: searchOperators(locale: $locale, query: $query, ids: $ids) {
     id
     name
   }
 }
 
 query Cantons($locale: String!, $query: String, $ids: [String!]) {
-  cantons(locale: $locale, query: $query, ids: $ids) {
+  cantons: searchCantons(locale: $locale, query: $query, ids: $ids) {
     id
     name
   }

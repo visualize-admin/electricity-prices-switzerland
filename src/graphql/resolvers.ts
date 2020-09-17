@@ -178,6 +178,42 @@ const Query: QueryResolvers = {
 
     return results;
   },
+  searchMunicipalities: async (_, { query, locale, ids }) => {
+    const source = getSource();
+    const results = await search({
+      source,
+      locale,
+      query: query ?? "",
+      ids: ids ?? [],
+      types: ["municipality"],
+    });
+
+    return results;
+  },
+  searchOperators: async (_, { query, locale, ids }) => {
+    const source = getSource();
+    const results = await search({
+      source,
+      locale,
+      query: query ?? "",
+      ids: ids ?? [],
+      types: ["operator"],
+    });
+
+    return results;
+  },
+  searchCantons: async (_, { query, locale, ids }) => {
+    const source = getSource();
+    const results = await search({
+      source,
+      locale,
+      query: query ?? "",
+      ids: ids ?? [],
+      types: ["canton"],
+    });
+
+    return results;
+  },
   municipality: async (_, { id }) => {
     const { source, observationsView: view } = await getSourceAndCubeViews();
 
