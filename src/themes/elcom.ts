@@ -131,9 +131,9 @@ export const theme: Theme = {
     },
     heading1: {
       fontFamily: "body",
-      lineHeight: [7, 8, 8],
+      lineHeight: [8, 8, 8],
       fontWeight: "bold",
-      fontSize: [6, 7, 7],
+      fontSize: [7, 7, 7],
     },
     heading2: {
       fontFamily: "body",
