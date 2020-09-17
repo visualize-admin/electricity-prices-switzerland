@@ -21,7 +21,8 @@ export const Lines = () => {
   const lineGenerator = line<GenericObservation>()
     // .defined(d => !isNaN(d))
     .x((d) => xScale(getX(d)))
-    .y((d) => yScale(getY(d)));
+    .y((d) => yScale(getY(d)))
+    .defined((d) => !isNaN(getY(d)) || getY(d) === undefined);
   return (
     <g transform={`translate(${bounds.margins.left} ${bounds.margins.top})`}>
       {Array.from(grouped).map((observation, index) => {
