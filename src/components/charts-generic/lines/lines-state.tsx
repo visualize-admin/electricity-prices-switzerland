@@ -41,7 +41,7 @@ export interface LinesState {
   colors: ScaleOrdinal<string, string>;
   xAxisLabel: string;
   yAxisLabel: string;
-  grouped: Map<string, GenericObservation[]>;
+  grouped: [string, Record<string, ObservationValue>[]][];
   wide: ArrayLike<Record<string, ObservationValue>>;
   xKey: string;
   getAnnotationInfo: (d: GenericObservation) => Tooltip;
@@ -147,9 +147,9 @@ const useLinesState = ({
 
   const xKey = fields.x.componentIri;
 
-  const grouped = group(sortedData, getSegment);
   const groupedMap = group(sortedData, getGroups);
   const wide = [];
+  const grouped = [...group(sortedData, getSegment)];
 
   for (const [key, values] of groupedMap) {
     const keyObject = values.reduce((obj, cur) => {
