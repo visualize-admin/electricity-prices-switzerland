@@ -387,6 +387,112 @@ export const buildDimensionFilter = (
 
 type SearchType = "municipality" | "operator" | "canton";
 
+const searchQueryBuilders = {
+  zipCode: ({ query }: { query: string }) => {
+    return `{
+    SELECT DISTINCT ("municipality" AS ?type) (?municipality AS ?iri) (?municipalityLabel AS ?name)
+      WHERE { GRAPH <https://lindas.admin.ch/elcom/electricityprice> {
+        ?offer a schema:Offer ;
+          schema:areaServed ?municipality;
+          schema:postalCode "${query}" .
+        }
+        { GRAPH <https://lindas.admin.ch/fso/agvch> {
+          ?municipality schema:name ?municipalityLabel .
+        }}
+    }
+  }`;
+  },
+  query: {
+    municipality: ({ query, limit }: { query: string; limit: number }) => {
+      return `{
+      SELECT DISTINCT ("municipality" AS ?type) (?municipality AS ?iri) (?municipalityLabel AS ?name) WHERE {
+        GRAPH <https://lindas.admin.ch/fso/agvch> {
+          VALUES ?class { <https://schema.ld.admin.ch/Municipality> <https://schema.ld.admin.ch/AbolishedMunicipality> }
+          ?municipality a ?class .
+          ?municipality <http://schema.org/name> ?municipalityLabel .
+        }
+        FILTER (regex(?municipalityLabel, ".*${query}.*", "i"))
+      } LIMIT ${limit}
+    }`;
+    },
+
+    operator: ({ query, limit }: { query: string; limit: number }) => {
+      return `{
+      SELECT DISTINCT ("operator" AS ?type) (?operator AS ?iri) (?operatorLabel AS ?name) WHERE {
+        GRAPH <https://lindas.admin.ch/elcom/electricityprice> {
+          ?operator a <http://schema.org/Organization> .
+          ?operator <http://schema.org/name> ?operatorLabel.    
+        }
+        FILTER (regex(?operatorLabel, ".*${query}.*", "i"))
+      } LIMIT ${limit}
+    }`;
+    },
+    canton: ({
+      query,
+      limit,
+      locale,
+    }: {
+      query: string;
+      limit: number;
+      locale: string;
+    }) => {
+      return `{
+      SELECT DISTINCT ("canton" AS ?type) (?canton AS ?iri) (?cantonLabel AS ?name) WHERE {
+        GRAPH <https://lindas.admin.ch/fso/agvch> {
+          ?canton a <https://schema.ld.admin.ch/Canton> .
+          ?canton <http://schema.org/name> ?cantonLabel .    
+        }
+        FILTER (LANGMATCHES(LANG(?cantonLabel), "${locale}") && (regex(?cantonLabel, ".*${query}.*", "i")))
+      } LIMIT ${limit}
+    }`;
+    },
+  },
+  ids: {
+    canton: ({ ids, locale }: { ids: string[]; locale: string }) => {
+      return `{
+      SELECT DISTINCT ("canton" AS ?type) (?canton AS ?iri) (?cantonLabel AS ?name) WHERE {
+        GRAPH <https://lindas.admin.ch/fso/agvch> {
+          ?canton a <https://schema.ld.admin.ch/Canton> .
+          ?canton <http://schema.org/name> ?cantonLabel .
+        }
+        FILTER (LANGMATCHES(LANG(?cantonLabel), "${locale}") && (?canton IN (${ids
+        .map((id) => `<${addNamespaceToID({ dimension: "canton", id })}>`)
+        .join(",")})))
+      }
+    }`;
+    },
+    municipality: ({ ids, locale }: { ids: string[]; locale: string }) => {
+      return `{
+        SELECT DISTINCT ("municipality" AS ?type) (?municipality AS ?iri) (?municipalityLabel AS ?name) WHERE {
+          GRAPH <https://lindas.admin.ch/fso/agvch> {
+            VALUES ?class { <https://schema.ld.admin.ch/Municipality> <https://schema.ld.admin.ch/AbolishedMunicipality> }
+            ?municipality a ?class .
+            ?municipality <http://schema.org/name> ?municipalityLabel .
+          }
+          FILTER (?municipality IN (${ids
+            .map(
+              (id) => `<${addNamespaceToID({ dimension: "municipality", id })}>`
+            )
+            .join(",")}))
+        }
+      }`;
+    },
+    operator: ({ ids, locale }: { ids: string[]; locale: string }) => {
+      return `{
+        SELECT DISTINCT ("operator" AS ?type) (?operator AS ?iri) (?operatorLabel AS ?name) WHERE {
+          GRAPH <https://lindas.admin.ch/elcom/electricityprice> {
+            ?operator a <http://schema.org/Organization> .
+            ?operator <http://schema.org/name> ?operatorLabel.    
+          }
+          FILTER (?operator IN (${ids
+            .map((id) => `<${addNamespaceToID({ dimension: "operator", id })}>`)
+            .join(",")}))
+        }
+      }`;
+    },
+  },
+} as const;
+
 export const search = async ({
   source,
   query,
@@ -398,82 +504,60 @@ export const search = async ({
   source: Source;
   query: string;
   ids: string[];
-  locale: string | null | undefined;
+  locale: string;
   types?: SearchType[];
   limit?: number;
 }) => {
   const trimmedQuery = query.trim();
+  const isZipCode = /^[0-9]{4}$/.test(trimmedQuery);
+  let queryParts: string[] = [];
+
+  if (isZipCode && types.includes("municipality")) {
+    queryParts.push(searchQueryBuilders.zipCode({ query: trimmedQuery }));
+  }
+
+  if (ids.length > 0) {
+    queryParts.push(
+      ...types.map((t) =>
+        searchQueryBuilders.ids[t]({
+          ids,
+          locale,
+        })
+      )
+    );
+  }
+
+  if (!isZipCode && trimmedQuery !== "") {
+    queryParts.push(
+      ...types.map((t) =>
+        searchQueryBuilders.query[t]({
+          query: trimmedQuery,
+          limit,
+          locale,
+        })
+      )
+    );
+  }
+
+  if (queryParts.length === 0) {
+    return [];
+  }
 
   const sparql = `
   PREFIX schema: <http://schema.org/>
   PREFIX lac: <https://schema.ld.admin.ch/>
   SELECT DISTINCT ?type ?iri ?name {
-    {
-      SELECT DISTINCT ("municipality" AS ?type) (?municipality AS ?iri) (?municipalityLabel AS ?name) WHERE {
-        GRAPH <https://lindas.admin.ch/fso/agvch> {
-          {
-            ?municipality a <https://schema.ld.admin.ch/Municipality> .
-          } UNION {
-            ?municipality a <https://schema.ld.admin.ch/AbolishedMunicipality> .
-          }
-          ?municipality <http://schema.org/name> ?municipalityLabel.
-        }
-        FILTER (regex(?municipalityLabel, ".*${
-          trimmedQuery || "-------"
-        }.*", "i") || ?municipality IN (${ids
-    .map((id) => `<${addNamespaceToID({ dimension: "municipality", id })}>`)
-    .join(",")}))
-      } ORDER BY ?municipalityLabel LIMIT ${limit + ids.length}
-    } UNION {
-      SELECT DISTINCT ("municipality" AS ?type) (?municipality AS ?iri) (?municipalityLabel AS ?name)
-        WHERE { GRAPH <https://lindas.admin.ch/elcom/electricityprice> {
-          ?offer a schema:Offer ;
-            schema:areaServed ?municipality;
-            schema:postalCode "${trimmedQuery}" .
-          }
-          { GRAPH <https://lindas.admin.ch/fso/agvch> {
-            ?municipality schema:name ?municipalityLabel .
-          }}
-      } ORDER BY ?municipalityLabel LIMIT ${limit + ids.length}
-    } UNION {
-      SELECT DISTINCT ("operator" AS ?type) (?operator AS ?iri) (?operatorLabel AS ?name) WHERE {
-        GRAPH <https://lindas.admin.ch/elcom/electricityprice> {
-          ?operator a <http://schema.org/Organization> .
-          ?operator <http://schema.org/name> ?operatorLabel.    
-        }
-        FILTER (regex(?operatorLabel, ".*${
-          trimmedQuery || "-------"
-        }.*", "i") || ?operator IN (${ids
-    .map((id) => `<${addNamespaceToID({ dimension: "operator", id })}>`)
-    .join(",")}))
-      } ORDER BY ?operatorLabel LIMIT ${limit + ids.length}
-    } UNION {
-      SELECT DISTINCT ("canton" AS ?type) (?canton AS ?iri) (?cantonLabel AS ?name) WHERE {
-        GRAPH <https://lindas.admin.ch/fso/agvch> {
-          ?canton a <https://schema.ld.admin.ch/Canton> .
-          ?canton <http://schema.org/name> ?cantonLabel .    
-        }
-        FILTER (LANGMATCHES(LANG(?cantonLabel), "${locale}") && (regex(?cantonLabel, ".*${
-    trimmedQuery || "-------"
-  }.*", "i") || ?canton IN (${ids
-    .map((id) => `<${addNamespaceToID({ dimension: "canton", id })}>`)
-    .join(",")})))
-      } ORDER BY ?cantonLabel LIMIT ${limit + ids.length}
-    }
-    FILTER (?type IN (${types.map((t) => JSON.stringify(t)).join(",")}))
-  }
+    ${queryParts.join(" UNION ")}    
+  } ORDER BY ?name
   `;
-
-  // and also provides a SPARQL client
-  const client = (source as $FixMe).client;
 
   console.log(sparql);
 
-  const results: {
+  const results = (await source.client.query.select(sparql)) as {
     type: Literal;
     iri: NamedNode;
     name: Literal;
-  }[] = await client.query.select(sparql);
+  }[];
 
   return results.map((d) => {
     const iri = d.iri.value;
@@ -486,6 +570,83 @@ export const search = async ({
       type,
     };
   });
+};
+
+export const getMunicipality = async ({
+  id,
+  source,
+}: {
+  id: string;
+  source: Source;
+}): Promise<{ id: string; name: string } | null> => {
+  const iri = addNamespaceToID({
+    dimension: "municipality",
+    id,
+  });
+
+  const sparql = `
+SELECT DISTINCT ?name {
+  <${iri}> <http://schema.org/name> ?name.
+}
+  `;
+
+  const result = (await source.client.query.select(sparql))[0] as {
+    name: Literal;
+  };
+
+  return result ? { id, name: result.name.value } : null;
+};
+
+export const getCanton = async ({
+  id,
+  source,
+  locale,
+}: {
+  id: string;
+  source: Source;
+  locale: string;
+}): Promise<{ id: string; name: string } | null> => {
+  const iri = addNamespaceToID({
+    dimension: "canton",
+    id,
+  });
+
+  const sparql = `
+SELECT DISTINCT ?name {
+  <${iri}> <http://schema.org/name> ?name.
+  FILTER (LANGMATCHES(LANG(?name), "${locale}"))
+}
+  `;
+
+  const result = (await source.client.query.select(sparql))[0] as {
+    name: Literal;
+  };
+  return result ? { id, name: result.name.value } : null;
+};
+
+export const getOperator = async ({
+  id,
+  source,
+}: {
+  id: string;
+  source: Source;
+}): Promise<{ id: string; name: string } | null> => {
+  const iri = addNamespaceToID({
+    dimension: "operator",
+    id,
+  });
+
+  const sparql = `
+SELECT DISTINCT ?name {
+  <${iri}> <http://schema.org/name> ?name.
+}
+  `;
+
+  const result = (await source.client.query.select(sparql))[0] as {
+    name: Literal;
+  };
+
+  return result ? { id, name: result.name.value } : null;
 };
 
 export const getOperatorDocuments = async ({
@@ -513,17 +674,15 @@ FROM <https://lindas.admin.ch/elcom/electricityprice>  {
 }
   `;
 
-  const client = (source as $FixMe).client;
-
   console.log(sparql);
 
-  const results: {
+  const results = (await source.client.query.select(sparql)) as {
     name: Literal;
     url: Literal;
     year: Literal;
     category: NamedNode;
     download: NamedNode;
-  }[] = await client.query.select(sparql);
+  }[];
 
   return results.map((d) => {
     const id = d.download.value;

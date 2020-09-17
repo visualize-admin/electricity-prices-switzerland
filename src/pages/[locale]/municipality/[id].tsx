@@ -1,5 +1,7 @@
 import { Box, Flex } from "@theme-ui/components";
 import { GetServerSideProps } from "next";
+import ErrorPage from "next/error";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import * as React from "react";
 import { DetailPageBanner } from "../../../components/detail-page/banner";
@@ -11,29 +13,40 @@ import { PriceEvolution } from "../../../components/detail-page/price-evolution-
 import { SelectorMulti } from "../../../components/detail-page/selector-multi";
 import { Footer } from "../../../components/footer";
 import { Header } from "../../../components/header";
+import { useI18n } from "../../../components/i18n-context";
 import {
   getDimensionValuesAndLabels,
+  getMunicipality,
   getSource,
   getView,
 } from "../../../graphql/rdf";
-import { useI18n } from "../../../components/i18n-context";
-import Head from "next/head";
 
-type Props = {
-  id: string;
-  name: string;
-  operators: { id: string; name: string }[];
-};
+type Props =
+  | {
+      status: "found";
+      id: string;
+      name: string;
+      operators: { id: string; name: string }[];
+    }
+  | { status: "notfound" };
 
 export const getServerSideProps: GetServerSideProps<
   Props,
   { locale: string; id: string }
-> = async ({ params }) => {
+> = async ({ params, res }) => {
   const { id, locale } = params!;
 
   console.time("Muni");
 
   const source = getSource();
+
+  const municipality = await getMunicipality({ id, source });
+
+  if (!municipality) {
+    res.statusCode = 404;
+    return { props: { status: "notfound" } };
+  }
+
   const cube = await source.cube(
     "https://energy.ld.admin.ch/elcom/electricity-price/cube"
   );
@@ -46,15 +59,6 @@ export const getServerSideProps: GetServerSideProps<
 
   const view = getView(cube);
 
-  const municipality = (
-    await getDimensionValuesAndLabels({
-      view,
-      source,
-      dimensionKey: "municipality",
-      filters: { municipality: [id] },
-    })
-  )[0];
-
   const operators = await getDimensionValuesAndLabels({
     view,
     source,
@@ -66,16 +70,25 @@ export const getServerSideProps: GetServerSideProps<
 
   return {
     props: {
+      status: "found",
       id,
       name: municipality.name,
-      operators: operators.map(({ id, name }) => ({ id, name })),
+      operators: operators
+        .sort((a, b) => a.name.localeCompare(b.name, locale))
+        .map(({ id, name }) => ({ id, name })),
     },
   };
 };
 
-const MunicipalityPage = ({ id, name, operators }: Props) => {
+const MunicipalityPage = (props: Props) => {
   const i18n = useI18n();
   const { query } = useRouter();
+
+  if (props.status === "notfound") {
+    return <ErrorPage statusCode={404} />;
+  }
+
+  const { id, name, operators } = props;
 
   return (
     <>

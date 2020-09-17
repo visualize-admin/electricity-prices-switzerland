@@ -1,5 +1,7 @@
 import { Flex } from "@theme-ui/components";
 import { GetServerSideProps } from "next";
+import ErrorPage from "next/error";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { DetailPageBanner } from "../../../components/detail-page/banner";
 import { CantonsComparisonRangePlots } from "../../../components/detail-page/cantons-comparison-range";
@@ -10,27 +12,38 @@ import { PriceEvolution } from "../../../components/detail-page/price-evolution-
 import { SelectorMulti } from "../../../components/detail-page/selector-multi";
 import { Footer } from "../../../components/footer";
 import { Header } from "../../../components/header";
+import { useI18n } from "../../../components/i18n-context";
 import { OperatorDocuments } from "../../../components/operator-documents";
 import {
   getDimensionValuesAndLabels,
+  getOperator,
   getSource,
   getView,
 } from "../../../graphql/rdf";
-import { useI18n } from "../../../components/i18n-context";
-import Head from "next/head";
 
-type Props = {
-  id: string;
-  name: string;
-  municipalities: { id: string; name: string }[];
-};
+type Props =
+  | {
+      status: "found";
+      id: string;
+      name: string;
+      municipalities: { id: string; name: string }[];
+    }
+  | { status: "notfound" };
 export const getServerSideProps: GetServerSideProps<
   Props,
   { locale: string; id: string }
-> = async ({ params }) => {
+> = async ({ params, res }) => {
   const { id, locale } = params!;
 
   const source = getSource();
+
+  const operator = await getOperator({ id, source });
+
+  if (!operator) {
+    res.statusCode = 404;
+    return { props: { status: "notfound" } };
+  }
+
   const cube = await source.cube(
     "https://energy.ld.admin.ch/elcom/electricity-price/cube"
   );
@@ -43,15 +56,6 @@ export const getServerSideProps: GetServerSideProps<
 
   const view = getView(cube);
 
-  const operator = (
-    await getDimensionValuesAndLabels({
-      view,
-      source,
-      dimensionKey: "operator",
-      filters: { operator: [id] },
-    })
-  )[0];
-
   const municipalities = await getDimensionValuesAndLabels({
     view,
     source,
@@ -61,17 +65,24 @@ export const getServerSideProps: GetServerSideProps<
 
   return {
     props: {
+      status: "found",
       id,
       name: operator.name,
-      municipalities: municipalities.map(({ id, name }) => ({ id, name })),
+      municipalities: municipalities
+        .sort((a, b) => a.name.localeCompare(b.name, locale))
+        .map(({ id, name }) => ({ id, name })),
     },
   };
 };
 
-const OperatorPage = ({ id, name, municipalities }: Props) => {
+const OperatorPage = (props: Props) => {
   const i18n = useI18n();
   const { query } = useRouter();
+  if (props.status === "notfound") {
+    return <ErrorPage statusCode={404} />;
+  }
 
+  const { id, name, municipalities } = props;
   return (
     <>
       <Head>

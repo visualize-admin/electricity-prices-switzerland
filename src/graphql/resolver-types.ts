@@ -13,11 +13,6 @@ export type Scalars = {
   Float: number;
 };
 
-export type PriceComponents = {
-  __typename?: 'PriceComponents';
-  total: Scalars['Float'];
-};
-
 export type SearchResult = {
   id: Scalars['String'];
   name: Scalars['String'];
@@ -47,7 +42,6 @@ export type Municipality = {
   name: Scalars['String'];
   canton: Canton;
   operators: Array<Operator>;
-  priceComponents: PriceComponents;
 };
 
 export type Operator = {
@@ -55,7 +49,7 @@ export type Operator = {
   id: Scalars['String'];
   name: Scalars['String'];
   municipalities: Array<Municipality>;
-  priceComponents: PriceComponents;
+  cantons: Array<Canton>;
   documents: Array<OperatorDocument>;
 };
 
@@ -73,15 +67,7 @@ export type Canton = {
   id: Scalars['String'];
   name: Scalars['String'];
   municipalities: Array<Municipality>;
-  priceComponents: PriceComponents;
-};
-
-export type TemporalDimension = {
-  __typename?: 'TemporalDimension';
-  iri: Scalars['String'];
-  name?: Maybe<Scalars['String']>;
-  min: Scalars['String'];
-  max: Scalars['String'];
+  operator: Array<Operator>;
 };
 
 export type OperatorObservation = {
@@ -153,6 +139,9 @@ export type Query = {
   cantons: Array<Canton>;
   operators: Array<Operator>;
   search: Array<SearchResult>;
+  searchMunicipalities: Array<MunicipalityResult>;
+  searchCantons: Array<CantonResult>;
+  searchOperators: Array<OperatorResult>;
   municipality?: Maybe<Municipality>;
   canton?: Maybe<Canton>;
   operator?: Maybe<Operator>;
@@ -185,6 +174,27 @@ export type QueryOperatorsArgs = {
 export type QuerySearchArgs = {
   locale: Scalars['String'];
   query?: Maybe<Scalars['String']>;
+};
+
+
+export type QuerySearchMunicipalitiesArgs = {
+  locale: Scalars['String'];
+  query?: Maybe<Scalars['String']>;
+  ids?: Maybe<Array<Scalars['String']>>;
+};
+
+
+export type QuerySearchCantonsArgs = {
+  locale: Scalars['String'];
+  query?: Maybe<Scalars['String']>;
+  ids?: Maybe<Array<Scalars['String']>>;
+};
+
+
+export type QuerySearchOperatorsArgs = {
+  locale: Scalars['String'];
+  query?: Maybe<Scalars['String']>;
+  ids?: Maybe<Array<Scalars['String']>>;
 };
 
 
@@ -284,8 +294,6 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
-  PriceComponents: ResolverTypeWrapper<PriceComponents>;
-  Float: ResolverTypeWrapper<Scalars['Float']>;
   SearchResult: ResolversTypes['MunicipalityResult'] | ResolversTypes['OperatorResult'] | ResolversTypes['CantonResult'];
   String: ResolverTypeWrapper<Scalars['String']>;
   MunicipalityResult: ResolverTypeWrapper<ResolvedSearchResult>;
@@ -295,8 +303,8 @@ export type ResolversTypes = ResolversObject<{
   Operator: ResolverTypeWrapper<ResolvedOperator>;
   OperatorDocument: ResolverTypeWrapper<OperatorDocument>;
   Canton: ResolverTypeWrapper<ResolvedCanton>;
-  TemporalDimension: ResolverTypeWrapper<TemporalDimension>;
   OperatorObservation: ResolverTypeWrapper<ResolvedOperatorObservation>;
+  Float: ResolverTypeWrapper<Scalars['Float']>;
   MedianObservation: ResolverTypeWrapper<ResolvedMedianObservation>;
   Observation: ResolverTypeWrapper<ResolvedObservation>;
   ObservationFilters: ObservationFilters;
@@ -309,8 +317,6 @@ export type ResolversTypes = ResolversObject<{
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
-  PriceComponents: PriceComponents;
-  Float: Scalars['Float'];
   SearchResult: ResolversParentTypes['MunicipalityResult'] | ResolversParentTypes['OperatorResult'] | ResolversParentTypes['CantonResult'];
   String: Scalars['String'];
   MunicipalityResult: ResolvedSearchResult;
@@ -320,19 +326,14 @@ export type ResolversParentTypes = ResolversObject<{
   Operator: ResolvedOperator;
   OperatorDocument: OperatorDocument;
   Canton: ResolvedCanton;
-  TemporalDimension: TemporalDimension;
   OperatorObservation: ResolvedOperatorObservation;
+  Float: Scalars['Float'];
   MedianObservation: ResolvedMedianObservation;
   Observation: ResolvedObservation;
   ObservationFilters: ObservationFilters;
   WikiContent: WikiContent;
   Query: {};
   Boolean: Scalars['Boolean'];
-}>;
-
-export type PriceComponentsResolvers<ContextType = ServerContext, ParentType extends ResolversParentTypes['PriceComponents'] = ResolversParentTypes['PriceComponents']> = ResolversObject<{
-  total?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 }>;
 
 export type SearchResultResolvers<ContextType = ServerContext, ParentType extends ResolversParentTypes['SearchResult'] = ResolversParentTypes['SearchResult']> = ResolversObject<{
@@ -364,7 +365,6 @@ export type MunicipalityResolvers<ContextType = ServerContext, ParentType extend
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   canton?: Resolver<ResolversTypes['Canton'], ParentType, ContextType>;
   operators?: Resolver<Array<ResolversTypes['Operator']>, ParentType, ContextType>;
-  priceComponents?: Resolver<ResolversTypes['PriceComponents'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 }>;
 
@@ -372,7 +372,7 @@ export type OperatorResolvers<ContextType = ServerContext, ParentType extends Re
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   municipalities?: Resolver<Array<ResolversTypes['Municipality']>, ParentType, ContextType>;
-  priceComponents?: Resolver<ResolversTypes['PriceComponents'], ParentType, ContextType>;
+  cantons?: Resolver<Array<ResolversTypes['Canton']>, ParentType, ContextType>;
   documents?: Resolver<Array<ResolversTypes['OperatorDocument']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 }>;
@@ -390,15 +390,7 @@ export type CantonResolvers<ContextType = ServerContext, ParentType extends Reso
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   municipalities?: Resolver<Array<ResolversTypes['Municipality']>, ParentType, ContextType>;
-  priceComponents?: Resolver<ResolversTypes['PriceComponents'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
-}>;
-
-export type TemporalDimensionResolvers<ContextType = ServerContext, ParentType extends ResolversParentTypes['TemporalDimension'] = ResolversParentTypes['TemporalDimension']> = ResolversObject<{
-  iri?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  min?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  max?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  operator?: Resolver<Array<ResolversTypes['Operator']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 }>;
 
@@ -438,6 +430,9 @@ export type QueryResolvers<ContextType = ServerContext, ParentType extends Resol
   cantons?: Resolver<Array<ResolversTypes['Canton']>, ParentType, ContextType, RequireFields<QueryCantonsArgs, 'locale'>>;
   operators?: Resolver<Array<ResolversTypes['Operator']>, ParentType, ContextType, RequireFields<QueryOperatorsArgs, 'locale'>>;
   search?: Resolver<Array<ResolversTypes['SearchResult']>, ParentType, ContextType, RequireFields<QuerySearchArgs, 'locale'>>;
+  searchMunicipalities?: Resolver<Array<ResolversTypes['MunicipalityResult']>, ParentType, ContextType, RequireFields<QuerySearchMunicipalitiesArgs, 'locale'>>;
+  searchCantons?: Resolver<Array<ResolversTypes['CantonResult']>, ParentType, ContextType, RequireFields<QuerySearchCantonsArgs, 'locale'>>;
+  searchOperators?: Resolver<Array<ResolversTypes['OperatorResult']>, ParentType, ContextType, RequireFields<QuerySearchOperatorsArgs, 'locale'>>;
   municipality?: Resolver<Maybe<ResolversTypes['Municipality']>, ParentType, ContextType, RequireFields<QueryMunicipalityArgs, 'locale' | 'id'>>;
   canton?: Resolver<Maybe<ResolversTypes['Canton']>, ParentType, ContextType, RequireFields<QueryCantonArgs, 'locale' | 'id'>>;
   operator?: Resolver<Maybe<ResolversTypes['Operator']>, ParentType, ContextType, RequireFields<QueryOperatorArgs, 'locale' | 'id'>>;
@@ -446,7 +441,6 @@ export type QueryResolvers<ContextType = ServerContext, ParentType extends Resol
 }>;
 
 export type Resolvers<ContextType = ServerContext> = ResolversObject<{
-  PriceComponents?: PriceComponentsResolvers<ContextType>;
   SearchResult?: SearchResultResolvers<ContextType>;
   MunicipalityResult?: MunicipalityResultResolvers<ContextType>;
   OperatorResult?: OperatorResultResolvers<ContextType>;
@@ -455,7 +449,6 @@ export type Resolvers<ContextType = ServerContext> = ResolversObject<{
   Operator?: OperatorResolvers<ContextType>;
   OperatorDocument?: OperatorDocumentResolvers<ContextType>;
   Canton?: CantonResolvers<ContextType>;
-  TemporalDimension?: TemporalDimensionResolvers<ContextType>;
   OperatorObservation?: OperatorObservationResolvers<ContextType>;
   MedianObservation?: MedianObservationResolvers<ContextType>;
   Observation?: ObservationResolvers<ContextType>;

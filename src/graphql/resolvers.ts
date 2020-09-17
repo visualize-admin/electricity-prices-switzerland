@@ -178,6 +178,42 @@ const Query: QueryResolvers = {
 
     return results;
   },
+  searchMunicipalities: async (_, { query, locale, ids }) => {
+    const source = getSource();
+    const results = await search({
+      source,
+      locale,
+      query: query ?? "",
+      ids: ids ?? [],
+      types: ["municipality"],
+    });
+
+    return results;
+  },
+  searchOperators: async (_, { query, locale, ids }) => {
+    const source = getSource();
+    const results = await search({
+      source,
+      locale,
+      query: query ?? "",
+      ids: ids ?? [],
+      types: ["operator"],
+    });
+
+    return results;
+  },
+  searchCantons: async (_, { query, locale, ids }) => {
+    const source = getSource();
+    const results = await search({
+      source,
+      locale,
+      query: query ?? "",
+      ids: ids ?? [],
+      types: ["canton"],
+    });
+
+    return results;
+  },
   municipality: async (_, { id }) => {
     const { source, observationsView: view } = await getSourceAndCubeViews();
 
@@ -238,9 +274,6 @@ const Municipality: MunicipalityResolvers = {
       filters: { municipality: [id] },
     });
   },
-  priceComponents: () => {
-    return { total: 100 };
-  },
 };
 
 const Operator: OperatorResolvers = {
@@ -252,9 +285,7 @@ const Operator: OperatorResolvers = {
       filters: { operator: [id] },
     });
   },
-  priceComponents: () => {
-    return { total: 63 };
-  },
+
   documents: async ({ id, source }) => {
     return getOperatorDocuments({ operatorId: id, source });
   },
@@ -267,9 +298,7 @@ const Operator: OperatorResolvers = {
 //       (m) => m.canton === canton.id
 //     );
 //   },
-//   priceComponents: () => {
-//     return { total: 85 };
-//   },
+//
 // };
 
 const getResolverFields = (info: GraphQLResolveInfo, type: string) => {

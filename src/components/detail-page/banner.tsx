@@ -1,11 +1,64 @@
-import { Icon } from "../../icons";
 import { Trans } from "@lingui/macro";
-import { Box, Flex, Text, Link as UILink, Grid } from "@theme-ui/components";
-import * as React from "react";
-import { LocalizedLink, HomeLink } from "../links";
+import {
+  Box,
+  Button,
+  Flex,
+  Grid,
+  Link as UILink,
+  Text,
+} from "@theme-ui/components";
 import { useRouter } from "next/router";
-import { Search } from "../search";
+import { Fragment, useState } from "react";
 import { Entity } from "../../domain/data";
+import { Icon } from "../../icons";
+import { HomeLink, LocalizedLink } from "../links";
+import { Search } from "../search";
+
+const TRUNCATE_COUNT = 5;
+const RelationsList = ({
+  relations,
+  relationPathname,
+}: {
+  relations: { id: string; name: string }[];
+  relationPathname: string;
+}) => {
+  const { query } = useRouter();
+  const [truncate, setTruncate] = useState<boolean>(true);
+  const count = relations.length;
+
+  const truncated =
+    truncate && count > TRUNCATE_COUNT
+      ? relations.slice(0, TRUNCATE_COUNT)
+      : relations;
+  const rest = truncate ? count - TRUNCATE_COUNT : 0;
+
+  return (
+    <>
+      {truncated.map(({ id, name }, i) => {
+        return (
+          <Fragment key={id}>
+            <LocalizedLink
+              pathname={relationPathname}
+              query={{ ...query, id }}
+              passHref
+            >
+              <UILink variant="inline">{name}</UILink>
+            </LocalizedLink>
+            {i < truncated.length - 1 && ", "}
+          </Fragment>
+        );
+      })}
+      {rest > 0 && (
+        <>
+          {", "}
+          <Button variant="inline" onClick={() => setTruncate(false)}>
+            <Trans id="relations.showmore">{rest} weitere …</Trans>
+          </Button>
+        </>
+      )}
+    </>
+  );
+};
 
 export const DetailPageBanner = ({
   id,
@@ -110,37 +163,23 @@ export const DetailPageBanner = ({
             </Box>
           )}
           {municipalities && (
-            <Box sx={{ pr: 3, my: 1 }}>
+            <Box sx={{ pr: 3, my: 1, fontSize: 3, lineHeight: 2 }}>
               <Trans id="detail.municipalities">Gemeinden</Trans>:{" "}
-              {municipalities.map(({ id, name }, i) => (
-                <React.Fragment key={id}>
-                  <LocalizedLink
-                    pathname={`/[locale]/municipality/[id]`}
-                    query={{ ...query, id }}
-                    passHref
-                  >
-                    <UILink variant="inline">{name}</UILink>
-                  </LocalizedLink>
-                  {i < municipalities.length - 1 && ", "}
-                </React.Fragment>
-              ))}
+              <RelationsList
+                key={`${entity}-${id}`}
+                relationPathname={`/[locale]/municipality/[id]`}
+                relations={municipalities}
+              />
             </Box>
           )}
           {operators && (
-            <Box sx={{ pr: 3, my: 1 }}>
+            <Box sx={{ pr: 3, my: 1, fontSize: 3, lineHeight: 2 }}>
               <Trans id="detail.operators">Netzbetreiber</Trans>:{" "}
-              {operators.map(({ id, name }, i) => (
-                <React.Fragment key={id}>
-                  <LocalizedLink
-                    pathname={`/[locale]/operator/[id]`}
-                    query={{ ...query, id }}
-                    passHref
-                  >
-                    <UILink variant="inline">{name}</UILink>
-                  </LocalizedLink>
-                  {i < operators.length - 1 && ", "}
-                </React.Fragment>
-              ))}
+              <RelationsList
+                key={`${entity}-${id}`}
+                relationPathname={`/[locale]/operator/[id]`}
+                relations={operators}
+              />
             </Box>
           )}
         </Flex>

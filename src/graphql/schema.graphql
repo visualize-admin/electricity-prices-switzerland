@@ -1,8 +1,3 @@
-type PriceComponents {
-  total: Float!
-  # TODO: Add more price components
-}
-
 interface SearchResult {
   id: String!
   name: String!
@@ -25,14 +20,13 @@ type Municipality {
   name: String!
   canton: Canton!
   operators: [Operator!]!
-  priceComponents: PriceComponents!
 }
 
 type Operator {
   id: String!
   name: String!
   municipalities: [Municipality!]!
-  priceComponents: PriceComponents!
+  cantons: [Canton!]!
   documents: [OperatorDocument!]!
 }
 
@@ -48,14 +42,7 @@ type Canton {
   id: String!
   name: String!
   municipalities: [Municipality!]!
-  priceComponents: PriceComponents!
-}
-
-type TemporalDimension {
-  iri: String!
-  name: String
-  min: String!
-  max: String!
+  operator: [Operator!]!
 }
 
 type OperatorObservation {
@@ -120,6 +107,21 @@ type Query {
   cantons(locale: String!, query: String, ids: [String!]): [Canton!]!
   operators(locale: String!, query: String, ids: [String!]): [Operator!]!
   search(locale: String!, query: String): [SearchResult!]!
+  searchMunicipalities(
+    locale: String!
+    query: String
+    ids: [String!]
+  ): [MunicipalityResult!]!
+  searchCantons(
+    locale: String!
+    query: String
+    ids: [String!]
+  ): [CantonResult!]!
+  searchOperators(
+    locale: String!
+    query: String
+    ids: [String!]
+  ): [OperatorResult!]!
   municipality(locale: String!, id: String!): Municipality
   canton(locale: String!, id: String!): Canton
   operator(locale: String!, id: String!): Operator

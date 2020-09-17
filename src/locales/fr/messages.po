@@ -31,7 +31,7 @@ msgid "combobox.isloading"
 msgstr "Chargement des résultats…"
 
 #: src/components/combobox.tsx:179
-#: src/components/combobox.tsx:309
+#: src/components/combobox.tsx:313
 #: src/components/search.tsx:222
 msgid "combobox.noitems"
 msgstr "Aucune entrée"
@@ -48,8 +48,9 @@ msgstr "Supprimer"
 msgid "dataset.sortby"
 msgstr "Trier"
 
-#: src/components/detail-page/banner.tsx:58
-#: src/components/detail-page/banner.tsx:65
+#: src/components/detail-page/banner.tsx:84
+#: src/components/detail-page/banner.tsx:91
+#: src/pages/[locale]/canton/[id].tsx:44
 msgid "detail.canton"
 msgstr "Canton"
 
@@ -57,7 +58,7 @@ msgstr "Canton"
 msgid "detail.card.title.cantons.comparison"
 msgstr "Comparaison des cantons"
 
-#: src/components/detail-page/price-components-bars.tsx:61
+#: src/components/detail-page/price-components-bars.tsx:64
 msgid "detail.card.title.price.components"
 msgstr "Composantes du prix"
 
@@ -69,26 +70,25 @@ msgstr "Distribution des prix en Suisse"
 msgid "detail.card.title.prices.evolution"
 msgstr "Évolution des tarifs"
 
-#: src/components/detail-page/banner.tsx:46
+#: src/components/detail-page/banner.tsx:72
 msgid "detail.homelink"
 msgstr "Retour à la vue d'ensemble"
 
-#: src/components/detail-page/banner.tsx:71
+#: src/components/detail-page/banner.tsx:97
 msgid "detail.municipalities"
 msgstr "Communes"
 
-#: src/components/detail-page/banner.tsx:58
-#: src/pages/[locale]/municipality/[id].tsx:60
+#: src/components/detail-page/banner.tsx:84
+#: src/pages/[locale]/municipality/[id].tsx:67
 msgid "detail.municipality"
 msgstr "Commune"
 
-#: src/components/detail-page/banner.tsx:58
-#: src/pages/[locale]/canton/[id].tsx:43
-#: src/pages/[locale]/operator/[id].tsx:58
+#: src/components/detail-page/banner.tsx:84
+#: src/pages/[locale]/operator/[id].tsx:65
 msgid "detail.operator"
 msgstr "Gestionnaire de réseau"
 
-#: src/components/detail-page/banner.tsx:80
+#: src/components/detail-page/banner.tsx:101
 msgid "detail.operators"
 msgstr "Gestionnaires de réseau"
 
@@ -265,6 +265,10 @@ msgstr "Médiane"
 msgid "price.legend.min"
 msgstr "Min"
 
+#: src/components/detail-page/banner.tsx:29
+msgid "relations.showmore"
+msgstr ""
+
 #: src/pages/[locale]/index.tsx:107
 msgid "search.global"
 msgstr "Voir l'analyse détaillée des prix par cantons, communes et gestionnaires de réseau."
@@ -426,10 +430,10 @@ msgid "selector.years"
 msgstr "Années"
 
 #: src/components/header.tsx:65
-#: src/pages/[locale]/canton/[id].tsx:43
+#: src/pages/[locale]/canton/[id].tsx:44
 #: src/pages/[locale]/index.tsx:68
 #: src/pages/[locale]/index.tsx:95
-#: src/pages/[locale]/municipality/[id].tsx:60
-#: src/pages/[locale]/operator/[id].tsx:58
+#: src/pages/[locale]/municipality/[id].tsx:67
+#: src/pages/[locale]/operator/[id].tsx:65
 msgid "site.title"
 msgstr "Prix de l'électricité en Suisse"

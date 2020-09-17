@@ -12,11 +12,6 @@ export type Scalars = {
   Float: number;
 };
 
-export type PriceComponents = {
-  __typename: 'PriceComponents';
-  total: Scalars['Float'];
-};
-
 export type SearchResult = {
   id: Scalars['String'];
   name: Scalars['String'];
@@ -46,7 +41,6 @@ export type Municipality = {
   name: Scalars['String'];
   canton: Canton;
   operators: Array<Operator>;
-  priceComponents: PriceComponents;
 };
 
 export type Operator = {
@@ -54,7 +48,7 @@ export type Operator = {
   id: Scalars['String'];
   name: Scalars['String'];
   municipalities: Array<Municipality>;
-  priceComponents: PriceComponents;
+  cantons: Array<Canton>;
   documents: Array<OperatorDocument>;
 };
 
@@ -72,15 +66,7 @@ export type Canton = {
   id: Scalars['String'];
   name: Scalars['String'];
   municipalities: Array<Municipality>;
-  priceComponents: PriceComponents;
-};
-
-export type TemporalDimension = {
-  __typename: 'TemporalDimension';
-  iri: Scalars['String'];
-  name?: Maybe<Scalars['String']>;
-  min: Scalars['String'];
-  max: Scalars['String'];
+  operator: Array<Operator>;
 };
 
 export type OperatorObservation = {
@@ -152,6 +138,9 @@ export type Query = {
   cantons: Array<Canton>;
   operators: Array<Operator>;
   search: Array<SearchResult>;
+  searchMunicipalities: Array<MunicipalityResult>;
+  searchCantons: Array<CantonResult>;
+  searchOperators: Array<OperatorResult>;
   municipality?: Maybe<Municipality>;
   canton?: Maybe<Canton>;
   operator?: Maybe<Operator>;
@@ -184,6 +173,27 @@ export type QueryOperatorsArgs = {
 export type QuerySearchArgs = {
   locale: Scalars['String'];
   query?: Maybe<Scalars['String']>;
+};
+
+
+export type QuerySearchMunicipalitiesArgs = {
+  locale: Scalars['String'];
+  query?: Maybe<Scalars['String']>;
+  ids?: Maybe<Array<Scalars['String']>>;
+};
+
+
+export type QuerySearchCantonsArgs = {
+  locale: Scalars['String'];
+  query?: Maybe<Scalars['String']>;
+  ids?: Maybe<Array<Scalars['String']>>;
+};
+
+
+export type QuerySearchOperatorsArgs = {
+  locale: Scalars['String'];
+  query?: Maybe<Scalars['String']>;
+  ids?: Maybe<Array<Scalars['String']>>;
 };
 
 
@@ -224,7 +234,7 @@ export type MunicipalitiesQueryVariables = Exact<{
 }>;
 
 
-export type MunicipalitiesQuery = { __typename: 'Query', municipalities: Array<{ __typename: 'Municipality', id: string, name: string }> };
+export type MunicipalitiesQuery = { __typename: 'Query', municipalities: Array<{ __typename: 'MunicipalityResult', id: string, name: string }> };
 
 export type OperatorsQueryVariables = Exact<{
   locale: Scalars['String'];
@@ -233,7 +243,7 @@ export type OperatorsQueryVariables = Exact<{
 }>;
 
 
-export type OperatorsQuery = { __typename: 'Query', operators: Array<{ __typename: 'Operator', id: string, name: string }> };
+export type OperatorsQuery = { __typename: 'Query', operators: Array<{ __typename: 'OperatorResult', id: string, name: string }> };
 
 export type CantonsQueryVariables = Exact<{
   locale: Scalars['String'];
@@ -242,7 +252,7 @@ export type CantonsQueryVariables = Exact<{
 }>;
 
 
-export type CantonsQuery = { __typename: 'Query', cantons: Array<{ __typename: 'Canton', id: string, name: string }> };
+export type CantonsQuery = { __typename: 'Query', cantons: Array<{ __typename: 'CantonResult', id: string, name: string }> };
 
 export type SearchQueryVariables = Exact<{
   locale: Scalars['String'];
@@ -361,7 +371,7 @@ export const MedianObservationWithAllPriceComponentsFieldsFragmentDoc = gql`
     `;
 export const MunicipalitiesDocument = gql`
     query Municipalities($locale: String!, $query: String, $ids: [String!]) {
-  municipalities(locale: $locale, query: $query, ids: $ids) {
+  municipalities: searchMunicipalities(locale: $locale, query: $query, ids: $ids) {
     id
     name
   }
@@ -373,7 +383,7 @@ export function useMunicipalitiesQuery(options: Omit<Urql.UseQueryArgs<Municipal
 };
 export const OperatorsDocument = gql`
     query Operators($locale: String!, $query: String, $ids: [String!]) {
-  operators(locale: $locale, query: $query, ids: $ids) {
+  operators: searchOperators(locale: $locale, query: $query, ids: $ids) {
     id
     name
   }
@@ -385,7 +395,7 @@ export function useOperatorsQuery(options: Omit<Urql.UseQueryArgs<OperatorsQuery
 };
 export const CantonsDocument = gql`
     query Cantons($locale: String!, $query: String, $ids: [String!]) {
-  cantons(locale: $locale, query: $query, ids: $ids) {
+  cantons: searchCantons(locale: $locale, query: $query, ids: $ids) {
     id
     name
   }
