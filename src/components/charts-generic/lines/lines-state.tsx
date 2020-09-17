@@ -117,32 +117,8 @@ const useLinesState = ({
     fields.y.componentIri;
 
   // segments
-  const segments = [...new Set(sortedData.map(getSegment))].sort((a, b) =>
-    ascending(a, b)
-  );
-  // Map ordered segments to colors
-  const colors = scaleOrdinal<string, string>();
-  const segmentDimension = dimensions.find(
-    (d) => d.iri === fields.segment?.componentIri
-  ) as $FixMe;
+  const segments = [...new Set(sortedData.map(getSegment))];
 
-  // if (fields.segment && segmentDimension && fields.segment.colorMapping) {
-  //   const orderedSegmentLabelsAndColors = segments.map((segment) => {
-  //     const dvIri = segmentDimension.values.find(
-  //       (s: $FixMe) => s.label === segment
-  //     ).value;
-
-  //     return {
-  //       label: segment,
-  //       color: fields.segment?.colorMapping![dvIri] || "#006699",
-  //     };
-  //   });
-
-  //   colors.domain(orderedSegmentLabelsAndColors.map((s) => s.label));
-  //   colors.range(orderedSegmentLabelsAndColors.map((s) => s.color));
-  // } else {
-  //   colors.domain(segments);
-  //   colors.range(getPalette(fields.segment?.palette));
   // }
   const colorDomain = fields.style?.colorDomain
     ? fields.style?.colorDomain
@@ -152,20 +128,8 @@ const useLinesState = ({
 
   const xKey = fields.x.componentIri;
 
-  const groupedMap = group(sortedData, getGroups);
-  const wide = [];
   const grouped = [...group(sortedData, getSegment)];
 
-  for (const [key, values] of groupedMap) {
-    const keyObject = values.reduce((obj, cur) => {
-      const currentKey = getSegment(cur);
-      return {
-        ...obj,
-        [currentKey]: getY(cur),
-      };
-    }, {});
-    wide.push({
-      ...keyObject,
       [xKey]: key,
     });
   }

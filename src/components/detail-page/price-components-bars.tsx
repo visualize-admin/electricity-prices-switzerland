@@ -157,7 +157,6 @@ export const PriceComponentsBarChart = ({
                 )
               )
             );
-            console.log({ observations });
             return (
               <React.Fragment key={i}>
                 <GroupedBarsChart
