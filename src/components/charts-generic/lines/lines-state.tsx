@@ -1,4 +1,4 @@
-import { ascending, extent, group, max, min } from "d3-array";
+import { ascending, extent, group, max, min, groups } from "d3-array";
 import {
   ScaleLinear,
   scaleLinear,
@@ -26,6 +26,8 @@ import { Tooltip } from "../interaction/tooltip";
 import { ChartContext, ChartProps } from "../use-chart-state";
 import { InteractionProvider } from "../use-interaction";
 import { Bounds, Observer, useWidth } from "../use-width";
+import { getLocalizedLabel } from "../../../domain/translation";
+import { useI18n } from "../../i18n-context";
 
 export interface LinesState {
   data: GenericObservation[];
@@ -57,6 +59,8 @@ const useLinesState = ({
   fields: LineFields;
   aspectRatio: number;
 }): LinesState => {
+  const i18n = useI18n();
+
   const theme = useTheme();
   const width = useWidth();
   const formatCurrency = useFormatCurrency();
@@ -197,6 +201,7 @@ const useLinesState = ({
     });
   }
 
+  const entity = fields.style?.entity || "";
   // Tooltip
   const getAnnotationInfo = (datum: GenericObservation): Tooltip => {
     const xAnchor = xScale(getX(datum));
@@ -205,6 +210,44 @@ const useLinesState = ({
     const tooltipValues = data.filter(
       (j) => getX(j).getTime() === getX(datum).getTime()
     );
+    // console.log({ tooltipValues });
+    const groupedTooltipValues = groups(
+      tooltipValues,
+      (d: GenericObservation) => getColor(d),
+      (d: GenericObservation) => getY(d)
+    );
+
+    const summarizedTooltipValues = groupedTooltipValues.flatMap(
+      (ent: $FixMe) =>
+        ent[1].flatMap((value: $FixMe) =>
+          value[1].length === 1
+            ? { ...value[1][0], label: value[1][0].uniqueId }
+            : {
+                [fields.y.componentIri]: value[0],
+
+                uniqueId: `${value[1].length} ${
+                  entity === "canton"
+                    ? getLocalizedLabel({
+                        i18n,
+                        id: "cantons",
+                      })
+                    : getLocalizedLabel({
+                        i18n,
+                        id:
+                          entity === "operator"
+                            ? "municipalities"
+                            : "operators",
+                      })
+                }`,
+                // These values depend on the entity, might be incorrect!
+                municipalityLabel: value[1][0].municipalityLabel,
+                operatorLabel: value[1][0].operatorLabel,
+                municipality: value[1][0].municipality,
+                operator: value[1][0].operator,
+              }
+        )
+    );
+
     const sortedTooltipValues = sortByIndex({
       data: tooltipValues,
       order: segments,
@@ -214,11 +257,6 @@ const useLinesState = ({
     const xPlacement = xAnchor < chartWidth * 0.5 ? "right" : "left";
 
     const yPlacement = "middle";
-    // yAnchor > chartHeight * 0.2
-    //   ? "top"
-    //   : yAnchor < chartHeight * 0.8
-    //   ? "bottom"
-    // :  "middle";
 
     return {
       xAnchor,
@@ -230,7 +268,7 @@ const useLinesState = ({
         value: formatCurrency(getY(datum)),
         color: colors(getColor(datum)) as string,
       },
-      values: sortedTooltipValues.map((td) => ({
+      values: summarizedTooltipValues.map((td: $FixMe) => ({
         label: getSegment(td),
         value: formatCurrency(getY(td)),
         color:
