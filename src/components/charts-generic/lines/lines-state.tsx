@@ -100,6 +100,7 @@ const useLinesState = ({
       (date, i, self) =>
         self.findIndex((d) => d.getTime() === date.getTime()) === i
     );
+
   const xDomain = extent(sortedData, (d) => getX(d)) as [Date, Date];
   const xScale = scaleTime().domain(xDomain);
 
@@ -119,10 +120,12 @@ const useLinesState = ({
   // segments
   const segments = [...new Set(sortedData.map(getSegment))];
 
-  // }
+  // Map ordered segments to colors
   const colorDomain = fields.style?.colorDomain
     ? fields.style?.colorDomain
-    : segments;
+    : [""];
+
+  const colors = scaleOrdinal<string, string>();
   colors.domain(colorDomain);
   colors.range(getPalette(fields.segment?.palette));
 
@@ -130,10 +133,22 @@ const useLinesState = ({
 
   const grouped = [...group(sortedData, getSegment)];
 
-      [xKey]: key,
+  // Mutates dataset to make sure all x values
+  // match a data point (to avoid straight lines between defined data points.)
+  grouped.map((lineData, index) => {
+    xUniqueValues.map((xValue) => {
+      const thisYear = lineData[1].find(
+        (d) => getX(d).getFullYear() === xValue.getFullYear()
+      );
+      if (!thisYear) {
+        lineData[1].push({
+          period: `${xValue.getFullYear()}`,
+          [fields.y.componentIri]: undefined as ObservationValue,
+          uniqueId: `${lineData[1][0].municipalityLabel}, ${lineData[1][0].operatorLabel}`,
+        });
+      }
     });
-  }
-
+  });
   // Dimensions
   const left = Math.max(
     estimateTextWidth(formatCurrency(yScale.domain()[0])),
@@ -157,6 +172,24 @@ const useLinesState = ({
   xScale.range([0, chartWidth]);
   yScale.range([chartHeight, 0]);
 
+  // Grouped by x (for mouse interaction on x)
+  const groupedMap = group(sortedData, getGroups);
+  const wide = [];
+
+  for (const [key, values] of groupedMap) {
+    const keyObject = values.reduce((obj, cur) => {
+      const currentKey = getSegment(cur);
+      return {
+        ...obj,
+        [currentKey]: getY(cur),
+      };
+    }, {});
+    wide.push({
+      ...keyObject,
+      [xKey]: key,
+    });
+  }
+
   // Tooltip
   const getAnnotationInfo = (datum: GenericObservation): Tooltip => {
     const xAnchor = xScale(getX(datum));
@@ -171,7 +204,6 @@ const useLinesState = ({
       getCategory: getSegment,
       sortOrder: "asc",
     });
-
     const xPlacement = xAnchor < chartWidth * 0.5 ? "right" : "left";
 
     const yPlacement = "middle";
