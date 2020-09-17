@@ -1,4 +1,12 @@
-import { ascending, extent, group, max, min } from "d3-array";
+import {
+  ascending,
+  extent,
+  group,
+  max,
+  min,
+  groups,
+  descending,
+} from "d3-array";
 import {
   ScaleLinear,
   scaleLinear,
@@ -26,6 +34,8 @@ import { Tooltip } from "../interaction/tooltip";
 import { ChartContext, ChartProps } from "../use-chart-state";
 import { InteractionProvider } from "../use-interaction";
 import { Bounds, Observer, useWidth } from "../use-width";
+import { getLocalizedLabel } from "../../../domain/translation";
+import { useI18n } from "../../i18n-context";
 
 export interface LinesState {
   data: GenericObservation[];
@@ -37,10 +47,11 @@ export interface LinesState {
   getY: (d: GenericObservation) => number;
   yScale: ScaleLinear<number, number>;
   getSegment: (d: GenericObservation) => string;
+  getColor: (d: GenericObservation) => string;
   colors: ScaleOrdinal<string, string>;
   xAxisLabel: string;
   yAxisLabel: string;
-  grouped: Map<string, GenericObservation[]>;
+  grouped: [string, Record<string, ObservationValue>[]][];
   wide: ArrayLike<Record<string, ObservationValue>>;
   xKey: string;
   getAnnotationInfo: (d: GenericObservation) => Tooltip;
@@ -56,6 +67,8 @@ const useLinesState = ({
   fields: LineFields;
   aspectRatio: number;
 }): LinesState => {
+  const i18n = useI18n();
+
   const theme = useTheme();
   const width = useWidth();
   const formatCurrency = useFormatCurrency();
@@ -70,8 +83,21 @@ const useLinesState = ({
   );
   const getY = (d: GenericObservation): number =>
     +d[fields.y.componentIri] as number;
-  const getSegment = (d: GenericObservation): string =>
-    fields.segment ? (d[fields.segment.componentIri] as string) : "fixme";
+
+  const getSegment = useCallback(
+    (d: GenericObservation): string =>
+      fields.segment && fields.segment.componentIri
+        ? (d[fields.segment.componentIri] as string)
+        : "segment",
+    [fields.style]
+  );
+  const getColor = useCallback(
+    (d: GenericObservation): string =>
+      fields.style && fields.style.colorAcc
+        ? (d[fields.style.colorAcc] as string)
+        : "municipalityLabel",
+    [fields.style]
+  );
 
   // data
   const sortedData = useMemo(
@@ -86,6 +112,7 @@ const useLinesState = ({
       (date, i, self) =>
         self.findIndex((d) => d.getTime() === date.getTime()) === i
     );
+
   const xDomain = extent(sortedData, (d) => getX(d)) as [Date, Date];
   const xScale = scaleTime().domain(xDomain);
 
@@ -103,54 +130,44 @@ const useLinesState = ({
     fields.y.componentIri;
 
   // segments
-  const segments = [...new Set(sortedData.map(getSegment))].sort((a, b) =>
-    ascending(a, b)
-  );
+  const segments = [...new Set(sortedData.map(getSegment))];
+
   // Map ordered segments to colors
+  const colorDomain = fields.style?.colorDomain
+    ? fields.style?.colorDomain
+    : [""];
+
   const colors = scaleOrdinal<string, string>();
-  const segmentDimension = dimensions.find(
-    (d) => d.iri === fields.segment?.componentIri
-  ) as $FixMe;
-
-  if (fields.segment && segmentDimension && fields.segment.colorMapping) {
-    const orderedSegmentLabelsAndColors = segments.map((segment) => {
-      const dvIri = segmentDimension.values.find(
-        (s: $FixMe) => s.label === segment
-      ).value;
-
-      return {
-        label: segment,
-        color: fields.segment?.colorMapping![dvIri] || "#006699",
-      };
-    });
-
-    colors.domain(orderedSegmentLabelsAndColors.map((s) => s.label));
-    colors.range(orderedSegmentLabelsAndColors.map((s) => s.color));
-  } else {
-    colors.domain(segments);
-    colors.range(getPalette(fields.segment?.palette));
-  }
+  colors.domain(colorDomain);
+  colors.range(getPalette(fields.segment?.palette));
 
   const xKey = fields.x.componentIri;
 
-  const grouped = group(sortedData, getSegment);
-  const groupedMap = group(sortedData, getGroups);
-  const wide = [];
+  const grouped = [...group(sortedData, getSegment)];
 
-  for (const [key, values] of groupedMap) {
-    const keyObject = values.reduce((obj, cur) => {
-      const currentKey = getSegment(cur);
-      return {
-        ...obj,
-        [currentKey]: getY(cur),
-      };
-    }, {});
-    wide.push({
-      ...keyObject,
-      [xKey]: key,
+  // Mutates dataset to make sure all x values
+  // match a data point (to avoid straight lines between defined data points.)
+  grouped.map((lineData, index) => {
+    xUniqueValues.map((xValue) => {
+      const thisYear = lineData[1].find(
+        (d) => getX(d).getFullYear() === xValue.getFullYear()
+      );
+      if (!thisYear) {
+        lineData[1].push({
+          period: `${xValue.getFullYear()}`,
+          [fields.y.componentIri]: (undefined as unknown) as ObservationValue,
+          uniqueId:
+            lineData[1][0].__typename === "OperatorObservation"
+              ? `${lineData[1][0].municipalityLabel}, ${lineData[1][0].operatorLabel}`
+              : lineData[1][0].cantonLabel,
+          municipalityLabel: lineData[1][0].municipalityLabel,
+          operatorLabel: lineData[1][0].operatorLabel,
+          municipality: lineData[1][0].municipality,
+          operator: lineData[1][0].operator,
+        });
+      }
     });
-  }
-
+  });
   // Dimensions
   const left = Math.max(
     estimateTextWidth(formatCurrency(yScale.domain()[0])),
@@ -174,6 +191,25 @@ const useLinesState = ({
   xScale.range([0, chartWidth]);
   yScale.range([chartHeight, 0]);
 
+  // Grouped by x (for mouse interaction on x)
+  const groupedMap = group(sortedData, getGroups);
+  const wide = [];
+
+  for (const [key, values] of groupedMap) {
+    const keyObject = values.reduce((obj, cur) => {
+      const currentKey = getSegment(cur);
+      return {
+        ...obj,
+        [currentKey]: getY(cur),
+      };
+    }, {});
+    wide.push({
+      ...keyObject,
+      [xKey]: key,
+    });
+  }
+
+  const entity = fields.style?.entity || "";
   // Tooltip
   const getAnnotationInfo = (datum: GenericObservation): Tooltip => {
     const xAnchor = xScale(getX(datum));
@@ -182,21 +218,52 @@ const useLinesState = ({
     const tooltipValues = data.filter(
       (j) => getX(j).getTime() === getX(datum).getTime()
     );
-    const sortedTooltipValues = sortByIndex({
-      data: tooltipValues,
-      order: segments,
-      getCategory: getSegment,
-      sortOrder: "asc",
-    });
+    // console.log({ tooltipValues });
+    const groupedTooltipValues = groups(
+      tooltipValues,
+      (d: GenericObservation) => getColor(d),
+      (d: GenericObservation) => getY(d)
+    );
 
+    const summarizedTooltipValues: {
+      [x: string]: number | string;
+    }[] = groupedTooltipValues.flatMap((ent: $FixMe) =>
+      ent[1].flatMap((value: $FixMe) =>
+        value[1].length === 1
+          ? { ...value[1][0], label: value[1][0].uniqueId }
+          : {
+              [fields.y.componentIri]: value[0],
+
+              uniqueId: `${value[1].length} ${
+                entity === "canton"
+                  ? getLocalizedLabel({
+                      i18n,
+                      id: "cantons",
+                    })
+                  : getLocalizedLabel({
+                      i18n,
+                      id:
+                        entity === "operator" ? "municipalities" : "operators",
+                    })
+              }`,
+              // These values depend on the entity, might be incorrect!
+              municipalityLabel: value[1][0].municipalityLabel,
+              operatorLabel: value[1][0].operatorLabel,
+              municipality: value[1][0].municipality,
+              operator: value[1][0].operator,
+            }
+      )
+    );
+
+    // const sortedTooltipValues = sortByIndex({
+    //   data: tooltipValues,
+    //   order: segments,
+    //   getCategory: getSegment,
+    //   sortOrder: "asc",
+    // });
     const xPlacement = xAnchor < chartWidth * 0.5 ? "right" : "left";
 
     const yPlacement = "middle";
-    // yAnchor > chartHeight * 0.2
-    //   ? "top"
-    //   : yAnchor < chartHeight * 0.8
-    //   ? "bottom"
-    // :  "middle";
 
     return {
       xAnchor,
@@ -206,17 +273,19 @@ const useLinesState = ({
       datum: {
         label: fields.segment && getSegment(datum),
         value: formatCurrency(getY(datum)),
-        color: colors(getSegment(datum)) as string,
+        color: colors(getColor(datum)) as string,
       },
-      values: sortedTooltipValues.map((td) => ({
-        label: getSegment(td),
-        value: formatCurrency(getY(td)),
-        color:
-          segments.length > 1
-            ? (colors(getSegment(td)) as string)
-            : theme.colors.primary,
-        yPos: yScale(getY(td)),
-      })),
+      values: summarizedTooltipValues
+        .sort((a, b) => descending(getY(a), getY(b)))
+        .map((td) => ({
+          label: getSegment(td),
+          value: formatCurrency(getY(td)),
+          color:
+            segments.length > 1
+              ? (colors(getColor(td)) as string)
+              : theme.colors.primary,
+          yPos: yScale(getY(td)),
+        })),
     };
   };
 
@@ -229,6 +298,7 @@ const useLinesState = ({
     getY,
     yScale,
     getSegment,
+    getColor,
     xAxisLabel,
     yAxisLabel,
     segments,

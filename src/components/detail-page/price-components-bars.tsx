@@ -119,42 +119,44 @@ export const PriceComponentsBarChart = ({
             const grouped = groups(
               pc[1],
               (d: GenericObservation) => d.period,
+              (d: GenericObservation) => d[entity],
               (d: GenericObservation) => d.value
             );
 
             const observations = grouped.flatMap((year: $FixMe) =>
-              year[1].flatMap((value: $FixMe) =>
-                value[1].length === 1
-                  ? { ...value[1][0], label: value[1][0].uniqueId }
-                  : {
-                      priceComponent: pc[0],
-                      value: value[0],
-                      number: value[1].length,
-                      [entity]: value[1][0][entity],
-                      period: value[1][0].period,
-                      uniqueId: `${value[1][0].period}, ${value[0]}: ${value[1].length} entities with this value`,
-                      label:
-                        entity === "canton"
-                          ? `${value[1][0].period}, ${
-                              value[1].length
-                            } ${getLocalizedLabel({
-                              i18n,
-                              id: "cantons",
-                            })}`
-                          : `${value[1][0].period}, ${
-                              value[1][0].operatorLabel
-                            }, ${value[1].length} ${getLocalizedLabel({
-                              i18n,
-                              id:
-                                entity === "operator"
-                                  ? "municipalities"
-                                  : "operators",
-                            })}`,
-                      entities: value[1],
-                    }
+              year[1].flatMap((ent: $FixMe) =>
+                ent[1].flatMap((value: $FixMe) =>
+                  value[1].length === 1
+                    ? { ...value[1][0], label: value[1][0].uniqueId }
+                    : {
+                        priceComponent: pc[0],
+                        value: value[0],
+                        number: value[1].length,
+                        [entity]: value[1][0][entity],
+                        period: value[1][0].period,
+                        uniqueId: `${pc[0]}${value[1][0].period}${value[1][0].operatorLabel}${value[1][0].municipalityLabel}${value[1].length}`,
+                        label:
+                          entity === "canton"
+                            ? `${value[1][0].period}, ${
+                                value[1].length
+                              } ${getLocalizedLabel({
+                                i18n,
+                                id: "cantons",
+                              })}`
+                            : `${value[1][0].period}, ${
+                                value[1][0].operatorLabel
+                              }, ${value[1].length} ${getLocalizedLabel({
+                                i18n,
+                                id:
+                                  entity === "operator"
+                                    ? "municipalities"
+                                    : "operators",
+                              })}`,
+                        entities: value[1],
+                      }
+                )
               )
             );
-
             return (
               <React.Fragment key={i}>
                 <GroupedBarsChart
