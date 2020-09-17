@@ -143,7 +143,7 @@ const PriceEvolutionLineCharts = memo(
       <>
         {priceComponents.map((pc, i) => {
           return (
-            <Box sx={{ my: 4 }}>
+            <Box sx={{ my: 4 }} key={i}>
               <LineChart
                 data={withUniqueEntityId}
                 fields={{
