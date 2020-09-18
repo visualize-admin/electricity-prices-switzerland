@@ -1,10 +1,12 @@
-import { Trans, t } from "@lingui/macro";
-import { Box, Text } from "@theme-ui/components";
-import { useRouter } from "next/router";
+import { t, Trans } from "@lingui/macro";
+import { Box } from "@theme-ui/components";
+import { groups } from "d3-array";
 import * as React from "react";
+import { useState } from "react";
 import { Entity, GenericObservation, priceComponents } from "../../domain/data";
 import { getLocalizedLabel } from "../../domain/translation";
 import { EMPTY_ARRAY } from "../../lib/empty-array";
+import { useLocale } from "../../lib/use-locale";
 import { useQueryState } from "../../lib/use-query-state";
 import {
   AnnotationX,
@@ -33,8 +35,6 @@ import {
 import { Download } from "./download-image";
 import { FilterSetDescription } from "./filter-set-description";
 import { WithClassName } from "./with-classname";
-import { group } from "d3-array";
-import { useLocale } from "../../lib/use-locale";
 
 const DOWNLOAD_ID: Download = "distribution";
 
@@ -183,18 +183,26 @@ export const PriceDistributionHistogram = ({
 
   // To avoid too many annotations, we group entities by value
   // when more than one entity has the same value.
-  const groupedAnnotations = [...group(annotations, (d) => d.value)].map((d) =>
-    d[1].length === 1
-      ? // If only one entity has this value, we show the full name
-        { ...d[1][0] }
-      : {
-          value: d[0],
-          // Made up label with the number of entities
-          muniOperator: `${d[1].length} ${getLocalizedLabel({
-            i18n,
-            id: entity === "operator" ? "municipalities" : "operators",
-          })}`,
-        }
+  const groupedAnnotations = groups(
+    annotations,
+    (d) => (d as GenericObservation)[entity],
+    (d) => d.value
+  ).flatMap((ent: $FixMe) =>
+    ent[1].flatMap((d: $FixMe) => {
+      return d[1].length === 1
+        ? // If only one entity has this value, we show the full name
+          { ...d[1][0] }
+        : {
+            value: d[0],
+            // Made up label with the number of entities
+            muniOperator: `${d[1][0][`${entity}Label`]}, ${
+              d[1].length
+            } ${getLocalizedLabel({
+              i18n,
+              id: entity === "operator" ? "municipalities" : "operators",
+            })}`,
+          };
+    })
   );
   return (
     <>
