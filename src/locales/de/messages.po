@@ -66,7 +66,7 @@ msgstr "Preiskomponenten"
 msgid "detail.card.title.prices.distribution"
 msgstr "Preisverteilung in der Schweiz"
 
-#: src/components/detail-page/price-evolution-line-chart.tsx:60
+#: src/components/detail-page/price-evolution-line-chart.tsx:55
 msgid "detail.card.title.prices.evolution"
 msgstr "Tarifentwicklung"
 
