@@ -6,6 +6,24 @@ msgstr ""
 "X-Generator: POEditor.com\n"
 "Project-Id-Version: elcom-electricity-website\n"
 "Language: de\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+
+#: src/domain/translation.tsx:70
+msgid "chart.annotation.cantons"
+msgstr "Kantone"
+
+#: src/domain/translation.tsx:65
+msgid "chart.annotation.municipalities"
+msgstr "Gemeinden"
+
+#: src/domain/translation.tsx:60
+msgid "chart.annotation.operators"
+msgstr "Netzbetreiber"
 
 #: src/components/combobox.tsx:173
 #: src/components/search.tsx:220
@@ -74,6 +92,14 @@ msgstr "Netzbetreiber"
 msgid "detail.operators"
 msgstr "Netzbetreiber"
 
+#: src/components/info-dialog.tsx:48
+msgid "dialog.close"
+msgstr "Dialog schliessen"
+
+#: src/components/info-dialog.tsx:55
+msgid "dialog.infoprefix"
+msgstr "Info:"
+
 #: src/components/operator-documents.tsx:22
 msgid "download.category.annualreport"
 msgstr "Geschäftsbericht"
@@ -138,9 +164,17 @@ msgstr "Eidgenössische Elektrizitätskommission ElCom"
 msgid "help.calculation"
 msgstr "Berechnungsgrundlagen"
 
+#: src/components/price-color-legend.tsx:28
+msgid "help.price-comparison"
+msgstr "Tarifvergleich"
+
 #: src/components/hint.tsx:55
 msgid "hint.loading.data"
 msgstr "Lade Daten…"
+
+#: src/components/hint.tsx:123
+msgid "hint.nocontent.message"
+msgstr "Dieser Inhalt konnte nicht geladen werden"
 
 #: src/components/hint.tsx:104
 msgid "hint.nodata.message"
@@ -149,6 +183,14 @@ msgstr "Für die aktuelle Auswahl konnten keine Daten geladen werden."
 #: src/components/hint.tsx:101
 msgid "hint.nodata.title"
 msgstr "Keine Daten"
+
+#: src/components/hint.tsx:144
+msgid "hint.nogeodata.message"
+msgstr "Für das ausgewählte Jahr kann keine Karte angezeigt werden."
+
+#: src/components/hint.tsx:141
+msgid "hint.nogeodata.title"
+msgstr "Keine Kartendarstellung möglich"
 
 #: src/components/charts-generic/histogram/histogram-min-max-values.tsx:48
 msgid "histogram.max"
@@ -222,6 +264,10 @@ msgstr "Median"
 #: src/components/price-color-legend.tsx:55
 msgid "price.legend.min"
 msgstr "Min"
+
+#: src/components/detail-page/banner.tsx:29
+msgid "relations.showmore"
+msgstr "{rest} weitere …"
 
 #: src/pages/[locale]/index.tsx:107
 msgid "search.global"
@@ -391,44 +437,3 @@ msgstr "Jahre"
 #: src/pages/[locale]/operator/[id].tsx:65
 msgid "site.title"
 msgstr "Strompreise Schweiz"
-
-#: src/domain/translation.tsx:70
-msgid "chart.annotation.cantons"
-msgstr "Kantone"
-
-#: src/domain/translation.tsx:65
-msgid "chart.annotation.municipalities"
-msgstr "Gemeinden"
-
-#: src/domain/translation.tsx:60
-msgid "chart.annotation.operators"
-msgstr "Netzbetreiber"
-
-#: src/components/info-dialog.tsx:48
-msgid "dialog.close"
-msgstr "Dialog schliessen"
-
-#: src/components/info-dialog.tsx:55
-msgid "dialog.infoprefix"
-msgstr "Info:"
-
-#: src/components/price-color-legend.tsx:28
-msgid "help.price-comparison"
-msgstr "Tarifvergleich"
-
-#: src/components/hint.tsx:123
-msgid "hint.nocontent.message"
-msgstr "Dieser Inhalt konnte nicht geladen werden"
-
-#: src/components/hint.tsx:144
-msgid "hint.nogeodata.message"
-msgstr "Für das ausgewählte Jahr kann keine Karte angezeigt werden."
-
-#: src/components/hint.tsx:141
-msgid "hint.nogeodata.title"
-msgstr "Keine Kartendarstellung möglich"
-
-#: src/components/detail-page/banner.tsx:29
-msgid "relations.showmore"
-msgstr "{rest} weitere …"
-
