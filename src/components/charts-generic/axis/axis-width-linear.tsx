@@ -1,3 +1,4 @@
+import { Trans } from "@lingui/macro";
 import { axisBottom, axisTop } from "d3-axis";
 import { select, Selection } from "d3-selection";
 import * as React from "react";
@@ -123,8 +124,7 @@ export const AxisWidthLinearTop = () => {
           fontSize={labelFontSize}
           textAnchor="end"
         >
-          {/* FIXME */}
-          {"CHF"}
+          <Trans id="chart.axis.unit.cent.kWh">Rp./kWh</Trans>
         </text>
       </g>
       <g
