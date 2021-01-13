@@ -95,6 +95,7 @@ export const BarsGroupedLabels = () => {
   const { margins } = bounds;
   const { axisLabelColor, labelFontSize, fontFamily } = useChartTheme();
   const formatCurrency = useFormatCurrency();
+  const i18n = useI18n();
 
   return (
     <g transform={`translate(${margins.left} ${margins.top})`}>
@@ -120,7 +121,10 @@ export const BarsGroupedLabels = () => {
                   dx={6}
                   dy={labelFontSize * 1.5}
                 >
-                  <tspan fontWeight="bold">{formatCurrency(getX(d))}</tspan>{" "}
+                  <tspan fontWeight="bold">
+                    {formatCurrency(getX(d))}{" "}
+                    {getLocalizedLabel({ i18n, id: "unit" })}
+                  </tspan>{" "}
                   {getLabel(d)}
                 </text>
               ))}
