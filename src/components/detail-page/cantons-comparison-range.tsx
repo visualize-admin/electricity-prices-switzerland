@@ -1,5 +1,6 @@
 import { t, Trans } from "@lingui/macro";
 import { Box } from "@theme-ui/components";
+import { extent, median } from "d3";
 import { groups } from "d3-array";
 import * as React from "react";
 import { memo } from "react";
@@ -25,6 +26,7 @@ import { RangePlot } from "../charts-generic/rangeplot/rangeplot-state";
 import { Combobox } from "../combobox";
 import { Loading, NoDataHint } from "../hint";
 import { useI18n } from "../i18n-context";
+import { PriceColorLegend } from "../price-color-legend";
 import { RadioTabs } from "../radio-tabs";
 import { Card } from "./card";
 import { Download } from "./download-image";
@@ -202,6 +204,9 @@ export const CantonsComparisonRangePlot = memo(
             };
       })
     );
+
+    const d = extent(observations, (d) => d.value);
+    const m = median(observations, (d) => d.value);
     return (
       <>
         <FilterSetDescription
@@ -218,6 +223,8 @@ export const CantonsComparisonRangePlot = memo(
           <NoDataHint />
         ) : (
           <WithClassName downloadId={DOWNLOAD_ID}>
+            <PriceColorLegend stats={[d[0], m, d[1]]} />
+
             <RangePlot
               data={observations as GenericObservation[]}
               fields={{
