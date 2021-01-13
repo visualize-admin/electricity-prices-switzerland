@@ -32,6 +32,31 @@ const DialogContent = ({ slug }: { slug: string }) => {
   return (
     <Box
       as="section"
+      sx={{
+        details: {
+          mb: 3,
+        },
+        summary: {
+          fontWeight: "bold",
+        },
+        p: {
+          my: 3,
+        },
+        table: {
+          borderCollapse: "collapse",
+          borderColor: "monochrome300",
+          borderTopWidth: "1px",
+          borderTopStyle: "solid",
+          my: 2,
+          "td,th": {
+            borderColor: "monochrome300",
+            borderBottomWidth: "1px",
+            borderBottomStyle: "solid",
+            p: 2,
+            ":not(:first-of-type)": { textAlign: "right" },
+          },
+        },
+      }}
       dangerouslySetInnerHTML={{ __html: contentQuery.data.wikiContent.html }}
     />
   );
