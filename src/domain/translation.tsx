@@ -9,6 +9,8 @@ export const getLocalizedLabel = ({
   id: string;
 }): string => {
   switch (id) {
+    case "unit":
+      return i18n._(t("chart.axis.unit.Rp/kWh")`Rp./kWh`);
     case "standard":
       return i18n._(t("selector.product.standard")`Standard`);
     case "cheapest":

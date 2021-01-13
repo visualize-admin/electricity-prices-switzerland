@@ -8,12 +8,15 @@ import { ColumnsState } from "../columns/columns-state";
 import { LinesState } from "../lines/lines-state";
 import { AreasState } from "../areas/areas-state";
 import { useFormatNumber } from "../../../domain/helpers";
+import { useI18n } from "../../i18n-context";
+import { getLocalizedLabel } from "../../../domain/translation";
 
 const TICK_MIN_HEIGHT = 50;
 
 export const AxisHeightLinear = () => {
   const ref = useRef<SVGGElement>(null);
   const formatNumber = useFormatNumber();
+  const i18n = useI18n();
 
   const { yScale, yAxisLabel, bounds } = useChartState() as
     | ColumnsState
@@ -62,12 +65,11 @@ export const AxisHeightLinear = () => {
         <text
           x={0}
           y={0}
-          dy={axisLabelFontSize}
-          fontSize={axisLabelFontSize}
-          fontWeight={axisLabelFontWeight}
+          dy={bounds.margins.top / 2}
+          fontSize={labelFontSize}
           fill={axisLabelColor}
         >
-          {yAxisLabel}
+          {yAxisLabel && getLocalizedLabel({ i18n, id: yAxisLabel })}
         </text>
       </g>
       <g

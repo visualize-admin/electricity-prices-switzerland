@@ -125,9 +125,7 @@ const useLinesState = ({
   const yDomain = [minValue, maxValue];
 
   const yScale = scaleLinear().domain(yDomain).nice();
-  const yAxisLabel =
-    measures.find((d) => d.iri === fields.y.componentIri)?.label ??
-    fields.y.componentIri;
+  const yAxisLabel = "unit";
 
   // segments
   const segments = [...new Set(sortedData.map(getSegment))];
