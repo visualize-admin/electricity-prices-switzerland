@@ -24,6 +24,8 @@ import {
 import { defaultLocale } from "../locales/locales";
 import { getWikiPage } from "../domain/gitlab-wiki-api";
 import micromark from "micromark";
+var gfmSyntax = require("micromark-extension-gfm");
+var gfmHtml = require("micromark-extension-gfm/html");
 
 const Query: QueryResolvers = {
   observations: async (_, { locale, filters, observationType }, ctx, info) => {
@@ -260,7 +262,11 @@ const Query: QueryResolvers = {
     }
 
     return {
-      html: micromark(wikiPage.content),
+      html: micromark(wikiPage.content, {
+        allowDangerousHtml: true,
+        extensions: [gfmSyntax()],
+        htmlExtensions: [gfmHtml],
+      }),
     };
   },
 };

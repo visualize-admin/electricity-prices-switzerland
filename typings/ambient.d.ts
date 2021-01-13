@@ -33,7 +33,3 @@ declare module "*.graphql" {
 
   export = Schema;
 }
-
-declare module "micromark" {
-  export default function (md: string): string;
-}
