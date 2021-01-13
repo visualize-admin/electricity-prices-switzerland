@@ -131,6 +131,9 @@ export const PriceDistributionHistograms = ({
           entity={entity}
         />
       ))}
+      <Box sx={{ color: "monochrome700", fontSize: 2 }}>
+        <Trans id="chart.unit.cent.kWh">Preise in Rp./kWh</Trans>
+      </Box>
     </Card>
   );
 };
