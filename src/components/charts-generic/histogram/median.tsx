@@ -4,6 +4,8 @@ import { useChartState } from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
 import { HistogramState } from "./histogram-state";
 import { useFormatCurrency } from "../../../domain/helpers";
+import { useI18n } from "../../i18n-context";
+import { getLocalizedLabel } from "../../../domain/translation";
 
 export const HistogramMedian = ({ label }: { label: string }) => {
   const {
@@ -21,6 +23,7 @@ export const HistogramMedian = ({ label }: { label: string }) => {
     fontFamily,
   } = useChartTheme();
   const formatCurrency = useFormatCurrency();
+  const i18n = useI18n();
 
   const m = median(data, (d) => getX(d));
 
@@ -46,7 +49,7 @@ export const HistogramMedian = ({ label }: { label: string }) => {
               textAnchor: "middle",
             }}
           >
-            {formatCurrency(m)}
+            {formatCurrency(m)} {getLocalizedLabel({ i18n, id: "unit" })}
           </text>
           <text
             x={xScale(m)}

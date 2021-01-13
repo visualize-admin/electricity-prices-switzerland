@@ -5,6 +5,8 @@ import { useChartTheme } from "../use-chart-theme";
 import { HistogramState } from "./histogram-state";
 import { useFormatCurrency } from "../../../domain/helpers";
 import { Trans } from "@lingui/macro";
+import { getLocalizedLabel } from "../../../domain/translation";
+import { useI18n } from "../../i18n-context";
 
 export const HistogramMinMaxValues = () => {
   const {
@@ -22,6 +24,7 @@ export const HistogramMinMaxValues = () => {
     fontFamily,
   } = useChartTheme();
   const formatCurrency = useFormatCurrency();
+  const i18n = useI18n();
 
   const minValue = min(data, (d) => getX(d));
   const maxValue = max(data, (d) => getX(d));
@@ -43,7 +46,7 @@ export const HistogramMinMaxValues = () => {
               textAnchor: "middle",
             }}
           >
-            {formatCurrency(minValue)}
+            {formatCurrency(minValue)} {getLocalizedLabel({ i18n, id: "unit" })}
           </text>
           <text
             x={0}
@@ -75,7 +78,7 @@ export const HistogramMinMaxValues = () => {
               textAnchor: "middle",
             }}
           >
-            {formatCurrency(maxValue)}
+            {formatCurrency(maxValue)} {getLocalizedLabel({ i18n, id: "unit" })}
           </text>
           <text
             x={0}
