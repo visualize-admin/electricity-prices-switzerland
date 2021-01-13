@@ -90,11 +90,14 @@ export const PriceColorLegend = ({
 export const ColorsLine = () => {
   const { palettes } = useTheme();
   return (
-    <Flex sx={{ height: COLOR_HEIGHT + BOTTOM_LABEL_HEIGHT }}>
+    <Flex
+      sx={{ height: COLOR_HEIGHT + BOTTOM_LABEL_HEIGHT, position: "relative" }}
+      data-name="color-line"
+    >
       <Box
         sx={{
           position: "absolute",
-          left: LEGEND_WIDTH / 2,
+          left: "50%",
           width: 0,
           borderLeft: "1px dashed",
           borderLeftColor: "text",
