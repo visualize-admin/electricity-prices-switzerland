@@ -44,11 +44,17 @@ const DialogContent = ({ slug }: { slug: string }) => {
         },
         table: {
           borderCollapse: "collapse",
-          borderColor: "monochrome300",
-          borderTopWidth: "1px",
-          borderTopStyle: "solid",
           my: 2,
-          "td,th": {
+          tbody: {
+            borderColor: "monochrome300",
+            borderTopWidth: "1px",
+            borderTopStyle: "solid",
+          },
+          "th:not(:empty)": {
+            p: 2,
+            ":not(:first-of-type)": { textAlign: "right" },
+          },
+          td: {
             borderColor: "monochrome300",
             borderBottomWidth: "1px",
             borderBottomStyle: "solid",
