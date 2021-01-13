@@ -1,3 +1,4 @@
+import { timeYear } from "d3";
 import { axisBottom } from "d3-axis";
 import { select, Selection } from "d3-selection";
 import * as React from "react";
@@ -26,20 +27,14 @@ export const AxisTime = () => {
 
   // Approximate the longest date format we're using for
   // Roughly equivalent to estimateTextWidth("99.99.9999", 12);
-  const maxLabelLength = 70;
+  // const maxLabelLength = 70;
 
-  // This could be useful: use data points as tick values,
-  // but it does not solve the problem of overlapping.
-  // const tickValues =
-  //   bounds.chartWidth / (maxLabelLength + 20) > xUniqueValues.length
-  //     ? xUniqueValues
-  //     : null;
-  const ticks = bounds.chartWidth / (maxLabelLength + 20);
+  // const ticks = bounds.chartWidth / (maxLabelLength + 20);
 
   const mkAxis = (g: Selection<SVGGElement, unknown, null, undefined>) => {
     g.call(
       axisBottom(xScale)
-        .ticks(ticks)
+        .ticks(timeYear)
         .tickFormat((x) => formatDateAuto(x as Date))
     );
     g.select(".domain").remove();
