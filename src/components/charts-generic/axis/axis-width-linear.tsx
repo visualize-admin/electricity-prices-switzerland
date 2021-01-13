@@ -124,7 +124,7 @@ export const AxisWidthLinearTop = () => {
           fontSize={labelFontSize}
           textAnchor="end"
         >
-          <Trans id="chart.axis.unit.cent.kWh">Rp./kWh</Trans>
+          <Trans id="chart.axis.unit.Rp/kWh">Rp./kWh</Trans>
         </text>
       </g>
       <g
