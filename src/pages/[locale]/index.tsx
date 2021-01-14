@@ -153,7 +153,7 @@ const IndexPage = ({ locale }: Props) => {
             sx={{
               width: "100%",
               gridTemplateColumns: ["1fr", "1fr 20rem"],
-              gridTemplateAreas: [`"controls" "map"`, `"map controls"`],
+              gridTemplateAreas: [`"map" "controls"`, `"map controls"`],
               gap: 0,
               position: "relative",
             }}
