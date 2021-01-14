@@ -13,7 +13,9 @@ export const AxisTime = () => {
   const ref = useRef<SVGGElement>(null);
   const formatDateAuto = useFormatShortDateAuto();
 
-  const { xScale, yScale, bounds } = useChartState() as LinesState | AreasState;
+  const { xScale, yScale, bounds, xUniqueValues } = useChartState() as
+    | LinesState
+    | AreasState;
 
   const {
     labelColor,
@@ -27,14 +29,17 @@ export const AxisTime = () => {
 
   // Approximate the longest date format we're using for
   // Roughly equivalent to estimateTextWidth("99.99.9999", 12);
-  // const maxLabelLength = 70;
+  const maxLabelLength = 70;
 
-  // const ticks = bounds.chartWidth / (maxLabelLength + 20);
+  const maxTicks = Math.ceil(bounds.chartWidth / (maxLabelLength + 20));
+  const ticks = Math.min(maxTicks, xUniqueValues.length);
+  const every = Math.ceil(xUniqueValues.length / ticks);
 
   const mkAxis = (g: Selection<SVGGElement, unknown, null, undefined>) => {
     g.call(
       axisBottom(xScale)
-        .ticks(timeYear)
+        .ticks(ticks)
+        // .ticks(timeYear.every(every))
         .tickFormat((x) => formatDateAuto(x as Date))
     );
     g.select(".domain").remove();
