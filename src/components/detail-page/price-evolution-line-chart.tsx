@@ -194,7 +194,7 @@ const PriceEvolutionLineCharts = memo(
                 )}
                 <ChartContainer>
                   <ChartSvg>
-                    <AxisHeightLinear /> <AxisTime />
+                    <AxisHeightLinear format="currency"/> <AxisTime />
                     <Lines />
                     <InteractionHorizontal />
                   </ChartSvg>

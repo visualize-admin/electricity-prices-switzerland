@@ -7,15 +7,20 @@ import { useChartTheme } from "../use-chart-theme";
 import { ColumnsState } from "../columns/columns-state";
 import { LinesState } from "../lines/lines-state";
 import { AreasState } from "../areas/areas-state";
-import { useFormatNumber } from "../../../domain/helpers";
+import { useFormatCurrency, useFormatNumber } from "../../../domain/helpers";
 import { useI18n } from "../../i18n-context";
 import { getLocalizedLabel } from "../../../domain/translation";
 
 const TICK_MIN_HEIGHT = 50;
 
-export const AxisHeightLinear = () => {
+export const AxisHeightLinear = ({
+  format,
+}: {
+  format?: "currency" | "number";
+}) => {
   const ref = useRef<SVGGElement>(null);
-  const formatNumber = useFormatNumber();
+  const formatNumber =
+    format === "currency" ? useFormatCurrency() : useFormatNumber();
   const i18n = useI18n();
 
   const { yScale, yAxisLabel, bounds } = useChartState() as
