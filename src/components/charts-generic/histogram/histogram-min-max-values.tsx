@@ -43,7 +43,7 @@ export const HistogramMinMaxValues = () => {
               fontFamily,
               fill: domainColor,
               fontSize: labelFontSize,
-              textAnchor: "middle",
+              textAnchor: "start",
             }}
           >
             {formatCurrency(minValue)} {getLocalizedLabel({ i18n, id: "unit" })}
@@ -55,7 +55,7 @@ export const HistogramMinMaxValues = () => {
               fontFamily,
               fill: labelColor,
               fontSize: labelFontSize,
-              textAnchor: "middle",
+              textAnchor: "start",
             }}
           >
             <Trans id="histogram.min">Min</Trans>
@@ -75,7 +75,7 @@ export const HistogramMinMaxValues = () => {
               fontFamily,
               fill: domainColor,
               fontSize: labelFontSize,
-              textAnchor: "middle",
+              textAnchor: "end",
             }}
           >
             {formatCurrency(maxValue)} {getLocalizedLabel({ i18n, id: "unit" })}
@@ -87,7 +87,7 @@ export const HistogramMinMaxValues = () => {
               fontFamily,
               fill: labelColor,
               fontSize: labelFontSize,
-              textAnchor: "middle",
+              textAnchor: "end",
             }}
           >
             <Trans id="histogram.max">Max</Trans>
