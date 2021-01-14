@@ -270,14 +270,20 @@ const useLinesState = ({
       xValue: formatDateAuto(getX(datum)),
       datum: {
         label: fields.segment && getSegment(datum),
-        value: formatCurrency(getY(datum)),
+        value: `${formatCurrency(getY(datum))} ${getLocalizedLabel({
+          i18n,
+          id: "unit",
+        })}`,
         color: colors(getColor(datum)) as string,
       },
       values: summarizedTooltipValues
         .sort((a, b) => descending(getY(a), getY(b)))
         .map((td) => ({
           label: getSegment(td),
-          value: formatCurrency(getY(td)),
+          value: `${formatCurrency(getY(td))} ${getLocalizedLabel({
+            i18n,
+            id: "unit",
+          })}`,
           color:
             segments.length > 1
               ? (colors(getColor(td)) as string)
