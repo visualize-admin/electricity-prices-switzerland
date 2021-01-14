@@ -87,6 +87,44 @@ export const MapPriceColorLegend = ({
   );
 };
 
+export const PriceColorLegend = () => {
+  return (
+    <Box
+      sx={{
+        width: LEGEND_WIDTH,
+        zIndex: 13,
+        borderRadius: "default",
+        height: "fit-content",
+        px: 4,
+        py: 2,
+      }}
+    >
+      <Flex
+        sx={{
+          justifyContent: "space-between",
+          color: "monochrome600",
+          fontSize: 1,
+          mb: 2,
+        }}
+      >
+        <Text sx={{ flex: "1 1 0px" }}>
+          <Trans id="price.legend.min">min</Trans>
+        </Text>
+
+        <Text sx={{ flex: "1 1 0px", textAlign: "center" }}>
+          <Trans id="price.legend.median">median</Trans>
+        </Text>
+
+        <Text sx={{ flex: "1 1 0px", textAlign: "right" }}>
+          <Trans id="price.legend.max">max</Trans>
+        </Text>
+      </Flex>
+
+      <ColorsLine />
+    </Box>
+  );
+};
+
 export const ColorsLine = () => {
   const { palettes } = useTheme();
   return (

@@ -26,7 +26,7 @@ import { RangePlot } from "../charts-generic/rangeplot/rangeplot-state";
 import { Combobox } from "../combobox";
 import { Loading, NoDataHint } from "../hint";
 import { useI18n } from "../i18n-context";
-import { MapPriceColorLegend } from "../price-color-legend";
+import { MapPriceColorLegend, PriceColorLegend } from "../price-color-legend";
 import { RadioTabs } from "../radio-tabs";
 import { Card } from "./card";
 import { Download } from "./download-image";
@@ -223,7 +223,7 @@ export const CantonsComparisonRangePlot = memo(
           <NoDataHint />
         ) : (
           <WithClassName downloadId={DOWNLOAD_ID}>
-            <MapPriceColorLegend stats={[d[0], m, d[1]]} />
+            <PriceColorLegend />
 
             <RangePlot
               data={observations as GenericObservation[]}
