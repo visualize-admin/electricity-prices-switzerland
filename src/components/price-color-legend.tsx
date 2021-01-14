@@ -11,7 +11,7 @@ const TOP_LABEL_HEIGHT = 14;
 const COLOR_HEIGHT = 12;
 const BOTTOM_LABEL_HEIGHT = 16;
 
-export const PriceColorLegend = ({
+export const MapPriceColorLegend = ({
   stats,
 }: {
   stats: [number | undefined, number | undefined, number | undefined];

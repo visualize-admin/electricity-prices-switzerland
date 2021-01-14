@@ -1,4 +1,4 @@
-import { PriceColorLegend } from "./price-color-legend";
+import { MapPriceColorLegend } from "./price-color-legend";
 import { extent, median } from "d3-array";
 import { MapController, WebMercatorViewport } from "@deck.gl/core";
 import { GeoJsonLayer } from "@deck.gl/layers";
@@ -372,7 +372,7 @@ export const ChoroplethMap = ({
                 ml: 3,
               }}
             >
-              <PriceColorLegend stats={[d[0], m, d[1]]} />
+              <MapPriceColorLegend stats={[d[0], m, d[1]]} />
             </Box>
 
             <DeckGL
