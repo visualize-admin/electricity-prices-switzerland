@@ -1,7 +1,6 @@
 import fs from "fs-extra";
 import path from "path";
 import os from "os";
-import micromark from "micromark";
 
 type WikiPage = {
   format: string;
@@ -17,7 +16,7 @@ type WikiCacheJson = {
   pages: WikiPages;
 };
 
-const CACHE_TTL = 1000 * 5 * 60;
+const CACHE_TTL = 1000;
 
 const getCachedWikiPages = async (
   url: string,
