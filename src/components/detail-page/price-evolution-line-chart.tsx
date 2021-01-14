@@ -148,6 +148,9 @@ const PriceEvolutionLineCharts = memo(
         {priceComponents.map((pc, i) => {
           return (
             <Box sx={{ my: 4 }} key={i}>
+              <Box sx={{ fontSize: 4, fontWeight: "bold" }}>
+                {getLocalizedLabel({ i18n, id: pc })}
+              </Box>
               <LineChart
                 data={withUniqueEntityId}
                 fields={{
@@ -194,7 +197,7 @@ const PriceEvolutionLineCharts = memo(
                 )}
                 <ChartContainer>
                   <ChartSvg>
-                    <AxisHeightLinear format="currency"/> <AxisTime />
+                    <AxisHeightLinear format="currency" /> <AxisTime />
                     <Lines />
                     <InteractionHorizontal />
                   </ChartSvg>
