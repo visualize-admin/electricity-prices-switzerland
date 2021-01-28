@@ -6,7 +6,7 @@
  *
  */
 
-import { Cube, View, Source } from "@zazuko/rdf-cube-view-query";
+import { Cube, View, Source } from "rdf-cube-view-query";
 
 export type ResolvedSearchResult = {
   id: string;

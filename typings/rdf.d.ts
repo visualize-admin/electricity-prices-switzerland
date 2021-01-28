@@ -1,4 +1,4 @@
-declare module "@zazuko/rdf-cube-view-query" {
+declare module "rdf-cube-view-query" {
   import { Clownface, ClownfaceInit } from "clownface";
   import { Term, NamedNode, Literal } from "rdf-js";
   import { ParsingClient } from "sparql-http-client/ParsingClient";

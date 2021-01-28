@@ -5,7 +5,7 @@ import {
   LookupSource,
   Source,
   View,
-} from "@zazuko/rdf-cube-view-query";
+} from "rdf-cube-view-query";
 import rdf from "rdf-ext";
 import { Literal, NamedNode } from "rdf-js";
 import { defaultLocale } from "../locales/locales";
