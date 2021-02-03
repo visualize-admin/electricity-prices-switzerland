@@ -6,6 +6,7 @@ import { useChartTheme } from "../use-chart-theme";
 import { DOT_RADIUS, RangePlotState } from "./rangeplot-state";
 import { mkNumber, isNumber } from "../../../domain/helpers";
 import { useInteraction } from "../use-interaction";
+import { useTheme } from "../../../themes";
 
 export const Range = ({ id }: { id: string }) => {
   const {
@@ -83,6 +84,7 @@ export const Range = ({ id }: { id: string }) => {
 };
 
 export const RangePoints = () => {
+  const theme = useTheme();
   const {
     bounds,
     xScale,
@@ -93,7 +95,7 @@ export const RangePoints = () => {
     rangeGroups,
   } = useChartState() as RangePlotState;
   const [interactionState, dispatch] = useInteraction();
-  const { margins } = bounds;
+  const { margins, chartWidth } = bounds;
   const {
     labelColor,
     labelFontSize,
@@ -114,6 +116,22 @@ export const RangePoints = () => {
 
           return (
             <React.Fragment key={row[0]}>
+              {cantonName === row[0] && (
+                <g
+                  transform={`translate(${-margins.left}, ${
+                    (yScale(row[0]) as number) - DOT_RADIUS
+                  })`}
+                >
+                  <rect
+                    x={0}
+                    y={0}
+                    width={margins.left + chartWidth + margins.right}
+                    height={DOT_RADIUS * 2}
+                    fillOpacity={0.3}
+                    fill={theme.colors.primaryLight}
+                  />
+                </g>
+              )}
               {xMin !== undefined &&
                 m !== undefined &&
                 xMax !== undefined &&
