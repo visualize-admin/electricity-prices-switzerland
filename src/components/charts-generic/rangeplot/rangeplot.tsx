@@ -5,6 +5,7 @@ import { useChartState } from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
 import { DOT_RADIUS, RangePlotState } from "./rangeplot-state";
 import { mkNumber, isNumber } from "../../../domain/helpers";
+import { useInteraction } from "../use-interaction";
 
 export const Range = ({ id }: { id: string }) => {
   const {
@@ -86,11 +87,12 @@ export const RangePoints = () => {
     bounds,
     xScale,
     getX,
+    getY,
     yScale,
     colors,
     rangeGroups,
   } = useChartState() as RangePlotState;
-
+  const [interactionState, dispatch] = useInteraction();
   const { margins } = bounds;
   const {
     labelColor,
@@ -98,6 +100,9 @@ export const RangePoints = () => {
     fontFamily,
     domainColor,
   } = useChartTheme();
+
+  const cantonName =
+    interactionState.interaction.d && getY(interactionState.interaction.d);
 
   return (
     <>
@@ -145,7 +150,7 @@ export const RangePoints = () => {
                       y={DOT_RADIUS}
                       style={{
                         fontFamily,
-                        fill: labelColor,
+                        fill: cantonName === row[0] ? "#000" : labelColor,
                         fontSize: labelFontSize,
                         textAnchor: "end",
                         dominantBaseline: "central",
