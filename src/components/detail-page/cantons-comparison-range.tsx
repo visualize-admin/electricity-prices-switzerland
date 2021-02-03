@@ -21,6 +21,7 @@ import {
 } from "../charts-generic/annotation/annotation-x";
 import { AxisWidthLinear } from "../charts-generic/axis/axis-width-linear";
 import { ChartContainer, ChartSvg } from "../charts-generic/containers";
+import { InteractionRows } from "../charts-generic/overlay/interaction-rows";
 import { Range, RangePoints } from "../charts-generic/rangeplot/rangeplot";
 import { RangePlot } from "../charts-generic/rangeplot/rangeplot-state";
 import { Combobox } from "../combobox";
@@ -256,6 +257,7 @@ export const CantonsComparisonRangePlot = memo(
                   <RangePoints />
                   <AnnotationX />
                   <AnnotationXDataPoint />
+                  <InteractionRows />
                 </ChartSvg>
                 <AnnotationXLabel />
               </ChartContainer>
