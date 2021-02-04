@@ -206,8 +206,6 @@ export const CantonsComparisonRangePlot = memo(
       })
     );
 
-    const d = extent(observations, (d) => d.value);
-    const m = median(observations, (d) => d.value);
     return (
       <>
         <FilterSetDescription
