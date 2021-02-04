@@ -47,9 +47,38 @@ export const CantonsComparisonRangePlots = ({
   entity: Entity;
 }) => {
   const [
-    { period, municipality, operator, canton, priceComponent, download },
+    {
+      period,
+      municipality,
+      operator,
+      canton,
+      priceComponent,
+      download,
+      cantonsOrder,
+    },
     setQueryState,
   ] = useQueryState();
+
+  const [sortingType, setSortingType] = useState<SortingType>("byMeasure");
+  const [sortingOrder, setSortingOrder] = useState<SortingOrder>("asc");
+  useEffect(() => {
+    if (cantonsOrder[0] === "median-asc") {
+      setSortingType("byMeasure");
+      setSortingOrder("asc");
+    } else if (cantonsOrder[0] === "median-desc") {
+      setSortingType("byMeasure");
+      setSortingOrder("desc");
+    } else if (cantonsOrder[0] === "alpha-asc") {
+      setSortingType("byDimensionLabel");
+      setSortingOrder("asc");
+    } else if (cantonsOrder[0] === "alpha-desc") {
+      setSortingType("byDimensionLabel");
+      setSortingOrder("desc");
+    } else {
+      setSortingType("byMeasure");
+      setSortingOrder("asc");
+    }
+  }, [cantonsOrder]);
 
   const i18n = useI18n();
 
@@ -121,6 +150,32 @@ export const CantonsComparisonRangePlots = ({
               showLabel={false}
             />
           </Box>
+          <Flex
+            sx={{
+              flexDirection: ["column", "row", "row"],
+              justifyContent: "space-between",
+              mt: 4,
+            }}
+          >
+            <Select
+              label={
+                <Trans id="rangeplot.select.order.hint">Sortieren nach</Trans>
+              }
+              id={"rangeplot-sorting-select"}
+              name={"rangeplot-sorting-select"}
+              value={cantonsOrder[0]}
+              disabled={false}
+              options={sortingValues.map((value) => ({
+                value,
+                label: getLocalizedLabel({ i18n, id: value }),
+              }))}
+              onChange={(e) =>
+                setQueryState({ cantonsOrder: [e.currentTarget.value] })
+              }
+            />
+
+            <PriceColorLegend />
+          </Flex>
         </>
       )}
 
@@ -131,6 +186,8 @@ export const CantonsComparisonRangePlots = ({
           priceComponent={priceComponent[0] as PriceComponent}
           annotationIds={annotationIds}
           entity={entity}
+          sortingType={sortingType}
+          sortingOrder={sortingOrder}
         />
       ))}
     </Card>
@@ -145,11 +202,15 @@ export const CantonsComparisonRangePlot = memo(
     year,
     priceComponent,
     entity,
+    sortingType,
+    sortingOrder,
   }: {
     annotationIds: string[];
     year: string;
     priceComponent: PriceComponent;
     entity: Entity;
+    sortingType: SortingType;
+    sortingOrder: SortingOrder;
   }) => {
     const locale = useLocale();
     const [
@@ -157,26 +218,6 @@ export const CantonsComparisonRangePlot = memo(
       setQueryState,
     ] = useQueryState();
     const i18n = useI18n();
-    const [sortingType, setSortingType] = useState<SortingType>("byMeasure");
-    const [sortingOrder, setSortingOrder] = useState<SortingOrder>("asc");
-    useEffect(() => {
-      if (cantonsOrder[0] === "median-asc") {
-        setSortingType("byMeasure");
-        setSortingOrder("asc");
-      } else if (cantonsOrder[0] === "median-desc") {
-        setSortingType("byMeasure");
-        setSortingOrder("desc");
-      } else if (cantonsOrder[0] === "alpha-asc") {
-        setSortingType("byDimensionLabel");
-        setSortingOrder("asc");
-      } else if (cantonsOrder[0] === "alpha-desc") {
-        setSortingType("byDimensionLabel");
-        setSortingOrder("desc");
-      } else {
-        setSortingType("byMeasure");
-        setSortingOrder("asc");
-      }
-    }, [cantonsOrder]);
 
     const [observationsQuery] = useObservationsQuery({
       variables: {
@@ -244,32 +285,7 @@ export const CantonsComparisonRangePlot = memo(
             priceComponent: getLocalizedLabel({ i18n, id: priceComponent }),
           }}
         />
-        <Flex
-          sx={{
-            flexDirection: ["column", "row", "row"],
-            justifyContent: "space-between",
-          }}
-        >
-          <Box sx={{ minWidth: 150 }}>
-            <Select
-              label={"Sortieren nach"}
-              id={"rangeplot-sorting-select"}
-              name={"rangeplot-sorting-select"}
-              value={cantonsOrder[0]}
-              disabled={false}
-              options={sortingValues.map((value) => ({
-                value,
-                label: getLocalizedLabel({ i18n, id: value }),
-              }))}
-              onChange={(e) =>
-                setQueryState({ cantonsOrder: [e.currentTarget.value] })
-              }
-            />
-          </Box>
-          <Box sx={{ alignSelf: ["flex-end"] }}>
-            <PriceColorLegend />
-          </Box>
-        </Flex>
+
         {observationsQuery.fetching ? (
           <Loading />
         ) : observations.length === 0 ? (
