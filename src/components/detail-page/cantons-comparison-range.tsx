@@ -3,7 +3,9 @@ import { Box } from "@theme-ui/components";
 import { extent, median } from "d3";
 import { groups } from "d3-array";
 import * as React from "react";
-import { memo } from "react";
+import { memo, useState, useEffect } from "react";
+import { Flex } from "theme-ui";
+import { SortingOrder, SortingType } from "../../domain/config-types";
 import { Entity, GenericObservation, priceComponents } from "../../domain/data";
 import { getLocalizedLabel } from "../../domain/translation";
 import {
@@ -25,6 +27,7 @@ import { InteractionRows } from "../charts-generic/overlay/interaction-rows";
 import { Range, RangePoints } from "../charts-generic/rangeplot/rangeplot";
 import { RangePlot } from "../charts-generic/rangeplot/rangeplot-state";
 import { Combobox } from "../combobox";
+import { Select } from "../form";
 import { Loading, NoDataHint } from "../hint";
 import { useI18n } from "../i18n-context";
 import { MapPriceColorLegend, PriceColorLegend } from "../price-color-legend";
@@ -134,6 +137,8 @@ export const CantonsComparisonRangePlots = ({
   );
 };
 
+type SortingValue = "median-asc" | "median-desc" | "alpha-asc" | "alpha-desc";
+const sortingValues = ["median-asc", "median-desc", "alpha-asc", "alpha-desc"];
 export const CantonsComparisonRangePlot = memo(
   ({
     annotationIds,
@@ -147,8 +152,31 @@ export const CantonsComparisonRangePlot = memo(
     entity: Entity;
   }) => {
     const locale = useLocale();
-    const [{ category, product }] = useQueryState();
+    const [
+      { category, product, cantonsOrder },
+      setQueryState,
+    ] = useQueryState();
     const i18n = useI18n();
+    const [sortingType, setSortingType] = useState<SortingType>("byMeasure");
+    const [sortingOrder, setSortingOrder] = useState<SortingOrder>("asc");
+    useEffect(() => {
+      if (cantonsOrder[0] === "median-asc") {
+        setSortingType("byMeasure");
+        setSortingOrder("asc");
+      } else if (cantonsOrder[0] === "median-desc") {
+        setSortingType("byMeasure");
+        setSortingOrder("desc");
+      } else if (cantonsOrder[0] === "alpha-asc") {
+        setSortingType("byDimensionLabel");
+        setSortingOrder("asc");
+      } else if (cantonsOrder[0] === "alpha-desc") {
+        setSortingType("byDimensionLabel");
+        setSortingOrder("desc");
+      } else {
+        setSortingType("byMeasure");
+        setSortingOrder("asc");
+      }
+    }, [cantonsOrder]);
 
     const [observationsQuery] = useObservationsQuery({
       variables: {
@@ -216,14 +244,38 @@ export const CantonsComparisonRangePlot = memo(
             priceComponent: getLocalizedLabel({ i18n, id: priceComponent }),
           }}
         />
+        <Flex
+          sx={{
+            flexDirection: ["column", "row", "row"],
+            justifyContent: "space-between",
+          }}
+        >
+          <Box sx={{ minWidth: 150 }}>
+            <Select
+              label={"Sortieren nach"}
+              id={"rangeplot-sorting-select"}
+              name={"rangeplot-sorting-select"}
+              value={cantonsOrder[0]}
+              disabled={false}
+              options={sortingValues.map((value) => ({
+                value,
+                label: getLocalizedLabel({ i18n, id: value }),
+              }))}
+              onChange={(e) =>
+                setQueryState({ cantonsOrder: [e.currentTarget.value] })
+              }
+            />
+          </Box>
+          <Box sx={{ alignSelf: ["flex-end"] }}>
+            <PriceColorLegend />
+          </Box>
+        </Flex>
         {observationsQuery.fetching ? (
           <Loading />
         ) : observations.length === 0 ? (
           <NoDataHint />
         ) : (
           <WithClassName downloadId={DOWNLOAD_ID}>
-            <PriceColorLegend />
-
             <RangePlot
               data={observations as GenericObservation[]}
               fields={{
@@ -233,8 +285,8 @@ export const CantonsComparisonRangePlot = memo(
                 y: {
                   componentIri: "cantonLabel",
                   sorting: {
-                    sortingType: "byDimensionLabel",
-                    sortingOrder: "desc",
+                    sortingType,
+                    sortingOrder,
                   },
                 },
                 label: {
