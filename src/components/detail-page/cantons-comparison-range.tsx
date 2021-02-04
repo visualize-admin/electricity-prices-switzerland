@@ -232,10 +232,15 @@ export const CantonsComparisonRangePlot = memo(
                 },
                 y: {
                   componentIri: "cantonLabel",
+                  sorting: {
+                    sortingType: "byDimensionLabel",
+                    sortingOrder: "desc",
+                  },
                 },
                 label: {
                   componentIri: "muniOperator",
                 },
+
                 annotation: groupedAnnotations as {
                   [x: string]: string | number | boolean;
                 }[],
