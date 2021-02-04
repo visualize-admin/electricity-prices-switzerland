@@ -1,9 +1,13 @@
-import { interpolateLab, scaleBand, ScaleBand } from "d3";
+import { descending, interpolateLab, scaleBand, ScaleBand } from "d3";
 import { ascending, group, max, median, min, rollup } from "d3-array";
 import { ScaleLinear, scaleLinear } from "d3-scale";
 import * as React from "react";
 import { ReactNode, useCallback } from "react";
-import { RangePlotFields } from "../../../domain/config-types";
+import {
+  RangePlotFields,
+  SortingOrder,
+  SortingType,
+} from "../../../domain/config-types";
 import { GenericObservation, ObservationValue } from "../../../domain/data";
 import {
   mkNumber,
@@ -73,19 +77,27 @@ const useRangePlotState = ({
   const xDomain = [0, mkNumber(maxValue)];
   const xScale = scaleLinear().domain(xDomain).nice();
 
-  // y
-  // Sort by group median
-  const yOrderedDomain = [
-    ...rollup(
-      data,
-      (v) => median(v, (x) => getX(x)),
-      (x) => getY(x)
-    ),
-  ]
-    .sort((a, b) => ascending(a[1], b[1]))
-    .map((d) => d[0]);
-
-  const yScale = scaleBand<string>().domain(yOrderedDomain);
+  // Sort data
+  const sortingType = fields.y.sorting?.sortingType;
+  const sortingOrder = fields.y.sorting?.sortingOrder;
+  // Default sorting order by ascending median
+  const yDomain =
+    sortingType && sortingOrder
+      ? sortDomain({ sortingType, sortingOrder, data, getX, getY })
+      : [
+          ...rollup(
+            data,
+            (v) => median(v, (x) => getX(x)),
+            (x) => getY(x)
+          ),
+        ]
+          .sort((a, b) =>
+            sortingOrder === "asc"
+              ? ascending(a[1], b[1])
+              : descending(a[1], b[1])
+          )
+          .map((d) => d[0]);
+  const yScale = scaleBand<string>().domain(yDomain);
 
   const m = median(data, (d) => getX(d));
   const colorDomain = m
@@ -126,7 +138,7 @@ const useRangePlotState = ({
     annotationSpaces[annotationSpaces.length - 1].height || 0;
 
   const chartHeight =
-    yOrderedDomain.length * (DOT_RADIUS * 2 + SPACE_ABOVE) + annotationSpace;
+    yDomain.length * (DOT_RADIUS * 2 + SPACE_ABOVE) + annotationSpace;
 
   const bounds = {
     width,
@@ -211,4 +223,39 @@ export const RangePlot = ({
       </InteractionProvider>
     </Observer>
   );
+};
+
+const sortDomain = ({
+  sortingType,
+  sortingOrder,
+  data,
+  getX,
+  getY,
+}: {
+  sortingType: SortingType;
+  sortingOrder: SortingOrder;
+  data: GenericObservation[];
+  getX: (d: GenericObservation) => number;
+  getY: (d: GenericObservation) => string;
+}) => {
+  if (sortingType === "byDimensionLabel") {
+    return [...group(data, (x) => getY(x))]
+      .sort((a, b) =>
+        sortingOrder === "asc" ? ascending(a[0], b[0]) : descending(a[0], b[0])
+      )
+      .map((d) => d[0]);
+  } else {
+    // by median
+    return [
+      ...rollup(
+        data,
+        (v) => median(v, (x) => getX(x)),
+        (x) => getY(x)
+      ),
+    ]
+      .sort((a, b) =>
+        sortingOrder === "asc" ? ascending(a[1], b[1]) : descending(a[1], b[1])
+      )
+      .map((d) => d[0]);
+  }
 };
