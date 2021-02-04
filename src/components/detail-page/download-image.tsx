@@ -40,6 +40,7 @@ export const DownloadImage = ({
       operator,
       canton,
       download,
+      cantonsOrder,
     },
   ] = useQueryState();
 
@@ -62,7 +63,7 @@ export const DownloadImage = ({
   const operators = constructParamsFromArray(operator, "operator");
   const cantons = constructParamsFromArray(canton, "canton");
 
-  const queryParams = `download=${downloadType}${municipalities}${operators}${cantons}${periods}&category=${category}&product=${product}&priceComponent=${priceComponent}`;
+  const queryParams = `download=${downloadType}${municipalities}${operators}${cantons}${periods}&category=${category}&product=${product}&priceComponent=${priceComponent}&cantonsOrder=${cantonsOrder}`;
 
   const url =
     entity && id && downloadType !== "map"
