@@ -39,6 +39,13 @@ import { WithClassName } from "./with-classname";
 
 const DOWNLOAD_ID: Download = "comparison";
 
+type SortingValue = "median-asc" | "median-desc" | "alpha-asc" | "alpha-desc";
+const SORTING_VALUES: SortingValue[] = [
+  "median-asc",
+  "median-desc",
+  "alpha-asc",
+  "alpha-desc",
+];
 export const CantonsComparisonRangePlots = ({
   id,
   entity,
@@ -157,7 +164,16 @@ export const CantonsComparisonRangePlots = ({
               mt: 4,
             }}
           >
-            <Select
+            <Combobox
+              label={i18n._(t("rangeplot.select.order.hint")`Sortieren nach`)}
+              id={"rangeplot-sorting-select"}
+              items={SORTING_VALUES}
+              getItemLabel={getItemLabel}
+              selectedItem={cantonsOrder[0]}
+              setSelectedItem={(co) => setQueryState({ cantonsOrder: [co] })}
+              showLabel={true}
+            />
+            {/* <Select
               label={
                 <Trans id="rangeplot.select.order.hint">Sortieren nach</Trans>
               }
@@ -172,7 +188,7 @@ export const CantonsComparisonRangePlots = ({
               onChange={(e) =>
                 setQueryState({ cantonsOrder: [e.currentTarget.value] })
               }
-            />
+            /> */}
 
             <PriceColorLegend />
           </Flex>
@@ -194,8 +210,6 @@ export const CantonsComparisonRangePlots = ({
   );
 };
 
-type SortingValue = "median-asc" | "median-desc" | "alpha-asc" | "alpha-desc";
-const sortingValues = ["median-asc", "median-desc", "alpha-asc", "alpha-desc"];
 export const CantonsComparisonRangePlot = memo(
   ({
     annotationIds,
