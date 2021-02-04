@@ -42,7 +42,6 @@ export const Label = ({
   <RebassLabel
     htmlFor={htmlFor}
     sx={{
-      width: "auto",
       color: disabled ? "monochrome600" : "monochrome700",
       fontSize: smaller ? [2, 2, 2] : [4, 4, 4],
       pb: smaller ? 1 : 0,
