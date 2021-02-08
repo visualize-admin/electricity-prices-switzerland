@@ -98,7 +98,13 @@ type WikiContent {
   html: String!
 }
 
+type SystemInfo {
+  SPARQL_ENDPOINT: String!
+  VERSION: String!
+}
+
 type Query {
+  systemInfo: SystemInfo!
   municipalities(
     locale: String!
     query: String

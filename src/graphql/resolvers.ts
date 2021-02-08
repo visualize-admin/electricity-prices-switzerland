@@ -28,6 +28,13 @@ var gfmSyntax = require("micromark-extension-gfm");
 var gfmHtml = require("micromark-extension-gfm/html");
 
 const Query: QueryResolvers = {
+  systemInfo: async () => {
+    return {
+      SPARQL_ENDPOINT:
+        process.env.SPARQL_ENDPOINT ?? "https://test.lindas.admin.ch/query",
+      VERSION: process.env.VERSION!,
+    };
+  },
   observations: async (_, { locale, filters, observationType }, ctx, info) => {
     const {
       source,

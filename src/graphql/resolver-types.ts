@@ -3,6 +3,8 @@ import { ResolvedCanton, ResolvedMunicipality, ResolvedOperator, ResolvedObserva
 import { ServerContext } from './server-context';
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 export type RequireFields<T, K extends keyof T> = { [X in Exclude<keyof T, K>]?: T[X] } & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -133,8 +135,15 @@ export type WikiContent = {
   html: Scalars['String'];
 };
 
+export type SystemInfo = {
+  __typename?: 'SystemInfo';
+  SPARQL_ENDPOINT: Scalars['String'];
+  VERSION: Scalars['String'];
+};
+
 export type Query = {
   __typename?: 'Query';
+  systemInfo: SystemInfo;
   municipalities: Array<Municipality>;
   cantons: Array<Canton>;
   operators: Array<Operator>;
@@ -280,7 +289,7 @@ export type TypeResolveFn<TTypes, TParent = {}, TContext = {}> = (
   info: GraphQLResolveInfo
 ) => Maybe<TTypes> | Promise<Maybe<TTypes>>;
 
-export type IsTypeOfResolverFn<T = {}> = (obj: T, info: GraphQLResolveInfo) => boolean | Promise<boolean>;
+export type IsTypeOfResolverFn<T = {}, TContext = {}> = (obj: T, context: TContext, info: GraphQLResolveInfo) => boolean | Promise<boolean>;
 
 export type NextResolverFn<T> = () => Promise<T>;
 
@@ -311,6 +320,7 @@ export type ResolversTypes = ResolversObject<{
   PriceComponent: PriceComponent;
   ObservationType: ObservationType;
   WikiContent: ResolverTypeWrapper<WikiContent>;
+  SystemInfo: ResolverTypeWrapper<SystemInfo>;
   Query: ResolverTypeWrapper<{}>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
 }>;
@@ -332,6 +342,7 @@ export type ResolversParentTypes = ResolversObject<{
   Observation: ResolvedObservation;
   ObservationFilters: ObservationFilters;
   WikiContent: WikiContent;
+  SystemInfo: SystemInfo;
   Query: {};
   Boolean: Scalars['Boolean'];
 }>;
@@ -345,19 +356,19 @@ export type SearchResultResolvers<ContextType = ServerContext, ParentType extend
 export type MunicipalityResultResolvers<ContextType = ServerContext, ParentType extends ResolversParentTypes['MunicipalityResult'] = ResolversParentTypes['MunicipalityResult']> = ResolversObject<{
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type OperatorResultResolvers<ContextType = ServerContext, ParentType extends ResolversParentTypes['OperatorResult'] = ResolversParentTypes['OperatorResult']> = ResolversObject<{
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type CantonResultResolvers<ContextType = ServerContext, ParentType extends ResolversParentTypes['CantonResult'] = ResolversParentTypes['CantonResult']> = ResolversObject<{
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type MunicipalityResolvers<ContextType = ServerContext, ParentType extends ResolversParentTypes['Municipality'] = ResolversParentTypes['Municipality']> = ResolversObject<{
@@ -365,7 +376,7 @@ export type MunicipalityResolvers<ContextType = ServerContext, ParentType extend
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   canton?: Resolver<ResolversTypes['Canton'], ParentType, ContextType>;
   operators?: Resolver<Array<ResolversTypes['Operator']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type OperatorResolvers<ContextType = ServerContext, ParentType extends ResolversParentTypes['Operator'] = ResolversParentTypes['Operator']> = ResolversObject<{
@@ -374,7 +385,7 @@ export type OperatorResolvers<ContextType = ServerContext, ParentType extends Re
   municipalities?: Resolver<Array<ResolversTypes['Municipality']>, ParentType, ContextType>;
   cantons?: Resolver<Array<ResolversTypes['Canton']>, ParentType, ContextType>;
   documents?: Resolver<Array<ResolversTypes['OperatorDocument']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type OperatorDocumentResolvers<ContextType = ServerContext, ParentType extends ResolversParentTypes['OperatorDocument'] = ResolversParentTypes['OperatorDocument']> = ResolversObject<{
@@ -383,7 +394,7 @@ export type OperatorDocumentResolvers<ContextType = ServerContext, ParentType ex
   url?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   year?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   category?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type CantonResolvers<ContextType = ServerContext, ParentType extends ResolversParentTypes['Canton'] = ResolversParentTypes['Canton']> = ResolversObject<{
@@ -391,7 +402,7 @@ export type CantonResolvers<ContextType = ServerContext, ParentType extends Reso
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   municipalities?: Resolver<Array<ResolversTypes['Municipality']>, ParentType, ContextType>;
   operator?: Resolver<Array<ResolversTypes['Operator']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type OperatorObservationResolvers<ContextType = ServerContext, ParentType extends ResolversParentTypes['OperatorObservation'] = ResolversParentTypes['OperatorObservation']> = ResolversObject<{
@@ -404,7 +415,7 @@ export type OperatorObservationResolvers<ContextType = ServerContext, ParentType
   category?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   period?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   value?: Resolver<ResolversTypes['Float'], ParentType, ContextType, RequireFields<OperatorObservationValueArgs, 'priceComponent'>>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type MedianObservationResolvers<ContextType = ServerContext, ParentType extends ResolversParentTypes['MedianObservation'] = ResolversParentTypes['MedianObservation']> = ResolversObject<{
@@ -413,7 +424,7 @@ export type MedianObservationResolvers<ContextType = ServerContext, ParentType e
   category?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   period?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   value?: Resolver<ResolversTypes['Float'], ParentType, ContextType, RequireFields<MedianObservationValueArgs, 'priceComponent'>>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type ObservationResolvers<ContextType = ServerContext, ParentType extends ResolversParentTypes['Observation'] = ResolversParentTypes['Observation']> = ResolversObject<{
@@ -422,10 +433,17 @@ export type ObservationResolvers<ContextType = ServerContext, ParentType extends
 
 export type WikiContentResolvers<ContextType = ServerContext, ParentType extends ResolversParentTypes['WikiContent'] = ResolversParentTypes['WikiContent']> = ResolversObject<{
   html?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type SystemInfoResolvers<ContextType = ServerContext, ParentType extends ResolversParentTypes['SystemInfo'] = ResolversParentTypes['SystemInfo']> = ResolversObject<{
+  SPARQL_ENDPOINT?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  VERSION?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type QueryResolvers<ContextType = ServerContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
+  systemInfo?: Resolver<ResolversTypes['SystemInfo'], ParentType, ContextType>;
   municipalities?: Resolver<Array<ResolversTypes['Municipality']>, ParentType, ContextType, RequireFields<QueryMunicipalitiesArgs, 'locale'>>;
   cantons?: Resolver<Array<ResolversTypes['Canton']>, ParentType, ContextType, RequireFields<QueryCantonsArgs, 'locale'>>;
   operators?: Resolver<Array<ResolversTypes['Operator']>, ParentType, ContextType, RequireFields<QueryOperatorsArgs, 'locale'>>;
@@ -453,6 +471,7 @@ export type Resolvers<ContextType = ServerContext> = ResolversObject<{
   MedianObservation?: MedianObservationResolvers<ContextType>;
   Observation?: ObservationResolvers<ContextType>;
   WikiContent?: WikiContentResolvers<ContextType>;
+  SystemInfo?: SystemInfoResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
 }>;
 

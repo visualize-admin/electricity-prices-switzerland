@@ -2,6 +2,8 @@ import gql from 'graphql-tag';
 import * as Urql from 'urql';
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -132,8 +134,15 @@ export type WikiContent = {
   html: Scalars['String'];
 };
 
+export type SystemInfo = {
+  __typename: 'SystemInfo';
+  SPARQL_ENDPOINT: Scalars['String'];
+  VERSION: Scalars['String'];
+};
+
 export type Query = {
   __typename: 'Query';
+  systemInfo: SystemInfo;
   municipalities: Array<Municipality>;
   cantons: Array<Canton>;
   operators: Array<Operator>;
@@ -230,7 +239,7 @@ export type QueryWikiContentArgs = {
 export type MunicipalitiesQueryVariables = Exact<{
   locale: Scalars['String'];
   query?: Maybe<Scalars['String']>;
-  ids?: Maybe<Array<Scalars['String']>>;
+  ids?: Maybe<Array<Scalars['String']> | Scalars['String']>;
 }>;
 
 
@@ -239,7 +248,7 @@ export type MunicipalitiesQuery = { __typename: 'Query', municipalities: Array<{
 export type OperatorsQueryVariables = Exact<{
   locale: Scalars['String'];
   query?: Maybe<Scalars['String']>;
-  ids?: Maybe<Array<Scalars['String']>>;
+  ids?: Maybe<Array<Scalars['String']> | Scalars['String']>;
 }>;
 
 
@@ -248,7 +257,7 @@ export type OperatorsQuery = { __typename: 'Query', operators: Array<{ __typenam
 export type CantonsQueryVariables = Exact<{
   locale: Scalars['String'];
   query?: Maybe<Scalars['String']>;
-  ids?: Maybe<Array<Scalars['String']>>;
+  ids?: Maybe<Array<Scalars['String']> | Scalars['String']>;
 }>;
 
 
@@ -419,7 +428,11 @@ export function useSearchQuery(options: Omit<Urql.UseQueryArgs<SearchQueryVariab
 };
 export const ObservationsDocument = gql`
     query Observations($locale: String!, $priceComponent: PriceComponent!, $filters: ObservationFilters!, $observationType: ObservationType) {
-  observations(locale: $locale, filters: $filters, observationType: $observationType) {
+  observations(
+    locale: $locale
+    filters: $filters
+    observationType: $observationType
+  ) {
     ... on OperatorObservation {
       ...operatorObservationFields
     }
@@ -436,7 +449,11 @@ export function useObservationsQuery(options: Omit<Urql.UseQueryArgs<Observation
 };
 export const ObservationsWithAllPriceComponentsDocument = gql`
     query ObservationsWithAllPriceComponents($locale: String!, $filters: ObservationFilters!, $observationType: ObservationType) {
-  observations(locale: $locale, filters: $filters, observationType: $observationType) {
+  observations(
+    locale: $locale
+    filters: $filters
+    observationType: $observationType
+  ) {
     ... on OperatorObservation {
       ...operatorObservationWithAllPriceComponentsFields
     }
