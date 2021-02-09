@@ -1,9 +1,8 @@
 import { t, Trans } from "@lingui/macro";
 import { Box } from "@theme-ui/components";
-import { extent, median } from "d3";
 import { groups } from "d3-array";
 import * as React from "react";
-import { memo, useState, useEffect } from "react";
+import { memo, useEffect, useState } from "react";
 import { Flex } from "theme-ui";
 import { SortingOrder, SortingType } from "../../domain/config-types";
 import { Entity, GenericObservation, priceComponents } from "../../domain/data";
@@ -24,13 +23,13 @@ import {
 import { AxisWidthLinear } from "../charts-generic/axis/axis-width-linear";
 import { ChartContainer, ChartSvg } from "../charts-generic/containers";
 import { InteractionRows } from "../charts-generic/overlay/interaction-rows";
+import { RangeplotMedian } from "../charts-generic/rangeplot/rangeplot-median";
 import { Range, RangePoints } from "../charts-generic/rangeplot/rangeplot";
 import { RangePlot } from "../charts-generic/rangeplot/rangeplot-state";
 import { Combobox } from "../combobox";
-import { Select } from "../form";
 import { Loading, NoDataHint } from "../hint";
 import { useI18n } from "../i18n-context";
-import { MapPriceColorLegend, PriceColorLegend } from "../price-color-legend";
+import { PriceColorLegend } from "../price-color-legend";
 import { RadioTabs } from "../radio-tabs";
 import { Card } from "./card";
 import { Download } from "./download-image";
@@ -321,6 +320,7 @@ export const CantonsComparisonRangePlot = memo(
             >
               <ChartContainer>
                 <ChartSvg>
+                  <RangeplotMedian label="CH Median" />
                   <Range id={year} />
                   <AxisWidthLinear position="top" />
                   <RangePoints />
