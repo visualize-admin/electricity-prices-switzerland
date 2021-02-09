@@ -1,8 +1,9 @@
 ---
 applications:
-  - name: elcom-strompreis-website-ref
+  - name: elcom-electricity-price-website
     command: yarn start
     memory: 2G
     disk_quota: 2G
     instances: 1
-    buildpack: nodejs_buildpack
+    buildpacks:
+      - nodejs_buildpack
