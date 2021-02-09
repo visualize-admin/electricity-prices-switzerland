@@ -5,6 +5,8 @@ import { useChartState } from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
 import { DOT_RADIUS, RangePlotState } from "./rangeplot-state";
 import { mkNumber, isNumber } from "../../../domain/helpers";
+import { useInteraction } from "../use-interaction";
+import { useTheme } from "../../../themes";
 
 export const Range = ({ id }: { id: string }) => {
   const {
@@ -20,7 +22,11 @@ export const Range = ({ id }: { id: string }) => {
 
   return (
     <>
-      <g transform={`translate(${margins.left} ${margins.top})`}>
+      <g
+        transform={`translate(${margins.left}, ${
+          margins.top + (margins.annotations ?? 0)
+        })`}
+      >
         {rangeGroups.map((row) => {
           const xMin = min(row[1], (d) => getX(d)) ?? 0;
           const xMax = max(row[1], (d) => getX(d));
@@ -46,15 +52,14 @@ export const Range = ({ id }: { id: string }) => {
                     </clipPath>
                     <g
                       key={row[0]}
-                      transform={`translate(0, ${
-                        (yScale(row[0]) as number) - DOT_RADIUS
-                      })`}
+                      transform={`translate(0, ${yScale(row[0]) as number})`}
                     >
                       <rect
                         x={0}
+                        y={0}
                         width={chartWidth}
                         height={DOT_RADIUS * 2}
-                        fill="url(#priceRange)"
+                        fill={`url(#priceRange-${id})`}
                         fillOpacity={0.3}
                         clipPath={`url(#${clipPathId})`}
                       />
@@ -66,7 +71,13 @@ export const Range = ({ id }: { id: string }) => {
         })}
       </g>
       <defs>
-        <linearGradient id="priceRange" x1="0%" y1="0%" x2="100%" y2="0%">
+        <linearGradient
+          id={`priceRange-${id}`}
+          x1="0%"
+          y1="0%"
+          x2="100%"
+          y2="0%"
+        >
           {colors.range().map((color, i) => {
             const normalized = normalize(
               colors.domain()[i],
@@ -82,16 +93,18 @@ export const Range = ({ id }: { id: string }) => {
 };
 
 export const RangePoints = () => {
+  const theme = useTheme();
   const {
     bounds,
     xScale,
     getX,
+    getY,
     yScale,
     colors,
     rangeGroups,
   } = useChartState() as RangePlotState;
-
-  const { margins } = bounds;
+  const [interactionState, dispatch] = useInteraction();
+  const { margins, chartWidth } = bounds;
   const {
     labelColor,
     labelFontSize,
@@ -99,9 +112,16 @@ export const RangePoints = () => {
     domainColor,
   } = useChartTheme();
 
+  const cantonName =
+    interactionState.interaction.d && getY(interactionState.interaction.d);
+
   return (
     <>
-      <g transform={`translate(${margins.left} ${margins.top})`}>
+      <g
+        transform={`translate(${margins.left}, ${
+          margins.top + (margins.annotations ?? 0)
+        })`}
+      >
         {rangeGroups.map((row) => {
           const xMin = min(row[1], (d) => getX(d));
           const m = median(row[1], (d) => getX(d));
@@ -109,15 +129,29 @@ export const RangePoints = () => {
 
           return (
             <React.Fragment key={row[0]}>
+              {cantonName === row[0] && (
+                <g
+                  transform={`translate(${-margins.left}, ${
+                    yScale(row[0]) as number
+                  })`}
+                >
+                  <rect
+                    x={0}
+                    y={0}
+                    width={margins.left + chartWidth + margins.right}
+                    height={DOT_RADIUS * 2}
+                    fillOpacity={0.3}
+                    fill={theme.colors.primaryLight}
+                  />
+                </g>
+              )}
               {xMin !== undefined &&
                 m !== undefined &&
                 xMax !== undefined &&
                 isNumber(yScale(row[0])) && (
                   <g
                     key={row[0]}
-                    transform={`translate(0, ${
-                      (yScale(row[0]) as number) - DOT_RADIUS
-                    })`}
+                    transform={`translate(0, ${yScale(row[0]) as number})`}
                   >
                     <circle
                       cx={xScale(xMin)}
@@ -145,7 +179,7 @@ export const RangePoints = () => {
                       y={DOT_RADIUS}
                       style={{
                         fontFamily,
-                        fill: labelColor,
+                        fill: cantonName === row[0] ? "#000" : labelColor,
                         fontSize: labelFontSize,
                         textAnchor: "end",
                         dominantBaseline: "central",

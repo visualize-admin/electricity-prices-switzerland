@@ -2,6 +2,7 @@ import React, { createContext, ReactNode, useContext } from "react";
 import { useResizeObserver } from "../../lib/use-resize-observer";
 
 export interface Margins {
+  annotations?: number;
   top: number;
   right: number;
   bottom: number;

@@ -1,9 +1,10 @@
 import { t, Trans } from "@lingui/macro";
 import { Box } from "@theme-ui/components";
-import { extent, median } from "d3";
 import { groups } from "d3-array";
 import * as React from "react";
-import { memo } from "react";
+import { memo, useEffect, useState } from "react";
+import { Flex } from "theme-ui";
+import { SortingOrder, SortingType } from "../../domain/config-types";
 import { Entity, GenericObservation, priceComponents } from "../../domain/data";
 import { getLocalizedLabel } from "../../domain/translation";
 import {
@@ -21,12 +22,14 @@ import {
 } from "../charts-generic/annotation/annotation-x";
 import { AxisWidthLinear } from "../charts-generic/axis/axis-width-linear";
 import { ChartContainer, ChartSvg } from "../charts-generic/containers";
+import { InteractionRows } from "../charts-generic/overlay/interaction-rows";
+import { RangeplotMedian } from "../charts-generic/rangeplot/rangeplot-median";
 import { Range, RangePoints } from "../charts-generic/rangeplot/rangeplot";
 import { RangePlot } from "../charts-generic/rangeplot/rangeplot-state";
 import { Combobox } from "../combobox";
 import { Loading, NoDataHint } from "../hint";
 import { useI18n } from "../i18n-context";
-import { MapPriceColorLegend, PriceColorLegend } from "../price-color-legend";
+import { PriceColorLegend } from "../price-color-legend";
 import { RadioTabs } from "../radio-tabs";
 import { Card } from "./card";
 import { Download } from "./download-image";
@@ -35,6 +38,13 @@ import { WithClassName } from "./with-classname";
 
 const DOWNLOAD_ID: Download = "comparison";
 
+type SortingValue = "median-asc" | "median-desc" | "alpha-asc" | "alpha-desc";
+const SORTING_VALUES: SortingValue[] = [
+  "median-asc",
+  "median-desc",
+  "alpha-asc",
+  "alpha-desc",
+];
 export const CantonsComparisonRangePlots = ({
   id,
   entity,
@@ -43,9 +53,38 @@ export const CantonsComparisonRangePlots = ({
   entity: Entity;
 }) => {
   const [
-    { period, municipality, operator, canton, priceComponent, download },
+    {
+      period,
+      municipality,
+      operator,
+      canton,
+      priceComponent,
+      download,
+      cantonsOrder,
+    },
     setQueryState,
   ] = useQueryState();
+
+  const [sortingType, setSortingType] = useState<SortingType>("byMeasure");
+  const [sortingOrder, setSortingOrder] = useState<SortingOrder>("asc");
+  useEffect(() => {
+    if (cantonsOrder[0] === "median-asc") {
+      setSortingType("byMeasure");
+      setSortingOrder("asc");
+    } else if (cantonsOrder[0] === "median-desc") {
+      setSortingType("byMeasure");
+      setSortingOrder("desc");
+    } else if (cantonsOrder[0] === "alpha-asc") {
+      setSortingType("byDimensionLabel");
+      setSortingOrder("asc");
+    } else if (cantonsOrder[0] === "alpha-desc") {
+      setSortingType("byDimensionLabel");
+      setSortingOrder("desc");
+    } else {
+      setSortingType("byMeasure");
+      setSortingOrder("asc");
+    }
+  }, [cantonsOrder]);
 
   const i18n = useI18n();
 
@@ -117,6 +156,25 @@ export const CantonsComparisonRangePlots = ({
               showLabel={false}
             />
           </Box>
+          <Flex
+            sx={{
+              flexDirection: ["column", "row", "row"],
+              justifyContent: "space-between",
+              mt: 4,
+            }}
+          >
+            <Combobox
+              label={i18n._(t("rangeplot.select.order.hint")`Sortieren nach`)}
+              id={"rangeplot-sorting-select"}
+              items={SORTING_VALUES}
+              getItemLabel={getItemLabel}
+              selectedItem={cantonsOrder[0]}
+              setSelectedItem={(co) => setQueryState({ cantonsOrder: [co] })}
+              showLabel={true}
+            />
+
+            <PriceColorLegend />
+          </Flex>
         </>
       )}
 
@@ -127,6 +185,8 @@ export const CantonsComparisonRangePlots = ({
           priceComponent={priceComponent[0] as PriceComponent}
           annotationIds={annotationIds}
           entity={entity}
+          sortingType={sortingType}
+          sortingOrder={sortingOrder}
         />
       ))}
     </Card>
@@ -139,14 +199,21 @@ export const CantonsComparisonRangePlot = memo(
     year,
     priceComponent,
     entity,
+    sortingType,
+    sortingOrder,
   }: {
     annotationIds: string[];
     year: string;
     priceComponent: PriceComponent;
     entity: Entity;
+    sortingType: SortingType;
+    sortingOrder: SortingOrder;
   }) => {
     const locale = useLocale();
-    const [{ category, product }] = useQueryState();
+    const [
+      { category, product, cantonsOrder },
+      setQueryState,
+    ] = useQueryState();
     const i18n = useI18n();
 
     const [observationsQuery] = useObservationsQuery({
@@ -205,8 +272,6 @@ export const CantonsComparisonRangePlot = memo(
       })
     );
 
-    const d = extent(observations, (d) => d.value);
-    const m = median(observations, (d) => d.value);
     return (
       <>
         <FilterSetDescription
@@ -217,14 +282,13 @@ export const CantonsComparisonRangePlot = memo(
             priceComponent: getLocalizedLabel({ i18n, id: priceComponent }),
           }}
         />
+
         {observationsQuery.fetching ? (
           <Loading />
         ) : observations.length === 0 ? (
           <NoDataHint />
         ) : (
           <WithClassName downloadId={DOWNLOAD_ID}>
-            <PriceColorLegend />
-
             <RangePlot
               data={observations as GenericObservation[]}
               fields={{
@@ -233,10 +297,15 @@ export const CantonsComparisonRangePlot = memo(
                 },
                 y: {
                   componentIri: "cantonLabel",
+                  sorting: {
+                    sortingType,
+                    sortingOrder,
+                  },
                 },
                 label: {
                   componentIri: "muniOperator",
                 },
+
                 annotation: groupedAnnotations as {
                   [x: string]: string | number | boolean;
                 }[],
@@ -251,11 +320,13 @@ export const CantonsComparisonRangePlot = memo(
             >
               <ChartContainer>
                 <ChartSvg>
+                  <RangeplotMedian label="CH Median" />
                   <Range id={year} />
                   <AxisWidthLinear position="top" />
                   <RangePoints />
                   <AnnotationX />
                   <AnnotationXDataPoint />
+                  <InteractionRows />
                 </ChartSvg>
                 <AnnotationXLabel />
               </ChartContainer>

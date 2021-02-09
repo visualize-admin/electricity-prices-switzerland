@@ -42,7 +42,6 @@ export const Label = ({
   <RebassLabel
     htmlFor={htmlFor}
     sx={{
-      width: "auto",
       color: disabled ? "monochrome600" : "monochrome700",
       fontSize: smaller ? [2, 2, 2] : [4, 4, 4],
       pb: smaller ? 1 : 0,
@@ -145,9 +144,13 @@ export const Select = ({
         borderColor: "monochrome500",
         fontSize: 4,
         bg: "monochrome100",
-        p: 2,
+        pt: 2,
+        pb: 2,
+        pl: 2,
+        pr: 5,
         height: "40px",
-        color: disabled ? "monochrome600" : "monochrome700",
+        color: disabled ? "monochrome500" : "monochrome700",
+        textOverflow: "ellipsis",
       }}
       id={id}
       name={id}

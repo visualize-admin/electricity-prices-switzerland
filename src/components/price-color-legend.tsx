@@ -95,7 +95,7 @@ export const PriceColorLegend = () => {
         zIndex: 13,
         borderRadius: "default",
         height: "fit-content",
-        px: 4,
+        pl: 4,
         py: 2,
       }}
     >

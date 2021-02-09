@@ -62,6 +62,7 @@ const InteractionStateReducer = (
           ...state.interaction,
           visible: false,
           mouse: undefined,
+          d: undefined,
         },
       };
 

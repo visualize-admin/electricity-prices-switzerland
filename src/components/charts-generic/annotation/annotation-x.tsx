@@ -4,7 +4,7 @@ import { GenericObservation } from "../../../domain/data";
 import { getLocalizedLabel } from "../../../domain/translation";
 import { useI18n } from "../../i18n-context";
 import { HistogramState } from "../histogram/histogram-state";
-import { RangePlotState } from "../rangeplot/rangeplot-state";
+import { DOT_RADIUS, RangePlotState } from "../rangeplot/rangeplot-state";
 import { useChartState } from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
 
@@ -46,12 +46,14 @@ export const AnnotationX = () => {
           const y1 = a.yLabel + annotationfontSize * a.nbOfLines;
           return (
             <React.Fragment key={i}>
-              <g>
+              <g transform={`translate(0, 0)`}>
                 <line
                   x1={x}
                   y1={y1}
                   x2={x}
-                  y2={a.y + margins.top}
+                  y2={
+                    a.y + margins.top + (margins.annotations ?? 0) + DOT_RADIUS
+                  }
                   stroke={annotationLineColor}
                 />
                 <line
@@ -90,11 +92,15 @@ export const AnnotationXDataPoint = () => {
         annotations.map((a, i) => {
           return (
             <React.Fragment key={i}>
-              <g transform={`translate(${margins.left}, 0)`}>
+              <g
+                transform={`translate(${margins.left}, ${
+                  margins.top + (margins.annotations ?? 0)
+                })`}
+              >
                 {/* Data Point indicator */}
                 <circle
                   cx={a.x}
-                  cy={a.y + margins.top}
+                  cy={a.y + DOT_RADIUS}
                   r={ANNOTATION_DOT_RADIUS}
                   fill={annotationColor}
                 />

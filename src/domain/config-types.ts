@@ -177,9 +177,18 @@ export type HistogramFields = t.TypeOf<typeof HistogramFields>;
 const RangePlotFields = t.intersection([
   t.type({
     x: GenericField,
-    y: GenericField,
+    y: t.intersection([
+      GenericField,
+      t.partial({
+        sorting: t.type({
+          sortingType: SortingType,
+          sortingOrder: SortingOrder,
+        }),
+      }),
+    ]),
     label: GenericField, // FIXME: Should label be part of "annotation" below?
   }),
+
   t.partial({ annotation: t.array(Observation) }),
 ]);
 

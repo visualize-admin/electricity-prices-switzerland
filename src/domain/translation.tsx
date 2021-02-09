@@ -79,8 +79,22 @@ export const getLocalizedLabel = ({
     case "CantonResult":
     case "canton":
       return i18n._(t("search.result.canton")`Kanton`);
-    case "cantons":
-      return i18n._(t("chart.annotation.cantons")`Kantone`);
+    case "median-asc":
+      return i18n._(
+        t("rangeplot.select.sorting.median-asc")`Median aufsteigend`
+      );
+    case "median-desc":
+      return i18n._(
+        t("rangeplot.select.sorting.median-desc")`Median absteigend`
+      );
+    case "alpha-asc":
+      return i18n._(
+        t("rangeplot.select.sorting.alpha-asc")`Alphabetisch aufsteigend`
+      );
+    case "alpha-desc":
+      return i18n._(
+        t("rangeplot.select.sorting.alpha-desc")`Alphabetisch absteigend`
+      );
 
     default:
       return id;
