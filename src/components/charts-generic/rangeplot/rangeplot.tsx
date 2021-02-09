@@ -22,7 +22,11 @@ export const Range = ({ id }: { id: string }) => {
 
   return (
     <>
-      <g transform={`translate(${margins.left} ${margins.top})`}>
+      <g
+        transform={`translate(${margins.left}, ${
+          margins.top + (margins.annotations ?? 0)
+        })`}
+      >
         {rangeGroups.map((row) => {
           const xMin = min(row[1], (d) => getX(d)) ?? 0;
           const xMax = max(row[1], (d) => getX(d));
@@ -48,12 +52,11 @@ export const Range = ({ id }: { id: string }) => {
                     </clipPath>
                     <g
                       key={row[0]}
-                      transform={`translate(0, ${
-                        (yScale(row[0]) as number) - DOT_RADIUS
-                      })`}
+                      transform={`translate(0, ${yScale(row[0]) as number})`}
                     >
                       <rect
                         x={0}
+                        y={0}
                         width={chartWidth}
                         height={DOT_RADIUS * 2}
                         fill="url(#priceRange)"
@@ -108,7 +111,11 @@ export const RangePoints = () => {
 
   return (
     <>
-      <g transform={`translate(${margins.left} ${margins.top})`}>
+      <g
+        transform={`translate(${margins.left}, ${
+          margins.top + (margins.annotations ?? 0)
+        })`}
+      >
         {rangeGroups.map((row) => {
           const xMin = min(row[1], (d) => getX(d));
           const m = median(row[1], (d) => getX(d));
@@ -119,7 +126,7 @@ export const RangePoints = () => {
               {cantonName === row[0] && (
                 <g
                   transform={`translate(${-margins.left}, ${
-                    (yScale(row[0]) as number) - DOT_RADIUS
+                    yScale(row[0]) as number
                   })`}
                 >
                   <rect
@@ -138,9 +145,7 @@ export const RangePoints = () => {
                 isNumber(yScale(row[0])) && (
                   <g
                     key={row[0]}
-                    transform={`translate(0, ${
-                      (yScale(row[0]) as number) - DOT_RADIUS
-                    })`}
+                    transform={`translate(0, ${yScale(row[0]) as number})`}
                   >
                     <circle
                       cx={xScale(xMin)}

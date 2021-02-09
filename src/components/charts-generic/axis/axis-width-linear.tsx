@@ -116,11 +116,15 @@ export const AxisWidthLinearTop = () => {
 
   return (
     <>
-      <g transform={`translate(${margins.left}, ${yScale.range()[0]})`}>
+      <g
+        transform={`translate(${margins.left}, ${
+          yScale.range()[0] + (margins.annotations ?? 0) + margins.top
+        })`}
+      >
         <text
           x={chartWidth + margins.right}
           y={0}
-          dy={labelFontSize}
+          dy={-labelFontSize * 2}
           fontSize={labelFontSize}
           textAnchor="end"
         >
@@ -131,7 +135,7 @@ export const AxisWidthLinearTop = () => {
         ref={xAxisRef}
         key="x-axis-linear"
         transform={`translate(${margins.left}, ${
-          yScale.range()[0] + margins.top / 2
+          yScale.range()[0] + (margins.annotations ?? 0) + margins.top
         })`}
       />
     </>

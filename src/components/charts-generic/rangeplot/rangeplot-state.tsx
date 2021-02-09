@@ -26,7 +26,7 @@ import { InteractionProvider } from "../use-interaction";
 import { Bounds, Observer, useWidth } from "../use-width";
 
 export const DOT_RADIUS = 8;
-export const SPACE_ABOVE = 8;
+export const INNER_PADDING = 0.2;
 
 export interface RangePlotState {
   bounds: Bounds;
@@ -97,7 +97,9 @@ const useRangePlotState = ({
               : descending(a[1], b[1])
           )
           .map((d) => d[0]);
-  const yScale = scaleBand<string>().domain(yDomain);
+  const yScale = scaleBand<string>()
+    .domain(yDomain)
+    .paddingInner(INNER_PADDING);
 
   const m = median(data, (d) => getX(d));
   const colorDomain = m
@@ -114,13 +116,6 @@ const useRangePlotState = ({
       : yScale.domain()[0],
     13
   );
-  const margins = {
-    top: 70,
-    right: 20,
-    bottom: BOTTOM_MARGIN_OFFSET,
-    left: left + LEFT_MARGIN_OFFSET,
-  };
-  const chartWidth = width - margins.left - margins.right;
 
   // Added space for annotations above the chart
   const annotationSpaces = annotation
@@ -133,23 +128,31 @@ const useRangePlotState = ({
         annotationfontSize,
       })
     : [{ height: 0, nbOfLines: 1 }];
-
+  console.log("annotationSpaces", annotationSpaces);
   const annotationSpace =
     annotationSpaces[annotationSpaces.length - 1].height || 0;
 
-  const chartHeight =
-    yDomain.length * (DOT_RADIUS * 2 + SPACE_ABOVE) + annotationSpace;
+  const margins = {
+    annotations: annotationSpace,
+    top: 40,
+    right: 20,
+    bottom: 50,
+    left: left + LEFT_MARGIN_OFFSET,
+  };
+  console.log(margins);
+  const chartWidth = width - margins.left - margins.right;
+  const chartHeight = yDomain.length * (DOT_RADIUS * 2 * (1 + INNER_PADDING));
 
   const bounds = {
     width,
-    height: chartHeight + margins.top + margins.bottom,
+    height: annotationSpace + margins.top + chartHeight + margins.bottom,
     margins,
     chartWidth,
     chartHeight,
   };
 
   xScale.range([0, chartWidth]);
-  yScale.range([annotationSpace, chartHeight]);
+  yScale.range([0, chartHeight]);
 
   // Group
   const rangeGroups = [...group(data, getY)];
@@ -165,7 +168,7 @@ const useRangePlotState = ({
           x: xScale(getX(datum)),
           y: yScale(getY(datum)) || 0,
           xLabel: xScale(getX(datum)),
-          yLabel: annotationSpaces[i + 1].height,
+          yLabel: annotationSpaces[i].height,
           nbOfLines: annotationSpaces[i + 1].nbOfLines,
           value: formatCurrency(getX(datum)),
           label: getLabel(datum),
