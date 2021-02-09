@@ -21,7 +21,7 @@
     "postversion": "git push origin master --follow-tags && git push origin master:test --force-with-lease",
     "e2e:dev": "CYPRESS_BASE_URL=http://localhost:3000 cypress open",
     "e2e": "start-test 'yarn dev -p 3333' 3333 'yarn cypress run'",
-    "heroku-postbuild": "yarn install --production=false && yarn build && yarn install --production"
+    "heroku-postbuild-DISABLED": "yarn install --production=false && yarn build && yarn install --production"
   },
   "dependencies": {
     "@babel/standalone": "^7.12.12",
