@@ -5,7 +5,7 @@ import { useInteraction } from "../use-interaction";
 import { DOT_RADIUS, RangePlotState } from "../rangeplot/rangeplot-state";
 import { isNumber } from "../../../domain/helpers";
 
-export const InteractionRows = ({ debug = false }: { debug: boolean }) => {
+export const InteractionRows = ({ debug = false }: { debug?: boolean }) => {
   const [, dispatch] = useInteraction();
 
   const {
