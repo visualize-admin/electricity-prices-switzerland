@@ -92,8 +92,8 @@ export const AxisWidthLinearTop = () => {
     g.call(
       axisTop(xScale)
         .tickValues(tickValues)
-        .tickSizeInner(-chartHeight - margins.bottom - margins.top / 2)
-        .tickSizeOuter(-chartHeight - margins.bottom - margins.top / 2)
+        .tickSizeInner(-chartHeight)
+        .tickSizeOuter(-chartHeight)
         .tickFormat(formatCurrency)
         .tickPadding(6)
     );
