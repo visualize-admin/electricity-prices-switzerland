@@ -59,7 +59,7 @@ export const Range = ({ id }: { id: string }) => {
                         y={0}
                         width={chartWidth}
                         height={DOT_RADIUS * 2}
-                        fill="url(#priceRange)"
+                        fill={`url(#priceRange-${id})`}
                         fillOpacity={0.3}
                         clipPath={`url(#${clipPathId})`}
                       />
@@ -71,7 +71,13 @@ export const Range = ({ id }: { id: string }) => {
         })}
       </g>
       <defs>
-        <linearGradient id="priceRange" x1="0%" y1="0%" x2="100%" y2="0%">
+        <linearGradient
+          id={`priceRange-${id}`}
+          x1="0%"
+          y1="0%"
+          x2="100%"
+          y2="0%"
+        >
           {colors.range().map((color, i) => {
             const normalized = normalize(
               colors.domain()[i],
