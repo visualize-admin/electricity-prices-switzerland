@@ -7,3 +7,5 @@ applications:
     instances: 1
     buildpacks:
       - nodejs_buildpack
+    env:
+      PUPPETEER_SKIP_DOWNLOAD: true
