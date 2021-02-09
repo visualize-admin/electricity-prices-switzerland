@@ -173,22 +173,6 @@ export const CantonsComparisonRangePlots = ({
               setSelectedItem={(co) => setQueryState({ cantonsOrder: [co] })}
               showLabel={true}
             />
-            {/* <Select
-              label={
-                <Trans id="rangeplot.select.order.hint">Sortieren nach</Trans>
-              }
-              id={"rangeplot-sorting-select"}
-              name={"rangeplot-sorting-select"}
-              value={cantonsOrder[0]}
-              disabled={false}
-              options={sortingValues.map((value) => ({
-                value,
-                label: getLocalizedLabel({ i18n, id: value }),
-              }))}
-              onChange={(e) =>
-                setQueryState({ cantonsOrder: [e.currentTarget.value] })
-              }
-            /> */}
 
             <PriceColorLegend />
           </Flex>
