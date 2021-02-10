@@ -1,4 +1,4 @@
-import { Trans } from "@lingui/macro";
+import { t } from "@lingui/macro";
 import { axisBottom, axisTop } from "d3-axis";
 import { select, Selection } from "d3-selection";
 import * as React from "react";
@@ -9,6 +9,7 @@ import { useChartTheme } from "../use-chart-theme";
 import { estimateTextWidth } from "../../../lib/estimate-text-width";
 import { useFormatNumber, useFormatCurrency } from "../../../domain/helpers";
 import { RangePlotState } from "../rangeplot/rangeplot-state";
+import { useI18n } from "../../i18n-context";
 
 export const AxisWidthLinear = ({ position }: { position: "top" | "bottom" }) =>
   position === "bottom" ? <AxisWidthLinearBottom /> : <AxisWidthLinearTop />;
@@ -76,6 +77,7 @@ export const AxisWidthLinearBottom = () => {
 };
 
 export const AxisWidthLinearTop = () => {
+  const i18n = useI18n();
   const formatCurrency = useFormatCurrency();
   const { xScale, yScale, bounds } = useChartState() as RangePlotState;
   const { chartWidth, chartHeight, margins } = bounds;
@@ -128,7 +130,7 @@ export const AxisWidthLinearTop = () => {
           fontSize={labelFontSize}
           textAnchor="end"
         >
-          <Trans id="chart.axis.unit.Rp/kWh">Rp./kWh</Trans>
+          {i18n._(t("chart.axis.unit.Rp/kWh")`Rp./kWh`)}
         </text>
       </g>
       <g

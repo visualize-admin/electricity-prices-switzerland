@@ -4,7 +4,7 @@ import { useChartState } from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
 import { HistogramState } from "./histogram-state";
 import { useFormatCurrency } from "../../../domain/helpers";
-import { Trans } from "@lingui/macro";
+import { t } from "@lingui/macro";
 import { getLocalizedLabel } from "../../../domain/translation";
 import { useI18n } from "../../i18n-context";
 
@@ -58,7 +58,7 @@ export const HistogramMinMaxValues = () => {
               textAnchor: "start",
             }}
           >
-            <Trans id="histogram.min">Min</Trans>
+            {i18n._(t("histogram.min")`Min`)}
           </text>
         </g>
       )}
@@ -90,7 +90,7 @@ export const HistogramMinMaxValues = () => {
               textAnchor: "end",
             }}
           >
-            <Trans id="histogram.max">Max</Trans>
+            {i18n._(t("histogram.max")`Max`)}
           </text>
         </g>
       )}
