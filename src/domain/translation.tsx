@@ -9,6 +9,12 @@ export const getLocalizedLabel = ({
   id: string;
 }): string => {
   switch (id) {
+    case "collapsed":
+      return i18n._(
+        t("priceComponents.view.collapsed")`Zusammengefasste Ansicht`
+      );
+    case "expanded":
+      return i18n._(t("priceComponents.view.expanded")`Erweiterte Ansicht`);
     case "unit":
       return i18n._(t("chart.axis.unit.Rp/kWh")`Rp./kWh`);
     case "standard":
