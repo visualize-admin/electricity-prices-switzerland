@@ -150,6 +150,7 @@ const STYLES = {
       },
     },
     inactive: {
+      cursor: "pointer",
       display: "block",
       color: "secondary",
       bg: "monochrome200",
