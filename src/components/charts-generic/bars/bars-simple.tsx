@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useTheme } from "../../../themes";
-import { BAR_AXIS_OFFSET, BAR_HEIGHT, BAR_SPACE_ON_TOP } from "../constants";
+import { BAR_HEIGHT } from "../constants";
 import { useChartState } from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
 import { BarsState } from "./bars-state";
@@ -32,14 +32,14 @@ export const Bars = () => {
             <g transform={`translate(0, ${yScale(getY(d))})`} key={i}>
               <line
                 x1={0}
-                y1={BAR_SPACE_ON_TOP - BAR_AXIS_OFFSET * 2}
+                y1={0}
                 x2={0}
                 y2={yScale.bandwidth()}
                 stroke={domainColor}
               />
               <text
                 x={0}
-                y={BAR_SPACE_ON_TOP * (1 / 2)}
+                y={0}
                 style={{
                   fontFamily,
                   fill: labelColor,
@@ -52,7 +52,7 @@ export const Bars = () => {
                 key={i}
                 x={0}
                 width={xScale(getX(d))}
-                y={BAR_SPACE_ON_TOP - BAR_AXIS_OFFSET}
+                y={0}
                 height={BAR_HEIGHT}
                 color={
                   getX(d) <= 0 ? theme.colors.secondary : theme.colors.primary

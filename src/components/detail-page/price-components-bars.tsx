@@ -15,6 +15,7 @@ import { useLocale } from "../../lib/use-locale";
 import { useQueryState } from "../../lib/use-query-state";
 import {
   BarsGrouped,
+  BarsGroupedAxis,
   BarsGroupedLabels,
 } from "../charts-generic/bars/bars-grouped";
 import { GroupedBarsChart } from "../charts-generic/bars/bars-grouped-state";
@@ -242,6 +243,7 @@ export const PriceComponentsBarChart = ({
                       componentIri: "value",
                       domain: xDomain,
                     },
+                    // Y is not used in the chart state...
                     y: {
                       componentIri: "priceComponent",
                       sorting: {
@@ -282,6 +284,9 @@ export const PriceComponentsBarChart = ({
                   <ChartContainer>
                     <ChartSvg>
                       <BarsGrouped />
+                      <BarsGroupedAxis
+                        title={getLocalizedLabel({ i18n, id: pc[0] as string })}
+                      />
                       <BarsGroupedLabels />
                     </ChartSvg>
                   </ChartContainer>
