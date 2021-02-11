@@ -36,8 +36,8 @@ export interface GroupedBarsState {
   getX: (d: GenericObservation) => number;
   xScale: ScaleLinear<number, number>;
   getY: (d: GenericObservation) => string;
-  yScale: ScaleBand<string>;
-  yScaleIn: ScaleBand<string>;
+  // yScale: ScaleBand<string>;
+  yScaleCollapsed: ScaleBand<string>;
   getSegment: (d: GenericObservation) => string;
   getLabel: (d: GenericObservation) => string;
   getColor: (d: GenericObservation) => string;
@@ -94,31 +94,7 @@ const useGroupedBarsState = ({
     [fields.style]
   );
 
-  // Sort
-  const ySortingType = fields.y.sorting?.sortingType;
-  const ySortingOrder = fields.y.sorting?.sortingOrder;
-
-  const yOrder = [
-    ...rollup(
-      data,
-      (v) => sum(v, (x) => getX(x)),
-      (x) => getY(x)
-    ),
-  ]
-    .sort((a, b) => ascending(a[1], b[1]))
-    .map((d) => d[0]);
-
-  const sortedData = useMemo(
-    () =>
-      sortData({
-        data,
-        getY,
-        ySortingType,
-        ySortingOrder,
-        yOrder,
-      }),
-    [data, getX, ySortingType, ySortingOrder, yOrder]
-  );
+  const sortedData = data;
 
   // segments ordered
   const segments = sortedData
@@ -130,7 +106,7 @@ const useGroupedBarsState = ({
         descending(getX(a), getX(b))
     )
     .map((d) => getSegment(d));
-
+  // console.log("segments", segments);
   // Colors (shouldn't be segments!)
   const colorDomain = fields.style?.colorDomain
     ? fields.style?.colorDomain
@@ -158,13 +134,12 @@ const useGroupedBarsState = ({
   const grouped = [...groupedMap];
 
   // y
-  const bandDomain = [...new Set(sortedData.map((d) => getY(d) as string))];
-  const chartHeight =
-    bandDomain.length * (BAR_HEIGHT * segments.length + BAR_SPACE_ON_TOP);
+  // const bandDomain = [...new Set(sortedData.map((d) => getY(d) as string))];
+  const chartHeight = BAR_HEIGHT * segments.length + BAR_SPACE_ON_TOP;
 
-  const yScale = scaleBand<string>().domain(bandDomain).range([0, chartHeight]);
+  // const yScale = scaleBand<string>().domain(bandDomain).range([0, chartHeight]);
 
-  const yScaleIn = scaleBand()
+  const yScaleCollapsed = scaleBand()
     .domain(segments)
     .range([0, BAR_HEIGHT * segments.length]);
 
@@ -203,8 +178,8 @@ const useGroupedBarsState = ({
     getX,
     xScale,
     getY,
-    yScale,
-    yScaleIn,
+    // yScale,
+    yScaleCollapsed,
     getSegment,
     getLabel,
     getColor,
