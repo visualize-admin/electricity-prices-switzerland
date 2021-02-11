@@ -15,11 +15,8 @@ import {
   getAnnotationSpaces,
 } from "../../../domain/helpers";
 import { estimateTextWidth } from "../../../lib/estimate-text-width";
-import {
-  Annotation,
-  ANNOTATION_LABEL_HEIGHT,
-} from "../annotation/annotation-x";
-import { BOTTOM_MARGIN_OFFSET, LEFT_MARGIN_OFFSET } from "../constants";
+import { Annotation } from "../annotation/annotation-x";
+import { LEFT_MARGIN_OFFSET } from "../constants";
 import { ChartContext, ChartProps } from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
 import { InteractionProvider } from "../use-interaction";
@@ -128,7 +125,7 @@ const useRangePlotState = ({
         annotationfontSize,
       })
     : [{ height: 0, nbOfLines: 1 }];
-  console.log("annotationSpaces", annotationSpaces);
+
   const annotationSpace =
     annotationSpaces[annotationSpaces.length - 1].height || 0;
 
@@ -139,7 +136,7 @@ const useRangePlotState = ({
     bottom: 50,
     left: left + LEFT_MARGIN_OFFSET,
   };
-  console.log(margins);
+
   const chartWidth = width - margins.left - margins.right;
   const chartHeight = yDomain.length * (DOT_RADIUS * 2 * (1 + INNER_PADDING));
 

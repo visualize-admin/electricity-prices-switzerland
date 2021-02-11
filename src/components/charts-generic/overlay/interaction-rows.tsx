@@ -27,7 +27,7 @@ export const InteractionRows = ({ debug = false }: { debug?: boolean }) => {
       type: "INTERACTION_HIDE",
     });
   };
-  console.log(margins);
+
   return (
     <>
       <g
