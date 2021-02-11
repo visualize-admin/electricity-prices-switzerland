@@ -57,7 +57,7 @@ export const BarsGroupedAxis = ({
           x2={0}
           y2={margins.top + chartHeight}
           stroke={domainColor}
-          strokeWidth={3}
+          strokeWidth={2}
         />
         {/* Price Component Title: */}
         <text
