@@ -1,6 +1,7 @@
 import { Trans } from "@lingui/macro";
 import { group, groups, min, max } from "d3-array";
 import * as React from "react";
+import { useState } from "react";
 import { Entity, GenericObservation, priceComponents } from "../../domain/data";
 import { pivot_longer, mkNumber } from "../../domain/helpers";
 import { getLocalizedLabel } from "../../domain/translation";
@@ -8,6 +9,7 @@ import {
   ObservationType,
   useObservationsWithAllPriceComponentsQuery,
 } from "../../graphql/queries";
+import { PriceComponent } from "../../graphql/resolver-types";
 import { EMPTY_ARRAY } from "../../lib/empty-array";
 import { useLocale } from "../../lib/use-locale";
 import { useQueryState } from "../../lib/use-query-state";
@@ -19,12 +21,14 @@ import { GroupedBarsChart } from "../charts-generic/bars/bars-grouped-state";
 import { ChartContainer, ChartSvg } from "../charts-generic/containers";
 import { Loading, NoDataHint } from "../hint";
 import { useI18n } from "../i18n-context";
+import { RadioTabs } from "../radio-tabs";
 import { Card } from "./card";
 import { Download } from "./download-image";
 import { FilterSetDescription } from "./filter-set-description";
 import { WithClassName } from "./with-classname";
 
 const DOWNLOAD_ID: Download = "components";
+export const EXPANDED_TAG = "expanded";
 
 export const PriceComponentsBarChart = ({
   id,
@@ -39,7 +43,7 @@ export const PriceComponentsBarChart = ({
   const [
     { period, category, municipality, operator, canton, product },
   ] = useQueryState();
-
+  const [view, setView] = useState("collapsed");
   const comparisonIds =
     entity === "municipality"
       ? municipality
@@ -72,7 +76,7 @@ export const PriceComponentsBarChart = ({
 
   const withUniqueEntityId = observations.map((obs) => ({
     uniqueId:
-      obs.__typename === "MedianObservation"
+      obs.__typename === "MedianObservation" // canton
         ? `${obs.period}, ${obs.cantonLabel}`
         : `${obs.period}, ${obs.operatorLabel}, ${obs.municipalityLabel}`,
     ...obs,
@@ -103,6 +107,22 @@ export const PriceComponentsBarChart = ({
       id={id}
       entity={entity}
     >
+      <RadioTabs
+        name="price-components-bars-view-switch"
+        options={[
+          {
+            value: "collapsed",
+            label: getLocalizedLabel({ i18n, id: "collapsed" }),
+          },
+          {
+            value: "expanded",
+            label: getLocalizedLabel({ i18n, id: "expanded" }),
+          },
+        ]}
+        value={view}
+        setValue={setView}
+        variant="segmented"
+      />
       <FilterSetDescription
         filters={{
           category: category[0],
@@ -123,40 +143,96 @@ export const PriceComponentsBarChart = ({
               (d: GenericObservation) => d.value
             );
 
-            const observations = grouped.flatMap((year: $FixMe) =>
-              year[1].flatMap((ent: $FixMe) =>
-                ent[1].flatMap((value: $FixMe) =>
-                  value[1].length === 1
-                    ? { ...value[1][0], label: value[1][0].uniqueId }
-                    : {
-                        priceComponent: pc[0],
-                        value: value[0],
-                        number: value[1].length,
-                        [entity]: value[1][0][entity],
-                        period: value[1][0].period,
-                        uniqueId: `${pc[0]}${value[1][0].period}${value[1][0].operatorLabel}${value[1][0].municipalityLabel}${value[1].length}`,
-                        label:
-                          entity === "canton"
-                            ? `${value[1][0].period}, ${
-                                value[1].length
-                              } ${getLocalizedLabel({
-                                i18n,
-                                id: "cantons",
-                              })}`
-                            : `${value[1][0].period}, ${
-                                value[1][0].operatorLabel
-                              }, ${value[1].length} ${getLocalizedLabel({
-                                i18n,
-                                id:
-                                  entity === "operator"
-                                    ? "municipalities"
-                                    : "operators",
-                              })}`,
-                        entities: value[1],
-                      }
-                )
-              )
-            );
+            const observations =
+              view === "collapsed"
+                ? grouped.flatMap((year) =>
+                    year[1].flatMap((ent) =>
+                      ent[1].flatMap((value) =>
+                        value[1].length === 1
+                          ? { ...value[1][0], label: value[1][0].uniqueId }
+                          : {
+                              priceComponent: pc[0],
+                              value: value[0],
+                              [entity]: value[1][0][entity],
+                              period: value[1][0].period,
+                              uniqueId: `${pc[0]}${value[1][0].period}${value[1][0].operatorLabel}${value[1][0].municipalityLabel}${value[1].length}`,
+                              label:
+                                entity === "canton"
+                                  ? `${value[1][0].period}, ${
+                                      value[1].length
+                                    } ${getLocalizedLabel({
+                                      i18n,
+                                      id: "cantons",
+                                    })}`
+                                  : `${value[1][0].period}, ${
+                                      value[1][0].operatorLabel
+                                    }, ${value[1].length} ${getLocalizedLabel({
+                                      i18n,
+                                      id:
+                                        entity === "operator"
+                                          ? "municipalities"
+                                          : "operators",
+                                    })}`,
+                              entities: value[1],
+                            }
+                      )
+                    )
+                  )
+                : grouped.flatMap((year) =>
+                    year[1].flatMap((ent) =>
+                      ent[1].flatMap((value) => {
+                        if (value[1].length === 1) {
+                          return {
+                            ...value[1][0],
+                            label: value[1][0].uniqueId,
+                          };
+                        } else {
+                          const singleEntities = value[1].flatMap((d) => ({
+                            priceComponent: pc[0],
+                            value: d.value,
+                            [entity]: d[entity],
+                            period: d.period,
+                            uniqueId: `${pc[0]}${d.period}${d.operatorLabel}${d.municipalityLabel}${value[1].length}${EXPANDED_TAG}`,
+                            label:
+                              entity === "municipality"
+                                ? d.operatorLabel
+                                : d.municipalityLabel,
+                          }));
+                          const groupPlusSingleValues = [
+                            {
+                              priceComponent: pc[0],
+                              value: value[0],
+                              [entity]: value[1][0][entity],
+                              period: value[1][0].period,
+                              uniqueId: `${pc[0]}${value[1][0].period}${value[1][0].operatorLabel}${value[1][0].municipalityLabel}${value[1].length}`,
+                              label:
+                                entity === "canton"
+                                  ? `${value[1][0].period}, ${
+                                      value[1].length
+                                    } ${getLocalizedLabel({
+                                      i18n,
+                                      id: "cantons",
+                                    })}`
+                                  : `${value[1][0].period}, ${
+                                      value[1][0].operatorLabel
+                                    }, ${value[1].length} ${getLocalizedLabel({
+                                      i18n,
+                                      id:
+                                        entity === "operator"
+                                          ? "municipalities"
+                                          : "operators",
+                                    })}`,
+                              entities: value[1],
+                            },
+                            ...singleEntities,
+                          ];
+
+                          return groupPlusSingleValues;
+                        }
+                      })
+                    )
+                  );
+
             return (
               <React.Fragment key={i}>
                 <GroupedBarsChart
