@@ -106,7 +106,8 @@ export const PriceComponentsBarChart = ({
   const colorDomain = [...new Set(pivoted.map((p) => p[entity]))] as string[];
   const opacityDomain = [...new Set(pivoted.map((p) => p.period))] as string[];
 
-  const getItemLabel = (id: string) => getLocalizedLabel({ i18n, id });
+  const getItemLabel = (id: string) =>
+    getLocalizedLabel({ i18n, id: `${id}-${entity}` });
 
   return (
     <Card
@@ -127,11 +128,11 @@ export const PriceComponentsBarChart = ({
               options={[
                 {
                   value: "collapsed",
-                  label: getLocalizedLabel({ i18n, id: "collapsed" }),
+                  label: getLocalizedLabel({ i18n, id: `collapsed-${entity}` }),
                 },
                 {
                   value: "expanded",
-                  label: getLocalizedLabel({ i18n, id: "expanded" }),
+                  label: getLocalizedLabel({ i18n, id: `expanded-${entity}` }),
                 },
               ]}
               value={view}

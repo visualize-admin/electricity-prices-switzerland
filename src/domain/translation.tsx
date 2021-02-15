@@ -9,11 +9,19 @@ export const getLocalizedLabel = ({
   id: string;
 }): string => {
   switch (id) {
-    case "collapsed":
+    case "collapsed-operator":
       return i18n._(t("priceComponents.view.collapsed")`Gemeinden gruppieren`);
-    case "expanded":
+    case "expanded-operator":
       return i18n._(
         t("priceComponents.view.expanded")`Einzelne Gemeinden anzeigen`
+      );
+    case "collapsed-municipality":
+      return i18n._(
+        t("priceComponents.view.collapsed")`Netzbetreiber gruppieren`
+      );
+    case "expanded-municipality":
+      return i18n._(
+        t("priceComponents.view.expanded")`Einzelne Netzbetreiber anzeigen`
       );
     case "unit":
       return i18n._(t("chart.axis.unit.Rp/kWh")`Rp./kWh`);
