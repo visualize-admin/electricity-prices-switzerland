@@ -167,7 +167,7 @@ const PriceEvolutionLineCharts = memo(
                         // colorMapping. sadly, we can't use colorMapping here because colors should not match segment values
                       }
                     : undefined,
-                  // This field doesn't respect the chart system and context
+                  // This field doesn't respect the same chart system and context as Prisma
                   style: {
                     entity,
                     colorDomain,

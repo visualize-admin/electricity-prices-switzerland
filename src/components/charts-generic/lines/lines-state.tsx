@@ -120,7 +120,7 @@ const useLinesState = ({
     measures.find((d) => d.iri === fields.x.componentIri)?.label ??
     fields.x.componentIri;
   // y
-  const minValue = Math.min(mkNumber(min(sortedData, getY)), 0);
+  const minValue = min(sortedData, getY) || 0;
   const maxValue = max(sortedData, getY) as number;
   const yDomain = [minValue, maxValue];
 
