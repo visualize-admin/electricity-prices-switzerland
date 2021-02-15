@@ -2,6 +2,7 @@ import { Trans } from "@lingui/macro";
 import { group, groups, min, max } from "d3-array";
 import * as React from "react";
 import { useState } from "react";
+import { Box } from "theme-ui";
 import { Entity, GenericObservation, priceComponents } from "../../domain/data";
 import { pivot_longer, mkNumber } from "../../domain/helpers";
 import { getLocalizedLabel } from "../../domain/translation";
@@ -20,6 +21,7 @@ import {
 } from "../charts-generic/bars/bars-grouped";
 import { GroupedBarsChart } from "../charts-generic/bars/bars-grouped-state";
 import { ChartContainer, ChartSvg } from "../charts-generic/containers";
+import { Combobox } from "../combobox";
 import { Loading, NoDataHint } from "../hint";
 import { useI18n } from "../i18n-context";
 import { RadioTabs } from "../radio-tabs";
@@ -99,6 +101,8 @@ export const PriceComponentsBarChart = ({
   const colorDomain = [...new Set(pivoted.map((p) => p[entity]))] as string[];
   const opacityDomain = [...new Set(pivoted.map((p) => p.period))] as string[];
 
+  const getItemLabel = (id: string) => getLocalizedLabel({ i18n, id });
+
   return (
     <Card
       title={
@@ -108,22 +112,35 @@ export const PriceComponentsBarChart = ({
       id={id}
       entity={entity}
     >
-      <RadioTabs
-        name="price-components-bars-view-switch"
-        options={[
-          {
-            value: "collapsed",
-            label: getLocalizedLabel({ i18n, id: "collapsed" }),
-          },
-          {
-            value: "expanded",
-            label: getLocalizedLabel({ i18n, id: "expanded" }),
-          },
-        ]}
-        value={view}
-        setValue={setView}
-        variant="segmented"
-      />
+      <Box sx={{ display: ["none", "none", "block"], maxWidth: "fit-content" }}>
+        <RadioTabs
+          name="price-components-bars-view-switch"
+          options={[
+            {
+              value: "collapsed",
+              label: getLocalizedLabel({ i18n, id: "collapsed" }),
+            },
+            {
+              value: "expanded",
+              label: getLocalizedLabel({ i18n, id: "expanded" }),
+            },
+          ]}
+          value={view}
+          setValue={setView}
+          variant="segmented"
+        />
+      </Box>
+      <Box sx={{ display: ["block", "block", "none"] }}>
+        <Combobox
+          id="price-components-bars-view-dropdown"
+          label={""}
+          items={["collapsed", "expanded"]}
+          getItemLabel={getItemLabel}
+          selectedItem={view}
+          setSelectedItem={setView}
+          showLabel={false}
+        />
+      </Box>
       <FilterSetDescription
         filters={{
           category: category[0],
