@@ -140,7 +140,7 @@ export const BarsGroupedLabels = () => {
             x={0}
             y={yScale(getSegment(d)) as number}
             dx={6}
-            dy={labelFontSize * 1.5}
+            dy={labelFontSize * 1.3}
           >
             {!getSegment(d).includes(EXPANDED_TAG) && (
               <>
