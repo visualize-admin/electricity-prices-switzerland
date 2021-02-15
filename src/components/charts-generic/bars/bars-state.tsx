@@ -20,7 +20,6 @@ import {
   BAR_HEIGHT,
   BOTTOM_MARGIN_OFFSET,
   LEFT_MARGIN_OFFSET,
-  BAR_SPACE_ON_TOP,
 } from "../constants";
 import { ChartContext, ChartProps } from "../use-chart-state";
 import { InteractionProvider } from "../use-interaction";
@@ -87,7 +86,7 @@ const useBarsState = ({
   // y
   const bandDomain = [...new Set(sortedData.map((d) => getY(d)))];
 
-  const chartHeight = bandDomain.length * (BAR_HEIGHT + BAR_SPACE_ON_TOP);
+  const chartHeight = bandDomain.length * BAR_HEIGHT;
   const yScale = scaleBand<string>().domain(bandDomain).range([0, chartHeight]);
 
   const margins = {

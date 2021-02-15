@@ -18,6 +18,7 @@ const queryStateKeys = [
   "product",
   "download",
   "cantonsOrder",
+  "view",
 ] as const;
 
 const queryStateDefaults = {
@@ -31,6 +32,7 @@ const queryStateDefaults = {
   canton: undefined,
   download: undefined,
   cantonsOrder: "median-asc",
+  view: "collapsed",
 } as const;
 
 type QueryState = {
@@ -44,6 +46,7 @@ type QueryState = {
   product: string[];
   download?: string[];
   cantonsOrder: string[];
+  view: string[];
 };
 
 // e.g. /de/municipality/4096?municipality=261&period=2020&period=2019
@@ -98,6 +101,7 @@ type QueryStateSingle = {
   product: string;
   download?: string;
   cantonsOrder: string;
+  view: string;
 };
 
 export const useQueryStateSingle = () => {

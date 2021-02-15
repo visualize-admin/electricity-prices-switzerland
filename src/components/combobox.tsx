@@ -1,9 +1,10 @@
-import { Trans } from "@lingui/macro";
+import { t } from "@lingui/macro";
 import { useCombobox, useMultipleSelection } from "downshift";
 import { ReactNode, useState, useEffect } from "react";
 import { Box, Button, Flex, Input, Text } from "theme-ui";
 import { Icon } from "../icons";
 import { Label } from "./form";
+import { useI18n } from "./i18n-context";
 import { InfoDialogButton } from "./info-dialog";
 
 export type ComboboxMultiProps = {
@@ -35,6 +36,7 @@ export const ComboboxMulti = ({
   isLoading,
 }: ComboboxMultiProps) => {
   const [inputValue, setInputValue] = useState("");
+  const i18n = useI18n();
 
   const canRemoveItems = selectedItems.length > minSelectedItems;
 
@@ -255,7 +257,7 @@ export const ComboboxMulti = ({
               m: 0,
             }}
           >
-            <Trans id="combobox.isloading">Resultate laden …</Trans>
+            {i18n._(t("combobox.isloading")`Resultate laden …`)}
           </Text>
         ) : isOpen && !isLoading && getFilteredItems(items).length === 0 ? (
           <Text
@@ -268,9 +270,9 @@ export const ComboboxMulti = ({
             }}
           >
             {inputValue === "" && lazy ? (
-              <Trans id="combobox.prompt">Bezeichnung eingeben …</Trans>
+              <>{i18n._(t("combobox.prompt")`Bezeichnung eingeben …`)}</>
             ) : (
-              <Trans id="combobox.noitems">Keine Einträge</Trans>
+              <>{i18n._(t("combobox.noitems")`Keine Einträge`)}</>
             )}
           </Text>
         ) : isOpen && !isLoading ? (
@@ -314,6 +316,8 @@ export const Combobox = ({
   showLabel?: boolean;
   infoDialogSlug?: string;
 }) => {
+  const i18n = useI18n();
+
   const [inputValue, setInputValue] = useState(getItemLabel(selectedItem));
 
   const getFilteredItems = () => {
@@ -495,7 +499,7 @@ export const Combobox = ({
               m: 0,
             }}
           >
-            <Trans id="combobox.noitems">Keine Einträge</Trans>
+            {i18n._(t("combobox.noitems")`Keine Einträge`)}
           </Box>
         )}
       </Box>

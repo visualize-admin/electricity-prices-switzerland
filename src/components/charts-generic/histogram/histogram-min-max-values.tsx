@@ -4,7 +4,7 @@ import { useChartState } from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
 import { HistogramState } from "./histogram-state";
 import { useFormatCurrency } from "../../../domain/helpers";
-import { Trans } from "@lingui/macro";
+import { t } from "@lingui/macro";
 import { getLocalizedLabel } from "../../../domain/translation";
 import { useI18n } from "../../i18n-context";
 
@@ -38,7 +38,8 @@ export const HistogramMinMaxValues = () => {
         >
           <text
             x={0}
-            y={bounds.chartHeight + 16}
+            y={bounds.chartHeight + margins.bottom * 0.1}
+            dy={labelFontSize}
             style={{
               fontFamily,
               fill: domainColor,
@@ -50,7 +51,8 @@ export const HistogramMinMaxValues = () => {
           </text>
           <text
             x={0}
-            y={bounds.chartHeight + 32}
+            y={bounds.chartHeight + margins.bottom * 0.1}
+            dy={labelFontSize * 2.4}
             style={{
               fontFamily,
               fill: labelColor,
@@ -58,7 +60,7 @@ export const HistogramMinMaxValues = () => {
               textAnchor: "start",
             }}
           >
-            <Trans id="histogram.min">Min</Trans>
+            {i18n._(t("histogram.min")`Min`)}
           </text>
         </g>
       )}
@@ -70,7 +72,8 @@ export const HistogramMinMaxValues = () => {
         >
           <text
             x={0}
-            y={bounds.chartHeight + 16}
+            y={bounds.chartHeight + margins.bottom * 0.1}
+            dy={labelFontSize}
             style={{
               fontFamily,
               fill: domainColor,
@@ -82,7 +85,8 @@ export const HistogramMinMaxValues = () => {
           </text>
           <text
             x={0}
-            y={bounds.chartHeight + 32}
+            y={bounds.chartHeight + margins.bottom * 0.1}
+            dy={labelFontSize * 2.4}
             style={{
               fontFamily,
               fill: labelColor,
@@ -90,7 +94,7 @@ export const HistogramMinMaxValues = () => {
               textAnchor: "end",
             }}
           >
-            <Trans id="histogram.max">Max</Trans>
+            {i18n._(t("histogram.max")`Max`)}
           </text>
         </g>
       )}

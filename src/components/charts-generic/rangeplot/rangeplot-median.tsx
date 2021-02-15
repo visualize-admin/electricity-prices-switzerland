@@ -59,7 +59,7 @@ export const RangeplotMedian = ({ label }: { label: string }) => {
           <text
             x={xScale(m)}
             y={bounds.chartHeight + margins.bottom * 0.2}
-            dy={labelFontSize * 2}
+            dy={labelFontSize * 2.4}
             style={{
               fontFamily,
               fill: labelColor,

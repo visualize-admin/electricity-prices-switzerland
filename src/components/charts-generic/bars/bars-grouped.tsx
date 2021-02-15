@@ -1,32 +1,24 @@
 import * as React from "react";
 import { useFormatCurrency } from "../../../domain/helpers";
 import { getLocalizedLabel } from "../../../domain/translation";
+import { EXPANDED_TAG } from "../../detail-page/price-components-bars";
 import { useI18n } from "../../i18n-context";
-import { BAR_AXIS_OFFSET, BAR_SPACE_ON_TOP } from "../constants";
 import { useChartState } from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
 import { GroupedBarsState } from "./bars-grouped-state";
 import { Bar } from "./bars-simple";
 
-export const BarsGrouped = () => {
-  const {
-    bounds,
-    xScale,
-    yScaleIn,
-    getX,
-    getY,
-    yScale,
-    getSegment,
-    getColor,
-    getOpacity,
-    colors,
-    opacityScale,
-    grouped,
-  } = useChartState() as GroupedBarsState;
-  const { margins } = bounds;
+export const BarsGroupedAxis = ({
+  title,
+  debug = false,
+}: {
+  title: string;
+  debug?: boolean;
+}) => {
+  const { bounds } = useChartState() as GroupedBarsState;
+  const { margins, chartWidth, chartHeight } = bounds;
   const {
     domainColor,
-    markBorderColor,
     axisLabelFontSize,
     axisLabelFontWeight,
     axisLabelColor,
@@ -35,62 +27,99 @@ export const BarsGrouped = () => {
   const i18n = useI18n();
 
   return (
+    <>
+      {debug && (
+        <>
+          <rect
+            x={0}
+            y={0}
+            width={margins.left + chartWidth + margins.right}
+            height={margins.top}
+            fill={"hotpink"}
+            fillOpacity={0.3}
+            stroke={"hotpink"}
+          />
+          <rect
+            x={0}
+            y={margins.top}
+            width={margins.left + chartWidth + margins.right}
+            height={chartHeight}
+            fill={"LightSeaGreen"}
+            fillOpacity={0.3}
+            stroke={"LightSeaGreen"}
+          />
+        </>
+      )}
+      <g transform={`translate(${margins.left}, 0)`}>
+        <line
+          x1={0}
+          y1={margins.top}
+          x2={0}
+          y2={margins.top + chartHeight}
+          stroke={domainColor}
+          strokeWidth={2}
+        />
+        {/* Price Component Title: */}
+        <text
+          x={0}
+          y={margins.top}
+          dy={-axisLabelFontSize}
+          fontSize={axisLabelFontSize}
+          fontWeight={axisLabelFontWeight}
+          fill={axisLabelColor}
+        >
+          {title}
+        </text>
+      </g>
+    </>
+  );
+};
+export const BarsGrouped = () => {
+  const {
+    sortedData,
+    bounds,
+    xScale,
+    yScale,
+    getX,
+    getSegment,
+    getColor,
+    getOpacity,
+    colors,
+    opacityScale,
+  } = useChartState() as GroupedBarsState;
+  const { margins } = bounds;
+  const { markBorderColor } = useChartTheme();
+
+  return (
     <g transform={`translate(${margins.left} ${margins.top})`}>
-      {grouped.map((segment, i) => {
-        return (
-          <g
-            key={`${segment[0]}-${i}`}
-            transform={`translate(0, ${yScale(segment[0])})`}
-          >
-            <g
-              transform={`translate(0, ${BAR_SPACE_ON_TOP - BAR_AXIS_OFFSET})`}
-            >
-              {segment[1].map((d, i) => (
-                <Bar
-                  key={i}
-                  y={yScaleIn(getSegment(d)) as number}
-                  x={0}
-                  width={xScale(Math.max(0, getX(d)))}
-                  height={yScaleIn.bandwidth()}
-                  color={colors(getColor(d))}
-                  fillOpacity={opacityScale(getOpacity(d))}
-                  stroke={markBorderColor}
-                />
-              ))}
-            </g>
-            <line
-              x1={0}
-              y1={BAR_SPACE_ON_TOP - BAR_AXIS_OFFSET * 2}
-              x2={0}
-              y2={yScale.bandwidth()}
-              stroke={domainColor}
-            />
-            <text
-              x={0}
-              y={BAR_SPACE_ON_TOP * (1 / 2)}
-              fontSize={axisLabelFontSize}
-              fontWeight={axisLabelFontWeight}
-              fill={axisLabelColor}
-            >
-              {/* FIXME: the label shouldn't be localized here */}
-              {getLocalizedLabel({ i18n, id: segment[0] })}
-            </text>
-          </g>
-        );
-      })}
+      {sortedData.map((d, i) => (
+        <Bar
+          key={i}
+          y={yScale(getSegment(d)) as number}
+          x={0}
+          width={
+            !getSegment(d).includes(EXPANDED_TAG)
+              ? xScale(Math.max(0, getX(d)))
+              : 0
+          }
+          height={yScale.bandwidth()}
+          color={colors(getColor(d))}
+          fillOpacity={opacityScale(getOpacity(d))}
+          stroke={markBorderColor}
+        />
+      ))}
     </g>
   );
 };
 
 export const BarsGroupedLabels = () => {
   const {
+    sortedData,
     bounds,
-    yScaleIn,
-    getX,
     yScale,
+    getX,
     getSegment,
     getLabel,
-    grouped,
   } = useChartState() as GroupedBarsState;
   const { margins } = bounds;
   const { axisLabelColor, labelFontSize, fontFamily } = useChartTheme();
@@ -99,37 +128,30 @@ export const BarsGroupedLabels = () => {
 
   return (
     <g transform={`translate(${margins.left} ${margins.top})`}>
-      {grouped.map((segment, i) => {
+      {sortedData.map((d, i) => {
         return (
-          <g
-            key={`${segment[0]}-${i}`}
-            transform={`translate(0, ${yScale(segment[0])})`}
+          <text
+            key={i}
+            style={{
+              fontFamily,
+              fill: axisLabelColor,
+              fontSize: labelFontSize,
+            }}
+            x={0}
+            y={yScale(getSegment(d)) as number}
+            dx={6}
+            dy={labelFontSize * 1.3}
           >
-            <g
-              transform={`translate(0, ${BAR_SPACE_ON_TOP - BAR_AXIS_OFFSET})`}
-            >
-              {segment[1].map((d, i) => (
-                <text
-                  key={i}
-                  style={{
-                    fontFamily,
-                    fill: axisLabelColor,
-                    fontSize: labelFontSize,
-                  }}
-                  x={0}
-                  y={yScaleIn(getSegment(d)) as number}
-                  dx={6}
-                  dy={labelFontSize * 1.5}
-                >
-                  <tspan fontWeight="bold">
-                    {formatCurrency(getX(d))}{" "}
-                    {getLocalizedLabel({ i18n, id: "unit" })}
-                  </tspan>{" "}
-                  {getLabel(d)}
-                </text>
-              ))}
-            </g>
-          </g>
+            {!getSegment(d).includes(EXPANDED_TAG) && (
+              <>
+                <tspan fontWeight="bold">
+                  {formatCurrency(getX(d))}{" "}
+                  {getLocalizedLabel({ i18n, id: "unit" })}
+                </tspan>{" "}
+              </>
+            )}
+            {getLabel(d)}
+          </text>
         );
       })}
     </g>

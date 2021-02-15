@@ -1,4 +1,4 @@
-import { ascending, descending, group, max, min, rollup, sum } from "d3-array";
+import { ascending, descending, max, min } from "d3-array";
 import {
   scaleBand,
   ScaleBand,
@@ -8,24 +8,16 @@ import {
   scaleOrdinal,
 } from "d3-scale";
 import * as React from "react";
-import { ReactNode, useCallback, useMemo } from "react";
-import {
-  BarFields,
-  SortingOrder,
-  SortingType,
-} from "../../../domain/config-types";
-import { GenericObservation, ObservationValue } from "../../../domain/data";
+import { ReactNode, useCallback } from "react";
+import { BarFields } from "../../../domain/config-types";
+import { GenericObservation } from "../../../domain/data";
 import {
   getOpacityRanges,
   getPalette,
   mkNumber,
 } from "../../../domain/helpers";
 import { sortByIndex } from "../../../lib/array";
-import {
-  BAR_HEIGHT,
-  BAR_SPACE_ON_TOP,
-  BOTTOM_MARGIN_OFFSET,
-} from "../constants";
+import { BAR_HEIGHT, BOTTOM_MARGIN_OFFSET } from "../constants";
 import { ChartContext, ChartProps } from "../use-chart-state";
 import { InteractionProvider } from "../use-interaction";
 import { Bounds, Observer, useWidth } from "../use-width";
@@ -35,9 +27,7 @@ export interface GroupedBarsState {
   bounds: Bounds;
   getX: (d: GenericObservation) => number;
   xScale: ScaleLinear<number, number>;
-  getY: (d: GenericObservation) => string;
   yScale: ScaleBand<string>;
-  yScaleIn: ScaleBand<string>;
   getSegment: (d: GenericObservation) => string;
   getLabel: (d: GenericObservation) => string;
   getColor: (d: GenericObservation) => string;
@@ -45,7 +35,6 @@ export interface GroupedBarsState {
   segments: string[];
   colors: ScaleOrdinal<string, string>;
   opacityScale: ScaleOrdinal<string, number>;
-  grouped: [string, Record<string, ObservationValue>[]][];
 }
 
 const useGroupedBarsState = ({
@@ -61,10 +50,7 @@ const useGroupedBarsState = ({
     (d: GenericObservation) => d[fields.x.componentIri] as number,
     [fields.x.componentIri]
   );
-  const getY = useCallback(
-    (d: GenericObservation) => d[fields.y.componentIri] as string,
-    [fields.y.componentIri]
-  );
+
   const getSegment = useCallback(
     (d: GenericObservation): string =>
       fields.segment && fields.segment.componentIri
@@ -94,42 +80,21 @@ const useGroupedBarsState = ({
     [fields.style]
   );
 
-  // Sort
-  const ySortingType = fields.y.sorting?.sortingType;
-  const ySortingOrder = fields.y.sorting?.sortingOrder;
-
-  const yOrder = [
-    ...rollup(
-      data,
-      (v) => sum(v, (x) => getX(x)),
-      (x) => getY(x)
-    ),
-  ]
-    .sort((a, b) => ascending(a[1], b[1]))
-    .map((d) => d[0]);
-
-  const sortedData = useMemo(
-    () =>
-      sortData({
-        data,
-        getY,
-        ySortingType,
-        ySortingOrder,
-        yOrder,
-      }),
-    [data, getX, ySortingType, ySortingOrder, yOrder]
-  );
-
   // segments ordered
-  const segments = sortedData
+  const segments = data
     .sort(
       (a, b) =>
         ascending(getColor(a), getColor(b)) ||
         descending(getOpacity(a), getOpacity(b)) ||
-        // ascending(a.municipality, b.municipality) ||
         descending(getX(a), getX(b))
     )
     .map((d) => getSegment(d));
+
+  const sortedData = sortByIndex({
+    data,
+    order: segments,
+    getCategory: getSegment,
+  });
 
   // Colors (shouldn't be segments!)
   const colorDomain = fields.style?.colorDomain
@@ -149,39 +114,16 @@ const useGroupedBarsState = ({
     .range(getOpacityRanges(opacityDomain.length));
 
   // x
-  const minValue = Math.min(mkNumber(min(sortedData, (d) => getX(d))), 0);
-  const maxValue = max(sortedData, (d) => getX(d)) as number;
   const xScale = scaleLinear().domain(fields.x.domain).nice();
 
-  // Group
-  const groupedMap = group(sortedData, getY);
-  const grouped = [...groupedMap];
-
-  // y
-  const bandDomain = [...new Set(sortedData.map((d) => getY(d) as string))];
-  const chartHeight =
-    bandDomain.length * (BAR_HEIGHT * segments.length + BAR_SPACE_ON_TOP);
-
-  const yScale = scaleBand<string>().domain(bandDomain).range([0, chartHeight]);
-
-  const yScaleIn = scaleBand()
+  const chartHeight = BAR_HEIGHT * segments.length;
+  const yScale = scaleBand()
     .domain(segments)
-    .range([0, BAR_HEIGHT * segments.length]);
-
-  // sort by segments
-  grouped.forEach((group) => {
-    return [
-      group[0],
-      sortByIndex({
-        data: group[1],
-        order: segments,
-        getCategory: getSegment,
-      }),
-    ];
-  });
+    .range([0, chartHeight])
+    .paddingOuter(0.1);
 
   const margins = {
-    top: 0,
+    top: 50,
     right: 40,
     bottom: BOTTOM_MARGIN_OFFSET,
     left: 0,
@@ -202,9 +144,7 @@ const useGroupedBarsState = ({
     bounds,
     getX,
     xScale,
-    getY,
     yScale,
-    yScaleIn,
     getSegment,
     getLabel,
     getColor,
@@ -212,7 +152,6 @@ const useGroupedBarsState = ({
     segments,
     colors,
     opacityScale,
-    grouped,
   };
 };
 
@@ -262,35 +201,4 @@ export const GroupedBarsChart = ({
       </InteractionProvider>
     </Observer>
   );
-};
-
-const sortData = ({
-  data,
-  getY,
-  ySortingType,
-  ySortingOrder,
-  yOrder,
-}: {
-  data: GenericObservation[];
-  getY: (d: GenericObservation) => string;
-  ySortingType: SortingType | undefined;
-  ySortingOrder: SortingOrder | undefined;
-  yOrder: string[];
-}) => {
-  if (ySortingOrder === "desc" && ySortingType === "byDimensionLabel") {
-    return [...data].sort((a, b) => descending(getY(a), getY(b)));
-  } else if (ySortingOrder === "asc" && ySortingType === "byDimensionLabel") {
-    return [...data].sort((a, b) => ascending(getY(a), getY(b)));
-  } else if (ySortingType === "byMeasure") {
-    const sd = sortByIndex({
-      data,
-      order: yOrder,
-      getCategory: getY,
-      sortOrder: ySortingOrder,
-    });
-    return sd;
-  } else {
-    // default to scending alphabetical
-    return [...data].sort((a, b) => ascending(getY(a), getY(b)));
-  }
 };
