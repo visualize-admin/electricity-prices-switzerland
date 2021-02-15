@@ -26,7 +26,7 @@ export const Selector = () => {
     >
       <Text as="legend" variant="lead" sx={{ display: "contents" }}>
         <Trans id="selector.legend.select.parameters">
-          Parameter auswählen
+          Liste und Karte filtern
         </Trans>
       </Text>
 
