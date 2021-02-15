@@ -51,7 +51,7 @@ export const PriceComponentsBarChart = ({
   const [
     { period, category, municipality, operator, canton, product },
   ] = useQueryState();
-  const [view, setView] = useState<View>("collapsed");
+  const [view, setView] = useState("collapsed");
   const comparisonIds =
     entity === "municipality"
       ? municipality
@@ -175,7 +175,7 @@ export const PriceComponentsBarChart = ({
 
             const observations = prepareObservations({
               groupedObservations,
-              view,
+              view: view as View,
               priceComponent: priceComponent[0] as PriceComponent,
               entity,
             });
