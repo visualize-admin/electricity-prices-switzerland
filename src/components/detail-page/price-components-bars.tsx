@@ -199,56 +199,56 @@ export const PriceComponentsBarChart = ({
                 : grouped.flatMap((year) =>
                     year[1].flatMap((ent) =>
                       ent[1].flatMap((value) => {
-                        if (value[1].length === 1) {
-                          return {
-                            ...value[1][0],
-                            label: value[1][0].uniqueId,
-                          };
-                        } else {
-                          const singleEntities = value[1]
-                            .flatMap((d) => ({
-                              priceComponent: pc[0],
-                              value: d.value,
-                              [entity]: d[entity],
-                              period: d.period,
-                              uniqueId: `${pc[0]}${d.period}${d.operatorLabel}${d.municipalityLabel}${value[1].length}${EXPANDED_TAG}`,
-                              label:
-                                entity === "municipality"
-                                  ? d.operatorLabel
-                                  : d.municipalityLabel,
-                            }))
-                            .sort((a, b) => ascending(a.label, b.label));
-                          const groupPlusSingleValues = [
-                            {
-                              priceComponent: pc[0],
-                              value: value[0],
-                              [entity]: value[1][0][entity],
-                              period: value[1][0].period,
-                              uniqueId: `${pc[0]}${value[1][0].period}${value[1][0].operatorLabel}${value[1][0].municipalityLabel}${value[1].length}`,
-                              label:
-                                entity === "canton"
-                                  ? `${value[1][0].period}, ${
-                                      value[1].length
-                                    } ${getLocalizedLabel({
-                                      i18n,
-                                      id: "cantons",
-                                    })}`
-                                  : `${value[1][0].period}, ${
-                                      value[1][0].operatorLabel
-                                    }, ${value[1].length} ${getLocalizedLabel({
-                                      i18n,
-                                      id:
-                                        entity === "operator"
-                                          ? "municipalities"
-                                          : "operators",
-                                    })}`,
-                              entities: value[1],
-                            },
-                            ...singleEntities,
-                          ];
+                        // if (value[1].length === 1) {
+                        //   return {
+                        //     ...value[1][0],
+                        //     label: value[1][0].uniqueId,
+                        //   };
+                        // } else {
+                        const singleEntities = value[1]
+                          .flatMap((d) => ({
+                            priceComponent: pc[0],
+                            value: d.value,
+                            [entity]: d[entity],
+                            period: d.period,
+                            uniqueId: `${pc[0]}${d.period}${d.operatorLabel}${d.municipalityLabel}${value[1].length}${EXPANDED_TAG}`,
+                            label:
+                              entity === "municipality"
+                                ? d.operatorLabel
+                                : d.municipalityLabel,
+                          }))
+                          .sort((a, b) => ascending(a.label, b.label));
+                        const groupPlusSingleValues = [
+                          {
+                            priceComponent: pc[0],
+                            value: value[0],
+                            [entity]: value[1][0][entity],
+                            period: value[1][0].period,
+                            uniqueId: `${pc[0]}${value[1][0].period}${value[1][0].operatorLabel}${value[1][0].municipalityLabel}${value[1].length}`,
+                            label:
+                              entity === "canton"
+                                ? `${value[1][0].period}, ${
+                                    value[1].length
+                                  } ${getLocalizedLabel({
+                                    i18n,
+                                    id: "cantons",
+                                  })}`
+                                : `${value[1][0].period}, ${
+                                    value[1][0].operatorLabel
+                                  }, ${value[1].length} ${getLocalizedLabel({
+                                    i18n,
+                                    id:
+                                      entity === "operator"
+                                        ? "municipalities"
+                                        : "operators",
+                                  })}`,
+                            entities: value[1],
+                          },
+                          ...singleEntities,
+                        ];
 
-                          return groupPlusSingleValues;
-                        }
+                        return groupPlusSingleValues;
+                        // }
                       })
                     )
                   );
