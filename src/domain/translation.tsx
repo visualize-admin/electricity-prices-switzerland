@@ -10,11 +10,11 @@ export const getLocalizedLabel = ({
 }): string => {
   switch (id) {
     case "collapsed":
-      return i18n._(
-        t("priceComponents.view.collapsed")`Zusammengefasste Ansicht`
-      );
+      return i18n._(t("priceComponents.view.collapsed")`Gemeinden gruppieren`);
     case "expanded":
-      return i18n._(t("priceComponents.view.expanded")`Erweiterte Ansicht`);
+      return i18n._(
+        t("priceComponents.view.expanded")`Einzelne Gemeinden anzeigen`
+      );
     case "unit":
       return i18n._(t("chart.axis.unit.Rp/kWh")`Rp./kWh`);
     case "standard":
