@@ -1,5 +1,5 @@
 import { Trans } from "@lingui/macro";
-import { group, groups, min, max } from "d3-array";
+import { group, groups, min, max, ascending } from "d3-array";
 import * as React from "react";
 import { useState } from "react";
 import { Box } from "theme-ui";
@@ -205,17 +205,19 @@ export const PriceComponentsBarChart = ({
                             label: value[1][0].uniqueId,
                           };
                         } else {
-                          const singleEntities = value[1].flatMap((d) => ({
-                            priceComponent: pc[0],
-                            value: d.value,
-                            [entity]: d[entity],
-                            period: d.period,
-                            uniqueId: `${pc[0]}${d.period}${d.operatorLabel}${d.municipalityLabel}${value[1].length}${EXPANDED_TAG}`,
-                            label:
-                              entity === "municipality"
-                                ? d.operatorLabel
-                                : d.municipalityLabel,
-                          }));
+                          const singleEntities = value[1]
+                            .flatMap((d) => ({
+                              priceComponent: pc[0],
+                              value: d.value,
+                              [entity]: d[entity],
+                              period: d.period,
+                              uniqueId: `${pc[0]}${d.period}${d.operatorLabel}${d.municipalityLabel}${value[1].length}${EXPANDED_TAG}`,
+                              label:
+                                entity === "municipality"
+                                  ? d.operatorLabel
+                                  : d.municipalityLabel,
+                            }))
+                            .sort((a, b) => ascending(a.label, b.label));
                           const groupPlusSingleValues = [
                             {
                               priceComponent: pc[0],
