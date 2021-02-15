@@ -1,16 +1,15 @@
 import { Trans } from "@lingui/macro";
-import { group, groups, min, max, ascending } from "d3-array";
+import { ascending, group, groups, max, min } from "d3-array";
 import * as React from "react";
 import { useState } from "react";
 import { Box } from "theme-ui";
 import { Entity, GenericObservation, priceComponents } from "../../domain/data";
-import { pivot_longer, mkNumber } from "../../domain/helpers";
+import { mkNumber, pivot_longer } from "../../domain/helpers";
 import { getLocalizedLabel } from "../../domain/translation";
 import {
   ObservationType,
   useObservationsWithAllPriceComponentsQuery,
 } from "../../graphql/queries";
-import { PriceComponent } from "../../graphql/resolver-types";
 import { EMPTY_ARRAY } from "../../lib/empty-array";
 import { useLocale } from "../../lib/use-locale";
 import { useQueryState } from "../../lib/use-query-state";
@@ -199,12 +198,6 @@ export const PriceComponentsBarChart = ({
                 : grouped.flatMap((year) =>
                     year[1].flatMap((ent) =>
                       ent[1].flatMap((value) => {
-                        // if (value[1].length === 1) {
-                        //   return {
-                        //     ...value[1][0],
-                        //     label: value[1][0].uniqueId,
-                        //   };
-                        // } else {
                         const singleEntities = value[1]
                           .flatMap((d) => ({
                             priceComponent: pc[0],
@@ -248,7 +241,6 @@ export const PriceComponentsBarChart = ({
                         ];
 
                         return groupPlusSingleValues;
-                        // }
                       })
                     )
                   );
