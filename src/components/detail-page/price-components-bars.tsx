@@ -37,7 +37,7 @@ import { WithClassName } from "./with-classname";
 
 const DOWNLOAD_ID: Download = "components";
 export const EXPANDED_TAG = "expanded";
-type View = "expanded" | "collapsed";
+
 export const PriceComponentsBarChart = ({
   id,
   entity,
@@ -49,9 +49,19 @@ export const PriceComponentsBarChart = ({
 
   const locale = useLocale();
   const [
-    { period, category, municipality, operator, canton, product },
+    {
+      period,
+      category,
+      municipality,
+      operator,
+      canton,
+      product,
+      download,
+      view,
+    },
+    setQueryState,
   ] = useQueryState();
-  const [view, setView] = useState("collapsed");
+  // const [view, setView] = useState("collapsed");
   const comparisonIds =
     entity === "municipality"
       ? municipality
@@ -118,7 +128,7 @@ export const PriceComponentsBarChart = ({
       id={id}
       entity={entity}
     >
-      {entity !== "canton" && (
+      {(download || entity !== "canton") && (
         <>
           <Box
             sx={{ display: ["none", "none", "block"], maxWidth: "fit-content" }}
@@ -135,8 +145,8 @@ export const PriceComponentsBarChart = ({
                   label: getLocalizedLabel({ i18n, id: `expanded-${entity}` }),
                 },
               ]}
-              value={view}
-              setValue={setView}
+              value={view[0]}
+              setValue={(view) => setQueryState({ view: [view] })}
               variant="segmented"
             />
           </Box>
@@ -146,8 +156,9 @@ export const PriceComponentsBarChart = ({
               label={""}
               items={["collapsed", "expanded"]}
               getItemLabel={getItemLabel}
-              selectedItem={view}
-              setSelectedItem={setView}
+              selectedItem={view[0]}
+              setSelectedItem={(view) => setQueryState({ view: [view] })}
+              // setSelectedItem={setView}
               showLabel={false}
             />
           </Box>
@@ -175,7 +186,7 @@ export const PriceComponentsBarChart = ({
 
             const observations = prepareObservations({
               groupedObservations,
-              view: view as View,
+              view: view[0],
               priceComponent: priceComponent[0] as PriceComponent,
               entity,
             });
@@ -264,7 +275,7 @@ const prepareObservations = ({
   ][]; // The output of d3 groups with 3 levels.
   priceComponent: PriceComponent;
   entity: Entity;
-  view: View;
+  view: string;
 }) => {
   const i18n = useI18n();
 
