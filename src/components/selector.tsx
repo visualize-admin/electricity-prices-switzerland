@@ -22,6 +22,7 @@ export const Selector = () => {
 
         zIndex: 13,
         "> div": { mt: 3 },
+        "> div:last-of-type": { mt: 6 },
       }}
     >
       <Text as="legend" variant="lead" sx={{ display: "contents" }}>
@@ -74,6 +75,9 @@ export const Selector = () => {
         }
         infoDialogSlug="help-products"
       />
+      <Text variant="lead">
+        <Trans id="selector.results">Suchergebnisse:</Trans>
+      </Text>
     </Flex>
   );
 };
