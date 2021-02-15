@@ -16,17 +16,18 @@ export const Selector = () => {
       sx={{
         flexDirection: "column",
         justifyContent: "flex-start",
-        bg: "primaryLight",
+        bg: "mutedColored",
         px: 4,
         py: 4,
 
         zIndex: 13,
         "> div": { mt: 3 },
+        "> div:last-of-type": { mt: 6 },
       }}
     >
       <Text as="legend" variant="lead" sx={{ display: "contents" }}>
         <Trans id="selector.legend.select.parameters">
-          Parameter auswählen
+          Liste und Karte filtern
         </Trans>
       </Text>
 
@@ -74,6 +75,9 @@ export const Selector = () => {
         }
         infoDialogSlug="help-products"
       />
+      <Text variant="lead">
+        <Trans id="selector.results">Suchergebnisse:</Trans>
+      </Text>
     </Flex>
   );
 };
