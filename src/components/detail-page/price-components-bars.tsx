@@ -117,35 +117,41 @@ export const PriceComponentsBarChart = ({
       id={id}
       entity={entity}
     >
-      <Box sx={{ display: ["none", "none", "block"], maxWidth: "fit-content" }}>
-        <RadioTabs
-          name="price-components-bars-view-switch"
-          options={[
-            {
-              value: "collapsed",
-              label: getLocalizedLabel({ i18n, id: "collapsed" }),
-            },
-            {
-              value: "expanded",
-              label: getLocalizedLabel({ i18n, id: "expanded" }),
-            },
-          ]}
-          value={view}
-          setValue={setView}
-          variant="segmented"
-        />
-      </Box>
-      <Box sx={{ display: ["block", "block", "none"] }}>
-        <Combobox
-          id="price-components-bars-view-dropdown"
-          label={""}
-          items={["collapsed", "expanded"]}
-          getItemLabel={getItemLabel}
-          selectedItem={view}
-          setSelectedItem={setView}
-          showLabel={false}
-        />
-      </Box>
+      {entity !== "canton" && (
+        <>
+          <Box
+            sx={{ display: ["none", "none", "block"], maxWidth: "fit-content" }}
+          >
+            <RadioTabs
+              name="price-components-bars-view-switch"
+              options={[
+                {
+                  value: "collapsed",
+                  label: getLocalizedLabel({ i18n, id: "collapsed" }),
+                },
+                {
+                  value: "expanded",
+                  label: getLocalizedLabel({ i18n, id: "expanded" }),
+                },
+              ]}
+              value={view}
+              setValue={setView}
+              variant="segmented"
+            />
+          </Box>
+          <Box sx={{ display: ["block", "block", "none"] }}>
+            <Combobox
+              id="price-components-bars-view-dropdown"
+              label={""}
+              items={["collapsed", "expanded"]}
+              getItemLabel={getItemLabel}
+              selectedItem={view}
+              setSelectedItem={setView}
+              showLabel={false}
+            />
+          </Box>
+        </>
+      )}
       <FilterSetDescription
         filters={{
           category: category[0],
@@ -254,14 +260,24 @@ const prepareObservations = ({
       ObservationValue,
       [ObservationValue, Record<string, ObservationValue>[]][]
     ][]
-  ][];
+  ][]; // The output of d3 groups with 3 levels.
   priceComponent: PriceComponent;
   entity: Entity;
   view: View;
 }) => {
   const i18n = useI18n();
-  const data =
-    view === "collapsed"
+
+  if (entity === "canton") {
+    return groupedObservations.flatMap((year) =>
+      year[1].flatMap((ent) =>
+        ent[1].flatMap((value) => ({
+          ...value[1][0],
+          label: value[1][0].uniqueId,
+        }))
+      )
+    );
+  } else {
+    return view === "collapsed"
       ? groupedObservations.flatMap((year) =>
           year[1].flatMap((ent) =>
             ent[1].flatMap((value) =>
@@ -273,23 +289,13 @@ const prepareObservations = ({
                     [entity]: value[1][0][entity],
                     period: value[1][0].period,
                     uniqueId: `${priceComponent}${value[1][0].period}${value[1][0].operatorLabel}${value[1][0].municipalityLabel}${value[1].length}`,
-                    label:
-                      entity === "canton"
-                        ? `${value[1][0].period}, ${
-                            value[1].length
-                          } ${getLocalizedLabel({
-                            i18n,
-                            id: "cantons",
-                          })}`
-                        : `${value[1][0].period}, ${
-                            value[1][0].operatorLabel
-                          }, ${value[1].length} ${getLocalizedLabel({
-                            i18n,
-                            id:
-                              entity === "operator"
-                                ? "municipalities"
-                                : "operators",
-                          })}`,
+                    label: `${value[1][0].period}, ${
+                      value[1][0].operatorLabel
+                    }, ${value[1].length} ${getLocalizedLabel({
+                      i18n,
+                      id:
+                        entity === "operator" ? "municipalities" : "operators",
+                    })}`,
                     entities: value[1],
                   }
             )
@@ -318,23 +324,12 @@ const prepareObservations = ({
                   [entity]: value[1][0][entity],
                   period: value[1][0].period,
                   uniqueId: `${priceComponent}${value[1][0].period}${value[1][0].operatorLabel}${value[1][0].municipalityLabel}${value[1].length}`,
-                  label:
-                    entity === "canton"
-                      ? `${value[1][0].period}, ${
-                          value[1].length
-                        } ${getLocalizedLabel({
-                          i18n,
-                          id: "cantons",
-                        })}`
-                      : `${value[1][0].period}, ${value[1][0].operatorLabel}, ${
-                          value[1].length
-                        } ${getLocalizedLabel({
-                          i18n,
-                          id:
-                            entity === "operator"
-                              ? "municipalities"
-                              : "operators",
-                        })}`,
+                  label: `${value[1][0].period}, ${
+                    value[1][0].operatorLabel
+                  }, ${value[1].length} ${getLocalizedLabel({
+                    i18n,
+                    id: entity === "operator" ? "municipalities" : "operators",
+                  })}`,
                   entities: value[1],
                 },
                 ...singleEntities,
@@ -344,5 +339,5 @@ const prepareObservations = ({
             })
           )
         );
-  return data;
+  }
 };
