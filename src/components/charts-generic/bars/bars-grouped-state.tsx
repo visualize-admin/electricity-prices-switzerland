@@ -89,6 +89,7 @@ const useGroupedBarsState = ({
         descending(getX(a), getX(b))
     )
     .map((d) => getSegment(d));
+
   const sortedData = sortByIndex({
     data,
     order: segments,
@@ -113,8 +114,6 @@ const useGroupedBarsState = ({
     .range(getOpacityRanges(opacityDomain.length));
 
   // x
-  const minValue = Math.min(mkNumber(min(sortedData, (d) => getX(d))), 0);
-  const maxValue = max(sortedData, (d) => getX(d)) as number;
   const xScale = scaleLinear().domain(fields.x.domain).nice();
 
   const chartHeight = BAR_HEIGHT * segments.length;
