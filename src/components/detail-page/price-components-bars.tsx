@@ -128,21 +128,30 @@ export const PriceComponentsBarChart = ({
       id={id}
       entity={entity}
     >
-      {(download || entity !== "canton") && (
+      {!download && entity !== "canton" && (
         <>
           <Box
-            sx={{ display: ["none", "none", "block"], maxWidth: "fit-content" }}
+            sx={{
+              display: ["none", "none", "block"],
+              maxWidth: "fit-content",
+            }}
           >
             <RadioTabs
               name="price-components-bars-view-switch"
               options={[
                 {
                   value: "collapsed",
-                  label: getLocalizedLabel({ i18n, id: `collapsed-${entity}` }),
+                  label: getLocalizedLabel({
+                    i18n,
+                    id: `collapsed-${entity}`,
+                  }),
                 },
                 {
                   value: "expanded",
-                  label: getLocalizedLabel({ i18n, id: `expanded-${entity}` }),
+                  label: getLocalizedLabel({
+                    i18n,
+                    id: `expanded-${entity}`,
+                  }),
                 },
               ]}
               value={view[0]}
