@@ -3,11 +3,17 @@ import { ascending, group, groups, max, min } from "d3-array";
 import * as React from "react";
 import { useState } from "react";
 import { Box } from "theme-ui";
-import { Entity, GenericObservation, priceComponents } from "../../domain/data";
+import {
+  Entity,
+  GenericObservation,
+  ObservationValue,
+  priceComponents,
+} from "../../domain/data";
 import { mkNumber, pivot_longer } from "../../domain/helpers";
 import { getLocalizedLabel } from "../../domain/translation";
 import {
   ObservationType,
+  PriceComponent,
   useObservationsWithAllPriceComponentsQuery,
 } from "../../graphql/queries";
 import { EMPTY_ARRAY } from "../../lib/empty-array";
@@ -31,7 +37,7 @@ import { WithClassName } from "./with-classname";
 
 const DOWNLOAD_ID: Download = "components";
 export const EXPANDED_TAG = "expanded";
-
+type View = "expanded" | "collapsed";
 export const PriceComponentsBarChart = ({
   id,
   entity,
@@ -45,7 +51,7 @@ export const PriceComponentsBarChart = ({
   const [
     { period, category, municipality, operator, canton, product },
   ] = useQueryState();
-  const [view, setView] = useState("collapsed");
+  const [view, setView] = useState<View>("collapsed");
   const comparisonIds =
     entity === "municipality"
       ? municipality
@@ -152,98 +158,20 @@ export const PriceComponentsBarChart = ({
         <NoDataHint />
       ) : (
         <WithClassName downloadId={DOWNLOAD_ID}>
-          {perPriceComponent.map((pc, i) => {
-            const grouped = groups(
-              pc[1],
+          {perPriceComponent.map((priceComponent, i) => {
+            const groupedObservations = groups(
+              priceComponent[1],
               (d: GenericObservation) => d.period,
               (d: GenericObservation) => d[entity],
               (d: GenericObservation) => d.value
             );
 
-            const observations =
-              view === "collapsed"
-                ? grouped.flatMap((year) =>
-                    year[1].flatMap((ent) =>
-                      ent[1].flatMap((value) =>
-                        value[1].length === 1
-                          ? { ...value[1][0], label: value[1][0].uniqueId }
-                          : {
-                              priceComponent: pc[0],
-                              value: value[0],
-                              [entity]: value[1][0][entity],
-                              period: value[1][0].period,
-                              uniqueId: `${pc[0]}${value[1][0].period}${value[1][0].operatorLabel}${value[1][0].municipalityLabel}${value[1].length}`,
-                              label:
-                                entity === "canton"
-                                  ? `${value[1][0].period}, ${
-                                      value[1].length
-                                    } ${getLocalizedLabel({
-                                      i18n,
-                                      id: "cantons",
-                                    })}`
-                                  : `${value[1][0].period}, ${
-                                      value[1][0].operatorLabel
-                                    }, ${value[1].length} ${getLocalizedLabel({
-                                      i18n,
-                                      id:
-                                        entity === "operator"
-                                          ? "municipalities"
-                                          : "operators",
-                                    })}`,
-                              entities: value[1],
-                            }
-                      )
-                    )
-                  )
-                : grouped.flatMap((year) =>
-                    year[1].flatMap((ent) =>
-                      ent[1].flatMap((value) => {
-                        const singleEntities = value[1]
-                          .flatMap((d) => ({
-                            priceComponent: pc[0],
-                            value: d.value,
-                            [entity]: d[entity],
-                            period: d.period,
-                            uniqueId: `${pc[0]}${d.period}${d.operatorLabel}${d.municipalityLabel}${value[1].length}${EXPANDED_TAG}`,
-                            label:
-                              entity === "municipality"
-                                ? d.operatorLabel
-                                : d.municipalityLabel,
-                          }))
-                          .sort((a, b) => ascending(a.label, b.label));
-                        const groupPlusSingleValues = [
-                          {
-                            priceComponent: pc[0],
-                            value: value[0],
-                            [entity]: value[1][0][entity],
-                            period: value[1][0].period,
-                            uniqueId: `${pc[0]}${value[1][0].period}${value[1][0].operatorLabel}${value[1][0].municipalityLabel}${value[1].length}`,
-                            label:
-                              entity === "canton"
-                                ? `${value[1][0].period}, ${
-                                    value[1].length
-                                  } ${getLocalizedLabel({
-                                    i18n,
-                                    id: "cantons",
-                                  })}`
-                                : `${value[1][0].period}, ${
-                                    value[1][0].operatorLabel
-                                  }, ${value[1].length} ${getLocalizedLabel({
-                                    i18n,
-                                    id:
-                                      entity === "operator"
-                                        ? "municipalities"
-                                        : "operators",
-                                  })}`,
-                            entities: value[1],
-                          },
-                          ...singleEntities,
-                        ];
-
-                        return groupPlusSingleValues;
-                      })
-                    )
-                  );
+            const observations = prepareObservations({
+              groupedObservations,
+              view,
+              priceComponent: priceComponent[0] as PriceComponent,
+              entity,
+            });
 
             return (
               <React.Fragment key={i}>
@@ -296,7 +224,10 @@ export const PriceComponentsBarChart = ({
                     <ChartSvg>
                       <BarsGrouped />
                       <BarsGroupedAxis
-                        title={getLocalizedLabel({ i18n, id: pc[0] as string })}
+                        title={getLocalizedLabel({
+                          i18n,
+                          id: priceComponent[0] as string,
+                        })}
                       />
                       <BarsGroupedLabels />
                     </ChartSvg>
@@ -309,4 +240,109 @@ export const PriceComponentsBarChart = ({
       )}
     </Card>
   );
+};
+
+const prepareObservations = ({
+  groupedObservations,
+  priceComponent,
+  entity,
+  view,
+}: {
+  groupedObservations: [
+    ObservationValue,
+    [
+      ObservationValue,
+      [ObservationValue, Record<string, ObservationValue>[]][]
+    ][]
+  ][];
+  priceComponent: PriceComponent;
+  entity: Entity;
+  view: View;
+}) => {
+  const i18n = useI18n();
+  const data =
+    view === "collapsed"
+      ? groupedObservations.flatMap((year) =>
+          year[1].flatMap((ent) =>
+            ent[1].flatMap((value) =>
+              value[1].length === 1
+                ? { ...value[1][0], label: value[1][0].uniqueId }
+                : {
+                    priceComponent,
+                    value: value[0],
+                    [entity]: value[1][0][entity],
+                    period: value[1][0].period,
+                    uniqueId: `${priceComponent}${value[1][0].period}${value[1][0].operatorLabel}${value[1][0].municipalityLabel}${value[1].length}`,
+                    label:
+                      entity === "canton"
+                        ? `${value[1][0].period}, ${
+                            value[1].length
+                          } ${getLocalizedLabel({
+                            i18n,
+                            id: "cantons",
+                          })}`
+                        : `${value[1][0].period}, ${
+                            value[1][0].operatorLabel
+                          }, ${value[1].length} ${getLocalizedLabel({
+                            i18n,
+                            id:
+                              entity === "operator"
+                                ? "municipalities"
+                                : "operators",
+                          })}`,
+                    entities: value[1],
+                  }
+            )
+          )
+        )
+      : groupedObservations.flatMap((year) =>
+          year[1].flatMap((ent) =>
+            ent[1].flatMap((value) => {
+              const singleEntities = value[1]
+                .flatMap((d) => ({
+                  priceComponent,
+                  value: d.value,
+                  [entity]: d[entity],
+                  period: d.period,
+                  uniqueId: `${priceComponent}${d.period}${d.operatorLabel}${d.municipalityLabel}${value[1].length}${EXPANDED_TAG}`,
+                  label:
+                    entity === "municipality"
+                      ? d.operatorLabel
+                      : d.municipalityLabel,
+                }))
+                .sort((a, b) => ascending(a.label, b.label));
+              const groupPlusSingleValues = [
+                {
+                  priceComponent,
+                  value: value[0],
+                  [entity]: value[1][0][entity],
+                  period: value[1][0].period,
+                  uniqueId: `${priceComponent}${value[1][0].period}${value[1][0].operatorLabel}${value[1][0].municipalityLabel}${value[1].length}`,
+                  label:
+                    entity === "canton"
+                      ? `${value[1][0].period}, ${
+                          value[1].length
+                        } ${getLocalizedLabel({
+                          i18n,
+                          id: "cantons",
+                        })}`
+                      : `${value[1][0].period}, ${value[1][0].operatorLabel}, ${
+                          value[1].length
+                        } ${getLocalizedLabel({
+                          i18n,
+                          id:
+                            entity === "operator"
+                              ? "municipalities"
+                              : "operators",
+                        })}`,
+                  entities: value[1],
+                },
+                ...singleEntities,
+              ];
+
+              return groupPlusSingleValues;
+            })
+          )
+        );
+  return data;
 };
