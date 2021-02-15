@@ -38,7 +38,8 @@ export const HistogramMinMaxValues = () => {
         >
           <text
             x={0}
-            y={bounds.chartHeight + 16}
+            y={bounds.chartHeight + margins.bottom * 0.1}
+            dy={labelFontSize}
             style={{
               fontFamily,
               fill: domainColor,
@@ -50,7 +51,8 @@ export const HistogramMinMaxValues = () => {
           </text>
           <text
             x={0}
-            y={bounds.chartHeight + 32}
+            y={bounds.chartHeight + margins.bottom * 0.1}
+            dy={labelFontSize * 2.4}
             style={{
               fontFamily,
               fill: labelColor,
@@ -70,7 +72,8 @@ export const HistogramMinMaxValues = () => {
         >
           <text
             x={0}
-            y={bounds.chartHeight + 16}
+            y={bounds.chartHeight + margins.bottom * 0.1}
+            dy={labelFontSize}
             style={{
               fontFamily,
               fill: domainColor,
@@ -82,7 +85,8 @@ export const HistogramMinMaxValues = () => {
           </text>
           <text
             x={0}
-            y={bounds.chartHeight + 32}
+            y={bounds.chartHeight + margins.bottom * 0.1}
+            dy={labelFontSize * 2.4}
             style={{
               fontFamily,
               fill: labelColor,

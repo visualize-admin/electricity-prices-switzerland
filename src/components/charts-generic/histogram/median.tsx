@@ -33,7 +33,7 @@ export const HistogramMedian = ({ label }: { label: string }) => {
         <g transform={`translate(${margins.left} ${margins.top})`}>
           <line
             x1={xScale(m)}
-            y1={bounds.chartHeight + 38}
+            y1={bounds.chartHeight + margins.bottom * 0.5}
             x2={xScale(m)}
             y2={yScale(yScale.domain()[1])}
             stroke={domainColor}
@@ -41,7 +41,8 @@ export const HistogramMedian = ({ label }: { label: string }) => {
           />
           <text
             x={xScale(m)}
-            y={bounds.chartHeight + 54}
+            y={bounds.chartHeight + margins.bottom * 0.5}
+            dy={labelFontSize}
             style={{
               fontFamily,
               fill: domainColor,
@@ -53,7 +54,8 @@ export const HistogramMedian = ({ label }: { label: string }) => {
           </text>
           <text
             x={xScale(m)}
-            y={bounds.chartHeight + 70}
+            y={bounds.chartHeight + margins.bottom * 0.5}
+            dy={labelFontSize * 2.4}
             style={{
               fontFamily,
               fill: labelColor,
