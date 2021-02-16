@@ -6,6 +6,5 @@ applications:
     disk_quota: 2G
     instances: 1
     buildpacks:
+      - apt_buildpack
       - nodejs_buildpack
-    env:
-      PUPPETEER_SKIP_DOWNLOAD: true

@@ -1,26 +1,25 @@
-import * as chromium from "chrome-aws-lambda";
 import { either, pipeable } from "fp-ts";
 import * as t from "io-ts";
 import { NumberFromString } from "io-ts-types/lib/NumberFromString";
 import { NextApiRequest, NextApiResponse } from "next";
-import { Browser } from "puppeteer";
+import puppeteer from "puppeteer";
 import { URL } from "url";
 
 /**
  * We start a new browser instance for each request. This may seem a bit expensive (and it is),
  * but gives us a clean browser each time.
  */
-async function withBrowser<T>(f: (browser: Browser) => Promise<T>) {
-  const browser = await chromium.default.puppeteer.launch({
+async function withBrowser<T>(f: (browser: puppeteer.Browser) => Promise<T>) {
+  const browser = await puppeteer.launch({
     dumpio: true,
     args: [
       "--no-sandbox",
       "--disable-setuid-sandbox",
       "--hide-scrollbars",
       "--disable-extensions",
-      ...chromium.default.args,
+      // ...puppeteer.args,
     ],
-    executablePath: await chromium.default.executablePath,
+    // executablePath: await puppeteer.executablePath,
   });
 
   try {
