@@ -55,7 +55,7 @@
     "micromark-extension-gfm": "^0.3.2",
     "next": "^10.0.5",
     "nprogress": "^0.2.0",
-    "puppeteer": "^5.5.0",
+    "puppeteer": "^7.1.0",
     "rdf-cube-view-query": "^0.1.1",
     "rdf-ext": "^1.3.0",
     "react": "^17.0.1",
