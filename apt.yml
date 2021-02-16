@@ -1,4 +1,3 @@
----
 packages:
   - gconf-service
   - libasound2

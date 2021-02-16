@@ -1,4 +1,3 @@
----
 applications:
   - name: elcom-electricity-price-website
     command: yarn start
@@ -7,4 +6,4 @@ applications:
     instances: 1
     stack: cflinuxfs3
     buildpacks:
-      - https://github.com/cloudfoundry-attic/multi-buildpack
+      - https://github.com/cloudfoundry-attic/multi-buildpack/
