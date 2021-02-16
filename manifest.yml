@@ -6,5 +6,5 @@ applications:
     disk_quota: 2G
     instances: 1
     buildpacks:
-      - apt_buildpack
-      - nodejs_buildpack
+      - https://github.com/cloudfoundry/apt-buildpack/
+      - https://github.com/cloudfoundry/nodejs-buildpack/
