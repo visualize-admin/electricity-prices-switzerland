@@ -7,5 +7,4 @@ applications:
     instances: 1
     stack: cflinuxfs3
     buildpacks:
-      - https://github.com/cloudfoundry/apt-buildpack/
-      - https://github.com/cloudfoundry/nodejs-buildpack/
+      - https://github.com/cloudfoundry-attic/multi-buildpack
