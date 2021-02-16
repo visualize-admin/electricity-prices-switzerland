@@ -4324,6 +4324,13 @@ chownr@^1.1.1:
   resolved "https://registry.yarnpkg.com/chownr/-/chownr-1.1.4.tgz#6fc9d7b42d32a583596337666e7d08084da2cc6b"
   integrity sha512-jJ0bqzaylmJtVnNgzTeSOs8DPavpbYgEr/b0YL8/2GO3xJEhInFmhKMUnEJQjZumK7KXGFhUy89PrsJWlakBVg==
 
+chrome-aws-lambda@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/chrome-aws-lambda/-/chrome-aws-lambda-7.0.0.tgz#efb73c8d254d433413cf6866c5eadc752d64b417"
+  integrity sha512-GbYXRPYtaA0DLfmxQpuZw1SKTP7rOA4UXiATwiFRJ4Ea6PBYSzqK0YjS7B2WimUBe//ybPfNpPIs8A3WpF0xvA==
+  dependencies:
+    lambdafs "^2.0.2"
+
 chrome-trace-event@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/chrome-trace-event/-/chrome-trace-event-1.0.2.tgz#234090ee97c7d4ad1a2c4beae27505deffc608a4"
@@ -8000,6 +8007,13 @@ klona@^2.0.4:
   resolved "https://registry.yarnpkg.com/klona/-/klona-2.0.4.tgz#7bb1e3affb0cb8624547ef7e8f6708ea2e39dfc0"
   integrity sha512-ZRbnvdg/NxqzC7L9Uyqzf4psi1OM4Cuc+sJAkQPjO6XkQIJTNbfK2Rsmbw8fx1p2mkZdp2FZYo2+LwXYY/uwIA==
 
+lambdafs@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/lambdafs/-/lambdafs-2.0.2.tgz#6819f27c99891ce3860a38cc6e009073008247e4"
+  integrity sha512-gr4FQ1eqNZ4k+VmdK1ZzyrcQFv6Hf2MlIgrBq0hXtgMpxU9hG/uKWsNX/FhfugB2aSucJkT4U9NrIVmnVG8NUg==
+  dependencies:
+    tar-fs "^2.1.1"
+
 latest-version@5.1.0:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/latest-version/-/latest-version-5.1.0.tgz#119dfe908fe38d15dfa43ecd13fa12ec8832face"
@@ -9882,10 +9896,10 @@ punycode@^2.1.0, punycode@^2.1.1:
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.1.1.tgz#b58b010ac40c22c5657616c8d2c2c02c7bf479ec"
   integrity sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==
 
-puppeteer@^7.1.0:
+puppeteer-core@^7.1.0:
   version "7.1.0"
-  resolved "https://registry.yarnpkg.com/puppeteer/-/puppeteer-7.1.0.tgz#ae37f48ee13f157c5b9255d580ffe4c5c1298679"
-  integrity sha512-lqOLzqCKdh7yUAHvK6LxgOpQrL8Bv1/jvS8MLDXxcNms2rlM3E8p/Wlwc7efbRZ0twxTzUeqjN5EqrTwxOwc9g==
+  resolved "https://registry.yarnpkg.com/puppeteer-core/-/puppeteer-core-7.1.0.tgz#75a00484481e99aa3578bd93ae13a6991fdc7e97"
+  integrity sha512-2wjKs3L1rYuoVNNtRR/GbAGjbt6LF8DRUxcg/UoCQZrzjfppWlrIqiHRF5uBzJk+Nc0w7ZkvVzKQCvB5PFqFdA==
   dependencies:
     debug "^4.1.0"
     devtools-protocol "0.0.847576"
