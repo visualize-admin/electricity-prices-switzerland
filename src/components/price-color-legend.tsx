@@ -5,7 +5,7 @@ import { useTheme } from "../themes";
 import { useFormatCurrency } from "../domain/helpers";
 import { InfoDialogButton } from "./info-dialog";
 
-const LEGEND_WIDTH = 200;
+const LEGEND_WIDTH = 215;
 const TOP_LABEL_HEIGHT = 14;
 const COLOR_HEIGHT = 12;
 const BOTTOM_LABEL_HEIGHT = 16;
