@@ -4,7 +4,6 @@ import { Combobox, ComboboxMulti } from "../../components/combobox";
 import { categories, Entity, periods, products } from "../../domain/data";
 import { getLocalizedLabel } from "../../domain/translation";
 import { useQueryState } from "../../lib/use-query-state";
-import { useI18n } from "../i18n-context";
 import {
   CantonsCombobox,
   MunicipalitiesCombobox,
@@ -17,8 +16,7 @@ export const SelectorMulti = ({
   entity?: Entity;
 }) => {
   const [queryState, setQueryState] = useQueryState();
-  const i18n = useI18n();
-  const getItemLabel = (id: string) => getLocalizedLabel({ i18n, id });
+  const getItemLabel = (id: string) => getLocalizedLabel({ id });
   return (
     <Flex
       as="fieldset"
@@ -79,7 +77,7 @@ export const SelectorMulti = ({
         />
         <Combobox
           id="categories"
-          label={i18n._(t("selector.category")`Kategorie`)}
+          label={t({ id: "selector.category", message: `Kategorie` })}
           items={categories}
           getItemLabel={getItemLabel}
           selectedItem={queryState.category[0]}
@@ -90,7 +88,7 @@ export const SelectorMulti = ({
         />
         <Combobox
           id="products"
-          label={i18n._(t("selector.product")`Produkt`)}
+          label={t({ id: "selector.product", message: `Produkt` })}
           items={products}
           getItemLabel={getItemLabel}
           selectedItem={queryState.product[0]}

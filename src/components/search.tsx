@@ -18,7 +18,7 @@ import { LocalizedLink, createDynamicRouteProps } from "./links";
 import { useRouter } from "next/router";
 import { useTheme } from "../themes";
 import { getLocalizedLabel } from "../domain/translation";
-import { useI18n } from "./i18n-context";
+
 import VisuallyHidden from "@reach/visually-hidden";
 import { EMPTY_ARRAY } from "../lib/empty-array";
 import { analyticsSiteSearch } from "../domain/analytics";
@@ -104,7 +104,6 @@ export const SearchField = ({
   isLoading: boolean;
 }) => {
   const theme = useTheme();
-  const i18n = useI18n();
 
   const inputEl = useRef<HTMLInputElement>(null);
   const { query, push } = useRouter();
@@ -368,7 +367,7 @@ export const SearchField = ({
                         py: 2,
                       }}
                     >
-                      {getLocalizedLabel({ i18n, id: entity })}
+                      {getLocalizedLabel({ id: entity })}
                     </Box>
                     {items.map((item, index) => {
                       const ent = getEntity(entity);

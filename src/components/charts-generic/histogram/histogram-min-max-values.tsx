@@ -6,7 +6,6 @@ import { HistogramState } from "./histogram-state";
 import { useFormatCurrency } from "../../../domain/helpers";
 import { t } from "@lingui/macro";
 import { getLocalizedLabel } from "../../../domain/translation";
-import { useI18n } from "../../i18n-context";
 
 export const HistogramMinMaxValues = () => {
   const {
@@ -24,7 +23,6 @@ export const HistogramMinMaxValues = () => {
     fontFamily,
   } = useChartTheme();
   const formatCurrency = useFormatCurrency();
-  const i18n = useI18n();
 
   const minValue = min(data, (d) => getX(d));
   const maxValue = max(data, (d) => getX(d));
@@ -47,7 +45,7 @@ export const HistogramMinMaxValues = () => {
               textAnchor: "start",
             }}
           >
-            {formatCurrency(minValue)} {getLocalizedLabel({ i18n, id: "unit" })}
+            {formatCurrency(minValue)} {getLocalizedLabel({ id: "unit" })}
           </text>
           <text
             x={0}
@@ -60,7 +58,7 @@ export const HistogramMinMaxValues = () => {
               textAnchor: "start",
             }}
           >
-            {i18n._(t("histogram.min")`Min`)}
+            {t({ id: "histogram.min", message: `Min` })}
           </text>
         </g>
       )}
@@ -81,7 +79,7 @@ export const HistogramMinMaxValues = () => {
               textAnchor: "end",
             }}
           >
-            {formatCurrency(maxValue)} {getLocalizedLabel({ i18n, id: "unit" })}
+            {formatCurrency(maxValue)} {getLocalizedLabel({ id: "unit" })}
           </text>
           <text
             x={0}
@@ -94,7 +92,7 @@ export const HistogramMinMaxValues = () => {
               textAnchor: "end",
             }}
           >
-            {i18n._(t("histogram.max")`Max`)}
+            {t({ id: "histogram.max", message: `Max` })}
           </text>
         </g>
       )}

@@ -13,7 +13,7 @@ import {
 } from "../graphql/queries";
 import { Icon } from "../icons";
 import { MiniSelect, SearchField } from "./form";
-import { useI18n } from "./i18n-context";
+
 import { LocalizedLink } from "./links";
 import { RadioTabs } from "./radio-tabs";
 
@@ -229,19 +229,18 @@ export const List = ({
   const [listState, setListState] = useState<ListState>("MUNICIPALITIES");
   const [sortState, setSortState] = useState<SortState>("ASC");
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const i18n = useI18n();
 
   const sortOptions = [
     {
       value: "ASC" as SortState,
-      label: i18n._(t("list.order.asc")`Günstigste zuerst`),
+      label: t({ id: "list.order.asc", message: `Günstigste zuerst` }),
     },
     {
       value: "DESC" as SortState,
-      label: i18n._(t("list.order.desc")`Teuerste zuerst`),
+      label: t({ id: "list.order.desc", message: `Teuerste zuerst` }),
     },
   ];
-  const searchLabel = i18n._(t("list.search.label")`Liste filtern`);
+  const searchLabel = t({ id: "list.search.label", message: `Liste filtern` });
 
   const grouped = useMemo(() => {
     return listState === "CANTONS"

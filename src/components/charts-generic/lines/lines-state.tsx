@@ -35,7 +35,6 @@ import { ChartContext, ChartProps } from "../use-chart-state";
 import { InteractionProvider } from "../use-interaction";
 import { Bounds, Observer, useWidth } from "../use-width";
 import { getLocalizedLabel } from "../../../domain/translation";
-import { useI18n } from "../../i18n-context";
 
 export interface LinesState {
   data: GenericObservation[];
@@ -67,8 +66,6 @@ const useLinesState = ({
   fields: LineFields;
   aspectRatio: number;
 }): LinesState => {
-  const i18n = useI18n();
-
   const theme = useTheme();
   const width = useWidth();
   const formatCurrency = useFormatCurrency();
@@ -235,11 +232,9 @@ const useLinesState = ({
               uniqueId: `${value[1].length} ${
                 entity === "canton"
                   ? getLocalizedLabel({
-                      i18n,
                       id: "cantons",
                     })
                   : getLocalizedLabel({
-                      i18n,
                       id:
                         entity === "operator" ? "municipalities" : "operators",
                     })
@@ -271,7 +266,6 @@ const useLinesState = ({
       datum: {
         label: fields.segment && getSegment(datum),
         value: `${formatCurrency(getY(datum))} ${getLocalizedLabel({
-          i18n,
           id: "unit",
         })}`,
         color: colors(getColor(datum)) as string,
@@ -281,7 +275,6 @@ const useLinesState = ({
         .map((td) => ({
           label: getSegment(td),
           value: `${formatCurrency(getY(td))} ${getLocalizedLabel({
-            i18n,
             id: "unit",
           })}`,
           color:

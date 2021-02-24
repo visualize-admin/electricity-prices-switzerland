@@ -20,7 +20,6 @@ import { Histogram } from "../charts-generic/histogram/histogram-state";
 import { HistogramMedian } from "../charts-generic/histogram/median";
 import { Combobox } from "../combobox";
 import { Loading, NoDataHint } from "../hint";
-import { useI18n } from "../i18n-context";
 import { RadioTabs } from "../radio-tabs";
 import {
   ChartContainer,
@@ -50,9 +49,7 @@ export const PriceDistributionHistograms = ({
     setQueryState,
   ] = useQueryState();
 
-  const i18n = useI18n();
-
-  const getItemLabel = (id: string) => getLocalizedLabel({ i18n, id });
+  const getItemLabel = (id: string) => getLocalizedLabel({ id });
 
   const comparisonIds =
     entity === "municipality"
@@ -85,23 +82,23 @@ export const PriceDistributionHistograms = ({
               options={[
                 {
                   value: "total",
-                  label: getLocalizedLabel({ i18n, id: "total" }),
+                  label: getLocalizedLabel({ id: "total" }),
                 },
                 {
                   value: "gridusage",
-                  label: getLocalizedLabel({ i18n, id: "gridusage" }),
+                  label: getLocalizedLabel({ id: "gridusage" }),
                 },
                 {
                   value: "energy",
-                  label: getLocalizedLabel({ i18n, id: "energy" }),
+                  label: getLocalizedLabel({ id: "energy" }),
                 },
                 {
                   value: "charge",
-                  label: getLocalizedLabel({ i18n, id: "charge" }),
+                  label: getLocalizedLabel({ id: "charge" }),
                 },
                 {
                   value: "aidfee",
-                  label: getLocalizedLabel({ i18n, id: "aidfee" }),
+                  label: getLocalizedLabel({ id: "aidfee" }),
                 },
               ]}
               value={priceComponent[0] as string}
@@ -112,7 +109,10 @@ export const PriceDistributionHistograms = ({
           <Box sx={{ display: ["block", "block", "none"] }}>
             <Combobox
               id="priceComponents"
-              label={i18n._(t("selector.priceComponents")`Preiskomponenten`)}
+              label={t({
+                id: "selector.priceComponents",
+                message: `Preiskomponenten`,
+              })}
               items={priceComponents}
               getItemLabel={getItemLabel}
               selectedItem={priceComponent[0]}
@@ -151,7 +151,6 @@ export const PriceDistributionHistogram = ({
 }) => {
   const locale = useLocale();
   const [{ category, product }] = useQueryState();
-  const i18n = useI18n();
 
   const [observationsQuery] = useObservationsQuery({
     variables: {
@@ -201,7 +200,6 @@ export const PriceDistributionHistogram = ({
             muniOperator: `${d[1][0][`${entity}Label`]}, ${
               d[1].length
             } ${getLocalizedLabel({
-              i18n,
               id: entity === "operator" ? "municipalities" : "operators",
             })}`,
           };
@@ -214,7 +212,7 @@ export const PriceDistributionHistogram = ({
           period: year,
           category: category[0],
           product: product[0],
-          priceComponent: getLocalizedLabel({ i18n, id: priceComponent }),
+          priceComponent: getLocalizedLabel({ id: priceComponent }),
         }}
       />
       {observationsQuery.fetching ? (

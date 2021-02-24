@@ -2,7 +2,7 @@ import * as React from "react";
 import { useFormatCurrency } from "../../../domain/helpers";
 import { getLocalizedLabel } from "../../../domain/translation";
 import { EXPANDED_TAG } from "../../detail-page/price-components-bars";
-import { useI18n } from "../../i18n-context";
+
 import { useChartState } from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
 import { GroupedBarsState } from "./bars-grouped-state";
@@ -23,8 +23,6 @@ export const BarsGroupedAxis = ({
     axisLabelFontWeight,
     axisLabelColor,
   } = useChartTheme();
-
-  const i18n = useI18n();
 
   return (
     <>
@@ -124,7 +122,6 @@ export const BarsGroupedLabels = () => {
   const { margins } = bounds;
   const { axisLabelColor, labelFontSize, fontFamily } = useChartTheme();
   const formatCurrency = useFormatCurrency();
-  const i18n = useI18n();
 
   return (
     <g transform={`translate(${margins.left} ${margins.top})`}>
@@ -145,8 +142,7 @@ export const BarsGroupedLabels = () => {
             {!getSegment(d).includes(EXPANDED_TAG) && (
               <>
                 <tspan fontWeight="bold">
-                  {formatCurrency(getX(d))}{" "}
-                  {getLocalizedLabel({ i18n, id: "unit" })}
+                  {formatCurrency(getX(d))} {getLocalizedLabel({ id: "unit" })}
                 </tspan>{" "}
               </>
             )}

@@ -2,8 +2,6 @@ import { Trans } from "@lingui/macro";
 import { Text, Box } from "@theme-ui/components";
 import * as React from "react";
 import { getLocalizedLabel } from "../../domain/translation";
-import { useI18n } from "../i18n-context";
-
 type FilterSet = {
   operator: string;
   municipality: string;
@@ -19,7 +17,6 @@ export const FilterSetDescription = ({
 }: {
   filters: Partial<FilterSet>;
 }) => {
-  const i18n = useI18n();
   return (
     <Text
       variant="paragraph1"
@@ -32,11 +29,10 @@ export const FilterSetDescription = ({
 
         return (
           <React.Fragment key={key}>
-            <Box as="span">{getLocalizedLabel({ i18n, id: key })}</Box>
+            <Box as="span">{getLocalizedLabel({ id: key })}</Box>
             {": "}
             <Box as="span" sx={{ fontWeight: "bold" }}>
               {getLocalizedLabel({
-                i18n,
                 id: value,
               })}
             </Box>

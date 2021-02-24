@@ -4,13 +4,12 @@ import { forwardRef, ReactNode } from "react";
 import { Icon } from "../icons";
 import { useLocale } from "../lib/use-locale";
 import { useQueryStateSingle } from "../lib/use-query-state";
-import { useI18n } from "./i18n-context";
+
 import { InfoDialogButton } from "./info-dialog";
 import { LogoDesktop } from "./logo";
 
 export const Footer = () => {
   const locale = useLocale();
-  const i18n = useI18n();
   const [{ period }] = useQueryStateSingle();
 
   return (
@@ -28,7 +27,7 @@ export const Footer = () => {
       >
         <InfoDialogButton
           slug="help-calculation"
-          label={i18n._(t("help.calculation")`Berechnungsgrundlage`)}
+          label={t({ id: "help.calculation", message: `Berechnungsgrundlage` })}
         />
       </Box>
       <Box

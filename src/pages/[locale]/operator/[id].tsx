@@ -1,3 +1,4 @@
+import { t } from "@lingui/macro";
 import { Flex } from "@theme-ui/components";
 import { GetServerSideProps } from "next";
 import ErrorPage from "next/error";
@@ -12,7 +13,6 @@ import { PriceEvolution } from "../../../components/detail-page/price-evolution-
 import { SelectorMulti } from "../../../components/detail-page/selector-multi";
 import { Footer } from "../../../components/footer";
 import { Header } from "../../../components/header";
-import { useI18n } from "../../../components/i18n-context";
 import { OperatorDocuments } from "../../../components/operator-documents";
 import {
   getDimensionValuesAndLabels,
@@ -76,7 +76,6 @@ export const getServerSideProps: GetServerSideProps<
 };
 
 const OperatorPage = (props: Props) => {
-  const i18n = useI18n();
   const { query } = useRouter();
   if (props.status === "notfound") {
     return <ErrorPage statusCode={404} />;
@@ -86,9 +85,9 @@ const OperatorPage = (props: Props) => {
   return (
     <>
       <Head>
-        <title>{`${i18n._("detail.operator")} ${name} – ${i18n._(
-          "site.title"
-        )}`}</title>
+        <title>{`${t({ id: "detail.operator" })} ${name} – ${t({
+          id: "site.title",
+        })}`}</title>
       </Head>
       <Flex sx={{ minHeight: "100vh", flexDirection: "column" }}>
         {!query.download && <Header></Header>}
