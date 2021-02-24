@@ -27,7 +27,7 @@ msgstr ""
 
 #: src/components/charts-generic/axis/axis-width-linear.tsx:78
 msgid "chart.axis.unit.Rp/kWh"
-msgstr ""
+msgstr "ct./kWh"
 
 #: src/components/combobox.tsx:173
 #: src/components/search.tsx:218
@@ -274,7 +274,7 @@ msgstr "Min"
 
 #: src/components/detail-page/cantons-comparison-range.tsx:108
 msgid "rangeplot.select.order.hint"
-msgstr ""
+msgstr "Trier par"
 
 #: src/components/detail-page/banner.tsx:29
 msgid "relations.showmore"
@@ -434,7 +434,7 @@ msgstr "Produit"
 
 #: src/components/selector.tsx:34
 msgid "selector.results"
-msgstr ""
+msgstr "Résultats de recherche"
 
 #: src/components/selector.tsx:27
 msgid "selector.year"
