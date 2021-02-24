@@ -1,114 +1,124 @@
-import { I18n } from "@lingui/core";
 import { t } from "@lingui/macro";
 
-export const getLocalizedLabel = ({
-  i18n,
-  id,
-}: {
-  i18n: I18n;
-  id: string;
-}): string => {
+export const getLocalizedLabel = ({ id }: { id: string }): string => {
   switch (id) {
     case "collapsed-operator":
-      return i18n._(t("priceComponents.view.collapsed")`Gemeinden gruppieren`);
+      return t({
+        id: "priceComponents.view.collapsed",
+        message: `Gemeinden gruppieren`,
+      });
     case "expanded-operator":
-      return i18n._(
-        t("priceComponents.view.expanded")`Einzelne Gemeinden anzeigen`
-      );
+      return t({
+        id: "priceComponents.view.expanded",
+        message: `Einzelne Gemeinden anzeigen`,
+      });
     case "collapsed-municipality":
-      return i18n._(
-        t("priceComponents.view.collapsed")`Netzbetreiber gruppieren`
-      );
+      return t({
+        id: "priceComponents.view.collapsed",
+        message: `Netzbetreiber gruppieren`,
+      });
     case "expanded-municipality":
-      return i18n._(
-        t("priceComponents.view.expanded")`Einzelne Netzbetreiber anzeigen`
-      );
+      return t({
+        id: "priceComponents.view.expanded",
+        message: `Einzelne Netzbetreiber anzeigen`,
+      });
     case "unit":
-      return i18n._(t("chart.axis.unit.Rp/kWh")`Rp./kWh`);
+      return t({ id: "chart.axis.unit.Rp/kWh", message: `Rp./kWh` });
     case "standard":
-      return i18n._(t("selector.product.standard")`Standard`);
+      return t({ id: "selector.product.standard", message: `Standard` });
     case "cheapest":
-      return i18n._(t("selector.product.cheapest")`Günstigstes`);
+      return t({ id: "selector.product.cheapest", message: `Günstigstes` });
     case "gridusage":
-      return i18n._(t("selector.pricecomponent.gridusage")`Netznutzung`);
+      return t({
+        id: "selector.pricecomponent.gridusage",
+        message: `Netznutzung`,
+      });
     case "energy":
-      return i18n._(t("selector.pricecomponent.energy")`Energie`);
+      return t({ id: "selector.pricecomponent.energy", message: `Energie` });
     case "charge":
-      return i18n._(
-        t("selector.pricecomponent.charge")`Abgaben an das Gemeinwesen`
-      );
+      return t({
+        id: "selector.pricecomponent.charge",
+        message: `Abgaben an das Gemeinwesen`,
+      });
     case "aidfee":
-      return i18n._(t("selector.pricecomponent.aidfee")`Förderabgaben (KEV)`);
+      return t({
+        id: "selector.pricecomponent.aidfee",
+        message: `Förderabgaben (KEV)`,
+      });
     case "total":
-      return i18n._(t("selector.pricecomponent.total")`Total`);
+      return t({ id: "selector.pricecomponent.total", message: `Total` });
 
     case "H1":
-      return i18n._(t("selector.category.H1")`H1`);
+      return t({ id: "selector.category.H1", message: `H1` });
     case "H2":
-      return i18n._(t("selector.category.H2")`H2`);
+      return t({ id: "selector.category.H2", message: `H2` });
     case "H3":
-      return i18n._(t("selector.category.H3")`H3`);
+      return t({ id: "selector.category.H3", message: `H3` });
     case "H4":
-      return i18n._(t("selector.category.H4")`H4`);
+      return t({ id: "selector.category.H4", message: `H4` });
     case "H5":
-      return i18n._(t("selector.category.H5")`H5`);
+      return t({ id: "selector.category.H5", message: `H5` });
     case "H6":
-      return i18n._(t("selector.category.H6")`H6`);
+      return t({ id: "selector.category.H6", message: `H6` });
     case "H7":
-      return i18n._(t("selector.category.H7")`H7`);
+      return t({ id: "selector.category.H7", message: `H7` });
     case "H8":
-      return i18n._(t("selector.category.H8")`H8`);
+      return t({ id: "selector.category.H8", message: `H8` });
     case "C1":
-      return i18n._(t("selector.category.C1")`C1`);
+      return t({ id: "selector.category.C1", message: `C1` });
     case "C2":
-      return i18n._(t("selector.category.C2")`C2`);
+      return t({ id: "selector.category.C2", message: `C2` });
     case "C3":
-      return i18n._(t("selector.category.C3")`C3`);
+      return t({ id: "selector.category.C3", message: `C3` });
     case "C4":
-      return i18n._(t("selector.category.C4")`C4`);
+      return t({ id: "selector.category.C4", message: `C4` });
     case "C5":
-      return i18n._(t("selector.category.C5")`C5`);
+      return t({ id: "selector.category.C5", message: `C5` });
     case "C6":
-      return i18n._(t("selector.category.C6")`C6`);
+      return t({ id: "selector.category.C6", message: `C6` });
     case "C7":
-      return i18n._(t("selector.category.C7")`C7`);
+      return t({ id: "selector.category.C7", message: `C7` });
     case "period":
-      return i18n._(t("filters.year")`Jahr`);
+      return t({ id: "filters.year", message: `Jahr` });
     case "category":
-      return i18n._(t("filters.category")`Kategorie`);
+      return t({ id: "filters.category", message: `Kategorie` });
     case "product":
-      return i18n._(t("filters.product")`Produkt`);
+      return t({ id: "filters.product", message: `Produkt` });
     case "priceComponent":
-      return i18n._(t("filters.price.component")`Preiskomponente`);
+      return t({ id: "filters.price.component", message: `Preiskomponente` });
     case "OperatorResult":
     case "operator":
-      return i18n._(t("search.result.operator")`Netzbetreiber`);
+      return t({ id: "search.result.operator", message: `Netzbetreiber` });
     case "operators":
-      return i18n._(t("chart.annotation.operators")`Netzbetreiber`);
+      return t({ id: "chart.annotation.operators", message: `Netzbetreiber` });
     case "MunicipalityResult":
     case "municipality":
-      return i18n._(t("search.result.municipality")`Gemeinde`);
+      return t({ id: "search.result.municipality", message: `Gemeinde` });
     case "municipalities":
-      return i18n._(t("chart.annotation.municipalities")`Gemeinden`);
+      return t({ id: "chart.annotation.municipalities", message: `Gemeinden` });
     case "CantonResult":
     case "canton":
-      return i18n._(t("search.result.canton")`Kanton`);
+      return t({ id: "search.result.canton", message: `Kanton` });
     case "median-asc":
-      return i18n._(
-        t("rangeplot.select.sorting.median-asc")`Median aufsteigend`
-      );
+      return t({
+        id: "rangeplot.select.sorting.median-asc",
+        message: `Median aufsteigend`,
+      });
     case "median-desc":
-      return i18n._(
-        t("rangeplot.select.sorting.median-desc")`Median absteigend`
-      );
+      return t({
+        id: "rangeplot.select.sorting.median-desc",
+        message: `Median absteigend`,
+      });
     case "alpha-asc":
-      return i18n._(
-        t("rangeplot.select.sorting.alpha-asc")`Alphabetisch aufsteigend`
-      );
+      return t({
+        id: "rangeplot.select.sorting.alpha-asc",
+        message: `Alphabetisch aufsteigend`,
+      });
     case "alpha-desc":
-      return i18n._(
-        t("rangeplot.select.sorting.alpha-desc")`Alphabetisch absteigend`
-      );
+      return t({
+        id: "rangeplot.select.sorting.alpha-desc",
+        message: `Alphabetisch absteigend`,
+      });
 
     default:
       return id;

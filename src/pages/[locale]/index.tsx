@@ -1,4 +1,4 @@
-import { Trans } from "@lingui/macro";
+import { t, Trans } from "@lingui/macro";
 import { useCallback, useMemo } from "react";
 import { Box, Flex, Grid, Text } from "theme-ui";
 import { DownloadImage } from "../../components/detail-page/download-image";
@@ -21,7 +21,6 @@ import { GetServerSideProps } from "next";
 import { Hint, HintBlue } from "../../components/hint";
 
 import Head from "next/head";
-import { useI18n } from "../../components/i18n-context";
 import { InfoBanner } from "../../components/info-banner";
 
 const DOWNLOAD_ID = "map";
@@ -50,8 +49,6 @@ const IndexPage = ({ locale }: Props) => {
   const [
     { period, priceComponent, category, product, download },
   ] = useQueryStateSingle();
-
-  const i18n = useI18n();
 
   const [observationsQuery] = useObservationsQuery({
     variables: {
@@ -89,7 +86,7 @@ const IndexPage = ({ locale }: Props) => {
   return (
     <>
       <Head>
-        <title>{i18n._("site.title")}</title>
+        <title>{t({ id: "site.title" })}</title>
       </Head>
       <Grid
         sx={{

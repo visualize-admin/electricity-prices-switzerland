@@ -28,7 +28,6 @@ import { GroupedBarsChart } from "../charts-generic/bars/bars-grouped-state";
 import { ChartContainer, ChartSvg } from "../charts-generic/containers";
 import { Combobox } from "../combobox";
 import { Loading, NoDataHint } from "../hint";
-import { useI18n } from "../i18n-context";
 import { RadioTabs } from "../radio-tabs";
 import { Card } from "./card";
 import { Download } from "./download-image";
@@ -45,8 +44,6 @@ export const PriceComponentsBarChart = ({
   id: string;
   entity: Entity;
 }) => {
-  const i18n = useI18n();
-
   const locale = useLocale();
   const [
     {
@@ -117,7 +114,7 @@ export const PriceComponentsBarChart = ({
   const opacityDomain = [...new Set(pivoted.map((p) => p.period))] as string[];
 
   const getItemLabel = (id: string) =>
-    getLocalizedLabel({ i18n, id: `${id}-${entity}` });
+    getLocalizedLabel({ id: `${id}-${entity}` });
 
   return (
     <Card
@@ -142,14 +139,12 @@ export const PriceComponentsBarChart = ({
                 {
                   value: "collapsed",
                   label: getLocalizedLabel({
-                    i18n,
                     id: `collapsed-${entity}`,
                   }),
                 },
                 {
                   value: "expanded",
                   label: getLocalizedLabel({
-                    i18n,
                     id: `expanded-${entity}`,
                   }),
                 },
@@ -252,7 +247,6 @@ export const PriceComponentsBarChart = ({
                       <BarsGrouped />
                       <BarsGroupedAxis
                         title={getLocalizedLabel({
-                          i18n,
                           id: priceComponent[0] as string,
                         })}
                       />
@@ -286,8 +280,6 @@ const prepareObservations = ({
   entity: Entity;
   view: string;
 }) => {
-  const i18n = useI18n();
-
   if (entity === "canton") {
     return groupedObservations.flatMap((year) =>
       year[1].flatMap((ent) =>
@@ -313,7 +305,6 @@ const prepareObservations = ({
                     label: `${value[1][0].period}, ${
                       value[1][0].operatorLabel
                     }, ${value[1].length} ${getLocalizedLabel({
-                      i18n,
                       id:
                         entity === "operator" ? "municipalities" : "operators",
                     })}`,
@@ -348,7 +339,6 @@ const prepareObservations = ({
                   label: `${value[1][0].period}, ${
                     value[1][0].operatorLabel
                   }, ${value[1].length} ${getLocalizedLabel({
-                    i18n,
                     id: entity === "operator" ? "municipalities" : "operators",
                   })}`,
                   entities: value[1],

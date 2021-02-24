@@ -4,7 +4,6 @@ import * as React from "react";
 import { useTheme } from "../themes";
 import { useFormatCurrency } from "../domain/helpers";
 import { InfoDialogButton } from "./info-dialog";
-import { useI18n } from "./i18n-context";
 
 const LEGEND_WIDTH = 200;
 const TOP_LABEL_HEIGHT = 14;
@@ -17,7 +16,6 @@ export const MapPriceColorLegend = ({
   stats: [number | undefined, number | undefined, number | undefined];
 }) => {
   const formatCurrency = useFormatCurrency();
-  const i18n = useI18n();
   return (
     <Box
       sx={{
@@ -38,7 +36,7 @@ export const MapPriceColorLegend = ({
           smaller
           iconOnly
           slug="help-price-comparison"
-          label={i18n._(t("help.price-comparison")`Tarifvergleich`)}
+          label={t({ id: "help.price-comparison", message: `Tarifvergleich` })}
         />
       </Flex>
       <Flex

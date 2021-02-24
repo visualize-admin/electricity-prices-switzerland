@@ -2,7 +2,6 @@ import * as React from "react";
 import { Box } from "theme-ui";
 import { GenericObservation } from "../../../domain/data";
 import { getLocalizedLabel } from "../../../domain/translation";
-import { useI18n } from "../../i18n-context";
 import { HistogramState } from "../histogram/histogram-state";
 import { DOT_RADIUS, RangePlotState } from "../rangeplot/rangeplot-state";
 import { useChartState } from "../use-chart-state";
@@ -118,7 +117,6 @@ export const AnnotationXLabel = () => {
     | HistogramState;
 
   const { annotationfontSize, fontFamily, annotationColor } = useChartTheme();
-  const i18n = useI18n();
 
   const { width, margins } = bounds;
   return (
@@ -146,7 +144,7 @@ export const AnnotationXLabel = () => {
             }}
           >
             <Box as="span" sx={{ fontWeight: "bold" }}>
-              {a.value} {getLocalizedLabel({ i18n, id: "unit" })}{" "}
+              {a.value} {getLocalizedLabel({ id: "unit" })}{" "}
             </Box>
             {a.label}
           </Box>

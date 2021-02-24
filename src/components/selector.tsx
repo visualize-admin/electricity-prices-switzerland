@@ -4,12 +4,10 @@ import { categories, periods, priceComponents, products } from "../domain/data";
 import { getLocalizedLabel } from "../domain/translation";
 import { useQueryStateSingle } from "../lib/use-query-state";
 import { Combobox } from "./../components/combobox";
-import { useI18n } from "./i18n-context";
 
 export const Selector = () => {
   const [queryState, setQueryState] = useQueryStateSingle();
-  const i18n = useI18n();
-  const getItemLabel = (id: string) => getLocalizedLabel({ i18n, id });
+  const getItemLabel = (id: string) => getLocalizedLabel({ id });
   return (
     <Flex
       as="fieldset"
@@ -33,7 +31,7 @@ export const Selector = () => {
 
       <Combobox
         id="year"
-        label={i18n._(t("selector.year")`Jahr`)}
+        label={t({ id: "selector.year", message: `Jahr` })}
         items={periods}
         selectedItem={queryState.period ?? "2020"}
         setSelectedItem={(selectedItem) =>
@@ -42,7 +40,7 @@ export const Selector = () => {
       />
       <Combobox
         id="priceComponent"
-        label={i18n._(t("selector.priceComponent")`Preiskomponente`)}
+        label={t({ id: "selector.priceComponent", message: `Preiskomponente` })}
         items={priceComponents}
         getItemLabel={getItemLabel}
         selectedItem={queryState.priceComponent ?? "total"}
@@ -54,7 +52,7 @@ export const Selector = () => {
 
       <Combobox
         id="category"
-        label={i18n._(t("selector.category")`Kategorie`)}
+        label={t({ id: "selector.category", message: `Kategorie` })}
         items={categories}
         getItemLabel={getItemLabel}
         selectedItem={queryState.category ?? "H4"}
@@ -66,7 +64,7 @@ export const Selector = () => {
 
       <Combobox
         id="product"
-        label={i18n._(t("selector.product")`Produkt`)}
+        label={t({ id: "selector.product", message: `Produkt` })}
         items={products}
         getItemLabel={getItemLabel}
         selectedItem={queryState.product ?? "standard"}

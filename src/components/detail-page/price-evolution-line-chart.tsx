@@ -21,7 +21,6 @@ import { Lines } from "../charts-generic/lines/lines";
 import { LineChart } from "../charts-generic/lines/lines-state";
 import { InteractionHorizontal } from "../charts-generic/overlay/interaction-horizontal";
 import { Loading, NoDataHint } from "../hint";
-import { useI18n } from "../i18n-context";
 import {
   ChartContainer,
   ChartSvg,
@@ -123,8 +122,6 @@ const PriceEvolutionLineCharts = memo(
     observations: GenericObservation[];
     entity: Entity;
   }) => {
-    const i18n = useI18n();
-
     // Add a unique ID for the combinations municipality+operator
     const withUniqueEntityId: GenericObservation[] = observations.map(
       (obs) => ({
@@ -149,7 +146,7 @@ const PriceEvolutionLineCharts = memo(
           return (
             <Box sx={{ my: 4 }} key={i}>
               <Box sx={{ fontSize: 4, fontWeight: "bold" }}>
-                {getLocalizedLabel({ i18n, id: pc })}
+                {getLocalizedLabel({ id: pc })}
               </Box>
               <LineChart
                 data={withUniqueEntityId}
@@ -177,7 +174,7 @@ const PriceEvolutionLineCharts = memo(
                 measures={[
                   {
                     iri: pc,
-                    label: getLocalizedLabel({ i18n, id: pc }),
+                    label: getLocalizedLabel({ id: pc }),
                     __typename: "Measure",
                   },
                 ]}

@@ -1,9 +1,0 @@
-{
-  "localeDir": "src/locales/",
-  "srcPathDirs": ["src/"],
-  "srcPathIgnorePatterns": ["/node_modules/", "/.next/"],
-  "format": "po",
-  "compileNamespace": "es",
-  "sourceLocale": "de",
-  "fallbackLocale": "de"
-}

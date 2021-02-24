@@ -1,3 +1,4 @@
+import { t } from "@lingui/macro";
 import { GetServerSideProps } from "next";
 import ErrorPage from "next/error";
 import Head from "next/head";
@@ -12,7 +13,6 @@ import { PriceEvolution } from "../../../components/detail-page/price-evolution-
 import { SelectorMulti } from "../../../components/detail-page/selector-multi";
 import { Footer } from "../../../components/footer";
 import { Header } from "../../../components/header";
-import { useI18n } from "../../../components/i18n-context";
 import { getCanton, getSource } from "../../../graphql/rdf";
 
 type Props =
@@ -41,7 +41,6 @@ export const getServerSideProps: GetServerSideProps<
 };
 
 const CantonPage = (props: Props) => {
-  const i18n = useI18n();
   const { query } = useRouter();
 
   if (props.status === "notfound") {
@@ -52,9 +51,9 @@ const CantonPage = (props: Props) => {
   return (
     <>
       <Head>
-        <title>{`${i18n._("detail.canton")} ${name} – ${i18n._(
-          "site.title"
-        )}`}</title>
+        <title>{`${t({ id: "detail.canton" })} ${name} – ${t({
+          id: "site.title",
+        })}`}</title>
       </Head>
       <Flex sx={{ minHeight: "100vh", flexDirection: "column" }}>
         {!query.download && <Header></Header>}

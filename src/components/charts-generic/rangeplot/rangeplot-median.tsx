@@ -3,7 +3,7 @@ import * as React from "react";
 import { useChartState } from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
 import { useFormatCurrency } from "../../../domain/helpers";
-import { useI18n } from "../../i18n-context";
+
 import { getLocalizedLabel } from "../../../domain/translation";
 import { RangePlotState } from "./rangeplot-state";
 
@@ -23,7 +23,6 @@ export const RangeplotMedian = ({ label }: { label: string }) => {
     fontFamily,
   } = useChartTheme();
   const formatCurrency = useFormatCurrency();
-  const i18n = useI18n();
 
   const m = median(data, (d) => getX(d));
 
@@ -54,7 +53,7 @@ export const RangeplotMedian = ({ label }: { label: string }) => {
               textAnchor: "middle",
             }}
           >
-            {formatCurrency(m)} {getLocalizedLabel({ i18n, id: "unit" })}
+            {formatCurrency(m)} {getLocalizedLabel({ id: "unit" })}
           </text>
           <text
             x={xScale(m)}

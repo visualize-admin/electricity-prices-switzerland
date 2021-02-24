@@ -28,7 +28,6 @@ import { Range, RangePoints } from "../charts-generic/rangeplot/rangeplot";
 import { RangePlot } from "../charts-generic/rangeplot/rangeplot-state";
 import { Combobox } from "../combobox";
 import { Loading, NoDataHint } from "../hint";
-import { useI18n } from "../i18n-context";
 import { PriceColorLegend } from "../price-color-legend";
 import { RadioTabs } from "../radio-tabs";
 import { Card } from "./card";
@@ -86,9 +85,7 @@ export const CantonsComparisonRangePlots = ({
     }
   }, [cantonsOrder]);
 
-  const i18n = useI18n();
-
-  const getItemLabel = (id: string) => getLocalizedLabel({ i18n, id });
+  const getItemLabel = (id: string) => getLocalizedLabel({ id });
 
   const comparisonIds =
     entity === "municipality"
@@ -121,23 +118,23 @@ export const CantonsComparisonRangePlots = ({
               options={[
                 {
                   value: "total",
-                  label: getLocalizedLabel({ i18n, id: "total" }),
+                  label: getLocalizedLabel({ id: "total" }),
                 },
                 {
                   value: "gridusage",
-                  label: getLocalizedLabel({ i18n, id: "gridusage" }),
+                  label: getLocalizedLabel({ id: "gridusage" }),
                 },
                 {
                   value: "energy",
-                  label: getLocalizedLabel({ i18n, id: "energy" }),
+                  label: getLocalizedLabel({ id: "energy" }),
                 },
                 {
                   value: "charge",
-                  label: getLocalizedLabel({ i18n, id: "charge" }),
+                  label: getLocalizedLabel({ id: "charge" }),
                 },
                 {
                   value: "aidfee",
-                  label: getLocalizedLabel({ i18n, id: "aidfee" }),
+                  label: getLocalizedLabel({ id: "aidfee" }),
                 },
               ]}
               value={priceComponent[0] as string}
@@ -148,7 +145,10 @@ export const CantonsComparisonRangePlots = ({
           <Box sx={{ display: ["block", "block", "none"] }}>
             <Combobox
               id="priceComponents"
-              label={i18n._(t("selector.priceComponents")`Preiskomponenten`)}
+              label={t({
+                id: "selector.priceComponents",
+                message: `Preiskomponenten`,
+              })}
               items={priceComponents}
               getItemLabel={getItemLabel}
               selectedItem={priceComponent[0]}
@@ -164,7 +164,10 @@ export const CantonsComparisonRangePlots = ({
             }}
           >
             <Combobox
-              label={i18n._(t("rangeplot.select.order.hint")`Sortieren nach`)}
+              label={t({
+                id: "rangeplot.select.order.hint",
+                message: `Sortieren nach`,
+              })}
               id={"rangeplot-sorting-select"}
               items={SORTING_VALUES}
               getItemLabel={getItemLabel}
@@ -214,7 +217,6 @@ export const CantonsComparisonRangePlot = memo(
       { category, product, cantonsOrder },
       setQueryState,
     ] = useQueryState();
-    const i18n = useI18n();
 
     const [observationsQuery] = useObservationsQuery({
       variables: {
@@ -265,7 +267,6 @@ export const CantonsComparisonRangePlot = memo(
               muniOperator: `${d[1][0][`${entity}Label`]}, ${
                 d[1].length
               } ${getLocalizedLabel({
-                i18n,
                 id: entity === "operator" ? "municipalities" : "operators",
               })}`,
             };
@@ -279,7 +280,7 @@ export const CantonsComparisonRangePlot = memo(
             period: year,
             category: category[0],
             product: product[0],
-            priceComponent: getLocalizedLabel({ i18n, id: priceComponent }),
+            priceComponent: getLocalizedLabel({ id: priceComponent }),
           }}
         />
 
