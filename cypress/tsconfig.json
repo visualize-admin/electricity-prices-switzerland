@@ -1,8 +1,9 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    // "noEmit": false,
+    "noEmit": true,
     "isolatedModules": false,
-    "types": ["cypress"]
-  }
+    "types": ["cypress", "cypress-plugin-snapshots"]
+  },
+  "include": ["**/*.ts"]
 }
