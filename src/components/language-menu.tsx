@@ -1,9 +1,23 @@
 import { Box, Flex, Link } from "@theme-ui/components";
 import NextLink from "next/link";
+import { useRouter } from "next/router";
+import { ReactNode } from "react";
 import contentRoutes from "../content-routes.json";
 import { useLocale } from "../lib/use-locale";
 import { locales } from "../locales/locales";
-import { CurrentPageLink } from "./links";
+
+const CurrentPageLink = ({
+  locale,
+  ...rest
+}: {
+  locale: string;
+  passHref?: boolean;
+  children: ReactNode;
+}) => {
+  const { pathname, query } = useRouter();
+
+  return <NextLink {...rest} href={{ pathname, query }} locale={locale} />;
+};
 
 export const LanguageMenu = ({ contentId }: { contentId?: string }) => {
   const currentLocale = useLocale();
@@ -66,7 +80,7 @@ export const LanguageMenu = ({ contentId }: { contentId?: string }) => {
         return (
           <Box as="li" key={locale} sx={{ ml: 1, p: 0 }}>
             {alternate ? (
-              <NextLink href={alternate.path} passHref>
+              <NextLink href={alternate.path} passHref locale={false}>
                 {linkEl}
               </NextLink>
             ) : (

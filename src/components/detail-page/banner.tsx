@@ -11,8 +11,9 @@ import { useRouter } from "next/router";
 import { Fragment, useState } from "react";
 import { Entity } from "../../domain/data";
 import { Icon } from "../../icons";
-import { HomeLink, LocalizedLink } from "../links";
+import NextLink from "next/link";
 import { Search } from "../search";
+import { HomeLink } from "../links";
 
 const TRUNCATE_COUNT = 5;
 const RelationsList = ({
@@ -37,13 +38,12 @@ const RelationsList = ({
       {truncated.map(({ id, name }, i) => {
         return (
           <Fragment key={id}>
-            <LocalizedLink
-              pathname={relationPathname}
-              query={{ ...query, id }}
+            <NextLink
+              href={{ pathname: relationPathname, query: { ...query, id } }}
               passHref
             >
               <UILink variant="inline">{name}</UILink>
-            </LocalizedLink>
+            </NextLink>
             {i < truncated.length - 1 && ", "}
           </Fragment>
         );
@@ -153,13 +153,15 @@ export const DetailPageBanner = ({
           {canton && (
             <Box sx={{ pr: 3, my: 1 }}>
               <Trans id="detail.canton">Kanton</Trans>:{" "}
-              <LocalizedLink
-                pathname="/[locale]/canton/[id]"
-                query={{ ...query, id: canton.id }}
+              <NextLink
+                href={{
+                  pathname: `/canton/[id]`,
+                  query: { ...query, id: canton.id },
+                }}
                 passHref
               >
                 <UILink variant="inline">{canton.name}</UILink>
-              </LocalizedLink>
+              </NextLink>
             </Box>
           )}
           {municipalities && (
@@ -167,7 +169,7 @@ export const DetailPageBanner = ({
               <Trans id="detail.municipalities">Gemeinden</Trans>:{" "}
               <RelationsList
                 key={`${entity}-${id}`}
-                relationPathname={`/[locale]/municipality/[id]`}
+                relationPathname={`/municipality/[id]`}
                 relations={municipalities}
               />
             </Box>
@@ -177,7 +179,7 @@ export const DetailPageBanner = ({
               <Trans id="detail.operators">Netzbetreiber</Trans>:{" "}
               <RelationsList
                 key={`${entity}-${id}`}
-                relationPathname={`/[locale]/operator/[id]`}
+                relationPathname={`/operator/[id]`}
                 relations={operators}
               />
             </Box>

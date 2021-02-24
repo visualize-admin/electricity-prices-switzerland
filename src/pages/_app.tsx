@@ -15,8 +15,8 @@ import "../styles/reach-dialog.css";
 import { preloadFonts, theme } from "../themes/elcom";
 
 export default function App({ Component, pageProps }: AppProps) {
-  const { query, events: routerEvents } = useRouter();
-  const locale = parseLocaleString(query.locale as string);
+  const { query, events: routerEvents, locale: routerLocale } = useRouter();
+  const locale = parseLocaleString(routerLocale ?? "");
 
   useNProgress();
 

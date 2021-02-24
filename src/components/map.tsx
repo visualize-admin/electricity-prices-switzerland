@@ -24,7 +24,6 @@ import {
 import { useFormatCurrency } from "../domain/helpers";
 import { OperatorObservationFieldsFragment } from "../graphql/queries";
 import { TooltipBoxWithoutChartState } from "./charts-generic/interaction/tooltip-box";
-import { createDynamicRouteProps } from "./links";
 import { Loading, NoDataHint, NoGeoDataHint } from "./hint";
 import { WithClassName } from "./detail-page/with-classname";
 
@@ -406,14 +405,14 @@ export const ChoroplethMap = ({
                   );
                 }}
                 onClick={({ layer, object }: $FixMe) => {
-                  const { href, as } = createDynamicRouteProps({
-                    pathname: `/[locale]/municipality/[id]`,
+                  const href = {
+                    pathname: `/municipality/[id]`,
                     query: {
                       ...query,
                       id: object?.id.toString(),
                     },
-                  });
-                  push(href, as);
+                  };
+                  push(href);
                   // if (object) {
                   //   const { viewport } = layer.context;
                   //   const bounds = geoBounds(object);

@@ -1,6 +1,5 @@
 import { useCallback } from "react";
 import { useRouter } from "next/router";
-import { createDynamicRouteProps } from "../components/links";
 import { Download } from "../components/detail-page/download-image";
 
 const ensureArray = (input: string | string[]): string[] =>
@@ -67,12 +66,12 @@ export const useQueryState = () => {
         }
       }
 
-      const { href, as } = createDynamicRouteProps({
+      const href = {
         pathname,
         query: { ...query, ...newQuery },
-      });
+      };
 
-      replace(href, as, { shallow: true });
+      replace(href, undefined, { shallow: true });
     },
     [replace, pathname, query]
   );
@@ -118,12 +117,12 @@ export const useQueryStateSingle = () => {
         }
       }
 
-      const { href, as } = createDynamicRouteProps({
+      const href = {
         pathname,
         query: { ...query, ...newQuery },
-      });
+      };
 
-      replace(href, as, { shallow: true });
+      replace(href, undefined, { shallow: true });
     },
     [replace, pathname, query]
   );
