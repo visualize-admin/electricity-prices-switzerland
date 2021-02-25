@@ -18,7 +18,7 @@
     "graphql:codegen": "graphql-codegen --config codegen.yml",
     "graphql:codegen:dev": "graphql-codegen --config codegen.yml --watch",
     "preversion": "yarn lint",
-    "postversion": "git push origin master --follow-tags && git push origin master:test --force-with-lease",
+    "postversion": "git push origin main --follow-tags && git push origin main:test --force-with-lease",
     "e2e:dev": "CYPRESS_BASE_URL=http://localhost:3000 cypress open",
     "e2e": "start-test 'yarn dev -p 3333' 3333 'yarn cypress run'",
     "heroku-postbuild-DISABLED": "yarn install --production=false && yarn build && yarn install --production"
