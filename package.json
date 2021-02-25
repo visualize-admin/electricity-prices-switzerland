@@ -24,7 +24,7 @@
     "heroku-postbuild-DISABLED": "yarn install --production=false && yarn build && yarn install --production"
   },
   "dependencies": {
-    "@babel/standalone": "^7.12.12",
+    "@babel/standalone": "7.12.12",
     "@deck.gl/core": "^8.3.15",
     "@deck.gl/layers": "^8.3.15",
     "@deck.gl/react": "^8.3.15",
