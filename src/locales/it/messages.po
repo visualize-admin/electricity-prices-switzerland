@@ -275,43 +275,43 @@ msgstr "Min"
 
 #: src/domain/translation.tsx:5
 msgid "priceComponents.view.collapsed.municipalities"
-msgstr ""
+msgstr "Raggruppare per comuni"
 
 #: src/domain/translation.tsx:15
 msgid "priceComponents.view.collapsed.operators"
-msgstr ""
+msgstr "Raggruppare per gestori di rete"
 
 #: src/domain/translation.tsx:10
 msgid "priceComponents.view.expanded.municipalities"
-msgstr ""
+msgstr "Mostrare tutti i comuni"
 
 #: src/domain/translation.tsx:20
 msgid "priceComponents.view.expanded.operators"
-msgstr ""
+msgstr "Mostrare tutti i gestori di rete"
 
 #: src/components/detail-page/cantons-comparison-range.tsx:108
 msgid "rangeplot.select.order.hint"
-msgstr "Ordina per"
+msgstr "Ordinare per"
 
 #: src/domain/translation.tsx:111
 msgid "rangeplot.select.sorting.alpha-asc"
-msgstr ""
+msgstr "alfabetico crescente"
 
 #: src/domain/translation.tsx:116
 msgid "rangeplot.select.sorting.alpha-desc"
-msgstr ""
+msgstr "alfabetico decrescente"
 
 #: src/domain/translation.tsx:101
 msgid "rangeplot.select.sorting.median-asc"
-msgstr ""
+msgstr "mediana, crescente"
 
 #: src/domain/translation.tsx:106
 msgid "rangeplot.select.sorting.median-desc"
-msgstr ""
+msgstr "mediana, decrescente"
 
 #: src/components/detail-page/banner.tsx:30
 msgid "relations.showmore"
-msgstr "{rest} in più…"
+msgstr "mostra {rest} di più…"
 
 #: src/pages/index.tsx:104
 msgid "search.global"
@@ -467,7 +467,7 @@ msgstr "Standard"
 
 #: src/components/selector.tsx:34
 msgid "selector.results"
-msgstr "Risultati delle ricerche"
+msgstr "risultati della ricerca"
 
 #: src/components/selector.tsx:27
 msgid "selector.year"
