@@ -14,7 +14,7 @@ import {
 import { Icon } from "../icons";
 import { MiniSelect, SearchField } from "./form";
 
-import { LocalizedLink } from "./links";
+import NextLink from "next/link";
 import { RadioTabs } from "./radio-tabs";
 
 const ListItem = ({
@@ -34,17 +34,16 @@ const ListItem = ({
 }) => {
   const { query } = useRouter();
   return (
-    <LocalizedLink
-      pathname={`/[locale]/${
-        listState === "MUNICIPALITIES"
-          ? "municipality"
-          : listState === "PROVIDERS"
-          ? "operator"
-          : "canton"
-      }/[id]`}
-      query={{
-        ...query,
-        id,
+    <NextLink
+      href={{
+        pathname: `/${
+          listState === "MUNICIPALITIES"
+            ? "municipality"
+            : listState === "PROVIDERS"
+            ? "operator"
+            : "canton"
+        }/[id]`,
+        query: { ...query, id },
       }}
       passHref
     >
@@ -91,7 +90,7 @@ const ListItem = ({
           <Icon name="chevronright"></Icon>
         </Box>
       </Flex>
-    </LocalizedLink>
+    </NextLink>
   );
 };
 

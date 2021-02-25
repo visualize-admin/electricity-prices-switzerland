@@ -4,6 +4,8 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
   enabled: process.env.ANALYZE === "true",
 });
 
+const { locales, defaultLocale } = require("./src/locales/locales.json");
+
 const buildEnv = {
   VERSION: `v${pkg.version}`,
   DEPLOYMENT: process.env.DEPLOYMENT,
@@ -19,15 +21,7 @@ module.exports = withBundleAnalyzer(
 
     pageExtensions: ["js", "ts", "tsx", "mdx"],
 
-    redirects: async () => {
-      return [
-        {
-          source: "/",
-          destination: "/de",
-          permanent: false,
-        },
-      ];
-    },
+    i18n: { locales, defaultLocale },
 
     webpack(config, { dev, isServer, defaultLoaders }) {
       config.module.rules.push({

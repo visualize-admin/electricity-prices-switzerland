@@ -1,27 +1,25 @@
-import { Label } from "./form";
-import { Box, Button, Flex, Input, Text, Link as TUILink } from "theme-ui";
 import { Trans } from "@lingui/macro";
-import { rollup, group } from "d3-array";
-import {
-  useMemo,
-  useState,
-  ReactNode,
-  useRef,
-  Fragment,
-  useEffect,
-} from "react";
-import { useSearchQuery } from "../graphql/queries";
-import { useLocale } from "../lib/use-locale";
-import { useCombobox } from "downshift";
-import { Icon } from "../icons";
-import { LocalizedLink, createDynamicRouteProps } from "./links";
-import { useRouter } from "next/router";
-import { useTheme } from "../themes";
-import { getLocalizedLabel } from "../domain/translation";
-
 import VisuallyHidden from "@reach/visually-hidden";
-import { EMPTY_ARRAY } from "../lib/empty-array";
+import { group, rollup } from "d3-array";
+import { useCombobox } from "downshift";
+import NextLink from "next/link";
+import { useRouter } from "next/router";
+import {
+  Fragment,
+  ReactNode,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import { Box, Button, Flex, Input, Link as TUILink, Text } from "theme-ui";
 import { analyticsSiteSearch } from "../domain/analytics";
+import { getLocalizedLabel } from "../domain/translation";
+import { useSearchQuery } from "../graphql/queries";
+import { Icon } from "../icons";
+import { EMPTY_ARRAY } from "../lib/empty-array";
+import { useLocale } from "../lib/use-locale";
+import { useTheme } from "../themes";
 
 export const Search = () => {
   const locale = useLocale();
@@ -136,12 +134,12 @@ export const SearchField = ({
           if (selectedItem) {
             const ent = getEntity(selectedItem.__typename);
 
-            const { href, as } = createDynamicRouteProps({
-              pathname: `/[locale]/${ent}/[id]`,
+            const href = {
+              pathname: `/${ent}/[id]`,
               query: { ...query, id: selectedItem.id },
-            });
+            };
 
-            push(href, as);
+            push(href);
           }
           break;
         // case useCombobox.stateChangeTypes.ItemClick:
@@ -372,10 +370,12 @@ export const SearchField = ({
                     {items.map((item, index) => {
                       const ent = getEntity(entity);
                       return (
-                        <LocalizedLink
+                        <NextLink
                           key={`${item}${entity}${index}`}
-                          pathname={`/[locale]/${ent}/[id]`}
-                          query={{ ...query, id: item.id }}
+                          href={{
+                            pathname: `/${ent}/[id]`,
+                            query: { ...query, id: item.id },
+                          }}
                           passHref
                         >
                           <TUILink
@@ -409,7 +409,7 @@ export const SearchField = ({
                             {getItemLabel(item.id)}
                             <Icon name="chevronright"></Icon>
                           </TUILink>
-                        </LocalizedLink>
+                        </NextLink>
                       );
                     })}
                   </Fragment>

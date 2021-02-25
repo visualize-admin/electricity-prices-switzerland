@@ -4,22 +4,22 @@ export const getLocalizedLabel = ({ id }: { id: string }): string => {
   switch (id) {
     case "collapsed-operator":
       return t({
-        id: "priceComponents.view.collapsed",
+        id: "priceComponents.view.collapsed.municipalities",
         message: `Gemeinden gruppieren`,
       });
     case "expanded-operator":
       return t({
-        id: "priceComponents.view.expanded",
+        id: "priceComponents.view.expanded.municipalities",
         message: `Einzelne Gemeinden anzeigen`,
       });
     case "collapsed-municipality":
       return t({
-        id: "priceComponents.view.collapsed",
+        id: "priceComponents.view.collapsed.operators",
         message: `Netzbetreiber gruppieren`,
       });
     case "expanded-municipality":
       return t({
-        id: "priceComponents.view.expanded",
+        id: "priceComponents.view.expanded.operators",
         message: `Einzelne Netzbetreiber anzeigen`,
       });
     case "unit":

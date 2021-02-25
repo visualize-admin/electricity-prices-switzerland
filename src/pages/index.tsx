@@ -1,27 +1,27 @@
 import { t, Trans } from "@lingui/macro";
 import { useCallback, useMemo } from "react";
 import { Box, Flex, Grid, Text } from "theme-ui";
-import { DownloadImage } from "../../components/detail-page/download-image";
-import { Footer } from "../../components/footer";
-import { Header } from "../../components/header";
-import { List } from "../../components/list";
-import { ChoroplethMap } from "../../components/map";
-import { Search } from "../../components/search";
-import { Selector } from "../../components/selector";
-import { useColorScale } from "../../domain/data";
+import { DownloadImage } from "../components/detail-page/download-image";
+import { Footer } from "../components/footer";
+import { Header } from "../components/header";
+import { List } from "../components/list";
+import { ChoroplethMap } from "../components/map";
+import { Search } from "../components/search";
+import { Selector } from "../components/selector";
+import { useColorScale } from "../domain/data";
 import {
   OperatorObservationFieldsFragment,
   PriceComponent,
   useObservationsQuery,
-} from "../../graphql/queries";
-import { EMPTY_ARRAY } from "../../lib/empty-array";
-import { useQueryStateSingle } from "../../lib/use-query-state";
-import { locales } from "../../locales/locales";
+} from "../graphql/queries";
+import { EMPTY_ARRAY } from "../lib/empty-array";
+import { useQueryStateSingle } from "../lib/use-query-state";
+import { locales } from "../locales/locales";
 import { GetServerSideProps } from "next";
-import { Hint, HintBlue } from "../../components/hint";
+import { Hint, HintBlue } from "../components/hint";
 
 import Head from "next/head";
-import { InfoBanner } from "../../components/info-banner";
+import { InfoBanner } from "../components/info-banner";
 
 const DOWNLOAD_ID = "map";
 
@@ -32,12 +32,10 @@ type Props = {
 export const getServerSideProps: GetServerSideProps<
   Props,
   { locale: string }
-> = async ({ params }) => {
-  const locale = params!.locale;
-
+> = async ({ locale }) => {
   return {
     props: {
-      locale,
+      locale: locale!,
     },
   };
 };

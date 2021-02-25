@@ -4,16 +4,16 @@ import ErrorPage from "next/error";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { Box, Flex } from "theme-ui";
-import { DetailPageBanner } from "../../../components/detail-page/banner";
-import { CantonsComparisonRangePlots } from "../../../components/detail-page/cantons-comparison-range";
-import { DetailPageLayout } from "../../../components/detail-page/layout";
-import { PriceComponentsBarChart } from "../../../components/detail-page/price-components-bars";
-import { PriceDistributionHistograms } from "../../../components/detail-page/price-distribution-histogram";
-import { PriceEvolution } from "../../../components/detail-page/price-evolution-line-chart";
-import { SelectorMulti } from "../../../components/detail-page/selector-multi";
-import { Footer } from "../../../components/footer";
-import { Header } from "../../../components/header";
-import { getCanton, getSource } from "../../../graphql/rdf";
+import { DetailPageBanner } from "../../components/detail-page/banner";
+import { CantonsComparisonRangePlots } from "../../components/detail-page/cantons-comparison-range";
+import { DetailPageLayout } from "../../components/detail-page/layout";
+import { PriceComponentsBarChart } from "../../components/detail-page/price-components-bars";
+import { PriceDistributionHistograms } from "../../components/detail-page/price-distribution-histogram";
+import { PriceEvolution } from "../../components/detail-page/price-evolution-line-chart";
+import { SelectorMulti } from "../../components/detail-page/selector-multi";
+import { Footer } from "../../components/footer";
+import { Header } from "../../components/header";
+import { getCanton, getSource } from "../../graphql/rdf";
 
 type Props =
   | {
@@ -26,11 +26,11 @@ type Props =
 export const getServerSideProps: GetServerSideProps<
   Props,
   { locale: string; id: string }
-> = async ({ params, res }) => {
-  const { id, locale } = params!;
+> = async ({ params, res, locale }) => {
+  const { id } = params!;
 
   const source = getSource();
-  const canton = await getCanton({ id, locale, source });
+  const canton = await getCanton({ id, locale: locale!, source });
 
   if (!canton) {
     res.statusCode = 404;

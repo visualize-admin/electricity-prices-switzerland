@@ -5,21 +5,21 @@ import ErrorPage from "next/error";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import * as React from "react";
-import { DetailPageBanner } from "../../../components/detail-page/banner";
-import { CantonsComparisonRangePlots } from "../../../components/detail-page/cantons-comparison-range";
-import { DetailPageLayout } from "../../../components/detail-page/layout";
-import { PriceComponentsBarChart } from "../../../components/detail-page/price-components-bars";
-import { PriceDistributionHistograms } from "../../../components/detail-page/price-distribution-histogram";
-import { PriceEvolution } from "../../../components/detail-page/price-evolution-line-chart";
-import { SelectorMulti } from "../../../components/detail-page/selector-multi";
-import { Footer } from "../../../components/footer";
-import { Header } from "../../../components/header";
+import { DetailPageBanner } from "../../components/detail-page/banner";
+import { CantonsComparisonRangePlots } from "../../components/detail-page/cantons-comparison-range";
+import { DetailPageLayout } from "../../components/detail-page/layout";
+import { PriceComponentsBarChart } from "../../components/detail-page/price-components-bars";
+import { PriceDistributionHistograms } from "../../components/detail-page/price-distribution-histogram";
+import { PriceEvolution } from "../../components/detail-page/price-evolution-line-chart";
+import { SelectorMulti } from "../../components/detail-page/selector-multi";
+import { Footer } from "../../components/footer";
+import { Header } from "../../components/header";
 import {
   getDimensionValuesAndLabels,
   getMunicipality,
   getSource,
   getView,
-} from "../../../graphql/rdf";
+} from "../../graphql/rdf";
 
 type Props =
   | {
@@ -32,9 +32,9 @@ type Props =
 
 export const getServerSideProps: GetServerSideProps<
   Props,
-  { locale: string; id: string }
-> = async ({ params, res }) => {
-  const { id, locale } = params!;
+  { id: string }
+> = async ({ params, res, locale }) => {
+  const { id } = params!;
 
   console.time("Muni");
 
