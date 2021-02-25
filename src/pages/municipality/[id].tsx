@@ -32,9 +32,9 @@ type Props =
 
 export const getServerSideProps: GetServerSideProps<
   Props,
-  { locale: string; id: string }
-> = async ({ params, res }) => {
-  const { id, locale } = params!;
+  { id: string }
+> = async ({ params, res, locale }) => {
+  const { id } = params!;
 
   console.time("Muni");
 

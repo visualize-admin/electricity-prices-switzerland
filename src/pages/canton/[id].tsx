@@ -26,11 +26,11 @@ type Props =
 export const getServerSideProps: GetServerSideProps<
   Props,
   { locale: string; id: string }
-> = async ({ params, res }) => {
-  const { id, locale } = params!;
+> = async ({ params, res, locale }) => {
+  const { id } = params!;
 
   const source = getSource();
-  const canton = await getCanton({ id, locale, source });
+  const canton = await getCanton({ id, locale: locale!, source });
 
   if (!canton) {
     res.statusCode = 404;
