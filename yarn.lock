@@ -482,9 +482,9 @@
     regenerator-runtime "^0.13.4"
 
 "@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.11.2", "@babel/runtime@^7.12.0", "@babel/runtime@^7.12.13", "@babel/runtime@^7.12.5", "@babel/runtime@^7.3.1", "@babel/runtime@^7.5.5", "@babel/runtime@^7.7.2":
-  version "7.13.7"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.13.7.tgz#d494e39d198ee9ca04f4dcb76d25d9d7a1dc961a"
-  integrity sha512-h+ilqoX998mRVM5FtB5ijRuHUDVt5l3yfoOi2uh18Z/O3hvyaHQ39NpxVkCIG5yFs+mLq/ewFp8Bss6zmWv6ZA==
+  version "7.13.9"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.13.9.tgz#97dbe2116e2630c489f22e0656decd60aaa1fcee"
+  integrity sha512-aY2kU+xgJ3dJ1eU6FMB9EH8dIe8dmusF1xEku52joLvw6eAFN0AI+WxCLDnpev2LEejWBAy2sBvBOBAjI3zmvA==
   dependencies:
     regenerator-runtime "^0.13.4"
 
@@ -4100,9 +4100,9 @@ component-inherit@0.0.3:
   integrity sha1-ZF/ErfWLcrZJ1crmUTVhnbJv8UM=
 
 compute-scroll-into-view@^1.0.16:
-  version "1.0.16"
-  resolved "https://registry.yarnpkg.com/compute-scroll-into-view/-/compute-scroll-into-view-1.0.16.tgz#5b7bf4f7127ea2c19b750353d7ce6776a90ee088"
-  integrity sha512-a85LHKY81oQnikatZYA90pufpZ6sQx++BoCxOEMsjpZx+ZnaKGQnCyCehTRr/1p9GBIAHTjcU9k71kSYWloLiQ==
+  version "1.0.17"
+  resolved "https://registry.yarnpkg.com/compute-scroll-into-view/-/compute-scroll-into-view-1.0.17.tgz#6a88f18acd9d42e9cf4baa6bec7e0522607ab7ab"
+  integrity sha512-j4dx+Fb0URmzbwwMUrhqWM2BEWHdFGx+qZ9qqASHRPqvTYdqvWnHg0H1hIbcyLnvgnoNAVMlwkepyqM3DaIFUg==
 
 concat-map@0.0.1:
   version "0.0.1"
