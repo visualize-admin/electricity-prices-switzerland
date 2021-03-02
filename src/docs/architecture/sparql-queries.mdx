@@ -4,14 +4,14 @@
 
 ```
 SELECT DISTINCT ?dimension0 ?dimension1 ?dimension2 ?dimension3 ?dimension4 ?dimension5 ?dimension6 ?dimension7 ?dimension8 ?dimension9 WHERE {
-  <https://energy.ld.admin.ch/elcom/electricity-price/cube> <http://ns.bergnet.org/cube/observationSet> ?observationSet0 .
+  <https://energy.ld.admin.ch/elcom/electricityprice/cube> <http://ns.bergnet.org/cube/observationSet> ?observationSet0 .
   ?observationSet0 <http://ns.bergnet.org/cube/observation> ?observation0 .
-  ?observation0 <https://energy.ld.admin.ch/elcom/electricity-price/dimension/municipality> ?dimension1 .
-  ?observation0 <https://energy.ld.admin.ch/elcom/electricity-price/dimension/category> ?dimension5 .
-  ?observation0 <https://energy.ld.admin.ch/elcom/electricity-price/dimension/operator> ?dimension3 .
-  ?observation0 <https://energy.ld.admin.ch/elcom/electricity-price/dimension/product> ?dimension10 .
-  ?observation0 <https://energy.ld.admin.ch/elcom/electricity-price/dimension/period> ?dimension0 .
-  ?observation0 <https://energy.ld.admin.ch/elcom/electricity-price/dimension/total> ?dimension6 .
+  ?observation0 <https://energy.ld.admin.ch/elcom/electricityprice/dimension/municipality> ?dimension1 .
+  ?observation0 <https://energy.ld.admin.ch/elcom/electricityprice/dimension/category> ?dimension5 .
+  ?observation0 <https://energy.ld.admin.ch/elcom/electricityprice/dimension/operator> ?dimension3 .
+  ?observation0 <https://energy.ld.admin.ch/elcom/electricityprice/dimension/product> ?dimension10 .
+  ?observation0 <https://energy.ld.admin.ch/elcom/electricityprice/dimension/period> ?dimension0 .
+  ?observation0 <https://energy.ld.admin.ch/elcom/electricityprice/dimension/total> ?dimension6 .
   ?dimension1 <http://schema.org/containedInPlace> ?dimension7 .
   ?dimension7 <http://schema.org/alternateName> ?dimension8 .
   ?dimension7 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?dimension9 .
@@ -19,8 +19,8 @@ SELECT DISTINCT ?dimension0 ?dimension1 ?dimension2 ?dimension3 ?dimension4 ?dim
   ?dimension3 <http://schema.org/name> ?dimension4 .
   FILTER (
     (?dimension0 = "2020"^^<http://www.w3.org/2001/XMLSchema#gYear>) &&
-    (?dimension5 = <https://energy.ld.admin.ch/elcom/electricity-price/category/H4>) &&
-    (?dimension10 = <https://energy.ld.admin.ch/elcom/electricity-price/product/cheapest>) &&
+    (?dimension5 = <https://energy.ld.admin.ch/elcom/electricityprice/category/H4>) &&
+    (?dimension10 = <https://energy.ld.admin.ch/elcom/electricityprice/product/cheapest>) &&
     (?dimension9 = <https://schema.ld.admin.ch/Canton>)
   )
 }
@@ -31,16 +31,16 @@ GROUP BY ?dimension0 ?dimension1 ?dimension2 ?dimension3 ?dimension4 ?dimension5
 
 ```
 SELECT DISTINCT ?dimension0 ?dimension1 ?dimension2 ?dimension3 ?dimension4 WHERE {
-  <https://energy.ld.admin.ch/elcom/electricity-price/median/cube> <http://ns.bergnet.org/cube/observationSet> ?observationSet0 .
+  <https://energy.ld.admin.ch/elcom/electricityprice/median/cube> <http://ns.bergnet.org/cube/observationSet> ?observationSet0 .
   ?observationSet0 <http://ns.bergnet.org/cube/observation> ?observation0 .
-  ?observation0 <https://energy.ld.admin.ch/elcom/electricity-price/dimension/region> ?dimension1 .
-  ?observation0 <https://energy.ld.admin.ch/elcom/electricity-price/dimension/category> ?dimension3 .
-  ?observation0 <https://energy.ld.admin.ch/elcom/electricity-price/dimension/period> ?dimension0 .
-  ?observation0 <https://energy.ld.admin.ch/elcom/electricity-price/dimension/total> ?dimension4 .
+  ?observation0 <https://energy.ld.admin.ch/elcom/electricityprice/dimension/region> ?dimension1 .
+  ?observation0 <https://energy.ld.admin.ch/elcom/electricityprice/dimension/category> ?dimension3 .
+  ?observation0 <https://energy.ld.admin.ch/elcom/electricityprice/dimension/period> ?dimension0 .
+  ?observation0 <https://energy.ld.admin.ch/elcom/electricityprice/dimension/total> ?dimension4 .
   ?dimension1 <http://schema.org/alternateName> ?dimension2 .
   FILTER (
     (?dimension0 = "2020"^^<http://www.w3.org/2001/XMLSchema#gYear>) &&
-    (?dimension3 = <https://energy.ld.admin.ch/elcom/electricity-price/category/H4>)
+    (?dimension3 = <https://energy.ld.admin.ch/elcom/electricityprice/category/H4>)
   )
 }
 GROUP BY ?dimension0 ?dimension1 ?dimension2 ?dimension3 ?dimension4
@@ -102,23 +102,23 @@ Municipalities and cantons analogous.
 
 ```
 SELECT DISTINCT ?dimension0 ?dimension1 WHERE {
-  <https://energy.ld.admin.ch/elcom/electricity-price/cube> <http://ns.bergnet.org/cube/observationSet> ?observationSet0 .
+  <https://energy.ld.admin.ch/elcom/electricityprice/cube> <http://ns.bergnet.org/cube/observationSet> ?observationSet0 .
   ?observationSet0 <http://ns.bergnet.org/cube/observation> ?observation0 .
-  ?observation0 <https://energy.ld.admin.ch/elcom/electricity-price/dimension/operator> ?dimension0 .
+  ?observation0 <https://energy.ld.admin.ch/elcom/electricityprice/dimension/operator> ?dimension0 .
   ?dimension0 <http://schema.org/name> ?dimension1 .
   FILTER (
-    (?dimension0 = <https://energy.ld.admin.ch/elcom/electricity-price/operator/565>)
+    (?dimension0 = <https://energy.ld.admin.ch/elcom/electricityprice/operator/565>)
   )
 }
 GROUP BY ?dimension0 ?dimension1
 SELECT DISTINCT ?dimension0 ?dimension1 WHERE {
-  <https://energy.ld.admin.ch/elcom/electricity-price/cube> <http://ns.bergnet.org/cube/observationSet> ?observationSet0 .
+  <https://energy.ld.admin.ch/elcom/electricityprice/cube> <http://ns.bergnet.org/cube/observationSet> ?observationSet0 .
   ?observationSet0 <http://ns.bergnet.org/cube/observation> ?observation0 .
-  ?observation0 <https://energy.ld.admin.ch/elcom/electricity-price/dimension/municipality> ?dimension0 .
-  ?observation0 <https://energy.ld.admin.ch/elcom/electricity-price/dimension/operator> ?dimension2 .
+  ?observation0 <https://energy.ld.admin.ch/elcom/electricityprice/dimension/municipality> ?dimension0 .
+  ?observation0 <https://energy.ld.admin.ch/elcom/electricityprice/dimension/operator> ?dimension2 .
   ?dimension0 <http://schema.org/name> ?dimension1 .
   FILTER (
-    (?dimension2 = <https://energy.ld.admin.ch/elcom/electricity-price/operator/565>)
+    (?dimension2 = <https://energy.ld.admin.ch/elcom/electricityprice/operator/565>)
   )
 }
 GROUP BY ?dimension0 ?dimension1
@@ -128,27 +128,27 @@ GROUP BY ?dimension0 ?dimension1
 
 ```
 SELECT DISTINCT ?dimension0 ?dimension1 ?dimension2 ?dimension3 ?dimension4 ?dimension5 ?dimension6 ?dimension7 ?dimension8 ?dimension9 ?dimension10 ?dimension11 ?dimension12 WHERE {
-  <https://energy.ld.admin.ch/elcom/electricity-price/cube> <http://ns.bergnet.org/cube/observationSet> ?observationSet0 .
+  <https://energy.ld.admin.ch/elcom/electricityprice/cube> <http://ns.bergnet.org/cube/observationSet> ?observationSet0 .
   ?observationSet0 <http://ns.bergnet.org/cube/observation> ?observation0 .
-  ?observation0 <https://energy.ld.admin.ch/elcom/electricity-price/dimension/municipality> ?dimension1 .
-  ?observation0 <https://energy.ld.admin.ch/elcom/electricity-price/dimension/category> ?dimension5 .
-  ?observation0 <https://energy.ld.admin.ch/elcom/electricity-price/dimension/operator> ?dimension3 .
-  ?observation0 <https://energy.ld.admin.ch/elcom/electricity-price/dimension/product> ?dimension13 .
-  ?observation0 <https://energy.ld.admin.ch/elcom/electricity-price/dimension/gridusage> ?dimension9 .
-  ?observation0 <https://energy.ld.admin.ch/elcom/electricity-price/dimension/period> ?dimension0 .
-  ?observation0 <https://energy.ld.admin.ch/elcom/electricity-price/dimension/charge> ?dimension8 .
-  ?observation0 <https://energy.ld.admin.ch/elcom/electricity-price/dimension/total> ?dimension12 .
-  ?observation0 <https://energy.ld.admin.ch/elcom/electricity-price/dimension/fixcostspercent> ?dimension11 .
-  ?observation0 <https://energy.ld.admin.ch/elcom/electricity-price/dimension/aidfee> ?dimension6 .
-  ?observation0 <https://energy.ld.admin.ch/elcom/electricity-price/dimension/fixcosts> ?dimension7 .
-  ?observation0 <https://energy.ld.admin.ch/elcom/electricity-price/dimension/energy> ?dimension10 .
+  ?observation0 <https://energy.ld.admin.ch/elcom/electricityprice/dimension/municipality> ?dimension1 .
+  ?observation0 <https://energy.ld.admin.ch/elcom/electricityprice/dimension/category> ?dimension5 .
+  ?observation0 <https://energy.ld.admin.ch/elcom/electricityprice/dimension/operator> ?dimension3 .
+  ?observation0 <https://energy.ld.admin.ch/elcom/electricityprice/dimension/product> ?dimension13 .
+  ?observation0 <https://energy.ld.admin.ch/elcom/electricityprice/dimension/gridusage> ?dimension9 .
+  ?observation0 <https://energy.ld.admin.ch/elcom/electricityprice/dimension/period> ?dimension0 .
+  ?observation0 <https://energy.ld.admin.ch/elcom/electricityprice/dimension/charge> ?dimension8 .
+  ?observation0 <https://energy.ld.admin.ch/elcom/electricityprice/dimension/total> ?dimension12 .
+  ?observation0 <https://energy.ld.admin.ch/elcom/electricityprice/dimension/fixcostspercent> ?dimension11 .
+  ?observation0 <https://energy.ld.admin.ch/elcom/electricityprice/dimension/aidfee> ?dimension6 .
+  ?observation0 <https://energy.ld.admin.ch/elcom/electricityprice/dimension/fixcosts> ?dimension7 .
+  ?observation0 <https://energy.ld.admin.ch/elcom/electricityprice/dimension/energy> ?dimension10 .
   ?dimension1 <http://schema.org/name> ?dimension2 .
   ?dimension3 <http://schema.org/name> ?dimension4 .
   FILTER (
     (?dimension0 = "2020"^^<http://www.w3.org/2001/XMLSchema#gYear>) &&
-    (?dimension3 = <https://energy.ld.admin.ch/elcom/electricity-price/operator/565>) &&
-    (?dimension5 = <https://energy.ld.admin.ch/elcom/electricity-price/category/H4>) &&
-    (?dimension13 = <https://energy.ld.admin.ch/elcom/electricity-price/product/standard>)
+    (?dimension3 = <https://energy.ld.admin.ch/elcom/electricityprice/operator/565>) &&
+    (?dimension5 = <https://energy.ld.admin.ch/elcom/electricityprice/category/H4>) &&
+    (?dimension13 = <https://energy.ld.admin.ch/elcom/electricityprice/product/standard>)
   )
 }
 GROUP BY ?dimension0 ?dimension1 ?dimension2 ?dimension3 ?dimension4 ?dimension5 ?dimension6 ?dimension7 ?dimension8 ?dimension9 ?dimension10 ?dimension11 ?dimension12

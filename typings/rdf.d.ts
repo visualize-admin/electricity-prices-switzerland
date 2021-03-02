@@ -1,5 +1,5 @@
 declare module "rdf-cube-view-query" {
-  import { Clownface, ClownfaceInit } from "clownface";
+  import { Clownface, ClownfaceInit, AnyPointer } from "clownface";
   import { Term, NamedNode, Literal } from "rdf-js";
   import { ParsingClient } from "sparql-http-client/ParsingClient";
   type NodeInit = {
@@ -9,13 +9,13 @@ declare module "rdf-cube-view-query" {
   export class Node {
     constructor(options: NodeInit);
     ptr: Clownface;
-    get term(): Clownface["term"];
-    get dataset(): Clownface["dataset"];
+    term: AnyPointer["term"];
+    dataset: AnyPointer["dataset"];
     clear(): void;
   }
 
   export class Cube extends Node {
-    out: Clownface["out"];
+    out: AnyPointer["out"];
   }
 
   export class CubeDimension {
@@ -26,7 +26,7 @@ declare module "rdf-cube-view-query" {
     maxExclusive: Term;
     maxInclusive: Term;
     in: Term[];
-    out: Clownface["out"];
+    out: AnyPointer["out"];
   }
 
   export class Dimension extends Node {
@@ -69,7 +69,7 @@ declare module "rdf-cube-view-query" {
       }
     );
     static fromCube(cube: Cube): View;
-    out: Clownface["out"];
+    out: AnyPointer;
     dimensions: Dimension[];
     dimension(options: { cubeDimension: NamedNode }): Dimension | null;
     observationsQuery(): { query: $FixMe; dimensionMap: Map };

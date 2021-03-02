@@ -13,13 +13,13 @@ import { useLocale } from "../lib/use-locale";
 const CATEGORIES = [
   {
     id:
-      "https://energy.ld.admin.ch/elcom/electricity-price/documenttype/Tarifblatt",
+      "https://energy.ld.admin.ch/elcom/electricityprice/documenttype/Tarifblatt",
     itemLabel: <Trans id="download.category.tariff">Tarifblatt</Trans>,
     categoryLabel: <Trans id="download.category.tariffs">Tarifblätter</Trans>,
   },
   {
     id:
-      "https://energy.ld.admin.ch/elcom/electricity-price/documenttype/Jahresrechnung",
+      "https://energy.ld.admin.ch/elcom/electricityprice/documenttype/Jahresrechnung",
     itemLabel: (
       <Trans id="download.category.financialstatement">Jahresrechnung</Trans>
     ),
@@ -29,7 +29,7 @@ const CATEGORIES = [
   },
   {
     id:
-      "https://energy.ld.admin.ch/elcom/electricity-price/documenttype/Gesch%C3%A4ftsbericht",
+      "https://energy.ld.admin.ch/elcom/electricityprice/documenttype/Gesch%C3%A4ftsbericht",
     itemLabel: (
       <Trans id="download.category.annualreport">Geschäftsbericht</Trans>
     ),

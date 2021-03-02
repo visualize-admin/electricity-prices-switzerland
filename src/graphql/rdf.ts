@@ -13,17 +13,17 @@ import { defaultLocale } from "../locales/locales";
 type Filters = { [key: string]: string[] | null | undefined } | null;
 
 const OBSERVATIONS_CUBE =
-  "https://energy.ld.admin.ch/elcom/electricity-price/cube";
+  "https://energy.ld.admin.ch/elcom/electricityprice/cube";
 const CANTON_OBSERVATIONS_CUBE =
-  "https://energy.ld.admin.ch/elcom/electricity-price/median/cube";
+  "https://energy.ld.admin.ch/elcom/electricityprice/median/cube";
 
 const ns = {
   dc: namespace("http://purl.org/dc/elements/1.1/"),
   energyPricing: namespace(
-    "https://energy.ld.admin.ch/elcom/electricity-price/dimension/"
+    "https://energy.ld.admin.ch/elcom/electricityprice/dimension/"
   ),
   energyPricingValue: namespace(
-    "https://energy.ld.admin.ch/elcom/electricity-price/"
+    "https://energy.ld.admin.ch/elcom/electricityprice/"
   ),
   rdf: namespace("http://www.w3.org/1999/02/22-rdf-syntax-ns#"),
   schema: namespace("http://schema.org/"),
@@ -705,7 +705,7 @@ FROM <https://lindas.admin.ch/elcom/electricityprice>  {
  * Strips the namespace from an IRI to get shorter IDs
  *
  * E.g. "http://classifications.data.admin.ch/municipality/123" -> "123"
- * E.g. "https://energy.ld.admin.ch/elcom/electricity-price/category/H1" -> "H1"
+ * E.g. "https://energy.ld.admin.ch/elcom/electricityprice/category/H1" -> "H1"
  */
 export const stripNamespaceFromIri = ({
   dimension,
@@ -728,7 +728,7 @@ export const stripNamespaceFromIri = ({
  * Adds the namespace to an ID to get the full IRI
  *
  * E.g. "municipality" "123" -> "http://classifications.data.admin.ch/municipality/123"
- * E.g. "category" "H1" -> "https://energy.ld.admin.ch/elcom/electricity-price/category/H1"
+ * E.g. "category" "H1" -> "https://energy.ld.admin.ch/elcom/electricityprice/category/H1"
  */
 export const addNamespaceToID = ({
   dimension,

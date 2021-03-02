@@ -45,12 +45,12 @@ export const getServerSideProps: GetServerSideProps<
   }
 
   const cube = await source.cube(
-    "https://energy.ld.admin.ch/elcom/electricity-price/cube"
+    "https://energy.ld.admin.ch/elcom/electricityprice/cube"
   );
 
   if (!cube) {
     throw Error(
-      `No cube ${"https://energy.ld.admin.ch/elcom/electricity-price/cube"}`
+      `No cube ${"https://energy.ld.admin.ch/elcom/electricityprice/cube"}`
     );
   }
 

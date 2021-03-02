@@ -15,12 +15,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   const source = getSource();
   const cube = await source.cube(
-    "https://energy.ld.admin.ch/elcom/electricity-price/cube"
+    "https://energy.ld.admin.ch/elcom/electricityprice/cube"
   );
 
   if (!cube) {
     throw Error(
-      `No cube ${"https://energy.ld.admin.ch/elcom/electricity-price/cube"}`
+      `No cube ${"https://energy.ld.admin.ch/elcom/electricityprice/cube"}`
     );
   }
 
@@ -56,7 +56,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     let parsed: { [k: string]: string | number | boolean } = {};
     for (const [k, v] of Object.entries(d)) {
       const key = k.replace(
-        "https://energy.ld.admin.ch/elcom/electricity-price/dimension/",
+        "https://energy.ld.admin.ch/elcom/electricityprice/dimension/",
         ""
       );
       const parsedValue = parseObservationValue(v);
