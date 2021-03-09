@@ -1,2 +1,6 @@
 .next/cache
 node_modules
+public/docs
+cypress
+.vscode
+.github
