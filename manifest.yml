@@ -2,7 +2,7 @@ applications:
   - name: elcom-electricity-price-website
     command: yarn start
     memory: 2G
-    disk_quota: 2G
+    disk_quota: 4G
     instances: 1
     stack: cflinuxfs3
     buildpack: https://github.com/cloudfoundry-attic/multi-buildpack/
