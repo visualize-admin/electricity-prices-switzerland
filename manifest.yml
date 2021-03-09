@@ -5,4 +5,4 @@ applications:
     disk_quota: 2G
     instances: 1
     stack: cflinuxfs3
-    buildpack: https://github.com/cloudfoundry-attic/multi-buildpack/
+    buildpack: nodejs_buildpack

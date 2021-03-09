@@ -1,0 +1,7 @@
+{
+  "name": "elcom-screenshot-service",
+  "private": true,
+  "dependencies": {
+    "puppeteer": "^8.0.0"
+  }
+}
