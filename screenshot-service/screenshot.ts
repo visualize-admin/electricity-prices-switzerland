@@ -1,9 +1,10 @@
 import { either, pipeable } from "fp-ts";
 import * as t from "io-ts";
 import { NumberFromString } from "io-ts-types/lib/NumberFromString";
-import { NextApiRequest, NextApiResponse } from "next";
 import puppeteer, { Browser } from "puppeteer";
+import { Request } from "polka";
 import { URL } from "url";
+import { ServerResponse } from "node:http";
 
 /**
  * We start a new browser instance for each request. This may seem a bit expensive (and it is),
@@ -55,7 +56,7 @@ const Query = t.strict({
   filename: t.union([t.undefined, t.string]),
 });
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export const handleScreenshot = async (req: Request, res: ServerResponse) => {
   try {
     const { status, body, headers } = await pipeable.pipe(
       Query.decode(req.query),
