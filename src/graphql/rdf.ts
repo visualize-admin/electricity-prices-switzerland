@@ -13,9 +13,11 @@ import { defaultLocale } from "../locales/locales";
 type Filters = { [key: string]: string[] | null | undefined } | null;
 
 const OBSERVATIONS_CUBE =
-  "https://energy.ld.admin.ch/elcom/electricityprice/cube";
+  "https://energy.ld.admin.ch/elcom/electricityprice";
 const CANTON_OBSERVATIONS_CUBE =
-  "https://energy.ld.admin.ch/elcom/electricityprice/median/cube";
+"https://energy.ld.admin.ch/elcom/electricityprice-canton";
+const SWISS_OBSERVATIONS_CUBE =
+"https://energy.ld.admin.ch/elcom/electricityprice-swiss";
 
 const ns = {
   dc: namespace("http://purl.org/dc/elements/1.1/"),
@@ -44,9 +46,10 @@ export const getSource = () =>
 
 export const getSourceAndCubeViews = async () => {
   const source = getSource();
-  const [observationsCube, cantonObservationsCube] = await Promise.all([
+  const [observationsCube, cantonObservationsCube, swissObservationsCube] = await Promise.all([
     source.cube(OBSERVATIONS_CUBE),
     source.cube(CANTON_OBSERVATIONS_CUBE),
+    source.cube(SWISS_OBSERVATIONS_CUBE),
   ]);
 
   if (!observationsCube) {
@@ -55,11 +58,15 @@ export const getSourceAndCubeViews = async () => {
   if (!cantonObservationsCube) {
     throw Error(`Cube ${CANTON_OBSERVATIONS_CUBE} not found`);
   }
+  if (!swissObservationsCube) {
+    throw Error(`Cube ${SWISS_OBSERVATIONS_CUBE} not found`);
+  }
 
   return {
     source,
     observationsView: getView(observationsCube),
     cantonObservationsView: getView(cantonObservationsCube),
+    swissObservationsView: getView(swissObservationsCube),
   };
 };
 
