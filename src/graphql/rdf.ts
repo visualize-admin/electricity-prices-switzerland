@@ -12,12 +12,11 @@ import { defaultLocale } from "../locales/locales";
 
 type Filters = { [key: string]: string[] | null | undefined } | null;
 
-const OBSERVATIONS_CUBE =
-  "https://energy.ld.admin.ch/elcom/electricityprice";
+const OBSERVATIONS_CUBE = "https://energy.ld.admin.ch/elcom/electricityprice";
 const CANTON_OBSERVATIONS_CUBE =
-"https://energy.ld.admin.ch/elcom/electricityprice-canton";
+  "https://energy.ld.admin.ch/elcom/electricityprice-canton";
 const SWISS_OBSERVATIONS_CUBE =
-"https://energy.ld.admin.ch/elcom/electricityprice-swiss";
+  "https://energy.ld.admin.ch/elcom/electricityprice-swiss";
 
 const ns = {
   dc: namespace("http://purl.org/dc/elements/1.1/"),
@@ -46,19 +45,34 @@ export const getSource = () =>
 
 export const getSourceAndCubeViews = async () => {
   const source = getSource();
-  const [observationsCube, cantonObservationsCube, swissObservationsCube] = await Promise.all([
+  const [
+    observationsCube,
+    cantonObservationsCube,
+    swissObservationsCube,
+  ] = await Promise.all([
     source.cube(OBSERVATIONS_CUBE),
     source.cube(CANTON_OBSERVATIONS_CUBE),
     source.cube(SWISS_OBSERVATIONS_CUBE),
   ]);
 
-  if (!observationsCube) {
+  // FIXME: the 2nd condition should not be necessary but due to a but in the query lib, a inexistent cube is not actually null. See https://github.com/zazuko/rdf-cube-view-query/issues/41
+
+  if (
+    !observationsCube ||
+    (observationsCube?.out()?.terms?.length ?? 0) === 0
+  ) {
     throw Error(`Cube ${OBSERVATIONS_CUBE} not found`);
   }
-  if (!cantonObservationsCube) {
+  if (
+    !cantonObservationsCube ||
+    (cantonObservationsCube?.out()?.terms?.length ?? 0) === 0
+  ) {
     throw Error(`Cube ${CANTON_OBSERVATIONS_CUBE} not found`);
   }
-  if (!swissObservationsCube) {
+  if (
+    !swissObservationsCube ||
+    (swissObservationsCube?.out()?.terms?.length ?? 0) === 0
+  ) {
     throw Error(`Cube ${SWISS_OBSERVATIONS_CUBE} not found`);
   }
 
