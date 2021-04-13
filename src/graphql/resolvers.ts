@@ -48,7 +48,8 @@ const Query: QueryResolvers = {
       ? Object.values<ResolveTree>(observationFields).map((fieldInfo) => {
           return (
             (fieldInfo.args.priceComponent as string) ??
-            fieldInfo.name.replace(/^canton/, "region")
+            // fieldInfo.name.replace(/^canton/, "region")
+            fieldInfo.name
           );
         })
       : [];
@@ -74,7 +75,8 @@ const Query: QueryResolvers = {
       ? Object.values<ResolveTree>(medianObservationFields).map((fieldInfo) => {
           return (
             (fieldInfo.args.priceComponent as string) ??
-            fieldInfo.name.replace(/^canton/, "region")
+            // fieldInfo.name.replace(/^canton/, "region")
+            fieldInfo.name
           );
         })
       : [];
@@ -101,10 +103,15 @@ const Query: QueryResolvers = {
         __typename: "OperatorObservation",
       };
       for (const [k, v] of Object.entries(d)) {
-        const key = k.replace(
-          "https://energy.ld.admin.ch/elcom/electricityprice/dimension/",
-          ""
-        );
+        const key = k
+          .replace(
+            "https://energy.ld.admin.ch/elcom/electricityprice/dimension/",
+            ""
+          )
+          .replace(
+            "https://energy.ld.admin.ch/elcom/electricity-price/dimension/",
+            ""
+          );
         const parsedValue = parseObservationValue(v);
 
         parsed[key] =
@@ -119,10 +126,15 @@ const Query: QueryResolvers = {
         __typename: "MedianObservation",
       };
       for (const [k, v] of Object.entries(d)) {
-        const key = k.replace(
-          "https://energy.ld.admin.ch/elcom/electricityprice/dimension/",
-          ""
-        );
+        const key = k
+          .replace(
+            "https://energy.ld.admin.ch/elcom/electricityprice/dimension/",
+            ""
+          )
+          .replace(
+            "https://energy.ld.admin.ch/elcom/electricity-price/dimension/",
+            ""
+          );
         const parsedValue = parseObservationValue(v);
 
         parsed[key] =
@@ -132,6 +144,8 @@ const Query: QueryResolvers = {
       }
       return parsed;
     });
+
+    console.log(medianObservations[0], operatorObservations[0]);
 
     const observations = [...medianObservations, ...operatorObservations];
 
@@ -359,8 +373,8 @@ const MedianObservation: MedianObservationResolvers = {
   /**
    * Map "region*" to "canton*" field name
    */
-  canton: (parent) => parent.region!,
-  cantonLabel: (parent) => parent.regionLabel!,
+  // canton: (parent) => parent.canton,
+  // cantonLabel: (parent) => parent.cantonLabel,
 };
 
 // const Cube: CubeResolvers = {

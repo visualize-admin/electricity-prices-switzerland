@@ -23,6 +23,9 @@ const ns = {
   energyPricing: namespace(
     "https://energy.ld.admin.ch/elcom/electricityprice/dimension/"
   ),
+  energyPricing2: namespace(
+    "https://energy.ld.admin.ch/elcom/electricity-price/dimension/"
+  ),
   energyPricingValue: namespace(
     "https://energy.ld.admin.ch/elcom/electricityprice/"
   ),
@@ -179,7 +182,8 @@ export const getObservations = async (
         filterValues
           ? buildDimensionFilter(
               view,
-              dimensionKey.replace(/^canton/, "region"),
+              dimensionKey,
+              // dimensionKey.replace(/^canton/, "region"),
               filterValues
             ) ?? []
           : []
@@ -189,14 +193,14 @@ export const getObservations = async (
   const lookupSource = LookupSource.fromSource(source);
 
   const regionDimensionsAndFilter =
-    !isCantons && dimensions?.some((d) => d.match(/^region/))
+    !isCantons && dimensions?.some((d) => d.match(/^canton/))
       ? getRegionDimensionsAndFilter({ view, lookupSource, locale })
       : undefined;
 
   const filterViewDimensions = dimensions
     ? dimensions.flatMap((d) => {
         const labelMatches =
-          !isCantons && d === "regionLabel" ? null : d.match(/^(.+)Label$/);
+          !isCantons && d === "cantonLabel" ? null : d.match(/^(.+)Label$/);
         const dimensionKey = labelMatches ? labelMatches[1] : d;
 
         if (labelMatches) {
@@ -220,10 +224,15 @@ export const getObservations = async (
 
           return dimension ? [dimension, labelDimension] : [];
         }
+        const dimension =
+          view.dimension({
+            cubeDimension: ns.energyPricing(d),
+          }) ??
+          view.dimension({
+            cubeDimension: ns.energyPricing2(d),
+          });
 
-        const dimension = view.dimension({
-          cubeDimension: ns.energyPricing(d),
-        });
+        // console.log(ns.energyPricing(d).value, dimension);
         return dimension ? [dimension] : [];
       })
     : view.dimensions;
