@@ -4,7 +4,7 @@ import {
   getSource,
   getView,
   stripNamespaceFromIri,
-} from "../../graphql/rdf";
+} from "../../rdf/queries";
 import { parseLocaleString } from "../../locales/locales";
 import { parseObservationValue } from "../../lib/observations";
 import { dsv, csv, csvFormat } from "d3";

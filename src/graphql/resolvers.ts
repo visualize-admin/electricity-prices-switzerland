@@ -9,7 +9,7 @@ import {
   getOperatorDocuments,
   getSourceAndCubeViews,
   getSource,
-} from "./rdf";
+} from "../rdf/queries";
 import { ResolvedObservation } from "./resolver-mapped-types";
 import {
   MedianObservationResolvers,

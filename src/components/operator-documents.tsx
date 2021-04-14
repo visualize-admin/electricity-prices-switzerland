@@ -4,6 +4,7 @@ import { useMemo } from "react";
 import { Box, Flex, Link, Text } from "theme-ui";
 import {
   OperatorDocument,
+  OperatorDocumentCategory,
   useOperatorDocumentsQuery,
 } from "../graphql/queries";
 import { Icon } from "../icons";
@@ -12,14 +13,12 @@ import { useLocale } from "../lib/use-locale";
 
 const CATEGORIES = [
   {
-    id:
-      "https://energy.ld.admin.ch/elcom/electricityprice/documenttype/tariffs_provider",
+    id: OperatorDocumentCategory.Tariffs,
     itemLabel: <Trans id="download.category.tariff">Tarifblatt</Trans>,
     categoryLabel: <Trans id="download.category.tariffs">Tarifblätter</Trans>,
   },
   {
-    id:
-      "https://energy.ld.admin.ch/elcom/electricityprice/documenttype/annual_report",
+    id: OperatorDocumentCategory.FinancialStatement,
     itemLabel: (
       <Trans id="download.category.financialstatement">Jahresrechnung</Trans>
     ),
@@ -28,8 +27,7 @@ const CATEGORIES = [
     ),
   },
   {
-    id:
-      "https://energy.ld.admin.ch/elcom/electricityprice/documenttype/financial_statement",
+    id: OperatorDocumentCategory.AnnualReport,
     itemLabel: (
       <Trans id="download.category.annualreport">Geschäftsbericht</Trans>
     ),

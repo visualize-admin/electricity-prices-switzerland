@@ -13,7 +13,7 @@ import { PriceEvolution } from "../../components/detail-page/price-evolution-lin
 import { SelectorMulti } from "../../components/detail-page/selector-multi";
 import { Footer } from "../../components/footer";
 import { Header } from "../../components/header";
-import { getCanton, getSource } from "../../graphql/rdf";
+import { getCanton, getSource } from "../../rdf/queries";
 
 type Props =
   | {

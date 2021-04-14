@@ -55,13 +55,19 @@ export type Operator = {
   documents: Array<OperatorDocument>;
 };
 
+export enum OperatorDocumentCategory {
+  Tariffs = 'TARIFFS',
+  FinancialStatement = 'FINANCIAL_STATEMENT',
+  AnnualReport = 'ANNUAL_REPORT'
+}
+
 export type OperatorDocument = {
   __typename?: 'OperatorDocument';
   id: Scalars['String'];
   name: Scalars['String'];
   url: Scalars['String'];
   year: Scalars['String'];
-  category: Scalars['String'];
+  category?: Maybe<OperatorDocumentCategory>;
 };
 
 export type Canton = {
@@ -310,6 +316,7 @@ export type ResolversTypes = ResolversObject<{
   CantonResult: ResolverTypeWrapper<ResolvedSearchResult>;
   Municipality: ResolverTypeWrapper<ResolvedMunicipality>;
   Operator: ResolverTypeWrapper<ResolvedOperator>;
+  OperatorDocumentCategory: OperatorDocumentCategory;
   OperatorDocument: ResolverTypeWrapper<OperatorDocument>;
   Canton: ResolverTypeWrapper<ResolvedCanton>;
   OperatorObservation: ResolverTypeWrapper<ResolvedOperatorObservation>;
@@ -393,7 +400,7 @@ export type OperatorDocumentResolvers<ContextType = ServerContext, ParentType ex
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   url?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   year?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  category?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  category?: Resolver<Maybe<ResolversTypes['OperatorDocumentCategory']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 

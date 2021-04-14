@@ -1,4 +1,7 @@
-import namespace from "@rdfjs/namespace";
+import { sparql } from "@tpluscode/rdf-string";
+import { SELECT } from "@tpluscode/sparql-builder";
+
+import * as ns from "./namespace";
 import {
   Cube,
   CubeDimension,
@@ -9,6 +12,7 @@ import {
 import rdf from "rdf-ext";
 import { Literal, NamedNode } from "rdf-js";
 import { defaultLocale } from "../locales/locales";
+import { OperatorDocumentCategory } from "../graphql/resolver-types";
 
 type Filters = { [key: string]: string[] | null | undefined } | null;
 
@@ -17,26 +21,6 @@ const CANTON_OBSERVATIONS_CUBE =
   "https://energy.ld.admin.ch/elcom/electricityprice-canton";
 const SWISS_OBSERVATIONS_CUBE =
   "https://energy.ld.admin.ch/elcom/electricityprice-swiss";
-
-const ns = {
-  dc: namespace("http://purl.org/dc/elements/1.1/"),
-  energyPricing: namespace(
-    "https://energy.ld.admin.ch/elcom/electricityprice/dimension/"
-  ),
-  energyPricing2: namespace(
-    "https://energy.ld.admin.ch/elcom/electricity-price/dimension/"
-  ),
-  energyPricingValue: namespace(
-    "https://energy.ld.admin.ch/elcom/electricityprice/"
-  ),
-  rdf: namespace("http://www.w3.org/1999/02/22-rdf-syntax-ns#"),
-  schema: namespace("http://schema.org/"),
-  xsd: namespace("http://www.w3.org/2001/XMLSchema#"),
-  classifications: namespace("http://classifications.data.admin.ch/"),
-  schemaAdmin: namespace("https://schema.ld.admin.ch/"),
-  municipality: namespace("https://register.ld.admin.ch/municipality/"),
-  canton: namespace("https://register.ld.admin.ch/canton/"),
-};
 
 export const getSource = () =>
   new Source({
@@ -691,22 +675,18 @@ export const getOperatorDocuments = async ({
     id: operatorId,
   });
 
-  const sparql = `
-PREFIX schema: <http://schema.org/>
-SELECT DISTINCT ?download ?name ?url ?year ?category
-FROM <https://lindas.admin.ch/elcom/electricityprice>  {
-  ?download a schema:CreativeWork ;
-    schema:name ?name ;
-    schema:url ?url ;
-    schema:temporalCoverage ?year ;
-    schema:category ?category ;
-    schema:creator <${operatorIri}> .
-}
-  `;
+  const query = SELECT.DISTINCT`?download ?name ?url ?year ?category`.FROM(
+    rdf.namedNode("https://lindas.admin.ch/elcom/electricityprice")
+  ).WHERE`?download a ${ns.schema.CreativeWork} ;
+  ${ns.schema.name} ?name ;
+  ${ns.schema.url} ?url ;
+  ${ns.schema.temporalCoverage} ?year ;
+  ${ns.schema.category} ?category ;
+  ${ns.schema.creator} ${rdf.namedNode(operatorIri)} .`.build();
 
-  console.log(sparql);
+  console.log(query);
 
-  const results = (await source.client.query.select(sparql)) as {
+  const results = (await source.client.query.select(query)) as {
     name: Literal;
     url: Literal;
     year: Literal;
@@ -717,9 +697,25 @@ FROM <https://lindas.admin.ch/elcom/electricityprice>  {
   return results.map((d) => {
     const id = d.download.value;
     const year = d.year.value;
-    const category = d.category.value;
+    const category = ns.energyPricingValue`documenttype/tariffs_provider`.equals(
+      d.category
+    )
+      ? OperatorDocumentCategory.Tariffs
+      : ns.energyPricingValue`documenttype/annual_report`.equals(d.category)
+      ? OperatorDocumentCategory.AnnualReport
+      : ns.energyPricingValue`documenttype/financial_statement`.equals(
+          d.category
+        )
+      ? OperatorDocumentCategory.FinancialStatement
+      : null;
     const name = d.name.value;
     const url = d.url.value;
+
+    if (category === null) {
+      console.warn(
+        `WARNING: No category match for operator document type <${d.category.value}>`
+      );
+    }
 
     return {
       id,

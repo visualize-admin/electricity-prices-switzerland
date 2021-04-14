@@ -19,7 +19,7 @@ import {
   getMunicipality,
   getSource,
   getView,
-} from "../../graphql/rdf";
+} from "../../rdf/queries";
 
 type Props =
   | {
