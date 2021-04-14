@@ -33,6 +33,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     "operator",
     "operatorLabel",
     "category",
+    "product",
     "aidfee",
     "fixcosts",
     "charge",
