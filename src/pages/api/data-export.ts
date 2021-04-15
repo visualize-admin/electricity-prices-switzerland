@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import {
   getObservations,
-  getSource,
+  createSource,
   getView,
   stripNamespaceFromIri,
 } from "../../rdf/queries";
@@ -13,7 +13,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const locale = parseLocaleString(req.query.locale?.toString());
   const period = req.query.period?.toString() ?? "2020";
 
-  const source = getSource();
+  const source = createSource();
   const cube = await source.cube(
     "https://energy.ld.admin.ch/elcom/electricityprice/cube"
   );

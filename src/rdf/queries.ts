@@ -16,50 +16,63 @@ import { OperatorDocumentCategory } from "../graphql/resolver-types";
 
 type Filters = { [key: string]: string[] | null | undefined } | null;
 
-const OBSERVATIONS_CUBE = "https://energy.ld.admin.ch/elcom/electricityprice";
-const CANTON_OBSERVATIONS_CUBE =
+export const OBSERVATIONS_CUBE =
+  "https://energy.ld.admin.ch/elcom/electricityprice";
+export const CANTON_OBSERVATIONS_CUBE =
   "https://energy.ld.admin.ch/elcom/electricityprice-canton";
-const SWISS_OBSERVATIONS_CUBE =
+export const SWISS_OBSERVATIONS_CUBE =
   "https://energy.ld.admin.ch/elcom/electricityprice-swiss";
 
-export const getSource = () =>
+export const createSource = () =>
   new Source({
+    queryOperation: "postUrlencoded",
     endpointUrl:
       process.env.SPARQL_ENDPOINT ?? "https://test.lindas.admin.ch/query",
-    // user: '',
-    // password: ''
   });
 
+export const getCube = async ({
+  iri,
+}: {
+  iri: string;
+}): Promise<Cube | null> => {
+  const source = createSource();
+  const cube = await source.cube(iri);
+
+  // FIXME: the 2nd condition should not be necessary but due to a but in the query lib, a inexistent cube is not actually null. See https://github.com/zazuko/rdf-cube-view-query/issues/41
+  if (!cube || (cube?.out()?.terms?.length ?? 0) === 0) {
+    return null;
+  }
+  // -> This should work instead:
+  // if (!cube) {
+  //   return null;
+  // }
+
+  // FIXME: Remove this workaround until https://github.com/zazuko/rdf-cube-view-query/pull/47 is merged and released
+  if (cube) {
+    cube.source.queryOperation = "postUrlencoded";
+  }
+  return cube;
+};
+
 export const getSourceAndCubeViews = async () => {
-  const source = getSource();
+  const source = createSource();
   const [
     observationsCube,
     cantonObservationsCube,
     swissObservationsCube,
   ] = await Promise.all([
-    source.cube(OBSERVATIONS_CUBE),
-    source.cube(CANTON_OBSERVATIONS_CUBE),
-    source.cube(SWISS_OBSERVATIONS_CUBE),
+    getCube({ iri: OBSERVATIONS_CUBE }),
+    getCube({ iri: CANTON_OBSERVATIONS_CUBE }),
+    getCube({ iri: SWISS_OBSERVATIONS_CUBE }),
   ]);
 
-  // FIXME: the 2nd condition should not be necessary but due to a but in the query lib, a inexistent cube is not actually null. See https://github.com/zazuko/rdf-cube-view-query/issues/41
-
-  if (
-    !observationsCube ||
-    (observationsCube?.out()?.terms?.length ?? 0) === 0
-  ) {
+  if (!observationsCube) {
     throw Error(`Cube ${OBSERVATIONS_CUBE} not found`);
   }
-  if (
-    !cantonObservationsCube ||
-    (cantonObservationsCube?.out()?.terms?.length ?? 0) === 0
-  ) {
+  if (!cantonObservationsCube) {
     throw Error(`Cube ${CANTON_OBSERVATIONS_CUBE} not found`);
   }
-  if (
-    !swissObservationsCube ||
-    (swissObservationsCube?.out()?.terms?.length ?? 0) === 0
-  ) {
+  if (!swissObservationsCube) {
     throw Error(`Cube ${SWISS_OBSERVATIONS_CUBE} not found`);
   }
 
@@ -102,28 +115,28 @@ const getRegionDimensionsAndFilter = ({
   locale: string;
 }) => {
   const muniDimension = view.dimension({
-    cubeDimension: ns.energyPricing("municipality"),
+    cubeDimension: ns.electricitypriceDimension("municipality"),
   });
 
   const regionDimension = view.createDimension({
     source: lookupSource,
     path: ns.schema("containedInPlace"),
     join: muniDimension,
-    as: ns.energyPricing("region"),
+    as: ns.electricitypriceDimension("region"),
   });
 
   const regionLabelDimension = view.createDimension({
     source: lookupSource,
     path: ns.schema.name,
     join: regionDimension,
-    as: ns.energyPricing("regionLabel"),
+    as: ns.electricitypriceDimension("regionLabel"),
   });
 
   const regionTypeDimension = view.createDimension({
     source: lookupSource,
     path: ns.rdf.type,
     join: regionDimension,
-    as: ns.energyPricing("regionType"),
+    as: ns.electricitypriceDimension("regionType"),
   });
 
   const regionTypeFilter = regionTypeDimension.filter.eq(
@@ -160,7 +173,6 @@ export const getObservations = async (
     dimensions?: string[];
   }
 ) => {
-  console.log(dimensions);
   const queryFilters = filters
     ? Object.entries(filters).flatMap(([dimensionKey, filterValues]) =>
         filterValues
@@ -189,14 +201,14 @@ export const getObservations = async (
 
         if (labelMatches) {
           const dimension = view.dimension({
-            cubeDimension: ns.energyPricing(dimensionKey),
+            cubeDimension: ns.electricitypriceDimension(dimensionKey),
           });
 
           const labelDimension = view.createDimension({
             source: lookupSource,
             path: ns.schema.name,
             join: dimension,
-            as: ns.energyPricing(`${dimensionKey}Label`),
+            as: ns.electricitypriceDimension(`${dimensionKey}Label`),
           });
 
           // FIXME: we only add the language filter on region labels because we can't use it on strings without language tag (yet?!)
@@ -210,10 +222,10 @@ export const getObservations = async (
         }
         const dimension =
           view.dimension({
-            cubeDimension: ns.energyPricing(d),
+            cubeDimension: ns.electricitypriceDimension(d),
           }) ??
           view.dimension({
-            cubeDimension: ns.energyPricing2(d),
+            cubeDimension: ns.electricitypriceDimension2(d),
           });
 
         // console.log(ns.energyPricing(d).value, dimension);
@@ -274,7 +286,8 @@ export const getDimensionValuesAndLabels = async ({
         filterValues
           ? buildDimensionFilter(
               view,
-              dim.replace(/^canton/, "region"),
+              // dim.replace(/^canton/, "region"),
+              dim,
               filterValues
             ) ?? []
           : []
@@ -283,9 +296,13 @@ export const getDimensionValuesAndLabels = async ({
 
   const lookupView = new View({ parent: source, filters: queryFilters });
 
-  const dimension = view.dimension({
-    cubeDimension: ns.energyPricing(dimensionKey),
-  });
+  const dimension =
+    view.dimension({
+      cubeDimension: ns.electricitypriceDimension(dimensionKey),
+    }) ??
+    view.dimension({
+      cubeDimension: ns.electricitypriceDimension2(dimensionKey),
+    });
 
   if (!dimension) {
     throw Error(
@@ -297,7 +314,7 @@ export const getDimensionValuesAndLabels = async ({
     source: lookup,
     path: dimensionKey === "region" ? ns.schema.alternateName : ns.schema.name,
     join: dimension,
-    as: ns.energyPricing(`${dimensionKey}Label`),
+    as: ns.electricitypriceDimension(`${dimensionKey}Label`),
   });
   lookupView.addDimension(dimension).addDimension(labelDimension);
 
@@ -310,15 +327,17 @@ export const getDimensionValuesAndLabels = async ({
 
   return observations.flatMap((obs) => {
     // Filter out "empty" observations
-    return obs[ns.energyPricing(dimensionKey).value]
+    return obs[ns.electricitypriceDimension(dimensionKey).value]
       ? [
           {
             id: stripNamespaceFromIri({
               dimension: dimensionKey,
-              iri: obs[ns.energyPricing(dimensionKey).value].value as string,
+              iri: obs[ns.electricitypriceDimension(dimensionKey).value]
+                .value as string,
             }),
-            name: obs[ns.energyPricing(`${dimensionKey}Label`).value]
-              .value as string,
+            name: obs[
+              ns.electricitypriceDimension(`${dimensionKey}Label`).value
+            ].value as string,
             view,
             source,
           },
@@ -327,13 +346,15 @@ export const getDimensionValuesAndLabels = async ({
   });
 };
 
+// export const getOperatorMunicipalities()
+
 export const getCubeDimension = (
   view: View,
   dimensionKey: string,
   { locale }: { locale: string }
 ) => {
   const viewDimension = view.dimension({
-    cubeDimension: ns.energyPricing(dimensionKey),
+    cubeDimension: ns.electricitypriceDimension(dimensionKey),
   });
 
   const cubeDimension = viewDimension?.cubeDimensions[0];
@@ -362,9 +383,13 @@ export const buildDimensionFilter = (
   dimensionKey: string,
   filters: string[]
 ) => {
-  const viewDimension = view.dimension({
-    cubeDimension: ns.energyPricing(dimensionKey),
-  });
+  const viewDimension =
+    view.dimension({
+      cubeDimension: ns.electricitypriceDimension(dimensionKey),
+    }) ??
+    view.dimension({
+      cubeDimension: ns.electricitypriceDimension2(dimensionKey),
+    });
 
   const cubeDimension = viewDimension?.cubeDimensions[0];
 
@@ -697,15 +722,13 @@ export const getOperatorDocuments = async ({
   return results.map((d) => {
     const id = d.download.value;
     const year = d.year.value;
-    const category = ns.energyPricingValue`documenttype/tariffs_provider`.equals(
+    const category = ns.electricityprice`documenttype/tariffs_provider`.equals(
       d.category
     )
       ? OperatorDocumentCategory.Tariffs
-      : ns.energyPricingValue`documenttype/annual_report`.equals(d.category)
+      : ns.electricityprice`documenttype/annual_report`.equals(d.category)
       ? OperatorDocumentCategory.AnnualReport
-      : ns.energyPricingValue`documenttype/financial_statement`.equals(
-          d.category
-        )
+      : ns.electricityprice`documenttype/financial_statement`.equals(d.category)
       ? OperatorDocumentCategory.FinancialStatement
       : null;
     const name = d.name.value;
@@ -773,5 +796,5 @@ export const addNamespaceToID = ({
   if (dimension === "canton" || dimension === "region") {
     return ns.canton(`${id}`).value;
   }
-  return ns.energyPricingValue(`${dimension}/${id}`).value;
+  return ns.electricityprice(`${dimension}/${id}`).value;
 };

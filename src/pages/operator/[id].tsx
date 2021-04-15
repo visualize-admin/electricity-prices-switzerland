@@ -17,8 +17,10 @@ import { OperatorDocuments } from "../../components/operator-documents";
 import {
   getDimensionValuesAndLabels,
   getOperator,
-  getSource,
+  createSource,
   getView,
+  getCube,
+  OBSERVATIONS_CUBE,
 } from "../../rdf/queries";
 
 type Props =
@@ -35,7 +37,7 @@ export const getServerSideProps: GetServerSideProps<
 > = async ({ params, res, locale }) => {
   const { id } = params!;
 
-  const source = getSource();
+  const source = createSource();
 
   const operator = await getOperator({ id, source });
 
@@ -44,21 +46,17 @@ export const getServerSideProps: GetServerSideProps<
     return { props: { status: "notfound" } };
   }
 
-  const cube = await source.cube(
-    "https://energy.ld.admin.ch/elcom/electricityprice/cube"
-  );
+  const cube = await getCube({ iri: OBSERVATIONS_CUBE });
 
   if (!cube) {
-    throw Error(
-      `No cube ${"https://energy.ld.admin.ch/elcom/electricityprice/cube"}`
-    );
+    throw Error(`No cube <${OBSERVATIONS_CUBE}>`);
   }
 
   const view = getView(cube);
 
   const municipalities = await getDimensionValuesAndLabels({
     view,
-    source,
+    source: cube.source,
     dimensionKey: "municipality",
     filters: { operator: [id] },
   });

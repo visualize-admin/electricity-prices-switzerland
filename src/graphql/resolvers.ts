@@ -8,7 +8,7 @@ import {
   stripNamespaceFromIri,
   getOperatorDocuments,
   getSourceAndCubeViews,
-  getSource,
+  createSource,
 } from "../rdf/queries";
 import { ResolvedObservation } from "./resolver-mapped-types";
 import {
@@ -190,7 +190,7 @@ const Query: QueryResolvers = {
     return results.map((r) => ({ ...r, source, view }));
   },
   search: async (_, { query, locale }) => {
-    const source = getSource();
+    const source = createSource();
     const results = await search({
       source,
       locale,
@@ -202,7 +202,7 @@ const Query: QueryResolvers = {
     return results;
   },
   searchMunicipalities: async (_, { query, locale, ids }) => {
-    const source = getSource();
+    const source = createSource();
     const results = await search({
       source,
       locale,
@@ -214,7 +214,7 @@ const Query: QueryResolvers = {
     return results;
   },
   searchOperators: async (_, { query, locale, ids }) => {
-    const source = getSource();
+    const source = createSource();
     const results = await search({
       source,
       locale,
@@ -226,7 +226,7 @@ const Query: QueryResolvers = {
     return results;
   },
   searchCantons: async (_, { query, locale, ids }) => {
-    const source = getSource();
+    const source = createSource();
     const results = await search({
       source,
       locale,

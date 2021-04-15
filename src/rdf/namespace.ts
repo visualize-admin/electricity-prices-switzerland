@@ -11,14 +11,14 @@ export const schemaAdmin = namespace("https://schema.ld.admin.ch/");
 
 export const visualizeAdmin = namespace("https://visualize.admin.ch/");
 
-export const energyPricingValue = namespace(
+export const electricityprice = namespace(
   "https://energy.ld.admin.ch/elcom/electricityprice/"
 );
-export const energyPricing = namespace(
+export const electricitypriceDimension = namespace(
   "https://energy.ld.admin.ch/elcom/electricityprice/dimension/"
 );
 // FIXME: remove redundancy
-export const energyPricing2 = namespace(
+export const electricitypriceDimension2 = namespace(
   "https://energy.ld.admin.ch/elcom/electricity-price/dimension/"
 );
 

@@ -17,7 +17,7 @@ import { Header } from "../../components/header";
 import {
   getDimensionValuesAndLabels,
   getMunicipality,
-  getSource,
+  createSource,
   getView,
 } from "../../rdf/queries";
 
@@ -38,7 +38,7 @@ export const getServerSideProps: GetServerSideProps<
 
   console.time("Muni");
 
-  const source = getSource();
+  const source = createSource();
 
   const municipality = await getMunicipality({ id, source });
 
