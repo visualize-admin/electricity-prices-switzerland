@@ -29,8 +29,7 @@ export const getServerSideProps: GetServerSideProps<
 > = async ({ params, res, locale }) => {
   const { id } = params!;
 
-  const source = createSource();
-  const canton = await getCanton({ id, locale: locale!, source });
+  const canton = await getCanton({ id, locale: locale! });
 
   if (!canton) {
     res.statusCode = 404;

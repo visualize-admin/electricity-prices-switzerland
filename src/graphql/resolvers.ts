@@ -4,11 +4,11 @@ import { parseObservationValue } from "../lib/observations";
 import {
   getDimensionValuesAndLabels,
   getObservations,
-  search,
-  stripNamespaceFromIri,
   getOperatorDocuments,
-  getSourceAndCubeViews,
   createSource,
+  getObservationsCube,
+  getCantonMedianCube,
+  getView,
 } from "../rdf/queries";
 import { ResolvedObservation } from "./resolver-mapped-types";
 import {
@@ -24,8 +24,11 @@ import {
 import { defaultLocale } from "../locales/locales";
 import { getWikiPage } from "../domain/gitlab-wiki-api";
 import micromark from "micromark";
+import { search } from "../rdf/search-queries";
 var gfmSyntax = require("micromark-extension-gfm");
 var gfmHtml = require("micromark-extension-gfm/html");
+
+import * as ns from "../rdf/namespace";
 
 const Query: QueryResolvers = {
   systemInfo: async () => {
@@ -36,11 +39,14 @@ const Query: QueryResolvers = {
     };
   },
   observations: async (_, { locale, filters, observationType }, ctx, info) => {
-    const {
-      source,
-      observationsView,
-      cantonObservationsView,
-    } = await getSourceAndCubeViews();
+    const [observationsCube, cantonCube] = await Promise.all([
+      getObservationsCube(),
+      getCantonMedianCube(),
+    ]);
+
+    const observationsView = getView(observationsCube);
+    const cantonObservationsView = getView(cantonCube);
+
     // Look ahead to select proper dimensions for query
     const observationFields = getResolverFields(info, "OperatorObservation");
 
@@ -58,7 +64,11 @@ const Query: QueryResolvers = {
       observationType !== ObservationType.MedianObservation &&
       observationDimensionKeys.length > 0
         ? await getObservations(
-            { view: observationsView, source, locale: locale ?? defaultLocale },
+            {
+              view: observationsView,
+              source: observationsCube.source,
+              locale: locale ?? defaultLocale,
+            },
             {
               filters,
               dimensions: observationDimensionKeys,
@@ -87,7 +97,7 @@ const Query: QueryResolvers = {
         ? await getObservations(
             {
               view: cantonObservationsView,
-              source,
+              source: cantonCube.source,
               isCantons: true,
               locale: locale ?? defaultLocale,
             },
@@ -116,7 +126,7 @@ const Query: QueryResolvers = {
 
         parsed[key] =
           typeof parsedValue === "string"
-            ? stripNamespaceFromIri({ dimension: key, iri: parsedValue })
+            ? ns.stripNamespaceFromIri({ dimension: key, iri: parsedValue })
             : parsedValue;
       }
       return parsed;
@@ -139,7 +149,7 @@ const Query: QueryResolvers = {
 
         parsed[key] =
           typeof parsedValue === "string"
-            ? stripNamespaceFromIri({ dimension: key, iri: parsedValue })
+            ? ns.stripNamespaceFromIri({ dimension: key, iri: parsedValue })
             : parsedValue;
       }
       return parsed;
@@ -153,46 +163,37 @@ const Query: QueryResolvers = {
     return observations as ResolvedObservation[];
   },
   operators: async (_, { query, ids, locale }) => {
-    const { source, observationsView: view } = await getSourceAndCubeViews();
     const results = await search({
-      source,
       locale,
       query: query ?? "",
       ids: ids ?? [],
       types: ["operator"],
     });
 
-    return results.map((r) => ({ ...r, source, view }));
+    return results;
   },
   municipalities: async (_, { query, ids, locale }) => {
-    const { source, observationsView: view } = await getSourceAndCubeViews();
     const results = await search({
-      source,
       locale,
       query: query ?? "",
       ids: ids ?? [],
       types: ["municipality"],
     });
 
-    return results.map((r) => ({ ...r, source, view }));
+    return results;
   },
   cantons: async (_, { query, ids, locale }) => {
-    const { source, observationsView: view } = await getSourceAndCubeViews();
-
     const results = await search({
-      source,
       locale,
       query: query ?? "",
       ids: ids ?? [],
       types: ["canton"],
     });
 
-    return results.map((r) => ({ ...r, source, view }));
+    return results;
   },
   search: async (_, { query, locale }) => {
-    const source = createSource();
     const results = await search({
-      source,
       locale,
       query: query ?? "",
       ids: [],
@@ -202,9 +203,7 @@ const Query: QueryResolvers = {
     return results;
   },
   searchMunicipalities: async (_, { query, locale, ids }) => {
-    const source = createSource();
     const results = await search({
-      source,
       locale,
       query: query ?? "",
       ids: ids ?? [],
@@ -214,9 +213,7 @@ const Query: QueryResolvers = {
     return results;
   },
   searchOperators: async (_, { query, locale, ids }) => {
-    const source = createSource();
     const results = await search({
-      source,
       locale,
       query: query ?? "",
       ids: ids ?? [],
@@ -226,9 +223,7 @@ const Query: QueryResolvers = {
     return results;
   },
   searchCantons: async (_, { query, locale, ids }) => {
-    const source = createSource();
     const results = await search({
-      source,
       locale,
       query: query ?? "",
       ids: ids ?? [],
@@ -238,11 +233,10 @@ const Query: QueryResolvers = {
     return results;
   },
   municipality: async (_, { id }) => {
-    const { source, observationsView: view } = await getSourceAndCubeViews();
+    const cube = await getObservationsCube();
 
     const results = await getDimensionValuesAndLabels({
-      view,
-      source,
+      cube,
       dimensionKey: "municipality",
       filters: { municipality: [id] },
     });
@@ -251,11 +245,10 @@ const Query: QueryResolvers = {
   },
   canton: async (_, { id }) => ({ id }),
   operator: async (_, { id }) => {
-    const { source, observationsView: view } = await getSourceAndCubeViews();
+    const cube = await getObservationsCube();
 
     const results = await getDimensionValuesAndLabels({
-      view,
-      source,
+      cube,
       dimensionKey: "operator",
       filters: { operator: [id] },
     });
@@ -293,10 +286,10 @@ const Query: QueryResolvers = {
 };
 
 const Municipality: MunicipalityResolvers = {
-  operators: async ({ id, view, source }) => {
+  operators: async ({ id }) => {
+    const cube = await getObservationsCube();
     return getDimensionValuesAndLabels({
-      view,
-      source,
+      cube,
       dimensionKey: "operator",
       filters: { municipality: [id] },
     });
@@ -304,17 +297,18 @@ const Municipality: MunicipalityResolvers = {
 };
 
 const Operator: OperatorResolvers = {
-  municipalities: async ({ id, view, source }) => {
+  municipalities: async ({ id }) => {
+    const cube = await getObservationsCube();
+
     return getDimensionValuesAndLabels({
-      view,
-      source,
+      cube,
       dimensionKey: "municipality",
       filters: { operator: [id] },
     });
   },
 
-  documents: async ({ id, source }) => {
-    return getOperatorDocuments({ operatorId: id, source });
+  documents: async ({ id }) => {
+    return getOperatorDocuments({ operatorId: id });
   },
 };
 

@@ -13,6 +13,8 @@ import rdf from "rdf-ext";
 import { Literal, NamedNode } from "rdf-js";
 import { defaultLocale } from "../locales/locales";
 import { OperatorDocumentCategory } from "../graphql/resolver-types";
+import ParsingClient from "sparql-http-client/ParsingClient";
+import { sparqlClient } from "./sparql-client";
 
 type Filters = { [key: string]: string[] | null | undefined } | null;
 
@@ -54,35 +56,57 @@ export const getCube = async ({
   return cube;
 };
 
-export const getSourceAndCubeViews = async () => {
-  const source = createSource();
-  const [
-    observationsCube,
-    cantonObservationsCube,
-    swissObservationsCube,
-  ] = await Promise.all([
-    getCube({ iri: OBSERVATIONS_CUBE }),
-    getCube({ iri: CANTON_OBSERVATIONS_CUBE }),
-    getCube({ iri: SWISS_OBSERVATIONS_CUBE }),
-  ]);
-
-  if (!observationsCube) {
+export const getObservationsCube = async (): Promise<Cube> => {
+  const cube = await getCube({ iri: OBSERVATIONS_CUBE });
+  if (!cube) {
     throw Error(`Cube ${OBSERVATIONS_CUBE} not found`);
   }
-  if (!cantonObservationsCube) {
+  return cube;
+};
+export const getCantonMedianCube = async (): Promise<Cube> => {
+  const cube = await getCube({ iri: CANTON_OBSERVATIONS_CUBE });
+  if (!cube) {
     throw Error(`Cube ${CANTON_OBSERVATIONS_CUBE} not found`);
   }
-  if (!swissObservationsCube) {
+  return cube;
+};
+export const getSwissMedianCube = async (): Promise<Cube> => {
+  const cube = await getCube({ iri: SWISS_OBSERVATIONS_CUBE });
+  if (!cube) {
     throw Error(`Cube ${SWISS_OBSERVATIONS_CUBE} not found`);
   }
-
-  return {
-    source,
-    observationsView: getView(observationsCube),
-    cantonObservationsView: getView(cantonObservationsCube),
-    swissObservationsView: getView(swissObservationsCube),
-  };
+  return cube;
 };
+
+// export const getSourceAndCubeViews = async () => {
+//   const source = createSource();
+//   const [
+//     observationsCube,
+//     cantonObservationsCube,
+//     swissObservationsCube,
+//   ] = await Promise.all([
+//     getCube({ iri: OBSERVATIONS_CUBE }),
+//     getCube({ iri: CANTON_OBSERVATIONS_CUBE }),
+//     getCube({ iri: SWISS_OBSERVATIONS_CUBE }),
+//   ]);
+
+//   if (!observationsCube) {
+//     throw Error(`Cube ${OBSERVATIONS_CUBE} not found`);
+//   }
+//   if (!cantonObservationsCube) {
+//     throw Error(`Cube ${CANTON_OBSERVATIONS_CUBE} not found`);
+//   }
+//   if (!swissObservationsCube) {
+//     throw Error(`Cube ${SWISS_OBSERVATIONS_CUBE} not found`);
+//   }
+
+//   return {
+//     source,
+//     observationsView: getView(observationsCube),
+//     cantonObservationsView: getView(cantonObservationsCube),
+//     swissObservationsView: getView(swissObservationsCube),
+//   };
+// };
 
 export const getName = (
   node: Cube | CubeDimension,
@@ -269,16 +293,16 @@ export const getObservations = async (
 };
 
 export const getDimensionValuesAndLabels = async ({
-  view,
-  source,
+  cube,
   dimensionKey,
   filters,
 }: {
-  view: View;
-  source: Source;
+  cube: Cube;
   dimensionKey: string;
   filters?: Filters;
 }): Promise<{ id: string; name: string; view: View; source: Source }[]> => {
+  const view = getView(cube);
+  const source = cube.source;
   const lookup = LookupSource.fromSource(source);
 
   const queryFilters = filters
@@ -326,11 +350,12 @@ export const getDimensionValuesAndLabels = async ({
   lookup.clear();
 
   return observations.flatMap((obs) => {
+    console.log(obs);
     // Filter out "empty" observations
     return obs[ns.electricitypriceDimension(dimensionKey).value]
       ? [
           {
-            id: stripNamespaceFromIri({
+            id: ns.stripNamespaceFromIri({
               dimension: dimensionKey,
               iri: obs[ns.electricitypriceDimension(dimensionKey).value]
                 .value as string,
@@ -406,7 +431,7 @@ export const buildDimensionFilter = (
           datatype
             ? rdf.literal(filters[0], datatype)
             : rdf.namedNode(
-                addNamespaceToID({ id: filters[0], dimension: dimensionKey })
+                ns.addNamespaceToID({ id: filters[0], dimension: dimensionKey })
               )
         )
       : viewDimension.filter.in(
@@ -414,7 +439,7 @@ export const buildDimensionFilter = (
             return datatype
               ? rdf.literal(f, datatype)
               : rdf.namedNode(
-                  addNamespaceToID({ id: f, dimension: dimensionKey })
+                  ns.addNamespaceToID({ id: f, dimension: dimensionKey })
                 );
           })
         );
@@ -422,203 +447,14 @@ export const buildDimensionFilter = (
   return dimensionFilter;
 };
 
-// regex based search query for municipalities and operators
-
-type SearchType = "municipality" | "operator" | "canton";
-
-const searchQueryBuilders = {
-  zipCode: ({ query }: { query: string }) => {
-    return `{
-    SELECT DISTINCT ("municipality" AS ?type) (?municipality AS ?iri) (?municipalityLabel AS ?name)
-      WHERE { GRAPH <https://lindas.admin.ch/elcom/electricityprice> {
-        ?offer a schema:Offer ;
-          schema:areaServed ?municipality;
-          schema:postalCode "${query}" .
-        }
-        { GRAPH <https://lindas.admin.ch/fso/agvch> {
-          ?municipality schema:name ?municipalityLabel .
-        }}
-    }
-  }`;
-  },
-  query: {
-    municipality: ({ query, limit }: { query: string; limit: number }) => {
-      return `{
-      SELECT DISTINCT ("municipality" AS ?type) (?municipality AS ?iri) (?municipalityLabel AS ?name) WHERE {
-        GRAPH <https://lindas.admin.ch/fso/agvch> {
-          VALUES ?class { <https://schema.ld.admin.ch/Municipality> <https://schema.ld.admin.ch/AbolishedMunicipality> }
-          ?municipality a ?class .
-          ?municipality <http://schema.org/name> ?municipalityLabel .
-        }
-        FILTER (regex(?municipalityLabel, ".*${query}.*", "i"))
-      } LIMIT ${limit}
-    }`;
-    },
-
-    operator: ({ query, limit }: { query: string; limit: number }) => {
-      return `{
-      SELECT DISTINCT ("operator" AS ?type) (?operator AS ?iri) (?operatorLabel AS ?name) WHERE {
-        GRAPH <https://lindas.admin.ch/elcom/electricityprice> {
-          ?operator a <http://schema.org/Organization> .
-          ?operator <http://schema.org/name> ?operatorLabel.    
-        }
-        FILTER (regex(?operatorLabel, ".*${query}.*", "i"))
-      } LIMIT ${limit}
-    }`;
-    },
-    canton: ({
-      query,
-      limit,
-      locale,
-    }: {
-      query: string;
-      limit: number;
-      locale: string;
-    }) => {
-      return `{
-      SELECT DISTINCT ("canton" AS ?type) (?canton AS ?iri) (?cantonLabel AS ?name) WHERE {
-        GRAPH <https://lindas.admin.ch/fso/agvch> {
-          ?canton a <https://schema.ld.admin.ch/Canton> .
-          ?canton <http://schema.org/name> ?cantonLabel .    
-        }
-        FILTER (LANGMATCHES(LANG(?cantonLabel), "${locale}") && (regex(?cantonLabel, ".*${query}.*", "i")))
-      } LIMIT ${limit}
-    }`;
-    },
-  },
-  ids: {
-    canton: ({ ids, locale }: { ids: string[]; locale: string }) => {
-      return `{
-      SELECT DISTINCT ("canton" AS ?type) (?canton AS ?iri) (?cantonLabel AS ?name) WHERE {
-        GRAPH <https://lindas.admin.ch/fso/agvch> {
-          ?canton a <https://schema.ld.admin.ch/Canton> .
-          ?canton <http://schema.org/name> ?cantonLabel .
-        }
-        FILTER (LANGMATCHES(LANG(?cantonLabel), "${locale}") && (?canton IN (${ids
-        .map((id) => `<${addNamespaceToID({ dimension: "canton", id })}>`)
-        .join(",")})))
-      }
-    }`;
-    },
-    municipality: ({ ids, locale }: { ids: string[]; locale: string }) => {
-      return `{
-        SELECT DISTINCT ("municipality" AS ?type) (?municipality AS ?iri) (?municipalityLabel AS ?name) WHERE {
-          GRAPH <https://lindas.admin.ch/fso/agvch> {
-            VALUES ?class { <https://schema.ld.admin.ch/Municipality> <https://schema.ld.admin.ch/AbolishedMunicipality> }
-            ?municipality a ?class .
-            ?municipality <http://schema.org/name> ?municipalityLabel .
-          }
-          FILTER (?municipality IN (${ids
-            .map(
-              (id) => `<${addNamespaceToID({ dimension: "municipality", id })}>`
-            )
-            .join(",")}))
-        }
-      }`;
-    },
-    operator: ({ ids, locale }: { ids: string[]; locale: string }) => {
-      return `{
-        SELECT DISTINCT ("operator" AS ?type) (?operator AS ?iri) (?operatorLabel AS ?name) WHERE {
-          GRAPH <https://lindas.admin.ch/elcom/electricityprice> {
-            ?operator a <http://schema.org/Organization> .
-            ?operator <http://schema.org/name> ?operatorLabel.    
-          }
-          FILTER (?operator IN (${ids
-            .map((id) => `<${addNamespaceToID({ dimension: "operator", id })}>`)
-            .join(",")}))
-        }
-      }`;
-    },
-  },
-} as const;
-
-export const search = async ({
-  source,
-  query,
-  ids,
-  locale = defaultLocale,
-  types = ["municipality", "operator"],
-  limit = 10,
-}: {
-  source: Source;
-  query: string;
-  ids: string[];
-  locale: string;
-  types?: SearchType[];
-  limit?: number;
-}) => {
-  const trimmedQuery = query.trim();
-  const isZipCode = /^[0-9]{4}$/.test(trimmedQuery);
-  let queryParts: string[] = [];
-
-  if (isZipCode && types.includes("municipality")) {
-    queryParts.push(searchQueryBuilders.zipCode({ query: trimmedQuery }));
-  }
-
-  if (ids.length > 0) {
-    queryParts.push(
-      ...types.map((t) =>
-        searchQueryBuilders.ids[t]({
-          ids,
-          locale,
-        })
-      )
-    );
-  }
-
-  if (!isZipCode && trimmedQuery !== "") {
-    queryParts.push(
-      ...types.map((t) =>
-        searchQueryBuilders.query[t]({
-          query: trimmedQuery,
-          limit,
-          locale,
-        })
-      )
-    );
-  }
-
-  if (queryParts.length === 0) {
-    return [];
-  }
-
-  const sparql = `
-  PREFIX schema: <http://schema.org/>
-  PREFIX lac: <https://schema.ld.admin.ch/>
-  SELECT DISTINCT ?type ?iri ?name {
-    ${queryParts.join(" UNION ")}    
-  } ORDER BY ?name
-  `;
-
-  console.log(sparql);
-
-  const results = (await source.client.query.select(sparql)) as {
-    type: Literal;
-    iri: NamedNode;
-    name: Literal;
-  }[];
-
-  return results.map((d) => {
-    const iri = d.iri.value;
-    const type = d.type.value;
-    const name = d.name.value;
-
-    return {
-      id: stripNamespaceFromIri({ dimension: type, iri }),
-      name,
-      type,
-    };
-  });
-};
-
 export const getMunicipality = async ({
   id,
-  source,
+  client = sparqlClient,
 }: {
   id: string;
-  source: Source;
+  client?: ParsingClient;
 }): Promise<{ id: string; name: string } | null> => {
-  const iri = addNamespaceToID({
+  const iri = ns.addNamespaceToID({
     dimension: "municipality",
     id,
   });
@@ -629,7 +465,7 @@ SELECT DISTINCT ?name {
 }
   `;
 
-  const result = (await source.client.query.select(sparql))[0] as {
+  const result = (await client.query.select(sparql))[0] as {
     name: Literal;
   };
 
@@ -638,14 +474,14 @@ SELECT DISTINCT ?name {
 
 export const getCanton = async ({
   id,
-  source,
+  client = sparqlClient,
   locale,
 }: {
   id: string;
-  source: Source;
+  client?: ParsingClient;
   locale: string;
 }): Promise<{ id: string; name: string } | null> => {
-  const iri = addNamespaceToID({
+  const iri = ns.addNamespaceToID({
     dimension: "canton",
     id,
   });
@@ -657,7 +493,7 @@ SELECT DISTINCT ?name {
 }
   `;
 
-  const result = (await source.client.query.select(sparql))[0] as {
+  const result = (await client.query.select(sparql))[0] as {
     name: Literal;
   };
   return result ? { id, name: result.name.value } : null;
@@ -665,12 +501,12 @@ SELECT DISTINCT ?name {
 
 export const getOperator = async ({
   id,
-  source,
+  client = sparqlClient,
 }: {
   id: string;
-  source: Source;
+  client?: ParsingClient;
 }): Promise<{ id: string; name: string } | null> => {
-  const iri = addNamespaceToID({
+  const iri = ns.addNamespaceToID({
     dimension: "operator",
     id,
   });
@@ -681,7 +517,7 @@ SELECT DISTINCT ?name {
 }
   `;
 
-  const result = (await source.client.query.select(sparql))[0] as {
+  const result = (await client.query.select(sparql))[0] as {
     name: Literal;
   };
 
@@ -690,12 +526,12 @@ SELECT DISTINCT ?name {
 
 export const getOperatorDocuments = async ({
   operatorId,
-  source,
+  client = sparqlClient,
 }: {
   operatorId: string;
-  source: Source;
+  client?: ParsingClient;
 }) => {
-  const operatorIri = addNamespaceToID({
+  const operatorIri = ns.addNamespaceToID({
     dimension: "operator",
     id: operatorId,
   });
@@ -711,7 +547,7 @@ export const getOperatorDocuments = async ({
 
   console.log(query);
 
-  const results = (await source.client.query.select(query)) as {
+  const results = (await client.query.select(query)) as {
     name: Literal;
     url: Literal;
     year: Literal;
@@ -748,53 +584,4 @@ export const getOperatorDocuments = async ({
       url,
     };
   });
-};
-
-/**
- * Strips the namespace from an IRI to get shorter IDs
- *
- * E.g. "http://classifications.data.admin.ch/municipality/123" -> "123"
- * E.g. "https://energy.ld.admin.ch/elcom/electricityprice/category/H1" -> "H1"
- */
-export const stripNamespaceFromIri = ({
-  dimension,
-  iri,
-}: {
-  dimension: string;
-  iri: string;
-}): string => {
-  const matches = iri.match(/\/([a-zA-Z0-9]+)$/);
-
-  if (!matches) {
-    // Warn?
-    return iri;
-  }
-
-  return matches[1];
-};
-
-/**
- * Adds the namespace to an ID to get the full IRI
- *
- * E.g. "municipality" "123" -> "http://classifications.data.admin.ch/municipality/123"
- * E.g. "category" "H1" -> "https://energy.ld.admin.ch/elcom/electricityprice/category/H1"
- */
-export const addNamespaceToID = ({
-  dimension,
-  id,
-}: {
-  dimension: string;
-  id: string;
-}): string => {
-  // Check for full IRIs
-  if (id.match(/^http(s)?:\/\//)) {
-    return id;
-  }
-  if (dimension === "municipality") {
-    return ns.municipality(`${id}`).value;
-  }
-  if (dimension === "canton" || dimension === "region") {
-    return ns.canton(`${id}`).value;
-  }
-  return ns.electricityprice(`${dimension}/${id}`).value;
 };

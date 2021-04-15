@@ -19,6 +19,7 @@ import {
   getMunicipality,
   createSource,
   getView,
+  getObservationsCube,
 } from "../../rdf/queries";
 
 type Props =
@@ -40,28 +41,17 @@ export const getServerSideProps: GetServerSideProps<
 
   const source = createSource();
 
-  const municipality = await getMunicipality({ id, source });
+  const municipality = await getMunicipality({ id });
 
   if (!municipality) {
     res.statusCode = 404;
     return { props: { status: "notfound" } };
   }
 
-  const cube = await source.cube(
-    "https://energy.ld.admin.ch/elcom/electricityprice/cube"
-  );
-
-  if (!cube) {
-    throw Error(
-      `No cube ${"https://energy.ld.admin.ch/elcom/electricityprice/cube"}`
-    );
-  }
-
-  const view = getView(cube);
+  const cube = await getObservationsCube();
 
   const operators = await getDimensionValuesAndLabels({
-    view,
-    source,
+    cube,
     dimensionKey: "operator",
     filters: { municipality: [id] },
   });
