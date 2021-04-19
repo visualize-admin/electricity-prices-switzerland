@@ -273,7 +273,10 @@ export const getObservations = async (
   );
 
   console.log("> getObservations");
-  console.log(filterView.observationsQuery().query.toString());
+
+  console.log({
+    query: getSparqlEditorUrl(filterView.observationsQuery().query.toString()),
+  });
 
   const observations = await filterView.observations();
 
@@ -342,7 +345,9 @@ export const getDimensionValuesAndLabels = async ({
   });
   lookupView.addDimension(dimension).addDimension(labelDimension);
 
-  console.log(lookupView.observationsQuery().query.toString());
+  console.log({
+    query: getSparqlEditorUrl(lookupView.observationsQuery().query.toString()),
+  });
 
   const observations = await lookupView.observations();
 
@@ -350,7 +355,6 @@ export const getDimensionValuesAndLabels = async ({
   lookup.clear();
 
   return observations.flatMap((obs) => {
-    console.log(obs);
     // Filter out "empty" observations
     return obs[ns.electricitypriceDimension(dimensionKey).value]
       ? [
@@ -545,7 +549,7 @@ export const getOperatorDocuments = async ({
   ${ns.schema.category} ?category ;
   ${ns.schema.creator} ${rdf.namedNode(operatorIri)} .`.build();
 
-  console.log(query);
+  console.log({ query: getSparqlEditorUrl(query) });
 
   const results = (await client.query.select(query)) as {
     name: Literal;
@@ -584,4 +588,10 @@ export const getOperatorDocuments = async ({
       url,
     };
   });
+};
+
+export const getSparqlEditorUrl = (query: string): string | null => {
+  return process.env.SPARQL_EDITOR
+    ? `${process.env.SPARQL_EDITOR}#query=${encodeURIComponent(query)}`
+    : query;
 };
