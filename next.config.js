@@ -16,6 +16,9 @@ console.log("Build Environment:", buildEnv);
 
 module.exports = withBundleAnalyzer(
   withMDX({
+    future: {
+      webpack5: true,
+    },
     // Build-time env variables
     env: buildEnv,
 
@@ -29,27 +32,6 @@ module.exports = withBundleAnalyzer(
         exclude: /node_modules/,
         loader: "graphql-tag/loader",
       });
-
-      /* Enable source maps in production */
-      if (!dev) {
-        config.devtool = "source-map";
-
-        for (const plugin of config.plugins) {
-          if (plugin.constructor.name === "UglifyJsPlugin") {
-            plugin.options.sourceMap = true;
-            break;
-          }
-        }
-
-        if (config.optimization && config.optimization.minimizer) {
-          for (const plugin of config.optimization.minimizer) {
-            if (plugin.constructor.name === "TerserPlugin") {
-              plugin.options.sourceMap = true;
-              break;
-            }
-          }
-        }
-      }
 
       return config;
     },
