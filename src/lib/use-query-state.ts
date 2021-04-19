@@ -77,7 +77,7 @@ export const useQueryState = () => {
   );
 
   let state: Partial<QueryState> = {
-    id: ensureString(query.id),
+    id: query.id ? ensureString(query.id) : undefined,
   };
 
   for (let k of queryStateKeys) {
