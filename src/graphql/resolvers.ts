@@ -113,15 +113,11 @@ const Query: QueryResolvers = {
         __typename: "OperatorObservation",
       };
       for (const [k, v] of Object.entries(d)) {
-        const key = k
-          .replace(
-            "https://energy.ld.admin.ch/elcom/electricityprice/dimension/",
-            ""
-          )
-          .replace(
-            "https://energy.ld.admin.ch/elcom/electricity-price/dimension/",
-            ""
-          );
+        const key = k.replace(
+          "https://energy.ld.admin.ch/elcom/electricityprice/dimension/",
+          ""
+        );
+
         const parsedValue = parseObservationValue(v);
 
         parsed[key] =
@@ -136,15 +132,11 @@ const Query: QueryResolvers = {
         __typename: "MedianObservation",
       };
       for (const [k, v] of Object.entries(d)) {
-        const key = k
-          .replace(
-            "https://energy.ld.admin.ch/elcom/electricityprice/dimension/",
-            ""
-          )
-          .replace(
-            "https://energy.ld.admin.ch/elcom/electricity-price/dimension/",
-            ""
-          );
+        const key = k.replace(
+          "https://energy.ld.admin.ch/elcom/electricityprice/dimension/",
+          ""
+        );
+
         const parsedValue = parseObservationValue(v);
 
         parsed[key] =
@@ -154,8 +146,6 @@ const Query: QueryResolvers = {
       }
       return parsed;
     });
-
-    console.log(medianObservations[0], operatorObservations[0]);
 
     const observations = [...medianObservations, ...operatorObservations];
 

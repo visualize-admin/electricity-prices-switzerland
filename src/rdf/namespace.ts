@@ -17,15 +17,9 @@ export const electricityprice = namespace(
 export const electricitypriceDimension = namespace(
   "https://energy.ld.admin.ch/elcom/electricityprice/dimension/"
 );
-// FIXME: remove redundancy
-export const electricitypriceDimension2 = namespace(
-  "https://energy.ld.admin.ch/elcom/electricity-price/dimension/"
-);
 
-export const municipality = namespace(
-  "https://register.ld.admin.ch/municipality/"
-);
-export const canton = namespace("https://register.ld.admin.ch/canton/");
+export const municipality = namespace("https://ld.admin.ch/municipality/");
+export const canton = namespace("https://ld.admin.ch/canton/");
 
 /**
  * Strips the namespace from an IRI to get shorter IDs

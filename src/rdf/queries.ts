@@ -244,13 +244,9 @@ export const getObservations = async (
 
           return dimension ? [dimension, labelDimension] : [];
         }
-        const dimension =
-          view.dimension({
-            cubeDimension: ns.electricitypriceDimension(d),
-          }) ??
-          view.dimension({
-            cubeDimension: ns.electricitypriceDimension2(d),
-          });
+        const dimension = view.dimension({
+          cubeDimension: ns.electricitypriceDimension(d),
+        });
 
         // console.log(ns.energyPricing(d).value, dimension);
         return dimension ? [dimension] : [];
@@ -323,13 +319,9 @@ export const getDimensionValuesAndLabels = async ({
 
   const lookupView = new View({ parent: source, filters: queryFilters });
 
-  const dimension =
-    view.dimension({
-      cubeDimension: ns.electricitypriceDimension(dimensionKey),
-    }) ??
-    view.dimension({
-      cubeDimension: ns.electricitypriceDimension2(dimensionKey),
-    });
+  const dimension = view.dimension({
+    cubeDimension: ns.electricitypriceDimension(dimensionKey),
+  });
 
   if (!dimension) {
     throw Error(
@@ -412,13 +404,9 @@ export const buildDimensionFilter = (
   dimensionKey: string,
   filters: string[]
 ) => {
-  const viewDimension =
-    view.dimension({
-      cubeDimension: ns.electricitypriceDimension(dimensionKey),
-    }) ??
-    view.dimension({
-      cubeDimension: ns.electricitypriceDimension2(dimensionKey),
-    });
+  const viewDimension = view.dimension({
+    cubeDimension: ns.electricitypriceDimension(dimensionKey),
+  });
 
   const cubeDimension = viewDimension?.cubeDimensions[0];
 
