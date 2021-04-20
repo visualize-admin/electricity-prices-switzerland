@@ -1,35 +1,51 @@
+import { sparql, SparqlTemplateResult } from "@tpluscode/rdf-string";
+import { SELECT } from "@tpluscode/sparql-builder";
+import rdf from "rdf-ext";
 import { Literal, NamedNode } from "rdf-js";
 import ParsingClient from "sparql-http-client/ParsingClient";
 import { defaultLocale } from "../locales/locales";
-import { sparqlClient } from "./sparql-client";
 import * as ns from "./namespace";
+import { sparqlClient } from "./sparql-client";
 
 // regex based search query for municipalities and operators
 type SearchType = "municipality" | "operator" | "canton";
 
+const vars = {
+  type: rdf.variable("type"),
+  iri: rdf.variable("iri"),
+  name: rdf.variable("name"),
+};
+
+const graphs = {
+  electricityprice: rdf.namedNode(
+    "https://lindas.admin.ch/elcom/electricityprice"
+  ),
+  fsoagv: rdf.namedNode("https://lindas.admin.ch/fso/agvch"),
+};
+
 const searchQueryBuilders = {
   zipCode: ({ query }: { query: string }) => {
-    return `{
-    SELECT DISTINCT ("municipality" AS ?type) (?municipality AS ?iri) (?municipalityLabel AS ?name)
-      WHERE { GRAPH <https://lindas.admin.ch/elcom/electricityprice> {
-        ?offer a schema:Offer ;
-          schema:areaServed ?municipality;
-          schema:postalCode "${query}" .
+    return sparql`{
+    SELECT DISTINCT ("municipality" AS ${vars.type}) (?municipality AS ${vars.iri}) (?municipalityLabel AS ${vars.name})
+      WHERE { GRAPH ${graphs.electricityprice} {
+        ?offer a ${ns.schema.Offer} ;
+          ${ns.schema.areaServed} ?municipality;
+          ${ns.schema.postalCode} "${query}" .
         }
-        { GRAPH <https://lindas.admin.ch/fso/agvch> {
-          ?municipality schema:name ?municipalityLabel .
+        { GRAPH ${graphs.fsoagv} {
+          ?municipality ${ns.schema.name} ?municipalityLabel .
         }}
     }
   }`;
   },
   query: {
     municipality: ({ query, limit }: { query: string; limit: number }) => {
-      return `{
-      SELECT DISTINCT ("municipality" AS ?type) (?municipality AS ?iri) (?municipalityLabel AS ?name) WHERE {
-        GRAPH <https://lindas.admin.ch/fso/agvch> {
-          VALUES ?class { <https://schema.ld.admin.ch/Municipality> <https://schema.ld.admin.ch/AbolishedMunicipality> }
+      return sparql`{
+      SELECT DISTINCT ("municipality" AS ${vars.type}) (?municipality AS ${vars.iri}) (?municipalityLabel AS ${vars.name}) WHERE {
+        GRAPH ${graphs.fsoagv} {
+          VALUES ?class { ${ns.schemaAdmin.Municipality} ${ns.schemaAdmin.AbolishedMunicipality} }
           ?municipality a ?class .
-          ?municipality <http://schema.org/name> ?municipalityLabel .
+          ?municipality ${ns.schema.name} ?municipalityLabel .
         }
         FILTER (regex(?municipalityLabel, ".*${query}.*", "i"))
       } LIMIT ${limit}
@@ -37,11 +53,11 @@ const searchQueryBuilders = {
     },
 
     operator: ({ query, limit }: { query: string; limit: number }) => {
-      return `{
-      SELECT DISTINCT ("operator" AS ?type) (?operator AS ?iri) (?operatorLabel AS ?name) WHERE {
-        GRAPH <https://lindas.admin.ch/elcom/electricityprice> {
-          ?operator a <http://schema.org/Organization> .
-          ?operator <http://schema.org/name> ?operatorLabel.    
+      return sparql`{
+      SELECT DISTINCT ("operator" AS ${vars.type}) (?operator AS ${vars.iri}) (?operatorLabel AS ${vars.name}) WHERE {
+        GRAPH ${graphs.electricityprice} {
+          ?operator a ${ns.schema.Organization} .
+          ?operator ${ns.schema.name} ?operatorLabel.    
         }
         FILTER (regex(?operatorLabel, ".*${query}.*", "i"))
       } LIMIT ${limit}
@@ -56,11 +72,11 @@ const searchQueryBuilders = {
       limit: number;
       locale: string;
     }) => {
-      return `{
-      SELECT DISTINCT ("canton" AS ?type) (?canton AS ?iri) (?cantonLabel AS ?name) WHERE {
-        GRAPH <https://lindas.admin.ch/fso/agvch> {
-          ?canton a <https://schema.ld.admin.ch/Canton> .
-          ?canton <http://schema.org/name> ?cantonLabel .    
+      return sparql`{
+      SELECT DISTINCT ("canton" AS ${vars.type}) (?canton AS ${vars.iri}) (?cantonLabel AS ${vars.name}) WHERE {
+        GRAPH ${graphs.fsoagv} {
+          ?canton a ${ns.schemaAdmin.Canton} .
+          ?canton ${ns.schema.name} ?cantonLabel .    
         }
         FILTER (LANGMATCHES(LANG(?cantonLabel), "${locale}") && (regex(?cantonLabel, ".*${query}.*", "i")))
       } LIMIT ${limit}
@@ -69,11 +85,13 @@ const searchQueryBuilders = {
   },
   ids: {
     canton: ({ ids, locale }: { ids: string[]; locale: string }) => {
-      return `{
-      SELECT DISTINCT ("canton" AS ?type) (?canton AS ?iri) (?cantonLabel AS ?name) WHERE {
-        GRAPH <https://lindas.admin.ch/fso/agvch> {
-          ?canton a <https://schema.ld.admin.ch/Canton> .
-          ?canton <http://schema.org/name> ?cantonLabel .
+      return sparql`{
+      SELECT DISTINCT ("canton" AS ${vars.type}) (?canton AS ${
+        vars.iri
+      }) (?cantonLabel AS ${vars.name}) WHERE {
+        GRAPH ${graphs.fsoagv} {
+          ?canton a ${ns.schemaAdmin.Canton} .
+          ?canton ${ns.schema.name} ?cantonLabel .
         }
         FILTER (LANGMATCHES(LANG(?cantonLabel), "${locale}") && (?canton IN (${ids
         .map((id) => `<${ns.canton(id).value}>`)
@@ -82,12 +100,16 @@ const searchQueryBuilders = {
     }`;
     },
     municipality: ({ ids, locale }: { ids: string[]; locale: string }) => {
-      return `{
-        SELECT DISTINCT ("municipality" AS ?type) (?municipality AS ?iri) (?municipalityLabel AS ?name) WHERE {
-          GRAPH <https://lindas.admin.ch/fso/agvch> {
-            VALUES ?class { <https://schema.ld.admin.ch/Municipality> <https://schema.ld.admin.ch/AbolishedMunicipality> }
+      return sparql`{
+        SELECT DISTINCT ("municipality" AS ${vars.type}) (?municipality AS ${
+        vars.iri
+      }) (?municipalityLabel AS ${vars.name}) WHERE {
+          GRAPH ${graphs.fsoagv} {
+            VALUES ?class { ${ns.schemaAdmin.Municipality} ${
+        ns.schemaAdmin.AbolishedMunicipality
+      } }
             ?municipality a ?class .
-            ?municipality <http://schema.org/name> ?municipalityLabel .
+            ?municipality ${ns.schema.name} ?municipalityLabel .
           }
           FILTER (?municipality IN (${ids
             .map((id) => `<${ns.municipality(id).value}>`)
@@ -96,11 +118,13 @@ const searchQueryBuilders = {
       }`;
     },
     operator: ({ ids, locale }: { ids: string[]; locale: string }) => {
-      return `{
-        SELECT DISTINCT ("operator" AS ?type) (?operator AS ?iri) (?operatorLabel AS ?name) WHERE {
-          GRAPH <https://lindas.admin.ch/elcom/electricityprice> {
-            ?operator a <http://schema.org/Organization> .
-            ?operator <http://schema.org/name> ?operatorLabel.    
+      return sparql`{
+        SELECT DISTINCT ("operator" AS ${vars.type}) (?operator AS ${
+        vars.iri
+      }) (?operatorLabel AS ${vars.name}) WHERE {
+          GRAPH ${graphs.electricityprice} {
+            ?operator a ${ns.schema.Organization} .
+            ?operator ${ns.schema.name} ?operatorLabel.    
           }
           FILTER (?operator IN (${ids
             .map((id) => `<${ns.electricityprice(`operator/${id}`).value}>`)
@@ -128,7 +152,7 @@ export const search = async ({
 }) => {
   const trimmedQuery = query.trim();
   const isZipCode = /^[0-9]{4}$/.test(trimmedQuery);
-  let queryParts: string[] = [];
+  let queryParts: SparqlTemplateResult[] = [];
 
   if (isZipCode && types.includes("municipality")) {
     queryParts.push(searchQueryBuilders.zipCode({ query: trimmedQuery }));
@@ -161,17 +185,16 @@ export const search = async ({
     return [];
   }
 
-  const sparql = `
-  PREFIX schema: <http://schema.org/>
-  PREFIX lac: <https://schema.ld.admin.ch/>
-  SELECT DISTINCT ?type ?iri ?name {
-    ${queryParts.join(" UNION ")}    
-  } ORDER BY ?name
-  `;
+  const sparqlQuery = SELECT.DISTINCT`${vars.type} ${vars.iri} ${vars.name}`
+    .WHERE`${queryParts.map((p, i) =>
+    i < queryParts.length - 1 ? sparql`${p} UNION ` : p
+  )}`
+    .ORDER()
+    .BY(vars.name);
 
-  console.log(sparql);
+  console.log(sparqlQuery.build());
 
-  const results = (await client.query.select(sparql)) as {
+  const results = (await client.query.select(sparqlQuery.build())) as {
     type: Literal;
     iri: NamedNode;
     name: Literal;
