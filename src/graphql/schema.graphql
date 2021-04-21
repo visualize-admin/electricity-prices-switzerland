@@ -30,12 +30,18 @@ type Operator {
   documents: [OperatorDocument!]!
 }
 
+enum OperatorDocumentCategory {
+  TARIFFS
+  FINANCIAL_STATEMENT
+  ANNUAL_REPORT
+}
+
 type OperatorDocument {
   id: String!
   name: String!
   url: String!
   year: String!
-  category: String!
+  category: OperatorDocumentCategory
 }
 
 type Canton {

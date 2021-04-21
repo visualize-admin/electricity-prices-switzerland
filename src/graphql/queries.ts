@@ -54,13 +54,19 @@ export type Operator = {
   documents: Array<OperatorDocument>;
 };
 
+export enum OperatorDocumentCategory {
+  Tariffs = 'TARIFFS',
+  FinancialStatement = 'FINANCIAL_STATEMENT',
+  AnnualReport = 'ANNUAL_REPORT'
+}
+
 export type OperatorDocument = {
   __typename: 'OperatorDocument';
   id: Scalars['String'];
   name: Scalars['String'];
   url: Scalars['String'];
   year: Scalars['String'];
-  category: Scalars['String'];
+  category?: Maybe<OperatorDocumentCategory>;
 };
 
 export type Canton = {
@@ -316,7 +322,7 @@ export type OperatorDocumentsQueryVariables = Exact<{
 }>;
 
 
-export type OperatorDocumentsQuery = { __typename: 'Query', operator?: Maybe<{ __typename: 'Operator', documents: Array<{ __typename: 'OperatorDocument', id: string, name: string, url: string, year: string, category: string }> }> };
+export type OperatorDocumentsQuery = { __typename: 'Query', operator?: Maybe<{ __typename: 'Operator', documents: Array<{ __typename: 'OperatorDocument', id: string, name: string, url: string, year: string, category?: Maybe<OperatorDocumentCategory> }> }> };
 
 export type WikiContentQueryVariables = Exact<{
   locale: Scalars['String'];

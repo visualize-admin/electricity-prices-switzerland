@@ -13,7 +13,7 @@ import { PriceEvolution } from "../../components/detail-page/price-evolution-lin
 import { SelectorMulti } from "../../components/detail-page/selector-multi";
 import { Footer } from "../../components/footer";
 import { Header } from "../../components/header";
-import { getCanton, getSource } from "../../graphql/rdf";
+import { getCanton, createSource } from "../../rdf/queries";
 
 type Props =
   | {
@@ -29,8 +29,7 @@ export const getServerSideProps: GetServerSideProps<
 > = async ({ params, res, locale }) => {
   const { id } = params!;
 
-  const source = getSource();
-  const canton = await getCanton({ id, locale: locale!, source });
+  const canton = await getCanton({ id, locale: locale! });
 
   if (!canton) {
     res.statusCode = 404;

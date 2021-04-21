@@ -1,28 +1,20 @@
+import { csvFormat } from "d3";
 import { NextApiRequest, NextApiResponse } from "next";
-import {
-  getObservations,
-  getSource,
-  getView,
-  stripNamespaceFromIri,
-} from "../../graphql/rdf";
-import { parseLocaleString } from "../../locales/locales";
 import { parseObservationValue } from "../../lib/observations";
-import { dsv, csv, csvFormat } from "d3";
+import { parseLocaleString } from "../../locales/locales";
+import * as ns from "../../rdf/namespace";
+import {
+  createSource,
+  getObservations,
+  getObservationsCube,
+  getView,
+} from "../../rdf/queries";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const locale = parseLocaleString(req.query.locale?.toString());
-  const period = req.query.period?.toString() ?? "2020";
+  const period = req.query.period?.toString() ?? "2021";
 
-  const source = getSource();
-  const cube = await source.cube(
-    "https://energy.ld.admin.ch/elcom/electricity-price/cube"
-  );
-
-  if (!cube) {
-    throw Error(
-      `No cube ${"https://energy.ld.admin.ch/elcom/electricity-price/cube"}`
-    );
-  }
+  const cube = await getObservationsCube();
 
   const view = getView(cube);
 
@@ -44,7 +36,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   ];
 
   const rawObservations = await getObservations(
-    { source, view, locale },
+    { source: cube.source, view, locale },
     {
       filters: {
         period: [period],
@@ -56,15 +48,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const observations = rawObservations.map((d) => {
     let parsed: { [k: string]: string | number | boolean } = {};
     for (const [k, v] of Object.entries(d)) {
-      const key = k.replace(
-        "https://energy.ld.admin.ch/elcom/electricity-price/dimension/",
-        ""
-      );
+      const key = k.replace(ns.electricitypriceDimension().value, "");
       const parsedValue = parseObservationValue(v);
 
       parsed[key] =
         typeof parsedValue === "string"
-          ? stripNamespaceFromIri({ dimension: key, iri: parsedValue })
+          ? ns.stripNamespaceFromIri({ dimension: key, iri: parsedValue })
           : parsedValue;
     }
     return parsed;

@@ -16,14 +16,14 @@ export type ResolvedSearchResult = {
 export type ResolvedMunicipality = {
   id: string;
   name: string;
-  view: View;
-  source: Source;
+  // view: View;
+  // source: Source;
 };
 export type ResolvedOperator = {
   id: string;
   name: string;
-  view: View;
-  source: Source;
+  // view: View;
+  // source: Source;
 };
 export type ResolvedCanton = { id: string };
 

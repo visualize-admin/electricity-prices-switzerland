@@ -15,11 +15,11 @@ import { Footer } from "../../components/footer";
 import { Header } from "../../components/header";
 import { OperatorDocuments } from "../../components/operator-documents";
 import {
+  createSource,
   getDimensionValuesAndLabels,
+  getObservationsCube,
   getOperator,
-  getSource,
-  getView,
-} from "../../graphql/rdf";
+} from "../../rdf/queries";
 
 type Props =
   | {
@@ -35,30 +35,19 @@ export const getServerSideProps: GetServerSideProps<
 > = async ({ params, res, locale }) => {
   const { id } = params!;
 
-  const source = getSource();
+  const source = createSource();
 
-  const operator = await getOperator({ id, source });
+  const operator = await getOperator({ id });
 
   if (!operator) {
     res.statusCode = 404;
     return { props: { status: "notfound" } };
   }
 
-  const cube = await source.cube(
-    "https://energy.ld.admin.ch/elcom/electricity-price/cube"
-  );
-
-  if (!cube) {
-    throw Error(
-      `No cube ${"https://energy.ld.admin.ch/elcom/electricity-price/cube"}`
-    );
-  }
-
-  const view = getView(cube);
+  const cube = await getObservationsCube();
 
   const municipalities = await getDimensionValuesAndLabels({
-    view,
-    source,
+    cube,
     dimensionKey: "municipality",
     filters: { operator: [id] },
   });

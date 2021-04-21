@@ -1,5 +1,5 @@
 declare module "rdf-cube-view-query" {
-  import { Clownface, ClownfaceInit } from "clownface";
+  import { Clownface, ClownfaceInit, AnyPointer } from "clownface";
   import { Term, NamedNode, Literal } from "rdf-js";
   import { ParsingClient } from "sparql-http-client/ParsingClient";
   type NodeInit = {
@@ -8,14 +8,22 @@ declare module "rdf-cube-view-query" {
 
   export class Node {
     constructor(options: NodeInit);
-    ptr: Clownface;
-    get term(): Clownface["term"];
-    get dataset(): Clownface["dataset"];
+    ptr: AnyPointer;
+    term: AnyPointer["term"];
+    out: AnyPointer["out"];
+    in: AnyPointer["in"];
+    dataset: AnyPointer["dataset"];
     clear(): void;
   }
 
   export class Cube extends Node {
-    out: Clownface["out"];
+    static filter: {
+      isPartOf: (container: $FixMe) => $FixMe;
+      noValidThrough: () => $FixMe;
+      status: (values: Term) => $FixMe;
+    };
+    dimensions: CubeDimension[];
+    source: CubeSource;
   }
 
   export class CubeDimension {
@@ -26,7 +34,7 @@ declare module "rdf-cube-view-query" {
     maxExclusive: Term;
     maxInclusive: Term;
     in: Term[];
-    out: Clownface["out"];
+    out: AnyPointer["out"];
   }
 
   export class Dimension extends Node {
@@ -69,7 +77,7 @@ declare module "rdf-cube-view-query" {
       }
     );
     static fromCube(cube: Cube): View;
-    out: Clownface["out"];
+    out: AnyPointer;
     dimensions: Dimension[];
     dimension(options: { cubeDimension: NamedNode }): Dimension | null;
     observationsQuery(): { query: $FixMe; dimensionMap: Map };
@@ -84,11 +92,13 @@ declare module "rdf-cube-view-query" {
         sourceGraph?: string;
         user?: string;
         password?: string;
+        queryOperation?: "get" | "postUrlencoded" | "postDirect";
       }
     );
     async cube(term: Term | string): Promise<Cube | null>;
-    async cubes(): Promise<Cube[]>;
+    async cubes(options?: { filters: $FixMe }): Promise<Cube[]>;
     client: ParsingClient;
+    queryOperation?: "get" | "postUrlencoded" | "postDirect";
   }
   export class LookupSource extends Source {
     static fromSource(source: Source): LookupSource;
