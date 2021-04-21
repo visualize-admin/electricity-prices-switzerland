@@ -16,9 +16,9 @@ console.log("Build Environment:", buildEnv);
 
 module.exports = withBundleAnalyzer(
   withMDX({
-    future: {
-      webpack5: true,
-    },
+    // future: {
+    //   webpack5: true,
+    // },
     // Build-time env variables
     env: buildEnv,
 
