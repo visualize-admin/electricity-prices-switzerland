@@ -18,6 +18,7 @@ export interface ChartProps {
   fields: ChartFields;
   dimensions: ComponentFieldsFragment[];
   measures: ComponentFieldsFragment[];
+  medianValue: number | undefined;
 }
 
 export type ChartState =

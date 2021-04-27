@@ -10,6 +10,7 @@ import { RangePlotState } from "./rangeplot-state";
 export const RangeplotMedian = ({ label }: { label: string }) => {
   const {
     data,
+    medianValue,
     bounds,
     getX,
     xScale,
@@ -24,7 +25,7 @@ export const RangeplotMedian = ({ label }: { label: string }) => {
   } = useChartTheme();
   const formatCurrency = useFormatCurrency();
 
-  const m = median(data, (d) => getX(d));
+  const m = medianValue;
 
   return (
     <>

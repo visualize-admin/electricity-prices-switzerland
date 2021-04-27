@@ -28,6 +28,7 @@ export const INNER_PADDING = 0.2;
 export interface RangePlotState {
   bounds: Bounds;
   data: GenericObservation[];
+  medianValue: number | undefined;
   getX: (d: GenericObservation) => number;
   xScale: ScaleLinear<number, number>;
   getY: (d: GenericObservation) => string;
@@ -40,7 +41,8 @@ export interface RangePlotState {
 const useRangePlotState = ({
   data,
   fields,
-}: Pick<ChartProps, "data" | "measures"> & {
+  medianValue,
+}: Pick<ChartProps, "data" | "measures" | "medianValue"> & {
   fields: RangePlotFields;
 }): RangePlotState => {
   const width = useWidth();
@@ -98,7 +100,7 @@ const useRangePlotState = ({
     .domain(yDomain)
     .paddingInner(INNER_PADDING);
 
-  const m = median(data, (d) => getX(d));
+  const m = medianValue;
   const colorDomain = m
     ? [xDomain[0], m - m * 0.1, m, m + m * 0.1, xDomain[1]]
     : xScale.ticks(5);
@@ -176,6 +178,7 @@ const useRangePlotState = ({
   return {
     bounds,
     data,
+    medianValue,
     getX,
     xScale,
     getY,
@@ -188,10 +191,11 @@ const useRangePlotState = ({
 
 const RangePlotProvider = ({
   data,
+  medianValue,
   fields,
   measures,
   children,
-}: Pick<ChartProps, "data" | "measures"> & {
+}: Pick<ChartProps, "data" | "measures" | "medianValue"> & {
   children: ReactNode;
   fields: RangePlotFields;
 }) => {
@@ -199,6 +203,7 @@ const RangePlotProvider = ({
     data,
     fields,
     measures,
+    medianValue,
   });
   return (
     <ChartContext.Provider value={state}>{children}</ChartContext.Provider>
@@ -207,17 +212,23 @@ const RangePlotProvider = ({
 
 export const RangePlot = ({
   data,
+  medianValue,
   fields,
   measures,
   children,
-}: Pick<ChartProps, "data" | "measures"> & {
+}: Pick<ChartProps, "data" | "measures" | "medianValue"> & {
   children: ReactNode;
   fields: RangePlotFields;
 }) => {
   return (
     <Observer>
       <InteractionProvider>
-        <RangePlotProvider data={data} fields={fields} measures={measures}>
+        <RangePlotProvider
+          data={data}
+          medianValue={medianValue}
+          fields={fields}
+          measures={measures}
+        >
           {children}
         </RangePlotProvider>
       </InteractionProvider>
