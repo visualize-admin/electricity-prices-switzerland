@@ -174,6 +174,12 @@ export const PriceDistributionHistogram = ({
   const cantonObservations = observationsQuery.fetching
     ? EMPTY_ARRAY
     : observationsQuery.data?.cantonMedianObservations ?? EMPTY_ARRAY;
+  const swissObservations = observationsQuery.fetching
+    ? EMPTY_ARRAY
+    : observationsQuery.data?.swissMedianObservations ?? EMPTY_ARRAY;
+
+  const medianValue = swissObservations[0]?.value;
+
   const observations = [...operatorObservations, ...cantonObservations];
 
   const annotations =
@@ -228,6 +234,7 @@ export const PriceDistributionHistogram = ({
         <WithClassName downloadId={DOWNLOAD_ID}>
           <Histogram
             data={observations as GenericObservation[]}
+            medianValue={medianValue}
             fields={{
               x: {
                 componentIri: "value",

@@ -1,14 +1,14 @@
 import { interpolateHsl } from "d3";
-import { ascending, Bin, histogram, max, median, min } from "d3-array";
+import { ascending, Bin, histogram, max, min } from "d3-array";
 import { ScaleLinear, scaleLinear } from "d3-scale";
 import * as React from "react";
 import { ReactNode, useCallback } from "react";
 import { HistogramFields } from "../../../domain/config-types";
 import { GenericObservation } from "../../../domain/data";
 import {
+  getAnnotationSpaces,
   mkNumber,
   useFormatCurrency,
-  getAnnotationSpaces,
 } from "../../../domain/helpers";
 import { estimateTextWidth } from "../../../lib/estimate-text-width";
 import { Annotation } from "../annotation/annotation-x";
@@ -24,6 +24,7 @@ export const ANNOTATION_LABEL_HEIGHT = 20;
 export interface HistogramState {
   bounds: Bounds;
   data: GenericObservation[];
+  medianValue: number | undefined;
   getX: (d: GenericObservation) => number;
   xScale: ScaleLinear<number, number>;
   getY: (d: GenericObservation[]) => number;
@@ -36,10 +37,11 @@ export interface HistogramState {
 
 const useHistogramState = ({
   data,
+  medianValue,
   fields,
   measures,
   aspectRatio,
-}: Pick<ChartProps, "data" | "measures"> & {
+}: Pick<ChartProps, "data" | "measures" | "medianValue"> & {
   fields: HistogramFields;
   aspectRatio: number;
 }): HistogramState => {
@@ -64,7 +66,7 @@ const useHistogramState = ({
   const xScale = scaleLinear().domain(xDomain).nice();
 
   // CH Median (all data points)
-  const m = median(data, (d) => getX(d));
+  const m = medianValue;
   const colorDomain = m
     ? [minValue, m - m * 0.1, m, m + m * 0.1, maxValue]
     : xScale.ticks(5);
@@ -151,6 +153,7 @@ const useHistogramState = ({
   return {
     bounds,
     data,
+    medianValue,
     getX,
     xScale,
     getY: (d) => d.length,
@@ -163,17 +166,19 @@ const useHistogramState = ({
 
 const HistogramProvider = ({
   data,
+  medianValue,
   fields,
   measures,
   children,
   aspectRatio,
-}: Pick<ChartProps, "data" | "measures"> & {
+}: Pick<ChartProps, "data" | "measures" | "medianValue"> & {
   children: ReactNode;
   fields: HistogramFields;
   aspectRatio: number;
 }) => {
   const state = useHistogramState({
     data,
+    medianValue,
     fields,
     measures,
     aspectRatio,
@@ -185,11 +190,12 @@ const HistogramProvider = ({
 
 export const Histogram = ({
   data,
+  medianValue,
   fields,
   measures,
   children,
   aspectRatio,
-}: Pick<ChartProps, "data" | "measures"> & {
+}: Pick<ChartProps, "data" | "measures" | "medianValue"> & {
   children: ReactNode;
   fields: HistogramFields;
   aspectRatio: number;
@@ -199,6 +205,7 @@ export const Histogram = ({
       <InteractionProvider>
         <HistogramProvider
           data={data}
+          medianValue={medianValue}
           fields={fields}
           measures={measures}
           aspectRatio={aspectRatio}

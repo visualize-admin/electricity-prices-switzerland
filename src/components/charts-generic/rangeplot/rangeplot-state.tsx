@@ -1,6 +1,17 @@
-import { descending, interpolateLab, scaleBand, ScaleBand } from "d3";
-import { ascending, group, max, median, min, rollup } from "d3-array";
-import { ScaleLinear, scaleLinear } from "d3-scale";
+import {
+  ascending,
+  descending,
+  group,
+  interpolateLab,
+  max,
+  median,
+  min,
+  rollup,
+  scaleBand,
+  ScaleBand,
+  ScaleLinear,
+  scaleLinear,
+} from "d3";
 import * as React from "react";
 import { ReactNode, useCallback } from "react";
 import {
@@ -10,9 +21,9 @@ import {
 } from "../../../domain/config-types";
 import { GenericObservation, ObservationValue } from "../../../domain/data";
 import {
+  getAnnotationSpaces,
   mkNumber,
   useFormatCurrency,
-  getAnnotationSpaces,
 } from "../../../domain/helpers";
 import { estimateTextWidth } from "../../../lib/estimate-text-width";
 import { Annotation } from "../annotation/annotation-x";

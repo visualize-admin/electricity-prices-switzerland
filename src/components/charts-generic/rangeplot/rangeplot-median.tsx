@@ -1,10 +1,8 @@
-import { median } from "d3-array";
 import * as React from "react";
+import { useFormatCurrency } from "../../../domain/helpers";
+import { getLocalizedLabel } from "../../../domain/translation";
 import { useChartState } from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
-import { useFormatCurrency } from "../../../domain/helpers";
-
-import { getLocalizedLabel } from "../../../domain/translation";
 import { RangePlotState } from "./rangeplot-state";
 
 export const RangeplotMedian = ({ label }: { label: string }) => {
