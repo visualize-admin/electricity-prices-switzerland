@@ -18,7 +18,9 @@ async function withBrowser<T>(f: (browser: Browser) => Promise<T>) {
       "--disable-setuid-sandbox",
       "--hide-scrollbars",
       "--disable-extensions",
+      "--ignore-certificate-errors",
     ],
+    ignoreHTTPSErrors: true,
   });
 
   try {
