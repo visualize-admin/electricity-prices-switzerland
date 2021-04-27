@@ -21,6 +21,7 @@ import {
   AnnotationXLabel,
 } from "../components/charts-generic/annotation/annotation-x";
 import { GenericObservation } from "../domain/data";
+import { median } from "d3-array";
 
 export default () => {
   return markdown`
@@ -29,6 +30,7 @@ export default () => {
   ${(
     <ReactSpecimen span={6}>
       <Histogram
+        medianValue={median(standardH12020, (d) => d["Total exkl. MWST"])}
         data={standardH12020 as GenericObservation[]}
         fields={{
           x: {
@@ -66,6 +68,7 @@ export default () => {
   ${(
     <ReactSpecimen span={6}>
       <Histogram
+        medianValue={median(standardH12020, (d) => d["Total exkl. MWST"])}
         data={standardH12020 as GenericObservation[]}
         fields={{
           x: {

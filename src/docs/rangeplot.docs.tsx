@@ -18,6 +18,7 @@ import {
   AnnotationXDataPoint,
 } from "../components/charts-generic/annotation/annotation-x";
 import { GenericObservation } from "../domain/data";
+import { median } from "d3";
 
 export default () => {
   return markdown`
@@ -26,6 +27,7 @@ export default () => {
   ${(
     <ReactSpecimen span={6}>
       <RangePlot
+        medianValue={median(rangePlotData, (d) => d["Total exkl. MWST"])}
         data={rangePlotData as GenericObservation[]}
         fields={{
           x: {
@@ -65,6 +67,7 @@ export default () => {
     ${(
       <ReactSpecimen span={6}>
         <RangePlot
+          medianValue={median(rangePlotData, (d) => d["Total exkl. MWST"])}
           data={rangePlotData as GenericObservation[]}
           fields={{
             x: {
