@@ -10,16 +10,21 @@ import {
   getCantonMedianCube,
   getView,
 } from "../rdf/queries";
-import { ResolvedObservation } from "./resolver-mapped-types";
 import {
-  MedianObservationResolvers,
+  ResolvedCantonMedianObservation,
+  ResolvedObservation,
+  ResolvedOperatorObservation,
+} from "./resolver-mapped-types";
+import {
+  CantonMedianObservationResolvers,
   MunicipalityResolvers,
   ObservationResolvers,
   OperatorObservationResolvers,
   OperatorResolvers,
   QueryResolvers,
   Resolvers,
-  ObservationType,
+  ObservationKind,
+  SwissMedianObservationResolvers,
 } from "./resolver-types";
 import { defaultLocale } from "../locales/locales";
 import { getWikiPage } from "../domain/gitlab-wiki-api";
@@ -29,6 +34,7 @@ var gfmSyntax = require("micromark-extension-gfm");
 var gfmHtml = require("micromark-extension-gfm/html");
 
 import * as ns from "../rdf/namespace";
+import { ApolloError } from "apollo-server-errors";
 
 const Query: QueryResolvers = {
   systemInfo: async () => {
@@ -38,14 +44,20 @@ const Query: QueryResolvers = {
       VERSION: process.env.VERSION!,
     };
   },
-  observations: async (_, { locale, filters, observationType }, ctx, info) => {
-    const [observationsCube, cantonCube] = await Promise.all([
-      getObservationsCube(),
-      getCantonMedianCube(),
-    ]);
+  observations: async (_, { locale, filters, observationKind }, ctx, info) => {
+    if (observationKind && observationKind !== ObservationKind.Municipality) {
+      return null;
+    }
+
+    let observationsCube;
+    try {
+      observationsCube = await getObservationsCube();
+    } catch (e) {
+      console.error(e.message);
+      return [];
+    }
 
     const observationsView = getView(observationsCube);
-    const cantonObservationsView = getView(cantonCube);
 
     // Look ahead to select proper dimensions for query
     const observationFields = getResolverFields(info, "OperatorObservation");
@@ -61,7 +73,6 @@ const Query: QueryResolvers = {
       : [];
 
     const rawOperatorObservations =
-      observationType !== ObservationType.MedianObservation &&
       observationDimensionKeys.length > 0
         ? await getObservations(
             {
@@ -72,38 +83,6 @@ const Query: QueryResolvers = {
             {
               filters,
               dimensions: observationDimensionKeys,
-            }
-          )
-        : [];
-
-    const medianObservationFields = getResolverFields(
-      info,
-      "MedianObservation"
-    );
-
-    const medianDimensionKeys = medianObservationFields
-      ? Object.values<ResolveTree>(medianObservationFields).map((fieldInfo) => {
-          return (
-            (fieldInfo.args.priceComponent as string) ??
-            // fieldInfo.name.replace(/^canton/, "region")
-            fieldInfo.name
-          );
-        })
-      : [];
-
-    const rawMedianObservations =
-      observationType !== ObservationType.OperatorObservation &&
-      medianDimensionKeys.length > 0
-        ? await getObservations(
-            {
-              view: cantonObservationsView,
-              source: cantonCube.source,
-              isCantons: true,
-              locale: locale ?? defaultLocale,
-            },
-            {
-              filters,
-              dimensions: medianDimensionKeys,
             }
           )
         : [];
@@ -127,6 +106,62 @@ const Query: QueryResolvers = {
       }
       return parsed;
     });
+
+    // Should we type-check with io-ts here? Probably not necessary because the GraphQL API will also type-check against the schema.
+    return operatorObservations as ResolvedOperatorObservation[];
+  },
+  cantonMedianObservations: async (
+    _,
+    { locale, filters, observationKind },
+    ctx,
+    info
+  ) => {
+    if (observationKind && observationKind !== ObservationKind.Canton) {
+      return null;
+    }
+
+    let cantonCube;
+    try {
+      cantonCube = await getCantonMedianCube();
+    } catch (e) {
+      console.error(e.message);
+      throw new ApolloError(e.message, "CUBE_NOT_FOUND");
+    }
+
+    const cantonObservationsView = getView(cantonCube);
+
+    // Look ahead to select proper dimensions for query
+    const medianObservationFields = getResolverFields(
+      info,
+      "CantonMedianObservation"
+    );
+
+    const medianDimensionKeys = medianObservationFields
+      ? Object.values<ResolveTree>(medianObservationFields).map((fieldInfo) => {
+          return (
+            (fieldInfo.args.priceComponent as string) ??
+            // fieldInfo.name.replace(/^canton/, "region")
+            fieldInfo.name
+          );
+        })
+      : [];
+
+    const rawMedianObservations =
+      medianDimensionKeys.length > 0
+        ? await getObservations(
+            {
+              view: cantonObservationsView,
+              source: cantonCube.source,
+              isCantons: true,
+              locale: locale ?? defaultLocale,
+            },
+            {
+              filters,
+              dimensions: medianDimensionKeys,
+            }
+          )
+        : [];
+
     const medianObservations = rawMedianObservations.map((d) => {
       let parsed: { [k: string]: string | number | boolean } = {
         __typename: "MedianObservation",
@@ -147,11 +182,10 @@ const Query: QueryResolvers = {
       return parsed;
     });
 
-    const observations = [...medianObservations, ...operatorObservations];
-
     // Should we type-check with io-ts here? Probably not necessary because the GraphQL API will also type-check against the schema.
-    return observations as ResolvedObservation[];
+    return medianObservations as ResolvedCantonMedianObservation[];
   },
+  swissMedianObservations: () => [],
   operators: async (_, { query, ids, locale }) => {
     const results = await search({
       locale,
@@ -344,7 +378,24 @@ const OperatorObservation: OperatorObservationResolvers = {
   cantonLabel: (parent) => parent.regionLabel!,
 };
 
-const MedianObservation: MedianObservationResolvers = {
+const CantonMedianObservation: CantonMedianObservationResolvers = {
+  /**
+   * Since the value field can be aliased and is commonly used multiple times _and_
+   * we return all values from the parent resolver keyed by priceComponent (e.g. `{ total: 12.3, energy: 4.5 }`),
+   * it's necessary to resolve these values again here by returning the correct priceComponent value
+   * to ensure that field aliases are properly resolved.
+   */
+  value: (parent, args) => {
+    return parent[args.priceComponent];
+  },
+  /**
+   * Map "region*" to "canton*" field name
+   */
+  // canton: (parent) => parent.canton,
+  // cantonLabel: (parent) => parent.cantonLabel,
+};
+
+const SwissMedianObservation: SwissMedianObservationResolvers = {
   /**
    * Since the value field can be aliased and is commonly used multiple times _and_
    * we return all values from the parent resolver keyed by priceComponent (e.g. `{ total: 12.3, energy: 4.5 }`),
@@ -378,7 +429,8 @@ export const resolvers: Resolvers = {
   Operator,
   Observation,
   OperatorObservation,
-  MedianObservation,
+  CantonMedianObservation,
+  SwissMedianObservation,
   // Canton,
   SearchResult: {
     __resolveType: (obj) => {

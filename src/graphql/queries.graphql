@@ -42,10 +42,16 @@ fragment operatorObservationFields on OperatorObservation {
   value(priceComponent: $priceComponent)
 }
 
-fragment medianObservationFields on MedianObservation {
+fragment cantonMedianObservationFields on CantonMedianObservation {
   period
   canton
   cantonLabel
+  category
+  value(priceComponent: $priceComponent)
+}
+
+fragment swissMedianObservationFields on SwissMedianObservation {
+  period
   category
   value(priceComponent: $priceComponent)
 }
@@ -54,21 +60,44 @@ query Observations(
   $locale: String!
   $priceComponent: PriceComponent!
   $filters: ObservationFilters!
-  $observationType: ObservationType
+  $observationKind: ObservationKind
 ) {
   observations(
     locale: $locale
     filters: $filters
-    observationType: $observationType
+    observationKind: $observationKind
   ) {
-    ... on OperatorObservation {
-      ...operatorObservationFields
-    }
-    ... on MedianObservation {
-      ...medianObservationFields
-    }
+    ...operatorObservationFields
+  }
+  cantonMedianObservations(
+    locale: $locale
+    filters: $filters
+    observationKind: $observationKind
+  ) {
+    ...cantonMedianObservationFields
+  }
+  swissMedianObservations(locale: $locale, filters: $filters) {
+    ...swissMedianObservationFields
   }
 }
+
+# query CantonMedianObservations(
+#   $locale: String!
+#   $priceComponent: PriceComponent!
+#   $filters: ObservationFilters!
+# ) {
+#   cantonMedianObservations(locale: $locale, filters: $filters) {
+#     ...cantonMedianObservationFields
+#   }
+# }
+
+# query SwissMedianObservations(
+#   $locale: String!
+#   $priceComponent: PriceComponent!
+#   $filters: ObservationFilters!
+# ) {
+
+# }
 
 fragment operatorObservationWithAllPriceComponentsFields on OperatorObservation {
   period
@@ -87,7 +116,7 @@ fragment operatorObservationWithAllPriceComponentsFields on OperatorObservation 
   total: value(priceComponent: total)
 }
 
-fragment medianObservationWithAllPriceComponentsFields on MedianObservation {
+fragment cantonMedianObservationWithAllPriceComponentsFields on CantonMedianObservation {
   period
   canton
   cantonLabel
@@ -105,19 +134,21 @@ fragment medianObservationWithAllPriceComponentsFields on MedianObservation {
 query ObservationsWithAllPriceComponents(
   $locale: String!
   $filters: ObservationFilters!
-  $observationType: ObservationType
+  $observationKind: ObservationKind
 ) {
   observations(
     locale: $locale
     filters: $filters
-    observationType: $observationType
+    observationKind: $observationKind
   ) {
-    ... on OperatorObservation {
-      ...operatorObservationWithAllPriceComponentsFields
-    }
-    ... on MedianObservation {
-      ...medianObservationWithAllPriceComponentsFields
-    }
+    ...operatorObservationWithAllPriceComponentsFields
+  }
+  cantonMedianObservations(
+    locale: $locale
+    filters: $filters
+    observationKind: $observationKind
+  ) {
+    ...cantonMedianObservationWithAllPriceComponentsFields
   }
 }
 

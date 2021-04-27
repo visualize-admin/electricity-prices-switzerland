@@ -61,6 +61,9 @@ export const getObservationsCube = async (): Promise<Cube> => {
   if (!cube) {
     throw Error(`Cube ${OBSERVATIONS_CUBE} not found`);
   }
+  if (cube.dimensions.length === 0) {
+    throw Error(`Cube ${OBSERVATIONS_CUBE} has no dimensions`);
+  }
   return cube;
 };
 export const getCantonMedianCube = async (): Promise<Cube> => {
@@ -68,12 +71,18 @@ export const getCantonMedianCube = async (): Promise<Cube> => {
   if (!cube) {
     throw Error(`Cube ${CANTON_OBSERVATIONS_CUBE} not found`);
   }
+  if (cube.dimensions.length === 0) {
+    throw Error(`Cube ${CANTON_OBSERVATIONS_CUBE} has no dimensions`);
+  }
   return cube;
 };
 export const getSwissMedianCube = async (): Promise<Cube> => {
   const cube = await getCube({ iri: SWISS_OBSERVATIONS_CUBE });
   if (!cube) {
     throw Error(`Cube ${SWISS_OBSERVATIONS_CUBE} not found`);
+  }
+  if (cube.dimensions.length === 0) {
+    throw Error(`Cube ${SWISS_OBSERVATIONS_CUBE} has no dimensions`);
   }
   return cube;
 };

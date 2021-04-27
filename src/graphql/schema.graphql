@@ -64,7 +64,7 @@ type OperatorObservation {
   value(priceComponent: PriceComponent!): Float!
 }
 
-type MedianObservation {
+type CantonMedianObservation {
   canton: String!
   cantonLabel: String
 
@@ -74,7 +74,17 @@ type MedianObservation {
   value(priceComponent: PriceComponent!): Float!
 }
 
-union Observation = OperatorObservation | MedianObservation
+type SwissMedianObservation {
+  category: String!
+  period: String!
+
+  value(priceComponent: PriceComponent!): Float!
+}
+
+union Observation =
+    OperatorObservation
+  | CantonMedianObservation
+  | SwissMedianObservation
 
 input ObservationFilters {
   period: [String!]
@@ -95,9 +105,9 @@ enum PriceComponent {
   total
 }
 
-enum ObservationType {
-  MedianObservation
-  OperatorObservation
+enum ObservationKind {
+  Canton
+  Municipality
 }
 
 type WikiContent {
@@ -141,11 +151,19 @@ type Query {
   observations(
     locale: String
     filters: ObservationFilters
-    observationType: ObservationType
-  ): [Observation!]!
-  # cantonObservations(
-  #   locale: String
-  #   filters: ObservationFilters
-  # ): [Observation!]!
+    observationKind: ObservationKind
+  ): [OperatorObservation!]
+
+  cantonMedianObservations(
+    locale: String
+    filters: ObservationFilters
+    observationKind: ObservationKind
+  ): [CantonMedianObservation!]
+
+  swissMedianObservations(
+    locale: String
+    filters: ObservationFilters
+  ): [SwissMedianObservation!]
+
   wikiContent(locale: String!, slug: String!): WikiContent
 }

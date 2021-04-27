@@ -63,15 +63,9 @@ const IndexPage = ({ locale }: Props) => {
   const observations = observationsQuery.fetching
     ? EMPTY_ARRAY
     : observationsQuery.data?.observations ?? EMPTY_ARRAY;
-
-  const operatorObservations = useMemo<
-    OperatorObservationFieldsFragment[]
-  >(() => {
-    return observations.filter(
-      (d): d is OperatorObservationFieldsFragment =>
-        d.__typename === "OperatorObservation"
-    );
-  }, [observations]);
+  const cantonMedianObservations = observationsQuery.fetching
+    ? EMPTY_ARRAY
+    : observationsQuery.data?.cantonMedianObservations ?? EMPTY_ARRAY;
 
   const colorAccessor = useCallback((d) => d.value, []);
   const colorScale = useColorScale({
@@ -169,7 +163,7 @@ const IndexPage = ({ locale }: Props) => {
             >
               <ChoroplethMap
                 year={period}
-                observations={operatorObservations}
+                observations={observations}
                 observationsQueryFetching={observationsQuery.fetching}
                 colorScale={colorScale}
               />
@@ -207,6 +201,7 @@ const IndexPage = ({ locale }: Props) => {
               </Box>
               <List
                 observations={observations}
+                cantonObservations={cantonMedianObservations}
                 colorScale={colorScale}
                 observationsQueryFetching={observationsQuery.fetching}
               />

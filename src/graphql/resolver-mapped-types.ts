@@ -27,8 +27,16 @@ export type ResolvedOperator = {
 };
 export type ResolvedCanton = { id: string };
 
-export type ResolvedMedianObservation = {
-  __typename: "MedianObservation";
+export type ResolvedCantonMedianObservation = {
+  __typename: "CantonMedianObservation";
+  category?: string;
+  period?: string;
+  region?: string;
+  regionLabel?: string;
+} & { [key: string]: number };
+
+export type ResolvedSwissMedianObservation = {
+  __typename: "SwissMedianObservation";
   category?: string;
   period?: string;
   region?: string;
@@ -46,5 +54,6 @@ export type ResolvedOperatorObservation = {
 } & { [key: string]: number };
 
 export type ResolvedObservation =
-  | ResolvedMedianObservation
+  | ResolvedCantonMedianObservation
+  | ResolvedSwissMedianObservation
   | ResolvedOperatorObservation;

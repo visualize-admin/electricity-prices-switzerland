@@ -12,7 +12,7 @@ import {
 import { mkNumber, pivot_longer } from "../../domain/helpers";
 import { getLocalizedLabel } from "../../domain/translation";
 import {
-  ObservationType,
+  ObservationKind,
   PriceComponent,
   useObservationsWithAllPriceComponentsQuery,
 } from "../../graphql/queries";
@@ -79,19 +79,23 @@ export const PriceComponentsBarChart = ({
         category,
         product,
       },
-      observationType:
+      observationKind:
         entity === "canton"
-          ? ObservationType.MedianObservation
-          : ObservationType.OperatorObservation,
+          ? ObservationKind.Canton
+          : ObservationKind.Municipality,
     },
   });
-  const observations = observationsQuery.fetching
+  const operatorObservations = observationsQuery.fetching
     ? EMPTY_ARRAY
     : observationsQuery.data?.observations ?? EMPTY_ARRAY;
+  const cantonObservations = observationsQuery.fetching
+    ? EMPTY_ARRAY
+    : observationsQuery.data?.cantonMedianObservations ?? EMPTY_ARRAY;
+  const observations = [...operatorObservations, ...cantonObservations];
 
   const withUniqueEntityId = observations.map((obs) => ({
     uniqueId:
-      obs.__typename === "MedianObservation" // canton
+      obs.__typename === "CantonMedianObservation" // canton
         ? `${obs.period}, ${obs.cantonLabel}`
         : `${obs.period}, ${obs.operatorLabel}, ${obs.municipalityLabel}`,
     ...obs,

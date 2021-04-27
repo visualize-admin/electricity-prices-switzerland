@@ -27,7 +27,7 @@ import {
 } from "./../../components/charts-generic/containers";
 import { Card } from "./../../components/detail-page/card";
 import {
-  ObservationType,
+  ObservationKind,
   PriceComponent,
   useObservationsQuery,
 } from "./../../graphql/queries";
@@ -161,15 +161,20 @@ export const PriceDistributionHistogram = ({
         category,
         product,
       },
-      observationType:
+      observationKind:
         entity === "canton"
-          ? ObservationType.MedianObservation
-          : ObservationType.OperatorObservation,
+          ? ObservationKind.Canton
+          : ObservationKind.Municipality,
     },
   });
-  const observations = observationsQuery.fetching
+
+  const operatorObservations = observationsQuery.fetching
     ? EMPTY_ARRAY
     : observationsQuery.data?.observations ?? EMPTY_ARRAY;
+  const cantonObservations = observationsQuery.fetching
+    ? EMPTY_ARRAY
+    : observationsQuery.data?.cantonMedianObservations ?? EMPTY_ARRAY;
+  const observations = [...operatorObservations, ...cantonObservations];
 
   const annotations =
     annotationIds &&

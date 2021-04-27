@@ -1,20 +1,17 @@
 import { t, Trans } from "@lingui/macro";
 import { ScaleThreshold } from "d3";
-import { ascending, descending, rollup, mean } from "d3-array";
+import { ascending, descending, mean, rollup } from "d3-array";
+import NextLink from "next/link";
 import { useRouter } from "next/router";
-import { useCallback, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Box, Button, Flex, Text } from "theme-ui";
 import { useFormatCurrency } from "../domain/helpers";
 import {
-  Observation,
-  ObservationsQuery,
-  MedianObservationFieldsFragment,
+  CantonMedianObservationFieldsFragment,
   OperatorObservationFieldsFragment,
 } from "../graphql/queries";
 import { Icon } from "../icons";
 import { MiniSelect, SearchField } from "./form";
-
-import NextLink from "next/link";
 import { RadioTabs } from "./radio-tabs";
 
 const ListItem = ({
@@ -95,7 +92,8 @@ const ListItem = ({
 };
 
 interface Props {
-  observations: ObservationsQuery["observations"];
+  observations: OperatorObservationFieldsFragment[];
+  cantonObservations: CantonMedianObservationFieldsFragment[];
   colorScale: ScaleThreshold<number, string>;
   observationsQueryFetching: boolean;
 }
@@ -222,6 +220,7 @@ type SortState = "ASC" | "DESC";
 
 export const List = ({
   observations,
+  cantonObservations,
   colorScale,
   observationsQueryFetching,
 }: Props) => {
@@ -245,10 +244,7 @@ export const List = ({
     return listState === "CANTONS"
       ? Array.from(
           rollup(
-            observations.filter(
-              (d): d is MedianObservationFieldsFragment =>
-                d.__typename === "MedianObservation"
-            ),
+            cantonObservations,
             (values) => {
               const first = values[0];
               return {
@@ -262,10 +258,7 @@ export const List = ({
         )
       : Array.from(
           rollup(
-            observations.filter(
-              (d): d is OperatorObservationFieldsFragment =>
-                d.__typename === "OperatorObservation"
-            ),
+            observations,
             (values) => {
               const first = values[0];
               return {

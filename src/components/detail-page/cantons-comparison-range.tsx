@@ -8,7 +8,7 @@ import { SortingOrder, SortingType } from "../../domain/config-types";
 import { Entity, GenericObservation, priceComponents } from "../../domain/data";
 import { getLocalizedLabel } from "../../domain/translation";
 import {
-  ObservationType,
+  ObservationKind,
   PriceComponent,
   useObservationsQuery,
 } from "../../graphql/queries";
@@ -227,15 +227,20 @@ export const CantonsComparisonRangePlot = memo(
           category,
           product,
         },
-        observationType:
+        observationKind:
           entity === "canton"
-            ? ObservationType.MedianObservation
-            : ObservationType.OperatorObservation,
+            ? ObservationKind.Canton
+            : ObservationKind.Municipality,
       },
     });
-    const observations = observationsQuery.fetching
+
+    const operatorObservations = observationsQuery.fetching
       ? EMPTY_ARRAY
       : observationsQuery.data?.observations ?? EMPTY_ARRAY;
+    const cantonObservations = observationsQuery.fetching
+      ? EMPTY_ARRAY
+      : observationsQuery.data?.cantonMedianObservations ?? EMPTY_ARRAY;
+    const observations = [...operatorObservations, ...cantonObservations];
 
     const annotations =
       annotationIds &&
