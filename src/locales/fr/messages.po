@@ -25,7 +25,7 @@ msgstr "communes"
 msgid "chart.annotation.operators"
 msgstr "gestionnaires de réseau"
 
-#: src/components/charts-generic/axis/axis-width-linear.tsx:78
+#: src/components/charts-generic/axis/axis-width-linear.tsx:89
 #: src/domain/translation.tsx:25
 msgid "chart.axis.unit.Rp/kWh"
 msgstr "ct./kWh"
@@ -53,9 +53,9 @@ msgstr "Supprimer"
 msgid "dataset.sortby"
 msgstr "Trier"
 
-#: src/components/detail-page/banner.tsx:85
-#: src/components/detail-page/banner.tsx:92
-#: src/pages/canton/[id].tsx:43
+#: src/components/detail-page/banner.tsx:89
+#: src/components/detail-page/banner.tsx:96
+#: src/pages/canton/[id].tsx:42
 msgid "detail.canton"
 msgstr "Canton"
 
@@ -63,7 +63,7 @@ msgstr "Canton"
 msgid "detail.card.title.cantons.comparison"
 msgstr "Comparaison des cantons"
 
-#: src/components/detail-page/price-components-bars.tsx:68
+#: src/components/detail-page/price-components-bars.tsx:72
 msgid "detail.card.title.price.components"
 msgstr "Composantes du prix"
 
@@ -71,29 +71,29 @@ msgstr "Composantes du prix"
 msgid "detail.card.title.prices.distribution"
 msgstr "Distribution des prix en Suisse"
 
-#: src/components/detail-page/price-evolution-line-chart.tsx:54
+#: src/components/detail-page/price-evolution-line-chart.tsx:58
 msgid "detail.card.title.prices.evolution"
 msgstr "Évolution des tarifs"
 
-#: src/components/detail-page/banner.tsx:73
+#: src/components/detail-page/banner.tsx:77
 msgid "detail.homelink"
 msgstr "Retour à la vue d'ensemble"
 
-#: src/components/detail-page/banner.tsx:101
+#: src/components/detail-page/banner.tsx:105
 msgid "detail.municipalities"
 msgstr "Communes"
 
-#: src/components/detail-page/banner.tsx:85
-#: src/pages/municipality/[id].tsx:66
+#: src/components/detail-page/banner.tsx:89
+#: src/pages/municipality/[id].tsx:61
 msgid "detail.municipality"
 msgstr "Commune"
 
-#: src/components/detail-page/banner.tsx:85
-#: src/pages/operator/[id].tsx:64
+#: src/components/detail-page/banner.tsx:89
+#: src/pages/operator/[id].tsx:59
 msgid "detail.operator"
 msgstr "Gestionnaire de réseau"
 
-#: src/components/detail-page/banner.tsx:105
+#: src/components/detail-page/banner.tsx:109
 msgid "detail.operators"
 msgstr "Gestionnaires de réseau"
 
@@ -313,7 +313,7 @@ msgstr "médiane, décroissant"
 msgid "relations.showmore"
 msgstr "montrer {rest} plus…"
 
-#: src/pages/index.tsx:104
+#: src/pages/index.tsx:102
 msgid "search.global"
 msgstr "Voir l'analyse détaillée des prix par cantons, communes et gestionnaires de réseau."
 
@@ -478,10 +478,10 @@ msgid "selector.years"
 msgstr "Années"
 
 #: src/components/header.tsx:67
-#: src/pages/canton/[id].tsx:43
-#: src/pages/index.tsx:65
-#: src/pages/index.tsx:92
-#: src/pages/municipality/[id].tsx:66
-#: src/pages/operator/[id].tsx:64
+#: src/pages/canton/[id].tsx:42
+#: src/pages/index.tsx:63
+#: src/pages/index.tsx:90
+#: src/pages/municipality/[id].tsx:61
+#: src/pages/operator/[id].tsx:59
 msgid "site.title"
 msgstr "Prix de l'électricité en Suisse"

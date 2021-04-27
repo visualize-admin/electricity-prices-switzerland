@@ -1,6 +1,9 @@
 overwrite: true
 schema: "./src/graphql/schema.graphql"
 documents: ["./src/**/*.tsx", "./src/**/*.ts", "./src/graphql/queries.graphql"]
+hooks:
+  afterAllFileWrite:
+    - prettier --write
 generates:
   src/graphql/queries.ts:
     plugins:
@@ -31,11 +34,3 @@ generates:
         MunicipalityResult: "./resolver-mapped-types#ResolvedSearchResult"
         OperatorResult: "./resolver-mapped-types#ResolvedSearchResult"
         CantonResult: "./resolver-mapped-types#ResolvedSearchResult"
-      # scalars:
-      #   Observation: "../domain/data#Observation"
-      #   RawObservation: "../domain/data#RawObservation"
-      #   Filters: "../domain/config-types#Filters"
-      #   Dimension: "./shared-types#ResolvedDimension"
-      #   NominalDimension: "./shared-types#ResolvedDimension"
-      #   OrdinalDimension: "./shared-types#ResolvedDimension"
-      #   TemporalDimension: "./shared-types#ResolvedDimension"

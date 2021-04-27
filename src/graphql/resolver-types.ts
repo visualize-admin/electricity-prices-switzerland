@@ -402,7 +402,7 @@ export type ResolversTypes = ResolversObject<{
   Observation: ResolverTypeWrapper<ResolvedObservation>;
   ObservationFilters: ObservationFilters;
   PriceComponent: PriceComponent;
-  observationKind: ObservationKind;
+  ObservationKind: ObservationKind;
   WikiContent: ResolverTypeWrapper<WikiContent>;
   SystemInfo: ResolverTypeWrapper<SystemInfo>;
   Query: ResolverTypeWrapper<{}>;
