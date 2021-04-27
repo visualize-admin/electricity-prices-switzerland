@@ -59,6 +59,7 @@ export const theme: Theme = {
     muted: "#F5F5F5",
     mutedColored: "#F9FAFB",
     mutedDarker: "#F2F7F9",
+    mutedTransparent: "rgba(245,245,245,0.8)",
     focus: "#333333",
     error: "#FF5555",
     hint: "#757575",

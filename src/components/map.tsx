@@ -13,7 +13,7 @@ import {
   useMemo,
   useState,
 } from "react";
-import { Box, Grid, Text } from "theme-ui";
+import { Box, Flex, Grid, Text } from "theme-ui";
 import {
   feature as topojsonFeature,
   mesh as topojsonMesh,
@@ -163,16 +163,24 @@ const MapTooltip = ({
 };
 
 const HintBox = ({ children }: { children: ReactNode }) => (
-  <Box
+  <Flex
     sx={{
       width: "100%",
       height: "100%",
+      color: "hint",
+      margin: "auto",
+      textAlign: "center",
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center",
       zIndex: 1,
       position: "relative",
     }}
   >
-    {children}
-  </Box>
+    <Box sx={{ bg: "mutedTransparent", borderRadius: "bigger", p: 2 }}>
+      {children}
+    </Box>
+  </Flex>
 );
 
 type GeoDataState =
@@ -305,7 +313,7 @@ export const ChoroplethMap = ({
     <>
       {geoData.state === "fetching" || observationsQueryFetching ? (
         <HintBox>
-          <Loading />
+          <Loading delayMs={0} />
         </HintBox>
       ) : observations.length === 0 ? (
         <HintBox>
