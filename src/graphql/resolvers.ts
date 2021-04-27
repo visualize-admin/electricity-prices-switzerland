@@ -9,11 +9,13 @@ import {
   getObservationsCube,
   getCantonMedianCube,
   getView,
+  getSwissMedianCube,
 } from "../rdf/queries";
 import {
   ResolvedCantonMedianObservation,
   ResolvedObservation,
   ResolvedOperatorObservation,
+  ResolvedSwissMedianObservation,
 } from "./resolver-mapped-types";
 import {
   CantonMedianObservationResolvers,
@@ -185,7 +187,72 @@ const Query: QueryResolvers = {
     // Should we type-check with io-ts here? Probably not necessary because the GraphQL API will also type-check against the schema.
     return medianObservations as ResolvedCantonMedianObservation[];
   },
-  swissMedianObservations: () => [],
+  swissMedianObservations: async (_, { locale, filters }, ctx, info) => {
+    let cantonCube;
+    try {
+      cantonCube = await getSwissMedianCube();
+    } catch (e) {
+      console.error(e.message);
+      throw new ApolloError(e.message, "CUBE_NOT_FOUND");
+    }
+
+    const cantonObservationsView = getView(cantonCube);
+
+    // Look ahead to select proper dimensions for query
+    const medianObservationFields = getResolverFields(
+      info,
+      "SwissMedianObservation"
+    );
+
+    const medianDimensionKeys = medianObservationFields
+      ? Object.values<ResolveTree>(medianObservationFields).map((fieldInfo) => {
+          return (
+            (fieldInfo.args.priceComponent as string) ??
+            // fieldInfo.name.replace(/^canton/, "region")
+            fieldInfo.name
+          );
+        })
+      : [];
+
+    const rawMedianObservations =
+      medianDimensionKeys.length > 0
+        ? await getObservations(
+            {
+              view: cantonObservationsView,
+              source: cantonCube.source,
+              isCantons: true,
+              locale: locale ?? defaultLocale,
+            },
+            {
+              filters,
+              dimensions: medianDimensionKeys,
+            }
+          )
+        : [];
+
+    const medianObservations = rawMedianObservations.map((d) => {
+      let parsed: { [k: string]: string | number | boolean } = {
+        __typename: "MedianObservation",
+      };
+      for (const [k, v] of Object.entries(d)) {
+        const key = k.replace(
+          "https://energy.ld.admin.ch/elcom/electricityprice/dimension/",
+          ""
+        );
+
+        const parsedValue = parseObservationValue(v);
+
+        parsed[key] =
+          typeof parsedValue === "string"
+            ? ns.stripNamespaceFromIri({ dimension: key, iri: parsedValue })
+            : parsedValue;
+      }
+      return parsed;
+    });
+
+    // Should we type-check with io-ts here? Probably not necessary because the GraphQL API will also type-check against the schema.
+    return medianObservations as ResolvedSwissMedianObservation[];
+  },
   operators: async (_, { query, ids, locale }) => {
     const results = await search({
       locale,

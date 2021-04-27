@@ -66,10 +66,16 @@ const IndexPage = ({ locale }: Props) => {
   const cantonMedianObservations = observationsQuery.fetching
     ? EMPTY_ARRAY
     : observationsQuery.data?.cantonMedianObservations ?? EMPTY_ARRAY;
+  const swissMedianObservations = observationsQuery.fetching
+    ? EMPTY_ARRAY
+    : observationsQuery.data?.swissMedianObservations ?? EMPTY_ARRAY;
+
+  const medianValue = swissMedianObservations[0]?.value;
 
   const colorAccessor = useCallback((d) => d.value, []);
   const colorScale = useColorScale({
     observations,
+    medianValue,
     accessor: colorAccessor,
   });
 
@@ -165,6 +171,7 @@ const IndexPage = ({ locale }: Props) => {
                 year={period}
                 observations={observations}
                 observationsQueryFetching={observationsQuery.fetching}
+                medianValue={medianValue}
                 colorScale={colorScale}
               />
 

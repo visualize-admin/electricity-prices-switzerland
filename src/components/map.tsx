@@ -1,11 +1,8 @@
-import { MapPriceColorLegend } from "./price-color-legend";
-import { extent, median } from "d3-array";
 import { MapController, WebMercatorViewport } from "@deck.gl/core";
 import { GeoJsonLayer } from "@deck.gl/layers";
 import DeckGL from "@deck.gl/react";
 import { Trans } from "@lingui/macro";
-import { color } from "d3";
-import { group, mean } from "d3-array";
+import { color, extent, group, mean } from "d3";
 import { ScaleThreshold } from "d3-scale";
 import { useRouter } from "next/router";
 import {
@@ -24,8 +21,9 @@ import {
 import { useFormatCurrency } from "../domain/helpers";
 import { OperatorObservationFieldsFragment } from "../graphql/queries";
 import { TooltipBoxWithoutChartState } from "./charts-generic/interaction/tooltip-box";
-import { Loading, NoDataHint, NoGeoDataHint } from "./hint";
 import { WithClassName } from "./detail-page/with-classname";
+import { Loading, NoDataHint, NoGeoDataHint } from "./hint";
+import { MapPriceColorLegend } from "./price-color-legend";
 
 const DOWNLOAD_ID = "map";
 
@@ -196,11 +194,13 @@ export const ChoroplethMap = ({
   year,
   observations,
   observationsQueryFetching,
+  medianValue,
   colorScale,
 }: {
   year: string;
   observations: OperatorObservationFieldsFragment[];
   observationsQueryFetching: boolean;
+  medianValue: number | undefined;
   colorScale: ScaleThreshold<number, string> | undefined | 0;
 }) => {
   const { push, query } = useRouter();
@@ -300,7 +300,7 @@ export const ChoroplethMap = ({
       }
     : undefined;
   const d = extent(observations, (d) => d.value);
-  const m = median(observations, (d) => d.value);
+  const m = medianValue;
   return (
     <>
       {geoData.state === "fetching" || observationsQueryFetching ? (

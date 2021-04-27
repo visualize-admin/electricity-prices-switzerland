@@ -1,5 +1,4 @@
 import { scaleThreshold } from "d3";
-import { median } from "d3-array";
 import { useMemo } from "react";
 import { Observation as QueryObservation } from "../graphql/queries";
 import { useTheme } from "../themes";
@@ -44,29 +43,20 @@ export type ComponentFieldsFragment =
   | ComponentFields_Measure_Fragment
   | ComponentFields_Attribute_Fragment;
 
-const getColorDomain = ({
-  observations,
-  accessor,
-}: {
-  observations: QueryObservation[];
-  accessor: (x: QueryObservation) => number;
-}) => {
-  const m = median(observations, (d) => accessor(d)) ?? 0;
-  const domain = [m * 0.85, m * 0.95, m * 1.05, m * 1.15];
-  return domain;
-};
-
 export const useColorScale = ({
   observations,
+  medianValue,
   accessor,
 }: {
   observations: QueryObservation[];
+  medianValue: number | undefined;
   accessor: (x: QueryObservation) => number;
 }) => {
   const { palettes } = useTheme();
 
   return useMemo(() => {
-    const domain = getColorDomain({ observations, accessor });
+    const m = medianValue ?? 0;
+    const domain = [m * 0.85, m * 0.95, m * 1.05, m * 1.15];
     const scale = scaleThreshold<number, string>()
       .domain(domain)
       .range(palettes.diverging);
