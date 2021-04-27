@@ -27,7 +27,7 @@ export const SWISS_OBSERVATIONS_CUBE =
 
 export const createSource = () =>
   new Source({
-    queryOperation: "postUrlencoded",
+    queryOperation: "postDirect",
     endpointUrl:
       process.env.SPARQL_ENDPOINT ?? "https://test.lindas.admin.ch/query",
   });
@@ -40,19 +40,10 @@ export const getCube = async ({
   const source = createSource();
   const cube = await source.cube(iri);
 
-  // FIXME: the 2nd condition should not be necessary but due to a but in the query lib, a inexistent cube is not actually null. See https://github.com/zazuko/rdf-cube-view-query/issues/41
-  if (!cube || (cube?.out()?.terms?.length ?? 0) === 0) {
+  if (!cube) {
     return null;
   }
-  // -> This should work instead:
-  // if (!cube) {
-  //   return null;
-  // }
 
-  // FIXME: Remove this workaround until https://github.com/zazuko/rdf-cube-view-query/pull/47 is merged and released
-  if (cube) {
-    cube.source.queryOperation = "postUrlencoded";
-  }
   return cube;
 };
 
