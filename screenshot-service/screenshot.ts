@@ -40,7 +40,8 @@ const isAllowedUrl = (host: undefined | string, url: string) => {
     return false;
   } else {
     try {
-      return host === new URL(url).host;
+      const reqHost = new URL(url).host;
+      return host === reqHost || reqHost.match(/^localhost/);
     } catch (err) {
       return false;
     }
