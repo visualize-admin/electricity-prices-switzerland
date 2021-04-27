@@ -231,7 +231,10 @@ export const PriceDistributionHistogram = ({
       ) : observations.length === 0 ? (
         <NoDataHint />
       ) : (
-        <WithClassName downloadId={DOWNLOAD_ID}>
+        <WithClassName
+          downloadId={DOWNLOAD_ID}
+          isFetching={observationsQuery.fetching}
+        >
           <Histogram
             data={observations as GenericObservation[]}
             medianValue={medianValue}

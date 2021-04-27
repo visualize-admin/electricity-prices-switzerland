@@ -183,7 +183,10 @@ export const PriceComponentsBarChart = ({
       ) : observations.length === 0 ? (
         <NoDataHint />
       ) : (
-        <WithClassName downloadId={DOWNLOAD_ID}>
+        <WithClassName
+          downloadId={DOWNLOAD_ID}
+          isFetching={observationsQuery.fetching}
+        >
           {perPriceComponent.map((priceComponent, i) => {
             const groupedObservations = groups(
               priceComponent[1],

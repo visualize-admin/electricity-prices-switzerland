@@ -107,7 +107,10 @@ export const PriceEvolution = ({
         <NoDataHint />
       ) : (
         <div className={DOWNLOAD_ID}>
-          <WithClassName downloadId={DOWNLOAD_ID}>
+          <WithClassName
+            downloadId={DOWNLOAD_ID}
+            isFetching={observationsQuery.fetching}
+          >
             <PriceEvolutionLineCharts
               observations={observations as GenericObservation[]}
               entity={entity}

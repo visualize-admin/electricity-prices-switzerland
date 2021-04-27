@@ -300,7 +300,10 @@ export const CantonsComparisonRangePlot = memo(
         ) : observations.length === 0 ? (
           <NoDataHint />
         ) : (
-          <WithClassName downloadId={DOWNLOAD_ID}>
+          <WithClassName
+            downloadId={DOWNLOAD_ID}
+            isFetching={observationsQuery.fetching}
+          >
             <RangePlot
               data={observations as GenericObservation[]}
               medianValue={medianValue}

@@ -368,7 +368,10 @@ export const ChoroplethMap = ({
         )}
 
         {geoData.state === "loaded" && (
-          <WithClassName downloadId={DOWNLOAD_ID}>
+          <WithClassName
+            downloadId={DOWNLOAD_ID}
+            isFetching={observationsQueryFetching}
+          >
             <Box
               sx={{
                 zIndex: 13,

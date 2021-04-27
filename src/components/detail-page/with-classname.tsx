@@ -7,8 +7,10 @@ import * as React from "react";
  */
 export const WithClassName = ({
   downloadId,
+  isFetching,
   children,
 }: {
   downloadId: string;
+  isFetching: boolean;
   children: React.ReactNode;
-}) => <div className={downloadId}>{children}</div>;
+}) => <div className={isFetching ? "" : downloadId}>{children}</div>;
