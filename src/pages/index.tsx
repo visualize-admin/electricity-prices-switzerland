@@ -54,9 +54,7 @@ const IndexPage = ({ locale }: Props) => {
       priceComponent: priceComponent as PriceComponent,
       filters: {
         period: [period],
-        category: [
-          `https://energy.ld.admin.ch/elcom/electricityprice/category/${category}`,
-        ],
+        category: [category],
         product: [product],
       },
     },
