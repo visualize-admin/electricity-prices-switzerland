@@ -5,6 +5,7 @@ import { Literal, NamedNode } from "rdf-js";
 import ParsingClient from "sparql-http-client/ParsingClient";
 import { defaultLocale } from "../locales/locales";
 import * as ns from "./namespace";
+import { getSparqlEditorUrl } from "./queries";
 import { sparqlClient } from "./sparql-client";
 
 // regex based search query for municipalities and operators
@@ -20,7 +21,6 @@ const graphs = {
   electricityprice: rdf.namedNode(
     "https://lindas.admin.ch/elcom/electricityprice"
   ),
-  fsoagv: rdf.namedNode("https://lindas.admin.ch/fso/agvch"),
 };
 
 const searchQueryBuilders = {
@@ -32,9 +32,7 @@ const searchQueryBuilders = {
           ${ns.schema.areaServed} ?municipality;
           ${ns.schema.postalCode} "${query}" .
         }
-        { GRAPH ${graphs.fsoagv} {
-          ?municipality ${ns.schema.name} ?municipalityLabel .
-        }}
+        ?municipality ${ns.schema.name} ?municipalityLabel .
     }
   }`;
   },
@@ -42,11 +40,9 @@ const searchQueryBuilders = {
     municipality: ({ query, limit }: { query: string; limit: number }) => {
       return sparql`{
       SELECT DISTINCT ("municipality" AS ${vars.type}) (?municipality AS ${vars.iri}) (?municipalityLabel AS ${vars.name}) WHERE {
-        GRAPH ${graphs.fsoagv} {
-          VALUES ?class { ${ns.schemaAdmin.Municipality} ${ns.schemaAdmin.AbolishedMunicipality} }
-          ?municipality a ?class .
-          ?municipality ${ns.schema.name} ?municipalityLabel .
-        }
+        VALUES ?class { ${ns.schemaAdmin.Municipality} ${ns.schemaAdmin.AbolishedMunicipality} }
+        ?municipality a ?class .
+        ?municipality ${ns.schema.name} ?municipalityLabel .
         FILTER (regex(?municipalityLabel, ".*${query}.*", "i"))
       } LIMIT ${limit}
     }`;
@@ -74,10 +70,8 @@ const searchQueryBuilders = {
     }) => {
       return sparql`{
       SELECT DISTINCT ("canton" AS ${vars.type}) (?canton AS ${vars.iri}) (?cantonLabel AS ${vars.name}) WHERE {
-        GRAPH ${graphs.fsoagv} {
-          ?canton a ${ns.schemaAdmin.Canton} .
-          ?canton ${ns.schema.name} ?cantonLabel .    
-        }
+        ?canton a ${ns.schemaAdmin.Canton} .
+        ?canton ${ns.schema.name} ?cantonLabel .    
         FILTER (LANGMATCHES(LANG(?cantonLabel), "${locale}") && (regex(?cantonLabel, ".*${query}.*", "i")))
       } LIMIT ${limit}
     }`;
@@ -89,10 +83,8 @@ const searchQueryBuilders = {
       SELECT DISTINCT ("canton" AS ${vars.type}) (?canton AS ${
         vars.iri
       }) (?cantonLabel AS ${vars.name}) WHERE {
-        GRAPH ${graphs.fsoagv} {
-          ?canton a ${ns.schemaAdmin.Canton} .
-          ?canton ${ns.schema.name} ?cantonLabel .
-        }
+        ?canton a ${ns.schemaAdmin.Canton} .
+        ?canton ${ns.schema.name} ?cantonLabel .
         FILTER (LANGMATCHES(LANG(?cantonLabel), "${locale}") && (?canton IN (${ids
         .map((id) => `<${ns.canton(id).value}>`)
         .join(",")})))
@@ -104,13 +96,11 @@ const searchQueryBuilders = {
         SELECT DISTINCT ("municipality" AS ${vars.type}) (?municipality AS ${
         vars.iri
       }) (?municipalityLabel AS ${vars.name}) WHERE {
-          GRAPH ${graphs.fsoagv} {
-            VALUES ?class { ${ns.schemaAdmin.Municipality} ${
+          VALUES ?class { ${ns.schemaAdmin.Municipality} ${
         ns.schemaAdmin.AbolishedMunicipality
       } }
-            ?municipality a ?class .
-            ?municipality ${ns.schema.name} ?municipalityLabel .
-          }
+          ?municipality a ?class .
+          ?municipality ${ns.schema.name} ?municipalityLabel .
           FILTER (?municipality IN (${ids
             .map((id) => `<${ns.municipality(id).value}>`)
             .join(",")}))
@@ -192,7 +182,10 @@ export const search = async ({
     .ORDER()
     .BY(vars.name);
 
-  console.log(sparqlQuery.build());
+  console.log(
+    `SEARCH query for '${query}'`,
+    getSparqlEditorUrl(sparqlQuery.build())
+  );
 
   const results = (await client.query.select(sparqlQuery.build())) as {
     type: Literal;
