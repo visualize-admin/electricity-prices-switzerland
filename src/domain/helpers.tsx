@@ -37,18 +37,9 @@ export const useFormatNumber = () => {
   return formatter;
 };
 
-// Swiss currency format uses a decimal point, not a comma!
-
-const chCurrencyFormatLocale = formatLocale({
-  decimal: ".",
-  thousands: "'",
-  grouping: [3],
-  currency: ["CHF ", ""],
-}).format(",.2f");
-
-export const useFormatCurrency = () => {
-  return chCurrencyFormatLocale;
-};
+// We don't use CHF currency because the unit used is Rp./kWh. Intead we just reuse the regular number format:
+// E.g. 3,5 Rp./kWh, 1 Rp./kWh
+export const useFormatCurrency = useFormatNumber;
 
 const parseTime = timeParse("%Y-%m-%dT%H:%M:%S");
 const parseDay = timeParse("%Y-%m-%d");
