@@ -8,8 +8,8 @@
     "node": "14"
   },
   "scripts": {
-    "dev": "next",
-    "build": "lingui compile && next build",
+    "dev": "make content && next",
+    "build": "make content && lingui compile && next build",
     "start": "next start -p $PORT",
     "lint": "tsc --noEmit",
     "setup": "yarn && yarn locales:compile && yarn graphql:codegen",

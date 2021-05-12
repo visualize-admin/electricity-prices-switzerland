@@ -5,6 +5,7 @@ node_modules
 
 /src/locales/_build
 /src/locales/**/*.js
+/src/wiki-content.json
 
 /public/dist/**/*.js
 /build

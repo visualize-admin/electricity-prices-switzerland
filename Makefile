@@ -3,8 +3,15 @@
 # https://www.bfs.admin.ch/bfs/de/home/dienstleistungen/geostat/geodaten-bundesstatistik/administrative-grenzen/generalisierte-gemeindegrenzen.html
 #
 
-.PHONY: geodata
+-include .env.local
+
+.PHONY: geodata content
 .PRECIOUS: geodata/g1%.shp geodata/g1%.prj geodata/g1%.dbf
+
+content: src/wiki-content.json
+
+src/wiki-content.json:
+	curl -o $@ -H PRIVATE-TOKEN:$(GITLAB_WIKI_TOKEN) $(GITLAB_WIKI_URL)?with_content=1
 
 geodata: \
 	public/topojson/ch-2020.json \
