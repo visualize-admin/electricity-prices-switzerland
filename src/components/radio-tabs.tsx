@@ -182,11 +182,14 @@ export const RadioTabs = <T extends string>({
   setValue,
   variant = "tabs",
 }: RadioTabsProps<T>) => {
-  const onTabChange = useCallback<ChangeEventHandler<HTMLInputElement>>((e) => {
-    if (e.currentTarget.checked) {
-      setValue(e.currentTarget.value as T);
-    }
-  }, []);
+  const onTabChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
+    (e) => {
+      if (e.currentTarget.checked) {
+        setValue(e.currentTarget.value as T);
+      }
+    },
+    [setValue]
+  );
 
   const styles = STYLES[variant];
 
