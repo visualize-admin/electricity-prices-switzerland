@@ -153,7 +153,7 @@ const ObservationsStatus = () => {
       locale: "de",
       observationKind: Queries.ObservationKind.Municipality,
       filters: {
-        canton: ["261"],
+        municipality: ["261"],
         period: ["2021"],
         category: ["H4"],
         product: ["standard"],
