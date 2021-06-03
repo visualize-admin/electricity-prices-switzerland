@@ -18,21 +18,25 @@ export type Scalars = {
   Float: number;
 };
 
-export type SearchResult = {
+export type Canton = {
+  __typename: "Canton";
   id: Scalars["String"];
   name: Scalars["String"];
+  municipalities: Array<Municipality>;
+  operator: Array<Operator>;
 };
 
-export type MunicipalityResult = SearchResult & {
-  __typename: "MunicipalityResult";
-  id: Scalars["String"];
-  name: Scalars["String"];
+export type CantonMedianObservation = {
+  __typename: "CantonMedianObservation";
+  canton: Scalars["String"];
+  cantonLabel?: Maybe<Scalars["String"]>;
+  category: Scalars["String"];
+  period: Scalars["String"];
+  value: Scalars["Float"];
 };
 
-export type OperatorResult = SearchResult & {
-  __typename: "OperatorResult";
-  id: Scalars["String"];
-  name: Scalars["String"];
+export type CantonMedianObservationValueArgs = {
+  priceComponent: PriceComponent;
 };
 
 export type CantonResult = SearchResult & {
@@ -49,6 +53,31 @@ export type Municipality = {
   operators: Array<Operator>;
 };
 
+export type MunicipalityResult = SearchResult & {
+  __typename: "MunicipalityResult";
+  id: Scalars["String"];
+  name: Scalars["String"];
+};
+
+export type Observation =
+  | OperatorObservation
+  | CantonMedianObservation
+  | SwissMedianObservation;
+
+export type ObservationFilters = {
+  period?: Maybe<Array<Scalars["String"]>>;
+  municipality?: Maybe<Array<Scalars["String"]>>;
+  canton?: Maybe<Array<Scalars["String"]>>;
+  operator?: Maybe<Array<Scalars["String"]>>;
+  category?: Maybe<Array<Scalars["String"]>>;
+  product?: Maybe<Array<Scalars["String"]>>;
+};
+
+export enum ObservationKind {
+  Canton = "Canton",
+  Municipality = "Municipality",
+}
+
 export type Operator = {
   __typename: "Operator";
   id: Scalars["String"];
@@ -57,12 +86,6 @@ export type Operator = {
   cantons: Array<Canton>;
   documents: Array<OperatorDocument>;
 };
-
-export enum OperatorDocumentCategory {
-  Tariffs = "TARIFFS",
-  FinancialStatement = "FINANCIAL_STATEMENT",
-  AnnualReport = "ANNUAL_REPORT",
-}
 
 export type OperatorDocument = {
   __typename: "OperatorDocument";
@@ -73,13 +96,11 @@ export type OperatorDocument = {
   category?: Maybe<OperatorDocumentCategory>;
 };
 
-export type Canton = {
-  __typename: "Canton";
-  id: Scalars["String"];
-  name: Scalars["String"];
-  municipalities: Array<Municipality>;
-  operator: Array<Operator>;
-};
+export enum OperatorDocumentCategory {
+  Tariffs = "TARIFFS",
+  FinancialStatement = "FINANCIAL_STATEMENT",
+  AnnualReport = "ANNUAL_REPORT",
+}
 
 export type OperatorObservation = {
   __typename: "OperatorObservation";
@@ -98,42 +119,10 @@ export type OperatorObservationValueArgs = {
   priceComponent: PriceComponent;
 };
 
-export type CantonMedianObservation = {
-  __typename: "CantonMedianObservation";
-  canton: Scalars["String"];
-  cantonLabel?: Maybe<Scalars["String"]>;
-  category: Scalars["String"];
-  period: Scalars["String"];
-  value: Scalars["Float"];
-};
-
-export type CantonMedianObservationValueArgs = {
-  priceComponent: PriceComponent;
-};
-
-export type SwissMedianObservation = {
-  __typename: "SwissMedianObservation";
-  category: Scalars["String"];
-  period: Scalars["String"];
-  value: Scalars["Float"];
-};
-
-export type SwissMedianObservationValueArgs = {
-  priceComponent: PriceComponent;
-};
-
-export type Observation =
-  | OperatorObservation
-  | CantonMedianObservation
-  | SwissMedianObservation;
-
-export type ObservationFilters = {
-  period?: Maybe<Array<Scalars["String"]>>;
-  municipality?: Maybe<Array<Scalars["String"]>>;
-  canton?: Maybe<Array<Scalars["String"]>>;
-  operator?: Maybe<Array<Scalars["String"]>>;
-  category?: Maybe<Array<Scalars["String"]>>;
-  product?: Maybe<Array<Scalars["String"]>>;
+export type OperatorResult = SearchResult & {
+  __typename: "OperatorResult";
+  id: Scalars["String"];
+  name: Scalars["String"];
 };
 
 export enum PriceComponent {
@@ -145,22 +134,6 @@ export enum PriceComponent {
   Fixcostspercent = "fixcostspercent",
   Total = "total",
 }
-
-export enum ObservationKind {
-  Canton = "Canton",
-  Municipality = "Municipality",
-}
-
-export type WikiContent = {
-  __typename: "WikiContent";
-  html: Scalars["String"];
-};
-
-export type SystemInfo = {
-  __typename: "SystemInfo";
-  SPARQL_ENDPOINT: Scalars["String"];
-  VERSION: Scalars["String"];
-};
 
 export type Query = {
   __typename: "Query";
@@ -259,6 +232,33 @@ export type QueryWikiContentArgs = {
   slug: Scalars["String"];
 };
 
+export type SearchResult = {
+  id: Scalars["String"];
+  name: Scalars["String"];
+};
+
+export type SwissMedianObservation = {
+  __typename: "SwissMedianObservation";
+  category: Scalars["String"];
+  period: Scalars["String"];
+  value: Scalars["Float"];
+};
+
+export type SwissMedianObservationValueArgs = {
+  priceComponent: PriceComponent;
+};
+
+export type SystemInfo = {
+  __typename: "SystemInfo";
+  SPARQL_ENDPOINT: Scalars["String"];
+  VERSION: Scalars["String"];
+};
+
+export type WikiContent = {
+  __typename: "WikiContent";
+  html: Scalars["String"];
+};
+
 export type MunicipalitiesQueryVariables = Exact<{
   locale: Scalars["String"];
   query?: Maybe<Scalars["String"]>;
@@ -304,9 +304,9 @@ export type SearchQueryVariables = Exact<{
 export type SearchQuery = {
   __typename: "Query";
   search: Array<
+    | { __typename: "CantonResult"; id: string; name: string }
     | { __typename: "MunicipalityResult"; id: string; name: string }
     | { __typename: "OperatorResult"; id: string; name: string }
-    | { __typename: "CantonResult"; id: string; name: string }
   >;
 };
 
@@ -451,6 +451,17 @@ export type WikiContentQueryVariables = Exact<{
 export type WikiContentQuery = {
   __typename: "Query";
   wikiContent?: Maybe<{ __typename: "WikiContent"; html: string }>;
+};
+
+export type SystemInfoQueryVariables = Exact<{ [key: string]: never }>;
+
+export type SystemInfoQuery = {
+  __typename: "Query";
+  systemInfo: {
+    __typename: "SystemInfo";
+    SPARQL_ENDPOINT: string;
+    VERSION: string;
+  };
 };
 
 export const OperatorObservationFieldsFragmentDoc = gql`
@@ -690,6 +701,23 @@ export function useWikiContentQuery(
 ) {
   return Urql.useQuery<WikiContentQuery>({
     query: WikiContentDocument,
+    ...options,
+  });
+}
+export const SystemInfoDocument = gql`
+  query SystemInfo {
+    systemInfo {
+      SPARQL_ENDPOINT
+      VERSION
+    }
+  }
+`;
+
+export function useSystemInfoQuery(
+  options: Omit<Urql.UseQueryArgs<SystemInfoQueryVariables>, "query"> = {}
+) {
+  return Urql.useQuery<SystemInfoQuery>({
+    query: SystemInfoDocument,
     ...options,
   });
 }

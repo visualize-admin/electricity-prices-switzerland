@@ -169,3 +169,10 @@ query WikiContent($locale: String!, $slug: String!) {
     html
   }
 }
+
+query SystemInfo {
+  systemInfo {
+    SPARQL_ENDPOINT
+    VERSION
+  }
+}

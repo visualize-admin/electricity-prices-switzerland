@@ -102,6 +102,33 @@ export const LoadingIcon = ({ delayMs = 200 }: { delayMs?: number }) => (
   </Flex>
 );
 
+export const LoadingIconInline = ({
+  size = 20,
+  delayMs = 200,
+}: {
+  size?: number;
+  delayMs?: number;
+}) => (
+  <Box
+    sx={{
+      display: "inline-block",
+      color: "hint",
+      margin: "auto",
+      textAlign: "center",
+      opacity: 0,
+      animation: `0s linear ${delayMs}ms forwards ${delayedShow}`,
+    }}
+  >
+    <Box
+      sx={{
+        animation: `1s linear infinite ${spin}`,
+      }}
+    >
+      <Icon name="loading" size={size} />
+    </Box>
+  </Box>
+);
+
 export const LoadingOverlay = () => (
   <Box
     sx={{
