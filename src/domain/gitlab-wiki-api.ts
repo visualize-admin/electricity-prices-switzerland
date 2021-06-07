@@ -1,6 +1,6 @@
 import fs from "fs-extra";
-import path from "path";
 import os from "os";
+import path from "path";
 import { getWikiPage as getStaticWikiPage } from "./gitlab-wiki-static";
 
 type WikiPage = {

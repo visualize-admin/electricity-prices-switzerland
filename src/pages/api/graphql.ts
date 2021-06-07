@@ -1,6 +1,5 @@
 import { ApolloServer } from "apollo-server-micro";
 import configureCors from "cors";
-import "global-agent/bootstrap";
 import { NextApiRequest, NextApiResponse } from "next";
 import { resolvers } from "../../graphql/resolvers";
 import typeDefs from "../../graphql/schema.graphql";
