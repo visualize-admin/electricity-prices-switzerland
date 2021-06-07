@@ -29,7 +29,7 @@ import {
   SwissMedianObservationResolvers,
 } from "./resolver-types";
 import { defaultLocale } from "../locales/locales";
-import { getWikiPage } from "../domain/gitlab-wiki-static";
+import { getWikiPage } from "../domain/gitlab-wiki-api";
 import micromark from "micromark";
 import { search } from "../rdf/search-queries";
 var gfmSyntax = require("micromark-extension-gfm");

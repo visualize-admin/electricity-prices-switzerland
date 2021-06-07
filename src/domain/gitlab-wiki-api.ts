@@ -1,6 +1,7 @@
 import fs from "fs-extra";
 import path from "path";
 import os from "os";
+import { getWikiPage as getStaticWikiPage } from "./gitlab-wiki-static";
 
 type WikiPage = {
   format: string;
@@ -55,10 +56,16 @@ export const getWikiPage = async (
     );
   }
 
-  const wikiPages = await getCachedWikiPages(
-    `${process.env.GITLAB_WIKI_URL}?with_content=1`,
-    process.env.GITLAB_WIKI_TOKEN
-  );
+  try {
+    const wikiPages = await getCachedWikiPages(
+      `${process.env.GITLAB_WIKI_URL}?with_content=1`,
+      process.env.GITLAB_WIKI_TOKEN
+    );
 
-  return wikiPages.find((page) => page.slug === slug);
+    return wikiPages.find((page) => page.slug === slug);
+  } catch (e) {
+    console.warn("Getting Wiki from API failed with error", e.message);
+    console.log("Serving build-time Wiki content instead");
+    return getStaticWikiPage(slug);
+  }
 };
