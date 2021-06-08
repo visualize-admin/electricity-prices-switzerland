@@ -14,6 +14,23 @@ const buildEnv = {
 
 console.log("Build Environment:", buildEnv);
 
+let i18nDomains;
+
+try {
+  if (process.env.I18N_DOMAINS !== undefined) {
+    const domainsEnv = JSON.parse(process.env.I18N_DOMAINS);
+
+    i18nDomains = Object.entries(domainsEnv).map(([locale, domain]) => {
+      return {
+        domain,
+        defaultLocale: locale,
+      };
+    });
+  }
+} catch (e) {
+  console.error("I18N_DOMAINS parsing failed:", e.message);
+}
+
 module.exports = withBundleAnalyzer(
   withMDX({
     future: {
@@ -27,23 +44,7 @@ module.exports = withBundleAnalyzer(
     i18n: {
       locales,
       defaultLocale,
-      domains: [
-        // REF
-        { domain: "www.strompreis.ref.elcom.admin.ch", defaultLocale: "de" },
-        { domain: "fr.strompreis.ref.elcom.admin.ch", defaultLocale: "fr" },
-        {
-          domain: "it.strompreis.ref.elcom.admin.ch",
-          defaultLocale: "it",
-        },
-
-        // PROD
-        { domain: "www.strompreis.elcom.admin.ch", defaultLocale: "de" },
-        { domain: "www.prix-electricite.elcom.admin.ch", defaultLocale: "fr" },
-        {
-          domain: "www.prezzi-elettricita.elcom.admin.ch",
-          defaultLocale: "it",
-        },
-      ],
+      domains: i18nDomains,
     },
 
     webpack(config, { dev, isServer, defaultLoaders }) {
