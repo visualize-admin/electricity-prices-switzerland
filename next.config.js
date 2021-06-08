@@ -45,6 +45,7 @@ module.exports = withBundleAnalyzer(
       locales,
       defaultLocale,
       domains: i18nDomains,
+      localeDetection: false,
     },
 
     webpack(config, { dev, isServer, defaultLoaders }) {
