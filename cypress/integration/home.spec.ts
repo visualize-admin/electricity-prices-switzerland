@@ -9,16 +9,16 @@ describe("The Home Page", () => {
     });
   });
 
-  it("Accept-Language header for alternative language (fr) should redirect to /fr", () => {
-    cy.request({
-      url: "/",
-      followRedirect: false,
-      headers: { "Accept-Language": "fr" },
-    }).should((response) => {
-      expect(response.status).to.equal(307);
-      expect(response.headers.location).to.equal("/fr");
-    });
-  });
+  // it("Accept-Language header for alternative language (fr) should redirect to /fr", () => {
+  //   cy.request({
+  //     url: "/",
+  //     followRedirect: false,
+  //     headers: { "Accept-Language": "fr" },
+  //   }).should((response) => {
+  //     expect(response.status).to.equal(307);
+  //     expect(response.headers.location).to.equal("/fr");
+  //   });
+  // });
 
   it("successfully loads", () => {
     cy.visit("/");
