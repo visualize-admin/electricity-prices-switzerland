@@ -24,7 +24,27 @@ module.exports = withBundleAnalyzer(
 
     pageExtensions: ["js", "ts", "tsx", "mdx"],
 
-    i18n: { locales, defaultLocale },
+    i18n: {
+      locales,
+      defaultLocale,
+      domains: [
+        // REF
+        { domain: "www.strompreis.ref.elcom.admin.ch", defaultLocale: "de" },
+        { domain: "fr.strompreis.ref.elcom.admin.ch", defaultLocale: "fr" },
+        {
+          domain: "it.strompreis.ref.elcom.admin.ch",
+          defaultLocale: "it",
+        },
+
+        // PROD
+        { domain: "www.strompreis.elcom.admin.ch", defaultLocale: "de" },
+        { domain: "www.prix-electricite.elcom.admin.ch", defaultLocale: "fr" },
+        {
+          domain: "www.prezzi-elettricita.elcom.admin.ch",
+          defaultLocale: "it",
+        },
+      ],
+    },
 
     webpack(config, { dev, isServer, defaultLoaders }) {
       config.module.rules.push({
