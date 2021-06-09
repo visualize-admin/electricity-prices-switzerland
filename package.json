@@ -63,6 +63,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "sparql-http-client": "^2.3.0",
+    "swiss-maps": "^4.0.0",
     "theme-ui": "^0.3.5",
     "topojson-client": "^3.1.0",
     "urql": "^2.0.2"
@@ -95,7 +96,6 @@
     "babel-plugin-macros": "^3.0.1",
     "cypress": "^7.2.0",
     "cypress-plugin-snapshots": "^1.4.4",
-    "mapshaper": "^0.5.46",
     "prettier": "^2.2.1",
     "start-server-and-test": "^1.12.1",
     "typescript": "^4.2.4"

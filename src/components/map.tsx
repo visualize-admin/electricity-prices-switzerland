@@ -213,11 +213,12 @@ export const ChoroplethMap = ({
 }) => {
   const { push, query } = useRouter();
   const [geoData, setGeoData] = useState<GeoDataState>({ state: "fetching" });
-  const [hovered, setHovered] = useState<{
-    x: number;
-    y: number;
-    id: string;
-  }>();
+  const [hovered, setHovered] =
+    useState<{
+      x: number;
+      y: number;
+      id: string;
+    }>();
 
   const [viewState, setViewState] = useState(INITIAL_VIEW_STATE);
 
@@ -243,8 +244,9 @@ export const ChoroplethMap = ({
   useEffect(() => {
     const load = async () => {
       try {
-        const res = await fetch(`/topojson/ch-${parseInt(year, 10) - 1}.json`);
-        const topo = await res.json();
+        const topo = await import(
+          `swiss-maps/${parseInt(year, 10) - 1}/ch-combined.json`
+        );
 
         const municipalities = topojsonFeature(
           topo,
