@@ -1,6 +1,6 @@
 {
   "name": "elcom-electricity-price-website",
-  "version": "1.3.5",
+  "version": "1.4.0",
   "repository": "git@github.com:interactivethings/elcom-electricity-price-website.git",
   "author": "Jeremy Stucki <jeremy@interactivethings.com>",
   "private": true,
