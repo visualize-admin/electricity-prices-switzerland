@@ -303,6 +303,17 @@ const Query: QueryResolvers = {
 
     return results;
   },
+  allMunicipalities: async (_, { locale }) => {
+    const results = await search({
+      locale,
+      query: ".*",
+      ids: [],
+      limit: 5000,
+      types: ["municipality"],
+    });
+
+    return results;
+  },
   searchOperators: async (_, { query, locale, ids }) => {
     const results = await search({
       locale,

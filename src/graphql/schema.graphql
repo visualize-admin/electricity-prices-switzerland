@@ -18,6 +18,7 @@ type CantonResult implements SearchResult {
 type Municipality {
   id: String!
   name: String!
+  isAbolished: Boolean
   canton: Canton!
   operators: [Operator!]!
 }
@@ -126,6 +127,7 @@ type Query {
     query: String
     ids: [String!]
   ): [Municipality!]!
+  allMunicipalities(locale: String!): [Municipality!]!
   cantons(locale: String!, query: String, ids: [String!]): [Canton!]!
   operators(locale: String!, query: String, ids: [String!]): [Operator!]!
   search(locale: String!, query: String): [SearchResult!]!

@@ -9,6 +9,13 @@ query Municipalities($locale: String!, $query: String, $ids: [String!]) {
   }
 }
 
+query AllMunicipalities($locale: String!) {
+  municipalities: allMunicipalities(locale: $locale) {
+    id
+    name
+  }
+}
+
 query Operators($locale: String!, $query: String, $ids: [String!]) {
   operators: searchOperators(locale: $locale, query: $query, ids: $ids) {
     id

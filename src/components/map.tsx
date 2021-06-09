@@ -2,7 +2,7 @@ import { MapController, WebMercatorViewport } from "@deck.gl/core";
 import { GeoJsonLayer } from "@deck.gl/layers";
 import DeckGL from "@deck.gl/react";
 import { Trans } from "@lingui/macro";
-import { color, extent, group, mean } from "d3";
+import { color, extent, group, index, mean, rollup } from "d3";
 import { ScaleThreshold } from "d3-scale";
 import { useRouter } from "next/router";
 import {
@@ -19,7 +19,10 @@ import {
   mesh as topojsonMesh,
 } from "topojson-client";
 import { useFormatCurrency } from "../domain/helpers";
-import { OperatorObservationFieldsFragment } from "../graphql/queries";
+import {
+  OperatorObservationFieldsFragment,
+  useMunicipalitiesQuery,
+} from "../graphql/queries";
 import { TooltipBoxWithoutChartState } from "./charts-generic/interaction/tooltip-box";
 import { WithClassName } from "./detail-page/with-classname";
 import { Loading, NoDataHint, NoGeoDataHint } from "./hint";
@@ -203,12 +206,14 @@ export const ChoroplethMap = ({
   observations,
   observationsQueryFetching,
   medianValue,
+  municipalities,
   colorScale,
 }: {
   year: string;
   observations: OperatorObservationFieldsFragment[];
   observationsQueryFetching: boolean;
   medianValue: number | undefined;
+  municipalities: { id: string; name: string }[];
   colorScale: ScaleThreshold<number, string> | undefined | 0;
 }) => {
   const { push, query } = useRouter();
@@ -281,6 +286,22 @@ export const ChoroplethMap = ({
     return group(observations, (d) => d.municipality);
   }, [observations]);
 
+  const municipalityNames = useMemo(() => {
+    return rollup(
+      municipalities,
+      (values) => {
+        // FIXME: There is no clear way to distinguish which of the labels should be picked. This case seems only to happen on AbolishedMunicipality classes
+        // So for now we just pick the first one.
+
+        // if (values.length > 1) {
+        //   console.log("Duplicate munis", values);
+        // }
+        return values[0];
+      },
+      (d) => d.id
+    );
+  }, [municipalities]);
+
   useEffect(() => {
     if (geoData.state === "loaded" && observationsByMunicipalityId.size > 0) {
       __debugCheckObservationsWithoutShapes(
@@ -304,8 +325,7 @@ export const ChoroplethMap = ({
   const tooltipContent = hovered
     ? {
         id: hovered.id,
-        name: observationsByMunicipalityId.get(hovered.id)?.[0]
-          ?.municipalityLabel,
+        name: municipalityNames.get(hovered.id)?.name,
         observations: observationsByMunicipalityId.get(hovered.id),
       }
     : undefined;

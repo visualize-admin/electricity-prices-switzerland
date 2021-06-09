@@ -14,6 +14,7 @@ type SearchType = "municipality" | "operator" | "canton";
 const vars = {
   type: rdf.variable("type"),
   iri: rdf.variable("iri"),
+  municipalityClass: rdf.variable("municipalityClass"),
   name: rdf.variable("name"),
 };
 
@@ -39,7 +40,7 @@ const searchQueryBuilders = {
   query: {
     municipality: ({ query, limit }: { query: string; limit: number }) => {
       return sparql`{
-      SELECT DISTINCT ("municipality" AS ${vars.type}) (?municipality AS ${vars.iri}) (?municipalityLabel AS ${vars.name}) WHERE {
+      SELECT DISTINCT ("municipality" AS ${vars.type}) (?municipality AS ${vars.iri}) (?municipalityLabel AS ${vars.name}) (?class as ?municipalityClass) WHERE {
         VALUES ?class { ${ns.schemaAdmin.Municipality} ${ns.schemaAdmin.AbolishedMunicipality} }
         ?municipality a ?class .
         ?municipality ${ns.schema.name} ?municipalityLabel .
@@ -175,12 +176,13 @@ export const search = async ({
     return [];
   }
 
-  const sparqlQuery = SELECT.DISTINCT`${vars.type} ${vars.iri} ${vars.name}`
-    .WHERE`${queryParts.map((p, i) =>
-    i < queryParts.length - 1 ? sparql`${p} UNION ` : p
-  )}`
-    .ORDER()
-    .BY(vars.name);
+  const sparqlQuery =
+    SELECT.DISTINCT`${vars.type} ${vars.iri} ${vars.name} ${vars.municipalityClass}`
+      .WHERE`${queryParts.map((p, i) =>
+      i < queryParts.length - 1 ? sparql`${p} UNION ` : p
+    )}`
+      .ORDER()
+      .BY(vars.name);
 
   console.log(
     `SEARCH query for '${query}'`,
@@ -191,6 +193,7 @@ export const search = async ({
     type: Literal;
     iri: NamedNode;
     name: Literal;
+    municipalityClass?: NamedNode;
   }[];
 
   return results.map((d) => {
@@ -198,10 +201,15 @@ export const search = async ({
     const type = d.type.value;
     const name = d.name.value;
 
+    const isAbolished = ns.schemaAdmin`AbolishedMunicipality`.equals(
+      d.municipalityClass
+    );
+
     return {
       id: ns.stripNamespaceFromIri({ dimension: type, iri }),
       name,
       type,
+      isAbolished,
     };
   });
 };

@@ -62,6 +62,7 @@ export type Municipality = {
   __typename?: "Municipality";
   id: Scalars["String"];
   name: Scalars["String"];
+  isAbolished?: Maybe<Scalars["Boolean"]>;
   canton: Canton;
   operators: Array<Operator>;
 };
@@ -152,6 +153,7 @@ export type Query = {
   __typename?: "Query";
   systemInfo: SystemInfo;
   municipalities: Array<Municipality>;
+  allMunicipalities: Array<Municipality>;
   cantons: Array<Canton>;
   operators: Array<Operator>;
   search: Array<SearchResult>;
@@ -171,6 +173,10 @@ export type QueryMunicipalitiesArgs = {
   locale: Scalars["String"];
   query?: Maybe<Scalars["String"]>;
   ids?: Maybe<Array<Scalars["String"]>>;
+};
+
+export type QueryAllMunicipalitiesArgs = {
+  locale: Scalars["String"];
 };
 
 export type QueryCantonsArgs = {
@@ -384,6 +390,7 @@ export type ResolversTypes = ResolversObject<{
   Float: ResolverTypeWrapper<Scalars["Float"]>;
   CantonResult: ResolverTypeWrapper<ResolvedSearchResult>;
   Municipality: ResolverTypeWrapper<ResolvedMunicipality>;
+  Boolean: ResolverTypeWrapper<Scalars["Boolean"]>;
   MunicipalityResult: ResolverTypeWrapper<ResolvedSearchResult>;
   Observation: ResolverTypeWrapper<ResolvedObservation>;
   ObservationFilters: ObservationFilters;
@@ -402,7 +409,6 @@ export type ResolversTypes = ResolversObject<{
   SwissMedianObservation: ResolverTypeWrapper<ResolvedSwissMedianObservation>;
   SystemInfo: ResolverTypeWrapper<SystemInfo>;
   WikiContent: ResolverTypeWrapper<WikiContent>;
-  Boolean: ResolverTypeWrapper<Scalars["Boolean"]>;
 }>;
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -413,6 +419,7 @@ export type ResolversParentTypes = ResolversObject<{
   Float: Scalars["Float"];
   CantonResult: ResolvedSearchResult;
   Municipality: ResolvedMunicipality;
+  Boolean: Scalars["Boolean"];
   MunicipalityResult: ResolvedSearchResult;
   Observation: ResolvedObservation;
   ObservationFilters: ObservationFilters;
@@ -428,7 +435,6 @@ export type ResolversParentTypes = ResolversObject<{
   SwissMedianObservation: ResolvedSwissMedianObservation;
   SystemInfo: SystemInfo;
   WikiContent: WikiContent;
-  Boolean: Scalars["Boolean"];
 }>;
 
 export type CantonResolvers<
@@ -486,6 +492,11 @@ export type MunicipalityResolvers<
 > = ResolversObject<{
   id?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  isAbolished?: Resolver<
+    Maybe<ResolversTypes["Boolean"]>,
+    ParentType,
+    ContextType
+  >;
   canton?: Resolver<ResolversTypes["Canton"], ParentType, ContextType>;
   operators?: Resolver<
     Array<ResolversTypes["Operator"]>,
@@ -605,6 +616,12 @@ export type QueryResolvers<
     ParentType,
     ContextType,
     RequireFields<QueryMunicipalitiesArgs, "locale">
+  >;
+  allMunicipalities?: Resolver<
+    Array<ResolversTypes["Municipality"]>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryAllMunicipalitiesArgs, "locale">
   >;
   cantons?: Resolver<
     Array<ResolversTypes["Canton"]>,

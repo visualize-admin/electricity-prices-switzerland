@@ -1,27 +1,24 @@
 import { t, Trans } from "@lingui/macro";
-import { useCallback, useMemo } from "react";
+import { GetServerSideProps } from "next";
+import Head from "next/head";
+import { useCallback } from "react";
 import { Box, Flex, Grid, Text } from "theme-ui";
 import { DownloadImage } from "../components/detail-page/download-image";
 import { Footer } from "../components/footer";
 import { Header } from "../components/header";
+import { InfoBanner } from "../components/info-banner";
 import { List } from "../components/list";
 import { ChoroplethMap } from "../components/map";
 import { Search } from "../components/search";
 import { Selector } from "../components/selector";
 import { useColorScale } from "../domain/data";
 import {
-  OperatorObservationFieldsFragment,
   PriceComponent,
+  useAllMunicipalitiesQuery,
   useObservationsQuery,
 } from "../graphql/queries";
 import { EMPTY_ARRAY } from "../lib/empty-array";
 import { useQueryStateSingle } from "../lib/use-query-state";
-import { locales } from "../locales/locales";
-import { GetServerSideProps } from "next";
-import { Hint, HintBlue } from "../components/hint";
-
-import Head from "next/head";
-import { InfoBanner } from "../components/info-banner";
 
 const DOWNLOAD_ID = "map";
 
@@ -29,24 +26,21 @@ type Props = {
   locale: string;
 };
 
-export const getServerSideProps: GetServerSideProps<
-  Props,
-  { locale: string }
-> = async ({ locale }) => {
-  return {
-    props: {
-      locale: locale!,
-    },
+export const getServerSideProps: GetServerSideProps<Props, { locale: string }> =
+  async ({ locale }) => {
+    return {
+      props: {
+        locale: locale!,
+      },
+    };
   };
-};
 
 const HEADER_HEIGHT_S = "107px";
 const HEADER_HEIGHT_M_UP = "96px";
 
 const IndexPage = ({ locale }: Props) => {
-  const [
-    { period, priceComponent, category, product, download },
-  ] = useQueryStateSingle();
+  const [{ period, priceComponent, category, product, download }] =
+    useQueryStateSingle();
 
   const [observationsQuery] = useObservationsQuery({
     variables: {
@@ -60,6 +54,12 @@ const IndexPage = ({ locale }: Props) => {
     },
   });
 
+  const [municipalitiesQuery] = useAllMunicipalitiesQuery({
+    variables: {
+      locale,
+    },
+  });
+
   const observations = observationsQuery.fetching
     ? EMPTY_ARRAY
     : observationsQuery.data?.observations ?? EMPTY_ARRAY;
@@ -69,6 +69,9 @@ const IndexPage = ({ locale }: Props) => {
   const swissMedianObservations = observationsQuery.fetching
     ? EMPTY_ARRAY
     : observationsQuery.data?.swissMedianObservations ?? EMPTY_ARRAY;
+
+  const municipalities =
+    municipalitiesQuery.data?.municipalities ?? EMPTY_ARRAY;
 
   const medianValue = swissMedianObservations[0]?.value;
 
@@ -170,7 +173,10 @@ const IndexPage = ({ locale }: Props) => {
               <ChoroplethMap
                 year={period}
                 observations={observations}
-                observationsQueryFetching={observationsQuery.fetching}
+                municipalities={municipalities}
+                observationsQueryFetching={
+                  observationsQuery.fetching || municipalitiesQuery.fetching
+                }
                 medianValue={medianValue}
                 colorScale={colorScale}
               />

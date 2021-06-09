@@ -49,6 +49,7 @@ export type Municipality = {
   __typename: "Municipality";
   id: Scalars["String"];
   name: Scalars["String"];
+  isAbolished?: Maybe<Scalars["Boolean"]>;
   canton: Canton;
   operators: Array<Operator>;
 };
@@ -139,6 +140,7 @@ export type Query = {
   __typename: "Query";
   systemInfo: SystemInfo;
   municipalities: Array<Municipality>;
+  allMunicipalities: Array<Municipality>;
   cantons: Array<Canton>;
   operators: Array<Operator>;
   search: Array<SearchResult>;
@@ -158,6 +160,10 @@ export type QueryMunicipalitiesArgs = {
   locale: Scalars["String"];
   query?: Maybe<Scalars["String"]>;
   ids?: Maybe<Array<Scalars["String"]>>;
+};
+
+export type QueryAllMunicipalitiesArgs = {
+  locale: Scalars["String"];
 };
 
 export type QueryCantonsArgs = {
@@ -269,6 +275,19 @@ export type MunicipalitiesQuery = {
   __typename: "Query";
   municipalities: Array<{
     __typename: "MunicipalityResult";
+    id: string;
+    name: string;
+  }>;
+};
+
+export type AllMunicipalitiesQueryVariables = Exact<{
+  locale: Scalars["String"];
+}>;
+
+export type AllMunicipalitiesQuery = {
+  __typename: "Query";
+  municipalities: Array<{
+    __typename: "Municipality";
     id: string;
     name: string;
   }>;
@@ -541,6 +560,26 @@ export function useMunicipalitiesQuery(
 ) {
   return Urql.useQuery<MunicipalitiesQuery>({
     query: MunicipalitiesDocument,
+    ...options,
+  });
+}
+export const AllMunicipalitiesDocument = gql`
+  query AllMunicipalities($locale: String!) {
+    municipalities: allMunicipalities(locale: $locale) {
+      id
+      name
+    }
+  }
+`;
+
+export function useAllMunicipalitiesQuery(
+  options: Omit<
+    Urql.UseQueryArgs<AllMunicipalitiesQueryVariables>,
+    "query"
+  > = {}
+) {
+  return Urql.useQuery<AllMunicipalitiesQuery>({
+    query: AllMunicipalitiesDocument,
     ...options,
   });
 }
