@@ -7,16 +7,18 @@
   },
   "scripts": {
     "build": "tsc",
-    "start": "node index.js"
+    "start": "GLOBAL_AGENT_ENVIRONMENT_VARIABLE_NAMESPACE='' NODE_OPTIONS='-r \"global-agent/bootstrap\"' node index.js"
   },
   "dependencies": {
     "fp-ts": "^2.9.5",
+    "global-agent": "^2.2.0",
     "io-ts": "^2.2.16",
     "io-ts-types": "^0.5.15",
     "polka": "^0.5.2",
     "puppeteer": "^8.0.0"
   },
   "devDependencies": {
+    "@types/node": "14",
     "@types/polka": "^0.5.2",
     "typescript": "^4.2.3"
   }
