@@ -4,7 +4,7 @@ import { NumberFromString } from "io-ts-types/lib/NumberFromString";
 import puppeteer, { Browser } from "puppeteer";
 import { Request } from "polka";
 import { URL } from "url";
-import { ServerResponse } from "node:http";
+import { ServerResponse } from "http";
 
 /**
  * We start a new browser instance for each request. This may seem a bit expensive (and it is),
@@ -41,7 +41,11 @@ const isAllowedUrl = (host: undefined | string, url: string) => {
   } else {
     try {
       const reqHost = new URL(url).host;
-      return host === reqHost || reqHost.match(/^localhost/);
+      return (
+        host === reqHost ||
+        reqHost.match(/^localhost/) ||
+        host.match(/^localhost/)
+      );
     } catch (err) {
       return false;
     }
