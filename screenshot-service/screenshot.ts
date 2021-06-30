@@ -4,7 +4,7 @@ import { NumberFromString } from "io-ts-types/lib/NumberFromString";
 import puppeteer, { Browser } from "puppeteer";
 import { Request } from "polka";
 import { URL } from "url";
-import { ServerResponse } from "http";
+import { ServerResponse } from "node:http";
 
 /**
  * We start a new browser instance for each request. This may seem a bit expensive (and it is),
