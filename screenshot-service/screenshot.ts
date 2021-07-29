@@ -108,6 +108,8 @@ export const handleScreenshot = async (req: Request, res: ServerResponse) => {
             });
 
             try {
+              console.log(`Navigating to URL: ${query.url}`);
+
               await page.goto(query.url, {
                 waitUntil:
                   process.env.NODE_ENV === "production"
