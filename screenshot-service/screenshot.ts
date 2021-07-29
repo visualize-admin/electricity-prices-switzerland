@@ -106,11 +106,26 @@ export const handleScreenshot = async (req: Request, res: ServerResponse) => {
               height: 1024,
               deviceScaleFactor,
             });
-            await page.goto(query.url, {
-              waitUntil:
-                process.env.NODE_ENV === "production" ? "networkidle0" : "load",
-              timeout: 120 * 1000,
-            });
+
+            try {
+              await page.goto(query.url, {
+                waitUntil:
+                  process.env.NODE_ENV === "production"
+                    ? "networkidle2"
+                    : "load",
+                timeout: 120 * 1000,
+              });
+            } catch (e) {
+              return {
+                status: 504,
+                body: JSON.stringify({
+                  error: `Page could not be loaded within timeout: ${query.url}`,
+                }),
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              };
+            }
 
             const headers: Record<string, string> = {
               "Content-Type": "image/png",
