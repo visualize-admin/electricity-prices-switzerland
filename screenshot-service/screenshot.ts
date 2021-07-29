@@ -148,6 +148,10 @@ export const handleScreenshot = async (req: Request, res: ServerResponse) => {
               await page.waitForSelector(`.${query.element}`);
 
               const elementHandle = await page.$(`#${query.element}`);
+
+              // Wait for map to be rendered?
+              await page.waitForTimeout(100);
+
               if (!elementHandle) {
                 return {
                   status: 400,
