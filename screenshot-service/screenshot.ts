@@ -109,6 +109,7 @@ export const handleScreenshot = async (req: Request, res: ServerResponse) => {
             await page.goto(query.url, {
               waitUntil:
                 process.env.NODE_ENV === "production" ? "networkidle0" : "load",
+              timeout: 120 * 1000,
             });
 
             const headers: Record<string, string> = {
