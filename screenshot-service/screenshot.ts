@@ -143,6 +143,7 @@ export const handleScreenshot = async (req: Request, res: ServerResponse) => {
                * The request is for a screenshot of a specific element. This element may not
                * exist though. If it doesn't, it's treated as a client error (status 400).
                */
+              console.log(`Waiting for element '.${query.element}'`);
               await page.waitForSelector(`.${query.element}`);
 
               const elementHandle = await page.$(`#${query.element}`);
@@ -157,6 +158,7 @@ export const handleScreenshot = async (req: Request, res: ServerResponse) => {
                   },
                 };
               } else {
+                console.log(`Taking screenshot of element`);
                 return {
                   status: 200,
                   body: await elementHandle.screenshot({ type: "png" }),
@@ -167,6 +169,7 @@ export const handleScreenshot = async (req: Request, res: ServerResponse) => {
               /*
                * Full-page screenshot.
                */
+              console.log(`Taking full-page screenshot`);
               return {
                 status: 200,
                 body: await page.screenshot({ type: "png", fullPage: true }),
