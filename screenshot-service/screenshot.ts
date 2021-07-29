@@ -108,15 +108,14 @@ export const handleScreenshot = async (req: Request, res: ServerResponse) => {
             });
 
             try {
-              console.log(`Navigating to URL: ${query.url}`);
+              console.log(`Navigating to page: ${query.url}`);
 
               await page.goto(query.url, {
-                waitUntil:
-                  process.env.NODE_ENV === "production"
-                    ? "networkidle2"
-                    : "load",
+                waitUntil: "load",
                 timeout: 120 * 1000,
               });
+
+              console.log(`Page loaded`);
             } catch (e) {
               return {
                 status: 504,
@@ -183,6 +182,7 @@ export const handleScreenshot = async (req: Request, res: ServerResponse) => {
       )
     );
 
+    console.log(`Done`);
     res.statusCode = status;
     for (const [k, v] of Object.entries(headers)) {
       res.setHeader(k, v);
