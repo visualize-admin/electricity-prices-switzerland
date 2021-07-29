@@ -68,7 +68,7 @@ export default function App({ Component, pageProps }: AppProps) {
           </GraphqlProvider>
         </I18nProvider>
       </LocaleProvider>
-      {process.env.MATOMO_ID && !query.download && (
+      {process.env.NEXT_PUBLIC_MATOMO_ID && !query.download && (
         <Script>
           {`var _paq = window._paq = window._paq || [];
   /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
@@ -77,7 +77,7 @@ export default function App({ Component, pageProps }: AppProps) {
   (function() {
     var u="https://analytics.bit.admin.ch/";
     _paq.push(['setTrackerUrl', u+'matomo.php']);
-    _paq.push(['setSiteId', '${process.env.MATOMO_ID}']);
+    _paq.push(['setSiteId', '${process.env.NEXT_PUBLIC_MATOMO_ID}']);
     var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
     g.type='text/javascript'; g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
   })();`}

@@ -9,10 +9,13 @@ const { locales, defaultLocale } = require("./src/locales/locales.json");
 const buildEnv = {
   VERSION: `v${pkg.version}`,
   DEPLOYMENT: process.env.DEPLOYMENT,
-  MATOMO_ID: process.env.MATOMO_ID,
 };
 
+process.env.NEXT_PUBLIC_MATOMO_ID =
+  process.env.NEXT_PUBLIC_MATOMO_ID || process.env.MATOMO_ID;
+
 console.log("Build Environment:", buildEnv);
+console.log("Matomo ID:", process.env.NEXT_PUBLIC_MATOMO_ID);
 
 let i18nDomains;
 
