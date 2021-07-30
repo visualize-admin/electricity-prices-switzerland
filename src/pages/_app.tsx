@@ -4,7 +4,7 @@ import { AppProps } from "next/app";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import Script from "next/script";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ThemeProvider } from "theme-ui";
 import { analyticsPageView } from "../domain/analytics";
 import { GraphqlProvider } from "../graphql/context";
@@ -15,9 +15,30 @@ import "../styles/nprogress.css";
 import "../styles/reach-dialog.css";
 import { preloadFonts, theme } from "../themes/elcom";
 
+const useMatomo = () => {
+  const [matomoId, setMatomoId] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    const fetchMatomoId = async () => {
+      try {
+        const res = await fetch("/api/matomo-id").then((r) => r.json());
+        setMatomoId(res.matomoId);
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+    fetchMatomoId();
+  }, []);
+
+  return matomoId;
+};
+
 export default function App({ Component, pageProps }: AppProps) {
   const { query, events: routerEvents, locale: routerLocale } = useRouter();
   const locale = parseLocaleString(routerLocale ?? "");
+
+  const matomoId = useMatomo();
 
   useNProgress();
 
@@ -68,19 +89,23 @@ export default function App({ Component, pageProps }: AppProps) {
           </GraphqlProvider>
         </I18nProvider>
       </LocaleProvider>
-      {process.env.NEXT_PUBLIC_MATOMO_ID && !query.download && (
-        <Script>
-          {`var _paq = window._paq = window._paq || [];
-  /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
-  _paq.push(['trackPageView']);
-  _paq.push(['enableLinkTracking']);
-  (function() {
-    var u="https://analytics.bit.admin.ch/";
-    _paq.push(['setTrackerUrl', u+'matomo.php']);
-    _paq.push(['setSiteId', '${process.env.NEXT_PUBLIC_MATOMO_ID}']);
-    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-    g.type='text/javascript'; g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
-  })();`}
+      {matomoId && !query.download && (
+        <Script id="matomo">
+          {`var alreadyInitialized = !!window._paq; // FIXME: this should not be necessary once https://github.com/vercel/next.js/pull/27218 is released
+    if (!alreadyInitialized) {
+      var _paq = window._paq = window._paq || [];
+      /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+      _paq.push(['trackPageView']);
+      _paq.push(['enableLinkTracking']);
+      (function() {
+        var u="https://analytics.bit.admin.ch/";
+        _paq.push(['setTrackerUrl', u+'matomo.php']);
+        _paq.push(['setSiteId', '${matomoId}']);
+        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+        g.type='text/javascript'; g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+      })();
+    }
+    `}
         </Script>
       )}
     </>

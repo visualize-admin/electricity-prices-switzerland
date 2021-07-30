@@ -11,11 +11,8 @@ const buildEnv = {
   DEPLOYMENT: process.env.DEPLOYMENT,
 };
 
-process.env.NEXT_PUBLIC_MATOMO_ID =
-  process.env.NEXT_PUBLIC_MATOMO_ID || process.env.MATOMO_ID;
-
 console.log("Build Environment:", buildEnv);
-console.log("Matomo ID:", process.env.NEXT_PUBLIC_MATOMO_ID);
+console.log("Matomo ID:", process.env.MATOMO_ID);
 
 let i18nDomains;
 
