@@ -1,6 +1,7 @@
 import { t, Trans } from "@lingui/macro";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
+import basicAuthMiddleware from "nextjs-basic-auth-middleware";
 import { useCallback } from "react";
 import { Box, Flex, Grid, Text } from "theme-ui";
 import { DownloadImage } from "../components/detail-page/download-image";
@@ -27,7 +28,9 @@ type Props = {
 };
 
 export const getServerSideProps: GetServerSideProps<Props, { locale: string }> =
-  async ({ locale }) => {
+  async ({ locale, req, res }) => {
+    await basicAuthMiddleware(req, res);
+
     return {
       props: {
         locale: locale!,

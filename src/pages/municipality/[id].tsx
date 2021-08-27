@@ -4,6 +4,7 @@ import { GetServerSideProps } from "next";
 import ErrorPage from "next/error";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import basicAuthMiddleware from "nextjs-basic-auth-middleware";
 import * as React from "react";
 import { DetailPageBanner } from "../../components/detail-page/banner";
 import { CantonsComparisonRangePlots } from "../../components/detail-page/cantons-comparison-range";
@@ -17,8 +18,6 @@ import { Header } from "../../components/header";
 import {
   getDimensionValuesAndLabels,
   getMunicipality,
-  createSource,
-  getView,
   getObservationsCube,
 } from "../../rdf/queries";
 
@@ -31,44 +30,38 @@ type Props =
     }
   | { status: "notfound" };
 
-export const getServerSideProps: GetServerSideProps<
-  Props,
-  { id: string }
-> = async ({ params, res, locale }) => {
-  const { id } = params!;
+export const getServerSideProps: GetServerSideProps<Props, { id: string }> =
+  async ({ params, req, res, locale }) => {
+    await basicAuthMiddleware(req, res);
 
-  console.time("Muni");
+    const { id } = params!;
 
-  const source = createSource();
+    const municipality = await getMunicipality({ id });
 
-  const municipality = await getMunicipality({ id });
+    if (!municipality) {
+      res.statusCode = 404;
+      return { props: { status: "notfound" } };
+    }
 
-  if (!municipality) {
-    res.statusCode = 404;
-    return { props: { status: "notfound" } };
-  }
+    const cube = await getObservationsCube();
 
-  const cube = await getObservationsCube();
+    const operators = await getDimensionValuesAndLabels({
+      cube,
+      dimensionKey: "operator",
+      filters: { municipality: [id] },
+    });
 
-  const operators = await getDimensionValuesAndLabels({
-    cube,
-    dimensionKey: "operator",
-    filters: { municipality: [id] },
-  });
-
-  console.timeEnd("Muni");
-
-  return {
-    props: {
-      status: "found",
-      id,
-      name: municipality.name,
-      operators: operators
-        .sort((a, b) => a.name.localeCompare(b.name, locale))
-        .map(({ id, name }) => ({ id, name })),
-    },
+    return {
+      props: {
+        status: "found",
+        id,
+        name: municipality.name,
+        operators: operators
+          .sort((a, b) => a.name.localeCompare(b.name, locale))
+          .map(({ id, name }) => ({ id, name })),
+      },
+    };
   };
-};
 
 const MunicipalityPage = (props: Props) => {
   const { query } = useRouter();

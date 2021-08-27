@@ -3,6 +3,7 @@ import { GetServerSideProps } from "next";
 import ErrorPage from "next/error";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import basicAuthMiddleware from "nextjs-basic-auth-middleware";
 import { Box, Flex } from "theme-ui";
 import { DetailPageBanner } from "../../components/detail-page/banner";
 import { CantonsComparisonRangePlots } from "../../components/detail-page/cantons-comparison-range";
@@ -13,7 +14,7 @@ import { PriceEvolution } from "../../components/detail-page/price-evolution-lin
 import { SelectorMulti } from "../../components/detail-page/selector-multi";
 import { Footer } from "../../components/footer";
 import { Header } from "../../components/header";
-import { getCanton, createSource } from "../../rdf/queries";
+import { getCanton } from "../../rdf/queries";
 
 type Props =
   | {
@@ -26,7 +27,9 @@ type Props =
 export const getServerSideProps: GetServerSideProps<
   Props,
   { locale: string; id: string }
-> = async ({ params, res, locale }) => {
+> = async ({ params, req, res, locale }) => {
+  await basicAuthMiddleware(req, res);
+
   const { id } = params!;
 
   const canton = await getCanton({ id, locale: locale! });

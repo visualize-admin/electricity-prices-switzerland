@@ -4,6 +4,7 @@ import { GetServerSideProps } from "next";
 import ErrorPage from "next/error";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import basicAuthMiddleware from "nextjs-basic-auth-middleware";
 import { DetailPageBanner } from "../../components/detail-page/banner";
 import { CantonsComparisonRangePlots } from "../../components/detail-page/cantons-comparison-range";
 import { DetailPageLayout } from "../../components/detail-page/layout";
@@ -15,7 +16,6 @@ import { Footer } from "../../components/footer";
 import { Header } from "../../components/header";
 import { OperatorDocuments } from "../../components/operator-documents";
 import {
-  createSource,
   getDimensionValuesAndLabels,
   getObservationsCube,
   getOperator,
@@ -29,40 +29,38 @@ type Props =
       municipalities: { id: string; name: string }[];
     }
   | { status: "notfound" };
-export const getServerSideProps: GetServerSideProps<
-  Props,
-  { id: string }
-> = async ({ params, res, locale }) => {
-  const { id } = params!;
+export const getServerSideProps: GetServerSideProps<Props, { id: string }> =
+  async ({ params, req, res, locale }) => {
+    await basicAuthMiddleware(req, res);
 
-  const source = createSource();
+    const { id } = params!;
 
-  const operator = await getOperator({ id });
+    const operator = await getOperator({ id });
 
-  if (!operator) {
-    res.statusCode = 404;
-    return { props: { status: "notfound" } };
-  }
+    if (!operator) {
+      res.statusCode = 404;
+      return { props: { status: "notfound" } };
+    }
 
-  const cube = await getObservationsCube();
+    const cube = await getObservationsCube();
 
-  const municipalities = await getDimensionValuesAndLabels({
-    cube,
-    dimensionKey: "municipality",
-    filters: { operator: [id] },
-  });
+    const municipalities = await getDimensionValuesAndLabels({
+      cube,
+      dimensionKey: "municipality",
+      filters: { operator: [id] },
+    });
 
-  return {
-    props: {
-      status: "found",
-      id,
-      name: operator.name,
-      municipalities: municipalities
-        .sort((a, b) => a.name.localeCompare(b.name, locale))
-        .map(({ id, name }) => ({ id, name })),
-    },
+    return {
+      props: {
+        status: "found",
+        id,
+        name: operator.name,
+        municipalities: municipalities
+          .sort((a, b) => a.name.localeCompare(b.name, locale))
+          .map(({ id, name }) => ({ id, name })),
+      },
+    };
   };
-};
 
 const OperatorPage = (props: Props) => {
   const { query } = useRouter();

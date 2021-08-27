@@ -1,5 +1,17 @@
 # ElCom Electricity Price Website
 
+## Configuration through Environment Variables
+
+| Variable                 | Required | Example Value                                                               |
+| ------------------------ | -------- | --------------------------------------------------------------------------- |
+| `SPARQL_ENDPOINT`        | yes      | `https://lindas.admin.ch/query`                                             |
+| `SPARQL_EDITOR`          | yes      | `https://lindas.admin.ch/sparql`                                            |
+| `GITLAB_WIKI_TOKEN`      | yes      | `xyz`                                                                       |
+| `GITLAB_WIKI_URL`        | yes      | `https://gitlab.ldbar.ch/api/v4/projects/9999/wikis`                        |
+| `I18N_DOMAINS`           |          | `{"de": "www.elcom.local", "fr": "fr.elcom.local", "it": "it.elcom.local"}` |
+| `BASIC_AUTH_CREDENTIALS` |          | `user:password`                                                             |
+| `MATOMO_ID`              |          | `123`                                                                       |
+
 ## Development Environment
 
 To start the development environment, you need [Node.js](https://nodejs.org/en/) (v12 LTS recommended) and [Yarn](https://classic.yarnpkg.com/lang/en/) as package manager.
@@ -22,6 +34,7 @@ Or – if using Nix – entering a new Nix shell will install Node.js and Yarn a
 ```sh
 nix-shell
 ```
+
 #### Run the application setup
 
 Run the setup script:
