@@ -62,6 +62,10 @@ const constrainZoom = (
   bbox: BBox,
   { padding = 24 }: { padding?: number } = {}
 ) => {
+  if (viewState.width < padding * 2 || viewState.height < padding * 2) {
+    return viewState;
+  }
+
   const vp = new WebMercatorViewport(viewState);
 
   const { width, height, zoom, longitude, latitude } = viewState;
