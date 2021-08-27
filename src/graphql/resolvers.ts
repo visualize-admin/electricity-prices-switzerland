@@ -54,7 +54,7 @@ const Query: QueryResolvers = {
     let observationsCube;
     try {
       observationsCube = await getObservationsCube();
-    } catch (e) {
+    } catch (e: $IntentionalAny) {
       console.error(e.message);
       return [];
     }
@@ -125,7 +125,7 @@ const Query: QueryResolvers = {
     let cantonCube;
     try {
       cantonCube = await getCantonMedianCube();
-    } catch (e) {
+    } catch (e: $IntentionalAny) {
       console.error(e.message);
       throw new ApolloError(e.message, "CUBE_NOT_FOUND");
     }
@@ -191,7 +191,7 @@ const Query: QueryResolvers = {
     let cantonCube;
     try {
       cantonCube = await getSwissMedianCube();
-    } catch (e) {
+    } catch (e: $IntentionalAny) {
       console.error(e.message);
       throw new ApolloError(e.message, "CUBE_NOT_FOUND");
     }
