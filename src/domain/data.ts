@@ -68,6 +68,7 @@ export const useColorScale = ({
 export type Entity = "municipality" | "operator" | "canton";
 
 export const periods = [
+  "2022",
   "2021",
   "2020",
   "2019",
