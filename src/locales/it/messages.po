@@ -107,19 +107,19 @@ msgstr "Info:"
 
 #: src/components/operator-documents.tsx:22
 msgid "download.category.annualreport"
-msgstr "Rapporto di gestione"
+msgstr "Conto annuale"
 
 #: src/components/operator-documents.tsx:23
 msgid "download.category.annualreports"
-msgstr "Rapporti di gestione"
+msgstr "Conti annuali"
 
 #: src/components/operator-documents.tsx:17
 msgid "download.category.financialstatement"
-msgstr "Conto annuale"
+msgstr "Rapporto di gestione"
 
 #: src/components/operator-documents.tsx:18
 msgid "download.category.financialstatements"
-msgstr "Conti annuali"
+msgstr "Rapporti di gestione"
 
 #: src/components/operator-documents.tsx:12
 msgid "download.category.tariff"

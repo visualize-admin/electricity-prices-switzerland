@@ -107,19 +107,19 @@ msgstr "Info:"
 
 #: src/components/operator-documents.tsx:22
 msgid "download.category.annualreport"
-msgstr "Geschäftsbericht"
+msgstr "Jahresrechnung"
 
 #: src/components/operator-documents.tsx:23
 msgid "download.category.annualreports"
-msgstr "Geschäftsberichte"
+msgstr "Jahresrechnungen"
 
 #: src/components/operator-documents.tsx:17
 msgid "download.category.financialstatement"
-msgstr "Jahresrechnung"
+msgstr "Geschäftsbericht"
 
 #: src/components/operator-documents.tsx:18
 msgid "download.category.financialstatements"
-msgstr "Jahresrechnungen"
+msgstr "Geschäftsberichte"
 
 #: src/components/operator-documents.tsx:12
 msgid "download.category.tariff"

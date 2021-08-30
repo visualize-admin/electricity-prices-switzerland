@@ -20,19 +20,21 @@ const CATEGORIES = [
   {
     id: OperatorDocumentCategory.FinancialStatement,
     itemLabel: (
-      <Trans id="download.category.financialstatement">Jahresrechnung</Trans>
+      <Trans id="download.category.financialstatement">Geschäftsbericht</Trans>
     ),
     categoryLabel: (
-      <Trans id="download.category.financialstatements">Jahresrechnungen</Trans>
+      <Trans id="download.category.financialstatements">
+        Geschäftsberichte
+      </Trans>
     ),
   },
   {
     id: OperatorDocumentCategory.AnnualReport,
     itemLabel: (
-      <Trans id="download.category.annualreport">Geschäftsbericht</Trans>
+      <Trans id="download.category.annualreport">Jahresrechnung</Trans>
     ),
     categoryLabel: (
-      <Trans id="download.category.annualreports">Geschäftsberichte</Trans>
+      <Trans id="download.category.annualreports">Jahresrechnungen</Trans>
     ),
   },
 ];
