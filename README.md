@@ -11,6 +11,8 @@
 | `I18N_DOMAINS`           |          | `{"de": "www.elcom.local", "fr": "fr.elcom.local", "it": "it.elcom.local"}` |
 | `BASIC_AUTH_CREDENTIALS` |          | `user:password`                                                             |
 | `MATOMO_ID`              |          | `123`                                                                       |
+| `CURRENT_PERIOD`         |          | `2022`                                                                      |
+| `FIRST_PERIOD`           |          | `2009`                                                                      |
 
 ## Development Environment
 
