@@ -9,6 +9,8 @@ const { locales, defaultLocale } = require("./src/locales/locales.json");
 const buildEnv = {
   VERSION: `v${pkg.version}`,
   DEPLOYMENT: process.env.DEPLOYMENT,
+  CURRENT_PERIOD: process.env.CURRENT_PERIOD || "2022",
+  FIRST_PERIOD: process.env.FIRST_PERIOD || "2009",
 };
 
 console.log("Build Environment:", buildEnv);

@@ -22,7 +22,7 @@ const queryStateKeys = [
 
 const queryStateDefaults = {
   id: "261",
-  period: "2022",
+  period: process.env.CURRENT_PERIOD,
   category: "H4",
   priceComponent: "total",
   product: "standard",

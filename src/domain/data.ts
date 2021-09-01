@@ -1,4 +1,4 @@
-import { scaleThreshold } from "d3";
+import { scaleThreshold, range } from "d3";
 import { useMemo } from "react";
 import { Observation as QueryObservation } from "../graphql/queries";
 import { useTheme } from "../themes";
@@ -67,22 +67,18 @@ export const useColorScale = ({
 
 export type Entity = "municipality" | "operator" | "canton";
 
-export const periods = [
-  "2022",
-  "2021",
-  "2020",
-  "2019",
-  "2018",
-  "2017",
-  "2016",
-  "2015",
-  "2014",
-  "2013",
-  "2012",
-  "2011",
-  "2010",
-  "2009",
-];
+if (!process.env.FIRST_PERIOD || !process.env.CURRENT_PERIOD) {
+  throw Error(
+    `Please configure FIRST_PERIOD and CURRENT_PERIOD in next.config.js`
+  );
+}
+
+export const periods = range(
+  parseInt(process.env.CURRENT_PERIOD, 10),
+  parseInt(process.env.FIRST_PERIOD, 10) - 1,
+  -1
+).map((d) => d.toString());
+
 export const priceComponents = [
   "total",
   "gridusage",

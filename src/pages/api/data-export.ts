@@ -12,7 +12,7 @@ import {
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const locale = parseLocaleString(req.query.locale?.toString());
-  const period = req.query.period?.toString() ?? "2021";
+  const period = req.query.period?.toString() ?? process.env.CURRENT_PERIOD;
 
   const cube = await getObservationsCube();
 
