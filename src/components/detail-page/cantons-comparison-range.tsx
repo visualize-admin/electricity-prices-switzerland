@@ -144,7 +144,7 @@ export const CantonsComparisonRangePlots = ({
           </Box>
           <Box sx={{ display: ["block", "block", "none"] }}>
             <Combobox
-              id="priceComponents"
+              id="priceComponents-cantons-comparison"
               label={t({
                 id: "selector.priceComponents",
                 message: `Preiskomponenten`,
@@ -213,10 +213,8 @@ export const CantonsComparisonRangePlot = memo(
     sortingOrder: SortingOrder;
   }) => {
     const locale = useLocale();
-    const [
-      { category, product, cantonsOrder },
-      setQueryState,
-    ] = useQueryState();
+    const [{ category, product, cantonsOrder }, setQueryState] =
+      useQueryState();
 
     const [observationsQuery] = useObservationsQuery({
       variables: {

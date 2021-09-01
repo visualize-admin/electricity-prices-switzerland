@@ -108,7 +108,7 @@ export const PriceDistributionHistograms = ({
           </Box>
           <Box sx={{ display: ["block", "block", "none"] }}>
             <Combobox
-              id="priceComponents"
+              id="priceComponents-histogram"
               label={t({
                 id: "selector.priceComponents",
                 message: `Preiskomponenten`,
