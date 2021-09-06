@@ -2,7 +2,8 @@
   "name": "elcom-electricity-price-website",
   "version": "1.6.5",
   "repository": "git@github.com:interactivethings/elcom-electricity-price-website.git",
-  "author": "Jeremy Stucki <jeremy@interactivethings.com>",
+  "author": "Federal Electricity Commission ElCom <info@elcom.admin.ch>",
+  "license": "BSD-3-Clause",
   "private": true,
   "engines": {
     "node": "14"
