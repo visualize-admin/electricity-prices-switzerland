@@ -20,8 +20,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   const dimensions = [
     "period",
-    "municipality",
-    "municipalityLabel",
+    // "municipality",
+    // "municipalityLabel",
     "operator",
     "operatorLabel",
     "category",
@@ -31,7 +31,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     "charge",
     "gridusage",
     "energy",
-    "fixcostspercent",
+    // "fixcostspercent",
     "total",
   ];
 
