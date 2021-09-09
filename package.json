@@ -11,7 +11,7 @@
   "scripts": {
     "dev": "make content && next",
     "build": "make content && lingui compile && next build",
-    "start": "GLOBAL_AGENT_ENVIRONMENT_VARIABLE_NAMESPACE='' NODE_OPTIONS='-r \"global-agent/bootstrap\"' next start -p $PORT",
+    "start": "GLOBAL_AGENT_ENVIRONMENT_VARIABLE_NAMESPACE='' NODE_OPTIONS='-r \"global-agent/bootstrap\" --max_old_space_size=2048' next start -p $PORT",
     "lint": "tsc --noEmit",
     "setup": "yarn && yarn locales:compile && yarn graphql:codegen",
     "locales:extract": "NODE_ENV=development lingui extract --verbose",

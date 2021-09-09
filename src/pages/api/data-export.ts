@@ -45,7 +45,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     }
   );
 
-  const observations = rawObservations.map((d) => {
+  let observations = [];
+  for (const d of rawObservations) {
     let parsed: { [k: string]: string | number | boolean } = {};
     for (const [k, v] of Object.entries(d)) {
       const key = k.replace(ns.electricitypriceDimension().value, "");
@@ -56,8 +57,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           ? ns.stripNamespaceFromIri({ dimension: key, iri: parsedValue })
           : parsedValue;
     }
-    return parsed;
-  });
+    observations.push(parsed);
+  }
 
   const csv = csvFormat(observations, dimensions);
 
