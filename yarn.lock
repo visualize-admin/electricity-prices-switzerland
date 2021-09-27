@@ -9670,9 +9670,9 @@ swap-case@^2.0.2:
     tslib "^2.0.3"
 
 swiss-maps@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/swiss-maps/-/swiss-maps-4.0.0.tgz#5f9c5c77709bb5b3d0b780c3b59c250ca12981f0"
-  integrity sha512-2YDR2bj7DNgvdcNkC09x1CukWpYVgrTAZ7ypmcKAnxh22nZhk6k2ICZFXzWGlNfQWPPBxscZv8hBvlz/JYW5bA==
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/swiss-maps/-/swiss-maps-4.1.0.tgz#98185fd53f1efe489921336b3d24b5bfd600db7b"
+  integrity sha512-FQUkHSFARWk+7Npq8AzNt4VHYjKuF5zhXrfW0Olo7P0u6vm5fMLsEgc53mwROGxDy+enb2anXDFzTIoJmIAqJQ==
 
 symbol-observable@^1.0.4, symbol-observable@^1.1.0:
   version "1.2.0"
