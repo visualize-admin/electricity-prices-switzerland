@@ -1,6 +1,6 @@
 {
   "name": "elcom-electricity-price-website",
-  "version": "1.6.7",
+  "version": "1.6.8",
   "repository": "git@github.com:interactivethings/elcom-electricity-price-website.git",
   "author": "Federal Electricity Commission ElCom <info@elcom.admin.ch>",
   "license": "BSD-3-Clause",
