@@ -304,15 +304,15 @@ export const List = ({
         options={[
           {
             value: "MUNICIPALITIES",
-            label: <Trans id="list.municipalities">Gemeinden</Trans>,
+            label: t({ id: "list.municipalities" }),
           },
           {
             value: "CANTONS",
-            label: <Trans id="list.cantons">Kantone</Trans>,
+            label: t({ id: "list.cantons" }),
           },
           {
             value: "PROVIDERS",
-            label: <Trans id="list.operators">Netzbetreiber</Trans>,
+            label: t({ id: "list.operators" }),
           },
         ]}
         value={listState}

@@ -1,6 +1,6 @@
-import { Flex, Box } from "theme-ui";
 import VisuallyHidden from "@reach/visually-hidden";
-import { useCallback, ChangeEventHandler } from "react";
+import { ChangeEventHandler, useCallback } from "react";
+import { Box, Flex } from "theme-ui";
 
 type RadioTabsVariants = "tabs" | "borderlessTabs" | "segmented";
 
@@ -50,10 +50,13 @@ const STYLES = {
       },
     },
     inactive: {
+      overflow: "hidden",
+      whiteSpace: "nowrap",
+      textOverflow: "ellipsis",
       display: "block",
       color: "secondary",
       bg: "monochrome200",
-      flex: "1 0 auto",
+      flex: "1 1 auto",
       textAlign: "center",
       px: 2,
       py: 4,
@@ -104,10 +107,14 @@ const STYLES = {
       },
     },
     inactive: {
+      overflow: "hidden",
+      whiteSpace: "nowrap",
+      textOverflow: "ellipsis",
       display: "block",
+      cursor: "pointer",
       color: "secondary",
       bg: "monochrome200",
-      flex: "1 0 auto",
+      flex: "1 1 auto",
       textAlign: "center",
       px: 2,
       py: 4,
@@ -154,7 +161,10 @@ const STYLES = {
       display: "block",
       color: "secondary",
       bg: "monochrome200",
-      flex: "1 0 auto",
+      overflow: "hidden",
+      whiteSpace: "nowrap",
+      textOverflow: "ellipsis",
+      flex: "1 1 auto",
       textAlign: "center",
       p: 2,
       fontSize: 3,
@@ -202,6 +212,7 @@ export const RadioTabs = <T extends string>({
           <Box
             key={option.value}
             as="label"
+            title={typeof option.label === "string" ? option.label : undefined}
             sx={isActive ? styles.active : styles.inactive}
           >
             <VisuallyHidden>
