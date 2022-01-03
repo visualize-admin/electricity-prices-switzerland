@@ -47,9 +47,9 @@ const ListItem = ({
       <Flex
         as="a"
         sx={{
-          pl: 2,
+          pl: [2, 4, 4],
           py: 1,
-          mx: [2, 4, 4],
+          mx: 0,
           borderBottomWidth: "1px",
           borderBottomStyle: "solid",
           borderBottomColor: "monochrome300",
@@ -321,7 +321,8 @@ export const List = ({
 
       <Box
         sx={{
-          mx: [2, 4, 4],
+          mx: 0,
+          px: [2, 4, 4],
           py: [2, 4, 4],
           borderBottomWidth: "1px",
           borderBottomStyle: "solid",
