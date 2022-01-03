@@ -1,13 +1,12 @@
-import { i18n } from "@lingui/core";
 import { Trans } from "@lingui/macro";
 import Dialog from "@reach/dialog";
 import VisuallyHidden from "@reach/visually-hidden";
-import { useState, ReactNode } from "react";
+import { useState } from "react";
 import { Box, Button, Flex, Heading } from "theme-ui";
 import { useWikiContentQuery } from "../graphql/queries";
 import { Icon } from "../icons";
 import { useLocale } from "../lib/use-locale";
-import { Loading, LoadingIcon, NoContentHint } from "./hint";
+import { LoadingIcon, NoContentHint } from "./hint";
 
 const DialogContent = ({ slug }: { slug: string }) => {
   const locale = useLocale();
@@ -98,7 +97,7 @@ export const InfoDialogButton = ({
         </Flex>
       </Button>
       <Dialog
-        style={{ zIndex: 999, position: "relative" }}
+        style={{ zIndex: 999, position: "relative", maxWidth: 800 }}
         isOpen={showHelpDialog}
         onDismiss={close}
         aria-label={label}
@@ -111,6 +110,7 @@ export const InfoDialogButton = ({
             position: "absolute",
             right: "20px",
             top: "20px",
+            cursor: "pointer",
           }}
           onClick={close}
         >
