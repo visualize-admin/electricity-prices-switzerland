@@ -115,6 +115,7 @@ const STYLES = {
       color: "secondary",
       bg: "monochrome200",
       flex: "1 1 auto",
+      minWidth: "9ch",
       textAlign: "center",
       px: 2,
       py: 4,
