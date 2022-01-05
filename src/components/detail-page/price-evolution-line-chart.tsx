@@ -1,15 +1,11 @@
-import { Trans } from "@lingui/macro";
+import { t, Trans } from "@lingui/macro";
 import { Box } from "@theme-ui/components";
 import * as React from "react";
 import { memo } from "react";
-import {
-  Entity,
-  GenericObservation,
-  priceComponents,
-  ObservationValue,
-} from "../../domain/data";
+import { Entity, GenericObservation, priceComponents } from "../../domain/data";
 import { getLocalizedLabel } from "../../domain/translation";
 import { EMPTY_ARRAY } from "../../lib/empty-array";
+import { useLocale } from "../../lib/use-locale";
 import { useQueryState } from "../../lib/use-query-state";
 import { AxisHeightLinear } from "../charts-generic/axis/axis-height-linear";
 import { AxisTime } from "../charts-generic/axis/axis-width-time";
@@ -21,6 +17,8 @@ import { Lines } from "../charts-generic/lines/lines";
 import { LineChart } from "../charts-generic/lines/lines-state";
 import { InteractionHorizontal } from "../charts-generic/overlay/interaction-horizontal";
 import { Loading, NoDataHint } from "../hint";
+import { InfoDialogButton } from "../info-dialog";
+import Stack from "../stack";
 import {
   ChartContainer,
   ChartSvg,
@@ -28,14 +26,11 @@ import {
 import { Card } from "./../../components/detail-page/card";
 import {
   ObservationKind,
-  PriceComponent,
   useObservationsWithAllPriceComponentsQuery,
 } from "./../../graphql/queries";
 import { Download } from "./download-image";
 import { FilterSetDescription } from "./filter-set-description";
 import { WithClassName } from "./with-classname";
-import { useLocale } from "../../lib/use-locale";
-import { group } from "d3-array";
 
 const DOWNLOAD_ID: Download = "evolution";
 
@@ -47,9 +42,8 @@ export const PriceEvolution = ({
   entity: Entity;
 }) => {
   const locale = useLocale();
-  const [
-    { period, category, municipality, operator, canton, product },
-  ] = useQueryState();
+  const [{ period, category, municipality, operator, canton, product }] =
+    useQueryState();
 
   const comparisonIds =
     entity === "municipality"
@@ -89,7 +83,21 @@ export const PriceEvolution = ({
   return (
     <Card
       title={
-        <Trans id="detail.card.title.prices.evolution">Tarifentwicklung</Trans>
+        <Stack spacing={2} direction="row">
+          <span>
+            <Trans id="detail.card.title.prices.evolution">
+              Tarifentwicklung
+            </Trans>
+          </span>
+          <InfoDialogButton
+            iconOnly
+            slug="help-price-evolution"
+            label={t({
+              id: "detail.card.title.prices.evolution",
+            })}
+            smaller
+          />
+        </Stack>
       }
       downloadId={DOWNLOAD_ID}
       id={id}

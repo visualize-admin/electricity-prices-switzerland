@@ -23,13 +23,15 @@ import {
 import { AxisWidthLinear } from "../charts-generic/axis/axis-width-linear";
 import { ChartContainer, ChartSvg } from "../charts-generic/containers";
 import { InteractionRows } from "../charts-generic/overlay/interaction-rows";
-import { RangeplotMedian } from "../charts-generic/rangeplot/rangeplot-median";
 import { Range, RangePoints } from "../charts-generic/rangeplot/rangeplot";
+import { RangeplotMedian } from "../charts-generic/rangeplot/rangeplot-median";
 import { RangePlot } from "../charts-generic/rangeplot/rangeplot-state";
 import { Combobox } from "../combobox";
 import { Loading, NoDataHint } from "../hint";
+import { InfoDialogButton } from "../info-dialog";
 import { PriceColorLegend } from "../price-color-legend";
 import { RadioTabs } from "../radio-tabs";
+import Stack from "../stack";
 import { Card } from "./card";
 import { Download } from "./download-image";
 import { FilterSetDescription } from "./filter-set-description";
@@ -102,9 +104,21 @@ export const CantonsComparisonRangePlots = ({
   return (
     <Card
       title={
-        <Trans id="detail.card.title.cantons.comparison">
-          Kantonsvergleich
-        </Trans>
+        <Stack spacing={2} direction="row">
+          <span>
+            <Trans id="detail.card.title.cantons.comparison">
+              Kantonsvergleich
+            </Trans>
+          </span>
+          <InfoDialogButton
+            iconOnly
+            slug="help-canton-comparison"
+            label={t({
+              id: "detail.card.title.cantons.comparison",
+            })}
+            smaller
+          />
+        </Stack>
       }
       downloadId={DOWNLOAD_ID}
       id={id}

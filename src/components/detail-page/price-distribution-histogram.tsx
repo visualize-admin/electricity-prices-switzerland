@@ -19,7 +19,9 @@ import { Histogram } from "../charts-generic/histogram/histogram-state";
 import { HistogramMedian } from "../charts-generic/histogram/median";
 import { Combobox } from "../combobox";
 import { Loading, NoDataHint } from "../hint";
+import { InfoDialogButton } from "../info-dialog";
 import { RadioTabs } from "../radio-tabs";
+import Stack from "../stack";
 import {
   ChartContainer,
   ChartSvg,
@@ -65,9 +67,21 @@ export const PriceDistributionHistograms = ({
   return (
     <Card
       title={
-        <Trans id="detail.card.title.prices.distribution">
-          Preisverteilung in der Schweiz
-        </Trans>
+        <Stack spacing={2} direction="row">
+          <span>
+            <Trans id="detail.card.title.prices.distribution">
+              Preisverteilung in der Schweiz
+            </Trans>
+          </span>
+          <InfoDialogButton
+            iconOnly
+            slug="help-price-distribution"
+            label={t({
+              id: "detail.card.title.prices.distribution",
+            })}
+            smaller
+          />
+        </Stack>
       }
       downloadId={DOWNLOAD_ID}
       id={id}

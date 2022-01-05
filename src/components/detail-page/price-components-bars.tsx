@@ -1,7 +1,6 @@
-import { Trans } from "@lingui/macro";
+import { t, Trans } from "@lingui/macro";
 import { ascending, group, groups, max, min } from "d3-array";
 import * as React from "react";
-import { useState } from "react";
 import { Box } from "theme-ui";
 import {
   Entity,
@@ -28,7 +27,9 @@ import { GroupedBarsChart } from "../charts-generic/bars/bars-grouped-state";
 import { ChartContainer, ChartSvg } from "../charts-generic/containers";
 import { Combobox } from "../combobox";
 import { Loading, NoDataHint } from "../hint";
+import { InfoDialogButton } from "../info-dialog";
 import { RadioTabs } from "../radio-tabs";
+import Stack from "../stack";
 import { Card } from "./card";
 import { Download } from "./download-image";
 import { FilterSetDescription } from "./filter-set-description";
@@ -123,7 +124,22 @@ export const PriceComponentsBarChart = ({
   return (
     <Card
       title={
-        <Trans id="detail.card.title.price.components">Preiskomponenten</Trans>
+        <Stack spacing={2} direction="row">
+          <span>
+            <Trans id="detail.card.title.price.components">
+              Preiskomponenten
+            </Trans>
+          </span>
+          <InfoDialogButton
+            iconOnly
+            slug="help-price-components"
+            label={t({
+              id: "selector.priceComponent",
+              message: `Preiskomponente`,
+            })}
+            smaller
+          />
+        </Stack>
       }
       downloadId={DOWNLOAD_ID}
       id={id}
