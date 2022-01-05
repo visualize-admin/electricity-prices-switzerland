@@ -2,7 +2,7 @@ import { MapController, WebMercatorViewport } from "@deck.gl/core";
 import { GeoJsonLayer } from "@deck.gl/layers";
 import DeckGL from "@deck.gl/react";
 import { Trans } from "@lingui/macro";
-import { color, extent, group, index, mean, rollup } from "d3";
+import { color, extent, group, mean, rollup } from "d3";
 import { ScaleThreshold } from "d3-scale";
 import { useRouter } from "next/router";
 import {
@@ -19,10 +19,7 @@ import {
   mesh as topojsonMesh,
 } from "topojson-client";
 import { useFormatCurrency } from "../domain/helpers";
-import {
-  OperatorObservationFieldsFragment,
-  useMunicipalitiesQuery,
-} from "../graphql/queries";
+import { OperatorObservationFieldsFragment } from "../graphql/queries";
 import { TooltipBoxWithoutChartState } from "./charts-generic/interaction/tooltip-box";
 import { WithClassName } from "./detail-page/with-classname";
 import { Loading, NoDataHint, NoGeoDataHint } from "./hint";
@@ -222,12 +219,11 @@ export const ChoroplethMap = ({
 }) => {
   const { push, query } = useRouter();
   const [geoData, setGeoData] = useState<GeoDataState>({ state: "fetching" });
-  const [hovered, setHovered] =
-    useState<{
-      x: number;
-      y: number;
-      id: string;
-    }>();
+  const [hovered, setHovered] = useState<{
+    x: number;
+    y: number;
+    id: string;
+  }>();
 
   const [viewState, setViewState] = useState(INITIAL_VIEW_STATE);
 
@@ -335,6 +331,16 @@ export const ChoroplethMap = ({
     : undefined;
   const d = extent(observations, (d) => d.value);
   const m = medianValue;
+  const getFillColor = useCallback(
+    (d: $FixMe) => {
+      const obs = observationsByMunicipalityId.get(d.id.toString());
+      if (obs?.length && obs[0].canton === "24") {
+        return [255, 0, 0, 255];
+      }
+      return obs ? getColor(mean(obs, (d) => d.value)) : [0, 0, 0, 20];
+    },
+    [observationsByMunicipalityId, getColor]
+  );
   return (
     <>
       {geoData.state === "fetching" || observationsQueryFetching ? (
@@ -425,12 +431,7 @@ export const ChoroplethMap = ({
                 filled={true}
                 extruded={false}
                 autoHighlight={true}
-                getFillColor={(d: $FixMe) => {
-                  const obs = observationsByMunicipalityId.get(d.id.toString());
-                  return obs
-                    ? getColor(mean(obs, (d) => d.value))
-                    : [0, 0, 0, 20];
-                }}
+                getFillColor={getFillColor}
                 highlightColor={[0, 0, 0, 50]}
                 getRadius={100}
                 getLineWidth={1}

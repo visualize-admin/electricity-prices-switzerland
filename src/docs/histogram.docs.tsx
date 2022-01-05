@@ -1,4 +1,9 @@
 import { markdown, ReactSpecimen } from "catalog";
+import { median } from "d3-array";
+import {
+  AnnotationX,
+  AnnotationXLabel,
+} from "../components/charts-generic/annotation/annotation-x";
 import {
   AxisHeightLinear,
   AxisHeightLinearDomain,
@@ -14,14 +19,8 @@ import {
 import { HistogramColumns } from "../components/charts-generic/histogram/histogram";
 import { Histogram } from "../components/charts-generic/histogram/histogram-state";
 import { HistogramMedian } from "../components/charts-generic/histogram/median";
-import { Tooltip } from "../components/charts-generic/interaction/tooltip";
-import { standardH12020 } from "./data/2020-standard-H1";
-import {
-  AnnotationX,
-  AnnotationXLabel,
-} from "../components/charts-generic/annotation/annotation-x";
 import { GenericObservation } from "../domain/data";
-import { median } from "d3-array";
+import { standardH12020 } from "./data/2020-standard-H1";
 
 export default () => {
   return markdown`

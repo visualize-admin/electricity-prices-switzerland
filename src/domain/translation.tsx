@@ -119,7 +119,6 @@ export const getLocalizedLabel = ({ id }: { id: string }): string => {
         id: "rangeplot.select.sorting.alpha-desc",
         message: `Alphabetisch absteigend`,
       });
-
     default:
       return id;
   }
