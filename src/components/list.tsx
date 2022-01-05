@@ -3,8 +3,9 @@ import { ScaleThreshold } from "d3";
 import { ascending, descending, mean, rollup } from "d3-array";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
-import { useMemo, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import { Box, Button, Flex, Text } from "theme-ui";
+import { Entity } from "../domain/data";
 import { useFormatCurrency } from "../domain/helpers";
 import {
   CantonMedianObservationFieldsFragment,
@@ -12,6 +13,7 @@ import {
 } from "../graphql/queries";
 import { Icon } from "../icons";
 import { MiniSelect, SearchField } from "./form";
+import { HighlightContext } from "./map";
 import { RadioTabs } from "./radio-tabs";
 
 const ListItem = ({
@@ -30,21 +32,24 @@ const ListItem = ({
   listState: ListState;
 }) => {
   const { query } = useRouter();
+  const { setValue: setHighlightContext } = useContext(HighlightContext);
+  const entity =
+    listState === "MUNICIPALITIES"
+      ? "municipality"
+      : listState === "PROVIDERS"
+      ? "operator"
+      : ("canton" as Entity);
   return (
     <NextLink
       href={{
-        pathname: `/${
-          listState === "MUNICIPALITIES"
-            ? "municipality"
-            : listState === "PROVIDERS"
-            ? "operator"
-            : "canton"
-        }/[id]`,
+        pathname: `/${entity}/[id]`,
         query: { ...query, id },
       }}
       passHref
     >
       <Flex
+        onMouseOver={() => setHighlightContext({ entity, id })}
+        onMouseOut={() => setHighlightContext(undefined)}
         as="a"
         sx={{
           pl: [2, 4, 4],

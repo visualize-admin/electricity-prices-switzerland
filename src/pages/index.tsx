@@ -2,14 +2,18 @@ import { t, Trans } from "@lingui/macro";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import basicAuthMiddleware from "nextjs-basic-auth-middleware";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { Box, Flex, Grid, Text } from "theme-ui";
 import { DownloadImage } from "../components/detail-page/download-image";
 import { Footer } from "../components/footer";
 import { Header } from "../components/header";
 import { InfoBanner } from "../components/info-banner";
 import { List } from "../components/list";
-import { ChoroplethMap } from "../components/map";
+import {
+  ChoroplethMap,
+  HighlightContext,
+  HighlightValue,
+} from "../components/map";
 import { Search } from "../components/search";
 import { Selector } from "../components/selector";
 import { useColorScale } from "../domain/data";
@@ -87,8 +91,14 @@ const IndexPage = ({ locale }: Props) => {
     accessor: colorAccessor,
   });
 
+  const [highlightContext, setHighlightContext] = useState<HighlightValue>();
   return (
-    <>
+    <HighlightContext.Provider
+      value={{
+        value: highlightContext,
+        setValue: setHighlightContext,
+      }}
+    >
       <Head>
         <title>{t({ id: "site.title" })}</title>
       </Head>
@@ -228,7 +238,7 @@ const IndexPage = ({ locale }: Props) => {
         </Box>
         <Footer />
       </Grid>
-    </>
+    </HighlightContext.Provider>
   );
 };
 

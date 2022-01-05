@@ -5,10 +5,14 @@ import { Trans } from "@lingui/macro";
 import { color, extent, group, mean, rollup } from "d3";
 import { ScaleThreshold } from "d3-scale";
 import { useRouter } from "next/router";
-import {
+import React, {
+  createContext,
+  Dispatch,
   Fragment,
   ReactNode,
+  SetStateAction,
   useCallback,
+  useContext,
   useEffect,
   useMemo,
   useState,
@@ -18,6 +22,7 @@ import {
   feature as topojsonFeature,
   mesh as topojsonMesh,
 } from "topojson-client";
+import { Entity } from "../domain/data";
 import { useFormatCurrency } from "../domain/helpers";
 import { OperatorObservationFieldsFragment } from "../graphql/queries";
 import { TooltipBoxWithoutChartState } from "./charts-generic/interaction/tooltip-box";
@@ -187,6 +192,14 @@ const HintBox = ({ children }: { children: ReactNode }) => (
   </Flex>
 );
 
+type GeoDataStateLoaded = {
+  state: "loaded";
+  municipalities: GeoJSON.FeatureCollection | GeoJSON.Feature;
+  municipalityMesh: GeoJSON.MultiLineString;
+  cantonMesh: GeoJSON.MultiLineString;
+  lakes: GeoJSON.FeatureCollection | GeoJSON.Feature;
+};
+
 type GeoDataState =
   | {
       state: "fetching";
@@ -194,13 +207,19 @@ type GeoDataState =
   | {
       state: "error";
     }
-  | {
-      state: "loaded";
-      municipalities: GeoJSON.FeatureCollection | GeoJSON.Feature;
-      municipalityMesh: GeoJSON.MultiLineString;
-      cantonMesh: GeoJSON.MultiLineString;
-      lakes: GeoJSON.FeatureCollection | GeoJSON.Feature;
-    };
+  | GeoDataStateLoaded;
+
+export type HighlightValue = {
+  entity: Entity;
+  id: string;
+};
+
+export const HighlightContext = createContext({
+  value: undefined as HighlightValue | undefined,
+  setValue: (() => undefined) as Dispatch<
+    SetStateAction<HighlightValue | undefined>
+  >,
+});
 
 export const ChoroplethMap = ({
   year,
@@ -313,12 +332,16 @@ export const ChoroplethMap = ({
 
   const formatNumber = useFormatCurrency();
 
-  const getColor = (v: number | undefined) => {
+  const getColor = (v: number | undefined, highlighted: boolean) => {
     if (v === undefined) {
       return [0, 0, 0];
     }
     const c = colorScale && colorScale(v);
-    const rgb = c && color(c)?.rgb();
+    const rgb =
+      c &&
+      color(c)
+        ?.darker(highlighted ? 1 : 0)
+        ?.rgb();
     return rgb ? [rgb.r, rgb.g, rgb.b] : [0, 0, 0];
   };
 
@@ -331,13 +354,44 @@ export const ChoroplethMap = ({
     : undefined;
   const d = extent(observations, (d) => d.value);
   const m = medianValue;
+  const { value: highlightContext } = useContext(HighlightContext);
+
   const getFillColor = useCallback(
     (d: $FixMe) => {
       const obs = observationsByMunicipalityId.get(d.id.toString());
-      return obs ? getColor(mean(obs, (d) => d.value)) : [0, 0, 0, 20];
+      const highlighted = obs?.find(
+        (o) =>
+          (highlightContext?.entity === "canton" &&
+            o.canton === highlightContext?.id) ||
+          (highlightContext?.entity === "municipality" &&
+            o.municipality === highlightContext?.id) ||
+          (highlightContext?.entity === "operator" &&
+            o.operator === highlightContext?.id)
+      );
+      return obs
+        ? getColor(
+            mean(obs, (d) => d.value),
+            !!highlighted
+          )
+        : [0, 0, 0, 20];
     },
-    [observationsByMunicipalityId, getColor]
+    [observationsByMunicipalityId, getColor, highlightContext?.id]
   );
+
+  // When the highlight context change, we trigger a re-render of the map
+  // by providing "new" data (a copy of the previous data). I tried
+  // the non-hacky way with
+  // <GeoJSONLayer updateTriggers={{ getFillColor: [highlightContext?.id] }} />
+  // but it did not work
+  const [munData, setMunData] =
+    useState<GeoDataStateLoaded["municipalities"]>();
+  useEffect(() => {
+    if (geoData.state !== "loaded") {
+      return;
+    }
+    setMunData({ ...geoData.municipalities });
+  }, [highlightContext, geoData]);
+
   return (
     <>
       {geoData.state === "fetching" || observationsQueryFetching ? (
@@ -395,7 +449,6 @@ export const ChoroplethMap = ({
             </Grid>
           </MapTooltip>
         )}
-
         {geoData.state === "loaded" && (
           <WithClassName
             downloadId={DOWNLOAD_ID}
@@ -421,8 +474,16 @@ export const ChoroplethMap = ({
               onResize={onResize}
             >
               <GeoJsonLayer
+                up
+                // Providing updateTriggers would not trigger a re-render
+                // of the map when the highlight context (and thus the getFillColor function)
+                // would change. The re-rendering is done by providing a copy
+                // of the data when the highlight context changes, see above comment.
+                // updateTriggers={{
+                //   getFillColor: [highlightContext?.id],
+                // }}
                 id="municipalities"
-                data={geoData.municipalities}
+                data={munData}
                 pickable={true}
                 stroked={false}
                 filled={true}
