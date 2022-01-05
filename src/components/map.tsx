@@ -334,9 +334,6 @@ export const ChoroplethMap = ({
   const getFillColor = useCallback(
     (d: $FixMe) => {
       const obs = observationsByMunicipalityId.get(d.id.toString());
-      if (obs?.length && obs[0].canton === "24") {
-        return [255, 0, 0, 255];
-      }
       return obs ? getColor(mean(obs, (d) => d.value)) : [0, 0, 0, 20];
     },
     [observationsByMunicipalityId, getColor]
