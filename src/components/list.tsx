@@ -13,8 +13,10 @@ import {
 } from "../graphql/queries";
 import { Icon } from "../icons";
 import { MiniSelect, SearchField } from "./form";
+import { InfoDialogButton } from "./info-dialog";
 import { HighlightContext } from "./map";
 import { RadioTabs } from "./radio-tabs";
+import Stack from "./stack";
 
 const ListItem = ({
   id,
@@ -334,18 +336,26 @@ export const List = ({
           borderBottomColor: "monochrome300",
         }}
       >
-        <SearchField
-          id="listSearch"
-          value={searchQuery}
-          onChange={(e) => {
-            setSearchQuery(e.currentTarget.value);
-          }}
-          onReset={() => {
-            setSearchQuery("");
-          }}
-          label={searchLabel}
-          placeholder={searchLabel}
-        />
+        <Stack direction="row" spacing={2}>
+          <SearchField
+            id="listSearch"
+            value={searchQuery}
+            onChange={(e) => {
+              setSearchQuery(e.currentTarget.value);
+            }}
+            onReset={() => {
+              setSearchQuery("");
+            }}
+            label={searchLabel}
+            placeholder={searchLabel}
+          />
+          <InfoDialogButton
+            iconOnly
+            slug="help-search-list"
+            label={searchLabel}
+            smaller
+          />
+        </Stack>
 
         <Flex sx={{ justifyContent: "space-between", mt: 2 }}>
           <label htmlFor="listSort">
