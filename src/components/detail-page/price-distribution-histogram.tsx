@@ -2,7 +2,6 @@ import { t, Trans } from "@lingui/macro";
 import { Box } from "@theme-ui/components";
 import { groups } from "d3-array";
 import * as React from "react";
-import { useState } from "react";
 import { Entity, GenericObservation, priceComponents } from "../../domain/data";
 import { getLocalizedLabel } from "../../domain/translation";
 import { EMPTY_ARRAY } from "../../lib/empty-array";
@@ -138,6 +137,26 @@ export const PriceDistributionHistograms = ({
   );
 };
 
+const getEntityLabelId = (entity: Entity): string => {
+  switch (entity) {
+    case "operator":
+      return t({
+        id: "histogram.operator-count",
+        message: "Anzahl Netzbetreiber",
+      });
+    case "canton":
+      return t({
+        id: "histogram.canton-count",
+        message: "Anzahl Kanton",
+      });
+    case "municipality":
+      return t({
+        id: "histogram.municipality-count",
+        message: "Anzahl Gemeinde",
+      });
+  }
+};
+
 export const PriceDistributionHistogram = ({
   annotationIds,
   year,
@@ -238,6 +257,7 @@ export const PriceDistributionHistogram = ({
           <Histogram
             data={observations as GenericObservation[]}
             medianValue={medianValue}
+            yAxisLabel={getEntityLabelId(entity)}
             fields={{
               x: {
                 componentIri: "value",

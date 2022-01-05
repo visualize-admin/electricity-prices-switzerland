@@ -30,6 +30,7 @@ export interface HistogramState {
   getY: (d: GenericObservation[]) => number;
   yScale: ScaleLinear<number, number>;
   xAxisLabel?: string;
+  yAxisLabel?: string;
   bins: Bin<GenericObservation, number>[];
   colors: ScaleLinear<string, string>;
   annotations?: Annotation[];
@@ -41,9 +42,13 @@ const useHistogramState = ({
   fields,
   measures,
   aspectRatio,
+  xAxisLabel,
+  yAxisLabel,
 }: Pick<ChartProps, "data" | "measures" | "medianValue"> & {
   fields: HistogramFields;
   aspectRatio: number;
+  xAxisLabel?: string;
+  yAxisLabel?: string;
 }): HistogramState => {
   const width = useWidth();
   const formatCurrency = useFormatCurrency();
@@ -158,6 +163,8 @@ const useHistogramState = ({
     xScale,
     getY: (d) => d.length,
     yScale,
+    xAxisLabel: xAxisLabel || "",
+    yAxisLabel: yAxisLabel || "",
     bins,
     colors,
     annotations,
@@ -171,10 +178,14 @@ const HistogramProvider = ({
   measures,
   children,
   aspectRatio,
+  xAxisLabel,
+  yAxisLabel,
 }: Pick<ChartProps, "data" | "measures" | "medianValue"> & {
   children: ReactNode;
   fields: HistogramFields;
   aspectRatio: number;
+  xAxisLabel?: string;
+  yAxisLabel?: string;
 }) => {
   const state = useHistogramState({
     data,
@@ -182,6 +193,8 @@ const HistogramProvider = ({
     fields,
     measures,
     aspectRatio,
+    xAxisLabel,
+    yAxisLabel,
   });
   return (
     <ChartContext.Provider value={state}>{children}</ChartContext.Provider>
@@ -189,6 +202,8 @@ const HistogramProvider = ({
 };
 
 export const Histogram = ({
+  xAxisLabel,
+  yAxisLabel,
   data,
   medianValue,
   fields,
@@ -199,6 +214,8 @@ export const Histogram = ({
   children: ReactNode;
   fields: HistogramFields;
   aspectRatio: number;
+  xAxisLabel?: string;
+  yAxisLabel?: string;
 }) => {
   return (
     <Observer>
@@ -209,6 +226,8 @@ export const Histogram = ({
           fields={fields}
           measures={measures}
           aspectRatio={aspectRatio}
+          xAxisLabel={xAxisLabel}
+          yAxisLabel={yAxisLabel}
         >
           {children}
         </HistogramProvider>
