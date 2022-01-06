@@ -1,5 +1,4 @@
-import { Trans } from "@lingui/macro";
-import { Text, Box } from "@theme-ui/components";
+import { Box, Text } from "@theme-ui/components";
 import * as React from "react";
 import { getLocalizedLabel } from "../../domain/translation";
 type FilterSet = {
@@ -19,6 +18,7 @@ export const FilterSetDescription = ({
 }) => {
   return (
     <Text
+      as="div"
       variant="paragraph1"
       sx={{ my: 4, color: "monochrome800", fontWeight: "light" }}
     >

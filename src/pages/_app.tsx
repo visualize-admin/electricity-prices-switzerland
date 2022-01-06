@@ -1,5 +1,6 @@
-import "core-js/features/array/flat-map";
+import { Global } from "@emotion/react";
 import { I18nProvider } from "@lingui/react";
+import "core-js/features/array/flat-map";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -13,7 +14,7 @@ import { useNProgress } from "../lib/use-nprogress";
 import { i18n, parseLocaleString } from "../locales/locales";
 import "../styles/nprogress.css";
 import "../styles/reach-dialog.css";
-import { preloadFonts, theme } from "../themes/elcom";
+import { globalStyles, preloadFonts, theme } from "../themes/elcom";
 
 const useMatomo = () => {
   const [matomoId, setMatomoId] = useState<string | undefined>(undefined);
@@ -69,6 +70,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <>
+      <Global styles={globalStyles}></Global>
       <Head>
         {preloadFonts.map((src) => (
           <link

@@ -95,7 +95,7 @@ export const OperatorDocuments = ({ id }: { id: string }) => {
 
   if (documents.length === 0) {
     return (
-      <Text variant="paragraph2" sx={{ m: 6, color: "hint" }}>
+      <Text as="div" variant="paragraph2" sx={{ m: 6, color: "hint" }}>
         <Trans id="download.nooperatordocuments">
           Keine Netzbetreiber-Dokumente
         </Trans>

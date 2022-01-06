@@ -1,8 +1,8 @@
-import * as React from "react";
-import { Flex, Text, Box } from "@theme-ui/components";
+import { keyframes } from "@emotion/react";
 import { Trans } from "@lingui/macro";
+import { Box, Flex, Text } from "@theme-ui/components";
+import * as React from "react";
 import { Icon, IconName } from "../icons";
-import { keyframes } from "@emotion/core";
 
 export const Error = ({ children }: { children: React.ReactNode }) => (
   <Flex
