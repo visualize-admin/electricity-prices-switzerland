@@ -1,4 +1,4 @@
-import { axisBottom } from "d3-axis";
+import { axisBottom, axisTop } from "d3-axis";
 import { select, Selection } from "d3-selection";
 import * as React from "react";
 import { useEffect, useRef } from "react";
@@ -9,7 +9,8 @@ import { useChartState } from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
 
 export const AxisTime = () => {
-  const ref = useRef<SVGGElement>(null);
+  const bottomRef = useRef<SVGGElement>(null);
+  const topRef = useRef<SVGGElement>(null);
   const formatDateAuto = useFormatShortDateAuto();
 
   const { xScale, yScale, bounds, xUniqueValues } = useChartState() as
@@ -29,15 +30,29 @@ export const AxisTime = () => {
   const ticks = Math.min(maxTicks, xUniqueValues.length);
   const every = Math.ceil(xUniqueValues.length / ticks);
 
-  const mkAxis = (g: Selection<SVGGElement, unknown, null, undefined>) => {
+  const mkAxisBottom = (
+    g: Selection<SVGGElement, unknown, null, undefined>
+  ) => {
     g.call(
       axisBottom(xScale)
         .ticks(ticks)
+        .tickSize(0)
+        .tickSizeInner(4)
         // .ticks(timeYear.every(every))
         .tickFormat((x) => formatDateAuto(x as Date))
     );
-    g.select(".domain").attr("stroke", "gridColor");
-    g.selectAll(".tick line").attr("stroke", "gridColor");
+    g.select(".domain").attr("stroke", "#ededed");
+    g.selectAll(".tick line").attr("stroke", gridColor);
+    g.selectAll(".tick text")
+      .attr("font-size", labelFontSize)
+      .attr("font-family", fontFamily)
+      .attr("fill", labelColor);
+  };
+
+  const mkAxisTop = (g: Selection<SVGGElement, unknown, null, undefined>) => {
+    g.call(axisTop(xScale).ticks(0).tickSize(0));
+    g.select(".domain").attr("stroke", "#ededed");
+    g.selectAll(".tick line").attr("stroke", gridColor);
     g.selectAll(".tick text")
       .attr("font-size", labelFontSize)
       .attr("font-family", fontFamily)
@@ -45,17 +60,27 @@ export const AxisTime = () => {
   };
 
   useEffect(() => {
-    const g = select(ref.current);
-    mkAxis(g as Selection<SVGGElement, unknown, null, undefined>);
+    const bottom = select(bottomRef.current);
+    const top = select(topRef.current);
+    mkAxisBottom(bottom as Selection<SVGGElement, unknown, null, undefined>);
+    mkAxisTop(top as Selection<SVGGElement, unknown, null, undefined>);
   });
 
   return (
-    <g
-      ref={ref}
-      transform={`translate(${bounds.margins.left}, ${
-        bounds.chartHeight + bounds.margins.top
-      })`}
-    />
+    <>
+      <g
+        ref={bottomRef}
+        transform={`translate(${bounds.margins.left}, ${
+          bounds.chartHeight + bounds.margins.top
+        })`}
+      />
+      <g
+        ref={topRef}
+        transform={`translate(${bounds.margins.left}, ${
+          bounds.margins.top + yScale(yScale.domain()[1])
+        })`}
+      />
+    </>
   );
 };
 
