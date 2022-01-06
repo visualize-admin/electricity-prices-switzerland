@@ -1,4 +1,3 @@
-import { timeYear } from "d3";
 import { axisBottom } from "d3-axis";
 import { select, Selection } from "d3-selection";
 import * as React from "react";
@@ -17,13 +16,8 @@ export const AxisTime = () => {
     | LinesState
     | AreasState;
 
-  const {
-    labelColor,
-    gridColor,
-    domainColor,
-    labelFontSize,
-    fontFamily,
-  } = useChartTheme();
+  const { labelColor, gridColor, domainColor, labelFontSize, fontFamily } =
+    useChartTheme();
 
   const hasNegativeValues = yScale.domain()[0] < 0;
 
@@ -42,8 +36,8 @@ export const AxisTime = () => {
         // .ticks(timeYear.every(every))
         .tickFormat((x) => formatDateAuto(x as Date))
     );
-    g.select(".domain").remove();
-    g.selectAll(".tick line").attr("stroke", gridColor);
+    g.select(".domain").attr("stroke", "gridColor");
+    g.selectAll(".tick line").attr("stroke", "gridColor");
     g.selectAll(".tick text")
       .attr("font-size", labelFontSize)
       .attr("font-family", fontFamily)

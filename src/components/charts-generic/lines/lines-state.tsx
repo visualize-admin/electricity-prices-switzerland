@@ -1,11 +1,11 @@
 import {
   ascending,
+  descending,
   extent,
   group,
+  groups,
   max,
   min,
-  groups,
-  descending,
 } from "d3-array";
 import {
   ScaleLinear,
@@ -21,12 +21,11 @@ import { LineFields } from "../../../domain/config-types";
 import { GenericObservation, ObservationValue } from "../../../domain/data";
 import {
   getPalette,
-  mkNumber,
   parseDate,
   useFormatCurrency,
   useFormatFullDateAuto,
 } from "../../../domain/helpers";
-import { sortByIndex } from "../../../lib/array";
+import { getLocalizedLabel } from "../../../domain/translation";
 import { estimateTextWidth } from "../../../lib/estimate-text-width";
 import { useTheme } from "../../../themes";
 import { LEFT_MARGIN_OFFSET } from "../constants";
@@ -34,7 +33,6 @@ import { Tooltip } from "../interaction/tooltip";
 import { ChartContext, ChartProps } from "../use-chart-state";
 import { InteractionProvider } from "../use-interaction";
 import { Bounds, Observer, useWidth } from "../use-width";
-import { getLocalizedLabel } from "../../../domain/translation";
 
 export interface LinesState {
   data: GenericObservation[];
@@ -55,6 +53,11 @@ export interface LinesState {
   xKey: string;
   getAnnotationInfo: (d: GenericObservation) => Tooltip;
 }
+
+const roundDomain = (scale: ScaleLinear<number, number>) => {
+  const d = scale.domain();
+  return scale.domain([Math.floor(d[0]), Math.ceil(d[1])]);
+};
 
 const useLinesState = ({
   data,
@@ -121,7 +124,9 @@ const useLinesState = ({
   const maxValue = max(sortedData, getY) as number;
   const yDomain = [minValue, maxValue];
 
-  const yScale = scaleLinear().domain(yDomain).nice();
+  let yScale = scaleLinear().domain(yDomain).nice(4);
+  yScale = roundDomain(yScale);
+
   const yAxisLabel = "unit";
 
   // segments
@@ -150,7 +155,7 @@ const useLinesState = ({
       if (!thisYear) {
         lineData[1].push({
           period: `${xValue.getFullYear()}`,
-          [fields.y.componentIri]: (undefined as unknown) as ObservationValue,
+          [fields.y.componentIri]: undefined as unknown as ObservationValue,
           uniqueId:
             lineData[1][0].__typename === "OperatorObservation"
               ? `${lineData[1][0].municipalityLabel}, ${lineData[1][0].operatorLabel}`
@@ -163,10 +168,15 @@ const useLinesState = ({
       }
     });
   });
+
+  const minText = formatCurrency(yScale.domain()[0]);
+  const maxText = formatCurrency(yScale.domain()[1]);
+  const floatingPointExtra = minText === "0" && maxText === "1" ? 10 : 0;
+
   // Dimensions
   const left = Math.max(
-    estimateTextWidth(formatCurrency(yScale.domain()[0])),
-    estimateTextWidth(formatCurrency(yScale.domain()[1]))
+    estimateTextWidth(minText) + floatingPointExtra,
+    estimateTextWidth(maxText) + floatingPointExtra
   );
   const margins = {
     top: 40,

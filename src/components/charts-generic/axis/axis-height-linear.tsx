@@ -2,13 +2,13 @@ import { axisLeft } from "d3-axis";
 import { select, Selection } from "d3-selection";
 import * as React from "react";
 import { useEffect, useRef } from "react";
-import { useChartState } from "../use-chart-state";
-import { useChartTheme } from "../use-chart-theme";
-import { ColumnsState } from "../columns/columns-state";
-import { LinesState } from "../lines/lines-state";
-import { AreasState } from "../areas/areas-state";
 import { useFormatCurrency, useFormatNumber } from "../../../domain/helpers";
 import { getLocalizedLabel } from "../../../domain/translation";
+import { AreasState } from "../areas/areas-state";
+import { ColumnsState } from "../columns/columns-state";
+import { LinesState } from "../lines/lines-state";
+import { useChartState } from "../use-chart-state";
+import { useChartTheme } from "../use-chart-theme";
 
 const TICK_MIN_HEIGHT = 50;
 
@@ -26,7 +26,7 @@ export const AxisHeightLinear = ({
     | LinesState
     | AreasState;
 
-  const ticks = Math.min(bounds.chartHeight / TICK_MIN_HEIGHT, 4);
+  const ticks = Math.max(Math.min(bounds.chartHeight / TICK_MIN_HEIGHT, 4), 2);
 
   const {
     axisLabelFontWeight,
