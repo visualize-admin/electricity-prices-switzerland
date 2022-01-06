@@ -25,6 +25,7 @@ import {
 import { Entity } from "../domain/data";
 import { useFormatCurrency } from "../domain/helpers";
 import { OperatorObservationFieldsFragment } from "../graphql/queries";
+import { maxBy } from "../lib/array";
 import { TooltipBoxWithoutChartState } from "./charts-generic/interaction/tooltip-box";
 import { WithClassName } from "./detail-page/with-classname";
 import { Loading, NoDataHint, NoGeoDataHint } from "./hint";
@@ -345,10 +346,21 @@ export const ChoroplethMap = ({
     return rgb ? [rgb.r, rgb.g, rgb.b] : [0, 0, 0];
   };
 
+  const hoveredMunicipalityName = hovered
+    ? municipalityNames.get(hovered.id)?.name
+    : undefined;
+  const hoveredObservations = hovered
+    ? observationsByMunicipalityId.get(hovered.id)
+    : undefined;
+  const hoveredCanton = hoveredObservations
+    ? maxBy(hoveredObservations, (x) => x.period)?.cantonLabel
+    : undefined;
   const tooltipContent = hovered
     ? {
         id: hovered.id,
-        name: municipalityNames.get(hovered.id)?.name,
+        name: `${hoveredMunicipalityName} ${
+          hoveredCanton ? `- ${hoveredCanton}` : ""
+        }`,
         observations: observationsByMunicipalityId.get(hovered.id),
       }
     : undefined;
