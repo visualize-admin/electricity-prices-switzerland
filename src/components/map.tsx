@@ -356,41 +356,22 @@ export const ChoroplethMap = ({
   const m = medianValue;
   const { value: highlightContext } = useContext(HighlightContext);
 
-  const getFillColor = useCallback(
-    (d: $FixMe) => {
+  const getFillColor = useMemo(() => {
+    const { entity, id } = highlightContext || {};
+    const predicate = entity
+      ? (o: OperatorObservationFieldsFragment) => o[entity] === id
+      : () => false;
+    return (d: $FixMe) => {
       const obs = observationsByMunicipalityId.get(d.id.toString());
-      const highlighted = obs?.find(
-        (o) =>
-          (highlightContext?.entity === "canton" &&
-            o.canton === highlightContext?.id) ||
-          (highlightContext?.entity === "municipality" &&
-            o.municipality === highlightContext?.id) ||
-          (highlightContext?.entity === "operator" &&
-            o.operator === highlightContext?.id)
-      );
+      const highlighted = obs?.find(predicate);
       return obs
         ? getColor(
             mean(obs, (d) => d.value),
             !!highlighted
           )
         : [0, 0, 0, 20];
-    },
-    [observationsByMunicipalityId, getColor, highlightContext?.id]
-  );
-
-  // When the highlight context change, we trigger a re-render of the map
-  // by providing "new" data (a copy of the previous data). I tried
-  // the non-hacky way with
-  // <GeoJSONLayer updateTriggers={{ getFillColor: [highlightContext?.id] }} />
-  // but it did not work
-  const [munData, setMunData] =
-    useState<GeoDataStateLoaded["municipalities"]>();
-  useEffect(() => {
-    if (geoData.state !== "loaded") {
-      return;
-    }
-    setMunData({ ...geoData.municipalities });
-  }, [highlightContext, geoData]);
+    };
+  }, [observationsByMunicipalityId, getColor, highlightContext?.id]);
 
   return (
     <>
@@ -475,15 +456,8 @@ export const ChoroplethMap = ({
             >
               <GeoJsonLayer
                 up
-                // Providing updateTriggers would not trigger a re-render
-                // of the map when the highlight context (and thus the getFillColor function)
-                // would change. The re-rendering is done by providing a copy
-                // of the data when the highlight context changes, see above comment.
-                // updateTriggers={{
-                //   getFillColor: [highlightContext?.id],
-                // }}
                 id="municipalities"
-                data={munData}
+                data={geoData.municipalities}
                 pickable={true}
                 stroked={false}
                 filled={true}
@@ -526,7 +500,10 @@ export const ChoroplethMap = ({
                   // }
                 }}
                 updateTriggers={{
-                  getFillColor: [observationsByMunicipalityId],
+                  getFillColor: [
+                    observationsByMunicipalityId,
+                    highlightContext?.id,
+                  ],
                 }}
               />
               <GeoJsonLayer
