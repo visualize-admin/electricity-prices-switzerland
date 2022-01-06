@@ -8,7 +8,7 @@ import { DownloadImage } from "../components/detail-page/download-image";
 import { Footer } from "../components/footer";
 import { Header } from "../components/header";
 import { InfoBanner } from "../components/info-banner";
-import { List } from "../components/list";
+import { List, ListStateProvider } from "../components/list";
 import {
   ChoroplethMap,
   HighlightContext,
@@ -93,152 +93,154 @@ const IndexPage = ({ locale }: Props) => {
 
   const [highlightContext, setHighlightContext] = useState<HighlightValue>();
   return (
-    <HighlightContext.Provider
-      value={{
-        value: highlightContext,
-        setValue: setHighlightContext,
-      }}
-    >
-      <Head>
-        <title>{t({ id: "site.title" })}</title>
-      </Head>
-      <Grid
-        sx={{
-          minHeight: "100vh",
-          gap: 0,
-          gridTemplateRows: [
-            `${HEADER_HEIGHT_S} 1fr auto`,
-            `${HEADER_HEIGHT_M_UP} 1fr auto`,
-          ],
+    <ListStateProvider>
+      <HighlightContext.Provider
+        value={{
+          value: highlightContext,
+          setValue: setHighlightContext,
         }}
       >
-        <Box>
-          <Header></Header>
-        </Box>
-        <Box
+        <Head>
+          <title>{t({ id: "site.title" })}</title>
+        </Head>
+        <Grid
           sx={{
-            position: "relative",
+            minHeight: "100vh",
+            gap: 0,
+            gridTemplateRows: [
+              `${HEADER_HEIGHT_S} 1fr auto`,
+              `${HEADER_HEIGHT_M_UP} 1fr auto`,
+            ],
           }}
         >
-          <InfoBanner />
-          <Flex
+          <Box>
+            <Header></Header>
+          </Box>
+          <Box
             sx={{
-              py: 8,
-              flexDirection: "column",
-              alignItems: "center",
-              borderBottomWidth: 1,
-              borderBottomStyle: "solid",
-              borderBottomColor: "monochrome500",
-              px: 4,
-            }}
-          >
-            <Text
-              as="h1"
-              variant="giga"
-              sx={{ textAlign: ["left", "left", "center"] }}
-            >
-              <Trans id="site.title">Strompreise Schweiz</Trans>
-            </Text>
-
-            <Text
-              variant="paragraph1"
-              sx={{
-                width: "100%",
-                textAlign: ["left", "left", "center"],
-                color: "monochrome800",
-                mt: 2,
-                mb: 2,
-                height: [0, 0, "unset"],
-                visibility: ["hidden", "hidden", "visible"],
-              }}
-            >
-              <Trans id="search.global">
-                Detaillierte Preisanalysen von Kantonen, Gemeinden und
-                Netzbetreibern.
-              </Trans>
-            </Text>
-
-            <Search />
-          </Flex>
-          <Grid
-            sx={{
-              width: "100%",
-              gridTemplateColumns: ["1fr", "1fr 20rem"],
-              gridTemplateAreas: [`"map" "controls"`, `"map controls"`],
-              gap: 0,
               position: "relative",
             }}
           >
-            <Box
-              // id used by the screenshot service
-              id={DOWNLOAD_ID}
+            <InfoBanner />
+            <Flex
               sx={{
-                bg: "monochrome200",
-                top: [0, HEADER_HEIGHT_M_UP],
-                width: "100%",
-                gridArea: "map",
-                height: ["70vw", `calc(100vh - ${HEADER_HEIGHT_M_UP})`],
-                maxHeight: ["50vh", "100vh"],
-                position: ["relative", "sticky"],
-                borderRightWidth: "1px",
-                borderRightStyle: "solid",
-                borderRightColor: "monochrome500",
+                py: 8,
+                flexDirection: "column",
+                alignItems: "center",
+                borderBottomWidth: 1,
+                borderBottomStyle: "solid",
+                borderBottomColor: "monochrome500",
+                px: 4,
               }}
             >
-              <ChoroplethMap
-                year={period}
-                observations={observations}
-                municipalities={municipalities}
-                observationsQueryFetching={
-                  observationsQuery.fetching || municipalitiesQuery.fetching
-                }
-                medianValue={medianValue}
-                colorScale={colorScale}
-              />
-
-              {!download && (
-                <Box
-                  sx={{
-                    zIndex: 13,
-                    position: "absolute",
-                    bottom: 0,
-                    left: 0,
-                    mb: 3,
-                    ml: 3,
-                  }}
-                >
-                  <DownloadImage
-                    elementId={DOWNLOAD_ID}
-                    fileName={DOWNLOAD_ID}
-                    downloadType={DOWNLOAD_ID}
-                  />
-                </Box>
-              )}
-            </Box>
-            <Box sx={{ gridArea: "controls" }}>
-              <Box
-                sx={
-                  {
-                    // position: ["relative", "sticky"],
-                    // top: [0, HEADER_HEIGHT_M_UP],
-                    // zIndex: 1,
-                  }
-                }
+              <Text
+                as="h1"
+                variant="giga"
+                sx={{ textAlign: ["left", "left", "center"] }}
               >
-                <Selector />
+                <Trans id="site.title">Strompreise Schweiz</Trans>
+              </Text>
+
+              <Text
+                variant="paragraph1"
+                sx={{
+                  width: "100%",
+                  textAlign: ["left", "left", "center"],
+                  color: "monochrome800",
+                  mt: 2,
+                  mb: 2,
+                  height: [0, 0, "unset"],
+                  visibility: ["hidden", "hidden", "visible"],
+                }}
+              >
+                <Trans id="search.global">
+                  Detaillierte Preisanalysen von Kantonen, Gemeinden und
+                  Netzbetreibern.
+                </Trans>
+              </Text>
+
+              <Search />
+            </Flex>
+            <Grid
+              sx={{
+                width: "100%",
+                gridTemplateColumns: ["1fr", "1fr 20rem"],
+                gridTemplateAreas: [`"map" "controls"`, `"map controls"`],
+                gap: 0,
+                position: "relative",
+              }}
+            >
+              <Box
+                // id used by the screenshot service
+                id={DOWNLOAD_ID}
+                sx={{
+                  bg: "monochrome200",
+                  top: [0, HEADER_HEIGHT_M_UP],
+                  width: "100%",
+                  gridArea: "map",
+                  height: ["70vw", `calc(100vh - ${HEADER_HEIGHT_M_UP})`],
+                  maxHeight: ["50vh", "100vh"],
+                  position: ["relative", "sticky"],
+                  borderRightWidth: "1px",
+                  borderRightStyle: "solid",
+                  borderRightColor: "monochrome500",
+                }}
+              >
+                <ChoroplethMap
+                  year={period}
+                  observations={observations}
+                  municipalities={municipalities}
+                  observationsQueryFetching={
+                    observationsQuery.fetching || municipalitiesQuery.fetching
+                  }
+                  medianValue={medianValue}
+                  colorScale={colorScale}
+                />
+
+                {!download && (
+                  <Box
+                    sx={{
+                      zIndex: 13,
+                      position: "absolute",
+                      bottom: 0,
+                      left: 0,
+                      mb: 3,
+                      ml: 3,
+                    }}
+                  >
+                    <DownloadImage
+                      elementId={DOWNLOAD_ID}
+                      fileName={DOWNLOAD_ID}
+                      downloadType={DOWNLOAD_ID}
+                    />
+                  </Box>
+                )}
               </Box>
-              <List
-                observations={observations}
-                cantonObservations={cantonMedianObservations}
-                colorScale={colorScale}
-                observationsQueryFetching={observationsQuery.fetching}
-              />
-            </Box>
-          </Grid>
-        </Box>
-        <Footer />
-      </Grid>
-    </HighlightContext.Provider>
+              <Box sx={{ gridArea: "controls" }}>
+                <Box
+                  sx={
+                    {
+                      // position: ["relative", "sticky"],
+                      // top: [0, HEADER_HEIGHT_M_UP],
+                      // zIndex: 1,
+                    }
+                  }
+                >
+                  <Selector />
+                </Box>
+                <List
+                  observations={observations}
+                  cantonObservations={cantonMedianObservations}
+                  colorScale={colorScale}
+                  observationsQueryFetching={observationsQuery.fetching}
+                />
+              </Box>
+            </Grid>
+          </Box>
+          <Footer />
+        </Grid>
+      </HighlightContext.Provider>
+    </ListStateProvider>
   );
 };
 

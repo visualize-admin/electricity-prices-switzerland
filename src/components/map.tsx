@@ -26,9 +26,11 @@ import { Entity } from "../domain/data";
 import { useFormatCurrency } from "../domain/helpers";
 import { OperatorObservationFieldsFragment } from "../graphql/queries";
 import { maxBy } from "../lib/array";
+import { mapValues } from "../lib/object";
 import { TooltipBoxWithoutChartState } from "./charts-generic/interaction/tooltip-box";
 import { WithClassName } from "./detail-page/with-classname";
 import { Loading, NoDataHint, NoGeoDataHint } from "./hint";
+import { useListStateContext } from "./list";
 import { MapPriceColorLegend } from "./price-color-legend";
 
 const DOWNLOAD_ID = "map";
@@ -306,6 +308,13 @@ export const ChoroplethMap = ({
     return group(observations, (d) => d.municipality);
   }, [observations]);
 
+  const meanByCantonId = useMemo(() => {
+    return mapValues(
+      group(observations, (d) => d.canton),
+      (obs) => mean(obs, (d) => d.value)
+    );
+  }, [observations]);
+
   const municipalityNames = useMemo(() => {
     return rollup(
       municipalities,
@@ -341,7 +350,7 @@ export const ChoroplethMap = ({
     const rgb =
       c &&
       color(c)
-        ?.darker(highlighted ? 1 : 0)
+        ?.darker(highlighted ? 0.5 : 0)
         ?.rgb();
     return rgb ? [rgb.r, rgb.g, rgb.b] : [0, 0, 0];
   };
@@ -352,21 +361,53 @@ export const ChoroplethMap = ({
   const hoveredObservations = hovered
     ? observationsByMunicipalityId.get(hovered.id)
     : undefined;
-  const hoveredCanton = hoveredObservations
-    ? maxBy(hoveredObservations, (x) => x.period)?.cantonLabel
+  const latestObservation = hoveredObservations
+    ? maxBy(hoveredObservations, (x) => x.period)
     : undefined;
+  const { value: tab } = useListStateContext(); // TODO make it dynamic
+
   const tooltipContent = hovered
     ? {
         id: hovered.id,
-        name: `${hoveredMunicipalityName} ${
-          hoveredCanton ? `- ${hoveredCanton}` : ""
-        }`,
-        observations: observationsByMunicipalityId.get(hovered.id),
+        name:
+          tab === "CANTONS"
+            ? `${latestObservation?.cantonLabel}`
+            : `${hoveredMunicipalityName} ${
+                latestObservation ? `- ${latestObservation.canton}` : ""
+              }`,
+        observations:
+          tab === "CANTONS"
+            ? latestObservation
+              ? [
+                  {
+                    operatorLabel: "Mean",
+                    value: meanByCantonId[latestObservation.canton] || 0,
+                  },
+                ]
+              : []
+            : observationsByMunicipalityId.get(hovered.id),
       }
     : undefined;
   const d = extent(observations, (d) => d.value);
   const m = medianValue;
-  const { value: highlightContext } = useContext(HighlightContext);
+  const { value: highlightContext, setValue: setHighlightContext } =
+    useContext(HighlightContext);
+
+  const entity = (tab === "CANTONS" ? "canton" : "municipality") as Entity;
+  const valuesByMunicipalityId = useMemo(() => {
+    const municipalityIdToEntity = observations.reduce((acc, obs) => {
+      acc[obs.municipality] = obs[entity];
+      return acc;
+    }, {} as Record<string, string>);
+    const entityIdToValue = mapValues(
+      group(observations, (d) => d[entity]),
+      (obsByEntity) => mean(obsByEntity, (d) => d.value)
+    );
+    return mapValues(observationsByMunicipalityId, (_, municipalityId) => {
+      const entity = municipalityIdToEntity[municipalityId];
+      return entity ? entityIdToValue[entity] : undefined;
+    });
+  }, [observationsByMunicipalityId, entity]);
 
   const getFillColor = useMemo(() => {
     const { entity, id } = highlightContext || {};
@@ -377,13 +418,10 @@ export const ChoroplethMap = ({
       const obs = observationsByMunicipalityId.get(d.id.toString());
       const highlighted = obs?.find(predicate);
       return obs
-        ? getColor(
-            mean(obs, (d) => d.value),
-            !!highlighted
-          )
+        ? getColor(valuesByMunicipalityId[d.id], !!highlighted)
         : [0, 0, 0, 20];
     };
-  }, [observationsByMunicipalityId, getColor, highlightContext?.id]);
+  }, [observationsByMunicipalityId, getColor, highlightContext?.id, tab]);
 
   return (
     <>
@@ -474,12 +512,26 @@ export const ChoroplethMap = ({
                 stroked={false}
                 filled={true}
                 extruded={false}
-                autoHighlight={true}
+                autoHighlight={tab !== "CANTONS"}
                 getFillColor={getFillColor}
                 highlightColor={[0, 0, 0, 50]}
                 getRadius={100}
                 getLineWidth={1}
                 onHover={({ x, y, object }: $FixMe) => {
+                  const entityId = object
+                    ? observationsByMunicipalityId.get(
+                        object.id.toString()
+                      )?.[0].canton
+                    : undefined;
+                  setHighlightContext(
+                    tab === "CANTONS" && entityId
+                      ? {
+                          entity: "canton",
+                          id: entityId,
+                        }
+                      : undefined
+                  );
+
                   setHovered(
                     object
                       ? { x: x, y: y, id: object?.id.toString() }
@@ -487,11 +539,18 @@ export const ChoroplethMap = ({
                   );
                 }}
                 onClick={({ layer, object }: $FixMe) => {
+                  const obs = observationsByMunicipalityId.get(
+                    object?.id.toString()
+                  );
                   const href = {
-                    pathname: `/municipality/[id]`,
+                    pathname:
+                      tab === "CANTONS" ? `/canton/[id]` : `/municipality/[id]`,
                     query: {
                       ...query,
-                      id: object?.id.toString(),
+                      id:
+                        tab === "CANTONS"
+                          ? maxBy(obs, (d) => d.period)?.canton
+                          : object?.id.toString(),
                     },
                   };
                   push(href);
@@ -515,7 +574,10 @@ export const ChoroplethMap = ({
                   getFillColor: [
                     observationsByMunicipalityId,
                     highlightContext?.id,
+                    tab,
                   ],
+                  onHover: [observationsByMunicipalityId, tab],
+                  onClick: [observationsByMunicipalityId, tab],
                 }}
               />
               <GeoJsonLayer

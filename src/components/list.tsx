@@ -12,6 +12,7 @@ import {
   OperatorObservationFieldsFragment,
 } from "../graphql/queries";
 import { Icon } from "../icons";
+import { makeAtom } from "../lib/atom";
 import { MiniSelect, SearchField } from "./form";
 import { InfoDialogButton } from "./info-dialog";
 import { HighlightContext } from "./map";
@@ -222,8 +223,14 @@ const PlaceholderListItems = () => {
   );
 };
 
-type ListState = "MUNICIPALITIES" | "PROVIDERS" | "CANTONS";
+export type ListState = "MUNICIPALITIES" | "PROVIDERS" | "CANTONS";
 type SortState = "ASC" | "DESC";
+
+export const {
+  context: ListStateContext,
+  use: useListStateContext,
+  Provider: ListStateProvider,
+} = makeAtom<ListState>("MUNICIPALITIES");
 
 export const List = ({
   observations,
@@ -231,7 +238,7 @@ export const List = ({
   colorScale,
   observationsQueryFetching,
 }: Props) => {
-  const [listState, setListState] = useState<ListState>("MUNICIPALITIES");
+  const { value: listState, setValue: setListState } = useListStateContext();
   const [sortState, setSortState] = useState<SortState>("ASC");
   const [searchQuery, setSearchQuery] = useState<string>("");
 
@@ -322,7 +329,7 @@ export const List = ({
             label: t({ id: "list.operators" }),
           },
         ]}
-        value={listState}
+        value={listState as ListState}
         setValue={setListState}
       />
 
@@ -388,7 +395,7 @@ export const List = ({
         <ListItems
           items={listItems}
           colorScale={colorScale}
-          listState={listState}
+          listState={listState as ListState}
         />
       )}
     </>
