@@ -1,42 +1,38 @@
+import { ApolloError } from "apollo-server-errors";
 import { GraphQLResolveInfo } from "graphql";
 import { parseResolveInfo, ResolveTree } from "graphql-parse-resolve-info";
+import { micromark } from "micromark";
+import { gfm, gfmHtml } from "micromark-extension-gfm";
+import { getWikiPage } from "../domain/gitlab-wiki-api";
 import { parseObservationValue } from "../lib/observations";
+import { defaultLocale } from "../locales/locales";
+import * as ns from "../rdf/namespace";
 import {
+  getCantonMedianCube,
   getDimensionValuesAndLabels,
   getObservations,
-  getOperatorDocuments,
-  createSource,
   getObservationsCube,
-  getCantonMedianCube,
-  getView,
+  getOperatorDocuments,
   getSwissMedianCube,
+  getView,
 } from "../rdf/queries";
+import { search } from "../rdf/search-queries";
 import {
   ResolvedCantonMedianObservation,
-  ResolvedObservation,
   ResolvedOperatorObservation,
   ResolvedSwissMedianObservation,
 } from "./resolver-mapped-types";
 import {
   CantonMedianObservationResolvers,
   MunicipalityResolvers,
+  ObservationKind,
   ObservationResolvers,
   OperatorObservationResolvers,
   OperatorResolvers,
   QueryResolvers,
   Resolvers,
-  ObservationKind,
   SwissMedianObservationResolvers,
 } from "./resolver-types";
-import { defaultLocale } from "../locales/locales";
-import { getWikiPage } from "../domain/gitlab-wiki-api";
-import micromark from "micromark";
-import { search } from "../rdf/search-queries";
-var gfmSyntax = require("micromark-extension-gfm");
-var gfmHtml = require("micromark-extension-gfm/html");
-
-import * as ns from "../rdf/namespace";
-import { ApolloError } from "apollo-server-errors";
 
 const Query: QueryResolvers = {
   systemInfo: async () => {
@@ -380,8 +376,8 @@ const Query: QueryResolvers = {
     return {
       html: micromark(wikiPage.content, {
         allowDangerousHtml: true,
-        extensions: [gfmSyntax()],
-        htmlExtensions: [gfmHtml],
+        extensions: [gfm()],
+        htmlExtensions: [gfmHtml()],
       }),
     };
   },
