@@ -110,7 +110,7 @@ export const handleScreenshot = async (req: Request, res: ServerResponse) => {
             try {
               console.log(`Navigating to page: ${query.url}`);
 
-              const { BASIC_AUTH_CREDENTIALS } = process.env;
+              const BASIC_AUTH_CREDENTIALS = process.env.BASIC_AUTH_CREDENTIALS;
               if (BASIC_AUTH_CREDENTIALS) {
                 const [username, password] = BASIC_AUTH_CREDENTIALS.split(
                   ":",
