@@ -1,10 +1,10 @@
 import { either, pipeable } from "fp-ts";
+import { ServerResponse } from "http";
 import * as t from "io-ts";
 import { NumberFromString } from "io-ts-types/lib/NumberFromString";
-import puppeteer, { Browser } from "puppeteer";
 import { Request } from "polka";
+import puppeteer, { Browser } from "puppeteer";
 import { URL } from "url";
-import { ServerResponse } from "http";
 
 /**
  * We start a new browser instance for each request. This may seem a bit expensive (and it is),
@@ -110,6 +110,17 @@ export const handleScreenshot = async (req: Request, res: ServerResponse) => {
             try {
               console.log(`Navigating to page: ${query.url}`);
 
+              const { BASIC_AUTH_CREDENTIALS } = process.env;
+              if (BASIC_AUTH_CREDENTIALS) {
+                const [username, password] = BASIC_AUTH_CREDENTIALS.split(
+                  ":",
+                  2
+                );
+                await page.authenticate({
+                  username,
+                  password,
+                });
+              }
               await page.goto(query.url, {
                 waitUntil: "load",
                 timeout: 120 * 1000,
