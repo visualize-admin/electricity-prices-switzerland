@@ -1,4 +1,4 @@
-import { t, Trans } from "@lingui/macro";
+import { Trans, t } from "@lingui/macro";
 import { Flex, Text } from "theme-ui";
 import { categories, periods, priceComponents, products } from "../domain/data";
 import { getLocalizedLabel } from "../domain/translation";
@@ -73,7 +73,7 @@ export const Selector = () => {
         }
         infoDialogSlug="help-products"
       />
-      <Text variant="lead" as="div">
+      <Text variant="lead">
         <Trans id="selector.results">Suchergebnisse:</Trans>
       </Text>
     </Flex>

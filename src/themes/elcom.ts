@@ -6,52 +6,10 @@
  *
  * - `theme` should be a plain object, conforming to the `Theme` type.
  */
-import type { Property } from "csstype";
-import type { StylePropertyValue } from "theme-ui";
-import type { Theme } from "./index";
-
-export const globalStyles = [
-  {
-    "@font-face": {
-      fontFamily: "FrutigerNeue",
-      fontStyle: "normal",
-      fontWeight: 700,
-      src: `url("/fonts/FrutigerNeueW02-Bd.woff2") format("woff2"),
-          url("/fonts/FrutigerNeueW02-Bd.woff") format("woff")`,
-    },
-  },
-  {
-    "@font-face": {
-      fontFamily: "FrutigerNeue",
-      fontStyle: "normal",
-      fontWeight: 400,
-      src: `url("/fonts/FrutigerNeueW02-Regular.woff2") format("woff2"),
-          url("/fonts/FrutigerNeueW02-Regular.woff") format("woff")`,
-    },
-  },
-  {
-    "@font-face": {
-      fontFamily: "FrutigerNeue",
-      fontStyle: "normal",
-      fontWeight: 300,
-      src: `url("/fonts/FrutigerNeueW02-Light.woff2") format("woff2"),
-          url("/fonts/FrutigerNeueW02-Light.woff") format("woff")`,
-    },
-  },
-  {
-    "@font-face": {
-      fontFamily: "FrutigerNeue",
-      fontStyle: "italic",
-      fontWeight: 400,
-      src: `url("/fonts/FrutigerNeueW02-It.woff2") format("woff2"),
-          url("/fonts/FrutigerNeueW02-It.woff") format("woff")`,
-    },
-  },
-];
+import { Theme } from "./index";
 
 /**
  * Theme conforming to the Swiss Federal CD guidelines
- *
  */
 export const theme: Theme = {
   breakpoints: ["48em", "62em", "75em"],
@@ -115,7 +73,8 @@ export const theme: Theme = {
     categorical: ["#64afe9", "#01ADA1", "#939CB4", "#91C34B", "#E89F00"],
   },
   fonts: {
-    body: "FrutigerNeue, -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol",
+    body:
+      "FrutigerNeue, -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol",
     monospace: "Menlo, monospace",
   },
   fontSizes: [
@@ -223,19 +182,52 @@ export const theme: Theme = {
   styles: {
     // Overwrite default browser styles.
     root: {
+      // "root" applies to "body"
+      "@font-face": [
+        {
+          fontFamily: "FrutigerNeue",
+          fontStyle: "normal",
+          fontWeight: 700,
+          src: `url("/fonts/FrutigerNeueW02-Bd.woff2") format("woff2"),
+          url("/fonts/FrutigerNeueW02-Bd.woff") format("woff")`,
+        },
+        {
+          fontFamily: "FrutigerNeue",
+          fontStyle: "normal",
+          fontWeight: 400,
+          src: `url("/fonts/FrutigerNeueW02-Regular.woff2") format("woff2"),
+          url("/fonts/FrutigerNeueW02-Regular.woff") format("woff")`,
+        },
+        {
+          fontFamily: "FrutigerNeue",
+          fontStyle: "normal",
+          fontWeight: 300,
+          src: `url("/fonts/FrutigerNeueW02-Light.woff2") format("woff2"),
+          url("/fonts/FrutigerNeueW02-Light.woff") format("woff")`,
+        },
+        {
+          fontFamily: "FrutigerNeue",
+          fontStyle: "italic",
+          fontWeight: 400,
+          src: `url("/fonts/FrutigerNeueW02-It.woff2") format("woff2"),
+          url("/fonts/FrutigerNeueW02-It.woff") format("woff")`,
+        },
+      ],
+
       bg: "monochrome100",
       margin: 0,
       padding: 0,
       fontFamily:
         "FrutigerNeue, -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol",
 
-      // Use momentum-based scrolling on iOS devices
-      WebkitOverflowScrolling:
-        "touch" as StylePropertyValue<Property.WebkitOverflowScrolling>,
+      // Hack around type error for vendor prefixed rules
+      ...{
+        // Use momentum-based scrolling on iOS devices
+        WebkitOverflowScrolling: "touch",
 
-      // Auto-hide scrollbars in Edge
-      msOverflowStyle:
-        "-ms-autohiding-scrollbar" as StylePropertyValue<Property.MsOverflowStyle>,
+        // Auto-hide scrollbars in Edge
+        msOverflowStyle: "-ms-autohiding-scrollbar",
+      },
 
       svg: {
         display: "block",
