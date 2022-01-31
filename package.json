@@ -48,7 +48,7 @@
     "fp-ts": "^2.11.6",
     "fs-extra": "^10.0.0",
     "global-agent": "^3.0.0",
-    "graphql": "^16.2.0",
+    "graphql": "^15.5.0",
     "graphql-parse-resolve-info": "^4.10.0",
     "graphql-tag": "^2.11.0",
     "graphql-type-json": "^0.3.2",
