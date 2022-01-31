@@ -73,14 +73,14 @@ export const PriceDistributionHistograms = ({
               Preisverteilung in der Schweiz
             </Trans>
           </span>
-          <InfoDialogButton
+          {/* <InfoDialogButton
             iconOnly
             slug="help-price-distribution"
             label={t({
               id: "detail.card.title.prices.distribution",
             })}
             smaller
-          />
+          /> */}
         </Stack>
       }
       downloadId={DOWNLOAD_ID}

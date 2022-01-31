@@ -349,12 +349,12 @@ export const List = ({
             label={searchLabel}
             placeholder={searchLabel}
           />
-          <InfoDialogButton
+          {/* <InfoDialogButton
             iconOnly
             slug="help-search-list"
             label={searchLabel}
             smaller
-          />
+          /> */}
         </Stack>
 
         <Flex sx={{ justifyContent: "space-between", mt: 2 }}>
