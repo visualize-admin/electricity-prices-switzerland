@@ -17,7 +17,7 @@ const CATEGORIES = [
     itemLabel: <Trans id="download.category.tariff">Tarifblatt</Trans>,
     categoryLabel: <Trans id="download.category.tariffs">Tarifblätter</Trans>,
   },
-  {
+  /* {
     id: OperatorDocumentCategory.FinancialStatement,
     itemLabel: (
       <Trans id="download.category.financialstatement">Geschäftsbericht</Trans>
@@ -27,7 +27,7 @@ const CATEGORIES = [
         Geschäftsberichte
       </Trans>
     ),
-  },
+  }, */
   {
     id: OperatorDocumentCategory.AnnualReport,
     itemLabel: (
