@@ -14,6 +14,7 @@ const server = new ApolloServer({
   context,
   // Enable playground in production
   introspection: true,
+  playground: true,
 });
 
 export const config = {
@@ -22,11 +23,9 @@ export const config = {
   },
 };
 
-const startServer = server.start();
+const handler = server.createHandler({ path: "/api/graphql" });
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  await startServer;
-  const handler = await server.createHandler({ path: "/api/graphql" });
   await runMiddleware(req, res, cors);
   return handler(req, res);
 };
