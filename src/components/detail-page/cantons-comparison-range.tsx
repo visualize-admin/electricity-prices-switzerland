@@ -110,14 +110,14 @@ export const CantonsComparisonRangePlots = ({
               Kantonsvergleich
             </Trans>
           </span>
-          {/* <InfoDialogButton
+          <InfoDialogButton
             iconOnly
             slug="help-canton-comparison"
             label={t({
               id: "detail.card.title.cantons.comparison",
             })}
             smaller
-          />*/}
+          />
         </Stack>
       }
       downloadId={DOWNLOAD_ID}

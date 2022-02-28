@@ -130,7 +130,7 @@ export const PriceComponentsBarChart = ({
               Preiskomponenten
             </Trans>
           </span>
-          {/* <InfoDialogButton
+          <InfoDialogButton
             iconOnly
             slug="help-price-components"
             label={t({
@@ -138,7 +138,7 @@ export const PriceComponentsBarChart = ({
               message: `Preiskomponente`,
             })}
             smaller
-          /> */}
+          />
         </Stack>
       }
       downloadId={DOWNLOAD_ID}

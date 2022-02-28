@@ -89,14 +89,14 @@ export const PriceEvolution = ({
               Tarifentwicklung
             </Trans>
           </span>
-          {/* <InfoDialogButton
+          <InfoDialogButton
             iconOnly
             slug="help-price-evolution"
             label={t({
               id: "detail.card.title.prices.evolution",
             })}
             smaller
-          /> */}
+          />
         </Stack>
       }
       downloadId={DOWNLOAD_ID}
