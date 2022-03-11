@@ -45,11 +45,11 @@ msgstr "Keine Einträge"
 msgid "combobox.prompt"
 msgstr "Bezeichnung eingeben …"
 
-#: src/components/form.tsx:306
+#: src/components/form.tsx:312
 msgid "controls.search.clear"
 msgstr "Clear search field"
 
-#: src/components/list.tsx:355
+#: src/components/list.tsx:371
 msgid "dataset.sortby"
 msgstr "Sortieren"
 
@@ -59,19 +59,22 @@ msgstr "Sortieren"
 msgid "detail.canton"
 msgstr "Kanton"
 
-#: src/components/detail-page/cantons-comparison-range.tsx:105
+#: src/components/detail-page/cantons-comparison-range.tsx:109
+#: src/components/detail-page/cantons-comparison-range.tsx:116
 msgid "detail.card.title.cantons.comparison"
 msgstr "Kantonsvergleich"
 
-#: src/components/detail-page/price-components-bars.tsx:126
+#: src/components/detail-page/price-components-bars.tsx:129
 msgid "detail.card.title.price.components"
 msgstr "Preiskomponenten"
 
-#: src/components/detail-page/price-distribution-histogram.tsx:68
+#: src/components/detail-page/price-distribution-histogram.tsx:72
+#: src/components/detail-page/price-distribution-histogram.tsx:79
 msgid "detail.card.title.prices.distribution"
 msgstr "Preisverteilung in der Schweiz"
 
-#: src/components/detail-page/price-evolution-line-chart.tsx:92
+#: src/components/detail-page/price-evolution-line-chart.tsx:88
+#: src/components/detail-page/price-evolution-line-chart.tsx:95
 msgid "detail.card.title.prices.evolution"
 msgstr "Tarifentwicklung"
 
@@ -114,12 +117,12 @@ msgid "download.category.annualreports"
 msgstr "Jahresrechnungen"
 
 #: src/components/operator-documents.tsx:23
-msgid "download.category.financialstatement"
-msgstr "Geschäftsbericht"
+#~ msgid "download.category.financialstatement"
+#~ msgstr "Geschäftsbericht"
 
 #: src/components/operator-documents.tsx:26
-msgid "download.category.financialstatements"
-msgstr "Geschäftsberichte"
+#~ msgid "download.category.financialstatements"
+#~ msgstr "Geschäftsberichte"
 
 #: src/components/operator-documents.tsx:17
 msgid "download.category.tariff"
@@ -129,7 +132,7 @@ msgstr "Tarifblatt"
 msgid "download.category.tariffs"
 msgstr "Tarifblätter"
 
-#: src/components/footer.tsx:53
+#: src/components/footer.tsx:55
 msgid "download.filetype.csv"
 msgstr "CSV-Datei"
 
@@ -141,7 +144,7 @@ msgstr "PDF-Datei"
 msgid "download.nooperatordocuments"
 msgstr "Keine Netzbetreiber-Dokumente"
 
-#: src/components/footer.tsx:52
+#: src/components/footer.tsx:54
 msgid "download.rawdata"
 msgstr "Rohdaten"
 
@@ -161,13 +164,17 @@ msgstr "Produkt"
 msgid "filters.year"
 msgstr "Jahr"
 
-#: src/components/footer.tsx:77
+#: src/components/footer.tsx:92
 msgid "footer.institution.name"
 msgstr "Eidgenössische Elektrizitätskommission ElCom"
 
 #: src/components/footer.tsx:30
 msgid "help.calculation"
 msgstr "Berechnungsgrundlagen"
+
+#: src/components/footer.tsx:66
+msgid "help.download-raw-data"
+msgstr "Hilfe für Rohdaten öffnen"
 
 #: src/components/price-color-legend.tsx:39
 msgid "help.price-comparison"
@@ -197,8 +204,7 @@ msgstr "Für das ausgewählte Jahr kann keine Karte angezeigt werden."
 msgid "hint.nogeodata.title"
 msgstr "Keine Kartendarstellung möglich"
 
-#: src/components/detail-page/price-distribution-histogram.tsx:148
-#: src/domain/translation.tsx:128
+#: src/components/detail-page/price-distribution-histogram.tsx:162
 msgid "histogram.canton-count"
 msgstr "Anzahl Kantone"
 
@@ -210,12 +216,11 @@ msgstr "Max"
 msgid "histogram.min"
 msgstr "Min"
 
-#: src/components/detail-page/price-distribution-histogram.tsx:153
+#: src/components/detail-page/price-distribution-histogram.tsx:167
 msgid "histogram.municipality-count"
 msgstr "Anzahl Gemeinden"
 
-#: src/components/detail-page/price-distribution-histogram.tsx:143
-#: src/domain/translation.tsx:123
+#: src/components/detail-page/price-distribution-histogram.tsx:157
 msgid "histogram.operator-count"
 msgstr "Anzahl Netzbetreiber"
 
@@ -231,31 +236,31 @@ msgstr "Eidgenössische Elektrizitätskommission ElCom"
 msgid "image.download.unit"
 msgstr "Tarifvergleich in Rp./kWh"
 
-#: src/components/list.tsx:311
+#: src/components/list.tsx:318
 msgid "list.cantons"
 msgstr "Kantone"
 
-#: src/components/list.tsx:307
+#: src/components/list.tsx:314
 msgid "list.municipalities"
 msgstr "Gemeinden"
 
-#: src/components/list.tsx:315
+#: src/components/list.tsx:322
 msgid "list.operators"
 msgstr "Netzbetreiber"
 
-#: src/components/list.tsx:234
+#: src/components/list.tsx:241
 msgid "list.order.asc"
 msgstr "Günstigste zuerst"
 
-#: src/components/list.tsx:238
+#: src/components/list.tsx:245
 msgid "list.order.desc"
 msgstr "Teuerste zuerst"
 
-#: src/components/list.tsx:241
+#: src/components/list.tsx:248
 msgid "list.search.label"
 msgstr "Liste filtern"
 
-#: src/components/list.tsx:145
+#: src/components/list.tsx:152
 msgid "list.showmore"
 msgstr "Mehr anzeigen …"
 
@@ -268,7 +273,7 @@ msgstr "Logo of the Swiss Confederation"
 msgid "map.legend.title"
 msgstr "Tarifvergleich in Rp./kWh"
 
-#: src/components/map.tsx:395
+#: src/components/map.tsx:439
 msgid "map.tooltipnodata"
 msgstr "Keine Daten"
 
@@ -303,7 +308,7 @@ msgstr "Einzelne Gemeinden anzeigen"
 msgid "priceComponents.view.expanded.operators"
 msgstr "Einzelne Netzbetreiber anzeigen"
 
-#: src/components/detail-page/cantons-comparison-range.tsx:167
+#: src/components/detail-page/cantons-comparison-range.tsx:181
 msgid "rangeplot.select.order.hint"
 msgstr "Sortieren nach"
 
@@ -327,7 +332,7 @@ msgstr "Median absteigend"
 msgid "relations.showmore"
 msgstr "{rest} weitere …"
 
-#: src/pages/index.tsx:143
+#: src/pages/index.tsx:155
 msgid "search.global"
 msgstr "Detaillierte Preisanalysen von Kantonen, Gemeinden und Netzbetreibern."
 
@@ -437,12 +442,13 @@ msgstr "Netzbetreiber zum Vergleich"
 msgid "selector.legend.select.parameters"
 msgstr "Parameter auswählen"
 
+#: src/components/detail-page/price-components-bars.tsx:136
 #: src/components/selector.tsx:43
 msgid "selector.priceComponent"
 msgstr "Preiskomponente"
 
-#: src/components/detail-page/cantons-comparison-range.tsx:148
-#: src/components/detail-page/price-distribution-histogram.tsx:111
+#: src/components/detail-page/cantons-comparison-range.tsx:162
+#: src/components/detail-page/price-distribution-histogram.tsx:125
 msgid "selector.priceComponents"
 msgstr "Preis Komponenten"
 
@@ -493,8 +499,8 @@ msgstr "Jahre"
 
 #: src/components/header.tsx:99
 #: src/pages/canton/[id].tsx:56
-#: src/pages/index.tsx:91
-#: src/pages/index.tsx:128
+#: src/pages/index.tsx:103
+#: src/pages/index.tsx:140
 #: src/pages/municipality/[id].tsx:78
 #: src/pages/operator/[id].tsx:75
 msgid "site.title"

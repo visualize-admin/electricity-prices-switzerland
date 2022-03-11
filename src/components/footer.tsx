@@ -38,6 +38,8 @@ export const Footer = () => {
           borderTopColor: "monochrome500",
           px: 4,
           py: 6,
+          display: "flex",
+          alignItems: "center",
         }}
       >
         <Link
@@ -50,19 +52,22 @@ export const Footer = () => {
               <Icon name="excel" size={20} />
             </Box>{" "}
             <Trans id="download.rawdata">Rohdaten</Trans> {period} (
-            <Trans id="download.filetype.csv">CSV-Datei</Trans>)&nbsp;
-            <InfoDialogButton
-              smaller
-              iconOnly
-              sx={{ p: 1 }}
-              slug="help-download-raw-data"
-              label={t({
-                id: "help.download-raw-data",
-                message: `Rohdaten`,
-              })}
-            />
+            <Trans id="download.filetype.csv">CSV-Datei</Trans>)
+            <Box as="span" sx={{ ml: 1, display: "inline-block" }}>
+              &nbsp;
+            </Box>
           </Flex>
         </Link>
+        <InfoDialogButton
+          smaller
+          iconOnly
+          sx={{ ml: 1 }}
+          slug="help-download-raw-data"
+          label={t({
+            id: "help.download-raw-data",
+            message: `Rohdaten`,
+          })}
+        />
       </Box>
       <Flex
         as="footer"
