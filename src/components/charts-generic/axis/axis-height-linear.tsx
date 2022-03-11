@@ -28,15 +28,8 @@ export const AxisHeightLinear = ({
 
   const ticks = Math.max(Math.min(bounds.chartHeight / TICK_MIN_HEIGHT, 4), 2);
 
-  const {
-    axisLabelFontWeight,
-    axisLabelColor,
-    axisLabelFontSize,
-    labelColor,
-    labelFontSize,
-    gridColor,
-    fontFamily,
-  } = useChartTheme();
+  const { axisLabelColor, labelColor, labelFontSize, gridColor, fontFamily } =
+    useChartTheme();
 
   const mkAxis = (g: Selection<SVGGElement, unknown, null, undefined>) => {
     g.call(
