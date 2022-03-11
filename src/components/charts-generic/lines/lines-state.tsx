@@ -169,9 +169,10 @@ const useLinesState = ({
     });
   });
 
-  const minText = formatCurrency(yScale.domain()[0]);
-  const maxText = formatCurrency(yScale.domain()[1]);
-  const floatingPointExtra = minText === "0" && maxText === "1" ? 10 : 0;
+  const minText = formatCurrency(yDomain[0]);
+  const maxText = formatCurrency(yDomain[1]);
+  const floatingPointExtra =
+    Math.abs(yDomain[yDomain.length - 1] - yDomain[0]) === 1 ? 10 : 0;
 
   // Dimensions
   const left = Math.max(
