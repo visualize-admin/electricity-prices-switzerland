@@ -1,10 +1,9 @@
 import { Trans, t } from "@lingui/macro";
-import { Box, Flex, Grid, Text } from "@theme-ui/components";
+import { Box, BoxProps, Flex, Grid, Text } from "@theme-ui/components";
 import React, { useState } from "react";
 import { useTheme } from "../themes";
 import { useFormatCurrency } from "../domain/helpers";
 import { InfoDialogButton } from "./info-dialog";
-import { IconCaretDown } from "../icons/ic-caret-down";
 import { IconInfo } from "../icons/ic-info";
 import { IconClear } from "../icons/ic-clear";
 
