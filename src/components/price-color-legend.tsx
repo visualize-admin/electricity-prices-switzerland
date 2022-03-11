@@ -1,21 +1,25 @@
 import { Trans, t } from "@lingui/macro";
 import { Box, Flex, Grid, Text } from "@theme-ui/components";
-import * as React from "react";
+import React, { useState } from "react";
 import { useTheme } from "../themes";
 import { useFormatCurrency } from "../domain/helpers";
 import { InfoDialogButton } from "./info-dialog";
+import { IconCaretDown } from "../icons/ic-caret-down";
+import { IconInfo } from "../icons/ic-info";
+import { IconClear } from "../icons/ic-clear";
 
 const LEGEND_WIDTH = 215;
 const TOP_LABEL_HEIGHT = 14;
 const COLOR_HEIGHT = 12;
 const BOTTOM_LABEL_HEIGHT = 16;
 
-export const MapPriceColorLegend = ({
-  stats,
+const LegendBox = ({
+  children,
+  sx,
 }: {
-  stats: [number | undefined, number | undefined, number | undefined];
+  children: React.ReactNode;
+  sx?: BoxProps["sx"];
 }) => {
-  const formatCurrency = useFormatCurrency();
   return (
     <Box
       sx={{
@@ -26,9 +30,40 @@ export const MapPriceColorLegend = ({
         height: "fit-content",
         px: 4,
         py: 2,
+        ...sx,
       }}
     >
-      <Flex sx={{ alignItems: "center" }}>
+      {children}
+    </Box>
+  );
+};
+export const MapPriceColorLegend = ({
+  stats,
+}: {
+  stats: [number | undefined, number | undefined, number | undefined];
+}) => {
+  const formatCurrency = useFormatCurrency();
+  const [open, setOpen] = useState(true);
+
+  if (!open) {
+    return (
+      <LegendBox sx={{ width: "auto" }}>
+        <Flex
+          onClick={() => setOpen(true)}
+          sx={{
+            cursor: "pointer",
+            flexGrow: 1,
+            justifyContent: "flex-end",
+          }}
+        >
+          <IconInfo color="#333" />
+        </Flex>
+      </LegendBox>
+    );
+  }
+  return (
+    <LegendBox>
+      <Flex sx={{ alignItems: "center", width: "100%" }}>
         <Text sx={{ fontSize: 1, lineHeight: 1.5, mr: 1 }}>
           <Trans id="map.legend.title">Tarifvergleich in Rp./kWh</Trans>
         </Text>
@@ -38,6 +73,17 @@ export const MapPriceColorLegend = ({
           slug="help-price-comparison"
           label={t({ id: "help.price-comparison", message: `Tarifvergleich` })}
         />
+        <Box
+          onClick={() => setOpen(false)}
+          sx={{
+            display: ["flex", "none"],
+            cursor: "pointer",
+            flexGrow: 1,
+            justifyContent: "flex-end",
+          }}
+        >
+          <IconClear size={16} color="#666" />
+        </Box>
       </Flex>
       <Flex
         sx={{
@@ -81,7 +127,7 @@ export const MapPriceColorLegend = ({
       </Flex>
 
       <ColorsLine />
-    </Box>
+    </LegendBox>
   );
 };
 
