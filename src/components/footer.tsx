@@ -50,7 +50,17 @@ export const Footer = () => {
               <Icon name="excel" size={20} />
             </Box>{" "}
             <Trans id="download.rawdata">Rohdaten</Trans> {period} (
-            <Trans id="download.filetype.csv">CSV-Datei</Trans>)
+            <Trans id="download.filetype.csv">CSV-Datei</Trans>)&nbsp;
+            <InfoDialogButton
+              smaller
+              iconOnly
+              sx={{ p: 1 }}
+              slug="help-download-raw-data"
+              label={t({
+                id: "help.download-raw-data",
+                message: `Rohdaten`,
+              })}
+            />
           </Flex>
         </Link>
       </Box>
