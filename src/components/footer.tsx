@@ -98,15 +98,6 @@ export const Footer = () => {
             alignItems: ["flex-start", "center"],
           }}
         >
-          <Flex sx={{ flexDirection: ["column", "row"] }} pb={[4, 0]}>
-            {/* <FooterLink>
-            <Trans id="footer.help">Help</Trans>
-          </FooterLink>
-          <FooterLink>
-            <Trans id="footer.contact">Contact</Trans>
-          </FooterLink> */}
-          </Flex>
-
           <Box
             sx={{
               width: "100vw",
@@ -123,82 +114,8 @@ export const Footer = () => {
           >
             <LogoDesktop />
           </Box>
-
-          <Flex sx={{ justifyContent: "flex-end", width: ["100%", "auto"] }}>
-            {/* <NextLink href={contentRoutes.legal[locale].path} passHref>
-            <FooterLinkBottom>
-              {contentRoutes.legal[locale].title}
-            </FooterLinkBottom>
-          </NextLink>
-          <NextLink href={contentRoutes.imprint[locale].path} passHref>
-            <FooterLinkBottom>
-              {contentRoutes.imprint[locale].title}
-            </FooterLinkBottom>
-          </NextLink> */}
-          </Flex>
         </Flex>
       </Flex>
     </>
   );
 };
-
-const FooterLink = ({ children, ...props }: { children: ReactNode }) => (
-  <Link
-    {...props}
-    sx={{
-      width: ["100%", "auto"],
-      px: [4, 3],
-      py: [3, 4],
-      color: "primary",
-      fontSize: 3,
-      fontFamily: "body",
-      textDecoration: "none",
-      cursor: "pointer",
-      ":hover": {
-        color: "primaryHover",
-      },
-      ":active": {
-        color: "primaryHover",
-      },
-      ":disabled": {
-        cursor: "initial",
-        color: "primaryDisabled",
-      },
-    }}
-  >
-    {children}
-  </Link>
-);
-
-const FooterLinkBottom = forwardRef<HTMLAnchorElement, { children: ReactNode }>(
-  ({ children, ...props }, ref) => (
-    <Link
-      ref={ref}
-      {...props}
-      sx={{
-        px: [4, 3],
-        py: [3, 4],
-        color: "primary",
-        fontSize: 3,
-        fontFamily: "body",
-        borderLeftWidth: ["1px", 0],
-        borderLeftStyle: "solid",
-        borderLeftColor: "monochrome500",
-        textDecoration: "none",
-        cursor: "pointer",
-        ":hover": {
-          color: "primaryHover",
-        },
-        ":active": {
-          color: "primaryHover",
-        },
-        ":disabled": {
-          cursor: "initial",
-          color: "primaryDisabled",
-        },
-      }}
-    >
-      {children}
-    </Link>
-  )
-);
