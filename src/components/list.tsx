@@ -336,7 +336,7 @@ export const List = ({
           borderBottomColor: "monochrome300",
         }}
       >
-        <Stack direction="row" spacing={2}>
+        <Stack direction="row" spacing={2} sx={{ width: "100%" }}>
           <SearchField
             id="listSearch"
             value={searchQuery}
@@ -348,6 +348,7 @@ export const List = ({
             }}
             label={searchLabel}
             placeholder={searchLabel}
+            sx={{ flexGrow: 1 }}
           />
           <InfoDialogButton
             iconOnly

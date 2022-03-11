@@ -2,6 +2,7 @@ import { Trans } from "@lingui/macro";
 import VisuallyHidden from "@reach/visually-hidden";
 import {
   Box,
+  BoxProps,
   Button,
   Checkbox as RebassCheckbox,
   Input as RebassInput,
@@ -254,6 +255,7 @@ export const SearchField = ({
   placeholder,
   onChange,
   onReset,
+  sx,
 }: {
   id: string;
   label?: string | React.ReactNode;
@@ -261,9 +263,12 @@ export const SearchField = ({
   value?: string;
   placeholder?: string;
   onReset?: () => void;
+  sx?: BoxProps["sx"];
 } & FieldProps) => {
   return (
-    <Box sx={{ color: "monochrome700", fontSize: 4, position: "relative" }}>
+    <Box
+      sx={{ color: "monochrome700", fontSize: 4, position: "relative", ...sx }}
+    >
       {label && id && (
         <label htmlFor={id}>
           <VisuallyHidden>{label}</VisuallyHidden>
@@ -277,6 +282,7 @@ export const SearchField = ({
       </Box>
       <RebassInput
         sx={{
+          flexGrow: 1,
           borderColor: "monochrome500",
           bg: "monochrome100",
           px: 6,
