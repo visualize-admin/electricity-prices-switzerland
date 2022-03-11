@@ -27,14 +27,26 @@ export const AxisHeightLinear = ({
     | AreasState;
 
   const ticks = Math.max(Math.min(bounds.chartHeight / TICK_MIN_HEIGHT, 4), 2);
-
   const { axisLabelColor, labelColor, labelFontSize, gridColor, fontFamily } =
     useChartTheme();
 
   const mkAxis = (g: Selection<SVGGElement, unknown, null, undefined>) => {
+    const tickValues = yScale.ticks(ticks);
+    const yDomain = yScale.domain();
+    // Ensure we have a tick above the maximum value
+    if (
+      Math.max(yDomain[0], yDomain[1]) >
+      Math.max(tickValues[0], tickValues[tickValues.length - 1])
+    ) {
+      const diff =
+        tickValues[1] > tickValues[0]
+          ? tickValues[1] - tickValues[0]
+          : tickValues[0] - tickValues[1];
+      tickValues.push(tickValues[tickValues.length - 1] + diff);
+    }
     g.call(
       axisLeft(yScale)
-        .ticks(ticks)
+        .tickValues(tickValues)
         .tickSizeInner(-bounds.chartWidth)
         .tickFormat(formatNumber)
     );
