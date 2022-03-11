@@ -174,7 +174,7 @@ msgstr "Berechnungsgrundlagen"
 
 #: src/components/footer.tsx:66
 msgid "help.download-raw-data"
-msgstr "Hilfe für Rohdaten öffnen"
+msgstr "Rohdaten Hilfestellung und Erklärung öffnen"
 
 #: src/components/price-color-legend.tsx:39
 msgid "help.price-comparison"
