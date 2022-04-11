@@ -183,3 +183,10 @@ query SystemInfo {
     VERSION
   }
 }
+
+query CubeHealth {
+  cubeHealth {
+    ok
+    dimensions
+  }
+}

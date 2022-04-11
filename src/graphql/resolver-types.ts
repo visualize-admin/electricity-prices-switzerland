@@ -14,14 +14,15 @@ export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = {
   [K in keyof T]: T[K];
 };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> &
-  { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> &
-  { [SubKey in K]: Maybe<T[SubKey]> };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]?: Maybe<T[SubKey]>;
+};
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]: Maybe<T[SubKey]>;
+};
 export type RequireFields<T, K extends keyof T> = {
   [X in Exclude<keyof T, K>]?: T[X];
-} &
-  { [P in K]-?: NonNullable<T[P]> };
+} & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -56,6 +57,12 @@ export type CantonResult = SearchResult & {
   __typename?: "CantonResult";
   id: Scalars["String"];
   name: Scalars["String"];
+};
+
+export type CubeHealth = {
+  __typename?: "CubeHealth";
+  ok: Scalars["Boolean"];
+  dimensions: Array<Scalars["String"]>;
 };
 
 export type Municipality = {
@@ -167,6 +174,7 @@ export type Query = {
   cantonMedianObservations?: Maybe<Array<CantonMedianObservation>>;
   swissMedianObservations?: Maybe<Array<SwissMedianObservation>>;
   wikiContent?: Maybe<WikiContent>;
+  cubeHealth?: Maybe<CubeHealth>;
 };
 
 export type QueryMunicipalitiesArgs = {
@@ -283,8 +291,12 @@ export type ResolversObject<TObject> = WithIndex<TObject>;
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
 
+export type ResolverWithResolve<TResult, TParent, TContext, TArgs> = {
+  resolve: ResolverFn<TResult, TParent, TContext, TArgs>;
+};
 export type Resolver<TResult, TParent = {}, TContext = {}, TArgs = {}> =
-  ResolverFn<TResult, TParent, TContext, TArgs>;
+  | ResolverFn<TResult, TParent, TContext, TArgs>
+  | ResolverWithResolve<TResult, TParent, TContext, TArgs>;
 
 export type ResolverFn<TResult, TParent, TContext, TArgs> = (
   parent: TParent,
@@ -389,8 +401,9 @@ export type ResolversTypes = ResolversObject<{
   CantonMedianObservation: ResolverTypeWrapper<ResolvedCantonMedianObservation>;
   Float: ResolverTypeWrapper<Scalars["Float"]>;
   CantonResult: ResolverTypeWrapper<ResolvedSearchResult>;
-  Municipality: ResolverTypeWrapper<ResolvedMunicipality>;
+  CubeHealth: ResolverTypeWrapper<CubeHealth>;
   Boolean: ResolverTypeWrapper<Scalars["Boolean"]>;
+  Municipality: ResolverTypeWrapper<ResolvedMunicipality>;
   MunicipalityResult: ResolverTypeWrapper<ResolvedSearchResult>;
   Observation: ResolverTypeWrapper<ResolvedObservation>;
   ObservationFilters: ObservationFilters;
@@ -418,8 +431,9 @@ export type ResolversParentTypes = ResolversObject<{
   CantonMedianObservation: ResolvedCantonMedianObservation;
   Float: Scalars["Float"];
   CantonResult: ResolvedSearchResult;
-  Municipality: ResolvedMunicipality;
+  CubeHealth: CubeHealth;
   Boolean: Scalars["Boolean"];
+  Municipality: ResolvedMunicipality;
   MunicipalityResult: ResolvedSearchResult;
   Observation: ResolvedObservation;
   ObservationFilters: ObservationFilters;
@@ -483,6 +497,19 @@ export type CantonResultResolvers<
 > = ResolversObject<{
   id?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type CubeHealthResolvers<
+  ContextType = ServerContext,
+  ParentType extends ResolversParentTypes["CubeHealth"] = ResolversParentTypes["CubeHealth"]
+> = ResolversObject<{
+  ok?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
+  dimensions?: Resolver<
+    Array<ResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -701,6 +728,11 @@ export type QueryResolvers<
     ContextType,
     RequireFields<QueryWikiContentArgs, "locale" | "slug">
   >;
+  cubeHealth?: Resolver<
+    Maybe<ResolversTypes["CubeHealth"]>,
+    ParentType,
+    ContextType
+  >;
 }>;
 
 export type SearchResultResolvers<
@@ -752,6 +784,7 @@ export type Resolvers<ContextType = ServerContext> = ResolversObject<{
   Canton?: CantonResolvers<ContextType>;
   CantonMedianObservation?: CantonMedianObservationResolvers<ContextType>;
   CantonResult?: CantonResultResolvers<ContextType>;
+  CubeHealth?: CubeHealthResolvers<ContextType>;
   Municipality?: MunicipalityResolvers<ContextType>;
   MunicipalityResult?: MunicipalityResultResolvers<ContextType>;
   Observation?: ObservationResolvers<ContextType>;

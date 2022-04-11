@@ -37,6 +37,23 @@ var gfmHtml = require("micromark-extension-gfm/html");
 
 import * as ns from "../rdf/namespace";
 import { ApolloError } from "apollo-server-errors";
+import { difference } from "d3";
+
+const expectedCubeDimensions = [
+  "https://energy.ld.admin.ch/elcom/electricityprice/dimension/category",
+  "https://energy.ld.admin.ch/elcom/electricityprice/dimension/municipality",
+  "https://energy.ld.admin.ch/elcom/electricityprice/dimension/operator",
+  "https://energy.ld.admin.ch/elcom/electricityprice/dimension/period",
+  "https://energy.ld.admin.ch/elcom/electricityprice/dimension/aidfee",
+  "https://energy.ld.admin.ch/elcom/electricityprice/dimension/charge",
+  "https://energy.ld.admin.ch/elcom/electricityprice/dimension/energy",
+  "https://energy.ld.admin.ch/elcom/electricityprice/dimension/fixcosts",
+  "https://energy.ld.admin.ch/elcom/electricityprice/dimension/fixcostspercent",
+  "https://energy.ld.admin.ch/elcom/electricityprice/dimension/gridusage",
+  "https://energy.ld.admin.ch/elcom/electricityprice/dimension/total",
+  "https://energy.ld.admin.ch/elcom/electricityprice/dimension/product",
+  "https://cube.link/observedBy",
+];
 
 const Query: QueryResolvers = {
   systemInfo: async () => {
@@ -356,6 +373,15 @@ const Query: QueryResolvers = {
     });
 
     return results[0];
+  },
+  cubeHealth: async () => {
+    const cube = await getObservationsCube();
+    const dimensions = cube.dimensions.map((d) => d.path.value);
+    const missingDimensions = difference(expectedCubeDimensions, dimensions);
+    return {
+      ok: missingDimensions.size === 0,
+      dimensions,
+    };
   },
   wikiContent: async (_, { locale, slug }) => {
     // Exit early if home-banner is requested and it's disabled

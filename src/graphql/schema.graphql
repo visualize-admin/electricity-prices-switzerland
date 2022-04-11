@@ -120,6 +120,11 @@ type SystemInfo {
   VERSION: String!
 }
 
+type CubeHealth {
+  ok: Boolean!
+  dimensions: [String!]!
+}
+
 type Query {
   systemInfo: SystemInfo!
   municipalities(
@@ -168,4 +173,7 @@ type Query {
   ): [SwissMedianObservation!]
 
   wikiContent(locale: String!, slug: String!): WikiContent
+
+  cubeHealth: CubeHealth
+
 }
