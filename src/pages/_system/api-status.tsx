@@ -162,7 +162,7 @@ const ObservationsStatus = () => {
   });
   return (
     <Status
-      title="Municipalitiy Observations (All Price Components)"
+      title="Municipality Observations (All Price Components)"
       query={query}
     />
   );
@@ -206,6 +206,12 @@ const SwissMedianStatus = () => {
   return <Status title="Swiss Median Observations " query={query} />;
 };
 
+const CubeHealth = () => {
+  const [query] = Queries.useCubeHealthQuery();
+
+  return <Status title="Cube health" query={query} />;
+};
+
 const Page = () => {
   return (
     <Box sx={{ p: 5 }}>
@@ -222,6 +228,8 @@ const Page = () => {
       <Heading variant="heading2" sx={{ mt: 3 }}>
         Data
       </Heading>
+
+      <CubeHealth />
 
       <ObservationsStatus />
 

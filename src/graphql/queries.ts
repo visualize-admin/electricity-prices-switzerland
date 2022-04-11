@@ -4,10 +4,12 @@ export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = {
   [K in keyof T]: T[K];
 };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> &
-  { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> &
-  { [SubKey in K]: Maybe<T[SubKey]> };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]?: Maybe<T[SubKey]>;
+};
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]: Maybe<T[SubKey]>;
+};
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -43,6 +45,12 @@ export type CantonResult = SearchResult & {
   __typename: "CantonResult";
   id: Scalars["String"];
   name: Scalars["String"];
+};
+
+export type CubeHealth = {
+  __typename: "CubeHealth";
+  ok: Scalars["Boolean"];
+  dimensions: Array<Scalars["String"]>;
 };
 
 export type Municipality = {
@@ -154,6 +162,7 @@ export type Query = {
   cantonMedianObservations?: Maybe<Array<CantonMedianObservation>>;
   swissMedianObservations?: Maybe<Array<SwissMedianObservation>>;
   wikiContent?: Maybe<WikiContent>;
+  cubeHealth?: Maybe<CubeHealth>;
 };
 
 export type QueryMunicipalitiesArgs = {
@@ -483,6 +492,17 @@ export type SystemInfoQuery = {
   };
 };
 
+export type CubeHealthQueryVariables = Exact<{ [key: string]: never }>;
+
+export type CubeHealthQuery = {
+  __typename: "Query";
+  cubeHealth?: Maybe<{
+    __typename: "CubeHealth";
+    ok: boolean;
+    dimensions: Array<string>;
+  }>;
+};
+
 export const OperatorObservationFieldsFragmentDoc = gql`
   fragment operatorObservationFields on OperatorObservation {
     period
@@ -757,6 +777,23 @@ export function useSystemInfoQuery(
 ) {
   return Urql.useQuery<SystemInfoQuery>({
     query: SystemInfoDocument,
+    ...options,
+  });
+}
+export const CubeHealthDocument = gql`
+  query CubeHealth {
+    cubeHealth {
+      ok
+      dimensions
+    }
+  }
+`;
+
+export function useCubeHealthQuery(
+  options: Omit<Urql.UseQueryArgs<CubeHealthQueryVariables>, "query"> = {}
+) {
+  return Urql.useQuery<CubeHealthQuery>({
+    query: CubeHealthDocument,
     ...options,
   });
 }
