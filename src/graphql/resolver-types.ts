@@ -65,6 +65,14 @@ export type CubeHealth = {
   dimensions: Array<Scalars["String"]>;
 };
 
+export type GeverDocumentContent = {
+  __typename?: "GeverDocumentContent";
+  resp1: Scalars["String"];
+  resp2: Scalars["String"];
+  resp3: Scalars["String"];
+  content: Scalars["String"];
+};
+
 export type Municipality = {
   __typename?: "Municipality";
   id: Scalars["String"];
@@ -175,6 +183,7 @@ export type Query = {
   swissMedianObservations?: Maybe<Array<SwissMedianObservation>>;
   wikiContent?: Maybe<WikiContent>;
   cubeHealth?: Maybe<CubeHealth>;
+  geverDocumentContent?: Maybe<GeverDocumentContent>;
 };
 
 export type QueryMunicipalitiesArgs = {
@@ -257,6 +266,10 @@ export type QuerySwissMedianObservationsArgs = {
 export type QueryWikiContentArgs = {
   locale: Scalars["String"];
   slug: Scalars["String"];
+};
+
+export type QueryGeverDocumentContentArgs = {
+  id: Scalars["String"];
 };
 
 export type SearchResult = {
@@ -403,6 +416,7 @@ export type ResolversTypes = ResolversObject<{
   CantonResult: ResolverTypeWrapper<ResolvedSearchResult>;
   CubeHealth: ResolverTypeWrapper<CubeHealth>;
   Boolean: ResolverTypeWrapper<Scalars["Boolean"]>;
+  GeverDocumentContent: ResolverTypeWrapper<GeverDocumentContent>;
   Municipality: ResolverTypeWrapper<ResolvedMunicipality>;
   MunicipalityResult: ResolverTypeWrapper<ResolvedSearchResult>;
   Observation: ResolverTypeWrapper<ResolvedObservation>;
@@ -433,6 +447,7 @@ export type ResolversParentTypes = ResolversObject<{
   CantonResult: ResolvedSearchResult;
   CubeHealth: CubeHealth;
   Boolean: Scalars["Boolean"];
+  GeverDocumentContent: GeverDocumentContent;
   Municipality: ResolvedMunicipality;
   MunicipalityResult: ResolvedSearchResult;
   Observation: ResolvedObservation;
@@ -510,6 +525,17 @@ export type CubeHealthResolvers<
     ParentType,
     ContextType
   >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type GeverDocumentContentResolvers<
+  ContextType = ServerContext,
+  ParentType extends ResolversParentTypes["GeverDocumentContent"] = ResolversParentTypes["GeverDocumentContent"]
+> = ResolversObject<{
+  resp1?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  resp2?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  resp3?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  content?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -733,6 +759,12 @@ export type QueryResolvers<
     ParentType,
     ContextType
   >;
+  geverDocumentContent?: Resolver<
+    Maybe<ResolversTypes["GeverDocumentContent"]>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryGeverDocumentContentArgs, "id">
+  >;
 }>;
 
 export type SearchResultResolvers<
@@ -785,6 +817,7 @@ export type Resolvers<ContextType = ServerContext> = ResolversObject<{
   CantonMedianObservation?: CantonMedianObservationResolvers<ContextType>;
   CantonResult?: CantonResultResolvers<ContextType>;
   CubeHealth?: CubeHealthResolvers<ContextType>;
+  GeverDocumentContent?: GeverDocumentContentResolvers<ContextType>;
   Municipality?: MunicipalityResolvers<ContextType>;
   MunicipalityResult?: MunicipalityResultResolvers<ContextType>;
   Observation?: ObservationResolvers<ContextType>;
