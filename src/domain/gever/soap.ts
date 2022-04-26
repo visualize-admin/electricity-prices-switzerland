@@ -21,6 +21,8 @@ const getCertificateContent = () => {
 
 export const makeSslConfiguredAgent = () => {
   const pfx = getCertificateContent();
+  console.log("pfx", pfx);
+  console.log("cert", process.env.EIAM_CERTIFICATE_CONTENT);
   const CERTIFICATE_PASSWORD = process.env.EIAM_CERTIFICATE_PASSWORD;
 
   if (!CERTIFICATE_PASSWORD) {
