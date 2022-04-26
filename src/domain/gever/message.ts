@@ -127,7 +127,7 @@ export const makeRequest3 = async (resp2Str: string, docId: string) => {
   referenceIdNode.textContent = docId;
 
   const req3 = stripWhitespace(serializeXMLToString(doc));
-  fs.writeFileSync(path.join(__dirname, "../requests/req3.xml"), req3);
+  fs.writeFileSync("/tmp/req3.xml", req3);
 
   return await makeRequest(bindings.service, req3, {
     "Content-Type": "application/soap+xml; charset=utf-8",
