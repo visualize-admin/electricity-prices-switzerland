@@ -1,23 +1,30 @@
 <s:Envelope xmlns:s="http://www.w3.org/2003/05/soap-envelope" xmlns:a="http://www.w3.org/2005/08/addressing" xmlns:u="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
     <s:Header>
-        <a:Action s:mustUnderstand="1">http://Adnovum.FatClient.Soap/SimpleService/Add</a:Action>
-        <a:MessageID>urn:uuid:a54ec6fa-da72-4755-9fb2-d2eff862b4d3</a:MessageID>
-        <ActivityId CorrelationId="48bbeb20-1dc1-4c9b-a6e7-8e3c41766fb4" xmlns="http://schemas.microsoft.com/2004/09/ServiceModel/Diagnostics">8078eb4f-d0b1-426a-9c7f-2bf7fc1852b7</ActivityId>
+        <a:Action s:mustUnderstand="1">http://www.admin.ch/Gever/client/webservices/GeverService/1.0/IDataManipulationService/GetContent</a:Action>
+        <a:MessageID>urn:uuid:55fcf838-2f34-47b3-af91-f22c0b6e714d</a:MessageID>
+        <ActivityId CorrelationId="f8c736c8-bb99-4911-8950-d38fbe4d60c3" xmlns="http://schemas.microsoft.com/2004/09/ServiceModel/Diagnostics">96ad170f-99be-4812-8504-83cbde17a393</ActivityId>
         <a:ReplyTo>
             <a:Address>http://www.w3.org/2005/08/addressing/anonymous</a:Address>
         </a:ReplyTo>
-        <a:To s:mustUnderstand="1">https://api.egov-dev.uvek.admin.ch/tst/BusinessManagement/GeverService/GeverServiceAdvanced.svc</a:To>
+        <VsDebuggerCausalityData xmlns="http://schemas.microsoft.com/vstudio/diagnostics/servicemodelsink">uIDPo56AMxbpZUxFjkrBhuY5M0MAAAAAmEHiwS+emUajbOASf9PkCPRpmUPFYLRGiwI+sVdSlUgACQAA</VsDebuggerCausalityData>
+        <a:To s:mustUnderstand="1">https://wsg-backend.egov-uvek.gever-tst.admin.ch/anws/GeverWebservices/GeverServiceAdvanced.svc</a:To>
         <o:Security s:mustUnderstand="1" xmlns:o="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
             <u:Timestamp u:Id="_0">
-                <u:Created></u:Created>
-                <u:Expires></u:Expires>
+                <u:Created>2022-04-22T12:41:45.688Z</u:Created>
+                <u:Expires>2022-04-22T12:46:45.688Z</u:Expires>
             </u:Timestamp>
-
+            <!-- Assertion -->
         </o:Security>
     </s:Header>
     <s:Body>
-        <GetContent xmlns="http://Adnovum.FatClient.Soap">
-            <id>100</id>
+        <GetContent xmlns="http://www.admin.ch/Gever/client/webservices/GeverService/1.0">
+            <fileContentReference xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+                <BusinessObjectClass>ActaNovaDocument</BusinessObjectClass>
+                <DisplayName i:nil="true" />
+                <ID i:nil="true" />
+                <ReferenceID></ReferenceID>
+                <UrlToObject i:nil="true" />
+            </fileContentReference>
         </GetContent>
     </s:Body>
 </s:Envelope>
