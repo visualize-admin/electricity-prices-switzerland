@@ -100,6 +100,7 @@ export const makeRequest2 = async (resp1Str: string) => {
   let req2 = serializeXMLToString(doc);
   req2 = stripWhitespace(req2);
 
+  fs.writeFileSync("/tmp/req2.xml", req2);
   return await makeRequest(bindings.rpsts, req2, {
     "Content-Type": "application/soap+xml; charset=utf-8",
   });
