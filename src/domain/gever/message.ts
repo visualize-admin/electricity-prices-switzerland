@@ -114,7 +114,7 @@ export const makeRequest3 = async (resp2Str: string, docId: string) => {
   // Get nodes to fill
   const security = $(doc, ns.o, "Security");
   const timestampNode = $(doc, ns.u, "Timestamp");
-  const idNode = $(doc, ns.client, "id");
+  const referenceIdNode = doc.getElementsByTagName("ReferenceID")[0];
 
   // Fill timestamp
   const creationDate = new Date().toISOString();
@@ -123,7 +123,7 @@ export const makeRequest3 = async (resp2Str: string, docId: string) => {
   $(timestampNode, ns.u, "Expires").textContent = expirationDate;
 
   security.appendChild(samlAssertion);
-  idNode.textContent = "200";
+  referenceIdNode.textContent = docId;
 
   const req3 = stripWhitespace(serializeXMLToString(doc));
   fs.writeFileSync(path.join(__dirname, "../requests/req3.xml"), req3);
@@ -138,7 +138,7 @@ export const makeDownloadRequest = async (docId: string) => {
   const resp1 = await makeRequest1();
   console.log("Request to RP-STS...");
   const resp2 = await makeRequest2(resp1);
-  // const resp3 = await makeRequest3(resp2, '200')
+  // const resp3 = await makeRequest3(resp2, docId);
   return {
     resp1,
     resp2,
