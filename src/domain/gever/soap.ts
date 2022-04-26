@@ -1,24 +1,36 @@
 import https from "https";
 import fetch from "node-fetch";
-import fs from 'fs'
+import fs from "fs";
 
-export const makeSslConfiguredAgent = () => {
+const getCertificateContent = () => {
   const CERTIFICATE_PATH = process.env.EIAM_CERTIFICATE_PATH;
-  const CERTIFICATE_PASSWORD = process.env.EIAM_CERTIFICATE_PASSWORD;
-  
-  if (!CERTIFICATE_PATH || !CERTIFICATE_PASSWORD) {
+  const CERTIFICATE_CONTENT = process.env.EIAM_CERTIFICATE_CONTENT;
+  if (CERTIFICATE_PATH) {
+    if (!fs.existsSync(CERTIFICATE_PATH)) {
+      throw new Error(`Certificate file does not exist ${CERTIFICATE_PATH}`);
+    }
+    return fs.readFileSync(CERTIFICATE_PATH);
+  } else if (CERTIFICATE_CONTENT) {
+    return Buffer.from(CERTIFICATE_CONTENT, "base64");
+  } else {
     throw new Error(
-      "EIAM_CERTIFICATE_PATH and EIAM_CERTIFICATE_PASSWORD must be defined in env"
+      "You must either provide EIAM_CERTIFICATE_PATH or EIAM_CERTIFICATE_CONTENT (base64) to perform secure queries"
     );
   }
-  const pfx = fs.readFileSync(CERTIFICATE_PATH)
+};
 
+export const makeSslConfiguredAgent = () => {
+  const pfx = getCertificateContent();
+  const CERTIFICATE_PASSWORD = process.env.EIAM_CERTIFICATE_PASSWORD;
+
+  if (!CERTIFICATE_PASSWORD) {
+    throw new Error("EIAM_CERTIFICATE_PASSWORD must be defined in env");
+  }
   return new https.Agent({
-      pfx,
-      passphrase: CERTIFICATE_PASSWORD,
-    });
-}
-
+    pfx,
+    passphrase: CERTIFICATE_PASSWORD,
+  });
+};
 
 const makeRequest = async (
   url: string,
@@ -34,10 +46,10 @@ const makeRequest = async (
     follow: 0,
   }).then((resp) => {
     if (resp.status === 200) {
-      return resp.text()
+      return resp.text();
     } else {
-      console.warn(resp)
-      throw new Error(`Request failed: ${resp.status} - ${resp.statusText}`)
+      console.warn(resp);
+      throw new Error(`Request failed: ${resp.status} - ${resp.statusText}`);
     }
   });
   return resp;
