@@ -190,3 +190,11 @@ query CubeHealth {
     dimensions
   }
 }
+
+query GeverDocumentContent($id: String!) {
+  geverDocumentContent(id: $id) {
+    content
+    resp1
+    resp2
+  }
+}

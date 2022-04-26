@@ -38,6 +38,7 @@ var gfmHtml = require("micromark-extension-gfm/html");
 import * as ns from "../rdf/namespace";
 import { ApolloError } from "apollo-server-errors";
 import { difference } from "d3";
+import { makeDownloadRequest } from "../domain/gever";
 
 const expectedCubeDimensions = [
   "https://energy.ld.admin.ch/elcom/electricityprice/dimension/category",
@@ -411,6 +412,14 @@ const Query: QueryResolvers = {
       }),
     };
   },
+  geverDocumentContent: async (_, { id }) => {
+    // Crude protection for GEVER debugging, you need to pass the right
+    // docId to see the responses
+    if (id !== process.env.GEVER_DOC_ID) {
+      throw new Error("Wrong document id");
+    }
+    return makeDownloadRequest(id)
+  }
 };
 
 const Municipality: MunicipalityResolvers = {

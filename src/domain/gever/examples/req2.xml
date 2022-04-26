@@ -1,0 +1,115 @@
+<s:Envelope xmlns:s="http://www.w3.org/2003/05/soap-envelope" xmlns:a="http://www.w3.org/2005/08/addressing" xmlns:u="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+    <s:Header>
+        <a:Action s:mustUnderstand="1">http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Issue</a:Action>
+        <a:MessageID>urn:uuid:d1dd0ed4-4be1-4587-a03f-d147faf2bd75</a:MessageID>
+        <ActivityId CorrelationId="61b201e7-cc6f-43a6-a4bb-65291473ba0c" xmlns="http://schemas.microsoft.com/2004/09/ServiceModel/Diagnostics">7ca77113-e186-420e-ab0c-ddebf809fd84</ActivityId>
+        <a:ReplyTo>
+            <a:Address>http://www.w3.org/2005/08/addressing/anonymous</a:Address>
+        </a:ReplyTo>
+        <a:To s:mustUnderstand="1">
+            <!-- REDACTED -->
+        </a:To>
+        <o:Security s:mustUnderstand="1" xmlns:o="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+            <u:Timestamp u:Id="_0">
+                <u:Created>2020-12-21T15:25:47.379Z</u:Created>
+                <u:Expires>2020-12-21T15:30:47.379Z</u:Expires>
+            </u:Timestamp>
+            <saml2:Assertion ID="Assertion_e7b0911888b6f76a5511b32272cdd18028d6eb15" IssueInstant="2020-12-21T15:25:47.288Z" Version="2.0" xmlns:saml2="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                <saml2:Issuer>
+                    <!-- REDACTED -->
+                </saml2:Issuer>
+                <ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+                    <ds:SignedInfo>
+                        <ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" />
+                        <ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" />
+                        <ds:Reference URI="#Assertion_e7b0911888b6f76a5511b32272cdd18028d6eb15">
+                            <ds:Transforms>
+                                <ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />
+                                <ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#">
+                                    <ec:InclusiveNamespaces PrefixList="xs" xmlns:ec="http://www.w3.org/2001/10/xml-exc-c14n#" />
+                                </ds:Transform>
+                            </ds:Transforms>
+                            <ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+                            <ds:DigestValue>fh4GDIMPxxi/BgoCO3VW+9xvNgY=</ds:DigestValue>
+                        </ds:Reference>
+                    </ds:SignedInfo>
+                    <ds:SignatureValue>
+                        KrlFGwg9+yaYcOWussq
+                    </ds:SignatureValue>
+                    <ds:KeyInfo>
+                        <ds:X509Data>
+                            <ds:X509Certificate>
+                                MIIG/zCCBOegAwIBAgIQQg
+                            </ds:X509Certificate>
+                        </ds:X509Data>
+                    </ds:KeyInfo>
+                </ds:Signature>
+                <saml2:Subject>
+                    <!-- saml2:NameID node was redacted -->
+                    <saml2:SubjectConfirmation Method="urn:oasis:names:tc:SAML:2.0:cm:holder-of-key">
+                        <saml2:SubjectConfirmationData NotBefore="2020-12-21T15:25:47.299Z" NotOnOrAfter="2020-12-21T15:26:17.299Z" xsi:type="saml2:KeyInfoConfirmationDataType" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                            <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+                                <wst:BinarySecret xmlns:wst="http://docs.oasis-open.org/ws-sx/ws-trust/200512">xvJyEEWKq3lF9gwuiMGm8pK8nYsDYK56xsqPZQnXKN8=</wst:BinarySecret>
+                            </ds:KeyInfo>
+                        </saml2:SubjectConfirmationData>
+                    </saml2:SubjectConfirmation>
+                </saml2:Subject>
+                <saml2:Conditions NotBefore="2020-12-21T15:25:47.288Z" NotOnOrAfter="2020-12-21T15:26:17.288Z">
+                    <saml2:AudienceRestriction>
+                        <saml2:Audience>
+                            <!-- REDACTED -->
+                        </saml2:Audience>
+                    </saml2:AudienceRestriction>
+                </saml2:Conditions>
+                <saml2:AuthnStatement AuthnInstant="2020-12-21T15:25:47.288Z">
+                    <saml2:AuthnContext>
+                        <saml2:AuthnContextClassRef>
+                            <!-- REDACTED -->
+                        </saml2:AuthnContextClassRef>
+                    </saml2:AuthnContext>
+                </saml2:AuthnStatement>
+                <saml2:AttributeStatement>
+                    <saml2:Attribute Name="http://schemas.eiam.admin.ch/ws/2013/12/identity/claims/x509/fingerprintAlgorithm">
+                        <saml2:AttributeValue xsi:type="xs:string" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">MD5</saml2:AttributeValue>
+                    </saml2:Attribute>
+                    <!-- SAML attributes have been redacted from this example file -->
+                </saml2:AttributeStatement>
+            </saml2:Assertion>
+            <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+                <SignedInfo>
+                    <CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" />
+                    <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#hmac-sha1" />
+                    <Reference URI="#_0">
+                        <Transforms>
+                            <Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" />
+                        </Transforms>
+                        <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+                        <DigestValue>4bR88EyAaE4hyqqk4gyL/wd9ook=</DigestValue>
+                    </Reference>
+                </SignedInfo>
+                <SignatureValue>K2Ee13jjEI+HzFHrFjCCO4L9fks=</SignatureValue>
+                <KeyInfo>
+                    <o:SecurityTokenReference k:TokenType="http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV2.0" xmlns:k="http://docs.oasis-open.org/wss/oasis-wss-wssecurity-secext-1.1.xsd">
+                        <o:KeyIdentifier ValueType="http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLID">Assertion_e7b0911888b6f76a5511b32272cdd18028d6eb15</o:KeyIdentifier>
+                    </o:SecurityTokenReference>
+                </KeyInfo>
+            </Signature>
+        </o:Security>
+    </s:Header>
+    <s:Body>
+        <trust:RequestSecurityToken xmlns:trust="http://docs.oasis-open.org/ws-sx/ws-trust/200512">
+            <trust:RequestType>http://docs.oasis-open.org/ws-sx/ws-trust/200512/Issue</trust:RequestType>
+            <trust:TokenType>http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV2.0</trust:TokenType>
+            <trust:KeyType>http://docs.oasis-open.org/ws-sx/ws-trust/200512/Bearer</trust:KeyType>
+            <trust:CanonicalizationAlgorithm>http://www.w3.org/2001/10/xml-exc-c14n#</trust:CanonicalizationAlgorithm>
+            <trust:EncryptionAlgorithm>http://www.w3.org/2001/04/xmlenc#aes256-cbc</trust:EncryptionAlgorithm>
+            <wsp:AppliesTo xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy">
+                <EndpointReference xmlns="http://www.w3.org/2005/08/addressing">
+                    <Address>
+                        <!-- REDACTED -->
+                    </Address>
+                </EndpointReference>
+            </wsp:AppliesTo>
+        </trust:RequestSecurityToken>
+    </s:Body>
+</s:Envelope>

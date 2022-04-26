@@ -53,6 +53,14 @@ export type CubeHealth = {
   dimensions: Array<Scalars["String"]>;
 };
 
+export type GeverDocumentContent = {
+  __typename: "GeverDocumentContent";
+  resp1: Scalars["String"];
+  resp2: Scalars["String"];
+  resp3: Scalars["String"];
+  content: Scalars["String"];
+};
+
 export type Municipality = {
   __typename: "Municipality";
   id: Scalars["String"];
@@ -163,6 +171,7 @@ export type Query = {
   swissMedianObservations?: Maybe<Array<SwissMedianObservation>>;
   wikiContent?: Maybe<WikiContent>;
   cubeHealth?: Maybe<CubeHealth>;
+  geverDocumentContent?: Maybe<GeverDocumentContent>;
 };
 
 export type QueryMunicipalitiesArgs = {
@@ -245,6 +254,10 @@ export type QuerySwissMedianObservationsArgs = {
 export type QueryWikiContentArgs = {
   locale: Scalars["String"];
   slug: Scalars["String"];
+};
+
+export type QueryGeverDocumentContentArgs = {
+  id: Scalars["String"];
 };
 
 export type SearchResult = {
@@ -500,6 +513,20 @@ export type CubeHealthQuery = {
     __typename: "CubeHealth";
     ok: boolean;
     dimensions: Array<string>;
+  }>;
+};
+
+export type GeverDocumentContentQueryVariables = Exact<{
+  id: Scalars["String"];
+}>;
+
+export type GeverDocumentContentQuery = {
+  __typename: "Query";
+  geverDocumentContent?: Maybe<{
+    __typename: "GeverDocumentContent";
+    content: string;
+    resp1: string;
+    resp2: string;
   }>;
 };
 
@@ -794,6 +821,27 @@ export function useCubeHealthQuery(
 ) {
   return Urql.useQuery<CubeHealthQuery>({
     query: CubeHealthDocument,
+    ...options,
+  });
+}
+export const GeverDocumentContentDocument = gql`
+  query GeverDocumentContent($id: String!) {
+    geverDocumentContent(id: $id) {
+      content
+      resp1
+      resp2
+    }
+  }
+`;
+
+export function useGeverDocumentContentQuery(
+  options: Omit<
+    Urql.UseQueryArgs<GeverDocumentContentQueryVariables>,
+    "query"
+  > = {}
+) {
+  return Urql.useQuery<GeverDocumentContentQuery>({
+    query: GeverDocumentContentDocument,
     ...options,
   });
 }
