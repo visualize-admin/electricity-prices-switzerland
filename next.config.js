@@ -11,9 +11,6 @@ const buildEnv = {
   DEPLOYMENT: process.env.DEPLOYMENT,
   CURRENT_PERIOD: process.env.CURRENT_PERIOD || "2022",
   FIRST_PERIOD: process.env.FIRST_PERIOD || "2009",
-  EIAM_CERTIFICATE_CONTENT: process.env.EIAM_CERTIFICATE_CONTENT,
-  EIAM_CERTIFICATE_PASSWORD: process.env.EIAM_CERTIFICATE_PASSWORD,
-  EIAM_CERTIFICATE_PATH: process.env.EIAM_CERTIFICATE_PATH,
 };
 
 console.log("Build Environment:", buildEnv);
