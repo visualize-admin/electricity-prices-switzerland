@@ -24,6 +24,7 @@ const bindings = {
 };
 
 export const makeRequest1 = async () => {
+  fs.writeFileSync("/tmp/req1.xml", req1Template);
   const resp = await makeRequest(
     bindings.ipsts,
     req1Template,
