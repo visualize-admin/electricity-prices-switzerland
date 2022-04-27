@@ -44,11 +44,12 @@ const makeRequest = async (
     headers: headers,
     agent: agent,
     follow: 0,
-  }).then((resp) => {
+  }).then(async (resp) => {
     if (resp.status === 200) {
       return resp.text();
     } else {
       console.warn(resp);
+      console.warn(await resp.text());
       throw new Error(`Request failed: ${resp.status} - ${resp.statusText}`);
     }
   });
