@@ -139,11 +139,12 @@ export const makeDownloadRequest = async (docId: string) => {
   const resp1 = await makeRequest1();
   console.log("Request to RP-STS...");
   const resp2 = await makeRequest2(resp1);
-  // const resp3 = await makeRequest3(resp2, docId);
+  console.log("Request to GEVER...");
+  const resp3 = await makeRequest3(resp2, docId);
   return {
     resp1,
     resp2,
-    resp3: "",
+    resp3,
     content: "",
   };
 };
