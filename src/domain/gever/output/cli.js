@@ -71,7 +71,6 @@ function __generator(thisArg, body) {
 var getCertificateContent = function () {
     var CERTIFICATE_PATH = process.env.EIAM_CERTIFICATE_PATH;
     var CERTIFICATE_CONTENT = process.env.EIAM_CERTIFICATE_CONTENT;
-    var CERTIFICATE_PATH = process.env.EIAM_CERTIFICATE_PATH;
     if (CERTIFICATE_PATH) {
         if (!fs__default["default"].existsSync(CERTIFICATE_PATH)) {
             throw new Error("Certificate file does not exist " + CERTIFICATE_PATH);
@@ -87,8 +86,6 @@ var getCertificateContent = function () {
 };
 var makeSslConfiguredAgent = function () {
     var pfx = getCertificateContent();
-    console.log("pfx", pfx);
-    console.log("cert", process.env.EIAM_CERTIFICATE_CONTENT);
     var CERTIFICATE_PASSWORD = process.env.EIAM_CERTIFICATE_PASSWORD;
     if (!CERTIFICATE_PASSWORD) {
         throw new Error("EIAM_CERTIFICATE_PASSWORD must be defined in env");
@@ -108,15 +105,23 @@ var makeRequest = function (url, body, headers, agent) { return __awaiter(void 0
                     headers: headers,
                     agent: agent,
                     follow: 0
-                }).then(function (resp) {
-                    if (resp.status === 200) {
-                        return resp.text();
-                    }
-                    else {
-                        console.warn(resp);
-                        throw new Error("Request failed: " + resp.status + " - " + resp.statusText);
-                    }
-                })];
+                }).then(function (resp) { return __awaiter(void 0, void 0, void 0, function () {
+                    var _a, _b;
+                    return __generator(this, function (_c) {
+                        switch (_c.label) {
+                            case 0:
+                                if (!(resp.status === 200)) return [3 /*break*/, 1];
+                                return [2 /*return*/, resp.text()];
+                            case 1:
+                                console.warn(resp);
+                                _b = (_a = console).warn;
+                                return [4 /*yield*/, resp.text()];
+                            case 2:
+                                _b.apply(_a, [_c.sent()]);
+                                throw new Error("Request failed: " + resp.status + " - " + resp.statusText);
+                        }
+                    });
+                }); })];
             case 1:
                 resp = _a.sent();
                 return [2 /*return*/, resp];
@@ -174,6 +179,8 @@ var stripWhitespace = function (xmlStr) {
 var req1Template = "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:a=\"http://www.w3.org/2005/08/addressing\" xmlns:u=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd\">\n    <s:Header>\n        <a:Action s:mustUnderstand=\"1\">http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Issue</a:Action>\n        <a:MessageID>urn:uuid:e5393db9-1753-4dc9-b356-658b71b4b3fe</a:MessageID>\n        <ActivityId correlationId=\"ff547aa6-79ae-4d5e-8fff-6542230de5c4\" xmlns=\"http://schemas.microsoft.com/2004/09/ServiceModel/Diagnostics\">061572c2-3a5d-4b18-ab3a-7f99de8b0181</ActivityId>\n        <a:ReplyTo>\n            <a:Address>http://www.w3.org/2005/08/addressing/anonymous</a:Address>\n        </a:ReplyTo>\n        <a:To s:mustUnderstand=\"1\">https://idp-cert.gate-r.eiam.admin.ch/auth/sts/v14/certificatetransport</a:To>\n        <o:Security s:mustUnderstand=\"1\" xmlns:o=\"http://docs.oasis-open.org/wss/2004/01/oasis200401-wss-wssecurity-secext-1.0.xsd\">\n            <u:Timestamp u:Id=\"_0\">\n                <u:Created>2020-12-21T15:25:27.642Z</u:Created>\n                <u:Expires>2020-12-21T15:30:27.642Z</u:Expires>\n            </u:Timestamp>\n            <o:UsernameToken u:Id=\"uuid-f5929429-0f3b-40a9-b10f8205ac4d59a7-1\">\n                <o:Username>dummy</o:Username>\n            </o:UsernameToken>\n        </o:Security>\n    </s:Header>\n    <s:Body>\n        <trust:RequestSecurityToken xmlns:trust=\"http://docs.oasis-open.org/ws-sx/ws-trust/200512\">\n            <trust:RequestType>http://docs.oasis-open.org/ws-sx/ws-trust/200512/Issue</trust:RequestType>\n            <trust:TokenType>http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV2.0</trust:TokenType>\n            <trust:KeyType>http://docs.oasis-open.org/ws-sx/ws-trust/200512/SymmetricKey</trust:KeyType>\n            <trust:KeySize>256</trust:KeySize>\n            <trust:KeyWrapAlgorithm>http://www.w3.org/2001/04/xmlenc#rsaoaep-mgf1p</trust:KeyWrapAlgorithm>\n            <trust:EncryptWith>http://www.w3.org/2001/04/xmlenc#aes256-cbc</trust:EncryptWith>\n            <trust:SignWith>http://www.w3.org/2000/09/xmldsig#hmacsha1</trust:SignWith>\n\n            <trust:CanonicalizationAlgorithm>http://www.w3.org/2001/10/xml-excc14n#</trust:CanonicalizationAlgorithm>\n\n            <trust:EncryptionAlgorithm>http://www.w3.org/2001/04/xmlenc#aes256-cbc</trust:EncryptionAlgorithm>\n            <wsp:AppliesTo xmlns:wsp=\"http://schemas.xmlsoap.org/ws/2004/09/policy\">\n                <EndpointReference xmlns=\"http://www.w3.org/2005/08/addressing\">\n                    <Address>http://feds-r.eiam.admin.ch</Address>\n                </EndpointReference>\n            </wsp:AppliesTo>\n        </trust:RequestSecurityToken>\n    </s:Body>\n</s:Envelope>";
 
 var req2Template = "<s:Envelope xmlns:s=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:a=\"http://www.w3.org/2005/08/addressing\" xmlns:u=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd\">\n    <s:Header>\n        <a:Action s:mustUnderstand=\"1\">http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Issue</a:Action>\n        <a:MessageID>urn:uuid:d1dd0ed4-4be1-4587-a03f-d147faf2bd75</a:MessageID>\n        <a:ReplyTo>\n            <a:Address>http://www.w3.org/2005/08/addressing/anonymous</a:Address>\n        </a:ReplyTo>\n        <a:To s:mustUnderstand=\"1\">https://feds-r.eiam.admin.ch/adfs/services/trust/13/issuedtokenmixedsymmetricbasic256</a:To>\n        <o:Security s:mustUnderstand=\"1\" xmlns:o=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd\">\n            <u:Timestamp u:Id=\"_0\">\n                <u:Created></u:Created>\n                <u:Expires></u:Expires>\n            </u:Timestamp>\n\n            <Signature xmlns=\"http://www.w3.org/2000/09/xmldsig#\">\n                <SignedInfo>\n                    <CanonicalizationMethod Algorithm=\"http://www.w3.org/2001/10/xml-exc-c14n#\" />\n                    <SignatureMethod Algorithm=\"http://www.w3.org/2000/09/xmldsig#hmac-sha1\" />\n                    <Reference URI=\"#_0\">\n                        <Transforms>\n                            <Transform Algorithm=\"http://www.w3.org/2001/10/xml-exc-c14n#\" />\n                        </Transforms>\n                        <DigestMethod Algorithm=\"http://www.w3.org/2000/09/xmldsig#sha1\" />\n                        <DigestValue></DigestValue>\n                    </Reference>\n                </SignedInfo>\n                <SignatureValue></SignatureValue>\n                <KeyInfo>\n                    <o:SecurityTokenReference k:TokenType=\"http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV2.0\" xmlns:k=\"http://docs.oasis-open.org/wss/oasis-wss-wssecurity-secext-1.1.xsd\">\n                        <o:KeyIdentifier ValueType=\"http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLID\"></o:KeyIdentifier>\n                    </o:SecurityTokenReference>\n                </KeyInfo>\n            </Signature>\n        </o:Security>\n    </s:Header>\n    <s:Body>\n        <trust:RequestSecurityToken xmlns:trust=\"http://docs.oasis-open.org/ws-sx/ws-trust/200512\">\n            <trust:RequestType>http://docs.oasis-open.org/ws-sx/ws-trust/200512/Issue</trust:RequestType>\n            <trust:TokenType>http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV2.0</trust:TokenType>\n            <trust:KeyType>http://docs.oasis-open.org/ws-sx/ws-trust/200512/Bearer</trust:KeyType>\n            <trust:CanonicalizationAlgorithm>http://www.w3.org/2001/10/xml-exc-c14n#</trust:CanonicalizationAlgorithm>\n            <trust:EncryptionAlgorithm>http://www.w3.org/2001/04/xmlenc#aes256-cbc</trust:EncryptionAlgorithm>\n            <wsp:AppliesTo xmlns:wsp=\"http://schemas.xmlsoap.org/ws/2004/09/policy\">\n                <EndpointReference xmlns=\"http://www.w3.org/2005/08/addressing\">\n                    <Address>urn:eiam.admin.ch:pep:GEVER-WS</Address>\n                </EndpointReference>\n            </wsp:AppliesTo>\n        </trust:RequestSecurityToken>\n    </s:Body>\n</s:Envelope>";
+
+var req3Template = "<s:Envelope xmlns:s=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:a=\"http://www.w3.org/2005/08/addressing\" xmlns:u=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd\">\n    <s:Header>\n        <a:Action s:mustUnderstand=\"1\">http://www.admin.ch/Gever/client/webservices/GeverService/1.0/IDataManipulationService/GetContent</a:Action>\n        <a:MessageID>urn:uuid:55fcf838-2f34-47b3-af91-f22c0b6e714d</a:MessageID>\n        <ActivityId CorrelationId=\"f8c736c8-bb99-4911-8950-d38fbe4d60c3\" xmlns=\"http://schemas.microsoft.com/2004/09/ServiceModel/Diagnostics\">96ad170f-99be-4812-8504-83cbde17a393</ActivityId>\n        <a:ReplyTo>\n            <a:Address>http://www.w3.org/2005/08/addressing/anonymous</a:Address>\n        </a:ReplyTo>\n        <VsDebuggerCausalityData xmlns=\"http://schemas.microsoft.com/vstudio/diagnostics/servicemodelsink\">uIDPo56AMxbpZUxFjkrBhuY5M0MAAAAAmEHiwS+emUajbOASf9PkCPRpmUPFYLRGiwI+sVdSlUgACQAA</VsDebuggerCausalityData>\n        <a:To s:mustUnderstand=\"1\">https://wsg-backend.egov-uvek.gever-tst.admin.ch/anws/GeverWebservices/GeverServiceAdvanced.svc</a:To>\n        <o:Security s:mustUnderstand=\"1\" xmlns:o=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd\">\n            <u:Timestamp u:Id=\"_0\">\n                <u:Created>2022-04-22T12:41:45.688Z</u:Created>\n                <u:Expires>2022-04-22T12:46:45.688Z</u:Expires>\n            </u:Timestamp>\n            <!-- Assertion -->\n        </o:Security>\n    </s:Header>\n    <s:Body>\n        <GetContent xmlns=\"http://www.admin.ch/Gever/client/webservices/GeverService/1.0\">\n            <fileContentReference xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\n                <BusinessObjectClass>ActaNovaDocument</BusinessObjectClass>\n                <DisplayName i:nil=\"true\" />\n                <ID i:nil=\"true\" />\n                <ReferenceID></ReferenceID>\n                <UrlToObject i:nil=\"true\" />\n            </fileContentReference>\n        </GetContent>\n    </s:Body>\n</s:Envelope>";
 
 var bindings = {
     ipsts: "https://idp-cert.gate-r.eiam.admin.ch/auth/sts/v14/certificatetransport",
@@ -269,8 +276,34 @@ var makeRequest2 = function (resp1Str) { return __awaiter(void 0, void 0, void 0
         }
     });
 }); };
+var makeRequest3 = function (resp2Str, docId) { return __awaiter(void 0, void 0, void 0, function () {
+    var resp2, doc, samlAssertion, security, timestampNode, referenceIdNode, creationDate, expirationDate, req3;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                resp2 = parseXMLString(resp2Str).documentElement;
+                doc = parseXMLString(req3Template).documentElement;
+                samlAssertion = $(resp2, ns.saml2, "Assertion");
+                security = $(doc, ns.o, "Security");
+                timestampNode = $(doc, ns.u, "Timestamp");
+                referenceIdNode = doc.getElementsByTagName("ReferenceID")[0];
+                creationDate = new Date().toISOString();
+                expirationDate = new Date(+new Date() + 5 * 60 * 1000).toISOString();
+                $(timestampNode, ns.u, "Created").textContent = creationDate;
+                $(timestampNode, ns.u, "Expires").textContent = expirationDate;
+                security.appendChild(samlAssertion);
+                referenceIdNode.textContent = docId;
+                req3 = stripWhitespace(serializeXMLToString(doc));
+                fs__default["default"].writeFileSync("/tmp/req3.xml", req3);
+                return [4 /*yield*/, makeRequest(bindings.service, req3, {
+                        "Content-Type": "application/soap+xml; charset=utf-8"
+                    })];
+            case 1: return [2 /*return*/, _a.sent()];
+        }
+    });
+}); };
 var makeDownloadRequest = function (docId) { return __awaiter(void 0, void 0, void 0, function () {
-    var resp1, resp2;
+    var resp1, resp2, resp3;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -282,11 +315,14 @@ var makeDownloadRequest = function (docId) { return __awaiter(void 0, void 0, vo
                 return [4 /*yield*/, makeRequest2(resp1)];
             case 2:
                 resp2 = _a.sent();
-                // const resp3 = await makeRequest3(resp2, docId);
+                console.log("Request to GEVER...");
+                return [4 /*yield*/, makeRequest3(resp2, docId)];
+            case 3:
+                resp3 = _a.sent();
                 return [2 /*return*/, {
                         resp1: resp1,
                         resp2: resp2,
-                        resp3: "",
+                        resp3: resp3,
                         content: ""
                     }];
         }
@@ -297,9 +333,7 @@ var main = function () { return __awaiter(void 0, void 0, void 0, function () {
     var resp;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0:
-                console.log(process.argv[2]);
-                return [4 /*yield*/, makeDownloadRequest(process.argv[2])];
+            case 0: return [4 /*yield*/, makeDownloadRequest(process.argv[2])];
             case 1:
                 resp = _a.sent();
                 console.log(resp);
