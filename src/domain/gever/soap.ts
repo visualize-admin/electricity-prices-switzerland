@@ -5,7 +5,6 @@ import fs from "fs";
 const getCertificateContent = () => {
   const CERTIFICATE_PATH = process.env.EIAM_CERTIFICATE_PATH;
   const CERTIFICATE_CONTENT = process.env.EIAM_CERTIFICATE_CONTENT;
-  const CERTIFICATE_PATH = process.env.EIAM_CERTIFICATE_PATH;
   if (CERTIFICATE_PATH) {
     if (!fs.existsSync(CERTIFICATE_PATH)) {
       throw new Error(`Certificate file does not exist ${CERTIFICATE_PATH}`);
