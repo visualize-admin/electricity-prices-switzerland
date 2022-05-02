@@ -111,7 +111,7 @@ var makeRequest = function (url, body, headers, agent) { return __awaiter(void 0
                         switch (_c.label) {
                             case 0:
                                 if (!(resp.status === 200)) return [3 /*break*/, 1];
-                                return [2 /*return*/, resp.text()];
+                                return [2 /*return*/, resp];
                             case 1:
                                 console.warn(resp);
                                 _b = (_a = console).warn;
@@ -198,7 +198,7 @@ var makeRequest1 = function () { return __awaiter(void 0, void 0, void 0, functi
                         SOAPAction: "http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Issue"
                     }, makeSslConfiguredAgent())];
             case 1:
-                resp = _a.sent();
+                resp = (_a.sent()).text();
                 return [2 /*return*/, resp];
         }
     });
@@ -272,12 +272,13 @@ var makeRequest2 = function (resp1Str) { return __awaiter(void 0, void 0, void 0
                 return [4 /*yield*/, makeRequest(bindings.rpsts, req2, {
                         "Content-Type": "application/soap+xml; charset=utf-8"
                     })];
-            case 3: return [2 /*return*/, _a.sent()];
+            case 3: return [4 /*yield*/, (_a.sent()).text()];
+            case 4: return [2 /*return*/, _a.sent()];
         }
     });
 }); };
 var makeRequest3 = function (resp2Str, docId) { return __awaiter(void 0, void 0, void 0, function () {
-    var resp2, doc, samlAssertion, security, timestampNode, referenceIdNode, creationDate, expirationDate, req3;
+    var resp2, doc, samlAssertion, security, timestampNode, referenceIdNode, creationDate, expirationDate, req3, resp, dv, pdfStr, pdfStartMarker, pdfEndMarker, start, end;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -298,7 +299,17 @@ var makeRequest3 = function (resp2Str, docId) { return __awaiter(void 0, void 0,
                 return [4 /*yield*/, makeRequest(bindings.service, req3, {
                         "Content-Type": "application/soap+xml; charset=utf-8"
                     })];
-            case 1: return [2 /*return*/, _a.sent()];
+            case 1: return [4 /*yield*/, (_a.sent()).arrayBuffer()];
+            case 2:
+                resp = _a.sent();
+                dv = new Uint8Array(resp);
+                pdfStr = new TextDecoder("ascii").decode(resp);
+                pdfStartMarker = "%PDF-1.4";
+                pdfEndMarker = "%%EOF";
+                start = pdfStr.indexOf(pdfStartMarker);
+                end = pdfStr.indexOf(pdfEndMarker);
+                fs__default["default"].writeFileSync("/tmp/a.pdf", dv.slice(start, end), { encoding: "binary" });
+                return [2 /*return*/, pdfStr.slice(start, end)];
         }
     });
 }); };
@@ -333,7 +344,11 @@ var main = function () { return __awaiter(void 0, void 0, void 0, function () {
     var resp;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, makeDownloadRequest(process.argv[2])];
+            case 0:
+                if (!process.argv[2]) {
+                    throw new Error("Usage: node cli.js <docid>");
+                }
+                return [4 /*yield*/, makeDownloadRequest(process.argv[2])];
             case 1:
                 resp = _a.sent();
                 console.log(resp);
