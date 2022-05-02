@@ -46,7 +46,7 @@ const makeRequest = async (
     follow: 0,
   }).then(async (resp) => {
     if (resp.status === 200) {
-      return resp.text();
+      return resp;
     } else {
       console.warn(resp);
       console.warn(await resp.text());

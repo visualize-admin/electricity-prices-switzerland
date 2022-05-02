@@ -24,15 +24,18 @@ const bindings = {
 
 export const makeRequest1 = async () => {
   fs.writeFileSync("/tmp/req1.xml", req1Template);
-  const resp = await makeRequest(
-    bindings.ipsts,
-    req1Template,
-    {
-      "Content-Type": "text/xml",
-      SOAPAction: "http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Issue",
-    },
-    makeSslConfiguredAgent()
-  );
+  const resp = (
+    await makeRequest(
+      bindings.ipsts,
+      req1Template,
+      {
+        "Content-Type": "text/xml",
+        SOAPAction:
+          "http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Issue",
+      },
+      makeSslConfiguredAgent()
+    )
+  ).text();
   return resp;
 };
 
@@ -100,9 +103,11 @@ export const makeRequest2 = async (resp1Str: string) => {
   req2 = stripWhitespace(req2);
 
   fs.writeFileSync("/tmp/req2.xml", req2);
-  return await makeRequest(bindings.rpsts, req2, {
-    "Content-Type": "application/soap+xml; charset=utf-8",
-  });
+  return await (
+    await makeRequest(bindings.rpsts, req2, {
+      "Content-Type": "application/soap+xml; charset=utf-8",
+    })
+  ).text();
 };
 
 export const makeRequest3 = async (resp2Str: string, docId: string) => {
@@ -129,9 +134,22 @@ export const makeRequest3 = async (resp2Str: string, docId: string) => {
   const req3 = stripWhitespace(serializeXMLToString(doc));
   fs.writeFileSync("/tmp/req3.xml", req3);
 
-  return await makeRequest(bindings.service, req3, {
-    "Content-Type": "application/soap+xml; charset=utf-8",
-  });
+  const resp = await (
+    await makeRequest(bindings.service, req3, {
+      "Content-Type": "application/soap+xml; charset=utf-8",
+    })
+  ).arrayBuffer();
+
+  const dv = new Uint8Array(resp);
+  const pdfStr = new TextDecoder("ascii").decode(resp);
+  const pdfStartMarker = "%PDF-1.4";
+  const pdfEndMarker = "%%EOF";
+  const start = pdfStr.indexOf(pdfStartMarker);
+  const end = pdfStr.indexOf(pdfEndMarker);
+
+  fs.writeFileSync("/tmp/a.pdf", dv.slice(start, end), { encoding: "binary" });
+
+  return pdfStr.slice(start, end);
 };
 
 export const makeDownloadRequest = async (docId: string) => {
