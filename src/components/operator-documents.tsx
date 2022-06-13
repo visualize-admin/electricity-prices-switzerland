@@ -34,7 +34,7 @@ const CATEGORIES = [
       <Trans id="download.category.annualreport">Jahresrechnung</Trans>
     ),
     categoryLabel: (
-      <Trans id="download.category.annualreports">Jahresrechnungen</Trans>
+      <Trans id="download.category.annualreports">Jahresrechnungen Netz</Trans>
     ),
   },
 ];

@@ -114,7 +114,7 @@ msgstr "Jahresrechnung"
 
 #: src/components/operator-documents.tsx:37
 msgid "download.category.annualreports"
-msgstr "Jahresrechnungen"
+msgstr "Jahresrechnungen Netz"
 
 #: src/components/operator-documents.tsx:23
 #~ msgid "download.category.financialstatement"
