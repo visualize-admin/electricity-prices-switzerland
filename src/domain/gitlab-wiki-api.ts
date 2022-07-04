@@ -19,6 +19,27 @@ type WikiCacheJson = {
 
 const CACHE_TTL = 1000;
 
+const fetchWithTimeout = async (
+  url: string,
+  options: RequestInit & { timeout?: number } = {}
+) => {
+  const { timeout } = options;
+
+  const controller = new AbortController();
+  const id =
+    timeout !== undefined
+      ? setTimeout(() => controller.abort(), timeout)
+      : undefined;
+  const response = await fetch(url, {
+    ...options,
+    signal: controller.signal,
+  });
+  if (id !== undefined) {
+    clearTimeout(id);
+  }
+  return response;
+};
+
 const getCachedWikiPages = async (
   url: string,
   token: string
@@ -36,8 +57,9 @@ const getCachedWikiPages = async (
     await fs.remove(filePath);
   }
 
-  const res = await fetch(url, {
+  const res = await fetchWithTimeout(url, {
     headers: { "PRIVATE-TOKEN": token },
+    timeout: 8000,
   });
   const pages: WikiPages = await res.json();
 
