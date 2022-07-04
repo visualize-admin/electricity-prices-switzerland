@@ -25,19 +25,18 @@ const fetchWithTimeout = async (
 ) => {
   const { timeout } = options;
 
-  const controller = new AbortController();
-  const id =
+  let id;
+  const aborter = new Promise((resolve, reject) =>
     timeout !== undefined
-      ? setTimeout(() => controller.abort(), timeout)
-      : undefined;
-  const response = await fetch(url, {
-    ...options,
-    signal: controller.signal,
-  });
+      ? (id = setTimeout(() => reject(new Error("Timeout")), timeout))
+      : undefined
+  );
+  const fetcher = await fetch(url, options);
   if (id !== undefined) {
     clearTimeout(id);
   }
-  return response;
+  const value = await Promise.race([aborter, fetcher]);
+  return value as Response;
 };
 
 const getCachedWikiPages = async (
