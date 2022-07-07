@@ -100,3 +100,25 @@ make geodata
 Since Switzerland's municipalities can change each year, the yearly [Shapefiles from 2010 on prepared by BFS](https://www.bfs.admin.ch/bfs/de/home/dienstleistungen/geostat/geodaten-bundesstatistik/administrative-grenzen/generalisierte-gemeindegrenzen.html) will be downloaded and transformed into [TopoJSON](https://github.com/topojson/topojson) format which can be loaded efficiently client-side.
 
 The detailed transformation steps are described in this project's `Makefile`.
+
+## Http Proxy
+
+On CloudFoundry, an HTTP proxy is used for external requests. This is for example used to fetch
+the gitlab content.
+
+For some of the server requests (SAML requests), we need *not* to use this proxy.
+
+This is why the normal behavior of global-agent to
+automatically use the proxy, has been deactivated
+through the use of the env variable GLOBAL_AGENT_FORCE_GLOBAL_AGENT=false.
+
+For external requests that should use the proxy,
+we can use `https.globalAgent`. Then global-agent
+uses the proxy.
+
+```
+const https = require('https')
+const data = fetch(url, {
+  agent: https.globalAgent
+})
+````

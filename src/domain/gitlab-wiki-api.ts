@@ -1,6 +1,7 @@
 import fs from "fs-extra";
 import os from "os";
 import path from "path";
+import https from 'https'
 import { getWikiPage as getStaticWikiPage } from "./gitlab-wiki-static";
 
 type WikiPage = {
@@ -21,7 +22,7 @@ const CACHE_TTL = 1000;
 
 const fetchWithTimeout = async (
   url: string,
-  options: RequestInit & { timeout?: number } = {}
+  options: RequestInit & { timeout?: number, agent?: https.Agent } = {}
 ) => {
   const { timeout } = options;
 
@@ -59,6 +60,10 @@ const getCachedWikiPages = async (
   const res = await fetchWithTimeout(url, {
     headers: { "PRIVATE-TOKEN": token },
     timeout: 8000,
+
+    // This is necessary for GLOBAL_AGENT to correctly override the agent while
+    // the GLOBAL_AGENT_FORCE_GLOBAL_AGENT variable is set
+    agent: https.globalAgent
   });
   const pages: WikiPages = await res.json();
 
