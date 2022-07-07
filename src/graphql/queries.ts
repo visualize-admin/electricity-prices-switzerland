@@ -61,6 +61,12 @@ export type GeverDocumentContent = {
   content: Scalars["String"];
 };
 
+export type GeverDocumentSearchResult = {
+  __typename: "GeverDocumentSearchResult";
+  title: Scalars["String"];
+  id: Scalars["String"];
+};
+
 export type Municipality = {
   __typename: "Municipality";
   id: Scalars["String"];
@@ -172,6 +178,7 @@ export type Query = {
   wikiContent?: Maybe<WikiContent>;
   cubeHealth?: Maybe<CubeHealth>;
   geverDocumentContent?: Maybe<GeverDocumentContent>;
+  geverDocumentSearch?: Maybe<GeverDocumentContent>;
 };
 
 export type QueryMunicipalitiesArgs = {
@@ -258,6 +265,10 @@ export type QueryWikiContentArgs = {
 
 export type QueryGeverDocumentContentArgs = {
   id: Scalars["String"];
+};
+
+export type QueryGeverDocumentSearchArgs = {
+  search: Scalars["String"];
 };
 
 export type SearchResult = {

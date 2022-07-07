@@ -1,1 +1,1 @@
-export { makeDownloadRequest } from "./message";
+export { downloadGeverDocument, searchGeverDocuments } from "./message";

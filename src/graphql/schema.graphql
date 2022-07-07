@@ -132,6 +132,11 @@ type GeverDocumentContent {
   content: String!
 }
 
+type GeverDocumentSearchResult {
+  title: String!
+  id: String!
+}
+
 type Query {
   systemInfo: SystemInfo!
   municipalities(
@@ -184,4 +189,5 @@ type Query {
   cubeHealth: CubeHealth
 
   geverDocumentContent(id: String!): GeverDocumentContent
+  geverDocumentSearch(search: String!): GeverDocumentContent
 }

@@ -11,7 +11,8 @@ import {
 } from "./utils";
 import req1Template from "./templates/req1.template.xml";
 import req2Template from "./templates/req2.template.xml";
-import req3Template from "./templates/req3.template.xml";
+import getContentTemplate from "./templates/get-content.template.xml";
+import searchDocumentsTemplate from "./templates/search-documents.template.xml";
 
 const bindings = {
   ipsts:
@@ -110,9 +111,9 @@ export const makeRequest2 = async (resp1Str: string) => {
   ).text();
 };
 
-export const makeRequest3 = async (resp2Str: string, docId: string) => {
+export const setupRequest3 = (requestTemplate: string, resp2Str: string) => {
   const resp2 = parseXMLString(resp2Str).documentElement;
-  const doc = parseXMLString(req3Template).documentElement;
+  const doc = parseXMLString(requestTemplate).documentElement;
 
   // Get content from resp 1
   const samlAssertion = $(resp2, ns.saml2, "Assertion");
@@ -120,15 +121,21 @@ export const makeRequest3 = async (resp2Str: string, docId: string) => {
   // Get nodes to fill
   const security = $(doc, ns.o, "Security");
   const timestampNode = $(doc, ns.u, "Timestamp");
-  const referenceIdNode = doc.getElementsByTagName("ReferenceID")[0];
-
+  
   // Fill timestamp
   const creationDate = new Date().toISOString();
   const expirationDate = new Date(+new Date() + 5 * 60 * 1000).toISOString();
   $(timestampNode, ns.u, "Created").textContent = creationDate;
   $(timestampNode, ns.u, "Expires").textContent = expirationDate;
-
+  
   security.appendChild(samlAssertion);
+  
+  return doc
+}
+
+const makeContentRequest = async (resp2Str: string, docId: string) => {
+  const doc = setupRequest3(getContentTemplate, resp2Str)
+  const referenceIdNode = doc.getElementsByTagName("ReferenceID")[0];
   referenceIdNode.textContent = docId;
 
   const req3 = stripWhitespace(serializeXMLToString(doc));
@@ -152,13 +159,45 @@ export const makeRequest3 = async (resp2Str: string, docId: string) => {
   return pdfStr.slice(start, end);
 };
 
-export const makeDownloadRequest = async (docId: string) => {
+const makeSearchRequest = async (resp2Str: string, search: string) => {
+  const doc = setupRequest3(searchDocumentsTemplate, resp2Str)
+  const searchTextNode = doc.getElementsByTagName("ParameterValue")[0];
+  searchTextNode.textContent = search;
+
+  const req3 = stripWhitespace(serializeXMLToString(doc));
+  fs.writeFileSync("/tmp/req3.xml", req3);
+
+  const resp = await makeRequest(bindings.service, req3, {
+      "Content-Type": "application/soap+xml; charset=utf-8",
+    }).then(x => x.text())
+  
+
+  return resp;
+};
+
+export const downloadGeverDocument = async (docId: string) => {
   console.log("Request to IP-STS...");
   const resp1 = await makeRequest1();
   console.log("Request to RP-STS...");
   const resp2 = await makeRequest2(resp1);
   console.log("Request to GEVER...");
-  const resp3 = await makeRequest3(resp2, docId);
+  const resp3 = await makeContentRequest(resp2, docId);
+  return {
+    resp1,
+    resp2,
+    resp3,
+    content: "",
+  };
+};
+
+
+export const searchGeverDocuments = async (search: string) => {
+  console.log("Request to IP-STS...");
+  const resp1 = await makeRequest1();
+  console.log("Request to RP-STS...");
+  const resp2 = await makeRequest2(resp1);
+  console.log("Request to GEVER...");
+  const resp3 = await makeSearchRequest(resp2, search);
   return {
     resp1,
     resp2,
