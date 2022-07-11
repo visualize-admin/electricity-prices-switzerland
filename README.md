@@ -106,7 +106,7 @@ The detailed transformation steps are described in this project's `Makefile`.
 On CloudFoundry, an HTTP proxy is used for external requests. This is for example used to fetch
 the gitlab content.
 
-For some of the server requests (SAML requests), we need *not* to use this proxy.
+For some of the server requests (SAML requests), we must *not* use this proxy.
 
 This is why the normal behavior of global-agent to
 automatically use the proxy, has been deactivated
