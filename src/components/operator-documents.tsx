@@ -74,11 +74,16 @@ const DocumentList = ({
 
 export const OperatorDocuments = ({ id }: { id: string }) => {
   const locale = useLocale();
+
   const [documentsQuery] = useOperatorDocumentsQuery({
     variables: { locale, id },
   });
 
-  const documents = documentsQuery.data?.operator?.documents ?? EMPTY_ARRAY;
+  const legacyDocuments =
+    documentsQuery.data?.operator?.documents ?? EMPTY_ARRAY;
+  const geverDocuments =
+    documentsQuery.data?.operator?.geverDocuments ?? EMPTY_ARRAY;
+  const documents = [...legacyDocuments, ...geverDocuments];
 
   const documentsByCategory = useMemo(() => {
     return rollup(

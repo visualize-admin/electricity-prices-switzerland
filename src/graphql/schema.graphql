@@ -29,6 +29,7 @@ type Operator {
   municipalities: [Municipality!]!
   cantons: [Canton!]!
   documents: [OperatorDocument!]!
+  geverDocuments: [OperatorDocument!]!
 }
 
 enum OperatorDocumentCategory {
@@ -132,11 +133,6 @@ type GeverDocumentContent {
   content: String!
 }
 
-type GeverDocumentSearchResult {
-  title: String!
-  id: String!
-}
-
 type Query {
   systemInfo: SystemInfo!
   municipalities(
@@ -187,7 +183,4 @@ type Query {
   wikiContent(locale: String!, slug: String!): WikiContent
 
   cubeHealth: CubeHealth
-
-  geverDocumentContent(id: String!): GeverDocumentContent
-  geverDocumentSearch(search: String!): GeverDocumentContent
 }

@@ -10,8 +10,8 @@ export const ns = {
   client: "http://Adnovum.FatClient.Soap"
 };
 
-export const $ = (doc: Element, ns: string, qs: string, index?: number) => {
-  const elements = doc.getElementsByTagNameNS(ns, qs);
+export const $ = (doc: Element, ns: string | null, qs: string, index?: number) => {
+  const elements = ns ? doc.getElementsByTagNameNS(ns, qs) : doc.getElementsByTagName(qs);
   if (elements.length > 1 && typeof index === "undefined") {
     console.log(elements);
     throw new Error(`Too many elements for ${ns}:${qs}, please add an index`);
@@ -22,6 +22,15 @@ export const $ = (doc: Element, ns: string, qs: string, index?: number) => {
   const res = elements[typeof index === "undefined" ? 0 : index];
   return res;
 };
+
+export const $$ = (doc: Element, ns: string | null, qs: string) => {
+  const elements = ns ? doc.getElementsByTagNameNS(ns, qs) : doc.getElementsByTagName(qs);
+  if (!elements.length) {
+    throw new Error(`Could not find ${ns}:${qs}`);
+  }
+  return Array.from(elements)
+};
+
 
 export const canonicalizeXML = async (tree: Element): Promise<string> => {
   return new Promise((resolve, reject) => {

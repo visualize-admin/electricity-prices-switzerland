@@ -61,12 +61,6 @@ export type GeverDocumentContent = {
   content: Scalars["String"];
 };
 
-export type GeverDocumentSearchResult = {
-  __typename: "GeverDocumentSearchResult";
-  title: Scalars["String"];
-  id: Scalars["String"];
-};
-
 export type Municipality = {
   __typename: "Municipality";
   id: Scalars["String"];
@@ -108,6 +102,7 @@ export type Operator = {
   municipalities: Array<Municipality>;
   cantons: Array<Canton>;
   documents: Array<OperatorDocument>;
+  geverDocuments: Array<OperatorDocument>;
 };
 
 export type OperatorDocument = {
@@ -177,8 +172,6 @@ export type Query = {
   swissMedianObservations?: Maybe<Array<SwissMedianObservation>>;
   wikiContent?: Maybe<WikiContent>;
   cubeHealth?: Maybe<CubeHealth>;
-  geverDocumentContent?: Maybe<GeverDocumentContent>;
-  geverDocumentSearch?: Maybe<GeverDocumentContent>;
 };
 
 export type QueryMunicipalitiesArgs = {
@@ -261,14 +254,6 @@ export type QuerySwissMedianObservationsArgs = {
 export type QueryWikiContentArgs = {
   locale: Scalars["String"];
   slug: Scalars["String"];
-};
-
-export type QueryGeverDocumentContentArgs = {
-  id: Scalars["String"];
-};
-
-export type QueryGeverDocumentSearchArgs = {
-  search: Scalars["String"];
 };
 
 export type SearchResult = {
@@ -492,6 +477,14 @@ export type OperatorDocumentsQuery = {
       year: string;
       category?: Maybe<OperatorDocumentCategory>;
     }>;
+    geverDocuments: Array<{
+      __typename: "OperatorDocument";
+      id: string;
+      name: string;
+      url: string;
+      year: string;
+      category?: Maybe<OperatorDocumentCategory>;
+    }>;
   }>;
 };
 
@@ -524,20 +517,6 @@ export type CubeHealthQuery = {
     __typename: "CubeHealth";
     ok: boolean;
     dimensions: Array<string>;
-  }>;
-};
-
-export type GeverDocumentContentQueryVariables = Exact<{
-  id: Scalars["String"];
-}>;
-
-export type GeverDocumentContentQuery = {
-  __typename: "Query";
-  geverDocumentContent?: Maybe<{
-    __typename: "GeverDocumentContent";
-    content: string;
-    resp1: string;
-    resp2: string;
   }>;
 };
 
@@ -770,6 +749,13 @@ export const OperatorDocumentsDocument = gql`
         year
         category
       }
+      geverDocuments {
+        id
+        name
+        url
+        year
+        category
+      }
     }
   }
 `;
@@ -832,27 +818,6 @@ export function useCubeHealthQuery(
 ) {
   return Urql.useQuery<CubeHealthQuery>({
     query: CubeHealthDocument,
-    ...options,
-  });
-}
-export const GeverDocumentContentDocument = gql`
-  query GeverDocumentContent($id: String!) {
-    geverDocumentContent(id: $id) {
-      content
-      resp1
-      resp2
-    }
-  }
-`;
-
-export function useGeverDocumentContentQuery(
-  options: Omit<
-    Urql.UseQueryArgs<GeverDocumentContentQueryVariables>,
-    "query"
-  > = {}
-) {
-  return Urql.useQuery<GeverDocumentContentQuery>({
-    query: GeverDocumentContentDocument,
     ...options,
   });
 }

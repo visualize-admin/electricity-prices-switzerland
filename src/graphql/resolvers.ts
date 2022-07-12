@@ -412,17 +412,6 @@ const Query: QueryResolvers = {
       }),
     };
   },
-  geverDocumentSearch: async (_, { search }) => {
-    return searchGeverDocuments(search)
-  },
-  geverDocumentContent: async (_, { id }) => {
-    // Crude protection for GEVER debugging, you need to pass the right
-    // docId to see the responses
-    if (id !== process.env.GEVER_DOC_ID) {
-      throw new Error("Wrong document id");
-    }
-    return downloadGeverDocument(id)
-  }
 };
 
 const Municipality: MunicipalityResolvers = {
@@ -449,6 +438,19 @@ const Operator: OperatorResolvers = {
 
   documents: async ({ id }) => {
     return getOperatorDocuments({ operatorId: id });
+  },
+
+  geverDocuments: async ({ id }) => {
+    // TODO replace when we know where we can fetch the GEVER operator id
+    // from the "SPARQL" id.
+    const sparqlIdToGeverId = {
+      "275": "CHE-100.082.211",
+    } as Record<string, string>;
+    if (sparqlIdToGeverId[id]) {
+      return searchGeverDocuments(sparqlIdToGeverId[id]);
+    } else {
+      return [];
+    }
   },
 };
 

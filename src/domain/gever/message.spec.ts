@@ -3,9 +3,13 @@
  */
 
 import fs from "fs";
-import path from "path";
+import path, { parse } from "path";
 import { assert } from "console";
-import { digestSignedInfoNode, digestTimestampNode } from "./message";
+import {
+  digestSignedInfoNode,
+  digestTimestampNode,
+  parseSearchResponse,
+} from "./message";
 import { parseXMLString, $, ns } from "./utils";
 
 it("should digest the timestamp node", async () => {
@@ -42,4 +46,12 @@ it("should digest the signed info node", async () => {
     signatureValue === expectedValue,
     "Signature value differs from expected value"
   );
+});
+
+it("should parse search results", () => {
+  const res = parseSearchResponse(
+    fs.readFileSync(path.join(__dirname, "./examples/search.res.xml"), "utf-8")
+  );
+  expect(res.length).toBe(3);
+  expect(res[0].id).toBe("9073bf7e-7eaa-4993-9475-350cdde95907");
 });

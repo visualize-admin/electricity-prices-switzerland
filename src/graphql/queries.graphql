@@ -168,6 +168,13 @@ query OperatorDocuments($id: String!, $locale: String!) {
       year
       category
     }
+    geverDocuments {
+      id
+      name
+      url
+      year
+      category
+    }
   }
 }
 
@@ -188,13 +195,5 @@ query CubeHealth {
   cubeHealth {
     ok
     dimensions
-  }
-}
-
-query GeverDocumentContent($id: String!) {
-  geverDocumentContent(id: $id) {
-    content
-    resp1
-    resp2
   }
 }

@@ -73,12 +73,6 @@ export type GeverDocumentContent = {
   content: Scalars["String"];
 };
 
-export type GeverDocumentSearchResult = {
-  __typename?: "GeverDocumentSearchResult";
-  title: Scalars["String"];
-  id: Scalars["String"];
-};
-
 export type Municipality = {
   __typename?: "Municipality";
   id: Scalars["String"];
@@ -120,6 +114,7 @@ export type Operator = {
   municipalities: Array<Municipality>;
   cantons: Array<Canton>;
   documents: Array<OperatorDocument>;
+  geverDocuments: Array<OperatorDocument>;
 };
 
 export type OperatorDocument = {
@@ -189,8 +184,6 @@ export type Query = {
   swissMedianObservations?: Maybe<Array<SwissMedianObservation>>;
   wikiContent?: Maybe<WikiContent>;
   cubeHealth?: Maybe<CubeHealth>;
-  geverDocumentContent?: Maybe<GeverDocumentContent>;
-  geverDocumentSearch?: Maybe<GeverDocumentContent>;
 };
 
 export type QueryMunicipalitiesArgs = {
@@ -273,14 +266,6 @@ export type QuerySwissMedianObservationsArgs = {
 export type QueryWikiContentArgs = {
   locale: Scalars["String"];
   slug: Scalars["String"];
-};
-
-export type QueryGeverDocumentContentArgs = {
-  id: Scalars["String"];
-};
-
-export type QueryGeverDocumentSearchArgs = {
-  search: Scalars["String"];
 };
 
 export type SearchResult = {
@@ -428,7 +413,6 @@ export type ResolversTypes = ResolversObject<{
   CubeHealth: ResolverTypeWrapper<CubeHealth>;
   Boolean: ResolverTypeWrapper<Scalars["Boolean"]>;
   GeverDocumentContent: ResolverTypeWrapper<GeverDocumentContent>;
-  GeverDocumentSearchResult: ResolverTypeWrapper<GeverDocumentSearchResult>;
   Municipality: ResolverTypeWrapper<ResolvedMunicipality>;
   MunicipalityResult: ResolverTypeWrapper<ResolvedSearchResult>;
   Observation: ResolverTypeWrapper<ResolvedObservation>;
@@ -460,7 +444,6 @@ export type ResolversParentTypes = ResolversObject<{
   CubeHealth: CubeHealth;
   Boolean: Scalars["Boolean"];
   GeverDocumentContent: GeverDocumentContent;
-  GeverDocumentSearchResult: GeverDocumentSearchResult;
   Municipality: ResolvedMunicipality;
   MunicipalityResult: ResolvedSearchResult;
   Observation: ResolvedObservation;
@@ -552,15 +535,6 @@ export type GeverDocumentContentResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type GeverDocumentSearchResultResolvers<
-  ContextType = ServerContext,
-  ParentType extends ResolversParentTypes["GeverDocumentSearchResult"] = ResolversParentTypes["GeverDocumentSearchResult"]
-> = ResolversObject<{
-  title?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  id?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
-
 export type MunicipalityResolvers<
   ContextType = ServerContext,
   ParentType extends ResolversParentTypes["Municipality"] = ResolversParentTypes["Municipality"]
@@ -616,6 +590,11 @@ export type OperatorResolvers<
   >;
   cantons?: Resolver<Array<ResolversTypes["Canton"]>, ParentType, ContextType>;
   documents?: Resolver<
+    Array<ResolversTypes["OperatorDocument"]>,
+    ParentType,
+    ContextType
+  >;
+  geverDocuments?: Resolver<
     Array<ResolversTypes["OperatorDocument"]>,
     ParentType,
     ContextType
@@ -781,18 +760,6 @@ export type QueryResolvers<
     ParentType,
     ContextType
   >;
-  geverDocumentContent?: Resolver<
-    Maybe<ResolversTypes["GeverDocumentContent"]>,
-    ParentType,
-    ContextType,
-    RequireFields<QueryGeverDocumentContentArgs, "id">
-  >;
-  geverDocumentSearch?: Resolver<
-    Maybe<ResolversTypes["GeverDocumentContent"]>,
-    ParentType,
-    ContextType,
-    RequireFields<QueryGeverDocumentSearchArgs, "search">
-  >;
 }>;
 
 export type SearchResultResolvers<
@@ -846,7 +813,6 @@ export type Resolvers<ContextType = ServerContext> = ResolversObject<{
   CantonResult?: CantonResultResolvers<ContextType>;
   CubeHealth?: CubeHealthResolvers<ContextType>;
   GeverDocumentContent?: GeverDocumentContentResolvers<ContextType>;
-  GeverDocumentSearchResult?: GeverDocumentSearchResultResolvers<ContextType>;
   Municipality?: MunicipalityResolvers<ContextType>;
   MunicipalityResult?: MunicipalityResultResolvers<ContextType>;
   Observation?: ObservationResolvers<ContextType>;
