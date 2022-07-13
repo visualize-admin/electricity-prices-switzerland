@@ -63,10 +63,11 @@ export const digestSignedInfoNode = async (
 };
 
 const geverColumnMapping = {
-  DokumentID: "id",
-  DokumentReferenz: "reference",
-  Dokument: "name",
-  Dokumenttyp: "type",
+  DocumentID: "id",
+  DocumentReferenceID: "reference",
+  DocumentName: "name",
+  DocumentTyp: "type",
+  DocumentType: "type",
   Parent: "parent",
 };
 
@@ -98,6 +99,10 @@ const documentResultRow = z
     };
   });
 
+const enumerate = <T extends unknown>(arr: T[]) => {
+  return arr.map((x, i) => [i, x] as const);
+};
+
 export const parseSearchResponse = (searchResponse: string) => {
   const start = searchResponse.indexOf("<s:Envelope");
   const end = searchResponse.indexOf("</s:Envelope>") + "</s:Envelope>".length;
@@ -110,13 +115,18 @@ export const parseSearchResponse = (searchResponse: string) => {
   const rows = $$(parsed, null, "ResultRow").map((row) =>
     $$($(row, null, "Values"), null, "anyType").map((cell) => cell.textContent)
   );
-  return rows.map((r) =>
-    documentResultRow.parse({
-      ...Object.fromEntries(
-        columnNames.map((c, i) => [c ? geverColumnMapping[c] : "", r[i]])
-      ),
-    })
-  );
+  const geverDocs = rows.map((r) => {
+    const geverDoc = {} as Record<string, string>;
+    for (const [i, c] of enumerate(columnNames)) {
+      const key = geverColumnMapping[c];
+      const v = r[i];
+      if (key && v) {
+        geverDoc[key] = v;
+      }
+    }
+    return geverDoc;
+  });
+  return geverDocs.map((d) => documentResultRow.parse(d));
 };
 
 export const makeRequest2 = async (resp1Str: string) => {
@@ -210,7 +220,7 @@ const makeContentRequest = async (resp2Str: string, docId: string) => {
 
   const dv = new Uint8Array(resp);
   const pdfStr = new TextDecoder("ascii").decode(resp);
-  const pdfStartMarker = "%PDF-1.4";
+  const pdfStartMarker = "%PDF";
   const pdfEndMarker = "%%EOF";
   const start = pdfStr.indexOf(pdfStartMarker);
   const end = pdfStr.indexOf(pdfEndMarker) + pdfEndMarker.length + 1;
