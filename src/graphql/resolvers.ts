@@ -447,7 +447,11 @@ const Operator: OperatorResolvers = {
       "275": "CHE-100.082.211",
     } as Record<string, string>;
     if (sparqlIdToGeverId[id]) {
-      return searchGeverDocuments(sparqlIdToGeverId[id]);
+      try {
+        return searchGeverDocuments(sparqlIdToGeverId[id]);
+      } catch (e) {
+        return [];
+      }
     } else {
       return [];
     }
