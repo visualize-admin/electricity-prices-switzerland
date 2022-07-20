@@ -63,12 +63,11 @@ export const digestSignedInfoNode = async (
 };
 
 const geverColumnMapping = {
+  ReferenceID: "reference",
   DocumentID: "id",
-  DocumentReferenceID: "reference",
-  DocumentName: "name",
-  DocumentTyp: "type",
+  FileName: "name",
   DocumentType: "type",
-  Parent: "parent",
+  Period: "period",
 };
 
 const geverTypesMapping = {
@@ -76,8 +75,8 @@ const geverTypesMapping = {
   Geschäftsbericht: "FINANCIAL_STATEMENT",
 } as Record<string, OperatorDocumentCategory>;
 
-const parseYearFromParent = (parent: string) => {
-  const year = /\b(\d{4})\b/.exec(parent)?.[0] as string;
+const parseYearFromPeriod = (period: string) => {
+  const year = /\b(\d{4})\b/.exec(period)?.[0] as string;
   return year;
 };
 
@@ -87,14 +86,14 @@ const documentResultRow = z
     reference: z.string(),
     name: z.string(),
     type: z.string(),
-    parent: z.string(),
+    period: z.string(),
   })
   .transform((x) => {
     return {
       id: x.id,
       name: x.name,
       url: `/api/download-operator-document/${x.reference}?filename=${x.name}`,
-      year: parseYearFromParent(x.parent),
+      year: parseYearFromPeriod(x.period),
       category: geverTypesMapping[x.type],
     };
   });
