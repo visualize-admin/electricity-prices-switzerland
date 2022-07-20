@@ -210,7 +210,7 @@ const makeContentRequest = async (resp2Str: string, docId: string) => {
   referenceIdNode.textContent = docId;
 
   const req3 = stripWhitespace(serializeXMLToString(doc));
-  fs.writeFileSync("/tmp/req3.xml", req3);
+  fs.writeFileSync("/tmp/content-request.xml", req3);
 
   const resp = await (
     await makeRequest(bindings.service, req3, {
@@ -300,5 +300,6 @@ export const downloadGeverDocument = memoize(async (docId: string) => {
 export const searchGeverDocuments = async (search: string) => {
   const authResp = await makeAuthRequest();
   const searchResp = await makeSearchRequest(authResp, search);
+  fs.writeFileSync("/tmp/search-resp.xml", searchResp);
   return parseSearchResponse(searchResp);
 };
