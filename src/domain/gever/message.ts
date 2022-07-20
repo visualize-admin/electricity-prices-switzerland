@@ -17,6 +17,7 @@ import getContentTemplate from "./templates/get-content.template.xml";
 import searchDocumentsTemplate from "./templates/search-documents.template.xml";
 import z from "zod";
 import { OperatorDocumentCategory } from "../../graphql/queries";
+import { parseMultiPart } from "./multipart";
 
 const bindings = {
   ipsts:
@@ -92,7 +93,7 @@ const documentResultRow = z
     return {
       id: x.id,
       name: x.name,
-      url: `/api/download-operator-document/${x.reference}?filename=${x.name}`,
+      url: `/api/download-operator-document/${x.reference}`,
       year: parseYearFromPeriod(x.period),
       category: geverTypesMapping[x.type],
     };
@@ -203,6 +204,34 @@ export const setupRequest3 = (requestTemplate: string, resp2Str: string) => {
   return doc;
 };
 
+export const extractFileFromContentResp = (
+  buf: Buffer
+): {
+  buffer: Buffer;
+  contentType: string;
+  name: string;
+  extension: string;
+  mimeType: string;
+} => {
+  const parts = parseMultiPart(buf);
+
+  const [metaPart, contentPart] = parts;
+
+  const metaXML = metaPart.content.toString();
+  const soapMeta = parseXMLString(metaXML).documentElement;
+  const mimeType = $(soapMeta, null, "MimeType").textContent!;
+  const name = $(soapMeta, null, "Name").textContent!;
+  const extension = $(soapMeta, null, "Extension").textContent!;
+
+  return {
+    buffer: contentPart.content,
+    contentType: contentPart.headers["Content-Type"],
+    mimeType,
+    name,
+    extension,
+  };
+};
+
 const makeContentRequest = async (resp2Str: string, docId: string) => {
   const doc = setupRequest3(getContentTemplate, resp2Str);
   const referenceIdNode = doc.getElementsByTagName("ReferenceID")[0];
@@ -211,20 +240,12 @@ const makeContentRequest = async (resp2Str: string, docId: string) => {
   const req3 = stripWhitespace(serializeXMLToString(doc));
   fs.writeFileSync("/tmp/content-request.xml", req3);
 
-  const resp = await (
-    await makeRequest(bindings.service, req3, {
-      "Content-Type": "application/soap+xml; charset=utf-8",
-    })
-  ).arrayBuffer();
+  const resp = await makeRequest(bindings.service, req3, {
+    "Content-Type": "application/soap+xml; charset=utf-8",
+  });
+  const buffer = await resp.buffer();
 
-  const dv = new Uint8Array(resp);
-  const pdfStr = new TextDecoder("ascii").decode(resp);
-  const pdfStartMarker = "%PDF";
-  const pdfEndMarker = "%%EOF";
-  const start = pdfStr.indexOf(pdfStartMarker);
-  const end = pdfStr.indexOf(pdfEndMarker) + pdfEndMarker.length + 1;
-
-  return Buffer.from(dv.slice(start, end));
+  return extractFileFromContentResp(buffer);
 };
 
 const makeSearchRequest = async (resp2Str: string, search: string) => {

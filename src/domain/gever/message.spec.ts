@@ -8,6 +8,7 @@ import { assert } from "console";
 import {
   digestSignedInfoNode,
   digestTimestampNode,
+  extractFileFromContentResp,
   parseSearchResponse,
 } from "./message";
 import { parseXMLString, $, ns } from "./utils";
@@ -52,6 +53,54 @@ it("should parse search results", () => {
   const res = parseSearchResponse(
     fs.readFileSync(path.join(__dirname, "./examples/search.res.xml"), "utf-8")
   );
-  expect(res.length).toBe(3);
+  expect(res.length).toBe(4);
   expect(res[0].id).toBe("9073bf7e-7eaa-4993-9475-350cdde95907");
+  expect(res[0].url).toBe(
+    "/api/download-operator-document/C9D1E4B1-E836-46D7-8FA0-4FD9032D35D8"
+  );
+});
+
+it("should extract pdf file from content response", () => {
+  const buf = fs.readFileSync(
+    path.join(__dirname, "./examples/content-resp-pdf.bin")
+  );
+  const fileAttrs = extractFileFromContentResp(buf);
+
+  expect(fileAttrs.buffer.length).toEqual(42608);
+  expect(fileAttrs).toEqual(
+    expect.objectContaining({
+      contentType: "application/octet-stream",
+      mimeType: "application/pdf",
+      name: "Dokumente Eingang Netzbetreiber",
+      extension: "pdf",
+    })
+  );
+  fs.writeFileSync(
+    `/tmp/${fileAttrs.name}.${fileAttrs.extension}`,
+    fileAttrs.buffer,
+    "binary"
+  );
+});
+
+it("should extract xlsx file from content response", () => {
+  const buf = fs.readFileSync(
+    path.join(__dirname, "./examples/content-resp-xlsx.bin")
+  );
+  const { buffer, ...fileAttrs } = extractFileFromContentResp(buf);
+
+  expect(buffer.length).toEqual(8395);
+  expect(fileAttrs).toEqual(
+    expect.objectContaining({
+      contentType: "application/octet-stream",
+      mimeType:
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      name: "Abfrage_Netzbetreiber_Meldepflichten_2022-07-07_11-03-21",
+      extension: "xlsx",
+    })
+  );
+  fs.writeFileSync(
+    `/tmp/${fileAttrs.name}.${fileAttrs.extension}`,
+    buffer,
+    "binary"
+  );
 });

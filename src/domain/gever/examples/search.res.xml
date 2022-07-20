@@ -1,7 +1,63 @@
---uuid:e32e9ade-b155-4e0c-9027-efc65f8bc676+id=1
-Content-ID: <http://tempuri.org/0>
-Content-Transfer-Encoding: 8bit
-Content-Type: application/xop+xml;charset=utf-8;type="application/soap+xml"
-
-<s:Envelope xmlns:s="http://www.w3.org/2003/05/soap-envelope" xmlns:a="http://www.w3.org/2005/08/addressing"><s:Header><a:Action s:mustUnderstand="1">http://www.admin.ch/Gever/client/webservices/GeverService/1.0/IGeverSearchService/ExecuteLinqSearchQueryResponse</a:Action><a:RelatesTo>urn:uuid:55fcf838-2f34-47b3-af91-f22c0b6e714d</a:RelatesTo></s:Header><s:Body><ExecuteLinqSearchQueryResponse xmlns="http://www.admin.ch/Gever/client/webservices/GeverService/1.0"><ExecuteLinqSearchQueryResult xmlns:i="http://www.w3.org/2001/XMLSchema-instance"><ColumnNames><string>DokumentID</string><string>DokumentReferenz</string><string>Dokument</string><string>Dokumenttyp</string><string>Parent</string></ColumnNames><Rows><ResultRow><Values><anyType i:type="b:guid" xmlns:b="http://schemas.microsoft.com/2003/10/Serialization/">9073bf7e-7eaa-4993-9475-350cdde95907</anyType><anyType i:type="b:string" xmlns:b="http://www.w3.org/2001/XMLSchema">C9D1E4B1-E836-46D7-8FA0-4FD9032D35D8</anyType><anyType i:type="b:string" xmlns:b="http://www.w3.org/2001/XMLSchema">Abfrage_Netzbetreiber_Meldepflichten_2022-07-07_11-03-21.xlsx</anyType><anyType i:type="b:string" xmlns:b="http://www.w3.org/2001/XMLSchema">Geschäftsbericht</anyType><anyType i:type="b:string" xmlns:b="http://www.w3.org/2001/XMLSchema">Dokumente Eingang Netzbetreiber (ElCom-E-08.07.2022/1)</anyType></Values></ResultRow><ResultRow><Values><anyType i:type="b:guid" xmlns:b="http://schemas.microsoft.com/2003/10/Serialization/">2381b990-ed44-4388-8505-f81ef59a268f</anyType><anyType i:type="b:string" xmlns:b="http://www.w3.org/2001/XMLSchema">FE4FF837-7C18-4F3A-9A0A-D8A6D63393A7</anyType><anyType i:type="b:string" xmlns:b="http://www.w3.org/2001/XMLSchema">Dokumente Eingang Netzbetreiber.docx</anyType><anyType i:type="b:string" xmlns:b="http://www.w3.org/2001/XMLSchema">Geschäftsbericht</anyType><anyType i:type="b:string" xmlns:b="http://www.w3.org/2001/XMLSchema">Dokumente Eingang Netzbetreiber (ElCom-E-08.07.2022/1)</anyType></Values></ResultRow><ResultRow><Values><anyType i:type="b:guid" xmlns:b="http://schemas.microsoft.com/2003/10/Serialization/">3661bfa1-635e-4db5-b745-cb0188152589</anyType><anyType i:type="b:string" xmlns:b="http://www.w3.org/2001/XMLSchema">C3879D93-B8A4-4F4C-A69E-9250BD868CAC</anyType><anyType i:type="b:string" xmlns:b="http://www.w3.org/2001/XMLSchema">Test-sig.pdf</anyType><anyType i:type="b:string" xmlns:b="http://www.w3.org/2001/XMLSchema">Tarifblatt</anyType><anyType i:type="b:string" xmlns:b="http://www.w3.org/2001/XMLSchema">Tarife TJ 2030 (ElCom-3520301)</anyType></Values></ResultRow></Rows></ExecuteLinqSearchQueryResult></ExecuteLinqSearchQueryResponse></s:Body></s:Envelope>
---uuid:e32e9ade-b155-4e0c-9027-efc65f8bc676+id=1--
+<?xml version="1.0"?>
+<s:Envelope xmlns:s="http://www.w3.org/2003/05/soap-envelope" xmlns:a="http://www.w3.org/2005/08/addressing">
+  <s:Header>
+    <a:Action s:mustUnderstand="1">http://www.admin.ch/Gever/client/webservices/GeverService/1.0/IGeverSearchService/ExecuteLinqSearchQueryResponse</a:Action>
+    <a:RelatesTo>urn:uuid:55fcf838-2f34-47b3-af91-f22c0b6e714d</a:RelatesTo>
+  </s:Header>
+  <s:Body>
+    <ExecuteLinqSearchQueryResponse xmlns="http://www.admin.ch/Gever/client/webservices/GeverService/1.0">
+      <ExecuteLinqSearchQueryResult xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+        <ColumnNames>
+          <string>UID</string>
+          <string>Period</string>
+          <string>DocumentType</string>
+          <string>FileName</string>
+          <string>DocumentID</string>
+          <string>ReferenceID</string>
+        </ColumnNames>
+        <Rows>
+          <ResultRow>
+            <Values>
+              <anyType xmlns:b="http://www.w3.org/2001/XMLSchema" i:type="b:string">CHE-100.082.211</anyType>
+              <anyType xmlns:b="http://www.w3.org/2001/XMLSchema" i:type="b:string">2031</anyType>
+              <anyType xmlns:b="http://www.w3.org/2001/XMLSchema" i:type="b:string">Gesch&#xE4;ftsbericht</anyType>
+              <anyType xmlns:b="http://www.w3.org/2001/XMLSchema" i:type="b:string">Abfrage_Netzbetreiber_Meldepflichten_2022-07-07_11-03-21</anyType>
+              <anyType xmlns:b="http://schemas.microsoft.com/2003/10/Serialization/" i:type="b:guid">9073bf7e-7eaa-4993-9475-350cdde95907</anyType>
+              <anyType xmlns:b="http://www.w3.org/2001/XMLSchema" i:type="b:string">C9D1E4B1-E836-46D7-8FA0-4FD9032D35D8</anyType>
+            </Values>
+          </ResultRow>
+          <ResultRow>
+            <Values>
+              <anyType xmlns:b="http://www.w3.org/2001/XMLSchema" i:type="b:string">CHE-100.082.211</anyType>
+              <anyType xmlns:b="http://www.w3.org/2001/XMLSchema" i:type="b:string">2031</anyType>
+              <anyType xmlns:b="http://www.w3.org/2001/XMLSchema" i:type="b:string">Gesch&#xE4;ftsbericht</anyType>
+              <anyType xmlns:b="http://www.w3.org/2001/XMLSchema" i:type="b:string">Dokumente Eingang Netzbetreiber</anyType>
+              <anyType xmlns:b="http://schemas.microsoft.com/2003/10/Serialization/" i:type="b:guid">2381b990-ed44-4388-8505-f81ef59a268f</anyType>
+              <anyType xmlns:b="http://www.w3.org/2001/XMLSchema" i:type="b:string">FE4FF837-7C18-4F3A-9A0A-D8A6D63393A7</anyType>
+            </Values>
+          </ResultRow>
+          <ResultRow>
+            <Values>
+              <anyType xmlns:b="http://www.w3.org/2001/XMLSchema" i:type="b:string">CHE-100.082.211</anyType>
+              <anyType xmlns:b="http://www.w3.org/2001/XMLSchema" i:type="b:string">2031</anyType>
+              <anyType xmlns:b="http://www.w3.org/2001/XMLSchema" i:type="b:string">Tarifblatt</anyType>
+              <anyType xmlns:b="http://www.w3.org/2001/XMLSchema" i:type="b:string">[966623168] Dokumente Eingang Netzbetreiber</anyType>
+              <anyType xmlns:b="http://schemas.microsoft.com/2003/10/Serialization/" i:type="b:guid">63c133eb-2139-43d6-ad23-67e4cb4d83f1</anyType>
+              <anyType xmlns:b="http://www.w3.org/2001/XMLSchema" i:type="b:string">18B71D11-AE49-4E45-9974-05A4EB95C621</anyType>
+            </Values>
+          </ResultRow>
+          <ResultRow>
+            <Values>
+              <anyType xmlns:b="http://www.w3.org/2001/XMLSchema" i:type="b:string">CHE-100.082.211</anyType>
+              <anyType xmlns:b="http://www.w3.org/2001/XMLSchema" i:type="b:string">2031</anyType>
+              <anyType xmlns:b="http://www.w3.org/2001/XMLSchema" i:type="b:string">Tarifblatt</anyType>
+              <anyType xmlns:b="http://www.w3.org/2001/XMLSchema" i:type="b:string">Dokumente Eingang Netzbetreiber</anyType>
+              <anyType xmlns:b="http://schemas.microsoft.com/2003/10/Serialization/" i:type="b:guid">bec7d4e0-5935-4edd-977a-014195d1acc5</anyType>
+              <anyType xmlns:b="http://www.w3.org/2001/XMLSchema" i:type="b:string">1D30AC9B-D410-469C-8D86-DFF0CB85C466</anyType>
+            </Values>
+          </ResultRow>
+        </Rows>
+      </ExecuteLinqSearchQueryResult>
+    </ExecuteLinqSearchQueryResponse>
+  </s:Body>
+</s:Envelope>

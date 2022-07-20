@@ -448,7 +448,7 @@ const Operator: OperatorResolvers = {
     } as Record<string, string>;
     if (sparqlIdToGeverId[id]) {
       try {
-        return searchGeverDocuments(sparqlIdToGeverId[id]);
+        return searchGeverDocuments(sparqlIdToGeverId[id]) || [];
       } catch (e) {
         return [];
       }
