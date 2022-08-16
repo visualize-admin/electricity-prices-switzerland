@@ -43,7 +43,7 @@ export const getLocalizedLabel = ({ id }: { id: string }): string => {
     case "aidfee":
       return t({
         id: "selector.pricecomponent.aidfee",
-        message: `Förderabgaben (KEV)`,
+        message: `Netzzuschlag gem. Art. 35 EnG`,
       });
     case "total":
       return t({ id: "selector.pricecomponent.total", message: `Total` });

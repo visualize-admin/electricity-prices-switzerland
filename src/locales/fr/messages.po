@@ -454,7 +454,7 @@ msgstr "Composantes du prix"
 
 #: src/domain/translation.tsx:44
 msgid "selector.pricecomponent.aidfee"
-msgstr "Supplément de réseau"
+msgstr "Supplément de réseau selon l'art. 35 LEne"
 
 #: src/domain/translation.tsx:39
 msgid "selector.pricecomponent.charge"

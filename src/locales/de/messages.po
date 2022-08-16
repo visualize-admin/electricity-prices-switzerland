@@ -454,7 +454,7 @@ msgstr "Preis Komponenten"
 
 #: src/domain/translation.tsx:44
 msgid "selector.pricecomponent.aidfee"
-msgstr "Förderabgaben (KEV)"
+msgstr "Netzzuschlag gem. Art. 35 EnG"
 
 #: src/domain/translation.tsx:39
 msgid "selector.pricecomponent.charge"
