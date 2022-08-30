@@ -28,9 +28,11 @@ const bindings = {
     "https://api.egov-dev.uvek.admin.ch/tst/BusinessManagement/GeverService/GeverServiceAdvanced.svc",
 };
 
-export const makeRequest1 = async () => {
+type Awaited<T> = T extends Promise<infer S> ? S : never;
+
+export const makeIpStsRequest = async () => {
   fs.writeFileSync("/tmp/req1.xml", req1Template);
-  const resp = (
+  const respText = await (
     await makeRequest(
       bindings.ipsts,
       req1Template,
@@ -42,7 +44,28 @@ export const makeRequest1 = async () => {
       makeSslConfiguredAgent()
     )
   ).text();
-  return resp;
+
+  const doc = parseXMLString(respText).documentElement;
+
+  const samlAssertion = $(doc, ns.saml2, "Assertion");
+  const assertionId = samlAssertion.getAttribute("ID");
+  const binaryTokenB64 = $(doc, ns.wst, "BinarySecret", 1)
+    .textContent as string;
+  const binaryToken = Buffer.from(binaryTokenB64, "base64");
+
+  if (!samlAssertion) {
+    throw new Error("Could not find saml assertion in IP-STS response");
+  }
+
+  if (!assertionId) {
+    throw new Error("Could not find assertion id in IP-STS response");
+  }
+
+  return {
+    samlAssertion,
+    assertionId,
+    binaryToken,
+  };
 };
 
 export const digestTimestampNode = async (timestampNode: Element) => {
@@ -129,16 +152,11 @@ export const parseSearchResponse = (searchResponse: string) => {
   return geverDocs.map((d) => documentResultRow.parse(d));
 };
 
-export const makeRequest2 = async (resp1Str: string) => {
-  const resp1 = parseXMLString(resp1Str).documentElement;
-  const doc = parseXMLString(req2Template).documentElement;
+type IPSTSInfo = Awaited<ReturnType<typeof makeIpStsRequest>>;
 
-  // Get content from resp 1
-  const samlAssertion = $(resp1, ns.saml2, "Assertion");
-  const assertionId = samlAssertion.getAttribute("ID");
-  const binaryTokenB64 = $(resp1, ns.wst, "BinarySecret", 1)
-    .textContent as string;
-  const binaryToken = Buffer.from(binaryTokenB64, "base64");
+export const makeRpStsRequest = async (ipStsInfo: IPSTSInfo) => {
+  const { samlAssertion, assertionId, binaryToken } = ipStsInfo;
+  const doc = parseXMLString(req2Template).documentElement;
 
   const security = $(doc, ns.o, "Security");
   const timestampNode = $(doc, ns.u, "Timestamp");
@@ -175,19 +193,32 @@ export const makeRequest2 = async (resp1Str: string) => {
   req2 = stripWhitespace(req2);
 
   fs.writeFileSync("/tmp/req2.xml", req2);
-  return await (
+  const respText = await (
     await makeRequest(bindings.rpsts, req2, {
       "Content-Type": "application/soap+xml; charset=utf-8",
     })
   ).text();
+
+  const resp2 = parseXMLString(respText).documentElement;
+  const samlAssertion2 = $(resp2, ns.saml2, "Assertion");
+  if (!samlAssertion2) {
+    throw new Error("Could not find SAML assertion in RP-STS response");
+  }
+
+  return {
+    samlAssertion: samlAssertion2,
+  };
 };
 
-export const setupRequest3 = (requestTemplate: string, resp2Str: string) => {
-  const resp2 = parseXMLString(resp2Str).documentElement;
+type RPSTSInfo = Awaited<ReturnType<typeof makeRpStsRequest>>;
+
+export const setupRequest3 = (
+  requestTemplate: string,
+  rpStsInfo: RPSTSInfo
+) => {
   const doc = parseXMLString(requestTemplate).documentElement;
 
   // Get content from resp 1
-  const samlAssertion = $(resp2, ns.saml2, "Assertion");
 
   // Get nodes to fill
   const security = $(doc, ns.o, "Security");
@@ -199,7 +230,7 @@ export const setupRequest3 = (requestTemplate: string, resp2Str: string) => {
   $(timestampNode, ns.u, "Created").textContent = creationDate;
   $(timestampNode, ns.u, "Expires").textContent = expirationDate;
 
-  security.appendChild(samlAssertion);
+  security.appendChild(rpStsInfo.samlAssertion);
 
   return doc;
 };
@@ -232,8 +263,8 @@ export const extractFileFromContentResp = (
   };
 };
 
-const makeContentRequest = async (resp2Str: string, docId: string) => {
-  const doc = setupRequest3(getContentTemplate, resp2Str);
+const makeContentRequest = async (rpStsInfo: RPSTSInfo, docId: string) => {
+  const doc = setupRequest3(getContentTemplate, rpStsInfo);
   const referenceIdNode = doc.getElementsByTagName("ReferenceID")[0];
   referenceIdNode.textContent = docId;
 
@@ -248,8 +279,8 @@ const makeContentRequest = async (resp2Str: string, docId: string) => {
   return extractFileFromContentResp(buffer);
 };
 
-const makeSearchRequest = async (resp2Str: string, search: string) => {
-  const doc = setupRequest3(searchDocumentsTemplate, resp2Str);
+const makeSearchRequest = async (rpStsInfo: RPSTSInfo, search: string) => {
+  const doc = setupRequest3(searchDocumentsTemplate, rpStsInfo);
   const searchTextNode = doc.getElementsByTagName("ParameterValue")[0];
   searchTextNode.textContent = search;
 
@@ -301,8 +332,8 @@ const memoizeSwr = <T extends unknown, Args extends unknown[]>(
 
 const makeAuthRequest = memoizeSwr(
   async () => {
-    const resp1 = await makeRequest1();
-    const resp2 = await makeRequest2(resp1);
+    const ipStsInfo = await makeIpStsRequest();
+    const resp2 = await makeRpStsRequest(ipStsInfo);
     return resp2;
   },
   {
