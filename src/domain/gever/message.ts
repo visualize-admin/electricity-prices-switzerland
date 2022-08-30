@@ -126,11 +126,25 @@ const enumerate = <T extends unknown>(arr: T[]) => {
   return arr.map((x, i) => [i, x] as const);
 };
 
+const sliceStartEnd = (str: string, start: string, end: string) => {
+  return str.slice(str.indexOf(start), str.indexOf(end) + end.length);
+};
+
+const assertNoErrors = (resp: string) => {
+  if (resp.indexOf("env:Fault") > -1) {
+    const reason = sliceStartEnd(resp, "<env:Reason>", "</env:Reason>").replace(
+      /\n/g,
+      ""
+    );
+    throw new Error(reason);
+  }
+};
+
 export const parseSearchResponse = (searchResponse: string) => {
-  const start = searchResponse.indexOf("<s:Envelope");
-  const end = searchResponse.indexOf("</s:Envelope>") + "</s:Envelope>".length;
+  assertNoErrors(searchResponse);
+
   const parsed = parseXMLString(
-    searchResponse.slice(start, end)
+    sliceStartEnd(searchResponse, "<s:Envelope", "</s:Envelope>")
   ).documentElement;
   const columnNames = $$($(parsed, null, "ColumnNames"), null, "string").map(
     (x) => x.textContent as keyof typeof geverColumnMapping
@@ -212,13 +226,11 @@ export const makeRpStsRequest = async (ipStsInfo: IPSTSInfo) => {
 
 type RPSTSInfo = Awaited<ReturnType<typeof makeRpStsRequest>>;
 
-export const setupRequest3 = (
+export const setupGeverAPIRequest = (
   requestTemplate: string,
   rpStsInfo: RPSTSInfo
 ) => {
   const doc = parseXMLString(requestTemplate).documentElement;
-
-  // Get content from resp 1
 
   // Get nodes to fill
   const security = $(doc, ns.o, "Security");
@@ -264,7 +276,7 @@ export const extractFileFromContentResp = (
 };
 
 const makeContentRequest = async (rpStsInfo: RPSTSInfo, docId: string) => {
-  const doc = setupRequest3(getContentTemplate, rpStsInfo);
+  const doc = setupGeverAPIRequest(getContentTemplate, rpStsInfo);
   const referenceIdNode = doc.getElementsByTagName("ReferenceID")[0];
   referenceIdNode.textContent = docId;
 
@@ -280,7 +292,7 @@ const makeContentRequest = async (rpStsInfo: RPSTSInfo, docId: string) => {
 };
 
 const makeSearchRequest = async (rpStsInfo: RPSTSInfo, search: string) => {
-  const doc = setupRequest3(searchDocumentsTemplate, rpStsInfo);
+  const doc = setupGeverAPIRequest(searchDocumentsTemplate, rpStsInfo);
   const searchTextNode = doc.getElementsByTagName("ParameterValue")[0];
   searchTextNode.textContent = search;
 
