@@ -106,7 +106,7 @@ The detailed transformation steps are described in this project's `Makefile`.
 On CloudFoundry, an HTTP proxy is used for external requests. This is for example used to fetch
 the gitlab content.
 
-For some of the server requests (SAML requests), we must *not* use this proxy.
+For some of the server requests (SAML requests), we must _not_ use this proxy.
 
 This is why the normal behavior of global-agent to
 automatically use the proxy, has been deactivated
@@ -121,4 +121,21 @@ const https = require('https')
 const data = fetch(url, {
   agent: https.globalAgent
 })
-````
+```
+
+## EIAM certificates
+
+EIAM certificates are used to authenticate against the GEVER API serving
+the electricity provider documents.
+
+They are stored in 1Password as "Elcom PWD certificates".
+
+EIAM certificate content and password are passed as environment variable.
+The certificate content is a p12 certificate encoded as base 64.
+
+In dev, you have to edit env.local to add the `EIAM_CERTIFICATE_CONTENT` and `EIAM_CERTIFICATE_PASSWORD` variables.
+
+```bash
+# Get the base64 certificate content that can be put in EIAM_CERTIFICATE_CONTENT
+cat ../../../vault/svc.spw-d.elcom.admin.ch.p12 | base64
+```
