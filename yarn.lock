@@ -11402,10 +11402,10 @@ swap-case@^2.0.2:
   dependencies:
     tslib "^2.0.3"
 
-swiss-maps@^4.0.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/swiss-maps/-/swiss-maps-4.1.0.tgz#98185fd53f1efe489921336b3d24b5bfd600db7b"
-  integrity sha512-FQUkHSFARWk+7Npq8AzNt4VHYjKuF5zhXrfW0Olo7P0u6vm5fMLsEgc53mwROGxDy+enb2anXDFzTIoJmIAqJQ==
+swiss-maps@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/swiss-maps/-/swiss-maps-4.2.0.tgz#63f1c1e462680218421c6ced9b78d3bb9b5ef04d"
+  integrity sha512-DbTHjGNNqO/NqcbR7a2bnNgETPHGP+xogxAm47HDnJ5zwyoIu1Wde6TX6i4Dhb4FnV6L8BHfbv3v1+mJKyQTvA==
 
 symbol-observable@^1.0.4, symbol-observable@^1.1.0:
   version "1.2.0"
