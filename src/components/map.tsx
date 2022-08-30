@@ -222,24 +222,6 @@ export const HighlightContext = createContext({
   >,
 });
 
-const fallback = async <T extends unknown>(arr: (() => Promise<T>)[]) => {
-  let errors: unknown[] = [];
-  for (let i = 0; i < arr.length; i++) {
-    try {
-      return await arr[i]();
-    } catch (e) {
-      errors.push(e);
-      if (i === arr.length - 1) {
-        throw new Error(
-          `Could not fallback, errors: ${errors.map((e) => {
-            return e instanceof Error ? e.message : e;
-          })}`
-        );
-      }
-    }
-  }
-};
-
 export const ChoroplethMap = ({
   year,
   observations,
@@ -287,10 +269,9 @@ export const ChoroplethMap = ({
   useEffect(() => {
     const load = async () => {
       try {
-        const topo = await fallback([
-          () => import(`swiss-maps/${parseInt(year, 10) - 1}/ch-combined.json`),
-          () => import(`swiss-maps/${parseInt(year, 10) - 2}/ch-combined.json`),
-        ]);
+        const topo = await import(
+          `swiss-maps/${parseInt(year, 10) - 1}/ch-combined.json`
+        );
 
         const municipalities = topojsonFeature(
           topo,
