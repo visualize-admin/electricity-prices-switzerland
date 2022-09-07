@@ -25,7 +25,7 @@ const bindings = {
   rpsts:
     "https://feds-r.eiam.admin.ch/adfs/services/trust/13/issuedtokenmixedsymmetricbasic256",
   service:
-    "https://api.egov-dev.uvek.admin.ch/tst/BusinessManagement/GeverService/GeverServiceAdvanced.svc",
+    "https://api-bv.egov-abn.uvek.admin.ch/BusinessManagement/GeverService/GeverServiceAdvanced.svc",
 };
 
 type Awaited<T> = T extends Promise<infer S> ? S : never;
