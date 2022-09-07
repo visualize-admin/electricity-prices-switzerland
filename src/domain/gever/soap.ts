@@ -50,7 +50,9 @@ const makeRequest = async (
     } else {
       console.warn(resp);
       console.warn(await resp.text());
-      throw new Error(`Request failed: ${resp.status} - ${resp.statusText}`);
+      throw new Error(
+        `GEVER SOAP Error, request failed (${url}): ${resp.status} - ${resp.statusText}`
+      );
     }
   });
   return resp;
