@@ -410,7 +410,7 @@ export const buildDimensionFilter = (
 
   const cubeDimension = viewDimension?.cubeDimensions[0];
 
-  if (!viewDimension || !cubeDimension) {
+  if (!(viewDimension && cubeDimension)) {
     console.warn(`buildDimensionFilter: No dimension for '${dimensionKey}'`);
     return;
   }
