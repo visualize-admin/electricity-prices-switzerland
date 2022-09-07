@@ -355,12 +355,14 @@ const makeAuthRequest = memoizeSwr(
 );
 
 export const downloadGeverDocument = memoize(async (docId: string) => {
+  console.log("Download gever document", docId);
   const authResp = await makeAuthRequest();
   const resp3 = await makeContentRequest(authResp, docId);
   return resp3;
 });
 
 export const searchGeverDocuments = async (search: string) => {
+  console.log("Search gever documents", search);
   const authResp = await makeAuthRequest();
   const searchResp = await makeSearchRequest(authResp, search);
   fs.writeFileSync("/tmp/search-resp.xml", searchResp);
