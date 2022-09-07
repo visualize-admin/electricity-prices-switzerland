@@ -72,8 +72,8 @@ const Query: QueryResolvers = {
     let observationsCube;
     try {
       observationsCube = await getObservationsCube();
-    } catch (e: $IntentionalAny) {
-      console.error(e.message);
+    } catch (e: unknown) {
+      console.error(e instanceof Error ? e.message : e);
       return [];
     }
 
@@ -143,9 +143,10 @@ const Query: QueryResolvers = {
     let cantonCube;
     try {
       cantonCube = await getCantonMedianCube();
-    } catch (e: $IntentionalAny) {
-      console.error(e.message);
-      throw new ApolloError(e.message, "CUBE_NOT_FOUND");
+    } catch (e: unknown) {
+      const message = e instanceof Error ? e.message : `${e}`;
+      console.error(message);
+      throw new ApolloError(message, "CUBE_NOT_FOUND");
     }
 
     const cantonObservationsView = getView(cantonCube);
@@ -209,9 +210,10 @@ const Query: QueryResolvers = {
     let cantonCube;
     try {
       cantonCube = await getSwissMedianCube();
-    } catch (e: $IntentionalAny) {
-      console.error(e.message);
-      throw new ApolloError(e.message, "CUBE_NOT_FOUND");
+    } catch (e: unknown) {
+      const message = `${e instanceof Error ? e.message : e}`;
+      console.error(message);
+      throw new ApolloError(message, "CUBE_NOT_FOUND");
     }
 
     const cantonObservationsView = getView(cantonCube);
