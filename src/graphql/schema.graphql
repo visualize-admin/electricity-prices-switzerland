@@ -24,7 +24,8 @@ type Municipality {
 }
 
 type Operator {
-  id: String!
+  id: String
+  geverId: String
   name: String!
   municipalities: [Municipality!]!
   cantons: [Canton!]!
@@ -161,7 +162,7 @@ type Query {
   ): [OperatorResult!]!
   municipality(locale: String!, id: String!): Municipality
   canton(locale: String!, id: String!): Canton
-  operator(locale: String!, id: String!): Operator
+  operator(locale: String!, id: String!, geverId: String): Operator
 
   observations(
     locale: String

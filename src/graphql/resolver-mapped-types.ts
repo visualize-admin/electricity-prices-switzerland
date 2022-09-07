@@ -22,6 +22,7 @@ export type ResolvedMunicipality = {
 export type ResolvedOperator = {
   id: string;
   name: string;
+  geverId?: string;
   // view: View;
   // source: Source;
 };

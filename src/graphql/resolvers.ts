@@ -366,7 +366,7 @@ const Query: QueryResolvers = {
     return results[0];
   },
   canton: async (_, { id }) => ({ id }),
-  operator: async (_, { id }) => {
+  operator: async (_, { id, geverId }) => {
     const cube = await getObservationsCube();
 
     const results = await getDimensionValuesAndLabels({
@@ -375,7 +375,7 @@ const Query: QueryResolvers = {
       filters: { operator: [id] },
     });
 
-    return results[0];
+    return { ...results[0], geverId: geverId };
   },
   cubeHealth: async () => {
     const cube = await getObservationsCube();
@@ -442,15 +442,16 @@ const Operator: OperatorResolvers = {
     return getOperatorDocuments({ operatorId: id });
   },
 
-  geverDocuments: async ({ id }) => {
+  geverDocuments: async ({ id, geverId: _geverId }) => {
     // TODO replace when we know where we can fetch the GEVER operator id
     // from the "SPARQL" id.
     const sparqlIdToGeverId = {
       "275": "CHE-100.082.211",
     } as Record<string, string>;
-    if (sparqlIdToGeverId[id]) {
+    const geverId = _geverId ? _geverId : sparqlIdToGeverId[id];
+    if (geverId) {
       try {
-        return searchGeverDocuments(sparqlIdToGeverId[id]) || [];
+        return searchGeverDocuments(geverId) || [];
       } catch (e) {
         return [];
       }

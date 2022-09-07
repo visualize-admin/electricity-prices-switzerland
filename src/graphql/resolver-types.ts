@@ -109,7 +109,8 @@ export enum ObservationKind {
 
 export type Operator = {
   __typename?: "Operator";
-  id: Scalars["String"];
+  id?: Maybe<Scalars["String"]>;
+  geverId?: Maybe<Scalars["String"]>;
   name: Scalars["String"];
   municipalities: Array<Municipality>;
   cantons: Array<Canton>;
@@ -244,6 +245,7 @@ export type QueryCantonArgs = {
 export type QueryOperatorArgs = {
   locale: Scalars["String"];
   id: Scalars["String"];
+  geverId?: Maybe<Scalars["String"]>;
 };
 
 export type QueryObservationsArgs = {
@@ -581,7 +583,8 @@ export type OperatorResolvers<
   ContextType = ServerContext,
   ParentType extends ResolversParentTypes["Operator"] = ResolversParentTypes["Operator"]
 > = ResolversObject<{
-  id?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  id?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
+  geverId?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   municipalities?: Resolver<
     Array<ResolversTypes["Municipality"]>,
