@@ -32,18 +32,16 @@ type Props = {
   locale: string;
 };
 
-export const getServerSideProps: GetServerSideProps<
-  Props,
-  { locale: string }
-> = async ({ locale, req, res }) => {
-  await basicAuthMiddleware(req, res);
+export const getServerSideProps: GetServerSideProps<Props, { locale: string }> =
+  async ({ locale, req, res }) => {
+    await basicAuthMiddleware(req, res);
 
-  return {
-    props: {
-      locale: locale!,
-    },
+    return {
+      props: {
+        locale: locale!,
+      },
+    };
   };
-};
 
 const HEADER_HEIGHT_S = "107px";
 const HEADER_HEIGHT_M_UP = "96px";
@@ -131,7 +129,7 @@ const IndexPage = ({ locale }: Props) => {
         }}
       >
         <Box>
-          <Header></Header>
+          <Header />
         </Box>
         <Box
           sx={{
