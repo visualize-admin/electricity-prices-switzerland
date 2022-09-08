@@ -31,6 +31,14 @@ export const getServerSideProps: GetServerSideProps<Props, { locale: string }> =
     };
   };
 
+const assertBaseDomainOK = (baseDomain: string) => {
+  const url = new URL(baseDomain);
+  if (url.hostname.endsWith("elcom.admin.ch") || url.hostname === "localhost") {
+    return true;
+  }
+  throw new Error("Bad baseDomain, baseDomain should end with elcom.admin.ch");
+};
+
 const IndexPage = ({ locale }: Props) => {
   const [{ period, priceComponent, category, product }] = useQueryStateSingle();
 
@@ -74,6 +82,8 @@ const IndexPage = ({ locale }: Props) => {
 
   const router = useRouter();
   const baseDomain = router.query.baseDomain;
+
+  assertBaseDomainOK(baseDomain);
 
   const handleMunicipalityLayerClick = ({
     object,
