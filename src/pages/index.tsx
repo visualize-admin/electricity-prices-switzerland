@@ -1,6 +1,7 @@
 import { t, Trans } from "@lingui/macro";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import basicAuthMiddleware from "nextjs-basic-auth-middleware";
 import { useCallback, useState } from "react";
 import { Box, Flex, Grid, Text } from "theme-ui";
@@ -90,6 +91,23 @@ const IndexPage = ({ locale }: Props) => {
     medianValue,
     accessor: colorAccessor,
   });
+
+  const { push, query } = useRouter();
+
+  const handleMunicipalityLayerClick = ({
+    object,
+  }: {
+    object: { id: number };
+  }) => {
+    const href = {
+      pathname: "/municipality/[id]",
+      query: {
+        ...query,
+        id: object?.id.toString(),
+      },
+    };
+    push(href);
+  };
 
   const [highlightContext, setHighlightContext] = useState<HighlightValue>();
   return (
@@ -194,6 +212,7 @@ const IndexPage = ({ locale }: Props) => {
                 }
                 medianValue={medianValue}
                 colorScale={colorScale}
+                onMunicipalityLayerClick={handleMunicipalityLayerClick}
               />
 
               {!download && (

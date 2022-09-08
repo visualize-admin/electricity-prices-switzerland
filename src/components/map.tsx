@@ -4,7 +4,6 @@ import DeckGL from "@deck.gl/react";
 import { Trans } from "@lingui/macro";
 import { color, extent, group, mean, rollup } from "d3";
 import { ScaleThreshold } from "d3-scale";
-import { useRouter } from "next/router";
 import React, {
   createContext,
   Dispatch,
@@ -229,6 +228,7 @@ export const ChoroplethMap = ({
   medianValue,
   municipalities,
   colorScale,
+  onMunicipalityLayerClick,
 }: {
   year: string;
   observations: OperatorObservationFieldsFragment[];
@@ -236,8 +236,8 @@ export const ChoroplethMap = ({
   medianValue: number | undefined;
   municipalities: { id: string; name: string }[];
   colorScale: ScaleThreshold<number, string> | undefined | 0;
+  onMunicipalityLayerClick: (_item: { object: any }) => void;
 }) => {
-  const { push, query } = useRouter();
   const [geoData, setGeoData] = useState<GeoDataState>({ state: "fetching" });
   const [hovered, setHovered] = useState<{
     x: number;
@@ -295,7 +295,7 @@ export const ChoroplethMap = ({
           cantonMesh,
           lakes,
         });
-      } catch (e) {
+      } catch {
         setGeoData({ state: "error" });
       }
     };
@@ -486,31 +486,7 @@ export const ChoroplethMap = ({
                       : undefined
                   );
                 }}
-                onClick={({ layer, object }: $FixMe) => {
-                  const href = {
-                    pathname: `/municipality/[id]`,
-                    query: {
-                      ...query,
-                      id: object?.id.toString(),
-                    },
-                  };
-                  push(href);
-                  // if (object) {
-                  //   const { viewport } = layer.context;
-                  //   const bounds = geoBounds(object);
-                  //   const { zoom, longitude, latitude } = viewport.fitBounds(
-                  //     bounds
-                  //   );
-                  //   setViewState((oldViewState) => ({
-                  //     ...oldViewState,
-                  //     zoom,
-                  //     latitude,
-                  //     longitude,
-                  //     transitionDuration: 1000,
-                  //     transitionInterpolator: new FlyToInterpolator(),
-                  //   }));
-                  // }
-                }}
+                onClick={onMunicipalityLayerClick}
                 updateTriggers={{
                   getFillColor: [
                     observationsByMunicipalityId,
