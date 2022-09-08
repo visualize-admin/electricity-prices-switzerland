@@ -1,7 +1,7 @@
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import basicAuthMiddleware from "nextjs-basic-auth-middleware";
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import {
   ChoroplethMap,
   HighlightContext,
@@ -81,8 +81,19 @@ const IndexPage = ({ locale }: Props) => {
   });
 
   const router = useRouter();
-  const baseDomain =
-    router.query.baseDomain || "https://strompreis.elcom.admin.ch";
+
+  const baseDomain = useMemo(() => {
+    const url = new URL(
+      typeof window !== "undefined"
+        ? window.location.href
+        : "https://strompreis.elcom.admin.ch"
+    );
+    const urlDomain = `${url?.protocol}//${url?.hostname}${
+      url?.port !== "80" ? `:${url?.port}` : ""
+    }`;
+    return router.query.baseDomain || urlDomain;
+  }, [router.query]);
+
   const target =
     router.query.target && typeof router.query.target === "string"
       ? router.query.target
