@@ -81,9 +81,14 @@ const IndexPage = ({ locale }: Props) => {
   });
 
   const router = useRouter();
-  const baseDomain = router.query.baseDomain;
+  const baseDomain =
+    router.query.baseDomain || "https://strompreis.elcom.admin.ch";
+  const target =
+    router.query.target && typeof router.query.target === "string"
+      ? router.query.target
+      : "_blank";
 
-  assertBaseDomainOK(baseDomain);
+  assertBaseDomainOK(baseDomain as string);
 
   const handleMunicipalityLayerClick = ({
     object,
@@ -91,7 +96,7 @@ const IndexPage = ({ locale }: Props) => {
     object: { id: number };
   }) => {
     const id = object?.id.toString();
-    window.open(`${baseDomain}/municipality/${id}`, "_blank");
+    window.open(`${baseDomain}/municipality/${id}`, target);
   };
 
   const [highlightContext, setHighlightContext] = useState<HighlightValue>();
