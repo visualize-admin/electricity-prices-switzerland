@@ -2,12 +2,12 @@
     <s:Header>
         <a:Action s:mustUnderstand="1">http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Issue</a:Action>
         <a:MessageID>urn:uuid:e5393db9-1753-4dc9-b356-658b71b4b3fe</a:MessageID>
-        <ActivityId correlationId="ff547aa6-79ae-4d5e-8fff-6542230de5c4" xmlns="http://schemas.microsoft.com/2004/09/ServiceModel/Diagnostics">061572c2-3a5d-4b18-ab3a-7f99de8b0181</ActivityId>
+        <ActivityId CorrelationId="ff547aa6-79ae-4d5e-8fff-6542230de5c4" xmlns="http://schemas.microsoft.com/2004/09/ServiceModel/Diagnostics">061572c2-3a5d-4b18-ab3a-7f99de8b0181</ActivityId>
         <a:ReplyTo>
             <a:Address>http://www.w3.org/2005/08/addressing/anonymous</a:Address>
         </a:ReplyTo>
         <a:To s:mustUnderstand="1">TO BE FILLED WITH IP-STS ENDPOINT</a:To>
-        <o:Security s:mustUnderstand="1" xmlns:o="http://docs.oasis-open.org/wss/2004/01/oasis200401-wss-wssecurity-secext-1.0.xsd">
+        <o:Security s:mustUnderstand="1" xmlns:o="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
             <u:Timestamp u:Id="_0">
                 <u:Created>2020-12-21T15:25:27.642Z</u:Created>
                 <u:Expires>2020-12-21T15:30:27.642Z</u:Expires>
@@ -23,11 +23,11 @@
             <trust:TokenType>http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV2.0</trust:TokenType>
             <trust:KeyType>http://docs.oasis-open.org/ws-sx/ws-trust/200512/SymmetricKey</trust:KeyType>
             <trust:KeySize>256</trust:KeySize>
-            <trust:KeyWrapAlgorithm>http://www.w3.org/2001/04/xmlenc#rsaoaep-mgf1p</trust:KeyWrapAlgorithm>
+            <trust:KeyWrapAlgorithm>http://www.w3.org/2001/04/xmlenc#rsa-oaep-mgf1p</trust:KeyWrapAlgorithm>
             <trust:EncryptWith>http://www.w3.org/2001/04/xmlenc#aes256-cbc</trust:EncryptWith>
-            <trust:SignWith>http://www.w3.org/2000/09/xmldsig#hmacsha1</trust:SignWith>
+            <trust:SignWith>http://www.w3.org/2000/09/xmldsig#hmac-sha1</trust:SignWith>
 
-            <trust:CanonicalizationAlgorithm>http://www.w3.org/2001/10/xml-excc14n#</trust:CanonicalizationAlgorithm>
+            <trust:CanonicalizationAlgorithm>http://www.w3.org/2001/10/xml-exc-c14n#</trust:CanonicalizationAlgorithm>
 
             <trust:EncryptionAlgorithm>http://www.w3.org/2001/04/xmlenc#aes256-cbc</trust:EncryptionAlgorithm>
             <wsp:AppliesTo xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy">
