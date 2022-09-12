@@ -2,17 +2,22 @@
 
 ## Configuration through Environment Variables
 
-| Variable                 | Required | Example Value                                                               |
-| ------------------------ | -------- | --------------------------------------------------------------------------- |
-| `SPARQL_ENDPOINT`        | yes      | `https://lindas.admin.ch/query`                                             |
-| `SPARQL_EDITOR`          | yes      | `https://lindas.admin.ch/sparql`                                            |
-| `GITLAB_WIKI_TOKEN`      | yes      | `xyz`                                                                       |
-| `GITLAB_WIKI_URL`        | yes      | `https://gitlab.ldbar.ch/api/v4/projects/9999/wikis`                        |
-| `I18N_DOMAINS`           |          | `{"de": "www.elcom.local", "fr": "fr.elcom.local", "it": "it.elcom.local"}` |
-| `BASIC_AUTH_CREDENTIALS` |          | `user:password`                                                             |
-| `MATOMO_ID`              |          | `123`                                                                       |
-| `CURRENT_PERIOD`         |          | `2022`                                                                      |
-| `FIRST_PERIOD`           |          | `2009`                                                                      |
+| Variable                    | Required | Example Value                                                                                    |
+| --------------------------- | -------- | ------------------------------------------------------------------------------------------------ |
+| `SPARQL_ENDPOINT`           | yes      | `https://lindas.admin.ch/query`                                                                  |
+| `SPARQL_EDITOR`             | yes      | `https://lindas.admin.ch/sparql`                                                                 |
+| `GITLAB_WIKI_TOKEN`         | yes      | `xyz`                                                                                            |
+| `GITLAB_WIKI_URL`           | yes      | `https://gitlab.ldbar.ch/api/v4/projects/9999/wikis`                                             |
+| `I18N_DOMAINS`              |          | `{"de": "www.elcom.local", "fr": "fr.elcom.local", "it": "it.elcom.local"}`                      |
+| `BASIC_AUTH_CREDENTIALS`    |          | `user:password`                                                                                  |
+| `MATOMO_ID`                 |          | `123`                                                                                            |
+| `CURRENT_PERIOD`            |          | `2022`                                                                                           |
+| `FIRST_PERIOD`              |          | `2009`                                                                                           |
+| `EIAM_CERTIFICATE_PASSWORD` | yes      | See in Elcom PWD certificates in 1Password                                                       |
+| `EIAM_CERTIFICATE_CONTENT`  | yes      | See in Elcom PWD certificates in 1Password. Result of `cat certificate.p12 \| base64`            |
+| `GEVER_BINDING_IPSTS`       |          | `https://idp-cert.gate-r.eiam.admin.ch/auth/sts/v14/certificatetransport`. Ask Roger Flurry.     |
+| `GEVER_BINDING_RPSTS`       |          | `https://feds-r.eiam.admin.ch/adfs/services/trust/13/issuedtokenmixedsymmetricbasic256`          |
+| `GEVER_BINDING_SERVICE`     |          | `https://api-bv.egov-abn.uvek.admin.ch/BusinessManagement/GeverService/GeverServiceAdvanced.svc` |
 
 ## Development Environment
 

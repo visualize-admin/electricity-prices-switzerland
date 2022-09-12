@@ -21,10 +21,13 @@ import { parseMultiPart } from "./multipart";
 
 const bindings = {
   ipsts:
+    process.env.GEVER_BINDING_IPSTS ||
     "https://idp-cert.gate-r.eiam.admin.ch/auth/sts/v14/certificatetransport",
   rpsts:
+    process.env.GEVER_BINDING_RPSTS ||
     "https://feds-r.eiam.admin.ch/adfs/services/trust/13/issuedtokenmixedsymmetricbasic256",
   service:
+    process.env.GEVER_BINDING_SERVICE ||
     "https://api-bv.egov-abn.uvek.admin.ch/BusinessManagement/GeverService/GeverServiceAdvanced.svc",
 };
 
@@ -212,6 +215,7 @@ export const makeRpStsRequest = async (ipStsInfo: IPSTSInfo) => {
       "Content-Type": "application/soap+xml; charset=utf-8",
     })
   ).text();
+  fs.writeFileSync("/tmp/res2.xml", respText);
 
   const resp2 = parseXMLString(respText).documentElement;
   const samlAssertion2 = $(resp2, ns.saml2, "Assertion");
