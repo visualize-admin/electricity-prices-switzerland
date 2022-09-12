@@ -10,8 +10,27 @@ import {
   digestTimestampNode,
   extractFileFromContentResp,
   parseSearchResponse,
+  prepareIpStsMessage,
+  prepareRpStsDoc,
 } from "./message";
-import { parseXMLString, $, ns } from "./utils";
+import { parseXMLString, $, ns, serializeXMLToString } from "./utils";
+
+it('should prepare 1st message', () => {
+  const message = prepareIpStsMessage()
+  expect(message.includes(
+    '<a:To s:mustUnderstand="1">https://idp-cert.gate-r.eiam.admin.ch/auth/sts/v14/certificatetransport</a:To>'
+  )).toBe(true)
+  expect(message.includes(
+    '<Address>http://feds-r.eiam.admin.ch</Address>'
+  )).toBe(true)
+})
+
+it('should prepare 2nd message', () => {
+  const doc = prepareRpStsDoc()
+  expect(serializeXMLToString(doc).includes(
+    '<a:To s:mustUnderstand="1">https://feds-r.eiam.admin.ch/adfs/services/trust/13/issuedtokenmixedsymmetricbasic256</a:To>'
+  )).toBe(true)
+})
 
 it("should digest the timestamp node", async () => {
   const resp2 = parseXMLString(
