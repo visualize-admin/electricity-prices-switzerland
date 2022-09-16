@@ -44,8 +44,7 @@ export const prepareIpStsMessage = () => {
 };
 
 export const makeIpStsRequest = async () => {
-  const message = req1Template;
-  // const message = prepareIpStsMessage();
+  const message = prepareIpStsMessage();
   fs.writeFileSync("/tmp/req1.xml", message);
   const respText = await (
     await makeRequest(
