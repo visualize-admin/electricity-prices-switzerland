@@ -44,7 +44,8 @@ export const prepareIpStsMessage = () => {
 };
 
 export const makeIpStsRequest = async () => {
-  const message = prepareIpStsMessage();
+  const message = req1Template;
+  // const message = prepareIpStsMessage();
   fs.writeFileSync("/tmp/req1.xml", message);
   const respText = await (
     await makeRequest(
@@ -194,7 +195,7 @@ export const prepareRpStsDoc = () => {
 
 export const makeRpStsRequest = async (ipStsInfo: IPSTSInfo) => {
   const { samlAssertion, assertionId, binaryToken } = ipStsInfo;
-  const doc = prepareRpStsDoc();
+  const doc = parseXMLString(req2Template).documentElement;
 
   const security = $(doc, ns.o, "Security");
   const timestampNode = $(doc, ns.u, "Timestamp");
