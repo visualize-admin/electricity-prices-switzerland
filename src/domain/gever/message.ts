@@ -36,15 +36,15 @@ type Awaited<T> = T extends Promise<infer S> ? S : never;
 export const prepareIpStsMessage = () => {
   const doc = parseXMLString(req1Template).documentElement;
   const toNode = $(doc, ns.a, "To");
-  toNode.textContent = bindings.ipsts
-  const endpointReference = $(doc, null, 'EndpointReference')
-  const address = $(endpointReference, null, 'Address')
-  address.textContent = `http://${(new URL(bindings.rpsts)).hostname}`
-  return stripWhitespace(serializeXMLToString((doc)));
-}
+  toNode.textContent = bindings.ipsts;
+  const endpointReference = $(doc, null, "EndpointReference");
+  const address = $(endpointReference, null, "Address");
+  address.textContent = `http://${new URL(bindings.rpsts).hostname}`;
+  return stripWhitespace(serializeXMLToString(doc));
+};
 
 export const makeIpStsRequest = async () => {
-  const message = prepareIpStsMessage()
+  const message = prepareIpStsMessage();
   fs.writeFileSync("/tmp/req1.xml", message);
   const respText = await (
     await makeRequest(
@@ -183,18 +183,18 @@ export const parseSearchResponse = (searchResponse: string) => {
 type IPSTSInfo = Awaited<ReturnType<typeof makeIpStsRequest>>;
 
 export const prepareRpStsDoc = () => {
-  const doc = parseXMLString(req2Template).documentElement
+  const doc = parseXMLString(req2Template).documentElement;
   const toNode = $(doc, ns.a, "To");
-  toNode.textContent = bindings.rpsts
-  const endpointReference = $(doc, null, 'EndpointReference')
-  const address = $(endpointReference, null, 'Address')
-  address.textContent = `http://${(new URL(bindings.rpsts)).hostname}`
-  return doc
-}
+  toNode.textContent = bindings.rpsts;
+  const endpointReference = $(doc, null, "EndpointReference");
+  const address = $(endpointReference, null, "Address");
+  address.textContent = `http://${new URL(bindings.rpsts).hostname}`;
+  return doc;
+};
 
 export const makeRpStsRequest = async (ipStsInfo: IPSTSInfo) => {
   const { samlAssertion, assertionId, binaryToken } = ipStsInfo;
-  const doc = prepareRpStsDoc()
+  const doc = prepareRpStsDoc();
 
   const security = $(doc, ns.o, "Security");
   const timestampNode = $(doc, ns.u, "Timestamp");
