@@ -180,7 +180,18 @@ export const parseSearchResponse = (searchResponse: string) => {
     }
     return geverDoc;
   });
-  return geverDocs.map((d) => documentResultRow.parse(d));
+
+  return geverDocs
+    .map((d, i) => {
+      try {
+        return documentResultRow.parse(d);
+      } catch (e) {
+        console.error("Could not parse gever document", e);
+        console.info(`Original result row: ${rows[i]}`);
+        return null;
+      }
+    })
+    .filter(Boolean);
 };
 
 type IPSTSInfo = Awaited<ReturnType<typeof makeIpStsRequest>>;
