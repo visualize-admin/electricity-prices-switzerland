@@ -18,6 +18,7 @@ import searchDocumentsTemplate from "./templates/search-documents.template.xml";
 import z from "zod";
 import { OperatorDocumentCategory } from "../../graphql/queries";
 import { parseMultiPart } from "./multipart";
+import { truthy } from "../../lib/truthy";
 
 const bindings = {
   ipsts:
@@ -191,7 +192,7 @@ export const parseSearchResponse = (searchResponse: string) => {
         return null;
       }
     })
-    .filter(Boolean);
+    .filter(truthy);
 };
 
 type IPSTSInfo = Awaited<ReturnType<typeof makeIpStsRequest>>;
