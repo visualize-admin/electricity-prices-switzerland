@@ -46,6 +46,7 @@ export const prepareIpStsMessage = () => {
 export const makeIpStsRequest = async () => {
   const message = prepareIpStsMessage();
   fs.writeFileSync("/tmp/req1.xml", message);
+
   const respText = await (
     await makeRequest(
       bindings.ipsts,
@@ -188,13 +189,13 @@ export const prepareRpStsDoc = () => {
   toNode.textContent = bindings.rpsts;
   const endpointReference = $(doc, null, "EndpointReference");
   const address = $(endpointReference, null, "Address");
-  address.textContent = `http://${new URL(bindings.rpsts).hostname}`;
+  address.textContent = "urn:eiam.admin.ch:pep:GEVER-WS";
   return doc;
 };
 
 export const makeRpStsRequest = async (ipStsInfo: IPSTSInfo) => {
   const { samlAssertion, assertionId, binaryToken } = ipStsInfo;
-  const doc = parseXMLString(req2Template).documentElement;
+  const doc = prepareRpStsDoc();
 
   const security = $(doc, ns.o, "Security");
   const timestampNode = $(doc, ns.u, "Timestamp");
@@ -369,8 +370,12 @@ const memoizeSwr = <T extends unknown, Args extends unknown[]>(
 
 const makeAuthRequest = memoizeSwr(
   async () => {
+    console.log("IP-STS request...");
     const ipStsInfo = await makeIpStsRequest();
+    console.log(`IP-STS OK, assertion: ${ipStsInfo.assertionId}`);
+    console.log("RP-STS...");
     const resp2 = await makeRpStsRequest(ipStsInfo);
+    console.log(`RP-STS OK: ${resp2.samlAssertion}`);
     return resp2;
   },
   {
