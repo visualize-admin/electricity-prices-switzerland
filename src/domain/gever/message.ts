@@ -50,7 +50,7 @@ export const makeIpStsRequest = async () => {
   const respText = await (
     await makeRequest(
       bindings.ipsts,
-      req1Template,
+      message,
       {
         "Content-Type": "text/xml",
         SOAPAction:
