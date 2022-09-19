@@ -8,11 +8,18 @@ export const ns = {
   o: "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd",
   wst: "http://docs.oasis-open.org/ws-sx/ws-trust/200512",
   sig: "http://www.w3.org/2000/09/xmldsig#",
-  client: "http://Adnovum.FatClient.Soap"
+  client: "http://Adnovum.FatClient.Soap",
 };
 
-export const $ = (doc: Element, ns: string | null, qs: string, index?: number) => {
-  const elements = ns ? doc.getElementsByTagNameNS(ns, qs) : doc.getElementsByTagName(qs);
+export const $ = (
+  doc: Element,
+  ns: string | null,
+  qs: string,
+  index?: number
+) => {
+  const elements = ns
+    ? doc.getElementsByTagNameNS(ns, qs)
+    : doc.getElementsByTagName(qs);
   if (elements.length > 1 && typeof index === "undefined") {
     console.log(elements);
     throw new Error(`Too many elements for ${ns}:${qs}, please add an index`);
@@ -25,13 +32,14 @@ export const $ = (doc: Element, ns: string | null, qs: string, index?: number) =
 };
 
 export const $$ = (doc: Element, ns: string | null, qs: string) => {
-  const elements = ns ? doc.getElementsByTagNameNS(ns, qs) : doc.getElementsByTagName(qs);
+  const elements = ns
+    ? doc.getElementsByTagNameNS(ns, qs)
+    : doc.getElementsByTagName(qs);
   if (!elements.length) {
-    throw new Error(`Could not find ${ns}:${qs}`);
+    throw new Error(`Could not find ${ns ? `${ns}:${qs}` : qs}`);
   }
-  return Array.from(elements)
+  return Array.from(elements);
 };
-
 
 export const canonicalizeXML = async (tree: Element): Promise<string> => {
   return new Promise((resolve, reject) => {
@@ -63,5 +71,5 @@ export const parseXMLString = (xmlStr: string) => {
 };
 
 export const stripWhitespace = (xmlStr: string) => {
-  return xmlStr.replace(/>\s+</gm, '><')
-}
+  return xmlStr.replace(/>\s+</gm, "><");
+};

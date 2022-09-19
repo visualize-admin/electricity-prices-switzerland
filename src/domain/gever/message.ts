@@ -164,7 +164,9 @@ export const parseSearchResponse = (searchResponse: string) => {
   const columnNames = $$($(parsed, null, "ColumnNames"), null, "string").map(
     (x) => x.textContent as keyof typeof geverColumnMapping
   );
-  const rows = $$(parsed, null, "ResultRow").map((row) =>
+
+  const rawRows = Array.from(parsed.getElementsByTagName("ResultRow"));
+  const rows = rawRows.map((row) =>
     $$($(row, null, "Values"), null, "anyType").map((cell) => cell.textContent)
   );
   const geverDocs = rows.map((r) => {
