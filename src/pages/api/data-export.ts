@@ -27,12 +27,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     "category",
     "product",
     "aidfee",
-    "fixcosts",
     "charge",
     "gridusage",
     "energy",
     // "fixcostspercent",
     "total",
+    "fixcosts",
   ];
 
   const rawObservations = await getObservations(
