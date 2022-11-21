@@ -39,6 +39,7 @@ import * as ns from "../rdf/namespace";
 import { ApolloError } from "apollo-server-errors";
 import { difference } from "d3";
 import { downloadGeverDocument, searchGeverDocuments } from "../domain/gever";
+import { operatorIdToUID } from "./oid-uid";
 
 const expectedCubeDimensions = [
   "https://energy.ld.admin.ch/elcom/electricityprice/dimension/category",
@@ -442,22 +443,14 @@ const Operator: OperatorResolvers = {
     return getOperatorDocuments({ operatorId: id });
   },
 
-  geverDocuments: async ({ id, geverId: _geverId }) => {
-    // TODO replace when we know where we can fetch the GEVER operator id
-    // from the "SPARQL" id.
-    const sparqlIdToGeverId = {
-      "275": "CHE-100.082.211",
-    } as Record<string, string>;
-    const geverId = _geverId ? _geverId : sparqlIdToGeverId[id];
-    if (geverId) {
-      try {
-        return searchGeverDocuments(geverId) || [];
-      } catch (e) {
-        return [];
-      }
-    } else {
-      return [];
-    }
+  geverDocuments: async ({ id: operatorId }) => {
+    const uid = operatorIdToUID[operatorId as keyof typeof operatorIdToUID];
+    return (
+      searchGeverDocuments({
+        operatorId,
+        uid,
+      }) || []
+    );
   },
 };
 

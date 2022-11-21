@@ -331,10 +331,33 @@ const makeContentRequest = async (rpStsInfo: RPSTSInfo, docId: string) => {
   return extractFileFromContentResp(buffer);
 };
 
-const makeSearchRequest = async (rpStsInfo: RPSTSInfo, search: string) => {
+const makeSearchRequest = async (
+  rpStsInfo: RPSTSInfo,
+  searchOptions: SearchOptions
+) => {
   const doc = setupGeverAPIRequest(searchDocumentsTemplate, rpStsInfo);
-  const searchTextNode = doc.getElementsByTagName("ParameterValue")[0];
-  searchTextNode.textContent = search;
+
+  if (!searchOptions.uid && !searchOptions.operatorId) {
+    throw new Error(
+      "Both uid and operatorId cannot be falsy when searching operator documents"
+    );
+  }
+
+  const parameterNameNode = doc.getElementsByTagName("ParameterName")[0];
+  const parameterName = searchOptions.uid
+    ? "Gtx_ELCOM_ERH_UID_Suche"
+    : "Gtx_ELCOM_ERH_OpID_Search";
+  parameterNameNode.textContent = parameterName;
+
+  const parameterValueNode = doc.getElementsByTagName("ParameterValue")[0];
+  const parameterValue = searchOptions.uid
+    ? searchOptions.uid
+    : searchOptions.operatorId;
+  parameterValueNode.textContent = parameterValue;
+
+  console.log(
+    `Searching with parameterName=${parameterName}, parameterValue=${parameterValue}`
+  );
 
   const req3 = stripWhitespace(serializeXMLToString(doc));
   fs.writeFileSync("/tmp/req3.xml", req3);
@@ -405,10 +428,15 @@ export const downloadGeverDocument = memoize(async (docId: string) => {
   return resp3;
 });
 
-export const searchGeverDocuments = async (search: string) => {
-  console.log("Search gever documents", search);
+type SearchOptions = {
+  operatorId: string;
+  uid: string | undefined;
+};
+
+export const searchGeverDocuments = async (searchOptions: SearchOptions) => {
+  console.log("Search gever documents", searchOptions);
   const authResp = await makeAuthRequest();
-  const searchResp = await makeSearchRequest(authResp, search);
+  const searchResp = await makeSearchRequest(authResp, searchOptions);
   fs.writeFileSync("/tmp/search-resp.xml", searchResp);
   return parseSearchResponse(searchResp);
 };
