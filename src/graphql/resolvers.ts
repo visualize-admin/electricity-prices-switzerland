@@ -376,7 +376,7 @@ const Query: QueryResolvers = {
       filters: { operator: [id] },
     });
 
-    return { ...results[0], geverId: geverId || undefined };
+    return { ...results[0], id, geverId: geverId || undefined };
   },
   cubeHealth: async () => {
     const cube = await getObservationsCube();
