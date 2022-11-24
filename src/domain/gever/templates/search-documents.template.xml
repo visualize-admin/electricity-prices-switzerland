@@ -27,7 +27,7 @@
             </queryObject>
             <queryParameters xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
                 <QueryParameter>
-                    <ParameterName>Gtx_ELCOM_ERH_UID_Suche</ParameterName>
+                    <ParameterName></ParameterName>
                     <ParameterValue i:type="b:string" xmlns:b="http://www.w3.org/2001/XMLSchema"></ParameterValue>
                 </QueryParameter>
             </queryParameters>
