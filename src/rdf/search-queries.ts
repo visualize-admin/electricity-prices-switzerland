@@ -126,21 +126,21 @@ const searchQueryBuilders = {
   },
 } as const;
 
-export const search = async ({
-  query,
-  ids,
-  client = sparqlClient,
-  locale = defaultLocale,
-  types = ["municipality", "operator"],
-  limit = 10,
-}: {
-  client?: ParsingClient;
+export type SearchSparqlQueryOptions = {
   query: string;
   ids: string[];
   locale: string;
-  types?: SearchType[];
+  types: SearchType[];
   limit?: number;
-}) => {
+};
+
+export const getSearchSparqlQuery = ({
+  query,
+  types,
+  ids,
+  limit,
+  locale,
+}: Required<SearchSparqlQueryOptions>) => {
   const trimmedQuery = query.trim();
   const isZipCode = /^[0-9]{4}$/.test(trimmedQuery);
   let queryParts: SparqlTemplateResult[] = [];
@@ -172,10 +172,6 @@ export const search = async ({
     );
   }
 
-  if (queryParts.length === 0) {
-    return [];
-  }
-
   const sparqlQuery =
     SELECT.DISTINCT`${vars.type} ${vars.iri} ${vars.name} ${vars.municipalityClass}`
       .WHERE`${queryParts.map((p, i) =>
@@ -183,6 +179,33 @@ export const search = async ({
     )}`
       .ORDER()
       .BY(vars.name);
+
+  return {
+    sparqlQuery,
+    abort: queryParts.length === 0,
+  };
+};
+
+export const search = async ({
+  query,
+  ids,
+  client = sparqlClient,
+  locale = defaultLocale,
+  types = ["municipality", "operator"],
+  limit = 10,
+}: SearchSparqlQueryOptions & {
+  client?: ParsingClient;
+}) => {
+  const { sparqlQuery, abort } = getSearchSparqlQuery({
+    query,
+    types,
+    ids,
+    locale,
+    limit,
+  });
+  if (abort) {
+    return [];
+  }
 
   console.log(
     `SEARCH query for '${query}'`,
