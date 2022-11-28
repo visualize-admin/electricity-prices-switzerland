@@ -346,7 +346,7 @@ const makeSearchRequest = async (
   const parameterNameNode = doc.getElementsByTagName("ParameterName")[0];
   const parameterName = searchOptions.uid
     ? "Gtx_ELCOM_ERH_UID_Suche"
-    : "Gtx_ELCOM_ERH_OpID_Search";
+    : "Gtx_ELCOM_ERH_OpID_Suche";
   parameterNameNode.textContent = parameterName;
 
   const parameterValueNode = doc.getElementsByTagName("ParameterValue")[0];
