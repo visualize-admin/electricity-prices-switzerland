@@ -13,10 +13,6 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/domain/translation.tsx:70
-#~ msgid "chart.annotation.cantons"
-#~ msgstr "Kantone"
-
 #: src/domain/translation.tsx:98
 msgid "chart.annotation.municipalities"
 msgstr "Gemeinden"
@@ -115,14 +111,6 @@ msgstr "Jahresrechnung"
 #: src/components/operator-documents.tsx:37
 msgid "download.category.annualreports"
 msgstr "Jahresrechnungen Netz"
-
-#: src/components/operator-documents.tsx:23
-#~ msgid "download.category.financialstatement"
-#~ msgstr "Geschäftsbericht"
-
-#: src/components/operator-documents.tsx:26
-#~ msgid "download.category.financialstatements"
-#~ msgstr "Geschäftsberichte"
 
 #: src/components/operator-documents.tsx:17
 msgid "download.category.tariff"
