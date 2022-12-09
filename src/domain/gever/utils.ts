@@ -21,7 +21,7 @@ export const $ = (
     ? doc.getElementsByTagNameNS(ns, qs)
     : doc.getElementsByTagName(qs);
   if (elements.length > 1 && typeof index === "undefined") {
-    console.log(elements);
+    console.warn(elements);
     throw new Error(`Too many elements for ${ns}:${qs}, please add an index`);
   }
   if (!elements.length) {

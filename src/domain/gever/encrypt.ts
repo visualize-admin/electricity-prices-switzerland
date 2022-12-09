@@ -23,7 +23,6 @@ export const encrypt = (text: string) => {
 
 export const decrypt = (iv_content: string) => {
   const [iv, content] = iv_content.split(SEPARATOR, 2);
-  console.log({ iv, content });
   const decipher = crypto.createDecipheriv(
     algorithm,
     secretKey,
