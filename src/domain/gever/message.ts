@@ -19,6 +19,7 @@ import z from "zod";
 import { OperatorDocumentCategory } from "../../graphql/queries";
 import { parseMultiPart } from "./multipart";
 import { truthy } from "../../lib/truthy";
+import { decrypt, encrypt } from "./encrypt";
 
 const bindings = {
   ipsts:
@@ -132,7 +133,7 @@ const documentResultRow = z
     return {
       id: x.id,
       name: x.name,
-      url: `/api/download-operator-document/${x.reference}`,
+      url: `/api/download-operator-document/${encrypt(x.reference)}`,
       year: parseYearFromPeriod(x.period),
       category: geverTypesMapping[x.type],
     };
@@ -421,12 +422,15 @@ const makeAuthRequest = memoizeSwr(
   }
 );
 
-export const downloadGeverDocument = memoize(async (docId: string) => {
-  console.log("Download gever document", docId);
-  const authResp = await makeAuthRequest();
-  const resp3 = await makeContentRequest(authResp, docId);
-  return resp3;
-});
+export const downloadGeverDocument = memoize(
+  async (encryptedReference: string) => {
+    const reference = decrypt(encryptedReference);
+    console.log("Download gever document", reference);
+    const authResp = await makeAuthRequest();
+    const resp3 = await makeContentRequest(authResp, reference);
+    return resp3;
+  }
+);
 
 type SearchOptions = {
   operatorId: string;
