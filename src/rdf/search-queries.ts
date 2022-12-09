@@ -1,7 +1,8 @@
 import { sparql, SparqlTemplateResult } from "@tpluscode/rdf-string";
 import { SELECT } from "@tpluscode/sparql-builder";
 import rdf from "rdf-ext";
-import { Literal, NamedNode } from "rdf-js";
+import { Literal, NamedNode, Quad } from "rdf-js";
+import { Client } from "sparql-http-client";
 import ParsingClient from "sparql-http-client/ParsingClient";
 import { defaultLocale } from "../locales/locales";
 import * as ns from "./namespace";
@@ -134,6 +135,13 @@ export type SearchSparqlQueryOptions = {
   limit?: number;
 };
 
+export const getOperatorQuery = ({ operatorId }: { operatorId: string }) => {
+  return SELECT`?uid`.WHERE`
+    <https://energy.ld.admin.ch/elcom/electricityprice/operator/${operatorId}> a ${ns.schema.Organization} ;
+      ${ns.schema.identifier} ?uid
+  `;
+};
+
 export const getSearchSparqlQuery = ({
   query,
   types,
@@ -184,6 +192,32 @@ export const getSearchSparqlQuery = ({
     sparqlQuery,
     abort: queryParts.length === 0,
   };
+};
+
+export const fetchOperatorInfo = async ({
+  operatorId,
+  client = sparqlClient,
+}: {
+  operatorId: string;
+  client?: ParsingClient<Quad>;
+}) => {
+  const sparqlQuery = getOperatorQuery({ operatorId });
+  const results = (await client.query.select(sparqlQuery.build())) as {
+    uid: Literal;
+  }[];
+
+  if (results.length > 1) {
+    console.warn(`Multiple uid results for operator id ${operatorId}`);
+  } else if (results.length === 0) {
+    console.warn(`No uid results for operator id ${operatorId}`);
+  }
+
+  return results.map((d) => {
+    const uid = d.uid.value;
+    return {
+      uid,
+    };
+  })[0];
 };
 
 export const search = async ({

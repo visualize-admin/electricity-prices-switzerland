@@ -31,7 +31,7 @@ import {
 import { defaultLocale } from "../locales/locales";
 import { getWikiPage } from "../domain/gitlab-wiki-api";
 import micromark from "micromark";
-import { search } from "../rdf/search-queries";
+import { fetchOperatorInfo, search } from "../rdf/search-queries";
 var gfmSyntax = require("micromark-extension-gfm");
 var gfmHtml = require("micromark-extension-gfm/html");
 
@@ -444,7 +444,8 @@ const Operator: OperatorResolvers = {
   },
 
   geverDocuments: async ({ id: operatorId }) => {
-    const uid = operatorIdToUID[operatorId as keyof typeof operatorIdToUID];
+    const operatorInfo = await fetchOperatorInfo({ operatorId });
+    const uid = operatorInfo?.uid;
     return (
       searchGeverDocuments({
         operatorId,
