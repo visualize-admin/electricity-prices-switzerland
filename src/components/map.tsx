@@ -2,8 +2,10 @@ import { MapController, WebMercatorViewport } from "@deck.gl/core";
 import { GeoJsonLayer } from "@deck.gl/layers";
 import DeckGL from "@deck.gl/react";
 import { Trans } from "@lingui/macro";
+import centroid from "@turf/centroid";
 import { color, extent, group, mean, rollup } from "d3";
 import { ScaleThreshold } from "d3-scale";
+import { memoize } from "lodash";
 import React, {
   createContext,
   Dispatch,
@@ -346,6 +348,45 @@ export const ChoroplethMap = ({
     return rgb ? [rgb.r, rgb.g, rgb.b] : [0, 0, 0];
   };
 
+  const { value: highlightContext } = useContext(HighlightContext);
+
+  const municipalityIndex = useMemo(() => {
+    if (geoData.state !== "loaded") {
+      return;
+    }
+    const municipalities = geoData?.municipalities as Extract<
+      typeof geoData.municipalities,
+      { features: any }
+    >;
+    const features = municipalities?.features;
+    return new Map(features.map((x) => [x.id, x]) ?? []);
+  }, [geoData]);
+
+  const getCentroid = useMemo(() => {
+    return memoize((municipality: Parameters<typeof centroid>[0]) =>
+      centroid(municipality)
+    );
+  }, [geoData]);
+
+  useEffect(() => {
+    if (!municipalityIndex || !highlightContext) {
+      setHovered(undefined);
+      return;
+    }
+    const vp = new WebMercatorViewport(viewState);
+    const municipality = municipalityIndex.get(
+      parseInt(highlightContext.id, 10)
+    );
+    if (!municipality) {
+      return;
+    }
+    const center = getCentroid(municipality as Parameters<typeof centroid>[0]);
+    const projected = vp.project(
+      center.geometry.coordinates as [number, number]
+    );
+    setHovered({ x: projected[0], y: projected[1], id: highlightContext.id });
+  }, [viewState, highlightContext, municipalityIndex]);
+
   const hoveredMunicipalityName = hovered
     ? municipalityNames.get(hovered.id)?.name
     : undefined;
@@ -366,7 +407,6 @@ export const ChoroplethMap = ({
     : undefined;
   const d = extent(observations, (d) => d.value);
   const m = medianValue;
-  const { value: highlightContext } = useContext(HighlightContext);
 
   const getFillColor = useMemo(() => {
     const { entity, id } = highlightContext || {};
