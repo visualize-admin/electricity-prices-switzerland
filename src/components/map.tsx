@@ -478,9 +478,10 @@ export const ChoroplethMap = ({
 
   const getFillColor = useMemo(() => {
     const { entity, id } = highlightContext || {};
-    const predicate = entity
-      ? (o: OperatorObservationFieldsFragment) => o[entity] === id
-      : () => false;
+    const predicate =
+      entity && entity !== "operator"
+        ? (o: OperatorObservationFieldsFragment) => o[entity] === id
+        : () => false;
     return (d: $FixMe) => {
       const obs = observationsByMunicipalityId.get(d.id.toString());
       const highlighted = obs?.find(predicate);
