@@ -5,6 +5,7 @@ import { Trans } from "@lingui/macro";
 import centroid from "@turf/centroid";
 import { color, extent, group, mean, rollup } from "d3";
 import { ScaleThreshold } from "d3-scale";
+import { string } from "io-ts";
 import { memoize } from "lodash";
 import React, {
   createContext,
@@ -196,7 +197,8 @@ const HintBox = ({ children }: { children: ReactNode }) => (
 
 type GeoDataStateLoaded = {
   state: "loaded";
-  municipalities: GeoJSON.FeatureCollection | GeoJSON.Feature;
+  cantons: GeoJSON.FeatureCollection;
+  municipalities: GeoJSON.FeatureCollection;
   municipalityMesh: GeoJSON.MultiLineString;
   cantonMesh: GeoJSON.MultiLineString;
   lakes: GeoJSON.FeatureCollection | GeoJSON.Feature;
@@ -214,6 +216,8 @@ type GeoDataState =
 export type HighlightValue = {
   entity: Entity;
   id: string;
+  label: string;
+  value: number;
 };
 
 export const HighlightContext = createContext({
@@ -222,6 +226,22 @@ export const HighlightContext = createContext({
     SetStateAction<HighlightValue | undefined>
   >,
 });
+
+type HoverState =
+  | {
+      x: number;
+      y: number;
+      id: string;
+      type: "municipality";
+    }
+  | {
+      x: number;
+      y: number;
+      id: string;
+      type: "canton";
+      value: number;
+      label: string;
+    };
 
 export const ChoroplethMap = ({
   year,
@@ -241,11 +261,7 @@ export const ChoroplethMap = ({
   onMunicipalityLayerClick: (_item: { object: any }) => void;
 }) => {
   const [geoData, setGeoData] = useState<GeoDataState>({ state: "fetching" });
-  const [hovered, setHovered] = useState<{
-    x: number;
-    y: number;
-    id: string;
-  }>();
+  const [hovered, setHovered] = useState<HoverState>();
 
   const [viewState, setViewState] = useState(INITIAL_VIEW_STATE);
 
@@ -279,6 +295,7 @@ export const ChoroplethMap = ({
           topo,
           topo.objects.municipalities
         );
+        const cantons = topojsonFeature(topo, topo.objects.cantons);
         const municipalityMesh = topojsonMesh(
           topo,
           topo.objects.municipalities,
@@ -292,7 +309,11 @@ export const ChoroplethMap = ({
         const lakes = topojsonFeature(topo, topo.objects.lakes);
         setGeoData({
           state: "loaded",
-          municipalities,
+          municipalities: municipalities as Extract<
+            typeof municipalities,
+            { features: any }
+          >,
+          cantons: cantons as Extract<typeof cantons, { features: any }>,
           municipalityMesh,
           cantonMesh,
           lakes,
@@ -350,60 +371,107 @@ export const ChoroplethMap = ({
 
   const { value: highlightContext } = useContext(HighlightContext);
 
-  const municipalityIndex = useMemo(() => {
+  const indexes = useMemo(() => {
     if (geoData.state !== "loaded") {
       return;
     }
-    const municipalities = geoData?.municipalities as Extract<
-      typeof geoData.municipalities,
-      { features: any }
-    >;
-    const features = municipalities?.features;
-    return new Map(features.map((x) => [x.id, x]) ?? []);
+    const municipalities = geoData?.municipalities;
+    const cantons = geoData?.cantons;
+    return {
+      municipalities: new Map(
+        municipalities?.features.map((x) => [x.id, x]) ?? []
+      ),
+      cantons: new Map(cantons?.features.map((x) => [x.id, x]) ?? []),
+    };
   }, [geoData]);
 
-  const getCentroid = useMemo(() => {
-    return memoize((municipality: Parameters<typeof centroid>[0]) =>
-      centroid(municipality)
-    );
-  }, [geoData]);
-
+  // Syncs highlight context (coming from the right list hover) with hovered
   useEffect(() => {
-    if (!municipalityIndex || !highlightContext) {
+    if (!indexes || !highlightContext) {
       setHovered(undefined);
       return;
     }
     const vp = new WebMercatorViewport(viewState);
-    const municipality = municipalityIndex.get(
-      parseInt(highlightContext.id, 10)
-    );
-    if (!municipality) {
+    const type = highlightContext.entity;
+    if (type === "operator") {
       return;
     }
-    const center = getCentroid(municipality as Parameters<typeof centroid>[0]);
+    const index =
+      type === "canton"
+        ? indexes.cantons
+        : type === "municipality"
+        ? indexes.municipalities
+        : undefined;
+    const entity = index?.get(parseInt(highlightContext.id, 10));
+    if (!entity) {
+      return;
+    }
+    const center = centroid(entity as Parameters<typeof centroid>[0]);
     const projected = vp.project(
       center.geometry.coordinates as [number, number]
     );
-    setHovered({ x: projected[0], y: projected[1], id: highlightContext.id });
-  }, [viewState, highlightContext, municipalityIndex]);
+    const newHoverState: HoverState =
+      type === "municipality"
+        ? {
+            x: projected[0],
+            y: projected[1],
+            id: highlightContext.id,
+            type: "municipality",
+          }
+        : {
+            x: projected[0],
+            y: projected[1],
+            id: highlightContext.id,
+            type: "canton",
+            label: highlightContext.label,
+            value: highlightContext.value,
+          };
+    setHovered(newHoverState);
+  }, [viewState, highlightContext, indexes]);
 
-  const hoveredMunicipalityName = hovered
-    ? municipalityNames.get(hovered.id)?.name
-    : undefined;
-  const hoveredObservations = hovered
-    ? observationsByMunicipalityId.get(hovered.id)
-    : undefined;
-  const hoveredCanton = hoveredObservations
-    ? maxBy(hoveredObservations, (x) => x.period)?.cantonLabel
-    : undefined;
-  const tooltipContent = hovered
-    ? {
-        id: hovered.id,
-        name: `${hoveredMunicipalityName} ${
-          hoveredCanton ? `- ${hoveredCanton}` : ""
-        }`,
-        observations: observationsByMunicipalityId.get(hovered.id),
+  const { hoveredMunicipalityName, hoveredObservations, hoveredCanton } =
+    useMemo(() => {
+      if (!hovered) {
+        return {
+          hoveredMunicipalityName: undefined,
+          hoveredObservations: undefined,
+          hoveredCanton: undefined,
+        };
       }
+
+      if (hovered.type === "municipality") {
+        const hoveredObservations = observationsByMunicipalityId.get(
+          hovered.id
+        );
+        return {
+          hoveredMunicipalityName: municipalityNames.get(hovered.id)?.name,
+          hoveredObservations,
+          hoveredCanton: maxBy(hoveredObservations, (x) => x.period)
+            ?.cantonLabel,
+        };
+      } else {
+        return {
+          hoveredCanton: hovered.id,
+          hoveredObservations: [],
+          hoveredMunicipalityName: "",
+        };
+      }
+    }, [hovered]);
+
+  const tooltipContent = hovered
+    ? hovered.type === "municipality"
+      ? {
+          id: hovered.id,
+          name: `${hoveredMunicipalityName} ${
+            hoveredCanton ? `- ${hoveredCanton}` : ""
+          }`,
+          observations: observationsByMunicipalityId.get(hovered.id),
+        }
+      : {
+          id: hovered.id,
+          name: hovered.label,
+          observations: [],
+        }
     : undefined;
   const d = extent(observations, (d) => d.value);
   const m = medianValue;
@@ -443,9 +511,6 @@ export const ChoroplethMap = ({
       <>
         {hovered && tooltipContent && colorScale && (
           <MapTooltip x={hovered.x} y={hovered.y}>
-            <Text variant="meta" sx={{ fontWeight: "bold", mb: 2 }}>
-              {tooltipContent.name}
-            </Text>
             <Grid
               sx={{
                 width: "100%",
@@ -454,31 +519,63 @@ export const ChoroplethMap = ({
                 alignItems: "center",
               }}
             >
-              {tooltipContent.observations ? (
-                tooltipContent.observations.map((d, i) => {
-                  return (
-                    <Fragment key={i}>
-                      <Text variant="meta" sx={{}}>
-                        {d.operatorLabel}
-                      </Text>
-                      <Box
-                        sx={{
-                          borderRadius: "circle",
-                          px: 2,
-                          display: "inline-block",
-                        }}
-                        style={{ background: colorScale(d.value) }}
-                      >
-                        <Text variant="meta">{formatNumber(d.value)}</Text>
-                      </Box>
-                    </Fragment>
-                  );
-                })
-              ) : (
-                <Text variant="meta" sx={{ color: "secondary" }}>
-                  <Trans id="map.tooltipnodata">Keine Daten</Trans>
-                </Text>
-              )}
+              <Text variant="meta" sx={{ fontWeight: "bold" }}>
+                {tooltipContent.name}
+              </Text>
+              {hovered.type === "canton" ? (
+                <>
+                  <Box
+                    sx={{
+                      borderRadius: "circle",
+                      px: 2,
+                      display: "inline-block",
+                    }}
+                    style={{
+                      background: colorScale(hovered.value),
+                    }}
+                  >
+                    <Text variant="meta">{formatNumber(hovered.value)}</Text>
+                  </Box>
+                </>
+              ) : null}
+            </Grid>
+            <Grid
+              sx={{
+                width: "100%",
+                gridTemplateColumns: "1fr auto",
+                gap: 1,
+                alignItems: "center",
+              }}
+            >
+              {hovered.type === "municipality" ? (
+                <>
+                  {tooltipContent.observations ? (
+                    tooltipContent.observations.map((d, i) => {
+                      return (
+                        <Fragment key={i}>
+                          <Text variant="meta" sx={{}}>
+                            {d.operatorLabel}
+                          </Text>
+                          <Box
+                            sx={{
+                              borderRadius: "circle",
+                              px: 2,
+                              display: "inline-block",
+                            }}
+                            style={{ background: colorScale(d.value) }}
+                          >
+                            <Text variant="meta">{formatNumber(d.value)}</Text>
+                          </Box>
+                        </Fragment>
+                      );
+                    })
+                  ) : (
+                    <Text variant="meta" sx={{ color: "secondary" }}>
+                      <Trans id="map.tooltipnodata">Keine Daten</Trans>
+                    </Text>
+                  )}
+                </>
+              ) : null}
             </Grid>
           </MapTooltip>
         )}
@@ -522,7 +619,12 @@ export const ChoroplethMap = ({
                 onHover={({ x, y, object }: $FixMe) => {
                   setHovered(
                     object
-                      ? { x: x, y: y, id: object?.id.toString() }
+                      ? {
+                          x: x,
+                          y: y,
+                          id: object?.id.toString(),
+                          type: "municipality",
+                        }
                       : undefined
                   );
                 }}

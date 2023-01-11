@@ -50,7 +50,7 @@ const ListItem = ({
       passHref
     >
       <Flex
-        onMouseOver={() => setHighlightContext({ entity, id })}
+        onMouseOver={() => setHighlightContext({ entity, id, label, value })}
         onMouseOut={() => setHighlightContext(undefined)}
         as="a"
         sx={{
