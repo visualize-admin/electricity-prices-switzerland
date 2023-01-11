@@ -20,6 +20,7 @@ import { HistogramMedian } from "../charts-generic/histogram/median";
 import { Combobox } from "../combobox";
 import { Loading, NoDataHint } from "../hint";
 import { InfoDialogButton } from "../info-dialog";
+import { PriceColorLegend } from "../price-color-legend";
 import { RadioTabs } from "../radio-tabs";
 import Stack from "../stack";
 import {
@@ -250,7 +251,7 @@ export const PriceDistributionHistogram = ({
     })
   );
   return (
-    <>
+    <Box sx={{ position: "relative" }}>
       <FilterSetDescription
         filters={{
           period: year,
@@ -268,6 +269,9 @@ export const PriceDistributionHistogram = ({
           downloadId={DOWNLOAD_ID}
           isFetching={observationsQuery.fetching}
         >
+          <Box sx={{ position: "absolute", right: 0 }}>
+            <PriceColorLegend />
+          </Box>
           <Histogram
             data={observations as GenericObservation[]}
             medianValue={medianValue}
@@ -309,6 +313,6 @@ export const PriceDistributionHistogram = ({
           </Histogram>
         </WithClassName>
       )}
-    </>
+    </Box>
   );
 };
