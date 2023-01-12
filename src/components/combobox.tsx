@@ -1,4 +1,6 @@
 import { t } from "@lingui/macro";
+
+// import { i18n } from "@lingui/core";
 import { useCombobox, useMultipleSelection } from "downshift";
 import { ReactNode, useState, useEffect } from "react";
 import { Box, Button, Flex, Input, Text } from "theme-ui";
@@ -312,7 +314,7 @@ export const Combobox = ({
 }: {
   id: string;
   label: string;
-  items: string[];
+  items: (string | { type: "header"; title: string })[];
   selectedItem: string;
   setSelectedItem: (selectedItem: string) => void;
   getItemLabel?: (item: string) => string;
@@ -324,7 +326,11 @@ export const Combobox = ({
   const getFilteredItems = () => {
     return inputValue && inputValue !== getItemLabel(selectedItem)
       ? items.filter((item) =>
-          getItemLabel(item).toLowerCase().startsWith(inputValue.toLowerCase())
+          typeof item !== "string"
+            ? true
+            : getItemLabel(item)
+                .toLowerCase()
+                .startsWith(inputValue.toLowerCase())
         )
       : items;
   };
@@ -472,25 +478,41 @@ export const Combobox = ({
           width: "100%",
           zIndex: 999,
         }}
-        style={{ display: isOpen ? "block" : "none" }}
+        style={{ display: isOpen ? "block" : "none", overflow: "hidden" }}
         {...getMenuProps()}
       >
         {isOpen &&
-          inputItems.map((item, index) => (
-            <Box
-              as="li"
-              sx={{
-                color: highlightedIndex === index ? "primaryActive" : "text",
-                bg: highlightedIndex === index ? "primaryLight" : "transparent",
-                p: 3,
-                m: 0,
-              }}
-              key={`${item}${index}`}
-              {...getItemProps({ item, index })}
-            >
-              {getItemLabel(item)}
-            </Box>
-          ))}
+          inputItems.map((item, index) =>
+            typeof item === "string" ? (
+              <Box
+                as="li"
+                sx={{
+                  color: highlightedIndex === index ? "primaryActive" : "text",
+                  bg:
+                    highlightedIndex === index ? "primaryLight" : "transparent",
+                  p: 3,
+                  m: 0,
+                }}
+                key={`${item}${index}`}
+                {...getItemProps({ item, index })}
+              >
+                {getItemLabel(item)}
+              </Box>
+            ) : (
+              <Box
+                as="li"
+                sx={{
+                  fontWeight: "bold",
+                  fontSize: "small",
+                  py: 1,
+                  backgroundColor: "monochrome200",
+                  px: 3,
+                }}
+              >
+                {item.title}
+              </Box>
+            )
+          )}
         {isOpen && inputItems.length === 0 && (
           <Box
             as="li"

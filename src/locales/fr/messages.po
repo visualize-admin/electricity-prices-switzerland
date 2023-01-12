@@ -13,31 +13,32 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/domain/translation.tsx:98
+#: src/domain/translation.tsx:105
 msgid "chart.annotation.municipalities"
 msgstr "communes"
 
-#: src/domain/translation.tsx:93
+#: src/domain/translation.tsx:100
 msgid "chart.annotation.operators"
 msgstr "gestionnaires de réseau"
 
 #: src/components/charts-generic/axis/axis-width-linear.tsx:131
+#: src/components/detail-page/price-distribution-histogram.tsx:285
 #: src/domain/translation.tsx:26
 msgid "chart.axis.unit.Rp/kWh"
 msgstr "ct./kWh"
 
-#: src/components/combobox.tsx:258
+#: src/components/combobox.tsx:260
 #: src/components/search.tsx:341
 msgid "combobox.isloading"
 msgstr "Chargement des résultats…"
 
-#: src/components/combobox.tsx:278
-#: src/components/combobox.tsx:503
+#: src/components/combobox.tsx:280
+#: src/components/combobox.tsx:525
 #: src/components/search.tsx:345
 msgid "combobox.noitems"
 msgstr "Aucune entrée"
 
-#: src/components/combobox.tsx:272
+#: src/components/combobox.tsx:274
 msgid "combobox.prompt"
 msgstr "Saisir la description…"
 
@@ -55,8 +56,8 @@ msgstr "Trier"
 msgid "detail.canton"
 msgstr "Canton"
 
-#: src/components/detail-page/cantons-comparison-range.tsx:109
-#: src/components/detail-page/cantons-comparison-range.tsx:116
+#: src/components/detail-page/cantons-comparison-range.tsx:110
+#: src/components/detail-page/cantons-comparison-range.tsx:117
 msgid "detail.card.title.cantons.comparison"
 msgstr "Comparaison des cantons"
 
@@ -64,8 +65,8 @@ msgstr "Comparaison des cantons"
 msgid "detail.card.title.price.components"
 msgstr "Composantes du prix"
 
-#: src/components/detail-page/price-distribution-histogram.tsx:72
 #: src/components/detail-page/price-distribution-histogram.tsx:79
+#: src/components/detail-page/price-distribution-histogram.tsx:86
 msgid "detail.card.title.prices.distribution"
 msgstr "Distribution des prix en Suisse"
 
@@ -128,7 +129,7 @@ msgstr "Fichier CSV"
 msgid "download.filetype.pdf"
 msgstr "Fichier PDF"
 
-#: src/components/operator-documents.tsx:99
+#: src/components/operator-documents.tsx:104
 msgid "download.nooperatordocuments"
 msgstr "Aucun document de l'opérateur de réseau"
 
@@ -136,19 +137,19 @@ msgstr "Aucun document de l'opérateur de réseau"
 msgid "download.rawdata"
 msgstr "Données brutes"
 
-#: src/domain/translation.tsx:84
+#: src/domain/translation.tsx:91
 msgid "filters.category"
 msgstr "Categorie"
 
-#: src/domain/translation.tsx:88
+#: src/domain/translation.tsx:95
 msgid "filters.price.component"
 msgstr "Composantes du prix"
 
-#: src/domain/translation.tsx:86
+#: src/domain/translation.tsx:93
 msgid "filters.product"
 msgstr "Produit"
 
-#: src/domain/translation.tsx:82
+#: src/domain/translation.tsx:89
 msgid "filters.year"
 msgstr "Année"
 
@@ -164,7 +165,7 @@ msgstr "Base de calcul"
 msgid "help.download-raw-data"
 msgstr "Ouvrir l'aide pour les données brutes"
 
-#: src/components/price-color-legend.tsx:39
+#: src/components/price-color-legend.tsx:73
 msgid "help.price-comparison"
 msgstr "Comparaison des tarifs"
 
@@ -192,7 +193,7 @@ msgstr "Aucune carte ne peut être affichée pour l'année sélectionnée"
 msgid "hint.nogeodata.title"
 msgstr "Aucune carte ne peut être affichée pour l'année sélectionnée"
 
-#: src/components/detail-page/price-distribution-histogram.tsx:162
+#: src/components/detail-page/price-distribution-histogram.tsx:169
 msgid "histogram.canton-count"
 msgstr "Nombre de cantons"
 
@@ -204,11 +205,11 @@ msgstr "Max"
 msgid "histogram.min"
 msgstr "Min"
 
-#: src/components/detail-page/price-distribution-histogram.tsx:167
+#: src/components/detail-page/price-distribution-histogram.tsx:174
 msgid "histogram.municipality-count"
 msgstr "Nombre de communes"
 
-#: src/components/detail-page/price-distribution-histogram.tsx:157
+#: src/components/detail-page/price-distribution-histogram.tsx:164
 msgid "histogram.operator-count"
 msgstr "Nombre d'opérateurs"
 
@@ -257,26 +258,26 @@ msgstr "Voir plus ..."
 msgid "logo.swiss.confederation"
 msgstr "Logo de la Confédération suisse"
 
-#: src/components/price-color-legend.tsx:33
+#: src/components/price-color-legend.tsx:67
 msgid "map.legend.title"
 msgstr "Comparaison des tarifs en ct./kWh"
 
-#: src/components/map.tsx:439
+#: src/components/map.tsx:577
 msgid "map.tooltipnodata"
 msgstr "Aucune donnée"
 
-#: src/components/price-color-legend.tsx:79
-#: src/components/price-color-legend.tsx:117
+#: src/components/price-color-legend.tsx:124
+#: src/components/price-color-legend.tsx:162
 msgid "price.legend.max"
 msgstr "Max"
 
-#: src/components/price-color-legend.tsx:75
-#: src/components/price-color-legend.tsx:113
+#: src/components/price-color-legend.tsx:120
+#: src/components/price-color-legend.tsx:158
 msgid "price.legend.median"
 msgstr "Médiane"
 
-#: src/components/price-color-legend.tsx:71
-#: src/components/price-color-legend.tsx:109
+#: src/components/price-color-legend.tsx:116
+#: src/components/price-color-legend.tsx:154
 msgid "price.legend.min"
 msgstr "Min"
 
@@ -296,23 +297,23 @@ msgstr "Montrer toutes les municipalités"
 msgid "priceComponents.view.expanded.operators"
 msgstr "Montrer tous les gestionnaires"
 
-#: src/components/detail-page/cantons-comparison-range.tsx:181
+#: src/components/detail-page/cantons-comparison-range.tsx:182
 msgid "rangeplot.select.order.hint"
 msgstr "Trier selon"
 
-#: src/domain/translation.tsx:113
+#: src/domain/translation.tsx:120
 msgid "rangeplot.select.sorting.alpha-asc"
 msgstr "alphabétique croissant"
 
-#: src/domain/translation.tsx:118
+#: src/domain/translation.tsx:125
 msgid "rangeplot.select.sorting.alpha-desc"
 msgstr "alphabétique décroissant"
 
-#: src/domain/translation.tsx:103
+#: src/domain/translation.tsx:110
 msgid "rangeplot.select.sorting.median-asc"
 msgstr "médiane, croissant"
 
-#: src/domain/translation.tsx:108
+#: src/domain/translation.tsx:115
 msgid "rangeplot.select.sorting.median-desc"
 msgstr "médiane, décroissant"
 
@@ -320,7 +321,7 @@ msgstr "médiane, décroissant"
 msgid "relations.showmore"
 msgstr "montrer {rest} plus…"
 
-#: src/pages/index.tsx:155
+#: src/pages/index.tsx:171
 msgid "search.global"
 msgstr "Voir l'analyse détaillée des prix par cantons, communes et gestionnaires de réseau."
 
@@ -336,22 +337,26 @@ msgstr "Aller à…"
 msgid "search.global.label"
 msgstr "Entrez le nom de la commune, le code postal, le gestionnaire de réseau, le canton…"
 
-#: src/domain/translation.tsx:101
+#: src/domain/translation.tsx:108
 msgid "search.result.canton"
 msgstr "Canton"
 
-#: src/domain/translation.tsx:96
+#: src/domain/translation.tsx:103
 msgid "search.result.municipality"
 msgstr "Commune"
 
-#: src/domain/translation.tsx:91
+#: src/domain/translation.tsx:98
 msgid "search.result.operator"
 msgstr "Gestionnaire de réseau"
 
 #: src/components/detail-page/selector-multi.tsx:80
-#: src/components/selector.tsx:55
+#: src/components/selector.tsx:63
 msgid "selector.category"
 msgstr "Catégorie"
+
+#: src/domain/translation.tsx:84
+msgid "selector.category.C-group"
+msgstr ""
 
 #: src/domain/translation.tsx:68
 msgid "selector.category.C1"
@@ -381,9 +386,13 @@ msgstr "C6"
 msgid "selector.category.C7"
 msgstr "C7"
 
+#: src/domain/translation.tsx:82
+msgid "selector.category.H-group"
+msgstr "Ménages types"
+
 #: src/domain/translation.tsx:52
 msgid "selector.category.H1"
-msgstr "H1"
+msgstr "Entreprises artisanales et industrielles"
 
 #: src/domain/translation.tsx:54
 msgid "selector.category.H2"
@@ -426,17 +435,17 @@ msgid "selector.compareoperators"
 msgstr "Comparaison entre gestionnaires de réseau"
 
 #: src/components/detail-page/selector-multi.tsx:35
-#: src/components/selector.tsx:27
+#: src/components/selector.tsx:36
 msgid "selector.legend.select.parameters"
 msgstr "Sélectionner les paramètres"
 
 #: src/components/detail-page/price-components-bars.tsx:136
-#: src/components/selector.tsx:43
+#: src/components/selector.tsx:51
 msgid "selector.priceComponent"
 msgstr "Composantes du prix"
 
-#: src/components/detail-page/cantons-comparison-range.tsx:162
-#: src/components/detail-page/price-distribution-histogram.tsx:125
+#: src/components/detail-page/cantons-comparison-range.tsx:163
+#: src/components/detail-page/price-distribution-histogram.tsx:132
 msgid "selector.priceComponents"
 msgstr "Composantes du prix"
 
@@ -461,7 +470,7 @@ msgid "selector.pricecomponent.total"
 msgstr "Total"
 
 #: src/components/detail-page/selector-multi.tsx:91
-#: src/components/selector.tsx:67
+#: src/components/selector.tsx:75
 msgid "selector.product"
 msgstr "Produit"
 
@@ -473,11 +482,11 @@ msgstr "Meilleur marché"
 msgid "selector.product.standard"
 msgstr "Standard"
 
-#: src/components/selector.tsx:77
+#: src/components/selector.tsx:85
 msgid "selector.results"
 msgstr "Résultats de la recherche"
 
-#: src/components/selector.tsx:34
+#: src/components/selector.tsx:42
 msgid "selector.year"
 msgstr "Année"
 
@@ -487,8 +496,8 @@ msgstr "Années"
 
 #: src/components/header.tsx:99
 #: src/pages/canton/[id].tsx:56
-#: src/pages/index.tsx:103
-#: src/pages/index.tsx:140
+#: src/pages/index.tsx:119
+#: src/pages/index.tsx:156
 #: src/pages/municipality/[id].tsx:78
 #: src/pages/operator/[id].tsx:75
 msgid "site.title"

@@ -78,6 +78,13 @@ export const getLocalizedLabel = ({ id }: { id: string }): string => {
       return t({ id: "selector.category.C6", message: `C6` });
     case "C7":
       return t({ id: "selector.category.C7", message: `C7` });
+    case "H-group":
+      return t({ id: "selector.category.H-group", message: `Haushalte` });
+    case "C-group":
+      return t({
+        id: "selector.category.C-group",
+        message: `Gewerbe- und Industriebetrieben`,
+      });
     case "period":
       return t({ id: "filters.year", message: `Jahr` });
     case "category":

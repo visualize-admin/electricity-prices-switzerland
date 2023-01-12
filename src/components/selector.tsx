@@ -1,4 +1,5 @@
 import { Trans, t } from "@lingui/macro";
+import { useMemo } from "react";
 import { Flex, Text } from "theme-ui";
 import { categories, periods, priceComponents, products } from "../domain/data";
 import { getLocalizedLabel } from "../domain/translation";
@@ -8,6 +9,14 @@ import { Combobox } from "./../components/combobox";
 export const Selector = () => {
   const [queryState, setQueryState] = useQueryStateSingle();
   const getItemLabel = (id: string) => getLocalizedLabel({ id });
+  const groupedCategories = useMemo(() => {
+    return [
+      { type: "header", title: getItemLabel("H-group") },
+      ...categories.filter((x) => x.startsWith("H")),
+      { type: "header", title: getItemLabel("C-group") },
+      ...categories.filter((x) => x.startsWith("C")),
+    ] as React.ComponentProps<typeof Combobox>["items"];
+  }, []);
   return (
     <Flex
       as="fieldset"
@@ -28,7 +37,6 @@ export const Selector = () => {
           Liste und Karte filtern
         </Trans>
       </Text>
-
       <Combobox
         id="year"
         label={t({ id: "selector.year", message: `Jahr` })}
@@ -53,7 +61,7 @@ export const Selector = () => {
       <Combobox
         id="category"
         label={t({ id: "selector.category", message: `Kategorie` })}
-        items={categories}
+        items={groupedCategories}
         getItemLabel={getItemLabel}
         selectedItem={queryState.category ?? "H4"}
         setSelectedItem={(selectedItem) =>

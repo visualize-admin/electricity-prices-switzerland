@@ -73,8 +73,7 @@ export const theme: Theme = {
     categorical: ["#64afe9", "#01ADA1", "#939CB4", "#91C34B", "#E89F00"],
   },
   fonts: {
-    body:
-      "FrutigerNeue, -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol",
+    body: "FrutigerNeue, -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol",
     monospace: "Menlo, monospace",
   },
   fontSizes: [
