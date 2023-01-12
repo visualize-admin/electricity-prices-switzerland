@@ -35,7 +35,7 @@ import { InteractionProvider } from "../use-interaction";
 import { Bounds, Observer, useWidth } from "../use-width";
 
 export const DOT_RADIUS = 8;
-export const INNER_PADDING = 0.2;
+export const OUTER_PADDING = 0.2;
 
 export interface RangePlotState {
   bounds: Bounds;
@@ -131,7 +131,7 @@ const useRangePlotState = ({
           .map((d) => d[0]);
   const yScale = scaleBand<string>()
     .domain(yDomain)
-    .paddingInner(INNER_PADDING);
+    .paddingOuter(OUTER_PADDING);
 
   const m = medianValue;
   const colorDomain = m
@@ -173,7 +173,7 @@ const useRangePlotState = ({
   };
 
   const chartWidth = width - margins.left - margins.right;
-  const rowHeight = DOT_RADIUS * 2 * (1 + INNER_PADDING);
+  const rowHeight = DOT_RADIUS * 2 * (1 + OUTER_PADDING);
   const chartHeight = yDomain.length * rowHeight;
 
   const bounds = {
