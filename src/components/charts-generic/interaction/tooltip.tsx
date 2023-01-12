@@ -28,15 +28,23 @@ export interface TooltipValue {
   color: string;
   yPos?: number;
 }
-export interface Tooltip {
+
+type TooltipCommon = {
   xAnchor: number;
   yAnchor: number;
   placement: TooltipPlacement;
   xValue: string;
   tooltipContent?: ReactNode;
-  datum: TooltipValue;
-  values: TooltipValue[] | undefined;
-}
+};
+export type Tooltip =
+  | (TooltipCommon & {
+      datum?: TooltipValue;
+      values: undefined;
+    })
+  | (TooltipCommon & {
+      values: TooltipValue[];
+      datum?: undefined;
+    });
 
 const TooltipInner = ({
   d,
@@ -63,13 +71,13 @@ const TooltipInner = ({
         tooltipContent
       ) : type === "multiple" && values ? (
         <TooltipMultiple xValue={xValue} segmentValues={values} />
-      ) : (
+      ) : type === "single" && datum ? (
         <TooltipSingle
           xValue={xValue}
           segment={datum.label}
           yValue={datum.value}
         />
-      )}
+      ) : null}
     </TooltipBox>
   );
 };

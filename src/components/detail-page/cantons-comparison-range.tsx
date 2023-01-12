@@ -22,6 +22,7 @@ import {
 } from "../charts-generic/annotation/annotation-x";
 import { AxisWidthLinear } from "../charts-generic/axis/axis-width-linear";
 import { ChartContainer, ChartSvg } from "../charts-generic/containers";
+import { Tooltip } from "../charts-generic/interaction/tooltip";
 import { InteractionRows } from "../charts-generic/overlay/interaction-rows";
 import { Range, RangePoints } from "../charts-generic/rangeplot/rangeplot";
 import { RangeplotMedian } from "../charts-generic/rangeplot/rangeplot-median";
@@ -331,7 +332,7 @@ export const CantonsComparisonRangePlot = memo(
                   },
                 },
                 label: {
-                  componentIri: "muniOperator",
+                  componentIri: "municipalityLabel",
                 },
 
                 annotation: groupedAnnotations as {
@@ -356,6 +357,7 @@ export const CantonsComparisonRangePlot = memo(
                   <AnnotationXDataPoint />
                   <InteractionRows />
                 </ChartSvg>
+                <Tooltip type="multiple" />
                 <AnnotationXLabel />
               </ChartContainer>
             </RangePlot>

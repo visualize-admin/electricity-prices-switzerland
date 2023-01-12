@@ -28,6 +28,7 @@ import {
 import { estimateTextWidth } from "../../../lib/estimate-text-width";
 import { Annotation } from "../annotation/annotation-x";
 import { LEFT_MARGIN_OFFSET } from "../constants";
+import { Tooltip } from "../interaction/tooltip";
 import { ChartContext, ChartProps } from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
 import { InteractionProvider } from "../use-interaction";
@@ -47,7 +48,28 @@ export interface RangePlotState {
   colors: ScaleLinear<string, string>;
   rangeGroups: [string, Record<string, ObservationValue>[]][];
   annotations?: Annotation[];
+  getAnnotationInfo: (d: GenericObservation) => Tooltip;
 }
+
+const minMaxBy = <T extends unknown>(arr: T[], by: (d: T) => number) => {
+  let minV = Infinity;
+  let minD = undefined as undefined | T;
+  let maxV = -Infinity;
+  let maxD = undefined as undefined | T;
+  for (let i = 0; i < arr.length; i++) {
+    const item = arr[i];
+    const v = by(item);
+    if (v < minV) {
+      minD = item;
+      minV = v;
+    }
+    if (v > maxV) {
+      maxD = item;
+      maxV = v;
+    }
+  }
+  return [minD, maxD] as [T, T];
+};
 
 const useRangePlotState = ({
   data,
@@ -151,7 +173,8 @@ const useRangePlotState = ({
   };
 
   const chartWidth = width - margins.left - margins.right;
-  const chartHeight = yDomain.length * (DOT_RADIUS * 2 * (1 + INNER_PADDING));
+  const rowHeight = DOT_RADIUS * 2 * (1 + INNER_PADDING);
+  const chartHeight = yDomain.length * rowHeight;
 
   const bounds = {
     width,
@@ -166,6 +189,28 @@ const useRangePlotState = ({
 
   // Group
   const rangeGroups = [...group(data, getY)];
+
+  const getAnnotationInfo = (d: GenericObservation): Tooltip => {
+    const tooltipValues = minMaxBy(
+      data.filter((j) => getY(j) === getY(d)),
+      getX
+    );
+
+    const yAnchor = yScale(getY(d));
+    return {
+      xAnchor: xScale(getX(tooltipValues[1])) + 10,
+      yAnchor: yAnchor ? yAnchor + margins.top + DOT_RADIUS : 0,
+      placement: { x: "right", y: "middle" },
+      xValue: getY(d),
+      values: tooltipValues.map((tv) => {
+        return {
+          label: getLabel(tv),
+          value: `${getX(tv)}`,
+          color: colors(getX(tv)),
+        };
+      }),
+    };
+  };
 
   // Annotations
   const annotations =
@@ -197,6 +242,7 @@ const useRangePlotState = ({
     colors,
     rangeGroups,
     annotations,
+    getAnnotationInfo,
   };
 };
 
