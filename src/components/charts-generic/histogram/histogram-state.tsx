@@ -141,7 +141,7 @@ const useHistogramState = ({
       xValue: "",
       tooltipContent: (
         <>
-          <Flex sx={{ alignItems: "center", gap: "0.25rem" }}>
+          <Flex sx={{ alignItems: "center", gap: "0.375rem" }}>
             <LegendSymbol symbol="square" color={colors(d.x0!)} />
             <Text variant="meta" sx={{ fontWeight: "bold" }}>
               {d.x0} - {d.x1}&nbsp;
