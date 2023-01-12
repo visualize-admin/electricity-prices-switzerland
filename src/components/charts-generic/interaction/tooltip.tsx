@@ -49,15 +49,8 @@ const TooltipInner = ({
 }) => {
   const { bounds, getAnnotationInfo } = useChartState() as LinesState;
   const { margins } = bounds;
-  const {
-    xAnchor,
-    yAnchor,
-    placement,
-    xValue,
-    tooltipContent,
-    datum,
-    values,
-  } = getAnnotationInfo(d);
+  const { xAnchor, yAnchor, placement, xValue, tooltipContent, datum, values } =
+    getAnnotationInfo(d);
 
   return (
     <TooltipBox
