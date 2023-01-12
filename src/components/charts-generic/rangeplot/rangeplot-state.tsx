@@ -202,6 +202,9 @@ const useRangePlotState = ({
       yAnchor: yAnchor ? yAnchor + margins.top + DOT_RADIUS : 0,
       placement: { x: "right", y: "middle" },
       xValue: getY(d),
+      datum: {
+        value: `${getX(d)}`,
+      },
       values: tooltipValues.map((tv) => {
         return {
           label: getLabel(tv),

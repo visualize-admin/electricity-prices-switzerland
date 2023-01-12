@@ -1,6 +1,6 @@
 import * as React from "react";
 import { memo } from "react";
-import { Flex } from "theme-ui";
+import { Box, Flex } from "theme-ui";
 import { useChartState } from "../use-chart-state";
 import { ColumnsState } from "../columns/columns-state";
 
@@ -26,6 +26,28 @@ export const LegendColor = memo(({ symbol }: { symbol: LegendSymbol }) => {
   );
 });
 
+export const LegendSymbol = ({
+  symbol,
+  color,
+}: {
+  symbol: LegendSymbol;
+  color: string;
+}) => {
+  return (
+    <Box
+      sx={{
+        content: "''",
+        position: "relative",
+        display: "block",
+        width: ".5rem",
+        height: symbol === "square" || symbol === "circle" ? `.5rem` : 3,
+        borderRadius: symbol === "circle" ? "50%" : 0,
+        bg: color,
+      }}
+    ></Box>
+  );
+};
+
 export const LegendItem = ({
   item,
   color,
@@ -42,25 +64,16 @@ export const LegendItem = ({
       mr: 4,
       justifyContent: "flex-start",
       alignItems: "center",
-      pl: 2,
+      pl: 0,
+      gap: "0.25rem",
       fontFamily: "body",
       lineHeight: [1, 2, 2],
       fontWeight: "regular",
       fontSize: [1, 2, 2],
       color: "monochrome700",
-
-      "&::before": {
-        content: "''",
-        position: "relative",
-        display: "block",
-        left: -2,
-        width: ".5rem",
-        height: symbol === "square" || symbol === "circle" ? `.5rem` : 3,
-        borderRadius: symbol === "circle" ? "50%" : 0,
-        bg: color,
-      },
     }}
   >
+    <LegendSymbol color={color} symbol={symbol} />
     {item}
   </Flex>
 );

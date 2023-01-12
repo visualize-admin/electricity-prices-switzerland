@@ -1,5 +1,6 @@
 import { Box, Text } from "@theme-ui/components";
-import { LegendItem } from "../legends/color";
+import { Flex } from "theme-ui";
+import { LegendItem, LegendSymbol } from "../legends/color";
 import { TooltipValue } from "./tooltip";
 
 // Generic
@@ -7,18 +8,23 @@ export const TooltipSingle = ({
   xValue,
   segment,
   yValue,
+  color,
 }: {
   xValue?: string;
   segment?: string;
   yValue?: string;
+  color?: string;
 }) => {
   return (
     <Box>
-      {xValue && (
-        <Text variant="meta" sx={{ fontWeight: "bold" }}>
-          {xValue}
-        </Text>
-      )}
+      <Flex sx={{ alignItems: "center" }}>
+        {color && <LegendSymbol color={color} symbol="square" />}
+        {xValue && (
+          <Text variant="meta" sx={{ fontWeight: "bold" }}>
+            {xValue}
+          </Text>
+        )}
+      </Flex>
       {segment && <Text variant="meta">{segment}</Text>}
       {yValue && <Text variant="meta">{yValue}</Text>}
     </Box>
@@ -39,14 +45,16 @@ export const TooltipMultiple = ({
           {xValue}
         </Text>
       )}
-      {segmentValues.map((segment, i) => (
-        <LegendItem
-          key={i}
-          item={`${segment.label}: ${segment.value}`}
-          color={segment.color}
-          symbol="square"
-        />
-      ))}
+      {segmentValues.map((segment, i) =>
+        segment.color ? (
+          <LegendItem
+            key={i}
+            item={`${segment.label}: ${segment.value}`}
+            color={segment.color}
+            symbol="square"
+          />
+        ) : null
+      )}
     </Box>
   );
 };

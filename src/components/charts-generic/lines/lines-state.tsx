@@ -279,7 +279,6 @@ const useLinesState = ({
         value: `${formatCurrency(getY(datum))} ${getLocalizedLabel({
           id: "unit",
         })}`,
-        color: colors(getColor(datum)) as string,
       },
       values: summarizedTooltipValues
         .sort((a, b) => descending(getY(a), getY(b)))

@@ -21,6 +21,7 @@ import { useChartTheme } from "../use-chart-theme";
 import { InteractionProvider } from "../use-interaction";
 import { Bounds, Observer, useWidth } from "../use-width";
 import { Box, Flex } from "theme-ui";
+import { LegendSymbol } from "../legends/color";
 
 export const ANNOTATION_DOT_RADIUS = 2.5;
 export const ANNOTATION_LABEL_HEIGHT = 20;
@@ -141,13 +142,7 @@ const useHistogramState = ({
       tooltipContent: (
         <>
           <Flex sx={{ alignItems: "center", gap: "0.25rem" }}>
-            <Box
-              sx={{
-                width: 10,
-                height: 10,
-                backgroundColor: colors(d.x0!),
-              }}
-            />
+            <LegendSymbol symbol="square" color={colors(d.x0!)} />
             <Text variant="meta" sx={{ fontWeight: "bold" }}>
               {d.x0} - {d.x1}&nbsp;
               {xAxisUnit}

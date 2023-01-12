@@ -36,7 +36,7 @@ export type TooltipType = "single" | "multiple" | "histogram";
 export interface TooltipValue {
   label?: string;
   value: string;
-  color: string;
+  color?: string;
   yPos?: number;
 }
 
@@ -86,6 +86,7 @@ const TooltipInner = ({
           xValue={xValue}
           segment={datum.label}
           yValue={datum.value}
+          color={datum.color}
         />
       ) : null}
     </TooltipBox>

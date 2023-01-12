@@ -332,7 +332,8 @@ export const CantonsComparisonRangePlot = memo(
                   },
                 },
                 label: {
-                  componentIri: "municipalityLabel",
+                  componentIri:
+                    entity === "canton" ? "cantonLabel" : "municipalityLabel",
                 },
 
                 annotation: groupedAnnotations as {
@@ -357,7 +358,7 @@ export const CantonsComparisonRangePlot = memo(
                   <AnnotationXDataPoint />
                   <InteractionRows />
                 </ChartSvg>
-                <Tooltip type="multiple" />
+                <Tooltip type={entity === "canton" ? "single" : "multiple"} />
                 <AnnotationXLabel />
               </ChartContainer>
             </RangePlot>
