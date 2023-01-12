@@ -17,6 +17,12 @@ import { HistogramColumns } from "../charts-generic/histogram/histogram";
 import { HistogramMinMaxValues } from "../charts-generic/histogram/histogram-min-max-values";
 import { Histogram } from "../charts-generic/histogram/histogram-state";
 import { HistogramMedian } from "../charts-generic/histogram/median";
+import { Tooltip } from "../charts-generic/interaction/tooltip";
+import { TooltipHistogram } from "../charts-generic/interaction/tooltip-content";
+import { InteractionColumns } from "../charts-generic/overlay/interaction-columns";
+import { InteractionHistogram } from "../charts-generic/overlay/interaction-histogram";
+import { InteractionHorizontal } from "../charts-generic/overlay/interaction-horizontal";
+import { useInteraction } from "../charts-generic/use-interaction";
 import { Combobox } from "../combobox";
 import { Loading, NoDataHint } from "../hint";
 import { InfoDialogButton } from "../info-dialog";
@@ -276,6 +282,7 @@ export const PriceDistributionHistogram = ({
             data={observations as GenericObservation[]}
             medianValue={medianValue}
             yAxisLabel={getEntityLabelId(entity)}
+            xAxisUnit={t({ id: "chart.axis.unit.Rp/kWh", message: `Rp./kWh` })}
             fields={{
               x: {
                 componentIri: "value",
@@ -299,20 +306,25 @@ export const PriceDistributionHistogram = ({
             <ChartContainer>
               <ChartSvg>
                 <AxisHeightLinear />
-
                 {/* <AxisWidthHistogram /> */}
                 <HistogramMinMaxValues />
                 <AxisWidthHistogramDomain />
-
                 <AnnotationX />
                 <HistogramColumns />
                 <HistogramMedian label="CH Median" />
+                <InteractionHistogram />
               </ChartSvg>
               <AnnotationXLabel />
             </ChartContainer>
+            <Tooltip type="single" />
           </Histogram>
         </WithClassName>
       )}
     </Box>
   );
+};
+
+const InteractionDebug = () => {
+  const [state] = useInteraction();
+  return <pre>{JSON.stringify(state, null, 2)}</pre>;
 };

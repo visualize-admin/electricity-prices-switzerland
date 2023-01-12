@@ -15,14 +15,8 @@ export const Ruler = () => {
 
 const RulerInner = ({ d }: { d: GenericObservation }) => {
   const { getAnnotationInfo, bounds } = useChartState() as LinesState;
-  const {
-    xAnchor,
-    yAnchor,
-    xValue,
-    datum,
-    placement,
-    values,
-  } = getAnnotationInfo(d);
+  const { xAnchor, yAnchor, xValue, datum, placement, values } =
+    getAnnotationInfo(d);
 
   return (
     <RulerContent
@@ -32,7 +26,7 @@ const RulerInner = ({ d }: { d: GenericObservation }) => {
       margins={bounds.margins}
       xAnchor={xAnchor}
       yAnchor={yAnchor}
-      datum={datum}
+      datum={datum!}
       placement={placement}
     />
   );

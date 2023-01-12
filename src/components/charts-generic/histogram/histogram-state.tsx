@@ -1,4 +1,6 @@
 import { interpolateHsl } from "d3";
+import { Text } from "@theme-ui/components";
+
 import { ascending, Bin, histogram, max, min } from "d3-array";
 import { ScaleLinear, scaleLinear } from "d3-scale";
 import * as React from "react";
@@ -13,10 +15,12 @@ import {
 import { estimateTextWidth } from "../../../lib/estimate-text-width";
 import { Annotation } from "../annotation/annotation-x";
 import { LEFT_MARGIN_OFFSET } from "../constants";
+import { Tooltip } from "../interaction/tooltip";
 import { ChartContext, ChartProps } from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
 import { InteractionProvider } from "../use-interaction";
 import { Bounds, Observer, useWidth } from "../use-width";
+import { Box, Flex } from "theme-ui";
 
 export const ANNOTATION_DOT_RADIUS = 2.5;
 export const ANNOTATION_LABEL_HEIGHT = 20;
@@ -34,6 +38,7 @@ export interface HistogramState {
   bins: Bin<GenericObservation, number>[];
   colors: ScaleLinear<string, string>;
   annotations?: Annotation[];
+  getAnnotationInfo: (d: GenericObservation) => Tooltip;
 }
 
 const useHistogramState = ({
@@ -44,11 +49,13 @@ const useHistogramState = ({
   aspectRatio,
   xAxisLabel,
   yAxisLabel,
+  xAxisUnit,
 }: Pick<ChartProps, "data" | "measures" | "medianValue"> & {
   fields: HistogramFields;
   aspectRatio: number;
   xAxisLabel?: string;
   yAxisLabel?: string;
+  xAxisUnit?: string;
 }): HistogramState => {
   const width = useWidth();
   const formatCurrency = useFormatCurrency();
@@ -58,6 +65,9 @@ const useHistogramState = ({
     (d: GenericObservation) => d[fields.x.componentIri] as number,
     [fields.x.componentIri]
   );
+
+  const getY = (d: GenericObservation[]) => d?.length ?? 0;
+
   const getLabel = useCallback(
     (d: GenericObservation) => d[fields.label.componentIri] as string,
     [fields.label.componentIri]
@@ -121,6 +131,36 @@ const useHistogramState = ({
       })
     : [{ height: 0, nbOfLines: 1 }];
 
+  const getAnnotationInfo = (d: typeof bins[number]): Tooltip => {
+    return {
+      datum: undefined,
+      placement: { x: "center", y: "top" },
+      xAnchor: xScale((d.x1! + d.x0!) / 2),
+      yAnchor: yScale(getY(d)) + margins.top - 10,
+      xValue: "",
+      tooltipContent: (
+        <>
+          <Flex sx={{ alignItems: "center", gap: "0.25rem" }}>
+            <Box
+              sx={{
+                width: 10,
+                height: 10,
+                backgroundColor: colors(d.x0!),
+              }}
+            />
+            <Text variant="meta" sx={{ fontWeight: "bold" }}>
+              {d.x0} - {d.x1}&nbsp;
+              {xAxisUnit}
+            </Text>
+          </Flex>
+          <Text variant="meta">
+            {yAxisLabel}: {d.length}
+          </Text>
+        </>
+      ),
+    };
+  };
+
   const annotationSpace =
     annotationSpaces[annotationSpaces.length - 1].height || 0;
 
@@ -161,13 +201,16 @@ const useHistogramState = ({
     medianValue,
     getX,
     xScale,
-    getY: (d) => d.length,
+    getY,
     yScale,
     xAxisLabel: xAxisLabel || "",
     yAxisLabel: yAxisLabel || "",
     bins,
     colors,
     annotations,
+    getAnnotationInfo: getAnnotationInfo as unknown as (
+      d: GenericObservation
+    ) => Tooltip,
   };
 };
 
@@ -180,12 +223,14 @@ const HistogramProvider = ({
   aspectRatio,
   xAxisLabel,
   yAxisLabel,
+  xAxisUnit,
 }: Pick<ChartProps, "data" | "measures" | "medianValue"> & {
   children: ReactNode;
   fields: HistogramFields;
   aspectRatio: number;
   xAxisLabel?: string;
   yAxisLabel?: string;
+  xAxisUnit?: string;
 }) => {
   const state = useHistogramState({
     data,
@@ -195,6 +240,7 @@ const HistogramProvider = ({
     aspectRatio,
     xAxisLabel,
     yAxisLabel,
+    xAxisUnit,
   });
   return (
     <ChartContext.Provider value={state}>{children}</ChartContext.Provider>
@@ -204,6 +250,7 @@ const HistogramProvider = ({
 export const Histogram = ({
   xAxisLabel,
   yAxisLabel,
+  xAxisUnit,
   data,
   medianValue,
   fields,
@@ -216,6 +263,7 @@ export const Histogram = ({
   aspectRatio: number;
   xAxisLabel?: string;
   yAxisLabel?: string;
+  xAxisUnit?: string;
 }) => {
   return (
     <Observer>
@@ -228,6 +276,7 @@ export const Histogram = ({
           aspectRatio={aspectRatio}
           xAxisLabel={xAxisLabel}
           yAxisLabel={yAxisLabel}
+          xAxisUnit={xAxisUnit}
         >
           {children}
         </HistogramProvider>

@@ -52,7 +52,7 @@ export const TooltipMultiple = ({
 };
 
 // Chart Specific
-export const TooltipScatterplot = ({
+export const TooltipHistogram = ({
   firstLine,
   secondLine,
   thirdLine,
