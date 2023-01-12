@@ -410,18 +410,20 @@ export const ChoroplethMap = ({
     const projected = vp.project(
       center.geometry.coordinates as [number, number]
     );
+
+    const common = {
+      x: projected[0],
+      y: projected[1] + 10,
+      id: highlightContext.id,
+    };
     const newHoverState: HoverState =
       type === "municipality"
         ? {
-            x: projected[0],
-            y: projected[1],
-            id: highlightContext.id,
+            ...common,
             type: "municipality",
           }
         : {
-            x: projected[0],
-            y: projected[1],
-            id: highlightContext.id,
+            ...common,
             type: "canton",
             label: highlightContext.label,
             value: highlightContext.value,
