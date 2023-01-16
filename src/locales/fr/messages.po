@@ -356,7 +356,7 @@ msgstr "Catégorie"
 
 #: src/domain/translation.tsx:84
 msgid "selector.category.C-group"
-msgstr "Entreprises artisanales et industrielles"
+msgstr "Entreprises"
 
 #: src/domain/translation.tsx:68
 msgid "selector.category.C1"
