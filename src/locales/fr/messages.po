@@ -356,7 +356,7 @@ msgstr "Catégorie"
 
 #: src/domain/translation.tsx:84
 msgid "selector.category.C-group"
-msgstr ""
+msgstr "Entreprises artisanales et industrielles"
 
 #: src/domain/translation.tsx:68
 msgid "selector.category.C1"
@@ -392,7 +392,7 @@ msgstr "Ménages types"
 
 #: src/domain/translation.tsx:52
 msgid "selector.category.H1"
-msgstr "Entreprises artisanales et industrielles"
+msgstr "H1"
 
 #: src/domain/translation.tsx:54
 msgid "selector.category.H2"
