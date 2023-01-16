@@ -1,4 +1,5 @@
 import { Trans, t } from "@lingui/macro";
+import { useMemo } from "react";
 import { Flex, Text } from "theme-ui";
 import { Combobox, ComboboxMulti } from "../../components/combobox";
 import { categories, Entity, periods, products } from "../../domain/data";
@@ -17,6 +18,15 @@ export const SelectorMulti = ({
 }) => {
   const [queryState, setQueryState] = useQueryState();
   const getItemLabel = (id: string) => getLocalizedLabel({ id });
+  const groupedCategories = useMemo(() => {
+    return [
+      { type: "header", title: getItemLabel("H-group") },
+      ...categories.filter((x) => x.startsWith("H")),
+      { type: "header", title: getItemLabel("C-group") },
+      ...categories.filter((x) => x.startsWith("C")),
+    ] as React.ComponentProps<typeof Combobox>["items"];
+  }, []);
+
   return (
     <Flex
       as="fieldset"
@@ -78,7 +88,7 @@ export const SelectorMulti = ({
         <Combobox
           id="categories"
           label={t({ id: "selector.category", message: `Kategorie` })}
-          items={categories}
+          items={groupedCategories}
           getItemLabel={getItemLabel}
           selectedItem={queryState.category[0]}
           setSelectedItem={(selectedItem) =>
