@@ -503,10 +503,9 @@ export const Combobox = ({
                 as="li"
                 sx={{
                   fontWeight: "bold",
-                  fontSize: "small",
                   py: 1,
-                  backgroundColor: "monochrome200",
                   px: 3,
+                  marginTop: "0.5rem",
                 }}
               >
                 {item.title}
