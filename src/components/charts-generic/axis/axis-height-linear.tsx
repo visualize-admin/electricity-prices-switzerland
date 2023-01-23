@@ -73,7 +73,7 @@ export const AxisHeightLinear = ({
         <text
           x={0}
           y={0}
-          dy={bounds.margins.top / 2}
+          dy={bounds.margins.top / 2 - labelFontSize / 2}
           fontSize={labelFontSize}
           fill={axisLabelColor}
         >
