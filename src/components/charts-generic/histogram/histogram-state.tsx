@@ -112,7 +112,7 @@ const useHistogramState = ({
   // const piecewiseColor = piecewise(interpolateHsl, palettes.diverging);
 
   const margins = {
-    top: 50,
+    top: 70,
     right: 40,
     bottom: 100,
     left: left + LEFT_MARGIN_OFFSET,
@@ -182,7 +182,7 @@ const useHistogramState = ({
           x: xScale(getX(datum)),
           y: yScale(0),
           xLabel: xScale(getX(datum)),
-          yLabel: annotationSpaces[i + 1].height,
+          yLabel: annotationSpaces[i + 1].height - 40,
           nbOfLines: annotationSpaces[i + 1].nbOfLines,
           value: formatCurrency(getX(datum)),
           label: getLabel(datum),
