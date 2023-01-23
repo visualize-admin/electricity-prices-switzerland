@@ -275,7 +275,13 @@ export const PriceDistributionHistogram = ({
           downloadId={DOWNLOAD_ID}
           isFetching={observationsQuery.fetching}
         >
-          <Box sx={{ position: "absolute", right: 0 }}>
+          <Box
+            sx={{
+              position: "absolute",
+              right: "2.5rem",
+              top: "1.5rem",
+            }}
+          >
             <PriceColorLegend />
           </Box>
           <Histogram
