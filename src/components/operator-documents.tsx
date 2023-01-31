@@ -1,5 +1,6 @@
 import { Trans } from "@lingui/macro";
 import { descending, rollup } from "d3-array";
+import { uniqBy } from "lodash";
 import { useMemo } from "react";
 import { Box, Flex, Link, Text } from "theme-ui";
 import {
@@ -83,7 +84,12 @@ export const OperatorDocuments = ({ id }: { id: string }) => {
     documentsQuery.data?.operator?.documents ?? EMPTY_ARRAY;
   const geverDocuments =
     documentsQuery.data?.operator?.geverDocuments ?? EMPTY_ARRAY;
-  const documents = [...legacyDocuments, ...geverDocuments];
+
+  // Deduplicate documents taking in priority GEVER documents
+  const documents = uniqBy(
+    [...geverDocuments, ...legacyDocuments],
+    (doc) => `${doc.category} - ${doc.year}`
+  );
 
   const documentsByCategory = useMemo(() => {
     return rollup(
