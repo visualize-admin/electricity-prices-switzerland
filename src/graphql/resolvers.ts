@@ -447,12 +447,11 @@ const Operator: OperatorResolvers = {
     const operatorInfo = await fetchOperatorInfo({ operatorId });
     const uid = operatorInfo?.uid;
     try {
-      return (
-        searchGeverDocuments({
-          operatorId,
-          uid,
-        }) || []
-      );
+      const docs = await searchGeverDocuments({
+        operatorId,
+        uid,
+      });
+      return docs || [];
     } catch {
       return [];
     }
