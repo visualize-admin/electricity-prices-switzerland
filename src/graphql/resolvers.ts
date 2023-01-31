@@ -446,12 +446,16 @@ const Operator: OperatorResolvers = {
   geverDocuments: async ({ id: operatorId }) => {
     const operatorInfo = await fetchOperatorInfo({ operatorId });
     const uid = operatorInfo?.uid;
-    return (
-      searchGeverDocuments({
-        operatorId,
-        uid,
-      }) || []
-    );
+    try {
+      return (
+        searchGeverDocuments({
+          operatorId,
+          uid,
+        }) || []
+      );
+    } catch {
+      return [];
+    }
   },
 };
 
