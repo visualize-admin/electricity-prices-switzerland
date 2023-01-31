@@ -71,17 +71,19 @@ export const useFormatFullDateAuto = () => {
     const formatYear = format("%Y");
 
     return (date: Date) => {
-      return (timeMinute(date) < date
-        ? formatSecond
-        : timeHour(date) < date
-        ? formatMinute
-        : timeDay(date) < date
-        ? formatHour
-        : timeMonth(date) < date
-        ? formatDay
-        : timeYear(date) < date
-        ? formatMonth
-        : formatYear)(date);
+      return (
+        timeMinute(date) < date
+          ? formatSecond
+          : timeHour(date) < date
+          ? formatMinute
+          : timeDay(date) < date
+          ? formatHour
+          : timeMonth(date) < date
+          ? formatDay
+          : timeYear(date) < date
+          ? formatMonth
+          : formatYear
+      )(date);
     };
   }, [locale]);
 
@@ -106,17 +108,19 @@ export const useFormatShortDateAuto = () => {
     const formatYear = format("%Y");
 
     return (date: Date) => {
-      return (timeMinute(date) < date
-        ? formatSecond
-        : timeHour(date) < date
-        ? formatMinute
-        : timeDay(date) < date
-        ? formatHour
-        : timeMonth(date) < date
-        ? formatDay
-        : timeYear(date) < date
-        ? formatMonth
-        : formatYear)(date);
+      return (
+        timeMinute(date) < date
+          ? formatSecond
+          : timeHour(date) < date
+          ? formatMinute
+          : timeDay(date) < date
+          ? formatHour
+          : timeMonth(date) < date
+          ? formatDay
+          : timeYear(date) < date
+          ? formatMonth
+          : formatYear
+      )(date);
     };
   }, [locale]);
 
@@ -198,7 +202,7 @@ export const getAnnotationSpaces = ({
 }: {
   annotation: { [x: string]: string | number | boolean }[];
   getX: (x: GenericObservation) => number;
-  getLabel: (x: GenericObservation) => string;
+  getLabel: (x: GenericObservation) => string | undefined;
   format: (n: number) => string;
   width: number;
   annotationfontSize: number;
@@ -206,7 +210,7 @@ export const getAnnotationSpaces = ({
   return annotation
     ? annotation.reduce(
         (acc, datum, i) => {
-          const splitLabel = getLabel(datum).split(" ");
+          const splitLabel = getLabel(datum)?.split(" ") || [];
           // Nb of spaces in the label + 1 space between value and label
           const nbOfSpaces = splitLabel.length + 1;
           const labelLength =
@@ -269,33 +273,11 @@ export const getOpacityRanges = (c: number) => {
       return [1, 0.92, 0.84, 0.76, 0.68, 0.6, 0.52, 0.44, 0.36, 0.28, 0.2];
     case 13:
       return [
-        1,
-        0.92,
-        0.84,
-        0.76,
-        0.68,
-        0.6,
-        0.52,
-        0.44,
-        0.36,
-        0.28,
-        0.2,
-        0.12,
+        1, 0.92, 0.84, 0.76, 0.68, 0.6, 0.52, 0.44, 0.36, 0.28, 0.2, 0.12,
       ];
     default:
       return [
-        1,
-        0.92,
-        0.84,
-        0.76,
-        0.68,
-        0.6,
-        0.52,
-        0.44,
-        0.36,
-        0.28,
-        0.2,
-        0.12,
+        1, 0.92, 0.84, 0.76, 0.68, 0.6, 0.52, 0.44, 0.36, 0.28, 0.2, 0.12,
       ];
   }
 };
