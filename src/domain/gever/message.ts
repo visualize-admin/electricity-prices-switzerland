@@ -112,8 +112,9 @@ const geverColumnMapping = {
 };
 
 const geverTypesMapping = {
-  tariffs_provider: "TARIFFS",
-  financial_statement: "FINANCIAL_STATEMENT",
+  tariffs_provider: OperatorDocumentCategory.Tariffs,
+  financial_statement: OperatorDocumentCategory.FinancialStatement,
+  annual_report: OperatorDocumentCategory.AnnualReport,
 } as Record<string, OperatorDocumentCategory>;
 
 const parseYearFromPeriod = (period: string) => {
