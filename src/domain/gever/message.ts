@@ -194,6 +194,7 @@ export const parseSearchResponse = (searchResponse: string) => {
         return null;
       }
     })
+    .filter((x) => x?.category !== OperatorDocumentCategory.FinancialStatement)
     .filter(truthy);
 };
 
