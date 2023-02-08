@@ -1,6 +1,6 @@
 import { GraphQLResolveInfo } from "graphql";
 import { parseResolveInfo, ResolveTree } from "graphql-parse-resolve-info";
-import { parseObservationValue } from "../lib/observations";
+import { parseObservation, parseObservationValue } from "../lib/observations";
 import {
   getDimensionValuesAndLabels,
   getObservations,
@@ -40,6 +40,7 @@ import { ApolloError } from "apollo-server-errors";
 import { difference } from "d3";
 import { downloadGeverDocument, searchGeverDocuments } from "../domain/gever";
 import { operatorIdToUID } from "./oid-uid";
+import { Literal, NamedNode } from "rdf-js";
 
 const expectedCubeDimensions = [
   "https://energy.ld.admin.ch/elcom/electricityprice/dimension/category",
@@ -108,25 +109,12 @@ const Query: QueryResolvers = {
           )
         : [];
 
-    const operatorObservations = rawOperatorObservations.map((d) => {
-      let parsed: { [k: string]: string | number | boolean } = {
+    const operatorObservations = rawOperatorObservations
+      .map(parseObservation)
+      .map((o) => ({
         __typename: "OperatorObservation",
-      };
-      for (const [k, v] of Object.entries(d)) {
-        const key = k.replace(
-          "https://energy.ld.admin.ch/elcom/electricityprice/dimension/",
-          ""
-        );
-
-        const parsedValue = parseObservationValue(v);
-
-        parsed[key] =
-          typeof parsedValue === "string"
-            ? ns.stripNamespaceFromIri({ dimension: key, iri: parsedValue })
-            : parsedValue;
-      }
-      return parsed;
-    });
+        ...o,
+      }));
 
     // Should we type-check with io-ts here? Probably not necessary because the GraphQL API will also type-check against the schema.
     return operatorObservations as ResolvedOperatorObservation[];
@@ -184,25 +172,11 @@ const Query: QueryResolvers = {
           )
         : [];
 
-    const medianObservations = rawMedianObservations.map((d) => {
-      let parsed: { [k: string]: string | number | boolean } = {
+    const medianObservations = rawMedianObservations
+      .map(parseObservation)
+      .map((x) => ({
         __typename: "MedianObservation",
-      };
-      for (const [k, v] of Object.entries(d)) {
-        const key = k.replace(
-          "https://energy.ld.admin.ch/elcom/electricityprice/dimension/",
-          ""
-        );
-
-        const parsedValue = parseObservationValue(v);
-
-        parsed[key] =
-          typeof parsedValue === "string"
-            ? ns.stripNamespaceFromIri({ dimension: key, iri: parsedValue })
-            : parsedValue;
-      }
-      return parsed;
-    });
+      }));
 
     // Should we type-check with io-ts here? Probably not necessary because the GraphQL API will also type-check against the schema.
     return medianObservations as ResolvedCantonMedianObservation[];
@@ -251,25 +225,12 @@ const Query: QueryResolvers = {
           )
         : [];
 
-    const medianObservations = rawMedianObservations.map((d) => {
-      let parsed: { [k: string]: string | number | boolean } = {
+    const medianObservations = rawMedianObservations
+      .map(parseObservation)
+      .map((o) => ({
+        ...o,
         __typename: "MedianObservation",
-      };
-      for (const [k, v] of Object.entries(d)) {
-        const key = k.replace(
-          "https://energy.ld.admin.ch/elcom/electricityprice/dimension/",
-          ""
-        );
-
-        const parsedValue = parseObservationValue(v);
-
-        parsed[key] =
-          typeof parsedValue === "string"
-            ? ns.stripNamespaceFromIri({ dimension: key, iri: parsedValue })
-            : parsedValue;
-      }
-      return parsed;
-    });
+      }));
 
     // Should we type-check with io-ts here? Probably not necessary because the GraphQL API will also type-check against the schema.
     return medianObservations as ResolvedSwissMedianObservation[];

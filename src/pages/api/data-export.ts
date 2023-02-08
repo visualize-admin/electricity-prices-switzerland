@@ -1,6 +1,9 @@
 import { csvFormat } from "d3";
 import { NextApiRequest, NextApiResponse } from "next";
-import { parseObservationValue } from "../../lib/observations";
+import {
+  parseObservation,
+  parseObservationValue,
+} from "../../lib/observations";
 import { parseLocaleString } from "../../locales/locales";
 import * as ns from "../../rdf/namespace";
 import {
@@ -45,21 +48,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     }
   );
 
-  let observations = [];
-  for (const d of rawObservations) {
-    let parsed: { [k: string]: string | number | boolean } = {};
-    for (const [k, v] of Object.entries(d)) {
-      const key = k.replace(ns.electricitypriceDimension().value, "");
-      const parsedValue = parseObservationValue(v);
-
-      parsed[key] =
-        typeof parsedValue === "string"
-          ? ns.stripNamespaceFromIri({ dimension: key, iri: parsedValue })
-          : parsedValue;
-    }
-    observations.push(parsed);
-  }
-
+  let observations = rawObservations.map(parseObservation);
   const csv = csvFormat(observations, dimensions);
 
   res.setHeader("Content-Type", "text/csv");
