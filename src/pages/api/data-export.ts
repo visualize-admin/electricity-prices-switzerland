@@ -38,7 +38,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     "fixcosts",
   ];
 
-  const rawObservations = await getObservations(
+  const observations = await getObservations(
     { source: cube.source, view, locale },
     {
       filters: {
@@ -48,7 +48,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     }
   );
 
-  let observations = rawObservations.map(parseObservation);
   const csv = csvFormat(observations, dimensions);
 
   res.setHeader("Content-Type", "text/csv");

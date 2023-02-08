@@ -15,6 +15,7 @@ import { defaultLocale } from "../locales/locales";
 import { OperatorDocumentCategory } from "../graphql/resolver-types";
 import ParsingClient from "sparql-http-client/ParsingClient";
 import { sparqlClient } from "./sparql-client";
+import { parseObservation } from "../lib/observations";
 
 type Filters = { [key: string]: string[] | null | undefined } | null;
 
@@ -288,7 +289,7 @@ export const getObservations = async (
     return [];
   }
 
-  return observations;
+  return observations.map(parseObservation);
 };
 
 export const getDimensionValuesAndLabels = async ({

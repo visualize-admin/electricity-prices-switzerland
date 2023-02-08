@@ -109,12 +109,10 @@ const Query: QueryResolvers = {
           )
         : [];
 
-    const operatorObservations = rawOperatorObservations
-      .map(parseObservation)
-      .map((o) => ({
-        __typename: "OperatorObservation",
-        ...o,
-      }));
+    const operatorObservations = rawOperatorObservations.map((o) => ({
+      __typename: "OperatorObservation",
+      ...o,
+    }));
 
     // Should we type-check with io-ts here? Probably not necessary because the GraphQL API will also type-check against the schema.
     return operatorObservations as ResolvedOperatorObservation[];
@@ -172,11 +170,10 @@ const Query: QueryResolvers = {
           )
         : [];
 
-    const medianObservations = rawMedianObservations
-      .map(parseObservation)
-      .map((x) => ({
-        __typename: "MedianObservation",
-      }));
+    const medianObservations = rawMedianObservations.map((x) => ({
+      __typename: "MedianObservation",
+      ...x,
+    }));
 
     // Should we type-check with io-ts here? Probably not necessary because the GraphQL API will also type-check against the schema.
     return medianObservations as ResolvedCantonMedianObservation[];
@@ -225,12 +222,10 @@ const Query: QueryResolvers = {
           )
         : [];
 
-    const medianObservations = rawMedianObservations
-      .map(parseObservation)
-      .map((o) => ({
-        ...o,
-        __typename: "MedianObservation",
-      }));
+    const medianObservations = rawMedianObservations.map((o) => ({
+      ...o,
+      __typename: "MedianObservation",
+    }));
 
     // Should we type-check with io-ts here? Probably not necessary because the GraphQL API will also type-check against the schema.
     return medianObservations as ResolvedSwissMedianObservation[];
