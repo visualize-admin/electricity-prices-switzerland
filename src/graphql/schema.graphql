@@ -124,7 +124,7 @@ enum ObservationKind {
   Municipality
 }
 
-type WikiContent {
+type WikiContent @cacheControl(maxAge: 60) {
   html: String!
 }
 
@@ -196,6 +196,7 @@ type Query {
   ): [SwissMedianObservation!] @cacheControl(maxAge: 60)
 
   wikiContent(locale: String!, slug: String!): WikiContent
+    @cacheControl(maxAge: 60)
 
   cubeHealth: CubeHealth
 }
