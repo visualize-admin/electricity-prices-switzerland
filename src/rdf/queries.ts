@@ -15,7 +15,12 @@ import { defaultLocale } from "../locales/locales";
 import { OperatorDocumentCategory } from "../graphql/resolver-types";
 import ParsingClient from "sparql-http-client/ParsingClient";
 import { sparqlClient } from "./sparql-client";
-import { parseObservation } from "../lib/observations";
+import {
+  Observation,
+  ObservationValue,
+  parseObservation,
+} from "../lib/observations";
+import { LRUCache } from "typescript-lru-cache";
 
 type Filters = { [key: string]: string[] | null | undefined } | null;
 
@@ -183,6 +188,10 @@ const getRegionDimensionsAndFilter = ({
     : undefined;
 };
 
+const cache = new LRUCache<string, Observation[]>({
+  entryExpirationTimeInMS: 5 * 60 * 1000,
+});
+
 export const getObservations = async (
   {
     view,
@@ -275,6 +284,13 @@ export const getObservations = async (
     query: getSparqlEditorUrl(filterView.observationsQuery().query.toString()),
   });
 
+  const cacheKey = filterView.observationsQuery().query.toString();
+
+  const cached = cache.get(cacheKey);
+  if (cached) {
+    return cached;
+  }
+
   const observations = await filterView.observations();
 
   // Clean up
@@ -289,7 +305,11 @@ export const getObservations = async (
     return [];
   }
 
-  return observations.map(parseObservation);
+  const res = observations.map(parseObservation);
+
+  cache.set(cacheKey, res);
+
+  return res;
 };
 
 export const getDimensionValuesAndLabels = async ({
