@@ -189,7 +189,7 @@ const getRegionDimensionsAndFilter = ({
 };
 
 const cache = new LRUCache<string, Observation[]>({
-  entryExpirationTimeInMS: 5 * 60 * 1000,
+  entryExpirationTimeInMS: 30 * 60 * 1000,
 });
 
 export const getObservations = async (
@@ -307,7 +307,9 @@ export const getObservations = async (
 
   const res = observations.map(parseObservation);
 
-  cache.set(cacheKey, res);
+  if (res.length > 0) {
+    cache.set(cacheKey, res);
+  }
 
   return res;
 };
