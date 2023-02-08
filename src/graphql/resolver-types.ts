@@ -33,6 +33,11 @@ export type Scalars = {
   Float: number;
 };
 
+export enum CacheControlScope {
+  Private = "PRIVATE",
+  Public = "PUBLIC",
+}
+
 export type Canton = {
   __typename?: "Canton";
   id: Scalars["String"];
