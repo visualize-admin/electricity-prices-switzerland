@@ -1,4 +1,4 @@
-import { GraphQLResolveInfo } from "graphql";
+import { GraphQLError, GraphQLResolveInfo } from "graphql";
 import { parseResolveInfo, ResolveTree } from "graphql-parse-resolve-info";
 import { parseObservation, parseObservationValue } from "../lib/observations";
 import {
@@ -36,7 +36,6 @@ var gfmSyntax = require("micromark-extension-gfm");
 var gfmHtml = require("micromark-extension-gfm/html");
 
 import * as ns from "../rdf/namespace";
-import { ApolloError } from "apollo-server-errors";
 import { difference } from "d3";
 import { downloadGeverDocument, searchGeverDocuments } from "../domain/gever";
 import { operatorIdToUID } from "./oid-uid";
@@ -133,7 +132,9 @@ const Query: QueryResolvers = {
     } catch (e: unknown) {
       const message = e instanceof Error ? e.message : `${e}`;
       console.error(message);
-      throw new ApolloError(message, "CUBE_NOT_FOUND");
+      throw new GraphQLError(message, {
+        extensions: { code: "CUBE_NOT_FOUND" },
+      });
     }
 
     const cantonObservationsView = getView(cantonCube);
@@ -185,7 +186,11 @@ const Query: QueryResolvers = {
     } catch (e: unknown) {
       const message = `${e instanceof Error ? e.message : e}`;
       console.error(message);
-      throw new ApolloError(message, "CUBE_NOT_FOUND");
+      throw new GraphQLError(message, {
+        extensions: {
+          code: "CUBE_NOT_FOUND",
+        },
+      });
     }
 
     const cantonObservationsView = getView(cantonCube);

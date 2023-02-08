@@ -1,31 +1,37 @@
-import { ApolloServer } from "apollo-server-micro";
 import configureCors from "cors";
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import { resolvers } from "../../graphql/resolvers";
 import typeDefs from "../../graphql/schema.graphql";
 import { context } from "../../graphql/server-context";
 import { runMiddleware } from "../../lib/run-middleware";
 
-const cors = configureCors();
+import { ApolloServer } from "@apollo/server";
+import { startServerAndCreateNextHandler } from "@as-integrations/next";
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context,
-  // Enable playground in production
   introspection: true,
-  playground: true,
 });
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
+const handler = startServerAndCreateNextHandler(server, {
+  context,
+});
+
+const graphql: NextApiHandler = async (req, res) => {
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET,OPTIONS,PATCH,DELETE,POST,PUT"
+  );
+  res.setHeader("Access-Control-Allow-Headers", "*");
+
+  if (req.method === "OPTIONS") {
+    res.status(200).end();
+  }
+
+  await handler(req, res);
 };
 
-const handler = server.createHandler({ path: "/api/graphql" });
-
-export default async (req: NextApiRequest, res: NextApiResponse) => {
-  await runMiddleware(req, res, cors);
-  return handler(req, res);
-};
+export default graphql;
