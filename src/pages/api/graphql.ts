@@ -7,11 +7,20 @@ import { runMiddleware } from "../../lib/run-middleware";
 
 import { ApolloServer } from "@apollo/server";
 import { startServerAndCreateNextHandler } from "@as-integrations/next";
+import { ApolloServerPluginCacheControl } from "@apollo/server/plugin/cacheControl";
+import responseCachePlugin from "@apollo/server-plugin-response-cache";
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
   introspection: true,
+  plugins: [
+    ApolloServerPluginCacheControl({
+      // Cache everything for 1 second by default.
+      defaultMaxAge: 1,
+    }),
+    responseCachePlugin(),
+  ],
 });
 
 const handler = startServerAndCreateNextHandler(server, {
