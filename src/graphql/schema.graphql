@@ -26,7 +26,7 @@ type CantonResult implements SearchResult {
   name: String!
 }
 
-type Municipality @cacheControl(maxAge: 60) {
+type Municipality @cacheControl(maxAge: 300) {
   id: String!
   name: String!
   isAbolished: Boolean
@@ -34,7 +34,7 @@ type Municipality @cacheControl(maxAge: 60) {
   operators: [Operator!]!
 }
 
-type Operator @cacheControl(maxAge: 120) {
+type Operator @cacheControl(maxAge: 300) {
   id: String
   geverId: String
   name: String!
@@ -50,7 +50,7 @@ enum OperatorDocumentCategory {
   ANNUAL_REPORT
 }
 
-type OperatorDocument @cacheControl(maxAge: 120) {
+type OperatorDocument @cacheControl(maxAge: 300) {
   id: String!
   name: String!
   url: String!
@@ -65,7 +65,7 @@ type Canton {
   operator: [Operator!]!
 }
 
-type OperatorObservation @cacheControl(maxAge: 60) {
+type OperatorObservation @cacheControl(maxAge: 300) {
   municipality: String!
   municipalityLabel: String
   operator: String!
@@ -78,7 +78,7 @@ type OperatorObservation @cacheControl(maxAge: 60) {
   value(priceComponent: PriceComponent!): Float!
 }
 
-type CantonMedianObservation @cacheControl(maxAge: 60) {
+type CantonMedianObservation @cacheControl(maxAge: 300) {
   canton: String!
   cantonLabel: String
 
@@ -88,7 +88,7 @@ type CantonMedianObservation @cacheControl(maxAge: 60) {
   value(priceComponent: PriceComponent!): Float!
 }
 
-type SwissMedianObservation @cacheControl(maxAge: 60) {
+type SwissMedianObservation @cacheControl(maxAge: 300) {
   category: String!
   period: String!
 
@@ -124,7 +124,7 @@ enum ObservationKind {
   Municipality
 }
 
-type WikiContent @cacheControl(maxAge: 60) {
+type WikiContent @cacheControl(maxAge: 300) {
   html: String!
 }
 
@@ -145,29 +145,30 @@ type Query {
     query: String
     ids: [String!]
   ): [Municipality!]!
-  allMunicipalities(locale: String!): [Municipality!]! @cacheControl(maxAge: 60)
+  allMunicipalities(locale: String!): [Municipality!]!
+    @cacheControl(maxAge: 300)
   cantons(locale: String!, query: String, ids: [String!]): [Canton!]!
 
   operators(locale: String!, query: String, ids: [String!]): [Operator!]!
 
   search(locale: String!, query: String): [SearchResult!]!
-    @cacheControl(maxAge: 60)
+    @cacheControl(maxAge: 300)
 
   searchMunicipalities(
     locale: String!
     query: String
     ids: [String!]
-  ): [MunicipalityResult!]! @cacheControl(maxAge: 60)
+  ): [MunicipalityResult!]! @cacheControl(maxAge: 300)
   searchCantons(
     locale: String!
     query: String
     ids: [String!]
-  ): [CantonResult!]! @cacheControl(maxAge: 60)
+  ): [CantonResult!]! @cacheControl(maxAge: 300)
   searchOperators(
     locale: String!
     query: String
     ids: [String!]
-  ): [OperatorResult!]! @cacheControl(maxAge: 60)
+  ): [OperatorResult!]! @cacheControl(maxAge: 300)
 
   municipality(locale: String!, id: String!): Municipality
   canton(locale: String!, id: String!): Canton
@@ -177,21 +178,21 @@ type Query {
     locale: String
     filters: ObservationFilters
     observationKind: ObservationKind
-  ): [OperatorObservation!] @cacheControl(maxAge: 60)
+  ): [OperatorObservation!] @cacheControl(maxAge: 300)
 
   cantonMedianObservations(
     locale: String
     filters: ObservationFilters
     observationKind: ObservationKind
-  ): [CantonMedianObservation!] @cacheControl(maxAge: 60)
+  ): [CantonMedianObservation!] @cacheControl(maxAge: 300)
 
   swissMedianObservations(
     locale: String
     filters: ObservationFilters
-  ): [SwissMedianObservation!] @cacheControl(maxAge: 60)
+  ): [SwissMedianObservation!] @cacheControl(maxAge: 300)
 
   wikiContent(locale: String!, slug: String!): WikiContent
-    @cacheControl(maxAge: 60)
+    @cacheControl(maxAge: 300)
 
   cubeHealth: CubeHealth
 }
