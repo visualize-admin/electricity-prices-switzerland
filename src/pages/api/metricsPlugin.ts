@@ -1,4 +1,5 @@
 import { ApolloServerPlugin } from "@apollo/server";
+import { format, scaleLinear } from "d3";
 import { debounce, maxBy } from "lodash";
 
 type OperationMetric = {
@@ -10,17 +11,29 @@ type OperationMetrics = Map<string, OperationMetric>;
 
 const metricsLogger = (metricsPerOperation: OperationMetrics) => {
   const keys = [...metricsPerOperation.keys()];
+  if (keys.length === 0) {
+    return;
+  }
   const longestKey = maxBy(keys, (k) => k.length)!;
+  const highestTotalHitsKey = maxBy(
+    keys,
+    (k) => metricsPerOperation.get(k)?.totalhits
+  )!;
+  const highestTotalHits =
+    metricsPerOperation.get(highestTotalHitsKey)?.totalhits!;
+  const scale = scaleLinear().domain([0, highestTotalHits]).range([0, 20]);
   for (let key of metricsPerOperation.keys()) {
     const metric = metricsPerOperation.get(key);
     if (!metric) {
       continue;
     }
-    const bar = `${key}${" ".repeat(
-      Math.max(longestKey.length - key.length, 0) + 1
-    )}${"█".repeat(metric.cachehits)}${"░".repeat(
-      Math.max(metric.totalhits - metric.cachehits)
-    )}`;
+    const { totalhits, cachehits } = metric;
+    const spaces = longestKey.length - key.length + 1;
+    const filled = scale(cachehits);
+    const rest = scale(totalhits - cachehits);
+    const bar = `${key}${" ".repeat(spaces)}${"█".repeat(filled)}${"░".repeat(
+      rest
+    )} ${cachehits}/${totalhits} ${format(".0%")(cachehits / totalhits)}`;
     console.log(bar);
   }
 };
