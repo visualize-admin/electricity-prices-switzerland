@@ -34,14 +34,14 @@ type Municipality @cacheControl(maxAge: 60) {
   operators: [Operator!]!
 }
 
-type Operator {
+type Operator @cacheControl(maxAge: 120) {
   id: String
   geverId: String
   name: String!
   municipalities: [Municipality!]!
   cantons: [Canton!]!
-  documents: [OperatorDocument!]! @cacheControl(maxAge: 120)
-  geverDocuments: [OperatorDocument!]! @cacheControl(maxAge: 120)
+  documents: [OperatorDocument!]!
+  geverDocuments: [OperatorDocument!]!
 }
 
 enum OperatorDocumentCategory {
