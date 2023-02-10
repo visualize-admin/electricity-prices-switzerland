@@ -138,13 +138,6 @@ type CubeHealth {
   dimensions: [String!]!
 }
 
-type GeverDocumentContent {
-  resp1: String!
-  resp2: String!
-  resp3: String!
-  content: String!
-}
-
 type Query {
   systemInfo: SystemInfo!
   municipalities(

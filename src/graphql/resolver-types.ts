@@ -71,14 +71,6 @@ export type CubeHealth = {
   ok: Scalars["Boolean"];
 };
 
-export type GeverDocumentContent = {
-  __typename?: "GeverDocumentContent";
-  content: Scalars["String"];
-  resp1: Scalars["String"];
-  resp2: Scalars["String"];
-  resp3: Scalars["String"];
-};
-
 export type Municipality = {
   __typename?: "Municipality";
   canton: Canton;
@@ -420,7 +412,6 @@ export type ResolversTypes = ResolversObject<{
   CantonResult: ResolverTypeWrapper<ResolvedSearchResult>;
   CubeHealth: ResolverTypeWrapper<CubeHealth>;
   Float: ResolverTypeWrapper<Scalars["Float"]>;
-  GeverDocumentContent: ResolverTypeWrapper<GeverDocumentContent>;
   Int: ResolverTypeWrapper<Scalars["Int"]>;
   Municipality: ResolverTypeWrapper<ResolvedMunicipality>;
   MunicipalityResult: ResolverTypeWrapper<ResolvedSearchResult>;
@@ -452,7 +443,6 @@ export type ResolversParentTypes = ResolversObject<{
   CantonResult: ResolvedSearchResult;
   CubeHealth: CubeHealth;
   Float: Scalars["Float"];
-  GeverDocumentContent: GeverDocumentContent;
   Int: Scalars["Int"];
   Municipality: ResolvedMunicipality;
   MunicipalityResult: ResolvedSearchResult;
@@ -545,17 +535,6 @@ export type CubeHealthResolvers<
     ContextType
   >;
   ok?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
-
-export type GeverDocumentContentResolvers<
-  ContextType = ServerContext,
-  ParentType extends ResolversParentTypes["GeverDocumentContent"] = ResolversParentTypes["GeverDocumentContent"]
-> = ResolversObject<{
-  content?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  resp1?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  resp2?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  resp3?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -837,7 +816,6 @@ export type Resolvers<ContextType = ServerContext> = ResolversObject<{
   CantonMedianObservation?: CantonMedianObservationResolvers<ContextType>;
   CantonResult?: CantonResultResolvers<ContextType>;
   CubeHealth?: CubeHealthResolvers<ContextType>;
-  GeverDocumentContent?: GeverDocumentContentResolvers<ContextType>;
   Municipality?: MunicipalityResolvers<ContextType>;
   MunicipalityResult?: MunicipalityResultResolvers<ContextType>;
   Observation?: ObservationResolvers<ContextType>;
