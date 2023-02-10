@@ -9,12 +9,14 @@ import { ApolloServer } from "@apollo/server";
 import { startServerAndCreateNextHandler } from "@as-integrations/next";
 import { ApolloServerPluginCacheControl } from "@apollo/server/plugin/cacheControl";
 import responseCachePlugin from "@apollo/server-plugin-response-cache";
+import { metricsPlugin } from "./metricsPlugin";
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
   introspection: true,
   plugins: [
+    metricsPlugin({ enabled: process.env.NODE_ENV !== "production" }),
     ApolloServerPluginCacheControl({
       // Cache everything for 1 second by default.
       defaultMaxAge: 1,
