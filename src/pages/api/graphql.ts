@@ -16,7 +16,11 @@ const server = new ApolloServer({
   resolvers,
   introspection: true,
   plugins: [
-    metricsPlugin({ enabled: process.env.NODE_ENV !== "production" }),
+    metricsPlugin({
+      enabled:
+        process.env.NODE_ENV === "development" ||
+        process.env.METRICS_PLUGIN_ENABLED === "true",
+    }),
     ApolloServerPluginCacheControl({
       // Cache everything for 1 second by default.
       defaultMaxAge: 1,
