@@ -1,5 +1,5 @@
+import { appWithTranslation } from "next-i18next";
 import "core-js/features/array/flat-map";
-import { I18nProvider } from "@lingui/react";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -34,7 +34,7 @@ const useMatomo = () => {
   return matomoId;
 };
 
-export default function App({ Component, pageProps }: AppProps) {
+const ElcomApp = function App({ Component, pageProps }: AppProps) {
   const { query, events: routerEvents, locale: routerLocale } = useRouter();
   const locale = parseLocaleString(routerLocale ?? "");
 
@@ -81,13 +81,11 @@ export default function App({ Component, pageProps }: AppProps) {
         ))}
       </Head>
       <LocaleProvider value={locale}>
-        <I18nProvider i18n={i18n}>
-          <GraphqlProvider>
-            <ThemeProvider theme={theme}>
-              <Component {...pageProps} />
-            </ThemeProvider>
-          </GraphqlProvider>
-        </I18nProvider>
+        <GraphqlProvider>
+          <ThemeProvider theme={theme}>
+            <Component {...pageProps} />
+          </ThemeProvider>
+        </GraphqlProvider>
       </LocaleProvider>
       {matomoId && !query.download && (
         <Script id="matomo">
@@ -110,4 +108,6 @@ export default function App({ Component, pageProps }: AppProps) {
       )}
     </>
   );
-}
+};
+
+export default appWithTranslation(ElcomApp);

@@ -1,4 +1,4 @@
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -25,6 +25,8 @@ import {
 } from "../graphql/queries";
 import { EMPTY_ARRAY } from "../lib/empty-array";
 import { useQueryStateSingle } from "../lib/use-query-state";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import nextI18NextConfig from "../next-i18next.config.js";
 
 const DOWNLOAD_ID = "map";
 
@@ -39,6 +41,11 @@ export const getServerSideProps: GetServerSideProps<Props, { locale: string }> =
     return {
       props: {
         locale: locale!,
+        ...(await serverSideTranslations(
+          locale || "de",
+          ["common"],
+          nextI18NextConfig
+        )),
       },
     };
   };
