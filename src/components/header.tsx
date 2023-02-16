@@ -1,4 +1,4 @@
-import { Trans } from "@lingui/macro";
+import { useTranslation } from "next-i18next";
 import { Box, Flex, Text } from "theme-ui";
 import { LanguageMenu } from "./language-menu";
 import NextLink from "next/link";
@@ -57,6 +57,7 @@ export const Header = ({
 };
 
 export const Logo = () => {
+  const { t } = useTranslation();
   const { query } = useRouter();
   return (
     <HomeLink passHref>
@@ -96,7 +97,7 @@ export const Logo = () => {
           variant="lead"
           sx={{ pl: [0, 6], textDecoration: "none", color: "monochrome800" }}
         >
-          <Trans id="site.title">Strompreise Schweiz</Trans>
+          {t("site.title", "Strompreise Schweiz")}
           {process.env.DEPLOYMENT &&
             ` [${process.env.DEPLOYMENT.toLocaleUpperCase()}]`}
         </Text>

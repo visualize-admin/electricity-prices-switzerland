@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Flex, Text, Box } from "@theme-ui/components";
-import { Trans } from "@lingui/macro";
+import { useTranslation } from "next-i18next";
 import { Icon, IconName } from "../icons";
 import { keyframes } from "@emotion/core";
 
@@ -45,35 +45,36 @@ const spin = keyframes`
   100% { transform: rotate(0deg) }
 `;
 
-export const Loading = ({ delayMs = 1000 }: { delayMs?: number }) => (
-  <Flex
-    sx={{
-      width: "100%",
-      height: "100%",
-      color: "hint",
-      margin: "auto",
-      textAlign: "center",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
-      flexGrow: 1,
-      padding: 2,
-      opacity: 0,
-      animation: `0s linear ${delayMs}ms forwards ${delayedShow}`,
-    }}
-  >
-    <Box
+export const Loading = ({ delayMs = 1000 }: { delayMs?: number }) => {
+  const { t } = useTranslation();
+  return (
+    <Flex
       sx={{
-        animation: `1s linear infinite ${spin}`,
+        width: "100%",
+        height: "100%",
+        color: "hint",
+        margin: "auto",
+        textAlign: "center",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        flexGrow: 1,
+        padding: 2,
+        opacity: 0,
+        animation: `0s linear ${delayMs}ms forwards ${delayedShow}`,
       }}
     >
-      <Icon name="loading" size={48} />
-    </Box>
-    <Text variant="heading4">
-      <Trans id="hint.loading.data">Loading data…</Trans>
-    </Text>
-  </Flex>
-);
+      <Box
+        sx={{
+          animation: `1s linear infinite ${spin}`,
+        }}
+      >
+        <Icon name="loading" size={48} />
+      </Box>
+      <Text variant="heading4">{t("hint.loading.data", "Loading data…")}</Text>
+    </Flex>
+  );
+};
 
 export const LoadingIcon = ({ delayMs = 200 }: { delayMs?: number }) => (
   <Flex
@@ -144,81 +145,95 @@ export const LoadingOverlay = () => (
   </Box>
 );
 
-export const NoDataHint = () => (
-  <Flex
-    sx={{
-      width: "100%",
-      height: "100%",
-      color: "hint",
-      margin: "auto",
-      textAlign: "center",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
-      flexGrow: 1,
-    }}
-  >
-    <Icon name="warning" size={64} />
-    <Text variant="heading2" sx={{ my: 3 }}>
-      <Trans id="hint.nodata.title">Keine Daten</Trans>
-    </Text>
-    <Text variant="paragraph2" sx={{ maxWidth: "40rem" }}>
-      <Trans id="hint.nodata.message">
-        Für die aktuelle Auswahl konnten keine Daten geladen werden.
-      </Trans>
-    </Text>
-  </Flex>
-);
+export const NoDataHint = () => {
+  const { t } = useTranslation();
+  return (
+    <Flex
+      sx={{
+        width: "100%",
+        height: "100%",
+        color: "hint",
+        margin: "auto",
+        textAlign: "center",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        flexGrow: 1,
+      }}
+    >
+      <Icon name="warning" size={64} />
+      <Text variant="heading2" sx={{ my: 3 }}>
+        {t("hint.nodata.title", "Keine Daten")}
+      </Text>
+      <Text variant="paragraph2" sx={{ maxWidth: "40rem" }}>
+        {t(
+          "hint.nodata.message",
+          "Für die aktuelle Auswahl konnten keine Daten geladen werden."
+        )}
+      </Text>
+    </Flex>
+  );
+};
 
-export const NoContentHint = () => (
-  <Flex
-    sx={{
-      width: "100%",
-      height: "100%",
-      color: "hint",
-      margin: "auto",
-      textAlign: "center",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
-      flexGrow: 1,
-    }}
-  >
-    <Icon name="warning" size={48} />
+export const NoContentHint = () => {
+  const { t } = useTranslation();
 
-    <Text variant="paragraph2" sx={{ maxWidth: "40rem" }}>
-      <Trans id="hint.nocontent.message">
-        Dieser Inhalt konnte nicht geladen werden
-      </Trans>
-    </Text>
-  </Flex>
-);
+  return (
+    <Flex
+      sx={{
+        width: "100%",
+        height: "100%",
+        color: "hint",
+        margin: "auto",
+        textAlign: "center",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        flexGrow: 1,
+      }}
+    >
+      <Icon name="warning" size={48} />
 
-export const NoGeoDataHint = () => (
-  <Flex
-    sx={{
-      width: "100%",
-      height: "100%",
-      color: "hint",
-      margin: "auto",
-      textAlign: "center",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
-      flexGrow: 1,
-    }}
-  >
-    <Icon name="warning" size={64} />
-    <Text variant="heading2" sx={{ my: 3 }}>
-      <Trans id="hint.nogeodata.title">Keine Kartendarstellung möglich</Trans>
-    </Text>
-    <Text variant="paragraph2" sx={{ maxWidth: "40rem" }}>
-      <Trans id="hint.nogeodata.message">
-        Für das ausgewählte Jahr kann keine Karte angezeigt werden.
-      </Trans>
-    </Text>
-  </Flex>
-);
+      <Text variant="paragraph2" sx={{ maxWidth: "40rem" }}>
+        {t(
+          "hint.nocontent.message",
+          "Dieser Inhalt konnte nicht geladen werden"
+        )}
+      </Text>
+    </Flex>
+  );
+};
+
+export const NoGeoDataHint = () => {
+  const { t } = useTranslation();
+
+  return (
+    <Flex
+      sx={{
+        width: "100%",
+        height: "100%",
+        color: "hint",
+        margin: "auto",
+        textAlign: "center",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        flexGrow: 1,
+      }}
+    >
+      <Icon name="warning" size={64} />
+      <Text variant="heading2" sx={{ my: 3 }}>
+        {t("hint.nogeodata.title", "Keine Kartendarstellung möglich")}
+      </Text>
+      <Text variant="paragraph2" sx={{ maxWidth: "40rem" }}>
+        {t(
+          "hint.nogeodata.message",
+          "Für das ausgewählte Jahr kann keine Karte angezeigt werden."
+        )}
+      </Text>
+    </Flex>
+  );
+};
 
 export const HintBlue = ({
   iconName,

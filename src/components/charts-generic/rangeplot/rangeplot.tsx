@@ -9,14 +9,8 @@ import { useInteraction } from "../use-interaction";
 import { useTheme } from "../../../themes";
 
 export const Range = ({ id }: { id: string }) => {
-  const {
-    bounds,
-    xScale,
-    getX,
-    yScale,
-    colors,
-    rangeGroups,
-  } = useChartState() as RangePlotState;
+  const { bounds, xScale, getX, yScale, colors, rangeGroups } =
+    useChartState() as RangePlotState;
 
   const { margins, chartWidth } = bounds;
 
@@ -94,23 +88,12 @@ export const Range = ({ id }: { id: string }) => {
 
 export const RangePoints = () => {
   const theme = useTheme();
-  const {
-    bounds,
-    xScale,
-    getX,
-    getY,
-    yScale,
-    colors,
-    rangeGroups,
-  } = useChartState() as RangePlotState;
+  const { bounds, xScale, getX, getY, yScale, colors, rangeGroups } =
+    useChartState() as RangePlotState;
   const [interactionState, dispatch] = useInteraction();
   const { margins, chartWidth } = bounds;
-  const {
-    labelColor,
-    labelFontSize,
-    fontFamily,
-    domainColor,
-  } = useChartTheme();
+  const { labelColor, labelFontSize, fontFamily, domainColor } =
+    useChartTheme();
 
   const cantonName =
     interactionState.interaction.d && getY(interactionState.interaction.d);

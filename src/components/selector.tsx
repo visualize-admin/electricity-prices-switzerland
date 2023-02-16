@@ -1,4 +1,4 @@
-import { Trans, t } from "@lingui/macro";
+import { useTranslation } from "next-i18next";
 import { useMemo } from "react";
 import { Flex, Text } from "theme-ui";
 import { categories, periods, priceComponents, products } from "../domain/data";
@@ -7,6 +7,7 @@ import { useQueryStateSingle } from "../lib/use-query-state";
 import { Combobox } from "./../components/combobox";
 
 export const Selector = () => {
+  const { t } = useTranslation();
   const [queryState, setQueryState] = useQueryStateSingle();
   const getItemLabel = (id: string) => getLocalizedLabel({ id });
   const groupedCategories = useMemo(() => {
@@ -33,13 +34,11 @@ export const Selector = () => {
       }}
     >
       <Text as="legend" variant="lead" sx={{ display: "contents" }}>
-        <Trans id="selector.legend.select.parameters">
-          Liste und Karte filtern
-        </Trans>
+        {t("selector.legend.select.parameters", "Liste und Karte filtern")}
       </Text>
       <Combobox
         id="year"
-        label={t({ id: "selector.year", message: `Jahr` })}
+        label={t("selector.year", `Jahr`)}
         items={periods}
         selectedItem={queryState.period ?? "2020"}
         setSelectedItem={(selectedItem) =>
@@ -48,7 +47,7 @@ export const Selector = () => {
       />
       <Combobox
         id="priceComponent"
-        label={t({ id: "selector.priceComponent", message: `Preiskomponente` })}
+        label={t("selector.priceComponent", `Preiskomponente`)}
         items={priceComponents}
         getItemLabel={getItemLabel}
         selectedItem={queryState.priceComponent ?? "total"}
@@ -60,7 +59,7 @@ export const Selector = () => {
 
       <Combobox
         id="category"
-        label={t({ id: "selector.category", message: `Kategorie` })}
+        label={t("selector.category", `Kategorie`)}
         items={groupedCategories}
         getItemLabel={getItemLabel}
         selectedItem={queryState.category ?? "H4"}
@@ -72,7 +71,7 @@ export const Selector = () => {
 
       <Combobox
         id="product"
-        label={t({ id: "selector.product", message: `Produkt` })}
+        label={t("selector.product", `Produkt`)}
         items={products}
         getItemLabel={getItemLabel}
         selectedItem={queryState.product ?? "standard"}
@@ -81,9 +80,7 @@ export const Selector = () => {
         }
         infoDialogSlug="help-products"
       />
-      <Text variant="lead">
-        <Trans id="selector.results">Suchergebnisse:</Trans>
-      </Text>
+      <Text variant="lead">{t("selector.results", "Suchergebnisse:")}</Text>
     </Flex>
   );
 };

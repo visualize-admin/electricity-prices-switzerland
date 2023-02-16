@@ -1,7 +1,7 @@
 import { MapController, WebMercatorViewport } from "@deck.gl/core";
 import { GeoJsonLayer } from "@deck.gl/layers";
 import DeckGL from "@deck.gl/react";
-import { Trans } from "@lingui/macro";
+import { useTranslation } from "next-i18next";
 import centroid from "@turf/centroid";
 import { color, extent, group, mean, rollup } from "d3";
 import { ScaleThreshold } from "d3-scale";
@@ -260,6 +260,7 @@ export const ChoroplethMap = ({
   colorScale: ScaleThreshold<number, string> | undefined | 0;
   onMunicipalityLayerClick: (_item: { object: any }) => void;
 }) => {
+  const { t } = useTranslation()
   const [geoData, setGeoData] = useState<GeoDataState>({ state: "fetching" });
   const [hovered, setHovered] = useState<HoverState>();
 
@@ -496,192 +497,190 @@ export const ChoroplethMap = ({
     };
   }, [observationsByMunicipalityId, getColor, highlightContext?.id]);
 
-  return (
+  return <>
+    {geoData.state === "fetching" || observationsQueryFetching ? (
+      <HintBox>
+        <Loading delayMs={0} />
+      </HintBox>
+    ) : observations.length === 0 ? (
+      <HintBox>
+        <NoDataHint />
+      </HintBox>
+    ) : geoData.state === "error" ? (
+      <HintBox>
+        <NoGeoDataHint />
+      </HintBox>
+    ) : null}
     <>
-      {geoData.state === "fetching" || observationsQueryFetching ? (
-        <HintBox>
-          <Loading delayMs={0} />
-        </HintBox>
-      ) : observations.length === 0 ? (
-        <HintBox>
-          <NoDataHint />
-        </HintBox>
-      ) : geoData.state === "error" ? (
-        <HintBox>
-          <NoGeoDataHint />
-        </HintBox>
-      ) : null}
-      <>
-        {hovered && tooltipContent && colorScale && (
-          <MapTooltip x={hovered.x} y={hovered.y}>
-            <Grid
-              sx={{
-                width: "100%",
-                gridTemplateColumns: "1fr auto",
-                gap: 1,
-                alignItems: "center",
-              }}
-            >
-              <Text variant="meta" sx={{ fontWeight: "bold" }}>
-                {tooltipContent.name}
-              </Text>
-              {hovered.type === "canton" ? (
-                <>
-                  <Box
-                    sx={{
-                      borderRadius: "circle",
-                      px: 2,
-                      display: "inline-block",
-                    }}
-                    style={{
-                      background: colorScale(hovered.value),
-                    }}
-                  >
-                    <Text variant="meta">{formatNumber(hovered.value)}</Text>
-                  </Box>
-                </>
-              ) : null}
-            </Grid>
-            <Grid
-              sx={{
-                width: "100%",
-                gridTemplateColumns: "1fr auto",
-                gap: 1,
-                alignItems: "center",
-              }}
-            >
-              {hovered.type === "municipality" ? (
-                <>
-                  {tooltipContent.observations ? (
-                    tooltipContent.observations.map((d, i) => {
-                      return (
-                        <Fragment key={i}>
-                          <Text variant="meta" sx={{}}>
-                            {d.operatorLabel}
-                          </Text>
-                          <Box
-                            sx={{
-                              borderRadius: "circle",
-                              px: 2,
-                              display: "inline-block",
-                            }}
-                            style={{ background: colorScale(d.value) }}
-                          >
-                            <Text variant="meta">{formatNumber(d.value)}</Text>
-                          </Box>
-                        </Fragment>
-                      );
-                    })
-                  ) : (
-                    <Text variant="meta" sx={{ color: "secondary" }}>
-                      <Trans id="map.tooltipnodata">Keine Daten</Trans>
-                    </Text>
-                  )}
-                </>
-              ) : null}
-            </Grid>
-          </MapTooltip>
-        )}
-        {geoData.state === "loaded" && (
-          <WithClassName
-            downloadId={DOWNLOAD_ID}
-            isFetching={observationsQueryFetching}
+      {hovered && tooltipContent && colorScale && (
+        <MapTooltip x={hovered.x} y={hovered.y}>
+          <Grid
+            sx={{
+              width: "100%",
+              gridTemplateColumns: "1fr auto",
+              gap: 1,
+              alignItems: "center",
+            }}
           >
-            <Box
-              sx={{
-                zIndex: 13,
-                position: "absolute",
-                top: 0,
-                left: 0,
-                mt: 3,
-                ml: 3,
-              }}
-            >
-              <MapPriceColorLegend stats={[d[0], m, d[1]]} />
-            </Box>
+            <Text variant="meta" sx={{ fontWeight: "bold" }}>
+              {tooltipContent.name}
+            </Text>
+            {hovered.type === "canton" ? (
+              <>
+                <Box
+                  sx={{
+                    borderRadius: "circle",
+                    px: 2,
+                    display: "inline-block",
+                  }}
+                  style={{
+                    background: colorScale(hovered.value),
+                  }}
+                >
+                  <Text variant="meta">{formatNumber(hovered.value)}</Text>
+                </Box>
+              </>
+            ) : null}
+          </Grid>
+          <Grid
+            sx={{
+              width: "100%",
+              gridTemplateColumns: "1fr auto",
+              gap: 1,
+              alignItems: "center",
+            }}
+          >
+            {hovered.type === "municipality" ? (
+              <>
+                {tooltipContent.observations ? (
+                  tooltipContent.observations.map((d, i) => {
+                    return (
+                      <Fragment key={i}>
+                        <Text variant="meta" sx={{}}>
+                          {d.operatorLabel}
+                        </Text>
+                        <Box
+                          sx={{
+                            borderRadius: "circle",
+                            px: 2,
+                            display: "inline-block",
+                          }}
+                          style={{ background: colorScale(d.value) }}
+                        >
+                          <Text variant="meta">{formatNumber(d.value)}</Text>
+                        </Box>
+                      </Fragment>
+                    );
+                  })
+                ) : (
+                  (<Text variant="meta" sx={{ color: "secondary" }}>
+                    { t('map.tooltipnodata', 'Keine Daten') }
+                  </Text>)
+                )}
+              </>
+            ) : null}
+          </Grid>
+        </MapTooltip>
+      )}
+      {geoData.state === "loaded" && (
+        <WithClassName
+          downloadId={DOWNLOAD_ID}
+          isFetching={observationsQueryFetching}
+        >
+          <Box
+            sx={{
+              zIndex: 13,
+              position: "absolute",
+              top: 0,
+              left: 0,
+              mt: 3,
+              ml: 3,
+            }}
+          >
+            <MapPriceColorLegend stats={[d[0], m, d[1]]} />
+          </Box>
 
-            <DeckGL
-              controller={{ type: MapController }}
-              viewState={viewState}
-              onViewStateChange={onViewStateChange}
-              onResize={onResize}
-            >
-              <GeoJsonLayer
-                up
-                id="municipalities"
-                data={geoData.municipalities}
-                pickable={true}
-                stroked={false}
-                filled={true}
-                extruded={false}
-                autoHighlight={true}
-                getFillColor={getFillColor}
-                highlightColor={[0, 0, 0, 50]}
-                getRadius={100}
-                getLineWidth={1}
-                onHover={({ x, y, object }: $FixMe) => {
-                  setHovered(
-                    object
-                      ? {
-                          x: x,
-                          y: y,
-                          id: object?.id.toString(),
-                          type: "municipality",
-                        }
-                      : undefined
-                  );
-                }}
-                onClick={onMunicipalityLayerClick}
-                updateTriggers={{
-                  getFillColor: [
-                    observationsByMunicipalityId,
-                    highlightContext?.id,
-                  ],
-                }}
-              />
-              <GeoJsonLayer
-                id="municipality-mesh"
-                data={geoData.municipalityMesh}
-                pickable={false}
-                stroked={true}
-                filled={false}
-                extruded={false}
-                lineWidthMinPixels={0.5}
-                lineWidthMaxPixels={1}
-                getLineWidth={100}
-                lineMiterLimit={1}
-                getLineColor={LINE_COLOR}
-              />
-              <GeoJsonLayer
-                id="lakes"
-                data={geoData.lakes}
-                pickable={false}
-                stroked={true}
-                filled={true}
-                extruded={false}
-                lineWidthMinPixels={0.5}
-                lineWidthMaxPixels={1}
-                getLineWidth={100}
-                getFillColor={[102, 175, 233]}
-                getLineColor={LINE_COLOR}
-              />
-              <GeoJsonLayer
-                id="cantons"
-                data={geoData.cantonMesh}
-                pickable={false}
-                stroked={true}
-                filled={false}
-                extruded={false}
-                lineWidthMinPixels={1.2}
-                lineWidthMaxPixels={3.6}
-                getLineWidth={200}
-                lineMiterLimit={1}
-                getLineColor={[120, 120, 120]}
-              />
-            </DeckGL>
-          </WithClassName>
-        )}
-      </>
+          <DeckGL
+            controller={{ type: MapController }}
+            viewState={viewState}
+            onViewStateChange={onViewStateChange}
+            onResize={onResize}
+          >
+            <GeoJsonLayer
+              up
+              id="municipalities"
+              data={geoData.municipalities}
+              pickable={true}
+              stroked={false}
+              filled={true}
+              extruded={false}
+              autoHighlight={true}
+              getFillColor={getFillColor}
+              highlightColor={[0, 0, 0, 50]}
+              getRadius={100}
+              getLineWidth={1}
+              onHover={({ x, y, object }: $FixMe) => {
+                setHovered(
+                  object
+                    ? {
+                        x: x,
+                        y: y,
+                        id: object?.id.toString(),
+                        type: "municipality",
+                      }
+                    : undefined
+                );
+              }}
+              onClick={onMunicipalityLayerClick}
+              updateTriggers={{
+                getFillColor: [
+                  observationsByMunicipalityId,
+                  highlightContext?.id,
+                ],
+              }}
+            />
+            <GeoJsonLayer
+              id="municipality-mesh"
+              data={geoData.municipalityMesh}
+              pickable={false}
+              stroked={true}
+              filled={false}
+              extruded={false}
+              lineWidthMinPixels={0.5}
+              lineWidthMaxPixels={1}
+              getLineWidth={100}
+              lineMiterLimit={1}
+              getLineColor={LINE_COLOR}
+            />
+            <GeoJsonLayer
+              id="lakes"
+              data={geoData.lakes}
+              pickable={false}
+              stroked={true}
+              filled={true}
+              extruded={false}
+              lineWidthMinPixels={0.5}
+              lineWidthMaxPixels={1}
+              getLineWidth={100}
+              getFillColor={[102, 175, 233]}
+              getLineColor={LINE_COLOR}
+            />
+            <GeoJsonLayer
+              id="cantons"
+              data={geoData.cantonMesh}
+              pickable={false}
+              stroked={true}
+              filled={false}
+              extruded={false}
+              lineWidthMinPixels={1.2}
+              lineWidthMaxPixels={3.6}
+              getLineWidth={200}
+              lineMiterLimit={1}
+              getLineColor={[120, 120, 120]}
+            />
+          </DeckGL>
+        </WithClassName>
+      )}
     </>
-  );
+  </>;
 };

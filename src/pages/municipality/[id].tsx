@@ -1,4 +1,4 @@
-import { t } from "@lingui/macro";
+import { useTranslation } from "next-i18next";
 import { Box, Flex } from "@theme-ui/components";
 import { GetServerSideProps } from "next";
 import ErrorPage from "next/error";
@@ -64,6 +64,7 @@ export const getServerSideProps: GetServerSideProps<Props, { id: string }> =
   };
 
 const MunicipalityPage = (props: Props) => {
+  const { t } = useTranslation();
   const { query } = useRouter();
 
   if (props.status === "notfound") {
@@ -75,9 +76,9 @@ const MunicipalityPage = (props: Props) => {
   return (
     <>
       <Head>
-        <title>{`${t({ id: "detail.municipality" })} ${name} – ${t({
-          id: "site.title",
-        })}`}</title>
+        <title>{`${t("detail.municipality")} ${name} – ${t(
+          "site.title"
+        )}`}</title>
       </Head>
       <Flex sx={{ minHeight: "100vh", flexDirection: "column" }}>
         {!query.download && <Header></Header>}

@@ -1,4 +1,4 @@
-import { Trans } from "@lingui/macro";
+import { useTranslation } from "next-i18next";
 import { descending, rollup } from "d3-array";
 import { uniqBy } from "lodash";
 import { useMemo } from "react";
@@ -15,17 +15,13 @@ import { useLocale } from "../lib/use-locale";
 const CATEGORIES = [
   {
     id: OperatorDocumentCategory.Tariffs,
-    itemLabel: <Trans id="download.category.tariff">Tarifblatt</Trans>,
-    categoryLabel: <Trans id="download.category.tariffs">Tarifblätter</Trans>,
+    itemLabel: { t('download.category.tariff', 'Tarifblatt') },
+    categoryLabel: { t('download.category.tariffs', 'Tarifblätter') },
   },
   {
     id: OperatorDocumentCategory.AnnualReport,
-    itemLabel: (
-      <Trans id="download.category.annualreport">Jahresrechnung</Trans>
-    ),
-    categoryLabel: (
-      <Trans id="download.category.annualreports">Jahresrechnungen Netz</Trans>
-    ),
+    itemLabel: { t('download.category.annualreport', 'Jahresrechnung') },
+    categoryLabel: { t('download.category.annualreports', 'Jahresrechnungen Netz') },
   },
 ];
 
@@ -36,6 +32,7 @@ const DocumentList = ({
   documents: OperatorDocument[];
   itemLabel: React.ReactNode;
 }) => {
+  const { t } = useTranslation()
   return (
     <Box as="ul" sx={{ listStyle: "none", m: 0, p: 0 }}>
       {documents.map((doc) => {
@@ -51,9 +48,7 @@ const DocumentList = ({
                 <Box sx={{ flexShrink: 0, mr: 2 }}>
                   <Icon name="pdf" size={20} />
                 </Box>{" "}
-                {itemLabel} {doc.year} (
-                <Trans id="download.filetype.pdf">PDF-Datei</Trans>)
-              </Flex>
+                {itemLabel} {doc.year}({ t('download.filetype.pdf', 'PDF-Datei') })</Flex>
             </Link>
           </Box>
         );
@@ -63,6 +58,7 @@ const DocumentList = ({
 };
 
 export const OperatorDocuments = ({ id }: { id: string }) => {
+  const { t } = useTranslation()
   const locale = useLocale();
 
   const [documentsQuery] = useOperatorDocumentsQuery({
@@ -95,11 +91,9 @@ export const OperatorDocuments = ({ id }: { id: string }) => {
 
   if (documents.length === 0) {
     return (
-      <Text variant="paragraph2" sx={{ m: 6, color: "hint" }}>
-        <Trans id="download.nooperatordocuments">
-          Keine Netzbetreiber-Dokumente
-        </Trans>
-      </Text>
+      (<Text variant="paragraph2" sx={{ m: 6, color: "hint" }}>
+        { t('download.nooperatordocuments', 'Keine Netzbetreiber-Dokumente') }
+      </Text>)
     );
   }
 

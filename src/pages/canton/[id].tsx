@@ -1,4 +1,4 @@
-import { t } from "@lingui/macro";
+import { useTranslation } from "react-i18next";
 import { GetServerSideProps } from "next";
 import ErrorPage from "next/error";
 import Head from "next/head";
@@ -43,6 +43,7 @@ export const getServerSideProps: GetServerSideProps<
 };
 
 const CantonPage = (props: Props) => {
+  const { t } = useTranslation();
   const { query } = useRouter();
 
   if (props.status === "notfound") {
@@ -53,9 +54,7 @@ const CantonPage = (props: Props) => {
   return (
     <>
       <Head>
-        <title>{`${t({ id: "detail.canton" })} ${name} – ${t({
-          id: "site.title",
-        })}`}</title>
+        <title>{`${t("detail.canton")} ${name} – ${t("site.title")}`}</title>
       </Head>
       <Flex sx={{ minHeight: "100vh", flexDirection: "column" }}>
         {!query.download && <Header></Header>}

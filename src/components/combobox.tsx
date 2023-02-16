@@ -1,4 +1,4 @@
-import { t } from "@lingui/macro";
+import { useTranslation } from "next-i18next";
 
 // import { i18n } from "@lingui/core";
 import { useCombobox, useMultipleSelection } from "downshift";
@@ -36,6 +36,7 @@ export const ComboboxMulti = ({
   onInputValueChange,
   isLoading,
 }: ComboboxMultiProps) => {
+  const { t } = useTranslation();
   const [inputValue, setInputValue] = useState("");
 
   const canRemoveItems = selectedItems.length > minSelectedItems;
@@ -257,7 +258,7 @@ export const ComboboxMulti = ({
               m: 0,
             }}
           >
-            {t({ id: "combobox.isloading", message: `Resultate laden …` })}
+            {t("combobox.isloading", `Resultate laden …`)}
           </Text>
         ) : isOpen && !isLoading && getFilteredItems(items).length === 0 ? (
           <Text
@@ -270,14 +271,9 @@ export const ComboboxMulti = ({
             }}
           >
             {inputValue === "" && lazy ? (
-              <>
-                {t({
-                  id: "combobox.prompt",
-                  message: `Bezeichnung eingeben …`,
-                })}
-              </>
+              <>{t("combobox.prompt", `Bezeichnung eingeben …`)}</>
             ) : (
-              <>{t({ id: "combobox.noitems", message: `Keine Einträge` })}</>
+              <>{t("combobox.noitems", `Keine Einträge`)}</>
             )}
           </Text>
         ) : isOpen && !isLoading ? (
@@ -321,6 +317,7 @@ export const Combobox = ({
   showLabel?: boolean;
   infoDialogSlug?: string;
 }) => {
+  const { t } = useTranslation();
   const [inputValue, setInputValue] = useState(getItemLabel(selectedItem));
 
   const getFilteredItems = () => {
@@ -521,7 +518,7 @@ export const Combobox = ({
               m: 0,
             }}
           >
-            {t({ id: "combobox.noitems", message: `Keine Einträge` })}
+            {t("combobox.noitems", `Keine Einträge`)}
           </Box>
         )}
       </Box>

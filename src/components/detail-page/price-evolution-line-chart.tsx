@@ -1,4 +1,4 @@
-import { t, Trans } from "@lingui/macro";
+import { useTranslation } from "next-i18next";
 import { Box } from "@theme-ui/components";
 import * as React from "react";
 import { memo } from "react";
@@ -41,6 +41,7 @@ export const PriceEvolution = ({
   id: string;
   entity: Entity;
 }) => {
+  const { t } = useTranslation();
   const locale = useLocale();
   const [{ period, category, municipality, operator, canton, product }] =
     useQueryState();
@@ -85,16 +86,12 @@ export const PriceEvolution = ({
       title={
         <Stack spacing={2} direction="row">
           <span>
-            <Trans id="detail.card.title.prices.evolution">
-              Tarifentwicklung
-            </Trans>
+            {t("detail.card.title.prices.evolution", "Tarifentwicklung")}
           </span>
           <InfoDialogButton
             iconOnly
             slug="help-price-evolution"
-            label={t({
-              id: "detail.card.title.prices.evolution",
-            })}
+            label={t("detail.card.title.prices.evolution")}
             smaller
           />
         </Stack>

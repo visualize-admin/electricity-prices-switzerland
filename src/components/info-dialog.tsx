@@ -1,4 +1,4 @@
-import { Trans } from "@lingui/macro";
+import { useTranslation } from "next-i18next";
 import Dialog from "@reach/dialog";
 import VisuallyHidden from "@reach/visually-hidden";
 import { useState } from "react";
@@ -78,6 +78,7 @@ export const InfoDialogButton = ({
   iconOnly?: boolean;
   smaller?: boolean;
 }) => {
+  const { t } = useTranslation();
   const [showHelpDialog, setShowDialog] = useState<boolean>(false);
   const close = () => setShowDialog(false);
   const open = () => setShowDialog(true);
@@ -115,14 +116,14 @@ export const InfoDialogButton = ({
           onClick={close}
         >
           <VisuallyHidden>
-            <Trans id="dialog.close">Dialog schliessen</Trans>
+            {t("dialog.close", "Dialog schliessen")}
           </VisuallyHidden>{" "}
           <Box aria-hidden>
             <Icon name="clear" />
           </Box>
         </Button>
         <Heading variant="paragraph2" sx={{ color: "secondary" }}>
-          <Trans id="dialog.infoprefix">Info:</Trans> {label}
+          {t("dialog.infoprefix", "Info:")} {label}
         </Heading>
         <DialogContent slug={slug} />
       </Dialog>

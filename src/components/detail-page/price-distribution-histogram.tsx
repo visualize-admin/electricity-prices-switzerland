@@ -1,4 +1,4 @@
-import { t, Trans } from "@lingui/macro";
+import { useTranslation } from "next-i18next";
 import { Box } from "@theme-ui/components";
 import { groups } from "d3-array";
 import * as React from "react";
@@ -52,6 +52,7 @@ export const PriceDistributionHistograms = ({
   id: string;
   entity: Entity;
 }) => {
+  const { t } = useTranslation();
   const [
     { period, municipality, operator, canton, priceComponent, download },
     setQueryState,
@@ -76,16 +77,15 @@ export const PriceDistributionHistograms = ({
       title={
         <Stack spacing={2} direction="row">
           <span>
-            <Trans id="detail.card.title.prices.distribution">
-              Preisverteilung in der Schweiz
-            </Trans>
+            {t(
+              "detail.card.title.prices.distribution",
+              "Preisverteilung in der Schweiz"
+            )}
           </span>
           <InfoDialogButton
             iconOnly
             slug="help-price-distribution"
-            label={t({
-              id: "detail.card.title.prices.distribution",
-            })}
+            label={t("detail.card.title.prices.distribution")}
             smaller
           />
         </Stack>
@@ -129,10 +129,7 @@ export const PriceDistributionHistograms = ({
           <Box sx={{ display: ["block", "block", "none"] }}>
             <Combobox
               id="priceComponents-histogram"
-              label={t({
-                id: "selector.priceComponents",
-                message: `Preiskomponenten`,
-              })}
+              label={t("selector.priceComponents", `Preiskomponenten`)}
               items={priceComponents}
               getItemLabel={getItemLabel}
               selectedItem={priceComponent[0]}
@@ -159,22 +156,14 @@ export const PriceDistributionHistograms = ({
 };
 
 const getEntityLabelId = (entity: Entity): string => {
+  const { t } = useTranslation();
   switch (entity) {
     case "operator":
-      return t({
-        id: "histogram.operator-count",
-        message: "Anzahl Netzbetreiber",
-      });
+      return t("histogram.operator-count", "Anzahl Netzbetreiber");
     case "canton":
-      return t({
-        id: "histogram.canton-count",
-        message: "Anzahl Kanton",
-      });
+      return t("histogram.canton-count", "Anzahl Kanton");
     case "municipality":
-      return t({
-        id: "histogram.municipality-count",
-        message: "Anzahl Gemeinde",
-      });
+      return t("histogram.municipality-count", "Anzahl Gemeinde");
   }
 };
 
@@ -189,6 +178,7 @@ export const PriceDistributionHistogram = ({
   annotationIds: string[];
   entity: Entity;
 }) => {
+  const { t } = useTranslation();
   const locale = useLocale();
   const [{ category, product }] = useQueryState();
 
@@ -288,7 +278,7 @@ export const PriceDistributionHistogram = ({
             data={observations as GenericObservation[]}
             medianValue={medianValue}
             yAxisLabel={getEntityLabelId(entity)}
-            xAxisUnit={t({ id: "chart.axis.unit.Rp/kWh", message: `Rp./kWh` })}
+            xAxisUnit={t("chart.axis.unit.Rp/kWh", `Rp./kWh`) || undefined}
             fields={{
               x: {
                 componentIri: "value",

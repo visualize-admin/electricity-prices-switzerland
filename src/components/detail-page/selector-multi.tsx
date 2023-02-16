@@ -1,4 +1,4 @@
-import { Trans, t } from "@lingui/macro";
+import { useTranslation } from "next-i18next";
 import { useMemo } from "react";
 import { Flex, Text } from "theme-ui";
 import { Combobox, ComboboxMulti } from "../../components/combobox";
@@ -16,6 +16,7 @@ export const SelectorMulti = ({
 }: {
   entity?: Entity;
 }) => {
+  const { t } = useTranslation();
   const [queryState, setQueryState] = useQueryState();
   const getItemLabel = (id: string) => getLocalizedLabel({ id });
   const groupedCategories = useMemo(() => {
@@ -42,44 +43,38 @@ export const SelectorMulti = ({
       }}
     >
       <Text as="legend" variant="lead" sx={{ display: "contents" }}>
-        <Trans id="selector.legend.select.parameters">
-          Parameter auswählen
-        </Trans>
+        {t("selector.legend.select.parameters", "Parameter auswählen")}
       </Text>
 
       <>
         {entity === "operator" ? (
           <OperatorsCombobox
-            label={
-              <Trans id="selector.compareoperators">
-                Netzbetreiber zum Vergleich
-              </Trans>
-            }
+            label={t(
+              "selector.compareoperators",
+              "Netzbetreiber zum Vergleich"
+            )}
             selectedItems={queryState.operator ?? []}
             setSelectedItems={(items) => setQueryState({ operator: items })}
           />
         ) : entity === "municipality" ? (
           <MunicipalitiesCombobox
-            label={
-              <Trans id="selector.comparemunicipalities">
-                Gemeinden zum Vergleich
-              </Trans>
-            }
+            label={t(
+              "selector.comparemunicipalities",
+              "Gemeinden zum Vergleich"
+            )}
             selectedItems={queryState.municipality ?? []}
             setSelectedItems={(items) => setQueryState({ municipality: items })}
           />
         ) : (
           <CantonsCombobox
-            label={
-              <Trans id="selector.comparecantons">Kantone zum Vergleich</Trans>
-            }
+            label={t("selector.comparecantons", "Kantone zum Vergleich")}
             selectedItems={queryState.canton ?? []}
             setSelectedItems={(items) => setQueryState({ canton: items })}
           />
         )}
         <ComboboxMulti
           id="periods"
-          label={<Trans id="selector.years">Jahre</Trans>}
+          label={t("selector.years", "Jahre")}
           items={periods}
           selectedItems={queryState.period}
           minSelectedItems={1}
@@ -87,7 +82,7 @@ export const SelectorMulti = ({
         />
         <Combobox
           id="categories"
-          label={t({ id: "selector.category", message: `Kategorie` })}
+          label={t("selector.category", `Kategorie`)}
           items={groupedCategories}
           getItemLabel={getItemLabel}
           selectedItem={queryState.category[0]}
@@ -98,7 +93,7 @@ export const SelectorMulti = ({
         />
         <Combobox
           id="products"
-          label={t({ id: "selector.product", message: `Produkt` })}
+          label={t("selector.product", `Produkt`)}
           items={products}
           getItemLabel={getItemLabel}
           selectedItem={queryState.product[0]}

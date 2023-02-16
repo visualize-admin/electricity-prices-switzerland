@@ -1,4 +1,4 @@
-import { t } from "@lingui/macro";
+import { useTranslation } from "next-i18next";
 import { Flex } from "@theme-ui/components";
 import { GetServerSideProps } from "next";
 import ErrorPage from "next/error";
@@ -63,6 +63,7 @@ export const getServerSideProps: GetServerSideProps<Props, { id: string }> =
   };
 
 const OperatorPage = (props: Props) => {
+  const { t } = useTranslation();
   const { query } = useRouter();
   if (props.status === "notfound") {
     return <ErrorPage statusCode={404} />;
@@ -72,9 +73,7 @@ const OperatorPage = (props: Props) => {
   return (
     <>
       <Head>
-        <title>{`${t({ id: "detail.operator" })} ${name} – ${t({
-          id: "site.title",
-        })}`}</title>
+        <title>{`${t("detail.operator")} ${name} – ${t("site.title")}`}</title>
       </Head>
       <Flex sx={{ minHeight: "100vh", flexDirection: "column" }}>
         {!query.download && <Header></Header>}
