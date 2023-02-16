@@ -1,4 +1,4 @@
-import { useTranslation } from "next-i18next";
+import { TFunction, useTranslation } from "next-i18next";
 import { Box } from "@theme-ui/components";
 import { groups } from "d3-array";
 import * as React from "react";
@@ -155,8 +155,7 @@ export const PriceDistributionHistograms = ({
   );
 };
 
-const getEntityLabelId = (entity: Entity): string => {
-  const { t } = useTranslation();
+const getEntityLabelId = (entity: Entity, t: TFunction): string => {
   switch (entity) {
     case "operator":
       return t("histogram.operator-count", "Anzahl Netzbetreiber");
@@ -277,7 +276,7 @@ export const PriceDistributionHistogram = ({
           <Histogram
             data={observations as GenericObservation[]}
             medianValue={medianValue}
-            yAxisLabel={getEntityLabelId(entity)}
+            yAxisLabel={getEntityLabelId(entity, t)}
             xAxisUnit={t("chart.axis.unit.Rp/kWh", `Rp./kWh`) || undefined}
             fields={{
               x: {

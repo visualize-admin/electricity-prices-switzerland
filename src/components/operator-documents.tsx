@@ -1,4 +1,4 @@
-import { useTranslation } from "next-i18next";
+import { useTranslation, i18n, TFunction } from "next-i18next";
 import { descending, rollup } from "d3-array";
 import { uniqBy } from "lodash";
 import { useMemo } from "react";
@@ -12,16 +12,19 @@ import { Icon } from "../icons";
 import { EMPTY_ARRAY } from "../lib/empty-array";
 import { useLocale } from "../lib/use-locale";
 
-const CATEGORIES = [
+const getCategories = (t: TFunction) => [
   {
     id: OperatorDocumentCategory.Tariffs,
-    itemLabel: { t('download.category.tariff', 'Tarifblatt') },
-    categoryLabel: { t('download.category.tariffs', 'Tarifblätter') },
+    itemLabel: t("download.category.tariff", "Tarifblatt"),
+    categoryLabel: t("download.category.tariffs", "Tarifblätter"),
   },
   {
     id: OperatorDocumentCategory.AnnualReport,
-    itemLabel: { t('download.category.annualreport', 'Jahresrechnung') },
-    categoryLabel: { t('download.category.annualreports', 'Jahresrechnungen Netz') },
+    itemLabel: t("download.category.annualreport", "Jahresrechnung"),
+    categoryLabel: t(
+      "download.category.annualreports",
+      "Jahresrechnungen Netz"
+    ),
   },
 ];
 
@@ -32,7 +35,7 @@ const DocumentList = ({
   documents: OperatorDocument[];
   itemLabel: React.ReactNode;
 }) => {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
   return (
     <Box as="ul" sx={{ listStyle: "none", m: 0, p: 0 }}>
       {documents.map((doc) => {
@@ -48,7 +51,9 @@ const DocumentList = ({
                 <Box sx={{ flexShrink: 0, mr: 2 }}>
                   <Icon name="pdf" size={20} />
                 </Box>{" "}
-                {itemLabel} {doc.year}({ t('download.filetype.pdf', 'PDF-Datei') })</Flex>
+                {itemLabel} {doc.year}({t("download.filetype.pdf", "PDF-Datei")}
+                )
+              </Flex>
             </Link>
           </Box>
         );
@@ -58,7 +63,7 @@ const DocumentList = ({
 };
 
 export const OperatorDocuments = ({ id }: { id: string }) => {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
   const locale = useLocale();
 
   const [documentsQuery] = useOperatorDocumentsQuery({
@@ -91,11 +96,13 @@ export const OperatorDocuments = ({ id }: { id: string }) => {
 
   if (documents.length === 0) {
     return (
-      (<Text variant="paragraph2" sx={{ m: 6, color: "hint" }}>
-        { t('download.nooperatordocuments', 'Keine Netzbetreiber-Dokumente') }
-      </Text>)
+      <Text variant="paragraph2" sx={{ m: 6, color: "hint" }}>
+        {t("download.nooperatordocuments", "Keine Netzbetreiber-Dokumente")}
+      </Text>
     );
   }
+
+  const CATEGORIES = getCategories(t);
 
   return (
     <>

@@ -20,6 +20,8 @@ import {
   getObservationsCube,
   getOperator,
 } from "../../rdf/queries";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import nextI18NextConfig from "../../next-i18next.config.js";
 
 type Props =
   | {
@@ -58,6 +60,11 @@ export const getServerSideProps: GetServerSideProps<Props, { id: string }> =
         municipalities: municipalities
           .sort((a, b) => a.name.localeCompare(b.name, locale))
           .map(({ id, name }) => ({ id, name })),
+        ...(await serverSideTranslations(
+          locale || "de",
+          ["common"],
+          nextI18NextConfig
+        )),
       },
     };
   };
