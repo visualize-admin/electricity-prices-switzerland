@@ -52,7 +52,7 @@ export const Footer = () => {
             <Box sx={{ flexShrink: 0, mr: 2 }}>
               <Icon name="excel" size={20} />
             </Box>{" "}
-            {t("download.rawdata", "Rohdaten")} {period}(
+            {t("download.rawdata", "Rohdaten")} {period} (
             {t("download.filetype.csv", "CSV-Datei")})
             <Box as="span" sx={{ ml: 1, display: "inline-block" }}>
               &nbsp;

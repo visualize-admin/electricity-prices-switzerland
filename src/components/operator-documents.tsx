@@ -51,8 +51,8 @@ const DocumentList = ({
                 <Box sx={{ flexShrink: 0, mr: 2 }}>
                   <Icon name="pdf" size={20} />
                 </Box>{" "}
-                {itemLabel} {doc.year}({t("download.filetype.pdf", "PDF-Datei")}
-                )
+                {itemLabel} {doc.year} (
+                {t("download.filetype.pdf", "PDF-Datei")})
               </Flex>
             </Link>
           </Box>

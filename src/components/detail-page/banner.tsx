@@ -53,7 +53,7 @@ const RelationsList = ({
         <>
           {", "}
           <Button variant="inline" onClick={() => setTruncate(false)}>
-            {t("relations.showmore", "{rest} weitere …")}
+            {t("relations.showmore", "{{rest}} weitere …", { rest })}
           </Button>
         </>
       )}
