@@ -14,8 +14,8 @@ import {
 } from "../../rdf/queries";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const locale = parseLocaleString(req.query.locale?.toString());
-  const period = req.query.period?.toString() ?? process.env.CURRENT_PERIOD;
+  const locale = parseLocaleString(req.query.locale?.toString() || "de");
+  const period = (req.query.period?.toString() ?? process.env.CURRENT_PERIOD)!;
 
   const cube = await getObservationsCube();
 
