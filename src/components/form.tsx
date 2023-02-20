@@ -200,7 +200,7 @@ export const MiniSelect = ({
         bg: "transparent",
         py: 0,
         pl: 1,
-        pr: 4,
+        pr: 5,
         mr: 1, // Fix for Chrome which cuts of the label otherwise
         ":focus": {
           outline: "none",
