@@ -17,6 +17,5 @@ jobs:
           GITLAB_WIKI_URL: ${{ secrets.GITLAB_WIKI_URL }}
           GITLAB_WIKI_TOKEN: ${{ secrets.GITLAB_WIKI_TOKEN }}
         with:
-          build: "yarn locales:compile"
           start: "yarn dev -p 3333"
           wait-on: "http://localhost:3333"
