@@ -7,9 +7,7 @@ import timeFormatDe from "d3-time-format/locale/de-CH.json";
 import timeFormatEn from "d3-time-format/locale/en-GB.json";
 import timeFormatFr from "d3-time-format/locale/fr-FR.json";
 import timeFormatIt from "d3-time-format/locale/it-IT.json";
-import { messages as catalogDe } from "./de/messages";
-import { messages as catalogFr } from "./fr/messages";
-import { messages as catalogIt } from "./it/messages";
+
 import {
   de as pluralsDe,
   fr as pluralsFr,
@@ -35,12 +33,6 @@ export const parseLocaleString = (localeString: string): Locale => {
   const result = /^(de|fr|it)/.exec(localeString);
   return result ? (result[1] as Locale) : defaultLocale;
 };
-
-export const catalogs = {
-  de: catalogDe,
-  fr: catalogFr,
-  it: catalogIt,
-} as const;
 
 export const d3TimeFormatLocales = {
   de: timeFormatLocale(timeFormatDe as TimeLocaleDefinition),
