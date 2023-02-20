@@ -10,7 +10,6 @@ import timeFormatIt from "d3-time-format/locale/it-IT.json";
 import { messages as catalogDe } from "./de/messages";
 import { messages as catalogFr } from "./fr/messages";
 import { messages as catalogIt } from "./it/messages";
-import { i18n } from "@lingui/core";
 import {
   de as pluralsDe,
   fr as pluralsFr,
@@ -25,21 +24,7 @@ export const locales = ["de", "fr", "it"] as const;
 
 export type Locale = "de" | "fr" | "it";
 
-i18n.loadLocaleData({
-  de: { plurals: pluralsDe },
-  fr: { plurals: pluralsFr },
-  it: { plurals: pluralsIt },
-  en: { plurals: pluralsEn },
-});
-i18n.load({
-  de: catalogDe,
-  fr: catalogFr,
-  it: catalogIt,
-});
-i18n.activate(defaultLocale);
-
 export type Locales = "de" | "fr" | "it" | "en";
-export { i18n };
 
 /**
  * Parses a valid app locale from a locale string (e.g. a Accept-Language header).

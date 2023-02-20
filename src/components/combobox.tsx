@@ -1,6 +1,5 @@
 import { useTranslation } from "next-i18next";
 
-// import { i18n } from "@lingui/core";
 import { useCombobox, useMultipleSelection } from "downshift";
 import { ReactNode, useState, useEffect } from "react";
 import { Box, Button, Flex, Input, Text } from "theme-ui";

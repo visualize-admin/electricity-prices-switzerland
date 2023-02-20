@@ -1,10 +1,7 @@
-import { createContext, useContext } from "react";
-import { defaultLocale, Locale } from "../locales/locales";
-
-const LocaleContext = createContext<Locale>(defaultLocale);
-
-export const LocaleProvider = LocaleContext.Provider;
+import { useTranslation } from "react-i18next";
+import { defaultLocale } from "../locales/locales";
 
 export const useLocale = () => {
-  return useContext(LocaleContext);
+  const { i18n } = useTranslation();
+  return i18n.language || defaultLocale;
 };
