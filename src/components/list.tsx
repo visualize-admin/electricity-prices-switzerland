@@ -1,4 +1,4 @@
-import { t, Trans } from "@lingui/macro";
+import { useTranslation } from "next-i18next";
 import { ScaleThreshold } from "d3";
 import { ascending, descending, mean, rollup } from "d3-array";
 import NextLink from "next/link";
@@ -116,6 +116,7 @@ const ListItems = ({
   colorScale: ScaleThreshold<number, string>;
   listState: ListState;
 }) => {
+  const { t } = useTranslation();
   const [truncated, setTruncated] = useState<number>(TRUNCATION_INCREMENT);
   const formatNumber = useFormatCurrency();
 
@@ -149,7 +150,7 @@ const ListItems = ({
             variant="inline"
             onClick={() => setTruncated((n) => n + TRUNCATION_INCREMENT)}
           >
-            <Trans id="list.showmore">Mehr anzeigen …</Trans>
+            {t("list.showmore", "Mehr anzeigen …")}
           </Button>
         </Box>
       )}
@@ -231,6 +232,7 @@ export const List = ({
   colorScale,
   observationsQueryFetching,
 }: Props) => {
+  const { t } = useTranslation();
   const [listState, setListState] = useState<ListState>("MUNICIPALITIES");
   const [sortState, setSortState] = useState<SortState>("ASC");
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -238,14 +240,14 @@ export const List = ({
   const sortOptions = [
     {
       value: "ASC" as SortState,
-      label: t({ id: "list.order.asc", message: `Günstigste zuerst` }),
+      label: t("list.order.asc", `Günstigste zuerst`),
     },
     {
       value: "DESC" as SortState,
-      label: t({ id: "list.order.desc", message: `Teuerste zuerst` }),
+      label: t("list.order.desc", `Teuerste zuerst`),
     },
   ];
-  const searchLabel = t({ id: "list.search.label", message: `Liste filtern` });
+  const searchLabel = t("list.search.label", `Liste filtern`);
 
   const grouped = useMemo(() => {
     return listState === "CANTONS"
@@ -311,15 +313,15 @@ export const List = ({
         options={[
           {
             value: "MUNICIPALITIES",
-            label: t({ id: "list.municipalities" }),
+            label: t("list.municipalities"),
           },
           {
             value: "CANTONS",
-            label: t({ id: "list.cantons" }),
+            label: t("list.cantons"),
           },
           {
             value: "PROVIDERS",
-            label: t({ id: "list.operators" }),
+            label: t("list.operators"),
           },
         ]}
         value={listState}
@@ -368,7 +370,7 @@ export const List = ({
                 lineHeight: "24px",
               }}
             >
-              <Trans id="dataset.sortby">Sortieren</Trans>
+              {t("dataset.sortby", "Sortieren")}
             </Text>
           </label>
 

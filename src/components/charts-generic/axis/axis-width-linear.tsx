@@ -1,4 +1,4 @@
-import { t } from "@lingui/macro";
+import { useTranslation } from "next-i18next";
 import { axisBottom, axisTop } from "d3-axis";
 import { select, Selection } from "d3-selection";
 import * as React from "react";
@@ -76,6 +76,7 @@ export const AxisWidthLinearBottom = () => {
 };
 
 export const AxisWidthLinearTop = () => {
+  const { t } = useTranslation();
   const formatCurrency = useFormatCurrency();
   const { xScale, yScale, bounds } = useChartState() as RangePlotState;
   const { chartWidth, chartHeight, margins } = bounds;
@@ -128,7 +129,7 @@ export const AxisWidthLinearTop = () => {
           fontSize={labelFontSize}
           textAnchor="end"
         >
-          {t({ id: "chart.axis.unit.Rp/kWh", message: `Rp./kWh` })}
+          {t("chart.axis.unit.Rp/kWh", `Rp./kWh`)}
         </text>
       </g>
       <g

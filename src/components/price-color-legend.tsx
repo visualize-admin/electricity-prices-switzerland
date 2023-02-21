@@ -1,4 +1,4 @@
-import { Trans, t } from "@lingui/macro";
+import { useTranslation } from "next-i18next";
 import { Box, BoxProps, Flex, Grid, Text } from "@theme-ui/components";
 import React, { useState } from "react";
 import { useTheme } from "../themes";
@@ -41,6 +41,7 @@ export const MapPriceColorLegend = ({
 }: {
   stats: [number | undefined, number | undefined, number | undefined];
 }) => {
+  const { t } = useTranslation();
   const formatCurrency = useFormatCurrency();
   const [open, setOpen] = useState(true);
 
@@ -64,13 +65,13 @@ export const MapPriceColorLegend = ({
     <LegendBox>
       <Flex sx={{ alignItems: "center", width: "100%" }}>
         <Text sx={{ fontSize: 1, lineHeight: 1.5, mr: 1 }}>
-          <Trans id="map.legend.title">Tarifvergleich in Rp./kWh</Trans>
+          {t("map.legend.title", "Tarifvergleich in Rp./kWh")}
         </Text>
         <InfoDialogButton
           smaller
           iconOnly
           slug="help-price-comparison"
-          label={t({ id: "help.price-comparison", message: `Tarifvergleich` })}
+          label={t("help.price-comparison", `Tarifvergleich`)}
         />
         <Box
           onClick={() => setOpen(false)}
@@ -112,16 +113,14 @@ export const MapPriceColorLegend = ({
           mb: 2,
         }}
       >
-        <Text sx={{ flex: "1 1 0px" }}>
-          <Trans id="price.legend.min">min</Trans>
-        </Text>
+        <Text sx={{ flex: "1 1 0px" }}>{t("price.legend.min", "min")}</Text>
 
         <Text sx={{ flex: "1 1 0px", textAlign: "center" }}>
-          <Trans id="price.legend.median">median</Trans>
+          {t("price.legend.median", "median")}
         </Text>
 
         <Text sx={{ flex: "1 1 0px", textAlign: "right" }}>
-          <Trans id="price.legend.max">max</Trans>
+          {t("price.legend.max", "max")}
         </Text>
       </Flex>
 
@@ -131,6 +130,7 @@ export const MapPriceColorLegend = ({
 };
 
 export const PriceColorLegend = () => {
+  const { t } = useTranslation();
   return (
     <Box
       sx={{
@@ -150,16 +150,14 @@ export const PriceColorLegend = () => {
           mb: 2,
         }}
       >
-        <Text sx={{ flex: "1 1 0px" }}>
-          <Trans id="price.legend.min">min</Trans>
-        </Text>
+        <Text sx={{ flex: "1 1 0px" }}>{t("price.legend.min", "min")}</Text>
 
         <Text sx={{ flex: "1 1 0px", textAlign: "center" }}>
-          <Trans id="price.legend.median">median</Trans>
+          {t("price.legend.median", "median")}
         </Text>
 
         <Text sx={{ flex: "1 1 0px", textAlign: "right" }}>
-          <Trans id="price.legend.max">max</Trans>
+          {t("price.legend.max", "max")}
         </Text>
       </Flex>
 

@@ -1,4 +1,4 @@
-import { Trans } from "@lingui/macro";
+import { useTranslation } from "next-i18next";
 import VisuallyHidden from "@reach/visually-hidden";
 import { group, rollup } from "d3-array";
 import { useCombobox } from "downshift";
@@ -22,6 +22,7 @@ import { useLocale } from "../lib/use-locale";
 import { useTheme } from "../themes";
 
 export const Search = () => {
+  const { t } = useTranslation();
   const locale = useLocale();
   const [searchString, setSearchString] = useState<string>("");
 
@@ -72,11 +73,10 @@ export const Search = () => {
         }))}
         getItemLabel={(id) => itemById.get(id)?.name ?? `[${id}]`}
         setSearchString={setSearchString}
-        label={
-          <Trans id="search.global.label">
-            Suche nach Gemeindename, PLZ, Netzbetreiber, Kanton
-          </Trans>
-        }
+        label={t(
+          "search.global.label",
+          "Suche nach Gemeindename, PLZ, Netzbetreiber, Kanton"
+        )}
         isLoading={gqlQuery.fetching && searchString.length > 0}
       />
     </>
@@ -101,6 +101,7 @@ export const SearchField = ({
   label: string | ReactNode;
   isLoading: boolean;
 }) => {
+  const { t } = useTranslation();
   const theme = useTheme();
 
   const inputEl = useRef<HTMLInputElement>(null);
@@ -207,7 +208,7 @@ export const SearchField = ({
               color: "monochrome800",
             }}
           >
-            <Trans id="search.global.hint.go.to">Gehe zu…</Trans>
+            {t("search.global.hint.go.to", "Gehe zu…")}
           </Text>
           <Text
             variant="heading3"
@@ -220,9 +221,10 @@ export const SearchField = ({
               textOverflow: "ellipsis",
             }}
           >
-            <Trans id="search.global.hint.canton.muni.operator">
-              Gemeindename, PLZ, Netzbetreiber, Kanton
-            </Trans>
+            {t(
+              "search.global.hint.canton.muni.operator",
+              "Gemeindename, PLZ, Netzbetreiber, Kanton"
+            )}
           </Text>
         </Flex>
 
@@ -338,11 +340,11 @@ export const SearchField = ({
             </Text>
           ) : inputValue !== "" && isLoading ? (
             <Text variant="paragraph1" sx={{ color: "monochrome800" }}>
-              <Trans id="combobox.isloading">Resultate laden …</Trans>
+              {t("combobox.isloading", "Resultate laden …")}
             </Text>
           ) : inputValue !== "" && !isLoading && items.length === 0 ? (
             <Text variant="paragraph1" sx={{ color: "monochrome800" }}>
-              <Trans id="combobox.noitems">Keine Einträge</Trans>
+              {t("combobox.noitems", "Keine Einträge")}
             </Text>
           ) : (
             <>

@@ -1,4 +1,4 @@
-import { t } from "@lingui/macro";
+import { useTranslation } from "next-i18next";
 import { GetServerSideProps } from "next";
 import ErrorPage from "next/error";
 import Head from "next/head";
@@ -15,6 +15,9 @@ import { SelectorMulti } from "../../components/detail-page/selector-multi";
 import { Footer } from "../../components/footer";
 import { Header } from "../../components/header";
 import { getCanton } from "../../rdf/queries";
+
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import nextI18NextConfig from "../../next-i18next.config.js";
 
 type Props =
   | {
@@ -39,10 +42,22 @@ export const getServerSideProps: GetServerSideProps<
     return { props: { status: "notfound" } };
   }
 
-  return { props: { status: "found", id, name: canton.name } };
+  return {
+    props: {
+      status: "found",
+      id,
+      name: canton.name,
+      ...(await serverSideTranslations(
+        locale || "de",
+        ["common"],
+        nextI18NextConfig
+      )),
+    },
+  };
 };
 
 const CantonPage = (props: Props) => {
+  const { t } = useTranslation();
   const { query } = useRouter();
 
   if (props.status === "notfound") {
@@ -53,9 +68,7 @@ const CantonPage = (props: Props) => {
   return (
     <>
       <Head>
-        <title>{`${t({ id: "detail.canton" })} ${name} – ${t({
-          id: "site.title",
-        })}`}</title>
+        <title>{`${t("detail.canton")} ${name} – ${t("site.title")}`}</title>
       </Head>
       <Flex sx={{ minHeight: "100vh", flexDirection: "column" }}>
         {!query.download && <Header></Header>}

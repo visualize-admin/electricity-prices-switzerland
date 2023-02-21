@@ -1,4 +1,4 @@
-import { t, Trans } from "@lingui/macro";
+import { useTranslation } from "next-i18next";
 import { Box } from "@theme-ui/components";
 import { groups } from "d3-array";
 import * as React from "react";
@@ -54,6 +54,7 @@ export const CantonsComparisonRangePlots = ({
   id: string;
   entity: Entity;
 }) => {
+  const { t } = useTranslation();
   const [
     {
       period,
@@ -107,16 +108,12 @@ export const CantonsComparisonRangePlots = ({
       title={
         <Stack spacing={2} direction="row">
           <span>
-            <Trans id="detail.card.title.cantons.comparison">
-              Kantonsvergleich
-            </Trans>
+            {t("detail.card.title.cantons.comparison", "Kantonsvergleich")}
           </span>
           <InfoDialogButton
             iconOnly
             slug="help-canton-comparison"
-            label={t({
-              id: "detail.card.title.cantons.comparison",
-            })}
+            label={t("detail.card.title.cantons.comparison")}
             smaller
           />
         </Stack>
@@ -160,10 +157,7 @@ export const CantonsComparisonRangePlots = ({
           <Box sx={{ display: ["block", "block", "none"] }}>
             <Combobox
               id="priceComponents-cantons-comparison"
-              label={t({
-                id: "selector.priceComponents",
-                message: `Preiskomponenten`,
-              })}
+              label={t("selector.priceComponents", `Preiskomponenten`)}
               items={priceComponents}
               getItemLabel={getItemLabel}
               selectedItem={priceComponent[0]}
@@ -179,10 +173,7 @@ export const CantonsComparisonRangePlots = ({
             }}
           >
             <Combobox
-              label={t({
-                id: "rangeplot.select.order.hint",
-                message: `Sortieren nach`,
-              })}
+              label={t("rangeplot.select.order.hint", `Sortieren nach`)}
               id={"rangeplot-sorting-select"}
               items={SORTING_VALUES}
               getItemLabel={getItemLabel}

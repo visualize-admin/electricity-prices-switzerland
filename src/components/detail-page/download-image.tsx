@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Trans } from "@lingui/macro";
+import { useTranslation } from "next-i18next";
 import { useLocale } from "../../lib/use-locale";
 import { Entity } from "../../domain/data";
 import { useQueryState } from "../../lib/use-query-state";
@@ -29,6 +29,7 @@ export const DownloadImage = ({
   id,
   downloadType,
 }: Props) => {
+  const { t } = useTranslation();
   const locale = useLocale();
   const [
     {
@@ -84,14 +85,15 @@ export const DownloadImage = ({
           target="_blank"
           rel="noopener noreferrer"
         >
-          <Trans id="image.download">Bild herunterladen</Trans>
+          {t("image.download", "Bild herunterladen")}
         </TUILink>
       ) : (
         <Text variant="meta" sx={{ mt: 4 }}>
-          <Trans id="image.download.source">
-            Eidgenössische Elektrizitätskommission ElCom
-          </Trans>{" "}
-          - <Trans id="image.download.unit">Tarifvergleich in Rp./kWh</Trans>
+          {t(
+            "image.download.source",
+            "Eidgenössische Elektrizitätskommission ElCom"
+          )}{" "}
+          -{t("image.download.unit", "Tarifvergleich in Rp./kWh")}
         </Text>
       )}
     </Box>

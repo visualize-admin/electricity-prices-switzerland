@@ -2,7 +2,6 @@ import { scaleThreshold, range } from "d3";
 import { useMemo } from "react";
 import { Observation as QueryObservation } from "../graphql/queries";
 import { useTheme } from "../themes";
-import { i18n } from "@lingui/core";
 
 export type ObservationValue = string | number | boolean | Date;
 export type GenericObservation = Record<string, ObservationValue>;

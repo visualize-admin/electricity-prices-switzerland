@@ -4,24 +4,16 @@ import { useChartState } from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
 import { HistogramState } from "./histogram-state";
 import { useFormatCurrency } from "../../../domain/helpers";
-import { t } from "@lingui/macro";
+import { useTranslation } from "next-i18next";
 import { getLocalizedLabel } from "../../../domain/translation";
 
 export const HistogramMinMaxValues = () => {
-  const {
-    data,
-    bounds,
-    getX,
-    xScale,
-    yScale,
-  } = useChartState() as HistogramState;
+  const { t } = useTranslation();
+  const { data, bounds, getX, xScale, yScale } =
+    useChartState() as HistogramState;
   const { margins } = bounds;
-  const {
-    labelColor,
-    domainColor,
-    labelFontSize,
-    fontFamily,
-  } = useChartTheme();
+  const { labelColor, domainColor, labelFontSize, fontFamily } =
+    useChartTheme();
   const formatCurrency = useFormatCurrency();
 
   const minValue = min(data, (d) => getX(d));
@@ -58,7 +50,7 @@ export const HistogramMinMaxValues = () => {
               textAnchor: "start",
             }}
           >
-            {t({ id: "histogram.min", message: `Min` })}
+            {t("histogram.min", `Min`)}
           </text>
         </g>
       )}
@@ -92,7 +84,7 @@ export const HistogramMinMaxValues = () => {
               textAnchor: "end",
             }}
           >
-            {t({ id: "histogram.max", message: `Max` })}
+            {t("histogram.max", `Max`)}
           </text>
         </g>
       )}

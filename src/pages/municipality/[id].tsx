@@ -1,4 +1,4 @@
-import { t } from "@lingui/macro";
+import { useTranslation } from "next-i18next";
 import { Box, Flex } from "@theme-ui/components";
 import { GetServerSideProps } from "next";
 import ErrorPage from "next/error";
@@ -20,6 +20,8 @@ import {
   getMunicipality,
   getObservationsCube,
 } from "../../rdf/queries";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import nextI18NextConfig from "../../next-i18next.config.js";
 
 type Props =
   | {
@@ -59,11 +61,17 @@ export const getServerSideProps: GetServerSideProps<Props, { id: string }> =
         operators: operators
           .sort((a, b) => a.name.localeCompare(b.name, locale))
           .map(({ id, name }) => ({ id, name })),
+        ...(await serverSideTranslations(
+          locale || "de",
+          ["common"],
+          nextI18NextConfig
+        )),
       },
     };
   };
 
 const MunicipalityPage = (props: Props) => {
+  const { t } = useTranslation();
   const { query } = useRouter();
 
   if (props.status === "notfound") {
@@ -75,9 +83,9 @@ const MunicipalityPage = (props: Props) => {
   return (
     <>
       <Head>
-        <title>{`${t({ id: "detail.municipality" })} ${name} – ${t({
-          id: "site.title",
-        })}`}</title>
+        <title>{`${t("detail.municipality")} ${name} – ${t(
+          "site.title"
+        )}`}</title>
       </Head>
       <Flex sx={{ minHeight: "100vh", flexDirection: "column" }}>
         {!query.download && <Header></Header>}

@@ -1,4 +1,4 @@
-import { t, Trans } from "@lingui/macro";
+import { useTranslation } from "next-i18next";
 import { ascending, group, groups, max, min } from "d3-array";
 import * as React from "react";
 import { Box } from "theme-ui";
@@ -45,6 +45,7 @@ export const PriceComponentsBarChart = ({
   id: string;
   entity: Entity;
 }) => {
+  const { t } = useTranslation();
   const locale = useLocale();
   const [
     {
@@ -126,17 +127,12 @@ export const PriceComponentsBarChart = ({
       title={
         <Stack spacing={2} direction="row">
           <span>
-            <Trans id="detail.card.title.price.components">
-              Preiskomponenten
-            </Trans>
+            {t("detail.card.title.price.components", "Preiskomponenten")}
           </span>
           <InfoDialogButton
             iconOnly
             slug="help-price-components"
-            label={t({
-              id: "selector.priceComponent",
-              message: `Preiskomponente`,
-            })}
+            label={t("selector.priceComponent", `Preiskomponente`)}
             smaller
           />
         </Stack>

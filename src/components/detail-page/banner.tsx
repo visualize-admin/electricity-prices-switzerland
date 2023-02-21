@@ -1,4 +1,4 @@
-import { Trans } from "@lingui/macro";
+import { useTranslation } from "next-i18next";
 import {
   Box,
   Button,
@@ -23,6 +23,7 @@ const RelationsList = ({
   relations: { id: string; name: string }[];
   relationPathname: string;
 }) => {
+  const { t } = useTranslation();
   const { query } = useRouter();
   const [truncate, setTruncate] = useState<boolean>(true);
   const count = relations.length;
@@ -52,7 +53,7 @@ const RelationsList = ({
         <>
           {", "}
           <Button variant="inline" onClick={() => setTruncate(false)}>
-            <Trans id="relations.showmore">{rest} weitere …</Trans>
+            {t("relations.showmore", "{{rest}} weitere …", { rest })}
           </Button>
         </>
       )}
@@ -75,6 +76,7 @@ export const DetailPageBanner = ({
   operators?: { id: string; name: string }[];
   municipalities?: { id: string; name: string }[];
 }) => {
+  const { t } = useTranslation();
   const { query } = useRouter();
   return (
     <Box
@@ -126,7 +128,7 @@ export const DetailPageBanner = ({
               }}
             >
               <Icon name="chevronleft" size={24}></Icon>
-              <Trans id="detail.homelink">Zurück zur Übersicht</Trans>
+              {t("detail.homelink", "Zurück zur Übersicht")}
             </UILink>
           </HomeLink>
         </Box>
@@ -138,13 +140,11 @@ export const DetailPageBanner = ({
       <Box sx={{ mx: "auto", my: 2 }}>
         <Text as="h1" variant="heading1" sx={{ color: "monochrome800" }}>
           <Text variant="meta" sx={{ color: "secondary" }}>
-            {entity === "canton" ? (
-              <Trans id="detail.canton">Kanton</Trans>
-            ) : entity === "municipality" ? (
-              <Trans id="detail.municipality">Gemeinde</Trans>
-            ) : (
-              <Trans id="detail.operator">Netzbetreiber</Trans>
-            )}
+            {entity === "canton"
+              ? t("detail.canton", "Kanton")
+              : entity === "municipality"
+              ? t("detail.municipality", "Gemeinde")
+              : t("detail.operator", "Netzbetreiber")}
           </Text>
           {name}
         </Text>
@@ -152,7 +152,7 @@ export const DetailPageBanner = ({
         <Flex sx={{ flexWrap: "wrap" }}>
           {canton && (
             <Box sx={{ pr: 3, my: 1 }}>
-              <Trans id="detail.canton">Kanton</Trans>:{" "}
+              {t("detail.canton", "Kanton")}:{" "}
               <NextLink
                 href={{
                   pathname: `/canton/[id]`,
@@ -166,7 +166,7 @@ export const DetailPageBanner = ({
           )}
           {municipalities && (
             <Box sx={{ pr: 3, my: 1, fontSize: 3, lineHeight: 2 }}>
-              <Trans id="detail.municipalities">Gemeinden</Trans>:{" "}
+              {t("detail.municipalities", "Gemeinden")}:{" "}
               <RelationsList
                 key={`${entity}-${id}`}
                 relationPathname={`/municipality/[id]`}
@@ -176,7 +176,7 @@ export const DetailPageBanner = ({
           )}
           {operators && (
             <Box sx={{ pr: 3, my: 1, fontSize: 3, lineHeight: 2 }}>
-              <Trans id="detail.operators">Netzbetreiber</Trans>:{" "}
+              {t("detail.operators", "Netzbetreiber")}:{" "}
               <RelationsList
                 key={`${entity}-${id}`}
                 relationPathname={`/operator/[id]`}

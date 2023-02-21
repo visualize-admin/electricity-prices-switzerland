@@ -1,4 +1,4 @@
-import { Trans } from "@lingui/macro";
+import { useTranslation } from "next-i18next";
 import VisuallyHidden from "@reach/visually-hidden";
 import {
   Box,
@@ -200,7 +200,7 @@ export const MiniSelect = ({
         bg: "transparent",
         py: 0,
         pl: 1,
-        pr: 4,
+        pr: 5,
         mr: 1, // Fix for Chrome which cuts of the label otherwise
         ":focus": {
           outline: "none",
@@ -265,6 +265,7 @@ export const SearchField = ({
   onReset?: () => void;
   sx?: BoxProps["sx"];
 } & FieldProps) => {
+  const { t } = useTranslation();
   return (
     <Box
       sx={{ color: "monochrome700", fontSize: 4, position: "relative", ...sx }}
@@ -309,7 +310,7 @@ export const SearchField = ({
             onClick={onReset}
           >
             <VisuallyHidden>
-              <Trans id="controls.search.clear">Clear search field</Trans>
+              {t("controls.search.clear", "Clear search field")}
             </VisuallyHidden>
             <Box
               aria-hidden="true"

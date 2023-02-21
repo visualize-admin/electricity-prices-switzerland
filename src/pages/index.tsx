@@ -1,4 +1,4 @@
-import { t, Trans } from "@lingui/macro";
+import { useTranslation } from "next-i18next";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -25,6 +25,8 @@ import {
 } from "../graphql/queries";
 import { EMPTY_ARRAY } from "../lib/empty-array";
 import { useQueryStateSingle } from "../lib/use-query-state";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import nextI18NextConfig from "../next-i18next.config.js";
 
 const DOWNLOAD_ID = "map";
 
@@ -39,6 +41,11 @@ export const getServerSideProps: GetServerSideProps<Props, { locale: string }> =
     return {
       props: {
         locale: locale!,
+        ...(await serverSideTranslations(
+          locale || "de",
+          ["common"],
+          nextI18NextConfig
+        )),
       },
     };
   };
@@ -47,6 +54,7 @@ const HEADER_HEIGHT_S = "107px";
 const HEADER_HEIGHT_M_UP = "96px";
 
 const IndexPage = ({ locale }: Props) => {
+  const { t } = useTranslation();
   const [{ period, priceComponent, category, product, download }] =
     useQueryStateSingle();
 
@@ -116,7 +124,7 @@ const IndexPage = ({ locale }: Props) => {
       }}
     >
       <Head>
-        <title>{t({ id: "site.title" })}</title>
+        <title>{t("site.title")}</title>
       </Head>
       <Grid
         sx={{
@@ -153,7 +161,7 @@ const IndexPage = ({ locale }: Props) => {
               variant="giga"
               sx={{ textAlign: ["left", "left", "center"] }}
             >
-              <Trans id="site.title">Strompreise Schweiz</Trans>
+              {t("site.title", "Strompreise Schweiz")}
             </Text>
 
             <Text
@@ -168,10 +176,10 @@ const IndexPage = ({ locale }: Props) => {
                 visibility: ["hidden", "hidden", "visible"],
               }}
             >
-              <Trans id="search.global">
-                Detaillierte Preisanalysen von Kantonen, Gemeinden und
-                Netzbetreibern.
-              </Trans>
+              {t(
+                "search.global",
+                "Detaillierte Preisanalysen von Kantonen, Gemeinden und Netzbetreibern."
+              )}
             </Text>
 
             <Search />

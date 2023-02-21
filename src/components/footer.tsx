@@ -1,4 +1,4 @@
-import { Trans, t } from "@lingui/macro";
+import { useTranslation } from "next-i18next";
 import { Box, Flex, Link } from "@theme-ui/components";
 import { forwardRef, ReactNode } from "react";
 import { Icon } from "../icons";
@@ -9,6 +9,7 @@ import { InfoDialogButton } from "./info-dialog";
 import { LogoDesktop } from "./logo";
 
 export const Footer = () => {
+  const { t } = useTranslation();
   const locale = useLocale();
   const [{ period }] = useQueryStateSingle();
 
@@ -27,7 +28,7 @@ export const Footer = () => {
       >
         <InfoDialogButton
           slug="help-calculation"
-          label={t({ id: "help.calculation", message: `Berechnungsgrundlage` })}
+          label={t("help.calculation", `Berechnungsgrundlage`)}
         />
       </Box>
       <Box
@@ -51,8 +52,8 @@ export const Footer = () => {
             <Box sx={{ flexShrink: 0, mr: 2 }}>
               <Icon name="excel" size={20} />
             </Box>{" "}
-            <Trans id="download.rawdata">Rohdaten</Trans> {period} (
-            <Trans id="download.filetype.csv">CSV-Datei</Trans>)
+            {t("download.rawdata", "Rohdaten")} {period} (
+            {t("download.filetype.csv", "CSV-Datei")})
             <Box as="span" sx={{ ml: 1, display: "inline-block" }}>
               &nbsp;
             </Box>
@@ -63,10 +64,7 @@ export const Footer = () => {
           iconOnly
           sx={{ ml: 1 }}
           slug="help-download-raw-data"
-          label={t({
-            id: "help.download-raw-data",
-            message: `Rohdaten`,
-          })}
+          label={t("help.download-raw-data", `Rohdaten`)}
         />
       </Box>
       <Flex
@@ -89,7 +87,7 @@ export const Footer = () => {
             color: ["monochrome900", "monochrome700"],
           }}
         >
-          <Trans id="footer.institution.name">ElCom</Trans>
+          {t("footer.institution.name", "ElCom")}
         </Box>
 
         <Flex

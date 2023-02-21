@@ -1,4 +1,4 @@
-import { Trans } from "@lingui/macro";
+import { useTranslation } from "next-i18next";
 import { Text, Box } from "@theme-ui/components";
 import * as React from "react";
 import { getLocalizedLabel } from "../../domain/translation";
