@@ -40,6 +40,7 @@ import { difference } from "d3";
 import { downloadGeverDocument, searchGeverDocuments } from "../domain/gever";
 import { operatorIdToUID } from "./oid-uid";
 import { Literal, NamedNode } from "rdf-js";
+import { intSparqlClient } from "../rdf/sparql-client";
 
 const expectedCubeDimensions = [
   "https://energy.ld.admin.ch/elcom/electricityprice/dimension/category",
@@ -405,8 +406,15 @@ const Operator: OperatorResolvers = {
   },
 
   geverDocuments: async ({ id: operatorId }) => {
-    const operatorInfo = await fetchOperatorInfo({ operatorId });
+    console.log("Fetching operator info from int.lindas.admin.ch");
+    const operatorInfo = await fetchOperatorInfo({
+      operatorId,
+      // For know, we fetch operator info on int.lindas.admin.ch since
+      // the necessary info is wrong on lindas prod
+      client: intSparqlClient,
+    });
     const uid = operatorInfo?.uid;
+    console.log(`UID for operator id ${operatorId}, uid: ${uid}`);
     try {
       const docs = await searchGeverDocuments({
         operatorId,
