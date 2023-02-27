@@ -162,3 +162,17 @@ SELECT DISTINCT ?dimension0 ?dimension1 ?dimension2 ?dimension3 ?dimension4 ?dim
 }
 GROUP BY ?dimension0 ?dimension1 ?dimension2 ?dimension3 ?dimension4 ?dimension5 ?dimension6 ?dimension7 ?dimension8 ?dimension9 ?dimension10 ?dimension11 ?dimension12
 ```
+
+### Operator UID
+
+The UID (ex: CHE-100.082.211 for operator ID 275) is necessary to ask for the
+operator documents. Here is the example query generated for operator 275.
+
+```sql
+PREFIX schema: <http://schema.org/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?uid WHERE {
+	<https://energy.ld.admin.ch/elcom/electricityprice/operator/275> schema:identifier ?uid.
+}
+```
