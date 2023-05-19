@@ -413,7 +413,11 @@ const Operator: OperatorResolvers = {
         uid,
       });
       return docs || [];
-    } catch {
+    } catch (e) {
+      console.warn(
+        "Could not search documents",
+        e instanceof Error ? e.message : e
+      );
       return [];
     }
   },
