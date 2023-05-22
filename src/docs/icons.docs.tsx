@@ -45,6 +45,7 @@ import { IconUnfold } from "../icons/ic-unfold";
 import { IconWarning } from "../icons/ic-warning";
 import { IconX } from "../icons/ic-x";
 import { IconY } from "../icons/ic-y";
+import { IconDownload } from "../icons/ic-download";
 
 export default () => markdown`>
 
@@ -228,6 +229,10 @@ export default () => markdown`>
         <div>
           <div>IconY</div>
           <IconY size={20} />
+        </div>
+        <div>
+          <div>IconDownload</div>
+          <IconDownload size={20} />
         </div>
       </Box>
     </ReactSpecimen>
