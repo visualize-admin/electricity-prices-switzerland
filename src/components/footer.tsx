@@ -1,6 +1,6 @@
 import { Trans, t } from "@lingui/macro";
 import { Box, Flex, Link } from "@theme-ui/components";
-import { forwardRef, ReactNode } from "react";
+import { forwardRef, PropsWithChildren, ReactNode } from "react";
 import { Icon } from "../icons";
 import { useLocale } from "../lib/use-locale";
 import { useQueryStateSingle } from "../lib/use-query-state";
@@ -8,67 +8,72 @@ import { useQueryStateSingle } from "../lib/use-query-state";
 import { InfoDialogButton } from "./info-dialog";
 import { LogoDesktop } from "./logo";
 
-export const Footer = () => {
+const DataExportLink = () => {
   const locale = useLocale();
   const [{ period }] = useQueryStateSingle();
-
   return (
     <>
-      <Box
-        sx={{
-          bg: "monochrome200",
-          borderTopWidth: "1px",
-          borderTopStyle: "solid",
-          borderTopColor: "monochrome500",
-          px: 4,
-          py: 6,
-          position: "relative",
-        }}
+      <Link
+        href={`/api/data-export?period=${period}&locale=${locale}`}
+        variant="inline"
+        sx={{ fontSize: [3, 4, 4] }}
       >
+        <Flex sx={{ alignItems: "center" }}>
+          <Box sx={{ flexShrink: 0, mr: 2 }}>
+            <Icon name="excel" size={20} />
+          </Box>{" "}
+          <Trans id="download.rawdata">Rohdaten</Trans> {period} (
+          <Trans id="download.filetype.csv">CSV-Datei</Trans>)
+          <Box as="span" sx={{ ml: 1, display: "inline-block" }}>
+            &nbsp;
+          </Box>
+        </Flex>
+      </Link>
+      <InfoDialogButton
+        smaller
+        iconOnly
+        sx={{ ml: 1 }}
+        slug="help-download-raw-data"
+        label={t({
+          id: "help.download-raw-data",
+          message: `Rohdaten`,
+        })}
+      />
+    </>
+  );
+};
+
+const FooterLink = ({ children }: PropsWithChildren<{}>) => {
+  return (
+    <Box
+      sx={{
+        borderTopWidth: "1px",
+        borderTopStyle: "solid",
+        borderTopColor: "monochrome500",
+        px: 4,
+        py: 6,
+        display: "flex",
+        alignItems: "center",
+      }}
+    >
+      {children}
+    </Box>
+  );
+};
+
+export const Footer = () => {
+  return (
+    <Box sx={{ bg: "monochrome200" }}>
+      <FooterLink>
         <InfoDialogButton
           slug="help-calculation"
           label={t({ id: "help.calculation", message: `Berechnungsgrundlage` })}
         />
-      </Box>
-      <Box
-        sx={{
-          bg: "monochrome200",
-          borderTopWidth: "1px",
-          borderTopStyle: "solid",
-          borderTopColor: "monochrome500",
-          px: 4,
-          py: 6,
-          display: "flex",
-          alignItems: "center",
-        }}
-      >
-        <Link
-          href={`/api/data-export?period=${period}&locale=${locale}`}
-          variant="inline"
-          sx={{ fontSize: [3, 4, 4] }}
-        >
-          <Flex sx={{ alignItems: "center" }}>
-            <Box sx={{ flexShrink: 0, mr: 2 }}>
-              <Icon name="excel" size={20} />
-            </Box>{" "}
-            <Trans id="download.rawdata">Rohdaten</Trans> {period} (
-            <Trans id="download.filetype.csv">CSV-Datei</Trans>)
-            <Box as="span" sx={{ ml: 1, display: "inline-block" }}>
-              &nbsp;
-            </Box>
-          </Flex>
-        </Link>
-        <InfoDialogButton
-          smaller
-          iconOnly
-          sx={{ ml: 1 }}
-          slug="help-download-raw-data"
-          label={t({
-            id: "help.download-raw-data",
-            message: `Rohdaten`,
-          })}
-        />
-      </Box>
+      </FooterLink>
+      <FooterLink>
+        <DataExportLink />
+      </FooterLink>
+
       <Flex
         as="footer"
         sx={{
@@ -91,7 +96,6 @@ export const Footer = () => {
         >
           <Trans id="footer.institution.name">ElCom</Trans>
         </Box>
-
         <Flex
           sx={{
             flexDirection: ["column", "row"],
@@ -116,6 +120,6 @@ export const Footer = () => {
           </Box>
         </Flex>
       </Flex>
-    </>
+    </Box>
   );
 };
