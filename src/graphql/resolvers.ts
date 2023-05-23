@@ -350,18 +350,7 @@ const Query: QueryResolvers = {
   },
   wikiContent: async (_, { locale, slug }) => {
     // Exit early if home-banner is requested and it's disabled
-    if (slug === "home-banner") {
-      const bannerEnabled = (await getWikiPage("home"))?.content.match(
-        /home_banner_enabled:\W*true/
-      )
-        ? true
-        : false;
-
-      if (!bannerEnabled) {
-        return null;
-      }
-    }
-
+    const extraInfo = await getExtraInfo(slug);
     const wikiPage = await getWikiPage(`${slug}/${locale}`);
 
     if (!wikiPage) {
@@ -369,6 +358,7 @@ const Query: QueryResolvers = {
     }
 
     return {
+      info: extraInfo,
       html: micromark(wikiPage.content, {
         allowDangerousHtml: true,
         extensions: [gfmSyntax()],
@@ -376,6 +366,17 @@ const Query: QueryResolvers = {
       }),
     };
   },
+};
+
+const getExtraInfo = async (slug: string) => {
+  if (slug === "home-banner") {
+    const bannerEnabled = (await getWikiPage("home"))?.content.match(
+      /home_banner_enabled:\W*true/
+    );
+    return { bannerEnabled };
+  } else {
+    return {};
+  }
 };
 
 const Municipality: MunicipalityResolvers = {
