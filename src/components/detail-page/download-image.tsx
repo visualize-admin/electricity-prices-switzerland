@@ -76,7 +76,7 @@ export const DownloadImage = ({
   )}&element=${elementId}&filename=${fileName}&deviceScaleFactor=2`;
 
   return (
-    <Box sx={{ mt: 4 }}>
+    <Box>
       {!download ? (
         <TUILink
           variant="inline"

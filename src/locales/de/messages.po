@@ -325,6 +325,10 @@ msgstr "Logo of the Swiss Confederation"
 msgid "map.legend.title"
 msgstr "Tarifvergleich in Rp./kWh"
 
+#: src/pages/index.tsx:104
+msgid "map.share"
+msgstr "Teilen"
+
 #: src/components/map.tsx:577
 msgid "map.tooltipnodata"
 msgstr "Keine Daten"
@@ -384,7 +388,7 @@ msgstr "Median absteigend"
 msgid "relations.showmore"
 msgstr "{rest} weitere …"
 
-#: src/pages/index.tsx:171
+#: src/pages/index.tsx:305
 msgid "search.global"
 msgstr "Detaillierte Preisanalysen von Kantonen, Gemeinden und Netzbetreibern."
 
@@ -557,10 +561,14 @@ msgstr "Jahr"
 msgid "selector.years"
 msgstr "Jahre"
 
+#: src/pages/index.tsx:126
+msgid "share.url-copied"
+msgstr "URL kopiert ✅"
+
 #: src/components/header.tsx:99
 #: src/pages/canton/[id].tsx:56
-#: src/pages/index.tsx:119
-#: src/pages/index.tsx:156
+#: src/pages/index.tsx:253
+#: src/pages/index.tsx:290
 #: src/pages/municipality/[id].tsx:78
 #: src/pages/operator/[id].tsx:75
 msgid "site.title"

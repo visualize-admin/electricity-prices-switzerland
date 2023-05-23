@@ -363,6 +363,7 @@ export const theme: Theme = {
   },
   links: {
     inline: {
+      cursor: "pointer",
       color: "primary",
       textDecoration: "none",
       "&:hover": {

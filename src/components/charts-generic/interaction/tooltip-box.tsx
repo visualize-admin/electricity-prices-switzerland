@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, forwardRef } from "react";
 import { Box } from "theme-ui";
 import { Margins } from "../use-width";
 import {
@@ -17,63 +17,62 @@ export interface TooltipBoxProps {
   placement: TooltipPlacement;
   margins: Margins;
   children: ReactNode;
+  style?: React.HTMLAttributes<HTMLDivElement>["style"];
+  interactive?: boolean;
 }
 
-export const TooltipBox = ({
-  x,
-  y,
-  placement,
-  margins,
-  children,
-}: TooltipBoxProps) => {
-  const triangle = mkTriangle(placement);
-  const theme = useTheme();
-  const { bounds } = useChartState();
-  return (
-    <Box
-      style={{
-        width: "fit-content",
-        zIndex: 2,
-        position: "absolute",
-        left: x! + margins.left,
-        top: mxYOffset(y!, placement) + margins.top,
-        pointerEvents: "none",
-        transform: mkTranslation(placement),
-      }}
-    >
+export const TooltipBox = forwardRef<HTMLDivElement, TooltipBoxProps>(
+  ({ x, y, placement, margins, children, style, interactive = false }, ref) => {
+    const triangle = mkTriangle(placement);
+    const theme = useTheme();
+    return (
       <Box
-        sx={{
-          padding: 3,
-          pointerEvents: "none",
-          backgroundColor: "monochrome100",
-          filter: `drop-shadow(${theme.shadows?.tooltip})`,
-
-          "&::before": {
-            content: "''",
-            display: "block",
-            position: "absolute",
-            pointerEvents: "none",
-            zIndex: -1,
-            width: 0,
-            height: 0,
-            borderStyle: "solid",
-            top: triangle.top,
-            right: triangle.right,
-            bottom: triangle.bottom,
-            left: triangle.left,
-            borderWidth: triangle.borderWidth,
-            borderTopColor: triangle.borderTopColor,
-            borderRightColor: triangle.borderRightColor,
-            borderBottomColor: triangle.borderBottomColor,
-            borderLeftColor: triangle.borderLeftColor,
-          },
+        ref={ref}
+        style={{
+          width: "fit-content",
+          zIndex: 2,
+          position: "absolute",
+          left: x! + margins.left,
+          top: mxYOffset(y!, placement) + margins.top,
+          pointerEvents: interactive ? "all" : "none",
+          transform: mkTranslation(placement),
+          ...style,
         }}
       >
-        {children}
+        <Box
+          sx={{
+            padding: 3,
+            pointerEvents: interactive ? "all" : "none",
+            backgroundColor: "monochrome100",
+            filter: `drop-shadow(${theme.shadows?.tooltip})`,
+
+            "&::before": {
+              content: "''",
+              display: "block",
+              position: "absolute",
+              pointerEvents: interactive ? "all" : "none",
+              zIndex: -1,
+              width: 0,
+              height: 0,
+              borderStyle: "solid",
+              top: triangle.top,
+              right: triangle.right,
+              bottom: triangle.bottom,
+              left: triangle.left,
+              borderWidth: triangle.borderWidth,
+              borderTopColor: triangle.borderTopColor,
+              borderRightColor: triangle.borderRightColor,
+              borderBottomColor: triangle.borderBottomColor,
+              borderLeftColor: triangle.borderLeftColor,
+            },
+          }}
+        >
+          {children}
+        </Box>
       </Box>
-    </Box>
-  );
-};
+    );
+  }
+);
 
 export const TooltipBoxWithoutChartState = ({
   x,
