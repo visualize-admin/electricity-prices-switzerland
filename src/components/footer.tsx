@@ -138,23 +138,50 @@ export const Footer = () => {
             open={isHelpCalculationOpen}
             slug="help.calculation"
           />
-          <FooterLink href="#" icon={<IconShare />}>
+          <FooterLink
+            href={t({
+              id: "footer.energy-saving.link",
+              message: "https://www.dont-waste.ch/de",
+            })}
+            icon={<IconShare />}
+          >
             {t({ id: "footer.energy-saving", message: "Energiesparen" })}
           </FooterLink>
 
-          <FooterLink href="#" icon={<IconShare />}>
+          <FooterLink
+            href={t({
+              id: "footer.supply-situation.link",
+              message:
+                "https://www.bwl.admin.ch/bwl/de/home/themen/energie/energie-aktuelle-lage.html",
+            })}
+            icon={<IconShare />}
+          >
             {t({
               id: "footer.supply-situation",
               message: "Versorgungslage",
             })}
           </FooterLink>
-          <FooterLink href="#" icon={<IconShare />}>
+          <FooterLink
+            href={t({
+              id: "footer.power-supply.link",
+              message:
+                "https://www.bfe.admin.ch/bfe/de/home/versorgung/stromversorgung.html",
+            })}
+            icon={<IconShare />}
+          >
             {t({
               id: "footer.power-supply",
               message: "Stromversorgung",
             })}
           </FooterLink>
-          <FooterLink href="#" icon={<IconShare />}>
+          <FooterLink
+            href={t({
+              id: "footer.gas-supply.link",
+              message:
+                "https://www.bfe.admin.ch/bfe/de/home/gasversorgung/gasversorgungsgesetz.html",
+            })}
+            icon={<IconShare />}
+          >
             {t({
               id: "footer.gas-supply",
               message: "Gasversorgung",
@@ -175,13 +202,26 @@ export const Footer = () => {
           >
             {t({ id: "footer.data-as-csv", message: "Daten als .csv" })}
           </FooterLink>
-          <FooterLink href="#" icon={<IconDownload />}>
+          <FooterLink
+            href={t({
+              id: "footer.data-on-opendata-swiss.link",
+              message:
+                "https://opendata.swiss/de/organization/bundesamt-fur-energie-bfe?q=energiedashboard",
+            })}
+            icon={<IconDownload />}
+          >
             {t({
               id: "footer.data-on-opendata-swiss",
               message: "Daten auf opendata.swiss",
             })}
           </FooterLink>
-          <FooterLink href="#" icon={<IconDownload />}>
+          <FooterLink
+            href={t({
+              id: "footer.create-data-visualizations.link",
+              message: "https://visualize.admin.ch/de",
+            })}
+            icon={<IconDownload />}
+          >
             {t({
               id: "footer.create-data-visualizations",
               message: "Datenvisualisierungen erstellen",

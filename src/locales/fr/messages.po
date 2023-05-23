@@ -153,50 +153,74 @@ msgstr "Produit"
 msgid "filters.year"
 msgstr "Année"
 
-#: src/components/footer.tsx:117
+#: src/components/footer.tsx:127
 msgid "footer.calculation-basics"
 msgstr "Bases de calcul"
 
-#: src/components/footer.tsx:175
+#: src/components/footer.tsx:225
 msgid "footer.create-data-visualizations"
 msgstr "Créer des visualisations de données"
 
-#: src/components/footer.tsx:166
+#: src/components/footer.tsx:219
+msgid "footer.create-data-visualizations.link"
+msgstr "https://visualize.admin.ch/fr"
+
+#: src/components/footer.tsx:203
 msgid "footer.data-as-csv"
 msgstr "Données au format .csv"
 
-#: src/components/footer.tsx:169
+#: src/components/footer.tsx:213
 msgid "footer.data-on-opendata-swiss"
 msgstr "Données sur opendata.swiss"
 
-#: src/components/footer.tsx:157
+#: src/components/footer.tsx:206
+msgid "footer.data-on-opendata-swiss.link"
+msgstr "https://opendata.swiss/fr/organization/bundesamt-fur-energie-bfe?q=energiedashboard"
+
+#: src/components/footer.tsx:194
 msgid "footer.download-visualize-data"
 msgstr "Télécharger / visualiser les données"
 
-#: src/components/footer.tsx:132
+#: src/components/footer.tsx:148
 msgid "footer.energy-saving"
 msgstr "Économie d'énergie"
+
+#: src/components/footer.tsx:142
+msgid "footer.energy-saving.link"
+msgstr "https://www.dont-waste.ch/fr"
 
 #~ msgid "footer.further-information"
 #~ msgstr "Informations supplémentaires"
 
-#: src/components/footer.tsx:148
+#: src/components/footer.tsx:185
 msgid "footer.gas-supply"
 msgstr "Approvisionnement en gaz"
 
-#: src/components/footer.tsx:203
+#: src/components/footer.tsx:178
+msgid "footer.gas-supply.link"
+msgstr "https://www.bfe.admin.ch/bfe/fr/home/approvisionnement/approvisionnement-en-gaz/loi-sur-approvisionnement-en-gaz.html"
+
+#: src/components/footer.tsx:253
 msgid "footer.institution.name"
 msgstr "Commission fédérale de l'électricité ElCom"
 
-#: src/components/footer.tsx:142
+#: src/components/footer.tsx:172
 msgid "footer.power-supply"
 msgstr "Approvisionnement en électricité"
 
-#: src/components/footer.tsx:136
+#: src/components/footer.tsx:165
+msgid "footer.power-supply.link"
+msgstr "https://www.bfe.admin.ch/bfe/fr/home/approvisionnement/approvisionnement-en-electricite.html"
+
+#: src/components/footer.tsx:159
 msgid "footer.supply-situation"
 msgstr "Situation d'approvisionnement"
 
-#: src/components/footer.tsx:124
+#: src/components/footer.tsx:152
+msgid "footer.supply-situation.link"
+msgstr "https://www.bfe.admin.ch/bfe/fr/home/approvisionnement.html"
+
+#: src/components/footer.tsx:134
 msgid "help.calculation"
 msgstr "Base de calcul"
 
