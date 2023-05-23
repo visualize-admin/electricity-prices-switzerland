@@ -163,7 +163,7 @@ msgstr "Creare visualizzazioni dei dati"
 
 #: src/components/footer.tsx:219
 msgid "footer.create-data-visualizations.link"
-msgstr "https://visualize.admin.ch/it"
+msgstr "https://visualize.admin.ch/it/browse?includeDrafts=true&search=Elcom&order=SCORE&dataSource=Prod"
 
 #: src/components/footer.tsx:203
 msgid "footer.data-as-csv"
