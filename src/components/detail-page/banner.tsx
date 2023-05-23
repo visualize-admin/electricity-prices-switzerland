@@ -14,6 +14,7 @@ import { Icon } from "../../icons";
 import NextLink from "next/link";
 import { Search } from "../search";
 import { HomeLink } from "../links";
+import { SectionContentContainer } from "../SectionContentContainer";
 
 const TRUNCATE_COUNT = 5;
 const RelationsList = ({
@@ -77,115 +78,121 @@ export const DetailPageBanner = ({
 }) => {
   const { query } = useRouter();
   return (
-    <Box
+    <SectionContentContainer
       sx={{
-        px: [4, 6],
-        py: 5,
         bg: "monochrome100",
         borderBottomWidth: "1px",
         borderBottomStyle: "solid",
         borderBottomColor: "monochrome500",
       }}
     >
-      <Grid
+      <Box
         sx={{
-          mb: 6,
-          gridTemplateColumns: [
-            `1fr`,
-            `minmax(150px,1fr) minmax(300px,3fr) minmax(150px,1fr)`,
-          ],
-          gridTemplateRows: [`auto 3rem 0`, `auto`],
-          gridTemplateAreas: [
-            `"search"
-             "back"
-             "."`,
-            `"back search ."`,
-          ],
-          gap: 0,
-          alignItems: "center",
-          // flexDirection: ["column", "column", "row"],
-          // justifyContent: "flex-start",
-          // alignItems: ["flex-start", "flex-start", "center"],
-          // width: "100%",
+          px: [4, 6],
+          py: 5,
+          width: "100%",
         }}
       >
-        <Box
+        <Grid
           sx={{
-            gridArea: "back",
+            mb: 6,
+            gridTemplateColumns: [
+              `1fr`,
+              `minmax(150px,1fr) minmax(300px,3fr) minmax(150px,1fr)`,
+            ],
+            gridTemplateRows: [`auto 3rem 0`, `auto`],
+            gridTemplateAreas: [
+              `"search"
+             "back"
+             "."`,
+              `"back search ."`,
+            ],
+            gap: 0,
+            alignItems: "center",
+            // flexDirection: ["column", "column", "row"],
+            // justifyContent: "flex-start",
+            // alignItems: ["flex-start", "flex-start", "center"],
+            // width: "100%",
           }}
         >
-          <HomeLink passHref>
-            <UILink
-              variant="inline"
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                fontSize: 3,
-                "> svg": { mr: 1 },
-                ml: "-8px",
-              }}
-            >
-              <Icon name="chevronleft" size={24}></Icon>
-              <Trans id="detail.homelink">Zurück zur Übersicht</Trans>
-            </UILink>
-          </HomeLink>
-        </Box>
-        <Box sx={{ gridArea: "search" }}>
-          <Search />
-        </Box>
-      </Grid>
-
-      <Box sx={{ mx: "auto", my: 2 }}>
-        <Text as="h1" variant="heading1" sx={{ color: "monochrome800" }}>
-          <Text variant="meta" sx={{ color: "secondary" }}>
-            {entity === "canton" ? (
-              <Trans id="detail.canton">Kanton</Trans>
-            ) : entity === "municipality" ? (
-              <Trans id="detail.municipality">Gemeinde</Trans>
-            ) : (
-              <Trans id="detail.operator">Netzbetreiber</Trans>
-            )}
-          </Text>
-          {name}
-        </Text>
-
-        <Flex sx={{ flexWrap: "wrap" }}>
-          {canton && (
-            <Box sx={{ pr: 3, my: 1 }}>
-              <Trans id="detail.canton">Kanton</Trans>:{" "}
-              <NextLink
-                href={{
-                  pathname: `/canton/[id]`,
-                  query: { ...query, id: canton.id },
+          <Box
+            sx={{
+              gridArea: "back",
+            }}
+          >
+            <HomeLink passHref>
+              <UILink
+                variant="inline"
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  fontSize: 3,
+                  "> svg": { mr: 1 },
+                  ml: "-8px",
                 }}
-                passHref
               >
-                <UILink variant="inline">{canton.name}</UILink>
-              </NextLink>
-            </Box>
-          )}
-          {municipalities && (
-            <Box sx={{ pr: 3, my: 1, fontSize: 3, lineHeight: 2 }}>
-              <Trans id="detail.municipalities">Gemeinden</Trans>:{" "}
-              <RelationsList
-                key={`${entity}-${id}`}
-                relationPathname={`/municipality/[id]`}
-                relations={municipalities}
-              />
-            </Box>
-          )}
-          {operators && (
-            <Box sx={{ pr: 3, my: 1, fontSize: 3, lineHeight: 2 }}>
-              <Trans id="detail.operators">Netzbetreiber</Trans>:{" "}
-              <RelationsList
-                key={`${entity}-${id}`}
-                relationPathname={`/operator/[id]`}
-                relations={operators}
-              />
-            </Box>
-          )}
-        </Flex>
+                <Icon name="chevronleft" size={24}></Icon>
+                <Trans id="detail.homelink">Zurück zur Übersicht</Trans>
+              </UILink>
+            </HomeLink>
+          </Box>
+          <Box sx={{ gridArea: "search" }}>
+            <Search />
+          </Box>
+        </Grid>
+
+        <Box sx={{ mx: "auto", my: 2 }}>
+          <Text as="h1" variant="heading1" sx={{ color: "monochrome800" }}>
+            <Text variant="meta" sx={{ color: "secondary" }}>
+              {entity === "canton" ? (
+                <Trans id="detail.canton">Kanton</Trans>
+              ) : entity === "municipality" ? (
+                <Trans id="detail.municipality">Gemeinde</Trans>
+              ) : (
+                <Trans id="detail.operator">Netzbetreiber</Trans>
+              )}
+            </Text>
+            {name}
+          </Text>
+
+          <Flex sx={{ flexWrap: "wrap" }}>
+            {canton && (
+              <Box sx={{ pr: 3, my: 1 }}>
+                <Trans id="detail.canton">Kanton</Trans>:{" "}
+                <NextLink
+                  href={{
+                    pathname: `/canton/[id]`,
+                    query: { ...query, id: canton.id },
+                  }}
+                  passHref
+                >
+                  <UILink variant="inline">{canton.name}</UILink>
+                </NextLink>
+              </Box>
+            )}
+            {municipalities && (
+              <Box sx={{ pr: 3, my: 1, fontSize: 3, lineHeight: 2 }}>
+                <Trans id="detail.municipalities">Gemeinden</Trans>:{" "}
+                <RelationsList
+                  key={`${entity}-${id}`}
+                  relationPathname={`/municipality/[id]`}
+                  relations={municipalities}
+                />
+              </Box>
+            )}
+            {operators && (
+              <Box sx={{ pr: 3, my: 1, fontSize: 3, lineHeight: 2 }}>
+                <Trans id="detail.operators">Netzbetreiber</Trans>:{" "}
+                <RelationsList
+                  key={`${entity}-${id}`}
+                  relationPathname={`/operator/[id]`}
+                  relations={operators}
+                />
+              </Box>
+            )}
+          </Flex>
+        </Box>
       </Box>
-    </Box>
+    </SectionContentContainer>
   );
 };
