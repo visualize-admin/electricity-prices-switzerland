@@ -1,6 +1,7 @@
 import ParsingClient from "sparql-http-client/ParsingClient";
 
+export const endpointUrl = process.env.SPARQL_ENDPOINT;
+
 export const sparqlClient = new ParsingClient({
-  endpointUrl:
-    process.env.SPARQL_ENDPOINT ?? "https://test.lindas.admin.ch/query",
+  endpointUrl: endpointUrl ?? "https://test.lindas.admin.ch/query",
 });
