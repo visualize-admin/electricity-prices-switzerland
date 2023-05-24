@@ -55,7 +55,6 @@ const HEADER_HEIGHT_M_UP = "96px";
 const copyToClipboard = async function (text: string) {
   try {
     await navigator.clipboard.writeText(text);
-    console.log("Text copied to clipboard");
   } catch (error) {
     console.error("Failed to copy text to clipboard:", error);
   }
@@ -80,8 +79,8 @@ const ShareButton = () => {
       width: 0,
     };
     Object.assign(mouse.current, {
-      x: linkRect?.x + linkRect?.width / 2,
-      y: linkRect?.y,
+      x: (linkRect.x ?? 0) + (linkRect.width ?? 0) / 2,
+      y: linkRect.y ?? 0,
     });
   };
 
@@ -386,15 +385,7 @@ const IndexPage = ({ locale }: Props) => {
                   borderRightColor: "monochrome500",
                 }}
               >
-                <Box
-                  sx={
-                    {
-                      // position: ["relative", "sticky"],
-                      // top: [0, HEADER_HEIGHT_M_UP],
-                      // zIndex: 1,
-                    }
-                  }
-                >
+                <Box>
                   <Selector />
                 </Box>
                 <List

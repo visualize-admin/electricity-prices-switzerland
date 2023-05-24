@@ -14,37 +14,6 @@ import { IconDownload } from "../icons/ic-download";
 import { useDisclosure } from "./useDisclosure";
 import { SectionContentContainer } from "./SectionContentContainer";
 
-const DataExportLink = () => {
-  const locale = useLocale();
-  const [{ period }] = useQueryStateSingle();
-  return (
-    <>
-      <Link variant="inline" sx={{ fontSize: [3, 4, 4] }}>
-        <Flex sx={{ alignItems: "center" }}>
-          <Box sx={{ flexShrink: 0, mr: 2 }}>
-            <Icon name="excel" size={20} />
-          </Box>{" "}
-          <Trans id="download.rawdata">Rohdaten</Trans> {period} (
-          <Trans id="download.filetype.csv">CSV-Datei</Trans>)
-          <Box as="span" sx={{ ml: 1, display: "inline-block" }}>
-            &nbsp;
-          </Box>
-        </Flex>
-      </Link>
-      <InfoDialogButton
-        smaller
-        iconOnly
-        sx={{ ml: 1 }}
-        slug="help-download-raw-data"
-        label={t({
-          id: "help.download-raw-data",
-          message: `Rohdaten`,
-        })}
-      />
-    </>
-  );
-};
-
 const FooterLink = ({
   children,
   icon,
@@ -60,8 +29,7 @@ const FooterLink = ({
         borderBottomWidth: "1px",
         borderBottomStyle: "solid",
         borderBottomColor: "monochrome500",
-        px: 4,
-        py: 4,
+        p: 4,
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
@@ -125,8 +93,7 @@ export const Footer = () => {
               display: "grid",
               p: 6,
               marginBottom: 8,
-              columnGap: 6,
-              rowGap: 6,
+              gap: 6,
               gridTemplateColumns: ["1fr", "1fr 1fr"],
             }}
           >
