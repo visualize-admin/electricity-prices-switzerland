@@ -66,7 +66,6 @@ const FooterLink = ({
         alignItems: "center",
         justifyContent: "space-between",
         textDecoration: "none",
-        cursor: "pointer",
 
         color: "primary",
         "&:visited": {
