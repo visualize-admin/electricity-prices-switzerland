@@ -5,7 +5,6 @@ import NextLink from "next/link";
 import { LogoDesktop, LogoMobile } from "./logo";
 import { useRouter } from "next/router";
 import { HomeLink } from "./links";
-import { SectionContentContainer } from "./SectionContentContainer";
 
 export const Header = ({
   pageType = "app",
@@ -15,7 +14,7 @@ export const Header = ({
   contentId?: string;
 }) => {
   return (
-    <Box
+    <Flex
       as="header"
       sx={
         pageType === "content"
@@ -28,6 +27,7 @@ export const Header = ({
               borderBottomColor: "brand",
               bg: "monochrome100",
               color: "monochrome700",
+              flexDirection: ["column", "row"],
             }
           : {
               px: [0, 4, 4],
@@ -38,31 +38,21 @@ export const Header = ({
               borderBottomColor: "brand",
               bg: "monochrome100",
               color: "monochrome700",
+              flexDirection: ["column", "row"],
               // Needs to be "fixed" to prevent
               // iOS full-page scrolling
               position: "fixed",
               top: 0,
               left: 0,
-              right: 0,
               width: "100%",
               overflowY: "hidden",
               zIndex: 15,
             }
       }
     >
-      <SectionContentContainer>
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "flex-start",
-            flexDirection: ["column", "row"],
-          }}
-        >
-          <LanguageMenu contentId={contentId} />
-          <Logo />
-        </Box>
-      </SectionContentContainer>
-    </Box>
+      <LanguageMenu contentId={contentId} />
+      <Logo />
+    </Flex>
   );
 };
 
