@@ -175,7 +175,7 @@ msgstr "Dati su opendata.swiss"
 
 #: src/components/footer.tsx:163
 msgid "footer.data-on-opendata-swiss.link"
-msgstr "https://opendata.swiss/it/organization/bundesamt-fur-energie-bfe?q=energiedashboard"
+msgstr "https://opendata.swiss/it/showcase/electricity-tariffs"
 
 #: src/components/footer.tsx:149
 msgid "footer.download-visualize-data"
