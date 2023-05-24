@@ -1,12 +1,12 @@
 import { Trans } from "@lingui/macro";
 import Dialog from "@reach/dialog";
 import VisuallyHidden from "@reach/visually-hidden";
-import { useState } from "react";
 import { Box, Button, Flex, Heading } from "theme-ui";
 import { useWikiContentQuery } from "../graphql/queries";
 import { Icon } from "../icons";
 import { useLocale } from "../lib/use-locale";
 import { LoadingIcon, NoContentHint } from "./hint";
+import { useDisclosure } from "./useDisclosure";
 
 const DialogContent = ({ slug }: { slug: string }) => {
   const locale = useLocale();
@@ -67,6 +67,44 @@ const DialogContent = ({ slug }: { slug: string }) => {
   );
 };
 
+export const HelpDialog: React.FC<{
+  close: () => void;
+  label: string;
+  open: boolean;
+  slug: string;
+}> = ({ close, label, open: open, slug }) => (
+  <Dialog
+    style={{ zIndex: 999, position: "relative", maxWidth: 800 }}
+    isOpen={open}
+    onDismiss={close}
+    aria-label={label}
+  >
+    <Button
+      variant="reset"
+      sx={{
+        color: "text",
+        p: 0,
+        position: "absolute",
+        right: "20px",
+        top: "20px",
+        cursor: "pointer",
+      }}
+      onClick={close}
+    >
+      <VisuallyHidden>
+        <Trans id="dialog.close">Dialog schliessen</Trans>
+      </VisuallyHidden>{" "}
+      <Box aria-hidden>
+        <Icon name="clear" />
+      </Box>
+    </Button>
+    <Heading variant="paragraph2" sx={{ color: "secondary" }}>
+      <Trans id="dialog.infoprefix">Info:</Trans> {label}
+    </Heading>
+    <DialogContent slug={slug} />
+  </Dialog>
+);
+
 export const InfoDialogButton = ({
   label,
   slug,
@@ -78,16 +116,17 @@ export const InfoDialogButton = ({
   iconOnly?: boolean;
   smaller?: boolean;
 }) => {
-  const [showHelpDialog, setShowDialog] = useState<boolean>(false);
-  const close = () => setShowDialog(false);
-  const open = () => setShowDialog(true);
-
+  const {
+    isOpen: isHelpDialogOpen,
+    close: closeDialog,
+    open: openDialog,
+  } = useDisclosure();
   return (
     <>
       <Button
         variant="inline"
         sx={{ fontSize: smaller ? [2, 2, 2] : [3, 4, 4] }}
-        onClick={open}
+        onClick={openDialog}
       >
         <Flex sx={{ alignItems: "center" }}>
           <Box sx={{ flexShrink: 0, mr: iconOnly ? 0 : 2 }}>
@@ -96,36 +135,12 @@ export const InfoDialogButton = ({
           {iconOnly ? <VisuallyHidden>{label}</VisuallyHidden> : label}
         </Flex>
       </Button>
-      <Dialog
-        style={{ zIndex: 999, position: "relative", maxWidth: 800 }}
-        isOpen={showHelpDialog}
-        onDismiss={close}
-        aria-label={label}
-      >
-        <Button
-          variant="reset"
-          sx={{
-            color: "text",
-            p: 0,
-            position: "absolute",
-            right: "20px",
-            top: "20px",
-            cursor: "pointer",
-          }}
-          onClick={close}
-        >
-          <VisuallyHidden>
-            <Trans id="dialog.close">Dialog schliessen</Trans>
-          </VisuallyHidden>{" "}
-          <Box aria-hidden>
-            <Icon name="clear" />
-          </Box>
-        </Button>
-        <Heading variant="paragraph2" sx={{ color: "secondary" }}>
-          <Trans id="dialog.infoprefix">Info:</Trans> {label}
-        </Heading>
-        <DialogContent slug={slug} />
-      </Dialog>
+      <HelpDialog
+        close={closeDialog}
+        label={label}
+        open={isHelpDialogOpen}
+        slug={slug}
+      />
     </>
   );
 };

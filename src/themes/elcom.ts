@@ -12,7 +12,7 @@ import { Theme } from "./index";
  * Theme conforming to the Swiss Federal CD guidelines
  */
 export const theme: Theme = {
-  breakpoints: ["48em", "62em", "75em"],
+  breakpoints: ["48rem", "62rem", "75rem"],
   space: [
     "0",
     "0.25rem",
@@ -363,6 +363,7 @@ export const theme: Theme = {
   },
   links: {
     inline: {
+      cursor: "pointer",
       color: "primary",
       textDecoration: "none",
       "&:hover": {

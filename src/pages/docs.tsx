@@ -63,6 +63,11 @@ const pages: ConfigPageOrGroup[] = [
         content: require("../docs/filters.docs"),
       },
       {
+        path: "/components/icons",
+        title: "Icons",
+        content: require("../docs/icons.docs"),
+      },
+      {
         path: "/components/price-color-legend",
         title: "Price Color Legend",
         content: require("../docs/price-color-legend.docs"),

@@ -22,7 +22,7 @@ msgid "chart.annotation.operators"
 msgstr "gestionnaires de réseau"
 
 #: src/components/charts-generic/axis/axis-width-linear.tsx:131
-#: src/components/detail-page/price-distribution-histogram.tsx:285
+#: src/components/detail-page/price-distribution-histogram.tsx:291
 #: src/domain/translation.tsx:26
 msgid "chart.axis.unit.Rp/kWh"
 msgstr "ct./kWh"
@@ -33,7 +33,7 @@ msgid "combobox.isloading"
 msgstr "Chargement des résultats…"
 
 #: src/components/combobox.tsx:280
-#: src/components/combobox.tsx:525
+#: src/components/combobox.tsx:524
 #: src/components/search.tsx:345
 msgid "combobox.noitems"
 msgstr "Aucune entrée"
@@ -97,43 +97,43 @@ msgstr "Gestionnaire de réseau"
 msgid "detail.operators"
 msgstr "Gestionnaires de réseau"
 
-#: src/components/info-dialog.tsx:118
+#: src/components/info-dialog.tsx:95
 msgid "dialog.close"
 msgstr "Fermer la boîte de dialogue"
 
-#: src/components/info-dialog.tsx:125
+#: src/components/info-dialog.tsx:102
 msgid "dialog.infoprefix"
 msgstr "Info:"
 
-#: src/components/operator-documents.tsx:34
+#: src/components/operator-documents.tsx:24
 msgid "download.category.annualreport"
 msgstr "Comptes annuels"
 
-#: src/components/operator-documents.tsx:37
+#: src/components/operator-documents.tsx:27
 msgid "download.category.annualreports"
 msgstr "Comptes annuels de réseau"
 
-#: src/components/operator-documents.tsx:17
+#: src/components/operator-documents.tsx:18
 msgid "download.category.tariff"
 msgstr "Fiche tarifaire"
 
-#: src/components/operator-documents.tsx:18
+#: src/components/operator-documents.tsx:19
 msgid "download.category.tariffs"
 msgstr "Fiches tarifaires"
 
-#: src/components/footer.tsx:55
+#: src/components/footer.tsx:27
 msgid "download.filetype.csv"
 msgstr "Fichier CSV"
 
-#: src/components/operator-documents.tsx:65
+#: src/components/operator-documents.tsx:55
 msgid "download.filetype.pdf"
 msgstr "Fichier PDF"
 
-#: src/components/operator-documents.tsx:104
+#: src/components/operator-documents.tsx:99
 msgid "download.nooperatordocuments"
 msgstr "Aucun document de l'opérateur de réseau"
 
-#: src/components/footer.tsx:54
+#: src/components/footer.tsx:26
 msgid "download.rawdata"
 msgstr "Données brutes"
 
@@ -153,15 +153,78 @@ msgstr "Produit"
 msgid "filters.year"
 msgstr "Année"
 
-#: src/components/footer.tsx:92
+#: src/components/footer.tsx:127
+msgid "footer.calculation-basics"
+msgstr "Bases de calcul"
+
+#: src/components/footer.tsx:225
+msgid "footer.create-data-visualizations"
+msgstr "Créer des visualisations de données"
+
+#: src/components/footer.tsx:219
+msgid "footer.create-data-visualizations.link"
+msgstr "https://visualize.admin.ch/fr/browse?includeDrafts=true&search=Elcom&order=SCORE&dataSource=Prod"
+
+#: src/components/footer.tsx:203
+msgid "footer.data-as-csv"
+msgstr "Données au format .csv"
+
+#: src/components/footer.tsx:213
+msgid "footer.data-on-opendata-swiss"
+msgstr "Données sur opendata.swiss"
+
+#: src/components/footer.tsx:206
+msgid "footer.data-on-opendata-swiss.link"
+msgstr "https://opendata.swiss/fr/organization/bundesamt-fur-energie-bfe?q=energiedashboard"
+
+#: src/components/footer.tsx:194
+msgid "footer.download-visualize-data"
+msgstr "Télécharger / visualiser les données"
+
+#: src/components/footer.tsx:148
+msgid "footer.energy-saving"
+msgstr "Économie d'énergie"
+
+#: src/components/footer.tsx:142
+msgid "footer.energy-saving.link"
+msgstr "https://www.dont-waste.ch/fr"
+
+#~ msgid "footer.further-information"
+#~ msgstr "Informations supplémentaires"
+
+#: src/components/footer.tsx:185
+msgid "footer.gas-supply"
+msgstr "Approvisionnement en gaz"
+
+#: src/components/footer.tsx:178
+msgid "footer.gas-supply.link"
+msgstr "https://www.bfe.admin.ch/bfe/fr/home/approvisionnement/approvisionnement-en-gaz/loi-sur-approvisionnement-en-gaz.html"
+
+#: src/components/footer.tsx:253
 msgid "footer.institution.name"
 msgstr "Commission fédérale de l'électricité ElCom"
 
-#: src/components/footer.tsx:30
+#: src/components/footer.tsx:172
+msgid "footer.power-supply"
+msgstr "Approvisionnement en électricité"
+
+#: src/components/footer.tsx:165
+msgid "footer.power-supply.link"
+msgstr "https://www.bfe.admin.ch/bfe/fr/home/approvisionnement/approvisionnement-en-electricite.html"
+
+#: src/components/footer.tsx:159
+msgid "footer.supply-situation"
+msgstr "Situation d'approvisionnement"
+
+#: src/components/footer.tsx:152
+msgid "footer.supply-situation.link"
+msgstr "https://www.bfe.admin.ch/bfe/fr/home/approvisionnement.html"
+
+#: src/components/footer.tsx:134
 msgid "help.calculation"
 msgstr "Base de calcul"
 
-#: src/components/footer.tsx:66
+#: src/components/footer.tsx:38
 msgid "help.download-raw-data"
 msgstr "Ouvrir l'aide pour les données brutes"
 
@@ -262,6 +325,10 @@ msgstr "Logo de la Confédération suisse"
 msgid "map.legend.title"
 msgstr "Comparaison des tarifs en ct./kWh"
 
+#: src/pages/index.tsx:104
+msgid "map.share"
+msgstr ""
+
 #: src/components/map.tsx:577
 msgid "map.tooltipnodata"
 msgstr "Aucune donnée"
@@ -321,7 +388,7 @@ msgstr "médiane, décroissant"
 msgid "relations.showmore"
 msgstr "montrer {rest} plus…"
 
-#: src/pages/index.tsx:171
+#: src/pages/index.tsx:305
 msgid "search.global"
 msgstr "Voir l'analyse détaillée des prix par cantons, communes et gestionnaires de réseau."
 
@@ -349,7 +416,7 @@ msgstr "Commune"
 msgid "search.result.operator"
 msgstr "Gestionnaire de réseau"
 
-#: src/components/detail-page/selector-multi.tsx:80
+#: src/components/detail-page/selector-multi.tsx:90
 #: src/components/selector.tsx:63
 msgid "selector.category"
 msgstr "Catégorie"
@@ -422,19 +489,19 @@ msgstr "H7"
 msgid "selector.category.H8"
 msgstr "H8"
 
-#: src/components/detail-page/selector-multi.tsx:64
+#: src/components/detail-page/selector-multi.tsx:74
 msgid "selector.comparecantons"
 msgstr "Comparaison entre cantons"
 
-#: src/components/detail-page/selector-multi.tsx:54
+#: src/components/detail-page/selector-multi.tsx:64
 msgid "selector.comparemunicipalities"
 msgstr "Comparaison entre communes"
 
-#: src/components/detail-page/selector-multi.tsx:44
+#: src/components/detail-page/selector-multi.tsx:54
 msgid "selector.compareoperators"
 msgstr "Comparaison entre gestionnaires de réseau"
 
-#: src/components/detail-page/selector-multi.tsx:35
+#: src/components/detail-page/selector-multi.tsx:45
 #: src/components/selector.tsx:36
 msgid "selector.legend.select.parameters"
 msgstr "Sélectionner les paramètres"
@@ -469,7 +536,7 @@ msgstr "Utilisation du réseau"
 msgid "selector.pricecomponent.total"
 msgstr "Total"
 
-#: src/components/detail-page/selector-multi.tsx:91
+#: src/components/detail-page/selector-multi.tsx:101
 #: src/components/selector.tsx:75
 msgid "selector.product"
 msgstr "Produit"
@@ -490,14 +557,18 @@ msgstr "Résultats de la recherche"
 msgid "selector.year"
 msgstr "Année"
 
-#: src/components/detail-page/selector-multi.tsx:72
+#: src/components/detail-page/selector-multi.tsx:82
 msgid "selector.years"
 msgstr "Années"
 
+#: src/pages/index.tsx:126
+msgid "share.url-copied"
+msgstr "URL copiée ✅"
+
 #: src/components/header.tsx:99
 #: src/pages/canton/[id].tsx:56
-#: src/pages/index.tsx:119
-#: src/pages/index.tsx:156
+#: src/pages/index.tsx:253
+#: src/pages/index.tsx:290
 #: src/pages/municipality/[id].tsx:78
 #: src/pages/operator/[id].tsx:75
 msgid "site.title"
