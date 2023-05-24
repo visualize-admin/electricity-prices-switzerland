@@ -1,5 +1,5 @@
 import { FormEvent, ReactNode, useCallback, useState } from "react";
-import { Box, Heading, Flex, HeadingProps } from "theme-ui";
+import { Box, Heading, Flex, HeadingProps, BoxProps } from "theme-ui";
 import { UseQueryState } from "urql";
 import { LoadingIconInline } from "../../components/hint";
 import * as Queries from "../../graphql/queries";
@@ -56,9 +56,10 @@ const StatusHeading = ({ children, ...props }: HeadingProps) => {
   );
 };
 
-const Status = ({ title, query }: { title: string; query: UseQueryState }) => {
+const StatusBox = (props: BoxProps) => {
   return (
     <Box
+      {...props}
       sx={{
         py: 2,
         px: 3,
@@ -68,8 +69,17 @@ const Status = ({ title, query }: { title: string; query: UseQueryState }) => {
         borderColor: "monochrome400",
         borderWidth: 1,
         borderStyle: "solid",
+        ...props.sx,
       }}
     >
+      {props.children}
+    </Box>
+  );
+};
+
+const Status = ({ title, query }: { title: string; query: UseQueryState }) => {
+  return (
+    <StatusBox>
       <StatusHeading>
         {query.fetching ? (
           <LoadingIconInline size={24} />
@@ -108,7 +118,7 @@ const Status = ({ title, query }: { title: string; query: UseQueryState }) => {
           </Box>
         </>
       )}
-    </Box>
+    </StatusBox>
   );
 };
 
@@ -255,6 +265,8 @@ const Page = () => {
 
       <SwissMedianStatus />
 
+      <DocumentDownloadStatus />
+
       <SectionHeading>Search</SectionHeading>
 
       <MunicipalitiesStatus />
@@ -266,10 +278,6 @@ const Page = () => {
       <SearchStatus />
 
       <SearchZipStatus />
-
-      <SectionHeading>Document download</SectionHeading>
-
-      <DocumentDownloadStatus />
     </Box>
   );
 };
@@ -286,7 +294,7 @@ const useManualQuery = <T extends unknown, A extends unknown[]>({
   });
   const execute = useCallback(
     async (...args: A) => {
-      setState((s) => ({ ...s, fetching: true }));
+      setState((s) => ({ ...s, data: null, fetching: true }));
       try {
         const data = await queryFn(...args);
         setState((s) => ({ ...s, data }));
@@ -325,60 +333,68 @@ const DocumentDownloadStatus = () => {
   const data = query.data?.data;
 
   return (
-    <div>
-      <Box
-        as="form"
-        sx={{ "& > * + *": { mt: 1, display: "block" } }}
-        onSubmit={handleSubmit}
-      >
-        <label>
-          secret: <input type="password" name="secret" />
-        </label>
-        <label>
-          oid: <input type="value" name="oid" />
-        </label>
-        <br />
-        <label>
-          uid: <input type="value" name="uid" />
-        </label>
-        <button disabled={query.fetching} type="submit">
-          fetch documents
-        </button>
+    <StatusBox>
+      <StatusHeading sx={{ mb: 2 }}>Document download</StatusHeading>
+      <Box sx={{ fontSize: 2 }}>
+        <details>
+          <summary>Details</summary>
+          <Box
+            as="form"
+            sx={{ mt: 2, "& > * + *": { mt: 0.5, display: "block" } }}
+            onSubmit={handleSubmit}
+          >
+            <label>
+              secret: <input type="password" name="secret" />
+            </label>
+            <label>
+              oid: <input type="value" name="oid" />
+            </label>
+            <br />
+            <label>
+              uid: <input type="value" name="uid" />
+            </label>
+            <button disabled={query.fetching} type="submit">
+              fetch documents
+            </button>
+          </Box>
+          {query.fetching ? "Loading...." : ""}
+          {data && data?.searchResp ? (
+            <Box sx={{ mt: 2 }}>
+              <div>
+                Lindas endpoint <pre>{JSON.stringify(data.lindasEndpoint)}</pre>
+                Lindas query
+                <br />
+                <textarea cols={100} rows={5}>
+                  {data.lindasInfo?.query}
+                </textarea>
+                <br />
+                Lindas data <pre>{JSON.stringify(data.lindasInfo?.data)}</pre>
+              </div>
+              <div>
+                Bindings
+                <pre>
+                  {JSON.stringify(data.searchResp.debug.bindings, null, 2)}
+                </pre>
+                <br />
+                Search request
+                <br />
+                <textarea cols={100} rows={30}>
+                  {data.searchResp.debug.request}
+                </textarea>
+                <br />
+                Search response
+                <br />
+                <textarea cols={100} rows={30}>
+                  {data.searchResp.debug.response}
+                </textarea>
+                <br />
+              </div>
+            </Box>
+          ) : null}
+          {query.error ? <div>Erreur: {query.error}</div> : null}
+        </details>
       </Box>
-      {query.fetching ? "Loading...." : ""}
-      {data && data?.searchResp ? (
-        <Box sx={{ mt: 2 }}>
-          <div>
-            Lindas endpoint <pre>{JSON.stringify(data.lindasEndpoint)}</pre>
-            Lindas query
-            <br />
-            <textarea cols={100} rows={5}>
-              {data.lindasInfo?.query}
-            </textarea>
-            <br />
-            Lindas data <pre>{JSON.stringify(data.lindasInfo?.data)}</pre>
-          </div>
-          <div>
-            Bindings
-            <pre>{JSON.stringify(data.searchResp.debug.bindings, null, 2)}</pre>
-            <br />
-            Search request
-            <br />
-            <textarea cols={100} rows={30}>
-              {data.searchResp.debug.request}
-            </textarea>
-            <br />
-            Search response
-            <br />
-            <textarea cols={100} rows={30}>
-              {data.searchResp.debug.response}
-            </textarea>
-            <br />
-          </div>
-        </Box>
-      ) : null}
-      {query.error ? <div>Erreur: {query.error}</div> : null}
-    </div>
+    </StatusBox>
   );
 };
 
