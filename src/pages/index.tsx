@@ -357,9 +357,10 @@ const IndexPage = ({ locale }: Props) => {
                     ml: 3,
                     px: 3,
                     py: 4,
-                    background: "rgba(255, 255, 255, 0.85)",
+                    background: "rgba(245,245,245,0.8)",
                     display: "flex",
                     gap: "2rem",
+                    borderRadius: "3px 3px 0 0",
                   }}
                 >
                   <DownloadImage
