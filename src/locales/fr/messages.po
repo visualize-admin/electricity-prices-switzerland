@@ -122,8 +122,8 @@ msgid "download.category.tariffs"
 msgstr "Fiches tarifaires"
 
 #: src/components/footer.tsx:27
-msgid "download.filetype.csv"
-msgstr "Fichier CSV"
+#~ msgid "download.filetype.csv"
+#~ msgstr "Fichier CSV"
 
 #: src/components/operator-documents.tsx:55
 msgid "download.filetype.pdf"
@@ -134,8 +134,8 @@ msgid "download.nooperatordocuments"
 msgstr "Aucun document de l'opérateur de réseau"
 
 #: src/components/footer.tsx:26
-msgid "download.rawdata"
-msgstr "Données brutes"
+#~ msgid "download.rawdata"
+#~ msgstr "Données brutes"
 
 #: src/domain/translation.tsx:91
 msgid "filters.category"
@@ -153,39 +153,39 @@ msgstr "Produit"
 msgid "filters.year"
 msgstr "Année"
 
-#: src/components/footer.tsx:127
+#: src/components/footer.tsx:106
 msgid "footer.calculation-basics"
 msgstr "Bases de calcul"
 
-#: src/components/footer.tsx:225
+#: src/components/footer.tsx:182
 msgid "footer.create-data-visualizations"
 msgstr "Créer des visualisations de données"
 
-#: src/components/footer.tsx:219
+#: src/components/footer.tsx:177
 msgid "footer.create-data-visualizations.link"
 msgstr "https://visualize.admin.ch/fr/browse?includeDrafts=true&search=Elcom&order=SCORE&dataSource=Prod"
 
-#: src/components/footer.tsx:203
+#: src/components/footer.tsx:158
 msgid "footer.data-as-csv"
 msgstr "Données au format .csv"
 
-#: src/components/footer.tsx:213
+#: src/components/footer.tsx:169
 msgid "footer.data-on-opendata-swiss"
 msgstr "Données sur opendata.swiss"
 
-#: src/components/footer.tsx:206
+#: src/components/footer.tsx:163
 msgid "footer.data-on-opendata-swiss.link"
 msgstr "https://opendata.swiss/fr/organization/bundesamt-fur-energie-bfe?q=energiedashboard"
 
-#: src/components/footer.tsx:194
+#: src/components/footer.tsx:149
 msgid "footer.download-visualize-data"
 msgstr "Télécharger / visualiser les données"
 
-#: src/components/footer.tsx:148
+#: src/components/footer.tsx:128
 msgid "footer.energy-saving"
 msgstr "Économie d'énergie"
 
-#: src/components/footer.tsx:142
+#: src/components/footer.tsx:122
 msgid "footer.energy-saving.link"
 msgstr "https://www.dont-waste.ch/fr"
 
@@ -193,40 +193,40 @@ msgstr "https://www.dont-waste.ch/fr"
 #~ msgstr "Informations supplémentaires"
 
 #: src/components/footer.tsx:185
-msgid "footer.gas-supply"
-msgstr "Approvisionnement en gaz"
+#~ msgid "footer.gas-supply"
+#~ msgstr "Approvisionnement en gaz"
 
 #: src/components/footer.tsx:178
-msgid "footer.gas-supply.link"
-msgstr "https://www.bfe.admin.ch/bfe/fr/home/approvisionnement/approvisionnement-en-gaz/loi-sur-approvisionnement-en-gaz.html"
+#~ msgid "footer.gas-supply.link"
+#~ msgstr "https://www.bfe.admin.ch/bfe/fr/home/approvisionnement/approvisionnement-en-gaz/loi-sur-approvisionnement-en-gaz.html"
 
-#: src/components/footer.tsx:253
+#: src/components/footer.tsx:210
 msgid "footer.institution.name"
 msgstr "Commission fédérale de l'électricité ElCom"
 
 #: src/components/footer.tsx:172
-msgid "footer.power-supply"
-msgstr "Approvisionnement en électricité"
+#~ msgid "footer.power-supply"
+#~ msgstr "Approvisionnement en électricité"
 
 #: src/components/footer.tsx:165
-msgid "footer.power-supply.link"
-msgstr "https://www.bfe.admin.ch/bfe/fr/home/approvisionnement/approvisionnement-en-electricite.html"
+#~ msgid "footer.power-supply.link"
+#~ msgstr "https://www.bfe.admin.ch/bfe/fr/home/approvisionnement/approvisionnement-en-electricite.html"
 
-#: src/components/footer.tsx:159
+#: src/components/footer.tsx:140
 msgid "footer.supply-situation"
-msgstr "Situation d'approvisionnement"
+msgstr "Sécurité de l'approvisionnement"
 
-#: src/components/footer.tsx:152
+#: src/components/footer.tsx:133
 msgid "footer.supply-situation.link"
-msgstr "https://www.bfe.admin.ch/bfe/fr/home/approvisionnement.html"
+msgstr "https://www.elcom.admin.ch/elcom/fr/home/themes/securite-de-l_approvisionnement.html"
 
-#: src/components/footer.tsx:134
+#: src/components/footer.tsx:113
 msgid "help.calculation"
 msgstr "Base de calcul"
 
 #: src/components/footer.tsx:38
-msgid "help.download-raw-data"
-msgstr "Ouvrir l'aide pour les données brutes"
+#~ msgid "help.download-raw-data"
+#~ msgstr "Ouvrir l'aide pour les données brutes"
 
 #: src/components/price-color-legend.tsx:73
 msgid "help.price-comparison"

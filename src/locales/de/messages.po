@@ -122,8 +122,8 @@ msgid "download.category.tariffs"
 msgstr "Tarifblätter"
 
 #: src/components/footer.tsx:27
-msgid "download.filetype.csv"
-msgstr "CSV-Datei"
+#~ msgid "download.filetype.csv"
+#~ msgstr "CSV-Datei"
 
 #: src/components/operator-documents.tsx:55
 msgid "download.filetype.pdf"
@@ -134,8 +134,8 @@ msgid "download.nooperatordocuments"
 msgstr "Keine Netzbetreiber-Dokumente"
 
 #: src/components/footer.tsx:26
-msgid "download.rawdata"
-msgstr "Rohdaten"
+#~ msgid "download.rawdata"
+#~ msgstr "Rohdaten"
 
 #: src/domain/translation.tsx:91
 msgid "filters.category"
@@ -153,39 +153,39 @@ msgstr "Produkt"
 msgid "filters.year"
 msgstr "Jahr"
 
-#: src/components/footer.tsx:127
+#: src/components/footer.tsx:106
 msgid "footer.calculation-basics"
 msgstr "Berechnungsgrundlagen"
 
-#: src/components/footer.tsx:225
+#: src/components/footer.tsx:182
 msgid "footer.create-data-visualizations"
 msgstr "Datenvisualisierungen erstellen"
 
-#: src/components/footer.tsx:219
+#: src/components/footer.tsx:177
 msgid "footer.create-data-visualizations.link"
 msgstr "https://visualize.admin.ch/de/browse?includeDrafts=true&search=Elcom&order=SCORE&dataSource=Prod"
 
-#: src/components/footer.tsx:203
+#: src/components/footer.tsx:158
 msgid "footer.data-as-csv"
 msgstr "Daten als .csv"
 
-#: src/components/footer.tsx:213
+#: src/components/footer.tsx:169
 msgid "footer.data-on-opendata-swiss"
 msgstr "Daten auf opendata.swiss"
 
-#: src/components/footer.tsx:206
+#: src/components/footer.tsx:163
 msgid "footer.data-on-opendata-swiss.link"
 msgstr "https://opendata.swiss/de/organization/bundesamt-fur-energie-bfe?q=energiedashboard"
 
-#: src/components/footer.tsx:194
+#: src/components/footer.tsx:149
 msgid "footer.download-visualize-data"
 msgstr "Daten herunterladen / visualisieren"
 
-#: src/components/footer.tsx:148
+#: src/components/footer.tsx:128
 msgid "footer.energy-saving"
 msgstr "Energiesparen"
 
-#: src/components/footer.tsx:142
+#: src/components/footer.tsx:122
 msgid "footer.energy-saving.link"
 msgstr "https://www.dont-waste.ch/de"
 
@@ -193,40 +193,40 @@ msgstr "https://www.dont-waste.ch/de"
 #~ msgstr "Weiterführende Informationen"
 
 #: src/components/footer.tsx:185
-msgid "footer.gas-supply"
-msgstr "Gasversorgung"
+#~ msgid "footer.gas-supply"
+#~ msgstr "Gasversorgung"
 
 #: src/components/footer.tsx:178
-msgid "footer.gas-supply.link"
-msgstr "https://www.bfe.admin.ch/bfe/de/home/versorgung/gasversorgung/gasversorgungsgesetz.html"
+#~ msgid "footer.gas-supply.link"
+#~ msgstr "https://www.bfe.admin.ch/bfe/de/home/versorgung/gasversorgung/gasversorgungsgesetz.html"
 
-#: src/components/footer.tsx:253
+#: src/components/footer.tsx:210
 msgid "footer.institution.name"
 msgstr "Eidgenössische Elektrizitätskommission ElCom"
 
 #: src/components/footer.tsx:172
-msgid "footer.power-supply"
-msgstr "Stromversorgung"
+#~ msgid "footer.power-supply"
+#~ msgstr "Stromversorgung"
 
 #: src/components/footer.tsx:165
-msgid "footer.power-supply.link"
-msgstr "https://www.bfe.admin.ch/bfe/de/home/versorgung/stromversorgung.html"
+#~ msgid "footer.power-supply.link"
+#~ msgstr "https://www.bfe.admin.ch/bfe/de/home/versorgung/stromversorgung.html"
 
-#: src/components/footer.tsx:159
+#: src/components/footer.tsx:140
 msgid "footer.supply-situation"
-msgstr "Versorgungslage"
+msgstr "Versorgungssicherheight"
 
-#: src/components/footer.tsx:152
+#: src/components/footer.tsx:133
 msgid "footer.supply-situation.link"
-msgstr "https://www.bwl.admin.ch/bwl/de/home/themen/energie/energie-aktuelle-lage.html"
+msgstr "https://www.elcom.admin.ch/elcom/de/home/themen/versorgungssicherheit.html"
 
-#: src/components/footer.tsx:134
+#: src/components/footer.tsx:113
 msgid "help.calculation"
 msgstr "Berechnungsgrundlagen"
 
 #: src/components/footer.tsx:38
-msgid "help.download-raw-data"
-msgstr "Rohdaten Hilfestellung und Erklärung öffnen"
+#~ msgid "help.download-raw-data"
+#~ msgstr "Rohdaten Hilfestellung und Erklärung öffnen"
 
 #: src/components/price-color-legend.tsx:73
 msgid "help.price-comparison"

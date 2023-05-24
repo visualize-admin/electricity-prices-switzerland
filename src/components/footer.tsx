@@ -12,6 +12,7 @@ import { IconShare } from "../icons/ic-share";
 import { BoxProps, LinkProps } from "theme-ui";
 import { IconDownload } from "../icons/ic-download";
 import { useDisclosure } from "./useDisclosure";
+import { IconInfo } from "../icons/ic-info";
 
 const FooterLink = ({
   children,
@@ -24,6 +25,7 @@ const FooterLink = ({
 >) => {
   return (
     <Link
+      {...props}
       sx={{
         borderBottomWidth: "1px",
         borderBottomStyle: "solid",
@@ -41,8 +43,8 @@ const FooterLink = ({
         "&:hover": {
           color: "primaryHover",
         },
+        ...props.sx,
       }}
-      {...props}
     >
       <div>{children}</div>
       {icon}
@@ -70,6 +72,11 @@ export const Footer = () => {
     open: openHelpCalculation,
     close: closeHelpCalculation,
   } = useDisclosure();
+
+  const handleOpenCalculation = (ev: React.MouseEvent<HTMLAnchorElement>) => {
+    ev.preventDefault();
+    openHelpCalculation();
+  };
   return (
     <Box
       sx={{
@@ -90,7 +97,12 @@ export const Footer = () => {
       >
         <FooterSection>
           <FooterTitle>Weiterführende Informationen</FooterTitle>
-          <FooterLink onClick={openHelpCalculation} icon={<IconShare />}>
+          <FooterLink
+            sx={{ cursor: "pointer" }}
+            onClick={handleOpenCalculation}
+            href="#"
+            icon={<IconInfo />}
+          >
             {t({
               id: "footer.calculation-basics",
               message: `Berechnungsgrundlage`,
@@ -106,6 +118,7 @@ export const Footer = () => {
             slug="help.calculation"
           />
           <FooterLink
+            target="_blank"
             href={t({
               id: "footer.energy-saving.link",
               message: "https://www.dont-waste.ch/de",
@@ -116,6 +129,7 @@ export const Footer = () => {
           </FooterLink>
 
           <FooterLink
+            target="_blank"
             href={t({
               id: "footer.supply-situation.link",
               message:
@@ -125,33 +139,7 @@ export const Footer = () => {
           >
             {t({
               id: "footer.supply-situation",
-              message: "Versorgungslage",
-            })}
-          </FooterLink>
-          <FooterLink
-            href={t({
-              id: "footer.power-supply.link",
-              message:
-                "https://www.bfe.admin.ch/bfe/de/home/versorgung/stromversorgung.html",
-            })}
-            icon={<IconShare />}
-          >
-            {t({
-              id: "footer.power-supply",
-              message: "Stromversorgung",
-            })}
-          </FooterLink>
-          <FooterLink
-            href={t({
-              id: "footer.gas-supply.link",
-              message:
-                "https://www.bfe.admin.ch/bfe/de/home/gasversorgung/gasversorgungsgesetz.html",
-            })}
-            icon={<IconShare />}
-          >
-            {t({
-              id: "footer.gas-supply",
-              message: "Gasversorgung",
+              message: "Versorgungssicherheit",
             })}
           </FooterLink>
         </FooterSection>
@@ -170,12 +158,13 @@ export const Footer = () => {
             {t({ id: "footer.data-as-csv", message: "Daten als .csv" })}
           </FooterLink>
           <FooterLink
+            target="_blank"
+            icon={<IconShare />}
             href={t({
               id: "footer.data-on-opendata-swiss.link",
               message:
                 "https://opendata.swiss/de/organization/bundesamt-fur-energie-bfe?q=energiedashboard",
             })}
-            icon={<IconDownload />}
           >
             {t({
               id: "footer.data-on-opendata-swiss",
@@ -183,11 +172,12 @@ export const Footer = () => {
             })}
           </FooterLink>
           <FooterLink
+            icon={<IconShare />}
+            target="_blank"
             href={t({
               id: "footer.create-data-visualizations.link",
               message: "https://visualize.admin.ch/de",
             })}
-            icon={<IconDownload />}
           >
             {t({
               id: "footer.create-data-visualizations",
