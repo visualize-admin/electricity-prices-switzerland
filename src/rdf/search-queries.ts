@@ -212,12 +212,15 @@ export const fetchOperatorInfo = async ({
     console.warn(`No uid results for operator id ${operatorId}`);
   }
 
-  return results.map((d) => {
-    const uid = d.uid.value;
-    return {
-      uid,
-    };
-  })[0];
+  return {
+    query: sparqlQuery.build(),
+    data: results.map((d) => {
+      const uid = d.uid.value;
+      return {
+        uid,
+      };
+    })[0],
+  };
 };
 
 export const search = async ({

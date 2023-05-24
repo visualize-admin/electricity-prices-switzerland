@@ -406,10 +406,10 @@ const Operator: OperatorResolvers = {
   },
 
   geverDocuments: async ({ id: operatorId }) => {
-    const operatorInfo = await fetchOperatorInfo({ operatorId });
+    const { data: operatorInfo } = await fetchOperatorInfo({ operatorId });
     const uid = operatorInfo?.uid;
     try {
-      const docs = await searchGeverDocuments({
+      const { docs } = await searchGeverDocuments({
         operatorId,
         uid,
       });

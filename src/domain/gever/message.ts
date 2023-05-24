@@ -369,7 +369,10 @@ const makeSearchRequest = async (
     "Content-Type": "application/soap+xml; charset=utf-8",
   }).then((x) => x.text());
 
-  return resp;
+  return {
+    request: req3,
+    response: resp,
+  };
 };
 
 /**
@@ -442,7 +445,17 @@ type SearchOptions = {
 export const searchGeverDocuments = async (searchOptions: SearchOptions) => {
   console.log("Search gever documents", searchOptions);
   const authResp = await makeAuthRequest();
-  const searchResp = await makeSearchRequest(authResp, searchOptions);
-  fs.writeFileSync("/tmp/search-resp.xml", searchResp);
-  return parseSearchResponse(searchResp);
+  const { request, response } = await makeSearchRequest(
+    authResp,
+    searchOptions
+  );
+  fs.writeFileSync("/tmp/search-resp.xml", response);
+  return {
+    debug: {
+      response,
+      request,
+      bindings,
+    },
+    docs: parseSearchResponse(response),
+  };
 };

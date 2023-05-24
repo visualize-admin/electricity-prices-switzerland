@@ -1,8 +1,10 @@
-import { ReactNode } from "react";
-import { Box, Heading, Flex } from "theme-ui";
+import { FormEvent, ReactNode, useCallback, useState } from "react";
+import { Box, Heading, Flex, HeadingProps } from "theme-ui";
 import { UseQueryState } from "urql";
 import { LoadingIconInline } from "../../components/hint";
 import * as Queries from "../../graphql/queries";
+import { InferAPIResponse } from "nextkit";
+import handler, { DebugDownloadGetResponse } from "../api/debug-download";
 
 const IndicatorFail = () => (
   <Box
@@ -37,6 +39,23 @@ const IndicatorSuccess = () => (
   </Box>
 );
 
+const StatusHeading = ({ children, ...props }: HeadingProps) => {
+  return (
+    <Heading
+      variant="heading3"
+      {...props}
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "flex-start",
+        ...props.sx,
+      }}
+    >
+      {children}
+    </Heading>
+  );
+};
+
 const Status = ({ title, query }: { title: string; query: UseQueryState }) => {
   return (
     <Box
@@ -51,14 +70,7 @@ const Status = ({ title, query }: { title: string; query: UseQueryState }) => {
         borderStyle: "solid",
       }}
     >
-      <Heading
-        variant="heading3"
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "flex-start",
-        }}
-      >
+      <StatusHeading>
         {query.fetching ? (
           <LoadingIconInline size={24} />
         ) : query.error ? (
@@ -69,7 +81,7 @@ const Status = ({ title, query }: { title: string; query: UseQueryState }) => {
         <Box as="span" sx={{ ml: 2, flexGrow: 1 }}>
           {title}
         </Box>
-      </Heading>
+      </StatusHeading>
       {!query.fetching && (
         <>
           <Box sx={{ fontSize: 2, mt: 2 }}>
@@ -212,14 +224,20 @@ const CubeHealth = () => {
   return <Status title="Cube health" query={query} />;
 };
 
+const SectionHeading = (props: HeadingProps) => {
+  return (
+    <Heading variant="heading2" {...props} sx={{ my: 3, ...props.sx }}>
+      {props.children}
+    </Heading>
+  );
+};
+
 const Page = () => {
   return (
     <Box sx={{ p: 5 }}>
       <Heading variant="heading1">API Status</Heading>
 
-      <Heading variant="heading2" sx={{ mt: 3 }}>
-        Internal
-      </Heading>
+      <SectionHeading>Internal</SectionHeading>
 
       <SystemInfoStatus />
 
@@ -237,9 +255,7 @@ const Page = () => {
 
       <SwissMedianStatus />
 
-      <Heading variant="heading2" sx={{ mt: 3 }}>
-        Search
-      </Heading>
+      <SectionHeading>Search</SectionHeading>
 
       <MunicipalitiesStatus />
 
@@ -250,7 +266,119 @@ const Page = () => {
       <SearchStatus />
 
       <SearchZipStatus />
+
+      <SectionHeading>Document download</SectionHeading>
+
+      <DocumentDownloadStatus />
     </Box>
+  );
+};
+
+const useManualQuery = <T extends unknown, A extends unknown[]>({
+  queryFn,
+}: {
+  queryFn: (...args: A) => Promise<T>;
+}) => {
+  const [state, setState] = useState({
+    fetching: false as boolean,
+    data: null as T | null,
+    error: null as Error | null,
+  });
+  const execute = useCallback(
+    async (...args: A) => {
+      setState((s) => ({ ...s, fetching: true }));
+      try {
+        const data = await queryFn(...args);
+        setState((s) => ({ ...s, data }));
+      } catch (e) {
+        setState((s) => ({ ...s, error: e as Error }));
+      } finally {
+        setState((s) => ({ ...s, fetching: false }));
+      }
+    },
+    [queryFn]
+  );
+  return [state, execute] as const;
+};
+
+const DocumentDownloadStatus = () => {
+  const [query, execute] = useManualQuery({
+    queryFn: (options: { uid: string; oid: string }) => {
+      const searchParams = new URLSearchParams(options);
+      return fetch(`/api/debug-download?${searchParams}`).then(
+        (x) => x.json() as Promise<{ data: DebugDownloadGetResponse }>
+      );
+    },
+  });
+
+  const handleSubmit = (ev: FormEvent) => {
+    ev.preventDefault();
+    const formData = Object.fromEntries(
+      new FormData(ev.currentTarget as HTMLFormElement)
+    ) as {
+      uid: string;
+      oid: string;
+    };
+    execute(formData);
+  };
+
+  const data = query.data?.data;
+
+  return (
+    <div>
+      <Box
+        as="form"
+        sx={{ "& > * + *": { mt: 1, display: "block" } }}
+        onSubmit={handleSubmit}
+      >
+        <label>
+          secret: <input type="password" name="secret" />
+        </label>
+        <label>
+          oid: <input type="value" name="oid" />
+        </label>
+        <br />
+        <label>
+          uid: <input type="value" name="uid" />
+        </label>
+        <button disabled={query.fetching} type="submit">
+          fetch documents
+        </button>
+      </Box>
+      {query.fetching ? "Loading...." : ""}
+      {data && data?.searchResp ? (
+        <Box sx={{ mt: 2 }}>
+          <div>
+            Lindas endpoint <pre>{JSON.stringify(data.lindasEndpoint)}</pre>
+            Lindas query
+            <br />
+            <textarea cols={100} rows={5}>
+              {data.lindasInfo?.query}
+            </textarea>
+            <br />
+            Lindas data <pre>{JSON.stringify(data.lindasInfo?.data)}</pre>
+          </div>
+          <div>
+            Bindings
+            <pre>{JSON.stringify(data.searchResp.debug.bindings, null, 2)}</pre>
+            <br />
+            Search request
+            <br />
+            <textarea cols={100} rows={30}>
+              {data.searchResp.debug.request}
+            </textarea>
+            <br />
+            Search response
+            <br />
+            <textarea cols={100} rows={30}>
+              {data.searchResp.debug.response}
+            </textarea>
+            <br />
+          </div>
+        </Box>
+      ) : null}
+      {query.error ? <div>Erreur: {query.error}</div> : null}
+    </div>
   );
 };
 
