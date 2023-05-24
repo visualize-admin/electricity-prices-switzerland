@@ -3,14 +3,27 @@ import { useWikiContentQuery } from "../graphql/queries";
 import { useLocale } from "../lib/use-locale";
 import { HintBlue } from "./hint";
 
-export const InfoBanner = () => {
+export const InfoBanner = ({
+  bypassBannerEnabled,
+}: {
+  bypassBannerEnabled: boolean;
+}) => {
   const locale = useLocale();
   const [contentQuery] = useWikiContentQuery({
     variables: { locale, slug: "home-banner" },
   });
 
   // Don't show loading/error state for banner
-  if (contentQuery.fetching || !contentQuery.data?.wikiContent) {
+  if (contentQuery.fetching) {
+    return null;
+  }
+
+  if (!contentQuery.data?.wikiContent) {
+    return null;
+  }
+
+  const wikiContent = contentQuery.data?.wikiContent;
+  if (!wikiContent.info.bannerEnabled && !bypassBannerEnabled) {
     return null;
   }
 

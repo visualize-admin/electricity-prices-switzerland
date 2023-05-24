@@ -1,4 +1,8 @@
-import { GraphQLResolveInfo } from "graphql";
+import {
+  GraphQLResolveInfo,
+  GraphQLScalarType,
+  GraphQLScalarTypeConfig,
+} from "graphql";
 import {
   ResolvedCanton,
   ResolvedMunicipality,
@@ -31,6 +35,7 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  WikiContentInfo: any;
 };
 
 export enum CacheControlScope {
@@ -293,6 +298,7 @@ export type SystemInfo = {
 export type WikiContent = {
   __typename?: "WikiContent";
   html: Scalars["String"];
+  info?: Maybe<Scalars["WikiContentInfo"]>;
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -433,6 +439,7 @@ export type ResolversTypes = ResolversObject<{
   SwissMedianObservation: ResolverTypeWrapper<ResolvedSwissMedianObservation>;
   SystemInfo: ResolverTypeWrapper<SystemInfo>;
   WikiContent: ResolverTypeWrapper<WikiContent>;
+  WikiContentInfo: ResolverTypeWrapper<Scalars["WikiContentInfo"]>;
 }>;
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -461,6 +468,7 @@ export type ResolversParentTypes = ResolversObject<{
   SwissMedianObservation: ResolvedSwissMedianObservation;
   SystemInfo: SystemInfo;
   WikiContent: WikiContent;
+  WikiContentInfo: Scalars["WikiContentInfo"];
 }>;
 
 export type CacheControlDirectiveArgs = {
@@ -808,8 +816,18 @@ export type WikiContentResolvers<
   ParentType extends ResolversParentTypes["WikiContent"] = ResolversParentTypes["WikiContent"]
 > = ResolversObject<{
   html?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  info?: Resolver<
+    Maybe<ResolversTypes["WikiContentInfo"]>,
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
+
+export interface WikiContentInfoScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["WikiContentInfo"], any> {
+  name: "WikiContentInfo";
+}
 
 export type Resolvers<ContextType = ServerContext> = ResolversObject<{
   Canton?: CantonResolvers<ContextType>;
@@ -828,6 +846,7 @@ export type Resolvers<ContextType = ServerContext> = ResolversObject<{
   SwissMedianObservation?: SwissMedianObservationResolvers<ContextType>;
   SystemInfo?: SystemInfoResolvers<ContextType>;
   WikiContent?: WikiContentResolvers<ContextType>;
+  WikiContentInfo?: GraphQLScalarType;
 }>;
 
 export type DirectiveResolvers<ContextType = ServerContext> = ResolversObject<{

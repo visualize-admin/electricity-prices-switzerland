@@ -269,7 +269,15 @@ const IndexPage = ({ locale }: Props) => {
             position: "relative",
           }}
         >
-          <InfoBanner />
+          <InfoBanner
+            bypassBannerEnabled={
+              !!(
+                observationsQuery.fetching === false &&
+                observationsQuery.data &&
+                !medianValue
+              )
+            }
+          />
           <Flex
             sx={{
               py: 8,

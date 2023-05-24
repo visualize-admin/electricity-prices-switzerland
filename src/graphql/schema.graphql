@@ -124,8 +124,10 @@ enum ObservationKind {
   Municipality
 }
 
-type WikiContent @cacheControl(maxAge: 300) {
+scalar WikiContentInfo
+type WikiContent @cacheControl(maxAge: 60) {
   html: String!
+  info: WikiContentInfo
 }
 
 type SystemInfo {

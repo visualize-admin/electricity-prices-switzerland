@@ -19,6 +19,7 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  WikiContentInfo: any;
 };
 
 export enum CacheControlScope {
@@ -281,6 +282,7 @@ export type SystemInfo = {
 export type WikiContent = {
   __typename: "WikiContent";
   html: Scalars["String"];
+  info?: Maybe<Scalars["WikiContentInfo"]>;
 };
 
 export type MunicipalitiesQueryVariables = Exact<{
@@ -516,7 +518,11 @@ export type WikiContentQueryVariables = Exact<{
 
 export type WikiContentQuery = {
   __typename: "Query";
-  wikiContent?: { __typename: "WikiContent"; html: string } | null;
+  wikiContent?: {
+    __typename: "WikiContent";
+    html: string;
+    info?: any | null;
+  } | null;
 };
 
 export type SystemInfoQueryVariables = Exact<{ [key: string]: never }>;
@@ -794,6 +800,7 @@ export const WikiContentDocument = gql`
   query WikiContent($locale: String!, $slug: String!) {
     wikiContent(locale: $locale, slug: $slug) {
       html
+      info
     }
   }
 `;
