@@ -20,6 +20,7 @@ import { OperatorDocumentCategory } from "../../graphql/queries";
 import { parseMultiPart } from "./multipart";
 import { truthy } from "../../lib/truthy";
 import { decrypt, encrypt } from "./encrypt";
+import { redactSAML } from "./redact";
 
 const bindings = {
   ipsts:
@@ -452,8 +453,8 @@ export const searchGeverDocuments = async (searchOptions: SearchOptions) => {
   fs.writeFileSync("/tmp/search-resp.xml", response);
   return {
     debug: {
-      response,
-      request,
+      response: redactSAML(response),
+      request: redactSAML(request),
       bindings,
     },
     docs: parseSearchResponse(response),
