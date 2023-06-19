@@ -35,7 +35,6 @@ try {
 
 module.exports = withBundleAnalyzer(
   withMDX({
-    webpack5: true,
 
     // Build-time env variables
     env: buildEnv,
