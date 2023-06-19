@@ -28,10 +28,8 @@ const handler = api({
     let uid: string;
     let lindasInfo: Awaited<ReturnType<typeof fetchOperatorInfo>> | null = null;
     if (queryUid && !Array.isArray(queryUid)) {
-      console.log(1);
       uid = queryUid;
     } else if (queryOid && !Array.isArray(queryOid)) {
-      console.log(2);
       lindasInfo = await fetchOperatorInfo({ operatorId: queryOid });
       uid = lindasInfo?.data.uid;
     } else {

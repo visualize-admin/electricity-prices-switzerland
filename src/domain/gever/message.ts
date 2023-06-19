@@ -357,6 +357,10 @@ const makeSearchRequest = async (
   const parameterValue = searchOptions.uid
     ? searchOptions.uid
     : searchOptions.operatorId;
+
+  if (!parameterValue) {
+    throw new Error("At least uid or operatorId must be passed");
+  }
   parameterValueNode.textContent = parameterValue;
 
   console.log(
@@ -439,12 +443,11 @@ export const downloadGeverDocument = memoize(
 );
 
 type SearchOptions = {
-  operatorId: string;
+  operatorId: string | undefined;
   uid: string | undefined;
 };
 
 export const searchGeverDocuments = async (searchOptions: SearchOptions) => {
-  console.log("Search gever documents", searchOptions);
   const authResp = await makeAuthRequest();
   const { request, response } = await makeSearchRequest(
     authResp,
