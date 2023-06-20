@@ -20,6 +20,7 @@ export const testAndSaveHar = async (
     await run({ browser, page });
 
     await context.close();
+    console.log(`Saved HAR file from test at ${path}`);
   });
 };
 
