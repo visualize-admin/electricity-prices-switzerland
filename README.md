@@ -176,3 +176,11 @@ After the test, an HAR will be generated in the root directory.
 Make sure the options of the Scenario correspond to what you want as k6
 resets them when you import the HAR (you might want to increase the
 number of VUs to 50 for example).
+
+### Editing the test
+
+The preferred way to edit the test is to use the [Recorder inside VSCode](https://marketplace.visualstudio.com/items?itemName=ms-playwright.playwright).
+This way it is easy to quickly generate a test.
+
+- Add testIds in case the generated selectors are not understandable.
+- Add sleeps to make sure the test is not too quick and "human like"
