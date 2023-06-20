@@ -1,5 +1,6 @@
 const pkg = require("./package.json");
 const withMDX = require("@next/mdx")();
+
 const withBundleAnalyzer = require("@next/bundle-analyzer")({
   enabled: process.env.ANALYZE === "true",
 });
@@ -8,6 +9,7 @@ const { locales, defaultLocale } = require("./src/locales/locales.json");
 
 const {
   I18N_DOMAINS,
+  WEBPACK_ASSET_PREFIX,
   CURRENT_PERIOD = "2023",
   FIRST_PERIOD = "2009",
   DEPLOYMENT,
@@ -43,6 +45,7 @@ try {
 
 module.exports = withBundleAnalyzer(
   withMDX({
+    assetPrefix: WEBPACK_ASSET_PREFIX,
 
     // Build-time env variables
     env: buildEnv,
