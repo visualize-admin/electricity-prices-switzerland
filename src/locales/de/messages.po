@@ -214,7 +214,7 @@ msgstr "Eidgenössische Elektrizitätskommission ElCom"
 
 #: src/components/footer.tsx:140
 msgid "footer.supply-situation"
-msgstr "Versorgungssicherheight"
+msgstr "Versorgungssicherheit"
 
 #: src/components/footer.tsx:133
 msgid "footer.supply-situation.link"
