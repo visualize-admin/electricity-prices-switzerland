@@ -157,37 +157,45 @@ msgstr "Anno"
 msgid "footer.calculation-basics"
 msgstr "Basi di calcolo"
 
-#: src/components/footer.tsx:182
+#: src/components/footer.tsx:183
 msgid "footer.create-data-visualizations"
 msgstr "Creare visualizzazioni dei dati"
 
-#: src/components/footer.tsx:177
+#: src/components/footer.tsx:178
 msgid "footer.create-data-visualizations.link"
 msgstr "https://visualize.admin.ch/it/browse?includeDrafts=true&search=Elcom&order=SCORE&dataSource=Prod"
 
-#: src/components/footer.tsx:158
+#: src/components/footer.tsx:159
 msgid "footer.data-as-csv"
 msgstr "Dati in formato .csv"
 
-#: src/components/footer.tsx:169
+#: src/components/footer.tsx:170
 msgid "footer.data-on-opendata-swiss"
 msgstr "Dati su opendata.swiss"
 
-#: src/components/footer.tsx:163
+#: src/components/footer.tsx:164
 msgid "footer.data-on-opendata-swiss.link"
 msgstr "https://opendata.swiss/it/showcase/electricity-tariffs"
 
-#: src/components/footer.tsx:149
+#: src/components/footer.tsx:150
 msgid "footer.download-visualize-data"
 msgstr "Scarica / visualizza i dati"
 
-#: src/components/footer.tsx:128
-msgid "footer.energy-saving"
-msgstr "Risparmio energetico"
+#: src/components/footer.tsx:129
+msgid "footer.elcom-website"
+msgstr "Sito Elcom"
 
 #: src/components/footer.tsx:122
-msgid "footer.energy-saving.link"
-msgstr "https://www.dont-waste.ch/it/"
+msgid "footer.elcom-website.link"
+msgstr "https://www.elcom.admin.ch/elcom/it/home/temi/prezzi-dell-energia-elettrica/dati-grezzi-tariffe-dei-gestori-delle-reti-di-distribuzione-sviz.html"
+
+#: src/components/footer.tsx:128
+#~ msgid "footer.energy-saving"
+#~ msgstr "Risparmio energetico"
+
+#: src/components/footer.tsx:122
+#~ msgid "footer.energy-saving.link"
+#~ msgstr "https://www.dont-waste.ch/it/"
 
 #~ msgid "footer.further-information"
 #~ msgstr "Informazioni aggiuntive"
@@ -200,7 +208,7 @@ msgstr "https://www.dont-waste.ch/it/"
 #~ msgid "footer.gas-supply.link"
 #~ msgstr "https://www.bfe.admin.ch/bfe/it/home/approvvigionamento/approvvigionamento-di-gas/legge-sull-approvvigionamento-di-gas.html"
 
-#: src/components/footer.tsx:210
+#: src/components/footer.tsx:211
 msgid "footer.institution.name"
 msgstr "Commissione federale dell'energia elettrica Elcom"
 
@@ -212,11 +220,11 @@ msgstr "Commissione federale dell'energia elettrica Elcom"
 #~ msgid "footer.power-supply.link"
 #~ msgstr "https://www.bfe.admin.ch/bfe/it/home/approvvigionamento/approvvigionamento-elettrico.html"
 
-#: src/components/footer.tsx:140
+#: src/components/footer.tsx:141
 msgid "footer.supply-situation"
 msgstr "Sicurezza di approvvigionamento"
 
-#: src/components/footer.tsx:133
+#: src/components/footer.tsx:134
 msgid "footer.supply-situation.link"
 msgstr "https://www.elcom.admin.ch/elcom/it/home/temi/sicurezza-di-approvvigionamento.html"
 
@@ -325,7 +333,7 @@ msgstr "Logo della confederazione svizzera"
 msgid "map.legend.title"
 msgstr "Confronto tariffe in ct./kWh"
 
-#: src/pages/index.tsx:104
+#: src/pages/index.tsx:103
 msgid "map.share"
 msgstr ""
 
@@ -388,7 +396,7 @@ msgstr "mediana, decrescente"
 msgid "relations.showmore"
 msgstr "mostra {rest} di più…"
 
-#: src/pages/index.tsx:305
+#: src/pages/index.tsx:312
 msgid "search.global"
 msgstr "Visualizzare l'analisi dettagliata dei prezzi per cantone, comune e gestore di rete."
 
@@ -561,14 +569,14 @@ msgstr "Anno"
 msgid "selector.years"
 msgstr "Anni"
 
-#: src/pages/index.tsx:126
+#: src/pages/index.tsx:125
 msgid "share.url-copied"
 msgstr "URL copiato ✅"
 
 #: src/components/header.tsx:99
 #: src/pages/canton/[id].tsx:56
-#: src/pages/index.tsx:253
-#: src/pages/index.tsx:290
+#: src/pages/index.tsx:252
+#: src/pages/index.tsx:297
 #: src/pages/municipality/[id].tsx:78
 #: src/pages/operator/[id].tsx:75
 msgid "site.title"

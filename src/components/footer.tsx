@@ -120,12 +120,13 @@ export const Footer = () => {
           <FooterLink
             target="_blank"
             href={t({
-              id: "footer.energy-saving.link",
-              message: "https://www.dont-waste.ch/de",
+              id: "footer.elcom-website.link",
+              message:
+                "https://www.elcom.admin.ch/elcom/de/home/themen/strompreise/tarif-rohdaten-verteilnetzbetreiber.html",
             })}
             icon={<IconShare />}
           >
-            {t({ id: "footer.energy-saving", message: "Energiesparen" })}
+            {t({ id: "footer.elcom-website", message: "Elcom Website" })}
           </FooterLink>
 
           <FooterLink
