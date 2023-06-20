@@ -22,7 +22,8 @@
     "postversion": "git push origin main --follow-tags && git push origin main:test --force-with-lease",
     "e2e:dev": "CYPRESS_BASE_URL=http://localhost:3000 cypress open",
     "e2e": "start-test 'yarn dev -p 3333' 3333 'yarn cypress run'",
-    "heroku-postbuild-DISABLED": "yarn install --production=false && yarn build && yarn install --production"
+    "heroku-postbuild-DISABLED": "yarn install --production=false && yarn build && yarn install --production",
+    "e2e:k6:har": "playwright test e2e/generate-k6-har.spec.ts --headed"
   },
   "dependencies": {
     "@apollo/server": "^4.3.3",
