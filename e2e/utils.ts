@@ -1,4 +1,41 @@
 import { test } from "@playwright/test";
+import fs from "fs";
+
+type $IntentionalAny = any;
+
+const cleanupHAR = (path: string) => {
+  const data = JSON.parse(fs.readFileSync(path).toString());
+
+  const cleanRequest = (request: $IntentionalAny) => {
+    if (!request.postData) {
+      return request;
+    } else {
+      // The extra "params" confuses k6 (when loading the entry, k6 has an empty {} body).
+      // It is not present in HAR from Chrome but it is there in HAR from Playwrights.
+      const { params, ...keptPostData } = request.postData;
+      return {
+        ...request,
+        postData: keptPostData,
+      };
+    }
+  };
+
+  const cleanEntry = (entry) => {
+    return {
+      ...entry,
+      request: cleanRequest(entry.request),
+    };
+  };
+
+  const transformed = {
+    ...data,
+    log: {
+      ...data.log,
+      entries: data.log.entries.map(cleanEntry),
+    },
+  };
+  fs.writeFileSync(path, JSON.stringify(transformed, null, 2));
+};
 
 export const sleep = (duration: number) =>
   new Promise((resolve) => {
@@ -21,6 +58,9 @@ export const testAndSaveHar = async (
 
     await context.close();
     console.log(`Saved HAR file from test at ${path}`);
+
+    console.log(`Cleaning up HAR to remove postData ${path}`);
+    await cleanupHAR(path);
   });
 };
 
