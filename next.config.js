@@ -25,6 +25,7 @@ const buildEnv = {
 
 console.log("Build Environment:", buildEnv);
 console.log("Matomo ID:", MATOMO_ID);
+console.log("Asset prefix:", WEBPACK_ASSET_PREFIX);
 
 let i18nDomains;
 
@@ -45,7 +46,10 @@ try {
 
 module.exports = withBundleAnalyzer(
   withMDX({
-    assetPrefix: WEBPACK_ASSET_PREFIX,
+    assetPrefix:
+      WEBPACK_ASSET_PREFIX !== undefined && WEBPACK_ASSET_PREFIX !== ""
+        ? WEBPACK_ASSET_PREFIX
+        : undefined,
 
     // Build-time env variables
     env: buildEnv,
