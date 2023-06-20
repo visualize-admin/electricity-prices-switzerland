@@ -147,6 +147,16 @@ cat ../../../vault/svc.spw-d.elcom.admin.ch.p12 | base64
 
 ## Load testing
 
+To load test, we use the k6 platform and its ability to import HAR
+session recordings. We generate automatically a HAR via a Playwright test designed to mimick a typical user journey and import it into k6.
+
+### Update the test on k6.io
+
+After an update to the application, it is necessary to update the
+test on k6 so that the chunks URL are correct. To make the update
+painless, Playwright is used to automatically navigate across the
+site, and then save the session requests as an HAR file.
+
 1. Record the HAR
 
 The HAR is generated automatically from a Playwright test.
