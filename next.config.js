@@ -6,21 +6,29 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 
 const { locales, defaultLocale } = require("./src/locales/locales.json");
 
+const {
+  I18N_DOMAINS,
+  CURRENT_PERIOD = "2023",
+  FIRST_PERIOD = "2009",
+  DEPLOYMENT,
+  MATOMO_ID,
+} = process.env;
+
 const buildEnv = {
   VERSION: `v${pkg.version}`,
-  DEPLOYMENT: process.env.DEPLOYMENT,
-  CURRENT_PERIOD: process.env.CURRENT_PERIOD || "2023",
-  FIRST_PERIOD: process.env.FIRST_PERIOD || "2009",
+  DEPLOYMENT: DEPLOYMENT,
+  CURRENT_PERIOD: CURRENT_PERIOD,
+  FIRST_PERIOD: FIRST_PERIOD,
 };
 
 console.log("Build Environment:", buildEnv);
-console.log("Matomo ID:", process.env.MATOMO_ID);
+console.log("Matomo ID:", MATOMO_ID);
 
 let i18nDomains;
 
 try {
-  if (process.env.I18N_DOMAINS !== undefined) {
-    const domainsEnv = JSON.parse(process.env.I18N_DOMAINS);
+  if (I18N_DOMAINS !== undefined) {
+    const domainsEnv = JSON.parse(I18N_DOMAINS);
 
     i18nDomains = Object.entries(domainsEnv).map(([locale, domain]) => {
       return {
