@@ -383,6 +383,7 @@ export const SearchField = ({
                               item: item,
                               index: item.listId,
                             })}
+                            data-testid={`search-option-${entity}-${item.id}`}
                             sx={{
                               display: "flex",
                               justifyContent: "space-between",
