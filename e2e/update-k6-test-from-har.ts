@@ -43,6 +43,23 @@ const createAPI = (token: string) => {
   };
 };
 
+// Will be stringified into the script
+const options = {
+  stages: [
+    { duration: "1m", target: 50 },
+    { duration: "3m30s", target: 50 },
+    { duration: "1m", target: 0 },
+  ],
+  thresholds: { http_req_duration: ["avg<200", "p(95)<1000"] },
+  ext: {
+    loadimpact: {
+      distribution: {
+        Paris: { loadZone: "amazon:fr:paris", percent: 100 },
+      },
+    },
+  },
+};
+
 const main = async () => {
   const parser = new ArgumentParser();
   parser.add_argument("har-file");
@@ -74,7 +91,13 @@ const main = async () => {
       `Could not convert har to k6:\n STDOUT: ${spawned.stdout}\n\nSTDERR: ${spawned.stderr}`
     );
   }
-  const script = fs.readFileSync(scriptFilename).toString();
+  const script = fs
+    .readFileSync(scriptFilename)
+    .toString()
+    .replace(
+      "export const options = {}",
+      `export const options = ${JSON.stringify(options, null, 2)}`
+    );
 
   console.log(`Updating test ${testId} on K6 cloud...`);
   await api.updateTest(testId, script);
