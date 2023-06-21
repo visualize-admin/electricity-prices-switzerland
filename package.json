@@ -23,7 +23,8 @@
     "e2e:dev": "CYPRESS_BASE_URL=http://localhost:3000 cypress open",
     "e2e": "start-test 'yarn dev -p 3333' 3333 'yarn cypress run'",
     "heroku-postbuild-DISABLED": "yarn install --production=false && yarn build && yarn install --production",
-    "e2e:k6:har": "playwright test e2e/generate-k6-har.spec.ts --headed"
+    "e2e:k6:har": "playwright test e2e/generate-k6-har.spec.ts --headed",
+    "e2e:k6:update": "bun e2e/update-k6-test-from-har.ts browsing-test-ref.har 802626"
   },
   "dependencies": {
     "@apollo/server": "^4.3.3",
@@ -46,6 +47,7 @@
     "@tpluscode/rdf-string": "^0.2.23",
     "@tpluscode/sparql-builder": "^0.3.12",
     "@turf/centroid": "^6.5.0",
+    "@types/argparse": "^2.0.10",
     "catalog": "^4.0.1-canary.2",
     "cors": "^2.8.5",
     "d3": "^6.7.0",
@@ -57,6 +59,7 @@
     "graphql-parse-resolve-info": "^4.10.0",
     "graphql-tag": "^2.11.0",
     "graphql-type-json": "^0.3.2",
+    "har-to-k6": "^0.13.1",
     "io-ts": "^2.2.16",
     "io-ts-types": "^0.5.16",
     "lodash": "^4.17.21",
@@ -115,6 +118,7 @@
     "@types/topojson-client": "^3.1.0",
     "@types/xml-c14n": "^0.0.1",
     "@types/xmldom": "^0.1.31",
+    "argparse": "^2.0.1",
     "babel-core": "^7.0.0-bridge.0",
     "babel-plugin-macros": "^3.0.1",
     "cypress": "^8.3.1",
