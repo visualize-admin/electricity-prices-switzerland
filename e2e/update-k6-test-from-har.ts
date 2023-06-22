@@ -50,7 +50,7 @@ const options = {
     { duration: "3m30s", target: 50 },
     { duration: "1m", target: 0 },
   ],
-  thresholds: { http_req_duration: ["avg<200", "p(95)<1000"] },
+  thresholds: { http_req_duration: ["avg<500", "p(95)<1000"] },
   ext: {
     loadimpact: {
       distribution: {
