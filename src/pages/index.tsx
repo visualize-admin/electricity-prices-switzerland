@@ -30,6 +30,7 @@ import { Tooltip } from "../components/charts-generic/interaction/tooltip";
 import { TooltipBox } from "../components/charts-generic/interaction/tooltip-box";
 import { IconCopy } from "../icons/ic-copy";
 import useOutsideClick from "../components/useOutsideClick";
+import { defaultLocale } from "../locales/locales";
 
 const DOWNLOAD_ID = "map";
 
@@ -43,7 +44,7 @@ export const getServerSideProps: GetServerSideProps<Props, { locale: string }> =
 
     return {
       props: {
-        locale: locale!,
+        locale: locale ?? defaultLocale,
       },
     };
   };

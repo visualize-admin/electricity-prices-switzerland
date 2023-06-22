@@ -15,6 +15,7 @@ import {
 } from "../graphql/queries";
 import { EMPTY_ARRAY } from "../lib/empty-array";
 import { useQueryStateSingle } from "../lib/use-query-state";
+import { defaultLocale } from "../locales/locales";
 
 type Props = {
   locale: string;
@@ -26,7 +27,7 @@ export const getServerSideProps: GetServerSideProps<Props, { locale: string }> =
 
     return {
       props: {
-        locale: locale!,
+        locale: locale ?? defaultLocale,
       },
     };
   };
