@@ -62,29 +62,44 @@ const options = {
 
 const main = async () => {
   const parser = new ArgumentParser();
-  parser.add_argument("har-file");
-  parser.add_argument("k6-cloud-test-id");
+  parser.add_argument("harFile");
+  parser.add_argument("testId");
+  parser.add_argument("--script-filename", {
+    dest: "scriptFilename",
+    default: "loadtest.js",
+    help: "Alternative name for script file, can be used in conjunction with --no-update",
+  });
+  parser.add_argument("--no-update", {
+    action: "store_false",
+    dest: "update",
+    default: true,
+    help: "The K6 Cloud script will not be updated, can be used in conjunction with --keep-script-file",
+  });
+  parser.add_argument("--keep-script-file", {
+    action: "store_true",
+    dest: "keepScriptFile",
+    default: false,
+    help: 'The generated script file will not be deleted, useful to run script with "k6 run" locally',
+  });
   parser.add_argument("--token", {
     default: process.env.K6_CLOUD_TOKEN,
   });
 
   const args = parser.parse_args();
-  if (!args.token) {
+  const { harFile, testId, keepScriptFile, update, token, scriptFilename } =
+    args;
+  if (!args.token && update) {
     throw new Error(
       "Either pass K6_CLOUD_TOKEN as environment variable or through the --token argument"
     );
   }
 
-  const api = createAPI(args.token);
-
-  const harFile = args["har-file"];
-  const testId = args["k6-cloud-test-id"];
-  const scriptFilename = "loadtest.js";
-  console.log(`Converting HAR ${harFile} to K6 script`);
+  const api = createAPI(token);
   const spawned = await spawnSync("./node_modules/.bin/har-to-k6", [
     harFile,
     "-o",
     scriptFilename,
+    "--add-sleep",
   ]);
   if (spawned.status !== 0) {
     throw new Error(
@@ -98,12 +113,19 @@ const main = async () => {
       "export const options = {}",
       `export const options = ${JSON.stringify(options, null, 2)}`
     );
+  fs.writeFileSync(scriptFilename, script);
+  console.log(`Converted HAR ${harFile} to K6 script ${scriptFilename} ✅`);
 
-  console.log(`Updating test ${testId} on K6 cloud...`);
-  await api.updateTest(testId, script);
-  console.log("Updated test ✅");
+  if (update !== false) {
+    console.log(`Updating test ${testId} on K6 cloud...`);
+    await api.updateTest(testId, script);
+    console.log("Updated test ✅");
+  }
 
-  fs.unlinkSync(scriptFilename);
+  if (keepScriptFile !== true) {
+    console.log(`Removing script file ${scriptFilename}`);
+    fs.unlinkSync(scriptFilename);
+  }
 };
 
 main().catch((e) => {
