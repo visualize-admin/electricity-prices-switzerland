@@ -177,11 +177,12 @@ After the test, an HAR will be generated in the root directory.
 
 2. Import the HAR file into K6
 
-- Edit https://app.k6.io/tests/802183 (or create a new test)
-- Click configure
-- Remove the previous Scenario
-- Click import at the bottom of the page and import the HAR file. This will
-  create a new Scenario.
+```
+yarn e2e:k6:update
+```
+
+ℹ️ Check the command in `package.json` if you want to change the HAR uploaded or the
+test being updated
 
 Make sure the options of the Scenario correspond to what you want as k6
 resets them when you import the HAR (you might want to increase the
