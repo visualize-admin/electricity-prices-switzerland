@@ -212,7 +212,11 @@ export const Footer = () => {
             color: ["monochrome900", "monochrome700"],
           }}
         >
-          <Trans id="footer.institution.name">ElCom</Trans>
+          <Text variant="paragraph2">
+            <Trans id="footer.institution.name">
+              Eidgenössische Elektrizitätskommission ElCom
+            </Trans>
+          </Text>
         </Box>
         <Flex
           sx={{
