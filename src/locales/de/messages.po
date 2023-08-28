@@ -157,35 +157,43 @@ msgstr "Jahr"
 msgid "footer.calculation-basics"
 msgstr "Berechnungsgrundlagen"
 
-#: src/components/footer.tsx:185
+#: src/components/footer.tsx:187
 msgid "footer.create-data-visualizations"
 msgstr "Datenvisualierungen mit den ElCom-Daten erstellen"
 
-#: src/components/footer.tsx:180
+#: src/components/footer.tsx:181
 msgid "footer.create-data-visualizations.link"
 msgstr "https://www.elcom.admin.ch/elcom/de/home/themen/strompreise/tarif-rohdaten-verteilnetzbetreiber.html"
 
-#: src/components/footer.tsx:161
+#: src/components/footer.tsx:162
 msgid "footer.data-as-csv"
 msgstr "Daten als .csv"
 
-#: src/components/footer.tsx:172
+#: src/components/footer.tsx:173
 msgid "footer.data-on-opendata-swiss"
 msgstr "Daten auf opendata.swiss"
 
-#: src/components/footer.tsx:166
+#: src/components/footer.tsx:167
 msgid "footer.data-on-opendata-swiss.link"
 msgstr "https://opendata.swiss/de/showcase/electricity-tariffs"
 
-#: src/components/footer.tsx:152
+#: src/components/footer.tsx:153
 msgid "footer.download-visualize-data"
 msgstr "Daten herunterladen / visualisieren"
 
-#: src/components/footer.tsx:213
+#: src/components/footer.tsx:216
 msgid "footer.institution.name"
 msgstr "Eidgenössische Elektrizitätskommission ElCom"
 
-#: src/components/footer.tsx:128
+#: src/components/footer.tsx:228
+msgid "footer.legal-framework"
+msgstr "Rechtliches"
+
+#: src/components/footer.tsx:222
+msgid "footer.legal-framework.link"
+msgstr "https://www.admin.ch/gov/de/start/rechtliches.html"
+
+#: src/components/footer.tsx:129
 msgid "footer.more-tariffs-information"
 msgstr "Weitere Informationen zu den Tarifen in der Schweiz"
 
@@ -193,11 +201,11 @@ msgstr "Weitere Informationen zu den Tarifen in der Schweiz"
 msgid "footer.more-tariffs-information.link"
 msgstr "https://www.elcom.admin.ch/elcom/de/home/themen/strompreise.html"
 
-#: src/components/footer.tsx:143
+#: src/components/footer.tsx:144
 msgid "footer.transmission-grid-tariff"
 msgstr "Tarifkomponenten Übertragungsnetz - Swissgrid"
 
-#: src/components/footer.tsx:136
+#: src/components/footer.tsx:137
 msgid "footer.transmission-grid-tariff.link"
 msgstr "https://www.swissgrid.ch/dam/swissgrid/customers/topics/tariffs/Tabelle-Tarife-de.pdf"
 

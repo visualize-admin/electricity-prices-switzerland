@@ -198,16 +198,30 @@ export const Footer = () => {
       >
         <Box
           sx={{
-            width: ["100%", "auto"],
-            px: 4,
+            width: "100%",
+            px: 6,
             py: 5,
             color: ["monochrome900", "monochrome700"],
+            display: "flex",
+            justifyContent: "space-between",
           }}
         >
           <Text variant="paragraph2">
             <Trans id="footer.institution.name">
               Eidgenössische Elektrizitätskommission ElCom
             </Trans>
+          </Text>
+          <Text variant="paragraph2" sx={{ display: "block" }} as="div">
+            <Link
+              target="_blank"
+              variant="inline"
+              href={t({
+                id: "footer.legal-framework.link",
+                message: "https://www.admin.ch/gov/de/start/rechtliches.html",
+              })}
+            >
+              <Trans id="footer.legal-framework">Rechtliches</Trans>
+            </Link>
           </Text>
         </Box>
         <Flex

@@ -157,35 +157,43 @@ msgstr "Année"
 msgid "footer.calculation-basics"
 msgstr "Bases de calcul"
 
-#: src/components/footer.tsx:185
+#: src/components/footer.tsx:187
 msgid "footer.create-data-visualizations"
 msgstr "Créer des visualisations de données avec les données ElCom"
 
-#: src/components/footer.tsx:180
+#: src/components/footer.tsx:181
 msgid "footer.create-data-visualizations.link"
 msgstr "https://www.elcom.admin.ch/elcom/fr/home/themes/prix-de-l_electricite/donnees-brutes-des-gestionnaires-suisses-de-reseau-de-distributi.html"
 
-#: src/components/footer.tsx:161
+#: src/components/footer.tsx:162
 msgid "footer.data-as-csv"
 msgstr "Données au format .csv"
 
-#: src/components/footer.tsx:172
+#: src/components/footer.tsx:173
 msgid "footer.data-on-opendata-swiss"
 msgstr "Données sur opendata.swiss"
 
-#: src/components/footer.tsx:166
+#: src/components/footer.tsx:167
 msgid "footer.data-on-opendata-swiss.link"
 msgstr "https://opendata.swiss/fr/showcase/electricity-tariffs"
 
-#: src/components/footer.tsx:152
+#: src/components/footer.tsx:153
 msgid "footer.download-visualize-data"
 msgstr "Télécharger / visualiser les données"
 
-#: src/components/footer.tsx:213
+#: src/components/footer.tsx:216
 msgid "footer.institution.name"
 msgstr "Commission fédérale de l'électricité ElCom"
 
-#: src/components/footer.tsx:128
+#: src/components/footer.tsx:228
+msgid "footer.legal-framework"
+msgstr "Conditions d'utilisation"
+
+#: src/components/footer.tsx:222
+msgid "footer.legal-framework.link"
+msgstr "https://www.admin.ch/gov/fr/accueil/conditions-utilisation.html"
+
+#: src/components/footer.tsx:129
 msgid "footer.more-tariffs-information"
 msgstr "Plus d'informations sur les tarifs en Suisse"
 
@@ -193,11 +201,11 @@ msgstr "Plus d'informations sur les tarifs en Suisse"
 msgid "footer.more-tariffs-information.link"
 msgstr "https://www.elcom.admin.ch/elcom/fr/home/themes/prix-de-l_electricite.html"
 
-#: src/components/footer.tsx:143
+#: src/components/footer.tsx:144
 msgid "footer.transmission-grid-tariff"
 msgstr "Tarifs du réseau de transport suisse - prestations de Swissgrid"
 
-#: src/components/footer.tsx:136
+#: src/components/footer.tsx:137
 msgid "footer.transmission-grid-tariff.link"
 msgstr "https://www.swissgrid.ch/dam/swissgrid/customers/topics/tariffs/Tabelle-Tarife-fr.pdf"
 
