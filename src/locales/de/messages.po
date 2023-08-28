@@ -157,76 +157,49 @@ msgstr "Jahr"
 msgid "footer.calculation-basics"
 msgstr "Berechnungsgrundlagen"
 
-#: src/components/footer.tsx:183
+#: src/components/footer.tsx:185
 msgid "footer.create-data-visualizations"
-msgstr "Datenvisualisierungen erstellen"
+msgstr "Datenvisualierungen mit den ElCom-Daten erstellen"
 
-#: src/components/footer.tsx:178
+#: src/components/footer.tsx:180
 msgid "footer.create-data-visualizations.link"
-msgstr "https://visualize.admin.ch/de/browse?includeDrafts=true&search=Elcom&order=SCORE&dataSource=Prod"
+msgstr "https://www.elcom.admin.ch/elcom/de/home/themen/strompreise/tarif-rohdaten-verteilnetzbetreiber.html"
 
-#: src/components/footer.tsx:159
+#: src/components/footer.tsx:161
 msgid "footer.data-as-csv"
 msgstr "Daten als .csv"
 
-#: src/components/footer.tsx:170
+#: src/components/footer.tsx:172
 msgid "footer.data-on-opendata-swiss"
 msgstr "Daten auf opendata.swiss"
 
-#: src/components/footer.tsx:164
+#: src/components/footer.tsx:166
 msgid "footer.data-on-opendata-swiss.link"
 msgstr "https://opendata.swiss/de/showcase/electricity-tariffs"
 
-#: src/components/footer.tsx:150
+#: src/components/footer.tsx:152
 msgid "footer.download-visualize-data"
 msgstr "Daten herunterladen / visualisieren"
 
-#: src/components/footer.tsx:129
-msgid "footer.elcom-website"
-msgstr "Elcom Website"
-
-#: src/components/footer.tsx:122
-msgid "footer.elcom-website.link"
-msgstr "https://www.elcom.admin.ch/elcom/de/home/themen/strompreise/tarif-rohdaten-verteilnetzbetreiber.html"
-
-#: src/components/footer.tsx:128
-#~ msgid "footer.energy-saving"
-#~ msgstr "Energiesparen"
-
-#: src/components/footer.tsx:122
-#~ msgid "footer.energy-saving.link"
-#~ msgstr "https://www.elcom.admin.ch/elcom/de/home/themen/strompreise/tarif-rohdaten-verteilnetzbetreiber.html"
-
-#~ msgid "footer.further-information"
-#~ msgstr "Weiterführende Informationen"
-
-#: src/components/footer.tsx:185
-#~ msgid "footer.gas-supply"
-#~ msgstr "Gasversorgung"
-
-#: src/components/footer.tsx:178
-#~ msgid "footer.gas-supply.link"
-#~ msgstr "https://www.bfe.admin.ch/bfe/de/home/versorgung/gasversorgung/gasversorgungsgesetz.html"
-
-#: src/components/footer.tsx:211
+#: src/components/footer.tsx:213
 msgid "footer.institution.name"
 msgstr "Eidgenössische Elektrizitätskommission ElCom"
 
-#: src/components/footer.tsx:172
-#~ msgid "footer.power-supply"
-#~ msgstr "Stromversorgung"
+#: src/components/footer.tsx:128
+msgid "footer.more-tariffs-information"
+msgstr "Weitere Informationen zu den Tarifen in der Schweiz"
 
-#: src/components/footer.tsx:165
-#~ msgid "footer.power-supply.link"
-#~ msgstr "https://www.bfe.admin.ch/bfe/de/home/versorgung/stromversorgung.html"
+#: src/components/footer.tsx:122
+msgid "footer.more-tariffs-information.link"
+msgstr "https://www.elcom.admin.ch/elcom/de/home/themen/strompreise.html"
 
-#: src/components/footer.tsx:141
-msgid "footer.supply-situation"
-msgstr "Versorgungssicherheit"
+#: src/components/footer.tsx:143
+msgid "footer.transmission-grid-tariff"
+msgstr "Tarifkomponenten Übertragungsnetz - Swissgrid"
 
-#: src/components/footer.tsx:134
-msgid "footer.supply-situation.link"
-msgstr "https://www.elcom.admin.ch/elcom/de/home/themen/versorgungssicherheit.html"
+#: src/components/footer.tsx:136
+msgid "footer.transmission-grid-tariff.link"
+msgstr "https://www.swissgrid.ch/dam/swissgrid/customers/topics/tariffs/Tabelle-Tarife-de.pdf"
 
 #: src/components/footer.tsx:113
 msgid "help.calculation"
@@ -333,7 +306,7 @@ msgstr "Logo of the Swiss Confederation"
 msgid "map.legend.title"
 msgstr "Tarifvergleich in Rp./kWh"
 
-#: src/pages/index.tsx:103
+#: src/pages/index.tsx:104
 msgid "map.share"
 msgstr "Teilen"
 
@@ -396,7 +369,7 @@ msgstr "Median absteigend"
 msgid "relations.showmore"
 msgstr "{rest} weitere …"
 
-#: src/pages/index.tsx:312
+#: src/pages/index.tsx:313
 msgid "search.global"
 msgstr "Detaillierte Preisanalysen von Kantonen, Gemeinden und Netzbetreibern."
 
@@ -569,14 +542,14 @@ msgstr "Jahr"
 msgid "selector.years"
 msgstr "Jahre"
 
-#: src/pages/index.tsx:125
+#: src/pages/index.tsx:126
 msgid "share.url-copied"
 msgstr "URL kopiert ✅"
 
 #: src/components/header.tsx:99
 #: src/pages/canton/[id].tsx:56
-#: src/pages/index.tsx:252
-#: src/pages/index.tsx:297
+#: src/pages/index.tsx:253
+#: src/pages/index.tsx:298
 #: src/pages/municipality/[id].tsx:78
 #: src/pages/operator/[id].tsx:75
 msgid "site.title"

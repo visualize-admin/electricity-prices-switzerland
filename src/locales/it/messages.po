@@ -157,84 +157,53 @@ msgstr "Anno"
 msgid "footer.calculation-basics"
 msgstr "Basi di calcolo"
 
-#: src/components/footer.tsx:183
+#: src/components/footer.tsx:185
 msgid "footer.create-data-visualizations"
-msgstr "Creare visualizzazioni dei dati"
+msgstr "Creare visualizzazioni dei dati con i dati di ElCom."
 
-#: src/components/footer.tsx:178
+#: src/components/footer.tsx:180
 msgid "footer.create-data-visualizations.link"
-msgstr "https://visualize.admin.ch/it/browse?includeDrafts=true&search=Elcom&order=SCORE&dataSource=Prod"
+msgstr "https://www.elcom.admin.ch/elcom/it/home/temi/prezzi-dell-energia-elettrica/dati-grezzi-tariffe-dei-gestori-delle-reti-di-distribuzione-sviz.html"
 
-#: src/components/footer.tsx:159
+#: src/components/footer.tsx:161
 msgid "footer.data-as-csv"
 msgstr "Dati in formato .csv"
 
-#: src/components/footer.tsx:170
+#: src/components/footer.tsx:172
 msgid "footer.data-on-opendata-swiss"
 msgstr "Dati su opendata.swiss"
 
-#: src/components/footer.tsx:164
+#: src/components/footer.tsx:166
 msgid "footer.data-on-opendata-swiss.link"
 msgstr "https://opendata.swiss/it/showcase/electricity-tariffs"
 
-#: src/components/footer.tsx:150
+#: src/components/footer.tsx:152
 msgid "footer.download-visualize-data"
 msgstr "Scarica / visualizza i dati"
 
-#: src/components/footer.tsx:129
-msgid "footer.elcom-website"
-msgstr "Sito Elcom"
-
-#: src/components/footer.tsx:122
-msgid "footer.elcom-website.link"
-msgstr "https://www.elcom.admin.ch/elcom/it/home/temi/prezzi-dell-energia-elettrica/dati-grezzi-tariffe-dei-gestori-delle-reti-di-distribuzione-sviz.html"
-
-#: src/components/footer.tsx:128
-#~ msgid "footer.energy-saving"
-#~ msgstr "Risparmio energetico"
-
-#: src/components/footer.tsx:122
-#~ msgid "footer.energy-saving.link"
-#~ msgstr "https://www.dont-waste.ch/it/"
-
-#~ msgid "footer.further-information"
-#~ msgstr "Informazioni aggiuntive"
-
-#: src/components/footer.tsx:185
-#~ msgid "footer.gas-supply"
-#~ msgstr "Fornitura di gas"
-
-#: src/components/footer.tsx:178
-#~ msgid "footer.gas-supply.link"
-#~ msgstr "https://www.bfe.admin.ch/bfe/it/home/approvvigionamento/approvvigionamento-di-gas/legge-sull-approvvigionamento-di-gas.html"
-
-#: src/components/footer.tsx:211
+#: src/components/footer.tsx:213
 msgid "footer.institution.name"
 msgstr "Commissione federale dell'energia elettrica Elcom"
 
-#: src/components/footer.tsx:172
-#~ msgid "footer.power-supply"
-#~ msgstr "Fornitura di energia elettrica"
+#: src/components/footer.tsx:128
+msgid "footer.more-tariffs-information"
+msgstr "Ulteriori informazioni sulle tariffe in Svizzera"
 
-#: src/components/footer.tsx:165
-#~ msgid "footer.power-supply.link"
-#~ msgstr "https://www.bfe.admin.ch/bfe/it/home/approvvigionamento/approvvigionamento-elettrico.html"
+#: src/components/footer.tsx:122
+msgid "footer.more-tariffs-information.link"
+msgstr "https://www.elcom.admin.ch/elcom/it/home/temi/prezzi-dell-energia-elettrica.html"
 
-#: src/components/footer.tsx:141
-msgid "footer.supply-situation"
-msgstr "Sicurezza di approvvigionamento"
+#: src/components/footer.tsx:143
+msgid "footer.transmission-grid-tariff"
+msgstr "Tariffe per la rete svizzera di trasmissione - le prestazioni di Swissgrid"
 
-#: src/components/footer.tsx:134
-msgid "footer.supply-situation.link"
-msgstr "https://www.elcom.admin.ch/elcom/it/home/temi/sicurezza-di-approvvigionamento.html"
+#: src/components/footer.tsx:136
+msgid "footer.transmission-grid-tariff.link"
+msgstr "https://www.swissgrid.ch/dam/swissgrid/customers/topics/tariffs/Tabelle-Tarife-it.pdf"
 
 #: src/components/footer.tsx:113
 msgid "help.calculation"
 msgstr "Base di calcolo"
-
-#: src/components/footer.tsx:38
-#~ msgid "help.download-raw-data"
-#~ msgstr "Apri la guida per i dati grezzi"
 
 #: src/components/price-color-legend.tsx:73
 msgid "help.price-comparison"
@@ -333,7 +302,7 @@ msgstr "Logo della confederazione svizzera"
 msgid "map.legend.title"
 msgstr "Confronto tariffe in ct./kWh"
 
-#: src/pages/index.tsx:103
+#: src/pages/index.tsx:104
 msgid "map.share"
 msgstr ""
 
@@ -396,7 +365,7 @@ msgstr "mediana, decrescente"
 msgid "relations.showmore"
 msgstr "mostra {rest} di più…"
 
-#: src/pages/index.tsx:312
+#: src/pages/index.tsx:313
 msgid "search.global"
 msgstr "Visualizzare l'analisi dettagliata dei prezzi per cantone, comune e gestore di rete."
 
@@ -569,14 +538,14 @@ msgstr "Anno"
 msgid "selector.years"
 msgstr "Anni"
 
-#: src/pages/index.tsx:125
+#: src/pages/index.tsx:126
 msgid "share.url-copied"
 msgstr "URL copiato ✅"
 
 #: src/components/header.tsx:99
 #: src/pages/canton/[id].tsx:56
-#: src/pages/index.tsx:252
-#: src/pages/index.tsx:297
+#: src/pages/index.tsx:253
+#: src/pages/index.tsx:298
 #: src/pages/municipality/[id].tsx:78
 #: src/pages/operator/[id].tsx:75
 msgid "site.title"

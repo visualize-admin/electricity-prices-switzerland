@@ -120,27 +120,30 @@ export const Footer = () => {
           <FooterLink
             target="_blank"
             href={t({
-              id: "footer.elcom-website.link",
+              id: "footer.more-tariffs-information.link",
               message:
-                "https://www.elcom.admin.ch/elcom/de/home/themen/strompreise/tarif-rohdaten-verteilnetzbetreiber.html",
+                "https://www.elcom.admin.ch/elcom/de/home/themen/strompreise.html",
             })}
             icon={<IconShare />}
           >
-            {t({ id: "footer.elcom-website", message: "Elcom Website" })}
+            {t({
+              id: "footer.more-tariffs-information",
+              message: "Weitere Informationen zu den Tarifen in der Schweiz",
+            })}
           </FooterLink>
 
           <FooterLink
             target="_blank"
             href={t({
-              id: "footer.supply-situation.link",
+              id: "footer.transmission-grid-tariff.link",
               message:
-                "https://www.bwl.admin.ch/bwl/de/home/themen/energie/energie-aktuelle-lage.html",
+                "https://www.swissgrid.ch/dam/swissgrid/customers/topics/tariffs/Tabelle-Tarife-de.pdf",
             })}
             icon={<IconShare />}
           >
             {t({
-              id: "footer.supply-situation",
-              message: "Versorgungssicherheit",
+              id: "footer.transmission-grid-tariff",
+              message: "Tarifkomponenten Übertragungsnetz - Swissgrid",
             })}
           </FooterLink>
         </FooterSection>
@@ -177,12 +180,13 @@ export const Footer = () => {
             target="_blank"
             href={t({
               id: "footer.create-data-visualizations.link",
-              message: "https://visualize.admin.ch/de",
+              message:
+                "https://www.elcom.admin.ch/elcom/de/home/themen/strompreise/tarif-rohdaten-verteilnetzbetreiber.html",
             })}
           >
             {t({
               id: "footer.create-data-visualizations",
-              message: "Datenvisualisierungen erstellen",
+              message: "Datenvisualierungen mit den ElCom-Daten erstellen",
             })}
           </FooterLink>
         </FooterSection>
