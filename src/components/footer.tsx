@@ -128,7 +128,7 @@ export const Footer = () => {
               message: `Daten als .csv`,
             })}
             open={isHelpCsvDownloadOpen}
-            slug="help.csv-download"
+            slug="help-csv-download"
           />
           <FooterLink
             target="_blank"
