@@ -123,7 +123,7 @@ msgstr "Fogli tariffari"
 
 #: src/components/footer.tsx:27
 #~ msgid "download.filetype.csv"
-#~ msgstr "Documento CVS"
+#~ msgstr "Documento CSV"
 
 #: src/components/operator-documents.tsx:55
 msgid "download.filetype.pdf"
