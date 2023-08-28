@@ -26,6 +26,7 @@ const FooterLink = ({
   return (
     <Link
       {...props}
+      variant="inline"
       sx={{
         borderBottomWidth: "1px",
         borderBottomStyle: "solid",
@@ -34,15 +35,6 @@ const FooterLink = ({
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
-        textDecoration: "none",
-
-        color: "primary",
-        "&:visited": {
-          color: "primary",
-        },
-        "&:hover": {
-          color: "primaryHover",
-        },
         ...props.sx,
       }}
     >
