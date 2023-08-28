@@ -97,7 +97,7 @@ export const Footer = () => {
           >
             {t({
               id: "footer.calculation-basics",
-              message: `Berechnungsgrundlage`,
+              message: `Berechnungsgrundlagen`,
             })}
           </FooterLink>
           <HelpDialog
