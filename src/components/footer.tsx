@@ -9,7 +9,7 @@ import { HelpDialog, InfoDialogButton } from "./info-dialog";
 import { LogoDesktop } from "./logo";
 import { IconCaretDown } from "../icons/ic-caret-down";
 import { IconShare } from "../icons/ic-share";
-import { BoxProps, LinkProps } from "theme-ui";
+import { BoxProps, IconButton, LinkProps } from "theme-ui";
 import { IconDownload } from "../icons/ic-download";
 import { useDisclosure } from "./useDisclosure";
 import { IconInfo } from "../icons/ic-info";
@@ -65,10 +65,22 @@ export const Footer = () => {
     close: closeHelpCalculation,
   } = useDisclosure();
 
-  const handleOpenCalculation = (ev: React.MouseEvent<HTMLAnchorElement>) => {
+  const {
+    isOpen: isHelpCsvDownloadOpen,
+    open: openHelpCsvDownload,
+    close: closeHelpCsvDownload,
+  } = useDisclosure();
+
+  const handleOpenCalculation = (ev: React.MouseEvent<HTMLElement>) => {
     ev.preventDefault();
     openHelpCalculation();
   };
+
+  const handleOpenCsvDownload = (ev: React.MouseEvent<HTMLElement>) => {
+    ev.preventDefault();
+    openHelpCsvDownload();
+  };
+
   return (
     <Box
       sx={{
@@ -108,6 +120,15 @@ export const Footer = () => {
             })}
             open={isHelpCalculationOpen}
             slug="help.calculation"
+          />
+          <HelpDialog
+            close={closeHelpCsvDownload}
+            label={t({
+              id: "help.csv-download",
+              message: `Daten als .csv`,
+            })}
+            open={isHelpCsvDownloadOpen}
+            slug="help.csv-download"
           />
           <FooterLink
             target="_blank"
@@ -149,7 +170,17 @@ export const Footer = () => {
           </FooterTitle>
           <FooterLink
             href={`/api/data-export?period=${period}&locale=${locale}`}
-            icon={<IconDownload />}
+            icon={
+              <Box sx={{ display: "flex", flexShrink: 0, gap: "1rem" }}>
+                <IconButton
+                  sx={{ p: 0, width: 24, height: 24, cursor: "pointer" }}
+                  onClick={handleOpenCsvDownload}
+                >
+                  <IconInfo />
+                </IconButton>
+                <IconDownload />
+              </Box>
+            }
           >
             {t({ id: "footer.data-as-csv", message: "Daten als .csv" })}
           </FooterLink>

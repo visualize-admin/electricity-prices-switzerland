@@ -153,65 +153,69 @@ msgstr "Prodotto"
 msgid "filters.year"
 msgstr "Anno"
 
-#: src/components/footer.tsx:106
+#: src/components/footer.tsx:110
 msgid "footer.calculation-basics"
 msgstr "Basi di calcolo"
 
-#: src/components/footer.tsx:187
+#: src/components/footer.tsx:210
 msgid "footer.create-data-visualizations"
 msgstr "Creare visualizzazioni dei dati con i dati di ElCom."
 
-#: src/components/footer.tsx:181
+#: src/components/footer.tsx:204
 msgid "footer.create-data-visualizations.link"
 msgstr "https://www.elcom.admin.ch/elcom/it/home/temi/prezzi-dell-energia-elettrica/dati-grezzi-tariffe-dei-gestori-delle-reti-di-distribuzione-sviz.html"
 
-#: src/components/footer.tsx:162
+#: src/components/footer.tsx:185
 msgid "footer.data-as-csv"
 msgstr "Dati in formato .csv"
 
-#: src/components/footer.tsx:173
+#: src/components/footer.tsx:196
 msgid "footer.data-on-opendata-swiss"
 msgstr "Dati su opendata.swiss"
 
-#: src/components/footer.tsx:167
+#: src/components/footer.tsx:190
 msgid "footer.data-on-opendata-swiss.link"
 msgstr "https://opendata.swiss/it/showcase/electricity-tariffs"
 
-#: src/components/footer.tsx:153
+#: src/components/footer.tsx:166
 msgid "footer.download-visualize-data"
 msgstr "Scarica / visualizza i dati"
 
-#: src/components/footer.tsx:216
+#: src/components/footer.tsx:241
 msgid "footer.institution.name"
 msgstr "Commissione federale dell'energia elettrica Elcom"
 
-#: src/components/footer.tsx:228
+#: src/components/footer.tsx:254
 msgid "footer.legal-framework"
 msgstr "Basi legali"
 
-#: src/components/footer.tsx:222
+#: src/components/footer.tsx:249
 msgid "footer.legal-framework.link"
 msgstr "https://www.admin.ch/gov/it/pagina-iniziale/basi-legali.html"
 
-#: src/components/footer.tsx:129
+#: src/components/footer.tsx:142
 msgid "footer.more-tariffs-information"
 msgstr "Ulteriori informazioni sulle tariffe in Svizzera"
 
-#: src/components/footer.tsx:122
+#: src/components/footer.tsx:135
 msgid "footer.more-tariffs-information.link"
 msgstr "https://www.elcom.admin.ch/elcom/it/home/temi/prezzi-dell-energia-elettrica.html"
 
-#: src/components/footer.tsx:144
+#: src/components/footer.tsx:157
 msgid "footer.transmission-grid-tariff"
 msgstr "Tariffe per la rete svizzera di trasmissione - le prestazioni di Swissgrid"
 
-#: src/components/footer.tsx:137
+#: src/components/footer.tsx:150
 msgid "footer.transmission-grid-tariff.link"
 msgstr "https://www.swissgrid.ch/dam/swissgrid/customers/topics/tariffs/Tabelle-Tarife-it.pdf"
 
-#: src/components/footer.tsx:113
+#: src/components/footer.tsx:117
 msgid "help.calculation"
 msgstr "Base di calcolo"
+
+#: src/components/footer.tsx:126
+msgid "help.csv-download"
+msgstr "Dati in formato .csv"
 
 #: src/components/price-color-legend.tsx:73
 msgid "help.price-comparison"
