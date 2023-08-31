@@ -159,7 +159,7 @@ msgstr "Basi di calcolo"
 
 #: src/components/footer.tsx:210
 msgid "footer.create-data-visualizations"
-msgstr "Creare visualizzazioni dei dati con i dati di ElCom."
+msgstr "Creare visualizzazioni dei dati con i dati di ElCom"
 
 #: src/components/footer.tsx:204
 msgid "footer.create-data-visualizations.link"
@@ -316,7 +316,7 @@ msgstr "Confronto tariffe in ct./kWh"
 
 #: src/pages/index.tsx:104
 msgid "map.share"
-msgstr ""
+msgstr "Condividi"
 
 #: src/components/map.tsx:577
 msgid "map.tooltipnodata"

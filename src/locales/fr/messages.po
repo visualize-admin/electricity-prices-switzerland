@@ -316,7 +316,7 @@ msgstr "Comparaison des tarifs en ct./kWh"
 
 #: src/pages/index.tsx:104
 msgid "map.share"
-msgstr ""
+msgstr "Partager"
 
 #: src/components/map.tsx:577
 msgid "map.tooltipnodata"
