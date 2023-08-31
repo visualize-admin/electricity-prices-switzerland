@@ -100,7 +100,12 @@ export const Footer = () => {
         }}
       >
         <FooterSection>
-          <FooterTitle>Weiterführende Informationen</FooterTitle>
+          <FooterTitle>
+            {t({
+              id: "footer.more-information",
+              message: `Weiterführende Informationen`,
+            })}
+          </FooterTitle>
           <FooterLink
             sx={{ cursor: "pointer" }}
             onClick={handleOpenCalculation}
