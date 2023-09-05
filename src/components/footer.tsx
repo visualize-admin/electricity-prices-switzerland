@@ -124,7 +124,7 @@ export const Footer = () => {
               message: `Berechnungsgrundlage`,
             })}
             open={isHelpCalculationOpen}
-            slug="help.calculation"
+            slug="help-calculation"
           />
           <HelpDialog
             close={closeHelpCsvDownload}
