@@ -243,47 +243,8 @@ type HoverState =
       label: string;
     };
 
-export const ChoroplethMap = ({
-  year,
-  observations,
-  observationsQueryFetching,
-  medianValue,
-  municipalities,
-  colorScale,
-  onMunicipalityLayerClick,
-}: {
-  year: string;
-  observations: OperatorObservationFieldsFragment[];
-  observationsQueryFetching: boolean;
-  medianValue: number | undefined;
-  municipalities: { id: string; name: string }[];
-  colorScale: ScaleThreshold<number, string> | undefined | 0;
-  onMunicipalityLayerClick: (_item: { object: any }) => void;
-}) => {
+const useGeoData = (year: string) => {
   const [geoData, setGeoData] = useState<GeoDataState>({ state: "fetching" });
-  const [hovered, setHovered] = useState<HoverState>();
-
-  const [viewState, setViewState] = useState(INITIAL_VIEW_STATE);
-
-  const onViewStateChange = useCallback(({ viewState, interactionState }) => {
-    setHovered(undefined);
-
-    if (interactionState.inTransition) {
-      setViewState(viewState);
-    } else {
-      setViewState(constrainZoom(viewState, CH_BBOX));
-    }
-  }, []);
-
-  const onResize = useCallback(
-    ({ width, height }) => {
-      setViewState((viewState) =>
-        constrainZoom({ ...viewState, width, height }, CH_BBOX)
-      );
-    },
-    [setViewState]
-  );
-
   useEffect(() => {
     const load = async () => {
       try {
@@ -324,6 +285,50 @@ export const ChoroplethMap = ({
     };
     load();
   }, [year]);
+  return geoData;
+};
+
+export const ChoroplethMap = ({
+  year,
+  observations,
+  observationsQueryFetching,
+  medianValue,
+  municipalities,
+  colorScale,
+  onMunicipalityLayerClick,
+}: {
+  year: string;
+  observations: OperatorObservationFieldsFragment[];
+  observationsQueryFetching: boolean;
+  medianValue: number | undefined;
+  municipalities: { id: string; name: string }[];
+  colorScale: ScaleThreshold<number, string> | undefined | 0;
+  onMunicipalityLayerClick: (_item: { object: any }) => void;
+}) => {
+  const [hovered, setHovered] = useState<HoverState>();
+
+  const [viewState, setViewState] = useState(INITIAL_VIEW_STATE);
+
+  const onViewStateChange = useCallback(({ viewState, interactionState }) => {
+    setHovered(undefined);
+
+    if (interactionState.inTransition) {
+      setViewState(viewState);
+    } else {
+      setViewState(constrainZoom(viewState, CH_BBOX));
+    }
+  }, []);
+
+  const onResize = useCallback(
+    ({ width, height }) => {
+      setViewState((viewState) =>
+        constrainZoom({ ...viewState, width, height }, CH_BBOX)
+      );
+    },
+    [setViewState]
+  );
+
+  const geoData = useGeoData(year);
 
   const observationsByMunicipalityId = useMemo(() => {
     return group(observations, (d) => d.municipality);
@@ -525,6 +530,7 @@ export const ChoroplethMap = ({
               <Text variant="meta" sx={{ fontWeight: "bold" }}>
                 {tooltipContent.name}
               </Text>
+
               {hovered.type === "canton" ? (
                 <>
                   <Box
