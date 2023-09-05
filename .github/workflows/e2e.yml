@@ -6,7 +6,7 @@ jobs:
     steps:
       - uses: actions/setup-node@v1
         with:
-          node-version: 16
+          node-version: 18
       - name: Checkout
         uses: actions/checkout@v1
       # Install NPM dependencies, cache them correctly
