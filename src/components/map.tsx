@@ -288,6 +288,8 @@ const useGeoData = (year: string) => {
   return geoData;
 };
 
+type InteractiveLayerName = "cantons" | "municipalities";
+
 export const ChoroplethMap = ({
   year,
   observations,
@@ -303,7 +305,10 @@ export const ChoroplethMap = ({
   medianValue: number | undefined;
   municipalities: { id: string; name: string }[];
   colorScale: ScaleThreshold<number, string> | undefined | 0;
-  onMunicipalityLayerClick: (_item: { object: any }) => void;
+  onMunicipalityLayerClick: (_item: {
+    object: any;
+    layer: { id: InteractiveLayerName };
+  }) => void;
 }) => {
   const [hovered, setHovered] = useState<HoverState>();
 
@@ -469,7 +474,7 @@ export const ChoroplethMap = ({
     ? hovered.type === "municipality"
       ? {
           id: hovered.id,
-          name: `${hoveredMunicipalityName} ${
+          name: `${hoveredMunicipalityName ?? "-"} ${
             hoveredCanton ? `- ${hoveredCanton}` : ""
           }`,
           observations: observationsByMunicipalityId.get(hovered.id),
@@ -500,6 +505,20 @@ export const ChoroplethMap = ({
         : [0, 0, 0, 20];
     };
   }, [observationsByMunicipalityId, getColor, highlightContext?.id]);
+
+  const handleMunicipalityLayerClick: typeof onMunicipalityLayerClick = (
+    ev
+  ) => {
+    if (!indexes) {
+      return;
+    }
+    const id = ev.object.id as number;
+    const type = ev.layer.id === "municipalities" ? "municipality" : "canton";
+    if (type === "municipality" && !observationsByMunicipalityId.get(`${id}`)) {
+      return;
+    }
+    onMunicipalityLayerClick(ev);
+  };
 
   return (
     <>
@@ -637,8 +656,9 @@ export const ChoroplethMap = ({
                       : undefined
                   );
                 }}
-                onClick={onMunicipalityLayerClick}
+                onClick={handleMunicipalityLayerClick}
                 updateTriggers={{
+                  onClick: [indexes, observationsByMunicipalityId],
                   getFillColor: [
                     observationsByMunicipalityId,
                     highlightContext?.id,
