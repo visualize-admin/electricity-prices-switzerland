@@ -1,4 +1,4 @@
-import { FormEvent, ReactNode, useCallback, useState } from "react";
+import { FormEvent, ReactNode, useCallback, useMemo, useState } from "react";
 import { Box, Heading, Flex, HeadingProps, BoxProps } from "theme-ui";
 import { UseQueryState } from "urql";
 import { LoadingIconInline } from "../../components/hint";
@@ -254,7 +254,7 @@ const Page = () => {
       <WikiContentStatus />
 
       <Heading variant="heading2" sx={{ mt: 3 }}>
-        Data
+        Data (Lindas)
       </Heading>
 
       <CubeHealth />
@@ -266,6 +266,8 @@ const Page = () => {
       <SwissMedianStatus />
 
       <DocumentDownloadStatus />
+
+      <MunicipalityStatus />
 
       <SectionHeading>Search</SectionHeading>
 
@@ -307,6 +309,116 @@ const useManualQuery = <T extends unknown, A extends unknown[]>({
     [queryFn]
   );
   return [state, execute] as const;
+};
+
+const useLindasQuery = () => {
+  const [query, execute] = useManualQuery({
+    queryFn: async (options: { endpoint: string; sparqlQuery: string }) => {
+      console.log({ options });
+      return fetch(options.endpoint, {
+        method: "POST",
+        body: `query=${encodeURIComponent(options.sparqlQuery)}`,
+        headers: {
+          Accept: "application/n-triples",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      }).then((x) => x.text());
+    },
+  });
+  return [query, execute] as const;
+};
+
+const MunicipalityStatus = () => {
+  const [query, execute] = useLindasQuery();
+
+  const handleSubmit = (ev: FormEvent) => {
+    ev.preventDefault();
+    const formData = Object.fromEntries(
+      new FormData(ev.currentTarget as HTMLFormElement)
+    ) as {
+      endpoint: string;
+      municipalityName: string;
+      municipalityId: string;
+    };
+    execute({
+      endpoint: formData.endpoint,
+      sparqlQuery: formData.municipalityName
+        ? `
+DESCRIBE ?municipality WHERE {
+  ?municipality a <https://schema.ld.admin.ch/Municipality>.
+  ?municipality <http://schema.org/name> "${formData.municipalityName}".
+}`
+        : `
+DESCRIBE <https://ld.admin.ch/municipality/${formData.municipalityId}>
+`,
+    });
+  };
+
+  const data = query.data;
+
+  const municipalityId = useMemo(() => {
+    if (!data) {
+      return null;
+    }
+    const rx = new RegExp("https://ld.admin.ch/municipality/([0-9]*)");
+    const match = rx.exec(data);
+    return match ? match[1] : null;
+  }, [data]);
+
+  return (
+    <StatusBox>
+      <StatusHeading sx={{ mb: 2 }}>Municipality status</StatusHeading>
+      <Box sx={{ fontSize: 2 }}>
+        <details>
+          <summary>Details</summary>
+          <Box
+            as="form"
+            sx={{ mt: 2, "& > * + *": { mt: 0.5, display: "block" } }}
+            onSubmit={handleSubmit}
+          >
+            <select name="endpoint">
+              <option value="https://int.lindas.admin.ch/query">
+                int.lindas.admin.ch
+              </option>
+              <option value="https://lindas.admin.ch/query">
+                lindas.admin.ch
+              </option>
+            </select>
+            <div>Either use municipality name or BFS id</div>
+            <label>
+              municipality name (exact):{" "}
+              <input type="value" name="municipalityName" />
+            </label>
+            <label>
+              municipality BFS id (ex: 261 for Zürich):{" "}
+              <input type="value" name="municipalityId" />
+            </label>
+            <br />
+            <button disabled={query.status === "fetching"} type="submit">
+              fetch municipality
+            </button>
+          </Box>
+          {query.status === "fetching" ? "Loading...." : ""}
+          {query.status === "fetched" ? (
+            <Box sx={{ my: 2 }}>
+              {data && municipalityId
+                ? `✅ Found municipality id ${municipalityId}`
+                : "❌ Could not find municipality"}
+            </Box>
+          ) : null}
+          <details>{data && data ? <pre>{data}</pre> : null}</details>
+          {query.error ? (
+            <div>
+              Erreur:{" "}
+              {query.error instanceof Error
+                ? query.error.message
+                : `${query.error}`}
+            </div>
+          ) : null}
+        </details>
+      </Box>
+    </StatusBox>
+  );
 };
 
 const DocumentDownloadStatus = () => {
