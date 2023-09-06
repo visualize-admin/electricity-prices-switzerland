@@ -288,18 +288,18 @@ const useManualQuery = <T extends unknown, A extends unknown[]>({
   queryFn: (...args: A) => Promise<T>;
 }) => {
   const [state, setState] = useState({
-    fetching: false as boolean,
     data: null as T | null,
     error: null as Error | null,
+    status: "idle" as "idle" | "fetching" | "fetched" | "error",
   });
   const execute = useCallback(
     async (...args: A) => {
-      setState((s) => ({ ...s, data: null, fetching: true }));
+      setState((s) => ({ ...s, data: null, status: "fetching" }));
       try {
         const data = await queryFn(...args);
-        setState((s) => ({ ...s, data }));
+        setState((s) => ({ ...s, data, status: "fetched" }));
       } catch (e) {
-        setState((s) => ({ ...s, error: e as Error }));
+        setState((s) => ({ ...s, error: e as Error, status: "error" }));
       } finally {
         setState((s) => ({ ...s, fetching: false }));
       }
@@ -353,11 +353,11 @@ const DocumentDownloadStatus = () => {
             <label>
               uid: <input type="value" name="uid" />
             </label>
-            <button disabled={query.fetching} type="submit">
+            <button disabled={query.status === "fetching"} type="submit">
               fetch documents
             </button>
           </Box>
-          {query.fetching ? "Loading...." : ""}
+          {query.status === "fetching" ? "Loading...." : ""}
           {data && data?.searchResp ? (
             <Box sx={{ mt: 2 }}>
               <div>
