@@ -64,7 +64,7 @@ export const MapPriceColorLegend = ({
       <Flex sx={{ alignItems: "center", width: "100%" }}>
         <Text sx={{ fontSize: 1, lineHeight: 1.5, mr: 1 }}>
           <Trans id="map.legend.title">
-            Tarifvergleich in Rp./kWh (Angaben exkl. MWST)
+            Tarifvergleich in Rp./kWh (Angaben exkl. MwSt.)
           </Trans>
         </Text>
         <InfoDialogButton

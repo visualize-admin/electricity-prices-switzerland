@@ -283,7 +283,7 @@ msgstr "Eidgenössische Elektrizitätskommission ElCom"
 
 #: src/components/detail-page/download-image.tsx:94
 msgid "image.download.unit"
-msgstr "Tarifvergleich in Rp./kWh"
+msgstr "Tarifvergleich in Rp./kWh (Angaben exkl. MwSt.)"
 
 #: src/components/list.tsx:318
 msgid "list.cantons"
@@ -320,7 +320,7 @@ msgstr "Logo of the Swiss Confederation"
 
 #: src/components/price-color-legend.tsx:67
 msgid "map.legend.title"
-msgstr "Tarifvergleich in Rp./kWh (Angaben exkl. MWST)"
+msgstr "Tarifvergleich in Rp./kWh (Angaben exkl. MwSt.)"
 
 #: src/pages/index.tsx:104
 msgid "map.share"

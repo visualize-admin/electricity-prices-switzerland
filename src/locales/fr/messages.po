@@ -279,7 +279,7 @@ msgstr "Commission fédérale de l'électricité ElCom"
 
 #: src/components/detail-page/download-image.tsx:94
 msgid "image.download.unit"
-msgstr "Comparaison des tarifs en ct./kWh"
+msgstr "Comparaison des tarifs en ct./kWh (TVA exclue)"
 
 #: src/components/list.tsx:318
 msgid "list.cantons"

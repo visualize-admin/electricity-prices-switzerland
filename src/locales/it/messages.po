@@ -279,7 +279,7 @@ msgstr "Commissione federale dell'energia elettrica Elcom"
 
 #: src/components/detail-page/download-image.tsx:94
 msgid "image.download.unit"
-msgstr "Confronto tariffe in ct./kWh"
+msgstr "Confronto tariffe in ct./kWh (IVA esclusa)"
 
 #: src/components/list.tsx:318
 msgid "list.cantons"
