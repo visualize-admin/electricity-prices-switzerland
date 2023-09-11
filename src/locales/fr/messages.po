@@ -153,43 +153,43 @@ msgstr "Produit"
 msgid "filters.year"
 msgstr "Année"
 
-#: src/components/footer.tsx:116
+#: src/components/footer.tsx:115
 msgid "footer.calculation-basics"
 msgstr "Bases de calcul"
 
-#: src/components/footer.tsx:216
+#: src/components/footer.tsx:215
 msgid "footer.create-data-visualizations"
 msgstr "Créer des visualisations de données avec les données ElCom"
 
-#: src/components/footer.tsx:210
+#: src/components/footer.tsx:209
 msgid "footer.create-data-visualizations.link"
 msgstr "https://www.elcom.admin.ch/elcom/fr/home/themes/prix-de-l_electricite/donnees-brutes-des-gestionnaires-suisses-de-reseau-de-distributi.html"
 
-#: src/components/footer.tsx:191
+#: src/components/footer.tsx:190
 msgid "footer.data-as-csv"
 msgstr "Données au format .csv"
 
-#: src/components/footer.tsx:202
+#: src/components/footer.tsx:201
 msgid "footer.data-on-opendata-swiss"
 msgstr "Données sur opendata.swiss"
 
-#: src/components/footer.tsx:196
+#: src/components/footer.tsx:195
 msgid "footer.data-on-opendata-swiss.link"
 msgstr "https://opendata.swiss/fr/showcase/electricity-tariffs"
 
-#: src/components/footer.tsx:172
+#: src/components/footer.tsx:171
 msgid "footer.download-visualize-data"
 msgstr "Télécharger / visualiser les données"
 
-#: src/components/footer.tsx:247
+#: src/components/footer.tsx:246
 msgid "footer.institution.name"
 msgstr "Commission fédérale de l'électricité ElCom"
 
-#: src/components/footer.tsx:260
+#: src/components/footer.tsx:259
 msgid "footer.legal-framework"
 msgstr "Conditions d'utilisation"
 
-#: src/components/footer.tsx:255
+#: src/components/footer.tsx:254
 msgid "footer.legal-framework.link"
 msgstr "https://www.admin.ch/gov/fr/accueil/conditions-utilisation.html"
 
@@ -197,31 +197,31 @@ msgstr "https://www.admin.ch/gov/fr/accueil/conditions-utilisation.html"
 msgid "footer.more-information"
 msgstr "Informations complémentaires"
 
-#: src/components/footer.tsx:148
+#: src/components/footer.tsx:147
 msgid "footer.more-tariffs-information"
 msgstr "Plus d'informations sur les tarifs en Suisse"
 
-#: src/components/footer.tsx:141
+#: src/components/footer.tsx:140
 msgid "footer.more-tariffs-information.link"
 msgstr "https://www.elcom.admin.ch/elcom/fr/home/themes/prix-de-l_electricite.html"
 
-#: src/components/footer.tsx:163
+#: src/components/footer.tsx:162
 msgid "footer.transmission-grid-tariff"
 msgstr "Tarifs du réseau de transport suisse - prestations de Swissgrid"
 
-#: src/components/footer.tsx:156
+#: src/components/footer.tsx:155
 msgid "footer.transmission-grid-tariff.link"
 msgstr "https://www.swissgrid.ch/dam/swissgrid/customers/topics/tariffs/Tabelle-Tarife-fr.pdf"
 
-#: src/components/footer.tsx:123
+#: src/components/footer.tsx:122
 msgid "help.calculation"
 msgstr "Base de calcul"
 
-#: src/components/footer.tsx:132
+#: src/components/footer.tsx:131
 msgid "help.csv-download"
 msgstr "Données au format .csv"
 
-#: src/components/price-color-legend.tsx:73
+#: src/components/price-color-legend.tsx:75
 msgid "help.price-comparison"
 msgstr "Comparaison des tarifs"
 
@@ -316,28 +316,28 @@ msgstr "Logo de la Confédération suisse"
 
 #: src/components/price-color-legend.tsx:67
 msgid "map.legend.title"
-msgstr "Comparaison des tarifs en ct./kWh"
+msgstr "Comparaison des tarifs en ct./kWh (TVA exclue)"
 
 #: src/pages/index.tsx:104
 msgid "map.share"
 msgstr "Partager"
 
-#: src/components/map.tsx:577
+#: src/components/map.tsx:602
 msgid "map.tooltipnodata"
 msgstr "Aucune donnée"
 
-#: src/components/price-color-legend.tsx:124
-#: src/components/price-color-legend.tsx:162
+#: src/components/price-color-legend.tsx:126
+#: src/components/price-color-legend.tsx:164
 msgid "price.legend.max"
 msgstr "Max"
 
-#: src/components/price-color-legend.tsx:120
-#: src/components/price-color-legend.tsx:158
+#: src/components/price-color-legend.tsx:122
+#: src/components/price-color-legend.tsx:160
 msgid "price.legend.median"
 msgstr "Médiane"
 
-#: src/components/price-color-legend.tsx:116
-#: src/components/price-color-legend.tsx:154
+#: src/components/price-color-legend.tsx:118
+#: src/components/price-color-legend.tsx:156
 msgid "price.legend.min"
 msgstr "Min"
 

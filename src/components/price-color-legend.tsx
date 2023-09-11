@@ -22,7 +22,6 @@ const LegendBox = ({
   return (
     <Box
       sx={{
-        width: LEGEND_WIDTH,
         zIndex: 13,
         bg: "rgba(245, 245, 245, 0.8)",
         borderRadius: "default",
@@ -64,7 +63,9 @@ export const MapPriceColorLegend = ({
     <LegendBox>
       <Flex sx={{ alignItems: "center", width: "100%" }}>
         <Text sx={{ fontSize: 1, lineHeight: 1.5, mr: 1 }}>
-          <Trans id="map.legend.title">Tarifvergleich in Rp./kWh</Trans>
+          <Trans id="map.legend.title">
+            Tarifvergleich in Rp./kWh (Angaben exkl. MWST)
+          </Trans>
         </Text>
         <InfoDialogButton
           smaller
@@ -84,48 +85,55 @@ export const MapPriceColorLegend = ({
           <IconClear size={16} color="#666" />
         </Box>
       </Flex>
-      <Flex
+      <Box
         sx={{
-          justifyContent: "space-between",
-          color: "text",
-          fontSize: 1,
-          lineHeight: 1.5,
-          height: TOP_LABEL_HEIGHT,
-          pointerEvents: "none",
+          mt: 1,
+          width: LEGEND_WIDTH,
         }}
       >
-        <Text sx={{ flex: "1 1 0px", display: "flex" }}>
-          {stats[0] && formatCurrency(stats[0])}
-        </Text>
-        <Text sx={{ flex: "1 1 0px", textAlign: "center" }}>
-          {stats[1] && formatCurrency(stats[1])}
-        </Text>
-        <Text sx={{ flex: "1 1 0px", textAlign: "right" }}>
-          {stats[2] && formatCurrency(stats[2])}
-        </Text>
-      </Flex>
-      <Flex
-        sx={{
-          justifyContent: "space-between",
-          color: "monochrome600",
-          fontSize: 1,
-          mb: 2,
-        }}
-      >
-        <Text sx={{ flex: "1 1 0px" }}>
-          <Trans id="price.legend.min">min</Trans>
-        </Text>
+        <Flex
+          sx={{
+            justifyContent: "space-between",
+            color: "text",
+            fontSize: 1,
+            lineHeight: 1.5,
+            height: TOP_LABEL_HEIGHT,
+            pointerEvents: "none",
+          }}
+        >
+          <Text sx={{ flex: "1 1 0px", display: "flex" }}>
+            {stats[0] && formatCurrency(stats[0])}
+          </Text>
+          <Text sx={{ flex: "1 1 0px", textAlign: "center" }}>
+            {stats[1] && formatCurrency(stats[1])}
+          </Text>
+          <Text sx={{ flex: "1 1 0px", textAlign: "right" }}>
+            {stats[2] && formatCurrency(stats[2])}
+          </Text>
+        </Flex>
+        <Flex
+          sx={{
+            justifyContent: "space-between",
+            color: "monochrome600",
+            fontSize: 1,
+            mb: 2,
+          }}
+        >
+          <Text sx={{ flex: "1 1 0px" }}>
+            <Trans id="price.legend.min">min</Trans>
+          </Text>
 
-        <Text sx={{ flex: "1 1 0px", textAlign: "center" }}>
-          <Trans id="price.legend.median">median</Trans>
-        </Text>
+          <Text sx={{ flex: "1 1 0px", textAlign: "center" }}>
+            <Trans id="price.legend.median">median</Trans>
+          </Text>
 
-        <Text sx={{ flex: "1 1 0px", textAlign: "right" }}>
-          <Trans id="price.legend.max">max</Trans>
-        </Text>
-      </Flex>
+          <Text sx={{ flex: "1 1 0px", textAlign: "right" }}>
+            <Trans id="price.legend.max">max</Trans>
+          </Text>
+        </Flex>
 
-      <ColorsLine />
+        <ColorsLine />
+      </Box>
     </LegendBox>
   );
 };
