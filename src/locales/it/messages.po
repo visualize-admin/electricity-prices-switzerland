@@ -316,7 +316,7 @@ msgstr "Logo della confederazione svizzera"
 
 #: src/components/price-color-legend.tsx:67
 msgid "map.legend.title"
-msgstr "Confronto tariffe in ct./kWh (IVA esclusa"
+msgstr "Confronto tariffe in ct./kWh (IVA esclusa)"
 
 #: src/pages/index.tsx:104
 msgid "map.share"
