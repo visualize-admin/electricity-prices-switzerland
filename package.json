@@ -6,11 +6,11 @@
   "license": "BSD-3-Clause",
   "private": true,
   "engines": {
-    "node": "16"
+    "node": "18"
   },
   "scripts": {
     "dev": "make content && next",
-    "build": "make content && lingui compile && NODE_OPTIONS=--max_old_space_size=16384 next build",
+    "build": "make content && lingui compile && NODE_OPTIONS='--max_old_space_size=16384 --openssl-legacy-provider' next build",
     "start": "GLOBAL_AGENT_ENVIRONMENT_VARIABLE_NAMESPACE='' NODE_OPTIONS='-r \"global-agent/bootstrap\" --max_old_space_size=2048' next start -p $PORT",
     "lint": "tsc --noEmit",
     "setup": "yarn && yarn locales:compile && yarn graphql:codegen",
