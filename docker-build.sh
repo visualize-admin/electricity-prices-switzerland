@@ -29,7 +29,7 @@ yarn config set 'strict-ssl' false
 yarn build
 
 # Change directory to "screenshot-service"
-cd ../screenshot-service
+cd ./screenshot-service
 
 # Disable strict SSL in Yarn
 yarn config set 'strict-ssl' false
