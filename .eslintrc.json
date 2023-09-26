@@ -5,7 +5,11 @@
   },
   "plugins": ["@typescript-eslint", "import", "unused-imports", "react-hooks"],
   "extends": ["plugin:@typescript-eslint/recommended"],
-  "ignorePatterns": ["src/gql/fragment-masking.ts", "src/graphql"],
+  "ignorePatterns": [
+    "src/gql/fragment-masking.ts",
+    "src/graphql",
+    "public/**/*"
+  ],
   "rules": {
     "react-hooks/exhaustive-deps": "error",
     "import/no-relative-parent-imports": "error",
@@ -56,5 +60,13 @@
         "pathGroupsExcludedImportTypes": ["builtin"]
       }
     ]
-  }
+  },
+  "overrides": [
+    {
+      "files": ["**/*.js"], // Specify the JavaScript files you want to override for
+      "rules": {
+        "@typescript-eslint/no-var-requires": "off" // Turn off the rule for JavaScript files
+      }
+    }
+  ]
 }

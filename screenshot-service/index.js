@@ -1,4 +1,5 @@
 const polka = require("polka");
+
 const { handleScreenshot } = require("./dist/screenshot");
 
 const PORT = process.env.PORT || 3001;

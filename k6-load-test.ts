@@ -1,5 +1,5 @@
+import { sleep } from "k6";
 import http from "k6/http";
-import { check, group, sleep } from "k6";
 
 export const options = {
   stages: [
@@ -14,8 +14,6 @@ export const options = {
 };
 
 const BASE_URL = "http://localhost:3000";
-const USERNAME = "TestUser";
-const PASSWORD = "SuperCroc2020";
 
 export default () => {
   //   const loginRes = http.post(`${BASE_URL}/auth/token/login/`, {
@@ -33,6 +31,6 @@ export default () => {
   //     },
   //   };
 
-  const myObjects = http.get(`${BASE_URL}`);
+  http.get(`${BASE_URL}`);
   sleep(1);
 };

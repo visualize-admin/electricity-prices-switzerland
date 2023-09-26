@@ -21,9 +21,19 @@
   },
   "exclude": ["node_modules", "./src/graphql", "./public/"],
   "include": [
+    "*.js",
+    "*.ts",
     "next-env.d.ts",
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "typings/**/*.d.ts"
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.js"
+  ],
+  "overrides": [
+    {
+      "files": ["**/*.js"], // Specify the JavaScript files you want to override for
+      "rules": {
+        "@typescript-eslint/no-var-requires": "off" // Turn off the rule for JavaScript files
+      }
+    }
   ]
 }

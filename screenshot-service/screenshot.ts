@@ -1,10 +1,12 @@
-import { either, pipeable } from "fp-ts";
 import { ServerResponse } from "http";
+import { URL } from "url";
+
+import { either, pipeable } from "fp-ts";
 import * as t from "io-ts";
 import { NumberFromString } from "io-ts-types/lib/NumberFromString";
 import { Request } from "polka";
 import puppeteer, { Browser } from "puppeteer";
-import { URL } from "url";
+
 
 /**
  * We start a new browser instance for each request. This may seem a bit expensive (and it is),

@@ -1,6 +1,7 @@
-import { ArgumentParser } from "argparse";
-import fs from "fs";
 import { spawnSync } from "child_process";
+import fs from "fs";
+
+import { ArgumentParser } from "argparse";
 
 const baseURL = "https://api.k6.io/loadtests/v2";
 

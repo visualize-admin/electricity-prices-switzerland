@@ -1,7 +1,6 @@
-import { test } from "@playwright/test";
 import fs from "fs";
 
-type $IntentionalAny = any;
+import { test, Page, Browser } from "@playwright/test";
 
 const cleanupHAR = (path: string) => {
   const data = JSON.parse(fs.readFileSync(path).toString());
@@ -12,7 +11,7 @@ const cleanupHAR = (path: string) => {
     } else {
       // The extra "params" confuses k6 (when loading the entry, k6 has an empty {} body).
       // It is not present in HAR from Chrome but it is there in HAR from Playwrights.
-      const { params, ...keptPostData } = request.postData;
+      const { params: _params, ...keptPostData } = request.postData;
       return {
         ...request,
         postData: keptPostData,
@@ -20,7 +19,7 @@ const cleanupHAR = (path: string) => {
     }
   };
 
-  const cleanEntry = (entry) => {
+  const cleanEntry = (entry: $IntentionalAny) => {
     return {
       ...entry,
       request: cleanRequest(entry.request),
@@ -44,7 +43,7 @@ export const sleep = (duration: number) =>
 export const testAndSaveHar = async (
   name: string,
   path: string,
-  run: ({ page: Page, browser: Browser }) => Promise<void>
+  run: ({ page, browser }: { page: Page; browser: Browser }) => Promise<void>
 ) => {
   test(name, async ({ page: defaultPage, browser }) => {
     test.slow();

@@ -11,21 +11,11 @@ import { TooltipMultiple, TooltipSingle } from "./tooltip-content";
 export const TRIANGLE_SIZE = 8;
 export const TOOLTIP_OFFSET = 4;
 
-export const Tooltip = ({
-  type = "single",
-  unit,
-}: {
-  type: TooltipType;
-  unit?: string;
-}) => {
+export const Tooltip = ({ type = "single" }: { type: TooltipType }) => {
   const [state] = useInteraction();
   const { visible, mouse, d } = state.interaction;
   return (
-    <>
-      {visible && d && (
-        <TooltipInner d={d} mouse={mouse} type={type} unit={unit} />
-      )}
-    </>
+    <>{visible && d && <TooltipInner d={d} mouse={mouse} type={type} />}</>
   );
 };
 

@@ -35,6 +35,8 @@ import { HighlightContext } from "./highlight-context";
 import { Loading, NoDataHint, NoGeoDataHint } from "./hint";
 import { MapPriceColorLegend } from "./price-color-legend";
 
+import type { Feature, FeatureCollection, MultiLineString } from "geojson";
+
 const DOWNLOAD_ID = "map";
 
 const INITIAL_VIEW_STATE = {
@@ -199,11 +201,11 @@ const HintBox = ({ children }: { children: ReactNode }) => (
 
 type GeoData = {
   state: "loaded";
-  cantons: GeoJSON.FeatureCollection;
-  municipalities: GeoJSON.FeatureCollection;
-  municipalityMesh: GeoJSON.MultiLineString;
-  cantonMesh: GeoJSON.MultiLineString;
-  lakes: GeoJSON.FeatureCollection | GeoJSON.Feature;
+  cantons: FeatureCollection;
+  municipalities: FeatureCollection;
+  municipalityMesh: MultiLineString;
+  cantonMesh: MultiLineString;
+  lakes: FeatureCollection | Feature;
 };
 
 type FetchDataState<T> =
@@ -350,7 +352,7 @@ export const ChoroplethMap = ({
     if (geoData.state === "loaded" && observationsByMunicipalityId.size > 0) {
       __debugCheckObservationsWithoutShapes(
         observationsByMunicipalityId,
-        geoData.municipalities as GeoJSON.FeatureCollection
+        geoData.municipalities
       );
     }
   }, [geoData, observationsByMunicipalityId]);
