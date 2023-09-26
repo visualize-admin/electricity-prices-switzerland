@@ -46,7 +46,11 @@ const graphql: NextApiHandler = async (req, res) => {
     res.status(200).end();
   }
 
-  await handler(req, res);
+  try {
+    await handler(req, res);
+  } catch (e) {
+    res.status(500).send(`Error: ${e instanceof Error ? e.message : `${e}`}`);
+  }
 };
 
 export default graphql;
