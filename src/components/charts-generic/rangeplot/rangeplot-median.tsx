@@ -1,26 +1,15 @@
 import * as React from "react";
 import { useFormatCurrency } from "../../../domain/helpers";
 import { getLocalizedLabel } from "../../../domain/translation";
-import { useChartState } from "../use-chart-state";
+import { RangePlotState, useChartState } from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
-import { RangePlotState } from "./rangeplot-state";
 
 export const RangeplotMedian = ({ label }: { label: string }) => {
-  const {
-    data,
-    medianValue,
-    bounds,
-    getX,
-    xScale,
-    yScale,
-  } = useChartState() as RangePlotState;
+  const { data, medianValue, bounds, getX, xScale, yScale } =
+    useChartState() as RangePlotState;
   const { margins } = bounds;
-  const {
-    labelColor,
-    domainColor,
-    labelFontSize,
-    fontFamily,
-  } = useChartTheme();
+  const { labelColor, domainColor, labelFontSize, fontFamily } =
+    useChartTheme();
   const formatCurrency = useFormatCurrency();
 
   const m = medianValue;

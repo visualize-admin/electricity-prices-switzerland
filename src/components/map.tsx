@@ -1,6 +1,10 @@
-import { MapController, WebMercatorViewport } from "@deck.gl/core";
-import { GeoJsonLayer } from "@deck.gl/layers";
-import DeckGL from "@deck.gl/react";
+import {
+  MapController,
+  PickingInfo,
+  WebMercatorViewport,
+} from "@deck.gl/core/typed";
+import { GeoJsonLayer } from "@deck.gl/layers/typed";
+import DeckGL from "@deck.gl/react/typed";
 import { Trans } from "@lingui/macro";
 import centroid from "@turf/centroid";
 import { color, extent, group, mean, rollup } from "d3";
@@ -8,11 +12,8 @@ import { ScaleThreshold } from "d3-scale";
 import { string } from "io-ts";
 import { memoize } from "lodash";
 import React, {
-  createContext,
-  Dispatch,
   Fragment,
   ReactNode,
-  SetStateAction,
   useCallback,
   useContext,
   useEffect,
@@ -32,6 +33,8 @@ import { TooltipBoxWithoutChartState } from "./charts-generic/interaction/toolti
 import { WithClassName } from "./detail-page/with-classname";
 import { Loading, NoDataHint, NoGeoDataHint } from "./hint";
 import { MapPriceColorLegend } from "./price-color-legend";
+import { geo } from "@tpluscode/rdf-ns-builders";
+import { HighlightContext } from "./highlight-context";
 
 const DOWNLOAD_ID = "map";
 
@@ -45,7 +48,7 @@ const INITIAL_VIEW_STATE = {
   bearing: 0,
 };
 
-const LINE_COLOR = [100, 100, 100, 127] as const;
+const LINE_COLOR = [100, 100, 100, 127] as [number, number, number, number];
 
 type BBox = [[number, number], [number, number]];
 
@@ -195,7 +198,7 @@ const HintBox = ({ children }: { children: ReactNode }) => (
   </Flex>
 );
 
-type GeoDataStateLoaded = {
+type GeoData = {
   state: "loaded";
   cantons: GeoJSON.FeatureCollection;
   municipalities: GeoJSON.FeatureCollection;
@@ -204,28 +207,48 @@ type GeoDataStateLoaded = {
   lakes: GeoJSON.FeatureCollection | GeoJSON.Feature;
 };
 
-type GeoDataState =
+type FetchDataState<T> =
   | {
       state: "fetching";
     }
   | {
       state: "error";
     }
-  | GeoDataStateLoaded;
+  | ({
+      state: "loaded";
+    } & T);
 
-export type HighlightValue = {
-  entity: Entity;
-  id: string;
-  label: string;
-  value: number;
+type GeoDataState = FetchDataState<GeoData>;
+
+const fetchGeoData = async (year: string) => {
+  const topo = await import(
+    `swiss-maps/${parseInt(year, 10) - 1}/ch-combined.json`
+  );
+
+  const municipalities = topojsonFeature(topo, topo.objects.municipalities);
+  const cantons = topojsonFeature(topo, topo.objects.cantons);
+  const municipalityMesh = topojsonMesh(
+    topo,
+    topo.objects.municipalities,
+    (a, b) => a !== b
+  );
+  const cantonMesh = topojsonMesh(
+    topo,
+    topo.objects.cantons
+    // (a, b) => a !== b
+  );
+  const lakes = topojsonFeature(topo, topo.objects.lakes);
+  return {
+    municipalities: municipalities as Extract<
+      typeof municipalities,
+      { features: any }
+    >,
+    cantons: cantons as Extract<typeof cantons, { features: any }>,
+    municipalityMesh,
+    cantonMesh,
+    lakes,
+  };
 };
-
-export const HighlightContext = createContext({
-  value: undefined as HighlightValue | undefined,
-  setValue: (() => undefined) as Dispatch<
-    SetStateAction<HighlightValue | undefined>
-  >,
-});
 
 type HoverState =
   | {
@@ -248,36 +271,10 @@ const useGeoData = (year: string) => {
   useEffect(() => {
     const load = async () => {
       try {
-        const topo = await import(
-          `swiss-maps/${parseInt(year, 10) - 1}/ch-combined.json`
-        );
-
-        const municipalities = topojsonFeature(
-          topo,
-          topo.objects.municipalities
-        );
-        const cantons = topojsonFeature(topo, topo.objects.cantons);
-        const municipalityMesh = topojsonMesh(
-          topo,
-          topo.objects.municipalities,
-          (a, b) => a !== b
-        );
-        const cantonMesh = topojsonMesh(
-          topo,
-          topo.objects.cantons
-          // (a, b) => a !== b
-        );
-        const lakes = topojsonFeature(topo, topo.objects.lakes);
+        const geoData = await fetchGeoData(year);
         setGeoData({
           state: "loaded",
-          municipalities: municipalities as Extract<
-            typeof municipalities,
-            { features: any }
-          >,
-          cantons: cantons as Extract<typeof cantons, { features: any }>,
-          municipalityMesh,
-          cantonMesh,
-          lakes,
+          ...geoData,
         });
       } catch {
         setGeoData({ state: "error" });
@@ -287,8 +284,6 @@ const useGeoData = (year: string) => {
   }, [year]);
   return geoData;
 };
-
-type InteractiveLayerName = "cantons" | "municipalities";
 
 export const ChoroplethMap = ({
   year,
@@ -305,10 +300,7 @@ export const ChoroplethMap = ({
   medianValue: number | undefined;
   municipalities: { id: string; name: string }[];
   colorScale: ScaleThreshold<number, string> | undefined | 0;
-  onMunicipalityLayerClick: (_item: {
-    object: any;
-    layer: { id: InteractiveLayerName };
-  }) => void;
+  onMunicipalityLayerClick: (_item: PickingInfo) => void;
 }) => {
   const [hovered, setHovered] = useState<HoverState>();
 
@@ -366,7 +358,10 @@ export const ChoroplethMap = ({
 
   const formatNumber = useFormatCurrency();
 
-  const getColor = (v: number | undefined, highlighted: boolean) => {
+  const getColor = (
+    v: number | undefined,
+    highlighted: boolean
+  ): [number, number, number] => {
     if (v === undefined) {
       return [0, 0, 0];
     }
@@ -494,7 +489,9 @@ export const ChoroplethMap = ({
       entity && entity !== "operator"
         ? (o: OperatorObservationFieldsFragment) => o[entity] === id
         : () => false;
-    return (d: $FixMe) => {
+    return (
+      d: $FixMe
+    ): [number, number, number] | [number, number, number, number] => {
       const obs = observationsByMunicipalityId.get(d.id.toString());
       const highlighted = obs?.find(predicate);
       return obs
@@ -509,7 +506,7 @@ export const ChoroplethMap = ({
   const handleMunicipalityLayerClick: typeof onMunicipalityLayerClick = (
     ev
   ) => {
-    if (!indexes) {
+    if (!indexes || !ev.layer) {
       return;
     }
     const id = ev.object.id as number;
@@ -519,6 +516,84 @@ export const ChoroplethMap = ({
     }
     onMunicipalityLayerClick(ev);
   };
+
+  const layers = useMemo(() => {
+    if (geoData.state !== "loaded") {
+      return;
+    }
+    return [
+      new GeoJsonLayer({
+        up: true,
+        id: "municipalities",
+        data: geoData.municipalities,
+        pickable: true,
+        stroked: false,
+        filled: true,
+        extruded: false,
+        autoHighlight: true,
+        getFillColor: getFillColor,
+        highlightColor: [0, 0, 0, 50],
+        getRadius: 100,
+        getLineWidth: 1,
+        onHover: ({ x, y, object }: $FixMe) => {
+          setHovered(
+            object
+              ? {
+                  x: x,
+                  y: y,
+                  id: object?.id.toString(),
+                  type: "municipality",
+                }
+              : undefined
+          );
+        },
+        onClick: handleMunicipalityLayerClick,
+        updateTriggers: {
+          onClick: [indexes, observationsByMunicipalityId],
+          getFillColor: [observationsByMunicipalityId, highlightContext?.id],
+        },
+      }),
+      new GeoJsonLayer({
+        id: "municipality-mesh",
+        data: geoData.municipalityMesh,
+        pickable: false,
+        stroked: true,
+        filled: false,
+        extruded: false,
+        lineWidthMinPixels: 0.5,
+        lineWidthMaxPixels: 1,
+        getLineWidth: 100,
+        lineMiterLimit: 1,
+        getLineColor: LINE_COLOR,
+      }),
+      new GeoJsonLayer({
+        id: "lakes",
+        data: geoData.lakes,
+        pickable: false,
+        stroked: true,
+        filled: true,
+        extruded: false,
+        lineWidthMinPixels: 0.5,
+        lineWidthMaxPixels: 1,
+        getLineWidth: 100,
+        getFillColor: [102, 175, 233],
+        getLineColor: LINE_COLOR,
+      }),
+      new GeoJsonLayer({
+        id: "cantons",
+        data: geoData.cantonMesh,
+        pickable: false,
+        stroked: true,
+        filled: false,
+        extruded: false,
+        lineWidthMinPixels: 1.2,
+        lineWidthMaxPixels: 3.6,
+        getLineWidth: 200,
+        lineMiterLimit: 1,
+        getLineColor: [120, 120, 120],
+      }),
+    ];
+  }, []);
 
   return (
     <>
@@ -630,81 +705,8 @@ export const ChoroplethMap = ({
               viewState={viewState}
               onViewStateChange={onViewStateChange}
               onResize={onResize}
-            >
-              <GeoJsonLayer
-                up
-                id="municipalities"
-                data={geoData.municipalities}
-                pickable={true}
-                stroked={false}
-                filled={true}
-                extruded={false}
-                autoHighlight={true}
-                getFillColor={getFillColor}
-                highlightColor={[0, 0, 0, 50]}
-                getRadius={100}
-                getLineWidth={1}
-                onHover={({ x, y, object }: $FixMe) => {
-                  setHovered(
-                    object
-                      ? {
-                          x: x,
-                          y: y,
-                          id: object?.id.toString(),
-                          type: "municipality",
-                        }
-                      : undefined
-                  );
-                }}
-                onClick={handleMunicipalityLayerClick}
-                updateTriggers={{
-                  onClick: [indexes, observationsByMunicipalityId],
-                  getFillColor: [
-                    observationsByMunicipalityId,
-                    highlightContext?.id,
-                  ],
-                }}
-              />
-              <GeoJsonLayer
-                id="municipality-mesh"
-                data={geoData.municipalityMesh}
-                pickable={false}
-                stroked={true}
-                filled={false}
-                extruded={false}
-                lineWidthMinPixels={0.5}
-                lineWidthMaxPixels={1}
-                getLineWidth={100}
-                lineMiterLimit={1}
-                getLineColor={LINE_COLOR}
-              />
-              <GeoJsonLayer
-                id="lakes"
-                data={geoData.lakes}
-                pickable={false}
-                stroked={true}
-                filled={true}
-                extruded={false}
-                lineWidthMinPixels={0.5}
-                lineWidthMaxPixels={1}
-                getLineWidth={100}
-                getFillColor={[102, 175, 233]}
-                getLineColor={LINE_COLOR}
-              />
-              <GeoJsonLayer
-                id="cantons"
-                data={geoData.cantonMesh}
-                pickable={false}
-                stroked={true}
-                filled={false}
-                extruded={false}
-                lineWidthMinPixels={1.2}
-                lineWidthMaxPixels={3.6}
-                getLineWidth={200}
-                lineMiterLimit={1}
-                getLineColor={[120, 120, 120]}
-              />
-            </DeckGL>
+              layers={layers}
+            />
           </WithClassName>
         )}
       </>

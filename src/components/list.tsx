@@ -14,7 +14,7 @@ import {
 import { Icon } from "../icons";
 import { MiniSelect, SearchField } from "./form";
 import { InfoDialogButton } from "./info-dialog";
-import { HighlightContext } from "./map";
+import { HighlightContext } from "./highlight-context";
 import { RadioTabs } from "./radio-tabs";
 import Stack from "./stack";
 

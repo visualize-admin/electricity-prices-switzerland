@@ -2,11 +2,8 @@ import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import basicAuthMiddleware from "nextjs-basic-auth-middleware";
 import { useCallback, useMemo, useState } from "react";
-import {
-  ChoroplethMap,
-  HighlightContext,
-  HighlightValue,
-} from "../components/map";
+import { ChoroplethMap, HighlightValue } from "../components/map";
+import { HighlightContext } from "../components/highlight-context";
 import { useColorScale } from "../domain/data";
 import {
   PriceComponent,

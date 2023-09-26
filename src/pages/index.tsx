@@ -3,18 +3,19 @@ import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import basicAuthMiddleware from "nextjs-basic-auth-middleware";
+import { PickingInfo } from "@deck.gl/core/typed";
 import { useCallback, useRef, useState } from "react";
 import { Box, Button, Flex, Grid, Input, Link, Text } from "theme-ui";
+
 import { DownloadImage } from "../components/detail-page/download-image";
 import { Footer } from "../components/footer";
 import { Header } from "../components/header";
 import { InfoBanner } from "../components/info-banner";
 import { List } from "../components/list";
 import {
-  ChoroplethMap,
   HighlightContext,
   HighlightValue,
-} from "../components/map";
+} from "../components/highlight-context";
 import { Search } from "../components/search";
 import { Selector } from "../components/selector";
 import { useColorScale } from "../domain/data";
@@ -26,11 +27,11 @@ import {
 import { EMPTY_ARRAY } from "../lib/empty-array";
 import { useQueryStateSingle } from "../lib/use-query-state";
 import { useDisclosure } from "../components/useDisclosure";
-import { Tooltip } from "../components/charts-generic/interaction/tooltip";
 import { TooltipBox } from "../components/charts-generic/interaction/tooltip-box";
 import { IconCopy } from "../icons/ic-copy";
 import useOutsideClick from "../components/useOutsideClick";
 import { defaultLocale } from "../locales/locales";
+import { ChoroplethMap } from "../components/map";
 
 const DOWNLOAD_ID = "map";
 
@@ -226,11 +227,7 @@ const IndexPage = ({ locale }: Props) => {
 
   const { push, query } = useRouter();
 
-  const handleMunicipalityLayerClick = ({
-    object,
-  }: {
-    object: { id: number };
-  }) => {
+  const handleMunicipalityLayerClick = ({ object }: PickingInfo) => {
     const href = {
       pathname: "/municipality/[id]",
       query: {

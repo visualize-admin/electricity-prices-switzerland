@@ -1,19 +1,15 @@
 import * as React from "react";
 import { GenericObservation } from "../../../domain/data";
-import { useChartState } from "../use-chart-state";
+import { RangePlotState, useChartState } from "../use-chart-state";
 import { useInteraction } from "../use-interaction";
-import { DOT_RADIUS, RangePlotState } from "../rangeplot/rangeplot-state";
+import { DOT_RADIUS } from "../rangeplot/rangeplot-state";
 import { isNumber } from "../../../domain/helpers";
 
 export const InteractionRows = ({ debug = false }: { debug?: boolean }) => {
   const [, dispatch] = useInteraction();
 
-  const {
-    rangeGroups,
-    bounds,
-    getX,
-    yScale,
-  } = useChartState() as RangePlotState;
+  const { rangeGroups, bounds, getX, yScale } =
+    useChartState() as RangePlotState;
   const { margins, chartWidth, chartHeight } = bounds;
 
   const showTooltip = (d: GenericObservation) => {
