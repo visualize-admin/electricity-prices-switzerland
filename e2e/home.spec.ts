@@ -8,7 +8,7 @@ test.describe("The Home Page", () => {
       },
     });
     const resp = await page.goto("/");
-    await expect(resp?.status).toEqual(200);
+    await expect(resp?.status()).toEqual(200);
   });
 
   // it("Accept-Language header for alternative language (fr) should redirect to /fr", () => {

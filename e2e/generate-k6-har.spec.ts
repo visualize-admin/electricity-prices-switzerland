@@ -6,7 +6,7 @@ const envName = process.env.ELCOM_ENV || "ref";
 const env = getEnv(envName);
 
 testAndSaveHar(
-  "Browsing test",
+  "Browsing test @har",
   `browsing-test-${env.name}.har`,
   async ({ page }) => {
     await page.goto(env.baseUrl);

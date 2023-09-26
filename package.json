@@ -20,8 +20,8 @@
     "graphql:codegen:dev": "graphql-codegen --config codegen.yml --watch",
     "preversion": "yarn lint",
     "postversion": "git push origin main --follow-tags && git push origin main:test --force-with-lease",
-    "e2e:dev": "PLAYWRIGHT_BASE_URL=http://localhost:3000 playwright test",
-    "e2e": "start-test 'yarn dev -p 3333' 3333 'PLAYWRIGHT_BASE_URL=http://localhost:3333 yarn playwright test'",
+    "e2e:dev": "yarn playwright test --grep-invert @har",
+    "e2e": "yarn playwright test  --grep-invert @har",
     "heroku-postbuild-DISABLED": "yarn install --production=false && yarn build && yarn install --production",
     "e2e:k6:har": "playwright test e2e/generate-k6-har.spec.ts --headed",
     "e2e:k6:update": "bun e2e/update-k6-test-from-har.ts browsing-test-ref.har 802626"
