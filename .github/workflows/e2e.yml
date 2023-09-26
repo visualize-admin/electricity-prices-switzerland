@@ -32,5 +32,5 @@ jobs:
         shell: bash
         if: steps.playwright-cache.outputs.cache-hit != 'true'
 
-        - name: Playwright
-          run: yarn run e2e
+      - name: Playwright
+        run: yarn run e2e
