@@ -1,10 +1,11 @@
 import * as React from "react";
+
 import { useFormatCurrency } from "../../../domain/helpers";
 import { getLocalizedLabel } from "../../../domain/translation";
 import { EXPANDED_TAG } from "../../detail-page/price-components-bars";
-
 import { GroupedBarsState, useChartState } from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
+
 import { Bar } from "./bars-simple";
 
 export const BarsGroupedAxis = ({

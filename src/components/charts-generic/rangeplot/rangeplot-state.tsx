@@ -8,31 +8,29 @@ import {
   min,
   rollup,
   scaleBand,
-  ScaleBand,
-  ScaleLinear,
   scaleLinear,
 } from "d3";
 import * as React from "react";
 import { ReactNode, useCallback } from "react";
+
 import {
   RangePlotFields,
   SortingOrder,
   SortingType,
 } from "../../../domain/config-types";
-import { GenericObservation, ObservationValue } from "../../../domain/data";
+import { GenericObservation } from "../../../domain/data";
 import {
   getAnnotationSpaces,
   mkNumber,
   useFormatCurrency,
 } from "../../../domain/helpers";
 import { estimateTextWidth } from "../../../lib/estimate-text-width";
-import { Annotation } from "../annotation/annotation-x";
 import { LEFT_MARGIN_OFFSET } from "../constants";
 import { Tooltip } from "../interaction/tooltip";
 import { ChartContext, ChartProps, RangePlotState } from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
 import { InteractionProvider } from "../use-interaction";
-import { Bounds, Observer, useWidth } from "../use-width";
+import { Observer, useWidth } from "../use-width";
 
 export const DOT_RADIUS = 8;
 export const OUTER_PADDING = 0.2;

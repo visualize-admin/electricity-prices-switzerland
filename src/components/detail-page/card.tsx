@@ -1,7 +1,9 @@
 import { Box, Text } from "@theme-ui/components";
 import * as React from "react";
 import { ReactNode } from "react";
+
 import { Entity } from "../../domain/data";
+
 import { Download, DownloadImage } from "./download-image";
 
 export const Card = ({

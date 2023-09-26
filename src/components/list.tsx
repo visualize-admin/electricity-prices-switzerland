@@ -5,6 +5,7 @@ import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { useContext, useMemo, useState } from "react";
 import { Box, Button, Flex, Text } from "theme-ui";
+
 import { Entity } from "../domain/data";
 import { useFormatCurrency } from "../domain/helpers";
 import {
@@ -12,9 +13,10 @@ import {
   OperatorObservationFieldsFragment,
 } from "../graphql/queries";
 import { Icon } from "../icons";
+
 import { MiniSelect, SearchField } from "./form";
-import { InfoDialogButton } from "./info-dialog";
 import { HighlightContext } from "./highlight-context";
+import { InfoDialogButton } from "./info-dialog";
 import { RadioTabs } from "./radio-tabs";
 import Stack from "./stack";
 

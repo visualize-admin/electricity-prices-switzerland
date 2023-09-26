@@ -1,7 +1,20 @@
 import crypto from "crypto";
 import fs from "fs";
-import { makeRequest, makeSslConfiguredAgent } from "./soap";
+
 import { memoize } from "lodash";
+import z from "zod";
+
+import { OperatorDocumentCategory } from "../../graphql/queries";
+import { truthy } from "../../lib/truthy";
+
+import { decrypt, encrypt } from "./encrypt";
+import { parseMultiPart } from "./multipart";
+import { redactSAML } from "./redact";
+import { makeRequest, makeSslConfiguredAgent } from "./soap";
+import getContentTemplate from "./templates/get-content.template.xml";
+import req1Template from "./templates/req1.template.xml";
+import req2Template from "./templates/req2.template.xml";
+import searchDocumentsTemplate from "./templates/search-documents.template.xml";
 import {
   ns,
   $,
@@ -11,16 +24,6 @@ import {
   stripWhitespace,
   $$,
 } from "./utils";
-import req1Template from "./templates/req1.template.xml";
-import req2Template from "./templates/req2.template.xml";
-import getContentTemplate from "./templates/get-content.template.xml";
-import searchDocumentsTemplate from "./templates/search-documents.template.xml";
-import z from "zod";
-import { OperatorDocumentCategory } from "../../graphql/queries";
-import { parseMultiPart } from "./multipart";
-import { truthy } from "../../lib/truthy";
-import { decrypt, encrypt } from "./encrypt";
-import { redactSAML } from "./redact";
 
 const bindings = {
   ipsts:

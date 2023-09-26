@@ -2,9 +2,10 @@ import { sparql, SparqlTemplateResult } from "@tpluscode/rdf-string";
 import { SELECT } from "@tpluscode/sparql-builder";
 import rdf from "rdf-ext";
 import { Literal, NamedNode, Quad } from "rdf-js";
-import { Client } from "sparql-http-client";
 import ParsingClient from "sparql-http-client/ParsingClient";
+
 import { defaultLocale } from "../locales/locales";
+
 import * as ns from "./namespace";
 import { getSparqlEditorUrl } from "./queries";
 import { sparqlClient } from "./sparql-client";
@@ -151,7 +152,7 @@ export const getSearchSparqlQuery = ({
 }: Required<SearchSparqlQueryOptions>) => {
   const trimmedQuery = query.trim();
   const isZipCode = /^[0-9]{4}$/.test(trimmedQuery);
-  let queryParts: SparqlTemplateResult[] = [];
+  const queryParts: SparqlTemplateResult[] = [];
 
   if (isZipCode && types.includes("municipality")) {
     queryParts.push(searchQueryBuilders.zipCode({ query: trimmedQuery }));

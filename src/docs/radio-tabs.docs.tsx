@@ -1,6 +1,7 @@
-import { RadioTabs } from "../components/radio-tabs";
 import { markdown, ReactSpecimen } from "catalog";
 import { useState } from "react";
+
+import { RadioTabs } from "../components/radio-tabs";
 
 export default () => {
   const [state, setState] = useState("one");

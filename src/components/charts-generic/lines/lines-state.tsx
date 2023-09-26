@@ -17,6 +17,7 @@ import {
 } from "d3-scale";
 import * as React from "react";
 import { ReactNode, useCallback, useMemo } from "react";
+
 import { LineFields } from "../../../domain/config-types";
 import { GenericObservation, ObservationValue } from "../../../domain/data";
 import {

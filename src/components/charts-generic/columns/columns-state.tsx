@@ -1,14 +1,12 @@
 import { ascending, descending, max, min } from "d3-array";
 import {
   scaleBand,
-  ScaleBand,
-  ScaleLinear,
   scaleLinear,
-  ScaleOrdinal,
   scaleOrdinal,
 } from "d3-scale";
 import * as React from "react";
 import { ReactNode, useCallback, useMemo } from "react";
+
 import {
   ColumnFields,
   SortingOrder,
@@ -17,11 +15,12 @@ import {
 import { GenericObservation } from "../../../domain/data";
 import { getPalette, mkNumber, useFormatNumber } from "../../../domain/helpers";
 import { estimateTextWidth } from "../../../lib/estimate-text-width";
-import { Tooltip } from "../interaction/tooltip";
 import { BOTTOM_MARGIN_OFFSET, LEFT_MARGIN_OFFSET } from "../constants";
+import { Tooltip } from "../interaction/tooltip";
 import { ChartContext, ChartProps, ColumnsState } from "../use-chart-state";
 import { InteractionProvider } from "../use-interaction";
-import { Bounds, Observer, useWidth } from "../use-width";
+import { Observer, useWidth } from "../use-width";
+
 import { PADDING_INNER, PADDING_OUTER } from "./constants";
 
 const useColumnsState = ({

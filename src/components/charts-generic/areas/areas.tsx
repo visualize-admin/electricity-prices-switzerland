@@ -1,7 +1,8 @@
 import { area } from "d3-shape";
 import * as React from "react";
-import { AreasState, useChartState } from "../use-chart-state";
+
 import { useTheme } from "../../../themes";
+import { AreasState, useChartState } from "../use-chart-state";
 
 export const Areas = () => {
   const { bounds, getX, xScale, yScale, colors, series } =

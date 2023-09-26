@@ -7,13 +7,14 @@ import {
   Link as UILink,
   Text,
 } from "@theme-ui/components";
+import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { Fragment, useState } from "react";
+
 import { Entity } from "../../domain/data";
 import { Icon } from "../../icons";
-import NextLink from "next/link";
-import { Search } from "../search";
 import { HomeLink } from "../links";
+import { Search } from "../search";
 
 const TRUNCATE_COUNT = 5;
 const RelationsList = ({

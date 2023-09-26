@@ -1,5 +1,7 @@
 import * as React from "react";
+
 import { useChartState } from "../use-chart-state";
+
 import { StackedColumnsState } from "./columns-stacked-state";
 
 export const ColumnsStacked = () => {

@@ -1,6 +1,6 @@
-import { Trans } from "@lingui/macro";
 import { Text, Box } from "@theme-ui/components";
 import * as React from "react";
+
 import { getLocalizedLabel } from "../../domain/translation";
 type FilterSet = {
   operator: string;

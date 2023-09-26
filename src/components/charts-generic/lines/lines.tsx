@@ -1,10 +1,14 @@
-import * as React from "react";
-import { useChartState } from "../use-chart-state";
-import { line } from "d3-shape";
-import { GenericObservation } from "../../../domain/data";
-import { LinesState } from "./lines-state";
-import { useTheme } from "../../../themes";
 import { ascending } from "d3-array";
+import { line } from "d3-shape";
+import * as React from "react";
+
+import { GenericObservation } from "../../../domain/data";
+import { useTheme } from "../../../themes";
+import { useChartState } from "../use-chart-state";
+
+import { LinesState } from "./lines-state";
+
+
 
 export const Lines = () => {
   const {

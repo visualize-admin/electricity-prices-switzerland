@@ -1,4 +1,5 @@
 import * as React from "react";
+
 import { useFormatCurrency } from "../../../domain/helpers";
 import { getLocalizedLabel } from "../../../domain/translation";
 import { RangePlotState, useChartState } from "../use-chart-state";

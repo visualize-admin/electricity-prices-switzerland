@@ -9,8 +9,6 @@ import { Trans } from "@lingui/macro";
 import centroid from "@turf/centroid";
 import { color, extent, group, mean, rollup } from "d3";
 import { ScaleThreshold } from "d3-scale";
-import { string } from "io-ts";
-import { memoize } from "lodash";
 import React, {
   Fragment,
   ReactNode,
@@ -25,16 +23,16 @@ import {
   feature as topojsonFeature,
   mesh as topojsonMesh,
 } from "topojson-client";
-import { Entity } from "../domain/data";
+
 import { useFormatCurrency } from "../domain/helpers";
 import { OperatorObservationFieldsFragment } from "../graphql/queries";
 import { maxBy } from "../lib/array";
+
 import { TooltipBoxWithoutChartState } from "./charts-generic/interaction/tooltip-box";
 import { WithClassName } from "./detail-page/with-classname";
+import { HighlightContext } from "./highlight-context";
 import { Loading, NoDataHint, NoGeoDataHint } from "./hint";
 import { MapPriceColorLegend } from "./price-color-legend";
-import { geo } from "@tpluscode/rdf-ns-builders";
-import { HighlightContext } from "./highlight-context";
 
 const DOWNLOAD_ID = "map";
 

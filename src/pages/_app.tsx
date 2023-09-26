@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import Script from "next/script";
 import { useEffect, useState } from "react";
 import { ThemeProvider } from "theme-ui";
+
 import { analyticsPageView } from "../domain/analytics";
 import { GraphqlProvider } from "../graphql/context";
 import { LocaleProvider } from "../lib/use-locale";

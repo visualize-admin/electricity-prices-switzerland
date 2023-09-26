@@ -1,6 +1,6 @@
-import { useCallback } from "react";
 import { useRouter } from "next/router";
-import { Download } from "../components/detail-page/download-image";
+import { useCallback } from "react";
+
 
 const ensureArray = (input: string | string[]): string[] =>
   Array.isArray(input) ? input : [input];
@@ -57,9 +57,9 @@ export const useQueryState = () => {
 
   const setState = useCallback(
     (newQueryState: Partial<QueryState>) => {
-      let newQuery: { [k: string]: string[] } = {};
+      const newQuery: { [k: string]: string[] } = {};
 
-      for (let k of queryStateKeys) {
+      for (const k of queryStateKeys) {
         const v = newQueryState[k];
         if (v !== undefined) {
           newQuery[k] = v;
@@ -76,11 +76,11 @@ export const useQueryState = () => {
     [replace, pathname, query]
   );
 
-  let state: Partial<QueryState> = {
+  const state: Partial<QueryState> = {
     id: query.id ? ensureString(query.id) : undefined,
   };
 
-  for (let k of queryStateKeys) {
+  for (const k of queryStateKeys) {
     const v = query[k] ?? queryStateDefaults[k];
     if (v !== undefined) {
       state[k] = ensureArray(v);
@@ -108,9 +108,9 @@ export const useQueryStateSingle = () => {
 
   const setState = useCallback(
     (newQueryState: Partial<QueryStateSingle>) => {
-      let newQuery: { [k: string]: string } = {};
+      const newQuery: { [k: string]: string } = {};
 
-      for (let k of queryStateKeys) {
+      for (const k of queryStateKeys) {
         const v = newQueryState[k];
         if (v !== undefined) {
           newQuery[k] = v;
@@ -127,9 +127,9 @@ export const useQueryStateSingle = () => {
     [replace, pathname, query]
   );
 
-  let state: Partial<QueryStateSingle> = {};
+  const state: Partial<QueryStateSingle> = {};
 
-  for (let k of queryStateKeys) {
+  for (const k of queryStateKeys) {
     const v = query[k] ?? queryStateDefaults[k];
     if (v !== undefined) {
       state[k] = ensureString(v);

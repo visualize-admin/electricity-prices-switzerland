@@ -1,6 +1,6 @@
-import { Button, Box } from "@theme-ui/components";
+import { Box } from "@theme-ui/components";
 import { markdown, ReactSpecimen } from "catalog";
-import { FilterSetDescription } from "../components/detail-page/filter-set-description";
+
 
 import { IconAdd } from "../icons/ic-add";
 import { IconAreaChart } from "../icons/ic-area-chart";
@@ -17,9 +17,10 @@ import { IconChevronUp } from "../icons/ic-chevron-up";
 import { IconClear } from "../icons/ic-clear";
 import { IconColumnChart } from "../icons/ic-column-chart";
 import { IconCopy } from "../icons/ic-copy";
+import { IconDataset } from "../icons/ic-dataset";
 import { IconDatasetPublished } from "../icons/ic-dataset-published";
 import { IconDatasetWarning } from "../icons/ic-dataset-warning";
-import { IconDataset } from "../icons/ic-dataset";
+import { IconDownload } from "../icons/ic-download";
 import { IconEmbed } from "../icons/ic-embed";
 import { IconExcel } from "../icons/ic-excel";
 import { IconFacebook } from "../icons/ic-facebook";
@@ -45,7 +46,6 @@ import { IconUnfold } from "../icons/ic-unfold";
 import { IconWarning } from "../icons/ic-warning";
 import { IconX } from "../icons/ic-x";
 import { IconY } from "../icons/ic-y";
-import { IconDownload } from "../icons/ic-download";
 
 export default () => markdown`>
 

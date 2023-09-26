@@ -1,12 +1,14 @@
 import { max, median, min } from "d3-array";
 import * as React from "react";
+
+import { isNumber } from "../../../domain/helpers";
 import { normalize } from "../../../lib/array";
+import { useTheme } from "../../../themes";
 import { RangePlotState, useChartState } from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
-import { DOT_RADIUS } from "./rangeplot-state";
-import { mkNumber, isNumber } from "../../../domain/helpers";
 import { useInteraction } from "../use-interaction";
-import { useTheme } from "../../../themes";
+
+import { DOT_RADIUS } from "./rangeplot-state";
 
 export const Range = ({ id }: { id: string }) => {
   const { bounds, xScale, getX, yScale, colors, rangeGroups } =

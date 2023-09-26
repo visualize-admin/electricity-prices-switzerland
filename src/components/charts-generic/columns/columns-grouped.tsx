@@ -1,4 +1,5 @@
 import * as React from "react";
+
 import { GroupedColumnsState, useChartState } from "../use-chart-state";
 
 export const ColumnsGrouped = () => {

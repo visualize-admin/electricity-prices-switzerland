@@ -1,8 +1,10 @@
 import React, { ReactNode } from "react";
+
 import { GenericObservation } from "../../../domain/data";
 import { LinesState } from "../lines/lines-state";
 import { HistogramState, useChartState } from "../use-chart-state";
 import { useInteraction } from "../use-interaction";
+
 import { TooltipBox } from "./tooltip-box";
 import { TooltipMultiple, TooltipSingle } from "./tooltip-content";
 

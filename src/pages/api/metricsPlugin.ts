@@ -22,7 +22,7 @@ const metricsLogger = (metricsPerOperation: OperationMetrics) => {
   const highestTotalHits =
     metricsPerOperation.get(highestTotalHitsKey)?.totalhits!;
   const scale = scaleLinear().domain([0, highestTotalHits]).range([0, 20]);
-  for (let key of metricsPerOperation.keys()) {
+  for (const key of metricsPerOperation.keys()) {
     const metric = metricsPerOperation.get(key);
     if (!metric) {
       continue;

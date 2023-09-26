@@ -1,4 +1,5 @@
 import * as React from "react";
+
 import { GenericObservation } from "../../../domain/data";
 import { ColumnsState, useChartState } from "../use-chart-state";
 import { useInteraction } from "../use-interaction";

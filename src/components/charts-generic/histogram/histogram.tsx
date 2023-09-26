@@ -1,6 +1,6 @@
 import { max, min } from "d3-array";
 import * as React from "react";
-import { normalize } from "../../../lib/array";
+
 import { useTheme } from "../../../themes";
 import { Column } from "../columns/columns-simple";
 import { HistogramState, useChartState } from "../use-chart-state";

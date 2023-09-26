@@ -2,6 +2,7 @@ import { axisRight } from "d3-axis";
 import { select, Selection } from "d3-selection";
 import * as React from "react";
 import { useEffect, useRef } from "react";
+
 import { BAR_HEIGHT } from "../constants";
 import { BarsState, useChartState } from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";

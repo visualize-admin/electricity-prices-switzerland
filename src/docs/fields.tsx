@@ -2,7 +2,7 @@ import React, { useMemo, useState } from "react";
 
 function mapValues<T extends object>(o: T, fn: (v: T[keyof T]) => string) {
   const res = {} as Record<string, string>;
-  for (let k of Object.keys(o)) {
+  for (const k of Object.keys(o)) {
     res[k] = fn(o[k as keyof typeof o]);
   }
   return res as Record<string, ReturnType<typeof fn>>;

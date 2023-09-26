@@ -1,32 +1,31 @@
 import { ascending, group, max, min, rollup, sum, descending } from "d3-array";
 import {
   scaleBand,
-  ScaleBand,
-  ScaleLinear,
   scaleLinear,
-  ScaleOrdinal,
   scaleOrdinal,
 } from "d3-scale";
 import * as React from "react";
 import { ReactNode, useCallback, useMemo } from "react";
-import { GenericObservation, ObservationValue } from "../../../domain/data";
+
+import {
+  ColumnFields,
+  SortingType,
+  SortingOrder,
+} from "../../../domain/config-types";
+import { GenericObservation } from "../../../domain/data";
 import { getPalette, mkNumber, useFormatNumber } from "../../../domain/helpers";
+import { sortByIndex } from "../../../lib/array";
 import { estimateTextWidth } from "../../../lib/estimate-text-width";
-import { Tooltip } from "../interaction/tooltip";
 import { BOTTOM_MARGIN_OFFSET, LEFT_MARGIN_OFFSET } from "../constants";
-import { Bounds, Observer, useWidth } from "../use-width";
+import { Tooltip } from "../interaction/tooltip";
 import {
   ChartContext,
   ChartProps,
   GroupedColumnsState,
 } from "../use-chart-state";
 import { InteractionProvider } from "../use-interaction";
-import { sortByIndex } from "../../../lib/array";
-import {
-  ColumnFields,
-  SortingType,
-  SortingOrder,
-} from "../../../domain/config-types";
+import { Observer, useWidth } from "../use-width";
+
 import { PADDING_INNER, PADDING_OUTER, PADDING_WITHIN } from "./constants";
 
 const useGroupedColumnsState = ({

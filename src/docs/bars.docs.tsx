@@ -1,4 +1,5 @@
 import { markdown, ReactSpecimen } from "catalog";
+
 import { BarsGrouped } from "../components/charts-generic/bars/bars-grouped";
 import { GroupedBarsChart } from "../components/charts-generic/bars/bars-grouped-state";
 import { Bars } from "../components/charts-generic/bars/bars-simple";
@@ -8,6 +9,7 @@ import {
   ChartSvg,
 } from "../components/charts-generic/containers";
 import { pivot_longer } from "../domain/helpers";
+
 import { zurichAndGeneva } from "./fixtures";
 
 export default () => {

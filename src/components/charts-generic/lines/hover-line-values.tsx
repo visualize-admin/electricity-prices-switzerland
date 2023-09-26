@@ -1,6 +1,8 @@
 import * as React from "react";
+
 import { useChartState } from "../use-chart-state";
 import { useInteraction } from "../use-interaction";
+
 import { LinesState } from "./lines-state";
 
 export const HoverLineValues = () => {

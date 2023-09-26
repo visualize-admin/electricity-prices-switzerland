@@ -8,11 +8,8 @@ import {
   sum,
 } from "d3-array";
 import {
-  ScaleLinear,
   scaleLinear,
-  ScaleOrdinal,
   scaleOrdinal,
-  ScaleTime,
   scaleTime,
 } from "d3-scale";
 import {
@@ -24,6 +21,8 @@ import {
 } from "d3-shape";
 import * as React from "react";
 import { ReactNode, useCallback, useMemo } from "react";
+
+import { AreaFields } from "../../../domain/config-types";
 import { GenericObservation } from "../../../domain/data";
 import {
   getPalette,
@@ -34,12 +33,11 @@ import {
 } from "../../../domain/helpers";
 import { sortByIndex } from "../../../lib/array";
 import { estimateTextWidth } from "../../../lib/estimate-text-width";
-import { Tooltip } from "../interaction/tooltip";
 import { LEFT_MARGIN_OFFSET } from "../constants";
+import { Tooltip } from "../interaction/tooltip";
 import { AreasState, ChartContext, ChartProps } from "../use-chart-state";
 import { InteractionProvider } from "../use-interaction";
-import { Bounds, Observer, useWidth } from "../use-width";
-import { AreaFields } from "../../../domain/config-types";
+import { Observer, useWidth } from "../use-width";
 
 const useAreasState = ({
   data,

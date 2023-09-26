@@ -2,6 +2,7 @@ import { t, Trans } from "@lingui/macro";
 import { Box } from "@theme-ui/components";
 import { groups } from "d3-array";
 import * as React from "react";
+
 import { Entity, GenericObservation, priceComponents } from "../../domain/data";
 import { getLocalizedLabel } from "../../domain/translation";
 import { EMPTY_ARRAY } from "../../lib/empty-array";
@@ -18,10 +19,7 @@ import { HistogramMinMaxValues } from "../charts-generic/histogram/histogram-min
 import { Histogram } from "../charts-generic/histogram/histogram-state";
 import { HistogramMedian } from "../charts-generic/histogram/median";
 import { Tooltip } from "../charts-generic/interaction/tooltip";
-import { TooltipHistogram } from "../charts-generic/interaction/tooltip-content";
-import { InteractionColumns } from "../charts-generic/overlay/interaction-columns";
 import { InteractionHistogram } from "../charts-generic/overlay/interaction-histogram";
-import { InteractionHorizontal } from "../charts-generic/overlay/interaction-horizontal";
 import { useInteraction } from "../charts-generic/use-interaction";
 import { Combobox } from "../combobox";
 import { Loading, NoDataHint } from "../hint";
@@ -29,6 +27,7 @@ import { InfoDialogButton } from "../info-dialog";
 import { PriceColorLegend } from "../price-color-legend";
 import { RadioTabs } from "../radio-tabs";
 import Stack from "../stack";
+
 import {
   ChartContainer,
   ChartSvg,

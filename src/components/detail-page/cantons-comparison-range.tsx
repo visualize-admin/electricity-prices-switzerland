@@ -4,6 +4,7 @@ import { groups } from "d3-array";
 import * as React from "react";
 import { memo, useEffect, useState } from "react";
 import { Flex } from "theme-ui";
+
 import { SortingOrder, SortingType } from "../../domain/config-types";
 import { Entity, GenericObservation, priceComponents } from "../../domain/data";
 import { getLocalizedLabel } from "../../domain/translation";
@@ -33,6 +34,7 @@ import { InfoDialogButton } from "../info-dialog";
 import { PriceColorLegend } from "../price-color-legend";
 import { RadioTabs } from "../radio-tabs";
 import Stack from "../stack";
+
 import { Card } from "./card";
 import { Download } from "./download-image";
 import { FilterSetDescription } from "./filter-set-description";

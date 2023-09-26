@@ -1,4 +1,5 @@
 import * as React from "react";
+
 import { useTheme } from "../../../themes";
 import { BAR_HEIGHT } from "../constants";
 import { BarsState, useChartState } from "../use-chart-state";

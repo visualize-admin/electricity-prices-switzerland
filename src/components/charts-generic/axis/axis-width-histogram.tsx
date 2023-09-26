@@ -1,14 +1,15 @@
+import { min, max } from "d3-array";
 import { axisBottom } from "d3-axis";
 import { select, Selection } from "d3-selection";
 import * as React from "react";
 import { useEffect, useRef } from "react";
+
+import { useFormatCurrency } from "../../../domain/helpers";
+import { estimateTextWidth } from "../../../lib/estimate-text-width";
 import { HistogramState, useChartState } from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
 
-import { estimateTextWidth } from "../../../lib/estimate-text-width";
-import { useFormatNumber, useFormatCurrency } from "../../../domain/helpers";
 
-import { min, max } from "d3-array";
 
 export const AxisWidthHistogram = () => {
   const formatCurrency = useFormatCurrency();

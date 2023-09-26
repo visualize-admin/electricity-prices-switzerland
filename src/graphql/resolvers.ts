@@ -1,19 +1,24 @@
+import { difference } from "d3";
 import { GraphQLError, GraphQLResolveInfo } from "graphql";
 import { parseResolveInfo, ResolveTree } from "graphql-parse-resolve-info";
-import { parseObservation, parseObservationValue } from "../lib/observations";
+import micromark from "micromark";
+
+import { searchGeverDocuments } from "../domain/gever";
+import { getWikiPage } from "../domain/gitlab-wiki-api";
+import { defaultLocale } from "../locales/locales";
 import {
   getDimensionValuesAndLabels,
   getObservations,
   getOperatorDocuments,
-  createSource,
   getObservationsCube,
   getCantonMedianCube,
   getView,
   getSwissMedianCube,
 } from "../rdf/queries";
+import { fetchOperatorInfo, search } from "../rdf/search-queries";
+
 import {
   ResolvedCantonMedianObservation,
-  ResolvedObservation,
   ResolvedOperatorObservation,
   ResolvedSwissMedianObservation,
 } from "./resolver-mapped-types";
@@ -28,18 +33,12 @@ import {
   ObservationKind,
   SwissMedianObservationResolvers,
 } from "./resolver-types";
-import { defaultLocale } from "../locales/locales";
-import { getWikiPage } from "../domain/gitlab-wiki-api";
-import micromark from "micromark";
-import { fetchOperatorInfo, search } from "../rdf/search-queries";
-var gfmSyntax = require("micromark-extension-gfm");
-var gfmHtml = require("micromark-extension-gfm/html");
 
-import * as ns from "../rdf/namespace";
-import { difference } from "d3";
-import { downloadGeverDocument, searchGeverDocuments } from "../domain/gever";
-import { operatorIdToUID } from "./oid-uid";
-import { Literal, NamedNode } from "rdf-js";
+
+const gfmSyntax = require("micromark-extension-gfm");
+const gfmHtml = require("micromark-extension-gfm/html");
+
+
 
 const expectedCubeDimensions = [
   "https://energy.ld.admin.ch/elcom/electricityprice/dimension/category",

@@ -6,6 +6,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import basicAuthMiddleware from "nextjs-basic-auth-middleware";
 import * as React from "react";
+
 import { DetailPageBanner } from "../../components/detail-page/banner";
 import { CantonsComparisonRangePlots } from "../../components/detail-page/cantons-comparison-range";
 import { DetailPageLayout } from "../../components/detail-page/layout";

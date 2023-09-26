@@ -3,6 +3,7 @@ import { descending, rollup } from "d3-array";
 import { uniqBy } from "lodash";
 import { useMemo } from "react";
 import { Box, Flex, Link, Text } from "theme-ui";
+
 import {
   OperatorDocument,
   OperatorDocumentCategory,

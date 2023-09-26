@@ -1,9 +1,12 @@
-import { NextApiHandler, NextApiRequest } from "next";
-import { fetchOperatorInfo } from "../../rdf/search-queries";
-import { searchGeverDocuments } from "../../domain/gever";
-import { api } from "../../server/nextkit";
+
 import { InferAPIResponse } from "nextkit";
+
+import { searchGeverDocuments } from "../../domain/gever";
+import { fetchOperatorInfo } from "../../rdf/search-queries";
 import { endpointUrl } from "../../rdf/sparql-client";
+import { api } from "../../server/nextkit";
+
+
 
 const secret =
   process.env.DEBUG_DOWNLOAD_SECRET ||

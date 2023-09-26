@@ -1,6 +1,7 @@
 import { Trans, t } from "@lingui/macro";
 import { useMemo } from "react";
 import { Flex, Text } from "theme-ui";
+
 import { Combobox, ComboboxMulti } from "../../components/combobox";
 import { categories, Entity, periods, products } from "../../domain/data";
 import { getLocalizedLabel } from "../../domain/translation";

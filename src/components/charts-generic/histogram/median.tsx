@@ -1,10 +1,10 @@
-import { median } from "d3-array";
 import * as React from "react";
+
+import { useFormatCurrency } from "../../../domain/helpers";
+import { getLocalizedLabel } from "../../../domain/translation";
 import { HistogramState, useChartState } from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
-import { useFormatCurrency } from "../../../domain/helpers";
 
-import { getLocalizedLabel } from "../../../domain/translation";
 
 export const HistogramMedian = ({ label }: { label: string }) => {
   const { data, medianValue, bounds, getX, xScale, yScale } =

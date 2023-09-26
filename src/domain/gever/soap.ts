@@ -1,6 +1,7 @@
-import https from "https";
-import fetch from "node-fetch";
 import fs from "fs";
+import https from "https";
+
+import fetch from "node-fetch";
 
 const getCertificateContent = () => {
   const CERTIFICATE_PATH = process.env.EIAM_CERTIFICATE_PATH;

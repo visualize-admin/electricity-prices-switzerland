@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Box } from "theme-ui";
+
 import { GenericObservation } from "../../../domain/data";
 import { getLocalizedLabel } from "../../../domain/translation";
 import { DOT_RADIUS } from "../rangeplot/rangeplot-state";

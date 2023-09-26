@@ -1,4 +1,5 @@
 import { markdown, ReactSpecimen } from "catalog";
+
 import { MapPriceColorLegend } from "../components/price-color-legend";
 
 export default () => markdown`

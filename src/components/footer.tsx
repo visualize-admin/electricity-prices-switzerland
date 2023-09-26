@@ -1,18 +1,18 @@
 import { Trans, t } from "@lingui/macro";
 import { Box, Flex, Link, Text } from "@theme-ui/components";
-import { forwardRef, PropsWithChildren, ReactNode } from "react";
-import { Icon } from "../icons";
+import { PropsWithChildren } from "react";
+import { IconButton, LinkProps } from "theme-ui";
+
+import { IconDownload } from "../icons/ic-download";
+import { IconInfo } from "../icons/ic-info";
+import { IconShare } from "../icons/ic-share";
 import { useLocale } from "../lib/use-locale";
 import { useQueryStateSingle } from "../lib/use-query-state";
 
-import { HelpDialog, InfoDialogButton } from "./info-dialog";
+import { HelpDialog } from "./info-dialog";
 import { LogoDesktop } from "./logo";
-import { IconCaretDown } from "../icons/ic-caret-down";
-import { IconShare } from "../icons/ic-share";
-import { BoxProps, IconButton, LinkProps } from "theme-ui";
-import { IconDownload } from "../icons/ic-download";
 import { useDisclosure } from "./useDisclosure";
-import { IconInfo } from "../icons/ic-info";
+
 
 const FooterLink = ({
   children,

@@ -1,9 +1,8 @@
 import * as React from "react";
+
 import { GenericObservation } from "../../../domain/data";
 import { RangePlotState, useChartState } from "../use-chart-state";
 import { useInteraction } from "../use-interaction";
-import { DOT_RADIUS } from "../rangeplot/rangeplot-state";
-import { isNumber } from "../../../domain/helpers";
 
 export const InteractionRows = ({ debug = false }: { debug?: boolean }) => {
   const [, dispatch] = useInteraction();

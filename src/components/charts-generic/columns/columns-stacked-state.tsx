@@ -16,6 +16,7 @@ import {
 } from "d3-shape";
 import * as React from "react";
 import { ReactNode, useCallback, useMemo } from "react";
+
 import {
   ColumnFields,
   SortingOrder,
@@ -25,11 +26,12 @@ import { GenericObservation, ObservationValue } from "../../../domain/data";
 import { getPalette, isNumber, useFormatNumber } from "../../../domain/helpers";
 import { sortByIndex } from "../../../lib/array";
 import { estimateTextWidth } from "../../../lib/estimate-text-width";
-import { Tooltip } from "../interaction/tooltip";
 import { BOTTOM_MARGIN_OFFSET, LEFT_MARGIN_OFFSET } from "../constants";
+import { Tooltip } from "../interaction/tooltip";
 import { ChartContext, ChartProps } from "../use-chart-state";
 import { InteractionProvider } from "../use-interaction";
 import { Bounds, Observer, useWidth } from "../use-width";
+
 import { PADDING_INNER, PADDING_OUTER } from "./constants";
 
 export interface StackedColumnsState {

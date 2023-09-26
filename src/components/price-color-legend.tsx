@@ -1,11 +1,14 @@
 import { Trans, t } from "@lingui/macro";
 import { Box, BoxProps, Flex, Grid, Text } from "@theme-ui/components";
 import React, { useState } from "react";
-import { useTheme } from "../themes";
+
 import { useFormatCurrency } from "../domain/helpers";
-import { InfoDialogButton } from "./info-dialog";
-import { IconInfo } from "../icons/ic-info";
 import { IconClear } from "../icons/ic-clear";
+import { IconInfo } from "../icons/ic-info";
+import { useTheme } from "../themes";
+
+import { InfoDialogButton } from "./info-dialog";
+
 
 const LEGEND_WIDTH = 215;
 const TOP_LABEL_HEIGHT = 14;

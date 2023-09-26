@@ -3,6 +3,7 @@ import {
   GraphQLScalarType,
   GraphQLScalarTypeConfig,
 } from "graphql";
+
 import {
   ResolvedCanton,
   ResolvedMunicipality,

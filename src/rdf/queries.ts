@@ -1,7 +1,4 @@
-import { sparql } from "@tpluscode/rdf-string";
 import { SELECT } from "@tpluscode/sparql-builder";
-
-import * as ns from "./namespace";
 import {
   Cube,
   CubeDimension,
@@ -11,16 +8,18 @@ import {
 } from "rdf-cube-view-query";
 import rdf from "rdf-ext";
 import { Literal, NamedNode } from "rdf-js";
-import { defaultLocale } from "../locales/locales";
-import { OperatorDocumentCategory } from "../graphql/resolver-types";
 import ParsingClient from "sparql-http-client/ParsingClient";
-import { sparqlClient } from "./sparql-client";
+import { LRUCache } from "typescript-lru-cache";
+
+import { OperatorDocumentCategory } from "../graphql/resolver-types";
 import {
   Observation,
-  ObservationValue,
   parseObservation,
 } from "../lib/observations";
-import { LRUCache } from "typescript-lru-cache";
+import { defaultLocale } from "../locales/locales";
+
+import * as ns from "./namespace";
+import { sparqlClient } from "./sparql-client";
 
 type Filters = { [key: string]: string[] | null | undefined } | null;
 

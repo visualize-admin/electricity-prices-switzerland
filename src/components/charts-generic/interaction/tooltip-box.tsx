@@ -1,6 +1,9 @@
 import React, { ReactNode, forwardRef } from "react";
 import { Box } from "theme-ui";
+
+import { useTheme } from "../../../themes";
 import { Margins } from "../use-width";
+
 import {
   TRIANGLE_SIZE,
   TOOLTIP_OFFSET,
@@ -8,8 +11,6 @@ import {
   Xplacement,
   Yplacement,
 } from "./tooltip";
-import { useTheme } from "../../../themes";
-import { useChartState } from "../use-chart-state";
 
 export interface TooltipBoxProps {
   x: number | undefined;

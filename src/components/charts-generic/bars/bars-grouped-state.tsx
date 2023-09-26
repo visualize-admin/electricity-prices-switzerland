@@ -1,26 +1,23 @@
-import { ascending, descending, max, min } from "d3-array";
+import { ascending, descending } from "d3-array";
 import {
   scaleBand,
-  ScaleBand,
-  ScaleLinear,
   scaleLinear,
-  ScaleOrdinal,
   scaleOrdinal,
 } from "d3-scale";
 import * as React from "react";
 import { ReactNode, useCallback } from "react";
+
 import { BarFields } from "../../../domain/config-types";
 import { GenericObservation } from "../../../domain/data";
 import {
   getOpacityRanges,
   getPalette,
-  mkNumber,
 } from "../../../domain/helpers";
 import { sortByIndex } from "../../../lib/array";
 import { BAR_HEIGHT, BOTTOM_MARGIN_OFFSET } from "../constants";
 import { ChartContext, ChartProps, GroupedBarsState } from "../use-chart-state";
 import { InteractionProvider } from "../use-interaction";
-import { Bounds, Observer, useWidth } from "../use-width";
+import { Observer, useWidth } from "../use-width";
 
 const useGroupedBarsState = ({
   data,

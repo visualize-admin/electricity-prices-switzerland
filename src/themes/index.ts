@@ -1,5 +1,5 @@
-import { useThemeUI, Theme as ThemeUITheme } from "theme-ui";
 import { SystemStyleObject } from "@styled-system/css";
+import { useThemeUI, Theme as ThemeUITheme } from "theme-ui";
 
 type StyleValueMap = {
   [k: string]: string | number | (string | number)[] | StyleValueMap;

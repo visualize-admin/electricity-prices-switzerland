@@ -1,10 +1,12 @@
 import React from "react";
 import { Box } from "theme-ui";
+
 import { GenericObservation } from "../../../domain/data";
 import { LinesState } from "../lines/lines-state";
-import { Margins } from "../use-width";
 import { useChartState } from "../use-chart-state";
 import { useInteraction } from "../use-interaction";
+import { Margins } from "../use-width";
+
 import { TooltipValue, TooltipPlacement } from "./tooltip";
 
 export const Ruler = () => {

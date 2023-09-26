@@ -13,6 +13,7 @@ import {
   useState,
 } from "react";
 import { Box, Button, Flex, Input, Link as TUILink, Text } from "theme-ui";
+
 import { analyticsSiteSearch } from "../domain/analytics";
 import { getLocalizedLabel } from "../domain/translation";
 import { useSearchQuery } from "../graphql/queries";

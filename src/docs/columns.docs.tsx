@@ -1,24 +1,27 @@
 import { markdown, ReactSpecimen } from "catalog";
+
+import { AxisHeightLinear } from "../components/charts-generic/axis/axis-height-linear";
+import {
+  AxisWidthBand,
+  AxisWidthBandDomain,
+} from "../components/charts-generic/axis/axis-width-band";
+import { ColumnsGrouped } from "../components/charts-generic/columns/columns-grouped";
+import { GroupedColumnChart } from "../components/charts-generic/columns/columns-grouped-state";
+import { Columns } from "../components/charts-generic/columns/columns-simple";
+import { ColumnsStacked } from "../components/charts-generic/columns/columns-stacked";
+import { StackedColumnsChart } from "../components/charts-generic/columns/columns-stacked-state";
 import { ColumnChart } from "../components/charts-generic/columns/columns-state";
 import {
   ChartContainer,
   ChartSvg,
 } from "../components/charts-generic/containers";
-import { Columns } from "../components/charts-generic/columns/columns-simple";
-import { InteractionColumns } from "../components/charts-generic/overlay/interaction-columns";
 import { Tooltip } from "../components/charts-generic/interaction/tooltip";
-import { zurichAndGeneva, fields, measures } from "./fixtures";
-import {
-  AxisWidthBand,
-  AxisWidthBandDomain,
-} from "../components/charts-generic/axis/axis-width-band";
-import { AxisHeightLinear } from "../components/charts-generic/axis/axis-height-linear";
-import { GroupedColumnChart } from "../components/charts-generic/columns/columns-grouped-state";
-import { ColumnsGrouped } from "../components/charts-generic/columns/columns-grouped";
 import { LegendColor } from "../components/charts-generic/legends/color";
-import { StackedColumnsChart } from "../components/charts-generic/columns/columns-stacked-state";
-import { ColumnsStacked } from "../components/charts-generic/columns/columns-stacked";
+import { InteractionColumns } from "../components/charts-generic/overlay/interaction-columns";
 import { pivot_longer } from "../domain/helpers";
+
+import { zurichAndGeneva } from "./fixtures";
+
 
 export default () => {
   const observations = zurichAndGeneva.filter(

@@ -2,6 +2,7 @@ import { t, Trans } from "@lingui/macro";
 import { ascending, group, groups, max, min } from "d3-array";
 import * as React from "react";
 import { Box } from "theme-ui";
+
 import {
   Entity,
   GenericObservation,
@@ -30,6 +31,7 @@ import { Loading, NoDataHint } from "../hint";
 import { InfoDialogButton } from "../info-dialog";
 import { RadioTabs } from "../radio-tabs";
 import Stack from "../stack";
+
 import { Card } from "./card";
 import { Download } from "./download-image";
 import { FilterSetDescription } from "./filter-set-description";

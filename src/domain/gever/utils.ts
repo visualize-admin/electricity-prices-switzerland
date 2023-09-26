@@ -1,5 +1,5 @@
-import { DOMParser, XMLSerializer } from "xmldom";
 import c14nFactory from "xml-c14n";
+import { DOMParser, XMLSerializer } from "xmldom";
 
 export const ns = {
   a: "http://www.w3.org/2005/08/addressing",

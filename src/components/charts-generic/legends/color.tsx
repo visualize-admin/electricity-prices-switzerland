@@ -1,6 +1,7 @@
 import * as React from "react";
 import { memo } from "react";
 import { Box, Flex } from "theme-ui";
+
 import { ColumnsState, useChartState } from "../use-chart-state";
 
 type LegendSymbol = "square" | "line" | "circle";

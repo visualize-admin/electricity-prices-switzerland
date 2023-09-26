@@ -1,14 +1,14 @@
-import configureCors from "cors";
-import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
+import { ApolloServer } from "@apollo/server";
+import { ApolloServerPluginCacheControl } from "@apollo/server/plugin/cacheControl";
+import responseCachePlugin from "@apollo/server-plugin-response-cache";
+import { startServerAndCreateNextHandler } from "@as-integrations/next";
+import { NextApiHandler } from "next";
+
 import { resolvers } from "../../graphql/resolvers";
 import typeDefs from "../../graphql/schema.graphql";
 import { context } from "../../graphql/server-context";
-import { runMiddleware } from "../../lib/run-middleware";
 
-import { ApolloServer } from "@apollo/server";
-import { startServerAndCreateNextHandler } from "@as-integrations/next";
-import { ApolloServerPluginCacheControl } from "@apollo/server/plugin/cacheControl";
-import responseCachePlugin from "@apollo/server-plugin-response-cache";
+
 import { metricsPlugin } from "./metricsPlugin";
 
 const server = new ApolloServer({

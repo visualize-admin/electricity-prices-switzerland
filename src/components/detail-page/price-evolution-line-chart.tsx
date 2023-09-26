@@ -2,6 +2,7 @@ import { t, Trans } from "@lingui/macro";
 import { Box } from "@theme-ui/components";
 import * as React from "react";
 import { memo } from "react";
+
 import { Entity, GenericObservation, priceComponents } from "../../domain/data";
 import { getLocalizedLabel } from "../../domain/translation";
 import { EMPTY_ARRAY } from "../../lib/empty-array";
@@ -19,6 +20,7 @@ import { InteractionHorizontal } from "../charts-generic/overlay/interaction-hor
 import { Loading, NoDataHint } from "../hint";
 import { InfoDialogButton } from "../info-dialog";
 import Stack from "../stack";
+
 import {
   ChartContainer,
   ChartSvg,
