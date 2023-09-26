@@ -3,20 +3,11 @@ import * as React from "react";
 import { normalize } from "../../../lib/array";
 import { useTheme } from "../../../themes";
 import { Column } from "../columns/columns-simple";
-import { useChartState } from "../use-chart-state";
-import { HistogramState } from "./histogram-state";
+import { HistogramState, useChartState } from "../use-chart-state";
 
 export const HistogramColumns = () => {
-  const {
-    data,
-    bounds,
-    getX,
-    xScale,
-    getY,
-    yScale,
-    bins,
-    colors,
-  } = useChartState() as HistogramState;
+  const { data, bounds, getX, xScale, getY, yScale, bins, colors } =
+    useChartState() as HistogramState;
   const theme = useTheme();
   const { margins } = bounds;
 

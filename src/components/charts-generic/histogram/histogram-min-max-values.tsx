@@ -1,27 +1,17 @@
 import { min, max } from "d3-array";
 import * as React from "react";
-import { useChartState } from "../use-chart-state";
+import { HistogramState, useChartState } from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
-import { HistogramState } from "./histogram-state";
 import { useFormatCurrency } from "../../../domain/helpers";
 import { t } from "@lingui/macro";
 import { getLocalizedLabel } from "../../../domain/translation";
 
 export const HistogramMinMaxValues = () => {
-  const {
-    data,
-    bounds,
-    getX,
-    xScale,
-    yScale,
-  } = useChartState() as HistogramState;
+  const { data, bounds, getX, xScale, yScale } =
+    useChartState() as HistogramState;
   const { margins } = bounds;
-  const {
-    labelColor,
-    domainColor,
-    labelFontSize,
-    fontFamily,
-  } = useChartTheme();
+  const { labelColor, domainColor, labelFontSize, fontFamily } =
+    useChartTheme();
   const formatCurrency = useFormatCurrency();
 
   const minValue = min(data, (d) => getX(d));

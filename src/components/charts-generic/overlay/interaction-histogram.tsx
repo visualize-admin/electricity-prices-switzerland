@@ -1,10 +1,9 @@
 import * as React from "react";
 import { GenericObservation } from "../../../domain/data";
-import { useChartState } from "../use-chart-state";
+import { HistogramState, useChartState } from "../use-chart-state";
 import { useInteraction } from "../use-interaction";
-import { DOT_RADIUS, RangePlotState } from "../rangeplot/rangeplot-state";
+import { DOT_RADIUS } from "../rangeplot/rangeplot-state";
 import { isNumber } from "../../../domain/helpers";
-import { HistogramState } from "../histogram/histogram-state";
 import { Bin } from "d3";
 
 export const InteractionHistogram = ({

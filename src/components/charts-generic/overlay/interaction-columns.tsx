@@ -1,18 +1,13 @@
 import * as React from "react";
 import { GenericObservation } from "../../../domain/data";
-import { useChartState } from "../use-chart-state";
+import { ColumnsState, useChartState } from "../use-chart-state";
 import { useInteraction } from "../use-interaction";
-import { ColumnsState } from "../columns/columns-state";
 
 export const InteractionColumns = () => {
   const [, dispatch] = useInteraction();
 
-  const {
-    sortedData,
-    bounds,
-    getX,
-    xScaleInteraction,
-  } = useChartState() as ColumnsState;
+  const { sortedData, bounds, getX, xScaleInteraction } =
+    useChartState() as ColumnsState;
   const { margins, chartHeight } = bounds;
 
   const showTooltip = (d: GenericObservation) => {

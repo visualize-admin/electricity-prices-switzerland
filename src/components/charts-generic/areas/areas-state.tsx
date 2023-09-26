@@ -36,27 +36,10 @@ import { sortByIndex } from "../../../lib/array";
 import { estimateTextWidth } from "../../../lib/estimate-text-width";
 import { Tooltip } from "../interaction/tooltip";
 import { LEFT_MARGIN_OFFSET } from "../constants";
-import { ChartContext, ChartProps } from "../use-chart-state";
+import { AreasState, ChartContext, ChartProps } from "../use-chart-state";
 import { InteractionProvider } from "../use-interaction";
 import { Bounds, Observer, useWidth } from "../use-width";
 import { AreaFields } from "../../../domain/config-types";
-
-export interface AreasState {
-  data: GenericObservation[];
-  bounds: Bounds;
-  getX: (d: GenericObservation) => Date;
-  xScale: ScaleTime<number, number>;
-  xUniqueValues: Date[];
-  getY: (d: GenericObservation) => number;
-  yScale: ScaleLinear<number, number>;
-  getSegment: (d: GenericObservation) => string;
-  segments: string[];
-  colors: ScaleOrdinal<string, string>;
-  yAxisLabel: string;
-  wide: { [key: string]: number | string }[];
-  series: $FixMe[];
-  getAnnotationInfo: (d: GenericObservation) => Tooltip;
-}
 
 const useAreasState = ({
   data,
@@ -242,8 +225,10 @@ const useAreasState = ({
       getCategory: getSegment,
       sortOrder: "asc",
     });
-    const cumulativeSum = ((sum) => (d: GenericObservation) =>
-      (sum += getY(d)))(0);
+    const cumulativeSum = (
+      (sum) => (d: GenericObservation) =>
+        (sum += getY(d))
+    )(0);
     const cumulativeRulerItemValues = [
       ...sortedTooltipValues.map(cumulativeSum),
     ];

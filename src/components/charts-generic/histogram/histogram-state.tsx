@@ -16,7 +16,7 @@ import { estimateTextWidth } from "../../../lib/estimate-text-width";
 import { Annotation } from "../annotation/annotation-x";
 import { LEFT_MARGIN_OFFSET } from "../constants";
 import { Tooltip } from "../interaction/tooltip";
-import { ChartContext, ChartProps } from "../use-chart-state";
+import { ChartContext, ChartProps, HistogramState } from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
 import { InteractionProvider } from "../use-interaction";
 import { Bounds, Observer, useWidth } from "../use-width";
@@ -25,22 +25,6 @@ import { LegendSymbol } from "../legends/color";
 
 export const ANNOTATION_DOT_RADIUS = 2.5;
 export const ANNOTATION_LABEL_HEIGHT = 20;
-
-export interface HistogramState {
-  bounds: Bounds;
-  data: GenericObservation[];
-  medianValue: number | undefined;
-  getX: (d: GenericObservation) => number;
-  xScale: ScaleLinear<number, number>;
-  getY: (d: GenericObservation[]) => number;
-  yScale: ScaleLinear<number, number>;
-  xAxisLabel?: string;
-  yAxisLabel?: string;
-  bins: Bin<GenericObservation, number>[];
-  colors: ScaleLinear<string, string>;
-  annotations?: Annotation[];
-  getAnnotationInfo: (d: GenericObservation) => Tooltip;
-}
 
 const useHistogramState = ({
   data,

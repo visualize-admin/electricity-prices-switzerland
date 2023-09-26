@@ -1,28 +1,17 @@
 import { median } from "d3-array";
 import * as React from "react";
-import { useChartState } from "../use-chart-state";
+import { HistogramState, useChartState } from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
-import { HistogramState } from "./histogram-state";
 import { useFormatCurrency } from "../../../domain/helpers";
 
 import { getLocalizedLabel } from "../../../domain/translation";
 
 export const HistogramMedian = ({ label }: { label: string }) => {
-  const {
-    data,
-    medianValue,
-    bounds,
-    getX,
-    xScale,
-    yScale,
-  } = useChartState() as HistogramState;
+  const { data, medianValue, bounds, getX, xScale, yScale } =
+    useChartState() as HistogramState;
   const { margins } = bounds;
-  const {
-    labelColor,
-    domainColor,
-    labelFontSize,
-    fontFamily,
-  } = useChartTheme();
+  const { labelColor, domainColor, labelFontSize, fontFamily } =
+    useChartTheme();
   const formatCurrency = useFormatCurrency();
 
   const m = medianValue;

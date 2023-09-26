@@ -3,9 +3,7 @@ import { select, Selection } from "d3-selection";
 import * as React from "react";
 import { useEffect, useRef } from "react";
 import { useFormatShortDateAuto } from "../../../domain/helpers";
-import { AreasState } from "../areas/areas-state";
-import { LinesState } from "../lines/lines-state";
-import { useChartState } from "../use-chart-state";
+import { AreasState, LinesState, useChartState } from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
 
 export const AxisTime = () => {

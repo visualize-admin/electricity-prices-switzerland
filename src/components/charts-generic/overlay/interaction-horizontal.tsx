@@ -2,8 +2,7 @@ import { bisector, pointer } from "d3";
 import * as React from "react";
 import { useRef } from "react";
 import { GenericObservation } from "../../../domain/data";
-import { AreasState } from "../areas/areas-state";
-import { useChartState } from "../use-chart-state";
+import { AreasState, useChartState } from "../use-chart-state";
 import { useInteraction } from "../use-interaction";
 
 export const InteractionHorizontal = React.memo(

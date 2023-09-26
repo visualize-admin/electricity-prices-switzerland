@@ -29,27 +29,13 @@ import { estimateTextWidth } from "../../../lib/estimate-text-width";
 import { Annotation } from "../annotation/annotation-x";
 import { LEFT_MARGIN_OFFSET } from "../constants";
 import { Tooltip } from "../interaction/tooltip";
-import { ChartContext, ChartProps } from "../use-chart-state";
+import { ChartContext, ChartProps, RangePlotState } from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
 import { InteractionProvider } from "../use-interaction";
 import { Bounds, Observer, useWidth } from "../use-width";
 
 export const DOT_RADIUS = 8;
 export const OUTER_PADDING = 0.2;
-
-export interface RangePlotState {
-  bounds: Bounds;
-  data: GenericObservation[];
-  medianValue: number | undefined;
-  getX: (d: GenericObservation) => number;
-  xScale: ScaleLinear<number, number>;
-  getY: (d: GenericObservation) => string;
-  yScale: ScaleBand<string>;
-  colors: ScaleLinear<string, string>;
-  rangeGroups: [string, Record<string, ObservationValue>[]][];
-  annotations?: Annotation[];
-  getAnnotationInfo: (d: GenericObservation) => Tooltip;
-}
 
 const minMaxBy = <T extends unknown>(arr: T[], by: (d: T) => number) => {
   let minV = Infinity;

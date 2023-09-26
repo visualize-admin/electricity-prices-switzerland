@@ -15,7 +15,11 @@ import { estimateTextWidth } from "../../../lib/estimate-text-width";
 import { Tooltip } from "../interaction/tooltip";
 import { BOTTOM_MARGIN_OFFSET, LEFT_MARGIN_OFFSET } from "../constants";
 import { Bounds, Observer, useWidth } from "../use-width";
-import { ChartContext, ChartProps } from "../use-chart-state";
+import {
+  ChartContext,
+  ChartProps,
+  GroupedColumnsState,
+} from "../use-chart-state";
 import { InteractionProvider } from "../use-interaction";
 import { sortByIndex } from "../../../lib/array";
 import {
@@ -24,23 +28,6 @@ import {
   SortingOrder,
 } from "../../../domain/config-types";
 import { PADDING_INNER, PADDING_OUTER, PADDING_WITHIN } from "./constants";
-
-export interface GroupedColumnsState {
-  sortedData: GenericObservation[];
-  bounds: Bounds;
-  getX: (d: GenericObservation) => string;
-  xScale: ScaleBand<string>;
-  xScaleInteraction: ScaleBand<string>;
-  xScaleIn: ScaleBand<string>;
-  getY: (d: GenericObservation) => number;
-  yScale: ScaleLinear<number, number>;
-  getSegment: (d: GenericObservation) => string;
-  segments: string[];
-  colors: ScaleOrdinal<string, string>;
-  yAxisLabel: string;
-  grouped: [string, Record<string, ObservationValue>[]][];
-  getAnnotationInfo: (d: GenericObservation) => Tooltip;
-}
 
 const useGroupedColumnsState = ({
   data,

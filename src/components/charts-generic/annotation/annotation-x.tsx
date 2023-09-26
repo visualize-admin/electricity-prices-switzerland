@@ -2,9 +2,12 @@ import * as React from "react";
 import { Box } from "theme-ui";
 import { GenericObservation } from "../../../domain/data";
 import { getLocalizedLabel } from "../../../domain/translation";
-import { HistogramState } from "../histogram/histogram-state";
-import { DOT_RADIUS, RangePlotState } from "../rangeplot/rangeplot-state";
-import { useChartState } from "../use-chart-state";
+import { DOT_RADIUS } from "../rangeplot/rangeplot-state";
+import {
+  HistogramState,
+  RangePlotState,
+  useChartState,
+} from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
 
 export const ANNOTATION_DOT_RADIUS = 2.5;

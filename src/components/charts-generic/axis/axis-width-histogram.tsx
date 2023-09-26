@@ -2,33 +2,21 @@ import { axisBottom } from "d3-axis";
 import { select, Selection } from "d3-selection";
 import * as React from "react";
 import { useEffect, useRef } from "react";
-import { useChartState } from "../use-chart-state";
+import { HistogramState, useChartState } from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
 
 import { estimateTextWidth } from "../../../lib/estimate-text-width";
 import { useFormatNumber, useFormatCurrency } from "../../../domain/helpers";
-import { HistogramState } from "../histogram/histogram-state";
 
 import { min, max } from "d3-array";
 
 export const AxisWidthHistogram = () => {
   const formatCurrency = useFormatCurrency();
-  const {
-    data,
-    getX,
-    xScale,
-    bounds,
-    xAxisLabel,
-    colors,
-  } = useChartState() as HistogramState;
+  const { data, getX, xScale, bounds, xAxisLabel, colors } =
+    useChartState() as HistogramState;
   const { chartWidth, chartHeight, margins } = bounds;
-  const {
-    labelColor,
-    domainColor,
-    labelFontSize,
-    gridColor,
-    fontFamily,
-  } = useChartTheme();
+  const { labelColor, domainColor, labelFontSize, gridColor, fontFamily } =
+    useChartTheme();
   const xAxisRef = useRef<SVGGElement>(null);
 
   const mkAxis = (g: Selection<SVGGElement, unknown, null, undefined>) => {

@@ -18,24 +18,9 @@ import {
 } from "../../../domain/helpers";
 import { sortByIndex } from "../../../lib/array";
 import { BAR_HEIGHT, BOTTOM_MARGIN_OFFSET } from "../constants";
-import { ChartContext, ChartProps } from "../use-chart-state";
+import { ChartContext, ChartProps, GroupedBarsState } from "../use-chart-state";
 import { InteractionProvider } from "../use-interaction";
 import { Bounds, Observer, useWidth } from "../use-width";
-
-export interface GroupedBarsState {
-  sortedData: GenericObservation[];
-  bounds: Bounds;
-  getX: (d: GenericObservation) => number;
-  xScale: ScaleLinear<number, number>;
-  yScale: ScaleBand<string>;
-  getSegment: (d: GenericObservation) => string;
-  getLabel: (d: GenericObservation) => string;
-  getColor: (d: GenericObservation) => string;
-  getOpacity: (d: GenericObservation) => string;
-  segments: string[];
-  colors: ScaleOrdinal<string, string>;
-  opacityScale: ScaleOrdinal<string, number>;
-}
 
 const useGroupedBarsState = ({
   data,

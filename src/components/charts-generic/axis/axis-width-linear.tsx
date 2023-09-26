@@ -3,12 +3,11 @@ import { axisBottom, axisTop } from "d3-axis";
 import { select, Selection } from "d3-selection";
 import * as React from "react";
 import { useEffect, useRef } from "react";
-import { useChartState } from "../use-chart-state";
+import { RangePlotState, useChartState } from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
 
 import { estimateTextWidth } from "../../../lib/estimate-text-width";
 import { useFormatNumber, useFormatCurrency } from "../../../domain/helpers";
-import { RangePlotState } from "../rangeplot/rangeplot-state";
 
 export const AxisWidthLinear = ({ position }: { position: "top" | "bottom" }) =>
   position === "bottom" ? <AxisWidthLinearBottom /> : <AxisWidthLinearTop />;
