@@ -12,5 +12,8 @@ jobs:
       - name: "Install dependencies"
         uses: ./.github/workflows/install-deps
 
+      - name: "Install playwright"
+        uses: ./.github/workflows/install-playwright
+
       - name: Playwright
         run: yarn run e2e
