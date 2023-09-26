@@ -29,7 +29,7 @@ export default defineConfig({
     trace: "on-first-retry",
   },
   webServer: {
-    command: `yarn dev`,
+    command: `NODE_OPTIONS=--openssl-legacy-provider next`,
     url: "http://localhost:3000",
     reuseExistingServer: !process.env.CI,
   },
