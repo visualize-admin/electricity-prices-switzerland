@@ -15,5 +15,8 @@ jobs:
       - name: "Install playwright"
         uses: ./.github/workflows/install-playwright
 
+      - name: Compile locales
+        run: yarn run  lingui compile
+
       - name: Playwright
         run: yarn run e2e
