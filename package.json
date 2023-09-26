@@ -21,8 +21,8 @@
     "preversion": "yarn lint",
     "postversion": "git push origin main --follow-tags && git push origin main:test --force-with-lease",
     "heroku-postbuild-DISABLED": "yarn install --production=false && yarn build && yarn install --production",
-    "e2e": "playwright test  --grep-invert @har",
-    "e2e:k6:har": "playwright test e2e/generate-k6-har.spec.ts --headed",
+    "e2e": "npx playwright test  --grep-invert @har",
+    "e2e:k6:har": "npx playwright test e2e/generate-k6-har.spec.ts --headed",
     "e2e:k6:update": "bun e2e/update-k6-test-from-har.ts browsing-test-ref.har 802626"
   },
   "dependencies": {
