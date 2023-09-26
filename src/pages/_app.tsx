@@ -1,4 +1,3 @@
-import "core-js/features/array/flat-map";
 import { I18nProvider } from "@lingui/react";
 import { AppProps } from "next/app";
 import Head from "next/head";
