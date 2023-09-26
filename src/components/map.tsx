@@ -593,7 +593,7 @@ export const ChoroplethMap = ({
         getLineColor: [120, 120, 120],
       }),
     ];
-  }, []);
+  }, [geoData, getFillColor]);
 
   return (
     <>
