@@ -6,6 +6,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const filename = (req.query.filename as string) || "document.pdf";
   const fileAttrs = await downloadGeverDocument(reference);
   res.setHeader("Content-type", fileAttrs.contentType);
+  console.log(`Downloading ${fileAttrs.name}`);
   res.setHeader(
     "Content-Disposition",
     `attachment; filename="${encodeURIComponent(fileAttrs.name)}.${
