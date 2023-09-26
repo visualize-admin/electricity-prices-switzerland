@@ -8,7 +8,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   res.setHeader("Content-type", fileAttrs.contentType);
   res.setHeader(
     "Content-Disposition",
-    `attachment; filename="${fileAttrs.name}.${fileAttrs.extension}"`
+    `attachment; filename="${encodeURIComponent(fileAttrs.name)}.${
+      fileAttrs.extension
+    }"`
   );
   res.send(fileAttrs.buffer);
   res.end();
