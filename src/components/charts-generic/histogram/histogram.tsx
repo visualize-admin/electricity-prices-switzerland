@@ -1,4 +1,3 @@
-import { max, min } from "d3-array";
 import * as React from "react";
 
 import { useTheme } from "../../../themes";
@@ -6,13 +5,10 @@ import { Column } from "../columns/columns-simple";
 import { HistogramState, useChartState } from "../use-chart-state";
 
 export const HistogramColumns = () => {
-  const { data, bounds, getX, xScale, getY, yScale, bins, colors } =
+  const { bounds, xScale, getY, yScale, bins, colors } =
     useChartState() as HistogramState;
   const theme = useTheme();
   const { margins } = bounds;
-
-  const minValue = min(data, (d) => getX(d));
-  const maxValue = max(data, (d) => getX(d));
 
   return (
     <g transform={`translate(${margins.left} ${margins.top})`}>

@@ -7,6 +7,15 @@ import basicAuthMiddleware from "nextjs-basic-auth-middleware";
 import { useCallback, useRef, useState } from "react";
 import { Box, Button, Flex, Grid, Input, Link, Text } from "theme-ui";
 
+import {
+  PriceComponent,
+  useAllMunicipalitiesQuery,
+  useObservationsQuery,
+} from "src/graphql/queries";
+import { EMPTY_ARRAY } from "src/lib/empty-array";
+import { useQueryStateSingle } from "src/lib/use-query-state";
+import { defaultLocale } from "src/locales/locales";
+
 import { TooltipBox } from "../components/charts-generic/interaction/tooltip-box";
 import { DownloadImage } from "../components/detail-page/download-image";
 import { Footer } from "../components/footer";
@@ -23,15 +32,8 @@ import { Selector } from "../components/selector";
 import { useDisclosure } from "../components/useDisclosure";
 import useOutsideClick from "../components/useOutsideClick";
 import { useColorScale } from "../domain/data";
-import {
-  PriceComponent,
-  useAllMunicipalitiesQuery,
-  useObservationsQuery,
-} from "../graphql/queries";
 import { IconCopy } from "../icons/ic-copy";
-import { EMPTY_ARRAY } from "../lib/empty-array";
-import { useQueryStateSingle } from "../lib/use-query-state";
-import { defaultLocale } from "../locales/locales";
+
 
 const DOWNLOAD_ID = "map";
 

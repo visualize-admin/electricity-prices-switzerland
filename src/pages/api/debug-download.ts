@@ -1,4 +1,3 @@
-
 import { InferAPIResponse } from "nextkit";
 
 import { searchGeverDocuments } from "../../domain/gever";
@@ -6,14 +5,12 @@ import { fetchOperatorInfo } from "../../rdf/search-queries";
 import { endpointUrl } from "../../rdf/sparql-client";
 import { api } from "../../server/nextkit";
 
-
-
 const secret =
   process.env.DEBUG_DOWNLOAD_SECRET ||
   "GqQF$t$Fm^oddinivkY8TT8F^kRuRUJ$NJ5Jt%vQ";
 
 const handler = api({
-  GET: async ({ req, res }) => {
+  GET: async ({ req }) => {
     const { oid: queryOid, uid: queryUid, secret: querySecret } = req.query;
 
     if (!querySecret || querySecret !== secret) {

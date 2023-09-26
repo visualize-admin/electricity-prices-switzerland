@@ -18,6 +18,8 @@ import {
 import * as React from "react";
 import { ReactNode, useCallback, useMemo } from "react";
 
+import { estimateTextWidth } from "src/lib/estimate-text-width";
+
 import { LineFields } from "../../../domain/config-types";
 import { GenericObservation, ObservationValue } from "../../../domain/data";
 import {
@@ -27,7 +29,6 @@ import {
   useFormatFullDateAuto,
 } from "../../../domain/helpers";
 import { getLocalizedLabel } from "../../../domain/translation";
-import { estimateTextWidth } from "../../../lib/estimate-text-width";
 import { useTheme } from "../../../themes";
 import { LEFT_MARGIN_OFFSET } from "../constants";
 import { Tooltip } from "../interaction/tooltip";
@@ -63,7 +64,6 @@ const roundDomain = (scale: ScaleLinear<number, number>) => {
 const useLinesState = ({
   data,
   fields,
-  dimensions,
   measures,
   aspectRatio,
 }: Pick<ChartProps, "data" | "dimensions" | "measures"> & {
@@ -90,7 +90,7 @@ const useLinesState = ({
       fields.segment && fields.segment.componentIri
         ? (d[fields.segment.componentIri] as string)
         : "segment",
-    [fields.style]
+    [fields.segment]
   );
   const getColor = useCallback(
     (d: GenericObservation): string =>
@@ -148,7 +148,7 @@ const useLinesState = ({
 
   // Mutates dataset to make sure all x values
   // match a data point (to avoid straight lines between defined data points.)
-  grouped.map((lineData, index) => {
+  grouped.map((lineData) => {
     xUniqueValues.map((xValue) => {
       const thisYear = lineData[1].find(
         (d) => getX(d).getFullYear() === xValue.getFullYear()

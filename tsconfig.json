@@ -19,7 +19,7 @@
       "src/*": ["./src/*"]
     }
   },
-  "exclude": ["node_modules"],
+  "exclude": ["node_modules", "./src/graphql", "./public/"],
   "include": [
     "next-env.d.ts",
     "src/**/*.ts",

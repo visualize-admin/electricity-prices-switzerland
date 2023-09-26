@@ -7,6 +7,8 @@ import {
 import * as React from "react";
 import { ReactNode, useCallback, useMemo } from "react";
 
+import { estimateTextWidth } from "src/lib/estimate-text-width";
+
 import {
   ColumnFields,
   SortingOrder,
@@ -14,7 +16,6 @@ import {
 } from "../../../domain/config-types";
 import { GenericObservation } from "../../../domain/data";
 import { getPalette, mkNumber, useFormatNumber } from "../../../domain/helpers";
-import { estimateTextWidth } from "../../../lib/estimate-text-width";
 import { BOTTOM_MARGIN_OFFSET, LEFT_MARGIN_OFFSET } from "../constants";
 import { Tooltip } from "../interaction/tooltip";
 import { ChartContext, ChartProps, ColumnsState } from "../use-chart-state";

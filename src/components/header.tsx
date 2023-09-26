@@ -1,12 +1,9 @@
 import { Trans } from "@lingui/macro";
-import { useRouter } from "next/router";
 import { Box, Flex, Text } from "theme-ui";
 
 import { LanguageMenu } from "./language-menu";
 import { HomeLink } from "./links";
 import { LogoDesktop, LogoMobile } from "./logo";
-
-
 
 export const Header = ({
   pageType = "app",
@@ -59,7 +56,6 @@ export const Header = ({
 };
 
 export const Logo = () => {
-  const { query } = useRouter();
   return (
     <HomeLink passHref>
       <Flex

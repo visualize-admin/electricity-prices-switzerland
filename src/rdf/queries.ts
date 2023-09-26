@@ -11,12 +11,12 @@ import { Literal, NamedNode } from "rdf-js";
 import ParsingClient from "sparql-http-client/ParsingClient";
 import { LRUCache } from "typescript-lru-cache";
 
-import { OperatorDocumentCategory } from "../graphql/resolver-types";
+import { OperatorDocumentCategory } from "src/graphql/resolver-types";
 import {
   Observation,
   parseObservation,
-} from "../lib/observations";
-import { defaultLocale } from "../locales/locales";
+} from "src/lib/observations";
+import { defaultLocale } from "src/locales/locales";
 
 import * as ns from "./namespace";
 import { sparqlClient } from "./sparql-client";

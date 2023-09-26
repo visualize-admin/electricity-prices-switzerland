@@ -4,11 +4,11 @@ import { select, Selection } from "d3-selection";
 import * as React from "react";
 import { useEffect, useRef } from "react";
 
+import { estimateTextWidth } from "src/lib/estimate-text-width";
+
 import { useFormatCurrency } from "../../../domain/helpers";
-import { estimateTextWidth } from "../../../lib/estimate-text-width";
 import { RangePlotState, useChartState } from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
-
 
 export const AxisWidthLinear = ({ position }: { position: "top" | "bottom" }) =>
   position === "bottom" ? <AxisWidthLinearBottom /> : <AxisWidthLinearTop />;
@@ -16,7 +16,7 @@ export const AxisWidthLinear = ({ position }: { position: "top" | "bottom" }) =>
 export const AxisWidthLinearBottom = () => {
   const formatCurrency = useFormatCurrency();
   const { xScale, bounds } = useChartState() as RangePlotState;
-  const { chartWidth, chartHeight, margins } = bounds;
+  const { chartHeight, margins } = bounds;
   const { labelColor, labelFontSize, gridColor, fontFamily } = useChartTheme();
   const xAxisRef = useRef<SVGGElement>(null);
 
@@ -143,7 +143,7 @@ export const AxisWidthLinearTop = () => {
 };
 
 export const AxisWidthLinearDomain = () => {
-  const { xScale, yScale, bounds } = useChartState() as RangePlotState;
+  const { xScale, bounds } = useChartState() as RangePlotState;
   const { chartHeight, margins } = bounds;
   const { domainColor } = useChartTheme();
   const xAxisDomainRef = useRef<SVGGElement>(null);

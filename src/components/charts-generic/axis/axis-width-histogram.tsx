@@ -5,15 +5,12 @@ import * as React from "react";
 import { useEffect, useRef } from "react";
 
 import { useFormatCurrency } from "../../../domain/helpers";
-import { estimateTextWidth } from "../../../lib/estimate-text-width";
 import { HistogramState, useChartState } from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
 
-
-
 export const AxisWidthHistogram = () => {
   const formatCurrency = useFormatCurrency();
-  const { data, getX, xScale, bounds, xAxisLabel, colors } =
+  const { data, getX, xScale, bounds, xAxisLabel } =
     useChartState() as HistogramState;
   const { chartWidth, chartHeight, margins } = bounds;
   const { labelColor, domainColor, labelFontSize, gridColor, fontFamily } =
@@ -21,10 +18,6 @@ export const AxisWidthHistogram = () => {
   const xAxisRef = useRef<SVGGElement>(null);
 
   const mkAxis = (g: Selection<SVGGElement, unknown, null, undefined>) => {
-    const maxLabelLength = estimateTextWidth(
-      formatCurrency(xScale.domain()[1])
-    );
-    const ticks = Math.min(bounds.chartWidth / (maxLabelLength + 20), 4);
     // const tickValues = xScale.ticks(ticks);
     const minValue = min(data, (d) => getX(d)) || 0;
     const maxValue = max(data, (d) => getX(d)) || 10000;

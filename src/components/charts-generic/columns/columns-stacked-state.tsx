@@ -17,6 +17,9 @@ import {
 import * as React from "react";
 import { ReactNode, useCallback, useMemo } from "react";
 
+import { sortByIndex } from "src/lib/array";
+import { estimateTextWidth } from "src/lib/estimate-text-width";
+
 import {
   ColumnFields,
   SortingOrder,
@@ -24,8 +27,6 @@ import {
 } from "../../../domain/config-types";
 import { GenericObservation, ObservationValue } from "../../../domain/data";
 import { getPalette, isNumber, useFormatNumber } from "../../../domain/helpers";
-import { sortByIndex } from "../../../lib/array";
-import { estimateTextWidth } from "../../../lib/estimate-text-width";
 import { BOTTOM_MARGIN_OFFSET, LEFT_MARGIN_OFFSET } from "../constants";
 import { Tooltip } from "../interaction/tooltip";
 import { ChartContext, ChartProps } from "../use-chart-state";
@@ -114,7 +115,7 @@ const useColumnsStackedState = ({
 
   const xOrder = wide
     .sort((a, b) => ascending(a.total, b.total))
-    .map((d, i) => getX(d));
+    .map((d) => getX(d));
 
   const sortedData = useMemo(
     () =>
@@ -267,8 +268,10 @@ const useColumnsStackedState = ({
       sortOrder: "asc",
     });
 
-    const cumulativeSum = ((sum) => (d: GenericObservation) =>
-      (sum += getY(d)))(0);
+    const cumulativeSum = (
+      (sum) => (d: GenericObservation) =>
+        (sum += getY(d))
+    )(0);
     const cumulativeRulerItemValues = [
       ...sortedTooltipValues.map(cumulativeSum),
     ];
@@ -403,7 +406,6 @@ export const StackedColumnsChart = ({
 const sortData = ({
   data,
   getX,
-  getY,
   sortingType,
   sortingOrder,
   xOrder,

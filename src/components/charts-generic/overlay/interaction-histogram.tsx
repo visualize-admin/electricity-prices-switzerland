@@ -11,8 +11,7 @@ export const InteractionHistogram = ({
 }) => {
   const [, dispatch] = useInteraction();
 
-  const { bounds, getX, yScale, data, getY, xScale, bins } =
-    useChartState() as HistogramState;
+  const { bounds, xScale, bins } = useChartState() as HistogramState;
   const { margins, chartWidth, chartHeight } = bounds;
 
   const showTooltip = (bin: GenericObservation) => {

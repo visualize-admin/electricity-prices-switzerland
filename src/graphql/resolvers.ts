@@ -3,9 +3,10 @@ import { GraphQLError, GraphQLResolveInfo } from "graphql";
 import { parseResolveInfo, ResolveTree } from "graphql-parse-resolve-info";
 import micromark from "micromark";
 
+import { defaultLocale } from "src/locales/locales";
+
 import { searchGeverDocuments } from "../domain/gever";
 import { getWikiPage } from "../domain/gitlab-wiki-api";
-import { defaultLocale } from "../locales/locales";
 import {
   getDimensionValuesAndLabels,
   getObservations,

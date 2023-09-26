@@ -3,17 +3,18 @@ import { useRouter } from "next/router";
 import basicAuthMiddleware from "nextjs-basic-auth-middleware";
 import { useCallback, useMemo, useState } from "react";
 
-import { HighlightContext } from "../components/highlight-context";
-import { ChoroplethMap, HighlightValue } from "../components/map";
-import { useColorScale } from "../domain/data";
 import {
   PriceComponent,
   useAllMunicipalitiesQuery,
   useObservationsQuery,
-} from "../graphql/queries";
-import { EMPTY_ARRAY } from "../lib/empty-array";
-import { useQueryStateSingle } from "../lib/use-query-state";
-import { defaultLocale } from "../locales/locales";
+} from "src/graphql/queries";
+import { EMPTY_ARRAY } from "src/lib/empty-array";
+import { useQueryStateSingle } from "src/lib/use-query-state";
+import { defaultLocale } from "src/locales/locales";
+
+import { HighlightContext } from "../components/highlight-context";
+import { ChoroplethMap, HighlightValue } from "../components/map";
+import { useColorScale } from "../domain/data";
 
 type Props = {
   locale: string;

@@ -5,10 +5,10 @@ import {
   BoxProps,
   Button,
   Checkbox as RebassCheckbox,
-  Input as RebassInput,
-  Label as RebassLabel,
-  Radio as RebassRadio,
-  Select as RebassSelect,
+  Input as ThemeUiInput,
+  Label as ThemeUiLabel,
+  Radio as ThemeUiRadio,
+  Select as ThemeUiSelect,
   SelectProps,
 } from "@theme-ui/components";
 import * as React from "react";
@@ -41,7 +41,7 @@ export const Label = ({
   children: React.ReactNode;
   showLabel?: boolean;
 }) => (
-  <RebassLabel
+  <ThemeUiLabel
     htmlFor={htmlFor}
     sx={{
       color: disabled ? "monochrome600" : "monochrome700",
@@ -66,7 +66,7 @@ export const Label = ({
         {label}
       </Box>
     )}
-  </RebassLabel>
+  </ThemeUiLabel>
 );
 
 export const Radio = ({
@@ -80,7 +80,7 @@ export const Radio = ({
   return (
     <Box mb={2}>
       <Label label={label} htmlFor={`${name}-${value}`} disabled={disabled}>
-        <RebassRadio
+        <ThemeUiRadio
           name={name}
           id={`${name}-${value}`}
           value={value}
@@ -124,7 +124,6 @@ export const Checkbox = ({
 export const Select = ({
   label,
   id,
-  name,
   value,
   disabled,
   options,
@@ -141,7 +140,7 @@ export const Select = ({
         {label}
       </Label>
     )}
-    <RebassSelect
+    <ThemeUiSelect
       sx={{
         borderColor: "monochrome500",
         fontSize: 4,
@@ -169,16 +168,14 @@ export const Select = ({
           {opt.label}
         </option>
       ))}
-    </RebassSelect>
+    </ThemeUiSelect>
   </Box>
 );
 
 export const MiniSelect = ({
   label,
   id,
-  name,
   value,
-  disabled,
   options,
   onChange,
 }: {
@@ -193,7 +190,7 @@ export const MiniSelect = ({
         {label}
       </Label>
     )}
-    <RebassSelect
+    <ThemeUiSelect
       sx={{
         borderColor: "transparent",
         fontSize: [1, 2, 2],
@@ -218,7 +215,7 @@ export const MiniSelect = ({
           {opt.label}
         </option>
       ))}
-    </RebassSelect>
+    </ThemeUiSelect>
   </Box>
 );
 
@@ -226,8 +223,6 @@ export const Input = ({
   label,
   name,
   value,
-  checked,
-  disabled,
   onChange,
 }: {
   label?: string | React.ReactNode;
@@ -239,7 +234,7 @@ export const Input = ({
         {label}
       </Label>
     )}
-    <RebassInput
+    <ThemeUiInput
       sx={{ borderColor: "monochrome500", bg: "monochrome100", height: "40px" }}
       id={name}
       name={name}
@@ -281,7 +276,7 @@ export const SearchField = ({
       >
         <Icon name="search" size={16} />
       </Box>
-      <RebassInput
+      <ThemeUiInput
         sx={{
           flexGrow: 1,
           borderColor: "monochrome500",

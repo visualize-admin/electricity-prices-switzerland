@@ -3,11 +3,12 @@ import { Box } from "@theme-ui/components";
 import * as React from "react";
 import { memo } from "react";
 
+import { EMPTY_ARRAY } from "src/lib/empty-array";
+import { useLocale } from "src/lib/use-locale";
+import { useQueryState } from "src/lib/use-query-state";
+
 import { Entity, GenericObservation, priceComponents } from "../../domain/data";
 import { getLocalizedLabel } from "../../domain/translation";
-import { EMPTY_ARRAY } from "../../lib/empty-array";
-import { useLocale } from "../../lib/use-locale";
-import { useQueryState } from "../../lib/use-query-state";
 import { AxisHeightLinear } from "../charts-generic/axis/axis-height-linear";
 import { AxisTime } from "../charts-generic/axis/axis-width-time";
 import { HoverDotMultiple } from "../charts-generic/interaction/hover-dots-multiple";
@@ -44,7 +45,7 @@ export const PriceEvolution = ({
   entity: Entity;
 }) => {
   const locale = useLocale();
-  const [{ period, category, municipality, operator, canton, product }] =
+  const [{ category, municipality, operator, canton, product }] =
     useQueryState();
 
   const comparisonIds =

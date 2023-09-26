@@ -1,4 +1,4 @@
-import wikiPages from "../wiki-content.json";
+import wikiPages from "src/wiki-content.json";
 
 type WikiPage = {
   format: string;
@@ -6,8 +6,6 @@ type WikiPage = {
   title: string;
   content: string;
 };
-
-type WikiPages = WikiPage[];
 
 export const getWikiPage = async (
   slug: string

@@ -5,13 +5,15 @@ import {
   interpolateLab,
   max,
   median,
-  min,
   rollup,
   scaleBand,
   scaleLinear,
 } from "d3";
 import * as React from "react";
 import { ReactNode, useCallback } from "react";
+
+import { minMaxBy } from "src/lib/array";
+import { estimateTextWidth } from "src/lib/estimate-text-width";
 
 import {
   RangePlotFields,
@@ -24,7 +26,6 @@ import {
   mkNumber,
   useFormatCurrency,
 } from "../../../domain/helpers";
-import { estimateTextWidth } from "../../../lib/estimate-text-width";
 import { LEFT_MARGIN_OFFSET } from "../constants";
 import { Tooltip } from "../interaction/tooltip";
 import { ChartContext, ChartProps, RangePlotState } from "../use-chart-state";
@@ -34,26 +35,6 @@ import { Observer, useWidth } from "../use-width";
 
 export const DOT_RADIUS = 8;
 export const OUTER_PADDING = 0.2;
-
-const minMaxBy = <T extends unknown>(arr: T[], by: (d: T) => number) => {
-  let minV = Infinity;
-  let minD = undefined as undefined | T;
-  let maxV = -Infinity;
-  let maxD = undefined as undefined | T;
-  for (let i = 0; i < arr.length; i++) {
-    const item = arr[i];
-    const v = by(item);
-    if (v < minV) {
-      minD = item;
-      minV = v;
-    }
-    if (v > maxV) {
-      maxD = item;
-      maxV = v;
-    }
-  }
-  return [minD, maxD] as [T, T];
-};
 
 const useRangePlotState = ({
   data,
@@ -88,7 +69,6 @@ const useRangePlotState = ({
 
   const { annotation } = fields;
 
-  const minValue = min(data, (d) => getX(d));
   const maxValue = max(data, (d) => getX(d));
   const xDomain = [0, mkNumber(maxValue)];
   const xScale = scaleLinear().domain(xDomain).nice();

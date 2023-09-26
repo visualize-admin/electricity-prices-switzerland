@@ -4,13 +4,12 @@ const useOutsideClick = (
   ref: React.RefObject<HTMLElement>,
   callback: () => void
 ): void => {
-  const handleClick = (event: MouseEvent): void => {
-    if (ref.current && !ref.current.contains(event.target as Node)) {
-      callback();
-    }
-  };
-
   useEffect(() => {
+    const handleClick = (event: MouseEvent): void => {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        callback();
+      }
+    };
     document.addEventListener("mousedown", handleClick);
 
     return () => {

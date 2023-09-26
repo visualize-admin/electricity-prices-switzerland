@@ -6,6 +6,8 @@ import * as React from "react";
 import { ReactNode, useCallback } from "react";
 import { Flex } from "theme-ui";
 
+import { estimateTextWidth } from "src/lib/estimate-text-width";
+
 import { HistogramFields } from "../../../domain/config-types";
 import { GenericObservation } from "../../../domain/data";
 import {
@@ -13,7 +15,6 @@ import {
   mkNumber,
   useFormatCurrency,
 } from "../../../domain/helpers";
-import { estimateTextWidth } from "../../../lib/estimate-text-width";
 import { LEFT_MARGIN_OFFSET } from "../constants";
 import { Tooltip } from "../interaction/tooltip";
 import { LegendSymbol } from "../legends/color";
@@ -29,7 +30,6 @@ const useHistogramState = ({
   data,
   medianValue,
   fields,
-  measures,
   aspectRatio,
   xAxisLabel,
   yAxisLabel,

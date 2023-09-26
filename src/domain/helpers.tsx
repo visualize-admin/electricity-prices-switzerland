@@ -17,10 +17,11 @@ import {
 } from "d3";
 import React from "react";
 
+import { estimateTextWidth } from "src/lib/estimate-text-width";
+import { useLocale } from "src/lib/use-locale";
+import { d3FormatLocales, d3TimeFormatLocales } from "src/locales/locales";
+
 import { ANNOTATION_TRIANGLE_HEIGHT } from "../components/charts-generic/annotation/annotation-x";
-import { estimateTextWidth } from "../lib/estimate-text-width";
-import { useLocale } from "../lib/use-locale";
-import { d3FormatLocales, d3TimeFormatLocales } from "../locales/locales";
 import { useTheme } from "../themes";
 
 import { GenericObservation } from "./data";

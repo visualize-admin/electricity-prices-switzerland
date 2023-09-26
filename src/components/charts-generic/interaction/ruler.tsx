@@ -47,13 +47,9 @@ interface RulerContentProps {
 
 export const RulerContent = ({
   xValue,
-  values,
   chartHeight,
   margins,
   xAnchor,
-  yAnchor,
-  datum,
-  placement,
 }: RulerContentProps) => {
   return (
     <>

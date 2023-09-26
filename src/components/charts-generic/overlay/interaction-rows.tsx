@@ -7,8 +7,7 @@ import { useInteraction } from "../use-interaction";
 export const InteractionRows = ({ debug = false }: { debug?: boolean }) => {
   const [, dispatch] = useInteraction();
 
-  const { rangeGroups, bounds, getX, yScale } =
-    useChartState() as RangePlotState;
+  const { rangeGroups, bounds, yScale } = useChartState() as RangePlotState;
   const { margins, chartWidth, chartHeight } = bounds;
 
   const showTooltip = (d: GenericObservation) => {
@@ -28,7 +27,7 @@ export const InteractionRows = ({ debug = false }: { debug?: boolean }) => {
       <g
         transform={`translate(0, ${(margins.annotations ?? 0) + margins.top})`}
       >
-        {rangeGroups.map((row, i) => (
+        {rangeGroups.map((row) => (
           <rect
             key={row[0]}
             x={0}

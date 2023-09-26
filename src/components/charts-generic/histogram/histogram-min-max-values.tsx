@@ -8,8 +8,7 @@ import { HistogramState, useChartState } from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
 
 export const HistogramMinMaxValues = () => {
-  const { data, bounds, getX, xScale, yScale } =
-    useChartState() as HistogramState;
+  const { data, bounds, getX, xScale } = useChartState() as HistogramState;
   const { margins } = bounds;
   const { labelColor, domainColor, labelFontSize, fontFamily } =
     useChartTheme();

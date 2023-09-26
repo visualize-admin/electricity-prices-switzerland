@@ -3,16 +3,16 @@ import { Box, Flex, Link, Text } from "@theme-ui/components";
 import { PropsWithChildren } from "react";
 import { IconButton, LinkProps } from "theme-ui";
 
+import { useLocale } from "src/lib/use-locale";
+import { useQueryStateSingle } from "src/lib/use-query-state";
+
 import { IconDownload } from "../icons/ic-download";
 import { IconInfo } from "../icons/ic-info";
 import { IconShare } from "../icons/ic-share";
-import { useLocale } from "../lib/use-locale";
-import { useQueryStateSingle } from "../lib/use-query-state";
 
 import { HelpDialog } from "./info-dialog";
 import { LogoDesktop } from "./logo";
 import { useDisclosure } from "./useDisclosure";
-
 
 const FooterLink = ({
   children,
@@ -44,14 +44,14 @@ const FooterLink = ({
   );
 };
 
-const FooterTitle = ({ children }: PropsWithChildren<{}>) => {
+const FooterTitle = ({ children }: { children: React.ReactNode }) => {
   return (
     <Text variant="heading2" sx={{ mb: 6 }}>
       {children}
     </Text>
   );
 };
-const FooterSection = ({ children }: PropsWithChildren<{}>) => {
+const FooterSection = ({ children }: { children: React.ReactNode }) => {
   return <Box>{children}</Box>;
 };
 

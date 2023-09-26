@@ -8,20 +8,9 @@ import { useChartState } from "../use-chart-state";
 
 import { LinesState } from "./lines-state";
 
-
-
 export const Lines = () => {
-  const {
-    getX,
-    xUniqueValues,
-    xScale,
-    getY,
-    yScale,
-    grouped,
-    colors,
-    getColor,
-    bounds,
-  } = useChartState() as LinesState;
+  const { getX, xScale, getY, yScale, grouped, colors, getColor, bounds } =
+    useChartState() as LinesState;
   const theme = useTheme();
 
   const lineGenerator = line<GenericObservation>()

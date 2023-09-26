@@ -57,12 +57,10 @@ const TooltipInner = ({
   d,
   mouse,
   type,
-  unit,
 }: {
   d: GenericObservation;
   mouse?: { x: number; y: number };
   type: TooltipType;
-  unit?: string;
 }) => {
   const { bounds, getAnnotationInfo } = useChartState() as
     | LinesState

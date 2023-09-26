@@ -2,8 +2,9 @@ import { FormEvent, useCallback, useMemo, useState } from "react";
 import { Box, Heading, HeadingProps, BoxProps } from "theme-ui";
 import { UseQueryState } from "urql";
 
+import * as Queries from "src/graphql/queries";
+
 import { LoadingIconInline } from "../../components/hint";
-import * as Queries from "../../graphql/queries";
 import { DebugDownloadGetResponse } from "../api/debug-download";
 
 const IndicatorFail = () => (
@@ -284,7 +285,7 @@ const Page = () => {
   );
 };
 
-const useManualQuery = <T extends unknown, A extends unknown[]>({
+const useManualQuery = <T, A extends unknown[]>({
   queryFn,
 }: {
   queryFn: (...args: A) => Promise<T>;

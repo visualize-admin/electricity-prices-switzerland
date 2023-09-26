@@ -4,7 +4,7 @@ import rdf from "rdf-ext";
 import { Literal, NamedNode, Quad } from "rdf-js";
 import ParsingClient from "sparql-http-client/ParsingClient";
 
-import { defaultLocale } from "../locales/locales";
+import { defaultLocale } from "src/locales/locales";
 
 import * as ns from "./namespace";
 import { getSparqlEditorUrl } from "./queries";
@@ -94,7 +94,7 @@ const searchQueryBuilders = {
       }
     }`;
     },
-    municipality: ({ ids, locale }: { ids: string[]; locale: string }) => {
+    municipality: ({ ids }: { ids: string[]; locale: string }) => {
       return sparql`{
         SELECT DISTINCT ("municipality" AS ${vars.type}) (?municipality AS ${
         vars.iri
@@ -110,7 +110,7 @@ const searchQueryBuilders = {
         }
       }`;
     },
-    operator: ({ ids, locale }: { ids: string[]; locale: string }) => {
+    operator: ({ ids }: { ids: string[]; locale: string }) => {
       return sparql`{
         SELECT DISTINCT ("operator" AS ${vars.type}) (?operator AS ${
         vars.iri

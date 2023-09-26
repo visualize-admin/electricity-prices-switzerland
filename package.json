@@ -13,7 +13,7 @@
     "build": "make content && lingui compile && NODE_OPTIONS='--max_old_space_size=16384 --openssl-legacy-provider' next build",
     "start": "GLOBAL_AGENT_ENVIRONMENT_VARIABLE_NAMESPACE='' NODE_OPTIONS='-r \"global-agent/bootstrap\" --max_old_space_size=2048 --unhandled-rejections=warn' next start -p $PORT",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint",
+    "lint": "eslint .",
     "setup": "yarn && yarn locales:compile && yarn graphql:codegen",
     "locales:extract": "NODE_ENV=development lingui extract --verbose",
     "locales:compile": "lingui compile --verbose",

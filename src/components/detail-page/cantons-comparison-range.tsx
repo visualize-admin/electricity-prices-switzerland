@@ -5,17 +5,18 @@ import * as React from "react";
 import { memo, useEffect, useState } from "react";
 import { Flex } from "theme-ui";
 
-import { SortingOrder, SortingType } from "../../domain/config-types";
-import { Entity, GenericObservation, priceComponents } from "../../domain/data";
-import { getLocalizedLabel } from "../../domain/translation";
 import {
   ObservationKind,
   PriceComponent,
   useObservationsQuery,
-} from "../../graphql/queries";
-import { EMPTY_ARRAY } from "../../lib/empty-array";
-import { useLocale } from "../../lib/use-locale";
-import { useQueryState } from "../../lib/use-query-state";
+} from "src/graphql/queries";
+import { EMPTY_ARRAY } from "src/lib/empty-array";
+import { useLocale } from "src/lib/use-locale";
+import { useQueryState } from "src/lib/use-query-state";
+
+import { SortingOrder, SortingType } from "../../domain/config-types";
+import { Entity, GenericObservation, priceComponents } from "../../domain/data";
+import { getLocalizedLabel } from "../../domain/translation";
 import {
   AnnotationX,
   AnnotationXDataPoint,
@@ -230,8 +231,7 @@ export const CantonsComparisonRangePlot = memo(
     sortingOrder: SortingOrder;
   }) => {
     const locale = useLocale();
-    const [{ category, product, cantonsOrder }, setQueryState] =
-      useQueryState();
+    const [{ category, product }] = useQueryState();
 
     const [observationsQuery] = useObservationsQuery({
       variables: {

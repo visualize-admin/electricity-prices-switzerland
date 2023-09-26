@@ -33,7 +33,7 @@ export const AnnotationX = () => {
     | RangePlotState
     | HistogramState;
 
-  const { margins, width } = bounds;
+  const { margins } = bounds;
   const {
     annotationLineColor,
     annotationColor,
@@ -122,7 +122,7 @@ export const AnnotationXLabel = () => {
 
   const { annotationfontSize, fontFamily, annotationColor } = useChartTheme();
 
-  const { width, margins } = bounds;
+  const { width } = bounds;
   return (
     <>
       {annotations &&
@@ -156,8 +156,3 @@ export const AnnotationXLabel = () => {
     </>
   );
 };
-
-const mkTranslation = (onTheLeft: boolean, offset: number) =>
-  onTheLeft
-    ? `translate3d(calc(-100% - ${offset}px), -40%, 0)`
-    : `translate3d(${offset}px, -40%, 0)`;

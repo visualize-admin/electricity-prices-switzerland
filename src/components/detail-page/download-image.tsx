@@ -2,9 +2,10 @@ import { Trans } from "@lingui/macro";
 import { Link as TUILink, Box, Text } from "@theme-ui/components";
 import * as React from "react";
 
+import { useLocale } from "src/lib/use-locale";
+import { useQueryState } from "src/lib/use-query-state";
+
 import { Entity } from "../../domain/data";
-import { useLocale } from "../../lib/use-locale";
-import { useQueryState } from "../../lib/use-query-state";
 
 
 export type Download =

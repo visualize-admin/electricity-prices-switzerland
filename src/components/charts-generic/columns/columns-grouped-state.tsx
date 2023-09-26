@@ -7,6 +7,9 @@ import {
 import * as React from "react";
 import { ReactNode, useCallback, useMemo } from "react";
 
+import { sortByIndex } from "src/lib/array";
+import { estimateTextWidth } from "src/lib/estimate-text-width";
+
 import {
   ColumnFields,
   SortingType,
@@ -14,8 +17,6 @@ import {
 } from "../../../domain/config-types";
 import { GenericObservation } from "../../../domain/data";
 import { getPalette, mkNumber, useFormatNumber } from "../../../domain/helpers";
-import { sortByIndex } from "../../../lib/array";
-import { estimateTextWidth } from "../../../lib/estimate-text-width";
 import { BOTTOM_MARGIN_OFFSET, LEFT_MARGIN_OFFSET } from "../constants";
 import { Tooltip } from "../interaction/tooltip";
 import {

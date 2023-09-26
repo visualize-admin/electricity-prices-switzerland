@@ -9,7 +9,7 @@ export const Bars = () => {
   const { sortedData, bounds, getX, xScale, getY, yScale } =
     useChartState() as BarsState;
   const theme = useTheme();
-  const { labelColor, gridColor, labelFontSize, fontFamily, domainColor } =
+  const { labelColor, labelFontSize, fontFamily, domainColor } =
     useChartTheme();
   const { margins } = bounds;
 

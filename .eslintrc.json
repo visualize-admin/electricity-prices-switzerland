@@ -5,7 +5,7 @@
   },
   "plugins": ["@typescript-eslint", "import", "unused-imports", "react-hooks"],
   "extends": ["plugin:@typescript-eslint/recommended"],
-  "ignorePatterns": ["src/gql/fragment-masking.ts"],
+  "ignorePatterns": ["src/gql/fragment-masking.ts", "src/graphql"],
   "rules": {
     "react-hooks/exhaustive-deps": "error",
     "import/no-relative-parent-imports": "error",

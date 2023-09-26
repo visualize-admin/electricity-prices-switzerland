@@ -4,9 +4,9 @@ import responseCachePlugin from "@apollo/server-plugin-response-cache";
 import { startServerAndCreateNextHandler } from "@as-integrations/next";
 import { NextApiHandler } from "next";
 
-import { resolvers } from "../../graphql/resolvers";
-import typeDefs from "../../graphql/schema.graphql";
-import { context } from "../../graphql/server-context";
+import { resolvers } from "src/graphql/resolvers";
+import typeDefs from "src/graphql/schema.graphql";
+import { context } from "src/graphql/server-context";
 
 
 import { metricsPlugin } from "./metricsPlugin";

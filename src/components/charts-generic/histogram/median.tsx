@@ -5,9 +5,8 @@ import { getLocalizedLabel } from "../../../domain/translation";
 import { HistogramState, useChartState } from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
 
-
 export const HistogramMedian = ({ label }: { label: string }) => {
-  const { data, medianValue, bounds, getX, xScale, yScale } =
+  const { medianValue, bounds, xScale, yScale } =
     useChartState() as HistogramState;
   const { margins } = bounds;
   const { labelColor, domainColor, labelFontSize, fontFamily } =

@@ -1,8 +1,9 @@
 import { max, median, min } from "d3-array";
 import * as React from "react";
 
+import { normalize } from "src/lib/array";
+
 import { isNumber } from "../../../domain/helpers";
-import { normalize } from "../../../lib/array";
 import { useTheme } from "../../../themes";
 import { RangePlotState, useChartState } from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
@@ -92,7 +93,7 @@ export const RangePoints = () => {
   const theme = useTheme();
   const { bounds, xScale, getX, getY, yScale, colors, rangeGroups } =
     useChartState() as RangePlotState;
-  const [interactionState, dispatch] = useInteraction();
+  const [interactionState] = useInteraction();
   const { margins, chartWidth } = bounds;
   const { labelColor, labelFontSize, fontFamily, domainColor } =
     useChartTheme();

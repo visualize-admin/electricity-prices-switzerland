@@ -16,10 +16,7 @@ export const AxisTime = () => {
     | LinesState
     | AreasState;
 
-  const { labelColor, gridColor, domainColor, labelFontSize, fontFamily } =
-    useChartTheme();
-
-  const hasNegativeValues = yScale.domain()[0] < 0;
+  const { labelColor, gridColor, labelFontSize, fontFamily } = useChartTheme();
 
   // Approximate the longest date format we're using for
   // Roughly equivalent to estimateTextWidth("99.99.9999", 12);
@@ -27,7 +24,6 @@ export const AxisTime = () => {
 
   const maxTicks = Math.ceil(bounds.chartWidth / (maxLabelLength + 20));
   const ticks = Math.min(maxTicks, xUniqueValues.length);
-  const every = Math.ceil(xUniqueValues.length / ticks);
 
   const mkAxisBottom = (
     g: Selection<SVGGElement, unknown, null, undefined>

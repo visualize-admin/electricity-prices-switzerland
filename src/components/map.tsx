@@ -24,9 +24,10 @@ import {
   mesh as topojsonMesh,
 } from "topojson-client";
 
+import { OperatorObservationFieldsFragment } from "src/graphql/queries";
+import { maxBy } from "src/lib/array";
+
 import { useFormatCurrency } from "../domain/helpers";
-import { OperatorObservationFieldsFragment } from "../graphql/queries";
-import { maxBy } from "../lib/array";
 
 import { TooltipBoxWithoutChartState } from "./charts-generic/interaction/tooltip-box";
 import { WithClassName } from "./detail-page/with-classname";
@@ -239,9 +240,9 @@ const fetchGeoData = async (year: string) => {
   return {
     municipalities: municipalities as Extract<
       typeof municipalities,
-      { features: any }
+      { features: $IntentionalAny }
     >,
-    cantons: cantons as Extract<typeof cantons, { features: any }>,
+    cantons: cantons as Extract<typeof cantons, { features: $IntentionalAny }>,
     municipalityMesh,
     cantonMesh,
     lakes,
@@ -356,21 +357,21 @@ export const ChoroplethMap = ({
 
   const formatNumber = useFormatCurrency();
 
-  const getColor = (
-    v: number | undefined,
-    highlighted: boolean
-  ): [number, number, number] => {
-    if (v === undefined) {
-      return [0, 0, 0];
-    }
-    const c = colorScale && colorScale(v);
-    const rgb =
-      c &&
-      color(c)
-        ?.darker(highlighted ? 1 : 0)
-        ?.rgb();
-    return rgb ? [rgb.r, rgb.g, rgb.b] : [0, 0, 0];
-  };
+  const getColor = useCallback(
+    (v: number | undefined, highlighted: boolean): [number, number, number] => {
+      if (v === undefined) {
+        return [0, 0, 0];
+      }
+      const c = colorScale && colorScale(v);
+      const rgb =
+        c &&
+        color(c)
+          ?.darker(highlighted ? 1 : 0)
+          ?.rgb();
+      return rgb ? [rgb.r, rgb.g, rgb.b] : [0, 0, 0];
+    },
+    [colorScale]
+  );
 
   const { value: highlightContext } = useContext(HighlightContext);
 
@@ -434,34 +435,30 @@ export const ChoroplethMap = ({
     setHovered(newHoverState);
   }, [viewState, highlightContext, indexes]);
 
-  const { hoveredMunicipalityName, hoveredObservations, hoveredCanton } =
-    useMemo(() => {
-      if (!hovered) {
-        return {
-          hoveredMunicipalityName: undefined,
-          hoveredObservations: undefined,
-          hoveredCanton: undefined,
-        };
-      }
+  const { hoveredMunicipalityName, hoveredCanton } = useMemo(() => {
+    if (!hovered) {
+      return {
+        hoveredMunicipalityName: undefined,
+        hoveredObservations: undefined,
+        hoveredCanton: undefined,
+      };
+    }
 
-      if (hovered.type === "municipality") {
-        const hoveredObservations = observationsByMunicipalityId.get(
-          hovered.id
-        );
-        return {
-          hoveredMunicipalityName: municipalityNames.get(hovered.id)?.name,
-          hoveredObservations,
-          hoveredCanton: maxBy(hoveredObservations, (x) => x.period)
-            ?.cantonLabel,
-        };
-      } else {
-        return {
-          hoveredCanton: hovered.id,
-          hoveredObservations: [],
-          hoveredMunicipalityName: "",
-        };
-      }
-    }, [hovered]);
+    if (hovered.type === "municipality") {
+      const hoveredObservations = observationsByMunicipalityId.get(hovered.id);
+      return {
+        hoveredMunicipalityName: municipalityNames.get(hovered.id)?.name,
+        hoveredObservations,
+        hoveredCanton: maxBy(hoveredObservations, (x) => x.period)?.cantonLabel,
+      };
+    } else {
+      return {
+        hoveredCanton: hovered.id,
+        hoveredObservations: [],
+        hoveredMunicipalityName: "",
+      };
+    }
+  }, [hovered, municipalityNames, observationsByMunicipalityId]);
 
   const tooltipContent = hovered
     ? hovered.type === "municipality"
@@ -499,26 +496,30 @@ export const ChoroplethMap = ({
           )
         : [0, 0, 0, 20];
     };
-  }, [observationsByMunicipalityId, getColor, highlightContext?.id]);
-
-  const handleMunicipalityLayerClick: typeof onMunicipalityLayerClick = (
-    ev
-  ) => {
-    if (!indexes || !ev.layer) {
-      return;
-    }
-    const id = ev.object.id as number;
-    const type = ev.layer.id === "municipalities" ? "municipality" : "canton";
-    if (type === "municipality" && !observationsByMunicipalityId.get(`${id}`)) {
-      return;
-    }
-    onMunicipalityLayerClick(ev);
-  };
+  }, [highlightContext, observationsByMunicipalityId, getColor]);
 
   const layers = useMemo(() => {
     if (geoData.state !== "loaded") {
       return;
     }
+
+    const handleMunicipalityLayerClick: typeof onMunicipalityLayerClick = (
+      ev
+    ) => {
+      if (!indexes || !ev.layer) {
+        return;
+      }
+      const id = ev.object.id as number;
+      const type = ev.layer.id === "municipalities" ? "municipality" : "canton";
+      if (
+        type === "municipality" &&
+        !observationsByMunicipalityId.get(`${id}`)
+      ) {
+        return;
+      }
+      onMunicipalityLayerClick(ev);
+    };
+
     return [
       new GeoJsonLayer({
         up: true,
@@ -591,7 +592,14 @@ export const ChoroplethMap = ({
         getLineColor: [120, 120, 120],
       }),
     ];
-  }, [geoData, getFillColor]);
+  }, [
+    geoData,
+    getFillColor,
+    onMunicipalityLayerClick,
+    highlightContext?.id,
+    indexes,
+    observationsByMunicipalityId,
+  ]);
 
   return (
     <>

@@ -3,11 +3,12 @@ import { Box } from "@theme-ui/components";
 import { groups } from "d3-array";
 import * as React from "react";
 
+import { EMPTY_ARRAY } from "src/lib/empty-array";
+import { useLocale } from "src/lib/use-locale";
+import { useQueryState } from "src/lib/use-query-state";
+
 import { Entity, GenericObservation, priceComponents } from "../../domain/data";
 import { getLocalizedLabel } from "../../domain/translation";
-import { EMPTY_ARRAY } from "../../lib/empty-array";
-import { useLocale } from "../../lib/use-locale";
-import { useQueryState } from "../../lib/use-query-state";
 import {
   AnnotationX,
   AnnotationXLabel,
@@ -20,7 +21,6 @@ import { Histogram } from "../charts-generic/histogram/histogram-state";
 import { HistogramMedian } from "../charts-generic/histogram/median";
 import { Tooltip } from "../charts-generic/interaction/tooltip";
 import { InteractionHistogram } from "../charts-generic/overlay/interaction-histogram";
-import { useInteraction } from "../charts-generic/use-interaction";
 import { Combobox } from "../combobox";
 import { Loading, NoDataHint } from "../hint";
 import { InfoDialogButton } from "../info-dialog";
@@ -327,9 +327,4 @@ export const PriceDistributionHistogram = ({
       )}
     </Box>
   );
-};
-
-const InteractionDebug = () => {
-  const [state] = useInteraction();
-  return <pre>{JSON.stringify(state, null, 2)}</pre>;
 };

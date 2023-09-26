@@ -14,12 +14,13 @@ import {
 } from "react";
 import { Box, Button, Flex, Input, Link as TUILink, Text } from "theme-ui";
 
+import { useSearchQuery } from "src/graphql/queries";
+import { EMPTY_ARRAY } from "src/lib/empty-array";
+import { useLocale } from "src/lib/use-locale";
+
 import { analyticsSiteSearch } from "../domain/analytics";
 import { getLocalizedLabel } from "../domain/translation";
-import { useSearchQuery } from "../graphql/queries";
 import { Icon } from "../icons";
-import { EMPTY_ARRAY } from "../lib/empty-array";
-import { useLocale } from "../lib/use-locale";
 import { useTheme } from "../themes";
 
 export const Search = () => {

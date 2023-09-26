@@ -3,7 +3,8 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 
 
-import { parseLocaleString } from "../../locales/locales";
+import { parseLocaleString } from "src/locales/locales";
+
 import {
   getObservations,
   getObservationsCube,

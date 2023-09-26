@@ -4,8 +4,8 @@ import fs from "fs";
 import { memoize } from "lodash";
 import z from "zod";
 
-import { OperatorDocumentCategory } from "../../graphql/queries";
-import { truthy } from "../../lib/truthy";
+import { OperatorDocumentCategory } from "src/graphql/queries";
+import { truthy } from "src/lib/truthy";
 
 import { decrypt, encrypt } from "./encrypt";
 import { parseMultiPart } from "./multipart";
@@ -144,7 +144,7 @@ const documentResultRow = z
     };
   });
 
-const enumerate = <T extends unknown>(arr: T[]) => {
+const enumerate = <T>(arr: T[]) => {
   return arr.map((x, i) => [i, x] as const);
 };
 
@@ -386,7 +386,7 @@ const makeSearchRequest = async (
 /**
  * Like memoize but with stale-while-revalidate behavior
  */
-const memoizeSwr = <T extends unknown, Args extends unknown[]>(
+const memoizeSwr = <T, Args extends unknown[]>(
   fn: (...args: Args) => Promise<T>,
   options: {
     key: (...args: Args) => string;
@@ -398,7 +398,7 @@ const memoizeSwr = <T extends unknown, Args extends unknown[]>(
   const revalidate = async (...args: Args) => {
     const cacheKey = makeKey(...args);
     cache[cacheKey] = {
-      last: await fn.apply(null, args),
+      last: await fn(...args),
       updatedAt: Date.now(),
     };
   };

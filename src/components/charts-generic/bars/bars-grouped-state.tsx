@@ -1,19 +1,13 @@
 import { ascending, descending } from "d3-array";
-import {
-  scaleBand,
-  scaleLinear,
-  scaleOrdinal,
-} from "d3-scale";
+import { scaleBand, scaleLinear, scaleOrdinal } from "d3-scale";
 import * as React from "react";
 import { ReactNode, useCallback } from "react";
 
+import { sortByIndex } from "src/lib/array";
+
 import { BarFields } from "../../../domain/config-types";
 import { GenericObservation } from "../../../domain/data";
-import {
-  getOpacityRanges,
-  getPalette,
-} from "../../../domain/helpers";
-import { sortByIndex } from "../../../lib/array";
+import { getOpacityRanges, getPalette } from "../../../domain/helpers";
 import { BAR_HEIGHT, BOTTOM_MARGIN_OFFSET } from "../constants";
 import { ChartContext, ChartProps, GroupedBarsState } from "../use-chart-state";
 import { InteractionProvider } from "../use-interaction";
@@ -22,8 +16,6 @@ import { Observer, useWidth } from "../use-width";
 const useGroupedBarsState = ({
   data,
   fields,
-  dimensions,
-  measures,
 }: Pick<ChartProps, "data" | "dimensions" | "measures"> & {
   fields: BarFields;
 }): GroupedBarsState => {

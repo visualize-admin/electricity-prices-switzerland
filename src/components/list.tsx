@@ -6,12 +6,13 @@ import { useRouter } from "next/router";
 import { useContext, useMemo, useState } from "react";
 import { Box, Button, Flex, Text } from "theme-ui";
 
-import { Entity } from "../domain/data";
-import { useFormatCurrency } from "../domain/helpers";
 import {
   CantonMedianObservationFieldsFragment,
   OperatorObservationFieldsFragment,
-} from "../graphql/queries";
+} from "src/graphql/queries";
+
+import { Entity } from "../domain/data";
+import { useFormatCurrency } from "../domain/helpers";
 import { Icon } from "../icons";
 
 import { MiniSelect, SearchField } from "./form";
@@ -164,8 +165,7 @@ const placeholderListItems = Array.from(
   (_, id) => id
 );
 
-const PlaceholderListItem = ({}: {}) => {
-  const { query } = useRouter();
+const PlaceholderListItem = () => {
   return (
     <Flex
       sx={{
@@ -285,14 +285,14 @@ export const List = ({
             (d) => (listState === "PROVIDERS" ? d.operator : d.municipality)
           )
         );
-  }, [observations, listState]);
+  }, [listState, cantonObservations, observations]);
 
   const filtered = useMemo(() => {
     if (searchQuery === "") {
       return grouped;
     }
     const filterRe = new RegExp(`${searchQuery}`, "i");
-    return grouped.filter(([k, d]) => d.label?.match(filterRe));
+    return grouped.filter(([, d]) => d.label?.match(filterRe));
   }, [grouped, searchQuery]);
 
   const sorted = useMemo(() => {

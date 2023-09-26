@@ -6,7 +6,7 @@ import { RangePlotState, useChartState } from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
 
 export const RangeplotMedian = ({ label }: { label: string }) => {
-  const { data, medianValue, bounds, getX, xScale, yScale } =
+  const { medianValue, bounds, xScale, yScale } =
     useChartState() as RangePlotState;
   const { margins } = bounds;
   const { labelColor, domainColor, labelFontSize, fontFamily } =
