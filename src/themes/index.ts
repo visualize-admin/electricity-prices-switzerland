@@ -1,8 +1,8 @@
 import { SystemStyleObject } from "@styled-system/css";
-import { useThemeUI, Theme as ThemeUITheme } from "theme-ui";
+import { useThemeUI, Theme as ThemeUITheme } from "@mui/material";
 
 /**
- * Adapted/refined from the [Theme UI Theme Specification](https://theme-ui.com/theme-spec)
+ * Adapted/refined from the [Theme UI Theme Specification](https://@mui/material.com/theme-spec)
  *
  * TODO: Types are still a bit wonky because the base types are not the greatest
  */
