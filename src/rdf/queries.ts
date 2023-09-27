@@ -12,10 +12,7 @@ import ParsingClient from "sparql-http-client/ParsingClient";
 import { LRUCache } from "typescript-lru-cache";
 
 import { OperatorDocumentCategory } from "src/graphql/resolver-types";
-import {
-  Observation,
-  parseObservation,
-} from "src/lib/observations";
+import { Observation, parseObservation } from "src/lib/observations";
 import { defaultLocale } from "src/locales/locales";
 
 import * as ns from "./namespace";
@@ -374,7 +371,6 @@ export const getDimensionValuesAndLabels = async ({
       ? [
           {
             id: ns.stripNamespaceFromIri({
-              dimension: dimensionKey,
               iri: obs[ns.electricitypriceDimension(dimensionKey).value]
                 .value as string,
             }),

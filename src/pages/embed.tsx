@@ -1,3 +1,4 @@
+import { PickingInfo } from "@deck.gl/core/typed";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import basicAuthMiddleware from "nextjs-basic-auth-middleware";
@@ -12,8 +13,11 @@ import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { useQueryStateSingle } from "src/lib/use-query-state";
 import { defaultLocale } from "src/locales/locales";
 
-import { HighlightContext } from "../components/highlight-context";
-import { ChoroplethMap, HighlightValue } from "../components/map";
+import {
+  HighlightContext,
+  HighlightValue,
+} from "../components/highlight-context";
+import { ChoroplethMap } from "../components/map";
 import { useColorScale } from "../domain/data";
 
 type Props = {
@@ -101,11 +105,7 @@ const IndexPage = ({ locale }: Props) => {
 
   assertBaseDomainOK(baseDomain as string);
 
-  const handleMunicipalityLayerClick = ({
-    object,
-  }: {
-    object: { id: number };
-  }) => {
+  const handleMunicipalityLayerClick = ({ object }: PickingInfo) => {
     const id = object?.id.toString();
     window.open(`${baseDomain}/municipality/${id}`, target);
   };

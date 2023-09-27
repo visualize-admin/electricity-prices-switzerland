@@ -80,7 +80,7 @@ export const parseObservation = (
 
     parsed[key] =
       typeof parsedValue === "string"
-        ? ns.stripNamespaceFromIri({ dimension: key, iri: parsedValue })
+        ? ns.stripNamespaceFromIri({ iri: parsedValue })
         : parsedValue;
   }
   return parsed;

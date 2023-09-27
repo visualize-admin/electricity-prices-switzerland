@@ -267,7 +267,7 @@ export const search = async ({
     );
 
     return {
-      id: ns.stripNamespaceFromIri({ dimension: type, iri }),
+      id: ns.stripNamespaceFromIri({ iri }),
       name,
       type,
       isAbolished,
