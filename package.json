@@ -10,7 +10,7 @@
   },
   "scripts": {
     "dev": "make content && NODE_OPTIONS='--openssl-legacy-provider --max_old_space_size=4096' next",
-    "build": "make content && lingui compile && NODE_OPTIONS='--max_old_space_size=16384 --openssl-legacy-provider' next build",
+    "build": "make content && lingui compile && yarn storybook:build && NODE_OPTIONS='--max_old_space_size=16384 --openssl-legacy-provider' next build",
     "start": "GLOBAL_AGENT_ENVIRONMENT_VARIABLE_NAMESPACE='' NODE_OPTIONS='-r \"./configure-proxy\" --max_old_space_size=2048 --openssl-legacy-provider --unhandled-rejections=warn' next start -p $PORT",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
@@ -26,13 +26,12 @@
     "e2e:k6:har": "npx playwright test e2e/generate-k6-har.spec.ts --headed",
     "e2e:k6:update": "bun e2e/update-k6-test-from-har.ts browsing-test-ref.har 802626",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "storybook:build": "storybook build -o public/storybook"
   },
   "dependencies": {
     "@apollo/server": "^4.3.3",
     "@apollo/server-plugin-response-cache": "^4.1.0",
     "@as-integrations/next": "^1.2.0",
-    "@babel/standalone": "7.13.17",
     "@deck.gl/core": "8.8",
     "@deck.gl/layers": "8.8",
     "@deck.gl/react": "8.8",
@@ -55,7 +54,6 @@
     "@turf/centroid": "^6.5.0",
     "@types/argparse": "^2.0.10",
     "@types/k6": "^0.46.3",
-    "catalog": "^4.0.1-canary.2",
     "cors": "^2.8.5",
     "d3": "^6.7.0",
     "downshift": "^6.1.3",
