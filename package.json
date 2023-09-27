@@ -24,7 +24,9 @@
     "heroku-postbuild-DISABLED": "yarn install --production=false && yarn build && yarn install --production",
     "e2e": "npx playwright test  --grep-invert @har",
     "e2e:k6:har": "npx playwright test e2e/generate-k6-har.spec.ts --headed",
-    "e2e:k6:update": "bun e2e/update-k6-test-from-har.ts browsing-test-ref.har 802626"
+    "e2e:k6:update": "bun e2e/update-k6-test-from-har.ts browsing-test-ref.har 802626",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@apollo/server": "^4.3.3",
@@ -46,6 +48,7 @@
     "@rdfjs/namespace": "^1.1.0",
     "@reach/visually-hidden": "^0.16.0",
     "@rollup/plugin-typescript": "^8.3.2",
+    "@storybook/react-vite": "^7.4.5",
     "@tpluscode/rdf-ns-builders": "^1.0.0",
     "@tpluscode/rdf-string": "^0.2.23",
     "@tpluscode/sparql-builder": "^0.3.12",
@@ -91,6 +94,7 @@
     "typescript-lru-cache": "^2.0.0",
     "undici": "^5.25.2",
     "urql": "^2.0.2",
+    "vite-plugin-commonjs": "^0.9.0",
     "xml-c14n": "^0.0.6",
     "xmldom": "^0.6.0",
     "zod": "^3.17.3"
@@ -106,6 +110,13 @@
     "@lingui/macro": "^3.8.10",
     "@mdx-js/loader": "^1.6.22",
     "@playwright/test": "^1.38.1",
+    "@storybook/addon-essentials": "^7.4.5",
+    "@storybook/addon-interactions": "^7.4.5",
+    "@storybook/addon-links": "^7.4.5",
+    "@storybook/addon-onboarding": "^1.0.8",
+    "@storybook/blocks": "^7.4.5",
+    "@storybook/react": "^7.4.5",
+    "@storybook/testing-library": "^0.2.1",
     "@types/clownface": "^1.2.2",
     "@types/cors": "^2.8.9",
     "@types/d3": "^6.3.0",
@@ -131,13 +142,16 @@
     "babel-plugin-macros": "^3.0.1",
     "eslint": "^8.50.0",
     "eslint-config-next": "^13.5.3",
+    "eslint-plugin-storybook": "^0.6.14",
     "jest": "^27.5.1",
     "jest-raw-loader": "^1.0.1",
     "k6": "^0.0.0",
     "prettier": "^2.2.1",
     "raw-loader": "^4.0.2",
     "start-server-and-test": "^1.12.1",
-    "typescript": "^4.2.4"
+    "storybook": "^7.4.5",
+    "typescript": "^4.2.4",
+    "vite": "^4.4.9"
   },
   "resolutions": {
     "js-base64": "2.5.2"
