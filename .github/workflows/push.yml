@@ -1,7 +1,7 @@
 name: End-to-end tests
 on: [push]
 jobs:
-  playwright-run:
+  ci:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -16,7 +16,13 @@ jobs:
         uses: ./.github/workflows/install-playwright
 
       - name: Compile locales
-        run: yarn run  lingui compile
+        run: yarn run lingui compile
+
+      - name: Lint
+        run: yarn run lint
+
+      - name: Typecheck
+        run: yarn run typecheck
 
       - name: Create fake wiki content
         run: echo "{}" > src/wiki-content.json
