@@ -18,14 +18,13 @@ jobs:
       - name: Compile locales
         run: yarn run lingui compile
 
+      - name: Create fake wiki content
+        run: echo "[]" > src/wiki-content.json
+
       - name: Lint
         run: yarn run lint
 
       - name: Typecheck
         run: yarn run typecheck
-
-      - name: Create fake wiki content
-        run: echo "{}" > src/wiki-content.json
-
       - name: Playwright
         run: yarn run e2e
