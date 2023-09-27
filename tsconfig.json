@@ -17,7 +17,8 @@
     "incremental": true,
     "paths": {
       "src/*": ["./src/*"]
-    }
+    },
+    "baseUrl": "./"
   },
   "exclude": ["node_modules", "./src/graphql", "./public/"],
   "include": [
