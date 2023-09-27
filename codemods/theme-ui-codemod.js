@@ -5,7 +5,7 @@ const { transform: transformFontSize } = require("./theme-ui-font-size-tokens");
 export default function transformer(file, api) {
   let source = file.source;
   for (let transform of [transformButtons, transformFontSize, transformText]) {
-    source = transform(file, api).toSource();
+    source = transform({ source }, api).toSource();
   }
   return source;
 }
