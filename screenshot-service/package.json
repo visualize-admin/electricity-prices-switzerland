@@ -13,8 +13,8 @@
     "fp-ts": "^2.9.5",
     "io-ts": "^2.2.16",
     "io-ts-types": "^0.5.15",
-    "polka": "^0.5.2",
-    "puppeteer": "^10.0.0"
+    "playwright": "^1.38.1",
+    "polka": "^0.5.2"
   },
   "devDependencies": {
     "@types/polka": "^0.5.2",
