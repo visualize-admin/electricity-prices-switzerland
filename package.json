@@ -48,6 +48,7 @@
     "@tpluscode/sparql-builder": "^0.3.12",
     "@turf/centroid": "^6.5.0",
     "@types/argparse": "^2.0.10",
+    "@types/k6": "^0.46.3",
     "catalog": "^4.0.1-canary.2",
     "cors": "^2.8.5",
     "d3": "^6.7.0",
