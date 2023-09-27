@@ -1,10 +1,9 @@
-import { Text } from "@theme-ui/components";
+import { Flex } from "@mui/material";
 import { interpolateHsl } from "d3";
 import { ascending, histogram, max, min } from "d3-array";
 import { scaleLinear } from "d3-scale";
 import * as React from "react";
 import { ReactNode, useCallback } from "react";
-import { Flex } from "theme-ui";
 
 import { estimateTextWidth } from "src/lib/estimate-text-width";
 

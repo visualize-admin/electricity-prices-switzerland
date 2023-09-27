@@ -1,10 +1,10 @@
 import { I18nProvider } from "@lingui/react";
+import { ThemeProvider } from "@mui/material";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import Script from "next/script";
 import { useEffect, useState } from "react";
-import { ThemeProvider } from "theme-ui";
 
 import { GraphqlProvider } from "src/graphql/context";
 import { LocaleProvider } from "src/lib/use-locale";

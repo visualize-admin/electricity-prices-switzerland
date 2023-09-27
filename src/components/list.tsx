@@ -1,10 +1,10 @@
 import { t, Trans } from "@lingui/macro";
+import { Box, Button, Flex } from "@mui/material";
 import { ScaleThreshold } from "d3";
 import { ascending, descending, mean, rollup } from "d3-array";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { useContext, useMemo, useState } from "react";
-import { Box, Button, Flex, Text } from "theme-ui";
 
 import {
   CantonMedianObservationFieldsFragment,
@@ -65,7 +65,7 @@ const ListItem = ({
           borderBottomColor: "monochrome300",
           alignItems: "center",
           height: "3.5rem",
-          lineHeight: 1,
+          lineHeight: "1rem",
           color: "text",
           textDecoration: "none",
           "&:hover": {
@@ -149,7 +149,7 @@ const ListItems = ({
           }}
         >
           <Button
-            variant="inline"
+            variant="text"
             onClick={() => setTruncated((n) => n + TRUNCATION_INCREMENT)}
           >
             <Trans id="list.showmore">Mehr anzeigen …</Trans>
@@ -177,7 +177,7 @@ const PlaceholderListItem = () => {
         borderBottomColor: "monochrome300",
         alignItems: "center",
         height: "3.5rem",
-        lineHeight: 1,
+        lineHeight: "1rem",
         color: "text",
       }}
     >
@@ -366,7 +366,7 @@ export const List = ({
               color="secondary"
               sx={{
                 fontFamily: "body",
-                fontSize: [1, 2, 2],
+                fontSize: ["0.625rem", "0.75rem", "0.75rem"],
                 lineHeight: "24px",
               }}
             >

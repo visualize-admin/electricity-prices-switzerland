@@ -1,4 +1,11 @@
 import { Trans } from "@lingui/macro";
+import {
+  Box,
+  Button,
+  Flex,
+  Input,
+  Link as TUILink,
+} from "@mui/material";
 import VisuallyHidden from "@reach/visually-hidden";
 import { group, rollup } from "d3-array";
 import { useCombobox } from "downshift";
@@ -12,7 +19,6 @@ import {
   useRef,
   useState,
 } from "react";
-import { Box, Button, Flex, Input, Link as TUILink, Text } from "theme-ui";
 
 import { useSearchQuery } from "src/graphql/queries";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
@@ -360,7 +366,7 @@ export const SearchField = ({
                     <Box
                       sx={{
                         color: "monochrome600",
-                        fontSize: 3,
+                        fontSize: "0.875rem",
                         borderBottom: "1px solid",
                         borderBottomColor: "monochrome300",
                         px: 3,
@@ -395,7 +401,7 @@ export const SearchField = ({
                                   ? "mutedDarker"
                                   : "inherit",
                               color: "monochrome800",
-                              fontSize: [4],
+                              fontSize: ["1rem"],
                               lineHeight: 1.2,
                               textDecoration: "none",
                               px: 3,

@@ -1,5 +1,5 @@
+import { Box } from "@mui/material";
 import { markdown, TableSpecimen } from "catalog";
-import { Box } from "theme-ui";
 
 import { theme } from "../themes/elcom";
 

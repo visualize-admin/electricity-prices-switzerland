@@ -1,5 +1,5 @@
 import { Trans, t } from "@lingui/macro";
-import { Box, BoxProps, Flex, Grid, Text } from "@theme-ui/components";
+import { Box, BoxProps, Flex, Grid } from "@mui/material";
 import React, { useState } from "react";
 
 import { useFormatCurrency } from "../domain/helpers";
@@ -64,7 +64,7 @@ export const MapPriceColorLegend = ({
   return (
     <LegendBox>
       <Flex sx={{ alignItems: "center", width: "100%" }}>
-        <Text sx={{ fontSize: 1, lineHeight: 1.5, mr: 1 }}>
+        <Text sx={{ fontSize: "0.625rem", lineHeight: 1.5, mr: 1 }}>
           <Trans id="map.legend.title">
             Tarifvergleich in Rp./kWh (Angaben exkl. MwSt.)
           </Trans>
@@ -97,7 +97,7 @@ export const MapPriceColorLegend = ({
           sx={{
             justifyContent: "space-between",
             color: "text",
-            fontSize: 1,
+            fontSize: "0.625rem",
             lineHeight: 1.5,
             height: TOP_LABEL_HEIGHT,
             pointerEvents: "none",
@@ -117,7 +117,7 @@ export const MapPriceColorLegend = ({
           sx={{
             justifyContent: "space-between",
             color: "monochrome600",
-            fontSize: 1,
+            fontSize: "0.625rem",
             mb: 2,
           }}
         >
@@ -156,7 +156,7 @@ export const PriceColorLegend = () => {
         sx={{
           justifyContent: "space-between",
           color: "monochrome600",
-          fontSize: 1,
+          fontSize: "0.625rem",
           mb: 2,
         }}
       >
@@ -235,7 +235,7 @@ export const ColorsLine = () => {
 
             <Text
               sx={{
-                fontSize: 1,
+                fontSize: "0.625rem",
                 color: "monochrome600",
                 transform: "translateX(50%)",
                 letterSpacing: -0.4,

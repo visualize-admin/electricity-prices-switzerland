@@ -1,5 +1,5 @@
 import { Trans } from "@lingui/macro";
-import { Box, Flex, Text } from "theme-ui";
+import { Box, Flex } from "@mui/material";
 
 import { LanguageMenu } from "./language-menu";
 import { HomeLink } from "./links";

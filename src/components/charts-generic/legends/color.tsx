@@ -1,6 +1,6 @@
+import { Box, Flex } from "@mui/material";
 import * as React from "react";
 import { memo } from "react";
-import { Box, Flex } from "theme-ui";
 
 import { ColumnsState, useChartState } from "../use-chart-state";
 
@@ -67,9 +67,9 @@ export const LegendItem = ({
       pl: 0,
       gap: "0.375rem",
       fontFamily: "body",
-      lineHeight: [1, 2, 2],
+      lineHeight: ["1rem", "1.125rem", "1.125rem"],
       fontWeight: "regular",
-      fontSize: [1, 2, 2],
+      fontSize: ["0.625rem", "0.75rem", "0.75rem"],
       color: "monochrome700",
     }}
   >

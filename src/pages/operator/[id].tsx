@@ -1,5 +1,5 @@
 import { t } from "@lingui/macro";
-import { Flex } from "@theme-ui/components";
+import { Flex } from "@mui/material";
 import { GetServerSideProps } from "next";
 import ErrorPage from "next/error";
 import Head from "next/head";

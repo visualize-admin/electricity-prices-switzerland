@@ -1,4 +1,4 @@
-import { Box, Flex, Link } from "@theme-ui/components";
+import { Box, Flex, Link } from "@mui/material";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { ReactNode } from "react";
@@ -54,8 +54,8 @@ export const LanguageMenu = ({ contentId }: { contentId?: string }) => {
             hrefLang={locale}
             sx={{
               variant: "text.paragraph2",
-              fontSize: 3,
-              lineHeight: 3,
+              fontSize: "0.875rem",
+              lineHeight: "1.25rem",
               p: 1,
               textTransform: "uppercase",
               textDecoration: "none",

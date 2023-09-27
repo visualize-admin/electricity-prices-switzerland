@@ -1,9 +1,9 @@
 import { t, Trans } from "@lingui/macro";
-import { Box } from "@theme-ui/components";
+import { Box } from "@mui/material";
+import { Flex } from "@mui/material";
 import { groups } from "d3-array";
 import * as React from "react";
 import { memo, useEffect, useState } from "react";
-import { Flex } from "theme-ui";
 
 import {
   ObservationKind,
