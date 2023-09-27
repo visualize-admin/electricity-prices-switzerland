@@ -544,7 +544,7 @@ msgstr "Standard"
 
 #: src/components/selector.tsx:85
 msgid "selector.results"
-msgstr "risultati della ricerca"
+msgstr "Risultati della ricerca"
 
 #: src/components/selector.tsx:42
 msgid "selector.year"
