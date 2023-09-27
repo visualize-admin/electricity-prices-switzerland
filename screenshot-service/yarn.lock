@@ -56,10 +56,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.32.tgz#90c5c4a8d72bbbfe53033f122341343249183448"
   integrity sha512-/Ctrftx/zp4m8JOujM5ZhwzlWLx22nbQJiVqz8/zE15gOeEW+uly3FSX4fGFpcfEvFzXcMCJwq9lGVWgyARXhg==
 
-"@types/polka@^0.5.2":
-  version "0.5.2"
-  resolved "https://registry.yarnpkg.com/@types/polka/-/polka-0.5.2.tgz#645580a78cd8606d6ef00dba1972272d542c2411"
-  integrity sha512-9AS3N5uDagt25iDH4WIG/uYoTA+DCn2VFI+waJwGKkG1vHi4jz218itxwY3Oarx2jr398mA1a/MjUftyH74R9A==
+"@types/polka@^0.5.5":
+  version "0.5.5"
+  resolved "https://registry.yarnpkg.com/@types/polka/-/polka-0.5.5.tgz#5a586576e54042ce5c2c2666dc1582aa483d3100"
+  integrity sha512-70m2zRjRQRhG9tA0Ni0kYW9xn7pD5PhF39N7ATzyX5U7x6Yz1oHN1r2h41n+K9NMq2a3cFnnce6qQrnRAoNiiw==
   dependencies:
     "@types/express" "*"
     "@types/express-serve-static-core" "*"
