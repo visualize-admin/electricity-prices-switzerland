@@ -8,6 +8,7 @@
   "ignorePatterns": [
     "src/gql/fragment-masking.ts",
     "src/graphql",
+    "screenshot-service/**/*",
     "public/**/*"
   ],
   "rules": {

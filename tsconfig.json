@@ -20,7 +20,12 @@
     },
     "baseUrl": "./"
   },
-  "exclude": ["node_modules", "./src/graphql", "./public/"],
+  "exclude": [
+    "node_modules",
+    "./src/graphql",
+    "./public/",
+    "./screenshot-service"
+  ],
   "include": [
     "*.js",
     "*.ts",
