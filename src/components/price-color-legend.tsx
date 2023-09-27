@@ -9,7 +9,6 @@ import { useTheme } from "../themes";
 
 import { InfoDialogButton } from "./info-dialog";
 
-
 const LEGEND_WIDTH = 215;
 const TOP_LABEL_HEIGHT = 14;
 const COLOR_HEIGHT = 12;

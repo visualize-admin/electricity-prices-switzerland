@@ -1,7 +1,6 @@
 import { Box } from "@theme-ui/components";
 import { markdown, ReactSpecimen } from "catalog";
 
-
 import { IconAdd } from "../icons/ic-add";
 import { IconAreaChart } from "../icons/ic-area-chart";
 import { IconArrowDown } from "../icons/ic-arrow-down";

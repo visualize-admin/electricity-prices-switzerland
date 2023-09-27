@@ -5,14 +5,8 @@ import { useChartState } from "../use-chart-state";
 import { StackedColumnsState } from "./columns-stacked-state";
 
 export const ColumnsStacked = () => {
-  const {
-    bounds,
-    getX,
-    xScale,
-    yScale,
-    colors,
-    series,
-  } = useChartState() as StackedColumnsState;
+  const { bounds, getX, xScale, yScale, colors, series } =
+    useChartState() as StackedColumnsState;
   const { margins } = bounds;
   return (
     <g transform={`translate(${margins.left} ${margins.top})`}>

@@ -20,7 +20,6 @@ import { GenericObservation } from "../domain/data";
 
 import { rangePlotData, annotationData } from "./data/boxplotdata";
 
-
 export default () => {
   return markdown`
   ## With annotations

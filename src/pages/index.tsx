@@ -34,7 +34,6 @@ import useOutsideClick from "../components/useOutsideClick";
 import { useColorScale } from "../domain/data";
 import { IconCopy } from "../icons/ic-copy";
 
-
 const DOWNLOAD_ID = "map";
 
 type Props = {

@@ -7,11 +7,7 @@ import {
   rollup,
   sum,
 } from "d3-array";
-import {
-  scaleLinear,
-  scaleOrdinal,
-  scaleTime,
-} from "d3-scale";
+import { scaleLinear, scaleOrdinal, scaleTime } from "d3-scale";
 import {
   stack,
   stackOffsetDiverging,

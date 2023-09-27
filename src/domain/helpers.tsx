@@ -26,7 +26,6 @@ import { useTheme } from "../themes";
 
 import { GenericObservation } from "./data";
 
-
 export const isNumber = (x: $IntentionalAny): boolean =>
   typeof x === "number" && !isNaN(x);
 export const mkNumber = (x: $IntentionalAny): number => +x;

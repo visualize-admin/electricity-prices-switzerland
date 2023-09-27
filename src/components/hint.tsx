@@ -5,7 +5,6 @@ import * as React from "react";
 
 import { Icon, IconName } from "../icons";
 
-
 export const Error = ({ children }: { children: React.ReactNode }) => (
   <Flex
     sx={{

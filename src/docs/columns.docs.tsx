@@ -22,7 +22,6 @@ import { pivot_longer } from "../domain/helpers";
 
 import { zurichAndGeneva } from "./fixtures";
 
-
 export default () => {
   const observations = zurichAndGeneva.filter(
     (d) => d.Kategorie === "H1" && d.Produkt === "standard"

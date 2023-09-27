@@ -7,7 +7,6 @@ import { useQueryState } from "src/lib/use-query-state";
 
 import { Entity } from "../../domain/data";
 
-
 export type Download =
   | "map"
   | "components"
