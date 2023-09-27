@@ -14,7 +14,8 @@ import { i18n, parseLocaleString } from "src/locales/locales";
 import { analyticsPageView } from "../domain/analytics";
 import "src/styles/nprogress.css";
 import "src/styles/reach-dialog.css";
-import { preloadFonts, theme } from "../themes/elcom";
+import { theme } from "../federal";
+import { preloadFonts } from "../themes/elcom";
 
 const useMatomo = () => {
   const [matomoId, setMatomoId] = useState<string | undefined>(undefined);
