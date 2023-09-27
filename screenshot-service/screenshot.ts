@@ -4,17 +4,17 @@ import { URL } from "url";
 import { either, pipeable } from "fp-ts";
 import * as t from "io-ts";
 import { NumberFromString } from "io-ts-types/lib/NumberFromString";
+import playwright, { Browser, BrowserContext } from "playwright";
 import { Request } from "polka";
-import puppeteer, { Browser } from "puppeteer";
-
 
 /**
  * We start a new browser instance for each request. This may seem a bit expensive (and it is),
  * but gives us a clean browser each time.
  */
-async function withBrowser<T>(f: (browser: Browser) => Promise<T>) {
-  const browser = await puppeteer.launch({
-    dumpio: true,
+async function withBrowser<T>(
+  f: (browser: Browser, context: BrowserContext) => Promise<T>
+) {
+  const browser = await playwright.chromium.launch({
     args: [
       "--no-sandbox",
       "--disable-setuid-sandbox",
@@ -22,11 +22,14 @@ async function withBrowser<T>(f: (browser: Browser) => Promise<T>) {
       "--disable-extensions",
       "--ignore-certificate-errors",
     ],
+  });
+
+  const context = await browser.newContext({
     ignoreHTTPSErrors: true,
   });
 
   try {
-    return await f(browser);
+    return await f(browser, context);
   } finally {
     // Don't wait for the browser to close. Let this happen asynchronously
     // so we can return the response as soon as possible.
@@ -65,6 +68,14 @@ const Query = t.strict({
   filename: t.union([t.undefined, t.string]),
 });
 
+const getHttpAuth = () => {
+  const BASIC_AUTH_CREDENTIALS = process.env.BASIC_AUTH_CREDENTIALS;
+  if (BASIC_AUTH_CREDENTIALS) {
+    const [username, password] = BASIC_AUTH_CREDENTIALS.split(":", 2);
+    return { username, password };
+  }
+};
+
 export const handleScreenshot = async (req: Request, res: ServerResponse) => {
   try {
     const { status, body, headers } = await pipeable.pipe(
@@ -102,27 +113,20 @@ export const handleScreenshot = async (req: Request, res: ServerResponse) => {
            */
           return withBrowser(async (browser) => {
             const deviceScaleFactor = query.deviceScaleFactor || 1;
-            const page = await browser.newPage();
-            await page.setViewport({
-              width: 1440,
-              height: 1024,
+            const auth = getHttpAuth();
+            const context = await browser.newContext({
+              ignoreHTTPSErrors: true,
               deviceScaleFactor,
+              viewport: {
+                width: 1440,
+                height: 1024,
+              },
+              httpCredentials: auth ?? undefined,
             });
+            const page = await context.newPage();
 
             try {
               console.log(`Navigating to page: ${query.url}`);
-
-              const BASIC_AUTH_CREDENTIALS = process.env.BASIC_AUTH_CREDENTIALS;
-              if (BASIC_AUTH_CREDENTIALS) {
-                const [username, password] = BASIC_AUTH_CREDENTIALS.split(
-                  ":",
-                  2
-                );
-                await page.authenticate({
-                  username,
-                  password,
-                });
-              }
               await page.goto(query.url, {
                 waitUntil: "load",
                 timeout: 120 * 1000,
