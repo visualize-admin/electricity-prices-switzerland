@@ -31,6 +31,18 @@ declare module "@mui/material" {
     diverging: string[];
     categorical: string[];
   }
+  interface TypographyVariants {
+    meta?: React.CSSProperties;
+  }
+
+  // allow configuration using `createTheme`
+  interface TypographyVariantsOptions {
+    meta?: React.CSSProperties;
+  }
+
+  interface TypographyPropsVariantOverrides {
+    meta?: true;
+  }
 }
 const elcom = createTheme(federalTheme, {
   palette: {

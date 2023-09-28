@@ -1,5 +1,5 @@
 import { t, Trans } from "@lingui/macro";
-import { Box, Button } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { ScaleThreshold } from "d3";
 import { ascending, descending, mean, rollup } from "d3-array";
 import NextLink from "next/link";
@@ -56,7 +56,7 @@ const ListItem = ({
       <Flex
         onMouseOver={() => setHighlightContext({ entity, id, label, value })}
         onMouseOut={() => setHighlightContext(undefined)}
-        as="a"
+        component="a"
         sx={{
           pl: [2, 4, 4],
           py: 1,
@@ -306,93 +306,95 @@ export const List = ({
 
   const listItems = sorted;
 
-  return <>
-    <RadioTabs<ListState>
-      name="list-state-tabs"
-      variant="borderlessTabs"
-      options={[
-        {
-          value: "MUNICIPALITIES",
-          label: t({ id: "list.municipalities" }),
-        },
-        {
-          value: "CANTONS",
-          label: t({ id: "list.cantons" }),
-        },
-        {
-          value: "PROVIDERS",
-          label: t({ id: "list.operators" }),
-        },
-      ]}
-      value={listState}
-      setValue={setListState}
-    />
-
-    <Box
-      sx={{
-        mx: 0,
-        px: [2, 4, 4],
-        py: [2, 4, 4],
-        borderBottomWidth: "1px",
-        borderBottomStyle: "solid",
-        borderBottomColor: "monochrome300",
-      }}
-    >
-      <Stack direction="row" spacing={2} sx={{ width: "100%" }}>
-        <SearchField
-          id="listSearch"
-          value={searchQuery}
-          onChange={(e) => {
-            setSearchQuery(e.currentTarget.value);
-          }}
-          onReset={() => {
-            setSearchQuery("");
-          }}
-          label={searchLabel}
-          placeholder={searchLabel}
-          sx={{ flexGrow: 1 }}
-        />
-        <InfoDialogButton
-          iconOnly
-          slug="help-search-list"
-          label={searchLabel}
-          smaller
-        />
-      </Stack>
-
-      <Flex sx={{ justifyContent: "space-between", mt: 2 }}>
-        <label htmlFor="listSort">
-          <Typography
-            color="secondary"
-            sx={{
-              fontFamily: "body",
-              fontSize: ["0.625rem", "0.75rem", "0.75rem"],
-              lineHeight: "24px",
-            }}
-          >
-            <Trans id="dataset.sortby">Sortieren</Trans>
-          </Typography>
-        </label>
-
-        <MiniSelect
-          id="listSort"
-          value={sortState}
-          options={sortOptions}
-          onChange={(e) => {
-            setSortState(e.currentTarget.value as SortState);
-          }}
-        ></MiniSelect>
-      </Flex>
-    </Box>
-
-    {observationsQueryFetching ? (
-      <PlaceholderListItems />
-    ) : (
-      <ListItems
-        items={listItems}
-        colorScale={colorScale}
-        listState={listState}
+  return (
+    <>
+      <RadioTabs<ListState>
+        name="list-state-tabs"
+        variant="borderlessTabs"
+        options={[
+          {
+            value: "MUNICIPALITIES",
+            label: t({ id: "list.municipalities" }),
+          },
+          {
+            value: "CANTONS",
+            label: t({ id: "list.cantons" }),
+          },
+          {
+            value: "PROVIDERS",
+            label: t({ id: "list.operators" }),
+          },
+        ]}
+        value={listState}
+        setValue={setListState}
       />
-    )}
-  </>;
+
+      <Box
+        sx={{
+          mx: 0,
+          px: [2, 4, 4],
+          py: [2, 4, 4],
+          borderBottomWidth: "1px",
+          borderBottomStyle: "solid",
+          borderBottomColor: "monochrome300",
+        }}
+      >
+        <Stack direction="row" spacing={2} sx={{ width: "100%" }}>
+          <SearchField
+            id="listSearch"
+            value={searchQuery}
+            onChange={(e) => {
+              setSearchQuery(e.currentTarget.value);
+            }}
+            onReset={() => {
+              setSearchQuery("");
+            }}
+            label={searchLabel}
+            placeholder={searchLabel}
+            sx={{ flexGrow: 1 }}
+          />
+          <InfoDialogButton
+            iconOnly
+            slug="help-search-list"
+            label={searchLabel}
+            smaller
+          />
+        </Stack>
+
+        <Flex sx={{ justifyContent: "space-between", mt: 2 }}>
+          <label htmlFor="listSort">
+            <Typography
+              color="secondary"
+              sx={{
+                fontFamily: "body",
+                fontSize: ["0.625rem", "0.75rem", "0.75rem"],
+                lineHeight: "24px",
+              }}
+            >
+              <Trans id="dataset.sortby">Sortieren</Trans>
+            </Typography>
+          </label>
+
+          <MiniSelect
+            id="listSort"
+            value={sortState}
+            options={sortOptions}
+            onChange={(e) => {
+              setSortState(e.currentTarget.value as SortState);
+            }}
+          ></MiniSelect>
+        </Flex>
+      </Box>
+
+      {observationsQueryFetching ? (
+        <PlaceholderListItems />
+      ) : (
+        <ListItems
+          items={listItems}
+          colorScale={colorScale}
+          listState={listState}
+        />
+      )}
+    </>
+  );
 };

@@ -290,7 +290,7 @@ const IndexPage = ({ locale }: Props) => {
             }}
           >
             <Typography
-              as="h1"
+              component="h1"
               variant="giga"
               sx={{ textAlign: ["left", "left", "center"] }}
             >

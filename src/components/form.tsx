@@ -5,7 +5,6 @@ import {
   Button,
   Checkbox as RebassCheckbox,
   Input as ThemeUiInput,
-  Label as ThemeUiLabel,
   Radio as ThemeUiRadio,
   Select as ThemeUiSelect,
   SelectProps,
@@ -41,10 +40,11 @@ export const Label = ({
   children: React.ReactNode;
   showLabel?: boolean;
 }) => (
-  <ThemeUiLabel
+  <Box
+    as="label"
     htmlFor={htmlFor}
     sx={{
-      color: disabled ? "monochrome600" : "monochrome700",
+      color: disabled ? ""monochrome.600"" : ""monochrome.700"",
       fontSize: smaller ? [2, 2, 2] : [4, 4, 4],
       pb: smaller ? 1 : 0,
       mr: 4,
@@ -66,7 +66,7 @@ export const Label = ({
         {label}
       </Box>
     )}
-  </ThemeUiLabel>
+  </Box>
 );
 
 export const Radio = ({
@@ -89,7 +89,7 @@ export const Radio = ({
           disabled={disabled}
           size={20}
           sx={{
-            color: checked && !disabled ? "primary" : "monochrome500",
+            color: checked && !disabled ? "primary" : ""monochrome.500"",
           }}
         />
       </Label>
@@ -109,7 +109,7 @@ export const Checkbox = ({
     <RebassCheckbox
       sx={{
         // size: 20,
-        color: checked && !disabled ? "primary" : "monochrome500",
+        color: checked && !disabled ? "primary" : ""monochrome.500"",
       }}
       id={`${name}-${label}`}
       name={name}
@@ -134,7 +134,7 @@ export const Select = ({
   label?: React.ReactNode;
   disabled?: boolean;
 } & SelectProps) => (
-  <Box sx={{ color: "monochrome700", pb: 2 }}>
+  <Box sx={{ color: ""monochrome.700"", pb: 2 }}>
     {label && (
       <Label htmlFor={id} disabled={disabled} smaller>
         {label}
@@ -339,7 +339,7 @@ export const FieldSetLegend = ({
       mb: 1,
       color: "monochrome600",
     }}
-    as="legend"
+    component="legend"
   >
     {legendTitle}
   </Box>

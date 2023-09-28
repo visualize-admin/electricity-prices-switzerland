@@ -236,7 +236,7 @@ export const ComboboxMulti = ({
         </Button>
       </Flex>
       <Box
-        as="ul"
+        component="ul"
         sx={{
           listStyle: "none",
           borderRadius: "default",
@@ -253,7 +253,7 @@ export const ComboboxMulti = ({
       >
         {isOpen && isLoading ? (
           <Typography
-            as="li"
+            component="li"
             variant="body2"
             sx={{
               color: "secondary",
@@ -265,7 +265,7 @@ export const ComboboxMulti = ({
           </Typography>
         ) : isOpen && !isLoading && getFilteredItems(items).length === 0 ? (
           <Typography
-            as="li"
+            component="li"
             variant="body2"
             sx={{
               color: "secondary",
@@ -287,7 +287,7 @@ export const ComboboxMulti = ({
         ) : isOpen && !isLoading ? (
           getFilteredItems(items).map((item, index) => (
             <Box
-              as="li"
+              component="li"
               sx={{
                 color: highlightedIndex === index ? "primaryActive" : "text",
                 bg: highlightedIndex === index ? "primaryLight" : "transparent",
@@ -470,7 +470,7 @@ export const Combobox = ({
       </Flex>
 
       <Box
-        as="ul"
+        component="ul"
         sx={{
           listStyle: "none",
           borderRadius: "default",
@@ -489,7 +489,7 @@ export const Combobox = ({
           inputItems.map((item, index) =>
             typeof item === "string" ? (
               <Box
-                as="li"
+                component="li"
                 sx={{
                   color: highlightedIndex === index ? "primaryActive" : "text",
                   bg:
@@ -504,7 +504,7 @@ export const Combobox = ({
               </Box>
             ) : (
               <Box
-                as="li"
+                component="li"
                 sx={{
                   fontWeight: "bold",
                   py: 1,
@@ -518,7 +518,7 @@ export const Combobox = ({
           )}
         {isOpen && inputItems.length === 0 && (
           <Box
-            as="li"
+            component="li"
             sx={{
               color: "secondary",
               p: 3,

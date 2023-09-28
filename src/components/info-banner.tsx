@@ -33,7 +33,7 @@ export const InfoBanner = ({
     <HintBlue iconName="info">
       {
         <Box
-          as="section"
+          component="section"
           dangerouslySetInnerHTML={{
             __html: contentQuery.data.wikiContent.html,
           }}

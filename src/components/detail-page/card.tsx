@@ -35,7 +35,7 @@ export const Card = ({
       }}
     >
       <Typography
-        as="h2"
+        component="h2"
         variant="h2"
         sx={{ pt: 1, color: "monochrome800", mb: 4 }}
       >

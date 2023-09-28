@@ -166,7 +166,7 @@ export const SearchField = ({
       <div {...getComboboxProps()} style={{ position: "relative" }}>
         {/* BUTTON */}
         <Flex
-          as="button"
+          component="button"
           type="button"
           {...getToggleButtonProps()}
           aria-label={"toggle menu"} // FIXME: localize
@@ -277,7 +277,7 @@ export const SearchField = ({
           </Button>
 
           {/* Desktop Magnifying Glass icon */}
-          <Box as="span" sx={{ display: ["none", "none", "block"] }}>
+          <Box component="span" sx={{ display: ["none", "none", "block"] }}>
             <Icon
               name="search"
               size={24}

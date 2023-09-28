@@ -89,7 +89,7 @@ const Status = ({ title, query }: { title: string; query: UseQueryState }) => {
         ) : (
           <IndicatorSuccess />
         )}
-        <Box as="span" sx={{ ml: 2, flexGrow: 1 }}>
+        <Box component="span" sx={{ ml: 2, flexGrow: 1 }}>
           {title}
         </Box>
       </StatusHeading>
@@ -373,7 +373,7 @@ DESCRIBE <https://ld.admin.ch/municipality/${formData.municipalityId}>
         <details>
           <summary>Details</summary>
           <Box
-            as="form"
+            component="form"
             sx={{ mt: 2, "& > * + *": { mt: 0.5, display: "block" } }}
             onSubmit={handleSubmit}
           >
@@ -452,7 +452,7 @@ const DocumentDownloadStatus = () => {
         <details>
           <summary>Details</summary>
           <Box
-            as="form"
+            component="form"
             sx={{ mt: 2, "& > * + *": { mt: 0.5, display: "block" } }}
             onSubmit={handleSubmit}
           >

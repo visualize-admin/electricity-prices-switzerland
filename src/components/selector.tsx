@@ -23,7 +23,7 @@ export const Selector = () => {
   }, []);
   return (
     <Flex
-      as="fieldset"
+      component="fieldset"
       sx={{
         flexDirection: "column",
         justifyContent: "flex-start",
@@ -36,7 +36,7 @@ export const Selector = () => {
         "> div:last-of-type": { mt: 6 },
       }}
     >
-      <Typography as="legend" variant="lead" sx={{ display: "contents" }}>
+      <Typography component="legend" variant="lead" sx={{ display: "contents" }}>
         <Trans id="selector.legend.select.parameters">
           Liste und Karte filtern
         </Trans>

@@ -1,6 +1,6 @@
 import { keyframes } from "@emotion/react";
 import { Trans } from "@lingui/macro";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import * as React from "react";
 
 import Flex from "src/components/flex";

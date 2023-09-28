@@ -104,7 +104,7 @@ const useRangePlotState = ({
 
   const colors = scaleLinear<string, string>()
     .domain(colorDomain)
-    .range(palettes.diverging)
+    .range(palette.diverging)
     .interpolate(interpolateLab);
   const left = estimateTextWidth(
     yScale.domain().length > 1

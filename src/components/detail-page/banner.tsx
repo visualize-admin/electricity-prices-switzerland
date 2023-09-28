@@ -132,7 +132,7 @@ export const DetailPageBanner = ({
       </Grid>
 
       <Box sx={{ mx: "auto", my: 2 }}>
-        <Typography as="h1" variant="h1" sx={{ color: "monochrome800" }}>
+        <Typography component="h1" variant="h1" sx={{ color: "monochrome800" }}>
           <Typography variant="meta" sx={{ color: "secondary" }}>
             {entity === "canton" ? (
               <Trans id="detail.canton">Kanton</Trans>

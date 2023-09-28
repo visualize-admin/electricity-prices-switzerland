@@ -181,7 +181,7 @@ export const PriceColorLegend = () => {
 };
 
 export const ColorsLine = () => {
-  const { palettes } = useTheme();
+  const { palette } = useTheme();
   return (
     <Flex
       sx={{ height: COLOR_HEIGHT + BOTTOM_LABEL_HEIGHT, position: "relative" }}
@@ -206,7 +206,7 @@ export const ColorsLine = () => {
           height: 0,
           borderTop: `${COLOR_HEIGHT / 2}px solid transparent`,
           borderBottom: `${COLOR_HEIGHT / 2}px solid transparent`,
-          borderRight: `${COLOR_HEIGHT / 2}px solid  ${palettes.diverging[0]}`,
+          borderRight: `${COLOR_HEIGHT / 2}px solid  ${palette.diverging[0]}`,
         }}
       />
       <Grid
@@ -217,7 +217,7 @@ export const ColorsLine = () => {
           width: "100%",
         }}
       >
-        {palettes.diverging.map((bg, i) => (
+        {palette.diverging.map((bg, i) => (
           <Flex
             key={bg}
             sx={{
@@ -257,7 +257,7 @@ export const ColorsLine = () => {
           borderTop: `${COLOR_HEIGHT / 2}px solid transparent`,
           borderBottom: `${COLOR_HEIGHT / 2}px solid transparent`,
           borderLeft: `${COLOR_HEIGHT / 2}px solid ${
-            palettes.diverging[palettes.diverging.length - 1]
+            palette.diverging[palette.diverging.length - 1]
           }`,
         }}
       />
