@@ -4,17 +4,19 @@ import { groups } from "d3-array";
 import * as React from "react";
 import { memo, useEffect, useState } from "react";
 import { Flex } from "theme-ui";
-import { SortingOrder, SortingType } from "../../domain/config-types";
-import { Entity, GenericObservation, priceComponents } from "../../domain/data";
-import { getLocalizedLabel } from "../../domain/translation";
+
 import {
   ObservationKind,
   PriceComponent,
   useObservationsQuery,
-} from "../../graphql/queries";
-import { EMPTY_ARRAY } from "../../lib/empty-array";
-import { useLocale } from "../../lib/use-locale";
-import { useQueryState } from "../../lib/use-query-state";
+} from "src/graphql/queries";
+import { EMPTY_ARRAY } from "src/lib/empty-array";
+import { useLocale } from "src/lib/use-locale";
+import { useQueryState } from "src/lib/use-query-state";
+
+import { SortingOrder, SortingType } from "../../domain/config-types";
+import { Entity, GenericObservation, priceComponents } from "../../domain/data";
+import { getLocalizedLabel } from "../../domain/translation";
 import {
   AnnotationX,
   AnnotationXDataPoint,
@@ -33,6 +35,7 @@ import { InfoDialogButton } from "../info-dialog";
 import { PriceColorLegend } from "../price-color-legend";
 import { RadioTabs } from "../radio-tabs";
 import Stack from "../stack";
+
 import { Card } from "./card";
 import { Download } from "./download-image";
 import { FilterSetDescription } from "./filter-set-description";
@@ -228,8 +231,7 @@ export const CantonsComparisonRangePlot = memo(
     sortingOrder: SortingOrder;
   }) => {
     const locale = useLocale();
-    const [{ category, product, cantonsOrder }, setQueryState] =
-      useQueryState();
+    const [{ category, product }] = useQueryState();
 
     const [observationsQuery] = useObservationsQuery({
       variables: {

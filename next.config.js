@@ -1,10 +1,9 @@
-const pkg = require("./package.json");
-const withMDX = require("@next/mdx")();
-
 const withBundleAnalyzer = require("@next/bundle-analyzer")({
   enabled: process.env.ANALYZE === "true",
 });
+const withMDX = require("@next/mdx")();
 
+const pkg = require("./package.json");
 const { locales, defaultLocale } = require("./src/locales/locales.json");
 
 const {
@@ -63,7 +62,7 @@ module.exports = withBundleAnalyzer(
       localeDetection: false,
     },
 
-    webpack(config, { dev, isServer, defaultLoaders }) {
+    webpack(config) {
       config.module.rules.push({
         test: /\.(graphql|gql)$/,
         exclude: /node_modules/,

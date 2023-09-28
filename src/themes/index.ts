@@ -1,9 +1,5 @@
-import { useThemeUI, Theme as ThemeUITheme } from "theme-ui";
 import { SystemStyleObject } from "@styled-system/css";
-
-type StyleValueMap = {
-  [k: string]: string | number | (string | number)[] | StyleValueMap;
-};
+import { useThemeUI, Theme as ThemeUITheme } from "theme-ui";
 
 /**
  * Adapted/refined from the [Theme UI Theme Specification](https://theme-ui.com/theme-spec)
@@ -51,4 +47,4 @@ export const loadTheme = async (theme: string = "federal") => {
   return themeModule;
 };
 
-export const useTheme = () => (useThemeUI().theme as unknown) as Theme;
+export const useTheme = () => useThemeUI().theme as unknown as Theme;

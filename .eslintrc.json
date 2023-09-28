@@ -1,0 +1,73 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "plugins": ["@typescript-eslint", "import", "unused-imports", "react-hooks"],
+  "extends": ["plugin:@typescript-eslint/recommended"],
+  "ignorePatterns": [
+    "src/gql/fragment-masking.ts",
+    "src/graphql",
+    "screenshot-service/**/*",
+    "public/**/*"
+  ],
+  "rules": {
+    "react-hooks/exhaustive-deps": "error",
+    "import/no-relative-parent-imports": "error",
+    "unused-imports/no-unused-imports-ts": "error",
+    "no-restricted-imports": [
+      "error",
+      {
+        "name": "next",
+        "importNames": ["NextPage"],
+        "message": "Please use DataBrowserPage instead."
+      },
+      {
+        "name": "next",
+        "importNames": ["GetStaticProps"],
+        "message": "Please use DataBrowserGetStaticProps instead."
+      }
+    ],
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_"
+      }
+    ],
+    "import/order": [
+      2,
+      {
+        "alphabetize": {
+          "order": "asc"
+        },
+        "newlines-between": "always",
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          "sibling",
+          "index",
+          "object",
+          "type"
+        ],
+        "pathGroups": [
+          {
+            "pattern": "src/**",
+            "group": "internal"
+          }
+        ],
+        "pathGroupsExcludedImportTypes": ["builtin"]
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": ["**/*.js"], // Specify the JavaScript files you want to override for
+      "rules": {
+        "@typescript-eslint/no-var-requires": "off" // Turn off the rule for JavaScript files
+      }
+    }
+  ]
+}

@@ -6,6 +6,7 @@ import React, {
   useContext,
   useReducer,
 } from "react";
+
 import { GenericObservation } from "../../domain/data";
 
 export interface InteractionElement {

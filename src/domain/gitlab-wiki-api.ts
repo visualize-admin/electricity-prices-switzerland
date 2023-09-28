@@ -1,7 +1,9 @@
-import fs from "fs-extra";
+import https from 'https'
 import os from "os";
 import path from "path";
-import https from 'https'
+
+import fs from "fs-extra";
+
 import { getWikiPage as getStaticWikiPage } from "./gitlab-wiki-static";
 
 type WikiPage = {

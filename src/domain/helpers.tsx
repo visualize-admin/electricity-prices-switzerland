@@ -14,15 +14,18 @@ import {
   timeMonth,
   timeParse,
   timeYear,
-  formatLocale,
 } from "d3";
 import React from "react";
-import { useLocale } from "../lib/use-locale";
-import { d3FormatLocales, d3TimeFormatLocales } from "../locales/locales";
-import { useTheme } from "../themes";
-import { estimateTextWidth } from "../lib/estimate-text-width";
-import { GenericObservation } from "./data";
+
+import { estimateTextWidth } from "src/lib/estimate-text-width";
+import { useLocale } from "src/lib/use-locale";
+import { d3FormatLocales, d3TimeFormatLocales } from "src/locales/locales";
+
 import { ANNOTATION_TRIANGLE_HEIGHT } from "../components/charts-generic/annotation/annotation-x";
+import { useTheme } from "../themes";
+
+import { GenericObservation } from "./data";
+
 
 export const isNumber = (x: $IntentionalAny): boolean =>
   typeof x === "number" && !isNaN(x);

@@ -1,4 +1,4 @@
-import { Page, Browser } from "@playwright/test";
+
 import { testAndSaveHar, sleep, getEnv } from "./utils";
 
 const envName = process.env.ELCOM_ENV || "ref";
@@ -6,7 +6,7 @@ const envName = process.env.ELCOM_ENV || "ref";
 const env = getEnv(envName);
 
 testAndSaveHar(
-  "Browsing test",
+  "Browsing test @har",
   `browsing-test-${env.name}.har`,
   async ({ page }) => {
     await page.goto(env.baseUrl);

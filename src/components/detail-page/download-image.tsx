@@ -1,11 +1,12 @@
-import * as React from "react";
 import { Trans } from "@lingui/macro";
-import { useLocale } from "../../lib/use-locale";
-import { Entity } from "../../domain/data";
-import { useQueryState } from "../../lib/use-query-state";
-
 import { Link as TUILink, Box, Text } from "@theme-ui/components";
-import { useRouter } from "next/router";
+import * as React from "react";
+
+import { useLocale } from "src/lib/use-locale";
+import { useQueryState } from "src/lib/use-query-state";
+
+import { Entity } from "../../domain/data";
+
 
 export type Download =
   | "map"

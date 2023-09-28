@@ -1,11 +1,13 @@
 import { rollup } from "d3-array";
 import { useMemo, useState } from "react";
+
 import {
   useMunicipalitiesQuery,
   useOperatorsQuery,
   useCantonsQuery,
-} from "../graphql/queries";
-import { useLocale } from "../lib/use-locale";
+} from "src/graphql/queries";
+import { useLocale } from "src/lib/use-locale";
+
 import { ComboboxMulti, ComboboxMultiProps } from "./combobox";
 
 export const MunicipalitiesCombobox = (
@@ -25,7 +27,10 @@ export const MunicipalitiesCombobox = (
     pause: inputValue === "" && comboboxMultiProps.selectedItems.length === 0,
   });
 
-  const items = gqlQuery.data?.municipalities ?? [];
+  const items = useMemo(
+    () => gqlQuery.data?.municipalities ?? [],
+    [gqlQuery.data?.municipalities]
+  );
 
   const itemById = useMemo(() => {
     return rollup(
@@ -65,7 +70,10 @@ export const OperatorsCombobox = (
     pause: inputValue === "" && comboboxMultiProps.selectedItems.length === 0,
   });
 
-  const items = gqlQuery.data?.operators ?? [];
+  const items = useMemo(
+    () => gqlQuery.data?.operators ?? [],
+    [gqlQuery.data?.operators]
+  );
 
   const itemById = useMemo(() => {
     return rollup(
@@ -105,7 +113,10 @@ export const CantonsCombobox = (
     pause: inputValue === "" && comboboxMultiProps.selectedItems.length === 0,
   });
 
-  const items = gqlQuery.data?.cantons ?? [];
+  const items = useMemo(
+    () => gqlQuery.data?.cantons ?? [],
+    [gqlQuery.data?.cantons]
+  );
 
   const itemById = useMemo(() => {
     return rollup(

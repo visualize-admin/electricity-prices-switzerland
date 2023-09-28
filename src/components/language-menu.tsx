@@ -2,9 +2,10 @@ import { Box, Flex, Link } from "@theme-ui/components";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { ReactNode } from "react";
-import contentRoutes from "../content-routes.json";
-import { useLocale } from "../lib/use-locale";
-import { locales } from "../locales/locales";
+
+import contentRoutes from "src/content-routes.json";
+import { useLocale } from "src/lib/use-locale";
+import { locales } from "src/locales/locales";
 
 const CurrentPageLink = ({
   locale,
@@ -24,9 +25,11 @@ export const LanguageMenu = ({ contentId }: { contentId?: string }) => {
 
   const alternates =
     contentId && contentId in contentRoutes
-      ? (contentRoutes as {
-          [k: string]: { [k: string]: { title: string; path: string } };
-        })[contentId]
+      ? (
+          contentRoutes as {
+            [k: string]: { [k: string]: { title: string; path: string } };
+          }
+        )[contentId]
       : undefined;
 
   return (

@@ -1,3 +1,4 @@
+import { PickingInfo } from "@deck.gl/core/typed";
 import { t, Trans } from "@lingui/macro";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
@@ -5,32 +6,34 @@ import { useRouter } from "next/router";
 import basicAuthMiddleware from "nextjs-basic-auth-middleware";
 import { useCallback, useRef, useState } from "react";
 import { Box, Button, Flex, Grid, Input, Link, Text } from "theme-ui";
-import { DownloadImage } from "../components/detail-page/download-image";
-import { Footer } from "../components/footer";
-import { Header } from "../components/header";
-import { InfoBanner } from "../components/info-banner";
-import { List } from "../components/list";
-import {
-  ChoroplethMap,
-  HighlightContext,
-  HighlightValue,
-} from "../components/map";
-import { Search } from "../components/search";
-import { Selector } from "../components/selector";
-import { useColorScale } from "../domain/data";
+
 import {
   PriceComponent,
   useAllMunicipalitiesQuery,
   useObservationsQuery,
-} from "../graphql/queries";
-import { EMPTY_ARRAY } from "../lib/empty-array";
-import { useQueryStateSingle } from "../lib/use-query-state";
-import { useDisclosure } from "../components/useDisclosure";
-import { Tooltip } from "../components/charts-generic/interaction/tooltip";
+} from "src/graphql/queries";
+import { EMPTY_ARRAY } from "src/lib/empty-array";
+import { useQueryStateSingle } from "src/lib/use-query-state";
+import { defaultLocale } from "src/locales/locales";
+
 import { TooltipBox } from "../components/charts-generic/interaction/tooltip-box";
-import { IconCopy } from "../icons/ic-copy";
+import { DownloadImage } from "../components/detail-page/download-image";
+import { Footer } from "../components/footer";
+import { Header } from "../components/header";
+import {
+  HighlightContext,
+  HighlightValue,
+} from "../components/highlight-context";
+import { InfoBanner } from "../components/info-banner";
+import { List } from "../components/list";
+import { ChoroplethMap } from "../components/map";
+import { Search } from "../components/search";
+import { Selector } from "../components/selector";
+import { useDisclosure } from "../components/useDisclosure";
 import useOutsideClick from "../components/useOutsideClick";
-import { defaultLocale } from "../locales/locales";
+import { useColorScale } from "../domain/data";
+import { IconCopy } from "../icons/ic-copy";
+
 
 const DOWNLOAD_ID = "map";
 
@@ -226,11 +229,7 @@ const IndexPage = ({ locale }: Props) => {
 
   const { push, query } = useRouter();
 
-  const handleMunicipalityLayerClick = ({
-    object,
-  }: {
-    object: { id: number };
-  }) => {
+  const handleMunicipalityLayerClick = ({ object }: PickingInfo) => {
     const href = {
       pathname: "/municipality/[id]",
       query: {

@@ -1,9 +1,12 @@
 import { Trans, t } from "@lingui/macro";
 import { useMemo } from "react";
 import { Flex, Text } from "theme-ui";
+
+import { useQueryStateSingle } from "src/lib/use-query-state";
+
 import { categories, periods, priceComponents, products } from "../domain/data";
 import { getLocalizedLabel } from "../domain/translation";
-import { useQueryStateSingle } from "../lib/use-query-state";
+
 import { Combobox } from "./../components/combobox";
 
 export const Selector = () => {

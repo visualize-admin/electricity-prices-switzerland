@@ -1,10 +1,11 @@
-import { FormEvent, ReactNode, useCallback, useMemo, useState } from "react";
-import { Box, Heading, Flex, HeadingProps, BoxProps } from "theme-ui";
+import { FormEvent, useCallback, useMemo, useState } from "react";
+import { Box, Heading, HeadingProps, BoxProps } from "theme-ui";
 import { UseQueryState } from "urql";
+
+import * as Queries from "src/graphql/queries";
+
 import { LoadingIconInline } from "../../components/hint";
-import * as Queries from "../../graphql/queries";
-import { InferAPIResponse } from "nextkit";
-import handler, { DebugDownloadGetResponse } from "../api/debug-download";
+import { DebugDownloadGetResponse } from "../api/debug-download";
 
 const IndicatorFail = () => (
   <Box
@@ -284,7 +285,7 @@ const Page = () => {
   );
 };
 
-const useManualQuery = <T extends unknown, A extends unknown[]>({
+const useManualQuery = <T, A extends unknown[]>({
   queryFn,
 }: {
   queryFn: (...args: A) => Promise<T>;

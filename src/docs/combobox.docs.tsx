@@ -1,12 +1,7 @@
 import { markdown, ReactSpecimen } from "catalog";
+import { useState } from "react";
+
 import { ComboboxMulti, Combobox } from "../components/combobox";
-import { useState, useEffect } from "react";
-import { useClient } from "urql";
-import {
-  MunicipalitiesDocument,
-  MunicipalitiesQuery,
-  MunicipalitiesQueryVariables,
-} from "../graphql/queries";
 import {
   MunicipalitiesCombobox,
   OperatorsCombobox,

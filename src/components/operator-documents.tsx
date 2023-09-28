@@ -3,14 +3,16 @@ import { descending, rollup } from "d3-array";
 import { uniqBy } from "lodash";
 import { useMemo } from "react";
 import { Box, Flex, Link, Text } from "theme-ui";
+
 import {
   OperatorDocument,
   OperatorDocumentCategory,
   useOperatorDocumentsQuery,
-} from "../graphql/queries";
+} from "src/graphql/queries";
+import { EMPTY_ARRAY } from "src/lib/empty-array";
+import { useLocale } from "src/lib/use-locale";
+
 import { Icon } from "../icons";
-import { EMPTY_ARRAY } from "../lib/empty-array";
-import { useLocale } from "../lib/use-locale";
 
 const CATEGORIES = [
   {

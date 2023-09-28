@@ -1,24 +1,25 @@
 import { markdown, ReactSpecimen } from "catalog";
+import { median } from "d3";
 
-import {
-  Range,
-  RangePoints,
-} from "../components/charts-generic/rangeplot/rangeplot";
-import { RangePlot } from "../components/charts-generic/rangeplot/rangeplot-state";
-import {
-  ChartContainer,
-  ChartSvg,
-} from "../components/charts-generic/containers";
-
-import { rangePlotData, annotationData } from "./data/boxplotdata";
-import { AxisWidthLinear } from "../components/charts-generic/axis/axis-width-linear";
 import {
   AnnotationX,
   AnnotationXLabel,
   AnnotationXDataPoint,
 } from "../components/charts-generic/annotation/annotation-x";
+import { AxisWidthLinear } from "../components/charts-generic/axis/axis-width-linear";
+import {
+  ChartContainer,
+  ChartSvg,
+} from "../components/charts-generic/containers";
+import {
+  Range,
+  RangePoints,
+} from "../components/charts-generic/rangeplot/rangeplot";
+import { RangePlot } from "../components/charts-generic/rangeplot/rangeplot-state";
 import { GenericObservation } from "../domain/data";
-import { median } from "d3";
+
+import { rangePlotData, annotationData } from "./data/boxplotdata";
+
 
 export default () => {
   return markdown`

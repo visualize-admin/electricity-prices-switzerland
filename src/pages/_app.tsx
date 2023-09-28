@@ -1,4 +1,3 @@
-import "core-js/features/array/flat-map";
 import { I18nProvider } from "@lingui/react";
 import { AppProps } from "next/app";
 import Head from "next/head";
@@ -6,13 +5,15 @@ import { useRouter } from "next/router";
 import Script from "next/script";
 import { useEffect, useState } from "react";
 import { ThemeProvider } from "theme-ui";
+
+import { GraphqlProvider } from "src/graphql/context";
+import { LocaleProvider } from "src/lib/use-locale";
+import { useNProgress } from "src/lib/use-nprogress";
+import { i18n, parseLocaleString } from "src/locales/locales";
+
 import { analyticsPageView } from "../domain/analytics";
-import { GraphqlProvider } from "../graphql/context";
-import { LocaleProvider } from "../lib/use-locale";
-import { useNProgress } from "../lib/use-nprogress";
-import { i18n, parseLocaleString } from "../locales/locales";
-import "../styles/nprogress.css";
-import "../styles/reach-dialog.css";
+import "src/styles/nprogress.css";
+import "src/styles/reach-dialog.css";
 import { preloadFonts, theme } from "../themes/elcom";
 
 const useMatomo = () => {

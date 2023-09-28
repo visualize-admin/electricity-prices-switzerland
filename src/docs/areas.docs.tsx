@@ -1,6 +1,5 @@
 import { markdown, ReactSpecimen } from "catalog";
-import { Ruler } from "../components/charts-generic/interaction/ruler";
-import { Tooltip } from "../components/charts-generic/interaction/tooltip";
+
 import { Areas } from "../components/charts-generic/areas/areas";
 import { AreaChart } from "../components/charts-generic/areas/areas-state";
 import { AxisHeightLinear } from "../components/charts-generic/axis/axis-height-linear";
@@ -12,10 +11,13 @@ import {
   ChartContainer,
   ChartSvg,
 } from "../components/charts-generic/containers";
-import { InteractionHorizontal } from "../components/charts-generic/overlay/interaction-horizontal";
+import { Ruler } from "../components/charts-generic/interaction/ruler";
+import { Tooltip } from "../components/charts-generic/interaction/tooltip";
 import { LegendColor } from "../components/charts-generic/legends/color";
-import { zurichAndGeneva } from "./fixtures";
+import { InteractionHorizontal } from "../components/charts-generic/overlay/interaction-horizontal";
 import { pivot_longer } from "../domain/helpers";
+
+import { zurichAndGeneva } from "./fixtures";
 
 export default () => {
   const observations = zurichAndGeneva.filter(

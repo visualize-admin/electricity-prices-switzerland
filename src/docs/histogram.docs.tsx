@@ -1,5 +1,6 @@
 import { markdown, ReactSpecimen } from "catalog";
 import { median } from "d3-array";
+
 import {
   AnnotationX,
   AnnotationXLabel,
@@ -20,6 +21,7 @@ import { HistogramColumns } from "../components/charts-generic/histogram/histogr
 import { Histogram } from "../components/charts-generic/histogram/histogram-state";
 import { HistogramMedian } from "../components/charts-generic/histogram/median";
 import { GenericObservation } from "../domain/data";
+
 import { standardH12020 } from "./data/2020-standard-H1";
 
 export default () => {

@@ -2,9 +2,10 @@
  * @jest-environment node
  */
 
-import fs from "fs";
-import path, { parse } from "path";
 import { assert } from "console";
+import fs from "fs";
+import path from "path";
+
 import {
   digestSignedInfoNode,
   digestTimestampNode,

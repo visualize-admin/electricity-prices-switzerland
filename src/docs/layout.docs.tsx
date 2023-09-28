@@ -1,6 +1,7 @@
 import { markdown, TableSpecimen } from "catalog";
-import { theme } from "../themes/elcom";
 import { Box } from "theme-ui";
+
+import { theme } from "../themes/elcom";
 
 export default () => markdown`
 

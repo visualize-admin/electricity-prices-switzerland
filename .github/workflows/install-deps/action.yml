@@ -1,0 +1,14 @@
+name: "Install yarn & node"
+description: "Install dependencies and restores cache"
+runs:
+  using: "composite"
+  steps:
+    - name: Install Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
+        cache: "yarn"
+
+    - name: Install dependencies
+      run: yarn install
+      shell: "bash"

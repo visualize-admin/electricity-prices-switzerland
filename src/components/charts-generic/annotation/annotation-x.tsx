@@ -1,10 +1,14 @@
 import * as React from "react";
 import { Box } from "theme-ui";
+
 import { GenericObservation } from "../../../domain/data";
 import { getLocalizedLabel } from "../../../domain/translation";
-import { HistogramState } from "../histogram/histogram-state";
-import { DOT_RADIUS, RangePlotState } from "../rangeplot/rangeplot-state";
-import { useChartState } from "../use-chart-state";
+import { DOT_RADIUS } from "../rangeplot/rangeplot-state";
+import {
+  HistogramState,
+  RangePlotState,
+  useChartState,
+} from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
 
 export const ANNOTATION_DOT_RADIUS = 2.5;
@@ -29,7 +33,7 @@ export const AnnotationX = () => {
     | RangePlotState
     | HistogramState;
 
-  const { margins, width } = bounds;
+  const { margins } = bounds;
   const {
     annotationLineColor,
     annotationColor,
@@ -118,7 +122,7 @@ export const AnnotationXLabel = () => {
 
   const { annotationfontSize, fontFamily, annotationColor } = useChartTheme();
 
-  const { width, margins } = bounds;
+  const { width } = bounds;
   return (
     <>
       {annotations &&
@@ -152,8 +156,3 @@ export const AnnotationXLabel = () => {
     </>
   );
 };
-
-const mkTranslation = (onTheLeft: boolean, offset: number) =>
-  onTheLeft
-    ? `translate3d(calc(-100% - ${offset}px), -40%, 0)`
-    : `translate3d(${offset}px, -40%, 0)`;

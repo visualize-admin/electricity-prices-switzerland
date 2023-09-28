@@ -1,27 +1,16 @@
 import * as React from "react";
+
 import { useTheme } from "../../../themes";
 import { BAR_HEIGHT } from "../constants";
-import { useChartState } from "../use-chart-state";
+import { BarsState, useChartState } from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
-import { BarsState } from "./bars-state";
 
 export const Bars = () => {
-  const {
-    sortedData,
-    bounds,
-    getX,
-    xScale,
-    getY,
-    yScale,
-  } = useChartState() as BarsState;
+  const { sortedData, bounds, getX, xScale, getY, yScale } =
+    useChartState() as BarsState;
   const theme = useTheme();
-  const {
-    labelColor,
-    gridColor,
-    labelFontSize,
-    fontFamily,
-    domainColor,
-  } = useChartTheme();
+  const { labelColor, labelFontSize, fontFamily, domainColor } =
+    useChartTheme();
   const { margins } = bounds;
 
   return (

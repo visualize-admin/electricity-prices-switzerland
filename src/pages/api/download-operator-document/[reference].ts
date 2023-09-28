@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
+
 import { downloadGeverDocument } from "../../../domain/gever";
 
 // Taken from node.js source code
@@ -15,9 +16,9 @@ const sanitizeHeaderValue = (str: string) => {
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const reference = req.query.reference as string;
-  const filename = (req.query.filename as string) || "document.pdf";
   const fileAttrs = await downloadGeverDocument(reference);
   res.setHeader("Content-type", fileAttrs.contentType);
+  console.log(`Downloading ${fileAttrs.name}`);
   res.setHeader(
     "Content-Disposition",
     `attachment; filename="${sanitizeHeaderValue(

@@ -2,6 +2,16 @@ import { t, Trans } from "@lingui/macro";
 import { ascending, group, groups, max, min } from "d3-array";
 import * as React from "react";
 import { Box } from "theme-ui";
+
+import {
+  ObservationKind,
+  PriceComponent,
+  useObservationsWithAllPriceComponentsQuery,
+} from "src/graphql/queries";
+import { EMPTY_ARRAY } from "src/lib/empty-array";
+import { useLocale } from "src/lib/use-locale";
+import { useQueryState } from "src/lib/use-query-state";
+
 import {
   Entity,
   GenericObservation,
@@ -10,14 +20,6 @@ import {
 } from "../../domain/data";
 import { mkNumber, pivot_longer } from "../../domain/helpers";
 import { getLocalizedLabel } from "../../domain/translation";
-import {
-  ObservationKind,
-  PriceComponent,
-  useObservationsWithAllPriceComponentsQuery,
-} from "../../graphql/queries";
-import { EMPTY_ARRAY } from "../../lib/empty-array";
-import { useLocale } from "../../lib/use-locale";
-import { useQueryState } from "../../lib/use-query-state";
 import {
   BarsGrouped,
   BarsGroupedAxis,
@@ -30,6 +32,7 @@ import { Loading, NoDataHint } from "../hint";
 import { InfoDialogButton } from "../info-dialog";
 import { RadioTabs } from "../radio-tabs";
 import Stack from "../stack";
+
 import { Card } from "./card";
 import { Download } from "./download-image";
 import { FilterSetDescription } from "./filter-set-description";

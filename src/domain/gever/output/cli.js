@@ -3,9 +3,10 @@
 var crypto = require('crypto');
 var fs = require('fs');
 var https = require('https');
+
 var fetch = require('node-fetch');
-var xmldom = require('xmldom');
 var c14nFactory = require('xml-c14n');
+var xmldom = require('xmldom');
 
 function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 

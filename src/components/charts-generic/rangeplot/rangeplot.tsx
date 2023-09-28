@@ -1,22 +1,19 @@
 import { max, median, min } from "d3-array";
 import * as React from "react";
-import { normalize } from "../../../lib/array";
-import { useChartState } from "../use-chart-state";
-import { useChartTheme } from "../use-chart-theme";
-import { DOT_RADIUS, RangePlotState } from "./rangeplot-state";
-import { mkNumber, isNumber } from "../../../domain/helpers";
-import { useInteraction } from "../use-interaction";
+
+import { normalize } from "src/lib/array";
+
+import { isNumber } from "../../../domain/helpers";
 import { useTheme } from "../../../themes";
+import { RangePlotState, useChartState } from "../use-chart-state";
+import { useChartTheme } from "../use-chart-theme";
+import { useInteraction } from "../use-interaction";
+
+import { DOT_RADIUS } from "./rangeplot-state";
 
 export const Range = ({ id }: { id: string }) => {
-  const {
-    bounds,
-    xScale,
-    getX,
-    yScale,
-    colors,
-    rangeGroups,
-  } = useChartState() as RangePlotState;
+  const { bounds, xScale, getX, yScale, colors, rangeGroups } =
+    useChartState() as RangePlotState;
 
   const { margins, chartWidth } = bounds;
 
@@ -94,23 +91,12 @@ export const Range = ({ id }: { id: string }) => {
 
 export const RangePoints = () => {
   const theme = useTheme();
-  const {
-    bounds,
-    xScale,
-    getX,
-    getY,
-    yScale,
-    colors,
-    rangeGroups,
-  } = useChartState() as RangePlotState;
-  const [interactionState, dispatch] = useInteraction();
+  const { bounds, xScale, getX, getY, yScale, colors, rangeGroups } =
+    useChartState() as RangePlotState;
+  const [interactionState] = useInteraction();
   const { margins, chartWidth } = bounds;
-  const {
-    labelColor,
-    labelFontSize,
-    fontFamily,
-    domainColor,
-  } = useChartTheme();
+  const { labelColor, labelFontSize, fontFamily, domainColor } =
+    useChartTheme();
 
   const cantonName =
     interactionState.interaction.d && getY(interactionState.interaction.d);

@@ -1,5 +1,5 @@
 declare module "rdf-cube-view-query" {
-  import { Clownface, ClownfaceInit, AnyPointer } from "clownface";
+  import { ClownfaceInit, AnyPointer } from "clownface";
   import { Term, NamedNode, Literal } from "rdf-js";
   import { ParsingClient } from "sparql-http-client/ParsingClient";
   type NodeInit = {

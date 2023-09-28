@@ -2,22 +2,17 @@ import { axisRight } from "d3-axis";
 import { select, Selection } from "d3-selection";
 import * as React from "react";
 import { useEffect, useRef } from "react";
-import { BarsState } from "../bars/bars-state";
+
 import { BAR_HEIGHT } from "../constants";
-import { useChartState } from "../use-chart-state";
+import { BarsState, useChartState } from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
 
 export const AxisHeightBand = () => {
   const ref = useRef<SVGGElement>(null);
   const { xScale, yScale, bounds } = useChartState() as BarsState;
 
-  const {
-    labelColor,
-    gridColor,
-    labelFontSize,
-    fontFamily,
-    domainColor,
-  } = useChartTheme();
+  const { labelColor, gridColor, labelFontSize, fontFamily, domainColor } =
+    useChartTheme();
 
   const mkAxis = (g: Selection<SVGGElement, unknown, null, undefined>) => {
     const hasNegativeValues = xScale.domain()[0] < 0;

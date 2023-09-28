@@ -1,17 +1,11 @@
 import * as React from "react";
+
 import { useTheme } from "../../../themes";
-import { useChartState } from "../use-chart-state";
-import { ColumnsState } from "./columns-state";
+import { ColumnsState, useChartState } from "../use-chart-state";
 
 export const Columns = () => {
-  const {
-    sortedData,
-    bounds,
-    getX,
-    xScale,
-    getY,
-    yScale,
-  } = useChartState() as ColumnsState;
+  const { sortedData, bounds, getX, xScale, getY, yScale } =
+    useChartState() as ColumnsState;
   const theme = useTheme();
   const { margins } = bounds;
 

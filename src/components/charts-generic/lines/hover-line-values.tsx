@@ -1,19 +1,16 @@
 import * as React from "react";
-import { useChartState } from "../use-chart-state";
-import { useInteraction } from "../use-interaction";
-import { LinesState } from "./lines-state";
 
 export const HoverLineValues = () => {
-  const {
-    getX,
-    xScale,
-    getY,
-    yScale,
-    grouped,
-    colors,
-    bounds,
-  } = useChartState() as LinesState;
-  const [state] = useInteraction();
+  // const {
+  //   getX,
+  //   xScale,
+  //   getY,
+  //   yScale,
+  //   grouped,
+  //   colors,
+  //   bounds,
+  // } = useChartState() as LinesState;
+  // const [state] = useInteraction();
 
   // const { x, visible, segment } = state.tooltip;
 

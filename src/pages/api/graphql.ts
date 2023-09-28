@@ -1,14 +1,14 @@
-import configureCors from "cors";
-import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
-import { resolvers } from "../../graphql/resolvers";
-import typeDefs from "../../graphql/schema.graphql";
-import { context } from "../../graphql/server-context";
-import { runMiddleware } from "../../lib/run-middleware";
-
 import { ApolloServer } from "@apollo/server";
-import { startServerAndCreateNextHandler } from "@as-integrations/next";
 import { ApolloServerPluginCacheControl } from "@apollo/server/plugin/cacheControl";
 import responseCachePlugin from "@apollo/server-plugin-response-cache";
+import { startServerAndCreateNextHandler } from "@as-integrations/next";
+import { NextApiHandler } from "next";
+
+import { resolvers } from "src/graphql/resolvers";
+import typeDefs from "src/graphql/schema.graphql";
+import { context } from "src/graphql/server-context";
+
+
 import { metricsPlugin } from "./metricsPlugin";
 
 const server = new ApolloServer({
@@ -46,7 +46,11 @@ const graphql: NextApiHandler = async (req, res) => {
     res.status(200).end();
   }
 
-  await handler(req, res);
+  try {
+    await handler(req, res);
+  } catch (e) {
+    res.status(500).send(`Error: ${e instanceof Error ? e.message : `${e}`}`);
+  }
 };
 
 export default graphql;

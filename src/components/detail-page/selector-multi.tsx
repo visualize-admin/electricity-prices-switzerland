@@ -1,10 +1,12 @@
 import { Trans, t } from "@lingui/macro";
 import { useMemo } from "react";
 import { Flex, Text } from "theme-ui";
+
+import { useQueryState } from "src/lib/use-query-state";
+
 import { Combobox, ComboboxMulti } from "../../components/combobox";
 import { categories, Entity, periods, products } from "../../domain/data";
 import { getLocalizedLabel } from "../../domain/translation";
-import { useQueryState } from "../../lib/use-query-state";
 import {
   CantonsCombobox,
   MunicipalitiesCombobox,

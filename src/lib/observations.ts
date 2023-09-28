@@ -1,4 +1,5 @@
 import { Literal, NamedNode } from "rdf-js";
+
 import * as ns from "../rdf/namespace";
 
 export type RawObservationValue = {
@@ -70,7 +71,7 @@ export const parseObservationValue = (
 export const parseObservation = (
   d: Record<string, Literal | NamedNode<string>>
 ) => {
-  let parsed: { [k: string]: string | number | boolean } = {};
+  const parsed: { [k: string]: string | number | boolean } = {};
   const electricityPriceDimensionPrefix = ns.electricitypriceDimension().value;
   for (const [k, v] of Object.entries(d)) {
     const key = k.replace(electricityPriceDimensionPrefix, "");
@@ -79,7 +80,7 @@ export const parseObservation = (
 
     parsed[key] =
       typeof parsedValue === "string"
-        ? ns.stripNamespaceFromIri({ dimension: key, iri: parsedValue })
+        ? ns.stripNamespaceFromIri({ iri: parsedValue })
         : parsedValue;
   }
   return parsed;

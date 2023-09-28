@@ -1,10 +1,13 @@
-import { interpolateHsl } from "d3";
 import { Text } from "@theme-ui/components";
-
-import { ascending, Bin, histogram, max, min } from "d3-array";
-import { ScaleLinear, scaleLinear } from "d3-scale";
+import { interpolateHsl } from "d3";
+import { ascending, histogram, max, min } from "d3-array";
+import { scaleLinear } from "d3-scale";
 import * as React from "react";
 import { ReactNode, useCallback } from "react";
+import { Flex } from "theme-ui";
+
+import { estimateTextWidth } from "src/lib/estimate-text-width";
+
 import { HistogramFields } from "../../../domain/config-types";
 import { GenericObservation } from "../../../domain/data";
 import {
@@ -12,41 +15,21 @@ import {
   mkNumber,
   useFormatCurrency,
 } from "../../../domain/helpers";
-import { estimateTextWidth } from "../../../lib/estimate-text-width";
-import { Annotation } from "../annotation/annotation-x";
 import { LEFT_MARGIN_OFFSET } from "../constants";
 import { Tooltip } from "../interaction/tooltip";
-import { ChartContext, ChartProps } from "../use-chart-state";
+import { LegendSymbol } from "../legends/color";
+import { ChartContext, ChartProps, HistogramState } from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
 import { InteractionProvider } from "../use-interaction";
-import { Bounds, Observer, useWidth } from "../use-width";
-import { Box, Flex } from "theme-ui";
-import { LegendSymbol } from "../legends/color";
+import { Observer, useWidth } from "../use-width";
 
 export const ANNOTATION_DOT_RADIUS = 2.5;
 export const ANNOTATION_LABEL_HEIGHT = 20;
-
-export interface HistogramState {
-  bounds: Bounds;
-  data: GenericObservation[];
-  medianValue: number | undefined;
-  getX: (d: GenericObservation) => number;
-  xScale: ScaleLinear<number, number>;
-  getY: (d: GenericObservation[]) => number;
-  yScale: ScaleLinear<number, number>;
-  xAxisLabel?: string;
-  yAxisLabel?: string;
-  bins: Bin<GenericObservation, number>[];
-  colors: ScaleLinear<string, string>;
-  annotations?: Annotation[];
-  getAnnotationInfo: (d: GenericObservation) => Tooltip;
-}
 
 const useHistogramState = ({
   data,
   medianValue,
   fields,
-  measures,
   aspectRatio,
   xAxisLabel,
   yAxisLabel,

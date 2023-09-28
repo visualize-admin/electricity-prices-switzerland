@@ -19,10 +19,11 @@ const metricsLogger = (metricsPerOperation: OperationMetrics) => {
     keys,
     (k) => metricsPerOperation.get(k)?.totalhits
   )!;
-  const highestTotalHits =
-    metricsPerOperation.get(highestTotalHitsKey)?.totalhits!;
+
+  const operationMetrics = metricsPerOperation.get(highestTotalHitsKey);
+  const highestTotalHits = operationMetrics?.totalhits ?? 0;
   const scale = scaleLinear().domain([0, highestTotalHits]).range([0, 20]);
-  for (let key of metricsPerOperation.keys()) {
+  for (const key of metricsPerOperation.keys()) {
     const metric = metricsPerOperation.get(key);
     if (!metric) {
       continue;

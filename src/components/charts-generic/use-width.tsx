@@ -1,5 +1,6 @@
 import React, { createContext, ReactNode, useContext } from "react";
-import { useResizeObserver } from "../../lib/use-resize-observer";
+
+import { useResizeObserver } from "src/lib/use-resize-observer";
 
 export interface Margins {
   annotations?: number;

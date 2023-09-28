@@ -1,6 +1,8 @@
 import { Box } from "theme-ui";
-import { useWikiContentQuery } from "../graphql/queries";
-import { useLocale } from "../lib/use-locale";
+
+import { useWikiContentQuery } from "src/graphql/queries";
+import { useLocale } from "src/lib/use-locale";
+
 import { HintBlue } from "./hint";
 
 export const InfoBanner = ({

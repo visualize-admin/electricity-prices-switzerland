@@ -2,12 +2,15 @@ import { axisLeft } from "d3-axis";
 import { select, Selection } from "d3-selection";
 import * as React from "react";
 import { useEffect, useRef } from "react";
+
 import { useFormatCurrency, useFormatNumber } from "../../../domain/helpers";
 import { getLocalizedLabel } from "../../../domain/translation";
-import { AreasState } from "../areas/areas-state";
-import { ColumnsState } from "../columns/columns-state";
-import { LinesState } from "../lines/lines-state";
-import { useChartState } from "../use-chart-state";
+import {
+  AreasState,
+  ColumnsState,
+  LinesState,
+  useChartState,
+} from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
 
 const TICK_MIN_HEIGHT = 50;

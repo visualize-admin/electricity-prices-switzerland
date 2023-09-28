@@ -1,6 +1,8 @@
 import { Box, Text } from "@theme-ui/components";
 import { Flex } from "theme-ui";
+
 import { LegendItem, LegendSymbol } from "../legends/color";
+
 import { TooltipValue } from "./tooltip";
 
 // Generic

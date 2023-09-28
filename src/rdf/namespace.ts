@@ -27,13 +27,7 @@ export const canton = namespace("https://ld.admin.ch/canton/");
  * E.g. "http://classifications.data.admin.ch/municipality/123" -> "123"
  * E.g. "https://energy.ld.admin.ch/elcom/electricityprice/category/H1" -> "H1"
  */
-export const stripNamespaceFromIri = ({
-  dimension,
-  iri,
-}: {
-  dimension: string;
-  iri: string;
-}): string => {
+export const stripNamespaceFromIri = ({ iri }: { iri: string }): string => {
   const matches = iri.match(/\/([a-zA-Z0-9]+)$/);
 
   if (!matches) {

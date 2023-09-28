@@ -1,11 +1,8 @@
 import * as React from "react";
+
 import { GenericObservation } from "../../../domain/data";
-import { useChartState } from "../use-chart-state";
+import { HistogramState, useChartState } from "../use-chart-state";
 import { useInteraction } from "../use-interaction";
-import { DOT_RADIUS, RangePlotState } from "../rangeplot/rangeplot-state";
-import { isNumber } from "../../../domain/helpers";
-import { HistogramState } from "../histogram/histogram-state";
-import { Bin } from "d3";
 
 export const InteractionHistogram = ({
   debug = false,
@@ -14,8 +11,7 @@ export const InteractionHistogram = ({
 }) => {
   const [, dispatch] = useInteraction();
 
-  const { bounds, getX, yScale, data, getY, xScale, bins } =
-    useChartState() as HistogramState;
+  const { bounds, xScale, bins } = useChartState() as HistogramState;
   const { margins, chartWidth, chartHeight } = bounds;
 
   const showTooltip = (bin: GenericObservation) => {

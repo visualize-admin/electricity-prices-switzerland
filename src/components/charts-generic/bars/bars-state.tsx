@@ -1,14 +1,8 @@
 import { ascending, descending, max, min } from "d3-array";
-import {
-  scaleBand,
-  ScaleBand,
-  ScaleLinear,
-  scaleLinear,
-  ScaleOrdinal,
-  scaleOrdinal,
-} from "d3-scale";
+import { scaleBand, scaleLinear, scaleOrdinal } from "d3-scale";
 import * as React from "react";
 import { ReactNode, useCallback, useMemo } from "react";
+
 import {
   BarFields,
   SortingOrder,
@@ -21,26 +15,13 @@ import {
   BOTTOM_MARGIN_OFFSET,
   LEFT_MARGIN_OFFSET,
 } from "../constants";
-import { ChartContext, ChartProps } from "../use-chart-state";
+import { BarsState, ChartContext, ChartProps } from "../use-chart-state";
 import { InteractionProvider } from "../use-interaction";
-import { Bounds, Observer, useWidth } from "../use-width";
-
-export interface BarsState {
-  bounds: Bounds;
-  sortedData: GenericObservation[];
-  getX: (d: GenericObservation) => number;
-  xScale: ScaleLinear<number, number>;
-  getY: (d: GenericObservation) => string;
-  yScale: ScaleBand<string>;
-  getSegment: (d: GenericObservation) => string;
-  segments: string[];
-  colors: ScaleOrdinal<string, string>;
-}
+import { Observer, useWidth } from "../use-width";
 
 const useBarsState = ({
   data,
   fields,
-  measures,
 }: Pick<ChartProps, "data" | "measures"> & {
   fields: BarFields;
 }): BarsState => {

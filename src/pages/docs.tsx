@@ -1,3 +1,4 @@
+import { MDXProvider } from "@mdx-js/react";
 import {
   Catalog,
   ConfigPageOrGroup,
@@ -14,7 +15,6 @@ import {
   Page,
   Markdown,
 } from "catalog";
-import { MDXProvider } from "@mdx-js/react";
 import { useEffect, useState } from "react";
 
 const pages: ConfigPageOrGroup[] = [

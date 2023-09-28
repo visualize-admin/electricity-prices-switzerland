@@ -1,8 +1,9 @@
 import { scaleThreshold, range } from "d3";
 import { useMemo } from "react";
-import { Observation as QueryObservation } from "../graphql/queries";
+
+import { Observation as QueryObservation } from "src/graphql/queries";
+
 import { useTheme } from "../themes";
-import { i18n } from "@lingui/core";
 
 export type ObservationValue = string | number | boolean | Date;
 export type GenericObservation = Record<string, ObservationValue>;
@@ -45,9 +46,7 @@ export type ComponentFieldsFragment =
   | ComponentFields_Attribute_Fragment;
 
 export const useColorScale = ({
-  observations,
   medianValue,
-  accessor,
 }: {
   observations: QueryObservation[];
   medianValue: number | undefined;
@@ -63,7 +62,7 @@ export const useColorScale = ({
       .range(palettes.diverging);
 
     return scale;
-  }, [observations, accessor, palettes.diverging]);
+  }, [medianValue, palettes.diverging]);
 };
 
 export type Entity = "municipality" | "operator" | "canton";

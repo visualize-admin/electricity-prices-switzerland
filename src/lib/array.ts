@@ -25,7 +25,7 @@ export const sortByIndex = <T>({
 export const normalize = (val: number, max: number, min: number): number =>
   (val - min) / (max - min);
 
-export const maxBy = <T extends unknown>(
+export const maxBy = <T>(
   arr: T[] | undefined,
   iterator: (item: T) => string | number | undefined
 ): T | undefined => {
@@ -43,4 +43,24 @@ export const maxBy = <T extends unknown>(
     }
   }
   return max;
+};
+
+export const minMaxBy = <T>(arr: T[], by: (d: T) => number) => {
+  let minV = Infinity;
+  let minD = undefined as undefined | T;
+  let maxV = -Infinity;
+  let maxD = undefined as undefined | T;
+  for (let i = 0; i < arr.length; i++) {
+    const item = arr[i];
+    const v = by(item);
+    if (v < minV) {
+      minD = item;
+      minV = v;
+    }
+    if (v > maxV) {
+      maxD = item;
+      maxV = v;
+    }
+  }
+  return [minD, maxD] as [T, T];
 };

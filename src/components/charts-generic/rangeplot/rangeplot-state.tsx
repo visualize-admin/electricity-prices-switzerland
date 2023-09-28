@@ -5,71 +5,36 @@ import {
   interpolateLab,
   max,
   median,
-  min,
   rollup,
   scaleBand,
-  ScaleBand,
-  ScaleLinear,
   scaleLinear,
 } from "d3";
 import * as React from "react";
 import { ReactNode, useCallback } from "react";
+
+import { minMaxBy } from "src/lib/array";
+import { estimateTextWidth } from "src/lib/estimate-text-width";
+
 import {
   RangePlotFields,
   SortingOrder,
   SortingType,
 } from "../../../domain/config-types";
-import { GenericObservation, ObservationValue } from "../../../domain/data";
+import { GenericObservation } from "../../../domain/data";
 import {
   getAnnotationSpaces,
   mkNumber,
   useFormatCurrency,
 } from "../../../domain/helpers";
-import { estimateTextWidth } from "../../../lib/estimate-text-width";
-import { Annotation } from "../annotation/annotation-x";
 import { LEFT_MARGIN_OFFSET } from "../constants";
 import { Tooltip } from "../interaction/tooltip";
-import { ChartContext, ChartProps } from "../use-chart-state";
+import { ChartContext, ChartProps, RangePlotState } from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
 import { InteractionProvider } from "../use-interaction";
-import { Bounds, Observer, useWidth } from "../use-width";
+import { Observer, useWidth } from "../use-width";
 
 export const DOT_RADIUS = 8;
 export const OUTER_PADDING = 0.2;
-
-export interface RangePlotState {
-  bounds: Bounds;
-  data: GenericObservation[];
-  medianValue: number | undefined;
-  getX: (d: GenericObservation) => number;
-  xScale: ScaleLinear<number, number>;
-  getY: (d: GenericObservation) => string;
-  yScale: ScaleBand<string>;
-  colors: ScaleLinear<string, string>;
-  rangeGroups: [string, Record<string, ObservationValue>[]][];
-  annotations?: Annotation[];
-  getAnnotationInfo: (d: GenericObservation) => Tooltip;
-}
-
-const minMaxBy = <T extends unknown>(arr: T[], by: (d: T) => number) => {
-  let minV = Infinity;
-  let minD = undefined as undefined | T;
-  let maxV = -Infinity;
-  let maxD = undefined as undefined | T;
-  for (let i = 0; i < arr.length; i++) {
-    const item = arr[i];
-    const v = by(item);
-    if (v < minV) {
-      minD = item;
-      minV = v;
-    }
-    if (v > maxV) {
-      maxD = item;
-      maxV = v;
-    }
-  }
-  return [minD, maxD] as [T, T];
-};
 
 const useRangePlotState = ({
   data,
@@ -104,7 +69,6 @@ const useRangePlotState = ({
 
   const { annotation } = fields;
 
-  const minValue = min(data, (d) => getX(d));
   const maxValue = max(data, (d) => getX(d));
   const xDomain = [0, mkNumber(maxValue)];
   const xScale = scaleLinear().domain(xDomain).nice();
