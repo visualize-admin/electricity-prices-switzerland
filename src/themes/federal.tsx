@@ -15,7 +15,10 @@ const isSafari15 =
 
 const breakpoints = ["xs", "md"] as Breakpoint[];
 
-const createTypographyVariant = (theme: Theme, spec: Record<string, any>) => {
+const createTypographyVariant = (
+  theme: Theme,
+  spec: Record<string, $IntentionalAny>
+) => {
   const res = omit(spec, ["lineHeight", "fontSize"]);
   for (let i = 0; i < spec.fontSize.length; i++) {
     const lineHeight = `${spec.lineHeight[i]}px`;
@@ -28,10 +31,55 @@ const createTypographyVariant = (theme: Theme, spec: Record<string, any>) => {
   return res;
 };
 
+declare module "@mui/material" {
+  interface PaletteColorOptions {
+    light?: string;
+    main: string;
+    hover?: string;
+    active?: string;
+    disabled?: string;
+    colored?: string;
+    dark?: string;
+  }
+
+  interface PaletteOptions {
+    muted: PaletteColorOptions;
+    alert: PaletteColorOptions;
+    organization: PaletteColorOptions;
+    category: PaletteColorOptions;
+    brand: PaletteColorOptions;
+    hint: PaletteColorOptions;
+  }
+
+  interface PaletteColor {
+    hover?: string;
+    disabled?: string;
+    active?: string;
+  }
+
+  interface Palette {
+    muted: PaletteColor;
+    alert: PaletteColor;
+    organization: PaletteColor;
+    category: PaletteColor;
+    brand: PaletteColor;
+    hint: PaletteColor;
+  }
+
+  interface TypographyPropsVariantOverrides {
+    tag: true;
+  }
+
+  interface ButtonPropsVariantOverrides {
+    inline: true;
+    inverted: true;
+  }
+}
+
 /**
  * Theme conforming to the Swiss Federal CD guidelines
  */
-export const theme = createTheme({
+const theme = createTheme({
   palette: {
     primary: {
       light: "#d8e8ef",
@@ -478,13 +526,15 @@ theme.components = {
       root: {
         padding: 0,
         margin: 0,
-      },
-      disabled: {
-        color: "grey.500",
-        "&$checked": {
-          color: "primary.disabled",
+
+        "&.Mui-disabled": {
+          color: "grey.500",
+          "&$checked": {
+            color: "primary.disabled",
+          },
         },
       },
+      disabled: {},
       checked: {},
     },
   },
@@ -518,13 +568,14 @@ theme.components = {
       root: {
         justifyContent: "center",
         alignItems: "center",
-      },
-      selected: {
-        color: "white",
-        "&.Mui-disabled": {
-          color: "rgba(255, 255, 255, 0.5)",
+        "&.Mui-selected": {
+          color: "white",
+          "&.Mui-disabled": {
+            color: "rgba(255, 255, 255, 0.5)",
+          },
         },
       },
+      selected: {},
     },
   },
   MuiTable: {
@@ -590,9 +641,13 @@ theme.components = {
           paddingLeft: 0,
         },
       },
-      disabled: {
-        color: theme.palette.grey[500],
+
+      root: {
+        "&.Mui-disabled": {
+          color: theme.palette.grey[500],
+        },
       },
+      disabled: {},
     },
   },
   MuiSlider: {
@@ -845,3 +900,5 @@ export const preloadFonts = [
   "/static/fonts/FrutigerNeueW02-Light.woff2",
   "/static/fonts/FrutigerNeueW02-It.woff2",
 ];
+
+export default theme;

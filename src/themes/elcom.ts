@@ -16,3 +16,29 @@ export const preloadFonts = [
   "/fonts/FrutigerNeueW02-Regular.woff2",
   "/fonts/FrutigerNeueW02-Light.woff2",
 ];
+
+import { createTheme } from "@mui/material";
+
+import federalTheme from "./federal";
+
+declare module "@mui/material" {
+  interface PaletteOptions {
+    diverging?: string[];
+    categorical?: string[];
+  }
+
+  interface Palette {
+    diverging: string[];
+    categorical: string[];
+  }
+}
+const elcom = createTheme(federalTheme, {
+  palette: {
+    diverging: ["#51b581", "#a8dc90", "#e7ec83", "#f1b865", "#eb7c40"],
+    categorical: ["#64afe9", "#01ADA1", "#939CB4", "#91C34B", "#E89F00"],
+  },
+});
+
+export type ElcomTheme = typeof elcom;
+
+export default elcom;
