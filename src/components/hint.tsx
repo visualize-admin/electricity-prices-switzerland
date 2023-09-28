@@ -1,4 +1,4 @@
-import { keyframes } from "@emotion/core";
+import { keyframes } from "@emotion/react";
 import { Trans } from "@lingui/macro";
 import { Box } from "@mui/material";
 import * as React from "react";
