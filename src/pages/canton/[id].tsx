@@ -1,10 +1,12 @@
 import { t } from "@lingui/macro";
-import { Box, Flex } from "@mui/material";
+import { Box } from "@mui/material";
 import { GetServerSideProps } from "next";
 import ErrorPage from "next/error";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import basicAuthMiddleware from "nextjs-basic-auth-middleware";
+
+import Flex from "src/components/flex";
 
 import { DetailPageBanner } from "../../components/detail-page/banner";
 import { CantonsComparisonRangePlots } from "../../components/detail-page/cantons-comparison-range";

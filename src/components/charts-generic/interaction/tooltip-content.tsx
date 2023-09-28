@@ -1,5 +1,6 @@
 import { Box } from "@mui/material";
-import { Flex } from "@mui/material";
+
+import Flex from "src/components/flex";
 
 import { LegendItem, LegendSymbol } from "../legends/color";
 

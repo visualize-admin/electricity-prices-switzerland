@@ -1,12 +1,13 @@
 import { PickingInfo } from "@deck.gl/core/typed";
 import { t, Trans } from "@lingui/macro";
-import { Box, Button, Flex, Grid, Input, Link } from "@mui/material";
+import { Box, Button, Grid, Input, Link } from "@mui/material";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import basicAuthMiddleware from "nextjs-basic-auth-middleware";
 import { useCallback, useRef, useState } from "react";
 
+import Flex from "src/components/flex";
 import {
   PriceComponent,
   useAllMunicipalitiesQuery,

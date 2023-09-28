@@ -1,9 +1,10 @@
 import { Trans } from "@lingui/macro";
-import { Box, Flex, Link } from "@mui/material";
+import { Box, Link } from "@mui/material";
 import { descending, rollup } from "d3-array";
 import { uniqBy } from "lodash";
 import { useMemo } from "react";
 
+import Flex from "src/components/flex";
 import {
   OperatorDocument,
   OperatorDocumentCategory,

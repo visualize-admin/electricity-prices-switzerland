@@ -1,7 +1,7 @@
 import { Trans, t } from "@lingui/macro";
-import { Flex } from "@mui/material";
 import { useMemo } from "react";
 
+import Flex from "src/components/flex";
 import { useQueryStateSingle } from "src/lib/use-query-state";
 
 import { categories, periods, priceComponents, products } from "../domain/data";

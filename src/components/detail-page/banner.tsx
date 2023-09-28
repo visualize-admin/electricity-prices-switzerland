@@ -1,14 +1,10 @@
 import { Trans } from "@lingui/macro";
-import {
-  Box,
-  Button,
-  Flex,
-  Grid,
-  Link as UILink,
-} from "@mui/material";
+import { Box, Button, Grid, Link as UILink } from "@mui/material";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { Fragment, useState } from "react";
+
+import Flex from "src/components/flex";
 
 import { Entity } from "../../domain/data";
 import { Icon } from "../../icons";

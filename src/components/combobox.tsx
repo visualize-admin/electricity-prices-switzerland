@@ -1,8 +1,11 @@
 import { t } from "@lingui/macro";
+
 // import { i18n } from "@lingui/core";
-import { Box, Button, Flex, Input } from "@mui/material";
+import { Box, Button, Input } from "@mui/material";
 import { useCombobox, useMultipleSelection } from "downshift";
 import { useState, useEffect } from "react";
+
+import Flex from "src/components/flex";
 
 import { Icon } from "../icons";
 

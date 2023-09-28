@@ -1,6 +1,8 @@
 import { Trans, t } from "@lingui/macro";
-import { Box, BoxProps, Flex, Grid } from "@mui/material";
+import { Box, BoxProps, Grid } from "@mui/material";
 import React, { useState } from "react";
+
+import Flex from "src/components/flex";
 
 import { useFormatCurrency } from "../domain/helpers";
 import { IconClear } from "../icons/ic-clear";

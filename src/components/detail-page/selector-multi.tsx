@@ -1,7 +1,7 @@
 import { Trans, t } from "@lingui/macro";
-import { Flex } from "@mui/material";
 import { useMemo } from "react";
 
+import Flex from "src/components/flex";
 import { useQueryState } from "src/lib/use-query-state";
 
 import { Combobox, ComboboxMulti } from "../../components/combobox";

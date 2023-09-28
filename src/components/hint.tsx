@@ -1,7 +1,9 @@
 import { keyframes } from "@emotion/core";
 import { Trans } from "@lingui/macro";
-import { Flex, Box } from "@mui/material";
+import { Box } from "@mui/material";
 import * as React from "react";
+
+import Flex from "src/components/flex";
 
 import { Icon, IconName } from "../icons";
 

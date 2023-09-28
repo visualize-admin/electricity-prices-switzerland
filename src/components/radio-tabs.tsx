@@ -1,6 +1,8 @@
-import { Box, Flex } from "@mui/material";
+import { Box } from "@mui/material";
 import VisuallyHidden from "@reach/visually-hidden";
 import { ChangeEventHandler, useCallback } from "react";
+
+import Flex from "src/components/flex";
 
 type RadioTabsVariants = "tabs" | "borderlessTabs" | "segmented";
 
