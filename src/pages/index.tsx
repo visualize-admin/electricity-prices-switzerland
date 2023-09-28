@@ -137,7 +137,7 @@ const ShareButton = () => {
               borderWidth: 1,
               borderColor: "monochrome.500",
               outline: hasInputFocus ? "2px solid" : "none",
-              outlineColor: "primary",
+              outlineColor: "primary.main",
               display: "flex",
               alignItems: "center",
               borderRadius: 6,

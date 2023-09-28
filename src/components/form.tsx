@@ -109,7 +109,7 @@ export const Checkbox = ({
     <RebassCheckbox
       sx={{
         // size: 20,
-        color: checked && !disabled ? "primary" : "monochrome.500",
+        color: checked && !disabled ? "primary.main" : "monochrome.500",
       }}
       id={`${name}-${label}`}
       name={name}
@@ -202,7 +202,7 @@ export const MiniSelect = ({
         mr: 1, // Fix for Chrome which cuts of the label otherwise
         ":focus": {
           outline: "none",
-          borderColor: "primary",
+          borderColor: "primary.main",
         },
       }}
       id={id}
@@ -287,7 +287,7 @@ export const SearchField = ({
           borderColor: "monochrome.500",
           backgroundColor: "monochrome.100",
           px: 6,
-          ":focus": { outline: "none", borderColor: "primary" },
+          ":focus": { outline: "none", borderColor: "primary.main" },
         }}
         id={id}
         value={value}

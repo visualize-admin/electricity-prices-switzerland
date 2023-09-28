@@ -133,10 +133,10 @@ export const ComboboxMulti = ({
           border: "1px solid",
           borderRadius: 4,
           color: "text",
-          borderColor: isOpen ? "primary" : "monochrome.500",
+          borderColor: isOpen ? "primary.main" : "monochrome.500",
           backgroundColor: "monochrome.100",
           flexWrap: "wrap",
-          ":focus-within": { borderColor: "primary" },
+          ":focus-within": { borderColor: "primary.main" },
           position: "relative",
         }}
       >
@@ -150,10 +150,10 @@ export const ComboboxMulti = ({
                 mb: 2,
                 borderRadius: "default",
                 fontSize: "0.75rem",
-                backgroundColor: "primaryLight",
+                backgroundColor: "primary.light",
                 ":focus": {
                   outline: 0,
-                  backgroundColor: "primary",
+                  backgroundColor: "primary.main",
                   color: "monochrome.100",
                 },
               }}
@@ -290,7 +290,7 @@ export const ComboboxMulti = ({
               component="li"
               sx={{
                 color: highlightedIndex === index ? "primaryActive" : "text",
-                backgroundColor: highlightedIndex === index ? "primaryLight" : "transparent",
+                backgroundColor: highlightedIndex === index ? "primary.light" : "transparent",
                 p: 3,
                 m: 0,
               }}
@@ -415,10 +415,10 @@ export const Combobox = ({
           border: "1px solid",
           borderRadius: 4,
           color: "text",
-          borderColor: isOpen ? "primary" : "monochrome.500",
+          borderColor: isOpen ? "primary.main" : "monochrome.500",
           backgroundColor: "monochrome.100",
           flexWrap: "wrap",
-          ":focus-within": { borderColor: "primary" },
+          ":focus-within": { borderColor: "primary.main" },
           position: "relative",
         }}
       >
@@ -493,7 +493,7 @@ export const Combobox = ({
                 sx={{
                   color: highlightedIndex === index ? "primaryActive" : "text",
                   backgroundColor:
-                    highlightedIndex === index ? "primaryLight" : "transparent",
+                    highlightedIndex === index ? "primary.light" : "transparent",
                   p: 3,
                   m: 0,
                 }}

@@ -42,7 +42,7 @@ export const IconLink = ({
     rel="noopener noreferrer"
     sx={{
       ml: 4,
-      color: "primary",
+      color: "primary.main",
       "&:disabled": {
         color: "primaryDisabled",
       },
@@ -53,7 +53,7 @@ export const IconLink = ({
         color: "primaryActive",
       },
       "&:visited": {
-        color: "primary",
+        color: "primary.main",
       },
     }}
   >

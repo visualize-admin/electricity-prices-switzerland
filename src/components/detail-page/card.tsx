@@ -31,7 +31,7 @@ export const Card = ({
         borderWidth: "1px",
         borderStyle: "solid",
         borderColor: "monochrome.300",
-        boxShadow: "primary",
+        boxShadow: "primary.main",
       }}
     >
       <Typography

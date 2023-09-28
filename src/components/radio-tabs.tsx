@@ -19,7 +19,7 @@ const STYLES = {
     active: {
       display: "block",
       position: "relative",
-      color: "primary",
+      color: "primary.main",
       backgroundColor: "monochrome.100",
       flex: "1 0 auto",
       textAlign: "center",
@@ -42,7 +42,7 @@ const STYLES = {
       "::before": {
         content: "''",
         display: "block",
-        backgroundColor: "primary",
+        backgroundColor: "primary.main",
         position: "absolute",
         top: 0,
         left: "-1px",
@@ -76,7 +76,7 @@ const STYLES = {
     active: {
       display: "flex",
       position: "relative",
-      color: "primary",
+      color: "primary.main",
       backgroundColor: "monochrome.100",
       flex: "1 1 auto",
       textAlign: "center",
@@ -102,7 +102,7 @@ const STYLES = {
       "::before": {
         content: "''",
         display: "block",
-        backgroundColor: "primary",
+        backgroundColor: "primary.main",
         position: "absolute",
         top: 0,
         left: "-1px",
@@ -140,7 +140,7 @@ const STYLES = {
     active: {
       display: "block",
       position: "relative",
-      color: "primary",
+      color: "primary.main",
       backgroundColor: "monochrome.100",
       flex: "1 0 auto",
       textAlign: "center",

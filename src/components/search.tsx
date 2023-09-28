@@ -185,11 +185,11 @@ export const SearchField = ({
             border: "1px solid",
             borderRadius: "default",
             color: "text",
-            borderColor: isOpen ? "primary" : "monochrome.500",
+            borderColor: isOpen ? "primary.main" : "monochrome.500",
             backgroundColor: "monochrome.100",
 
             "&:hover": {
-              borderColor: "primary",
+              borderColor: "primary.main",
             },
           }}
         >
@@ -256,9 +256,9 @@ export const SearchField = ({
             borderRadius: [0, 0, "default"],
 
             border: ["0px solid", "0px solid", "1px solid"],
-            borderColor: ["monochrome.500", "monochrome.500", "primary"],
+            borderColor: ["monochrome.500", "monochrome.500", "primary.main"],
             borderBottom: ["1px solid", "1px solid", "1px solid"],
-            borderBottomColor: ["monochrome.500", "monochrome.500", "primary"],
+            borderBottomColor: ["monochrome.500", "monochrome.500", "primary.main"],
           }}
         >
           {/* Mobile back button */}
@@ -269,7 +269,7 @@ export const SearchField = ({
             sx={{
               p: 0,
               cursor: "pointer",
-              color: "primary",
+              color: "primary.main",
               display: ["block", "block", "none"],
             }}
           >

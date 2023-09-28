@@ -66,7 +66,7 @@ export const LanguageMenu = ({ contentId }: { contentId?: string }) => {
                   ? ["monochrome.500", "monochrome.300"]
                   : "transparent",
               ":hover": {
-                color: "primary",
+                color: "primary.main",
               },
               ":active": {
                 color: "primaryActive",
