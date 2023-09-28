@@ -37,7 +37,7 @@ export default () => markdown`
   )}
   ${(
     <ReactSpecimen span={1}>
-      <Button variant="outline">Outline</Button>
+      <Button variant="outlined">Outlined</Button>
     </ReactSpecimen>
   )}
 

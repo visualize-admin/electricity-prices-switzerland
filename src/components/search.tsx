@@ -1,5 +1,11 @@
 import { Trans } from "@lingui/macro";
-import { Box, Button, Input, Link as TUILink, Typography } from "@mui/material";
+import {
+  Box,
+  IconButton,
+  Input,
+  Link as TUILink,
+  Typography,
+} from "@mui/material";
 import VisuallyHidden from "@reach/visually-hidden";
 import { group, rollup } from "d3-array";
 import { useCombobox } from "downshift";
@@ -262,19 +268,16 @@ export const SearchField = ({
           }}
         >
           {/* Mobile back button */}
-          <Button
+          <IconButton
             onClick={() => closeMenu()}
-            variant="reset"
             type="button"
             sx={{
-              p: 0,
-              cursor: "pointer",
               color: "primary.main",
               display: ["block", "block", "none"],
             }}
           >
             <Icon name="chevronleft" size={24}></Icon>
-          </Button>
+          </IconButton>
 
           {/* Desktop Magnifying Glass icon */}
           <Box component="span" sx={{ display: ["none", "none", "block"] }}>
@@ -296,20 +299,15 @@ export const SearchField = ({
             }}
           />
           {/* clear input */}
-          <Button
-            variant="reset"
+          <IconButton
             sx={{ cursor: "pointer" }}
             onClick={() => {
               setInputValue("");
               inputEl.current?.focus();
             }}
           >
-            <Icon
-              name="clear"
-              size={24}
-              color={theme.palette.grey[700]}
-            ></Icon>
-          </Button>
+            <Icon name="clear" size={24} color={theme.palette.grey[700]} />
+          </IconButton>
         </Flex>
 
         {/* MENU */}

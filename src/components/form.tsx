@@ -90,7 +90,6 @@ export const Radio = ({
           onChange={onChange}
           checked={checked}
           disabled={disabled}
-          size={20}
           sx={{
             color: checked && !disabled ? "primary.main" : "grey.500",
           }}

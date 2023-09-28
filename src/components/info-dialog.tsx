@@ -1,6 +1,12 @@
 import { Trans } from "@lingui/macro";
-import { Box, IconButton, Typography } from "@mui/material";
-import Dialog from "@reach/dialog";
+import {
+  Box,
+  IconButton,
+  Typography,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+} from "@mui/material";
 
 import { useWikiContentQuery } from "src/graphql/queries";
 import { useLocale } from "src/lib/use-locale";
@@ -10,7 +16,7 @@ import { Icon } from "../icons";
 import { LoadingIcon, NoContentHint } from "./hint";
 import { useDisclosure } from "./useDisclosure";
 
-const DialogContent = ({ slug }: { slug: string }) => {
+const SlugContent = ({ slug }: { slug: string }) => {
   const locale = useLocale();
   const [contentQuery] = useWikiContentQuery({ variables: { locale, slug } });
 
@@ -75,18 +81,13 @@ export const HelpDialog: React.FC<{
   open: boolean;
   slug: string;
 }> = ({ close, label, open: open, slug }) => (
-  <Dialog
-    style={{ zIndex: 999, position: "relative", maxWidth: 800 }}
-    isOpen={open}
-    onDismiss={close}
-    aria-label={label}
-  >
+  <Dialog open={open} onClose={close} maxWidth="sm" aria-label={label}>
     <IconButton
       size="medium"
       sx={{
         position: "absolute",
-        right: "20px",
-        top: "20px",
+        right: "1rem",
+        top: "0.75rem",
       }}
       onClick={close}
       title={
@@ -97,10 +98,14 @@ export const HelpDialog: React.FC<{
     >
       <Icon name="clear" />
     </IconButton>
-    <Typography component="h3" variant="body2" color="secondary">
-      <Trans id="dialog.infoprefix">Info:</Trans> {label}
-    </Typography>
-    <DialogContent slug={slug} />
+    <DialogTitle sx={{ py: 5 }}>
+      <Typography component="h3" variant="body2" color="secondary">
+        <Trans id="dialog.infoprefix">Info:</Trans> {label}
+      </Typography>
+    </DialogTitle>
+    <DialogContent>
+      <SlugContent slug={slug} />
+    </DialogContent>
   </Dialog>
 );
 

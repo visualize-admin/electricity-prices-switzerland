@@ -47,9 +47,9 @@ const DocumentList = ({
             component="li"
             key={doc.id + doc.url}
             sx={{ ml: 0, mb: 2, p: 0 }}
-            variant="text.paragraph2"
+            typography="body2"
           >
-            <Link href={doc.url} variant="inline">
+            <Link href={doc.url} color="primary">
               <Flex>
                 <Box sx={{ flexShrink: 0, mr: 2 }}>
                   <Icon name="pdf" size={20} />
