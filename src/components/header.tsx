@@ -96,8 +96,8 @@ export const Logo = () => {
           variant="h1"
           sx={{
             pl: [0, 6],
-            fontSize: "1rem",
-            lineHeight: 1.5,
+            fontSize: ["1rem"],
+            lineHeight: [1.25],
             textDecoration: "none",
             color: "grey.800",
           }}

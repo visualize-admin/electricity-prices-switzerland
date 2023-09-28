@@ -180,8 +180,9 @@ export const Footer = () => {
             icon={
               <Box sx={{ display: "flex", flexShrink: 0, gap: "1rem" }}>
                 <IconButton
-                  sx={{ p: 0, width: 24, height: 24, cursor: "pointer" }}
+                  sx={{ p: 0 }}
                   onClick={handleOpenCsvDownload}
+                  color="primary"
                 >
                   <IconInfo />
                 </IconButton>

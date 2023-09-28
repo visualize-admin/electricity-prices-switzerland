@@ -1,7 +1,6 @@
 import { Trans } from "@lingui/macro";
-import { Box, Button, IconButton, Typography } from "@mui/material";
+import { Box, IconButton, Typography } from "@mui/material";
 import Dialog from "@reach/dialog";
-import VisuallyHidden from "@reach/visually-hidden";
 
 import { useWikiContentQuery } from "src/graphql/queries";
 import { useLocale } from "src/lib/use-locale";
@@ -82,25 +81,22 @@ export const HelpDialog: React.FC<{
     onDismiss={close}
     aria-label={label}
   >
-    <Button
-      variant="reset"
+    <IconButton
+      size="medium"
       sx={{
-        color: "text",
-        p: 0,
         position: "absolute",
         right: "20px",
         top: "20px",
-        cursor: "pointer",
       }}
       onClick={close}
+      title={
+        (
+          <Trans id="dialog.close">Dialog schliessen</Trans>
+        ) as unknown as string
+      }
     >
-      <VisuallyHidden>
-        <Trans id="dialog.close">Dialog schliessen</Trans>
-      </VisuallyHidden>{" "}
-      <Box aria-hidden>
-        <Icon name="clear" />
-      </Box>
-    </Button>
+      <Icon name="clear" />
+    </IconButton>
     <Typography component="h3" variant="body2" color="secondary">
       <Trans id="dialog.infoprefix">Info:</Trans> {label}
     </Typography>

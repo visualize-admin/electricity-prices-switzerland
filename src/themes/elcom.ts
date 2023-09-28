@@ -71,8 +71,8 @@ elcom.typography = merge(elcom.typography, {
     display: "block",
   }),
   giga: createTypographyVariant(federalTheme, {
-    fontSize: [24, 32],
-    lineHeight: [36, 48],
+    fontSize: ["2.5rem", "3rem"],
+    lineHeight: "1.5",
     fontWeight: 700,
     display: "block",
   }),

@@ -184,7 +184,7 @@ const HintBox = ({ children }: { children: ReactNode }) => (
     sx={{
       width: "100%",
       height: "100%",
-      color: "hint",
+      color: "hint.main",
       margin: "auto",
       textAlign: "center",
       flexDirection: "column",
@@ -194,9 +194,7 @@ const HintBox = ({ children }: { children: ReactNode }) => (
       position: "relative",
     }}
   >
-    <Box
-      sx={{ bgcolor: "mutedTransparent", borderRadius: "bigger", p: 2 }}
-    >
+    <Box sx={{ bgcolor: "muted.transparent", borderRadius: "bigger", p: 2 }}>
       {children}
     </Box>
   </Flex>

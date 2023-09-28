@@ -52,7 +52,7 @@ declare module "@mui/material" {
   }
 
   interface PaletteOptions {
-    muted: PaletteColorOptions;
+    muted: PaletteColorOptions & { transparent: string };
     alert: PaletteColorOptions;
     organization: PaletteColorOptions;
     category: PaletteColorOptions;
@@ -67,7 +67,7 @@ declare module "@mui/material" {
   }
 
   interface Palette {
-    muted: PaletteColor;
+    muted: PaletteColor & { transparent: string };
     alert: PaletteColor;
     organization: PaletteColor;
     category: PaletteColor;
@@ -118,6 +118,7 @@ const theme = createTheme({
       main: "#F5F5F5",
       colored: "#F9FAFB",
       dark: "#F2F7F9",
+      transparent: "rgba(245,245,245,0.8)",
     },
     brand: {
       main: "#DC0018",

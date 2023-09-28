@@ -404,13 +404,14 @@ export const Combobox = ({
       </Flex>
       <Flex
         sx={{
-          display: "block",
+          display: "flex",
           width: "100%",
           boxSizing: "border-box",
           py: 0,
-          pl: 2,
-          pr: 6,
+          px: 2,
+
           height: 48,
+          alignItems: "center",
 
           appearance: "none",
           fontSize: "inherit",
@@ -425,10 +426,7 @@ export const Combobox = ({
           position: "relative",
         }}
       >
-        <Box
-          {...getComboboxProps()}
-          sx={{ flexGrow: 1, minWidth: 80, alignSelf: "center", my: 2 }}
-        >
+        <Box {...getComboboxProps()} sx={{ flexGrow: 1, minWidth: 80 }}>
           <Input
             {...getInputProps({
               onFocus: (e) => {
@@ -439,8 +437,8 @@ export const Combobox = ({
               },
             })}
             sx={{
-              display: "block",
-              // width: "100%",
+              display: "flex",
+              width: "100%",
               appearance: "none",
               fontSize: "inherit",
               lineHeight: "inherit",
@@ -448,6 +446,8 @@ export const Combobox = ({
               color: "text",
               backgroundColor: "transparent",
               borderRadius: 0,
+              height: "100%",
+              alignItems: "center",
               p: 0,
               ":focus": { outline: 0 },
             }}
@@ -460,6 +460,11 @@ export const Combobox = ({
             color: "grey.800",
             p: 0,
             mr: 1,
+            width: 48,
+            minWidth: 0,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
             position: "absolute",
             right: 0,
             top: "50%",
