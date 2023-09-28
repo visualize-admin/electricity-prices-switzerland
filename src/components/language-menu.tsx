@@ -39,6 +39,7 @@ export const LanguageMenu = ({ contentId }: { contentId?: string }) => {
       sx={{
         listStyle: "none",
         p: [2, 0],
+        my: 0,
         ml: [0, "auto"],
         width: ["100%", "auto"],
         backgroundColor: ["grey.300", "transparent"],

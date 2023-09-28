@@ -81,7 +81,13 @@ export const HelpDialog: React.FC<{
   open: boolean;
   slug: string;
 }> = ({ close, label, open: open, slug }) => (
-  <Dialog open={open} onClose={close} maxWidth="sm" aria-label={label}>
+  <Dialog
+    open={open}
+    onClose={close}
+    fullWidth
+    maxWidth="sm"
+    aria-label={label}
+  >
     <IconButton
       size="medium"
       sx={{

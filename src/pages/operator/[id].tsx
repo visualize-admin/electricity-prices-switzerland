@@ -82,11 +82,12 @@ const OperatorPage = (props: Props) => {
         {!query.download && <Header></Header>}
         <Flex
           sx={{
-            pt: [107, 96],
+            pt: ["107px", "96px"],
             flexGrow: 1,
             bgcolor: "grey.200",
             flexDirection: "column",
           }}
+          data-debug="test"
         >
           <DetailPageBanner
             id={id}

@@ -64,12 +64,20 @@ export const MapPriceColorLegend = ({
     );
   }
   return (
-    <LegendBox>
-      <Flex sx={{ alignItems: "center", width: "100%" }}>
-        <Box
-          component="p"
-          sx={{ fontSize: "0.625rem", lineHeight: 1.5, mr: 1 }}
-        >
+    <LegendBox
+      sx={{
+        fontSize: "0.625rem",
+        lineHeight: 1.25,
+      }}
+    >
+      <Flex
+        sx={{
+          alignItems: "center",
+          width: "100%",
+          mb: -2,
+        }}
+      >
+        <Box sx={{ mr: 1 }}>
           <Trans id="map.legend.title">
             Tarifvergleich in Rp./kWh (Angaben exkl. MwSt.)
           </Trans>
@@ -102,8 +110,6 @@ export const MapPriceColorLegend = ({
           sx={{
             justifyContent: "space-between",
             color: "text",
-            fontSize: "0.625rem",
-            lineHeight: 1.5,
             height: TOP_LABEL_HEIGHT,
             pointerEvents: "none",
           }}
@@ -122,7 +128,6 @@ export const MapPriceColorLegend = ({
           sx={{
             justifyContent: "space-between",
             color: "grey.600",
-            fontSize: "0.625rem",
             mb: 2,
           }}
         >

@@ -3,7 +3,6 @@ import { Breakpoint, Theme, createTheme } from "@mui/material/styles";
 import merge from "lodash/merge";
 import omit from "lodash/omit";
 
-import { Icon } from "src/icons";
 import shadows from "src/themes/shadows";
 
 const isSafari15 =
@@ -278,6 +277,8 @@ theme.components = {
       },
     },
   },
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   MuiTreeItem: {
     styleOverrides: {
       content: {
@@ -528,11 +529,11 @@ theme.components = {
     },
   },
   MuiCheckbox: {
-    defaultProps: {
-      checkedIcon: <Icon name="checkboxActive" size={20} />,
-      indeterminateIcon: <Icon name="checkboxIndeterminate" size={20} />,
-      icon: <Icon name="checkboxDefault" size={20} />,
-    },
+    // defaultProps: {
+    //   checkedIcon: <Icon name="checkboxActive" size={20} />,
+    //   indeterminateIcon: <Icon name="checkboxIndeterminate" size={20} />,
+    //   icon: <Icon name="checkboxDefault" size={20} />,
+    // },
     styleOverrides: {
       root: {
         padding: 0,
