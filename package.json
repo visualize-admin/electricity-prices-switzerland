@@ -11,7 +11,7 @@
   "scripts": {
     "dev": "make content && NODE_OPTIONS='--openssl-legacy-provider --max_old_space_size=4096' next",
     "build": "make content && lingui compile && NODE_OPTIONS='--max_old_space_size=16384 --openssl-legacy-provider' next build",
-    "start": "GLOBAL_AGENT_ENVIRONMENT_VARIABLE_NAMESPACE='' NODE_OPTIONS='-r \"global-agent/bootstrap\" --max_old_space_size=2048 --openssl-legacy-provider --unhandled-rejections=warn' next start -p $PORT",
+    "start": "GLOBAL_AGENT_ENVIRONMENT_VARIABLE_NAMESPACE='' NODE_OPTIONS='-r \"./configure-proxy\" --max_old_space_size=2048 --openssl-legacy-provider --unhandled-rejections=warn' next start -p $PORT",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "setup": "yarn && yarn locales:compile && yarn graphql:codegen",
@@ -87,6 +87,7 @@
     "ts-jest": "^27.1.4",
     "ts-node": "10.7.0",
     "typescript-lru-cache": "^2.0.0",
+    "undici": "^5.25.2",
     "urql": "^2.0.2",
     "xml-c14n": "^0.0.6",
     "xmldom": "^0.6.0",
