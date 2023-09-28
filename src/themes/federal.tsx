@@ -15,17 +15,26 @@ const isSafari15 =
 
 const breakpoints = ["xs", "md"] as Breakpoint[];
 
+const maybeAddPx = (strOrNumber: string | number) => {
+  if (typeof strOrNumber === "number") {
+    return `${strOrNumber}px`;
+  } else {
+    return strOrNumber;
+  }
+};
+
 export const createTypographyVariant = (
   theme: Theme,
   spec: Record<string, $IntentionalAny>
 ) => {
   const res = omit(spec, ["lineHeight", "fontSize"]);
   for (let i = 0; i < spec.fontSize.length; i++) {
-    const lineHeight = `${spec.lineHeight[i]}px`;
-    const fontSize = `${spec.fontSize[i]}px`;
+    const lineHeight = `${maybeAddPx(spec.lineHeight[i])}`;
+    const fontSize = `${maybeAddPx(spec.fontSize[i])}`;
     res[theme.breakpoints.up(breakpoints[i])] = {
       fontSize,
       lineHeight,
+      fontFamily: theme.typography.fontFamily,
     };
   }
   return res;
@@ -861,7 +870,7 @@ theme.components = {
           font-display: swap;
           font-style: normal;
           font-weight: 700;
-          src: url("/static/fonts/FrutigerNeueW02-Bd.woff2") format("woff2");
+          src: url("/fonts/FrutigerNeueW02-Bd.woff2") format("woff2");
         }
   
         @font-face {
@@ -869,7 +878,7 @@ theme.components = {
           font-display: swap;
           font-style: normal;
           font-weight: 400;
-          src: url("/static/fonts/FrutigerNeueW02-Regular.woff2") format("woff2");
+          src: url("/fonts/FrutigerNeueW02-Regular.woff2") format("woff2");
         }
   
         @font-face {
@@ -877,7 +886,7 @@ theme.components = {
           font-display: swap;
           font-style: normal;
           font-weight: 300;
-          src: url("/static/fonts/FrutigerNeueW02-Light.woff2") format("woff2");
+          src: url("/fonts/FrutigerNeueW02-Light.woff2") format("woff2");
         }
         
         @font-face {
@@ -885,7 +894,7 @@ theme.components = {
           font-display: swap;
           font-style: italic;
           font-weight: 400;
-          src: url("/static/fonts/FrutigerNeueW02-It.woff2") format("woff2");
+          src: url("/fonts/FrutigerNeueW02-It.woff2") format("woff2");
         }
         `,
   },

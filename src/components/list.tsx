@@ -86,7 +86,7 @@ const ListItem = ({
         </Typography>
         <Box
           sx={{
-            borderRadius: "circle",
+            borderRadius: "1rem",
             px: 2,
             flexShrink: 0,
           }}
@@ -190,7 +190,7 @@ const PlaceholderListItem = () => {
       </Typography>
       <Box
         sx={{
-          borderRadius: "circle",
+          borderRadius: 99999,
           px: 2,
           flexShrink: 0,
           bgcolor: "grey.200",
@@ -380,7 +380,7 @@ export const List = ({
             value={sortState}
             options={sortOptions}
             onChange={(e) => {
-              setSortState(e.currentTarget.value as SortState);
+              setSortState(e.target.value as SortState);
             }}
           ></MiniSelect>
         </Flex>

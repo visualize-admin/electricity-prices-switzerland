@@ -44,7 +44,12 @@ export const SelectorMulti = ({
         "> fieldset": { mt: 4 },
       }}
     >
-      <Typography component="legend" variant="lead" sx={{ display: "contents" }}>
+      <Typography
+        component="legend"
+        variant="lead"
+        display="block"
+        sx={{ display: "contents" }}
+      >
         <Trans id="selector.legend.select.parameters">
           Parameter auswählen
         </Trans>

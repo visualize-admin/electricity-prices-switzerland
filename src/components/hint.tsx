@@ -53,7 +53,7 @@ export const Loading = ({ delayMs = 1000 }: { delayMs?: number }) => (
     sx={{
       width: "100%",
       height: "100%",
-      color: "hint",
+      color: "hint.main",
       margin: "auto",
       textAlign: "center",
       flexDirection: "column",
@@ -72,7 +72,7 @@ export const Loading = ({ delayMs = 1000 }: { delayMs?: number }) => (
     >
       <Icon name="loading" size={48} />
     </Box>
-    <Typography variant="h4">
+    <Typography variant="h4" color="inherit">
       <Trans id="hint.loading.data">Loading data…</Trans>
     </Typography>
   </Flex>

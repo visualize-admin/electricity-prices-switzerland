@@ -646,7 +646,7 @@ export const ChoroplethMap = ({
                 <>
                   <Box
                     sx={{
-                      borderRadius: "circle",
+                      borderRadius: 99999,
                       px: 2,
                       display: "inline-block",
                     }}
@@ -681,7 +681,7 @@ export const ChoroplethMap = ({
                           </Typography>
                           <Box
                             sx={{
-                              borderRadius: "circle",
+                              borderRadius: 99999,
                               px: 2,
                               display: "inline-block",
                             }}

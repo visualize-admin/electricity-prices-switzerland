@@ -2,12 +2,14 @@ import { Trans } from "@lingui/macro";
 import {
   Box,
   BoxProps,
-  Button,
-  Checkbox as RebassCheckbox,
-  Input as ThemeUiInput,
-  Radio as ThemeUiRadio,
-  Select as ThemeUiSelect,
+  Checkbox as MuiCheckbox,
+  Radio as MuiRadio,
+  Input as MuiInput,
+  Select as MuiSelect,
   SelectProps,
+  MenuItem,
+  IconButton,
+  InputAdornment,
 } from "@mui/material";
 import VisuallyHidden from "@reach/visually-hidden";
 import * as React from "react";
@@ -51,6 +53,7 @@ export const Label = ({
       mr: 4,
       display: "flex",
       alignItems: "center",
+      flexGrow: 1,
     }}
   >
     {children}
@@ -80,7 +83,7 @@ export const Radio = ({
   return (
     <Box mb={2}>
       <Label label={label} htmlFor={`${name}-${value}`} disabled={disabled}>
-        <ThemeUiRadio
+        <MuiRadio
           name={name}
           id={`${name}-${value}`}
           value={value}
@@ -106,7 +109,7 @@ export const Checkbox = ({
   onChange,
 }: { label: React.ReactNode; disabled?: boolean } & FieldProps) => (
   <Label label={label} htmlFor={`${name}-${label}`} disabled={disabled}>
-    <RebassCheckbox
+    <MuiCheckbox
       sx={{
         // size: 20,
         color: checked && !disabled ? "primary.main" : "grey.500",
@@ -140,7 +143,7 @@ export const Select = ({
         {label}
       </Label>
     )}
-    <ThemeUiSelect
+    <MuiSelect
       sx={{
         borderColor: "grey.500",
         fontSize: "1rem",
@@ -160,15 +163,15 @@ export const Select = ({
       disabled={disabled}
     >
       {options.map((opt) => (
-        <option
+        <MenuItem
           key={opt.value}
           disabled={opt.disabled}
           value={opt.value || undefined}
         >
           {opt.label}
-        </option>
+        </MenuItem>
       ))}
-    </ThemeUiSelect>
+    </MuiSelect>
   </Box>
 );
 
@@ -190,7 +193,7 @@ export const MiniSelect = ({
         {label}
       </Label>
     )}
-    <ThemeUiSelect
+    <MuiSelect
       sx={{
         borderColor: "transparent",
         fontSize: ["0.625rem", "0.75rem", "0.75rem"],
@@ -211,11 +214,11 @@ export const MiniSelect = ({
       value={value}
     >
       {options.map((opt) => (
-        <option key={opt.value} value={opt.value || undefined}>
+        <MenuItem key={opt.value} value={opt.value || undefined}>
           {opt.label}
-        </option>
+        </MenuItem>
       ))}
-    </ThemeUiSelect>
+    </MuiSelect>
   </Box>
 );
 
@@ -234,7 +237,7 @@ export const Input = ({
         {label}
       </Label>
     )}
-    <ThemeUiInput
+    <MuiInput
       sx={{
         borderColor: "grey.500",
         bgcolor: "grey.100",
@@ -279,18 +282,16 @@ export const SearchField = ({
           <VisuallyHidden>{label}</VisuallyHidden>
         </label>
       )}
-      <Box
-        aria-hidden="true"
-        sx={{ position: "absolute", top: "50%", mt: "-8px", ml: 2 }}
-      >
-        <Icon name="search" size={16} />
-      </Box>
-      <ThemeUiInput
+      <MuiInput
+        startAdornment={
+          <InputAdornment position="start">
+            <Icon name="search" size={16} />
+          </InputAdornment>
+        }
         sx={{
           flexGrow: 1,
           borderColor: "grey.500",
           bgcolor: "grey.100",
-          px: 6,
           ":focus": { outline: "none", borderColor: "primary.main" },
         }}
         id={id}
@@ -308,21 +309,15 @@ export const SearchField = ({
             mr: 2,
           }}
         >
-          <Button
-            variant="reset"
+          <IconButton
+            arial-label={
+              <Trans id="controls.search.clear">Clear search field</Trans>
+            }
             sx={{ p: 0, cursor: "pointer" }}
             onClick={onReset}
           >
-            <VisuallyHidden>
-              <Trans id="controls.search.clear">Clear search field</Trans>
-            </VisuallyHidden>
-            <Box
-              aria-hidden="true"
-              sx={{ borderRadius: "circle", bgcolor: "grey.600" }}
-            >
-              <Icon name="clear" size={16} />
-            </Box>
-          </Button>
+            <Icon name="clear" size={16} />
+          </IconButton>
         </Box>
       )}
     </Box>

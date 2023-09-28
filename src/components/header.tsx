@@ -94,7 +94,13 @@ export const Logo = () => {
         <Typography
           component="h1"
           variant="h1"
-          sx={{ pl: [0, 6], textDecoration: "none", color: "grey.800" }}
+          sx={{
+            pl: [0, 6],
+            fontSize: "1rem",
+            lineHeight: 1.5,
+            textDecoration: "none",
+            color: "grey.800",
+          }}
         >
           <Trans id="site.title">Strompreise Schweiz</Trans>
           {process.env.DEPLOYMENT &&

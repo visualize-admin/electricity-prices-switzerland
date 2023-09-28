@@ -1,5 +1,5 @@
 import { Trans, t } from "@lingui/macro";
-import { Box, BoxProps, Typography } from "@mui/material";
+import { Box, BoxProps } from "@mui/material";
 import React, { useState } from "react";
 
 import Flex from "src/components/flex";
@@ -66,11 +66,14 @@ export const MapPriceColorLegend = ({
   return (
     <LegendBox>
       <Flex sx={{ alignItems: "center", width: "100%" }}>
-        <Typography sx={{ fontSize: "0.625rem", lineHeight: 1.5, mr: 1 }}>
+        <Box
+          component="p"
+          sx={{ fontSize: "0.625rem", lineHeight: 1.5, mr: 1 }}
+        >
           <Trans id="map.legend.title">
             Tarifvergleich in Rp./kWh (Angaben exkl. MwSt.)
           </Trans>
-        </Typography>
+        </Box>
         <InfoDialogButton
           smaller
           iconOnly
@@ -105,15 +108,15 @@ export const MapPriceColorLegend = ({
             pointerEvents: "none",
           }}
         >
-          <Typography sx={{ flex: "1 1 0px", display: "flex" }}>
+          <Box sx={{ flex: "1 1 0px", display: "flex" }}>
             {stats[0] && formatCurrency(stats[0])}
-          </Typography>
-          <Typography sx={{ flex: "1 1 0px", textAlign: "center" }}>
+          </Box>
+          <Box sx={{ flex: "1 1 0px", textAlign: "center" }}>
             {stats[1] && formatCurrency(stats[1])}
-          </Typography>
-          <Typography sx={{ flex: "1 1 0px", textAlign: "right" }}>
+          </Box>
+          <Box sx={{ flex: "1 1 0px", textAlign: "right" }}>
             {stats[2] && formatCurrency(stats[2])}
-          </Typography>
+          </Box>
         </Flex>
         <Flex
           sx={{
@@ -123,17 +126,17 @@ export const MapPriceColorLegend = ({
             mb: 2,
           }}
         >
-          <Typography sx={{ flex: "1 1 0px" }}>
+          <Box sx={{ flex: "1 1 0px" }}>
             <Trans id="price.legend.min">min</Trans>
-          </Typography>
+          </Box>
 
-          <Typography sx={{ flex: "1 1 0px", textAlign: "center" }}>
+          <Box sx={{ flex: "1 1 0px", textAlign: "center" }}>
             <Trans id="price.legend.median">median</Trans>
-          </Typography>
+          </Box>
 
-          <Typography sx={{ flex: "1 1 0px", textAlign: "right" }}>
+          <Box sx={{ flex: "1 1 0px", textAlign: "right" }}>
             <Trans id="price.legend.max">max</Trans>
-          </Typography>
+          </Box>
         </Flex>
 
         <ColorsLine />
@@ -162,17 +165,17 @@ export const PriceColorLegend = () => {
           mb: 2,
         }}
       >
-        <Typography sx={{ flex: "1 1 0px" }}>
+        <Box sx={{ flex: "1 1 0px" }}>
           <Trans id="price.legend.min">min</Trans>
-        </Typography>
+        </Box>
 
-        <Typography sx={{ flex: "1 1 0px", textAlign: "center" }}>
+        <Box sx={{ flex: "1 1 0px", textAlign: "center" }}>
           <Trans id="price.legend.median">median</Trans>
-        </Typography>
+        </Box>
 
-        <Typography sx={{ flex: "1 1 0px", textAlign: "right" }}>
+        <Box sx={{ flex: "1 1 0px", textAlign: "right" }}>
           <Trans id="price.legend.max">max</Trans>
-        </Typography>
+        </Box>
       </Flex>
 
       <ColorsLine />
@@ -229,14 +232,14 @@ export const ColorsLine = () => {
           >
             <Box
               sx={{
-                bg,
+                backgroundColor: bg,
                 width: "100%",
                 height: COLOR_HEIGHT,
                 borderRight: "1px solid #FFF",
               }}
             />
 
-            <Typography
+            <Box
               sx={{
                 fontSize: "0.625rem",
                 color: "grey.600",
@@ -247,7 +250,7 @@ export const ColorsLine = () => {
               }}
             >
               {PRICE_THRESHOLDS[i]}
-            </Typography>
+            </Box>
           </Flex>
         ))}
       </Box>

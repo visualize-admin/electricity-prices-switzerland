@@ -28,6 +28,7 @@ const FooterLink = ({
     <Link
       {...props}
       typography="body2"
+      color="primary"
       sx={{
         borderBottomWidth: "1px",
         borderBottomStyle: "solid",

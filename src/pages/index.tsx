@@ -103,7 +103,7 @@ const ShareButton = () => {
   };
   return (
     <>
-      <Link variant="inline" ref={linkRef} onClick={handleClick}>
+      <Link color="primary" ref={linkRef} onClick={handleClick}>
         {t({ id: "map.share", message: "Teilen" })}
       </Link>
       {isOpen ? (
@@ -253,6 +253,7 @@ const IndexPage = ({ locale }: Props) => {
       </Head>
       <Box
         display="grid"
+        data-test="hello"
         sx={{
           minHeight: "100vh",
           gap: 0,
@@ -382,16 +383,39 @@ const IndexPage = ({ locale }: Props) => {
                 </Box>
               )}
             </Box>
-            <Box sx={{ gridArea: "controls" }}>
-              <Box>
+            <Box
+              sx={{
+                gridArea: "controls",
+                display: "flex",
+                alignItems: "stretch",
+                flexDirection: "column",
+              }}
+            >
+              <Box
+                sx={{
+                  bgcolor: "muted.colored",
+                  px: 4,
+                  pb: 4,
+                }}
+              >
                 <Selector />
+                <Typography
+                  mt={2}
+                  variant="lead"
+                  display="block"
+                  component="div"
+                >
+                  <Trans id="selector.results">Suchergebnisse:</Trans>
+                </Typography>
               </Box>
-              <List
-                observations={observations}
-                cantonObservations={cantonMedianObservations}
-                colorScale={colorScale}
-                observationsQueryFetching={observationsQuery.fetching}
-              />
+              <Box>
+                <List
+                  observations={observations}
+                  cantonObservations={cantonMedianObservations}
+                  colorScale={colorScale}
+                  observationsQueryFetching={observationsQuery.fetching}
+                />
+              </Box>
             </Box>
           </Box>
         </Box>

@@ -1,9 +1,8 @@
 import { Trans } from "@lingui/macro";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, IconButton, Typography } from "@mui/material";
 import Dialog from "@reach/dialog";
 import VisuallyHidden from "@reach/visually-hidden";
 
-import Flex from "src/components/flex";
 import { useWikiContentQuery } from "src/graphql/queries";
 import { useLocale } from "src/lib/use-locale";
 
@@ -126,25 +125,21 @@ export const InfoDialogButton = ({
     open: openDialog,
   } = useDisclosure();
   return (
-    <>
-      <Button
-        variant="text"
+    <span>
+      <IconButton
+        color="primary"
         sx={{ fontSize: smaller ? [2, 2, 2] : [3, 4, 4] }}
         onClick={openDialog}
+        arial-label={label}
       >
-        <Flex sx={{ alignItems: "center" }}>
-          <Box sx={{ flexShrink: 0, mr: iconOnly ? 0 : 2 }}>
-            <Icon name="info" size={smaller ? 16 : 20} />
-          </Box>{" "}
-          {iconOnly ? <VisuallyHidden>{label}</VisuallyHidden> : label}
-        </Flex>
-      </Button>
+        <Icon name="info" size={smaller ? 16 : 20} />
+      </IconButton>
       <HelpDialog
         close={closeDialog}
         label={label}
         open={isHelpDialogOpen}
         slug={slug}
       />
-    </>
+    </span>
   );
 };

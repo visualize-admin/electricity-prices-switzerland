@@ -28,13 +28,10 @@ export const Selector = () => {
         border: "none",
         flexDirection: "column",
         justifyContent: "flex-start",
-        bgcolor: "muted.colored",
-        px: 4,
         py: 4,
 
         zIndex: 13,
-        "> div": { mt: 3 },
-        "> div:last-of-type": { mt: 6 },
+        "> div": { mt: 1 },
       }}
     >
       <Typography
@@ -90,9 +87,6 @@ export const Selector = () => {
         }
         infoDialogSlug="help-products"
       />
-      <Typography variant="lead">
-        <Trans id="selector.results">Suchergebnisse:</Trans>
-      </Typography>
     </Flex>
   );
 };

@@ -1,5 +1,5 @@
 import { Trans } from "@lingui/macro";
-import { Link as TUILink, Box, Typography } from "@mui/material";
+import { Link, Box, Typography } from "@mui/material";
 import * as React from "react";
 
 import { useLocale } from "src/lib/use-locale";
@@ -78,14 +78,15 @@ export const DownloadImage = ({
   return (
     <Box>
       {!download ? (
-        <TUILink
-          variant="inline"
+        <Link
+          color="primary"
+          sx={{ cursor: "pointer" }}
           href={downLoadUrl}
           target="_blank"
           rel="noopener noreferrer"
         >
           <Trans id="image.download">Bild herunterladen</Trans>
-        </TUILink>
+        </Link>
       ) : (
         <Typography variant="meta" sx={{ mt: 4 }}>
           <Trans id="image.download.source">

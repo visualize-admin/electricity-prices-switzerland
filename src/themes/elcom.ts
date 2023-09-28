@@ -59,18 +59,24 @@ const elcom = createTheme(federalTheme, {
 
 elcom.typography = merge(elcom.typography, {
   lead: createTypographyVariant(federalTheme, {
-    fontSize: [24, 32],
-    lineHeight: [36, 48],
+    fontSize: ["0.875rem", "1rem"],
+    lineHeight: ["1", "1"],
     fontWeight: 700,
+    display: "block",
+  }),
+  meta: createTypographyVariant(federalTheme, {
+    fontSize: [12, 14],
+    lineHeight: [12.5, 16],
+    fontWeight: 700,
+    display: "block",
   }),
   giga: createTypographyVariant(federalTheme, {
     fontSize: [24, 32],
     lineHeight: [36, 48],
     fontWeight: 700,
+    display: "block",
   }),
 });
-
-console.log(elcom.typography);
 
 export type ElcomTheme = typeof elcom;
 

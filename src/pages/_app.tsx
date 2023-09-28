@@ -1,5 +1,5 @@
 import { I18nProvider } from "@lingui/react";
-import { ThemeProvider } from "@mui/material";
+import { CssBaseline, ThemeProvider } from "@mui/material";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -86,6 +86,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <I18nProvider i18n={i18n}>
           <GraphqlProvider>
             <ThemeProvider theme={theme}>
+              <CssBaseline />
               <Component {...pageProps} />
             </ThemeProvider>
           </GraphqlProvider>

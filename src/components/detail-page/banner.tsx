@@ -1,5 +1,5 @@
 import { Trans } from "@lingui/macro";
-import { Box, Button, Link as UILink, Typography } from "@mui/material";
+import { Box, Button, Typography, Link } from "@mui/material";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { Fragment, useState } from "react";
@@ -38,7 +38,7 @@ const RelationsList = ({
               href={{ pathname: relationPathname, query: { ...query, id } }}
               passHref
             >
-              <UILink variant="inline">{name}</UILink>
+              <Link color="primary">{name}</Link>
             </NextLink>
             {i < truncated.length - 1 && ", "}
           </Fragment>
@@ -112,8 +112,8 @@ export const DetailPageBanner = ({
           }}
         >
           <HomeLink passHref>
-            <UILink
-              variant="inline"
+            <Link
+              color="primary"
               sx={{
                 display: "flex",
                 alignItems: "center",
@@ -124,7 +124,7 @@ export const DetailPageBanner = ({
             >
               <Icon name="chevronleft" size={24}></Icon>
               <Trans id="detail.homelink">Zurück zur Übersicht</Trans>
-            </UILink>
+            </Link>
           </HomeLink>
         </Box>
         <Box sx={{ gridArea: "search" }}>
@@ -133,11 +133,7 @@ export const DetailPageBanner = ({
       </Box>
 
       <Box sx={{ mx: "auto", my: 2 }}>
-        <Typography
-          component="h1"
-          variant="h1"
-          sx={{ color: "grey.800" }}
-        >
+        <Typography component="h1" variant="h1" sx={{ color: "grey.800" }}>
           <Typography variant="meta" sx={{ color: "secondary" }}>
             {entity === "canton" ? (
               <Trans id="detail.canton">Kanton</Trans>
@@ -161,7 +157,7 @@ export const DetailPageBanner = ({
                 }}
                 passHref
               >
-                <UILink variant="inline">{canton.name}</UILink>
+                <Link color="primary">{canton.name}</Link>
               </NextLink>
             </Box>
           )}
