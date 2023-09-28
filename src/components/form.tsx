@@ -41,10 +41,10 @@ export const Label = ({
   showLabel?: boolean;
 }) => (
   <Box
-    as="label"
+    component="label"
     htmlFor={htmlFor}
     sx={{
-      color: disabled ? ""monochrome.600"" : ""monochrome.700"",
+      color: disabled ? "monochrome.600" : "monochrome.700",
       fontSize: smaller ? [2, 2, 2] : [4, 4, 4],
       pb: smaller ? 1 : 0,
       mr: 4,
@@ -89,7 +89,7 @@ export const Radio = ({
           disabled={disabled}
           size={20}
           sx={{
-            color: checked && !disabled ? "primary" : ""monochrome.500"",
+            color: checked && !disabled ? "primary.main" : "monochrome.500",
           }}
         />
       </Label>
@@ -109,7 +109,7 @@ export const Checkbox = ({
     <RebassCheckbox
       sx={{
         // size: 20,
-        color: checked && !disabled ? "primary" : ""monochrome.500"",
+        color: checked && !disabled ? "primary" : "monochrome.500",
       }}
       id={`${name}-${label}`}
       name={name}
@@ -134,7 +134,7 @@ export const Select = ({
   label?: React.ReactNode;
   disabled?: boolean;
 } & SelectProps) => (
-  <Box sx={{ color: ""monochrome.700"", pb: 2 }}>
+  <Box sx={{ color: "monochrome.700", pb: 2 }}>
     {label && (
       <Label htmlFor={id} disabled={disabled} smaller>
         {label}
@@ -314,7 +314,7 @@ export const SearchField = ({
             </VisuallyHidden>
             <Box
               aria-hidden="true"
-              sx={{ borderRadius: "circle", bg: "monochrome600" }}
+              sx={{ borderRadius: "circle", bg: "monochrome.600" }}
             >
               <Icon name="clear" size={16} />
             </Box>
