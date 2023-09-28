@@ -288,11 +288,6 @@ export const SearchField = ({
             <Icon name="search" size={16} />
           </InputAdornment>
         }
-        sx={{
-          "& input": {
-            paddingBottom: 0,
-          },
-        }}
         endAdornment={
           value && value !== "" && onReset ? (
             <InputAdornment position="end">
@@ -310,7 +305,9 @@ export const SearchField = ({
         }
         fullWidth
         sx={{
-          flexGrow: 1,
+          "& input": {
+            paddingBottom: 0,
+          },
           alignItems: "center",
           borderColor: "grey.500",
           bgcolor: "grey.100",
