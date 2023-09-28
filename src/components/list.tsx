@@ -337,7 +337,7 @@ export const List = ({
           borderBottomColor: "grey.300",
         }}
       >
-        <Stack direction="row" spacing={2} sx={{ width: "100%" }}>
+        <Stack direction="row" sx={{ width: "100%", alignItems: "center" }}>
           <SearchField
             id="listSearch"
             value={searchQuery}
@@ -359,7 +359,9 @@ export const List = ({
           />
         </Stack>
 
-        <Flex sx={{ justifyContent: "space-between", mt: 2 }}>
+        <Flex
+          sx={{ alignItems: "center", justifyContent: "space-between", mt: 2 }}
+        >
           <label htmlFor="listSort">
             <Typography
               color="secondary"

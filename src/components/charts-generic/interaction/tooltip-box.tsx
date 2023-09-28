@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Paper } from "@mui/material";
 import React, { ReactNode, forwardRef } from "react";
 
 import { useTheme } from "../../../themes";
@@ -40,19 +40,19 @@ export const TooltipBox = forwardRef<HTMLDivElement, TooltipBoxProps>(
           ...style,
         }}
       >
-        <Box
+        <Paper
+          elevation={6}
           sx={{
             padding: 3,
             pointerEvents: interactive ? "all" : "none",
             bgcolor: "grey.100",
-            filter: `drop-shadow(${theme.shadows?.[6]})`,
 
             "&::before": {
               content: "''",
               display: "block",
               position: "absolute",
               pointerEvents: interactive ? "all" : "none",
-              zIndex: -1,
+              zIndex: 0,
               width: 0,
               height: 0,
               borderStyle: "solid",
@@ -69,7 +69,7 @@ export const TooltipBox = forwardRef<HTMLDivElement, TooltipBoxProps>(
           }}
         >
           {children}
-        </Box>
+        </Paper>
       </Box>
     );
   }
@@ -96,19 +96,19 @@ export const TooltipBoxWithoutChartState = ({
         transform: mkTranslation(placement),
       }}
     >
-      <Box
+      <Paper
+        elevation={6}
         sx={{
           padding: 3,
           pointerEvents: "none",
           bgcolor: "grey.100",
-          filter: `drop-shadow(${theme.shadows[6]})`,
 
           "&::before": {
             content: "''",
             display: "block",
             position: "absolute",
             pointerEvents: "none",
-            zIndex: -1,
+            zIndex: 0,
             width: 0,
             height: 0,
             borderStyle: "solid",
@@ -125,7 +125,7 @@ export const TooltipBoxWithoutChartState = ({
         }}
       >
         {children}
-      </Box>
+      </Paper>
     </Box>
   );
 };

@@ -185,18 +185,19 @@ export const MiniSelect = ({
   options: Option[];
   label?: React.ReactNode;
   disabled?: boolean;
-} & SelectProps) => (
+} & BoxProps<"select">) => (
   <Box sx={{ color: "grey.800" }}>
     {label && (
       <Label htmlFor={id} smaller>
         {label}
       </Label>
     )}
-    <MuiSelect
+    <Box
+      component="select"
+      typography="body2"
       sx={{
         borderColor: "transparent",
         fontSize: ["0.625rem", "0.75rem", "0.75rem"],
-        fontFamily: "body",
         backgroundColor: "transparent",
         py: 0,
         pl: 1,
@@ -213,11 +214,11 @@ export const MiniSelect = ({
       value={value}
     >
       {options.map((opt) => (
-        <MenuItem key={opt.value} value={opt.value || undefined}>
+        <option key={opt.value} value={opt.value || undefined}>
           {opt.label}
-        </MenuItem>
+        </option>
       ))}
-    </MuiSelect>
+    </Box>
   </Box>
 );
 
@@ -288,37 +289,39 @@ export const SearchField = ({
           </InputAdornment>
         }
         sx={{
+          "& input": {
+            paddingBottom: 0,
+          },
+        }}
+        endAdornment={
+          value && value !== "" && onReset ? (
+            <InputAdornment position="end">
+              <IconButton
+                arial-label={
+                  <Trans id="controls.search.clear">Clear search field</Trans>
+                }
+                sx={{ p: 0, cursor: "pointer" }}
+                onClick={onReset}
+              >
+                <Icon name="clear" size={16} />
+              </IconButton>
+            </InputAdornment>
+          ) : null
+        }
+        fullWidth
+        sx={{
           flexGrow: 1,
+          alignItems: "center",
           borderColor: "grey.500",
           bgcolor: "grey.100",
           ":focus": { outline: "none", borderColor: "primary.main" },
         }}
         id={id}
+        size="small"
         value={value}
         onChange={onChange}
         placeholder={placeholder}
       />
-      {value && value !== "" && onReset && (
-        <Box
-          sx={{
-            position: "absolute",
-            top: "50%",
-            right: 0,
-            mt: "-8px",
-            mr: 2,
-          }}
-        >
-          <IconButton
-            arial-label={
-              <Trans id="controls.search.clear">Clear search field</Trans>
-            }
-            sx={{ p: 0, cursor: "pointer" }}
-            onClick={onReset}
-          >
-            <Icon name="clear" size={16} />
-          </IconButton>
-        </Box>
-      )}
     </Box>
   );
 };
