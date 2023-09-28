@@ -77,11 +77,11 @@ export const RulerContent = ({
         sx={{
           position: "absolute",
           fontWeight: "bold",
-          bg: "monochrome100",
+          bg: "monochrome.100",
           transform: "translateX(-50%)",
           px: 1,
           fontSize: "0.875rem",
-          color: "monochrome800",
+          color: "monochrome.800",
         }}
       >
         {xValue}

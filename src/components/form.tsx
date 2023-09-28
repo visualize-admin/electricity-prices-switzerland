@@ -142,15 +142,15 @@ export const Select = ({
     )}
     <ThemeUiSelect
       sx={{
-        borderColor: "monochrome500",
+        borderColor: "monochrome.500",
         fontSize: "1rem",
-        bg: "monochrome100",
+        bg: "monochrome.100",
         pt: 2,
         pb: 2,
         pl: 2,
         pr: 5,
         height: "40px",
-        color: disabled ? "monochrome500" : "monochrome700",
+        color: disabled ? "monochrome.500" : "monochrome.700",
         textOverflow: "ellipsis",
       }}
       id={id}
@@ -184,7 +184,7 @@ export const MiniSelect = ({
   label?: React.ReactNode;
   disabled?: boolean;
 } & SelectProps) => (
-  <Box sx={{ color: "monochrome800" }}>
+  <Box sx={{ color: "monochrome.800" }}>
     {label && (
       <Label htmlFor={id} smaller>
         {label}
@@ -228,14 +228,14 @@ export const Input = ({
   label?: string | React.ReactNode;
   disabled?: boolean;
 } & FieldProps) => (
-  <Box sx={{ color: "monochrome700", fontSize: "1rem" }}>
+  <Box sx={{ color: "monochrome.700", fontSize: "1rem" }}>
     {label && name && (
       <Label htmlFor={name} smaller>
         {label}
       </Label>
     )}
     <ThemeUiInput
-      sx={{ borderColor: "monochrome500", bg: "monochrome100", height: "40px" }}
+      sx={{ borderColor: "monochrome.500", bg: "monochrome.100", height: "40px" }}
       id={name}
       name={name}
       value={value}
@@ -264,7 +264,7 @@ export const SearchField = ({
   return (
     <Box
       sx={{
-        color: "monochrome700",
+        color: "monochrome.700",
         fontSize: "1rem",
         position: "relative",
         ...sx,
@@ -284,8 +284,8 @@ export const SearchField = ({
       <ThemeUiInput
         sx={{
           flexGrow: 1,
-          borderColor: "monochrome500",
-          bg: "monochrome100",
+          borderColor: "monochrome.500",
+          bg: "monochrome.100",
           px: 6,
           ":focus": { outline: "none", borderColor: "primary" },
         }}
@@ -337,7 +337,7 @@ export const FieldSetLegend = ({
       fontWeight: "regular",
       fontSize: ["0.625rem", "0.75rem", "0.75rem"],
       mb: 1,
-      color: "monochrome600",
+      color: "monochrome.600",
     }}
     component="legend"
   >

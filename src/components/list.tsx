@@ -63,7 +63,7 @@ const ListItem = ({
           mx: 0,
           borderBottomWidth: "1px",
           borderBottomStyle: "solid",
-          borderBottomColor: "monochrome300",
+          borderBottomColor: "monochrome.300",
           alignItems: "center",
           height: "3.5rem",
           lineHeight: "1rem",
@@ -175,7 +175,7 @@ const PlaceholderListItem = () => {
         mx: [2, 4, 4],
         borderBottomWidth: "1px",
         borderBottomStyle: "solid",
-        borderBottomColor: "monochrome300",
+        borderBottomColor: "monochrome.300",
         alignItems: "center",
         height: "3.5rem",
         lineHeight: "1rem",
@@ -184,7 +184,7 @@ const PlaceholderListItem = () => {
     >
       <Typography
         variant="body2"
-        sx={{ flexGrow: 1, bg: "monochrome200", mr: 5 }}
+        sx={{ flexGrow: 1, bg: "monochrome.200", mr: 5 }}
       >
         &nbsp;
       </Typography>
@@ -193,13 +193,13 @@ const PlaceholderListItem = () => {
           borderRadius: "circle",
           px: 2,
           flexShrink: 0,
-          bg: "monochrome200",
+          bg: "monochrome.200",
           width: "5ch",
         }}
       >
         <Typography variant="body2">&nbsp;</Typography>
       </Box>
-      <Box sx={{ width: "24px", flexShrink: 0, color: "monochrome200" }}>
+      <Box sx={{ width: "24px", flexShrink: 0, color: "monochrome.200" }}>
         <Icon name="chevronright"></Icon>
       </Box>
     </Flex>
@@ -336,7 +336,7 @@ export const List = ({
           py: [2, 4, 4],
           borderBottomWidth: "1px",
           borderBottomStyle: "solid",
-          borderBottomColor: "monochrome300",
+          borderBottomColor: "monochrome.300",
         }}
       >
         <Stack direction="row" spacing={2} sx={{ width: "100%" }}>

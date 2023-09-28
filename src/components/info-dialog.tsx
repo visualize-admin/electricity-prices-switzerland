@@ -49,7 +49,7 @@ const DialogContent = ({ slug }: { slug: string }) => {
           borderCollapse: "collapse",
           my: 2,
           tbody: {
-            borderColor: "monochrome300",
+            borderColor: "monochrome.300",
             borderTopWidth: "1px",
             borderTopStyle: "solid",
           },
@@ -58,7 +58,7 @@ const DialogContent = ({ slug }: { slug: string }) => {
             ":not(:first-of-type)": { textAlign: "right" },
           },
           td: {
-            borderColor: "monochrome300",
+            borderColor: "monochrome.300",
             borderBottomWidth: "1px",
             borderBottomStyle: "solid",
             p: 2,

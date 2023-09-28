@@ -185,8 +185,8 @@ export const SearchField = ({
             border: "1px solid",
             borderRadius: "default",
             color: "text",
-            borderColor: isOpen ? "primary" : "monochrome500",
-            bg: "monochrome100",
+            borderColor: isOpen ? "primary" : "monochrome.500",
+            bg: "monochrome.100",
 
             "&:hover": {
               borderColor: "primary",
@@ -207,7 +207,7 @@ export const SearchField = ({
               ml: 4,
               width: "auto",
               flexShrink: 0,
-              color: "monochrome800",
+              color: "monochrome.800",
             }}
           >
             <Trans id="search.global.hint.go.to">Gehe zu…</Trans>
@@ -217,7 +217,7 @@ export const SearchField = ({
             sx={{
               fontWeight: "regular",
               ml: 4,
-              color: "monochrome500",
+              color: "monochrome.500",
               overflow: "hidden",
               whiteSpace: "nowrap",
               textOverflow: "ellipsis",
@@ -252,13 +252,13 @@ export const SearchField = ({
             width: ["100vw", "100vw", "100%"],
             height: 48,
 
-            bg: "monochrome100",
+            bg: "monochrome.100",
             borderRadius: [0, 0, "default"],
 
             border: ["0px solid", "0px solid", "1px solid"],
-            borderColor: ["monochrome500", "monochrome500", "primary"],
+            borderColor: ["monochrome.500", "monochrome.500", "primary"],
             borderBottom: ["1px solid", "1px solid", "1px solid"],
-            borderBottomColor: ["monochrome500", "monochrome500", "primary"],
+            borderBottomColor: ["monochrome.500", "monochrome.500", "primary"],
           }}
         >
           {/* Mobile back button */}
@@ -326,7 +326,7 @@ export const SearchField = ({
             maxHeight: ["100vh", "100vh", "50vh"],
             overflowY: "auto",
 
-            bg: "monochrome100",
+            bg: "monochrome.100",
             p: 4,
             flexDirection: "column",
 
@@ -336,15 +336,15 @@ export const SearchField = ({
           }}
         >
           {isOpen && inputValue === "" ? (
-            <Typography variant="body1" sx={{ color: "monochrome800" }}>
+            <Typography variant="body1" sx={{ color: "monochrome.800" }}>
               {label}
             </Typography>
           ) : inputValue !== "" && isLoading ? (
-            <Typography variant="body1" sx={{ color: "monochrome800" }}>
+            <Typography variant="body1" sx={{ color: "monochrome.800" }}>
               <Trans id="combobox.isloading">Resultate laden …</Trans>
             </Typography>
           ) : inputValue !== "" && !isLoading && items.length === 0 ? (
-            <Typography variant="body1" sx={{ color: "monochrome800" }}>
+            <Typography variant="body1" sx={{ color: "monochrome.800" }}>
               <Trans id="combobox.noitems">Keine Einträge</Trans>
             </Typography>
           ) : (
@@ -360,10 +360,10 @@ export const SearchField = ({
                   <Fragment key={entityIndex}>
                     <Box
                       sx={{
-                        color: "monochrome600",
+                        color: "monochrome.600",
                         fontSize: "0.875rem",
                         borderBottom: "1px solid",
-                        borderBottomColor: "monochrome300",
+                        borderBottomColor: "monochrome.300",
                         px: 3,
                         py: 2,
                       }}
@@ -395,7 +395,7 @@ export const SearchField = ({
                                 highlightedIndex === item.listId
                                   ? "mutedDarker"
                                   : "inherit",
-                              color: "monochrome800",
+                              color: "monochrome.800",
                               fontSize: ["1rem"],
                               lineHeight: 1.2,
                               textDecoration: "none",

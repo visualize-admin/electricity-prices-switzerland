@@ -133,8 +133,8 @@ export const ComboboxMulti = ({
           border: "1px solid",
           borderRadius: 4,
           color: "text",
-          borderColor: isOpen ? "primary" : "monochrome500",
-          bg: "monochrome100",
+          borderColor: isOpen ? "primary" : "monochrome.500",
+          bg: "monochrome.100",
           flexWrap: "wrap",
           ":focus-within": { borderColor: "primary" },
           position: "relative",
@@ -154,7 +154,7 @@ export const ComboboxMulti = ({
                 ":focus": {
                   outline: 0,
                   bg: "primary",
-                  color: "monochrome100",
+                  color: "monochrome.100",
                 },
               }}
               key={`selected-item-${index}`}
@@ -221,7 +221,7 @@ export const ComboboxMulti = ({
           aria-label={"toggle menu"}
           variant="reset"
           sx={{
-            color: "monochrome800",
+            color: "monochrome.800",
             p: 0,
             mr: 1,
             position: "absolute",
@@ -241,7 +241,7 @@ export const ComboboxMulti = ({
           listStyle: "none",
           borderRadius: "default",
           boxShadow: "tooltip",
-          bg: "monochrome100",
+          bg: "monochrome.100",
           mt: 1,
           p: 0,
           position: "absolute",
@@ -415,8 +415,8 @@ export const Combobox = ({
           border: "1px solid",
           borderRadius: 4,
           color: "text",
-          borderColor: isOpen ? "primary" : "monochrome500",
-          bg: "monochrome100",
+          borderColor: isOpen ? "primary" : "monochrome.500",
+          bg: "monochrome.100",
           flexWrap: "wrap",
           ":focus-within": { borderColor: "primary" },
           position: "relative",
@@ -454,7 +454,7 @@ export const Combobox = ({
           aria-label={"toggle menu"}
           variant="reset"
           sx={{
-            color: "monochrome800",
+            color: "monochrome.800",
             p: 0,
             mr: 1,
             position: "absolute",
@@ -475,7 +475,7 @@ export const Combobox = ({
           listStyle: "none",
           borderRadius: "default",
           boxShadow: "tooltip",
-          bg: "monochrome100",
+          bg: "monochrome.100",
           mt: 1,
           p: 0,
           position: "absolute",

@@ -136,7 +136,7 @@ export const LoadingOverlay = () => (
   <Box
     sx={{
       position: "absolute",
-      bg: "monochrome100",
+      bg: "monochrome.100",
       top: 0,
       left: 0,
       width: "100%",

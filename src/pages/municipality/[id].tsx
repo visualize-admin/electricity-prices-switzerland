@@ -88,7 +88,7 @@ const MunicipalityPage = (props: Props) => {
           sx={{
             pt: [107, 96],
             flexGrow: 1,
-            bg: "monochrome200",
+            bg: "monochrome.200",
           }}
         >
           <DetailPageBanner
