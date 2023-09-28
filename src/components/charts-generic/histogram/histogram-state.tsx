@@ -1,3 +1,4 @@
+import { Typography } from "@mui/material";
 import { interpolateHsl } from "d3";
 import { ascending, histogram, max, min } from "d3-array";
 import { scaleLinear } from "d3-scale";
@@ -125,14 +126,14 @@ const useHistogramState = ({
         <>
           <Flex sx={{ alignItems: "center", gap: "0.375rem" }}>
             <LegendSymbol symbol="square" color={colors(d.x0!)} />
-            <Text variant="meta" sx={{ fontWeight: "bold" }}>
+            <Typography variant="meta" sx={{ fontWeight: "bold" }}>
               {d.x0} - {d.x1}&nbsp;
               {xAxisUnit}
-            </Text>
+            </Typography>
           </Flex>
-          <Text variant="meta">
+          <Typography variant="meta">
             {yAxisLabel}: {d.length}
-          </Text>
+          </Typography>
         </>
       ),
     };

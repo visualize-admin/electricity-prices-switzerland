@@ -1,5 +1,5 @@
 import { Trans } from "@lingui/macro";
-import { Box, Button, Grid, Link as UILink } from "@mui/material";
+import { Box, Button, Grid, Link as UILink, Typography } from "@mui/material";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { Fragment, useState } from "react";
@@ -132,8 +132,8 @@ export const DetailPageBanner = ({
       </Grid>
 
       <Box sx={{ mx: "auto", my: 2 }}>
-        <Text as="h1" variant="heading1" sx={{ color: "monochrome800" }}>
-          <Text variant="meta" sx={{ color: "secondary" }}>
+        <Typography as="h1" variant="h1" sx={{ color: "monochrome800" }}>
+          <Typography variant="meta" sx={{ color: "secondary" }}>
             {entity === "canton" ? (
               <Trans id="detail.canton">Kanton</Trans>
             ) : entity === "municipality" ? (
@@ -141,9 +141,9 @@ export const DetailPageBanner = ({
             ) : (
               <Trans id="detail.operator">Netzbetreiber</Trans>
             )}
-          </Text>
+          </Typography>
           {name}
-        </Text>
+        </Typography>
 
         <Flex sx={{ flexWrap: "wrap" }}>
           {canton && (

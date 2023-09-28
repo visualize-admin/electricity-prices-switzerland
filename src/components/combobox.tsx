@@ -1,7 +1,7 @@
 import { t } from "@lingui/macro";
 
 // import { i18n } from "@lingui/core";
-import { Box, Button, Input } from "@mui/material";
+import { Box, Button, Input, Typography } from "@mui/material";
 import { useCombobox, useMultipleSelection } from "downshift";
 import { useState, useEffect } from "react";
 
@@ -252,9 +252,9 @@ export const ComboboxMulti = ({
         {...getMenuProps()}
       >
         {isOpen && isLoading ? (
-          <Text
+          <Typography
             as="li"
-            variant="paragraph2"
+            variant="body2"
             sx={{
               color: "secondary",
               p: 3,
@@ -262,11 +262,11 @@ export const ComboboxMulti = ({
             }}
           >
             {t({ id: "combobox.isloading", message: `Resultate laden …` })}
-          </Text>
+          </Typography>
         ) : isOpen && !isLoading && getFilteredItems(items).length === 0 ? (
-          <Text
+          <Typography
             as="li"
-            variant="paragraph2"
+            variant="body2"
             sx={{
               color: "secondary",
               p: 3,
@@ -283,7 +283,7 @@ export const ComboboxMulti = ({
             ) : (
               <>{t({ id: "combobox.noitems", message: `Keine Einträge` })}</>
             )}
-          </Text>
+          </Typography>
         ) : isOpen && !isLoading ? (
           getFilteredItems(items).map((item, index) => (
             <Box

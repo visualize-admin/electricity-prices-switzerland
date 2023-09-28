@@ -6,7 +6,7 @@ import {
 import { GeoJsonLayer } from "@deck.gl/layers/typed";
 import DeckGL from "@deck.gl/react/typed";
 import { Trans } from "@lingui/macro";
-import { Box, Grid } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import centroid from "@turf/centroid";
 import { color, extent, group, mean, rollup } from "d3";
 import { ScaleThreshold } from "d3-scale";
@@ -635,9 +635,9 @@ export const ChoroplethMap = ({
                 alignItems: "center",
               }}
             >
-              <Text variant="meta" sx={{ fontWeight: "bold" }}>
+              <Typography variant="meta" sx={{ fontWeight: "bold" }}>
                 {tooltipContent.name}
-              </Text>
+              </Typography>
 
               {hovered.type === "canton" ? (
                 <>
@@ -651,7 +651,9 @@ export const ChoroplethMap = ({
                       background: colorScale(hovered.value),
                     }}
                   >
-                    <Text variant="meta">{formatNumber(hovered.value)}</Text>
+                    <Typography variant="meta">
+                      {formatNumber(hovered.value)}
+                    </Typography>
                   </Box>
                 </>
               ) : null}
@@ -670,9 +672,9 @@ export const ChoroplethMap = ({
                     tooltipContent.observations.map((d, i) => {
                       return (
                         <Fragment key={i}>
-                          <Text variant="meta" sx={{}}>
+                          <Typography variant="meta" sx={{}}>
                             {d.operatorLabel}
-                          </Text>
+                          </Typography>
                           <Box
                             sx={{
                               borderRadius: "circle",
@@ -681,15 +683,17 @@ export const ChoroplethMap = ({
                             }}
                             style={{ background: colorScale(d.value) }}
                           >
-                            <Text variant="meta">{formatNumber(d.value)}</Text>
+                            <Typography variant="meta">
+                              {formatNumber(d.value)}
+                            </Typography>
                           </Box>
                         </Fragment>
                       );
                     })
                   ) : (
-                    <Text variant="meta" sx={{ color: "secondary" }}>
+                    <Typography variant="meta" sx={{ color: "secondary" }}>
                       <Trans id="map.tooltipnodata">Keine Daten</Trans>
-                    </Text>
+                    </Typography>
                   )}
                 </>
               ) : null}

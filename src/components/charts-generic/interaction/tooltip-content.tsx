@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
 import Flex from "src/components/flex";
 
@@ -23,13 +23,13 @@ export const TooltipSingle = ({
       <Flex sx={{ alignItems: "center" }}>
         {color && <LegendSymbol color={color} symbol="square" />}
         {xValue && (
-          <Text variant="meta" sx={{ fontWeight: "bold" }}>
+          <Typography variant="meta" sx={{ fontWeight: "bold" }}>
             {xValue}
-          </Text>
+          </Typography>
         )}
       </Flex>
-      {segment && <Text variant="meta">{segment}</Text>}
-      {yValue && <Text variant="meta">{yValue}</Text>}
+      {segment && <Typography variant="meta">{segment}</Typography>}
+      {yValue && <Typography variant="meta">{yValue}</Typography>}
     </Box>
   );
 };
@@ -44,9 +44,9 @@ export const TooltipMultiple = ({
   return (
     <Box>
       {xValue && (
-        <Text variant="meta" sx={{ fontWeight: "bold" }}>
+        <Typography variant="meta" sx={{ fontWeight: "bold" }}>
           {xValue}
-        </Text>
+        </Typography>
       )}
       {segmentValues.map((segment, i) =>
         segment.color ? (
@@ -75,12 +75,12 @@ export const TooltipHistogram = ({
   return (
     <Box>
       {firstLine && (
-        <Text variant="meta" sx={{ fontWeight: "bold" }}>
+        <Typography variant="meta" sx={{ fontWeight: "bold" }}>
           {firstLine}
-        </Text>
+        </Typography>
       )}
-      {secondLine && <Text variant="meta">{secondLine}</Text>}
-      {thirdLine && <Text variant="meta">{thirdLine}</Text>}
+      {secondLine && <Typography variant="meta">{secondLine}</Typography>}
+      {thirdLine && <Typography variant="meta">{thirdLine}</Typography>}
     </Box>
   );
 };

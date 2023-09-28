@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import * as React from "react";
 import { ReactNode } from "react";
 
@@ -34,13 +34,13 @@ export const Card = ({
         boxShadow: "primary",
       }}
     >
-      <Text
+      <Typography
         as="h2"
-        variant="heading2"
+        variant="h2"
         sx={{ pt: 1, color: "monochrome800", mb: 4 }}
       >
         {title}
-      </Text>
+      </Typography>
       {children}
       <DownloadImage
         elementId={downloadId}

@@ -1,5 +1,5 @@
 import { Trans } from "@lingui/macro";
-import { Box, Button, Input, Link as TUILink } from "@mui/material";
+import { Box, Button, Input, Link as TUILink, Typography } from "@mui/material";
 import VisuallyHidden from "@reach/visually-hidden";
 import { group, rollup } from "d3-array";
 import { useCombobox } from "downshift";
@@ -197,11 +197,11 @@ export const SearchField = ({
             <Icon
               name="search"
               size={24}
-              color={theme.colors.monochrome700}
+              color={theme.palette.grey[700]}
             ></Icon>
           </Box>
-          <Text
-            variant="heading3"
+          <Typography
+            variant="h3"
             sx={{
               fontWeight: "regular",
               ml: 4,
@@ -211,9 +211,9 @@ export const SearchField = ({
             }}
           >
             <Trans id="search.global.hint.go.to">Gehe zu…</Trans>
-          </Text>
-          <Text
-            variant="heading3"
+          </Typography>
+          <Typography
+            variant="h3"
             sx={{
               fontWeight: "regular",
               ml: 4,
@@ -226,7 +226,7 @@ export const SearchField = ({
             <Trans id="search.global.hint.canton.muni.operator">
               Gemeindename, PLZ, Netzbetreiber, Kanton
             </Trans>
-          </Text>
+          </Typography>
         </Flex>
 
         {/* INPUT */}
@@ -281,7 +281,7 @@ export const SearchField = ({
             <Icon
               name="search"
               size={24}
-              color={theme.colors.monochrome700}
+              color={theme.palette.grey[700]}
             ></Icon>
           </Box>
 
@@ -307,7 +307,7 @@ export const SearchField = ({
             <Icon
               name="clear"
               size={24}
-              color={theme.colors.monochrome700}
+              color={theme.palette.grey[700]}
             ></Icon>
           </Button>
         </Flex>
@@ -336,17 +336,17 @@ export const SearchField = ({
           }}
         >
           {isOpen && inputValue === "" ? (
-            <Text variant="paragraph1" sx={{ color: "monochrome800" }}>
+            <Typography variant="body1" sx={{ color: "monochrome800" }}>
               {label}
-            </Text>
+            </Typography>
           ) : inputValue !== "" && isLoading ? (
-            <Text variant="paragraph1" sx={{ color: "monochrome800" }}>
+            <Typography variant="body1" sx={{ color: "monochrome800" }}>
               <Trans id="combobox.isloading">Resultate laden …</Trans>
-            </Text>
+            </Typography>
           ) : inputValue !== "" && !isLoading && items.length === 0 ? (
-            <Text variant="paragraph1" sx={{ color: "monochrome800" }}>
+            <Typography variant="body1" sx={{ color: "monochrome800" }}>
               <Trans id="combobox.noitems">Keine Einträge</Trans>
-            </Text>
+            </Typography>
           ) : (
             <>
               {[

@@ -60,6 +60,8 @@ export function transform(file, api) {
     const node = path.node;
     node.name.name = "Typography";
   });
+
+  return root;
 }
 
 export default (file, api) => {

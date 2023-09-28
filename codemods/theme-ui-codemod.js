@@ -28,8 +28,8 @@ export default function transformer(file, api) {
   for (let transform of [
     // transformButtons,
     // transformFontSize,
-    // transformText,
-    transformFlex,
+    transformText,
+    // transformFlex,
   ]) {
     source = transform({ source }, api).toSource();
   }

@@ -1,4 +1,5 @@
 import { Box } from "@mui/material";
+import { Typography } from "@mui/material";
 import * as React from "react";
 
 import { getLocalizedLabel } from "../../domain/translation";
@@ -18,8 +19,8 @@ export const FilterSetDescription = ({
   filters: Partial<FilterSet>;
 }) => {
   return (
-    <Text
-      variant="paragraph1"
+    <Typography
+      variant="body1"
       sx={{ my: 4, color: "monochrome800", fontWeight: "light" }}
     >
       {Object.entries(filters).map(([key, value], i) => {
@@ -40,6 +41,6 @@ export const FilterSetDescription = ({
           </React.Fragment>
         );
       })}
-    </Text>
+    </Typography>
   );
 };

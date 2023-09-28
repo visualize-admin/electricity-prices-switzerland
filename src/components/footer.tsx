@@ -1,6 +1,6 @@
 import { Trans, t } from "@lingui/macro";
 import { Box, Link } from "@mui/material";
-import { IconButton, LinkProps } from "@mui/material";
+import { IconButton, LinkProps, Typography } from "@mui/material";
 import { PropsWithChildren } from "react";
 
 import Flex from "src/components/flex";
@@ -47,9 +47,9 @@ const FooterLink = ({
 
 const FooterTitle = ({ children }: { children: React.ReactNode }) => {
   return (
-    <Text variant="heading2" sx={{ mb: 6 }}>
+    <Typography variant="h2" sx={{ mb: 6 }}>
       {children}
-    </Text>
+    </Typography>
   );
 };
 const FooterSection = ({ children }: { children: React.ReactNode }) => {
@@ -243,12 +243,12 @@ export const Footer = () => {
             justifyContent: "space-between",
           }}
         >
-          <Text variant="paragraph2">
+          <Typography variant="body2">
             <Trans id="footer.institution.name">
               Eidgenössische Elektrizitätskommission ElCom
             </Trans>
-          </Text>
-          <Text variant="paragraph2" sx={{ display: "block" }} as="div">
+          </Typography>
+          <Typography variant="body2" sx={{ display: "block" }} as="div">
             <Link
               target="_blank"
               variant="inline"
@@ -259,7 +259,7 @@ export const Footer = () => {
             >
               <Trans id="footer.legal-framework">Rechtliches</Trans>
             </Link>
-          </Text>
+          </Typography>
         </Box>
         <Flex
           sx={{

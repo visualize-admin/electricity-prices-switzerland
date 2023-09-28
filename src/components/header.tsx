@@ -1,5 +1,5 @@
 import { Trans } from "@lingui/macro";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
 import Flex from "src/components/flex";
 
@@ -91,7 +91,7 @@ export const Logo = () => {
         >
           <LogoDesktop />
         </Box>
-        <Text
+        <Typography
           as="h1"
           variant="lead"
           sx={{ pl: [0, 6], textDecoration: "none", color: "monochrome800" }}
@@ -99,7 +99,7 @@ export const Logo = () => {
           <Trans id="site.title">Strompreise Schweiz</Trans>
           {process.env.DEPLOYMENT &&
             ` [${process.env.DEPLOYMENT.toLocaleUpperCase()}]`}
-        </Text>
+        </Typography>
       </Flex>
     </HomeLink>
   );

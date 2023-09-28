@@ -291,7 +291,7 @@ const useLinesState = ({
           color:
             segments.length > 1
               ? (colors(getColor(td)) as string)
-              : theme.colors.primary,
+              : theme.palette.primary.main,
           yPos: yScale(getY(td)),
         })),
     };

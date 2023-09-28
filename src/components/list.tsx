@@ -81,9 +81,9 @@ const ListItem = ({
           },
         }}
       >
-        <Text variant="paragraph2" sx={{ flexGrow: 1, mr: 1 }}>
+        <Typography variant="body2" sx={{ flexGrow: 1, mr: 1 }}>
           {label}
-        </Text>
+        </Typography>
         <Box
           sx={{
             borderRadius: "circle",
@@ -92,7 +92,7 @@ const ListItem = ({
           }}
           style={{ background: colorScale(value) }}
         >
-          <Text variant="paragraph2">{formatNumber(value)}</Text>
+          <Typography variant="body2">{formatNumber(value)}</Typography>
         </Box>
         <Box sx={{ width: "24px", flexShrink: 0 }}>
           <Icon name="chevronright"></Icon>
@@ -182,12 +182,12 @@ const PlaceholderListItem = () => {
         color: "text",
       }}
     >
-      <Text
-        variant="paragraph2"
+      <Typography
+        variant="body2"
         sx={{ flexGrow: 1, bg: "monochrome200", mr: 5 }}
       >
         &nbsp;
-      </Text>
+      </Typography>
       <Box
         sx={{
           borderRadius: "circle",
@@ -197,7 +197,7 @@ const PlaceholderListItem = () => {
           width: "5ch",
         }}
       >
-        <Text variant="paragraph2">&nbsp;</Text>
+        <Typography variant="body2">&nbsp;</Typography>
       </Box>
       <Box sx={{ width: "24px", flexShrink: 0, color: "monochrome200" }}>
         <Icon name="chevronright"></Icon>
@@ -306,95 +306,93 @@ export const List = ({
 
   const listItems = sorted;
 
-  return (
-    <>
-      <RadioTabs<ListState>
-        name="list-state-tabs"
-        variant="borderlessTabs"
-        options={[
-          {
-            value: "MUNICIPALITIES",
-            label: t({ id: "list.municipalities" }),
-          },
-          {
-            value: "CANTONS",
-            label: t({ id: "list.cantons" }),
-          },
-          {
-            value: "PROVIDERS",
-            label: t({ id: "list.operators" }),
-          },
-        ]}
-        value={listState}
-        setValue={setListState}
-      />
+  return <>
+    <RadioTabs<ListState>
+      name="list-state-tabs"
+      variant="borderlessTabs"
+      options={[
+        {
+          value: "MUNICIPALITIES",
+          label: t({ id: "list.municipalities" }),
+        },
+        {
+          value: "CANTONS",
+          label: t({ id: "list.cantons" }),
+        },
+        {
+          value: "PROVIDERS",
+          label: t({ id: "list.operators" }),
+        },
+      ]}
+      value={listState}
+      setValue={setListState}
+    />
 
-      <Box
-        sx={{
-          mx: 0,
-          px: [2, 4, 4],
-          py: [2, 4, 4],
-          borderBottomWidth: "1px",
-          borderBottomStyle: "solid",
-          borderBottomColor: "monochrome300",
-        }}
-      >
-        <Stack direction="row" spacing={2} sx={{ width: "100%" }}>
-          <SearchField
-            id="listSearch"
-            value={searchQuery}
-            onChange={(e) => {
-              setSearchQuery(e.currentTarget.value);
-            }}
-            onReset={() => {
-              setSearchQuery("");
-            }}
-            label={searchLabel}
-            placeholder={searchLabel}
-            sx={{ flexGrow: 1 }}
-          />
-          <InfoDialogButton
-            iconOnly
-            slug="help-search-list"
-            label={searchLabel}
-            smaller
-          />
-        </Stack>
-
-        <Flex sx={{ justifyContent: "space-between", mt: 2 }}>
-          <label htmlFor="listSort">
-            <Text
-              color="secondary"
-              sx={{
-                fontFamily: "body",
-                fontSize: ["0.625rem", "0.75rem", "0.75rem"],
-                lineHeight: "24px",
-              }}
-            >
-              <Trans id="dataset.sortby">Sortieren</Trans>
-            </Text>
-          </label>
-
-          <MiniSelect
-            id="listSort"
-            value={sortState}
-            options={sortOptions}
-            onChange={(e) => {
-              setSortState(e.currentTarget.value as SortState);
-            }}
-          ></MiniSelect>
-        </Flex>
-      </Box>
-
-      {observationsQueryFetching ? (
-        <PlaceholderListItems />
-      ) : (
-        <ListItems
-          items={listItems}
-          colorScale={colorScale}
-          listState={listState}
+    <Box
+      sx={{
+        mx: 0,
+        px: [2, 4, 4],
+        py: [2, 4, 4],
+        borderBottomWidth: "1px",
+        borderBottomStyle: "solid",
+        borderBottomColor: "monochrome300",
+      }}
+    >
+      <Stack direction="row" spacing={2} sx={{ width: "100%" }}>
+        <SearchField
+          id="listSearch"
+          value={searchQuery}
+          onChange={(e) => {
+            setSearchQuery(e.currentTarget.value);
+          }}
+          onReset={() => {
+            setSearchQuery("");
+          }}
+          label={searchLabel}
+          placeholder={searchLabel}
+          sx={{ flexGrow: 1 }}
         />
-      )}
-    </>
-  );
+        <InfoDialogButton
+          iconOnly
+          slug="help-search-list"
+          label={searchLabel}
+          smaller
+        />
+      </Stack>
+
+      <Flex sx={{ justifyContent: "space-between", mt: 2 }}>
+        <label htmlFor="listSort">
+          <Typography
+            color="secondary"
+            sx={{
+              fontFamily: "body",
+              fontSize: ["0.625rem", "0.75rem", "0.75rem"],
+              lineHeight: "24px",
+            }}
+          >
+            <Trans id="dataset.sortby">Sortieren</Trans>
+          </Typography>
+        </label>
+
+        <MiniSelect
+          id="listSort"
+          value={sortState}
+          options={sortOptions}
+          onChange={(e) => {
+            setSortState(e.currentTarget.value as SortState);
+          }}
+        ></MiniSelect>
+      </Flex>
+    </Box>
+
+    {observationsQueryFetching ? (
+      <PlaceholderListItems />
+    ) : (
+      <ListItems
+        items={listItems}
+        colorScale={colorScale}
+        listState={listState}
+      />
+    )}
+  </>;
 };

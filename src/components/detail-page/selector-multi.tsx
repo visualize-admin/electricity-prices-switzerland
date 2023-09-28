@@ -1,4 +1,5 @@
 import { Trans, t } from "@lingui/macro";
+import { Typography } from "@mui/material";
 import { useMemo } from "react";
 
 import Flex from "src/components/flex";
@@ -43,11 +44,11 @@ export const SelectorMulti = ({
         "> fieldset": { mt: 4 },
       }}
     >
-      <Text as="legend" variant="lead" sx={{ display: "contents" }}>
+      <Typography as="legend" variant="lead" sx={{ display: "contents" }}>
         <Trans id="selector.legend.select.parameters">
           Parameter auswählen
         </Trans>
-      </Text>
+      </Typography>
 
       <>
         {entity === "operator" ? (

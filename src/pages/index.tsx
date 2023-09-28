@@ -1,6 +1,6 @@
 import { PickingInfo } from "@deck.gl/core/typed";
 import { t, Trans } from "@lingui/macro";
-import { Box, Button, Grid, Input, Link } from "@mui/material";
+import { Box, Button, Grid, Input, Link, Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -123,12 +123,12 @@ const ShareButton = () => {
               justifyContent: "space-between",
             }}
           >
-            <Text variant="heading6">URL</Text>
-            <Text variant="meta" color="success">
+            <Typography variant="heading6">URL</Typography>
+            <Typography variant="meta" color="success">
               {hasCopied
                 ? t({ id: "share.url-copied", message: "URL kopiert ✅" })
                 : ""}
-            </Text>
+            </Typography>
           </Box>
           <Box
             sx={{
@@ -289,16 +289,16 @@ const IndexPage = ({ locale }: Props) => {
               px: 4,
             }}
           >
-            <Text
+            <Typography
               as="h1"
               variant="giga"
               sx={{ textAlign: ["left", "left", "center"] }}
             >
               <Trans id="site.title">Strompreise Schweiz</Trans>
-            </Text>
+            </Typography>
 
-            <Text
-              variant="paragraph1"
+            <Typography
+              variant="body1"
               sx={{
                 width: "100%",
                 textAlign: ["left", "left", "center"],
@@ -313,7 +313,7 @@ const IndexPage = ({ locale }: Props) => {
                 Detaillierte Preisanalysen von Kantonen, Gemeinden und
                 Netzbetreibern.
               </Trans>
-            </Text>
+            </Typography>
 
             <Search />
           </Flex>

@@ -72,9 +72,9 @@ export const Loading = ({ delayMs = 1000 }: { delayMs?: number }) => (
     >
       <Icon name="loading" size={48} />
     </Box>
-    <Text variant="heading4">
+    <Typography variant="h4">
       <Trans id="hint.loading.data">Loading data…</Trans>
-    </Text>
+    </Typography>
   </Flex>
 );
 
@@ -162,14 +162,14 @@ export const NoDataHint = () => (
     }}
   >
     <Icon name="warning" size={64} />
-    <Text variant="heading2" sx={{ my: 3 }}>
+    <Typography variant="h2" sx={{ my: 3 }}>
       <Trans id="hint.nodata.title">Keine Daten</Trans>
-    </Text>
-    <Text variant="paragraph2" sx={{ maxWidth: "40rem" }}>
+    </Typography>
+    <Typography variant="body2" sx={{ maxWidth: "40rem" }}>
       <Trans id="hint.nodata.message">
         Für die aktuelle Auswahl konnten keine Daten geladen werden.
       </Trans>
-    </Text>
+    </Typography>
   </Flex>
 );
 
@@ -189,11 +189,11 @@ export const NoContentHint = () => (
   >
     <Icon name="warning" size={48} />
 
-    <Text variant="paragraph2" sx={{ maxWidth: "40rem" }}>
+    <Typography variant="body2" sx={{ maxWidth: "40rem" }}>
       <Trans id="hint.nocontent.message">
         Dieser Inhalt konnte nicht geladen werden
       </Trans>
-    </Text>
+    </Typography>
   </Flex>
 );
 
@@ -212,14 +212,14 @@ export const NoGeoDataHint = () => (
     }}
   >
     <Icon name="warning" size={64} />
-    <Text variant="heading2" sx={{ my: 3 }}>
+    <Typography variant="h2" sx={{ my: 3 }}>
       <Trans id="hint.nogeodata.title">Keine Kartendarstellung möglich</Trans>
-    </Text>
-    <Text variant="paragraph2" sx={{ maxWidth: "40rem" }}>
+    </Typography>
+    <Typography variant="body2" sx={{ maxWidth: "40rem" }}>
       <Trans id="hint.nogeodata.message">
         Für das ausgewählte Jahr kann keine Karte angezeigt werden.
       </Trans>
-    </Text>
+    </Typography>
   </Flex>
 );
 
@@ -245,9 +245,9 @@ export const HintBlue = ({
     <Box sx={{ width: 24, pr: 4 }}>
       <Icon name={iconName} size={24} />
     </Box>
-    <Text variant="paragraph1" sx={{ textAlign: "left", ml: 4 }}>
+    <Typography variant="body1" sx={{ textAlign: "left", ml: 4 }}>
       {children}
-    </Text>
+    </Typography>
   </Flex>
 );
 export const HintRed = ({
@@ -274,8 +274,8 @@ export const HintRed = ({
     <Box sx={{ width: 24, pr: 4 }}>
       <Icon name={iconName} size={24} />
     </Box>
-    <Text variant="paragraph1" sx={{ textAlign: "left", ml: 4 }}>
+    <Typography variant="body1" sx={{ textAlign: "left", ml: 4 }}>
       {children}
-    </Text>
+    </Typography>
   </Flex>
 );
