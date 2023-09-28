@@ -186,7 +186,7 @@ export const SearchField = ({
             borderRadius: "default",
             color: "text",
             borderColor: isOpen ? "primary" : "monochrome.500",
-            bg: "monochrome.100",
+            backgroundColor: "monochrome.100",
 
             "&:hover": {
               borderColor: "primary",
@@ -252,7 +252,7 @@ export const SearchField = ({
             width: ["100vw", "100vw", "100%"],
             height: 48,
 
-            bg: "monochrome.100",
+            backgroundColor: "monochrome.100",
             borderRadius: [0, 0, "default"],
 
             border: ["0px solid", "0px solid", "1px solid"],
@@ -326,7 +326,7 @@ export const SearchField = ({
             maxHeight: ["100vh", "100vh", "50vh"],
             overflowY: "auto",
 
-            bg: "monochrome.100",
+            backgroundColor: "monochrome.100",
             p: 4,
             flexDirection: "column",
 

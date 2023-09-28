@@ -330,7 +330,7 @@ const IndexPage = ({ locale }: Props) => {
               // id used by the screenshot service
               id={DOWNLOAD_ID}
               sx={{
-                bg: "monochrome.200",
+                backgroundColor: "monochrome.200",
                 top: [0, HEADER_HEIGHT_M_UP],
                 width: "100%",
                 gridArea: "map",

@@ -25,7 +25,7 @@ export const Card = ({
       // This id is used by the screenshot function
       id={downloadId}
       sx={{
-        bg: "monochrome.100",
+        backgroundColor: "monochrome.100",
         p: 5,
         m: 4,
         borderWidth: "1px",

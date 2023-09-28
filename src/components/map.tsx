@@ -194,7 +194,7 @@ const HintBox = ({ children }: { children: ReactNode }) => (
       position: "relative",
     }}
   >
-    <Box sx={{ bg: "mutedTransparent", borderRadius: "bigger", p: 2 }}>
+    <Box sx={{ backgroundColor: "mutedTransparent", borderRadius: "bigger", p: 2 }}>
       {children}
     </Box>
   </Flex>

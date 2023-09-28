@@ -134,7 +134,7 @@ export const ComboboxMulti = ({
           borderRadius: 4,
           color: "text",
           borderColor: isOpen ? "primary" : "monochrome.500",
-          bg: "monochrome.100",
+          backgroundColor: "monochrome.100",
           flexWrap: "wrap",
           ":focus-within": { borderColor: "primary" },
           position: "relative",
@@ -150,10 +150,10 @@ export const ComboboxMulti = ({
                 mb: 2,
                 borderRadius: "default",
                 fontSize: "0.75rem",
-                bg: "primaryLight",
+                backgroundColor: "primaryLight",
                 ":focus": {
                   outline: 0,
-                  bg: "primary",
+                  backgroundColor: "primary",
                   color: "monochrome.100",
                 },
               }}
@@ -210,7 +210,7 @@ export const ComboboxMulti = ({
               lineHeight: "inherit",
               border: "none",
               color: "text",
-              bg: "transparent",
+              backgroundColor: "transparent",
               borderRadius: 0,
               p: 0,
               ":focus": { outline: 0 },
@@ -241,7 +241,7 @@ export const ComboboxMulti = ({
           listStyle: "none",
           borderRadius: "default",
           boxShadow: "tooltip",
-          bg: "monochrome.100",
+          backgroundColor: "monochrome.100",
           mt: 1,
           p: 0,
           position: "absolute",
@@ -290,7 +290,7 @@ export const ComboboxMulti = ({
               component="li"
               sx={{
                 color: highlightedIndex === index ? "primaryActive" : "text",
-                bg: highlightedIndex === index ? "primaryLight" : "transparent",
+                backgroundColor: highlightedIndex === index ? "primaryLight" : "transparent",
                 p: 3,
                 m: 0,
               }}
@@ -416,7 +416,7 @@ export const Combobox = ({
           borderRadius: 4,
           color: "text",
           borderColor: isOpen ? "primary" : "monochrome.500",
-          bg: "monochrome.100",
+          backgroundColor: "monochrome.100",
           flexWrap: "wrap",
           ":focus-within": { borderColor: "primary" },
           position: "relative",
@@ -443,7 +443,7 @@ export const Combobox = ({
               lineHeight: "inherit",
               border: "none",
               color: "text",
-              bg: "transparent",
+              backgroundColor: "transparent",
               borderRadius: 0,
               p: 0,
               ":focus": { outline: 0 },
@@ -475,7 +475,7 @@ export const Combobox = ({
           listStyle: "none",
           borderRadius: "default",
           boxShadow: "tooltip",
-          bg: "monochrome.100",
+          backgroundColor: "monochrome.100",
           mt: 1,
           p: 0,
           position: "absolute",
@@ -492,7 +492,7 @@ export const Combobox = ({
                 component="li"
                 sx={{
                   color: highlightedIndex === index ? "primaryActive" : "text",
-                  bg:
+                  backgroundColor:
                     highlightedIndex === index ? "primaryLight" : "transparent",
                   p: 3,
                   m: 0,

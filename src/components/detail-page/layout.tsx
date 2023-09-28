@@ -47,7 +47,7 @@ export const DetailPageLayout = ({ main, selector, aside }: Props) => {
       >
         {selector}
       </Box>
-      <Box sx={{ gridArea: "aside", bg: "monochrome.100" }}>{aside}</Box>
+      <Box sx={{ gridArea: "aside", backgroundColor: "monochrome.100" }}>{aside}</Box>
     </Grid>
   );
 };

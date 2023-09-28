@@ -26,7 +26,7 @@ export const Header = ({
               borderBottomWidth: "4px",
               borderBottomStyle: "solid",
               borderBottomColor: "brand",
-              bg: "monochrome.100",
+              backgroundColor: "monochrome.100",
               color: "monochrome.700",
               flexDirection: ["column", "row"],
             }
@@ -37,7 +37,7 @@ export const Header = ({
               borderBottomWidth: "4px",
               borderBottomStyle: "solid",
               borderBottomColor: "brand",
-              bg: "monochrome.100",
+              backgroundColor: "monochrome.100",
               color: "monochrome.700",
               flexDirection: ["column", "row"],
               // Needs to be "fixed" to prevent

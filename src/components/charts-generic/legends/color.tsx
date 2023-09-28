@@ -44,7 +44,7 @@ export const LegendSymbol = ({
         width: ".5rem",
         height: symbol === "square" || symbol === "circle" ? `.5rem` : 3,
         borderRadius: symbol === "circle" ? "50%" : 0,
-        bg: color,
+        backgroundColor: color,
       }}
     ></Box>
   );

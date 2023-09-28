@@ -321,12 +321,12 @@ theme.components = {
             backgroundColor: theme.palette.grey[300],
           },
           ":active": {
-            bg: theme.palette.grey[400],
+            backgroundColor: theme.palette.grey[400],
           },
           ":disabled": {
             cursor: "initial",
             color: theme.palette.grey[600],
-            bg: theme.palette.grey[300],
+            backgroundColor: theme.palette.grey[300],
           },
         },
       },

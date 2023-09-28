@@ -142,7 +142,7 @@ export const AnnotationXLabel = () => {
               fontFamily,
               fontSize: annotationfontSize,
               color: annotationColor,
-              bg: "transparent",
+              backgroundColor: "transparent",
               hyphens: "auto",
               wordBreak: "break-word",
             }}

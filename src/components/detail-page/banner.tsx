@@ -77,7 +77,7 @@ export const DetailPageBanner = ({
       sx={{
         px: [4, 6],
         py: 5,
-        bg: "monochrome.100",
+        backgroundColor: "monochrome.100",
         borderBottomWidth: "1px",
         borderBottomStyle: "solid",
         borderBottomColor: "monochrome.500",

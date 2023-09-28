@@ -144,7 +144,7 @@ export const Select = ({
       sx={{
         borderColor: "monochrome.500",
         fontSize: "1rem",
-        bg: "monochrome.100",
+        backgroundColor: "monochrome.100",
         pt: 2,
         pb: 2,
         pl: 2,
@@ -195,7 +195,7 @@ export const MiniSelect = ({
         borderColor: "transparent",
         fontSize: ["0.625rem", "0.75rem", "0.75rem"],
         fontFamily: "body",
-        bg: "transparent",
+        backgroundColor: "transparent",
         py: 0,
         pl: 1,
         pr: 4,
@@ -235,7 +235,7 @@ export const Input = ({
       </Label>
     )}
     <ThemeUiInput
-      sx={{ borderColor: "monochrome.500", bg: "monochrome.100", height: "40px" }}
+      sx={{ borderColor: "monochrome.500", backgroundColor: "monochrome.100", height: "40px" }}
       id={name}
       name={name}
       value={value}
@@ -285,7 +285,7 @@ export const SearchField = ({
         sx={{
           flexGrow: 1,
           borderColor: "monochrome.500",
-          bg: "monochrome.100",
+          backgroundColor: "monochrome.100",
           px: 6,
           ":focus": { outline: "none", borderColor: "primary" },
         }}
@@ -314,7 +314,7 @@ export const SearchField = ({
             </VisuallyHidden>
             <Box
               aria-hidden="true"
-              sx={{ borderRadius: "circle", bg: "monochrome.600" }}
+              sx={{ borderRadius: "circle", backgroundColor: "monochrome.600" }}
             >
               <Icon name="clear" size={16} />
             </Box>

@@ -70,14 +70,14 @@ const ListItem = ({
           color: "text",
           textDecoration: "none",
           "&:hover": {
-            bg: "mutedDarker",
+            backgroundColor: "mutedDarker",
           },
           "&:active": {
-            bg: "primaryLight",
+            backgroundColor: "primaryLight",
           },
           "&:focus": {
             outline: 0,
-            bg: "primaryLight",
+            backgroundColor: "primaryLight",
           },
         }}
       >
@@ -184,7 +184,7 @@ const PlaceholderListItem = () => {
     >
       <Typography
         variant="body2"
-        sx={{ flexGrow: 1, bg: "monochrome.200", mr: 5 }}
+        sx={{ flexGrow: 1, backgroundColor: "monochrome.200", mr: 5 }}
       >
         &nbsp;
       </Typography>
@@ -193,7 +193,7 @@ const PlaceholderListItem = () => {
           borderRadius: "circle",
           px: 2,
           flexShrink: 0,
-          bg: "monochrome.200",
+          backgroundColor: "monochrome.200",
           width: "5ch",
         }}
       >

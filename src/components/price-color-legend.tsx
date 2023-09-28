@@ -27,7 +27,7 @@ const LegendBox = ({
     <Box
       sx={{
         zIndex: 13,
-        bg: "rgba(245, 245, 245, 0.8)",
+        backgroundColor: "rgba(245, 245, 245, 0.8)",
         borderRadius: "default",
         height: "fit-content",
         px: 4,

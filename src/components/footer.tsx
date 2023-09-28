@@ -85,7 +85,7 @@ export const Footer = () => {
   return (
     <Box
       sx={{
-        bg: "monochrome.200",
+        backgroundColor: "monochrome.200",
         borderTop: "1px solid",
         borderColor: "monochrome.500",
         paddingTop: 6,
@@ -227,7 +227,7 @@ export const Footer = () => {
           flexDirection: ["column", "row"],
           justifyContent: ["flex-start", "space-between"],
           alignItems: ["flex-start", "center"],
-          bg: "monochrome.200",
+          backgroundColor: "monochrome.200",
           borderTopWidth: "1px",
           borderTopStyle: "solid",
           borderTopColor: "monochrome.500",
