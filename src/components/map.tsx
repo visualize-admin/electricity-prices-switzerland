@@ -6,7 +6,7 @@ import {
 import { GeoJsonLayer } from "@deck.gl/layers/typed";
 import DeckGL from "@deck.gl/react/typed";
 import { Trans } from "@lingui/macro";
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import centroid from "@turf/centroid";
 import { color, extent, group, mean, rollup } from "d3";
 import { ScaleThreshold } from "d3-scale";
@@ -194,7 +194,9 @@ const HintBox = ({ children }: { children: ReactNode }) => (
       position: "relative",
     }}
   >
-    <Box sx={{ backgroundColor: "mutedTransparent", borderRadius: "bigger", p: 2 }}>
+    <Box
+      sx={{ bgcolor: "mutedTransparent", borderRadius: "bigger", p: 2 }}
+    >
       {children}
     </Box>
   </Flex>
@@ -627,7 +629,8 @@ export const ChoroplethMap = ({
       <>
         {hovered && tooltipContent && colorScale && (
           <MapTooltip x={hovered.x} y={hovered.y}>
-            <Grid
+            <Box
+              display="grid"
               sx={{
                 width: "100%",
                 gridTemplateColumns: "1fr auto",
@@ -657,8 +660,9 @@ export const ChoroplethMap = ({
                   </Box>
                 </>
               ) : null}
-            </Grid>
-            <Grid
+            </Box>
+            <Box
+              display="grid"
               sx={{
                 width: "100%",
                 gridTemplateColumns: "1fr auto",
@@ -697,7 +701,7 @@ export const ChoroplethMap = ({
                   )}
                 </>
               ) : null}
-            </Grid>
+            </Box>
           </MapTooltip>
         )}
         {geoData.state === "loaded" && (

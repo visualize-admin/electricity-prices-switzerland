@@ -41,7 +41,7 @@ export const LanguageMenu = ({ contentId }: { contentId?: string }) => {
         p: [2, 0],
         ml: [0, "auto"],
         width: ["100%", "auto"],
-        backgroundColor: ["monochrome.300", "transparent"],
+        backgroundColor: ["grey.300", "transparent"],
         order: [1, 2],
         justifyContent: "flex-end",
       }}
@@ -53,27 +53,27 @@ export const LanguageMenu = ({ contentId }: { contentId?: string }) => {
           <Link
             rel="alternate"
             hrefLang={locale}
+            typography="body2"
             sx={{
-              variant: "text.paragraph2",
               fontSize: "0.875rem",
               lineHeight: "1.25rem",
               p: 1,
               textTransform: "uppercase",
               textDecoration: "none",
-              color: "monochrome.700",
+              color: "grey.700",
               backgroundColor:
                 locale === currentLocale
-                  ? ["monochrome.500", "monochrome.300"]
+                  ? ["grey.500", "grey.300"]
                   : "transparent",
               ":hover": {
                 color: "primary.main",
               },
               ":active": {
-                color: "primaryActive",
+                color: "primary.active",
               },
               ":disabled": {
                 cursor: "initial",
-                color: "primaryDisabled",
+                color: "primary.disabled",
               },
             }}
           >

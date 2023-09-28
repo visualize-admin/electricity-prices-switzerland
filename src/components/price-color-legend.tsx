@@ -1,5 +1,5 @@
 import { Trans, t } from "@lingui/macro";
-import { Box, BoxProps, Grid, Typography } from "@mui/material";
+import { Box, BoxProps, Typography } from "@mui/material";
 import React, { useState } from "react";
 
 import Flex from "src/components/flex";
@@ -118,7 +118,7 @@ export const MapPriceColorLegend = ({
         <Flex
           sx={{
             justifyContent: "space-between",
-            color: "monochrome.600",
+            color: "grey.600",
             fontSize: "0.625rem",
             mb: 2,
           }}
@@ -157,7 +157,7 @@ export const PriceColorLegend = () => {
       <Flex
         sx={{
           justifyContent: "space-between",
-          color: "monochrome.600",
+          color: "grey.600",
           fontSize: "0.625rem",
           mb: 2,
         }}
@@ -209,7 +209,8 @@ export const ColorsLine = () => {
           borderRight: `${COLOR_HEIGHT / 2}px solid  ${palette.diverging[0]}`,
         }}
       />
-      <Grid
+      <Box
+        display="grid"
         sx={{
           gridTemplateColumns: ".8fr 1fr 1fr 1fr .8fr",
           columnGap: 0,
@@ -238,7 +239,7 @@ export const ColorsLine = () => {
             <Typography
               sx={{
                 fontSize: "0.625rem",
-                color: "monochrome.600",
+                color: "grey.600",
                 transform: "translateX(50%)",
                 letterSpacing: -0.4,
                 textAlign: "right",
@@ -249,7 +250,7 @@ export const ColorsLine = () => {
             </Typography>
           </Flex>
         ))}
-      </Grid>
+      </Box>
       <Box
         sx={{
           width: 0,

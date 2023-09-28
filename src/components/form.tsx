@@ -42,10 +42,11 @@ export const Label = ({
 }) => (
   <Box
     component="label"
+    typography="body2"
     htmlFor={htmlFor}
     sx={{
-      color: disabled ? "monochrome.600" : "monochrome.700",
-      fontSize: smaller ? [2, 2, 2] : [4, 4, 4],
+      color: disabled ? "grey.600" : "grey.700",
+      fontSize: smaller ? "0.85rem" : "1.15rem",
       pb: smaller ? 1 : 0,
       mr: 4,
       display: "flex",
@@ -58,7 +59,6 @@ export const Label = ({
         sx={{
           maxWidth: "88%",
           textAlign: "left",
-          fontFamily: "body",
           pr: 1,
           visibility: showLabel ? "visible" : "hidden",
         }}
@@ -89,7 +89,7 @@ export const Radio = ({
           disabled={disabled}
           size={20}
           sx={{
-            color: checked && !disabled ? "primary.main" : "monochrome.500",
+            color: checked && !disabled ? "primary.main" : "grey.500",
           }}
         />
       </Label>
@@ -109,7 +109,7 @@ export const Checkbox = ({
     <RebassCheckbox
       sx={{
         // size: 20,
-        color: checked && !disabled ? "primary.main" : "monochrome.500",
+        color: checked && !disabled ? "primary.main" : "grey.500",
       }}
       id={`${name}-${label}`}
       name={name}
@@ -134,7 +134,7 @@ export const Select = ({
   label?: React.ReactNode;
   disabled?: boolean;
 } & SelectProps) => (
-  <Box sx={{ color: "monochrome.700", pb: 2 }}>
+  <Box sx={{ color: "grey.700", pb: 2 }}>
     {label && (
       <Label htmlFor={id} disabled={disabled} smaller>
         {label}
@@ -142,15 +142,15 @@ export const Select = ({
     )}
     <ThemeUiSelect
       sx={{
-        borderColor: "monochrome.500",
+        borderColor: "grey.500",
         fontSize: "1rem",
-        backgroundColor: "monochrome.100",
+        bgcolor: "grey.100",
         pt: 2,
         pb: 2,
         pl: 2,
         pr: 5,
         height: "40px",
-        color: disabled ? "monochrome.500" : "monochrome.700",
+        color: disabled ? "grey.500" : "grey.700",
         textOverflow: "ellipsis",
       }}
       id={id}
@@ -184,7 +184,7 @@ export const MiniSelect = ({
   label?: React.ReactNode;
   disabled?: boolean;
 } & SelectProps) => (
-  <Box sx={{ color: "monochrome.800" }}>
+  <Box sx={{ color: "grey.800" }}>
     {label && (
       <Label htmlFor={id} smaller>
         {label}
@@ -228,14 +228,18 @@ export const Input = ({
   label?: string | React.ReactNode;
   disabled?: boolean;
 } & FieldProps) => (
-  <Box sx={{ color: "monochrome.700", fontSize: "1rem" }}>
+  <Box sx={{ color: "grey.700", fontSize: "1rem" }}>
     {label && name && (
       <Label htmlFor={name} smaller>
         {label}
       </Label>
     )}
     <ThemeUiInput
-      sx={{ borderColor: "monochrome.500", backgroundColor: "monochrome.100", height: "40px" }}
+      sx={{
+        borderColor: "grey.500",
+        bgcolor: "grey.100",
+        height: "40px",
+      }}
       id={name}
       name={name}
       value={value}
@@ -264,7 +268,7 @@ export const SearchField = ({
   return (
     <Box
       sx={{
-        color: "monochrome.700",
+        color: "grey.700",
         fontSize: "1rem",
         position: "relative",
         ...sx,
@@ -284,8 +288,8 @@ export const SearchField = ({
       <ThemeUiInput
         sx={{
           flexGrow: 1,
-          borderColor: "monochrome.500",
-          backgroundColor: "monochrome.100",
+          borderColor: "grey.500",
+          bgcolor: "grey.100",
           px: 6,
           ":focus": { outline: "none", borderColor: "primary.main" },
         }}
@@ -314,7 +318,7 @@ export const SearchField = ({
             </VisuallyHidden>
             <Box
               aria-hidden="true"
-              sx={{ borderRadius: "circle", backgroundColor: "monochrome.600" }}
+              sx={{ borderRadius: "circle", bgcolor: "grey.600" }}
             >
               <Icon name="clear" size={16} />
             </Box>
@@ -337,7 +341,7 @@ export const FieldSetLegend = ({
       fontWeight: "regular",
       fontSize: ["0.625rem", "0.75rem", "0.75rem"],
       mb: 1,
-      color: "monochrome.600",
+      color: "grey.600",
     }}
     component="legend"
   >

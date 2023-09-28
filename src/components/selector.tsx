@@ -25,9 +25,10 @@ export const Selector = () => {
     <Flex
       component="fieldset"
       sx={{
+        border: "none",
         flexDirection: "column",
         justifyContent: "flex-start",
-        backgroundColor: "mutedColored",
+        bgcolor: "muted.colored",
         px: 4,
         py: 4,
 
@@ -36,7 +37,11 @@ export const Selector = () => {
         "> div:last-of-type": { mt: 6 },
       }}
     >
-      <Typography component="legend" variant="lead" sx={{ display: "contents" }}>
+      <Typography
+        component="legend"
+        variant="lead"
+        sx={{ display: "contents" }}
+      >
         <Trans id="selector.legend.select.parameters">
           Liste und Karte filtern
         </Trans>

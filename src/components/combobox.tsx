@@ -126,6 +126,7 @@ export const ComboboxMulti = ({
           py: 0,
           pl: 2,
           pr: 6,
+          boxSizing: "border-box",
           alignItems: "center",
           appearance: "none",
           fontSize: "inherit",
@@ -133,8 +134,8 @@ export const ComboboxMulti = ({
           border: "1px solid",
           borderRadius: 4,
           color: "text",
-          borderColor: isOpen ? "primary.main" : "monochrome.500",
-          backgroundColor: "monochrome.100",
+          borderColor: isOpen ? "primary.main" : "grey.500",
+          bgcolor: "grey.100",
           flexWrap: "wrap",
           ":focus-within": { borderColor: "primary.main" },
           position: "relative",
@@ -150,11 +151,11 @@ export const ComboboxMulti = ({
                 mb: 2,
                 borderRadius: "default",
                 fontSize: "0.75rem",
-                backgroundColor: "primary.light",
+                bgcolor: "primary.light",
                 ":focus": {
                   outline: 0,
-                  backgroundColor: "primary.main",
-                  color: "monochrome.100",
+                  bgcolor: "primary.main",
+                  color: "grey.100",
                 },
               }}
               key={`selected-item-${index}`}
@@ -221,7 +222,7 @@ export const ComboboxMulti = ({
           aria-label={"toggle menu"}
           variant="reset"
           sx={{
-            color: "monochrome.800",
+            color: "grey.800",
             p: 0,
             mr: 1,
             position: "absolute",
@@ -240,8 +241,8 @@ export const ComboboxMulti = ({
         sx={{
           listStyle: "none",
           borderRadius: "default",
-          boxShadow: "tooltip",
-          backgroundColor: "monochrome.100",
+          boxShadow: 6,
+          bgcolor: "grey.100",
           mt: 1,
           p: 0,
           position: "absolute",
@@ -256,7 +257,7 @@ export const ComboboxMulti = ({
             component="li"
             variant="body2"
             sx={{
-              color: "secondary",
+              color: "secondary.main",
               p: 3,
               m: 0,
             }}
@@ -268,7 +269,7 @@ export const ComboboxMulti = ({
             component="li"
             variant="body2"
             sx={{
-              color: "secondary",
+              color: "secondary.main",
               p: 3,
               m: 0,
             }}
@@ -289,8 +290,9 @@ export const ComboboxMulti = ({
             <Box
               component="li"
               sx={{
-                color: highlightedIndex === index ? "primaryActive" : "text",
-                backgroundColor: highlightedIndex === index ? "primary.light" : "transparent",
+                color: highlightedIndex === index ? "primary.active" : "text",
+                backgroundColor:
+                  highlightedIndex === index ? "primary.light" : "transparent",
                 p: 3,
                 m: 0,
               }}
@@ -404,6 +406,7 @@ export const Combobox = ({
         sx={{
           display: "block",
           width: "100%",
+          boxSizing: "border-box",
           py: 0,
           pl: 2,
           pr: 6,
@@ -415,8 +418,8 @@ export const Combobox = ({
           border: "1px solid",
           borderRadius: 4,
           color: "text",
-          borderColor: isOpen ? "primary.main" : "monochrome.500",
-          backgroundColor: "monochrome.100",
+          borderColor: isOpen ? "primary.main" : "grey.500",
+          bgcolor: "grey.100",
           flexWrap: "wrap",
           ":focus-within": { borderColor: "primary.main" },
           position: "relative",
@@ -454,7 +457,7 @@ export const Combobox = ({
           aria-label={"toggle menu"}
           variant="reset"
           sx={{
-            color: "monochrome.800",
+            color: "grey.800",
             p: 0,
             mr: 1,
             position: "absolute",
@@ -474,8 +477,8 @@ export const Combobox = ({
         sx={{
           listStyle: "none",
           borderRadius: "default",
-          boxShadow: "tooltip",
-          backgroundColor: "monochrome.100",
+          boxShadow: 6,
+          bgcolor: "grey.100",
           mt: 1,
           p: 0,
           position: "absolute",
@@ -491,9 +494,11 @@ export const Combobox = ({
               <Box
                 component="li"
                 sx={{
-                  color: highlightedIndex === index ? "primaryActive" : "text",
+                  color: highlightedIndex === index ? "primary.active" : "text",
                   backgroundColor:
-                    highlightedIndex === index ? "primary.light" : "transparent",
+                    highlightedIndex === index
+                      ? "primary.light"
+                      : "transparent",
                   p: 3,
                   m: 0,
                 }}

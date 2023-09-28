@@ -44,13 +44,13 @@ export const IconLink = ({
       ml: 4,
       color: "primary.main",
       "&:disabled": {
-        color: "primaryDisabled",
+        color: "primary.disabled",
       },
       "&:hover": {
         color: "primaryHover",
       },
       "&:active": {
-        color: "primaryActive",
+        color: "primary.active",
       },
       "&:visited": {
         color: "primary.main",

@@ -25,9 +25,9 @@ export const Header = ({
               pb: [0, 5, 5],
               borderBottomWidth: "4px",
               borderBottomStyle: "solid",
-              borderBottomColor: "brand",
-              backgroundColor: "monochrome.100",
-              color: "monochrome.700",
+              borderBottomColor: "brand.main",
+              bgcolor: "grey.100",
+              color: "grey.700",
               flexDirection: ["column", "row"],
             }
           : {
@@ -36,9 +36,9 @@ export const Header = ({
               pb: [0, 5, 5],
               borderBottomWidth: "4px",
               borderBottomStyle: "solid",
-              borderBottomColor: "brand",
-              backgroundColor: "monochrome.100",
-              color: "monochrome.700",
+              borderBottomColor: "brand.main",
+              bgcolor: "grey.100",
+              color: "grey.700",
               flexDirection: ["column", "row"],
               // Needs to be "fixed" to prevent
               // iOS full-page scrolling
@@ -67,7 +67,7 @@ export const Logo = () => {
           alignItems: ["center", "flex-start"],
           cursor: "pointer",
           textDecoration: "none",
-          color: "monochrome.900",
+          color: "grey.900",
         }}
       >
         <Box
@@ -85,16 +85,16 @@ export const Logo = () => {
             pr: 6,
             borderRightWidth: "1px",
             borderRightStyle: "solid",
-            borderRightColor: "monochrome.300",
-            color: "monochrome.900",
+            borderRightColor: "grey.300",
+            color: "grey.900",
           }}
         >
           <LogoDesktop />
         </Box>
         <Typography
           component="h1"
-          variant="lead"
-          sx={{ pl: [0, 6], textDecoration: "none", color: "monochrome.800" }}
+          variant="h1"
+          sx={{ pl: [0, 6], textDecoration: "none", color: "grey.800" }}
         >
           <Trans id="site.title">Strompreise Schweiz</Trans>
           {process.env.DEPLOYMENT &&

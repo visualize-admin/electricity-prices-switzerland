@@ -63,21 +63,21 @@ const ListItem = ({
           mx: 0,
           borderBottomWidth: "1px",
           borderBottomStyle: "solid",
-          borderBottomColor: "monochrome.300",
+          borderBottomColor: "grey.300",
           alignItems: "center",
           height: "3.5rem",
           lineHeight: "1rem",
-          color: "text",
+          color: "text.primary",
           textDecoration: "none",
           "&:hover": {
-            backgroundColor: "mutedDarker",
+            bgcolor: "muted.dark",
           },
           "&:active": {
-            backgroundColor: "primary.light",
+            bgcolor: "primary.light",
           },
           "&:focus": {
             outline: 0,
-            backgroundColor: "primary.light",
+            bgcolor: "primary.light",
           },
         }}
       >
@@ -175,7 +175,7 @@ const PlaceholderListItem = () => {
         mx: [2, 4, 4],
         borderBottomWidth: "1px",
         borderBottomStyle: "solid",
-        borderBottomColor: "monochrome.300",
+        borderBottomColor: "grey.300",
         alignItems: "center",
         height: "3.5rem",
         lineHeight: "1rem",
@@ -184,7 +184,7 @@ const PlaceholderListItem = () => {
     >
       <Typography
         variant="body2"
-        sx={{ flexGrow: 1, backgroundColor: "monochrome.200", mr: 5 }}
+        sx={{ flexGrow: 1, bgcolor: "grey.200", mr: 5 }}
       >
         &nbsp;
       </Typography>
@@ -193,13 +193,13 @@ const PlaceholderListItem = () => {
           borderRadius: "circle",
           px: 2,
           flexShrink: 0,
-          backgroundColor: "monochrome.200",
+          bgcolor: "grey.200",
           width: "5ch",
         }}
       >
         <Typography variant="body2">&nbsp;</Typography>
       </Box>
-      <Box sx={{ width: "24px", flexShrink: 0, color: "monochrome.200" }}>
+      <Box sx={{ width: "24px", flexShrink: 0, color: "grey.200" }}>
         <Icon name="chevronright"></Icon>
       </Box>
     </Flex>
@@ -336,7 +336,7 @@ export const List = ({
           py: [2, 4, 4],
           borderBottomWidth: "1px",
           borderBottomStyle: "solid",
-          borderBottomColor: "monochrome.300",
+          borderBottomColor: "grey.300",
         }}
       >
         <Stack direction="row" spacing={2} sx={{ width: "100%" }}>

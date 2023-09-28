@@ -27,11 +27,11 @@ const FooterLink = ({
   return (
     <Link
       {...props}
-      variant="inline"
+      typography="body2"
       sx={{
         borderBottomWidth: "1px",
         borderBottomStyle: "solid",
-        borderBottomColor: "monochrome.500",
+        borderBottomColor: "grey.500",
         p: 4,
         display: "flex",
         alignItems: "center",
@@ -85,9 +85,9 @@ export const Footer = () => {
   return (
     <Box
       sx={{
-        backgroundColor: "monochrome.200",
+        bgcolor: "grey.200",
         borderTop: "1px solid",
-        borderColor: "monochrome.500",
+        borderColor: "grey.500",
         paddingTop: 6,
       }}
     >
@@ -227,10 +227,10 @@ export const Footer = () => {
           flexDirection: ["column", "row"],
           justifyContent: ["flex-start", "space-between"],
           alignItems: ["flex-start", "center"],
-          backgroundColor: "monochrome.200",
+          bgcolor: "grey.200",
           borderTopWidth: "1px",
           borderTopStyle: "solid",
-          borderTopColor: "monochrome.500",
+          borderTopColor: "grey.500",
         }}
       >
         <Box
@@ -238,7 +238,7 @@ export const Footer = () => {
             width: "100%",
             px: 6,
             py: 5,
-            color: ["monochrome.900", "monochrome.700"],
+            color: ["grey.900", "grey.700"],
             display: "flex",
             justifyContent: "space-between",
           }}
@@ -251,7 +251,6 @@ export const Footer = () => {
           <Typography variant="body2" sx={{ display: "block" }} component="div">
             <Link
               target="_blank"
-              variant="inline"
               href={t({
                 id: "footer.legal-framework.link",
                 message: "https://www.admin.ch/gov/de/start/rechtliches.html",
@@ -277,8 +276,8 @@ export const Footer = () => {
               borderBottomWidth: "1px",
               borderTopStyle: "solid",
               borderBottomStyle: "solid",
-              borderTopColor: "monochrome.500",
-              borderBottomColor: "monochrome.500",
+              borderTopColor: "grey.500",
+              borderBottomColor: "grey.500",
             }}
           >
             <LogoDesktop />

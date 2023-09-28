@@ -66,7 +66,7 @@ const CantonPage = (props: Props) => {
           sx={{
             pt: [107, 96],
             flexGrow: 1,
-            backgroundColor: "monochrome.200",
+            bgcolor: "grey.200",
           }}
         >
           <DetailPageBanner id={id} name={name} entity="canton" />

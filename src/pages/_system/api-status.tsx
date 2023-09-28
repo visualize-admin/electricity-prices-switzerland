@@ -1,4 +1,4 @@
-import { Box, Heading, HeadingProps, BoxProps } from "@mui/material";
+import { Box, Typography, TypographyProps, BoxProps } from "@mui/material";
 import { FormEvent, useCallback, useMemo, useState } from "react";
 import { UseQueryState } from "urql";
 
@@ -40,10 +40,10 @@ const IndicatorSuccess = () => (
   </Box>
 );
 
-const StatusHeading = ({ children, ...props }: HeadingProps) => {
+const StatusTypography = ({ children, ...props }: TypographyProps) => {
   return (
-    <Heading
-      variant="heading3"
+    <Typography
+      variant="h3"
       {...props}
       sx={{
         display: "flex",
@@ -53,7 +53,7 @@ const StatusHeading = ({ children, ...props }: HeadingProps) => {
       }}
     >
       {children}
-    </Heading>
+    </Typography>
   );
 };
 
@@ -65,9 +65,9 @@ const StatusBox = (props: BoxProps) => {
         py: 2,
         px: 3,
         borderRadius: 3,
-        backgroundColor: "monochrome.200",
+        bgcolor: "grey.200",
         mb: 3,
-        borderColor: "monochrome.400",
+        borderColor: "grey.400",
         borderWidth: 1,
         borderStyle: "solid",
         ...props.sx,
@@ -81,7 +81,7 @@ const StatusBox = (props: BoxProps) => {
 const Status = ({ title, query }: { title: string; query: UseQueryState }) => {
   return (
     <StatusBox>
-      <StatusHeading>
+      <StatusTypography>
         {query.fetching ? (
           <LoadingIconInline size={24} />
         ) : query.error ? (
@@ -92,7 +92,7 @@ const Status = ({ title, query }: { title: string; query: UseQueryState }) => {
         <Box component="span" sx={{ ml: 2, flexGrow: 1 }}>
           {title}
         </Box>
-      </StatusHeading>
+      </StatusTypography>
       {!query.fetching && (
         <>
           <Box sx={{ fontSize: "0.75rem", mt: 2 }}>
@@ -235,28 +235,28 @@ const CubeHealth = () => {
   return <Status title="Cube health" query={query} />;
 };
 
-const SectionHeading = (props: HeadingProps) => {
+const SectionTypography = (props: TypographyProps) => {
   return (
-    <Heading variant="heading2" {...props} sx={{ my: 3, ...props.sx }}>
+    <Typography variant="h2" {...props} sx={{ my: 3, ...props.sx }}>
       {props.children}
-    </Heading>
+    </Typography>
   );
 };
 
 const Page = () => {
   return (
     <Box sx={{ p: 5 }}>
-      <Heading variant="heading1">API Status</Heading>
+      <Typography variant="h1">API Status</Typography>
 
-      <SectionHeading>Internal</SectionHeading>
+      <SectionTypography>Internal</SectionTypography>
 
       <SystemInfoStatus />
 
       <WikiContentStatus />
 
-      <Heading variant="heading2" sx={{ mt: 3 }}>
+      <Typography variant="h2" sx={{ mt: 3 }}>
         Data (Lindas)
-      </Heading>
+      </Typography>
 
       <CubeHealth />
 
@@ -270,7 +270,7 @@ const Page = () => {
 
       <MunicipalityStatus />
 
-      <SectionHeading>Search</SectionHeading>
+      <SectionTypography>Search</SectionTypography>
 
       <MunicipalitiesStatus />
 
@@ -368,7 +368,7 @@ DESCRIBE <https://ld.admin.ch/municipality/${formData.municipalityId}>
 
   return (
     <StatusBox>
-      <StatusHeading sx={{ mb: 2 }}>Municipality status</StatusHeading>
+      <StatusTypography sx={{ mb: 2 }}>Municipality status</StatusTypography>
       <Box sx={{ fontSize: "0.75rem" }}>
         <details>
           <summary>Details</summary>
@@ -447,7 +447,7 @@ const DocumentDownloadStatus = () => {
 
   return (
     <StatusBox>
-      <StatusHeading sx={{ mb: 2 }}>Document download</StatusHeading>
+      <StatusTypography sx={{ mb: 2 }}>Document download</StatusTypography>
       <Box sx={{ fontSize: "0.75rem" }}>
         <details>
           <summary>Details</summary>

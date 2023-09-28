@@ -1,6 +1,6 @@
 import { PickingInfo } from "@deck.gl/core/typed";
 import { t, Trans } from "@lingui/macro";
-import { Box, Button, Grid, Input, Link, Typography } from "@mui/material";
+import { Box, Button, Input, Link, Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -123,7 +123,7 @@ const ShareButton = () => {
               justifyContent: "space-between",
             }}
           >
-            <Typography variant="heading6">URL</Typography>
+            <Typography variant="h6">URL</Typography>
             <Typography variant="meta" color="success">
               {hasCopied
                 ? t({ id: "share.url-copied", message: "URL kopiert ✅" })
@@ -135,7 +135,7 @@ const ShareButton = () => {
               borderStyle: "solid",
               boxSizing: "border-box",
               borderWidth: 1,
-              borderColor: "monochrome.500",
+              borderColor: "grey.500",
               outline: hasInputFocus ? "2px solid" : "none",
               outlineColor: "primary.main",
               display: "flex",
@@ -163,11 +163,11 @@ const ShareButton = () => {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                backgroundColor: "monochrome.300",
-                color: "monochrome.900",
+                bgcolor: "grey.300",
+                color: "grey.900",
                 cursor: "pointer",
                 "&:hover": {
-                  backgroundColor: "monochrome.400",
+                  bgcolor: "grey.400",
                 },
                 "&:focus, &:active": {
                   outline: 0,
@@ -251,7 +251,8 @@ const IndexPage = ({ locale }: Props) => {
       <Head>
         <title>{t({ id: "site.title" })}</title>
       </Head>
-      <Grid
+      <Box
+        display="grid"
         sx={{
           minHeight: "100vh",
           gap: 0,
@@ -285,7 +286,7 @@ const IndexPage = ({ locale }: Props) => {
               alignItems: "center",
               borderBottomWidth: 1,
               borderBottomStyle: "solid",
-              borderBottomColor: "monochrome.500",
+              borderBottomColor: "grey.500",
               px: 4,
             }}
           >
@@ -302,7 +303,7 @@ const IndexPage = ({ locale }: Props) => {
               sx={{
                 width: "100%",
                 textAlign: ["left", "left", "center"],
-                color: "monochrome.800",
+                color: "grey.800",
                 mt: 2,
                 mb: 2,
                 height: [0, 0, "unset"],
@@ -317,7 +318,8 @@ const IndexPage = ({ locale }: Props) => {
 
             <Search />
           </Flex>
-          <Grid
+          <Box
+            display="grid"
             sx={{
               width: "100%",
               gridTemplateColumns: ["1fr", "1fr 20rem"],
@@ -330,7 +332,7 @@ const IndexPage = ({ locale }: Props) => {
               // id used by the screenshot service
               id={DOWNLOAD_ID}
               sx={{
-                backgroundColor: "monochrome.200",
+                bgcolor: "grey.200",
                 top: [0, HEADER_HEIGHT_M_UP],
                 width: "100%",
                 gridArea: "map",
@@ -339,7 +341,7 @@ const IndexPage = ({ locale }: Props) => {
                 position: ["relative", "sticky"],
                 borderRightWidth: "1px",
                 borderRightStyle: "solid",
-                borderRightColor: "monochrome.500",
+                borderRightColor: "grey.500",
               }}
             >
               <ChoroplethMap
@@ -391,10 +393,10 @@ const IndexPage = ({ locale }: Props) => {
                 observationsQueryFetching={observationsQuery.fetching}
               />
             </Box>
-          </Grid>
+          </Box>
         </Box>
         <Footer />
-      </Grid>
+      </Box>
     </HighlightContext.Provider>
   );
 };

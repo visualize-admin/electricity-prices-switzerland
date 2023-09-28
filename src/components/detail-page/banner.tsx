@@ -1,5 +1,5 @@
 import { Trans } from "@lingui/macro";
-import { Box, Button, Grid, Link as UILink, Typography } from "@mui/material";
+import { Box, Button, Link as UILink, Typography } from "@mui/material";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { Fragment, useState } from "react";
@@ -77,13 +77,14 @@ export const DetailPageBanner = ({
       sx={{
         px: [4, 6],
         py: 5,
-        backgroundColor: "monochrome.100",
+        bgcolor: "grey.100",
         borderBottomWidth: "1px",
         borderBottomStyle: "solid",
-        borderBottomColor: "monochrome.500",
+        borderBottomColor: "grey.500",
       }}
     >
-      <Grid
+      <Box
+        display="grid"
         sx={{
           mb: 6,
           gridTemplateColumns: [
@@ -129,10 +130,14 @@ export const DetailPageBanner = ({
         <Box sx={{ gridArea: "search" }}>
           <Search />
         </Box>
-      </Grid>
+      </Box>
 
       <Box sx={{ mx: "auto", my: 2 }}>
-        <Typography component="h1" variant="h1" sx={{ color: "monochrome.800" }}>
+        <Typography
+          component="h1"
+          variant="h1"
+          sx={{ color: "grey.800" }}
+        >
           <Typography variant="meta" sx={{ color: "secondary" }}>
             {entity === "canton" ? (
               <Trans id="detail.canton">Kanton</Trans>

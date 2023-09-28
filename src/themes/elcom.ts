@@ -16,10 +16,10 @@ export const preloadFonts = [
   "/fonts/FrutigerNeueW02-Regular.woff2",
   "/fonts/FrutigerNeueW02-Light.woff2",
 ];
-
 import { createTheme } from "@mui/material";
+import merge from "lodash/merge";
 
-import federalTheme from "./federal";
+import federalTheme, { createTypographyVariant } from "./federal";
 
 declare module "@mui/material" {
   interface PaletteOptions {
@@ -33,15 +33,21 @@ declare module "@mui/material" {
   }
   interface TypographyVariants {
     meta?: React.CSSProperties;
+    lead?: React.CSSProperties;
+    giga?: React.CSSProperties;
   }
 
   // allow configuration using `createTheme`
   interface TypographyVariantsOptions {
     meta?: React.CSSProperties;
+    lead?: React.CSSProperties;
+    giga?: React.CSSProperties;
   }
 
   interface TypographyPropsVariantOverrides {
     meta?: true;
+    lead?: true;
+    giga?: true;
   }
 }
 const elcom = createTheme(federalTheme, {
@@ -50,6 +56,21 @@ const elcom = createTheme(federalTheme, {
     categorical: ["#64afe9", "#01ADA1", "#939CB4", "#91C34B", "#E89F00"],
   },
 });
+
+elcom.typography = merge(elcom.typography, {
+  lead: createTypographyVariant(federalTheme, {
+    fontSize: [24, 32],
+    lineHeight: [36, 48],
+    fontWeight: 700,
+  }),
+  giga: createTypographyVariant(federalTheme, {
+    fontSize: [24, 32],
+    lineHeight: [36, 48],
+    fontWeight: 700,
+  }),
+});
+
+console.log(elcom.typography);
 
 export type ElcomTheme = typeof elcom;
 
