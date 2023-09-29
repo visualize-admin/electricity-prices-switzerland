@@ -4,6 +4,9 @@ import path from "path";
 
 import commonjs from "vite-plugin-commonjs";
 import react from "@vitejs/plugin-react";
+import { UserConfig } from "vite";
+import { lingui } from "@lingui/vite-plugin";
+import macrosPlugin from "vite-plugin-babel-macros";
 
 const config: StorybookConfig = {
   viteFinal: async (config, { configType }) => {
@@ -34,7 +37,9 @@ const config: StorybookConfig = {
         dynamic: {
           onFiles: (files) => files.filter((f) => f === "messages.js"),
         },
-      })
+      }),
+      macrosPlugin(),
+      lingui()
     );
     return config;
   },
