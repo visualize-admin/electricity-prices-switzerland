@@ -44,10 +44,16 @@ export default function transform(fileInfo, api) {
         // Add the useStyles hook above the function
         let parentFunction = jsxElement;
         while (
+          parentFunction &&
+          parentFunction.node &&
           parentFunction.node.type !== "BlockStatement" &&
           parentFunction.node
         ) {
           parentFunction = parentFunction.parentPath;
+        }
+
+        if (!parentFunction) {
+          return;
         }
 
         // Step 4: Create the useStylesDeclaration with makeStyles
