@@ -22,6 +22,7 @@ const config: StorybookConfig = {
     config.define = {
       ...config.define,
 
+      "process.version": JSON.stringify("v18.8.0"),
       "process.env": {
         FIRST_PERIOD: 2000,
         CURRENT_PERIOD: 2024,
