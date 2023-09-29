@@ -6,6 +6,16 @@ export default function transform(fileInfo, api) {
   const root = j(fileInfo.source);
 
   let i = 0;
+
+  const makeStyleOptions = j.objectExpression([]);
+  const useStylesDeclaration = j.expressionStatement(
+    j.assignmentExpression(
+      "=",
+      j.identifier(`const useStyles${i}`),
+      j.callExpression(j.identifier("makeStyles()"), [makeStyleOptions])
+    )
+  );
+
   // Step 1: Find every React element with an sx property
   root
     .find(j.JSXElement)
@@ -41,16 +51,8 @@ export default function transform(fileInfo, api) {
         }
 
         // Step 4: Create the useStylesDeclaration with makeStyles
-        const useStylesDeclaration = j.expressionStatement(
-          j.assignmentExpression(
-            "=",
-            j.identifier(`const useStyles${i}`),
-            j.callExpression(j.identifier("makeStyles()"), [
-              j.objectExpression([
-                j.property("init", j.identifier("root"), sxValue.expression),
-              ]),
-            ])
-          )
+        makeStyleOptions.properties.push(
+          j.property("init", j.identifier(`root${i}`), sxValue.expression)
         );
 
         const propertyMapping = {
@@ -67,10 +69,8 @@ export default function transform(fileInfo, api) {
         };
 
         // Traverse through the object expression properties
-        console.log(sxValue.expression.type);
         if (sxValue.expression.type === "ObjectExpression") {
           sxValue.expression.properties.forEach((property) => {
-            console.log({ property });
             if (
               property.type === "ObjectProperty" &&
               property.key.type === "Identifier"
@@ -78,7 +78,6 @@ export default function transform(fileInfo, api) {
               const propertyName = property.key.name;
               const mappedPropertyName = propertyMapping[propertyName];
 
-              console.log("replacing", mappedPropertyName);
               if (mappedPropertyName) {
                 // Replace the property key with the mapped key
                 property.key = j.identifier(mappedPropertyName);
@@ -87,19 +86,14 @@ export default function transform(fileInfo, api) {
           });
         }
 
-        // Step 5: Insert the useStylesDeclaration at module level
-        root.get().node.program.body.unshift(useStylesDeclaration);
-
-        parentFunction.node.body.unshift(
-          `const { classes: classes${i} } = useStyles${i}()`
-        );
+        parentFunction.node.body.unshift(`const { classes } = useStyles()`);
 
         // Remove the sx attribute
         jsxAttributes.splice(sxAttributeIndex, 1);
         jsxAttributes.push(
           j.jsxAttribute(
             j.jsxIdentifier("className"),
-            j.jsxExpressionContainer(j.identifier(`classes${i}.root`))
+            j.jsxExpressionContainer(j.identifier(`classes.root${i}`))
           )
         );
 
@@ -107,5 +101,7 @@ export default function transform(fileInfo, api) {
       }
     });
 
+  // Step 5: Insert the useStylesDeclaration at module level
+  root.get().node.program.body.unshift(useStylesDeclaration);
   return root.toSource();
 }
