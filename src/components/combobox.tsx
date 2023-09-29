@@ -5,11 +5,184 @@ import { useCombobox, useMultipleSelection } from "downshift";
 import { useState, useEffect } from "react";
 
 import Flex from "src/components/flex";
+import { makeStyles } from "src/themes/makeStyles";
 
 import { Icon } from "../icons";
 
 import { Label } from "./form";
 import { InfoDialogButton } from "./info-dialog";
+
+const useComboboxStyles = makeStyles()((theme) => ({
+  listItem2: {
+    fontWeight: "bold",
+    padding: theme.spacing(1, 3),
+    marginTop: "0.5rem",
+  },
+  listItem: {
+    color: theme.palette.text.primary,
+    backgroundColor: "transparent",
+    padding: theme.spacing(3),
+    margin: 0,
+  },
+  listItemActive: {
+    color: theme.palette.primary.active,
+    backgroundColor: theme.palette.primary.light,
+  },
+  list: {
+    listStyle: "none",
+    borderRadius: theme.shape.borderRadius * 3,
+    boxShadow: theme.shadows[6],
+    backgroundColor: theme.palette.grey[100],
+    marginTop: theme.spacing(1),
+    padding: 0,
+    position: "absolute",
+    width: "100%",
+    zIndex: 999,
+  },
+  toggleMenu: {
+    color: theme.palette.grey[800],
+    padding: 0,
+    marginRight: 1,
+    width: 48,
+    minWidth: 0,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    position: "absolute",
+    right: 0,
+    top: "50%",
+    height: 48,
+    transform: "translateY(-50%)",
+  },
+  input: {
+    display: "flex",
+    width: "100%",
+    appearance: "none",
+    fontSize: "inherit",
+    lineHeight: "inherit",
+    border: "none",
+    color: "text",
+    backgroundColor: "transparent",
+    borderRadius: 0,
+    height: "100%",
+    alignItems: "center",
+    padding: 0,
+    "&.Mui-focused": { outline: 0 },
+  },
+  inputContainer: {
+    display: "flex",
+    width: "100%",
+    boxSizing: "border-box",
+    padding: theme.spacing(0, 2),
+
+    height: 48,
+    alignItems: "center",
+
+    appearance: "none",
+    fontSize: "inherit",
+    lineHeight: "inherit",
+    border: "1px solid",
+    borderRadius: 4,
+    color: "text",
+    backgroundColor: theme.palette.grey[100],
+    flexWrap: "wrap",
+    ":focus-within": { borderColor: theme.palette.primary.main },
+    position: "relative",
+    borderColor: theme.palette.grey[500],
+  },
+
+  inputContainerOpen: {
+    borderColor: theme.palette.primary.main,
+  },
+}));
+
+const useMultiComboboxStyles = makeStyles()((theme) => ({
+  filteredItem: {
+    padding: theme.spacing(3),
+    margin: 0,
+  },
+  filteredItemActive: {
+    color: "primary.active",
+    backgroundColor: theme.palette.primary.light,
+  },
+  list: {
+    listStyle: "none",
+    borderRadius: "default",
+    boxShadow: theme.shadows[6],
+    backgroundColor: theme.palette.grey[100],
+    marginTop: theme.spacing(1),
+    padding: 0,
+    position: "absolute",
+    width: "100%",
+    zIndex: 999,
+  },
+  toggleButton: {
+    color: theme.palette.grey[800],
+    padding: 0,
+    marginRight: theme.spacing(2),
+    position: "absolute",
+    right: 0,
+    top: "50%",
+    minWidth: "24px",
+    height: 24,
+    transform: "translateY(-50%)",
+  },
+  input: {
+    height: "100%",
+    "&.Mui-focused": {
+      outline: "none",
+    },
+    fontSize: "inherit",
+    lineHeight: "inherit",
+    border: "none",
+    color: "text",
+    borderRadius: 0,
+    padding: 0,
+  },
+  combobox: {
+    flexGrow: 1,
+    minWidth: 30,
+    flexBasis: 0,
+    alignSelf: "center",
+  },
+  tagItem: {
+    display: "inline-block",
+    padding: theme.spacing(1),
+    marginRight: theme.spacing(2),
+    borderRadius: "default",
+    fontSize: "0.75rem",
+    backgroundColor: theme.palette.primary.light,
+    ":focus": {
+      outline: 0,
+      backgroundColor: theme.palette.primary.main,
+      color: theme.palette.grey[100],
+    },
+  },
+  inputContainer: {
+    display: "flex",
+    width: "100%",
+    minHeight: 48,
+    paddingTop: theme.spacing(1),
+    paddingBottom: theme.spacing(1),
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(6),
+    boxSizing: "border-box",
+    alignItems: "center",
+    appearance: "none",
+    fontSize: "inherit",
+    lineHeight: "inherit",
+    border: "1px solid",
+    borderRadius: theme.shape.borderRadius * 2,
+    color: theme.palette.text.primary,
+    backgroundColor: theme.palette.grey[100],
+    flexWrap: "wrap",
+    "&.Mui-focused": { borderColor: theme.palette.primary.main },
+    position: "relative",
+  },
+  inputContainerOpen: {
+    borderColor: theme.palette.primary.main,
+  },
+}));
 
 export type ComboboxMultiProps = {
   id: string;
@@ -114,48 +287,21 @@ export const ComboboxMulti = ({
       }
     },
   });
+
+  const { classes, cx } = useMultiComboboxStyles();
+
   return (
     <Box sx={{ position: "relative" }}>
       <Label label={label} smaller {...getLabelProps()}></Label>
       <Flex
-        sx={{
-          display: "flex",
-          width: "100%",
-          minHeight: 48,
-          py: 0,
-          pl: 2,
-          pr: 6,
-          boxSizing: "border-box",
-          alignItems: "center",
-          appearance: "none",
-          fontSize: "inherit",
-          lineHeight: "inherit",
-          border: "1px solid",
-          borderRadius: 4,
-          color: "text",
-          borderColor: isOpen ? "primary.main" : "grey.500",
-          bgcolor: "grey.100",
-          flexWrap: "wrap",
-          ":focus-within": { borderColor: "primary.main" },
-          position: "relative",
-        }}
+        className={cx(
+          classes.inputContainer,
+          isOpen && classes.inputContainerOpen
+        )}
       >
         <Box>
           {selectedItems.map((selectedItem, index) => (
             <Box
-              sx={{
-                display: "inline-block",
-                p: 1,
-                mr: 2,
-                borderRadius: "default",
-                fontSize: "0.75rem",
-                bgcolor: "primary.light",
-                ":focus": {
-                  outline: 0,
-                  bgcolor: "primary.main",
-                  color: "grey.100",
-                },
-              }}
               key={`selected-item-${index}`}
               {...getSelectedItemProps({
                 selectedItem,
@@ -165,6 +311,7 @@ export const ComboboxMulti = ({
                   e.preventDefault();
                 },
               })}
+              className={classes.tagItem}
             >
               {getItemLabel(selectedItem)}{" "}
               {canRemoveItems && (
@@ -182,15 +329,7 @@ export const ComboboxMulti = ({
             </Box>
           ))}
         </Box>
-        <Box
-          {...getComboboxProps()}
-          sx={{
-            flexGrow: 1,
-            minWidth: 30,
-            flexBasis: 0,
-            alignSelf: "center",
-          }}
-        >
+        <Box {...getComboboxProps()} className={classes.combobox}>
           <Input
             size="small"
             {...getInputProps(
@@ -202,54 +341,23 @@ export const ComboboxMulti = ({
               })
             )}
             fullWidth
-            sx={{
-              height: "100%",
-              "&.Mui-focused": {
-                outline: "none",
-              },
-              fontSize: "inherit",
-              lineHeight: "inherit",
-              border: "none",
-              color: "text",
-              borderRadius: 0,
-              p: 0,
-            }}
+            className={classes.input}
           />
         </Box>
         <IconButton
           aria-label={"toggle menu"}
           size="small"
-          sx={{
-            color: "grey.800",
-            p: 0,
-            mr: 2,
-            position: "absolute",
-            right: 0,
-            top: "50%",
-            minWidth: "24px",
-            height: 24,
-            transform: "translateY(-50%)",
-          }}
           {...getToggleButtonProps()}
+          className={classes.toggleButton}
         >
           {isOpen ? <Icon name="chevronup" /> : <Icon name="chevrondown" />}
         </IconButton>
       </Flex>
       <Box
         component="ul"
-        sx={{
-          listStyle: "none",
-          borderRadius: "default",
-          boxShadow: 6,
-          bgcolor: "grey.100",
-          mt: 1,
-          p: 0,
-          position: "absolute",
-          width: "100%",
-          zIndex: 999,
-        }}
         style={{ display: isOpen ? "block" : "none" }}
         {...getMenuProps()}
+        className={classes.list}
       >
         {isOpen && isLoading ? (
           <Typography
@@ -288,15 +396,12 @@ export const ComboboxMulti = ({
           getFilteredItems(items).map((item, index) => (
             <Box
               component="li"
-              sx={{
-                color: highlightedIndex === index ? "primary.active" : "text",
-                backgroundColor:
-                  highlightedIndex === index ? "primary.light" : "transparent",
-                p: 3,
-                m: 0,
-              }}
               key={`${item}${index}`}
               {...getItemProps({ item, index })}
+              className={cx(
+                classes.filteredItem,
+                index === highlightedIndex ? classes.filteredItemActive : null
+              )}
             >
               {getItemLabel(item)}
             </Box>
@@ -383,6 +488,8 @@ export const Combobox = ({
     },
   });
 
+  const { classes, cx } = useComboboxStyles();
+
   return (
     <Box sx={{ position: "relative" }}>
       <Flex sx={{ justifyContent: "space-between", alignItems: "center" }}>
@@ -401,30 +508,7 @@ export const Combobox = ({
           />
         ) : null}
       </Flex>
-      <Flex
-        sx={{
-          display: "flex",
-          width: "100%",
-          boxSizing: "border-box",
-          py: 0,
-          px: 2,
-
-          height: 48,
-          alignItems: "center",
-
-          appearance: "none",
-          fontSize: "inherit",
-          lineHeight: "inherit",
-          border: "1px solid",
-          borderRadius: 4,
-          color: "text",
-          borderColor: isOpen ? "primary.main" : "grey.500",
-          bgcolor: "grey.100",
-          flexWrap: "wrap",
-          ":focus-within": { borderColor: "primary.main" },
-          position: "relative",
-        }}
-      >
+      <Flex className={classes.inputContainer}>
         <Box {...getComboboxProps()} sx={{ flexGrow: 1, minWidth: 80 }}>
           <Input
             {...getInputProps({
@@ -435,42 +519,14 @@ export const Combobox = ({
                 openMenu();
               },
             })}
-            sx={{
-              display: "flex",
-              width: "100%",
-              appearance: "none",
-              fontSize: "inherit",
-              lineHeight: "inherit",
-              border: "none",
-              color: "text",
-              backgroundColor: "transparent",
-              borderRadius: 0,
-              height: "100%",
-              alignItems: "center",
-              p: 0,
-              "&.Mui-focused": { outline: 0 },
-            }}
+            className={classes.input}
           />
         </Box>
         <IconButton
           size="small"
           aria-label={"toggle menu"}
-          sx={{
-            color: "grey.800",
-            p: 0,
-            mr: 1,
-            width: 48,
-            minWidth: 0,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            position: "absolute",
-            right: 0,
-            top: "50%",
-            height: 48,
-            transform: "translateY(-50%)",
-          }}
           {...getToggleButtonProps()}
+          className={classes.toggleMenu}
         >
           {isOpen ? <Icon name="chevronup" /> : <Icon name="chevrondown" />}
         </IconButton>
@@ -478,48 +534,31 @@ export const Combobox = ({
 
       <Box
         component="ul"
-        sx={{
-          listStyle: "none",
-          borderRadius: "default",
-          boxShadow: 6,
-          bgcolor: "grey.100",
-          mt: 1,
-          p: 0,
-          position: "absolute",
-          width: "100%",
-          zIndex: 999,
-        }}
         style={{ display: isOpen ? "block" : "none", overflow: "hidden" }}
         {...getMenuProps()}
+        className={classes.list}
       >
         {isOpen &&
           inputItems.map((item, index) =>
             typeof item === "string" ? (
               <Box
                 component="li"
-                sx={{
-                  color: highlightedIndex === index ? "primary.active" : "text",
-                  backgroundColor:
-                    highlightedIndex === index
-                      ? "primary.light"
-                      : "transparent",
-                  p: 3,
-                  m: 0,
-                }}
                 key={`${item}${index}`}
                 {...getItemProps({ item, index })}
+                className={cx(
+                  classes.listItem,
+                  highlightedIndex === index && classes.listItemActive
+                )}
               >
                 {getItemLabel(item)}
               </Box>
             ) : (
               <Box
                 component="li"
-                sx={{
-                  fontWeight: "bold",
-                  py: 1,
-                  px: 3,
-                  marginTop: "0.5rem",
-                }}
+                className={cx(
+                  classes.listItem2,
+                  highlightedIndex === index && classes.listItemActive
+                )}
               >
                 {item.title}
               </Box>

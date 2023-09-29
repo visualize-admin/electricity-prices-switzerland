@@ -27,6 +27,10 @@ export default function transform(fileInfo, api) {
         const sxAttribute = jsxAttributes[sxAttributeIndex];
         const sxValue = sxAttribute.value;
 
+        if (sxValue.expression.properties.length < 4) {
+          return;
+        }
+
         // Add the useStyles hook above the function
         let parentFunction = jsxElement;
         while (
@@ -41,7 +45,7 @@ export default function transform(fileInfo, api) {
           j.assignmentExpression(
             "=",
             j.identifier(`const useStyles${i}`),
-            j.callExpression(j.identifier("makeStyles"), [
+            j.callExpression(j.identifier("makeStyles()"), [
               j.objectExpression([
                 j.property("init", j.identifier("root"), sxValue.expression),
               ]),
@@ -63,11 +67,12 @@ export default function transform(fileInfo, api) {
         };
 
         // Traverse through the object expression properties
-        console.log(sxValue.expression);
+        console.log(sxValue.expression.type);
         if (sxValue.expression.type === "ObjectExpression") {
           sxValue.expression.properties.forEach((property) => {
+            console.log({ property });
             if (
-              property.type === "Property" &&
+              property.type === "ObjectProperty" &&
               property.key.type === "Identifier"
             ) {
               const propertyName = property.key.name;
