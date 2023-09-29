@@ -1,3 +1,5 @@
+import { ParsedUrlQuery } from "querystring";
+
 import { Trans } from "@lingui/macro";
 import {
   Box,
@@ -73,6 +75,8 @@ export const Search = () => {
     );
   }, [items]);
 
+  const { query, push } = useRouter();
+
   return (
     <>
       <SearchField
@@ -82,6 +86,8 @@ export const Search = () => {
         }))}
         getItemLabel={(id) => itemById.get(id)?.name ?? `[${id}]`}
         setSearchString={setSearchString}
+        onSelectItem={push}
+        query={query}
         label={
           <Trans id="search.global.label">
             Suche nach Gemeindename, PLZ, Netzbetreiber, Kanton
@@ -104,17 +110,20 @@ export const SearchField = ({
   setSearchString,
   getItemLabel,
   isLoading,
+  onSelectItem,
+  query,
 }: {
   items: Item[];
   setSearchString: (searchString: string) => void;
   getItemLabel: (item: string) => string;
   label: string | ReactNode;
   isLoading: boolean;
+  onSelectItem: ({ pathname }: { pathname: string }) => void;
+  query: ParsedUrlQuery;
 }) => {
   const theme = useTheme();
 
   const inputEl = useRef<HTMLInputElement>(null);
-  const { query, push } = useRouter();
   const [inputValue, setInputValue] = useState("");
 
   const {
@@ -149,7 +158,7 @@ export const SearchField = ({
               query: { ...query, id: selectedItem.id },
             };
 
-            push(href);
+            onSelectItem(href);
           }
           break;
         // case useCombobox.stateChangeTypes.ItemClick:
@@ -184,6 +193,7 @@ export const SearchField = ({
             height: 48,
             width: "100%",
 
+            display: "flex",
             justifyContent: "flex-start",
             alignItems: "center",
 
@@ -282,12 +292,16 @@ export const SearchField = ({
 
           {/* Actual Input Field */}
           <Input
-            {...getInputProps({ ref: inputEl, value: inputValue })}
-            /* Desktop Magnifying Glass icon */
+            inputProps={getInputProps({ ref: inputEl, value: inputValue })}
             startAdornment={
               <InputAdornment
                 position="start"
-                sx={{ display: ["none", "none", "block"] }}
+                sx={{
+                  display: ["none", "none", "flex"],
+                  p: 0,
+                  m: 0,
+                  mr: 3,
+                }}
               >
                 <Icon name="search" size={24} color={theme.palette.grey[700]} />
               </InputAdornment>
@@ -312,6 +326,7 @@ export const SearchField = ({
             sx={{
               minHeight: "100%",
               flexGrow: 1,
+              px: 0,
               border: "none",
               "&.Mui-focused, &:focus": {
                 outline: "none",
@@ -420,7 +435,7 @@ export const SearchField = ({
                             }}
                           >
                             {getItemLabel(item.id)}
-                            <Icon name="chevronright"></Icon>
+                            <Icon name="chevronright" />
                           </Link>
                         </NextLink>
                       );
