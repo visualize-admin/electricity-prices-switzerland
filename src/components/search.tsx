@@ -27,11 +27,176 @@ import Flex from "src/components/flex";
 import { useSearchQuery } from "src/graphql/queries";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { useLocale } from "src/lib/use-locale";
+import { makeStyles } from "src/themes/makeStyles";
 
 import { analyticsSiteSearch } from "../domain/analytics";
 import { getLocalizedLabel } from "../domain/translation";
 import { Icon } from "../icons";
 import { useTheme } from "../themes";
+
+const useStyles = makeStyles()((theme) => ({
+  comboboxButton: {
+    padding: theme.spacing(0),
+    paddingLeft: theme.spacing(4),
+    paddingRight: theme.spacing(6),
+    height: 48,
+    width: "100%",
+
+    display: "flex",
+    justifyContent: "flex-start",
+    alignItems: "center",
+
+    appearance: "none",
+
+    border: "1px solid",
+    borderRadius: theme.shape.borderRadius,
+    color: theme.palette.text.primary,
+    borderColor: theme.palette.grey[500],
+    backgroundColor: theme.palette.grey[100],
+    cursor: "pointer",
+
+    "&:hover": {
+      borderColor: theme.palette.primary.main,
+    },
+  },
+  comboboxButtonOpen: {
+    border: "1px solid",
+    borderColor: theme.palette.primary.main,
+  },
+
+  placeholder1: {
+    fontWeight: "normal",
+    marginLeft: theme.spacing(4),
+    width: "auto",
+    flexShrink: 0,
+    color: theme.palette.grey[800],
+  },
+
+  placeholder2: {
+    fontWeight: "normal",
+    marginLeft: theme.spacing(4),
+    color: theme.palette.grey[500],
+    overflow: "hidden",
+    whiteSpace: "nowrap",
+    textOverflow: "ellipsis",
+  },
+
+  input: {
+    top: 0,
+    left: 0,
+    zIndex: 20,
+
+    padding: theme.spacing(0, 2),
+
+    justifyContent: "flex-start",
+    alignItems: "center",
+
+    height: 48,
+
+    backgroundColor: theme.palette.grey[100],
+
+    width: "100vw",
+    position: "fixed",
+    border: "0px solid",
+    borderRadius: 0,
+    borderColor: theme.palette.grey[500],
+    borderBottom: "1px solid",
+    borderBottomColor: theme.palette.grey[500],
+
+    [theme.breakpoints.up("sm")]: {
+      position: "absolute",
+      borderRadius: theme.shape.borderRadius,
+      width: "100%",
+      border: "1px solid",
+      borderColor: theme.palette.grey[500],
+      borderBottom: "1px solid",
+      borderBottomColor: theme.palette.grey[500],
+    },
+  },
+
+  searchIconDesktop: {
+    display: "none",
+    [theme.breakpoints.up("sm")]: {
+      display: "flex",
+    },
+    padding: 0,
+    margin: 0,
+    marginRight: theme.spacing(3),
+  },
+
+  actualInput: {
+    minHeight: "100%",
+    flexGrow: 1,
+    px: 0,
+    border: "none",
+    "&.Mui-focused, &:focus": {
+      outline: "none",
+    },
+  },
+
+  menu: {
+    position: "fixed",
+    top: 48,
+
+    left: 0,
+    zIndex: 21,
+    overflowY: "auto",
+    backgroundColor: theme.palette.grey[100],
+    padding: theme.spacing(4),
+    flexDirection: "column",
+    visibility: "hidden",
+
+    width: "100vw",
+    height: "calc(100vh - 48px)",
+    maxHeight: "100vh",
+    boxShadow: "none",
+
+    [theme.breakpoints.up("sm")]: {
+      position: "absolute",
+      top: 54,
+      width: "100%",
+      height: "auto",
+      maxHeight: "50vh",
+      boxShadow: theme.shadows[6],
+    },
+  },
+
+  menuOpened: {
+    visibility: "visible",
+  },
+
+  label: {
+    color: theme.palette.grey[600],
+    fontSize: "0.875rem",
+    borderBottom: "1px solid",
+    borderBottomColor: "grey.300",
+    padding: theme.spacing(2, 3),
+  },
+
+  listItem: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "inherit",
+    color: theme.palette.grey[800],
+    fontSize: "1rem",
+    lineHeight: 1.2,
+    textDecoration: "none",
+    padding: theme.spacing(3),
+
+    "> svg": {
+      visibility: "hidden",
+    },
+
+    "&:hover > svg": {
+      visibility: "visible",
+    },
+  },
+
+  highlightedItem: {
+    backgroundColor: theme.palette.muted.dark,
+  },
+}));
 
 export const Search = () => {
   const locale = useLocale();
@@ -174,6 +339,8 @@ export const SearchField = ({
     },
   });
 
+  const { classes, cx } = useStyles();
+
   return (
     <Box sx={{ width: "100%", maxWidth: "44rem", mx: "auto" }}>
       <VisuallyHidden>
@@ -186,29 +353,10 @@ export const SearchField = ({
           type="button"
           {...getToggleButtonProps()}
           aria-label={"toggle menu"} // FIXME: localize
-          sx={{
-            py: 0,
-            pl: 4,
-            pr: 6,
-            height: 48,
-            width: "100%",
-
-            display: "flex",
-            justifyContent: "flex-start",
-            alignItems: "center",
-
-            appearance: "none",
-
-            border: "1px solid",
-            borderRadius: "default",
-            color: "text",
-            borderColor: isOpen ? "primary.main" : "grey.500",
-            bgcolor: "grey.100",
-
-            "&:hover": {
-              borderColor: "primary.main",
-            },
-          }}
+          className={cx(
+            classes.comboboxButton,
+            isOpen ? classes.comboboxButtonOpen : null
+          )}
         >
           <Box sx={{ flexShrink: 0 }}>
             <Icon
@@ -217,29 +365,10 @@ export const SearchField = ({
               color={theme.palette.grey[700]}
             ></Icon>
           </Box>
-          <Typography
-            variant="h3"
-            sx={{
-              fontWeight: "regular",
-              ml: 4,
-              width: "auto",
-              flexShrink: 0,
-              color: "grey.800",
-            }}
-          >
+          <Typography variant="h3" className={classes.placeholder1}>
             <Trans id="search.global.hint.go.to">Gehe zu…</Trans>
           </Typography>
-          <Typography
-            variant="h3"
-            sx={{
-              fontWeight: "regular",
-              ml: 4,
-              color: "grey.500",
-              overflow: "hidden",
-              whiteSpace: "nowrap",
-              textOverflow: "ellipsis",
-            }}
-          >
+          <Typography variant="h3" className={classes.placeholder2}>
             <Trans id="search.global.hint.canton.muni.operator">
               Gemeindename, PLZ, Netzbetreiber, Kanton
             </Trans>
@@ -253,30 +382,7 @@ export const SearchField = ({
             /* Always render input element, so .focus() works on iOS Safari too (it won't if element has display: none) */
             top: isOpen ? undefined : "-10000px",
           }}
-          sx={{
-            position: ["fixed", "fixed", "absolute"],
-            top: 0,
-            left: 0,
-            zIndex: 20,
-
-            py: 0,
-            pl: 4,
-            pr: 4,
-
-            justifyContent: "flex-start",
-            alignItems: "center",
-
-            width: ["100vw", "100vw", "100%"],
-            height: 48,
-
-            bgcolor: "grey.100",
-            borderRadius: [0, 0, "default"],
-
-            border: ["0px solid", "0px solid", "1px solid"],
-            borderColor: ["grey.500", "grey.500", "primary.main"],
-            borderBottom: ["1px solid", "1px solid", "1px solid"],
-            borderBottomColor: ["grey.500", "grey.500", "primary.main"],
-          }}
+          className={classes.input}
         >
           {/* Mobile back button */}
           <IconButton
@@ -296,12 +402,7 @@ export const SearchField = ({
             startAdornment={
               <InputAdornment
                 position="start"
-                sx={{
-                  display: ["none", "none", "flex"],
-                  p: 0,
-                  m: 0,
-                  mr: 3,
-                }}
+                className={classes.searchIconDesktop}
               >
                 <Icon name="search" size={24} color={theme.palette.grey[700]} />
               </InputAdornment>
@@ -323,40 +424,14 @@ export const SearchField = ({
                 </IconButton>
               </InputAdornment>
             }
-            sx={{
-              minHeight: "100%",
-              flexGrow: 1,
-              px: 0,
-              border: "none",
-              "&.Mui-focused, &:focus": {
-                outline: "none",
-              },
-            }}
+            className={classes.actualInput}
           />
         </Flex>
 
         {/* MENU */}
         <Flex
           {...getMenuProps()}
-          sx={{
-            position: ["fixed", "fixed", "absolute"],
-            top: [48, 48, 54],
-            left: 0,
-            zIndex: 21,
-
-            width: ["100vw", "100vw", "100%"],
-            height: ["calc(100vh - 48px)", "calc(100vh - 48px)", "auto"],
-            maxHeight: ["100vh", "100vh", "50vh"],
-            overflowY: "auto",
-
-            bgcolor: "grey.100",
-            p: 4,
-            flexDirection: "column",
-
-            visibility: isOpen ? "visible" : "hidden",
-
-            boxShadow: ["none", "none", 6],
-          }}
+          className={cx(classes.menu, isOpen && classes.menuOpened)}
         >
           {isOpen && inputValue === "" ? (
             <Typography variant="body1" sx={{ color: "grey.800" }}>
@@ -381,16 +456,7 @@ export const SearchField = ({
               ].map(([entity, items], entityIndex) => {
                 return (
                   <Fragment key={entityIndex}>
-                    <Box
-                      sx={{
-                        color: "grey.600",
-                        fontSize: "0.875rem",
-                        borderBottom: "1px solid",
-                        borderBottomColor: "grey.300",
-                        px: 3,
-                        py: 2,
-                      }}
-                    >
+                    <Box className={classes.label}>
                       {getLocalizedLabel({ id: entity })}
                     </Box>
                     {items.map((item, index) => {
@@ -411,28 +477,12 @@ export const SearchField = ({
                             })}
                             underline="none"
                             data-testid={`search-option-${entity}-${item.id}`}
-                            sx={{
-                              display: "flex",
-                              justifyContent: "space-between",
-                              alignItems: "center",
-                              backgroundColor:
-                                highlightedIndex === item.listId
-                                  ? "muted.dark"
-                                  : "inherit",
-                              color: "grey.800",
-                              fontSize: ["1rem"],
-                              lineHeight: 1.2,
-                              textDecoration: "none",
-                              px: 3,
-                              py: 3,
-                              "> svg": {
-                                visibility: "hidden",
-                              },
-
-                              "&:hover > svg": {
-                                visibility: "visible",
-                              },
-                            }}
+                            className={cx(
+                              classes.listItem,
+                              highlightedIndex === item.listId
+                                ? classes.highlightedItem
+                                : null
+                            )}
                           >
                             {getItemLabel(item.id)}
                             <Icon name="chevronright" />
