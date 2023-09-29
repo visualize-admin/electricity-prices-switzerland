@@ -295,6 +295,7 @@ const IndexPage = ({ locale }: Props) => {
               component="h1"
               variant="giga"
               sx={{ textAlign: ["left", "left", "center"] }}
+              gutterBottom
             >
               <Trans id="site.title">Strompreise Schweiz</Trans>
             </Typography>
@@ -305,8 +306,7 @@ const IndexPage = ({ locale }: Props) => {
                 width: "100%",
                 textAlign: ["left", "left", "center"],
                 color: "grey.800",
-                mt: 2,
-                mb: 2,
+                my: 3,
                 height: [0, 0, "unset"],
                 visibility: ["hidden", "hidden", "visible"],
               }}
