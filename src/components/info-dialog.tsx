@@ -118,12 +118,10 @@ export const HelpDialog: React.FC<{
 export const InfoDialogButton = ({
   label,
   slug,
-  iconOnly,
   smaller,
 }: {
   label: string;
   slug: string;
-  iconOnly?: boolean;
   smaller?: boolean;
 }) => {
   const {

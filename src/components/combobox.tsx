@@ -500,12 +500,7 @@ export const Combobox = ({
           {...getLabelProps()}
         ></Label>
         {infoDialogSlug ? (
-          <InfoDialogButton
-            iconOnly
-            slug={infoDialogSlug}
-            label={label}
-            smaller
-          />
+          <InfoDialogButton slug={infoDialogSlug} label={label} smaller />
         ) : null}
       </Flex>
       <Flex className={classes.inputContainer}>

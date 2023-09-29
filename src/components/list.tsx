@@ -352,7 +352,6 @@ export const List = ({
             sx={{ flexGrow: 1 }}
           />
           <InfoDialogButton
-            iconOnly
             slug="help-search-list"
             label={searchLabel}
             smaller
