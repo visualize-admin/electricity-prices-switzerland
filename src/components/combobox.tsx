@@ -120,7 +120,7 @@ export const ComboboxMulti = ({
       <Label label={label} smaller {...getLabelProps()}></Label>
       <Flex
         sx={{
-          display: "block",
+          display: "flex",
           width: "100%",
           minHeight: 48,
           py: 0,
@@ -195,6 +195,7 @@ export const ComboboxMulti = ({
           }}
         >
           <Input
+            size="small"
             {...getInputProps(
               getDropdownProps({
                 preventKeyAction: isOpen,
@@ -205,6 +206,9 @@ export const ComboboxMulti = ({
             )}
             sx={{
               display: "block",
+              "&.Mui-focused": {
+                outline: "none",
+              },
               // width: "100%",
               appearance: "none",
               fontSize: "inherit",
@@ -220,7 +224,7 @@ export const ComboboxMulti = ({
         </Box>
         <Button
           aria-label={"toggle menu"}
-          variant="reset"
+          size="small"
           sx={{
             color: "grey.800",
             p: 0,
@@ -228,6 +232,7 @@ export const ComboboxMulti = ({
             position: "absolute",
             right: 0,
             top: "50%",
+            minWidth: "24px",
             height: 24,
             transform: "translateY(-50%)",
           }}

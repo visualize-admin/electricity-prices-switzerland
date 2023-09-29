@@ -3,7 +3,8 @@ import {
   Box,
   IconButton,
   Input,
-  Link as TUILink,
+  InputAdornment,
+  Link,
   Typography,
 } from "@mui/material";
 import VisuallyHidden from "@reach/visually-hidden";
@@ -273,41 +274,50 @@ export const SearchField = ({
             type="button"
             sx={{
               color: "primary.main",
-              display: ["block", "block", "none"],
+              display: ["span", "span", "none"],
             }}
           >
             <Icon name="chevronleft" size={24}></Icon>
           </IconButton>
 
-          {/* Desktop Magnifying Glass icon */}
-          <Box component="span" sx={{ display: ["none", "none", "block"] }}>
-            <Icon
-              name="search"
-              size={24}
-              color={theme.palette.grey[700]}
-            ></Icon>
-          </Box>
-
           {/* Actual Input Field */}
           <Input
             {...getInputProps({ ref: inputEl, value: inputValue })}
+            /* Desktop Magnifying Glass icon */
+            startAdornment={
+              <InputAdornment
+                position="start"
+                sx={{ display: ["none", "none", "block"] }}
+              >
+                <Icon name="search" size={24} color={theme.palette.grey[700]} />
+              </InputAdornment>
+            }
+            /* clear input */
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  onClick={() => {
+                    setInputValue("");
+                    inputEl.current?.focus();
+                  }}
+                >
+                  <Icon
+                    name="clear"
+                    size={24}
+                    color={theme.palette.grey[700]}
+                  />
+                </IconButton>
+              </InputAdornment>
+            }
             sx={{
-              height: "100%",
+              minHeight: "100%",
               flexGrow: 1,
               border: "none",
-              "&:focus": { outline: "none" },
+              "&.Mui-focused, &:focus": {
+                outline: "none",
+              },
             }}
           />
-          {/* clear input */}
-          <IconButton
-            sx={{ cursor: "pointer" }}
-            onClick={() => {
-              setInputValue("");
-              inputEl.current?.focus();
-            }}
-          >
-            <Icon name="clear" size={24} color={theme.palette.grey[700]} />
-          </IconButton>
         </Flex>
 
         {/* MENU */}
@@ -330,7 +340,7 @@ export const SearchField = ({
 
             visibility: isOpen ? "visible" : "hidden",
 
-            boxShadow: ["none", "none", "tooltip"],
+            boxShadow: ["none", "none", 6],
           }}
         >
           {isOpen && inputValue === "" ? (
@@ -379,11 +389,12 @@ export const SearchField = ({
                           }}
                           passHref
                         >
-                          <TUILink
+                          <Link
                             {...getItemProps({
                               item: item,
                               index: item.listId,
                             })}
+                            underline="none"
                             data-testid={`search-option-${entity}-${item.id}`}
                             sx={{
                               display: "flex",
@@ -410,7 +421,7 @@ export const SearchField = ({
                           >
                             {getItemLabel(item.id)}
                             <Icon name="chevronright"></Icon>
-                          </TUILink>
+                          </Link>
                         </NextLink>
                       );
                     })}
