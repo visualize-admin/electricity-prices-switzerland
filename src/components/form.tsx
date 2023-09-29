@@ -41,36 +41,38 @@ export const Label = ({
   smaller?: boolean;
   children: React.ReactNode;
   showLabel?: boolean;
-}) => (
-  <Box
-    component="label"
-    typography="body2"
-    htmlFor={htmlFor}
-    sx={{
-      color: disabled ? "grey.600" : "grey.700",
-      fontSize: smaller ? "0.85rem" : "1.15rem",
-      pb: smaller ? 1 : 0,
-      mr: 4,
-      display: "flex",
-      alignItems: "center",
-      flexGrow: 1,
-    }}
-  >
-    {children}
-    {label && (
-      <Box
-        sx={{
-          maxWidth: "88%",
-          textAlign: "left",
-          pr: 1,
-          visibility: showLabel ? "visible" : "hidden",
-        }}
-      >
-        {label}
-      </Box>
-    )}
-  </Box>
-);
+}) => {
+  return (
+    <Box
+      component="label"
+      typography="body2"
+      htmlFor={htmlFor}
+      sx={{
+        color: disabled ? "grey.600" : "grey.700",
+        fontSize: smaller ? "0.85rem" : "1.15rem",
+        pb: smaller ? 1 : 0,
+        mr: 4,
+        display: "flex",
+        alignItems: "center",
+        flexGrow: 1,
+      }}
+    >
+      {children}
+      {label && (
+        <Box
+          sx={{
+            maxWidth: "88%",
+            textAlign: "left",
+            pr: 1,
+            visibility: showLabel ? "visible" : "hidden",
+          }}
+        >
+          {label}
+        </Box>
+      )}
+    </Box>
+  );
+};
 
 export const Radio = ({
   label,
@@ -106,22 +108,24 @@ export const Checkbox = ({
   checked,
   disabled,
   onChange,
-}: { label: React.ReactNode; disabled?: boolean } & FieldProps) => (
-  <Label label={label} htmlFor={`${name}-${label}`} disabled={disabled}>
-    <MuiCheckbox
-      sx={{
-        // size: 20,
-        color: checked && !disabled ? "primary.main" : "grey.500",
-      }}
-      id={`${name}-${label}`}
-      name={name}
-      value={value}
-      checked={checked}
-      disabled={disabled}
-      onChange={onChange}
-    />
-  </Label>
-);
+}: { label: React.ReactNode; disabled?: boolean } & FieldProps) => {
+  return (
+    <Label label={label} htmlFor={`${name}-${label}`} disabled={disabled}>
+      <MuiCheckbox
+        sx={{
+          // size: 20,
+          color: checked && !disabled ? "primary.main" : "grey.500",
+        }}
+        id={`${name}-${label}`}
+        name={name}
+        value={value}
+        checked={checked}
+        disabled={disabled}
+        onChange={onChange}
+      />
+    </Label>
+  );
+};
 
 export const Select = ({
   label,
@@ -135,44 +139,46 @@ export const Select = ({
   options: Option[];
   label?: React.ReactNode;
   disabled?: boolean;
-} & SelectProps) => (
-  <Box sx={{ color: "grey.700", pb: 2 }}>
-    {label && (
-      <Label htmlFor={id} disabled={disabled} smaller>
-        {label}
-      </Label>
-    )}
-    <MuiSelect
-      sx={{
-        borderColor: "grey.500",
-        fontSize: "1rem",
-        bgcolor: "grey.100",
-        pt: 2,
-        pb: 2,
-        pl: 2,
-        pr: 5,
-        height: "40px",
-        color: disabled ? "grey.500" : "grey.700",
-        textOverflow: "ellipsis",
-      }}
-      id={id}
-      name={id}
-      onChange={onChange}
-      value={value}
-      disabled={disabled}
-    >
-      {options.map((opt) => (
-        <MenuItem
-          key={opt.value}
-          disabled={opt.disabled}
-          value={opt.value || undefined}
-        >
-          {opt.label}
-        </MenuItem>
-      ))}
-    </MuiSelect>
-  </Box>
-);
+} & SelectProps) => {
+  return (
+    <Box sx={{ color: "grey.700", pb: 2 }}>
+      {label && (
+        <Label htmlFor={id} disabled={disabled} smaller>
+          {label}
+        </Label>
+      )}
+      <MuiSelect
+        sx={{
+          borderColor: "grey.500",
+          fontSize: "1rem",
+          bgcolor: "grey.100",
+          pt: 2,
+          pb: 2,
+          pl: 2,
+          pr: 5,
+          height: "40px",
+          color: disabled ? "grey.500" : "grey.700",
+          textOverflow: "ellipsis",
+        }}
+        id={id}
+        name={id}
+        onChange={onChange}
+        value={value}
+        disabled={disabled}
+      >
+        {options.map((opt) => (
+          <MenuItem
+            key={opt.value}
+            disabled={opt.disabled}
+            value={opt.value || undefined}
+          >
+            {opt.label}
+          </MenuItem>
+        ))}
+      </MuiSelect>
+    </Box>
+  );
+};
 
 export const MiniSelect = ({
   label,
@@ -185,42 +191,44 @@ export const MiniSelect = ({
   options: Option[];
   label?: React.ReactNode;
   disabled?: boolean;
-} & BoxProps<"select">) => (
-  <Box sx={{ color: "grey.800" }}>
-    {label && (
-      <Label htmlFor={id} smaller>
-        {label}
-      </Label>
-    )}
-    <Box
-      component="select"
-      typography="body2"
-      sx={{
-        borderColor: "transparent",
-        fontSize: ["0.625rem", "0.75rem", "0.75rem"],
-        backgroundColor: "transparent",
-        py: 0,
-        pl: 1,
-        pr: 4,
-        mr: 1, // Fix for Chrome which cuts of the label otherwise
-        ":focus": {
-          outline: "none",
-          borderColor: "primary.main",
-        },
-      }}
-      id={id}
-      name={id}
-      onChange={onChange}
-      value={value}
-    >
-      {options.map((opt) => (
-        <option key={opt.value} value={opt.value || undefined}>
-          {opt.label}
-        </option>
-      ))}
+} & BoxProps<"select">) => {
+  return (
+    <Box sx={{ color: "grey.800" }}>
+      {label && (
+        <Label htmlFor={id} smaller>
+          {label}
+        </Label>
+      )}
+      <Box
+        component="select"
+        typography="body2"
+        sx={{
+          borderColor: "transparent",
+          fontSize: ["0.625rem", "0.75rem", "0.75rem"],
+          backgroundColor: "transparent",
+          py: 0,
+          pl: 1,
+          pr: 4,
+          mr: 1, // Fix for Chrome which cuts of the label otherwise
+          ":focus": {
+            outline: "none",
+            borderColor: "primary.main",
+          },
+        }}
+        id={id}
+        name={id}
+        onChange={onChange}
+        value={value}
+      >
+        {options.map((opt) => (
+          <option key={opt.value} value={opt.value || undefined}>
+            {opt.label}
+          </option>
+        ))}
+      </Box>
     </Box>
-  </Box>
-);
+  );
+};
 
 export const Input = ({
   label,
@@ -230,26 +238,28 @@ export const Input = ({
 }: {
   label?: string | React.ReactNode;
   disabled?: boolean;
-} & FieldProps) => (
-  <Box sx={{ color: "grey.700", fontSize: "1rem" }}>
-    {label && name && (
-      <Label htmlFor={name} smaller>
-        {label}
-      </Label>
-    )}
-    <MuiInput
-      sx={{
-        borderColor: "grey.500",
-        bgcolor: "grey.100",
-        height: "40px",
-      }}
-      id={name}
-      name={name}
-      value={value}
-      onChange={onChange}
-    />
-  </Box>
-);
+} & FieldProps) => {
+  return (
+    <Box sx={{ color: "grey.700", fontSize: "1rem" }}>
+      {label && name && (
+        <Label htmlFor={name} smaller>
+          {label}
+        </Label>
+      )}
+      <MuiInput
+        sx={{
+          borderColor: "grey.500",
+          bgcolor: "grey.100",
+          height: "40px",
+        }}
+        id={name}
+        name={name}
+        value={value}
+        onChange={onChange}
+      />
+    </Box>
+  );
+};
 
 export const SearchField = ({
   id,
@@ -327,18 +337,20 @@ export const FieldSetLegend = ({
   legendTitle,
 }: {
   legendTitle: string | React.ReactNode;
-}) => (
-  <Box
-    sx={{
-      fontFamily: "body",
-      lineHeight: ["1rem", "1.125rem", "1.125rem"],
-      fontWeight: "regular",
-      fontSize: ["0.625rem", "0.75rem", "0.75rem"],
-      mb: 1,
-      color: "grey.600",
-    }}
-    component="legend"
-  >
-    {legendTitle}
-  </Box>
-);
+}) => {
+  return (
+    <Box
+      sx={{
+        fontFamily: "body",
+        lineHeight: ["1rem", "1.125rem", "1.125rem"],
+        fontWeight: "regular",
+        fontSize: ["0.625rem", "0.75rem", "0.75rem"],
+        mb: 1,
+        color: "grey.600",
+      }}
+      component="legend"
+    >
+      {legendTitle}
+    </Box>
+  );
+};
