@@ -3,6 +3,8 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import theme from "../src/themes/elcom";
 
 import React from "react";
+import { I18nProvider } from "@lingui/react";
+import { i18n } from "../src/locales/locales";
 
 const preview: Preview = {
   parameters: {
@@ -16,13 +18,15 @@ const preview: Preview = {
   },
   decorators: [
     (Story) => (
-      /** @ts-ignore */
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        {/* 👇 Decorators in Storybook also accept a function. Replace <Story/> with Story() to enable it  */}
+      <I18nProvider i18n={i18n}>
         {/** @ts-ignore */}
-        <Story />
-      </ThemeProvider>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          {/* 👇 Decorators in Storybook also accept a function. Replace <Story/> with Story() to enable it  */}
+          {/** @ts-ignore */}
+          <Story />
+        </ThemeProvider>
+      </I18nProvider>
     ),
   ],
 };
