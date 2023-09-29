@@ -115,7 +115,6 @@ export const CantonsComparisonRangePlots = ({
             </Trans>
           </span>
           <InfoDialogButton
-            iconOnly
             slug="help-canton-comparison"
             label={t({
               id: "detail.card.title.cantons.comparison",

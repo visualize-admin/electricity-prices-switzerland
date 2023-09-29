@@ -1,7 +1,6 @@
 import { Box, Paper } from "@mui/material";
 import React, { ReactNode, forwardRef } from "react";
 
-import { useTheme } from "../../../themes";
 import { Margins } from "../use-width";
 
 import {
@@ -25,7 +24,6 @@ export interface TooltipBoxProps {
 export const TooltipBox = forwardRef<HTMLDivElement, TooltipBoxProps>(
   ({ x, y, placement, margins, children, style, interactive = false }, ref) => {
     const triangle = mkTriangle(placement);
-    const theme = useTheme();
     return (
       <Box
         ref={ref}
@@ -83,7 +81,6 @@ export const TooltipBoxWithoutChartState = ({
   children,
 }: TooltipBoxProps) => {
   const triangle = mkTriangle(placement);
-  const theme = useTheme();
   return (
     <Box
       style={{

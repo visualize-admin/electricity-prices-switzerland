@@ -80,7 +80,6 @@ export const PriceDistributionHistograms = ({
             </Trans>
           </span>
           <InfoDialogButton
-            iconOnly
             slug="help-price-distribution"
             label={t({
               id: "detail.card.title.prices.distribution",

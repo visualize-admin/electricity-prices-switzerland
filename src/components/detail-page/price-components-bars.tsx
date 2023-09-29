@@ -134,7 +134,6 @@ export const PriceComponentsBarChart = ({
             </Trans>
           </span>
           <InfoDialogButton
-            iconOnly
             slug="help-price-components"
             label={t({
               id: "selector.priceComponent",
