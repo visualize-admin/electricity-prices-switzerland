@@ -14,7 +14,101 @@ import {
 import VisuallyHidden from "@reach/visually-hidden";
 import * as React from "react";
 
+import { makeStyles } from "src/themes/makeStyles";
+
 import { Icon } from "../icons";
+
+const useStyles = makeStyles()((theme) => ({
+  labelContainer: {
+    fontSize: "1.15rem",
+    paddingBottom: 0,
+    marginRight: theme.spacing(4),
+    display: "flex",
+    alignItems: "center",
+    flexGrow: 1,
+    color: theme.palette.grey[700],
+  },
+
+  labelContainerSmaller: {
+    fontSize: "0.85rem",
+    paddingBottom: theme.spacing(1),
+  },
+
+  labelContainerDisabled: {
+    color: theme.palette.grey[600],
+  },
+
+  label: {
+    maxWidth: "88%",
+    textAlign: "left",
+    paddingRight: theme.spacing(1),
+    visibility: "hidden",
+  },
+
+  labelShowLabel: {
+    visibility: "visible",
+  },
+
+  select: {
+    borderColor: theme.palette.grey[500],
+    fontSize: "1rem",
+    bgcolor: theme.palette.grey[100],
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(5),
+    height: "40px",
+    color: theme.palette.grey[700],
+    textOverflow: "ellipsis",
+  },
+
+  selectDisabled: {
+    color: theme.palette.grey[500],
+  },
+
+  miniSelect: {
+    borderColor: "transparent",
+    fontSize: ["0.625rem", "0.75rem", "0.75rem"],
+    backgroundColor: "transparent",
+    paddingTop: theme.spacing(0),
+    paddingBottom: theme.spacing(0),
+    paddingLeft: theme.spacing(1),
+    paddingRight: theme.spacing(4),
+    marginRight: theme.spacing(1), // Fix for Chrome which cuts of the label otherwise
+    "&.Mui-focused": {
+      outline: "none",
+      borderColor: theme.palette.primary.main,
+    },
+  },
+
+  searchField: {
+    color: theme.palette.grey[700],
+    fontSize: "1rem",
+    position: "relative",
+  },
+
+  searchFieldInput: {
+    "& input": {
+      paddingBottom: 0,
+    },
+    alignItems: "center",
+    borderColor: theme.palette.grey[500],
+    bgcolor: theme.palette.grey[100],
+    ".Mui-focused &": {
+      outline: "none",
+      borderColor: theme.palette.primary.main,
+    },
+  },
+
+  fieldSetLegend: {
+    fontFamily: "body",
+    lineHeight: ["1rem", "1.125rem", "1.125rem"],
+    fontWeight: "normal",
+    fontSize: ["0.625rem", "0.75rem", "0.75rem"],
+    marginBottom: theme.spacing(1),
+    color: theme.palette.grey[600],
+  },
+}));
 
 export type Option = {
   value: string | $FixMe;
@@ -42,31 +136,21 @@ export const Label = ({
   children: React.ReactNode;
   showLabel?: boolean;
 }) => {
+  const { classes, cx } = useStyles();
   return (
     <Box
       component="label"
       typography="body2"
       htmlFor={htmlFor}
-      sx={{
-        color: disabled ? "grey.600" : "grey.700",
-        fontSize: smaller ? "0.85rem" : "1.15rem",
-        pb: smaller ? 1 : 0,
-        mr: 4,
-        display: "flex",
-        alignItems: "center",
-        flexGrow: 1,
-      }}
+      className={cx(
+        classes.labelContainer,
+        smaller && classes.labelContainerSmaller,
+        disabled && classes.labelContainerDisabled
+      )}
     >
       {children}
       {label && (
-        <Box
-          sx={{
-            maxWidth: "88%",
-            textAlign: "left",
-            pr: 1,
-            visibility: showLabel ? "visible" : "hidden",
-          }}
-        >
+        <Box className={cx(classes.label, showLabel && classes.labelShowLabel)}>
           {label}
         </Box>
       )}
@@ -140,6 +224,7 @@ export const Select = ({
   label?: React.ReactNode;
   disabled?: boolean;
 } & SelectProps) => {
+  const { classes } = useStyles();
   return (
     <Box sx={{ color: "grey.700", pb: 2 }}>
       {label && (
@@ -148,23 +233,12 @@ export const Select = ({
         </Label>
       )}
       <MuiSelect
-        sx={{
-          borderColor: "grey.500",
-          fontSize: "1rem",
-          bgcolor: "grey.100",
-          pt: 2,
-          pb: 2,
-          pl: 2,
-          pr: 5,
-          height: "40px",
-          color: disabled ? "grey.500" : "grey.700",
-          textOverflow: "ellipsis",
-        }}
         id={id}
         name={id}
         onChange={onChange}
         value={value}
         disabled={disabled}
+        className={classes.select}
       >
         {options.map((opt) => (
           <MenuItem
@@ -192,6 +266,7 @@ export const MiniSelect = ({
   label?: React.ReactNode;
   disabled?: boolean;
 } & BoxProps<"select">) => {
+  const { classes } = useStyles();
   return (
     <Box sx={{ color: "grey.800" }}>
       {label && (
@@ -202,23 +277,11 @@ export const MiniSelect = ({
       <Box
         component="select"
         typography="body2"
-        sx={{
-          borderColor: "transparent",
-          fontSize: ["0.625rem", "0.75rem", "0.75rem"],
-          backgroundColor: "transparent",
-          py: 0,
-          pl: 1,
-          pr: 4,
-          mr: 1, // Fix for Chrome which cuts of the label otherwise
-          ":focus": {
-            outline: "none",
-            borderColor: "primary.main",
-          },
-        }}
         id={id}
         name={id}
         onChange={onChange}
         value={value}
+        className={classes.miniSelect}
       >
         {options.map((opt) => (
           <option key={opt.value} value={opt.value || undefined}>
@@ -278,15 +341,9 @@ export const SearchField = ({
   onReset?: () => void;
   sx?: BoxProps["sx"];
 } & FieldProps) => {
+  const { classes } = useStyles();
   return (
-    <Box
-      sx={{
-        color: "grey.700",
-        fontSize: "1rem",
-        position: "relative",
-        ...sx,
-      }}
-    >
+    <Box className={classes.searchField} sx={sx}>
       {label && id && (
         <label htmlFor={id}>
           <VisuallyHidden>{label}</VisuallyHidden>
@@ -314,20 +371,12 @@ export const SearchField = ({
           ) : null
         }
         fullWidth
-        sx={{
-          "& input": {
-            paddingBottom: 0,
-          },
-          alignItems: "center",
-          borderColor: "grey.500",
-          bgcolor: "grey.100",
-          ":focus": { outline: "none", borderColor: "primary.main" },
-        }}
         id={id}
         size="small"
         value={value}
         onChange={onChange}
         placeholder={placeholder}
+        className={classes.searchFieldInput}
       />
     </Box>
   );
@@ -338,18 +387,9 @@ export const FieldSetLegend = ({
 }: {
   legendTitle: string | React.ReactNode;
 }) => {
+  const { classes } = useStyles();
   return (
-    <Box
-      sx={{
-        fontFamily: "body",
-        lineHeight: ["1rem", "1.125rem", "1.125rem"],
-        fontWeight: "regular",
-        fontSize: ["0.625rem", "0.75rem", "0.75rem"],
-        mb: 1,
-        color: "grey.600",
-      }}
-      component="legend"
-    >
+    <Box component="legend" className={classes.fieldSetLegend}>
       {legendTitle}
     </Box>
   );
