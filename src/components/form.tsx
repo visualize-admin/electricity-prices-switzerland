@@ -68,7 +68,10 @@ const useStyles = makeStyles()((theme) => ({
 
   miniSelect: {
     borderColor: "transparent",
-    fontSize: ["0.625rem", "0.75rem", "0.75rem"],
+    fontSize: "0.625rem",
+    [theme.breakpoints.up("xs")]: {
+      fontSize: "0.75rem",
+    },
     backgroundColor: "transparent",
     paddingTop: theme.spacing(0),
     paddingBottom: theme.spacing(0),
@@ -102,11 +105,16 @@ const useStyles = makeStyles()((theme) => ({
 
   fieldSetLegend: {
     fontFamily: "body",
-    lineHeight: ["1rem", "1.125rem", "1.125rem"],
-    fontWeight: "normal",
-    fontSize: ["0.625rem", "0.75rem", "0.75rem"],
     marginBottom: theme.spacing(1),
     color: theme.palette.grey[600],
+    fontWeight: "normal",
+
+    lineHeight: "1rem",
+    fontSize: "0.625rem",
+    [theme.breakpoints.up("xs")]: {
+      lineHeight: "1.25rem",
+      fontSize: "0.75rem",
+    },
   },
 }));
 

@@ -43,7 +43,7 @@ const useStyles = makeStyles()((theme) => ({
   legend: {
     width: LEGEND_WIDTH,
     zIndex: 13,
-    borderRadius: "default",
+    borderRadius: theme.shape.borderRadius,
     height: "fit-content",
     padding: theme.spacing(2, 0),
     paddingLeft: theme.spacing(4),
@@ -83,7 +83,7 @@ const useStyles = makeStyles()((theme) => ({
 
   belowCaption: {
     fontSize: "0.625rem",
-    color: "grey.600",
+    color: theme.palette.grey[600],
     transform: "translateX(50%)",
     letterSpacing: -0.4,
     textAlign: "right",
