@@ -69,7 +69,7 @@ const useStyles = makeStyles()((theme) => ({
   miniSelect: {
     borderColor: "transparent",
     fontSize: "0.625rem",
-    [theme.breakpoints.up("xs")]: {
+    [theme.breakpoints.up("sm")]: {
       fontSize: "0.75rem",
     },
     backgroundColor: "transparent",
@@ -111,7 +111,7 @@ const useStyles = makeStyles()((theme) => ({
 
     lineHeight: "1rem",
     fontSize: "0.625rem",
-    [theme.breakpoints.up("xs")]: {
+    [theme.breakpoints.up("sm")]: {
       lineHeight: "1.25rem",
       fontSize: "0.75rem",
     },
