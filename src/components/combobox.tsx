@@ -1,7 +1,7 @@
 import { t } from "@lingui/macro";
 
 // import { i18n } from "@lingui/core";
-import { Box, Button, Input, Typography } from "@mui/material";
+import { Box, IconButton, Input, Typography } from "@mui/material";
 import { useCombobox, useMultipleSelection } from "downshift";
 import { useState, useEffect } from "react";
 
@@ -141,14 +141,13 @@ export const ComboboxMulti = ({
           position: "relative",
         }}
       >
-        <Box sx={{ mt: 2 }}>
+        <Box>
           {selectedItems.map((selectedItem, index) => (
             <Box
               sx={{
                 display: "inline-block",
                 p: 1,
                 mr: 2,
-                mb: 2,
                 borderRadius: "default",
                 fontSize: "0.75rem",
                 bgcolor: "primary.light",
@@ -191,7 +190,6 @@ export const ComboboxMulti = ({
             minWidth: 30,
             flexBasis: 0,
             alignSelf: "center",
-            my: 2,
           }}
         >
           <Input
@@ -204,31 +202,28 @@ export const ComboboxMulti = ({
                 },
               })
             )}
+            fullWidth
             sx={{
-              display: "block",
+              height: "100%",
               "&.Mui-focused": {
                 outline: "none",
               },
-              // width: "100%",
-              appearance: "none",
               fontSize: "inherit",
               lineHeight: "inherit",
               border: "none",
               color: "text",
-              backgroundColor: "transparent",
               borderRadius: 0,
               p: 0,
-              ":focus": { outline: 0 },
             }}
           />
         </Box>
-        <Button
+        <IconButton
           aria-label={"toggle menu"}
           size="small"
           sx={{
             color: "grey.800",
             p: 0,
-            mr: 1,
+            mr: 2,
             position: "absolute",
             right: 0,
             top: "50%",
@@ -239,7 +234,7 @@ export const ComboboxMulti = ({
           {...getToggleButtonProps()}
         >
           {isOpen ? <Icon name="chevronup" /> : <Icon name="chevrondown" />}
-        </Button>
+        </IconButton>
       </Flex>
       <Box
         component="ul"
@@ -454,13 +449,13 @@ export const Combobox = ({
               height: "100%",
               alignItems: "center",
               p: 0,
-              ":focus": { outline: 0 },
+              "&.Mui-focused": { outline: 0 },
             }}
           />
         </Box>
-        <Button
+        <IconButton
+          size="small"
           aria-label={"toggle menu"}
-          variant="reset"
           sx={{
             color: "grey.800",
             p: 0,
@@ -479,7 +474,7 @@ export const Combobox = ({
           {...getToggleButtonProps()}
         >
           {isOpen ? <Icon name="chevronup" /> : <Icon name="chevrondown" />}
-        </Button>
+        </IconButton>
       </Flex>
 
       <Box
