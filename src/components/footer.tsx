@@ -6,6 +6,7 @@ import { PropsWithChildren } from "react";
 import Flex from "src/components/flex";
 import { useLocale } from "src/lib/use-locale";
 import { useQueryStateSingle } from "src/lib/use-query-state";
+import { makeStyles } from "src/themes/makeStyles";
 
 import { IconDownload } from "../icons/ic-download";
 import { IconInfo } from "../icons/ic-info";
@@ -14,6 +15,63 @@ import { IconShare } from "../icons/ic-share";
 import { HelpDialog } from "./info-dialog";
 import { LogoDesktop } from "./logo";
 import { useDisclosure } from "./useDisclosure";
+
+const useStyles = makeStyles()((theme) => ({
+  footerLink: {
+    borderBottomWidth: "1px",
+    borderBottomStyle: "solid",
+    borderBottomColor: theme.palette.grey[500],
+    padding: theme.spacing(4),
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+
+  footerContainer: {
+    bgcolor: theme.palette.grey[200],
+    borderTop: "1px solid",
+    borderColor: theme.palette.grey[500],
+    paddingTop: theme.spacing(6),
+  },
+
+  footerLinks: {
+    display: "grid",
+    padding: theme.spacing(6),
+    marginBottom: theme.spacing(8),
+    gap: theme.spacing(6),
+    gridTemplateColumns: ["1fr", "1fr 1fr"],
+  },
+
+  footerLegal: {
+    flexDirection: ["column", "row"],
+    justifyContent: ["flex-start", "space-between"],
+    alignItems: ["flex-start", "center"],
+    bgcolor: theme.palette.grey[200],
+    borderTopWidth: "1px",
+    borderTopStyle: "solid",
+    borderTopColor: theme.palette.grey[500],
+  },
+
+  legal: {
+    width: "100%",
+    padding: theme.spacing(5, 6),
+    color: [theme.palette.grey[900], theme.palette.grey[700]],
+    display: "flex",
+    justifyContent: "space-between",
+  },
+
+  logo: {
+    width: "100vw",
+    display: ["block", "none"],
+    padding: theme.spacing(5, 4),
+    borderTopWidth: "1px",
+    borderBottomWidth: "1px",
+    borderTopStyle: "solid",
+    borderBottomStyle: "solid",
+    borderTopColor: theme.palette.grey[500],
+    borderBottomColor: theme.palette.grey[500],
+  },
+}));
 
 const FooterLink = ({
   children,
@@ -24,21 +82,14 @@ const FooterLink = ({
     icon?: React.ReactNode;
   } & LinkProps
 >) => {
+  const { classes } = useStyles();
   return (
     <Link
       {...props}
       typography="body1"
       color="primary"
-      sx={{
-        borderBottomWidth: "1px",
-        borderBottomStyle: "solid",
-        borderBottomColor: "grey.500",
-        p: 4,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        ...props.sx,
-      }}
+      underline="none"
+      className={classes.footerLink}
     >
       <div>{children}</div>
       {icon}
@@ -58,6 +109,7 @@ const FooterSection = ({ children }: { children: React.ReactNode }) => {
 };
 
 export const Footer = () => {
+  const { classes } = useStyles();
   const locale = useLocale();
   const [{ period }] = useQueryStateSingle();
 
@@ -84,23 +136,8 @@ export const Footer = () => {
   };
 
   return (
-    <Box
-      sx={{
-        bgcolor: "grey.200",
-        borderTop: "1px solid",
-        borderColor: "grey.500",
-        paddingTop: 6,
-      }}
-    >
-      <Box
-        sx={{
-          display: "grid",
-          p: 6,
-          marginBottom: 8,
-          gap: 6,
-          gridTemplateColumns: ["1fr", "1fr 1fr"],
-        }}
-      >
+    <Box className={classes.footerContainer}>
+      <Box className={classes.footerLinks}>
         <FooterSection>
           <FooterTitle>
             {t({
@@ -223,28 +260,8 @@ export const Footer = () => {
         </FooterSection>
       </Box>
 
-      <Flex
-        component="footer"
-        sx={{
-          flexDirection: ["column", "row"],
-          justifyContent: ["flex-start", "space-between"],
-          alignItems: ["flex-start", "center"],
-          bgcolor: "grey.200",
-          borderTopWidth: "1px",
-          borderTopStyle: "solid",
-          borderTopColor: "grey.500",
-        }}
-      >
-        <Box
-          sx={{
-            width: "100%",
-            px: 6,
-            py: 5,
-            color: ["grey.900", "grey.700"],
-            display: "flex",
-            justifyContent: "space-between",
-          }}
-        >
+      <Flex component="footer" className={classes.footerLegal}>
+        <Box className={classes.legal}>
           <Typography variant="body2">
             <Trans id="footer.institution.name">
               Eidgenössische Elektrizitätskommission ElCom
@@ -268,20 +285,7 @@ export const Footer = () => {
             alignItems: ["flex-start", "center"],
           }}
         >
-          <Box
-            sx={{
-              width: "100vw",
-              display: ["block", "none"],
-              px: 4,
-              py: 5,
-              borderTopWidth: "1px",
-              borderBottomWidth: "1px",
-              borderTopStyle: "solid",
-              borderBottomStyle: "solid",
-              borderTopColor: "grey.500",
-              borderBottomColor: "grey.500",
-            }}
-          >
+          <Box className={classes.logo}>
             <LogoDesktop />
           </Box>
         </Flex>
