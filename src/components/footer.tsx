@@ -39,7 +39,10 @@ const useStyles = makeStyles()((theme) => ({
     padding: theme.spacing(6),
     marginBottom: theme.spacing(8),
     gap: theme.spacing(6),
-    gridTemplateColumns: ["1fr", "1fr 1fr"],
+    gridTemplateColumns: "1fr",
+    [theme.breakpoints.up("sm")]: {
+      gridTemplateColumns: "1fr 1fr",
+    },
   },
 
   footerLegal: {
