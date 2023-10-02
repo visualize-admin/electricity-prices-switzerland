@@ -253,7 +253,6 @@ const IndexPage = ({ locale }: Props) => {
       </Head>
       <Box
         display="grid"
-        data-test="hello"
         sx={{
           minHeight: "100vh",
           gap: 0,
@@ -261,6 +260,7 @@ const IndexPage = ({ locale }: Props) => {
             `${HEADER_HEIGHT_S} 1fr auto`,
             `${HEADER_HEIGHT_M_UP} 1fr auto`,
           ],
+          gridTemplateColumns: "100%",
         }}
       >
         <Box>
@@ -283,12 +283,13 @@ const IndexPage = ({ locale }: Props) => {
           <Flex
             sx={{
               py: 8,
+              px: 4,
               flexDirection: "column",
               alignItems: "center",
               borderBottomWidth: 1,
               borderBottomStyle: "solid",
               borderBottomColor: "grey.500",
-              px: 4,
+              overflow: "hidden",
             }}
           >
             <Typography
@@ -316,7 +317,6 @@ const IndexPage = ({ locale }: Props) => {
                 Netzbetreibern.
               </Trans>
             </Typography>
-
             <Search />
           </Flex>
           <Box

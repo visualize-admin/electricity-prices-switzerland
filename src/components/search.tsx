@@ -35,12 +35,16 @@ import { Icon } from "../icons";
 import { useTheme } from "../themes";
 
 const useStyles = makeStyles()((theme) => ({
+  combobox: {
+    maxWidth: "100%",
+  },
   comboboxButton: {
     padding: theme.spacing(0),
     paddingLeft: theme.spacing(4),
     paddingRight: theme.spacing(6),
     height: 48,
-    width: "100%",
+    overflow: "hidden",
+    minWidth: 0,
 
     display: "flex",
     justifyContent: "flex-start",
@@ -54,6 +58,7 @@ const useStyles = makeStyles()((theme) => ({
     borderColor: theme.palette.grey[500],
     backgroundColor: theme.palette.grey[100],
     cursor: "pointer",
+    maxWidth: "100%",
 
     "&:hover": {
       borderColor: theme.palette.primary.main,
@@ -67,7 +72,6 @@ const useStyles = makeStyles()((theme) => ({
   placeholder1: {
     fontWeight: "normal",
     marginLeft: theme.spacing(4),
-    width: "auto",
     flexShrink: 0,
     color: theme.palette.grey[800],
   },
@@ -76,9 +80,11 @@ const useStyles = makeStyles()((theme) => ({
     fontWeight: "normal",
     marginLeft: theme.spacing(4),
     color: theme.palette.grey[500],
-    overflow: "hidden",
     whiteSpace: "nowrap",
     textOverflow: "ellipsis",
+    flexShrink: 1,
+    minWidth: 0,
+    overflow: "hidden",
   },
 
   input: {
@@ -106,6 +112,7 @@ const useStyles = makeStyles()((theme) => ({
     [theme.breakpoints.up("sm")]: {
       position: "absolute",
       borderRadius: theme.shape.borderRadius,
+      top: 0,
       width: "100%",
       border: "1px solid",
       borderColor: theme.palette.grey[500],
@@ -116,12 +123,12 @@ const useStyles = makeStyles()((theme) => ({
 
   searchIconDesktop: {
     display: "none",
-    [theme.breakpoints.up("sm")]: {
-      display: "flex",
-    },
     padding: 0,
     margin: 0,
     marginRight: theme.spacing(3),
+    [theme.breakpoints.up("sm")]: {
+      display: "flex",
+    },
   },
 
   actualInput: {
@@ -342,11 +349,11 @@ export const SearchField = ({
   const { classes, cx } = useStyles();
 
   return (
-    <Box sx={{ width: "100%", maxWidth: "44rem", mx: "auto" }}>
+    <Box sx={{ overflow: "hidden", maxWidth: "100%" }}>
       <VisuallyHidden>
         <label {...getLabelProps()}>{label}</label>
       </VisuallyHidden>
-      <div {...getComboboxProps()} style={{ position: "relative" }}>
+      <div className={classes.combobox} {...getComboboxProps()}>
         {/* BUTTON */}
         <Flex
           component="button"
@@ -369,9 +376,7 @@ export const SearchField = ({
             <Trans id="search.global.hint.go.to">Gehe zu…</Trans>
           </Typography>
           <Typography variant="h3" className={classes.placeholder2}>
-            <Trans id="search.global.hint.canton.muni.operator">
-              Gemeindename, PLZ, Netzbetreiber, Kanton
-            </Trans>
+            Gemeindename, PLZ, Netzbetreiber, Kanton
           </Typography>
         </Flex>
 
