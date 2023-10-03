@@ -76,7 +76,7 @@ const useStyles = makeStyles()((theme) => ({
     paddingTop: theme.spacing(0),
     paddingBottom: theme.spacing(0),
     paddingLeft: theme.spacing(1),
-    paddingRight: theme.spacing(4),
+    paddingRight: theme.spacing(2),
     marginRight: theme.spacing(1), // Fix for Chrome which cuts of the label otherwise
     "&.Mui-focused": {
       outline: "none",
