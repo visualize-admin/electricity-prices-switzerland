@@ -5,13 +5,11 @@ import {
 } from "@deck.gl/core/typed";
 import { GeoJsonLayer } from "@deck.gl/layers/typed";
 import DeckGL from "@deck.gl/react/typed";
-import { Trans } from "@lingui/macro";
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import centroid from "@turf/centroid";
 import { color, extent, group, mean, rollup } from "d3";
 import { ScaleThreshold } from "d3-scale";
 import React, {
-  Fragment,
   ReactNode,
   useCallback,
   useContext,
@@ -24,6 +22,10 @@ import {
   mesh as topojsonMesh,
 } from "topojson-client";
 
+import {
+  MapHoverState,
+  MapTooltipContent,
+} from "src/components/charts-generic/interaction/tooltip-content";
 import Flex from "src/components/flex";
 import { OperatorObservationFieldsFragment } from "src/graphql/queries";
 import { maxBy } from "src/lib/array";
@@ -252,22 +254,6 @@ const fetchGeoData = async (year: string) => {
   };
 };
 
-type HoverState =
-  | {
-      x: number;
-      y: number;
-      id: string;
-      type: "municipality";
-    }
-  | {
-      x: number;
-      y: number;
-      id: string;
-      type: "canton";
-      value: number;
-      label: string;
-    };
-
 const useGeoData = (year: string) => {
   const [geoData, setGeoData] = useState<GeoDataState>({ state: "fetching" });
   useEffect(() => {
@@ -304,7 +290,7 @@ export const ChoroplethMap = ({
   colorScale: ScaleThreshold<number, string> | undefined | 0;
   onMunicipalityLayerClick: (_item: PickingInfo) => void;
 }) => {
-  const [hovered, setHovered] = useState<HoverState>();
+  const [hovered, setHovered] = useState<MapHoverState>();
 
   const [viewState, setViewState] = useState(INITIAL_VIEW_STATE);
 
@@ -423,7 +409,7 @@ export const ChoroplethMap = ({
       y: projected[1] + 10,
       id: highlightContext.id,
     };
-    const newHoverState: HoverState =
+    const newHoverState: MapHoverState =
       type === "municipality"
         ? {
             ...common,
@@ -625,83 +611,15 @@ export const ChoroplethMap = ({
         </HintBox>
       ) : null}
       <>
-        {hovered && tooltipContent && colorScale && (
+        {hovered && tooltipContent && colorScale ? (
           <MapTooltip x={hovered.x} y={hovered.y}>
-            <Box
-              display="grid"
-              sx={{
-                width: "100%",
-                gridTemplateColumns: "1fr auto",
-                gap: 1,
-                alignItems: "center",
-              }}
-            >
-              <Typography variant="meta" sx={{ fontWeight: "bold" }}>
-                {tooltipContent.name}
-              </Typography>
-
-              {hovered.type === "canton" ? (
-                <>
-                  <Box
-                    sx={{
-                      borderRadius: 99999,
-                      px: 2,
-                      display: "inline-block",
-                    }}
-                    style={{
-                      background: colorScale(hovered.value),
-                    }}
-                  >
-                    <Typography variant="meta">
-                      {formatNumber(hovered.value)}
-                    </Typography>
-                  </Box>
-                </>
-              ) : null}
-            </Box>
-            <Box
-              display="grid"
-              sx={{
-                width: "100%",
-                gridTemplateColumns: "1fr auto",
-                gap: 1,
-                alignItems: "center",
-              }}
-            >
-              {hovered.type === "municipality" ? (
-                <>
-                  {tooltipContent.observations ? (
-                    tooltipContent.observations.map((d, i) => {
-                      return (
-                        <Fragment key={i}>
-                          <Typography variant="meta" sx={{}}>
-                            {d.operatorLabel}
-                          </Typography>
-                          <Box
-                            sx={{
-                              borderRadius: 99999,
-                              px: 2,
-                              display: "inline-block",
-                            }}
-                            style={{ background: colorScale(d.value) }}
-                          >
-                            <Typography variant="meta">
-                              {formatNumber(d.value)}
-                            </Typography>
-                          </Box>
-                        </Fragment>
-                      );
-                    })
-                  ) : (
-                    <Typography variant="meta" sx={{ color: "secondary" }}>
-                      <Trans id="map.tooltipnodata">Keine Daten</Trans>
-                    </Typography>
-                  )}
-                </>
-              ) : null}
-            </Box>
+            <MapTooltipContent
+              colorScale={colorScale}
+              hovered={hovered}
+              tooltipContent={tooltipContent}
+            />
           </MapTooltip>
-        )}
+        ) : null}
         {geoData.state === "loaded" && (
           <WithClassName
             downloadId={DOWNLOAD_ID}
