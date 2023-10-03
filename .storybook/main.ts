@@ -7,6 +7,7 @@ import react from "@vitejs/plugin-react";
 import { UserConfig } from "vite";
 import { lingui } from "@lingui/vite-plugin";
 import macrosPlugin from "vite-plugin-babel-macros";
+import { merge } from "lodash";
 
 const config: StorybookConfig = {
   viteFinal: async (config, { configType }) => {
@@ -41,6 +42,25 @@ const config: StorybookConfig = {
       macrosPlugin(),
       lingui()
     );
+
+    /**
+     * Manually silence MODULE_LEVEL_DIRECTIVE warning
+     * @see https://github.com/vitejs/vite-plugin-react/pull/144/files
+     */
+    config.build = merge(config.build, {
+      rollupOptions: {
+        onwarn(warning, defaultHandler) {
+          if (
+            warning.code === "MODULE_LEVEL_DIRECTIVE" &&
+            warning.message.includes("use client")
+          ) {
+            return;
+          }
+
+          defaultHandler(warning);
+        },
+      },
+    });
     return config;
   },
   stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
