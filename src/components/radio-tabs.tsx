@@ -1,11 +1,9 @@
-import { Box } from "@mui/material";
-import VisuallyHidden from "@reach/visually-hidden";
-import { ChangeEventHandler, useCallback } from "react";
+import { Tab, Tabs, TabsProps, tabsClasses } from "@mui/material";
+import { useCallback } from "react";
 
-import Flex from "src/components/flex";
 import { makeStyles } from "src/themes/makeStyles";
 
-type RadioTabsVariants = "tabs" | "borderlessTabs" | "segmented";
+type RadioTabsVariants = "borderlessTabs" | "segmented";
 
 interface RadioTabsProps<T> {
   name: string;
@@ -15,220 +13,136 @@ interface RadioTabsProps<T> {
   variant?: RadioTabsVariants;
 }
 
-const useStyles = makeStyles()((theme) => ({
-  tabsActive: {
-    display: "block",
-    position: "relative",
-    color: "primary.main",
-    backgroundColor: "grey.100",
-    flex: "1 0 auto",
-    textAlign: "center",
-    padding: theme.spacing(4, 2),
-    fontSize: "1rem",
-    borderStyle: "solid",
-    borderWidth: 1,
-    borderColor: theme.palette.grey[500],
-    borderTopColor: "transparent",
-    borderBottomColor: "transparent",
-    borderRightWidth: 0,
-    ":last-of-type": {
-      borderRightWidth: 1,
-      borderRightColor: theme.palette.grey[100],
+const useStyles = makeStyles()(
+  ({ palette: { grey, primary, secondary, text }, shape, spacing }) => ({
+    root: {
+      width: "100%",
+      [`& .${tabsClasses.indicator}`]: {
+        top: 0,
+        height: 4,
+      },
+
+      [`& .${tabsClasses.flexContainer}`]: {
+        width: "100%",
+        height: "3rem",
+      },
     },
-    ":first-of-type": {
-      borderLeftColor: theme.palette.grey[100],
+
+    segmentedRoot: {
+      [`& .${tabsClasses.indicator}`]: {
+        display: "none",
+      },
     },
-    "::before": {
-      content: "''",
+    borderlessTabsRoot: {
+      [`$ .${tabsClasses.flexContainer}`]: {
+        width: "100%",
+        height: "2rem",
+      },
+    },
+
+    borderlessTabs: {
+      backgroundColor: grey[200],
+      borderColor: grey[500],
+      borderWidth: 1,
+      borderRightWidth: 0,
+      borderStyle: "solid",
+      color: text.secondary,
       display: "block",
-      backgroundColor: theme.palette.primary.main,
-      position: "absolute",
-      top: 0,
-      left: "-1px",
-      right: "-1px",
-      mt: "-1px",
-      height: 4,
+      flex: "1 1 auto",
+      fontSize: "1rem",
+      overflow: "hidden",
+      padding: spacing(0, 2),
+      position: "relative",
+      textAlign: "center",
+      textOverflow: "ellipsis",
+      minHeight: "auto",
+      textTransform: "none",
+      whiteSpace: "nowrap",
     },
-  },
-  tabsInactive: {
-    overflow: "hidden",
-    whiteSpace: "nowrap",
-    textOverflow: "ellipsis",
-    display: "block",
-    color: theme.palette.text.secondary,
-    backgroundColor: theme.palette.grey[200],
-    flex: "1 1 auto",
-    textAlign: "center",
-    padding: theme.spacing(4, 2),
-    fontSize: "1rem",
-    borderColor: theme.palette.grey[500],
-    borderStyle: "solid",
-    borderWidth: 1,
-    borderRightWidth: 0,
-    ":last-of-type": {
-      borderRightWidth: 1,
+    borderlessTabsActive: {
+      borderBottomColor: "transparent",
+      backgroundColor: grey[100],
+      color: primary.main,
+      flex: "1 0 auto",
+      borderLeftWidth: 1,
+      borderRightWidth: 0,
+
+      "&:first-of-type": {
+        borderLeftWidth: 0,
+      },
     },
-  },
-  borderlessTabsActive: {
-    display: "flex",
-    position: "relative",
-    color: "primary.main",
-    backgroundColor: theme.palette.grey[100],
-    flex: "1 1 auto",
-    textAlign: "center",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: theme.spacing(4, 2),
-    fontSize: "1rem",
-    minWidth: "min-content",
-    borderStyle: "solid",
-    borderWidth: 1,
-    borderColor: theme.palette.grey[500],
-    borderTopColor: "transparent",
-    borderBottomColor: "transparent",
-    borderRightWidth: 0,
-    ":last-of-type": {
-      borderRightWidth: 1,
-      borderRightColor: theme.palette.grey[100],
-    },
-    ":first-of-type": {
-      borderLeftColor: theme.palette.grey[100],
-    },
-    "::before": {
-      content: "''",
+
+    segmented: {
+      backroundColor: grey[200],
+      borderColor: grey[500],
+      borderStyle: "solid",
+      borderWidth: 1,
+      cursor: "pointer",
+      color: secondary.main,
       display: "block",
-      backgroundColor: theme.palette.primary.main,
-      position: "absolute",
-      top: 0,
-      left: "-1px",
-      right: "-1px",
-      mt: "-1px",
-      height: 4,
-    },
-  },
-  borderlessTabsInactive: {
-    display: "flex",
-    cursor: "pointer",
-    color: "secondary",
-    alignItems: "center",
-    backgroundColor: theme.palette.grey[200],
-    flex: "1 1 auto",
-    justifyContent: "center",
-    minWidth: "min-content",
-    textAlign: "center",
-    padding: theme.spacing(4, 2),
-    fontSize: "1rem",
-    borderColor: theme.palette.grey[500],
-    borderStyle: "solid",
-    borderWidth: 1,
-    borderRightWidth: 0,
-    ":first-of-type": {
+      flex: "1 0 auto",
+      fontSize: "1rem",
+      padding: spacing(2),
+      position: "relative",
+      textAlign: "center",
+      textTransform: "none",
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+      whiteSpace: "nowrap",
       borderLeftWidth: 0,
-    },
-    ":last-of-type": {
       borderRightWidth: 0,
     },
-  },
-  segmentedActive: {
-    display: "block",
-    position: "relative",
-    color: theme.palette.primary.main,
-    backgroundColor: theme.palette.grey[100],
-    flex: "1 0 auto",
-    textAlign: "center",
-    padding: theme.spacing(2),
-    fontSize: "1rem",
-    borderStyle: "solid",
-    borderWidth: 1,
-    borderColor: theme.palette.grey[500],
-    borderRightWidth: 0,
+    segmentedActive: {
+      backgroundColor: grey[100],
+      borderLeftWidth: 1,
+      borderRightWidth: 1,
+      color: primary.main,
 
-    ":last-of-type": {
-      borderRightWidth: 1,
-      borderTopRightRadius: "default",
-      borderBottomRightRadius: "default",
+      backroundColor: grey[200],
+      flex: "1 1 auto",
     },
-    ":first-of-type": {
-      borderTopLeftRadius: "default",
-      borderBottomLeftRadius: "default",
-    },
-  },
-  segmentedInactive: {
-    cursor: "pointer",
-    display: "block",
-    color: theme.palette.secondary.main,
-    bgcolor: "grey.200",
-    overflow: "hidden",
-    whiteSpace: "nowrap",
-    textOverflow: "ellipsis",
-    flex: "1 1 auto",
-    textAlign: "center",
-    padding: theme.spacing(2),
-    fontSize: "1rem",
-    borderColor: theme.palette.grey[500],
-    borderStyle: "solid",
-    borderWidth: 1,
-    borderRightWidth: 0,
-    ":last-of-type": {
-      borderRightWidth: 1,
-      borderTopRightRadius: "default",
-      borderBottomRightRadius: "default",
-    },
-    ":first-of-type": {
-      borderTopLeftRadius: "default",
-      borderBottomLeftRadius: "default",
-    },
-  },
-}));
+  })
+);
 
 export const RadioTabs = <T extends string>({
-  name,
   options,
   value,
   setValue,
-  variant = "tabs",
+  variant = "borderlessTabs",
 }: RadioTabsProps<T>) => {
-  const onTabChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
-    (e) => {
-      if (e.currentTarget.checked) {
-        setValue(e.currentTarget.value as T);
-      }
+  const onTabChange: TabsProps["onChange"] = useCallback(
+    (e, value: T) => {
+      setValue(value as T);
     },
     [setValue]
   );
 
-  const { classes } = useStyles();
+  const { classes, cx } = useStyles();
+  const rootClassName = `${variant}Root` as `${typeof variant}Root`;
 
   return (
-    <Flex sx={{ justifyItems: "stretch" }}>
+    <Tabs
+      value={value}
+      onChange={onTabChange}
+      className={cx(classes.root, classes[rootClassName])}
+    >
       {options.map((option) => {
         const isActive = option.value === value;
+        const className = variant;
+        const activeClassName = `${variant}Active` as `${typeof variant}Active`;
 
         return (
-          <Box
+          <Tab
             key={option.value}
-            component="label"
-            title={typeof option.label === "string" ? option.label : undefined}
-            className={
-              isActive
-                ? classes[`${variant}Active`]
-                : classes[`${variant}Inactive`]
-            }
-          >
-            <VisuallyHidden>
-              <input
-                key={option.value}
-                name={name}
-                type="radio"
-                value={option.value}
-                onChange={onTabChange}
-                checked={isActive}
-              />
-            </VisuallyHidden>
-            {option.label}
-          </Box>
+            label={typeof option.label === "string" ? option.label : undefined}
+            value={option.value}
+            className={cx(
+              classes[className],
+              isActive ? classes[activeClassName] : null
+            )}
+          />
         );
       })}
-    </Flex>
+    </Tabs>
   );
 };
