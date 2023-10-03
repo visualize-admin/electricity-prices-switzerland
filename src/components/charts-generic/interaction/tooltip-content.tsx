@@ -1,11 +1,12 @@
 import { Trans } from "@lingui/macro";
 import { Box, Stack, Typography } from "@mui/material";
 import { ScaleThreshold } from "d3";
-import { Fragment } from "react";
+import React, { Fragment } from "react";
 
 import Flex from "src/components/flex";
 import { useFormatCurrency } from "src/domain/helpers";
 import { OperatorObservationFieldsFragment } from "src/graphql/queries";
+import { makeStyles } from "src/themes/makeStyles";
 
 import { LegendItem, LegendSymbol } from "../legends/color";
 
@@ -99,6 +100,16 @@ export const TooltipHistogram = ({
   );
 };
 
+const useStyles = makeStyles()(({ spacing: s }) => ({
+  mapTooltipGrid: {
+    width: "100%",
+    gridTemplateColumns: "1fr auto",
+    columnGap: s(2),
+    rowGap: s(1),
+    alignItems: "center",
+  },
+}));
+
 export type MapHoverState =
   | {
       x: number;
@@ -115,6 +126,31 @@ export type MapHoverState =
       label: string;
     };
 
+const TooltipChip = ({
+  background,
+  children,
+}: {
+  background: string;
+  children: React.ReactNode;
+}) => {
+  return (
+    <Box
+      typography="caption"
+      sx={{
+        borderRadius: 99999,
+        px: 2,
+        fontWeight: "bold",
+        display: "inline-block",
+      }}
+      style={{
+        background,
+      }}
+    >
+      {children}
+    </Box>
+  );
+};
+
 export const MapTooltipContent: React.FC<{
   colorScale: ScaleThreshold<number, string>;
   hovered: MapHoverState;
@@ -124,79 +160,48 @@ export const MapTooltipContent: React.FC<{
     observations: OperatorObservationFieldsFragment[] | undefined;
   };
 }> = ({ colorScale, hovered, tooltipContent }) => {
+  const { classes } = useStyles();
   const formatNumber = useFormatCurrency();
   if (!tooltipContent) {
     return null;
   }
   return (
     <>
-      <Box
-        display="grid"
-        sx={{
-          width: "100%",
-          gridTemplateColumns: "1fr auto",
-          gap: 1,
-          alignItems: "center",
-        }}
-      >
-        <Typography variant="meta" sx={{ fontWeight: "bold" }}>
+      <Box display="grid" className={classes.mapTooltipGrid}>
+        <Typography
+          variant="meta"
+          display="block"
+          sx={{ fontWeight: "bold", mb: 2 }}
+        >
           {tooltipContent.name}
         </Typography>
 
         {hovered && hovered.type === "canton" ? (
-          <>
-            <Box
-              sx={{
-                borderRadius: 99999,
-                px: 2,
-                display: "inline-block",
-              }}
-              style={{
-                background: colorScale(hovered.value),
-              }}
-            >
-              <Typography variant="meta">
-                {formatNumber(hovered.value)}
-              </Typography>
-            </Box>
-          </>
+          <TooltipChip background={colorScale(hovered.value)}>
+            {formatNumber(hovered.value)}
+          </TooltipChip>
         ) : null}
       </Box>
-      <Box
-        display="grid"
-        sx={{
-          width: "100%",
-          gridTemplateColumns: "1fr auto",
-          gap: 1,
-          alignItems: "center",
-        }}
-      >
+      <Box display="grid" className={classes.mapTooltipGrid}>
         {hovered.type === "municipality" ? (
           <>
             {tooltipContent.observations ? (
               tooltipContent.observations.map((d, i) => {
                 return (
                   <Fragment key={i}>
-                    <Typography variant="meta" sx={{}}>
-                      {d.operatorLabel}
-                    </Typography>
-                    <Box
-                      sx={{
-                        borderRadius: 99999,
-                        px: 2,
-                        display: "inline-block",
-                      }}
-                      style={{ background: colorScale(d.value) }}
-                    >
-                      <Typography variant="meta">
-                        {formatNumber(d.value)}
-                      </Typography>
-                    </Box>
+                    <Typography variant="caption">{d.operatorLabel}</Typography>
+                    <TooltipChip background={colorScale(d.value)}>
+                      {formatNumber(d.value)}
+                    </TooltipChip>
                   </Fragment>
                 );
               })
             ) : (
-              <Typography variant="meta" sx={{ color: "secondary" }}>
+              <Typography
+                variant="meta"
+                sx={{ color: "secondary" }}
+                fontSize="0.5rem"
+              >
                 <Trans id="map.tooltipnodata">Keine Daten</Trans>
               </Typography>
             )}
