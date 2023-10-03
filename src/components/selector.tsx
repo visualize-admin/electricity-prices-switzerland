@@ -31,7 +31,7 @@ export const Selector = () => {
         py: 4,
 
         zIndex: 13,
-        "> div": { mt: 1 },
+        "> div": { mt: 2 },
       }}
     >
       <Typography

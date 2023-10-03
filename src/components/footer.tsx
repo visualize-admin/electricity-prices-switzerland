@@ -16,65 +16,69 @@ import { HelpDialog } from "./info-dialog";
 import { LogoDesktop } from "./logo";
 import { useDisclosure } from "./useDisclosure";
 
-const useStyles = makeStyles()((theme) => ({
-  footerLink: {
-    borderBottomWidth: "1px",
-    borderBottomStyle: "solid",
-    borderBottomColor: theme.palette.grey[500],
-    padding: theme.spacing(4),
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-
-  footerContainer: {
-    bgcolor: theme.palette.grey[200],
-    borderTop: "1px solid",
-    borderColor: theme.palette.grey[500],
-    paddingTop: theme.spacing(6),
-  },
-
-  footerLinks: {
-    display: "grid",
-    padding: theme.spacing(6),
-    marginBottom: theme.spacing(8),
-    gap: theme.spacing(6),
-    gridTemplateColumns: "1fr",
-    [theme.breakpoints.up("sm")]: {
-      gridTemplateColumns: "1fr 1fr",
+const useStyles = makeStyles()(
+  ({ palette: { grey }, spacing: s, breakpoints }) => ({
+    footerLink: {
+      borderBottomWidth: "1px",
+      borderBottomStyle: "solid",
+      borderBottomColor: grey[500],
+      padding: s(4),
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      fontSize: "1rem",
+      gap: "1rem",
     },
-  },
 
-  footerLegal: {
-    flexDirection: ["column", "row"],
-    justifyContent: ["flex-start", "space-between"],
-    alignItems: ["flex-start", "center"],
-    bgcolor: theme.palette.grey[200],
-    borderTopWidth: "1px",
-    borderTopStyle: "solid",
-    borderTopColor: theme.palette.grey[500],
-  },
+    footerContainer: {
+      bgcolor: grey[200],
+      borderTop: "1px solid",
+      borderColor: grey[500],
+      paddingTop: s(6),
+    },
 
-  legal: {
-    width: "100%",
-    padding: theme.spacing(5, 6),
-    color: [theme.palette.grey[900], theme.palette.grey[700]],
-    display: "flex",
-    justifyContent: "space-between",
-  },
+    footerLinks: {
+      display: "grid",
+      padding: s(6),
+      marginBottom: s(8),
+      gap: s(6),
+      gridTemplateColumns: "1fr",
+      [breakpoints.up("sm")]: {
+        gridTemplateColumns: "1fr 1fr",
+      },
+    },
 
-  logo: {
-    width: "100vw",
-    display: ["block", "none"],
-    padding: theme.spacing(5, 4),
-    borderTopWidth: "1px",
-    borderBottomWidth: "1px",
-    borderTopStyle: "solid",
-    borderBottomStyle: "solid",
-    borderTopColor: theme.palette.grey[500],
-    borderBottomColor: theme.palette.grey[500],
-  },
-}));
+    footerLegal: {
+      flexDirection: ["column", "row"],
+      justifyContent: ["flex-start", "space-between"],
+      alignItems: ["flex-start", "center"],
+      bgcolor: grey[200],
+      borderTopWidth: "1px",
+      borderTopStyle: "solid",
+      borderTopColor: grey[500],
+    },
+
+    legal: {
+      width: "100%",
+      padding: s(5, 6),
+      color: [grey[900], grey[700]],
+      display: "flex",
+      justifyContent: "space-between",
+    },
+
+    logo: {
+      width: "100vw",
+      display: ["block", "none"],
+      padding: s(5, 4),
+      borderTopWidth: "1px",
+      borderBottomWidth: "1px",
+      borderTopStyle: "solid",
+      borderBottomStyle: "solid",
+      borderTopColor: grey[500],
+      borderBottomColor: grey[500],
+    },
+  })
+);
 
 const FooterLink = ({
   children,
@@ -89,13 +93,12 @@ const FooterLink = ({
   return (
     <Link
       {...props}
-      typography="body1"
       color="primary"
       underline="none"
       className={classes.footerLink}
     >
       <div>{children}</div>
-      {icon}
+      <Box flexShrink={0}>{icon}</Box>
     </Link>
   );
 };

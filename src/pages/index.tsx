@@ -372,6 +372,7 @@ const IndexPage = ({ locale }: Props) => {
                     display: "flex",
                     gap: "2rem",
                     borderRadius: "3px 3px 0 0",
+                    fontSize: "1rem",
                   }}
                 >
                   <DownloadImage

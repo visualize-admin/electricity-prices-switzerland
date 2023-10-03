@@ -77,23 +77,24 @@ export const DownloadImage = ({
 
   return (
     <Box>
-      {!download ? (
+      {download ? (
+        <Typography variant="meta" sx={{ mt: 4 }} fontSize="inherit">
+          <Trans id="image.download.source">
+            Eidgenössische Elektrizitätskommission ElCom
+          </Trans>{" "}
+          - <Trans id="image.download.unit">Tarifvergleich in Rp./kWh</Trans>
+        </Typography>
+      ) : (
         <Link
           color="primary"
           sx={{ cursor: "pointer" }}
           href={downLoadUrl}
           target="_blank"
           rel="noopener noreferrer"
+          fontSize="inherit"
         >
           <Trans id="image.download">Bild herunterladen</Trans>
         </Link>
-      ) : (
-        <Typography variant="meta" sx={{ mt: 4 }}>
-          <Trans id="image.download.source">
-            Eidgenössische Elektrizitätskommission ElCom
-          </Trans>{" "}
-          - <Trans id="image.download.unit">Tarifvergleich in Rp./kWh</Trans>
-        </Typography>
       )}
     </Box>
   );
