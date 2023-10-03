@@ -11,6 +11,7 @@ import {
   CantonMedianObservationFieldsFragment,
   OperatorObservationFieldsFragment,
 } from "src/graphql/queries";
+import { makeStyles } from "src/themes/makeStyles";
 
 import { Entity } from "../domain/data";
 import { useFormatCurrency } from "../domain/helpers";
@@ -21,6 +22,63 @@ import { HighlightContext } from "./highlight-context";
 import { InfoDialogButton } from "./info-dialog";
 import { RadioTabs } from "./radio-tabs";
 import Stack from "./stack";
+
+const useStyles = makeStyles()(
+  ({ palette: { grey, primary, muted, text }, spacing: s }) => ({
+    listItem: {
+      paddingLeft: [s(2), s(4)],
+      paddingTop: s(1),
+      paddingBottom: s(2),
+      borderBottomWidth: "1px",
+      borderBottomStyle: "solid",
+      borderBottomColor: grey[300],
+      alignItems: "center",
+      height: "3.5rem",
+      lineHeight: "1rem",
+      color: text.primary,
+      textDecoration: "none",
+      "&:hover": {
+        backgroundColor: muted.dark,
+      },
+      "&:active": {
+        backgroundColor: primary.light,
+      },
+      "&:focus": {
+        outline: 0,
+        backgroundColor: primary.light,
+      },
+    },
+
+    placeholderListItem: {
+      paddingLeft: s(2),
+      paddingTop: s(1),
+      paddingBottom: s(1),
+      margin: [s(0, 2), s(0, 4)],
+      borderBottomWidth: "1px",
+      borderBottomStyle: "solid",
+      borderBottomColor: grey[300],
+      alignItems: "center",
+      height: "3.5rem",
+      lineHeight: "1rem",
+      color: "text",
+    },
+
+    placeholderListItemText: {
+      borderRadius: 99999,
+      padding: s(0, 2),
+      flexShrink: 0,
+      bgcolor: grey[200],
+      width: "5ch",
+    },
+
+    listContent: {
+      padding: [s(2), s(4), s(4)],
+      borderBottomWidth: "1px",
+      borderBottomStyle: "solid",
+      borderBottomColor: grey[300],
+    },
+  })
+);
 
 const ListItem = ({
   id,
@@ -37,6 +95,7 @@ const ListItem = ({
   formatNumber: (d: number) => string;
   listState: ListState;
 }) => {
+  const { classes } = useStyles();
   const { query } = useRouter();
   const { setValue: setHighlightContext } = useContext(HighlightContext);
   const entity =
@@ -57,29 +116,7 @@ const ListItem = ({
         onMouseOver={() => setHighlightContext({ entity, id, label, value })}
         onMouseOut={() => setHighlightContext(undefined)}
         component="a"
-        sx={{
-          pl: [2, 4, 4],
-          py: 1,
-          mx: 0,
-          borderBottomWidth: "1px",
-          borderBottomStyle: "solid",
-          borderBottomColor: "grey.300",
-          alignItems: "center",
-          height: "3.5rem",
-          lineHeight: "1rem",
-          color: "text.primary",
-          textDecoration: "none",
-          "&:hover": {
-            bgcolor: "muted.dark",
-          },
-          "&:active": {
-            bgcolor: "primary.light",
-          },
-          "&:focus": {
-            outline: 0,
-            bgcolor: "primary.light",
-          },
-        }}
+        className={classes.listItem}
       >
         <Typography variant="body2" sx={{ flexGrow: 1, mr: 1 }}>
           {label}
@@ -167,36 +204,16 @@ const placeholderListItems = Array.from(
 );
 
 const PlaceholderListItem = () => {
+  const { classes } = useStyles();
   return (
-    <Flex
-      sx={{
-        pl: 2,
-        py: 1,
-        mx: [2, 4, 4],
-        borderBottomWidth: "1px",
-        borderBottomStyle: "solid",
-        borderBottomColor: "grey.300",
-        alignItems: "center",
-        height: "3.5rem",
-        lineHeight: "1rem",
-        color: "text",
-      }}
-    >
+    <Flex className={classes.placeholderListItem}>
       <Typography
         variant="body2"
         sx={{ flexGrow: 1, bgcolor: "grey.200", mr: 5 }}
       >
         &nbsp;
       </Typography>
-      <Box
-        sx={{
-          borderRadius: 99999,
-          px: 2,
-          flexShrink: 0,
-          bgcolor: "grey.200",
-          width: "5ch",
-        }}
-      >
+      <Box className={classes.placeholderListItemText}>
         <Typography variant="body2">&nbsp;</Typography>
       </Box>
       <Box sx={{ width: "24px", flexShrink: 0, color: "grey.200" }}>
@@ -232,6 +249,7 @@ export const List = ({
   colorScale,
   observationsQueryFetching,
 }: Props) => {
+  const { classes } = useStyles();
   const [listState, setListState] = useState<ListState>("MUNICIPALITIES");
   const [sortState, setSortState] = useState<SortState>("ASC");
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -327,16 +345,7 @@ export const List = ({
         setValue={setListState}
       />
 
-      <Box
-        sx={{
-          mx: 0,
-          px: [2, 4, 4],
-          py: [2, 4, 4],
-          borderBottomWidth: "1px",
-          borderBottomStyle: "solid",
-          borderBottomColor: "grey.300",
-        }}
-      >
+      <Box className={classes.listContent}>
         <Stack direction="row" sx={{ width: "100%", alignItems: "center" }}>
           <SearchField
             id="listSearch"
