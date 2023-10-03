@@ -1,10 +1,12 @@
 import { t } from "@lingui/macro";
+import { Box } from "@mui/material";
 import { GetServerSideProps } from "next";
 import ErrorPage from "next/error";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import basicAuthMiddleware from "nextjs-basic-auth-middleware";
-import { Box, Flex } from "theme-ui";
+
+import Flex from "src/components/flex";
 
 import { DetailPageBanner } from "../../components/detail-page/banner";
 import { CantonsComparisonRangePlots } from "../../components/detail-page/cantons-comparison-range";
@@ -62,9 +64,9 @@ const CantonPage = (props: Props) => {
         {!query.download && <Header></Header>}
         <Box
           sx={{
-            pt: [107, 96],
+            pt: ["107px", "96px"],
             flexGrow: 1,
-            bg: "monochrome200",
+            bgcolor: "grey.200",
           }}
         >
           <DetailPageBanner id={id} name={name} entity="canton" />

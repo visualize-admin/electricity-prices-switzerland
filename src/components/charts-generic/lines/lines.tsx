@@ -48,7 +48,7 @@ export const Lines = () => {
               color={
                 grouped.length > 1
                   ? colors(getColor(lineData[1][0]))
-                  : theme.colors.primary
+                  : theme.palette.primary.main
               }
             />
           );

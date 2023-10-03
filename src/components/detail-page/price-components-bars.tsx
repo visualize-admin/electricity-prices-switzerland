@@ -1,7 +1,7 @@
 import { t, Trans } from "@lingui/macro";
+import { Box } from "@mui/material";
 import { ascending, group, groups, max, min } from "d3-array";
 import * as React from "react";
-import { Box } from "theme-ui";
 
 import {
   ObservationKind,
@@ -134,7 +134,6 @@ export const PriceComponentsBarChart = ({
             </Trans>
           </span>
           <InfoDialogButton
-            iconOnly
             slug="help-price-components"
             label={t({
               id: "selector.priceComponent",

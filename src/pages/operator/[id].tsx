@@ -1,10 +1,11 @@
 import { t } from "@lingui/macro";
-import { Flex } from "@theme-ui/components";
 import { GetServerSideProps } from "next";
 import ErrorPage from "next/error";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import basicAuthMiddleware from "nextjs-basic-auth-middleware";
+
+import Flex from "src/components/flex";
 
 import { DetailPageBanner } from "../../components/detail-page/banner";
 import { CantonsComparisonRangePlots } from "../../components/detail-page/cantons-comparison-range";
@@ -81,11 +82,12 @@ const OperatorPage = (props: Props) => {
         {!query.download && <Header></Header>}
         <Flex
           sx={{
-            pt: [107, 96],
+            pt: ["107px", "96px"],
             flexGrow: 1,
-            bg: "monochrome200",
+            bgcolor: "grey.200",
             flexDirection: "column",
           }}
+          data-debug="test"
         >
           <DetailPageBanner
             id={id}

@@ -1,7 +1,8 @@
 import { Trans, t } from "@lingui/macro";
+import { Typography } from "@mui/material";
 import { useMemo } from "react";
-import { Flex, Text } from "theme-ui";
 
+import Flex from "src/components/flex";
 import { useQueryState } from "src/lib/use-query-state";
 
 import { Combobox, ComboboxMulti } from "../../components/combobox";
@@ -31,11 +32,11 @@ export const SelectorMulti = ({
 
   return (
     <Flex
-      as="fieldset"
+      component="fieldset"
       sx={{
         flexDirection: "column",
         justifyContent: "flex-start",
-        bg: "mutedColored",
+        bgcolor: "muted.colored",
         px: 4,
         py: 4,
         zIndex: 13,
@@ -43,11 +44,16 @@ export const SelectorMulti = ({
         "> fieldset": { mt: 4 },
       }}
     >
-      <Text as="legend" variant="lead" sx={{ display: "contents" }}>
+      <Typography
+        component="legend"
+        variant="lead"
+        display="block"
+        sx={{ display: "contents" }}
+      >
         <Trans id="selector.legend.select.parameters">
           Parameter auswählen
         </Trans>
-      </Text>
+      </Typography>
 
       <>
         {entity === "operator" ? (

@@ -1,7 +1,12 @@
 import { Trans } from "@lingui/macro";
-import Dialog from "@reach/dialog";
-import VisuallyHidden from "@reach/visually-hidden";
-import { Box, Button, Flex, Heading } from "theme-ui";
+import {
+  Box,
+  IconButton,
+  Typography,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+} from "@mui/material";
 
 import { useWikiContentQuery } from "src/graphql/queries";
 import { useLocale } from "src/lib/use-locale";
@@ -11,7 +16,7 @@ import { Icon } from "../icons";
 import { LoadingIcon, NoContentHint } from "./hint";
 import { useDisclosure } from "./useDisclosure";
 
-const DialogContent = ({ slug }: { slug: string }) => {
+const SlugContent = ({ slug }: { slug: string }) => {
   const locale = useLocale();
   const [contentQuery] = useWikiContentQuery({ variables: { locale, slug } });
 
@@ -33,7 +38,7 @@ const DialogContent = ({ slug }: { slug: string }) => {
 
   return (
     <Box
-      as="section"
+      component="section"
       sx={{
         details: {
           mb: 3,
@@ -48,7 +53,7 @@ const DialogContent = ({ slug }: { slug: string }) => {
           borderCollapse: "collapse",
           my: 2,
           tbody: {
-            borderColor: "monochrome300",
+            borderColor: "grey.300",
             borderTopWidth: "1px",
             borderTopStyle: "solid",
           },
@@ -57,7 +62,7 @@ const DialogContent = ({ slug }: { slug: string }) => {
             ":not(:first-of-type)": { textAlign: "right" },
           },
           td: {
-            borderColor: "monochrome300",
+            borderColor: "grey.300",
             borderBottomWidth: "1px",
             borderBottomStyle: "solid",
             p: 2,
@@ -77,46 +82,46 @@ export const HelpDialog: React.FC<{
   slug: string;
 }> = ({ close, label, open: open, slug }) => (
   <Dialog
-    style={{ zIndex: 999, position: "relative", maxWidth: 800 }}
-    isOpen={open}
-    onDismiss={close}
+    open={open}
+    onClose={close}
+    fullWidth
+    maxWidth="sm"
     aria-label={label}
   >
-    <Button
-      variant="reset"
+    <IconButton
+      size="medium"
       sx={{
-        color: "text",
-        p: 0,
         position: "absolute",
-        right: "20px",
-        top: "20px",
-        cursor: "pointer",
+        right: "1rem",
+        top: "0.75rem",
       }}
       onClick={close}
+      title={
+        (
+          <Trans id="dialog.close">Dialog schliessen</Trans>
+        ) as unknown as string
+      }
     >
-      <VisuallyHidden>
-        <Trans id="dialog.close">Dialog schliessen</Trans>
-      </VisuallyHidden>{" "}
-      <Box aria-hidden>
-        <Icon name="clear" />
-      </Box>
-    </Button>
-    <Heading variant="paragraph2" sx={{ color: "secondary" }}>
-      <Trans id="dialog.infoprefix">Info:</Trans> {label}
-    </Heading>
-    <DialogContent slug={slug} />
+      <Icon name="clear" />
+    </IconButton>
+    <DialogTitle sx={{ py: 5 }}>
+      <Typography component="h3" variant="body2" color="secondary">
+        <Trans id="dialog.infoprefix">Info:</Trans> {label}
+      </Typography>
+    </DialogTitle>
+    <DialogContent>
+      <SlugContent slug={slug} />
+    </DialogContent>
   </Dialog>
 );
 
 export const InfoDialogButton = ({
   label,
   slug,
-  iconOnly,
   smaller,
 }: {
   label: string;
   slug: string;
-  iconOnly?: boolean;
   smaller?: boolean;
 }) => {
   const {
@@ -125,25 +130,21 @@ export const InfoDialogButton = ({
     open: openDialog,
   } = useDisclosure();
   return (
-    <>
-      <Button
-        variant="inline"
+    <span>
+      <IconButton
+        color="primary"
         sx={{ fontSize: smaller ? [2, 2, 2] : [3, 4, 4] }}
         onClick={openDialog}
+        arial-label={label}
       >
-        <Flex sx={{ alignItems: "center" }}>
-          <Box sx={{ flexShrink: 0, mr: iconOnly ? 0 : 2 }}>
-            <Icon name="info" size={smaller ? 16 : 20} />
-          </Box>{" "}
-          {iconOnly ? <VisuallyHidden>{label}</VisuallyHidden> : label}
-        </Flex>
-      </Button>
+        <Icon name="info" size={smaller ? 16 : 20} />
+      </IconButton>
       <HelpDialog
         close={closeDialog}
         label={label}
         open={isHelpDialogOpen}
         slug={slug}
       />
-    </>
+    </span>
   );
 };

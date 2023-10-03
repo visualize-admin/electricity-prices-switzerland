@@ -1,15 +1,17 @@
 import { t, Trans } from "@lingui/macro";
+import { Box, Button, Typography } from "@mui/material";
 import { ScaleThreshold } from "d3";
 import { ascending, descending, mean, rollup } from "d3-array";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { useContext, useMemo, useState } from "react";
-import { Box, Button, Flex, Text } from "theme-ui";
 
+import Flex from "src/components/flex";
 import {
   CantonMedianObservationFieldsFragment,
   OperatorObservationFieldsFragment,
 } from "src/graphql/queries";
+import { makeStyles } from "src/themes/makeStyles";
 
 import { Entity } from "../domain/data";
 import { useFormatCurrency } from "../domain/helpers";
@@ -20,6 +22,63 @@ import { HighlightContext } from "./highlight-context";
 import { InfoDialogButton } from "./info-dialog";
 import { RadioTabs } from "./radio-tabs";
 import Stack from "./stack";
+
+const useStyles = makeStyles()(
+  ({ palette: { grey, primary, muted, text }, spacing: s }) => ({
+    listItem: {
+      paddingLeft: [s(2), s(4)],
+      paddingTop: s(1),
+      paddingBottom: s(2),
+      borderBottomWidth: "1px",
+      borderBottomStyle: "solid",
+      borderBottomColor: grey[300],
+      alignItems: "center",
+      height: "3.5rem",
+      lineHeight: "1rem",
+      color: text.primary,
+      textDecoration: "none",
+      "&:hover": {
+        backgroundColor: muted.dark,
+      },
+      "&:active": {
+        backgroundColor: primary.light,
+      },
+      "&:focus": {
+        outline: 0,
+        backgroundColor: primary.light,
+      },
+    },
+
+    placeholderListItem: {
+      paddingLeft: s(2),
+      paddingTop: s(1),
+      paddingBottom: s(1),
+      margin: [s(0, 2), s(0, 4)],
+      borderBottomWidth: "1px",
+      borderBottomStyle: "solid",
+      borderBottomColor: grey[300],
+      alignItems: "center",
+      height: "3.5rem",
+      lineHeight: "1rem",
+      color: "text",
+    },
+
+    placeholderListItemText: {
+      borderRadius: 99999,
+      padding: s(0, 2),
+      flexShrink: 0,
+      bgcolor: grey[200],
+      width: "5ch",
+    },
+
+    listContent: {
+      padding: [s(2), s(4), s(4)],
+      borderBottomWidth: "1px",
+      borderBottomStyle: "solid",
+      borderBottomColor: grey[300],
+    },
+  })
+);
 
 const ListItem = ({
   id,
@@ -36,6 +95,7 @@ const ListItem = ({
   formatNumber: (d: number) => string;
   listState: ListState;
 }) => {
+  const { classes } = useStyles();
   const { query } = useRouter();
   const { setValue: setHighlightContext } = useContext(HighlightContext);
   const entity =
@@ -55,43 +115,21 @@ const ListItem = ({
       <Flex
         onMouseOver={() => setHighlightContext({ entity, id, label, value })}
         onMouseOut={() => setHighlightContext(undefined)}
-        as="a"
-        sx={{
-          pl: [2, 4, 4],
-          py: 1,
-          mx: 0,
-          borderBottomWidth: "1px",
-          borderBottomStyle: "solid",
-          borderBottomColor: "monochrome300",
-          alignItems: "center",
-          height: "3.5rem",
-          lineHeight: 1,
-          color: "text",
-          textDecoration: "none",
-          "&:hover": {
-            bg: "mutedDarker",
-          },
-          "&:active": {
-            bg: "primaryLight",
-          },
-          "&:focus": {
-            outline: 0,
-            bg: "primaryLight",
-          },
-        }}
+        component="a"
+        className={classes.listItem}
       >
-        <Text variant="paragraph2" sx={{ flexGrow: 1, mr: 1 }}>
+        <Typography variant="body2" sx={{ flexGrow: 1, mr: 1 }}>
           {label}
-        </Text>
+        </Typography>
         <Box
           sx={{
-            borderRadius: "circle",
+            borderRadius: "1rem",
             px: 2,
             flexShrink: 0,
           }}
           style={{ background: colorScale(value) }}
         >
-          <Text variant="paragraph2">{formatNumber(value)}</Text>
+          <Typography variant="body2">{formatNumber(value)}</Typography>
         </Box>
         <Box sx={{ width: "24px", flexShrink: 0 }}>
           <Icon name="chevronright"></Icon>
@@ -149,7 +187,7 @@ const ListItems = ({
           }}
         >
           <Button
-            variant="inline"
+            variant="text"
             onClick={() => setTruncated((n) => n + TRUNCATION_INCREMENT)}
           >
             <Trans id="list.showmore">Mehr anzeigen …</Trans>
@@ -166,39 +204,19 @@ const placeholderListItems = Array.from(
 );
 
 const PlaceholderListItem = () => {
+  const { classes } = useStyles();
   return (
-    <Flex
-      sx={{
-        pl: 2,
-        py: 1,
-        mx: [2, 4, 4],
-        borderBottomWidth: "1px",
-        borderBottomStyle: "solid",
-        borderBottomColor: "monochrome300",
-        alignItems: "center",
-        height: "3.5rem",
-        lineHeight: 1,
-        color: "text",
-      }}
-    >
-      <Text
-        variant="paragraph2"
-        sx={{ flexGrow: 1, bg: "monochrome200", mr: 5 }}
+    <Flex className={classes.placeholderListItem}>
+      <Typography
+        variant="body2"
+        sx={{ flexGrow: 1, bgcolor: "grey.200", mr: 5 }}
       >
         &nbsp;
-      </Text>
-      <Box
-        sx={{
-          borderRadius: "circle",
-          px: 2,
-          flexShrink: 0,
-          bg: "monochrome200",
-          width: "5ch",
-        }}
-      >
-        <Text variant="paragraph2">&nbsp;</Text>
+      </Typography>
+      <Box className={classes.placeholderListItemText}>
+        <Typography variant="body2">&nbsp;</Typography>
       </Box>
-      <Box sx={{ width: "24px", flexShrink: 0, color: "monochrome200" }}>
+      <Box sx={{ width: "24px", flexShrink: 0, color: "grey.200" }}>
         <Icon name="chevronright"></Icon>
       </Box>
     </Flex>
@@ -217,9 +235,7 @@ const PlaceholderListItems = () => {
           textAlign: "center",
           p: 3,
         }}
-      >
-        <Box variant="buttons.inline">&nbsp;</Box>
-      </Box>
+      />
     </Box>
   );
 };
@@ -233,6 +249,7 @@ export const List = ({
   colorScale,
   observationsQueryFetching,
 }: Props) => {
+  const { classes } = useStyles();
   const [listState, setListState] = useState<ListState>("MUNICIPALITIES");
   const [sortState, setSortState] = useState<SortState>("ASC");
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -328,17 +345,8 @@ export const List = ({
         setValue={setListState}
       />
 
-      <Box
-        sx={{
-          mx: 0,
-          px: [2, 4, 4],
-          py: [2, 4, 4],
-          borderBottomWidth: "1px",
-          borderBottomStyle: "solid",
-          borderBottomColor: "monochrome300",
-        }}
-      >
-        <Stack direction="row" spacing={2} sx={{ width: "100%" }}>
+      <Box className={classes.listContent}>
+        <Stack direction="row" sx={{ width: "100%", alignItems: "center" }}>
           <SearchField
             id="listSearch"
             value={searchQuery}
@@ -353,25 +361,26 @@ export const List = ({
             sx={{ flexGrow: 1 }}
           />
           <InfoDialogButton
-            iconOnly
             slug="help-search-list"
             label={searchLabel}
             smaller
           />
         </Stack>
 
-        <Flex sx={{ justifyContent: "space-between", mt: 2 }}>
+        <Flex
+          sx={{ alignItems: "center", justifyContent: "space-between", mt: 2 }}
+        >
           <label htmlFor="listSort">
-            <Text
+            <Typography
               color="secondary"
               sx={{
                 fontFamily: "body",
-                fontSize: [1, 2, 2],
+                fontSize: ["0.625rem", "0.75rem", "0.75rem"],
                 lineHeight: "24px",
               }}
             >
               <Trans id="dataset.sortby">Sortieren</Trans>
-            </Text>
+            </Typography>
           </label>
 
           <MiniSelect
@@ -379,7 +388,7 @@ export const List = ({
             value={sortState}
             options={sortOptions}
             onChange={(e) => {
-              setSortState(e.currentTarget.value as SortState);
+              setSortState(e.target.value as SortState);
             }}
           ></MiniSelect>
         </Flex>

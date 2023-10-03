@@ -21,3 +21,5 @@ tsconfig.tsbuildinfo
 /playwright/.cache/
 
 *.har
+
+public/storybook

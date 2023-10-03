@@ -1,19 +1,122 @@
 import { Trans } from "@lingui/macro";
-import VisuallyHidden from "@reach/visually-hidden";
 import {
   Box,
   BoxProps,
-  Button,
-  Checkbox as RebassCheckbox,
-  Input as ThemeUiInput,
-  Label as ThemeUiLabel,
-  Radio as ThemeUiRadio,
-  Select as ThemeUiSelect,
+  Checkbox as MuiCheckbox,
+  Radio as MuiRadio,
+  Input as MuiInput,
+  Select as MuiSelect,
   SelectProps,
-} from "@theme-ui/components";
+  MenuItem,
+  IconButton,
+  InputAdornment,
+} from "@mui/material";
+import VisuallyHidden from "@reach/visually-hidden";
 import * as React from "react";
 
+import { makeStyles } from "src/themes/makeStyles";
+
 import { Icon } from "../icons";
+
+const useStyles = makeStyles()((theme) => ({
+  labelContainer: {
+    fontSize: "1.15rem",
+    paddingBottom: 0,
+    marginRight: theme.spacing(4),
+    display: "flex",
+    alignItems: "center",
+    flexGrow: 1,
+    color: theme.palette.grey[700],
+  },
+
+  labelContainerSmaller: {
+    fontSize: "0.85rem",
+    paddingBottom: theme.spacing(1),
+  },
+
+  labelContainerDisabled: {
+    color: theme.palette.grey[600],
+  },
+
+  label: {
+    maxWidth: "88%",
+    textAlign: "left",
+    paddingRight: theme.spacing(1),
+    visibility: "hidden",
+  },
+
+  labelShowLabel: {
+    visibility: "visible",
+  },
+
+  select: {
+    borderColor: theme.palette.grey[500],
+    fontSize: "1rem",
+    bgcolor: theme.palette.grey[100],
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(5),
+    height: "40px",
+    color: theme.palette.grey[700],
+    textOverflow: "ellipsis",
+  },
+
+  selectDisabled: {
+    color: theme.palette.grey[500],
+  },
+
+  miniSelect: {
+    borderColor: "transparent",
+    fontSize: "0.625rem",
+    [theme.breakpoints.up("sm")]: {
+      fontSize: "0.75rem",
+    },
+    backgroundColor: "transparent",
+    paddingTop: theme.spacing(0),
+    paddingBottom: theme.spacing(0),
+    paddingLeft: theme.spacing(1),
+    paddingRight: theme.spacing(4),
+    marginRight: theme.spacing(1), // Fix for Chrome which cuts of the label otherwise
+    "&.Mui-focused": {
+      outline: "none",
+      borderColor: theme.palette.primary.main,
+    },
+  },
+
+  searchField: {
+    color: theme.palette.grey[700],
+    fontSize: "1rem",
+    position: "relative",
+  },
+
+  searchFieldInput: {
+    "& input": {
+      paddingBottom: 0,
+    },
+    alignItems: "center",
+    borderColor: theme.palette.grey[500],
+    bgcolor: theme.palette.grey[100],
+    ".Mui-focused &": {
+      outline: "none",
+      borderColor: theme.palette.primary.main,
+    },
+  },
+
+  fieldSetLegend: {
+    fontFamily: "body",
+    marginBottom: theme.spacing(1),
+    color: theme.palette.grey[600],
+    fontWeight: "normal",
+
+    lineHeight: "1rem",
+    fontSize: "0.625rem",
+    [theme.breakpoints.up("sm")]: {
+      lineHeight: "1.25rem",
+      fontSize: "0.75rem",
+    },
+  },
+}));
 
 export type Option = {
   value: string | $FixMe;
@@ -40,34 +143,28 @@ export const Label = ({
   smaller?: boolean;
   children: React.ReactNode;
   showLabel?: boolean;
-}) => (
-  <ThemeUiLabel
-    htmlFor={htmlFor}
-    sx={{
-      color: disabled ? "monochrome600" : "monochrome700",
-      fontSize: smaller ? [2, 2, 2] : [4, 4, 4],
-      pb: smaller ? 1 : 0,
-      mr: 4,
-      display: "flex",
-      alignItems: "center",
-    }}
-  >
-    {children}
-    {label && (
-      <Box
-        sx={{
-          maxWidth: "88%",
-          textAlign: "left",
-          fontFamily: "body",
-          pr: 1,
-          visibility: showLabel ? "visible" : "hidden",
-        }}
-      >
-        {label}
-      </Box>
-    )}
-  </ThemeUiLabel>
-);
+}) => {
+  const { classes, cx } = useStyles();
+  return (
+    <Box
+      component="label"
+      typography="body2"
+      htmlFor={htmlFor}
+      className={cx(
+        classes.labelContainer,
+        smaller && classes.labelContainerSmaller,
+        disabled && classes.labelContainerDisabled
+      )}
+    >
+      {children}
+      {label && (
+        <Box className={cx(classes.label, showLabel && classes.labelShowLabel)}>
+          {label}
+        </Box>
+      )}
+    </Box>
+  );
+};
 
 export const Radio = ({
   label,
@@ -80,16 +177,15 @@ export const Radio = ({
   return (
     <Box mb={2}>
       <Label label={label} htmlFor={`${name}-${value}`} disabled={disabled}>
-        <ThemeUiRadio
+        <MuiRadio
           name={name}
           id={`${name}-${value}`}
           value={value}
           onChange={onChange}
           checked={checked}
           disabled={disabled}
-          size={20}
           sx={{
-            color: checked && !disabled ? "primary" : "monochrome500",
+            color: checked && !disabled ? "primary.main" : "grey.500",
           }}
         />
       </Label>
@@ -104,22 +200,24 @@ export const Checkbox = ({
   checked,
   disabled,
   onChange,
-}: { label: React.ReactNode; disabled?: boolean } & FieldProps) => (
-  <Label label={label} htmlFor={`${name}-${label}`} disabled={disabled}>
-    <RebassCheckbox
-      sx={{
-        // size: 20,
-        color: checked && !disabled ? "primary" : "monochrome500",
-      }}
-      id={`${name}-${label}`}
-      name={name}
-      value={value}
-      checked={checked}
-      disabled={disabled}
-      onChange={onChange}
-    />
-  </Label>
-);
+}: { label: React.ReactNode; disabled?: boolean } & FieldProps) => {
+  return (
+    <Label label={label} htmlFor={`${name}-${label}`} disabled={disabled}>
+      <MuiCheckbox
+        sx={{
+          // size: 20,
+          color: checked && !disabled ? "primary.main" : "grey.500",
+        }}
+        id={`${name}-${label}`}
+        name={name}
+        value={value}
+        checked={checked}
+        disabled={disabled}
+        onChange={onChange}
+      />
+    </Label>
+  );
+};
 
 export const Select = ({
   label,
@@ -133,44 +231,36 @@ export const Select = ({
   options: Option[];
   label?: React.ReactNode;
   disabled?: boolean;
-} & SelectProps) => (
-  <Box sx={{ color: "monochrome700", pb: 2 }}>
-    {label && (
-      <Label htmlFor={id} disabled={disabled} smaller>
-        {label}
-      </Label>
-    )}
-    <ThemeUiSelect
-      sx={{
-        borderColor: "monochrome500",
-        fontSize: 4,
-        bg: "monochrome100",
-        pt: 2,
-        pb: 2,
-        pl: 2,
-        pr: 5,
-        height: "40px",
-        color: disabled ? "monochrome500" : "monochrome700",
-        textOverflow: "ellipsis",
-      }}
-      id={id}
-      name={id}
-      onChange={onChange}
-      value={value}
-      disabled={disabled}
-    >
-      {options.map((opt) => (
-        <option
-          key={opt.value}
-          disabled={opt.disabled}
-          value={opt.value || undefined}
-        >
-          {opt.label}
-        </option>
-      ))}
-    </ThemeUiSelect>
-  </Box>
-);
+} & SelectProps) => {
+  const { classes } = useStyles();
+  return (
+    <Box sx={{ color: "grey.700", pb: 2 }}>
+      {label && (
+        <Label htmlFor={id} disabled={disabled} smaller>
+          {label}
+        </Label>
+      )}
+      <MuiSelect
+        id={id}
+        name={id}
+        onChange={onChange}
+        value={value}
+        disabled={disabled}
+        className={classes.select}
+      >
+        {options.map((opt) => (
+          <MenuItem
+            key={opt.value}
+            disabled={opt.disabled}
+            value={opt.value || undefined}
+          >
+            {opt.label}
+          </MenuItem>
+        ))}
+      </MuiSelect>
+    </Box>
+  );
+};
 
 export const MiniSelect = ({
   label,
@@ -183,41 +273,33 @@ export const MiniSelect = ({
   options: Option[];
   label?: React.ReactNode;
   disabled?: boolean;
-} & SelectProps) => (
-  <Box sx={{ color: "monochrome800" }}>
-    {label && (
-      <Label htmlFor={id} smaller>
-        {label}
-      </Label>
-    )}
-    <ThemeUiSelect
-      sx={{
-        borderColor: "transparent",
-        fontSize: [1, 2, 2],
-        fontFamily: "body",
-        bg: "transparent",
-        py: 0,
-        pl: 1,
-        pr: 4,
-        mr: 1, // Fix for Chrome which cuts of the label otherwise
-        ":focus": {
-          outline: "none",
-          borderColor: "primary",
-        },
-      }}
-      id={id}
-      name={id}
-      onChange={onChange}
-      value={value}
-    >
-      {options.map((opt) => (
-        <option key={opt.value} value={opt.value || undefined}>
-          {opt.label}
-        </option>
-      ))}
-    </ThemeUiSelect>
-  </Box>
-);
+} & BoxProps<"select">) => {
+  const { classes } = useStyles();
+  return (
+    <Box sx={{ color: "grey.800" }}>
+      {label && (
+        <Label htmlFor={id} smaller>
+          {label}
+        </Label>
+      )}
+      <Box
+        component="select"
+        typography="body2"
+        id={id}
+        name={id}
+        onChange={onChange}
+        value={value}
+        className={classes.miniSelect}
+      >
+        {options.map((opt) => (
+          <option key={opt.value} value={opt.value || undefined}>
+            {opt.label}
+          </option>
+        ))}
+      </Box>
+    </Box>
+  );
+};
 
 export const Input = ({
   label,
@@ -227,22 +309,28 @@ export const Input = ({
 }: {
   label?: string | React.ReactNode;
   disabled?: boolean;
-} & FieldProps) => (
-  <Box sx={{ color: "monochrome700", fontSize: 4 }}>
-    {label && name && (
-      <Label htmlFor={name} smaller>
-        {label}
-      </Label>
-    )}
-    <ThemeUiInput
-      sx={{ borderColor: "monochrome500", bg: "monochrome100", height: "40px" }}
-      id={name}
-      name={name}
-      value={value}
-      onChange={onChange}
-    />
-  </Box>
-);
+} & FieldProps) => {
+  return (
+    <Box sx={{ color: "grey.700", fontSize: "1rem" }}>
+      {label && name && (
+        <Label htmlFor={name} smaller>
+          {label}
+        </Label>
+      )}
+      <MuiInput
+        sx={{
+          borderColor: "grey.500",
+          bgcolor: "grey.100",
+          height: "40px",
+        }}
+        id={name}
+        name={name}
+        value={value}
+        onChange={onChange}
+      />
+    </Box>
+  );
+};
 
 export const SearchField = ({
   id,
@@ -261,61 +349,43 @@ export const SearchField = ({
   onReset?: () => void;
   sx?: BoxProps["sx"];
 } & FieldProps) => {
+  const { classes } = useStyles();
   return (
-    <Box
-      sx={{ color: "monochrome700", fontSize: 4, position: "relative", ...sx }}
-    >
+    <Box className={classes.searchField} sx={sx}>
       {label && id && (
         <label htmlFor={id}>
           <VisuallyHidden>{label}</VisuallyHidden>
         </label>
       )}
-      <Box
-        aria-hidden="true"
-        sx={{ position: "absolute", top: "50%", mt: "-8px", ml: 2 }}
-      >
-        <Icon name="search" size={16} />
-      </Box>
-      <ThemeUiInput
-        sx={{
-          flexGrow: 1,
-          borderColor: "monochrome500",
-          bg: "monochrome100",
-          px: 6,
-          ":focus": { outline: "none", borderColor: "primary" },
-        }}
+      <MuiInput
+        startAdornment={
+          <InputAdornment position="start">
+            <Icon name="search" size={16} />
+          </InputAdornment>
+        }
+        endAdornment={
+          value && value !== "" && onReset ? (
+            <InputAdornment position="end">
+              <IconButton
+                arial-label={
+                  <Trans id="controls.search.clear">Clear search field</Trans>
+                }
+                sx={{ p: 0, cursor: "pointer" }}
+                onClick={onReset}
+              >
+                <Icon name="clear" size={16} />
+              </IconButton>
+            </InputAdornment>
+          ) : null
+        }
+        fullWidth
         id={id}
+        size="small"
         value={value}
         onChange={onChange}
         placeholder={placeholder}
+        className={classes.searchFieldInput}
       />
-      {value && value !== "" && onReset && (
-        <Box
-          sx={{
-            position: "absolute",
-            top: "50%",
-            right: 0,
-            mt: "-8px",
-            mr: 2,
-          }}
-        >
-          <Button
-            variant="reset"
-            sx={{ p: 0, cursor: "pointer" }}
-            onClick={onReset}
-          >
-            <VisuallyHidden>
-              <Trans id="controls.search.clear">Clear search field</Trans>
-            </VisuallyHidden>
-            <Box
-              aria-hidden="true"
-              sx={{ borderRadius: "circle", bg: "monochrome600" }}
-            >
-              <Icon name="clear" size={16} />
-            </Box>
-          </Button>
-        </Box>
-      )}
     </Box>
   );
 };
@@ -324,18 +394,11 @@ export const FieldSetLegend = ({
   legendTitle,
 }: {
   legendTitle: string | React.ReactNode;
-}) => (
-  <Box
-    sx={{
-      fontFamily: "body",
-      lineHeight: [1, 2, 2],
-      fontWeight: "regular",
-      fontSize: [1, 2, 2],
-      mb: 1,
-      color: "monochrome600",
-    }}
-    as="legend"
-  >
-    {legendTitle}
-  </Box>
-);
+}) => {
+  const { classes } = useStyles();
+  return (
+    <Box component="legend" className={classes.fieldSetLegend}>
+      {legendTitle}
+    </Box>
+  );
+};

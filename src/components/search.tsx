@@ -1,4 +1,14 @@
+import { ParsedUrlQuery } from "querystring";
+
 import { Trans } from "@lingui/macro";
+import {
+  Box,
+  IconButton,
+  Input,
+  InputAdornment,
+  Link,
+  Typography,
+} from "@mui/material";
 import VisuallyHidden from "@reach/visually-hidden";
 import { group, rollup } from "d3-array";
 import { useCombobox } from "downshift";
@@ -12,16 +22,188 @@ import {
   useRef,
   useState,
 } from "react";
-import { Box, Button, Flex, Input, Link as TUILink, Text } from "theme-ui";
 
+import Flex from "src/components/flex";
 import { useSearchQuery } from "src/graphql/queries";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { useLocale } from "src/lib/use-locale";
+import { makeStyles } from "src/themes/makeStyles";
 
 import { analyticsSiteSearch } from "../domain/analytics";
 import { getLocalizedLabel } from "../domain/translation";
 import { Icon } from "../icons";
 import { useTheme } from "../themes";
+
+const useStyles = makeStyles()((theme) => ({
+  combobox: {
+    maxWidth: "100%",
+  },
+  comboboxButton: {
+    padding: theme.spacing(0),
+    paddingLeft: theme.spacing(4),
+    paddingRight: theme.spacing(6),
+    height: 48,
+    overflow: "hidden",
+    minWidth: 0,
+
+    display: "flex",
+    justifyContent: "flex-start",
+    alignItems: "center",
+
+    appearance: "none",
+
+    border: "1px solid",
+    borderRadius: theme.shape.borderRadius,
+    color: theme.palette.text.primary,
+    borderColor: theme.palette.grey[500],
+    backgroundColor: theme.palette.grey[100],
+    cursor: "pointer",
+    maxWidth: "100%",
+
+    "&:hover": {
+      borderColor: theme.palette.primary.main,
+    },
+  },
+  comboboxButtonOpen: {
+    border: "1px solid",
+    borderColor: theme.palette.primary.main,
+  },
+
+  placeholder1: {
+    fontWeight: "normal",
+    marginLeft: theme.spacing(4),
+    flexShrink: 0,
+    color: theme.palette.grey[800],
+  },
+
+  placeholder2: {
+    fontWeight: "normal",
+    marginLeft: theme.spacing(4),
+    color: theme.palette.grey[500],
+    whiteSpace: "nowrap",
+    textOverflow: "ellipsis",
+    flexShrink: 1,
+    minWidth: 0,
+    overflow: "hidden",
+  },
+
+  input: {
+    top: 0,
+    left: 0,
+    zIndex: 20,
+
+    padding: theme.spacing(0, 2),
+
+    justifyContent: "flex-start",
+    alignItems: "center",
+
+    height: 48,
+
+    backgroundColor: theme.palette.grey[100],
+
+    width: "100vw",
+    position: "fixed",
+    border: "0px solid",
+    borderRadius: 0,
+    borderColor: theme.palette.grey[500],
+    borderBottom: "1px solid",
+    borderBottomColor: theme.palette.grey[500],
+
+    [theme.breakpoints.up("sm")]: {
+      position: "absolute",
+      borderRadius: theme.shape.borderRadius,
+      top: 0,
+      width: "100%",
+      border: "1px solid",
+      borderColor: theme.palette.grey[500],
+      borderBottom: "1px solid",
+      borderBottomColor: theme.palette.grey[500],
+    },
+  },
+
+  searchIconDesktop: {
+    display: "none",
+    padding: 0,
+    margin: 0,
+    marginRight: theme.spacing(3),
+    [theme.breakpoints.up("sm")]: {
+      display: "flex",
+    },
+  },
+
+  actualInput: {
+    minHeight: "100%",
+    flexGrow: 1,
+    px: 0,
+    border: "none",
+    "&.Mui-focused, &:focus": {
+      outline: "none",
+    },
+  },
+
+  menu: {
+    position: "fixed",
+    top: 48,
+
+    left: 0,
+    zIndex: 21,
+    overflowY: "auto",
+    backgroundColor: theme.palette.grey[100],
+    padding: theme.spacing(4),
+    flexDirection: "column",
+    visibility: "hidden",
+
+    width: "100vw",
+    height: "calc(100vh - 48px)",
+    maxHeight: "100vh",
+    boxShadow: "none",
+
+    [theme.breakpoints.up("sm")]: {
+      position: "absolute",
+      top: 54,
+      width: "100%",
+      height: "auto",
+      maxHeight: "50vh",
+      boxShadow: theme.shadows[6],
+    },
+  },
+
+  menuOpened: {
+    visibility: "visible",
+  },
+
+  label: {
+    color: theme.palette.grey[600],
+    fontSize: "0.875rem",
+    borderBottom: "1px solid",
+    borderBottomColor: "grey.300",
+    padding: theme.spacing(2, 3),
+  },
+
+  listItem: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "inherit",
+    color: theme.palette.grey[800],
+    fontSize: "1rem",
+    lineHeight: 1.2,
+    textDecoration: "none",
+    padding: theme.spacing(3),
+
+    "> svg": {
+      visibility: "hidden",
+    },
+
+    "&:hover > svg": {
+      visibility: "visible",
+    },
+  },
+
+  highlightedItem: {
+    backgroundColor: theme.palette.muted.dark,
+  },
+}));
 
 export const Search = () => {
   const locale = useLocale();
@@ -65,6 +247,8 @@ export const Search = () => {
     );
   }, [items]);
 
+  const { query, push } = useRouter();
+
   return (
     <>
       <SearchField
@@ -74,6 +258,8 @@ export const Search = () => {
         }))}
         getItemLabel={(id) => itemById.get(id)?.name ?? `[${id}]`}
         setSearchString={setSearchString}
+        onSelectItem={push}
+        query={query}
         label={
           <Trans id="search.global.label">
             Suche nach Gemeindename, PLZ, Netzbetreiber, Kanton
@@ -96,17 +282,20 @@ export const SearchField = ({
   setSearchString,
   getItemLabel,
   isLoading,
+  onSelectItem,
+  query,
 }: {
   items: Item[];
   setSearchString: (searchString: string) => void;
   getItemLabel: (item: string) => string;
   label: string | ReactNode;
   isLoading: boolean;
+  onSelectItem: ({ pathname }: { pathname: string }) => void;
+  query: ParsedUrlQuery;
 }) => {
   const theme = useTheme();
 
   const inputEl = useRef<HTMLInputElement>(null);
-  const { query, push } = useRouter();
   const [inputValue, setInputValue] = useState("");
 
   const {
@@ -141,7 +330,7 @@ export const SearchField = ({
               query: { ...query, id: selectedItem.id },
             };
 
-            push(href);
+            onSelectItem(href);
           }
           break;
         // case useCombobox.stateChangeTypes.ItemClick:
@@ -157,75 +346,38 @@ export const SearchField = ({
     },
   });
 
+  const { classes, cx } = useStyles();
+
   return (
-    <Box sx={{ width: "100%", maxWidth: "44rem", mx: "auto" }}>
+    <Box sx={{ overflow: "hidden", maxWidth: "100%" }}>
       <VisuallyHidden>
         <label {...getLabelProps()}>{label}</label>
       </VisuallyHidden>
-      <div {...getComboboxProps()} style={{ position: "relative" }}>
+      <div className={classes.combobox} {...getComboboxProps()}>
         {/* BUTTON */}
         <Flex
-          as="button"
+          component="button"
           type="button"
           {...getToggleButtonProps()}
           aria-label={"toggle menu"} // FIXME: localize
-          sx={{
-            py: 0,
-            pl: 4,
-            pr: 6,
-            height: 48,
-            width: "100%",
-
-            justifyContent: "flex-start",
-            alignItems: "center",
-
-            appearance: "none",
-
-            border: "1px solid",
-            borderRadius: "default",
-            color: "text",
-            borderColor: isOpen ? "primary" : "monochrome500",
-            bg: "monochrome100",
-
-            "&:hover": {
-              borderColor: "primary",
-            },
-          }}
+          className={cx(
+            classes.comboboxButton,
+            isOpen ? classes.comboboxButtonOpen : null
+          )}
         >
           <Box sx={{ flexShrink: 0 }}>
             <Icon
               name="search"
               size={24}
-              color={theme.colors.monochrome700}
+              color={theme.palette.grey[700]}
             ></Icon>
           </Box>
-          <Text
-            variant="heading3"
-            sx={{
-              fontWeight: "regular",
-              ml: 4,
-              width: "auto",
-              flexShrink: 0,
-              color: "monochrome800",
-            }}
-          >
+          <Typography variant="h3" className={classes.placeholder1}>
             <Trans id="search.global.hint.go.to">Gehe zu…</Trans>
-          </Text>
-          <Text
-            variant="heading3"
-            sx={{
-              fontWeight: "regular",
-              ml: 4,
-              color: "monochrome500",
-              overflow: "hidden",
-              whiteSpace: "nowrap",
-              textOverflow: "ellipsis",
-            }}
-          >
-            <Trans id="search.global.hint.canton.muni.operator">
-              Gemeindename, PLZ, Netzbetreiber, Kanton
-            </Trans>
-          </Text>
+          </Typography>
+          <Typography variant="h3" className={classes.placeholder2}>
+            Gemeindename, PLZ, Netzbetreiber, Kanton
+          </Typography>
         </Flex>
 
         {/* INPUT */}
@@ -235,117 +387,69 @@ export const SearchField = ({
             /* Always render input element, so .focus() works on iOS Safari too (it won't if element has display: none) */
             top: isOpen ? undefined : "-10000px",
           }}
-          sx={{
-            position: ["fixed", "fixed", "absolute"],
-            top: 0,
-            left: 0,
-            zIndex: 20,
-
-            py: 0,
-            pl: 4,
-            pr: 4,
-
-            justifyContent: "flex-start",
-            alignItems: "center",
-
-            width: ["100vw", "100vw", "100%"],
-            height: 48,
-
-            bg: "monochrome100",
-            borderRadius: [0, 0, "default"],
-
-            border: ["0px solid", "0px solid", "1px solid"],
-            borderColor: ["monochrome500", "monochrome500", "primary"],
-            borderBottom: ["1px solid", "1px solid", "1px solid"],
-            borderBottomColor: ["monochrome500", "monochrome500", "primary"],
-          }}
+          className={classes.input}
         >
           {/* Mobile back button */}
-          <Button
+          <IconButton
             onClick={() => closeMenu()}
-            variant="reset"
             type="button"
             sx={{
-              p: 0,
-              cursor: "pointer",
-              color: "primary",
-              display: ["block", "block", "none"],
+              color: "primary.main",
+              display: ["span", "span", "none"],
             }}
           >
             <Icon name="chevronleft" size={24}></Icon>
-          </Button>
-
-          {/* Desktop Magnifying Glass icon */}
-          <Box as="span" sx={{ display: ["none", "none", "block"] }}>
-            <Icon
-              name="search"
-              size={24}
-              color={theme.colors.monochrome700}
-            ></Icon>
-          </Box>
+          </IconButton>
 
           {/* Actual Input Field */}
           <Input
-            {...getInputProps({ ref: inputEl, value: inputValue })}
-            sx={{
-              height: "100%",
-              flexGrow: 1,
-              border: "none",
-              "&:focus": { outline: "none" },
-            }}
+            inputProps={getInputProps({ ref: inputEl, value: inputValue })}
+            startAdornment={
+              <InputAdornment
+                position="start"
+                className={classes.searchIconDesktop}
+              >
+                <Icon name="search" size={24} color={theme.palette.grey[700]} />
+              </InputAdornment>
+            }
+            /* clear input */
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  onClick={() => {
+                    setInputValue("");
+                    inputEl.current?.focus();
+                  }}
+                >
+                  <Icon
+                    name="clear"
+                    size={24}
+                    color={theme.palette.grey[700]}
+                  />
+                </IconButton>
+              </InputAdornment>
+            }
+            className={classes.actualInput}
           />
-          {/* clear input */}
-          <Button
-            variant="reset"
-            sx={{ cursor: "pointer" }}
-            onClick={() => {
-              setInputValue("");
-              inputEl.current?.focus();
-            }}
-          >
-            <Icon
-              name="clear"
-              size={24}
-              color={theme.colors.monochrome700}
-            ></Icon>
-          </Button>
         </Flex>
 
         {/* MENU */}
         <Flex
           {...getMenuProps()}
-          sx={{
-            position: ["fixed", "fixed", "absolute"],
-            top: [48, 48, 54],
-            left: 0,
-            zIndex: 21,
-
-            width: ["100vw", "100vw", "100%"],
-            height: ["calc(100vh - 48px)", "calc(100vh - 48px)", "auto"],
-            maxHeight: ["100vh", "100vh", "50vh"],
-            overflowY: "auto",
-
-            bg: "monochrome100",
-            p: 4,
-            flexDirection: "column",
-
-            visibility: isOpen ? "visible" : "hidden",
-
-            boxShadow: ["none", "none", "tooltip"],
-          }}
+          className={cx(classes.menu, isOpen && classes.menuOpened)}
         >
           {isOpen && inputValue === "" ? (
-            <Text variant="paragraph1" sx={{ color: "monochrome800" }}>
+            <Typography variant="body1" sx={{ color: "grey.800" }}>
               {label}
-            </Text>
+            </Typography>
           ) : inputValue !== "" && isLoading ? (
-            <Text variant="paragraph1" sx={{ color: "monochrome800" }}>
+            <Typography variant="body1" sx={{ color: "grey.800" }}>
               <Trans id="combobox.isloading">Resultate laden …</Trans>
-            </Text>
+            </Typography>
           ) : inputValue !== "" && !isLoading && items.length === 0 ? (
-            <Text variant="paragraph1" sx={{ color: "monochrome800" }}>
+            <Typography variant="body1" sx={{ color: "grey.800" }}>
               <Trans id="combobox.noitems">Keine Einträge</Trans>
-            </Text>
+            </Typography>
           ) : (
             <>
               {[
@@ -357,16 +461,7 @@ export const SearchField = ({
               ].map(([entity, items], entityIndex) => {
                 return (
                   <Fragment key={entityIndex}>
-                    <Box
-                      sx={{
-                        color: "monochrome600",
-                        fontSize: 3,
-                        borderBottom: "1px solid",
-                        borderBottomColor: "monochrome300",
-                        px: 3,
-                        py: 2,
-                      }}
-                    >
+                    <Box className={classes.label}>
                       {getLocalizedLabel({ id: entity })}
                     </Box>
                     {items.map((item, index) => {
@@ -380,38 +475,23 @@ export const SearchField = ({
                           }}
                           passHref
                         >
-                          <TUILink
+                          <Link
                             {...getItemProps({
                               item: item,
                               index: item.listId,
                             })}
+                            underline="none"
                             data-testid={`search-option-${entity}-${item.id}`}
-                            sx={{
-                              display: "flex",
-                              justifyContent: "space-between",
-                              alignItems: "center",
-                              backgroundColor:
-                                highlightedIndex === item.listId
-                                  ? "mutedDarker"
-                                  : "inherit",
-                              color: "monochrome800",
-                              fontSize: [4],
-                              lineHeight: 1.2,
-                              textDecoration: "none",
-                              px: 3,
-                              py: 3,
-                              "> svg": {
-                                visibility: "hidden",
-                              },
-
-                              "&:hover > svg": {
-                                visibility: "visible",
-                              },
-                            }}
+                            className={cx(
+                              classes.listItem,
+                              highlightedIndex === item.listId
+                                ? classes.highlightedItem
+                                : null
+                            )}
                           >
                             {getItemLabel(item.id)}
-                            <Icon name="chevronright"></Icon>
-                          </TUILink>
+                            <Icon name="chevronright" />
+                          </Link>
                         </NextLink>
                       );
                     })}

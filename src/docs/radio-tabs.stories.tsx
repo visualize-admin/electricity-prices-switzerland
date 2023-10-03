@@ -1,17 +1,13 @@
-import { markdown, ReactSpecimen } from "catalog";
 import { useState } from "react";
 
-import { RadioTabs } from "../components/radio-tabs";
+import { RadioTabs as RadioTabsComponent } from "../components/radio-tabs";
 
-export default () => {
+export const RadioTabs = () => {
   const [state, setState] = useState("one");
 
-  return markdown`
-## RadioTabs
-
-  ${(
-    <ReactSpecimen>
-      <RadioTabs
+  return (
+    <>
+      <RadioTabsComponent
         name="example1"
         options={[
           { value: "one", label: "One" },
@@ -22,16 +18,17 @@ export default () => {
         value={state}
         setValue={setState}
       />
-    </ReactSpecimen>
-  )}
+      <div>Selected value: {state}</div>
+    </>
+  );
+};
 
-  ${(<div>Selected value: {state}</div>)}
+export const RadioTabsSegmented = () => {
+  const [state, setState] = useState("one");
 
-### RadioTabs (segmented variant)
-
-  ${(
-    <ReactSpecimen>
-      <RadioTabs
+  return (
+    <>
+      <RadioTabsComponent
         name="example2"
         options={[
           { value: "one", label: "One" },
@@ -43,10 +40,12 @@ export default () => {
         setValue={setState}
         variant="segmented"
       />
-    </ReactSpecimen>
-  )}
+      <div>Selected value: {state}</div>
+    </>
+  );
+};
 
-  ${(<div>Selected value: {state}</div>)}
-
-`;
+export default {
+  title: "Components / Radio tabs",
+  component: RadioTabsComponent,
 };

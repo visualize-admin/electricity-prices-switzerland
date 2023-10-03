@@ -1,12 +1,13 @@
 import { PickingInfo } from "@deck.gl/core/typed";
 import { t, Trans } from "@lingui/macro";
+import { Box, Button, Input, Link, Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import basicAuthMiddleware from "nextjs-basic-auth-middleware";
 import { useCallback, useRef, useState } from "react";
-import { Box, Button, Flex, Grid, Input, Link, Text } from "theme-ui";
 
+import Flex from "src/components/flex";
 import {
   PriceComponent,
   useAllMunicipalitiesQuery,
@@ -33,7 +34,6 @@ import { useDisclosure } from "../components/useDisclosure";
 import useOutsideClick from "../components/useOutsideClick";
 import { useColorScale } from "../domain/data";
 import { IconCopy } from "../icons/ic-copy";
-
 
 const DOWNLOAD_ID = "map";
 
@@ -103,7 +103,7 @@ const ShareButton = () => {
   };
   return (
     <>
-      <Link variant="inline" ref={linkRef} onClick={handleClick}>
+      <Link color="primary" ref={linkRef} onClick={handleClick}>
         {t({ id: "map.share", message: "Teilen" })}
       </Link>
       {isOpen ? (
@@ -123,21 +123,21 @@ const ShareButton = () => {
               justifyContent: "space-between",
             }}
           >
-            <Text variant="heading6">URL</Text>
-            <Text variant="meta" color="success">
+            <Typography variant="h6">URL</Typography>
+            <Typography variant="meta" color="success">
               {hasCopied
                 ? t({ id: "share.url-copied", message: "URL kopiert ✅" })
                 : ""}
-            </Text>
+            </Typography>
           </Box>
           <Box
             sx={{
               borderStyle: "solid",
               boxSizing: "border-box",
               borderWidth: 1,
-              borderColor: "monochrome500",
+              borderColor: "grey.500",
               outline: hasInputFocus ? "2px solid" : "none",
-              outlineColor: "primary",
+              outlineColor: "primary.main",
               display: "flex",
               alignItems: "center",
               borderRadius: 6,
@@ -163,11 +163,11 @@ const ShareButton = () => {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                backgroundColor: "monochrome300",
-                color: "monochrome900",
+                bgcolor: "grey.300",
+                color: "grey.900",
                 cursor: "pointer",
                 "&:hover": {
-                  backgroundColor: "monochrome400",
+                  bgcolor: "grey.400",
                 },
                 "&:focus, &:active": {
                   outline: 0,
@@ -251,7 +251,8 @@ const IndexPage = ({ locale }: Props) => {
       <Head>
         <title>{t({ id: "site.title" })}</title>
       </Head>
-      <Grid
+      <Box
+        display="grid"
         sx={{
           minHeight: "100vh",
           gap: 0,
@@ -259,6 +260,7 @@ const IndexPage = ({ locale }: Props) => {
             `${HEADER_HEIGHT_S} 1fr auto`,
             `${HEADER_HEIGHT_M_UP} 1fr auto`,
           ],
+          gridTemplateColumns: "100%",
         }}
       >
         <Box>
@@ -281,30 +283,31 @@ const IndexPage = ({ locale }: Props) => {
           <Flex
             sx={{
               py: 8,
+              px: 4,
               flexDirection: "column",
               alignItems: "center",
               borderBottomWidth: 1,
               borderBottomStyle: "solid",
-              borderBottomColor: "monochrome500",
-              px: 4,
+              borderBottomColor: "grey.500",
+              overflow: "hidden",
             }}
           >
-            <Text
-              as="h1"
+            <Typography
+              component="h1"
               variant="giga"
               sx={{ textAlign: ["left", "left", "center"] }}
+              gutterBottom
             >
               <Trans id="site.title">Strompreise Schweiz</Trans>
-            </Text>
+            </Typography>
 
-            <Text
-              variant="paragraph1"
+            <Typography
+              variant="body1"
               sx={{
                 width: "100%",
                 textAlign: ["left", "left", "center"],
-                color: "monochrome800",
-                mt: 2,
-                mb: 2,
+                color: "grey.800",
+                my: 3,
                 height: [0, 0, "unset"],
                 visibility: ["hidden", "hidden", "visible"],
               }}
@@ -313,11 +316,11 @@ const IndexPage = ({ locale }: Props) => {
                 Detaillierte Preisanalysen von Kantonen, Gemeinden und
                 Netzbetreibern.
               </Trans>
-            </Text>
-
+            </Typography>
             <Search />
           </Flex>
-          <Grid
+          <Box
+            display="grid"
             sx={{
               width: "100%",
               gridTemplateColumns: ["1fr", "1fr 20rem"],
@@ -330,7 +333,7 @@ const IndexPage = ({ locale }: Props) => {
               // id used by the screenshot service
               id={DOWNLOAD_ID}
               sx={{
-                bg: "monochrome200",
+                bgcolor: "grey.200",
                 top: [0, HEADER_HEIGHT_M_UP],
                 width: "100%",
                 gridArea: "map",
@@ -339,7 +342,7 @@ const IndexPage = ({ locale }: Props) => {
                 position: ["relative", "sticky"],
                 borderRightWidth: "1px",
                 borderRightStyle: "solid",
-                borderRightColor: "monochrome500",
+                borderRightColor: "grey.500",
               }}
             >
               <ChoroplethMap
@@ -369,6 +372,7 @@ const IndexPage = ({ locale }: Props) => {
                     display: "flex",
                     gap: "2rem",
                     borderRadius: "3px 3px 0 0",
+                    fontSize: "1rem",
                   }}
                 >
                   <DownloadImage
@@ -380,21 +384,44 @@ const IndexPage = ({ locale }: Props) => {
                 </Box>
               )}
             </Box>
-            <Box sx={{ gridArea: "controls" }}>
-              <Box>
+            <Box
+              sx={{
+                gridArea: "controls",
+                display: "flex",
+                alignItems: "stretch",
+                flexDirection: "column",
+              }}
+            >
+              <Box
+                sx={{
+                  bgcolor: "muted.colored",
+                  px: 4,
+                  pb: 4,
+                }}
+              >
                 <Selector />
+                <Typography
+                  mt={2}
+                  variant="lead"
+                  display="block"
+                  component="div"
+                >
+                  <Trans id="selector.results">Suchergebnisse:</Trans>
+                </Typography>
               </Box>
-              <List
-                observations={observations}
-                cantonObservations={cantonMedianObservations}
-                colorScale={colorScale}
-                observationsQueryFetching={observationsQuery.fetching}
-              />
+              <Box>
+                <List
+                  observations={observations}
+                  cantonObservations={cantonMedianObservations}
+                  colorScale={colorScale}
+                  observationsQueryFetching={observationsQuery.fetching}
+                />
+              </Box>
             </Box>
-          </Grid>
+          </Box>
         </Box>
         <Footer />
-      </Grid>
+      </Box>
     </HighlightContext.Provider>
   );
 };

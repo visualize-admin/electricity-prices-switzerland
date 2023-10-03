@@ -1,6 +1,9 @@
+import { Box } from "@mui/material";
 import VisuallyHidden from "@reach/visually-hidden";
 import { ChangeEventHandler, useCallback } from "react";
-import { Box, Flex } from "theme-ui";
+
+import Flex from "src/components/flex";
+import { makeStyles } from "src/themes/makeStyles";
 
 type RadioTabsVariants = "tabs" | "borderlessTabs" | "segmented";
 
@@ -12,181 +15,171 @@ interface RadioTabsProps<T> {
   variant?: RadioTabsVariants;
 }
 
-const STYLES = {
-  tabs: {
-    active: {
-      display: "block",
-      position: "relative",
-      color: "primary",
-      bg: "monochrome100",
-      flex: "1 0 auto",
-      textAlign: "center",
-      px: 2,
-      py: 4,
-      fontSize: 4,
-      borderStyle: "solid",
-      borderWidth: 1,
-      borderColor: "monochrome500",
-      borderTopColor: "transparent",
-      borderBottomColor: "transparent",
-      borderRightWidth: 0,
-      ":last-of-type": {
-        borderRightWidth: 1,
-        borderRightColor: "monochrome100",
-      },
-      ":first-of-type": {
-        borderLeftColor: "monochrome100",
-      },
-      "::before": {
-        content: "''",
-        display: "block",
-        bg: "primary",
-        position: "absolute",
-        top: 0,
-        left: "-1px",
-        right: "-1px",
-        mt: "-1px",
-        height: 4,
-      },
+const useStyles = makeStyles()((theme) => ({
+  tabsActive: {
+    display: "block",
+    position: "relative",
+    color: "primary.main",
+    backgroundColor: "grey.100",
+    flex: "1 0 auto",
+    textAlign: "center",
+    padding: theme.spacing(4, 2),
+    fontSize: "1rem",
+    borderStyle: "solid",
+    borderWidth: 1,
+    borderColor: theme.palette.grey[500],
+    borderTopColor: "transparent",
+    borderBottomColor: "transparent",
+    borderRightWidth: 0,
+    ":last-of-type": {
+      borderRightWidth: 1,
+      borderRightColor: theme.palette.grey[100],
     },
-    inactive: {
-      overflow: "hidden",
-      whiteSpace: "nowrap",
-      textOverflow: "ellipsis",
+    ":first-of-type": {
+      borderLeftColor: theme.palette.grey[100],
+    },
+    "::before": {
+      content: "''",
       display: "block",
-      color: "secondary",
-      bg: "monochrome200",
-      flex: "1 1 auto",
-      textAlign: "center",
-      px: 2,
-      py: 4,
-      fontSize: 4,
-      borderColor: "monochrome500",
-      borderStyle: "solid",
-      borderWidth: 1,
-      borderRightWidth: 0,
-      ":last-of-type": {
-        borderRightWidth: 1,
-      },
+      backgroundColor: theme.palette.primary.main,
+      position: "absolute",
+      top: 0,
+      left: "-1px",
+      right: "-1px",
+      mt: "-1px",
+      height: 4,
     },
   },
-  borderlessTabs: {
-    active: {
-      display: "flex",
-      position: "relative",
-      color: "primary",
-      bg: "monochrome100",
-      flex: "1 1 auto",
-      textAlign: "center",
-      justifyContent: "center",
-      alignItems: "center",
-      px: 2,
-      py: 4,
-      fontSize: 4,
-      minWidth: "min-content",
-      borderStyle: "solid",
-      borderWidth: 1,
-      borderColor: "monochrome500",
-      borderTopColor: "transparent",
-      borderBottomColor: "transparent",
-      borderRightWidth: 0,
-      ":last-of-type": {
-        borderRightWidth: 1,
-        borderRightColor: "monochrome100",
-      },
-      ":first-of-type": {
-        borderLeftColor: "monochrome100",
-      },
-      "::before": {
-        content: "''",
-        display: "block",
-        bg: "primary",
-        position: "absolute",
-        top: 0,
-        left: "-1px",
-        right: "-1px",
-        mt: "-1px",
-        height: 4,
-      },
-    },
-    inactive: {
-      display: "flex",
-      cursor: "pointer",
-      color: "secondary",
-      alignItems: "center",
-      bg: "monochrome200",
-      flex: "1 1 auto",
-      justifyContent: "center",
-      minWidth: "min-content",
-      textAlign: "center",
-      px: 2,
-      py: 4,
-      fontSize: 4,
-      borderColor: "monochrome500",
-      borderStyle: "solid",
-      borderWidth: 1,
-      borderRightWidth: 0,
-      ":first-of-type": {
-        borderLeftWidth: 0,
-      },
-      ":last-of-type": {
-        borderRightWidth: 0,
-      },
+  tabsInactive: {
+    overflow: "hidden",
+    whiteSpace: "nowrap",
+    textOverflow: "ellipsis",
+    display: "block",
+    color: theme.palette.text.secondary,
+    backgroundColor: theme.palette.grey[200],
+    flex: "1 1 auto",
+    textAlign: "center",
+    padding: theme.spacing(4, 2),
+    fontSize: "1rem",
+    borderColor: theme.palette.grey[500],
+    borderStyle: "solid",
+    borderWidth: 1,
+    borderRightWidth: 0,
+    ":last-of-type": {
+      borderRightWidth: 1,
     },
   },
-  segmented: {
-    active: {
+  borderlessTabsActive: {
+    display: "flex",
+    position: "relative",
+    color: "primary.main",
+    backgroundColor: theme.palette.grey[100],
+    flex: "1 1 auto",
+    textAlign: "center",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: theme.spacing(4, 2),
+    fontSize: "1rem",
+    minWidth: "min-content",
+    borderStyle: "solid",
+    borderWidth: 1,
+    borderColor: theme.palette.grey[500],
+    borderTopColor: "transparent",
+    borderBottomColor: "transparent",
+    borderRightWidth: 0,
+    ":last-of-type": {
+      borderRightWidth: 1,
+      borderRightColor: theme.palette.grey[100],
+    },
+    ":first-of-type": {
+      borderLeftColor: theme.palette.grey[100],
+    },
+    "::before": {
+      content: "''",
       display: "block",
-      position: "relative",
-      color: "primary",
-      bg: "monochrome100",
-      flex: "1 0 auto",
-      textAlign: "center",
-      p: 2,
-      fontSize: 3,
-      borderStyle: "solid",
-      borderWidth: 1,
-      borderColor: "monochrome500",
+      backgroundColor: theme.palette.primary.main,
+      position: "absolute",
+      top: 0,
+      left: "-1px",
+      right: "-1px",
+      mt: "-1px",
+      height: 4,
+    },
+  },
+  borderlessTabsInactive: {
+    display: "flex",
+    cursor: "pointer",
+    color: "secondary",
+    alignItems: "center",
+    backgroundColor: theme.palette.grey[200],
+    flex: "1 1 auto",
+    justifyContent: "center",
+    minWidth: "min-content",
+    textAlign: "center",
+    padding: theme.spacing(4, 2),
+    fontSize: "1rem",
+    borderColor: theme.palette.grey[500],
+    borderStyle: "solid",
+    borderWidth: 1,
+    borderRightWidth: 0,
+    ":first-of-type": {
+      borderLeftWidth: 0,
+    },
+    ":last-of-type": {
       borderRightWidth: 0,
+    },
+  },
+  segmentedActive: {
+    display: "block",
+    position: "relative",
+    color: theme.palette.primary.main,
+    backgroundColor: theme.palette.grey[100],
+    flex: "1 0 auto",
+    textAlign: "center",
+    padding: theme.spacing(2),
+    fontSize: "1rem",
+    borderStyle: "solid",
+    borderWidth: 1,
+    borderColor: theme.palette.grey[500],
+    borderRightWidth: 0,
 
-      ":last-of-type": {
-        borderRightWidth: 1,
-        borderTopRightRadius: "default",
-        borderBottomRightRadius: "default",
-      },
-      ":first-of-type": {
-        borderTopLeftRadius: "default",
-        borderBottomLeftRadius: "default",
-      },
+    ":last-of-type": {
+      borderRightWidth: 1,
+      borderTopRightRadius: "default",
+      borderBottomRightRadius: "default",
     },
-    inactive: {
-      cursor: "pointer",
-      display: "block",
-      color: "secondary",
-      bg: "monochrome200",
-      overflow: "hidden",
-      whiteSpace: "nowrap",
-      textOverflow: "ellipsis",
-      flex: "1 1 auto",
-      textAlign: "center",
-      p: 2,
-      fontSize: 3,
-      borderColor: "monochrome500",
-      borderStyle: "solid",
-      borderWidth: 1,
-      borderRightWidth: 0,
-      ":last-of-type": {
-        borderRightWidth: 1,
-        borderTopRightRadius: "default",
-        borderBottomRightRadius: "default",
-      },
-      ":first-of-type": {
-        borderTopLeftRadius: "default",
-        borderBottomLeftRadius: "default",
-      },
+    ":first-of-type": {
+      borderTopLeftRadius: "default",
+      borderBottomLeftRadius: "default",
     },
   },
-} as const;
+  segmentedInactive: {
+    cursor: "pointer",
+    display: "block",
+    color: theme.palette.secondary.main,
+    bgcolor: "grey.200",
+    overflow: "hidden",
+    whiteSpace: "nowrap",
+    textOverflow: "ellipsis",
+    flex: "1 1 auto",
+    textAlign: "center",
+    padding: theme.spacing(2),
+    fontSize: "1rem",
+    borderColor: theme.palette.grey[500],
+    borderStyle: "solid",
+    borderWidth: 1,
+    borderRightWidth: 0,
+    ":last-of-type": {
+      borderRightWidth: 1,
+      borderTopRightRadius: "default",
+      borderBottomRightRadius: "default",
+    },
+    ":first-of-type": {
+      borderTopLeftRadius: "default",
+      borderBottomLeftRadius: "default",
+    },
+  },
+}));
 
 export const RadioTabs = <T extends string>({
   name,
@@ -204,7 +197,7 @@ export const RadioTabs = <T extends string>({
     [setValue]
   );
 
-  const styles = STYLES[variant];
+  const { classes } = useStyles();
 
   return (
     <Flex sx={{ justifyItems: "stretch" }}>
@@ -214,9 +207,13 @@ export const RadioTabs = <T extends string>({
         return (
           <Box
             key={option.value}
-            as="label"
+            component="label"
             title={typeof option.label === "string" ? option.label : undefined}
-            sx={isActive ? styles.active : styles.inactive}
+            className={
+              isActive
+                ? classes[`${variant}Active`]
+                : classes[`${variant}Inactive`]
+            }
           >
             <VisuallyHidden>
               <input

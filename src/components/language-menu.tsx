@@ -1,8 +1,9 @@
-import { Box, Flex, Link } from "@theme-ui/components";
+import { Box, Link } from "@mui/material";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { ReactNode } from "react";
 
+import Flex from "src/components/flex";
 import contentRoutes from "src/content-routes.json";
 import { useLocale } from "src/lib/use-locale";
 import { locales } from "src/locales/locales";
@@ -34,13 +35,14 @@ export const LanguageMenu = ({ contentId }: { contentId?: string }) => {
 
   return (
     <Flex
-      as="ul"
+      component="ul"
       sx={{
         listStyle: "none",
         p: [2, 0],
+        my: 0,
         ml: [0, "auto"],
         width: ["100%", "auto"],
-        bg: ["monochrome300", "transparent"],
+        backgroundColor: ["grey.300", "transparent"],
         order: [1, 2],
         justifyContent: "flex-end",
       }}
@@ -52,27 +54,27 @@ export const LanguageMenu = ({ contentId }: { contentId?: string }) => {
           <Link
             rel="alternate"
             hrefLang={locale}
+            typography="body2"
             sx={{
-              variant: "text.paragraph2",
-              fontSize: 3,
-              lineHeight: 3,
+              fontSize: "0.875rem",
+              lineHeight: "1.25rem",
               p: 1,
               textTransform: "uppercase",
               textDecoration: "none",
-              color: "monochrome700",
-              bg:
+              color: "grey.700",
+              backgroundColor:
                 locale === currentLocale
-                  ? ["monochrome500", "monochrome300"]
+                  ? ["grey.500", "grey.300"]
                   : "transparent",
               ":hover": {
-                color: "primary",
+                color: "primary.main",
               },
               ":active": {
-                color: "primaryActive",
+                color: "primary.active",
               },
               ":disabled": {
                 cursor: "initial",
-                color: "primaryDisabled",
+                color: "primary.disabled",
               },
             }}
           >
@@ -81,7 +83,7 @@ export const LanguageMenu = ({ contentId }: { contentId?: string }) => {
         );
 
         return (
-          <Box as="li" key={locale} sx={{ ml: 1, p: 0 }}>
+          <Box component="li" key={locale} sx={{ ml: 1, p: 0 }}>
             {alternate ? (
               <NextLink href={alternate.path} passHref locale={false}>
                 {linkEl}

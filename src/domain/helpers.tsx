@@ -26,7 +26,6 @@ import { useTheme } from "../themes";
 
 import { GenericObservation } from "./data";
 
-
 export const isNumber = (x: $IntentionalAny): boolean =>
   typeof x === "number" && !isNaN(x);
 export const mkNumber = (x: $IntentionalAny): number => +x;
@@ -154,7 +153,7 @@ export const getPalette = (
     case "set3":
       return schemeSet3;
     case "elcom":
-      return theme.palettes.categorical;
+      return theme.palette.categorical;
     default:
       return schemeCategory10;
   }

@@ -1,12 +1,11 @@
 import { Trans } from "@lingui/macro";
-import { Link as TUILink, Box, Text } from "@theme-ui/components";
+import { Link, Box, Typography } from "@mui/material";
 import * as React from "react";
 
 import { useLocale } from "src/lib/use-locale";
 import { useQueryState } from "src/lib/use-query-state";
 
 import { Entity } from "../../domain/data";
-
 
 export type Download =
   | "map"
@@ -78,22 +77,24 @@ export const DownloadImage = ({
 
   return (
     <Box>
-      {!download ? (
-        <TUILink
-          variant="inline"
-          href={downLoadUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Trans id="image.download">Bild herunterladen</Trans>
-        </TUILink>
-      ) : (
-        <Text variant="meta" sx={{ mt: 4 }}>
+      {download ? (
+        <Typography variant="meta" sx={{ mt: 4 }} fontSize="inherit">
           <Trans id="image.download.source">
             Eidgenössische Elektrizitätskommission ElCom
           </Trans>{" "}
           - <Trans id="image.download.unit">Tarifvergleich in Rp./kWh</Trans>
-        </Text>
+        </Typography>
+      ) : (
+        <Link
+          color="primary"
+          sx={{ cursor: "pointer" }}
+          href={downLoadUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          fontSize="inherit"
+        >
+          <Trans id="image.download">Bild herunterladen</Trans>
+        </Link>
       )}
     </Box>
   );

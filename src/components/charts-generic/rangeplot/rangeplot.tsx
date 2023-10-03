@@ -17,76 +17,74 @@ export const Range = ({ id }: { id: string }) => {
 
   const { margins, chartWidth } = bounds;
 
-  return (
-    <>
-      <g
-        transform={`translate(${margins.left}, ${
-          margins.top + (margins.annotations ?? 0)
-        })`}
+  return <>
+    <g
+      transform={`translate(${margins.left}, ${
+        margins.top + (margins.annotations ?? 0)
+      })`}
+    >
+      {rangeGroups.map((row) => {
+        const xMin = min(row[1], (d) => getX(d)) ?? 0;
+        const xMax = max(row[1], (d) => getX(d));
+
+        const clipPathId = `cut-off-range-${id}-${row[0]}`.replace(
+          /\W+/g,
+          "-"
+        );
+
+        return (
+          <React.Fragment key={row[0]}>
+            {xMin !== undefined &&
+              xMax !== undefined &&
+              isNumber(yScale(row[0])) && (
+                <>
+                  <clipPath id={clipPathId}>
+                    <rect
+                      x={xScale(xMin)}
+                      width={xScale(xMax) - xScale(xMin)}
+                      height={DOT_RADIUS * 2}
+                      fillOpacity={0.2}
+                    />
+                  </clipPath>
+                  <g
+                    key={row[0]}
+                    transform={`translate(0, ${yScale(row[0]) as number})`}
+                  >
+                    <rect
+                      x={0}
+                      y={0}
+                      width={chartWidth}
+                      height={DOT_RADIUS * 2}
+                      fill={`url(#priceRange-${id})`}
+                      fillOpacity={0.3}
+                      clipPath={`url(#${clipPathId})`}
+                    />
+                  </g>
+                </>
+              )}
+          </React.Fragment>
+        );
+      })}
+    </g>
+    <defs>
+      <linearGradient
+        id={`priceRange-${id}`}
+        x1="0%"
+        y1="0%"
+        x2="100%"
+        y2="0%"
       >
-        {rangeGroups.map((row) => {
-          const xMin = min(row[1], (d) => getX(d)) ?? 0;
-          const xMax = max(row[1], (d) => getX(d));
-
-          const clipPathId = `cut-off-range-${id}-${row[0]}`.replace(
-            /\W+/g,
-            "-"
+        {colors.range().map((color, i) => {
+          const normalized = normalize(
+            colors.domain()[i],
+            colors.domain()[colors.domain().length - 1],
+            colors.domain()[0]
           );
-
-          return (
-            <React.Fragment key={row[0]}>
-              {xMin !== undefined &&
-                xMax !== undefined &&
-                isNumber(yScale(row[0])) && (
-                  <>
-                    <clipPath id={clipPathId}>
-                      <rect
-                        x={xScale(xMin)}
-                        width={xScale(xMax) - xScale(xMin)}
-                        height={DOT_RADIUS * 2}
-                        fillOpacity={0.2}
-                      />
-                    </clipPath>
-                    <g
-                      key={row[0]}
-                      transform={`translate(0, ${yScale(row[0]) as number})`}
-                    >
-                      <rect
-                        x={0}
-                        y={0}
-                        width={chartWidth}
-                        height={DOT_RADIUS * 2}
-                        fill={`url(#priceRange-${id})`}
-                        fillOpacity={0.3}
-                        clipPath={`url(#${clipPathId})`}
-                      />
-                    </g>
-                  </>
-                )}
-            </React.Fragment>
-          );
+          return <stop key={color} offset={normalized} stopColor={color} />;
         })}
-      </g>
-      <defs>
-        <linearGradient
-          id={`priceRange-${id}`}
-          x1="0%"
-          y1="0%"
-          x2="100%"
-          y2="0%"
-        >
-          {colors.range().map((color, i) => {
-            const normalized = normalize(
-              colors.domain()[i],
-              colors.domain()[colors.domain().length - 1],
-              colors.domain()[0]
-            );
-            return <stop key={color} offset={normalized} stopColor={color} />;
-          })}
-        </linearGradient>
-      </defs>
-    </>
-  );
+      </linearGradient>
+    </defs>
+  </>;
 };
 
 export const RangePoints = () => {
@@ -127,7 +125,7 @@ export const RangePoints = () => {
                     width={margins.left + chartWidth + margins.right}
                     height={DOT_RADIUS * 2}
                     fillOpacity={0.3}
-                    fill={theme.colors.primaryLight}
+                    fill={theme.palette.primary.light}
                   />
                 </g>
               )}

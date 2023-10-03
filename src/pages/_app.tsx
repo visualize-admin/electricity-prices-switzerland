@@ -1,10 +1,10 @@
 import { I18nProvider } from "@lingui/react";
+import { CssBaseline, ThemeProvider } from "@mui/material";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import Script from "next/script";
 import { useEffect, useState } from "react";
-import { ThemeProvider } from "theme-ui";
 
 import { GraphqlProvider } from "src/graphql/context";
 import { LocaleProvider } from "src/lib/use-locale";
@@ -14,7 +14,8 @@ import { i18n, parseLocaleString } from "src/locales/locales";
 import { analyticsPageView } from "../domain/analytics";
 import "src/styles/nprogress.css";
 import "src/styles/reach-dialog.css";
-import { preloadFonts, theme } from "../themes/elcom";
+import theme from "../themes/elcom";
+import { preloadFonts } from "../themes/elcom";
 
 const useMatomo = () => {
   const [matomoId, setMatomoId] = useState<string | undefined>(undefined);
@@ -85,6 +86,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <I18nProvider i18n={i18n}>
           <GraphqlProvider>
             <ThemeProvider theme={theme}>
+              <CssBaseline />
               <Component {...pageProps} />
             </ThemeProvider>
           </GraphqlProvider>

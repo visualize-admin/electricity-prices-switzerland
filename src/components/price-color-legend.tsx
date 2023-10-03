@@ -1,6 +1,9 @@
 import { Trans, t } from "@lingui/macro";
-import { Box, BoxProps, Flex, Grid, Text } from "@theme-ui/components";
+import { Box, BoxProps } from "@mui/material";
 import React, { useState } from "react";
+
+import Flex from "src/components/flex";
+import { makeStyles } from "src/themes/makeStyles";
 
 import { useFormatCurrency } from "../domain/helpers";
 import { IconClear } from "../icons/ic-clear";
@@ -9,11 +12,102 @@ import { useTheme } from "../themes";
 
 import { InfoDialogButton } from "./info-dialog";
 
-
 const LEGEND_WIDTH = 215;
 const TOP_LABEL_HEIGHT = 14;
 const COLOR_HEIGHT = 12;
 const BOTTOM_LABEL_HEIGHT = 16;
+
+const useStyles = makeStyles()((theme) => ({
+  legendBox: {
+    zIndex: 13,
+    backgroundColor: "rgba(245, 245, 245, 0.8)",
+    borderRadius: "default",
+    height: "fit-content",
+    padding: theme.spacing(2, 4),
+  },
+
+  clearIcon: {
+    display: ["flex", "none"],
+    cursor: "pointer",
+    flexGrow: 1,
+    justifyContent: "flex-end",
+  },
+
+  topLabel: {
+    justifyContent: "space-between",
+    color: "text",
+    height: TOP_LABEL_HEIGHT,
+    pointerEvents: "none",
+  },
+
+  legend: {
+    width: LEGEND_WIDTH,
+    zIndex: 13,
+    borderRadius: theme.shape.borderRadius,
+    height: "fit-content",
+    padding: theme.spacing(2, 0),
+    paddingLeft: theme.spacing(4),
+  },
+
+  legendItems: {
+    justifyContent: "space-between",
+    color: theme.palette.grey[600],
+    fontSize: "0.625rem",
+    marginBottom: 2,
+  },
+
+  dash: {
+    position: "absolute",
+    left: "50%",
+    width: 0,
+    borderLeft: "1px dashed",
+    borderLeftColor: theme.palette.text.primary,
+    height: COLOR_HEIGHT * 1.5,
+    overflowY: "visible",
+    zIndex: 14,
+    transform: "translateY(-15%)",
+  },
+
+  barContainer: {
+    gridTemplateColumns: ".8fr 1fr 1fr 1fr .8fr",
+    columnGap: 0,
+    height: COLOR_HEIGHT + BOTTOM_LABEL_HEIGHT,
+    width: "100%",
+  },
+
+  bar: {
+    width: "100%",
+    height: COLOR_HEIGHT,
+    borderRight: "1px solid #FFF",
+  },
+
+  belowCaption: {
+    fontSize: "0.625rem",
+    color: theme.palette.grey[600],
+    transform: "translateX(50%)",
+    letterSpacing: -0.4,
+    textAlign: "right",
+    width: "fit-content",
+  },
+
+  triangle: {
+    width: 0,
+    height: 0,
+    borderTop: `${COLOR_HEIGHT / 2}px solid transparent`,
+    borderBottom: `${COLOR_HEIGHT / 2}px solid transparent`,
+    borderRight: `${COLOR_HEIGHT / 2}px solid  ${theme.palette.diverging[0]}`,
+  },
+
+  triangleRight: {
+    width: 0,
+    height: 0,
+    borderTop: `${COLOR_HEIGHT / 2}px solid transparent`,
+    borderBottom: `${COLOR_HEIGHT / 2}px solid transparent`,
+    borderLeft: `${COLOR_HEIGHT / 2}px solid ${
+      theme.palette.diverging[theme.palette.diverging.length - 1]
+    }`,
+  },
+}));
 
 const LegendBox = ({
   children,
@@ -22,18 +116,9 @@ const LegendBox = ({
   children: React.ReactNode;
   sx?: BoxProps["sx"];
 }) => {
+  const { classes } = useStyles();
   return (
-    <Box
-      sx={{
-        zIndex: 13,
-        bg: "rgba(245, 245, 245, 0.8)",
-        borderRadius: "default",
-        height: "fit-content",
-        px: 4,
-        py: 2,
-        ...sx,
-      }}
-    >
+    <Box className={classes.legendBox} sx={sx}>
       {children}
     </Box>
   );
@@ -43,6 +128,7 @@ export const MapPriceColorLegend = ({
 }: {
   stats: [number | undefined, number | undefined, number | undefined];
 }) => {
+  const { classes } = useStyles();
   const formatCurrency = useFormatCurrency();
   const [open, setOpen] = useState(true);
 
@@ -63,28 +149,30 @@ export const MapPriceColorLegend = ({
     );
   }
   return (
-    <LegendBox>
-      <Flex sx={{ alignItems: "center", width: "100%" }}>
-        <Text sx={{ fontSize: 1, lineHeight: 1.5, mr: 1 }}>
+    <LegendBox
+      sx={{
+        fontSize: "0.625rem",
+        lineHeight: 1.25,
+      }}
+    >
+      <Flex
+        sx={{
+          alignItems: "center",
+          width: "100%",
+          mb: -2,
+        }}
+      >
+        <Box sx={{ mr: 1 }}>
           <Trans id="map.legend.title">
             Tarifvergleich in Rp./kWh (Angaben exkl. MwSt.)
           </Trans>
-        </Text>
+        </Box>
         <InfoDialogButton
           smaller
-          iconOnly
           slug="help-price-comparison"
           label={t({ id: "help.price-comparison", message: `Tarifvergleich` })}
         />
-        <Box
-          onClick={() => setOpen(false)}
-          sx={{
-            display: ["flex", "none"],
-            cursor: "pointer",
-            flexGrow: 1,
-            justifyContent: "flex-end",
-          }}
-        >
+        <Box onClick={() => setOpen(false)} className={classes.clearIcon}>
           <IconClear size={16} color="#666" />
         </Box>
       </Flex>
@@ -94,45 +182,35 @@ export const MapPriceColorLegend = ({
           width: LEGEND_WIDTH,
         }}
       >
-        <Flex
-          sx={{
-            justifyContent: "space-between",
-            color: "text",
-            fontSize: 1,
-            lineHeight: 1.5,
-            height: TOP_LABEL_HEIGHT,
-            pointerEvents: "none",
-          }}
-        >
-          <Text sx={{ flex: "1 1 0px", display: "flex" }}>
+        <Flex className={classes.topLabel}>
+          <Box sx={{ flex: "1 1 0px", display: "flex" }}>
             {stats[0] && formatCurrency(stats[0])}
-          </Text>
-          <Text sx={{ flex: "1 1 0px", textAlign: "center" }}>
+          </Box>
+          <Box sx={{ flex: "1 1 0px", textAlign: "center" }}>
             {stats[1] && formatCurrency(stats[1])}
-          </Text>
-          <Text sx={{ flex: "1 1 0px", textAlign: "right" }}>
+          </Box>
+          <Box sx={{ flex: "1 1 0px", textAlign: "right" }}>
             {stats[2] && formatCurrency(stats[2])}
-          </Text>
+          </Box>
         </Flex>
         <Flex
           sx={{
             justifyContent: "space-between",
-            color: "monochrome600",
-            fontSize: 1,
+            color: "grey.600",
             mb: 2,
           }}
         >
-          <Text sx={{ flex: "1 1 0px" }}>
+          <Box sx={{ flex: "1 1 0px" }}>
             <Trans id="price.legend.min">min</Trans>
-          </Text>
+          </Box>
 
-          <Text sx={{ flex: "1 1 0px", textAlign: "center" }}>
+          <Box sx={{ flex: "1 1 0px", textAlign: "center" }}>
             <Trans id="price.legend.median">median</Trans>
-          </Text>
+          </Box>
 
-          <Text sx={{ flex: "1 1 0px", textAlign: "right" }}>
+          <Box sx={{ flex: "1 1 0px", textAlign: "right" }}>
             <Trans id="price.legend.max">max</Trans>
-          </Text>
+          </Box>
         </Flex>
 
         <ColorsLine />
@@ -142,36 +220,21 @@ export const MapPriceColorLegend = ({
 };
 
 export const PriceColorLegend = () => {
+  const { classes } = useStyles();
   return (
-    <Box
-      sx={{
-        width: LEGEND_WIDTH,
-        zIndex: 13,
-        borderRadius: "default",
-        height: "fit-content",
-        pl: 4,
-        py: 2,
-      }}
-    >
-      <Flex
-        sx={{
-          justifyContent: "space-between",
-          color: "monochrome600",
-          fontSize: 1,
-          mb: 2,
-        }}
-      >
-        <Text sx={{ flex: "1 1 0px" }}>
+    <Box className={classes.legend}>
+      <Flex className={classes.legendItems}>
+        <Box sx={{ flex: "1 1 0px" }}>
           <Trans id="price.legend.min">min</Trans>
-        </Text>
+        </Box>
 
-        <Text sx={{ flex: "1 1 0px", textAlign: "center" }}>
+        <Box sx={{ flex: "1 1 0px", textAlign: "center" }}>
           <Trans id="price.legend.median">median</Trans>
-        </Text>
+        </Box>
 
-        <Text sx={{ flex: "1 1 0px", textAlign: "right" }}>
+        <Box sx={{ flex: "1 1 0px", textAlign: "right" }}>
           <Trans id="price.legend.max">max</Trans>
-        </Text>
+        </Box>
       </Flex>
 
       <ColorsLine />
@@ -180,43 +243,17 @@ export const PriceColorLegend = () => {
 };
 
 export const ColorsLine = () => {
-  const { palettes } = useTheme();
+  const { classes } = useStyles();
+  const { palette } = useTheme();
   return (
     <Flex
       sx={{ height: COLOR_HEIGHT + BOTTOM_LABEL_HEIGHT, position: "relative" }}
       data-name="color-line"
     >
-      <Box
-        sx={{
-          position: "absolute",
-          left: "50%",
-          width: 0,
-          borderLeft: "1px dashed",
-          borderLeftColor: "text",
-          height: COLOR_HEIGHT * 1.5,
-          overflowY: "visible",
-          zIndex: 14,
-          transform: "translateY(-15%)",
-        }}
-      ></Box>
-      <Box
-        sx={{
-          width: 0,
-          height: 0,
-          borderTop: `${COLOR_HEIGHT / 2}px solid transparent`,
-          borderBottom: `${COLOR_HEIGHT / 2}px solid transparent`,
-          borderRight: `${COLOR_HEIGHT / 2}px solid  ${palettes.diverging[0]}`,
-        }}
-      />
-      <Grid
-        sx={{
-          gridTemplateColumns: ".8fr 1fr 1fr 1fr .8fr",
-          columnGap: 0,
-          height: COLOR_HEIGHT + BOTTOM_LABEL_HEIGHT,
-          width: "100%",
-        }}
-      >
-        {palettes.diverging.map((bg, i) => (
+      <Box className={classes.dash}></Box>
+      <Box className={classes.triangle} />
+      <Box display="grid" className={classes.barContainer}>
+        {palette.diverging.map((bg, i) => (
           <Flex
             key={bg}
             sx={{
@@ -225,41 +262,13 @@ export const ColorsLine = () => {
               ":last-of-type > div": { borderRight: 0 },
             }}
           >
-            <Box
-              sx={{
-                bg,
-                width: "100%",
-                height: COLOR_HEIGHT,
-                borderRight: "1px solid #FFF",
-              }}
-            />
+            <Box className={classes.bar} style={{ backgroundColor: bg }} />
 
-            <Text
-              sx={{
-                fontSize: 1,
-                color: "monochrome600",
-                transform: "translateX(50%)",
-                letterSpacing: -0.4,
-                textAlign: "right",
-                width: "fit-content",
-              }}
-            >
-              {PRICE_THRESHOLDS[i]}
-            </Text>
+            <Box className={classes.belowCaption}>{PRICE_THRESHOLDS[i]}</Box>
           </Flex>
         ))}
-      </Grid>
-      <Box
-        sx={{
-          width: 0,
-          height: 0,
-          borderTop: `${COLOR_HEIGHT / 2}px solid transparent`,
-          borderBottom: `${COLOR_HEIGHT / 2}px solid transparent`,
-          borderLeft: `${COLOR_HEIGHT / 2}px solid ${
-            palettes.diverging[palettes.diverging.length - 1]
-          }`,
-        }}
-      />
+      </Box>
+      <Box className={classes.triangleRight} />
     </Flex>
   );
 };

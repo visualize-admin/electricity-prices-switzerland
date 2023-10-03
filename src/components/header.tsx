@@ -1,5 +1,7 @@
 import { Trans } from "@lingui/macro";
-import { Box, Flex, Text } from "theme-ui";
+import { Box, Typography } from "@mui/material";
+
+import Flex from "src/components/flex";
 
 import { LanguageMenu } from "./language-menu";
 import { HomeLink } from "./links";
@@ -14,7 +16,7 @@ export const Header = ({
 }) => {
   return (
     <Flex
-      as="header"
+      component="header"
       sx={
         pageType === "content"
           ? {
@@ -23,9 +25,9 @@ export const Header = ({
               pb: [0, 5, 5],
               borderBottomWidth: "4px",
               borderBottomStyle: "solid",
-              borderBottomColor: "brand",
-              bg: "monochrome100",
-              color: "monochrome700",
+              borderBottomColor: "brand.main",
+              bgcolor: "grey.100",
+              color: "grey.700",
               flexDirection: ["column", "row"],
             }
           : {
@@ -34,9 +36,9 @@ export const Header = ({
               pb: [0, 5, 5],
               borderBottomWidth: "4px",
               borderBottomStyle: "solid",
-              borderBottomColor: "brand",
-              bg: "monochrome100",
-              color: "monochrome700",
+              borderBottomColor: "brand.main",
+              bgcolor: "grey.100",
+              color: "grey.700",
               flexDirection: ["column", "row"],
               // Needs to be "fixed" to prevent
               // iOS full-page scrolling
@@ -59,13 +61,13 @@ export const Logo = () => {
   return (
     <HomeLink passHref>
       <Flex
-        as="a"
+        component="a"
         sx={{
           order: [2, 1],
           alignItems: ["center", "flex-start"],
           cursor: "pointer",
           textDecoration: "none",
-          color: "monochrome900",
+          color: "grey.900",
         }}
       >
         <Box
@@ -83,21 +85,27 @@ export const Logo = () => {
             pr: 6,
             borderRightWidth: "1px",
             borderRightStyle: "solid",
-            borderRightColor: "monochrome300",
-            color: "monochrome900",
+            borderRightColor: "grey.300",
+            color: "grey.900",
           }}
         >
           <LogoDesktop />
         </Box>
-        <Text
-          as="h1"
-          variant="lead"
-          sx={{ pl: [0, 6], textDecoration: "none", color: "monochrome800" }}
+        <Typography
+          component="h1"
+          variant="h1"
+          sx={{
+            pl: [0, 6],
+            fontSize: ["1rem"],
+            lineHeight: [1.25],
+            textDecoration: "none",
+            color: "grey.800",
+          }}
         >
           <Trans id="site.title">Strompreise Schweiz</Trans>
           {process.env.DEPLOYMENT &&
             ` [${process.env.DEPLOYMENT.toLocaleUpperCase()}]`}
-        </Text>
+        </Typography>
       </Flex>
     </HomeLink>
   );

@@ -21,7 +21,7 @@ export const Areas = () => {
           <Area
             key={`${d.key}-${i}`}
             path={areaGenerator(d) as string}
-            color={series.length > 1 ? colors(d.key) : theme.colors.primary}
+            color={series.length > 1 ? colors(d.key) : theme.palette.primary.main}
           />
         );
       })}

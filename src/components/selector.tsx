@@ -1,7 +1,8 @@
 import { Trans, t } from "@lingui/macro";
+import { Typography } from "@mui/material";
 import { useMemo } from "react";
-import { Flex, Text } from "theme-ui";
 
+import Flex from "src/components/flex";
 import { useQueryStateSingle } from "src/lib/use-query-state";
 
 import { categories, periods, priceComponents, products } from "../domain/data";
@@ -22,24 +23,26 @@ export const Selector = () => {
   }, []);
   return (
     <Flex
-      as="fieldset"
+      component="fieldset"
       sx={{
+        border: "none",
         flexDirection: "column",
         justifyContent: "flex-start",
-        bg: "mutedColored",
-        px: 4,
         py: 4,
 
         zIndex: 13,
-        "> div": { mt: 3 },
-        "> div:last-of-type": { mt: 6 },
+        "> div": { mt: 2 },
       }}
     >
-      <Text as="legend" variant="lead" sx={{ display: "contents" }}>
+      <Typography
+        component="legend"
+        variant="lead"
+        sx={{ display: "contents" }}
+      >
         <Trans id="selector.legend.select.parameters">
           Liste und Karte filtern
         </Trans>
-      </Text>
+      </Typography>
       <Combobox
         id="year"
         label={t({ id: "selector.year", message: `Jahr` })}
@@ -84,9 +87,6 @@ export const Selector = () => {
         }
         infoDialogSlug="help-products"
       />
-      <Text variant="lead">
-        <Trans id="selector.results">Suchergebnisse:</Trans>
-      </Text>
     </Flex>
   );
 };

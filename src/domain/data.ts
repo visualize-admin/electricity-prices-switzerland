@@ -52,17 +52,17 @@ export const useColorScale = ({
   medianValue: number | undefined;
   accessor: (x: QueryObservation) => number;
 }) => {
-  const { palettes } = useTheme();
+  const { palette } = useTheme();
 
   return useMemo(() => {
     const m = medianValue ?? 0;
     const domain = [m * 0.85, m * 0.95, m * 1.05, m * 1.15];
     const scale = scaleThreshold<number, string>()
       .domain(domain)
-      .range(palettes.diverging);
+      .range(palette.diverging);
 
     return scale;
-  }, [medianValue, palettes.diverging]);
+  }, [medianValue, palette.diverging]);
 };
 
 export type Entity = "municipality" | "operator" | "canton";

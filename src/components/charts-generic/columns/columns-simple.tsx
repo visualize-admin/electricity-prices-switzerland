@@ -18,7 +18,7 @@ export const Columns = () => {
           width={xScale.bandwidth()}
           y={yScale(Math.max(0, getY(d)))}
           height={Math.abs(yScale(getY(d)) - yScale(0))}
-          color={getY(d) <= 0 ? theme.colors.secondary : theme.colors.primary}
+          color={getY(d) <= 0 ? theme.palette.secondary.main : theme.palette.primary.main}
         />
       ))}
     </g>

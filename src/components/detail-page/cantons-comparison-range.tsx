@@ -1,10 +1,10 @@
 import { t, Trans } from "@lingui/macro";
-import { Box } from "@theme-ui/components";
+import { Box } from "@mui/material";
 import { groups } from "d3-array";
 import * as React from "react";
 import { memo, useEffect, useState } from "react";
-import { Flex } from "theme-ui";
 
+import Flex from "src/components/flex";
 import {
   ObservationKind,
   PriceComponent,
@@ -115,7 +115,6 @@ export const CantonsComparisonRangePlots = ({
             </Trans>
           </span>
           <InfoDialogButton
-            iconOnly
             slug="help-canton-comparison"
             label={t({
               id: "detail.card.title.cantons.comparison",

@@ -1,10 +1,4 @@
-import {
-  ScaleLinear,
-  ScaleBand,
-  ScaleOrdinal,
-  ScaleTime,
-  Bin,
-} from "d3";
+import { ScaleLinear, ScaleBand, ScaleOrdinal, ScaleTime, Bin } from "d3";
 import { createContext, useContext } from "react";
 
 import { ChartFields } from "../../domain/config-types";

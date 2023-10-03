@@ -1,10 +1,12 @@
 import { Trans, t } from "@lingui/macro";
-import { Box, Flex, Link, Text } from "@theme-ui/components";
+import { Box, Link } from "@mui/material";
+import { IconButton, LinkProps, Typography } from "@mui/material";
 import { PropsWithChildren } from "react";
-import { IconButton, LinkProps } from "theme-ui";
 
+import Flex from "src/components/flex";
 import { useLocale } from "src/lib/use-locale";
 import { useQueryStateSingle } from "src/lib/use-query-state";
+import { makeStyles } from "src/themes/makeStyles";
 
 import { IconDownload } from "../icons/ic-download";
 import { IconInfo } from "../icons/ic-info";
@@ -13,6 +15,70 @@ import { IconShare } from "../icons/ic-share";
 import { HelpDialog } from "./info-dialog";
 import { LogoDesktop } from "./logo";
 import { useDisclosure } from "./useDisclosure";
+
+const useStyles = makeStyles()(
+  ({ palette: { grey }, spacing: s, breakpoints }) => ({
+    footerLink: {
+      borderBottomWidth: "1px",
+      borderBottomStyle: "solid",
+      borderBottomColor: grey[500],
+      padding: s(4),
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      fontSize: "1rem",
+      gap: "1rem",
+    },
+
+    footerContainer: {
+      bgcolor: grey[200],
+      borderTop: "1px solid",
+      borderColor: grey[500],
+      paddingTop: s(6),
+    },
+
+    footerLinks: {
+      display: "grid",
+      padding: s(6),
+      marginBottom: s(8),
+      gap: s(6),
+      gridTemplateColumns: "1fr",
+      [breakpoints.up("sm")]: {
+        gridTemplateColumns: "1fr 1fr",
+      },
+    },
+
+    footerLegal: {
+      flexDirection: ["column", "row"],
+      justifyContent: ["flex-start", "space-between"],
+      alignItems: ["flex-start", "center"],
+      bgcolor: grey[200],
+      borderTopWidth: "1px",
+      borderTopStyle: "solid",
+      borderTopColor: grey[500],
+    },
+
+    legal: {
+      width: "100%",
+      padding: s(5, 6),
+      color: [grey[900], grey[700]],
+      display: "flex",
+      justifyContent: "space-between",
+    },
+
+    logo: {
+      width: "100vw",
+      display: ["block", "none"],
+      padding: s(5, 4),
+      borderTopWidth: "1px",
+      borderBottomWidth: "1px",
+      borderTopStyle: "solid",
+      borderBottomStyle: "solid",
+      borderTopColor: grey[500],
+      borderBottomColor: grey[500],
+    },
+  })
+);
 
 const FooterLink = ({
   children,
@@ -23,32 +89,25 @@ const FooterLink = ({
     icon?: React.ReactNode;
   } & LinkProps
 >) => {
+  const { classes } = useStyles();
   return (
     <Link
       {...props}
-      variant="inline"
-      sx={{
-        borderBottomWidth: "1px",
-        borderBottomStyle: "solid",
-        borderBottomColor: "monochrome500",
-        p: 4,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        ...props.sx,
-      }}
+      color="primary"
+      underline="none"
+      className={classes.footerLink}
     >
       <div>{children}</div>
-      {icon}
+      <Box flexShrink={0}>{icon}</Box>
     </Link>
   );
 };
 
 const FooterTitle = ({ children }: { children: React.ReactNode }) => {
   return (
-    <Text variant="heading2" sx={{ mb: 6 }}>
+    <Typography variant="h2" sx={{ mb: 6 }}>
       {children}
-    </Text>
+    </Typography>
   );
 };
 const FooterSection = ({ children }: { children: React.ReactNode }) => {
@@ -56,6 +115,7 @@ const FooterSection = ({ children }: { children: React.ReactNode }) => {
 };
 
 export const Footer = () => {
+  const { classes } = useStyles();
   const locale = useLocale();
   const [{ period }] = useQueryStateSingle();
 
@@ -82,23 +142,8 @@ export const Footer = () => {
   };
 
   return (
-    <Box
-      sx={{
-        bg: "monochrome200",
-        borderTop: "1px solid",
-        borderColor: "monochrome500",
-        paddingTop: 6,
-      }}
-    >
-      <Box
-        sx={{
-          display: "grid",
-          p: 6,
-          marginBottom: 8,
-          gap: 6,
-          gridTemplateColumns: ["1fr", "1fr 1fr"],
-        }}
-      >
+    <Box className={classes.footerContainer}>
+      <Box className={classes.footerLinks}>
         <FooterSection>
           <FooterTitle>
             {t({
@@ -178,8 +223,9 @@ export const Footer = () => {
             icon={
               <Box sx={{ display: "flex", flexShrink: 0, gap: "1rem" }}>
                 <IconButton
-                  sx={{ p: 0, width: 24, height: 24, cursor: "pointer" }}
+                  sx={{ p: 0 }}
                   onClick={handleOpenCsvDownload}
+                  color="primary"
                 >
                   <IconInfo />
                 </IconButton>
@@ -220,37 +266,16 @@ export const Footer = () => {
         </FooterSection>
       </Box>
 
-      <Flex
-        as="footer"
-        sx={{
-          flexDirection: ["column", "row"],
-          justifyContent: ["flex-start", "space-between"],
-          alignItems: ["flex-start", "center"],
-          bg: "monochrome200",
-          borderTopWidth: "1px",
-          borderTopStyle: "solid",
-          borderTopColor: "monochrome500",
-        }}
-      >
-        <Box
-          sx={{
-            width: "100%",
-            px: 6,
-            py: 5,
-            color: ["monochrome900", "monochrome700"],
-            display: "flex",
-            justifyContent: "space-between",
-          }}
-        >
-          <Text variant="paragraph2">
+      <Flex component="footer" className={classes.footerLegal}>
+        <Box className={classes.legal}>
+          <Typography variant="body2">
             <Trans id="footer.institution.name">
               Eidgenössische Elektrizitätskommission ElCom
             </Trans>
-          </Text>
-          <Text variant="paragraph2" sx={{ display: "block" }} as="div">
+          </Typography>
+          <Typography variant="body2" sx={{ display: "block" }} component="div">
             <Link
               target="_blank"
-              variant="inline"
               href={t({
                 id: "footer.legal-framework.link",
                 message: "https://www.admin.ch/gov/de/start/rechtliches.html",
@@ -258,7 +283,7 @@ export const Footer = () => {
             >
               <Trans id="footer.legal-framework">Rechtliches</Trans>
             </Link>
-          </Text>
+          </Typography>
         </Box>
         <Flex
           sx={{
@@ -266,20 +291,7 @@ export const Footer = () => {
             alignItems: ["flex-start", "center"],
           }}
         >
-          <Box
-            sx={{
-              width: "100vw",
-              display: ["block", "none"],
-              px: 4,
-              py: 5,
-              borderTopWidth: "1px",
-              borderBottomWidth: "1px",
-              borderTopStyle: "solid",
-              borderBottomStyle: "solid",
-              borderTopColor: "monochrome500",
-              borderBottomColor: "monochrome500",
-            }}
-          >
+          <Box className={classes.logo}>
             <LogoDesktop />
           </Box>
         </Flex>

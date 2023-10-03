@@ -1,6 +1,8 @@
+import { Box } from "@mui/material";
 import * as React from "react";
 import { memo } from "react";
-import { Box, Flex } from "theme-ui";
+
+import Flex from "src/components/flex";
 
 import { ColumnsState, useChartState } from "../use-chart-state";
 
@@ -42,7 +44,7 @@ export const LegendSymbol = ({
         width: ".5rem",
         height: symbol === "square" || symbol === "circle" ? `.5rem` : 3,
         borderRadius: symbol === "circle" ? "50%" : 0,
-        bg: color,
+        backgroundColor: color,
       }}
     ></Box>
   );
@@ -58,6 +60,7 @@ export const LegendItem = ({
   symbol: LegendSymbol;
 }) => (
   <Flex
+    typography="body2"
     sx={{
       position: "relative",
       mt: 1,
@@ -66,11 +69,10 @@ export const LegendItem = ({
       alignItems: "center",
       pl: 0,
       gap: "0.375rem",
-      fontFamily: "body",
-      lineHeight: [1, 2, 2],
+      lineHeight: ["1rem", "1.125rem", "1.125rem"],
       fontWeight: "regular",
-      fontSize: [1, 2, 2],
-      color: "monochrome700",
+      fontSize: ["0.625rem", "0.75rem", "0.75rem"],
+      color: "grey.700",
     }}
   >
     <LegendSymbol color={color} symbol={symbol} />

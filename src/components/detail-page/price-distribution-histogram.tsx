@@ -1,5 +1,5 @@
 import { t, Trans } from "@lingui/macro";
-import { Box } from "@theme-ui/components";
+import { Box } from "@mui/material";
 import { groups } from "d3-array";
 import * as React from "react";
 
@@ -80,7 +80,6 @@ export const PriceDistributionHistograms = ({
             </Trans>
           </span>
           <InfoDialogButton
-            iconOnly
             slug="help-price-distribution"
             label={t({
               id: "detail.card.title.prices.distribution",
@@ -150,7 +149,7 @@ export const PriceDistributionHistograms = ({
           entity={entity}
         />
       ))}
-      {/* <Box sx={{ color: "monochrome700", fontSize: 2 }}>
+      {/* <Box sx={{ color: "grey.700", fontSize: 2 }}>
         <Trans id="chart.unit.cent.kWh">Preise in Rp./kWh</Trans>
       </Box> */}
     </Card>

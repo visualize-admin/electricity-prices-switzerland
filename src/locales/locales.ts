@@ -15,9 +15,13 @@ import {
   en as pluralsEn,
 } from "make-plural/plurals";
 
-import { messages as catalogDe } from "./de/messages";
-import { messages as catalogFr } from "./fr/messages";
-import { messages as catalogIt } from "./it/messages";
+import messagesDe from "./de/messages";
+import messagesFr from "./fr/messages";
+import messagesIt from "./it/messages";
+
+const catalogDe = messagesDe.messages;
+const catalogFr = messagesFr.messages;
+const catalogIt = messagesIt.messages;
 
 export const defaultLocale = "de";
 
