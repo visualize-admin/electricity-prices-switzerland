@@ -30,6 +30,7 @@
     "@apollo/server": "^4.3.3",
     "@apollo/server-plugin-response-cache": "^4.1.0",
     "@as-integrations/next": "^1.2.0",
+    "@babel/standalone": "7.13.17",
     "@deck.gl/core": "8.8",
     "@deck.gl/layers": "8.8",
     "@deck.gl/react": "8.8",
