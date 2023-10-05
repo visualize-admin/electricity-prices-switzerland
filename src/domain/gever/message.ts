@@ -295,7 +295,8 @@ export const setupGeverAPIRequest = (
 };
 
 export const extractFileFromContentResp = (
-  buf: Buffer
+  buf: Buffer,
+  contentType: string
 ): {
   buffer: Buffer;
   contentType: string;
@@ -303,7 +304,7 @@ export const extractFileFromContentResp = (
   extension: string;
   mimeType: string;
 } => {
-  const parts = parseMultiPart(buf);
+  const parts = parseMultiPart(buf, contentType);
 
   const [metaPart, contentPart] = parts;
 
@@ -333,9 +334,16 @@ const makeContentRequest = async (rpStsInfo: RPSTSInfo, docId: string) => {
   const resp = await makeRequest(bindings.service, req3, {
     "Content-Type": "application/soap+xml; charset=utf-8",
   });
+
   const buffer = await resp.buffer();
 
-  return extractFileFromContentResp(buffer);
+  const contentType = resp.headers.get("content-type");
+  if (!contentType) {
+    throw new Error(
+      "Cannot extract content from PDF due to lack of content-type header"
+    );
+  }
+  return extractFileFromContentResp(buffer, contentType);
 };
 
 const makeSearchRequest = async (
