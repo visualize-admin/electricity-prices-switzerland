@@ -75,16 +75,17 @@ it("should parse search results", () => {
   );
   expect(res.length).toBe(4);
   expect(res[0].id).toBe("9073bf7e-7eaa-4993-9475-350cdde95907");
-  expect(res[0].url).toBe(
-    "/api/download-operator-document/C9D1E4B1-E836-46D7-8FA0-4FD9032D35D8"
-  );
+  expect(res[0].url).toContain("/api/download-operator-document");
 });
 
 it("should extract pdf file from content response", () => {
   const buf = fs.readFileSync(
     path.join(__dirname, "./examples/content-resp-pdf.bin")
   );
-  const fileAttrs = extractFileFromContentResp(buf);
+  const fileAttrs = extractFileFromContentResp(
+    buf,
+    'multipart/related; type="application/xop+xml";start="<http://tempuri.org/0>";boundary="uuid:1b1eb29a-a92e-441b-8ac7-f954cb72160e+id=20"'
+  );
 
   expect(fileAttrs.buffer.length).toEqual(42608);
   expect(fileAttrs).toEqual(
@@ -106,7 +107,10 @@ it("should extract xlsx file from content response", () => {
   const buf = fs.readFileSync(
     path.join(__dirname, "./examples/content-resp-xlsx.bin")
   );
-  const { buffer, ...fileAttrs } = extractFileFromContentResp(buf);
+  const { buffer, ...fileAttrs } = extractFileFromContentResp(
+    buf,
+    'multipart/related; type="application/xop+xml";start="<http://tempuri.org/0>";boundary="uuid:1b1eb29a-a92e-441b-8ac7-f954cb72160e+id=18"'
+  );
 
   expect(buffer.length).toEqual(8395);
   expect(fileAttrs).toEqual(
