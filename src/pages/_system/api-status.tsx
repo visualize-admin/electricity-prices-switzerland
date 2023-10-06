@@ -457,15 +457,19 @@ const DocumentDownloadStatus = () => {
             onSubmit={handleSubmit}
           >
             <label>
-              secret: <input type="password" name="secret" />
+              Password: <input type="password" name="secret" />
             </label>
             <label>
-              oid: <input type="value" name="oid" />
+              OID: <input type="value" name="oid" placeholder="218" />
             </label>
             <br />
             <label>
-              uid: <input type="value" name="uid" />
+              UID:{" "}
+              <input type="value" name="uid" placeholder="CHE-102.286.322" />
             </label>
+            <p style={{ fontSize: "small", color: "#111" }}>
+              Either OID or UID is mandatory.
+            </p>
             <button disabled={query.status === "fetching"} type="submit">
               fetch documents
             </button>
