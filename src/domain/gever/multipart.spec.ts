@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 
-import { it, expect } from "vitest";
+import { it, expect } from "@jest/globals";
 
 import { parseMultiPart } from "./multipart";
 

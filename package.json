@@ -14,6 +14,7 @@
     "start": "GLOBAL_AGENT_ENVIRONMENT_VARIABLE_NAMESPACE='' NODE_OPTIONS='-r \"./configure-proxy\" --max_old_space_size=2048 --openssl-legacy-provider --unhandled-rejections=warn' next start -p $PORT",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
+    "test": "jest",
     "setup": "yarn && yarn locales:compile && yarn graphql:codegen",
     "locales:extract": "NODE_ENV=development lingui extract --verbose",
     "locales:compile": "lingui compile --verbose",
