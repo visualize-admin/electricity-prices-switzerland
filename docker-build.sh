@@ -4,7 +4,7 @@
 docker pull node:18
 
 # Run a Docker container based on the node:18 image
-docker run -u root -v /etc/localtime:/etc/localtime:ro -v $(pwd):/elcom-electricity-price-website -w /elcom-electricity-price-website --rm node:18 bash -c '
+docker run -u root -v /etc/localtime:/etc/localtime:ro -v "$(pwd):/elcom-electricity-price-website" -w /elcom-electricity-price-website --rm node:18 bash -c '
 
 # Inside the Docker container
 
