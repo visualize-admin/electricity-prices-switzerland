@@ -227,9 +227,9 @@ export const getObservations = async (
     ? dimensions.flatMap((d) => {
         const labelMatches =
           !isCantons && d === "cantonLabel" ? null : d.match(/^(.+)Label$/);
-        const dimensionKey = labelMatches ? labelMatches[1] : d;
 
         if (labelMatches) {
+          const dimensionKey = labelMatches ? labelMatches[1] : d;
           const dimension = view.dimension({
             cubeDimension: ns.electricitypriceDimension(dimensionKey),
           });
@@ -250,6 +250,24 @@ export const getObservations = async (
 
           return dimension ? [dimension, labelDimension] : [];
         }
+
+        const idMatches = d.match(/^(.+)Identifier$/);
+        if (idMatches) {
+          const dimensionKey = idMatches ? idMatches[1] : d;
+          const dimension = view.dimension({
+            cubeDimension: ns.electricitypriceDimension(dimensionKey),
+          });
+
+          const idDimension = view.createDimension({
+            source: lookupSource,
+            path: ns.schema.identifier,
+            join: dimension,
+            as: ns.electricitypriceDimension(`${dimensionKey}Identifier`),
+          });
+
+          return dimension ? [dimension, idDimension] : [];
+        }
+
         const dimension = view.dimension({
           cubeDimension: ns.electricitypriceDimension(d),
         });

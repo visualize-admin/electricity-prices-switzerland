@@ -26,5 +26,9 @@ jobs:
 
       - name: Typecheck
         run: yarn run typecheck
-      - name: Playwright
+
+      - name: Unit tests
+        run: yarn run test
+
+      - name: E2E tests
         run: yarn run e2e

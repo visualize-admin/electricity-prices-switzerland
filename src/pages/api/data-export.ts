@@ -1,8 +1,6 @@
 import { csvFormat } from "d3";
 import { NextApiRequest, NextApiResponse } from "next";
 
-
-
 import { parseLocaleString } from "src/locales/locales";
 
 import {
@@ -24,6 +22,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     // "municipality",
     // "municipalityLabel",
     "operator",
+    "operatorIdentifier",
     "operatorLabel",
     "category",
     "product",
@@ -46,7 +45,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     }
   );
 
-  const csv = csvFormat(observations, dimensions);
+  const csv = csvFormat(
+    observations,
+    dimensions.filter((d) => d !== "operator")
+  );
 
   res.setHeader("Content-Type", "text/csv");
   res.setHeader(
