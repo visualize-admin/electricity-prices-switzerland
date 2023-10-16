@@ -14,7 +14,7 @@ import { metricsPlugin } from "./metricsPlugin";
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  introspection: true,
+  introspection: process.env.NODE_ENV === 'development',
   plugins: [
     metricsPlugin({
       enabled:
