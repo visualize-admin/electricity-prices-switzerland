@@ -1,5 +1,7 @@
 import { ApolloServer } from "@apollo/server";
 import { ApolloServerPluginCacheControl } from "@apollo/server/plugin/cacheControl";
+import { ApolloServerPluginLandingPageDisabled } from "@apollo/server/plugin/disabled";
+import { ApolloServerPluginLandingPageLocalDefault } from "@apollo/server/plugin/landingPage/default";
 import responseCachePlugin from "@apollo/server-plugin-response-cache";
 import { startServerAndCreateNextHandler } from "@as-integrations/next";
 import { NextApiHandler } from "next";
@@ -8,19 +10,22 @@ import { resolvers } from "src/graphql/resolvers";
 import typeDefs from "src/graphql/schema.graphql";
 import { context } from "src/graphql/server-context";
 
-
 import { metricsPlugin } from "./metricsPlugin";
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  introspection: process.env.NODE_ENV === 'development',
+  apollo: {},
+  introspection: process.env.NODE_ENV === "development",
   plugins: [
     metricsPlugin({
       enabled:
         process.env.NODE_ENV === "development" ||
         process.env.METRICS_PLUGIN_ENABLED === "true",
     }),
+    process.env.NODE_ENV === "development"
+      ? ApolloServerPluginLandingPageLocalDefault({ embed: false })
+      : ApolloServerPluginLandingPageDisabled(),
     ApolloServerPluginCacheControl({
       // Cache everything for 1 second by default.
       defaultMaxAge: 1,
