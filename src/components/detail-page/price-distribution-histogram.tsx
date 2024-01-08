@@ -159,16 +159,17 @@ export const PriceDistributionHistograms = ({
 
 const getEntityLabelId = (entity: Entity): string => {
   switch (entity) {
-    case "operator":
-      return t({
-        id: "histogram.operator-count",
-        message: "Anzahl Netzbetreiber",
-      });
     case "canton":
       return t({
         id: "histogram.canton-count",
         message: "Anzahl Kanton",
       });
+
+    // We use the same translation whether we are looking at operator or municipality
+    // To be completely true, the label should be "Number of operator-municipality" since a municipality
+    // can be served by multiple operators, but for the sake of simplicity and comprehension, municipality
+    // is used here.
+    case "operator":
     case "municipality":
       return t({
         id: "histogram.municipality-count",
