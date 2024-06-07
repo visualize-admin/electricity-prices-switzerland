@@ -5,9 +5,6 @@
   "author": "Federal Electricity Commission ElCom <info@elcom.admin.ch>",
   "license": "BSD-3-Clause",
   "private": true,
-  "engines": {
-    "node": "18"
-  },
   "scripts": {
     "dev": "make content && NODE_OPTIONS='--openssl-legacy-provider --max_old_space_size=4096' next",
     "build": "make content && lingui compile && NODE_OPTIONS='--max_old_space_size=16384 --openssl-legacy-provider' next build",
