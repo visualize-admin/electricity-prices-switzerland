@@ -9,7 +9,7 @@ const { locales, defaultLocale } = require("./src/locales/locales.json");
 const {
   I18N_DOMAINS,
   WEBPACK_ASSET_PREFIX,
-  CURRENT_PERIOD = "2024",
+  CURRENT_PERIOD = "2025",
   FIRST_PERIOD = "2009",
   DEPLOYMENT,
   MATOMO_ID,
