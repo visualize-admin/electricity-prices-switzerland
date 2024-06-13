@@ -35,11 +35,8 @@ import {
   SwissMedianObservationResolvers,
 } from "./resolver-types";
 
-
 const gfmSyntax = require("micromark-extension-gfm");
 const gfmHtml = require("micromark-extension-gfm/html");
-
-
 
 const expectedCubeDimensions = [
   "https://energy.ld.admin.ch/elcom/electricityprice/dimension/category",
@@ -399,10 +396,6 @@ const Operator: OperatorResolvers = {
       dimensionKey: "municipality",
       filters: { operator: [id] },
     });
-  },
-
-  documents: async ({ id }) => {
-    return getOperatorDocuments({ operatorId: id });
   },
 
   geverDocuments: async ({ id: operatorId }) => {

@@ -71,14 +71,11 @@ export const OperatorDocuments = ({ id }: { id: string }) => {
     variables: { locale, id },
   });
 
-  const legacyDocuments =
-    documentsQuery.data?.operator?.documents ?? EMPTY_ARRAY;
   const geverDocuments =
     documentsQuery.data?.operator?.geverDocuments ?? EMPTY_ARRAY;
 
-  // Deduplicate documents taking in priority GEVER documents
   const documents = uniqBy(
-    [...geverDocuments, ...legacyDocuments],
+    geverDocuments,
     (doc) => `${doc.category} - ${doc.year}`
   );
 
