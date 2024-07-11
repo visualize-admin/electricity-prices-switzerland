@@ -175,7 +175,7 @@ msgstr "Données sur opendata.swiss"
 
 #: src/components/footer.tsx:195
 msgid "footer.data-on-opendata-swiss.link"
-msgstr "https://opendata.swiss/fr/showcase/electricity-tariffs"
+msgstr "https://opendata.swiss/fr/group/ener?organization=elcom"
 
 #: src/components/footer.tsx:171
 msgid "footer.download-visualize-data"
