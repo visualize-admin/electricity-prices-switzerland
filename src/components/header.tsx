@@ -1,6 +1,8 @@
 import { Trans } from "@lingui/macro";
 import { Box, Flex, Text } from "theme-ui";
 
+import buildEnv from "src/env/build";
+
 import { LanguageMenu } from "./language-menu";
 import { HomeLink } from "./links";
 import { LogoDesktop, LogoMobile } from "./logo";
@@ -95,8 +97,8 @@ export const Logo = () => {
           sx={{ pl: [0, 6], textDecoration: "none", color: "monochrome800" }}
         >
           <Trans id="site.title">Strompreise Schweiz</Trans>
-          {process.env.DEPLOYMENT &&
-            ` [${process.env.DEPLOYMENT.toLocaleUpperCase()}]`}
+          {buildEnv.DEPLOYMENT &&
+            ` [${buildEnv.DEPLOYMENT.toLocaleUpperCase()}]`}
         </Text>
       </Flex>
     </HomeLink>

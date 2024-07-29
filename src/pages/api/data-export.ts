@@ -1,6 +1,7 @@
 import { csvFormat } from "d3";
 import { NextApiRequest, NextApiResponse } from "next";
 
+import buildEnv from "src/env/build";
 import { parseLocaleString } from "src/locales/locales";
 
 import {
@@ -11,7 +12,7 @@ import {
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const locale = parseLocaleString(req.query.locale?.toString());
-  const period = req.query.period?.toString() ?? process.env.CURRENT_PERIOD!;
+  const period = req.query.period?.toString() ?? buildEnv.CURRENT_PERIOD!;
 
   const cube = await getObservationsCube();
 

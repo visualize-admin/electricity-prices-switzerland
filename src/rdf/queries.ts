@@ -11,7 +11,9 @@ import { Literal, NamedNode } from "rdf-js";
 import ParsingClient from "sparql-http-client/ParsingClient";
 import { LRUCache } from "typescript-lru-cache";
 
+import serverEnv from "src/env/server";
 import { OperatorDocumentCategory } from "src/graphql/resolver-types";
+import assert from "src/lib/assert";
 import { Observation, parseObservation } from "src/lib/observations";
 import { defaultLocale } from "src/locales/locales";
 
@@ -27,12 +29,13 @@ export const CANTON_OBSERVATIONS_CUBE =
 export const SWISS_OBSERVATIONS_CUBE =
   "https://energy.ld.admin.ch/elcom/electricityprice-swiss";
 
-export const createSource = () =>
-  new Source({
+export const createSource = () => {
+  assert(!!serverEnv, "serverEnv is not defined");
+  return new Source({
     queryOperation: "postDirect",
-    endpointUrl:
-      process.env.SPARQL_ENDPOINT ?? "https://test.lindas.admin.ch/query",
+    endpointUrl: serverEnv.SPARQL_ENDPOINT,
   });
+};
 
 export const getCube = async ({
   iri,
@@ -615,7 +618,8 @@ export const getOperatorDocuments = async ({
 };
 
 export const getSparqlEditorUrl = (query: string): string | null => {
-  return process.env.SPARQL_EDITOR
-    ? `${process.env.SPARQL_EDITOR}#query=${encodeURIComponent(query)}`
+  assert(!!serverEnv, "serverEnv is not defined");
+  return serverEnv.SPARQL_EDITOR
+    ? `${serverEnv.SPARQL_EDITOR}#query=${encodeURIComponent(query)}`
     : query;
 };

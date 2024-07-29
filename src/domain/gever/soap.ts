@@ -3,9 +3,14 @@ import https from "https";
 
 import fetch from "node-fetch";
 
+import serverEnv from "src/env/server";
+
 const getCertificateContent = () => {
-  const CERTIFICATE_PATH = process.env.EIAM_CERTIFICATE_PATH;
-  const CERTIFICATE_CONTENT = process.env.EIAM_CERTIFICATE_CONTENT;
+  if (!serverEnv) {
+    throw new Error("serverEnv must be defined");
+  }
+  const CERTIFICATE_PATH = serverEnv?.EIAM_CERTIFICATE_PATH;
+  const CERTIFICATE_CONTENT = serverEnv?.EIAM_CERTIFICATE_CONTENT;
   if (CERTIFICATE_PATH) {
     if (!fs.existsSync(CERTIFICATE_PATH)) {
       throw new Error(`Certificate file does not exist ${CERTIFICATE_PATH}`);
@@ -22,7 +27,7 @@ const getCertificateContent = () => {
 
 export const makeSslConfiguredAgent = () => {
   const pfx = getCertificateContent();
-  const CERTIFICATE_PASSWORD = process.env.EIAM_CERTIFICATE_PASSWORD;
+  const CERTIFICATE_PASSWORD = serverEnv?.EIAM_CERTIFICATE_PASSWORD;
 
   if (!CERTIFICATE_PASSWORD) {
     throw new Error("EIAM_CERTIFICATE_PASSWORD must be defined in env");

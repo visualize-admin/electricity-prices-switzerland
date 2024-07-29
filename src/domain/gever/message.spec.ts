@@ -18,6 +18,18 @@ import {
 } from "./message";
 import { parseXMLString, $, ns, serializeXMLToString } from "./utils";
 
+jest.mock("src/env/server", () => ({
+  __esModule: true,
+  default: {
+    GEVER_BINDING_IPSTS:
+      "https://idp-cert.gate-r.eiam.admin.ch/auth/sts/v14/certificatetransport",
+    GEVER_BINDING_RPSTS:
+      "https://feds-r.eiam.admin.ch/adfs/services/trust/13/issuedtokenmixedsymmetricbasic256",
+    GEVER_BINDING_SERVICE:
+      "https://api-bv.egov-abn.uvek.admin.ch/BusinessManagement/GeverService/GeverServiceAdvanced.svc",
+  },
+}));
+
 it("should prepare 1st message", () => {
   const message = prepareIpStsMessage();
   expect(
