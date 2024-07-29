@@ -27,97 +27,97 @@ msgstr "gestionnaires de réseau"
 msgid "chart.axis.unit.Rp/kWh"
 msgstr "ct./kWh"
 
-#: src/components/combobox.tsx:260
-#: src/components/search.tsx:341
+#: src/components/combobox.tsx:261
+#: src/components/search.tsx:343
 msgid "combobox.isloading"
 msgstr "Chargement des résultats…"
 
-#: src/components/combobox.tsx:280
-#: src/components/combobox.tsx:524
-#: src/components/search.tsx:345
+#: src/components/combobox.tsx:281
+#: src/components/combobox.tsx:525
+#: src/components/search.tsx:347
 msgid "combobox.noitems"
 msgstr "Aucune entrée"
 
-#: src/components/combobox.tsx:274
+#: src/components/combobox.tsx:275
 msgid "combobox.prompt"
 msgstr "Saisir la description…"
 
-#: src/components/form.tsx:312
+#: src/components/form.tsx:308
 msgid "controls.search.clear"
 msgstr "Supprimer"
 
-#: src/components/list.tsx:371
+#: src/components/list.tsx:373
 msgid "dataset.sortby"
 msgstr "Trier"
 
-#: src/components/detail-page/banner.tsx:142
-#: src/components/detail-page/banner.tsx:155
-#: src/pages/canton/[id].tsx:56
+#: src/components/detail-page/banner.tsx:143
+#: src/components/detail-page/banner.tsx:156
+#: src/pages/canton/[id].tsx:57
 msgid "detail.canton"
 msgstr "Canton"
 
-#: src/components/detail-page/cantons-comparison-range.tsx:110
-#: src/components/detail-page/cantons-comparison-range.tsx:117
+#: src/components/detail-page/cantons-comparison-range.tsx:113
+#: src/components/detail-page/cantons-comparison-range.tsx:120
 msgid "detail.card.title.cantons.comparison"
 msgstr "Comparaison des cantons"
 
-#: src/components/detail-page/price-components-bars.tsx:129
+#: src/components/detail-page/price-components-bars.tsx:132
 msgid "detail.card.title.price.components"
 msgstr "Composantes du prix"
 
-#: src/components/detail-page/price-distribution-histogram.tsx:79
-#: src/components/detail-page/price-distribution-histogram.tsx:86
+#: src/components/detail-page/price-distribution-histogram.tsx:78
+#: src/components/detail-page/price-distribution-histogram.tsx:85
 msgid "detail.card.title.prices.distribution"
 msgstr "Distribution des prix en Suisse"
 
-#: src/components/detail-page/price-evolution-line-chart.tsx:88
-#: src/components/detail-page/price-evolution-line-chart.tsx:95
+#: src/components/detail-page/price-evolution-line-chart.tsx:91
+#: src/components/detail-page/price-evolution-line-chart.tsx:98
 msgid "detail.card.title.prices.evolution"
 msgstr "Évolution des tarifs"
 
-#: src/components/detail-page/banner.tsx:129
+#: src/components/detail-page/banner.tsx:130
 msgid "detail.homelink"
 msgstr "Retour à la vue d'ensemble"
 
-#: src/components/detail-page/banner.tsx:169
+#: src/components/detail-page/banner.tsx:170
 msgid "detail.municipalities"
 msgstr "Communes"
 
-#: src/components/detail-page/banner.tsx:144
-#: src/pages/municipality/[id].tsx:78
+#: src/components/detail-page/banner.tsx:145
+#: src/pages/municipality/[id].tsx:79
 msgid "detail.municipality"
 msgstr "Commune"
 
-#: src/components/detail-page/banner.tsx:146
-#: src/pages/operator/[id].tsx:75
+#: src/components/detail-page/banner.tsx:147
+#: src/pages/operator/[id].tsx:76
 msgid "detail.operator"
 msgstr "Gestionnaire de réseau"
 
-#: src/components/detail-page/banner.tsx:179
+#: src/components/detail-page/banner.tsx:180
 msgid "detail.operators"
 msgstr "Gestionnaires de réseau"
 
-#: src/components/info-dialog.tsx:95
+#: src/components/info-dialog.tsx:98
 msgid "dialog.close"
 msgstr "Fermer la boîte de dialogue"
 
-#: src/components/info-dialog.tsx:102
+#: src/components/info-dialog.tsx:105
 msgid "dialog.infoprefix"
 msgstr "Info:"
 
-#: src/components/operator-documents.tsx:24
+#: src/components/operator-documents.tsx:26
 msgid "download.category.annualreport"
 msgstr "Comptes annuels"
 
-#: src/components/operator-documents.tsx:27
+#: src/components/operator-documents.tsx:29
 msgid "download.category.annualreports"
 msgstr "Comptes annuels de réseau"
 
-#: src/components/operator-documents.tsx:18
+#: src/components/operator-documents.tsx:20
 msgid "download.category.tariff"
 msgstr "Fiche tarifaire"
 
-#: src/components/operator-documents.tsx:19
+#: src/components/operator-documents.tsx:21
 msgid "download.category.tariffs"
 msgstr "Fiches tarifaires"
 
@@ -125,11 +125,11 @@ msgstr "Fiches tarifaires"
 #~ msgid "download.filetype.csv"
 #~ msgstr "Fichier CSV"
 
-#: src/components/operator-documents.tsx:55
+#: src/components/operator-documents.tsx:57
 msgid "download.filetype.pdf"
 msgstr "Fichier PDF"
 
-#: src/components/operator-documents.tsx:99
+#: src/components/operator-documents.tsx:101
 msgid "download.nooperatordocuments"
 msgstr "Aucun document de l'opérateur de réseau"
 
@@ -157,39 +157,39 @@ msgstr "Année"
 msgid "footer.calculation-basics"
 msgstr "Bases de calcul"
 
-#: src/components/footer.tsx:215
+#: src/components/footer.tsx:225
 msgid "footer.create-data-visualizations"
 msgstr "Créer des visualisations de données avec les données ElCom"
 
-#: src/components/footer.tsx:209
+#: src/components/footer.tsx:219
 msgid "footer.create-data-visualizations.link"
 msgstr "https://www.elcom.admin.ch/elcom/fr/home/themes/prix-de-l_electricite/donnees-brutes-des-gestionnaires-suisses-de-reseau-de-distributi.html"
 
-#: src/components/footer.tsx:190
+#: src/components/footer.tsx:191
 msgid "footer.data-as-csv"
 msgstr "Données au format .csv"
 
-#: src/components/footer.tsx:201
+#: src/components/footer.tsx:211
 msgid "footer.data-on-opendata-swiss"
 msgstr "Données sur opendata.swiss"
 
-#: src/components/footer.tsx:195
+#: src/components/footer.tsx:205
 msgid "footer.data-on-opendata-swiss.link"
 msgstr "https://opendata.swiss/fr/group/ener?organization=elcom"
 
-#: src/components/footer.tsx:171
+#: src/components/footer.tsx:172
 msgid "footer.download-visualize-data"
 msgstr "Télécharger / visualiser les données"
 
-#: src/components/footer.tsx:246
+#: src/components/footer.tsx:256
 msgid "footer.institution.name"
 msgstr "Commission fédérale de l'électricité ElCom"
 
-#: src/components/footer.tsx:259
+#: src/components/footer.tsx:269
 msgid "footer.legal-framework"
 msgstr "Conditions d'utilisation"
 
-#: src/components/footer.tsx:254
+#: src/components/footer.tsx:264
 msgid "footer.legal-framework.link"
 msgstr "https://www.admin.ch/gov/fr/accueil/conditions-utilisation.html"
 
@@ -197,67 +197,71 @@ msgstr "https://www.admin.ch/gov/fr/accueil/conditions-utilisation.html"
 msgid "footer.more-information"
 msgstr "Informations complémentaires"
 
-#: src/components/footer.tsx:147
+#: src/components/footer.tsx:148
 msgid "footer.more-tariffs-information"
 msgstr "Plus d'informations sur les tarifs en Suisse"
 
-#: src/components/footer.tsx:140
+#: src/components/footer.tsx:141
 msgid "footer.more-tariffs-information.link"
 msgstr "https://www.elcom.admin.ch/elcom/fr/home/themes/prix-de-l_electricite.html"
 
-#: src/components/footer.tsx:162
+#: src/components/footer.tsx:197
+msgid "footer.municipalities-and-grid-operators"
+msgstr "Communes suisses et exploitants de réseaux électriques responsables"
+
+#: src/components/footer.tsx:163
 msgid "footer.transmission-grid-tariff"
 msgstr "Tarifs du réseau de transport suisse - prestations de Swissgrid"
 
-#: src/components/footer.tsx:155
+#: src/components/footer.tsx:156
 msgid "footer.transmission-grid-tariff.link"
 msgstr "https://www.swissgrid.ch/dam/swissgrid/customers/topics/tariffs/Tabelle-Tarife-fr.pdf"
 
-#: src/components/footer.tsx:122
+#: src/components/footer.tsx:123
 msgid "help.calculation"
 msgstr "Base de calcul"
 
-#: src/components/footer.tsx:131
+#: src/components/footer.tsx:132
 msgid "help.csv-download"
 msgstr "Données au format .csv"
 
-#: src/components/price-color-legend.tsx:75
+#: src/components/price-color-legend.tsx:77
 msgid "help.price-comparison"
 msgstr "Comparaison des tarifs"
 
-#: src/components/hint.tsx:73
+#: src/components/hint.tsx:75
 msgid "hint.loading.data"
 msgstr "Chargement des données…"
 
-#: src/components/hint.tsx:190
+#: src/components/hint.tsx:192
 msgid "hint.nocontent.message"
 msgstr "Ce contenu n'a pas pu être chargé"
 
-#: src/components/hint.tsx:166
+#: src/components/hint.tsx:168
 msgid "hint.nodata.message"
 msgstr "Aucune donnée ne peut être téléchargée avec les paramètres de recherches choisis."
 
-#: src/components/hint.tsx:163
+#: src/components/hint.tsx:165
 msgid "hint.nodata.title"
 msgstr "Aucune donnée"
 
-#: src/components/hint.tsx:216
+#: src/components/hint.tsx:218
 msgid "hint.nogeodata.message"
 msgstr "Aucune carte ne peut être affichée pour l'année sélectionnée"
 
-#: src/components/hint.tsx:213
+#: src/components/hint.tsx:215
 msgid "hint.nogeodata.title"
 msgstr "Aucune carte ne peut être affichée pour l'année sélectionnée"
 
-#: src/components/detail-page/price-distribution-histogram.tsx:169
+#: src/components/detail-page/price-distribution-histogram.tsx:163
 msgid "histogram.canton-count"
 msgstr "Nombre de cantons"
 
-#: src/components/charts-generic/histogram/histogram-min-max-values.tsx:95
+#: src/components/charts-generic/histogram/histogram-min-max-values.tsx:85
 msgid "histogram.max"
 msgstr "Max"
 
-#: src/components/charts-generic/histogram/histogram-min-max-values.tsx:61
+#: src/components/charts-generic/histogram/histogram-min-max-values.tsx:51
 msgid "histogram.min"
 msgstr "Min"
 
@@ -266,46 +270,46 @@ msgid "histogram.municipality-count"
 msgstr "Nombre de communes"
 
 #: src/components/detail-page/price-distribution-histogram.tsx:164
-msgid "histogram.operator-count"
-msgstr "Nombre d'opérateurs"
+#~ msgid "histogram.operator-count"
+#~ msgstr "Nombre d'opérateurs"
 
-#: src/components/detail-page/download-image.tsx:87
+#: src/components/detail-page/download-image.tsx:88
 msgid "image.download"
 msgstr "Télécharger comme image"
 
-#: src/components/detail-page/download-image.tsx:91
+#: src/components/detail-page/download-image.tsx:92
 msgid "image.download.source"
 msgstr "Commission fédérale de l'électricité ElCom"
 
-#: src/components/detail-page/download-image.tsx:94
+#: src/components/detail-page/download-image.tsx:95
 msgid "image.download.unit"
 msgstr "Comparaison des tarifs en ct./kWh (TVA exclue)"
 
-#: src/components/list.tsx:318
+#: src/components/list.tsx:320
 msgid "list.cantons"
 msgstr "Cantons"
 
-#: src/components/list.tsx:314
+#: src/components/list.tsx:316
 msgid "list.municipalities"
 msgstr "Communes"
 
-#: src/components/list.tsx:322
+#: src/components/list.tsx:324
 msgid "list.operators"
 msgstr "Gestionnaires de réseau"
 
-#: src/components/list.tsx:241
+#: src/components/list.tsx:243
 msgid "list.order.asc"
 msgstr "croissant"
 
-#: src/components/list.tsx:245
+#: src/components/list.tsx:247
 msgid "list.order.desc"
 msgstr "décroissant"
 
-#: src/components/list.tsx:248
+#: src/components/list.tsx:250
 msgid "list.search.label"
 msgstr "Filtrer"
 
-#: src/components/list.tsx:152
+#: src/components/list.tsx:155
 msgid "list.showmore"
 msgstr "Voir plus ..."
 
@@ -314,30 +318,30 @@ msgstr "Voir plus ..."
 msgid "logo.swiss.confederation"
 msgstr "Logo de la Confédération suisse"
 
-#: src/components/price-color-legend.tsx:67
+#: src/components/price-color-legend.tsx:69
 msgid "map.legend.title"
 msgstr "Comparaison des tarifs en ct./kWh (TVA exclue)"
 
-#: src/pages/index.tsx:104
+#: src/pages/index.tsx:107
 msgid "map.share"
 msgstr "Partager"
 
-#: src/components/map.tsx:602
+#: src/components/map.tsx:690
 msgid "map.tooltipnodata"
 msgstr "Aucune donnée"
 
-#: src/components/price-color-legend.tsx:126
-#: src/components/price-color-legend.tsx:164
+#: src/components/price-color-legend.tsx:134
+#: src/components/price-color-legend.tsx:173
 msgid "price.legend.max"
 msgstr "Max"
 
-#: src/components/price-color-legend.tsx:122
-#: src/components/price-color-legend.tsx:160
+#: src/components/price-color-legend.tsx:130
+#: src/components/price-color-legend.tsx:169
 msgid "price.legend.median"
 msgstr "Médiane"
 
-#: src/components/price-color-legend.tsx:118
-#: src/components/price-color-legend.tsx:156
+#: src/components/price-color-legend.tsx:126
+#: src/components/price-color-legend.tsx:165
 msgid "price.legend.min"
 msgstr "Min"
 
@@ -357,7 +361,7 @@ msgstr "Montrer toutes les municipalités"
 msgid "priceComponents.view.expanded.operators"
 msgstr "Montrer tous les gestionnaires"
 
-#: src/components/detail-page/cantons-comparison-range.tsx:182
+#: src/components/detail-page/cantons-comparison-range.tsx:185
 msgid "rangeplot.select.order.hint"
 msgstr "Trier selon"
 
@@ -377,23 +381,23 @@ msgstr "médiane, croissant"
 msgid "rangeplot.select.sorting.median-desc"
 msgstr "médiane, décroissant"
 
-#: src/components/detail-page/banner.tsx:55
+#: src/components/detail-page/banner.tsx:56
 msgid "relations.showmore"
 msgstr "montrer {rest} plus…"
 
-#: src/pages/index.tsx:313
+#: src/pages/index.tsx:312
 msgid "search.global"
 msgstr "Voir l'analyse détaillée des prix par cantons, communes et gestionnaires de réseau."
 
-#: src/components/search.tsx:223
+#: src/components/search.tsx:225
 msgid "search.global.hint.canton.muni.operator"
 msgstr "Nom de la commune, code postal, gestionnaire de réseau, canton"
 
-#: src/components/search.tsx:210
+#: src/components/search.tsx:212
 msgid "search.global.hint.go.to"
 msgstr "Aller à…"
 
-#: src/components/search.tsx:76
+#: src/components/search.tsx:78
 msgid "search.global.label"
 msgstr "Entrez le nom de la commune, le code postal, le gestionnaire de réseau, le canton…"
 
@@ -409,8 +413,8 @@ msgstr "Commune"
 msgid "search.result.operator"
 msgstr "Gestionnaire de réseau"
 
-#: src/components/detail-page/selector-multi.tsx:90
-#: src/components/selector.tsx:63
+#: src/components/detail-page/selector-multi.tsx:92
+#: src/components/selector.tsx:66
 msgid "selector.category"
 msgstr "Catégorie"
 
@@ -482,30 +486,30 @@ msgstr "H7"
 msgid "selector.category.H8"
 msgstr "H8"
 
-#: src/components/detail-page/selector-multi.tsx:74
+#: src/components/detail-page/selector-multi.tsx:76
 msgid "selector.comparecantons"
 msgstr "Comparaison entre cantons"
 
-#: src/components/detail-page/selector-multi.tsx:64
+#: src/components/detail-page/selector-multi.tsx:66
 msgid "selector.comparemunicipalities"
 msgstr "Comparaison entre communes"
 
-#: src/components/detail-page/selector-multi.tsx:54
+#: src/components/detail-page/selector-multi.tsx:56
 msgid "selector.compareoperators"
 msgstr "Comparaison entre gestionnaires de réseau"
 
-#: src/components/detail-page/selector-multi.tsx:45
-#: src/components/selector.tsx:36
+#: src/components/detail-page/selector-multi.tsx:47
+#: src/components/selector.tsx:39
 msgid "selector.legend.select.parameters"
 msgstr "Sélectionner les paramètres"
 
-#: src/components/detail-page/price-components-bars.tsx:136
-#: src/components/selector.tsx:51
+#: src/components/detail-page/price-components-bars.tsx:139
+#: src/components/selector.tsx:54
 msgid "selector.priceComponent"
 msgstr "Composantes du prix"
 
-#: src/components/detail-page/cantons-comparison-range.tsx:163
-#: src/components/detail-page/price-distribution-histogram.tsx:132
+#: src/components/detail-page/cantons-comparison-range.tsx:166
+#: src/components/detail-page/price-distribution-histogram.tsx:131
 msgid "selector.priceComponents"
 msgstr "Composantes du prix"
 
@@ -529,8 +533,8 @@ msgstr "Utilisation du réseau"
 msgid "selector.pricecomponent.total"
 msgstr "Total"
 
-#: src/components/detail-page/selector-multi.tsx:101
-#: src/components/selector.tsx:75
+#: src/components/detail-page/selector-multi.tsx:103
+#: src/components/selector.tsx:78
 msgid "selector.product"
 msgstr "Produit"
 
@@ -542,27 +546,27 @@ msgstr "Meilleur marché"
 msgid "selector.product.standard"
 msgstr "Standard"
 
-#: src/components/selector.tsx:85
+#: src/components/selector.tsx:88
 msgid "selector.results"
 msgstr "Résultats de la recherche"
 
-#: src/components/selector.tsx:42
+#: src/components/selector.tsx:45
 msgid "selector.year"
 msgstr "Année"
 
-#: src/components/detail-page/selector-multi.tsx:82
+#: src/components/detail-page/selector-multi.tsx:84
 msgid "selector.years"
 msgstr "Années"
 
-#: src/pages/index.tsx:126
+#: src/pages/index.tsx:129
 msgid "share.url-copied"
 msgstr "URL copiée ✅"
 
-#: src/components/header.tsx:99
-#: src/pages/canton/[id].tsx:56
-#: src/pages/index.tsx:253
-#: src/pages/index.tsx:298
-#: src/pages/municipality/[id].tsx:78
-#: src/pages/operator/[id].tsx:75
+#: src/components/header.tsx:97
+#: src/pages/canton/[id].tsx:57
+#: src/pages/index.tsx:252
+#: src/pages/index.tsx:297
+#: src/pages/municipality/[id].tsx:79
+#: src/pages/operator/[id].tsx:76
 msgid "site.title"
 msgstr "Prix de l'électricité en Suisse"

@@ -117,6 +117,7 @@ export const Footer = () => {
               message: `Berechnungsgrundlagen`,
             })}
           </FooterLink>
+
           <HelpDialog
             close={closeHelpCalculation}
             label={t({
@@ -188,6 +189,15 @@ export const Footer = () => {
             }
           >
             {t({ id: "footer.data-as-csv", message: "Daten als .csv" })}
+          </FooterLink>
+          <FooterLink
+            href={`/api/municipalities-data.csv?period=${period}`}
+            icon={<IconDownload />}
+          >
+            {t({
+              id: "footer.municipalities-and-grid-operators",
+              message: `Schweizerische Gemeinden und zuständige Stromnetzbetreiber`,
+            })}
           </FooterLink>
           <FooterLink
             target="_blank"
