@@ -1,3 +1,5 @@
+import fs from "fs";
+
 import { csvFormat } from "d3";
 import { mapValues } from "lodash";
 import { NextApiHandler } from "next";
@@ -8,7 +10,7 @@ import buildEnv from "src/env/build";
 const MunicipalityInfo = z
   .object({
     netzbetreiber: z.string(),
-    webseite: z.string(),
+    webseite: z.string().optional(),
     gemeindeNummer: z.string().transform(Number),
     gemeindeName: z.string(),
     postleitzahl: z.string(),
@@ -128,12 +130,12 @@ WHERE {
     },
   });
 
-  const data = (await resp.json()) as unknown as SparqlResponse;
+  const json = (await resp.json()) as unknown as SparqlResponse;
 
-  const bindings = data.results.bindings;
-  return z
-    .array(MunicipalityInfo)
-    .parse(bindings.map((mv) => mapValues(mv, (x) => x.value)));
+  const bindings = json.results.bindings;
+  const data = bindings.map((mv) => mapValues(mv, (x) => x.value));
+  fs.writeFileSync("/tmp/data.json", JSON.stringify(data, null, 2));
+  return z.array(MunicipalityInfo).parse(data);
 };
 
 const handler: NextApiHandler = async (req, res) => {
