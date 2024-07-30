@@ -1,6 +1,7 @@
 import { scaleThreshold, range } from "d3";
 import { useMemo } from "react";
 
+import buildEnv from "src/env/build";
 import { Observation as QueryObservation } from "src/graphql/queries";
 
 import { useTheme } from "../themes";
@@ -67,15 +68,15 @@ export const useColorScale = ({
 
 export type Entity = "municipality" | "operator" | "canton";
 
-if (!process.env.FIRST_PERIOD || !process.env.CURRENT_PERIOD) {
+if (!buildEnv.FIRST_PERIOD || !buildEnv.CURRENT_PERIOD) {
   throw Error(
     `Please configure FIRST_PERIOD and CURRENT_PERIOD in next.config.js`
   );
 }
 
 export const periods = range(
-  parseInt(process.env.CURRENT_PERIOD, 10),
-  parseInt(process.env.FIRST_PERIOD, 10) - 1,
+  parseInt(buildEnv.CURRENT_PERIOD, 10),
+  parseInt(buildEnv.FIRST_PERIOD, 10) - 1,
   -1
 ).map((d) => d.toString());
 

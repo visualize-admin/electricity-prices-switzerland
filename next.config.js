@@ -6,20 +6,13 @@ const withMDX = require("@next/mdx")();
 const pkg = require("./package.json");
 const { locales, defaultLocale } = require("./src/locales/locales.json");
 
-const {
-  I18N_DOMAINS,
-  WEBPACK_ASSET_PREFIX,
-  CURRENT_PERIOD = "2025",
-  FIRST_PERIOD = "2009",
-  DEPLOYMENT,
-  MATOMO_ID,
-} = process.env;
+const { I18N_DOMAINS, WEBPACK_ASSET_PREFIX, MATOMO_ID } = process.env;
 
 const buildEnv = {
   VERSION: `v${pkg.version}`,
-  DEPLOYMENT: DEPLOYMENT,
-  CURRENT_PERIOD: CURRENT_PERIOD,
-  FIRST_PERIOD: FIRST_PERIOD,
+  DEPLOYMENT: process.env.DEPLOYMENT,
+  CURRENT_PERIOD: process.env.CURRENT_PERIOD,
+  FIRST_PERIOD: process.env.FIRST_PERIOD,
 };
 
 console.log("Build Environment:", buildEnv);

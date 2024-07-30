@@ -1,8 +1,10 @@
-import https from 'https'
+import https from "https";
 import os from "os";
 import path from "path";
 
 import fs from "fs-extra";
+
+import serverEnv from "src/env/server";
 
 import { getWikiPage as getStaticWikiPage } from "./gitlab-wiki-static";
 
@@ -24,7 +26,7 @@ const CACHE_TTL = 1000;
 
 const fetchWithTimeout = async (
   url: string,
-  options: RequestInit & { timeout?: number, agent?: https.Agent } = {}
+  options: RequestInit & { timeout?: number; agent?: https.Agent } = {}
 ) => {
   const { timeout } = options;
 
@@ -65,7 +67,7 @@ const getCachedWikiPages = async (
 
     // This is necessary for GLOBAL_AGENT to correctly override the agent while
     // the GLOBAL_AGENT_FORCE_GLOBAL_AGENT variable is set
-    agent: https.globalAgent
+    agent: https.globalAgent,
   });
   const pages: WikiPages = await res.json();
 
@@ -78,7 +80,7 @@ const getCachedWikiPages = async (
 export const getWikiPage = async (
   slug: string
 ): Promise<WikiPage | undefined> => {
-  if (!process.env.GITLAB_WIKI_URL || !process.env.GITLAB_WIKI_TOKEN) {
+  if (!serverEnv?.GITLAB_WIKI_URL || !serverEnv.GITLAB_WIKI_TOKEN) {
     throw Error(
       "Please set GITLAB_WIKI_URL and GITLAB_WIKI_TOKEN environment variables to fetch content from GitLab Wiki."
     );
@@ -86,8 +88,8 @@ export const getWikiPage = async (
 
   try {
     const wikiPages = await getCachedWikiPages(
-      `${process.env.GITLAB_WIKI_URL}?with_content=1`,
-      process.env.GITLAB_WIKI_TOKEN
+      `${serverEnv.GITLAB_WIKI_URL}?with_content=1`,
+      serverEnv.GITLAB_WIKI_TOKEN
     );
 
     return wikiPages.find((page) => page.slug === slug);

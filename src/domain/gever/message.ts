@@ -4,7 +4,9 @@ import fs from "fs";
 import { memoize } from "lodash";
 import z from "zod";
 
+import serverEnv from "src/env/server";
 import { OperatorDocumentCategory } from "src/graphql/queries";
+import assert from "src/lib/assert";
 import { truthy } from "src/lib/truthy";
 
 import { decrypt, encrypt } from "./encrypt";
@@ -25,16 +27,12 @@ import {
   $$,
 } from "./utils";
 
+assert(!!serverEnv, "serverEnv is not defined");
+
 const bindings = {
-  ipsts:
-    process.env.GEVER_BINDING_IPSTS ||
-    "https://idp-cert.gate-r.eiam.admin.ch/auth/sts/v14/certificatetransport",
-  rpsts:
-    process.env.GEVER_BINDING_RPSTS ||
-    "https://feds-r.eiam.admin.ch/adfs/services/trust/13/issuedtokenmixedsymmetricbasic256",
-  service:
-    process.env.GEVER_BINDING_SERVICE ||
-    "https://api-bv.egov-abn.uvek.admin.ch/BusinessManagement/GeverService/GeverServiceAdvanced.svc",
+  ipsts: serverEnv.GEVER_BINDING_IPSTS,
+  rpsts: serverEnv.GEVER_BINDING_RPSTS,
+  service: serverEnv.GEVER_BINDING_SERVICE,
 };
 
 type Awaited<T> = T extends Promise<infer S> ? S : never;

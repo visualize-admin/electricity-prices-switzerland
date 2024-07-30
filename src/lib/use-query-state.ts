@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { useCallback } from "react";
 
+import buildEnv from "src/env/build";
 
 const ensureArray = (input: string | string[]): string[] =>
   Array.isArray(input) ? input : [input];
@@ -22,7 +23,7 @@ const queryStateKeys = [
 
 const queryStateDefaults = {
   id: "261",
-  period: process.env.CURRENT_PERIOD,
+  period: buildEnv.CURRENT_PERIOD,
   category: "H4",
   priceComponent: "total",
   product: "standard",

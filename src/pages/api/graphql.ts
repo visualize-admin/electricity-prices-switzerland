@@ -6,24 +6,28 @@ import responseCachePlugin from "@apollo/server-plugin-response-cache";
 import { startServerAndCreateNextHandler } from "@as-integrations/next";
 import { NextApiHandler } from "next";
 
+import serverEnv from "src/env/server";
 import { resolvers } from "src/graphql/resolvers";
 import typeDefs from "src/graphql/schema.graphql";
 import { context } from "src/graphql/server-context";
+import assert from "src/lib/assert";
 
 import { metricsPlugin } from "./metricsPlugin";
+
+assert(!!serverEnv, "serverEnv is not defined");
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
   apollo: {},
-  introspection: process.env.NODE_ENV === "development",
+  introspection: serverEnv.NODE_ENV === "development",
   plugins: [
     metricsPlugin({
       enabled:
-        process.env.NODE_ENV === "development" ||
-        process.env.METRICS_PLUGIN_ENABLED === "true",
+        serverEnv.NODE_ENV === "development" ||
+        serverEnv.METRICS_PLUGIN_ENABLED === "true",
     }),
-    process.env.NODE_ENV === "development"
+    serverEnv.NODE_ENV === "development"
       ? ApolloServerPluginLandingPageLocalDefault({ embed: false })
       : ApolloServerPluginLandingPageDisabled(),
     ApolloServerPluginCacheControl({

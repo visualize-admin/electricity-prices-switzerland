@@ -1,13 +1,16 @@
 import { InferAPIResponse } from "nextkit";
 
+import serverEnv from "src/env/server";
+import assert from "src/lib/assert";
+
 import { searchGeverDocuments } from "../../domain/gever";
 import { fetchOperatorInfo } from "../../rdf/search-queries";
 import { endpointUrl } from "../../rdf/sparql-client";
 import { api } from "../../server/nextkit";
 
-const secret =
-  process.env.DEBUG_DOWNLOAD_SECRET ||
-  "GqQF$t$Fm^oddinivkY8TT8F^kRuRUJ$NJ5Jt%vQ";
+assert(!!serverEnv, "serverEnv is not defined");
+
+const secret = serverEnv.DEBUG_DOWNLOAD_SECRET;
 
 const handler = api({
   GET: async ({ req }) => {

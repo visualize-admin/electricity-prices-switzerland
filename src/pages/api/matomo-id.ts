@@ -1,5 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
+import serverEnv from "src/env/server";
+import assert from "src/lib/assert";
+
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  res.json({ matomoId: process.env.MATOMO_ID });
+  assert(!!serverEnv, "serverEnv is not defined");
+  res.json({ matomoId: serverEnv.MATOMO_ID });
 };
