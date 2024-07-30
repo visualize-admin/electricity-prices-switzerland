@@ -121,10 +121,6 @@ msgstr "Foglio tariffario"
 msgid "download.category.tariffs"
 msgstr "Fogli tariffari"
 
-#: src/components/footer.tsx:27
-#~ msgid "download.filetype.csv"
-#~ msgstr "Documento CSV"
-
 #: src/components/operator-documents.tsx:57
 msgid "download.filetype.pdf"
 msgstr "Documento PDF"
@@ -132,10 +128,6 @@ msgstr "Documento PDF"
 #: src/components/operator-documents.tsx:101
 msgid "download.nooperatordocuments"
 msgstr "Nessun documento del gestore di rete"
-
-#: src/components/footer.tsx:26
-#~ msgid "download.rawdata"
-#~ msgstr "Dati grezzi"
 
 #: src/domain/translation.tsx:91
 msgid "filters.category"
@@ -268,10 +260,6 @@ msgstr "Min"
 #: src/components/detail-page/price-distribution-histogram.tsx:174
 msgid "histogram.municipality-count"
 msgstr "Numero di comuni"
-
-#: src/components/detail-page/price-distribution-histogram.tsx:164
-#~ msgid "histogram.operator-count"
-#~ msgstr "Numero di gestori di rete"
 
 #: src/components/detail-page/download-image.tsx:88
 msgid "image.download"
@@ -562,7 +550,7 @@ msgstr "Anni"
 msgid "share.url-copied"
 msgstr "URL copiato ✅"
 
-#: src/components/header.tsx:97
+#: src/components/header.tsx:99
 #: src/pages/canton/[id].tsx:57
 #: src/pages/index.tsx:252
 #: src/pages/index.tsx:297
