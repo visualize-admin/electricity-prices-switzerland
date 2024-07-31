@@ -59,26 +59,23 @@ export const Footer = () => {
   const locale = useLocale();
   const [{ period }] = useQueryStateSingle();
 
-  const {
-    isOpen: isHelpCalculationOpen,
-    open: openHelpCalculation,
-    close: closeHelpCalculation,
-  } = useDisclosure();
-
-  const {
-    isOpen: isHelpCsvDownloadOpen,
-    open: openHelpCsvDownload,
-    close: closeHelpCsvDownload,
-  } = useDisclosure();
+  const helpCalculationDisclosure = useDisclosure();
+  const helpCsvDisclosure = useDisclosure();
+  const helpMunicipalitiesInfoDisclosure = useDisclosure();
 
   const handleOpenCalculation = (ev: React.MouseEvent<HTMLElement>) => {
     ev.preventDefault();
-    openHelpCalculation();
+    helpCalculationDisclosure.open();
   };
 
   const handleOpenCsvDownload = (ev: React.MouseEvent<HTMLElement>) => {
     ev.preventDefault();
-    openHelpCsvDownload();
+    helpCsvDisclosure.open();
+  };
+
+  const handleOpenMunicipalitiesInfo = (ev: React.MouseEvent<HTMLElement>) => {
+    ev.preventDefault();
+    helpMunicipalitiesInfoDisclosure.open();
   };
 
   return (
@@ -119,22 +116,31 @@ export const Footer = () => {
           </FooterLink>
 
           <HelpDialog
-            close={closeHelpCalculation}
+            close={helpCalculationDisclosure.close}
             label={t({
               id: "help.calculation",
               message: `Berechnungsgrundlage`,
             })}
-            open={isHelpCalculationOpen}
+            open={helpCalculationDisclosure.isOpen}
             slug="help-calculation"
           />
           <HelpDialog
-            close={closeHelpCsvDownload}
+            close={helpCsvDisclosure.close}
             label={t({
               id: "help.csv-download",
               message: `Daten als .csv`,
             })}
-            open={isHelpCsvDownloadOpen}
+            open={helpCsvDisclosure.isOpen}
             slug="help-download-raw-data"
+          />
+          <HelpDialog
+            close={helpMunicipalitiesInfoDisclosure.close}
+            label={t({
+              id: "help.municipalities-info",
+              message: `Municipalities and grid operators information`,
+            })}
+            open={helpMunicipalitiesInfoDisclosure.isOpen}
+            slug="help-municipalities-and-grid-operators-info"
           />
           <FooterLink
             target="_blank"
@@ -192,7 +198,17 @@ export const Footer = () => {
           </FooterLink>
           <FooterLink
             href={`/api/municipalities-data.csv?period=${period}`}
-            icon={<IconDownload />}
+            icon={
+              <Box sx={{ display: "flex", flexShrink: 0, gap: "1rem" }}>
+                <IconButton
+                  sx={{ p: 0, width: 24, height: 24, cursor: "pointer" }}
+                  onClick={handleOpenMunicipalitiesInfo}
+                >
+                  <IconInfo />
+                </IconButton>
+                <IconDownload />
+              </Box>
+            }
           >
             {t({
               id: "footer.municipalities-and-grid-operators",
