@@ -1,4 +1,4 @@
-import { csvFormat } from "d3";
+import { csvFormat, format } from "d3";
 import { NextApiRequest, NextApiResponse } from "next";
 
 import buildEnv from "src/env/build";
@@ -10,6 +10,21 @@ import {
   getView,
 } from "../../rdf/queries";
 
+const formatters = {
+  gridusagebeforediscount: format(".5f"),
+  gridusagediscount: format(".5f"),
+  gridpowerprice: format(".5f"),
+  gridworkingprice: format(".5f"),
+  energybeforediscount: format(".5f"),
+  energydiscount: format(".5f"),
+  energyfixcost: format(".5f"),
+  energypowerprice: format(".5f"),
+  energyworkingprice: format(".5f"),
+  gridusage: format(".5f"),
+  energy: format(".5f"),
+  total: format(".5f"),
+};
+
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const locale = parseLocaleString(req.query.locale?.toString());
   const period = req.query.period?.toString() ?? buildEnv.CURRENT_PERIOD!;
@@ -20,18 +35,26 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   const dimensions = [
     "period",
-    // "municipality",
-    // "municipalityLabel",
     "operator",
     "operatorIdentifier",
     "operatorLabel",
-    "category",
     "product",
-    "aidfee",
+    "category",
+    "gridusagename",
+    "gridusagebeforediscount",
+    "gridusagediscount",
+    "gridpowerprice",
+    "gridworkingprice",
+    "energyname",
+    "energybeforediscount",
+    "energydiscount",
+    "energyfixcost",
+    "energypowerprice",
+    "energyworkingprice",
     "charge",
+    "aidfee",
     "gridusage",
     "energy",
-    // "fixcostspercent",
     "total",
     "fixcosts",
   ];
@@ -45,6 +68,19 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       dimensions,
     }
   );
+
+  observations.map((observation) => {
+    for (const key_ in observation) {
+      if (!(key_ in formatters)) {
+        continue;
+      }
+      const key = key_ as keyof typeof formatters;
+      observation[key] = formatters[key](
+        observation[key as keyof typeof observation] as number
+      );
+    }
+    return observations;
+  });
 
   const csv = csvFormat(
     observations,
