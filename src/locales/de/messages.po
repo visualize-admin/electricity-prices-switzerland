@@ -145,77 +145,81 @@ msgstr "Produkt"
 msgid "filters.year"
 msgstr "Jahr"
 
-#: src/components/footer.tsx:115
+#: src/components/footer.tsx:112
 msgid "footer.calculation-basics"
 msgstr "Berechnungsgrundlagen"
 
-#: src/components/footer.tsx:225
+#: src/components/footer.tsx:241
 msgid "footer.create-data-visualizations"
 msgstr "Datenvisualierungen mit den ElCom-Daten erstellen"
 
-#: src/components/footer.tsx:219
+#: src/components/footer.tsx:235
 msgid "footer.create-data-visualizations.link"
 msgstr "https://www.elcom.admin.ch/elcom/de/home/themen/strompreise/tarif-rohdaten-verteilnetzbetreiber.html"
 
-#: src/components/footer.tsx:191
+#: src/components/footer.tsx:197
 msgid "footer.data-as-csv"
 msgstr "Daten als .csv"
 
-#: src/components/footer.tsx:211
+#: src/components/footer.tsx:227
 msgid "footer.data-on-opendata-swiss"
 msgstr "Daten auf opendata.swiss"
 
-#: src/components/footer.tsx:205
+#: src/components/footer.tsx:221
 msgid "footer.data-on-opendata-swiss.link"
 msgstr "https://opendata.swiss/de/group/ener?organization=elcom"
 
-#: src/components/footer.tsx:172
+#: src/components/footer.tsx:178
 msgid "footer.download-visualize-data"
 msgstr "Daten herunterladen / visualisieren"
 
-#: src/components/footer.tsx:256
+#: src/components/footer.tsx:272
 msgid "footer.institution.name"
 msgstr "Eidgenössische Elektrizitätskommission ElCom"
 
-#: src/components/footer.tsx:269
+#: src/components/footer.tsx:285
 msgid "footer.legal-framework"
 msgstr "Rechtliches"
 
-#: src/components/footer.tsx:264
+#: src/components/footer.tsx:280
 msgid "footer.legal-framework.link"
 msgstr "https://www.admin.ch/gov/de/start/rechtliches.html"
 
-#: src/components/footer.tsx:104
+#: src/components/footer.tsx:101
 msgid "footer.more-information"
 msgstr "Weiterführende Informationen"
 
-#: src/components/footer.tsx:148
+#: src/components/footer.tsx:154
 msgid "footer.more-tariffs-information"
 msgstr "Weitere Informationen zu den Tarifen in der Schweiz"
 
-#: src/components/footer.tsx:141
+#: src/components/footer.tsx:147
 msgid "footer.more-tariffs-information.link"
 msgstr "https://www.elcom.admin.ch/elcom/de/home/themen/strompreise.html"
 
-#: src/components/footer.tsx:197
+#: src/components/footer.tsx:213
 msgid "footer.municipalities-and-grid-operators"
 msgstr "Schweizerische Gemeinden und zuständige Stromnetzbetreiber"
 
-#: src/components/footer.tsx:163
+#: src/components/footer.tsx:169
 msgid "footer.transmission-grid-tariff"
 msgstr "Tarifkomponenten Übertragungsnetz - Swissgrid"
 
-#: src/components/footer.tsx:156
+#: src/components/footer.tsx:162
 msgid "footer.transmission-grid-tariff.link"
 msgstr "https://www.swissgrid.ch/dam/swissgrid/customers/topics/tariffs/Tabelle-Tarife-de.pdf"
 
-#: src/components/footer.tsx:123
+#: src/components/footer.tsx:120
 msgid "help.calculation"
 msgstr "Berechnungsgrundlagen"
 
-#: src/components/footer.tsx:132
+#: src/components/footer.tsx:129
 msgid "help.csv-download"
 msgstr "Daten als .csv"
+
+#: src/components/footer.tsx:138
+msgid "help.municipalities-info"
+msgstr "Municipalities and grid operators information"
 
 #: src/components/price-color-legend.tsx:77
 msgid "help.price-comparison"
