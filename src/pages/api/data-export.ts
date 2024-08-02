@@ -1,4 +1,4 @@
-import { csvFormatBody } from "d3";
+import { csvFormatBody, format } from "d3";
 import { NextApiRequest, NextApiResponse } from "next";
 
 import buildEnv from "src/env/build";
@@ -10,7 +10,7 @@ import {
   getView,
 } from "../../rdf/queries";
 
-const formatters = {
+const formatters: Record<string, ReturnType<typeof format>> = {
   // See if this is needed later
   // gridusagebeforediscount: format(".5f"),
   // gridusagediscount: format(".5f"),
