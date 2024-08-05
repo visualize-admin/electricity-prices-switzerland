@@ -70,7 +70,7 @@
     "make-plural": "^7.0.0",
     "micromark": "^2.11.2",
     "micromark-extension-gfm": "^0.3.3",
-    "next": "^11.0.1",
+    "next": "12",
     "nextjs-basic-auth-middleware": "^0.2.1",
     "nextkit": "^3.4.3",
     "node-fetch": "2.6",
