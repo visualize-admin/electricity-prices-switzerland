@@ -1,6 +1,6 @@
+import { Box } from "@mui/material";
 import * as React from "react";
 import { memo } from "react";
-import { Box, Flex } from "@mui/material";
 
 import { ColumnsState, useChartState } from "../use-chart-state";
 

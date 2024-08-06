@@ -1,5 +1,5 @@
 import { Trans } from "@lingui/macro";
-import { Link as TUILink, Box, Typography } from "@mui/material";
+import { Link as TUILink, Box } from "@mui/material";
 import * as React from "react";
 
 import { useLocale } from "src/lib/use-locale";

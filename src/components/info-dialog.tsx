@@ -1,7 +1,7 @@
 import { Trans } from "@lingui/macro";
+import { Box, Button, Heading } from "@mui/material";
 import Dialog from "@reach/dialog";
 import VisuallyHidden from "@reach/visually-hidden";
-import { Box, Button, Flex, Heading } from "@mui/material";
 
 import { useWikiContentQuery } from "src/graphql/queries";
 import { useLocale } from "src/lib/use-locale";

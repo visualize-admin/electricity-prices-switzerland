@@ -1,4 +1,5 @@
 import { Trans } from "@lingui/macro";
+import { Box, Button, Input, Link as TUILink } from "@mui/material";
 import VisuallyHidden from "@reach/visually-hidden";
 import { group, rollup } from "d3-array";
 import { useCombobox } from "downshift";
@@ -12,14 +13,6 @@ import {
   useRef,
   useState,
 } from "react";
-import {
-  Box,
-  Button,
-  Flex,
-  Input,
-  Link as TUILink,
-  Typography,
-} from "@mui/material";
 
 import { useSearchQuery } from "src/graphql/queries";
 import { EMPTY_ARRAY } from "src/lib/empty-array";

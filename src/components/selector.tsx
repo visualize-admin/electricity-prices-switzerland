@@ -1,6 +1,5 @@
 import { Trans, t } from "@lingui/macro";
 import { useMemo } from "react";
-import { Flex, Typography } from "@mui/material";
 
 import { useQueryStateSingle } from "src/lib/use-query-state";
 

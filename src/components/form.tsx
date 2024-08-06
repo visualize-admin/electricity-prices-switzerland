@@ -1,5 +1,4 @@
 import { Trans } from "@lingui/macro";
-import VisuallyHidden from "@reach/visually-hidden";
 import {
   Box,
   BoxProps,
@@ -11,6 +10,7 @@ import {
   Select as ThemeUiSelect,
   SelectProps,
 } from "@mui/material";
+import VisuallyHidden from "@reach/visually-hidden";
 import * as React from "react";
 
 import { Icon } from "../icons";

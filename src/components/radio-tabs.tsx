@@ -1,6 +1,6 @@
 import VisuallyHidden from "@reach/visually-hidden";
 import { ChangeEventHandler, useCallback } from "react";
-import { Box, Flex } from "@mui/material";
+import { Box } from "@mui/material";
 
 type RadioTabsVariants = "tabs" | "borderlessTabs" | "segmented";
 

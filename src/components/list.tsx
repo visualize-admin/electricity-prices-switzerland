@@ -1,10 +1,10 @@
 import { t, Trans } from "@lingui/macro";
+import { Box, Button } from "@mui/material";
 import { ScaleThreshold } from "d3";
 import { ascending, descending, mean, rollup } from "d3-array";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { useContext, useMemo, useState } from "react";
-import { Box, Button, Flex, Typography } from "@mui/material";
 
 import {
   CantonMedianObservationFieldsFragment,
