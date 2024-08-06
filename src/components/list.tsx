@@ -72,11 +72,11 @@ const ListItem = ({
             bgcolor: "mutedDarker",
           },
           "&:active": {
-            bgcolor: "primaryLight",
+            bgcolor: "primary.light",
           },
           "&:focus": {
             outline: 0,
-            bgcolor: "primaryLight",
+            bgcolor: "primary.light",
           },
         }}
         display="flex"

@@ -4,20 +4,20 @@ export const parser = "tsx";
 
 const replacements = {
   primary: {
-    color: "primary",
+    color: "primary.main",
     variant: "contained",
   },
   "primary-small": {
-    color: "primary",
+    color: "primary.main",
     variant: "contained",
     size: "small",
   },
   secondary: {
-    color: "secondary",
+    color: "secondary.main",
     variant: "contained",
   },
   "secondary-small": {
-    color: "secondary",
+    color: "secondary.main",
     variant: "contained",
     size: "small",
   },
@@ -36,7 +36,7 @@ const replacements = {
   },
   small: {
     variant: "contained",
-    color: "primary",
+    color: "primary.main",
     size: "small",
   },
 };

@@ -30,7 +30,7 @@ export const useChartTheme = () => {
     annotationColor,
     annotationLineColor,
     annotationLabelUnderlineColor,
-    palettes: theme.palettes,
     markBorderColor,
+    palette: theme.palette,
   };
 };

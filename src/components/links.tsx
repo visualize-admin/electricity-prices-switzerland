@@ -42,18 +42,18 @@ export const IconLink = ({
     rel="noopener noreferrer"
     sx={{
       ml: 4,
-      color: "primary",
+      color: "primary.main",
       "&:disabled": {
-        color: "primaryDisabled",
+        color: "primary.disabledd",
       },
       "&:hover": {
-        color: "primaryHover",
+        color: "primary.hover",
       },
       "&:active": {
-        color: "primaryActive",
+        color: "primary.active",
       },
       "&:visited": {
-        color: "primary",
+        color: "primary.main",
       },
     }}
   >

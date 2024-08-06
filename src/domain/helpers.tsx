@@ -153,7 +153,7 @@ export const getPalette = (
     case "set3":
       return schemeSet3;
     case "elcom":
-      return theme.palettes.categorical;
+      return theme.palette.categorical;
     default:
       return schemeCategory10;
   }

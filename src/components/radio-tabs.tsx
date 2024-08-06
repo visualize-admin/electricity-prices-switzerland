@@ -17,7 +17,7 @@ const STYLES = {
     active: {
       display: "block",
       position: "relative",
-      color: "primary",
+      color: "primary.main",
       bgcolor: "grey.100",
       flex: "1 0 auto",
       textAlign: "center",
@@ -40,7 +40,7 @@ const STYLES = {
       "::before": {
         content: "''",
         display: "block",
-        bgcolor: "primary",
+        bgcolor: "primary.main",
         position: "absolute",
         top: 0,
         left: "-1px",
@@ -54,7 +54,7 @@ const STYLES = {
       whiteSpace: "nowrap",
       textOverflow: "ellipsis",
       display: "block",
-      color: "secondary",
+      color: "secondary.main",
       bgcolor: "grey.200",
       flex: "1 1 auto",
       textAlign: "center",
@@ -74,7 +74,7 @@ const STYLES = {
     active: {
       display: "flex",
       position: "relative",
-      color: "primary",
+      color: "primary.main",
       bgcolor: "grey.100",
       flex: "1 1 auto",
       textAlign: "center",
@@ -100,7 +100,7 @@ const STYLES = {
       "::before": {
         content: "''",
         display: "block",
-        bgcolor: "primary",
+        bgcolor: "primary.main",
         position: "absolute",
         top: 0,
         left: "-1px",
@@ -112,7 +112,7 @@ const STYLES = {
     inactive: {
       display: "flex",
       cursor: "pointer",
-      color: "secondary",
+      color: "secondary.main",
       alignItems: "center",
       bgcolor: "grey.200",
       flex: "1 1 auto",
@@ -138,7 +138,7 @@ const STYLES = {
     active: {
       display: "block",
       position: "relative",
-      color: "primary",
+      color: "primary.main",
       bgcolor: "grey.100",
       flex: "1 0 auto",
       textAlign: "center",
@@ -162,7 +162,7 @@ const STYLES = {
     inactive: {
       cursor: "pointer",
       display: "block",
-      color: "secondary",
+      color: "secondary.main",
       bgcolor: "grey.200",
       overflow: "hidden",
       whiteSpace: "nowrap",

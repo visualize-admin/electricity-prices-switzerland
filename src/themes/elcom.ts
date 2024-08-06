@@ -6,8 +6,9 @@
  *
  * - `theme` should be a plain object, conforming to the `Theme` type.
  */
-import { createTheme } from "@mui/material/styles";
+import { Breakpoint, createTheme } from "@mui/material/styles";
 import { Theme } from "@mui/material/styles";
+import { omit } from "lodash";
 
 const grey = {
   100: "#FFFFFF",
@@ -21,7 +22,72 @@ const grey = {
   900: "#000000",
 } as const;
 
-export const theme: Theme = createTheme({
+const breakpoints = ["xs", "md", "md"] as Breakpoint[];
+
+const fontSizes = [
+  "0rem",
+  "0.625rem",
+  "0.75rem",
+  "0.875rem",
+  "1rem",
+  "1.125rem",
+  "1.5rem",
+  "2rem",
+  "2.5rem",
+  "3rem",
+  "4.5rem",
+  "5.5rem",
+];
+
+const fontWeights: Record<string, number> = {
+  light: 300,
+  regular: 400,
+  heading: 700,
+  bold: 700,
+};
+// FIXME: should it be relative values? 1.5, etc.
+const lineHeights = [
+  "0rem",
+  "1rem",
+  "1.125rem",
+  "1.25rem",
+  "1.375rem",
+  "1.5rem",
+  "1.750rem",
+  "2.250rem",
+  "3rem",
+  "4rem",
+  "4.5rem",
+];
+
+const createTypographyVariant = (theme: Theme, spec: Record<string, any>) => {
+  const res = omit(spec, ["lineHeight", "fontSize"]);
+  for (let i = 0; i < spec.fontSize.length; i++) {
+    const lineHeight = `${lineHeights[spec.lineHeight[i]]}`;
+    const fontSize = `${fontSizes[spec.fontSize[i]]}`;
+    const fontWeight = `${fontWeights[spec.fontSize[i]]}`;
+    res[theme.breakpoints.up(breakpoints[i])] = {
+      fontSize,
+      lineHeight,
+      fontWeight,
+    };
+  }
+  return res;
+};
+
+const bpTheme = createTheme({
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 768,
+      md: 992,
+      lg: 1200,
+      xl: 1920,
+    },
+  },
+});
+
+export const theme: Theme = createTheme(bpTheme, {
   breakpoints: {
     values: {
       xs: 0,
@@ -104,111 +170,66 @@ export const theme: Theme = createTheme({
     categorical: ["#64afe9", "#01ADA1", "#939CB4", "#91C34B", "#E89F00"],
   },
 
-  fonts: {
-    body: "FrutigerNeue, -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol",
-    monospace: "Menlo, monospace",
+  shape: {
+    borderRadius: 3,
   },
-  fontSizes: [
-    "0rem",
-    "0.625rem",
-    "0.75rem",
-    "0.875rem",
-    "1rem",
-    "1.125rem",
-    "1.5rem",
-    "2rem",
-    "2.5rem",
-    "3rem",
-    "4.5rem",
-    "5.5rem",
-  ],
-  fontWeights: {
-    light: 300,
-    regular: 400,
-    heading: 700,
-    bold: 700,
-  },
-  // FIXME: should it be relative values? 1.5, etc.
-  lineHeights: [
-    "0rem",
-    "1rem",
-    "1.125rem",
-    "1.25rem",
-    "1.375rem",
-    "1.5rem",
-    "1.750rem",
-    "2.250rem",
-    "3rem",
-    "4rem",
-    "4.5rem",
-  ],
 
-  radii: {
-    default: 3,
-    bigger: 4,
-    circle: 99999,
+  typography: {
+    fontFamily:
+      "FrutigerNeue, -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol",
+    // monospace: "Menlo, monospace"
+
+    giga: createTypographyVariant(bpTheme, {
+      lineHeight: 1.2,
+      fontWeight: "bold",
+      fontSize: [8, 9, 9],
+    }),
+    h1: createTypographyVariant(bpTheme, {
+      lineHeight: [8, 8, 8],
+      fontWeight: "bold",
+      fontSize: [7, 7, 7],
+    }),
+    h2: createTypographyVariant(bpTheme, {
+      lineHeight: [6, 7, 7],
+      fontWeight: "regular",
+      fontSize: [5, 6, 6],
+    }),
+    h3: createTypographyVariant(bpTheme, {
+      lineHeight: [5, 6, 6],
+      fontWeight: "bold",
+      fontSize: [4, 5, 5],
+    }),
+    lead: createTypographyVariant(bpTheme, {
+      lineHeight: [4, 5, 5],
+      fontWeight: "bold",
+      fontSize: [3, 4, 4],
+    }),
+    body1: createTypographyVariant(bpTheme, {
+      lineHeight: [4, 5, 5],
+      fontWeight: "regular",
+      fontSize: [3, 4, 4],
+    }),
+    body2: createTypographyVariant(bpTheme, {
+      lineHeight: [2, 4, 3],
+      fontWeight: "regular",
+      fontSize: [2, 3, 3],
+    }),
+    table: createTypographyVariant(bpTheme, {
+      lineHeight: [2, 4, 4],
+      fontWeight: "regular",
+      fontSize: [2, 3, 3],
+    }),
+    meta: createTypographyVariant(bpTheme, {
+      lineHeight: [1, 2, 2],
+      fontWeight: "regular",
+      fontSize: [1, 2, 2],
+    }),
   },
   shadows: {
     primary: "0 3px 5px 0 rgba(0,0,0,0.10)",
     rightSide: "2px 0 4px 0 rgba(0,0,0,0.05)",
     leftSide: "-2px 0 2px 0 rgba(0,0,0,0.05)",
     tooltip: "0 2px 8px rgba(0, 0, 0, 0.25)",
-  },
-  text: {
-    giga: {
-      fontFamily: "body",
-      lineHeight: 1.2,
-      fontWeight: "bold",
-      fontSize: [8, 9, 9],
-    },
-    heading1: {
-      fontFamily: "body",
-      lineHeight: [8, 8, 8],
-      fontWeight: "bold",
-      fontSize: [7, 7, 7],
-    },
-    heading2: {
-      fontFamily: "body",
-      lineHeight: [6, 7, 7],
-      fontWeight: "regular",
-      fontSize: [5, 6, 6],
-    },
-    heading3: {
-      fontFamily: "body",
-      lineHeight: [5, 6, 6],
-      fontWeight: "bold",
-      fontSize: [4, 5, 5],
-    },
-    lead: {
-      fontFamily: "body",
-      lineHeight: [4, 5, 5],
-      fontWeight: "bold",
-      fontSize: [3, 4, 4],
-    },
-    paragraph1: {
-      fontFamily: "body",
-      lineHeight: [4, 5, 5],
-      fontWeight: "regular",
-      fontSize: [3, 4, 4],
-    },
-    paragraph2: {
-      fontFamily: "body",
-      lineHeight: [2, 4, 3],
-      fontWeight: "regular",
-      fontSize: [2, 3, 3],
-    },
-    table: {
-      fontFamily: "body",
-      lineHeight: [2, 4, 4],
-      fontWeight: "regular",
-      fontSize: [2, 3, 3],
-    },
-    meta: {
-      fontFamily: "body",
-      lineHeight: [1, 2, 2],
-      fontWeight: "regular",
-      fontSize: [1, 2, 2],
-    },
   },
   components: {
     MuiButton: {
@@ -229,19 +250,18 @@ export const theme: Theme = createTheme({
             width: "100%",
             px: 4,
             py: 3,
-            fontFamily: "body",
             fontSize: 4,
             transition: "background-color .2s",
             cursor: "pointer",
             ":hover": {
-              background: "primaryHover",
+              background: "primary.hover",
             },
             ":active": {
-              background: "primaryActive",
+              background: "primary.active",
             },
             ":disabled": {
               cursor: "initial",
-              background: "primaryDisabled",
+              background: "primary.disabledd",
             },
           },
         },
@@ -254,7 +274,6 @@ export const theme: Theme = createTheme({
             width: "100%",
             px: 4,
             py: 3,
-            fontFamily: "body",
             fontSize: 4,
             transition: "background-color .2s",
             cursor: "pointer",
@@ -279,19 +298,18 @@ export const theme: Theme = createTheme({
             width: "100%",
             px: 4,
             py: 3,
-            fontFamily: "body",
             fontSize: 4,
             transition: "background-color .2s",
             cursor: "pointer",
             ":hover": {
-              background: "successHover",
+              background: "success.hover",
             },
             ":active": {
-              background: "successActive",
+              background: "success.active",
             },
             ":disabled": {
               cursor: "initial",
-              background: "successDisabled",
+              background: "success.disabled",
             },
           },
         },
@@ -299,20 +317,19 @@ export const theme: Theme = createTheme({
           props: { variant: "outline" },
           style: {
             background: grey[100],
-            color: "primary",
+            color: "primary.main",
             borderRadius: "default",
             width: "100%",
             px: 4,
             py: 3,
-            fontFamily: "body",
             fontSize: 4,
             transition: "background-color .2s",
             cursor: "pointer",
             ":hover": {
-              background: "muted",
+              background: "muted.main",
             },
             ":active": {
-              background: "muted",
+              background: "muted.main",
             },
             ":disabled": {
               cursor: "initial",
@@ -329,7 +346,6 @@ export const theme: Theme = createTheme({
             width: ["100%", "auto"],
             px: 4,
             py: 3,
-            fontFamily: "body",
             fontSize: 4,
             transition: "background-color .2s",
             cursor: "pointer",
@@ -350,8 +366,7 @@ export const theme: Theme = createTheme({
           props: { variant: "inline" },
           style: {
             background: "transparent",
-            color: "primary",
-            fontFamily: "body",
+            color: "primary.main",
             lineHeight: [1, 2, 2],
             fontWeight: "regular",
             fontSize: [3, 3, 3],
@@ -359,7 +374,7 @@ export const theme: Theme = createTheme({
             cursor: "pointer",
             p: 0,
             ":hover": {
-              color: "primaryHover",
+              color: "primary.hover",
             },
             ":disabled": {
               cursor: "initial",
@@ -368,22 +383,6 @@ export const theme: Theme = createTheme({
           },
         },
       ],
-    },
-  },
-  links: {
-    inline: {
-      cursor: "pointer",
-      color: "primary",
-      textDecoration: "none",
-      "&:hover": {
-        color: "primaryHover",
-      },
-      "&:active": {
-        color: "primaryActive",
-      },
-      "&:visited": {
-        color: "primary",
-      },
     },
   },
 });

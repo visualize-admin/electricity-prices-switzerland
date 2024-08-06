@@ -271,7 +271,7 @@ export const SearchField = ({
             sx={{
               p: 0,
               cursor: "pointer",
-              color: "primary",
+              color: "primary.main",
               display: ["block", "block", "none"],
             }}
           >

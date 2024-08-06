@@ -110,6 +110,7 @@ export const DetailPageBanner = ({
         >
           <HomeLink passHref>
             <UILink
+              component="span"
               variant="inline"
               sx={{
                 display: "flex",
@@ -130,12 +131,8 @@ export const DetailPageBanner = ({
       </Grid>
 
       <Box sx={{ mx: "auto", my: 2 }}>
-        <Typography
-          component="h1"
-          variant="h1"
-          sx={{ color: "grey.800" }}
-        >
-          <Typography variant="meta" sx={{ color: "secondary" }}>
+        <Typography component="h1" variant="h1" sx={{ color: "grey.800" }}>
+          <Typography variant="meta" sx={{ color: "secondary.main" }}>
             {entity === "canton" ? (
               <Trans id="detail.canton">Kanton</Trans>
             ) : entity === "municipality" ? (

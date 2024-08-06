@@ -10,6 +10,7 @@ declare module "@mui/material/styles" {
   interface Palette {
     brand: PaletteColor;
     diverging: string[];
+    categorical: string[];
   }
 
   interface ButtonPropsVariantOverrides {
@@ -38,6 +39,8 @@ declare module "@mui/material/Typography" {
   interface TypographyPropsVariantOverrides {
     meta: true;
     lead: true;
-    paragraph2: true;
+    table: true;
+    giga: true;
+    inline: true;
   }
 }

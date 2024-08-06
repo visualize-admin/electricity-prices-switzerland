@@ -101,7 +101,7 @@ export const HelpDialog: React.FC<{
         <Icon name="clear" />
       </Box>
     </Button>
-    <Typography variant="paragraph2" sx={{ color: "secondary" }}>
+    <Typography variant="paragraph2" sx={{ color: "secondary.main" }}>
       <Trans id="dialog.infoprefix">Info:</Trans> {label}
     </Typography>
     <DialogContent slug={slug} />

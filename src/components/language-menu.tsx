@@ -67,14 +67,14 @@ export const LanguageMenu = ({ contentId }: { contentId?: string }) => {
                   ? ["grey.500", "grey.300"]
                   : "transparent",
               ":hover": {
-                color: "primary",
+                color: "primary.main",
               },
               ":active": {
-                color: "primaryActive",
+                color: "primary.active",
               },
               ":disabled": {
                 cursor: "initial",
-                color: "primaryDisabled",
+                color: "primary.disabledd",
               },
             }}
           >

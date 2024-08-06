@@ -42,7 +42,8 @@ const useHistogramState = ({
 }): HistogramState => {
   const width = useWidth();
   const formatCurrency = useFormatCurrency();
-  const { annotationfontSize, palettes } = useChartTheme();
+
+  const { annotationfontSize, palette } = useChartTheme();
 
   const getX = useCallback(
     (d: GenericObservation) => d[fields.x.componentIri] as number,
@@ -71,7 +72,7 @@ const useHistogramState = ({
 
   const colors = scaleLinear<string>()
     .domain(colorDomain)
-    .range(palettes.diverging)
+    .range(palette.diverging)
     .interpolate(interpolateHsl);
   // y
   const bins = histogram<GenericObservation, number>()
@@ -91,7 +92,7 @@ const useHistogramState = ({
       )
     )
   );
-  // const piecewiseColor = piecewise(interpolateHsl, palettes.diverging);
+  // const piecewiseColor = piecewise(interpolateHsl, palette.diverging);
 
   const margins = {
     top: 70,

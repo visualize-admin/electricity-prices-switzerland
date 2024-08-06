@@ -148,10 +148,10 @@ export const ComboboxMulti = ({
                 mb: 2,
                 borderRadius: "default",
                 fontSize: "0.75rem",
-                bgcolor: "primaryLight",
+                bgcolor: "primary.light",
                 ":focus": {
                   outline: 0,
-                  bgcolor: "primary",
+                  bgcolor: "primary.main",
                   color: "grey.100",
                 },
               }}
@@ -254,7 +254,7 @@ export const ComboboxMulti = ({
             component="li"
             variant="paragraph2"
             sx={{
-              color: "secondary",
+              color: "secondary.main",
               p: 3,
               m: 0,
             }}
@@ -266,7 +266,7 @@ export const ComboboxMulti = ({
             component="li"
             variant="paragraph2"
             sx={{
-              color: "secondary",
+              color: "secondary.main",
               p: 3,
               m: 0,
             }}
@@ -287,8 +287,8 @@ export const ComboboxMulti = ({
             <Box
               component="li"
               sx={{
-                color: highlightedIndex === index ? "primaryActive" : "text",
-                bgcolor: highlightedIndex === index ? "primaryLight" : "transparent",
+                color: highlightedIndex === index ? "primary.active" : "text",
+                bgcolor: highlightedIndex === index ? "primary.light" : "transparent",
                 p: 3,
                 m: 0,
               }}
@@ -493,9 +493,9 @@ export const Combobox = ({
               <Box
                 component="li"
                 sx={{
-                  color: highlightedIndex === index ? "primaryActive" : "text",
+                  color: highlightedIndex === index ? "primary.active" : "text",
                   bgcolor:
-                    highlightedIndex === index ? "primaryLight" : "transparent",
+                    highlightedIndex === index ? "primary.light" : "transparent",
                   p: 3,
                   m: 0,
                 }}
@@ -522,7 +522,7 @@ export const Combobox = ({
           <Box
             component="li"
             sx={{
-              color: "secondary",
+              color: "secondary.main",
               p: 3,
               m: 0,
             }}

@@ -691,7 +691,7 @@ export const ChoroplethMap = ({
                       );
                     })
                   ) : (
-                    <Typography variant="meta" sx={{ color: "secondary" }}>
+                    <Typography variant="meta" sx={{ color: "secondary.main" }}>
                       <Trans id="map.tooltipnodata">Keine Daten</Trans>
                     </Typography>
                   )}
