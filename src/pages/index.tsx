@@ -293,7 +293,7 @@ const IndexPage = ({ locale }: Props) => {
             <Typography
               component="h1"
               variant="giga"
-              sx={{ textAlign: ["left", "left", "center"] }}
+              sx={{ textAlign: ["left", "left", "center"], mb: 4 }}
             >
               <Trans id="site.title">Strompreise Schweiz</Trans>
             </Typography>

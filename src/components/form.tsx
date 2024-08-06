@@ -10,6 +10,9 @@ import {
   Typography,
   InputAdornment,
   OutlinedInput,
+  NativeSelect,
+  NativeSelectProps,
+  FormControlLabel,
 } from "@mui/material";
 import * as React from "react";
 
@@ -82,25 +85,23 @@ export const Radio = ({
 }: { label: string | React.ReactNode; disabled?: boolean } & FieldProps) => {
   return (
     <Box mb={2}>
-      <Box
-        component="label"
-        label={label}
-        htmlFor={`${name}-${value}`}
+      <FormControlLabel
         disabled={disabled}
-      >
-        <ThemeUiRadio
-          name={name}
-          id={`${name}-${value}`}
-          value={value}
-          onChange={onChange}
-          checked={checked}
-          disabled={disabled}
-          size={20}
-          sx={{
-            color: checked && !disabled ? "primary" : "grey.500",
-          }}
-        />
-      </Box>
+        label={label}
+        control={
+          <ThemeUiRadio
+            name={name}
+            id={`${name}-${value}`}
+            value={value}
+            onChange={onChange}
+            checked={checked}
+            disabled={disabled}
+            sx={{
+              color: checked && !disabled ? "primary" : "grey.500",
+            }}
+          />
+        }
+      />
     </Box>
   );
 };
@@ -196,23 +197,26 @@ export const MiniSelect = ({
   options: Option[];
   label?: React.ReactNode;
   disabled?: boolean;
-} & SelectProps) => (
+} & NativeSelectProps) => (
   <Box sx={{ color: "grey.800" }}>
     {label && (
       <Box component="label" htmlFor={id} smaller>
         {label}
       </Box>
     )}
-    <ThemeUiSelect
+    <NativeSelect
+      disableUnderline
       sx={{
         borderColor: "transparent",
         fontSize: ["0.625rem", "0.75rem", "0.75rem"],
+        borderBottom: 0,
         bgcolor: "transparent",
         py: 0,
         pl: 1,
         pr: 4,
         mr: 1, // Fix for Chrome which cuts of the label otherwise
-        ":focus": {
+        "&:focus": {
+          bgcolor: "transparent",
           outline: "none",
           borderColor: "primary",
         },
@@ -227,7 +231,7 @@ export const MiniSelect = ({
           {opt.label}
         </option>
       ))}
-    </ThemeUiSelect>
+    </NativeSelect>
   </Box>
 );
 

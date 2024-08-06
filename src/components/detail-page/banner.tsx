@@ -110,22 +110,21 @@ export const DetailPageBanner = ({
             gridArea: "back",
           }}
         >
-          <HomeLink passHref>
-            <UILink
-              component="span"
-              variant="inline"
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                fontSize: "0.875rem",
-                "& > svg": { mr: 1 },
-                ml: "-8px",
-              }}
-            >
-              <Icon name="chevronleft" size={24}></Icon>
-              <Trans id="detail.homelink">Zurück zur Übersicht</Trans>
-            </UILink>
-          </HomeLink>
+          <UILink
+            component="span"
+            variant="inline"
+            component={HomeLink}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              fontSize: "0.875rem",
+              "& > svg": { mr: 1 },
+              ml: "-8px",
+            }}
+          >
+            <Icon name="chevronleft" size={24}></Icon>
+            <Trans id="detail.homelink">Zurück zur Übersicht</Trans>
+          </UILink>
         </Box>
         <Box sx={{ gridArea: "search" }}>
           <Search />

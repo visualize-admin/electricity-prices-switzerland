@@ -360,26 +360,30 @@ export const List = ({
           />
         </Stack>
 
-        <Box sx={{ justifyContent: "space-between", mt: 2 }} display="flex">
-          <label htmlFor="listSort">
-            <Typography
-              color="secondary"
-              sx={{
-                fontSize: ["0.625rem", "0.75rem", "0.75rem"],
-                lineHeight: "24px",
-              }}
-            >
-              <Trans id="dataset.sortby">Sortieren</Trans>
-            </Typography>
-          </label>
+        <Box
+          sx={{ justifyContent: "space-between", mt: 2, alignItems: "center" }}
+          display="flex"
+        >
+          <Typography
+            display="span"
+            component="label"
+            htmlFor="listSort"
+            color="secondary"
+            sx={{
+              fontSize: ["0.625rem", "0.75rem", "0.75rem"],
+              lineHeight: "24px",
+            }}
+          >
+            <Trans id="dataset.sortby">Sortieren</Trans>
+          </Typography>
           <MiniSelect
             id="listSort"
             value={sortState}
             options={sortOptions}
             onChange={(e) => {
-              setSortState(e.currentTarget.value as SortState);
+              setSortState(e.currentTarget?.value as SortState);
             }}
-          ></MiniSelect>
+          />
         </Box>
       </Box>
 

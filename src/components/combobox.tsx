@@ -1,6 +1,6 @@
 import { t } from "@lingui/macro";
 // import { i18n } from "@lingui/core";
-import { Box, Button, InputBase, Typography } from "@mui/material";
+import { Box, Button, InputBase, Typography, IconButton } from "@mui/material";
 import { useCombobox, useMultipleSelection } from "downshift";
 import { useState, useEffect } from "react";
 
@@ -453,9 +453,10 @@ export const Combobox = ({
             }}
           />
         </Box>
-        <Button
+        <IconButton
           aria-label={"toggle menu"}
           variant="reset"
+          size="small"
           sx={{
             color: "grey.800",
             p: 0,
@@ -463,13 +464,18 @@ export const Combobox = ({
             position: "absolute",
             right: 0,
             top: "50%",
-            height: 48,
-            transform: "translateY(-50%)",
+            height: 40,
+            width: 40,
+            transition: "transform 0.1s ease",
+            transformOrigin: "center center",
+            transform: ` translateY(-50%) rotate(${
+              !isOpen ? "0deg" : "180deg"
+            })`,
           }}
           {...getToggleButtonProps()}
         >
-          {isOpen ? <Icon name="chevronup" /> : <Icon name="chevrondown" />}
-        </Button>
+          <Icon name="chevrondown" />
+        </IconButton>
       </Box>
 
       <Box
