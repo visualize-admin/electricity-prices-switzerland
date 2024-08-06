@@ -244,7 +244,7 @@ export const HintBlue = ({
     <Box sx={{ width: 24, pr: 4 }}>
       <Icon name={iconName} size={24} />
     </Box>
-    <Text variant="paragraph1" sx={{ textAlign: "left", ml: 4 }}>
+    <Text variant="body1" sx={{ textAlign: "left", ml: 4 }}>
       {children}
     </Text>
   </Flex>
@@ -273,7 +273,7 @@ export const HintRed = ({
     <Box sx={{ width: 24, pr: 4 }}>
       <Icon name={iconName} size={24} />
     </Box>
-    <Text variant="paragraph1" sx={{ textAlign: "left", ml: 4 }}>
+    <Text variant="body1" sx={{ textAlign: "left", ml: 4 }}>
       {children}
     </Text>
   </Flex>

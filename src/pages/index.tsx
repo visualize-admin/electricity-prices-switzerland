@@ -298,7 +298,7 @@ const IndexPage = ({ locale }: Props) => {
             </Text>
 
             <Text
-              variant="paragraph1"
+              variant="body1"
               sx={{
                 width: "100%",
                 textAlign: ["left", "left", "center"],

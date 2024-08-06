@@ -335,15 +335,15 @@ export const SearchField = ({
           }}
         >
           {isOpen && inputValue === "" ? (
-            <Text variant="paragraph1" sx={{ color: "grey[800]" }}>
+            <Text variant="body1" sx={{ color: "grey[800]" }}>
               {label}
             </Text>
           ) : inputValue !== "" && isLoading ? (
-            <Text variant="paragraph1" sx={{ color: "grey[800]" }}>
+            <Text variant="body1" sx={{ color: "grey[800]" }}>
               <Trans id="combobox.isloading">Resultate laden …</Trans>
             </Text>
           ) : inputValue !== "" && !isLoading && items.length === 0 ? (
-            <Text variant="paragraph1" sx={{ color: "grey[800]" }}>
+            <Text variant="body1" sx={{ color: "grey[800]" }}>
               <Trans id="combobox.noitems">Keine Einträge</Trans>
             </Text>
           ) : (
