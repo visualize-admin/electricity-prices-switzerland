@@ -3,7 +3,7 @@ import { Box } from "@theme-ui/components";
 import { groups } from "d3-array";
 import * as React from "react";
 import { memo, useEffect, useState } from "react";
-import { Flex } from "theme-ui";
+import { Flex } from "@mui/material";
 
 import {
   ObservationKind,

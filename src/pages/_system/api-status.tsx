@@ -1,5 +1,5 @@
 import { FormEvent, useCallback, useMemo, useState } from "react";
-import { Box, Heading, HeadingProps, BoxProps } from "theme-ui";
+import { Box, Heading, HeadingProps, BoxProps } from "@mui/material";
 import { UseQueryState } from "urql";
 
 import * as Queries from "src/graphql/queries";

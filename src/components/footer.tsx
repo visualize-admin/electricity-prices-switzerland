@@ -1,7 +1,7 @@
 import { Trans, t } from "@lingui/macro";
 import { Box, Flex, Link, Typography } from "@theme-ui/components";
 import { PropsWithChildren } from "react";
-import { IconButton, LinkProps } from "theme-ui";
+import { IconButton, LinkProps } from "@mui/material";
 
 import { useLocale } from "src/lib/use-locale";
 import { useQueryStateSingle } from "src/lib/use-query-state";

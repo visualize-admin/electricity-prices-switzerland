@@ -1,4 +1,4 @@
-import { Grid, Box } from "theme-ui";
+import { Grid, Box } from "@mui/material";
 
 type Props = {
   main: React.ReactNode;

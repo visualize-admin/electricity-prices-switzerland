@@ -19,7 +19,7 @@ import {
   Input,
   Link as TUILink,
   Typography,
-} from "theme-ui";
+} from "@mui/material";
 
 import { useSearchQuery } from "src/graphql/queries";
 import { EMPTY_ARRAY } from "src/lib/empty-array";

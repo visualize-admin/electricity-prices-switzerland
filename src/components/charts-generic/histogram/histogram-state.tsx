@@ -4,7 +4,7 @@ import { ascending, histogram, max, min } from "d3-array";
 import { scaleLinear } from "d3-scale";
 import * as React from "react";
 import { ReactNode, useCallback } from "react";
-import { Flex } from "theme-ui";
+import { Flex } from "@mui/material";
 
 import { estimateTextWidth } from "src/lib/estimate-text-width";
 

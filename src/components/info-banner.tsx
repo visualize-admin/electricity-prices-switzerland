@@ -1,4 +1,4 @@
-import { Box } from "theme-ui";
+import { Box } from "@mui/material";
 
 import { useWikiContentQuery } from "src/graphql/queries";
 import { useLocale } from "src/lib/use-locale";

@@ -1,5 +1,5 @@
 import React, { ReactNode, forwardRef } from "react";
-import { Box } from "theme-ui";
+import { Box } from "@mui/material";
 
 import { useTheme } from "../../../themes";
 import { Margins } from "../use-width";
