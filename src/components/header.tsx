@@ -1,5 +1,5 @@
 import { Trans } from "@lingui/macro";
-import { Box, Flex, Text } from "theme-ui";
+import { Box, Flex, Typography } from "theme-ui";
 
 import buildEnv from "src/env/build";
 

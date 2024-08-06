@@ -12,7 +12,14 @@ import {
   useRef,
   useState,
 } from "react";
-import { Box, Button, Flex, Input, Link as TUILink, Text } from "theme-ui";
+import {
+  Box,
+  Button,
+  Flex,
+  Input,
+  Link as TUILink,
+  Typography,
+} from "theme-ui";
 
 import { useSearchQuery } from "src/graphql/queries";
 import { EMPTY_ARRAY } from "src/lib/empty-array";

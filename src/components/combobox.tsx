@@ -2,7 +2,7 @@ import { t } from "@lingui/macro";
 // import { i18n } from "@lingui/core";
 import { useCombobox, useMultipleSelection } from "downshift";
 import { useState, useEffect } from "react";
-import { Box, Button, Flex, Input, Text } from "theme-ui";
+import { Box, Button, Flex, Input, Typography } from "theme-ui";
 
 import { Icon } from "../icons";
 

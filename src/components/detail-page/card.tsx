@@ -1,4 +1,4 @@
-import { Box, Text } from "@theme-ui/components";
+import { Box, Typography } from "@theme-ui/components";
 import * as React from "react";
 import { ReactNode } from "react";
 

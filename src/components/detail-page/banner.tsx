@@ -5,7 +5,7 @@ import {
   Flex,
   Grid,
   Link as UILink,
-  Text,
+  Typography,
 } from "@theme-ui/components";
 import NextLink from "next/link";
 import { useRouter } from "next/router";

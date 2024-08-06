@@ -2,7 +2,7 @@ import { Trans } from "@lingui/macro";
 import { descending, rollup } from "d3-array";
 import { uniqBy } from "lodash";
 import { useMemo } from "react";
-import { Box, Flex, Link, Text } from "theme-ui";
+import { Box, Flex, Link, Typography } from "theme-ui";
 
 import {
   OperatorDocument,

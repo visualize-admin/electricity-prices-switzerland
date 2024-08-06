@@ -1,5 +1,5 @@
 import { Trans, t } from "@lingui/macro";
-import { Box, BoxProps, Flex, Grid, Text } from "@theme-ui/components";
+import { Box, BoxProps, Flex, Grid, Typography } from "@theme-ui/components";
 import React, { useState } from "react";
 
 import { useFormatCurrency } from "../domain/helpers";

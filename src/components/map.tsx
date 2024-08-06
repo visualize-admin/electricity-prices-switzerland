@@ -18,7 +18,7 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import { Box, Flex, Grid, Text } from "theme-ui";
+import { Box, Flex, Grid, Typography } from "theme-ui";
 import {
   feature as topojsonFeature,
   mesh as topojsonMesh,

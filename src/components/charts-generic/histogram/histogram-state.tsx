@@ -1,4 +1,4 @@
-import { Text } from "@theme-ui/components";
+import { Typography } from "@theme-ui/components";
 import { interpolateHsl } from "d3";
 import { ascending, histogram, max, min } from "d3-array";
 import { scaleLinear } from "d3-scale";

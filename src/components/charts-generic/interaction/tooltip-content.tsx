@@ -1,4 +1,4 @@
-import { Box, Text } from "@theme-ui/components";
+import { Box, Typography } from "@theme-ui/components";
 import { Flex } from "theme-ui";
 
 import { LegendItem, LegendSymbol } from "../legends/color";

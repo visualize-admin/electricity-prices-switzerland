@@ -5,7 +5,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import basicAuthMiddleware from "nextjs-basic-auth-middleware";
 import { useCallback, useRef, useState } from "react";
-import { Box, Button, Flex, Grid, Input, Link, Text } from "theme-ui";
+import { Box, Button, Flex, Grid, Input, Link, Typography } from "theme-ui";
 
 import {
   PriceComponent,
@@ -33,7 +33,6 @@ import { useDisclosure } from "../components/useDisclosure";
 import useOutsideClick from "../components/useOutsideClick";
 import { useColorScale } from "../domain/data";
 import { IconCopy } from "../icons/ic-copy";
-
 
 const DOWNLOAD_ID = "map";
 

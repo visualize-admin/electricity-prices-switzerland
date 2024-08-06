@@ -4,7 +4,7 @@ import { ascending, descending, mean, rollup } from "d3-array";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { useContext, useMemo, useState } from "react";
-import { Box, Button, Flex, Text } from "theme-ui";
+import { Box, Button, Flex, Typography } from "theme-ui";
 
 import {
   CantonMedianObservationFieldsFragment,
