@@ -46,7 +46,7 @@ const DocumentList = ({
             component="li"
             key={doc.id + doc.url}
             sx={{ ml: 0, mb: 2, p: 0 }}
-            variant="text.paragraph2"
+            variant="text.body2"
           >
             <Link href={doc.url} variant="inline">
               <Box display="flex">
@@ -94,7 +94,7 @@ export const OperatorDocuments = ({ id }: { id: string }) => {
 
   if (documents.length === 0) {
     return (
-      <Typography variant="paragraph2" sx={{ m: 6, color: "hint" }}>
+      <Typography variant="body2" sx={{ m: 6, color: "hint" }}>
         <Trans id="download.nooperatordocuments">
           Keine Netzbetreiber-Dokumente
         </Trans>

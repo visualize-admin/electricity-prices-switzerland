@@ -268,13 +268,13 @@ export const Footer = () => {
             justifyContent: "space-between",
           }}
         >
-          <Typography variant="paragraph2">
+          <Typography variant="body2">
             <Trans id="footer.institution.name">
               Eidgenössische Elektrizitätskommission ElCom
             </Trans>
           </Typography>
           <Typography
-            variant="paragraph2"
+            variant="body2"
             sx={{ display: "block" }}
             component="div"
           >

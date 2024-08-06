@@ -20,7 +20,7 @@ export const Columns = () => {
           height={Math.abs(yScale(getY(d)) - yScale(0))}
           color={
             getY(d) <= 0
-              ? theme.palette.secondary.main.main
+              ? theme.palette.secondary.main
               : theme.palette.primary.main
           }
         />

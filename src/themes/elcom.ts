@@ -65,11 +65,9 @@ const createTypographyVariant = (theme: Theme, spec: Record<string, any>) => {
   for (let i = 0; i < spec.fontSize.length; i++) {
     const lineHeight = `${lineHeights[spec.lineHeight[i]]}`;
     const fontSize = `${fontSizes[spec.fontSize[i]]}`;
-    const fontWeight = `${fontWeights[spec.fontSize[i]]}`;
     res[theme.breakpoints.up(breakpoints[i])] = {
       fontSize,
       lineHeight,
-      fontWeight,
     };
   }
   return res;
@@ -253,13 +251,13 @@ export const theme: Theme = createTheme(bpTheme, {
             fontSize: 4,
             transition: "background-color .2s",
             cursor: "pointer",
-            ":hover": {
+            "&:hover": {
               background: "primary.hover",
             },
-            ":active": {
+            "&:active": {
               background: "primary.active",
             },
-            ":disabled": {
+            "&:disabled": {
               cursor: "initial",
               background: "primary.disabledd",
             },
@@ -277,13 +275,13 @@ export const theme: Theme = createTheme(bpTheme, {
             fontSize: 4,
             transition: "background-color .2s",
             cursor: "pointer",
-            ":hover": {
+            "&:hover": {
               background: "secondaryHover",
             },
-            ":active": {
+            "&:active": {
               background: "secondaryActive",
             },
-            ":disabled": {
+            "&:disabled": {
               cursor: "initial",
               background: "secondaryDisabled",
             },
@@ -301,13 +299,13 @@ export const theme: Theme = createTheme(bpTheme, {
             fontSize: 4,
             transition: "background-color .2s",
             cursor: "pointer",
-            ":hover": {
+            "&:hover": {
               background: "success.hover",
             },
-            ":active": {
+            "&:active": {
               background: "success.active",
             },
-            ":disabled": {
+            "&:disabled": {
               cursor: "initial",
               background: "success.disabled",
             },
@@ -325,13 +323,13 @@ export const theme: Theme = createTheme(bpTheme, {
             fontSize: 4,
             transition: "background-color .2s",
             cursor: "pointer",
-            ":hover": {
+            "&:hover": {
               background: "muted.main",
             },
-            ":active": {
+            "&:active": {
               background: "muted.main",
             },
-            ":disabled": {
+            "&:disabled": {
               cursor: "initial",
               background: "muted",
             },
@@ -349,13 +347,13 @@ export const theme: Theme = createTheme(bpTheme, {
             fontSize: 4,
             transition: "background-color .2s",
             cursor: "pointer",
-            ":hover": {
+            "&:hover": {
               background: grey[300],
             },
-            ":active": {
+            "&:active": {
               background: grey[400],
             },
-            ":disabled": {
+            "&:disabled": {
               cursor: "initial",
               color: grey[600],
               background: grey[300],
@@ -373,10 +371,10 @@ export const theme: Theme = createTheme(bpTheme, {
             border: "none",
             cursor: "pointer",
             p: 0,
-            ":hover": {
+            "&:hover": {
               color: "primary.hover",
             },
-            ":disabled": {
+            "&:disabled": {
               cursor: "initial",
               color: grey[500],
             },

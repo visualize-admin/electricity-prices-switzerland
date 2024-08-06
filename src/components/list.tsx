@@ -81,7 +81,7 @@ const ListItem = ({
         }}
         display="flex"
       >
-        <Typography variant="paragraph2" sx={{ flexGrow: 1, mr: 1 }}>
+        <Typography variant="body2" sx={{ flexGrow: 1, mr: 1 }}>
           {label}
         </Typography>
         <Box
@@ -92,7 +92,7 @@ const ListItem = ({
           }}
           style={{ background: colorScale(value) }}
         >
-          <Typography variant="paragraph2">{formatNumber(value)}</Typography>
+          <Typography variant="body2">{formatNumber(value)}</Typography>
         </Box>
         <Box sx={{ width: "24px", flexShrink: 0 }}>
           <Icon name="chevronright"></Icon>
@@ -184,7 +184,7 @@ const PlaceholderListItem = () => {
       display="flex"
     >
       <Typography
-        variant="paragraph2"
+        variant="body2"
         sx={{ flexGrow: 1, bgcolor: "grey.200", mr: 5 }}
       ></Typography>
       <Box
@@ -196,7 +196,7 @@ const PlaceholderListItem = () => {
           width: "5ch",
         }}
       >
-        <Typography variant="paragraph2">&nbsp;</Typography>
+        <Typography variant="body2">&nbsp;</Typography>
       </Box>
       <Box sx={{ width: "24px", flexShrink: 0, color: "grey.200" }}>
         <Icon name="chevronright"></Icon>

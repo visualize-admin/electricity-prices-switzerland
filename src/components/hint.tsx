@@ -168,7 +168,7 @@ export const NoDataHint = () => (
     <Typography variant="h2" sx={{ my: 3 }}>
       <Trans id="hint.nodata.title">Keine Daten</Trans>
     </Typography>
-    <Typography variant="paragraph2" sx={{ maxWidth: "40rem" }}>
+    <Typography variant="body2" sx={{ maxWidth: "40rem" }}>
       <Trans id="hint.nodata.message">
         Für die aktuelle Auswahl konnten keine Daten geladen werden.
       </Trans>
@@ -192,7 +192,7 @@ export const NoContentHint = () => (
     display="flex"
   >
     <Icon name="warning" size={48} />
-    <Typography variant="paragraph2" sx={{ maxWidth: "40rem" }}>
+    <Typography variant="body2" sx={{ maxWidth: "40rem" }}>
       <Trans id="hint.nocontent.message">
         Dieser Inhalt konnte nicht geladen werden
       </Trans>
@@ -219,7 +219,7 @@ export const NoGeoDataHint = () => (
     <Typography variant="h2" sx={{ my: 3 }}>
       <Trans id="hint.nogeodata.title">Keine Kartendarstellung möglich</Trans>
     </Typography>
-    <Typography variant="paragraph2" sx={{ maxWidth: "40rem" }}>
+    <Typography variant="body2" sx={{ maxWidth: "40rem" }}>
       <Trans id="hint.nogeodata.message">
         Für das ausgewählte Jahr kann keine Karte angezeigt werden.
       </Trans>

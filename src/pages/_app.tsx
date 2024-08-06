@@ -1,10 +1,10 @@
 import { I18nProvider } from "@lingui/react";
+import { CssBaseline, ThemeProvider } from "@mui/material";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import Script from "next/script";
 import { useEffect, useState } from "react";
-import { ThemeProvider } from "@mui/material";
 
 import { GraphqlProvider } from "src/graphql/context";
 import { LocaleProvider } from "src/lib/use-locale";
@@ -72,19 +72,14 @@ export default function App({ Component, pageProps }: AppProps) {
     <>
       <Head>
         {preloadFonts.map((src) => (
-          <link
-            key={src}
-            rel="preload"
-            href={src}
-            component="font"
-            crossOrigin="anonymous"
-          />
+          <link key={src} rel="preload" href={src} crossOrigin="anonymous" />
         ))}
       </Head>
       <LocaleProvider value={locale}>
         <I18nProvider i18n={i18n}>
           <GraphqlProvider>
             <ThemeProvider theme={theme}>
+              <CssBaseline />
               <Component {...pageProps} />
             </ThemeProvider>
           </GraphqlProvider>

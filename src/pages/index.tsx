@@ -1,6 +1,6 @@
 import { PickingInfo } from "@deck.gl/core/typed";
 import { t, Trans } from "@lingui/macro";
-import { Box, Button, Grid, Input, Link, Typography } from "@mui/material";
+import { Box, Button, Input, Link, Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -122,7 +122,7 @@ const ShareButton = () => {
               justifyContent: "space-between",
             }}
           >
-            <Typography variant="h6">URL</Typography>
+            <Typography variant="heading6">URL</Typography>
             <Typography variant="meta" color="success">
               {hasCopied
                 ? t({ id: "share.url-copied", message: "URL kopiert ✅" })
@@ -250,7 +250,8 @@ const IndexPage = ({ locale }: Props) => {
       <Head>
         <title>{t({ id: "site.title" })}</title>
       </Head>
-      <Grid
+      <Box
+        display="grid"
         sx={{
           minHeight: "100vh",
           gap: 0,
@@ -315,11 +316,12 @@ const IndexPage = ({ locale }: Props) => {
             </Typography>
             <Search />
           </Box>
-          <Grid
+          <Box
             sx={{
+              display: "grid",
               width: "100%",
-              gridTemplateColumns: ["1fr", "1fr 20rem"],
-              gridTemplateAreas: [`"map" "controls"`, `"map controls"`],
+              gridTemplateColumns: ["1fr", "1fr 20rem", null],
+              gridTemplateAreas: [`"map" "controls"`, `"map controls"`, null],
               gap: 0,
               position: "relative",
             }}
@@ -389,10 +391,10 @@ const IndexPage = ({ locale }: Props) => {
                 observationsQueryFetching={observationsQuery.fetching}
               />
             </Box>
-          </Grid>
+          </Box>
         </Box>
         <Footer />
-      </Grid>
+      </Box>
     </HighlightContext.Provider>
   );
 };

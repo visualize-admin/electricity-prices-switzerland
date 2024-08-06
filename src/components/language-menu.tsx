@@ -55,7 +55,7 @@ export const LanguageMenu = ({ contentId }: { contentId?: string }) => {
             rel="alternate"
             hrefLang={locale}
             sx={{
-              variant: "text.paragraph2",
+              variant: "text.body2",
               fontSize: "0.875rem",
               lineHeight: "1.25rem",
               p: 1,

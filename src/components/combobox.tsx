@@ -252,7 +252,7 @@ export const ComboboxMulti = ({
         {isOpen && isLoading ? (
           <Typography
             component="li"
-            variant="paragraph2"
+            variant="body2"
             sx={{
               color: "secondary.main",
               p: 3,
@@ -264,7 +264,7 @@ export const ComboboxMulti = ({
         ) : isOpen && !isLoading && getFilteredItems(items).length === 0 ? (
           <Typography
             component="li"
-            variant="paragraph2"
+            variant="body2"
             sx={{
               color: "secondary.main",
               p: 3,
@@ -288,7 +288,8 @@ export const ComboboxMulti = ({
               component="li"
               sx={{
                 color: highlightedIndex === index ? "primary.active" : "text",
-                bgcolor: highlightedIndex === index ? "primary.light" : "transparent",
+                bgcolor:
+                  highlightedIndex === index ? "primary.light" : "transparent",
                 p: 3,
                 m: 0,
               }}
@@ -495,7 +496,9 @@ export const Combobox = ({
                 sx={{
                   color: highlightedIndex === index ? "primary.active" : "text",
                   bgcolor:
-                    highlightedIndex === index ? "primary.light" : "transparent",
+                    highlightedIndex === index
+                      ? "primary.light"
+                      : "transparent",
                   p: 3,
                   m: 0,
                 }}

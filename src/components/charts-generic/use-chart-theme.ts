@@ -10,7 +10,7 @@ export const useChartTheme = () => {
   const axisLabelFontWeight = "bold";
   const axisLabelColor = theme.palette.grey[800];
   const labelFontSize = 12;
-  const fontFamily = theme.fonts.body;
+  const fontFamily = theme.typography.fontFamily;
   const annotationfontSize = 12;
   const annotationColor = theme.palette.grey[900];
   const annotationLineColor = theme.palette.grey[500];

@@ -1,4 +1,4 @@
-import { Grid, Box } from "@mui/material";
+import { Box } from "@mui/material";
 
 type Props = {
   main: React.ReactNode;
@@ -8,7 +8,8 @@ type Props = {
 
 export const DetailPageLayout = ({ main, selector, aside }: Props) => {
   return (
-    <Grid
+    <Box
+      display="grid"
       sx={{
         gap: 0,
         gridTemplateColumns: [`1fr`, `1fr 20rem`],
@@ -48,6 +49,6 @@ export const DetailPageLayout = ({ main, selector, aside }: Props) => {
         {selector}
       </Box>
       <Box sx={{ gridArea: "aside", bgcolor: "grey.100" }}>{aside}</Box>
-    </Grid>
+    </Box>
   );
 };

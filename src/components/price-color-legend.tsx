@@ -1,5 +1,5 @@
 import { Trans, t } from "@lingui/macro";
-import { Box, BoxProps, Grid } from "@mui/material";
+import { Box, BoxProps } from "@mui/material";
 import { useTheme, Typography } from "@mui/material";
 import React, { useState } from "react";
 
@@ -208,7 +208,8 @@ export const ColorsLine = () => {
           borderRight: `${COLOR_HEIGHT / 2}px solid  ${palette.diverging[0]}`,
         }}
       />
-      <Grid
+      <Box
+        display="grid"
         sx={{
           gridTemplateColumns: ".8fr 1fr 1fr 1fr .8fr",
           columnGap: 0,
@@ -248,7 +249,7 @@ export const ColorsLine = () => {
             </Typography>
           </Box>
         ))}
-      </Grid>
+      </Box>
       <Box
         sx={{
           width: 0,
