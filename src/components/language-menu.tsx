@@ -50,6 +50,7 @@ export const LanguageMenu = ({ contentId }: { contentId?: string }) => {
 
         const linkEl = (
           <Link
+            as="span"
             rel="alternate"
             hrefLang={locale}
             sx={{

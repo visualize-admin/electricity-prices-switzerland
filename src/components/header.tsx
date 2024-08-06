@@ -61,7 +61,7 @@ export const Logo = () => {
   return (
     <HomeLink passHref>
       <Flex
-        as="a"
+        as="div"
         sx={{
           order: [2, 1],
           alignItems: ["center", "flex-start"],
