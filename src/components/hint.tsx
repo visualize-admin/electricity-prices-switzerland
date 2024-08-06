@@ -24,7 +24,7 @@ export const Hint = ({ children }: { children: React.ReactNode }) => (
     sx={{
       width: "100%",
       height: "100%",
-      color: "hint",
+      color: "hint.main",
       margin: "auto",
       textAlign: "center",
       flexDirection: "column",
@@ -53,7 +53,7 @@ export const Loading = ({ delayMs = 1000 }: { delayMs?: number }) => (
     sx={{
       width: "100%",
       height: "100%",
-      color: "hint",
+      color: "hint.main",
       margin: "auto",
       textAlign: "center",
       flexDirection: "column",
@@ -84,7 +84,7 @@ export const LoadingIcon = ({ delayMs = 200 }: { delayMs?: number }) => (
     sx={{
       width: "100%",
       height: "100%",
-      color: "hint",
+      color: "hint.main",
       margin: "auto",
       textAlign: "center",
       flexDirection: "column",
@@ -117,7 +117,7 @@ export const LoadingIconInline = ({
   <Box
     sx={{
       display: "inline-block",
-      color: "hint",
+      color: "hint.main",
       margin: "auto",
       textAlign: "center",
       opacity: 0,
@@ -154,7 +154,7 @@ export const NoDataHint = () => (
     sx={{
       width: "100%",
       height: "100%",
-      color: "hint",
+      color: "hint.main",
       margin: "auto",
       textAlign: "center",
       flexDirection: "column",
@@ -181,7 +181,7 @@ export const NoContentHint = () => (
     sx={{
       width: "100%",
       height: "100%",
-      color: "hint",
+      color: "hint.main",
       margin: "auto",
       textAlign: "center",
       flexDirection: "column",
@@ -205,7 +205,7 @@ export const NoGeoDataHint = () => (
     sx={{
       width: "100%",
       height: "100%",
-      color: "hint",
+      color: "hint.main",
       margin: "auto",
       textAlign: "center",
       flexDirection: "column",

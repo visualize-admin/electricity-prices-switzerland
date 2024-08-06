@@ -183,7 +183,7 @@ const HintBox = ({ children }: { children: ReactNode }) => (
     sx={{
       width: "100%",
       height: "100%",
-      color: "hint",
+      color: "hint.main",
       margin: "auto",
       textAlign: "center",
       flexDirection: "column",
