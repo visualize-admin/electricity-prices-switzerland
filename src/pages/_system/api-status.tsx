@@ -43,7 +43,7 @@ const IndicatorSuccess = () => (
 const StatusHeading = ({ children, ...props }: HeadingProps) => {
   return (
     <Heading
-      variant="heading3"
+      variant="h3"
       {...props}
       sx={{
         display: "flex",
@@ -237,7 +237,7 @@ const CubeHealth = () => {
 
 const SectionHeading = (props: HeadingProps) => {
   return (
-    <Heading variant="heading2" {...props} sx={{ my: 3, ...props.sx }}>
+    <Heading variant="h2" {...props} sx={{ my: 3, ...props.sx }}>
       {props.children}
     </Heading>
   );
@@ -246,7 +246,7 @@ const SectionHeading = (props: HeadingProps) => {
 const Page = () => {
   return (
     <Box sx={{ p: 5 }}>
-      <Heading variant="heading1">API Status</Heading>
+      <Heading variant="h1">API Status</Heading>
 
       <SectionHeading>Internal</SectionHeading>
 
@@ -254,7 +254,7 @@ const Page = () => {
 
       <WikiContentStatus />
 
-      <Heading variant="heading2" sx={{ mt: 3 }}>
+      <Heading variant="h2" sx={{ mt: 3 }}>
         Data (Lindas)
       </Heading>
 

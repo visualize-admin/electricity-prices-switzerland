@@ -132,7 +132,7 @@ export const DetailPageBanner = ({
       <Box sx={{ mx: "auto", my: 2 }}>
         <Typography
           component="h1"
-          variant="heading1"
+          variant="h1"
           sx={{ color: "grey.800" }}
         >
           <Typography variant="meta" sx={{ color: "secondary" }}>

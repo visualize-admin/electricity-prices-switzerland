@@ -36,7 +36,7 @@ export const Card = ({
     >
       <Typography
         component="h2"
-        variant="heading2"
+        variant="h2"
         sx={{ pt: 1, color: "grey.800", mb: 4 }}
       >
         {title}

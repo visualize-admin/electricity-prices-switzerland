@@ -122,7 +122,7 @@ const ShareButton = () => {
               justifyContent: "space-between",
             }}
           >
-            <Typography variant="heading6">URL</Typography>
+            <Typography variant="h6">URL</Typography>
             <Typography variant="meta" color="success">
               {hasCopied
                 ? t({ id: "share.url-copied", message: "URL kopiert ✅" })

@@ -73,7 +73,7 @@ export const Loading = ({ delayMs = 1000 }: { delayMs?: number }) => (
     >
       <Icon name="loading" size={48} />
     </Box>
-    <Typography variant="heading4">
+    <Typography variant="h4">
       <Trans id="hint.loading.data">Loading data…</Trans>
     </Typography>
   </Box>
@@ -165,7 +165,7 @@ export const NoDataHint = () => (
     display="flex"
   >
     <Icon name="warning" size={64} />
-    <Typography variant="heading2" sx={{ my: 3 }}>
+    <Typography variant="h2" sx={{ my: 3 }}>
       <Trans id="hint.nodata.title">Keine Daten</Trans>
     </Typography>
     <Typography variant="paragraph2" sx={{ maxWidth: "40rem" }}>
@@ -216,7 +216,7 @@ export const NoGeoDataHint = () => (
     display="flex"
   >
     <Icon name="warning" size={64} />
-    <Typography variant="heading2" sx={{ my: 3 }}>
+    <Typography variant="h2" sx={{ my: 3 }}>
       <Trans id="hint.nogeodata.title">Keine Kartendarstellung möglich</Trans>
     </Typography>
     <Typography variant="paragraph2" sx={{ maxWidth: "40rem" }}>

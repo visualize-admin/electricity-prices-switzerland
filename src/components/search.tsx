@@ -202,7 +202,7 @@ export const SearchField = ({
             ></Icon>
           </Box>
           <Typography
-            variant="heading3"
+            variant="h3"
             sx={{
               fontWeight: "regular",
               ml: 4,
@@ -214,7 +214,7 @@ export const SearchField = ({
             <Trans id="search.global.hint.go.to">Gehe zu…</Trans>
           </Typography>
           <Typography
-            variant="heading3"
+            variant="h3"
             sx={{
               fontWeight: "regular",
               ml: 4,

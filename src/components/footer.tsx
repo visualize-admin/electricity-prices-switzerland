@@ -45,7 +45,7 @@ const FooterLink = ({
 
 const FooterTitle = ({ children }: { children: React.ReactNode }) => {
   return (
-    <Typography variant="heading2" sx={{ mb: 6 }}>
+    <Typography variant="h2" sx={{ mb: 6 }}>
       {children}
     </Typography>
   );
