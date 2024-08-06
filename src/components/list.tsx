@@ -1,5 +1,5 @@
 import { t, Trans } from "@lingui/macro";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Link, Typography } from "@mui/material";
 import { ScaleThreshold } from "d3";
 import { ascending, descending, mean, rollup } from "d3-array";
 import NextLink from "next/link";
@@ -45,60 +45,60 @@ const ListItem = ({
       ? "operator"
       : ("canton" as Entity);
   return (
-    <NextLink
+    <Link
+      underline="none"
+      color="inherit"
+      component={NextLink}
       href={{
         pathname: `/${entity}/[id]`,
         query: { ...query, id },
       }}
-      passHref
+      onMouseOver={() => setHighlightContext({ entity, id, label, value })}
+      onMouseOut={() => setHighlightContext(undefined)}
+      sx={{
+        pl: [2, 4, 4],
+        py: 1,
+        mx: 0,
+        borderBottomWidth: "1px",
+        borderBottomStyle: "solid",
+        borderBottomColor: "grey.300",
+        alignItems: "center",
+        height: "3.5rem",
+        lineHeight: "1rem",
+        color: "text",
+        textDecoration: "none",
+        "&:hover": {
+          bgcolor: "muted.darker",
+        },
+        "&:active": {
+          bgcolor: "primary.light",
+        },
+        "&:focus": {
+          outline: 0,
+          bgcolor: "primary.light",
+        },
+      }}
+      display="flex"
     >
+      <Typography variant="body2" sx={{ flexGrow: 1, mr: 1 }}>
+        {label}
+      </Typography>
       <Box
-        onMouseOver={() => setHighlightContext({ entity, id, label, value })}
-        onMouseOut={() => setHighlightContext(undefined)}
-        component="a"
         sx={{
-          pl: [2, 4, 4],
-          py: 1,
-          mx: 0,
-          borderBottomWidth: "1px",
-          borderBottomStyle: "solid",
-          borderBottomColor: "grey.300",
-          alignItems: "center",
-          height: "3.5rem",
-          lineHeight: "1rem",
-          color: "text",
-          textDecoration: "none",
-          "&:hover": {
-            bgcolor: "muted.darker",
-          },
-          "&:active": {
-            bgcolor: "primary.light",
-          },
-          "&:focus": {
-            outline: 0,
-            bgcolor: "primary.light",
-          },
+          borderRadius: 9999,
+          px: 2,
+          flexShrink: 0,
         }}
-        display="flex"
+        style={{ background: colorScale(value) }}
       >
-        <Typography variant="body2" sx={{ flexGrow: 1, mr: 1 }}>
-          {label}
+        <Typography variant="body2" color="black">
+          {formatNumber(value)}
         </Typography>
-        <Box
-          sx={{
-            borderRadius: "circle",
-            px: 2,
-            flexShrink: 0,
-          }}
-          style={{ background: colorScale(value) }}
-        >
-          <Typography variant="body2">{formatNumber(value)}</Typography>
-        </Box>
-        <Box sx={{ width: "24px", flexShrink: 0 }}>
-          <Icon name="chevronright"></Icon>
-        </Box>
       </Box>
-    </NextLink>
+      <Box sx={{ width: "24px", flexShrink: 0 }}>
+        <Icon name="chevronright"></Icon>
+      </Box>
+    </Link>
   );
 };
 

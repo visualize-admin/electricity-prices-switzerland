@@ -32,12 +32,13 @@ const RelationsList = ({
       {truncated.map(({ id, name }, i) => {
         return (
           <Fragment key={id}>
-            <NextLink
+            <UILink
+              variant="inline"
+              component={NextLink}
               href={{ pathname: relationPathname, query: { ...query, id } }}
-              passHref
             >
-              <UILink variant="inline">{name}</UILink>
-            </NextLink>
+              {name}
+            </UILink>
             {i < truncated.length - 1 && ", "}
           </Fragment>
         );
@@ -117,7 +118,7 @@ export const DetailPageBanner = ({
                 display: "flex",
                 alignItems: "center",
                 fontSize: "0.875rem",
-                "> svg": { mr: 1 },
+                "& > svg": { mr: 1 },
                 ml: "-8px",
               }}
             >

@@ -2,13 +2,14 @@ import { Trans } from "@lingui/macro";
 import {
   Box,
   BoxProps,
-  Button,
   Checkbox as RebassCheckbox,
-  Input as ThemeUiInput,
   Radio as ThemeUiRadio,
   Select as ThemeUiSelect,
+  IconButton,
   SelectProps,
   Typography,
+  InputAdornment,
+  OutlinedInput,
 } from "@mui/material";
 import * as React from "react";
 
@@ -273,61 +274,40 @@ export const SearchField = ({
   sx?: BoxProps["sx"];
 } & FieldProps) => {
   return (
-    <Box
+    <OutlinedInput
+      size="small"
       sx={{ color: "grey.700", fontSize: "1rem", position: "relative", ...sx }}
-    >
-      {label && id && (
-        <label htmlFor={id}>
-          <VisuallyHidden>{label}</VisuallyHidden>
-        </label>
-      )}
-      <Box
-        aria-hidden="true"
-        sx={{ position: "absolute", top: "50%", mt: "-8px", ml: 2 }}
-      >
-        <Icon name="search" size={16} />
-      </Box>
-      <ThemeUiInput
-        sx={{
-          flexGrow: 1,
-          borderColor: "grey.500",
-          bgcolor: "grey.100",
-          px: 6,
-          ":focus": { outline: "none", borderColor: "primary" },
-        }}
-        id={id}
-        value={value}
-        onChange={onChange}
-        placeholder={placeholder}
-      />
-      {value && value !== "" && onReset && (
-        <Box
-          sx={{
-            position: "absolute",
-            top: "50%",
-            right: 0,
-            mt: "-8px",
-            mr: 2,
-          }}
-        >
-          <Button
-            variant="reset"
-            sx={{ p: 0, cursor: "pointer" }}
-            onClick={onReset}
-          >
-            <VisuallyHidden>
-              <Trans id="controls.search.clear">Clear search field</Trans>
-            </VisuallyHidden>
-            <Box
-              aria-hidden="true"
-              sx={{ borderRadius: "circle", bgcolor: "grey.600" }}
+      id={id}
+      value={value}
+      onChange={onChange}
+      placeholder={placeholder}
+      startAdornment={
+        <InputAdornment position="start">
+          {label && id && (
+            <label htmlFor={id}>
+              <VisuallyHidden>{label}</VisuallyHidden>
+            </label>
+          )}
+          <Icon name="search" size={16} />
+        </InputAdornment>
+      }
+      endAdornment={
+        <InputAdornment position="end" sx={{ mr: -2 }}>
+          {value && value !== "" && onReset && (
+            <IconButton
+              aria-label={
+                <Trans id="controls.search.clear">Clear search field</Trans>
+              }
+              size="small"
+              sx={{ mr: 0 }}
+              onClick={onReset}
             >
               <Icon name="clear" size={16} />
-            </Box>
-          </Button>
-        </Box>
-      )}
-    </Box>
+            </IconButton>
+          )}
+        </InputAdornment>
+      }
+    />
   );
 };
 

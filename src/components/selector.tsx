@@ -24,15 +24,14 @@ export const Selector = () => {
     <Box
       component="fieldset"
       sx={{
+        border: 0,
         flexDirection: "column",
         justifyContent: "flex-start",
         bgcolor: "muted.colored",
         px: 4,
         py: 4,
-
+        gap: "0.325rem",
         zIndex: 13,
-        "> div": { mt: 3 },
-        "> div:last-of-type": { mt: 6 },
       }}
       display="flex"
     >
@@ -87,7 +86,7 @@ export const Selector = () => {
         }
         infoDialogSlug="help-products"
       />
-      <Typography variant="lead">
+      <Typography variant="lead" sx={{ mt: 4 }}>
         <Trans id="selector.results">Suchergebnisse:</Trans>
       </Typography>
     </Box>
