@@ -6,7 +6,7 @@ import {
 import { GeoJsonLayer } from "@deck.gl/layers/typed";
 import DeckGL from "@deck.gl/react/typed";
 import { Trans } from "@lingui/macro";
-import { Box, Grid } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import centroid from "@turf/centroid";
 import { color, extent, group, mean, rollup } from "d3";
 import { ScaleThreshold } from "d3-scale";

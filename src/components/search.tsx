@@ -1,5 +1,6 @@
 import { Trans } from "@lingui/macro";
-import { Box, Button, Input, Link as TUILink } from "@mui/material";
+import { Box, Button, Input, Link as TUILink, Typography } from "@mui/material";
+import { useTheme } from "@mui/material";
 import VisuallyHidden from "@reach/visually-hidden";
 import { group, rollup } from "d3-array";
 import { useCombobox } from "downshift";
@@ -21,7 +22,6 @@ import { useLocale } from "src/lib/use-locale";
 import { analyticsSiteSearch } from "../domain/analytics";
 import { getLocalizedLabel } from "../domain/translation";
 import { Icon } from "../icons";
-import { useTheme } from "../themes";
 
 export const Search = () => {
   const locale = useLocale();
@@ -195,7 +195,11 @@ export const SearchField = ({
           display="flex"
         >
           <Box sx={{ flexShrink: 0 }}>
-            <Icon name="search" size={24} color={theme.colors.grey[700]}></Icon>
+            <Icon
+              name="search"
+              size={24}
+              color={theme.palette.grey[700]}
+            ></Icon>
           </Box>
           <Typography
             variant="heading3"
@@ -275,7 +279,11 @@ export const SearchField = ({
           </Button>
           {/* Desktop Magnifying Glass icon */}
           <Box component="span" sx={{ display: ["none", "none", "block"] }}>
-            <Icon name="search" size={24} color={theme.colors.grey[700]}></Icon>
+            <Icon
+              name="search"
+              size={24}
+              color={theme.palette.grey[700]}
+            ></Icon>
           </Box>
           {/* Actual Input Field */}
           <Input
@@ -296,7 +304,7 @@ export const SearchField = ({
               inputEl.current?.focus();
             }}
           >
-            <Icon name="clear" size={24} color={theme.colors.grey[700]}></Icon>
+            <Icon name="clear" size={24} color={theme.palette.grey[700]}></Icon>
           </Button>
         </Box>
 

@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
 import { LegendItem, LegendSymbol } from "../legends/color";
 

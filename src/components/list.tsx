@@ -1,5 +1,5 @@
 import { t, Trans } from "@lingui/macro";
-import { Box, Button } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { ScaleThreshold } from "d3";
 import { ascending, descending, mean, rollup } from "d3-array";
 import NextLink from "next/link";

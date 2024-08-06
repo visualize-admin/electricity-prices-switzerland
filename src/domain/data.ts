@@ -1,10 +1,9 @@
+import { useTheme } from "@mui/material";
 import { scaleThreshold, range } from "d3";
 import { useMemo } from "react";
 
 import buildEnv from "src/env/build";
 import { Observation as QueryObservation } from "src/graphql/queries";
-
-import { useTheme } from "../themes";
 
 export type ObservationValue = string | number | boolean | Date;
 export type GenericObservation = Record<string, ObservationValue>;

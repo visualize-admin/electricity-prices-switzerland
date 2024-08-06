@@ -1,21 +1,21 @@
-import { useTheme } from "../../themes";
+import { useTheme } from "@mui/material";
 
 export const useChartTheme = () => {
   const theme = useTheme();
-  const labelColor = theme.colors.grey[600];
-  const legendLabelColor = theme.colors.grey[700];
-  const domainColor = theme.colors.grey[800];
-  const gridColor = theme.colors.grey[300];
+  const labelColor = theme.palette.grey[600];
+  const legendLabelColor = theme.palette.grey[700];
+  const domainColor = theme.palette.grey[800];
+  const gridColor = theme.palette.grey[300];
   const axisLabelFontSize = 16;
   const axisLabelFontWeight = "bold";
-  const axisLabelColor = theme.colors.grey[800];
+  const axisLabelColor = theme.palette.grey[800];
   const labelFontSize = 12;
   const fontFamily = theme.fonts.body;
   const annotationfontSize = 12;
-  const annotationColor = theme.colors.grey[900];
-  const annotationLineColor = theme.colors.grey[500];
-  const annotationLabelUnderlineColor = theme.colors.grey[700];
-  const markBorderColor = theme.colors.grey[100];
+  const annotationColor = theme.palette.grey[900];
+  const annotationLineColor = theme.palette.grey[500];
+  const annotationLabelUnderlineColor = theme.palette.grey[700];
+  const markBorderColor = theme.palette.grey[100];
   return {
     axisLabelFontSize,
     axisLabelColor,

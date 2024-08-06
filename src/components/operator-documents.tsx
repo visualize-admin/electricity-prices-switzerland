@@ -1,5 +1,5 @@
 import { Trans } from "@lingui/macro";
-import { Box, Link } from "@mui/material";
+import { Box, Link, Typography } from "@mui/material";
 import { descending, rollup } from "d3-array";
 import { uniqBy } from "lodash";
 import { useMemo } from "react";

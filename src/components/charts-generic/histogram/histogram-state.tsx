@@ -1,3 +1,4 @@
+import { Typography, Box } from "@mui/material";
 import { interpolateHsl } from "d3";
 import { ascending, histogram, max, min } from "d3-array";
 import { scaleLinear } from "d3-scale";

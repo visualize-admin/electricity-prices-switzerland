@@ -1,19 +1,11 @@
 import { PickingInfo } from "@deck.gl/core/typed";
 import { t, Trans } from "@lingui/macro";
+import { Box, Button, Grid, Input, Link, Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import basicAuthMiddleware from "nextjs-basic-auth-middleware";
 import { useCallback, useRef, useState } from "react";
-import {
-  Box,
-  Button,
-  Flex,
-  Grid,
-  Input,
-  Link,
-  Typography,
-} from "@mui/material";
 
 import {
   PriceComponent,

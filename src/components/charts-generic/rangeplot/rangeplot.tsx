@@ -1,10 +1,10 @@
+import { useTheme } from "@mui/material";
 import { max, median, min } from "d3-array";
 import * as React from "react";
 
 import { normalize } from "src/lib/array";
 
 import { isNumber } from "../../../domain/helpers";
-import { useTheme } from "../../../themes";
 import { RangePlotState, useChartState } from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
 import { useInteraction } from "../use-interaction";
@@ -127,7 +127,7 @@ export const RangePoints = () => {
                     width={margins.left + chartWidth + margins.right}
                     height={DOT_RADIUS * 2}
                     fillOpacity={0.3}
-                    fill={theme.colors.primaryLight}
+                    fill={theme.palette.primary.mainLight}
                   />
                 </g>
               )}

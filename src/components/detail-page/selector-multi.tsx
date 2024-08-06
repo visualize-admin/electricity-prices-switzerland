@@ -1,4 +1,5 @@
 import { Trans, t } from "@lingui/macro";
+import { Box } from "@mui/material";
 import { useMemo } from "react";
 
 import { useQueryState } from "src/lib/use-query-state";

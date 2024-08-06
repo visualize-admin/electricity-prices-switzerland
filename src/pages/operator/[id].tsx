@@ -1,4 +1,5 @@
 import { t } from "@lingui/macro";
+import { Box } from "@mui/material";
 import { GetServerSideProps } from "next";
 import ErrorPage from "next/error";
 import Head from "next/head";
