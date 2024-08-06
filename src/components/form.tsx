@@ -10,8 +10,9 @@ import {
   SelectProps,
   Typography,
 } from "@mui/material";
-import VisuallyHidden from "@reach/visually-hidden";
 import * as React from "react";
+
+import VisuallyHidden from "src/components/VisuallyHidden";
 
 import { Icon } from "../icons";
 

@@ -13,7 +13,6 @@ import { i18n, parseLocaleString } from "src/locales/locales";
 
 import { analyticsPageView } from "../domain/analytics";
 import "src/styles/nprogress.css";
-import "src/styles/reach-dialog.css";
 import { fonts, theme } from "../themes/elcom";
 
 const useMatomo = () => {

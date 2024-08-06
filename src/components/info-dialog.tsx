@@ -1,8 +1,14 @@
 import { Trans } from "@lingui/macro";
-import { Box, Button, Typography } from "@mui/material";
-import Dialog from "@reach/dialog";
-import VisuallyHidden from "@reach/visually-hidden";
+import {
+  Box,
+  Button,
+  Typography,
+  Dialog,
+  DialogContent as MuiDialogContent,
+  DialogTitle as MuiDialogTitle,
+} from "@mui/material";
 
+import VisuallyHidden from "src/components/VisuallyHidden";
 import { useWikiContentQuery } from "src/graphql/queries";
 import { useLocale } from "src/lib/use-locale";
 
@@ -77,9 +83,10 @@ export const HelpDialog: React.FC<{
   slug: string;
 }> = ({ close, label, open: open, slug }) => (
   <Dialog
-    style={{ zIndex: 999, position: "relative", maxWidth: 800 }}
-    isOpen={open}
-    onDismiss={close}
+    fullWidth
+    maxWidth="sm"
+    open={open}
+    onClose={close}
     aria-label={label}
   >
     <Button
@@ -101,10 +108,15 @@ export const HelpDialog: React.FC<{
         <Icon name="clear" />
       </Box>
     </Button>
-    <Typography variant="body2" sx={{ color: "secondary.main" }}>
-      <Trans id="dialog.infoprefix">Info:</Trans> {label}
-    </Typography>
-    <DialogContent slug={slug} />
+
+    <MuiDialogTitle>
+      <Typography variant="body2" sx={{ color: "secondary.main" }}>
+        <Trans id="dialog.infoprefix">Info:</Trans> {label}
+      </Typography>
+    </MuiDialogTitle>
+    <MuiDialogContent>
+      <DialogContent slug={slug} />
+    </MuiDialogContent>
   </Dialog>
 );
 
