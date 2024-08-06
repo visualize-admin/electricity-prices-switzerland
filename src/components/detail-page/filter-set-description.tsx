@@ -1,4 +1,4 @@
-import { Typography, Box } from "@theme-ui/components";
+import { Typography, Box } from "@mui/material";
 import * as React from "react";
 
 import { getLocalizedLabel } from "../../domain/translation";

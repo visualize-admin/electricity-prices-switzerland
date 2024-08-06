@@ -10,7 +10,7 @@ import {
   Radio as ThemeUiRadio,
   Select as ThemeUiSelect,
   SelectProps,
-} from "@theme-ui/components";
+} from "@mui/material";
 import * as React from "react";
 
 import { Icon } from "../icons";

@@ -1,4 +1,4 @@
-import { Box, Flex, Link } from "@theme-ui/components";
+import { Box, Flex, Link } from "@mui/material";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { ReactNode } from "react";

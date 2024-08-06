@@ -1,5 +1,5 @@
+import { Theme } from "@mui/material";
 import { SystemStyleObject } from "@styled-system/css";
-import { useThemeUI, Theme as ThemeUITheme } from "@mui/material";
 
 /**
  * Adapted/refined from the [Theme UI Theme Specification](https://theme-ui.com/theme-spec)
@@ -46,5 +46,3 @@ export const loadTheme = async (theme: string = "federal") => {
   }
   return themeModule;
 };
-
-export const useTheme = () => useThemeUI().theme as unknown as Theme;

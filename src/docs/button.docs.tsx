@@ -1,4 +1,4 @@
-import { Button } from "@theme-ui/components";
+import { Button } from "@mui/material";
 import { markdown, ReactSpecimen } from "catalog";
 
 export default () => markdown`
@@ -44,7 +44,7 @@ export default () => markdown`
   ## How to use
 
 ~~~
-import { Button } from "@theme-ui/components"
+import { Button } from "@mui/material"
 
 <Button variant="primary">
   Primary button

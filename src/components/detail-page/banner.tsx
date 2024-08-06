@@ -6,7 +6,7 @@ import {
   Grid,
   Link as UILink,
   Typography,
-} from "@theme-ui/components";
+} from "@mui/material";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { Fragment, useState } from "react";
