@@ -84,7 +84,6 @@
     "rollup-plugin-string": "^3.0.0",
     "sparql-http-client": "^2.3.0",
     "swiss-maps": "^4.5.0",
-    "theme-ui": "^0.3.5",
     "topojson-client": "^3.1.0",
     "ts-jest": "^27.1.4",
     "ts-node": "10.7.0",
