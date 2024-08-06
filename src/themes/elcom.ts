@@ -6,13 +6,32 @@
  *
  * - `theme` should be a plain object, conforming to the `Theme` type.
  */
+import { createTheme } from "@mui/material/styles";
+
 import { Theme } from "./index";
 
-/**
- * Theme conforming to the Swiss Federal CD guidelines
- */
-export const theme: Theme = {
-  breakpoints: ["48em", "62em", "75em"],
+const grey = {
+  100: "#FFFFFF",
+  200: "#F5F5F5",
+  300: "#E5E5E5",
+  400: "#D5D5D5",
+  500: "#CCCCCC",
+  600: "#757575",
+  700: "#454545",
+  800: "#333333",
+  900: "#000000",
+} as const;
+
+export const theme: Theme = createTheme({
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 768,
+      md: 992,
+      lg: 1200,
+      xl: 1920,
+    },
+  },
   space: [
     "0",
     "0.25rem",
@@ -24,44 +43,45 @@ export const theme: Theme = {
     "4rem",
     "4.5rem",
   ],
-  colors: {
-    text: "grey[900]",
-    background: "grey[100]",
-
-    brand: "#DC0018",
-    grey: {
-      100: "#FFFFFF",
-      200: "#F5F5F5",
-      300: "#E5E5E5",
-      400: "#D5D5D5",
-      500: "#CCCCCC",
-      600: "#757575",
-      700: "#454545",
-      800: "#333333",
-      900: "#000000",
+  palette: {
+    text: {
+      primary: grey[900],
+    },
+    background: {
+      paper: grey[100],
     },
 
-    primary: "#006699",
-    primaryHover: "#004B70",
-    primaryActive: "#00334D",
-    primaryDisabled: "#599cbd",
-    primaryLight: "#d8e8ef",
+    brand: "#DC0018",
 
-    secondary: "#757575",
-    secondaryHover: "#616161",
-    secondaryActive: "#454545",
-    secondaryDisabled: "#a6a6a6",
+    primary: {
+      main: "#006699",
+      hover: "#004B70",
+      active: "#00334D",
+      disabled: "#599cbd",
+      light: "#d8e8ef",
+    },
 
-    success: "#3c763d",
-    successHover: "#3c763d",
-    successActive: "#3c763d",
-    successDisabled: "#DFF0D8",
-    successLight: "#DFF0D8",
+    secondary: {
+      main: "#757575",
+      hover: "#616161",
+      active: "#454545",
+      disabled: "#a6a6a6",
+    },
 
-    muted: "#F5F5F5",
-    mutedColored: "#F9FAFB",
-    mutedDarker: "#F2F7F9",
-    mutedTransparent: "rgba(245,245,245,0.8)",
+    success: {
+      main: "#3c763d",
+      hover: "#3c763d",
+      active: "#3c763d",
+      disabled: "#DFF0D8",
+      light: "#DFF0D8",
+    },
+
+    muted: {
+      main: "#F5F5F5",
+      colored: "#F9FAFB",
+      darker: "#F2F7F9",
+      transparent: "rgba(245,245,245,0.8)",
+    },
     focus: "#333333",
     error: "#FF5555",
     hint: "#757575",
@@ -69,11 +89,10 @@ export const theme: Theme = {
 
     alert: "#DC0018",
     alertLight: "#ffe6e1",
-  },
-  palettes: {
     diverging: ["#51b581", "#a8dc90", "#e7ec83", "#f1b865", "#eb7c40"],
     categorical: ["#64afe9", "#01ADA1", "#939CB4", "#91C34B", "#E89F00"],
   },
+
   fonts: {
     body: "FrutigerNeue, -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol",
     monospace: "Menlo, monospace",
@@ -379,7 +398,7 @@ export const theme: Theme = {
       },
     },
   },
-};
+});
 
 /**
  * Load these fonts early using <link rel="preload" />
