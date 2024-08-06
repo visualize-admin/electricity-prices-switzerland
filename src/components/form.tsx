@@ -5,7 +5,6 @@ import {
   Button,
   Checkbox as RebassCheckbox,
   Input as ThemeUiInput,
-  Label as ThemeUiLabel,
   Radio as ThemeUiRadio,
   Select as ThemeUiSelect,
   SelectProps,
@@ -41,10 +40,10 @@ export const Label = ({
   children: React.ReactNode;
   showLabel?: boolean;
 }) => (
-  <ThemeUiLabel
+  <Box
     htmlFor={htmlFor}
     sx={{
-      color: disabled ? "grey[600]" : "grey[700]",
+      color: disabled ? "grey.600" : "grey.700",
       fontSize: smaller ? [2, 2, 2] : [4, 4, 4],
       pb: smaller ? 1 : 0,
       mr: 4,
@@ -66,7 +65,7 @@ export const Label = ({
         {label}
       </Box>
     )}
-  </ThemeUiLabel>
+  </Box>
 );
 
 export const Radio = ({
@@ -79,7 +78,12 @@ export const Radio = ({
 }: { label: string | React.ReactNode; disabled?: boolean } & FieldProps) => {
   return (
     <Box mb={2}>
-      <Label label={label} htmlFor={`${name}-${value}`} disabled={disabled}>
+      <Box
+        component="label"
+        label={label}
+        htmlFor={`${name}-${value}`}
+        disabled={disabled}
+      >
         <ThemeUiRadio
           name={name}
           id={`${name}-${value}`}
@@ -89,10 +93,10 @@ export const Radio = ({
           disabled={disabled}
           size={20}
           sx={{
-            color: checked && !disabled ? "primary" : "grey[500]",
+            color: checked && !disabled ? "primary" : "grey.500",
           }}
         />
-      </Label>
+      </Box>
     </Box>
   );
 };
@@ -105,11 +109,16 @@ export const Checkbox = ({
   disabled,
   onChange,
 }: { label: React.ReactNode; disabled?: boolean } & FieldProps) => (
-  <Label label={label} htmlFor={`${name}-${label}`} disabled={disabled}>
+  <Box
+    component="label"
+    label={label}
+    htmlFor={`${name}-${label}`}
+    disabled={disabled}
+  >
     <RebassCheckbox
       sx={{
         // size: 20,
-        color: checked && !disabled ? "primary" : "grey[500]",
+        color: checked && !disabled ? "primary" : "grey.500",
       }}
       id={`${name}-${label}`}
       name={name}
@@ -118,7 +127,7 @@ export const Checkbox = ({
       disabled={disabled}
       onChange={onChange}
     />
-  </Label>
+  </Box>
 );
 
 export const Select = ({
@@ -134,23 +143,23 @@ export const Select = ({
   label?: React.ReactNode;
   disabled?: boolean;
 } & SelectProps) => (
-  <Box sx={{ color: "grey[700]", pb: 2 }}>
+  <Box sx={{ color: "grey.700", pb: 2 }}>
     {label && (
-      <Label htmlFor={id} disabled={disabled} smaller>
+      <Box component="label" htmlFor={id} disabled={disabled} smaller>
         {label}
-      </Label>
+      </Box>
     )}
     <ThemeUiSelect
       sx={{
-        borderColor: "grey[500]",
+        borderColor: "grey.500",
         fontSize: "1rem",
-        bg: "grey[100]",
+        bgcolor: "grey.100",
         pt: 2,
         pb: 2,
         pl: 2,
         pr: 5,
         height: "40px",
-        color: disabled ? "grey[500]" : "grey[700]",
+        color: disabled ? "grey.500" : "grey.700",
         textOverflow: "ellipsis",
       }}
       id={id}
@@ -184,18 +193,18 @@ export const MiniSelect = ({
   label?: React.ReactNode;
   disabled?: boolean;
 } & SelectProps) => (
-  <Box sx={{ color: "grey[800]" }}>
+  <Box sx={{ color: "grey.800" }}>
     {label && (
-      <Label htmlFor={id} smaller>
+      <Box component="label" htmlFor={id} smaller>
         {label}
-      </Label>
+      </Box>
     )}
     <ThemeUiSelect
       sx={{
         borderColor: "transparent",
         fontSize: ["0.625rem", "0.75rem", "0.75rem"],
         fontFamily: "body",
-        bg: "transparent",
+        bgcolor: "transparent",
         py: 0,
         pl: 1,
         pr: 4,
@@ -228,14 +237,14 @@ export const Input = ({
   label?: string | React.ReactNode;
   disabled?: boolean;
 } & FieldProps) => (
-  <Box sx={{ color: "grey[700]", fontSize: "1rem" }}>
+  <Box sx={{ color: "grey.700", fontSize: "1rem" }}>
     {label && name && (
-      <Label htmlFor={name} smaller>
+      <Box component="label" htmlFor={name} smaller>
         {label}
-      </Label>
+      </Box>
     )}
     <ThemeUiInput
-      sx={{ borderColor: "grey[500]", bg: "grey[100]", height: "40px" }}
+      sx={{ borderColor: "grey.500", bgcolor: "grey.100", height: "40px" }}
       id={name}
       name={name}
       value={value}
@@ -263,7 +272,7 @@ export const SearchField = ({
 } & FieldProps) => {
   return (
     <Box
-      sx={{ color: "grey[700]", fontSize: "1rem", position: "relative", ...sx }}
+      sx={{ color: "grey.700", fontSize: "1rem", position: "relative", ...sx }}
     >
       {label && id && (
         <label htmlFor={id}>
@@ -279,8 +288,8 @@ export const SearchField = ({
       <ThemeUiInput
         sx={{
           flexGrow: 1,
-          borderColor: "grey[500]",
-          bg: "grey[100]",
+          borderColor: "grey.500",
+          bgcolor: "grey.100",
           px: 6,
           ":focus": { outline: "none", borderColor: "primary" },
         }}
@@ -309,7 +318,7 @@ export const SearchField = ({
             </VisuallyHidden>
             <Box
               aria-hidden="true"
-              sx={{ borderRadius: "circle", bg: "grey[600]" }}
+              sx={{ borderRadius: "circle", bgcolor: "grey.600" }}
             >
               <Icon name="clear" size={16} />
             </Box>
@@ -332,7 +341,7 @@ export const FieldSetLegend = ({
       fontWeight: "regular",
       fontSize: ["0.625rem", "0.75rem", "0.75rem"],
       mb: 1,
-      color: "grey[600]",
+      color: "grey.600",
     }}
     component="legend"
   >

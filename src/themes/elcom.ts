@@ -7,8 +7,7 @@
  * - `theme` should be a plain object, conforming to the `Theme` type.
  */
 import { createTheme } from "@mui/material/styles";
-
-import { Theme } from "./index";
+import { Theme } from "@mui/material/styles";
 
 const grey = {
   100: "#FFFFFF",
@@ -51,7 +50,9 @@ export const theme: Theme = createTheme({
       paper: grey[100],
     },
 
-    brand: "#DC0018",
+    brand: {
+      main: "#DC0018",
+    },
 
     primary: {
       main: "#006699",
@@ -82,13 +83,23 @@ export const theme: Theme = createTheme({
       darker: "#F2F7F9",
       transparent: "rgba(245,245,245,0.8)",
     },
-    focus: "#333333",
-    error: "#FF5555",
-    hint: "#757575",
-    missing: "#EFEFEF",
+    focus: {
+      main: "#333333",
+    },
+    error: {
+      main: "#FF5555",
+    },
+    hint: {
+      main: "#757575",
+    },
+    missing: {
+      main: "#EFEFEF",
+    },
 
-    alert: "#DC0018",
-    alertLight: "#ffe6e1",
+    alert: {
+      main: "#DC0018",
+      light: "#ffe6e1",
+    },
     diverging: ["#51b581", "#a8dc90", "#e7ec83", "#f1b865", "#eb7c40"],
     categorical: ["#64afe9", "#01ADA1", "#939CB4", "#91C34B", "#E89F00"],
   },
@@ -199,187 +210,164 @@ export const theme: Theme = createTheme({
       fontSize: [1, 2, 2],
     },
   },
-  styles: {
-    // Overwrite default browser styles.
-    root: {
-      // "root" applies to "body"
-      "@font-face": [
+  components: {
+    MuiButton: {
+      variants: [
         {
-          fontFamily: "FrutigerNeue",
-          fontStyle: "normal",
-          fontWeight: 700,
-          src: `url("/fonts/FrutigerNeueW02-Bd.woff2") format("woff2"),
-          url("/fonts/FrutigerNeueW02-Bd.woff") format("woff")`,
+          props: { variant: "reset" },
+          style: {
+            background: "transparent",
+            border: "none",
+          },
         },
         {
-          fontFamily: "FrutigerNeue",
-          fontStyle: "normal",
-          fontWeight: 400,
-          src: `url("/fonts/FrutigerNeueW02-Regular.woff2") format("woff2"),
-          url("/fonts/FrutigerNeueW02-Regular.woff") format("woff")`,
+          props: { variant: "primary" },
+          style: {
+            background: "primary",
+            color: grey[100],
+            borderRadius: "default",
+            width: "100%",
+            px: 4,
+            py: 3,
+            fontFamily: "body",
+            fontSize: 4,
+            transition: "background-color .2s",
+            cursor: "pointer",
+            ":hover": {
+              background: "primaryHover",
+            },
+            ":active": {
+              background: "primaryActive",
+            },
+            ":disabled": {
+              cursor: "initial",
+              background: "primaryDisabled",
+            },
+          },
         },
         {
-          fontFamily: "FrutigerNeue",
-          fontStyle: "normal",
-          fontWeight: 300,
-          src: `url("/fonts/FrutigerNeueW02-Light.woff2") format("woff2"),
-          url("/fonts/FrutigerNeueW02-Light.woff") format("woff")`,
+          props: { variant: "secondary" },
+          style: {
+            background: "secondary",
+            color: grey[100],
+            borderRadius: "default",
+            width: "100%",
+            px: 4,
+            py: 3,
+            fontFamily: "body",
+            fontSize: 4,
+            transition: "background-color .2s",
+            cursor: "pointer",
+            ":hover": {
+              background: "secondaryHover",
+            },
+            ":active": {
+              background: "secondaryActive",
+            },
+            ":disabled": {
+              cursor: "initial",
+              background: "secondaryDisabled",
+            },
+          },
         },
         {
-          fontFamily: "FrutigerNeue",
-          fontStyle: "italic",
-          fontWeight: 400,
-          src: `url("/fonts/FrutigerNeueW02-It.woff2") format("woff2"),
-          url("/fonts/FrutigerNeueW02-It.woff") format("woff")`,
+          props: { variant: "success" },
+          style: {
+            background: "success",
+            color: grey[100],
+            borderRadius: "default",
+            width: "100%",
+            px: 4,
+            py: 3,
+            fontFamily: "body",
+            fontSize: 4,
+            transition: "background-color .2s",
+            cursor: "pointer",
+            ":hover": {
+              background: "successHover",
+            },
+            ":active": {
+              background: "successActive",
+            },
+            ":disabled": {
+              cursor: "initial",
+              background: "successDisabled",
+            },
+          },
+        },
+        {
+          props: { variant: "outline" },
+          style: {
+            background: grey[100],
+            color: "primary",
+            borderRadius: "default",
+            width: "100%",
+            px: 4,
+            py: 3,
+            fontFamily: "body",
+            fontSize: 4,
+            transition: "background-color .2s",
+            cursor: "pointer",
+            ":hover": {
+              background: "muted",
+            },
+            ":active": {
+              background: "muted",
+            },
+            ":disabled": {
+              cursor: "initial",
+              background: "muted",
+            },
+          },
+        },
+        {
+          props: { variant: "inverted" },
+          style: {
+            background: grey[100],
+            color: grey[800],
+            borderRadius: "default",
+            width: ["100%", "auto"],
+            px: 4,
+            py: 3,
+            fontFamily: "body",
+            fontSize: 4,
+            transition: "background-color .2s",
+            cursor: "pointer",
+            ":hover": {
+              background: grey[300],
+            },
+            ":active": {
+              background: grey[400],
+            },
+            ":disabled": {
+              cursor: "initial",
+              color: grey[600],
+              background: grey[300],
+            },
+          },
+        },
+        {
+          props: { variant: "inline" },
+          style: {
+            background: "transparent",
+            color: "primary",
+            fontFamily: "body",
+            lineHeight: [1, 2, 2],
+            fontWeight: "regular",
+            fontSize: [3, 3, 3],
+            border: "none",
+            cursor: "pointer",
+            p: 0,
+            ":hover": {
+              color: "primaryHover",
+            },
+            ":disabled": {
+              cursor: "initial",
+              color: grey[500],
+            },
+          },
         },
       ],
-
-      bg: "grey[100]",
-      margin: 0,
-      padding: 0,
-      fontFamily:
-        "FrutigerNeue, -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol",
-
-      // Hack around type error for vendor prefixed rules
-      ...{
-        // Use momentum-based scrolling on iOS devices
-        WebkitOverflowScrolling: "touch",
-
-        // Auto-hide scrollbars in Edge
-        msOverflowStyle: "-ms-autohiding-scrollbar",
-      },
-
-      svg: {
-        display: "block",
-      },
-
-      "*:focus": {
-        outline: "3px solid #333333",
-      },
-
-      fieldset: {
-        border: 0,
-        padding: "0.01em 0 0 0",
-        margin: 0,
-        minWidth: 0,
-      },
-      legend: { p: 0, m: 0 },
-    },
-  },
-  buttons: {
-    reset: {
-      background: "transparent",
-      border: "none",
-    },
-    primary: {
-      bg: "primary",
-      color: "grey[100]",
-      borderRadius: "default",
-      width: "100%",
-      px: 4,
-      py: 3,
-      fontFamily: "body",
-      fontSize: 4,
-      transition: "background-color .2s",
-      cursor: "pointer",
-      ":hover": {
-        bg: "primaryHover",
-      },
-      ":active": {
-        bg: "primaryActive",
-      },
-      ":disabled": {
-        cursor: "initial",
-        bg: "primaryDisabled",
-      },
-    },
-    secondary: {
-      variant: "buttons.primary",
-      bg: "secondary",
-      ":hover": {
-        bg: "secondaryHover",
-      },
-      ":active": {
-        bg: "secondaryActive",
-      },
-      ":disabled": {
-        cursor: "initial",
-        bg: "secondaryDisabled",
-      },
-    },
-    success: {
-      variant: "buttons.primary",
-      bg: "success",
-      ":hover": {
-        bg: "successHover",
-      },
-      ":active": {
-        bg: "successActive",
-      },
-      ":disabled": {
-        cursor: "initial",
-        bg: "successDisabled",
-      },
-    },
-    outline: {
-      variant: "buttons.primary",
-      color: "primary",
-      bg: "grey[100]",
-      border: "1px",
-      borderWidth: "1px",
-      borderStyle: "solid",
-      borderColor: "primary",
-      ":hover": {
-        bg: "muted",
-      },
-      ":active": {
-        bg: "muted",
-      },
-      ":disabled": {
-        cursor: "initial",
-        bg: "muted",
-      },
-    },
-    inverted: {
-      bg: "grey[100]",
-      color: "grey[800]",
-      borderRadius: "default",
-      width: ["100%", "auto"],
-      px: 4,
-      py: 3,
-      fontFamily: "body",
-      fontSize: 4,
-      transition: "background-color .2s",
-      cursor: "pointer",
-      ":hover": {
-        bg: "grey[300]",
-      },
-      ":active": {
-        bg: "grey[400]",
-      },
-      ":disabled": {
-        cursor: "initial",
-        color: "grey[600]",
-        bg: "grey[300]",
-      },
-    },
-    inline: {
-      background: "transparent",
-      color: "primary",
-      fontFamily: "body",
-      lineHeight: [1, 2, 2],
-      fontWeight: "regular",
-      fontSize: [3, 3, 3],
-      border: "none",
-      cursor: "pointer",
-      p: 0,
-      ":hover": {
-        color: "primaryHover",
-      },
-      ":disabled": {
-        cursor: "initial",
-        color: "grey[500]",
-      },
     },
   },
   links: {

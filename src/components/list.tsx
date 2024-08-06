@@ -62,21 +62,21 @@ const ListItem = ({
           mx: 0,
           borderBottomWidth: "1px",
           borderBottomStyle: "solid",
-          borderBottomColor: "grey[300]",
+          borderBottomColor: "grey.300",
           alignItems: "center",
           height: "3.5rem",
           lineHeight: "1rem",
           color: "text",
           textDecoration: "none",
           "&:hover": {
-            bg: "mutedDarker",
+            bgcolor: "mutedDarker",
           },
           "&:active": {
-            bg: "primaryLight",
+            bgcolor: "primaryLight",
           },
           "&:focus": {
             outline: 0,
-            bg: "primaryLight",
+            bgcolor: "primaryLight",
           },
         }}
         display="flex"
@@ -175,7 +175,7 @@ const PlaceholderListItem = () => {
         mx: [2, 4, 4],
         borderBottomWidth: "1px",
         borderBottomStyle: "solid",
-        borderBottomColor: "grey[300]",
+        borderBottomColor: "grey.300",
         alignItems: "center",
         height: "3.5rem",
         lineHeight: "1rem",
@@ -185,20 +185,20 @@ const PlaceholderListItem = () => {
     >
       <Typography
         variant="paragraph2"
-        sx={{ flexGrow: 1, bg: "grey[200]", mr: 5 }}
+        sx={{ flexGrow: 1, bgcolor: "grey.200", mr: 5 }}
       ></Typography>
       <Box
         sx={{
           borderRadius: "circle",
           px: 2,
           flexShrink: 0,
-          bg: "grey[200]",
+          bgcolor: "grey.200",
           width: "5ch",
         }}
       >
         <Typography variant="paragraph2">&nbsp;</Typography>
       </Box>
-      <Box sx={{ width: "24px", flexShrink: 0, color: "grey[200]" }}>
+      <Box sx={{ width: "24px", flexShrink: 0, color: "grey.200" }}>
         <Icon name="chevronright"></Icon>
       </Box>
     </Box>
@@ -335,7 +335,7 @@ export const List = ({
           py: [2, 4, 4],
           borderBottomWidth: "1px",
           borderBottomStyle: "solid",
-          borderBottomColor: "grey[300]",
+          borderBottomColor: "grey.300",
         }}
       >
         <Stack direction="row" spacing={2} sx={{ width: "100%" }}>

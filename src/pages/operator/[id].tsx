@@ -83,7 +83,7 @@ const OperatorPage = (props: Props) => {
           sx={{
             pt: [107, 96],
             flexGrow: 1,
-            bg: "grey[200]",
+            bgcolor: "grey.200",
             flexDirection: "column",
           }}
           display="flex"

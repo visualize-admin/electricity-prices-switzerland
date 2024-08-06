@@ -138,7 +138,7 @@ export const LoadingOverlay = () => (
   <Box
     sx={{
       position: "absolute",
-      bg: "grey[100]",
+      bgcolor: "grey.100",
       top: 0,
       left: 0,
       width: "100%",
@@ -239,7 +239,7 @@ export const HintBlue = ({
       width: "auto",
       height: "auto",
       p: 5,
-      bg: "primaryLight",
+      bgcolor: "primaryLight",
       color: "primary",
       textAlign: "center",
       justifyContent: "flex-start",
@@ -269,7 +269,7 @@ export const HintRed = ({
       borderRadius: "bigger",
       margin: "auto",
       p: 5,
-      bg: "alertLight",
+      bgcolor: "alertLight",
       color: "alert",
       textAlign: "center",
       justifyContent: "flex-start",

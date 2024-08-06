@@ -1,5 +1,5 @@
 import { Trans } from "@lingui/macro";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
 import buildEnv from "src/env/build";
 
@@ -26,8 +26,8 @@ export const Header = ({
               borderBottomWidth: "4px",
               borderBottomStyle: "solid",
               borderBottomColor: "brand",
-              bg: "grey[100]",
-              color: "grey[700]",
+              bgcolor: "grey.100",
+              color: "grey.700",
               flexDirection: ["column", "row"],
             }
           : {
@@ -37,8 +37,8 @@ export const Header = ({
               borderBottomWidth: "4px",
               borderBottomStyle: "solid",
               borderBottomColor: "brand",
-              bg: "grey[100]",
-              color: "grey[700]",
+              bgcolor: "grey.100",
+              color: "grey.700",
               flexDirection: ["column", "row"],
               // Needs to be "fixed" to prevent
               // iOS full-page scrolling
@@ -68,7 +68,7 @@ export const Logo = () => {
           alignItems: ["center", "flex-start"],
           cursor: "pointer",
           textDecoration: "none",
-          color: "grey[900]",
+          color: "grey.900",
         }}
         display="flex"
       >
@@ -87,8 +87,8 @@ export const Logo = () => {
             pr: 6,
             borderRightWidth: "1px",
             borderRightStyle: "solid",
-            borderRightColor: "grey[300]",
-            color: "grey[900]",
+            borderRightColor: "grey.300",
+            color: "grey.900",
           }}
         >
           <LogoDesktop />
@@ -96,7 +96,7 @@ export const Logo = () => {
         <Typography
           component="h1"
           variant="lead"
-          sx={{ pl: [0, 6], textDecoration: "none", color: "grey[800]" }}
+          sx={{ pl: [0, 6], textDecoration: "none", color: "grey.800" }}
         >
           <Trans id="site.title">Strompreise Schweiz</Trans>
           {buildEnv.DEPLOYMENT &&

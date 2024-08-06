@@ -75,10 +75,10 @@ export const DetailPageBanner = ({
       sx={{
         px: [4, 6],
         py: 5,
-        bg: "grey[100]",
+        bgcolor: "grey.100",
         borderBottomWidth: "1px",
         borderBottomStyle: "solid",
-        borderBottomColor: "grey[500]",
+        borderBottomColor: "grey.500",
       }}
     >
       <Grid
@@ -133,7 +133,7 @@ export const DetailPageBanner = ({
         <Typography
           component="h1"
           variant="heading1"
-          sx={{ color: "grey[800]" }}
+          sx={{ color: "grey.800" }}
         >
           <Typography variant="meta" sx={{ color: "secondary" }}>
             {entity === "canton" ? (

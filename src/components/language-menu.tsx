@@ -40,7 +40,7 @@ export const LanguageMenu = ({ contentId }: { contentId?: string }) => {
         p: [2, 0],
         ml: [0, "auto"],
         width: ["100%", "auto"],
-        bg: ["grey[300]", "transparent"],
+        bgcolor: ["grey.300", "transparent"],
         order: [1, 2],
         justifyContent: "flex-end",
       }}
@@ -61,10 +61,10 @@ export const LanguageMenu = ({ contentId }: { contentId?: string }) => {
               p: 1,
               textTransform: "uppercase",
               textDecoration: "none",
-              color: "grey[700]",
-              bg:
+              color: "grey.700",
+              bgcolor:
                 locale === currentLocale
-                  ? ["grey[500]", "grey[300]"]
+                  ? ["grey.500", "grey.300"]
                   : "transparent",
               ":hover": {
                 color: "primary",

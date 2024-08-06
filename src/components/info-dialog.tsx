@@ -1,5 +1,5 @@
 import { Trans } from "@lingui/macro";
-import { Box, Button, Heading } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import Dialog from "@reach/dialog";
 import VisuallyHidden from "@reach/visually-hidden";
 
@@ -48,7 +48,7 @@ const DialogContent = ({ slug }: { slug: string }) => {
           borderCollapse: "collapse",
           my: 2,
           tbody: {
-            borderColor: "grey[300]",
+            borderColor: "grey.300",
             borderTopWidth: "1px",
             borderTopStyle: "solid",
           },
@@ -57,7 +57,7 @@ const DialogContent = ({ slug }: { slug: string }) => {
             ":not(:first-of-type)": { textAlign: "right" },
           },
           td: {
-            borderColor: "grey[300]",
+            borderColor: "grey.300",
             borderBottomWidth: "1px",
             borderBottomStyle: "solid",
             p: 2,
@@ -101,9 +101,9 @@ export const HelpDialog: React.FC<{
         <Icon name="clear" />
       </Box>
     </Button>
-    <Heading variant="paragraph2" sx={{ color: "secondary" }}>
+    <Typography variant="paragraph2" sx={{ color: "secondary" }}>
       <Trans id="dialog.infoprefix">Info:</Trans> {label}
-    </Heading>
+    </Typography>
     <DialogContent slug={slug} />
   </Dialog>
 );

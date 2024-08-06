@@ -37,7 +37,7 @@ const HoverDots = ({ d }: { d: GenericObservation }) => {
                 borderRadius: "50%",
                 borderStyle: "solid",
                 borderWidth: 1,
-                borderColor: "grey[100]",
+                borderColor: "grey.100",
                 transform: "translate3d(-50%, -50%, 0)",
                 pointerEvents: "none",
               }}

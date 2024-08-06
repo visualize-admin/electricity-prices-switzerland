@@ -20,7 +20,7 @@ export const FilterSetDescription = ({
   return (
     <Typography
       variant="body1"
-      sx={{ my: 4, color: "grey[800]", fontWeight: "light" }}
+      sx={{ my: 4, color: "grey.800", fontWeight: "light" }}
     >
       {Object.entries(filters).map(([key, value], i) => {
         if (!value) {

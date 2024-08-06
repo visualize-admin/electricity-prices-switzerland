@@ -25,5 +25,5 @@ ${
 `;
 
 const Space = ({ width }: { width: string | number }) => (
-  <Box sx={{ width, height: "2rem", bg: "brand" }} />
+  <Box sx={{ width, height: "2rem", bgcolor: "brand" }} />
 );

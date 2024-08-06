@@ -185,8 +185,8 @@ export const SearchField = ({
             border: "1px solid",
             borderRadius: "default",
             color: "text",
-            borderColor: isOpen ? "primary" : "grey[500]",
-            bg: "grey[100]",
+            borderColor: isOpen ? "primary" : "grey.500",
+            bgcolor: "grey.100",
 
             "&:hover": {
               borderColor: "primary",
@@ -208,7 +208,7 @@ export const SearchField = ({
               ml: 4,
               width: "auto",
               flexShrink: 0,
-              color: "grey[800]",
+              color: "grey.800",
             }}
           >
             <Trans id="search.global.hint.go.to">Gehe zu…</Trans>
@@ -218,7 +218,7 @@ export const SearchField = ({
             sx={{
               fontWeight: "regular",
               ml: 4,
-              color: "grey[500]",
+              color: "grey.500",
               overflow: "hidden",
               whiteSpace: "nowrap",
               textOverflow: "ellipsis",
@@ -253,13 +253,13 @@ export const SearchField = ({
             width: ["100vw", "100vw", "100%"],
             height: 48,
 
-            bg: "grey[100]",
+            bgcolor: "grey.100",
             borderRadius: [0, 0, "default"],
 
             border: ["0px solid", "0px solid", "1px solid"],
-            borderColor: ["grey[500]", "grey[500]", "primary"],
+            borderColor: ["grey.500", "grey.500", "primary"],
             borderBottom: ["1px solid", "1px solid", "1px solid"],
-            borderBottomColor: ["grey[500]", "grey[500]", "primary"],
+            borderBottomColor: ["grey.500", "grey.500", "primary"],
           }}
           display="flex"
         >
@@ -322,7 +322,7 @@ export const SearchField = ({
             maxHeight: ["100vh", "100vh", "50vh"],
             overflowY: "auto",
 
-            bg: "grey[100]",
+            bgcolor: "grey.100",
             p: 4,
             flexDirection: "column",
 
@@ -333,15 +333,15 @@ export const SearchField = ({
           display="flex"
         >
           {isOpen && inputValue === "" ? (
-            <Typography variant="body1" sx={{ color: "grey[800]" }}>
+            <Typography variant="body1" sx={{ color: "grey.800" }}>
               {label}
             </Typography>
           ) : inputValue !== "" && isLoading ? (
-            <Typography variant="body1" sx={{ color: "grey[800]" }}>
+            <Typography variant="body1" sx={{ color: "grey.800" }}>
               <Trans id="combobox.isloading">Resultate laden …</Trans>
             </Typography>
           ) : inputValue !== "" && !isLoading && items.length === 0 ? (
-            <Typography variant="body1" sx={{ color: "grey[800]" }}>
+            <Typography variant="body1" sx={{ color: "grey.800" }}>
               <Trans id="combobox.noitems">Keine Einträge</Trans>
             </Typography>
           ) : (
@@ -357,10 +357,10 @@ export const SearchField = ({
                   <Fragment key={entityIndex}>
                     <Box
                       sx={{
-                        color: "grey[600]",
+                        color: "grey.600",
                         fontSize: "0.875rem",
                         borderBottom: "1px solid",
-                        borderBottomColor: "grey[300]",
+                        borderBottomColor: "grey.300",
                         px: 3,
                         py: 2,
                       }}
@@ -392,7 +392,7 @@ export const SearchField = ({
                                 highlightedIndex === item.listId
                                   ? "mutedDarker"
                                   : "inherit",
-                              color: "grey[800]",
+                              color: "grey.800",
                               fontSize: ["1rem"],
                               lineHeight: 1.2,
                               textDecoration: "none",

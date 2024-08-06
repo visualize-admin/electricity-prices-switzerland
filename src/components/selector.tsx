@@ -1,4 +1,5 @@
 import { Trans, t } from "@lingui/macro";
+import { Typography, Box } from "@mui/material";
 import { useMemo } from "react";
 
 import { useQueryStateSingle } from "src/lib/use-query-state";
@@ -25,7 +26,7 @@ export const Selector = () => {
       sx={{
         flexDirection: "column",
         justifyContent: "flex-start",
-        bg: "mutedColored",
+        bgcolor: "mutedColored",
         px: 4,
         py: 4,
 

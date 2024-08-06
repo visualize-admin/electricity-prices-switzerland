@@ -29,7 +29,7 @@ const FooterLink = ({
       sx={{
         borderBottomWidth: "1px",
         borderBottomStyle: "solid",
-        borderBottomColor: "grey[500]",
+        borderBottomColor: "grey.500",
         p: 4,
         display: "flex",
         alignItems: "center",
@@ -80,9 +80,9 @@ export const Footer = () => {
   return (
     <Box
       sx={{
-        bg: "grey[200]",
+        bgcolor: "grey.200",
         borderTop: "1px solid",
-        borderColor: "grey[500]",
+        borderColor: "grey.500",
         paddingTop: 6,
       }}
     >
@@ -251,10 +251,10 @@ export const Footer = () => {
           flexDirection: ["column", "row"],
           justifyContent: ["flex-start", "space-between"],
           alignItems: ["flex-start", "center"],
-          bg: "grey[200]",
+          bgcolor: "grey.200",
           borderTopWidth: "1px",
           borderTopStyle: "solid",
-          borderTopColor: "grey[500]",
+          borderTopColor: "grey.500",
         }}
         display="flex"
       >
@@ -263,7 +263,7 @@ export const Footer = () => {
             width: "100%",
             px: 6,
             py: 5,
-            color: ["grey[900]", "grey[700]"],
+            color: ["grey.900", "grey.700"],
             display: "flex",
             justifyContent: "space-between",
           }}
@@ -307,8 +307,8 @@ export const Footer = () => {
               borderBottomWidth: "1px",
               borderTopStyle: "solid",
               borderBottomStyle: "solid",
-              borderTopColor: "grey[500]",
-              borderBottomColor: "grey[500]",
+              borderTopColor: "grey.500",
+              borderBottomColor: "grey.500",
             }}
           >
             <LogoDesktop />

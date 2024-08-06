@@ -43,7 +43,7 @@ export const LegendSymbol = ({
         width: ".5rem",
         height: symbol === "square" || symbol === "circle" ? `.5rem` : 3,
         borderRadius: symbol === "circle" ? "50%" : 0,
-        bg: color,
+        bgcolor: color,
       }}
     ></Box>
   );
@@ -71,7 +71,7 @@ export const LegendItem = ({
       lineHeight: ["1rem", "1.125rem", "1.125rem"],
       fontWeight: "regular",
       fontSize: ["0.625rem", "0.75rem", "0.75rem"],
-      color: "grey[700]",
+      color: "grey.700",
     }}
     display="flex"
   >

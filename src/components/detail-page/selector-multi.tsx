@@ -35,7 +35,7 @@ export const SelectorMulti = ({
       sx={{
         flexDirection: "column",
         justifyContent: "flex-start",
-        bg: "mutedColored",
+        bgcolor: "mutedColored",
         px: 4,
         py: 4,
         zIndex: 13,

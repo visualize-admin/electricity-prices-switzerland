@@ -25,7 +25,7 @@ const LegendBox = ({
     <Box
       sx={{
         zIndex: 13,
-        bg: "rgba(245, 245, 245, 0.8)",
+        bgcolor: "rgba(245, 245, 245, 0.8)",
         borderRadius: "default",
         height: "fit-content",
         px: 4,
@@ -118,7 +118,7 @@ export const MapPriceColorLegend = ({
         <Box
           sx={{
             justifyContent: "space-between",
-            color: "grey[600]",
+            color: "grey.600",
             fontSize: "0.625rem",
             mb: 2,
           }}
@@ -156,7 +156,7 @@ export const PriceColorLegend = () => {
       <Box
         sx={{
           justifyContent: "space-between",
-          color: "grey[600]",
+          color: "grey.600",
           fontSize: "0.625rem",
           mb: 2,
         }}
@@ -237,7 +237,7 @@ export const ColorsLine = () => {
             <Typography
               sx={{
                 fontSize: "0.625rem",
-                color: "grey[600]",
+                color: "grey.600",
                 transform: "translateX(50%)",
                 letterSpacing: -0.4,
                 textAlign: "right",

@@ -134,7 +134,7 @@ const ShareButton = () => {
               borderStyle: "solid",
               boxSizing: "border-box",
               borderWidth: 1,
-              borderColor: "grey[500]",
+              borderColor: "grey.500",
               outline: hasInputFocus ? "2px solid" : "none",
               outlineColor: "primary",
               display: "flex",
@@ -162,11 +162,11 @@ const ShareButton = () => {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                backgroundColor: "grey[300]",
-                color: "grey[900]",
+                backgroundColor: "grey.300",
+                color: "grey.900",
                 cursor: "pointer",
                 "&:hover": {
-                  backgroundColor: "grey[400]",
+                  backgroundColor: "grey.400",
                 },
                 "&:focus, &:active": {
                   outline: 0,
@@ -284,7 +284,7 @@ const IndexPage = ({ locale }: Props) => {
               alignItems: "center",
               borderBottomWidth: 1,
               borderBottomStyle: "solid",
-              borderBottomColor: "grey[500]",
+              borderBottomColor: "grey.500",
               px: 4,
             }}
             display="flex"
@@ -301,7 +301,7 @@ const IndexPage = ({ locale }: Props) => {
               sx={{
                 width: "100%",
                 textAlign: ["left", "left", "center"],
-                color: "grey[800]",
+                color: "grey.800",
                 mt: 2,
                 mb: 2,
                 height: [0, 0, "unset"],
@@ -328,7 +328,7 @@ const IndexPage = ({ locale }: Props) => {
               // id used by the screenshot service
               id={DOWNLOAD_ID}
               sx={{
-                bg: "grey[200]",
+                bgcolor: "grey.200",
                 top: [0, HEADER_HEIGHT_M_UP],
                 width: "100%",
                 gridArea: "map",
@@ -337,7 +337,7 @@ const IndexPage = ({ locale }: Props) => {
                 position: ["relative", "sticky"],
                 borderRightWidth: "1px",
                 borderRightStyle: "solid",
-                borderRightColor: "grey[500]",
+                borderRightColor: "grey.500",
               }}
             >
               <ChoroplethMap
