@@ -180,13 +180,19 @@ export const PriceColorLegend = () => {
         }}
         display="flex"
       >
-        <Typography sx={{ flex: "1 1 0px" }}>
+        <Typography variant="inherit" sx={{ flex: "1 1 0px" }}>
           <Trans id="price.legend.min">min</Trans>
         </Typography>
-        <Typography sx={{ flex: "1 1 0px", textAlign: "center" }}>
+        <Typography
+          variant="inherit"
+          sx={{ flex: "1 1 0px", textAlign: "center" }}
+        >
           <Trans id="price.legend.median">median</Trans>
         </Typography>
-        <Typography sx={{ flex: "1 1 0px", textAlign: "right" }}>
+        <Typography
+          variant="inherit"
+          sx={{ flex: "1 1 0px", textAlign: "right" }}
+        >
           <Trans id="price.legend.max">max</Trans>
         </Typography>
       </Box>

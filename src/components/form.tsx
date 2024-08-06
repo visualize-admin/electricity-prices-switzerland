@@ -43,7 +43,7 @@ export const Label = ({
   showLabel?: boolean;
 }) => (
   <Typography
-    variant="body1"
+    variant="inherit"
     component="label"
     htmlFor={htmlFor}
     sx={{

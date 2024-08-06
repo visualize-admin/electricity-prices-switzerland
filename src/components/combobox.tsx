@@ -415,12 +415,12 @@ export const Combobox = ({
           fontSize: "inherit",
           lineHeight: "inherit",
           border: "1px solid",
-          borderRadius: 4,
+          borderRadius: 1,
           color: "text",
-          borderColor: isOpen ? "primary" : "grey.500",
+          borderColor: isOpen ? "primary.main" : "grey.500",
           bgcolor: "grey.100",
           flexWrap: "wrap",
-          ":focus-within": { borderColor: "primary" },
+          ":focus-within": { borderColor: "primary.main" },
           position: "relative",
         }}
         display="flex"

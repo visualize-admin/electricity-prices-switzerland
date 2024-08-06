@@ -62,7 +62,7 @@ const CantonPage = (props: Props) => {
         {!query.download && <Header></Header>}
         <Box
           sx={{
-            pt: [107, 96],
+            pt: ["107px", "96px"],
             flexGrow: 1,
             bgcolor: "grey.200",
           }}

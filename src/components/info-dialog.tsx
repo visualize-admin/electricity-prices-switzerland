@@ -6,6 +6,7 @@ import {
   Dialog,
   DialogContent as MuiDialogContent,
   DialogTitle as MuiDialogTitle,
+  IconButton,
 } from "@mui/material";
 
 import VisuallyHidden from "src/components/VisuallyHidden";
@@ -138,8 +139,8 @@ export const InfoDialogButton = ({
   } = useDisclosure();
   return (
     <>
-      <Button
-        variant="text"
+      <IconButton
+        color="primary"
         sx={{ fontSize: smaller ? [2, 2, 2] : [3, 4, 4] }}
         onClick={openDialog}
       >
@@ -149,7 +150,7 @@ export const InfoDialogButton = ({
           </Box>{" "}
           {iconOnly ? <VisuallyHidden>{label}</VisuallyHidden> : label}
         </Box>
-      </Button>
+      </IconButton>
       <HelpDialog
         close={closeDialog}
         label={label}

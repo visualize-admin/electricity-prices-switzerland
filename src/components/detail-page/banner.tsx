@@ -133,7 +133,11 @@ export const DetailPageBanner = ({
 
       <Box sx={{ mx: "auto", my: 2 }}>
         <Typography component="h1" variant="h1" sx={{ color: "grey.800" }}>
-          <Typography variant="meta" sx={{ color: "secondary.main" }}>
+          <Typography
+            variant="meta"
+            sx={{ color: "secondary.main" }}
+            display="block"
+          >
             {entity === "canton" ? (
               <Trans id="detail.canton">Kanton</Trans>
             ) : entity === "municipality" ? (
@@ -145,7 +149,7 @@ export const DetailPageBanner = ({
           {name}
         </Typography>
 
-        <Box sx={{ flexWrap: "wrap" }} display="flex">
+        <Box sx={{ flexWrap: "wrap" }} display="flex" flexDirection="column">
           {canton && (
             <Box sx={{ pr: 3, my: 1 }}>
               <Trans id="detail.canton">Kanton</Trans>:{" "}

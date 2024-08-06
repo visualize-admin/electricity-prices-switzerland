@@ -108,6 +108,7 @@ export const theme: Theme = createTheme({
     "4.5rem",
   ],
   palette: {
+    grey,
     text: {
       primary: grey[900],
     },
