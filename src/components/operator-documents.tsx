@@ -39,11 +39,11 @@ const DocumentList = ({
   itemLabel: React.ReactNode;
 }) => {
   return (
-    <Box as="ul" sx={{ listStyle: "none", m: 0, p: 0 }}>
+    <Box component="ul" sx={{ listStyle: "none", m: 0, p: 0 }}>
       {documents.map((doc) => {
         return (
           <Box
-            as="li"
+            component="li"
             key={doc.id + doc.url}
             sx={{ ml: 0, mb: 2, p: 0 }}
             variant="text.paragraph2"
@@ -113,7 +113,7 @@ export const OperatorDocuments = ({ id }: { id: string }) => {
 
         return (
           <Box key={category.id} sx={{ mx: 4, my: 6 }}>
-            <Text as="h4" sx={{ mb: 3 }} variant="lead">
+            <Text component="h4" sx={{ mb: 3 }} variant="lead">
               {category.categoryLabel}
             </Text>
             <DocumentList itemLabel={category.itemLabel} documents={docs} />

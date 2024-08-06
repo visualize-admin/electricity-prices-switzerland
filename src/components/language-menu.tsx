@@ -34,7 +34,7 @@ export const LanguageMenu = ({ contentId }: { contentId?: string }) => {
 
   return (
     <Flex
-      as="ul"
+      component="ul"
       sx={{
         listStyle: "none",
         p: [2, 0],
@@ -50,7 +50,7 @@ export const LanguageMenu = ({ contentId }: { contentId?: string }) => {
 
         const linkEl = (
           <Link
-            as="span"
+            component="span"
             rel="alternate"
             hrefLang={locale}
             sx={{
@@ -82,7 +82,7 @@ export const LanguageMenu = ({ contentId }: { contentId?: string }) => {
         );
 
         return (
-          <Box as="li" key={locale} sx={{ ml: 1, p: 0 }}>
+          <Box component="li" key={locale} sx={{ ml: 1, p: 0 }}>
             {alternate ? (
               <NextLink href={alternate.path} passHref locale={false}>
                 {linkEl}

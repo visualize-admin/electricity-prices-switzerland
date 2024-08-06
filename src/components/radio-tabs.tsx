@@ -214,7 +214,7 @@ export const RadioTabs = <T extends string>({
         return (
           <Box
             key={option.value}
-            as="label"
+            component="label"
             title={typeof option.label === "string" ? option.label : undefined}
             sx={isActive ? styles.active : styles.inactive}
           >

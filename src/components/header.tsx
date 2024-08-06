@@ -16,7 +16,7 @@ export const Header = ({
 }) => {
   return (
     <Flex
-      as="header"
+      component="header"
       sx={
         pageType === "content"
           ? {
@@ -61,7 +61,7 @@ export const Logo = () => {
   return (
     <HomeLink passHref>
       <Flex
-        as="div"
+        component="div"
         sx={{
           order: [2, 1],
           alignItems: ["center", "flex-start"],
@@ -92,7 +92,7 @@ export const Logo = () => {
           <LogoDesktop />
         </Box>
         <Text
-          as="h1"
+          component="h1"
           variant="lead"
           sx={{ pl: [0, 6], textDecoration: "none", color: "grey[800]" }}
         >

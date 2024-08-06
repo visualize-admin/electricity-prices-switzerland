@@ -33,7 +33,7 @@ const DialogContent = ({ slug }: { slug: string }) => {
 
   return (
     <Box
-      as="section"
+      component="section"
       sx={{
         details: {
           mb: 3,

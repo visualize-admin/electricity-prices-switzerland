@@ -55,7 +55,7 @@ const ListItem = ({
       <Flex
         onMouseOver={() => setHighlightContext({ entity, id, label, value })}
         onMouseOut={() => setHighlightContext(undefined)}
-        as="a"
+        component="a"
         sx={{
           pl: [2, 4, 4],
           py: 1,

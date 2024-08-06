@@ -35,7 +35,7 @@ export const Card = ({
       }}
     >
       <Text
-        as="h2"
+        component="h2"
         variant="heading2"
         sx={{ pt: 1, color: "grey[800]", mb: 4 }}
       >

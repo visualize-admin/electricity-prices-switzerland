@@ -31,7 +31,7 @@ export const SelectorMulti = ({
 
   return (
     <Flex
-      as="fieldset"
+      component="fieldset"
       sx={{
         flexDirection: "column",
         justifyContent: "flex-start",
@@ -43,7 +43,7 @@ export const SelectorMulti = ({
         "> fieldset": { mt: 4 },
       }}
     >
-      <Text as="legend" variant="lead" sx={{ display: "contents" }}>
+      <Text component="legend" variant="lead" sx={{ display: "contents" }}>
         <Trans id="selector.legend.select.parameters">
           Parameter auswählen
         </Trans>

@@ -29,9 +29,9 @@ export const FilterSetDescription = ({
 
         return (
           <React.Fragment key={key}>
-            <Box as="span">{getLocalizedLabel({ id: key })}</Box>
+            <Box component="span">{getLocalizedLabel({ id: key })}</Box>
             {": "}
-            <Box as="span" sx={{ fontWeight: "bold" }}>
+            <Box component="span" sx={{ fontWeight: "bold" }}>
               {getLocalizedLabel({
                 id: value,
               })}

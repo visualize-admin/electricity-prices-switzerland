@@ -334,7 +334,7 @@ export const FieldSetLegend = ({
       mb: 1,
       color: "grey[600]",
     }}
-    as="legend"
+    component="legend"
   >
     {legendTitle}
   </Box>

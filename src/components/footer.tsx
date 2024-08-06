@@ -247,7 +247,7 @@ export const Footer = () => {
       </Box>
 
       <Flex
-        as="footer"
+        component="footer"
         sx={{
           flexDirection: ["column", "row"],
           justifyContent: ["flex-start", "space-between"],
@@ -273,7 +273,7 @@ export const Footer = () => {
               Eidgenössische Elektrizitätskommission ElCom
             </Trans>
           </Text>
-          <Text variant="paragraph2" sx={{ display: "block" }} as="div">
+          <Text variant="paragraph2" sx={{ display: "block" }} component="div">
             <Link
               target="_blank"
               variant="inline"
