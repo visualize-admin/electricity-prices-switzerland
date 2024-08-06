@@ -96,7 +96,7 @@ export const theme: Theme = createTheme({
       xl: 1920,
     },
   },
-  space: [
+  spacing: [
     "0",
     "0.25rem",
     "0.5rem",
