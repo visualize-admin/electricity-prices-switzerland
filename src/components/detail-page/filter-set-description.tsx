@@ -20,7 +20,7 @@ export const FilterSetDescription = ({
   return (
     <Text
       variant="paragraph1"
-      sx={{ my: 4, color: "monochrome800", fontWeight: "light" }}
+      sx={{ my: 4, color: "grey[800]", fontWeight: "light" }}
     >
       {Object.entries(filters).map(([key, value], i) => {
         if (!value) {

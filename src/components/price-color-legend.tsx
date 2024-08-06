@@ -117,7 +117,7 @@ export const MapPriceColorLegend = ({
         <Flex
           sx={{
             justifyContent: "space-between",
-            color: "monochrome600",
+            color: "grey[600]",
             fontSize: 1,
             mb: 2,
           }}
@@ -156,7 +156,7 @@ export const PriceColorLegend = () => {
       <Flex
         sx={{
           justifyContent: "space-between",
-          color: "monochrome600",
+          color: "grey[600]",
           fontSize: 1,
           mb: 2,
         }}
@@ -237,7 +237,7 @@ export const ColorsLine = () => {
             <Text
               sx={{
                 fontSize: 1,
-                color: "monochrome600",
+                color: "grey[600]",
                 transform: "translateX(50%)",
                 letterSpacing: -0.4,
                 textAlign: "right",

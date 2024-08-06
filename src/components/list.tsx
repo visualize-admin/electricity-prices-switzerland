@@ -62,7 +62,7 @@ const ListItem = ({
           mx: 0,
           borderBottomWidth: "1px",
           borderBottomStyle: "solid",
-          borderBottomColor: "monochrome300",
+          borderBottomColor: "grey[300]",
           alignItems: "center",
           height: "3.5rem",
           lineHeight: 1,
@@ -174,7 +174,7 @@ const PlaceholderListItem = () => {
         mx: [2, 4, 4],
         borderBottomWidth: "1px",
         borderBottomStyle: "solid",
-        borderBottomColor: "monochrome300",
+        borderBottomColor: "grey[300]",
         alignItems: "center",
         height: "3.5rem",
         lineHeight: 1,
@@ -183,7 +183,7 @@ const PlaceholderListItem = () => {
     >
       <Text
         variant="paragraph2"
-        sx={{ flexGrow: 1, bg: "monochrome200", mr: 5 }}
+        sx={{ flexGrow: 1, bg: "grey[200]", mr: 5 }}
       >
         &nbsp;
       </Text>
@@ -192,13 +192,13 @@ const PlaceholderListItem = () => {
           borderRadius: "circle",
           px: 2,
           flexShrink: 0,
-          bg: "monochrome200",
+          bg: "grey[200]",
           width: "5ch",
         }}
       >
         <Text variant="paragraph2">&nbsp;</Text>
       </Box>
-      <Box sx={{ width: "24px", flexShrink: 0, color: "monochrome200" }}>
+      <Box sx={{ width: "24px", flexShrink: 0, color: "grey[200]" }}>
         <Icon name="chevronright"></Icon>
       </Box>
     </Flex>
@@ -335,7 +335,7 @@ export const List = ({
           py: [2, 4, 4],
           borderBottomWidth: "1px",
           borderBottomStyle: "solid",
-          borderBottomColor: "monochrome300",
+          borderBottomColor: "grey[300]",
         }}
       >
         <Stack direction="row" spacing={2} sx={{ width: "100%" }}>

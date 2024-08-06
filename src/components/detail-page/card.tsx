@@ -25,19 +25,19 @@ export const Card = ({
       // This id is used by the screenshot function
       id={downloadId}
       sx={{
-        bg: "monochrome100",
+        bg: "grey[100]",
         p: 5,
         m: 4,
         borderWidth: "1px",
         borderStyle: "solid",
-        borderColor: "monochrome300",
+        borderColor: "grey[300]",
         boxShadow: "primary",
       }}
     >
       <Text
         as="h2"
         variant="heading2"
-        sx={{ pt: 1, color: "monochrome800", mb: 4 }}
+        sx={{ pt: 1, color: "grey[800]", mb: 4 }}
       >
         {title}
       </Text>

@@ -70,7 +70,7 @@ export const LegendItem = ({
       lineHeight: [1, 2, 2],
       fontWeight: "regular",
       fontSize: [1, 2, 2],
-      color: "monochrome700",
+      color: "grey[700]",
     }}
   >
     <LegendSymbol color={color} symbol={symbol} />

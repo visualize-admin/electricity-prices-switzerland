@@ -32,7 +32,7 @@ export const DetailPageLayout = ({ main, selector, aside }: Props) => {
           px: [0, 3],
           borderRightWidth: "1px",
           borderRightStyle: "solid",
-          borderRightColor: "monochrome500",
+          borderRightColor: "grey[500]",
         }}
       >
         {main}
@@ -42,12 +42,12 @@ export const DetailPageLayout = ({ main, selector, aside }: Props) => {
           gridArea: "selector",
           borderBottomWidth: "1px",
           borderBottomStyle: "solid",
-          borderBottomColor: "monochrome500",
+          borderBottomColor: "grey[500]",
         }}
       >
         {selector}
       </Box>
-      <Box sx={{ gridArea: "aside", bg: "monochrome100" }}>{aside}</Box>
+      <Box sx={{ gridArea: "aside", bg: "grey[100]" }}>{aside}</Box>
     </Grid>
   );
 };

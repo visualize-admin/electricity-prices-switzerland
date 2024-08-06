@@ -26,8 +26,8 @@ export const Header = ({
               borderBottomWidth: "4px",
               borderBottomStyle: "solid",
               borderBottomColor: "brand",
-              bg: "monochrome100",
-              color: "monochrome700",
+              bg: "grey[100]",
+              color: "grey[700]",
               flexDirection: ["column", "row"],
             }
           : {
@@ -37,8 +37,8 @@ export const Header = ({
               borderBottomWidth: "4px",
               borderBottomStyle: "solid",
               borderBottomColor: "brand",
-              bg: "monochrome100",
-              color: "monochrome700",
+              bg: "grey[100]",
+              color: "grey[700]",
               flexDirection: ["column", "row"],
               // Needs to be "fixed" to prevent
               // iOS full-page scrolling
@@ -67,7 +67,7 @@ export const Logo = () => {
           alignItems: ["center", "flex-start"],
           cursor: "pointer",
           textDecoration: "none",
-          color: "monochrome900",
+          color: "grey[900]",
         }}
       >
         <Box
@@ -85,8 +85,8 @@ export const Logo = () => {
             pr: 6,
             borderRightWidth: "1px",
             borderRightStyle: "solid",
-            borderRightColor: "monochrome300",
-            color: "monochrome900",
+            borderRightColor: "grey[300]",
+            color: "grey[900]",
           }}
         >
           <LogoDesktop />
@@ -94,7 +94,7 @@ export const Logo = () => {
         <Text
           as="h1"
           variant="lead"
-          sx={{ pl: [0, 6], textDecoration: "none", color: "monochrome800" }}
+          sx={{ pl: [0, 6], textDecoration: "none", color: "grey[800]" }}
         >
           <Trans id="site.title">Strompreise Schweiz</Trans>
           {buildEnv.DEPLOYMENT &&

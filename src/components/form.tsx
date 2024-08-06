@@ -44,7 +44,7 @@ export const Label = ({
   <ThemeUiLabel
     htmlFor={htmlFor}
     sx={{
-      color: disabled ? "monochrome600" : "monochrome700",
+      color: disabled ? "grey[600]" : "grey[700]",
       fontSize: smaller ? [2, 2, 2] : [4, 4, 4],
       pb: smaller ? 1 : 0,
       mr: 4,
@@ -89,7 +89,7 @@ export const Radio = ({
           disabled={disabled}
           size={20}
           sx={{
-            color: checked && !disabled ? "primary" : "monochrome500",
+            color: checked && !disabled ? "primary" : "grey[500]",
           }}
         />
       </Label>
@@ -109,7 +109,7 @@ export const Checkbox = ({
     <RebassCheckbox
       sx={{
         // size: 20,
-        color: checked && !disabled ? "primary" : "monochrome500",
+        color: checked && !disabled ? "primary" : "grey[500]",
       }}
       id={`${name}-${label}`}
       name={name}
@@ -134,7 +134,7 @@ export const Select = ({
   label?: React.ReactNode;
   disabled?: boolean;
 } & SelectProps) => (
-  <Box sx={{ color: "monochrome700", pb: 2 }}>
+  <Box sx={{ color: "grey[700]", pb: 2 }}>
     {label && (
       <Label htmlFor={id} disabled={disabled} smaller>
         {label}
@@ -142,15 +142,15 @@ export const Select = ({
     )}
     <ThemeUiSelect
       sx={{
-        borderColor: "monochrome500",
+        borderColor: "grey[500]",
         fontSize: 4,
-        bg: "monochrome100",
+        bg: "grey[100]",
         pt: 2,
         pb: 2,
         pl: 2,
         pr: 5,
         height: "40px",
-        color: disabled ? "monochrome500" : "monochrome700",
+        color: disabled ? "grey[500]" : "grey[700]",
         textOverflow: "ellipsis",
       }}
       id={id}
@@ -184,7 +184,7 @@ export const MiniSelect = ({
   label?: React.ReactNode;
   disabled?: boolean;
 } & SelectProps) => (
-  <Box sx={{ color: "monochrome800" }}>
+  <Box sx={{ color: "grey[800]" }}>
     {label && (
       <Label htmlFor={id} smaller>
         {label}
@@ -228,14 +228,14 @@ export const Input = ({
   label?: string | React.ReactNode;
   disabled?: boolean;
 } & FieldProps) => (
-  <Box sx={{ color: "monochrome700", fontSize: 4 }}>
+  <Box sx={{ color: "grey[700]", fontSize: 4 }}>
     {label && name && (
       <Label htmlFor={name} smaller>
         {label}
       </Label>
     )}
     <ThemeUiInput
-      sx={{ borderColor: "monochrome500", bg: "monochrome100", height: "40px" }}
+      sx={{ borderColor: "grey[500]", bg: "grey[100]", height: "40px" }}
       id={name}
       name={name}
       value={value}
@@ -263,7 +263,7 @@ export const SearchField = ({
 } & FieldProps) => {
   return (
     <Box
-      sx={{ color: "monochrome700", fontSize: 4, position: "relative", ...sx }}
+      sx={{ color: "grey[700]", fontSize: 4, position: "relative", ...sx }}
     >
       {label && id && (
         <label htmlFor={id}>
@@ -279,8 +279,8 @@ export const SearchField = ({
       <ThemeUiInput
         sx={{
           flexGrow: 1,
-          borderColor: "monochrome500",
-          bg: "monochrome100",
+          borderColor: "grey[500]",
+          bg: "grey[100]",
           px: 6,
           ":focus": { outline: "none", borderColor: "primary" },
         }}
@@ -309,7 +309,7 @@ export const SearchField = ({
             </VisuallyHidden>
             <Box
               aria-hidden="true"
-              sx={{ borderRadius: "circle", bg: "monochrome600" }}
+              sx={{ borderRadius: "circle", bg: "grey[600]" }}
             >
               <Icon name="clear" size={16} />
             </Box>
@@ -332,7 +332,7 @@ export const FieldSetLegend = ({
       fontWeight: "regular",
       fontSize: [1, 2, 2],
       mb: 1,
-      color: "monochrome600",
+      color: "grey[600]",
     }}
     as="legend"
   >

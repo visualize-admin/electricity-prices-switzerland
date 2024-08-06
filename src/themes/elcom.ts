@@ -25,19 +25,19 @@ export const theme: Theme = {
     "4.5rem",
   ],
   colors: {
-    text: "monochrome900",
-    background: "monochrome100",
+    text: "grey[900]",
+    background: "grey[100]",
 
     brand: "#DC0018",
-    monochrome100: "#FFFFFF",
-    monochrome200: "#F5F5F5",
-    monochrome300: "#E5E5E5",
-    monochrome400: "#D5D5D5",
-    monochrome500: "#CCCCCC",
-    monochrome600: "#757575",
-    monochrome700: "#454545",
-    monochrome800: "#333333",
-    monochrome900: "#000000",
+    grey[100]: "#FFFFFF",
+    grey[200]: "#F5F5F5",
+    grey[300]: "#E5E5E5",
+    grey[400]: "#D5D5D5",
+    grey[500]: "#CCCCCC",
+    grey[600]: "#757575",
+    grey[700]: "#454545",
+    grey[800]: "#333333",
+    grey[900]: "#000000",
 
     primary: "#006699",
     primaryHover: "#004B70",
@@ -213,7 +213,7 @@ export const theme: Theme = {
         },
       ],
 
-      bg: "monochrome100",
+      bg: "grey[100]",
       margin: 0,
       padding: 0,
       fontFamily:
@@ -252,7 +252,7 @@ export const theme: Theme = {
     },
     primary: {
       bg: "primary",
-      color: "monochrome100",
+      color: "grey[100]",
       borderRadius: "default",
       width: "100%",
       px: 4,
@@ -303,7 +303,7 @@ export const theme: Theme = {
     outline: {
       variant: "buttons.primary",
       color: "primary",
-      bg: "monochrome100",
+      bg: "grey[100]",
       border: "1px",
       borderWidth: "1px",
       borderStyle: "solid",
@@ -320,8 +320,8 @@ export const theme: Theme = {
       },
     },
     inverted: {
-      bg: "monochrome100",
-      color: "monochrome800",
+      bg: "grey[100]",
+      color: "grey[800]",
       borderRadius: "default",
       width: ["100%", "auto"],
       px: 4,
@@ -331,15 +331,15 @@ export const theme: Theme = {
       transition: "background-color .2s",
       cursor: "pointer",
       ":hover": {
-        bg: "monochrome300",
+        bg: "grey[300]",
       },
       ":active": {
-        bg: "monochrome400",
+        bg: "grey[400]",
       },
       ":disabled": {
         cursor: "initial",
-        color: "monochrome600",
-        bg: "monochrome300",
+        color: "grey[600]",
+        bg: "grey[300]",
       },
     },
     inline: {
@@ -357,7 +357,7 @@ export const theme: Theme = {
       },
       ":disabled": {
         cursor: "initial",
-        color: "monochrome500",
+        color: "grey[500]",
       },
     },
   },

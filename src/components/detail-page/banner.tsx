@@ -82,10 +82,10 @@ export const DetailPageBanner = ({
       sx={{
         px: [4, 6],
         py: 5,
-        bg: "monochrome100",
+        bg: "grey[100]",
         borderBottomWidth: "1px",
         borderBottomStyle: "solid",
-        borderBottomColor: "monochrome500",
+        borderBottomColor: "grey[500]",
       }}
     >
       <Grid
@@ -137,7 +137,7 @@ export const DetailPageBanner = ({
       </Grid>
 
       <Box sx={{ mx: "auto", my: 2 }}>
-        <Text as="h1" variant="heading1" sx={{ color: "monochrome800" }}>
+        <Text as="h1" variant="heading1" sx={{ color: "grey[800]" }}>
           <Text variant="meta" sx={{ color: "secondary" }}>
             {entity === "canton" ? (
               <Trans id="detail.canton">Kanton</Trans>
