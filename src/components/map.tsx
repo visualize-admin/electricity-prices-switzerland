@@ -179,7 +179,7 @@ const MapTooltip = ({
 };
 
 const HintBox = ({ children }: { children: ReactNode }) => (
-  <Flex
+  <Box
     sx={{
       width: "100%",
       height: "100%",
@@ -192,11 +192,12 @@ const HintBox = ({ children }: { children: ReactNode }) => (
       zIndex: 1,
       position: "relative",
     }}
+    display="flex"
   >
     <Box sx={{ bg: "mutedTransparent", borderRadius: "bigger", p: 2 }}>
       {children}
     </Box>
-  </Flex>
+  </Box>
 );
 
 type GeoData = {

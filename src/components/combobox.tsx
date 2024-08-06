@@ -115,7 +115,7 @@ export const ComboboxMulti = ({
   return (
     <Box sx={{ position: "relative" }}>
       <Label label={label} smaller {...getLabelProps()}></Label>
-      <Flex
+      <Box
         sx={{
           display: "block",
           width: "100%",
@@ -136,6 +136,7 @@ export const ComboboxMulti = ({
           ":focus-within": { borderColor: "primary" },
           position: "relative",
         }}
+        display="flex"
       >
         <Box sx={{ mt: 2 }}>
           {selectedItems.map((selectedItem, index) => (
@@ -231,7 +232,7 @@ export const ComboboxMulti = ({
         >
           {isOpen ? <Icon name="chevronup" /> : <Icon name="chevrondown" />}
         </Button>
-      </Flex>
+      </Box>
       <Box
         component="ul"
         sx={{
@@ -381,7 +382,10 @@ export const Combobox = ({
 
   return (
     <Box sx={{ position: "relative" }}>
-      <Flex sx={{ justifyContent: "space-between", alignItems: "center" }}>
+      <Box
+        sx={{ justifyContent: "space-between", alignItems: "center" }}
+        display="flex"
+      >
         <Label
           showLabel={showLabel}
           label={label}
@@ -396,8 +400,8 @@ export const Combobox = ({
             smaller
           />
         ) : null}
-      </Flex>
-      <Flex
+      </Box>
+      <Box
         sx={{
           display: "block",
           width: "100%",
@@ -418,6 +422,7 @@ export const Combobox = ({
           ":focus-within": { borderColor: "primary" },
           position: "relative",
         }}
+        display="flex"
       >
         <Box
           {...getComboboxProps()}
@@ -464,7 +469,7 @@ export const Combobox = ({
         >
           {isOpen ? <Icon name="chevronup" /> : <Icon name="chevrondown" />}
         </Button>
-      </Flex>
+      </Box>
 
       <Box
         component="ul"

@@ -15,7 +15,7 @@ export const Header = ({
   contentId?: string;
 }) => {
   return (
-    <Flex
+    <Box
       component="header"
       sx={
         pageType === "content"
@@ -50,17 +50,18 @@ export const Header = ({
               zIndex: 15,
             }
       }
+      display="flex"
     >
       <LanguageMenu contentId={contentId} />
       <Logo />
-    </Flex>
+    </Box>
   );
 };
 
 export const Logo = () => {
   return (
     <HomeLink passHref>
-      <Flex
+      <Box
         component="div"
         sx={{
           order: [2, 1],
@@ -69,6 +70,7 @@ export const Logo = () => {
           textDecoration: "none",
           color: "grey[900]",
         }}
+        display="flex"
       >
         <Box
           role="figure"
@@ -100,7 +102,7 @@ export const Logo = () => {
           {buildEnv.DEPLOYMENT &&
             ` [${buildEnv.DEPLOYMENT.toLocaleUpperCase()}]`}
         </Text>
-      </Flex>
+      </Box>
     </HomeLink>
   );
 };

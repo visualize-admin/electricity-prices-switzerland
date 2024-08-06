@@ -171,11 +171,12 @@ export const SearchField = ({
       </VisuallyHidden>
       <div {...getComboboxProps()} style={{ position: "relative" }}>
         {/* BUTTON */}
-        <Flex
+        <Box
           component="button"
           type="button"
           {...getToggleButtonProps()}
-          aria-label={"toggle menu"} // FIXME: localize
+          // FIXME: localize
+          aria-label={"toggle menu"}
           sx={{
             py: 0,
             pl: 4,
@@ -198,6 +199,7 @@ export const SearchField = ({
               borderColor: "primary",
             },
           }}
+          display="flex"
         >
           <Box sx={{ flexShrink: 0 }}>
             <Icon name="search" size={24} color={theme.colors.grey[700]}></Icon>
@@ -229,10 +231,10 @@ export const SearchField = ({
               Gemeindename, PLZ, Netzbetreiber, Kanton
             </Trans>
           </Text>
-        </Flex>
+        </Box>
 
         {/* INPUT */}
-        <Flex
+        <Box
           data-id="input"
           style={{
             /* Always render input element, so .focus() works on iOS Safari too (it won't if element has display: none) */
@@ -262,6 +264,7 @@ export const SearchField = ({
             borderBottom: ["1px solid", "1px solid", "1px solid"],
             borderBottomColor: ["grey[500]", "grey[500]", "primary"],
           }}
+          display="flex"
         >
           {/* Mobile back button */}
           <Button
@@ -277,12 +280,10 @@ export const SearchField = ({
           >
             <Icon name="chevronleft" size={24}></Icon>
           </Button>
-
           {/* Desktop Magnifying Glass icon */}
           <Box component="span" sx={{ display: ["none", "none", "block"] }}>
             <Icon name="search" size={24} color={theme.colors.grey[700]}></Icon>
           </Box>
-
           {/* Actual Input Field */}
           <Input
             {...getInputProps({ ref: inputEl, value: inputValue })}
@@ -304,10 +305,10 @@ export const SearchField = ({
           >
             <Icon name="clear" size={24} color={theme.colors.grey[700]}></Icon>
           </Button>
-        </Flex>
+        </Box>
 
         {/* MENU */}
-        <Flex
+        <Box
           {...getMenuProps()}
           sx={{
             position: ["fixed", "fixed", "absolute"],
@@ -328,6 +329,7 @@ export const SearchField = ({
 
             boxShadow: ["none", "none", "tooltip"],
           }}
+          display="flex"
         >
           {isOpen && inputValue === "" ? (
             <Text variant="body1" sx={{ color: "grey[800]" }}>
@@ -415,7 +417,7 @@ export const SearchField = ({
               })}
             </>
           )}
-        </Flex>
+        </Box>
       </div>
     </Box>
   );

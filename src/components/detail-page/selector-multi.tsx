@@ -30,7 +30,7 @@ export const SelectorMulti = ({
   }, []);
 
   return (
-    <Flex
+    <Box
       component="fieldset"
       sx={{
         flexDirection: "column",
@@ -42,13 +42,13 @@ export const SelectorMulti = ({
         "> div": { mt: 4 },
         "> fieldset": { mt: 4 },
       }}
+      display="flex"
     >
       <Text component="legend" variant="lead" sx={{ display: "contents" }}>
         <Trans id="selector.legend.select.parameters">
           Parameter auswählen
         </Trans>
       </Text>
-
       <>
         {entity === "operator" ? (
           <OperatorsCombobox
@@ -110,6 +110,6 @@ export const SelectorMulti = ({
           infoDialogSlug="help-products"
         />
       </>
-    </Flex>
+    </Box>
   );
 };

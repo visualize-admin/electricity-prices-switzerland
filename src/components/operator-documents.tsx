@@ -49,13 +49,13 @@ const DocumentList = ({
             variant="text.paragraph2"
           >
             <Link href={doc.url} variant="inline">
-              <Flex>
+              <Box display="flex">
                 <Box sx={{ flexShrink: 0, mr: 2 }}>
                   <Icon name="pdf" size={20} />
                 </Box>{" "}
-                {itemLabel} {doc.year} (
+                {itemLabel} {doc.year}(
                 <Trans id="download.filetype.pdf">PDF-Datei</Trans>)
-              </Flex>
+              </Box>
             </Link>
           </Box>
         );

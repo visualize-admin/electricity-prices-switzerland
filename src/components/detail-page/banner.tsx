@@ -150,7 +150,7 @@ export const DetailPageBanner = ({
           {name}
         </Text>
 
-        <Flex sx={{ flexWrap: "wrap" }}>
+        <Box sx={{ flexWrap: "wrap" }} display="flex">
           {canton && (
             <Box sx={{ pr: 3, my: 1 }}>
               <Trans id="detail.canton">Kanton</Trans>:{" "}
@@ -199,7 +199,7 @@ export const DetailPageBanner = ({
               />
             </Box>
           )}
-        </Flex>
+        </Box>
       </Box>
     </Box>
   );

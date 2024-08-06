@@ -207,7 +207,7 @@ export const RadioTabs = <T extends string>({
   const styles = STYLES[variant];
 
   return (
-    <Flex sx={{ justifyItems: "stretch" }}>
+    <Box sx={{ justifyItems: "stretch" }} display="flex">
       {options.map((option) => {
         const isActive = option.value === value;
 
@@ -232,6 +232,6 @@ export const RadioTabs = <T extends string>({
           </Box>
         );
       })}
-    </Flex>
+    </Box>
   );
 };

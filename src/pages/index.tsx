@@ -5,7 +5,15 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import basicAuthMiddleware from "nextjs-basic-auth-middleware";
 import { useCallback, useRef, useState } from "react";
-import { Box, Button, Flex, Grid, Input, Link, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Flex,
+  Grid,
+  Input,
+  Link,
+  Typography,
+} from "@mui/material";
 
 import {
   PriceComponent,
@@ -277,7 +285,7 @@ const IndexPage = ({ locale }: Props) => {
               )
             }
           />
-          <Flex
+          <Box
             sx={{
               py: 8,
               flexDirection: "column",
@@ -287,6 +295,7 @@ const IndexPage = ({ locale }: Props) => {
               borderBottomColor: "grey[500]",
               px: 4,
             }}
+            display="flex"
           >
             <Text
               component="h1"
@@ -295,7 +304,6 @@ const IndexPage = ({ locale }: Props) => {
             >
               <Trans id="site.title">Strompreise Schweiz</Trans>
             </Text>
-
             <Text
               variant="body1"
               sx={{
@@ -313,9 +321,8 @@ const IndexPage = ({ locale }: Props) => {
                 Netzbetreibern.
               </Trans>
             </Text>
-
             <Search />
-          </Flex>
+          </Box>
           <Grid
             sx={{
               width: "100%",

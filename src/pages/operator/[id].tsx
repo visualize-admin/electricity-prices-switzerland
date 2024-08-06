@@ -77,15 +77,16 @@ const OperatorPage = (props: Props) => {
           id: "site.title",
         })}`}</title>
       </Head>
-      <Flex sx={{ minHeight: "100vh", flexDirection: "column" }}>
+      <Box sx={{ minHeight: "100vh", flexDirection: "column" }} display="flex">
         {!query.download && <Header></Header>}
-        <Flex
+        <Box
           sx={{
             pt: [107, 96],
             flexGrow: 1,
             bg: "grey[200]",
             flexDirection: "column",
           }}
+          display="flex"
         >
           <DetailPageBanner
             id={id}
@@ -93,7 +94,6 @@ const OperatorPage = (props: Props) => {
             municipalities={municipalities}
             entity="operator"
           />
-
           {query.download ? (
             <DetailPageLayout
               main={
@@ -129,9 +129,9 @@ const OperatorPage = (props: Props) => {
               aside={<OperatorDocuments id={id} />}
             />
           )}
-        </Flex>
+        </Box>
         <Footer />
-      </Flex>
+      </Box>
     </>
   );
 };

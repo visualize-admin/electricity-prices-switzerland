@@ -21,7 +21,7 @@ export const Selector = () => {
     ] as React.ComponentProps<typeof Combobox>["items"];
   }, []);
   return (
-    <Flex
+    <Box
       component="fieldset"
       sx={{
         flexDirection: "column",
@@ -34,6 +34,7 @@ export const Selector = () => {
         "> div": { mt: 3 },
         "> div:last-of-type": { mt: 6 },
       }}
+      display="flex"
     >
       <Text component="legend" variant="lead" sx={{ display: "contents" }}>
         <Trans id="selector.legend.select.parameters">
@@ -60,7 +61,6 @@ export const Selector = () => {
         }
         infoDialogSlug="help-price-components"
       />
-
       <Combobox
         id="category"
         label={t({ id: "selector.category", message: `Kategorie` })}
@@ -72,7 +72,6 @@ export const Selector = () => {
         }
         infoDialogSlug="help-categories"
       />
-
       <Combobox
         id="product"
         label={t({ id: "selector.product", message: `Produkt` })}
@@ -87,6 +86,6 @@ export const Selector = () => {
       <Text variant="lead">
         <Trans id="selector.results">Suchergebnisse:</Trans>
       </Text>
-    </Flex>
+    </Box>
   );
 };

@@ -52,7 +52,7 @@ const ListItem = ({
       }}
       passHref
     >
-      <Flex
+      <Box
         onMouseOver={() => setHighlightContext({ entity, id, label, value })}
         onMouseOut={() => setHighlightContext(undefined)}
         component="a"
@@ -79,6 +79,7 @@ const ListItem = ({
             bg: "primaryLight",
           },
         }}
+        display="flex"
       >
         <Text variant="paragraph2" sx={{ flexGrow: 1, mr: 1 }}>
           {label}
@@ -96,7 +97,7 @@ const ListItem = ({
         <Box sx={{ width: "24px", flexShrink: 0 }}>
           <Icon name="chevronright"></Icon>
         </Box>
-      </Flex>
+      </Box>
     </NextLink>
   );
 };
@@ -167,7 +168,7 @@ const placeholderListItems = Array.from(
 
 const PlaceholderListItem = () => {
   return (
-    <Flex
+    <Box
       sx={{
         pl: 2,
         py: 1,
@@ -180,6 +181,7 @@ const PlaceholderListItem = () => {
         lineHeight: "1rem",
         color: "text",
       }}
+      display="flex"
     >
       <Text variant="paragraph2" sx={{ flexGrow: 1, bg: "grey[200]", mr: 5 }}>
         &nbsp;
@@ -198,7 +200,7 @@ const PlaceholderListItem = () => {
       <Box sx={{ width: "24px", flexShrink: 0, color: "grey[200]" }}>
         <Icon name="chevronright"></Icon>
       </Box>
-    </Flex>
+    </Box>
   );
 };
 
@@ -357,7 +359,7 @@ export const List = ({
           />
         </Stack>
 
-        <Flex sx={{ justifyContent: "space-between", mt: 2 }}>
+        <Box sx={{ justifyContent: "space-between", mt: 2 }} display="flex">
           <label htmlFor="listSort">
             <Text
               color="secondary"
@@ -370,7 +372,6 @@ export const List = ({
               <Trans id="dataset.sortby">Sortieren</Trans>
             </Text>
           </label>
-
           <MiniSelect
             id="listSort"
             value={sortState}
@@ -379,7 +380,7 @@ export const List = ({
               setSortState(e.currentTarget.value as SortState);
             }}
           ></MiniSelect>
-        </Flex>
+        </Box>
       </Box>
 
       {observationsQueryFetching ? (

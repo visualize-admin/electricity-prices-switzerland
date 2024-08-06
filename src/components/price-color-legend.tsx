@@ -48,22 +48,23 @@ export const MapPriceColorLegend = ({
   if (!open) {
     return (
       <LegendBox sx={{ width: "auto" }}>
-        <Flex
+        <Box
           onClick={() => setOpen(true)}
           sx={{
             cursor: "pointer",
             flexGrow: 1,
             justifyContent: "flex-end",
           }}
+          display="flex"
         >
           <IconInfo color="#333" />
-        </Flex>
+        </Box>
       </LegendBox>
     );
   }
   return (
     <LegendBox>
-      <Flex sx={{ alignItems: "center", width: "100%" }}>
+      <Box sx={{ alignItems: "center", width: "100%" }} display="flex">
         <Text sx={{ fontSize: "0.625rem", lineHeight: 1.5, mr: 1 }}>
           <Trans id="map.legend.title">
             Tarifvergleich in Rp./kWh (Angaben exkl. MwSt.)
@@ -86,14 +87,14 @@ export const MapPriceColorLegend = ({
         >
           <IconClear size={16} color="#666" />
         </Box>
-      </Flex>
+      </Box>
       <Box
         sx={{
           mt: 1,
           width: LEGEND_WIDTH,
         }}
       >
-        <Flex
+        <Box
           sx={{
             justifyContent: "space-between",
             color: "text",
@@ -102,6 +103,7 @@ export const MapPriceColorLegend = ({
             height: TOP_LABEL_HEIGHT,
             pointerEvents: "none",
           }}
+          display="flex"
         >
           <Text sx={{ flex: "1 1 0px", display: "flex" }}>
             {stats[0] && formatCurrency(stats[0])}
@@ -112,27 +114,26 @@ export const MapPriceColorLegend = ({
           <Text sx={{ flex: "1 1 0px", textAlign: "right" }}>
             {stats[2] && formatCurrency(stats[2])}
           </Text>
-        </Flex>
-        <Flex
+        </Box>
+        <Box
           sx={{
             justifyContent: "space-between",
             color: "grey[600]",
             fontSize: "0.625rem",
             mb: 2,
           }}
+          display="flex"
         >
           <Text sx={{ flex: "1 1 0px" }}>
             <Trans id="price.legend.min">min</Trans>
           </Text>
-
           <Text sx={{ flex: "1 1 0px", textAlign: "center" }}>
             <Trans id="price.legend.median">median</Trans>
           </Text>
-
           <Text sx={{ flex: "1 1 0px", textAlign: "right" }}>
             <Trans id="price.legend.max">max</Trans>
           </Text>
-        </Flex>
+        </Box>
 
         <ColorsLine />
       </Box>
@@ -152,26 +153,25 @@ export const PriceColorLegend = () => {
         py: 2,
       }}
     >
-      <Flex
+      <Box
         sx={{
           justifyContent: "space-between",
           color: "grey[600]",
           fontSize: "0.625rem",
           mb: 2,
         }}
+        display="flex"
       >
         <Text sx={{ flex: "1 1 0px" }}>
           <Trans id="price.legend.min">min</Trans>
         </Text>
-
         <Text sx={{ flex: "1 1 0px", textAlign: "center" }}>
           <Trans id="price.legend.median">median</Trans>
         </Text>
-
         <Text sx={{ flex: "1 1 0px", textAlign: "right" }}>
           <Trans id="price.legend.max">max</Trans>
         </Text>
-      </Flex>
+      </Box>
 
       <ColorsLine />
     </Box>
@@ -181,9 +181,10 @@ export const PriceColorLegend = () => {
 export const ColorsLine = () => {
   const { palettes } = useTheme();
   return (
-    <Flex
+    <Box
       sx={{ height: COLOR_HEIGHT + BOTTOM_LABEL_HEIGHT, position: "relative" }}
       data-name="color-line"
+      display="flex"
     >
       <Box
         sx={{
@@ -216,13 +217,14 @@ export const ColorsLine = () => {
         }}
       >
         {palettes.diverging.map((bg, i) => (
-          <Flex
+          <Box
             key={bg}
             sx={{
               flexDirection: "column",
               alignItems: "flex-end",
               ":last-of-type > div": { borderRight: 0 },
             }}
+            display="flex"
           >
             <Box
               sx={{
@@ -232,7 +234,6 @@ export const ColorsLine = () => {
                 borderRight: "1px solid #FFF",
               }}
             />
-
             <Text
               sx={{
                 fontSize: "0.625rem",
@@ -245,7 +246,7 @@ export const ColorsLine = () => {
             >
               {PRICE_THRESHOLDS[i]}
             </Text>
-          </Flex>
+          </Box>
         ))}
       </Grid>
       <Box
@@ -259,7 +260,7 @@ export const ColorsLine = () => {
           }`,
         }}
       />
-    </Flex>
+    </Box>
   );
 };
 const PRICE_THRESHOLDS = ["-15%", "-5%", "+5%", "+15%"];

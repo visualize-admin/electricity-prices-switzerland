@@ -246,7 +246,7 @@ export const Footer = () => {
         </FooterSection>
       </Box>
 
-      <Flex
+      <Box
         component="footer"
         sx={{
           flexDirection: ["column", "row"],
@@ -257,6 +257,7 @@ export const Footer = () => {
           borderTopStyle: "solid",
           borderTopColor: "grey[500]",
         }}
+        display="flex"
       >
         <Box
           sx={{
@@ -286,11 +287,12 @@ export const Footer = () => {
             </Link>
           </Text>
         </Box>
-        <Flex
+        <Box
           sx={{
             flexDirection: ["column", "row"],
             alignItems: ["flex-start", "center"],
           }}
+          display="flex"
         >
           <Box
             sx={{
@@ -308,8 +310,8 @@ export const Footer = () => {
           >
             <LogoDesktop />
           </Box>
-        </Flex>
-      </Flex>
+        </Box>
+      </Box>
     </Box>
   );
 };

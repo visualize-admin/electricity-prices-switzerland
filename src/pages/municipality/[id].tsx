@@ -80,7 +80,7 @@ const MunicipalityPage = (props: Props) => {
           id: "site.title",
         })}`}</title>
       </Head>
-      <Flex sx={{ minHeight: "100vh", flexDirection: "column" }}>
+      <Box sx={{ minHeight: "100vh", flexDirection: "column" }} display="flex">
         {!query.download && <Header></Header>}
         <Box
           sx={{
@@ -139,7 +139,7 @@ const MunicipalityPage = (props: Props) => {
           )}
         </Box>
         <Footer />
-      </Flex>
+      </Box>
     </>
   );
 };

@@ -10,7 +10,7 @@ export const LegendColor = memo(({ symbol }: { symbol: LegendSymbol }) => {
   const { colors } = useChartState() as ColumnsState;
 
   return (
-    <Flex
+    <Box
       sx={{
         position: "relative",
         justifyContent: "flex-start",
@@ -18,11 +18,12 @@ export const LegendColor = memo(({ symbol }: { symbol: LegendSymbol }) => {
         flexWrap: "wrap",
         minHeight: "20px",
       }}
+      display="flex"
     >
       {colors.domain().map((item, i) => (
         <LegendItem key={i} item={item} color={colors(item)} symbol={symbol} />
       ))}
-    </Flex>
+    </Box>
   );
 });
 
@@ -57,7 +58,7 @@ export const LegendItem = ({
   color: string;
   symbol: LegendSymbol;
 }) => (
-  <Flex
+  <Box
     sx={{
       position: "relative",
       mt: 1,
@@ -72,8 +73,9 @@ export const LegendItem = ({
       fontSize: ["0.625rem", "0.75rem", "0.75rem"],
       color: "grey[700]",
     }}
+    display="flex"
   >
     <LegendSymbol color={color} symbol={symbol} />
     {item}
-  </Flex>
+  </Box>
 );

@@ -6,20 +6,21 @@ import * as React from "react";
 import { Icon, IconName } from "../icons";
 
 export const Error = ({ children }: { children: React.ReactNode }) => (
-  <Flex
+  <Box
     sx={{
       justifyContent: "center",
       alignItems: "center",
       color: "error",
       borderColor: "error",
     }}
+    display="flex"
   >
     {children}
-  </Flex>
+  </Box>
 );
 
 export const Hint = ({ children }: { children: React.ReactNode }) => (
-  <Flex
+  <Box
     sx={{
       width: "100%",
       height: "100%",
@@ -31,9 +32,10 @@ export const Hint = ({ children }: { children: React.ReactNode }) => (
       alignItems: "center",
       flexGrow: 1,
     }}
+    display="flex"
   >
     {children}
-  </Flex>
+  </Box>
 );
 
 const delayedShow = keyframes`
@@ -47,7 +49,7 @@ const spin = keyframes`
 `;
 
 export const Loading = ({ delayMs = 1000 }: { delayMs?: number }) => (
-  <Flex
+  <Box
     sx={{
       width: "100%",
       height: "100%",
@@ -62,6 +64,7 @@ export const Loading = ({ delayMs = 1000 }: { delayMs?: number }) => (
       opacity: 0,
       animation: `0s linear ${delayMs}ms forwards ${delayedShow}`,
     }}
+    display="flex"
   >
     <Box
       sx={{
@@ -73,11 +76,11 @@ export const Loading = ({ delayMs = 1000 }: { delayMs?: number }) => (
     <Text variant="heading4">
       <Trans id="hint.loading.data">Loading data…</Trans>
     </Text>
-  </Flex>
+  </Box>
 );
 
 export const LoadingIcon = ({ delayMs = 200 }: { delayMs?: number }) => (
-  <Flex
+  <Box
     sx={{
       width: "100%",
       height: "100%",
@@ -92,6 +95,7 @@ export const LoadingIcon = ({ delayMs = 200 }: { delayMs?: number }) => (
       opacity: 0,
       animation: `0s linear ${delayMs}ms forwards ${delayedShow}`,
     }}
+    display="flex"
   >
     <Box
       sx={{
@@ -100,7 +104,7 @@ export const LoadingIcon = ({ delayMs = 200 }: { delayMs?: number }) => (
     >
       <Icon name="loading" size={32} />
     </Box>
-  </Flex>
+  </Box>
 );
 
 export const LoadingIconInline = ({
@@ -146,7 +150,7 @@ export const LoadingOverlay = () => (
 );
 
 export const NoDataHint = () => (
-  <Flex
+  <Box
     sx={{
       width: "100%",
       height: "100%",
@@ -158,6 +162,7 @@ export const NoDataHint = () => (
       alignItems: "center",
       flexGrow: 1,
     }}
+    display="flex"
   >
     <Icon name="warning" size={64} />
     <Text variant="heading2" sx={{ my: 3 }}>
@@ -168,11 +173,11 @@ export const NoDataHint = () => (
         Für die aktuelle Auswahl konnten keine Daten geladen werden.
       </Trans>
     </Text>
-  </Flex>
+  </Box>
 );
 
 export const NoContentHint = () => (
-  <Flex
+  <Box
     sx={{
       width: "100%",
       height: "100%",
@@ -184,19 +189,19 @@ export const NoContentHint = () => (
       alignItems: "center",
       flexGrow: 1,
     }}
+    display="flex"
   >
     <Icon name="warning" size={48} />
-
     <Text variant="paragraph2" sx={{ maxWidth: "40rem" }}>
       <Trans id="hint.nocontent.message">
         Dieser Inhalt konnte nicht geladen werden
       </Trans>
     </Text>
-  </Flex>
+  </Box>
 );
 
 export const NoGeoDataHint = () => (
-  <Flex
+  <Box
     sx={{
       width: "100%",
       height: "100%",
@@ -208,6 +213,7 @@ export const NoGeoDataHint = () => (
       alignItems: "center",
       flexGrow: 1,
     }}
+    display="flex"
   >
     <Icon name="warning" size={64} />
     <Text variant="heading2" sx={{ my: 3 }}>
@@ -218,7 +224,7 @@ export const NoGeoDataHint = () => (
         Für das ausgewählte Jahr kann keine Karte angezeigt werden.
       </Trans>
     </Text>
-  </Flex>
+  </Box>
 );
 
 export const HintBlue = ({
@@ -228,7 +234,7 @@ export const HintBlue = ({
   iconName: IconName;
   children: React.ReactNode;
 }) => (
-  <Flex
+  <Box
     sx={{
       width: "auto",
       height: "auto",
@@ -239,6 +245,7 @@ export const HintBlue = ({
       justifyContent: "flex-start",
       alignItems: ["flex-start", "center"],
     }}
+    display="flex"
   >
     <Box sx={{ width: 24, pr: 4 }}>
       <Icon name={iconName} size={24} />
@@ -246,7 +253,7 @@ export const HintBlue = ({
     <Text variant="body1" sx={{ textAlign: "left", ml: 4 }}>
       {children}
     </Text>
-  </Flex>
+  </Box>
 );
 export const HintRed = ({
   iconName,
@@ -255,7 +262,7 @@ export const HintRed = ({
   iconName: IconName;
   children: React.ReactNode;
 }) => (
-  <Flex
+  <Box
     sx={{
       width: "auto",
       height: "auto",
@@ -268,6 +275,7 @@ export const HintRed = ({
       justifyContent: "flex-start",
       alignItems: ["flex-start", "center"],
     }}
+    display="flex"
   >
     <Box sx={{ width: 24, pr: 4 }}>
       <Icon name={iconName} size={24} />
@@ -275,5 +283,5 @@ export const HintRed = ({
     <Text variant="body1" sx={{ textAlign: "left", ml: 4 }}>
       {children}
     </Text>
-  </Flex>
+  </Box>
 );

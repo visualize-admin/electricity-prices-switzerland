@@ -131,12 +131,12 @@ export const InfoDialogButton = ({
         sx={{ fontSize: smaller ? [2, 2, 2] : [3, 4, 4] }}
         onClick={openDialog}
       >
-        <Flex sx={{ alignItems: "center" }}>
+        <Box sx={{ alignItems: "center" }} display="flex">
           <Box sx={{ flexShrink: 0, mr: iconOnly ? 0 : 2 }}>
             <Icon name="info" size={smaller ? 16 : 20} />
           </Box>{" "}
           {iconOnly ? <VisuallyHidden>{label}</VisuallyHidden> : label}
-        </Flex>
+        </Box>
       </Button>
       <HelpDialog
         close={closeDialog}

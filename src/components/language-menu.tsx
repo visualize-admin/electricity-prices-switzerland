@@ -33,7 +33,7 @@ export const LanguageMenu = ({ contentId }: { contentId?: string }) => {
       : undefined;
 
   return (
-    <Flex
+    <Box
       component="ul"
       sx={{
         listStyle: "none",
@@ -44,6 +44,7 @@ export const LanguageMenu = ({ contentId }: { contentId?: string }) => {
         order: [1, 2],
         justifyContent: "flex-end",
       }}
+      display="flex"
     >
       {locales.map((locale) => {
         const alternate = alternates?.[locale];
@@ -95,6 +96,6 @@ export const LanguageMenu = ({ contentId }: { contentId?: string }) => {
           </Box>
         );
       })}
-    </Flex>
+    </Box>
   );
 };

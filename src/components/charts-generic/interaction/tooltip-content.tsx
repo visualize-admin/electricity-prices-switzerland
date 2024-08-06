@@ -19,14 +19,14 @@ export const TooltipSingle = ({
 }) => {
   return (
     <Box>
-      <Flex sx={{ alignItems: "center" }}>
+      <Box sx={{ alignItems: "center" }} display="flex">
         {color && <LegendSymbol color={color} symbol="square" />}
         {xValue && (
           <Text variant="meta" sx={{ fontWeight: "bold" }}>
             {xValue}
           </Text>
         )}
-      </Flex>
+      </Box>
       {segment && <Text variant="meta">{segment}</Text>}
       {yValue && <Text variant="meta">{yValue}</Text>}
     </Box>

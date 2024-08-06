@@ -174,12 +174,13 @@ export const CantonsComparisonRangePlots = ({
               showLabel={false}
             />
           </Box>
-          <Flex
+          <Box
             sx={{
               flexDirection: ["column", "row", "row"],
               justifyContent: "space-between",
               mt: 4,
             }}
+            display="flex"
           >
             <Combobox
               label={t({
@@ -193,9 +194,8 @@ export const CantonsComparisonRangePlots = ({
               setSelectedItem={(co) => setQueryState({ cantonsOrder: [co] })}
               showLabel={true}
             />
-
             <PriceColorLegend />
-          </Flex>
+          </Box>
         </>
       )}
 
