@@ -146,7 +146,7 @@ export const ComboboxMulti = ({
                 mr: 2,
                 mb: 2,
                 borderRadius: "default",
-                fontSize: 2,
+                fontSize: "0.75rem",
                 bg: "primaryLight",
                 ":focus": {
                   outline: 0,

@@ -65,7 +65,7 @@ const ListItem = ({
           borderBottomColor: "grey[300]",
           alignItems: "center",
           height: "3.5rem",
-          lineHeight: 1,
+          lineHeight: "1rem",
           color: "text",
           textDecoration: "none",
           "&:hover": {
@@ -177,7 +177,7 @@ const PlaceholderListItem = () => {
         borderBottomColor: "grey[300]",
         alignItems: "center",
         height: "3.5rem",
-        lineHeight: 1,
+        lineHeight: "1rem",
         color: "text",
       }}
     >
@@ -363,7 +363,7 @@ export const List = ({
               color="secondary"
               sx={{
                 fontFamily: "body",
-                fontSize: [1, 2, 2],
+                fontSize: ["0.625rem", "0.75rem", "0.75rem"],
                 lineHeight: "24px",
               }}
             >

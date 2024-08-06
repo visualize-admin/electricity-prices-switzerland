@@ -16,8 +16,8 @@ const IndicatorFail = () => (
       borderRadius: "circle",
       bg: "error",
       color: "#fff",
-      fontSize: 2,
-      lineHeight: 1,
+      fontSize: "0.75rem",
+      lineHeight: "1rem",
     }}
   >
     FAIL
@@ -32,8 +32,8 @@ const IndicatorSuccess = () => (
       borderRadius: "circle",
       bg: "success",
       color: "#fff",
-      fontSize: 2,
-      lineHeight: 1,
+      fontSize: "0.75rem",
+      lineHeight: "1rem",
     }}
   >
     OK
@@ -95,7 +95,7 @@ const Status = ({ title, query }: { title: string; query: UseQueryState }) => {
       </StatusHeading>
       {!query.fetching && (
         <>
-          <Box sx={{ fontSize: 2, mt: 2 }}>
+          <Box sx={{ fontSize: "0.75rem", mt: 2 }}>
             <details>
               <summary>Details</summary>
 
@@ -369,7 +369,7 @@ DESCRIBE <https://ld.admin.ch/municipality/${formData.municipalityId}>
   return (
     <StatusBox>
       <StatusHeading sx={{ mb: 2 }}>Municipality status</StatusHeading>
-      <Box sx={{ fontSize: 2 }}>
+      <Box sx={{ fontSize: "0.75rem" }}>
         <details>
           <summary>Details</summary>
           <Box
@@ -448,7 +448,7 @@ const DocumentDownloadStatus = () => {
   return (
     <StatusBox>
       <StatusHeading sx={{ mb: 2 }}>Document download</StatusHeading>
-      <Box sx={{ fontSize: 2 }}>
+      <Box sx={{ fontSize: "0.75rem" }}>
         <details>
           <summary>Details</summary>
           <Box

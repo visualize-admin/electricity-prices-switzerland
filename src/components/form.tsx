@@ -143,7 +143,7 @@ export const Select = ({
     <ThemeUiSelect
       sx={{
         borderColor: "grey[500]",
-        fontSize: 4,
+        fontSize: "1rem",
         bg: "grey[100]",
         pt: 2,
         pb: 2,
@@ -193,7 +193,7 @@ export const MiniSelect = ({
     <ThemeUiSelect
       sx={{
         borderColor: "transparent",
-        fontSize: [1, 2, 2],
+        fontSize: ["0.625rem", "0.75rem", "0.75rem"],
         fontFamily: "body",
         bg: "transparent",
         py: 0,
@@ -228,7 +228,7 @@ export const Input = ({
   label?: string | React.ReactNode;
   disabled?: boolean;
 } & FieldProps) => (
-  <Box sx={{ color: "grey[700]", fontSize: 4 }}>
+  <Box sx={{ color: "grey[700]", fontSize: "1rem" }}>
     {label && name && (
       <Label htmlFor={name} smaller>
         {label}
@@ -263,7 +263,7 @@ export const SearchField = ({
 } & FieldProps) => {
   return (
     <Box
-      sx={{ color: "grey[700]", fontSize: 4, position: "relative", ...sx }}
+      sx={{ color: "grey[700]", fontSize: "1rem", position: "relative", ...sx }}
     >
       {label && id && (
         <label htmlFor={id}>
@@ -328,9 +328,9 @@ export const FieldSetLegend = ({
   <Box
     sx={{
       fontFamily: "body",
-      lineHeight: [1, 2, 2],
+      lineHeight: ["1rem", "1.125rem", "1.125rem"],
       fontWeight: "regular",
-      fontSize: [1, 2, 2],
+      fontSize: ["0.625rem", "0.75rem", "0.75rem"],
       mb: 1,
       color: "grey[600]",
     }}

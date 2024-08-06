@@ -121,7 +121,7 @@ export const DetailPageBanner = ({
               sx={{
                 display: "flex",
                 alignItems: "center",
-                fontSize: 3,
+                fontSize: "0.875rem",
                 "> svg": { mr: 1 },
                 ml: "-8px",
               }}
@@ -166,7 +166,14 @@ export const DetailPageBanner = ({
             </Box>
           )}
           {municipalities && (
-            <Box sx={{ pr: 3, my: 1, fontSize: 3, lineHeight: 2 }}>
+            <Box
+              sx={{
+                pr: 3,
+                my: 1,
+                fontSize: "0.875rem",
+                lineHeight: "1.125rem",
+              }}
+            >
               <Trans id="detail.municipalities">Gemeinden</Trans>:{" "}
               <RelationsList
                 key={`${entity}-${id}`}
@@ -176,7 +183,14 @@ export const DetailPageBanner = ({
             </Box>
           )}
           {operators && (
-            <Box sx={{ pr: 3, my: 1, fontSize: 3, lineHeight: 2 }}>
+            <Box
+              sx={{
+                pr: 3,
+                my: 1,
+                fontSize: "0.875rem",
+                lineHeight: "1.125rem",
+              }}
+            >
               <Trans id="detail.operators">Netzbetreiber</Trans>:{" "}
               <RelationsList
                 key={`${entity}-${id}`}

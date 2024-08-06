@@ -193,11 +193,7 @@ export const SearchField = ({
           }}
         >
           <Box sx={{ flexShrink: 0 }}>
-            <Icon
-              name="search"
-              size={24}
-              color={theme.colors.grey[700]}
-            ></Icon>
+            <Icon name="search" size={24} color={theme.colors.grey[700]}></Icon>
           </Box>
           <Text
             variant="heading3"
@@ -277,11 +273,7 @@ export const SearchField = ({
 
           {/* Desktop Magnifying Glass icon */}
           <Box component="span" sx={{ display: ["none", "none", "block"] }}>
-            <Icon
-              name="search"
-              size={24}
-              color={theme.colors.grey[700]}
-            ></Icon>
+            <Icon name="search" size={24} color={theme.colors.grey[700]}></Icon>
           </Box>
 
           {/* Actual Input Field */}
@@ -303,11 +295,7 @@ export const SearchField = ({
               inputEl.current?.focus();
             }}
           >
-            <Icon
-              name="clear"
-              size={24}
-              color={theme.colors.grey[700]}
-            ></Icon>
+            <Icon name="clear" size={24} color={theme.colors.grey[700]}></Icon>
           </Button>
         </Flex>
 
@@ -360,7 +348,7 @@ export const SearchField = ({
                     <Box
                       sx={{
                         color: "grey[600]",
-                        fontSize: 3,
+                        fontSize: "0.875rem",
                         borderBottom: "1px solid",
                         borderBottomColor: "grey[300]",
                         px: 3,
@@ -395,7 +383,7 @@ export const SearchField = ({
                                   ? "mutedDarker"
                                   : "inherit",
                               color: "grey[800]",
-                              fontSize: [4],
+                              fontSize: ["1rem"],
                               lineHeight: 1.2,
                               textDecoration: "none",
                               px: 3,
