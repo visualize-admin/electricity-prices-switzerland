@@ -52,7 +52,7 @@ const RelationsList = ({
       {rest > 0 && (
         <>
           {", "}
-          <Button variant="inline" onClick={() => setTruncate(false)}>
+          <Button variant="text" onClick={() => setTruncate(false)}>
             <Trans id="relations.showmore">{rest} weitere …</Trans>
           </Button>
         </>

@@ -215,7 +215,6 @@ export const ComboboxMulti = ({
           />
         </Box>
         <Button
-          {...getToggleButtonProps()}
           aria-label={"toggle menu"}
           variant="reset"
           sx={{
@@ -228,6 +227,7 @@ export const ComboboxMulti = ({
             height: 24,
             transform: "translateY(-50%)",
           }}
+          {...getToggleButtonProps()}
         >
           {isOpen ? <Icon name="chevronup" /> : <Icon name="chevrondown" />}
         </Button>
@@ -448,7 +448,6 @@ export const Combobox = ({
           />
         </Box>
         <Button
-          {...getToggleButtonProps()}
           aria-label={"toggle menu"}
           variant="reset"
           sx={{
@@ -461,6 +460,7 @@ export const Combobox = ({
             height: 48,
             transform: "translateY(-50%)",
           }}
+          {...getToggleButtonProps()}
         >
           {isOpen ? <Icon name="chevronup" /> : <Icon name="chevrondown" />}
         </Button>

@@ -12,21 +12,27 @@ export default () => markdown`
 
   ${(
     <ReactSpecimen span={1}>
-      <Button variant="primary">Primary</Button>
+      <Button variant="contained" color="primary">
+        Primary
+      </Button>
     </ReactSpecimen>
   )}
 
 
   ${(
     <ReactSpecimen span={1}>
-      <Button variant="secondary">Secondary</Button>
+      <Button variant="contained" color="secondary">
+        Secondary
+      </Button>
     </ReactSpecimen>
   )}
 
 
   ${(
     <ReactSpecimen span={1}>
-      <Button variant="success">Success</Button>
+      <Button variant="contained" color="success">
+        Success
+      </Button>
     </ReactSpecimen>
   )}
   ${(

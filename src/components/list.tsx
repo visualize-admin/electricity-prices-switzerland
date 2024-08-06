@@ -149,7 +149,7 @@ const ListItems = ({
           }}
         >
           <Button
-            variant="inline"
+            variant="text"
             onClick={() => setTruncated((n) => n + TRUNCATION_INCREMENT)}
           >
             <Trans id="list.showmore">Mehr anzeigen …</Trans>
@@ -181,10 +181,7 @@ const PlaceholderListItem = () => {
         color: "text",
       }}
     >
-      <Text
-        variant="paragraph2"
-        sx={{ flexGrow: 1, bg: "grey[200]", mr: 5 }}
-      >
+      <Text variant="paragraph2" sx={{ flexGrow: 1, bg: "grey[200]", mr: 5 }}>
         &nbsp;
       </Text>
       <Box

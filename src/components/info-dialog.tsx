@@ -127,7 +127,7 @@ export const InfoDialogButton = ({
   return (
     <>
       <Button
-        variant="inline"
+        variant="text"
         sx={{ fontSize: smaller ? [2, 2, 2] : [3, 4, 4] }}
         onClick={openDialog}
       >
