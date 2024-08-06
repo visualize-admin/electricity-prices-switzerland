@@ -197,7 +197,7 @@ export const SearchField = ({
           <Box sx={{ flexShrink: 0 }}>
             <Icon name="search" size={24} color={theme.colors.grey[700]}></Icon>
           </Box>
-          <Text
+          <Typography
             variant="heading3"
             sx={{
               fontWeight: "regular",
@@ -208,8 +208,8 @@ export const SearchField = ({
             }}
           >
             <Trans id="search.global.hint.go.to">Gehe zu…</Trans>
-          </Text>
-          <Text
+          </Typography>
+          <Typography
             variant="heading3"
             sx={{
               fontWeight: "regular",
@@ -223,7 +223,7 @@ export const SearchField = ({
             <Trans id="search.global.hint.canton.muni.operator">
               Gemeindename, PLZ, Netzbetreiber, Kanton
             </Trans>
-          </Text>
+          </Typography>
         </Box>
 
         {/* INPUT */}
@@ -325,17 +325,17 @@ export const SearchField = ({
           display="flex"
         >
           {isOpen && inputValue === "" ? (
-            <Text variant="body1" sx={{ color: "grey[800]" }}>
+            <Typography variant="body1" sx={{ color: "grey[800]" }}>
               {label}
-            </Text>
+            </Typography>
           ) : inputValue !== "" && isLoading ? (
-            <Text variant="body1" sx={{ color: "grey[800]" }}>
+            <Typography variant="body1" sx={{ color: "grey[800]" }}>
               <Trans id="combobox.isloading">Resultate laden …</Trans>
-            </Text>
+            </Typography>
           ) : inputValue !== "" && !isLoading && items.length === 0 ? (
-            <Text variant="body1" sx={{ color: "grey[800]" }}>
+            <Typography variant="body1" sx={{ color: "grey[800]" }}>
               <Trans id="combobox.noitems">Keine Einträge</Trans>
-            </Text>
+            </Typography>
           ) : (
             <>
               {[

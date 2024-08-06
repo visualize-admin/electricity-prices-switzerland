@@ -81,9 +81,9 @@ const ListItem = ({
         }}
         display="flex"
       >
-        <Text variant="paragraph2" sx={{ flexGrow: 1, mr: 1 }}>
+        <Typography variant="paragraph2" sx={{ flexGrow: 1, mr: 1 }}>
           {label}
-        </Text>
+        </Typography>
         <Box
           sx={{
             borderRadius: "circle",
@@ -92,7 +92,7 @@ const ListItem = ({
           }}
           style={{ background: colorScale(value) }}
         >
-          <Text variant="paragraph2">{formatNumber(value)}</Text>
+          <Typography variant="paragraph2">{formatNumber(value)}</Typography>
         </Box>
         <Box sx={{ width: "24px", flexShrink: 0 }}>
           <Icon name="chevronright"></Icon>
@@ -183,9 +183,10 @@ const PlaceholderListItem = () => {
       }}
       display="flex"
     >
-      <Text variant="paragraph2" sx={{ flexGrow: 1, bg: "grey[200]", mr: 5 }}>
-        &nbsp;
-      </Text>
+      <Typography
+        variant="paragraph2"
+        sx={{ flexGrow: 1, bg: "grey[200]", mr: 5 }}
+      ></Typography>
       <Box
         sx={{
           borderRadius: "circle",
@@ -195,7 +196,7 @@ const PlaceholderListItem = () => {
           width: "5ch",
         }}
       >
-        <Text variant="paragraph2">&nbsp;</Text>
+        <Typography variant="paragraph2">&nbsp;</Typography>
       </Box>
       <Box sx={{ width: "24px", flexShrink: 0, color: "grey[200]" }}>
         <Icon name="chevronright"></Icon>
@@ -361,7 +362,7 @@ export const List = ({
 
         <Box sx={{ justifyContent: "space-between", mt: 2 }} display="flex">
           <label htmlFor="listSort">
-            <Text
+            <Typography
               color="secondary"
               sx={{
                 fontFamily: "body",
@@ -370,7 +371,7 @@ export const List = ({
               }}
             >
               <Trans id="dataset.sortby">Sortieren</Trans>
-            </Text>
+            </Typography>
           </label>
           <MiniSelect
             id="listSort"

@@ -43,11 +43,15 @@ export const SelectorMulti = ({
       }}
       display="flex"
     >
-      <Text component="legend" variant="lead" sx={{ display: "contents" }}>
+      <Typography
+        component="legend"
+        variant="lead"
+        sx={{ display: "contents" }}
+      >
         <Trans id="selector.legend.select.parameters">
           Parameter auswählen
         </Trans>
-      </Text>
+      </Typography>
       <>
         {entity === "operator" ? (
           <OperatorsCombobox

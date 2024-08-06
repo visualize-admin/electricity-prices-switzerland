@@ -35,11 +35,15 @@ export const Selector = () => {
       }}
       display="flex"
     >
-      <Text component="legend" variant="lead" sx={{ display: "contents" }}>
+      <Typography
+        component="legend"
+        variant="lead"
+        sx={{ display: "contents" }}
+      >
         <Trans id="selector.legend.select.parameters">
           Liste und Karte filtern
         </Trans>
-      </Text>
+      </Typography>
       <Combobox
         id="year"
         label={t({ id: "selector.year", message: `Jahr` })}
@@ -82,9 +86,9 @@ export const Selector = () => {
         }
         infoDialogSlug="help-products"
       />
-      <Text variant="lead">
+      <Typography variant="lead">
         <Trans id="selector.results">Suchergebnisse:</Trans>
-      </Text>
+      </Typography>
     </Box>
   );
 };

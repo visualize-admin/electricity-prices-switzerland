@@ -93,7 +93,7 @@ export const Logo = () => {
         >
           <LogoDesktop />
         </Box>
-        <Text
+        <Typography
           component="h1"
           variant="lead"
           sx={{ pl: [0, 6], textDecoration: "none", color: "grey[800]" }}
@@ -101,7 +101,7 @@ export const Logo = () => {
           <Trans id="site.title">Strompreise Schweiz</Trans>
           {buildEnv.DEPLOYMENT &&
             ` [${buildEnv.DEPLOYMENT.toLocaleUpperCase()}]`}
-        </Text>
+        </Typography>
       </Box>
     </HomeLink>
   );

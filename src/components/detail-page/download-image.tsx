@@ -87,12 +87,12 @@ export const DownloadImage = ({
           <Trans id="image.download">Bild herunterladen</Trans>
         </TUILink>
       ) : (
-        <Text variant="meta" sx={{ mt: 4 }}>
+        <Typography variant="meta" sx={{ mt: 4 }}>
           <Trans id="image.download.source">
             Eidgenössische Elektrizitätskommission ElCom
           </Trans>{" "}
-          - <Trans id="image.download.unit">Tarifvergleich in Rp./kWh</Trans>
-        </Text>
+          -<Trans id="image.download.unit">Tarifvergleich in Rp./kWh</Trans>
+        </Typography>
       )}
     </Box>
   );

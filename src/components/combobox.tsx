@@ -250,7 +250,7 @@ export const ComboboxMulti = ({
         {...getMenuProps()}
       >
         {isOpen && isLoading ? (
-          <Text
+          <Typography
             component="li"
             variant="paragraph2"
             sx={{
@@ -260,9 +260,9 @@ export const ComboboxMulti = ({
             }}
           >
             {t({ id: "combobox.isloading", message: `Resultate laden …` })}
-          </Text>
+          </Typography>
         ) : isOpen && !isLoading && getFilteredItems(items).length === 0 ? (
-          <Text
+          <Typography
             component="li"
             variant="paragraph2"
             sx={{
@@ -281,7 +281,7 @@ export const ComboboxMulti = ({
             ) : (
               <>{t({ id: "combobox.noitems", message: `Keine Einträge` })}</>
             )}
-          </Text>
+          </Typography>
         ) : isOpen && !isLoading ? (
           getFilteredItems(items).map((item, index) => (
             <Box

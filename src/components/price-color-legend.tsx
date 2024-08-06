@@ -65,11 +65,11 @@ export const MapPriceColorLegend = ({
   return (
     <LegendBox>
       <Box sx={{ alignItems: "center", width: "100%" }} display="flex">
-        <Text sx={{ fontSize: "0.625rem", lineHeight: 1.5, mr: 1 }}>
+        <Typography sx={{ fontSize: "0.625rem", lineHeight: 1.5, mr: 1 }}>
           <Trans id="map.legend.title">
             Tarifvergleich in Rp./kWh (Angaben exkl. MwSt.)
           </Trans>
-        </Text>
+        </Typography>
         <InfoDialogButton
           smaller
           iconOnly
@@ -105,15 +105,15 @@ export const MapPriceColorLegend = ({
           }}
           display="flex"
         >
-          <Text sx={{ flex: "1 1 0px", display: "flex" }}>
+          <Typography sx={{ flex: "1 1 0px", display: "flex" }}>
             {stats[0] && formatCurrency(stats[0])}
-          </Text>
-          <Text sx={{ flex: "1 1 0px", textAlign: "center" }}>
+          </Typography>
+          <Typography sx={{ flex: "1 1 0px", textAlign: "center" }}>
             {stats[1] && formatCurrency(stats[1])}
-          </Text>
-          <Text sx={{ flex: "1 1 0px", textAlign: "right" }}>
+          </Typography>
+          <Typography sx={{ flex: "1 1 0px", textAlign: "right" }}>
             {stats[2] && formatCurrency(stats[2])}
-          </Text>
+          </Typography>
         </Box>
         <Box
           sx={{
@@ -124,15 +124,15 @@ export const MapPriceColorLegend = ({
           }}
           display="flex"
         >
-          <Text sx={{ flex: "1 1 0px" }}>
+          <Typography sx={{ flex: "1 1 0px" }}>
             <Trans id="price.legend.min">min</Trans>
-          </Text>
-          <Text sx={{ flex: "1 1 0px", textAlign: "center" }}>
+          </Typography>
+          <Typography sx={{ flex: "1 1 0px", textAlign: "center" }}>
             <Trans id="price.legend.median">median</Trans>
-          </Text>
-          <Text sx={{ flex: "1 1 0px", textAlign: "right" }}>
+          </Typography>
+          <Typography sx={{ flex: "1 1 0px", textAlign: "right" }}>
             <Trans id="price.legend.max">max</Trans>
-          </Text>
+          </Typography>
         </Box>
 
         <ColorsLine />
@@ -162,15 +162,15 @@ export const PriceColorLegend = () => {
         }}
         display="flex"
       >
-        <Text sx={{ flex: "1 1 0px" }}>
+        <Typography sx={{ flex: "1 1 0px" }}>
           <Trans id="price.legend.min">min</Trans>
-        </Text>
-        <Text sx={{ flex: "1 1 0px", textAlign: "center" }}>
+        </Typography>
+        <Typography sx={{ flex: "1 1 0px", textAlign: "center" }}>
           <Trans id="price.legend.median">median</Trans>
-        </Text>
-        <Text sx={{ flex: "1 1 0px", textAlign: "right" }}>
+        </Typography>
+        <Typography sx={{ flex: "1 1 0px", textAlign: "right" }}>
           <Trans id="price.legend.max">max</Trans>
-        </Text>
+        </Typography>
       </Box>
 
       <ColorsLine />
@@ -234,7 +234,7 @@ export const ColorsLine = () => {
                 borderRight: "1px solid #FFF",
               }}
             />
-            <Text
+            <Typography
               sx={{
                 fontSize: "0.625rem",
                 color: "grey[600]",
@@ -245,7 +245,7 @@ export const ColorsLine = () => {
               }}
             >
               {PRICE_THRESHOLDS[i]}
-            </Text>
+            </Typography>
           </Box>
         ))}
       </Grid>

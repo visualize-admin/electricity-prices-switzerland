@@ -34,13 +34,13 @@ export const Card = ({
         boxShadow: "primary",
       }}
     >
-      <Text
+      <Typography
         component="h2"
         variant="heading2"
         sx={{ pt: 1, color: "grey[800]", mb: 4 }}
       >
         {title}
-      </Text>
+      </Typography>
       {children}
       <DownloadImage
         elementId={downloadId}

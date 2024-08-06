@@ -137,8 +137,12 @@ export const DetailPageBanner = ({
       </Grid>
 
       <Box sx={{ mx: "auto", my: 2 }}>
-        <Text component="h1" variant="heading1" sx={{ color: "grey[800]" }}>
-          <Text variant="meta" sx={{ color: "secondary" }}>
+        <Typography
+          component="h1"
+          variant="heading1"
+          sx={{ color: "grey[800]" }}
+        >
+          <Typography variant="meta" sx={{ color: "secondary" }}>
             {entity === "canton" ? (
               <Trans id="detail.canton">Kanton</Trans>
             ) : entity === "municipality" ? (
@@ -146,9 +150,9 @@ export const DetailPageBanner = ({
             ) : (
               <Trans id="detail.operator">Netzbetreiber</Trans>
             )}
-          </Text>
+          </Typography>
           {name}
-        </Text>
+        </Typography>
 
         <Box sx={{ flexWrap: "wrap" }} display="flex">
           {canton && (

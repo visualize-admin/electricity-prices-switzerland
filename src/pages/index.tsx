@@ -130,12 +130,12 @@ const ShareButton = () => {
               justifyContent: "space-between",
             }}
           >
-            <Text variant="heading6">URL</Text>
-            <Text variant="meta" color="success">
+            <Typography variant="heading6">URL</Typography>
+            <Typography variant="meta" color="success">
               {hasCopied
                 ? t({ id: "share.url-copied", message: "URL kopiert ✅" })
                 : ""}
-            </Text>
+            </Typography>
           </Box>
           <Box
             sx={{
@@ -297,14 +297,14 @@ const IndexPage = ({ locale }: Props) => {
             }}
             display="flex"
           >
-            <Text
+            <Typography
               component="h1"
               variant="giga"
               sx={{ textAlign: ["left", "left", "center"] }}
             >
               <Trans id="site.title">Strompreise Schweiz</Trans>
-            </Text>
-            <Text
+            </Typography>
+            <Typography
               variant="body1"
               sx={{
                 width: "100%",
@@ -320,7 +320,7 @@ const IndexPage = ({ locale }: Props) => {
                 Detaillierte Preisanalysen von Kantonen, Gemeinden und
                 Netzbetreibern.
               </Trans>
-            </Text>
+            </Typography>
             <Search />
           </Box>
           <Grid

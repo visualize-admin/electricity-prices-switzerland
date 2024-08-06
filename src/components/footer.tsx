@@ -46,9 +46,9 @@ const FooterLink = ({
 
 const FooterTitle = ({ children }: { children: React.ReactNode }) => {
   return (
-    <Text variant="heading2" sx={{ mb: 6 }}>
+    <Typography variant="heading2" sx={{ mb: 6 }}>
       {children}
-    </Text>
+    </Typography>
   );
 };
 const FooterSection = ({ children }: { children: React.ReactNode }) => {
@@ -269,12 +269,16 @@ export const Footer = () => {
             justifyContent: "space-between",
           }}
         >
-          <Text variant="paragraph2">
+          <Typography variant="paragraph2">
             <Trans id="footer.institution.name">
               Eidgenössische Elektrizitätskommission ElCom
             </Trans>
-          </Text>
-          <Text variant="paragraph2" sx={{ display: "block" }} component="div">
+          </Typography>
+          <Typography
+            variant="paragraph2"
+            sx={{ display: "block" }}
+            component="div"
+          >
             <Link
               target="_blank"
               variant="inline"
@@ -285,7 +289,7 @@ export const Footer = () => {
             >
               <Trans id="footer.legal-framework">Rechtliches</Trans>
             </Link>
-          </Text>
+          </Typography>
         </Box>
         <Box
           sx={{

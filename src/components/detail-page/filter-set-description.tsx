@@ -18,7 +18,7 @@ export const FilterSetDescription = ({
   filters: Partial<FilterSet>;
 }) => {
   return (
-    <Text
+    <Typography
       variant="body1"
       sx={{ my: 4, color: "grey[800]", fontWeight: "light" }}
     >
@@ -40,6 +40,6 @@ export const FilterSetDescription = ({
           </React.Fragment>
         );
       })}
-    </Text>
+    </Typography>
   );
 };

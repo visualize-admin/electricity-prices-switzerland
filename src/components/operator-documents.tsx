@@ -94,11 +94,11 @@ export const OperatorDocuments = ({ id }: { id: string }) => {
 
   if (documents.length === 0) {
     return (
-      <Text variant="paragraph2" sx={{ m: 6, color: "hint" }}>
+      <Typography variant="paragraph2" sx={{ m: 6, color: "hint" }}>
         <Trans id="download.nooperatordocuments">
           Keine Netzbetreiber-Dokumente
         </Trans>
-      </Text>
+      </Typography>
     );
   }
 
@@ -113,9 +113,9 @@ export const OperatorDocuments = ({ id }: { id: string }) => {
 
         return (
           <Box key={category.id} sx={{ mx: 4, my: 6 }}>
-            <Text component="h4" sx={{ mb: 3 }} variant="lead">
+            <Typography component="h4" sx={{ mb: 3 }} variant="lead">
               {category.categoryLabel}
-            </Text>
+            </Typography>
             <DocumentList itemLabel={category.itemLabel} documents={docs} />
           </Box>
         );
