@@ -65,7 +65,10 @@ export const MapPriceColorLegend = ({
   return (
     <LegendBox>
       <Box sx={{ alignItems: "center", width: "100%" }} display="flex">
-        <Typography sx={{ fontSize: "0.625rem", lineHeight: 1.5, mr: 1 }}>
+        <Typography
+          variant="inherit"
+          sx={{ fontSize: "0.625rem", lineHeight: 1.5, mr: 1 }}
+        >
           <Trans id="map.legend.title">
             Tarifvergleich in Rp./kWh (Angaben exkl. MwSt.)
           </Trans>
@@ -105,13 +108,22 @@ export const MapPriceColorLegend = ({
           }}
           display="flex"
         >
-          <Typography sx={{ flex: "1 1 0px", display: "flex" }}>
+          <Typography
+            variant="inherit"
+            sx={{ flex: "1 1 0px", display: "flex" }}
+          >
             {stats[0] && formatCurrency(stats[0])}
           </Typography>
-          <Typography sx={{ flex: "1 1 0px", textAlign: "center" }}>
+          <Typography
+            variant="inherit"
+            sx={{ flex: "1 1 0px", textAlign: "center" }}
+          >
             {stats[1] && formatCurrency(stats[1])}
           </Typography>
-          <Typography sx={{ flex: "1 1 0px", textAlign: "right" }}>
+          <Typography
+            variant="inherit"
+            sx={{ flex: "1 1 0px", textAlign: "right" }}
+          >
             {stats[2] && formatCurrency(stats[2])}
           </Typography>
         </Box>
@@ -124,13 +136,19 @@ export const MapPriceColorLegend = ({
           }}
           display="flex"
         >
-          <Typography sx={{ flex: "1 1 0px" }}>
+          <Typography variant="inherit" sx={{ flex: "1 1 0px" }}>
             <Trans id="price.legend.min">min</Trans>
           </Typography>
-          <Typography sx={{ flex: "1 1 0px", textAlign: "center" }}>
+          <Typography
+            variant="inherit"
+            sx={{ flex: "1 1 0px", textAlign: "center" }}
+          >
             <Trans id="price.legend.median">median</Trans>
           </Typography>
-          <Typography sx={{ flex: "1 1 0px", textAlign: "right" }}>
+          <Typography
+            variant="inherit"
+            sx={{ flex: "1 1 0px", textAlign: "right" }}
+          >
             <Trans id="price.legend.max">max</Trans>
           </Typography>
         </Box>
@@ -223,19 +241,20 @@ export const ColorsLine = () => {
             sx={{
               flexDirection: "column",
               alignItems: "flex-end",
-              ":last-of-type > div": { borderRight: 0 },
+              "&:last-of-type > div": { borderRight: 0 },
             }}
             display="flex"
           >
             <Box
               sx={{
-                bg,
+                bgcolor: bg,
                 width: "100%",
                 height: COLOR_HEIGHT,
                 borderRight: "1px solid #FFF",
               }}
             />
             <Typography
+              variant="inherit"
               sx={{
                 fontSize: "0.625rem",
                 color: "grey.600",

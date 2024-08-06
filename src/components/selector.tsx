@@ -26,7 +26,7 @@ export const Selector = () => {
       sx={{
         flexDirection: "column",
         justifyContent: "flex-start",
-        bgcolor: "mutedColored",
+        bgcolor: "muted.colored",
         px: 4,
         py: 4,
 

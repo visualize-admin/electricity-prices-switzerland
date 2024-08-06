@@ -1,6 +1,6 @@
 import { t } from "@lingui/macro";
 // import { i18n } from "@lingui/core";
-import { Box, Button, Input, Typography } from "@mui/material";
+import { Box, Button, InputBase, Typography } from "@mui/material";
 import { useCombobox, useMultipleSelection } from "downshift";
 import { useState, useEffect } from "react";
 
@@ -130,10 +130,10 @@ export const ComboboxMulti = ({
           border: "1px solid",
           borderRadius: 4,
           color: "text",
-          borderColor: isOpen ? "primary" : "grey.500",
+          borderColor: isOpen ? "primary.main" : "grey.500",
           bgcolor: "grey.100",
           flexWrap: "wrap",
-          ":focus-within": { borderColor: "primary" },
+          ":focus-within": { borderColor: "primary.main" },
           position: "relative",
         }}
         display="flex"
@@ -191,7 +191,7 @@ export const ComboboxMulti = ({
             my: 2,
           }}
         >
-          <Input
+          <InputBase
             {...getInputProps(
               getDropdownProps({
                 preventKeyAction: isOpen,
@@ -429,7 +429,7 @@ export const Combobox = ({
           {...getComboboxProps()}
           sx={{ flexGrow: 1, minWidth: 80, alignSelf: "center", my: 2 }}
         >
-          <Input
+          <InputBase
             {...getInputProps({
               onFocus: (e) => {
                 e.currentTarget.select();

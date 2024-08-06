@@ -14,7 +14,7 @@ import { i18n, parseLocaleString } from "src/locales/locales";
 import { analyticsPageView } from "../domain/analytics";
 import "src/styles/nprogress.css";
 import "src/styles/reach-dialog.css";
-import { preloadFonts, theme } from "../themes/elcom";
+import { fonts, theme } from "../themes/elcom";
 
 const useMatomo = () => {
   const [matomoId, setMatomoId] = useState<string | undefined>(undefined);
@@ -71,8 +71,14 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        {preloadFonts.map((src) => (
-          <link key={src} rel="preload" href={src} crossOrigin="anonymous" />
+        {fonts.map(({ src }) => (
+          <link
+            key={src}
+            rel="preload"
+            as="font"
+            href={src}
+            crossOrigin="anonymous"
+          />
         ))}
       </Head>
       <LocaleProvider value={locale}>

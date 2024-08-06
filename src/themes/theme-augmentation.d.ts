@@ -21,6 +21,15 @@ declare module "@mui/material/styles" {
     warning: Color;
     info: Color;
   }
+
+  interface ThemeOptions {
+    shadows: {
+      primary: string;
+      rightSide: string;
+      leftSide: string;
+      tooltip: string;
+    };
+  }
 }
 
 declare module "@mui/material/Button" {

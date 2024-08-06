@@ -69,7 +69,7 @@ const ListItem = ({
           color: "text",
           textDecoration: "none",
           "&:hover": {
-            bgcolor: "mutedDarker",
+            bgcolor: "muted.darker",
           },
           "&:active": {
             bgcolor: "primary.light",
@@ -365,7 +365,6 @@ export const List = ({
             <Typography
               color="secondary"
               sx={{
-                fontFamily: "body",
                 fontSize: ["0.625rem", "0.75rem", "0.75rem"],
                 lineHeight: "24px",
               }}

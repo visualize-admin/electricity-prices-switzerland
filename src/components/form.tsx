@@ -8,6 +8,7 @@ import {
   Radio as ThemeUiRadio,
   Select as ThemeUiSelect,
   SelectProps,
+  Typography,
 } from "@mui/material";
 import VisuallyHidden from "@reach/visually-hidden";
 import * as React from "react";
@@ -40,11 +41,13 @@ export const Label = ({
   children: React.ReactNode;
   showLabel?: boolean;
 }) => (
-  <Box
+  <Typography
+    variant="body1"
+    component="label"
     htmlFor={htmlFor}
     sx={{
       color: disabled ? "grey.600" : "grey.700",
-      fontSize: smaller ? [2, 2, 2] : [4, 4, 4],
+      fontSize: smaller ? "0.75rem" : "1rem",
       pb: smaller ? 1 : 0,
       mr: 4,
       display: "flex",
@@ -57,7 +60,6 @@ export const Label = ({
         sx={{
           maxWidth: "88%",
           textAlign: "left",
-          fontFamily: "body",
           pr: 1,
           visibility: showLabel ? "visible" : "hidden",
         }}
@@ -65,7 +67,7 @@ export const Label = ({
         {label}
       </Box>
     )}
-  </Box>
+  </Typography>
 );
 
 export const Radio = ({
@@ -203,7 +205,6 @@ export const MiniSelect = ({
       sx={{
         borderColor: "transparent",
         fontSize: ["0.625rem", "0.75rem", "0.75rem"],
-        fontFamily: "body",
         bgcolor: "transparent",
         py: 0,
         pl: 1,
@@ -336,7 +337,6 @@ export const FieldSetLegend = ({
 }) => (
   <Box
     sx={{
-      fontFamily: "body",
       lineHeight: ["1rem", "1.125rem", "1.125rem"],
       fontWeight: "regular",
       fontSize: ["0.625rem", "0.75rem", "0.75rem"],

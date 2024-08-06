@@ -22,7 +22,7 @@ const replacements = {
     size: "small",
   },
   success: {
-    color: "success",
+    color: "success.main",
     variant: "contained",
   },
   reset: {

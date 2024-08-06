@@ -62,6 +62,7 @@ const lineHeights = [
 
 const createTypographyVariant = (theme: Theme, spec: Record<string, any>) => {
   const res = omit(spec, ["lineHeight", "fontSize"]);
+  res.fontWeight = fontWeights[spec.fontWeight];
   for (let i = 0; i < spec.fontSize.length; i++) {
     const lineHeight = `${lineHeights[spec.lineHeight[i]]}`;
     const fontSize = `${fontSizes[spec.fontSize[i]]}`;
@@ -85,7 +86,7 @@ const bpTheme = createTheme({
   },
 });
 
-export const theme: Theme = createTheme(bpTheme, {
+export const theme: Theme = createTheme({
   breakpoints: {
     values: {
       xs: 0,
@@ -230,6 +231,36 @@ export const theme: Theme = createTheme(bpTheme, {
     tooltip: "0 2px 8px rgba(0, 0, 0, 0.25)",
   },
   components: {
+    MuiLink: {
+      defaultProps: {
+        underline: "hover",
+      },
+    },
+    MuiCssBaseline: {
+      styleOverrides: `
+        @font-face {
+          font-family: 'FrutigerNeue';
+          font-display: swap;
+          font-weight: 700;
+          src: url(/fonts/FrutigerNeueW02-Bd.woff2) format('woff2');
+        }
+
+        @font-face {
+          font-family: 'FrutigerNeue';
+          font-display: swap;
+          font-weight: 500;
+          src:  url(/fonts/FrutigerNeueW02-Regular.woff2) format('woff2');
+        }
+
+        @font-face {
+          font-family: 'FrutigerNeue';
+          font-display: swap;
+          font-weight: 700;
+          src: url(/fonts/FrutigerNeueW02-Bd.woff2) format('woff2');
+        }
+
+      `,
+    },
     MuiButton: {
       variants: [
         {
@@ -389,8 +420,20 @@ export const theme: Theme = createTheme(bpTheme, {
  * Load these fonts early using <link rel="preload" />
  * Use WOFF2 fonts if possible!
  */
-export const preloadFonts = [
-  "/fonts/FrutigerNeueW02-Bd.woff2",
-  "/fonts/FrutigerNeueW02-Regular.woff2",
-  "/fonts/FrutigerNeueW02-Light.woff2",
+export const fonts = [
+  {
+    src: "/fonts/FrutigerNeueW02-Bd.woff2",
+    format: "woff2",
+    weight: "700",
+  },
+  {
+    src: "/fonts/FrutigerNeueW02-Regular.woff2",
+    format: "woff2",
+    weight: "400",
+  },
+  {
+    src: "/fonts/FrutigerNeueW02-Light.woff2",
+    format: "woff2",
+    weight: "300",
+  },
 ];

@@ -1,5 +1,5 @@
-import { FormEvent, useCallback, useMemo, useState } from "react";
 import { Box, Heading, HeadingProps, BoxProps } from "@mui/material";
+import { FormEvent, useCallback, useMemo, useState } from "react";
 import { UseQueryState } from "urql";
 
 import * as Queries from "src/graphql/queries";
@@ -14,7 +14,7 @@ const IndicatorFail = () => (
       py: 1,
       px: 2,
       borderRadius: "circle",
-      bgcolor: "error",
+      bgcolor: "error.main",
       color: "#fff",
       fontSize: "0.75rem",
       lineHeight: "1rem",
@@ -30,7 +30,7 @@ const IndicatorSuccess = () => (
       py: 1,
       px: 2,
       borderRadius: "circle",
-      bgcolor: "success",
+      bgcolor: "success.main",
       color: "#fff",
       fontSize: "0.75rem",
       lineHeight: "1rem",

@@ -390,7 +390,7 @@ export const SearchField = ({
                               alignItems: "center",
                               backgroundColor:
                                 highlightedIndex === item.listId
-                                  ? "mutedDarker"
+                                  ? "muted.darker"
                                   : "inherit",
                               color: "grey.800",
                               fontSize: ["1rem"],

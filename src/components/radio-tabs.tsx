@@ -1,6 +1,6 @@
+import { Box } from "@mui/material";
 import VisuallyHidden from "@reach/visually-hidden";
 import { ChangeEventHandler, useCallback } from "react";
-import { Box } from "@mui/material";
 
 type RadioTabsVariants = "tabs" | "borderlessTabs" | "segmented";
 
@@ -23,7 +23,7 @@ const STYLES = {
       textAlign: "center",
       px: 2,
       py: 4,
-      fontSize: 4,
+      fontSize: "1rem",
       borderStyle: "solid",
       borderWidth: 1,
       borderColor: "grey.500",
@@ -60,7 +60,7 @@ const STYLES = {
       textAlign: "center",
       px: 2,
       py: 4,
-      fontSize: 4,
+      fontSize: "1rem",
       borderColor: "grey.500",
       borderStyle: "solid",
       borderWidth: 1,
@@ -82,7 +82,7 @@ const STYLES = {
       alignItems: "center",
       px: 2,
       py: 4,
-      fontSize: 4,
+      fontSize: "1rem",
       minWidth: "min-content",
       borderStyle: "solid",
       borderWidth: 1,
@@ -121,7 +121,7 @@ const STYLES = {
       textAlign: "center",
       px: 2,
       py: 4,
-      fontSize: 4,
+      fontSize: "1rem",
       borderColor: "grey.500",
       borderStyle: "solid",
       borderWidth: 1,
@@ -143,7 +143,7 @@ const STYLES = {
       flex: "1 0 auto",
       textAlign: "center",
       p: 2,
-      fontSize: 3,
+      fontSize: "0.875rem",
       borderStyle: "solid",
       borderWidth: 1,
       borderColor: "grey.500",
@@ -170,7 +170,7 @@ const STYLES = {
       flex: "1 1 auto",
       textAlign: "center",
       p: 2,
-      fontSize: 3,
+      fontSize: "0.875rem",
       borderColor: "grey.500",
       borderStyle: "solid",
       borderWidth: 1,

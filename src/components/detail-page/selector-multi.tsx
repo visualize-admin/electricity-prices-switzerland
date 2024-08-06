@@ -33,14 +33,15 @@ export const SelectorMulti = ({
     <Box
       component="fieldset"
       sx={{
+        border: 0,
         flexDirection: "column",
         justifyContent: "flex-start",
-        bgcolor: "mutedColored",
+        bgcolor: "muted.colored",
         px: 4,
         py: 4,
         zIndex: 13,
         "> div": { mt: 4 },
-        "> fieldset": { mt: 4 },
+        "> fieldset": { mt: 4, border: 0 },
       }}
       display="flex"
     >
