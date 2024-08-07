@@ -1,14 +1,12 @@
 import { t } from "@lingui/macro";
 // import { i18n } from "@lingui/core";
-import { Box, InputBase, IconButton, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
-import TextField from "@mui/material/TextField";
-import { useCombobox } from "downshift";
-import { useState, useEffect } from "react";
+import TextField, { TextFieldProps } from "@mui/material/TextField";
+import { useState, useEffect, useMemo } from "react";
 
 import { Icon } from "../icons";
 
-import { Label } from "./form";
 import { InfoDialogButton } from "./info-dialog";
 export type ComboboxMultiProps = {
   id: string;
@@ -57,7 +55,7 @@ export const ComboboxMulti = ({
           <Typography variant="meta">{label}</Typography>
           <TextField
             {...params}
-            sx={{ bgcolor: "grey.100" }}
+            sx={{ bgcolor: "grey.100" } as TextFieldProps}
             variant="outlined"
             value={inputValue}
             onChange={(e) => {
@@ -136,16 +134,7 @@ export const ComboboxMulti = ({
   );
 };
 
-export const Combobox = ({
-  id,
-  label,
-  items,
-  selectedItem,
-  setSelectedItem,
-  infoDialogSlug,
-  getItemLabel = defaultGetItemLabel,
-  showLabel = true,
-}: {
+interface ComboboxProps {
   id: string;
   label: string;
   items: (string | { type: "header"; title: string })[];
@@ -154,223 +143,123 @@ export const Combobox = ({
   getItemLabel?: (item: string) => string;
   showLabel?: boolean;
   infoDialogSlug?: string;
+}
+
+export const Combobox: React.FC<ComboboxProps> = ({
+  id,
+  label,
+  items,
+  selectedItem,
+  setSelectedItem,
+  infoDialogSlug,
+  getItemLabel = defaultGetItemLabel,
+  showLabel = true,
 }) => {
   const [inputValue, setInputValue] = useState(getItemLabel(selectedItem));
 
-  const getFilteredItems = () => {
-    return inputValue && inputValue !== getItemLabel(selectedItem)
-      ? items.filter((item) =>
-          typeof item !== "string"
-            ? true
-            : getItemLabel(item)
-                .toLowerCase()
-                .startsWith(inputValue.toLowerCase())
-        )
-      : items;
-  };
-
-  // Update  when locale changes
   useEffect(() => {
     setInputValue(getItemLabel(selectedItem));
   }, [getItemLabel, selectedItem]);
 
-  const inputItems = getFilteredItems();
+  const filteredItems = useMemo(() => {
+    return items.filter((item) => typeof item === "string");
+  }, [items]);
 
-  const {
-    isOpen,
-    getToggleButtonProps,
-    getLabelProps,
-    getMenuProps,
-    getInputProps,
-    getComboboxProps,
-    highlightedIndex,
-    getItemProps,
-    openMenu,
-  } = useCombobox({
-    id: `combobox-${id}`,
-    inputValue,
-    selectedItem,
-    items: inputItems,
-    onStateChange: (changes: $FixMe) => {
-      switch (changes.type) {
-        case useCombobox.stateChangeTypes.InputChange:
-          setInputValue(changes.inputValue);
-          break;
-        case useCombobox.stateChangeTypes.InputKeyDownEnter:
-        case useCombobox.stateChangeTypes.ItemClick:
-          if (changes.selectedItem) {
-            setInputValue(getItemLabel(changes.inputValue));
-            setSelectedItem(changes.inputValue);
-          }
-          break;
-        case useCombobox.stateChangeTypes.InputBlur:
-          setInputValue(getItemLabel(selectedItem));
-          break;
-        default:
-          break;
+  const groupsBylabel = useMemo(() => {
+    const res: Record<string, string> = {};
+    let currentGroup = null;
+    for (const item of items) {
+      if (typeof item === "string") {
+        if (!currentGroup) {
+          continue;
+        }
+        res[item] = currentGroup;
+      } else {
+        currentGroup = item.title;
       }
-    },
-  });
+    }
+    return res;
+  }, [items]);
 
   return (
     <Box sx={{ position: "relative" }}>
       <Box
-        sx={{ justifyContent: "space-between", alignItems: "center" }}
-        display="flex"
+        typography="meta"
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
       >
-        <Label
-          showLabel={showLabel}
-          label={label}
-          smaller
-          {...getLabelProps()}
-        ></Label>
-        {infoDialogSlug ? (
+        {showLabel && <label htmlFor={`combobox-${id}`}>{label}</label>}
+        {infoDialogSlug && (
           <InfoDialogButton
             iconOnly
             slug={infoDialogSlug}
             label={label}
             smaller
           />
-        ) : null}
-      </Box>
-      <Box
-        sx={{
-          display: "block",
-          width: "100%",
-          py: 0,
-          pl: 2,
-          pr: 6,
-          height: 48,
-
-          appearance: "none",
-          fontSize: "inherit",
-          lineHeight: "inherit",
-          border: "1px solid",
-          borderRadius: 1,
-          color: "text",
-          borderColor: isOpen ? "primary.main" : "grey.500",
-          bgcolor: "grey.100",
-          flexWrap: "wrap",
-          "&:focus-within": { borderColor: "primary.main" },
-          position: "relative",
-        }}
-        display="flex"
-      >
-        <Box
-          {...getComboboxProps()}
-          sx={{ flexGrow: 1, minWidth: 80, alignSelf: "center", my: 2 }}
-        >
-          <InputBase
-            {...getInputProps({
-              onFocus: (e) => {
-                e.currentTarget.select();
-              },
-              onClick: () => {
-                openMenu();
-              },
-            })}
-            sx={{
-              display: "block",
-              // width: "100%",
-              appearance: "none",
-              fontSize: "inherit",
-              lineHeight: "inherit",
-              border: "none",
-              color: "text",
-              bgcolor: "transparent",
-              borderRadius: 0,
-              p: 0,
-              "&:focus": { outline: 0 },
-            }}
-          />
-        </Box>
-        <IconButton
-          aria-label={"toggle menu"}
-          variant="reset"
-          size="small"
-          sx={{
-            color: "grey.800",
-            p: 0,
-            mr: 1,
-            position: "absolute",
-            right: 0,
-            top: "50%",
-            height: 40,
-            width: 40,
-            transition: "transform 0.1s ease",
-            transformOrigin: "center center",
-            transform: ` translateY(-50%) rotate(${
-              !isOpen ? "0deg" : "180deg"
-            })`,
-          }}
-          {...getToggleButtonProps()}
-        >
-          <Icon name="chevrondown" />
-        </IconButton>
-      </Box>
-
-      <Box
-        component="ul"
-        sx={{
-          listStyle: "none",
-          borderRadius: 1,
-          boxShadow: "tooltip",
-          bgcolor: "grey.100",
-          mt: 1,
-          p: 0,
-          position: "absolute",
-          width: "100%",
-          zIndex: 999,
-        }}
-        style={{ display: isOpen ? "block" : "none", overflow: "hidden" }}
-        {...getMenuProps()}
-      >
-        {isOpen &&
-          inputItems.map((item, index) =>
-            typeof item === "string" ? (
-              <Box
-                component="li"
-                sx={{
-                  color: highlightedIndex === index ? "primary.active" : "text",
-                  bgcolor:
-                    highlightedIndex === index
-                      ? "primary.light"
-                      : "transparent",
-                  p: 3,
-                  m: 0,
-                }}
-                key={`${item}${index}`}
-                {...getItemProps({ item, index })}
-              >
-                {getItemLabel(item)}
-              </Box>
-            ) : (
-              <Box
-                component="li"
-                sx={{
-                  fontWeight: "bold",
-                  py: 1,
-                  px: 3,
-                  marginTop: "0.5rem",
-                }}
-              >
-                {item.title}
-              </Box>
-            )
-          )}
-        {isOpen && inputItems.length === 0 && (
-          <Box
-            component="li"
-            sx={{
-              color: "secondary.main",
-              p: 3,
-              m: 0,
-            }}
-          >
-            {t({ id: "combobox.noitems", message: `Keine Einträge` })}
-          </Box>
         )}
       </Box>
+      <Autocomplete
+        id={`combobox-${id}`}
+        options={filteredItems as string[]}
+        groupBy={(option) => {
+          return groupsBylabel[option];
+        }}
+        renderGroup={(params) => {
+          return (
+            <>
+              <Typography variant="meta" fontWeight="bold" sx={{ mx: 4 }}>
+                {params.group}
+              </Typography>
+              {params.children}
+            </>
+          );
+        }}
+        popupIcon={<Icon name="chevrondown" color="black" />}
+        getOptionLabel={getItemLabel}
+        disableClearable
+        value={selectedItem}
+        onChange={(_, newValue) => {
+          if (newValue) {
+            setSelectedItem(newValue);
+          }
+        }}
+        inputValue={inputValue}
+        onInputChange={(_, newInputValue) => {
+          setInputValue(newInputValue);
+        }}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            variant="outlined"
+            fullWidth
+            InputProps={{
+              ...params.InputProps,
+              sx: {
+                height: 48,
+                bgcolor: "grey.100",
+                "&:focus-within": { borderColor: "primary.main" },
+              },
+            }}
+          />
+        )}
+        noOptionsText={t({ id: "combobox.noitems", message: "Keine Einträge" })}
+        sx={{
+          "& .MuiOutlinedInput-root": {
+            "& fieldset": {
+              borderColor: "grey.500",
+            },
+            "&:hover fieldset": {
+              borderColor: "grey.700",
+            },
+            "&.Mui-focused fieldset": {
+              borderColor: "primary.main",
+            },
+          },
+        }}
+      />
     </Box>
   );
 };
