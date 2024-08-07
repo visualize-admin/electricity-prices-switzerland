@@ -1,6 +1,6 @@
 import { keyframes } from "@emotion/core";
 import { Trans } from "@lingui/macro";
-import { Box, Typography } from "@mui/material";
+import { Box, BoxProps, Typography } from "@mui/material";
 import * as React from "react";
 
 import { Icon, IconName } from "../icons";
@@ -81,7 +81,13 @@ export const Loading = ({ delayMs = 1000 }: { delayMs?: number }) => (
   </Box>
 );
 
-export const LoadingIcon = ({ delayMs = 200 }: { delayMs?: number }) => (
+export const LoadingIcon = ({
+  delayMs = 200,
+  sx,
+}: {
+  delayMs?: number;
+  sx?: BoxProps["sx"];
+}) => (
   <Box
     sx={{
       width: "100%",
@@ -96,6 +102,7 @@ export const LoadingIcon = ({ delayMs = 200 }: { delayMs?: number }) => (
       padding: 2,
       opacity: 0,
       animation: `0s linear ${delayMs}ms forwards ${delayedShow}`,
+      ...sx,
     }}
     display="flex"
   >

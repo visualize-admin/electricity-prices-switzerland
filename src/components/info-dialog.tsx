@@ -6,7 +6,9 @@ import {
   DialogContent as MuiDialogContent,
   DialogTitle as MuiDialogTitle,
   IconButton,
+  Backdrop,
 } from "@mui/material";
+import { createPortal } from "react-dom";
 
 import VisuallyHidden from "src/components/VisuallyHidden";
 import { useWikiContentQuery } from "src/graphql/queries";
@@ -18,10 +20,11 @@ import { Icon } from "../icons";
 import { LoadingIcon, NoContentHint } from "./hint";
 import { useDisclosure } from "./useDisclosure";
 
-const DialogContent = ({ slug }: { slug: string }) => {
-  const locale = useLocale();
-  const [contentQuery] = useWikiContentQuery({ variables: { locale, slug } });
-
+const DialogContent = ({
+  contentQuery,
+}: {
+  contentQuery: ReturnType<typeof useWikiContentQuery>[0];
+}) => {
   if (contentQuery.fetching) {
     return (
       <Box sx={{ mt: 5 }}>
@@ -82,57 +85,82 @@ export const HelpDialog: React.FC<{
   label: string;
   open: boolean;
   slug: string;
-}> = ({ close, label, open: open, slug }) => (
-  <Dialog
-    fullWidth
-    maxWidth="sm"
-    open={open}
-    onClose={close}
-    aria-label={label}
-    sx={{
-      [theme.breakpoints.down("sm")]: {
-        "& .MuiDialog-paper": {
-          margin: 0,
-          height: "100%",
-          maxHeight: "initial",
-          borderRadius: 0,
-          width: "100%",
-        },
-      },
-    }}
-  >
-    <IconButton
-      sx={{
-        color: "text",
-        position: "absolute",
-        right: "20px",
-        top: "20px",
-      }}
-      onClick={close}
-    >
-      <VisuallyHidden>
-        <Trans id="dialog.close">Dialog schliessen</Trans>
-      </VisuallyHidden>{" "}
-      <Icon name="clear" />
-    </IconButton>
+}> = ({ close, label, open: open, slug }) => {
+  const locale = useLocale();
 
-    <MuiDialogTitle
-      sx={{
-        height: "5rem",
-        alignItems: "center",
-        display: "flex",
-        mb: "-1rem",
-      }}
-    >
-      <Typography variant="body2" sx={{ color: "secondary.main" }}>
-        <Trans id="dialog.infoprefix">Info:</Trans> {label}
-      </Typography>
-    </MuiDialogTitle>
-    <MuiDialogContent>
-      <DialogContent slug={slug} />
-    </MuiDialogContent>
-  </Dialog>
-);
+  const [contentQuery] = useWikiContentQuery({ variables: { locale, slug } });
+
+  if (contentQuery.fetching) {
+    return (
+      <Box sx={{ mt: 5 }}>
+        <LoadingIcon />
+      </Box>
+    );
+  }
+
+  return (
+    <>
+      {contentQuery.fetching ? (
+        createPortal(
+          <Backdrop open={open} sx={{ zIndex: 1000 }}>
+            <LoadingIcon sx={{ color: "grey.800" }} />
+          </Backdrop>,
+          document.body
+        )
+      ) : (
+        <Dialog
+          fullWidth
+          maxWidth="sm"
+          open={open}
+          onClose={close}
+          aria-label={label}
+          sx={{
+            [theme.breakpoints.down("sm")]: {
+              "& .MuiDialog-paper": {
+                margin: 0,
+                height: "100%",
+                maxHeight: "initial",
+                borderRadius: 0,
+                width: "100%",
+              },
+            },
+          }}
+        >
+          <IconButton
+            sx={{
+              color: "text",
+              position: "absolute",
+              right: "20px",
+              top: "20px",
+            }}
+            onClick={close}
+          >
+            <VisuallyHidden>
+              <Trans id="dialog.close">Dialog schliessen</Trans>
+            </VisuallyHidden>{" "}
+            <Icon name="clear" />
+          </IconButton>
+
+          <MuiDialogTitle
+            sx={{
+              height: "5rem",
+              alignItems: "center",
+              display: "flex",
+              mb: "-1rem",
+            }}
+          >
+            <Typography variant="body2" sx={{ color: "secondary.main" }}>
+              <Trans id="dialog.infoprefix">Info:</Trans> {label}
+            </Typography>
+          </MuiDialogTitle>
+          <MuiDialogContent>
+            <DialogContent contentQuery={contentQuery} />
+          </MuiDialogContent>
+        </Dialog>
+      )}
+    </>
+  );
+};
 
 export const InfoDialogButton = ({
   label,

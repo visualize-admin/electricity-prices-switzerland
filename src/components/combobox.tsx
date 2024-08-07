@@ -131,7 +131,6 @@ export const ComboboxMulti = ({
       }}
       isOptionEqualToValue={(option, value) => option === value}
       disableClearable
-      freeSolo={lazy}
       loading={isLoading}
     />
   );
