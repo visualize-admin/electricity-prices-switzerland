@@ -66,13 +66,13 @@ export const LanguageMenu = ({ contentId }: { contentId?: string }) => {
                 locale === currentLocale
                   ? ["grey.500", "grey.300"]
                   : "transparent",
-              ":hover": {
+              "&:hover": {
                 color: "primary.main",
               },
-              ":active": {
+              "&:active": {
                 color: "primary.active",
               },
-              ":disabled": {
+              "&:disabled": {
                 cursor: "initial",
                 color: "primary.disabledd",
               },

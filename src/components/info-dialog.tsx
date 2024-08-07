@@ -1,7 +1,6 @@
 import { Trans } from "@lingui/macro";
 import {
   Box,
-  Button,
   Typography,
   Dialog,
   DialogContent as MuiDialogContent,
@@ -61,14 +60,14 @@ const DialogContent = ({ slug }: { slug: string }) => {
           },
           "th:not(:empty)": {
             p: 2,
-            ":not(:first-of-type)": { textAlign: "right" },
+            "&:not(:first-of-type)": { textAlign: "right" },
           },
           td: {
             borderColor: "grey.300",
             borderBottomWidth: "1px",
             borderBottomStyle: "solid",
             p: 2,
-            ":not(:first-of-type)": { textAlign: "right" },
+            "&:not(:first-of-type)": { textAlign: "right" },
           },
         },
       }}
@@ -90,27 +89,29 @@ export const HelpDialog: React.FC<{
     onClose={close}
     aria-label={label}
   >
-    <Button
-      variant="reset"
+    <IconButton
       sx={{
         color: "text",
-        p: 0,
         position: "absolute",
         right: "20px",
         top: "20px",
-        cursor: "pointer",
       }}
       onClick={close}
     >
       <VisuallyHidden>
         <Trans id="dialog.close">Dialog schliessen</Trans>
       </VisuallyHidden>{" "}
-      <Box aria-hidden>
-        <Icon name="clear" />
-      </Box>
-    </Button>
+      <Icon name="clear" />
+    </IconButton>
 
-    <MuiDialogTitle>
+    <MuiDialogTitle
+      sx={{
+        height: "5rem",
+        alignItems: "center",
+        display: "flex",
+        mb: "-1rem",
+      }}
+    >
       <Typography variant="body2" sx={{ color: "secondary.main" }}>
         <Trans id="dialog.infoprefix">Info:</Trans> {label}
       </Typography>

@@ -133,7 +133,7 @@ export const ComboboxMulti = ({
           borderColor: isOpen ? "primary.main" : "grey.500",
           bgcolor: "grey.100",
           flexWrap: "wrap",
-          ":focus-within": { borderColor: "primary.main" },
+          "&:focus-within": { borderColor: "primary.main" },
           position: "relative",
         }}
         display="flex"
@@ -149,7 +149,7 @@ export const ComboboxMulti = ({
                 borderRadius: "default",
                 fontSize: "0.75rem",
                 bgcolor: "primary.light",
-                ":focus": {
+                "&:focus": {
                   outline: 0,
                   bgcolor: "primary.main",
                   color: "grey.100",
@@ -211,7 +211,7 @@ export const ComboboxMulti = ({
               bgcolor: "transparent",
               borderRadius: 0,
               p: 0,
-              ":focus": { outline: 0 },
+              "&:focus": { outline: 0 },
             }}
           />
         </Box>
@@ -420,7 +420,7 @@ export const Combobox = ({
           borderColor: isOpen ? "primary.main" : "grey.500",
           bgcolor: "grey.100",
           flexWrap: "wrap",
-          ":focus-within": { borderColor: "primary.main" },
+          "&:focus-within": { borderColor: "primary.main" },
           position: "relative",
         }}
         display="flex"
@@ -449,7 +449,7 @@ export const Combobox = ({
               bgcolor: "transparent",
               borderRadius: 0,
               p: 0,
-              ":focus": { outline: 0 },
+              "&:focus": { outline: 0 },
             }}
           />
         </Box>

@@ -31,14 +31,14 @@ const STYLES = {
       borderTopColor: "transparent",
       borderBottomColor: "transparent",
       borderRightWidth: 0,
-      ":last-of-type": {
+      "&:last-of-type": {
         borderRightWidth: 1,
         borderRightColor: "grey.100",
       },
-      ":first-of-type": {
+      "&:first-of-type": {
         borderLeftColor: "grey.100",
       },
-      "::before": {
+      "&::before": {
         content: "''",
         display: "block",
         bgcolor: "primary.main",
@@ -66,7 +66,7 @@ const STYLES = {
       borderStyle: "solid",
       borderWidth: 1,
       borderRightWidth: 0,
-      ":last-of-type": {
+      "&:last-of-type": {
         borderRightWidth: 1,
       },
     },
@@ -91,14 +91,14 @@ const STYLES = {
       borderTopColor: "transparent",
       borderBottomColor: "transparent",
       borderRightWidth: 0,
-      ":last-of-type": {
+      "&:last-of-type": {
         borderRightWidth: 1,
         borderRightColor: "grey.100",
       },
-      ":first-of-type": {
+      "&:first-of-type": {
         borderLeftColor: "grey.100",
       },
-      "::before": {
+      "&::before": {
         content: "''",
         display: "block",
         bgcolor: "primary.main",
@@ -127,10 +127,10 @@ const STYLES = {
       borderStyle: "solid",
       borderWidth: 1,
       borderRightWidth: 0,
-      ":first-of-type": {
+      "&:first-of-type": {
         borderLeftWidth: 0,
       },
-      ":last-of-type": {
+      "&:last-of-type": {
         borderRightWidth: 0,
       },
     },
@@ -150,12 +150,12 @@ const STYLES = {
       borderColor: "grey.500",
       borderRightWidth: 0,
 
-      ":last-of-type": {
+      "&:last-of-type": {
         borderRightWidth: 1,
         borderTopRightRadius: "default",
         borderBottomRightRadius: "default",
       },
-      ":first-of-type": {
+      "&:first-of-type": {
         borderTopLeftRadius: "default",
         borderBottomLeftRadius: "default",
       },
@@ -176,12 +176,12 @@ const STYLES = {
       borderStyle: "solid",
       borderWidth: 1,
       borderRightWidth: 0,
-      ":last-of-type": {
+      "&:last-of-type": {
         borderRightWidth: 1,
         borderTopRightRadius: "default",
         borderBottomRightRadius: "default",
       },
-      ":first-of-type": {
+      "&:first-of-type": {
         borderTopLeftRadius: "default",
         borderBottomLeftRadius: "default",
       },
