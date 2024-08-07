@@ -184,6 +184,7 @@ export const Footer = () => {
             icon={
               <Box sx={{ display: "flex", flexShrink: 0, gap: "1rem" }}>
                 <IconButton
+                  color="primary"
                   sx={{ p: 0, width: 24, height: 24, cursor: "pointer" }}
                   onClick={handleOpenCsvDownload}
                 >
@@ -200,6 +201,7 @@ export const Footer = () => {
             icon={
               <Box sx={{ display: "flex", flexShrink: 0, gap: "1rem" }}>
                 <IconButton
+                  color="primary"
                   sx={{ p: 0, width: 24, height: 24, cursor: "pointer" }}
                   onClick={handleOpenMunicipalitiesInfo}
                 >
@@ -273,11 +275,7 @@ export const Footer = () => {
               Eidgenössische Elektrizitätskommission ElCom
             </Trans>
           </Typography>
-          <Typography
-            variant="body2"
-            sx={{ display: "block" }}
-            component="div"
-          >
+          <Typography variant="body2" sx={{ display: "block" }} component="div">
             <Link
               target="_blank"
               variant="inline"

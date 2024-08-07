@@ -189,7 +189,7 @@ const PlaceholderListItem = () => {
       ></Typography>
       <Box
         sx={{
-          borderRadius: "circle",
+          borderRadius: 9999,
           px: 2,
           flexShrink: 0,
           bgcolor: "grey.200",
@@ -338,7 +338,11 @@ export const List = ({
           borderBottomColor: "grey.300",
         }}
       >
-        <Stack direction="row" spacing={2} sx={{ width: "100%" }}>
+        <Stack
+          direction="row"
+          spacing={0}
+          sx={{ width: "100%", alignItems: "center" }}
+        >
           <SearchField
             id="listSearch"
             value={searchQuery}
