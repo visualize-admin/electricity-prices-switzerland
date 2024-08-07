@@ -1,12 +1,5 @@
 import { Trans } from "@lingui/macro";
-import {
-  Box,
-  Button,
-  Flex,
-  Grid,
-  Link as UILink,
-  Text,
-} from "@theme-ui/components";
+import { Box, Button, Link as UILink, Typography } from "@mui/material";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { Fragment, useState } from "react";
@@ -39,12 +32,13 @@ const RelationsList = ({
       {truncated.map(({ id, name }, i) => {
         return (
           <Fragment key={id}>
-            <NextLink
+            <UILink
+              variant="inline"
+              component={NextLink}
               href={{ pathname: relationPathname, query: { ...query, id } }}
-              passHref
             >
-              <UILink variant="inline">{name}</UILink>
-            </NextLink>
+              {name}
+            </UILink>
             {i < truncated.length - 1 && ", "}
           </Fragment>
         );
@@ -52,7 +46,7 @@ const RelationsList = ({
       {rest > 0 && (
         <>
           {", "}
-          <Button variant="inline" onClick={() => setTruncate(false)}>
+          <Button variant="text" onClick={() => setTruncate(false)}>
             <Trans id="relations.showmore">{rest} weitere …</Trans>
           </Button>
         </>
@@ -82,13 +76,14 @@ export const DetailPageBanner = ({
       sx={{
         px: [4, 6],
         py: 5,
-        bg: "monochrome100",
+        bgcolor: "grey.100",
         borderBottomWidth: "1px",
         borderBottomStyle: "solid",
-        borderBottomColor: "monochrome500",
+        borderBottomColor: "grey.500",
       }}
     >
-      <Grid
+      <Box
+        display="grid"
         sx={{
           mb: 6,
           gridTemplateColumns: [
@@ -115,30 +110,33 @@ export const DetailPageBanner = ({
             gridArea: "back",
           }}
         >
-          <HomeLink passHref>
-            <UILink
-              variant="inline"
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                fontSize: 3,
-                "> svg": { mr: 1 },
-                ml: "-8px",
-              }}
-            >
-              <Icon name="chevronleft" size={24}></Icon>
-              <Trans id="detail.homelink">Zurück zur Übersicht</Trans>
-            </UILink>
-          </HomeLink>
+          <UILink
+            variant="inline"
+            component={HomeLink}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              fontSize: "0.875rem",
+              "& > svg": { mr: 1 },
+              ml: "-8px",
+            }}
+          >
+            <Icon name="chevronleft" size={24}></Icon>
+            <Trans id="detail.homelink">Zurück zur Übersicht</Trans>
+          </UILink>
         </Box>
         <Box sx={{ gridArea: "search" }}>
           <Search />
         </Box>
-      </Grid>
+      </Box>
 
       <Box sx={{ mx: "auto", my: 2 }}>
-        <Text as="h1" variant="heading1" sx={{ color: "monochrome800" }}>
-          <Text variant="meta" sx={{ color: "secondary" }}>
+        <Typography component="h1" variant="h1" sx={{ color: "grey.800" }}>
+          <Typography
+            variant="meta"
+            sx={{ color: "secondary.main" }}
+            display="block"
+          >
             {entity === "canton" ? (
               <Trans id="detail.canton">Kanton</Trans>
             ) : entity === "municipality" ? (
@@ -146,11 +144,11 @@ export const DetailPageBanner = ({
             ) : (
               <Trans id="detail.operator">Netzbetreiber</Trans>
             )}
-          </Text>
+          </Typography>
           {name}
-        </Text>
+        </Typography>
 
-        <Flex sx={{ flexWrap: "wrap" }}>
+        <Box sx={{ flexWrap: "wrap" }} display="flex" flexDirection="column">
           {canton && (
             <Box sx={{ pr: 3, my: 1 }}>
               <Trans id="detail.canton">Kanton</Trans>:{" "}
@@ -166,7 +164,14 @@ export const DetailPageBanner = ({
             </Box>
           )}
           {municipalities && (
-            <Box sx={{ pr: 3, my: 1, fontSize: 3, lineHeight: 2 }}>
+            <Box
+              sx={{
+                pr: 3,
+                my: 1,
+                fontSize: "0.875rem",
+                lineHeight: "1.125rem",
+              }}
+            >
               <Trans id="detail.municipalities">Gemeinden</Trans>:{" "}
               <RelationsList
                 key={`${entity}-${id}`}
@@ -176,7 +181,14 @@ export const DetailPageBanner = ({
             </Box>
           )}
           {operators && (
-            <Box sx={{ pr: 3, my: 1, fontSize: 3, lineHeight: 2 }}>
+            <Box
+              sx={{
+                pr: 3,
+                my: 1,
+                fontSize: "0.875rem",
+                lineHeight: "1.125rem",
+              }}
+            >
               <Trans id="detail.operators">Netzbetreiber</Trans>:{" "}
               <RelationsList
                 key={`${entity}-${id}`}
@@ -185,7 +197,7 @@ export const DetailPageBanner = ({
               />
             </Box>
           )}
-        </Flex>
+        </Box>
       </Box>
     </Box>
   );

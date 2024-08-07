@@ -1,27 +1,29 @@
-import { Trans } from "@lingui/macro";
-import VisuallyHidden from "@reach/visually-hidden";
-import { group, rollup } from "d3-array";
-import { useCombobox } from "downshift";
-import NextLink from "next/link";
-import { useRouter } from "next/router";
+import { t, Trans } from "@lingui/macro";
 import {
-  Fragment,
-  ReactNode,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
-import { Box, Button, Flex, Input, Link as TUILink, Text } from "theme-ui";
+  AutocompleteProps,
+  Box,
+  Divider,
+  IconButton,
+  InputAdornment,
+  outlinedInputClasses,
+  Typography,
+} from "@mui/material";
+import { useTheme } from "@mui/material";
+import { Autocomplete, TextField } from "@mui/material";
+import { rollup } from "d3-array";
+import { sortBy } from "lodash";
+import { useRouter } from "next/router";
+import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
+import React from "react";
 
+import VisuallyHidden from "src/components/VisuallyHidden";
+import { getLocalizedLabel } from "src/domain/translation";
 import { useSearchQuery } from "src/graphql/queries";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { useLocale } from "src/lib/use-locale";
 
 import { analyticsSiteSearch } from "../domain/analytics";
-import { getLocalizedLabel } from "../domain/translation";
 import { Icon } from "../icons";
-import { useTheme } from "../themes";
 
 export const Search = () => {
   const locale = useLocale();
@@ -72,7 +74,7 @@ export const Search = () => {
           id,
           __typename,
         }))}
-        getItemLabel={(id) => itemById.get(id)?.name ?? `[${id}]`}
+        getItemLabel={(item) => itemById.get(item.id)?.name ?? `[${item.id}]`}
         setSearchString={setSearchString}
         label={
           <Trans id="search.global.label">
@@ -90,6 +92,7 @@ type Item = {
   id: string;
   __typename: ResultType;
 };
+
 export const SearchField = ({
   label,
   items,
@@ -99,329 +102,211 @@ export const SearchField = ({
 }: {
   items: Item[];
   setSearchString: (searchString: string) => void;
-  getItemLabel: (item: string) => string;
+  getItemLabel: (item: Item) => string;
   label: string | ReactNode;
   isLoading: boolean;
 }) => {
   const theme = useTheme();
-
-  const inputEl = useRef<HTMLInputElement>(null);
   const { query, push } = useRouter();
   const [inputValue, setInputValue] = useState("");
 
-  const {
-    isOpen,
-    getToggleButtonProps,
-    getLabelProps,
-    getMenuProps,
-    getInputProps,
-    getComboboxProps,
-    highlightedIndex,
-    getItemProps,
-    closeMenu,
-  } = useCombobox({
-    id: `search-global`,
-    items,
-    onStateChange: (changes: $FixMe) => {
-      switch (changes.type) {
-        case useCombobox.stateChangeTypes.ToggleButtonClick:
-          inputEl.current?.focus();
-          break;
-        case useCombobox.stateChangeTypes.InputChange:
-          setInputValue(changes.inputValue);
-          setSearchString(changes.inputValue);
-          break;
-        case useCombobox.stateChangeTypes.InputKeyDownEnter:
-          const { selectedItem } = changes;
-          if (selectedItem) {
-            const ent = getEntity(selectedItem.__typename);
+  type SearchAutocompleteProps = AutocompleteProps<Item, false, false, false>;
+  const handleInputChange: SearchAutocompleteProps["onInputChange"] = (
+    event,
+    value
+  ) => {
+    if (!event) {
+      return;
+    }
+    setInputValue(value);
+    setSearchString(value);
+  };
 
-            const href = {
-              pathname: `/${ent}/[id]`,
-              query: { ...query, id: selectedItem.id },
-            };
+  const handleOptionSelect: SearchAutocompleteProps["onChange"] = (
+    event,
+    value
+  ) => {
+    if (value) {
+      const ent = getEntity(value.__typename);
+      const href = {
+        pathname: `/${ent}/[id]`,
+        query: { ...query, id: value.id },
+      };
+      push(href);
+    }
+  };
 
-            push(href);
-          }
-          break;
-        // case useCombobox.stateChangeTypes.ItemClick:
-        //   console.log("click");
-        //   push(href, as);
-        //   break;
-        case useCombobox.stateChangeTypes.InputBlur:
-          setInputValue("");
-          break;
-        default:
-          return changes;
-      }
-    },
-  });
+  const groupedItems = useMemo(() => {
+    return sortBy(items, (item) => item.__typename);
+  }, [items]);
 
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  debugger;
   return (
-    <Box sx={{ width: "100%", maxWidth: "44rem", mx: "auto" }}>
+    <Box sx={{ width: "100%", maxWidth: "44rem", mx: "auto", my: 1 }}>
       <VisuallyHidden>
-        <label {...getLabelProps()}>{label}</label>
+        <label>{label}</label>
       </VisuallyHidden>
-      <div {...getComboboxProps()} style={{ position: "relative" }}>
-        {/* BUTTON */}
-        <Flex
-          as="button"
-          type="button"
-          {...getToggleButtonProps()}
-          aria-label={"toggle menu"} // FIXME: localize
-          sx={{
-            py: 0,
-            pl: 4,
-            pr: 6,
-            height: 48,
-            width: "100%",
-
-            justifyContent: "flex-start",
-            alignItems: "center",
-
-            appearance: "none",
-
-            border: "1px solid",
-            borderRadius: "default",
-            color: "text",
-            borderColor: isOpen ? "primary" : "monochrome500",
-            bg: "monochrome100",
-
-            "&:hover": {
-              borderColor: "primary",
+      <Autocomplete
+        id="search-global"
+        options={groupedItems}
+        getOptionLabel={(item) => `${getItemLabel(item)}`}
+        inputValue={inputValue}
+        onInputChange={handleInputChange}
+        sx={{
+          [theme.breakpoints.down("md")]: {
+            "&.Mui-focused": {
+              position: "fixed",
+              top: 0,
+              bottom: 0,
+              left: 0,
+              right: 0,
+              zIndex: 1000,
+              background: "white",
+              outline: 0,
+              border: 0,
             },
-          }}
-        >
-          <Box sx={{ flexShrink: 0 }}>
-            <Icon
-              name="search"
-              size={24}
-              color={theme.colors.monochrome700}
-            ></Icon>
-          </Box>
-          <Text
-            variant="heading3"
-            sx={{
-              fontWeight: "regular",
-              ml: 4,
-              width: "auto",
-              flexShrink: 0,
-              color: "monochrome800",
-            }}
-          >
-            <Trans id="search.global.hint.go.to">Gehe zu…</Trans>
-          </Text>
-          <Text
-            variant="heading3"
-            sx={{
-              fontWeight: "regular",
-              ml: 4,
-              color: "monochrome500",
-              overflow: "hidden",
-              whiteSpace: "nowrap",
-              textOverflow: "ellipsis",
-            }}
-          >
-            <Trans id="search.global.hint.canton.muni.operator">
-              Gemeindename, PLZ, Netzbetreiber, Kanton
-            </Trans>
-          </Text>
-        </Flex>
-
-        {/* INPUT */}
-        <Flex
-          data-id="input"
-          style={{
-            /* Always render input element, so .focus() works on iOS Safari too (it won't if element has display: none) */
-            top: isOpen ? undefined : "-10000px",
-          }}
-          sx={{
-            position: ["fixed", "fixed", "absolute"],
-            top: 0,
-            left: 0,
-            zIndex: 20,
-
-            py: 0,
-            pl: 4,
-            pr: 4,
-
-            justifyContent: "flex-start",
-            alignItems: "center",
-
-            width: ["100vw", "100vw", "100%"],
-            height: 48,
-
-            bg: "monochrome100",
-            borderRadius: [0, 0, "default"],
-
-            border: ["0px solid", "0px solid", "1px solid"],
-            borderColor: ["monochrome500", "monochrome500", "primary"],
-            borderBottom: ["1px solid", "1px solid", "1px solid"],
-            borderBottomColor: ["monochrome500", "monochrome500", "primary"],
-          }}
-        >
-          {/* Mobile back button */}
-          <Button
-            onClick={() => closeMenu()}
-            variant="reset"
-            type="button"
-            sx={{
-              p: 0,
-              cursor: "pointer",
-              color: "primary",
-              display: ["block", "block", "none"],
-            }}
-          >
-            <Icon name="chevronleft" size={24}></Icon>
-          </Button>
-
-          {/* Desktop Magnifying Glass icon */}
-          <Box as="span" sx={{ display: ["none", "none", "block"] }}>
-            <Icon
-              name="search"
-              size={24}
-              color={theme.colors.monochrome700}
-            ></Icon>
-          </Box>
-
-          {/* Actual Input Field */}
-          <Input
-            {...getInputProps({ ref: inputEl, value: inputValue })}
-            sx={{
-              height: "100%",
-              flexGrow: 1,
-              border: "none",
-              "&:focus": { outline: "none" },
+            [`& .Mui-focused.${outlinedInputClasses.root} .${outlinedInputClasses.notchedOutline}`]:
+              {
+                outline: 0,
+                borderWidth: `0`,
+                borderBottom: "1px solid",
+                borderBottomColor: theme.palette.grey[300],
+              },
+          },
+        }}
+        groupBy={(option) => option.__typename}
+        renderGroup={(params) => {
+          return (
+            <React.Fragment key={params.group}>
+              <Typography variant="body2" sx={{ mx: 6, my: 2 }}>
+                {getLocalizedLabel({ id: params.group })}
+                <Divider />
+              </Typography>
+              {params.children}
+            </React.Fragment>
+          );
+        }}
+        onChange={handleOptionSelect}
+        noOptionsText={
+          inputValue === ""
+            ? t({ id: "search.global.label" })
+            : t({ id: "combobox.noitems" })
+        }
+        loading={isLoading}
+        popupIcon={null}
+        size="small"
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            variant="outlined"
+            inputRef={inputRef}
+            InputProps={{
+              ...params.InputProps,
+              sx: {
+                height: "3rem",
+                fontSize: [18],
+              },
+              placeholder: t({ id: "search.global.hint.canton.muni.operator" }),
+              startAdornment: (
+                <InputAdornment
+                  position="start"
+                  sx={{ ml: 2, display: "flex" }}
+                >
+                  <Box
+                    sx={{
+                      [theme.breakpoints.down("sm")]: {
+                        ".Mui-focused &": {
+                          display: "none",
+                        },
+                      },
+                    }}
+                  >
+                    <Icon
+                      name="search"
+                      size={24}
+                      color={theme.palette.grey[700]}
+                    />
+                  </Box>
+                  <IconButton
+                    onClick={(ev) => {
+                      ev.preventDefault();
+                      setTimeout(() => {
+                        inputRef.current?.blur();
+                      }, 1);
+                    }}
+                    color="primary"
+                    sx={{
+                      display: "none",
+                      [theme.breakpoints.down("sm")]: {
+                        ml: -2,
+                        ".Mui-focused &": {
+                          display: "block",
+                        },
+                      },
+                    }}
+                  >
+                    <Icon name="chevronleft" />
+                  </IconButton>
+                  {inputValue ? null : (
+                    <>
+                      <Typography
+                        variant="h6"
+                        color="text.primary"
+                        sx={{
+                          ml: 4,
+                          fontSize: [18],
+                          [theme.breakpoints.down("sm")]: { display: "none" },
+                        }}
+                      >
+                        <Trans id="search.global.hint.go.to">Gehe zu…</Trans>
+                      </Typography>
+                    </>
+                  )}
+                </InputAdornment>
+              ),
             }}
           />
-          {/* clear input */}
-          <Button
-            variant="reset"
-            sx={{ cursor: "pointer" }}
-            onClick={() => {
-              setInputValue("");
-              inputEl.current?.focus();
-            }}
-          >
-            <Icon
-              name="clear"
-              size={24}
-              color={theme.colors.monochrome700}
-            ></Icon>
-          </Button>
-        </Flex>
-
-        {/* MENU */}
-        <Flex
-          {...getMenuProps()}
-          sx={{
-            position: ["fixed", "fixed", "absolute"],
-            top: [48, 48, 54],
-            left: 0,
-            zIndex: 21,
-
-            width: ["100vw", "100vw", "100%"],
-            height: ["calc(100vh - 48px)", "calc(100vh - 48px)", "auto"],
-            maxHeight: ["100vh", "100vh", "50vh"],
-            overflowY: "auto",
-
-            bg: "monochrome100",
-            p: 4,
-            flexDirection: "column",
-
-            visibility: isOpen ? "visible" : "hidden",
-
-            boxShadow: ["none", "none", "tooltip"],
-          }}
-        >
-          {isOpen && inputValue === "" ? (
-            <Text variant="paragraph1" sx={{ color: "monochrome800" }}>
-              {label}
-            </Text>
-          ) : inputValue !== "" && isLoading ? (
-            <Text variant="paragraph1" sx={{ color: "monochrome800" }}>
-              <Trans id="combobox.isloading">Resultate laden …</Trans>
-            </Text>
-          ) : inputValue !== "" && !isLoading && items.length === 0 ? (
-            <Text variant="paragraph1" sx={{ color: "monochrome800" }}>
-              <Trans id="combobox.noitems">Keine Einträge</Trans>
-            </Text>
-          ) : (
-            <>
-              {[
-                ...group(
-                  // Create ad hoc index for items list
-                  items.map((item, i) => ({ listId: i, ...item })),
-                  (d) => d.__typename
-                ),
-              ].map(([entity, items], entityIndex) => {
-                return (
-                  <Fragment key={entityIndex}>
-                    <Box
-                      sx={{
-                        color: "monochrome600",
-                        fontSize: 3,
-                        borderBottom: "1px solid",
-                        borderBottomColor: "monochrome300",
-                        px: 3,
-                        py: 2,
-                      }}
-                    >
-                      {getLocalizedLabel({ id: entity })}
-                    </Box>
-                    {items.map((item, index) => {
-                      const ent = getEntity(entity);
-                      return (
-                        <NextLink
-                          key={`${item}${entity}${index}`}
-                          href={{
-                            pathname: `/${ent}/[id]`,
-                            query: { ...query, id: item.id },
-                          }}
-                          passHref
-                        >
-                          <TUILink
-                            {...getItemProps({
-                              item: item,
-                              index: item.listId,
-                            })}
-                            data-testid={`search-option-${entity}-${item.id}`}
-                            sx={{
-                              display: "flex",
-                              justifyContent: "space-between",
-                              alignItems: "center",
-                              backgroundColor:
-                                highlightedIndex === item.listId
-                                  ? "mutedDarker"
-                                  : "inherit",
-                              color: "monochrome800",
-                              fontSize: [4],
-                              lineHeight: 1.2,
-                              textDecoration: "none",
-                              px: 3,
-                              py: 3,
-                              "> svg": {
-                                visibility: "hidden",
-                              },
-
-                              "&:hover > svg": {
-                                visibility: "visible",
-                              },
-                            }}
-                          >
-                            {getItemLabel(item.id)}
-                            <Icon name="chevronright"></Icon>
-                          </TUILink>
-                        </NextLink>
-                      );
-                    })}
-                  </Fragment>
-                );
-              })}
-            </>
-          )}
-        </Flex>
-      </div>
+        )}
+        filterOptions={(options) => {
+          return options;
+        }}
+        getOptionKey={(option) => option.id}
+        renderOption={(props, option) => {
+          const { key, ...liProps } = props;
+          return (
+            <Box
+              {...liProps}
+              key={key}
+              component="li"
+              sx={{
+                "&&": {
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  color: "grey.800",
+                  width: "100%",
+                  fontSize: "1rem",
+                  lineHeight: 1.2,
+                  textDecoration: "none",
+                  px: 6,
+                  py: 3,
+                },
+                "& > svg": {
+                  // visibility: "hidden",
+                },
+                "&:hover > svg, .Mui-focusVisible & > svg": {
+                  visibility: "visible",
+                },
+              }}
+            >
+              <span>{getItemLabel(option)}</span>
+              <Icon name="chevronright" />
+            </Box>
+          );
+        }}
+      />
     </Box>
   );
 };

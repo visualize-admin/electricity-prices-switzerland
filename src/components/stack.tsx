@@ -1,4 +1,4 @@
-import { Box, BoxProps } from "theme-ui";
+import { Box, BoxProps } from "@mui/material";
 
 const Stack = ({
   direction = "column",

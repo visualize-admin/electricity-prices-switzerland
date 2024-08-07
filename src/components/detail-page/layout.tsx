@@ -1,4 +1,4 @@
-import { Grid, Box } from "theme-ui";
+import { Box } from "@mui/material";
 
 type Props = {
   main: React.ReactNode;
@@ -8,7 +8,8 @@ type Props = {
 
 export const DetailPageLayout = ({ main, selector, aside }: Props) => {
   return (
-    <Grid
+    <Box
+      display="grid"
       sx={{
         gap: 0,
         gridTemplateColumns: [`1fr`, `1fr 20rem`],
@@ -32,7 +33,7 @@ export const DetailPageLayout = ({ main, selector, aside }: Props) => {
           px: [0, 3],
           borderRightWidth: "1px",
           borderRightStyle: "solid",
-          borderRightColor: "monochrome500",
+          borderRightColor: "grey.500",
         }}
       >
         {main}
@@ -42,12 +43,12 @@ export const DetailPageLayout = ({ main, selector, aside }: Props) => {
           gridArea: "selector",
           borderBottomWidth: "1px",
           borderBottomStyle: "solid",
-          borderBottomColor: "monochrome500",
+          borderBottomColor: "grey.500",
         }}
       >
         {selector}
       </Box>
-      <Box sx={{ gridArea: "aside", bg: "monochrome100" }}>{aside}</Box>
-    </Grid>
+      <Box sx={{ gridArea: "aside", bgcolor: "grey.100" }}>{aside}</Box>
+    </Box>
   );
 };

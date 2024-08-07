@@ -1,9 +1,8 @@
 import { t, Trans } from "@lingui/macro";
-import { Box } from "@theme-ui/components";
+import { Box } from "@mui/material";
 import { groups } from "d3-array";
 import * as React from "react";
 import { memo, useEffect, useState } from "react";
-import { Flex } from "theme-ui";
 
 import {
   ObservationKind,
@@ -174,12 +173,13 @@ export const CantonsComparisonRangePlots = ({
               showLabel={false}
             />
           </Box>
-          <Flex
+          <Box
             sx={{
               flexDirection: ["column", "row", "row"],
               justifyContent: "space-between",
               mt: 4,
             }}
+            display="flex"
           >
             <Combobox
               label={t({
@@ -193,9 +193,8 @@ export const CantonsComparisonRangePlots = ({
               setSelectedItem={(co) => setQueryState({ cantonsOrder: [co] })}
               showLabel={true}
             />
-
             <PriceColorLegend />
-          </Flex>
+          </Box>
         </>
       )}
 

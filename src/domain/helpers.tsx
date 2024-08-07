@@ -1,3 +1,4 @@
+import { useTheme } from "@mui/material";
 import {
   schemeAccent,
   schemeCategory10,
@@ -22,10 +23,8 @@ import { useLocale } from "src/lib/use-locale";
 import { d3FormatLocales, d3TimeFormatLocales } from "src/locales/locales";
 
 import { ANNOTATION_TRIANGLE_HEIGHT } from "../components/charts-generic/annotation/annotation-x";
-import { useTheme } from "../themes";
 
 import { GenericObservation } from "./data";
-
 
 export const isNumber = (x: $IntentionalAny): boolean =>
   typeof x === "number" && !isNaN(x);
@@ -154,7 +153,7 @@ export const getPalette = (
     case "set3":
       return schemeSet3;
     case "elcom":
-      return theme.palettes.categorical;
+      return theme.palette.categorical;
     default:
       return schemeCategory10;
   }

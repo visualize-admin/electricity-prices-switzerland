@@ -1,6 +1,6 @@
+import { useTheme } from "@mui/material";
 import * as React from "react";
 
-import { useTheme } from "../../../themes";
 import { Column } from "../columns/columns-simple";
 import { HistogramState, useChartState } from "../use-chart-state";
 
@@ -22,7 +22,7 @@ export const HistogramColumns = () => {
               height={Math.abs(yScale(getY(d)) - yScale(0))}
               color={
                 !colors
-                  ? theme.colors.primary
+                  ? theme.palette.primary.main
                   : colors(d.x0 + (d.x1 - d.x0) / 2)
               }
             />

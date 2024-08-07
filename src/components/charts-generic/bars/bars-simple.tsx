@@ -1,6 +1,6 @@
+import { useTheme } from "@mui/material";
 import * as React from "react";
 
-import { useTheme } from "../../../themes";
 import { BAR_HEIGHT } from "../constants";
 import { BarsState, useChartState } from "../use-chart-state";
 import { useChartTheme } from "../use-chart-theme";
@@ -44,7 +44,9 @@ export const Bars = () => {
                 y={0}
                 height={BAR_HEIGHT}
                 color={
-                  getX(d) <= 0 ? theme.colors.secondary : theme.colors.primary
+                  getX(d) <= 0
+                    ? theme.palette.secondary.main
+                    : theme.palette.primary.main
                 }
               />
             </g>
