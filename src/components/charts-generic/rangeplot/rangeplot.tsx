@@ -127,7 +127,7 @@ export const RangePoints = () => {
                     width={margins.left + chartWidth + margins.right}
                     height={DOT_RADIUS * 2}
                     fillOpacity={0.3}
-                    fill={theme.palette.primary.mainLight}
+                    fill={theme.palette.primary.light}
                   />
                 </g>
               )}

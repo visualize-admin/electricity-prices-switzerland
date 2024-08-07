@@ -68,12 +68,14 @@ export const Loading = ({ delayMs = 1000 }: { delayMs?: number }) => (
   >
     <Box
       sx={{
+        width: 48,
+        height: 48,
         animation: `1s linear infinite ${spin}`,
       }}
     >
       <Icon name="loading" size={48} />
     </Box>
-    <Typography variant="h4">
+    <Typography variant="body1">
       <Trans id="hint.loading.data">Loading data…</Trans>
     </Typography>
   </Box>
@@ -100,6 +102,8 @@ export const LoadingIcon = ({ delayMs = 200 }: { delayMs?: number }) => (
     <Box
       sx={{
         animation: `1s linear infinite ${spin}`,
+        height: 32,
+        width: 32,
       }}
     >
       <Icon name="loading" size={32} />
@@ -126,6 +130,8 @@ export const LoadingIconInline = ({
   >
     <Box
       sx={{
+        width: size,
+        height: size,
         animation: `1s linear infinite ${spin}`,
       }}
     >

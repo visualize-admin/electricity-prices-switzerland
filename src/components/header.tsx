@@ -60,49 +60,46 @@ export const Header = ({
 
 export const Logo = () => {
   return (
-    <HomeLink passHref>
+    <Box
+      component={HomeLink}
+      sx={{
+        order: [2, 1],
+        alignItems: ["center", "flex-start"],
+        cursor: "pointer",
+        textDecoration: "none",
+        color: "grey.900",
+      }}
+      display="flex"
+    >
       <Box
-        component="div"
+        role="figure"
+        aria-labelledby="logo"
+        sx={{ display: ["block", "none"], mx: 4, my: 4, width: 24 }}
+      >
+        <LogoMobile />
+      </Box>
+      <Box
+        role="figure"
+        aria-labelledby="logo"
         sx={{
-          order: [2, 1],
-          alignItems: ["center", "flex-start"],
-          cursor: "pointer",
-          textDecoration: "none",
+          display: ["none", "block"],
+          pr: 6,
+          borderRightWidth: "1px",
+          borderRightStyle: "solid",
+          borderRightColor: "grey.300",
           color: "grey.900",
         }}
-        display="flex"
       >
-        <Box
-          role="figure"
-          aria-labelledby="logo"
-          sx={{ display: ["block", "none"], mx: 4, my: 4, width: 24 }}
-        >
-          <LogoMobile />
-        </Box>
-        <Box
-          role="figure"
-          aria-labelledby="logo"
-          sx={{
-            display: ["none", "block"],
-            pr: 6,
-            borderRightWidth: "1px",
-            borderRightStyle: "solid",
-            borderRightColor: "grey.300",
-            color: "grey.900",
-          }}
-        >
-          <LogoDesktop />
-        </Box>
-        <Typography
-          component="h1"
-          variant="lead"
-          sx={{ pl: [0, 6], textDecoration: "none", color: "grey.800" }}
-        >
-          <Trans id="site.title">Strompreise Schweiz</Trans>
-          {buildEnv.DEPLOYMENT &&
-            ` [${buildEnv.DEPLOYMENT.toLocaleUpperCase()}]`}
-        </Typography>
+        <LogoDesktop />
       </Box>
-    </HomeLink>
+      <Typography
+        component="h1"
+        variant="lead"
+        sx={{ pl: [0, 6], textDecoration: "none", color: "grey.800" }}
+      >
+        <Trans id="site.title">Strompreise Schweiz</Trans>
+        {buildEnv.DEPLOYMENT && ` [${buildEnv.DEPLOYMENT.toLocaleUpperCase()}]`}
+      </Typography>
+    </Box>
   );
 };

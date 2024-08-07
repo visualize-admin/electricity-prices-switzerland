@@ -53,7 +53,7 @@ export const LanguageMenu = ({ contentId }: { contentId?: string }) => {
           <Link
             component="span"
             rel="alternate"
-            hrefLang={locale}
+            underline="none"
             sx={{
               variant: "text.body2",
               fontSize: "0.875rem",
@@ -83,7 +83,11 @@ export const LanguageMenu = ({ contentId }: { contentId?: string }) => {
         );
 
         return (
-          <Box component="li" key={locale} sx={{ ml: 1, p: 0 }}>
+          <Box
+            component="li"
+            key={locale}
+            sx={{ ml: 1, p: 0, "& a": { textDecoration: "none" } }}
+          >
             {alternate ? (
               <NextLink href={alternate.path} passHref locale={false}>
                 {linkEl}

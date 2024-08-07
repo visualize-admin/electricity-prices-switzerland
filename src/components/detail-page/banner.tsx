@@ -111,7 +111,6 @@ export const DetailPageBanner = ({
           }}
         >
           <UILink
-            component="span"
             variant="inline"
             component={HomeLink}
             sx={{

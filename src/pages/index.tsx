@@ -122,7 +122,7 @@ const ShareButton = () => {
               justifyContent: "space-between",
             }}
           >
-            <Typography variant="heading6">URL</Typography>
+            <Typography variant="h6">URL</Typography>
             <Typography variant="meta" color="success">
               {hasCopied
                 ? t({ id: "share.url-copied", message: "URL kopiert ✅" })
@@ -219,7 +219,7 @@ const IndexPage = ({ locale }: Props) => {
 
   const medianValue = swissMedianObservations[0]?.value;
 
-  const colorAccessor = useCallback((d) => d.value, []);
+  const colorAccessor = useCallback((d: { value: number }) => d.value, []);
   const colorScale = useColorScale({
     observations,
     medianValue,

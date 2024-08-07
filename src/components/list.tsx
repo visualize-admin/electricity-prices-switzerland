@@ -218,7 +218,7 @@ const PlaceholderListItems = () => {
           p: 3,
         }}
       >
-        <Box variant="buttons.inline">&nbsp;</Box>
+        &nbsp;
       </Box>
     </Box>
   );

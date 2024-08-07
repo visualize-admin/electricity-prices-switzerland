@@ -309,7 +309,7 @@ export const CantonsComparisonRangePlot = memo(
           }}
         />
 
-        {observationsQuery.fetching ? (
+        {observationsQuery.fetching || true ? (
           <Loading />
         ) : observations.length === 0 ? (
           <NoDataHint />

@@ -1,4 +1,4 @@
-import { Box, Heading, HeadingProps, BoxProps } from "@mui/material";
+import { Box, Typography, TypographyProps, BoxProps } from "@mui/material";
 import { FormEvent, useCallback, useMemo, useState } from "react";
 import { UseQueryState } from "urql";
 
@@ -40,9 +40,9 @@ const IndicatorSuccess = () => (
   </Box>
 );
 
-const StatusHeading = ({ children, ...props }: HeadingProps) => {
+const StatusHeading = ({ children, ...props }: TypographyProps) => {
   return (
-    <Heading
+    <Typography
       variant="h3"
       {...props}
       sx={{
@@ -53,7 +53,7 @@ const StatusHeading = ({ children, ...props }: HeadingProps) => {
       }}
     >
       {children}
-    </Heading>
+    </Typography>
   );
 };
 
@@ -235,18 +235,18 @@ const CubeHealth = () => {
   return <Status title="Cube health" query={query} />;
 };
 
-const SectionHeading = (props: HeadingProps) => {
+const SectionHeading = (props: TypographyProps) => {
   return (
-    <Heading variant="h2" {...props} sx={{ my: 3, ...props.sx }}>
+    <Typography variant="h2" {...props} sx={{ my: 3, ...props.sx }}>
       {props.children}
-    </Heading>
+    </Typography>
   );
 };
 
 const Page = () => {
   return (
     <Box sx={{ p: 5 }}>
-      <Heading variant="h1">API Status</Heading>
+      <Typography variant="h1">API Status</Typography>
 
       <SectionHeading>Internal</SectionHeading>
 
@@ -254,9 +254,9 @@ const Page = () => {
 
       <WikiContentStatus />
 
-      <Heading variant="h2" sx={{ mt: 3 }}>
+      <Typography variant="h2" sx={{ mt: 3 }}>
         Data (Lindas)
-      </Heading>
+      </Typography>
 
       <CubeHealth />
 
@@ -508,7 +508,7 @@ const DocumentDownloadStatus = () => {
               </div>
             </Box>
           ) : null}
-          {query.error ? <div>Erreur: {query.error}</div> : null}
+          {query.error ? <div>Erreur: {`${query.error}`}</div> : null}
         </details>
       </Box>
     </StatusBox>

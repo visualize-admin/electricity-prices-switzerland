@@ -6,7 +6,12 @@
  *
  * - `theme` should be a plain object, conforming to the `Theme` type.
  */
-import { Breakpoint, createTheme } from "@mui/material/styles";
+import {
+  Breakpoint,
+  createTheme,
+  PaletteColorOptions,
+  Shadows,
+} from "@mui/material/styles";
 import { Theme } from "@mui/material/styles";
 import { omit } from "lodash";
 
@@ -60,11 +65,16 @@ const lineHeights = [
   "4.5rem",
 ];
 
-const createTypographyVariant = (theme: Theme, spec: Record<string, any>) => {
+const createTypographyVariant = (
+  theme: Theme,
+  spec: Record<string, $IntentionalAny>
+) => {
   const res = omit(spec, ["lineHeight", "fontSize"]);
   res.fontWeight = fontWeights[spec.fontWeight];
   for (let i = 0; i < spec.fontSize.length; i++) {
-    const lineHeight = `${lineHeights[spec.lineHeight[i]]}`;
+    const lineHeight = Array.isArray(lineHeights)
+      ? `${lineHeights[spec.lineHeight[i]]}`
+      : lineHeights;
     const fontSize = `${fontSizes[spec.fontSize[i]]}`;
     res[theme.breakpoints.up(breakpoints[i])] = {
       fontSize,
@@ -126,14 +136,14 @@ export const theme: Theme = createTheme({
       active: "#00334D",
       disabled: "#599cbd",
       light: "#d8e8ef",
-    },
+    } as PaletteColorOptions,
 
     secondary: {
       main: "#757575",
       hover: "#616161",
       active: "#454545",
       disabled: "#a6a6a6",
-    },
+    } as PaletteColorOptions,
 
     success: {
       main: "#3c763d",
@@ -141,7 +151,7 @@ export const theme: Theme = createTheme({
       active: "#3c763d",
       disabled: "#DFF0D8",
       light: "#DFF0D8",
-    },
+    } as PaletteColorOptions,
 
     muted: {
       main: "#F5F5F5",
@@ -225,12 +235,15 @@ export const theme: Theme = createTheme({
       fontSize: [1, 2, 2],
     }),
   },
+
+  // @ts-expect-error Could not correctly augment Shadows
   shadows: {
     primary: "0 3px 5px 0 rgba(0,0,0,0.10)",
     rightSide: "2px 0 4px 0 rgba(0,0,0,0.05)",
     leftSide: "-2px 0 2px 0 rgba(0,0,0,0.05)",
     tooltip: "0 2px 8px rgba(0, 0, 0, 0.25)",
-  },
+  } as unknown as Shadows,
+
   components: {
     MuiLink: {
       defaultProps: {

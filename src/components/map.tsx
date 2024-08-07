@@ -3,6 +3,7 @@ import {
   PickingInfo,
   WebMercatorViewport,
 } from "@deck.gl/core/typed";
+import { ViewStateChangeParameters } from "@deck.gl/core/typed/controllers/controller";
 import { GeoJsonLayer } from "@deck.gl/layers/typed";
 import DeckGL from "@deck.gl/react/typed";
 import { Trans } from "@lingui/macro";
@@ -308,18 +309,21 @@ export const ChoroplethMap = ({
 
   const [viewState, setViewState] = useState(INITIAL_VIEW_STATE);
 
-  const onViewStateChange = useCallback(({ viewState, interactionState }) => {
-    setHovered(undefined);
+  const onViewStateChange = useCallback(
+    ({ viewState, interactionState }: ViewStateChangeParameters) => {
+      setHovered(undefined);
 
-    if (interactionState.inTransition) {
-      setViewState(viewState);
-    } else {
-      setViewState(constrainZoom(viewState, CH_BBOX));
-    }
-  }, []);
+      if (interactionState.inTransition) {
+        setViewState(viewState as typeof INITIAL_VIEW_STATE);
+      } else {
+        setViewState(constrainZoom(viewState, CH_BBOX));
+      }
+    },
+    []
+  );
 
   const onResize = useCallback(
-    ({ width, height }) => {
+    ({ width, height }: { width: number; height: number }) => {
       setViewState((viewState) =>
         constrainZoom({ ...viewState, width, height }, CH_BBOX)
       );

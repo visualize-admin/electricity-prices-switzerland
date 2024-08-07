@@ -46,7 +46,7 @@ const DocumentList = ({
             component="li"
             key={doc.id + doc.url}
             sx={{ ml: 0, mb: 2, p: 0 }}
-            variant="text.body2"
+            typography="body2"
           >
             <Link href={doc.url} variant="inline">
               <Box display="flex">

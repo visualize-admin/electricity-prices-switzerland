@@ -2,9 +2,9 @@ import { Trans } from "@lingui/macro";
 import {
   Box,
   BoxProps,
-  Checkbox as RebassCheckbox,
-  Radio as ThemeUiRadio,
-  Select as ThemeUiSelect,
+  Checkbox as MuiCheckbox,
+  Radio as MuiRadio,
+  Select as MuiSelect,
   IconButton,
   SelectProps,
   Typography,
@@ -13,6 +13,7 @@ import {
   NativeSelect,
   NativeSelectProps,
   FormControlLabel,
+  InputBase,
 } from "@mui/material";
 import * as React from "react";
 
@@ -49,6 +50,7 @@ export const Label = ({
   <Typography
     variant="inherit"
     component="label"
+    display="block"
     htmlFor={htmlFor}
     sx={{
       color: disabled ? "grey.600" : "grey.700",
@@ -56,7 +58,9 @@ export const Label = ({
       pb: smaller ? 1 : 0,
       mr: 4,
       display: "flex",
+      width: "100%",
       alignItems: "center",
+      lineHeight: 1,
     }}
   >
     {children}
@@ -89,7 +93,7 @@ export const Radio = ({
         disabled={disabled}
         label={label}
         control={
-          <ThemeUiRadio
+          <MuiRadio
             name={name}
             id={`${name}-${value}`}
             value={value}
@@ -114,25 +118,25 @@ export const Checkbox = ({
   disabled,
   onChange,
 }: { label: React.ReactNode; disabled?: boolean } & FieldProps) => (
-  <Box
-    component="label"
+  <FormControlLabel
     label={label}
     htmlFor={`${name}-${label}`}
+    control={
+      <MuiCheckbox
+        sx={{
+          // size: 20,
+          color: checked && !disabled ? "primary" : "grey.500",
+        }}
+        id={`${name}-${label}`}
+        name={name}
+        value={value}
+        checked={checked}
+        disabled={disabled}
+        onChange={onChange}
+      />
+    }
     disabled={disabled}
-  >
-    <RebassCheckbox
-      sx={{
-        // size: 20,
-        color: checked && !disabled ? "primary" : "grey.500",
-      }}
-      id={`${name}-${label}`}
-      name={name}
-      value={value}
-      checked={checked}
-      disabled={disabled}
-      onChange={onChange}
-    />
-  </Box>
+  />
 );
 
 export const Select = ({
@@ -150,11 +154,11 @@ export const Select = ({
 } & SelectProps) => (
   <Box sx={{ color: "grey.700", pb: 2 }}>
     {label && (
-      <Box component="label" htmlFor={id} disabled={disabled} smaller>
+      <Label htmlFor={id} disabled={disabled} smaller>
         {label}
-      </Box>
+      </Label>
     )}
-    <ThemeUiSelect
+    <MuiSelect
       sx={{
         borderColor: "grey.500",
         fontSize: "1rem",
@@ -182,7 +186,7 @@ export const Select = ({
           {opt.label}
         </option>
       ))}
-    </ThemeUiSelect>
+    </MuiSelect>
   </Box>
 );
 
@@ -200,9 +204,9 @@ export const MiniSelect = ({
 } & NativeSelectProps) => (
   <Box sx={{ color: "grey.800" }}>
     {label && (
-      <Box component="label" htmlFor={id} smaller>
+      <Label htmlFor={id} smaller>
         {label}
-      </Box>
+      </Label>
     )}
     <NativeSelect
       disableUnderline
@@ -246,11 +250,11 @@ export const Input = ({
 } & FieldProps) => (
   <Box sx={{ color: "grey.700", fontSize: "1rem" }}>
     {label && name && (
-      <Box component="label" htmlFor={name} smaller>
+      <Label htmlFor={name} smaller>
         {label}
-      </Box>
+      </Label>
     )}
-    <ThemeUiInput
+    <InputBase
       sx={{ borderColor: "grey.500", bgcolor: "grey.100", height: "40px" }}
       id={name}
       name={name}
@@ -298,14 +302,10 @@ export const SearchField = ({
       endAdornment={
         <InputAdornment position="end" sx={{ mr: -2 }}>
           {value && value !== "" && onReset && (
-            <IconButton
-              aria-label={
+            <IconButton size="small" sx={{ mr: 0 }} onClick={onReset}>
+              <VisuallyHidden>
                 <Trans id="controls.search.clear">Clear search field</Trans>
-              }
-              size="small"
-              sx={{ mr: 0 }}
-              onClick={onReset}
-            >
+              </VisuallyHidden>
               <Icon name="clear" size={16} />
             </IconButton>
           )}
