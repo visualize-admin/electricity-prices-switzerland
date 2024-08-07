@@ -1,4 +1,4 @@
-import { t, Trans } from "@lingui/macro";
+import { t } from "@lingui/macro";
 
 export const LogoMobile = () => (
   <svg width={30} height={34}>
@@ -24,9 +24,10 @@ export const LogoMobile = () => (
 export const LogoDesktop = () => (
   <svg width={224} height={56}>
     <title id="logo">
-      <Trans id="logo.swiss.confederation">
-        Logo of the Swiss Confederation
-      </Trans>
+      {t({
+        id: "logo.swiss.confederation",
+        message: "Logo of the Swiss Confederation",
+      })}
     </title>
     <g fillRule="nonzero" fill="none">
       <g fill="currentColor">
