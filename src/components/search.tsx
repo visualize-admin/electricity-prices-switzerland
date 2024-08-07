@@ -183,7 +183,7 @@ export const SearchField = ({
             appearance: "none",
 
             border: "1px solid",
-            borderRadius: 3,
+            borderRadius: 1,
             color: "text",
             borderColor: isOpen ? "primary" : "grey.500",
             bgcolor: "grey.100",

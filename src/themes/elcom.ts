@@ -290,7 +290,7 @@ export const theme: Theme = createTheme({
           style: {
             background: "primary",
             color: grey[100],
-            borderRadius: 3,
+            borderRadius: 1,
             width: "100%",
             px: 4,
             py: 3,
@@ -314,7 +314,7 @@ export const theme: Theme = createTheme({
           style: {
             background: "secondary",
             color: grey[100],
-            borderRadius: 3,
+            borderRadius: 1,
             width: "100%",
             px: 4,
             py: 3,
@@ -338,7 +338,7 @@ export const theme: Theme = createTheme({
           style: {
             background: "success",
             color: grey[100],
-            borderRadius: 3,
+            borderRadius: 1,
             width: "100%",
             px: 4,
             py: 3,
@@ -362,7 +362,7 @@ export const theme: Theme = createTheme({
           style: {
             background: grey[100],
             color: "primary.main",
-            borderRadius: 3,
+            borderRadius: 1,
             width: "100%",
             px: 4,
             py: 3,
@@ -386,7 +386,7 @@ export const theme: Theme = createTheme({
           style: {
             background: grey[100],
             color: grey[800],
-            borderRadius: 3,
+            borderRadius: 1,
             width: ["100%", "auto"],
             px: 4,
             py: 3,

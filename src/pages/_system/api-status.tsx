@@ -64,7 +64,7 @@ const StatusBox = (props: BoxProps) => {
       sx={{
         py: 2,
         px: 3,
-        borderRadius: 3,
+        borderRadius: 1,
         bgcolor: "grey.200",
         mb: 3,
         borderColor: "grey.400",

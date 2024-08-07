@@ -26,7 +26,7 @@ const LegendBox = ({
       sx={{
         zIndex: 13,
         bgcolor: "rgba(245, 245, 245, 0.8)",
-        borderRadius: 3,
+        borderRadius: 1,
         height: "fit-content",
         px: 4,
         py: 2,
@@ -165,7 +165,7 @@ export const PriceColorLegend = () => {
       sx={{
         width: LEGEND_WIDTH,
         zIndex: 13,
-        borderRadius: 3,
+        borderRadius: 1,
         height: "fit-content",
         pl: 4,
         py: 2,

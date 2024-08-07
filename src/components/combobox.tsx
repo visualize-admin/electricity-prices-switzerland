@@ -71,37 +71,41 @@ export const ComboboxMulti = ({
         </>
       )}
       renderTags={(value, getTagProps) =>
-        value.map((option, index) => (
-          <Box
-            sx={{
-              display: "inline-block",
-              p: 1,
-              mr: 2,
-              mb: 2,
-              borderRadius: 1,
-              fontSize: "0.75rem",
-              bgcolor: "primary.light",
-              "&:focus": {
-                outline: 0,
-                bgcolor: "primary.main",
-                color: "grey.100",
-              },
-            }}
-            {...getTagProps({ index })}
-          >
-            {getItemLabel(option)}{" "}
-            {canRemoveItems && (
-              <span
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setSelectedItems(selectedItems.filter((d) => d !== option));
-                }}
-              >
-                &#10005;
-              </span>
-            )}
-          </Box>
-        ))
+        value.map((option, index) => {
+          const { key, ...tagProps } = getTagProps({ index });
+          return (
+            <Box
+              key={key}
+              sx={{
+                display: "inline-block",
+                p: 1,
+                mr: 2,
+                mb: 2,
+                borderRadius: 1,
+                fontSize: "0.75rem",
+                bgcolor: "primary.light",
+                "&:focus": {
+                  outline: 0,
+                  bgcolor: "primary.main",
+                  color: "grey.100",
+                },
+              }}
+              {...tagProps}
+            >
+              {getItemLabel(option)}{" "}
+              {canRemoveItems && (
+                <span
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedItems(selectedItems.filter((d) => d !== option));
+                  }}
+                >
+                  &#10005;
+                </span>
+              )}
+            </Box>
+          );
+        })
       }
       renderOption={(props, option) => (
         <li {...props} key={option}>
