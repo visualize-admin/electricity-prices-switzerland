@@ -6,6 +6,7 @@
  *
  * - `theme` should be a plain object, conforming to the `Theme` type.
  */
+import { autocompleteClasses } from "@mui/material";
 import {
   Breakpoint,
   createTheme,
@@ -276,6 +277,16 @@ export const theme: Theme = createTheme({
 
       `,
     },
+    MuiAutocomplete: {
+      styleOverrides: {
+        popper: (o) => ({
+          [`&& .${autocompleteClasses.option}.Mui-focused, && .${autocompleteClasses.option}.Mui-focusVisible`]:
+            {
+              backgroundColor: `${o.theme.palette.primary.light}`,
+            },
+        }),
+      },
+    },
     MuiButton: {
       variants: [
         {
@@ -355,6 +366,12 @@ export const theme: Theme = createTheme({
               cursor: "initial",
               background: "success.disabled",
             },
+          },
+        },
+        {
+          props: { variant: "text" },
+          style: {
+            textTransform: "none",
           },
         },
         {

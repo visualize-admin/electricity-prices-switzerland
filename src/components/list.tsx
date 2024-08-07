@@ -63,7 +63,7 @@ const ListItem = ({
         borderBottomStyle: "solid",
         borderBottomColor: "grey.300",
         alignItems: "center",
-        height: "3.5rem",
+        minHeight: "3.5rem",
         lineHeight: "1rem",
         color: "text",
         textDecoration: "none",

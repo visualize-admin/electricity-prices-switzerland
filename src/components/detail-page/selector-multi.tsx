@@ -40,8 +40,8 @@ export const SelectorMulti = ({
         px: 4,
         py: 4,
         zIndex: 13,
-        "> div": { mt: 4 },
-        "> fieldset": { mt: 4, border: 0 },
+        "> div": { mt: 1 },
+        "> fieldset": { mt: 2, border: 0 },
       }}
       display="flex"
     >

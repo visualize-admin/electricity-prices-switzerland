@@ -37,6 +37,7 @@ export const LanguageMenu = ({ contentId }: { contentId?: string }) => {
       component="ul"
       sx={{
         listStyle: "none",
+        margin: 0,
         p: [2, 0],
         ml: [0, "auto"],
         width: ["100%", "auto"],

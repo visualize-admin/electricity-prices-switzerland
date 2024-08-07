@@ -11,6 +11,7 @@ import {
 import VisuallyHidden from "src/components/VisuallyHidden";
 import { useWikiContentQuery } from "src/graphql/queries";
 import { useLocale } from "src/lib/use-locale";
+import { theme } from "src/themes/elcom";
 
 import { Icon } from "../icons";
 
@@ -88,6 +89,17 @@ export const HelpDialog: React.FC<{
     open={open}
     onClose={close}
     aria-label={label}
+    sx={{
+      [theme.breakpoints.down("sm")]: {
+        "& .MuiDialog-paper": {
+          margin: 0,
+          height: "100%",
+          maxHeight: "initial",
+          borderRadius: 0,
+          width: "100%",
+        },
+      },
+    }}
   >
     <IconButton
       sx={{
