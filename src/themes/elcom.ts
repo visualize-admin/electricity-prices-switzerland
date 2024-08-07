@@ -238,6 +238,7 @@ export const theme: Theme = createTheme({
 
   // @ts-expect-error Could not correctly augment Shadows
   shadows: {
+    1: "0 2px 8px rgba(0, 0, 0, 0.25)",
     primary: "0 3px 5px 0 rgba(0,0,0,0.10)",
     rightSide: "2px 0 4px 0 rgba(0,0,0,0.05)",
     leftSide: "-2px 0 2px 0 rgba(0,0,0,0.05)",
@@ -289,7 +290,7 @@ export const theme: Theme = createTheme({
           style: {
             background: "primary",
             color: grey[100],
-            borderRadius: "default",
+            borderRadius: 3,
             width: "100%",
             px: 4,
             py: 3,
@@ -313,7 +314,7 @@ export const theme: Theme = createTheme({
           style: {
             background: "secondary",
             color: grey[100],
-            borderRadius: "default",
+            borderRadius: 3,
             width: "100%",
             px: 4,
             py: 3,
@@ -337,7 +338,7 @@ export const theme: Theme = createTheme({
           style: {
             background: "success",
             color: grey[100],
-            borderRadius: "default",
+            borderRadius: 3,
             width: "100%",
             px: 4,
             py: 3,
@@ -361,7 +362,7 @@ export const theme: Theme = createTheme({
           style: {
             background: grey[100],
             color: "primary.main",
-            borderRadius: "default",
+            borderRadius: 3,
             width: "100%",
             px: 4,
             py: 3,
@@ -385,7 +386,7 @@ export const theme: Theme = createTheme({
           style: {
             background: grey[100],
             color: grey[800],
-            borderRadius: "default",
+            borderRadius: 3,
             width: ["100%", "auto"],
             px: 4,
             py: 3,
