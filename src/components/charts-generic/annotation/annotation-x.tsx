@@ -1,5 +1,5 @@
-import * as React from "react";
 import { Box } from "@mui/material";
+import * as React from "react";
 
 import { GenericObservation } from "../../../domain/data";
 import { getLocalizedLabel } from "../../../domain/translation";
