@@ -3,7 +3,7 @@ const { z } = require("zod");
 export const buildSchema = z.object({
   // Used to display a mention of the current deployment in development mode
   DEPLOYMENT: z.string().optional(),
-  CURRENT_PERIOD: z.string().default("2025"),
+  CURRENT_PERIOD: z.string().default("2024"),
   FIRST_PERIOD: z.string().default("2009"),
   VERSION: z.string().optional(),
 });
