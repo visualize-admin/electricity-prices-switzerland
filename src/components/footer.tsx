@@ -196,25 +196,27 @@ export const Footer = () => {
           >
             {t({ id: "footer.data-as-csv", message: "Daten als .csv" })}
           </FooterLink>
-          <FooterLink
-            href={`/api/municipalities-data.csv?period=${period}`}
-            icon={
-              <Box sx={{ display: "flex", flexShrink: 0, gap: "1rem" }}>
-                <IconButton
-                  sx={{ p: 0, width: 24, height: 24, cursor: "pointer" }}
-                  onClick={handleOpenMunicipalitiesInfo}
-                >
-                  <IconInfo />
-                </IconButton>
-                <IconDownload />
-              </Box>
-            }
-          >
-            {t({
-              id: "footer.municipalities-and-grid-operators",
-              message: `Schweizerische Gemeinden und zuständige Stromnetzbetreiber`,
-            })}
-          </FooterLink>
+          {false && (
+            <FooterLink
+              href={`/api/municipalities-data.csv?period=${period}`}
+              icon={
+                <Box sx={{ display: "flex", flexShrink: 0, gap: "1rem" }}>
+                  <IconButton
+                    sx={{ p: 0, width: 24, height: 24, cursor: "pointer" }}
+                    onClick={handleOpenMunicipalitiesInfo}
+                  >
+                    <IconInfo />
+                  </IconButton>
+                  <IconDownload />
+                </Box>
+              }
+            >
+              {t({
+                id: "footer.municipalities-and-grid-operators",
+                message: `Schweizerische Gemeinden und zuständige Stromnetzbetreiber`,
+              })}
+            </FooterLink>
+          )}
           <FooterLink
             target="_blank"
             icon={<IconShare />}
