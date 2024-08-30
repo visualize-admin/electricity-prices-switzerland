@@ -6,14 +6,25 @@ import { NextApiHandler } from "next";
 import { z } from "zod";
 
 import buildEnv from "src/env/build";
+import serverEnv from "src/env/server";
 
 const MunicipalityInfo = z
   .object({
     netzbetreiber: z.string(),
-    webseite: z.string().optional(),
+    netzbetreiberStrasse: z.string(),
+    netzbetreiberPlz: z.string(),
+    netzbetreiberOrt: z.string(),
+
     gemeindeNummer: z.string().transform(Number),
     gemeindeName: z.string(),
-    postleitzahl: z.string(),
+
+    kategorieName: z.string(),
+    total: z.string(),
+    energie: z.string(),
+    abgaben: z.string(),
+    netznutzung: z.string(),
+    netzzuschlag: z.string(),
+
     kanton: z.enum([
       "AG",
       "AI",
@@ -45,10 +56,17 @@ const MunicipalityInfo = z
   })
   .transform((x) => ({
     operator: x.netzbetreiber,
-    website: x.webseite,
-    municipalityNumber: x.gemeindeNummer,
-    municipalityName: x.gemeindeName,
-    postalCode: x.postleitzahl,
+    streetAddress: x.netzbetreiberStrasse,
+    postalCode: x.netzbetreiberPlz,
+    addressLocality: x.netzbetreiberOrt,
+    gemeindeNummer: x.gemeindeNummer,
+    gemeindeName: x.gemeindeName,
+    categoryName: x.kategorieName,
+    total: x.total,
+    energy: x.energie,
+    charge: x.abgaben,
+    gridusage: x.netznutzung,
+    aidfee: x.netzzuschlag,
     canton: x.kanton,
   }));
 
@@ -60,68 +78,64 @@ type SparqlResponse = {
 
 type MunicipalityInfo = z.infer<typeof MunicipalityInfo>;
 
-const fetchMunicipalitiesInfo = async (period: number) => {
+const fetchMunicipalitiesInfo = async (year: number) => {
   const sp = new URLSearchParams();
-  sp.append(
-    "query",
-    /* sparql */ `
-PREFIX schema: <http://schema.org/>
-PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX cube: <https://cube.link/>
-PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-PREFIX strom: <https://energy.ld.admin.ch/elcom/electricityprice/dimension/>
-
-SELECT DISTINCT ?netzbetreiber ?webseite ?gemeindeNummer ?gemeindeName ?postleitzahl ?kanton
-FROM <https://lindas.admin.ch/elcom/electricityprice>
-FROM <https://lindas.admin.ch/territorial>
-FROM <https://lindas.admin.ch/fso/register>
-WHERE {
-  {
-    SELECT ?municipality ?gemeindeName ?gemeindeNummer ?kanton (IF(MIN(?plz) = MAX(?plz), MIN(?plz), CONCAT(MIN(?plz), " - ", MAX(?plz))) AS ?postleitzahl)
-    WHERE {
-      ?municipality schema:name ?gemeindeName ;
-        schema:identifier ?gemeindeNummer ;
-        schema:postalCode ?plz ;
-        schema:containedInPlace ?canton .
-
-      ?canton a <https://schema.ld.admin.ch/Canton> ;
-        schema:alternateName ?kanton .
-    }
-    GROUP BY ?municipality ?gemeindeName ?gemeindeNummer ?kanton
-  }
+  const query = /* sparql */ `
+  PREFIX schema: <http://schema.org/>
+  PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+  PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+  PREFIX cube: <https://cube.link/>
+  PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+  PREFIX strom: <https://energy.ld.admin.ch/elcom/electricityprice/dimension/>
   
+  SELECT ?netzbetreiber ?netzbetreiberStrasse ?netzbetreiberPlz ?netzbetreiberOrt ?gemeindeNummer ?gemeindeName ?kanton ?kategorieName ?total ?energie ?abgaben ?netznutzung ?netzzuschlag 
+  
+  FROM <https://lindas.admin.ch/elcom/electricityprice>
+  FROM <https://lindas.admin.ch/territorial>
+  FROM <https://lindas.admin.ch/fso/register>
+  
+  WHERE
+  {
     {  
-    SELECT ?operator ?netzbetreiber ?webseite { 
-      ?operator a schema:Organization ;
-      schema:name ?netzbetreiber .
-      OPTIONAL {
-      	?operator schema:url ?webseite .
+      SELECT ?operator ?netzbetreiber ?netzbetreiberStrasse ?netzbetreiberPlz ?netzbetreiberOrt { 
+        ?operator a schema:Organization ;
+          schema:name ?netzbetreiber .
+        ?operator schema:address ?address .
+        ?address schema:postalCode ?netzbetreiberPlz ;
+          schema:streetAddress ?netzbetreiberStrasse ;
+          schema:addressLocality ?netzbetreiberOrt .
       }
     }
+    
+    <https://energy.ld.admin.ch/elcom/electricityprice> a cube:Cube ;
+      cube:observationSet/cube:observation ?obs .
+    
+    ?obs strom:period "${year}"^^xsd:gYear ; # Adjust here if you need another year
+      strom:municipality ?municipality;
+      strom:category ?category ;
+      strom:product <https://energy.ld.admin.ch/elcom/electricityprice/product/standard> ;
+      strom:total ?total ;
+      strom:energy ?energie ;
+      strom:charge ?abgaben ;
+      strom:gridusage ?netznutzung ;
+      strom:aidfee ?netzzuschlag ;
+      strom:operator ?operator .
+  
+    ?municipality schema:name ?gemeindeName ;
+      schema:identifier ?gemeindeNummer ;
+      schema:containedInPlace ?canton .
+    
+    ?canton a <https://schema.ld.admin.ch/Canton> ;
+      schema:alternateName ?kanton .
+    
+    ?category schema:name ?kategorieName .  
   }
-  
-    {
-    SELECT (MAX(?year) AS ?latestYear) {
-      ?obs strom:period ?year .
-    }
-  }
-  
-   <https://energy.ld.admin.ch/elcom/electricityprice> a cube:Cube ;
-    cube:observationSet/cube:observation ?obs .
-  
-    ?obs strom:period "${period}"^^xsd:gYear ; 
-       strom:municipality ?municipality;
-    strom:operator ?operator .
+  ORDER BY ?gemeindeNummer ?kategorieName  
+          `;
 
-  
-  
-} ORDER BY ?netzbetreiber ?gemeindeNummer
+  sp.append("query", query);
 
-        `
-  );
-
-  const resp = await fetch("https://lindas-cached.cluster.ldbar.ch/query", {
+  const resp = await fetch(serverEnv.SPARQL_ENDPOINT, {
     method: "POST",
     body: sp.toString(),
     headers: {
@@ -146,10 +160,17 @@ const handler: NextApiHandler = async (req, res) => {
   const filename = `municipalities-data-${period}.csv`;
   const csv = csvFormat(data, [
     "operator",
-    "website",
-    "municipalityNumber",
-    "municipalityName",
+    "streetAddress",
     "postalCode",
+    "addressLocality",
+    "gemeindeNummer",
+    "gemeindeName",
+    "categoryName",
+    "total",
+    "energy",
+    "charge",
+    "gridusage",
+    "aidfee",
     "canton",
   ]);
   res.setHeader("Content-Type", "text/csv");
