@@ -14,7 +14,9 @@ const MunicipalityInfo = z
     webseite: z.string().optional(),
     gemeindeNummer: z.string(),
     gemeindeName: z.string(),
-    gemeindePlz: z.string(),
+    netzbetreiberPlz: z.string(),
+    netzbetreiberOrt: z.string(),
+    netzbetreiberStrasse: z.string(),
 
     kanton: z.enum([
       "AG",
@@ -47,7 +49,8 @@ const MunicipalityInfo = z
   })
   .transform((x) => ({
     operator: x.netzbetreiber,
-    postalCode: x.gemeindePlz,
+    operatorPostalCode: x.netzbetreiberPlz,
+    operatorAddress: `${x.netzbetreiberStrasse}, ${x.netzbetreiberOrt}`,
     municipalityName: x.gemeindeName,
     municipalityNumber: x.gemeindeNummer,
     website: x.webseite,
@@ -144,7 +147,8 @@ const handler: NextApiHandler = async (req, res) => {
     "website",
     "municipalityNumber",
     "municipalityName",
-    "postalCode",
+    "operatorAddress",
+    "operatorPostalCode",
     "canton",
   ]);
   res.setHeader("Content-Type", "text/csv");
