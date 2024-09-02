@@ -72,7 +72,7 @@ const fetchMunicipalitiesInfo = async (year: number) => {
   PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
   PREFIX strom: <https://energy.ld.admin.ch/elcom/electricityprice/dimension/>
   
-  SELECT ?netzbetreiber ?netzbetreiberStrasse ?netzbetreiberPlz ?netzbetreiberOrt ?gemeindePlz ?gemeindeName ?gemeindeNummer ?kanton ?webseite
+  SELECT DISTINCT  ?netzbetreiber ?netzbetreiberStrasse ?netzbetreiberPlz ?netzbetreiberOrt ?gemeindePlz ?gemeindeName ?gemeindeNummer ?kanton ?webseite
   
   FROM <https://lindas.admin.ch/elcom/electricityprice>
   FROM <https://lindas.admin.ch/territorial>
@@ -110,8 +110,6 @@ const fetchMunicipalitiesInfo = async (year: number) => {
     
     ?canton a <https://schema.ld.admin.ch/Canton> ;
       schema:alternateName ?kanton .
-    
-    ?category schema:name ?kategorieName .  
   }
   ORDER BY ?gemeindeNummer ?kategorieName  
           `;
