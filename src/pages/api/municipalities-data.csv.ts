@@ -75,7 +75,7 @@ const fetchMunicipalitiesInfo = async (year: number) => {
   PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
   PREFIX strom: <https://energy.ld.admin.ch/elcom/electricityprice/dimension/>
   
-  SELECT DISTINCT  ?netzbetreiber ?netzbetreiberStrasse ?netzbetreiberPlz ?netzbetreiberOrt ?gemeindePlz ?gemeindeName ?gemeindeNummer ?kanton ?webseite
+  SELECT DISTINCT  ?netzbetreiber ?webseite ?netzbetreiberStrasse ?netzbetreiberPlz ?netzbetreiberOrt ?gemeindePlz ?gemeindeName ?gemeindeNummer ?kanton ?webseite
   
   FROM <https://lindas.admin.ch/elcom/electricityprice>
   FROM <https://lindas.admin.ch/territorial>
@@ -84,12 +84,12 @@ const fetchMunicipalitiesInfo = async (year: number) => {
   WHERE
   {
     {  
-      SELECT ?operator ?netzbetreiber ?netzbetreiberStrasse ?netzbetreiberPlz ?netzbetreiberOrt { 
+      SELECT ?operator ?netzbetreiber ?netzbetreiberStrasse ?netzbetreiberPlz ?netzbetreiberOrt ?webseite { 
         ?operator a schema:Organization ;
           schema:name ?netzbetreiber .
-        OPTIONAL {
-          ?operator schema:url ?webseite .
-        }
+          OPTIONAL {
+            ?operator schema:url ?webseite .
+          }
         ?operator schema:address ?address .
         ?address schema:postalCode ?netzbetreiberPlz ;
           schema:streetAddress ?netzbetreiberStrasse ;
