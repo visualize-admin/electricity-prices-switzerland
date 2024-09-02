@@ -196,7 +196,7 @@ export const Footer = () => {
           >
             {t({ id: "footer.data-as-csv", message: "Daten als .csv" })}
           </FooterLink>
-          {false && (
+          {
             <FooterLink
               href={`/api/municipalities-data.csv?period=${period}`}
               icon={
@@ -216,7 +216,7 @@ export const Footer = () => {
                 message: `Schweizerische Gemeinden und zuständige Stromnetzbetreiber`,
               })}
             </FooterLink>
-          )}
+          }
           <FooterLink
             target="_blank"
             icon={<IconShare />}
