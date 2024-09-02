@@ -59,15 +59,7 @@ const MunicipalityInfo = z
     streetAddress: x.netzbetreiberStrasse,
     postalCode: x.netzbetreiberPlz,
     addressLocality: x.netzbetreiberOrt,
-    gemeindeNummer: x.gemeindeNummer,
     gemeindeName: x.gemeindeName,
-    categoryName: x.kategorieName,
-    total: x.total,
-    energy: x.energie,
-    charge: x.abgaben,
-    gridusage: x.netznutzung,
-    aidfee: x.netzzuschlag,
-    canton: x.kanton,
   }));
 
 type SparqlResponse = {
@@ -88,7 +80,7 @@ const fetchMunicipalitiesInfo = async (year: number) => {
   PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
   PREFIX strom: <https://energy.ld.admin.ch/elcom/electricityprice/dimension/>
   
-  SELECT ?netzbetreiber ?netzbetreiberStrasse ?netzbetreiberPlz ?netzbetreiberOrt ?gemeindeNummer ?gemeindeName ?kanton ?kategorieName ?total ?energie ?abgaben ?netznutzung ?netzzuschlag 
+  SELECT ?netzbetreiber ?netzbetreiberStrasse ?netzbetreiberPlz ?netzbetreiberOrt ?gemeindeName ?kanton ?webseite
   
   FROM <https://lindas.admin.ch/elcom/electricityprice>
   FROM <https://lindas.admin.ch/territorial>
@@ -100,6 +92,9 @@ const fetchMunicipalitiesInfo = async (year: number) => {
       SELECT ?operator ?netzbetreiber ?netzbetreiberStrasse ?netzbetreiberPlz ?netzbetreiberOrt { 
         ?operator a schema:Organization ;
           schema:name ?netzbetreiber .
+          OPTIONAL {
+      	    ?operator schema:url ?webseite .
+          }
         ?operator schema:address ?address .
         ?address schema:postalCode ?netzbetreiberPlz ;
           schema:streetAddress ?netzbetreiberStrasse ;
@@ -114,11 +109,6 @@ const fetchMunicipalitiesInfo = async (year: number) => {
       strom:municipality ?municipality;
       strom:category ?category ;
       strom:product <https://energy.ld.admin.ch/elcom/electricityprice/product/standard> ;
-      strom:total ?total ;
-      strom:energy ?energie ;
-      strom:charge ?abgaben ;
-      strom:gridusage ?netznutzung ;
-      strom:aidfee ?netzzuschlag ;
       strom:operator ?operator .
   
     ?municipality schema:name ?gemeindeName ;
@@ -163,15 +153,9 @@ const handler: NextApiHandler = async (req, res) => {
     "streetAddress",
     "postalCode",
     "addressLocality",
-    "gemeindeNummer",
+
     "gemeindeName",
-    "categoryName",
-    "total",
-    "energy",
-    "charge",
-    "gridusage",
-    "aidfee",
-    "canton",
+    "website",
   ]);
   res.setHeader("Content-Type", "text/csv");
   res.setHeader("Content-Disposition", `attachment;filename=${filename}`);
