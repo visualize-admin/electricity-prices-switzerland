@@ -11,19 +11,10 @@ import serverEnv from "src/env/server";
 const MunicipalityInfo = z
   .object({
     netzbetreiber: z.string(),
-    netzbetreiberStrasse: z.string(),
-    netzbetreiberPlz: z.string(),
-    netzbetreiberOrt: z.string(),
-
-    gemeindeNummer: z.string().transform(Number),
+    webseite: z.string().optional(),
+    gemeindeNummer: z.string(),
     gemeindeName: z.string(),
-
-    kategorieName: z.string(),
-    total: z.string(),
-    energie: z.string(),
-    abgaben: z.string(),
-    netznutzung: z.string(),
-    netzzuschlag: z.string(),
+    gemeindePlz: z.string(),
 
     kanton: z.enum([
       "AG",
@@ -56,10 +47,11 @@ const MunicipalityInfo = z
   })
   .transform((x) => ({
     operator: x.netzbetreiber,
-    streetAddress: x.netzbetreiberStrasse,
-    postalCode: x.netzbetreiberPlz,
-    addressLocality: x.netzbetreiberOrt,
-    gemeindeName: x.gemeindeName,
+    postalCode: x.gemeindePlz,
+    municipalityName: x.gemeindeName,
+    municipalityNumber: x.gemeindeNummer,
+    website: x.webseite,
+    canton: x.kanton,
   }));
 
 type SparqlResponse = {
@@ -80,7 +72,7 @@ const fetchMunicipalitiesInfo = async (year: number) => {
   PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
   PREFIX strom: <https://energy.ld.admin.ch/elcom/electricityprice/dimension/>
   
-  SELECT ?netzbetreiber ?netzbetreiberStrasse ?netzbetreiberPlz ?netzbetreiberOrt ?gemeindeName ?kanton ?webseite
+  SELECT ?netzbetreiber ?netzbetreiberStrasse ?netzbetreiberPlz ?netzbetreiberOrt ?gemeindePlz ?gemeindeName ?gemeindeNummer ?kanton ?webseite
   
   FROM <https://lindas.admin.ch/elcom/electricityprice>
   FROM <https://lindas.admin.ch/territorial>
@@ -92,9 +84,9 @@ const fetchMunicipalitiesInfo = async (year: number) => {
       SELECT ?operator ?netzbetreiber ?netzbetreiberStrasse ?netzbetreiberPlz ?netzbetreiberOrt { 
         ?operator a schema:Organization ;
           schema:name ?netzbetreiber .
-          OPTIONAL {
-      	    ?operator schema:url ?webseite .
-          }
+        OPTIONAL {
+          ?operator schema:url ?webseite .
+        }
         ?operator schema:address ?address .
         ?address schema:postalCode ?netzbetreiberPlz ;
           schema:streetAddress ?netzbetreiberStrasse ;
@@ -113,6 +105,7 @@ const fetchMunicipalitiesInfo = async (year: number) => {
   
     ?municipality schema:name ?gemeindeName ;
       schema:identifier ?gemeindeNummer ;
+      schema:postalCode ?gemeindePlz ;
       schema:containedInPlace ?canton .
     
     ?canton a <https://schema.ld.admin.ch/Canton> ;
@@ -150,12 +143,11 @@ const handler: NextApiHandler = async (req, res) => {
   const filename = `municipalities-data-${period}.csv`;
   const csv = csvFormat(data, [
     "operator",
-    "streetAddress",
-    "postalCode",
-    "addressLocality",
-
-    "gemeindeName",
     "website",
+    "municipalityNumber",
+    "municipalityName",
+    "postalCode",
+    "canton",
   ]);
   res.setHeader("Content-Type", "text/csv");
   res.setHeader("Content-Disposition", `attachment;filename=${filename}`);
