@@ -55,6 +55,8 @@ module.exports = withBundleAnalyzer(
       localeDetection: false,
     },
 
+    output: 'standalone',
+
     webpack(config) {
       config.module.rules.push({
         test: /\.(graphql|gql)$/,

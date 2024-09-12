@@ -33,11 +33,16 @@ i18n.loadLocaleData({
   en: { plurals: pluralsEn },
 });
 i18n.load({
-  // @ts-expect-error: Seems like a typing error on lingui types
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   de: catalogDe,
-  // @ts-expect-error: Seems like a typing error on lingui types
+
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   fr: catalogFr,
-  // @ts-expect-error: Seems like a typing error on lingui types
+
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   it: catalogIt,
 });
 i18n.activate(defaultLocale);
