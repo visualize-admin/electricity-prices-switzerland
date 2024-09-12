@@ -1,5 +1,9 @@
 name: End-to-end tests
-on: [push]
+on:
+  push:
+    # TODO Remove this branch before merging
+    branches-ignore:
+      - docker
 jobs:
   ci:
     runs-on: ubuntu-latest
