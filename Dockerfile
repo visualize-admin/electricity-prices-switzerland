@@ -15,7 +15,7 @@ RUN yarn install --frozen-lockfile
 # Builder image
 FROM base AS builder
 WORKDIR /app
-RUN apk add alpine-sdk make
+RUN apk add alpine-sdk make curl
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
