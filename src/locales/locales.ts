@@ -33,11 +33,8 @@ i18n.loadLocaleData({
   en: { plurals: pluralsEn },
 });
 i18n.load({
-  // @ts-expect-error: Seems like a typing error on lingui types
   de: catalogDe,
-  // @ts-expect-error: Seems like a typing error on lingui types
   fr: catalogFr,
-  // @ts-expect-error: Seems like a typing error on lingui types
   it: catalogIt,
 });
 i18n.activate(defaultLocale);
