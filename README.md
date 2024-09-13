@@ -190,3 +190,17 @@ This way it is easy to quickly generate a test.
 
 - Add testIds in case the generated selectors are not understandable.
 - Add sleeps to make sure the test is not too quick and "human like"
+
+## Docker
+
+Both the frontend and the screenshot service can be built as docker images
+and spin up through docker-compose.
+
+```
+yarn docker:build
+yarn docker:build-screenshot
+docker compose up
+```
+
+To mimick a cloud infrastructure where the /api/screenshot route is routed
+to "screenshots" instances, the traefik reverse proxy is used.
