@@ -8,6 +8,9 @@ services:
 
   screenshot:
     image: interactivethings/electricity-prices-switzerland-screenshot
+    # Due to the image being based on node, we need to use init
+    # to ensure the container correctly handles signals
+    # See https://github.com/nodejs/docker-node/blob/7f99010af378daa2520bb60435d0e91e20950d82/docs/BestPractices.md#handling-kernel-signals
     init: true
     labels:
       - "traefik.enable=true"
