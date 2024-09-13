@@ -13,6 +13,7 @@ const CurrentPageLink = ({
 }: {
   locale: string;
   passHref?: boolean;
+  hrefLang?: string;
   children: ReactNode;
 }) => {
   const { pathname, query } = useRouter();
@@ -90,11 +91,16 @@ export const LanguageMenu = ({ contentId }: { contentId?: string }) => {
             sx={{ ml: 1, p: 0, "& a": { textDecoration: "none" } }}
           >
             {alternate ? (
-              <NextLink href={alternate.path} passHref locale={false}>
-                {linkEl}
+              <NextLink
+                href={alternate.path}
+                passHref
+                hrefLang={locale}
+                locale={false}
+              >
+                hello{linkEl}
               </NextLink>
             ) : (
-              <CurrentPageLink locale={locale} passHref>
+              <CurrentPageLink locale={locale} passHref hrefLang={locale}>
                 {linkEl}
               </CurrentPageLink>
             )}
