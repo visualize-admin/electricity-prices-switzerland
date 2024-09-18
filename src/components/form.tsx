@@ -124,7 +124,6 @@ export const Checkbox = ({
     control={
       <MuiCheckbox
         sx={{
-          // size: 20,
           color: checked && !disabled ? "primary" : "grey.500",
         }}
         id={`${name}-${label}`}
