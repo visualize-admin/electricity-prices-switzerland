@@ -209,9 +209,11 @@ export const Combobox: React.FC<ComboboxProps> = ({
         renderGroup={(params) => {
           return (
             <>
-              <Typography variant="meta" fontWeight="bold" sx={{ mx: 4 }}>
-                {params.group}
-              </Typography>
+              {params.group ? (
+                <Typography variant="meta" fontWeight="bold" sx={{ mx: 4 }}>
+                  {params.group}
+                </Typography>
+              ) : null}
               {params.children}
             </>
           );
