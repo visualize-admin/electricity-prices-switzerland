@@ -153,7 +153,7 @@ export const HelpDialog: React.FC<{
               <Trans id="dialog.infoprefix">Info:</Trans> {label}
             </Typography>
           </MuiDialogTitle>
-          <MuiDialogContent>
+          <MuiDialogContent sx={{ "& table": { width: "100%" } }}>
             <DialogContent contentQuery={contentQuery} />
           </MuiDialogContent>
         </Dialog>
