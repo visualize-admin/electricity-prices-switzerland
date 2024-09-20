@@ -1,6 +1,6 @@
 import { t } from "@lingui/macro";
-import { Box, Typography } from "@mui/material";
-import Autocomplete from "@mui/material/Autocomplete";
+import { Box, outlinedInputClasses, Typography } from "@mui/material";
+import Autocomplete, { autocompleteClasses } from "@mui/material/Autocomplete";
 import TextField, { TextFieldProps } from "@mui/material/TextField";
 import { useState, useEffect, useMemo } from "react";
 
@@ -247,8 +247,23 @@ export const Combobox: React.FC<ComboboxProps> = ({
           />
         )}
         noOptionsText={t({ id: "combobox.noitems", message: "Keine Einträge" })}
+        ListboxProps={{
+          sx: {
+            padding: 0,
+          },
+        }}
+        slotProps={{
+          paper: {
+            sx: {
+              marginTop: "0.25rem",
+            },
+          },
+        }}
         sx={{
-          "& .MuiOutlinedInput-root": {
+          [`& .${autocompleteClasses.paper}`]: {
+            marginTop: "0.25rem",
+          },
+          [`& .${outlinedInputClasses.root}`]: {
             "& fieldset": {
               borderColor: "grey.500",
             },
