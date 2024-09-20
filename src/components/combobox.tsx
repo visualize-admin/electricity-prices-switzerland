@@ -67,6 +67,11 @@ export const ComboboxMulti = ({
           />
         </>
       )}
+      noOptionsText={
+        inputValue === "" && lazy
+          ? t({ id: "combobox.prompt", message: "Bezeichnung eingeben …" })
+          : t({ id: "combobox.noitems", message: "Keine Einträge" })
+      }
       renderTags={(value, getTagProps) =>
         value.map((option, index) => {
           const { key, ...tagProps } = getTagProps({ index });
