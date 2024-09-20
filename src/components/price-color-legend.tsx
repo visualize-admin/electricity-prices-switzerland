@@ -64,7 +64,7 @@ export const MapPriceColorLegend = ({
   }
   return (
     <LegendBox>
-      <Box sx={{ alignItems: "center", width: "100%" }} display="flex">
+      <Box sx={{ alignItems: "center", width: "100%", mb: -1 }} display="flex">
         <Typography
           variant="inherit"
           sx={{ fontSize: "0.625rem", lineHeight: 1.5, mr: 1 }}
@@ -93,7 +93,6 @@ export const MapPriceColorLegend = ({
       </Box>
       <Box
         sx={{
-          mt: 1,
           width: LEGEND_WIDTH,
         }}
       >
@@ -132,22 +131,28 @@ export const MapPriceColorLegend = ({
             justifyContent: "space-between",
             color: "grey.600",
             fontSize: "0.625rem",
-            mb: 2,
+            mb: 3,
           }}
           display="flex"
         >
-          <Typography variant="inherit" sx={{ flex: "1 1 0px" }}>
+          <Typography
+            variant="inherit"
+            component="span"
+            sx={{ flex: "1 1 0px", lineHeight: 1 }}
+          >
             <Trans id="price.legend.min">min</Trans>
           </Typography>
           <Typography
             variant="inherit"
-            sx={{ flex: "1 1 0px", textAlign: "center" }}
+            component="span"
+            sx={{ flex: "1 1 0px", textAlign: "center", lineHeight: 1 }}
           >
             <Trans id="price.legend.median">median</Trans>
           </Typography>
           <Typography
             variant="inherit"
-            sx={{ flex: "1 1 0px", textAlign: "right" }}
+            component="span"
+            sx={{ flex: "1 1 0px", textAlign: "right", lineHeight: 1 }}
           >
             <Trans id="price.legend.max">max</Trans>
           </Typography>
