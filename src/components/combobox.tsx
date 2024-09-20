@@ -122,9 +122,6 @@ export const ComboboxMulti = ({
               .toLowerCase()
               .startsWith(state.inputValue.toLowerCase())
         );
-        if (filteredOptions.length === 0 && state.inputValue !== "" && lazy) {
-          filteredOptions.push(state.inputValue);
-        }
         return filteredOptions;
       }}
       getOptionLabel={(option) => getItemLabel(option)}
