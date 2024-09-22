@@ -477,7 +477,16 @@ export const ChoroplethMap = ({
           observations: [],
         }
     : undefined;
-  const d = extent(observations, (d) => d.value);
+
+  const valuesExtent = useMemo(() => {
+    const meansByMunicipality = rollup(
+      observations,
+      (values) => mean(values, (d) => d.value),
+      (d) => d.municipality
+    ).values();
+    return extent(meansByMunicipality, (d) => d) as [number, number];
+  }, [observations]);
+
   const m = medianValue;
 
   const getFillColor = useMemo(() => {
@@ -710,7 +719,9 @@ export const ChoroplethMap = ({
                 ml: 3,
               }}
             >
-              <MapPriceColorLegend stats={[d[0], m, d[1]]} />
+              <MapPriceColorLegend
+                stats={[valuesExtent[0], m, valuesExtent[1]]}
+              />
             </Box>
 
             <DeckGL
