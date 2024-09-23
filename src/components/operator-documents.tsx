@@ -1,8 +1,8 @@
 import { Trans } from "@lingui/macro";
+import { Box, Link, Typography } from "@mui/material";
 import { descending, rollup } from "d3-array";
 import { uniqBy } from "lodash";
 import { useMemo } from "react";
-import { Box, Flex, Link, Text } from "theme-ui";
 
 import {
   OperatorDocument,
@@ -39,23 +39,23 @@ const DocumentList = ({
   itemLabel: React.ReactNode;
 }) => {
   return (
-    <Box as="ul" sx={{ listStyle: "none", m: 0, p: 0 }}>
+    <Box component="ul" sx={{ listStyle: "none", m: 0, p: 0 }}>
       {documents.map((doc) => {
         return (
           <Box
-            as="li"
+            component="li"
             key={doc.id + doc.url}
             sx={{ ml: 0, mb: 2, p: 0 }}
-            variant="text.paragraph2"
+            typography="body2"
           >
             <Link href={doc.url} variant="inline">
-              <Flex>
+              <Box display="flex">
                 <Box sx={{ flexShrink: 0, mr: 2 }}>
                   <Icon name="pdf" size={20} />
                 </Box>{" "}
-                {itemLabel} {doc.year} (
+                {itemLabel} {doc.year}(
                 <Trans id="download.filetype.pdf">PDF-Datei</Trans>)
-              </Flex>
+              </Box>
             </Link>
           </Box>
         );
@@ -97,11 +97,11 @@ export const OperatorDocuments = ({ id }: { id: string }) => {
 
   if (documents.length === 0) {
     return (
-      <Text variant="paragraph2" sx={{ m: 6, color: "hint" }}>
+      <Typography variant="body2" sx={{ m: 6, color: "hint.main" }}>
         <Trans id="download.nooperatordocuments">
           Keine Netzbetreiber-Dokumente
         </Trans>
-      </Text>
+      </Typography>
     );
   }
 
@@ -116,9 +116,9 @@ export const OperatorDocuments = ({ id }: { id: string }) => {
 
         return (
           <Box key={category.id} sx={{ mx: 4, my: 6 }}>
-            <Text as="h4" sx={{ mb: 3 }} variant="lead">
+            <Typography component="h4" sx={{ mb: 3 }} variant="lead">
               {category.categoryLabel}
-            </Text>
+            </Typography>
             <DocumentList itemLabel={category.itemLabel} documents={docs} />
           </Box>
         );

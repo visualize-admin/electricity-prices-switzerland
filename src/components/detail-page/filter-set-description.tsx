@@ -1,4 +1,4 @@
-import { Text, Box } from "@theme-ui/components";
+import { Typography, Box } from "@mui/material";
 import * as React from "react";
 
 import { getLocalizedLabel } from "../../domain/translation";
@@ -18,9 +18,9 @@ export const FilterSetDescription = ({
   filters: Partial<FilterSet>;
 }) => {
   return (
-    <Text
-      variant="paragraph1"
-      sx={{ my: 4, color: "monochrome800", fontWeight: "light" }}
+    <Typography
+      variant="body1"
+      sx={{ my: 4, color: "grey.800", fontWeight: "light" }}
     >
       {Object.entries(filters).map(([key, value], i) => {
         if (!value) {
@@ -29,9 +29,9 @@ export const FilterSetDescription = ({
 
         return (
           <React.Fragment key={key}>
-            <Box as="span">{getLocalizedLabel({ id: key })}</Box>
+            <Box component="span">{getLocalizedLabel({ id: key })}</Box>
             {": "}
-            <Box as="span" sx={{ fontWeight: "bold" }}>
+            <Box component="span" sx={{ fontWeight: "bold" }}>
               {getLocalizedLabel({
                 id: value,
               })}
@@ -40,6 +40,6 @@ export const FilterSetDescription = ({
           </React.Fragment>
         );
       })}
-    </Text>
+    </Typography>
   );
 };

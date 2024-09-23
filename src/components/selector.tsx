@@ -1,6 +1,6 @@
 import { Trans, t } from "@lingui/macro";
+import { Typography, Box } from "@mui/material";
 import { useMemo } from "react";
-import { Flex, Text } from "theme-ui";
 
 import { useQueryStateSingle } from "src/lib/use-query-state";
 
@@ -21,25 +21,29 @@ export const Selector = () => {
     ] as React.ComponentProps<typeof Combobox>["items"];
   }, []);
   return (
-    <Flex
-      as="fieldset"
+    <Box
+      component="fieldset"
       sx={{
+        border: 0,
         flexDirection: "column",
         justifyContent: "flex-start",
-        bg: "mutedColored",
+        bgcolor: "muted.colored",
         px: 4,
         py: 4,
-
+        gap: "0.325rem",
         zIndex: 13,
-        "> div": { mt: 3 },
-        "> div:last-of-type": { mt: 6 },
       }}
+      display="flex"
     >
-      <Text as="legend" variant="lead" sx={{ display: "contents" }}>
+      <Typography
+        component="legend"
+        variant="lead"
+        sx={{ display: "contents" }}
+      >
         <Trans id="selector.legend.select.parameters">
           Liste und Karte filtern
         </Trans>
-      </Text>
+      </Typography>
       <Combobox
         id="year"
         label={t({ id: "selector.year", message: `Jahr` })}
@@ -60,7 +64,6 @@ export const Selector = () => {
         }
         infoDialogSlug="help-price-components"
       />
-
       <Combobox
         id="category"
         label={t({ id: "selector.category", message: `Kategorie` })}
@@ -72,7 +75,6 @@ export const Selector = () => {
         }
         infoDialogSlug="help-categories"
       />
-
       <Combobox
         id="product"
         label={t({ id: "selector.product", message: `Produkt` })}
@@ -84,9 +86,9 @@ export const Selector = () => {
         }
         infoDialogSlug="help-products"
       />
-      <Text variant="lead">
+      <Typography variant="lead" sx={{ mt: 4 }}>
         <Trans id="selector.results">Suchergebnisse:</Trans>
-      </Text>
-    </Flex>
+      </Typography>
+    </Box>
   );
 };

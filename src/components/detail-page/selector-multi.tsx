@@ -1,6 +1,6 @@
 import { Trans, t } from "@lingui/macro";
+import { Box, Typography } from "@mui/material";
 import { useMemo } from "react";
-import { Flex, Text } from "theme-ui";
 
 import { useQueryState } from "src/lib/use-query-state";
 
@@ -30,25 +30,30 @@ export const SelectorMulti = ({
   }, []);
 
   return (
-    <Flex
-      as="fieldset"
+    <Box
+      component="fieldset"
       sx={{
+        border: 0,
         flexDirection: "column",
         justifyContent: "flex-start",
-        bg: "mutedColored",
+        bgcolor: "muted.colored",
         px: 4,
         py: 4,
         zIndex: 13,
-        "> div": { mt: 4 },
-        "> fieldset": { mt: 4 },
+        "> div": { mt: 1 },
+        "> fieldset": { mt: 2, border: 0 },
       }}
+      display="flex"
     >
-      <Text as="legend" variant="lead" sx={{ display: "contents" }}>
+      <Typography
+        component="legend"
+        variant="lead"
+        sx={{ display: "contents" }}
+      >
         <Trans id="selector.legend.select.parameters">
           Parameter auswählen
         </Trans>
-      </Text>
-
+      </Typography>
       <>
         {entity === "operator" ? (
           <OperatorsCombobox
@@ -110,6 +115,6 @@ export const SelectorMulti = ({
           infoDialogSlug="help-products"
         />
       </>
-    </Flex>
+    </Box>
   );
 };

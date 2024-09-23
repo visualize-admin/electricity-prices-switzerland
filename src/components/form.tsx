@@ -1,17 +1,23 @@
 import { Trans } from "@lingui/macro";
-import VisuallyHidden from "@reach/visually-hidden";
 import {
   Box,
   BoxProps,
-  Button,
-  Checkbox as RebassCheckbox,
-  Input as ThemeUiInput,
-  Label as ThemeUiLabel,
-  Radio as ThemeUiRadio,
-  Select as ThemeUiSelect,
+  Checkbox as MuiCheckbox,
+  Radio as MuiRadio,
+  Select as MuiSelect,
+  IconButton,
   SelectProps,
-} from "@theme-ui/components";
+  Typography,
+  InputAdornment,
+  OutlinedInput,
+  NativeSelect,
+  NativeSelectProps,
+  FormControlLabel,
+  InputBase,
+} from "@mui/material";
 import * as React from "react";
+
+import VisuallyHidden from "src/components/VisuallyHidden";
 
 import { Icon } from "../icons";
 
@@ -41,15 +47,20 @@ export const Label = ({
   children: React.ReactNode;
   showLabel?: boolean;
 }) => (
-  <ThemeUiLabel
+  <Typography
+    variant="inherit"
+    component="label"
+    display="block"
     htmlFor={htmlFor}
     sx={{
-      color: disabled ? "monochrome600" : "monochrome700",
-      fontSize: smaller ? [2, 2, 2] : [4, 4, 4],
+      color: disabled ? "grey.600" : "grey.700",
+      fontSize: smaller ? "0.75rem" : "1rem",
       pb: smaller ? 1 : 0,
       mr: 4,
       display: "flex",
+      width: "100%",
       alignItems: "center",
+      lineHeight: 1,
     }}
   >
     {children}
@@ -58,7 +69,6 @@ export const Label = ({
         sx={{
           maxWidth: "88%",
           textAlign: "left",
-          fontFamily: "body",
           pr: 1,
           visibility: showLabel ? "visible" : "hidden",
         }}
@@ -66,7 +76,7 @@ export const Label = ({
         {label}
       </Box>
     )}
-  </ThemeUiLabel>
+  </Typography>
 );
 
 export const Radio = ({
@@ -79,20 +89,23 @@ export const Radio = ({
 }: { label: string | React.ReactNode; disabled?: boolean } & FieldProps) => {
   return (
     <Box mb={2}>
-      <Label label={label} htmlFor={`${name}-${value}`} disabled={disabled}>
-        <ThemeUiRadio
-          name={name}
-          id={`${name}-${value}`}
-          value={value}
-          onChange={onChange}
-          checked={checked}
-          disabled={disabled}
-          size={20}
-          sx={{
-            color: checked && !disabled ? "primary" : "monochrome500",
-          }}
-        />
-      </Label>
+      <FormControlLabel
+        disabled={disabled}
+        label={label}
+        control={
+          <MuiRadio
+            name={name}
+            id={`${name}-${value}`}
+            value={value}
+            onChange={onChange}
+            checked={checked}
+            disabled={disabled}
+            sx={{
+              color: checked && !disabled ? "primary" : "grey.500",
+            }}
+          />
+        }
+      />
     </Box>
   );
 };
@@ -105,20 +118,24 @@ export const Checkbox = ({
   disabled,
   onChange,
 }: { label: React.ReactNode; disabled?: boolean } & FieldProps) => (
-  <Label label={label} htmlFor={`${name}-${label}`} disabled={disabled}>
-    <RebassCheckbox
-      sx={{
-        // size: 20,
-        color: checked && !disabled ? "primary" : "monochrome500",
-      }}
-      id={`${name}-${label}`}
-      name={name}
-      value={value}
-      checked={checked}
-      disabled={disabled}
-      onChange={onChange}
-    />
-  </Label>
+  <FormControlLabel
+    label={label}
+    htmlFor={`${name}-${label}`}
+    control={
+      <MuiCheckbox
+        sx={{
+          color: checked && !disabled ? "primary" : "grey.500",
+        }}
+        id={`${name}-${label}`}
+        name={name}
+        value={value}
+        checked={checked}
+        disabled={disabled}
+        onChange={onChange}
+      />
+    }
+    disabled={disabled}
+  />
 );
 
 export const Select = ({
@@ -134,23 +151,23 @@ export const Select = ({
   label?: React.ReactNode;
   disabled?: boolean;
 } & SelectProps) => (
-  <Box sx={{ color: "monochrome700", pb: 2 }}>
+  <Box sx={{ color: "grey.700", pb: 2 }}>
     {label && (
       <Label htmlFor={id} disabled={disabled} smaller>
         {label}
       </Label>
     )}
-    <ThemeUiSelect
+    <MuiSelect
       sx={{
-        borderColor: "monochrome500",
-        fontSize: 4,
-        bg: "monochrome100",
+        borderColor: "grey.500",
+        fontSize: "1rem",
+        bgcolor: "grey.100",
         pt: 2,
         pb: 2,
         pl: 2,
         pr: 5,
         height: "40px",
-        color: disabled ? "monochrome500" : "monochrome700",
+        color: disabled ? "grey.500" : "grey.700",
         textOverflow: "ellipsis",
       }}
       id={id}
@@ -168,7 +185,7 @@ export const Select = ({
           {opt.label}
         </option>
       ))}
-    </ThemeUiSelect>
+    </MuiSelect>
   </Box>
 );
 
@@ -183,24 +200,26 @@ export const MiniSelect = ({
   options: Option[];
   label?: React.ReactNode;
   disabled?: boolean;
-} & SelectProps) => (
-  <Box sx={{ color: "monochrome800" }}>
+} & NativeSelectProps) => (
+  <Box sx={{ color: "grey.800" }}>
     {label && (
       <Label htmlFor={id} smaller>
         {label}
       </Label>
     )}
-    <ThemeUiSelect
+    <NativeSelect
+      disableUnderline
       sx={{
         borderColor: "transparent",
-        fontSize: [1, 2, 2],
-        fontFamily: "body",
-        bg: "transparent",
+        fontSize: ["0.625rem", "0.75rem", "0.75rem"],
+        borderBottom: 0,
+        bgcolor: "transparent",
         py: 0,
         pl: 1,
         pr: 4,
         mr: 1, // Fix for Chrome which cuts of the label otherwise
-        ":focus": {
+        "&:focus": {
+          bgcolor: "transparent",
           outline: "none",
           borderColor: "primary",
         },
@@ -215,7 +234,7 @@ export const MiniSelect = ({
           {opt.label}
         </option>
       ))}
-    </ThemeUiSelect>
+    </NativeSelect>
   </Box>
 );
 
@@ -228,14 +247,14 @@ export const Input = ({
   label?: string | React.ReactNode;
   disabled?: boolean;
 } & FieldProps) => (
-  <Box sx={{ color: "monochrome700", fontSize: 4 }}>
+  <Box sx={{ color: "grey.700", fontSize: "1rem" }}>
     {label && name && (
       <Label htmlFor={name} smaller>
         {label}
       </Label>
     )}
-    <ThemeUiInput
-      sx={{ borderColor: "monochrome500", bg: "monochrome100", height: "40px" }}
+    <InputBase
+      sx={{ borderColor: "grey.500", bgcolor: "grey.100", height: "40px" }}
       id={name}
       name={name}
       value={value}
@@ -262,61 +281,36 @@ export const SearchField = ({
   sx?: BoxProps["sx"];
 } & FieldProps) => {
   return (
-    <Box
-      sx={{ color: "monochrome700", fontSize: 4, position: "relative", ...sx }}
-    >
-      {label && id && (
-        <label htmlFor={id}>
-          <VisuallyHidden>{label}</VisuallyHidden>
-        </label>
-      )}
-      <Box
-        aria-hidden="true"
-        sx={{ position: "absolute", top: "50%", mt: "-8px", ml: 2 }}
-      >
-        <Icon name="search" size={16} />
-      </Box>
-      <ThemeUiInput
-        sx={{
-          flexGrow: 1,
-          borderColor: "monochrome500",
-          bg: "monochrome100",
-          px: 6,
-          ":focus": { outline: "none", borderColor: "primary" },
-        }}
-        id={id}
-        value={value}
-        onChange={onChange}
-        placeholder={placeholder}
-      />
-      {value && value !== "" && onReset && (
-        <Box
-          sx={{
-            position: "absolute",
-            top: "50%",
-            right: 0,
-            mt: "-8px",
-            mr: 2,
-          }}
-        >
-          <Button
-            variant="reset"
-            sx={{ p: 0, cursor: "pointer" }}
-            onClick={onReset}
-          >
-            <VisuallyHidden>
-              <Trans id="controls.search.clear">Clear search field</Trans>
-            </VisuallyHidden>
-            <Box
-              aria-hidden="true"
-              sx={{ borderRadius: "circle", bg: "monochrome600" }}
-            >
+    <OutlinedInput
+      size="small"
+      sx={{ color: "grey.700", fontSize: "1rem", position: "relative", ...sx }}
+      id={id}
+      value={value}
+      onChange={onChange}
+      placeholder={placeholder}
+      startAdornment={
+        <InputAdornment position="start">
+          {label && id && (
+            <label htmlFor={id}>
+              <VisuallyHidden>{label}</VisuallyHidden>
+            </label>
+          )}
+          <Icon name="search" size={16} />
+        </InputAdornment>
+      }
+      endAdornment={
+        <InputAdornment position="end" sx={{ mr: -2 }}>
+          {value && value !== "" && onReset && (
+            <IconButton size="small" sx={{ mr: 0 }} onClick={onReset}>
+              <VisuallyHidden>
+                <Trans id="controls.search.clear">Clear search field</Trans>
+              </VisuallyHidden>
               <Icon name="clear" size={16} />
-            </Box>
-          </Button>
-        </Box>
-      )}
-    </Box>
+            </IconButton>
+          )}
+        </InputAdornment>
+      }
+    />
   );
 };
 
@@ -327,14 +321,13 @@ export const FieldSetLegend = ({
 }) => (
   <Box
     sx={{
-      fontFamily: "body",
-      lineHeight: [1, 2, 2],
+      lineHeight: ["1rem", "1.125rem", "1.125rem"],
       fontWeight: "regular",
-      fontSize: [1, 2, 2],
+      fontSize: ["0.625rem", "0.75rem", "0.75rem"],
       mb: 1,
-      color: "monochrome600",
+      color: "grey.600",
     }}
-    as="legend"
+    component="legend"
   >
     {legendTitle}
   </Box>

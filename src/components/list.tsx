@@ -1,10 +1,10 @@
 import { t, Trans } from "@lingui/macro";
+import { Box, Button, Link, Typography } from "@mui/material";
 import { ScaleThreshold } from "d3";
 import { ascending, descending, mean, rollup } from "d3-array";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { useContext, useMemo, useState } from "react";
-import { Box, Button, Flex, Text } from "theme-ui";
 
 import {
   CantonMedianObservationFieldsFragment,
@@ -45,59 +45,60 @@ const ListItem = ({
       ? "operator"
       : ("canton" as Entity);
   return (
-    <NextLink
+    <Link
+      underline="none"
+      color="inherit"
+      component={NextLink}
       href={{
         pathname: `/${entity}/[id]`,
         query: { ...query, id },
       }}
-      passHref
+      onMouseOver={() => setHighlightContext({ entity, id, label, value })}
+      onMouseOut={() => setHighlightContext(undefined)}
+      sx={{
+        pl: [2, 4, 4],
+        py: 1,
+        mx: 0,
+        borderBottomWidth: "1px",
+        borderBottomStyle: "solid",
+        borderBottomColor: "grey.300",
+        alignItems: "center",
+        minHeight: "3.5rem",
+        lineHeight: "1rem",
+        color: "text",
+        textDecoration: "none",
+        "&:hover": {
+          bgcolor: "muted.darker",
+        },
+        "&:active": {
+          bgcolor: "primary.light",
+        },
+        "&:focus": {
+          outline: 0,
+          bgcolor: "primary.light",
+        },
+      }}
+      display="flex"
     >
-      <Flex
-        onMouseOver={() => setHighlightContext({ entity, id, label, value })}
-        onMouseOut={() => setHighlightContext(undefined)}
-        as="a"
+      <Typography variant="body2" sx={{ flexGrow: 1, mr: 1 }}>
+        {label}
+      </Typography>
+      <Box
         sx={{
-          pl: [2, 4, 4],
-          py: 1,
-          mx: 0,
-          borderBottomWidth: "1px",
-          borderBottomStyle: "solid",
-          borderBottomColor: "monochrome300",
-          alignItems: "center",
-          height: "3.5rem",
-          lineHeight: 1,
-          color: "text",
-          textDecoration: "none",
-          "&:hover": {
-            bg: "mutedDarker",
-          },
-          "&:active": {
-            bg: "primaryLight",
-          },
-          "&:focus": {
-            outline: 0,
-            bg: "primaryLight",
-          },
+          borderRadius: 9999,
+          px: 2,
+          flexShrink: 0,
         }}
+        style={{ background: colorScale(value) }}
       >
-        <Text variant="paragraph2" sx={{ flexGrow: 1, mr: 1 }}>
-          {label}
-        </Text>
-        <Box
-          sx={{
-            borderRadius: "circle",
-            px: 2,
-            flexShrink: 0,
-          }}
-          style={{ background: colorScale(value) }}
-        >
-          <Text variant="paragraph2">{formatNumber(value)}</Text>
-        </Box>
-        <Box sx={{ width: "24px", flexShrink: 0 }}>
-          <Icon name="chevronright"></Icon>
-        </Box>
-      </Flex>
-    </NextLink>
+        <Typography variant="body2" color="black">
+          {formatNumber(value)}
+        </Typography>
+      </Box>
+      <Box sx={{ width: "24px", flexShrink: 0 }}>
+        <Icon name="chevronright"></Icon>
+      </Box>
+    </Link>
   );
 };
 
@@ -149,7 +150,7 @@ const ListItems = ({
           }}
         >
           <Button
-            variant="inline"
+            variant="text"
             onClick={() => setTruncated((n) => n + TRUNCATION_INCREMENT)}
           >
             <Trans id="list.showmore">Mehr anzeigen …</Trans>
@@ -167,41 +168,40 @@ const placeholderListItems = Array.from(
 
 const PlaceholderListItem = () => {
   return (
-    <Flex
+    <Box
       sx={{
         pl: 2,
         py: 1,
         mx: [2, 4, 4],
         borderBottomWidth: "1px",
         borderBottomStyle: "solid",
-        borderBottomColor: "monochrome300",
+        borderBottomColor: "grey.300",
         alignItems: "center",
         height: "3.5rem",
-        lineHeight: 1,
+        lineHeight: "1rem",
         color: "text",
       }}
+      display="flex"
     >
-      <Text
-        variant="paragraph2"
-        sx={{ flexGrow: 1, bg: "monochrome200", mr: 5 }}
-      >
-        &nbsp;
-      </Text>
+      <Typography
+        variant="body2"
+        sx={{ flexGrow: 1, bgcolor: "grey.200", mr: 5 }}
+      ></Typography>
       <Box
         sx={{
-          borderRadius: "circle",
+          borderRadius: 9999,
           px: 2,
           flexShrink: 0,
-          bg: "monochrome200",
+          bgcolor: "grey.200",
           width: "5ch",
         }}
       >
-        <Text variant="paragraph2">&nbsp;</Text>
+        <Typography variant="body2">&nbsp;</Typography>
       </Box>
-      <Box sx={{ width: "24px", flexShrink: 0, color: "monochrome200" }}>
+      <Box sx={{ width: "24px", flexShrink: 0, color: "grey.200" }}>
         <Icon name="chevronright"></Icon>
       </Box>
-    </Flex>
+    </Box>
   );
 };
 
@@ -218,7 +218,7 @@ const PlaceholderListItems = () => {
           p: 3,
         }}
       >
-        <Box variant="buttons.inline">&nbsp;</Box>
+        &nbsp;
       </Box>
     </Box>
   );
@@ -335,10 +335,14 @@ export const List = ({
           py: [2, 4, 4],
           borderBottomWidth: "1px",
           borderBottomStyle: "solid",
-          borderBottomColor: "monochrome300",
+          borderBottomColor: "grey.300",
         }}
       >
-        <Stack direction="row" spacing={2} sx={{ width: "100%" }}>
+        <Stack
+          direction="row"
+          spacing={0}
+          sx={{ width: "100%", alignItems: "center" }}
+        >
           <SearchField
             id="listSearch"
             value={searchQuery}
@@ -360,29 +364,31 @@ export const List = ({
           />
         </Stack>
 
-        <Flex sx={{ justifyContent: "space-between", mt: 2 }}>
-          <label htmlFor="listSort">
-            <Text
-              color="secondary"
-              sx={{
-                fontFamily: "body",
-                fontSize: [1, 2, 2],
-                lineHeight: "24px",
-              }}
-            >
-              <Trans id="dataset.sortby">Sortieren</Trans>
-            </Text>
-          </label>
-
+        <Box
+          sx={{ justifyContent: "space-between", mt: 2, alignItems: "center" }}
+          display="flex"
+        >
+          <Typography
+            display="span"
+            component="label"
+            htmlFor="listSort"
+            color="secondary"
+            sx={{
+              fontSize: ["0.625rem", "0.75rem", "0.75rem"],
+              lineHeight: "24px",
+            }}
+          >
+            <Trans id="dataset.sortby">Sortieren</Trans>
+          </Typography>
           <MiniSelect
             id="listSort"
             value={sortState}
             options={sortOptions}
             onChange={(e) => {
-              setSortState(e.currentTarget.value as SortState);
+              setSortState(e.currentTarget?.value as SortState);
             }}
-          ></MiniSelect>
-        </Flex>
+          />
+        </Box>
       </Box>
 
       {observationsQueryFetching ? (
