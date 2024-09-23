@@ -28,7 +28,7 @@ const grey = {
   900: "#000000",
 } as const;
 
-const breakpoints = ["xs", "md", "md"] as Breakpoint[];
+const fontBreakpoints = ["xs", "md"] as Breakpoint[];
 
 const fontSizes = [
   "0rem",
@@ -77,7 +77,7 @@ const createTypographyVariant = (
       ? `${lineHeights[spec.lineHeight[i]]}`
       : lineHeights;
     const fontSize = `${fontSizes[spec.fontSize[i]]}`;
-    res[theme.breakpoints.up(breakpoints[i])] = {
+    res[theme.breakpoints.up(fontBreakpoints[i])] = {
       fontSize,
       lineHeight,
     };
@@ -193,47 +193,47 @@ export const theme: Theme = createTheme({
     giga: createTypographyVariant(bpTheme, {
       lineHeight: 1.2,
       fontWeight: "bold",
-      fontSize: [8, 9, 9],
+      fontSize: [8, 9],
     }),
     h1: createTypographyVariant(bpTheme, {
-      lineHeight: [8, 8, 8],
+      lineHeight: [8, 8],
       fontWeight: "bold",
-      fontSize: [7, 7, 7],
+      fontSize: [7, 7],
     }),
     h2: createTypographyVariant(bpTheme, {
-      lineHeight: [6, 7, 7],
+      lineHeight: [6, 7],
       fontWeight: "regular",
-      fontSize: [5, 6, 6],
+      fontSize: [5, 6],
     }),
     h3: createTypographyVariant(bpTheme, {
-      lineHeight: [5, 6, 6],
+      lineHeight: [5, 6],
       fontWeight: "bold",
-      fontSize: [4, 5, 5],
+      fontSize: [4, 5],
     }),
     lead: createTypographyVariant(bpTheme, {
-      lineHeight: [4, 5, 5],
+      lineHeight: [4, 5],
       fontWeight: "bold",
-      fontSize: [3, 4, 4],
+      fontSize: [3, 4],
     }),
     body1: createTypographyVariant(bpTheme, {
-      lineHeight: [4, 5, 5],
+      lineHeight: [4, 5],
       fontWeight: "regular",
-      fontSize: [3, 4, 4],
+      fontSize: [3, 4],
     }),
     body2: createTypographyVariant(bpTheme, {
-      lineHeight: [2, 4, 3],
+      lineHeight: [2, 3],
       fontWeight: "regular",
-      fontSize: [2, 3, 3],
+      fontSize: [2, 3],
     }),
     table: createTypographyVariant(bpTheme, {
-      lineHeight: [2, 4, 4],
+      lineHeight: [2, 4],
       fontWeight: "regular",
-      fontSize: [2, 3, 3],
+      fontSize: [2, 3],
     }),
     meta: createTypographyVariant(bpTheme, {
-      lineHeight: [1, 2, 2],
+      lineHeight: [1, 2],
       fontWeight: "regular",
-      fontSize: [1, 2, 2],
+      fontSize: [1, 2],
     }),
   },
 
