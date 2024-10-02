@@ -36,38 +36,40 @@ try {
   console.error("I18N_DOMAINS parsing failed:", e.message);
 }
 
-module.exports = withBundleAnalyzer(
-  withMDX({
-    assetPrefix:
-      WEBPACK_ASSET_PREFIX !== undefined && WEBPACK_ASSET_PREFIX !== ""
-        ? WEBPACK_ASSET_PREFIX
-        : undefined,
+/** @type {import("next").NextConfig} */
+const config = {
+  output: "standalone",
+  assetPrefix:
+    WEBPACK_ASSET_PREFIX !== undefined && WEBPACK_ASSET_PREFIX !== ""
+      ? WEBPACK_ASSET_PREFIX
+      : undefined,
 
-    // Build-time env variables
-    env: buildEnv,
+  // Build-time env variables
+  env: buildEnv,
 
-    pageExtensions: ["js", "ts", "tsx", "mdx"],
+  pageExtensions: ["js", "ts", "tsx", "mdx"],
 
-    i18n: {
-      locales,
-      defaultLocale,
-      domains: i18nDomains,
-      localeDetection: false,
-    },
+  i18n: {
+    locales,
+    defaultLocale,
+    domains: i18nDomains,
+    localeDetection: false,
+  },
 
-    webpack(config) {
-      config.module.rules.push({
-        test: /\.(graphql|gql)$/,
-        exclude: /node_modules/,
-        loader: "graphql-tag/loader",
-      });
-      config.module.rules.push({
-        test: /\.xml$/,
-        exclude: /node_modules/,
-        loader: "raw-loader",
-      });
+  webpack(config) {
+    config.module.rules.push({
+      test: /\.(graphql|gql)$/,
+      exclude: /node_modules/,
+      loader: "graphql-tag/loader",
+    });
+    config.module.rules.push({
+      test: /\.xml$/,
+      exclude: /node_modules/,
+      loader: "raw-loader",
+    });
 
-      return config;
-    },
-  })
-);
+    return config;
+  },
+};
+
+module.exports = withBundleAnalyzer(withMDX(config));
