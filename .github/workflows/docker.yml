@@ -50,15 +50,22 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      # Build app
+      - name: Create fake wiki content
+        run: echo "[]" > src/wiki-content.json
+
+        # Build app
       - name: Extract metadata (tags, labels) for Docker
         id: meta-app
         uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
         with:
           images: ${{ env.IMAGE_NAME_APP}}
-
-      - name: Create fake wiki content
-        run: echo "[]" > src/wiki-content.json
+          # Default value for tags + added the type=raw line
+          tags: |
+            type=schedule
+            type=ref,event=branch
+            type=ref,event=tag
+            type=ref,event=pr
+            type=raw,value=env-app-${{ inputs.environment }}
 
       - name: Build and push Docker image
         id: push-app
@@ -67,7 +74,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ptbrowne/test:latest-app
+          tags: ${{ steps.meta-app.outputs.tags }}
           labels: ${{ steps.meta-app.outputs.labels }}
 
       - name: Generate artifact attestation
@@ -83,15 +90,22 @@ jobs:
         uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
         with:
           images: ${{ env.IMAGE_NAME_SCREENSHOT}}
+          # Default value for tags + added the type=raw line
+          tags: |
+            type=schedule
+            type=ref,event=branch
+            type=ref,event=tag
+            type=ref,event=pr
+            type=raw,value=env-app-${{ inputs.environment }}
 
       - name: Build and push Docker image
         id: push-screenshot
         uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
         with:
-          context: .
+          context: ./screenshots-service
           file: ./screenshot-service/Dockerfile
           push: true
-          tags: ptbrowne/test:latest-screenshot
+          tags: ${{ steps.meta-app.outputs.tags }}
           labels: ${{ steps.meta-screenshot.outputs.labels }}
 
       - name: Generate artifact attestation
