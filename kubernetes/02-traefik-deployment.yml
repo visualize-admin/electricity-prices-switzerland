@@ -1,0 +1,32 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: elcom-strompreise-website-reverse-proxy
+  labels:
+    app: elcom-strompreise-website
+spec:
+  revisionHistoryLimit: 0
+  replicas: 1
+  selector:
+    matchLabels:
+      app: elcom-strompreise-website
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: elcom-strompreise-website
+    spec:
+      serviceAccountName: traefik-account
+      containers:
+        - name: elcom-strompreise-website-reverse-proxy
+          image: traefik:v3.1
+          args:
+            - --api.insecure
+            - --providers.kubernetesingress
+          ports:
+            - containerPort: 80
+              protocol: TCP
+            - containerPort: 8080
+              protocol: TCP
+      restartPolicy: Always

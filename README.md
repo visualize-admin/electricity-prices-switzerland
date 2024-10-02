@@ -113,7 +113,7 @@ the gitlab content. The proxy is configured via the `./configure-proxy.js` scrip
 required in the `package.json` start command. It uses the `HTTP_PROXY` environment variable
 
 - For some of the server requests (SAML requests), we must _not_ use this proxy, and the agent
-is configured there manually.
+  is configured there manually.
 - For external requests that should use the proxy, we can use `https.globalAgent`.
 
 ```
@@ -204,3 +204,22 @@ docker compose up
 
 To mimick a cloud infrastructure where the /api/screenshot route is routed
 to "screenshots" instances, the traefik reverse proxy is used.
+
+## Deployment on Kubernetes / Red Hat Open Shift (RHOS)
+
+To deploy on Open Shift, there are kubernetes manifest files in `kubernetes/`.
+
+```bash
+# So that minikube can pull images from the local docker Daemon (+ adding           imagePullPolicy: Never)
+eval $(minikube docker-env)
+
+# Build the images and push them to the local minikube Docker
+yarn run docker:build
+yarn run docker:build-screenshot
+
+# Start minikube if not already started
+minikube start
+
+# Start cluster
+kubectl apply -f 'kubernetes/*.yml' # or yarn run k8s:apply
+```
