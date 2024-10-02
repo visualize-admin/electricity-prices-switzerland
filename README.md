@@ -220,6 +220,9 @@ yarn run docker:build-screenshot
 # Start minikube if not already started
 minikube start
 
+# Set secrets from local env file
+kubectl create secret generic elcom-strompreise-website-env --from-env-file=.env.dev.local
+
 # Start cluster
 kubectl apply -f 'kubernetes/*.yml' # or yarn run k8s:apply
 ```

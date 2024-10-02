@@ -19,6 +19,57 @@ spec:
         - image: interactivethings/electricity-prices-switzerland
           name: elcom-strompreise-website-app
           imagePullPolicy: Never
+          env:
+            - name: BASIC_AUTH_CREDENTIALS
+              valueFrom:
+                secretKeyRef:
+                  name: elcom-strompreise-website-env
+                  key: BASIC_AUTH_CREDENTIALS
+            - name: CURRENT_PERIOD
+              valueFrom:
+                secretKeyRef:
+                  name: elcom-strompreise-website-env
+                  key: CURRENT_PERIOD
+            - name: EIAM_CERTIFICATE_CONTENT
+              valueFrom:
+                secretKeyRef:
+                  name: elcom-strompreise-website-env
+                  key: EIAM_CERTIFICATE_CONTENT
+            - name: EIAM_CERTIFICATE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: elcom-strompreise-website-env
+                  key: EIAM_CERTIFICATE_PASSWORD
+            - name: FIRST_PERIOD
+              valueFrom:
+                secretKeyRef:
+                  name: elcom-strompreise-website-env
+                  key: FIRST_PERIOD
+            - name: GITLAB_WIKI_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: elcom-strompreise-website-env
+                  key: GITLAB_WIKI_TOKEN
+            - name: GITLAB_WIKI_URL
+              valueFrom:
+                secretKeyRef:
+                  name: elcom-strompreise-website-env
+                  key: GITLAB_WIKI_URL
+            - name: I18N_DOMAINS
+              valueFrom:
+                secretKeyRef:
+                  name: elcom-strompreise-website-env
+                  key: I18N_DOMAINS
+            - name: SPARQL_EDITOR
+              valueFrom:
+                secretKeyRef:
+                  name: elcom-strompreise-website-env
+                  key: SPARQL_EDITOR
+            - name: SPARQL_ENDPOINT
+              valueFrom:
+                secretKeyRef:
+                  name: elcom-strompreise-website-env
+                  key: SPARQL_ENDPOINT
           ports:
             - containerPort: 3000
               protocol: TCP
