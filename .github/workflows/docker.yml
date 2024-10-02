@@ -28,8 +28,8 @@ on:
 
 env:
   REGISTRY: docker.io
-  IMAGE_NAME_APP: elcom-strompreise-website-app
-  IMAGE_NAME_SCREENSHOT: elcom-strompreise-website-screenshot
+  IMAGE_NAME_APP: ptbrowne/test
+  IMAGE_NAME_SCREENSHOT: ptbrowne/test
 
 jobs:
   push_to_registry:
@@ -67,7 +67,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ steps.meta-app.outputs.tags }}
+          tags: ptbrowne/test:latest-app
           labels: ${{ steps.meta-app.outputs.labels }}
 
       - name: Generate artifact attestation
@@ -91,7 +91,7 @@ jobs:
           context: .
           file: ./screenshot-service/Dockerfile
           push: true
-          tags: ${{ steps.meta-screenshot.outputs.tags }}
+          tags: ptbrowne/test:latest-screenshot
           labels: ${{ steps.meta-screenshot.outputs.labels }}
 
       - name: Generate artifact attestation
