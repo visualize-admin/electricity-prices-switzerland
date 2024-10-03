@@ -1,0 +1,45 @@
+# Default values for helm-charts.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# This will set the replicaset count more information can be found here: https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/
+web:
+  image: interactivethings/electricity-prices-switzerland
+  replicaCount: 1
+  name: elcom-strompreise-website-web
+  port:
+    number: 3000
+    name: http
+  env:
+    secretKeyRef: elcom-strompreise-website-env
+    keys:
+      - BASIC_AUTH_CREDENTIALS
+      - CURRENT_PERIOD
+      - EIAM_CERTIFICATE_CONTENT
+      - EIAM_CERTIFICATE_PASSWORD
+      - FIRST_PERIOD
+      - GITLAB_WIKI_TOKEN
+      - GITLAB_WIKI_URL
+      - I18N_DOMAINS
+      - SPARQL_EDITOR
+      - SPARQL_ENDPOINT
+
+screenshot:
+  image: interactivethings/electricity-prices-switzerland-screenshot
+  replicaCount: 1
+  name: elcom-strompreise-website-screenshot
+  port:
+    number: 3000
+    name: http
+
+traefik:
+  serviceAccountName: traefik-account
+  name: elcom-strompreise-website-traefik
+  deployment:
+    port:
+      container: 3000
+      name: http
+  service:
+    port: 80
+
+

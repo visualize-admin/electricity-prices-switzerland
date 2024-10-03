@@ -224,5 +224,8 @@ minikube start
 kubectl create secret generic elcom-strompreise-website-env --from-env-file=.env.dev.local
 
 # Start cluster
-kubectl apply -f 'kubernetes/*.yml' # or yarn run k8s:apply
+helm install --replace release helm-charts/
+
+# Update
+helm upgrade --install release helm-charts/
 ```
