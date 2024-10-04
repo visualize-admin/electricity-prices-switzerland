@@ -42,4 +42,13 @@ traefik:
   service:
     port: 80
 
-
+secrets:
+  create: true
+  externalStore:
+    create: true
+    path: p-szb-ros-shrd-npr-01
+    server: "https://vault-6e297d55-038a-42f2-b9d8-8ad1e69fecee.apps.p-szb-ros-shrd-npr-01.cloud.admin.ch"
+    paths:
+      dockerConfigJSON:
+        id: "/default"
+        name: "dockerconfig"

@@ -1,0 +1,70 @@
+# An ApplicationSet is a Kubernetes custom resource that's part of the Argo CD project.
+# It is designed to dynamically manage and synchronize multiple applications based on a common configuration.
+# It instructs Argo CD to generate applications based on the specified source code and configuration.
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: elcom-strompreise
+spec:
+  # This section defines how applications are generated from the source repository:
+  generators:
+    - matrix: # Generates applications by combining different values from various generators.
+      generators:  # List contains the individual generators used to create different application configurations.
+        - git: # Fetches the source code from a Git repository.
+          repoURL: ssh://git@bitbucket.bit.admin.ch/elcedes/strompreise-website.git
+          revision: master
+          directories: # Specifies which directories within the repository to consider for application generation.
+            - path: strompreise-website*  # Starting with (e.g., "strompreise-website*").
+        - list: # Generates applications by iterating through a list of configurations.
+          # This list defines different configurations for the application deployment.
+          elements:
+            - env: ref
+              nsSuffix: d
+              branch: master
+            - env: abn
+              nsSuffix: a
+              branch: master
+            - env: prod
+              nsSuffix: prod
+              branch: master
+  template: # Defines the template for generating individual applications from the source code:
+    metadata:
+      # The name for the generated application is constructed by combining the directory name and the environment name.
+      name: '{{path.basename}}-{{ env }}'
+    # Defines how the application is deployed.
+    spec: # Specifies the destination cluster and namespace for deployment.
+      destination:
+        # Is left empty since it doesn't apply to individual applications generated from the template.
+        name: ''
+        # The namespace for deployment is constructed using the base namespace and the environment suffix.
+        namespace: 'elcom-strompreise-{{ nsSuffix }}'
+        # The Kubernetes API server address.
+        server: 'https://kubernetes.default.svc'
+      # Specifies the source code and configuration for the application.
+      source:
+        # The path within the Git repository where the Helm chart is located.
+        path: '{{path.basename}}/helm'
+        # Same as in the git generator, this references the Git repository.
+        repoURL: 'ssh://git@bitbucket.bit.admin.ch/elcedes/strompreise-website.git'
+        # Uses the previously defined branch value from the generator.
+        targetRevision: '{{ branch }}'
+        # Defines additional configurations for deploying the applications from Helm charts.
+        helm:
+          # Specifies a YAML file containing values that override the default values in the Helm chart.
+          valueFiles:
+            - 'values.yaml'
+            - 'values-{{ nsSuffix }}.yaml'
+      # Specifies the Argo CD project where the applications will be deployed.
+      project: default
+      # Defines how Argo CD manages synchronization between the Git repository and the deployed applications.
+      syncPolicy:
+        # Enables automatic synchronization.
+        automated:
+          # Instructs Argo CD to remove deployed resources not found in the source code (set to true).
+          prune: true
+          # Instructs Argo CD to attempt to fix any inconsistencies between the source and deployed applications (set to true).
+          selfHeal: true
+        # Defines additional options for the synchronization process.
+        syncOptions:
+          # Specifies that only the latest deployed revision should be kept after pruning.
+          - PruneLast=true
