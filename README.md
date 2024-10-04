@@ -224,8 +224,8 @@ minikube start
 kubectl create secret generic elcom-strompreise-website-env --from-env-file=.env.dev.local
 
 # Start cluster
-helm install --replace release gitops/helm
+helm install --replace release gitops/elcom-strompreise/helm
 
 # Update
-helm upgrade --install release gitops/helm
+helm upgrade --install release gitops/elcom-strompreise/helm
 ```
