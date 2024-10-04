@@ -1,5 +1,0 @@
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: {{ .Values.traefik.serviceAccountName }}
-  labels: {{ include "elcom-strompreise.labels" . | nindent 4 }}
