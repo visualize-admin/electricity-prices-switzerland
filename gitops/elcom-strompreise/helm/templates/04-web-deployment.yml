@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Values.web.name }}
-  labels: {{ include "helm-charts.labels" . | nindent 4 }}
+  labels: {{ include "elcom-strompreise.labels" . | nindent 4 }}
     name: {{ .Values.web.name }}
 spec:
   revisionHistoryLimit: 0

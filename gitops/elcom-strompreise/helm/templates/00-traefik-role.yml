@@ -2,7 +2,7 @@ kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: traefik-role
-  labels: {{ include "helm-charts.labels" . | nindent 4 }}
+  labels: {{ include "elcom-strompreise.labels" . | nindent 4 }}
 rules:
   - apiGroups:
       - ""

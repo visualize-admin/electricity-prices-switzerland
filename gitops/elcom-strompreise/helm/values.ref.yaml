@@ -1,0 +1,3 @@
+web:
+  env:
+    secretKeyRef: elcom-strompreise-website-env-ref

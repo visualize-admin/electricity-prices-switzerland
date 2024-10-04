@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ .Values.traefik.name }}
-  labels: {{ include "helm-charts.labels" . | nindent 4 }}
+  labels: {{ include "elcom-strompreise.labels" . | nindent 4 }}
     name: {{ .Values.traefik.name }}
 spec:
   ports:
