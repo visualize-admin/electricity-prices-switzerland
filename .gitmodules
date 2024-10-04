@@ -1,0 +1,3 @@
+[submodule "gitops"]
+	path = gitops
+	url = https://github.com/interactivethings/elcom-strompreise-gitops

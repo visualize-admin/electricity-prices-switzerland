@@ -207,7 +207,7 @@ to "screenshots" instances, the traefik reverse proxy is used.
 
 ## Deployment on Kubernetes / Red Hat Open Shift (RHOS)
 
-To deploy on Open Shift, there are kubernetes manifest files in `kubernetes/`.
+The architecture is managed in the gitops repository which is managed as a submodule.
 
 ```bash
 # So that minikube can pull images from the local docker Daemon (+ adding           imagePullPolicy: Never)
@@ -224,8 +224,8 @@ minikube start
 kubectl create secret generic elcom-strompreise-website-env --from-env-file=.env.dev.local
 
 # Start cluster
-helm install --replace release helm-charts/
+helm install --replace release gitops/helm
 
 # Update
-helm upgrade --install release helm-charts/
+helm upgrade --install release gitops/helm
 ```
