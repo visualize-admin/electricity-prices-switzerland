@@ -1,0 +1,116 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+# GitHub recommends pinning actions to a commit SHA.
+# To get a newer version, you will need to update the SHA.
+# You can also reference a tag or branch, but the action may change without warning.
+
+name: Publish Docker image
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment to run tests against"
+        required: true
+        type: choice
+        options:
+          - ref
+          - abn
+          - production
+      branch:
+        description: "Branch to run the workflow on"
+        required: true
+        default: "main"
+        type: string
+
+env:
+  REGISTRY: docker.io
+  IMAGE_NAME_APP: ptbrowne/test
+  IMAGE_NAME_SCREENSHOT: ptbrowne/test
+
+jobs:
+  push_to_registry:
+    name: Push Docker image to Docker Hub
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+      attestations: write
+      id-token: write
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Create fake wiki content
+        run: echo "[]" > src/wiki-content.json
+
+        # Build app
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta-app
+        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+        with:
+          images: ${{ env.IMAGE_NAME_APP}}
+          # Default value for tags + added the type=raw line
+          tags: |
+            type=schedule
+            type=ref,event=branch
+            type=ref,event=tag
+            type=ref,event=pr
+            type=raw,value=env-app-${{ inputs.environment }}
+
+      - name: Build and push Docker image
+        id: push-app
+        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ steps.meta-app.outputs.tags }}
+          labels: ${{ steps.meta-app.outputs.labels }}
+
+      - name: Generate artifact attestation
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_APP}}
+          subject-digest: ${{ steps.push-app.outputs.digest }}
+          push-to-registry: true
+
+      # Build screenshot
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta-screenshot
+        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+        with:
+          images: ${{ env.IMAGE_NAME_SCREENSHOT}}
+          # Default value for tags + added the type=raw line
+          tags: |
+            type=schedule
+            type=ref,event=branch
+            type=ref,event=tag
+            type=ref,event=pr
+            type=raw,value=env-app-${{ inputs.environment }}
+
+      - name: Build and push Docker image
+        id: push-screenshot
+        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+        with:
+          context: ./screenshots-service
+          file: ./screenshot-service/Dockerfile
+          push: true
+          tags: ${{ steps.meta-app.outputs.tags }}
+          labels: ${{ steps.meta-screenshot.outputs.labels }}
+
+      - name: Generate artifact attestation
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_SCREENSHOT}}
+          subject-digest: ${{ steps.push-app.outputs.digest }}
+          push-to-registry: true

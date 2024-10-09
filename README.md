@@ -113,7 +113,7 @@ the gitlab content. The proxy is configured via the `./configure-proxy.js` scrip
 required in the `package.json` start command. It uses the `HTTP_PROXY` environment variable
 
 - For some of the server requests (SAML requests), we must _not_ use this proxy, and the agent
-is configured there manually.
+  is configured there manually.
 - For external requests that should use the proxy, we can use `https.globalAgent`.
 
 ```
@@ -190,3 +190,42 @@ This way it is easy to quickly generate a test.
 
 - Add testIds in case the generated selectors are not understandable.
 - Add sleeps to make sure the test is not too quick and "human like"
+
+## Docker
+
+Both the frontend and the screenshot service can be built as docker images
+and spin up through docker-compose.
+
+```
+yarn docker:build
+yarn docker:build-screenshot
+docker compose up
+```
+
+To mimick a cloud infrastructure where the /api/screenshot route is routed
+to "screenshots" instances, the traefik reverse proxy is used.
+
+## Deployment on Kubernetes / Red Hat Open Shift (RHOS)
+
+The architecture is managed in the gitops repository which is managed as a submodule.
+
+```bash
+# So that minikube can pull images from the local docker Daemon (+ adding           imagePullPolicy: Never)
+eval $(minikube docker-env)
+
+# Build the images and push them to the local minikube Docker
+yarn run docker:build
+yarn run docker:build-screenshot
+
+# Start minikube if not already started
+minikube start
+
+# Set secrets from local env file
+kubectl create secret generic elcom-strompreise-website-env --from-env-file=.env.dev.local
+
+# Start cluster
+helm install --replace release gitops/elcom-strompreise/helm
+
+# Update
+helm upgrade --install release gitops/elcom-strompreise/helm
+```

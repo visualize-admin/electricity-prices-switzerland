@@ -7,7 +7,6 @@ import { NumberFromString } from "io-ts-types/lib/NumberFromString";
 import { Request } from "polka";
 import puppeteer, { Browser } from "puppeteer";
 
-
 /**
  * We start a new browser instance for each request. This may seem a bit expensive (and it is),
  * but gives us a clean browser each time.
@@ -34,6 +33,9 @@ async function withBrowser<T>(f: (browser: Browser) => Promise<T>) {
   }
 }
 
+// Relies on kubernetes DNS to resolve the host
+// This should match the service name of Traefik
+const APP_HOST = "elcom-strompreise-website-traefik";
 /**
  * We allow to take screenshot of anything that is on the same host.
  */
@@ -95,6 +97,12 @@ export const handleScreenshot = async (req: Request, res: ServerResponse) => {
               },
             };
           }
+
+          // Rewrite the URL to always go to the app reverse proxy
+          const pageUrl = new URL(query.url);
+          pageUrl.host = APP_HOST;
+          pageUrl.protocol = "http";
+          pageUrl.port = "80";
 
           /*
            * We have a valid request, and can proceed with launching the browser,
