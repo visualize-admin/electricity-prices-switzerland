@@ -1,5 +1,5 @@
+import { Box } from "@mui/material";
 import { markdown, TableSpecimen } from "catalog";
-import { Box } from "theme-ui";
 
 import { theme } from "../themes/elcom";
 
@@ -9,21 +9,19 @@ export default () => markdown`
 The application uses a limited set of space variables to construct the user interface. This allows for great flexibility, while allowing to define relationships between elements on a global level.
 
 ${
-  Array.isArray(theme.space) ? (
+  Array.isArray(theme.spacing) ? (
     <TableSpecimen
-      rows={theme.space.map((s, i) => ({
+      rows={theme.spacing.map((s, i) => ({
         Variable: `space-${i}`,
         Measurement: s,
         Space: <Space width={s} />,
       }))}
       span={4}
     />
-  ) : (
-    <Box>Space: {theme.space}</Box>
-  )
+  ) : null
 }
 `;
 
 const Space = ({ width }: { width: string | number }) => (
-  <Box sx={{ width, height: "2rem", bg: "brand" }} />
+  <Box sx={{ width, height: "2rem", bgcolor: "brand" }} />
 );

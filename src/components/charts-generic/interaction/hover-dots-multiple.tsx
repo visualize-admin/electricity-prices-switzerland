@@ -1,5 +1,5 @@
+import { Box } from "@mui/material";
 import * as React from "react";
-import { Box } from "theme-ui";
 
 import { GenericObservation } from "../../../domain/data";
 import { LinesState } from "../lines/lines-state";
@@ -37,7 +37,7 @@ const HoverDots = ({ d }: { d: GenericObservation }) => {
                 borderRadius: "50%",
                 borderStyle: "solid",
                 borderWidth: 1,
-                borderColor: "monochrome100",
+                borderColor: "grey.100",
                 transform: "translate3d(-50%, -50%, 0)",
                 pointerEvents: "none",
               }}

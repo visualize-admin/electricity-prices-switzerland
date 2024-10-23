@@ -1,14 +1,13 @@
 import { Trans, t } from "@lingui/macro";
-import { Box, BoxProps, Flex, Grid, Text } from "@theme-ui/components";
+import { Box, BoxProps } from "@mui/material";
+import { useTheme, Typography } from "@mui/material";
 import React, { useState } from "react";
 
 import { useFormatCurrency } from "../domain/helpers";
 import { IconClear } from "../icons/ic-clear";
 import { IconInfo } from "../icons/ic-info";
-import { useTheme } from "../themes";
 
 import { InfoDialogButton } from "./info-dialog";
-
 
 const LEGEND_WIDTH = 215;
 const TOP_LABEL_HEIGHT = 14;
@@ -26,8 +25,8 @@ const LegendBox = ({
     <Box
       sx={{
         zIndex: 13,
-        bg: "rgba(245, 245, 245, 0.8)",
-        borderRadius: "default",
+        bgcolor: "rgba(245, 245, 245, 0.8)",
+        borderRadius: 1,
         height: "fit-content",
         px: 4,
         py: 2,
@@ -49,27 +48,31 @@ export const MapPriceColorLegend = ({
   if (!open) {
     return (
       <LegendBox sx={{ width: "auto" }}>
-        <Flex
+        <Box
           onClick={() => setOpen(true)}
           sx={{
             cursor: "pointer",
             flexGrow: 1,
             justifyContent: "flex-end",
           }}
+          display="flex"
         >
           <IconInfo color="#333" />
-        </Flex>
+        </Box>
       </LegendBox>
     );
   }
   return (
     <LegendBox>
-      <Flex sx={{ alignItems: "center", width: "100%" }}>
-        <Text sx={{ fontSize: 1, lineHeight: 1.5, mr: 1 }}>
+      <Box sx={{ alignItems: "center", width: "100%", mb: -1 }} display="flex">
+        <Typography
+          variant="inherit"
+          sx={{ fontSize: "0.625rem", lineHeight: 1.5, mr: 1 }}
+        >
           <Trans id="map.legend.title">
             Tarifvergleich in Rp./kWh (Angaben exkl. MwSt.)
           </Trans>
-        </Text>
+        </Typography>
         <InfoDialogButton
           smaller
           iconOnly
@@ -87,53 +90,73 @@ export const MapPriceColorLegend = ({
         >
           <IconClear size={16} color="#666" />
         </Box>
-      </Flex>
+      </Box>
       <Box
         sx={{
-          mt: 1,
           width: LEGEND_WIDTH,
         }}
       >
-        <Flex
+        <Box
           sx={{
             justifyContent: "space-between",
             color: "text",
-            fontSize: 1,
+            fontSize: "0.625rem",
             lineHeight: 1.5,
             height: TOP_LABEL_HEIGHT,
             pointerEvents: "none",
           }}
+          display="flex"
         >
-          <Text sx={{ flex: "1 1 0px", display: "flex" }}>
+          <Typography
+            variant="inherit"
+            sx={{ flex: "1 1 0px", display: "flex" }}
+          >
             {stats[0] && formatCurrency(stats[0])}
-          </Text>
-          <Text sx={{ flex: "1 1 0px", textAlign: "center" }}>
+          </Typography>
+          <Typography
+            variant="inherit"
+            sx={{ flex: "1 1 0px", textAlign: "center" }}
+          >
             {stats[1] && formatCurrency(stats[1])}
-          </Text>
-          <Text sx={{ flex: "1 1 0px", textAlign: "right" }}>
+          </Typography>
+          <Typography
+            variant="inherit"
+            sx={{ flex: "1 1 0px", textAlign: "right" }}
+          >
             {stats[2] && formatCurrency(stats[2])}
-          </Text>
-        </Flex>
-        <Flex
+          </Typography>
+        </Box>
+        <Box
           sx={{
             justifyContent: "space-between",
-            color: "monochrome600",
-            fontSize: 1,
-            mb: 2,
+            color: "grey.600",
+            fontSize: "0.625rem",
+            mb: 3,
           }}
+          display="flex"
         >
-          <Text sx={{ flex: "1 1 0px" }}>
+          <Typography
+            variant="inherit"
+            component="span"
+            sx={{ flex: "1 1 0px", lineHeight: 1 }}
+          >
             <Trans id="price.legend.min">min</Trans>
-          </Text>
-
-          <Text sx={{ flex: "1 1 0px", textAlign: "center" }}>
+          </Typography>
+          <Typography
+            variant="inherit"
+            component="span"
+            sx={{ flex: "1 1 0px", textAlign: "center", lineHeight: 1 }}
+          >
             <Trans id="price.legend.median">median</Trans>
-          </Text>
-
-          <Text sx={{ flex: "1 1 0px", textAlign: "right" }}>
+          </Typography>
+          <Typography
+            variant="inherit"
+            component="span"
+            sx={{ flex: "1 1 0px", textAlign: "right", lineHeight: 1 }}
+          >
             <Trans id="price.legend.max">max</Trans>
-          </Text>
-        </Flex>
+          </Typography>
+        </Box>
 
         <ColorsLine />
       </Box>
@@ -147,32 +170,37 @@ export const PriceColorLegend = () => {
       sx={{
         width: LEGEND_WIDTH,
         zIndex: 13,
-        borderRadius: "default",
+        borderRadius: 1,
         height: "fit-content",
         pl: 4,
         py: 2,
       }}
     >
-      <Flex
+      <Box
         sx={{
           justifyContent: "space-between",
-          color: "monochrome600",
-          fontSize: 1,
+          color: "grey.600",
+          fontSize: "0.625rem",
           mb: 2,
         }}
+        display="flex"
       >
-        <Text sx={{ flex: "1 1 0px" }}>
+        <Typography variant="inherit" sx={{ flex: "1 1 0px" }}>
           <Trans id="price.legend.min">min</Trans>
-        </Text>
-
-        <Text sx={{ flex: "1 1 0px", textAlign: "center" }}>
+        </Typography>
+        <Typography
+          variant="inherit"
+          sx={{ flex: "1 1 0px", textAlign: "center" }}
+        >
           <Trans id="price.legend.median">median</Trans>
-        </Text>
-
-        <Text sx={{ flex: "1 1 0px", textAlign: "right" }}>
+        </Typography>
+        <Typography
+          variant="inherit"
+          sx={{ flex: "1 1 0px", textAlign: "right" }}
+        >
           <Trans id="price.legend.max">max</Trans>
-        </Text>
-      </Flex>
+        </Typography>
+      </Box>
 
       <ColorsLine />
     </Box>
@@ -180,11 +208,12 @@ export const PriceColorLegend = () => {
 };
 
 export const ColorsLine = () => {
-  const { palettes } = useTheme();
+  const { palette } = useTheme();
   return (
-    <Flex
+    <Box
       sx={{ height: COLOR_HEIGHT + BOTTOM_LABEL_HEIGHT, position: "relative" }}
       data-name="color-line"
+      display="flex"
     >
       <Box
         sx={{
@@ -205,10 +234,11 @@ export const ColorsLine = () => {
           height: 0,
           borderTop: `${COLOR_HEIGHT / 2}px solid transparent`,
           borderBottom: `${COLOR_HEIGHT / 2}px solid transparent`,
-          borderRight: `${COLOR_HEIGHT / 2}px solid  ${palettes.diverging[0]}`,
+          borderRight: `${COLOR_HEIGHT / 2}px solid  ${palette.diverging[0]}`,
         }}
       />
-      <Grid
+      <Box
+        display="grid"
         sx={{
           gridTemplateColumns: ".8fr 1fr 1fr 1fr .8fr",
           columnGap: 0,
@@ -216,28 +246,29 @@ export const ColorsLine = () => {
           width: "100%",
         }}
       >
-        {palettes.diverging.map((bg, i) => (
-          <Flex
+        {palette.diverging.map((bg, i) => (
+          <Box
             key={bg}
             sx={{
               flexDirection: "column",
               alignItems: "flex-end",
-              ":last-of-type > div": { borderRight: 0 },
+              "&:last-of-type > div": { borderRight: 0 },
             }}
+            display="flex"
           >
             <Box
               sx={{
-                bg,
+                bgcolor: bg,
                 width: "100%",
                 height: COLOR_HEIGHT,
                 borderRight: "1px solid #FFF",
               }}
             />
-
-            <Text
+            <Typography
+              variant="inherit"
               sx={{
-                fontSize: 1,
-                color: "monochrome600",
+                fontSize: "0.625rem",
+                color: "grey.600",
                 transform: "translateX(50%)",
                 letterSpacing: -0.4,
                 textAlign: "right",
@@ -245,10 +276,10 @@ export const ColorsLine = () => {
               }}
             >
               {PRICE_THRESHOLDS[i]}
-            </Text>
-          </Flex>
+            </Typography>
+          </Box>
         ))}
-      </Grid>
+      </Box>
       <Box
         sx={{
           width: 0,
@@ -256,11 +287,11 @@ export const ColorsLine = () => {
           borderTop: `${COLOR_HEIGHT / 2}px solid transparent`,
           borderBottom: `${COLOR_HEIGHT / 2}px solid transparent`,
           borderLeft: `${COLOR_HEIGHT / 2}px solid ${
-            palettes.diverging[palettes.diverging.length - 1]
+            palette.diverging[palette.diverging.length - 1]
           }`,
         }}
       />
-    </Flex>
+    </Box>
   );
 };
 const PRICE_THRESHOLDS = ["-15%", "-5%", "+5%", "+15%"];

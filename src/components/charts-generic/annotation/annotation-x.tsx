@@ -1,5 +1,5 @@
+import { Box } from "@mui/material";
 import * as React from "react";
-import { Box } from "theme-ui";
 
 import { GenericObservation } from "../../../domain/data";
 import { getLocalizedLabel } from "../../../domain/translation";
@@ -142,12 +142,12 @@ export const AnnotationXLabel = () => {
               fontFamily,
               fontSize: annotationfontSize,
               color: annotationColor,
-              bg: "transparent",
+              bgcolor: "transparent",
               hyphens: "auto",
               wordBreak: "break-word",
             }}
           >
-            <Box as="span" sx={{ fontWeight: "bold" }}>
+            <Box component="span" sx={{ fontWeight: "bold" }}>
               {a.value} {getLocalizedLabel({ id: "unit" })}{" "}
             </Box>
             {a.label}

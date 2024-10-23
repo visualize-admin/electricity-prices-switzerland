@@ -1,7 +1,7 @@
+import { useTheme } from "@mui/material";
 import { area } from "d3-shape";
 import * as React from "react";
 
-import { useTheme } from "../../../themes";
 import { AreasState, useChartState } from "../use-chart-state";
 
 export const Areas = () => {
@@ -21,7 +21,9 @@ export const Areas = () => {
           <Area
             key={`${d.key}-${i}`}
             path={areaGenerator(d) as string}
-            color={series.length > 1 ? colors(d.key) : theme.colors.primary}
+            color={
+              series.length > 1 ? colors(d.key) : theme.palette.primary.main
+            }
           />
         );
       })}

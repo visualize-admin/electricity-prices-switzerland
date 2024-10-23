@@ -1,7 +1,6 @@
 import { Trans, t } from "@lingui/macro";
-import { Box, Flex, Link, Text } from "@theme-ui/components";
+import { Box, Link, Typography, IconButton, LinkProps } from "@mui/material";
 import { PropsWithChildren } from "react";
-import { IconButton, LinkProps } from "theme-ui";
 
 import { useLocale } from "src/lib/use-locale";
 import { useQueryStateSingle } from "src/lib/use-query-state";
@@ -30,7 +29,7 @@ const FooterLink = ({
       sx={{
         borderBottomWidth: "1px",
         borderBottomStyle: "solid",
-        borderBottomColor: "monochrome500",
+        borderBottomColor: "grey.500",
         p: 4,
         display: "flex",
         alignItems: "center",
@@ -46,9 +45,9 @@ const FooterLink = ({
 
 const FooterTitle = ({ children }: { children: React.ReactNode }) => {
   return (
-    <Text variant="heading2" sx={{ mb: 6 }}>
+    <Typography variant="h2" sx={{ mb: 6 }}>
       {children}
-    </Text>
+    </Typography>
   );
 };
 const FooterSection = ({ children }: { children: React.ReactNode }) => {
@@ -81,9 +80,9 @@ export const Footer = () => {
   return (
     <Box
       sx={{
-        bg: "monochrome200",
+        bgcolor: "grey.200",
         borderTop: "1px solid",
-        borderColor: "monochrome500",
+        borderColor: "grey.500",
         paddingTop: 6,
       }}
     >
@@ -185,6 +184,7 @@ export const Footer = () => {
             icon={
               <Box sx={{ display: "flex", flexShrink: 0, gap: "1rem" }}>
                 <IconButton
+                  color="primary"
                   sx={{ p: 0, width: 24, height: 24, cursor: "pointer" }}
                   onClick={handleOpenCsvDownload}
                 >
@@ -196,27 +196,26 @@ export const Footer = () => {
           >
             {t({ id: "footer.data-as-csv", message: "Daten als .csv" })}
           </FooterLink>
-          {
-            <FooterLink
-              href={`/api/municipalities-data.csv?period=${period}`}
-              icon={
-                <Box sx={{ display: "flex", flexShrink: 0, gap: "1rem" }}>
-                  <IconButton
-                    sx={{ p: 0, width: 24, height: 24, cursor: "pointer" }}
-                    onClick={handleOpenMunicipalitiesInfo}
-                  >
-                    <IconInfo />
-                  </IconButton>
-                  <IconDownload />
-                </Box>
-              }
-            >
-              {t({
-                id: "footer.municipalities-and-grid-operators",
-                message: `Schweizerische Gemeinden und zuständige Stromnetzbetreiber`,
-              })}
-            </FooterLink>
-          }
+          <FooterLink
+            href={`/api/municipalities-data.csv?period=${period}`}
+            icon={
+              <Box sx={{ display: "flex", flexShrink: 0, gap: "1rem" }}>
+                <IconButton
+                  color="primary"
+                  sx={{ p: 0, width: 24, height: 24, cursor: "pointer" }}
+                  onClick={handleOpenMunicipalitiesInfo}
+                >
+                  <IconInfo />
+                </IconButton>
+                <IconDownload />
+              </Box>
+            }
+          >
+            {t({
+              id: "footer.municipalities-and-grid-operators",
+              message: `Schweizerische Gemeinden und zuständige Stromnetzbetreiber`,
+            })}
+          </FooterLink>
           <FooterLink
             target="_blank"
             icon={<IconShare />}
@@ -248,34 +247,35 @@ export const Footer = () => {
         </FooterSection>
       </Box>
 
-      <Flex
-        as="footer"
+      <Box
+        component="footer"
         sx={{
           flexDirection: ["column", "row"],
           justifyContent: ["flex-start", "space-between"],
           alignItems: ["flex-start", "center"],
-          bg: "monochrome200",
+          bgcolor: "grey.200",
           borderTopWidth: "1px",
           borderTopStyle: "solid",
-          borderTopColor: "monochrome500",
+          borderTopColor: "grey.500",
         }}
+        display="flex"
       >
         <Box
           sx={{
             width: "100%",
             px: 6,
             py: 5,
-            color: ["monochrome900", "monochrome700"],
+            color: ["grey.900", "grey.700"],
             display: "flex",
             justifyContent: "space-between",
           }}
         >
-          <Text variant="paragraph2">
+          <Typography variant="body2">
             <Trans id="footer.institution.name">
               Eidgenössische Elektrizitätskommission ElCom
             </Trans>
-          </Text>
-          <Text variant="paragraph2" sx={{ display: "block" }} as="div">
+          </Typography>
+          <Typography variant="body2" sx={{ display: "block" }} component="div">
             <Link
               target="_blank"
               variant="inline"
@@ -286,13 +286,14 @@ export const Footer = () => {
             >
               <Trans id="footer.legal-framework">Rechtliches</Trans>
             </Link>
-          </Text>
+          </Typography>
         </Box>
-        <Flex
+        <Box
           sx={{
             flexDirection: ["column", "row"],
             alignItems: ["flex-start", "center"],
           }}
+          display="flex"
         >
           <Box
             sx={{
@@ -304,14 +305,14 @@ export const Footer = () => {
               borderBottomWidth: "1px",
               borderTopStyle: "solid",
               borderBottomStyle: "solid",
-              borderTopColor: "monochrome500",
-              borderBottomColor: "monochrome500",
+              borderTopColor: "grey.500",
+              borderBottomColor: "grey.500",
             }}
           >
             <LogoDesktop />
           </Box>
-        </Flex>
-      </Flex>
+        </Box>
+      </Box>
     </Box>
   );
 };

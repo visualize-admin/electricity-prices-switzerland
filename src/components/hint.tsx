@@ -1,30 +1,30 @@
 import { keyframes } from "@emotion/core";
 import { Trans } from "@lingui/macro";
-import { Flex, Text, Box } from "@theme-ui/components";
+import { Box, BoxProps, Typography } from "@mui/material";
 import * as React from "react";
 
 import { Icon, IconName } from "../icons";
 
-
 export const Error = ({ children }: { children: React.ReactNode }) => (
-  <Flex
+  <Box
     sx={{
       justifyContent: "center",
       alignItems: "center",
-      color: "error",
-      borderColor: "error",
+      color: "error.main",
+      borderColor: "error.main",
     }}
+    display="flex"
   >
     {children}
-  </Flex>
+  </Box>
 );
 
 export const Hint = ({ children }: { children: React.ReactNode }) => (
-  <Flex
+  <Box
     sx={{
       width: "100%",
       height: "100%",
-      color: "hint",
+      color: "hint.main",
       margin: "auto",
       textAlign: "center",
       flexDirection: "column",
@@ -32,9 +32,10 @@ export const Hint = ({ children }: { children: React.ReactNode }) => (
       alignItems: "center",
       flexGrow: 1,
     }}
+    display="flex"
   >
     {children}
-  </Flex>
+  </Box>
 );
 
 const delayedShow = keyframes`
@@ -48,11 +49,11 @@ const spin = keyframes`
 `;
 
 export const Loading = ({ delayMs = 1000 }: { delayMs?: number }) => (
-  <Flex
+  <Box
     sx={{
       width: "100%",
       height: "100%",
-      color: "hint",
+      color: "hint.main",
       margin: "auto",
       textAlign: "center",
       flexDirection: "column",
@@ -63,26 +64,35 @@ export const Loading = ({ delayMs = 1000 }: { delayMs?: number }) => (
       opacity: 0,
       animation: `0s linear ${delayMs}ms forwards ${delayedShow}`,
     }}
+    display="flex"
   >
     <Box
       sx={{
+        width: 48,
+        height: 48,
         animation: `1s linear infinite ${spin}`,
       }}
     >
       <Icon name="loading" size={48} />
     </Box>
-    <Text variant="heading4">
+    <Typography variant="body1">
       <Trans id="hint.loading.data">Loading data…</Trans>
-    </Text>
-  </Flex>
+    </Typography>
+  </Box>
 );
 
-export const LoadingIcon = ({ delayMs = 200 }: { delayMs?: number }) => (
-  <Flex
+export const LoadingIcon = ({
+  delayMs = 200,
+  sx,
+}: {
+  delayMs?: number;
+  sx?: BoxProps["sx"];
+}) => (
+  <Box
     sx={{
       width: "100%",
       height: "100%",
-      color: "hint",
+      color: "hint.main",
       margin: "auto",
       textAlign: "center",
       flexDirection: "column",
@@ -92,16 +102,20 @@ export const LoadingIcon = ({ delayMs = 200 }: { delayMs?: number }) => (
       padding: 2,
       opacity: 0,
       animation: `0s linear ${delayMs}ms forwards ${delayedShow}`,
+      ...sx,
     }}
+    display="flex"
   >
     <Box
       sx={{
         animation: `1s linear infinite ${spin}`,
+        height: 32,
+        width: 32,
       }}
     >
       <Icon name="loading" size={32} />
     </Box>
-  </Flex>
+  </Box>
 );
 
 export const LoadingIconInline = ({
@@ -114,7 +128,7 @@ export const LoadingIconInline = ({
   <Box
     sx={{
       display: "inline-block",
-      color: "hint",
+      color: "hint.main",
       margin: "auto",
       textAlign: "center",
       opacity: 0,
@@ -123,6 +137,8 @@ export const LoadingIconInline = ({
   >
     <Box
       sx={{
+        width: size,
+        height: size,
         animation: `1s linear infinite ${spin}`,
       }}
     >
@@ -135,7 +151,7 @@ export const LoadingOverlay = () => (
   <Box
     sx={{
       position: "absolute",
-      bg: "monochrome100",
+      bgcolor: "grey.100",
       top: 0,
       left: 0,
       width: "100%",
@@ -147,11 +163,11 @@ export const LoadingOverlay = () => (
 );
 
 export const NoDataHint = () => (
-  <Flex
+  <Box
     sx={{
       width: "100%",
       height: "100%",
-      color: "hint",
+      color: "hint.main",
       margin: "auto",
       textAlign: "center",
       flexDirection: "column",
@@ -159,25 +175,26 @@ export const NoDataHint = () => (
       alignItems: "center",
       flexGrow: 1,
     }}
+    display="flex"
   >
     <Icon name="warning" size={64} />
-    <Text variant="heading2" sx={{ my: 3 }}>
+    <Typography variant="h2" sx={{ my: 3 }}>
       <Trans id="hint.nodata.title">Keine Daten</Trans>
-    </Text>
-    <Text variant="paragraph2" sx={{ maxWidth: "40rem" }}>
+    </Typography>
+    <Typography variant="body2" sx={{ maxWidth: "40rem" }}>
       <Trans id="hint.nodata.message">
         Für die aktuelle Auswahl konnten keine Daten geladen werden.
       </Trans>
-    </Text>
-  </Flex>
+    </Typography>
+  </Box>
 );
 
 export const NoContentHint = () => (
-  <Flex
+  <Box
     sx={{
       width: "100%",
       height: "100%",
-      color: "hint",
+      color: "hint.main",
       margin: "auto",
       textAlign: "center",
       flexDirection: "column",
@@ -185,23 +202,23 @@ export const NoContentHint = () => (
       alignItems: "center",
       flexGrow: 1,
     }}
+    display="flex"
   >
     <Icon name="warning" size={48} />
-
-    <Text variant="paragraph2" sx={{ maxWidth: "40rem" }}>
+    <Typography variant="body2" sx={{ maxWidth: "40rem" }}>
       <Trans id="hint.nocontent.message">
         Dieser Inhalt konnte nicht geladen werden
       </Trans>
-    </Text>
-  </Flex>
+    </Typography>
+  </Box>
 );
 
 export const NoGeoDataHint = () => (
-  <Flex
+  <Box
     sx={{
       width: "100%",
       height: "100%",
-      color: "hint",
+      color: "hint.main",
       margin: "auto",
       textAlign: "center",
       flexDirection: "column",
@@ -209,17 +226,18 @@ export const NoGeoDataHint = () => (
       alignItems: "center",
       flexGrow: 1,
     }}
+    display="flex"
   >
     <Icon name="warning" size={64} />
-    <Text variant="heading2" sx={{ my: 3 }}>
+    <Typography variant="h2" sx={{ my: 3 }}>
       <Trans id="hint.nogeodata.title">Keine Kartendarstellung möglich</Trans>
-    </Text>
-    <Text variant="paragraph2" sx={{ maxWidth: "40rem" }}>
+    </Typography>
+    <Typography variant="body2" sx={{ maxWidth: "40rem" }}>
       <Trans id="hint.nogeodata.message">
         Für das ausgewählte Jahr kann keine Karte angezeigt werden.
       </Trans>
-    </Text>
-  </Flex>
+    </Typography>
+  </Box>
 );
 
 export const HintBlue = ({
@@ -229,25 +247,26 @@ export const HintBlue = ({
   iconName: IconName;
   children: React.ReactNode;
 }) => (
-  <Flex
+  <Box
     sx={{
       width: "auto",
       height: "auto",
       p: 5,
-      bg: "primaryLight",
-      color: "primary",
+      bgcolor: "primary.light",
+      color: "primary.main",
       textAlign: "center",
       justifyContent: "flex-start",
       alignItems: ["flex-start", "center"],
     }}
+    display="flex"
   >
     <Box sx={{ width: 24, pr: 4 }}>
       <Icon name={iconName} size={24} />
     </Box>
-    <Text variant="paragraph1" sx={{ textAlign: "left", ml: 4 }}>
+    <Typography variant="body1" sx={{ textAlign: "left", ml: 4 }}>
       {children}
-    </Text>
-  </Flex>
+    </Typography>
+  </Box>
 );
 export const HintRed = ({
   iconName,
@@ -256,25 +275,26 @@ export const HintRed = ({
   iconName: IconName;
   children: React.ReactNode;
 }) => (
-  <Flex
+  <Box
     sx={{
       width: "auto",
       height: "auto",
       borderRadius: "bigger",
       margin: "auto",
       p: 5,
-      bg: "alertLight",
+      bgcolor: "alertLight",
       color: "alert",
       textAlign: "center",
       justifyContent: "flex-start",
       alignItems: ["flex-start", "center"],
     }}
+    display="flex"
   >
     <Box sx={{ width: 24, pr: 4 }}>
       <Icon name={iconName} size={24} />
     </Box>
-    <Text variant="paragraph1" sx={{ textAlign: "left", ml: 4 }}>
+    <Typography variant="body1" sx={{ textAlign: "left", ml: 4 }}>
       {children}
-    </Text>
-  </Flex>
+    </Typography>
+  </Box>
 );

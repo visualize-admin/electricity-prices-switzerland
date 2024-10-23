@@ -1,5 +1,5 @@
 import { Trans } from "@lingui/macro";
-import { Box, Flex, Text } from "theme-ui";
+import { Box, Typography } from "@mui/material";
 
 import buildEnv from "src/env/build";
 
@@ -15,8 +15,8 @@ export const Header = ({
   contentId?: string;
 }) => {
   return (
-    <Flex
-      as="header"
+    <Box
+      component="header"
       sx={
         pageType === "content"
           ? {
@@ -25,9 +25,9 @@ export const Header = ({
               pb: [0, 5, 5],
               borderBottomWidth: "4px",
               borderBottomStyle: "solid",
-              borderBottomColor: "brand",
-              bg: "monochrome100",
-              color: "monochrome700",
+              borderBottomColor: "brand.main",
+              bgcolor: "grey.100",
+              color: "grey.700",
               flexDirection: ["column", "row"],
             }
           : {
@@ -36,9 +36,9 @@ export const Header = ({
               pb: [0, 5, 5],
               borderBottomWidth: "4px",
               borderBottomStyle: "solid",
-              borderBottomColor: "brand",
-              bg: "monochrome100",
-              color: "monochrome700",
+              borderBottomColor: "brand.main",
+              bgcolor: "grey.100",
+              color: "grey.700",
               flexDirection: ["column", "row"],
               // Needs to be "fixed" to prevent
               // iOS full-page scrolling
@@ -50,57 +50,56 @@ export const Header = ({
               zIndex: 15,
             }
       }
+      display="flex"
     >
       <LanguageMenu contentId={contentId} />
       <Logo />
-    </Flex>
+    </Box>
   );
 };
 
 export const Logo = () => {
   return (
-    <HomeLink passHref>
-      <Flex
-        as="a"
+    <Box
+      component={HomeLink}
+      sx={{
+        order: [2, 1],
+        alignItems: ["center", "flex-start"],
+        cursor: "pointer",
+        textDecoration: "none",
+        color: "grey.900",
+      }}
+      display="flex"
+    >
+      <Box
+        role="figure"
+        aria-labelledby="logo"
+        sx={{ display: ["block", "none"], mx: 4, my: 4, width: 24 }}
+      >
+        <LogoMobile />
+      </Box>
+      <Box
+        role="figure"
+        aria-labelledby="logo"
         sx={{
-          order: [2, 1],
-          alignItems: ["center", "flex-start"],
-          cursor: "pointer",
-          textDecoration: "none",
-          color: "monochrome900",
+          display: ["none", "block"],
+          pr: 6,
+          borderRightWidth: "1px",
+          borderRightStyle: "solid",
+          borderRightColor: "grey.300",
+          color: "grey.900",
         }}
       >
-        <Box
-          role="figure"
-          aria-labelledby="logo"
-          sx={{ display: ["block", "none"], mx: 4, my: 4, width: 24 }}
-        >
-          <LogoMobile />
-        </Box>
-        <Box
-          role="figure"
-          aria-labelledby="logo"
-          sx={{
-            display: ["none", "block"],
-            pr: 6,
-            borderRightWidth: "1px",
-            borderRightStyle: "solid",
-            borderRightColor: "monochrome300",
-            color: "monochrome900",
-          }}
-        >
-          <LogoDesktop />
-        </Box>
-        <Text
-          as="h1"
-          variant="lead"
-          sx={{ pl: [0, 6], textDecoration: "none", color: "monochrome800" }}
-        >
-          <Trans id="site.title">Strompreise Schweiz</Trans>
-          {buildEnv.DEPLOYMENT &&
-            ` [${buildEnv.DEPLOYMENT.toLocaleUpperCase()}]`}
-        </Text>
-      </Flex>
-    </HomeLink>
+        <LogoDesktop />
+      </Box>
+      <Typography
+        component="h1"
+        variant="lead"
+        sx={{ pl: [0, 6], textDecoration: "none", color: "grey.800" }}
+      >
+        <Trans id="site.title">Strompreise Schweiz</Trans>
+        {buildEnv.DEPLOYMENT && ` [${buildEnv.DEPLOYMENT.toLocaleUpperCase()}]`}
+      </Typography>
+    </Box>
   );
 };

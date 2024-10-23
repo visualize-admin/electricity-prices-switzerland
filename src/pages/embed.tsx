@@ -77,7 +77,7 @@ const IndexPage = ({ locale }: Props) => {
 
   const medianValue = swissMedianObservations[0]?.value;
 
-  const colorAccessor = useCallback((d) => d.value, []);
+  const colorAccessor = useCallback((d: { value: number }) => d.value, []);
   const colorScale = useColorScale({
     observations,
     medianValue,

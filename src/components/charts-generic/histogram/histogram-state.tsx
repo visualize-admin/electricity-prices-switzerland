@@ -1,10 +1,9 @@
-import { Text } from "@theme-ui/components";
+import { Typography, Box } from "@mui/material";
 import { interpolateHsl } from "d3";
 import { ascending, histogram, max, min } from "d3-array";
 import { scaleLinear } from "d3-scale";
 import * as React from "react";
 import { ReactNode, useCallback } from "react";
-import { Flex } from "theme-ui";
 
 import { estimateTextWidth } from "src/lib/estimate-text-width";
 
@@ -43,7 +42,8 @@ const useHistogramState = ({
 }): HistogramState => {
   const width = useWidth();
   const formatCurrency = useFormatCurrency();
-  const { annotationfontSize, palettes } = useChartTheme();
+
+  const { annotationfontSize, palette } = useChartTheme();
 
   const getX = useCallback(
     (d: GenericObservation) => d[fields.x.componentIri] as number,
@@ -72,7 +72,7 @@ const useHistogramState = ({
 
   const colors = scaleLinear<string>()
     .domain(colorDomain)
-    .range(palettes.diverging)
+    .range(palette.diverging)
     .interpolate(interpolateHsl);
   // y
   const bins = histogram<GenericObservation, number>()
@@ -92,7 +92,7 @@ const useHistogramState = ({
       )
     )
   );
-  // const piecewiseColor = piecewise(interpolateHsl, palettes.diverging);
+  // const piecewiseColor = piecewise(interpolateHsl, palette.diverging);
 
   const margins = {
     top: 70,
@@ -124,16 +124,16 @@ const useHistogramState = ({
       xValue: "",
       tooltipContent: (
         <>
-          <Flex sx={{ alignItems: "center", gap: "0.375rem" }}>
+          <Box sx={{ alignItems: "center", gap: "0.375rem" }} display="flex">
             <LegendSymbol symbol="square" color={colors(d.x0!)} />
-            <Text variant="meta" sx={{ fontWeight: "bold" }}>
-              {d.x0} - {d.x1}&nbsp;
+            <Typography variant="meta" sx={{ fontWeight: "bold" }}>
+              {d.x0}-{d.x1}
               {xAxisUnit}
-            </Text>
-          </Flex>
-          <Text variant="meta">
-            {yAxisLabel}: {d.length}
-          </Text>
+            </Typography>
+          </Box>
+          <Typography variant="meta">
+            {yAxisLabel}:{d.length}
+          </Typography>
         </>
       ),
     };

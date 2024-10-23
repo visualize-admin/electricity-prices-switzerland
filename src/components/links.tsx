@@ -1,7 +1,7 @@
+import { Link as UILink } from "@mui/material";
 import NextLink, { LinkProps } from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
-import { Link as UILink } from "theme-ui";
 
 import { Icon, IconName } from "../icons";
 
@@ -42,18 +42,18 @@ export const IconLink = ({
     rel="noopener noreferrer"
     sx={{
       ml: 4,
-      color: "primary",
+      color: "primary.main",
       "&:disabled": {
-        color: "primaryDisabled",
+        color: "primary.disabledd",
       },
       "&:hover": {
-        color: "primaryHover",
+        color: "primary.hover",
       },
       "&:active": {
-        color: "primaryActive",
+        color: "primary.active",
       },
       "&:visited": {
-        color: "primary",
+        color: "primary.main",
       },
     }}
   >

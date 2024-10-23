@@ -1,6 +1,7 @@
-import VisuallyHidden from "@reach/visually-hidden";
+import { Box } from "@mui/material";
 import { ChangeEventHandler, useCallback } from "react";
-import { Box, Flex } from "theme-ui";
+
+import VisuallyHidden from "src/components/VisuallyHidden";
 
 type RadioTabsVariants = "tabs" | "borderlessTabs" | "segmented";
 
@@ -17,30 +18,30 @@ const STYLES = {
     active: {
       display: "block",
       position: "relative",
-      color: "primary",
-      bg: "monochrome100",
+      color: "primary.main",
+      bgcolor: "grey.100",
       flex: "1 0 auto",
       textAlign: "center",
       px: 2,
       py: 4,
-      fontSize: 4,
+      fontSize: "1rem",
       borderStyle: "solid",
       borderWidth: 1,
-      borderColor: "monochrome500",
+      borderColor: "grey.500",
       borderTopColor: "transparent",
       borderBottomColor: "transparent",
       borderRightWidth: 0,
-      ":last-of-type": {
+      "&:last-of-type": {
         borderRightWidth: 1,
-        borderRightColor: "monochrome100",
+        borderRightColor: "grey.100",
       },
-      ":first-of-type": {
-        borderLeftColor: "monochrome100",
+      "&:first-of-type": {
+        borderLeftColor: "grey.100",
       },
-      "::before": {
+      "&::before": {
         content: "''",
         display: "block",
-        bg: "primary",
+        bgcolor: "primary.main",
         position: "absolute",
         top: 0,
         left: "-1px",
@@ -54,18 +55,18 @@ const STYLES = {
       whiteSpace: "nowrap",
       textOverflow: "ellipsis",
       display: "block",
-      color: "secondary",
-      bg: "monochrome200",
+      color: "secondary.main",
+      bgcolor: "grey.200",
       flex: "1 1 auto",
       textAlign: "center",
       px: 2,
       py: 4,
-      fontSize: 4,
-      borderColor: "monochrome500",
+      fontSize: "1rem",
+      borderColor: "grey.500",
       borderStyle: "solid",
       borderWidth: 1,
       borderRightWidth: 0,
-      ":last-of-type": {
+      "&:last-of-type": {
         borderRightWidth: 1,
       },
     },
@@ -74,33 +75,33 @@ const STYLES = {
     active: {
       display: "flex",
       position: "relative",
-      color: "primary",
-      bg: "monochrome100",
+      color: "primary.main",
+      bgcolor: "grey.100",
       flex: "1 1 auto",
       textAlign: "center",
       justifyContent: "center",
       alignItems: "center",
       px: 2,
       py: 4,
-      fontSize: 4,
+      fontSize: "1rem",
       minWidth: "min-content",
       borderStyle: "solid",
       borderWidth: 1,
-      borderColor: "monochrome500",
+      borderColor: "grey.500",
       borderTopColor: "transparent",
       borderBottomColor: "transparent",
       borderRightWidth: 0,
-      ":last-of-type": {
+      "&:last-of-type": {
         borderRightWidth: 1,
-        borderRightColor: "monochrome100",
+        borderRightColor: "grey.100",
       },
-      ":first-of-type": {
-        borderLeftColor: "monochrome100",
+      "&:first-of-type": {
+        borderLeftColor: "grey.100",
       },
-      "::before": {
+      "&::before": {
         content: "''",
         display: "block",
-        bg: "primary",
+        bgcolor: "primary.main",
         position: "absolute",
         top: 0,
         left: "-1px",
@@ -112,24 +113,24 @@ const STYLES = {
     inactive: {
       display: "flex",
       cursor: "pointer",
-      color: "secondary",
+      color: "secondary.main",
       alignItems: "center",
-      bg: "monochrome200",
+      bgcolor: "grey.200",
       flex: "1 1 auto",
       justifyContent: "center",
       minWidth: "min-content",
       textAlign: "center",
       px: 2,
       py: 4,
-      fontSize: 4,
-      borderColor: "monochrome500",
+      fontSize: "1rem",
+      borderColor: "grey.500",
       borderStyle: "solid",
       borderWidth: 1,
       borderRightWidth: 0,
-      ":first-of-type": {
+      "&:first-of-type": {
         borderLeftWidth: 0,
       },
-      ":last-of-type": {
+      "&:last-of-type": {
         borderRightWidth: 0,
       },
     },
@@ -138,23 +139,23 @@ const STYLES = {
     active: {
       display: "block",
       position: "relative",
-      color: "primary",
-      bg: "monochrome100",
+      color: "primary.main",
+      bgcolor: "grey.100",
       flex: "1 0 auto",
       textAlign: "center",
       p: 2,
-      fontSize: 3,
+      fontSize: "0.875rem",
       borderStyle: "solid",
       borderWidth: 1,
-      borderColor: "monochrome500",
+      borderColor: "grey.500",
       borderRightWidth: 0,
 
-      ":last-of-type": {
+      "&:last-of-type": {
         borderRightWidth: 1,
         borderTopRightRadius: "default",
         borderBottomRightRadius: "default",
       },
-      ":first-of-type": {
+      "&:first-of-type": {
         borderTopLeftRadius: "default",
         borderBottomLeftRadius: "default",
       },
@@ -162,25 +163,25 @@ const STYLES = {
     inactive: {
       cursor: "pointer",
       display: "block",
-      color: "secondary",
-      bg: "monochrome200",
+      color: "secondary.main",
+      bgcolor: "grey.200",
       overflow: "hidden",
       whiteSpace: "nowrap",
       textOverflow: "ellipsis",
       flex: "1 1 auto",
       textAlign: "center",
       p: 2,
-      fontSize: 3,
-      borderColor: "monochrome500",
+      fontSize: "0.875rem",
+      borderColor: "grey.500",
       borderStyle: "solid",
       borderWidth: 1,
       borderRightWidth: 0,
-      ":last-of-type": {
+      "&:last-of-type": {
         borderRightWidth: 1,
         borderTopRightRadius: "default",
         borderBottomRightRadius: "default",
       },
-      ":first-of-type": {
+      "&:first-of-type": {
         borderTopLeftRadius: "default",
         borderBottomLeftRadius: "default",
       },
@@ -207,14 +208,14 @@ export const RadioTabs = <T extends string>({
   const styles = STYLES[variant];
 
   return (
-    <Flex sx={{ justifyItems: "stretch" }}>
+    <Box sx={{ justifyItems: "stretch" }} display="flex">
       {options.map((option) => {
         const isActive = option.value === value;
 
         return (
           <Box
             key={option.value}
-            as="label"
+            component="label"
             title={typeof option.label === "string" ? option.label : undefined}
             sx={isActive ? styles.active : styles.inactive}
           >
@@ -232,6 +233,6 @@ export const RadioTabs = <T extends string>({
           </Box>
         );
       })}
-    </Flex>
+    </Box>
   );
 };

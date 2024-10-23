@@ -3,9 +3,11 @@ import {
   PickingInfo,
   WebMercatorViewport,
 } from "@deck.gl/core/typed";
+import { ViewStateChangeParameters } from "@deck.gl/core/typed/controllers/controller";
 import { GeoJsonLayer } from "@deck.gl/layers/typed";
 import DeckGL from "@deck.gl/react/typed";
 import { Trans } from "@lingui/macro";
+import { Box, Typography } from "@mui/material";
 import centroid from "@turf/centroid";
 import { color, extent, group, mean, rollup } from "d3";
 import { ScaleThreshold } from "d3-scale";
@@ -18,7 +20,6 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import { Box, Flex, Grid, Text } from "theme-ui";
 import {
   feature as topojsonFeature,
   mesh as topojsonMesh,
@@ -179,11 +180,11 @@ const MapTooltip = ({
 };
 
 const HintBox = ({ children }: { children: ReactNode }) => (
-  <Flex
+  <Box
     sx={{
       width: "100%",
       height: "100%",
-      color: "hint",
+      color: "hint.main",
       margin: "auto",
       textAlign: "center",
       flexDirection: "column",
@@ -192,11 +193,12 @@ const HintBox = ({ children }: { children: ReactNode }) => (
       zIndex: 1,
       position: "relative",
     }}
+    display="flex"
   >
-    <Box sx={{ bg: "mutedTransparent", borderRadius: "bigger", p: 2 }}>
+    <Box sx={{ bgcolor: "muted.transparent", borderRadius: "bigger", p: 2 }}>
       {children}
     </Box>
-  </Flex>
+  </Box>
 );
 
 type GeoData = {
@@ -307,18 +309,21 @@ export const ChoroplethMap = ({
 
   const [viewState, setViewState] = useState(INITIAL_VIEW_STATE);
 
-  const onViewStateChange = useCallback(({ viewState, interactionState }) => {
-    setHovered(undefined);
+  const onViewStateChange = useCallback(
+    ({ viewState, interactionState }: ViewStateChangeParameters) => {
+      setHovered(undefined);
 
-    if (interactionState.inTransition) {
-      setViewState(viewState);
-    } else {
-      setViewState(constrainZoom(viewState, CH_BBOX));
-    }
-  }, []);
+      if (interactionState.inTransition) {
+        setViewState(viewState as typeof INITIAL_VIEW_STATE);
+      } else {
+        setViewState(constrainZoom(viewState, CH_BBOX));
+      }
+    },
+    []
+  );
 
   const onResize = useCallback(
-    ({ width, height }) => {
+    ({ width, height }: { width: number; height: number }) => {
       setViewState((viewState) =>
         constrainZoom({ ...viewState, width, height }, CH_BBOX)
       );
@@ -635,7 +640,8 @@ export const ChoroplethMap = ({
       <>
         {hovered && tooltipContent && colorScale && (
           <MapTooltip x={hovered.x} y={hovered.y}>
-            <Grid
+            <Box
+              display="grid"
               sx={{
                 width: "100%",
                 gridTemplateColumns: "1fr auto",
@@ -643,15 +649,15 @@ export const ChoroplethMap = ({
                 alignItems: "center",
               }}
             >
-              <Text variant="meta" sx={{ fontWeight: "bold" }}>
+              <Typography variant="meta" sx={{ fontWeight: "bold" }}>
                 {tooltipContent.name}
-              </Text>
+              </Typography>
 
               {hovered.type === "canton" ? (
                 <>
                   <Box
                     sx={{
-                      borderRadius: "circle",
+                      borderRadius: 9999,
                       px: 2,
                       display: "inline-block",
                     }}
@@ -659,12 +665,15 @@ export const ChoroplethMap = ({
                       background: colorScale(hovered.value),
                     }}
                   >
-                    <Text variant="meta">{formatNumber(hovered.value)}</Text>
+                    <Typography variant="meta">
+                      {formatNumber(hovered.value)}
+                    </Typography>
                   </Box>
                 </>
               ) : null}
-            </Grid>
-            <Grid
+            </Box>
+            <Box
+              display="grid"
               sx={{
                 width: "100%",
                 gridTemplateColumns: "1fr auto",
@@ -678,30 +687,32 @@ export const ChoroplethMap = ({
                     tooltipContent.observations.map((d, i) => {
                       return (
                         <Fragment key={i}>
-                          <Text variant="meta" sx={{}}>
+                          <Typography variant="meta" sx={{}}>
                             {d.operatorLabel}
-                          </Text>
+                          </Typography>
                           <Box
                             sx={{
-                              borderRadius: "circle",
+                              borderRadius: 9999,
                               px: 2,
                               display: "inline-block",
                             }}
                             style={{ background: colorScale(d.value) }}
                           >
-                            <Text variant="meta">{formatNumber(d.value)}</Text>
+                            <Typography variant="meta">
+                              {formatNumber(d.value)}
+                            </Typography>
                           </Box>
                         </Fragment>
                       );
                     })
                   ) : (
-                    <Text variant="meta" sx={{ color: "secondary" }}>
+                    <Typography variant="meta" sx={{ color: "secondary.main" }}>
                       <Trans id="map.tooltipnodata">Keine Daten</Trans>
-                    </Text>
+                    </Typography>
                   )}
                 </>
               ) : null}
-            </Grid>
+            </Box>
           </MapTooltip>
         )}
         {geoData.state === "loaded" && (
