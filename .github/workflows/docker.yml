@@ -28,7 +28,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME_APP: visualize-admin/elcom-strompreise
+  IMAGE_NAME_APP: visualize-admin/electricity-prices-switzerland
   IMAGE_NAME_SCREENSHOT: visualize-admin/elcom-strompreise-screenshot
 
 jobs:
