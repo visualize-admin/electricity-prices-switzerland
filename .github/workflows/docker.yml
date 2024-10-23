@@ -28,8 +28,8 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME_APP: visualize-admin/electricity-prices-switzerland
-  IMAGE_NAME_SCREENSHOT: visualize-admin/elcom-strompreise-screenshot
+  IMAGE_NAME_APP: ghcr.io/visualize-admin/electricity-prices-switzerland
+  IMAGE_NAME_SCREENSHOT: ghcr.io/visualize-admin/elcom-strompreise-screenshot
 
 jobs:
   push_to_registry:
@@ -61,7 +61,7 @@ jobs:
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
-          password: ${{ secrets.GH_TOKEN }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push Docker image
         id: push-app
