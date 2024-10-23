@@ -99,5 +99,5 @@ jobs:
           context: ./screenshot-service
           file: ./screenshot-service/Dockerfile
           push: true
-          tags: ${{ steps.meta-app.outputs.tags }}
+          tags: ${{ steps.meta-screenshot.outputs.tags }}
           labels: ${{ steps.meta-screenshot.outputs.labels }}
