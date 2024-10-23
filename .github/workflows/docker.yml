@@ -78,13 +78,6 @@ jobs:
           tags: ${{ steps.meta-app.outputs.tags }}
           labels: ${{ steps.meta-app.outputs.labels }}
 
-      - name: Generate artifact attestation
-        uses: actions/attest-build-provenance@v1
-        with:
-          subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_APP}}
-          subject-digest: ${{ steps.push-app.outputs.digest }}
-          push-to-registry: true
-
       # Build screenshot
       - name: Extract metadata (tags, labels) for Docker
         id: meta-screenshot
@@ -108,10 +101,3 @@ jobs:
           push: true
           tags: ${{ steps.meta-app.outputs.tags }}
           labels: ${{ steps.meta-screenshot.outputs.labels }}
-
-      - name: Generate artifact attestation
-        uses: actions/attest-build-provenance@v1
-        with:
-          subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_SCREENSHOT}}
-          subject-digest: ${{ steps.push-app.outputs.digest }}
-          push-to-registry: true
