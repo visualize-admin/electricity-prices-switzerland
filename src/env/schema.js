@@ -50,4 +50,18 @@ export const serverSchema = z.object({
   // Sparql
   SPARQL_EDITOR: z.string().optional(),
   SPARQL_ENDPOINT: z.string().default("https://test.lindas.admin.ch/query"),
+
+  /**
+   * Whether the SPARQL endpoint supports caching per cube.
+   *
+   * When this is set to true, the cubeIri is appended to the URL of the SPARQL
+   * endpoint.
+   * The "cube" endpoints' cache is only flushed when the cube is updated, whereas
+   * the "global" endpoint's cache is flushed when any cube is updated.
+   */
+  SPARQL_ENDPOINT_SUPPORTS_CACHING_PER_CUBE: z
+    .string()
+    .optional()
+    .default("false")
+    .transform((value) => value === "true"),
 });
