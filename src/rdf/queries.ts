@@ -29,11 +29,15 @@ export const CANTON_OBSERVATIONS_CUBE =
 export const SWISS_OBSERVATIONS_CUBE =
   "https://energy.ld.admin.ch/elcom/electricityprice-swiss";
 
-export const createSource = () => {
+export const createSource = (cubeIri: string | undefined) => {
   assert(!!serverEnv, "serverEnv is not defined");
+  const endpointUrl =
+    cubeIri && serverEnv.SPARQL_ENDPOINT_SUPPORTS_CACHING_PER_CUBE
+      ? `${serverEnv.SPARQL_ENDPOINT}/${encodeURIComponent(cubeIri)}`
+      : serverEnv.SPARQL_ENDPOINT;
   return new Source({
     queryOperation: "postDirect",
-    endpointUrl: serverEnv.SPARQL_ENDPOINT,
+    endpointUrl,
   });
 };
 
@@ -42,7 +46,7 @@ export const getCube = async ({
 }: {
   iri: string;
 }): Promise<Cube | null> => {
-  const source = createSource();
+  const source = createSource(iri);
   const cube = await source.cube(iri);
 
   if (!cube) {
