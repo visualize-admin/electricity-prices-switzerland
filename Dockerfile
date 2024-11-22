@@ -2,14 +2,35 @@
 # and only ship what's actually required by the app to run.
 # https://docs.docker.com/get-started/09_image_best/#multi-stage-builds
 
-FROM node:18-alpine AS base
+FROM node:18.18-alpine AS base
+
+# Install npm and force cross-spawn version
+# Remove old version and install new one
+RUN npm install -g npm@10.9.0 && \
+    # Remove old version
+    npm uninstall -g cross-spawn && \
+    npm cache clean --force && \
+    # Find and remove any remaining old versions
+    find /usr/local/lib/node_modules -name "cross-spawn" -type d -exec rm -rf {} + && \
+    # Install new version
+    npm install -g cross-spawn@7.0.5 --force && \
+    # Configure npm
+    npm config set save-exact=true && \
+    npm config set legacy-peer-deps=true
+
 
 # Dependency image
 FROM base AS deps
 WORKDIR /app
 
 COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile
+
+# Replace the cross-spawn version to avoid the vulnerability
+# Need to that as part as the same command as the install to make sure
+# the bad version does not appear in a layer, as trivy scan will look
+# at every layer.
+RUN yarn install --frozen-lockfile && \
+    sed -i 's/"cross-spawn": "7.0.3"/"cross-spawn": "7.0.6"/g' node_modules/next/package.json
 
 
 # Builder image
