@@ -73,5 +73,5 @@ ENV PORT=3000
 # https://nextjs.org/docs/pages/api-reference/next-config-js/output
 ENV HOSTNAME="0.0.0.0"
 ENV GLOBAL_AGENT_ENVIRONMENT_VARIABLE_NAMESPACE=""
-ENV NODE_OPTIONS="-r \"./configure-proxy\" --max_old_space_size=2048 --openssl-legacy-provider --unhandled-rejections=warn"
+ENV NODE_OPTIONS="-r \"global-agent/bootstrap\" --max_old_space_size=2048 --openssl-legacy-provider --unhandled-rejections=warn"
 CMD ["node", "server.js"]

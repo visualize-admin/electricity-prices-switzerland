@@ -40,7 +40,10 @@ try {
 const nextConfig = async () => {
   const { fileList: additionalTracedFiles } = await nodeFileTrace(
     // add entry points for the missing packages or any additional scripts you need here
-    [require.resolve("./configure-proxy")],
+    [
+      require.resolve("./configure-proxy"),
+      require.resolve("global-agent/bootstrap"),
+    ],
     {
       // ignore unnecesary files if nft includes too many (in my case: it included absolutely everything in node_modules/.bin)
       ignore: (file) => {
