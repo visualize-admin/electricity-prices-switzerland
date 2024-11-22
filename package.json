@@ -53,7 +53,6 @@
     "@tpluscode/sparql-builder": "^2.0.3",
     "@turf/centroid": "^6.5.0",
     "@types/react": "18",
-    "catalog": "^4.0.1-canary.2",
     "cors": "^2.8.5",
     "d3": "^7.9.0",
     "eslint-plugin-import": "^2.28.1",
