@@ -1,5 +1,5 @@
+import { JSDOM } from "jsdom";
 import c14nFactory from "xml-c14n";
-import { DOMParser, XMLSerializer } from "xmldom";
 
 export const ns = {
   a: "http://www.w3.org/2005/08/addressing",
@@ -63,11 +63,13 @@ export const canonicalizeXML = async (tree: Element): Promise<string> => {
 const c14n = c14nFactory();
 
 export const serializeXMLToString = (tree: Element) => {
-  return new XMLSerializer().serializeToString(tree);
+  const dom = new JSDOM();
+  return new dom.window.XMLSerializer().serializeToString(tree);
 };
 
 export const parseXMLString = (xmlStr: string) => {
-  return new DOMParser().parseFromString(xmlStr);
+  const dom = new JSDOM();
+  return new dom.window.DOMParser().parseFromString(xmlStr, "text/xml");
 };
 
 export const stripWhitespace = (xmlStr: string) => {
