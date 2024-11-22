@@ -2,6 +2,7 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
   enabled: process.env.ANALYZE === "true",
 });
 const withMDX = require("@next/mdx")();
+const { nodeFileTrace } = require("@vercel/nft");
 
 const pkg = require("./package.json");
 const { locales, defaultLocale } = require("./src/locales/locales.json");
@@ -36,40 +37,60 @@ try {
   console.error("I18N_DOMAINS parsing failed:", e.message);
 }
 
-/** @type {import("next").NextConfig} */
-const config = {
-  output: "standalone",
-  assetPrefix:
-    WEBPACK_ASSET_PREFIX !== undefined && WEBPACK_ASSET_PREFIX !== ""
-      ? WEBPACK_ASSET_PREFIX
-      : undefined,
+const nextConfig = async () => {
+  const { fileList: additionalTracedFiles } = await nodeFileTrace(
+    // add entry points for the missing packages or any additional scripts you need here
+    [require.resolve("./configure-proxy")],
+    {
+      // ignore unnecesary files if nft includes too many (in my case: it included absolutely everything in node_modules/.bin)
+      ignore: (file) => {
+        return file.replace(/\\/g, "/").startsWith("node_modules/.bin/");
+      },
+    }
+  );
 
-  // Build-time env variables
-  env: buildEnv,
+  /** @type {import("next").NextConfig} */
+  const config = {
+    output: "standalone",
+    experimental: {
+      outputFileTracingIncludes: {
+        "**": [...additionalTracedFiles],
+      },
+    },
+    assetPrefix:
+      WEBPACK_ASSET_PREFIX !== undefined && WEBPACK_ASSET_PREFIX !== ""
+        ? WEBPACK_ASSET_PREFIX
+        : undefined,
 
-  pageExtensions: ["js", "ts", "tsx", "mdx"],
+    // Build-time env variables
+    env: buildEnv,
 
-  i18n: {
-    locales,
-    defaultLocale,
-    domains: i18nDomains,
-    localeDetection: false,
-  },
+    pageExtensions: ["js", "ts", "tsx", "mdx"],
 
-  webpack(config) {
-    config.module.rules.push({
-      test: /\.(graphql|gql)$/,
-      exclude: /node_modules/,
-      loader: "graphql-tag/loader",
-    });
-    config.module.rules.push({
-      test: /\.xml$/,
-      exclude: /node_modules/,
-      loader: "raw-loader",
-    });
+    i18n: {
+      locales,
+      defaultLocale,
+      domains: i18nDomains,
+      localeDetection: false,
+    },
 
-    return config;
-  },
+    webpack(config) {
+      config.module.rules.push({
+        test: /\.(graphql|gql)$/,
+        exclude: /node_modules/,
+        loader: "graphql-tag/loader",
+      });
+      config.module.rules.push({
+        test: /\.xml$/,
+        exclude: /node_modules/,
+        loader: "raw-loader",
+      });
+
+      return config;
+    },
+  };
+
+  return withBundleAnalyzer(withMDX(config));
 };
 
-module.exports = withBundleAnalyzer(withMDX(config));
+module.exports = nextConfig;

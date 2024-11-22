@@ -51,6 +51,7 @@
     "@tpluscode/sparql-builder": "^2.0.3",
     "@turf/centroid": "^6.5.0",
     "@types/jsdom": "^21.1.7",
+    "@vercel/nft": "^0.27.6",
     "cors": "^2.8.5",
     "d3": "^7.9.0",
     "fp-ts": "^2.10.4",
