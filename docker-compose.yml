@@ -1,0 +1,37 @@
+services:
+  web:
+    image: interactivethings/electricity-prices-switzerland
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.web.rule=PathPrefix(`/`)"
+      - "traefik.http.services.web.loadbalancer.server.port=3000"
+    ports:
+      # The HTTP port
+      - "3000:3000"
+  screenshot:
+    image: interactivethings/electricity-prices-switzerland-screenshot
+    # Due to the image being based on node, we need to use init
+    # to ensure the container correctly handles signals
+    # See https://github.com/nodejs/docker-node/blob/7f99010af378daa2520bb60435d0e91e20950d82/docs/BestPractices.md#handling-kernel-signals
+    init: true
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.screenshot.rule=PathPrefix(`/api/screenshot`)"
+      - "traefik.http.services.screenshot.loadbalancer.server.port=3000"
+    ports:
+      # The HTTP port
+      - "3000:3000"
+  reverse-proxy:
+    image: traefik:v3.1
+    command:
+      - "--providers.docker"
+      - "--providers.docker.exposedbydefault=false"
+      - "--api.insecure=true"
+    ports:
+      # The HTTP port
+      - "80:80"
+      # The Web UI (enabled by --api.insecure=true)
+      - "8080:8080"
+    volumes:
+      # So that Traefik can listen to the Docker events
+      - /var/run/docker.sock:/var/run/docker.sock

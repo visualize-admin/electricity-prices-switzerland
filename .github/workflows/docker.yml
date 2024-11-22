@@ -1,0 +1,103 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+# GitHub recommends pinning actions to a commit SHA.
+# To get a newer version, you will need to update the SHA.
+# You can also reference a tag or branch, but the action may change without warning.
+
+name: Publish Docker image
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment to run tests against"
+        required: true
+        type: choice
+        options:
+          - ref
+          - abn
+          - production
+      branch:
+        description: "Branch to run the workflow on"
+        required: true
+        default: "main"
+        type: string
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME_APP: ghcr.io/visualize-admin/electricity-prices-switzerland
+  IMAGE_NAME_SCREENSHOT: ghcr.io/visualize-admin/elcom-strompreise-screenshot
+
+jobs:
+  push_to_registry:
+    name: Push Docker image to Github Container registry
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+      attestations: write
+      id-token: write
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Create fake wiki content
+        run: echo "[]" > src/wiki-content.json
+
+        # Build app
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta-app
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.IMAGE_NAME_APP}}
+          # Default value for tags + added the type=raw line
+          tags: |
+            type=schedule
+            type=ref,event=branch
+            type=ref,event=tag
+            type=ref,event=pr
+            type=raw,value=env-app-${{ inputs.environment }}
+
+      - name: Log in to Github Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        id: push-app
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ steps.meta-app.outputs.tags }}
+          labels: ${{ steps.meta-app.outputs.labels }}
+
+      # Build screenshot
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta-screenshot
+        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+        with:
+          images: ${{ env.IMAGE_NAME_SCREENSHOT}}
+          # Default value for tags + added the type=raw line
+          tags: |
+            type=schedule
+            type=ref,event=branch
+            type=ref,event=tag
+            type=ref,event=pr
+            type=raw,value=env-app-${{ inputs.environment }}
+
+      - name: Build and push Docker image
+        id: push-screenshot
+        uses: docker/build-push-action@v6
+        with:
+          context: ./screenshot-service
+          file: ./screenshot-service/Dockerfile
+          push: true
+          tags: ${{ steps.meta-screenshot.outputs.tags }}
+          labels: ${{ steps.meta-screenshot.outputs.labels }}
