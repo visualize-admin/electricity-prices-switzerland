@@ -88,15 +88,10 @@ export const HelpDialog: React.FC<{
 }> = ({ close, label, open: open, slug }) => {
   const locale = useLocale();
 
-  const [contentQuery] = useWikiContentQuery({ variables: { locale, slug } });
-
-  if (contentQuery.fetching) {
-    return (
-      <Box sx={{ mt: 5 }}>
-        <LoadingIcon />
-      </Box>
-    );
-  }
+  const [contentQuery] = useWikiContentQuery({
+    variables: { locale, slug },
+    pause: !open,
+  });
 
   return (
     <>
