@@ -1,11 +1,7 @@
 import { Trans } from "@lingui/macro";
-import { Link as MUILink, Box, Typography } from "@mui/material";
+import { Link as MUILink } from "@mui/material";
+import html2canvas from "html2canvas";
 import * as React from "react";
-
-import { useLocale } from "src/lib/use-locale";
-import { useQueryState } from "src/lib/use-query-state";
-
-import { Entity } from "../../domain/data";
 
 export type Download =
   | "map"
@@ -14,86 +10,52 @@ export type Download =
   | "distribution"
   | "comparison";
 
-interface Props {
-  entity?: Entity;
-  id?: string;
-  elementId: Download;
-  fileName: string;
-  downloadType: Download;
-}
+const getImageDataFromElement = async (elementId: string): Promise<string> => {
+  const element = document.getElementById(elementId);
+  const canvas = await html2canvas(element as HTMLElement);
+  return canvas.toDataURL("image/png");
+};
 
+/**
+ * Used to download an image of a specific element or from an element
+ * that directly defines a way to get the image data.
+ */
 export const DownloadImage = ({
-  elementId,
   fileName,
-  entity,
-  id,
-  downloadType,
-}: Props) => {
-  const locale = useLocale();
-  const [
-    {
-      period,
-      category,
-      product,
-      priceComponent,
-      municipality,
-      operator,
-      canton,
-      download,
-      cantonsOrder,
-      view,
-    },
-  ] = useQueryState();
+  elementId,
+  getImageData,
+}: {
+  downloadType?: string;
+  fileName: string;
 
-  const [origin, setOrigin] = React.useState<undefined | string>(undefined);
+  // Either elementId or getImageData must be provided
+  elementId?: string;
+  getImageData?: () => Promise<string | undefined>;
+}) => {
+  const onDownload: React.MouseEventHandler = async (ev) => {
+    ev.preventDefault();
+    const imageData = elementId
+      ? await getImageDataFromElement(elementId)
+      : await getImageData!();
 
-  React.useEffect(() => {
-    setOrigin(window.location.origin);
-  }, [setOrigin]);
-
-  const constructParamsFromArray = (
-    param: string[] | undefined,
-    paramName: string
-  ): string =>
-    param
-      ? `${param.reduce((acc, cur) => acc.concat(`&${paramName}=${cur}`), "")}`
-      : "";
-
-  const periods = constructParamsFromArray(period, "period");
-  const municipalities = constructParamsFromArray(municipality, "municipality");
-  const operators = constructParamsFromArray(operator, "operator");
-  const cantons = constructParamsFromArray(canton, "canton");
-
-  const queryParams = `download=${downloadType}${municipalities}${operators}${cantons}${periods}&category=${category}&product=${product}&priceComponent=${priceComponent}&cantonsOrder=${cantonsOrder}&view=${view}`;
-
-  const url =
-    entity && id && downloadType !== "map"
-      ? `${origin}/${locale}/${entity}/${id}?${queryParams}`
-      : `${origin}/${locale}?${queryParams}`;
-
-  const downLoadUrl = `${origin}/api/screenshot?url=${encodeURIComponent(
-    url
-  )}&element=${elementId}&filename=${fileName}&deviceScaleFactor=2`;
+    if (!imageData) {
+      return;
+    }
+    const a = document.createElement("a");
+    a.href = imageData;
+    a.download = fileName;
+    a.click();
+  };
 
   return (
-    <Box>
-      {!download ? (
-        <MUILink
-          variant="inline"
-          href={downLoadUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Trans id="image.download">Bild herunterladen</Trans>
-        </MUILink>
-      ) : (
-        <Typography variant="meta" sx={{ mt: 4 }}>
-          <Trans id="image.download.source">
-            Eidgenössische Elektrizitätskommission ElCom
-          </Trans>{" "}
-          -<Trans id="image.download.unit">Tarifvergleich in Rp./kWh</Trans>
-        </Typography>
-      )}
-    </Box>
+    <MUILink
+      variant="inline"
+      onClick={onDownload}
+      target="_blank"
+      rel="noopener noreferrer"
+      href="#"
+    >
+      <Trans id="image.download">Bild herunterladen</Trans>
+    </MUILink>
   );
 };

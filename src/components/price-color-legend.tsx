@@ -1,5 +1,6 @@
+import styled from "@emotion/styled";
 import { Trans, t } from "@lingui/macro";
-import { Box, BoxProps } from "@mui/material";
+import { Box } from "@mui/material";
 import { useTheme, Typography } from "@mui/material";
 import React, { useState } from "react";
 
@@ -14,40 +15,28 @@ const TOP_LABEL_HEIGHT = 14;
 const COLOR_HEIGHT = 12;
 const BOTTOM_LABEL_HEIGHT = 16;
 
-const LegendBox = ({
-  children,
-  sx,
-}: {
-  children: React.ReactNode;
-  sx?: BoxProps["sx"];
-}) => {
-  return (
-    <Box
-      sx={{
-        zIndex: 13,
-        bgcolor: "rgba(245, 245, 245, 0.8)",
-        borderRadius: 1,
-        height: "fit-content",
-        px: 4,
-        py: 2,
-        ...sx,
-      }}
-    >
-      {children}
-    </Box>
-  );
-};
+const LegendBox = styled(Box)({
+  zIndex: 13,
+  bgcolor: "rgba(245, 245, 245, 0.8)",
+  borderRadius: 1,
+  height: "fit-content",
+  px: 4,
+  py: 2,
+});
+
 export const MapPriceColorLegend = ({
   stats,
+  id,
 }: {
   stats: [number | undefined, number | undefined, number | undefined];
+  id?: string;
 }) => {
   const formatCurrency = useFormatCurrency();
   const [open, setOpen] = useState(true);
 
   if (!open) {
     return (
-      <LegendBox sx={{ width: "auto" }}>
+      <LegendBox sx={{ width: "auto" }} id={id}>
         <Box
           onClick={() => setOpen(true)}
           sx={{
@@ -63,7 +52,7 @@ export const MapPriceColorLegend = ({
     );
   }
   return (
-    <LegendBox>
+    <LegendBox id={id}>
       <Box sx={{ alignItems: "center", width: "100%", mb: -1 }} display="flex">
         <Typography
           variant="inherit"

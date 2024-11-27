@@ -61,6 +61,7 @@
     "graphql-tag": "^2.11.0",
     "graphql-type-json": "^0.3.2",
     "har-to-k6": "^0.13.1",
+    "html2canvas": "^1.4.1",
     "io-ts": "^2.2.16",
     "io-ts-types": "^0.5.16",
     "jsdom": "^25.0.1",

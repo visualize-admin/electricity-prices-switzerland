@@ -9,8 +9,6 @@ import { Download, DownloadImage } from "./download-image";
 export const Card = ({
   title,
   downloadId,
-  id,
-  entity,
   children,
 }: {
   title: string | ReactNode;
@@ -45,8 +43,6 @@ export const Card = ({
       <DownloadImage
         elementId={downloadId}
         fileName={downloadId}
-        entity={entity}
-        id={id}
         downloadType={downloadId}
       />
     </Box>
