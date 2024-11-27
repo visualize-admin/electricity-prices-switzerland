@@ -27,8 +27,7 @@
     "e2e": "npx playwright test  --grep-invert @har",
     "e2e:k6:har": "npx playwright test e2e/generate-k6-har.spec.ts --headed",
     "e2e:k6:update": "bun e2e/update-k6-test-from-har.ts browsing-test-ref.har 802626",
-    "docker:build": "docker buildx build --platform linux/amd64 -t interactivethings/electricity-prices-switzerland .",
-    "docker:build-screenshot": "docker buildx build --platform linux/amd64 -t interactivethings/electricity-prices-switzerland-screenshot screenshot-service"
+    "docker:build": "docker buildx build --platform linux/amd64 -t interactivethings/electricity-prices-switzerland ."
   },
   "dependencies": {
     "@apollo/server": "^4.3.3",

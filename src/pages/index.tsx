@@ -332,7 +332,6 @@ const IndexPage = ({ locale }: Props) => {
             }}
           >
             <Box
-              // id used by the screenshot service
               id={DOWNLOAD_ID}
               sx={{
                 bgcolor: "grey.200",
