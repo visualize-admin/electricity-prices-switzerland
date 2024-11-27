@@ -21,7 +21,6 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME_APP: ghcr.io/visualize-admin/electricity-prices-switzerland
-  IMAGE_NAME_SCREENSHOT: ghcr.io/visualize-admin/elcom-strompreise-screenshot
 
 jobs:
   push_to_registry:
@@ -69,27 +68,3 @@ jobs:
           push: true
           tags: ${{ steps.meta-app.outputs.tags }}
           labels: ${{ steps.meta-app.outputs.labels }}
-
-      # Build screenshot
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta-screenshot
-        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
-        with:
-          images: ${{ env.IMAGE_NAME_SCREENSHOT}}
-          # Added type=sha to the default
-          tags: |
-            type=schedule
-            type=ref,event=branch
-            type=ref,event=tag
-            type=ref,event=pr
-            type=sha
-
-      - name: Build and push Docker image
-        id: push-screenshot
-        uses: docker/build-push-action@v6
-        with:
-          context: ./screenshot-service
-          file: ./screenshot-service/Dockerfile
-          push: true
-          tags: ${{ steps.meta-screenshot.outputs.tags }}
-          labels: ${{ steps.meta-screenshot.outputs.labels }}
