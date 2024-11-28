@@ -29,7 +29,7 @@ export const MapPriceColorLegend = ({
   id,
 }: {
   stats: [number | undefined, number | undefined, number | undefined];
-  id?: string;
+  id: string;
 }) => {
   const formatCurrency = useFormatCurrency();
   const [open, setOpen] = useState(true);
