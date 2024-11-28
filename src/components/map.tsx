@@ -354,7 +354,6 @@ const getImageData = async (deck: Deck, legend: HTMLElement) => {
     blob ? URL.createObjectURL(blob) : undefined
   );
 
-  console.log({ res });
   Object.assign(canvas, initialSize);
   deck.redraw("Initial size");
 
