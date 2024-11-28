@@ -97,7 +97,7 @@ export const HelpDialog: React.FC<{
     <>
       {contentQuery.fetching ? (
         createPortal(
-          <Backdrop open={open} sx={{ zIndex: 1000 }}>
+          <Backdrop open={open} sx={{ zIndex: 1000 }} onClick={close}>
             <LoadingIcon sx={{ color: "grey.800" }} />
           </Backdrop>,
           document.body
