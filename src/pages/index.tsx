@@ -26,7 +26,7 @@ import {
 } from "../components/highlight-context";
 import { InfoBanner } from "../components/info-banner";
 import { List } from "../components/list";
-import { ChoroplethMap } from "../components/map";
+import { ChoroplethMap, ChoroplethMapProps } from "../components/map";
 import { Search } from "../components/search";
 import { Selector } from "../components/selector";
 import { useDisclosure } from "../components/useDisclosure";
@@ -40,16 +40,18 @@ type Props = {
   locale: string;
 };
 
-export const getServerSideProps: GetServerSideProps<Props, { locale: string }> =
-  async ({ locale, req, res }) => {
-    await basicAuthMiddleware(req, res);
+export const getServerSideProps: GetServerSideProps<
+  Props,
+  { locale: string }
+> = async ({ locale, req, res }) => {
+  await basicAuthMiddleware(req, res);
 
-    return {
-      props: {
-        locale: locale ?? defaultLocale,
-      },
-    };
+  return {
+    props: {
+      locale: locale ?? defaultLocale,
+    },
   };
+};
 
 const HEADER_HEIGHT_S = "107px";
 const HEADER_HEIGHT_M_UP = "96px";
@@ -240,6 +242,9 @@ const IndexPage = ({ locale }: Props) => {
   };
 
   const [highlightContext, setHighlightContext] = useState<HighlightValue>();
+
+  const controlsRef: NonNullable<ChoroplethMapProps["controls"]> = useRef(null);
+
   return (
     <HighlightContext.Provider
       value={{
@@ -327,7 +332,6 @@ const IndexPage = ({ locale }: Props) => {
             }}
           >
             <Box
-              // id used by the screenshot service
               id={DOWNLOAD_ID}
               sx={{
                 bgcolor: "grey.200",
@@ -352,6 +356,7 @@ const IndexPage = ({ locale }: Props) => {
                 medianValue={medianValue}
                 colorScale={colorScale}
                 onMunicipalityLayerClick={handleMunicipalityLayerClick}
+                controls={controlsRef}
               />
 
               {!download && (
@@ -372,9 +377,11 @@ const IndexPage = ({ locale }: Props) => {
                   }}
                 >
                   <DownloadImage
-                    elementId={DOWNLOAD_ID}
-                    fileName={DOWNLOAD_ID}
+                    fileName={"map.png"}
                     downloadType={DOWNLOAD_ID}
+                    getImageData={async () => {
+                      return controlsRef.current?.getImageData();
+                    }}
                   />
                   <ShareButton />
                 </Box>

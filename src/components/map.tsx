@@ -1,22 +1,26 @@
 import {
+  Deck,
   MapController,
   PickingInfo,
   WebMercatorViewport,
 } from "@deck.gl/core/typed";
 import { ViewStateChangeParameters } from "@deck.gl/core/typed/controllers/controller";
 import { GeoJsonLayer } from "@deck.gl/layers/typed";
-import DeckGL from "@deck.gl/react/typed";
+import DeckGL, { DeckGLRef } from "@deck.gl/react/typed";
 import { Trans } from "@lingui/macro";
 import { Box, Typography } from "@mui/material";
 import centroid from "@turf/centroid";
 import { color, extent, group, mean, rollup } from "d3";
 import { ScaleThreshold } from "d3-scale";
+import html2canvas from "html2canvas";
 import React, {
+  ComponentProps,
   Fragment,
   ReactNode,
   useCallback,
   useContext,
   useEffect,
+  useId,
   useMemo,
   useState,
 } from "react";
@@ -288,6 +292,74 @@ const useGeoData = (year: string) => {
   return geoData;
 };
 
+const toBlob = (canvas: HTMLCanvasElement, type: string) =>
+  new Promise<Blob | null>((resolve) => {
+    canvas.toBlob((blob) => resolve(blob), type);
+  });
+
+/**
+ * Get the map as an image, using the deckgl canvas and html2canvas to get
+ * the legend as an image.
+ */
+const getImageData = async (deck: Deck, legend: HTMLElement) => {
+  if (!deck || "canvas" in deck === false) {
+    return;
+  }
+
+  // @ts-expect-error canvas is private
+  const canvas = deck.canvas;
+  if (!canvas) {
+    return;
+  }
+
+  const initialSize = {
+    width: canvas.width,
+    height: canvas.height,
+  };
+
+  const wantedSize = {
+    width: 1440 * 2,
+    height: 1024 * 2,
+  };
+
+  Object.assign(canvas, wantedSize);
+  deck.redraw("New size");
+
+  const newCanvas = document.createElement("canvas");
+  newCanvas.width = canvas.width;
+  newCanvas.height = canvas.height;
+  const context = newCanvas.getContext("2d");
+  if (!context) {
+    return;
+  }
+
+  // Using html2canvas, take the legend element, and draw it on the new canvas
+  // Make a new canvas element to convert the image to a png
+  // We need a new canvas since we will draw the legend onto it
+  context.fillStyle = "white";
+  context.fillRect(0, 0, newCanvas.width, newCanvas.height);
+
+  context.drawImage(canvas, 0, 0, canvas.width, canvas.height);
+
+  const legendCanvas = await html2canvas(legend);
+
+  // We need to draw the legend using the device pixel ratio otherwise we get
+  // difference between different browsers (Safari legend would be bigger somehow)
+  const { width, height } = legend.getBoundingClientRect();
+  const ratio = window.devicePixelRatio;
+  context.drawImage(legendCanvas, 12, 12, width * ratio, height * ratio);
+
+  // Returns the canvas as a png
+  const res = await toBlob(newCanvas, "image/png").then((blob) =>
+    blob ? URL.createObjectURL(blob) : undefined
+  );
+
+  Object.assign(canvas, initialSize);
+  deck.redraw("Initial size");
+
+  return res;
+};
+
 export const ChoroplethMap = ({
   year,
   observations,
@@ -296,6 +368,7 @@ export const ChoroplethMap = ({
   municipalities,
   colorScale,
   onMunicipalityLayerClick,
+  controls,
 }: {
   year: string;
   observations: OperatorObservationFieldsFragment[];
@@ -304,6 +377,9 @@ export const ChoroplethMap = ({
   municipalities: { id: string; name: string }[];
   colorScale: ScaleThreshold<number, string> | undefined | 0;
   onMunicipalityLayerClick: (_item: PickingInfo) => void;
+  controls?: React.MutableRefObject<{
+    getImageData: () => Promise<string | undefined>;
+  } | null>;
 }) => {
   const [hovered, setHovered] = useState<HoverState>();
 
@@ -331,6 +407,9 @@ export const ChoroplethMap = ({
     [setViewState]
   );
 
+  const deckRef = React.useRef<DeckGLRef>(null);
+  const legendId = useId();
+
   const geoData = useGeoData(year);
 
   const observationsByMunicipalityId = useMemo(() => {
@@ -352,6 +431,28 @@ export const ChoroplethMap = ({
       (d) => d.id
     );
   }, [municipalities]);
+
+  if (controls) {
+    controls.current = {
+      getImageData: async () => {
+        const ref = deckRef.current;
+        if (!ref) {
+          return;
+        }
+        const deck = ref.deck;
+        if (!deck) {
+          return;
+        }
+
+        const legend = document.getElementById(legendId);
+        if (!legend) {
+          return;
+        }
+
+        return getImageData(deck, legend);
+      },
+    };
+  }
 
   useEffect(() => {
     if (geoData.state === "loaded" && observationsByMunicipalityId.size > 0) {
@@ -731,11 +832,13 @@ export const ChoroplethMap = ({
               }}
             >
               <MapPriceColorLegend
+                id={legendId}
                 stats={[valuesExtent[0], m, valuesExtent[1]]}
               />
             </Box>
 
             <DeckGL
+              ref={deckRef}
               controller={{ type: MapController }}
               viewState={viewState}
               onViewStateChange={onViewStateChange}
@@ -748,3 +851,5 @@ export const ChoroplethMap = ({
     </>
   );
 };
+
+export type ChoroplethMapProps = ComponentProps<typeof ChoroplethMap>;
