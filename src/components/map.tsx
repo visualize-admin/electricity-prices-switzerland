@@ -317,17 +317,22 @@ const getImageData = async (deck: Deck, legend: HTMLElement) => {
     height: canvas.height,
   };
 
-  const wantedSize = {
-    width: 1440 * 2,
-    height: 1024 * 2,
+  const imageSize = {
+    width: 1120 * 2,
+    height: 928 * 2,
   };
 
-  Object.assign(canvas, wantedSize);
+  const canvasSize = {
+    width: 1120 * 2,
+    height: 730 * 2,
+  };
+
+  Object.assign(canvas, canvasSize);
   deck.redraw("New size");
 
   const newCanvas = document.createElement("canvas");
-  newCanvas.width = canvas.width;
-  newCanvas.height = canvas.height;
+  newCanvas.width = imageSize.width;
+  newCanvas.height = imageSize.height;
   const context = newCanvas.getContext("2d");
   if (!context) {
     return;
@@ -339,15 +344,29 @@ const getImageData = async (deck: Deck, legend: HTMLElement) => {
   context.fillStyle = "white";
   context.fillRect(0, 0, newCanvas.width, newCanvas.height);
 
-  context.drawImage(canvas, 0, 0, canvas.width, canvas.height);
+  const ratio = window.devicePixelRatio;
+  context.drawImage(
+    canvas,
+    (newCanvas.width - canvas.width) / 2,
+    (newCanvas.height - canvas.height) / 2,
+    canvas.width,
+    canvas.height
+  );
 
   const legendCanvas = await html2canvas(legend);
 
   // We need to draw the legend using the device pixel ratio otherwise we get
   // difference between different browsers (Safari legend would be bigger somehow)
   const { width, height } = legend.getBoundingClientRect();
-  const ratio = window.devicePixelRatio;
-  context.drawImage(legendCanvas, 12, 12, width * ratio, height * ratio);
+
+  const legendPadding = 24;
+  context.drawImage(
+    legendCanvas,
+    legendPadding,
+    legendPadding,
+    width * ratio,
+    height * ratio
+  );
 
   // Returns the canvas as a png
   const res = await toBlob(newCanvas, "image/png").then((blob) =>
