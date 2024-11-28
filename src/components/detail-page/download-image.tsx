@@ -3,6 +3,8 @@ import { Box, Link as MUILink, Typography } from "@mui/material";
 import html2canvas from "html2canvas";
 import * as React from "react";
 
+import assert from "src/lib/assert";
+
 export type Download =
   | "map"
   | "components"
@@ -40,11 +42,16 @@ export const DownloadImage = ({
   const onDownload: React.MouseEventHandler = async (ev) => {
     ev.preventDefault();
     setDownloading(true);
+    assert(
+      !!elementId || !!getImageData,
+      "Either elementId or getImageData must be defined"
+    );
     try {
       await nextFrame();
-      const imageData = elementId
-        ? await getImageDataFromElement(elementId)
-        : await getImageData!();
+      const imageData =
+        elementId !== undefined
+          ? await getImageDataFromElement(elementId)
+          : await getImageData!();
 
       if (!imageData) {
         return;

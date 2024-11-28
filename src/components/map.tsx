@@ -292,6 +292,11 @@ const useGeoData = (year: string) => {
   return geoData;
 };
 
+const toBlob = (canvas: HTMLCanvasElement, type: string) =>
+  new Promise<Blob | null>((resolve) => {
+    canvas.toBlob((blob) => resolve(blob), type);
+  });
+
 /**
  * Get the map as an image, using the deckgl canvas and html2canvas to get
  * the legend as an image.
@@ -321,9 +326,8 @@ const getImageData = async (deck: Deck, legend: HTMLElement) => {
   deck.redraw("New size");
 
   const newCanvas = document.createElement("canvas");
-  const padding = 0;
-  newCanvas.width = canvas.width + padding * 2;
-  newCanvas.height = canvas.height + padding * 2;
+  newCanvas.width = canvas.width;
+  newCanvas.height = canvas.height;
   const context = newCanvas.getContext("2d");
   if (!context) {
     return;
@@ -346,10 +350,11 @@ const getImageData = async (deck: Deck, legend: HTMLElement) => {
   context.drawImage(legendCanvas, 12, 12, width * ratio, height * ratio);
 
   // Returns the canvas as a png
-  const res = newCanvas
-    .toDataURL("image/png")
-    .replace("image/png", "image/octet-stream");
+  const res = await toBlob(newCanvas, "image/png").then((blob) =>
+    blob ? URL.createObjectURL(blob) : undefined
+  );
 
+  console.log({ res });
   Object.assign(canvas, initialSize);
   deck.redraw("Initial size");
 
