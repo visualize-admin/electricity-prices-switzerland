@@ -297,6 +297,16 @@ const toBlob = (canvas: HTMLCanvasElement, type: string) =>
     canvas.toBlob((blob) => resolve(blob), type);
   });
 
+const SCREENSHOT_IMAGE_SIZE = {
+  width: 1120,
+  height: 928,
+};
+
+const SCREENSHOT_CANVAS_SIZE = {
+  width: 1120,
+  height: 730,
+};
+
 /**
  * Get the map as an image, using the deckgl canvas and html2canvas to get
  * the legend as an image.
@@ -318,13 +328,12 @@ const getImageData = async (deck: Deck, legend: HTMLElement) => {
   };
 
   const imageSize = {
-    width: 1120 * 2,
-    height: 928 * 2,
+    width: SCREENSHOT_IMAGE_SIZE.width * 2,
+    height: SCREENSHOT_IMAGE_SIZE.height * 2,
   };
-
   const canvasSize = {
-    width: 1120 * 2,
-    height: 730 * 2,
+    width: SCREENSHOT_CANVAS_SIZE.width * 2,
+    height: SCREENSHOT_CANVAS_SIZE.height * 2,
   };
 
   Object.assign(canvas, canvasSize);
@@ -379,6 +388,9 @@ const getImageData = async (deck: Deck, legend: HTMLElement) => {
   return res;
 };
 
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+const frame = () => new Promise((resolve) => requestAnimationFrame(resolve));
+
 export const ChoroplethMap = ({
   year,
   observations,
@@ -403,9 +415,13 @@ export const ChoroplethMap = ({
   const [hovered, setHovered] = useState<HoverState>();
 
   const [viewState, setViewState] = useState(INITIAL_VIEW_STATE);
+  const [screenshotting, setScreenshotting] = useState(false);
 
   const onViewStateChange = useCallback(
     ({ viewState, interactionState }: ViewStateChangeParameters) => {
+      if (screenshotting) {
+        return;
+      }
       setHovered(undefined);
 
       if (interactionState.inTransition) {
@@ -414,7 +430,7 @@ export const ChoroplethMap = ({
         setViewState(constrainZoom(viewState, CH_BBOX));
       }
     },
-    []
+    [screenshotting]
   );
 
   const onResize = useCallback(
@@ -454,21 +470,30 @@ export const ChoroplethMap = ({
   if (controls) {
     controls.current = {
       getImageData: async () => {
-        const ref = deckRef.current;
-        if (!ref) {
-          return;
-        }
-        const deck = ref.deck;
-        if (!deck) {
-          return;
-        }
+        setScreenshotting(true);
+        try {
+          await frame();
+          await sleep(1000);
+          const ref = deckRef.current;
+          if (!ref) {
+            return;
+          }
+          const deck = ref.deck;
+          if (!deck) {
+            return;
+          }
 
-        const legend = document.getElementById(legendId);
-        if (!legend) {
-          return;
-        }
+          const legend = document.getElementById(legendId);
+          if (!legend) {
+            return;
+          }
 
-        return getImageData(deck, legend);
+          return getImageData(deck, legend);
+        } finally {
+          {
+            setScreenshotting(false);
+          }
+        }
       },
     };
   }
@@ -857,7 +882,6 @@ export const ChoroplethMap = ({
             </Box>
 
             <DeckGL
-              ref={deckRef}
               controller={{ type: MapController }}
               viewState={viewState}
               onViewStateChange={onViewStateChange}
@@ -866,6 +890,35 @@ export const ChoroplethMap = ({
             />
           </WithClassName>
         )}
+        {screenshotting ? (
+          <Box
+            sx={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: 1120,
+              height: 730,
+              opacity: 0,
+            }}
+          >
+            <DeckGL
+              ref={deckRef}
+              controller={{ type: MapController }}
+              viewState={
+                constrainZoom(
+                  {
+                    ...viewState,
+                    zoom: 5,
+                    width: SCREENSHOT_CANVAS_SIZE.width,
+                    height: SCREENSHOT_CANVAS_SIZE.height,
+                  },
+                  CH_BBOX
+                ) as $FixMe
+              }
+              layers={layers?.map((l) => l.clone({}))}
+            />
+          </Box>
+        ) : null}
       </>
     </>
   );
