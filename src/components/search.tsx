@@ -206,7 +206,7 @@ export const SearchField = ({
               ...params.InputProps,
               sx: {
                 height: "3rem",
-                fontSize: [18],
+                fontSize: 18,
               },
               placeholder: t({ id: "search.global.hint.canton.muni.operator" }),
               startAdornment: (

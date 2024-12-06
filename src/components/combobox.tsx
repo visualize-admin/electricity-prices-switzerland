@@ -54,7 +54,7 @@ export const ComboboxMulti = ({
           <Typography variant="meta">{label}</Typography>
           <TextField
             {...params}
-            sx={{ bgcolor: "grey.100" } as TextFieldProps}
+            sx={{ bgcolor: "grey.100" } as TextFieldProps["sx"]}
             variant="outlined"
             value={inputValue}
             onChange={(e) => {
