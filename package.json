@@ -37,6 +37,7 @@
     "@deck.gl/core": "8.8",
     "@deck.gl/layers": "8.8",
     "@deck.gl/react": "8.8",
+    "@emotion/core": "^11.0.0",
     "@emotion/react": "^11.13.0",
     "@emotion/styled": "^11.13.0",
     "@juggle/resize-observer": "^3.3.1",
