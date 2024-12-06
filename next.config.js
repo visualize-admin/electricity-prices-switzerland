@@ -55,11 +55,11 @@ const nextConfig = async () => {
   /** @type {import("next").NextConfig} */
   const config = {
     output: "standalone",
-    experimental: {
-      outputFileTracingIncludes: {
-        "**": [...additionalTracedFiles],
-      },
+
+    outputFileTracingIncludes: {
+      "**": [...additionalTracedFiles],
     },
+
     assetPrefix:
       WEBPACK_ASSET_PREFIX !== undefined && WEBPACK_ASSET_PREFIX !== ""
         ? WEBPACK_ASSET_PREFIX
