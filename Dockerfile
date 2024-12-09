@@ -18,6 +18,8 @@ RUN npm install -g npm@10.9.0 && \
     npm config set save-exact=true && \
     npm config set legacy-peer-deps=true
 
+RUN apk update && apk upgrade --no-cache openssl
+
 
 # Dependency image
 FROM base AS deps
