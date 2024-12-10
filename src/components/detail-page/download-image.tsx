@@ -14,8 +14,31 @@ export type Download =
 
 const getImageDataFromElement = async (elementId: string): Promise<string> => {
   const element = document.getElementById(elementId);
-  const canvas = await html2canvas(element as HTMLElement);
-  return canvas.toDataURL("image/png");
+  const canvas = await html2canvas(element as HTMLElement, {
+    // Should remove the grey areas
+    // https://github.com/niklasvh/html2canvas/issues/2183
+    scale: 2,
+  });
+
+  // create downsized canvas (scale reduced by 2)
+  // copy the current canvas to the downsized canvas reducing the scale by 2
+  const downsizedCanvas = document.createElement("canvas");
+  downsizedCanvas.width = canvas.width / 2;
+  downsizedCanvas.height = canvas.height / 2;
+  const ctx = downsizedCanvas.getContext("2d");
+  ctx!.drawImage(
+    canvas,
+    0,
+    0,
+    canvas.width,
+    canvas.height,
+    0,
+    0,
+    downsizedCanvas.width,
+    downsizedCanvas.height
+  );
+
+  return downsizedCanvas.toDataURL("image/png");
 };
 
 // helper to wait a frame
