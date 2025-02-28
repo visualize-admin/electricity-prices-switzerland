@@ -12,6 +12,7 @@ import {
   useAllMunicipalitiesQuery,
   useObservationsQuery,
 } from "src/graphql/queries";
+import { copyToClipboard } from "src/lib/copy-to-clipboard";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { useQueryStateSingle } from "src/lib/use-query-state";
 import { defaultLocale } from "src/locales/locales";
@@ -55,14 +56,6 @@ export const getServerSideProps: GetServerSideProps<
 
 const HEADER_HEIGHT_S = "107px";
 const HEADER_HEIGHT_M_UP = "96px";
-
-const copyToClipboard = async function (text: string) {
-  try {
-    await navigator.clipboard.writeText(text);
-  } catch (error) {
-    console.error("Failed to copy text to clipboard:", error);
-  }
-};
 
 const ShareButton = () => {
   const { isOpen, open, close } = useDisclosure();
