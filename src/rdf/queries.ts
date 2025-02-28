@@ -16,9 +16,8 @@ import { OperatorDocumentCategory } from "src/graphql/resolver-types";
 import assert from "src/lib/assert";
 import { Observation, parseObservation } from "src/lib/observations";
 import { defaultLocale } from "src/locales/locales";
-
-import * as ns from "./namespace";
-import { sparqlClient } from "./sparql-client";
+import * as ns from "src/rdf/namespace";
+import { sparqlClient } from "src/rdf/sparql-client";
 
 type Filters = { [key: string]: string[] | null | undefined } | null;
 
@@ -86,36 +85,6 @@ export const getSwissMedianCube = async (): Promise<Cube> => {
   }
   return cube;
 };
-
-// export const getSourceAndCubeViews = async () => {
-//   const source = createSource();
-//   const [
-//     observationsCube,
-//     cantonObservationsCube,
-//     swissObservationsCube,
-//   ] = await Promise.all([
-//     getCube({ iri: OBSERVATIONS_CUBE }),
-//     getCube({ iri: CANTON_OBSERVATIONS_CUBE }),
-//     getCube({ iri: SWISS_OBSERVATIONS_CUBE }),
-//   ]);
-
-//   if (!observationsCube) {
-//     throw Error(`Cube ${OBSERVATIONS_CUBE} not found`);
-//   }
-//   if (!cantonObservationsCube) {
-//     throw Error(`Cube ${CANTON_OBSERVATIONS_CUBE} not found`);
-//   }
-//   if (!swissObservationsCube) {
-//     throw Error(`Cube ${SWISS_OBSERVATIONS_CUBE} not found`);
-//   }
-
-//   return {
-//     source,
-//     observationsView: getView(observationsCube),
-//     cantonObservationsView: getView(cantonObservationsCube),
-//     swissObservationsView: getView(swissObservationsCube),
-//   };
-// };
 
 export const getName = (
   node: Cube | CubeDimension,
