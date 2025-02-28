@@ -44,8 +44,7 @@ const useHistogramState = ({
 }): HistogramState => {
   const width = useWidth();
   const formatCurrency = useFormatCurrency();
-
-  const { annotationfontSize, palette } = useChartTheme();
+  const { annotationFontSize, palette } = useChartTheme();
 
   const getX = useCallback(
     (d: GenericObservation) => d[fields.x.componentIri] as number,
@@ -113,7 +112,7 @@ const useHistogramState = ({
         getLabel,
         format: formatCurrency,
         width,
-        annotationfontSize,
+        annotationFontSize,
       })
     : [{ height: 0, nbOfLines: 1 }];
 

@@ -47,7 +47,7 @@ const useRangePlotState = ({
 }): RangePlotState => {
   const width = useWidth();
   const formatCurrency = useFormatCurrency();
-  const { annotationfontSize, palette } = useChartTheme();
+  const { annotationFontSize, palette } = useChartTheme();
 
   const getX = useCallback(
     (d: GenericObservation) => d[fields.x.componentIri] as number,
@@ -123,7 +123,7 @@ const useRangePlotState = ({
         getLabel,
         format: formatCurrency,
         width,
-        annotationfontSize,
+        annotationFontSize,
       })
     : [{ height: 0, nbOfLines: 1 }];
 
