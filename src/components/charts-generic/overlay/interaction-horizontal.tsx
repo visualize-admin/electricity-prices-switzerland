@@ -2,9 +2,12 @@ import { bisector, pointer } from "d3";
 import * as React from "react";
 import { useRef } from "react";
 
-import { GenericObservation } from "../../../domain/data";
-import { AreasState, useChartState } from "../use-chart-state";
-import { useInteraction } from "../use-interaction";
+import {
+  AreasState,
+  useChartState,
+} from "src/components/charts-generic/use-chart-state";
+import { useInteraction } from "src/components/charts-generic/use-interaction";
+import { GenericObservation } from "src/domain/data";
 
 export const InteractionHorizontal = React.memo(() => {
   const [, dispatch] = useInteraction();

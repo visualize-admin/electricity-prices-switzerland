@@ -3,10 +3,9 @@ import { ascending } from "d3-array";
 import { line } from "d3-shape";
 import * as React from "react";
 
-import { GenericObservation } from "../../../domain/data";
-import { useChartState } from "../use-chart-state";
-
-import { LinesState } from "./lines-state";
+import { LinesState } from "src/components/charts-generic/lines/lines-state";
+import { useChartState } from "src/components/charts-generic/use-chart-state";
+import { GenericObservation } from "src/domain/data";
 
 export const Lines = () => {
   const { getX, xScale, getY, yScale, grouped, colors, getColor, bounds } =

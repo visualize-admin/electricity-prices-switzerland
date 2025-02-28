@@ -1,12 +1,17 @@
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 
-import { GenericObservation } from "../../../domain/data";
-import { LinesState } from "../lines/lines-state";
-import { HistogramState, useChartState } from "../use-chart-state";
-import { useInteraction } from "../use-interaction";
-
-import { TooltipBox } from "./tooltip-box";
-import { TooltipMultiple, TooltipSingle } from "./tooltip-content";
+import { TooltipBox } from "src/components/charts-generic/interaction/tooltip-box";
+import {
+  TooltipMultiple,
+  TooltipSingle,
+} from "src/components/charts-generic/interaction/tooltip-content";
+import { LinesState } from "src/components/charts-generic/lines/lines-state";
+import {
+  HistogramState,
+  useChartState,
+} from "src/components/charts-generic/use-chart-state";
+import { useInteraction } from "src/components/charts-generic/use-interaction";
+import { GenericObservation } from "src/domain/data";
 
 export const TRIANGLE_SIZE = 8;
 export const TOOLTIP_OFFSET = 4;

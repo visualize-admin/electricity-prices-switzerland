@@ -1,39 +1,36 @@
 import { t, Trans } from "@lingui/macro";
 import { Box } from "@mui/material";
-import * as React from "react";
 import { memo } from "react";
 
-import { EMPTY_ARRAY } from "src/lib/empty-array";
-import { useLocale } from "src/lib/use-locale";
-import { useQueryState } from "src/lib/use-query-state";
-
-import { Entity, GenericObservation, priceComponents } from "../../domain/data";
-import { getLocalizedLabel } from "../../domain/translation";
-import { AxisHeightLinear } from "../charts-generic/axis/axis-height-linear";
-import { AxisTime } from "../charts-generic/axis/axis-width-time";
-import { HoverDotMultiple } from "../charts-generic/interaction/hover-dots-multiple";
-import { Ruler } from "../charts-generic/interaction/ruler";
-import { Tooltip } from "../charts-generic/interaction/tooltip";
-import { LegendColor } from "../charts-generic/legends/color";
-import { Lines } from "../charts-generic/lines/lines";
-import { LineChart } from "../charts-generic/lines/lines-state";
-import { InteractionHorizontal } from "../charts-generic/overlay/interaction-horizontal";
-import { Loading, NoDataHint } from "../hint";
-import { InfoDialogButton } from "../info-dialog";
-import Stack from "../stack";
-
+import { AxisHeightLinear } from "src/components/charts-generic/axis/axis-height-linear";
+import { AxisTime } from "src/components/charts-generic/axis/axis-width-time";
 import {
   ChartContainer,
   ChartSvg,
-} from "./../../components/charts-generic/containers";
-import { Card } from "./../../components/detail-page/card";
+} from "src/components/charts-generic/containers";
+import { HoverDotMultiple } from "src/components/charts-generic/interaction/hover-dots-multiple";
+import { Ruler } from "src/components/charts-generic/interaction/ruler";
+import { Tooltip } from "src/components/charts-generic/interaction/tooltip";
+import { LegendColor } from "src/components/charts-generic/legends/color";
+import { Lines } from "src/components/charts-generic/lines/lines";
+import { LineChart } from "src/components/charts-generic/lines/lines-state";
+import { InteractionHorizontal } from "src/components/charts-generic/overlay/interaction-horizontal";
+import { Card } from "src/components/detail-page/card";
+import { Download } from "src/components/detail-page/download-image";
+import { FilterSetDescription } from "src/components/detail-page/filter-set-description";
+import { WithClassName } from "src/components/detail-page/with-classname";
+import { Loading, NoDataHint } from "src/components/hint";
+import { InfoDialogButton } from "src/components/info-dialog";
+import Stack from "src/components/stack";
+import { Entity, GenericObservation, priceComponents } from "src/domain/data";
+import { getLocalizedLabel } from "src/domain/translation";
 import {
   ObservationKind,
   useObservationsWithAllPriceComponentsQuery,
-} from "./../../graphql/queries";
-import { Download } from "./download-image";
-import { FilterSetDescription } from "./filter-set-description";
-import { WithClassName } from "./with-classname";
+} from "src/graphql/queries";
+import { EMPTY_ARRAY } from "src/lib/empty-array";
+import { useLocale } from "src/lib/use-locale";
+import { useQueryState } from "src/lib/use-query-state";
 
 const DOWNLOAD_ID: Download = "evolution";
 

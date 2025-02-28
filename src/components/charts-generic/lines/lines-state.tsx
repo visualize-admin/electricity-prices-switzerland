@@ -16,25 +16,30 @@ import {
   ScaleTime,
   scaleTime,
 } from "d3-scale";
-import * as React from "react";
 import { ReactNode, useCallback, useMemo } from "react";
 
-import { estimateTextWidth } from "src/lib/estimate-text-width";
-
-import { LineFields } from "../../../domain/config-types";
-import { GenericObservation, ObservationValue } from "../../../domain/data";
+import { LEFT_MARGIN_OFFSET } from "src/components/charts-generic/constants";
+import { Tooltip } from "src/components/charts-generic/interaction/tooltip";
+import {
+  ChartContext,
+  ChartProps,
+} from "src/components/charts-generic/use-chart-state";
+import { InteractionProvider } from "src/components/charts-generic/use-interaction";
+import {
+  Bounds,
+  Observer,
+  useWidth,
+} from "src/components/charts-generic/use-width";
+import { LineFields } from "src/domain/config-types";
+import { GenericObservation, ObservationValue } from "src/domain/data";
 import {
   getPalette,
   parseDate,
   useFormatCurrency,
   useFormatFullDateAuto,
-} from "../../../domain/helpers";
-import { getLocalizedLabel } from "../../../domain/translation";
-import { LEFT_MARGIN_OFFSET } from "../constants";
-import { Tooltip } from "../interaction/tooltip";
-import { ChartContext, ChartProps } from "../use-chart-state";
-import { InteractionProvider } from "../use-interaction";
-import { Bounds, Observer, useWidth } from "../use-width";
+} from "src/domain/helpers";
+import { getLocalizedLabel } from "src/domain/translation";
+import { estimateTextWidth } from "src/lib/estimate-text-width";
 
 export interface LinesState {
   data: GenericObservation[];

@@ -9,29 +9,31 @@ import {
   scaleBand,
   scaleLinear,
 } from "d3";
-import * as React from "react";
 import { ReactNode, useCallback } from "react";
 
-import { minMaxBy } from "src/lib/array";
-import { estimateTextWidth } from "src/lib/estimate-text-width";
-
+import { LEFT_MARGIN_OFFSET } from "src/components/charts-generic/constants";
+import { Tooltip } from "src/components/charts-generic/interaction/tooltip";
+import {
+  ChartContext,
+  ChartProps,
+  RangePlotState,
+} from "src/components/charts-generic/use-chart-state";
+import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
+import { InteractionProvider } from "src/components/charts-generic/use-interaction";
+import { Observer, useWidth } from "src/components/charts-generic/use-width";
 import {
   RangePlotFields,
   SortingOrder,
   SortingType,
-} from "../../../domain/config-types";
-import { GenericObservation } from "../../../domain/data";
+} from "src/domain/config-types";
+import { GenericObservation } from "src/domain/data";
 import {
   getAnnotationSpaces,
   mkNumber,
   useFormatCurrency,
-} from "../../../domain/helpers";
-import { LEFT_MARGIN_OFFSET } from "../constants";
-import { Tooltip } from "../interaction/tooltip";
-import { ChartContext, ChartProps, RangePlotState } from "../use-chart-state";
-import { useChartTheme } from "../use-chart-theme";
-import { InteractionProvider } from "../use-interaction";
-import { Observer, useWidth } from "../use-width";
+} from "src/domain/helpers";
+import { minMaxBy } from "src/lib/array";
+import { estimateTextWidth } from "src/lib/estimate-text-width";
 
 export const DOT_RADIUS = 8;
 export const OUTER_PADDING = 0.2;

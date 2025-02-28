@@ -3,7 +3,7 @@ import NextLink, { LinkProps } from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 
-import { Icon, IconName } from "../icons";
+import { Icon, IconName } from "src/icons";
 
 export const HomeLink = (
   props: Omit<LinkProps, "href" | "as"> & {

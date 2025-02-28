@@ -29,16 +29,14 @@ import {
   mesh as topojsonMesh,
 } from "topojson-client";
 
+import { TooltipBoxWithoutChartState } from "src/components/charts-generic/interaction/tooltip-box";
+import { WithClassName } from "src/components/detail-page/with-classname";
+import { HighlightContext } from "src/components/highlight-context";
+import { Loading, NoDataHint, NoGeoDataHint } from "src/components/hint";
+import { MapPriceColorLegend } from "src/components/price-color-legend";
+import { useFormatCurrency } from "src/domain/helpers";
 import { OperatorObservationFieldsFragment } from "src/graphql/queries";
 import { maxBy } from "src/lib/array";
-
-import { useFormatCurrency } from "../domain/helpers";
-
-import { TooltipBoxWithoutChartState } from "./charts-generic/interaction/tooltip-box";
-import { WithClassName } from "./detail-page/with-classname";
-import { HighlightContext } from "./highlight-context";
-import { Loading, NoDataHint, NoGeoDataHint } from "./hint";
-import { MapPriceColorLegend } from "./price-color-legend";
 
 import type { Feature, FeatureCollection, MultiLineString } from "geojson";
 

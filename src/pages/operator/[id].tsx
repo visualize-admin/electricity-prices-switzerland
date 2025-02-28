@@ -6,21 +6,21 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import basicAuthMiddleware from "nextjs-basic-auth-middleware";
 
-import { DetailPageBanner } from "../../components/detail-page/banner";
-import { CantonsComparisonRangePlots } from "../../components/detail-page/cantons-comparison-range";
-import { DetailPageLayout } from "../../components/detail-page/layout";
-import { PriceComponentsBarChart } from "../../components/detail-page/price-components-bars";
-import { PriceDistributionHistograms } from "../../components/detail-page/price-distribution-histogram";
-import { PriceEvolution } from "../../components/detail-page/price-evolution-line-chart";
-import { SelectorMulti } from "../../components/detail-page/selector-multi";
-import { Footer } from "../../components/footer";
-import { Header } from "../../components/header";
-import { OperatorDocuments } from "../../components/operator-documents";
+import { DetailPageBanner } from "src/components/detail-page/banner";
+import { CantonsComparisonRangePlots } from "src/components/detail-page/cantons-comparison-range";
+import { DetailPageLayout } from "src/components/detail-page/layout";
+import { PriceComponentsBarChart } from "src/components/detail-page/price-components-bars";
+import { PriceDistributionHistograms } from "src/components/detail-page/price-distribution-histogram";
+import { PriceEvolution } from "src/components/detail-page/price-evolution-line-chart";
+import { SelectorMulti } from "src/components/detail-page/selector-multi";
+import { Footer } from "src/components/footer";
+import { Header } from "src/components/header";
+import { OperatorDocuments } from "src/components/operator-documents";
 import {
   getDimensionValuesAndLabels,
   getObservationsCube,
   getOperator,
-} from "../../rdf/queries";
+} from "src/rdf/queries";
 
 type Props =
   | {
@@ -30,38 +30,40 @@ type Props =
       municipalities: { id: string; name: string }[];
     }
   | { status: "notfound" };
-export const getServerSideProps: GetServerSideProps<Props, { id: string }> =
-  async ({ params, req, res, locale }) => {
-    await basicAuthMiddleware(req, res);
+export const getServerSideProps: GetServerSideProps<
+  Props,
+  { id: string }
+> = async ({ params, req, res, locale }) => {
+  await basicAuthMiddleware(req, res);
 
-    const { id } = params!;
+  const { id } = params!;
 
-    const operator = await getOperator({ id });
+  const operator = await getOperator({ id });
 
-    if (!operator) {
-      res.statusCode = 404;
-      return { props: { status: "notfound" } };
-    }
+  if (!operator) {
+    res.statusCode = 404;
+    return { props: { status: "notfound" } };
+  }
 
-    const cube = await getObservationsCube();
+  const cube = await getObservationsCube();
 
-    const municipalities = await getDimensionValuesAndLabels({
-      cube,
-      dimensionKey: "municipality",
-      filters: { operator: [id] },
-    });
+  const municipalities = await getDimensionValuesAndLabels({
+    cube,
+    dimensionKey: "municipality",
+    filters: { operator: [id] },
+  });
 
-    return {
-      props: {
-        status: "found",
-        id,
-        name: operator.name,
-        municipalities: municipalities
-          .sort((a, b) => a.name.localeCompare(b.name, locale))
-          .map(({ id, name }) => ({ id, name })),
-      },
-    };
+  return {
+    props: {
+      status: "found",
+      id,
+      name: operator.name,
+      municipalities: municipalities
+        .sort((a, b) => a.name.localeCompare(b.name, locale))
+        .map(({ id, name }) => ({ id, name })),
+    },
   };
+};
 
 const OperatorPage = (props: Props) => {
   const { query } = useRouter();

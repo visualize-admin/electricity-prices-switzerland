@@ -1,14 +1,12 @@
 import styled from "@emotion/styled";
 import { Trans, t } from "@lingui/macro";
-import { Box } from "@mui/material";
-import { useTheme, Typography } from "@mui/material";
-import React, { useState } from "react";
+import { Box, Typography, useTheme } from "@mui/material";
+import { useState } from "react";
 
-import { useFormatCurrency } from "../domain/helpers";
-import { IconClear } from "../icons/ic-clear";
-import { IconInfo } from "../icons/ic-info";
-
-import { InfoDialogButton } from "./info-dialog";
+import { InfoDialogButton } from "src/components/info-dialog";
+import { useFormatCurrency } from "src/domain/helpers";
+import { IconClear } from "src/icons/ic-clear";
+import { IconInfo } from "src/icons/ic-info";
 
 const LEGEND_WIDTH = 215;
 const TOP_LABEL_HEIGHT = 14;

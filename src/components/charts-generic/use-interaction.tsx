@@ -1,4 +1,4 @@
-import React, {
+import {
   createContext,
   Dispatch,
   ReactNode,
@@ -6,7 +6,7 @@ import React, {
   useReducer,
 } from "react";
 
-import { GenericObservation } from "../../domain/data";
+import { GenericObservation } from "src/domain/data";
 
 export interface InteractionElement {
   visible: boolean;

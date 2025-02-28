@@ -1,24 +1,22 @@
 import { Trans } from "@lingui/macro";
 import {
+  Backdrop,
   Box,
-  Typography,
   Dialog,
+  IconButton,
   DialogContent as MuiDialogContent,
   DialogTitle as MuiDialogTitle,
-  IconButton,
-  Backdrop,
+  Typography,
 } from "@mui/material";
 import { createPortal } from "react-dom";
 
 import VisuallyHidden from "src/components/VisuallyHidden";
+import { LoadingIcon, NoContentHint } from "src/components/hint";
+import { useDisclosure } from "src/components/useDisclosure";
 import { useWikiContentQuery } from "src/graphql/queries";
+import { Icon } from "src/icons";
 import { useLocale } from "src/lib/use-locale";
 import { theme } from "src/themes/elcom";
-
-import { Icon } from "../icons";
-
-import { LoadingIcon, NoContentHint } from "./hint";
-import { useDisclosure } from "./useDisclosure";
 
 const DialogContent = ({
   contentQuery,

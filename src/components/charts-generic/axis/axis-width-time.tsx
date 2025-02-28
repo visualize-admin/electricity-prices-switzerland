@@ -1,11 +1,14 @@
 import { axisBottom, axisTop } from "d3-axis";
 import { select, Selection } from "d3-selection";
-import * as React from "react";
 import { useEffect, useRef } from "react";
 
-import { useFormatShortDateAuto } from "../../../domain/helpers";
-import { AreasState, LinesState, useChartState } from "../use-chart-state";
-import { useChartTheme } from "../use-chart-theme";
+import {
+  AreasState,
+  LinesState,
+  useChartState,
+} from "src/components/charts-generic/use-chart-state";
+import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
+import { useFormatShortDateAuto } from "src/domain/helpers";
 
 export const AxisTime = () => {
   const bottomRef = useRef<SVGGElement>(null);

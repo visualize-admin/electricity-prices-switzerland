@@ -1,16 +1,14 @@
-import { Box } from "@mui/material";
-import { useTheme } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
 import React, { ReactNode, forwardRef } from "react";
 
-import { Margins } from "../use-width";
-
 import {
-  TRIANGLE_SIZE,
   TOOLTIP_OFFSET,
+  TRIANGLE_SIZE,
   TooltipPlacement,
   Xplacement,
   Yplacement,
-} from "./tooltip";
+} from "src/components/charts-generic/interaction/tooltip";
+import { Margins } from "src/components/charts-generic/use-width";
 
 export interface TooltipBoxProps {
   x: number | undefined;

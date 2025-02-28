@@ -1,6 +1,6 @@
 import { Literal, NamedNode } from "rdf-js";
 
-import * as ns from "../rdf/namespace";
+import * as ns from "src/rdf/namespace";
 
 export type RawObservationValue = {
   value: Literal | NamedNode;

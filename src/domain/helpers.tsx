@@ -18,13 +18,11 @@ import {
 } from "d3";
 import React from "react";
 
+import { ANNOTATION_TRIANGLE_HEIGHT } from "src/components/charts-generic/annotation/annotation-x";
+import { GenericObservation } from "src/domain/data";
 import { estimateTextWidth } from "src/lib/estimate-text-width";
 import { useLocale } from "src/lib/use-locale";
 import { d3FormatLocales, d3TimeFormatLocales } from "src/locales/locales";
-
-import { ANNOTATION_TRIANGLE_HEIGHT } from "../components/charts-generic/annotation/annotation-x";
-
-import { GenericObservation } from "./data";
 
 export const isNumber = (x: $IntentionalAny): boolean =>
   typeof x === "number" && !isNaN(x);

@@ -1,17 +1,15 @@
 import { Trans, t } from "@lingui/macro";
-import { Box, Link, Typography, IconButton, LinkProps } from "@mui/material";
+import { Box, IconButton, Link, LinkProps, Typography } from "@mui/material";
 import { PropsWithChildren } from "react";
 
+import { HelpDialog } from "src/components/info-dialog";
+import { LogoDesktop } from "src/components/logo";
+import { useDisclosure } from "src/components/useDisclosure";
+import { IconDownload } from "src/icons/ic-download";
+import { IconInfo } from "src/icons/ic-info";
+import { IconShare } from "src/icons/ic-share";
 import { useLocale } from "src/lib/use-locale";
 import { useQueryStateSingle } from "src/lib/use-query-state";
-
-import { IconDownload } from "../icons/ic-download";
-import { IconInfo } from "../icons/ic-info";
-import { IconShare } from "../icons/ic-share";
-
-import { HelpDialog } from "./info-dialog";
-import { LogoDesktop } from "./logo";
-import { useDisclosure } from "./useDisclosure";
 
 const FooterLink = ({
   children,

@@ -1,6 +1,6 @@
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 
-import { useChartState } from "../use-chart-state";
+import { useChartState } from "src/components/charts-generic/use-chart-state";
 
 export const ChartSvg = ({ children }: { children: ReactNode }) => {
   const { bounds } = useChartState();

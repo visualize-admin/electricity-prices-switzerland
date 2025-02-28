@@ -2,11 +2,11 @@ import { t } from "@lingui/macro";
 import { Box, outlinedInputClasses, Typography } from "@mui/material";
 import Autocomplete, { autocompleteClasses } from "@mui/material/Autocomplete";
 import TextField, { TextFieldProps } from "@mui/material/TextField";
-import { useState, useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
-import { Icon } from "../icons";
+import { InfoDialogButton } from "src/components/info-dialog";
+import { Icon } from "src/icons";
 
-import { InfoDialogButton } from "./info-dialog";
 export type ComboboxMultiProps = {
   id: string;
   label: React.ReactNode;

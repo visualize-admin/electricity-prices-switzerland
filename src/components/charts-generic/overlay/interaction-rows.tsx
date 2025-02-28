@@ -1,8 +1,9 @@
-import * as React from "react";
-
-import { GenericObservation } from "../../../domain/data";
-import { RangePlotState, useChartState } from "../use-chart-state";
-import { useInteraction } from "../use-interaction";
+import {
+  RangePlotState,
+  useChartState,
+} from "src/components/charts-generic/use-chart-state";
+import { useInteraction } from "src/components/charts-generic/use-interaction";
+import { GenericObservation } from "src/domain/data";
 
 export const InteractionRows = ({ debug = false }: { debug?: boolean }) => {
   const [, dispatch] = useInteraction();

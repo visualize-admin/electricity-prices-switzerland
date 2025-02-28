@@ -3,7 +3,7 @@ import { Trans } from "@lingui/macro";
 import { Box, BoxProps, Typography } from "@mui/material";
 import * as React from "react";
 
-import { Icon, IconName } from "../icons";
+import { Icon, IconName } from "src/icons";
 
 export const Error = ({ children }: { children: React.ReactNode }) => (
   <Box

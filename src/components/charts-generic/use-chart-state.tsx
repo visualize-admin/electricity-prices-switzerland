@@ -1,22 +1,15 @@
-import {
-  ScaleLinear,
-  ScaleBand,
-  ScaleOrdinal,
-  ScaleTime,
-  Bin,
-} from "d3";
+import { Bin, ScaleBand, ScaleLinear, ScaleOrdinal, ScaleTime } from "d3";
 import { createContext, useContext } from "react";
 
-import { ChartFields } from "../../domain/config-types";
+import { Annotation } from "src/components/charts-generic/annotation/annotation-x";
+import { Tooltip } from "src/components/charts-generic/interaction/tooltip";
+import { Bounds } from "src/components/charts-generic/use-width";
+import { ChartFields } from "src/domain/config-types";
 import {
   ComponentFieldsFragment,
   GenericObservation,
   ObservationValue,
-} from "../../domain/data";
-
-import { Annotation } from "./annotation/annotation-x";
-import { Tooltip } from "./interaction/tooltip";
-import { Bounds } from "./use-width";
+} from "src/domain/data";
 
 export interface ChartProps {
   data: GenericObservation[];

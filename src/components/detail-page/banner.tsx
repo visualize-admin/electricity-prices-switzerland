@@ -1,13 +1,13 @@
 import { Trans } from "@lingui/macro";
-import { Box, Button, Link as UILink, Typography } from "@mui/material";
+import { Box, Button, Typography, Link as UILink } from "@mui/material";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { Fragment, useState } from "react";
 
-import { Entity } from "../../domain/data";
-import { Icon } from "../../icons";
-import { HomeLink } from "../links";
-import { Search } from "../search";
+import { HomeLink } from "src/components/links";
+import { Search } from "src/components/search";
+import { Entity } from "src/domain/data";
+import { Icon } from "src/icons";
 
 const TRUNCATE_COUNT = 5;
 const RelationsList = ({

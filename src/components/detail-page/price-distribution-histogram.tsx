@@ -1,46 +1,43 @@
 import { t, Trans } from "@lingui/macro";
 import { Box } from "@mui/material";
 import { groups } from "d3-array";
-import * as React from "react";
-
-import { EMPTY_ARRAY } from "src/lib/empty-array";
-import { useLocale } from "src/lib/use-locale";
-import { useQueryState } from "src/lib/use-query-state";
-
-import { Entity, GenericObservation, priceComponents } from "../../domain/data";
-import { getLocalizedLabel } from "../../domain/translation";
-import {
-  AnnotationX,
-  AnnotationXLabel,
-} from "../charts-generic/annotation/annotation-x";
-import { AxisHeightLinear } from "../charts-generic/axis/axis-height-linear";
-import { AxisWidthHistogramDomain } from "../charts-generic/axis/axis-width-histogram";
-import { HistogramColumns } from "../charts-generic/histogram/histogram";
-import { HistogramMinMaxValues } from "../charts-generic/histogram/histogram-min-max-values";
-import { Histogram } from "../charts-generic/histogram/histogram-state";
-import { HistogramMedian } from "../charts-generic/histogram/median";
-import { Tooltip } from "../charts-generic/interaction/tooltip";
-import { InteractionHistogram } from "../charts-generic/overlay/interaction-histogram";
-import { Combobox } from "../combobox";
-import { Loading, NoDataHint } from "../hint";
-import { InfoDialogButton } from "../info-dialog";
-import { PriceColorLegend } from "../price-color-legend";
-import { RadioTabs } from "../radio-tabs";
-import Stack from "../stack";
 
 import {
   ChartContainer,
   ChartSvg,
-} from "./../../components/charts-generic/containers";
-import { Card } from "./../../components/detail-page/card";
+} from "src//components/charts-generic/containers";
+import { Card } from "src//components/detail-page/card";
 import {
   ObservationKind,
   PriceComponent,
   useObservationsQuery,
-} from "./../../graphql/queries";
-import { Download } from "./download-image";
-import { FilterSetDescription } from "./filter-set-description";
-import { WithClassName } from "./with-classname";
+} from "src//graphql/queries";
+import {
+  AnnotationX,
+  AnnotationXLabel,
+} from "src/components/charts-generic/annotation/annotation-x";
+import { AxisHeightLinear } from "src/components/charts-generic/axis/axis-height-linear";
+import { AxisWidthHistogramDomain } from "src/components/charts-generic/axis/axis-width-histogram";
+import { HistogramColumns } from "src/components/charts-generic/histogram/histogram";
+import { HistogramMinMaxValues } from "src/components/charts-generic/histogram/histogram-min-max-values";
+import { Histogram } from "src/components/charts-generic/histogram/histogram-state";
+import { HistogramMedian } from "src/components/charts-generic/histogram/median";
+import { Tooltip } from "src/components/charts-generic/interaction/tooltip";
+import { InteractionHistogram } from "src/components/charts-generic/overlay/interaction-histogram";
+import { Combobox } from "src/components/combobox";
+import { Download } from "src/components/detail-page/download-image";
+import { FilterSetDescription } from "src/components/detail-page/filter-set-description";
+import { WithClassName } from "src/components/detail-page/with-classname";
+import { Loading, NoDataHint } from "src/components/hint";
+import { InfoDialogButton } from "src/components/info-dialog";
+import { PriceColorLegend } from "src/components/price-color-legend";
+import { RadioTabs } from "src/components/radio-tabs";
+import Stack from "src/components/stack";
+import { Entity, GenericObservation, priceComponents } from "src/domain/data";
+import { getLocalizedLabel } from "src/domain/translation";
+import { EMPTY_ARRAY } from "src/lib/empty-array";
+import { useLocale } from "src/lib/use-locale";
+import { useQueryState } from "src/lib/use-query-state";
 
 const DOWNLOAD_ID: Download = "distribution";
 

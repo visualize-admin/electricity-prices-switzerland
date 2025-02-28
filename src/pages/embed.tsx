@@ -5,6 +5,12 @@ import basicAuthMiddleware from "nextjs-basic-auth-middleware";
 import { useCallback, useMemo, useState } from "react";
 
 import {
+  HighlightContext,
+  HighlightValue,
+} from "src/components/highlight-context";
+import { ChoroplethMap } from "src/components/map";
+import { useColorScale } from "src/domain/data";
+import {
   PriceComponent,
   useAllMunicipalitiesQuery,
   useObservationsQuery,
@@ -13,27 +19,22 @@ import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { useQueryStateSingle } from "src/lib/use-query-state";
 import { defaultLocale } from "src/locales/locales";
 
-import {
-  HighlightContext,
-  HighlightValue,
-} from "../components/highlight-context";
-import { ChoroplethMap } from "../components/map";
-import { useColorScale } from "../domain/data";
-
 type Props = {
   locale: string;
 };
 
-export const getServerSideProps: GetServerSideProps<Props, { locale: string }> =
-  async ({ locale, req, res }) => {
-    await basicAuthMiddleware(req, res);
+export const getServerSideProps: GetServerSideProps<
+  Props,
+  { locale: string }
+> = async ({ locale, req, res }) => {
+  await basicAuthMiddleware(req, res);
 
-    return {
-      props: {
-        locale: locale ?? defaultLocale,
-      },
-    };
+  return {
+    props: {
+      locale: locale ?? defaultLocale,
+    },
   };
+};
 
 const assertBaseDomainOK = (baseDomain: string) => {
   const url = new URL(baseDomain);

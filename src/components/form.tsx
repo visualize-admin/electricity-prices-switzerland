@@ -2,24 +2,23 @@ import { Trans } from "@lingui/macro";
 import {
   Box,
   BoxProps,
+  FormControlLabel,
+  IconButton,
+  InputAdornment,
+  InputBase,
   Checkbox as MuiCheckbox,
   Radio as MuiRadio,
   Select as MuiSelect,
-  IconButton,
-  SelectProps,
-  Typography,
-  InputAdornment,
-  OutlinedInput,
   NativeSelect,
   NativeSelectProps,
-  FormControlLabel,
-  InputBase,
+  OutlinedInput,
+  SelectProps,
+  Typography,
 } from "@mui/material";
 import * as React from "react";
 
 import VisuallyHidden from "src/components/VisuallyHidden";
-
-import { Icon } from "../icons";
+import { Icon } from "src/icons";
 
 export type Option = {
   value: string | $FixMe;

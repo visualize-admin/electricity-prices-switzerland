@@ -1,9 +1,39 @@
 import { t, Trans } from "@lingui/macro";
 import { Box } from "@mui/material";
 import { groups } from "d3-array";
-import * as React from "react";
 import { memo, useEffect, useState } from "react";
 
+import {
+  AnnotationX,
+  AnnotationXDataPoint,
+  AnnotationXLabel,
+} from "src/components/charts-generic/annotation/annotation-x";
+import { AxisWidthLinear } from "src/components/charts-generic/axis/axis-width-linear";
+import {
+  ChartContainer,
+  ChartSvg,
+} from "src/components/charts-generic/containers";
+import { Tooltip } from "src/components/charts-generic/interaction/tooltip";
+import { InteractionRows } from "src/components/charts-generic/overlay/interaction-rows";
+import {
+  Range,
+  RangePoints,
+} from "src/components/charts-generic/rangeplot/rangeplot";
+import { RangeplotMedian } from "src/components/charts-generic/rangeplot/rangeplot-median";
+import { RangePlot } from "src/components/charts-generic/rangeplot/rangeplot-state";
+import { Combobox } from "src/components/combobox";
+import { Card } from "src/components/detail-page/card";
+import { Download } from "src/components/detail-page/download-image";
+import { FilterSetDescription } from "src/components/detail-page/filter-set-description";
+import { WithClassName } from "src/components/detail-page/with-classname";
+import { Loading, NoDataHint } from "src/components/hint";
+import { InfoDialogButton } from "src/components/info-dialog";
+import { PriceColorLegend } from "src/components/price-color-legend";
+import { RadioTabs } from "src/components/radio-tabs";
+import Stack from "src/components/stack";
+import { SortingOrder, SortingType } from "src/domain/config-types";
+import { Entity, GenericObservation, priceComponents } from "src/domain/data";
+import { getLocalizedLabel } from "src/domain/translation";
 import {
   ObservationKind,
   PriceComponent,
@@ -12,33 +42,6 @@ import {
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { useLocale } from "src/lib/use-locale";
 import { useQueryState } from "src/lib/use-query-state";
-
-import { SortingOrder, SortingType } from "../../domain/config-types";
-import { Entity, GenericObservation, priceComponents } from "../../domain/data";
-import { getLocalizedLabel } from "../../domain/translation";
-import {
-  AnnotationX,
-  AnnotationXDataPoint,
-  AnnotationXLabel,
-} from "../charts-generic/annotation/annotation-x";
-import { AxisWidthLinear } from "../charts-generic/axis/axis-width-linear";
-import { ChartContainer, ChartSvg } from "../charts-generic/containers";
-import { Tooltip } from "../charts-generic/interaction/tooltip";
-import { InteractionRows } from "../charts-generic/overlay/interaction-rows";
-import { Range, RangePoints } from "../charts-generic/rangeplot/rangeplot";
-import { RangeplotMedian } from "../charts-generic/rangeplot/rangeplot-median";
-import { RangePlot } from "../charts-generic/rangeplot/rangeplot-state";
-import { Combobox } from "../combobox";
-import { Loading, NoDataHint } from "../hint";
-import { InfoDialogButton } from "../info-dialog";
-import { PriceColorLegend } from "../price-color-legend";
-import { RadioTabs } from "../radio-tabs";
-import Stack from "../stack";
-
-import { Card } from "./card";
-import { Download } from "./download-image";
-import { FilterSetDescription } from "./filter-set-description";
-import { WithClassName } from "./with-classname";
 
 const DOWNLOAD_ID: Download = "comparison";
 

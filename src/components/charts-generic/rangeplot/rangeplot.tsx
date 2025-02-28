@@ -2,14 +2,15 @@ import { useTheme } from "@mui/material";
 import { max, median, min } from "d3-array";
 import * as React from "react";
 
+import { DOT_RADIUS } from "src/components/charts-generic/rangeplot/rangeplot-state";
+import {
+  RangePlotState,
+  useChartState,
+} from "src/components/charts-generic/use-chart-state";
+import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
+import { useInteraction } from "src/components/charts-generic/use-interaction";
+import { isNumber } from "src/domain/helpers";
 import { normalize } from "src/lib/array";
-
-import { isNumber } from "../../../domain/helpers";
-import { RangePlotState, useChartState } from "../use-chart-state";
-import { useChartTheme } from "../use-chart-theme";
-import { useInteraction } from "../use-interaction";
-
-import { DOT_RADIUS } from "./rangeplot-state";
 
 export const Range = ({ id }: { id: string }) => {
   const { bounds, xScale, getX, yScale, colors, rangeGroups } =

@@ -1,8 +1,10 @@
 import { Box } from "@mui/material";
-import * as React from "react";
 import { memo } from "react";
 
-import { ColumnsState, useChartState } from "../use-chart-state";
+import {
+  ColumnsState,
+  useChartState,
+} from "src/components/charts-generic/use-chart-state";
 
 type LegendSymbol = "square" | "line" | "circle";
 

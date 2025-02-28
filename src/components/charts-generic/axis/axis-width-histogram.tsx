@@ -1,12 +1,14 @@
-import { min, max } from "d3-array";
+import { max, min } from "d3-array";
 import { axisBottom } from "d3-axis";
 import { select, Selection } from "d3-selection";
-import * as React from "react";
 import { useEffect, useRef } from "react";
 
-import { useFormatCurrency } from "../../../domain/helpers";
-import { HistogramState, useChartState } from "../use-chart-state";
-import { useChartTheme } from "../use-chart-theme";
+import {
+  HistogramState,
+  useChartState,
+} from "src/components/charts-generic/use-chart-state";
+import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
+import { useFormatCurrency } from "src/domain/helpers";
 
 export const AxisWidthHistogram = () => {
   const formatCurrency = useFormatCurrency();

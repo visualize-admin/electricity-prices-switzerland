@@ -1,12 +1,12 @@
-import * as React from "react";
-
-import { useFormatCurrency } from "../../../domain/helpers";
-import { getLocalizedLabel } from "../../../domain/translation";
-import { EXPANDED_TAG } from "../../detail-page/price-components-bars";
-import { GroupedBarsState, useChartState } from "../use-chart-state";
-import { useChartTheme } from "../use-chart-theme";
-
-import { Bar } from "./bars-simple";
+import { Bar } from "src/components/charts-generic/bars/bars-simple";
+import {
+  GroupedBarsState,
+  useChartState,
+} from "src/components/charts-generic/use-chart-state";
+import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
+import { EXPANDED_TAG } from "src/components/detail-page/price-components-bars";
+import { useFormatCurrency } from "src/domain/helpers";
+import { getLocalizedLabel } from "src/domain/translation";
 
 export const BarsGroupedAxis = ({
   title,

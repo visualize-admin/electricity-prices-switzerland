@@ -1,8 +1,10 @@
 import { Box, Typography } from "@mui/material";
 
-import { LegendItem, LegendSymbol } from "../legends/color";
-
-import { TooltipValue } from "./tooltip";
+import { TooltipValue } from "src/components/charts-generic/interaction/tooltip";
+import {
+  LegendItem,
+  LegendSymbol,
+} from "src/components/charts-generic/legends/color";
 
 // Generic
 export const TooltipSingle = ({

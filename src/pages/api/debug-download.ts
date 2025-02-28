@@ -1,12 +1,11 @@
 import { InferAPIResponse } from "nextkit";
 
+import { searchGeverDocuments } from "src/domain/gever";
 import serverEnv from "src/env/server";
 import assert from "src/lib/assert";
-
-import { searchGeverDocuments } from "../../domain/gever";
-import { fetchOperatorInfo } from "../../rdf/search-queries";
-import { endpointUrl } from "../../rdf/sparql-client";
-import { api } from "../../server/nextkit";
+import { fetchOperatorInfo } from "src/rdf/search-queries";
+import { endpointUrl } from "src/rdf/sparql-client";
+import { api } from "src/server/nextkit";
 
 assert(!!serverEnv, "serverEnv is not defined");
 

@@ -1,15 +1,15 @@
 import { Box } from "@mui/material";
 import * as React from "react";
 
-import { GenericObservation } from "../../../domain/data";
-import { getLocalizedLabel } from "../../../domain/translation";
-import { DOT_RADIUS } from "../rangeplot/rangeplot-state";
+import { DOT_RADIUS } from "src/components/charts-generic/rangeplot/rangeplot-state";
 import {
   HistogramState,
   RangePlotState,
   useChartState,
-} from "../use-chart-state";
-import { useChartTheme } from "../use-chart-theme";
+} from "src/components/charts-generic/use-chart-state";
+import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
+import { GenericObservation } from "src/domain/data";
+import { getLocalizedLabel } from "src/domain/translation";
 
 export const ANNOTATION_DOT_RADIUS = 2.5;
 export const ANNOTATION_TRIANGLE_WIDTH = 5;
