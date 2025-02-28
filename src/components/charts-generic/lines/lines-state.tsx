@@ -1,3 +1,4 @@
+import { useTheme } from "@mui/material";
 import {
   ascending,
   descending,
@@ -29,7 +30,6 @@ import {
   useFormatFullDateAuto,
 } from "../../../domain/helpers";
 import { getLocalizedLabel } from "../../../domain/translation";
-import { useTheme } from "../../../themes";
 import { LEFT_MARGIN_OFFSET } from "../constants";
 import { Tooltip } from "../interaction/tooltip";
 import { ChartContext, ChartProps } from "../use-chart-state";
@@ -291,7 +291,7 @@ const useLinesState = ({
           color:
             segments.length > 1
               ? (colors(getColor(td)) as string)
-              : theme.colors.primary,
+              : theme.palette.primary.main,
           yPos: yScale(getY(td)),
         })),
     };

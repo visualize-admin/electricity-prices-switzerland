@@ -45,7 +45,7 @@ const useRangePlotState = ({
 }): RangePlotState => {
   const width = useWidth();
   const formatCurrency = useFormatCurrency();
-  const { annotationfontSize, palettes } = useChartTheme();
+  const { annotationfontSize, palette } = useChartTheme();
 
   const getX = useCallback(
     (d: GenericObservation) => d[fields.x.componentIri] as number,
@@ -104,7 +104,7 @@ const useRangePlotState = ({
 
   const colors = scaleLinear<string, string>()
     .domain(colorDomain)
-    .range(palettes.diverging)
+    .range(palette.diverging)
     .interpolate(interpolateLab);
   const left = estimateTextWidth(
     yScale.domain().length > 1

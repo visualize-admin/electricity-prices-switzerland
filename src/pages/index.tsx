@@ -1,11 +1,11 @@
 import { PickingInfo } from "@deck.gl/core/typed";
 import { t, Trans } from "@lingui/macro";
+import { Box, Button, Input, Link, Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import basicAuthMiddleware from "nextjs-basic-auth-middleware";
 import { useCallback, useRef, useState } from "react";
-import { Box, Button, Flex, Grid, Input, Link, Text } from "theme-ui";
 
 import {
   PriceComponent,
@@ -26,7 +26,7 @@ import {
 } from "../components/highlight-context";
 import { InfoBanner } from "../components/info-banner";
 import { List } from "../components/list";
-import { ChoroplethMap } from "../components/map";
+import { ChoroplethMap, ChoroplethMapProps } from "../components/map";
 import { Search } from "../components/search";
 import { Selector } from "../components/selector";
 import { useDisclosure } from "../components/useDisclosure";
@@ -34,23 +34,24 @@ import useOutsideClick from "../components/useOutsideClick";
 import { useColorScale } from "../domain/data";
 import { IconCopy } from "../icons/ic-copy";
 
-
 const DOWNLOAD_ID = "map";
 
 type Props = {
   locale: string;
 };
 
-export const getServerSideProps: GetServerSideProps<Props, { locale: string }> =
-  async ({ locale, req, res }) => {
-    await basicAuthMiddleware(req, res);
+export const getServerSideProps: GetServerSideProps<
+  Props,
+  { locale: string }
+> = async ({ locale, req, res }) => {
+  await basicAuthMiddleware(req, res);
 
-    return {
-      props: {
-        locale: locale ?? defaultLocale,
-      },
-    };
+  return {
+    props: {
+      locale: locale ?? defaultLocale,
+    },
   };
+};
 
 const HEADER_HEIGHT_S = "107px";
 const HEADER_HEIGHT_M_UP = "96px";
@@ -123,19 +124,19 @@ const ShareButton = () => {
               justifyContent: "space-between",
             }}
           >
-            <Text variant="heading6">URL</Text>
-            <Text variant="meta" color="success">
+            <Typography variant="h6">URL</Typography>
+            <Typography variant="meta" color="success">
               {hasCopied
                 ? t({ id: "share.url-copied", message: "URL kopiert ✅" })
                 : ""}
-            </Text>
+            </Typography>
           </Box>
           <Box
             sx={{
               borderStyle: "solid",
               boxSizing: "border-box",
               borderWidth: 1,
-              borderColor: "monochrome500",
+              borderColor: "grey.500",
               outline: hasInputFocus ? "2px solid" : "none",
               outlineColor: "primary",
               display: "flex",
@@ -163,11 +164,11 @@ const ShareButton = () => {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                backgroundColor: "monochrome300",
-                color: "monochrome900",
+                backgroundColor: "grey.300",
+                color: "grey.900",
                 cursor: "pointer",
                 "&:hover": {
-                  backgroundColor: "monochrome400",
+                  backgroundColor: "grey.400",
                 },
                 "&:focus, &:active": {
                   outline: 0,
@@ -220,7 +221,7 @@ const IndexPage = ({ locale }: Props) => {
 
   const medianValue = swissMedianObservations[0]?.value;
 
-  const colorAccessor = useCallback((d) => d.value, []);
+  const colorAccessor = useCallback((d: { value: number }) => d.value, []);
   const colorScale = useColorScale({
     observations,
     medianValue,
@@ -241,6 +242,9 @@ const IndexPage = ({ locale }: Props) => {
   };
 
   const [highlightContext, setHighlightContext] = useState<HighlightValue>();
+
+  const controlsRef: NonNullable<ChoroplethMapProps["controls"]> = useRef(null);
+
   return (
     <HighlightContext.Provider
       value={{
@@ -251,7 +255,8 @@ const IndexPage = ({ locale }: Props) => {
       <Head>
         <title>{t({ id: "site.title" })}</title>
       </Head>
-      <Grid
+      <Box
+        display="grid"
         sx={{
           minHeight: "100vh",
           gap: 0,
@@ -278,31 +283,31 @@ const IndexPage = ({ locale }: Props) => {
               )
             }
           />
-          <Flex
+          <Box
             sx={{
               py: 8,
               flexDirection: "column",
               alignItems: "center",
               borderBottomWidth: 1,
               borderBottomStyle: "solid",
-              borderBottomColor: "monochrome500",
+              borderBottomColor: "grey.500",
               px: 4,
             }}
+            display="flex"
           >
-            <Text
-              as="h1"
+            <Typography
+              component="h1"
               variant="giga"
-              sx={{ textAlign: ["left", "left", "center"] }}
+              sx={{ textAlign: ["left", "left", "center"], mb: 4 }}
             >
               <Trans id="site.title">Strompreise Schweiz</Trans>
-            </Text>
-
-            <Text
-              variant="paragraph1"
+            </Typography>
+            <Typography
+              variant="body1"
               sx={{
                 width: "100%",
                 textAlign: ["left", "left", "center"],
-                color: "monochrome800",
+                color: "grey.800",
                 mt: 2,
                 mb: 2,
                 height: [0, 0, "unset"],
@@ -313,24 +318,23 @@ const IndexPage = ({ locale }: Props) => {
                 Detaillierte Preisanalysen von Kantonen, Gemeinden und
                 Netzbetreibern.
               </Trans>
-            </Text>
-
+            </Typography>
             <Search />
-          </Flex>
-          <Grid
+          </Box>
+          <Box
             sx={{
+              display: "grid",
               width: "100%",
-              gridTemplateColumns: ["1fr", "1fr 20rem"],
-              gridTemplateAreas: [`"map" "controls"`, `"map controls"`],
+              gridTemplateColumns: ["1fr", "1fr 20rem", null],
+              gridTemplateAreas: [`"map" "controls"`, `"map controls"`, null],
               gap: 0,
               position: "relative",
             }}
           >
             <Box
-              // id used by the screenshot service
               id={DOWNLOAD_ID}
               sx={{
-                bg: "monochrome200",
+                bgcolor: "grey.200",
                 top: [0, HEADER_HEIGHT_M_UP],
                 width: "100%",
                 gridArea: "map",
@@ -339,7 +343,7 @@ const IndexPage = ({ locale }: Props) => {
                 position: ["relative", "sticky"],
                 borderRightWidth: "1px",
                 borderRightStyle: "solid",
-                borderRightColor: "monochrome500",
+                borderRightColor: "grey.500",
               }}
             >
               <ChoroplethMap
@@ -352,6 +356,7 @@ const IndexPage = ({ locale }: Props) => {
                 medianValue={medianValue}
                 colorScale={colorScale}
                 onMunicipalityLayerClick={handleMunicipalityLayerClick}
+                controls={controlsRef}
               />
 
               {!download && (
@@ -372,9 +377,11 @@ const IndexPage = ({ locale }: Props) => {
                   }}
                 >
                   <DownloadImage
-                    elementId={DOWNLOAD_ID}
-                    fileName={DOWNLOAD_ID}
+                    fileName={"map.png"}
                     downloadType={DOWNLOAD_ID}
+                    getImageData={async () => {
+                      return controlsRef.current?.getImageData();
+                    }}
                   />
                   <ShareButton />
                 </Box>
@@ -391,10 +398,10 @@ const IndexPage = ({ locale }: Props) => {
                 observationsQueryFetching={observationsQuery.fetching}
               />
             </Box>
-          </Grid>
+          </Box>
         </Box>
         <Footer />
-      </Grid>
+      </Box>
     </HighlightContext.Provider>
   );
 };

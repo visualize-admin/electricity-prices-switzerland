@@ -1,4 +1,4 @@
-import { Box, Text } from "@theme-ui/components";
+import { Box, Typography } from "@mui/material";
 import * as React from "react";
 import { ReactNode } from "react";
 
@@ -9,8 +9,6 @@ import { Download, DownloadImage } from "./download-image";
 export const Card = ({
   title,
   downloadId,
-  id,
-  entity,
   children,
 }: {
   title: string | ReactNode;
@@ -25,28 +23,26 @@ export const Card = ({
       // This id is used by the screenshot function
       id={downloadId}
       sx={{
-        bg: "monochrome100",
+        bgcolor: "grey.100",
         p: 5,
         m: 4,
         borderWidth: "1px",
         borderStyle: "solid",
-        borderColor: "monochrome300",
+        borderColor: "grey.300",
         boxShadow: "primary",
       }}
     >
-      <Text
-        as="h2"
-        variant="heading2"
-        sx={{ pt: 1, color: "monochrome800", mb: 4 }}
+      <Typography
+        component="h2"
+        variant="h2"
+        sx={{ pt: 1, color: "grey.800", mb: 4 }}
       >
         {title}
-      </Text>
+      </Typography>
       {children}
       <DownloadImage
         elementId={downloadId}
         fileName={downloadId}
-        entity={entity}
-        id={id}
         downloadType={downloadId}
       />
     </Box>

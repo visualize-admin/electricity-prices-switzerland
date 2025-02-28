@@ -1,4 +1,4 @@
-import { Box } from "theme-ui";
+import { Box } from "@mui/material";
 
 import { useWikiContentQuery } from "src/graphql/queries";
 import { useLocale } from "src/lib/use-locale";
@@ -33,7 +33,7 @@ export const InfoBanner = ({
     <HintBlue iconName="info">
       {
         <Box
-          as="section"
+          component="section"
           dangerouslySetInnerHTML={{
             __html: contentQuery.data.wikiContent.html,
           }}

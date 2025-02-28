@@ -1,5 +1,5 @@
 import { t, Trans } from "@lingui/macro";
-import { Box } from "@theme-ui/components";
+import { Box } from "@mui/material";
 import * as React from "react";
 import { memo } from "react";
 
@@ -164,7 +164,7 @@ const PriceEvolutionLineCharts = memo(
         {priceComponents.map((pc, i) => {
           return (
             <Box sx={{ my: 4 }} key={i}>
-              <Box sx={{ fontSize: 4, fontWeight: "bold" }}>
+              <Box sx={{ fontSize: "1rem", fontWeight: "bold" }}>
                 {getLocalizedLabel({ id: pc })}
               </Box>
               <LineChart

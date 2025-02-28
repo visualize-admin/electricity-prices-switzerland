@@ -23,8 +23,7 @@
   "exclude": [
     "node_modules",
     "./src/graphql",
-    "./public/",
-    "./screenshot-service"
+    "./public/"
   ],
   "include": [
     "*.js",

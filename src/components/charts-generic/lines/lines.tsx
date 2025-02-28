@@ -1,9 +1,9 @@
+import { useTheme } from "@mui/material";
 import { ascending } from "d3-array";
 import { line } from "d3-shape";
 import * as React from "react";
 
 import { GenericObservation } from "../../../domain/data";
-import { useTheme } from "../../../themes";
 import { useChartState } from "../use-chart-state";
 
 import { LinesState } from "./lines-state";
@@ -48,7 +48,7 @@ export const Lines = () => {
               color={
                 grouped.length > 1
                   ? colors(getColor(lineData[1][0]))
-                  : theme.colors.primary
+                  : theme.palette.primary.main
               }
             />
           );

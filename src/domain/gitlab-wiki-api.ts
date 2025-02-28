@@ -5,6 +5,7 @@ import path from "path";
 import fs from "fs-extra";
 
 import serverEnv from "src/env/server";
+import { setupUndiciHttpAgent } from "src/pages/api/http-agent";
 
 import { getWikiPage as getStaticWikiPage } from "./gitlab-wiki-static";
 
@@ -36,6 +37,8 @@ const fetchWithTimeout = async (
       ? (id = setTimeout(() => reject(new Error("Timeout")), timeout))
       : undefined
   );
+  setupUndiciHttpAgent();
+
   const fetcher = await fetch(url, options);
   if (id !== undefined) {
     clearTimeout(id);

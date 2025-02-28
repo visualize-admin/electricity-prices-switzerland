@@ -1,0 +1,6 @@
+services:
+  web:
+    image: interactivethings/electricity-prices-switzerland
+    ports:
+      # The HTTP port
+      - "3000:3000"

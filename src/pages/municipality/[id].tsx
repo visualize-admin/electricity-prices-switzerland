@@ -1,5 +1,5 @@
 import { t } from "@lingui/macro";
-import { Box, Flex } from "@theme-ui/components";
+import { Box } from "@mui/material";
 import { GetServerSideProps } from "next";
 import ErrorPage from "next/error";
 import Head from "next/head";
@@ -80,13 +80,13 @@ const MunicipalityPage = (props: Props) => {
           id: "site.title",
         })}`}</title>
       </Head>
-      <Flex sx={{ minHeight: "100vh", flexDirection: "column" }}>
+      <Box sx={{ minHeight: "100vh", flexDirection: "column" }} display="flex">
         {!query.download && <Header></Header>}
         <Box
           sx={{
-            pt: [107, 96],
+            pt: ["107px", "96px"],
             flexGrow: 1,
-            bg: "monochrome200",
+            bgcolor: "grey.200",
           }}
         >
           <DetailPageBanner
@@ -139,7 +139,7 @@ const MunicipalityPage = (props: Props) => {
           )}
         </Box>
         <Footer />
-      </Flex>
+      </Box>
     </>
   );
 };

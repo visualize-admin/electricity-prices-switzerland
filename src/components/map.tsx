@@ -1,24 +1,29 @@
 import {
+  Deck,
   MapController,
   PickingInfo,
   WebMercatorViewport,
 } from "@deck.gl/core/typed";
+import { ViewStateChangeParameters } from "@deck.gl/core/typed/controllers/controller";
 import { GeoJsonLayer } from "@deck.gl/layers/typed";
-import DeckGL from "@deck.gl/react/typed";
+import DeckGL, { DeckGLRef } from "@deck.gl/react/typed";
 import { Trans } from "@lingui/macro";
+import { Box, Typography } from "@mui/material";
 import centroid from "@turf/centroid";
 import { color, extent, group, mean, rollup } from "d3";
 import { ScaleThreshold } from "d3-scale";
+import html2canvas from "html2canvas";
 import React, {
+  ComponentProps,
   Fragment,
   ReactNode,
   useCallback,
   useContext,
   useEffect,
+  useId,
   useMemo,
   useState,
 } from "react";
-import { Box, Flex, Grid, Text } from "theme-ui";
 import {
   feature as topojsonFeature,
   mesh as topojsonMesh,
@@ -179,11 +184,11 @@ const MapTooltip = ({
 };
 
 const HintBox = ({ children }: { children: ReactNode }) => (
-  <Flex
+  <Box
     sx={{
       width: "100%",
       height: "100%",
-      color: "hint",
+      color: "hint.main",
       margin: "auto",
       textAlign: "center",
       flexDirection: "column",
@@ -192,11 +197,12 @@ const HintBox = ({ children }: { children: ReactNode }) => (
       zIndex: 1,
       position: "relative",
     }}
+    display="flex"
   >
-    <Box sx={{ bg: "mutedTransparent", borderRadius: "bigger", p: 2 }}>
+    <Box sx={{ bgcolor: "muted.transparent", borderRadius: "bigger", p: 2 }}>
       {children}
     </Box>
-  </Flex>
+  </Box>
 );
 
 type GeoData = {
@@ -286,6 +292,105 @@ const useGeoData = (year: string) => {
   return geoData;
 };
 
+const toBlob = (canvas: HTMLCanvasElement, type: string) =>
+  new Promise<Blob | null>((resolve) => {
+    canvas.toBlob((blob) => resolve(blob), type);
+  });
+
+const SCREENSHOT_IMAGE_SIZE = {
+  width: 1120,
+  height: 928,
+};
+
+const SCREENSHOT_CANVAS_SIZE = {
+  width: 1120,
+  height: 730,
+};
+
+/**
+ * Get the map as an image, using the deckgl canvas and html2canvas to get
+ * the legend as an image.
+ */
+const getImageData = async (deck: Deck, legend: HTMLElement) => {
+  if (!deck || "canvas" in deck === false) {
+    return;
+  }
+
+  // @ts-expect-error canvas is private
+  const canvas = deck.canvas;
+  if (!canvas) {
+    return;
+  }
+
+  const initialSize = {
+    width: canvas.width,
+    height: canvas.height,
+  };
+
+  const imageSize = {
+    width: SCREENSHOT_IMAGE_SIZE.width * 2,
+    height: SCREENSHOT_IMAGE_SIZE.height * 2,
+  };
+  const canvasSize = {
+    width: SCREENSHOT_CANVAS_SIZE.width * 2,
+    height: SCREENSHOT_CANVAS_SIZE.height * 2,
+  };
+
+  Object.assign(canvas, canvasSize);
+  deck.redraw("New size");
+
+  const newCanvas = document.createElement("canvas");
+  newCanvas.width = imageSize.width;
+  newCanvas.height = imageSize.height;
+  const context = newCanvas.getContext("2d");
+  if (!context) {
+    return;
+  }
+
+  // Using html2canvas, take the legend element, and draw it on the new canvas
+  // Make a new canvas element to convert the image to a png
+  // We need a new canvas since we will draw the legend onto it
+  context.fillStyle = "white";
+  context.fillRect(0, 0, newCanvas.width, newCanvas.height);
+
+  const ratio = window.devicePixelRatio;
+  context.drawImage(
+    canvas,
+    (newCanvas.width - canvas.width) / 2,
+    (newCanvas.height - canvas.height) / 2,
+    canvas.width,
+    canvas.height
+  );
+
+  const legendCanvas = await html2canvas(legend);
+
+  // We need to draw the legend using the device pixel ratio otherwise we get
+  // difference between different browsers (Safari legend would be bigger somehow)
+  const { width, height } = legend.getBoundingClientRect();
+
+  const legendPadding = 24;
+  context.drawImage(
+    legendCanvas,
+    legendPadding,
+    legendPadding,
+    width * ratio,
+    height * ratio
+  );
+
+  // Returns the canvas as a png
+  const res = await toBlob(newCanvas, "image/png").then((blob) =>
+    blob ? URL.createObjectURL(blob) : undefined
+  );
+
+  Object.assign(canvas, initialSize);
+  deck.redraw("Initial size");
+
+  return res;
+};
+
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+const frame = () => new Promise((resolve) => requestAnimationFrame(resolve));
+
 export const ChoroplethMap = ({
   year,
   observations,
@@ -294,6 +399,7 @@ export const ChoroplethMap = ({
   municipalities,
   colorScale,
   onMunicipalityLayerClick,
+  controls,
 }: {
   year: string;
   observations: OperatorObservationFieldsFragment[];
@@ -302,29 +408,42 @@ export const ChoroplethMap = ({
   municipalities: { id: string; name: string }[];
   colorScale: ScaleThreshold<number, string> | undefined | 0;
   onMunicipalityLayerClick: (_item: PickingInfo) => void;
+  controls?: React.MutableRefObject<{
+    getImageData: () => Promise<string | undefined>;
+  } | null>;
 }) => {
   const [hovered, setHovered] = useState<HoverState>();
 
   const [viewState, setViewState] = useState(INITIAL_VIEW_STATE);
+  const [screenshotting, setScreenshotting] = useState(false);
 
-  const onViewStateChange = useCallback(({ viewState, interactionState }) => {
-    setHovered(undefined);
+  const onViewStateChange = useCallback(
+    ({ viewState, interactionState }: ViewStateChangeParameters) => {
+      if (screenshotting) {
+        return;
+      }
+      setHovered(undefined);
 
-    if (interactionState.inTransition) {
-      setViewState(viewState);
-    } else {
-      setViewState(constrainZoom(viewState, CH_BBOX));
-    }
-  }, []);
+      if (interactionState.inTransition) {
+        setViewState(viewState as typeof INITIAL_VIEW_STATE);
+      } else {
+        setViewState(constrainZoom(viewState, CH_BBOX));
+      }
+    },
+    [screenshotting]
+  );
 
   const onResize = useCallback(
-    ({ width, height }) => {
+    ({ width, height }: { width: number; height: number }) => {
       setViewState((viewState) =>
         constrainZoom({ ...viewState, width, height }, CH_BBOX)
       );
     },
     [setViewState]
   );
+
+  const deckRef = React.useRef<DeckGLRef>(null);
+  const legendId = useId();
 
   const geoData = useGeoData(year);
 
@@ -347,6 +466,37 @@ export const ChoroplethMap = ({
       (d) => d.id
     );
   }, [municipalities]);
+
+  if (controls) {
+    controls.current = {
+      getImageData: async () => {
+        setScreenshotting(true);
+        try {
+          await frame();
+          await sleep(1000);
+          const ref = deckRef.current;
+          if (!ref) {
+            return;
+          }
+          const deck = ref.deck;
+          if (!deck) {
+            return;
+          }
+
+          const legend = document.getElementById(legendId);
+          if (!legend) {
+            return;
+          }
+
+          return getImageData(deck, legend);
+        } finally {
+          {
+            setScreenshotting(false);
+          }
+        }
+      },
+    };
+  }
 
   useEffect(() => {
     if (geoData.state === "loaded" && observationsByMunicipalityId.size > 0) {
@@ -635,7 +785,8 @@ export const ChoroplethMap = ({
       <>
         {hovered && tooltipContent && colorScale && (
           <MapTooltip x={hovered.x} y={hovered.y}>
-            <Grid
+            <Box
+              display="grid"
               sx={{
                 width: "100%",
                 gridTemplateColumns: "1fr auto",
@@ -643,15 +794,15 @@ export const ChoroplethMap = ({
                 alignItems: "center",
               }}
             >
-              <Text variant="meta" sx={{ fontWeight: "bold" }}>
+              <Typography variant="meta" sx={{ fontWeight: "bold" }}>
                 {tooltipContent.name}
-              </Text>
+              </Typography>
 
               {hovered.type === "canton" ? (
                 <>
                   <Box
                     sx={{
-                      borderRadius: "circle",
+                      borderRadius: 9999,
                       px: 2,
                       display: "inline-block",
                     }}
@@ -659,12 +810,15 @@ export const ChoroplethMap = ({
                       background: colorScale(hovered.value),
                     }}
                   >
-                    <Text variant="meta">{formatNumber(hovered.value)}</Text>
+                    <Typography variant="meta">
+                      {formatNumber(hovered.value)}
+                    </Typography>
                   </Box>
                 </>
               ) : null}
-            </Grid>
-            <Grid
+            </Box>
+            <Box
+              display="grid"
               sx={{
                 width: "100%",
                 gridTemplateColumns: "1fr auto",
@@ -678,30 +832,32 @@ export const ChoroplethMap = ({
                     tooltipContent.observations.map((d, i) => {
                       return (
                         <Fragment key={i}>
-                          <Text variant="meta" sx={{}}>
+                          <Typography variant="meta" sx={{}}>
                             {d.operatorLabel}
-                          </Text>
+                          </Typography>
                           <Box
                             sx={{
-                              borderRadius: "circle",
+                              borderRadius: 9999,
                               px: 2,
                               display: "inline-block",
                             }}
                             style={{ background: colorScale(d.value) }}
                           >
-                            <Text variant="meta">{formatNumber(d.value)}</Text>
+                            <Typography variant="meta">
+                              {formatNumber(d.value)}
+                            </Typography>
                           </Box>
                         </Fragment>
                       );
                     })
                   ) : (
-                    <Text variant="meta" sx={{ color: "secondary" }}>
+                    <Typography variant="meta" sx={{ color: "secondary.main" }}>
                       <Trans id="map.tooltipnodata">Keine Daten</Trans>
-                    </Text>
+                    </Typography>
                   )}
                 </>
               ) : null}
-            </Grid>
+            </Box>
           </MapTooltip>
         )}
         {geoData.state === "loaded" && (
@@ -720,6 +876,7 @@ export const ChoroplethMap = ({
               }}
             >
               <MapPriceColorLegend
+                id={legendId}
                 stats={[valuesExtent[0], m, valuesExtent[1]]}
               />
             </Box>
@@ -733,7 +890,38 @@ export const ChoroplethMap = ({
             />
           </WithClassName>
         )}
+        {screenshotting ? (
+          <Box
+            sx={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: 1120,
+              height: 730,
+              opacity: 0,
+            }}
+          >
+            <DeckGL
+              ref={deckRef}
+              controller={{ type: MapController }}
+              viewState={
+                constrainZoom(
+                  {
+                    ...viewState,
+                    zoom: 5,
+                    width: SCREENSHOT_CANVAS_SIZE.width,
+                    height: SCREENSHOT_CANVAS_SIZE.height,
+                  },
+                  CH_BBOX
+                ) as $FixMe
+              }
+              layers={layers?.map((l) => l.clone({}))}
+            />
+          </Box>
+        ) : null}
       </>
     </>
   );
 };
+
+export type ChoroplethMapProps = ComponentProps<typeof ChoroplethMap>;

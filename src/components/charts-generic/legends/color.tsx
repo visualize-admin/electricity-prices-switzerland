@@ -1,6 +1,6 @@
+import { Box } from "@mui/material";
 import * as React from "react";
 import { memo } from "react";
-import { Box, Flex } from "theme-ui";
 
 import { ColumnsState, useChartState } from "../use-chart-state";
 
@@ -10,7 +10,7 @@ export const LegendColor = memo(({ symbol }: { symbol: LegendSymbol }) => {
   const { colors } = useChartState() as ColumnsState;
 
   return (
-    <Flex
+    <Box
       sx={{
         position: "relative",
         justifyContent: "flex-start",
@@ -18,11 +18,12 @@ export const LegendColor = memo(({ symbol }: { symbol: LegendSymbol }) => {
         flexWrap: "wrap",
         minHeight: "20px",
       }}
+      display="flex"
     >
       {colors.domain().map((item, i) => (
         <LegendItem key={i} item={item} color={colors(item)} symbol={symbol} />
       ))}
-    </Flex>
+    </Box>
   );
 });
 
@@ -42,7 +43,7 @@ export const LegendSymbol = ({
         width: ".5rem",
         height: symbol === "square" || symbol === "circle" ? `.5rem` : 3,
         borderRadius: symbol === "circle" ? "50%" : 0,
-        bg: color,
+        bgcolor: color,
       }}
     ></Box>
   );
@@ -57,7 +58,7 @@ export const LegendItem = ({
   color: string;
   symbol: LegendSymbol;
 }) => (
-  <Flex
+  <Box
     sx={{
       position: "relative",
       mt: 1,
@@ -66,14 +67,14 @@ export const LegendItem = ({
       alignItems: "center",
       pl: 0,
       gap: "0.375rem",
-      fontFamily: "body",
-      lineHeight: [1, 2, 2],
+      lineHeight: ["1rem", "1.125rem", "1.125rem"],
       fontWeight: "regular",
-      fontSize: [1, 2, 2],
-      color: "monochrome700",
+      fontSize: ["0.625rem", "0.75rem", "0.75rem"],
+      color: "grey.700",
     }}
+    display="flex"
   >
     <LegendSymbol color={color} symbol={symbol} />
     {item}
-  </Flex>
+  </Box>
 );

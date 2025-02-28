@@ -1,12 +1,9 @@
 import { Trans } from "@lingui/macro";
-import { Link as TUILink, Box, Text } from "@theme-ui/components";
+import { Box, Link as MUILink, Typography } from "@mui/material";
+import html2canvas from "html2canvas";
 import * as React from "react";
 
-import { useLocale } from "src/lib/use-locale";
-import { useQueryState } from "src/lib/use-query-state";
-
-import { Entity } from "../../domain/data";
-
+import assert from "src/lib/assert";
 
 export type Download =
   | "map"
@@ -15,86 +12,105 @@ export type Download =
   | "distribution"
   | "comparison";
 
-interface Props {
-  entity?: Entity;
-  id?: string;
-  elementId: Download;
-  fileName: string;
-  downloadType: Download;
-}
+const getImageDataFromElement = async (elementId: string): Promise<string> => {
+  const element = document.getElementById(elementId);
+  const canvas = await html2canvas(element as HTMLElement, {
+    // Should remove the grey areas
+    // https://github.com/niklasvh/html2canvas/issues/2183
+    scale: 2,
+  });
 
+  // create downsized canvas (scale reduced by 2)
+  // copy the current canvas to the downsized canvas reducing the scale by 2
+  const downsizedCanvas = document.createElement("canvas");
+  downsizedCanvas.width = canvas.width / 2;
+  downsizedCanvas.height = canvas.height / 2;
+  const ctx = downsizedCanvas.getContext("2d");
+  ctx!.drawImage(
+    canvas,
+    0,
+    0,
+    canvas.width,
+    canvas.height,
+    0,
+    0,
+    downsizedCanvas.width,
+    downsizedCanvas.height
+  );
+
+  return downsizedCanvas.toDataURL("image/png");
+};
+
+// helper to wait a frame
+const nextFrame = () =>
+  new Promise((resolve) => requestAnimationFrame(resolve));
+
+/**
+ * Used to download an image of a specific element or from an element
+ * that directly defines a way to get the image data.
+ */
 export const DownloadImage = ({
-  elementId,
   fileName,
-  entity,
-  id,
-  downloadType,
-}: Props) => {
-  const locale = useLocale();
-  const [
-    {
-      period,
-      category,
-      product,
-      priceComponent,
-      municipality,
-      operator,
-      canton,
-      download,
-      cantonsOrder,
-      view,
-    },
-  ] = useQueryState();
+  elementId,
+  getImageData,
+}: {
+  downloadType?: string;
+  fileName: string;
 
-  const [origin, setOrigin] = React.useState<undefined | string>(undefined);
+  // Either elementId or getImageData must be provided
+  elementId?: string;
+  getImageData?: () => Promise<string | undefined>;
+}) => {
+  const [downloading, setDownloading] = React.useState(false);
+  const onDownload: React.MouseEventHandler = async (ev) => {
+    ev.preventDefault();
+    setDownloading(true);
+    assert(
+      !!elementId || !!getImageData,
+      "Either elementId or getImageData must be defined"
+    );
+    try {
+      await nextFrame();
+      const imageData =
+        elementId !== undefined
+          ? await getImageDataFromElement(elementId)
+          : await getImageData!();
 
-  React.useEffect(() => {
-    setOrigin(window.location.origin);
-  }, [setOrigin]);
-
-  const constructParamsFromArray = (
-    param: string[] | undefined,
-    paramName: string
-  ): string =>
-    param
-      ? `${param.reduce((acc, cur) => acc.concat(`&${paramName}=${cur}`), "")}`
-      : "";
-
-  const periods = constructParamsFromArray(period, "period");
-  const municipalities = constructParamsFromArray(municipality, "municipality");
-  const operators = constructParamsFromArray(operator, "operator");
-  const cantons = constructParamsFromArray(canton, "canton");
-
-  const queryParams = `download=${downloadType}${municipalities}${operators}${cantons}${periods}&category=${category}&product=${product}&priceComponent=${priceComponent}&cantonsOrder=${cantonsOrder}&view=${view}`;
-
-  const url =
-    entity && id && downloadType !== "map"
-      ? `${origin}/${locale}/${entity}/${id}?${queryParams}`
-      : `${origin}/${locale}?${queryParams}`;
-
-  const downLoadUrl = `${origin}/api/screenshot?url=${encodeURIComponent(
-    url
-  )}&element=${elementId}&filename=${fileName}&deviceScaleFactor=2`;
+      if (!imageData) {
+        return;
+      }
+      const a = document.createElement("a");
+      a.href = imageData;
+      a.download = fileName;
+      a.click();
+    } finally {
+      setDownloading(false);
+    }
+  };
 
   return (
     <Box>
-      {!download ? (
-        <TUILink
+      {downloading ? null : (
+        <MUILink
           variant="inline"
-          href={downLoadUrl}
+          onClick={onDownload}
           target="_blank"
           rel="noopener noreferrer"
+          href="#"
         >
           <Trans id="image.download">Bild herunterladen</Trans>
-        </TUILink>
-      ) : (
-        <Text variant="meta" sx={{ mt: 4 }}>
+        </MUILink>
+      )}
+      {/* This text is shown only when the image is downloading, this is done through
+      a global class on body */}
+      {downloading ? (
+        <Typography variant="meta" sx={{ mt: 4 }}>
           <Trans id="image.download.source">
             Eidgenössische Elektrizitätskommission ElCom
           </Trans>{" "}
-          - <Trans id="image.download.unit">Tarifvergleich in Rp./kWh</Trans>
-        </Text>
-      )}
+          -<Trans id="image.download.unit">Tarifvergleich in Rp./kWh</Trans>
+        </Typography>
+      ) : null}
     </Box>
   );
 };

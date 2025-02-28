@@ -1,5 +1,5 @@
+import { Box } from "@mui/material";
 import React from "react";
-import { Box } from "theme-ui";
 
 import { GenericObservation } from "../../../domain/data";
 import { LinesState } from "../lines/lines-state";
@@ -64,7 +64,7 @@ export const RulerContent = ({
           position: "absolute",
           borderWidth: 0.5,
           borderStyle: "solid",
-          borderColor: "monochrome.200",
+          borderColor: "grey[200]",
           pointerEvents: "none",
           transform: "translateX(-50%)",
         }}
@@ -77,11 +77,11 @@ export const RulerContent = ({
         sx={{
           position: "absolute",
           fontWeight: "bold",
-          bg: "monochrome100",
+          bgcolor: "grey.100",
           transform: "translateX(-50%)",
           px: 1,
-          fontSize: 3,
-          color: "monochrome800",
+          fontSize: "0.875rem",
+          color: "grey.800",
         }}
       >
         {xValue}

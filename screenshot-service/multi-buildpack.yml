@@ -1,3 +1,0 @@
-buildpacks:
-  - https://github.com/cloudfoundry/apt-buildpack/
-  - https://github.com/cloudfoundry/nodejs-buildpack/
