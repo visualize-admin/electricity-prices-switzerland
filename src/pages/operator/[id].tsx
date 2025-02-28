@@ -29,7 +29,10 @@ type Props =
       name: string;
       municipalities: { id: string; name: string }[];
     }
-  | { status: "notfound" };
+  | {
+      status: "notfound";
+    };
+
 export const getServerSideProps: GetServerSideProps<
   Props,
   { id: string }
@@ -67,11 +70,13 @@ export const getServerSideProps: GetServerSideProps<
 
 const OperatorPage = (props: Props) => {
   const { query } = useRouter();
+
   if (props.status === "notfound") {
     return <ErrorPage statusCode={404} />;
   }
 
   const { id, name, municipalities } = props;
+
   return (
     <>
       <Head>

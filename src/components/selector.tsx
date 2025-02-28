@@ -1,6 +1,6 @@
 import { Trans, t } from "@lingui/macro";
 import { Box, Typography } from "@mui/material";
-import { useMemo } from "react";
+import { ComponentProps, useMemo } from "react";
 
 import { Combobox } from "src/components/combobox";
 import {
@@ -21,8 +21,9 @@ export const Selector = () => {
       ...categories.filter((x) => x.startsWith("H")),
       { type: "header", title: getItemLabel("C-group") },
       ...categories.filter((x) => x.startsWith("C")),
-    ] as React.ComponentProps<typeof Combobox>["items"];
+    ] as ComponentProps<typeof Combobox>["items"];
   }, []);
+
   return (
     <Box
       component="fieldset"

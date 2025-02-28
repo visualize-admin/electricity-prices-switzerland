@@ -15,7 +15,6 @@ import { normalize } from "src/lib/array";
 export const Range = ({ id }: { id: string }) => {
   const { bounds, xScale, getX, yScale, colors, rangeGroups } =
     useChartState() as RangePlotState;
-
   const { margins, chartWidth } = bounds;
 
   return (

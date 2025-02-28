@@ -10,9 +10,9 @@ import {
 } from "@mui/material";
 import { createPortal } from "react-dom";
 
-import VisuallyHidden from "src/components/VisuallyHidden";
 import { LoadingIcon, NoContentHint } from "src/components/hint";
-import { useDisclosure } from "src/components/useDisclosure";
+import { useDisclosure } from "src/components/use-disclosure";
+import { VisuallyHidden } from "src/components/visually-hidden";
 import { useWikiContentQuery } from "src/graphql/queries";
 import { Icon } from "src/icons";
 import { useLocale } from "src/lib/use-locale";

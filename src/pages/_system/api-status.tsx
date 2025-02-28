@@ -22,6 +22,7 @@ const IndicatorFail = () => (
     FAIL
   </Box>
 );
+
 const IndicatorSuccess = () => (
   <Box
     sx={{
@@ -203,6 +204,7 @@ const CantonMedianStatus = () => {
       },
     },
   });
+
   return (
     <Status
       title="Canton Median Observations (All Price Components)"
@@ -409,7 +411,7 @@ DESCRIBE <https://ld.admin.ch/municipality/${formData.municipalityId}>
           <details>{data && data ? <pre>{data}</pre> : null}</details>
           {query.error ? (
             <div>
-              Erreur:{" "}
+              Error:{" "}
               {query.error instanceof Error
                 ? query.error.message
                 : `${query.error}`}

@@ -21,7 +21,7 @@ import { FilterSetDescription } from "src/components/detail-page/filter-set-desc
 import { WithClassName } from "src/components/detail-page/with-classname";
 import { Loading, NoDataHint } from "src/components/hint";
 import { InfoDialogButton } from "src/components/info-dialog";
-import Stack from "src/components/stack";
+import { Stack } from "src/components/stack";
 import { Entity, GenericObservation, priceComponents } from "src/domain/data";
 import { getLocalizedLabel } from "src/domain/translation";
 import {
@@ -100,8 +100,6 @@ export const PriceEvolution = ({
         </Stack>
       }
       downloadId={DOWNLOAD_ID}
-      id={id}
-      entity={entity}
     >
       <FilterSetDescription
         filters={{

@@ -53,7 +53,7 @@ export const InteractionHistogram = ({
       </g>
       {debug && (
         <>
-          <g transform={`translate(0, 0)`}>
+          <g>
             <rect
               x={0}
               y={0}

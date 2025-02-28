@@ -80,7 +80,6 @@ const useHistogramState = ({
     .value((x) => getX(x))
     .domain([mkNumber(minValue), mkNumber(maxValue)])
     .thresholds(xScale.ticks(25))(data);
-  // .thresholds(thresholdSturges)(data);
 
   const yScale = scaleLinear().domain([0, max(bins, (d) => d.length) || 100]);
 
@@ -93,7 +92,6 @@ const useHistogramState = ({
       )
     )
   );
-  // const piecewiseColor = piecewise(interpolateHsl, palette.diverging);
 
   const margins = {
     top: 70,
@@ -155,7 +153,6 @@ const useHistogramState = ({
   xScale.range([0, chartWidth]);
   yScale.range([chartHeight, annotationSpace || 0]);
 
-  // Annotations
   const annotations =
     annotation &&
     annotation

@@ -59,7 +59,6 @@ const useGroupedBarsState = ({
     [fields.style]
   );
 
-  // segments ordered
   const segments = data
     .sort(
       (a, b) =>
@@ -83,7 +82,6 @@ const useGroupedBarsState = ({
     .domain(colorDomain)
     .range(getPalette(fields.segment?.palette));
 
-  // opacity
   const opacityDomain = fields.style?.opacityDomain
     ? fields.style?.opacityDomain
     : [];
@@ -92,7 +90,6 @@ const useGroupedBarsState = ({
     .domain(opacityDomain.sort((a, b) => descending(a, b)))
     .range(getOpacityRanges(opacityDomain.length));
 
-  // x
   const xScale = scaleLinear().domain(fields.x.domain).nice();
 
   const chartHeight = BAR_HEIGHT * segments.length;

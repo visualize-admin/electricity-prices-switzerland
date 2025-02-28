@@ -224,7 +224,7 @@ export const getAnnotationSpaces = ({
             estimateTextWidth(format(getX(datum)), annotationFontSize) +
             labelLength;
 
-          // On smaller screens, anotations may break on several lines
+          // On smaller screens, annotations may break on several lines
           const nbOfLines = Math.ceil(oneFullLine / width);
 
           acc.push({

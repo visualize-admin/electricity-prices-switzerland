@@ -105,13 +105,11 @@ const useLinesState = ({
     [fields.style]
   );
 
-  // data
   const sortedData = useMemo(
     () => [...data].sort((a, b) => ascending(getX(a), getX(b))),
     [data, getX]
   );
 
-  // x
   const xUniqueValues = sortedData
     .map((d) => getX(d))
     .filter(
@@ -125,20 +123,16 @@ const useLinesState = ({
   const xAxisLabel =
     measures.find((d) => d.iri === fields.x.componentIri)?.label ??
     fields.x.componentIri;
-  // y
+
   const minValue = min(sortedData, getY) || 0;
   const maxValue = max(sortedData, getY) as number;
   const yDomain = [minValue, maxValue];
 
-  let yScale = scaleLinear().domain(yDomain).nice(4);
-  yScale = roundDomain(yScale);
-
+  const yScale = roundDomain(scaleLinear().domain(yDomain).nice(4));
   const yAxisLabel = "unit";
 
-  // segments
   const segments = [...new Set(sortedData.map(getSegment))];
 
-  // Map ordered segments to colors
   const colorDomain = fields.style?.colorDomain
     ? fields.style?.colorDomain
     : [""];
@@ -158,6 +152,7 @@ const useLinesState = ({
       const thisYear = lineData[1].find(
         (d) => getX(d).getFullYear() === xValue.getFullYear()
       );
+
       if (!thisYear) {
         lineData[1].push({
           period: `${xValue.getFullYear()}`,
@@ -180,7 +175,6 @@ const useLinesState = ({
   const floatingPointExtra =
     Math.abs(yDomain[yDomain.length - 1] - yDomain[0]) === 1 ? 10 : 0;
 
-  // Dimensions
   const left = Math.max(
     estimateTextWidth(minText) + floatingPointExtra,
     estimateTextWidth(maxText) + floatingPointExtra
@@ -222,7 +216,7 @@ const useLinesState = ({
   }
 
   const entity = fields.style?.entity || "";
-  // Tooltip
+
   const getAnnotationInfo = (datum: GenericObservation): Tooltip => {
     const xAnchor = xScale(getX(datum));
     const yAnchor = yScale(getY(datum));
@@ -230,7 +224,6 @@ const useLinesState = ({
     const tooltipValues = data.filter(
       (j) => getX(j).getTime() === getX(datum).getTime()
     );
-    // console.log({ tooltipValues });
     const groupedTooltipValues = groups(
       tooltipValues,
       (d: GenericObservation) => getColor(d),
@@ -265,14 +258,7 @@ const useLinesState = ({
       )
     );
 
-    // const sortedTooltipValues = sortByIndex({
-    //   data: tooltipValues,
-    //   order: segments,
-    //   getCategory: getSegment,
-    //   sortOrder: "asc",
-    // });
     const xPlacement = xAnchor < chartWidth * 0.5 ? "right" : "left";
-
     const yPlacement = "middle";
 
     return {

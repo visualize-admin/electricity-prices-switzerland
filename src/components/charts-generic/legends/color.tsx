@@ -47,7 +47,7 @@ export const LegendSymbol = ({
         borderRadius: symbol === "circle" ? "50%" : 0,
         bgcolor: color,
       }}
-    ></Box>
+    />
   );
 };
 

@@ -36,7 +36,6 @@ export const IconLink = ({
 }) => (
   <UILink
     title={title}
-    // disabled={disabled}
     href={href}
     target="_blank"
     rel="noopener noreferrer"

@@ -237,11 +237,7 @@ const fetchGeoData = async (year: string) => {
     topo.objects.municipalities,
     (a, b) => a !== b
   );
-  const cantonMesh = topojsonMesh(
-    topo,
-    topo.objects.cantons
-    // (a, b) => a !== b
-  );
+  const cantonMesh = topojsonMesh(topo, topo.objects.cantons);
   const lakes = topojsonFeature(topo, topo.objects.lakes);
   return {
     municipalities: municipalities as Extract<
@@ -306,7 +302,7 @@ const SCREENSHOT_CANVAS_SIZE = {
 };
 
 /**
- * Get the map as an image, using the deckgl canvas and html2canvas to get
+ * Get the map as an image, using the Deck.gl canvas and html2canvas to get
  * the legend as an image.
  */
 const getImageData = async (deck: Deck, legend: HTMLElement) => {

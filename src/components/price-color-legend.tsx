@@ -49,6 +49,7 @@ export const MapPriceColorLegend = ({
       </LegendBox>
     );
   }
+
   return (
     <LegendBox id={id}>
       <Box sx={{ alignItems: "center", width: "100%", mb: -1 }} display="flex">
@@ -196,6 +197,7 @@ export const PriceColorLegend = () => {
 
 export const ColorsLine = () => {
   const { palette } = useTheme();
+
   return (
     <Box
       sx={{ height: COLOR_HEIGHT + BOTTOM_LABEL_HEIGHT, position: "relative" }}
@@ -281,4 +283,5 @@ export const ColorsLine = () => {
     </Box>
   );
 };
+
 const PRICE_THRESHOLDS = ["-15%", "-5%", "+5%", "+15%"];

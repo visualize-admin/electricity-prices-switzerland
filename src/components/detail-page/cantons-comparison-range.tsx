@@ -30,7 +30,7 @@ import { Loading, NoDataHint } from "src/components/hint";
 import { InfoDialogButton } from "src/components/info-dialog";
 import { PriceColorLegend } from "src/components/price-color-legend";
 import { RadioTabs } from "src/components/radio-tabs";
-import Stack from "src/components/stack";
+import { Stack } from "src/components/stack";
 import { SortingOrder, SortingType } from "src/domain/config-types";
 import { Entity, GenericObservation, priceComponents } from "src/domain/data";
 import { getLocalizedLabel } from "src/domain/translation";
@@ -46,12 +46,14 @@ import { useQueryState } from "src/lib/use-query-state";
 const DOWNLOAD_ID: Download = "comparison";
 
 type SortingValue = "median-asc" | "median-desc" | "alpha-asc" | "alpha-desc";
+
 const SORTING_VALUES: SortingValue[] = [
   "median-asc",
   "median-desc",
   "alpha-asc",
   "alpha-desc",
 ];
+
 export const CantonsComparisonRangePlots = ({
   id,
   entity,
@@ -127,8 +129,6 @@ export const CantonsComparisonRangePlots = ({
         </Stack>
       }
       downloadId={DOWNLOAD_ID}
-      id={id}
-      entity={entity}
     >
       {!download && (
         <>
@@ -167,7 +167,7 @@ export const CantonsComparisonRangePlots = ({
               id="priceComponents-cantons-comparison"
               label={t({
                 id: "selector.priceComponents",
-                message: `Preiskomponenten`,
+                message: "Preiskomponenten",
               })}
               items={priceComponents}
               getItemLabel={getItemLabel}
@@ -187,7 +187,7 @@ export const CantonsComparisonRangePlots = ({
             <Combobox
               label={t({
                 id: "rangeplot.select.order.hint",
-                message: `Sortieren nach`,
+                message: "Sortieren nach",
               })}
               id={"rangeplot-sorting-select"}
               items={SORTING_VALUES}

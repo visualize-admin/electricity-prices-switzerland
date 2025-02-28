@@ -21,7 +21,7 @@ import { WithClassName } from "src/components/detail-page/with-classname";
 import { Loading, NoDataHint } from "src/components/hint";
 import { InfoDialogButton } from "src/components/info-dialog";
 import { RadioTabs } from "src/components/radio-tabs";
-import Stack from "src/components/stack";
+import { Stack } from "src/components/stack";
 import {
   Entity,
   GenericObservation,
@@ -63,7 +63,6 @@ export const PriceComponentsBarChart = ({
     },
     setQueryState,
   ] = useQueryState();
-  // const [view, setView] = useState("collapsed");
   const comparisonIds =
     entity === "municipality"
       ? municipality
@@ -146,8 +145,6 @@ export const PriceComponentsBarChart = ({
         </Stack>
       }
       downloadId={DOWNLOAD_ID}
-      id={id}
-      entity={entity}
     >
       {!download && entity !== "canton" && (
         <>
@@ -186,7 +183,6 @@ export const PriceComponentsBarChart = ({
               getItemLabel={getItemLabel}
               selectedItem={view[0]}
               setSelectedItem={(view) => setQueryState({ view: [view] })}
-              // setSelectedItem={setView}
               showLabel={false}
             />
           </Box>
@@ -302,7 +298,7 @@ const prepareObservations = ({
       ObservationValue,
       [ObservationValue, Record<string, ObservationValue>[]][]
     ][]
-  ][]; // The output of d3 groups with 3 levels.
+  ][];
   priceComponent: PriceComponent;
   entity: Entity;
   view: string;

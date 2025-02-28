@@ -13,6 +13,7 @@ import { GenericObservation } from "src/domain/data";
 export const Ruler = () => {
   const [state] = useInteraction();
   const { visible, d } = state.interaction;
+
   return <>{visible && d && <RulerInner d={d} />}</>;
 };
 
@@ -35,7 +36,12 @@ const RulerInner = ({ d }: { d: GenericObservation }) => {
   );
 };
 
-interface RulerContentProps {
+export const RulerContent = ({
+  xValue,
+  chartHeight,
+  margins,
+  xAnchor,
+}: {
   xValue: string;
   values: TooltipValue[] | undefined;
   chartHeight: number;
@@ -44,14 +50,7 @@ interface RulerContentProps {
   yAnchor: number;
   datum: TooltipValue;
   placement: TooltipPlacement;
-}
-
-export const RulerContent = ({
-  xValue,
-  chartHeight,
-  margins,
-  xAnchor,
-}: RulerContentProps) => {
+}) => {
   return (
     <>
       <Box

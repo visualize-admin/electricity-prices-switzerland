@@ -2,6 +2,7 @@ import { Box, Typography } from "@mui/material";
 import * as React from "react";
 
 import { getLocalizedLabel } from "src/domain/translation";
+
 type FilterSet = {
   operator: string;
   municipality: string;

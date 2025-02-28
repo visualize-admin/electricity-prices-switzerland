@@ -16,22 +16,23 @@ import {
   Typography,
 } from "@mui/material";
 import * as React from "react";
+import { ReactNode } from "react";
 
-import VisuallyHidden from "src/components/VisuallyHidden";
+import { VisuallyHidden } from "src/components/visually-hidden";
 import { Icon } from "src/icons";
 
-export type Option = {
+type Option = {
   value: string | $FixMe;
   label: string | $FixMe;
   disabled?: boolean;
 };
 
-export type FieldProps = Pick<
+type FieldProps = Pick<
   React.InputHTMLAttributes<HTMLInputElement>,
   "onChange" | "id" | "name" | "value" | "checked" | "type"
 >;
 
-export const Label = ({
+const Label = ({
   label,
   htmlFor,
   disabled,
@@ -39,11 +40,11 @@ export const Label = ({
   children,
   showLabel = true,
 }: {
-  label?: string | React.ReactNode;
+  label?: string | ReactNode;
   htmlFor: string;
   disabled?: boolean;
   smaller?: boolean;
-  children: React.ReactNode;
+  children: ReactNode;
   showLabel?: boolean;
 }) => (
   <Typography
@@ -85,7 +86,7 @@ export const Radio = ({
   checked,
   disabled,
   onChange,
-}: { label: string | React.ReactNode; disabled?: boolean } & FieldProps) => {
+}: { label: string | ReactNode; disabled?: boolean } & FieldProps) => {
   return (
     <Box mb={2}>
       <FormControlLabel
@@ -116,7 +117,7 @@ export const Checkbox = ({
   checked,
   disabled,
   onChange,
-}: { label: React.ReactNode; disabled?: boolean } & FieldProps) => (
+}: { label: ReactNode; disabled?: boolean } & FieldProps) => (
   <FormControlLabel
     label={label}
     htmlFor={`${name}-${label}`}
@@ -147,7 +148,7 @@ export const Select = ({
 }: {
   id: string;
   options: Option[];
-  label?: React.ReactNode;
+  label?: ReactNode;
   disabled?: boolean;
 } & SelectProps) => (
   <Box sx={{ color: "grey.700", pb: 2 }}>
@@ -197,7 +198,7 @@ export const MiniSelect = ({
 }: {
   id: string;
   options: Option[];
-  label?: React.ReactNode;
+  label?: ReactNode;
   disabled?: boolean;
 } & NativeSelectProps) => (
   <Box sx={{ color: "grey.800" }}>
@@ -243,7 +244,7 @@ export const Input = ({
   value,
   onChange,
 }: {
-  label?: string | React.ReactNode;
+  label?: string | ReactNode;
   disabled?: boolean;
 } & FieldProps) => (
   <Box sx={{ color: "grey.700", fontSize: "1rem" }}>
@@ -272,7 +273,7 @@ export const SearchField = ({
   sx,
 }: {
   id: string;
-  label?: string | React.ReactNode;
+  label?: string | ReactNode;
   disabled?: boolean;
   value?: string;
   placeholder?: string;
@@ -316,7 +317,7 @@ export const SearchField = ({
 export const FieldSetLegend = ({
   legendTitle,
 }: {
-  legendTitle: string | React.ReactNode;
+  legendTitle: string | ReactNode;
 }) => (
   <Box
     sx={{

@@ -8,7 +8,6 @@ import { GenericObservation } from "src/domain/data";
 
 export const HoverDotMultiple = () => {
   const [state] = useInteraction();
-
   const { visible, d } = state.interaction;
 
   return <>{visible && d && <HoverDots d={d} />}</>;
@@ -16,7 +15,6 @@ export const HoverDotMultiple = () => {
 
 const HoverDots = ({ d }: { d: GenericObservation }) => {
   const { getAnnotationInfo, bounds } = useChartState() as LinesState;
-
   const { xAnchor, values } = getAnnotationInfo(d);
 
   return (

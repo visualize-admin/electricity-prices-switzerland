@@ -148,28 +148,28 @@ const getRegionDimensionsAndFilter = ({
   locale: string;
 }) => {
   const muniDimension = view.dimension({
-    cubeDimension: ns.electricitypriceDimension("municipality"),
+    cubeDimension: ns.electricityPriceDimension("municipality"),
   });
 
   const regionDimension = view.createDimension({
     source: lookupSource,
     path: ns.schema("containedInPlace"),
     join: muniDimension,
-    as: ns.electricitypriceDimension("region"),
+    as: ns.electricityPriceDimension("region"),
   });
 
   const regionLabelDimension = view.createDimension({
     source: lookupSource,
     path: ns.schema.name,
     join: regionDimension,
-    as: ns.electricitypriceDimension("regionLabel"),
+    as: ns.electricityPriceDimension("regionLabel"),
   });
 
   const regionTypeDimension = view.createDimension({
     source: lookupSource,
     path: ns.rdf.type,
     join: regionDimension,
-    as: ns.electricitypriceDimension("regionType"),
+    as: ns.electricityPriceDimension("regionType"),
   });
 
   const regionTypeFilter = regionTypeDimension.filter.eq(
@@ -213,12 +213,7 @@ export const getObservations = async (
   const queryFilters = filters
     ? Object.entries(filters).flatMap(([dimensionKey, filterValues]) =>
         filterValues
-          ? buildDimensionFilter(
-              view,
-              dimensionKey,
-              // dimensionKey.replace(/^canton/, "region"),
-              filterValues
-            ) ?? []
+          ? buildDimensionFilter(view, dimensionKey, filterValues) ?? []
           : []
       )
     : [];
@@ -238,14 +233,14 @@ export const getObservations = async (
         if (labelMatches) {
           const dimensionKey = labelMatches ? labelMatches[1] : d;
           const dimension = view.dimension({
-            cubeDimension: ns.electricitypriceDimension(dimensionKey),
+            cubeDimension: ns.electricityPriceDimension(dimensionKey),
           });
 
           const labelDimension = view.createDimension({
             source: lookupSource,
             path: ns.schema.name,
             join: dimension,
-            as: ns.electricitypriceDimension(`${dimensionKey}Label`),
+            as: ns.electricityPriceDimension(`${dimensionKey}Label`),
           });
 
           // FIXME: we only add the language filter on region labels because we can't use it on strings without language tag (yet?!)
@@ -262,24 +257,23 @@ export const getObservations = async (
         if (idMatches) {
           const dimensionKey = idMatches ? idMatches[1] : d;
           const dimension = view.dimension({
-            cubeDimension: ns.electricitypriceDimension(dimensionKey),
+            cubeDimension: ns.electricityPriceDimension(dimensionKey),
           });
 
           const idDimension = view.createDimension({
             source: lookupSource,
             path: ns.schema.identifier,
             join: dimension,
-            as: ns.electricitypriceDimension(`${dimensionKey}Identifier`),
+            as: ns.electricityPriceDimension(`${dimensionKey}Identifier`),
           });
 
           return dimension ? [dimension, idDimension] : [];
         }
 
         const dimension = view.dimension({
-          cubeDimension: ns.electricitypriceDimension(d),
+          cubeDimension: ns.electricityPriceDimension(d),
         });
 
-        // console.log(ns.energyPricing(d).value, dimension);
         return dimension ? [dimension] : [];
       })
     : view.dimensions;
@@ -350,21 +344,14 @@ export const getDimensionValuesAndLabels = async ({
 
   const queryFilters = filters
     ? Object.entries(filters).flatMap(([dim, filterValues]) =>
-        filterValues
-          ? buildDimensionFilter(
-              view,
-              // dim.replace(/^canton/, "region"),
-              dim,
-              filterValues
-            ) ?? []
-          : []
+        filterValues ? buildDimensionFilter(view, dim, filterValues) ?? [] : []
       )
     : [];
 
   const lookupView = new View({ parent: source, filters: queryFilters });
 
   const dimension = view.dimension({
-    cubeDimension: ns.electricitypriceDimension(dimensionKey),
+    cubeDimension: ns.electricityPriceDimension(dimensionKey),
   });
 
   if (!dimension) {
@@ -377,7 +364,7 @@ export const getDimensionValuesAndLabels = async ({
     source: lookup,
     path: dimensionKey === "region" ? ns.schema.alternateName : ns.schema.name,
     join: dimension,
-    as: ns.electricitypriceDimension(`${dimensionKey}Label`),
+    as: ns.electricityPriceDimension(`${dimensionKey}Label`),
   });
   lookupView.addDimension(dimension).addDimension(labelDimension);
 
@@ -392,15 +379,15 @@ export const getDimensionValuesAndLabels = async ({
 
   return observations.flatMap((obs) => {
     // Filter out "empty" observations
-    return obs[ns.electricitypriceDimension(dimensionKey).value]
+    return obs[ns.electricityPriceDimension(dimensionKey).value]
       ? [
           {
             id: ns.stripNamespaceFromIri({
-              iri: obs[ns.electricitypriceDimension(dimensionKey).value]
+              iri: obs[ns.electricityPriceDimension(dimensionKey).value]
                 .value as string,
             }),
             name: obs[
-              ns.electricitypriceDimension(`${dimensionKey}Label`).value
+              ns.electricityPriceDimension(`${dimensionKey}Label`).value
             ].value as string,
             view,
             source,
@@ -410,15 +397,13 @@ export const getDimensionValuesAndLabels = async ({
   });
 };
 
-// export const getOperatorMunicipalities()
-
 export const getCubeDimension = (
   view: View,
   dimensionKey: string,
   { locale }: { locale: string }
 ) => {
   const viewDimension = view.dimension({
-    cubeDimension: ns.electricitypriceDimension(dimensionKey),
+    cubeDimension: ns.electricityPriceDimension(dimensionKey),
   });
 
   const cubeDimension = viewDimension?.cubeDimensions[0];
@@ -448,7 +433,7 @@ export const buildDimensionFilter = (
   filters: string[]
 ) => {
   const viewDimension = view.dimension({
-    cubeDimension: ns.electricitypriceDimension(dimensionKey),
+    cubeDimension: ns.electricityPriceDimension(dimensionKey),
   });
 
   const cubeDimension = viewDimension?.cubeDimensions[0];
@@ -496,7 +481,7 @@ export const getMunicipality = async ({
 
   const sparql = `
 SELECT DISTINCT ?name {
-  <${iri}> <http://schema.org/name> ?name.
+  <${iri}> <http://schema.org/name> ?name .
 }
   `;
 
@@ -593,13 +578,13 @@ export const getOperatorDocuments = async ({
   return results.map((d) => {
     const id = d.download.value;
     const year = d.year.value;
-    const category = ns.electricityprice`documenttype/tariffs_provider`.equals(
+    const category = ns.electricityPrice`documenttype/tariffs_provider`.equals(
       d.category
     )
       ? OperatorDocumentCategory.Tariffs
-      : ns.electricityprice`documenttype/annual_report`.equals(d.category)
+      : ns.electricityPrice`documenttype/annual_report`.equals(d.category)
       ? OperatorDocumentCategory.AnnualReport
-      : ns.electricityprice`documenttype/financial_statement`.equals(d.category)
+      : ns.electricityPrice`documenttype/financial_statement`.equals(d.category)
       ? OperatorDocumentCategory.FinancialStatement
       : null;
     const name = d.name.value;

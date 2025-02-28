@@ -6,7 +6,6 @@ import {
   LegendSymbol,
 } from "src/components/charts-generic/legends/color";
 
-// Generic
 export const TooltipSingle = ({
   xValue,
   segment,
@@ -62,7 +61,6 @@ export const TooltipMultiple = ({
   );
 };
 
-// Chart Specific
 export const TooltipHistogram = ({
   firstLine,
   secondLine,

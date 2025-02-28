@@ -1,11 +1,11 @@
 import { keyframes } from "@emotion/react";
 import { Trans } from "@lingui/macro";
 import { Box, BoxProps, Typography } from "@mui/material";
-import * as React from "react";
+import { ReactNode } from "react";
 
 import { Icon, IconName } from "src/icons";
 
-export const Error = ({ children }: { children: React.ReactNode }) => (
+export const Error = ({ children }: { children: ReactNode }) => (
   <Box
     sx={{
       justifyContent: "center",
@@ -19,7 +19,7 @@ export const Error = ({ children }: { children: React.ReactNode }) => (
   </Box>
 );
 
-export const Hint = ({ children }: { children: React.ReactNode }) => (
+export const Hint = ({ children }: { children: ReactNode }) => (
   <Box
     sx={{
       width: "100%",
@@ -245,7 +245,7 @@ export const HintBlue = ({
   children,
 }: {
   iconName: IconName;
-  children: React.ReactNode;
+  children: ReactNode;
 }) => (
   <Box
     sx={{
@@ -273,7 +273,7 @@ export const HintRed = ({
   children,
 }: {
   iconName: IconName;
-  children: React.ReactNode;
+  children: ReactNode;
 }) => (
   <Box
     sx={{

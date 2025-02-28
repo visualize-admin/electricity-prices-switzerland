@@ -19,23 +19,22 @@ export const TOOLTIP_OFFSET = 4;
 export const Tooltip = ({ type = "single" }: { type: TooltipType }) => {
   const [state] = useInteraction();
   const { visible, mouse, d } = state.interaction;
+
   return (
     <>{visible && d && <TooltipInner d={d} mouse={mouse} type={type} />}</>
   );
 };
 
-export type Xplacement = "left" | "center" | "right";
-export type Yplacement = "top" | "middle" | "bottom";
-export type TooltipPlacement = { x: Xplacement; y: Yplacement };
-
-export type TooltipType = "single" | "multiple" | "histogram";
-export interface TooltipValue {
+export type XPlacement = "left" | "center" | "right";
+export type YPlacement = "top" | "middle" | "bottom";
+export type TooltipPlacement = { x: XPlacement; y: YPlacement };
+type TooltipType = "single" | "multiple" | "histogram";
+export type TooltipValue = {
   label?: string;
   value: string;
   color?: string;
   yPos?: number;
-}
-
+};
 type TooltipCommon = {
   xAnchor: number;
   yAnchor: number;

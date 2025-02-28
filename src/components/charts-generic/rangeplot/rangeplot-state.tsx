@@ -53,13 +53,6 @@ const useRangePlotState = ({
     (d: GenericObservation) => d[fields.x.componentIri] as number,
     [fields.x.componentIri]
   );
-  // const getY = useCallback(
-  //   (d: Observation) =>
-  //     fields.y && fields.y.componentIri
-  //       ? (d[fields.y.componentIri] as string)
-  //       : undefined,
-  //   [fields.y]
-  // );
   const getY = useCallback(
     (d: GenericObservation) => d[fields.y.componentIri] as string,
     [fields.y.componentIri]
@@ -75,10 +68,9 @@ const useRangePlotState = ({
   const xDomain = [0, mkNumber(maxValue)];
   const xScale = scaleLinear().domain(xDomain).nice();
 
-  // Sort data
   const sortingType = fields.y.sorting?.sortingType;
   const sortingOrder = fields.y.sorting?.sortingOrder;
-  // Default sorting order by ascending median
+
   const yDomain =
     sortingType && sortingOrder
       ? sortDomain({ sortingType, sortingOrder, data, getX, getY })
@@ -153,7 +145,6 @@ const useRangePlotState = ({
   xScale.range([0, chartWidth]);
   yScale.range([0, chartHeight]);
 
-  // Group
   const rangeGroups = [...group(data, getY)];
 
   const getAnnotationInfo = (d: GenericObservation): Tooltip => {
@@ -163,6 +154,7 @@ const useRangePlotState = ({
     );
 
     const yAnchor = yScale(getY(d));
+
     return {
       xAnchor: xScale(getX(tooltipValues[1])) + 10,
       yAnchor: yAnchor ? yAnchor + margins.top + DOT_RADIUS : 0,
@@ -181,7 +173,6 @@ const useRangePlotState = ({
     };
   };
 
-  // Annotations
   const annotations =
     annotation &&
     annotation
@@ -231,6 +222,7 @@ const RangePlotProvider = ({
     measures,
     medianValue,
   });
+
   return (
     <ChartContext.Provider value={state}>{children}</ChartContext.Provider>
   );
@@ -282,7 +274,6 @@ const sortDomain = ({
       )
       .map((d) => d[0]);
   } else {
-    // by median
     return [
       ...rollup(
         data,

@@ -45,7 +45,7 @@ export const InteractionRows = ({ debug = false }: { debug?: boolean }) => {
       </g>
       {debug && (
         <>
-          <g transform={`translate(0, 0)`}>
+          <g>
             <rect
               x={0}
               y={0}

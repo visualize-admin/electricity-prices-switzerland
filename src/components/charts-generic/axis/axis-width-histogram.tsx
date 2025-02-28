@@ -20,20 +20,13 @@ export const AxisWidthHistogram = () => {
   const xAxisRef = useRef<SVGGElement>(null);
 
   const mkAxis = (g: Selection<SVGGElement, unknown, null, undefined>) => {
-    // const tickValues = xScale.ticks(ticks);
     const minValue = min(data, (d) => getX(d)) || 0;
     const maxValue = max(data, (d) => getX(d)) || 10000;
-    const tickValues = [
-      minValue,
-      //...colors.domain(),
-      maxValue,
-    ];
+    const tickValues = [minValue, maxValue];
     g.call(
       axisBottom(xScale)
         .tickValues(tickValues)
-        // .tickValues(tickValues)
         .tickSizeInner(16)
-        // .tickSizeInner(-chartHeight)
         .tickSizeOuter(xAxisLabel ? -chartHeight : 0)
         .tickFormat(formatCurrency)
     );

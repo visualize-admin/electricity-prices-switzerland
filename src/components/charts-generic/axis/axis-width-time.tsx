@@ -36,7 +36,6 @@ export const AxisTime = () => {
         .ticks(ticks)
         .tickSize(0)
         .tickSizeInner(4)
-        // .ticks(timeYear.every(every))
         .tickFormat((x) => formatDateAuto(x as Date))
     );
     g.select(".domain").attr("stroke", "#ededed");
@@ -84,9 +83,7 @@ export const AxisTime = () => {
 
 export const AxisTimeDomain = () => {
   const ref = useRef<SVGGElement>(null);
-
   const { xScale, yScale, bounds } = useChartState() as LinesState | AreasState;
-
   const { domainColor } = useChartTheme();
 
   const mkAxis = (g: Selection<SVGGElement, unknown, null, undefined>) => {

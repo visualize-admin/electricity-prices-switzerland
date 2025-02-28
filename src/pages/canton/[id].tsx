@@ -22,9 +22,11 @@ type Props =
       status: "found";
       id: string;
       name: string;
-      // operators: { id: string; name: string }[];
     }
-  | { status: "notfound" };
+  | {
+      status: "notfound";
+    };
+
 export const getServerSideProps: GetServerSideProps<
   Props,
   { locale: string; id: string }
@@ -51,6 +53,7 @@ const CantonPage = (props: Props) => {
   }
 
   const { id, name } = props;
+
   return (
     <>
       <Head>

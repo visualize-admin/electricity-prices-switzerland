@@ -98,7 +98,6 @@ export const AnnotationXDataPoint = () => {
                   margins.top + (margins.annotations ?? 0)
                 })`}
               >
-                {/* Data Point indicator */}
                 <circle
                   cx={a.x}
                   cy={a.y + DOT_RADIUS}

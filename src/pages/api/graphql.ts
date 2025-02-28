@@ -1,8 +1,10 @@
+/* eslint-disable import/order */
+
 import { ApolloServer } from "@apollo/server";
+import responseCachePlugin from "@apollo/server-plugin-response-cache";
 import { ApolloServerPluginCacheControl } from "@apollo/server/plugin/cacheControl";
 import { ApolloServerPluginLandingPageDisabled } from "@apollo/server/plugin/disabled";
 import { ApolloServerPluginLandingPageLocalDefault } from "@apollo/server/plugin/landingPage/default";
-import responseCachePlugin from "@apollo/server-plugin-response-cache";
 import { startServerAndCreateNextHandler } from "@as-integrations/next";
 import { NextApiHandler } from "next";
 
@@ -11,8 +13,7 @@ import { resolvers } from "src/graphql/resolvers";
 import typeDefs from "src/graphql/schema.graphql";
 import { context } from "src/graphql/server-context";
 import assert from "src/lib/assert";
-
-import { metricsPlugin } from "./metricsPlugin";
+import { metricsPlugin } from "src/pages/api/metricsPlugin";
 
 assert(!!serverEnv, "serverEnv is not defined");
 

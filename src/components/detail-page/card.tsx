@@ -1,7 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import { ReactNode } from "react";
 
-import { Entity } from "src//domain/data";
 import {
   Download,
   DownloadImage,
@@ -14,9 +13,6 @@ export const Card = ({
 }: {
   title: string | ReactNode;
   downloadId: Download;
-  id: string;
-  entity: Entity;
-
   children: ReactNode;
 }) => {
   return (

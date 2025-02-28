@@ -20,8 +20,8 @@ import { List } from "src/components/list";
 import { ChoroplethMap, ChoroplethMapProps } from "src/components/map";
 import { Search } from "src/components/search";
 import { Selector } from "src/components/selector";
-import { useDisclosure } from "src/components/useDisclosure";
-import useOutsideClick from "src/components/useOutsideClick";
+import { useDisclosure } from "src/components/use-disclosure";
+import { useOutsideClick } from "src/components/use-outside-click";
 import { useColorScale } from "src/domain/data";
 import {
   PriceComponent,

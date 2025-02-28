@@ -32,7 +32,7 @@ import { Loading, NoDataHint } from "src/components/hint";
 import { InfoDialogButton } from "src/components/info-dialog";
 import { PriceColorLegend } from "src/components/price-color-legend";
 import { RadioTabs } from "src/components/radio-tabs";
-import Stack from "src/components/stack";
+import { Stack } from "src/components/stack";
 import { Entity, GenericObservation, priceComponents } from "src/domain/data";
 import { getLocalizedLabel } from "src/domain/translation";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
@@ -87,8 +87,6 @@ export const PriceDistributionHistograms = ({
         </Stack>
       }
       downloadId={DOWNLOAD_ID}
-      id={id}
-      entity={entity}
     >
       {!download && (
         <>
@@ -147,9 +145,6 @@ export const PriceDistributionHistograms = ({
           entity={entity}
         />
       ))}
-      {/* <Box sx={{ color: "grey.700", fontSize: 2 }}>
-        <Trans id="chart.unit.cent.kWh">Preise in Rp./kWh</Trans>
-      </Box> */}
     </Card>
   );
 };
@@ -309,7 +304,6 @@ export const PriceDistributionHistogram = ({
             <ChartContainer>
               <ChartSvg>
                 <AxisHeightLinear />
-                {/* <AxisWidthHistogram /> */}
                 <HistogramMinMaxValues />
                 <AxisWidthHistogramDomain />
                 <AnnotationX />

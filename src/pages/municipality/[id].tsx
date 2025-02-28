@@ -28,7 +28,9 @@ type Props =
       name: string;
       operators: { id: string; name: string }[];
     }
-  | { status: "notfound" };
+  | {
+      status: "notfound";
+    };
 
 export const getServerSideProps: GetServerSideProps<
   Props,

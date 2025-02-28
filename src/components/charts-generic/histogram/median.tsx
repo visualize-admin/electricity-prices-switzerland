@@ -7,14 +7,16 @@ import { useFormatCurrency } from "src/domain/helpers";
 import { getLocalizedLabel } from "src/domain/translation";
 
 export const HistogramMedian = ({ label }: { label: string }) => {
-  const { medianValue, bounds, xScale, yScale } =
-    useChartState() as HistogramState;
+  const {
+    medianValue: m,
+    bounds,
+    xScale,
+    yScale,
+  } = useChartState() as HistogramState;
   const { margins } = bounds;
   const { labelColor, domainColor, labelFontSize, fontFamily } =
     useChartTheme();
   const formatCurrency = useFormatCurrency();
-
-  const m = medianValue;
 
   return (
     <>

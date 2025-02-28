@@ -1,14 +1,13 @@
 import { rollup } from "d3-array";
 import { useMemo, useState } from "react";
 
+import { ComboboxMulti, ComboboxMultiProps } from "src/components/combobox";
 import {
+  useCantonsQuery,
   useMunicipalitiesQuery,
   useOperatorsQuery,
-  useCantonsQuery,
 } from "src/graphql/queries";
 import { useLocale } from "src/lib/use-locale";
-
-import { ComboboxMulti, ComboboxMultiProps } from "./combobox";
 
 export const MunicipalitiesCombobox = (
   comboboxMultiProps: Pick<
