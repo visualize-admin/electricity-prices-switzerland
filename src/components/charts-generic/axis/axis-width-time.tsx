@@ -1,11 +1,14 @@
 import { axisBottom, axisTop } from "d3-axis";
 import { select, Selection } from "d3-selection";
-import * as React from "react";
 import { useEffect, useRef } from "react";
 
-import { useFormatShortDateAuto } from "../../../domain/helpers";
-import { AreasState, LinesState, useChartState } from "../use-chart-state";
-import { useChartTheme } from "../use-chart-theme";
+import {
+  AreasState,
+  LinesState,
+  useChartState,
+} from "src/components/charts-generic/use-chart-state";
+import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
+import { useFormatShortDateAuto } from "src/domain/helpers";
 
 export const AxisTime = () => {
   const bottomRef = useRef<SVGGElement>(null);
@@ -33,7 +36,6 @@ export const AxisTime = () => {
         .ticks(ticks)
         .tickSize(0)
         .tickSizeInner(4)
-        // .ticks(timeYear.every(every))
         .tickFormat((x) => formatDateAuto(x as Date))
     );
     g.select(".domain").attr("stroke", "#ededed");
@@ -81,9 +83,7 @@ export const AxisTime = () => {
 
 export const AxisTimeDomain = () => {
   const ref = useRef<SVGGElement>(null);
-
   const { xScale, yScale, bounds } = useChartState() as LinesState | AreasState;
-
   const { domainColor } = useChartTheme();
 
   const mkAxis = (g: Selection<SVGGElement, unknown, null, undefined>) => {

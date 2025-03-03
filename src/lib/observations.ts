@@ -1,6 +1,6 @@
 import { Literal, NamedNode } from "rdf-js";
 
-import * as ns from "../rdf/namespace";
+import * as ns from "src/rdf/namespace";
 
 export type RawObservationValue = {
   value: Literal | NamedNode;
@@ -52,7 +52,7 @@ const parseRDFLiteral = (value: Literal): ObservationValue => {
 };
 
 /**
- * Parse observation values (values returnd from query.execute()) to native JS types
+ * Parse observation values (values returned from query.execute()) to native JS types
  *
  * @param observationValue
  */
@@ -72,7 +72,8 @@ export const parseObservation = (
   d: Record<string, Literal | NamedNode<string>>
 ) => {
   const parsed: { [k: string]: string | number | boolean } = {};
-  const electricityPriceDimensionPrefix = ns.electricitypriceDimension().value;
+  const electricityPriceDimensionPrefix = ns.electricityPriceDimension().value;
+
   for (const [k, v] of Object.entries(d)) {
     const key = k.replace(electricityPriceDimensionPrefix, "");
 
@@ -83,5 +84,6 @@ export const parseObservation = (
         ? ns.stripNamespaceFromIri({ iri: parsedValue })
         : parsedValue;
   }
+
   return parsed;
 };

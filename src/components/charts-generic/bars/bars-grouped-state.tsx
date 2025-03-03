@@ -1,17 +1,22 @@
 import { ascending, descending } from "d3-array";
 import { scaleBand, scaleLinear, scaleOrdinal } from "d3-scale";
-import * as React from "react";
 import { ReactNode, useCallback } from "react";
 
+import {
+  BAR_HEIGHT,
+  BOTTOM_MARGIN_OFFSET,
+} from "src/components/charts-generic/constants";
+import {
+  ChartContext,
+  ChartProps,
+  GroupedBarsState,
+} from "src/components/charts-generic/use-chart-state";
+import { InteractionProvider } from "src/components/charts-generic/use-interaction";
+import { Observer, useWidth } from "src/components/charts-generic/use-width";
+import { BarFields } from "src/domain/config-types";
+import { GenericObservation } from "src/domain/data";
+import { getOpacityRanges, getPalette } from "src/domain/helpers";
 import { sortByIndex } from "src/lib/array";
-
-import { BarFields } from "../../../domain/config-types";
-import { GenericObservation } from "../../../domain/data";
-import { getOpacityRanges, getPalette } from "../../../domain/helpers";
-import { BAR_HEIGHT, BOTTOM_MARGIN_OFFSET } from "../constants";
-import { ChartContext, ChartProps, GroupedBarsState } from "../use-chart-state";
-import { InteractionProvider } from "../use-interaction";
-import { Observer, useWidth } from "../use-width";
 
 const useGroupedBarsState = ({
   data,
@@ -54,7 +59,6 @@ const useGroupedBarsState = ({
     [fields.style]
   );
 
-  // segments ordered
   const segments = data
     .sort(
       (a, b) =>
@@ -78,7 +82,6 @@ const useGroupedBarsState = ({
     .domain(colorDomain)
     .range(getPalette(fields.segment?.palette));
 
-  // opacity
   const opacityDomain = fields.style?.opacityDomain
     ? fields.style?.opacityDomain
     : [];
@@ -87,7 +90,6 @@ const useGroupedBarsState = ({
     .domain(opacityDomain.sort((a, b) => descending(a, b)))
     .range(getOpacityRanges(opacityDomain.length));
 
-  // x
   const xScale = scaleLinear().domain(fields.x.domain).nice();
 
   const chartHeight = BAR_HEIGHT * segments.length;

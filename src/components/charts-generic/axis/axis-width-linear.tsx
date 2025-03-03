@@ -1,17 +1,31 @@
 import { t } from "@lingui/macro";
 import { axisBottom, axisTop } from "d3-axis";
 import { select, Selection } from "d3-selection";
-import * as React from "react";
 import { useEffect, useRef } from "react";
 
+import {
+  RangePlotState,
+  useChartState,
+} from "src/components/charts-generic/use-chart-state";
+import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
+import { useFormatCurrency } from "src/domain/helpers";
 import { estimateTextWidth } from "src/lib/estimate-text-width";
 
-import { useFormatCurrency } from "../../../domain/helpers";
-import { RangePlotState, useChartState } from "../use-chart-state";
-import { useChartTheme } from "../use-chart-theme";
-
-export const AxisWidthLinear = ({ position }: { position: "top" | "bottom" }) =>
-  position === "bottom" ? <AxisWidthLinearBottom /> : <AxisWidthLinearTop />;
+export const AxisWidthLinear = ({
+  position,
+}: {
+  position: "top" | "bottom";
+}) => {
+  switch (position) {
+    case "top":
+      return <AxisWidthLinearTop />;
+    case "bottom":
+      return <AxisWidthLinearBottom />;
+    default:
+      const _exhaustiveCheck: never = position;
+      return _exhaustiveCheck;
+  }
+};
 
 export const AxisWidthLinearBottom = () => {
   const formatCurrency = useFormatCurrency();
@@ -53,25 +67,11 @@ export const AxisWidthLinearBottom = () => {
   });
 
   return (
-    <>
-      {/*
-      <g transform={`translate(${margins.left}, ${margins.top})`}>
-     <text
-          x={chartWidth}
-          y={chartHeight + margins.bottom}
-          dy={-labelFontSize}
-          fontSize={labelFontSize}
-          textAnchor="end"
-        >
-          {xAxisLabel}
-        </text>
-      </g> */}
-      <g
-        ref={xAxisRef}
-        key="x-axis-linear"
-        transform={`translate(${margins.left}, ${chartHeight + margins.top})`}
-      />
-    </>
+    <g
+      ref={xAxisRef}
+      key="x-axis-linear"
+      transform={`translate(${margins.left}, ${chartHeight + margins.top})`}
+    />
   );
 };
 

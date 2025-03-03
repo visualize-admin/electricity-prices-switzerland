@@ -1,26 +1,28 @@
-import { Typography, Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { interpolateHsl } from "d3";
 import { ascending, histogram, max, min } from "d3-array";
 import { scaleLinear } from "d3-scale";
-import * as React from "react";
 import { ReactNode, useCallback } from "react";
 
-import { estimateTextWidth } from "src/lib/estimate-text-width";
-
-import { HistogramFields } from "../../../domain/config-types";
-import { GenericObservation } from "../../../domain/data";
+import { LEFT_MARGIN_OFFSET } from "src/components/charts-generic/constants";
+import { Tooltip } from "src/components/charts-generic/interaction/tooltip";
+import { LegendSymbol } from "src/components/charts-generic/legends/color";
+import {
+  ChartContext,
+  ChartProps,
+  HistogramState,
+} from "src/components/charts-generic/use-chart-state";
+import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
+import { InteractionProvider } from "src/components/charts-generic/use-interaction";
+import { Observer, useWidth } from "src/components/charts-generic/use-width";
+import { HistogramFields } from "src/domain/config-types";
+import { GenericObservation } from "src/domain/data";
 import {
   getAnnotationSpaces,
   mkNumber,
   useFormatCurrency,
-} from "../../../domain/helpers";
-import { LEFT_MARGIN_OFFSET } from "../constants";
-import { Tooltip } from "../interaction/tooltip";
-import { LegendSymbol } from "../legends/color";
-import { ChartContext, ChartProps, HistogramState } from "../use-chart-state";
-import { useChartTheme } from "../use-chart-theme";
-import { InteractionProvider } from "../use-interaction";
-import { Observer, useWidth } from "../use-width";
+} from "src/domain/helpers";
+import { estimateTextWidth } from "src/lib/estimate-text-width";
 
 export const ANNOTATION_DOT_RADIUS = 2.5;
 export const ANNOTATION_LABEL_HEIGHT = 20;
@@ -42,8 +44,7 @@ const useHistogramState = ({
 }): HistogramState => {
   const width = useWidth();
   const formatCurrency = useFormatCurrency();
-
-  const { annotationfontSize, palette } = useChartTheme();
+  const { annotationFontSize, palette } = useChartTheme();
 
   const getX = useCallback(
     (d: GenericObservation) => d[fields.x.componentIri] as number,
@@ -79,7 +80,6 @@ const useHistogramState = ({
     .value((x) => getX(x))
     .domain([mkNumber(minValue), mkNumber(maxValue)])
     .thresholds(xScale.ticks(25))(data);
-  // .thresholds(thresholdSturges)(data);
 
   const yScale = scaleLinear().domain([0, max(bins, (d) => d.length) || 100]);
 
@@ -92,7 +92,6 @@ const useHistogramState = ({
       )
     )
   );
-  // const piecewiseColor = piecewise(interpolateHsl, palette.diverging);
 
   const margins = {
     top: 70,
@@ -111,11 +110,11 @@ const useHistogramState = ({
         getLabel,
         format: formatCurrency,
         width,
-        annotationfontSize,
+        annotationFontSize,
       })
     : [{ height: 0, nbOfLines: 1 }];
 
-  const getAnnotationInfo = (d: typeof bins[number]): Tooltip => {
+  const getAnnotationInfo = (d: (typeof bins)[number]): Tooltip => {
     return {
       datum: undefined,
       placement: { x: "center", y: "top" },
@@ -154,7 +153,6 @@ const useHistogramState = ({
   xScale.range([0, chartWidth]);
   yScale.range([chartHeight, annotationSpace || 0]);
 
-  // Annotations
   const annotations =
     annotation &&
     annotation

@@ -1,10 +1,11 @@
 import { Box, Typography } from "@mui/material";
 
-import { LegendItem, LegendSymbol } from "../legends/color";
+import { TooltipValue } from "src/components/charts-generic/interaction/tooltip";
+import {
+  LegendItem,
+  LegendSymbol,
+} from "src/components/charts-generic/legends/color";
 
-import { TooltipValue } from "./tooltip";
-
-// Generic
 export const TooltipSingle = ({
   xValue,
   segment,
@@ -60,7 +61,6 @@ export const TooltipMultiple = ({
   );
 };
 
-// Chart Specific
 export const TooltipHistogram = ({
   firstLine,
   secondLine,

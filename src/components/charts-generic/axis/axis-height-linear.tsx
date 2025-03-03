@@ -1,17 +1,16 @@
 import { axisLeft } from "d3-axis";
 import { select, Selection } from "d3-selection";
-import * as React from "react";
 import { useEffect, useRef } from "react";
 
-import { useFormatCurrency, useFormatNumber } from "../../../domain/helpers";
-import { getLocalizedLabel } from "../../../domain/translation";
 import {
   AreasState,
   ColumnsState,
   LinesState,
   useChartState,
-} from "../use-chart-state";
-import { useChartTheme } from "../use-chart-theme";
+} from "src/components/charts-generic/use-chart-state";
+import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
+import { useFormatCurrency, useFormatNumber } from "src/domain/helpers";
+import { getLocalizedLabel } from "src/domain/translation";
 
 const TICK_MIN_HEIGHT = 50;
 

@@ -6,14 +6,14 @@ import { useRouter } from "next/router";
 import Script from "next/script";
 import { useEffect, useState } from "react";
 
+import { analyticsPageView } from "src/domain/analytics";
 import { GraphqlProvider } from "src/graphql/context";
 import { LocaleProvider } from "src/lib/use-locale";
 import { useNProgress } from "src/lib/use-nprogress";
 import { i18n, parseLocaleString } from "src/locales/locales";
+import { fonts, theme } from "src/themes/elcom";
 
-import { analyticsPageView } from "../domain/analytics";
 import "src/styles/nprogress.css";
-import { fonts, theme } from "../themes/elcom";
 
 const useMatomo = () => {
   const [matomoId, setMatomoId] = useState<string | undefined>(undefined);

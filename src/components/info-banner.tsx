@@ -1,9 +1,8 @@
 import { Box } from "@mui/material";
 
+import { HintBlue } from "src/components/hint";
 import { useWikiContentQuery } from "src/graphql/queries";
 import { useLocale } from "src/lib/use-locale";
-
-import { HintBlue } from "./hint";
 
 export const InfoBanner = ({
   bypassBannerEnabled,
@@ -25,6 +24,7 @@ export const InfoBanner = ({
   }
 
   const wikiContent = contentQuery.data?.wikiContent;
+
   if (!wikiContent.info.bannerEnabled && !bypassBannerEnabled) {
     return null;
   }

@@ -3,43 +3,38 @@ import { GraphQLError, GraphQLResolveInfo } from "graphql";
 import { parseResolveInfo, ResolveTree } from "graphql-parse-resolve-info";
 import micromark from "micromark";
 
-import { defaultLocale } from "src/locales/locales";
-
-import { searchGeverDocuments } from "../domain/gever";
-import { getWikiPage } from "../domain/gitlab-wiki-api";
-import {
-  getDimensionValuesAndLabels,
-  getObservations,
-  getOperatorDocuments,
-  getObservationsCube,
-  getCantonMedianCube,
-  getView,
-  getSwissMedianCube,
-} from "../rdf/queries";
-import { fetchOperatorInfo, search } from "../rdf/search-queries";
-
+import { searchGeverDocuments } from "src/domain/gever";
+import { getWikiPage } from "src/domain/gitlab-wiki-api";
 import {
   ResolvedCantonMedianObservation,
   ResolvedOperatorObservation,
   ResolvedSwissMedianObservation,
-} from "./resolver-mapped-types";
+} from "src/graphql/resolver-mapped-types";
 import {
   CantonMedianObservationResolvers,
   MunicipalityResolvers,
+  ObservationKind,
   ObservationResolvers,
   OperatorObservationResolvers,
   OperatorResolvers,
   QueryResolvers,
   Resolvers,
-  ObservationKind,
   SwissMedianObservationResolvers,
-} from "./resolver-types";
-
+} from "src/graphql/resolver-types";
+import { defaultLocale } from "src/locales/locales";
+import {
+  getCantonMedianCube,
+  getDimensionValuesAndLabels,
+  getObservations,
+  getObservationsCube,
+  getOperatorDocuments,
+  getSwissMedianCube,
+  getView,
+} from "src/rdf/queries";
+import { fetchOperatorInfo, search } from "src/rdf/search-queries";
 
 const gfmSyntax = require("micromark-extension-gfm");
 const gfmHtml = require("micromark-extension-gfm/html");
-
-
 
 const expectedCubeDimensions = [
   "https://energy.ld.admin.ch/elcom/electricityprice/dimension/category",

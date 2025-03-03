@@ -1,14 +1,11 @@
-import Document, { Html, Head, Main, NextScript } from "next/document";
+import Document, { Head, Html, Main, NextScript } from "next/document";
 
 import buildEnv from "src/env/build";
 
 class MyDocument extends Document {
   render() {
     return (
-      <Html
-        data-app-version={`${buildEnv.VERSION}`}
-        // lang={this.props.locale}
-      >
+      <Html data-app-version={`${buildEnv.VERSION}`}>
         <Head></Head>
         <body>
           <Main />

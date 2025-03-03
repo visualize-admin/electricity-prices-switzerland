@@ -1,6 +1,5 @@
 import * as t from "io-ts";
 
-// Chart Config
 const SortingOrder = t.union([t.literal("asc"), t.literal("desc")]);
 export type SortingOrder = t.TypeOf<typeof SortingOrder>;
 
@@ -45,8 +44,6 @@ const SegmentField = t.intersection([
 
 export type SegmentField = t.TypeOf<typeof SegmentField>;
 export type SegmentFields = Record<string, SegmentField | undefined>;
-
-// ----
 
 const BarFields = t.intersection([
   t.type({

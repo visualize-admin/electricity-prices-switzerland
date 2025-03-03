@@ -1,9 +1,10 @@
 import { Box } from "@mui/material";
+import { ReactNode } from "react";
 
 type Props = {
-  main: React.ReactNode;
-  selector: React.ReactNode;
-  aside: React.ReactNode;
+  main: ReactNode;
+  selector: ReactNode;
+  aside: ReactNode;
 };
 
 export const DetailPageLayout = ({ main, selector, aside }: Props) => {

@@ -1,9 +1,12 @@
 import { useTheme } from "@mui/material";
 import * as React from "react";
 
-import { BAR_HEIGHT } from "../constants";
-import { BarsState, useChartState } from "../use-chart-state";
-import { useChartTheme } from "../use-chart-theme";
+import { BAR_HEIGHT } from "src/components/charts-generic/constants";
+import {
+  BarsState,
+  useChartState,
+} from "src/components/charts-generic/use-chart-state";
+import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
 
 export const Bars = () => {
   const { sortedData, bounds, getX, xScale, getY, yScale } =

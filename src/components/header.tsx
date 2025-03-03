@@ -1,11 +1,10 @@
 import { Trans } from "@lingui/macro";
 import { Box, Typography } from "@mui/material";
 
+import { LanguageMenu } from "src/components/language-menu";
+import { HomeLink } from "src/components/links";
+import { LogoDesktop, LogoMobile } from "src/components/logo";
 import buildEnv from "src/env/build";
-
-import { LanguageMenu } from "./language-menu";
-import { HomeLink } from "./links";
-import { LogoDesktop, LogoMobile } from "./logo";
 
 export const Header = ({
   pageType = "app",

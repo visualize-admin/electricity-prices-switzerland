@@ -1,5 +1,5 @@
 /**
- * The docuemnt reference coming from GEVER must be kept secret so
+ * The document reference coming from GEVER must be kept secret so
  * we encrypt it before passing it to the client.
  * We decrypt it when the we receive the download request for a
  * document.

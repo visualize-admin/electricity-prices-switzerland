@@ -1,11 +1,13 @@
 import { t } from "@lingui/macro";
-import { min, max } from "d3-array";
-import * as React from "react";
+import { max, min } from "d3-array";
 
-import { useFormatCurrency } from "../../../domain/helpers";
-import { getLocalizedLabel } from "../../../domain/translation";
-import { HistogramState, useChartState } from "../use-chart-state";
-import { useChartTheme } from "../use-chart-theme";
+import {
+  HistogramState,
+  useChartState,
+} from "src/components/charts-generic/use-chart-state";
+import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
+import { useFormatCurrency } from "src/domain/helpers";
+import { getLocalizedLabel } from "src/domain/translation";
 
 export const HistogramMinMaxValues = () => {
   const { data, bounds, getX, xScale } = useChartState() as HistogramState;

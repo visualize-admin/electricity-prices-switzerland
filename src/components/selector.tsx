@@ -1,13 +1,16 @@
 import { Trans, t } from "@lingui/macro";
-import { Typography, Box } from "@mui/material";
-import { useMemo } from "react";
+import { Box, Typography } from "@mui/material";
+import { ComponentProps, useMemo } from "react";
 
+import { Combobox } from "src/components/combobox";
+import {
+  categories,
+  periods,
+  priceComponents,
+  products,
+} from "src/domain/data";
+import { getLocalizedLabel } from "src/domain/translation";
 import { useQueryStateSingle } from "src/lib/use-query-state";
-
-import { categories, periods, priceComponents, products } from "../domain/data";
-import { getLocalizedLabel } from "../domain/translation";
-
-import { Combobox } from "./../components/combobox";
 
 export const Selector = () => {
   const [queryState, setQueryState] = useQueryStateSingle();
@@ -18,8 +21,9 @@ export const Selector = () => {
       ...categories.filter((x) => x.startsWith("H")),
       { type: "header", title: getItemLabel("C-group") },
       ...categories.filter((x) => x.startsWith("C")),
-    ] as React.ComponentProps<typeof Combobox>["items"];
+    ] as ComponentProps<typeof Combobox>["items"];
   }, []);
+
   return (
     <Box
       component="fieldset"

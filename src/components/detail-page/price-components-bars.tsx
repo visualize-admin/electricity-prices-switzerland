@@ -4,6 +4,33 @@ import { ascending, group, groups, max, min } from "d3-array";
 import * as React from "react";
 
 import {
+  BarsGrouped,
+  BarsGroupedAxis,
+  BarsGroupedLabels,
+} from "src/components/charts-generic/bars/bars-grouped";
+import { GroupedBarsChart } from "src/components/charts-generic/bars/bars-grouped-state";
+import {
+  ChartContainer,
+  ChartSvg,
+} from "src/components/charts-generic/containers";
+import { Combobox } from "src/components/combobox";
+import { Card } from "src/components/detail-page/card";
+import { Download } from "src/components/detail-page/download-image";
+import { FilterSetDescription } from "src/components/detail-page/filter-set-description";
+import { WithClassName } from "src/components/detail-page/with-classname";
+import { Loading, NoDataHint } from "src/components/hint";
+import { InfoDialogButton } from "src/components/info-dialog";
+import { RadioTabs } from "src/components/radio-tabs";
+import { Stack } from "src/components/stack";
+import {
+  Entity,
+  GenericObservation,
+  ObservationValue,
+  priceComponents,
+} from "src/domain/data";
+import { mkNumber, pivot_longer } from "src/domain/helpers";
+import { getLocalizedLabel } from "src/domain/translation";
+import {
   ObservationKind,
   PriceComponent,
   useObservationsWithAllPriceComponentsQuery,
@@ -11,32 +38,6 @@ import {
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { useLocale } from "src/lib/use-locale";
 import { useQueryState } from "src/lib/use-query-state";
-
-import {
-  Entity,
-  GenericObservation,
-  ObservationValue,
-  priceComponents,
-} from "../../domain/data";
-import { mkNumber, pivot_longer } from "../../domain/helpers";
-import { getLocalizedLabel } from "../../domain/translation";
-import {
-  BarsGrouped,
-  BarsGroupedAxis,
-  BarsGroupedLabels,
-} from "../charts-generic/bars/bars-grouped";
-import { GroupedBarsChart } from "../charts-generic/bars/bars-grouped-state";
-import { ChartContainer, ChartSvg } from "../charts-generic/containers";
-import { Combobox } from "../combobox";
-import { Loading, NoDataHint } from "../hint";
-import { InfoDialogButton } from "../info-dialog";
-import { RadioTabs } from "../radio-tabs";
-import Stack from "../stack";
-
-import { Card } from "./card";
-import { Download } from "./download-image";
-import { FilterSetDescription } from "./filter-set-description";
-import { WithClassName } from "./with-classname";
 
 const DOWNLOAD_ID: Download = "components";
 export const EXPANDED_TAG = "expanded";
@@ -62,7 +63,6 @@ export const PriceComponentsBarChart = ({
     },
     setQueryState,
   ] = useQueryState();
-  // const [view, setView] = useState("collapsed");
   const comparisonIds =
     entity === "municipality"
       ? municipality
@@ -145,8 +145,6 @@ export const PriceComponentsBarChart = ({
         </Stack>
       }
       downloadId={DOWNLOAD_ID}
-      id={id}
-      entity={entity}
     >
       {!download && entity !== "canton" && (
         <>
@@ -185,7 +183,6 @@ export const PriceComponentsBarChart = ({
               getItemLabel={getItemLabel}
               selectedItem={view[0]}
               setSelectedItem={(view) => setQueryState({ view: [view] })}
-              // setSelectedItem={setView}
               showLabel={false}
             />
           </Box>
@@ -301,7 +298,7 @@ const prepareObservations = ({
       ObservationValue,
       [ObservationValue, Record<string, ObservationValue>[]][]
     ][]
-  ][]; // The output of d3 groups with 3 levels.
+  ][];
   priceComponent: PriceComponent;
   entity: Entity;
   view: string;

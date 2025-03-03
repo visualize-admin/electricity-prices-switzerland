@@ -1,11 +1,10 @@
-import { Box, Typography, TypographyProps, BoxProps } from "@mui/material";
+import { Box, BoxProps, Typography, TypographyProps } from "@mui/material";
 import { FormEvent, useCallback, useMemo, useState } from "react";
 import { UseQueryState } from "urql";
 
+import { LoadingIconInline } from "src/components/hint";
 import * as Queries from "src/graphql/queries";
-
-import { LoadingIconInline } from "../../components/hint";
-import { DebugDownloadGetResponse } from "../api/debug-download";
+import { DebugDownloadGetResponse } from "src/pages/api/debug-download";
 
 const IndicatorFail = () => (
   <Box
@@ -23,6 +22,7 @@ const IndicatorFail = () => (
     FAIL
   </Box>
 );
+
 const IndicatorSuccess = () => (
   <Box
     sx={{
@@ -204,6 +204,7 @@ const CantonMedianStatus = () => {
       },
     },
   });
+
   return (
     <Status
       title="Canton Median Observations (All Price Components)"
@@ -410,7 +411,7 @@ DESCRIBE <https://ld.admin.ch/municipality/${formData.municipalityId}>
           <details>{data && data ? <pre>{data}</pre> : null}</details>
           {query.error ? (
             <div>
-              Erreur:{" "}
+              Error:{" "}
               {query.error instanceof Error
                 ? query.error.message
                 : `${query.error}`}

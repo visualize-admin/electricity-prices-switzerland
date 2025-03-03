@@ -11,11 +11,12 @@ export const useChartTheme = () => {
   const axisLabelColor = theme.palette.grey[800];
   const labelFontSize = 12;
   const fontFamily = theme.typography.fontFamily as string;
-  const annotationfontSize = 12;
+  const annotationFontSize = 12;
   const annotationColor = theme.palette.grey[900];
   const annotationLineColor = theme.palette.grey[500];
   const annotationLabelUnderlineColor = theme.palette.grey[700];
   const markBorderColor = theme.palette.grey[100];
+
   return {
     axisLabelFontSize,
     axisLabelColor,
@@ -26,7 +27,7 @@ export const useChartTheme = () => {
     gridColor,
     legendLabelColor,
     fontFamily,
-    annotationfontSize,
+    annotationFontSize,
     annotationColor,
     annotationLineColor,
     annotationLabelUnderlineColor,

@@ -9,29 +9,31 @@ import {
   scaleBand,
   scaleLinear,
 } from "d3";
-import * as React from "react";
 import { ReactNode, useCallback } from "react";
 
-import { minMaxBy } from "src/lib/array";
-import { estimateTextWidth } from "src/lib/estimate-text-width";
-
+import { LEFT_MARGIN_OFFSET } from "src/components/charts-generic/constants";
+import { Tooltip } from "src/components/charts-generic/interaction/tooltip";
+import {
+  ChartContext,
+  ChartProps,
+  RangePlotState,
+} from "src/components/charts-generic/use-chart-state";
+import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
+import { InteractionProvider } from "src/components/charts-generic/use-interaction";
+import { Observer, useWidth } from "src/components/charts-generic/use-width";
 import {
   RangePlotFields,
   SortingOrder,
   SortingType,
-} from "../../../domain/config-types";
-import { GenericObservation } from "../../../domain/data";
+} from "src/domain/config-types";
+import { GenericObservation } from "src/domain/data";
 import {
   getAnnotationSpaces,
   mkNumber,
   useFormatCurrency,
-} from "../../../domain/helpers";
-import { LEFT_MARGIN_OFFSET } from "../constants";
-import { Tooltip } from "../interaction/tooltip";
-import { ChartContext, ChartProps, RangePlotState } from "../use-chart-state";
-import { useChartTheme } from "../use-chart-theme";
-import { InteractionProvider } from "../use-interaction";
-import { Observer, useWidth } from "../use-width";
+} from "src/domain/helpers";
+import { minMaxBy } from "src/lib/array";
+import { estimateTextWidth } from "src/lib/estimate-text-width";
 
 export const DOT_RADIUS = 8;
 export const OUTER_PADDING = 0.2;
@@ -45,19 +47,12 @@ const useRangePlotState = ({
 }): RangePlotState => {
   const width = useWidth();
   const formatCurrency = useFormatCurrency();
-  const { annotationfontSize, palette } = useChartTheme();
+  const { annotationFontSize, palette } = useChartTheme();
 
   const getX = useCallback(
     (d: GenericObservation) => d[fields.x.componentIri] as number,
     [fields.x.componentIri]
   );
-  // const getY = useCallback(
-  //   (d: Observation) =>
-  //     fields.y && fields.y.componentIri
-  //       ? (d[fields.y.componentIri] as string)
-  //       : undefined,
-  //   [fields.y]
-  // );
   const getY = useCallback(
     (d: GenericObservation) => d[fields.y.componentIri] as string,
     [fields.y.componentIri]
@@ -73,10 +68,9 @@ const useRangePlotState = ({
   const xDomain = [0, mkNumber(maxValue)];
   const xScale = scaleLinear().domain(xDomain).nice();
 
-  // Sort data
   const sortingType = fields.y.sorting?.sortingType;
   const sortingOrder = fields.y.sorting?.sortingOrder;
-  // Default sorting order by ascending median
+
   const yDomain =
     sortingType && sortingOrder
       ? sortDomain({ sortingType, sortingOrder, data, getX, getY })
@@ -121,7 +115,7 @@ const useRangePlotState = ({
         getLabel,
         format: formatCurrency,
         width,
-        annotationfontSize,
+        annotationFontSize,
       })
     : [{ height: 0, nbOfLines: 1 }];
 
@@ -151,7 +145,6 @@ const useRangePlotState = ({
   xScale.range([0, chartWidth]);
   yScale.range([0, chartHeight]);
 
-  // Group
   const rangeGroups = [...group(data, getY)];
 
   const getAnnotationInfo = (d: GenericObservation): Tooltip => {
@@ -161,6 +154,7 @@ const useRangePlotState = ({
     );
 
     const yAnchor = yScale(getY(d));
+
     return {
       xAnchor: xScale(getX(tooltipValues[1])) + 10,
       yAnchor: yAnchor ? yAnchor + margins.top + DOT_RADIUS : 0,
@@ -179,7 +173,6 @@ const useRangePlotState = ({
     };
   };
 
-  // Annotations
   const annotations =
     annotation &&
     annotation
@@ -229,6 +222,7 @@ const RangePlotProvider = ({
     measures,
     medianValue,
   });
+
   return (
     <ChartContext.Provider value={state}>{children}</ChartContext.Provider>
   );
@@ -280,7 +274,6 @@ const sortDomain = ({
       )
       .map((d) => d[0]);
   } else {
-    // by median
     return [
       ...rollup(
         data,

@@ -1,18 +1,16 @@
-import { Box } from "@mui/material";
-import { useTheme } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
 import React, { ReactNode, forwardRef } from "react";
 
-import { Margins } from "../use-width";
-
 import {
-  TRIANGLE_SIZE,
   TOOLTIP_OFFSET,
+  TRIANGLE_SIZE,
   TooltipPlacement,
-  Xplacement,
-  Yplacement,
-} from "./tooltip";
+  XPlacement,
+  YPlacement,
+} from "src/components/charts-generic/interaction/tooltip";
+import { Margins } from "src/components/charts-generic/use-width";
 
-export interface TooltipBoxProps {
+type TooltipBoxProps = {
   x: number | undefined;
   y: number | undefined;
   placement: TooltipPlacement;
@@ -20,12 +18,13 @@ export interface TooltipBoxProps {
   children: ReactNode;
   style?: React.HTMLAttributes<HTMLDivElement>["style"];
   interactive?: boolean;
-}
+};
 
 export const TooltipBox = forwardRef<HTMLDivElement, TooltipBoxProps>(
   ({ x, y, placement, margins, children, style, interactive = false }, ref) => {
     const triangle = mkTriangle(placement);
     const theme = useTheme();
+
     return (
       <Box
         ref={ref}
@@ -84,6 +83,7 @@ export const TooltipBoxWithoutChartState = ({
 }: TooltipBoxProps) => {
   const triangle = mkTriangle(placement);
   const theme = useTheme();
+
   return (
     <Box
       style={{
@@ -130,21 +130,6 @@ export const TooltipBoxWithoutChartState = ({
   );
 };
 
-// PLACEMENT ---------------------------------------------------------------------------------------------------
-export interface TooltipAnchorAndPlacementProps {
-  xRef: number;
-  xOffset: number;
-  yRef: number;
-  chartWidth: number;
-  chartHeight: number;
-}
-export interface TooltipAnchorAndPlacement {
-  xAnchor: number;
-  yAnchor: number;
-  xPlacement: Xplacement;
-  yPlacement: Yplacement;
-}
-
 // tooltip anchor position
 const mxYOffset = (yAnchor: number, p: TooltipPlacement) =>
   p.y === "top"
@@ -157,9 +142,9 @@ const mxYOffset = (yAnchor: number, p: TooltipPlacement) =>
 const mkTranslation = (p: TooltipPlacement) =>
   `translate3d(${mkXTranslation(p.x, p.y)}, ${mkYTranslation(p.y)}, 0)`;
 
-type Xtranslation = "-100%" | "-50%" | 0 | string;
+type XTranslation = "-100%" | "-50%" | 0 | string;
 type YTranslation = "-100%" | "-50%" | 0;
-const mkXTranslation = (xP: Xplacement, yP: Yplacement): Xtranslation => {
+const mkXTranslation = (xP: XPlacement, yP: YPlacement): XTranslation => {
   if (yP !== "middle") {
     return xP === "left" ? "-100%" : xP === "center" ? "-50%" : 0;
   } else {
@@ -170,7 +155,7 @@ const mkXTranslation = (xP: Xplacement, yP: Yplacement): Xtranslation => {
       : `${TRIANGLE_SIZE + TOOLTIP_OFFSET}px`;
   }
 };
-const mkYTranslation = (yP: Yplacement): YTranslation =>
+const mkYTranslation = (yP: YPlacement): YTranslation =>
   yP === "top" ? "-100%" : yP === "middle" ? "-50%" : 0;
 
 // triangle position
@@ -253,7 +238,7 @@ const mkTriangle = (p: TooltipPlacement) => {
     case p.x === "left" && p.y === "middle":
       return {
         left: "100%",
-        right: "unset", // -TRIANGLE_SIZE, //`calc(100% + ${TRIANGLE_SIZE * 2}px)`,
+        right: "unset",
         bottom: "unset",
         top: `calc(50% - ${TRIANGLE_SIZE}px)`,
         borderWidth: `${TRIANGLE_SIZE}px 0 ${TRIANGLE_SIZE}px ${TRIANGLE_SIZE}px`,
@@ -264,7 +249,7 @@ const mkTriangle = (p: TooltipPlacement) => {
       };
     case p.x === "right" && p.y === "middle":
       return {
-        left: `${-TRIANGLE_SIZE}px`, //`calc(100% + ${TRIANGLE_SIZE * 2}px)`,
+        left: `${-TRIANGLE_SIZE}px`,
         right: "unset",
         bottom: "unset",
         top: `calc(50% - ${TRIANGLE_SIZE}px)`,
@@ -276,7 +261,7 @@ const mkTriangle = (p: TooltipPlacement) => {
       };
     case p.x === "center" && p.y === "middle":
       return {
-        left: `${-TRIANGLE_SIZE}px`, //`calc(100% + ${TRIANGLE_SIZE * 2}px)`,
+        left: `${-TRIANGLE_SIZE}px`,
         right: "unset",
         bottom: "unset",
         top: `calc(50% - ${TRIANGLE_SIZE}px)`,
@@ -286,7 +271,6 @@ const mkTriangle = (p: TooltipPlacement) => {
         borderBottomColor: `transparent`,
         borderLeftColor: `transparent`,
       };
-
     default:
       return {
         left: `calc(100% - ${TRIANGLE_SIZE * 2}px)`,

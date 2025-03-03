@@ -1,12 +1,17 @@
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 
-import { GenericObservation } from "../../../domain/data";
-import { LinesState } from "../lines/lines-state";
-import { HistogramState, useChartState } from "../use-chart-state";
-import { useInteraction } from "../use-interaction";
-
-import { TooltipBox } from "./tooltip-box";
-import { TooltipMultiple, TooltipSingle } from "./tooltip-content";
+import { TooltipBox } from "src/components/charts-generic/interaction/tooltip-box";
+import {
+  TooltipMultiple,
+  TooltipSingle,
+} from "src/components/charts-generic/interaction/tooltip-content";
+import { LinesState } from "src/components/charts-generic/lines/lines-state";
+import {
+  HistogramState,
+  useChartState,
+} from "src/components/charts-generic/use-chart-state";
+import { useInteraction } from "src/components/charts-generic/use-interaction";
+import { GenericObservation } from "src/domain/data";
 
 export const TRIANGLE_SIZE = 8;
 export const TOOLTIP_OFFSET = 4;
@@ -14,23 +19,22 @@ export const TOOLTIP_OFFSET = 4;
 export const Tooltip = ({ type = "single" }: { type: TooltipType }) => {
   const [state] = useInteraction();
   const { visible, mouse, d } = state.interaction;
+
   return (
     <>{visible && d && <TooltipInner d={d} mouse={mouse} type={type} />}</>
   );
 };
 
-export type Xplacement = "left" | "center" | "right";
-export type Yplacement = "top" | "middle" | "bottom";
-export type TooltipPlacement = { x: Xplacement; y: Yplacement };
-
-export type TooltipType = "single" | "multiple" | "histogram";
-export interface TooltipValue {
+export type XPlacement = "left" | "center" | "right";
+export type YPlacement = "top" | "middle" | "bottom";
+export type TooltipPlacement = { x: XPlacement; y: YPlacement };
+type TooltipType = "single" | "multiple" | "histogram";
+export type TooltipValue = {
   label?: string;
   value: string;
   color?: string;
   yPos?: number;
-}
-
+};
 type TooltipCommon = {
   xAnchor: number;
   yAnchor: number;

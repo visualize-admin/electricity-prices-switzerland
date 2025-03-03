@@ -4,10 +4,9 @@ import path from "path";
 
 import fs from "fs-extra";
 
+import { getWikiPage as getStaticWikiPage } from "src/domain/gitlab-wiki-static";
 import serverEnv from "src/env/server";
 import { setupUndiciHttpAgent } from "src/pages/api/http-agent";
-
-import { getWikiPage as getStaticWikiPage } from "./gitlab-wiki-static";
 
 type WikiPage = {
   format: string;
@@ -32,7 +31,7 @@ const fetchWithTimeout = async (
   const { timeout } = options;
 
   let id;
-  const aborter = new Promise((resolve, reject) =>
+  const aborter = new Promise((_, reject) =>
     timeout !== undefined
       ? (id = setTimeout(() => reject(new Error("Timeout")), timeout))
       : undefined

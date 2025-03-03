@@ -1,12 +1,14 @@
-import { min, max } from "d3-array";
+import { max, min } from "d3-array";
 import { axisBottom } from "d3-axis";
 import { select, Selection } from "d3-selection";
-import * as React from "react";
 import { useEffect, useRef } from "react";
 
-import { useFormatCurrency } from "../../../domain/helpers";
-import { HistogramState, useChartState } from "../use-chart-state";
-import { useChartTheme } from "../use-chart-theme";
+import {
+  HistogramState,
+  useChartState,
+} from "src/components/charts-generic/use-chart-state";
+import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
+import { useFormatCurrency } from "src/domain/helpers";
 
 export const AxisWidthHistogram = () => {
   const formatCurrency = useFormatCurrency();
@@ -18,20 +20,13 @@ export const AxisWidthHistogram = () => {
   const xAxisRef = useRef<SVGGElement>(null);
 
   const mkAxis = (g: Selection<SVGGElement, unknown, null, undefined>) => {
-    // const tickValues = xScale.ticks(ticks);
     const minValue = min(data, (d) => getX(d)) || 0;
     const maxValue = max(data, (d) => getX(d)) || 10000;
-    const tickValues = [
-      minValue,
-      //...colors.domain(),
-      maxValue,
-    ];
+    const tickValues = [minValue, maxValue];
     g.call(
       axisBottom(xScale)
         .tickValues(tickValues)
-        // .tickValues(tickValues)
         .tickSizeInner(16)
-        // .tickSizeInner(-chartHeight)
         .tickSizeOuter(xAxisLabel ? -chartHeight : 0)
         .tickFormat(formatCurrency)
     );

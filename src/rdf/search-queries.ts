@@ -21,7 +21,7 @@ const vars = {
 };
 
 const graphs = {
-  electricityprice: rdf.namedNode(
+  electricityPrice: rdf.namedNode(
     "https://lindas.admin.ch/elcom/electricityprice"
   ),
 };
@@ -30,7 +30,7 @@ const searchQueryBuilders = {
   zipCode: ({ query }: { query: string }) => {
     return sparql`{
     SELECT DISTINCT ("municipality" AS ${vars.type}) (?municipality AS ${vars.iri}) (?municipalityLabel AS ${vars.name})
-      WHERE { GRAPH ${graphs.electricityprice} {
+      WHERE { GRAPH ${graphs.electricityPrice} {
         ?offer a ${ns.schema.Offer} ;
           ${ns.schema.areaServed} ?municipality;
           ${ns.schema.postalCode} "${query}" .
@@ -54,7 +54,7 @@ const searchQueryBuilders = {
     operator: ({ query, limit }: { query: string; limit: number }) => {
       return sparql`{
       SELECT DISTINCT ("operator" AS ${vars.type}) (?operator AS ${vars.iri}) (?operatorLabel AS ${vars.name}) WHERE {
-        GRAPH ${graphs.electricityprice} {
+        GRAPH ${graphs.electricityPrice} {
           ?operator a ${ns.schema.Organization} .
           ?operator ${ns.schema.name} ?operatorLabel.    
         }
@@ -115,12 +115,12 @@ const searchQueryBuilders = {
         SELECT DISTINCT ("operator" AS ${vars.type}) (?operator AS ${
         vars.iri
       }) (?operatorLabel AS ${vars.name}) WHERE {
-          GRAPH ${graphs.electricityprice} {
+          GRAPH ${graphs.electricityPrice} {
             ?operator a ${ns.schema.Organization} .
             ?operator ${ns.schema.name} ?operatorLabel.    
           }
           FILTER (?operator IN (${ids
-            .map((id) => `<${ns.electricityprice(`operator/${id}`).value}>`)
+            .map((id) => `<${ns.electricityPrice(`operator/${id}`).value}>`)
             .join(",")}))
         }
       }`;

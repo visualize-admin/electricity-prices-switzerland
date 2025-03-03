@@ -1,17 +1,16 @@
-import { Trans, t } from "@lingui/macro";
+import { t, Trans } from "@lingui/macro";
 import { Box, Typography } from "@mui/material";
 import { useMemo } from "react";
 
-import { useQueryState } from "src/lib/use-query-state";
-
-import { Combobox, ComboboxMulti } from "../../components/combobox";
-import { categories, Entity, periods, products } from "../../domain/data";
-import { getLocalizedLabel } from "../../domain/translation";
+import { Combobox, ComboboxMulti } from "src/components/combobox";
 import {
   CantonsCombobox,
   MunicipalitiesCombobox,
   OperatorsCombobox,
-} from "../query-combobox";
+} from "src/components/query-combobox";
+import { categories, Entity, periods, products } from "src/domain/data";
+import { getLocalizedLabel } from "src/domain/translation";
+import { useQueryState } from "src/lib/use-query-state";
 
 export const SelectorMulti = ({
   entity = "municipality",

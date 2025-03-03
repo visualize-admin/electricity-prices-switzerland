@@ -1,4 +1,4 @@
-import React, {
+import {
   createContext,
   Dispatch,
   ReactNode,
@@ -6,17 +6,15 @@ import React, {
   useReducer,
 } from "react";
 
-import { GenericObservation } from "../../domain/data";
+import { GenericObservation } from "src/domain/data";
 
-export interface InteractionElement {
-  visible: boolean;
-  mouse?: { x: number; y: number } | undefined;
-  d: GenericObservation | undefined;
-}
-
-interface InteractionState {
-  interaction: InteractionElement;
-}
+type InteractionState = {
+  interaction: {
+    visible: boolean;
+    mouse?: { x: number; y: number } | undefined;
+    d: GenericObservation | undefined;
+  };
+};
 
 type InteractionStateAction =
   | {
@@ -35,7 +33,6 @@ const INTERACTION_INITIAL_STATE: InteractionState = {
   },
 };
 
-// Reducer
 const InteractionStateReducer = (
   state: InteractionState,
   action: InteractionStateAction
@@ -71,7 +68,6 @@ const InteractionStateReducer = (
   }
 };
 
-// Provider
 const InteractionStateContext = createContext<
   [InteractionState, Dispatch<InteractionStateAction>] | undefined
 >(undefined);
@@ -86,7 +82,6 @@ export const useInteraction = () => {
   return ctx;
 };
 
-// Component
 export const InteractionProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(
     InteractionStateReducer,

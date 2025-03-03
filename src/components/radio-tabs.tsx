@@ -1,17 +1,17 @@
 import { Box } from "@mui/material";
-import { ChangeEventHandler, useCallback } from "react";
+import { ChangeEventHandler, ReactNode, useCallback } from "react";
 
-import VisuallyHidden from "src/components/VisuallyHidden";
+import { VisuallyHidden } from "src/components/visually-hidden";
 
 type RadioTabsVariants = "tabs" | "borderlessTabs" | "segmented";
 
-interface RadioTabsProps<T> {
+type RadioTabsProps<T> = {
   name: string;
-  options: { value: T; label: React.ReactNode }[];
+  options: { value: T; label: ReactNode }[];
   value: T;
   setValue: (value: T) => void;
   variant?: RadioTabsVariants;
-}
+};
 
 const STYLES = {
   tabs: {

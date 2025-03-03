@@ -2,11 +2,11 @@ import { t } from "@lingui/macro";
 import { Box, outlinedInputClasses, Typography } from "@mui/material";
 import Autocomplete, { autocompleteClasses } from "@mui/material/Autocomplete";
 import TextField, { TextFieldProps } from "@mui/material/TextField";
-import { useState, useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
-import { Icon } from "../icons";
+import { InfoDialogButton } from "src/components/info-dialog";
+import { Icon } from "src/icons";
 
-import { InfoDialogButton } from "./info-dialog";
 export type ComboboxMultiProps = {
   id: string;
   label: React.ReactNode;
@@ -45,7 +45,7 @@ export const ComboboxMulti = ({
       id={id}
       options={items}
       value={selectedItems}
-      onChange={(event, newValue) => {
+      onChange={(_, newValue) => {
         setSelectedItems(newValue);
       }}
       popupIcon={<Icon name="chevrondown" color="black" />}
@@ -135,18 +135,7 @@ export const ComboboxMulti = ({
   );
 };
 
-interface ComboboxProps {
-  id: string;
-  label: string;
-  items: (string | { type: "header"; title: string })[];
-  selectedItem: string;
-  setSelectedItem: (selectedItem: string) => void;
-  getItemLabel?: (item: string) => string;
-  showLabel?: boolean;
-  infoDialogSlug?: string;
-}
-
-export const Combobox: React.FC<ComboboxProps> = ({
+export const Combobox = ({
   id,
   label,
   items,
@@ -155,6 +144,15 @@ export const Combobox: React.FC<ComboboxProps> = ({
   infoDialogSlug,
   getItemLabel = defaultGetItemLabel,
   showLabel = true,
+}: {
+  id: string;
+  label: string;
+  items: (string | { type: "header"; title: string })[];
+  selectedItem: string;
+  setSelectedItem: (selectedItem: string) => void;
+  getItemLabel?: (item: string) => string;
+  showLabel?: boolean;
+  infoDialogSlug?: string;
 }) => {
   const [inputValue, setInputValue] = useState(getItemLabel(selectedItem));
 
@@ -166,7 +164,7 @@ export const Combobox: React.FC<ComboboxProps> = ({
     return items.filter((item) => typeof item === "string");
   }, [items]);
 
-  const groupsBylabel = useMemo(() => {
+  const groupsByLabel = useMemo(() => {
     const res: Record<string, string> = {};
     let currentGroup = null;
     for (const item of items) {
@@ -206,7 +204,7 @@ export const Combobox: React.FC<ComboboxProps> = ({
         id={`combobox-${id}`}
         options={filteredItems as string[]}
         groupBy={(option) => {
-          return groupsBylabel[option];
+          return groupsByLabel[option];
         }}
         renderGroup={(params) => {
           return (
