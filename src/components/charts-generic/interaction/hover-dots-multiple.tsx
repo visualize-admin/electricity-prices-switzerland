@@ -1,14 +1,13 @@
 import { Box } from "@mui/material";
 import * as React from "react";
 
-import { GenericObservation } from "../../../domain/data";
-import { LinesState } from "../lines/lines-state";
-import { useChartState } from "../use-chart-state";
-import { useInteraction } from "../use-interaction";
+import { LinesState } from "src/components/charts-generic/lines/lines-state";
+import { useChartState } from "src/components/charts-generic/use-chart-state";
+import { useInteraction } from "src/components/charts-generic/use-interaction";
+import { GenericObservation } from "src/domain/data";
 
 export const HoverDotMultiple = () => {
   const [state] = useInteraction();
-
   const { visible, d } = state.interaction;
 
   return <>{visible && d && <HoverDots d={d} />}</>;
@@ -16,7 +15,6 @@ export const HoverDotMultiple = () => {
 
 const HoverDots = ({ d }: { d: GenericObservation }) => {
   const { getAnnotationInfo, bounds } = useChartState() as LinesState;
-
   const { xAnchor, values } = getAnnotationInfo(d);
 
   return (

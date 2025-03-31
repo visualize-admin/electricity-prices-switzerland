@@ -1,17 +1,19 @@
 import { Box } from "@mui/material";
-import React from "react";
 
-import { GenericObservation } from "../../../domain/data";
-import { LinesState } from "../lines/lines-state";
-import { useChartState } from "../use-chart-state";
-import { useInteraction } from "../use-interaction";
-import { Margins } from "../use-width";
-
-import { TooltipValue, TooltipPlacement } from "./tooltip";
+import {
+  TooltipPlacement,
+  TooltipValue,
+} from "src/components/charts-generic/interaction/tooltip";
+import { LinesState } from "src/components/charts-generic/lines/lines-state";
+import { useChartState } from "src/components/charts-generic/use-chart-state";
+import { useInteraction } from "src/components/charts-generic/use-interaction";
+import { Margins } from "src/components/charts-generic/use-width";
+import { GenericObservation } from "src/domain/data";
 
 export const Ruler = () => {
   const [state] = useInteraction();
   const { visible, d } = state.interaction;
+
   return <>{visible && d && <RulerInner d={d} />}</>;
 };
 
@@ -34,7 +36,12 @@ const RulerInner = ({ d }: { d: GenericObservation }) => {
   );
 };
 
-interface RulerContentProps {
+export const RulerContent = ({
+  xValue,
+  chartHeight,
+  margins,
+  xAnchor,
+}: {
   xValue: string;
   values: TooltipValue[] | undefined;
   chartHeight: number;
@@ -43,14 +50,7 @@ interface RulerContentProps {
   yAnchor: number;
   datum: TooltipValue;
   placement: TooltipPlacement;
-}
-
-export const RulerContent = ({
-  xValue,
-  chartHeight,
-  margins,
-  xAnchor,
-}: RulerContentProps) => {
+}) => {
   return (
     <>
       <Box

@@ -1,15 +1,16 @@
 import { Trans } from "@lingui/macro";
-import { Box, Button, Link as UILink, Typography } from "@mui/material";
+import { Box, Button, Typography, Link as UILink } from "@mui/material";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { Fragment, useState } from "react";
 
-import { Entity } from "../../domain/data";
-import { Icon } from "../../icons";
-import { HomeLink } from "../links";
-import { Search } from "../search";
+import { HomeLink } from "src/components/links";
+import { Search } from "src/components/search";
+import { Entity } from "src/domain/data";
+import { Icon } from "src/icons";
 
 const TRUNCATE_COUNT = 5;
+
 const RelationsList = ({
   relations,
   relationPathname,
@@ -71,6 +72,7 @@ export const DetailPageBanner = ({
   municipalities?: { id: string; name: string }[];
 }) => {
   const { query } = useRouter();
+
   return (
     <Box
       sx={{
@@ -99,17 +101,9 @@ export const DetailPageBanner = ({
           ],
           gap: 0,
           alignItems: "center",
-          // flexDirection: ["column", "column", "row"],
-          // justifyContent: "flex-start",
-          // alignItems: ["flex-start", "flex-start", "center"],
-          // width: "100%",
         }}
       >
-        <Box
-          sx={{
-            gridArea: "back",
-          }}
-        >
+        <Box sx={{ gridArea: "back" }}>
           <UILink
             variant="inline"
             component={HomeLink}

@@ -6,20 +6,18 @@ import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { useContext, useMemo, useState } from "react";
 
+import { MiniSelect, SearchField } from "src/components/form";
+import { HighlightContext } from "src/components/highlight-context";
+import { InfoDialogButton } from "src/components/info-dialog";
+import { RadioTabs } from "src/components/radio-tabs";
+import { Stack } from "src/components/stack";
+import { Entity } from "src/domain/data";
+import { useFormatCurrency } from "src/domain/helpers";
 import {
   CantonMedianObservationFieldsFragment,
   OperatorObservationFieldsFragment,
 } from "src/graphql/queries";
-
-import { Entity } from "../domain/data";
-import { useFormatCurrency } from "../domain/helpers";
-import { Icon } from "../icons";
-
-import { MiniSelect, SearchField } from "./form";
-import { HighlightContext } from "./highlight-context";
-import { InfoDialogButton } from "./info-dialog";
-import { RadioTabs } from "./radio-tabs";
-import Stack from "./stack";
+import { Icon } from "src/icons";
 
 const ListItem = ({
   id,
@@ -44,6 +42,7 @@ const ListItem = ({
       : listState === "PROVIDERS"
       ? "operator"
       : ("canton" as Entity);
+
   return (
     <Link
       underline="none"
@@ -101,13 +100,6 @@ const ListItem = ({
     </Link>
   );
 };
-
-interface Props {
-  observations: OperatorObservationFieldsFragment[];
-  cantonObservations: CantonMedianObservationFieldsFragment[];
-  colorScale: ScaleThreshold<number, string>;
-  observationsQueryFetching: boolean;
-}
 
 const TRUNCATION_INCREMENT = 20;
 
@@ -232,7 +224,12 @@ export const List = ({
   cantonObservations,
   colorScale,
   observationsQueryFetching,
-}: Props) => {
+}: {
+  observations: OperatorObservationFieldsFragment[];
+  cantonObservations: CantonMedianObservationFieldsFragment[];
+  colorScale: ScaleThreshold<number, string>;
+  observationsQueryFetching: boolean;
+}) => {
   const [listState, setListState] = useState<ListState>("MUNICIPALITIES");
   const [sortState, setSortState] = useState<SortState>("ASC");
   const [searchQuery, setSearchQuery] = useState<string>("");

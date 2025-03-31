@@ -3,12 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 import buildEnv from "src/env/build";
 import { parseLocaleString } from "src/locales/locales";
-
-import {
-  getObservations,
-  getObservationsCube,
-  getView,
-} from "../../rdf/queries";
+import { getObservations, getObservationsCube, getView } from "src/rdf/queries";
 
 const formatters: Record<string, ReturnType<typeof format>> = {
   // See if this is needed later

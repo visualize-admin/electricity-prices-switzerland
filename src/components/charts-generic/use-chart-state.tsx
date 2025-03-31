@@ -1,32 +1,25 @@
-import {
-  ScaleLinear,
-  ScaleBand,
-  ScaleOrdinal,
-  ScaleTime,
-  Bin,
-} from "d3";
+import { Bin, ScaleBand, ScaleLinear, ScaleOrdinal, ScaleTime } from "d3";
 import { createContext, useContext } from "react";
 
-import { ChartFields } from "../../domain/config-types";
+import { Annotation } from "src/components/charts-generic/annotation/annotation-x";
+import { Tooltip } from "src/components/charts-generic/interaction/tooltip";
+import { Bounds } from "src/components/charts-generic/use-width";
+import { ChartFields } from "src/domain/config-types";
 import {
   ComponentFieldsFragment,
   GenericObservation,
   ObservationValue,
-} from "../../domain/data";
+} from "src/domain/data";
 
-import { Annotation } from "./annotation/annotation-x";
-import { Tooltip } from "./interaction/tooltip";
-import { Bounds } from "./use-width";
-
-export interface ChartProps {
+export type ChartProps = {
   data: GenericObservation[];
   fields: ChartFields;
   dimensions: ComponentFieldsFragment[];
   measures: ComponentFieldsFragment[];
   medianValue: number | undefined;
-}
+};
 
-export interface GroupedColumnsState {
+export type GroupedColumnsState = {
   sortedData: GenericObservation[];
   bounds: Bounds;
   getX: (d: GenericObservation) => string;
@@ -41,9 +34,9 @@ export interface GroupedColumnsState {
   yAxisLabel: string;
   grouped: [string, Record<string, ObservationValue>[]][];
   getAnnotationInfo: (d: GenericObservation) => Tooltip;
-}
+};
 
-export interface RangePlotState {
+export type RangePlotState = {
   bounds: Bounds;
   data: GenericObservation[];
   medianValue: number | undefined;
@@ -55,9 +48,9 @@ export interface RangePlotState {
   rangeGroups: [string, Record<string, ObservationValue>[]][];
   annotations?: Annotation[];
   getAnnotationInfo: (d: GenericObservation) => Tooltip;
-}
+};
 
-export interface AreasState {
+export type AreasState = {
   data: GenericObservation[];
   bounds: Bounds;
   getX: (d: GenericObservation) => Date;
@@ -72,23 +65,9 @@ export interface AreasState {
   wide: { [key: string]: number | string }[];
   series: $FixMe[];
   getAnnotationInfo: (d: GenericObservation) => Tooltip;
-}
+};
 
-export interface RangePlotState {
-  bounds: Bounds;
-  data: GenericObservation[];
-  medianValue: number | undefined;
-  getX: (d: GenericObservation) => number;
-  xScale: ScaleLinear<number, number>;
-  getY: (d: GenericObservation) => string;
-  yScale: ScaleBand<string>;
-  colors: ScaleLinear<string, string>;
-  rangeGroups: [string, Record<string, ObservationValue>[]][];
-  annotations?: Annotation[];
-  getAnnotationInfo: (d: GenericObservation) => Tooltip;
-}
-
-export interface GroupedBarsState {
+export type GroupedBarsState = {
   sortedData: GenericObservation[];
   bounds: Bounds;
   getX: (d: GenericObservation) => number;
@@ -101,9 +80,9 @@ export interface GroupedBarsState {
   segments: string[];
   colors: ScaleOrdinal<string, string>;
   opacityScale: ScaleOrdinal<string, number>;
-}
+};
 
-export interface BarsState {
+export type BarsState = {
   bounds: Bounds;
   sortedData: GenericObservation[];
   getX: (d: GenericObservation) => number;
@@ -113,9 +92,9 @@ export interface BarsState {
   getSegment: (d: GenericObservation) => string;
   segments: string[];
   colors: ScaleOrdinal<string, string>;
-}
+};
 
-export interface LinesState {
+export type LinesState = {
   data: GenericObservation[];
   bounds: Bounds;
   segments: string[];
@@ -133,9 +112,9 @@ export interface LinesState {
   wide: ArrayLike<Record<string, ObservationValue>>;
   xKey: string;
   getAnnotationInfo: (d: GenericObservation) => Tooltip;
-}
+};
 
-export interface HistogramState {
+export type HistogramState = {
   bounds: Bounds;
   data: GenericObservation[];
   medianValue: number | undefined;
@@ -149,9 +128,9 @@ export interface HistogramState {
   colors: ScaleLinear<string, string>;
   annotations?: Annotation[];
   getAnnotationInfo: (d: GenericObservation) => Tooltip;
-}
+};
 
-export interface ColumnsState {
+export type ColumnsState = {
   bounds: Bounds;
   sortedData: GenericObservation[];
   getX: (d: GenericObservation) => string;
@@ -164,9 +143,9 @@ export interface ColumnsState {
   colors: ScaleOrdinal<string, string>;
   yAxisLabel: string;
   getAnnotationInfo: (d: GenericObservation) => Tooltip;
-}
+};
 
-export interface StackedColumnsState {
+export type StackedColumnsState = {
   sortedData: GenericObservation[];
   bounds: Bounds;
   getX: (d: GenericObservation) => string;
@@ -185,7 +164,7 @@ export interface StackedColumnsState {
     d: GenericObservation,
     orderedSegments: string[]
   ) => Tooltip;
-}
+};
 
 export type ChartState =
   | ColumnsState
@@ -210,13 +189,3 @@ export const useChartState = () => {
   }
   return ctx;
 };
-
-// export type SharedChartState = {
-//   bounds: Bounds;
-//   data: Observation[];
-//   getX: (d: Observation) => number;
-//   xScale: ScaleLinear<number, number>;
-//   getY: (d: Observation) => string | number;
-//   yScale: ScaleBand<string> | ScaleLinear<number, number>;
-//   colors: ScaleLinear<string, string> | ScaleThreshold<number, string>;
-// };

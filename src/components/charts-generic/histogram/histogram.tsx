@@ -1,8 +1,11 @@
 import { useTheme } from "@mui/material";
 import * as React from "react";
 
-import { Column } from "../columns/columns-simple";
-import { HistogramState, useChartState } from "../use-chart-state";
+import { Column } from "src/components/charts-generic/columns/columns-simple";
+import {
+  HistogramState,
+  useChartState,
+} from "src/components/charts-generic/use-chart-state";
 
 export const HistogramColumns = () => {
   const { bounds, xScale, getY, yScale, bins, colors } =

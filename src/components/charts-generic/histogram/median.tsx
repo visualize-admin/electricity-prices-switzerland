@@ -1,19 +1,22 @@
-import * as React from "react";
-
-import { useFormatCurrency } from "../../../domain/helpers";
-import { getLocalizedLabel } from "../../../domain/translation";
-import { HistogramState, useChartState } from "../use-chart-state";
-import { useChartTheme } from "../use-chart-theme";
+import {
+  HistogramState,
+  useChartState,
+} from "src/components/charts-generic/use-chart-state";
+import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
+import { useFormatCurrency } from "src/domain/helpers";
+import { getLocalizedLabel } from "src/domain/translation";
 
 export const HistogramMedian = ({ label }: { label: string }) => {
-  const { medianValue, bounds, xScale, yScale } =
-    useChartState() as HistogramState;
+  const {
+    medianValue: m,
+    bounds,
+    xScale,
+    yScale,
+  } = useChartState() as HistogramState;
   const { margins } = bounds;
   const { labelColor, domainColor, labelFontSize, fontFamily } =
     useChartTheme();
   const formatCurrency = useFormatCurrency();
-
-  const m = medianValue;
 
   return (
     <>

@@ -6,25 +6,27 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import basicAuthMiddleware from "nextjs-basic-auth-middleware";
 
-import { DetailPageBanner } from "../../components/detail-page/banner";
-import { CantonsComparisonRangePlots } from "../../components/detail-page/cantons-comparison-range";
-import { DetailPageLayout } from "../../components/detail-page/layout";
-import { PriceComponentsBarChart } from "../../components/detail-page/price-components-bars";
-import { PriceDistributionHistograms } from "../../components/detail-page/price-distribution-histogram";
-import { PriceEvolution } from "../../components/detail-page/price-evolution-line-chart";
-import { SelectorMulti } from "../../components/detail-page/selector-multi";
-import { Footer } from "../../components/footer";
-import { Header } from "../../components/header";
-import { getCanton } from "../../rdf/queries";
+import { DetailPageBanner } from "src/components/detail-page/banner";
+import { CantonsComparisonRangePlots } from "src/components/detail-page/cantons-comparison-range";
+import { DetailPageLayout } from "src/components/detail-page/layout";
+import { PriceComponentsBarChart } from "src/components/detail-page/price-components-bars";
+import { PriceDistributionHistograms } from "src/components/detail-page/price-distribution-histogram";
+import { PriceEvolution } from "src/components/detail-page/price-evolution-line-chart";
+import { SelectorMulti } from "src/components/detail-page/selector-multi";
+import { Footer } from "src/components/footer";
+import { Header } from "src/components/header";
+import { getCanton } from "src/rdf/queries";
 
 type Props =
   | {
       status: "found";
       id: string;
       name: string;
-      // operators: { id: string; name: string }[];
     }
-  | { status: "notfound" };
+  | {
+      status: "notfound";
+    };
+
 export const getServerSideProps: GetServerSideProps<
   Props,
   { locale: string; id: string }
@@ -51,6 +53,7 @@ const CantonPage = (props: Props) => {
   }
 
   const { id, name } = props;
+
   return (
     <>
       <Head>

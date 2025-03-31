@@ -1,6 +1,6 @@
 import { Box, BoxProps } from "@mui/material";
 
-const Stack = ({
+export const Stack = ({
   direction = "column",
   spacing = 1,
   children,
@@ -27,5 +27,3 @@ const Stack = ({
     </Box>
   );
 };
-
-export default Stack;

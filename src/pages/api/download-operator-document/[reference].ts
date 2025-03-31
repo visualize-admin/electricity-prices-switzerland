@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { downloadGeverDocument } from "../../../domain/gever";
+import { downloadGeverDocument } from "src/domain/gever";
 
 // Taken from node.js source code
 // @see https://github.com/nodejs/node/blob/main/lib/_http_common.js#L216C1-L216C51

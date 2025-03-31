@@ -7,32 +7,32 @@ import { useRouter } from "next/router";
 import basicAuthMiddleware from "nextjs-basic-auth-middleware";
 import { useCallback, useRef, useState } from "react";
 
+import { TooltipBox } from "src/components/charts-generic/interaction/tooltip-box";
+import { DownloadImage } from "src/components/detail-page/download-image";
+import { Footer } from "src/components/footer";
+import { Header } from "src/components/header";
+import {
+  HighlightContext,
+  HighlightValue,
+} from "src/components/highlight-context";
+import { InfoBanner } from "src/components/info-banner";
+import { List } from "src/components/list";
+import { ChoroplethMap, ChoroplethMapProps } from "src/components/map";
+import { Search } from "src/components/search";
+import { Selector } from "src/components/selector";
+import { useDisclosure } from "src/components/use-disclosure";
+import { useOutsideClick } from "src/components/use-outside-click";
+import { useColorScale } from "src/domain/data";
 import {
   PriceComponent,
   useAllMunicipalitiesQuery,
   useObservationsQuery,
 } from "src/graphql/queries";
+import { IconCopy } from "src/icons/ic-copy";
+import { copyToClipboard } from "src/lib/copy-to-clipboard";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { useQueryStateSingle } from "src/lib/use-query-state";
 import { defaultLocale } from "src/locales/locales";
-
-import { TooltipBox } from "../components/charts-generic/interaction/tooltip-box";
-import { DownloadImage } from "../components/detail-page/download-image";
-import { Footer } from "../components/footer";
-import { Header } from "../components/header";
-import {
-  HighlightContext,
-  HighlightValue,
-} from "../components/highlight-context";
-import { InfoBanner } from "../components/info-banner";
-import { List } from "../components/list";
-import { ChoroplethMap, ChoroplethMapProps } from "../components/map";
-import { Search } from "../components/search";
-import { Selector } from "../components/selector";
-import { useDisclosure } from "../components/useDisclosure";
-import useOutsideClick from "../components/useOutsideClick";
-import { useColorScale } from "../domain/data";
-import { IconCopy } from "../icons/ic-copy";
 
 const DOWNLOAD_ID = "map";
 
@@ -55,14 +55,6 @@ export const getServerSideProps: GetServerSideProps<
 
 const HEADER_HEIGHT_S = "107px";
 const HEADER_HEIGHT_M_UP = "96px";
-
-const copyToClipboard = async function (text: string) {
-  try {
-    await navigator.clipboard.writeText(text);
-  } catch (error) {
-    console.error("Failed to copy text to clipboard:", error);
-  }
-};
 
 const ShareButton = () => {
   const { isOpen, open, close } = useDisclosure();

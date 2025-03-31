@@ -18,13 +18,11 @@ import {
 } from "d3";
 import React from "react";
 
+import { ANNOTATION_TRIANGLE_HEIGHT } from "src/components/charts-generic/annotation/annotation-x";
+import { GenericObservation } from "src/domain/data";
 import { estimateTextWidth } from "src/lib/estimate-text-width";
 import { useLocale } from "src/lib/use-locale";
 import { d3FormatLocales, d3TimeFormatLocales } from "src/locales/locales";
-
-import { ANNOTATION_TRIANGLE_HEIGHT } from "../components/charts-generic/annotation/annotation-x";
-
-import { GenericObservation } from "./data";
 
 export const isNumber = (x: $IntentionalAny): boolean =>
   typeof x === "number" && !isNaN(x);
@@ -200,14 +198,14 @@ export const getAnnotationSpaces = ({
   getLabel,
   format,
   width,
-  annotationfontSize,
+  annotationFontSize,
 }: {
   annotation: { [x: string]: string | number | boolean }[];
   getX: (x: GenericObservation) => number;
   getLabel: (x: GenericObservation) => string | undefined;
   format: (n: number) => string;
   width: number;
-  annotationfontSize: number;
+  annotationFontSize: number;
 }) => {
   return annotation
     ? annotation.reduce(
@@ -217,23 +215,23 @@ export const getAnnotationSpaces = ({
           const nbOfSpaces = splitLabel.length + 1;
           const labelLength =
             splitLabel.reduce(
-              (acc, cur) => acc + estimateTextWidth(cur, annotationfontSize),
+              (acc, cur) => acc + estimateTextWidth(cur, annotationFontSize),
               0
             ) +
-            nbOfSpaces * estimateTextWidth(" ", annotationfontSize);
+            nbOfSpaces * estimateTextWidth(" ", annotationFontSize);
 
           const oneFullLine =
-            estimateTextWidth(format(getX(datum)), annotationfontSize) +
+            estimateTextWidth(format(getX(datum)), annotationFontSize) +
             labelLength;
 
-          // On smaller screens, anotations may break on several lines
+          // On smaller screens, annotations may break on several lines
           const nbOfLines = Math.ceil(oneFullLine / width);
 
           acc.push({
             height:
               acc[i].height +
               // annotation height
-              nbOfLines * annotationfontSize +
+              nbOfLines * annotationFontSize +
               // size of annotation indicator (triangle below label)
               ANNOTATION_TRIANGLE_HEIGHT +
               // + margin between annotations

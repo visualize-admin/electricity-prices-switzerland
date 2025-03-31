@@ -1,6 +1,6 @@
 import { createContext, Dispatch, SetStateAction } from "react";
 
-import { Entity } from "../domain/data";
+import { Entity } from "src/domain/data";
 
 export type HighlightValue = {
   entity: Entity;

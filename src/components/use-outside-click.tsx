@@ -1,7 +1,7 @@
-import { useEffect } from "react";
+import { RefObject, useEffect } from "react";
 
-const useOutsideClick = (
-  ref: React.RefObject<HTMLElement | null>,
+export const useOutsideClick = (
+  ref: RefObject<HTMLElement | null>,
   callback: () => void
 ): void => {
   useEffect(() => {
@@ -17,5 +17,3 @@ const useOutsideClick = (
     };
   }, [ref, callback]);
 };
-
-export default useOutsideClick;

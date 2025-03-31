@@ -1,29 +1,28 @@
 import { t, Trans } from "@lingui/macro";
 import {
+  Autocomplete,
   AutocompleteProps,
   Box,
   Divider,
   IconButton,
   InputAdornment,
   outlinedInputClasses,
+  TextField,
   Typography,
+  useTheme,
 } from "@mui/material";
-import { useTheme } from "@mui/material";
-import { Autocomplete, TextField } from "@mui/material";
 import { rollup } from "d3-array";
 import { sortBy } from "lodash";
 import { useRouter } from "next/router";
-import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
-import React from "react";
+import React, { ReactNode, useEffect, useMemo, useRef, useState } from "react";
 
-import VisuallyHidden from "src/components/VisuallyHidden";
+import { VisuallyHidden } from "src/components/visually-hidden";
+import { analyticsSiteSearch } from "src/domain/analytics";
 import { getLocalizedLabel } from "src/domain/translation";
 import { useSearchQuery } from "src/graphql/queries";
+import { Icon } from "src/icons";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { useLocale } from "src/lib/use-locale";
-
-import { analyticsSiteSearch } from "../domain/analytics";
-import { Icon } from "../icons";
 
 export const Search = () => {
   const locale = useLocale();
@@ -88,6 +87,7 @@ export const Search = () => {
 };
 
 type ResultType = "OperatorResult" | "MunicipalityResult" | "CantonResult";
+
 type Item = {
   id: string;
   __typename: ResultType;
@@ -143,6 +143,7 @@ export const SearchField = ({
   const inputRef = useRef<HTMLInputElement>(null);
 
   debugger;
+
   return (
     <Box sx={{ width: "100%", maxWidth: "44rem", mx: "auto", my: 1 }}>
       <VisuallyHidden>
@@ -292,9 +293,6 @@ export const SearchField = ({
                   textDecoration: "none",
                   px: 6,
                   py: 3,
-                },
-                "& > svg": {
-                  // visibility: "hidden",
                 },
                 "&:hover > svg, .Mui-focusVisible & > svg": {
                   visibility: "visible",

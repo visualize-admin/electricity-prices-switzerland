@@ -88,24 +88,6 @@ query Observations(
   }
 }
 
-# query CantonMedianObservations(
-#   $locale: String!
-#   $priceComponent: PriceComponent!
-#   $filters: ObservationFilters!
-# ) {
-#   cantonMedianObservations(locale: $locale, filters: $filters) {
-#     ...cantonMedianObservationFields
-#   }
-# }
-
-# query SwissMedianObservations(
-#   $locale: String!
-#   $priceComponent: PriceComponent!
-#   $filters: ObservationFilters!
-# ) {
-
-# }
-
 fragment operatorObservationWithAllPriceComponentsFields on OperatorObservation {
   period
   municipality
@@ -130,11 +112,9 @@ fragment cantonMedianObservationWithAllPriceComponentsFields on CantonMedianObse
   category
 
   aidfee: value(priceComponent: aidfee)
-  # fixcosts: value(priceComponent: fixcosts)
   charge: value(priceComponent: charge)
   gridusage: value(priceComponent: gridusage)
   energy: value(priceComponent: energy)
-  # fixcostspercent: value(priceComponent: fixcostspercent)
   total: value(priceComponent: total)
 }
 

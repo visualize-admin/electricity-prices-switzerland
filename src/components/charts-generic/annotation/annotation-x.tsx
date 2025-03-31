@@ -1,15 +1,15 @@
 import { Box } from "@mui/material";
 import * as React from "react";
 
-import { GenericObservation } from "../../../domain/data";
-import { getLocalizedLabel } from "../../../domain/translation";
-import { DOT_RADIUS } from "../rangeplot/rangeplot-state";
+import { DOT_RADIUS } from "src/components/charts-generic/rangeplot/rangeplot-state";
 import {
   HistogramState,
   RangePlotState,
   useChartState,
-} from "../use-chart-state";
-import { useChartTheme } from "../use-chart-theme";
+} from "src/components/charts-generic/use-chart-state";
+import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
+import { GenericObservation } from "src/domain/data";
+import { getLocalizedLabel } from "src/domain/translation";
 
 export const ANNOTATION_DOT_RADIUS = 2.5;
 export const ANNOTATION_TRIANGLE_WIDTH = 5;
@@ -32,12 +32,11 @@ export const AnnotationX = () => {
   const { bounds, annotations } = useChartState() as
     | RangePlotState
     | HistogramState;
-
   const { margins } = bounds;
   const {
     annotationLineColor,
     annotationColor,
-    annotationfontSize,
+    annotationFontSize,
     annotationLabelUnderlineColor,
   } = useChartTheme();
 
@@ -46,7 +45,7 @@ export const AnnotationX = () => {
       {annotations &&
         annotations.map((a, i) => {
           const x = margins.left + a.x;
-          const y1 = a.yLabel + annotationfontSize * a.nbOfLines;
+          const y1 = a.yLabel + annotationFontSize * a.nbOfLines;
           return (
             <React.Fragment key={i}>
               <g transform={`translate(0, 0)`}>
@@ -85,7 +84,6 @@ export const AnnotationXDataPoint = () => {
   const { bounds, annotations } = useChartState() as
     | RangePlotState
     | HistogramState;
-
   const { margins } = bounds;
   const { annotationColor } = useChartTheme();
 
@@ -100,7 +98,6 @@ export const AnnotationXDataPoint = () => {
                   margins.top + (margins.annotations ?? 0)
                 })`}
               >
-                {/* Data Point indicator */}
                 <circle
                   cx={a.x}
                   cy={a.y + DOT_RADIUS}
@@ -119,10 +116,9 @@ export const AnnotationXLabel = () => {
   const { bounds, annotations } = useChartState() as
     | RangePlotState
     | HistogramState;
-
-  const { annotationfontSize, fontFamily, annotationColor } = useChartTheme();
-
+  const { annotationFontSize, fontFamily, annotationColor } = useChartTheme();
   const { width } = bounds;
+
   return (
     <>
       {annotations &&
@@ -140,7 +136,7 @@ export const AnnotationXLabel = () => {
               textAlign: "left",
               transform: `translate3d(${ANNOTATION_TRIANGLE_WIDTH}px, -40%, 0)`,
               fontFamily,
-              fontSize: annotationfontSize,
+              fontSize: annotationFontSize,
               color: annotationColor,
               bgcolor: "transparent",
               hyphens: "auto",

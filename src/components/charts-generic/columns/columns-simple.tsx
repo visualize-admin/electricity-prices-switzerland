@@ -1,7 +1,10 @@
 import { useTheme } from "@mui/material";
 import * as React from "react";
 
-import { ColumnsState, useChartState } from "../use-chart-state";
+import {
+  ColumnsState,
+  useChartState,
+} from "src/components/charts-generic/use-chart-state";
 
 export const Columns = () => {
   const { sortedData, bounds, getX, xScale, getY, yScale } =
