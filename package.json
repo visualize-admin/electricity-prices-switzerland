@@ -41,6 +41,7 @@
     "@emotion/react": "^11.13.0",
     "@emotion/styled": "^11.13.0",
     "@juggle/resize-observer": "^3.3.1",
+    "@lingui/core": "^3.13.3",
     "@lingui/react": "^3.13.3",
     "@mdx-js/react": "^1.6.22",
     "@mui/material": "^5.16.6",
