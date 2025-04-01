@@ -13,7 +13,6 @@ module.exports = {
   },
   transform: {
     "^.+\\.[t|j]sx?$": "babel-jest",
-    "\\.xml$": "jest-raw-loader",
   },
   testPathIgnorePatterns: ["/node_modules/", "<rootDir>/e2e"],
   transformIgnorePatterns: ["<rootDir>/node_modules/(?!(node-fetch)/)"],

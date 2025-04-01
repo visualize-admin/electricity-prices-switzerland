@@ -13,10 +13,7 @@ import { decrypt, encrypt } from "./encrypt";
 import { parseMultiPart } from "./multipart";
 import { redactSAML } from "./redact";
 import { makeRequest, makeSslConfiguredAgent } from "./soap";
-import getContentTemplate from "./templates/get-content.template.xml";
-import req1Template from "./templates/req1.template.xml";
-import req2Template from "./templates/req2.template.xml";
-import searchDocumentsTemplate from "./templates/search-documents.template.xml";
+import * as templates from "./templates/templates";
 import {
   ns,
   $,
@@ -26,6 +23,11 @@ import {
   stripWhitespace,
   $$,
 } from "./utils";
+
+const req1Template = templates.req1;
+const req2Template = templates.req2;
+const searchDocumentsTemplate = templates.searchDocuments;
+const getContentTemplate = templates.getContent;
 
 assert(!!serverEnv, "serverEnv is not defined");
 

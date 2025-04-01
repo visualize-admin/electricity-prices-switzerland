@@ -83,11 +83,6 @@ const nextConfig = async () => {
         exclude: /node_modules/,
         loader: "graphql-tag/loader",
       });
-      config.module.rules.push({
-        test: /\.xml$/,
-        exclude: /node_modules/,
-        loader: "raw-loader",
-      });
 
       return config;
     },
