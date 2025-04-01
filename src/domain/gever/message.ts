@@ -4,11 +4,6 @@ import fs from "fs";
 import { memoize } from "lodash";
 import z from "zod";
 
-import serverEnv from "src/env/server";
-import { OperatorDocumentCategory } from "src/graphql/queries";
-import assert from "src/lib/assert";
-import { truthy } from "src/lib/truthy";
-
 import { decrypt, encrypt } from "src/domain/gever/encrypt";
 import { parseMultiPart } from "src/domain/gever/multipart";
 import { redactSAML } from "src/domain/gever/redact";
@@ -23,6 +18,10 @@ import {
   stripWhitespace,
   $$,
 } from "src/domain/gever/utils";
+import serverEnv from "src/env/server";
+import { OperatorDocumentCategory } from "src/graphql/queries";
+import assert from "src/lib/assert";
+import { truthy } from "src/lib/truthy";
 
 const req1Template = templates.req1;
 const req2Template = templates.req2;
