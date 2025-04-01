@@ -9,11 +9,11 @@ import { OperatorDocumentCategory } from "src/graphql/queries";
 import assert from "src/lib/assert";
 import { truthy } from "src/lib/truthy";
 
-import { decrypt, encrypt } from "./encrypt";
-import { parseMultiPart } from "./multipart";
-import { redactSAML } from "./redact";
-import { makeRequest, makeSslConfiguredAgent } from "./soap";
-import * as templates from "./templates/templates";
+import { decrypt, encrypt } from "src/domain/gever/encrypt";
+import { parseMultiPart } from "src/domain/gever/multipart";
+import { redactSAML } from "src/domain/gever/redact";
+import { makeRequest, makeSslConfiguredAgent } from "src/domain/gever/soap";
+import * as templates from "src/domain/gever/templates";
 import {
   ns,
   $,
@@ -22,7 +22,7 @@ import {
   serializeXMLToString,
   stripWhitespace,
   $$,
-} from "./utils";
+} from "src/domain/gever/utils";
 
 const req1Template = templates.req1;
 const req2Template = templates.req2;
