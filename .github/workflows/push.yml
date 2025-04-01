@@ -21,6 +21,9 @@ jobs:
       - name: Create fake wiki content
         run: echo "[]" > src/wiki-content.json
 
+      - name: Knip
+        run: yarn run knip
+
       - name: Lint
         run: yarn run lint
 
