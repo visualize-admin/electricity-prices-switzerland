@@ -5,39 +5,6 @@ import { ReactNode } from "react";
 
 import { Icon, IconName } from "src/icons";
 
-export const Error = ({ children }: { children: ReactNode }) => (
-  <Box
-    sx={{
-      justifyContent: "center",
-      alignItems: "center",
-      color: "error.main",
-      borderColor: "error.main",
-    }}
-    display="flex"
-  >
-    {children}
-  </Box>
-);
-
-export const Hint = ({ children }: { children: ReactNode }) => (
-  <Box
-    sx={{
-      width: "100%",
-      height: "100%",
-      color: "hint.main",
-      margin: "auto",
-      textAlign: "center",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
-      flexGrow: 1,
-    }}
-    display="flex"
-  >
-    {children}
-  </Box>
-);
-
 const delayedShow = keyframes`
   0% { opacity: 0 }
   100% { opacity: 1 }
@@ -147,21 +114,6 @@ export const LoadingIconInline = ({
   </Box>
 );
 
-export const LoadingOverlay = () => (
-  <Box
-    sx={{
-      position: "absolute",
-      bgcolor: "grey.100",
-      top: 0,
-      left: 0,
-      width: "100%",
-      height: "100%",
-    }}
-  >
-    <Loading delayMs={0} />
-  </Box>
-);
-
 export const NoDataHint = () => (
   <Box
     sx={{
@@ -254,36 +206,6 @@ export const HintBlue = ({
       p: 5,
       bgcolor: "primary.light",
       color: "primary.main",
-      textAlign: "center",
-      justifyContent: "flex-start",
-      alignItems: ["flex-start", "center"],
-    }}
-    display="flex"
-  >
-    <Box sx={{ width: 24, pr: 4 }}>
-      <Icon name={iconName} size={24} />
-    </Box>
-    <Typography variant="body1" sx={{ textAlign: "left", ml: 4 }}>
-      {children}
-    </Typography>
-  </Box>
-);
-export const HintRed = ({
-  iconName,
-  children,
-}: {
-  iconName: IconName;
-  children: ReactNode;
-}) => (
-  <Box
-    sx={{
-      width: "auto",
-      height: "auto",
-      borderRadius: "bigger",
-      margin: "auto",
-      p: 5,
-      bgcolor: "alertLight",
-      color: "alert",
       textAlign: "center",
       justifyContent: "flex-start",
       alignItems: ["flex-start", "center"],

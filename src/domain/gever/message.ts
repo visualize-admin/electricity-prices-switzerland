@@ -47,7 +47,7 @@ export const prepareIpStsMessage = () => {
   return stripWhitespace(serializeXMLToString(doc));
 };
 
-export const makeIpStsRequest = async () => {
+const makeIpStsRequest = async () => {
   const message = prepareIpStsMessage();
   fs.writeFileSync("/tmp/req1.xml", message);
 
@@ -212,7 +212,7 @@ export const prepareRpStsDoc = () => {
   return doc;
 };
 
-export const makeRpStsRequest = async (ipStsInfo: IPSTSInfo) => {
+const makeRpStsRequest = async (ipStsInfo: IPSTSInfo) => {
   const { samlAssertion, assertionId, binaryToken } = ipStsInfo;
   const doc = prepareRpStsDoc();
 
@@ -271,7 +271,7 @@ export const makeRpStsRequest = async (ipStsInfo: IPSTSInfo) => {
 
 type RPSTSInfo = Awaited<ReturnType<typeof makeRpStsRequest>>;
 
-export const setupGeverAPIRequest = (
+const setupGeverAPIRequest = (
   requestTemplate: string,
   rpStsInfo: RPSTSInfo
 ) => {

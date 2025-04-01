@@ -170,7 +170,7 @@ const getEntityLabelId = (entity: Entity): string => {
   }
 };
 
-export const PriceDistributionHistogram = ({
+const PriceDistributionHistogram = ({
   annotationIds,
   year,
   priceComponent,

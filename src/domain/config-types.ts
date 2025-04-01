@@ -11,12 +11,10 @@ const SortingType = t.union([
 export type SortingType = t.TypeOf<typeof SortingType>;
 
 const ColorMapping = t.record(t.string, t.string);
-export type ColorMapping = t.TypeOf<typeof ColorMapping>;
+type ColorMapping = t.TypeOf<typeof ColorMapping>;
 
 const GenericField = t.type({ componentIri: t.string });
-export type GenericField = t.TypeOf<typeof GenericField>;
-
-export type GenericFields = Record<string, GenericField | undefined>;
+type GenericField = t.TypeOf<typeof GenericField>;
 
 const Observation = t.record(
   t.string,
@@ -42,8 +40,7 @@ const SegmentField = t.intersection([
   }),
 ]);
 
-export type SegmentField = t.TypeOf<typeof SegmentField>;
-export type SegmentFields = Record<string, SegmentField | undefined>;
+type SegmentField = t.TypeOf<typeof SegmentField>;
 
 const BarFields = t.intersection([
   t.type({
@@ -102,7 +99,7 @@ const ColumnFields = t.intersection([
     segment: SegmentField,
   }),
 ]);
-export type ColumnFields = t.TypeOf<typeof ColumnFields>;
+type ColumnFields = t.TypeOf<typeof ColumnFields>;
 
 const LineFields = t.intersection([
   t.type({
@@ -156,7 +153,7 @@ const AreaFields = t.intersection([
   }),
 ]);
 
-export type AreaFields = t.TypeOf<typeof AreaFields>;
+type AreaFields = t.TypeOf<typeof AreaFields>;
 
 const HistogramFields = t.intersection([
   t.type({

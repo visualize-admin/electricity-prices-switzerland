@@ -128,7 +128,7 @@ const searchQueryBuilders = {
   },
 } as const;
 
-export type SearchSparqlQueryOptions = {
+type SearchSparqlQueryOptions = {
   query: string;
   ids: string[];
   locale: string;
@@ -136,14 +136,14 @@ export type SearchSparqlQueryOptions = {
   limit?: number;
 };
 
-export const getOperatorQuery = ({ operatorId }: { operatorId: string }) => {
+const getOperatorQuery = ({ operatorId }: { operatorId: string }) => {
   return SELECT`?uid`.WHERE`
     <https://energy.ld.admin.ch/elcom/electricityprice/operator/${operatorId}> a ${ns.schema.Organization} ;
       ${ns.schema.identifier} ?uid
   `;
 };
 
-export const getSearchSparqlQuery = ({
+const getSearchSparqlQuery = ({
   query,
   types,
   ids,

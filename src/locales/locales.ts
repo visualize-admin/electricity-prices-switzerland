@@ -45,7 +45,6 @@ i18n.load({
 });
 i18n.activate(defaultLocale);
 
-export type Locales = "de" | "fr" | "it" | "en";
 export { i18n };
 
 /**
@@ -60,12 +59,6 @@ export const parseLocaleString = (localeString: string | undefined): Locale => {
   const result = /^(de|fr|it)/.exec(localeString);
   return result ? (result[1] as Locale) : defaultLocale;
 };
-
-export const catalogs = {
-  de: catalogDe,
-  fr: catalogFr,
-  it: catalogIt,
-} as const;
 
 export const d3TimeFormatLocales = {
   de: timeFormatLocale(timeFormatDe as TimeLocaleDefinition),

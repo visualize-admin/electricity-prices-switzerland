@@ -1,7 +1,7 @@
 /**
  * Split a buffer containing a multipart
  */
-export const splitMultipart = (buf: Buffer, contentType: string) => {
+const splitMultipart = (buf: Buffer, contentType: string) => {
   const contentTypeBoundary = /boundary="(.*?)"/.exec(contentType)?.[1];
   if (!contentTypeBoundary) {
     throw new Error("Could not recognize boundary");
@@ -19,7 +19,7 @@ const splitOnce = (str: string, token: string) => {
   }
 };
 
-export const parsePart = (buf: Buffer) => {
+const parsePart = (buf: Buffer) => {
   const splitted = [...splitBuffer(buf, "\r\n\r\n", 1)];
   const [headersRaw, content] = splitted;
   const headers = Object.fromEntries(
@@ -42,7 +42,7 @@ export const parsePart = (buf: Buffer) => {
 /**
  * Splits a buffer in several buffers, for a specific token
  */
-export const splitBuffer = function* (
+const splitBuffer = function* (
   buf: Buffer,
   token: string | Uint8Array,
   maxSplits = Infinity

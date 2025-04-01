@@ -216,7 +216,7 @@ export const CantonsComparisonRangePlots = ({
   );
 };
 
-export const CantonsComparisonRangePlot = memo(
+const CantonsComparisonRangePlot = memo(
   ({
     annotationIds,
     year,

@@ -1,11 +1,5 @@
 import { SELECT } from "@tpluscode/sparql-builder";
-import {
-  Cube,
-  CubeDimension,
-  LookupSource,
-  Source,
-  View,
-} from "rdf-cube-view-query";
+import { Cube, LookupSource, Source, View } from "rdf-cube-view-query";
 import rdf from "rdf-ext";
 import { Literal, NamedNode } from "rdf-js";
 import ParsingClient from "sparql-http-client/ParsingClient";
@@ -15,21 +9,20 @@ import serverEnv from "src/env/server";
 import { OperatorDocumentCategory } from "src/graphql/resolver-types";
 import assert from "src/lib/assert";
 import { Observation, parseObservation } from "src/lib/observations";
-import { defaultLocale } from "src/locales/locales";
 import * as ns from "src/rdf/namespace";
 import { sparqlClient } from "src/rdf/sparql-client";
 
 type Filters = { [key: string]: string[] | null | undefined } | null;
 
-export const OBSERVATIONS_CUBE =
-  "https://energy.ld.admin.ch/elcom/electricityprice";
-export const CANTON_OBSERVATIONS_CUBE =
+const OBSERVATIONS_CUBE = "https://energy.ld.admin.ch/elcom/electricityprice";
+const CANTON_OBSERVATIONS_CUBE =
   "https://energy.ld.admin.ch/elcom/electricityprice-canton";
-export const SWISS_OBSERVATIONS_CUBE =
+const SWISS_OBSERVATIONS_CUBE =
   "https://energy.ld.admin.ch/elcom/electricityprice-swiss";
 
-export const createSource = (cubeIri: string | undefined) => {
+const createSource = (cubeIri: string | undefined) => {
   assert(!!serverEnv, "serverEnv is not defined");
+  ``;
   const endpointUrl =
     cubeIri && serverEnv.SPARQL_ENDPOINT_SUPPORTS_CACHING_PER_CUBE
       ? `${serverEnv.SPARQL_ENDPOINT}/${encodeURIComponent(cubeIri)}`
@@ -40,11 +33,7 @@ export const createSource = (cubeIri: string | undefined) => {
   });
 };
 
-export const getCube = async ({
-  iri,
-}: {
-  iri: string;
-}): Promise<Cube | null> => {
+const getCube = async ({ iri }: { iri: string }): Promise<Cube | null> => {
   const source = createSource(iri);
   const cube = await source.cube(iri);
 
@@ -84,25 +73,6 @@ export const getSwissMedianCube = async (): Promise<Cube> => {
     throw Error(`Cube ${SWISS_OBSERVATIONS_CUBE} has no dimensions`);
   }
   return cube;
-};
-
-export const getName = (
-  node: Cube | CubeDimension,
-  { locale }: { locale: string }
-) => {
-  const term =
-    node
-      .out(ns.schema`name`)
-      .terms.find(
-        (term) => term.termType === "Literal" && term.language === locale
-      ) ??
-    node
-      .out(ns.schema`name`)
-      .terms.find(
-        (term) => term.termType === "Literal" && term.language === defaultLocale
-      ); // FIXME: fall back to all languages in order
-
-  return term?.value ?? "---";
 };
 
 export const getView = (cube: Cube): View => View.fromCube(cube);
@@ -366,37 +336,7 @@ export const getDimensionValuesAndLabels = async ({
   });
 };
 
-export const getCubeDimension = (
-  view: View,
-  dimensionKey: string,
-  { locale }: { locale: string }
-) => {
-  const viewDimension = view.dimension({
-    cubeDimension: ns.electricityPriceDimension(dimensionKey),
-  });
-
-  const cubeDimension = viewDimension?.cubeDimensions[0];
-
-  if (!cubeDimension) {
-    throw Error(`getCubeDimension: No dimension for '${dimensionKey}'`);
-  }
-
-  const iri = cubeDimension.path.value;
-  const min = cubeDimension.minInclusive?.value;
-  const max = cubeDimension.maxInclusive?.value;
-  const name = getName(cubeDimension, { locale });
-
-  return {
-    iri,
-    name,
-    min,
-    max,
-    datatype: cubeDimension.datatype,
-    dimension: viewDimension,
-  };
-};
-
-export const buildDimensionFilter = (
+const buildDimensionFilter = (
   view: View,
   dimensionKey: string,
   filters: string[]

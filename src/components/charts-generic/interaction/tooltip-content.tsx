@@ -60,25 +60,3 @@ export const TooltipMultiple = ({
     </Box>
   );
 };
-
-export const TooltipHistogram = ({
-  firstLine,
-  secondLine,
-  thirdLine,
-}: {
-  firstLine?: string;
-  secondLine?: string;
-  thirdLine?: string;
-}) => {
-  return (
-    <Box>
-      {firstLine && (
-        <Typography variant="meta" sx={{ fontWeight: "bold" }}>
-          {firstLine}
-        </Typography>
-      )}
-      {secondLine && <Typography variant="meta">{secondLine}</Typography>}
-      {thirdLine && <Typography variant="meta">{thirdLine}</Typography>}
-    </Box>
-  );
-};

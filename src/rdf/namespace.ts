@@ -1,9 +1,8 @@
 import namespace from "@rdfjs/namespace";
 
-export { rdf, schema, sh } from "@tpluscode/rdf-ns-builders";
+export { rdf, schema } from "@tpluscode/rdf-ns-builders";
 
 export const schemaAdmin = namespace("https://schema.ld.admin.ch/");
-export const visualizeAdmin = namespace("https://visualize.admin.ch/");
 export const electricityPrice = namespace(
   "https://energy.ld.admin.ch/elcom/electricityprice/"
 );

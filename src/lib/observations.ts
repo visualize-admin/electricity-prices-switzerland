@@ -2,14 +2,7 @@ import { Literal, NamedNode } from "rdf-js";
 
 import * as ns from "src/rdf/namespace";
 
-export type RawObservationValue = {
-  value: Literal | NamedNode;
-  label?: Literal;
-};
-
-export type RawObservation = Record<string, RawObservationValue>;
-
-export type ObservationValue = string | number | boolean;
+type ObservationValue = string | number | boolean;
 
 export type Observation = Record<string, ObservationValue>;
 
@@ -56,7 +49,7 @@ const parseRDFLiteral = (value: Literal): ObservationValue => {
  *
  * @param observationValue
  */
-export const parseObservationValue = (
+const parseObservationValue = (
   value: Literal | NamedNode
 ): ObservationValue => {
   // Parse literals to native JS types

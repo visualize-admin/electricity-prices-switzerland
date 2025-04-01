@@ -2,17 +2,11 @@ import { Trans } from "@lingui/macro";
 import {
   Box,
   BoxProps,
-  FormControlLabel,
   IconButton,
   InputAdornment,
-  InputBase,
-  Checkbox as MuiCheckbox,
-  Radio as MuiRadio,
-  Select as MuiSelect,
   NativeSelect,
   NativeSelectProps,
   OutlinedInput,
-  SelectProps,
   Typography,
 } from "@mui/material";
 import * as React from "react";
@@ -79,116 +73,6 @@ const Label = ({
   </Typography>
 );
 
-export const Radio = ({
-  label,
-  name,
-  value,
-  checked,
-  disabled,
-  onChange,
-}: { label: string | ReactNode; disabled?: boolean } & FieldProps) => {
-  return (
-    <Box mb={2}>
-      <FormControlLabel
-        disabled={disabled}
-        label={label}
-        control={
-          <MuiRadio
-            name={name}
-            id={`${name}-${value}`}
-            value={value}
-            onChange={onChange}
-            checked={checked}
-            disabled={disabled}
-            sx={{
-              color: checked && !disabled ? "primary" : "grey.500",
-            }}
-          />
-        }
-      />
-    </Box>
-  );
-};
-
-export const Checkbox = ({
-  label,
-  name,
-  value,
-  checked,
-  disabled,
-  onChange,
-}: { label: ReactNode; disabled?: boolean } & FieldProps) => (
-  <FormControlLabel
-    label={label}
-    htmlFor={`${name}-${label}`}
-    control={
-      <MuiCheckbox
-        sx={{
-          color: checked && !disabled ? "primary" : "grey.500",
-        }}
-        id={`${name}-${label}`}
-        name={name}
-        value={value}
-        checked={checked}
-        disabled={disabled}
-        onChange={onChange}
-      />
-    }
-    disabled={disabled}
-  />
-);
-
-export const Select = ({
-  label,
-  id,
-  value,
-  disabled,
-  options,
-  onChange,
-}: {
-  id: string;
-  options: Option[];
-  label?: ReactNode;
-  disabled?: boolean;
-} & SelectProps) => (
-  <Box sx={{ color: "grey.700", pb: 2 }}>
-    {label && (
-      <Label htmlFor={id} disabled={disabled} smaller>
-        {label}
-      </Label>
-    )}
-    <MuiSelect
-      sx={{
-        borderColor: "grey.500",
-        fontSize: "1rem",
-        bgcolor: "grey.100",
-        pt: 2,
-        pb: 2,
-        pl: 2,
-        pr: 5,
-        height: "40px",
-        color: disabled ? "grey.500" : "grey.700",
-        textOverflow: "ellipsis",
-      }}
-      id={id}
-      name={id}
-      onChange={onChange}
-      value={value}
-      disabled={disabled}
-    >
-      {options.map((opt) => (
-        <option
-          key={opt.value}
-          disabled={opt.disabled}
-          value={opt.value || undefined}
-        >
-          {opt.label}
-        </option>
-      ))}
-    </MuiSelect>
-  </Box>
-);
-
 export const MiniSelect = ({
   label,
   id,
@@ -235,31 +119,6 @@ export const MiniSelect = ({
         </option>
       ))}
     </NativeSelect>
-  </Box>
-);
-
-export const Input = ({
-  label,
-  name,
-  value,
-  onChange,
-}: {
-  label?: string | ReactNode;
-  disabled?: boolean;
-} & FieldProps) => (
-  <Box sx={{ color: "grey.700", fontSize: "1rem" }}>
-    {label && name && (
-      <Label htmlFor={name} smaller>
-        {label}
-      </Label>
-    )}
-    <InputBase
-      sx={{ borderColor: "grey.500", bgcolor: "grey.100", height: "40px" }}
-      id={name}
-      name={name}
-      value={value}
-      onChange={onChange}
-    />
   </Box>
 );
 
@@ -313,22 +172,3 @@ export const SearchField = ({
     />
   );
 };
-
-export const FieldSetLegend = ({
-  legendTitle,
-}: {
-  legendTitle: string | ReactNode;
-}) => (
-  <Box
-    sx={{
-      lineHeight: ["1rem", "1.125rem", "1.125rem"],
-      fontWeight: "regular",
-      fontSize: ["0.625rem", "0.75rem", "0.75rem"],
-      mb: 1,
-      color: "grey.600",
-    }}
-    component="legend"
-  >
-    {legendTitle}
-  </Box>
-);

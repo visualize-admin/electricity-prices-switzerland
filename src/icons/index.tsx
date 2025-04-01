@@ -45,7 +45,7 @@ import { IconWarning } from "./ic-warning";
 import { IconX } from "./ic-x";
 import { IconY } from "./ic-y";
 
-export const Icons = {
+const Icons = {
   check: IconCheck,
   add: IconAdd,
   clear: IconClear,

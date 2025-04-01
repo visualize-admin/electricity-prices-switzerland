@@ -24,9 +24,6 @@ import {
 } from "src/domain/helpers";
 import { estimateTextWidth } from "src/lib/estimate-text-width";
 
-export const ANNOTATION_DOT_RADIUS = 2.5;
-export const ANNOTATION_LABEL_HEIGHT = 20;
-
 const useHistogramState = ({
   data,
   medianValue,

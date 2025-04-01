@@ -195,7 +195,7 @@ export const PriceColorLegend = () => {
   );
 };
 
-export const ColorsLine = () => {
+const ColorsLine = () => {
   const { palette } = useTheme();
 
   return (

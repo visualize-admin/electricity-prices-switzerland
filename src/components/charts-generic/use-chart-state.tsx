@@ -19,7 +19,7 @@ export type ChartProps = {
   medianValue: number | undefined;
 };
 
-export type GroupedColumnsState = {
+type GroupedColumnsState = {
   sortedData: GenericObservation[];
   bounds: Bounds;
   getX: (d: GenericObservation) => string;
@@ -82,7 +82,7 @@ export type GroupedBarsState = {
   opacityScale: ScaleOrdinal<string, number>;
 };
 
-export type BarsState = {
+type BarsState = {
   bounds: Bounds;
   sortedData: GenericObservation[];
   getX: (d: GenericObservation) => number;
@@ -145,7 +145,7 @@ export type ColumnsState = {
   getAnnotationInfo: (d: GenericObservation) => Tooltip;
 };
 
-export type StackedColumnsState = {
+type StackedColumnsState = {
   sortedData: GenericObservation[];
   bounds: Bounds;
   getX: (d: GenericObservation) => string;
@@ -166,7 +166,7 @@ export type StackedColumnsState = {
   ) => Tooltip;
 };
 
-export type ChartState =
+type ChartState =
   | ColumnsState
   | BarsState
   | GroupedBarsState

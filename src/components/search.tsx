@@ -93,7 +93,7 @@ type Item = {
   __typename: ResultType;
 };
 
-export const SearchField = ({
+const SearchField = ({
   label,
   items,
   setSearchString,

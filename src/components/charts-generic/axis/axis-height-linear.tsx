@@ -89,37 +89,3 @@ export const AxisHeightLinear = ({
     </>
   );
 };
-
-export const AxisHeightLinearDomain = () => {
-  const ref = useRef<SVGGElement>(null);
-  const { xScale, yScale, bounds } = useChartState() as
-    | ColumnsState
-    | LinesState
-    | AreasState;
-  const { domainColor } = useChartTheme();
-
-  const mkAxisDomain = (
-    g: Selection<SVGGElement, unknown, null, undefined>
-  ) => {
-    g.call(axisLeft(yScale).tickSizeOuter(0));
-
-    g.select(".domain")
-      .attr("data-name", "height-axis-domain")
-      .attr("transform", `translate(${xScale(0 as $FixMe)}, 0)`)
-      .attr("stroke", domainColor);
-
-    g.selectAll(".tick line").remove();
-    g.selectAll(".tick text").remove();
-  };
-  useEffect(() => {
-    const g = select(ref.current);
-    mkAxisDomain(g as Selection<SVGGElement, unknown, null, undefined>);
-  });
-
-  return (
-    <g
-      ref={ref}
-      transform={`translate(${bounds.margins.left}, ${bounds.margins.top})`}
-    />
-  );
-};
