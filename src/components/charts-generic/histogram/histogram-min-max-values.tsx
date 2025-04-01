@@ -1,5 +1,5 @@
 import { t } from "@lingui/macro";
-import { max, min } from "d3-array";
+import { max, min } from "d3";
 
 import {
   HistogramState,

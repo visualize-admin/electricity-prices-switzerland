@@ -57,7 +57,7 @@ export const Header = ({
   );
 };
 
-export const Logo = () => {
+const Logo = () => {
   return (
     <Box
       component={HomeLink}

@@ -1,7 +1,6 @@
 import { Box, Typography } from "@mui/material";
+import { ascending, histogram, max, min, scaleLinear } from "d3";
 import { interpolateHsl } from "d3";
-import { ascending, histogram, max, min } from "d3-array";
-import { scaleLinear } from "d3-scale";
 import { ReactNode, useCallback } from "react";
 
 import { LEFT_MARGIN_OFFSET } from "src/components/charts-generic/constants";
@@ -23,9 +22,6 @@ import {
   useFormatCurrency,
 } from "src/domain/helpers";
 import { estimateTextWidth } from "src/lib/estimate-text-width";
-
-export const ANNOTATION_DOT_RADIUS = 2.5;
-export const ANNOTATION_LABEL_HEIGHT = 20;
 
 const useHistogramState = ({
   data,

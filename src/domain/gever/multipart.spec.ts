@@ -1,9 +1,9 @@
 import fs from "fs";
 import path from "path";
 
-import { it, expect } from "@jest/globals";
+import { it, expect } from "vitest";
 
-import { parseMultiPart } from "./multipart";
+import { parseMultiPart } from "src/domain/gever/multipart";
 
 it("should split a multipart buffer", () => {
   const parts = parseMultiPart(

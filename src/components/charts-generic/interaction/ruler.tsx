@@ -36,7 +36,7 @@ const RulerInner = ({ d }: { d: GenericObservation }) => {
   );
 };
 
-export const RulerContent = ({
+const RulerContent = ({
   xValue,
   chartHeight,
   margins,

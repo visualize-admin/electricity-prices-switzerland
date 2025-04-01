@@ -10,8 +10,8 @@ import DeckGL, { DeckGLRef } from "@deck.gl/react/typed";
 import { Trans } from "@lingui/macro";
 import { Box, Typography } from "@mui/material";
 import centroid from "@turf/centroid";
+import { ScaleThreshold } from "d3";
 import { color, extent, group, mean, rollup } from "d3";
-import { ScaleThreshold } from "d3-scale";
 import html2canvas from "html2canvas";
 import React, {
   ComponentProps,

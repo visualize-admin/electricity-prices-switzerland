@@ -1,6 +1,5 @@
 import { useTheme } from "@mui/material";
-import { ascending } from "d3-array";
-import { line } from "d3-shape";
+import { ascending, line } from "d3";
 import * as React from "react";
 
 import { LinesState } from "src/components/charts-generic/lines/lines-state";

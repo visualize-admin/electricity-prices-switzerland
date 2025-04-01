@@ -39,7 +39,15 @@ export const useFormatNumber = () => {
 
 // We don't use CHF currency because the unit used is Rp./kWh. Intead we just reuse the regular number format:
 // E.g. 3,5 Rp./kWh, 1 Rp./kWh
-export const useFormatCurrency = useFormatNumber;
+// Same as useFormatNumber currently
+export const useFormatCurrency = () => {
+  const locale = useLocale();
+  const formatter = React.useMemo(() => {
+    const { format } = d3FormatLocales[locale];
+    return format(",.2~f");
+  }, [locale]);
+  return formatter;
+};
 
 const parseTime = timeParse("%Y-%m-%dT%H:%M:%S");
 const parseDay = timeParse("%Y-%m-%d");

@@ -1,6 +1,6 @@
 import { t, Trans } from "@lingui/macro";
 import { Box } from "@mui/material";
-import { ascending, group, groups, max, min } from "d3-array";
+import { ascending, group, groups, max, min } from "d3";
 import * as React from "react";
 
 import {

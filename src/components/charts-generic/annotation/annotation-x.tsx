@@ -11,10 +11,9 @@ import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
 import { GenericObservation } from "src/domain/data";
 import { getLocalizedLabel } from "src/domain/translation";
 
-export const ANNOTATION_DOT_RADIUS = 2.5;
-export const ANNOTATION_TRIANGLE_WIDTH = 5;
+const ANNOTATION_DOT_RADIUS = 2.5;
+const ANNOTATION_TRIANGLE_WIDTH = 5;
 export const ANNOTATION_TRIANGLE_HEIGHT = ANNOTATION_TRIANGLE_WIDTH * 1.5;
-export const ANNOTATION_LABEL_HEIGHT = 20;
 
 export interface Annotation {
   datum: GenericObservation;

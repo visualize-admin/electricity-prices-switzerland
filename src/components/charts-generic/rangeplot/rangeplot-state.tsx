@@ -36,7 +36,7 @@ import { minMaxBy } from "src/lib/array";
 import { estimateTextWidth } from "src/lib/estimate-text-width";
 
 export const DOT_RADIUS = 8;
-export const OUTER_PADDING = 0.2;
+const OUTER_PADDING = 0.2;
 
 const useRangePlotState = ({
   data,

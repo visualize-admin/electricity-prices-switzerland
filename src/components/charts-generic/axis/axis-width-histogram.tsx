@@ -1,6 +1,4 @@
-import { max, min } from "d3-array";
-import { axisBottom } from "d3-axis";
-import { select, Selection } from "d3-selection";
+import { axisBottom, select, Selection } from "d3";
 import { useEffect, useRef } from "react";
 
 import {
@@ -8,72 +6,6 @@ import {
   useChartState,
 } from "src/components/charts-generic/use-chart-state";
 import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
-import { useFormatCurrency } from "src/domain/helpers";
-
-export const AxisWidthHistogram = () => {
-  const formatCurrency = useFormatCurrency();
-  const { data, getX, xScale, bounds, xAxisLabel } =
-    useChartState() as HistogramState;
-  const { chartWidth, chartHeight, margins } = bounds;
-  const { labelColor, domainColor, labelFontSize, gridColor, fontFamily } =
-    useChartTheme();
-  const xAxisRef = useRef<SVGGElement>(null);
-
-  const mkAxis = (g: Selection<SVGGElement, unknown, null, undefined>) => {
-    const minValue = min(data, (d) => getX(d)) || 0;
-    const maxValue = max(data, (d) => getX(d)) || 10000;
-    const tickValues = [minValue, maxValue];
-    g.call(
-      axisBottom(xScale)
-        .tickValues(tickValues)
-        .tickSizeInner(16)
-        .tickSizeOuter(xAxisLabel ? -chartHeight : 0)
-        .tickFormat(formatCurrency)
-    );
-
-    g.selectAll(".tick line")
-      // FIXME: stroke should depend on whether there is a colorScale defined for the bars
-      .attr("stroke", domainColor)
-      .attr("stroke-width", 1);
-    g.selectAll(".tick text")
-      .attr("font-size", labelFontSize)
-      .attr("font-family", fontFamily)
-      .attr("fill", labelColor)
-      .attr("x", 0)
-      .attr("dy", labelFontSize)
-      .attr("text-anchor", "middle");
-
-    g.select("path.domain").attr("stroke", gridColor);
-  };
-
-  useEffect(() => {
-    const g = select(xAxisRef.current);
-    mkAxis(g as Selection<SVGGElement, unknown, null, undefined>);
-  });
-
-  return (
-    <>
-      {xAxisLabel && (
-        <g transform={`translate(${margins.left}, ${margins.top})`}>
-          <text
-            x={chartWidth}
-            y={chartHeight + margins.bottom}
-            dy={-labelFontSize}
-            fontSize={labelFontSize}
-            textAnchor="end"
-          >
-            {xAxisLabel}
-          </text>
-        </g>
-      )}
-      <g
-        ref={xAxisRef}
-        key="x-axis-linear"
-        transform={`translate(${margins.left}, ${chartHeight + margins.top})`}
-      />
-    </>
-  );
-};
 
 export const AxisWidthHistogramDomain = () => {
   const { xScale, yScale, bounds } = useChartState() as HistogramState;

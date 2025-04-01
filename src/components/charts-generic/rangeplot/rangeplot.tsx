@@ -1,5 +1,5 @@
 import { useTheme } from "@mui/material";
-import { max, median, min } from "d3-array";
+import { max, median, min } from "d3";
 import * as React from "react";
 
 import { DOT_RADIUS } from "src/components/charts-generic/rangeplot/rangeplot-state";

@@ -4,19 +4,11 @@ import fs from "fs";
 import { memoize } from "lodash";
 import z from "zod";
 
-import serverEnv from "src/env/server";
-import { OperatorDocumentCategory } from "src/graphql/queries";
-import assert from "src/lib/assert";
-import { truthy } from "src/lib/truthy";
-
-import { decrypt, encrypt } from "./encrypt";
-import { parseMultiPart } from "./multipart";
-import { redactSAML } from "./redact";
-import { makeRequest, makeSslConfiguredAgent } from "./soap";
-import getContentTemplate from "./templates/get-content.template.xml";
-import req1Template from "./templates/req1.template.xml";
-import req2Template from "./templates/req2.template.xml";
-import searchDocumentsTemplate from "./templates/search-documents.template.xml";
+import { decrypt, encrypt } from "src/domain/gever/encrypt";
+import { parseMultiPart } from "src/domain/gever/multipart";
+import { redactSAML } from "src/domain/gever/redact";
+import { makeRequest, makeSslConfiguredAgent } from "src/domain/gever/soap";
+import * as templates from "src/domain/gever/templates";
 import {
   ns,
   $,
@@ -25,7 +17,16 @@ import {
   serializeXMLToString,
   stripWhitespace,
   $$,
-} from "./utils";
+} from "src/domain/gever/utils";
+import serverEnv from "src/env/server";
+import { OperatorDocumentCategory } from "src/graphql/queries";
+import assert from "src/lib/assert";
+import { truthy } from "src/lib/truthy";
+
+const req1Template = templates.req1;
+const req2Template = templates.req2;
+const searchDocumentsTemplate = templates.searchDocuments;
+const getContentTemplate = templates.getContent;
 
 assert(!!serverEnv, "serverEnv is not defined");
 
@@ -47,7 +48,7 @@ export const prepareIpStsMessage = () => {
   return stripWhitespace(serializeXMLToString(doc));
 };
 
-export const makeIpStsRequest = async () => {
+const makeIpStsRequest = async () => {
   const message = prepareIpStsMessage();
   fs.writeFileSync("/tmp/req1.xml", message);
 
@@ -212,7 +213,7 @@ export const prepareRpStsDoc = () => {
   return doc;
 };
 
-export const makeRpStsRequest = async (ipStsInfo: IPSTSInfo) => {
+const makeRpStsRequest = async (ipStsInfo: IPSTSInfo) => {
   const { samlAssertion, assertionId, binaryToken } = ipStsInfo;
   const doc = prepareRpStsDoc();
 
@@ -271,7 +272,7 @@ export const makeRpStsRequest = async (ipStsInfo: IPSTSInfo) => {
 
 type RPSTSInfo = Awaited<ReturnType<typeof makeRpStsRequest>>;
 
-export const setupGeverAPIRequest = (
+const setupGeverAPIRequest = (
   requestTemplate: string,
   rpStsInfo: RPSTSInfo
 ) => {

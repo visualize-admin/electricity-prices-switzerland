@@ -1,12 +1,8 @@
-/**
- * @jest-environment node
- */
-
 import { assert } from "console";
 import fs from "fs";
 import path from "path";
 
-import { it, expect } from "@jest/globals";
+import { it, expect, vi } from "vitest";
 
 import {
   digestSignedInfoNode,
@@ -15,10 +11,10 @@ import {
   parseSearchResponse,
   prepareIpStsMessage,
   prepareRpStsDoc,
-} from "./message";
-import { parseXMLString, $, ns, serializeXMLToString } from "./utils";
+} from "src/domain/gever/message";
+import { parseXMLString, $, ns, serializeXMLToString } from "src/domain/gever/utils";
 
-jest.mock("src/env/server", () => ({
+vi.mock("src/env/server", () => ({
   __esModule: true,
   default: {
     GEVER_BINDING_IPSTS:
