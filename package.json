@@ -27,7 +27,8 @@
     "e2e": "npx playwright test  --grep-invert @har",
     "e2e:k6:har": "npx playwright test e2e/generate-k6-har.spec.ts --headed",
     "e2e:k6:update": "bun e2e/update-k6-test-from-har.ts browsing-test-ref.har 802626",
-    "docker:build": "docker buildx build --platform linux/amd64 -t interactivethings/electricity-prices-switzerland ."
+    "docker:build": "docker buildx build --platform linux/amd64 -t interactivethings/electricity-prices-switzerland .",
+    "knip": "knip"
   },
   "dependencies": {
     "@apollo/server": "^4.3.3",
@@ -110,7 +111,7 @@
     "@types/jest": "^27.4.1",
     "@types/k6": "^0.46.3",
     "@types/lodash": "^4.14.182",
-    "@types/node": "^18",
+    "@types/node": "^22.13.16",
     "@types/node-fetch": "^2.6.1",
     "@types/nprogress": "^0.2.0",
     "@types/rdf-ext": "^1.3.8",
@@ -135,12 +136,12 @@
     "jest": "^27.5.1",
     "jest-raw-loader": "^1.0.1",
     "k6": "^0.0.0",
-    "knip": "^5.39.2",
+    "knip": "^5.46.4",
     "prettier": "^2.2.1",
     "raw-loader": "^4.0.2",
     "rollup-plugin-string": "^3.0.0",
     "start-server-and-test": "^1.12.1",
-    "typescript": "^4.2.4"
+    "typescript": "^5.8.2"
   },
   "resolutions": {
     "js-base64": "2.5.2",
