@@ -136,7 +136,6 @@
     "prettier": "^2.2.1",
     "raw-loader": "^4.0.2",
     "rollup-plugin-string": "^3.0.0",
-    "start-server-and-test": "^1.12.1",
     "typescript": "^5.8.2"
   },
   "resolutions": {
