@@ -1,8 +1,12 @@
+import { i18n } from "@lingui/core";
+import {
+  formatLocale,
+  FormatLocaleDefinition,
+  timeFormatLocale,
+  TimeLocaleDefinition,
+} from "d3";
 // If translations get too big, we should load them dynamically. But for now it's fine.
 // Use the same number format in each language
-import { i18n } from "@lingui/core";
-import { formatLocale, FormatLocaleDefinition } from "d3-format";
-import { timeFormatLocale, TimeLocaleDefinition } from "d3-time-format";
 import {
   de as pluralsDe,
   fr as pluralsFr,

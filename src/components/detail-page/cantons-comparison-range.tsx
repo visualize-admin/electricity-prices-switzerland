@@ -1,6 +1,6 @@
 import { t, Trans } from "@lingui/macro";
 import { Box } from "@mui/material";
-import { groups } from "d3-array";
+import { groups } from "d3";
 import { memo, useEffect, useState } from "react";
 
 import {

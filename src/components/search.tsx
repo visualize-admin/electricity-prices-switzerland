@@ -11,7 +11,7 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { rollup } from "d3-array";
+import { rollup } from "d3";
 import { sortBy } from "lodash";
 import { useRouter } from "next/router";
 import React, { ReactNode, useEffect, useMemo, useRef, useState } from "react";

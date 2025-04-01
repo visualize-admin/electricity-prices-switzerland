@@ -1,6 +1,6 @@
 import { Trans } from "@lingui/macro";
 import { Box, Link, Typography } from "@mui/material";
-import { descending, rollup } from "d3-array";
+import { descending, rollup } from "d3";
 import { uniqBy } from "lodash";
 import { useMemo } from "react";
 

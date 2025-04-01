@@ -18,14 +18,16 @@
     "no-restricted-imports": [
       "error",
       {
-        "name": "next",
-        "importNames": ["NextPage"],
-        "message": "Please use DataBrowserPage instead."
+        "name": "d3-array",
+        "message": "Please use d3 instead."
       },
       {
-        "name": "next",
-        "importNames": ["GetStaticProps"],
-        "message": "Please use DataBrowserGetStaticProps instead."
+        "name": "d3-selection",
+        "message": "Please use d3 instead."
+      },
+      {
+        "name": "d3-axis",
+        "message": "Please use d3 instead."
       }
     ],
     "@typescript-eslint/no-unused-vars": [

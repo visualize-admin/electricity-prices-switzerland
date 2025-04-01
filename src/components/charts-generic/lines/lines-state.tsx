@@ -7,15 +7,13 @@ import {
   groups,
   max,
   min,
-} from "d3-array";
-import {
   ScaleLinear,
   scaleLinear,
   ScaleOrdinal,
   scaleOrdinal,
   ScaleTime,
   scaleTime,
-} from "d3-scale";
+} from "d3";
 import { ReactNode, useCallback, useMemo } from "react";
 
 import { LEFT_MARGIN_OFFSET } from "src/components/charts-generic/constants";

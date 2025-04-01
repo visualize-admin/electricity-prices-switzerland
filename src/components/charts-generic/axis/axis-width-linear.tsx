@@ -1,6 +1,5 @@
 import { t } from "@lingui/macro";
-import { axisBottom, axisTop } from "d3-axis";
-import { select, Selection } from "d3-selection";
+import { axisBottom, axisTop, select, Selection } from "d3";
 import { useEffect, useRef } from "react";
 
 import {

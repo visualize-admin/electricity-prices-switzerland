@@ -1,4 +1,4 @@
-import { rollup } from "d3-array";
+import { rollup } from "d3";
 import { useMemo, useState } from "react";
 
 import { ComboboxMulti, ComboboxMultiProps } from "src/components/combobox";
