@@ -11,6 +11,15 @@ const config: KnipConfig = {
   ],
   project: ["src/**", "scripts/**"],
   ignore: ["src/graphql/resolver-types.ts", "src/graphql/queries.ts"],
+  ignoreBinaries: [
+    // Used to download content, can be removed when we switch to DatoCMS
+    "make",
+  ],
+  ignoreUnresolved: [
+    // Used in package.json:scripts:start to configure HTTP_PROXY.
+    // Node can import it fine, not sure why it's reported by knip.
+    '"./configure-proxy"',
+  ],
   ignoreDependencies: [
     // Added automatically by next
     "eslint-config-next",
