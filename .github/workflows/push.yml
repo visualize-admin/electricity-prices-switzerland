@@ -57,7 +57,7 @@ jobs:
         env:
           PLAYWRIGHT_BASE_URL: ${{ steps.deployment-url.outputs.deployment-url }}
           PLAYWRIGHT_NO_WEBSERVER: true
-        run: yarn playwright --grep-invert @storybook
+        run: yarn playwright test --grep-invert @storybook
 
       - uses: actions/upload-artifact@v4
         if: always()
@@ -71,7 +71,7 @@ jobs:
           PLAYWRIGHT_BASE_URL: ${{ steps.deployment-url.outputs.deployment-url }}/storybook
         run: |
           curl "$PLAYWRIGHT_BASE_URL/index.json" -o storybook-index.json
-          yarn playwright --grep @storybook
+          yarn playwright test --grep @storybook
 
       - uses: actions/upload-artifact@v4
         if: always()
