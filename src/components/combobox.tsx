@@ -59,7 +59,7 @@ export const ComboboxMulti = ({
             value={inputValue}
             onChange={(e) => {
               setInputValue(e.target.value);
-              onInputValueChange && onInputValueChange(e.target.value);
+              onInputValueChange?.(e.target.value);
             }}
             InputProps={{
               ...params.InputProps,

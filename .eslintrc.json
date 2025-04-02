@@ -69,7 +69,8 @@
     {
       "files": ["**/*.js"], // Specify the JavaScript files you want to override for
       "rules": {
-        "@typescript-eslint/no-var-requires": "off" // Turn off the rule for JavaScript files
+        "@typescript-eslint/no-var-requires": "off", // Turn off the rule for JavaScript files
+        "@typescript-eslint/no-require-imports": "off" // Turn off the rule for JavaScript files
       }
     }
   ]
