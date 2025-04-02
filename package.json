@@ -11,7 +11,7 @@
   "scripts": {
     "dev": "make content && NODE_OPTIONS='--openssl-legacy-provider --max_old_space_size=4096' next",
     "update-wiki-content": "make content",
-    "build": "lingui compile && NODE_OPTIONS='--max_old_space_size=16384 --openssl-legacy-provider' next build -d",
+    "build": "lingui compile && yarn build-storybook && NODE_OPTIONS='--max_old_space_size=16384 --openssl-legacy-provider' next build -d",
     "start": "GLOBAL_AGENT_ENVIRONMENT_VARIABLE_NAMESPACE='' NODE_OPTIONS='-r \"./configure-proxy\" --max_old_space_size=2048 --openssl-legacy-provider --unhandled-rejections=warn' next start -p $PORT",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
@@ -30,7 +30,7 @@
     "docker:build": "docker buildx build --platform linux/amd64 -t interactivethings/electricity-prices-switzerland .",
     "knip": "knip",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build -o public/storybook"
   },
   "dependencies": {
     "@apollo/server": "^4.3.3",
