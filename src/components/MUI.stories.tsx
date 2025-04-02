@@ -20,14 +20,19 @@ import {
   Typography,
 } from "@mui/material";
 
+import { StoryGrid } from "src/components/storybook/StoryGrid";
 import { IconAreaChart } from "src/icons/ic-area-chart";
 
+const StoryContainer = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <Box p={6} sx={{ "& > * + *": { mt: 2 } }}>
+      {children}
+    </Box>
+  );
+};
+
 export const TypographyStory: React.FC = () => (
-  <Box sx={{ mb: 6 }}>
-    <Typography variant="h5" gutterBottom>
-      Typography Variants
-    </Typography>
-    <Divider sx={{ mb: 2 }} />
+  <StoryContainer>
     <Typography variant="h1">h1. Heading</Typography>
     <Typography variant="h2">h2. Heading</Typography>
     <Typography variant="h3">h3. Heading</Typography>
@@ -55,15 +60,11 @@ export const TypographyStory: React.FC = () => (
     <Typography variant="overline" display="block">
       overline text
     </Typography>
-  </Box>
+  </StoryContainer>
 );
 
 export const ButtonStory: React.FC = () => (
-  <Box sx={{ mb: 6 }}>
-    <Typography variant="h5" gutterBottom>
-      Button Variants
-    </Typography>
-    <Divider sx={{ mb: 2 }} />
+  <StoryContainer>
     <Stack spacing={2} direction="row" sx={{ mb: 2 }}>
       <Button variant="text">Text</Button>
       <Button variant="contained">Contained</Button>
@@ -100,19 +101,15 @@ export const ButtonStory: React.FC = () => (
       <Button size="medium">Medium</Button>
       <Button size="large">Large</Button>
     </Stack>
-  </Box>
+  </StoryContainer>
 );
 
 export const PaletteSection: React.FC = () => (
-  <Box sx={{ mb: 4 }}>
-    <Typography variant="h5" gutterBottom>
-      Palette
-    </Typography>
-    <Divider sx={{ mb: 2 }} />
+  <StoryContainer>
     <Grid container spacing={2}>
       {["primary", "secondary", "error", "warning", "info", "success"].map(
         (color) => (
-          <Grid item key={color} xs={6} sm={4} md={2}>
+          <Grid item key={color} xs={6} sm={4} md={4}>
             <Paper
               sx={{
                 p: 2,
@@ -152,12 +149,12 @@ export const PaletteSection: React.FC = () => (
         )
       )}
     </Grid>
-  </Box>
+  </StoryContainer>
 );
 
 export const FormStory: React.FC = () => (
-  <>
-    <Box sx={{ mb: 6 }}>
+  <StoryContainer>
+    <Box>
       <Typography variant="h5" gutterBottom>
         Input Fields
       </Typography>
@@ -186,7 +183,7 @@ export const FormStory: React.FC = () => (
         />
       </Stack>
     </Box>
-    <Box sx={{ mb: 6 }}>
+    <Box>
       <Typography variant="h5" gutterBottom>
         Select
       </Typography>
@@ -219,7 +216,7 @@ export const FormStory: React.FC = () => (
         </Grid>
       </Grid>
     </Box>
-    <Box sx={{ mb: 6 }}>
+    <Box>
       <Typography variant="h5" gutterBottom>
         Autocomplete
       </Typography>
@@ -254,15 +251,11 @@ export const FormStory: React.FC = () => (
         )}
       />
     </Box>
-  </>
+  </StoryContainer>
 );
 
 export const ElevationStory: React.FC = () => (
-  <Box sx={{ mb: 6 }}>
-    <Typography variant="h5" gutterBottom>
-      Elevations
-    </Typography>
-    <Divider sx={{ mb: 2 }} />
+  <StoryContainer>
     <Grid container spacing={2}>
       {[0, 1, 2, 3, 4, 6, 8, 12, 16, 24].map((elevation) => (
         <Grid item key={elevation} xs={6} sm={4} md={2}>
@@ -282,17 +275,13 @@ export const ElevationStory: React.FC = () => (
         </Grid>
       ))}
     </Grid>
-  </Box>
+  </StoryContainer>
 );
 
 export const CardStory: React.FC = () => (
-  <Box sx={{ mb: 6 }}>
-    <Typography variant="h5" gutterBottom>
-      Cards
-    </Typography>
-    <Divider sx={{ mb: 2 }} />
+  <StoryContainer>
     <Grid container spacing={2}>
-      <Grid item xs={12} sm={6} md={4}>
+      <Grid item xs={12}>
         <Card>
           <CardHeader title="Card Title" subheader="September 14, 2023" />
           <CardContent>
@@ -307,7 +296,7 @@ export const CardStory: React.FC = () => (
           </CardActions>
         </Card>
       </Grid>
-      <Grid item xs={12} sm={6} md={4}>
+      <Grid item xs={12}>
         <Card variant="outlined">
           <CardContent>
             <Typography variant="h6" component="div">
@@ -320,15 +309,11 @@ export const CardStory: React.FC = () => (
         </Card>
       </Grid>
     </Grid>
-  </Box>
+  </StoryContainer>
 );
 
 export const ChipStory: React.FC = () => (
-  <Box sx={{ mb: 6 }}>
-    <Typography variant="h5" gutterBottom>
-      Chips
-    </Typography>
-    <Divider sx={{ mb: 2 }} />
+  <StoryContainer>
     <Stack
       direction="row"
       spacing={1}
@@ -355,41 +340,21 @@ export const ChipStory: React.FC = () => (
       <Chip label="Info" color="info" />
       <Chip label="Warning" color="warning" />
     </Stack>
-  </Box>
+  </StoryContainer>
 );
 
-export const KitchenSink = () => {
-  return (
-    <Box sx={{ p: 4 }}>
-      <Typography variant="h4" gutterBottom>
-        MUI Kitchen Sink
-      </Typography>
-
-      {/* Typography Section */}
-      <TypographyStory />
-
-      {/* Button Section */}
-      <ButtonStory />
-
-      {/* Palette Section */}
-      <PaletteSection />
-
-      {/* Form Section */}
-      <FormStory />
-
-      {/* Elevation Section */}
-      <ElevationStory />
-
-      {/* Card Section */}
-      <CardStory />
-
-      {/* Chips Section */}
-      <ChipStory />
-    </Box>
-  );
+const KitchenSink = () => {
+  return <div>Hello world</div>;
 };
 
 export default {
   component: KitchenSink,
   title: "ui",
+  tags: ["autodocs"],
+  parameters: {
+    layout: "centered",
+    docs: {
+      page: () => <StoryGrid cols={2} />,
+    },
+  },
 };
