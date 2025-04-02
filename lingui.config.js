@@ -15,4 +15,5 @@ module.exports = {
   fallbackLocales: {
     default: "de",
   },
+  compileNamespace: "ts",
 };
