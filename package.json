@@ -92,6 +92,7 @@
     "zod": "^3.17.3"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.10.1",
     "@babel/core": "^7.13.16",
     "@chromatic-com/storybook": "^3",
     "@graphql-codegen/cli": "^5.0.2",
@@ -104,6 +105,7 @@
     "@lingui/vite-plugin": "^5.3.0",
     "@mdx-js/loader": "^1.6.22",
     "@next/bundle-analyzer": "15.0.4",
+    "@playwright-testing-library/test": "^4.5.0",
     "@playwright/test": "1.51.1",
     "@rollup/plugin-typescript": "^8.3.2",
     "@storybook/addon-essentials": "^8.6.11",
