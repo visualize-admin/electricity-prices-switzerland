@@ -10,7 +10,6 @@ module.exports = {
     },
   ],
   format: "po",
-  compileNamespace: "cjs",
   sourceLocale: "de",
   fallbackLocales: {
     default: "de",
