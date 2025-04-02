@@ -1,6 +1,12 @@
 import { Box, Typography } from "@mui/material";
-import { ascending, histogram, max, min, scaleLinear } from "d3";
-import { interpolateHsl } from "d3";
+import {
+  ascending,
+  histogram,
+  interpolateHsl,
+  max,
+  min,
+  scaleLinear,
+} from "d3";
 import { ReactNode, useCallback } from "react";
 
 import { LEFT_MARGIN_OFFSET } from "src/components/charts-generic/constants";
@@ -115,7 +121,7 @@ const useHistogramState = ({
       datum: undefined,
       placement: { x: "center", y: "top" },
       xAnchor: xScale((d.x1! + d.x0!) / 2),
-      yAnchor: yScale(getY(d)) + margins.top - 10,
+      yAnchor: yScale(getY(d)) + margins.top - 30,
       xValue: "",
       tooltipContent: (
         <>
