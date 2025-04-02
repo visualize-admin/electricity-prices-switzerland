@@ -1,0 +1,16 @@
+name: "Wait for Vercel deployment"
+description: "Waits until a particular Vercel deployment"
+outputs:
+  deployment-url:
+    description: "The URL the commit has been deployed to"
+    value: ${{ steps.deploy-url.outputs.DEPLOYMENT_URL }}
+runs:
+  using: "composite"
+  steps:
+    - uses: oven-sh/setup-bun@v1
+    - id: deploy-url
+      shell: bash
+      name: Wait deployment
+      run: |
+        bun ${GITHUB_ACTION_PATH}/wait-for-vercel-deploy.ts ${DEPLOY_SHA} --project $VERCEL_PROJECT --team $VERCEL_TEAM | tee /tmp/output-wait-for-vercel-deploy.txt
+        cat /tmp/output-wait-for-vercel-deploy.txt | grep DEPLOYMENT_URL >> $GITHUB_OUTPUT

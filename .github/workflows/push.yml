@@ -33,5 +33,42 @@ jobs:
       - name: Unit tests
         run: yarn run test
 
-      - name: E2E tests
-        run: yarn run e2e
+      - name: "Wait Vercel deploy"
+        uses: ./.github/workflows/wait-vercel-deploy
+        id: deployment-url
+        env:
+          VERCEL_PROJECT: QmVEZ2de8ivvR38cXQgqgKbbyJ6ZPN78uDd79ZmLnmBR3U
+          VERCEL_TEAM: team_QR1NbYAXZYW9kP1RAF8UIjLl
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+
+      - name: Run non-storybook tests
+        env:
+          PLAYWRIGHT_BASE_URL: ${{ steps.deployment-url.outputs.deployment-url }}
+          PLAYWRIGHT_NO_WEBSERVER: true
+        run: yarn playwright --grep-invert @storybook
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
+
+      - name: Run storybook tests
+        env:
+          PLAYWRIGHT_BASE_URL: ${{ steps.deployment-url.outputs.deployment-url }}/storybook
+        run: |
+          curl "$PLAYWRIGHT_BASE_URL/index.json" -o storybook-index.json
+          yarn playwright --grep @storybook
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report-storybook
+          path: playwright-report/
+          retention-days: 2
+
+      - name: Upload snapshots to argos-ci.com
+        env:
+          ARGOS_TOKEN: ${{ secrets.ARGOS_TOKEN }}
+        run: yarn run test:argos
