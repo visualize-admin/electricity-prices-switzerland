@@ -31,7 +31,7 @@ const StoryContainer = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export const TypographyStory: React.FC = () => (
+export const TypographyStory = () => (
   <StoryContainer>
     <Typography variant="h1">h1. Heading</Typography>
     <Typography variant="h2">h2. Heading</Typography>
@@ -63,7 +63,7 @@ export const TypographyStory: React.FC = () => (
   </StoryContainer>
 );
 
-export const ButtonStory: React.FC = () => (
+export const ButtonStory = () => (
   <StoryContainer>
     <Stack spacing={2} direction="row" sx={{ mb: 2 }}>
       <Button variant="text">Text</Button>
@@ -104,7 +104,7 @@ export const ButtonStory: React.FC = () => (
   </StoryContainer>
 );
 
-export const PaletteSection: React.FC = () => (
+export const PaletteSection = () => (
   <StoryContainer>
     <Grid container spacing={2}>
       {["primary", "secondary", "error", "warning", "info", "success"].map(
@@ -152,7 +152,7 @@ export const PaletteSection: React.FC = () => (
   </StoryContainer>
 );
 
-export const FormStory: React.FC = () => (
+export const FormStory = () => (
   <StoryContainer>
     <Box>
       <Typography variant="h5" gutterBottom>
@@ -254,7 +254,7 @@ export const FormStory: React.FC = () => (
   </StoryContainer>
 );
 
-export const ElevationStory: React.FC = () => (
+export const ElevationStory = () => (
   <StoryContainer>
     <Grid container spacing={2}>
       {[0, 1, 2, 3, 4, 6, 8, 12, 16, 24].map((elevation) => (
@@ -278,7 +278,7 @@ export const ElevationStory: React.FC = () => (
   </StoryContainer>
 );
 
-export const CardStory: React.FC = () => (
+export const CardStory = () => (
   <StoryContainer>
     <Grid container spacing={2}>
       <Grid item xs={12}>
@@ -312,7 +312,7 @@ export const CardStory: React.FC = () => (
   </StoryContainer>
 );
 
-export const ChipStory: React.FC = () => (
+export const ChipStory = () => (
   <StoryContainer>
     <Stack
       direction="row"
@@ -350,7 +350,7 @@ const KitchenSink = () => {
 export default {
   component: KitchenSink,
   title: "ui",
-  tags: ["autodocs"],
+  tags: ["autodocs", "e2e:autodocs-screenshot"],
   parameters: {
     layout: "centered",
     docs: {
