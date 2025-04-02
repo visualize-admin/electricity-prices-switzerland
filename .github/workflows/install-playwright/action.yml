@@ -26,4 +26,3 @@ runs:
 
     - run: npx playwright install
       shell: bash
-      if: steps.playwright-cache.outputs.cache-hit != 'true'
