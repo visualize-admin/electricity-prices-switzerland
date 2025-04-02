@@ -30,11 +30,13 @@
     "docker:build": "docker buildx build --platform linux/amd64 -t interactivethings/electricity-prices-switzerland .",
     "knip": "knip",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build -o public/storybook"
+    "build-storybook": "storybook build -o public/storybook",
+    "test:argos": "argos upload ./e2e/snapshots"
   },
   "dependencies": {
     "@apollo/server": "^4.3.3",
     "@apollo/server-plugin-response-cache": "^4.1.0",
+    "@argos-ci/cli": "^2.5.6",
     "@as-integrations/next": "^1.2.0",
     "@deck.gl/core": "8.8",
     "@deck.gl/layers": "8.8",
