@@ -3709,11 +3709,6 @@
     "@storybook/global" "^5.0.0"
     tiny-invariant "^1.3.1"
 
-"@storybook/addon-onboarding@^8.6.11":
-  version "8.6.11"
-  resolved "https://registry.yarnpkg.com/@storybook/addon-onboarding/-/addon-onboarding-8.6.11.tgz#a8e39252ec3864aa207478c58eea7b7f3f815ae3"
-  integrity sha512-63XPzQ/8tRK7KWeMcRDoId0XSTWo+vEY3sHxhVkyAvIp76z/0QOHkScjf3pQ8tBMXD9Lr5E8d0a/cA0TqwF9tA==
-
 "@storybook/addon-outline@8.6.11":
   version "8.6.11"
   resolved "https://registry.yarnpkg.com/@storybook/addon-outline/-/addon-outline-8.6.11.tgz#c4f62c64ccffcd3cf8f7c8bcfed3a98b688388ee"
@@ -3779,19 +3774,6 @@
   integrity sha512-NC/o+SSjSC29hcQrPNoLCDRkqRTagkcAgFf0xEybX3mkLT0q+w3ZHJg1HQz7TtaigIzZ06iIPncif2xKvYgETw==
   dependencies:
     unplugin "^1.3.1"
-
-"@storybook/experimental-addon-test@^8.6.11":
-  version "8.6.11"
-  resolved "https://registry.yarnpkg.com/@storybook/experimental-addon-test/-/experimental-addon-test-8.6.11.tgz#403ac9e450542b7f18723cc5b0830c7ca1d8b919"
-  integrity sha512-I42yENYvmx4hMVqoywgvsnxkNr+tAjoJAeg3zoVKtCsOcFbyEWB/1Ag6vqT7yjdQvegswoBNvptbftfyUVxcRQ==
-  dependencies:
-    "@storybook/global" "^5.0.0"
-    "@storybook/icons" "^1.2.12"
-    "@storybook/instrumenter" "8.6.11"
-    "@storybook/test" "8.6.11"
-    polished "^4.2.2"
-    prompts "^2.4.0"
-    ts-dedent "^2.2.0"
 
 "@storybook/experimental-nextjs-vite@8.6.11":
   version "8.6.11"
@@ -9530,11 +9512,6 @@ keyv@^4.5.3:
   dependencies:
     json-buffer "3.0.1"
 
-kleur@^3.0.3:
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/kleur/-/kleur-3.0.3.tgz#a79c9ecc86ee1ce3fa6206d1216c501f147fc07e"
-  integrity sha512-eTIzlVOSUR+JxdDFepEYcBMtZ9Qqdef+rnzWdRZuMbOywu5tO2w2N7rqjoANZ5k9vywhL6Br1VRjUIgTQx4E8w==
-
 knip@^5.46.4:
   version "5.46.4"
   resolved "https://registry.yarnpkg.com/knip/-/knip-5.46.4.tgz#197b4801d6acaa992517ba204aea665e06f0e46f"
@@ -10978,14 +10955,6 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prompts@^2.4.0:
-  version "2.4.2"
-  resolved "https://registry.yarnpkg.com/prompts/-/prompts-2.4.2.tgz#7b57e73b3a48029ad10ebd44f74b01722a4cb069"
-  integrity sha512-NxNv/kLguCA7p3jE8oL2aEBsrJWgAakBpgmgK6lpPWV+WuOmY6r2/zbAVnP+T8bQlA0nzHXSJSJW0Hq7ylaD2Q==
-  dependencies:
-    kleur "^3.0.3"
-    sisteransi "^1.0.5"
-
 prop-types@^15.6.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
@@ -11960,11 +11929,6 @@ sirv@^3.0.1:
     "@polka/url" "^1.0.0-next.24"
     mrmime "^2.0.0"
     totalist "^3.0.0"
-
-sisteransi@^1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/sisteransi/-/sisteransi-1.0.5.tgz#134d681297756437cc05ca01370d3a7a571075ed"
-  integrity sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg==
 
 slash@^3.0.0:
   version "3.0.0"
