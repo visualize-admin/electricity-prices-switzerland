@@ -1,4 +1,9 @@
-export const data = {
+import { Entity, GenericObservation } from "src/domain/data";
+
+export const data: {
+  entity: Entity;
+  observations: GenericObservation[];
+} = {
   entity: "municipality",
   observations: [
     {

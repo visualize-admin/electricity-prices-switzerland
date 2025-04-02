@@ -1,4 +1,4 @@
-const { z } = require("zod");
+import { z } from "zod";
 
 export const buildSchema = z.object({
   // Used to display a mention of the current deployment in development mode
