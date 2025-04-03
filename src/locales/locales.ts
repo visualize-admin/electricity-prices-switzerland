@@ -5,8 +5,6 @@ import {
   timeFormatLocale,
   TimeLocaleDefinition,
 } from "d3";
-// If translations get too big, we should load them dynamically. But for now it's fine.
-// Use the same number format in each language
 import {
   de as pluralsDe,
   fr as pluralsFr,
@@ -14,20 +12,17 @@ import {
   en as pluralsEn,
 } from "make-plural/plurals";
 
+// We need to import with relative imports from node_modules otherwise we have
+// errors from vite-import-analysis
+import numberFormatCh from "../../node_modules/d3-format/locale/de-CH.json";
+import timeFormatDe from "../../node_modules/d3-time-format/locale/de-CH.json";
+import timeFormatEn from "../../node_modules/d3-time-format/locale/en-GB.json";
+import timeFormatFr from "../../node_modules/d3-time-format/locale/fr-FR.json";
+import timeFormatIt from "../../node_modules/d3-time-format/locale/it-IT.json";
+
 import { messages as catalogDe } from "./de/messages";
 import { messages as catalogFr } from "./fr/messages";
 import { messages as catalogIt } from "./it/messages";
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const numberFormatCh = require("d3-format/locale/de-CH");
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const timeFormatDe = require("d3-time-format/locale/de-CH");
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const timeFormatEn = require("d3-time-format/locale/en-GB");
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const timeFormatFr = require("d3-time-format/locale/fr-FR");
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const timeFormatIt = require("d3-time-format/locale/it-IT");
 
 export const defaultLocale = "de";
 

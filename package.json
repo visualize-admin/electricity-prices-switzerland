@@ -6,12 +6,12 @@
   "license": "BSD-3-Clause",
   "private": true,
   "engines": {
-    "node": "18"
+    "node": "22"
   },
   "scripts": {
     "dev": "make content && NODE_OPTIONS='--openssl-legacy-provider --max_old_space_size=4096' next",
     "update-wiki-content": "make content",
-    "build": "lingui compile && NODE_OPTIONS='--max_old_space_size=16384 --openssl-legacy-provider' next build -d",
+    "build": "lingui compile && yarn build-storybook && NODE_OPTIONS='--max_old_space_size=16384 --openssl-legacy-provider' next build -d",
     "start": "GLOBAL_AGENT_ENVIRONMENT_VARIABLE_NAMESPACE='' NODE_OPTIONS='-r \"./configure-proxy\" --max_old_space_size=2048 --openssl-legacy-provider --unhandled-rejections=warn' next start -p $PORT",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
@@ -28,11 +28,15 @@
     "e2e:k6:har": "npx playwright test e2e/generate-k6-har.spec.ts --headed",
     "e2e:k6:update": "bun e2e/update-k6-test-from-har.ts browsing-test-ref.har 802626",
     "docker:build": "docker buildx build --platform linux/amd64 -t interactivethings/electricity-prices-switzerland .",
-    "knip": "knip"
+    "knip": "knip",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build -o public/storybook",
+    "test:argos": "argos upload ./e2e/snapshots"
   },
   "dependencies": {
     "@apollo/server": "^4.3.3",
     "@apollo/server-plugin-response-cache": "^4.1.0",
+    "@argos-ci/cli": "^2.5.6",
     "@as-integrations/next": "^1.2.0",
     "@deck.gl/core": "8.8",
     "@deck.gl/layers": "8.8",
@@ -90,6 +94,7 @@
     "zod": "^3.17.3"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.10.1",
     "@babel/core": "^7.13.16",
     "@graphql-codegen/cli": "^5.0.2",
     "@graphql-codegen/typescript": "^4.0.9",
@@ -98,10 +103,17 @@
     "@graphql-codegen/typescript-urql": "^4.0.0",
     "@lingui/cli": "^3.13.3",
     "@lingui/macro": "^3.13.3",
+    "@lingui/vite-plugin": "^5.3.0",
     "@mdx-js/loader": "^1.6.22",
     "@next/bundle-analyzer": "15.0.4",
-    "@playwright/test": "^1.38.1",
+    "@playwright-testing-library/test": "^4.5.0",
+    "@playwright/test": "1.51.1",
     "@rollup/plugin-typescript": "^8.3.2",
+    "@storybook/addon-essentials": "^8.6.11",
+    "@storybook/blocks": "^8.6.11",
+    "@storybook/experimental-nextjs-vite": "8.6.11",
+    "@storybook/react": "^8.6.11",
+    "@storybook/test": "^8.6.11",
     "@types/argparse": "^2.0.10",
     "@types/clownface": "^1.2.2",
     "@types/d3": "^6.3.0",
@@ -119,8 +131,10 @@
     "@types/sparql-http-client": "^2.2.5",
     "@types/topojson-client": "^3.1.0",
     "@types/xml-c14n": "^0.0.1",
-    "@typescript-eslint/eslint-plugin": "^6.7.3",
-    "@typescript-eslint/parser": "^6.7.3",
+    "@typescript-eslint/eslint-plugin": "^8.29.0",
+    "@typescript-eslint/parser": "^8.29.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "@vitest/browser": "3.1.1",
     "argparse": "^2.0.1",
     "babel-plugin-macros": "^3.0.1",
     "eslint": "^8.50.0",
@@ -131,10 +145,13 @@
     "global-agent": "^3.0.0",
     "k6": "^0.0.0",
     "knip": "^5.46.4",
+    "playwright": "^1.51.1",
     "prettier": "^2.2.1",
     "raw-loader": "^4.0.2",
     "rollup-plugin-string": "^3.0.0",
-    "typescript": "^5.8.2"
+    "storybook": "^8.6.11",
+    "typescript": "^5.8.2",
+    "vite": "6.2.4"
   },
   "resolutions": {
     "js-base64": "2.5.2",

@@ -128,7 +128,7 @@ export const PriceEvolution = ({
   );
 };
 
-const PriceEvolutionLineCharts = memo(
+export const PriceEvolutionLineCharts = memo(
   ({
     observations,
     entity,

@@ -22,7 +22,6 @@ const SWISS_OBSERVATIONS_CUBE =
 
 const createSource = (cubeIri: string | undefined) => {
   assert(!!serverEnv, "serverEnv is not defined");
-  ``;
   const endpointUrl =
     cubeIri && serverEnv.SPARQL_ENDPOINT_SUPPORTS_CACHING_PER_CUBE
       ? `${serverEnv.SPARQL_ENDPOINT}/${encodeURIComponent(cubeIri)}`

@@ -4,7 +4,8 @@ node_modules
 *.log
 
 /src/locales/_build
-/src/locales/**/*.js
+/src/locales/**/messages.ts
+/src/locales/**/messages.d.ts
 
 /public/dist/**/*.js
 /build
@@ -20,3 +21,6 @@ tsconfig.tsbuildinfo
 /playwright/.cache/
 
 *.har
+
+*storybook.log
+e2e/snapshots

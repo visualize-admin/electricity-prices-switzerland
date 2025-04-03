@@ -8,6 +8,7 @@ const config: KnipConfig = {
     "src/pages/**/*.ts",
     "src/domain/gever/output/cli.js",
     "src/domain/gever/rollup.config.js",
+    "e2e/common.ts",
   ],
   project: ["src/**", "scripts/**"],
   ignore: ["src/graphql/resolver-types.ts", "src/graphql/queries.ts"],
