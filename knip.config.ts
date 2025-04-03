@@ -9,6 +9,7 @@ const config: KnipConfig = {
     "src/domain/gever/output/cli.js",
     "src/domain/gever/rollup.config.js",
     "e2e/common.ts",
+    "src/**/*.stories.tsx",
   ],
   project: ["src/**", "scripts/**"],
   ignore: ["src/graphql/resolver-types.ts", "src/graphql/queries.ts"],
@@ -30,9 +31,6 @@ const config: KnipConfig = {
 
     // binary called directly from script
     "har-to-k6",
-
-    // Can be useful
-    "prettier",
 
     // Used through dynamic import
     "swiss-maps",

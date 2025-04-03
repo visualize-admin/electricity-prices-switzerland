@@ -71,6 +71,12 @@ export async function loadStory(page: Playwright.Page, storyId: string) {
   if (node?.type === "error") {
     throw new Error("An error happened while rendering the component");
   }
+
+  // Wait for the data-testid="loading" to be removed
+  // before taking the screenshot
+  await page.waitForSelector("[data-testid='loading']", {
+    state: "hidden",
+  });
 }
 
 const stories = loadStories();
