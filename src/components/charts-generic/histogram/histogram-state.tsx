@@ -1,15 +1,12 @@
 import { Box, Typography } from "@mui/material";
-import {
-  ascending,
-  histogram,
-  interpolateHsl,
-  max,
-  min,
-  scaleLinear,
-} from "d3";
+import { ascending, bin, interpolateHsl, max, min, scaleLinear } from "d3";
 import { ReactNode, useCallback } from "react";
 
-import { LEFT_MARGIN_OFFSET } from "src/components/charts-generic/constants";
+import {
+  LEFT_MARGIN_OFFSET,
+  TOOLTIP_ARROW_HEIGHT,
+  VERTICAL_TICK_OFFSET,
+} from "src/components/charts-generic/constants";
 import { Tooltip } from "src/components/charts-generic/interaction/tooltip";
 import { LegendSymbol } from "src/components/charts-generic/legends/color";
 import {
@@ -78,7 +75,7 @@ const useHistogramState = ({
     .range(palette.diverging)
     .interpolate(interpolateHsl);
   // y
-  const bins = histogram<GenericObservation, number>()
+  const bins = bin<GenericObservation, number>()
     .value((x) => getX(x))
     .domain([mkNumber(minValue), mkNumber(maxValue)])
     .thresholds(xScale.ticks(25))(data);
@@ -117,11 +114,15 @@ const useHistogramState = ({
     : [{ height: 0, nbOfLines: 1 }];
 
   const getAnnotationInfo = (d: (typeof bins)[number]): Tooltip => {
+    console.log(yScale(getY(d)));
     return {
-      datum: undefined,
       placement: { x: "center", y: "top" },
       xAnchor: xScale((d.x1! + d.x0!) / 2),
-      yAnchor: yScale(getY(d)) + margins.top - 30,
+      yAnchor:
+        yScale(getY(d)) +
+        margins.top -
+        TOOLTIP_ARROW_HEIGHT -
+        VERTICAL_TICK_OFFSET,
       xValue: "",
       tooltipContent: (
         <>
@@ -133,7 +134,7 @@ const useHistogramState = ({
             </Typography>
           </Box>
           <Typography variant="meta">
-            {yAxisLabel}:{d.length}
+            {yAxisLabel}: {d.length}
           </Typography>
         </>
       ),
