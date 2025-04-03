@@ -227,8 +227,7 @@ type GeoDataState = FetchDataState<GeoData>;
 
 const fetchGeoData = async (year: string) => {
   const topo = await import(
-    // Need to use relative import of node_modules due to vite in Storybook
-    `../../node_modules/swiss-maps/${parseInt(year, 10) - 1}/ch-combined.json`
+    `swiss-maps/${parseInt(year, 10) - 1}/ch-combined.json`
   );
 
   const municipalities = topojsonFeature(topo, topo.objects.municipalities);
