@@ -32,9 +32,6 @@ const config: KnipConfig = {
     // binary called directly from script
     "har-to-k6",
 
-    // Can be useful
-    "prettier",
-
     // Used through dynamic import
     "swiss-maps",
 
