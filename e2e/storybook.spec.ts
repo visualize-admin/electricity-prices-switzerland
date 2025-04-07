@@ -2,6 +2,7 @@ import * as fs from "fs";
 import * as path from "path";
 
 import * as Playwright from "@playwright/test";
+import { Page } from "@playwright/test";
 
 import { test, expect } from "./common";
 
@@ -56,6 +57,13 @@ export async function loadStory(page: Playwright.Page, storyId: string) {
   expect(resp?.status()).toEqual(200);
 
   // wait for page to finish rendering before starting test
+  const allFramesAreLoaded = (page: Page) => {
+    return Promise.all(
+      page.frames().map((frame) => {
+        return frame.waitForLoadState("domcontentloaded");
+      })
+    );
+  };
   const node = await Promise.race([
     page
       .waitForSelector("#storybook-docs")
@@ -67,6 +75,8 @@ export async function loadStory(page: Playwright.Page, storyId: string) {
       .waitForSelector("#error-message")
       .then((x) => ({ result: x, type: "error" })),
   ]);
+
+  await allFramesAreLoaded(page);
 
   if (node?.type === "error") {
     throw new Error("An error happened while rendering the component");
