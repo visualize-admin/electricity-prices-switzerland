@@ -32,6 +32,7 @@ export const Loading = ({ delayMs = 1000 }: { delayMs?: number }) => (
       animation: `0s linear ${delayMs}ms forwards ${delayedShow}`,
     }}
     display="flex"
+    data-testid="loading"
   >
     <Box
       sx={{
