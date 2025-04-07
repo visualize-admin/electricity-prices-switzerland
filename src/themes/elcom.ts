@@ -68,7 +68,8 @@ const lineHeights = [
 
 const createTypographyVariant = (
   theme: Theme,
-  spec: Record<string, $IntentionalAny>
+  spec: Record<string, $IntentionalAny>,
+  variantName: string
 ) => {
   const res = omit(spec, ["lineHeight", "fontSize"]);
   res.fontWeight = fontWeights[spec.fontWeight];
@@ -82,6 +83,16 @@ const createTypographyVariant = (
       lineHeight,
     };
   }
+  res.position = "relative";
+  res["&:after"] = {
+    content: `'${variantName}'`,
+    display: "block",
+    position: "absolute",
+    top: 0,
+    right: 0,
+    fontSize: 10,
+    background: "hotpink",
+  };
   return res;
 };
 
@@ -190,51 +201,87 @@ export const theme: Theme = createTheme({
       "FrutigerNeue, -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol",
     // monospace: "Menlo, monospace"
 
-    giga: createTypographyVariant(bpTheme, {
-      lineHeight: 1.2,
-      fontWeight: "bold",
-      fontSize: [8, 9],
-    }),
-    h1: createTypographyVariant(bpTheme, {
-      lineHeight: [8, 8],
-      fontWeight: "bold",
-      fontSize: [7, 7],
-    }),
-    h2: createTypographyVariant(bpTheme, {
-      lineHeight: [6, 7],
-      fontWeight: "regular",
-      fontSize: [5, 6],
-    }),
-    h3: createTypographyVariant(bpTheme, {
-      lineHeight: [5, 6],
-      fontWeight: "bold",
-      fontSize: [4, 5],
-    }),
-    lead: createTypographyVariant(bpTheme, {
-      lineHeight: [4, 5],
-      fontWeight: "bold",
-      fontSize: [3, 4],
-    }),
-    body1: createTypographyVariant(bpTheme, {
-      lineHeight: [4, 5],
-      fontWeight: "regular",
-      fontSize: [3, 4],
-    }),
-    body2: createTypographyVariant(bpTheme, {
-      lineHeight: [2, 3],
-      fontWeight: "regular",
-      fontSize: [2, 3],
-    }),
-    table: createTypographyVariant(bpTheme, {
-      lineHeight: [2, 4],
-      fontWeight: "regular",
-      fontSize: [2, 3],
-    }),
-    meta: createTypographyVariant(bpTheme, {
-      lineHeight: [1, 2],
-      fontWeight: "regular",
-      fontSize: [1, 2],
-    }),
+    giga: createTypographyVariant(
+      bpTheme,
+      {
+        lineHeight: 1.2,
+        fontWeight: "bold",
+        fontSize: [8, 9],
+      },
+      "giga"
+    ),
+    h1: createTypographyVariant(
+      bpTheme,
+      {
+        lineHeight: [8, 8],
+        fontWeight: "bold",
+        fontSize: [7, 7],
+      },
+      "h1"
+    ),
+    h2: createTypographyVariant(
+      bpTheme,
+      {
+        lineHeight: [6, 7],
+        fontWeight: "regular",
+        fontSize: [5, 6],
+      },
+      "h2"
+    ),
+    h3: createTypographyVariant(
+      bpTheme,
+      {
+        lineHeight: [5, 6],
+        fontWeight: "bold",
+        fontSize: [4, 5],
+      },
+      "h3"
+    ),
+    lead: createTypographyVariant(
+      bpTheme,
+      {
+        lineHeight: [4, 5],
+        fontWeight: "bold",
+        fontSize: [3, 4],
+      },
+      "lead"
+    ),
+    body1: createTypographyVariant(
+      bpTheme,
+      {
+        lineHeight: [4, 5],
+        fontWeight: "regular",
+        fontSize: [3, 4],
+      },
+      "body1"
+    ),
+    body2: createTypographyVariant(
+      bpTheme,
+      {
+        lineHeight: [2, 3],
+        fontWeight: "regular",
+        fontSize: [2, 3],
+      },
+      "body2"
+    ),
+    table: createTypographyVariant(
+      bpTheme,
+      {
+        lineHeight: [2, 4],
+        fontWeight: "regular",
+        fontSize: [2, 3],
+      },
+      "table"
+    ),
+    meta: createTypographyVariant(
+      bpTheme,
+      {
+        lineHeight: [1, 2],
+        fontWeight: "regular",
+        fontSize: [1, 2],
+      },
+      "meta"
+    ),
   },
 
   // @ts-expect-error Could not correctly augment Shadows
