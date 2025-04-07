@@ -1,5 +1,5 @@
 import { useTheme } from "@mui/material";
-import { scaleThreshold, range } from "d3";
+import { range, scaleThreshold } from "d3";
 import { useMemo } from "react";
 
 import buildEnv from "src/env/build";

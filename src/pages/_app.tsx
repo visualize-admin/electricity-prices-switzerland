@@ -11,7 +11,7 @@ import { GraphqlProvider } from "src/graphql/context";
 import { LocaleProvider } from "src/lib/use-locale";
 import { useNProgress } from "src/lib/use-nprogress";
 import { i18n, parseLocaleString } from "src/locales/locales";
-import { fonts, theme } from "src/themes/elcom";
+import { preloadFonts, theme } from "src/themes/elcom";
 
 import "src/styles/nprogress.css";
 
@@ -70,7 +70,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        {fonts.map(({ src }) => (
+        {preloadFonts.map((src) => (
           <link
             key={src}
             rel="preload"
