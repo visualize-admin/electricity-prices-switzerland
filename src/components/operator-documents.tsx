@@ -47,7 +47,7 @@ const DocumentList = ({
             sx={{ ml: 0, mb: 2, p: 0 }}
             typography="body2"
           >
-            <Link href={doc.url} variant="inline">
+            <Link href={doc.url} variant="body2">
               <Box display="flex">
                 <Box sx={{ flexShrink: 0, mr: 2 }}>
                   <Icon name="pdf" size={20} />
@@ -115,7 +115,12 @@ export const OperatorDocuments = ({ id }: { id: string }) => {
 
         return (
           <Box key={category.id} sx={{ mx: 4, my: 6 }}>
-            <Typography component="h4" sx={{ mb: 3 }} variant="lead">
+            <Typography
+              component="h4"
+              sx={{ mb: 3 }}
+              variant="body2"
+              fontWeight={600}
+            >
               {category.categoryLabel}
             </Typography>
             <DocumentList itemLabel={category.itemLabel} documents={docs} />
