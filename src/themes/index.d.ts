@@ -5,7 +5,6 @@ import {
   FederalTypographyVariants,
   FederalTypographyVariantsOptions,
 } from "@interactivethings/swiss-federal-ci";
-import type {} from "@mui/lab/themeAugmentation";
 import { useTheme } from "@mui/material";
 
 declare module "@mui/material" {
