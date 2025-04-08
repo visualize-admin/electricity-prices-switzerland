@@ -74,22 +74,22 @@ export const ButtonStory = () => (
       Colors
     </Typography>
     <Stack direction="row" spacing={1} sx={{ mb: 2 }}>
-      <Button color="primary" variant="contained">
+      <Button color="cobalt" variant="contained">
         Primary
       </Button>
-      <Button color="secondary" variant="contained">
+      <Button color="monochrome" variant="contained">
         Secondary
       </Button>
-      <Button color="success" variant="contained">
+      <Button color="green" variant="contained">
         Success
       </Button>
-      <Button color="error" variant="contained">
+      <Button color="red" variant="contained">
         Error
       </Button>
-      <Button color="info" variant="contained">
+      <Button color="blue" variant="contained">
         Info
       </Button>
-      <Button color="warning" variant="contained">
+      <Button color="yellow" variant="contained">
         Warning
       </Button>
     </Stack>
@@ -97,9 +97,10 @@ export const ButtonStory = () => (
       Sizes
     </Typography>
     <Stack direction="row" spacing={1} alignItems="center">
-      <Button size="small">Small</Button>
-      <Button size="medium">Medium</Button>
-      <Button size="large">Large</Button>
+      <Button size="sm">Small</Button>
+      <Button size="md">Medium</Button>
+      <Button size="lg">Large</Button>
+      <Button size="xl">Large</Button>
     </Stack>
   </StoryContainer>
 );
@@ -291,8 +292,8 @@ export const CardStory = () => (
             </Typography>
           </CardContent>
           <CardActions>
-            <Button size="small">Share</Button>
-            <Button size="small">Learn More</Button>
+            <Button size="sm">Share</Button>
+            <Button size="sm">Learn More</Button>
           </CardActions>
         </Card>
       </Grid>

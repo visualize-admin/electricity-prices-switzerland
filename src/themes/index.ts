@@ -27,6 +27,8 @@ declare module "@mui/material/Button" {
     monochrome: true;
     blue: true;
     red: true;
+    green: true;
+    yellow: true;
     inherit: true;
   }
 
@@ -68,6 +70,7 @@ declare module "@mui/material/styles" {
     red: FederalColor & { main: string };
     blue: FederalColor & { main: string };
     green: FederalColor & { main: string };
+    yellow: FederalColor & { main: string };
     diverging: string[];
     categorical: string[];
   }
@@ -78,6 +81,7 @@ declare module "@mui/material/styles" {
     red: FederalColor & { main: string };
     blue: FederalColor & { main: string };
     green: FederalColor & { main: string };
+    yellow: FederalColor & { main: string };
     diverging: string[];
     categorical: string[];
   }

@@ -23,7 +23,7 @@ const FooterLink = ({
   return (
     <Link
       {...props}
-      variant="inline"
+      variant="body2"
       sx={{
         borderBottomWidth: "1px",
         borderBottomStyle: "solid",
@@ -276,7 +276,7 @@ export const Footer = () => {
           <Typography variant="body2" sx={{ display: "block" }} component="div">
             <Link
               target="_blank"
-              variant="inline"
+              variant="body2"
               href={t({
                 id: "footer.legal-framework.link",
                 message: "https://www.admin.ch/gov/de/start/rechtliches.html",

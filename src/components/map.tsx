@@ -10,8 +10,7 @@ import DeckGL, { DeckGLRef } from "@deck.gl/react/typed";
 import { Trans } from "@lingui/macro";
 import { Box, Typography } from "@mui/material";
 import centroid from "@turf/centroid";
-import { ScaleThreshold } from "d3";
-import { color, extent, group, mean, rollup } from "d3";
+import { color, extent, group, mean, rollup, ScaleThreshold } from "d3";
 import html2canvas from "html2canvas";
 import React, {
   ComponentProps,
@@ -788,7 +787,7 @@ export const ChoroplethMap = ({
                 alignItems: "center",
               }}
             >
-              <Typography variant="meta" sx={{ fontWeight: "bold" }}>
+              <Typography variant="caption" sx={{ fontWeight: "bold" }}>
                 {tooltipContent.name}
               </Typography>
 
@@ -804,7 +803,7 @@ export const ChoroplethMap = ({
                       background: colorScale(hovered.value),
                     }}
                   >
-                    <Typography variant="meta">
+                    <Typography variant="caption">
                       {formatNumber(hovered.value)}
                     </Typography>
                   </Box>
@@ -826,7 +825,7 @@ export const ChoroplethMap = ({
                     tooltipContent.observations.map((d, i) => {
                       return (
                         <Fragment key={i}>
-                          <Typography variant="meta" sx={{}}>
+                          <Typography variant="caption" sx={{}}>
                             {d.operatorLabel}
                           </Typography>
                           <Box
@@ -837,7 +836,7 @@ export const ChoroplethMap = ({
                             }}
                             style={{ background: colorScale(d.value) }}
                           >
-                            <Typography variant="meta">
+                            <Typography variant="caption">
                               {formatNumber(d.value)}
                             </Typography>
                           </Box>
@@ -845,7 +844,10 @@ export const ChoroplethMap = ({
                       );
                     })
                   ) : (
-                    <Typography variant="meta" sx={{ color: "secondary.main" }}>
+                    <Typography
+                      variant="caption"
+                      sx={{ color: "secondary.main" }}
+                    >
                       <Trans id="map.tooltipnodata">Keine Daten</Trans>
                     </Typography>
                   )}
