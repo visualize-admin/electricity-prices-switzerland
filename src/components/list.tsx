@@ -17,7 +17,7 @@ import {
   CantonMedianObservationFieldsFragment,
   OperatorObservationFieldsFragment,
 } from "src/graphql/queries";
-import { Icon } from "src/icons";
+import { Icon } from "src/icons/old";
 
 const ListItem = ({
   id,

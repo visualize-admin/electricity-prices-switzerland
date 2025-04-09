@@ -5,8 +5,8 @@ import { useState } from "react";
 
 import { InfoDialogButton } from "src/components/info-dialog";
 import { useFormatCurrency } from "src/domain/helpers";
-import { IconClear } from "src/icons/ic-clear";
-import { IconInfo } from "src/icons/ic-info";
+import { IconClear } from "src/icons/old/ic-clear";
+import { IconInfo } from "src/icons/old/ic-info";
 
 const LEGEND_WIDTH = 215;
 const TOP_LABEL_HEIGHT = 14;

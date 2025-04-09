@@ -3,7 +3,7 @@ import { Trans } from "@lingui/macro";
 import { Box, BoxProps, Typography } from "@mui/material";
 import { ReactNode } from "react";
 
-import { Icon, IconName } from "src/icons";
+import { Icon, IconName } from "src/icons/old";
 
 const delayedShow = keyframes`
   0% { opacity: 0 }

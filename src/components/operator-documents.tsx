@@ -9,7 +9,7 @@ import {
   OperatorDocumentCategory,
   useOperatorDocumentsQuery,
 } from "src/graphql/queries";
-import { Icon } from "src/icons";
+import { Icon } from "src/icons/old";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { useLocale } from "src/lib/use-locale";
 

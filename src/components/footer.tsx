@@ -5,9 +5,9 @@ import { PropsWithChildren } from "react";
 import { HelpDialog } from "src/components/info-dialog";
 import { LogoDesktop } from "src/components/logo";
 import { useDisclosure } from "src/components/use-disclosure";
-import { IconDownload } from "src/icons/ic-download";
-import { IconInfo } from "src/icons/ic-info";
-import { IconShare } from "src/icons/ic-share";
+import { IconDownload } from "src/icons/old/ic-download";
+import { IconInfo } from "src/icons/old/ic-info";
+import { IconShare } from "src/icons/old/ic-share";
 import { useLocale } from "src/lib/use-locale";
 import { useQueryStateSingle } from "src/lib/use-query-state";
 

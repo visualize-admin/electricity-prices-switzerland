@@ -21,7 +21,7 @@ import {
 } from "@mui/material";
 
 import { StoryGrid } from "src/components/storybook/StoryGrid";
-import { IconAreaChart } from "src/icons/ic-area-chart";
+import { IconAreaChart } from "src/icons/old/ic-area-chart";
 
 const StoryContainer = ({ children }: { children: React.ReactNode }) => {
   return (

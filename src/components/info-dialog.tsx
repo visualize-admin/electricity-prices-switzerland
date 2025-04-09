@@ -14,7 +14,7 @@ import { LoadingIcon, NoContentHint } from "src/components/hint";
 import { useDisclosure } from "src/components/use-disclosure";
 import { VisuallyHidden } from "src/components/visually-hidden";
 import { useWikiContentQuery } from "src/graphql/queries";
-import { Icon } from "src/icons";
+import { Icon } from "src/icons/old";
 import { useLocale } from "src/lib/use-locale";
 import { theme } from "src/themes/elcom";
 
