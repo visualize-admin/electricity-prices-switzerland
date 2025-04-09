@@ -1,0 +1,7 @@
+{
+  "replaceAttrValues": {
+    "#1F2937": "currentColor"
+  },
+  "typescript": true,
+  "jsxRuntime": "automatic"
+}
