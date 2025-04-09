@@ -15,8 +15,8 @@ declare module "@mui/material" {
 
 declare module "@mui/material/Button" {
   interface ButtonPropsColorOverrides {
-    primary: false;
-    secondary: false;
+    primary: true;
+    secondary: true;
     success: false;
     error: false;
     info: false;

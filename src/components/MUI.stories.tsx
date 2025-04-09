@@ -74,10 +74,10 @@ export const ButtonStory = () => (
       Colors
     </Typography>
     <Stack direction="row" spacing={1} sx={{ mb: 2 }}>
-      <Button color="cobalt" variant="contained">
+      <Button color="primary" variant="contained">
         Primary
       </Button>
-      <Button color="monochrome" variant="contained">
+      <Button color="secondary" variant="contained">
         Secondary
       </Button>
       <Button color="green" variant="contained">
