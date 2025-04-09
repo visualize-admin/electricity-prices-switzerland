@@ -22,6 +22,7 @@
     "graphql:codegen": "graphql-codegen --config codegen.yml",
     "graphql:codegen:dev": "graphql-codegen --config codegen.yml --watch",
     "preversion": "yarn lint",
+    "design:icons": "svgr --config-file .svgrrc  ~/Downloads/elcom-icons/ --out-dir src/icons/new/",
     "postversion": "git push origin main --follow-tags && git push origin main:test --force-with-lease",
     "heroku-postbuild-DISABLED": "yarn install --production=false && yarn build && yarn install --production",
     "e2e": "npx playwright test  --grep-invert @har",
