@@ -1,6 +1,5 @@
 import {
   FederalBreakpointOverrides,
-  FederalColor,
   FederalTypographyPropsVariantOverrides,
   FederalTypographyVariants,
   FederalTypographyVariantsOptions,
@@ -45,40 +44,6 @@ declare module "@mui/material/Typography" {
 
 declare module "@mui/material/styles" {
   interface BreakpointOverrides extends FederalBreakpointOverrides {}
-
-  interface Palette {
-    cobalt: FederalColor & { main: string };
-    monochrome: FederalColor & { main: string };
-    red: FederalColor & { main: string };
-    blue: FederalColor & { main: string };
-    green: FederalColor & { main: string };
-    yellow: FederalColor & { main: string };
-    purple: FederalColor & { main: string };
-    teal: FederalColor & { main: string };
-    pink: FederalColor & { main: string };
-    orange: FederalColor & { main: string };
-    indigo: FederalColor & { main: string };
-
-    categorical: string[];
-    sequential: string[];
-  }
-
-  interface PaletteOptions {
-    cobalt: FederalColor & { main: string };
-    monochrome: FederalColor & { main: string };
-    red: FederalColor & { main: string };
-    blue: FederalColor & { main: string };
-    green: FederalColor & { main: string };
-    yellow: FederalColor & { main: string };
-    purple: FederalColor & { main: string };
-    teal: FederalColor & { main: string };
-    pink: FederalColor & { main: string };
-    orange: FederalColor & { main: string };
-    indigo: FederalColor & { main: string };
-
-    categorical: string[];
-    sequential: string[];
-  }
 }
 
 export { theme } from "./elcom";
