@@ -92,9 +92,11 @@ import { IconUnpin } from "./ic-unpin";
 import { IconUpload } from "./ic-upload";
 import { IconWarningCircle } from "./ic-warning-circle";
 import { IconWarningCircleFilled } from "./ic-warning-circle-filled";
-import { IconWarningCircle1 } from "./ic-warning-circle1";
 import { IconWiFi } from "./ic-wi-fi";
 import { IconYoutube } from "./ic-youtube";
+import { IconCopy } from "./old/ic-copy";
+import { IconLoading } from "./old/ic-loading";
+import { IconPdf } from "./old/ic-pdf";
 
 const Icons = {
   apps: IconApps,
@@ -115,7 +117,7 @@ const Icons = {
   checkmarkcircle: IconCheckmarkCircle,
   chevondoubleleft: IconChevronDoubleLeft,
   chevondoubleright: IconChevronDoubleRight,
-  chevondown: IconChevronDown,
+  chevrondown: IconChevronDown,
   chevronleft: IconChevronLeft,
   chevronlineleft: IconChevronLineLeft,
   chevronlineright: IconChevronLineRight,
@@ -128,6 +130,7 @@ const Icons = {
   circle: IconCircle,
   clear: IconClear,
   close: IconClose,
+  copy: IconCopy,
   desktop: IconDesktop,
   dots: IconDots,
   download: IconDownload,
@@ -158,6 +161,7 @@ const Icons = {
   linkexternal: IconLinkExternal,
   listbullet: IconListBullet,
   listnumber: IconListNumber,
+  loading: IconLoading,
   login: IconLogin,
   logout: IconLogout,
   mapmarker: IconMapMarker,
@@ -168,6 +172,7 @@ const Icons = {
   more: IconMore,
   morefilled: IconMoreFilled,
   organisations: IconOrganisations,
+  pdf: IconPdf,
   pen: IconPen,
   piechart: IconPieChart,
   pin: IconPin,
@@ -190,7 +195,6 @@ const Icons = {
   unpin: IconUnpin,
   upload: IconUpload,
   warningcircle: IconWarningCircle,
-  warningcircle1: IconWarningCircle1,
   warningcirclefilled: IconWarningCircleFilled,
   wifi: IconWiFi,
   youtube: IconYoutube,

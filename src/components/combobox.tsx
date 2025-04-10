@@ -5,7 +5,7 @@ import TextField, { TextFieldProps } from "@mui/material/TextField";
 import { useEffect, useMemo, useState } from "react";
 
 import { InfoDialogButton } from "src/components/info-dialog";
-import { Icon } from "src/icons/old";
+import { Icon } from "src/icons";
 
 export type ComboboxMultiProps = {
   id: string;

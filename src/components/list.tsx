@@ -1,7 +1,6 @@
 import { t, Trans } from "@lingui/macro";
 import { Box, Button, Link, Typography } from "@mui/material";
-import { ascending, descending, mean, rollup } from "d3";
-import { ScaleThreshold } from "d3";
+import { ascending, descending, mean, rollup, ScaleThreshold } from "d3";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { useContext, useMemo, useState } from "react";
@@ -17,7 +16,7 @@ import {
   CantonMedianObservationFieldsFragment,
   OperatorObservationFieldsFragment,
 } from "src/graphql/queries";
-import { Icon } from "src/icons/old";
+import { Icon } from "src/icons";
 
 const ListItem = ({
   id,

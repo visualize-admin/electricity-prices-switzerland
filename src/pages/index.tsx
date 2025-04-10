@@ -28,7 +28,7 @@ import {
   useAllMunicipalitiesQuery,
   useObservationsQuery,
 } from "src/graphql/queries";
-import { IconCopy } from "src/icons/old/ic-copy";
+import { Icon } from "src/icons";
 import { copyToClipboard } from "src/lib/copy-to-clipboard";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { useQueryStateSingle } from "src/lib/use-query-state";
@@ -167,7 +167,7 @@ const ShareButton = () => {
                 },
               }}
             >
-              <IconCopy />
+              <Icon name="copy" />
             </Button>
           </Box>
         </TooltipBox>

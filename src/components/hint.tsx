@@ -3,7 +3,7 @@ import { Trans } from "@lingui/macro";
 import { Box, BoxProps, Typography } from "@mui/material";
 import { ReactNode } from "react";
 
-import { Icon, IconName } from "src/icons/old";
+import { Icon, IconName } from "src/icons";
 
 const delayedShow = keyframes`
   0% { opacity: 0 }
@@ -130,7 +130,7 @@ export const NoDataHint = () => (
     }}
     display="flex"
   >
-    <Icon name="warning" size={64} />
+    <Icon name="warningcircle" size={64} />
     <Typography variant="h2" sx={{ my: 3 }}>
       <Trans id="hint.nodata.title">Keine Daten</Trans>
     </Typography>
@@ -157,7 +157,7 @@ export const NoContentHint = () => (
     }}
     display="flex"
   >
-    <Icon name="warning" size={48} />
+    <Icon name="warningcircle" size={48} />
     <Typography variant="body2" sx={{ maxWidth: "40rem" }}>
       <Trans id="hint.nocontent.message">
         Dieser Inhalt konnte nicht geladen werden
@@ -181,7 +181,7 @@ export const NoGeoDataHint = () => (
     }}
     display="flex"
   >
-    <Icon name="warning" size={64} />
+    <Icon name="warningcircle" size={64} />
     <Typography variant="h2" sx={{ my: 3 }}>
       <Trans id="hint.nogeodata.title">Keine Kartendarstellung möglich</Trans>
     </Typography>

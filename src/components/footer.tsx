@@ -5,9 +5,9 @@ import { PropsWithChildren } from "react";
 import { HelpDialog } from "src/components/info-dialog";
 import { LogoDesktop } from "src/components/logo";
 import { useDisclosure } from "src/components/use-disclosure";
-import { IconDownload } from "src/icons/old/ic-download";
-import { IconInfo } from "src/icons/old/ic-info";
-import { IconShare } from "src/icons/old/ic-share";
+import { IconDownload } from "src/icons/ic-download";
+import { IconInfoCircle } from "src/icons/ic-info-circle";
+import { IconShare } from "src/icons/ic-share";
 import { useLocale } from "src/lib/use-locale";
 import { useQueryStateSingle } from "src/lib/use-query-state";
 
@@ -104,7 +104,7 @@ export const Footer = () => {
             sx={{ cursor: "pointer" }}
             onClick={handleOpenCalculation}
             href="#"
-            icon={<IconInfo />}
+            icon={<IconInfoCircle />}
           >
             {t({
               id: "footer.calculation-basics",
@@ -186,7 +186,7 @@ export const Footer = () => {
                   sx={{ p: 0, width: 24, height: 24, cursor: "pointer" }}
                   onClick={handleOpenCsvDownload}
                 >
-                  <IconInfo />
+                  <IconInfoCircle />
                 </IconButton>
                 <IconDownload />
               </Box>
@@ -203,7 +203,7 @@ export const Footer = () => {
                   sx={{ p: 0, width: 24, height: 24, cursor: "pointer" }}
                   onClick={handleOpenMunicipalitiesInfo}
                 >
-                  <IconInfo />
+                  <IconInfoCircle />
                 </IconButton>
                 <IconDownload />
               </Box>

@@ -13,7 +13,7 @@ import * as React from "react";
 import { ReactNode } from "react";
 
 import { VisuallyHidden } from "src/components/visually-hidden";
-import { Icon } from "src/icons/old";
+import { Icon } from "src/icons";
 
 type Option = {
   value: string | $FixMe;

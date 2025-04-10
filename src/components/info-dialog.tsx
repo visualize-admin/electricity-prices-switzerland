@@ -14,7 +14,7 @@ import { LoadingIcon, NoContentHint } from "src/components/hint";
 import { useDisclosure } from "src/components/use-disclosure";
 import { VisuallyHidden } from "src/components/visually-hidden";
 import { useWikiContentQuery } from "src/graphql/queries";
-import { Icon } from "src/icons/old";
+import { Icon } from "src/icons";
 import { useLocale } from "src/lib/use-locale";
 import { theme } from "src/themes/elcom";
 
@@ -180,7 +180,7 @@ export const InfoDialogButton = ({
       >
         <Box sx={{ alignItems: "center" }} display="flex">
           <Box sx={{ flexShrink: 0, mr: iconOnly ? 0 : 2 }}>
-            <Icon name="info" size={smaller ? 16 : 20} />
+            <Icon name="infocircle" size={smaller ? 16 : 20} />
           </Box>{" "}
           {iconOnly ? <VisuallyHidden>{label}</VisuallyHidden> : label}
         </Box>

@@ -7,7 +7,7 @@ import { Fragment, useState } from "react";
 import { HomeLink } from "src/components/links";
 import { Search } from "src/components/search";
 import { Entity } from "src/domain/data";
-import { Icon } from "src/icons/old";
+import { Icon } from "src/icons";
 
 const TRUNCATE_COUNT = 5;
 
