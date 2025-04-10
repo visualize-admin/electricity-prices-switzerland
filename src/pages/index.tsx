@@ -167,7 +167,7 @@ const ShareButton = () => {
                 },
               }}
             >
-              <Icon name="copy" />
+              <Icon name="duplicate" />
             </Button>
           </Box>
         </TooltipBox>

@@ -69,6 +69,7 @@ import { IconMobile } from "./ic-mobile";
 import { IconMore } from "./ic-more";
 import { IconMoreFilled } from "./ic-more-filled";
 import { IconOrganisations } from "./ic-organisations";
+import { IconPdfFile } from "./ic-pdf-file";
 import { IconPen } from "./ic-pen";
 import { IconPieChart } from "./ic-pie-chart";
 import { IconPin } from "./ic-pin";
@@ -94,9 +95,6 @@ import { IconWarningCircle } from "./ic-warning-circle";
 import { IconWarningCircleFilled } from "./ic-warning-circle-filled";
 import { IconWiFi } from "./ic-wi-fi";
 import { IconYoutube } from "./ic-youtube";
-import { IconCopy } from "./old/ic-copy";
-import { IconLoading } from "./old/ic-loading";
-import { IconPdf } from "./old/ic-pdf";
 
 const Icons = {
   apps: IconApps,
@@ -130,7 +128,6 @@ const Icons = {
   circle: IconCircle,
   clear: IconClear,
   close: IconClose,
-  copy: IconCopy,
   desktop: IconDesktop,
   dots: IconDots,
   download: IconDownload,
@@ -161,7 +158,7 @@ const Icons = {
   linkexternal: IconLinkExternal,
   listbullet: IconListBullet,
   listnumber: IconListNumber,
-  loading: IconLoading,
+  loading: IconRefresh,
   login: IconLogin,
   logout: IconLogout,
   mapmarker: IconMapMarker,
@@ -172,7 +169,7 @@ const Icons = {
   more: IconMore,
   morefilled: IconMoreFilled,
   organisations: IconOrganisations,
-  pdf: IconPdf,
+  pdf: IconPdfFile,
   pen: IconPen,
   piechart: IconPieChart,
   pin: IconPin,
