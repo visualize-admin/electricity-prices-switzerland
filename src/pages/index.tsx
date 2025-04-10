@@ -96,7 +96,7 @@ const ShareButton = () => {
   };
   return (
     <>
-      <Link variant="inline" ref={linkRef} onClick={handleClick}>
+      <Link variant="body2" ref={linkRef} onClick={handleClick}>
         {t({ id: "map.share", message: "Teilen" })}
       </Link>
       {isOpen ? (
@@ -117,7 +117,7 @@ const ShareButton = () => {
             }}
           >
             <Typography variant="h6">URL</Typography>
-            <Typography variant="meta" color="success">
+            <Typography variant="caption" color="success">
               {hasCopied
                 ? t({ id: "share.url-copied", message: "URL kopiert ✅" })
                 : ""}
@@ -289,7 +289,8 @@ const IndexPage = ({ locale }: Props) => {
           >
             <Typography
               component="h1"
-              variant="giga"
+              variant="display2"
+              fontWeight={600}
               sx={{ textAlign: ["left", "left", "center"], mb: 4 }}
             >
               <Trans id="site.title">Strompreise Schweiz</Trans>

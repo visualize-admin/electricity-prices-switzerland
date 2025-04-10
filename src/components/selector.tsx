@@ -41,7 +41,8 @@ export const Selector = () => {
     >
       <Typography
         component="legend"
-        variant="lead"
+        variant="body2"
+        fontWeight={600}
         sx={{ display: "contents" }}
       >
         <Trans id="selector.legend.select.parameters">
@@ -90,7 +91,7 @@ export const Selector = () => {
         }
         infoDialogSlug="help-products"
       />
-      <Typography variant="lead" sx={{ mt: 4 }}>
+      <Typography variant="body2" fontWeight={600} sx={{ mt: 4 }}>
         <Trans id="selector.results">Suchergebnisse:</Trans>
       </Typography>
     </Box>

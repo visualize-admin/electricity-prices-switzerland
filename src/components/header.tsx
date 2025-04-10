@@ -93,7 +93,8 @@ const Logo = () => {
       </Box>
       <Typography
         component="h1"
-        variant="lead"
+        variant="body2"
+        fontWeight={600}
         sx={{ pl: [0, 6], textDecoration: "none", color: "grey.800" }}
       >
         <Trans id="site.title">Strompreise Schweiz</Trans>

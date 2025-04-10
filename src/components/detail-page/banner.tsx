@@ -34,7 +34,7 @@ const RelationsList = ({
         return (
           <Fragment key={id}>
             <UILink
-              variant="inline"
+              variant="body2"
               component={NextLink}
               href={{ pathname: relationPathname, query: { ...query, id } }}
             >
@@ -105,7 +105,7 @@ export const DetailPageBanner = ({
       >
         <Box sx={{ gridArea: "back" }}>
           <UILink
-            variant="inline"
+            variant="body2"
             component={HomeLink}
             sx={{
               display: "flex",
@@ -127,7 +127,7 @@ export const DetailPageBanner = ({
       <Box sx={{ mx: "auto", my: 2 }}>
         <Typography component="h1" variant="h1" sx={{ color: "grey.800" }}>
           <Typography
-            variant="meta"
+            variant="caption"
             sx={{ color: "secondary.main" }}
             display="block"
           >
@@ -153,7 +153,7 @@ export const DetailPageBanner = ({
                 }}
                 passHref
               >
-                <UILink variant="inline">{canton.name}</UILink>
+                <UILink variant="body2">{canton.name}</UILink>
               </NextLink>
             </Box>
           )}

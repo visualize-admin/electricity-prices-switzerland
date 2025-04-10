@@ -97,9 +97,10 @@ export const ButtonStory = () => (
       Sizes
     </Typography>
     <Stack direction="row" spacing={1} alignItems="center">
-      <Button size="small">Small</Button>
-      <Button size="medium">Medium</Button>
-      <Button size="large">Large</Button>
+      <Button size="sm">Small</Button>
+      <Button size="md">Medium</Button>
+      <Button size="lg">Large</Button>
+      <Button size="xl">Large</Button>
     </Stack>
   </StoryContainer>
 );
@@ -291,8 +292,8 @@ export const CardStory = () => (
             </Typography>
           </CardContent>
           <CardActions>
-            <Button size="small">Share</Button>
-            <Button size="small">Learn More</Button>
+            <Button size="sm">Share</Button>
+            <Button size="sm">Learn More</Button>
           </CardActions>
         </Card>
       </Grid>

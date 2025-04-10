@@ -141,7 +141,7 @@ export const SearchField = ({
 } & FieldProps) => {
   return (
     <OutlinedInput
-      size="small"
+      size="sm"
       sx={{ color: "grey.700", fontSize: "1rem", position: "relative", ...sx }}
       id={id}
       value={value}

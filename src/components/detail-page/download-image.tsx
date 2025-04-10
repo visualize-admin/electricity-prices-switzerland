@@ -92,7 +92,7 @@ export const DownloadImage = ({
     <Box>
       {downloading ? null : (
         <MUILink
-          variant="inline"
+          variant="body2"
           onClick={onDownload}
           target="_blank"
           rel="noopener noreferrer"
@@ -104,7 +104,7 @@ export const DownloadImage = ({
       {/* This text is shown only when the image is downloading, this is done through
       a global class on body */}
       {downloading ? (
-        <Typography variant="meta" sx={{ mt: 4 }}>
+        <Typography variant="caption" sx={{ mt: 4 }}>
           <Trans id="image.download.source">
             Eidgenössische Elektrizitätskommission ElCom
           </Trans>{" "}

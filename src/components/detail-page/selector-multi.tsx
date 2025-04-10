@@ -46,7 +46,8 @@ export const SelectorMulti = ({
     >
       <Typography
         component="legend"
-        variant="lead"
+        variant="body2"
+        fontWeight={600}
         sx={{ display: "contents" }}
       >
         <Trans id="selector.legend.select.parameters">
