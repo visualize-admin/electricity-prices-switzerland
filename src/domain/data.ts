@@ -57,7 +57,7 @@ export const useColorScale = ({
     const domain = [m * 0.85, m * 0.95, m * 1.05, m * 1.15];
     const scale = scaleThreshold<number, string>()
       .domain(domain)
-      .range(chartPalette.diverging.GO);
+      .range(chartPalette.diverging.GreenOrange);
 
     return scale;
   }, [medianValue]);

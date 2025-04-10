@@ -4,17 +4,17 @@ import { type ThemeOptions } from "@mui/material";
 export const palette = {
   ...colors,
   text: {
-    primary: colors.monochrome[800],
     ...colors.monochrome,
+    primary: colors.monochrome[800],
   },
   primary: {
+    ...colors.red,
     main: "#D8232A",
     contrastText: "#FFFFFF",
-    ...colors.red,
   },
   secondary: {
-    main: colors.cobalt[700],
     ...colors.cobalt,
+    main: colors.cobalt[700],
   },
   tertiary: {
     main: colors.monochrome[800],
@@ -42,7 +42,7 @@ export const chartPalette = {
     pink: ["#FBCFE8", "#F9A8D4", "#F472B6", "#EC4899", "#DB2777", "#BE185D"],
   },
   diverging: {
-    GO: ["#059669", "#34D399", "#E4D78C", "#FB923C", "#EA580C"],
-    BP: ["#2563EB", "#60A5FA", "#CEC3DE", "#F472B6", "#DB2777"],
+    GreenOrange: ["#059669", "#34D399", "#E4D78C", "#FB923C", "#EA580C"],
+    BluePink: ["#2563EB", "#60A5FA", "#CEC3DE", "#F472B6", "#DB2777"],
   },
 };

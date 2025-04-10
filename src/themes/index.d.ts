@@ -1,6 +1,5 @@
 import {
   FederalBreakpointOverrides,
-  FederalColor,
   FederalTypographyPropsVariantOverrides,
   FederalTypographyVariants,
   FederalTypographyVariantsOptions,
@@ -52,7 +51,6 @@ declare module "@mui/material/styles" {
   interface BreakpointOverrides extends FederalBreakpointOverrides {}
 
   interface Palette {
-    cobalt: FederalColor & { main: string };
     tertiary: { main: string };
   }
 

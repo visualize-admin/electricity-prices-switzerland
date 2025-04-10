@@ -73,7 +73,7 @@ const useHistogramState = ({
 
   const colors = scaleLinear<string>()
     .domain(colorDomain)
-    .range(chartPalette.diverging.GO)
+    .range(chartPalette.diverging.GreenOrange)
     .interpolate(interpolateHsl);
   // y
   const bins = bin<GenericObservation, number>()
