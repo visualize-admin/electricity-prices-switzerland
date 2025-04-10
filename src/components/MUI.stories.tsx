@@ -80,16 +80,16 @@ export const ButtonStory = () => (
       <Button color="secondary" variant="contained">
         Secondary
       </Button>
-      <Button color="green" variant="contained">
+      <Button color="success" variant="contained">
         Success
       </Button>
-      <Button color="red" variant="contained">
+      <Button color="error" variant="contained">
         Error
       </Button>
-      <Button color="blue" variant="contained">
+      <Button color="info" variant="contained">
         Info
       </Button>
-      <Button color="yellow" variant="contained">
+      <Button color="warning" variant="contained">
         Warning
       </Button>
     </Stack>

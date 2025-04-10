@@ -14,23 +14,6 @@ declare module "@mui/material" {
 }
 
 declare module "@mui/material/Button" {
-  interface ButtonPropsColorOverrides {
-    primary: true;
-    secondary: true;
-    success: false;
-    error: false;
-    info: false;
-    warning: false;
-
-    cobalt: true;
-    monochrome: true;
-    blue: true;
-    red: true;
-    green: true;
-    yellow: true;
-    inherit: true;
-  }
-
   interface ButtonPropsSizeOverrides {
     small: false;
     medium: false;
@@ -70,8 +53,14 @@ declare module "@mui/material/styles" {
     blue: FederalColor & { main: string };
     green: FederalColor & { main: string };
     yellow: FederalColor & { main: string };
-    diverging: string[];
+    purple: FederalColor & { main: string };
+    teal: FederalColor & { main: string };
+    pink: FederalColor & { main: string };
+    orange: FederalColor & { main: string };
+    indigo: FederalColor & { main: string };
+
     categorical: string[];
+    sequential: string[];
   }
 
   interface PaletteOptions {
@@ -81,8 +70,14 @@ declare module "@mui/material/styles" {
     blue: FederalColor & { main: string };
     green: FederalColor & { main: string };
     yellow: FederalColor & { main: string };
-    diverging: string[];
+    purple: FederalColor & { main: string };
+    teal: FederalColor & { main: string };
+    pink: FederalColor & { main: string };
+    orange: FederalColor & { main: string };
+    indigo: FederalColor & { main: string };
+
     categorical: string[];
+    sequential: string[];
   }
 }
 

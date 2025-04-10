@@ -1,6 +1,5 @@
 import { Components } from "@mui/material";
 
-import { palette } from "./palette";
 import { typography } from "./typography";
 
 export const components: Components = {
@@ -26,7 +25,7 @@ export const components: Components = {
   MuiButton: {
     defaultProps: {
       variant: "contained",
-      color: "cobalt",
+      color: "secondary",
       size: "md",
     },
     styleOverrides: {
@@ -48,58 +47,8 @@ export const components: Components = {
           }
         })();
 
-        const variant = ownerState.variant ?? "contained";
-        const color =
-          ownerState.color === "inherit"
-            ? "inherit"
-            : palette[ownerState.color ?? "cobalt"];
-
-        const variantColorStyles = (() => {
-          if (!color) {
-            return {};
-          }
-
-          if (color === "inherit") {
-            return {
-              color: "inherit",
-            };
-          }
-
-          switch (variant) {
-            case "contained":
-              return {
-                backgroundColor: color[400],
-                color: "#fff",
-                "&:hover": {
-                  backgroundColor: color[600],
-                },
-              };
-            case "outlined":
-              return {
-                color: color[500],
-                borderColor: color[500],
-                "&:hover": {
-                  borderColor: color[500],
-                  backgroundColor: color[50],
-                },
-              };
-            case "text":
-              return {
-                color: color[700],
-                "&:hover": {
-                  backgroundColor: "transparent",
-                  color: color[900],
-                },
-              };
-            default:
-              const _exhaustiveCheck: never = variant;
-              return _exhaustiveCheck;
-          }
-        })();
-
         return {
           ...sizeStyles,
-          ...variantColorStyles,
         };
       },
     },
