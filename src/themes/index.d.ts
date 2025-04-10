@@ -44,6 +44,14 @@ declare module "@mui/material/Typography" {
 
 declare module "@mui/material/styles" {
   interface BreakpointOverrides extends FederalBreakpointOverrides {}
+
+  interface Palette {
+    tertiary: { main: string };
+  }
+
+  interface PaletteOptions {
+    tertiary: { main: string };
+  }
 }
 
 export { theme } from "./elcom";

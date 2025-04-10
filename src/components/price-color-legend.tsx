@@ -7,6 +7,7 @@ import { InfoDialogButton } from "src/components/info-dialog";
 import { useFormatCurrency } from "src/domain/helpers";
 import { IconClear } from "src/icons/ic-clear";
 import { IconInfo } from "src/icons/ic-info";
+import { chartPalette } from "src/themes/palette";
 
 const LEGEND_WIDTH = 215;
 const TOP_LABEL_HEIGHT = 14;
@@ -223,7 +224,9 @@ const ColorsLine = () => {
           height: 0,
           borderTop: `${COLOR_HEIGHT / 2}px solid transparent`,
           borderBottom: `${COLOR_HEIGHT / 2}px solid transparent`,
-          borderRight: `${COLOR_HEIGHT / 2}px solid  ${palette.diverging[0]}`,
+          borderRight: `${COLOR_HEIGHT / 2}px solid  ${
+            chartPalette.diverging.GO[0]
+          }`,
         }}
       />
       <Box
@@ -235,7 +238,7 @@ const ColorsLine = () => {
           width: "100%",
         }}
       >
-        {palette.diverging.map((bg, i) => (
+        {chartPalette.diverging.GO.map((bg, i) => (
           <Box
             key={bg}
             sx={{
@@ -276,7 +279,7 @@ const ColorsLine = () => {
           borderTop: `${COLOR_HEIGHT / 2}px solid transparent`,
           borderBottom: `${COLOR_HEIGHT / 2}px solid transparent`,
           borderLeft: `${COLOR_HEIGHT / 2}px solid ${
-            palette.diverging[palette.diverging.length - 1]
+            chartPalette.diverging.GO[chartPalette.diverging.GO.length - 1]
           }`,
         }}
       />

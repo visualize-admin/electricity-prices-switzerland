@@ -16,31 +16,33 @@ export const palette = {
     main: colors.cobalt[700],
     ...colors.cobalt,
   },
+  tertiary: {
+    main: colors.monochrome[800],
+  },
 } satisfies ThemeOptions["palette"];
 
-// FIXME: Bring back once we use it to prevent knip from causing issues
-// export const chartPalette = {
-//   categorical: [
-//     "#3B82F6",
-//     "#EC4899",
-//     "#10B981",
-//     "#8B5CF6",
-//     "#059669",
-//     "#6B7280",
-//     "#EA580C",
-//   ],
-//   sequential: {
-//     yellow: ["#FDE68A", "#FCD34D", "#FBBF24", "#F59E0B", "#D97706", "#B45309"],
-//     orange: ["#FED7AA", "#FDBA74", "#FB923C", "#F97316", "#EA580C", "#C2410C"],
-//     green: ["#A7F3D0", "#6EE7B7", "#34D399", "#10B981", "#059669", "#047857"],
-//     teal: ["#98F6F3", "#5DE8EA", "#2BCED4", "#14AFB8", "#0D8B96", "#0F6B75"],
-//     blue: ["#BFDBFE", "#93C5FD", "#60A5FA", "#3B82F6", "#2563EB", "#1D4ED8"],
-//     indigo: ["#E0E7FF", "#C7D2FE", "#A5B4FC", "#818CF8", "#6366F1", "#4338CA"],
-//     purple: ["#EDE9FE", "#DDD6FE", "#C4B5FD", "#A78BFA", "#8B5CF6", "#7C3AED"],
-//     pink: ["#FBCFE8", "#F9A8D4", "#F472B6", "#EC4899", "#DB2777", "#BE185D"],
-//   },
-//   diverging: {
-//     BP: ["#2563EB", "#60A5FA", "#BFDBFE", "#FBCFE8", "#DB2777"],
-//     GO: ["#059669", "#34D399", "#A7F3D0", "#E4D78C", "#EA580C"],
-//   },
-// };
+export const chartPalette = {
+  categorical: [
+    "#3B82F6",
+    "#F59E0B",
+    "#EC4899",
+    "#0D8B96",
+    "#8655F6",
+    "#059669",
+    "#EA580C",
+  ],
+  sequential: {
+    orange: ["#FED7AA", "#FDBA74", "#FB923C", "#F97316", "#EA580C", "#C2410C"],
+    yellow: ["#FDE68A", "#FCD34D", "#FBBF24", "#F59E0B", "#D97706", "#B45309"],
+    green: ["#A7F3D0", "#6EE7B7", "#34D399", "#10B981", "#059669", "#047857"],
+    teal: ["#98F6F3", "#5DE8EA", "#2BCED4", "#14AFB8", "#0D8B96", "#0F6B75"],
+    blue: ["#BFDBFE", "#93C5FD", "#60A5FA", "#3B82F6", "#2563EB", "#1D4ED8"],
+    indigo: ["#E0E7FF", "#C7D2FE", "#A5B4FC", "#818CF8", "#6366F1", "#4338CA"],
+    purple: ["#EDE9FE", "#DDD6FE", "#C4B5FD", "#A78BFA", "#8B5CF6", "#7C3AED"],
+    pink: ["#FBCFE8", "#F9A8D4", "#F472B6", "#EC4899", "#DB2777", "#BE185D"],
+  },
+  diverging: {
+    GO: ["#059669", "#34D399", "#A7F3D0", "#E4D78C", "#EA580C"],
+    BP: ["#2563EB", "#60A5FA", "#BFDBFE", "#FBCFE8", "#DB2777"],
+  },
+};

@@ -1,9 +1,9 @@
-import { useTheme } from "@mui/material";
 import { range, scaleThreshold } from "d3";
 import { useMemo } from "react";
 
 import buildEnv from "src/env/build";
 import { Observation as QueryObservation } from "src/graphql/queries";
+import { chartPalette } from "src/themes/palette";
 
 export type ObservationValue = string | number | boolean | Date;
 export type GenericObservation = Record<string, ObservationValue>;
@@ -52,17 +52,15 @@ export const useColorScale = ({
   medianValue: number | undefined;
   accessor: (x: QueryObservation) => number;
 }) => {
-  const { palette } = useTheme();
-
   return useMemo(() => {
     const m = medianValue ?? 0;
     const domain = [m * 0.85, m * 0.95, m * 1.05, m * 1.15];
     const scale = scaleThreshold<number, string>()
       .domain(domain)
-      .range(palette.diverging);
+      .range(chartPalette.diverging.GO);
 
     return scale;
-  }, [medianValue, palette.diverging]);
+  }, [medianValue]);
 };
 
 export type Entity = "municipality" | "operator" | "canton";
