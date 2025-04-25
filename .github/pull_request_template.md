@@ -1,24 +1,38 @@
-<!--- Link this pull request to an issue (fixes or closes #issue_number) -->
+## Description
+<!-- Provide a brief description of the changes in this PR -->
 
-Closes #
+## Related Issues
+<!-- Link any related issues using #issue_number format -->
 
-<!--- Describe the changes -->
+## Type of Change
+<!-- Mark the appropriate option with an 'x' -->
 
-This PR...
+- [ ] Bug fix
+- [ ] New feature
+- [ ] Enhancement to existing feature
+- [ ] Documentation update
+- [ ] Code refactoring
+- [ ] Performance improvement
 
-<!--- Test instructions -->
+## Testing Performed
+<!-- Describe the testing you've done -->
 
-## How to test
+- [ ] Tested with the following Browsers:
+- [ ] Tested on the following devices:
+- [ ] Verified functionality:
+- [ ] Storybook updated
 
-1. Go to this link.
-2. ...
+## Screenshots
+<!-- If applicable, add screenshots to help explain your changes -->
 
-<!-- ## Steps to reproduce
+## Checklist
+<!-- Mark items with 'x' as completed -->
 
-1. Go to this link.
-2. ... -->
+- [ ] My code follows the style guidelines of the project
+- [ ] I have tested my changes thoroughly
+- [ ] I have updated the documentation as needed
+- [ ] My commits use clear, descriptive messages
+- [ ] My PR includes only related changes
 
----
-
-- [ ] I made a self-review of my own code
-- [ ] I wrote tests for the changes (if applicable)
+## Notes for Reviewers
+<!-- Add any notes that might help reviewers understand your changes -->
