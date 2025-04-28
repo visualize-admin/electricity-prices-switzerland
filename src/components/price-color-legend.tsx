@@ -5,8 +5,7 @@ import { useState } from "react";
 
 import { InfoDialogButton } from "src/components/info-dialog";
 import { useFormatCurrency } from "src/domain/helpers";
-import { IconClear } from "src/icons/ic-clear";
-import { IconInfo } from "src/icons/ic-info";
+import { Icon } from "src/icons";
 import { chartPalette } from "src/themes/palette";
 
 const LEGEND_WIDTH = 215;
@@ -45,7 +44,7 @@ export const MapPriceColorLegend = ({
           }}
           display="flex"
         >
-          <IconInfo color="#333" />
+          <Icon name="infocircle" color="#333" />
         </Box>
       </LegendBox>
     );
@@ -77,7 +76,7 @@ export const MapPriceColorLegend = ({
             justifyContent: "flex-end",
           }}
         >
-          <IconClear size={16} color="#666" />
+          <Icon name="clear" size={16} color="#666" />
         </Box>
       </Box>
       <Box

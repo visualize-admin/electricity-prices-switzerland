@@ -180,7 +180,7 @@ export const InfoDialogButton = ({
       >
         <Box sx={{ alignItems: "center" }} display="flex">
           <Box sx={{ flexShrink: 0, mr: iconOnly ? 0 : 2 }}>
-            <Icon name="info" size={smaller ? 16 : 20} />
+            <Icon name="infocircle" size={smaller ? 16 : 20} />
           </Box>{" "}
           {iconOnly ? <VisuallyHidden>{label}</VisuallyHidden> : label}
         </Box>

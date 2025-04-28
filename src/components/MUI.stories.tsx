@@ -21,7 +21,7 @@ import {
 } from "@mui/material";
 
 import { StoryGrid } from "src/components/storybook/StoryGrid";
-import { IconAreaChart } from "src/icons/ic-area-chart";
+import { Icon } from "src/icons";
 
 const StoryContainer = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -327,7 +327,7 @@ export const ChipStory = () => (
       <Chip label="Clickable" onClick={() => {}} />
       <Chip label="Deletable" onDelete={() => {}} />
       <Chip avatar={<Avatar>M</Avatar>} label="With Avatar" />
-      <Chip icon={<IconAreaChart />} label="With Icon" />
+      <Chip icon={<Icon name="linechart" />} label="With Icon" />
     </Stack>
     <Typography variant="subtitle1" gutterBottom>
       Colors
