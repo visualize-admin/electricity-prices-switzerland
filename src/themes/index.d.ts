@@ -1,5 +1,6 @@
 import {
   FederalBreakpointOverrides,
+  FederalColor,
   FederalTypographyPropsVariantOverrides,
   FederalTypographyVariants,
   FederalTypographyVariantsOptions,
@@ -12,6 +13,11 @@ declare module "@mui/material" {
     extends FederalTypographyVariantsOptions {}
 }
 
+declare module "@mui/material/IconButton" {
+  interface IconButtonPropsColorOverrides {
+    tertiary: true;
+  }
+}
 declare module "@mui/material/Button" {
   interface ButtonPropsSizeOverrides {
     small: false;
@@ -46,6 +52,7 @@ declare module "@mui/material/styles" {
   interface BreakpointOverrides extends FederalBreakpointOverrides {}
 
   interface Palette {
+    cobalt: FederalColor & { main: string };
     tertiary: { main: string };
   }
 

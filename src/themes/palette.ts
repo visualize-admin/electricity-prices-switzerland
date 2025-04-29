@@ -18,6 +18,7 @@ export const palette = {
   },
   tertiary: {
     main: colors.monochrome[800],
+    ...colors.monochrome,
   },
 } satisfies ThemeOptions["palette"];
 
