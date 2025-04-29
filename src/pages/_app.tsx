@@ -1,12 +1,15 @@
+// pages/_app.tsx
+import { CacheProvider } from "@emotion/react";
+import { Matomo } from "@interactivethings/swiss-federal-ci/dist/components/pages-router";
 import { I18nProvider } from "@lingui/react";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import Script from "next/script";
 import { useEffect, useState } from "react";
 
 import { analyticsPageView } from "src/domain/analytics";
+import createEmotionCache from "src/emotion-cache";
 import { GraphqlProvider } from "src/graphql/context";
 import { LocaleProvider } from "src/lib/use-locale";
 import { useNProgress } from "src/lib/use-nprogress";
@@ -15,26 +18,10 @@ import { preloadFonts, theme } from "src/themes/elcom";
 
 import "src/styles/nprogress.css";
 
-const useMatomo = () => {
-  const [matomoId, setMatomoId] = useState<string | undefined>(undefined);
+const clientSideEmotionCache = createEmotionCache();
 
-  useEffect(() => {
-    const fetchMatomoId = async () => {
-      try {
-        const res = await fetch("/api/matomo-id").then((r) => r.json());
-        setMatomoId(res.matomoId);
-      } catch (e) {
-        console.error(e);
-      }
-    };
-
-    fetchMatomoId();
-  }, []);
-
-  return matomoId;
-};
-
-export default function App({ Component, pageProps }: AppProps) {
+export default function MyApp(props: AppProps & { emotionCache?: any }) {
+  const { Component, pageProps, emotionCache = clientSideEmotionCache } = props;
   const { query, events: routerEvents, locale: routerLocale } = useRouter();
   const locale = parseLocaleString(routerLocale ?? "");
 
@@ -68,7 +55,7 @@ export default function App({ Component, pageProps }: AppProps) {
   }, [routerEvents]);
 
   return (
-    <>
+    <CacheProvider value={emotionCache}>
       <Head>
         {preloadFonts.map((src) => (
           <link
@@ -90,25 +77,27 @@ export default function App({ Component, pageProps }: AppProps) {
           </GraphqlProvider>
         </I18nProvider>
       </LocaleProvider>
-      {matomoId && !query.download && (
-        <Script id="matomo">
-          {`var alreadyInitialized = !!window._paq; // FIXME: this should not be necessary once https://github.com/vercel/next.js/pull/27218 is released
-    if (!alreadyInitialized) {
-      var _paq = window._paq = window._paq || [];
-      /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
-      _paq.push(['trackPageView']);
-      _paq.push(['enableLinkTracking']);
-      (function() {
-        var u="https://analytics.bit.admin.ch/";
-        _paq.push(['setTrackerUrl', u+'matomo.php']);
-        _paq.push(['setSiteId', '${matomoId}']);
-        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-        g.type='text/javascript'; g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
-      })();
-    }
-    `}
-        </Script>
-      )}
-    </>
+      {matomoId && !query.download && <Matomo siteId={matomoId} />}
+    </CacheProvider>
   );
+}
+
+// keep your useMatomo function
+function useMatomo() {
+  const [matomoId, setMatomoId] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    const fetchMatomoId = async () => {
+      try {
+        const res = await fetch("/api/matomo-id").then((r) => r.json());
+        setMatomoId(res.matomoId);
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+    fetchMatomoId();
+  }, []);
+
+  return matomoId;
 }
