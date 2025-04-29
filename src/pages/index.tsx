@@ -1,40 +1,17 @@
-import { PickingInfo } from "@deck.gl/core/typed";
+import { ContentWrapper } from "@interactivethings/swiss-federal-ci/dist/components";
 import { t, Trans } from "@lingui/macro";
-import { Box, Button, Input, Link, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
-import { useRouter } from "next/router";
+import Image from "next/image";
 import basicAuthMiddleware from "nextjs-basic-auth-middleware";
-import { useCallback, useRef, useState } from "react";
 
-import { TooltipBox } from "src/components/charts-generic/interaction/tooltip-box";
-import { DownloadImage } from "src/components/detail-page/download-image";
-import { Footer } from "src/components/footer";
-import { Header } from "src/components/header";
-import {
-  HighlightContext,
-  HighlightValue,
-} from "src/components/highlight-context";
-import { InfoBanner } from "src/components/info-banner";
-import { List } from "src/components/list";
-import { ChoroplethMap, ChoroplethMapProps } from "src/components/map";
 import { Search } from "src/components/search";
-import { Selector } from "src/components/selector";
-import { useDisclosure } from "src/components/use-disclosure";
-import { useOutsideClick } from "src/components/use-outside-click";
-import { useColorScale } from "src/domain/data";
-import {
-  PriceComponent,
-  useAllMunicipalitiesQuery,
-  useObservationsQuery,
-} from "src/graphql/queries";
 import { Icon } from "src/icons";
-import { copyToClipboard } from "src/lib/copy-to-clipboard";
-import { EMPTY_ARRAY } from "src/lib/empty-array";
-import { useQueryStateSingle } from "src/lib/use-query-state";
+
 import { defaultLocale } from "src/locales/locales";
 
-const DOWNLOAD_ID = "map";
+import { ApplicationLayout } from "./app-layout";
 
 type Props = {
   locale: string;
@@ -53,349 +30,149 @@ export const getServerSideProps: GetServerSideProps<
   };
 };
 
-const HEADER_HEIGHT_S = "107px";
-const HEADER_HEIGHT_M_UP = "96px";
-
-const ShareButton = () => {
-  const { isOpen, open, close } = useDisclosure();
-  const {
-    isOpen: hasInputFocus,
-    open: setFocusOn,
-    close: setFocusOff,
-  } = useDisclosure();
-  const tooltipBoxRef = useRef<HTMLDivElement>(null);
-
-  const linkRef = useRef<HTMLAnchorElement>(null);
-  const mouse = useRef({ x: 0, y: 0 });
-  const handleClick = () => {
-    open();
-    const linkRect = linkRef.current?.getBoundingClientRect() || {
-      x: 0,
-      y: 0,
-      width: 0,
-    };
-    Object.assign(mouse.current, {
-      x: linkRect.x ?? 0 + (linkRect.width ?? 0) / 2,
-      y: linkRect.y ?? 0,
-    });
-  };
-
-  useOutsideClick(tooltipBoxRef, () => {
-    close();
-    setFocusOff();
-  });
-
-  const { isOpen: hasCopied, setIsOpen: setCopied } = useDisclosure();
-
-  const handleClickCopyButton = async () => {
-    await copyToClipboard(window.location.toString());
-    setCopied(true);
-    setTimeout(() => {
-      setCopied(false);
-    }, 3000);
-  };
+const IndexPage = ({ locale }: Props) => {
   return (
     <>
-      <Link variant="body2" ref={linkRef} onClick={handleClick}>
-        {t({ id: "map.share", message: "Teilen" })}
-      </Link>
-      {isOpen ? (
-        <TooltipBox
-          ref={tooltipBoxRef}
-          placement={{ x: "center", y: "top" }}
-          margins={{ top: 0, bottom: 0, left: 0, right: 0 }}
-          x={mouse.current.x}
-          y={0}
-          interactive
-        >
-          <Box
-            sx={{
-              display: "flex",
-              marginBottom: 2,
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
-            <Typography variant="h6">URL</Typography>
-            <Typography variant="caption" color="success">
-              {hasCopied
-                ? t({ id: "share.url-copied", message: "URL kopiert ✅" })
-                : ""}
-            </Typography>
-          </Box>
-          <Box
-            sx={{
-              borderStyle: "solid",
-              boxSizing: "border-box",
-              borderWidth: 1,
-              borderColor: "grey.500",
-              outline: hasInputFocus ? "2px solid" : "none",
-              outlineColor: "primary",
-              display: "flex",
-              alignItems: "center",
-              borderRadius: 6,
-              overflow: "hidden",
-            }}
-          >
-            <Input
-              onFocus={setFocusOn}
-              onBlur={setFocusOff}
-              sx={{
-                width: 300,
-                border: "none",
-                height: "100%",
-                "&:focus": { border: "none", outline: 0 },
-              }}
-              value={window.location.toString()}
-            ></Input>
-            <Button
-              onClick={handleClickCopyButton}
-              sx={{
-                width: "3rem",
-                height: "3rem",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                backgroundColor: "grey.300",
-                color: "grey.900",
-                cursor: "pointer",
-                "&:hover": {
-                  backgroundColor: "grey.400",
-                },
-                "&:focus, &:active": {
-                  outline: 0,
-                },
-              }}
-            >
-              <Icon name="duplicate" />
-            </Button>
-          </Box>
-        </TooltipBox>
-      ) : null}
-    </>
-  );
-};
-
-const IndexPage = ({ locale }: Props) => {
-  const [{ period, priceComponent, category, product, download }] =
-    useQueryStateSingle();
-
-  const [observationsQuery] = useObservationsQuery({
-    variables: {
-      locale,
-      priceComponent: priceComponent as PriceComponent,
-      filters: {
-        period: [period],
-        category: [category],
-        product: [product],
-      },
-    },
-  });
-
-  const [municipalitiesQuery] = useAllMunicipalitiesQuery({
-    variables: {
-      locale,
-    },
-  });
-
-  const observations = observationsQuery.fetching
-    ? EMPTY_ARRAY
-    : observationsQuery.data?.observations ?? EMPTY_ARRAY;
-  const cantonMedianObservations = observationsQuery.fetching
-    ? EMPTY_ARRAY
-    : observationsQuery.data?.cantonMedianObservations ?? EMPTY_ARRAY;
-  const swissMedianObservations = observationsQuery.fetching
-    ? EMPTY_ARRAY
-    : observationsQuery.data?.swissMedianObservations ?? EMPTY_ARRAY;
-
-  const municipalities =
-    municipalitiesQuery.data?.municipalities ?? EMPTY_ARRAY;
-
-  const medianValue = swissMedianObservations[0]?.value;
-
-  const colorAccessor = useCallback((d: { value: number }) => d.value, []);
-  const colorScale = useColorScale({
-    observations,
-    medianValue,
-    accessor: colorAccessor,
-  });
-
-  const { push, query } = useRouter();
-
-  const handleMunicipalityLayerClick = ({ object }: PickingInfo) => {
-    const href = {
-      pathname: "/municipality/[id]",
-      query: {
-        ...query,
-        id: object?.id.toString(),
-      },
-    };
-    push(href);
-  };
-
-  const [highlightContext, setHighlightContext] = useState<HighlightValue>();
-
-  const controlsRef: NonNullable<ChoroplethMapProps["controls"]> = useRef(null);
-
-  return (
-    <HighlightContext.Provider
-      value={{
-        value: highlightContext,
-        setValue: setHighlightContext,
-      }}
-    >
       <Head>
         <title>{t({ id: "site.title" })}</title>
       </Head>
-      <Box
-        display="grid"
-        sx={{
-          minHeight: "100vh",
-          gap: 0,
-          gridTemplateRows: [
-            `${HEADER_HEIGHT_S} 1fr auto`,
-            `${HEADER_HEIGHT_M_UP} 1fr auto`,
-          ],
-        }}
-      >
-        <Box>
-          <Header />
-        </Box>
+      <ApplicationLayout locale={locale}>
         <Box
           sx={{
-            position: "relative",
+            flexDirection: "column",
           }}
+          display="flex"
         >
-          <InfoBanner
-            bypassBannerEnabled={
-              !!(
-                observationsQuery.fetching === false &&
-                observationsQuery.data &&
-                !medianValue
-              )
-            }
-          />
+          <ContentWrapper
+            sx={{
+              py: 20,
+            }}
+          >
+            <Box display={"flex"} sx={{ gap: 12, alignItems: "stretch" }}>
+              <Box
+                sx={{
+                  width: "100%",
+                  flexDirection: "column",
+                  gap: 8,
+                }}
+                display={"flex"}
+              >
+                <Typography variant="h1" component={"h2"}>
+                  <Trans id="home.hero-section.title">
+                    Discover the Electricity Tariffs in the Map View
+                  </Trans>
+                </Typography>
+                <Typography variant="body1" component={"span"}>
+                  <Trans id="home.hero-section.title">
+                    This site provides up-to-date information on electricity
+                    tariffs across Switzerland, allowing you to compare prices
+                    for residential and commercial customers by municipality,
+                    canton, or grid operator. Explore detailed breakdowns of
+                    energy, network, and additional charges, and view historical
+                    trends to better understand electricity costs in your
+                    region.
+                  </Trans>
+                </Typography>
+                <Button
+                  variant="outlined"
+                  sx={{
+                    maxWidth: "fit-content",
+                  }}
+                  color="primary"
+                  endIcon={<Icon name="arrowright" />}
+                  href="/map"
+                >
+                  <Typography variant="h3">
+                    <Trans id="home.hero-section.primary-cta">
+                      Electricity Tariffs in Switzerland
+                    </Trans>
+                  </Typography>
+                </Button>
+              </Box>
+              <Box
+                sx={{
+                  width: "100%",
+                  position: "relative",
+                  display: "flex",
+                  aspectRatio: "1.5",
+                  p: 8,
+                }}
+              >
+                <Box
+                  sx={{
+                    flex: 1,
+                  }}
+                >
+                  <Image
+                    src="/assets/map-preview.svg"
+                    alt="map preview"
+                    layout="fill"
+                    objectFit="contain"
+                  />
+                </Box>
+              </Box>
+            </Box>
+          </ContentWrapper>
+
           <Box
             sx={{
-              py: 8,
+              py: 20,
               flexDirection: "column",
-              alignItems: "center",
-              borderBottomWidth: 1,
-              borderBottomStyle: "solid",
-              borderBottomColor: "grey.500",
-              px: 4,
+              backgroundColor: "secondary.50",
             }}
             display="flex"
           >
-            <Typography
-              component="h1"
-              variant="display2"
-              fontWeight={600}
-              sx={{ textAlign: ["left", "left", "center"], mb: 4 }}
-            >
-              <Trans id="site.title">Strompreise Schweiz</Trans>
-            </Typography>
-            <Typography
-              variant="body1"
-              sx={{
-                width: "100%",
-                textAlign: ["left", "left", "center"],
-                color: "grey.800",
-                mt: 2,
-                mb: 2,
-                height: [0, 0, "unset"],
-                visibility: ["hidden", "hidden", "visible"],
-              }}
-            >
-              <Trans id="search.global">
-                Detaillierte Preisanalysen von Kantonen, Gemeinden und
-                Netzbetreibern.
-              </Trans>
-            </Typography>
-            <Search />
-          </Box>
-          <Box
-            sx={{
-              display: "grid",
-              width: "100%",
-              gridTemplateColumns: ["1fr", "1fr 20rem", null],
-              gridTemplateAreas: [`"map" "controls"`, `"map controls"`, null],
-              gap: 0,
-              position: "relative",
-            }}
-          >
-            <Box
-              id={DOWNLOAD_ID}
-              sx={{
-                bgcolor: "grey.200",
-                top: [0, HEADER_HEIGHT_M_UP],
-                width: "100%",
-                gridArea: "map",
-                height: ["70vw", `calc(100vh - ${HEADER_HEIGHT_M_UP})`],
-                maxHeight: ["50vh", "100vh"],
-                position: ["relative", "sticky"],
-                borderRightWidth: "1px",
-                borderRightStyle: "solid",
-                borderRightColor: "grey.500",
-              }}
-            >
-              <ChoroplethMap
-                year={period}
-                observations={observations}
-                municipalities={municipalities}
-                observationsQueryFetching={
-                  observationsQuery.fetching || municipalitiesQuery.fetching
-                }
-                medianValue={medianValue}
-                colorScale={colorScale}
-                onMunicipalityLayerClick={handleMunicipalityLayerClick}
-                controls={controlsRef}
-              />
-
-              {!download && (
+            <ContentWrapper>
+              <Box
+                sx={{
+                  flexDirection: "column",
+                  gap: 12,
+                  px: 58,
+                }}
+                display="flex"
+              >
                 <Box
                   sx={{
-                    zIndex: 13,
-                    position: "absolute",
-                    bottom: 0,
-                    left: 0,
-                    mb: 0,
-                    ml: 3,
-                    px: 3,
-                    py: 4,
-                    background: "rgba(245,245,245,0.8)",
-                    display: "flex",
-                    gap: "2rem",
-                    borderRadius: "3px 3px 0 0",
+                    flexDirection: "column",
+                    gap: 4,
                   }}
+                  display="flex"
                 >
-                  <DownloadImage
-                    fileName={"map.png"}
-                    downloadType={DOWNLOAD_ID}
-                    getImageData={async () => {
-                      return controlsRef.current?.getImageData();
-                    }}
-                  />
-                  <ShareButton />
+                  <Typography variant="h1" component={"h2"}>
+                    <Trans id="home.explore-section.title">Explore</Trans>
+                  </Typography>
+                  <Typography variant="body1" component={"span"}>
+                    <Trans id="home.explore-section.title">
+                      Use the search bar below to find detailed analyses based
+                      on electricity data for specific municipalities, cantons,
+                      or grid operators. Enter the name of a region or operator
+                      to access insights and performance metrics tailored to
+                      your area of interest.
+                    </Trans>
+                  </Typography>
                 </Box>
-              )}
-            </Box>
-            <Box sx={{ gridArea: "controls" }}>
-              <Box>
-                <Selector />
+
+                <Box
+                  sx={{
+                    flexDirection: "column",
+                    gap: 2,
+                  }}
+                  display="flex"
+                >
+                  <Typography variant="body3">
+                    <Trans id="home.explore-section.search-bar-detail">
+                      See the detailed analysis of cantons, municipalities and
+                      grid operators.
+                    </Trans>
+                  </Typography>
+                  <Search />
+                </Box>
               </Box>
-              <List
-                observations={observations}
-                cantonObservations={cantonMedianObservations}
-                colorScale={colorScale}
-                observationsQueryFetching={observationsQuery.fetching}
-              />
-            </Box>
+            </ContentWrapper>
           </Box>
         </Box>
-        <Footer />
-      </Box>
-    </HighlightContext.Provider>
+      </ApplicationLayout>
+    </>
   );
 };
 
