@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { Trans, t } from "@lingui/macro";
-import { Box, Typography, useTheme } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { useState } from "react";
 
 import { InfoDialogButton } from "src/components/info-dialog";
@@ -19,6 +19,9 @@ const LegendBox = styled(Box)({
   borderRadius: 1,
   height: "fit-content",
   px: 4,
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
   py: 2,
 });
 
@@ -196,8 +199,6 @@ export const PriceColorLegend = () => {
 };
 
 const ColorsLine = () => {
-  const { palette } = useTheme();
-
   return (
     <Box
       sx={{ height: COLOR_HEIGHT + BOTTOM_LABEL_HEIGHT, position: "relative" }}
@@ -258,6 +259,7 @@ const ColorsLine = () => {
             <Typography
               variant="inherit"
               sx={{
+                mt: 1,
                 fontSize: "0.625rem",
                 color: "grey.600",
                 transform: "translateX(50%)",
