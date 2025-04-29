@@ -4,7 +4,7 @@ import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { Fragment, useState } from "react";
 
-import { HomeLink } from "src/components/links";
+import { MapLink } from "src/components/links";
 import { Search } from "src/components/search";
 import { Entity } from "src/domain/data";
 import { Icon } from "src/icons";
@@ -106,7 +106,7 @@ export const DetailPageBanner = ({
         <Box sx={{ gridArea: "back" }}>
           <UILink
             variant="body2"
-            component={HomeLink}
+            component={MapLink}
             sx={{
               display: "flex",
               alignItems: "center",
