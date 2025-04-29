@@ -200,7 +200,7 @@ const Icons = {
 export type IconName = keyof typeof Icons;
 
 export const Icon = ({
-  size,
+  size = 24,
   color,
   name,
   ...props
