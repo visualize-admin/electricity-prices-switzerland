@@ -40,7 +40,7 @@ Either use the installers
 Or – if using Nix – entering a new Nix shell will install Node.js and Yarn automatically:
 
 ```sh
-nix-shell
+nix develop
 ```
 
 #### Run the application setup
