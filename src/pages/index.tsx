@@ -9,7 +9,7 @@ import basicAuthMiddleware from "nextjs-basic-auth-middleware";
 import { Icon } from "src/icons";
 import { defaultLocale } from "src/locales/locales";
 
-import { ApplicationLayout } from "./app-layout";
+import { ApplicationLayout } from "../components/app-layout";
 
 type Props = {
   locale: string;
@@ -28,13 +28,13 @@ export const getServerSideProps: GetServerSideProps<
   };
 };
 
-const IndexPage = ({ locale }: Props) => {
+const IndexPage = () => {
   return (
     <>
       <Head>
         <title>{t({ id: "site.title" })}</title>
       </Head>
-      <ApplicationLayout locale={locale}>
+      <ApplicationLayout>
         <Box
           sx={{
             flexDirection: "column",

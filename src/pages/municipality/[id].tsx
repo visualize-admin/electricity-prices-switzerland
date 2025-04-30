@@ -22,7 +22,7 @@ import {
   getObservationsCube,
 } from "src/rdf/queries";
 
-import { ApplicationLayout } from "../app-layout";
+import { ApplicationLayout } from "../../components/app-layout";
 
 type Props =
   | {

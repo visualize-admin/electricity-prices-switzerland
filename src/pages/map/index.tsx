@@ -27,7 +27,7 @@ import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { useQueryStateSingle } from "src/lib/use-query-state";
 import { defaultLocale } from "src/locales/locales";
 
-import { ApplicationLayout } from "../app-layout";
+import { ApplicationLayout } from "../../components/app-layout";
 
 const DOWNLOAD_ID = "map";
 
