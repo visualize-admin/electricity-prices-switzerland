@@ -91,7 +91,7 @@ export const components: Components = {
 
   MuiNativeSelect: {
     defaultProps: {
-      IconComponent: ({ style, ...rest }: any) => {
+      IconComponent: ({ style, ...rest }) => {
         return (
           <Icon
             name="chevrondown"

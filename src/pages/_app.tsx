@@ -1,5 +1,5 @@
 // pages/_app.tsx
-import { CacheProvider } from "@emotion/react";
+import { CacheProvider, EmotionCache } from "@emotion/react";
 import { Matomo } from "@interactivethings/swiss-federal-ci/dist/components/pages-router";
 import { I18nProvider } from "@lingui/react";
 import { CssBaseline, ThemeProvider } from "@mui/material";
@@ -20,7 +20,9 @@ import "src/styles/nprogress.css";
 
 const clientSideEmotionCache = createEmotionCache();
 
-export default function MyApp(props: AppProps & { emotionCache?: any }) {
+export default function MyApp(
+  props: AppProps & { emotionCache?: EmotionCache }
+) {
   const { Component, pageProps, emotionCache = clientSideEmotionCache } = props;
   const { query, events: routerEvents, locale: routerLocale } = useRouter();
   const locale = parseLocaleString(routerLocale ?? "");
