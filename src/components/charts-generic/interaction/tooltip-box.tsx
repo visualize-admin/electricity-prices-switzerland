@@ -43,7 +43,7 @@ export const TooltipBox = forwardRef<HTMLDivElement, TooltipBoxProps>(
           sx={{
             padding: 3,
             pointerEvents: interactive ? "all" : "none",
-            bgcolor: "secondary.100",
+            bgcolor: "background.paper",
             filter: `drop-shadow(${theme.shadows[6]})`,
 
             "&::before": {
@@ -100,7 +100,7 @@ export const TooltipBoxWithoutChartState = ({
         sx={{
           padding: 3,
           pointerEvents: "none",
-          backgroundColor: "secondary.100",
+          backgroundColor: "background.paper",
           filter: `drop-shadow(${theme.shadows?.[6]})`,
 
           "&::before": {

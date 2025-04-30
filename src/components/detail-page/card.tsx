@@ -23,7 +23,6 @@ export const Card = ({
         bgcolor: "background.paper",
         borderRadius: 1,
         p: 5,
-        m: 4,
         boxShadow: 2,
       }}
     >

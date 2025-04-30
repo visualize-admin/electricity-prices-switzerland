@@ -35,11 +35,11 @@ export const SelectorMulti = ({
         border: 0,
         flexDirection: ["column", "row", "row"],
         justifyContent: "flex-start",
+        alignItems: "flex-end",
         alignContent: ["flex-start", "flex-end", "flex-end"],
         gap: [0, 4, 4],
         bgcolor: "muted.colored",
-        px: 4,
-        py: 4,
+        p: 0,
         zIndex: 13,
         "> div": { mt: 1 },
         "> fieldset": { mt: 2, border: 0 },
@@ -49,7 +49,6 @@ export const SelectorMulti = ({
       <>
         {entity === "operator" ? (
           <OperatorsCombobox
-          
             label={
               <Trans id="selector.compareoperators">
                 Netzbetreiber zum Vergleich

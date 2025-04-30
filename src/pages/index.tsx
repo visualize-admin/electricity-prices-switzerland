@@ -61,7 +61,7 @@ const IndexPage = ({ locale }: Props) => {
                   </Trans>
                 </Typography>
                 <Typography variant="body1" component={"span"}>
-                  <Trans id="home.hero-section.title">
+                  <Trans id="home.hero-section.description">
                     This site provides up-to-date information on electricity
                     tariffs across Switzerland, allowing you to compare prices
                     for residential and commercial customers by municipality,

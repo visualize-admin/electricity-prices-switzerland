@@ -75,6 +75,12 @@ export const ComboboxMulti = ({
             }}
             InputProps={{
               ...params.InputProps,
+              sx: {
+                "& input": {
+                  padding: "0px !important",
+                  height: "100% !important",
+                },
+              },
             }}
           />
         </Box>
@@ -92,12 +98,14 @@ export const ComboboxMulti = ({
               key={key}
               sx={{
                 display: "inline-block",
-                p: 1,
+                px: 2,
+                py: 1,
+                gap: 1,
+                m: 0,
                 mr: 2,
-                mb: 2,
-                borderRadius: 1,
+                borderRadius: "9999px",
                 fontSize: "0.75rem",
-                bgcolor: "primary.light",
+                bgcolor: "secondary.50",
               }}
               {...tagProps}
             >

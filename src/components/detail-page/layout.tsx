@@ -31,7 +31,7 @@ export const DetailPageLayout = ({ main, selector, aside }: Props) => {
       <Box
         sx={{
           gridArea: "main",
-          px: [0, 3],
+          pl: [0, 16],
           bgcolor: "secondary.50",
           borderLeftWidth: "1px",
           borderLeftStyle: "solid",

@@ -66,14 +66,14 @@ const ListItem = ({
         color: "text",
         textDecoration: "none",
         "&:hover": {
-          bgcolor: "muted.darker",
+          bgcolor: "monochrome.50",
         },
         "&:active": {
-          bgcolor: "primary.light",
+          bgcolor: "monochrome.100",
         },
         "&:focus": {
           outline: 0,
-          bgcolor: "primary.light",
+          bgcolor: "monochrome.100",
         },
       }}
       display="flex"

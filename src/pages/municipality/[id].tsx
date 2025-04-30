@@ -1,6 +1,7 @@
 import { ContentWrapper } from "@interactivethings/swiss-federal-ci/dist/components";
 import { t } from "@lingui/macro";
-import { Box } from "@mui/material";
+import { Trans } from "@lingui/react";
+import { Box, Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
 import ErrorPage from "next/error";
 import Head from "next/head";
@@ -130,7 +131,14 @@ const MunicipalityPage = (props: Props) => {
                 <DetailPageLayout
                   selector={null}
                   main={
-                    <>
+                    <Box
+                      sx={{
+                        pt: 10,
+                        flexDirection: "column",
+                        gap: 10,
+                      }}
+                      display={"flex"}
+                    >
                       {query.download === "components" && (
                         <PriceComponentsBarChart
                           id={id}
@@ -152,7 +160,7 @@ const MunicipalityPage = (props: Props) => {
                           entity="municipality"
                         />
                       )}
-                    </>
+                    </Box>
                   }
                   aside={null}
                 />
@@ -160,7 +168,38 @@ const MunicipalityPage = (props: Props) => {
                 <DetailPageLayout
                   selector={null}
                   main={
-                    <>
+                    <Box
+                      sx={{
+                        pt: 10,
+                        flexDirection: "column",
+                        gap: 10,
+                      }}
+                      display={"flex"}
+                    >
+                      <Box
+                        sx={{
+                          flexDirection: "column",
+                          gap: 4,
+                        }}
+                        display={"flex"}
+                      >
+                        <Typography variant="h1" component={"h2"}>
+                          <Trans id="page.electricity-tariffs.title">
+                            Stromtarife
+                          </Trans>
+                        </Typography>
+                        <Typography variant="body2" component={"h2"}>
+                          <Trans id="page.electricity-tariffs.description">
+                            Auf der Detailseite des Netzbetreibers finden Sie
+                            aktuelle Informationen zu den Stromtarifen, die
+                            einen Preisvergleich ermöglichen. Sie können die
+                            Aufschlüsselung der Energie-, Netz- und Zusatzkosten
+                            einsehen und unter historische Trends abrufen, um
+                            ein besseres Verständnis der Stromkosten von zu
+                            erhalten.
+                          </Trans>
+                        </Typography>
+                      </Box>
                       <SelectorMulti entity="municipality" />
 
                       <PriceComponentsBarChart id={id} entity="municipality" />
@@ -173,7 +212,7 @@ const MunicipalityPage = (props: Props) => {
                         id={id}
                         entity="municipality"
                       />
-                    </>
+                    </Box>
                   }
                   aside={null}
                 />
