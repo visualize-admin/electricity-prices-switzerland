@@ -1,3 +1,4 @@
+import { ContentWrapper } from "@interactivethings/swiss-federal-ci/dist/components";
 import { t } from "@lingui/macro";
 import { Box } from "@mui/material";
 import { GetServerSideProps } from "next";
@@ -13,13 +14,14 @@ import { PriceComponentsBarChart } from "src/components/detail-page/price-compon
 import { PriceDistributionHistograms } from "src/components/detail-page/price-distribution-histogram";
 import { PriceEvolution } from "src/components/detail-page/price-evolution-line-chart";
 import { SelectorMulti } from "src/components/detail-page/selector-multi";
-import { Footer } from "src/components/footer";
-import { Header } from "src/components/header";
+import { defaultLocale } from "src/locales/locales";
 import {
   getDimensionValuesAndLabels,
   getMunicipality,
   getObservationsCube,
 } from "src/rdf/queries";
+
+import { ApplicationLayout } from "../app-layout";
 
 type Props =
   | {
@@ -27,9 +29,11 @@ type Props =
       id: string;
       name: string;
       operators: { id: string; name: string }[];
+      locale: string;
     }
   | {
       status: "notfound";
+      locale: string;
     };
 
 export const getServerSideProps: GetServerSideProps<
@@ -44,7 +48,7 @@ export const getServerSideProps: GetServerSideProps<
 
   if (!municipality) {
     res.statusCode = 404;
-    return { props: { status: "notfound" } };
+    return { props: { status: "notfound", locale: locale ?? defaultLocale } };
   }
 
   const cube = await getObservationsCube();
@@ -63,6 +67,7 @@ export const getServerSideProps: GetServerSideProps<
       operators: operators
         .sort((a, b) => a.name.localeCompare(b.name, locale))
         .map(({ id, name }) => ({ id, name })),
+      locale: locale ?? defaultLocale,
     },
   };
 };
@@ -74,7 +79,7 @@ const MunicipalityPage = (props: Props) => {
     return <ErrorPage statusCode={404} />;
   }
 
-  const { id, name, operators } = props;
+  const { id, name, operators, locale } = props;
 
   return (
     <>
@@ -83,66 +88,100 @@ const MunicipalityPage = (props: Props) => {
           id: "site.title",
         })}`}</title>
       </Head>
-      <Box sx={{ minHeight: "100vh", flexDirection: "column" }} display="flex">
-        {!query.download && <Header></Header>}
+      <ApplicationLayout locale={locale}>
         <Box
           sx={{
-            pt: ["107px", "96px"],
-            flexGrow: 1,
-            bgcolor: "grey.200",
+            borderBottomWidth: "1px",
+            borderBottomStyle: "solid",
+            borderBottomColor: "monochrome.300",
           }}
         >
-          <DetailPageBanner
-            id={id}
-            name={name}
-            operators={operators}
-            entity="municipality"
-          />
-
-          {query.download ? (
-            <DetailPageLayout
-              main={
-                <>
-                  {query.download === "components" && (
-                    <PriceComponentsBarChart id={id} entity="municipality" />
-                  )}
-                  {query.download === "evolution" && (
-                    <PriceEvolution id={id} entity="municipality" />
-                  )}
-                  {query.download === "distribution" && (
-                    <PriceDistributionHistograms
-                      id={id}
-                      entity="municipality"
-                    />
-                  )}
-                  {query.download === "comparison" && (
-                    <CantonsComparisonRangePlots
-                      id={id}
-                      entity="municipality"
-                    />
-                  )}
-                </>
-              }
-              selector={null}
-              aside={null}
+          <ContentWrapper
+            sx={{
+              flexGrow: 1,
+              backgroundColor: "background.paper",
+            }}
+          >
+            <DetailPageBanner
+              id={id}
+              name={name}
+              operators={operators}
+              entity="municipality"
             />
-          ) : (
-            <DetailPageLayout
-              main={
-                <>
-                  <PriceComponentsBarChart id={id} entity="municipality" />
-                  <PriceEvolution id={id} entity="municipality" />
-                  <PriceDistributionHistograms id={id} entity="municipality" />
-                  <CantonsComparisonRangePlots id={id} entity="municipality" />
-                </>
-              }
-              selector={<SelectorMulti entity="municipality" />}
-              aside={null}
-            />
-          )}
+          </ContentWrapper>
         </Box>
-        <Footer />
-      </Box>
+        <Box
+          sx={{
+            backgroundColor: "secondary.50",
+          }}
+        >
+          <ContentWrapper
+            sx={{
+              backgroundColor: "secondary.50",
+            }}
+          >
+            <Box
+              sx={{
+                flexGrow: 1,
+                bgcolor: "background.paper",
+              }}
+            >
+              {query.download ? (
+                <DetailPageLayout
+                  selector={null}
+                  main={
+                    <>
+                      {query.download === "components" && (
+                        <PriceComponentsBarChart
+                          id={id}
+                          entity="municipality"
+                        />
+                      )}
+                      {query.download === "evolution" && (
+                        <PriceEvolution id={id} entity="municipality" />
+                      )}
+                      {query.download === "distribution" && (
+                        <PriceDistributionHistograms
+                          id={id}
+                          entity="municipality"
+                        />
+                      )}
+                      {query.download === "comparison" && (
+                        <CantonsComparisonRangePlots
+                          id={id}
+                          entity="municipality"
+                        />
+                      )}
+                    </>
+                  }
+                  aside={null}
+                />
+              ) : (
+                <DetailPageLayout
+                  selector={null}
+                  main={
+                    <>
+                      <SelectorMulti entity="municipality" />
+
+                      <PriceComponentsBarChart id={id} entity="municipality" />
+                      <PriceEvolution id={id} entity="municipality" />
+                      <PriceDistributionHistograms
+                        id={id}
+                        entity="municipality"
+                      />
+                      <CantonsComparisonRangePlots
+                        id={id}
+                        entity="municipality"
+                      />
+                    </>
+                  }
+                  aside={null}
+                />
+              )}
+            </Box>
+          </ContentWrapper>
+        </Box>
+      </ApplicationLayout>
     </>
   );
 };

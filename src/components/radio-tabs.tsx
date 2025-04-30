@@ -13,7 +13,7 @@ type RadioTabsProps<T> = {
   value: T;
   setValue: (value: T) => void;
   variant?: RadioTabsVariants;
-  label: string;
+  label?: string;
   showLabel?: boolean;
   infoDialogSlug?: string;
 };
@@ -197,7 +197,7 @@ export const RadioTabs = <T extends string>({
             {label}
           </Typography>
         )}
-        {infoDialogSlug && (
+        {infoDialogSlug && label && (
           <InfoDialogButton
             iconOnly
             slug={infoDialogSlug}

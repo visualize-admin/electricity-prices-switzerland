@@ -1,4 +1,5 @@
 import { PickingInfo } from "@deck.gl/core/typed";
+import { ContentWrapper } from "@interactivethings/swiss-federal-ci/dist/components";
 import { t } from "@lingui/macro";
 import { Box, Button, Input, Link, Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
@@ -19,13 +20,12 @@ import {
   useAllMunicipalitiesQuery,
   useObservationsQuery,
 } from "src/graphql/queries";
+import { Icon } from "src/icons";
 import { copyToClipboard } from "src/lib/copy-to-clipboard";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { useQueryStateSingle } from "src/lib/use-query-state";
 import { defaultLocale } from "src/locales/locales";
 
-import { ContentWrapper } from "@interactivethings/swiss-federal-ci/dist/components";
-import { Icon } from "src/icons";
 import { ApplicationLayout } from "../app-layout";
 
 const DOWNLOAD_ID = "map";
@@ -89,7 +89,18 @@ const ShareButton = () => {
   };
   return (
     <>
-      <Link variant="body2" ref={linkRef} onClick={handleClick}>
+      <Link
+        variant="body2"
+        color={"text.primary"}
+        ref={linkRef}
+        onClick={handleClick}
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          gap: 1,
+        }}
+      >
+        <Icon name="share" size={20} />
         {t({ id: "map.share", message: "Teilen" })}
       </Link>
       {isOpen ? (
@@ -149,11 +160,11 @@ const ShareButton = () => {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                backgroundColor: "grey.300",
-                color: "grey.900",
+                backgroundColor: "secondary.300",
+                color: "secondary.900",
                 cursor: "pointer",
                 "&:hover": {
-                  backgroundColor: "grey.400",
+                  backgroundColor: "secondary.400",
                 },
                 "&:focus, &:active": {
                   outline: 0,
@@ -300,12 +311,12 @@ const IndexPage = ({ locale }: Props) => {
                     zIndex: 13,
                     position: "absolute",
                     bottom: 0,
-                    left: 0,
+                    right: 0,
                     mb: 0,
-                    ml: 3,
-                    px: 3,
-                    py: 4,
-                    background: "rgba(245,245,245,0.8)",
+                    mr: 3,
+                    px: 4,
+                    py: 3,
+                    backgroundColor: "background.paper",
                     display: "flex",
                     gap: "2rem",
                     borderRadius: "3px 3px 0 0",

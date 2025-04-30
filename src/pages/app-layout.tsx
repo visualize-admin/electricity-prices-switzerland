@@ -169,7 +169,11 @@ const AppNavigation = (props: ApplicationNavigationProps) => {
         />
         <MenuButton
           title={t({ id: "home.menu.map-view", message: "Map View" })}
-          active={pathname === "/map"}
+          active={
+            pathname === "/map" ||
+            pathname.includes("municipality") ||
+            pathname.includes("canton")
+          }
           href={"/map"}
         />
         <Box sx={{ flex: 1 }} />
