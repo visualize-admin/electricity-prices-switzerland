@@ -174,7 +174,7 @@ export const InfoDialogButton = ({
   return (
     <>
       <IconButton
-        color="primary"
+        color="tertiary"
         sx={{ fontSize: smaller ? [2, 2, 2] : [3, 4, 4] }}
         onClick={openDialog}
       >

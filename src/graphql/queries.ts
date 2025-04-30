@@ -11,15 +11,24 @@ export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
   [SubKey in K]: Maybe<T[SubKey]>;
 };
+export type MakeEmpty<
+  T extends { [key: string]: unknown },
+  K extends keyof T
+> = { [_ in K]?: never };
+export type Incremental<T> =
+  | T
+  | {
+      [P in keyof T]?: P extends " $fragmentName" | "__typename" ? T[P] : never;
+    };
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: string;
-  String: string;
-  Boolean: boolean;
-  Int: number;
-  Float: number;
-  WikiContentInfo: any;
+  ID: { input: string; output: string };
+  String: { input: string; output: string };
+  Boolean: { input: boolean; output: boolean };
+  Int: { input: number; output: number };
+  Float: { input: number; output: number };
+  WikiContentInfo: { input: any; output: any };
 };
 
 export enum CacheControlScope {
@@ -29,19 +38,19 @@ export enum CacheControlScope {
 
 export type Canton = {
   __typename: "Canton";
-  id: Scalars["String"];
+  id: Scalars["String"]["output"];
   municipalities: Array<Municipality>;
-  name: Scalars["String"];
+  name: Scalars["String"]["output"];
   operator: Array<Operator>;
 };
 
 export type CantonMedianObservation = {
   __typename: "CantonMedianObservation";
-  canton: Scalars["String"];
-  cantonLabel?: Maybe<Scalars["String"]>;
-  category: Scalars["String"];
-  period: Scalars["String"];
-  value: Scalars["Float"];
+  canton: Scalars["String"]["output"];
+  cantonLabel?: Maybe<Scalars["String"]["output"]>;
+  category: Scalars["String"]["output"];
+  period: Scalars["String"]["output"];
+  value: Scalars["Float"]["output"];
 };
 
 export type CantonMedianObservationValueArgs = {
@@ -50,29 +59,29 @@ export type CantonMedianObservationValueArgs = {
 
 export type CantonResult = SearchResult & {
   __typename: "CantonResult";
-  id: Scalars["String"];
-  name: Scalars["String"];
+  id: Scalars["String"]["output"];
+  name: Scalars["String"]["output"];
 };
 
 export type CubeHealth = {
   __typename: "CubeHealth";
-  dimensions: Array<Scalars["String"]>;
-  ok: Scalars["Boolean"];
+  dimensions: Array<Scalars["String"]["output"]>;
+  ok: Scalars["Boolean"]["output"];
 };
 
 export type Municipality = {
   __typename: "Municipality";
   canton: Canton;
-  id: Scalars["String"];
-  isAbolished?: Maybe<Scalars["Boolean"]>;
-  name: Scalars["String"];
+  id: Scalars["String"]["output"];
+  isAbolished?: Maybe<Scalars["Boolean"]["output"]>;
+  name: Scalars["String"]["output"];
   operators: Array<Operator>;
 };
 
 export type MunicipalityResult = SearchResult & {
   __typename: "MunicipalityResult";
-  id: Scalars["String"];
-  name: Scalars["String"];
+  id: Scalars["String"]["output"];
+  name: Scalars["String"]["output"];
 };
 
 export type Observation =
@@ -81,12 +90,12 @@ export type Observation =
   | SwissMedianObservation;
 
 export type ObservationFilters = {
-  canton?: InputMaybe<Array<Scalars["String"]>>;
-  category?: InputMaybe<Array<Scalars["String"]>>;
-  municipality?: InputMaybe<Array<Scalars["String"]>>;
-  operator?: InputMaybe<Array<Scalars["String"]>>;
-  period?: InputMaybe<Array<Scalars["String"]>>;
-  product?: InputMaybe<Array<Scalars["String"]>>;
+  canton?: InputMaybe<Array<Scalars["String"]["input"]>>;
+  category?: InputMaybe<Array<Scalars["String"]["input"]>>;
+  municipality?: InputMaybe<Array<Scalars["String"]["input"]>>;
+  operator?: InputMaybe<Array<Scalars["String"]["input"]>>;
+  period?: InputMaybe<Array<Scalars["String"]["input"]>>;
+  product?: InputMaybe<Array<Scalars["String"]["input"]>>;
 };
 
 export enum ObservationKind {
@@ -99,19 +108,19 @@ export type Operator = {
   cantons: Array<Canton>;
   documents: Array<OperatorDocument>;
   geverDocuments: Array<OperatorDocument>;
-  geverId?: Maybe<Scalars["String"]>;
-  id?: Maybe<Scalars["String"]>;
+  geverId?: Maybe<Scalars["String"]["output"]>;
+  id?: Maybe<Scalars["String"]["output"]>;
   municipalities: Array<Municipality>;
-  name: Scalars["String"];
+  name: Scalars["String"]["output"];
 };
 
 export type OperatorDocument = {
   __typename: "OperatorDocument";
   category?: Maybe<OperatorDocumentCategory>;
-  id: Scalars["String"];
-  name: Scalars["String"];
-  url: Scalars["String"];
-  year: Scalars["String"];
+  id: Scalars["String"]["output"];
+  name: Scalars["String"]["output"];
+  url: Scalars["String"]["output"];
+  year: Scalars["String"]["output"];
 };
 
 export enum OperatorDocumentCategory {
@@ -122,15 +131,15 @@ export enum OperatorDocumentCategory {
 
 export type OperatorObservation = {
   __typename: "OperatorObservation";
-  canton: Scalars["String"];
-  cantonLabel?: Maybe<Scalars["String"]>;
-  category: Scalars["String"];
-  municipality: Scalars["String"];
-  municipalityLabel?: Maybe<Scalars["String"]>;
-  operator: Scalars["String"];
-  operatorLabel?: Maybe<Scalars["String"]>;
-  period: Scalars["String"];
-  value: Scalars["Float"];
+  canton: Scalars["String"]["output"];
+  cantonLabel?: Maybe<Scalars["String"]["output"]>;
+  category: Scalars["String"]["output"];
+  municipality: Scalars["String"]["output"];
+  municipalityLabel?: Maybe<Scalars["String"]["output"]>;
+  operator: Scalars["String"]["output"];
+  operatorLabel?: Maybe<Scalars["String"]["output"]>;
+  period: Scalars["String"]["output"];
+  value: Scalars["Float"]["output"];
 };
 
 export type OperatorObservationValueArgs = {
@@ -139,8 +148,8 @@ export type OperatorObservationValueArgs = {
 
 export type OperatorResult = SearchResult & {
   __typename: "OperatorResult";
-  id: Scalars["String"];
-  name: Scalars["String"];
+  id: Scalars["String"]["output"];
+  name: Scalars["String"]["output"];
 };
 
 export enum PriceComponent {
@@ -175,98 +184,98 @@ export type Query = {
 };
 
 export type QueryAllMunicipalitiesArgs = {
-  locale: Scalars["String"];
+  locale: Scalars["String"]["input"];
 };
 
 export type QueryCantonArgs = {
-  id: Scalars["String"];
-  locale: Scalars["String"];
+  id: Scalars["String"]["input"];
+  locale: Scalars["String"]["input"];
 };
 
 export type QueryCantonMedianObservationsArgs = {
   filters?: InputMaybe<ObservationFilters>;
-  locale?: InputMaybe<Scalars["String"]>;
+  locale?: InputMaybe<Scalars["String"]["input"]>;
   observationKind?: InputMaybe<ObservationKind>;
 };
 
 export type QueryCantonsArgs = {
-  ids?: InputMaybe<Array<Scalars["String"]>>;
-  locale: Scalars["String"];
-  query?: InputMaybe<Scalars["String"]>;
+  ids?: InputMaybe<Array<Scalars["String"]["input"]>>;
+  locale: Scalars["String"]["input"];
+  query?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type QueryMunicipalitiesArgs = {
-  ids?: InputMaybe<Array<Scalars["String"]>>;
-  locale: Scalars["String"];
-  query?: InputMaybe<Scalars["String"]>;
+  ids?: InputMaybe<Array<Scalars["String"]["input"]>>;
+  locale: Scalars["String"]["input"];
+  query?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type QueryMunicipalityArgs = {
-  id: Scalars["String"];
-  locale: Scalars["String"];
+  id: Scalars["String"]["input"];
+  locale: Scalars["String"]["input"];
 };
 
 export type QueryObservationsArgs = {
   filters?: InputMaybe<ObservationFilters>;
-  locale?: InputMaybe<Scalars["String"]>;
+  locale?: InputMaybe<Scalars["String"]["input"]>;
   observationKind?: InputMaybe<ObservationKind>;
 };
 
 export type QueryOperatorArgs = {
-  geverId?: InputMaybe<Scalars["String"]>;
-  id: Scalars["String"];
-  locale: Scalars["String"];
+  geverId?: InputMaybe<Scalars["String"]["input"]>;
+  id: Scalars["String"]["input"];
+  locale: Scalars["String"]["input"];
 };
 
 export type QueryOperatorsArgs = {
-  ids?: InputMaybe<Array<Scalars["String"]>>;
-  locale: Scalars["String"];
-  query?: InputMaybe<Scalars["String"]>;
+  ids?: InputMaybe<Array<Scalars["String"]["input"]>>;
+  locale: Scalars["String"]["input"];
+  query?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type QuerySearchArgs = {
-  locale: Scalars["String"];
-  query?: InputMaybe<Scalars["String"]>;
+  locale: Scalars["String"]["input"];
+  query?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type QuerySearchCantonsArgs = {
-  ids?: InputMaybe<Array<Scalars["String"]>>;
-  locale: Scalars["String"];
-  query?: InputMaybe<Scalars["String"]>;
+  ids?: InputMaybe<Array<Scalars["String"]["input"]>>;
+  locale: Scalars["String"]["input"];
+  query?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type QuerySearchMunicipalitiesArgs = {
-  ids?: InputMaybe<Array<Scalars["String"]>>;
-  locale: Scalars["String"];
-  query?: InputMaybe<Scalars["String"]>;
+  ids?: InputMaybe<Array<Scalars["String"]["input"]>>;
+  locale: Scalars["String"]["input"];
+  query?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type QuerySearchOperatorsArgs = {
-  ids?: InputMaybe<Array<Scalars["String"]>>;
-  locale: Scalars["String"];
-  query?: InputMaybe<Scalars["String"]>;
+  ids?: InputMaybe<Array<Scalars["String"]["input"]>>;
+  locale: Scalars["String"]["input"];
+  query?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type QuerySwissMedianObservationsArgs = {
   filters?: InputMaybe<ObservationFilters>;
-  locale?: InputMaybe<Scalars["String"]>;
+  locale?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type QueryWikiContentArgs = {
-  locale: Scalars["String"];
-  slug: Scalars["String"];
+  locale: Scalars["String"]["input"];
+  slug: Scalars["String"]["input"];
 };
 
 export type SearchResult = {
-  id: Scalars["String"];
-  name: Scalars["String"];
+  id: Scalars["String"]["output"];
+  name: Scalars["String"]["output"];
 };
 
 export type SwissMedianObservation = {
   __typename: "SwissMedianObservation";
-  category: Scalars["String"];
-  period: Scalars["String"];
-  value: Scalars["Float"];
+  category: Scalars["String"]["output"];
+  period: Scalars["String"]["output"];
+  value: Scalars["Float"]["output"];
 };
 
 export type SwissMedianObservationValueArgs = {
@@ -275,20 +284,22 @@ export type SwissMedianObservationValueArgs = {
 
 export type SystemInfo = {
   __typename: "SystemInfo";
-  SPARQL_ENDPOINT: Scalars["String"];
-  VERSION: Scalars["String"];
+  SPARQL_ENDPOINT: Scalars["String"]["output"];
+  VERSION: Scalars["String"]["output"];
 };
 
 export type WikiContent = {
   __typename: "WikiContent";
-  html: Scalars["String"];
-  info?: Maybe<Scalars["WikiContentInfo"]>;
+  html: Scalars["String"]["output"];
+  info?: Maybe<Scalars["WikiContentInfo"]["output"]>;
 };
 
 export type MunicipalitiesQueryVariables = Exact<{
-  locale: Scalars["String"];
-  query?: InputMaybe<Scalars["String"]>;
-  ids?: InputMaybe<Array<Scalars["String"]> | Scalars["String"]>;
+  locale: Scalars["String"]["input"];
+  query?: InputMaybe<Scalars["String"]["input"]>;
+  ids?: InputMaybe<
+    Array<Scalars["String"]["input"]> | Scalars["String"]["input"]
+  >;
 }>;
 
 export type MunicipalitiesQuery = {
@@ -301,7 +312,7 @@ export type MunicipalitiesQuery = {
 };
 
 export type AllMunicipalitiesQueryVariables = Exact<{
-  locale: Scalars["String"];
+  locale: Scalars["String"]["input"];
 }>;
 
 export type AllMunicipalitiesQuery = {
@@ -314,9 +325,11 @@ export type AllMunicipalitiesQuery = {
 };
 
 export type OperatorsQueryVariables = Exact<{
-  locale: Scalars["String"];
-  query?: InputMaybe<Scalars["String"]>;
-  ids?: InputMaybe<Array<Scalars["String"]> | Scalars["String"]>;
+  locale: Scalars["String"]["input"];
+  query?: InputMaybe<Scalars["String"]["input"]>;
+  ids?: InputMaybe<
+    Array<Scalars["String"]["input"]> | Scalars["String"]["input"]
+  >;
 }>;
 
 export type OperatorsQuery = {
@@ -325,9 +338,11 @@ export type OperatorsQuery = {
 };
 
 export type CantonsQueryVariables = Exact<{
-  locale: Scalars["String"];
-  query?: InputMaybe<Scalars["String"]>;
-  ids?: InputMaybe<Array<Scalars["String"]> | Scalars["String"]>;
+  locale: Scalars["String"]["input"];
+  query?: InputMaybe<Scalars["String"]["input"]>;
+  ids?: InputMaybe<
+    Array<Scalars["String"]["input"]> | Scalars["String"]["input"]
+  >;
 }>;
 
 export type CantonsQuery = {
@@ -336,8 +351,8 @@ export type CantonsQuery = {
 };
 
 export type SearchQueryVariables = Exact<{
-  locale: Scalars["String"];
-  query?: InputMaybe<Scalars["String"]>;
+  locale: Scalars["String"]["input"];
+  query?: InputMaybe<Scalars["String"]["input"]>;
 }>;
 
 export type SearchQuery = {
@@ -379,7 +394,7 @@ export type SwissMedianObservationFieldsFragment = {
 };
 
 export type ObservationsQueryVariables = Exact<{
-  locale: Scalars["String"];
+  locale: Scalars["String"]["input"];
   priceComponent: PriceComponent;
   filters: ObservationFilters;
   observationKind?: InputMaybe<ObservationKind>;
@@ -446,7 +461,7 @@ export type CantonMedianObservationWithAllPriceComponentsFieldsFragment = {
 };
 
 export type ObservationsWithAllPriceComponentsQueryVariables = Exact<{
-  locale: Scalars["String"];
+  locale: Scalars["String"]["input"];
   filters: ObservationFilters;
   observationKind?: InputMaybe<ObservationKind>;
 }>;
@@ -484,8 +499,8 @@ export type ObservationsWithAllPriceComponentsQuery = {
 };
 
 export type OperatorDocumentsQueryVariables = Exact<{
-  id: Scalars["String"];
-  locale: Scalars["String"];
+  id: Scalars["String"]["input"];
+  locale: Scalars["String"]["input"];
 }>;
 
 export type OperatorDocumentsQuery = {
@@ -512,8 +527,8 @@ export type OperatorDocumentsQuery = {
 };
 
 export type WikiContentQueryVariables = Exact<{
-  locale: Scalars["String"];
-  slug: Scalars["String"];
+  locale: Scalars["String"]["input"];
+  slug: Scalars["String"]["input"];
 }>;
 
 export type WikiContentQuery = {

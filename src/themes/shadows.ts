@@ -1,0 +1,30 @@
+import { e as swissFederalCiShadows } from "@interactivethings/swiss-federal-ci";
+import { Shadows } from "@mui/material/styles/shadows";
+
+export const shadows = [
+  swissFederalCiShadows[1],
+  swissFederalCiShadows[1],
+  swissFederalCiShadows[1],
+  swissFederalCiShadows[1],
+  swissFederalCiShadows[1],
+  swissFederalCiShadows[1],
+  swissFederalCiShadows[1],
+  swissFederalCiShadows[1],
+  swissFederalCiShadows[1],
+  swissFederalCiShadows[2],
+  swissFederalCiShadows[2],
+  swissFederalCiShadows[2],
+  swissFederalCiShadows[2],
+  swissFederalCiShadows[3],
+  swissFederalCiShadows[3],
+  swissFederalCiShadows[3],
+  swissFederalCiShadows[3],
+  swissFederalCiShadows[4],
+  swissFederalCiShadows[4],
+  swissFederalCiShadows[4],
+  swissFederalCiShadows[4],
+  swissFederalCiShadows[5],
+  swissFederalCiShadows[5],
+  swissFederalCiShadows[5],
+  swissFederalCiShadows[5],
+] as Shadows;

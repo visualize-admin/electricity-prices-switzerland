@@ -25,6 +25,7 @@ import {
   useFormatCurrency,
 } from "src/domain/helpers";
 import { estimateTextWidth } from "src/lib/estimate-text-width";
+import { chartPalette } from "src/themes/palette";
 
 const useHistogramState = ({
   data,
@@ -72,7 +73,7 @@ const useHistogramState = ({
 
   const colors = scaleLinear<string>()
     .domain(colorDomain)
-    .range(palette.diverging)
+    .range(chartPalette.diverging.GreenOrange)
     .interpolate(interpolateHsl);
   // y
   const bins = bin<GenericObservation, number>()
@@ -128,12 +129,12 @@ const useHistogramState = ({
         <>
           <Box sx={{ alignItems: "center", gap: "0.375rem" }} display="flex">
             <LegendSymbol symbol="square" color={colors(d.x0!)} />
-            <Typography variant="meta" sx={{ fontWeight: "bold" }}>
+            <Typography variant="caption" sx={{ fontWeight: "bold" }}>
               {d.x0}-{d.x1}
               {xAxisUnit}
             </Typography>
           </Box>
-          <Typography variant="meta">
+          <Typography variant="caption">
             {yAxisLabel}: {d.length}
           </Typography>
         </>
