@@ -34,6 +34,7 @@ import {
 } from "src/domain/helpers";
 import { minMaxBy } from "src/lib/array";
 import { estimateTextWidth } from "src/lib/estimate-text-width";
+import { chartPalette } from "src/themes/palette";
 
 export const DOT_RADIUS = 8;
 const OUTER_PADDING = 0.2;
@@ -98,7 +99,7 @@ const useRangePlotState = ({
 
   const colors = scaleLinear<string, string>()
     .domain(colorDomain)
-    .range(palette.diverging)
+    .range(chartPalette.diverging.GreenOrange)
     .interpolate(interpolateLab);
   const left = estimateTextWidth(
     yScale.domain().length > 1

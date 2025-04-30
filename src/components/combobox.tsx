@@ -51,7 +51,7 @@ export const ComboboxMulti = ({
       popupIcon={<Icon name="chevrondown" color="black" />}
       renderInput={(params) => (
         <>
-          <Typography variant="meta">{label}</Typography>
+          <Typography variant="caption">{label}</Typography>
           <TextField
             {...params}
             sx={{ bgcolor: "grey.100" } as TextFieldProps["sx"]}
@@ -210,7 +210,7 @@ export const Combobox = ({
           return (
             <>
               {params.group ? (
-                <Typography variant="meta" fontWeight="bold" sx={{ mx: 4 }}>
+                <Typography variant="caption" fontWeight="bold" sx={{ mx: 4 }}>
                   {params.group}
                 </Typography>
               ) : null}

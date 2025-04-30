@@ -43,6 +43,7 @@
     "@deck.gl/react": "8.8",
     "@emotion/react": "^11.13.0",
     "@emotion/styled": "^11.13.0",
+    "@interactivethings/swiss-federal-ci": "^3.0.3",
     "@juggle/resize-observer": "^3.3.1",
     "@lingui/core": "^3.13.3",
     "@lingui/react": "^3.13.3",
