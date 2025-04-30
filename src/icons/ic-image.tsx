@@ -1,13 +1,22 @@
-import * as React from "react";
-
-export const IconImage = ({ size = 24, color = "currentColor" }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24">
-    <g stroke="none" strokeWidth={1} fill="none" fillRule="evenodd">
-      <path d="M0 0H24V24H0z" />
-      <path
-        d="M22 2v20H2V2h20zm-2 2H4v16h.584L16 8.586l4 3.999V4zm-4 7.414L7.414 20H20v-4.585l-4-4zM8.5 6a2.5 2.5 0 110 5 2.5 2.5 0 010-5zm0 2a.5.5 0 100 1 .5.5 0 000-1z"
-        fill={color}
-      />
-    </g>
+import type { SVGProps } from "react";
+export const IconImage = (props: SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    {...props}
+  >
+    <path
+      fill="currentColor"
+      fillRule="evenodd"
+      d="M6.105 5.472A2.292 2.292 0 1 1 8.65 9.284a2.292 2.292 0 0 1-2.546-3.812m.417 3.188A1.544 1.544 0 0 0 8.66 6.52a1.542 1.542 0 1 0-2.138 2.14"
+      clipRule="evenodd"
+    />
+    <path
+      fill="currentColor"
+      fillRule="evenodd"
+      d="M4 4v15.2h15.05V4zm14.3 14.45H4.75v-4.09l2.156-2.156 2.288 2.287 5.538-5.538 3.569 3.569zm-9.106-5.02 5.538-5.537 3.569 3.568V4.75H4.75v8.549l2.156-2.155z"
+      clipRule="evenodd"
+    />
   </svg>
 );

@@ -1,14 +1,16 @@
-import * as React from "react";
-
-export const IconEmbed = ({ size = 24, color = "currentColor" }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24">
+import type { SVGProps } from "react";
+export const IconEmbed = (props: SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    {...props}
+  >
     <path
-      d="M12.275.788l1.94.485-4.489 17.94-1.94-.485L12.275.788zM5 4.586L6.414 6l-4 4 4 4L5 15.414.293 10.707a.999.999 0 010-1.414L5 4.586zm12 0l4.707 4.707a.999.999 0 010 1.414L17 15.414 15.586 14l4-4-4-4L17 4.586z"
-      transform="translate(1 2)"
-      fill={color}
-      stroke="none"
-      strokeWidth={1}
+      fill="currentColor"
       fillRule="evenodd"
+      d="m10 18.5 3.002-13h1L11 18.5zM19.002 12l-4-2V9l5 2.5v1l-5 2.5v-1zM5 11.999l4 2v1l-5-2.5v-1l5-2.5v1z"
+      clipRule="evenodd"
     />
   </svg>
 );

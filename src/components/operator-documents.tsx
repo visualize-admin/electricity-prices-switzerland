@@ -50,7 +50,7 @@ const DocumentList = ({
             <Link href={doc.url} variant="body2">
               <Box display="flex">
                 <Box sx={{ flexShrink: 0, mr: 2 }}>
-                  <Icon name="pdf" size={20} />
+                  <Icon name="file" size={20} />
                 </Box>{" "}
                 {itemLabel} {doc.year}(
                 <Trans id="download.filetype.pdf">PDF-Datei</Trans>)

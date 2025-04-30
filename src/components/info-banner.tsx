@@ -30,7 +30,7 @@ export const InfoBanner = ({
   }
 
   return (
-    <HintBlue iconName="info">
+    <HintBlue iconName="infocircle">
       {
         <Box
           component="section"
