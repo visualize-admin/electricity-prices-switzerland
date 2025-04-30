@@ -617,6 +617,13 @@ export const Template = () => {
       />
 
       <Accordion>
+        <AccordionSummary>Operator</AccordionSummary>
+        <AccordionDetails>
+          <pre>{JSON.stringify(operator)}</pre>
+        </AccordionDetails>
+      </Accordion>
+
+      <Accordion>
         <AccordionSummary>Observations query</AccordionSummary>
         <AccordionDetails>
           <pre>{observationsQuery}</pre>
