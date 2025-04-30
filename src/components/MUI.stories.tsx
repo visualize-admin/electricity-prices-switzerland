@@ -21,7 +21,7 @@ import {
 } from "@mui/material";
 
 import { StoryGrid } from "src/components/storybook/StoryGrid";
-import { IconAreaChart } from "src/icons/ic-area-chart";
+import { Icon } from "src/icons";
 
 const StoryContainer = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -74,22 +74,22 @@ export const ButtonStory = () => (
       Colors
     </Typography>
     <Stack direction="row" spacing={1} sx={{ mb: 2 }}>
-      <Button color="cobalt" variant="contained">
+      <Button color="primary" variant="contained">
         Primary
       </Button>
-      <Button color="monochrome" variant="contained">
+      <Button color="secondary" variant="contained">
         Secondary
       </Button>
-      <Button color="green" variant="contained">
+      <Button color="success" variant="contained">
         Success
       </Button>
-      <Button color="red" variant="contained">
+      <Button color="error" variant="contained">
         Error
       </Button>
-      <Button color="blue" variant="contained">
+      <Button color="info" variant="contained">
         Info
       </Button>
-      <Button color="yellow" variant="contained">
+      <Button color="warning" variant="contained">
         Warning
       </Button>
     </Stack>
@@ -327,7 +327,7 @@ export const ChipStory = () => (
       <Chip label="Clickable" onClick={() => {}} />
       <Chip label="Deletable" onDelete={() => {}} />
       <Chip avatar={<Avatar>M</Avatar>} label="With Avatar" />
-      <Chip icon={<IconAreaChart />} label="With Icon" />
+      <Chip icon={<Icon name="linechart" />} label="With Icon" />
     </Stack>
     <Typography variant="subtitle1" gutterBottom>
       Colors

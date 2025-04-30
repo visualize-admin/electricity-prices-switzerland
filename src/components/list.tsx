@@ -1,14 +1,12 @@
 import { t, Trans } from "@lingui/macro";
 import { Box, Button, Link, Typography } from "@mui/material";
-import { ascending, descending, mean, rollup } from "d3";
-import { ScaleThreshold } from "d3";
+import { ascending, descending, mean, rollup, ScaleThreshold } from "d3";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { useContext, useMemo, useState } from "react";
 
 import { MiniSelect, SearchField } from "src/components/form";
 import { HighlightContext } from "src/components/highlight-context";
-import { InfoDialogButton } from "src/components/info-dialog";
 import { RadioTabs } from "src/components/radio-tabs";
 import { Stack } from "src/components/stack";
 import { Entity } from "src/domain/data";
@@ -55,26 +53,27 @@ const ListItem = ({
       onMouseOver={() => setHighlightContext({ entity, id, label, value })}
       onMouseOut={() => setHighlightContext(undefined)}
       sx={{
-        pl: [2, 4, 4],
-        py: 1,
+        pl: 3,
+        py: 4,
         mx: 0,
+        gap: 1,
         borderBottomWidth: "1px",
         borderBottomStyle: "solid",
-        borderBottomColor: "grey.300",
+        borderBottomColor: "monochrome.200",
         alignItems: "center",
         minHeight: "3.5rem",
         lineHeight: "1rem",
         color: "text",
         textDecoration: "none",
         "&:hover": {
-          bgcolor: "muted.darker",
+          bgcolor: "monochrome.50",
         },
         "&:active": {
-          bgcolor: "primary.light",
+          bgcolor: "monochrome.100",
         },
         "&:focus": {
           outline: 0,
-          bgcolor: "primary.light",
+          bgcolor: "monochrome.100",
         },
       }}
       display="flex"
@@ -95,7 +94,7 @@ const ListItem = ({
         </Typography>
       </Box>
       <Box sx={{ width: "24px", flexShrink: 0 }}>
-        <Icon name="chevronright"></Icon>
+        <Icon name="arrowright"></Icon>
       </Box>
     </Link>
   );
@@ -167,7 +166,7 @@ const PlaceholderListItem = () => {
         mx: [2, 4, 4],
         borderBottomWidth: "1px",
         borderBottomStyle: "solid",
-        borderBottomColor: "grey.300",
+        borderBottomColor: "secondary.300",
         alignItems: "center",
         height: "3.5rem",
         lineHeight: "1rem",
@@ -177,20 +176,20 @@ const PlaceholderListItem = () => {
     >
       <Typography
         variant="body2"
-        sx={{ flexGrow: 1, bgcolor: "grey.200", mr: 5 }}
+        sx={{ flexGrow: 1, bgcolor: "secondary.200", mr: 5 }}
       ></Typography>
       <Box
         sx={{
           borderRadius: 9999,
           px: 2,
           flexShrink: 0,
-          bgcolor: "grey.200",
+          bgcolor: "secondary.200",
           width: "5ch",
         }}
       >
         <Typography variant="body2">&nbsp;</Typography>
       </Box>
-      <Box sx={{ width: "24px", flexShrink: 0, color: "grey.200" }}>
+      <Box sx={{ width: "24px", flexShrink: 0, color: "secondary.200" }}>
         <Icon name="chevronright"></Icon>
       </Box>
     </Box>
@@ -303,10 +302,17 @@ export const List = ({
   const listItems = sorted;
 
   return (
-    <>
+    <Box
+      sx={{
+        px: 6,
+        flexDirection: "column",
+        gap: 4,
+      }}
+      display="flex"
+    >
       <RadioTabs<ListState>
-        name="list-state-tabs"
-        variant="borderlessTabs"
+        id="list-state-tabs"
+        variant="tabs"
         options={[
           {
             value: "MUNICIPALITIES",
@@ -322,57 +328,62 @@ export const List = ({
           },
         ]}
         value={listState}
+        label={t({ id: "list.viewby.label", message: `Ansicht nach` })}
         setValue={setListState}
       />
 
-      <Box
-        sx={{
-          mx: 0,
-          px: [2, 4, 4],
-          py: [2, 4, 4],
-          borderBottomWidth: "1px",
-          borderBottomStyle: "solid",
-          borderBottomColor: "grey.300",
-        }}
+      <Stack
+        direction="row"
+        spacing={0}
+        sx={{ width: "100%", alignItems: "center" }}
       >
-        <Stack
-          direction="row"
-          spacing={0}
-          sx={{ width: "100%", alignItems: "center" }}
-        >
-          <SearchField
-            id="listSearch"
-            value={searchQuery}
-            onChange={(e) => {
-              setSearchQuery(e.currentTarget.value);
-            }}
-            onReset={() => {
-              setSearchQuery("");
-            }}
-            label={searchLabel}
-            placeholder={searchLabel}
-            sx={{ flexGrow: 1 }}
-          />
-          <InfoDialogButton
-            iconOnly
-            slug="help-search-list"
-            label={searchLabel}
-            smaller
-          />
-        </Stack>
+        <SearchField
+          id="listSearch"
+          value={searchQuery}
+          onChange={(e) => {
+            setSearchQuery(e.currentTarget.value);
+          }}
+          onReset={() => {
+            setSearchQuery("");
+          }}
+          label={searchLabel}
+          placeholder={searchLabel}
+          sx={{ flexGrow: 1 }}
+        />
+      </Stack>
 
+      <Box
+        sx={{ justifyContent: "space-between", mb: 2, alignItems: "center" }}
+        display="flex"
+      >
+        <Typography
+          display="span"
+          component="label"
+          htmlFor="listSort"
+          color="secondary"
+          sx={{
+            fontSize: ["0.625rem", "0.75rem", "0.75rem"],
+            lineHeight: "24px",
+          }}
+        >
+          {<Trans id="dataset.results">{listItems.length} results</Trans>}
+        </Typography>
         <Box
-          sx={{ justifyContent: "space-between", mt: 2, alignItems: "center" }}
-          display="flex"
+          sx={{
+            display: "flex",
+            gap: 1,
+            alignItems: "center",
+          }}
         >
           <Typography
             display="span"
             component="label"
             htmlFor="listSort"
-            color="secondary"
+            color="text.primary"
             sx={{
               fontSize: ["0.625rem", "0.75rem", "0.75rem"],
               lineHeight: "24px",
+              fontWeight: 700,
             }}
           >
             <Trans id="dataset.sortby">Sortieren</Trans>
@@ -397,6 +408,6 @@ export const List = ({
           listState={listState}
         />
       )}
-    </>
+    </Box>
   );
 };

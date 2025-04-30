@@ -1,15 +1,14 @@
-import * as React from "react";
-
-export const IconChevronDown = ({ size = 24, color = "currentColor" }) => (
+import type { SVGProps } from "react";
+export const IconChevronDown = (props: SVGProps<SVGSVGElement>) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width={size}
-    height={size}
     viewBox="0 0 24 24"
-    fill={color}
-    fillRule="evenodd"
-    stroke="none"
+    fill="none"
+    {...props}
   >
-    <polyline points="12 13.2928932 6.5 8 5 9.5 12 16 19 9.5 17.5 8"></polyline>
+    <path
+      fill="currentColor"
+      d="m5.703 10 6.67 3.85L19.04 10l.375.649-7.044 4.067-7.044-4.067z"
+    />
   </svg>
 );

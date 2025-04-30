@@ -1,12 +1,12 @@
 import styled from "@emotion/styled";
 import { Trans, t } from "@lingui/macro";
-import { Box, Typography, useTheme } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { useState } from "react";
 
 import { InfoDialogButton } from "src/components/info-dialog";
 import { useFormatCurrency } from "src/domain/helpers";
-import { IconClear } from "src/icons/ic-clear";
-import { IconInfo } from "src/icons/ic-info";
+import { Icon } from "src/icons";
+import { chartPalette } from "src/themes/palette";
 
 const LEGEND_WIDTH = 215;
 const TOP_LABEL_HEIGHT = 14;
@@ -19,6 +19,9 @@ const LegendBox = styled(Box)({
   borderRadius: 1,
   height: "fit-content",
   px: 4,
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
   py: 2,
 });
 
@@ -44,7 +47,7 @@ export const MapPriceColorLegend = ({
           }}
           display="flex"
         >
-          <IconInfo color="#333" />
+          <Icon name="infocircle" color="#333" />
         </Box>
       </LegendBox>
     );
@@ -76,7 +79,7 @@ export const MapPriceColorLegend = ({
             justifyContent: "flex-end",
           }}
         >
-          <IconClear size={16} color="#666" />
+          <Icon name="clear" size={16} color="#666" />
         </Box>
       </Box>
       <Box
@@ -117,7 +120,7 @@ export const MapPriceColorLegend = ({
         <Box
           sx={{
             justifyContent: "space-between",
-            color: "grey.600",
+            color: "secondary.600",
             fontSize: "0.625rem",
             mb: 3,
           }}
@@ -167,7 +170,7 @@ export const PriceColorLegend = () => {
       <Box
         sx={{
           justifyContent: "space-between",
-          color: "grey.600",
+          color: "secondary.600",
           fontSize: "0.625rem",
           mb: 2,
         }}
@@ -196,8 +199,6 @@ export const PriceColorLegend = () => {
 };
 
 const ColorsLine = () => {
-  const { palette } = useTheme();
-
   return (
     <Box
       sx={{ height: COLOR_HEIGHT + BOTTOM_LABEL_HEIGHT, position: "relative" }}
@@ -223,7 +224,9 @@ const ColorsLine = () => {
           height: 0,
           borderTop: `${COLOR_HEIGHT / 2}px solid transparent`,
           borderBottom: `${COLOR_HEIGHT / 2}px solid transparent`,
-          borderRight: `${COLOR_HEIGHT / 2}px solid  ${palette.diverging[0]}`,
+          borderRight: `${COLOR_HEIGHT / 2}px solid  ${
+            chartPalette.diverging.GO[0]
+          }`,
         }}
       />
       <Box
@@ -235,7 +238,7 @@ const ColorsLine = () => {
           width: "100%",
         }}
       >
-        {palette.diverging.map((bg, i) => (
+        {chartPalette.diverging.GO.map((bg, i) => (
           <Box
             key={bg}
             sx={{
@@ -256,8 +259,9 @@ const ColorsLine = () => {
             <Typography
               variant="inherit"
               sx={{
+                mt: 1,
                 fontSize: "0.625rem",
-                color: "grey.600",
+                color: "secondary.600",
                 transform: "translateX(50%)",
                 letterSpacing: -0.4,
                 textAlign: "right",
@@ -276,7 +280,7 @@ const ColorsLine = () => {
           borderTop: `${COLOR_HEIGHT / 2}px solid transparent`,
           borderBottom: `${COLOR_HEIGHT / 2}px solid transparent`,
           borderLeft: `${COLOR_HEIGHT / 2}px solid ${
-            palette.diverging[palette.diverging.length - 1]
+            chartPalette.diverging.GO[chartPalette.diverging.GO.length - 1]
           }`,
         }}
       />

@@ -13,24 +13,12 @@ declare module "@mui/material" {
     extends FederalTypographyVariantsOptions {}
 }
 
-declare module "@mui/material/Button" {
-  interface ButtonPropsColorOverrides {
-    primary: false;
-    secondary: false;
-    success: false;
-    error: false;
-    info: false;
-    warning: false;
-
-    cobalt: true;
+declare module "@mui/material/IconButton" {
+  interface IconButtonPropsColorOverrides {
     monochrome: true;
-    blue: true;
-    red: true;
-    green: true;
-    yellow: true;
-    inherit: true;
   }
-
+}
+declare module "@mui/material/Button" {
   interface ButtonPropsSizeOverrides {
     small: false;
     medium: false;
@@ -66,23 +54,10 @@ declare module "@mui/material/styles" {
   interface Palette {
     cobalt: FederalColor & { main: string };
     monochrome: FederalColor & { main: string };
-    red: FederalColor & { main: string };
-    blue: FederalColor & { main: string };
-    green: FederalColor & { main: string };
-    yellow: FederalColor & { main: string };
-    diverging: string[];
-    categorical: string[];
   }
 
   interface PaletteOptions {
-    cobalt: FederalColor & { main: string };
     monochrome: FederalColor & { main: string };
-    red: FederalColor & { main: string };
-    blue: FederalColor & { main: string };
-    green: FederalColor & { main: string };
-    yellow: FederalColor & { main: string };
-    diverging: string[];
-    categorical: string[];
   }
 }
 

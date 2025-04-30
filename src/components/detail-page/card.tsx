@@ -20,19 +20,16 @@ export const Card = ({
       // This id is used by the screenshot function
       id={downloadId}
       sx={{
-        bgcolor: "grey.100",
+        bgcolor: "background.paper",
+        borderRadius: 1,
         p: 5,
-        m: 4,
-        borderWidth: "1px",
-        borderStyle: "solid",
-        borderColor: "grey.300",
-        boxShadow: "primary",
+        boxShadow: 2,
       }}
     >
       <Typography
         component="h2"
         variant="h2"
-        sx={{ pt: 1, color: "grey.800", mb: 4 }}
+        sx={{ pt: 1, color: "secondary.800", mb: 4 }}
       >
         {title}
       </Typography>

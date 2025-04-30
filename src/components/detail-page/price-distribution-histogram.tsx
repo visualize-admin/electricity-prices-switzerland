@@ -92,7 +92,7 @@ export const PriceDistributionHistograms = ({
         <>
           <Box sx={{ display: ["none", "none", "block"] }}>
             <RadioTabs
-              name="priceComponents"
+              id="priceComponents"
               options={[
                 {
                   value: "total",

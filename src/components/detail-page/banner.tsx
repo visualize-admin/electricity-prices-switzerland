@@ -4,8 +4,7 @@ import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { Fragment, useState } from "react";
 
-import { HomeLink } from "src/components/links";
-import { Search } from "src/components/search";
+import { MapLink } from "src/components/links";
 import { Entity } from "src/domain/data";
 import { Icon } from "src/icons";
 
@@ -76,12 +75,10 @@ export const DetailPageBanner = ({
   return (
     <Box
       sx={{
-        px: [4, 6],
+        px: [6, 12],
         py: 5,
-        bgcolor: "grey.100",
-        borderBottomWidth: "1px",
-        borderBottomStyle: "solid",
-        borderBottomColor: "grey.500",
+        bgcolor: "background.paper",
+        width: "100%",
       }}
     >
       <Box
@@ -106,26 +103,23 @@ export const DetailPageBanner = ({
         <Box sx={{ gridArea: "back" }}>
           <UILink
             variant="body2"
-            component={HomeLink}
+            component={MapLink}
+            color={"text.primary"}
             sx={{
               display: "flex",
               alignItems: "center",
-              fontSize: "0.875rem",
               "& > svg": { mr: 1 },
               ml: "-8px",
             }}
           >
-            <Icon name="chevronleft" size={24}></Icon>
+            <Icon name="arrowleft" size={24}></Icon>
             <Trans id="detail.homelink">Zurück zur Übersicht</Trans>
           </UILink>
-        </Box>
-        <Box sx={{ gridArea: "search" }}>
-          <Search />
         </Box>
       </Box>
 
       <Box sx={{ mx: "auto", my: 2 }}>
-        <Typography component="h1" variant="h1" sx={{ color: "grey.800" }}>
+        <Typography component="h1" variant="h1" sx={{ color: "secondary.800" }}>
           <Typography
             variant="caption"
             sx={{ color: "secondary.main" }}

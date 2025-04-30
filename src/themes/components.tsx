@@ -1,6 +1,7 @@
 import { Components } from "@mui/material";
 
-import { palette } from "./palette";
+import { Icon } from "src/icons";
+
 import { typography } from "./typography";
 
 export const components: Components = {
@@ -26,7 +27,7 @@ export const components: Components = {
   MuiButton: {
     defaultProps: {
       variant: "contained",
-      color: "cobalt",
+      color: "secondary",
       size: "md",
     },
     styleOverrides: {
@@ -48,63 +49,74 @@ export const components: Components = {
           }
         })();
 
-        const variant = ownerState.variant ?? "contained";
-        const color =
-          ownerState.color === "inherit"
-            ? "inherit"
-            : palette[ownerState.color ?? "cobalt"];
-
-        const variantColorStyles = (() => {
-          if (!color) {
-            return {};
-          }
-
-          if (color === "inherit") {
-            return {
-              color: "inherit",
-            };
-          }
-
-          switch (variant) {
-            case "contained":
-              return {
-                backgroundColor: color[400],
-                color: "#fff",
-                "&:hover": {
-                  backgroundColor: color[600],
-                },
-              };
-            case "outlined":
-              return {
-                color: color[500],
-                borderColor: color[500],
-                "&:hover": {
-                  borderColor: color[500],
-                  backgroundColor: color[50],
-                },
-              };
-            case "text":
-              return {
-                color: color[700],
-                "&:hover": {
-                  backgroundColor: "transparent",
-                  color: color[900],
-                },
-              };
-            default:
-              const _exhaustiveCheck: never = variant;
-              return _exhaustiveCheck;
-          }
-        })();
-
         return {
           ...sizeStyles,
-          ...variantColorStyles,
         };
       },
     },
   },
+  MuiInputBase: {
+    styleOverrides: {
+      root: {
+        display: "flex",
+        alignItems: "center",
+        width: "100%",
+        border: `1px solid`,
+        backgroundColor: "background", // supposed to be background.paper investigate why only background works
+        color: "text.primary",
+        borderRadius: 0.5,
+        height: 44,
+        borderColor: "monochrome.500",
+        "& input::placeholder": {
+          color: "text.500",
+        },
 
+        "& .MuiAutocomplete-endAdornment": {
+          borderLeft: "1px solid",
+          borderColor: "monochrome.500",
+          marginLeft: "4px",
+          paddingLeft: "4px",
+          height: 44,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        },
+
+        "& fieldset": {
+          display: "none",
+        },
+      },
+    },
+  },
+
+  MuiNativeSelect: {
+    defaultProps: {
+      IconComponent: ({ style, ...rest }) => {
+        return (
+          <Icon
+            name="chevrondown"
+            style={{
+              ...style,
+              cursor: "pointer",
+              color: "white",
+            }}
+            {...rest}
+          />
+        );
+      },
+    },
+    styleOverrides: {
+      select: {
+        transition: "color 0.2s ease",
+      },
+      icon: {
+        top: "calc(50% - 12px)",
+        right: 0,
+        color: "inherit !important",
+        transition: "color 0.2s ease !important",
+      },
+    },
+  },
   MuiLink: {
     defaultProps: {
       underline: "none",

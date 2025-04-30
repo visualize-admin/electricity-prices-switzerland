@@ -13,7 +13,7 @@ export const DetailPageLayout = ({ main, selector, aside }: Props) => {
       display="grid"
       sx={{
         gap: 0,
-        gridTemplateColumns: [`1fr`, `1fr 20rem`],
+        gridTemplateColumns: [`1fr`, `20rem 1fr`],
         gridTemplateRows: [`auto`, `auto 1fr`],
         gridTemplateAreas: [
           `
@@ -22,8 +22,8 @@ export const DetailPageLayout = ({ main, selector, aside }: Props) => {
   "aside"
   `,
           `
-  "main selector"
-  "main aside"
+  "selector main"
+  "aside main"
   `,
         ],
       }}
@@ -31,10 +31,11 @@ export const DetailPageLayout = ({ main, selector, aside }: Props) => {
       <Box
         sx={{
           gridArea: "main",
-          px: [0, 3],
-          borderRightWidth: "1px",
-          borderRightStyle: "solid",
-          borderRightColor: "grey.500",
+          pl: [0, 16],
+          bgcolor: "secondary.50",
+          borderLeftWidth: "1px",
+          borderLeftStyle: "solid",
+          borderLeftColor: "monochrome.300",
         }}
       >
         {main}
@@ -42,14 +43,10 @@ export const DetailPageLayout = ({ main, selector, aside }: Props) => {
       <Box
         sx={{
           gridArea: "selector",
-          borderBottomWidth: "1px",
-          borderBottomStyle: "solid",
-          borderBottomColor: "grey.500",
         }}
       >
         {selector}
       </Box>
-      <Box sx={{ gridArea: "aside", bgcolor: "grey.100" }}>{aside}</Box>
     </Box>
   );
 };

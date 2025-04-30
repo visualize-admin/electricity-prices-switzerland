@@ -71,9 +71,9 @@ const CH_BBOX: BBox = [
 const constrainZoom = (
   viewState: $FixMe,
   bbox: BBox,
-  { padding = 24 }: { padding?: number } = {}
+  { padding = 72 }: { padding?: number } = {}
 ) => {
-  if (viewState.width < padding * 2 || viewState.height < padding * 2) {
+  if (viewState.width < padding * 2 || viewState.height < padding * 2 * 2) {
     return viewState;
   }
 
@@ -732,7 +732,7 @@ export const ChoroplethMap = ({
         lineWidthMinPixels: 0.5,
         lineWidthMaxPixels: 1,
         getLineWidth: 100,
-        getFillColor: [102, 175, 233],
+        getFillColor: [255, 255, 255],
         getLineColor: LINE_COLOR,
       }),
       new GeoJsonLayer({
@@ -866,9 +866,12 @@ export const ChoroplethMap = ({
                 zIndex: 13,
                 position: "absolute",
                 top: 0,
-                left: 0,
+                right: 0,
                 mt: 3,
-                ml: 3,
+                mr: 3,
+                backgroundColor: "background.paper",
+                borderRadius: "2px",
+                p: 4,
               }}
             >
               <MapPriceColorLegend

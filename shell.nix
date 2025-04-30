@@ -1,6 +1,6 @@
 let
   pkgs = import <nixpkgs> { };
-  nodejs = pkgs.nodejs-18_x;
+  nodejs = pkgs.nodejs_22;
   yarn = pkgs.yarn.override { inherit nodejs; };
 
 in pkgs.mkShell {

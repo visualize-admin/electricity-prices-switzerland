@@ -25,6 +25,7 @@ import {
   useFormatCurrency,
 } from "src/domain/helpers";
 import { estimateTextWidth } from "src/lib/estimate-text-width";
+import { chartPalette } from "src/themes/palette";
 
 const useHistogramState = ({
   data,
@@ -72,7 +73,7 @@ const useHistogramState = ({
 
   const colors = scaleLinear<string>()
     .domain(colorDomain)
-    .range(palette.diverging)
+    .range(chartPalette.diverging.GO)
     .interpolate(interpolateHsl);
   // y
   const bins = bin<GenericObservation, number>()

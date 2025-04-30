@@ -67,22 +67,20 @@ export const Search = () => {
   }, [items]);
 
   return (
-    <>
-      <SearchField
-        items={items.map(({ id, __typename }) => ({
-          id,
-          __typename,
-        }))}
-        getItemLabel={(item) => itemById.get(item.id)?.name ?? `[${item.id}]`}
-        setSearchString={setSearchString}
-        label={
-          <Trans id="search.global.label">
-            Suche nach Gemeindename, PLZ, Netzbetreiber, Kanton
-          </Trans>
-        }
-        isLoading={gqlQuery.fetching && searchString.length > 0}
-      />
-    </>
+    <SearchField
+      items={items.map(({ id, __typename }) => ({
+        id,
+        __typename,
+      }))}
+      getItemLabel={(item) => itemById.get(item.id)?.name ?? `[${item.id}]`}
+      setSearchString={setSearchString}
+      label={
+        <Trans id="search.global.label">
+          Suche nach Gemeindename, PLZ, Netzbetreiber, Kanton
+        </Trans>
+      }
+      isLoading={gqlQuery.fetching && searchString.length > 0}
+    />
   );
 };
 
@@ -123,7 +121,7 @@ const SearchField = ({
   };
 
   const handleOptionSelect: SearchAutocompleteProps["onChange"] = (
-    event,
+    _,
     value
   ) => {
     if (value) {
@@ -145,7 +143,7 @@ const SearchField = ({
   debugger;
 
   return (
-    <Box sx={{ width: "100%", maxWidth: "44rem", mx: "auto", my: 1 }}>
+    <Box>
       <VisuallyHidden>
         <label>{label}</label>
       </VisuallyHidden>
@@ -173,7 +171,8 @@ const SearchField = ({
                 outline: 0,
                 borderWidth: `0`,
                 borderBottom: "1px solid",
-                borderBottomColor: theme.palette.grey[300],
+
+                borderBottomColor: "monochrome.300",
               },
           },
         }}
@@ -181,7 +180,7 @@ const SearchField = ({
         renderGroup={(params) => {
           return (
             <React.Fragment key={params.group}>
-              <Typography variant="body2" sx={{ mx: 6, my: 2 }}>
+              <Typography variant="body2" sx={{ mx: 4, my: 4 }}>
                 {getLocalizedLabel({ id: params.group })}
                 <Divider />
               </Typography>
@@ -206,30 +205,16 @@ const SearchField = ({
             InputProps={{
               ...params.InputProps,
               sx: {
-                height: "3rem",
-                fontSize: 18,
+                px: "16px !important",
+
+                borderRadius: 0.5,
+                height: 44,
+                borderColor: "monochrome.500",
               },
               placeholder: t({ id: "search.global.hint.canton.muni.operator" }),
+              endAdornment: <Icon name="search" />,
               startAdornment: (
-                <InputAdornment
-                  position="start"
-                  sx={{ ml: 2, display: "flex" }}
-                >
-                  <Box
-                    sx={{
-                      [theme.breakpoints.down("sm")]: {
-                        ".Mui-focused &": {
-                          display: "none",
-                        },
-                      },
-                    }}
-                  >
-                    <Icon
-                      name="search"
-                      size={24}
-                      color={theme.palette.grey[700]}
-                    />
-                  </Box>
+                <InputAdornment position="start" sx={{ display: "flex" }}>
                   <IconButton
                     onClick={(ev) => {
                       ev.preventDefault();
@@ -241,7 +226,6 @@ const SearchField = ({
                     sx={{
                       display: "none",
                       [theme.breakpoints.down("sm")]: {
-                        ml: -2,
                         ".Mui-focused &": {
                           display: "block",
                         },
@@ -253,11 +237,10 @@ const SearchField = ({
                   {inputValue ? null : (
                     <>
                       <Typography
-                        variant="h6"
-                        color="text.primary"
+                        variant="h5"
+                        color="text.secondary"
                         sx={{
-                          ml: 4,
-                          fontSize: [18],
+                          fontSize: [16],
                           [theme.breakpoints.down("sm")]: { display: "none" },
                         }}
                       >
@@ -286,13 +269,12 @@ const SearchField = ({
                   display: "flex",
                   justifyContent: "space-between",
                   alignItems: "center",
-                  color: "grey.800",
+                  color: "secondary.800",
                   width: "100%",
                   fontSize: "1rem",
                   lineHeight: 1.2,
                   textDecoration: "none",
-                  px: 6,
-                  py: 3,
+                  px: 4,
                 },
                 "&:hover > svg, .Mui-focusVisible & > svg": {
                   visibility: "visible",

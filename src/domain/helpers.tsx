@@ -23,6 +23,7 @@ import { GenericObservation } from "src/domain/data";
 import { estimateTextWidth } from "src/lib/estimate-text-width";
 import { useLocale } from "src/lib/use-locale";
 import { d3FormatLocales, d3TimeFormatLocales } from "src/locales/locales";
+import { chartPalette } from "src/themes/palette";
 
 export const isNumber = (x: $IntentionalAny): boolean =>
   typeof x === "number" && !isNaN(x);
@@ -159,7 +160,7 @@ export const getPalette = (
     case "set3":
       return schemeSet3;
     case "elcom":
-      return theme.palette.categorical;
+      return chartPalette.categorical;
     default:
       return schemeCategory10;
   }

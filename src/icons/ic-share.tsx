@@ -1,14 +1,16 @@
-import * as React from "react";
-
-export const IconShare = ({ size = 24, color = "currentColor" }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24">
+import type { SVGProps } from "react";
+export const IconShare = (props: SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    {...props}
+  >
     <path
-      d="M10 3v2H2v13h13v-8h2v10H0V3h10zm10-3v8h-2V3.414l-10 10L6.586 12l10-10H12V0h8z"
-      transform="translate(2 2)"
-      fill={color}
-      stroke="none"
-      strokeWidth={1}
+      fill="currentColor"
       fillRule="evenodd"
+      d="M15.741 14.856a2.28 2.28 0 0 1 3.14 1.169 2.292 2.292 0 1 1-4.408.877c.003-.238.044-.474.12-.7L8.38 12.615a2.292 2.292 0 1 1 .003-1.886l6.253-3.61a2.275 2.275 0 1 1 .39.642L8.57 11.486q.004.036.009.07.009.055.01.113-.001.06-.01.117l-.01.072 6.368 3.676c.211-.286.487-.518.804-.679m1.884-9.854a1.542 1.542 0 1 0-1.713 2.564 1.542 1.542 0 0 0 1.713-2.564M6.3 13.208a1.541 1.541 0 1 1 0-3.083 1.541 1.541 0 0 1 0 3.083m9.606 4.976a1.542 1.542 0 1 0 1.712-2.564 1.542 1.542 0 0 0-1.713 2.564"
+      clipRule="evenodd"
     />
   </svg>
 );

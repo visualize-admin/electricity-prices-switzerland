@@ -155,7 +155,7 @@ export const PriceComponentsBarChart = ({
             }}
           >
             <RadioTabs
-              name="price-components-bars-view-switch"
+              id="price-components-bars-view-switch"
               options={[
                 {
                   value: "collapsed",

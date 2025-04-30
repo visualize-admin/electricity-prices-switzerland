@@ -56,7 +56,7 @@ const DialogContent = ({
           borderCollapse: "collapse",
           my: 2,
           tbody: {
-            borderColor: "grey.300",
+            borderColor: "secondary.300",
             borderTopWidth: "1px",
             borderTopStyle: "solid",
           },
@@ -65,7 +65,7 @@ const DialogContent = ({
             "&:not(:first-of-type)": { textAlign: "right" },
           },
           td: {
-            borderColor: "grey.300",
+            borderColor: "secondary.300",
             borderBottomWidth: "1px",
             borderBottomStyle: "solid",
             p: 2,
@@ -96,7 +96,7 @@ export const HelpDialog: React.FC<{
       {contentQuery.fetching ? (
         createPortal(
           <Backdrop open={open} sx={{ zIndex: 1000 }} onClick={close}>
-            <LoadingIcon sx={{ color: "grey.800" }} />
+            <LoadingIcon sx={{ color: "secondary.800" }} />
           </Backdrop>,
           document.body
         )
@@ -174,13 +174,13 @@ export const InfoDialogButton = ({
   return (
     <>
       <IconButton
-        color="primary"
+        color="monochrome"
         sx={{ fontSize: smaller ? [2, 2, 2] : [3, 4, 4] }}
         onClick={openDialog}
       >
         <Box sx={{ alignItems: "center" }} display="flex">
           <Box sx={{ flexShrink: 0, mr: iconOnly ? 0 : 2 }}>
-            <Icon name="info" size={smaller ? 16 : 20} />
+            <Icon name="infocirclefilled" size={smaller ? 16 : 20} />
           </Box>{" "}
           {iconOnly ? <VisuallyHidden>{label}</VisuallyHidden> : label}
         </Box>
