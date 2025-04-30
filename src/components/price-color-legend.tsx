@@ -6,6 +6,7 @@ import { useState } from "react";
 import { InfoDialogButton } from "src/components/info-dialog";
 import { useFormatCurrency } from "src/domain/helpers";
 import { Icon } from "src/icons";
+import { chartPalette } from "src/themes/palette";
 
 const LEGEND_WIDTH = 215;
 const TOP_LABEL_HEIGHT = 14;
