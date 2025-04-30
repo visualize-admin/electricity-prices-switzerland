@@ -620,6 +620,13 @@ export const Template = () => {
         </AccordionDetails>
       </Accordion>
 
+      <Accordion>
+        <AccordionSummary>Operators query</AccordionSummary>
+        <AccordionDetails>
+          <pre>{operatorsQuery}</pre>
+        </AccordionDetails>
+      </Accordion>
+
       {observationsLoading && <p>Loading observations...</p>}
       {observationsError ? (
         <ErrorComponent message={(observationsError as Error).message} />
