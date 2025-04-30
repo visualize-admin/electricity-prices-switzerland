@@ -2,7 +2,7 @@
 # and only ship what's actually required by the app to run.
 # https://docs.docker.com/get-started/09_image_best/#multi-stage-builds
 
-FROM node:18.18-alpine AS base
+FROM node:22-alpine AS base
 
 # Install npm and force cross-spawn version
 # Remove old version and install new one
