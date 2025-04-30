@@ -1,7 +1,7 @@
 import { t } from "@lingui/macro";
 import { Box, outlinedInputClasses, Typography } from "@mui/material";
 import Autocomplete, { autocompleteClasses } from "@mui/material/Autocomplete";
-import TextField, { TextFieldProps } from "@mui/material/TextField";
+import TextField from "@mui/material/TextField";
 import { useEffect, useMemo, useState } from "react";
 
 import { InfoDialogButton } from "src/components/info-dialog";
@@ -48,13 +48,25 @@ export const ComboboxMulti = ({
       onChange={(_, newValue) => {
         setSelectedItems(newValue);
       }}
+      sx={{
+        width: "100%",
+      }}
       popupIcon={<Icon name="chevrondown" color="black" />}
       renderInput={(params) => (
-        <>
-          <Typography variant="caption">{label}</Typography>
+        <Box
+          sx={{
+            position: "relative",
+            flexDirection: "column",
+            gap: 2,
+            width: "100%",
+          }}
+          display={"flex"}
+        >
+          <Typography color={"text.primary"} variant="h6" component="label">
+            {label}
+          </Typography>
           <TextField
             {...params}
-            sx={{ bgcolor: "grey.100" } as TextFieldProps["sx"]}
             variant="outlined"
             value={inputValue}
             onChange={(e) => {
@@ -65,7 +77,7 @@ export const ComboboxMulti = ({
               ...params.InputProps,
             }}
           />
-        </>
+        </Box>
       )}
       noOptionsText={
         inputValue === "" && lazy
@@ -86,11 +98,6 @@ export const ComboboxMulti = ({
                 borderRadius: 1,
                 fontSize: "0.75rem",
                 bgcolor: "primary.light",
-                "&:focus": {
-                  outline: 0,
-                  bgcolor: "primary.main",
-                  color: "grey.100",
-                },
               }}
               {...tagProps}
             >
@@ -186,6 +193,7 @@ export const Combobox = ({
         position: "relative",
         flexDirection: "column",
         gap: infoDialogSlug ? 0 : 2,
+        width: "100%",
       }}
       display={"flex"}
     >
@@ -254,21 +262,6 @@ export const Combobox = ({
             fullWidth
             InputProps={{
               ...params.InputProps,
-              sx: {
-                borderRadius: 0.5,
-                height: 44,
-                borderColor: "monochrome.500",
-                "& .MuiAutocomplete-endAdornment": {
-                  borderLeft: "1px solid",
-                  borderColor: "monochrome.500",
-                  marginLeft: 2,
-                  paddingLeft: 2,
-                  height: 44,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                },
-              },
             }}
           />
         )}
@@ -291,10 +284,10 @@ export const Combobox = ({
           },
           [`& .${outlinedInputClasses.root}`]: {
             "& fieldset": {
-              borderColor: "grey.500",
+              borderColor: "secondary.500",
             },
             "&:hover fieldset": {
-              borderColor: "grey.700",
+              borderColor: "secondary.700",
             },
             "&.Mui-focused fieldset": {
               borderColor: "primary.main",

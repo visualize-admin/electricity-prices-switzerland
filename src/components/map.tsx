@@ -732,7 +732,7 @@ export const ChoroplethMap = ({
         lineWidthMinPixels: 0.5,
         lineWidthMaxPixels: 1,
         getLineWidth: 100,
-        getFillColor: [102, 175, 233],
+        getFillColor: [255, 255, 255],
         getLineColor: LINE_COLOR,
       }),
       new GeoJsonLayer({

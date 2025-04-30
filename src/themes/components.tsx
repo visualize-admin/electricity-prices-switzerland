@@ -63,17 +63,25 @@ export const components: Components = {
         display: "flex",
         alignItems: "center",
         width: "100%",
-        borderRadius: 2,
-        border: `1px solid ${palette.monochrome[300]}`,
+        border: `1px solid`,
         backgroundColor: "#fff",
-        color: "inherit",
-
-        "&:hover": {
-          color: "inherit",
+        color: "text.primary",
+        borderRadius: 0.5,
+        height: 44,
+        borderColor: "monochrome.500",
+        "& input::placeholder": {
+          color: "text.500",
         },
 
-        "&.Mui-focused": {
-          border: `1px solid ${palette.monochrome[500]}`,
+        "& .MuiAutocomplete-endAdornment": {
+          borderLeft: "1px solid",
+          borderColor: "monochrome.500",
+          marginLeft: "4px",
+          paddingLeft: "4px",
+          height: 44,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
         },
 
         "& fieldset": {
@@ -177,19 +185,7 @@ export const components: Components = {
         const variantStyles = (() => {
           switch (variant) {
             case "outlined":
-              return {
-                borderColor: "monochrome.500",
-                "& .MuiAutocomplete-endAdornment": {
-                  borderLeft: "1px solid",
-                  borderColor: "monochrome.500",
-                  marginLeft: 2,
-                  paddingLeft: 2,
-                  height: 44,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                },
-              };
+              return {};
             case "filled":
               return {};
             case "standard": {

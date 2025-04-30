@@ -75,12 +75,10 @@ export const DetailPageBanner = ({
   return (
     <Box
       sx={{
-        px: [4, 6],
+        px: [6, 12],
         py: 5,
         bgcolor: "background.paper",
-        borderBottomWidth: "1px",
-        borderBottomStyle: "solid",
-        borderBottomColor: "monochrome.300",
+        width: "100%",
       }}
     >
       <Box
@@ -106,15 +104,15 @@ export const DetailPageBanner = ({
           <UILink
             variant="body2"
             component={MapLink}
+            color={"text.primary"}
             sx={{
               display: "flex",
               alignItems: "center",
-              fontSize: "0.875rem",
               "& > svg": { mr: 1 },
               ml: "-8px",
             }}
           >
-            <Icon name="chevronleft" size={24}></Icon>
+            <Icon name="arrowleft" size={24}></Icon>
             <Trans id="detail.homelink">Zurück zur Übersicht</Trans>
           </UILink>
         </Box>

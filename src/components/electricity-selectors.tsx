@@ -33,6 +33,7 @@ export const ElectricitySelectors = () => {
         justifyContent: "flex-start",
         px: 6,
         pt: 6,
+        pb: 4,
         gap: 4,
         zIndex: 13,
       }}
@@ -90,9 +91,6 @@ export const ElectricitySelectors = () => {
         }
         infoDialogSlug="help-products"
       />
-      <Typography variant="body2" fontWeight={600} sx={{ mt: 4 }}>
-        <Trans id="selector.results">Suchergebnisse:</Trans>
-      </Typography>
     </Box>
   );
 };

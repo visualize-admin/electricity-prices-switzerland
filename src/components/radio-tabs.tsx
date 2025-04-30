@@ -1,16 +1,21 @@
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { ChangeEventHandler, ReactNode, useCallback } from "react";
 
 import { VisuallyHidden } from "src/components/visually-hidden";
 
+import { InfoDialogButton } from "./info-dialog";
+
 type RadioTabsVariants = "tabs" | "borderlessTabs" | "segmented";
 
 type RadioTabsProps<T> = {
-  name: string;
+  id: string;
   options: { value: T; label: ReactNode }[];
   value: T;
   setValue: (value: T) => void;
   variant?: RadioTabsVariants;
+  label: string;
+  showLabel?: boolean;
+  infoDialogSlug?: string;
 };
 
 const STYLES = {
@@ -18,36 +23,19 @@ const STYLES = {
     active: {
       display: "block",
       position: "relative",
-      color: "primary.main",
-      bgcolor: "grey.100",
+      color: "background.paper",
+      bgcolor: "secondary.main",
       flex: "1 0 auto",
       textAlign: "center",
-      px: 2,
-      py: 4,
+      px: 4,
+      py: 2.5,
       fontSize: "1rem",
       borderStyle: "solid",
       borderWidth: 1,
-      borderColor: "grey.500",
-      borderTopColor: "transparent",
-      borderBottomColor: "transparent",
+      borderColor: "monochrome.200",
       borderRightWidth: 0,
       "&:last-of-type": {
         borderRightWidth: 1,
-        borderRightColor: "grey.100",
-      },
-      "&:first-of-type": {
-        borderLeftColor: "grey.100",
-      },
-      "&::before": {
-        content: "''",
-        display: "block",
-        bgcolor: "primary.main",
-        position: "absolute",
-        top: 0,
-        left: "-1px",
-        right: "-1px",
-        mt: "-1px",
-        height: 4,
       },
     },
     inactive: {
@@ -55,16 +43,15 @@ const STYLES = {
       whiteSpace: "nowrap",
       textOverflow: "ellipsis",
       display: "block",
-      color: "secondary.main",
-      bgcolor: "grey.200",
+      color: "text.primary",
+      bgcolor: "background.paper",
       flex: "1 1 auto",
       textAlign: "center",
-      px: 2,
-      py: 4,
+      px: 4,
+      py: 2.5,
       fontSize: "1rem",
-      borderColor: "grey.500",
+      borderColor: "monochrome.200",
       borderStyle: "solid",
-      borderWidth: 1,
       borderRightWidth: 0,
       "&:last-of-type": {
         borderRightWidth: 1,
@@ -75,8 +62,8 @@ const STYLES = {
     active: {
       display: "flex",
       position: "relative",
-      color: "primary.main",
-      bgcolor: "grey.100",
+      color: "background.paper",
+      bgcolor: "secondary.main",
       flex: "1 1 auto",
       textAlign: "center",
       justifyContent: "center",
@@ -86,36 +73,18 @@ const STYLES = {
       fontSize: "1rem",
       minWidth: "min-content",
       borderStyle: "solid",
-      borderWidth: 1,
-      borderColor: "grey.500",
-      borderTopColor: "transparent",
-      borderBottomColor: "transparent",
+      borderColor: "monochrome.200",
       borderRightWidth: 0,
       "&:last-of-type": {
         borderRightWidth: 1,
-        borderRightColor: "grey.100",
-      },
-      "&:first-of-type": {
-        borderLeftColor: "grey.100",
-      },
-      "&::before": {
-        content: "''",
-        display: "block",
-        bgcolor: "primary.main",
-        position: "absolute",
-        top: 0,
-        left: "-1px",
-        right: "-1px",
-        mt: "-1px",
-        height: 4,
       },
     },
     inactive: {
       display: "flex",
       cursor: "pointer",
-      color: "secondary.main",
+      color: "text.primary",
       alignItems: "center",
-      bgcolor: "grey.200",
+      bgcolor: "background.paper",
       flex: "1 1 auto",
       justifyContent: "center",
       minWidth: "min-content",
@@ -123,31 +92,23 @@ const STYLES = {
       px: 2,
       py: 4,
       fontSize: "1rem",
-      borderColor: "grey.500",
+      borderColor: "monochrome.200",
       borderStyle: "solid",
-      borderWidth: 1,
       borderRightWidth: 0,
-      "&:first-of-type": {
-        borderLeftWidth: 0,
-      },
-      "&:last-of-type": {
-        borderRightWidth: 0,
-      },
     },
   },
   segmented: {
     active: {
       display: "block",
       position: "relative",
-      color: "primary.main",
-      bgcolor: "grey.100",
+      color: "background.paper",
+      bgcolor: "secondary.main",
       flex: "1 0 auto",
       textAlign: "center",
       p: 2,
       fontSize: "0.875rem",
       borderStyle: "solid",
-      borderWidth: 1,
-      borderColor: "grey.500",
+      borderColor: "monochrome.200",
       borderRightWidth: 0,
 
       "&:last-of-type": {
@@ -163,8 +124,8 @@ const STYLES = {
     inactive: {
       cursor: "pointer",
       display: "block",
-      color: "secondary.main",
-      bgcolor: "grey.200",
+      color: "text.primary",
+      bgcolor: "background.paper",
       overflow: "hidden",
       whiteSpace: "nowrap",
       textOverflow: "ellipsis",
@@ -172,9 +133,8 @@ const STYLES = {
       textAlign: "center",
       p: 2,
       fontSize: "0.875rem",
-      borderColor: "grey.500",
+      borderColor: "monochrome.200",
       borderStyle: "solid",
-      borderWidth: 1,
       borderRightWidth: 0,
       "&:last-of-type": {
         borderRightWidth: 1,
@@ -190,11 +150,14 @@ const STYLES = {
 } as const;
 
 export const RadioTabs = <T extends string>({
-  name,
+  id,
   options,
   value,
   setValue,
   variant = "tabs",
+  label,
+  showLabel = true,
+  infoDialogSlug,
 }: RadioTabsProps<T>) => {
   const onTabChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
     (e) => {
@@ -208,31 +171,77 @@ export const RadioTabs = <T extends string>({
   const styles = STYLES[variant];
 
   return (
-    <Box sx={{ justifyItems: "stretch" }} display="flex">
-      {options.map((option) => {
-        const isActive = option.value === value;
-
-        return (
-          <Box
-            key={option.value}
+    <Box
+      sx={{
+        position: "relative",
+        flexDirection: "column",
+        gap: infoDialogSlug ? 0 : 2,
+      }}
+      display={"flex"}
+    >
+      <Box
+        typography="meta"
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        {showLabel && (
+          <Typography
+            color={"text.primary"}
+            variant="h6"
             component="label"
-            title={typeof option.label === "string" ? option.label : undefined}
-            sx={isActive ? styles.active : styles.inactive}
+            htmlFor={`radio-tabs-${id}`}
           >
-            <VisuallyHidden>
-              <input
-                key={option.value}
-                name={name}
-                type="radio"
-                value={option.value}
-                onChange={onTabChange}
-                checked={isActive}
-              />
-            </VisuallyHidden>
-            {option.label}
-          </Box>
-        );
-      })}
+            {label}
+          </Typography>
+        )}
+        {infoDialogSlug && (
+          <InfoDialogButton
+            iconOnly
+            slug={infoDialogSlug}
+            label={label}
+            smaller
+          />
+        )}
+      </Box>
+      <Box
+        sx={{
+          justifyItems: "stretch",
+          borderRadius: 0.5,
+          borderWidth: 1,
+          borderColor: "monochrome.200",
+        }}
+        display="flex"
+      >
+        {options.map((option) => {
+          const isActive = option.value === value;
+
+          return (
+            <Box
+              key={option.value}
+              component="label"
+              title={
+                typeof option.label === "string" ? option.label : undefined
+              }
+              sx={isActive ? styles.active : styles.inactive}
+            >
+              <VisuallyHidden>
+                <input
+                  key={option.value}
+                  id={id}
+                  type="radio"
+                  value={option.value}
+                  onChange={onTabChange}
+                  checked={isActive}
+                />
+              </VisuallyHidden>
+              {option.label}
+            </Box>
+          );
+        })}
+      </Box>
     </Box>
   );
 };
