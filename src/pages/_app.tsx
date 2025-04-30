@@ -84,7 +84,6 @@ export default function MyApp(
   );
 }
 
-// keep your useMatomo function
 function useMatomo() {
   const [matomoId, setMatomoId] = useState<string | undefined>(undefined);
 

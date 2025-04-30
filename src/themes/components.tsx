@@ -62,7 +62,7 @@ export const components: Components = {
         alignItems: "center",
         width: "100%",
         border: `1px solid`,
-        backgroundColor: "background",
+        backgroundColor: "background", // supposed to be background.paper investigate why only background works
         color: "text.primary",
         borderRadius: 0.5,
         height: 44,

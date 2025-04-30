@@ -89,7 +89,7 @@ const MunicipalityPage = (props: Props) => {
           id: "site.title",
         })}`}</title>
       </Head>
-      <ApplicationLayout locale={locale}>
+      <ApplicationLayout>
         <Box
           sx={{
             borderBottomWidth: "1px",

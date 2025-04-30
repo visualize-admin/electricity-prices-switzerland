@@ -10,6 +10,7 @@ import { useCallback, useRef } from "react";
 import { TooltipBox } from "src/components/charts-generic/interaction/tooltip-box";
 import { DownloadImage } from "src/components/detail-page/download-image";
 import { ElectricitySelectors } from "src/components/electricity-selectors";
+import { InfoBanner } from "src/components/info-banner";
 import { List } from "src/components/list";
 import { ChoroplethMap, ChoroplethMapProps } from "src/components/map";
 import { useDisclosure } from "src/components/use-disclosure";
@@ -240,7 +241,16 @@ const IndexPage = ({ locale }: Props) => {
   const controlsRef: NonNullable<ChoroplethMapProps["controls"]> = useRef(null);
 
   return (
-    <ApplicationLayout locale={locale}>
+    <ApplicationLayout>
+      <InfoBanner
+        bypassBannerEnabled={
+          !!(
+            observationsQuery.fetching === false &&
+            observationsQuery.data &&
+            !medianValue
+          )
+        }
+      />
       <Box
         sx={{
           backgroundColor: "secondary.50",

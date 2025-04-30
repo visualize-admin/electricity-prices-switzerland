@@ -8,7 +8,6 @@ import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useRouter } from "next/router";
 import { ReactNode, useState } from "react";
-import { UseQueryState } from "urql";
 
 import { Footer } from "src/components/footer";
 import { Header } from "src/components/header";
@@ -16,41 +15,13 @@ import {
   HighlightContext,
   HighlightValue,
 } from "src/components/highlight-context";
-import { InfoBanner } from "src/components/info-banner";
 import { Search } from "src/components/search";
-import {
-  Exact,
-  InputMaybe,
-  ObservationFilters,
-  ObservationKind,
-  ObservationsQuery,
-  PriceComponent,
-  Scalars,
-  useObservationsQuery,
-} from "src/graphql/queries";
-import { EMPTY_ARRAY } from "src/lib/empty-array";
-import { useQueryStateSingle } from "src/lib/use-query-state";
 
-type Props = {
-  locale: string;
+type ApplicationLayoutProps = {
   children: ReactNode;
 };
 
-export const ApplicationLayout = ({ locale, children }: Props) => {
-  const [{ period, priceComponent, category, product }] = useQueryStateSingle();
-
-  const [observationsQuery] = useObservationsQuery({
-    variables: {
-      locale,
-      priceComponent: priceComponent as PriceComponent,
-      filters: {
-        period: [period],
-        category: [category],
-        product: [product],
-      },
-    },
-  });
-
+export const ApplicationLayout = ({ children }: ApplicationLayoutProps) => {
   const [highlightContext, setHighlightContext] = useState<HighlightValue>();
 
   return (
@@ -74,7 +45,7 @@ export const ApplicationLayout = ({ locale, children }: Props) => {
           }}
           display="flex"
         >
-          <AppNavigation observationsQuery={observationsQuery} />
+          <AppNavigation />
           {children}
         </Box>
       </Box>
@@ -83,26 +54,8 @@ export const ApplicationLayout = ({ locale, children }: Props) => {
   );
 };
 
-type ApplicationNavigationProps = {
-  observationsQuery: UseQueryState<
-    ObservationsQuery,
-    Exact<{
-      locale: Scalars["String"]["input"];
-      priceComponent: PriceComponent;
-      filters: ObservationFilters;
-      observationKind?: InputMaybe<ObservationKind>;
-    }>
-  >;
-};
-const AppNavigation = (props: ApplicationNavigationProps) => {
-  const { observationsQuery } = props;
+const AppNavigation = () => {
   const { pathname } = useRouter();
-
-  const swissMedianObservations = observationsQuery.fetching
-    ? EMPTY_ARRAY
-    : observationsQuery.data?.swissMedianObservations ?? EMPTY_ARRAY;
-
-  const medianValue = swissMedianObservations[0]?.value;
 
   return (
     <Box
@@ -110,15 +63,6 @@ const AppNavigation = (props: ApplicationNavigationProps) => {
         position: "relative",
       }}
     >
-      <InfoBanner
-        bypassBannerEnabled={
-          !!(
-            observationsQuery.fetching === false &&
-            observationsQuery.data &&
-            !medianValue
-          )
-        }
-      />
       <ContentWrapper>
         <Box
           sx={{
