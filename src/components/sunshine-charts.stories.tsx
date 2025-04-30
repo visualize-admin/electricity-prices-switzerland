@@ -157,11 +157,17 @@ const buildSparqlQuery = (operatorIri: string, indicators: Indicator[]) => {
   `;
 };
 
+const DeutschBoolean = z.string().transform((x) => {
+  if (x === "Ja") return true;
+  if (x === "Nein") return false;
+  return undefined;
+});
+
 const ObservationSchema = z.object({
   period: z.number(),
-  info: z.string().optional(),
+  info: DeutschBoolean.optional(),
   saifi_unplanned: z.number().optional(),
-  in_time: z.string().optional(),
+  in_time: DeutschBoolean.optional(),
 
   // Maybe subjected to change, looks like a number in the data
   franken_regel: z.string().optional(),
@@ -207,10 +213,7 @@ const ObservationSchema = z.object({
     .transform((x) => parseFloat(x))
     .optional(),
 
-  products_choice: z
-    .string()
-    .transform((x) => parseInt(x, 10))
-    .optional(),
+  products_choice: DeutschBoolean.optional(),
   products_number: z.number().optional(),
 });
 
