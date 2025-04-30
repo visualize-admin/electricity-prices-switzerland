@@ -3,6 +3,7 @@ import { Box, Link as MUILink, Typography } from "@mui/material";
 import html2canvas from "html2canvas";
 import * as React from "react";
 
+import { Icon } from "src/icons";
 import assert from "src/lib/assert";
 
 export type Download =
@@ -95,9 +96,16 @@ export const DownloadImage = ({
           variant="body2"
           onClick={onDownload}
           target="_blank"
+          color={"text.primary"}
           rel="noopener noreferrer"
           href="#"
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: 1,
+          }}
         >
+          <Icon name="download" size={20} />
           <Trans id="image.download">Bild herunterladen</Trans>
         </MUILink>
       )}

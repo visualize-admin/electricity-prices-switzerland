@@ -120,7 +120,7 @@ export const MapPriceColorLegend = ({
         <Box
           sx={{
             justifyContent: "space-between",
-            color: "grey.600",
+            color: "secondary.600",
             fontSize: "0.625rem",
             mb: 3,
           }}
@@ -170,7 +170,7 @@ export const PriceColorLegend = () => {
       <Box
         sx={{
           justifyContent: "space-between",
-          color: "grey.600",
+          color: "secondary.600",
           fontSize: "0.625rem",
           mb: 2,
         }}
@@ -261,7 +261,7 @@ const ColorsLine = () => {
               sx={{
                 mt: 1,
                 fontSize: "0.625rem",
-                color: "grey.600",
+                color: "secondary.600",
                 transform: "translateX(50%)",
                 letterSpacing: -0.4,
                 textAlign: "right",

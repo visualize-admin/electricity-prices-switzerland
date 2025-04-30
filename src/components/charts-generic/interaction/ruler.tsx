@@ -64,7 +64,7 @@ const RulerContent = ({
           position: "absolute",
           borderWidth: 0.5,
           borderStyle: "solid",
-          borderColor: "grey[200]",
+          borderColor: "secondary[200]",
           pointerEvents: "none",
           transform: "translateX(-50%)",
         }}
@@ -77,11 +77,11 @@ const RulerContent = ({
         sx={{
           position: "absolute",
           fontWeight: "bold",
-          bgcolor: "grey.100",
+          bgcolor: "secondary.100",
           transform: "translateX(-50%)",
           px: 1,
           fontSize: "0.875rem",
-          color: "grey.800",
+          color: "secondary.800",
         }}
       >
         {xValue}

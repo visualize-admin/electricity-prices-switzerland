@@ -172,7 +172,7 @@ const SearchField = ({
                 borderWidth: `0`,
                 borderBottom: "1px solid",
 
-                borderBottomColor: theme.palette.grey[300],
+                borderBottomColor: theme.palette.secondary[300],
               },
           },
         }}
@@ -269,7 +269,7 @@ const SearchField = ({
                   display: "flex",
                   justifyContent: "space-between",
                   alignItems: "center",
-                  color: "grey.800",
+                  color: "secondary.800",
                   width: "100%",
                   fontSize: "1rem",
                   lineHeight: 1.2,

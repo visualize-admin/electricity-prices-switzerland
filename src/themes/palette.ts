@@ -13,7 +13,7 @@ export const palette = {
     ...colors.red,
   },
   secondary: {
-    main: colors.cobalt[700],
+    main: colors.cobalt[400],
     ...colors.cobalt,
   },
   monochrome: {
