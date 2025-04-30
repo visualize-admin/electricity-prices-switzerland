@@ -12,7 +12,7 @@ import {
 import { getLocalizedLabel } from "src/domain/translation";
 import { useQueryStateSingle } from "src/lib/use-query-state";
 
-export const Selector = () => {
+export const ElectricitySelectors = () => {
   const [queryState, setQueryState] = useQueryStateSingle();
   const getItemLabel = (id: string) => getLocalizedLabel({ id });
   const groupedCategories = useMemo(() => {
@@ -31,10 +31,9 @@ export const Selector = () => {
         border: 0,
         flexDirection: "column",
         justifyContent: "flex-start",
-        bgcolor: "muted.colored",
-        px: 4,
-        py: 4,
-        gap: "0.325rem",
+        px: 6,
+        pt: 6,
+        gap: 4,
         zIndex: 13,
       }}
       display="flex"

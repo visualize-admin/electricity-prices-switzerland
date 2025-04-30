@@ -15,7 +15,7 @@ declare module "@mui/material" {
 
 declare module "@mui/material/IconButton" {
   interface IconButtonPropsColorOverrides {
-    tertiary: true;
+    monochrome: true;
   }
 }
 declare module "@mui/material/Button" {
@@ -53,11 +53,11 @@ declare module "@mui/material/styles" {
 
   interface Palette {
     cobalt: FederalColor & { main: string };
-    tertiary: { main: string };
+    monochrome: FederalColor & { main: string };
   }
 
   interface PaletteOptions {
-    tertiary: { main: string };
+    monochrome: FederalColor & { main: string };
   }
 }
 

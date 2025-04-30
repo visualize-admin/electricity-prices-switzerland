@@ -1,5 +1,8 @@
 import { ContentWrapper } from "@interactivethings/swiss-federal-ci/dist/components";
-import { Menu } from "@interactivethings/swiss-federal-ci/dist/components/pages-router";
+import {
+  MenuButton,
+  MenuContainer,
+} from "@interactivethings/swiss-federal-ci/dist/components/pages-router";
 import { t, Trans } from "@lingui/macro";
 import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
@@ -14,6 +17,7 @@ import {
   HighlightValue,
 } from "src/components/highlight-context";
 import { InfoBanner } from "src/components/info-banner";
+import { Search } from "src/components/search";
 import {
   Exact,
   InputMaybe,
@@ -150,26 +154,33 @@ const AppNavigation = (props: ApplicationNavigationProps) => {
         </Box>
       </ContentWrapper>
 
-      <Menu
+      <MenuContainer
         sx={{
           px: 3,
           borderTopWidth: 1,
           borderTopStyle: "solid",
           borderTopColor: "monochrome.300",
         }}
-        sections={[
-          {
-            title: t({ id: "home.menu.overview", message: "Overview" }),
-            active: pathname === "/",
-            href: "/",
-          },
-          {
-            title: t({ id: "home.menu.map-view", message: "Map View" }),
-            active: pathname === "/map",
-            href: "/map",
-          },
-        ]}
-      />
+      >
+        <MenuButton
+          title={t({ id: "home.menu.overview", message: "Overview" })}
+          active={pathname === "/"}
+          href={"/"}
+        />
+        <MenuButton
+          title={t({ id: "home.menu.map-view", message: "Map View" })}
+          active={pathname === "/map"}
+          href={"/map"}
+        />
+        <Box sx={{ flex: 1 }} />
+        <Box
+          sx={{
+            minWidth: "22rem",
+          }}
+        >
+          <Search />
+        </Box>
+      </MenuContainer>
     </Box>
   );
 };

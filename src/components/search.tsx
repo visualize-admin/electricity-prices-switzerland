@@ -171,6 +171,7 @@ const SearchField = ({
                 outline: 0,
                 borderWidth: `0`,
                 borderBottom: "1px solid",
+
                 borderBottomColor: theme.palette.grey[300],
               },
           },
@@ -204,16 +205,16 @@ const SearchField = ({
             InputProps={{
               ...params.InputProps,
               sx: {
-                height: "44px",
-                fontSize: 18,
+                px: "16px !important",
+
+                borderRadius: 0.5,
+                height: 44,
+                borderColor: "monochrome.500",
               },
               placeholder: t({ id: "search.global.hint.canton.muni.operator" }),
               endAdornment: <Icon name="search" />,
               startAdornment: (
-                <InputAdornment
-                  position="start"
-                  sx={{ ml: 2, display: "flex" }}
-                >
+                <InputAdornment position="start" sx={{ display: "flex" }}>
                   <IconButton
                     onClick={(ev) => {
                       ev.preventDefault();
@@ -225,7 +226,6 @@ const SearchField = ({
                     sx={{
                       display: "none",
                       [theme.breakpoints.down("sm")]: {
-                        ml: -2,
                         ".Mui-focused &": {
                           display: "block",
                         },
@@ -238,9 +238,9 @@ const SearchField = ({
                     <>
                       <Typography
                         variant="h5"
-                        color="text.primary"
+                        color="text.secondary"
                         sx={{
-                          fontSize: [18],
+                          fontSize: [16],
                           [theme.breakpoints.down("sm")]: { display: "none" },
                         }}
                       >

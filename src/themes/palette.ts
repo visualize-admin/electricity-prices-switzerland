@@ -16,7 +16,7 @@ export const palette = {
     main: colors.cobalt[700],
     ...colors.cobalt,
   },
-  tertiary: {
+  monochrome: {
     main: colors.monochrome[800],
     ...colors.monochrome,
   },

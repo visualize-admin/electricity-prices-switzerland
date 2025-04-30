@@ -111,7 +111,6 @@ export const components: Components = {
       input: {
         padding: 0,
         paddingRight: 12,
-
         "&.Mui-disabled": {
           WebkitTextFillColor: palette.monochrome[300],
         },
@@ -178,7 +177,19 @@ export const components: Components = {
         const variantStyles = (() => {
           switch (variant) {
             case "outlined":
-              return {};
+              return {
+                borderColor: "monochrome.500",
+                "& .MuiAutocomplete-endAdornment": {
+                  borderLeft: "1px solid",
+                  borderColor: "monochrome.500",
+                  marginLeft: 2,
+                  paddingLeft: 2,
+                  height: 44,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                },
+              };
             case "filled":
               return {};
             case "standard": {

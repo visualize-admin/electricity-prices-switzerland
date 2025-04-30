@@ -174,13 +174,13 @@ export const InfoDialogButton = ({
   return (
     <>
       <IconButton
-        color="tertiary"
+        color="monochrome"
         sx={{ fontSize: smaller ? [2, 2, 2] : [3, 4, 4] }}
         onClick={openDialog}
       >
         <Box sx={{ alignItems: "center" }} display="flex">
           <Box sx={{ flexShrink: 0, mr: iconOnly ? 0 : 2 }}>
-            <Icon name="infocircle" size={smaller ? 16 : 20} />
+            <Icon name="infocirclefilled" size={smaller ? 16 : 20} />
           </Box>{" "}
           {iconOnly ? <VisuallyHidden>{label}</VisuallyHidden> : label}
         </Box>

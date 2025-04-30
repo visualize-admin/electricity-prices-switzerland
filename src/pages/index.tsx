@@ -6,7 +6,6 @@ import Head from "next/head";
 import Image from "next/image";
 import basicAuthMiddleware from "nextjs-basic-auth-middleware";
 
-import { Search } from "src/components/search";
 import { Icon } from "src/icons";
 
 import { defaultLocale } from "src/locales/locales";
@@ -113,63 +112,6 @@ const IndexPage = ({ locale }: Props) => {
               </Box>
             </Box>
           </ContentWrapper>
-
-          <Box
-            sx={{
-              py: 20,
-              flexDirection: "column",
-              backgroundColor: "secondary.50",
-            }}
-            display="flex"
-          >
-            <ContentWrapper>
-              <Box
-                sx={{
-                  flexDirection: "column",
-                  gap: 12,
-                  px: 58,
-                }}
-                display="flex"
-              >
-                <Box
-                  sx={{
-                    flexDirection: "column",
-                    gap: 4,
-                  }}
-                  display="flex"
-                >
-                  <Typography variant="h1" component={"h2"}>
-                    <Trans id="home.explore-section.title">Explore</Trans>
-                  </Typography>
-                  <Typography variant="body1" component={"span"}>
-                    <Trans id="home.explore-section.title">
-                      Use the search bar below to find detailed analyses based
-                      on electricity data for specific municipalities, cantons,
-                      or grid operators. Enter the name of a region or operator
-                      to access insights and performance metrics tailored to
-                      your area of interest.
-                    </Trans>
-                  </Typography>
-                </Box>
-
-                <Box
-                  sx={{
-                    flexDirection: "column",
-                    gap: 2,
-                  }}
-                  display="flex"
-                >
-                  <Typography variant="body3">
-                    <Trans id="home.explore-section.search-bar-detail">
-                      See the detailed analysis of cantons, municipalities and
-                      grid operators.
-                    </Trans>
-                  </Typography>
-                  <Search />
-                </Box>
-              </Box>
-            </ContentWrapper>
-          </Box>
         </Box>
       </ApplicationLayout>
     </>

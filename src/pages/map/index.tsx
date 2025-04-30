@@ -1,5 +1,5 @@
 import { PickingInfo } from "@deck.gl/core/typed";
-import { t, Trans } from "@lingui/macro";
+import { t } from "@lingui/macro";
 import { Box, Button, Input, Link, Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
@@ -8,9 +8,9 @@ import { useCallback, useRef } from "react";
 
 import { TooltipBox } from "src/components/charts-generic/interaction/tooltip-box";
 import { DownloadImage } from "src/components/detail-page/download-image";
+import { ElectricitySelectors } from "src/components/electricity-selectors";
 import { List } from "src/components/list";
 import { ChoroplethMap, ChoroplethMapProps } from "src/components/map";
-import { Selector } from "src/components/selector";
 import { useDisclosure } from "src/components/use-disclosure";
 import { useOutsideClick } from "src/components/use-outside-click";
 import { useColorScale } from "src/domain/data";
@@ -25,7 +25,6 @@ import { useQueryStateSingle } from "src/lib/use-query-state";
 import { defaultLocale } from "src/locales/locales";
 
 import { ContentWrapper } from "@interactivethings/swiss-federal-ci/dist/components";
-import { Search } from "src/components/search";
 import { Icon } from "src/icons";
 import { ApplicationLayout } from "../app-layout";
 
@@ -233,44 +232,7 @@ const IndexPage = ({ locale }: Props) => {
     <ApplicationLayout locale={locale}>
       <Box
         sx={{
-          borderBottomWidth: 1,
-          borderBottomStyle: "solid",
-          borderBottomColor: "monochrome.300",
-        }}
-      >
-        <ContentWrapper>
-          <Box
-            sx={{
-              flexDirection: "column",
-              gap: 2,
-              alignItems: "center",
-              py: 8,
-              width: "100%",
-            }}
-            display="flex"
-          >
-            <Typography variant="body3">
-              <Trans id="home.explore-section.search-bar-detail">
-                See the detailed analysis of cantons, municipalities and grid
-                operators.
-              </Trans>
-            </Typography>
-
-            <Box
-              sx={{
-                width: "100%",
-                mx: "auto",
-                maxWidth: "72rem",
-              }}
-            >
-              <Search />
-            </Box>
-          </Box>
-        </ContentWrapper>
-      </Box>
-      <Box
-        sx={{
-          backgroundColor: "secondary.100",
+          backgroundColor: "secondary.50",
         }}
       >
         <ContentWrapper>
@@ -291,12 +253,13 @@ const IndexPage = ({ locale }: Props) => {
                 top: HEADER_HEIGHT_UP,
                 maxHeight: `calc(100vh - ${HEADER_HEIGHT_UP})`,
                 overflowY: "auto",
-                bgcolor: "monochrome.50",
+                bgcolor: "background.paper",
                 zIndex: 2,
+                minWidth: "22.5rem",
               }}
             >
               <Box>
-                <Selector />
+                <ElectricitySelectors />
               </Box>
               <List
                 observations={observations}
@@ -309,7 +272,7 @@ const IndexPage = ({ locale }: Props) => {
             <Box
               id={DOWNLOAD_ID}
               sx={{
-                bgcolor: "secondary.100",
+                bgcolor: "secondary.50",
                 top: [0, HEADER_HEIGHT_UP],
                 width: "100%",
                 gridArea: "map",
@@ -362,11 +325,6 @@ const IndexPage = ({ locale }: Props) => {
           </Box>
         </ContentWrapper>
       </Box>
-      <Box
-        sx={{
-          height: "40px",
-        }}
-      />
     </ApplicationLayout>
   );
 };

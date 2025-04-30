@@ -181,7 +181,14 @@ export const Combobox = ({
   }, [items]);
 
   return (
-    <Box sx={{ position: "relative" }}>
+    <Box
+      sx={{
+        position: "relative",
+        flexDirection: "column",
+        gap: infoDialogSlug ? 0 : 2,
+      }}
+      display={"flex"}
+    >
       <Box
         typography="meta"
         sx={{
@@ -190,7 +197,16 @@ export const Combobox = ({
           alignItems: "center",
         }}
       >
-        {showLabel && <label htmlFor={`combobox-${id}`}>{label}</label>}
+        {showLabel && (
+          <Typography
+            color={"text.primary"}
+            variant="h6"
+            component="label"
+            htmlFor={`combobox-${id}`}
+          >
+            {label}
+          </Typography>
+        )}
         {infoDialogSlug && (
           <InfoDialogButton
             iconOnly
@@ -239,9 +255,19 @@ export const Combobox = ({
             InputProps={{
               ...params.InputProps,
               sx: {
-                height: 48,
-                bgcolor: "grey.100",
-                "&:focus-within": { borderColor: "primary.main" },
+                borderRadius: 0.5,
+                height: 44,
+                borderColor: "monochrome.500",
+                "& .MuiAutocomplete-endAdornment": {
+                  borderLeft: "1px solid",
+                  borderColor: "monochrome.500",
+                  marginLeft: 2,
+                  paddingLeft: 2,
+                  height: 44,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                },
               },
             }}
           />
