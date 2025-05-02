@@ -80,7 +80,7 @@ const MunicipalityPage = (props: Props) => {
     return <ErrorPage statusCode={404} />;
   }
 
-  const { id, name, operators, locale } = props;
+  const { id, name, operators } = props;
 
   return (
     <>

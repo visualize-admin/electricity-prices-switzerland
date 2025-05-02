@@ -1,5 +1,5 @@
 import { Trans } from "@lingui/macro";
-import { Box, Link as MUILink, Typography } from "@mui/material";
+import { Box, IconButton, Link as MUILink, Typography } from "@mui/material";
 import html2canvas from "html2canvas";
 import * as React from "react";
 
@@ -51,10 +51,14 @@ const nextFrame = () =>
  * that directly defines a way to get the image data.
  */
 export const DownloadImage = ({
+  iconOnly = false,
+  iconSize = 20,
   fileName,
   elementId,
   getImageData,
 }: {
+  iconSize?: number;
+  iconOnly?: boolean;
   downloadType?: string;
   fileName: string;
 
@@ -91,7 +95,7 @@ export const DownloadImage = ({
 
   return (
     <Box>
-      {downloading ? null : (
+      {!downloading && !iconOnly && (
         <MUILink
           variant="body2"
           onClick={onDownload}
@@ -105,9 +109,19 @@ export const DownloadImage = ({
             gap: 1,
           }}
         >
-          <Icon name="download" size={20} />
+          <Icon name="download" size={iconSize} />
           <Trans id="image.download">Bild herunterladen</Trans>
         </MUILink>
+      )}
+
+      {!downloading && iconOnly && (
+        <IconButton
+          color="monochrome"
+          sx={{ fontSize: iconSize }}
+          onClick={onDownload}
+        >
+          <Icon name="download" size={iconSize} />
+        </IconButton>
       )}
       {/* This text is shown only when the image is downloading, this is done through
       a global class on body */}
