@@ -14,14 +14,21 @@ import {
   ChartSvg,
 } from "src/components/charts-generic/containers";
 import { Combobox } from "src/components/combobox";
-import { Card } from "src/components/detail-page/card";
-import { Download } from "src/components/detail-page/download-image";
-import { FilterSetDescription } from "src/components/detail-page/filter-set-description";
+import {
+  Card,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "src/components/detail-page/card";
+import {
+  Download,
+  DownloadImage,
+} from "src/components/detail-page/download-image";
 import { WithClassName } from "src/components/detail-page/with-classname";
 import { Loading, NoDataHint } from "src/components/hint";
 import { InfoDialogButton } from "src/components/info-dialog";
 import { RadioTabs } from "src/components/radio-tabs";
-import { Stack } from "src/components/stack";
 import {
   Entity,
   GenericObservation,
@@ -38,6 +45,8 @@ import {
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { useLocale } from "src/lib/use-locale";
 import { useQueryState } from "src/lib/use-query-state";
+
+import { FilterSetDescription } from "./filter-set-description";
 
 const DOWNLOAD_ID: Download = "components";
 export const EXPANDED_TAG = "expanded";
@@ -124,28 +133,46 @@ export const PriceComponentsBarChart = ({
   const getItemLabel = (id: string) =>
     getLocalizedLabel({ id: `${id}-${entity}` });
 
+  const filters = {
+    period: period[0],
+    category: category[0],
+    product: product[0],
+  };
+
   return (
-    <Card
-      title={
-        <Stack spacing={2} direction="row">
-          <span>
-            <Trans id="detail.card.title.price.components">
-              Preiskomponenten
-            </Trans>
-          </span>
-          <InfoDialogButton
-            iconOnly
-            slug="help-price-components"
-            label={t({
-              id: "selector.priceComponent",
-              message: `Preiskomponente`,
-            })}
-            smaller
-          />
-        </Stack>
-      }
-      downloadId={DOWNLOAD_ID}
-    >
+    <Card downloadId={DOWNLOAD_ID}>
+      <CardHeader
+        trailingContent={
+          <>
+            <InfoDialogButton
+              iconOnly
+              iconSize={24}
+              type="outline"
+              slug="help-price-components"
+              label={t({
+                id: "selector.priceComponent",
+                message: `Preiskomponente`,
+              })}
+            />
+            <DownloadImage
+              iconOnly
+              iconSize={24}
+              elementId={DOWNLOAD_ID}
+              fileName={DOWNLOAD_ID}
+              downloadType={DOWNLOAD_ID}
+            />
+          </>
+        }
+      >
+        <CardTitle>
+          <Trans id="detail.card.title.price.components">
+            Preiskomponenten
+          </Trans>
+        </CardTitle>
+        <CardDescription>
+          <FilterSetDescription filters={filters} />
+        </CardDescription>
+      </CardHeader>
       {!download && entity !== "canton" && (
         <>
           <Box
@@ -188,12 +215,6 @@ export const PriceComponentsBarChart = ({
           </Box>
         </>
       )}
-      <FilterSetDescription
-        filters={{
-          category: category[0],
-          product: product[0],
-        }}
-      />
       {observationsQuery.fetching ? (
         <Loading />
       ) : observations.length === 0 ? (
@@ -282,6 +303,8 @@ export const PriceComponentsBarChart = ({
           })}
         </WithClassName>
       )}
+      {/*FIXME: placeholder values */}
+      <CardFooter date="March 7, 2024, 1:28 PM" source="Lindas" />
     </Card>
   );
 };
