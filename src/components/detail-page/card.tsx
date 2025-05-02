@@ -1,20 +1,19 @@
+import { Trans } from "@lingui/macro";
 import { Box, Typography } from "@mui/material";
 import { ReactNode } from "react";
 
-import {
-  Download,
-  DownloadImage,
-} from "src/components/detail-page/download-image";
+import { Download } from "src/components/detail-page/download-image";
 
-export const Card = ({
-  title,
-  downloadId,
-  children,
-}: {
-  title: string | ReactNode;
-  downloadId: Download;
+type CardBase = {
   children: ReactNode;
-}) => {
+};
+
+type CardProps = {
+  downloadId: Download;
+} & CardBase;
+
+export const Card = (props: CardProps) => {
+  const { children, downloadId } = props;
   return (
     <Box
       // This id is used by the screenshot function
@@ -22,23 +21,110 @@ export const Card = ({
       sx={{
         bgcolor: "background.paper",
         borderRadius: 1,
-        p: 5,
+        py: 8,
+        px: 10,
         boxShadow: 2,
+        flexDirection: "column",
+        gap: 8,
+      }}
+      display={"flex"}
+    >
+      {children}
+    </Box>
+  );
+};
+
+type CardHeaderProps = {
+  trailingContent?: ReactNode;
+} & CardBase;
+
+export const CardHeader = (props: CardHeaderProps) => {
+  const { children, trailingContent } = props;
+  return (
+    <Box
+      display={"flex"}
+      sx={{
+        justifyContent: "space-between",
+        alignItems: "flex-start",
+      }}
+    >
+      <Box
+        display={"flex"}
+        sx={{
+          flexDirection: "column",
+          gap: 1.5,
+        }}
+      >
+        {children}
+      </Box>
+      {trailingContent && (
+        <Box
+          display={"flex"}
+          sx={{
+            alignItems: "center",
+            gap: 2,
+          }}
+        >
+          {trailingContent}
+        </Box>
+      )}
+    </Box>
+  );
+};
+
+type CardFooterProps = {
+  date: string;
+  source: string;
+};
+
+export const CardFooter = (props: CardFooterProps) => {
+  const { date, source } = props;
+  return (
+    <Box
+      display={"flex"}
+      sx={{
+        flexDirection: "column",
+        gap: 2.5,
       }}
     >
       <Typography
-        component="h2"
-        variant="h2"
-        sx={{ pt: 1, color: "secondary.800", mb: 4 }}
+        variant="caption"
+        sx={{ color: "text.500", lineHeight: "150%" }}
       >
-        {title}
+        <Trans id="date">Date</Trans>: {date}
       </Typography>
-      {children}
-      <DownloadImage
-        elementId={downloadId}
-        fileName={downloadId}
-        downloadType={downloadId}
-      />
+      <Typography
+        variant="caption"
+        sx={{ color: "text.500", lineHeight: "150%" }}
+      >
+        <Trans id="source">Source</Trans>: {source}
+      </Typography>
     </Box>
+  );
+};
+
+export const CardTitle = (props: CardBase) => {
+  const { children } = props;
+  return (
+    <Typography
+      component="h2"
+      variant="h2"
+      sx={{ color: "text.primary", lineHeight: "140%" }}
+    >
+      {children}
+    </Typography>
+  );
+};
+
+export const CardDescription = (props: CardBase) => {
+  const { children } = props;
+  return (
+    <Typography
+      component="h3"
+      variant="body1"
+      sx={{ color: "text.primary", lineHeight: "150%" }}
+    >
+      {children}
+    </Typography>
   );
 };
