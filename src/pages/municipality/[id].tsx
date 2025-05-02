@@ -15,6 +15,7 @@ import { PriceComponentsBarChart } from "src/components/detail-page/price-compon
 import { PriceDistributionHistograms } from "src/components/detail-page/price-distribution-histogram";
 import { PriceEvolution } from "src/components/detail-page/price-evolution-line-chart";
 import { SelectorMulti } from "src/components/detail-page/selector-multi";
+import { DetailsPageSidebar } from "src/components/detail-page/sidebar";
 import { defaultLocale } from "src/locales/locales";
 import {
   getDimensionValuesAndLabels,
@@ -166,7 +167,9 @@ const MunicipalityPage = (props: Props) => {
                 />
               ) : (
                 <DetailPageLayout
-                  selector={null}
+                  selector={
+                    <DetailsPageSidebar id={id} entity="municipality" />
+                  }
                   main={
                     <Box
                       sx={{
