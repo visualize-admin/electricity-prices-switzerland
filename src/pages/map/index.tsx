@@ -229,7 +229,7 @@ const IndexPage = ({ locale }: Props) => {
 
   const handleMunicipalityLayerClick = ({ object }: PickingInfo) => {
     const href = {
-      pathname: "/municipality/[id]",
+      pathname: "/details/municipality/[id]",
       query: {
         ...query,
         id: object?.id.toString(),

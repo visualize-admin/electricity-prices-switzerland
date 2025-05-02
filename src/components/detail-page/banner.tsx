@@ -132,6 +132,8 @@ export const DetailPageBanner = ({
             <Trans id="detail.operator">Netzbetreiber</Trans>
           )}
         </Typography>
+        {/* FIXME: Make a dropdown for all entity types */}
+
         <Box
           display={"flex"}
           sx={{
@@ -155,8 +157,8 @@ export const DetailPageBanner = ({
               <Trans id="detail.canton">Kanton</Trans>:{" "}
               <NextLink
                 href={{
-                  pathname: `/canton/[id]`,
-                  query: { ...query, id: canton.id },
+                  pathname: `/details/[entity]/[id]`,
+                  query: { ...query, id: canton.id, entity: "canton" },
                 }}
                 passHref
               >
@@ -176,7 +178,7 @@ export const DetailPageBanner = ({
               <Trans id="detail.municipalities">Gemeinden</Trans>:{" "}
               <RelationsList
                 key={`${entity}-${id}`}
-                relationPathname={`/municipality/[id]`}
+                relationPathname={`/details/municipality/[id]`}
                 relations={municipalities}
               />
             </Box>
@@ -193,7 +195,7 @@ export const DetailPageBanner = ({
               <Trans id="detail.operators">Netzbetreiber</Trans>:{" "}
               <RelationsList
                 key={`${entity}-${id}`}
-                relationPathname={`/operator/[id]`}
+                relationPathname={`/details/operator/[id]`}
                 relations={operators}
               />
             </Box>

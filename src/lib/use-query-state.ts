@@ -49,7 +49,7 @@ type QueryState = {
   view: string[];
 };
 
-// e.g. /de/municipality/4096?municipality=261&period=2020&period=2019
+// e.g. /de/details/municipality/4096?municipality=261&period=2020&period=2019
 // raw query => { id: "4096", municipality: "261", period: ["2020","2019"] }
 // we want??? => { id: "4096", municipality: ["261"], period: ["2020","2019"] }
 

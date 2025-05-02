@@ -5,12 +5,9 @@ import { ReactNode } from "react";
 
 import { Icon } from "src/icons";
 
-type DetailsPageSidebarProps = {
-  id: string;
-  entity: string;
-};
+import { SectionProps } from "./card";
 
-export const DetailsPageSidebar = (props: DetailsPageSidebarProps) => {
+export const DetailsPageSidebar = (props: SectionProps) => {
   const { id, entity } = props;
   return (
     <Box
@@ -24,7 +21,7 @@ export const DetailsPageSidebar = (props: DetailsPageSidebarProps) => {
           Electricity Insights
         </Trans>
       </SidebarSectionTitle>
-      <SidebarItem href={`/${entity}/${id}`}>
+      <SidebarItem href={`/details/${entity}/${id}`}>
         <Trans id="details.page.navigation.electricity-tariffs-item">
           Electricity Tariffs
         </Trans>
@@ -36,22 +33,22 @@ export const DetailsPageSidebar = (props: DetailsPageSidebarProps) => {
           Sunshine Indicators
         </Trans>
       </SidebarSectionTitle>
-      <SidebarItem href={`/${entity}/${id}/overview`}>
+      <SidebarItem href={`/details/${entity}/${id}/overview`}>
         <Trans id="details.page.navigation.sunshine-overview-item">
           Overview
         </Trans>
       </SidebarItem>
-      <SidebarItem href={`/${entity}/${id}/costs-and-tariffs`}>
+      <SidebarItem href={`/details/${entity}/${id}/costs-and-tariffs`}>
         <Trans id="details.page.navigation.costs-and-tariffs-item">
           Costs and Tariffs
         </Trans>
       </SidebarItem>
-      <SidebarItem href={`/${entity}/${id}/power-stability`}>
+      <SidebarItem href={`/details/${entity}/${id}/power-stability`}>
         <Trans id="details.page.navigation.power-stability-item">
           Power Stability
         </Trans>
       </SidebarItem>
-      <SidebarItem href={`/${entity}/${id}/operational-standards`}>
+      <SidebarItem href={`/details/${entity}/${id}/operational-standards`}>
         <Trans id="details.page.navigation.operational-standards-item">
           Operational Standards
         </Trans>
