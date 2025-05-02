@@ -3,6 +3,12 @@ import { Box, Typography } from "@mui/material";
 import { ReactNode } from "react";
 
 import { Download } from "src/components/detail-page/download-image";
+import { Entity } from "src/domain/data";
+
+export type SectionProps = {
+  id: string;
+  entity: Entity;
+};
 
 type CardBase = {
   children: ReactNode;

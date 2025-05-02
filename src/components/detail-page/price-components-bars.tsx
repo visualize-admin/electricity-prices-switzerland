@@ -20,6 +20,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
+  SectionProps,
 } from "src/components/detail-page/card";
 import {
   Download,
@@ -51,13 +52,7 @@ import { FilterSetDescription } from "./filter-set-description";
 const DOWNLOAD_ID: Download = "components";
 export const EXPANDED_TAG = "expanded";
 
-export const PriceComponentsBarChart = ({
-  id,
-  entity,
-}: {
-  id: string;
-  entity: Entity;
-}) => {
+export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
   const locale = useLocale();
   const [
     {

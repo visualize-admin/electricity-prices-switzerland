@@ -28,6 +28,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
+  SectionProps,
 } from "src/components/detail-page/card";
 import {
   Download,
@@ -62,13 +63,7 @@ const SORTING_VALUES: SortingValue[] = [
   "alpha-desc",
 ];
 
-export const CantonsComparisonRangePlots = ({
-  id,
-  entity,
-}: {
-  id: string;
-  entity: Entity;
-}) => {
+export const CantonsComparisonRangePlots = ({ id, entity }: SectionProps) => {
   const [
     {
       period,

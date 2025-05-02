@@ -21,6 +21,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
+  SectionProps,
 } from "src/components/detail-page/card";
 import {
   Download,
@@ -42,13 +43,7 @@ import { useQueryState } from "src/lib/use-query-state";
 
 const DOWNLOAD_ID: Download = "evolution";
 
-export const PriceEvolution = ({
-  id,
-  entity,
-}: {
-  id: string;
-  entity: Entity;
-}) => {
+export const PriceEvolution = ({ id, entity }: SectionProps) => {
   const locale = useLocale();
   const [{ category, municipality, operator, canton, product, period }] =
     useQueryState();

@@ -29,6 +29,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
+  SectionProps,
 } from "src/components/detail-page/card";
 import {
   Download,
@@ -50,13 +51,7 @@ import { InteractionHistogram } from "../charts-generic/overlay/interaction-hist
 
 const DOWNLOAD_ID: Download = "distribution";
 
-export const PriceDistributionHistograms = ({
-  id,
-  entity,
-}: {
-  id: string;
-  entity: Entity;
-}) => {
+export const PriceDistributionHistograms = ({ id, entity }: SectionProps) => {
   const [
     {
       period,
