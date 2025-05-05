@@ -20,9 +20,7 @@ import "src/styles/nprogress.css";
 
 const clientSideEmotionCache = createEmotionCache();
 
-export default function MyApp(
-  props: AppProps & { emotionCache?: EmotionCache }
-) {
+export default function App(props: AppProps & { emotionCache?: EmotionCache }) {
   const { Component, pageProps, emotionCache = clientSideEmotionCache } = props;
   const { query, events: routerEvents, locale: routerLocale } = useRouter();
   const locale = parseLocaleString(routerLocale ?? "");
