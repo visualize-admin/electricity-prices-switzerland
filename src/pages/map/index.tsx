@@ -1,11 +1,18 @@
 import { PickingInfo } from "@deck.gl/core/typed";
-import { ContentWrapper } from "@interactivethings/swiss-federal-ci/dist/components";
 import { t } from "@lingui/macro";
 import { Box, Button, Input, Link, Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import basicAuthMiddleware from "nextjs-basic-auth-middleware";
 import { useCallback, useRef } from "react";
+const ContentWrapper = dynamic(
+  () =>
+    import("@interactivethings/swiss-federal-ci/dist/components").then(
+      (mod) => mod.ContentWrapper
+    ),
+  { ssr: false }
+);
 
 import { TooltipBox } from "src/components/charts-generic/interaction/tooltip-box";
 import { DownloadImage } from "src/components/detail-page/download-image";
@@ -27,7 +34,11 @@ import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { useQueryStateSingle } from "src/lib/use-query-state";
 import { defaultLocale } from "src/locales/locales";
 
-import { ApplicationLayout } from "../../components/app-layout";
+const ApplicationLayout = dynamic(
+  () =>
+    import("src/components/app-layout").then((mod) => mod.ApplicationLayout),
+  { ssr: false }
+);
 
 const DOWNLOAD_ID = "map";
 

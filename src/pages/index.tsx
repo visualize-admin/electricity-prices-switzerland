@@ -1,7 +1,14 @@
-import { ContentWrapper } from "@interactivethings/swiss-federal-ci/dist/components";
+const ContentWrapper = dynamic(
+  () =>
+    import("@interactivethings/swiss-federal-ci/dist/components").then(
+      (mod) => mod.ContentWrapper
+    ),
+  { ssr: false }
+);
 import { t, Trans } from "@lingui/macro";
 import { Box, Button, Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
+import dynamic from "next/dynamic";
 import Head from "next/head";
 import Image from "next/image";
 import basicAuthMiddleware from "nextjs-basic-auth-middleware";
@@ -9,7 +16,10 @@ import basicAuthMiddleware from "nextjs-basic-auth-middleware";
 import { Icon } from "src/icons";
 import { defaultLocale } from "src/locales/locales";
 
-import { ApplicationLayout } from "../components/app-layout";
+const ApplicationLayout = dynamic(
+  () => import("../components/app-layout").then((mod) => mod.ApplicationLayout),
+  { ssr: false }
+);
 
 type Props = {
   locale: string;

@@ -1,15 +1,22 @@
 import { IncomingMessage, ServerResponse } from "http";
 
-import { ContentWrapper } from "@interactivethings/swiss-federal-ci/dist/components";
 import { t, Trans } from "@lingui/macro";
 import { Box } from "@mui/material";
 import { GetServerSideProps } from "next";
+import dynamic from "next/dynamic";
 import ErrorPage from "next/error";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import basicAuthMiddleware from "nextjs-basic-auth-middleware";
 
-import { ApplicationLayout } from "src/components/app-layout";
+const ContentWrapper = dynamic(
+  () =>
+    import("@interactivethings/swiss-federal-ci/dist/components").then(
+      (mod) => mod.ContentWrapper
+    ),
+  { ssr: false }
+);
+
 import { DetailPageBanner } from "src/components/detail-page/banner";
 import { CantonsComparisonRangePlots } from "src/components/detail-page/cantons-comparison-range";
 import {
@@ -33,6 +40,12 @@ import {
   getObservationsCube,
   getOperator,
 } from "src/rdf/queries";
+
+const ApplicationLayout = dynamic(
+  () =>
+    import("src/components/app-layout").then((mod) => mod.ApplicationLayout),
+  { ssr: false }
+);
 
 type Props =
   | {
