@@ -170,8 +170,8 @@ const mkTriangle = (p: TooltipPlacement) => {
         borderWidth: `${TRIANGLE_SIZE}px ${TRIANGLE_SIZE}px ${TRIANGLE_SIZE}px ${TRIANGLE_SIZE}px`,
         borderTopColor: `transparent`,
         borderRightColor: `transparent`,
-        borderBottomColor: `secondary.100`,
-        borderLeftColor: `secondary.100`,
+        borderBottomColor: `background.paper`,
+        borderLeftColor: `background.paper`,
       };
     case p.x === "center" && p.y === "bottom":
       return {
@@ -182,7 +182,7 @@ const mkTriangle = (p: TooltipPlacement) => {
         borderWidth: `0 ${TRIANGLE_SIZE}px ${TRIANGLE_SIZE}px ${TRIANGLE_SIZE}px`,
         borderTopColor: `transparent`,
         borderRightColor: `transparent`,
-        borderBottomColor: `secondary.100`,
+        borderBottomColor: `background.paper`,
         borderLeftColor: `transparent`,
       };
     case p.x === "left" && p.y === "bottom":
@@ -193,8 +193,8 @@ const mkTriangle = (p: TooltipPlacement) => {
         top: `-${TRIANGLE_SIZE}px`,
         borderWidth: `${TRIANGLE_SIZE}px ${TRIANGLE_SIZE}px ${TRIANGLE_SIZE}px ${TRIANGLE_SIZE}px`,
         borderTopColor: `transparent`,
-        borderRightColor: `secondary.100`,
-        borderBottomColor: `secondary.100`,
+        borderRightColor: `background.paper`,
+        borderBottomColor: `background.paper`,
         borderLeftColor: `transparent`,
       };
     // triangle position downwards pointing (placement "top")
@@ -205,10 +205,10 @@ const mkTriangle = (p: TooltipPlacement) => {
         bottom: `-${TRIANGLE_SIZE}px`,
         top: "unset",
         borderWidth: `${TRIANGLE_SIZE}px ${TRIANGLE_SIZE}px ${TRIANGLE_SIZE}px ${TRIANGLE_SIZE}px`,
-        borderTopColor: `secondary.100`,
+        borderTopColor: `background.paper`,
         borderRightColor: `transparent`,
         borderBottomColor: `transparent`,
-        borderLeftColor: `secondary.100`,
+        borderLeftColor: `background.paper`,
       };
     case p.x === "center" && p.y === "top":
       return {
@@ -217,7 +217,7 @@ const mkTriangle = (p: TooltipPlacement) => {
         bottom: `-${TRIANGLE_SIZE}px`,
         top: "unset",
         borderWidth: `${TRIANGLE_SIZE}px ${TRIANGLE_SIZE}px 0 ${TRIANGLE_SIZE}px`,
-        borderTopColor: `secondary.100`,
+        borderTopColor: `background.paper`,
         borderRightColor: `transparent`,
         borderBottomColor: `transparent`,
         borderLeftColor: `transparent`,
@@ -229,8 +229,8 @@ const mkTriangle = (p: TooltipPlacement) => {
         bottom: `-${TRIANGLE_SIZE}px`,
         top: "unset",
         borderWidth: `${TRIANGLE_SIZE}px ${TRIANGLE_SIZE}px ${TRIANGLE_SIZE}px ${TRIANGLE_SIZE}px`,
-        borderTopColor: `secondary.100`,
-        borderRightColor: `secondary.100`,
+        borderTopColor: `background.paper`,
+        borderRightColor: `background.paper`,
         borderBottomColor: `transparent`,
         borderLeftColor: `transparent`,
       };
@@ -245,7 +245,7 @@ const mkTriangle = (p: TooltipPlacement) => {
         borderTopColor: `transparent`,
         borderRightColor: `transparent`,
         borderBottomColor: `transparent`,
-        borderLeftColor: `secondary.100`,
+        borderLeftColor: `background.paper`,
       };
     case p.x === "right" && p.y === "middle":
       return {
@@ -255,7 +255,7 @@ const mkTriangle = (p: TooltipPlacement) => {
         top: `calc(50% - ${TRIANGLE_SIZE}px)`,
         borderWidth: `${TRIANGLE_SIZE}px ${TRIANGLE_SIZE}px ${TRIANGLE_SIZE}px 0`,
         borderTopColor: `transparent`,
-        borderRightColor: `secondary.100`,
+        borderRightColor: `background.paper`,
         borderBottomColor: `transparent`,
         borderLeftColor: `transparent`,
       };
@@ -278,8 +278,8 @@ const mkTriangle = (p: TooltipPlacement) => {
         bottom: `-${TRIANGLE_SIZE}px`,
         top: "unset",
         borderWidth: `${TRIANGLE_SIZE}px ${TRIANGLE_SIZE}px ${TRIANGLE_SIZE}px ${TRIANGLE_SIZE}px`,
-        borderTopColor: `secondary.100`,
-        borderRightColor: `secondary.100`,
+        borderTopColor: `background.paper`,
+        borderRightColor: `background.paper`,
         borderBottomColor: `transparent`,
         borderLeftColor: `transparent`,
       };
