@@ -224,7 +224,7 @@ const ColorsLine = () => {
           borderTop: `${COLOR_HEIGHT / 2}px solid transparent`,
           borderBottom: `${COLOR_HEIGHT / 2}px solid transparent`,
           borderRight: `${COLOR_HEIGHT / 2}px solid  ${
-            chartPalette.diverging.GO[0]
+            chartPalette.diverging.GreenToOrange[0]
           }`,
         }}
       />
@@ -237,7 +237,7 @@ const ColorsLine = () => {
           width: "100%",
         }}
       >
-        {chartPalette.diverging.GO.map((bg, i) => (
+        {chartPalette.diverging.GreenToOrange.map((bg, i) => (
           <Box
             key={bg}
             sx={{
@@ -279,7 +279,9 @@ const ColorsLine = () => {
           borderTop: `${COLOR_HEIGHT / 2}px solid transparent`,
           borderBottom: `${COLOR_HEIGHT / 2}px solid transparent`,
           borderLeft: `${COLOR_HEIGHT / 2}px solid ${
-            chartPalette.diverging.GO[chartPalette.diverging.GO.length - 1]
+            chartPalette.diverging.GreenToOrange[
+              chartPalette.diverging.GreenToOrange.length - 1
+            ]
           }`,
         }}
       />

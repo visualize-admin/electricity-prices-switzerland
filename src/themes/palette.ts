@@ -43,7 +43,7 @@ export const chartPalette = {
     pink: ["#FBCFE8", "#F9A8D4", "#F472B6", "#EC4899", "#DB2777", "#BE185D"],
   },
   diverging: {
-    GO: ["#059669", "#34D399", "#E4D78C", "#FB923C", "#EA580C"],
-    BP: ["#2563EB", "#60A5FA", "#CEC3DE", "#F472B6", "#DB2777"],
+    GreenToOrange: ["#059669", "#34D399", "#E4D78C", "#FB923C", "#EA580C"],
+    BlueToPink: ["#2563EB", "#60A5FA", "#CEC3DE", "#F472B6", "#DB2777"],
   },
 };
