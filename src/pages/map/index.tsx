@@ -79,8 +79,9 @@ const ShareButton = () => {
       y: 0,
       width: 0,
     };
+    console.log(linkRect);
     Object.assign(mouse.current, {
-      x: linkRect.x ?? 0 + (linkRect.width ?? 0) / 2,
+      x: linkRect.width ?? 0,
       y: linkRect.y ?? 0,
     });
   };
@@ -107,6 +108,7 @@ const ShareButton = () => {
         ref={linkRef}
         onClick={handleClick}
         sx={{
+          cursor: "pointer",
           display: "flex",
           alignItems: "center",
           gap: 1,
@@ -165,6 +167,7 @@ const ShareButton = () => {
               value={window.location.toString()}
             ></Input>
             <Button
+              color="secondary"
               onClick={handleClickCopyButton}
               sx={{
                 width: "3rem",
@@ -172,15 +175,7 @@ const ShareButton = () => {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                backgroundColor: "secondary.300",
-                color: "secondary.900",
                 cursor: "pointer",
-                "&:hover": {
-                  backgroundColor: "secondary.400",
-                },
-                "&:focus, &:active": {
-                  outline: 0,
-                },
               }}
             >
               <Icon name="duplicate" />
@@ -343,6 +338,8 @@ const IndexPage = ({ locale }: Props) => {
                     borderRadius: "3px 3px 0 0",
                   }}
                 >
+                  <ShareButton />
+
                   <DownloadImage
                     fileName={"map.png"}
                     downloadType={DOWNLOAD_ID}
@@ -350,7 +347,6 @@ const IndexPage = ({ locale }: Props) => {
                       return controlsRef.current?.getImageData();
                     }}
                   />
-                  <ShareButton />
                 </Box>
               )}
             </Box>
