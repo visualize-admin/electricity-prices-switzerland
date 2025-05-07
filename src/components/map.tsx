@@ -632,26 +632,6 @@ export const ChoroplethMap = ({
 
   const m = medianValue;
 
-  const getFillColor = useMemo(() => {
-    const { entity, id } = highlightContext || {};
-    const predicate =
-      entity && entity !== "operator"
-        ? (o: OperatorObservationFieldsFragment) => o[entity] === id
-        : () => false;
-    return (
-      d: $FixMe
-    ): [number, number, number] | [number, number, number, number] => {
-      const obs = observationsByMunicipalityId.get(d.id.toString());
-      const highlighted = obs?.find(predicate);
-      return obs
-        ? getColor(
-            mean(obs, (d) => d.value),
-            !!highlighted
-          )
-        : [0, 0, 0, 20];
-    };
-  }, [highlightContext, observationsByMunicipalityId, getColor]);
-
   const layers = useMemo(() => {
     if (geoData.state !== "loaded") {
       return;
@@ -676,26 +656,34 @@ export const ChoroplethMap = ({
 
     return [
       new GeoJsonLayer({
-        up: true,
-        id: "municipalities",
-        /** @ts-expect-error GeoJsonLayer type seems bad */
+        id: "municipalities-base",
+        /** @ts-expect-error bad types */
         data: geoData.municipalities,
         pickable: true,
         stroked: false,
         filled: true,
         extruded: false,
-        autoHighlight: true,
-        getFillColor: getFillColor,
-        highlightColor: [0, 0, 0, 50],
-        getRadius: 100,
-        getLineWidth: 1,
+        autoHighlight: false,
+        getFillColor: (d) => {
+          const id = d?.id?.toString();
+          if (!id) return [0, 0, 0, 0];
+
+          const obs = observationsByMunicipalityId.get(id);
+          return obs
+            ? getColor(
+                mean(obs, (d) => d.value),
+                false
+              )
+            : [0, 0, 0, 20];
+        },
         onHover: ({ x, y, object }: $FixMe) => {
+          const id = object?.id?.toString();
           setHovered(
-            object
+            object && id
               ? {
-                  x: x,
-                  y: y,
-                  id: object?.id.toString(),
+                  x,
+                  y,
+                  id,
                   type: "municipality",
                 }
               : undefined
@@ -703,7 +691,6 @@ export const ChoroplethMap = ({
         },
         onClick: handleMunicipalityLayerClick,
         updateTriggers: {
-          onClick: [indexes, observationsByMunicipalityId],
           getFillColor: [observationsByMunicipalityId, highlightContext?.id],
         },
       }),
@@ -749,15 +736,55 @@ export const ChoroplethMap = ({
         getLineWidth: 200,
         lineMiterLimit: 1,
         getLineColor: [120, 120, 120],
+        parameters: {
+          depthTest: false,
+        },
+      }),
+
+      new GeoJsonLayer({
+        id: "municipalities-overlay",
+        /** @ts-expect-error bad types */
+        data: geoData.municipalities,
+        pickable: false,
+        stroked: true,
+        filled: true,
+        extruded: false,
+        getFillColor: (d) => {
+          const id = d?.id?.toString();
+          if (!id) return [0, 0, 0, 0];
+
+          if (!hovered || hovered.type !== "municipality") {
+            return [0, 0, 0, 0];
+          }
+
+          return id === hovered.id ? [0, 0, 0, 0] : [255, 255, 255, 102];
+        },
+        getLineColor: (d) => {
+          const id = d?.id?.toString();
+          return hovered?.type === "municipality" && hovered.id === id
+            ? [31, 41, 55]
+            : [0, 0, 0, 0];
+        },
+        getLineWidth: (d) => {
+          const id = d?.id?.toString();
+          return hovered?.type === "municipality" && hovered.id === id ? 3 : 0;
+        },
+        lineWidthUnits: "pixels",
+        updateTriggers: {
+          getFillColor: [hovered],
+          getLineColor: [hovered],
+          getLineWidth: [hovered],
+        },
       }),
     ];
   }, [
     geoData,
-    getFillColor,
     onMunicipalityLayerClick,
-    highlightContext?.id,
     indexes,
     observationsByMunicipalityId,
+    getColor,
+    hovered,
+    highlightContext?.id,
   ]);
 
   return (
@@ -914,7 +941,7 @@ export const ChoroplethMap = ({
                   CH_BBOX
                 ) as $FixMe
               }
-              layers={layers?.map((l) => l.clone({}))}
+              layers={layers?.map((l) => l?.clone({}))}
             />
           </Box>
         ) : null}
