@@ -699,12 +699,8 @@ export const CardStory = () => (
   </StoryContainer>
 );
 
-const KitchenSink = () => {
-  return <div>Hello world</div>;
-};
-
 export default {
-  component: KitchenSink,
+  component: () => {},
   title: "ui",
   tags: ["autodocs", "e2e:autodocs-screenshot"],
   parameters: {

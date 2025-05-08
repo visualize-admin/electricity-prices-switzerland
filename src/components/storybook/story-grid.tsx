@@ -4,6 +4,8 @@ import { DocsContext, useOf } from "@storybook/blocks";
 import { groupBy } from "lodash";
 import { FC, useContext } from "react";
 
+import { DesignStory } from "./base-style";
+
 interface StoryGridProps {
   includePrimary?: boolean;
   cols?: number;
@@ -138,43 +140,45 @@ export const StoryGrid: FC<StoryGridProps> = ({
 
   const groupEntries = Object.entries(groups);
   return groupEntries.map(([group, stories]) => (
-    <Box
-      sx={{
-        "& + &": {
-          marginTop: "2rem",
-        },
-      }}
-      key={group}
-    >
-      {groupEntries.length > 1 ? (
-        <Typography variant="h3" className="sb-unstyled">
-          {titleCase(group)}
-        </Typography>
-      ) : null}
-      <StoryGridLayout cols={cols} key={group}>
-        {stories.map(
-          (story) =>
-            story && (
-              <Box
-                key={story.id}
-                sx={{
-                  display: "grid",
-                  gridTemplateRows: "subgrid",
-                  gridRow: "span/3",
-                  marginBottom: "2.5rem",
-                }}
-                className={cellClassName}
-              >
-                <DocsStory
-                  of={story.moduleExport}
-                  expanded
-                  __forceInitialArgs
-                  className={storyClassName}
-                />
-              </Box>
-            )
-        )}
-      </StoryGridLayout>
-    </Box>
+    <DesignStory title="Kitchen Sink" reference="BUND Library">
+      <Box
+        sx={{
+          "& + &": {
+            marginTop: "2rem",
+          },
+        }}
+        key={group}
+      >
+        {groupEntries.length > 1 ? (
+          <Typography variant="h3" className="sb-unstyled">
+            {titleCase(group)}
+          </Typography>
+        ) : null}
+        <StoryGridLayout cols={cols} key={group}>
+          {stories.map(
+            (story) =>
+              story && (
+                <Box
+                  key={story.id}
+                  sx={{
+                    display: "grid",
+                    gridTemplateRows: "subgrid",
+                    gridRow: "span/3",
+                    marginBottom: "2.5rem",
+                  }}
+                  className={cellClassName}
+                >
+                  <DocsStory
+                    of={story.moduleExport}
+                    expanded
+                    __forceInitialArgs
+                    className={storyClassName}
+                  />
+                </Box>
+              )
+          )}
+        </StoryGridLayout>
+      </Box>
+    </DesignStory>
   ));
 };
