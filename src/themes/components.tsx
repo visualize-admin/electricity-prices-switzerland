@@ -2,6 +2,7 @@ import { Components } from "@mui/material";
 
 import { Icon } from "src/icons";
 
+import { palette } from "./palette";
 import { typography } from "./typography";
 
 export const components: Components = {
@@ -36,11 +37,11 @@ export const components: Components = {
         const sizeStyles = (() => {
           switch (size) {
             case "sm":
-              return { padding: "10px 16px", ...typography.h6 };
+              return { padding: "10px 16px", ...typography.body3 };
             case "md":
-              return { padding: "10px 20px", ...typography.h5 };
+              return { padding: "10px 20px", ...typography.body2 };
             case "lg":
-              return { padding: "10px 20px", ...typography.h4 };
+              return { padding: "10px 20px", ...typography.body1 };
             case "xl":
               return { padding: "10px 20px", ...typography.h3 };
             default:
@@ -49,8 +50,172 @@ export const components: Components = {
           }
         })();
 
+        const variant = ownerState.variant ?? "contained";
+        const color =
+          ownerState.color === "inherit"
+            ? "inherit"
+            : palette[ownerState.color ?? "primary"];
+
+        const variantColorStyles = (() => {
+          if (!color) {
+            return {};
+          }
+
+          if (color === "inherit") {
+            return {
+              color: "inherit",
+            };
+          }
+
+          switch (variant) {
+            case "contained":
+              return {
+                backgroundColor: color.main,
+                color: color.light,
+
+                "&:hover": {
+                  backgroundColor: color.dark,
+                },
+                "&.Mui-disabled": {
+                  color: color.light,
+                  backgroundColor: palette.secondary[200],
+                },
+              };
+            case "outlined":
+              return {
+                color: color.main,
+                borderColor: color.main,
+
+                "&:hover": {
+                  borderColor: color.dark,
+                  color: color.dark,
+                  backgroundColor: "transparent",
+                },
+                "&.Mui-disabled": {
+                  borderColor: palette.secondary[200],
+                  color: palette.secondary[200],
+                },
+              };
+            case "text":
+              return {
+                color: color.main,
+
+                "&:hover": {
+                  backgroundColor: "transparent",
+                  color: color.dark,
+                },
+                "&.Mui-disabled": {
+                  color: palette.secondary[200],
+                },
+              };
+            default:
+              const _exhaustiveCheck: never = variant;
+              return _exhaustiveCheck;
+          }
+        })();
+
         return {
           ...sizeStyles,
+          ...variantColorStyles,
+        };
+      },
+    },
+  },
+  MuiIconButton: {
+    defaultProps: {
+      variant: "contained",
+      color: "secondary",
+      size: "md",
+    },
+    styleOverrides: {
+      root: ({ ownerState }) => {
+        const size = ownerState.size ?? "md";
+        const color =
+          ownerState.color === "inherit"
+            ? "inherit"
+            : palette[ownerState.color ?? "primary"];
+
+        const variant = ownerState.variant ?? "contained";
+
+        const sizeStyles = (() => {
+          switch (size) {
+            case "sm":
+              return {
+                padding: "10px",
+                ...typography.body3,
+              };
+            case "md":
+              return {
+                padding: "11px",
+                ...typography.body2,
+              };
+            case "lg":
+              return {
+                padding: "12px",
+                ...typography.body1,
+              };
+            case "xl":
+              return {
+                padding: "14px",
+                ...typography.h3,
+              };
+            default:
+              const _exhaustiveCheck: never = size;
+              return _exhaustiveCheck;
+          }
+        })();
+
+        const variantColorStyles = (() => {
+          if (!color || color === "inherit") return { color: "inherit" };
+
+          switch (variant) {
+            case "contained":
+              return {
+                backgroundColor: color.main,
+                color: color.light,
+                "&:hover": {
+                  backgroundColor: color.dark,
+                },
+                "&.Mui-disabled": {
+                  backgroundColor: palette.secondary[200],
+                  color: color.light,
+                },
+              };
+            case "outlined":
+              return {
+                color: color.main,
+                border: `1px solid ${color.main}`,
+                "&:hover": {
+                  color: color.dark,
+                  backgroundColor: "transparent",
+                  borderColor: color.dark,
+                },
+                "&.Mui-disabled": {
+                  borderColor: palette.secondary[200],
+                  color: palette.secondary[200],
+                },
+              };
+            case "text":
+              return {
+                color: color.main,
+                "&:hover": {
+                  backgroundColor: "transparent",
+                  color: color.dark,
+                },
+                "&.Mui-disabled": {
+                  color: palette.secondary[200],
+                },
+              };
+            default:
+              const _exhaustiveCheck: never = variant;
+              return _exhaustiveCheck;
+          }
+        })();
+
+        return {
+          ...sizeStyles,
+          ...variantColorStyles,
+          borderRadius: 2,
         };
       },
     },
@@ -119,7 +284,36 @@ export const components: Components = {
   },
   MuiLink: {
     defaultProps: {
+      size: "md",
       underline: "none",
+    },
+    styleOverrides: {
+      root: ({ ownerState }) => {
+        const isPrimary = ownerState.color === "primary";
+
+        const size = ownerState.size ?? "md";
+        const sizeStyles = (() => {
+          switch (size) {
+            case "sm":
+              return typography.body3;
+            case "md":
+              return typography.body2;
+            case "lg":
+              return typography.body1;
+            case "xl":
+              return typography.h3;
+            default:
+              const _exhaustiveCheck: never = size;
+              return _exhaustiveCheck;
+          }
+        })();
+
+        return {
+          ...sizeStyles,
+          minWidth: 0,
+          textDecoration: isPrimary ? "underline" : "none",
+        };
+      },
     },
   },
 
