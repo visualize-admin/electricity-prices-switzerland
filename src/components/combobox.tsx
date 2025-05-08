@@ -1,6 +1,6 @@
 import { t } from "@lingui/macro";
-import { Box, outlinedInputClasses, Typography } from "@mui/material";
-import Autocomplete, { autocompleteClasses } from "@mui/material/Autocomplete";
+import { Box, Chip, Typography } from "@mui/material";
+import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import { useEffect, useMemo, useState } from "react";
 
@@ -16,6 +16,8 @@ export type ComboboxMultiProps = {
   minSelectedItems?: number;
   getItemLabel?: (item: string) => string;
   // For lazy combobox
+  disabled?: boolean;
+  error?: boolean;
   lazy?: boolean;
   onInputValueChange?: (inputValue: string) => void;
   isLoading?: boolean;
@@ -34,6 +36,8 @@ export const ComboboxMulti = ({
   lazy,
   onInputValueChange,
   isLoading,
+  disabled,
+  error,
 }: ComboboxMultiProps) => {
   const [inputValue, setInputValue] = useState("");
 
@@ -41,6 +45,7 @@ export const ComboboxMulti = ({
 
   return (
     <Autocomplete
+      disabled={disabled}
       multiple
       id={id}
       options={items}
@@ -73,14 +78,9 @@ export const ComboboxMulti = ({
               setInputValue(e.target.value);
               onInputValueChange?.(e.target.value);
             }}
+            error={error}
             InputProps={{
               ...params.InputProps,
-              sx: {
-                "& input": {
-                  padding: "0px !important",
-                  height: "100% !important",
-                },
-              },
             }}
           />
         </Box>
@@ -94,33 +94,17 @@ export const ComboboxMulti = ({
         value.map((option, index) => {
           const { key, ...tagProps } = getTagProps({ index });
           return (
-            <Box
+            <Chip
               key={key}
-              sx={{
-                display: "inline-block",
-                px: 2,
-                py: 1,
-                gap: 1,
-                m: 0,
-                mr: 2,
-                borderRadius: "9999px",
-                fontSize: "0.75rem",
-                bgcolor: "secondary.50",
-              }}
+              label={getItemLabel(option)}
               {...tagProps}
-            >
-              {getItemLabel(option)}{" "}
-              {canRemoveItems && (
-                <span
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setSelectedItems(selectedItems.filter((d) => d !== option));
-                  }}
-                >
-                  &#10005;
-                </span>
-              )}
-            </Box>
+              size="xs"
+              disabled={disabled}
+              onDelete={() =>
+                canRemoveItems &&
+                setSelectedItems(selectedItems.filter((d) => d !== option))
+              }
+            />
           );
         })
       }
@@ -159,6 +143,8 @@ export const Combobox = ({
   infoDialogSlug,
   getItemLabel = defaultGetItemLabel,
   showLabel = true,
+  disabled,
+  error,
 }: {
   id: string;
   label: string;
@@ -168,6 +154,8 @@ export const Combobox = ({
   getItemLabel?: (item: string) => string;
   showLabel?: boolean;
   infoDialogSlug?: string;
+  disabled?: boolean;
+  error?: boolean;
 }) => {
   const [inputValue, setInputValue] = useState(getItemLabel(selectedItem));
 
@@ -229,6 +217,7 @@ export const Combobox = ({
       </Box>
       <Autocomplete
         id={`combobox-${id}`}
+        disabled={disabled}
         options={filteredItems as string[]}
         groupBy={(option) => {
           return groupsByLabel[option];
@@ -263,6 +252,7 @@ export const Combobox = ({
             {...params}
             variant="outlined"
             fullWidth
+            error={error}
             InputProps={{
               ...params.InputProps,
             }}
@@ -278,22 +268,6 @@ export const Combobox = ({
           paper: {
             sx: {
               marginTop: "0.25rem",
-            },
-          },
-        }}
-        sx={{
-          [`& .${autocompleteClasses.paper}`]: {
-            marginTop: "0.25rem",
-          },
-          [`& .${outlinedInputClasses.root}`]: {
-            "& fieldset": {
-              borderColor: "secondary.500",
-            },
-            "&:hover fieldset": {
-              borderColor: "secondary.700",
-            },
-            "&.Mui-focused fieldset": {
-              borderColor: "primary.main",
             },
           },
         }}

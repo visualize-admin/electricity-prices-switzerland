@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   ButtonProps,
+  capitalize,
   Card,
   CardActions,
   CardContent,
@@ -20,6 +21,7 @@ import { StoryGrid } from "src/components/storybook/story-grid";
 import { getIconSize, Icon } from "src/icons";
 import { chartPalette, palette } from "src/themes/palette";
 
+import { Combobox, ComboboxMulti } from "./combobox";
 import {
   ColorPaletteStack,
   ColorSwatch,
@@ -330,109 +332,6 @@ export const PaletteStory = () => {
   );
 };
 
-
-export const FormStory = () => (
-  <StoryContainer>
-    <Box>
-      <Typography variant="h5" gutterBottom>
-        Input Fields
-      </Typography>
-      <Divider sx={{ mb: 2 }} />
-      <Stack spacing={3}>
-        <TextField label="Standard" variant="standard" />
-        <TextField label="Outlined" variant="outlined" />
-        <TextField label="Filled" variant="filled" />
-        <TextField
-          label="With Helper Text"
-          helperText="Some helper text"
-          variant="outlined"
-        />
-        <TextField
-          error
-          label="Error"
-          defaultValue="Invalid value"
-          helperText="Error message"
-          variant="outlined"
-        />
-        <TextField
-          label="Disabled"
-          disabled
-          defaultValue="Disabled input"
-          variant="outlined"
-        />
-      </Stack>
-    </Box>
-    <Box>
-      <Typography variant="h5" gutterBottom>
-        Select
-      </Typography>
-      <Divider sx={{ mb: 2 }} />
-      <Grid container spacing={2}>
-        <Grid item xs={12} md={6}>
-          <FormControl fullWidth>
-            <InputLabel>Basic Select</InputLabel>
-            <Select value="option1" label="Basic Select">
-              <MenuItem value="option1">Option 1</MenuItem>
-              <MenuItem value="option2">Option 2</MenuItem>
-              <MenuItem value="option3">Option 3</MenuItem>
-            </Select>
-          </FormControl>
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <FormControl fullWidth>
-            <InputLabel>Multiple Select</InputLabel>
-            <Select
-              multiple
-              value={["option1", "option2"]}
-              label="Multiple Select"
-              renderValue={(selected) => selected.join(", ")}
-            >
-              <MenuItem value="option1">Option 1</MenuItem>
-              <MenuItem value="option2">Option 2</MenuItem>
-              <MenuItem value="option3">Option 3</MenuItem>
-            </Select>
-          </FormControl>
-        </Grid>
-      </Grid>
-    </Box>
-    <Box>
-      <Typography variant="h5" gutterBottom>
-        Autocomplete
-      </Typography>
-      <Divider sx={{ mb: 2 }} />
-      <Autocomplete
-        options={[
-          "JavaScript",
-          "TypeScript",
-          "React",
-          "Vue",
-          "Angular",
-          "Node.js",
-        ]}
-        renderInput={(params) => (
-          <TextField {...params} label="Programming languages" />
-        )}
-        sx={{ mb: 2 }}
-      />
-      <Autocomplete
-        multiple
-        options={[
-          "JavaScript",
-          "TypeScript",
-          "React",
-          "Vue",
-          "Angular",
-          "Node.js",
-        ]}
-        defaultValue={["TypeScript", "React"]}
-        renderInput={(params) => (
-          <TextField {...params} label="Multiple values" />
-        )}
-      />
-    </Box>
-  </StoryContainer>
-);
-
 export const ElevationStory = () => (
   <DesignStory title="Elevation" reference="BUND Library">
     <Grid container spacing={2}>
@@ -639,42 +538,6 @@ export const ButtonStory = () => {
   );
 };
 
-);
-
-export const CardStory = () => (
-  <StoryContainer>
-    <Grid container spacing={2}>
-      <Grid item xs={12}>
-        <Card>
-          <CardHeader title="Card Title" subheader="September 14, 2023" />
-          <CardContent>
-            <Typography variant="body2" color="text.secondary">
-              This is an example card with various elements you can include in a
-              MUI Card component.
-            </Typography>
-          </CardContent>
-          <CardActions>
-            <Button size="sm">Share</Button>
-            <Button size="sm">Learn More</Button>
-          </CardActions>
-        </Card>
-      </Grid>
-      <Grid item xs={12}>
-        <Card variant="outlined">
-          <CardContent>
-            <Typography variant="h6" component="div">
-              Outlined Card
-            </Typography>
-            <Typography variant="body2">
-              A simpler card variant with an outline instead of elevation.
-            </Typography>
-          </CardContent>
-        </Card>
-      </Grid>
-    </Grid>
-  </StoryContainer>
-);
-
 const chipSizes: ChipProps["size"][] = ["xl", "lg", "md", "sm", "xs"];
 
 export const ChipStory = () => (
@@ -740,6 +603,100 @@ export const ChipStory = () => (
       </DesignSection>
     </DesignGrid>
   </DesignStory>
+);
+
+const selectStates = ["enabled", "disabled", "error"];
+const selectItems = ["tag 1", "tag 2", "tag 3", "tag 4", "tag 5", "tag 6"];
+
+export const FormStory = () => {
+  const [multiSelectValue, setMultiSelectValue] = useState<string[]>([
+    "tag 1",
+    "tag 2",
+    "tag 3",
+  ]);
+  const [selectValue, setSelectValue] = useState<string>("tag 1");
+  return (
+    <DesignStory title="Form Elements" reference="BUND Library">
+      <DesignGrid>
+        <DesignSection
+          title="Select"
+          note="Currently using Combobox + Autocomplete Component!"
+          sx={{
+            gap: 8,
+            maxWidth: 300,
+          }}
+        >
+          {selectStates.map((state) => (
+            <Combobox
+              key={state}
+              id={`select-${state}`}
+              label={capitalize(state)}
+              disabled={state === "disabled"}
+              error={state === "error"}
+              items={selectItems}
+              setSelectedItem={setSelectValue}
+              selectedItem={selectValue}
+            />
+          ))}
+        </DesignSection>
+        <DesignSection
+          title="Multi-Select"
+          note="Currently using ComboboxMulti + Autocomplete Component!"
+          sx={{
+            gap: 8,
+            maxWidth: 300,
+          }}
+        >
+          {selectStates.map((state) => (
+            <ComboboxMulti
+              key={state}
+              id={`multi-select-${state}`}
+              disabled={state === "disabled"}
+              error={state === "error"}
+              label={capitalize(state)}
+              items={selectItems}
+              setSelectedItems={setMultiSelectValue}
+              selectedItems={multiSelectValue}
+            />
+          ))}
+        </DesignSection>
+      </DesignGrid>
+    </DesignStory>
+  );
+};
+
+export const CardStory = () => (
+  <StoryContainer>
+    <Grid container spacing={2}>
+      <Grid item xs={12}>
+        <Card>
+          <CardHeader title="Card Title" subheader="September 14, 2023" />
+          <CardContent>
+            <Typography variant="body2" color="text.secondary">
+              This is an example card with various elements you can include in a
+              MUI Card component.
+            </Typography>
+          </CardContent>
+          <CardActions>
+            <Button size="sm">Share</Button>
+            <Button size="sm">Learn More</Button>
+          </CardActions>
+        </Card>
+      </Grid>
+      <Grid item xs={12}>
+        <Card variant="outlined">
+          <CardContent>
+            <Typography variant="h6" component="div">
+              Outlined Card
+            </Typography>
+            <Typography variant="body2">
+              A simpler card variant with an outline instead of elevation.
+            </Typography>
+          </CardContent>
+        </Card>
+      </Grid>
+    </Grid>
+  </StoryContainer>
 );
 
 const KitchenSink = () => {

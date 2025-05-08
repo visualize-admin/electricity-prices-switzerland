@@ -227,23 +227,47 @@ export const components: Components = {
         alignItems: "center",
         width: "100%",
         border: `1px solid`,
-        backgroundColor: "background", // supposed to be background.paper investigate why only background works
-        color: "text.primary",
+        backgroundColor: palette.background.paper,
+        color: palette.text.primary,
+        paddingTop: "4px !important",
+        paddingBottom: "4px !important",
+        paddingLeft: "16px !important",
         borderRadius: 0.5,
         minHeight: "44px",
         height: "100%",
-        borderColor: "monochrome.500",
+        borderColor: palette.monochrome[500],
         "& input::placeholder": {
-          color: "text.500",
+          color: palette.text[500],
         },
 
         "& input": {
           padding: "0px !important",
         },
 
+        "&.Mui-error": {
+          borderColor: palette.error.main,
+          "& .MuiAutocomplete-endAdornment": {
+            borderColor: palette.error.main,
+            "& button svg": {
+              color: palette.error.main,
+            },
+          },
+        },
+
+        "&.Mui-disabled": {
+          opacity: 1,
+          borderColor: palette.secondary[200],
+          "& .MuiAutocomplete-endAdornment": {
+            borderColor: palette.secondary[200],
+            "& button svg": {
+              color: palette.secondary[200],
+            },
+          },
+        },
+
         "& .MuiAutocomplete-endAdornment": {
           borderLeft: "1px solid",
-          borderColor: "monochrome.500",
+          borderColor: palette.monochrome[500],
           marginLeft: "4px",
           paddingLeft: "4px",
           minHeight: "44px",
