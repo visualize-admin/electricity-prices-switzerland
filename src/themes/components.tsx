@@ -123,7 +123,7 @@ export const components: Components = {
   },
   MuiIconButton: {
     defaultProps: {
-      variant: "contained",
+      variant: "text",
       color: "secondary",
       size: "md",
     },
@@ -230,10 +230,15 @@ export const components: Components = {
         backgroundColor: "background", // supposed to be background.paper investigate why only background works
         color: "text.primary",
         borderRadius: 0.5,
-        height: 44,
+        minHeight: "44px",
+        height: "100%",
         borderColor: "monochrome.500",
         "& input::placeholder": {
           color: "text.500",
+        },
+
+        "& input": {
+          padding: "0px !important",
         },
 
         "& .MuiAutocomplete-endAdornment": {
@@ -241,10 +246,16 @@ export const components: Components = {
           borderColor: "monochrome.500",
           marginLeft: "4px",
           paddingLeft: "4px",
-          height: 44,
+          minHeight: "44px",
+          height: "100%",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          "& button": {
+            background: "none",
+            boxShadow: "none",
+            border: "none",
+          },
         },
 
         "& fieldset": {
@@ -253,35 +264,87 @@ export const components: Components = {
       },
     },
   },
-
-  MuiNativeSelect: {
+  MuiChip: {
     defaultProps: {
-      IconComponent: ({ style, ...rest }) => {
-        return (
-          <Icon
-            name="chevrondown"
-            style={{
-              ...style,
-              cursor: "pointer",
-              color: "white",
-            }}
-            {...rest}
-          />
-        );
-      },
+      size: "md",
+      deleteIcon: <Icon name="cancel" strokeWidth={"3px"} />,
     },
     styleOverrides: {
-      select: {
-        transition: "color 0.2s ease",
+      root: ({ ownerState }) => {
+        const size = ownerState.size ?? "md";
+        const sizeStyles = (() => {
+          switch (size) {
+            case "xs":
+              return { padding: "4px 8px", ...typography.caption };
+            case "sm":
+              return { padding: "4px 12px", ...typography.body3 };
+            case "md":
+              return { padding: "4px 12px", ...typography.body2 };
+            case "lg":
+              return { padding: "4px 16px", ...typography.body1 };
+            case "xl":
+              return { padding: "4px 16px", ...typography.h3 };
+            default:
+              const _exhaustiveCheck: never = size;
+              return _exhaustiveCheck;
+          }
+        })();
+
+        return {
+          ...sizeStyles,
+          width: "fit-content",
+          height: "fit-content",
+          color: palette.text.primary,
+          cursor: "pointer",
+          backgroundColor: palette.secondary[50],
+          "&:hover": {
+            backgroundColor: palette.secondary[100],
+          },
+          "&.Mui-disabled": {
+            opacity: 1,
+            backgroundColor: palette.secondary[50],
+            border: `1px solid ${palette.secondary[100]}`,
+            color: palette.secondary[200],
+            "& .MuiChip-deleteIcon": {
+              color: palette.secondary[200],
+            },
+          },
+          fontFeatureSettings: "'liga' off, 'clig' off",
+        };
       },
-      icon: {
-        top: "calc(50% - 12px)",
-        right: 0,
-        color: "inherit !important",
-        transition: "color 0.2s ease !important",
+      label: {
+        padding: 0,
+        lineHeight: "inherit",
+      },
+      deleteIcon: ({ ownerState }) => {
+        const sizeStyles = (() => {
+          switch (ownerState.size) {
+            case "xs":
+              return { width: 14, height: 14 };
+            case "sm":
+              return { width: 16, height: 16 };
+            case "md":
+              return { width: 20, height: 20 };
+            case "lg":
+              return { width: 22, height: 22 };
+            case "xl":
+              return { width: 24, height: 24 };
+            default:
+              return {};
+          }
+        })();
+
+        return {
+          ...sizeStyles,
+          color: palette.text.primary,
+          marginRight: 0,
+          marginLeft: "4px",
+        };
       },
     },
   },
+
+  MuiInput: {},
   MuiLink: {
     defaultProps: {
       size: "md",

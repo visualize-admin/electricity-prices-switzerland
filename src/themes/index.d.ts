@@ -36,6 +36,20 @@ declare module "@mui/material/IconButton" {
   }
 }
 
+declare module "@mui/material/Chip" {
+  interface ChipPropsSizeOverrides {
+    small: false;
+    medium: false;
+    large: false;
+
+    xs: true;
+    sm: true;
+    md: true;
+    lg: true;
+    xl: true;
+  }
+}
+
 declare module "@mui/material/Link" {
   interface LinkOwnProps {
     size?: "sm" | "md" | "lg" | "xl";

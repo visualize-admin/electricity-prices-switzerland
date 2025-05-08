@@ -73,9 +73,9 @@ export const DesignGrid = (props: DesignStoryBaseProps) => {
 };
 
 export const DesignSection = (
-  props: Omit<DesignStoryProps, "reference"> & { disabled?: boolean }
+  props: Omit<DesignStoryProps, "reference"> & { note?: string }
 ) => {
-  const { title, children, disabled, ...restProps } = props;
+  const { title, children, note, ...restProps } = props;
 
   return (
     <Box
@@ -89,10 +89,19 @@ export const DesignSection = (
         <Typography variant="h3" fontWeight={700} color={"black"}>
           {title}
         </Typography>
-        {disabled && (
-          <Typography variant="caption" color={"#666"}>
-            (Currently some Issues)
-          </Typography>
+        {note && (
+          <Box
+            display={"flex"}
+            sx={{
+              alignItems: "center",
+              gap: 1,
+            }}
+          >
+            <Icon name="warningcircle" size={16} />
+            <Typography variant="caption" color={"#666"}>
+              {note}
+            </Typography>
+          </Box>
         )}
       </Box>
       <Box
