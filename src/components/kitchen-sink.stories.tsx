@@ -3,17 +3,12 @@ import {
   Button,
   ButtonProps,
   capitalize,
-  Card,
-  CardActions,
-  CardContent,
-  CardHeader,
   Chip,
   ChipProps,
   Grid,
   IconButton,
   Link,
   Stack,
-  Typography,
 } from "@mui/material";
 import { useState } from "react";
 
@@ -664,40 +659,6 @@ export const FormStory = () => {
     </DesignStory>
   );
 };
-
-export const CardStory = () => (
-  <StoryContainer>
-    <Grid container spacing={2}>
-      <Grid item xs={12}>
-        <Card>
-          <CardHeader title="Card Title" subheader="September 14, 2023" />
-          <CardContent>
-            <Typography variant="body2" color="text.secondary">
-              This is an example card with various elements you can include in a
-              MUI Card component.
-            </Typography>
-          </CardContent>
-          <CardActions>
-            <Button size="sm">Share</Button>
-            <Button size="sm">Learn More</Button>
-          </CardActions>
-        </Card>
-      </Grid>
-      <Grid item xs={12}>
-        <Card variant="outlined">
-          <CardContent>
-            <Typography variant="h6" component="div">
-              Outlined Card
-            </Typography>
-            <Typography variant="body2">
-              A simpler card variant with an outline instead of elevation.
-            </Typography>
-          </CardContent>
-        </Card>
-      </Grid>
-    </Grid>
-  </StoryContainer>
-);
 
 export default {
   component: () => {},
