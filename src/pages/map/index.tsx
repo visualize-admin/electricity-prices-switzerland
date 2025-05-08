@@ -1,11 +1,18 @@
 import { PickingInfo } from "@deck.gl/core/typed";
-import { ContentWrapper } from "@interactivethings/swiss-federal-ci/dist/components";
 import { t } from "@lingui/macro";
 import { Box, Button, Input, Link, Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import basicAuthMiddleware from "nextjs-basic-auth-middleware";
 import { useCallback, useRef } from "react";
+const ContentWrapper = dynamic(
+  () =>
+    import("@interactivethings/swiss-federal-ci/dist/components").then(
+      (mod) => mod.ContentWrapper
+    ),
+  { ssr: false }
+);
 
 import { TooltipBox } from "src/components/charts-generic/interaction/tooltip-box";
 import { DownloadImage } from "src/components/detail-page/download-image";
@@ -27,7 +34,11 @@ import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { useQueryStateSingle } from "src/lib/use-query-state";
 import { defaultLocale } from "src/locales/locales";
 
-import { ApplicationLayout } from "../../components/app-layout";
+const ApplicationLayout = dynamic(
+  () =>
+    import("src/components/app-layout").then((mod) => mod.ApplicationLayout),
+  { ssr: false }
+);
 
 const DOWNLOAD_ID = "map";
 
@@ -68,8 +79,9 @@ const ShareButton = () => {
       y: 0,
       width: 0,
     };
+    console.log(linkRect);
     Object.assign(mouse.current, {
-      x: linkRect.x ?? 0 + (linkRect.width ?? 0) / 2,
+      x: linkRect.width ?? 0,
       y: linkRect.y ?? 0,
     });
   };
@@ -96,6 +108,7 @@ const ShareButton = () => {
         ref={linkRef}
         onClick={handleClick}
         sx={{
+          cursor: "pointer",
           display: "flex",
           alignItems: "center",
           gap: 1,
@@ -154,6 +167,7 @@ const ShareButton = () => {
               value={window.location.toString()}
             ></Input>
             <Button
+              color="secondary"
               onClick={handleClickCopyButton}
               sx={{
                 width: "3rem",
@@ -161,15 +175,7 @@ const ShareButton = () => {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                backgroundColor: "secondary.300",
-                color: "secondary.900",
                 cursor: "pointer",
-                "&:hover": {
-                  backgroundColor: "secondary.400",
-                },
-                "&:focus, &:active": {
-                  outline: 0,
-                },
               }}
             >
               <Icon name="duplicate" />
@@ -229,7 +235,7 @@ const IndexPage = ({ locale }: Props) => {
 
   const handleMunicipalityLayerClick = ({ object }: PickingInfo) => {
     const href = {
-      pathname: "/municipality/[id]",
+      pathname: "/details/municipality/[id]",
       query: {
         ...query,
         id: object?.id.toString(),
@@ -332,6 +338,8 @@ const IndexPage = ({ locale }: Props) => {
                     borderRadius: "3px 3px 0 0",
                   }}
                 >
+                  <ShareButton />
+
                   <DownloadImage
                     fileName={"map.png"}
                     downloadType={DOWNLOAD_ID}
@@ -339,7 +347,6 @@ const IndexPage = ({ locale }: Props) => {
                       return controlsRef.current?.getImageData();
                     }}
                   />
-                  <ShareButton />
                 </Box>
               )}
             </Box>

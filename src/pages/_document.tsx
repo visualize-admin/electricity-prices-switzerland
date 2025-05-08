@@ -6,7 +6,7 @@ import * as React from "react";
 import createEmotionCache from "src/emotion-cache";
 import buildEnv from "src/env/build";
 
-export default class MyDocument extends Document {
+class MyDocument extends Document {
   render() {
     return (
       <Html data-app-version={`${buildEnv.VERSION}`}>
@@ -20,6 +20,8 @@ export default class MyDocument extends Document {
     );
   }
 }
+
+export default MyDocument;
 
 MyDocument.getInitialProps = async (ctx) => {
   const originalRenderPage = ctx.renderPage;

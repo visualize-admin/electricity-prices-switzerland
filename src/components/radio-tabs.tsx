@@ -99,11 +99,11 @@ const STYLES = {
   },
   segmented: {
     active: {
-      display: "block",
       position: "relative",
       color: "background.paper",
       bgcolor: "secondary.main",
-      flex: "1 0 auto",
+      display: "inline-flex",
+      flex: "0 0 auto",
       textAlign: "center",
       px: 4,
       py: 2.5,
@@ -125,13 +125,13 @@ const STYLES = {
     },
     inactive: {
       cursor: "pointer",
-      display: "block",
+      display: "inline-flex",
       color: "text.primary",
       bgcolor: "background.paper",
       overflow: "hidden",
       whiteSpace: "nowrap",
       textOverflow: "ellipsis",
-      flex: "1 1 auto",
+      flex: "0 0 auto",
       textAlign: "center",
       px: 4,
       py: 2.5,
@@ -202,12 +202,7 @@ export const RadioTabs = <T extends string>({
           </Typography>
         )}
         {infoDialogSlug && label && (
-          <InfoDialogButton
-            iconOnly
-            slug={infoDialogSlug}
-            label={label}
-            smaller
-          />
+          <InfoDialogButton iconOnly slug={infoDialogSlug} label={label} />
         )}
       </Box>
       <Box

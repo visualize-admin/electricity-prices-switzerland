@@ -22,15 +22,24 @@ import {
 import { RangeplotMedian } from "src/components/charts-generic/rangeplot/rangeplot-median";
 import { RangePlot } from "src/components/charts-generic/rangeplot/rangeplot-state";
 import { Combobox } from "src/components/combobox";
-import { Card } from "src/components/detail-page/card";
-import { Download } from "src/components/detail-page/download-image";
+import {
+  Card,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+  SectionProps,
+} from "src/components/detail-page/card";
+import {
+  Download,
+  DownloadImage,
+} from "src/components/detail-page/download-image";
 import { FilterSetDescription } from "src/components/detail-page/filter-set-description";
 import { WithClassName } from "src/components/detail-page/with-classname";
 import { Loading, NoDataHint } from "src/components/hint";
 import { InfoDialogButton } from "src/components/info-dialog";
 import { PriceColorLegend } from "src/components/price-color-legend";
 import { RadioTabs } from "src/components/radio-tabs";
-import { Stack } from "src/components/stack";
 import { SortingOrder, SortingType } from "src/domain/config-types";
 import { Entity, GenericObservation, priceComponents } from "src/domain/data";
 import { getLocalizedLabel } from "src/domain/translation";
@@ -54,13 +63,7 @@ const SORTING_VALUES: SortingValue[] = [
   "alpha-desc",
 ];
 
-export const CantonsComparisonRangePlots = ({
-  id,
-  entity,
-}: {
-  id: string;
-  entity: Entity;
-}) => {
+export const CantonsComparisonRangePlots = ({ id, entity }: SectionProps) => {
   const [
     {
       period,
@@ -70,6 +73,8 @@ export const CantonsComparisonRangePlots = ({
       priceComponent,
       download,
       cantonsOrder,
+      category,
+      product,
     },
     setQueryState,
   ] = useQueryState();
@@ -109,27 +114,47 @@ export const CantonsComparisonRangePlots = ({
       ? [...comparisonIds, id]
       : [id];
 
+  const filters = {
+    period: period[0],
+    category: category[0],
+    product: product[0],
+    priceComponent: getLocalizedLabel({ id: priceComponent[0] }),
+  };
+
   return (
-    <Card
-      title={
-        <Stack spacing={2} direction="row">
-          <span>
-            <Trans id="detail.card.title.cantons.comparison">
-              Kantonsvergleich
-            </Trans>
-          </span>
-          <InfoDialogButton
-            iconOnly
-            slug="help-canton-comparison"
-            label={t({
-              id: "detail.card.title.cantons.comparison",
-            })}
-            smaller
-          />
-        </Stack>
-      }
-      downloadId={DOWNLOAD_ID}
-    >
+    <Card downloadId={DOWNLOAD_ID}>
+      <CardHeader
+        trailingContent={
+          <>
+            <InfoDialogButton
+              iconOnly
+              iconSize={24}
+              type="outline"
+              slug="help-canton-comparison"
+              label={t({
+                id: "detail.card.title.cantons.comparison",
+              })}
+            />
+            <DownloadImage
+              iconOnly
+              iconSize={24}
+              elementId={DOWNLOAD_ID}
+              fileName={DOWNLOAD_ID}
+              downloadType={DOWNLOAD_ID}
+            />
+          </>
+        }
+      >
+        <CardTitle>
+          <Trans id="detail.card.title.cantons.comparison">
+            Kantonsvergleich
+          </Trans>
+        </CardTitle>
+        <CardDescription>
+          <FilterSetDescription filters={filters} />
+        </CardDescription>
+      </CardHeader>
+
       {!download && (
         <>
           <Box sx={{ display: ["none", "none", "block"] }}>
@@ -206,12 +231,16 @@ export const CantonsComparisonRangePlots = ({
           key={p}
           year={p}
           priceComponent={priceComponent[0] as PriceComponent}
+          category={category}
+          product={product}
           annotationIds={annotationIds}
           entity={entity}
           sortingType={sortingType}
           sortingOrder={sortingOrder}
         />
       ))}
+      {/*FIXME: placeholder values */}
+      <CardFooter date="March 7, 2024, 1:28 PM" source="Lindas" />
     </Card>
   );
 };
@@ -224,6 +253,8 @@ const CantonsComparisonRangePlot = memo(
     entity,
     sortingType,
     sortingOrder,
+    category,
+    product,
   }: {
     annotationIds: string[];
     year: string;
@@ -231,9 +262,10 @@ const CantonsComparisonRangePlot = memo(
     entity: Entity;
     sortingType: SortingType;
     sortingOrder: SortingOrder;
+    category: string[];
+    product: string[];
   }) => {
     const locale = useLocale();
-    const [{ category, product }] = useQueryState();
 
     const [observationsQuery] = useObservationsQuery({
       variables: {
@@ -303,15 +335,6 @@ const CantonsComparisonRangePlot = memo(
 
     return (
       <>
-        <FilterSetDescription
-          filters={{
-            period: year,
-            category: category[0],
-            product: product[0],
-            priceComponent: getLocalizedLabel({ id: priceComponent }),
-          }}
-        />
-
         {observationsQuery.fetching ? (
           <Loading />
         ) : observations.length === 0 ? (

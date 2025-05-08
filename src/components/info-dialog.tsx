@@ -159,12 +159,14 @@ export const InfoDialogButton = ({
   label,
   slug,
   iconOnly,
-  smaller,
+  iconSize = 16,
+  type = "fill",
 }: {
   label: string;
   slug: string;
   iconOnly?: boolean;
-  smaller?: boolean;
+  iconSize?: number;
+  type?: "fill" | "outline";
 }) => {
   const {
     isOpen: isHelpDialogOpen,
@@ -175,12 +177,15 @@ export const InfoDialogButton = ({
     <>
       <IconButton
         color="monochrome"
-        sx={{ fontSize: smaller ? [2, 2, 2] : [3, 4, 4] }}
+        sx={{ fontSize: iconSize === 16 ? [2, 2, 2] : [3, 4, 4] }}
         onClick={openDialog}
       >
         <Box sx={{ alignItems: "center" }} display="flex">
           <Box sx={{ flexShrink: 0, mr: iconOnly ? 0 : 2 }}>
-            <Icon name="infocirclefilled" size={smaller ? 16 : 20} />
+            <Icon
+              name={type === "fill" ? "infocirclefilled" : "infocircle"}
+              size={iconSize}
+            />
           </Box>{" "}
           {iconOnly ? <VisuallyHidden>{label}</VisuallyHidden> : label}
         </Box>

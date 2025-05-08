@@ -224,12 +224,7 @@ export const Combobox = ({
           </Typography>
         )}
         {infoDialogSlug && (
-          <InfoDialogButton
-            iconOnly
-            slug={infoDialogSlug}
-            label={label}
-            smaller
-          />
+          <InfoDialogButton iconOnly slug={infoDialogSlug} label={label} />
         )}
       </Box>
       <Autocomplete

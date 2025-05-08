@@ -119,22 +119,37 @@ export const DetailPageBanner = ({
       </Box>
 
       <Box sx={{ mx: "auto", my: 2 }}>
-        <Typography component="h1" variant="h1" sx={{ color: "secondary.800" }}>
-          <Typography
-            variant="caption"
-            sx={{ color: "secondary.main" }}
-            display="block"
-          >
-            {entity === "canton" ? (
-              <Trans id="detail.canton">Kanton</Trans>
-            ) : entity === "municipality" ? (
-              <Trans id="detail.municipality">Gemeinde</Trans>
-            ) : (
-              <Trans id="detail.operator">Netzbetreiber</Trans>
-            )}
-          </Typography>
-          {name}
+        <Typography
+          variant="caption"
+          sx={{ color: "secondary.main" }}
+          display="block"
+        >
+          {entity === "canton" ? (
+            <Trans id="detail.canton">Kanton</Trans>
+          ) : entity === "municipality" ? (
+            <Trans id="detail.municipality">Gemeinde</Trans>
+          ) : (
+            <Trans id="detail.operator">Netzbetreiber</Trans>
+          )}
         </Typography>
+        {/* FIXME: Make a dropdown for all entity types */}
+
+        <Box
+          display={"flex"}
+          sx={{
+            gap: 2,
+            alignItems: "center",
+          }}
+        >
+          <Icon name="industry" size={32} />
+          <Typography
+            component="h1"
+            variant="h1"
+            sx={{ color: "secondary.800" }}
+          >
+            {name}
+          </Typography>
+        </Box>
 
         <Box sx={{ flexWrap: "wrap" }} display="flex" flexDirection="column">
           {canton && (
@@ -142,8 +157,8 @@ export const DetailPageBanner = ({
               <Trans id="detail.canton">Kanton</Trans>:{" "}
               <NextLink
                 href={{
-                  pathname: `/canton/[id]`,
-                  query: { ...query, id: canton.id },
+                  pathname: `/details/[entity]/[id]`,
+                  query: { ...query, id: canton.id, entity: "canton" },
                 }}
                 passHref
               >
@@ -163,7 +178,7 @@ export const DetailPageBanner = ({
               <Trans id="detail.municipalities">Gemeinden</Trans>:{" "}
               <RelationsList
                 key={`${entity}-${id}`}
-                relationPathname={`/municipality/[id]`}
+                relationPathname={`/details/municipality/[id]`}
                 relations={municipalities}
               />
             </Box>
@@ -180,7 +195,7 @@ export const DetailPageBanner = ({
               <Trans id="detail.operators">Netzbetreiber</Trans>:{" "}
               <RelationsList
                 key={`${entity}-${id}`}
-                relationPathname={`/operator/[id]`}
+                relationPathname={`/details/operator/[id]`}
                 relations={operators}
               />
             </Box>

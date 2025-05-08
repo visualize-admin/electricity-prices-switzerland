@@ -55,7 +55,7 @@ export const ApplicationLayout = ({ children }: ApplicationLayoutProps) => {
 };
 
 const AppNavigation = () => {
-  const { pathname } = useRouter();
+  const { asPath } = useRouter();
 
   return (
     <Box
@@ -108,15 +108,15 @@ const AppNavigation = () => {
       >
         <MenuButton
           title={t({ id: "home.menu.overview", message: "Overview" })}
-          active={pathname === "/"}
+          active={asPath === "/"}
           href={"/"}
         />
         <MenuButton
           title={t({ id: "home.menu.map-view", message: "Map View" })}
           active={
-            pathname === "/map" ||
-            pathname.includes("municipality") ||
-            pathname.includes("canton")
+            asPath === "/map" ||
+            asPath.includes("municipality") ||
+            asPath.includes("canton")
           }
           href={"/map"}
         />
