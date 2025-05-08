@@ -1,5 +1,13 @@
-import { Box, BoxProps, Typography, TypographyProps } from "@mui/material";
+import {
+  Box,
+  BoxProps,
+  Paper,
+  Typography,
+  TypographyProps,
+} from "@mui/material";
 import { ReactNode } from "react";
+
+import { Icon } from "src/icons";
 
 type DesignStoryBaseProps = {
   children: ReactNode;
@@ -200,6 +208,42 @@ export const ColorSwatch = ({ swatch, color, primary }: ColorSwatchProps) => {
       >
         {value}
       </Typography>
+    </Box>
+  );
+};
+
+type ElevationStackProps = {
+  elevation: number;
+};
+
+export const ElevationStack = (props: ElevationStackProps) => {
+  const { elevation } = props;
+  return (
+    <Box
+      display={"flex"}
+      sx={{
+        flexDirection: "column",
+        gap: 2,
+      }}
+    >
+      <Typography variant="h3" fontWeight={500} color={"black"}>
+        Elevation {elevation}
+      </Typography>
+      <Paper
+        elevation={elevation}
+        sx={{
+          p: 2,
+          borderRadius: 2,
+          backgroundColor: "#EBEBEB",
+          textAlign: "center",
+          height: "160px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Icon name="menu" size={48} color="#fff" />
+      </Paper>
     </Box>
   );
 };
