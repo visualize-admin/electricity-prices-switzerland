@@ -26,6 +26,7 @@ export const DesignStory = (props: DesignStoryProps) => {
       sx={{
         flexDirection: "column",
         gap: 10,
+        height: "100%",
         p: 8,
         width: "100%",
       }}
@@ -42,7 +43,12 @@ export const DesignStory = (props: DesignStoryProps) => {
             {reference}
           </Typography>
         )}
-        <Typography variant="h2" fontWeight={500} color={"#333"}>
+        <Typography
+          variant="h2"
+          fontSize={"40px !important"}
+          fontWeight={500}
+          color={"#333"}
+        >
           {title}
         </Typography>
       </Box>
@@ -66,8 +72,10 @@ export const DesignGrid = (props: DesignStoryBaseProps) => {
   );
 };
 
-export const DesignSection = (props: Omit<DesignStoryProps, "reference">) => {
-  const { title, children, ...restProps } = props;
+export const DesignSection = (
+  props: Omit<DesignStoryProps, "reference"> & { disabled?: boolean }
+) => {
+  const { title, children, disabled, ...restProps } = props;
 
   return (
     <Box
@@ -77,9 +85,16 @@ export const DesignSection = (props: Omit<DesignStoryProps, "reference">) => {
         gap: 12,
       }}
     >
-      <Typography variant="h3" fontWeight={700} color={"black"}>
-        {title}
-      </Typography>
+      <Box>
+        <Typography variant="h3" fontWeight={700} color={"black"}>
+          {title}
+        </Typography>
+        {disabled && (
+          <Typography variant="caption" color={"#666"}>
+            (Currently some Issues)
+          </Typography>
+        )}
+      </Box>
       <Box
         display={"flex"}
         flexDirection={"column"}
