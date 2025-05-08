@@ -247,7 +247,7 @@ const IndexPage = ({ locale }: Props) => {
   const controlsRef: NonNullable<ChoroplethMapProps["controls"]> = useRef(null);
 
   return (
-    <ApplicationLayout>
+    <>
       <InfoBanner
         bypassBannerEnabled={
           !!(
@@ -257,103 +257,105 @@ const IndexPage = ({ locale }: Props) => {
           )
         }
       />
-      <Box
-        sx={{
-          backgroundColor: "secondary.50",
-        }}
-      >
-        <ContentWrapper>
-          <Box
-            sx={{
-              display: "grid",
-              width: "100%",
-              gridTemplateColumns: ["1fr", "20rem", null],
-              gridTemplateAreas: [`"controls" "map"`, `"controls map"`, null],
-              gap: 0,
-              position: "relative",
-            }}
-          >
+      <ApplicationLayout>
+        <Box
+          sx={{
+            backgroundColor: "secondary.50",
+          }}
+        >
+          <ContentWrapper>
             <Box
               sx={{
-                gridArea: "controls",
-                position: "sticky",
-                top: HEADER_HEIGHT_UP,
-                maxHeight: `calc(100vh - ${HEADER_HEIGHT_UP})`,
-                overflowY: "auto",
-                bgcolor: "background.paper",
-                zIndex: 2,
-                minWidth: "22.5rem",
-              }}
-            >
-              <Box>
-                <ElectricitySelectors />
-              </Box>
-              <List
-                observations={observations}
-                cantonObservations={cantonMedianObservations}
-                colorScale={colorScale}
-                observationsQueryFetching={observationsQuery.fetching}
-              />
-            </Box>
-
-            <Box
-              id={DOWNLOAD_ID}
-              sx={{
-                bgcolor: "secondary.50",
-                top: [0, HEADER_HEIGHT_UP],
+                display: "grid",
                 width: "100%",
-                gridArea: "map",
-                height: ["70vw", `calc(100vh - ${HEADER_HEIGHT_UP})`],
-                maxHeight: ["50vh", "100vh"],
-                position: ["relative", "sticky"],
+                gridTemplateColumns: ["1fr", "20rem", null],
+                gridTemplateAreas: [`"controls" "map"`, `"controls map"`, null],
+                gap: 0,
+                position: "relative",
               }}
             >
-              <ChoroplethMap
-                year={period}
-                observations={observations}
-                municipalities={municipalities}
-                observationsQueryFetching={
-                  observationsQuery.fetching || municipalitiesQuery.fetching
-                }
-                medianValue={medianValue}
-                colorScale={colorScale}
-                onMunicipalityLayerClick={handleMunicipalityLayerClick}
-                controls={controlsRef}
-              />
-
-              {!download && (
-                <Box
-                  sx={{
-                    zIndex: 13,
-                    position: "absolute",
-                    bottom: 0,
-                    right: 0,
-                    mb: 0,
-                    mr: 3,
-                    px: 4,
-                    py: 3,
-                    backgroundColor: "background.paper",
-                    display: "flex",
-                    gap: "2rem",
-                    borderRadius: "3px 3px 0 0",
-                  }}
-                >
-                  <ShareButton />
-
-                  <DownloadImage
-                    fileName={"map.png"}
-                    downloadType={DOWNLOAD_ID}
-                    getImageData={async () => {
-                      return controlsRef.current?.getImageData();
-                    }}
-                  />
+              <Box
+                sx={{
+                  gridArea: "controls",
+                  position: "sticky",
+                  top: HEADER_HEIGHT_UP,
+                  maxHeight: `calc(100vh - ${HEADER_HEIGHT_UP})`,
+                  overflowY: "auto",
+                  bgcolor: "background.paper",
+                  zIndex: 2,
+                  minWidth: "22.5rem",
+                }}
+              >
+                <Box>
+                  <ElectricitySelectors />
                 </Box>
-              )}
+                <List
+                  observations={observations}
+                  cantonObservations={cantonMedianObservations}
+                  colorScale={colorScale}
+                  observationsQueryFetching={observationsQuery.fetching}
+                />
+              </Box>
+
+              <Box
+                id={DOWNLOAD_ID}
+                sx={{
+                  bgcolor: "secondary.50",
+                  top: [0, HEADER_HEIGHT_UP],
+                  width: "100%",
+                  gridArea: "map",
+                  height: ["70vw", `calc(100vh - ${HEADER_HEIGHT_UP})`],
+                  maxHeight: ["50vh", "100vh"],
+                  position: ["relative", "sticky"],
+                }}
+              >
+                <ChoroplethMap
+                  year={period}
+                  observations={observations}
+                  municipalities={municipalities}
+                  observationsQueryFetching={
+                    observationsQuery.fetching || municipalitiesQuery.fetching
+                  }
+                  medianValue={medianValue}
+                  colorScale={colorScale}
+                  onMunicipalityLayerClick={handleMunicipalityLayerClick}
+                  controls={controlsRef}
+                />
+
+                {!download && (
+                  <Box
+                    sx={{
+                      zIndex: 13,
+                      position: "absolute",
+                      bottom: 0,
+                      right: 0,
+                      mb: 0,
+                      mr: 3,
+                      px: 4,
+                      py: 3,
+                      backgroundColor: "background.paper",
+                      display: "flex",
+                      gap: "2rem",
+                      borderRadius: "3px 3px 0 0",
+                    }}
+                  >
+                    <ShareButton />
+
+                    <DownloadImage
+                      fileName={"map.png"}
+                      downloadType={DOWNLOAD_ID}
+                      getImageData={async () => {
+                        return controlsRef.current?.getImageData();
+                      }}
+                    />
+                  </Box>
+                )}
+              </Box>
             </Box>
-          </Box>
-        </ContentWrapper>
-      </Box>
-    </ApplicationLayout>
+          </ContentWrapper>
+        </Box>
+      </ApplicationLayout>
+    </>
   );
 };
 
