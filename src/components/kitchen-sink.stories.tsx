@@ -1,27 +1,22 @@
 import {
-  Autocomplete,
   Avatar,
   Box,
   Button,
+  ButtonProps,
   Card,
   CardActions,
   CardContent,
   CardHeader,
   Chip,
-  Divider,
-  FormControl,
   Grid,
-  InputLabel,
-  MenuItem,
-  Paper,
-  Select,
+  IconButton,
+  Link,
   Stack,
-  TextField,
   Typography,
 } from "@mui/material";
 
 import { StoryGrid } from "src/components/storybook/story-grid";
-import { Icon } from "src/icons";
+import { getIconSize, Icon } from "src/icons";
 import { chartPalette, palette } from "src/themes/palette";
 
 import {
@@ -30,6 +25,7 @@ import {
   DesignGrid,
   DesignSection,
   DesignStory,
+  ElevationStack,
   TypographyStack,
 } from "./storybook/base-style";
 
@@ -247,7 +243,7 @@ export const PaletteStory = () => {
             gap: 8,
           }}
         >
-          <Box gap={4.5} display={"flex"}>
+          <Stack spacing={4.5} direction={"row"}>
             {chartPalette.sequential.orange.map((value) => (
               <ColorSwatch
                 key={`sequential-orange-${value}`}
@@ -255,8 +251,8 @@ export const PaletteStory = () => {
                 color="Orange"
               />
             ))}
-          </Box>
-          <Box gap={4.5} display={"flex"}>
+          </Stack>
+          <Stack spacing={4.5} direction={"row"}>
             {chartPalette.sequential.yellow.map((value) => (
               <ColorSwatch
                 key={`sequential-yellow-${value}`}
@@ -264,8 +260,8 @@ export const PaletteStory = () => {
                 color="Yellow"
               />
             ))}
-          </Box>
-          <Box gap={4.5} display={"flex"}>
+          </Stack>
+          <Stack spacing={4.5} direction={"row"}>
             {chartPalette.sequential.green.map((value) => (
               <ColorSwatch
                 key={`sequential-green-${value}`}
@@ -273,8 +269,8 @@ export const PaletteStory = () => {
                 color="Green"
               />
             ))}
-          </Box>
-          <Box gap={4.5} display={"flex"}>
+          </Stack>
+          <Stack spacing={4.5} direction={"row"}>
             {chartPalette.sequential.teal.map((value) => (
               <ColorSwatch
                 key={`sequential-teal-${value}`}
@@ -282,8 +278,8 @@ export const PaletteStory = () => {
                 color="Teal"
               />
             ))}
-          </Box>
-          <Box gap={4.5} display={"flex"}>
+          </Stack>
+          <Stack spacing={4.5} direction={"row"}>
             {chartPalette.sequential.blue.map((value) => (
               <ColorSwatch
                 key={`sequential-blue-${value}`}
@@ -291,8 +287,8 @@ export const PaletteStory = () => {
                 color="Blue"
               />
             ))}
-          </Box>
-          <Box gap={4.5} display={"flex"}>
+          </Stack>
+          <Stack spacing={4.5} direction={"row"}>
             {chartPalette.sequential.indigo.map((value) => (
               <ColorSwatch
                 key={`sequential-indigo-${value}`}
@@ -300,7 +296,7 @@ export const PaletteStory = () => {
                 color="Indigo"
               />
             ))}
-          </Box>
+          </Stack>
         </ColorPaletteStack>
         <ColorPaletteStack
           title="Diverging Colors"
@@ -309,7 +305,7 @@ export const PaletteStory = () => {
             gap: 8,
           }}
         >
-          <Box gap={4.5} display={"flex"}>
+          <Stack spacing={4.5} direction={"row"}>
             {chartPalette.diverging.GreenToOrange.map((value) => (
               <ColorSwatch
                 key={`sequential-grToOr-${value}`}
@@ -317,8 +313,8 @@ export const PaletteStory = () => {
                 color="Green to Orange"
               />
             ))}
-          </Box>
-          <Box gap={4.5} display={"flex"}>
+          </Stack>
+          <Stack spacing={4.5} direction={"row"}>
             {chartPalette.diverging.BlueToPink.map((value) => (
               <ColorSwatch
                 key={`sequential-blToPk-${value}`}
@@ -326,54 +322,13 @@ export const PaletteStory = () => {
                 color="Blue to Pink"
               />
             ))}
-          </Box>
+          </Stack>
         </ColorPaletteStack>
       </DesignSection>
     </DesignStory>
   );
 };
 
-export const ButtonStory = () => (
-  <StoryContainer>
-    <Stack spacing={2} direction="row" sx={{ mb: 2 }}>
-      <Button variant="text">Text</Button>
-      <Button variant="contained">Contained</Button>
-      <Button variant="outlined">Outlined</Button>
-    </Stack>
-    <Typography variant="subtitle1" gutterBottom>
-      Colors
-    </Typography>
-    <Stack direction="row" spacing={1} sx={{ mb: 2 }}>
-      <Button color="primary" variant="contained">
-        Primary
-      </Button>
-      <Button color="secondary" variant="contained">
-        Secondary
-      </Button>
-      <Button color="success" variant="contained">
-        Success
-      </Button>
-      <Button color="error" variant="contained">
-        Error
-      </Button>
-      <Button color="info" variant="contained">
-        Info
-      </Button>
-      <Button color="warning" variant="contained">
-        Warning
-      </Button>
-    </Stack>
-    <Typography variant="subtitle1" gutterBottom>
-      Sizes
-    </Typography>
-    <Stack direction="row" spacing={1} alignItems="center">
-      <Button size="sm">Small</Button>
-      <Button size="md">Medium</Button>
-      <Button size="lg">Large</Button>
-      <Button size="xl">Large</Button>
-    </Stack>
-  </StoryContainer>
-);
 
 export const FormStory = () => (
   <StoryContainer>
@@ -478,27 +433,211 @@ export const FormStory = () => (
 );
 
 export const ElevationStory = () => (
-  <StoryContainer>
+  <DesignStory title="Elevation" reference="BUND Library">
     <Grid container spacing={2}>
-      {[0, 1, 2, 3, 4, 6, 8, 12, 16, 24].map((elevation) => (
+      {[1, 2, 3, 4, 5, 6].map((elevation) => (
         <Grid item key={elevation} xs={6} sm={4} md={2}>
-          <Paper
-            elevation={elevation}
-            sx={{
-              p: 2,
-              textAlign: "center",
-              height: "80px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            Elevation {elevation}
-          </Paper>
+          <ElevationStack elevation={elevation} />
         </Grid>
       ))}
     </Grid>
-  </StoryContainer>
+  </DesignStory>
+);
+
+const buttonStates = ["enabled", "disabled"];
+const buttonSizes: ButtonProps["size"][] = ["xl", "lg", "md", "sm"];
+
+export const ButtonStory = () => {
+  return (
+    <DesignStory title="Buttons" reference="BUND Library">
+      <DesignSection title="Outline">
+        <Stack direction="row" spacing={6} flexWrap="wrap" useFlexGap>
+          {buttonStates.map((state, index) => {
+            return (
+              <Stack
+                key={`${state}-${index}`}
+                direction={"column"}
+                alignItems={"center"}
+                spacing={4}
+              >
+                {buttonSizes.map((size) => (
+                  <Button
+                    key={`${size}-${state}-${index}`}
+                    variant="outlined"
+                    color="primary"
+                    size={size}
+                    disabled={state === "disabled"}
+                  >
+                    Button Text
+                  </Button>
+                ))}
+              </Stack>
+            );
+          })}
+          {buttonStates.map((state, index) => {
+            return (
+              <Stack
+                key={`${state}-${index}`}
+                direction={"column"}
+                alignItems={"center"}
+                spacing={4}
+              >
+                {buttonSizes.map((size) => (
+                  <IconButton
+                    key={`${size}-${state}-${index}`}
+                    color="primary"
+                    size={size}
+                    variant="outlined"
+                    disabled={state === "disabled"}
+                  >
+                    <Icon name="arrowright" size={getIconSize(size)} />
+                  </IconButton>
+                ))}
+              </Stack>
+            );
+          })}
+        </Stack>
+      </DesignSection>
+      <DesignSection title="Contained">
+        <Stack direction="row" spacing={6} flexWrap="wrap" useFlexGap>
+          {buttonStates.map((state, index) => {
+            return (
+              <Stack
+                key={`${state}-${index}`}
+                direction={"column"}
+                alignItems={"center"}
+                spacing={4}
+              >
+                {buttonSizes.map((size) => (
+                  <Button
+                    key={`${size}-${state}-${index}`}
+                    variant="contained"
+                    color="secondary"
+                    size={size}
+                    disabled={state === "disabled"}
+                  >
+                    Button Text
+                  </Button>
+                ))}
+              </Stack>
+            );
+          })}
+          {buttonStates.map((state, index) => {
+            return (
+              <Stack
+                key={`${state}-${index}`}
+                direction={"column"}
+                alignItems={"center"}
+                spacing={4}
+              >
+                {buttonSizes.map((size) => (
+                  <IconButton
+                    key={`${size}-${state}-${index}`}
+                    color="secondary"
+                    size={size}
+                    variant="contained"
+                    disabled={state === "disabled"}
+                  >
+                    <Icon name="arrowright" size={getIconSize(size)} />
+                  </IconButton>
+                ))}
+              </Stack>
+            );
+          })}
+        </Stack>
+      </DesignSection>
+      <DesignSection title="Text">
+        <Stack direction="row" spacing={6} flexWrap="wrap" useFlexGap>
+          {buttonStates.map((state, index) => {
+            return (
+              <Stack
+                key={`${state}-${index}`}
+                direction={"column"}
+                alignItems={"center"}
+                spacing={4}
+              >
+                {buttonSizes.map((size) => (
+                  <Button
+                    key={`${size}-${state}-${index}`}
+                    variant="text"
+                    color="tertiary"
+                    size={size}
+                    disabled={state === "disabled"}
+                  >
+                    Button Text
+                  </Button>
+                ))}
+              </Stack>
+            );
+          })}
+          {buttonStates.map((state, index) => {
+            return (
+              <Stack
+                key={`${state}-${index}`}
+                direction={"column"}
+                alignItems={"center"}
+                spacing={4}
+              >
+                {buttonSizes.map((size) => (
+                  <IconButton
+                    key={`${size}-${state}-${index}`}
+                    color="tertiary"
+                    size={size}
+                    variant="text"
+                    disabled={state === "disabled"}
+                  >
+                    <Icon name="arrowright" size={getIconSize(size)} />
+                  </IconButton>
+                ))}
+              </Stack>
+            );
+          })}
+        </Stack>
+      </DesignSection>
+      <DesignSection title="Link Primary" disabled>
+        <Stack
+          direction={"column"}
+          spacing={4}
+          alignItems={"center"}
+          width={"fit-content"}
+        >
+          {buttonSizes.map((size) => (
+            <Link
+              href="#"
+              component={"a"}
+              key={`${size}-link`}
+              color="primary"
+              size={size}
+            >
+              Button Text
+            </Link>
+          ))}
+        </Stack>
+      </DesignSection>
+      <DesignSection title="Link Secondary" disabled>
+        <Stack
+          direction={"column"}
+          spacing={4}
+          alignItems={"center"}
+          width={"fit-content"}
+        >
+          {buttonSizes.map((size) => (
+            <Link
+              href="#"
+              component={"a"}
+              key={`${size}-link`}
+              color="tertiary"
+              size={size}
+            >
+              Button Text
+            </Link>
+          ))}
+        </Stack>
+      </DesignSection>
+    </DesignStory>
+  );
+};
+
 );
 
 export const CardStory = () => (
