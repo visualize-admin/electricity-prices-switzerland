@@ -175,7 +175,12 @@ const MapTooltip = ({
       placement={{ x: "center", y: "top" }}
       margins={{ bottom: 0, left: 0, right: 0, top: 0 }}
     >
-      <Box sx={{ width: 200 }}>{children}</Box>
+      <Box
+        sx={{ width: 200, flexDirection: "column", gap: 1 }}
+        display={"flex"}
+      >
+        {children}
+      </Box>
     </TooltipBoxWithoutChartState>
   );
 };
@@ -806,6 +811,20 @@ export const ChoroplethMap = ({
         {hovered && tooltipContent && colorScale && (
           <MapTooltip x={hovered.x} y={hovered.y}>
             <Box
+              sx={{
+                flexDirection: "column",
+                gap: -1,
+              }}
+              display={"flex"}
+            >
+              <Typography variant="caption" color={"text.500"}>
+                <Trans id="municipality">Municipality</Trans>
+              </Typography>
+              <Typography variant="h4" sx={{ fontWeight: 700 }}>
+                {tooltipContent.name}
+              </Typography>
+            </Box>
+            <Box
               display="grid"
               sx={{
                 width: "100%",
@@ -814,16 +833,12 @@ export const ChoroplethMap = ({
                 alignItems: "center",
               }}
             >
-              <Typography variant="caption" sx={{ fontWeight: "bold" }}>
-                {tooltipContent.name}
-              </Typography>
-
               {hovered.type === "canton" ? (
                 <>
                   <Box
                     sx={{
                       borderRadius: 9999,
-                      px: 2,
+                      py: 1,
                       display: "inline-block",
                     }}
                     style={{

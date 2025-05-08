@@ -98,7 +98,9 @@ export const TooltipBoxWithoutChartState = ({
     >
       <Box
         sx={{
-          padding: 3,
+          py: 3,
+          px: 4,
+          borderRadius: 0.5,
           pointerEvents: "none",
           backgroundColor: "background.paper",
           filter: `drop-shadow(${theme.shadows?.[6]})`,

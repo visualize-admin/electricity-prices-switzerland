@@ -9,6 +9,8 @@ import { SectionProps } from "./card";
 
 export const DetailsPageSidebar = (props: SectionProps) => {
   const { id, entity } = props;
+
+  console.log(entity, id);
   return (
     <Box
       sx={{
@@ -99,13 +101,14 @@ export const SidebarItem = (props: SidebarItemProps) => {
   const { asPath } = useRouter();
 
   const isActive = () => {
+    const path = asPath.split("?")[0];
     switch (matchMethod) {
       case "exact":
-        return asPath === href;
+        return path === href;
       case "contains":
-        return asPath.includes(href);
+        return path.includes(href);
       default:
-        return asPath === href;
+        return path === href;
     }
   };
 

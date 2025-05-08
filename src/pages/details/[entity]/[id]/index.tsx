@@ -63,7 +63,7 @@ type Props =
       locale: string;
     }
   | {
-      entity: "operators";
+      entity: "operator";
       status: "found";
       id: string;
       name: string;
@@ -185,7 +185,7 @@ const handleOperatorsEntity = async (
   });
 
   return {
-    entity: "operators",
+    entity: "operator",
     status: "found",
     id,
     name: operator.name,
@@ -232,7 +232,7 @@ const ElectricityTariffsPage = (props: Props) => {
                 entity === "municipality" ? props.operators : undefined
               }
               municipalities={
-                entity === "operators" ? props.municipalities : undefined
+                entity === "operator" ? props.municipalities : undefined
               }
               entity={entity as Entity}
             />
