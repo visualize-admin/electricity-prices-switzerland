@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Box,
   Button,
   ButtonProps,
@@ -8,12 +7,14 @@ import {
   CardContent,
   CardHeader,
   Chip,
+  ChipProps,
   Grid,
   IconButton,
   Link,
   Stack,
   Typography,
 } from "@mui/material";
+import { useState } from "react";
 
 import { StoryGrid } from "src/components/storybook/story-grid";
 import { getIconSize, Icon } from "src/icons";
@@ -594,7 +595,7 @@ export const ButtonStory = () => {
           })}
         </Stack>
       </DesignSection>
-      <DesignSection title="Link Primary" disabled>
+      <DesignSection title="Link Primary" note="Currently not working!">
         <Stack
           direction={"column"}
           spacing={4}
@@ -614,7 +615,7 @@ export const ButtonStory = () => {
           ))}
         </Stack>
       </DesignSection>
-      <DesignSection title="Link Secondary" disabled>
+      <DesignSection title="Link Secondary" note="Currently not working!">
         <Stack
           direction={"column"}
           spacing={4}
@@ -674,35 +675,71 @@ export const CardStory = () => (
   </StoryContainer>
 );
 
+const chipSizes: ChipProps["size"][] = ["xl", "lg", "md", "sm", "xs"];
+
 export const ChipStory = () => (
-  <StoryContainer>
-    <Stack
-      direction="row"
-      spacing={1}
-      flexWrap="wrap"
-      useFlexGap
-      sx={{ mb: 2 }}
-    >
-      <Chip label="Basic" />
-      <Chip label="Disabled" disabled />
-      <Chip label="Clickable" onClick={() => {}} />
-      <Chip label="Deletable" onDelete={() => {}} />
-      <Chip avatar={<Avatar>M</Avatar>} label="With Avatar" />
-      <Chip icon={<Icon name="linechart" />} label="With Icon" />
-    </Stack>
-    <Typography variant="subtitle1" gutterBottom>
-      Colors
-    </Typography>
-    <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
-      <Chip label="Default" />
-      <Chip label="Primary" color="primary" />
-      <Chip label="Secondary" color="secondary" />
-      <Chip label="Success" color="success" />
-      <Chip label="Error" color="error" />
-      <Chip label="Info" color="info" />
-      <Chip label="Warning" color="warning" />
-    </Stack>
-  </StoryContainer>
+  <DesignStory title="Chip" reference="BUND Library">
+    <DesignGrid>
+      <DesignSection
+        title="Enabled"
+        sx={{
+          gap: 4,
+          alignItems: "center",
+          width: "fit-content",
+        }}
+      >
+        <Stack direction="row" spacing={6} flexWrap="wrap" useFlexGap>
+          <Stack direction={"column"} alignItems={"center"} spacing={4}>
+            {chipSizes.map((size) => (
+              <Chip key={`enabled-${size}`} label={"Tag label"} size={size} />
+            ))}
+          </Stack>
+          <Stack direction={"column"} alignItems={"center"} spacing={4}>
+            {chipSizes.map((size) => (
+              <Chip
+                key={`delete-enabled-${size}`}
+                label={"Tag label"}
+                size={size}
+                onDelete={() => {}}
+              />
+            ))}
+          </Stack>
+        </Stack>
+      </DesignSection>
+      <DesignSection
+        title="Disabled"
+        sx={{
+          gap: 4,
+          alignItems: "center",
+          width: "fit-content",
+        }}
+      >
+        <Stack direction="row" spacing={6} flexWrap="wrap" useFlexGap>
+          <Stack direction={"column"} alignItems={"center"} spacing={4}>
+            {chipSizes.map((size) => (
+              <Chip
+                key={`disabled-${size}`}
+                label={"Tag label"}
+                disabled
+                size={size}
+              />
+            ))}
+          </Stack>
+          <Stack direction={"column"} alignItems={"center"} spacing={4}>
+            {chipSizes.map((size) => (
+              <Chip
+                key={`delete-disabled-${size}`}
+                label={"Tag label"}
+                size={size}
+                disabled
+                onDelete={() => {}}
+              />
+            ))}
+          </Stack>
+        </Stack>
+      </DesignSection>
+    </DesignGrid>
+  </DesignStory>
 );
 
 const KitchenSink = () => {
