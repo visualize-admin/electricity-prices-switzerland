@@ -47,7 +47,7 @@ const ListItem = ({
       color="inherit"
       component={NextLink}
       href={{
-        pathname: `/${entity}/[id]`,
+        pathname: `/details/${entity}/[id]`,
         query: { ...query, id },
       }}
       onMouseOver={() => setHighlightContext({ entity, id, label, value })}
