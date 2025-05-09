@@ -8,6 +8,7 @@ type AnchorNavProps = {
   disabled?: boolean;
   size?: "sm" | "lg";
   icon?: ReactElement;
+  hideBorder?: boolean;
 } & Omit<LinkProps, "href"> &
   Pick<NextLinkProps, "href">;
 
@@ -19,6 +20,7 @@ export const AnchorNav = (props: AnchorNavProps) => {
     disabled,
     size = "lg",
     icon,
+    hideBorder,
     ...restProps
   } = props;
 
@@ -36,7 +38,7 @@ export const AnchorNav = (props: AnchorNavProps) => {
           borderLeftWidth: active ? 4 : 0,
           borderLeftStyle: active ? "solid" : "none",
           borderLeftColor: active ? "primary.main" : "transparent",
-          borderBottomWidth: 1,
+          borderBottomWidth: hideBorder ? 0 : 1,
           borderBottomStyle: "solid",
           borderBottomColor: "monochrome.200",
           color: disabled ? "secondary.200" : "text.primary",
@@ -45,7 +47,7 @@ export const AnchorNav = (props: AnchorNavProps) => {
         }}
       >
         <Typography
-          variant="body2"
+          variant={size === "lg" ? "body2" : "body3"}
           lineHeight={"150%"}
           sx={{
             fontFeatureSettings: "'liga' off, 'clig' off",
