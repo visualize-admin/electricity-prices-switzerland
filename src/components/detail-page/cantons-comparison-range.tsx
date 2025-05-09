@@ -184,7 +184,6 @@ export const CantonsComparisonRangePlots = ({ id, entity }: SectionProps) => {
               ]}
               value={priceComponent[0] as string}
               setValue={(pc) => setQueryState({ priceComponent: [pc] })}
-              variant="segmented"
             />
           </Box>
           <Box sx={{ display: ["block", "block", "none"] }}>

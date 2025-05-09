@@ -1,5 +1,4 @@
 import {
-  Box,
   Button,
   ButtonProps,
   capitalize,
@@ -17,6 +16,7 @@ import { getIconSize, Icon } from "src/icons";
 import { chartPalette, palette } from "src/themes/palette";
 
 import { Combobox, ComboboxMulti } from "./combobox";
+import { RadioTabs } from "./radio-tabs";
 import {
   ColorPaletteStack,
   ColorSwatch,
@@ -26,14 +26,6 @@ import {
   ElevationStack,
   TypographyStack,
 } from "./storybook/base-style";
-
-const StoryContainer = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <Box p={6} sx={{ "& > * + *": { mt: 2 } }}>
-      {children}
-    </Box>
-  );
-};
 
 export const TypographyStory = () => {
   const defaultText = "The quick brown fox...";
@@ -599,6 +591,27 @@ export const ChipStory = () => (
     </DesignGrid>
   </DesignStory>
 );
+
+export const RadioTabsStory = () => {
+  const [radioTabsValue, setRadioTabsValue] = useState<string>("label-1");
+
+  return (
+    <DesignStory title="Radio Tabs" reference="BUND Library">
+      <DesignSection title="Base" sx={{ maxWidth: 300 }}>
+        <RadioTabs
+          id="storybook-radio-tabs"
+          options={[
+            { label: "Label", value: "label-1" },
+            { label: "Label", value: "label-2" },
+            { label: "Label", value: "label-3" },
+          ]}
+          value={radioTabsValue}
+          setValue={setRadioTabsValue}
+        />
+      </DesignSection>
+    </DesignStory>
+  );
+};
 
 const selectStates = ["enabled", "disabled", "error"];
 const selectItems = ["tag 1", "tag 2", "tag 3", "tag 4", "tag 5", "tag 6"];

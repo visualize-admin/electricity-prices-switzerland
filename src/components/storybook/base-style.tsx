@@ -23,12 +23,12 @@ export const DesignStory = (props: DesignStoryProps) => {
   return (
     <Box
       display={"flex"}
+      flexDirection={"column"}
+      padding={8}
+      width={"100%"}
+      height={"100%"}
       sx={{
-        flexDirection: "column",
         gap: 10,
-        height: "100%",
-        p: 8,
-        width: "100%",
       }}
       {...restProps}
     >

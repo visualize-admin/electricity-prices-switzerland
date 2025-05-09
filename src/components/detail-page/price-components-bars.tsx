@@ -194,7 +194,6 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
               ]}
               value={view[0]}
               setValue={(view) => setQueryState({ view: [view] })}
-              variant="segmented"
             />
           </Box>
           <Box sx={{ display: ["block", "block", "none"] }}>
