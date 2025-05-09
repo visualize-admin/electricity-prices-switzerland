@@ -344,13 +344,10 @@ export const components: Components = {
         const sizeStyles = (() => {
           switch (ownerState.size) {
             case "xs":
-              return { width: 14, height: 14 };
-            case "sm":
               return { width: 16, height: 16 };
+            case "sm":
             case "md":
-              return { width: 20, height: 20 };
             case "lg":
-              return { width: 22, height: 22 };
             case "xl":
               return { width: 24, height: 24 };
             default:

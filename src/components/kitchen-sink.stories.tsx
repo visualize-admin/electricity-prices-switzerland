@@ -15,6 +15,7 @@ import { StoryGrid } from "src/components/storybook/story-grid";
 import { getIconSize, Icon } from "src/icons";
 import { chartPalette, palette } from "src/themes/palette";
 
+import { AnchorNav } from "./anchor-nav";
 import { Combobox, ComboboxMulti } from "./combobox";
 import { RadioTabs } from "./radio-tabs";
 import {
@@ -665,6 +666,48 @@ export const FormStory = () => {
               items={selectItems}
               setSelectedItems={setMultiSelectValue}
               selectedItems={multiSelectValue}
+            />
+          ))}
+        </DesignSection>
+      </DesignGrid>
+    </DesignStory>
+  );
+};
+
+const anchorNavStates = ["enabled", "active", "disabled", "tag"];
+
+export const NavigationStory = () => {
+  return (
+    <DesignStory title="Navigation" reference="BUND Library">
+      <DesignGrid>
+        <DesignSection
+          title="AnchorNav"
+          sx={{
+            maxWidth: 400,
+          }}
+        >
+          {anchorNavStates.map((state) => (
+            <AnchorNav
+              href={"#"}
+              key={`anchor-nav-${state}`}
+              label={"Label"}
+              active={state === "active"}
+              disabled={state === "disabled"}
+              tag={state === "tag" ? <Chip label="Tag" size="xs" /> : undefined}
+              size="lg"
+              icon={<Icon name="arrowright" />}
+            />
+          ))}
+          {anchorNavStates.map((state) => (
+            <AnchorNav
+              href={"#"}
+              key={`anchor-nav-${state}`}
+              label={"Label"}
+              active={state === "active"}
+              disabled={state === "disabled"}
+              tag={state === "tag" ? <Chip label="Tag" size="xs" /> : undefined}
+              size="sm"
+              icon={<Icon name="arrowright" />}
             />
           ))}
         </DesignSection>

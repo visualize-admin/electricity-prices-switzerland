@@ -1,5 +1,5 @@
 import { t, Trans } from "@lingui/macro";
-import { Box, Button, Link, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { ascending, descending, mean, rollup, ScaleThreshold } from "d3";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
@@ -16,6 +16,8 @@ import {
   OperatorObservationFieldsFragment,
 } from "src/graphql/queries";
 import { Icon } from "src/icons";
+
+import { AnchorNav } from "./anchor-nav";
 
 const ListItem = ({
   id,
@@ -42,7 +44,25 @@ const ListItem = ({
       : ("canton" as Entity);
 
   return (
-    <Link
+    <AnchorNav
+      icon={<Icon name="arrowright" />}
+      tag={
+        <Box
+          sx={{
+            borderRadius: 9999,
+            px: 2,
+            py: 0.5,
+            flexShrink: 0,
+          }}
+          style={{ background: colorScale(value) }}
+        >
+          <Typography variant="body3" lineHeight={1.4} color="black">
+            {formatNumber(value)}
+          </Typography>
+        </Box>
+      }
+      size="sm"
+      label={label}
       underline="none"
       color="inherit"
       component={NextLink}
@@ -52,51 +72,7 @@ const ListItem = ({
       }}
       onMouseOver={() => setHighlightContext({ entity, id, label, value })}
       onMouseOut={() => setHighlightContext(undefined)}
-      sx={{
-        pl: 3,
-        py: 4,
-        mx: 0,
-        gap: 1,
-        borderBottomWidth: "1px",
-        borderBottomStyle: "solid",
-        borderBottomColor: "monochrome.200",
-        alignItems: "center",
-        minHeight: "3.5rem",
-        lineHeight: "1rem",
-        color: "text",
-        textDecoration: "none",
-        "&:hover": {
-          bgcolor: "monochrome.50",
-        },
-        "&:active": {
-          bgcolor: "monochrome.100",
-        },
-        "&:focus": {
-          outline: 0,
-          bgcolor: "monochrome.100",
-        },
-      }}
-      display="flex"
-    >
-      <Typography variant="body2" sx={{ flexGrow: 1, mr: 1 }}>
-        {label}
-      </Typography>
-      <Box
-        sx={{
-          borderRadius: 9999,
-          px: 2,
-          flexShrink: 0,
-        }}
-        style={{ background: colorScale(value) }}
-      >
-        <Typography variant="body2" color="black">
-          {formatNumber(value)}
-        </Typography>
-      </Box>
-      <Box sx={{ width: "24px", flexShrink: 0 }}>
-        <Icon name="arrowright"></Icon>
-      </Box>
-    </Link>
+    />
   );
 };
 
