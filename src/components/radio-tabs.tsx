@@ -31,8 +31,14 @@ const STYLES = {
       borderWidth: 1,
       borderColor: "monochrome.200",
       borderRightWidth: 0,
+      "&:first-of-type": {
+        borderTopLeftRadius: "2px",
+        borderBottomLeftRadius: "2px",
+      },
       "&:last-of-type": {
         borderRightWidth: 1,
+        borderTopRightRadius: "2px",
+        borderBottomRightRadius: "2px",
       },
     },
     inactive: {
@@ -54,8 +60,14 @@ const STYLES = {
       "&: hover": {
         backgroundColor: "secondary.50",
       },
+      "&:first-of-type": {
+        borderTopLeftRadius: "2px",
+        borderBottomLeftRadius: "2px",
+      },
       "&:last-of-type": {
         borderRightWidth: 1,
+        borderTopRightRadius: "2px",
+        borderBottomRightRadius: "2px",
       },
     },
   },
@@ -116,6 +128,7 @@ export const RadioTabs = <T extends string>({
           borderRadius: 0.5,
           borderWidth: 1,
           borderColor: "monochrome.200",
+          overflow: "hidden",
         }}
         display="flex"
       >
