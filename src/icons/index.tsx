@@ -1,3 +1,5 @@
+import { IconButtonProps } from "@mui/material";
+
 import { IconApps } from "./ic-apps";
 import { IconArrowDown } from "./ic-arrow-down";
 import { IconArrowLeft } from "./ic-arrow-left";
@@ -198,6 +200,21 @@ const Icons = {
 };
 
 export type IconName = keyof typeof Icons;
+
+export const getIconSize = (size: IconButtonProps["size"]) => {
+  switch (size) {
+    case "sm":
+      return 20;
+    case "md":
+      return 22;
+    case "lg":
+      return 24;
+    case "xl":
+      return 24;
+    default:
+      return 24;
+  }
+};
 
 export const Icon = ({
   size = 24,

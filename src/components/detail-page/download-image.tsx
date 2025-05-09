@@ -116,7 +116,7 @@ export const DownloadImage = ({
 
       {!downloading && iconOnly && (
         <IconButton
-          color="monochrome"
+          color="tertiary"
           sx={{ fontSize: iconSize }}
           onClick={onDownload}
         >

@@ -7,6 +7,7 @@ import contentRoutes from "src/content-routes.json";
 import { useLocale } from "src/lib/use-locale";
 import { useResizeObserver } from "src/lib/use-resize-observer";
 import { locales } from "src/locales/locales";
+import { palette } from "src/themes/palette";
 
 export const Header = ({
   contentId,
@@ -70,7 +71,7 @@ export const Header = ({
               "&:hover": {
                 textDecoration: "none !important",
                 backgroundColor: "transparent",
-                color: (t) => `${t.palette.cobalt[100]} !important`,
+                color: `${palette.secondary[100]} !important`,
               },
             }}
           >

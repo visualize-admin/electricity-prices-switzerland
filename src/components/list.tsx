@@ -312,7 +312,6 @@ export const List = ({
     >
       <RadioTabs<ListState>
         id="list-state-tabs"
-        variant="tabs"
         options={[
           {
             value: "MUNICIPALITIES",

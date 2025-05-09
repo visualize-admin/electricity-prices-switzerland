@@ -5,14 +5,11 @@ import { VisuallyHidden } from "src/components/visually-hidden";
 
 import { InfoDialogButton } from "./info-dialog";
 
-type RadioTabsVariants = "tabs" | "borderlessTabs" | "segmented";
-
 type RadioTabsProps<T> = {
   id: string;
   options: { value: T; label: ReactNode }[];
   value: T;
   setValue: (value: T) => void;
-  variant?: RadioTabsVariants;
   label?: string;
   showLabel?: boolean;
   infoDialogSlug?: string;
@@ -34,8 +31,14 @@ const STYLES = {
       borderWidth: 1,
       borderColor: "monochrome.200",
       borderRightWidth: 0,
+      "&:first-of-type": {
+        borderTopLeftRadius: "2px",
+        borderBottomLeftRadius: "2px",
+      },
       "&:last-of-type": {
         borderRightWidth: 1,
+        borderTopRightRadius: "2px",
+        borderBottomRightRadius: "2px",
       },
     },
     inactive: {
@@ -53,101 +56,18 @@ const STYLES = {
       borderColor: "monochrome.200",
       borderStyle: "solid",
       borderRightWidth: 0,
-      "&:last-of-type": {
-        borderRightWidth: 1,
-      },
-    },
-  },
-  borderlessTabs: {
-    active: {
-      display: "flex",
-      position: "relative",
-      color: "background.paper",
-      bgcolor: "secondary.main",
-      flex: "1 1 auto",
-      textAlign: "center",
-      justifyContent: "center",
-      alignItems: "center",
-      px: 4,
-      py: 2.5,
-      fontSize: "1rem",
-      minWidth: "min-content",
-      borderStyle: "solid",
-      borderColor: "monochrome.200",
-      borderRightWidth: 0,
-      "&:last-of-type": {
-        borderRightWidth: 1,
-      },
-    },
-    inactive: {
-      display: "flex",
       cursor: "pointer",
-      color: "text.primary",
-      alignItems: "center",
-      bgcolor: "background.paper",
-      flex: "1 1 auto",
-      justifyContent: "center",
-      minWidth: "min-content",
-      textAlign: "center",
-      px: 4,
-      py: 2.5,
-      fontSize: "1rem",
-      borderColor: "monochrome.200",
-      borderStyle: "solid",
-      borderRightWidth: 0,
-    },
-  },
-  segmented: {
-    active: {
-      position: "relative",
-      color: "background.paper",
-      bgcolor: "secondary.main",
-      display: "inline-flex",
-      flex: "0 0 auto",
-      textAlign: "center",
-      px: 4,
-      py: 2.5,
-      fontSize: "0.875rem",
-      lineHeight: "1.4rem",
-      borderStyle: "solid",
-      borderColor: "monochrome.200",
-      borderRightWidth: 0,
-
-      "&:last-of-type": {
-        borderRightWidth: 1,
-        borderTopRightRadius: "default",
-        borderBottomRightRadius: "default",
+      "&: hover": {
+        backgroundColor: "secondary.50",
       },
       "&:first-of-type": {
-        borderTopLeftRadius: "default",
-        borderBottomLeftRadius: "default",
+        borderTopLeftRadius: "2px",
+        borderBottomLeftRadius: "2px",
       },
-    },
-    inactive: {
-      cursor: "pointer",
-      display: "inline-flex",
-      color: "text.primary",
-      bgcolor: "background.paper",
-      overflow: "hidden",
-      whiteSpace: "nowrap",
-      textOverflow: "ellipsis",
-      flex: "0 0 auto",
-      textAlign: "center",
-      px: 4,
-      py: 2.5,
-      fontSize: "0.875rem",
-      lineHeight: "1.4rem",
-      borderColor: "monochrome.200",
-      borderStyle: "solid",
-      borderRightWidth: 0,
       "&:last-of-type": {
         borderRightWidth: 1,
-        borderTopRightRadius: "default",
-        borderBottomRightRadius: "default",
-      },
-      "&:first-of-type": {
-        borderTopLeftRadius: "default",
-        borderBottomLeftRadius: "default",
+        borderTopRightRadius: "2px",
+        borderBottomRightRadius: "2px",
       },
     },
   },
@@ -158,7 +78,6 @@ export const RadioTabs = <T extends string>({
   options,
   value,
   setValue,
-  variant = "tabs",
   label,
   showLabel = true,
   infoDialogSlug,
@@ -171,8 +90,6 @@ export const RadioTabs = <T extends string>({
     },
     [setValue]
   );
-
-  const styles = STYLES[variant];
 
   return (
     <Box
@@ -211,6 +128,7 @@ export const RadioTabs = <T extends string>({
           borderRadius: 0.5,
           borderWidth: 1,
           borderColor: "monochrome.200",
+          overflow: "hidden",
         }}
         display="flex"
       >
@@ -224,7 +142,7 @@ export const RadioTabs = <T extends string>({
               title={
                 typeof option.label === "string" ? option.label : undefined
               }
-              sx={isActive ? styles.active : styles.inactive}
+              sx={isActive ? STYLES.tabs.active : STYLES.tabs.inactive}
             >
               <VisuallyHidden>
                 <input

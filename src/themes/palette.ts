@@ -3,22 +3,31 @@ import { type ThemeOptions } from "@mui/material";
 
 export const palette = {
   ...colors,
+  background: colors.background,
   text: {
     primary: colors.monochrome[800],
     ...colors.monochrome,
   },
   primary: {
-    main: "#D8232A",
-    contrastText: "#FFFFFF",
+    main: colors.red[600],
+    light: colors.background.paper, //FIXME: rename this to contrastText once swiss-federal-ci is updated
+    dark: colors.red[800],
     ...colors.red,
   },
   secondary: {
     main: colors.cobalt[400],
+    light: colors.background.paper, //FIXME: rename this to contrastText once swiss-federal-ci is updated
+    dark: colors.cobalt[600],
     ...colors.cobalt,
   },
   monochrome: {
     main: colors.monochrome[800],
     ...colors.monochrome,
+  },
+  tertiary: {
+    main: colors.monochrome[800],
+    dark: colors.red[600],
+    light: colors.background.paper, //FIXME: rename this to contrastText once swiss-federal-ci is updated
   },
 } satisfies ThemeOptions["palette"];
 
@@ -43,7 +52,7 @@ export const chartPalette = {
     pink: ["#FBCFE8", "#F9A8D4", "#F472B6", "#EC4899", "#DB2777", "#BE185D"],
   },
   diverging: {
-    GO: ["#059669", "#34D399", "#E4D78C", "#FB923C", "#EA580C"],
-    BP: ["#2563EB", "#60A5FA", "#CEC3DE", "#F472B6", "#DB2777"],
+    GreenToOrange: ["#059669", "#34D399", "#E4D78C", "#FB923C", "#EA580C"],
+    BlueToPink: ["#2563EB", "#60A5FA", "#CEC3DE", "#F472B6", "#DB2777"],
   },
 };

@@ -2,6 +2,7 @@ import { Components } from "@mui/material";
 
 import { Icon } from "src/icons";
 
+import { palette } from "./palette";
 import { typography } from "./typography";
 
 export const components: Components = {
@@ -36,11 +37,11 @@ export const components: Components = {
         const sizeStyles = (() => {
           switch (size) {
             case "sm":
-              return { padding: "10px 16px", ...typography.h6 };
+              return { padding: "10px 16px", ...typography.body3 };
             case "md":
-              return { padding: "10px 20px", ...typography.h5 };
+              return { padding: "10px 20px", ...typography.body2 };
             case "lg":
-              return { padding: "10px 20px", ...typography.h4 };
+              return { padding: "10px 20px", ...typography.body1 };
             case "xl":
               return { padding: "10px 20px", ...typography.h3 };
             default:
@@ -49,8 +50,172 @@ export const components: Components = {
           }
         })();
 
+        const variant = ownerState.variant ?? "contained";
+        const color =
+          ownerState.color === "inherit"
+            ? "inherit"
+            : palette[ownerState.color ?? "primary"];
+
+        const variantColorStyles = (() => {
+          if (!color) {
+            return {};
+          }
+
+          if (color === "inherit") {
+            return {
+              color: "inherit",
+            };
+          }
+
+          switch (variant) {
+            case "contained":
+              return {
+                backgroundColor: color.main,
+                color: color.light,
+
+                "&:hover": {
+                  backgroundColor: color.dark,
+                },
+                "&.Mui-disabled": {
+                  color: color.light,
+                  backgroundColor: palette.secondary[200],
+                },
+              };
+            case "outlined":
+              return {
+                color: color.main,
+                borderColor: color.main,
+
+                "&:hover": {
+                  borderColor: color.dark,
+                  color: color.dark,
+                  backgroundColor: "transparent",
+                },
+                "&.Mui-disabled": {
+                  borderColor: palette.secondary[200],
+                  color: palette.secondary[200],
+                },
+              };
+            case "text":
+              return {
+                color: color.main,
+
+                "&:hover": {
+                  backgroundColor: "transparent",
+                  color: color.dark,
+                },
+                "&.Mui-disabled": {
+                  color: palette.secondary[200],
+                },
+              };
+            default:
+              const _exhaustiveCheck: never = variant;
+              return _exhaustiveCheck;
+          }
+        })();
+
         return {
           ...sizeStyles,
+          ...variantColorStyles,
+        };
+      },
+    },
+  },
+  MuiIconButton: {
+    defaultProps: {
+      variant: "text",
+      color: "secondary",
+      size: "md",
+    },
+    styleOverrides: {
+      root: ({ ownerState }) => {
+        const size = ownerState.size ?? "md";
+        const color =
+          ownerState.color === "inherit"
+            ? "inherit"
+            : palette[ownerState.color ?? "primary"];
+
+        const variant = ownerState.variant ?? "contained";
+
+        const sizeStyles = (() => {
+          switch (size) {
+            case "sm":
+              return {
+                padding: "10px",
+                ...typography.body3,
+              };
+            case "md":
+              return {
+                padding: "11px",
+                ...typography.body2,
+              };
+            case "lg":
+              return {
+                padding: "12px",
+                ...typography.body1,
+              };
+            case "xl":
+              return {
+                padding: "14px",
+                ...typography.h3,
+              };
+            default:
+              const _exhaustiveCheck: never = size;
+              return _exhaustiveCheck;
+          }
+        })();
+
+        const variantColorStyles = (() => {
+          if (!color || color === "inherit") return { color: "inherit" };
+
+          switch (variant) {
+            case "contained":
+              return {
+                backgroundColor: color.main,
+                color: color.light,
+                "&:hover": {
+                  backgroundColor: color.dark,
+                },
+                "&.Mui-disabled": {
+                  backgroundColor: palette.secondary[200],
+                  color: color.light,
+                },
+              };
+            case "outlined":
+              return {
+                color: color.main,
+                border: `1px solid ${color.main}`,
+                "&:hover": {
+                  color: color.dark,
+                  backgroundColor: "transparent",
+                  borderColor: color.dark,
+                },
+                "&.Mui-disabled": {
+                  borderColor: palette.secondary[200],
+                  color: palette.secondary[200],
+                },
+              };
+            case "text":
+              return {
+                color: color.main,
+                "&:hover": {
+                  backgroundColor: "transparent",
+                  color: color.dark,
+                },
+                "&.Mui-disabled": {
+                  color: palette.secondary[200],
+                },
+              };
+            default:
+              const _exhaustiveCheck: never = variant;
+              return _exhaustiveCheck;
+          }
+        })();
+
+        return {
+          ...sizeStyles,
+          ...variantColorStyles,
+          borderRadius: 2,
         };
       },
     },
@@ -62,24 +227,59 @@ export const components: Components = {
         alignItems: "center",
         width: "100%",
         border: `1px solid`,
-        backgroundColor: "background", // supposed to be background.paper investigate why only background works
-        color: "text.primary",
+        backgroundColor: palette.background.paper,
+        color: palette.text.primary,
+        paddingTop: "4px !important",
+        paddingBottom: "4px !important",
+        paddingLeft: "16px !important",
         borderRadius: 0.5,
-        height: 44,
-        borderColor: "monochrome.500",
+        minHeight: "44px",
+        height: "100%",
+        borderColor: palette.monochrome[500],
         "& input::placeholder": {
-          color: "text.500",
+          color: palette.text[500],
+        },
+
+        "& input": {
+          padding: "0px !important",
+        },
+
+        "&.Mui-error": {
+          borderColor: palette.error.main,
+          "& .MuiAutocomplete-endAdornment": {
+            borderColor: palette.error.main,
+            "& button svg": {
+              color: palette.error.main,
+            },
+          },
+        },
+
+        "&.Mui-disabled": {
+          opacity: 1,
+          borderColor: palette.secondary[200],
+          "& .MuiAutocomplete-endAdornment": {
+            borderColor: palette.secondary[200],
+            "& button svg": {
+              color: palette.secondary[200],
+            },
+          },
         },
 
         "& .MuiAutocomplete-endAdornment": {
           borderLeft: "1px solid",
-          borderColor: "monochrome.500",
+          borderColor: palette.monochrome[500],
           marginLeft: "4px",
           paddingLeft: "4px",
-          height: 44,
+          minHeight: "44px",
+          height: "100%",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          "& button": {
+            background: "none",
+            boxShadow: "none",
+            border: "none",
+          },
         },
 
         "& fieldset": {
@@ -88,38 +288,119 @@ export const components: Components = {
       },
     },
   },
-
-  MuiNativeSelect: {
+  MuiChip: {
     defaultProps: {
-      IconComponent: ({ style, ...rest }) => {
-        return (
-          <Icon
-            name="chevrondown"
-            style={{
-              ...style,
-              cursor: "pointer",
-              color: "white",
-            }}
-            {...rest}
-          />
-        );
-      },
+      size: "md",
+      deleteIcon: <Icon name="cancel" strokeWidth={"3px"} />,
     },
     styleOverrides: {
-      select: {
-        transition: "color 0.2s ease",
+      root: ({ ownerState }) => {
+        const size = ownerState.size ?? "md";
+        const sizeStyles = (() => {
+          switch (size) {
+            case "xs":
+              return { padding: "4px 8px", ...typography.caption };
+            case "sm":
+              return { padding: "4px 12px", ...typography.body3 };
+            case "md":
+              return { padding: "4px 12px", ...typography.body2 };
+            case "lg":
+              return { padding: "4px 16px", ...typography.body1 };
+            case "xl":
+              return { padding: "4px 16px", ...typography.h3 };
+            default:
+              const _exhaustiveCheck: never = size;
+              return _exhaustiveCheck;
+          }
+        })();
+
+        return {
+          ...sizeStyles,
+          width: "fit-content",
+          height: "fit-content",
+          color: palette.text.primary,
+          cursor: "pointer",
+          backgroundColor: palette.secondary[50],
+          "&:hover": {
+            backgroundColor: palette.secondary[100],
+          },
+          "&.Mui-disabled": {
+            opacity: 1,
+            backgroundColor: palette.secondary[50],
+            border: `1px solid ${palette.secondary[100]}`,
+            color: palette.secondary[200],
+            "& .MuiChip-deleteIcon": {
+              color: palette.secondary[200],
+            },
+          },
+          fontFeatureSettings: "'liga' off, 'clig' off",
+        };
       },
-      icon: {
-        top: "calc(50% - 12px)",
-        right: 0,
-        color: "inherit !important",
-        transition: "color 0.2s ease !important",
+      label: {
+        padding: 0,
+        lineHeight: "inherit",
+      },
+      deleteIcon: ({ ownerState }) => {
+        const sizeStyles = (() => {
+          switch (ownerState.size) {
+            case "xs":
+              return { width: 14, height: 14 };
+            case "sm":
+              return { width: 16, height: 16 };
+            case "md":
+              return { width: 20, height: 20 };
+            case "lg":
+              return { width: 22, height: 22 };
+            case "xl":
+              return { width: 24, height: 24 };
+            default:
+              return {};
+          }
+        })();
+
+        return {
+          ...sizeStyles,
+          color: palette.text.primary,
+          marginRight: 0,
+          marginLeft: "4px",
+        };
       },
     },
   },
+
+  MuiInput: {},
   MuiLink: {
     defaultProps: {
+      size: "md",
       underline: "none",
+    },
+    styleOverrides: {
+      root: ({ ownerState }) => {
+        const isPrimary = ownerState.color === "primary";
+
+        const size = ownerState.size ?? "md";
+        const sizeStyles = (() => {
+          switch (size) {
+            case "sm":
+              return typography.body3;
+            case "md":
+              return typography.body2;
+            case "lg":
+              return typography.body1;
+            case "xl":
+              return typography.h3;
+            default:
+              const _exhaustiveCheck: never = size;
+              return _exhaustiveCheck;
+          }
+        })();
+
+        return {
+          ...sizeStyles,
+          minWidth: 0,
+          textDecoration: isPrimary ? "underline" : "none",
+        };
+      },
     },
   },
 

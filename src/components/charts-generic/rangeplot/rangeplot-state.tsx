@@ -99,7 +99,7 @@ const useRangePlotState = ({
 
   const colors = scaleLinear<string, string>()
     .domain(colorDomain)
-    .range(chartPalette.diverging.GO)
+    .range(chartPalette.diverging.GreenToOrange)
     .interpolate(interpolateLab);
   const left = estimateTextWidth(
     yScale.domain().length > 1
