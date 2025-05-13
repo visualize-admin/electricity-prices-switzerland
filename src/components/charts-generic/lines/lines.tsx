@@ -27,11 +27,7 @@ export const Lines = () => {
                 lineData[1].sort((a, b) => ascending(getX(a), getX(b)))
               ) as string
             }
-            color={
-              grouped.length > 1
-                ? colors(getColor(lineData[1][0]))
-                : theme.palette.primary.main
-            }
+            color={colors(getColor(lineData[1][0]))}
           />
         );
       })}
