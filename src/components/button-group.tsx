@@ -55,7 +55,7 @@ const STYLES = {
   },
 };
 
-export const RadioTabs = <T extends string>({
+export const ButtonGroup = <T extends string>({
   id,
   options,
   value,

@@ -5,9 +5,9 @@ import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { useContext, useMemo, useState } from "react";
 
+import { ButtonGroup } from "src/components/button-group";
 import { MiniSelect, SearchField } from "src/components/form";
 import { HighlightContext } from "src/components/highlight-context";
-import { RadioTabs } from "src/components/radio-tabs";
 import { Stack } from "src/components/stack";
 import { Entity } from "src/domain/data";
 import { useFormatCurrency } from "src/domain/helpers";
@@ -310,7 +310,7 @@ export const List = ({
       }}
       display="flex"
     >
-      <RadioTabs<ListState>
+      <ButtonGroup<ListState>
         id="list-state-tabs"
         options={[
           {

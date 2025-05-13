@@ -3,6 +3,7 @@ import { Box } from "@mui/material";
 import { groups } from "d3";
 import { memo, useEffect, useState } from "react";
 
+import { ButtonGroup } from "src/components/button-group";
 import {
   AnnotationX,
   AnnotationXDataPoint,
@@ -39,7 +40,6 @@ import { WithClassName } from "src/components/detail-page/with-classname";
 import { Loading, NoDataHint } from "src/components/hint";
 import { InfoDialogButton } from "src/components/info-dialog";
 import { PriceColorLegend } from "src/components/price-color-legend";
-import { RadioTabs } from "src/components/radio-tabs";
 import { SortingOrder, SortingType } from "src/domain/config-types";
 import { Entity, GenericObservation, priceComponents } from "src/domain/data";
 import { getLocalizedLabel } from "src/domain/translation";
@@ -158,7 +158,7 @@ export const CantonsComparisonRangePlots = ({ id, entity }: SectionProps) => {
       {!download && (
         <>
           <Box sx={{ display: ["none", "none", "block"] }}>
-            <RadioTabs
+            <ButtonGroup
               id="priceComponents"
               options={[
                 {
