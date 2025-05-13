@@ -117,6 +117,7 @@ export const components: Components = {
         return {
           ...sizeStyles,
           ...variantColorStyles,
+          borderRadius: 2,
         };
       },
     },
