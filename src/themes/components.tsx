@@ -287,6 +287,8 @@ export const components: Components = {
 
         "&.Mui-error": {
           borderColor: palette.error.main,
+          color: palette.error.main,
+
           "& .MuiAutocomplete-endAdornment": {
             borderColor: palette.error.main,
             "& button svg": {
@@ -297,6 +299,7 @@ export const components: Components = {
 
         "&.Mui-disabled": {
           opacity: 1,
+          color: palette.secondary[200],
           borderColor: palette.secondary[200],
           "& .MuiAutocomplete-endAdornment": {
             borderColor: palette.secondary[200],
