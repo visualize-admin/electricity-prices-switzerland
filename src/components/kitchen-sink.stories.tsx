@@ -103,22 +103,24 @@ export const TypographyStory = () => {
 };
 
 const normalizeSwatchGroup = (entries: [string, string][]) => {
-  const seen = new Map<string, string>();
+  let mainValue: string | null = null;
   const output: [string, string][] = [];
+  const ignoreKeys = new Set(["main", "primary", "light", "dark"]);
 
   for (const [key, value] of entries) {
-    const normalizedKey = key === "main" || key === "primary" ? "P" : key;
+    if (key === "main" || key === "primary") {
+      mainValue = value;
+      break;
+    }
+  }
 
-    if (seen.has(value)) {
-      const existingKey = seen.get(value)!;
+  for (const [key, value] of entries) {
+    if (ignoreKeys.has(key)) continue;
 
-      const updated = output.map(([k, v]) =>
-        v === value && k === existingKey ? [`${k} P`, v] : [k, v]
-      ) as [string, string][];
-      output.splice(0, output.length, ...updated);
+    if (mainValue && value === mainValue) {
+      output.push([`${key} P`, value]);
     } else {
-      seen.set(value, normalizedKey);
-      output.push([normalizedKey, value]);
+      output.push([key, value]);
     }
   }
 
