@@ -17,12 +17,8 @@ type RadioTabsProps<T> = {
 
 const STYLES = {
   tabs: {
-    active: {
-      display: "block",
-      position: "relative",
-      color: "background.paper",
-      bgcolor: "secondary.main",
-      flex: "1 0 auto",
+    common: {
+      flex: 1,
       textAlign: "center",
       px: 4,
       py: 2.5,
@@ -41,37 +37,23 @@ const STYLES = {
         borderBottomRightRadius: "2px",
       },
     },
+    active: {
+      color: "background.paper",
+      bgcolor: "secondary.main",
+    },
     inactive: {
-      overflow: "hidden",
-      whiteSpace: "nowrap",
-      textOverflow: "ellipsis",
-      display: "block",
       color: "text.primary",
       bgcolor: "background.paper",
-      flex: "1 1 auto",
-      textAlign: "center",
-      px: 4,
-      py: 2.5,
-      fontSize: "1rem",
-      borderColor: "monochrome.200",
-      borderStyle: "solid",
-      borderRightWidth: 0,
       cursor: "pointer",
-      "&: hover": {
+      whiteSpace: "nowrap",
+      textOverflow: "ellipsis",
+      overflow: "hidden",
+      "&:hover": {
         backgroundColor: "secondary.50",
-      },
-      "&:first-of-type": {
-        borderTopLeftRadius: "2px",
-        borderBottomLeftRadius: "2px",
-      },
-      "&:last-of-type": {
-        borderRightWidth: 1,
-        borderTopRightRadius: "2px",
-        borderBottomRightRadius: "2px",
       },
     },
   },
-} as const;
+};
 
 export const RadioTabs = <T extends string>({
   id,
@@ -142,7 +124,10 @@ export const RadioTabs = <T extends string>({
               title={
                 typeof option.label === "string" ? option.label : undefined
               }
-              sx={isActive ? STYLES.tabs.active : STYLES.tabs.inactive}
+              sx={{
+                ...STYLES.tabs.common,
+                ...(isActive ? STYLES.tabs.active : STYLES.tabs.inactive),
+              }}
             >
               <VisuallyHidden>
                 <input
