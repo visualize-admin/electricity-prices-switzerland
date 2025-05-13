@@ -216,7 +216,7 @@ export const HintRed = ({
     <Box sx={{ width: 24, pr: 4 }}>
       <Icon name={iconName} size={24} />
     </Box>
-    <Typography variant="body1" sx={{ textAlign: "left", ml: 4 }}>
+    <Typography variant="body3" sx={{ textAlign: "left", ml: 4 }}>
       {children}
     </Typography>
   </Box>
