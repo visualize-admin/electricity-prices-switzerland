@@ -420,8 +420,6 @@ export const components: Components = {
     },
     styleOverrides: {
       root: ({ ownerState }) => {
-        const isPrimary = ownerState.color === "primary";
-
         const size = ownerState.size ?? "md";
         const sizeStyles = (() => {
           switch (size) {
@@ -442,7 +440,6 @@ export const components: Components = {
         return {
           ...sizeStyles,
           minWidth: 0,
-          textDecoration: isPrimary ? "underline" : "none",
         };
       },
     },
