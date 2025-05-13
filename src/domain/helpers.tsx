@@ -1,4 +1,3 @@
-import { useTheme } from "@mui/material";
 import {
   schemeAccent,
   schemeCategory10,
@@ -139,7 +138,6 @@ export const useFormatShortDateAuto = () => {
 export const getPalette = (
   palette: string | undefined
 ): ReadonlyArray<string> => {
-  const theme = useTheme();
   switch (palette) {
     case "accent":
       return schemeAccent;

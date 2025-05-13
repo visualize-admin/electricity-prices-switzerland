@@ -193,7 +193,7 @@ export const NoGeoDataHint = () => (
   </Box>
 );
 
-export const HintBlue = ({
+export const HintRed = ({
   iconName,
   children,
 }: {
@@ -205,7 +205,7 @@ export const HintBlue = ({
       width: "auto",
       height: "auto",
       p: 5,
-      bgcolor: "primary.light",
+      bgcolor: "primary.50",
       color: "primary.main",
       textAlign: "center",
       justifyContent: "flex-start",
