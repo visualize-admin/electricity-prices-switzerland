@@ -1,15 +1,14 @@
-import { useTheme } from "@mui/material";
 import { ascending, line } from "d3";
 import * as React from "react";
 
 import { LinesState } from "src/components/charts-generic/lines/lines-state";
 import { useChartState } from "src/components/charts-generic/use-chart-state";
 import { GenericObservation } from "src/domain/data";
+import { chartPalette } from "src/themes/palette";
 
 export const Lines = () => {
   const { getX, xScale, getY, yScale, grouped, colors, getColor, bounds } =
     useChartState() as LinesState;
-  const theme = useTheme();
 
   const lineGenerator = line<GenericObservation>()
     .x((d) => xScale(getX(d)))
@@ -27,7 +26,11 @@ export const Lines = () => {
                 lineData[1].sort((a, b) => ascending(getX(a), getX(b)))
               ) as string
             }
-            color={colors(getColor(lineData[1][0]))}
+            color={
+              grouped.length > 1
+                ? colors(getColor(lineData[1][0]))
+                : chartPalette.categorical[0]
+            }
           />
         );
       })}
