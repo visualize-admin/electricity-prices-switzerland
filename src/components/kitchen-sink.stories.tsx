@@ -183,7 +183,7 @@ export const PaletteStory = () => {
         </ColorPaletteStack>
 
         <ColorPaletteStack
-          title="Primary Color"
+          title="Text Color"
           accessibilityNotes={[
             {
               "Monochrome 300 P":
@@ -197,11 +197,11 @@ export const PaletteStory = () => {
             },
           ]}
         >
-          {text.map(([key, value]) => (
+          {text.map(([key, value], i) => (
             <ColorSwatch
               key={`${key}-${value}`}
               swatch={{ [key]: value }}
-              primary={isPrimary(key)}
+              primary={isPrimary(key) || i === 3}
               color="Monochrome"
             />
           ))}
