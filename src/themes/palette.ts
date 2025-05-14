@@ -33,8 +33,8 @@ export const palette = {
 
 export const chartPalette = {
   categorical: [
-    "#4C60A5",
     "#909ECC",
+    "#4C60A5",
     "#91C34A",
     "#FFD966",
     "#F9AA1E",

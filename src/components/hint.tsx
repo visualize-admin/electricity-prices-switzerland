@@ -193,7 +193,7 @@ export const NoGeoDataHint = () => (
   </Box>
 );
 
-export const HintBlue = ({
+export const HintRed = ({
   iconName,
   children,
 }: {
@@ -205,7 +205,7 @@ export const HintBlue = ({
       width: "auto",
       height: "auto",
       p: 5,
-      bgcolor: "primary.light",
+      bgcolor: "primary.50",
       color: "primary.main",
       textAlign: "center",
       justifyContent: "flex-start",
@@ -216,7 +216,7 @@ export const HintBlue = ({
     <Box sx={{ width: 24, pr: 4 }}>
       <Icon name={iconName} size={24} />
     </Box>
-    <Typography variant="body1" sx={{ textAlign: "left", ml: 4 }}>
+    <Typography variant="body3" sx={{ textAlign: "left", ml: 4 }}>
       {children}
     </Typography>
   </Box>

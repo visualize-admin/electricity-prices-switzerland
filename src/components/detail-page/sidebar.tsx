@@ -10,7 +10,6 @@ import { SectionProps } from "./card";
 export const DetailsPageSidebar = (props: SectionProps) => {
   const { id, entity } = props;
 
-  console.log(entity, id);
   return (
     <Box
       sx={{

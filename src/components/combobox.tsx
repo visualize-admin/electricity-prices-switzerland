@@ -234,6 +234,19 @@ export const Combobox = ({
             </>
           );
         }}
+        renderOption={(props, option, { selected }) => (
+          <li
+            {...props}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            {option}
+            {selected && <Icon name="checkmark" />}
+          </li>
+        )}
         popupIcon={<Icon name="chevrondown" color="black" />}
         getOptionLabel={getItemLabel}
         disableClearable

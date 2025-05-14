@@ -3,9 +3,48 @@ import { Components } from "@mui/material";
 import { Icon } from "src/icons";
 
 import { palette } from "./palette";
+import { shadows } from "./shadows";
 import { typography } from "./typography";
 
 export const components: Components = {
+  MuiAutocomplete: {
+    styleOverrides: {
+      popper: {
+        zIndex: 1300,
+      },
+      paper: {
+        boxShadow: shadows[3],
+        borderRadius: 2,
+        backgroundColor: palette.background.paper,
+      },
+      listbox: {
+        fontSize: "14px",
+        overflowY: "auto",
+        padding: 0,
+        "& .MuiAutocomplete-option": {
+          padding: "10px 16px",
+          ...typography.body2,
+          color: palette.text.primary,
+          "&:hover": {
+            backgroundColor: palette.secondary[50],
+          },
+
+          "&[aria-selected='true']": {
+            backgroundColor: "transparent",
+            "&:hover": {
+              backgroundColor: palette.secondary[50],
+            },
+            "&.Mui-focused": {
+              backgroundColor: "transparent",
+            },
+          },
+          "&.Mui-disabled": {
+            color: palette.secondary[200],
+          },
+        },
+      },
+    },
+  },
   MuiButtonBase: {
     defaultProps: {
       disableRipple: true,
@@ -117,6 +156,7 @@ export const components: Components = {
         return {
           ...sizeStyles,
           ...variantColorStyles,
+          borderRadius: 2,
         };
       },
     },
@@ -236,6 +276,7 @@ export const components: Components = {
         minHeight: "44px",
         height: "100%",
         borderColor: palette.monochrome[500],
+
         "& input::placeholder": {
           color: palette.text[500],
         },
@@ -246,6 +287,8 @@ export const components: Components = {
 
         "&.Mui-error": {
           borderColor: palette.error.main,
+          color: palette.error.main,
+
           "& .MuiAutocomplete-endAdornment": {
             borderColor: palette.error.main,
             "& button svg": {
@@ -256,6 +299,7 @@ export const components: Components = {
 
         "&.Mui-disabled": {
           opacity: 1,
+          color: palette.secondary[200],
           borderColor: palette.secondary[200],
           "& .MuiAutocomplete-endAdornment": {
             borderColor: palette.secondary[200],
