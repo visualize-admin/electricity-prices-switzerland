@@ -33,13 +33,16 @@ export const palette = {
 
 export const chartPalette = {
   categorical: [
-    "#3B82F6",
-    "#F59E0B",
-    "#EC4899",
-    "#0D8B96",
-    "#8655F6",
-    "#059669",
-    "#EA580C",
+    "#909ECC",
+    "#4C60A5",
+    "#91C34A",
+    "#FFD966",
+    "#F9AA1E",
+    "#C01C03",
+    "#9678C8",
+    "#2D3A63",
+    "#BFBFBF",
+    "#D5D5D5",
   ],
   sequential: {
     orange: ["#FED7AA", "#FDBA74", "#FB923C", "#F97316", "#EA580C", "#C2410C"],
@@ -52,7 +55,7 @@ export const chartPalette = {
     pink: ["#FBCFE8", "#F9A8D4", "#F472B6", "#EC4899", "#DB2777", "#BE185D"],
   },
   diverging: {
-    GreenToOrange: ["#059669", "#34D399", "#E4D78C", "#FB923C", "#EA580C"],
+    GreenToOrange: ["#51B581", "#A8DC90", "#E6EC83", "#F1B865", "#EB7C40"],
     BlueToPink: ["#2563EB", "#60A5FA", "#CEC3DE", "#F472B6", "#DB2777"],
   },
 };

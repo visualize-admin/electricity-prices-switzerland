@@ -79,7 +79,6 @@ const ShareButton = () => {
       y: 0,
       width: 0,
     };
-    console.log(linkRect);
     Object.assign(mouse.current, {
       x: linkRect.width ?? 0,
       y: linkRect.y ?? 0,

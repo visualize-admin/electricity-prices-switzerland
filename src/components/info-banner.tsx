@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 
-import { HintBlue } from "src/components/hint";
+import { HintRed } from "src/components/hint";
 import { useWikiContentQuery } from "src/graphql/queries";
 import { useLocale } from "src/lib/use-locale";
 
@@ -30,7 +30,7 @@ export const InfoBanner = ({
   }
 
   return (
-    <HintBlue iconName="infocircle">
+    <HintRed iconName="infocircle">
       {
         <Box
           component="section"
@@ -43,6 +43,6 @@ export const InfoBanner = ({
           }}
         />
       }
-    </HintBlue>
+    </HintRed>
   );
 };

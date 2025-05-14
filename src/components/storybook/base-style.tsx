@@ -222,7 +222,7 @@ export const ColorSwatch = ({ swatch, color, primary }: ColorSwatchProps) => {
         lineHeight="150%"
         color="#666"
       >
-        {color} {key} {primary ? "P" : ""}
+        {color} {key}
       </Typography>
       <Typography
         fontSize="14px !important"

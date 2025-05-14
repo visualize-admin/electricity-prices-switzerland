@@ -16,8 +16,8 @@ import { getIconSize, Icon } from "src/icons";
 import { chartPalette, palette } from "src/themes/palette";
 
 import { AnchorNav } from "./anchor-nav";
+import { ButtonGroup } from "./button-group";
 import { Combobox, ComboboxMulti } from "./combobox";
-import { RadioTabs } from "./radio-tabs";
 import {
   ColorPaletteStack,
   ColorSwatch,
@@ -104,22 +104,24 @@ export const TypographyStory = () => {
 };
 
 const normalizeSwatchGroup = (entries: [string, string][]) => {
-  const seen = new Map<string, string>();
+  let mainValue: string | null = null;
   const output: [string, string][] = [];
+  const ignoreKeys = new Set(["main", "primary", "light", "dark"]);
 
   for (const [key, value] of entries) {
-    const normalizedKey = key === "main" || key === "primary" ? "P" : key;
+    if (key === "main" || key === "primary") {
+      mainValue = value;
+      break;
+    }
+  }
 
-    if (seen.has(value)) {
-      const existingKey = seen.get(value)!;
+  for (const [key, value] of entries) {
+    if (ignoreKeys.has(key)) continue;
 
-      const updated = output.map(([k, v]) =>
-        v === value && k === existingKey ? [`${k} P`, v] : [k, v]
-      ) as [string, string][];
-      output.splice(0, output.length, ...updated);
+    if (mainValue && value === mainValue) {
+      output.push([`${key} P`, value]);
     } else {
-      seen.set(value, normalizedKey);
-      output.push([normalizedKey, value]);
+      output.push([key, value]);
     }
   }
 
@@ -182,7 +184,7 @@ export const PaletteStory = () => {
         </ColorPaletteStack>
 
         <ColorPaletteStack
-          title="Primary Color"
+          title="Text Color"
           accessibilityNotes={[
             {
               "Monochrome 300 P":
@@ -196,11 +198,11 @@ export const PaletteStory = () => {
             },
           ]}
         >
-          {text.map(([key, value]) => (
+          {text.map(([key, value], i) => (
             <ColorSwatch
               key={`${key}-${value}`}
               swatch={{ [key]: value }}
-              primary={isPrimary(key)}
+              primary={isPrimary(key) || i === 3}
               color="Monochrome"
             />
           ))}
@@ -593,14 +595,14 @@ export const ChipStory = () => (
   </DesignStory>
 );
 
-export const RadioTabsStory = () => {
+export const ButtonGroupStory = () => {
   const [radioTabsValue, setRadioTabsValue] = useState<string>("label-1");
 
   return (
-    <DesignStory title="Radio Tabs" reference="BUND Library">
+    <DesignStory title="Button Group" reference="BUND Library">
       <DesignSection title="Base" sx={{ maxWidth: 300 }}>
-        <RadioTabs
-          id="storybook-radio-tabs"
+        <ButtonGroup
+          id="storybook-button-group"
           options={[
             { label: "Label", value: "label-1" },
             { label: "Label", value: "label-2" },

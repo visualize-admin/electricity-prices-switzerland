@@ -3,6 +3,7 @@ import { Box } from "@mui/material";
 import { ascending, group, groups, max, min } from "d3";
 import * as React from "react";
 
+import { ButtonGroup } from "src/components/button-group";
 import {
   BarsGrouped,
   BarsGroupedAxis,
@@ -29,7 +30,6 @@ import {
 import { WithClassName } from "src/components/detail-page/with-classname";
 import { Loading, NoDataHint } from "src/components/hint";
 import { InfoDialogButton } from "src/components/info-dialog";
-import { RadioTabs } from "src/components/radio-tabs";
 import {
   Entity,
   GenericObservation,
@@ -176,7 +176,7 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
               maxWidth: "fit-content",
             }}
           >
-            <RadioTabs
+            <ButtonGroup
               id="price-components-bars-view-switch"
               options={[
                 {
