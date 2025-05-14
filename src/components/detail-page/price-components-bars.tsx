@@ -18,7 +18,6 @@ import { Combobox } from "src/components/combobox";
 import {
   Card,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
   SectionProps,
@@ -298,7 +297,7 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
         </WithClassName>
       )}
       {/*FIXME: placeholder values */}
-      <CardFooter date="March 7, 2024, 1:28 PM" source="Lindas" />
+      {/* <CardFooter date="March 7, 2024, 1:28 PM" source="Lindas" /> */}
     </Card>
   );
 };

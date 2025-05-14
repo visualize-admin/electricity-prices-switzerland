@@ -132,7 +132,7 @@ export const DetailPageBanner = ({
             <Trans id="detail.operator">Netzbetreiber</Trans>
           )}
         </Typography>
-        {/* FIXME: Make a dropdown for all entity types */}
+        {/* FIXME: Make a dropdown for all entity types (after ci-cd) */}
 
         <Box
           display={"flex"}
