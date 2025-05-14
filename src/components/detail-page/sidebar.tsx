@@ -19,39 +19,39 @@ export const DetailsPageSidebar = (props: SectionProps) => {
     >
       <SidebarSectionTitle>
         <Trans id="details.page.navigation.electricity-insights-title">
-          Electricity Insights
+          Einblicke in die Elektrizität
         </Trans>
       </SidebarSectionTitle>
       <SidebarItem href={`/${entity}/${id}`}>
         <Trans id="details.page.navigation.electricity-tariffs-item">
-          Electricity Tariffs
+          Stromtarife
         </Trans>
       </SidebarItem>
 
       {/* FIXME: Make this only a preview and add a coming soon label */}
       <SidebarSectionTitle>
         <Trans id="details.page.navigation.sunshine-indicators-title">
-          Sunshine Indicators
+          Sunshine Indikatoren
         </Trans>
       </SidebarSectionTitle>
       <SidebarItem href={`/${entity}/${id}/overview`}>
         <Trans id="details.page.navigation.sunshine-overview-item">
-          Overview
+          Übersicht
         </Trans>
       </SidebarItem>
       <SidebarItem href={`/${entity}/${id}/costs-and-tariffs`}>
         <Trans id="details.page.navigation.costs-and-tariffs-item">
-          Costs and Tariffs
+          Kosten und Tariffe
         </Trans>
       </SidebarItem>
       <SidebarItem href={`/${entity}/${id}/power-stability`}>
         <Trans id="details.page.navigation.power-stability-item">
-          Power Stability
+          Leistungsstabilität
         </Trans>
       </SidebarItem>
       <SidebarItem href={`/${entity}/${id}/operational-standards`}>
         <Trans id="details.page.navigation.operational-standards-item">
-          Operational Standards
+          Operationelle Standards
         </Trans>
       </SidebarItem>
     </Box>

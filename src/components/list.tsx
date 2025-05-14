@@ -365,7 +365,7 @@ export const List = ({
             lineHeight: "24px",
           }}
         >
-          {<Trans id="dataset.results">{listItems.length} results</Trans>}
+          {<Trans id="dataset.results">{listItems.length} Resultate</Trans>}
         </Typography>
         <Box
           sx={{

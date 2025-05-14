@@ -107,12 +107,12 @@ const AppNavigation = () => {
         }}
       >
         <MenuButton
-          title={t({ id: "home.menu.overview", message: "Overview" })}
+          title={t({ id: "home.menu.overview", message: "Übersicht" })}
           active={asPath === "/"}
           href={"/"}
         />
         <MenuButton
-          title={t({ id: "home.menu.map-view", message: "Map View" })}
+          title={t({ id: "home.menu.map-view", message: "Karten Ansicht" })}
           active={
             asPath === "/map" ||
             asPath.includes("municipality") ||

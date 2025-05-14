@@ -17,7 +17,7 @@
     "lint": "eslint .",
     "test": "vitest",
     "setup": "yarn && yarn locales:compile && yarn graphql:codegen",
-    "locales:extract": "NODE_ENV=development lingui extract --verbose",
+    "locales:extract": "NODE_ENV=development lingui extract --overwrite --clean --verbose",
     "locales:compile": "lingui compile --verbose",
     "graphql:codegen": "graphql-codegen --config codegen.yml",
     "graphql:codegen:dev": "graphql-codegen --config codegen.yml --watch",
