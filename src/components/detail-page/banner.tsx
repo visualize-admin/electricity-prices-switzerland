@@ -157,7 +157,7 @@ export const DetailPageBanner = ({
               <Trans id="detail.canton">Kanton</Trans>:{" "}
               <NextLink
                 href={{
-                  pathname: `/details/[entity]/[id]`,
+                  pathname: `/[entity]/[id]`,
                   query: { ...query, id: canton.id, entity: "canton" },
                 }}
                 passHref
@@ -178,7 +178,7 @@ export const DetailPageBanner = ({
               <Trans id="detail.municipalities">Gemeinden</Trans>:{" "}
               <RelationsList
                 key={`${entity}-${id}`}
-                relationPathname={`/details/municipality/[id]`}
+                relationPathname={`/municipality/[id]`}
                 relations={municipalities}
               />
             </Box>
@@ -195,7 +195,7 @@ export const DetailPageBanner = ({
               <Trans id="detail.operators">Netzbetreiber</Trans>:{" "}
               <RelationsList
                 key={`${entity}-${id}`}
-                relationPathname={`/details/operator/[id]`}
+                relationPathname={`/operator/[id]`}
                 relations={operators}
               />
             </Box>
