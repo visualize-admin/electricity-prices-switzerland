@@ -209,6 +209,7 @@ const ElectricityTariffsPage = (props: Props) => {
       <Head>
         <title>{`${getLocalizedLabel({ id: entity })} ${name} – ${t({
           id: "site.title",
+          message: "Stromtarife und Vorschriften",
         })}`}</title>
       </Head>
       <ApplicationLayout>

@@ -22,7 +22,7 @@ msgid "chart.annotation.operators"
 msgstr "gestionnaires de réseau"
 
 #: src/components/charts-generic/axis/axis-width-linear.tsx:130
-#: src/components/detail-page/price-distribution-histogram.tsx:314
+#: src/components/detail-page/price-distribution-histogram.tsx:313
 #: src/domain/translation.tsx:26
 msgid "chart.axis.unit.Rp/kWh"
 msgstr "ct./kWh"
@@ -58,22 +58,22 @@ msgstr "Date"
 msgid "detail.canton"
 msgstr "Canton"
 
-#: src/components/detail-page/cantons-comparison-range.tsx:134
-#: src/components/detail-page/cantons-comparison-range.tsx:149
+#: src/components/detail-page/cantons-comparison-range.tsx:133
+#: src/components/detail-page/cantons-comparison-range.tsx:148
 msgid "detail.card.title.cantons.comparison"
 msgstr "Comparaison des cantons"
 
-#: src/components/detail-page/price-components-bars.tsx:163
+#: src/components/detail-page/price-components-bars.tsx:162
 msgid "detail.card.title.price.components"
 msgstr "Composantes du prix"
 
-#: src/components/detail-page/price-distribution-histogram.tsx:100
-#: src/components/detail-page/price-distribution-histogram.tsx:115
+#: src/components/detail-page/price-distribution-histogram.tsx:99
+#: src/components/detail-page/price-distribution-histogram.tsx:114
 msgid "detail.card.title.prices.distribution"
 msgstr "Distribution des prix en Suisse"
 
-#: src/components/detail-page/price-evolution-line-chart.tsx:102
-#: src/components/detail-page/price-evolution-line-chart.tsx:117
+#: src/components/detail-page/price-evolution-line-chart.tsx:101
+#: src/components/detail-page/price-evolution-line-chart.tsx:116
 msgid "detail.card.title.prices.evolution"
 msgstr "Évolution des tarifs"
 
@@ -249,7 +249,7 @@ msgstr "Aucune carte ne peut être affichée pour l'année sélectionnée"
 msgid "hint.nogeodata.title"
 msgstr "Aucune carte ne peut être affichée pour l'année sélectionnée"
 
-#: src/components/detail-page/price-distribution-histogram.tsx:191
+#: src/components/detail-page/price-distribution-histogram.tsx:190
 msgid "histogram.canton-count"
 msgstr "Nombre de cantons"
 
@@ -261,19 +261,19 @@ msgstr "Max"
 msgid "histogram.min"
 msgstr "Min"
 
-#: src/components/detail-page/price-distribution-histogram.tsx:202
+#: src/components/detail-page/price-distribution-histogram.tsx:201
 msgid "histogram.municipality-count"
 msgstr "Nombre de communes"
 
-#: src/pages/index.tsx:74
+#: src/pages/index.tsx:76
 msgid "home.hero-section.description"
 msgstr "Ce site fournit des informations actuelles sur les tarifs d'électricité en Suisse et permet de comparer les prix pour les clients privés et commerciaux par commune, canton ou gestionnaire de réseau. Vous pouvez consulter les détails des coûts d’énergie, du réseau et des suppléments ainsi que les tendances historiques pour mieux comprendre les coûts d’électricité dans votre région."
 
-#: src/pages/index.tsx:94
+#: src/pages/index.tsx:96
 msgid "home.hero-section.primary-cta"
 msgstr "Tarifs d'électricité en Suisse"
 
-#: src/pages/index.tsx:69
+#: src/pages/index.tsx:71
 msgid "home.hero-section.title"
 msgstr "Découvrez les tarifs d'électricité en vue cartographique"
 
@@ -345,11 +345,11 @@ msgstr "Aucune donnée"
 msgid "municipality"
 msgstr "Commune"
 
-#: src/pages/[entity]/[id]/index.tsx:271
+#: src/pages/[entity]/[id]/index.tsx:272
 msgid "page.electricity-tariffs.description"
 msgstr "La page de détail du gestionnaire de réseau fournit des informations actuelles sur les tarifs d’électricité pour permettre une comparaison des prix. Vous pouvez voir la répartition des coûts d’énergie, du réseau et des suppléments, ainsi que les tendances historiques pour mieux comprendre les coûts d’électricité."
 
-#: src/pages/[entity]/[id]/index.tsx:266
+#: src/pages/[entity]/[id]/index.tsx:267
 msgid "page.electricity-tariffs.title"
 msgstr "Tarifs d'électricité"
 
@@ -384,7 +384,7 @@ msgstr "Montrer toutes les municipalités"
 msgid "priceComponents.view.expanded.operators"
 msgstr "Montrer tous les gestionnaires"
 
-#: src/components/detail-page/cantons-comparison-range.tsx:212
+#: src/components/detail-page/cantons-comparison-range.tsx:211
 msgid "rangeplot.select.order.hint"
 msgstr "Trier selon"
 
@@ -526,13 +526,13 @@ msgstr "Comparaison entre gestionnaires de réseau"
 msgid "selector.legend.select.parameters"
 msgstr "Sélectionner les paramètres"
 
-#: src/components/detail-page/price-components-bars.tsx:147
+#: src/components/detail-page/price-components-bars.tsx:146
 #: src/components/electricity-selectors.tsx:63
 msgid "selector.priceComponent"
 msgstr "Composantes du prix"
 
-#: src/components/detail-page/cantons-comparison-range.tsx:192
-#: src/components/detail-page/price-distribution-histogram.tsx:158
+#: src/components/detail-page/cantons-comparison-range.tsx:191
+#: src/components/detail-page/price-distribution-histogram.tsx:157
 msgid "selector.priceComponents"
 msgstr "Composantes du prix"
 
@@ -583,7 +583,7 @@ msgstr "URL copiée ✅"
 
 #: src/components/app-layout.tsx:80
 #: src/pages/[entity]/[id]/index.tsx:210
-#: src/pages/index.tsx:45
+#: src/pages/index.tsx:46
 msgid "site.title"
 msgstr "Prix de l'électricité en Suisse"
 

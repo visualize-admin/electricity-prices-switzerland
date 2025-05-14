@@ -42,7 +42,9 @@ const IndexPage = () => {
   return (
     <>
       <Head>
-        <title>{t({ id: "site.title" })}</title>
+        <title>
+          {t({ id: "site.title", message: "Stromtarife in der Schweiz" })}
+        </title>
       </Head>
       <ApplicationLayout>
         <Box

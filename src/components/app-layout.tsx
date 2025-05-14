@@ -77,7 +77,7 @@ const AppNavigation = () => {
             variant="display2"
             sx={{ textAlign: "left" }}
           >
-            <Trans id="site.title">Electricity Tariffs and Regulations</Trans>
+            <Trans id="site.title">Stromtarife und Vorschriften</Trans>
           </Typography>
           <Typography
             variant="h3"
