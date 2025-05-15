@@ -37,8 +37,7 @@ export async function isValidSignedPreviewCookie(
 }
 
 export async function middleware(req: NextRequest) {
-  if (process.env.NEXT_PUBLIC_VERCEL_ENV !== "preview")
-    return NextResponse.next();
+  //FIXME: scope for vercel preview only
   const { pathname } = req.nextUrl;
 
   if (
