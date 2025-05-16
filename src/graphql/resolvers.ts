@@ -62,11 +62,7 @@ const parseNumber = (val: string): number | null => {
 type RawRow = Record<string, string>;
 
 const Query: QueryResolvers = {
-  sunshineData: async (_parent, _args, ctx) => {
-    if (!ctx.isAuthed) {
-      throw new GraphQLError("Unauthorized");
-    }
-
+  sunshineData: async (_parent, _args) => {
     try {
       const csvBuffer = decryptSunshineCsv();
       const csv = csvBuffer.toString("utf-8");
