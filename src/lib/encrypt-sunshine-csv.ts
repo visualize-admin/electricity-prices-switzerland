@@ -5,8 +5,8 @@ import path from "path";
 const PASSWORD = process.env.PREVIEW_PASSWORD!;
 if (!PASSWORD) throw new Error("PREVIEW_PASSWORD not set");
 
-const INPUT_PATH = path.join(process.cwd(), "src/sunshine-data.csv");
-const OUTPUT_PATH = path.join(process.cwd(), "src/sunshine-data.enc");
+const INPUT_PATH = path.join(__dirname, "../sunshine-data.csv");
+const OUTPUT_PATH = path.join(__dirname, "../sunshine-data.enc");
 
 const data = fs.readFileSync(INPUT_PATH);
 

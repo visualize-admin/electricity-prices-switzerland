@@ -2,9 +2,7 @@ import crypto from "crypto";
 import fs from "fs";
 import path from "path";
 
-import { GraphQLError } from "graphql";
-
-const ENC_PATH = path.join(process.cwd(), "src/sunshine-data.enc");
+const ENC_PATH = path.join(__dirname, "../sunshine-data.enc");
 const PASSWORD = process.env.PREVIEW_PASSWORD!;
 
 export const decryptSunshineCsv = (): Buffer => {
@@ -20,6 +18,6 @@ export const decryptSunshineCsv = (): Buffer => {
     return Buffer.concat([decipher.update(data), decipher.final()]);
   } catch (e) {
     console.error("[Decrypt CSV Error]", e);
-    throw new GraphQLError("Failed to decrypt sunshine data.");
+    throw new Error("Failed to decrypt sunshine data.");
   }
 };
