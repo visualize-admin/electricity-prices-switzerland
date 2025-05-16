@@ -301,7 +301,7 @@ const PriceDistributionHistogram = ({
             sx={{
               position: "absolute",
               right: "2.5rem",
-              top: 0,
+              top: { xxs: 48, md: 0 },
             }}
           >
             <PriceColorLegend />

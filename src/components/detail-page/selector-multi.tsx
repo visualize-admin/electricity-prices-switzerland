@@ -30,7 +30,6 @@ export const SelectorMulti = ({
 
   return (
     <Box
-      component="fieldset"
       sx={{
         border: 0,
         display: "grid",
