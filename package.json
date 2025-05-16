@@ -82,7 +82,7 @@
     "micromark": "^2.11.2",
     "micromark-extension-gfm": "^0.3.3",
     "next": "15.0.4",
-    "nextjs-basic-auth-middleware": "^0.2.1",
+    "nextjs-basic-auth-middleware": "^3.1.0",
     "nextkit": "^3.4.3",
     "node-fetch": "^2.6.7",
     "nprogress": "^0.2.0",
