@@ -31,28 +31,26 @@ export const DetailPageLayout = ({ children, selector, download }: Props) => {
       display="grid"
       sx={{
         gap: 0,
-        gridTemplateColumns: [`1fr`, `20rem 1fr`],
-        gridTemplateRows: [`auto`, `auto 1fr`],
-        gridTemplateAreas: [
-          `
+        gridTemplateColumns: { xxs: `1fr`, md: `20rem 1fr` },
+        gridTemplateRows: { xxs: `auto`, md: `auto 1fr` },
+        gridTemplateAreas: {
+          xxs: `
   "selector"
   "main"
   `,
-          `
-  "selector main"
+          md: `
+"selector main"
   "selector main"
   `,
-        ],
+        },
       }}
     >
       <Box
         sx={{
           gridArea: "main",
-          pl: [0, 16],
+          pl: { xxs: 0, md: 16 },
           bgcolor: "secondary.50",
-          borderLeftWidth: "1px",
-          borderLeftStyle: "solid",
-          borderLeftColor: "monochrome.300",
+          minWidth: 0,
         }}
       >
         <Box
@@ -73,6 +71,9 @@ export const DetailPageLayout = ({ children, selector, download }: Props) => {
           top: 0,
           alignSelf: "start",
           height: "fit-content",
+          borderRightWidth: "1px",
+          borderRightStyle: "solid",
+          borderRightColor: "monochrome.300",
         }}
       >
         {!download && selector}

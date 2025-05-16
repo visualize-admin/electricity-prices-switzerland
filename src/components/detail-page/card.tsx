@@ -97,13 +97,13 @@ export const CardFooter = (props: CardFooterProps) => {
         variant="caption"
         sx={{ color: "text.500", lineHeight: "150%" }}
       >
-        <Trans id="date">Date</Trans>: {date}
+        <Trans id="date">Datum</Trans>: {date}
       </Typography>
       <Typography
         variant="caption"
         sx={{ color: "text.500", lineHeight: "150%" }}
       >
-        <Trans id="source">Source</Trans>: {source}
+        <Trans id="source">Quelle</Trans>: {source}
       </Typography>
     </Box>
   );

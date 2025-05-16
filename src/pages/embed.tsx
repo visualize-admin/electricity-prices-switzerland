@@ -110,7 +110,7 @@ const IndexPage = ({ locale }: Props) => {
 
   const handleMunicipalityLayerClick = ({ object }: PickingInfo) => {
     const id = object?.id.toString();
-    window.open(`${baseDomain}/details/municipality/${id}`, target);
+    window.open(`${baseDomain}/municipality/${id}`, target);
   };
 
   const [highlightContext, setHighlightContext] = useState<HighlightValue>();

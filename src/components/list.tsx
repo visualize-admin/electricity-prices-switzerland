@@ -47,7 +47,7 @@ const ListItem = ({
       color="inherit"
       component={NextLink}
       href={{
-        pathname: `/details/${entity}/[id]`,
+        pathname: `/${entity}/[id]`,
         query: { ...query, id },
       }}
       onMouseOver={() => setHighlightContext({ entity, id, label, value })}
@@ -365,7 +365,7 @@ export const List = ({
             lineHeight: "24px",
           }}
         >
-          {<Trans id="dataset.results">{listItems.length} results</Trans>}
+          {<Trans id="dataset.results">{listItems.length} Resultate</Trans>}
         </Typography>
         <Box
           sx={{
