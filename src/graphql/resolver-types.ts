@@ -3,7 +3,6 @@ import {
   GraphQLScalarType,
   GraphQLScalarTypeConfig,
 } from "graphql";
-
 import {
   ResolvedCanton,
   ResolvedMunicipality,
@@ -26,17 +25,26 @@ export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
   [SubKey in K]: Maybe<T[SubKey]>;
 };
+export type MakeEmpty<
+  T extends { [key: string]: unknown },
+  K extends keyof T
+> = { [_ in K]?: never };
+export type Incremental<T> =
+  | T
+  | {
+      [P in keyof T]?: P extends " $fragmentName" | "__typename" ? T[P] : never;
+    };
 export type RequireFields<T, K extends keyof T> = Omit<T, K> & {
   [P in K]-?: NonNullable<T[P]>;
 };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: string;
-  String: string;
-  Boolean: boolean;
-  Int: number;
-  Float: number;
-  WikiContentInfo: any;
+  ID: { input: string; output: string };
+  String: { input: string; output: string };
+  Boolean: { input: boolean; output: boolean };
+  Int: { input: number; output: number };
+  Float: { input: number; output: number };
+  WikiContentInfo: { input: any; output: any };
 };
 
 export enum CacheControlScope {
@@ -46,19 +54,19 @@ export enum CacheControlScope {
 
 export type Canton = {
   __typename?: "Canton";
-  id: Scalars["String"];
+  id: Scalars["String"]["output"];
   municipalities: Array<Municipality>;
-  name: Scalars["String"];
+  name: Scalars["String"]["output"];
   operator: Array<Operator>;
 };
 
 export type CantonMedianObservation = {
   __typename?: "CantonMedianObservation";
-  canton: Scalars["String"];
-  cantonLabel?: Maybe<Scalars["String"]>;
-  category: Scalars["String"];
-  period: Scalars["String"];
-  value: Scalars["Float"];
+  canton: Scalars["String"]["output"];
+  cantonLabel?: Maybe<Scalars["String"]["output"]>;
+  category: Scalars["String"]["output"];
+  period: Scalars["String"]["output"];
+  value: Scalars["Float"]["output"];
 };
 
 export type CantonMedianObservationValueArgs = {
@@ -67,29 +75,29 @@ export type CantonMedianObservationValueArgs = {
 
 export type CantonResult = SearchResult & {
   __typename?: "CantonResult";
-  id: Scalars["String"];
-  name: Scalars["String"];
+  id: Scalars["String"]["output"];
+  name: Scalars["String"]["output"];
 };
 
 export type CubeHealth = {
   __typename?: "CubeHealth";
-  dimensions: Array<Scalars["String"]>;
-  ok: Scalars["Boolean"];
+  dimensions: Array<Scalars["String"]["output"]>;
+  ok: Scalars["Boolean"]["output"];
 };
 
 export type Municipality = {
   __typename?: "Municipality";
   canton: Canton;
-  id: Scalars["String"];
-  isAbolished?: Maybe<Scalars["Boolean"]>;
-  name: Scalars["String"];
+  id: Scalars["String"]["output"];
+  isAbolished?: Maybe<Scalars["Boolean"]["output"]>;
+  name: Scalars["String"]["output"];
   operators: Array<Operator>;
 };
 
 export type MunicipalityResult = SearchResult & {
   __typename?: "MunicipalityResult";
-  id: Scalars["String"];
-  name: Scalars["String"];
+  id: Scalars["String"]["output"];
+  name: Scalars["String"]["output"];
 };
 
 export type Observation =
@@ -98,12 +106,12 @@ export type Observation =
   | SwissMedianObservation;
 
 export type ObservationFilters = {
-  canton?: InputMaybe<Array<Scalars["String"]>>;
-  category?: InputMaybe<Array<Scalars["String"]>>;
-  municipality?: InputMaybe<Array<Scalars["String"]>>;
-  operator?: InputMaybe<Array<Scalars["String"]>>;
-  period?: InputMaybe<Array<Scalars["String"]>>;
-  product?: InputMaybe<Array<Scalars["String"]>>;
+  canton?: InputMaybe<Array<Scalars["String"]["input"]>>;
+  category?: InputMaybe<Array<Scalars["String"]["input"]>>;
+  municipality?: InputMaybe<Array<Scalars["String"]["input"]>>;
+  operator?: InputMaybe<Array<Scalars["String"]["input"]>>;
+  period?: InputMaybe<Array<Scalars["String"]["input"]>>;
+  product?: InputMaybe<Array<Scalars["String"]["input"]>>;
 };
 
 export enum ObservationKind {
@@ -116,19 +124,19 @@ export type Operator = {
   cantons: Array<Canton>;
   documents: Array<OperatorDocument>;
   geverDocuments: Array<OperatorDocument>;
-  geverId?: Maybe<Scalars["String"]>;
-  id?: Maybe<Scalars["String"]>;
+  geverId?: Maybe<Scalars["String"]["output"]>;
+  id?: Maybe<Scalars["String"]["output"]>;
   municipalities: Array<Municipality>;
-  name: Scalars["String"];
+  name: Scalars["String"]["output"];
 };
 
 export type OperatorDocument = {
   __typename?: "OperatorDocument";
   category?: Maybe<OperatorDocumentCategory>;
-  id: Scalars["String"];
-  name: Scalars["String"];
-  url: Scalars["String"];
-  year: Scalars["String"];
+  id: Scalars["String"]["output"];
+  name: Scalars["String"]["output"];
+  url: Scalars["String"]["output"];
+  year: Scalars["String"]["output"];
 };
 
 export enum OperatorDocumentCategory {
@@ -139,15 +147,15 @@ export enum OperatorDocumentCategory {
 
 export type OperatorObservation = {
   __typename?: "OperatorObservation";
-  canton: Scalars["String"];
-  cantonLabel?: Maybe<Scalars["String"]>;
-  category: Scalars["String"];
-  municipality: Scalars["String"];
-  municipalityLabel?: Maybe<Scalars["String"]>;
-  operator: Scalars["String"];
-  operatorLabel?: Maybe<Scalars["String"]>;
-  period: Scalars["String"];
-  value: Scalars["Float"];
+  canton: Scalars["String"]["output"];
+  cantonLabel?: Maybe<Scalars["String"]["output"]>;
+  category: Scalars["String"]["output"];
+  municipality: Scalars["String"]["output"];
+  municipalityLabel?: Maybe<Scalars["String"]["output"]>;
+  operator: Scalars["String"]["output"];
+  operatorLabel?: Maybe<Scalars["String"]["output"]>;
+  period: Scalars["String"]["output"];
+  value: Scalars["Float"]["output"];
 };
 
 export type OperatorObservationValueArgs = {
@@ -156,8 +164,8 @@ export type OperatorObservationValueArgs = {
 
 export type OperatorResult = SearchResult & {
   __typename?: "OperatorResult";
-  id: Scalars["String"];
-  name: Scalars["String"];
+  id: Scalars["String"]["output"];
+  name: Scalars["String"]["output"];
 };
 
 export enum PriceComponent {
@@ -186,104 +194,140 @@ export type Query = {
   searchCantons: Array<CantonResult>;
   searchMunicipalities: Array<MunicipalityResult>;
   searchOperators: Array<OperatorResult>;
+  sunshineData: Array<SunshineDataRow>;
   swissMedianObservations?: Maybe<Array<SwissMedianObservation>>;
   systemInfo: SystemInfo;
   wikiContent?: Maybe<WikiContent>;
 };
 
 export type QueryAllMunicipalitiesArgs = {
-  locale: Scalars["String"];
+  locale: Scalars["String"]["input"];
 };
 
 export type QueryCantonArgs = {
-  id: Scalars["String"];
-  locale: Scalars["String"];
+  id: Scalars["String"]["input"];
+  locale: Scalars["String"]["input"];
 };
 
 export type QueryCantonMedianObservationsArgs = {
   filters?: InputMaybe<ObservationFilters>;
-  locale?: InputMaybe<Scalars["String"]>;
+  locale?: InputMaybe<Scalars["String"]["input"]>;
   observationKind?: InputMaybe<ObservationKind>;
 };
 
 export type QueryCantonsArgs = {
-  ids?: InputMaybe<Array<Scalars["String"]>>;
-  locale: Scalars["String"];
-  query?: InputMaybe<Scalars["String"]>;
+  ids?: InputMaybe<Array<Scalars["String"]["input"]>>;
+  locale: Scalars["String"]["input"];
+  query?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type QueryMunicipalitiesArgs = {
-  ids?: InputMaybe<Array<Scalars["String"]>>;
-  locale: Scalars["String"];
-  query?: InputMaybe<Scalars["String"]>;
+  ids?: InputMaybe<Array<Scalars["String"]["input"]>>;
+  locale: Scalars["String"]["input"];
+  query?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type QueryMunicipalityArgs = {
-  id: Scalars["String"];
-  locale: Scalars["String"];
+  id: Scalars["String"]["input"];
+  locale: Scalars["String"]["input"];
 };
 
 export type QueryObservationsArgs = {
   filters?: InputMaybe<ObservationFilters>;
-  locale?: InputMaybe<Scalars["String"]>;
+  locale?: InputMaybe<Scalars["String"]["input"]>;
   observationKind?: InputMaybe<ObservationKind>;
 };
 
 export type QueryOperatorArgs = {
-  geverId?: InputMaybe<Scalars["String"]>;
-  id: Scalars["String"];
-  locale: Scalars["String"];
+  geverId?: InputMaybe<Scalars["String"]["input"]>;
+  id: Scalars["String"]["input"];
+  locale: Scalars["String"]["input"];
 };
 
 export type QueryOperatorsArgs = {
-  ids?: InputMaybe<Array<Scalars["String"]>>;
-  locale: Scalars["String"];
-  query?: InputMaybe<Scalars["String"]>;
+  ids?: InputMaybe<Array<Scalars["String"]["input"]>>;
+  locale: Scalars["String"]["input"];
+  query?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type QuerySearchArgs = {
-  locale: Scalars["String"];
-  query?: InputMaybe<Scalars["String"]>;
+  locale: Scalars["String"]["input"];
+  query?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type QuerySearchCantonsArgs = {
-  ids?: InputMaybe<Array<Scalars["String"]>>;
-  locale: Scalars["String"];
-  query?: InputMaybe<Scalars["String"]>;
+  ids?: InputMaybe<Array<Scalars["String"]["input"]>>;
+  locale: Scalars["String"]["input"];
+  query?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type QuerySearchMunicipalitiesArgs = {
-  ids?: InputMaybe<Array<Scalars["String"]>>;
-  locale: Scalars["String"];
-  query?: InputMaybe<Scalars["String"]>;
+  ids?: InputMaybe<Array<Scalars["String"]["input"]>>;
+  locale: Scalars["String"]["input"];
+  query?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type QuerySearchOperatorsArgs = {
-  ids?: InputMaybe<Array<Scalars["String"]>>;
-  locale: Scalars["String"];
-  query?: InputMaybe<Scalars["String"]>;
+  ids?: InputMaybe<Array<Scalars["String"]["input"]>>;
+  locale: Scalars["String"]["input"];
+  query?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type QuerySwissMedianObservationsArgs = {
   filters?: InputMaybe<ObservationFilters>;
-  locale?: InputMaybe<Scalars["String"]>;
+  locale?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type QueryWikiContentArgs = {
-  locale: Scalars["String"];
-  slug: Scalars["String"];
+  locale: Scalars["String"]["input"];
+  slug: Scalars["String"]["input"];
 };
 
 export type SearchResult = {
-  id: Scalars["String"];
-  name: Scalars["String"];
+  id: Scalars["String"]["output"];
+  name: Scalars["String"]["output"];
+};
+
+export type SunshineDataRow = {
+  __typename?: "SunshineDataRow";
+  SunFrankenRegel?: Maybe<Scalars["Float"]["output"]>;
+  SunInfoJaNein?: Maybe<Scalars["String"]["output"]>;
+  SunInfoTageimVoraus?: Maybe<Scalars["Int"]["output"]>;
+  SunName: Scalars["String"]["output"];
+  SunNetzkostenNE5?: Maybe<Scalars["Float"]["output"]>;
+  SunNetzkostenNE6?: Maybe<Scalars["Float"]["output"]>;
+  SunNetzkostenNE7?: Maybe<Scalars["Float"]["output"]>;
+  SunPartnerID?: Maybe<Scalars["Int"]["output"]>;
+  SunPeriode: Scalars["String"]["output"];
+  SunProdukteAnzahl?: Maybe<Scalars["Int"]["output"]>;
+  SunProdukteAuswahl?: Maybe<Scalars["String"]["output"]>;
+  SunRechtzeitig?: Maybe<Scalars["Int"]["output"]>;
+  SunSAIDItotal?: Maybe<Scalars["Float"]["output"]>;
+  SunSAIDIungeplant?: Maybe<Scalars["Float"]["output"]>;
+  SunSAIFItotal?: Maybe<Scalars["Float"]["output"]>;
+  SunSAIFIungeplant?: Maybe<Scalars["Float"]["output"]>;
+  SunTarifEC2?: Maybe<Scalars["Float"]["output"]>;
+  SunTarifEC3?: Maybe<Scalars["Float"]["output"]>;
+  SunTarifEC4?: Maybe<Scalars["Float"]["output"]>;
+  SunTarifEC6?: Maybe<Scalars["Float"]["output"]>;
+  SunTarifEH2?: Maybe<Scalars["Float"]["output"]>;
+  SunTarifEH4?: Maybe<Scalars["Float"]["output"]>;
+  SunTarifEH7?: Maybe<Scalars["Float"]["output"]>;
+  SunTarifNC2?: Maybe<Scalars["Float"]["output"]>;
+  SunTarifNC3?: Maybe<Scalars["Float"]["output"]>;
+  SunTarifNC4?: Maybe<Scalars["Float"]["output"]>;
+  SunTarifNC6?: Maybe<Scalars["Float"]["output"]>;
+  SunTarifNH2?: Maybe<Scalars["Float"]["output"]>;
+  SunTarifNH4?: Maybe<Scalars["Float"]["output"]>;
+  SunTarifNH7?: Maybe<Scalars["Float"]["output"]>;
+  SunUID: Scalars["String"]["output"];
 };
 
 export type SwissMedianObservation = {
   __typename?: "SwissMedianObservation";
-  category: Scalars["String"];
-  period: Scalars["String"];
-  value: Scalars["Float"];
+  category: Scalars["String"]["output"];
+  period: Scalars["String"]["output"];
+  value: Scalars["Float"]["output"];
 };
 
 export type SwissMedianObservationValueArgs = {
@@ -292,14 +336,14 @@ export type SwissMedianObservationValueArgs = {
 
 export type SystemInfo = {
   __typename?: "SystemInfo";
-  SPARQL_ENDPOINT: Scalars["String"];
-  VERSION: Scalars["String"];
+  SPARQL_ENDPOINT: Scalars["String"]["output"];
+  VERSION: Scalars["String"]["output"];
 };
 
 export type WikiContent = {
   __typename?: "WikiContent";
-  html: Scalars["String"];
-  info?: Maybe<Scalars["WikiContentInfo"]>;
+  html: Scalars["String"]["output"];
+  info?: Maybe<Scalars["WikiContentInfo"]["output"]>;
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -410,16 +454,25 @@ export type DirectiveResolverFn<
   info: GraphQLResolveInfo
 ) => TResult | Promise<TResult>;
 
+/** Mapping of interface types */
+export type ResolversInterfaceTypes<_RefType extends Record<string, unknown>> =
+  ResolversObject<{
+    SearchResult:
+      | ResolvedSearchResult
+      | ResolvedSearchResult
+      | ResolvedSearchResult;
+  }>;
+
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
-  Boolean: ResolverTypeWrapper<Scalars["Boolean"]>;
+  Boolean: ResolverTypeWrapper<Scalars["Boolean"]["output"]>;
   CacheControlScope: CacheControlScope;
   Canton: ResolverTypeWrapper<ResolvedCanton>;
   CantonMedianObservation: ResolverTypeWrapper<ResolvedCantonMedianObservation>;
   CantonResult: ResolverTypeWrapper<ResolvedSearchResult>;
   CubeHealth: ResolverTypeWrapper<CubeHealth>;
-  Float: ResolverTypeWrapper<Scalars["Float"]>;
-  Int: ResolverTypeWrapper<Scalars["Int"]>;
+  Float: ResolverTypeWrapper<Scalars["Float"]["output"]>;
+  Int: ResolverTypeWrapper<Scalars["Int"]["output"]>;
   Municipality: ResolverTypeWrapper<ResolvedMunicipality>;
   MunicipalityResult: ResolverTypeWrapper<ResolvedSearchResult>;
   Observation: ResolverTypeWrapper<ResolvedObservation>;
@@ -432,26 +485,26 @@ export type ResolversTypes = ResolversObject<{
   OperatorResult: ResolverTypeWrapper<ResolvedSearchResult>;
   PriceComponent: PriceComponent;
   Query: ResolverTypeWrapper<{}>;
-  SearchResult:
-    | ResolversTypes["CantonResult"]
-    | ResolversTypes["MunicipalityResult"]
-    | ResolversTypes["OperatorResult"];
-  String: ResolverTypeWrapper<Scalars["String"]>;
+  SearchResult: ResolverTypeWrapper<
+    ResolversInterfaceTypes<ResolversTypes>["SearchResult"]
+  >;
+  String: ResolverTypeWrapper<Scalars["String"]["output"]>;
+  SunshineDataRow: ResolverTypeWrapper<SunshineDataRow>;
   SwissMedianObservation: ResolverTypeWrapper<ResolvedSwissMedianObservation>;
   SystemInfo: ResolverTypeWrapper<SystemInfo>;
   WikiContent: ResolverTypeWrapper<WikiContent>;
-  WikiContentInfo: ResolverTypeWrapper<Scalars["WikiContentInfo"]>;
+  WikiContentInfo: ResolverTypeWrapper<Scalars["WikiContentInfo"]["output"]>;
 }>;
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
-  Boolean: Scalars["Boolean"];
+  Boolean: Scalars["Boolean"]["output"];
   Canton: ResolvedCanton;
   CantonMedianObservation: ResolvedCantonMedianObservation;
   CantonResult: ResolvedSearchResult;
   CubeHealth: CubeHealth;
-  Float: Scalars["Float"];
-  Int: Scalars["Int"];
+  Float: Scalars["Float"]["output"];
+  Int: Scalars["Int"]["output"];
   Municipality: ResolvedMunicipality;
   MunicipalityResult: ResolvedSearchResult;
   Observation: ResolvedObservation;
@@ -461,20 +514,18 @@ export type ResolversParentTypes = ResolversObject<{
   OperatorObservation: ResolvedOperatorObservation;
   OperatorResult: ResolvedSearchResult;
   Query: {};
-  SearchResult:
-    | ResolversParentTypes["CantonResult"]
-    | ResolversParentTypes["MunicipalityResult"]
-    | ResolversParentTypes["OperatorResult"];
-  String: Scalars["String"];
+  SearchResult: ResolversInterfaceTypes<ResolversParentTypes>["SearchResult"];
+  String: Scalars["String"]["output"];
+  SunshineDataRow: SunshineDataRow;
   SwissMedianObservation: ResolvedSwissMedianObservation;
   SystemInfo: SystemInfo;
   WikiContent: WikiContent;
-  WikiContentInfo: Scalars["WikiContentInfo"];
+  WikiContentInfo: Scalars["WikiContentInfo"]["output"];
 }>;
 
 export type CacheControlDirectiveArgs = {
-  inheritMaxAge?: Maybe<Scalars["Boolean"]>;
-  maxAge?: Maybe<Scalars["Int"]>;
+  inheritMaxAge?: Maybe<Scalars["Boolean"]["input"]>;
+  maxAge?: Maybe<Scalars["Int"]["input"]>;
   scope?: Maybe<CacheControlScope>;
 };
 
@@ -760,6 +811,11 @@ export type QueryResolvers<
     ContextType,
     RequireFields<QuerySearchOperatorsArgs, "locale">
   >;
+  sunshineData?: Resolver<
+    Array<ResolversTypes["SunshineDataRow"]>,
+    ParentType,
+    ContextType
+  >;
   swissMedianObservations?: Resolver<
     Maybe<Array<ResolversTypes["SwissMedianObservation"]>>,
     ParentType,
@@ -786,6 +842,156 @@ export type SearchResultResolvers<
   >;
   id?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+}>;
+
+export type SunshineDataRowResolvers<
+  ContextType = ServerContext,
+  ParentType extends ResolversParentTypes["SunshineDataRow"] = ResolversParentTypes["SunshineDataRow"]
+> = ResolversObject<{
+  SunFrankenRegel?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  SunInfoJaNein?: Resolver<
+    Maybe<ResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  SunInfoTageimVoraus?: Resolver<
+    Maybe<ResolversTypes["Int"]>,
+    ParentType,
+    ContextType
+  >;
+  SunName?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  SunNetzkostenNE5?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  SunNetzkostenNE6?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  SunNetzkostenNE7?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  SunPartnerID?: Resolver<
+    Maybe<ResolversTypes["Int"]>,
+    ParentType,
+    ContextType
+  >;
+  SunPeriode?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  SunProdukteAnzahl?: Resolver<
+    Maybe<ResolversTypes["Int"]>,
+    ParentType,
+    ContextType
+  >;
+  SunProdukteAuswahl?: Resolver<
+    Maybe<ResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  SunRechtzeitig?: Resolver<
+    Maybe<ResolversTypes["Int"]>,
+    ParentType,
+    ContextType
+  >;
+  SunSAIDItotal?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  SunSAIDIungeplant?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  SunSAIFItotal?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  SunSAIFIungeplant?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  SunTarifEC2?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  SunTarifEC3?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  SunTarifEC4?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  SunTarifEC6?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  SunTarifEH2?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  SunTarifEH4?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  SunTarifEH7?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  SunTarifNC2?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  SunTarifNC3?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  SunTarifNC4?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  SunTarifNC6?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  SunTarifNH2?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  SunTarifNH4?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  SunTarifNH7?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  SunUID?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type SwissMedianObservationResolvers<
@@ -844,6 +1050,7 @@ export type Resolvers<ContextType = ServerContext> = ResolversObject<{
   OperatorResult?: OperatorResultResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   SearchResult?: SearchResultResolvers<ContextType>;
+  SunshineDataRow?: SunshineDataRowResolvers<ContextType>;
   SwissMedianObservation?: SwissMedianObservationResolvers<ContextType>;
   SystemInfo?: SystemInfoResolvers<ContextType>;
   WikiContent?: WikiContentResolvers<ContextType>;

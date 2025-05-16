@@ -16,6 +16,9 @@ const config: KnipConfig = {
   ignoreBinaries: [
     // Used to download content, can be removed when we switch to DatoCMS
     "make",
+    // Used for running file encryptions
+    "dotenv",
+    "tsx",
   ],
   ignoreUnresolved: [
     // Used in package.json:scripts:start to configure HTTP_PROXY.

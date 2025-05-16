@@ -1,7 +1,6 @@
 import { PickingInfo } from "@deck.gl/core/typed";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
-import basicAuthMiddleware from "nextjs-basic-auth-middleware";
 import { useCallback, useMemo, useState } from "react";
 
 import {
@@ -26,9 +25,7 @@ type Props = {
 export const getServerSideProps: GetServerSideProps<
   Props,
   { locale: string }
-> = async ({ locale, req, res }) => {
-  await basicAuthMiddleware(req, res);
-
+> = async ({ locale }) => {
   return {
     props: {
       locale: locale ?? defaultLocale,

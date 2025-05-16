@@ -198,3 +198,41 @@ type Query {
 
   cubeHealth: CubeHealth
 }
+
+type SunshineDataRow {
+  SunPartnerID: Int
+  SunUID: String!
+  SunName: String!
+  SunPeriode: String!
+  SunFrankenRegel: Float
+  SunInfoJaNein: String
+  SunInfoTageimVoraus: Int
+  SunNetzkostenNE5: Float
+  SunNetzkostenNE6: Float
+  SunNetzkostenNE7: Float
+  SunProdukteAnzahl: Int
+  SunProdukteAuswahl: String
+  SunRechtzeitig: Int
+  SunSAIDItotal: Float
+  SunSAIDIungeplant: Float
+  SunSAIFItotal: Float
+  SunSAIFIungeplant: Float
+  SunTarifEC2: Float
+  SunTarifEC3: Float
+  SunTarifEC4: Float
+  SunTarifEC6: Float
+  SunTarifEH2: Float
+  SunTarifEH4: Float
+  SunTarifEH7: Float
+  SunTarifNC2: Float
+  SunTarifNC3: Float
+  SunTarifNC4: Float
+  SunTarifNC6: Float
+  SunTarifNH2: Float
+  SunTarifNH4: Float
+  SunTarifNH7: Float
+}
+
+type Query {
+  sunshineData: [SunshineDataRow!]!
+}

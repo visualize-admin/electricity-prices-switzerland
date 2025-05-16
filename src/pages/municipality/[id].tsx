@@ -4,7 +4,6 @@ import { GetServerSideProps } from "next";
 import ErrorPage from "next/error";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import basicAuthMiddleware from "nextjs-basic-auth-middleware";
 
 import { DetailPageBanner } from "src/components/detail-page/banner";
 import { CantonsComparisonRangePlots } from "src/components/detail-page/cantons-comparison-range";
@@ -35,9 +34,7 @@ type Props =
 export const getServerSideProps: GetServerSideProps<
   Props,
   { id: string }
-> = async ({ params, req, res, locale }) => {
-  await basicAuthMiddleware(req, res);
-
+> = async ({ params, res, locale }) => {
   const { id } = params!;
 
   const municipality = await getMunicipality({ id });
