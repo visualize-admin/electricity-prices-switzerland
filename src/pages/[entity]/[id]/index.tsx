@@ -1,7 +1,7 @@
 import { IncomingMessage, ServerResponse } from "http";
 
 import { t, Trans } from "@lingui/macro";
-import { Box } from "@mui/material";
+import { Box, useMediaQuery, useTheme } from "@mui/material";
 import { GetServerSideProps } from "next";
 import dynamic from "next/dynamic";
 import ErrorPage from "next/error";
@@ -204,6 +204,9 @@ const ElectricityTariffsPage = (props: Props) => {
 
   const { id, name, entity } = props;
 
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.up("md"));
+
   return (
     <>
       <Head>
@@ -259,7 +262,9 @@ const ElectricityTariffsPage = (props: Props) => {
               <DetailPageLayout
                 download={query.download}
                 selector={
-                  <DetailsPageSidebar id={id} entity={entity as Entity} />
+                  isMobile ? (
+                    <DetailsPageSidebar id={id} entity={entity as Entity} />
+                  ) : null
                 }
               >
                 <DetailsPageHeader>

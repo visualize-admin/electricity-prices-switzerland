@@ -75,7 +75,10 @@ export const DetailPageBanner = ({
   return (
     <Box
       sx={{
-        px: [6, 12],
+        px: {
+          xxs: 0,
+          md: 12,
+        },
         py: 5,
         bgcolor: "background.paper",
         width: "100%",

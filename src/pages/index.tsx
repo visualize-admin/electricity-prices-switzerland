@@ -58,7 +58,17 @@ const IndexPage = () => {
               py: 20,
             }}
           >
-            <Box display={"flex"} sx={{ gap: 12, alignItems: "stretch" }}>
+            <Box
+              display={"flex"}
+              sx={{
+                gap: 12,
+                alignItems: "stretch",
+                flexDirection: {
+                  xxs: "column",
+                  md: "row",
+                },
+              }}
+            >
               <Box
                 sx={{
                   width: "100%",

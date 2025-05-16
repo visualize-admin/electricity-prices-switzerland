@@ -29,7 +29,7 @@ export const DetailsPageSidebar = (props: SectionProps) => {
       </SidebarItem>
 
       {/* FIXME: Make this only a preview and add a coming soon label */}
-      <SidebarSectionTitle>
+      {/* <SidebarSectionTitle>
         <Trans id="details.page.navigation.sunshine-indicators-title">
           Sunshine Indikatoren
         </Trans>
@@ -53,7 +53,7 @@ export const DetailsPageSidebar = (props: SectionProps) => {
         <Trans id="details.page.navigation.operational-standards-item">
           Operationelle Standards
         </Trans>
-      </SidebarItem>
+      </SidebarItem> */}
     </Box>
   );
 };

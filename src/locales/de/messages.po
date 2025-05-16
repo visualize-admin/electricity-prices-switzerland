@@ -29,7 +29,7 @@ msgstr "Rp./kWh"
 
 #: src/components/combobox.tsx:91
 #: src/components/combobox.tsx:274
-#: src/components/search.tsx:195
+#: src/components/search.tsx:234
 msgid "combobox.noitems"
 msgstr "combobox.noitems"
 
@@ -97,10 +97,6 @@ msgstr "Netzbetreiber"
 msgid "detail.operators"
 msgstr "Netzbetreiber"
 
-#: src/components/detail-page/sidebar.tsx:43
-msgid "details.page.navigation.costs-and-tariffs-item"
-msgstr "Kosten und Tariffe"
-
 #: src/components/detail-page/sidebar.tsx:21
 msgid "details.page.navigation.electricity-insights-title"
 msgstr "Einblicke in die Elektrizität"
@@ -108,22 +104,6 @@ msgstr "Einblicke in die Elektrizität"
 #: src/components/detail-page/sidebar.tsx:26
 msgid "details.page.navigation.electricity-tariffs-item"
 msgstr "Stromtarife"
-
-#: src/components/detail-page/sidebar.tsx:53
-msgid "details.page.navigation.operational-standards-item"
-msgstr "Operationelle Standards"
-
-#: src/components/detail-page/sidebar.tsx:48
-msgid "details.page.navigation.power-stability-item"
-msgstr "Leistungsstabilität"
-
-#: src/components/detail-page/sidebar.tsx:33
-msgid "details.page.navigation.sunshine-indicators-title"
-msgstr "Sunshine Indikatoren"
-
-#: src/components/detail-page/sidebar.tsx:38
-msgid "details.page.navigation.sunshine-overview-item"
-msgstr "Übersicht"
 
 #: src/components/info-dialog.tsx:132
 msgid "dialog.close"
@@ -265,15 +245,15 @@ msgstr "Min"
 msgid "histogram.municipality-count"
 msgstr "Anzahl Gemeinde"
 
-#: src/pages/index.tsx:76
+#: src/pages/index.tsx:86
 msgid "home.hero-section.description"
 msgstr "Diese Website bietet aktuelle Informationen zu den Stromtarifen über die Stromtarife in der Schweiz und ermöglicht den Vergleich der Preise für Privat- und Gewerbekunden nach Gemeinde, Kantonen oder Netzbetreibern vergleichen. Sie können detaillierte Aufschlüsselungen von Energie-, Netz- und Zusatzkosten sowie historische Trends, um die Stromkosten in Ihrer Region besser zu Region."
 
-#: src/pages/index.tsx:96
+#: src/pages/index.tsx:106
 msgid "home.hero-section.primary-cta"
 msgstr "Stromtarife in der Schweiz"
 
-#: src/pages/index.tsx:71
+#: src/pages/index.tsx:81
 msgid "home.hero-section.title"
 msgstr "Entdecken Sie die Stromtarife in der Kartenansicht"
 
@@ -299,15 +279,15 @@ msgstr "Tarifvergleich in Rp./kWh"
 
 #: src/components/list.tsx:322
 msgid "list.cantons"
-msgstr "list.cantons"
+msgstr "Kantone"
 
 #: src/components/list.tsx:318
 msgid "list.municipalities"
-msgstr "list.municipalities"
+msgstr "Gemeinden"
 
 #: src/components/list.tsx:326
 msgid "list.operators"
-msgstr "list.operators"
+msgstr "Netzwerkbetreiber"
 
 #: src/components/list.tsx:239
 msgid "list.order.asc"
@@ -412,16 +392,16 @@ msgstr "{rest} weitere …"
 msgid "search.global"
 msgstr "Detaillierte Preisanalysen von Kantonen, Gemeinden und Netzbetreibern."
 
-#: src/components/search.tsx:214
+#: src/components/search.tsx:253
 msgid "search.global.hint.canton.muni.operator"
-msgstr "search.global.hint.canton.muni.operator"
+msgstr "Gemeinde, Kanton, Netzbetreibern"
 
-#: src/components/search.tsx:247
+#: src/components/search.tsx:286
 msgid "search.global.hint.go.to"
 msgstr "Gehe zu…"
 
-#: src/components/search.tsx:78
-#: src/components/search.tsx:194
+#: src/components/search.tsx:79
+#: src/components/search.tsx:233
 msgid "search.global.label"
 msgstr "Suche nach Gemeindename, PLZ, Netzbetreiber, Kanton"
 

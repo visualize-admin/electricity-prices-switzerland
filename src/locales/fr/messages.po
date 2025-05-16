@@ -29,7 +29,7 @@ msgstr "ct./kWh"
 
 #: src/components/combobox.tsx:91
 #: src/components/combobox.tsx:274
-#: src/components/search.tsx:195
+#: src/components/search.tsx:234
 msgid "combobox.noitems"
 msgstr "Aucune entrée"
 
@@ -97,10 +97,6 @@ msgstr "Gestionnaire de réseau"
 msgid "detail.operators"
 msgstr "Gestionnaires de réseau"
 
-#: src/components/detail-page/sidebar.tsx:43
-msgid "details.page.navigation.costs-and-tariffs-item"
-msgstr "Coûts et tarifs"
-
 #: src/components/detail-page/sidebar.tsx:21
 msgid "details.page.navigation.electricity-insights-title"
 msgstr "Aperçus sur l’électricité"
@@ -108,22 +104,6 @@ msgstr "Aperçus sur l’électricité"
 #: src/components/detail-page/sidebar.tsx:26
 msgid "details.page.navigation.electricity-tariffs-item"
 msgstr "Tarifs d'électricité"
-
-#: src/components/detail-page/sidebar.tsx:53
-msgid "details.page.navigation.operational-standards-item"
-msgstr "Normes opérationnelles"
-
-#: src/components/detail-page/sidebar.tsx:48
-msgid "details.page.navigation.power-stability-item"
-msgstr "Stabilité de l’alimentation"
-
-#: src/components/detail-page/sidebar.tsx:33
-msgid "details.page.navigation.sunshine-indicators-title"
-msgstr "Indicateurs d’ensoleillement"
-
-#: src/components/detail-page/sidebar.tsx:38
-msgid "details.page.navigation.sunshine-overview-item"
-msgstr "Vue d’ensemble"
 
 #: src/components/info-dialog.tsx:132
 msgid "dialog.close"
@@ -265,15 +245,15 @@ msgstr "Min"
 msgid "histogram.municipality-count"
 msgstr "Nombre de communes"
 
-#: src/pages/index.tsx:76
+#: src/pages/index.tsx:86
 msgid "home.hero-section.description"
 msgstr "Ce site fournit des informations actuelles sur les tarifs d'électricité en Suisse et permet de comparer les prix pour les clients privés et commerciaux par commune, canton ou gestionnaire de réseau. Vous pouvez consulter les détails des coûts d’énergie, du réseau et des suppléments ainsi que les tendances historiques pour mieux comprendre les coûts d’électricité dans votre région."
 
-#: src/pages/index.tsx:96
+#: src/pages/index.tsx:106
 msgid "home.hero-section.primary-cta"
 msgstr "Tarifs d'électricité en Suisse"
 
-#: src/pages/index.tsx:71
+#: src/pages/index.tsx:81
 msgid "home.hero-section.title"
 msgstr "Découvrez les tarifs d'électricité en vue cartographique"
 
@@ -412,16 +392,16 @@ msgstr "montrer {rest} plus…"
 msgid "search.global"
 msgstr "Voir l'analyse détaillée des prix par cantons, communes et gestionnaires de réseau."
 
-#: src/components/search.tsx:214
+#: src/components/search.tsx:253
 msgid "search.global.hint.canton.muni.operator"
 msgstr "Nom de la commune, code postal, gestionnaire de réseau, canton"
 
-#: src/components/search.tsx:247
+#: src/components/search.tsx:286
 msgid "search.global.hint.go.to"
 msgstr "Aller à…"
 
-#: src/components/search.tsx:78
-#: src/components/search.tsx:194
+#: src/components/search.tsx:79
+#: src/components/search.tsx:233
 msgid "search.global.label"
 msgstr "Entrez le nom de la commune, le code postal, le gestionnaire de réseau, le canton…"
 

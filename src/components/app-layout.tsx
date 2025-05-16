@@ -97,7 +97,7 @@ const AppNavigation = () => {
           </Typography>
         </Box>
       </ContentWrapper>
-
+      {/* FIXME: creates ugly x-scroll  due to nested ContentWrapper */}
       <MenuContainer
         sx={{
           px: 3,
@@ -121,13 +121,7 @@ const AppNavigation = () => {
           href={"/map"}
         />
         <Box sx={{ flex: 1 }} />
-        <Box
-          sx={{
-            minWidth: "22rem",
-          }}
-        >
-          <Search />
-        </Box>
+        <Search />
       </MenuContainer>
     </Box>
   );

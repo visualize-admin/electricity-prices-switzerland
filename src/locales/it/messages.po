@@ -29,7 +29,7 @@ msgstr "ct./kWh"
 
 #: src/components/combobox.tsx:91
 #: src/components/combobox.tsx:274
-#: src/components/search.tsx:195
+#: src/components/search.tsx:234
 msgid "combobox.noitems"
 msgstr "Nessun elemento"
 
@@ -97,10 +97,6 @@ msgstr "Gestore di rete"
 msgid "detail.operators"
 msgstr "Gestori di rete"
 
-#: src/components/detail-page/sidebar.tsx:43
-msgid "details.page.navigation.costs-and-tariffs-item"
-msgstr "Costi e tariffe"
-
 #: src/components/detail-page/sidebar.tsx:21
 msgid "details.page.navigation.electricity-insights-title"
 msgstr "Approfondimenti sull'elettricità"
@@ -108,22 +104,6 @@ msgstr "Approfondimenti sull'elettricità"
 #: src/components/detail-page/sidebar.tsx:26
 msgid "details.page.navigation.electricity-tariffs-item"
 msgstr "Tariffe elettriche"
-
-#: src/components/detail-page/sidebar.tsx:53
-msgid "details.page.navigation.operational-standards-item"
-msgstr "Standard operativi"
-
-#: src/components/detail-page/sidebar.tsx:48
-msgid "details.page.navigation.power-stability-item"
-msgstr "Stabilità di potenza"
-
-#: src/components/detail-page/sidebar.tsx:33
-msgid "details.page.navigation.sunshine-indicators-title"
-msgstr "Indicatori di luminosità"
-
-#: src/components/detail-page/sidebar.tsx:38
-msgid "details.page.navigation.sunshine-overview-item"
-msgstr "Panoramica"
 
 #: src/components/info-dialog.tsx:132
 msgid "dialog.close"
@@ -265,15 +245,15 @@ msgstr "Min"
 msgid "histogram.municipality-count"
 msgstr "Numero di comuni"
 
-#: src/pages/index.tsx:76
+#: src/pages/index.tsx:86
 msgid "home.hero-section.description"
 msgstr "Questo sito web fornisce informazioni aggiornate sulle tariffe elettriche in Svizzera e consente di confrontare i prezzi per i clienti privati e commerciali per comune, cantone o gestore di rete. È possibile visualizzare una ripartizione dettagliata dei costi dell'energia, della rete e dei costi aggiuntivi, nonché le tendenze storiche per comprendere meglio il costo dell'elettricità nella propria regione."
 
-#: src/pages/index.tsx:96
+#: src/pages/index.tsx:106
 msgid "home.hero-section.primary-cta"
 msgstr "Tariffe elettriche in Svizzera"
 
-#: src/pages/index.tsx:71
+#: src/pages/index.tsx:81
 msgid "home.hero-section.title"
 msgstr "Scoprite le tariffe elettriche nella mappa"
 
@@ -412,16 +392,16 @@ msgstr "mostra {rest} di più…"
 msgid "search.global"
 msgstr "Visualizzare l'analisi dettagliata dei prezzi per cantone, comune e gestore di rete."
 
-#: src/components/search.tsx:214
+#: src/components/search.tsx:253
 msgid "search.global.hint.canton.muni.operator"
 msgstr "Comune, gestore di rete, cantone"
 
-#: src/components/search.tsx:247
+#: src/components/search.tsx:286
 msgid "search.global.hint.go.to"
 msgstr "vai a…"
 
-#: src/components/search.tsx:78
-#: src/components/search.tsx:194
+#: src/components/search.tsx:79
+#: src/components/search.tsx:233
 msgid "search.global.label"
 msgstr "Inserire il nome del comune, codice postale, gestore di rete, cantone…"
 
