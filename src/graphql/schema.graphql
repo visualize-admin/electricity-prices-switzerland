@@ -200,37 +200,37 @@ type Query {
 }
 
 type SunshineDataRow {
-  SunPartnerID: Int
+  SunPartnerId: Int
   SunUID: String!
   SunName: String!
-  SunPeriode: String!
-  SunFrankenRegel: Float
-  SunInfoJaNein: String
-  SunInfoTageimVoraus: Int
-  SunNetzkostenNE5: Float
-  SunNetzkostenNE6: Float
-  SunNetzkostenNE7: Float
-  SunProdukteAnzahl: Int
-  SunProdukteAuswahl: String
-  SunRechtzeitig: Int
-  SunSAIDItotal: Float
-  SunSAIDIungeplant: Float
-  SunSAIFItotal: Float
-  SunSAIFIungeplant: Float
-  SunTarifEC2: Float
-  SunTarifEC3: Float
-  SunTarifEC4: Float
-  SunTarifEC6: Float
-  SunTarifEH2: Float
-  SunTarifEH4: Float
-  SunTarifEH7: Float
-  SunTarifNC2: Float
-  SunTarifNC3: Float
-  SunTarifNC4: Float
-  SunTarifNC6: Float
-  SunTarifNH2: Float
-  SunTarifNH4: Float
-  SunTarifNH7: Float
+  SunPeriod: String!
+  SunFrancRule: Float
+  SunInfoYesNo: String
+  SunInfoDaysInAdvance: Int
+  SunNetworkCostsNE5: Float
+  SunNetworkCostsNE6: Float
+  SunNetworkCostsNE7: Float
+  SunProductsCount: Int
+  SunProductsSelection: String
+  SunTimely: Int
+  SunSAIDITotal: Float
+  SunSAIDIUnplanned: Float
+  SunSAIFITotal: Float
+  SunSAIFIUnplanned: Float
+  SunTariffEC2: Float
+  SunTariffEC3: Float
+  SunTariffEC4: Float
+  SunTariffEC6: Float
+  SunTariffEH2: Float
+  SunTariffEH4: Float
+  SunTariffEH7: Float
+  SunTariffNC2: Float
+  SunTariffNC3: Float
+  SunTariffNC4: Float
+  SunTariffNC6: Float
+  SunTariffNH2: Float
+  SunTariffNH4: Float
+  SunTariffNH7: Float
 }
 
 type Query {

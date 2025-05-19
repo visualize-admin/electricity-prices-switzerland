@@ -274,36 +274,36 @@ export type SearchResult = {
 
 export type SunshineDataRow = {
   __typename: "SunshineDataRow";
-  SunFrankenRegel?: Maybe<Scalars["Float"]["output"]>;
-  SunInfoJaNein?: Maybe<Scalars["String"]["output"]>;
-  SunInfoTageimVoraus?: Maybe<Scalars["Int"]["output"]>;
+  SunFrancRule?: Maybe<Scalars["Float"]["output"]>;
+  SunInfoDaysInAdvance?: Maybe<Scalars["Int"]["output"]>;
+  SunInfoYesNo?: Maybe<Scalars["String"]["output"]>;
   SunName: Scalars["String"]["output"];
-  SunNetzkostenNE5?: Maybe<Scalars["Float"]["output"]>;
-  SunNetzkostenNE6?: Maybe<Scalars["Float"]["output"]>;
-  SunNetzkostenNE7?: Maybe<Scalars["Float"]["output"]>;
-  SunPartnerID?: Maybe<Scalars["Int"]["output"]>;
-  SunPeriode: Scalars["String"]["output"];
-  SunProdukteAnzahl?: Maybe<Scalars["Int"]["output"]>;
-  SunProdukteAuswahl?: Maybe<Scalars["String"]["output"]>;
-  SunRechtzeitig?: Maybe<Scalars["Int"]["output"]>;
-  SunSAIDItotal?: Maybe<Scalars["Float"]["output"]>;
-  SunSAIDIungeplant?: Maybe<Scalars["Float"]["output"]>;
-  SunSAIFItotal?: Maybe<Scalars["Float"]["output"]>;
-  SunSAIFIungeplant?: Maybe<Scalars["Float"]["output"]>;
-  SunTarifEC2?: Maybe<Scalars["Float"]["output"]>;
-  SunTarifEC3?: Maybe<Scalars["Float"]["output"]>;
-  SunTarifEC4?: Maybe<Scalars["Float"]["output"]>;
-  SunTarifEC6?: Maybe<Scalars["Float"]["output"]>;
-  SunTarifEH2?: Maybe<Scalars["Float"]["output"]>;
-  SunTarifEH4?: Maybe<Scalars["Float"]["output"]>;
-  SunTarifEH7?: Maybe<Scalars["Float"]["output"]>;
-  SunTarifNC2?: Maybe<Scalars["Float"]["output"]>;
-  SunTarifNC3?: Maybe<Scalars["Float"]["output"]>;
-  SunTarifNC4?: Maybe<Scalars["Float"]["output"]>;
-  SunTarifNC6?: Maybe<Scalars["Float"]["output"]>;
-  SunTarifNH2?: Maybe<Scalars["Float"]["output"]>;
-  SunTarifNH4?: Maybe<Scalars["Float"]["output"]>;
-  SunTarifNH7?: Maybe<Scalars["Float"]["output"]>;
+  SunNetworkCostsNE5?: Maybe<Scalars["Float"]["output"]>;
+  SunNetworkCostsNE6?: Maybe<Scalars["Float"]["output"]>;
+  SunNetworkCostsNE7?: Maybe<Scalars["Float"]["output"]>;
+  SunPartnerId?: Maybe<Scalars["Int"]["output"]>;
+  SunPeriod: Scalars["String"]["output"];
+  SunProductsCount?: Maybe<Scalars["Int"]["output"]>;
+  SunProductsSelection?: Maybe<Scalars["String"]["output"]>;
+  SunSAIDITotal?: Maybe<Scalars["Float"]["output"]>;
+  SunSAIDIUnplanned?: Maybe<Scalars["Float"]["output"]>;
+  SunSAIFITotal?: Maybe<Scalars["Float"]["output"]>;
+  SunSAIFIUnplanned?: Maybe<Scalars["Float"]["output"]>;
+  SunTariffEC2?: Maybe<Scalars["Float"]["output"]>;
+  SunTariffEC3?: Maybe<Scalars["Float"]["output"]>;
+  SunTariffEC4?: Maybe<Scalars["Float"]["output"]>;
+  SunTariffEC6?: Maybe<Scalars["Float"]["output"]>;
+  SunTariffEH2?: Maybe<Scalars["Float"]["output"]>;
+  SunTariffEH4?: Maybe<Scalars["Float"]["output"]>;
+  SunTariffEH7?: Maybe<Scalars["Float"]["output"]>;
+  SunTariffNC2?: Maybe<Scalars["Float"]["output"]>;
+  SunTariffNC3?: Maybe<Scalars["Float"]["output"]>;
+  SunTariffNC4?: Maybe<Scalars["Float"]["output"]>;
+  SunTariffNC6?: Maybe<Scalars["Float"]["output"]>;
+  SunTariffNH2?: Maybe<Scalars["Float"]["output"]>;
+  SunTariffNH4?: Maybe<Scalars["Float"]["output"]>;
+  SunTariffNH7?: Maybe<Scalars["Float"]["output"]>;
+  SunTimely?: Maybe<Scalars["Int"]["output"]>;
   SunUID: Scalars["String"]["output"];
 };
 
@@ -604,37 +604,37 @@ export type SunshineDataQuery = {
   __typename: "Query";
   sunshineData: Array<{
     __typename: "SunshineDataRow";
-    SunPartnerID?: number | null;
+    SunPartnerId?: number | null;
     SunUID: string;
     SunName: string;
-    SunPeriode: string;
-    SunFrankenRegel?: number | null;
-    SunInfoJaNein?: string | null;
-    SunInfoTageimVoraus?: number | null;
-    SunNetzkostenNE5?: number | null;
-    SunNetzkostenNE6?: number | null;
-    SunNetzkostenNE7?: number | null;
-    SunProdukteAnzahl?: number | null;
-    SunProdukteAuswahl?: string | null;
-    SunRechtzeitig?: number | null;
-    SunSAIDItotal?: number | null;
-    SunSAIDIungeplant?: number | null;
-    SunSAIFItotal?: number | null;
-    SunSAIFIungeplant?: number | null;
-    SunTarifEC2?: number | null;
-    SunTarifEC3?: number | null;
-    SunTarifEC4?: number | null;
-    SunTarifEC6?: number | null;
-    SunTarifEH2?: number | null;
-    SunTarifEH4?: number | null;
-    SunTarifEH7?: number | null;
-    SunTarifNC2?: number | null;
-    SunTarifNC3?: number | null;
-    SunTarifNC4?: number | null;
-    SunTarifNC6?: number | null;
-    SunTarifNH2?: number | null;
-    SunTarifNH4?: number | null;
-    SunTarifNH7?: number | null;
+    SunPeriod: string;
+    SunFrancRule?: number | null;
+    SunInfoYesNo?: string | null;
+    SunInfoDaysInAdvance?: number | null;
+    SunNetworkCostsNE5?: number | null;
+    SunNetworkCostsNE6?: number | null;
+    SunNetworkCostsNE7?: number | null;
+    SunProductsCount?: number | null;
+    SunProductsSelection?: string | null;
+    SunTimely?: number | null;
+    SunSAIDITotal?: number | null;
+    SunSAIDIUnplanned?: number | null;
+    SunSAIFITotal?: number | null;
+    SunSAIFIUnplanned?: number | null;
+    SunTariffEC2?: number | null;
+    SunTariffEC3?: number | null;
+    SunTariffEC4?: number | null;
+    SunTariffEC6?: number | null;
+    SunTariffEH2?: number | null;
+    SunTariffEH4?: number | null;
+    SunTariffEH7?: number | null;
+    SunTariffNC2?: number | null;
+    SunTariffNC3?: number | null;
+    SunTariffNC4?: number | null;
+    SunTariffNC6?: number | null;
+    SunTariffNH2?: number | null;
+    SunTariffNH4?: number | null;
+    SunTariffNH7?: number | null;
   }>;
 };
 
@@ -941,37 +941,37 @@ export function useCubeHealthQuery(
 export const SunshineDataDocument = gql`
   query SunshineData {
     sunshineData {
-      SunPartnerID
+      SunPartnerId
       SunUID
       SunName
-      SunPeriode
-      SunFrankenRegel
-      SunInfoJaNein
-      SunInfoTageimVoraus
-      SunNetzkostenNE5
-      SunNetzkostenNE6
-      SunNetzkostenNE7
-      SunProdukteAnzahl
-      SunProdukteAuswahl
-      SunRechtzeitig
-      SunSAIDItotal
-      SunSAIDIungeplant
-      SunSAIFItotal
-      SunSAIFIungeplant
-      SunTarifEC2
-      SunTarifEC3
-      SunTarifEC4
-      SunTarifEC6
-      SunTarifEH2
-      SunTarifEH4
-      SunTarifEH7
-      SunTarifNC2
-      SunTarifNC3
-      SunTarifNC4
-      SunTarifNC6
-      SunTarifNH2
-      SunTarifNH4
-      SunTarifNH7
+      SunPeriod
+      SunFrancRule
+      SunInfoYesNo
+      SunInfoDaysInAdvance
+      SunNetworkCostsNE5
+      SunNetworkCostsNE6
+      SunNetworkCostsNE7
+      SunProductsCount
+      SunProductsSelection
+      SunTimely
+      SunSAIDITotal
+      SunSAIDIUnplanned
+      SunSAIFITotal
+      SunSAIFIUnplanned
+      SunTariffEC2
+      SunTariffEC3
+      SunTariffEC4
+      SunTariffEC6
+      SunTariffEH2
+      SunTariffEH4
+      SunTariffEH7
+      SunTariffNC2
+      SunTariffNC3
+      SunTariffNC4
+      SunTariffNC6
+      SunTariffNH2
+      SunTariffNH4
+      SunTariffNH7
     }
   }
 `;

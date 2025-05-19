@@ -181,36 +181,36 @@ query CubeHealth {
 
 query SunshineData {
   sunshineData {
-    SunPartnerID
+    SunPartnerId
     SunUID
     SunName
-    SunPeriode
-    SunFrankenRegel
-    SunInfoJaNein
-    SunInfoTageimVoraus
-    SunNetzkostenNE5
-    SunNetzkostenNE6
-    SunNetzkostenNE7
-    SunProdukteAnzahl
-    SunProdukteAuswahl
-    SunRechtzeitig
-    SunSAIDItotal
-    SunSAIDIungeplant
-    SunSAIFItotal
-    SunSAIFIungeplant
-    SunTarifEC2
-    SunTarifEC3
-    SunTarifEC4
-    SunTarifEC6
-    SunTarifEH2
-    SunTarifEH4
-    SunTarifEH7
-    SunTarifNC2
-    SunTarifNC3
-    SunTarifNC4
-    SunTarifNC6
-    SunTarifNH2
-    SunTarifNH4
-    SunTarifNH7
+    SunPeriod
+    SunFrancRule
+    SunInfoYesNo
+    SunInfoDaysInAdvance
+    SunNetworkCostsNE5
+    SunNetworkCostsNE6
+    SunNetworkCostsNE7
+    SunProductsCount
+    SunProductsSelection
+    SunTimely
+    SunSAIDITotal
+    SunSAIDIUnplanned
+    SunSAIFITotal
+    SunSAIFIUnplanned
+    SunTariffEC2
+    SunTariffEC3
+    SunTariffEC4
+    SunTariffEC6
+    SunTariffEH2
+    SunTariffEH4
+    SunTariffEH7
+    SunTariffNC2
+    SunTariffNC3
+    SunTariffNC4
+    SunTariffNC6
+    SunTariffNH2
+    SunTariffNH4
+    SunTariffNH7
   }
 }
