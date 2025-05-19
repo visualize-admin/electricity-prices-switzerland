@@ -306,15 +306,6 @@ export const PaletteStory = () => {
               />
             ))}
           </Stack>
-          <Stack spacing={4.5} direction={"row"}>
-            {chartPalette.diverging.BlueToPink.map((value) => (
-              <ColorSwatch
-                key={`sequential-blToPk-${value}`}
-                swatch={{ [""]: value }}
-                color="Blue to Pink"
-              />
-            ))}
-          </Stack>
         </ColorPaletteStack>
       </DesignSection>
     </DesignStory>
