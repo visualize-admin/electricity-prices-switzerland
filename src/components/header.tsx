@@ -1,13 +1,53 @@
 import { TopBar } from "@interactivethings/swiss-federal-ci/dist/components";
 import { Header as SwissFederalCiHeader } from "@interactivethings/swiss-federal-ci/dist/components/pages-router";
-import { Box, NativeSelect } from "@mui/material";
+import { t } from "@lingui/macro";
+import { Box, Button, NativeSelect, Popover, Typography } from "@mui/material";
 import { useRouter } from "next/router";
+import { useState } from "react";
 
 import contentRoutes from "src/content-routes.json";
 import { useLocale } from "src/lib/use-locale";
 import { useResizeObserver } from "src/lib/use-resize-observer";
 import { locales } from "src/locales/locales";
 import { palette } from "src/themes/palette";
+import { F, FlagList, useFlag } from "src/utils/flags";
+
+const FlagMenu = () => {
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | undefined>(
+    undefined
+  );
+  const isEnabled = useFlag(F.debug);
+  if (!isEnabled) {
+    return null;
+  }
+
+  return (
+    <div>
+      <Button
+        sx={{ color: "white" }}
+        onClick={(ev) => setAnchorEl(ev.currentTarget)}
+        aria-label={t({
+          id: "topbar.open-flag-menu",
+          message: "Open flag menu",
+        })}
+      >
+        Flags
+      </Button>
+      <Popover
+        anchorEl={anchorEl}
+        open={!!anchorEl}
+        onClose={() => setAnchorEl(undefined)}
+      >
+        <Box p={2}>
+          <Typography variant="body2" sx={{ mb: 1 }}>
+            Flags
+          </Typography>
+          <FlagList />
+        </Box>
+      </Popover>
+    </div>
+  );
+};
 
 export const Header = ({
   contentId,
@@ -44,6 +84,7 @@ export const Header = ({
         }}
       >
         <Box display="flex" alignItems="center" gap={3} marginLeft="auto">
+          <FlagMenu />
           <NativeSelect
             value={currentLocale}
             onChange={(e) => {
