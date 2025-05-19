@@ -30,21 +30,25 @@ export const SelectorMulti = ({
 
   return (
     <Box
-      component="fieldset"
       sx={{
         border: 0,
-        flexDirection: ["column", "row", "row"],
-        justifyContent: "flex-start",
-        alignItems: "flex-end",
-        alignContent: ["flex-start", "flex-end", "flex-end"],
-        gap: [0, 4, 4],
+        display: "grid",
+        gap: 4,
         bgcolor: "muted.colored",
-        p: 0,
+        alignItems: "end",
         zIndex: 13,
-        "> div": { mt: 1 },
-        "> fieldset": { mt: 2, border: 0 },
+        mt: 1,
+        gridTemplateColumns: {
+          xxs: "1fr",
+          sm: "repeat(2, 1fr)",
+          md: "1fr",
+          lg: "repeat(2, 1fr)",
+          xl: "repeat(4, 1fr)",
+        },
+        "& > *": {
+          minWidth: 0,
+        },
       }}
-      display="flex"
     >
       <>
         {entity === "operator" ? (

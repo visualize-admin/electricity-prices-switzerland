@@ -818,7 +818,7 @@ export const ChoroplethMap = ({
               display={"flex"}
             >
               <Typography variant="caption" color={"text.500"}>
-                <Trans id="municipality">Municipality</Trans>
+                <Trans id="municipality">Gemeinde</Trans>
               </Typography>
               <Typography variant="h4" sx={{ fontWeight: 700 }}>
                 {tooltipContent.name}
