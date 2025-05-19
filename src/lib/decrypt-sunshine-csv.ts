@@ -2,8 +2,10 @@ import crypto from "crypto";
 import fs from "fs";
 import path from "path";
 
+import serverEnv from "src/env/server";
+
 const ENC_PATH = path.join(__dirname, "../sunshine-data.enc");
-const PASSWORD = process.env.PREVIEW_PASSWORD!;
+const PASSWORD = serverEnv.PREVIEW_PASSWORD!;
 
 export const decryptSunshineCsv = (): Buffer => {
   try {
