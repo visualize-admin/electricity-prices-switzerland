@@ -10,7 +10,6 @@ const fetchGeoData = async (year: string) => {
   const topo = await import(
     `swiss-maps/${parseInt(year, 10) - 1}/ch-combined.json`
   );
-
   const municipalities = topojsonFeature(topo, topo.objects.municipalities);
   const cantons = topojsonFeature(topo, topo.objects.cantons);
   const municipalityMesh = topojsonMesh(

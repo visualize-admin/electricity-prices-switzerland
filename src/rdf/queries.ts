@@ -514,6 +514,46 @@ export const getOperatorDocuments = async ({
   });
 };
 
+export const getOperatorMunicipalities = async (
+  year: string,
+  client = sparqlClient
+) => {
+  const query = `
+  SELECT DISTINCT ?period ?operator ?municipality ?canton WHERE {
+    <https://energy.ld.admin.ch/elcom/electricityprice> <https://cube.link/observationSet> ?observationSet0 .
+    ?observationSet0 <https://cube.link/observation> ?source0 .
+    ?source0 <https://energy.ld.admin.ch/elcom/electricityprice/dimension/period> "${year}"^^<http://www.w3.org/2001/XMLSchema#gYear> .
+    ?source0 <https://energy.ld.admin.ch/elcom/electricityprice/dimension/operator> ?operator .
+    ?source0 <https://energy.ld.admin.ch/elcom/electricityprice/dimension/municipality> ?municipality .
+    ?municipality <http://schema.org/containedInPlace> ?canton .
+    ?canton <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.ld.admin.ch/Canton> .
+  }
+  GROUP BY ?period ?operator ?dimension3 ?municipality ?canton
+  `;
+  const result = await client.query.select(query);
+  const parsed = result.map((res) => {
+    const municipalityIri = res.municipality.value;
+    const cantonIri = res.canton.value;
+    const operatorIri = res.operator.value;
+    const municipality = parseInt(
+      municipalityIri.replace("https://ld.admin.ch/municipality/", ""),
+      10
+    );
+    const canton = cantonIri.replace("https://ld.admin.ch/canton/", "");
+    const operator = operatorIri.replace(
+      "https://energy.ld.admin.ch/elcom/electricityprice/operator/",
+      ""
+    );
+
+    return {
+      municipality,
+      canton,
+      operator,
+    };
+  });
+  return parsed;
+};
+
 export const getSparqlEditorUrl = (query: string): string | null => {
   assert(!!serverEnv, "serverEnv is not defined");
   return serverEnv.SPARQL_EDITOR
