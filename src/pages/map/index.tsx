@@ -1,18 +1,19 @@
 import { PickingInfo } from "@deck.gl/core/typed";
 import { t } from "@lingui/macro";
-import { Box, Button, Input, Link, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  IconButton,
+  Input,
+  Link,
+  Typography,
+} from "@mui/material";
 import { GetServerSideProps } from "next";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import basicAuthMiddleware from "nextjs-basic-auth-middleware";
-import { useCallback, useRef } from "react";
-const ContentWrapper = dynamic(
-  () =>
-    import("@interactivethings/swiss-federal-ci/dist/components").then(
-      (mod) => mod.ContentWrapper
-    ),
-  { ssr: false }
-);
+import { ComponentProps, useCallback, useRef } from "react";
+import * as Vaul from "vaul";
 
 import { TooltipBox } from "src/components/charts-generic/interaction/tooltip-box";
 import { DownloadImage } from "src/components/detail-page/download-image";
@@ -22,6 +23,7 @@ import { List } from "src/components/list";
 import { ChoroplethMap, ChoroplethMapProps } from "src/components/map";
 import { useDisclosure } from "src/components/use-disclosure";
 import { useOutsideClick } from "src/components/use-outside-click";
+import { useStyles as useVaulStyles } from "src/components/vaul/useStyles";
 import { useColorScale } from "src/domain/data";
 import {
   PriceComponent,
@@ -33,6 +35,15 @@ import { copyToClipboard } from "src/lib/copy-to-clipboard";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { useQueryStateSingle } from "src/lib/use-query-state";
 import { defaultLocale } from "src/locales/locales";
+import MobileControls from "src/pages/map/mobile-controls";
+
+const ContentWrapper = dynamic(
+  () =>
+    import("@interactivethings/swiss-federal-ci/dist/components").then(
+      (mod) => mod.ContentWrapper
+    ),
+  { ssr: false }
+);
 
 const ApplicationLayout = dynamic(
   () =>
@@ -186,6 +197,52 @@ const ShareButton = () => {
   );
 };
 
+const MobileMapSearch = ({
+  observations,
+  cantonObservations,
+  colorScale,
+  observationsQueryFetching,
+  onDrawerOpenChange,
+  isOpen,
+}: {
+  observations: ComponentProps<typeof List>["observations"];
+  cantonObservations: ComponentProps<typeof List>["cantonObservations"];
+  observationsQueryFetching: ComponentProps<
+    typeof List
+  >["observationsQueryFetching"];
+  colorScale: ComponentProps<typeof List>["colorScale"];
+  onDrawerOpenChange: (open: boolean) => void;
+  isOpen: boolean;
+}) => {
+  const tooltipBoxRef = useRef<HTMLDivElement>(null);
+
+  useOutsideClick(tooltipBoxRef, () => {
+    close();
+  });
+  const { classes } = useVaulStyles();
+
+  return (
+    <>
+      <Vaul.Root open={isOpen} onOpenChange={onDrawerOpenChange}>
+        <Vaul.Portal>
+          <Vaul.Overlay className={classes.overlay} />
+          <Vaul.Content className={classes.content}>
+            <div className={classes.handle} />
+            <Box sx={{ overflowY: "auto", flex: 1 }}>
+              <List
+                observations={observations}
+                cantonObservations={cantonObservations}
+                colorScale={colorScale}
+                observationsQueryFetching={observationsQueryFetching}
+              />
+            </Box>
+          </Vaul.Content>
+        </Vaul.Portal>
+      </Vaul.Root>
+    </>
+  );
+};
+
 const IndexPage = ({ locale }: Props) => {
   const [{ period, priceComponent, category, product, download }] =
     useQueryStateSingle();
@@ -244,6 +301,7 @@ const IndexPage = ({ locale }: Props) => {
   };
 
   const controlsRef: NonNullable<ChoroplethMapProps["controls"]> = useRef(null);
+  const { isOpen, setIsOpen: onDrawerOpenChange } = useDisclosure();
 
   return (
     <>
@@ -268,15 +326,17 @@ const IndexPage = ({ locale }: Props) => {
                 display: "grid",
                 width: "100%",
                 gridTemplateColumns: ["1fr", "20rem", null],
-                gridTemplateAreas: [`"controls" "map"`, `"controls map"`, null],
+                gridTemplateAreas: [`"map" "controls"`, `"controls map"`, null],
                 gap: 0,
                 position: "relative",
               }}
             >
+              {/* Desktop controls */}
               <Box
                 sx={{
                   gridArea: "controls",
                   position: "sticky",
+                  display: ["none", "block"],
                   top: HEADER_HEIGHT_UP,
                   maxHeight: `calc(100vh - ${HEADER_HEIGHT_UP})`,
                   overflowY: "auto",
@@ -297,6 +357,16 @@ const IndexPage = ({ locale }: Props) => {
               </Box>
 
               <Box
+                sx={{
+                  gridArea: "controls",
+                  pt: 1,
+                }}
+              >
+                <MobileControls />
+              </Box>
+
+              {/* Map */}
+              <Box
                 id={DOWNLOAD_ID}
                 sx={{
                   bgcolor: "secondary.50",
@@ -308,6 +378,32 @@ const IndexPage = ({ locale }: Props) => {
                   position: ["relative", "sticky"],
                 }}
               >
+                {/*  */}
+                <Box
+                  sx={{
+                    position: "absolute",
+                    top: "1rem",
+                    left: "0rem",
+                    zIndex: 1,
+                  }}
+                >
+                  <IconButton
+                    onClick={() => onDrawerOpenChange(true)}
+                    sx={{
+                      backgroundColor: "background.paper",
+                      borderRadius: "50%",
+                      width: "3rem",
+                      height: "3rem",
+                      display: ["flex", "none"],
+                      alignItems: "center",
+                      justifyContent: "center",
+                      boxShadow: 1,
+                    }}
+                  >
+                    <Icon name="search" />
+                  </IconButton>
+                </Box>
+
                 <ChoroplethMap
                   year={period}
                   observations={observations}
@@ -352,6 +448,14 @@ const IndexPage = ({ locale }: Props) => {
               </Box>
             </Box>
           </ContentWrapper>
+          <MobileMapSearch
+            onDrawerOpenChange={onDrawerOpenChange}
+            observations={observations}
+            cantonObservations={cantonMedianObservations}
+            colorScale={colorScale}
+            observationsQueryFetching={observationsQuery.fetching}
+            isOpen={isOpen}
+          />
         </Box>
       </ApplicationLayout>
     </>
