@@ -4,7 +4,7 @@ import {
   mesh as topojsonMesh,
 } from "topojson-client";
 
-import { useFetch } from "src/data/use-fetch";
+import { queryCache, useFetch } from "src/data/use-fetch";
 
 const fetchGeoData = async (year: string) => {
   const topo = await import(
@@ -40,6 +40,15 @@ type GeoData = {
   lakes: FeatureCollection | Feature;
 };
 
+const fetchGeoDataOptions = (year: string) => ({
+  queryFn: () => fetchGeoData(year),
+  key: `geo-data-${year}`,
+});
+
+export const fetchGeoDataWitCache = async (year: string) => {
+  return queryCache.fetch<GeoData>(fetchGeoDataOptions(year));
+};
+
 export const useGeoData = (year: string) => {
-  return useFetch<GeoData>(() => fetchGeoData(year), [year]);
+  return useFetch<GeoData>(fetchGeoDataOptions(year));
 };
