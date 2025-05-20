@@ -48,8 +48,8 @@ export const ApplicationLayout = ({ children }: ApplicationLayoutProps) => {
           <AppNavigation />
           {children}
         </Box>
+        <Footer />
       </Box>
-      <Footer />
     </HighlightContext.Provider>
   );
 };
