@@ -4,7 +4,6 @@ import { Box, Button, Input, Link, Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import basicAuthMiddleware from "nextjs-basic-auth-middleware";
 import { useCallback, useRef, useState } from "react";
 
 import { TooltipBox } from "src/components/charts-generic/interaction/tooltip-box";
@@ -43,9 +42,7 @@ type Props = {
 export const getServerSideProps: GetServerSideProps<
   Props,
   { locale: string }
-> = async ({ locale, req, res }) => {
-  await basicAuthMiddleware(req, res);
-
+> = async ({ locale }) => {
   return {
     props: {
       locale: locale ?? defaultLocale,
