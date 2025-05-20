@@ -12,8 +12,7 @@ import { GetServerSideProps } from "next";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import basicAuthMiddleware from "nextjs-basic-auth-middleware";
-import { ComponentProps, useCallback, useRef } from "react";
-import * as Vaul from "vaul";
+import { useCallback, useRef, useState } from "react";
 
 import { TooltipBox } from "src/components/charts-generic/interaction/tooltip-box";
 import { DownloadImage } from "src/components/detail-page/download-image";
@@ -23,7 +22,6 @@ import { List } from "src/components/list";
 import { ChoroplethMap, ChoroplethMapProps } from "src/components/map";
 import { useDisclosure } from "src/components/use-disclosure";
 import { useOutsideClick } from "src/components/use-outside-click";
-import { useStyles as useVaulStyles } from "src/components/vaul/useStyles";
 import { useColorScale } from "src/domain/data";
 import {
   PriceComponent,
@@ -197,52 +195,6 @@ const ShareButton = () => {
   );
 };
 
-const MobileMapSearch = ({
-  observations,
-  cantonObservations,
-  colorScale,
-  observationsQueryFetching,
-  onDrawerOpenChange,
-  isOpen,
-}: {
-  observations: ComponentProps<typeof List>["observations"];
-  cantonObservations: ComponentProps<typeof List>["cantonObservations"];
-  observationsQueryFetching: ComponentProps<
-    typeof List
-  >["observationsQueryFetching"];
-  colorScale: ComponentProps<typeof List>["colorScale"];
-  onDrawerOpenChange: (open: boolean) => void;
-  isOpen: boolean;
-}) => {
-  const tooltipBoxRef = useRef<HTMLDivElement>(null);
-
-  useOutsideClick(tooltipBoxRef, () => {
-    close();
-  });
-  const { classes } = useVaulStyles();
-
-  return (
-    <>
-      <Vaul.Root open={isOpen} onOpenChange={onDrawerOpenChange}>
-        <Vaul.Portal>
-          <Vaul.Overlay className={classes.overlay} />
-          <Vaul.Content className={classes.content}>
-            <div className={classes.handle} />
-            <Box sx={{ overflowY: "auto", flex: 1 }}>
-              <List
-                observations={observations}
-                cantonObservations={cantonObservations}
-                colorScale={colorScale}
-                observationsQueryFetching={observationsQueryFetching}
-              />
-            </Box>
-          </Vaul.Content>
-        </Vaul.Portal>
-      </Vaul.Root>
-    </>
-  );
-};
-
 const IndexPage = ({ locale }: Props) => {
   const [{ period, priceComponent, category, product, download }] =
     useQueryStateSingle();
@@ -302,6 +254,9 @@ const IndexPage = ({ locale }: Props) => {
 
   const controlsRef: NonNullable<ChoroplethMapProps["controls"]> = useRef(null);
   const { isOpen, setIsOpen: onDrawerOpenChange } = useDisclosure();
+  const [mobileControlsMode, setMobileControlsMode] = useState<
+    "selectors" | "list"
+  >("selectors");
 
   return (
     <>
@@ -362,7 +317,25 @@ const IndexPage = ({ locale }: Props) => {
                   pt: 1,
                 }}
               >
-                <MobileControls />
+                <MobileControls
+                  listProps={{
+                    observations,
+                    cantonObservations: cantonMedianObservations,
+                    colorScale,
+                    observationsQueryFetching: observationsQuery.fetching,
+                  }}
+                  mode={mobileControlsMode}
+                  isDrawerOpen={isOpen}
+                  onChangeMode={(mode) => {
+                    setMobileControlsMode(mode);
+                  }}
+                  onChangeDrawerOpen={(b: boolean) => {
+                    onDrawerOpenChange(b);
+                    if (b) {
+                      setMobileControlsMode("selectors");
+                    }
+                  }}
+                />
               </Box>
 
               {/* Map */}
@@ -388,7 +361,10 @@ const IndexPage = ({ locale }: Props) => {
                   }}
                 >
                   <IconButton
-                    onClick={() => onDrawerOpenChange(true)}
+                    onClick={() => {
+                      onDrawerOpenChange(true);
+                      setMobileControlsMode("list");
+                    }}
                     sx={{
                       backgroundColor: "background.paper",
                       borderRadius: "50%",
@@ -448,14 +424,6 @@ const IndexPage = ({ locale }: Props) => {
               </Box>
             </Box>
           </ContentWrapper>
-          <MobileMapSearch
-            onDrawerOpenChange={onDrawerOpenChange}
-            observations={observations}
-            cantonObservations={cantonMedianObservations}
-            colorScale={colorScale}
-            observationsQueryFetching={observationsQuery.fetching}
-            isOpen={isOpen}
-          />
         </Box>
       </ApplicationLayout>
     </>
