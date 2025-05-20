@@ -112,7 +112,7 @@ export const Search = () => {
       >
         <IconButton
           onClick={() => setExpanded(true)}
-          aria-label={t({ id: "search.open" })}
+          aria-label={t({ id: "search.open", message: "Suche öffnen" })}
         >
           <Icon name="search" />
         </IconButton>
