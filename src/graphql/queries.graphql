@@ -179,38 +179,54 @@ query CubeHealth {
   }
 }
 
-query SunshineData {
-  sunshineData {
-    SunPartnerId
-    SunUID
-    SunName
-    SunPeriod
-    SunFrancRule
-    SunInfoYesNo
-    SunInfoDaysInAdvance
-    SunNetworkCostsNE5
-    SunNetworkCostsNE6
-    SunNetworkCostsNE7
-    SunProductsCount
-    SunProductsSelection
-    SunTimely
-    SunSAIDITotal
-    SunSAIDIUnplanned
-    SunSAIFITotal
-    SunSAIFIUnplanned
-    SunTariffEC2
-    SunTariffEC3
-    SunTariffEC4
-    SunTariffEC6
-    SunTariffEH2
-    SunTariffEH4
-    SunTariffEH7
-    SunTariffNC2
-    SunTariffNC3
-    SunTariffNC4
-    SunTariffNC6
-    SunTariffNH2
-    SunTariffNH4
-    SunTariffNH7
+query SunshineData($filter: SunshineDataFilter!) {
+  sunshineData(filter: $filter) {
+    operatorId
+    operatorUID
+    name
+    period
+    francRule
+    infoYesNo
+    infoDaysInAdvance
+    productsCount
+    productsSelection
+    timely
+    saidiTotal
+    saidiUnplanned
+    saifiTotal
+    saifiUnplanned
+  }
+}
+
+query SunshineTariff($filter: SunshineDataFilter!) {
+  sunshineTariffs(filter: $filter) {
+    operatorId
+    operatorUID
+    name
+    period
+    francRule
+    infoYesNo
+    infoDaysInAdvance
+    productsCount
+    productsSelection
+    timely
+    saidiTotal
+    saidiUnplanned
+    saifiTotal
+    saifiUnplanned
+    tariffEC2
+    tariffEC3
+    tariffEC4
+    tariffEC6
+    tariffEH2
+    tariffEH4
+    tariffEH7
+    tariffNC2
+    tariffNC3
+    tariffNC4
+    tariffNC6
+    tariffNH2
+    tariffNH4
+    tariffNH7
   }
 }

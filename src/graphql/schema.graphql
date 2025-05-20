@@ -200,39 +200,59 @@ type Query {
 }
 
 type SunshineDataRow {
-  SunPartnerId: Int
-  SunUID: String!
-  SunName: String!
-  SunPeriod: String!
-  SunFrancRule: Float
-  SunInfoYesNo: String
-  SunInfoDaysInAdvance: Int
-  SunNetworkCostsNE5: Float
-  SunNetworkCostsNE6: Float
-  SunNetworkCostsNE7: Float
-  SunProductsCount: Int
-  SunProductsSelection: String
-  SunTimely: Int
-  SunSAIDITotal: Float
-  SunSAIDIUnplanned: Float
-  SunSAIFITotal: Float
-  SunSAIFIUnplanned: Float
-  SunTariffEC2: Float
-  SunTariffEC3: Float
-  SunTariffEC4: Float
-  SunTariffEC6: Float
-  SunTariffEH2: Float
-  SunTariffEH4: Float
-  SunTariffEH7: Float
-  SunTariffNC2: Float
-  SunTariffNC3: Float
-  SunTariffNC4: Float
-  SunTariffNC6: Float
-  SunTariffNH2: Float
-  SunTariffNH4: Float
-  SunTariffNH7: Float
+  operatorId: Int
+  operatorUID: String!
+  name: String!
+  period: String!
+  francRule: Float
+  infoYesNo: String
+  infoDaysInAdvance: Int
+  productsCount: Int
+  productsSelection: String
+  timely: Int
+  saidiTotal: Float
+  saidiUnplanned: Float
+  saifiTotal: Float
+  saifiUnplanned: Float
+  tariffEC2: Float
+  tariffEC3: Float
+  tariffEC4: Float
+  tariffEC6: Float
+  tariffEH2: Float
+  tariffEH4: Float
+  tariffEH7: Float
+  tariffNC2: Float
+  tariffNC3: Float
+  tariffNC4: Float
+  tariffNC6: Float
+  tariffNH2: Float
+  tariffNH4: Float
+  tariffNH7: Float
+}
+
+input SunshineDataFilter {
+  operatorId: Int
+  period: String
+}
+
+enum TariffCategory {
+  EC2
+  EC3
+  EC4
+  EC6
+  EH2
+  EH4
+  EH7
+  NC2
+  NC3
+  NC4
+  NC6
+  NH2
+  NH4
+  NH7
 }
 
 type Query {
-  sunshineData: [SunshineDataRow!]!
+  sunshineData(filter: SunshineDataFilter!): [SunshineDataRow!]!
+  sunshineTariffs(filter: SunshineDataFilter!): [SunshineDataRow!]!
 }

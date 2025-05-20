@@ -34,6 +34,8 @@ import {
   getView,
 } from "src/rdf/queries";
 import { fetchOperatorInfo, search } from "src/rdf/search-queries";
+import * as fs from "fs";
+import encryptedSunshineCsv from "./sunshine-data.csv";
 
 const gfmSyntax = require("micromark-extension-gfm");
 const gfmHtml = require("micromark-extension-gfm/html");
@@ -59,58 +61,123 @@ const parseNumber = (val: string): number | null => {
   return isNaN(num) ? null : num;
 };
 
+const parseSunshineCsv = async () => {
+  const csv = await decryptSunshineCsv();
+
+  const rows: RawRow[] = parse(csv, {
+    columns: true,
+    skip_empty_lines: true,
+    trim: true,
+    bom: true,
+  });
+
+  const data = rows.map((row) => ({
+    SunPartnerId: parseInt(row.SunPartnerID, 10),
+    SunUID: row.SunUID,
+    SunName: row.SunName,
+    SunPeriod: row.SunPeriode,
+    SunFrancRule: parseNumber(row.SunFrankenRegel),
+    SunInfoYesNo: row.SunInfoJaNein,
+    SunInfoDaysInAdvance: parseInt(row.SunInfoTageimVoraus),
+    SunNetworkCostsNE5: parseNumber(row.SunNetzkostenNE5),
+    SunNetworkCostsNE6: parseNumber(row.SunNetzkostenNE6),
+    SunNetworkCostsNE7: parseNumber(row.SunNetzkostenNE7),
+    SunProductsCount: parseInt(row.SunProdukteAnzahl),
+    SunProductsSelection: row.SunProdukteAuswahl,
+    SunTimely: parseInt(row.SunRechtzeitig),
+    SunSAIDITotal: parseNumber(row.SunSAIDItotal),
+    SunSAIDIUnplanned: parseNumber(row.SunSAIDIungeplant),
+    SunSAIFITotal: parseNumber(row.SunSAIFItotal),
+    SunSAIFIUnplanned: parseNumber(row.SunSAIFIungeplant),
+    SunTariffEC2: parseNumber(row.SunTarifEC2),
+    SunTariffEC3: parseNumber(row.SunTarifEC3),
+    SunTariffEC4: parseNumber(row.SunTarifEC4),
+    SunTariffEC6: parseNumber(row.SunTarifEC6),
+    SunTariffEH2: parseNumber(row.SunTarifEH2),
+    SunTariffEH4: parseNumber(row.SunTarifEH4),
+    SunTariffEH7: parseNumber(row.SunTarifEH7),
+    SunTariffNC2: parseNumber(row.SunTarifNC2),
+    SunTariffNC3: parseNumber(row.SunTarifNC3),
+    SunTariffNC4: parseNumber(row.SunTarifNC4),
+    SunTariffNC6: parseNumber(row.SunTarifNC6),
+    SunTariffNH2: parseNumber(row.SunTarifNH2),
+    SunTariffNH4: parseNumber(row.SunTarifNH4),
+    SunTariffNH7: parseNumber(row.SunTarifNH7),
+  }));
+
+  return data;
+};
+
+let sunshineDataCache: RawRow[] | undefined = undefined;
+const getSunshineData = async () => {
+  if (!sunshineDataCache) {
+    sunshineDataCache = await parseSunshineCsv();
+  }
+  return sunshineDataCache!;
+};
+
 type RawRow = Record<string, string>;
 
 const Query: QueryResolvers = {
-  sunshineData: async (_parent, _args) => {
-    try {
-      const csvBuffer = decryptSunshineCsv();
-      const csv = csvBuffer.toString("utf-8");
-
-      const rows: RawRow[] = parse(csv, {
-        columns: true,
-        skip_empty_lines: true,
-        trim: true,
+  sunshineData: async (_parent, args) => {
+    const filter = args.filter;
+    return (await getSunshineData())
+      .filter((row) => {
+        if (
+          filter.SunPartnerId !== undefined &&
+          row.SunPartnerId !== filter.SunPartnerId
+        ) {
+          return false;
+        }
+        if (
+          filter.SunPeriod !== undefined &&
+          row.SunPeriod !== filter.SunPeriod
+        ) {
+          return false;
+        }
+        return true;
+      })
+      .map((row) => {
+        return {
+          operatorId: row.SunPartnerId,
+          operatorUID: row.SunUID,
+          period: row.SunPeriod,
+          francRule: row.SunFrancRule,
+          infoYesNo: row.SunInfoYesNo,
+          infoDaysInAdvance: row.SunInfoDaysInAdvance,
+          productsCount: row.SunProductsCount,
+          productsSelection: row.SunProductsSelection,
+          timely: row.SunTimely,
+          saidiTotal: row.SunSAIDITotal,
+          saidiUnplanned: row.SunSAIDIUnplanned,
+          saifiTotal: row.SunSAIFITotal,
+          saifiUnplanned: row.SunSAIFIUnplanned,
+        };
       });
-      const data = rows.map((row) => ({
-        SunPartnerId: parseInt(row.SunPartnerID),
-        SunUID: row.SunUID,
-        SunName: row.SunName,
-        SunPeriod: row.SunPeriode,
-        SunFrancRule: parseNumber(row.SunFrankenRegel),
-        SunInfoYesNo: row.SunInfoJaNein,
-        SunInfoDaysInAdvance: parseInt(row.SunInfoTageimVoraus),
-        SunNetworkCostsNE5: parseNumber(row.SunNetzkostenNE5),
-        SunNetworkCostsNE6: parseNumber(row.SunNetzkostenNE6),
-        SunNetworkCostsNE7: parseNumber(row.SunNetzkostenNE7),
-        SunProductsCount: parseInt(row.SunProdukteAnzahl),
-        SunProductsSelection: row.SunProdukteAuswahl,
-        SunTimely: parseInt(row.SunRechtzeitig),
-        SunSAIDITotal: parseNumber(row.SunSAIDItotal),
-        SunSAIDIUnplanned: parseNumber(row.SunSAIDIungeplant),
-        SunSAIFITotal: parseNumber(row.SunSAIFItotal),
-        SunSAIFIUnplanned: parseNumber(row.SunSAIFIungeplant),
-        SunTariffEC2: parseNumber(row.SunTarifEC2),
-        SunTariffEC3: parseNumber(row.SunTarifEC3),
-        SunTariffEC4: parseNumber(row.SunTarifEC4),
-        SunTariffEC6: parseNumber(row.SunTarifEC6),
-        SunTariffEH2: parseNumber(row.SunTarifEH2),
-        SunTariffEH4: parseNumber(row.SunTarifEH4),
-        SunTariffEH7: parseNumber(row.SunTarifEH7),
-        SunTariffNC2: parseNumber(row.SunTarifNC2),
-        SunTariffNC3: parseNumber(row.SunTarifNC3),
-        SunTariffNC4: parseNumber(row.SunTarifNC4),
-        SunTariffNC6: parseNumber(row.SunTarifNC6),
-        SunTariffNH2: parseNumber(row.SunTarifNH2),
-        SunTariffNH4: parseNumber(row.SunTarifNH4),
-        SunTariffNH7: parseNumber(row.SunTarifNH7),
-      }));
-
-      return data;
-    } catch (e) {
-      console.error("[Decrypt CSV Error]", e);
-      throw new GraphQLError("Failed to decrypt sunshine data.");
+  },
+  sunshineTariffs: async (_parent, args) => {
+    const filter = args.filter;
+    if (!filter.operatorId && !filter.period) {
+      throw new Error("Must either filter by year or by provider.");
     }
+    return sunshineData.filter((row) => {
+      if (
+        filter.operatorId !== undefined &&
+        row.operatorId !== filter.operatorId
+      ) {
+        return false;
+      }
+      if (filter.period !== undefined && row.period !== filter.period) {
+        return false;
+      }
+      return {
+        operatorId: row.operatorId,
+        operatorUID: row.SunUID,
+        value: row[filter.Category as keyof typeof row],
+        period: row.SunPeriod,
+        category: filter.Category,
+      };
+    });
   },
   systemInfo: async () => {
     return {
@@ -167,7 +234,6 @@ const Query: QueryResolvers = {
       ...o,
     }));
 
-    // Should we type-check with io-ts here? Probably not necessary because the GraphQL API will also type-check against the schema.
     return operatorObservations as ResolvedOperatorObservation[];
   },
   cantonMedianObservations: async (
@@ -230,7 +296,6 @@ const Query: QueryResolvers = {
       ...x,
     }));
 
-    // Should we type-check with io-ts here? Probably not necessary because the GraphQL API will also type-check against the schema.
     return medianObservations as ResolvedCantonMedianObservation[];
   },
   swissMedianObservations: async (_, { locale, filters }, ctx, info) => {
@@ -286,7 +351,6 @@ const Query: QueryResolvers = {
       __typename: "MedianObservation",
     }));
 
-    // Should we type-check with io-ts here? Probably not necessary because the GraphQL API will also type-check against the schema.
     return medianObservations as ResolvedSwissMedianObservation[];
   },
   operators: async (_, { query, ids, locale }) => {
