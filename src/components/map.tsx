@@ -23,16 +23,13 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import {
-  feature as topojsonFeature,
-  mesh as topojsonMesh,
-} from "topojson-client";
 
 import { TooltipBoxWithoutChartState } from "src/components/charts-generic/interaction/tooltip-box";
 import { WithClassName } from "src/components/detail-page/with-classname";
 import { HighlightContext } from "src/components/highlight-context";
 import { Loading, NoDataHint, NoGeoDataHint } from "src/components/hint";
 import { MapPriceColorLegend } from "src/components/price-color-legend";
+import { useGeoData } from "src/data/geo";
 import { useFormatCurrency } from "src/domain/helpers";
 import { OperatorObservationFieldsFragment } from "src/graphql/queries";
 import { maxBy } from "src/lib/array";
@@ -111,20 +108,6 @@ const constrainZoom = (
     latitude: p[1],
   };
 };
-
-/**
- * Simple fitZoom to bbox
- * @param viewState deck.gl viewState
- */
-// const fitZoom = (viewState: $FixMe, bbox: BBox) => {
-//   const vp = new WebMercatorViewport(viewState);
-//   const fitted = vp.fitBounds(bbox);
-
-//   return {
-//     ...viewState,
-//     ...fitted,
-//   };
-// };
 
 const __debugCheckObservationsWithoutShapes = (
   observationsByMunicipalityId: Map<
@@ -216,45 +199,6 @@ type GeoData = {
   lakes: FeatureCollection | Feature;
 };
 
-type FetchDataState<T> =
-  | {
-      state: "fetching";
-    }
-  | {
-      state: "error";
-    }
-  | ({
-      state: "loaded";
-    } & T);
-
-type GeoDataState = FetchDataState<GeoData>;
-
-const fetchGeoData = async (year: string) => {
-  const topo = await import(
-    `swiss-maps/${parseInt(year, 10) - 1}/ch-combined.json`
-  );
-
-  const municipalities = topojsonFeature(topo, topo.objects.municipalities);
-  const cantons = topojsonFeature(topo, topo.objects.cantons);
-  const municipalityMesh = topojsonMesh(
-    topo,
-    topo.objects.municipalities,
-    (a, b) => a !== b
-  );
-  const cantonMesh = topojsonMesh(topo, topo.objects.cantons);
-  const lakes = topojsonFeature(topo, topo.objects.lakes);
-  return {
-    municipalities: municipalities as Extract<
-      typeof municipalities,
-      { features: $IntentionalAny }
-    >,
-    cantons: cantons as Extract<typeof cantons, { features: $IntentionalAny }>,
-    municipalityMesh,
-    cantonMesh,
-    lakes,
-  };
-};
-
 type HoverState =
   | {
       x: number;
@@ -270,25 +214,6 @@ type HoverState =
       value: number;
       label: string;
     };
-
-const useGeoData = (year: string) => {
-  const [geoData, setGeoData] = useState<GeoDataState>({ state: "fetching" });
-  useEffect(() => {
-    const load = async () => {
-      try {
-        const geoData = await fetchGeoData(year);
-        setGeoData({
-          state: "loaded",
-          ...geoData,
-        });
-      } catch {
-        setGeoData({ state: "error" });
-      }
-    };
-    load();
-  }, [year]);
-  return geoData;
-};
 
 const toBlob = (canvas: HTMLCanvasElement, type: string) =>
   new Promise<Blob | null>((resolve) => {
