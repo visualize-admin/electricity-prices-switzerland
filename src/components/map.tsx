@@ -34,8 +34,6 @@ import { useFormatCurrency } from "src/domain/helpers";
 import { OperatorObservationFieldsFragment } from "src/graphql/queries";
 import { maxBy } from "src/lib/array";
 
-import type { Feature, FeatureCollection, MultiLineString } from "geojson";
-
 const DOWNLOAD_ID = "map";
 
 const INITIAL_VIEW_STATE = {
@@ -189,15 +187,6 @@ const HintBox = ({ children }: { children: ReactNode }) => (
     </Box>
   </Box>
 );
-
-type GeoData = {
-  state: "loaded";
-  cantons: FeatureCollection;
-  municipalities: FeatureCollection;
-  municipalityMesh: MultiLineString;
-  cantonMesh: MultiLineString;
-  lakes: FeatureCollection | Feature;
-};
 
 type HoverState =
   | {
@@ -425,7 +414,7 @@ export const ChoroplethMap = ({
     if (geoData.state === "loaded" && observationsByMunicipalityId.size > 0) {
       __debugCheckObservationsWithoutShapes(
         observationsByMunicipalityId,
-        geoData.municipalities
+        geoData.data.municipalities
       );
     }
   }, [geoData, observationsByMunicipalityId]);
@@ -454,8 +443,8 @@ export const ChoroplethMap = ({
     if (geoData.state !== "loaded") {
       return;
     }
-    const municipalities = geoData?.municipalities;
-    const cantons = geoData?.cantons;
+    const municipalities = geoData.data.municipalities;
+    const cantons = geoData.data.cantons;
     return {
       municipalities: new Map(
         municipalities?.features.map((x) => [x.id, x]) ?? []

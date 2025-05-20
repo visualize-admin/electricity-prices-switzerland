@@ -1,9 +1,10 @@
 import { Feature, FeatureCollection, MultiLineString } from "geojson";
-import { useEffect, useState } from "react";
 import {
   feature as topojsonFeature,
   mesh as topojsonMesh,
 } from "topojson-client";
+
+import { useFetch } from "src/data/use-fetch";
 
 const fetchGeoData = async (year: string) => {
   const topo = await import(
@@ -31,21 +32,7 @@ const fetchGeoData = async (year: string) => {
   };
 };
 
-type FetchDataState<T> =
-  | {
-      state: "fetching";
-    }
-  | {
-      state: "error";
-    }
-  | ({
-      state: "loaded";
-    } & T);
-
-type GeoDataState = FetchDataState<GeoData>;
-
 type GeoData = {
-  state: "loaded";
   cantons: FeatureCollection;
   municipalities: FeatureCollection;
   municipalityMesh: MultiLineString;
@@ -54,20 +41,5 @@ type GeoData = {
 };
 
 export const useGeoData = (year: string) => {
-  const [geoData, setGeoData] = useState<GeoDataState>({ state: "fetching" });
-  useEffect(() => {
-    const load = async () => {
-      try {
-        const geoData = await fetchGeoData(year);
-        setGeoData({
-          state: "loaded",
-          ...geoData,
-        });
-      } catch {
-        setGeoData({ state: "error" });
-      }
-    };
-    load();
-  }, [year]);
-  return geoData;
+  return useFetch<GeoData>(() => fetchGeoData(year), [year]);
 };
