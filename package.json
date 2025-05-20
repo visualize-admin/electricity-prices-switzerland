@@ -80,7 +80,6 @@
     "graphql-tag": "^2.11.0",
     "har-to-k6": "^0.13.1",
     "html2canvas": "^1.4.1",
-    "io-ts": "^2.2.16",
     "jsdom": "^25.0.1",
     "lodash": "^4.17.21",
     "make-plural": "^7.0.0",
