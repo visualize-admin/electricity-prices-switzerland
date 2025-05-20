@@ -56,8 +56,8 @@ export const ApplicationLayout = ({
           )}
           {children}
         </Box>
+        <Footer />
       </Box>
-      <Footer />
     </HighlightContext.Provider>
   );
 };
