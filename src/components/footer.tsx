@@ -8,11 +8,17 @@ import {
 import { t } from "@lingui/macro";
 import { Link, SxProps } from "@mui/material";
 
+import { useLocale } from "src/lib/use-locale";
+import { useQueryStateSingle } from "src/lib/use-query-state";
+
 import { useDisclosure } from "./use-disclosure";
 
 export const Footer = ({ sx }: { sx?: SxProps }) => {
+  const locale = useLocale();
+  const [{ period }] = useQueryStateSingle();
   const helpCalculationDisclosure = useDisclosure();
   const helpCsvDisclosure = useDisclosure();
+  const helpMunicipalitiesInfoDisclosure = useDisclosure();
 
   const bottomLinks = [
     {
@@ -54,40 +60,44 @@ export const Footer = ({ sx }: { sx?: SxProps }) => {
             message: "Weitere Informationen",
           })}
         />
-        <Link
-          href={"https://www.elcom.admin.ch/energy-saving"}
-          target="_blank"
-          underline="none"
-        >
-          <FooterSectionButton
-            iconName="external"
-            label={t({
-              id: "footer.energy_saving",
-              message: "Energie sparen",
-            })}
-          />
-        </Link>
-        <Link
-          href={"https://www.elcom.admin.ch/supply-situation"}
-          target="_blank"
-          underline="none"
-        >
-          <FooterSectionButton
-            iconName="external"
-            label={t({
-              id: "footer.supply_situation",
-              message: "Versorgungslage",
-            })}
-          />
-        </Link>
         <FooterSectionButton
           iconName="arrow-right"
           onClick={() => helpCalculationDisclosure.open()}
           label={t({
             id: "footer.basis-of-calculation",
-            message: "Grundlage der Berechnung",
+            message: "Berechnungsgrundlagen",
           })}
         />
+        <Link
+          href={
+            "https://www.elcom.admin.ch/elcom/de/home/themen/strompreise.html"
+          }
+          target="_blank"
+          underline="none"
+        >
+          <FooterSectionButton
+            iconName="external"
+            label={t({
+              id: "footer.additional-information",
+              message: "Weitere Informationen zu den Tarifen in der Schweiz",
+            })}
+          />
+        </Link>
+        <Link
+          href={
+            "https://www.swissgrid.ch/dam/swissgrid/customers/topics/tariffs/Tabelle-Tarife-de.pdf"
+          }
+          target="_blank"
+          underline="none"
+        >
+          <FooterSectionButton
+            iconName="external"
+            label={t({
+              id: "footer.tariff-components",
+              message: "Tarifkomponenten Übertragungsnetz - Swissgrid",
+            })}
+          />
+        </Link>
       </FooterSection>
 
       <FooterSection>
@@ -97,14 +107,29 @@ export const Footer = ({ sx }: { sx?: SxProps }) => {
             message: "Daten herunterladen",
           })}
         />
-        <FooterSectionButton
-          iconName="download"
-          onClick={() => helpCsvDisclosure.open()}
-          label={t({
-            id: "footer.data-as-csv",
-            message: "Daten als csv",
-          })}
-        />
+        <Link href={`/api/data-export?period=${period}&locale=${locale}`}>
+          <FooterSectionButton
+            iconName="download"
+            onClick={() => helpCsvDisclosure.open()}
+            label={t({
+              id: "footer.data-as-csv",
+              message: "Daten als csv",
+            })}
+          />
+        </Link>
+
+        <Link href={`/api/municipalities-data.csv?period=${period}`}>
+          <FooterSectionButton
+            iconName="download"
+            onClick={() => helpMunicipalitiesInfoDisclosure.open()}
+            label={t({
+              id: "footer.swiss-municipalities-grid",
+              message:
+                "Schweizerische Gemeinden und zuständige Stromnetzbetreiber",
+            })}
+          />
+        </Link>
+
         <Link
           href={
             "https://opendata.swiss/organization/bundesamt-fur-energie-bfe?q=energiedashboard"
