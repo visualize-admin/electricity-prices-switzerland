@@ -205,3 +205,9 @@ docker compose up
 
 To mimick a cloud infrastructure where the /api/screenshot route is routed
 to "screenshots" instances, the traefik reverse proxy is used.
+
+## SPARQL notebook
+
+A notebook containing Elcom specific SPARQL queries is available at [./book.sparqlbook](./book.sparqlbook).
+You need the [SPARQL Notebook Extension](https://marketplace.visualstudio.com/items?itemName=Zazuko.sparql-notebook)
+to open it.
