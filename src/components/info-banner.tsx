@@ -1,4 +1,5 @@
 import { Box } from "@mui/material";
+import { useState } from "react";
 
 import { HintRed } from "src/components/hint";
 import { useWikiContentQuery } from "src/graphql/queries";
@@ -10,6 +11,7 @@ export const InfoBanner = ({
   bypassBannerEnabled: boolean;
 }) => {
   const locale = useLocale();
+  const [open, setOpen] = useState(true);
   const [contentQuery] = useWikiContentQuery({
     variables: { locale, slug: "home-banner" },
   });
@@ -29,8 +31,8 @@ export const InfoBanner = ({
     return null;
   }
 
-  return (
-    <HintRed iconName="infocircle">
+  return open ? (
+    <HintRed iconName="infocircle" onRemove={() => setOpen(false)}>
       {
         <Box
           component="section"
@@ -44,5 +46,5 @@ export const InfoBanner = ({
         />
       }
     </HintRed>
-  );
+  ) : null;
 };

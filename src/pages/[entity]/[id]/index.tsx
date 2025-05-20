@@ -258,7 +258,6 @@ const ElectricityTariffsPage = (props: Props) => {
                 bgcolor: "background.paper",
               }}
             >
-              {/* FIXME: Add Operator download button (after ci-cd) */}
               <DetailPageLayout
                 download={query.download}
                 selector={

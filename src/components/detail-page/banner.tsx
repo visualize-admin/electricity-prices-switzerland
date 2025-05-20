@@ -1,5 +1,5 @@
 import { Trans } from "@lingui/macro";
-import { Box, Button, Typography, Link as UILink } from "@mui/material";
+import { Box, Button, Stack, Typography, Link as UILink } from "@mui/material";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { Fragment, useState } from "react";
@@ -7,6 +7,8 @@ import { Fragment, useState } from "react";
 import { MapLink } from "src/components/links";
 import { Entity } from "src/domain/data";
 import { Icon } from "src/icons";
+
+import { OperatorDocuments } from "../operator-documents";
 
 const TRUNCATE_COUNT = 5;
 
@@ -130,75 +132,82 @@ export const DetailPageBanner = ({
             <Trans id="detail.operator">Netzbetreiber</Trans>
           )}
         </Typography>
-        {/* FIXME: Make a dropdown for all entity types (after ci-cd) */}
-
-        <Box
-          display={"flex"}
-          sx={{
-            gap: 2,
-            alignItems: "center",
-          }}
-        >
-          <Icon name="industry" size={32} />
-          <Typography
-            component="h1"
-            variant="h1"
-            sx={{ color: "secondary.800" }}
-          >
-            {name}
-          </Typography>
-        </Box>
-
-        <Box sx={{ flexWrap: "wrap" }} display="flex" flexDirection="column">
-          {canton && (
-            <Box sx={{ pr: 3, my: 1 }}>
-              <Trans id="detail.canton">Kanton</Trans>:{" "}
-              <NextLink
-                href={{
-                  pathname: `/[entity]/[id]`,
-                  query: { ...query, id: canton.id, entity: "canton" },
-                }}
-                passHref
+        <Stack spacing={0} direction="row" justifyContent={"space-between"}>
+          <Stack>
+            <Box
+              display={"flex"}
+              sx={{
+                gap: 2,
+                alignItems: "center",
+              }}
+            >
+              <Icon name="industry" size={32} />
+              <Typography
+                component="h1"
+                variant="h1"
+                sx={{ color: "secondary.800" }}
               >
-                <UILink variant="body2">{canton.name}</UILink>
-              </NextLink>
+                {name}
+              </Typography>
             </Box>
-          )}
-          {municipalities && (
+
             <Box
-              sx={{
-                pr: 3,
-                my: 1,
-                fontSize: "0.875rem",
-                lineHeight: "1.125rem",
-              }}
+              sx={{ flexWrap: "wrap" }}
+              display="flex"
+              flexDirection="column"
             >
-              <Trans id="detail.municipalities">Gemeinden</Trans>:{" "}
-              <RelationsList
-                key={`${entity}-${id}`}
-                relationPathname={`/municipality/[id]`}
-                relations={municipalities}
-              />
+              {canton && (
+                <Box sx={{ pr: 3, my: 1 }}>
+                  <Trans id="detail.canton">Kanton</Trans>:{" "}
+                  <NextLink
+                    href={{
+                      pathname: `/[entity]/[id]`,
+                      query: { ...query, id: canton.id, entity: "canton" },
+                    }}
+                    passHref
+                  >
+                    <UILink variant="body2">{canton.name}</UILink>
+                  </NextLink>
+                </Box>
+              )}
+              {municipalities && (
+                <Box
+                  sx={{
+                    pr: 3,
+                    my: 1,
+                    fontSize: "0.875rem",
+                    lineHeight: "1.125rem",
+                  }}
+                >
+                  <Trans id="detail.municipalities">Gemeinden</Trans>:{" "}
+                  <RelationsList
+                    key={`${entity}-${id}`}
+                    relationPathname={`/municipality/[id]`}
+                    relations={municipalities}
+                  />
+                </Box>
+              )}
+              {operators && (
+                <Box
+                  sx={{
+                    pr: 3,
+                    my: 1,
+                    fontSize: "0.875rem",
+                    lineHeight: "1.125rem",
+                  }}
+                >
+                  <Trans id="detail.operators">Netzbetreiber</Trans>:{" "}
+                  <RelationsList
+                    key={`${entity}-${id}`}
+                    relationPathname={`/operator/[id]`}
+                    relations={operators}
+                  />
+                </Box>
+              )}
             </Box>
-          )}
-          {operators && (
-            <Box
-              sx={{
-                pr: 3,
-                my: 1,
-                fontSize: "0.875rem",
-                lineHeight: "1.125rem",
-              }}
-            >
-              <Trans id="detail.operators">Netzbetreiber</Trans>:{" "}
-              <RelationsList
-                key={`${entity}-${id}`}
-                relationPathname={`/operator/[id]`}
-                relations={operators}
-              />
-            </Box>
-          )}
-        </Box>
+          </Stack>
+          {entity === "operator" ? <OperatorDocuments id={id} /> : null}
+        </Stack>
       </Box>
     </Box>
   );
