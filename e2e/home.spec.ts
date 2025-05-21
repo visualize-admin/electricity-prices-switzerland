@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
 test.describe("The Home Page", () => {
   test("default language (de) should render on /", async ({ browser }) => {
@@ -34,8 +34,10 @@ test.describe("The Home Page", () => {
   test("language switch should work", async ({ page }) => {
     await page.goto("/");
 
-    await page.locator('a[hreflang="fr"]').click();
-
+    await page.getByTestId("locale-select").click();
+    await page
+      .locator('[data-testid="locale-select"] select')
+      .selectOption("fr");
     // await page. location("pathname").should("equal", "/fr");
 
     await expect(page.locator("html")).toHaveAttribute("lang", "fr");
