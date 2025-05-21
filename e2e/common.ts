@@ -4,15 +4,15 @@ import path from "path";
 
 import AxeBuilder from "@axe-core/playwright";
 import {
-  locatorFixtures as fixtures,
-  LocatorFixtures as TestingLibraryFixtures,
-} from "@playwright-testing-library/test/fixture";
-import {
   test as base,
   Locator,
   Page,
   PageScreenshotOptions,
 } from "@playwright/test";
+import {
+  locatorFixtures as fixtures,
+  LocatorFixtures as TestingLibraryFixtures,
+} from "@playwright-testing-library/test/fixture";
 
 import slugify from "./slugify";
 
