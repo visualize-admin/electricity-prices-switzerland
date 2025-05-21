@@ -276,7 +276,10 @@ const SearchField = ({
                 height: 44,
                 borderColor: "monochrome.500",
               },
-              placeholder: t({ id: "search.global.hint.canton.muni.operator" }),
+              placeholder: t({
+                id: "search.global.hint.canton.muni.operator",
+                message: "Gemeinde, Kanton, Netzbetreiber",
+              }),
               endAdornment: (
                 <InputAdornment position="end">
                   <Icon name="search" />

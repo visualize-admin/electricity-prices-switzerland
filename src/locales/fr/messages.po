@@ -113,29 +113,41 @@ msgstr "Fermer la boîte de dialogue"
 msgid "dialog.infoprefix"
 msgstr "Info:"
 
-#: src/components/operator-documents.tsx:25
+#: src/components/operator-documents.tsx:37
 msgid "download.category.annualreport"
 msgstr "Comptes annuels"
 
-#: src/components/operator-documents.tsx:28
+#: src/components/operator-documents.tsx:40
 msgid "download.category.annualreports"
 msgstr "Comptes annuels de réseau"
 
-#: src/components/operator-documents.tsx:19
+#: src/components/operator-documents.tsx:46
+msgid "download.category.financial-statement"
+msgstr ""
+
+#: src/components/operator-documents.tsx:51
+msgid "download.category.financial-statement-report"
+msgstr ""
+
+#: src/components/operator-documents.tsx:31
 msgid "download.category.tariff"
 msgstr "Fiche tarifaire"
 
-#: src/components/operator-documents.tsx:20
+#: src/components/operator-documents.tsx:32
 msgid "download.category.tariffs"
 msgstr "Fiches tarifaires"
 
-#: src/components/operator-documents.tsx:56
+#: src/components/operator-documents.tsx:147
+msgid "download.cta"
+msgstr ""
+
+#: src/components/operator-documents.tsx:81
 msgid "download.filetype.pdf"
 msgstr "Fichier PDF"
 
-#: src/components/operator-documents.tsx:100
-msgid "download.nooperatordocuments"
-msgstr "Aucun document de l'opérateur de réseau"
+#: src/components/operator-documents.tsx:177
+msgid "download.reports"
+msgstr ""
 
 #: src/domain/translation.tsx:91
 msgid "filters.category"
@@ -261,7 +273,7 @@ msgstr "Tarifs d'électricité en Suisse"
 msgid "home.hero-section.title"
 msgstr "Découvrez les tarifs d'électricité en vue cartographique"
 
-#: src/components/app-layout.tsx:122
+#: src/components/app-layout.tsx:123
 msgid "home.menu.map-view"
 msgstr "Vue cartographique"
 
@@ -400,7 +412,7 @@ msgstr "Voir l'analyse détaillée des prix par cantons, communes et gestionnair
 msgid "search.global.hint.canton.muni.operator"
 msgstr "Nom de la commune, code postal, gestionnaire de réseau, canton"
 
-#: src/components/search.tsx:295
+#: src/components/search.tsx:298
 msgid "search.global.hint.go.to"
 msgstr "Aller à…"
 

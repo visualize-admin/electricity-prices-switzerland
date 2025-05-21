@@ -110,6 +110,7 @@ const AppNavigation = () => {
           title={t({ id: "home.menu.overview", message: "Übersicht" })}
           active={asPath === "/"}
           href={"/"}
+          //FIXME: alter MenuButton for searchbar spacing
           sx={{
             ".MuiButtonBase-root": {
               py: {
@@ -126,6 +127,7 @@ const AppNavigation = () => {
             asPath.includes("canton")
           }
           href={"/map"}
+          //FIXME: alter MenuButton for searchbar spacing
           sx={{
             ".MuiButtonBase-root": {
               py: {
