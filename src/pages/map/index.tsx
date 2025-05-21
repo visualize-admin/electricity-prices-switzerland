@@ -4,7 +4,6 @@ import { Box, Button, Input, Link, Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-import basicAuthMiddleware from "nextjs-basic-auth-middleware";
 import { useCallback, useRef } from "react";
 
 const ContentWrapper = dynamic(
@@ -51,8 +50,7 @@ type Props = {
 export const getServerSideProps: GetServerSideProps<
   Props,
   { locale: string }
-> = async ({ locale, req, res }) => {
-  await basicAuthMiddleware(req, res);
+> = async ({ locale }) => {
   return { props: { locale: locale ?? defaultLocale } };
 };
 

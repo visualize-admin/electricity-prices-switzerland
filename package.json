@@ -164,7 +164,6 @@
     "global-agent": "^3.0.0",
     "k6": "^0.0.0",
     "knip": "^5.46.4",
-    "playwright": "^1.51.1",
     "prettier": "^2.2.1",
     "raw-loader": "^4.0.2",
     "rollup-plugin-string": "^3.0.0",
