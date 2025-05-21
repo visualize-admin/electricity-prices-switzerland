@@ -110,6 +110,14 @@ const AppNavigation = () => {
           title={t({ id: "home.menu.overview", message: "Übersicht" })}
           active={asPath === "/"}
           href={"/"}
+          //FIXME: alter MenuButton for searchbar spacing, goal is to have the bottom red border, aligned with bottom of MenuContainer
+          sx={{
+            ".MuiButtonBase-root": {
+              py: {
+                md: 6,
+              },
+            },
+          }}
         />
         <MenuButton
           title={t({ id: "home.menu.map-view", message: "Karten Ansicht" })}
@@ -119,6 +127,14 @@ const AppNavigation = () => {
             asPath.includes("canton")
           }
           href={"/map"}
+          //FIXME: alter MenuButton for searchbar spacing
+          sx={{
+            ".MuiButtonBase-root": {
+              py: {
+                md: 6,
+              },
+            },
+          }}
         />
         <Box sx={{ flex: 1 }} />
         <Search />

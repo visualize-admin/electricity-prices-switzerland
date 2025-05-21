@@ -166,7 +166,7 @@ const PlaceholderListItem = () => {
         <Typography variant="body2">&nbsp;</Typography>
       </Box>
       <Box sx={{ width: "24px", flexShrink: 0, color: "secondary.200" }}>
-        <Icon name="chevronright"></Icon>
+        <Icon name="chevronright" />
       </Box>
     </Box>
   );
@@ -291,15 +291,15 @@ export const List = ({
         options={[
           {
             value: "MUNICIPALITIES",
-            label: t({ id: "list.municipalities" }),
+            label: t({ id: "list.municipalities", message: "Gemeinden" }),
           },
           {
             value: "CANTONS",
-            label: t({ id: "list.cantons" }),
+            label: t({ id: "list.cantons", message: "Kantone" }),
           },
           {
             value: "PROVIDERS",
-            label: t({ id: "list.operators" }),
+            label: t({ id: "list.operators", message: "Netzbetreiber" }),
           },
         ]}
         value={listState}

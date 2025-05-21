@@ -72,7 +72,14 @@ export const Search = () => {
   };
 
   return (
-    <Box sx={{ position: "relative" }}>
+    <Box
+      sx={{
+        position: "relative",
+        py: {
+          md: 4,
+        },
+      }}
+    >
       <Box
         sx={{
           display: { xxs: "none", md: "block" },
@@ -105,7 +112,7 @@ export const Search = () => {
       >
         <IconButton
           onClick={() => setExpanded(true)}
-          aria-label={t({ id: "search.open" })}
+          aria-label={t({ id: "search.open", message: "Suche öffnen" })}
         >
           <Icon name="search" />
         </IconButton>
@@ -249,10 +256,10 @@ const SearchField = ({
         groupBy={(option) => option.__typename}
         renderGroup={(params) => (
           <React.Fragment key={params.group}>
-            <Typography variant="body2" sx={{ mx: 4, my: 4 }}>
+            <Typography variant="body2" sx={{ mx: 4, mt: 4 }}>
               {getLocalizedLabel({ id: params.group })}
-              <Divider />
             </Typography>
+            <Divider sx={{ mx: 4, my: 2 }} />
             {params.children}
           </React.Fragment>
         )}
@@ -269,7 +276,10 @@ const SearchField = ({
                 height: 44,
                 borderColor: "monochrome.500",
               },
-              placeholder: t({ id: "search.global.hint.canton.muni.operator" }),
+              placeholder: t({
+                id: "search.global.hint.canton.muni.operator",
+                message: "Gemeinde, Kanton, Netzbetreiber",
+              }),
               endAdornment: (
                 <InputAdornment position="end">
                   <Icon name="search" />
@@ -320,7 +330,6 @@ const SearchField = ({
               }}
             >
               <span>{getItemLabel(option)}</span>
-              <Icon name="chevronright" />
             </Box>
           );
         }}

@@ -99,6 +99,9 @@ export const MiniSelect = ({
         borderBottom: 0,
         height: 24,
         bgcolor: "transparent",
+        ".MuiInputBase-root": {
+          paddingLeft: "0px !important",
+        },
         py: 0,
         pl: 1,
         pr: 0,
@@ -107,6 +110,12 @@ export const MiniSelect = ({
           bgcolor: "transparent",
           outline: "none",
           borderColor: "primary",
+        },
+        ".MuiNativeSelect-icon": {
+          color: "text.primary",
+          mr: 2,
+          width: 16,
+          height: 16,
         },
       }}
       id={id}

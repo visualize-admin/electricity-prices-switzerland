@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 
 import contentRoutes from "src/content-routes.json";
+import { IconChevronDown } from "src/icons/ic-chevron-down";
 import { useLocale } from "src/lib/use-locale";
 import { useResizeObserver } from "src/lib/use-resize-observer";
 import { locales } from "src/locales/locales";
@@ -86,6 +87,8 @@ export const Header = ({
         <Box display="flex" alignItems="center" gap={3} marginLeft="auto">
           <FlagMenu />
           <NativeSelect
+            disableUnderline
+            data-testid="locale-select"
             value={currentLocale}
             onChange={(e) => {
               const locale = e.currentTarget.value;
@@ -97,18 +100,13 @@ export const Header = ({
                 push({ pathname, query }, undefined, { locale });
               }
             }}
+            IconComponent={IconChevronDown}
             sx={{
               padding: 0,
               border: "none !important",
               backgroundColor: "transparent",
               color: "white !important",
-              textDecoration: "none !important",
-              "&:before": {
-                border: "none !important",
-              },
-              "&:after": {
-                border: "none !important",
-              },
+
               "&:hover": {
                 textDecoration: "none !important",
                 backgroundColor: "transparent",

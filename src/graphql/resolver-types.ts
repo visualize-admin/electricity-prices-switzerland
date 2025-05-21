@@ -5,13 +5,13 @@ import {
 } from "graphql";
 import {
   ResolvedCanton,
-  ResolvedMunicipality,
-  ResolvedOperator,
-  ResolvedObservation,
   ResolvedCantonMedianObservation,
-  ResolvedSwissMedianObservation,
+  ResolvedMunicipality,
+  ResolvedObservation,
+  ResolvedOperator,
   ResolvedOperatorObservation,
   ResolvedSearchResult,
+  ResolvedSwissMedianObservation,
 } from "./resolver-mapped-types";
 import { ServerContext } from "./server-context";
 export type Maybe<T> = T | null;
@@ -194,6 +194,7 @@ export type Query = {
   searchCantons: Array<CantonResult>;
   searchMunicipalities: Array<MunicipalityResult>;
   searchOperators: Array<OperatorResult>;
+  sunshineData: Array<SunshineDataRow>;
   swissMedianObservations?: Maybe<Array<SwissMedianObservation>>;
   systemInfo: SystemInfo;
   wikiContent?: Maybe<WikiContent>;
@@ -285,6 +286,41 @@ export type QueryWikiContentArgs = {
 export type SearchResult = {
   id: Scalars["String"]["output"];
   name: Scalars["String"]["output"];
+};
+
+export type SunshineDataRow = {
+  __typename?: "SunshineDataRow";
+  SunFrankenRegel?: Maybe<Scalars["Float"]["output"]>;
+  SunInfoJaNein?: Maybe<Scalars["String"]["output"]>;
+  SunInfoTageimVoraus?: Maybe<Scalars["Int"]["output"]>;
+  SunName: Scalars["String"]["output"];
+  SunNetzkostenNE5?: Maybe<Scalars["Float"]["output"]>;
+  SunNetzkostenNE6?: Maybe<Scalars["Float"]["output"]>;
+  SunNetzkostenNE7?: Maybe<Scalars["Float"]["output"]>;
+  SunPartnerID?: Maybe<Scalars["Int"]["output"]>;
+  SunPeriode: Scalars["String"]["output"];
+  SunProdukteAnzahl?: Maybe<Scalars["Int"]["output"]>;
+  SunProdukteAuswahl?: Maybe<Scalars["String"]["output"]>;
+  SunRechtzeitig?: Maybe<Scalars["Int"]["output"]>;
+  SunSAIDItotal?: Maybe<Scalars["Float"]["output"]>;
+  SunSAIDIungeplant?: Maybe<Scalars["Float"]["output"]>;
+  SunSAIFItotal?: Maybe<Scalars["Float"]["output"]>;
+  SunSAIFIungeplant?: Maybe<Scalars["Float"]["output"]>;
+  SunTarifEC2?: Maybe<Scalars["Float"]["output"]>;
+  SunTarifEC3?: Maybe<Scalars["Float"]["output"]>;
+  SunTarifEC4?: Maybe<Scalars["Float"]["output"]>;
+  SunTarifEC6?: Maybe<Scalars["Float"]["output"]>;
+  SunTarifEH2?: Maybe<Scalars["Float"]["output"]>;
+  SunTarifEH4?: Maybe<Scalars["Float"]["output"]>;
+  SunTarifEH7?: Maybe<Scalars["Float"]["output"]>;
+  SunTarifNC2?: Maybe<Scalars["Float"]["output"]>;
+  SunTarifNC3?: Maybe<Scalars["Float"]["output"]>;
+  SunTarifNC4?: Maybe<Scalars["Float"]["output"]>;
+  SunTarifNC6?: Maybe<Scalars["Float"]["output"]>;
+  SunTarifNH2?: Maybe<Scalars["Float"]["output"]>;
+  SunTarifNH4?: Maybe<Scalars["Float"]["output"]>;
+  SunTarifNH7?: Maybe<Scalars["Float"]["output"]>;
+  SunUID: Scalars["String"]["output"];
 };
 
 export type SwissMedianObservation = {
@@ -453,6 +489,8 @@ export type ResolversTypes = ResolversObject<{
     ResolversInterfaceTypes<ResolversTypes>["SearchResult"]
   >;
   String: ResolverTypeWrapper<Scalars["String"]["output"]>;
+
+  SunshineDataRow: ResolverTypeWrapper<SunshineDataRow>;
   SwissMedianObservation: ResolverTypeWrapper<ResolvedSwissMedianObservation>;
   SystemInfo: ResolverTypeWrapper<SystemInfo>;
   WikiContent: ResolverTypeWrapper<WikiContent>;
@@ -479,6 +517,8 @@ export type ResolversParentTypes = ResolversObject<{
   Query: {};
   SearchResult: ResolversInterfaceTypes<ResolversParentTypes>["SearchResult"];
   String: Scalars["String"]["output"];
+
+  SunshineDataRow: SunshineDataRow;
   SwissMedianObservation: ResolvedSwissMedianObservation;
   SystemInfo: SystemInfo;
   WikiContent: WikiContent;
@@ -773,6 +813,11 @@ export type QueryResolvers<
     ContextType,
     RequireFields<QuerySearchOperatorsArgs, "locale">
   >;
+  sunshineData?: Resolver<
+    Array<ResolversTypes["SunshineDataRow"]>,
+    ParentType,
+    ContextType
+  >;
   swissMedianObservations?: Resolver<
     Maybe<Array<ResolversTypes["SwissMedianObservation"]>>,
     ParentType,
@@ -799,6 +844,156 @@ export type SearchResultResolvers<
   >;
   id?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+}>;
+
+export type SunshineDataRowResolvers<
+  ContextType = ServerContext,
+  ParentType extends ResolversParentTypes["SunshineDataRow"] = ResolversParentTypes["SunshineDataRow"]
+> = ResolversObject<{
+  SunFrankenRegel?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  SunInfoJaNein?: Resolver<
+    Maybe<ResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  SunInfoTageimVoraus?: Resolver<
+    Maybe<ResolversTypes["Int"]>,
+    ParentType,
+    ContextType
+  >;
+  SunName?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  SunNetzkostenNE5?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  SunNetzkostenNE6?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  SunNetzkostenNE7?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  SunPartnerID?: Resolver<
+    Maybe<ResolversTypes["Int"]>,
+    ParentType,
+    ContextType
+  >;
+  SunPeriode?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  SunProdukteAnzahl?: Resolver<
+    Maybe<ResolversTypes["Int"]>,
+    ParentType,
+    ContextType
+  >;
+  SunProdukteAuswahl?: Resolver<
+    Maybe<ResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  SunRechtzeitig?: Resolver<
+    Maybe<ResolversTypes["Int"]>,
+    ParentType,
+    ContextType
+  >;
+  SunSAIDItotal?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  SunSAIDIungeplant?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  SunSAIFItotal?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  SunSAIFIungeplant?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  SunTarifEC2?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  SunTarifEC3?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  SunTarifEC4?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  SunTarifEC6?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  SunTarifEH2?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  SunTarifEH4?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  SunTarifEH7?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  SunTarifNC2?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  SunTarifNC3?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  SunTarifNC4?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  SunTarifNC6?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  SunTarifNH2?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  SunTarifNH4?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  SunTarifNH7?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  SunUID?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type SwissMedianObservationResolvers<
@@ -857,6 +1052,7 @@ export type Resolvers<ContextType = ServerContext> = ResolversObject<{
   OperatorResult?: OperatorResultResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   SearchResult?: SearchResultResolvers<ContextType>;
+  SunshineDataRow?: SunshineDataRowResolvers<ContextType>;
   SwissMedianObservation?: SwissMedianObservationResolvers<ContextType>;
   SystemInfo?: SystemInfoResolvers<ContextType>;
   WikiContent?: WikiContentResolvers<ContextType>;

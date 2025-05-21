@@ -1,6 +1,7 @@
 import { Components } from "@mui/material";
 
 import { Icon } from "src/icons";
+import { IconChevronDown } from "src/icons/ic-chevron-down";
 
 import { palette } from "./palette";
 import { shadows } from "./shadows";
@@ -16,10 +17,13 @@ export const components: Components = {
         boxShadow: shadows[3],
         borderRadius: 2,
         backgroundColor: palette.background.paper,
+        minWidth: "calc(100% + 8px)",
+        marginLeft: "-4px",
       },
       listbox: {
         fontSize: "14px",
         overflowY: "auto",
+
         padding: 0,
         "& .MuiAutocomplete-option": {
           padding: "10px 16px",
@@ -61,6 +65,23 @@ export const components: Components = {
         "& .MuiButton-endIcon": {
           marginLeft: 4,
         },
+      },
+    },
+  },
+  MuiNativeSelect: {
+    defaultProps: {
+      IconComponent: IconChevronDown,
+    },
+    styleOverrides: {
+      icon: {
+        width: 20,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        height: 20,
+        strokeWidth: 3,
+        pointerEvents: "none",
+        color: palette.background.paper,
       },
     },
   },
@@ -271,7 +292,7 @@ export const components: Components = {
         color: palette.text.primary,
         paddingTop: "4px !important",
         paddingBottom: "4px !important",
-        paddingLeft: "16px !important",
+        paddingLeft: "16px ",
         borderRadius: 0.5,
         minHeight: "44px",
         height: "100%",
@@ -332,6 +353,77 @@ export const components: Components = {
       },
     },
   },
+  MuiAccordion: {
+    defaultProps: {
+      disableGutters: true,
+    },
+    styleOverrides: {
+      root: () => {
+        //FIXME: size prop override currently doesn't work for Accordion component
+
+        // const size = ownerState.size ?? "md";
+        // const sizeStyles = (() => {
+        //   switch (size) {
+        //     case "md":
+        //       return {
+        //         ".MuiAccordionSummary-root": {
+        //           padding: "12px 4px",
+        //           ...typography.h5,
+        //         },
+        //         ".MuiCollapse-root": {
+        //           ...typography.body2,
+        //         },
+        //       };
+
+        //     case "xl":
+        //       return {
+        //         ".MuiAccordionSummary-root": {
+        //           padding: "12px 20px",
+        //           ...typography.h3,
+        //         },
+        //         ".MuiCollapse-root": {
+        //           ...typography.body1,
+        //         },
+        //       };
+        //     default:
+        //       const _exhaustiveCheck: never = size;
+        //       return _exhaustiveCheck;
+        //   }
+        // })();
+
+        return {
+          // ...sizeStyles,
+
+          ".MuiCollapse-root": {
+            ...typography.body2,
+          },
+          borderTop: `1px solid ${palette.monochrome[200]}`,
+          "&.Mui-expanded": {
+            margin: 0,
+            borderTop: `1px solid ${palette.monochrome[200]}`,
+          },
+          ".MuiAccordionSummary-root": {
+            padding: "12px 4px",
+            ...typography.h5,
+            mb: 2,
+            color: palette.tertiary.main,
+            "&:hover": {
+              color: palette.tertiary.dark,
+            },
+            fontWeight: 700,
+          },
+          ".MuiAccordionDetails-root": {
+            padding: "0px 12px 40px 12px",
+          },
+        };
+      },
+    },
+  },
+  MuiAccordionSummary: {
+    defaultProps: {
+      expandIcon: <Icon name="chevrondown" />,
+    },
+  },
   MuiChip: {
     defaultProps: {
       size: "md",
@@ -377,7 +469,6 @@ export const components: Components = {
               color: palette.secondary[200],
             },
           },
-          fontFeatureSettings: "'liga' off, 'clig' off",
         };
       },
       label: {

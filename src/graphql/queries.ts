@@ -178,6 +178,7 @@ export type Query = {
   searchCantons: Array<CantonResult>;
   searchMunicipalities: Array<MunicipalityResult>;
   searchOperators: Array<OperatorResult>;
+  sunshineData: Array<SunshineDataRow>;
   swissMedianObservations?: Maybe<Array<SwissMedianObservation>>;
   systemInfo: SystemInfo;
   wikiContent?: Maybe<WikiContent>;
@@ -269,6 +270,41 @@ export type QueryWikiContentArgs = {
 export type SearchResult = {
   id: Scalars["String"]["output"];
   name: Scalars["String"]["output"];
+};
+
+export type SunshineDataRow = {
+  __typename: "SunshineDataRow";
+  SunFrankenRegel?: Maybe<Scalars["Float"]["output"]>;
+  SunInfoJaNein?: Maybe<Scalars["String"]["output"]>;
+  SunInfoTageimVoraus?: Maybe<Scalars["Int"]["output"]>;
+  SunName: Scalars["String"]["output"];
+  SunNetzkostenNE5?: Maybe<Scalars["Float"]["output"]>;
+  SunNetzkostenNE6?: Maybe<Scalars["Float"]["output"]>;
+  SunNetzkostenNE7?: Maybe<Scalars["Float"]["output"]>;
+  SunPartnerID?: Maybe<Scalars["Int"]["output"]>;
+  SunPeriode: Scalars["String"]["output"];
+  SunProdukteAnzahl?: Maybe<Scalars["Int"]["output"]>;
+  SunProdukteAuswahl?: Maybe<Scalars["String"]["output"]>;
+  SunRechtzeitig?: Maybe<Scalars["Int"]["output"]>;
+  SunSAIDItotal?: Maybe<Scalars["Float"]["output"]>;
+  SunSAIDIungeplant?: Maybe<Scalars["Float"]["output"]>;
+  SunSAIFItotal?: Maybe<Scalars["Float"]["output"]>;
+  SunSAIFIungeplant?: Maybe<Scalars["Float"]["output"]>;
+  SunTarifEC2?: Maybe<Scalars["Float"]["output"]>;
+  SunTarifEC3?: Maybe<Scalars["Float"]["output"]>;
+  SunTarifEC4?: Maybe<Scalars["Float"]["output"]>;
+  SunTarifEC6?: Maybe<Scalars["Float"]["output"]>;
+  SunTarifEH2?: Maybe<Scalars["Float"]["output"]>;
+  SunTarifEH4?: Maybe<Scalars["Float"]["output"]>;
+  SunTarifEH7?: Maybe<Scalars["Float"]["output"]>;
+  SunTarifNC2?: Maybe<Scalars["Float"]["output"]>;
+  SunTarifNC3?: Maybe<Scalars["Float"]["output"]>;
+  SunTarifNC4?: Maybe<Scalars["Float"]["output"]>;
+  SunTarifNC6?: Maybe<Scalars["Float"]["output"]>;
+  SunTarifNH2?: Maybe<Scalars["Float"]["output"]>;
+  SunTarifNH4?: Maybe<Scalars["Float"]["output"]>;
+  SunTarifNH7?: Maybe<Scalars["Float"]["output"]>;
+  SunUID: Scalars["String"]["output"];
 };
 
 export type SwissMedianObservation = {
@@ -560,6 +596,46 @@ export type CubeHealthQuery = {
     ok: boolean;
     dimensions: Array<string>;
   } | null;
+};
+
+export type SunshineDataQueryVariables = Exact<{ [key: string]: never }>;
+
+export type SunshineDataQuery = {
+  __typename: "Query";
+  sunshineData: Array<{
+    __typename: "SunshineDataRow";
+    SunPartnerID?: number | null;
+    SunUID: string;
+    SunName: string;
+    SunPeriode: string;
+    SunFrankenRegel?: number | null;
+    SunInfoJaNein?: string | null;
+    SunInfoTageimVoraus?: number | null;
+    SunNetzkostenNE5?: number | null;
+    SunNetzkostenNE6?: number | null;
+    SunNetzkostenNE7?: number | null;
+    SunProdukteAnzahl?: number | null;
+    SunProdukteAuswahl?: string | null;
+    SunRechtzeitig?: number | null;
+    SunSAIDItotal?: number | null;
+    SunSAIDIungeplant?: number | null;
+    SunSAIFItotal?: number | null;
+    SunSAIFIungeplant?: number | null;
+    SunTarifEC2?: number | null;
+    SunTarifEC3?: number | null;
+    SunTarifEC4?: number | null;
+    SunTarifEC6?: number | null;
+    SunTarifEH2?: number | null;
+    SunTarifEH4?: number | null;
+    SunTarifEH7?: number | null;
+    SunTarifNC2?: number | null;
+    SunTarifNC3?: number | null;
+    SunTarifNC4?: number | null;
+    SunTarifNC6?: number | null;
+    SunTarifNH2?: number | null;
+    SunTarifNH4?: number | null;
+    SunTarifNH7?: number | null;
+  }>;
 };
 
 export const OperatorObservationFieldsFragmentDoc = gql`
@@ -859,6 +935,52 @@ export function useCubeHealthQuery(
 ) {
   return Urql.useQuery<CubeHealthQuery, CubeHealthQueryVariables>({
     query: CubeHealthDocument,
+    ...options,
+  });
+}
+export const SunshineDataDocument = gql`
+  query SunshineData {
+    sunshineData {
+      SunPartnerID
+      SunUID
+      SunName
+      SunPeriode
+      SunFrankenRegel
+      SunInfoJaNein
+      SunInfoTageimVoraus
+      SunNetzkostenNE5
+      SunNetzkostenNE6
+      SunNetzkostenNE7
+      SunProdukteAnzahl
+      SunProdukteAuswahl
+      SunRechtzeitig
+      SunSAIDItotal
+      SunSAIDIungeplant
+      SunSAIFItotal
+      SunSAIFIungeplant
+      SunTarifEC2
+      SunTarifEC3
+      SunTarifEC4
+      SunTarifEC6
+      SunTarifEH2
+      SunTarifEH4
+      SunTarifEH7
+      SunTarifNC2
+      SunTarifNC3
+      SunTarifNC4
+      SunTarifNC6
+      SunTarifNH2
+      SunTarifNH4
+      SunTarifNH7
+    }
+  }
+`;
+
+export function useSunshineDataQuery(
+  options?: Omit<Urql.UseQueryArgs<SunshineDataQueryVariables>, "query">
+) {
+  return Urql.useQuery<SunshineDataQuery, SunshineDataQueryVariables>({
+    query: SunshineDataDocument,
     ...options,
   });
 }

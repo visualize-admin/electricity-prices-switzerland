@@ -1,9 +1,10 @@
 import { keyframes } from "@emotion/react";
 import { Trans } from "@lingui/macro";
-import { Box, BoxProps, Typography } from "@mui/material";
+import { Box, BoxProps, IconButton, Typography } from "@mui/material";
 import { ReactNode } from "react";
 
 import { Icon, IconName } from "src/icons";
+import { palette } from "src/themes/palette";
 
 const delayedShow = keyframes`
   0% { opacity: 0 }
@@ -196,9 +197,11 @@ export const NoGeoDataHint = () => (
 export const HintRed = ({
   iconName,
   children,
+  onRemove,
 }: {
   iconName: IconName;
   children: ReactNode;
+  onRemove?: () => void;
 }) => (
   <Box
     sx={{
@@ -219,5 +222,10 @@ export const HintRed = ({
     <Typography variant="body3" sx={{ textAlign: "left", ml: 4 }}>
       {children}
     </Typography>
+    {onRemove && (
+      <IconButton size="sm" onClick={onRemove}>
+        <Icon name={"cancel"} color={palette.primary.main} size={24} />
+      </IconButton>
+    )}
   </Box>
 );
