@@ -353,6 +353,77 @@ export const components: Components = {
       },
     },
   },
+  MuiAccordion: {
+    defaultProps: {
+      disableGutters: true,
+    },
+    styleOverrides: {
+      root: () => {
+        //FIXME: size prop override currently doesn't work for Accordion component
+
+        // const size = ownerState.size ?? "md";
+        // const sizeStyles = (() => {
+        //   switch (size) {
+        //     case "md":
+        //       return {
+        //         ".MuiAccordionSummary-root": {
+        //           padding: "12px 4px",
+        //           ...typography.h5,
+        //         },
+        //         ".MuiCollapse-root": {
+        //           ...typography.body2,
+        //         },
+        //       };
+
+        //     case "xl":
+        //       return {
+        //         ".MuiAccordionSummary-root": {
+        //           padding: "12px 20px",
+        //           ...typography.h3,
+        //         },
+        //         ".MuiCollapse-root": {
+        //           ...typography.body1,
+        //         },
+        //       };
+        //     default:
+        //       const _exhaustiveCheck: never = size;
+        //       return _exhaustiveCheck;
+        //   }
+        // })();
+
+        return {
+          // ...sizeStyles,
+
+          ".MuiCollapse-root": {
+            ...typography.body2,
+          },
+          borderTop: `1px solid ${palette.monochrome[200]}`,
+          "&.Mui-expanded": {
+            margin: 0,
+            borderTop: `1px solid ${palette.monochrome[200]}`,
+          },
+          ".MuiAccordionSummary-root": {
+            padding: "12px 4px",
+            ...typography.h5,
+            mb: 2,
+            color: palette.tertiary.main,
+            "&:hover": {
+              color: palette.tertiary.dark,
+            },
+            fontWeight: 700,
+          },
+          ".MuiAccordionDetails-root": {
+            padding: "0px 12px 40px 12px",
+          },
+        };
+      },
+    },
+  },
+  MuiAccordionSummary: {
+    defaultProps: {
+      expandIcon: <Icon name="chevrondown" />,
+    },
+  },
   MuiChip: {
     defaultProps: {
       size: "md",
@@ -398,7 +469,6 @@ export const components: Components = {
               color: palette.secondary[200],
             },
           },
-          fontFeatureSettings: "'liga' off, 'clig' off",
         };
       },
       label: {

@@ -113,29 +113,45 @@ msgstr "Chiudere la finestra di dialogo"
 msgid "dialog.infoprefix"
 msgstr "Info:"
 
-#: src/components/operator-documents.tsx:25
+#: src/components/operator-documents.tsx:37
 msgid "download.category.annualreport"
 msgstr "Conto annuale"
 
-#: src/components/operator-documents.tsx:28
+#: src/components/operator-documents.tsx:40
 msgid "download.category.annualreports"
 msgstr "Conti annuali della rete"
 
-#: src/components/operator-documents.tsx:19
+#: src/components/operator-documents.tsx:46
+msgid "download.category.financial-statement"
+msgstr "Relazione finanziaria"
+
+#: src/components/operator-documents.tsx:51
+msgid "download.category.financial-statement-report"
+msgstr "Relazione finanziaria"
+
+#: src/components/operator-documents.tsx:31
 msgid "download.category.tariff"
 msgstr "Foglio tariffario"
 
-#: src/components/operator-documents.tsx:20
+#: src/components/operator-documents.tsx:32
 msgid "download.category.tariffs"
 msgstr "Fogli tariffari"
 
-#: src/components/operator-documents.tsx:56
+#: src/components/operator-documents.tsx:147
+msgid "download.cta"
+msgstr "Scarica i rapporti e le tariffe"
+
+#: src/components/operator-documents.tsx:81
 msgid "download.filetype.pdf"
 msgstr "Documento PDF"
 
-#: src/components/operator-documents.tsx:100
+#: src/components/operator-documents.tsx:130
 msgid "download.nooperatordocuments"
-msgstr "Nessun documento del gestore di rete"
+msgstr "Nessun documento dell'operatore di rete"
+
+#: src/components/operator-documents.tsx:177
+msgid "download.reports"
+msgstr "Scarica i rapporti"
 
 #: src/domain/translation.tsx:91
 msgid "filters.category"
@@ -261,7 +277,7 @@ msgstr "Tariffe elettriche in Svizzera"
 msgid "home.hero-section.title"
 msgstr "Scoprite le tariffe elettriche nella mappa"
 
-#: src/components/app-layout.tsx:122
+#: src/components/app-layout.tsx:123
 msgid "home.menu.map-view"
 msgstr "Vista mappa"
 
@@ -400,7 +416,7 @@ msgstr "Visualizzare l'analisi dettagliata dei prezzi per cantone, comune e gest
 msgid "search.global.hint.canton.muni.operator"
 msgstr "Comune, gestore di rete, cantone"
 
-#: src/components/search.tsx:295
+#: src/components/search.tsx:298
 msgid "search.global.hint.go.to"
 msgstr "vai a…"
 

@@ -315,15 +315,15 @@ export const List = ({
         options={[
           {
             value: "MUNICIPALITIES",
-            label: t({ id: "list.municipalities" }),
+            label: t({ id: "list.municipalities", message: "Gemeinden" }),
           },
           {
             value: "CANTONS",
-            label: t({ id: "list.cantons" }),
+            label: t({ id: "list.cantons", message: "Kantone" }),
           },
           {
             value: "PROVIDERS",
-            label: t({ id: "list.operators" }),
+            label: t({ id: "list.operators", message: "Netzbetreiber" }),
           },
         ]}
         value={listState}

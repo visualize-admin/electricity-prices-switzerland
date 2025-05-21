@@ -113,29 +113,45 @@ msgstr "Dialog schliessen"
 msgid "dialog.infoprefix"
 msgstr "Info:"
 
-#: src/components/operator-documents.tsx:25
+#: src/components/operator-documents.tsx:37
 msgid "download.category.annualreport"
 msgstr "Jahresrechnung"
 
-#: src/components/operator-documents.tsx:28
+#: src/components/operator-documents.tsx:40
 msgid "download.category.annualreports"
 msgstr "Jahresrechnungen Netz"
 
-#: src/components/operator-documents.tsx:19
+#: src/components/operator-documents.tsx:46
+msgid "download.category.financial-statement"
+msgstr "Finanzbericht"
+
+#: src/components/operator-documents.tsx:51
+msgid "download.category.financial-statement-report"
+msgstr "Finanzbericht"
+
+#: src/components/operator-documents.tsx:31
 msgid "download.category.tariff"
 msgstr "Tarifblatt"
 
-#: src/components/operator-documents.tsx:20
+#: src/components/operator-documents.tsx:32
 msgid "download.category.tariffs"
 msgstr "Tarifblätter"
 
-#: src/components/operator-documents.tsx:56
+#: src/components/operator-documents.tsx:147
+msgid "download.cta"
+msgstr "Download Berichte & Tarife"
+
+#: src/components/operator-documents.tsx:81
 msgid "download.filetype.pdf"
 msgstr "PDF-Datei"
 
-#: src/components/operator-documents.tsx:100
+#: src/components/operator-documents.tsx:130
 msgid "download.nooperatordocuments"
 msgstr "Keine Netzbetreiber-Dokumente"
+
+#: src/components/operator-documents.tsx:177
+msgid "download.reports"
+msgstr "Berichte herunterladen"
 
 #: src/domain/translation.tsx:91
 msgid "filters.category"
@@ -261,7 +277,7 @@ msgstr "Stromtarife in der Schweiz"
 msgid "home.hero-section.title"
 msgstr "Entdecken Sie die Stromtarife in der Kartenansicht"
 
-#: src/components/app-layout.tsx:122
+#: src/components/app-layout.tsx:123
 msgid "home.menu.map-view"
 msgstr "Karten Ansicht"
 
@@ -283,15 +299,15 @@ msgstr "Tarifvergleich in Rp./kWh"
 
 #: src/components/list.tsx:322
 msgid "list.cantons"
-msgstr "list.cantons"
+msgstr "Kantone"
 
 #: src/components/list.tsx:318
 msgid "list.municipalities"
-msgstr "list.municipalities"
+msgstr "Gemeinden"
 
 #: src/components/list.tsx:326
 msgid "list.operators"
-msgstr "list.operators"
+msgstr "Netzbetreiber"
 
 #: src/components/list.tsx:239
 msgid "list.order.asc"
@@ -398,9 +414,9 @@ msgstr "Detaillierte Preisanalysen von Kantonen, Gemeinden und Netzbetreibern."
 
 #: src/components/search.tsx:279
 msgid "search.global.hint.canton.muni.operator"
-msgstr "search.global.hint.canton.muni.operator"
+msgstr "Gemeinde, Kanton, Netzbetreiber"
 
-#: src/components/search.tsx:295
+#: src/components/search.tsx:298
 msgid "search.global.hint.go.to"
 msgstr "Gehe zu…"
 
