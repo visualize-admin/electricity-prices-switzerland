@@ -469,7 +469,6 @@ export const components: Components = {
               color: palette.secondary[200],
             },
           },
-          fontFeatureSettings: "'liga' off, 'clig' off",
         };
       },
       label: {

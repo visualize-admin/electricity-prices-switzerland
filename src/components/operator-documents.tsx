@@ -165,24 +165,11 @@ export const OperatorDocuments = ({ id }: { id: string }) => {
         }}
       >
         <Stack direction={"column"} spacing={2} py={8} px={10}>
-          <Typography
-            variant="h5"
-            fontWeight={700}
-            sx={{
-              fontFeatureSettings: "'liga' off, 'clig' off",
-            }}
-          >
+          <Typography variant="h5" fontWeight={700}>
             <Trans id="download.reports">Download Reports</Trans>
           </Typography>
 
-          <Typography
-            variant="h2"
-            sx={{
-              fontFeatureSettings: "'liga' off, 'clig' off",
-            }}
-          >
-            {id}
-          </Typography>
+          <Typography variant="h2">{id}</Typography>
         </Stack>
 
         {CATEGORIES.map((category) => {
