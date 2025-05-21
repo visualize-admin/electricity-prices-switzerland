@@ -178,3 +178,39 @@ query CubeHealth {
     dimensions
   }
 }
+
+query SunshineData {
+  sunshineData {
+    SunPartnerID
+    SunUID
+    SunName
+    SunPeriode
+    SunFrankenRegel
+    SunInfoJaNein
+    SunInfoTageimVoraus
+    SunNetzkostenNE5
+    SunNetzkostenNE6
+    SunNetzkostenNE7
+    SunProdukteAnzahl
+    SunProdukteAuswahl
+    SunRechtzeitig
+    SunSAIDItotal
+    SunSAIDIungeplant
+    SunSAIFItotal
+    SunSAIFIungeplant
+    SunTarifEC2
+    SunTarifEC3
+    SunTarifEC4
+    SunTarifEC6
+    SunTarifEH2
+    SunTarifEH4
+    SunTarifEH7
+    SunTarifNC2
+    SunTarifNC3
+    SunTarifNC4
+    SunTarifNC6
+    SunTarifNH2
+    SunTarifNH4
+    SunTarifNH7
+  }
+}
