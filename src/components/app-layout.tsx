@@ -4,7 +4,8 @@ import {
   MenuContainer,
 } from "@interactivethings/swiss-federal-ci/dist/components/pages-router";
 import { t, Trans } from "@lingui/macro";
-import { Box, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
+import { Box } from "@mui/system";
 import { useRouter } from "next/router";
 import { ReactNode, useState } from "react";
 
