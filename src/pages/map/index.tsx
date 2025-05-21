@@ -274,6 +274,7 @@ const IndexPage = ({ locale }: Props) => {
             sx={{
               position: "sticky",
               top: HEADER_HEIGHT_UP,
+              height: `calc(100vh - ${HEADER_HEIGHT_UP})`,
               maxHeight: `calc(100vh - ${HEADER_HEIGHT_UP})`,
               overflowY: "auto",
               bgcolor: "background.paper",
