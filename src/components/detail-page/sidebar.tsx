@@ -62,7 +62,7 @@ type SidebarBaseProps = {
   children: ReactNode;
 };
 
-export const SidebarSectionTitle = (props: SidebarBaseProps) => {
+const SidebarSectionTitle = (props: SidebarBaseProps) => {
   const { children } = props;
 
   return (
@@ -95,7 +95,7 @@ type SidebarItemProps = {
   matchMethod?: "exact" | "contains";
 } & SidebarBaseProps;
 
-export const SidebarItem = (props: SidebarItemProps) => {
+const SidebarItem = (props: SidebarItemProps) => {
   const { children, href, matchMethod } = props;
   const { asPath } = useRouter();
 
