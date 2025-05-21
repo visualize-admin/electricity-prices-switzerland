@@ -24,3 +24,6 @@ tsconfig.tsbuildinfo
 
 *storybook.log
 e2e/snapshots
+
+/src/sunshine-data.csv
+/public/storybook
