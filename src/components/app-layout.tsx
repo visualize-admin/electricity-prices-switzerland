@@ -77,7 +77,7 @@ const AppNavigation = () => {
             variant="display2"
             sx={{ textAlign: "left" }}
           >
-            <Trans id="site.title">Electricity Tariffs and Regulations</Trans>
+            <Trans id="site.title">Stromtarife und Vorschriften</Trans>
           </Typography>
           <Typography
             variant="h3"
@@ -97,7 +97,7 @@ const AppNavigation = () => {
           </Typography>
         </Box>
       </ContentWrapper>
-
+      {/* FIXME: creates ugly x-scroll  due to nested ContentWrapper */}
       <MenuContainer
         sx={{
           px: 3,
@@ -107,27 +107,35 @@ const AppNavigation = () => {
         }}
       >
         <MenuButton
-          title={t({ id: "home.menu.overview", message: "Overview" })}
+          title={t({ id: "home.menu.overview", message: "Übersicht" })}
           active={asPath === "/"}
           href={"/"}
+          sx={{
+            ".MuiButtonBase-root": {
+              py: {
+                md: 6,
+              },
+            },
+          }}
         />
         <MenuButton
-          title={t({ id: "home.menu.map-view", message: "Map View" })}
+          title={t({ id: "home.menu.map-view", message: "Karten Ansicht" })}
           active={
             asPath === "/map" ||
             asPath.includes("municipality") ||
             asPath.includes("canton")
           }
           href={"/map"}
+          sx={{
+            ".MuiButtonBase-root": {
+              py: {
+                md: 6,
+              },
+            },
+          }}
         />
         <Box sx={{ flex: 1 }} />
-        <Box
-          sx={{
-            minWidth: "22rem",
-          }}
-        >
-          <Search />
-        </Box>
+        <Search />
       </MenuContainer>
     </Box>
   );

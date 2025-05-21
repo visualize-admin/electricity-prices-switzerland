@@ -3,13 +3,12 @@ import {
   Autocomplete,
   AutocompleteProps,
   Box,
+  ClickAwayListener,
   Divider,
   IconButton,
   InputAdornment,
-  outlinedInputClasses,
   TextField,
   Typography,
-  useTheme,
 } from "@mui/material";
 import { rollup } from "d3";
 import { sortBy } from "lodash";
@@ -27,6 +26,7 @@ import { useLocale } from "src/lib/use-locale";
 export const Search = () => {
   const locale = useLocale();
   const [searchString, setSearchString] = useState<string>("");
+  const [expanded, setExpanded] = useState(false);
 
   const [gqlQuery] = useSearchQuery({
     variables: {
@@ -46,9 +46,6 @@ export const Search = () => {
         }
       | undefined;
 
-    // Make sure that we only track search when the actual query matches the search string.
-    // If this is not checked, we get a false results because fetching is updated in a 2nd render pass.
-    // Effectively, searches are only tracked _after_ the results have loaded
     if (
       currentVariables?.query === searchString &&
       !gqlQuery.fetching &&
@@ -66,21 +63,107 @@ export const Search = () => {
     );
   }, [items]);
 
+  const handleSelection = () => {
+    setExpanded(false);
+  };
+
+  const handleClickAway = () => {
+    setExpanded(false);
+  };
+
   return (
-    <SearchField
-      items={items.map(({ id, __typename }) => ({
-        id,
-        __typename,
-      }))}
-      getItemLabel={(item) => itemById.get(item.id)?.name ?? `[${item.id}]`}
-      setSearchString={setSearchString}
-      label={
-        <Trans id="search.global.label">
-          Suche nach Gemeindename, PLZ, Netzbetreiber, Kanton
-        </Trans>
-      }
-      isLoading={gqlQuery.fetching && searchString.length > 0}
-    />
+    <Box
+      sx={{
+        position: "relative",
+        py: {
+          md: 4,
+        },
+      }}
+    >
+      <Box
+        sx={{
+          display: { xxs: "none", md: "block" },
+          width: "22rem",
+        }}
+      >
+        <SearchField
+          items={items.map(({ id, __typename }) => ({
+            id,
+            __typename,
+          }))}
+          getItemLabel={(item) => itemById.get(item.id)?.name ?? `[${item.id}]`}
+          setSearchString={setSearchString}
+          label={
+            <Trans id="search.global.label">
+              Suche nach Gemeindename, PLZ, Netzbetreiber, Kanton
+            </Trans>
+          }
+          isLoading={gqlQuery.fetching && searchString.length > 0}
+          onSelection={handleSelection}
+          isMobile={false}
+        />
+      </Box>
+
+      <Box
+        sx={{
+          display: { xxs: "block", md: "none" },
+          position: "relative",
+        }}
+      >
+        <IconButton
+          onClick={() => setExpanded(true)}
+          aria-label={t({ id: "search.open", message: "Suche öffnen" })}
+        >
+          <Icon name="search" />
+        </IconButton>
+
+        {expanded && (
+          <ClickAwayListener onClickAway={handleClickAway}>
+            <Box
+              sx={{
+                position: "absolute",
+                top: 0,
+                right: 0,
+                width: "22rem",
+                backgroundColor: "background.paper",
+                zIndex: 100,
+                boxShadow: 2,
+                animation: "width-expand 0.3s ease-in-out",
+                "@keyframes width-expand": {
+                  "0%": {
+                    width: "44px",
+                    opacity: 0.7,
+                  },
+                  "100%": {
+                    width: "22rem",
+                    opacity: 1,
+                  },
+                },
+              }}
+            >
+              <SearchField
+                items={items.map(({ id, __typename }) => ({
+                  id,
+                  __typename,
+                }))}
+                getItemLabel={(item) =>
+                  itemById.get(item.id)?.name ?? `[${item.id}]`
+                }
+                setSearchString={setSearchString}
+                label={
+                  <Trans id="search.global.label">
+                    Suche nach Gemeindename, PLZ, Netzbetreiber, Kanton
+                  </Trans>
+                }
+                isLoading={gqlQuery.fetching && searchString.length > 0}
+                onSelection={handleSelection}
+                isMobile={true}
+              />
+            </Box>
+          </ClickAwayListener>
+        )}
+      </Box>
+    </Box>
   );
 };
 
@@ -97,16 +180,26 @@ const SearchField = ({
   setSearchString,
   getItemLabel,
   isLoading,
+  onSelection,
+  isMobile,
 }: {
   items: Item[];
   setSearchString: (searchString: string) => void;
   getItemLabel: (item: Item) => string;
   label: string | ReactNode;
   isLoading: boolean;
+  onSelection: () => void;
+  isMobile: boolean;
 }) => {
-  const theme = useTheme();
   const { query, push } = useRouter();
   const [inputValue, setInputValue] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (isMobile && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isMobile]);
 
   type SearchAutocompleteProps = AutocompleteProps<Item, false, false, false>;
   const handleInputChange: SearchAutocompleteProps["onInputChange"] = (
@@ -131,6 +224,7 @@ const SearchField = ({
         query: { ...query, id: value.id },
       };
       push(href);
+      onSelection();
     }
   };
 
@@ -138,12 +232,8 @@ const SearchField = ({
     return sortBy(items, (item) => item.__typename);
   }, [items]);
 
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  debugger;
-
   return (
-    <Box>
+    <Box sx={{ width: "100%" }}>
       <VisuallyHidden>
         <label>{label}</label>
       </VisuallyHidden>
@@ -153,41 +243,6 @@ const SearchField = ({
         getOptionLabel={(item) => `${getItemLabel(item)}`}
         inputValue={inputValue}
         onInputChange={handleInputChange}
-        sx={{
-          [theme.breakpoints.down("md")]: {
-            "&.Mui-focused": {
-              position: "fixed",
-              top: 0,
-              bottom: 0,
-              left: 0,
-              right: 0,
-              zIndex: 1000,
-              background: "white",
-              outline: 0,
-              border: 0,
-            },
-            [`& .Mui-focused.${outlinedInputClasses.root} .${outlinedInputClasses.notchedOutline}`]:
-              {
-                outline: 0,
-                borderWidth: `0`,
-                borderBottom: "1px solid",
-
-                borderBottomColor: "monochrome.300",
-              },
-          },
-        }}
-        groupBy={(option) => option.__typename}
-        renderGroup={(params) => {
-          return (
-            <React.Fragment key={params.group}>
-              <Typography variant="body2" sx={{ mx: 4, my: 4 }}>
-                {getLocalizedLabel({ id: params.group })}
-                <Divider />
-              </Typography>
-              {params.children}
-            </React.Fragment>
-          );
-        }}
         onChange={handleOptionSelect}
         noOptionsText={
           inputValue === ""
@@ -197,6 +252,17 @@ const SearchField = ({
         loading={isLoading}
         popupIcon={null}
         size="small"
+        sx={{ width: "100%" }}
+        groupBy={(option) => option.__typename}
+        renderGroup={(params) => (
+          <React.Fragment key={params.group}>
+            <Typography variant="body2" sx={{ mx: 4, mt: 4 }}>
+              {getLocalizedLabel({ id: params.group })}
+            </Typography>
+            <Divider sx={{ mx: 4, my: 2 }} />
+            {params.children}
+          </React.Fragment>
+        )}
         renderInput={(params) => (
           <TextField
             {...params}
@@ -206,56 +272,35 @@ const SearchField = ({
               ...params.InputProps,
               sx: {
                 px: "16px !important",
-
                 borderRadius: 0.5,
                 height: 44,
                 borderColor: "monochrome.500",
               },
               placeholder: t({ id: "search.global.hint.canton.muni.operator" }),
-              endAdornment: <Icon name="search" />,
-              startAdornment: (
-                <InputAdornment position="start" sx={{ display: "flex" }}>
-                  <IconButton
-                    onClick={(ev) => {
-                      ev.preventDefault();
-                      setTimeout(() => {
-                        inputRef.current?.blur();
-                      }, 1);
-                    }}
-                    color="primary"
-                    sx={{
-                      display: "none",
-                      [theme.breakpoints.down("sm")]: {
-                        ".Mui-focused &": {
-                          display: "block",
-                        },
-                      },
-                    }}
-                  >
-                    <Icon name="chevronleft" />
-                  </IconButton>
-                  {inputValue ? null : (
-                    <>
-                      <Typography
-                        variant="h5"
-                        color="text.secondary"
-                        sx={{
-                          fontSize: [16],
-                          [theme.breakpoints.down("sm")]: { display: "none" },
-                        }}
-                      >
-                        <Trans id="search.global.hint.go.to">Gehe zu…</Trans>
-                      </Typography>
-                    </>
+              endAdornment: (
+                <InputAdornment position="end">
+                  <Icon name="search" />
+                </InputAdornment>
+              ),
+              startAdornment: inputValue ? null : (
+                <InputAdornment position="start">
+                  {!isMobile && (
+                    <Typography
+                      variant="h5"
+                      color="text.secondary"
+                      sx={{
+                        fontSize: [16],
+                      }}
+                    >
+                      <Trans id="search.global.hint.go.to">Gehe zu…</Trans>
+                    </Typography>
                   )}
                 </InputAdornment>
               ),
             }}
           />
         )}
-        filterOptions={(options) => {
-          return options;
-        }}
+        filterOptions={(options) => options}
         getOptionKey={(option) => option.id}
         renderOption={(props, option) => {
           const { key, ...liProps } = props;
@@ -282,7 +327,6 @@ const SearchField = ({
               }}
             >
               <span>{getItemLabel(option)}</span>
-              <Icon name="chevronright" />
             </Box>
           );
         }}

@@ -5,6 +5,7 @@ import TextField from "@mui/material/TextField";
 import { useEffect, useMemo, useState } from "react";
 
 import { InfoDialogButton } from "src/components/info-dialog";
+import { getLocalizedLabel } from "src/domain/translation";
 import { Icon } from "src/icons";
 
 export type ComboboxMultiProps = {
@@ -243,7 +244,7 @@ export const Combobox = ({
               justifyContent: "space-between",
             }}
           >
-            {option}
+            {getLocalizedLabel({ id: option })}
             {selected && <Icon name="checkmark" />}
           </li>
         )}

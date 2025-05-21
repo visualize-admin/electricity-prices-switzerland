@@ -51,7 +51,7 @@ const INITIAL_VIEW_STATE = {
   bearing: 0,
 };
 
-const LINE_COLOR = [100, 100, 100, 127] as [number, number, number, number];
+const LINE_COLOR = [255, 255, 255, 255] as [number, number, number, number];
 
 type BBox = [[number, number], [number, number]];
 
@@ -724,7 +724,7 @@ export const ChoroplethMap = ({
         lineWidthMinPixels: 0.5,
         lineWidthMaxPixels: 1,
         getLineWidth: 100,
-        getFillColor: [255, 255, 255],
+        getFillColor: LINE_COLOR,
         getLineColor: LINE_COLOR,
       }),
       new GeoJsonLayer({
@@ -740,7 +740,7 @@ export const ChoroplethMap = ({
         lineWidthMaxPixels: 3.6,
         getLineWidth: 200,
         lineMiterLimit: 1,
-        getLineColor: [120, 120, 120],
+        getLineColor: LINE_COLOR,
         parameters: {
           depthTest: false,
         },
@@ -818,9 +818,9 @@ export const ChoroplethMap = ({
               display={"flex"}
             >
               <Typography variant="caption" color={"text.500"}>
-                <Trans id="municipality">Municipality</Trans>
+                <Trans id="municipality">Gemeinde</Trans>
               </Typography>
-              <Typography variant="h4" sx={{ fontWeight: 700 }}>
+              <Typography variant="h5" sx={{ fontWeight: 700 }}>
                 {tooltipContent.name}
               </Typography>
             </Box>
@@ -838,8 +838,9 @@ export const ChoroplethMap = ({
                   <Box
                     sx={{
                       borderRadius: 9999,
-                      py: 1,
+                      px: 2,
                       display: "inline-block",
+                      width: "fit-content",
                     }}
                     style={{
                       background: colorScale(hovered.value),

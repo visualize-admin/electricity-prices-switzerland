@@ -42,7 +42,9 @@ const IndexPage = () => {
   return (
     <>
       <Head>
-        <title>{t({ id: "site.title" })}</title>
+        <title>
+          {t({ id: "site.title", message: "Stromtarife in der Schweiz" })}
+        </title>
       </Head>
       <ApplicationLayout>
         <Box
@@ -56,7 +58,17 @@ const IndexPage = () => {
               py: 20,
             }}
           >
-            <Box display={"flex"} sx={{ gap: 12, alignItems: "stretch" }}>
+            <Box
+              display={"flex"}
+              sx={{
+                gap: 12,
+                alignItems: "stretch",
+                flexDirection: {
+                  xxs: "column",
+                  md: "row",
+                },
+              }}
+            >
               <Box
                 sx={{
                   width: "100%",
@@ -67,18 +79,18 @@ const IndexPage = () => {
               >
                 <Typography variant="h1" component={"h2"}>
                   <Trans id="home.hero-section.title">
-                    Discover the Electricity Tariffs in the Map View
+                    Entdecken Sie die Stromtarife in der Kartenansicht
                   </Trans>
                 </Typography>
                 <Typography variant="body1" component={"span"}>
                   <Trans id="home.hero-section.description">
-                    This site provides up-to-date information on electricity
-                    tariffs across Switzerland, allowing you to compare prices
-                    for residential and commercial customers by municipality,
-                    canton, or grid operator. Explore detailed breakdowns of
-                    energy, network, and additional charges, and view historical
-                    trends to better understand electricity costs in your
-                    region.
+                    Diese Website bietet aktuelle Informationen zu den
+                    Stromtarifen über die Stromtarife in der Schweiz und
+                    ermöglicht den Vergleich der Preise für Privat- und
+                    Gewerbekunden nach Gemeinde, Kantonen oder Netzbetreibern
+                    vergleichen. Sie können detaillierte Aufschlüsselungen von
+                    Energie-, Netz- und Zusatzkosten sowie historische Trends,
+                    um die Stromkosten in Ihrer Region besser zu Region.
                   </Trans>
                 </Typography>
                 <Button
@@ -92,7 +104,7 @@ const IndexPage = () => {
                 >
                   <Typography variant="h3">
                     <Trans id="home.hero-section.primary-cta">
-                      Electricity Tariffs in Switzerland
+                      Stromtarife in der Schweiz
                     </Trans>
                   </Typography>
                 </Button>

@@ -115,7 +115,6 @@ const useHistogramState = ({
     : [{ height: 0, nbOfLines: 1 }];
 
   const getAnnotationInfo = (d: (typeof bins)[number]): Tooltip => {
-    console.log(yScale(getY(d)));
     return {
       placement: { x: "center", y: "top" },
       xAnchor: xScale((d.x1! + d.x0!) / 2),

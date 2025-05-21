@@ -47,7 +47,7 @@ const ListItem = ({
       color="inherit"
       component={NextLink}
       href={{
-        pathname: `/details/${entity}/[id]`,
+        pathname: `/${entity}/[id]`,
         query: { ...query, id },
       }}
       onMouseOver={() => setHighlightContext({ entity, id, label, value })}
@@ -89,7 +89,7 @@ const ListItem = ({
         }}
         style={{ background: colorScale(value) }}
       >
-        <Typography variant="body2" color="black">
+        <Typography variant="body3" color="black">
           {formatNumber(value)}
         </Typography>
       </Box>
@@ -190,7 +190,7 @@ const PlaceholderListItem = () => {
         <Typography variant="body2">&nbsp;</Typography>
       </Box>
       <Box sx={{ width: "24px", flexShrink: 0, color: "secondary.200" }}>
-        <Icon name="chevronright"></Icon>
+        <Icon name="chevronright" />
       </Box>
     </Box>
   );
@@ -365,7 +365,7 @@ export const List = ({
             lineHeight: "24px",
           }}
         >
-          {<Trans id="dataset.results">{listItems.length} results</Trans>}
+          {<Trans id="dataset.results">{listItems.length} Resultate</Trans>}
         </Typography>
         <Box
           sx={{

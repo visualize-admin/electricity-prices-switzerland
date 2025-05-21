@@ -177,7 +177,10 @@ export const InfoDialogButton = ({
     <>
       <IconButton
         color="tertiary"
-        sx={{ fontSize: iconSize === 16 ? [2, 2, 2] : [3, 4, 4] }}
+        sx={{
+          fontSize: iconSize === 16 ? [2, 2, 2] : [3, 4, 4],
+          paddingRight: 0,
+        }}
         onClick={openDialog}
       >
         <Box sx={{ alignItems: "center" }} display="flex">
