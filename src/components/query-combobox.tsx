@@ -86,6 +86,7 @@ export const OperatorsCombobox = (
     <ComboboxMulti
       {...comboboxMultiProps}
       id="operators"
+      
       items={items.map(({ id }) => id)}
       getItemLabel={(id) => itemById.get(id)?.name ?? `[${id}]`}
       lazy

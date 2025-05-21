@@ -1,10 +1,11 @@
 import { t } from "@lingui/macro";
-import { Box, outlinedInputClasses, Typography } from "@mui/material";
-import Autocomplete, { autocompleteClasses } from "@mui/material/Autocomplete";
-import TextField, { TextFieldProps } from "@mui/material/TextField";
+import { Box, Chip, Typography } from "@mui/material";
+import Autocomplete from "@mui/material/Autocomplete";
+import TextField from "@mui/material/TextField";
 import { useEffect, useMemo, useState } from "react";
 
 import { InfoDialogButton } from "src/components/info-dialog";
+import { getLocalizedLabel } from "src/domain/translation";
 import { Icon } from "src/icons";
 
 export type ComboboxMultiProps = {
@@ -16,6 +17,8 @@ export type ComboboxMultiProps = {
   minSelectedItems?: number;
   getItemLabel?: (item: string) => string;
   // For lazy combobox
+  disabled?: boolean;
+  error?: boolean;
   lazy?: boolean;
   onInputValueChange?: (inputValue: string) => void;
   isLoading?: boolean;
@@ -34,6 +37,8 @@ export const ComboboxMulti = ({
   lazy,
   onInputValueChange,
   isLoading,
+  disabled,
+  error,
 }: ComboboxMultiProps) => {
   const [inputValue, setInputValue] = useState("");
 
@@ -41,6 +46,7 @@ export const ComboboxMulti = ({
 
   return (
     <Autocomplete
+      disabled={disabled}
       multiple
       id={id}
       options={items}
@@ -48,24 +54,37 @@ export const ComboboxMulti = ({
       onChange={(_, newValue) => {
         setSelectedItems(newValue);
       }}
+      sx={{
+        width: "100%",
+      }}
       popupIcon={<Icon name="chevrondown" color="black" />}
       renderInput={(params) => (
-        <>
-          <Typography variant="meta">{label}</Typography>
+        <Box
+          sx={{
+            position: "relative",
+            flexDirection: "column",
+            gap: 2,
+            width: "100%",
+          }}
+          display={"flex"}
+        >
+          <Typography color={"text.primary"} variant="h6" component="label">
+            {label}
+          </Typography>
           <TextField
             {...params}
-            sx={{ bgcolor: "grey.100" } as TextFieldProps["sx"]}
             variant="outlined"
             value={inputValue}
             onChange={(e) => {
               setInputValue(e.target.value);
               onInputValueChange?.(e.target.value);
             }}
+            error={error}
             InputProps={{
               ...params.InputProps,
             }}
           />
-        </>
+        </Box>
       )}
       noOptionsText={
         inputValue === "" && lazy
@@ -76,36 +95,17 @@ export const ComboboxMulti = ({
         value.map((option, index) => {
           const { key, ...tagProps } = getTagProps({ index });
           return (
-            <Box
+            <Chip
               key={key}
-              sx={{
-                display: "inline-block",
-                p: 1,
-                mr: 2,
-                mb: 2,
-                borderRadius: 1,
-                fontSize: "0.75rem",
-                bgcolor: "primary.light",
-                "&:focus": {
-                  outline: 0,
-                  bgcolor: "primary.main",
-                  color: "grey.100",
-                },
-              }}
+              label={getItemLabel(option)}
               {...tagProps}
-            >
-              {getItemLabel(option)}{" "}
-              {canRemoveItems && (
-                <span
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setSelectedItems(selectedItems.filter((d) => d !== option));
-                  }}
-                >
-                  &#10005;
-                </span>
-              )}
-            </Box>
+              size="xs"
+              disabled={disabled}
+              onDelete={() =>
+                canRemoveItems &&
+                setSelectedItems(selectedItems.filter((d) => d !== option))
+              }
+            />
           );
         })
       }
@@ -144,6 +144,8 @@ export const Combobox = ({
   infoDialogSlug,
   getItemLabel = defaultGetItemLabel,
   showLabel = true,
+  disabled,
+  error,
 }: {
   id: string;
   label: string;
@@ -153,6 +155,8 @@ export const Combobox = ({
   getItemLabel?: (item: string) => string;
   showLabel?: boolean;
   infoDialogSlug?: string;
+  disabled?: boolean;
+  error?: boolean;
 }) => {
   const [inputValue, setInputValue] = useState(getItemLabel(selectedItem));
 
@@ -181,7 +185,15 @@ export const Combobox = ({
   }, [items]);
 
   return (
-    <Box sx={{ position: "relative" }}>
+    <Box
+      sx={{
+        position: "relative",
+        flexDirection: "column",
+        gap: infoDialogSlug ? 0 : 2,
+        width: "100%",
+      }}
+      display={"flex"}
+    >
       <Box
         typography="meta"
         sx={{
@@ -190,18 +202,23 @@ export const Combobox = ({
           alignItems: "center",
         }}
       >
-        {showLabel && <label htmlFor={`combobox-${id}`}>{label}</label>}
+        {showLabel && (
+          <Typography
+            color={"text.primary"}
+            variant="h6"
+            component="label"
+            htmlFor={`combobox-${id}`}
+          >
+            {label}
+          </Typography>
+        )}
         {infoDialogSlug && (
-          <InfoDialogButton
-            iconOnly
-            slug={infoDialogSlug}
-            label={label}
-            smaller
-          />
+          <InfoDialogButton iconOnly slug={infoDialogSlug} label={label} />
         )}
       </Box>
       <Autocomplete
         id={`combobox-${id}`}
+        disabled={disabled}
         options={filteredItems as string[]}
         groupBy={(option) => {
           return groupsByLabel[option];
@@ -210,7 +227,7 @@ export const Combobox = ({
           return (
             <>
               {params.group ? (
-                <Typography variant="meta" fontWeight="bold" sx={{ mx: 4 }}>
+                <Typography variant="caption" fontWeight="bold" sx={{ mx: 4 }}>
                   {params.group}
                 </Typography>
               ) : null}
@@ -218,6 +235,19 @@ export const Combobox = ({
             </>
           );
         }}
+        renderOption={(props, option, { selected }) => (
+          <li
+            {...props}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            {getLocalizedLabel({ id: option })}
+            {selected && <Icon name="checkmark" />}
+          </li>
+        )}
         popupIcon={<Icon name="chevrondown" color="black" />}
         getOptionLabel={getItemLabel}
         disableClearable
@@ -236,13 +266,9 @@ export const Combobox = ({
             {...params}
             variant="outlined"
             fullWidth
+            error={error}
             InputProps={{
               ...params.InputProps,
-              sx: {
-                height: 48,
-                bgcolor: "grey.100",
-                "&:focus-within": { borderColor: "primary.main" },
-              },
             }}
           />
         )}
@@ -256,22 +282,6 @@ export const Combobox = ({
           paper: {
             sx: {
               marginTop: "0.25rem",
-            },
-          },
-        }}
-        sx={{
-          [`& .${autocompleteClasses.paper}`]: {
-            marginTop: "0.25rem",
-          },
-          [`& .${outlinedInputClasses.root}`]: {
-            "& fieldset": {
-              borderColor: "grey.500",
-            },
-            "&:hover fieldset": {
-              borderColor: "grey.700",
-            },
-            "&.Mui-focused fieldset": {
-              borderColor: "primary.main",
             },
           },
         }}

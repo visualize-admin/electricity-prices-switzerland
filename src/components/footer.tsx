@@ -1,316 +1,166 @@
-import { Trans, t } from "@lingui/macro";
-import { Box, IconButton, Link, LinkProps, Typography } from "@mui/material";
-import { PropsWithChildren } from "react";
+import {
+  FooterSection,
+  FooterSectionButton,
+  FooterSectionText,
+  FooterSectionTitle,
+  Footer as SwissFederalCiFooter,
+} from "@interactivethings/swiss-federal-ci/dist/components";
+import { t } from "@lingui/macro";
+import { Link, SxProps } from "@mui/material";
 
-import { HelpDialog } from "src/components/info-dialog";
-import { LogoDesktop } from "src/components/logo";
-import { useDisclosure } from "src/components/use-disclosure";
-import { IconDownload } from "src/icons/ic-download";
-import { IconInfo } from "src/icons/ic-info";
-import { IconShare } from "src/icons/ic-share";
 import { useLocale } from "src/lib/use-locale";
 import { useQueryStateSingle } from "src/lib/use-query-state";
 
-const FooterLink = ({
-  children,
-  icon,
-  ...props
-}: PropsWithChildren<
-  {
-    icon?: React.ReactNode;
-  } & LinkProps
->) => {
-  return (
-    <Link
-      {...props}
-      variant="inline"
-      sx={{
-        borderBottomWidth: "1px",
-        borderBottomStyle: "solid",
-        borderBottomColor: "grey.500",
-        p: 4,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        ...props.sx,
-      }}
-    >
-      <div>{children}</div>
-      {icon}
-    </Link>
-  );
-};
+import { useDisclosure } from "./use-disclosure";
 
-const FooterTitle = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <Typography variant="h2" sx={{ mb: 6 }}>
-      {children}
-    </Typography>
-  );
-};
-const FooterSection = ({ children }: { children: React.ReactNode }) => {
-  return <Box>{children}</Box>;
-};
-
-export const Footer = () => {
+export const Footer = ({ sx }: { sx?: SxProps }) => {
   const locale = useLocale();
   const [{ period }] = useQueryStateSingle();
-
   const helpCalculationDisclosure = useDisclosure();
   const helpCsvDisclosure = useDisclosure();
   const helpMunicipalitiesInfoDisclosure = useDisclosure();
 
-  const handleOpenCalculation = (ev: React.MouseEvent<HTMLElement>) => {
-    ev.preventDefault();
-    helpCalculationDisclosure.open();
-  };
-
-  const handleOpenCsvDownload = (ev: React.MouseEvent<HTMLElement>) => {
-    ev.preventDefault();
-    helpCsvDisclosure.open();
-  };
-
-  const handleOpenMunicipalitiesInfo = (ev: React.MouseEvent<HTMLElement>) => {
-    ev.preventDefault();
-    helpMunicipalitiesInfoDisclosure.open();
-  };
+  const bottomLinks = [
+    {
+      title: t({ id: "footer.legal-framework", message: "Rechtliches" }),
+      href: t({
+        id: "footer.legal-framework.link",
+        message: "https://www.admin.ch/gov/de/start/rechtliches.html",
+      }),
+      external: true,
+    },
+  ];
 
   return (
-    <Box
-      sx={{
-        bgcolor: "grey.200",
-        borderTop: "1px solid",
-        borderColor: "grey.500",
-        paddingTop: 6,
-      }}
+    <SwissFederalCiFooter
+      ContentWrapperProps={{ sx: sx ?? undefined }}
+      bottomLinks={bottomLinks}
+      nCols={3}
     >
-      <Box
-        sx={{
-          display: "grid",
-          p: 6,
-          marginBottom: 8,
-          gap: 6,
-          gridTemplateColumns: ["1fr", "1fr 1fr"],
-        }}
-      >
-        <FooterSection>
-          <FooterTitle>
-            {t({
-              id: "footer.more-information",
-              message: `Weiterführende Informationen`,
-            })}
-          </FooterTitle>
-          <FooterLink
-            sx={{ cursor: "pointer" }}
-            onClick={handleOpenCalculation}
-            href="#"
-            icon={<IconInfo />}
-          >
-            {t({
-              id: "footer.calculation-basics",
-              message: `Berechnungsgrundlagen`,
-            })}
-          </FooterLink>
+      <FooterSection>
+        <FooterSectionTitle
+          title={t({
+            id: "footer.about_us.label",
+            message: "About us",
+          })}
+        />
+        <FooterSectionText
+          text={t({
+            id: "footer.about_us.text",
+            message:
+              "Die ElCom, der unabhängige Stromregulator der Schweiz, überwacht die Einhaltung des Elektrizitäts- und des Energiegesetzes. Sie überwacht die Strompreise, die Versorgungssicherheit und den internationalen Handel und schlichtet Streitigkeiten beim Netzzugang, bei den Einspeisevergütungen sowie zwischen Betreibern und Produzenten.",
+          })}
+        />
+      </FooterSection>
 
-          <HelpDialog
-            close={helpCalculationDisclosure.close}
+      <FooterSection>
+        <FooterSectionTitle
+          title={t({
+            id: "footer.more-information",
+            message: "Weitere Informationen",
+          })}
+        />
+        <FooterSectionButton
+          iconName="arrow-right"
+          onClick={() => helpCalculationDisclosure.open()}
+          label={t({
+            id: "footer.basis-of-calculation",
+            message: "Berechnungsgrundlagen",
+          })}
+        />
+        <Link
+          href={
+            "https://www.elcom.admin.ch/elcom/de/home/themen/strompreise.html"
+          }
+          target="_blank"
+          underline="none"
+        >
+          <FooterSectionButton
+            iconName="external"
             label={t({
-              id: "help.calculation",
-              message: `Berechnungsgrundlage`,
-            })}
-            open={helpCalculationDisclosure.isOpen}
-            slug="help-calculation"
-          />
-          <HelpDialog
-            close={helpCsvDisclosure.close}
-            label={t({
-              id: "help.csv-download",
-              message: `Daten als .csv`,
-            })}
-            open={helpCsvDisclosure.isOpen}
-            slug="help-download-raw-data"
-          />
-          <HelpDialog
-            close={helpMunicipalitiesInfoDisclosure.close}
-            label={t({
-              id: "help.municipalities-info",
-              message: `Municipalities and grid operators information`,
-            })}
-            open={helpMunicipalitiesInfoDisclosure.isOpen}
-            slug="help-municipalities-and-grid-operators-info"
-          />
-          <FooterLink
-            target="_blank"
-            href={t({
-              id: "footer.more-tariffs-information.link",
-              message:
-                "https://www.elcom.admin.ch/elcom/de/home/themen/strompreise.html",
-            })}
-            icon={<IconShare />}
-          >
-            {t({
-              id: "footer.more-tariffs-information",
+              id: "footer.additional-information",
               message: "Weitere Informationen zu den Tarifen in der Schweiz",
             })}
-          </FooterLink>
-
-          <FooterLink
-            target="_blank"
-            href={t({
-              id: "footer.transmission-grid-tariff.link",
-              message:
-                "https://www.swissgrid.ch/dam/swissgrid/customers/topics/tariffs/Tabelle-Tarife-de.pdf",
-            })}
-            icon={<IconShare />}
-          >
-            {t({
-              id: "footer.transmission-grid-tariff",
+          />
+        </Link>
+        <Link
+          href={
+            "https://www.swissgrid.ch/dam/swissgrid/customers/topics/tariffs/Tabelle-Tarife-de.pdf"
+          }
+          target="_blank"
+          underline="none"
+        >
+          <FooterSectionButton
+            iconName="external"
+            label={t({
+              id: "footer.tariff-components",
               message: "Tarifkomponenten Übertragungsnetz - Swissgrid",
             })}
-          </FooterLink>
-        </FooterSection>
+          />
+        </Link>
+      </FooterSection>
 
-        <FooterSection>
-          <FooterTitle>
-            {t({
-              id: "footer.download-visualize-data",
-              message: "Daten herunterladen / visualisieren",
+      <FooterSection>
+        <FooterSectionTitle
+          title={t({
+            id: "footer.download-visualize-data",
+            message: "Daten herunterladen",
+          })}
+        />
+        <Link href={`/api/data-export?period=${period}&locale=${locale}`}>
+          <FooterSectionButton
+            iconName="download"
+            onClick={() => helpCsvDisclosure.open()}
+            label={t({
+              id: "footer.data-as-csv",
+              message: "Daten als csv",
             })}
-          </FooterTitle>
-          <FooterLink
-            href={`/api/data-export?period=${period}&locale=${locale}`}
-            icon={
-              <Box sx={{ display: "flex", flexShrink: 0, gap: "1rem" }}>
-                <IconButton
-                  color="primary"
-                  sx={{ p: 0, width: 24, height: 24, cursor: "pointer" }}
-                  onClick={handleOpenCsvDownload}
-                >
-                  <IconInfo />
-                </IconButton>
-                <IconDownload />
-              </Box>
-            }
-          >
-            {t({ id: "footer.data-as-csv", message: "Daten als .csv" })}
-          </FooterLink>
-          <FooterLink
-            href={`/api/municipalities-data.csv?period=${period}`}
-            icon={
-              <Box sx={{ display: "flex", flexShrink: 0, gap: "1rem" }}>
-                <IconButton
-                  color="primary"
-                  sx={{ p: 0, width: 24, height: 24, cursor: "pointer" }}
-                  onClick={handleOpenMunicipalitiesInfo}
-                >
-                  <IconInfo />
-                </IconButton>
-                <IconDownload />
-              </Box>
-            }
-          >
-            {t({
-              id: "footer.municipalities-and-grid-operators",
-              message: `Schweizerische Gemeinden und zuständige Stromnetzbetreiber`,
-            })}
-          </FooterLink>
-          <FooterLink
-            target="_blank"
-            icon={<IconShare />}
-            href={t({
-              id: "footer.data-on-opendata-swiss.link",
+          />
+        </Link>
+
+        <Link href={`/api/municipalities-data.csv?period=${period}`}>
+          <FooterSectionButton
+            iconName="download"
+            onClick={() => helpMunicipalitiesInfoDisclosure.open()}
+            label={t({
+              id: "footer.swiss-municipalities-grid",
               message:
-                "https://opendata.swiss/de/organization/bundesamt-fur-energie-bfe?q=energiedashboard",
+                "Schweizerische Gemeinden und zuständige Stromnetzbetreiber",
             })}
-          >
-            {t({
+          />
+        </Link>
+
+        <Link
+          href={
+            "https://opendata.swiss/organization/bundesamt-fur-energie-bfe?q=energiedashboard"
+          }
+          target="_blank"
+          underline="none"
+        >
+          <FooterSectionButton
+            iconName="external"
+            label={t({
               id: "footer.data-on-opendata-swiss",
               message: "Daten auf opendata.swiss",
             })}
-          </FooterLink>
-          <FooterLink
-            icon={<IconShare />}
-            target="_blank"
-            href={t({
-              id: "footer.create-data-visualizations.link",
-              message:
-                "https://www.elcom.admin.ch/elcom/de/home/themen/strompreise/tarif-rohdaten-verteilnetzbetreiber.html",
-            })}
-          >
-            {t({
+          />
+        </Link>
+        <Link
+          href={
+            "https://www.elcom.admin.ch/elcom/home/themen/strompreise/tarif-rohdaten-verteilnetzbetreiber.html"
+          }
+          target="_blank"
+          underline="none"
+        >
+          <FooterSectionButton
+            iconName="external"
+            label={t({
               id: "footer.create-data-visualizations",
-              message: "Datenvisualierungen mit den ElCom-Daten erstellen",
+              message: "Datenvisualisierungen mit ElCom-Datensatz erstellen",
             })}
-          </FooterLink>
-        </FooterSection>
-      </Box>
-
-      <Box
-        component="footer"
-        sx={{
-          flexDirection: ["column", "row"],
-          justifyContent: ["flex-start", "space-between"],
-          alignItems: ["flex-start", "center"],
-          bgcolor: "grey.200",
-          borderTopWidth: "1px",
-          borderTopStyle: "solid",
-          borderTopColor: "grey.500",
-        }}
-        display="flex"
-      >
-        <Box
-          sx={{
-            width: "100%",
-            px: 6,
-            py: 5,
-            color: ["grey.900", "grey.700"],
-            display: "flex",
-            justifyContent: "space-between",
-          }}
-        >
-          <Typography variant="body2">
-            <Trans id="footer.institution.name">
-              Eidgenössische Elektrizitätskommission ElCom
-            </Trans>
-          </Typography>
-          <Typography variant="body2" sx={{ display: "block" }} component="div">
-            <Link
-              target="_blank"
-              variant="inline"
-              href={t({
-                id: "footer.legal-framework.link",
-                message: "https://www.admin.ch/gov/de/start/rechtliches.html",
-              })}
-            >
-              <Trans id="footer.legal-framework">Rechtliches</Trans>
-            </Link>
-          </Typography>
-        </Box>
-        <Box
-          sx={{
-            flexDirection: ["column", "row"],
-            alignItems: ["flex-start", "center"],
-          }}
-          display="flex"
-        >
-          <Box
-            sx={{
-              width: "100vw",
-              display: ["block", "none"],
-              px: 4,
-              py: 5,
-              borderTopWidth: "1px",
-              borderBottomWidth: "1px",
-              borderTopStyle: "solid",
-              borderBottomStyle: "solid",
-              borderTopColor: "grey.500",
-              borderBottomColor: "grey.500",
-            }}
-          >
-            <LogoDesktop />
-          </Box>
-        </Box>
-      </Box>
-    </Box>
+          />
+        </Link>
+      </FooterSection>
+    </SwissFederalCiFooter>
   );
 };

@@ -25,6 +25,7 @@ import {
   useFormatCurrency,
 } from "src/domain/helpers";
 import { estimateTextWidth } from "src/lib/estimate-text-width";
+import { chartPalette } from "src/themes/palette";
 
 const useHistogramState = ({
   data,
@@ -43,7 +44,7 @@ const useHistogramState = ({
 }): HistogramState => {
   const width = useWidth();
   const formatCurrency = useFormatCurrency();
-  const { annotationFontSize, palette } = useChartTheme();
+  const { annotationFontSize } = useChartTheme();
 
   const getX = useCallback(
     (d: GenericObservation) => d[fields.x.componentIri] as number,
@@ -72,7 +73,7 @@ const useHistogramState = ({
 
   const colors = scaleLinear<string>()
     .domain(colorDomain)
-    .range(palette.diverging)
+    .range(chartPalette.diverging.GreenToOrange)
     .interpolate(interpolateHsl);
   // y
   const bins = bin<GenericObservation, number>()
@@ -114,7 +115,6 @@ const useHistogramState = ({
     : [{ height: 0, nbOfLines: 1 }];
 
   const getAnnotationInfo = (d: (typeof bins)[number]): Tooltip => {
-    console.log(yScale(getY(d)));
     return {
       placement: { x: "center", y: "top" },
       xAnchor: xScale((d.x1! + d.x0!) / 2),
@@ -128,12 +128,12 @@ const useHistogramState = ({
         <>
           <Box sx={{ alignItems: "center", gap: "0.375rem" }} display="flex">
             <LegendSymbol symbol="square" color={colors(d.x0!)} />
-            <Typography variant="meta" sx={{ fontWeight: "bold" }}>
+            <Typography variant="caption" sx={{ fontWeight: "bold" }}>
               {d.x0}-{d.x1}
               {xAxisUnit}
             </Typography>
           </Box>
-          <Typography variant="meta">
+          <Typography variant="caption">
             {yAxisLabel}: {d.length}
           </Typography>
         </>

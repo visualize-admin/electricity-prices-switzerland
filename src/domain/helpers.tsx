@@ -1,4 +1,3 @@
-import { useTheme } from "@mui/material";
 import {
   schemeAccent,
   schemeCategory10,
@@ -23,6 +22,7 @@ import { GenericObservation } from "src/domain/data";
 import { estimateTextWidth } from "src/lib/estimate-text-width";
 import { useLocale } from "src/lib/use-locale";
 import { d3FormatLocales, d3TimeFormatLocales } from "src/locales/locales";
+import { chartPalette } from "src/themes/palette";
 
 export const isNumber = (x: $IntentionalAny): boolean =>
   typeof x === "number" && !isNaN(x);
@@ -44,7 +44,7 @@ export const useFormatCurrency = () => {
   const locale = useLocale();
   const formatter = React.useMemo(() => {
     const { format } = d3FormatLocales[locale];
-    return format(",.2~f");
+    return format(",.2f");
   }, [locale]);
   return formatter;
 };
@@ -138,7 +138,6 @@ export const useFormatShortDateAuto = () => {
 export const getPalette = (
   palette: string | undefined
 ): ReadonlyArray<string> => {
-  const theme = useTheme();
   switch (palette) {
     case "accent":
       return schemeAccent;
@@ -159,7 +158,7 @@ export const getPalette = (
     case "set3":
       return schemeSet3;
     case "elcom":
-      return theme.palette.categorical;
+      return chartPalette.categorical;
     default:
       return schemeCategory10;
   }

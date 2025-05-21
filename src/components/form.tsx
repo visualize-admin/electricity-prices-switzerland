@@ -97,15 +97,25 @@ export const MiniSelect = ({
         borderColor: "transparent",
         fontSize: ["0.625rem", "0.75rem", "0.75rem"],
         borderBottom: 0,
+        height: 24,
         bgcolor: "transparent",
+        ".MuiInputBase-root": {
+          paddingLeft: "0px !important",
+        },
         py: 0,
         pl: 1,
-        pr: 4,
+        pr: 0,
         mr: 1, // Fix for Chrome which cuts of the label otherwise
         "&:focus": {
           bgcolor: "transparent",
           outline: "none",
           borderColor: "primary",
+        },
+        ".MuiNativeSelect-icon": {
+          color: "text.primary",
+          mr: 2,
+          width: 16,
+          height: 16,
         },
       }}
       id={id}
@@ -141,31 +151,39 @@ export const SearchField = ({
 } & FieldProps) => {
   return (
     <OutlinedInput
-      size="small"
-      sx={{ color: "grey.700", fontSize: "1rem", position: "relative", ...sx }}
+      size="sm"
+      sx={{
+        color: "text.500",
+        fontSize: "0.875rem",
+        position: "relative",
+
+        borderRadius: 0.5,
+        height: 44,
+        borderColor: "monochrome.500",
+        ...sx,
+      }}
       id={id}
       value={value}
       onChange={onChange}
       placeholder={placeholder}
-      startAdornment={
-        <InputAdornment position="start">
-          {label && id && (
-            <label htmlFor={id}>
-              <VisuallyHidden>{label}</VisuallyHidden>
-            </label>
-          )}
-          <Icon name="search" size={16} />
-        </InputAdornment>
-      }
       endAdornment={
         <InputAdornment position="end" sx={{ mr: -2 }}>
-          {value && value !== "" && onReset && (
-            <IconButton size="small" sx={{ mr: 0 }} onClick={onReset}>
+          {value && value !== "" && onReset ? (
+            <IconButton size="sm" sx={{ mr: 0 }} onClick={onReset}>
               <VisuallyHidden>
                 <Trans id="controls.search.clear">Clear search field</Trans>
               </VisuallyHidden>
-              <Icon name="clear" size={16} />
+              <Icon name="clear" />
             </IconButton>
+          ) : (
+            <InputAdornment position="start">
+              {label && id && (
+                <label htmlFor={id}>
+                  <VisuallyHidden>{label}</VisuallyHidden>
+                </label>
+              )}
+              <Icon name="search" />
+            </InputAdornment>
           )}
         </InputAdornment>
       }

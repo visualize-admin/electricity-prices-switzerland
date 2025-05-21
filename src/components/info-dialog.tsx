@@ -56,7 +56,7 @@ const DialogContent = ({
           borderCollapse: "collapse",
           my: 2,
           tbody: {
-            borderColor: "grey.300",
+            borderColor: "secondary.300",
             borderTopWidth: "1px",
             borderTopStyle: "solid",
           },
@@ -65,7 +65,7 @@ const DialogContent = ({
             "&:not(:first-of-type)": { textAlign: "right" },
           },
           td: {
-            borderColor: "grey.300",
+            borderColor: "secondary.300",
             borderBottomWidth: "1px",
             borderBottomStyle: "solid",
             p: 2,
@@ -78,7 +78,7 @@ const DialogContent = ({
   );
 };
 
-export const HelpDialog: React.FC<{
+const HelpDialog: React.FC<{
   close: () => void;
   label: string;
   open: boolean;
@@ -96,7 +96,7 @@ export const HelpDialog: React.FC<{
       {contentQuery.fetching ? (
         createPortal(
           <Backdrop open={open} sx={{ zIndex: 1000 }} onClick={close}>
-            <LoadingIcon sx={{ color: "grey.800" }} />
+            <LoadingIcon sx={{ color: "secondary.800" }} />
           </Backdrop>,
           document.body
         )
@@ -159,12 +159,14 @@ export const InfoDialogButton = ({
   label,
   slug,
   iconOnly,
-  smaller,
+  iconSize = 16,
+  type = "fill",
 }: {
   label: string;
   slug: string;
   iconOnly?: boolean;
-  smaller?: boolean;
+  iconSize?: number;
+  type?: "fill" | "outline";
 }) => {
   const {
     isOpen: isHelpDialogOpen,
@@ -174,13 +176,19 @@ export const InfoDialogButton = ({
   return (
     <>
       <IconButton
-        color="primary"
-        sx={{ fontSize: smaller ? [2, 2, 2] : [3, 4, 4] }}
+        color="tertiary"
+        sx={{
+          fontSize: iconSize === 16 ? [2, 2, 2] : [3, 4, 4],
+          paddingRight: 0,
+        }}
         onClick={openDialog}
       >
         <Box sx={{ alignItems: "center" }} display="flex">
           <Box sx={{ flexShrink: 0, mr: iconOnly ? 0 : 2 }}>
-            <Icon name="info" size={smaller ? 16 : 20} />
+            <Icon
+              name={type === "fill" ? "infocirclefilled" : "infocircle"}
+              size={iconSize}
+            />
           </Box>{" "}
           {iconOnly ? <VisuallyHidden>{label}</VisuallyHidden> : label}
         </Box>

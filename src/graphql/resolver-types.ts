@@ -5,13 +5,13 @@ import {
 } from "graphql";
 import {
   ResolvedCanton,
-  ResolvedMunicipality,
-  ResolvedOperator,
-  ResolvedObservation,
   ResolvedCantonMedianObservation,
-  ResolvedSwissMedianObservation,
+  ResolvedMunicipality,
+  ResolvedObservation,
+  ResolvedOperator,
   ResolvedOperatorObservation,
   ResolvedSearchResult,
+  ResolvedSwissMedianObservation,
 } from "./resolver-mapped-types";
 import { ServerContext } from "./server-context";
 export type Maybe<T> = T | null;
@@ -489,6 +489,7 @@ export type ResolversTypes = ResolversObject<{
     ResolversInterfaceTypes<ResolversTypes>["SearchResult"]
   >;
   String: ResolverTypeWrapper<Scalars["String"]["output"]>;
+
   SunshineDataRow: ResolverTypeWrapper<SunshineDataRow>;
   SwissMedianObservation: ResolverTypeWrapper<ResolvedSwissMedianObservation>;
   SystemInfo: ResolverTypeWrapper<SystemInfo>;
@@ -516,6 +517,7 @@ export type ResolversParentTypes = ResolversObject<{
   Query: {};
   SearchResult: ResolversInterfaceTypes<ResolversParentTypes>["SearchResult"];
   String: Scalars["String"]["output"];
+
   SunshineDataRow: SunshineDataRow;
   SwissMedianObservation: ResolvedSwissMedianObservation;
   SystemInfo: SystemInfo;

@@ -72,7 +72,7 @@ export const LegendItem = ({
       lineHeight: ["1rem", "1.125rem", "1.125rem"],
       fontWeight: "regular",
       fontSize: ["0.625rem", "0.75rem", "0.75rem"],
-      color: "grey.700",
+      color: "secondary.700",
     }}
     display="flex"
   >

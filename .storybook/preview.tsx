@@ -1,8 +1,8 @@
+import { CssBaseline, ThemeProvider } from "@mui/material";
 import type { Decorator, Preview } from "@storybook/react";
 import React from "react";
-import { CssBaseline, ThemeProvider } from "@mui/material";
-import { fonts, theme } from "../src/themes/elcom";
-import { C } from "vitest/dist/chunks/reporters.d.CfRkRKN2.js";
+import { theme } from "../src/themes/elcom";
+import "./preview.css";
 
 const withAppProviders: Decorator = (Story: any) => {
   return (
@@ -15,6 +15,7 @@ const withAppProviders: Decorator = (Story: any) => {
 
 const preview: Preview = {
   parameters: {
+    layout: "fullscreen",
     controls: {
       matchers: {
         color: /(background|color)$/i,

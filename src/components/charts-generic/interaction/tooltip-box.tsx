@@ -43,8 +43,8 @@ export const TooltipBox = forwardRef<HTMLDivElement, TooltipBoxProps>(
           sx={{
             padding: 3,
             pointerEvents: interactive ? "all" : "none",
-            bgcolor: "grey.100",
-            filter: `drop-shadow(${theme.shadows.tooltip})`,
+            bgcolor: "background.paper",
+            filter: `drop-shadow(${theme.shadows[6]})`,
 
             "&::before": {
               content: "''",
@@ -98,10 +98,12 @@ export const TooltipBoxWithoutChartState = ({
     >
       <Box
         sx={{
-          padding: 3,
+          py: 3,
+          px: 4,
+          borderRadius: 0.5,
           pointerEvents: "none",
-          backgroundColor: "grey.100",
-          filter: `drop-shadow(${theme.shadows?.tooltip})`,
+          backgroundColor: "background.paper",
+          filter: `drop-shadow(${theme.shadows?.[6]})`,
 
           "&::before": {
             content: "''",
@@ -170,8 +172,8 @@ const mkTriangle = (p: TooltipPlacement) => {
         borderWidth: `${TRIANGLE_SIZE}px ${TRIANGLE_SIZE}px ${TRIANGLE_SIZE}px ${TRIANGLE_SIZE}px`,
         borderTopColor: `transparent`,
         borderRightColor: `transparent`,
-        borderBottomColor: `grey.100`,
-        borderLeftColor: `grey.100`,
+        borderBottomColor: `background.paper`,
+        borderLeftColor: `background.paper`,
       };
     case p.x === "center" && p.y === "bottom":
       return {
@@ -182,7 +184,7 @@ const mkTriangle = (p: TooltipPlacement) => {
         borderWidth: `0 ${TRIANGLE_SIZE}px ${TRIANGLE_SIZE}px ${TRIANGLE_SIZE}px`,
         borderTopColor: `transparent`,
         borderRightColor: `transparent`,
-        borderBottomColor: `grey.100`,
+        borderBottomColor: `background.paper`,
         borderLeftColor: `transparent`,
       };
     case p.x === "left" && p.y === "bottom":
@@ -193,8 +195,8 @@ const mkTriangle = (p: TooltipPlacement) => {
         top: `-${TRIANGLE_SIZE}px`,
         borderWidth: `${TRIANGLE_SIZE}px ${TRIANGLE_SIZE}px ${TRIANGLE_SIZE}px ${TRIANGLE_SIZE}px`,
         borderTopColor: `transparent`,
-        borderRightColor: `grey.100`,
-        borderBottomColor: `grey.100`,
+        borderRightColor: `background.paper`,
+        borderBottomColor: `background.paper`,
         borderLeftColor: `transparent`,
       };
     // triangle position downwards pointing (placement "top")
@@ -205,10 +207,10 @@ const mkTriangle = (p: TooltipPlacement) => {
         bottom: `-${TRIANGLE_SIZE}px`,
         top: "unset",
         borderWidth: `${TRIANGLE_SIZE}px ${TRIANGLE_SIZE}px ${TRIANGLE_SIZE}px ${TRIANGLE_SIZE}px`,
-        borderTopColor: `grey.100`,
+        borderTopColor: `background.paper`,
         borderRightColor: `transparent`,
         borderBottomColor: `transparent`,
-        borderLeftColor: `grey.100`,
+        borderLeftColor: `background.paper`,
       };
     case p.x === "center" && p.y === "top":
       return {
@@ -217,7 +219,7 @@ const mkTriangle = (p: TooltipPlacement) => {
         bottom: `-${TRIANGLE_SIZE}px`,
         top: "unset",
         borderWidth: `${TRIANGLE_SIZE}px ${TRIANGLE_SIZE}px 0 ${TRIANGLE_SIZE}px`,
-        borderTopColor: `grey.100`,
+        borderTopColor: `background.paper`,
         borderRightColor: `transparent`,
         borderBottomColor: `transparent`,
         borderLeftColor: `transparent`,
@@ -229,8 +231,8 @@ const mkTriangle = (p: TooltipPlacement) => {
         bottom: `-${TRIANGLE_SIZE}px`,
         top: "unset",
         borderWidth: `${TRIANGLE_SIZE}px ${TRIANGLE_SIZE}px ${TRIANGLE_SIZE}px ${TRIANGLE_SIZE}px`,
-        borderTopColor: `grey.100`,
-        borderRightColor: `grey.100`,
+        borderTopColor: `background.paper`,
+        borderRightColor: `background.paper`,
         borderBottomColor: `transparent`,
         borderLeftColor: `transparent`,
       };
@@ -245,7 +247,7 @@ const mkTriangle = (p: TooltipPlacement) => {
         borderTopColor: `transparent`,
         borderRightColor: `transparent`,
         borderBottomColor: `transparent`,
-        borderLeftColor: `grey.100`,
+        borderLeftColor: `background.paper`,
       };
     case p.x === "right" && p.y === "middle":
       return {
@@ -255,7 +257,7 @@ const mkTriangle = (p: TooltipPlacement) => {
         top: `calc(50% - ${TRIANGLE_SIZE}px)`,
         borderWidth: `${TRIANGLE_SIZE}px ${TRIANGLE_SIZE}px ${TRIANGLE_SIZE}px 0`,
         borderTopColor: `transparent`,
-        borderRightColor: `grey.100`,
+        borderRightColor: `background.paper`,
         borderBottomColor: `transparent`,
         borderLeftColor: `transparent`,
       };
@@ -278,8 +280,8 @@ const mkTriangle = (p: TooltipPlacement) => {
         bottom: `-${TRIANGLE_SIZE}px`,
         top: "unset",
         borderWidth: `${TRIANGLE_SIZE}px ${TRIANGLE_SIZE}px ${TRIANGLE_SIZE}px ${TRIANGLE_SIZE}px`,
-        borderTopColor: `grey.100`,
-        borderRightColor: `grey.100`,
+        borderTopColor: `background.paper`,
+        borderRightColor: `background.paper`,
         borderBottomColor: `transparent`,
         borderLeftColor: `transparent`,
       };

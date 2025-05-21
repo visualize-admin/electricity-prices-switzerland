@@ -1,55 +1,113 @@
-import { Box } from "@mui/material";
-import { ReactNode } from "react";
+import { Box, Typography } from "@mui/material";
+import { Children, isValidElement, ReactNode } from "react";
 
-type Props = {
-  main: ReactNode;
-  selector: ReactNode;
-  aside: ReactNode;
+import { SectionProps } from "./card";
+
+type DetailsPageBaseProps = {
+  children: ReactNode;
 };
 
-export const DetailPageLayout = ({ main, selector, aside }: Props) => {
+type Props = {
+  selector: ReactNode;
+  download?: string | string[];
+} & DetailsPageBaseProps;
+
+export const DetailPageLayout = ({ children, selector, download }: Props) => {
+  const renderedChildren = download
+    ? Children.map(children, (child) => {
+        if (
+          isValidElement<SectionProps>(child) &&
+          "id" in child.props &&
+          child.props.id === download
+        ) {
+          return child;
+        }
+        return null;
+      })
+    : children;
+
   return (
     <Box
       display="grid"
       sx={{
         gap: 0,
-        gridTemplateColumns: [`1fr`, `1fr 20rem`],
-        gridTemplateRows: [`auto`, `auto 1fr`],
-        gridTemplateAreas: [
-          `
+        gridTemplateColumns: { xxs: `1fr`, md: `20rem 1fr` },
+        gridTemplateRows: { xxs: `auto`, md: `auto 1fr` },
+        gridTemplateAreas: {
+          xxs: `
   "selector"
   "main"
-  "aside"
   `,
-          `
-  "main selector"
-  "main aside"
+          md: `
+"selector main"
+  "selector main"
   `,
-        ],
+        },
       }}
     >
       <Box
         sx={{
           gridArea: "main",
-          px: [0, 3],
-          borderRightWidth: "1px",
-          borderRightStyle: "solid",
-          borderRightColor: "grey.500",
+          pl: { xxs: 0, md: 16 },
+          bgcolor: "secondary.50",
+          minWidth: 0,
         }}
       >
-        {main}
+        <Box
+          sx={{
+            py: 10,
+            flexDirection: "column",
+            gap: 10,
+          }}
+          display={"flex"}
+        >
+          {renderedChildren}
+        </Box>
       </Box>
       <Box
         sx={{
           gridArea: "selector",
-          borderBottomWidth: "1px",
-          borderBottomStyle: "solid",
-          borderBottomColor: "grey.500",
+          position: "sticky",
+          top: 0,
+          alignSelf: "start",
+          height: "fit-content",
+          borderRightWidth: "1px",
+          borderRightStyle: "solid",
+          borderRightColor: "monochrome.300",
         }}
       >
-        {selector}
+        {!download && selector}
       </Box>
-      <Box sx={{ gridArea: "aside", bgcolor: "grey.100" }}>{aside}</Box>
     </Box>
+  );
+};
+
+export const DetailsPageHeader = ({ children }: DetailsPageBaseProps) => {
+  return (
+    <Box
+      sx={{
+        flexDirection: "column",
+        gap: 4,
+      }}
+      display={"flex"}
+    >
+      {children}
+    </Box>
+  );
+};
+
+export const DetailsPageTitle = ({ children }: DetailsPageBaseProps) => {
+  return (
+    <Typography variant="h1" component={"h2"}>
+      {children}
+    </Typography>
+  );
+};
+
+export const DetailsPageSubtitle = ({ children }: DetailsPageBaseProps) => {
+  return (
+    <Typography variant="body2" component={"h2"}>
+      {children}
+    </Typography>
   );
 };

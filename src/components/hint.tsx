@@ -1,9 +1,10 @@
 import { keyframes } from "@emotion/react";
 import { Trans } from "@lingui/macro";
-import { Box, BoxProps, Typography } from "@mui/material";
+import { Box, BoxProps, IconButton, Typography } from "@mui/material";
 import { ReactNode } from "react";
 
 import { Icon, IconName } from "src/icons";
+import { palette } from "src/themes/palette";
 
 const delayedShow = keyframes`
   0% { opacity: 0 }
@@ -130,7 +131,7 @@ export const NoDataHint = () => (
     }}
     display="flex"
   >
-    <Icon name="warning" size={64} />
+    <Icon name="warningcircle" size={64} />
     <Typography variant="h2" sx={{ my: 3 }}>
       <Trans id="hint.nodata.title">Keine Daten</Trans>
     </Typography>
@@ -157,7 +158,7 @@ export const NoContentHint = () => (
     }}
     display="flex"
   >
-    <Icon name="warning" size={48} />
+    <Icon name="warningcircle" size={48} />
     <Typography variant="body2" sx={{ maxWidth: "40rem" }}>
       <Trans id="hint.nocontent.message">
         Dieser Inhalt konnte nicht geladen werden
@@ -181,7 +182,7 @@ export const NoGeoDataHint = () => (
     }}
     display="flex"
   >
-    <Icon name="warning" size={64} />
+    <Icon name="warningcircle" size={64} />
     <Typography variant="h2" sx={{ my: 3 }}>
       <Trans id="hint.nogeodata.title">Keine Kartendarstellung möglich</Trans>
     </Typography>
@@ -193,19 +194,21 @@ export const NoGeoDataHint = () => (
   </Box>
 );
 
-export const HintBlue = ({
+export const HintRed = ({
   iconName,
   children,
+  onRemove,
 }: {
   iconName: IconName;
   children: ReactNode;
+  onRemove?: () => void;
 }) => (
   <Box
     sx={{
       width: "auto",
       height: "auto",
       p: 5,
-      bgcolor: "primary.light",
+      bgcolor: "primary.50",
       color: "primary.main",
       textAlign: "center",
       justifyContent: "flex-start",
@@ -216,8 +219,13 @@ export const HintBlue = ({
     <Box sx={{ width: 24, pr: 4 }}>
       <Icon name={iconName} size={24} />
     </Box>
-    <Typography variant="body1" sx={{ textAlign: "left", ml: 4 }}>
+    <Typography variant="body3" sx={{ textAlign: "left", ml: 4 }}>
       {children}
     </Typography>
+    {onRemove && (
+      <IconButton size="sm" onClick={onRemove}>
+        <Icon name={"cancel"} color={palette.primary.main} size={24} />
+      </IconButton>
+    )}
   </Box>
 );

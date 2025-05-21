@@ -15,13 +15,21 @@ import { LegendColor } from "src/components/charts-generic/legends/color";
 import { Lines } from "src/components/charts-generic/lines/lines";
 import { LineChart } from "src/components/charts-generic/lines/lines-state";
 import { InteractionHorizontal } from "src/components/charts-generic/overlay/interaction-horizontal";
-import { Card } from "src/components/detail-page/card";
-import { Download } from "src/components/detail-page/download-image";
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  SectionProps,
+} from "src/components/detail-page/card";
+import {
+  Download,
+  DownloadImage,
+} from "src/components/detail-page/download-image";
 import { FilterSetDescription } from "src/components/detail-page/filter-set-description";
 import { WithClassName } from "src/components/detail-page/with-classname";
 import { Loading, NoDataHint } from "src/components/hint";
 import { InfoDialogButton } from "src/components/info-dialog";
-import { Stack } from "src/components/stack";
 import { Entity, GenericObservation, priceComponents } from "src/domain/data";
 import { getLocalizedLabel } from "src/domain/translation";
 import {
@@ -34,15 +42,9 @@ import { useQueryState } from "src/lib/use-query-state";
 
 const DOWNLOAD_ID: Download = "evolution";
 
-export const PriceEvolution = ({
-  id,
-  entity,
-}: {
-  id: string;
-  entity: Entity;
-}) => {
+export const PriceEvolution = ({ id, entity }: SectionProps) => {
   const locale = useLocale();
-  const [{ category, municipality, operator, canton, product }] =
+  const [{ category, municipality, operator, canton, product, period }] =
     useQueryState();
 
   const comparisonIds =
@@ -80,33 +82,46 @@ export const PriceEvolution = ({
     : observationsQuery.data?.cantonMedianObservations ?? EMPTY_ARRAY;
   const observations = [...operatorObservations, ...cantonObservations];
 
+  const filters = {
+    period: period[0],
+    category: category[0],
+    product: product[0],
+  };
+
   return (
-    <Card
-      title={
-        <Stack spacing={2} direction="row">
-          <span>
-            <Trans id="detail.card.title.prices.evolution">
-              Tarifentwicklung
-            </Trans>
-          </span>
-          <InfoDialogButton
-            iconOnly
-            slug="help-price-evolution"
-            label={t({
-              id: "detail.card.title.prices.evolution",
-            })}
-            smaller
-          />
-        </Stack>
-      }
-      downloadId={DOWNLOAD_ID}
-    >
-      <FilterSetDescription
-        filters={{
-          category: category[0],
-          product: product[0],
-        }}
-      />
+    <Card downloadId={DOWNLOAD_ID}>
+      <CardHeader
+        trailingContent={
+          <>
+            <InfoDialogButton
+              iconOnly
+              iconSize={24}
+              type="outline"
+              slug="help-price-components"
+              label={t({
+                id: "detail.card.title.prices.evolution",
+              })}
+            />
+            <DownloadImage
+              iconOnly
+              iconSize={24}
+              elementId={DOWNLOAD_ID}
+              fileName={DOWNLOAD_ID}
+              downloadType={DOWNLOAD_ID}
+            />
+          </>
+        }
+      >
+        <CardTitle>
+          <Trans id="detail.card.title.prices.evolution">
+            Tarifentwicklung
+          </Trans>
+        </CardTitle>
+        <CardDescription>
+          <FilterSetDescription filters={filters} />
+        </CardDescription>
+      </CardHeader>
+
       {observationsQuery.fetching ? (
         <Loading />
       ) : observations.length === 0 ? (
@@ -124,6 +139,8 @@ export const PriceEvolution = ({
           </WithClassName>
         </div>
       )}
+      {/*FIXME: placeholder values */}
+      {/* <CardFooter date="March 7, 2024, 1:28 PM" source="Lindas" /> */}
     </Card>
   );
 };
@@ -155,10 +172,16 @@ export const PriceEvolutionLineCharts = memo(
     ] as string[];
 
     return (
-      <>
+      <Box
+        display={"flex"}
+        sx={{
+          flexDirection: "column",
+          gap: 6.5,
+        }}
+      >
         {priceComponents.map((pc, i) => {
           return (
-            <Box sx={{ my: 4 }} key={i}>
+            <Box key={i}>
               <Box sx={{ fontSize: "1rem", fontWeight: "bold" }}>
                 {getLocalizedLabel({ id: pc })}
               </Box>
@@ -223,7 +246,7 @@ export const PriceEvolutionLineCharts = memo(
             </Box>
           );
         })}
-      </>
+      </Box>
     );
   }
 );

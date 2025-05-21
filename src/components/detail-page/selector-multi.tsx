@@ -1,5 +1,5 @@
 import { t, Trans } from "@lingui/macro";
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import { useMemo } from "react";
 
 import { Combobox, ComboboxMulti } from "src/components/combobox";
@@ -30,29 +30,26 @@ export const SelectorMulti = ({
 
   return (
     <Box
-      component="fieldset"
       sx={{
         border: 0,
-        flexDirection: "column",
-        justifyContent: "flex-start",
+        display: "grid",
+        gap: 4,
         bgcolor: "muted.colored",
-        px: 4,
-        py: 4,
+        alignItems: "end",
         zIndex: 13,
-        "> div": { mt: 1 },
-        "> fieldset": { mt: 2, border: 0 },
+        mt: 1,
+        gridTemplateColumns: {
+          xxs: "1fr",
+          sm: "repeat(2, 1fr)",
+          md: "1fr",
+          lg: "repeat(2, 1fr)",
+          xl: "repeat(4, 1fr)",
+        },
+        "& > *": {
+          minWidth: 0,
+        },
       }}
-      display="flex"
     >
-      <Typography
-        component="legend"
-        variant="lead"
-        sx={{ display: "contents" }}
-      >
-        <Trans id="selector.legend.select.parameters">
-          Parameter auswählen
-        </Trans>
-      </Typography>
       <>
         {entity === "operator" ? (
           <OperatorsCombobox
