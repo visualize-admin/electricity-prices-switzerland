@@ -1,8 +1,19 @@
 import { Trans } from "@lingui/macro";
-import { Box, Link, Typography } from "@mui/material";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Box,
+  Button,
+  Link,
+  Popover,
+  Stack,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import { descending, rollup } from "d3";
 import { uniqBy } from "lodash";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 
 import {
   OperatorDocument,
@@ -13,6 +24,7 @@ import { Icon } from "src/icons";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { useLocale } from "src/lib/use-locale";
 
+// Define categories
 const CATEGORIES = [
   {
     id: OperatorDocumentCategory.Tariffs,
@@ -28,6 +40,19 @@ const CATEGORIES = [
       <Trans id="download.category.annualreports">Jahresrechnungen Netz</Trans>
     ),
   },
+  {
+    id: OperatorDocumentCategory.FinancialStatement,
+    itemLabel: (
+      <Trans id="download.category.financial-statement">
+        Financial Statement
+      </Trans>
+    ),
+    categoryLabel: (
+      <Trans id="download.category.financial-statement-report">
+        Financial Statement Report
+      </Trans>
+    ),
+  },
 ];
 
 const DocumentList = ({
@@ -39,32 +64,41 @@ const DocumentList = ({
 }) => {
   return (
     <Box component="ul" sx={{ listStyle: "none", m: 0, p: 0 }}>
-      {documents.map((doc) => {
-        return (
-          <Box
-            component="li"
-            key={doc.id + doc.url}
-            sx={{ ml: 0, mb: 2, p: 0 }}
-            typography="body2"
-          >
-            <Link href={doc.url} variant="body2">
-              <Box display="flex">
-                <Box sx={{ flexShrink: 0, mr: 2 }}>
-                  <Icon name="file" size={20} />
-                </Box>{" "}
-                {itemLabel} {doc.year}(
-                <Trans id="download.filetype.pdf">PDF-Datei</Trans>)
-              </Box>
-            </Link>
-          </Box>
-        );
-      })}
+      {documents.map((doc) => (
+        <Box
+          component="li"
+          key={doc.id + doc.url}
+          sx={{ ml: 0, mb: 2, p: 0 }}
+          typography="body2"
+        >
+          <Link href={doc.url} variant="body2" underline="hover">
+            <Box display="flex" alignItems="center" gap={1}>
+              <Icon name="file" size={20} />
+              <Typography variant="body2" fontWeight={500}>
+                {itemLabel} {doc.year}
+              </Typography>
+              <Typography variant="caption" color="text.secondary">
+                (<Trans id="download.filetype.pdf">PDF-Datei</Trans>)
+              </Typography>
+            </Box>
+          </Link>
+        </Box>
+      ))}
     </Box>
   );
 };
 
 export const OperatorDocuments = ({ id }: { id: string }) => {
   const locale = useLocale();
+  const theme = useTheme();
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [expanded, setExpanded] = useState<string | false>(false);
+  const handleOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const [documentsQuery] = useOperatorDocumentsQuery({
     variables: { locale, id },
@@ -75,7 +109,6 @@ export const OperatorDocuments = ({ id }: { id: string }) => {
   const geverDocuments =
     documentsQuery.data?.operator?.geverDocuments ?? EMPTY_ARRAY;
 
-  // Deduplicate documents taking in priority GEVER documents
   const documents = uniqBy(
     [...geverDocuments, ...legacyDocuments],
     (doc) => `${doc.category} - ${doc.year}`
@@ -89,10 +122,7 @@ export const OperatorDocuments = ({ id }: { id: string }) => {
     );
   }, [documents]);
 
-  if (documentsQuery.fetching) {
-    // Don't show spinner here
-    return null;
-  }
+  if (documentsQuery.fetching) return null;
 
   if (documents.length === 0) {
     return (
@@ -106,27 +136,83 @@ export const OperatorDocuments = ({ id }: { id: string }) => {
 
   return (
     <>
-      {CATEGORIES.map((category) => {
-        const docs = documentsByCategory.get(category.id);
+      {/* Button Trigger */}
+      <Button
+        variant="text"
+        startIcon={<Icon name="download" size={20} />}
+        onClick={handleOpen}
+        color="tertiary"
+      >
+        <Typography variant="body2">
+          <Trans id="download.cta">Download Reports & Tariffs</Trans>
+        </Typography>
+      </Button>
 
-        if (!docs) {
-          return null;
-        }
+      {/* Popover */}
+      <Popover
+        open={!!anchorEl}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+        slotProps={{
+          paper: {
+            sx: {
+              mt: 1,
+              width: 420,
+              maxWidth: "100%",
+              borderRadius: 2,
+              boxShadow: theme.shadows[3],
+            },
+          },
+        }}
+      >
+        <Stack direction={"column"} spacing={2} py={8} px={10}>
+          <Typography
+            variant="h5"
+            fontWeight={700}
+            sx={{
+              fontFeatureSettings: "'liga' off, 'clig' off",
+            }}
+          >
+            <Trans id="download.reports">Download Reports</Trans>
+          </Typography>
 
-        return (
-          <Box key={category.id} sx={{ mx: 4, my: 6 }}>
-            <Typography
-              component="h4"
-              sx={{ mb: 3 }}
-              variant="body2"
-              fontWeight={600}
+          <Typography
+            variant="h2"
+            sx={{
+              fontFeatureSettings: "'liga' off, 'clig' off",
+            }}
+          >
+            {id}
+          </Typography>
+        </Stack>
+
+        {CATEGORIES.map((category) => {
+          const docs = documentsByCategory.get(category.id);
+          if (!docs) return null;
+
+          return (
+            <Accordion
+              key={category.id}
+              expanded={expanded === category.id}
+              onChange={(_, isExpanded) =>
+                setExpanded(isExpanded ? category.id : false)
+              }
+              sx={{
+                px: 10,
+              }}
+              disableGutters
             >
-              {category.categoryLabel}
-            </Typography>
-            <DocumentList itemLabel={category.itemLabel} documents={docs} />
-          </Box>
-        );
-      })}
+              <AccordionSummary expandIcon={<Icon name="chevrondown" />}>
+                {category.categoryLabel}
+              </AccordionSummary>
+              <AccordionDetails>
+                <DocumentList itemLabel={category.itemLabel} documents={docs} />
+              </AccordionDetails>
+            </Accordion>
+          );
+        })}
+      </Popover>
     </>
   );
 };
