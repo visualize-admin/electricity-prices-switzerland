@@ -123,11 +123,11 @@ msgstr "Jahresrechnungen Netz"
 
 #: src/components/operator-documents.tsx:46
 msgid "download.category.financial-statement"
-msgstr "Financial Statement"
+msgstr "Finanzbericht"
 
 #: src/components/operator-documents.tsx:51
 msgid "download.category.financial-statement-report"
-msgstr "Financial Statement Report"
+msgstr "Finanzbericht"
 
 #: src/components/operator-documents.tsx:31
 msgid "download.category.tariff"
@@ -139,15 +139,19 @@ msgstr "Tarifblätter"
 
 #: src/components/operator-documents.tsx:147
 msgid "download.cta"
-msgstr "Download Reports & Tariffs"
+msgstr "Download Berichte & Tarife"
 
 #: src/components/operator-documents.tsx:81
 msgid "download.filetype.pdf"
 msgstr "PDF-Datei"
 
+#: src/components/operator-documents.tsx:130
+msgid "download.nooperatordocuments"
+msgstr "Keine Netzbetreiber-Dokumente"
+
 #: src/components/operator-documents.tsx:177
 msgid "download.reports"
-msgstr "Download Reports"
+msgstr "Berichte herunterladen"
 
 #: src/domain/translation.tsx:91
 msgid "filters.category"

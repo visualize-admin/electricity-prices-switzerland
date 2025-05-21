@@ -123,11 +123,11 @@ msgstr "Conti annuali della rete"
 
 #: src/components/operator-documents.tsx:46
 msgid "download.category.financial-statement"
-msgstr ""
+msgstr "Relazione finanziaria"
 
 #: src/components/operator-documents.tsx:51
 msgid "download.category.financial-statement-report"
-msgstr ""
+msgstr "Relazione finanziaria"
 
 #: src/components/operator-documents.tsx:31
 msgid "download.category.tariff"
@@ -139,15 +139,19 @@ msgstr "Fogli tariffari"
 
 #: src/components/operator-documents.tsx:147
 msgid "download.cta"
-msgstr ""
+msgstr "Scarica i rapporti e le tariffe"
 
 #: src/components/operator-documents.tsx:81
 msgid "download.filetype.pdf"
 msgstr "Documento PDF"
 
+#: src/components/operator-documents.tsx:130
+msgid "download.nooperatordocuments"
+msgstr "Nessun documento dell'operatore di rete"
+
 #: src/components/operator-documents.tsx:177
 msgid "download.reports"
-msgstr ""
+msgstr "Scarica i rapporti"
 
 #: src/domain/translation.tsx:91
 msgid "filters.category"

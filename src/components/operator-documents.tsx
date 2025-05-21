@@ -43,13 +43,11 @@ const CATEGORIES = [
   {
     id: OperatorDocumentCategory.FinancialStatement,
     itemLabel: (
-      <Trans id="download.category.financial-statement">
-        Financial Statement
-      </Trans>
+      <Trans id="download.category.financial-statement">Finanzbericht</Trans>
     ),
     categoryLabel: (
       <Trans id="download.category.financial-statement-report">
-        Financial Statement Report
+        Bericht zum Finanzbericht
       </Trans>
     ),
   },
@@ -144,7 +142,7 @@ export const OperatorDocuments = ({ id }: { id: string }) => {
         color="tertiary"
       >
         <Typography variant="body2">
-          <Trans id="download.cta">Download Reports & Tariffs</Trans>
+          <Trans id="download.cta">Download Berichte & Tarife</Trans>
         </Typography>
       </Button>
 
