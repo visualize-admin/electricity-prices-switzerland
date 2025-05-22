@@ -22,7 +22,7 @@ import {
   Resolvers,
   SwissMedianObservationResolvers,
 } from "src/graphql/resolver-types";
-import { decryptSunshineCsv } from "src/lib/decrypt-sunshine-csv";
+import { decryptSunshineCsv, getSunshineData } from "src/lib/sunshine-csv";
 import { defaultLocale } from "src/locales/locales";
 import {
   getCantonMedianCube,
@@ -34,6 +34,7 @@ import {
   getView,
 } from "src/rdf/queries";
 import { fetchOperatorInfo, search } from "src/rdf/search-queries";
+import * as fs from "fs";
 
 const gfmSyntax = require("micromark-extension-gfm");
 const gfmHtml = require("micromark-extension-gfm/html");
@@ -54,63 +55,41 @@ const expectedCubeDimensions = [
   "https://cube.link/observedBy",
 ];
 
-const parseNumber = (val: string): number | null => {
-  const num = parseFloat(val);
-  return isNaN(num) ? null : num;
-};
-
-type RawRow = Record<string, string>;
-
 const Query: QueryResolvers = {
-  sunshineData: async (_parent, _args) => {
-    try {
-      const csvBuffer = decryptSunshineCsv();
-      const csv = csvBuffer.toString("utf-8");
-
-      const rows: RawRow[] = parse(csv, {
-        columns: true,
-        skip_empty_lines: true,
-        trim: true,
-      });
-      const data = rows.map((row) => ({
-        SunPartnerID: parseInt(row.SunPartnerID),
-        SunUID: row.SunUID,
-        SunName: row.SunName,
-        SunPeriode: row.SunPeriode,
-        SunFrankenRegel: parseNumber(row.SunFrankenRegel),
-        SunInfoJaNein: row.SunInfoJaNein,
-        SunInfoTageimVoraus: parseInt(row.SunInfoTageimVoraus),
-        SunNetzkostenNE5: parseNumber(row.SunNetzkostenNE5),
-        SunNetzkostenNE6: parseNumber(row.SunNetzkostenNE6),
-        SunNetzkostenNE7: parseNumber(row.SunNetzkostenNE7),
-        SunProdukteAnzahl: parseInt(row.SunProdukteAnzahl),
-        SunProdukteAuswahl: row.SunProdukteAuswahl,
-        SunRechtzeitig: parseInt(row.SunRechtzeitig),
-        SunSAIDItotal: parseNumber(row.SunSAIDItotal),
-        SunSAIDIungeplant: parseNumber(row.SunSAIDIungeplant),
-        SunSAIFItotal: parseNumber(row.SunSAIFItotal),
-        SunSAIFIungeplant: parseNumber(row.SunSAIFIungeplant),
-        SunTarifEC2: parseNumber(row.SunTarifEC2),
-        SunTarifEC3: parseNumber(row.SunTarifEC3),
-        SunTarifEC4: parseNumber(row.SunTarifEC4),
-        SunTarifEC6: parseNumber(row.SunTarifEC6),
-        SunTarifEH2: parseNumber(row.SunTarifEH2),
-        SunTarifEH4: parseNumber(row.SunTarifEH4),
-        SunTarifEH7: parseNumber(row.SunTarifEH7),
-        SunTarifNC2: parseNumber(row.SunTarifNC2),
-        SunTarifNC3: parseNumber(row.SunTarifNC3),
-        SunTarifNC4: parseNumber(row.SunTarifNC4),
-        SunTarifNC6: parseNumber(row.SunTarifNC6),
-        SunTarifNH2: parseNumber(row.SunTarifNH2),
-        SunTarifNH4: parseNumber(row.SunTarifNH4),
-        SunTarifNH7: parseNumber(row.SunTarifNH7),
-      }));
-
-      return data;
-    } catch (e) {
-      console.error("[Decrypt CSV Error]", e);
-      throw new GraphQLError("Failed to decrypt sunshine data.");
+  sunshineData: async (_parent, args) => {
+    const filter = args.filter;
+    const sunshineData = await getSunshineData();
+    return sunshineData.filter((row) => {
+      if (
+        filter.operatorId !== undefined &&
+        row.operatorId !== filter.operatorId
+      ) {
+        return false;
+      }
+      if (filter.period !== undefined && row.period !== filter.period) {
+        return false;
+      }
+      return true;
+    });
+  },
+  sunshineTariffs: async (_parent, args) => {
+    const filter = args.filter;
+    if (!filter.operatorId && !filter.period) {
+      throw new Error("Must either filter by year or by provider.");
     }
+    const sunshineData = await getSunshineData();
+    return sunshineData.filter((row) => {
+      if (
+        filter.operatorId !== undefined &&
+        row.operatorId !== filter.operatorId
+      ) {
+        return false;
+      }
+      if (filter.period !== undefined && row.period !== filter.period) {
+        return false;
+      }
+      return row;
+    });
   },
   systemInfo: async () => {
     return {
@@ -167,7 +146,6 @@ const Query: QueryResolvers = {
       ...o,
     }));
 
-    // Should we type-check with io-ts here? Probably not necessary because the GraphQL API will also type-check against the schema.
     return operatorObservations as ResolvedOperatorObservation[];
   },
   cantonMedianObservations: async (
@@ -230,7 +208,6 @@ const Query: QueryResolvers = {
       ...x,
     }));
 
-    // Should we type-check with io-ts here? Probably not necessary because the GraphQL API will also type-check against the schema.
     return medianObservations as ResolvedCantonMedianObservation[];
   },
   swissMedianObservations: async (_, { locale, filters }, ctx, info) => {
@@ -286,7 +263,6 @@ const Query: QueryResolvers = {
       __typename: "MedianObservation",
     }));
 
-    // Should we type-check with io-ts here? Probably not necessary because the GraphQL API will also type-check against the schema.
     return medianObservations as ResolvedSwissMedianObservation[];
   },
   operators: async (_, { query, ids, locale }) => {
