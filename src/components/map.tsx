@@ -10,7 +10,7 @@ import DeckGL, { DeckGLRef } from "@deck.gl/react/typed";
 import { Trans } from "@lingui/macro";
 import { Box, Typography } from "@mui/material";
 import centroid from "@turf/centroid";
-import { color, extent, group, mean, rollup, ScaleThreshold } from "d3";
+import { extent, group, mean, rollup, ScaleThreshold } from "d3";
 import html2canvas from "html2canvas";
 import React, {
   ComponentProps,
@@ -28,6 +28,7 @@ import { TooltipBoxWithoutChartState } from "src/components/charts-generic/inter
 import { WithClassName } from "src/components/detail-page/with-classname";
 import { HighlightContext } from "src/components/highlight-context";
 import { Loading, NoDataHint, NoGeoDataHint } from "src/components/hint";
+import { getFillColor } from "src/components/map-helpers";
 import { MapPriceColorLegend } from "src/components/price-color-legend";
 import { useGeoData } from "src/data/geo";
 import { useFormatCurrency } from "src/domain/helpers";
@@ -318,7 +319,7 @@ export const ChoroplethMap = ({
   observationsQueryFetching: boolean;
   medianValue: number | undefined;
   municipalities: { id: string; name: string }[];
-  colorScale: ScaleThreshold<number, string> | undefined | 0;
+  colorScale: ScaleThreshold<number, string> | undefined;
   onMunicipalityLayerClick: (_item: PickingInfo) => void;
   controls?: React.MutableRefObject<{
     getImageData: () => Promise<string | undefined>;
@@ -420,22 +421,6 @@ export const ChoroplethMap = ({
   }, [geoData, observationsByMunicipalityId]);
 
   const formatNumber = useFormatCurrency();
-
-  const getColor = useCallback(
-    (v: number | undefined, highlighted: boolean): [number, number, number] => {
-      if (v === undefined) {
-        return [0, 0, 0];
-      }
-      const c = colorScale && colorScale(v);
-      const rgb =
-        c &&
-        color(c)
-          ?.darker(highlighted ? 1 : 0)
-          ?.rgb();
-      return rgb ? [rgb.r, rgb.g, rgb.b] : [0, 0, 0];
-    },
-    [colorScale]
-  );
 
   const { value: highlightContext } = useContext(HighlightContext);
 
@@ -589,7 +574,8 @@ export const ChoroplethMap = ({
 
           const obs = observationsByMunicipalityId.get(id);
           return obs
-            ? getColor(
+            ? getFillColor(
+                colorScale,
                 mean(obs, (d) => d.value),
                 false
               )
@@ -698,12 +684,12 @@ export const ChoroplethMap = ({
     ];
   }, [
     geoData,
-    onMunicipalityLayerClick,
-    indexes,
     observationsByMunicipalityId,
-    getColor,
-    hovered,
     highlightContext?.id,
+    hovered,
+    indexes,
+    onMunicipalityLayerClick,
+    colorScale,
   ]);
 
   return (
