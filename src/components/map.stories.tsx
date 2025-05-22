@@ -428,7 +428,7 @@ export const Operators = () => {
 const BASE_URL =
   process.env.NODE_ENV === "production" ? "" : "http://localhost:3000";
 const GRAPHQL_URL = `${BASE_URL}/api/graphql`;
-console.log("GRAPHQL_URL", GRAPHQL_URL);
+
 const client = createClient({
   url: GRAPHQL_URL,
 });
