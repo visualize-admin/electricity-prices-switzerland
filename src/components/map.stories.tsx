@@ -122,16 +122,16 @@ const getOperatorsFeatureCollection = (
 };
 
 export const Operators = () => {
-  const year = "2025";
+  const period = "2024";
   const { data: operatorMunicipalities } = useFetch({
-    key: `operator-municipalities-${year}`,
-    queryFn: () => getOperatorMunicipalities(year),
+    key: `operator-municipalities-${period}`,
+    queryFn: () => getOperatorMunicipalities(period),
   });
-  const { data: geoData } = useGeoData("2024");
+  const { data: geoData } = useGeoData(period);
   const [sunshineTarriffs] = useSunshineTariffQuery({
     variables: {
       filter: {
-        period: "2024",
+        period: period,
       },
     },
   });
@@ -271,7 +271,8 @@ export const Operators = () => {
                     getFillColor: [getMapFillColor],
                   },
                   getFillColor: (x) => getMapFillColor(x),
-                  getLineColor: [255, 255, 255],
+                  getLineColor: [255, 0, 0, 0],
+                  lineWidthUnits: "pixels",
                   pickable: true,
                   onClick: (info) => {
                     console.log("Clicked on operator:", info.object);
