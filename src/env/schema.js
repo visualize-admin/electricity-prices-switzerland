@@ -21,7 +21,7 @@ export const serverSchema = z.object({
       "https://idp-cert.gate-r.eiam.admin.ch/auth/sts/v14/certificatetransport"
     ),
 
-  PREVIEW_PASSWORD: z.string(),
+  PREVIEW_PASSWORD: z.string().optional(),
 
   GEVER_BINDING_RPSTS: z
     .string()
@@ -49,7 +49,7 @@ export const serverSchema = z.object({
   // Apollo plugin
   METRICS_PLUGIN_ENABLED: z.string().optional(),
 
-  NODE_ENV: z.string(),
+  NODE_ENV: z.string().default("development"),
 
   // Sparql
   SPARQL_EDITOR: z.string().optional(),
