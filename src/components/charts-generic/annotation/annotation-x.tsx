@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, useMediaQuery, useTheme } from "@mui/material";
 import * as React from "react";
 
 import { DOT_RADIUS } from "src/components/charts-generic/rangeplot/rangeplot-state";
@@ -39,12 +39,16 @@ export const AnnotationX = () => {
     annotationLabelUnderlineColor,
   } = useChartTheme();
 
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   return (
     <>
       {annotations &&
         annotations.map((a, i) => {
           const x = margins.left + a.x;
-          const y1 = a.yLabel + annotationFontSize * a.nbOfLines;
+          const y1 =
+            (isMobile ? margins.top / 2 + a.yLabel : a.yLabel) +
+            annotationFontSize * a.nbOfLines;
           return (
             <React.Fragment key={i}>
               <g transform={`translate(0, 0)`}>
@@ -126,11 +130,11 @@ export const AnnotationXLabel = () => {
             key={`${a.label}-${i}`}
             sx={{
               width: width,
-              p: 1,
+              p: { xxs: 0, md: 1 },
               zIndex: 2,
               position: "absolute",
               left: 0,
-              top: a.yLabel,
+              top: { xxs: bounds.margins.top / 2 + a.yLabel, md: a.yLabel },
               pointerEvents: "none",
               textAlign: "left",
               transform: `translate3d(${ANNOTATION_TRIANGLE_WIDTH}px, -40%, 0)`,

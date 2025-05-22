@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { ascending, bin, interpolateHsl, max, min, scaleLinear } from "d3";
 import { ReactNode, useCallback } from "react";
 
@@ -93,8 +93,11 @@ const useHistogramState = ({
     )
   );
 
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+
   const margins = {
-    top: 70,
+    top: isMobile ? 140 : 70,
     right: 40,
     bottom: 100,
     left: left + LEFT_MARGIN_OFFSET,

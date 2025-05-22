@@ -1,3 +1,4 @@
+import { useMediaQuery, useTheme } from "@mui/material";
 import { axisLeft, select, Selection } from "d3";
 import { useEffect, useRef } from "react";
 
@@ -21,6 +22,9 @@ export const AxisHeightLinear = ({
   const ref = useRef<SVGGElement>(null);
   const formatNumber =
     format === "currency" ? useFormatCurrency() : useFormatNumber();
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
   const { yScale, yAxisLabel, bounds } = useChartState() as
     | ColumnsState
@@ -73,7 +77,7 @@ export const AxisHeightLinear = ({
       <g>
         <text
           x={0}
-          y={0}
+          y={isMobile ? bounds.margins.top / 2 - labelFontSize : 0}
           dy={bounds.margins.top / 2 - labelFontSize / 2}
           fontSize={labelFontSize}
           fill={axisLabelColor}
