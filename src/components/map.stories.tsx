@@ -76,6 +76,22 @@ type OperatorLayerProperties = {
   operators: number[];
 };
 
+const multiGroupBy = <T,>(arr: T[], iter: (item: T) => string[]) => {
+  const res: Record<string, T[]> = {};
+  for (let i = 0; i < arr.length; i++) {
+    const item = arr[i];
+    const keys = iter(item);
+    for (let j = 0; j < keys.length; j++) {
+      const key = keys[j];
+      if (!res[key]) {
+        res[key] = [];
+      }
+      res[key].push(item);
+    }
+  }
+  return res;
+};
+
 const getOperatorsFeatureCollection = (
   operatorMunicipalities: OperatorMunicipalityRecord[],
   municipalities: MunicipalityFeatureCollection
@@ -93,11 +109,15 @@ const getOperatorsFeatureCollection = (
     new Set(operatorMunicipalities.map((x) => x.municipality))
   );
 
-  // Group municipalities by operator
-  const municipalitiesByOperators = groupBy(municipalitySet, (x) => {
-    return sort(operatorsByMunicipality[x].map((x) => x.operator)).join("/");
+  // Group municipalities by operator, a municipality will be part of several groups if it
+  // has several operators, the groups are sorted so that the multiple operators are last
+  // Example: Kilchberg is served by EWL and EWA, it will be part of 3 groups
+  // EWL, EWA, EWL/EWA
+  const municipalitiesByOperators = multiGroupBy(municipalitySet, (x) => {
+    const operatorIds = operatorsByMunicipality[x].map((x) => x.operator);
+    const all = sort(operatorIds).join("/");
+    return [...operatorIds, all];
   });
-
 
   const municipalitiesById = keyBy(municipalities.features, "id");
   const operatorFeatures = Object.entries(municipalitiesByOperators)
@@ -107,7 +127,6 @@ const getOperatorsFeatureCollection = (
         .map((muni) => municipalitiesById[muni])
         .filter(Boolean);
 
-      console.log({ municipalityFeatures });
       if (municipalityFeatures.length === 0) {
         console.warn(
           `No geometry found for operator ${operators} with municipalities: ${municipalities
@@ -327,7 +346,6 @@ export const Operators = () => {
               controller={true}
               ref={deckglRef}
               layers={[
-                // Municipality Layer
                 new GeoJsonLayer<
                   Feature<Polygon | MultiPolygon, OperatorLayerProperties>
                 >({
@@ -344,7 +362,6 @@ export const Operators = () => {
                   getLineColor: [255, 255, 255, 100],
                   getLineWidth: 1.5,
                   lineWidthUnits: "pixels",
-                  pickable: true,
                   onClick: (info) => {
                     console.log("Clicked on operator:", info.object);
                     if (info.object && info.viewport) {
@@ -366,6 +383,27 @@ export const Operators = () => {
                     },
                   },
                 }),
+
+                // Transparent layers for hover effect
+                new GeoJsonLayer<
+                  Feature<Polygon | MultiPolygon, OperatorLayerProperties>
+                >({
+                  id: "operator-layer-pickable",
+                  data: enhancedGeoData.features,
+
+                  filled: true,
+                  autoHighlight: true,
+                  stroked: false,
+                  highlightColor: [0, 0, 0, 100],
+                  updateTriggers: {
+                    getFillColor: [getMapFillColor],
+                  },
+                  getFillColor: TRANSPARENT,
+                  lineWidthUnits: "pixels",
+                  pickable: true,
+                }),
+
+                // Municipality Layer
                 new GeoJsonLayer({
                   id: "municipality-layer",
                   data: geoData.municipalities.features,
