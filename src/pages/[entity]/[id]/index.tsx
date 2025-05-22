@@ -202,7 +202,7 @@ const ElectricityTariffsPage = (props: Props) => {
   const { id, name, entity } = props;
 
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.up("md"));
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
   return (
     <>
@@ -258,7 +258,7 @@ const ElectricityTariffsPage = (props: Props) => {
               <DetailPageLayout
                 download={query.download}
                 selector={
-                  isMobile ? (
+                  !isMobile ? (
                     <DetailsPageSidebar id={id} entity={entity as Entity} />
                   ) : null
                 }

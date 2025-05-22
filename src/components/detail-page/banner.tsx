@@ -1,5 +1,13 @@
 import { Trans } from "@lingui/macro";
-import { Box, Button, Stack, Typography, Link as UILink } from "@mui/material";
+import {
+  Box,
+  Button,
+  Stack,
+  Typography,
+  Link as UILink,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { Fragment, useState } from "react";
@@ -74,6 +82,9 @@ export const DetailPageBanner = ({
 }) => {
   const { query } = useRouter();
 
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+
   return (
     <Box
       sx={{
@@ -85,7 +96,7 @@ export const DetailPageBanner = ({
       <Box
         display="grid"
         sx={{
-          mb: 6,
+          mb: { md: 6 },
           gridTemplateColumns: [
             `1fr`,
             `minmax(150px,1fr) minmax(300px,3fr) minmax(150px,1fr)`,
@@ -121,7 +132,13 @@ export const DetailPageBanner = ({
       <Box sx={{ mx: "auto", my: 2 }}>
         <Typography
           variant="caption"
-          sx={{ color: "secondary.main" }}
+          sx={{
+            color: "secondary.main",
+            display: {
+              xxs: "none",
+              md: "block",
+            },
+          }}
           display="block"
         >
           {entity === "canton" ? (
@@ -138,10 +155,23 @@ export const DetailPageBanner = ({
               display={"flex"}
               sx={{
                 gap: 2,
-                alignItems: "center",
+                flexDirection: {
+                  xxs: "column",
+                  md: "row",
+                },
+                alignItems: { md: "center" },
               }}
             >
-              <Icon name="industry" size={32} />
+              <Stack
+                direction={"row"}
+                justifyContent={"space-between"}
+                alignItems={"center"}
+              >
+                <Icon name="industry" size={32} />
+                {entity === "operator" && isMobile ? (
+                  <OperatorDocuments id={id} />
+                ) : null}
+              </Stack>
               <Typography
                 component="h1"
                 variant="h1"
@@ -206,7 +236,9 @@ export const DetailPageBanner = ({
               )}
             </Box>
           </Stack>
-          {entity === "operator" ? <OperatorDocuments id={id} /> : null}
+          {entity === "operator" && !isMobile ? (
+            <OperatorDocuments id={id} />
+          ) : null}
         </Stack>
       </Box>
     </Box>
