@@ -3,15 +3,21 @@ import DeckGL from "@deck.gl/react/typed";
 import { I18n } from "@lingui/core";
 import { I18nProvider } from "@lingui/react";
 import { Box } from "@mui/material";
+import { Decorator } from "@storybook/react";
 import * as turf from "@turf/turf";
 import { MultiPolygon, Polygon } from "geojson";
 import { groupBy, keyBy } from "lodash";
 import { useMemo } from "react";
+import { ObjectInspector } from "react-inspector";
+import { createClient, Provider } from "urql";
 
 import { ChoroplethMap } from "src/components/map";
+import { getFillColor } from "src/components/map-helpers";
 import { useGeoData } from "src/data/geo";
 import { useFetch } from "src/data/use-fetch";
 import { useColorScale } from "src/domain/data";
+import { useSunshineTariffQuery } from "src/graphql/queries";
+import { truthy } from "src/lib/truthy";
 import { getOperatorMunicipalities } from "src/rdf/queries";
 
 import { props } from "./map.mock";
@@ -51,20 +57,32 @@ export const Example = () => {
   );
 };
 
-export const OperatorsFromData = () => {
+export const Operators = () => {
   const year = "2025";
   const { data: operatorMunicipalities } = useFetch({
     key: `operator-municipalities-${year}`,
     queryFn: () => getOperatorMunicipalities(year),
   });
   const { data: geoData } = useGeoData("2024");
-  const colorScale = useColorScale({
-    observations: [],
-    medianValue: 0,
-    accessor: colorAccessor,
+  const [sunshineTarriffs] = useSunshineTariffQuery({
+    variables: {
+      filter: {
+        period: "2024",
+      },
+    },
   });
 
-  // Create a GeoJSON where municipalities are grouped by operator
+  const sunshineTariffsByOperator = useMemo(() => {
+    return keyBy(sunshineTarriffs.data?.sunshineTariffs ?? [], "operatorId");
+  }, [sunshineTarriffs.data?.sunshineTariffs]);
+
+  const colorScale = useColorScale({
+    observations: sunshineTarriffs.data?.sunshineTariffs ?? [],
+    accessor: (x) => {
+      return x.tariffEC2 ?? 0;
+    },
+  });
+
   const enhancedGeoData = useMemo(() => {
     if (!operatorMunicipalities || !geoData) return null;
 
@@ -76,13 +94,14 @@ export const OperatorsFromData = () => {
 
     // Index original municipalities by ID for quick lookup
     const municipalitiesById = keyBy(geoData.municipalities.features, "id");
-    // Create a new feature collection for each operator
+
+    // Create a municipality collection for each operator
     const operatorFeatures = Object.entries(municipalitiesByOperator)
       .map(([operator, municipalities]) => {
         // Get geometry features for all municipalities of this operator
         const municipalityFeatures = municipalities
           .map((muni) => municipalitiesById[muni.municipality])
-          .filter(Boolean); // Filter out undefined/null values
+          .filter(Boolean);
 
         if (municipalityFeatures.length === 0) {
           console.warn(
@@ -100,20 +119,26 @@ export const OperatorsFromData = () => {
           )
         );
 
+        const geometry =
+          municipalityFeatures.length > 1
+            ? turf.union(featureCollection)?.geometry
+            : featureCollection.features[0].geometry;
+
+        if (!geometry) {
+          return null;
+        }
+
         // Create a feature for this operator with the merged geometry
         return {
           type: "Feature",
           properties: {
-            name: operator,
+            operatorId: parseInt(operator, 10),
             municipalityCount: municipalities.length,
           },
-          geometry:
-            municipalityFeatures.length > 1
-              ? turf.union(featureCollection)?.geometry
-              : featureCollection.features[0].geometry,
+          geometry: geometry,
         };
       })
-      .filter(Boolean);
+      .filter(truthy);
 
     // Create the final GeoJSON
     return {
@@ -122,9 +147,9 @@ export const OperatorsFromData = () => {
     };
   }, [operatorMunicipalities, geoData]);
 
-  console.log({ enhancedGeoData });
   return (
     <I18nProvider i18n={i18n}>
+      <ObjectInspector data={sunshineTarriffs} />
       <Box
         width="800px"
         height="800px"
@@ -144,7 +169,6 @@ export const OperatorsFromData = () => {
                 if (!info.object) {
                   return false;
                 }
-                console.log("Tooltip info:", info.object.properties);
                 return info.object.properties.name ?? "";
               }}
               initialViewState={{
@@ -179,7 +203,24 @@ export const OperatorsFromData = () => {
                   filled: true,
                   autoHighlight: true,
                   highlightColor: [0, 0, 255],
-                  getFillColor: [0, 255, 0, 100],
+                  updateTriggers: {
+                    getFillColor: [colorScale, sunshineTariffsByOperator],
+                  },
+                  getFillColor: (x) => {
+                    const operatorId = x.properties.operatorId;
+                    console.log("x", x, sunshineTariffsByOperator);
+                    const operator = sunshineTariffsByOperator[operatorId];
+                    if (!operator) {
+                      return [255, 0, 0];
+                    }
+                    const tariff = operator.tariffEC2;
+                    console.log("tariff", tariff);
+                    if (tariff === null || tariff === undefined) {
+                      return [255, 0, 0];
+                    }
+                    const color = getFillColor(colorScale, tariff, false);
+                    return color;
+                  },
                   getLineColor: [255, 255, 255],
                   pickable: true,
                   onClick: (info) => {
@@ -195,10 +236,25 @@ export const OperatorsFromData = () => {
   );
 };
 
+const BASE_URL =
+  process.env.NODE_ENV === "production" ? "" : "http://localhost:3000";
+const GRAPHQL_URL = `${BASE_URL}/api/graphql`;
+console.log("GRAPHQL_URL", GRAPHQL_URL);
+const client = createClient({
+  url: GRAPHQL_URL,
+});
+const UrqlDecorator: Decorator = (Story) => {
+  return (
+    <Provider value={client}>
+      <Story />
+    </Provider>
+  );
+};
+
 const meta = {
   component: ChoroplethMap,
   title: "components/Map",
-  decorators: [],
+  decorators: [UrqlDecorator],
 };
 
 export default meta;

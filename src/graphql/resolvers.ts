@@ -61,8 +61,8 @@ const parseNumber = (val: string): number | null => {
   return isNaN(num) ? null : num;
 };
 
-const parseSunshineCsv = async () => {
-  const csv = await decryptSunshineCsv();
+const parseSunshineCsv = () => {
+  const csv = decryptSunshineCsv();
 
   const rows: RawRow[] = parse(csv, {
     columns: true,
@@ -72,43 +72,45 @@ const parseSunshineCsv = async () => {
   });
 
   const data = rows.map((row) => ({
-    SunPartnerId: parseInt(row.SunPartnerID, 10),
-    SunUID: row.SunUID,
-    SunName: row.SunName,
-    SunPeriod: row.SunPeriode,
-    SunFrancRule: parseNumber(row.SunFrankenRegel),
-    SunInfoYesNo: row.SunInfoJaNein,
-    SunInfoDaysInAdvance: parseInt(row.SunInfoTageimVoraus),
-    SunNetworkCostsNE5: parseNumber(row.SunNetzkostenNE5),
-    SunNetworkCostsNE6: parseNumber(row.SunNetzkostenNE6),
-    SunNetworkCostsNE7: parseNumber(row.SunNetzkostenNE7),
-    SunProductsCount: parseInt(row.SunProdukteAnzahl),
-    SunProductsSelection: row.SunProdukteAuswahl,
-    SunTimely: parseInt(row.SunRechtzeitig),
-    SunSAIDITotal: parseNumber(row.SunSAIDItotal),
-    SunSAIDIUnplanned: parseNumber(row.SunSAIDIungeplant),
-    SunSAIFITotal: parseNumber(row.SunSAIFItotal),
-    SunSAIFIUnplanned: parseNumber(row.SunSAIFIungeplant),
-    SunTariffEC2: parseNumber(row.SunTarifEC2),
-    SunTariffEC3: parseNumber(row.SunTarifEC3),
-    SunTariffEC4: parseNumber(row.SunTarifEC4),
-    SunTariffEC6: parseNumber(row.SunTarifEC6),
-    SunTariffEH2: parseNumber(row.SunTarifEH2),
-    SunTariffEH4: parseNumber(row.SunTarifEH4),
-    SunTariffEH7: parseNumber(row.SunTarifEH7),
-    SunTariffNC2: parseNumber(row.SunTarifNC2),
-    SunTariffNC3: parseNumber(row.SunTarifNC3),
-    SunTariffNC4: parseNumber(row.SunTarifNC4),
-    SunTariffNC6: parseNumber(row.SunTarifNC6),
-    SunTariffNH2: parseNumber(row.SunTarifNH2),
-    SunTariffNH4: parseNumber(row.SunTarifNH4),
-    SunTariffNH7: parseNumber(row.SunTarifNH7),
+    operatorId: parseInt(row.SunPartnerID, 10),
+    operatorUID: row.SunUID,
+    name: row.SunName,
+    period: row.SunPeriode,
+    francRule: parseNumber(row.SunFrankenRegel),
+    infoYesNo: row.SunInfoJaNein,
+    infoDaysInAdvance: parseInt(row.SunInfoTageimVoraus),
+    networkCostsNE5: parseNumber(row.SunNetzkostenNE5),
+    networkCostsNE6: parseNumber(row.SunNetzkostenNE6),
+    networkCostsNE7: parseNumber(row.SunNetzkostenNE7),
+    productsCount: parseInt(row.SunProdukteAnzahl),
+    productsSelection: row.SunProdukteAuswahl,
+    timely: parseInt(row.SunRechtzeitig),
+    saidiTotal: parseNumber(row.SunSAIDItotal),
+    saidiUnplanned: parseNumber(row.SunSAIDIungeplant),
+    saifiTotal: parseNumber(row.SunSAIFItotal),
+    saifiUnplanned: parseNumber(row.SunSAIFIungeplant),
+    tariffEC2: parseNumber(row.SunTarifEC2),
+    tariffEC3: parseNumber(row.SunTarifEC3),
+    tariffEC4: parseNumber(row.SunTarifEC4),
+    tariffEC6: parseNumber(row.SunTarifEC6),
+    tariffEH2: parseNumber(row.SunTarifEH2),
+    tariffEH4: parseNumber(row.SunTarifEH4),
+    tariffEH7: parseNumber(row.SunTarifEH7),
+    tariffNC2: parseNumber(row.SunTarifNC2),
+    tariffNC3: parseNumber(row.SunTarifNC3),
+    tariffNC4: parseNumber(row.SunTarifNC4),
+    tariffNC6: parseNumber(row.SunTarifNC6),
+    tariffNH2: parseNumber(row.SunTarifNH2),
+    tariffNH4: parseNumber(row.SunTarifNH4),
+    tariffNH7: parseNumber(row.SunTarifNH7),
   }));
 
   return data;
 };
 
-let sunshineDataCache: RawRow[] | undefined = undefined;
+type ParsedRow = ReturnType<typeof parseSunshineCsv>[number];
+
+let sunshineDataCache: ParsedRow[] | undefined = undefined;
 const getSunshineData = async () => {
   if (!sunshineDataCache) {
     sunshineDataCache = await parseSunshineCsv();
@@ -121,37 +123,35 @@ type RawRow = Record<string, string>;
 const Query: QueryResolvers = {
   sunshineData: async (_parent, args) => {
     const filter = args.filter;
-    return (await getSunshineData())
+    const sunshineData = await getSunshineData();
+    return sunshineData
       .filter((row) => {
         if (
-          filter.SunPartnerId !== undefined &&
-          row.SunPartnerId !== filter.SunPartnerId
+          filter.operatorId !== undefined &&
+          row.operatorId !== filter.operatorId
         ) {
           return false;
         }
-        if (
-          filter.SunPeriod !== undefined &&
-          row.SunPeriod !== filter.SunPeriod
-        ) {
+        if (filter.period !== undefined && row.period !== filter.period) {
           return false;
         }
         return true;
       })
       .map((row) => {
         return {
-          operatorId: row.SunPartnerId,
-          operatorUID: row.SunUID,
-          period: row.SunPeriod,
-          francRule: row.SunFrancRule,
-          infoYesNo: row.SunInfoYesNo,
-          infoDaysInAdvance: row.SunInfoDaysInAdvance,
-          productsCount: row.SunProductsCount,
-          productsSelection: row.SunProductsSelection,
-          timely: row.SunTimely,
-          saidiTotal: row.SunSAIDITotal,
-          saidiUnplanned: row.SunSAIDIUnplanned,
-          saifiTotal: row.SunSAIFITotal,
-          saifiUnplanned: row.SunSAIFIUnplanned,
+          operatorId: row.operatorId,
+          operatorUID: row.operatorUID,
+          period: row.period,
+          francRule: row.francRule,
+          infoYesNo: row.infoYesNo,
+          infoDaysInAdvance: row.infoDaysInAdvance,
+          productsCount: row.productsCount,
+          productsSelection: row.productsSelection,
+          timely: row.timely,
+          saidiTotal: row.saidiTotal,
+          saidiUnplanned: row.saidiUnplanned,
+          saifiTotal: row.saifiTotal,
+          saifiUnplanned: row.saidiUnplanned,
         };
       });
   },
@@ -160,6 +160,7 @@ const Query: QueryResolvers = {
     if (!filter.operatorId && !filter.period) {
       throw new Error("Must either filter by year or by provider.");
     }
+    const sunshineData = await getSunshineData();
     return sunshineData.filter((row) => {
       if (
         filter.operatorId !== undefined &&
@@ -170,13 +171,7 @@ const Query: QueryResolvers = {
       if (filter.period !== undefined && row.period !== filter.period) {
         return false;
       }
-      return {
-        operatorId: row.operatorId,
-        operatorUID: row.SunUID,
-        value: row[filter.Category as keyof typeof row],
-        period: row.SunPeriod,
-        category: filter.Category,
-      };
+      return row;
     });
   },
   systemInfo: async () => {

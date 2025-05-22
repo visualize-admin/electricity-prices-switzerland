@@ -1,8 +1,7 @@
-import { range, scaleThreshold } from "d3";
+import { extent, range, scaleThreshold } from "d3";
 import { useMemo } from "react";
 
 import buildEnv from "src/env/build";
-import { Observation as QueryObservation } from "src/graphql/queries";
 import { chartPalette } from "src/themes/palette";
 
 export type ObservationValue = string | number | boolean | Date;
@@ -45,22 +44,31 @@ export type ComponentFieldsFragment =
   | ComponentFields_Measure_Fragment
   | ComponentFields_Attribute_Fragment;
 
-export const useColorScale = ({
-  medianValue,
-}: {
-  observations: QueryObservation[];
-  medianValue: number | undefined;
-  accessor: (x: QueryObservation) => number;
+const getDomainFromMedianValue = (medianValue: number | undefined) => {
+  const m = medianValue ?? 0;
+  const domain = [m * 0.85, m * 0.95, m * 1.05, m * 1.15];
+  return domain;
+};
+
+export const useColorScale = <T>(options: {
+  observations: T[];
+  medianValue?: number | undefined;
+  accessor: (x: T) => number;
 }) => {
   return useMemo(() => {
-    const m = medianValue ?? 0;
-    const domain = [m * 0.85, m * 0.95, m * 1.05, m * 1.15];
+    const domain =
+      "medianValue" in options
+        ? getDomainFromMedianValue(options.medianValue)
+        : (extent(options.observations, (d) => options.accessor(d)) as [
+            number,
+            number
+          ]);
     const scale = scaleThreshold<number, string>()
       .domain(domain)
       .range(chartPalette.diverging.GreenToOrange);
 
     return scale;
-  }, [medianValue]);
+  }, [options]);
 };
 
 export type Entity = "municipality" | "operator" | "canton";
