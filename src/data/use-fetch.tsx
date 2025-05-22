@@ -1,7 +1,7 @@
 import mitt from "mitt";
 import { useState, useEffect } from "react";
 
-export type FetchDataState<T> =
+type FetchDataState<T> =
   | {
       state: "fetching";
       data: null;
@@ -73,7 +73,7 @@ class QueryCache {
 }
 
 // Singleton instance
-export const queryCache = new QueryCache();
+const queryCache = new QueryCache();
 
 export const useFetch = <T,>({
   key,

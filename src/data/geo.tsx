@@ -10,7 +10,7 @@ import {
   mesh as topojsonMesh,
 } from "topojson-client";
 
-import { queryCache, useFetch } from "src/data/use-fetch";
+import { useFetch } from "src/data/use-fetch";
 
 const fetchGeoData = async (year: string) => {
   const topo = await import(
@@ -37,7 +37,7 @@ const fetchGeoData = async (year: string) => {
   };
 };
 
-export type CantonFeatureCollection = FeatureCollection<
+type CantonFeatureCollection = FeatureCollection<
   Polygon | MultiPolygon,
   { id: string }
 >;
@@ -59,10 +59,6 @@ const fetchGeoDataOptions = (year: string) => ({
   queryFn: () => fetchGeoData(year),
   key: `geo-data-${year}`,
 });
-
-export const fetchGeoDataWitCache = async (year: string) => {
-  return queryCache.fetch<GeoData>(fetchGeoDataOptions(year));
-};
 
 export const useGeoData = (year: string) => {
   return useFetch<GeoData>(fetchGeoDataOptions(year));
