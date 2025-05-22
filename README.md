@@ -211,3 +211,17 @@ to "screenshots" instances, the traefik reverse proxy is used.
 A notebook containing Elcom specific SPARQL queries is available at [./book.sparqlbook](./book.sparqlbook).
 You need the [SPARQL Notebook Extension](https://marketplace.visualstudio.com/items?itemName=Zazuko.sparql-notebook)
 to open it.
+
+## Sunshine CSV
+
+At the moment, the Sunshine data is mocked and encrypted, it is available
+provided you have the password. Through the `yarn sunshine-csv` script you
+can manage it.
+
+```
+yarn sunshine-csv encrypt
+yarn sunshine-csv decrypt -o decrypted.csv
+
+# How it's parsed as a JSON used in the app
+yarn sunshine-csv json
+```

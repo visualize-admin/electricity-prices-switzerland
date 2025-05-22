@@ -22,7 +22,7 @@ import {
   Resolvers,
   SwissMedianObservationResolvers,
 } from "src/graphql/resolver-types";
-import { decryptSunshineCsv } from "src/lib/decrypt-sunshine-csv";
+import { decryptSunshineCsv, getSunshineData } from "src/lib/sunshine-csv";
 import { defaultLocale } from "src/locales/locales";
 import {
   getCantonMedianCube,
@@ -35,7 +35,6 @@ import {
 } from "src/rdf/queries";
 import { fetchOperatorInfo, search } from "src/rdf/search-queries";
 import * as fs from "fs";
-import encryptedSunshineCsv from "./sunshine-data.csv";
 
 const gfmSyntax = require("micromark-extension-gfm");
 const gfmHtml = require("micromark-extension-gfm/html");
@@ -55,70 +54,6 @@ const expectedCubeDimensions = [
   "https://energy.ld.admin.ch/elcom/electricityprice/dimension/product",
   "https://cube.link/observedBy",
 ];
-
-const parseNumber = (val: string): number | null => {
-  const num = parseFloat(val);
-  return isNaN(num) ? null : num;
-};
-
-const parseSunshineCsv = () => {
-  const csv = decryptSunshineCsv();
-
-  const rows: RawRow[] = parse(csv, {
-    columns: true,
-    skip_empty_lines: true,
-    trim: true,
-    bom: true,
-  });
-
-  const data = rows.map((row) => ({
-    operatorId: parseInt(row.SunPartnerID, 10),
-    operatorUID: row.SunUID,
-    name: row.SunName,
-    period: row.SunPeriode,
-    francRule: parseNumber(row.SunFrankenRegel),
-    infoYesNo: row.SunInfoJaNein,
-    infoDaysInAdvance: parseInt(row.SunInfoTageimVoraus),
-    networkCostsNE5: parseNumber(row.SunNetzkostenNE5),
-    networkCostsNE6: parseNumber(row.SunNetzkostenNE6),
-    networkCostsNE7: parseNumber(row.SunNetzkostenNE7),
-    productsCount: parseInt(row.SunProdukteAnzahl),
-    productsSelection: row.SunProdukteAuswahl,
-    timely: parseInt(row.SunRechtzeitig),
-    saidiTotal: parseNumber(row.SunSAIDItotal),
-    saidiUnplanned: parseNumber(row.SunSAIDIungeplant),
-    saifiTotal: parseNumber(row.SunSAIFItotal),
-    saifiUnplanned: parseNumber(row.SunSAIFIungeplant),
-    tariffEC2: parseNumber(row.SunTarifEC2),
-    tariffEC3: parseNumber(row.SunTarifEC3),
-    tariffEC4: parseNumber(row.SunTarifEC4),
-    tariffEC6: parseNumber(row.SunTarifEC6),
-    tariffEH2: parseNumber(row.SunTarifEH2),
-    tariffEH4: parseNumber(row.SunTarifEH4),
-    tariffEH7: parseNumber(row.SunTarifEH7),
-    tariffNC2: parseNumber(row.SunTarifNC2),
-    tariffNC3: parseNumber(row.SunTarifNC3),
-    tariffNC4: parseNumber(row.SunTarifNC4),
-    tariffNC6: parseNumber(row.SunTarifNC6),
-    tariffNH2: parseNumber(row.SunTarifNH2),
-    tariffNH4: parseNumber(row.SunTarifNH4),
-    tariffNH7: parseNumber(row.SunTarifNH7),
-  }));
-
-  return data;
-};
-
-type ParsedRow = ReturnType<typeof parseSunshineCsv>[number];
-
-let sunshineDataCache: ParsedRow[] | undefined = undefined;
-const getSunshineData = async () => {
-  if (!sunshineDataCache) {
-    sunshineDataCache = await parseSunshineCsv();
-  }
-  return sunshineDataCache!;
-};
-
-type RawRow = Record<string, string>;
 
 const Query: QueryResolvers = {
   sunshineData: async (_parent, args) => {

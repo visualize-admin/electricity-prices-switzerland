@@ -21,7 +21,7 @@
     "locales:compile": "lingui compile --verbose",
     "graphql:codegen": "graphql-codegen --config codegen.yml",
     "graphql:codegen:dev": "graphql-codegen --config codegen.yml --watch",
-    "encrypt:csv": "dotenv -e .env.local -- npx tsx src/lib/encrypt-sunshine-csv.ts",
+    "sunshine-csv": "dotenv -e .env.local -- bun scripts/sunshine-csv.ts",
     "preversion": "yarn lint",
     "design:icons": "svgr --config-file .svgrrc  ~/Downloads/elcom-icons/ --out-dir src/icons/new/",
     "postversion": "git push origin main --follow-tags && git push origin main:test --force-with-lease",
