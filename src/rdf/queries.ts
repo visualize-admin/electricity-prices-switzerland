@@ -554,6 +554,10 @@ export const getOperatorMunicipalities = async (
   return parsed;
 };
 
+export type OperatorMunicipalityRecord = Awaited<
+  ReturnType<typeof getOperatorMunicipalities>
+>[number];
+
 export const getSparqlEditorUrl = (query: string): string | null => {
   assert(!!serverEnv, "serverEnv is not defined");
   return serverEnv.SPARQL_EDITOR

@@ -1,28 +1,29 @@
-import { Color } from "@deck.gl/core/typed";
 import { GeoJsonLayer } from "@deck.gl/layers/typed";
-import DeckGL from "@deck.gl/react/typed";
+import DeckGL, { DeckGLRef } from "@deck.gl/react/typed";
 import { I18n } from "@lingui/core";
 import { I18nProvider } from "@lingui/react";
 import { Box, List, ListItemButton } from "@mui/material";
 import { Decorator } from "@storybook/react";
 import * as turf from "@turf/turf";
-import { easeExpIn } from "d3";
-import { median } from "d3-array";
+import { easeExpIn, median } from "d3";
 import { Feature, Geometry, MultiPolygon, Polygon } from "geojson";
 import { groupBy, keyBy } from "lodash";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { ObjectInspector } from "react-inspector";
 import { createClient, Provider } from "urql";
 
 import { ChoroplethMap } from "src/components/map";
-import { getFillColor } from "src/components/map-helpers";
-import { useGeoData } from "src/data/geo";
+import { getFillColor, getZoomFromBounds } from "src/components/map-helpers";
+import { MunicipalityFeatureCollection, useGeoData } from "src/data/geo";
 import { useFetch } from "src/data/use-fetch";
 import { useColorScale } from "src/domain/data";
 import { useSunshineTariffQuery } from "src/graphql/queries";
 import { SunshineDataRow } from "src/graphql/resolver-types";
 import { truthy } from "src/lib/truthy";
-import { getOperatorMunicipalities } from "src/rdf/queries";
+import {
+  getOperatorMunicipalities,
+  OperatorMunicipalityRecord,
+} from "src/rdf/queries";
 
 import { props } from "./map.mock";
 
@@ -61,6 +62,63 @@ export const Example = () => {
       </Box>
     </I18nProvider>
   );
+};
+
+const getOperatorsFeatureCollection = (
+  operatorMunicipalities: OperatorMunicipalityRecord[],
+  municipalities: MunicipalityFeatureCollection
+) => {
+  if (!operatorMunicipalities || !municipalities) return null;
+
+  // Group municipalities by operator
+  const municipalitiesByOperator = groupBy(operatorMunicipalities, "operator");
+
+  const municipalitiesById = keyBy(municipalities.features, "id");
+  const operatorFeatures = Object.entries(municipalitiesByOperator)
+    .map(([operator, municipalities]) => {
+      // Get geometry features for all municipalities of this operator
+      const municipalityFeatures = municipalities
+        .map((muni) => municipalitiesById[muni.municipality])
+        .filter(Boolean);
+
+      if (municipalityFeatures.length === 0) {
+        console.warn(
+          `No geometry found for operator ${operator} with municipalities: ${municipalities
+            .map((m) => m.municipality)
+            .join(", ")}`
+        );
+        return null;
+      }
+      const featureCollection = turf.featureCollection(
+        municipalityFeatures.map((feat) =>
+          turf.feature(feat.geometry as Polygon | MultiPolygon)
+        )
+      );
+
+      const geometry =
+        municipalityFeatures.length > 1
+          ? turf.union(featureCollection)?.geometry
+          : featureCollection.features[0].geometry;
+
+      if (!geometry) {
+        return null;
+      }
+      return {
+        type: "Feature",
+        properties: {
+          operatorId: parseInt(operator, 10),
+          municipalityCount: municipalities.length,
+        },
+        geometry: geometry,
+      };
+    })
+    .filter(truthy);
+
+  // Create the final GeoJSON
+  return {
+    type: "FeatureCollection",
+    features: operatorFeatures,
+  };
 };
 
 export const Operators = () => {
@@ -106,6 +164,8 @@ export const Operators = () => {
   const [attribute, setAttribute] = useState<DisplayedAttribute>(attributes[0]);
 
   type OperatorLayerProperties = { operatorId: number } | null;
+
+  // TODO: Should come from Lindas, to ask
   const attributeMedian = useMemo(() => {
     const values = Object.values(sunshineTariffsByOperator).map(
       (x) => x[attribute]
@@ -122,67 +182,13 @@ export const Operators = () => {
   });
 
   const enhancedGeoData = useMemo(() => {
-    if (!operatorMunicipalities || !geoData) return null;
-
-    // Group municipalities by operator
-    const municipalitiesByOperator = groupBy(
+    if (!operatorMunicipalities || !geoData) {
+      return null;
+    }
+    return getOperatorsFeatureCollection(
       operatorMunicipalities,
-      "operator"
+      geoData?.municipalities as MunicipalityFeatureCollection
     );
-
-    // Index original municipalities by ID for quick lookup
-    const municipalitiesById = keyBy(geoData.municipalities.features, "id");
-
-    // Create a municipality collection for each operator
-    const operatorFeatures = Object.entries(municipalitiesByOperator)
-      .map(([operator, municipalities]) => {
-        // Get geometry features for all municipalities of this operator
-        const municipalityFeatures = municipalities
-          .map((muni) => municipalitiesById[muni.municipality])
-          .filter(Boolean);
-
-        if (municipalityFeatures.length === 0) {
-          console.warn(
-            `No geometry found for operator ${operator} with municipalities: ${municipalities
-              .map((m) => m.municipality)
-              .join(", ")}`
-          );
-          return null;
-        }
-
-        // Create a feature collection from the municipality features
-        const featureCollection = turf.featureCollection(
-          municipalityFeatures.map((feat) =>
-            turf.feature(feat.geometry as Polygon | MultiPolygon)
-          )
-        );
-
-        const geometry =
-          municipalityFeatures.length > 1
-            ? turf.union(featureCollection)?.geometry
-            : featureCollection.features[0].geometry;
-
-        if (!geometry) {
-          return null;
-        }
-
-        // Create a feature for this operator with the merged geometry
-        return {
-          type: "Feature",
-          properties: {
-            operatorId: parseInt(operator, 10),
-            municipalityCount: municipalities.length,
-          },
-          geometry: geometry,
-        };
-      })
-      .filter(truthy);
-
-    // Create the final GeoJSON
-    return {
-      type: "FeatureCollection",
-      features: operatorFeatures,
-    };
   }, [operatorMunicipalities, geoData]);
 
   const getMapFillColor = useCallback(
@@ -205,6 +211,7 @@ export const Operators = () => {
     [attribute, colorScale, sunshineTariffsByOperator]
   );
 
+  const deckglRef = useRef<DeckGLRef>(null);
   return (
     <I18nProvider i18n={i18n}>
       <ObjectInspector data={sunshineTarriffs} />
@@ -239,12 +246,6 @@ export const Operators = () => {
           {/** Display merged operators geojson with DeckGl, with a tooltip */}
           {geoData && geoData.municipalities && enhancedGeoData ? (
             <DeckGL
-              getTooltip={(info) => {
-                if (!info.object) {
-                  return false;
-                }
-                return info.object.properties.name ?? "";
-              }}
               initialViewState={{
                 latitude: 46.8182,
                 longitude: 8.2275,
@@ -255,6 +256,7 @@ export const Operators = () => {
                 bearing: 0,
               }}
               controller={true}
+              ref={deckglRef}
               layers={[
                 // Municipality Layer
                 new GeoJsonLayer<
@@ -273,13 +275,22 @@ export const Operators = () => {
                   pickable: true,
                   onClick: (info) => {
                     console.log("Clicked on operator:", info.object);
+                    if (info.object && info.viewport) {
+                      const bounds = turf.bbox(info.object.geometry);
+                      deckglRef.current?.deck?.setProps({
+                        viewState: {
+                          longitude: (bounds[0] + bounds[2]) / 2,
+                          latitude: (bounds[1] + bounds[3]) / 2,
+                          zoom: getZoomFromBounds(bounds, info.viewport),
+                          transitionDuration: 300,
+                        },
+                      });
+                    }
                   },
                   transitions: {
                     getFillColor: {
                       duration: 300,
                       easing: easeExpIn,
-                      entry: ([r, g, b]: Color) => [r, g, b, 0],
-                      exit: ([r, g, b]: Color) => [255, 255, 255, 255],
                     },
                   },
                 }),

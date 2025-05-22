@@ -1,4 +1,10 @@
-import { Feature, FeatureCollection, MultiLineString } from "geojson";
+import {
+  Feature,
+  FeatureCollection,
+  MultiLineString,
+  MultiPolygon,
+  Polygon,
+} from "geojson";
 import {
   feature as topojsonFeature,
   mesh as topojsonMesh,
@@ -31,9 +37,19 @@ const fetchGeoData = async (year: string) => {
   };
 };
 
+export type CantonFeatureCollection = FeatureCollection<
+  Polygon | MultiPolygon,
+  { id: string }
+>;
+
+export type MunicipalityFeatureCollection = FeatureCollection<
+  Polygon | MultiPolygon,
+  { id: string }
+>;
+
 type GeoData = {
-  cantons: FeatureCollection;
-  municipalities: FeatureCollection;
+  cantons: CantonFeatureCollection;
+  municipalities: MunicipalityFeatureCollection;
   municipalityMesh: MultiLineString;
   cantonMesh: MultiLineString;
   lakes: FeatureCollection | Feature;
