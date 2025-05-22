@@ -33,6 +33,7 @@
 - [ ] My commits use clear, descriptive messages
 - [ ] My PR includes only related changes
 - [ ] I have marked this PR with the appropriate label
+- [ ] I have added an entry in the changelog
 
 ## Notes for Reviewers
 <!-- Add any notes that might help reviewers understand your changes. -->
