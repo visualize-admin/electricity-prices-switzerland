@@ -72,7 +72,7 @@ const CH_BBOX: BBox = [
 const constrainZoom = (
   viewState: $FixMe,
   bbox: BBox,
-  { padding = 20 }: { padding?: number } = {}
+  { padding }: { padding: number }
 ) => {
   if (viewState.width < padding * 2 || viewState.height < padding * 2) {
     return viewState;
