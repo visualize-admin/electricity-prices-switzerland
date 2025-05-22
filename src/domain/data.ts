@@ -68,7 +68,8 @@ export const useColorScale = <T>(options: {
       .range(chartPalette.diverging.GreenToOrange);
 
     return scale;
-  }, [options]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [options.medianValue, options.observations, options.accessor]);
 };
 
 export type Entity = "municipality" | "operator" | "canton";

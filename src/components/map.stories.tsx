@@ -1,13 +1,16 @@
+import { Color } from "@deck.gl/core/typed";
 import { GeoJsonLayer } from "@deck.gl/layers/typed";
 import DeckGL from "@deck.gl/react/typed";
 import { I18n } from "@lingui/core";
 import { I18nProvider } from "@lingui/react";
-import { Box } from "@mui/material";
+import { Box, List, ListItemButton } from "@mui/material";
 import { Decorator } from "@storybook/react";
 import * as turf from "@turf/turf";
-import { MultiPolygon, Polygon } from "geojson";
+import { easeExpIn } from "d3";
+import { median } from "d3-array";
+import { Feature, Geometry, MultiPolygon, Polygon } from "geojson";
 import { groupBy, keyBy } from "lodash";
-import { useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { ObjectInspector } from "react-inspector";
 import { createClient, Provider } from "urql";
 
@@ -17,10 +20,13 @@ import { useGeoData } from "src/data/geo";
 import { useFetch } from "src/data/use-fetch";
 import { useColorScale } from "src/domain/data";
 import { useSunshineTariffQuery } from "src/graphql/queries";
+import { SunshineDataRow } from "src/graphql/resolver-types";
 import { truthy } from "src/lib/truthy";
 import { getOperatorMunicipalities } from "src/rdf/queries";
 
 import { props } from "./map.mock";
+
+const TRANSPARENT = [255, 255, 255, 0] as [number, number, number, number];
 
 const i18n = new I18n({
   locale: "en",
@@ -76,11 +82,43 @@ export const Operators = () => {
     return keyBy(sunshineTarriffs.data?.sunshineTariffs ?? [], "operatorId");
   }, [sunshineTarriffs.data?.sunshineTariffs]);
 
+  const attributes = [
+    "tariffEC2",
+    "tariffEC3",
+    "tariffEC4",
+    "tariffEC6",
+    "tariffEH2",
+    "tariffEH4",
+    "tariffEH7",
+    "tariffNC2",
+    "tariffNC3",
+    "tariffNC4",
+    "tariffNC6",
+    "tariffNH2",
+    "tariffNH4",
+    "tariffNH7",
+    "saidiTotal",
+    "saidiUnplanned",
+    "saifiTotal",
+    "saifiUnplanned",
+  ] satisfies (keyof SunshineDataRow)[];
+  type DisplayedAttribute = (typeof attributes)[number];
+  const [attribute, setAttribute] = useState<DisplayedAttribute>(attributes[0]);
+
+  type OperatorLayerProperties = { operatorId: number } | null;
+  const attributeMedian = useMemo(() => {
+    const values = Object.values(sunshineTariffsByOperator).map(
+      (x) => x[attribute]
+    );
+    return median(values);
+  }, [attribute, sunshineTariffsByOperator]);
+
   const colorScale = useColorScale({
     observations: sunshineTarriffs.data?.sunshineTariffs ?? [],
     accessor: (x) => {
       return x.tariffEC2 ?? 0;
     },
+    medianValue: attributeMedian,
   });
 
   const enhancedGeoData = useMemo(() => {
@@ -147,12 +185,35 @@ export const Operators = () => {
     };
   }, [operatorMunicipalities, geoData]);
 
+  const getMapFillColor = useCallback(
+    (x: Feature<Geometry, OperatorLayerProperties>) => {
+      if (!x.properties) {
+        return TRANSPARENT;
+      }
+      const operatorId = x.properties.operatorId;
+      const operator = sunshineTariffsByOperator[operatorId];
+      if (!operator) {
+        return TRANSPARENT;
+      }
+      const value = operator[attribute];
+      if (value === null || value === undefined) {
+        return TRANSPARENT;
+      }
+      const color = getFillColor(colorScale, value, false);
+      return color;
+    },
+    [attribute, colorScale, sunshineTariffsByOperator]
+  );
+
   return (
     <I18nProvider i18n={i18n}>
       <ObjectInspector data={sunshineTarriffs} />
+      Attribute selection
       <Box
         width="800px"
         height="800px"
+        display="grid"
+        gridTemplateColumns={"300px 1fr"}
         position="relative"
         sx={{
           "& #deckgl-wrapper": {
@@ -161,7 +222,20 @@ export const Operators = () => {
           },
         }}
       >
-        <Box width={800} height={800} border="1px solid red">
+        <Box>
+          <List>
+            {attributes.map((attr) => (
+              <ListItemButton
+                key={attr}
+                selected={attribute === attr}
+                onClick={() => setAttribute(attr)}
+              >
+                {attr}
+              </ListItemButton>
+            ))}
+          </List>
+        </Box>
+        <Box width={800} height={800} position="relative">
           {/** Display merged operators geojson with DeckGl, with a tooltip */}
           {geoData && geoData.municipalities && enhancedGeoData ? (
             <DeckGL
@@ -183,49 +257,43 @@ export const Operators = () => {
               controller={true}
               layers={[
                 // Municipality Layer
-                // new GeoJsonLayer({
-                //   id: "municipality-layer",
-                //   data: geoData.municipalities,
-                //   filled: true,
-                //   getFillColor: [255, 0, 0],
-                //   getLineColor: [255, 255, 255],
-                //   highlightColor: [0, 0, 255],
-                //   autoHighlight: true,
-                //   getLineWidth: 10,
-                //   pickable: true,
-                //   onClick: (info) => {
-                //     console.log("Clicked on municipality:", info.object);
-                //   },
-                // }),
-                new GeoJsonLayer({
+                new GeoJsonLayer<
+                  Feature<Polygon | MultiPolygon, OperatorLayerProperties>
+                >({
                   id: "operator-layer",
                   data: enhancedGeoData.features,
                   filled: true,
                   autoHighlight: true,
-                  highlightColor: [0, 0, 255],
+                  highlightColor: [0, 0, 0, 100],
                   updateTriggers: {
-                    getFillColor: [colorScale, sunshineTariffsByOperator],
+                    getFillColor: [getMapFillColor],
                   },
-                  getFillColor: (x) => {
-                    const operatorId = x.properties.operatorId;
-                    console.log("x", x, sunshineTariffsByOperator);
-                    const operator = sunshineTariffsByOperator[operatorId];
-                    if (!operator) {
-                      return [255, 0, 0];
-                    }
-                    const tariff = operator.tariffEC2;
-                    console.log("tariff", tariff);
-                    if (tariff === null || tariff === undefined) {
-                      return [255, 0, 0];
-                    }
-                    const color = getFillColor(colorScale, tariff, false);
-                    return color;
-                  },
+                  getFillColor: (x) => getMapFillColor(x),
                   getLineColor: [255, 255, 255],
                   pickable: true,
                   onClick: (info) => {
                     console.log("Clicked on operator:", info.object);
                   },
+                  transitions: {
+                    getFillColor: {
+                      duration: 300,
+                      easing: easeExpIn,
+                      entry: ([r, g, b]: Color) => [r, g, b, 0],
+                      exit: ([r, g, b]: Color) => [255, 255, 255, 255],
+                    },
+                  },
+                }),
+                new GeoJsonLayer({
+                  id: "municipality-layer",
+                  data: geoData.municipalities.features,
+                  filled: true,
+                  getLineColor: [255, 255, 255],
+                  getFillColor: TRANSPARENT,
+                  highlightColor: [0, 0, 255],
+                  lineWidthUnits: "pixels",
+                  stroked: true,
+                  autoHighlight: true,
+                  getLineWidth: 0.5,
                 }),
               ]}
             />
