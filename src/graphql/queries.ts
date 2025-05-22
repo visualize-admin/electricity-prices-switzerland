@@ -290,13 +290,13 @@ export type SunshineDataRow = {
   __typename: "SunshineDataRow";
   francRule?: Maybe<Scalars["Float"]["output"]>;
   infoDaysInAdvance?: Maybe<Scalars["Int"]["output"]>;
-  infoYesNo?: Maybe<Scalars["String"]["output"]>;
+  infoYesNo?: Maybe<Scalars["Boolean"]["output"]>;
   name: Scalars["String"]["output"];
   operatorId?: Maybe<Scalars["Int"]["output"]>;
   operatorUID: Scalars["String"]["output"];
   period: Scalars["String"]["output"];
   productsCount?: Maybe<Scalars["Int"]["output"]>;
-  productsSelection?: Maybe<Scalars["String"]["output"]>;
+  productsSelection?: Maybe<Scalars["Boolean"]["output"]>;
   saidiTotal?: Maybe<Scalars["Float"]["output"]>;
   saidiUnplanned?: Maybe<Scalars["Float"]["output"]>;
   saifiTotal?: Maybe<Scalars["Float"]["output"]>;
@@ -315,7 +315,7 @@ export type SunshineDataRow = {
   tariffNH2?: Maybe<Scalars["Float"]["output"]>;
   tariffNH4?: Maybe<Scalars["Float"]["output"]>;
   tariffNH7?: Maybe<Scalars["Float"]["output"]>;
-  timely?: Maybe<Scalars["Int"]["output"]>;
+  timely?: Maybe<Scalars["Boolean"]["output"]>;
 };
 
 export type SwissMedianObservation = {
@@ -639,11 +639,11 @@ export type SunshineDataQuery = {
     name: string;
     period: string;
     francRule?: number | null;
-    infoYesNo?: string | null;
+    infoYesNo?: boolean | null;
     infoDaysInAdvance?: number | null;
     productsCount?: number | null;
-    productsSelection?: string | null;
-    timely?: number | null;
+    productsSelection?: boolean | null;
+    timely?: boolean | null;
     saidiTotal?: number | null;
     saidiUnplanned?: number | null;
     saifiTotal?: number | null;
@@ -664,11 +664,11 @@ export type SunshineTariffQuery = {
     name: string;
     period: string;
     francRule?: number | null;
-    infoYesNo?: string | null;
+    infoYesNo?: boolean | null;
     infoDaysInAdvance?: number | null;
     productsCount?: number | null;
-    productsSelection?: string | null;
-    timely?: number | null;
+    productsSelection?: boolean | null;
+    timely?: boolean | null;
     saidiTotal?: number | null;
     saidiUnplanned?: number | null;
     saifiTotal?: number | null;

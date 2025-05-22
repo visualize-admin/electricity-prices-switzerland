@@ -57,6 +57,18 @@ const parseNumber = (val: string): number | null => {
   return isNaN(num) ? null : num;
 };
 
+const parseGermanBoolean = (val: string): boolean | null => {
+  if (val.toLowerCase() === "ja") return true;
+  if (val.toLowerCase() === "nein") return false;
+  return null;
+};
+
+const parseNumberBoolean = (val: string): boolean | null => {
+  if (val === "1") return true;
+  if (val === "0") return false;
+  return null;
+};
+
 type RawRow = Record<string, string>;
 
 const parseSunshineCsv = () => {
@@ -75,14 +87,14 @@ const parseSunshineCsv = () => {
     name: row.SunName,
     period: row.SunPeriode,
     francRule: parseNumber(row.SunFrankenRegel),
-    infoYesNo: row.SunInfoJaNein,
+    infoYesNo: parseGermanBoolean(row.SunInfoJaNein),
     infoDaysInAdvance: parseInt(row.SunInfoTageimVoraus),
     networkCostsNE5: parseNumber(row.SunNetzkostenNE5),
     networkCostsNE6: parseNumber(row.SunNetzkostenNE6),
     networkCostsNE7: parseNumber(row.SunNetzkostenNE7),
     productsCount: parseInt(row.SunProdukteAnzahl),
-    productsSelection: row.SunProdukteAuswahl,
-    timely: parseInt(row.SunRechtzeitig),
+    productsSelection: parseGermanBoolean(row.SunProdukteAuswahl),
+    timely: parseNumberBoolean(row.SunRechtzeitig),
     saidiTotal: parseNumber(row.SunSAIDItotal),
     saidiUnplanned: parseNumber(row.SunSAIDIungeplant),
     saifiTotal: parseNumber(row.SunSAIFItotal),

@@ -205,11 +205,11 @@ type SunshineDataRow {
   name: String!
   period: String!
   francRule: Float
-  infoYesNo: String
+  infoYesNo: Boolean
   infoDaysInAdvance: Int
   productsCount: Int
-  productsSelection: String
-  timely: Int
+  productsSelection: Boolean
+  timely: Boolean
   saidiTotal: Float
   saidiUnplanned: Float
   saifiTotal: Float

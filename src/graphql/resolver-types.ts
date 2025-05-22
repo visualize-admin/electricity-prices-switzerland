@@ -306,13 +306,13 @@ export type SunshineDataRow = {
   __typename?: "SunshineDataRow";
   francRule?: Maybe<Scalars["Float"]["output"]>;
   infoDaysInAdvance?: Maybe<Scalars["Int"]["output"]>;
-  infoYesNo?: Maybe<Scalars["String"]["output"]>;
+  infoYesNo?: Maybe<Scalars["Boolean"]["output"]>;
   name: Scalars["String"]["output"];
   operatorId?: Maybe<Scalars["Int"]["output"]>;
   operatorUID: Scalars["String"]["output"];
   period: Scalars["String"]["output"];
   productsCount?: Maybe<Scalars["Int"]["output"]>;
-  productsSelection?: Maybe<Scalars["String"]["output"]>;
+  productsSelection?: Maybe<Scalars["Boolean"]["output"]>;
   saidiTotal?: Maybe<Scalars["Float"]["output"]>;
   saidiUnplanned?: Maybe<Scalars["Float"]["output"]>;
   saifiTotal?: Maybe<Scalars["Float"]["output"]>;
@@ -331,7 +331,7 @@ export type SunshineDataRow = {
   tariffNH2?: Maybe<Scalars["Float"]["output"]>;
   tariffNH4?: Maybe<Scalars["Float"]["output"]>;
   tariffNH7?: Maybe<Scalars["Float"]["output"]>;
-  timely?: Maybe<Scalars["Int"]["output"]>;
+  timely?: Maybe<Scalars["Boolean"]["output"]>;
 };
 
 export type SwissMedianObservation = {
@@ -893,7 +893,7 @@ export type SunshineDataRowResolvers<
     ContextType
   >;
   infoYesNo?: Resolver<
-    Maybe<ResolversTypes["String"]>,
+    Maybe<ResolversTypes["Boolean"]>,
     ParentType,
     ContextType
   >;
@@ -907,7 +907,7 @@ export type SunshineDataRowResolvers<
     ContextType
   >;
   productsSelection?: Resolver<
-    Maybe<ResolversTypes["String"]>,
+    Maybe<ResolversTypes["Boolean"]>,
     ParentType,
     ContextType
   >;
@@ -945,7 +945,7 @@ export type SunshineDataRowResolvers<
   tariffNH2?: Resolver<Maybe<ResolversTypes["Float"]>, ParentType, ContextType>;
   tariffNH4?: Resolver<Maybe<ResolversTypes["Float"]>, ParentType, ContextType>;
   tariffNH7?: Resolver<Maybe<ResolversTypes["Float"]>, ParentType, ContextType>;
-  timely?: Resolver<Maybe<ResolversTypes["Int"]>, ParentType, ContextType>;
+  timely?: Resolver<Maybe<ResolversTypes["Boolean"]>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
