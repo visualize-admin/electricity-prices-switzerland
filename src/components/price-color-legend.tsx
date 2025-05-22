@@ -1,11 +1,12 @@
 import styled from "@emotion/styled";
 import { Trans, t } from "@lingui/macro";
-import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { useState } from "react";
 
 import { InfoDialogButton } from "src/components/info-dialog";
 import { useFormatCurrency } from "src/domain/helpers";
 import { Icon } from "src/icons";
+import { useIsMobile } from "src/lib/use-mobile";
 import { chartPalette } from "src/themes/palette";
 
 const LEGEND_WIDTH = 215;
@@ -33,8 +34,7 @@ export const MapPriceColorLegend = ({
   id: string;
 }) => {
   const formatCurrency = useFormatCurrency();
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const isMobile = useIsMobile();
   const [open, setOpen] = useState(!isMobile);
 
   if (!open) {

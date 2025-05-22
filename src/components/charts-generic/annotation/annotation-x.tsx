@@ -1,4 +1,4 @@
-import { Box, useMediaQuery, useTheme } from "@mui/material";
+import { Box } from "@mui/material";
 import * as React from "react";
 
 import { DOT_RADIUS } from "src/components/charts-generic/rangeplot/rangeplot-state";
@@ -10,6 +10,7 @@ import {
 import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
 import { GenericObservation } from "src/domain/data";
 import { getLocalizedLabel } from "src/domain/translation";
+import { useIsMobile } from "src/lib/use-mobile";
 
 const ANNOTATION_DOT_RADIUS = 2.5;
 const ANNOTATION_TRIANGLE_WIDTH = 5;
@@ -39,8 +40,7 @@ export const AnnotationX = () => {
     annotationLabelUnderlineColor,
   } = useChartTheme();
 
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const isMobile = useIsMobile();
   return (
     <>
       {annotations &&

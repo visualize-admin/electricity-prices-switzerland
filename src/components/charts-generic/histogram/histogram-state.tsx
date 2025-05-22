@@ -1,4 +1,4 @@
-import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { ascending, bin, interpolateHsl, max, min, scaleLinear } from "d3";
 import { ReactNode, useCallback } from "react";
 
@@ -25,6 +25,7 @@ import {
   useFormatCurrency,
 } from "src/domain/helpers";
 import { estimateTextWidth } from "src/lib/estimate-text-width";
+import { useIsMobile } from "src/lib/use-mobile";
 import { chartPalette } from "src/themes/palette";
 
 const useHistogramState = ({
@@ -93,8 +94,7 @@ const useHistogramState = ({
     )
   );
 
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const isMobile = useIsMobile();
 
   const margins = {
     top: isMobile ? 140 : 70,

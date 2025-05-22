@@ -1,13 +1,5 @@
 import { Trans } from "@lingui/macro";
-import {
-  Box,
-  Button,
-  Stack,
-  Typography,
-  Link as UILink,
-  useMediaQuery,
-  useTheme,
-} from "@mui/material";
+import { Box, Button, Stack, Typography, Link as UILink } from "@mui/material";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { Fragment, useState } from "react";
@@ -15,6 +7,7 @@ import { Fragment, useState } from "react";
 import { MapLink } from "src/components/links";
 import { Entity } from "src/domain/data";
 import { Icon } from "src/icons";
+import { useIsMobile } from "src/lib/use-mobile";
 
 import { OperatorDocuments } from "../operator-documents";
 
@@ -81,9 +74,7 @@ export const DetailPageBanner = ({
   municipalities?: { id: string; name: string }[];
 }) => {
   const { query } = useRouter();
-
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const isMobile = useIsMobile();
 
   return (
     <Box

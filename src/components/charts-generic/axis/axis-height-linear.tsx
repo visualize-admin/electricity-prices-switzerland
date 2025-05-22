@@ -1,4 +1,3 @@
-import { useMediaQuery, useTheme } from "@mui/material";
 import { axisLeft, select, Selection } from "d3";
 import { useEffect, useRef } from "react";
 
@@ -11,6 +10,7 @@ import {
 import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
 import { useFormatCurrency, useFormatNumber } from "src/domain/helpers";
 import { getLocalizedLabel } from "src/domain/translation";
+import { useIsMobile } from "src/lib/use-mobile";
 
 const TICK_MIN_HEIGHT = 50;
 
@@ -23,8 +23,7 @@ export const AxisHeightLinear = ({
   const formatNumber =
     format === "currency" ? useFormatCurrency() : useFormatNumber();
 
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const isMobile = useIsMobile();
 
   const { yScale, yAxisLabel, bounds } = useChartState() as
     | ColumnsState

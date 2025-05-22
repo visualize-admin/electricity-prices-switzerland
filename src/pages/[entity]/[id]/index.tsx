@@ -1,7 +1,7 @@
 import { IncomingMessage, ServerResponse } from "http";
 
 import { t, Trans } from "@lingui/macro";
-import { Box, useMediaQuery, useTheme } from "@mui/material";
+import { Box } from "@mui/material";
 import { GetServerSideProps } from "next";
 import dynamic from "next/dynamic";
 import ErrorPage from "next/error";
@@ -31,6 +31,7 @@ import { SelectorMulti } from "src/components/detail-page/selector-multi";
 import { DetailsPageSidebar } from "src/components/detail-page/sidebar";
 import { Entity } from "src/domain/data";
 import { getLocalizedLabel } from "src/domain/translation";
+import { useIsMobile } from "src/lib/use-mobile";
 import { defaultLocale } from "src/locales/locales";
 import {
   getCanton,
@@ -201,8 +202,7 @@ const ElectricityTariffsPage = (props: Props) => {
 
   const { id, name, entity } = props;
 
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const isMobile = useIsMobile();
 
   return (
     <>

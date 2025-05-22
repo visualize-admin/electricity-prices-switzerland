@@ -8,7 +8,7 @@ import { ViewStateChangeParameters } from "@deck.gl/core/typed/controllers/contr
 import { GeoJsonLayer } from "@deck.gl/layers/typed";
 import DeckGL, { DeckGLRef } from "@deck.gl/react/typed";
 import { Trans } from "@lingui/macro";
-import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import centroid from "@turf/centroid";
 import { color, extent, group, mean, rollup, ScaleThreshold } from "d3";
 import html2canvas from "html2canvas";
@@ -36,6 +36,7 @@ import { MapPriceColorLegend } from "src/components/price-color-legend";
 import { useFormatCurrency } from "src/domain/helpers";
 import { OperatorObservationFieldsFragment } from "src/graphql/queries";
 import { maxBy } from "src/lib/array";
+import { useIsMobile } from "src/lib/use-mobile";
 
 import type { Feature, FeatureCollection, MultiLineString } from "geojson";
 
@@ -411,8 +412,7 @@ export const ChoroplethMap = ({
   } | null>;
 }) => {
   const [hovered, setHovered] = useState<HoverState>();
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const isMobile = useIsMobile();
   const mapZoomPadding = isMobile ? 20 : 150;
 
   const [viewState, setViewState] = useState(INITIAL_VIEW_STATE);
