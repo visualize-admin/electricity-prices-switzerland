@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { Trans, t } from "@lingui/macro";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { useState } from "react";
 
 import { InfoDialogButton } from "src/components/info-dialog";
@@ -33,7 +33,9 @@ export const MapPriceColorLegend = ({
   id: string;
 }) => {
   const formatCurrency = useFormatCurrency();
-  const [open, setOpen] = useState(true);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const [open, setOpen] = useState(!isMobile);
 
   if (!open) {
     return (
