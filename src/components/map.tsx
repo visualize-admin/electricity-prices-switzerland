@@ -433,7 +433,7 @@ export const ChoroplethMap = ({
         );
       }
     },
-    [screenshotting]
+    [screenshotting, mapZoomPadding]
   );
 
   const onResize = useCallback(
@@ -444,7 +444,7 @@ export const ChoroplethMap = ({
         })
       );
     },
-    [setViewState]
+    [setViewState, mapZoomPadding]
   );
 
   const deckRef = React.useRef<DeckGLRef>(null);
