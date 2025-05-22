@@ -13,6 +13,8 @@ You can also check the
 
 - Features
   - GraphQL API: Add new queries to get sunshine data
-  - Storybook: Add new map to show sunshine data for operators
+- Storybook
+  - Add new map to show sunshine data for operators
+  - Operator map has no overlap for operators
 - Styles
   - Update Design System to match the Bund new CI system

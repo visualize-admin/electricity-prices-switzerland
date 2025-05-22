@@ -10,8 +10,8 @@ export const encryptSunshineCSV = () => {
   const PASSWORD = process.env.PREVIEW_PASSWORD!;
   if (!PASSWORD) throw new Error("PREVIEW_PASSWORD not set");
 
-  const INPUT_PATH = path.join(__dirname, "../sunshine-data.csv");
-  const OUTPUT_PATH = path.join(__dirname, "../sunshine-data.enc");
+  const INPUT_PATH = path.join(process.cwd(), "./src/sunshine-data.csv");
+  const OUTPUT_PATH = path.join(process.cwd(), "./src/sunshine-data.enc");
 
   const data = fs.readFileSync(INPUT_PATH);
 
@@ -34,7 +34,7 @@ export const decryptSunshineCsv = (): string => {
   const PASSWORD = serverEnv.PREVIEW_PASSWORD!;
   try {
     const encryptedData = fs.readFileSync(
-      path.join(__dirname, "../sunshine-data.enc")
+      path.join(process.cwd(), "./src/sunshine-data.enc")
     );
 
     const salt = encryptedData.subarray(0, 16);
