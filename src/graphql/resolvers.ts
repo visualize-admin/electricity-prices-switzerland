@@ -124,36 +124,18 @@ const Query: QueryResolvers = {
   sunshineData: async (_parent, args) => {
     const filter = args.filter;
     const sunshineData = await getSunshineData();
-    return sunshineData
-      .filter((row) => {
-        if (
-          filter.operatorId !== undefined &&
-          row.operatorId !== filter.operatorId
-        ) {
-          return false;
-        }
-        if (filter.period !== undefined && row.period !== filter.period) {
-          return false;
-        }
-        return true;
-      })
-      .map((row) => {
-        return {
-          operatorId: row.operatorId,
-          operatorUID: row.operatorUID,
-          period: row.period,
-          francRule: row.francRule,
-          infoYesNo: row.infoYesNo,
-          infoDaysInAdvance: row.infoDaysInAdvance,
-          productsCount: row.productsCount,
-          productsSelection: row.productsSelection,
-          timely: row.timely,
-          saidiTotal: row.saidiTotal,
-          saidiUnplanned: row.saidiUnplanned,
-          saifiTotal: row.saifiTotal,
-          saifiUnplanned: row.saidiUnplanned,
-        };
-      });
+    return sunshineData.filter((row) => {
+      if (
+        filter.operatorId !== undefined &&
+        row.operatorId !== filter.operatorId
+      ) {
+        return false;
+      }
+      if (filter.period !== undefined && row.period !== filter.period) {
+        return false;
+      }
+      return true;
+    });
   },
   sunshineTariffs: async (_parent, args) => {
     const filter = args.filter;
