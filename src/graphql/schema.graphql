@@ -236,6 +236,7 @@ input SunshineDataFilter {
 }
 
 enum TariffCategory {
+  # Electricity costs
   EC2
   EC3
   EC4
@@ -243,6 +244,7 @@ enum TariffCategory {
   EH2
   EH4
   EH7
+  # Networks costs
   NC2
   NC3
   NC4

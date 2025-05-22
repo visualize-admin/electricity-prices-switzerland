@@ -514,8 +514,27 @@ export const getOperatorDocuments = async ({
   });
 };
 
+export type ElectricityCategory =
+  | "C1"
+  | "C2"
+  | "C3"
+  | "C4"
+  | "C5"
+  | "C6"
+  | "C7"
+  | "C8"
+  | "H1"
+  | "H2"
+  | "H3"
+  | "H4"
+  | "H5"
+  | "H6"
+  | "H7"
+  | "H8";
+
 export const getOperatorMunicipalities = async (
   year: string,
+  category: ElectricityCategory | "all",
   client = sparqlClient
 ) => {
   const query = `
@@ -524,6 +543,12 @@ export const getOperatorMunicipalities = async (
     ?observationSet0 <https://cube.link/observation> ?source0 .
     ?source0 <https://energy.ld.admin.ch/elcom/electricityprice/dimension/period> "${year}"^^<http://www.w3.org/2001/XMLSchema#gYear> .
     ?source0 <https://energy.ld.admin.ch/elcom/electricityprice/dimension/operator> ?operator .
+    ?source0 <https://energy.ld.admin.ch/elcom/electricityprice/dimension/municipality> ?municipality .
+    ${
+      category
+        ? `?source0 <https://energy.ld.admin.ch/elcom/electricityprice/dimension/category> <https://energy.ld.admin.ch/elcom/electricityprice/category/${category}> .`
+        : ""
+    }
     ?source0 <https://energy.ld.admin.ch/elcom/electricityprice/dimension/municipality> ?municipality .
     ?municipality <http://schema.org/containedInPlace> ?canton .
     ?canton <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.ld.admin.ch/Canton> .
