@@ -8,7 +8,7 @@ import { ViewStateChangeParameters } from "@deck.gl/core/typed/controllers/contr
 import { GeoJsonLayer } from "@deck.gl/layers/typed";
 import DeckGL, { DeckGLRef } from "@deck.gl/react/typed";
 import { Trans } from "@lingui/macro";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
 import centroid from "@turf/centroid";
 import { color, extent, group, mean, rollup, ScaleThreshold } from "d3";
 import html2canvas from "html2canvas";
@@ -71,7 +71,7 @@ const CH_BBOX: BBox = [
 const constrainZoom = (
   viewState: $FixMe,
   bbox: BBox,
-  { padding = 150 }: { padding?: number } = {}
+  { padding = 20 }: { padding?: number } = {}
 ) => {
   if (viewState.width < padding * 2 || viewState.height < padding * 2) {
     return viewState;
@@ -411,6 +411,9 @@ export const ChoroplethMap = ({
   } | null>;
 }) => {
   const [hovered, setHovered] = useState<HoverState>();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const mapZoomPadding = isMobile ? 20 : 150;
 
   const [viewState, setViewState] = useState(INITIAL_VIEW_STATE);
   const [screenshotting, setScreenshotting] = useState(false);
@@ -425,7 +428,9 @@ export const ChoroplethMap = ({
       if (interactionState.inTransition) {
         setViewState(viewState as typeof INITIAL_VIEW_STATE);
       } else {
-        setViewState(constrainZoom(viewState, CH_BBOX));
+        setViewState(
+          constrainZoom(viewState, CH_BBOX, { padding: mapZoomPadding })
+        );
       }
     },
     [screenshotting]
@@ -434,7 +439,9 @@ export const ChoroplethMap = ({
   const onResize = useCallback(
     ({ width, height }: { width: number; height: number }) => {
       setViewState((viewState) =>
-        constrainZoom({ ...viewState, width, height }, CH_BBOX)
+        constrainZoom({ ...viewState, width, height }, CH_BBOX, {
+          padding: mapZoomPadding,
+        })
       );
     },
     [setViewState]
@@ -954,7 +961,8 @@ export const ChoroplethMap = ({
                     width: SCREENSHOT_CANVAS_SIZE.width,
                     height: SCREENSHOT_CANVAS_SIZE.height,
                   },
-                  CH_BBOX
+                  CH_BBOX,
+                  { padding: mapZoomPadding }
                 ) as $FixMe
               }
               layers={layers?.map((l) => l?.clone({}))}
