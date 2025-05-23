@@ -48,7 +48,7 @@ const useRangePlotState = ({
 }): RangePlotState => {
   const width = useWidth();
   const formatCurrency = useFormatCurrency();
-  const { annotationFontSize, palette } = useChartTheme();
+  const { annotationFontSize } = useChartTheme();
 
   const getX = useCallback(
     (d: GenericObservation) => d[fields.x.componentIri] as number,

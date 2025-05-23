@@ -1,3 +1,4 @@
+import { parse } from "csv-parse/sync";
 import { difference } from "d3";
 import { GraphQLError, GraphQLResolveInfo } from "graphql";
 import { parseResolveInfo, ResolveTree } from "graphql-parse-resolve-info";
@@ -21,6 +22,7 @@ import {
   Resolvers,
   SwissMedianObservationResolvers,
 } from "src/graphql/resolver-types";
+import { decryptSunshineCsv, getSunshineData } from "src/lib/sunshine-csv";
 import { defaultLocale } from "src/locales/locales";
 import {
   getCantonMedianCube,
@@ -32,6 +34,7 @@ import {
   getView,
 } from "src/rdf/queries";
 import { fetchOperatorInfo, search } from "src/rdf/search-queries";
+import * as fs from "fs";
 
 const gfmSyntax = require("micromark-extension-gfm");
 const gfmHtml = require("micromark-extension-gfm/html");
@@ -53,6 +56,41 @@ const expectedCubeDimensions = [
 ];
 
 const Query: QueryResolvers = {
+  sunshineData: async (_parent, args) => {
+    const filter = args.filter;
+    const sunshineData = await getSunshineData();
+    return sunshineData.filter((row) => {
+      if (
+        filter.operatorId !== undefined &&
+        row.operatorId !== filter.operatorId
+      ) {
+        return false;
+      }
+      if (filter.period !== undefined && row.period !== filter.period) {
+        return false;
+      }
+      return true;
+    });
+  },
+  sunshineTariffs: async (_parent, args) => {
+    const filter = args.filter;
+    if (!filter.operatorId && !filter.period) {
+      throw new Error("Must either filter by year or by provider.");
+    }
+    const sunshineData = await getSunshineData();
+    return sunshineData.filter((row) => {
+      if (
+        filter.operatorId !== undefined &&
+        row.operatorId !== filter.operatorId
+      ) {
+        return false;
+      }
+      if (filter.period !== undefined && row.period !== filter.period) {
+        return false;
+      }
+      return row;
+    });
+  },
   systemInfo: async () => {
     return {
       SPARQL_ENDPOINT:
@@ -108,7 +146,6 @@ const Query: QueryResolvers = {
       ...o,
     }));
 
-    // Should we type-check with io-ts here? Probably not necessary because the GraphQL API will also type-check against the schema.
     return operatorObservations as ResolvedOperatorObservation[];
   },
   cantonMedianObservations: async (
@@ -171,7 +208,6 @@ const Query: QueryResolvers = {
       ...x,
     }));
 
-    // Should we type-check with io-ts here? Probably not necessary because the GraphQL API will also type-check against the schema.
     return medianObservations as ResolvedCantonMedianObservation[];
   },
   swissMedianObservations: async (_, { locale, filters }, ctx, info) => {
@@ -227,7 +263,6 @@ const Query: QueryResolvers = {
       __typename: "MedianObservation",
     }));
 
-    // Should we type-check with io-ts here? Probably not necessary because the GraphQL API will also type-check against the schema.
     return medianObservations as ResolvedSwissMedianObservation[];
   },
   operators: async (_, { query, ids, locale }) => {

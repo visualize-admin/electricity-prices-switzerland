@@ -207,18 +207,25 @@ export const CantonsComparisonRangePlots = ({ id, entity }: SectionProps) => {
             }}
             display="flex"
           >
-            <Combobox
-              label={t({
-                id: "rangeplot.select.order.hint",
-                message: "Sortieren nach",
-              })}
-              id={"rangeplot-sorting-select"}
-              items={SORTING_VALUES}
-              getItemLabel={getItemLabel}
-              selectedItem={cantonsOrder[0]}
-              setSelectedItem={(co) => setQueryState({ cantonsOrder: [co] })}
-              showLabel={true}
-            />
+            <Box
+              sx={{
+                maxWidth: "20rem",
+                width: "100%",
+              }}
+            >
+              <Combobox
+                label={t({
+                  id: "rangeplot.select.order.hint",
+                  message: "Sortieren nach",
+                })}
+                id={"rangeplot-sorting-select"}
+                items={SORTING_VALUES}
+                getItemLabel={getItemLabel}
+                selectedItem={cantonsOrder[0]}
+                setSelectedItem={(co) => setQueryState({ cantonsOrder: [co] })}
+                showLabel={true}
+              />
+            </Box>
             <PriceColorLegend />
           </Box>
         </>

@@ -18,7 +18,12 @@ type RadioTabsProps<T> = {
 const STYLES = {
   tabs: {
     common: {
-      flex: 1,
+      display: "flex",
+      flexShrink: 1,
+      flexGrow: 0,
+      minWidth: 0,
+      alignItems: "center",
+      justifyContent: "center",
       textAlign: "center",
       px: 4,
       py: 2.5,
@@ -27,6 +32,9 @@ const STYLES = {
       borderWidth: 1,
       borderColor: "monochrome.200",
       borderRightWidth: 0,
+      whiteSpace: "nowrap",
+      textOverflow: "ellipsis",
+      overflow: "hidden",
       "&:first-of-type": {
         borderTopLeftRadius: "2px",
         borderBottomLeftRadius: "2px",
@@ -40,14 +48,15 @@ const STYLES = {
     active: {
       color: "background.paper",
       bgcolor: "secondary.main",
+      overflow: "visible",
+      whiteSpace: "normal",
+      textOverflow: "unset",
+      minWidth: "fit-content",
     },
     inactive: {
       color: "text.primary",
       bgcolor: "background.paper",
       cursor: "pointer",
-      whiteSpace: "nowrap",
-      textOverflow: "ellipsis",
-      overflow: "hidden",
       "&:hover": {
         backgroundColor: "secondary.50",
       },
@@ -80,7 +89,7 @@ export const ButtonGroup = <T extends string>({
         flexDirection: "column",
         gap: infoDialogSlug ? 0 : 2,
       }}
-      display={"flex"}
+      display="flex"
     >
       <Box
         typography="meta"
@@ -92,7 +101,7 @@ export const ButtonGroup = <T extends string>({
       >
         {showLabel && (
           <Typography
-            color={"text.primary"}
+            color="text.primary"
             variant="h6"
             component="label"
             htmlFor={`radio-tabs-${id}`}
@@ -104,15 +113,14 @@ export const ButtonGroup = <T extends string>({
           <InfoDialogButton iconOnly slug={infoDialogSlug} label={label} />
         )}
       </Box>
+
       <Box
+        display="flex"
         sx={{
-          justifyItems: "stretch",
-          borderRadius: 0.5,
-          borderWidth: 1,
-          borderColor: "monochrome.200",
+          width: "100%",
+          flexWrap: "nowrap",
           overflow: "hidden",
         }}
-        display="flex"
       >
         {options.map((option) => {
           const isActive = option.value === value;
@@ -139,7 +147,16 @@ export const ButtonGroup = <T extends string>({
                   checked={isActive}
                 />
               </VisuallyHidden>
-              {option.label}
+
+              <span
+                style={{
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {option.label}
+              </span>
             </Box>
           );
         })}

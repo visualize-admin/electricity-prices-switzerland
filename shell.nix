@@ -8,5 +8,6 @@ in pkgs.mkShell {
     pkgs.darwin.apple_sdk.frameworks.CoreServices
     yarn
     nodejs
+    bun
   ];
 }

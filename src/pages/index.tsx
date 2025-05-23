@@ -11,7 +11,6 @@ import { GetServerSideProps } from "next";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import Image from "next/image";
-import basicAuthMiddleware from "nextjs-basic-auth-middleware";
 
 import { SunshineTopics } from "src/components/sunshine/sunshine-topics";
 import { Icon } from "src/icons";
@@ -29,9 +28,7 @@ type Props = {
 export const getServerSideProps: GetServerSideProps<
   Props,
   { locale: string }
-> = async ({ locale, req, res }) => {
-  await basicAuthMiddleware(req, res);
-
+> = async ({ locale }) => {
   return {
     props: {
       locale: locale ?? defaultLocale,

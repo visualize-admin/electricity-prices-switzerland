@@ -4,7 +4,6 @@ import { Box, Button, Input, Link, Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-import basicAuthMiddleware from "nextjs-basic-auth-middleware";
 import { useCallback, useRef } from "react";
 
 const ContentWrapper = dynamic(
@@ -51,8 +50,7 @@ type Props = {
 export const getServerSideProps: GetServerSideProps<
   Props,
   { locale: string }
-> = async ({ locale, req, res }) => {
-  await basicAuthMiddleware(req, res);
+> = async ({ locale }) => {
   return { props: { locale: locale ?? defaultLocale } };
 };
 
@@ -276,6 +274,7 @@ const IndexPage = ({ locale }: Props) => {
             sx={{
               position: "sticky",
               top: HEADER_HEIGHT_UP,
+              height: `calc(100vh - ${HEADER_HEIGHT_UP})`,
               maxHeight: `calc(100vh - ${HEADER_HEIGHT_UP})`,
               overflowY: "auto",
               bgcolor: "background.paper",

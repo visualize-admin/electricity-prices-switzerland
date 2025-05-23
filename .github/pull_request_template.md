@@ -1,24 +1,58 @@
-<!--- Link this pull request to an issue (fixes or closes #issue_number) -->
+## Description
+<!-- Provide a brief description of the changes in this PR -->
 
-Closes #
+## Related Issues
+<!-- Link any related issues using #issue_number format -->
 
-<!--- Describe the changes -->
+## Testing Performed
+<!-- Describe the testing you've done -->
 
-This PR...
+- [ ] Tested with the following Browsers: <!-- [Chrome, Firefox, Safari, etc] -->
+- [ ] Tested on the following devices: <!-- [MacBook Pro, iPhone 13, iPad, etc] -->
+- [ ] Verified functionality: <!-- [Tested this functionality manually, automated, etc] -->
+- [ ] Storybook updated
+- [ ] Automated tests added
 
-<!--- Test instructions -->
+<!--
+### Testing or Reproduction Steps
 
-## How to test
+### Testing/Reproduction Steps
+1. Navigate to [specific page]
+2. Click on [specific element]
+3. Observe [expected behavior]
+-->
 
-1. Go to this link.
-2. ...
+## Screenshots
+<!-- If applicable, add screenshots to help explain your changes -->
 
-<!-- ## Steps to reproduce
+## Checklist
+<!-- Mark items with 'x' as completed -->
 
-1. Go to this link.
-2. ... -->
+- [ ] I have tested my changes thoroughly
+- [ ] I have updated the documentation as needed
+- [ ] My commits use clear, descriptive messages
+- [ ] My PR includes only related changes
+- [ ] I have marked this PR with the appropriate label
+- [ ] I have added an entry in the changelog
 
----
+## Notes for Reviewers
+<!-- Add any notes that might help reviewers understand your changes. -->
 
-- [ ] I made a self-review of my own code
-- [ ] I wrote tests for the changes (if applicable)
+<!--
+### Configuration Required
+- Environment variables:
+- Feature flags:
+- Database changes:
+
+### Known Limitations
+-
+
+### Performance Considerations
+-
+
+### Alternative Approaches Considered
+-
+
+### Future Improvements
+-
+-->

@@ -44,7 +44,7 @@ export const useFormatCurrency = () => {
   const locale = useLocale();
   const formatter = React.useMemo(() => {
     const { format } = d3FormatLocales[locale];
-    return format(",.2~f");
+    return format(",.2f");
   }, [locale]);
   return formatter;
 };

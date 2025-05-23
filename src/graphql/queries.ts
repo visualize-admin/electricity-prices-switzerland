@@ -178,6 +178,8 @@ export type Query = {
   searchCantons: Array<CantonResult>;
   searchMunicipalities: Array<MunicipalityResult>;
   searchOperators: Array<OperatorResult>;
+  sunshineData: Array<SunshineDataRow>;
+  sunshineTariffs: Array<SunshineDataRow>;
   swissMedianObservations?: Maybe<Array<SwissMedianObservation>>;
   systemInfo: SystemInfo;
   wikiContent?: Maybe<WikiContent>;
@@ -256,6 +258,14 @@ export type QuerySearchOperatorsArgs = {
   query?: InputMaybe<Scalars["String"]["input"]>;
 };
 
+export type QuerySunshineDataArgs = {
+  filter: SunshineDataFilter;
+};
+
+export type QuerySunshineTariffsArgs = {
+  filter: SunshineDataFilter;
+};
+
 export type QuerySwissMedianObservationsArgs = {
   filters?: InputMaybe<ObservationFilters>;
   locale?: InputMaybe<Scalars["String"]["input"]>;
@@ -269,6 +279,43 @@ export type QueryWikiContentArgs = {
 export type SearchResult = {
   id: Scalars["String"]["output"];
   name: Scalars["String"]["output"];
+};
+
+export type SunshineDataFilter = {
+  operatorId?: InputMaybe<Scalars["Int"]["input"]>;
+  period?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+export type SunshineDataRow = {
+  __typename: "SunshineDataRow";
+  francRule?: Maybe<Scalars["Float"]["output"]>;
+  infoDaysInAdvance?: Maybe<Scalars["Int"]["output"]>;
+  infoYesNo?: Maybe<Scalars["Boolean"]["output"]>;
+  name: Scalars["String"]["output"];
+  operatorId?: Maybe<Scalars["Int"]["output"]>;
+  operatorUID: Scalars["String"]["output"];
+  period: Scalars["String"]["output"];
+  productsCount?: Maybe<Scalars["Int"]["output"]>;
+  productsSelection?: Maybe<Scalars["Boolean"]["output"]>;
+  saidiTotal?: Maybe<Scalars["Float"]["output"]>;
+  saidiUnplanned?: Maybe<Scalars["Float"]["output"]>;
+  saifiTotal?: Maybe<Scalars["Float"]["output"]>;
+  saifiUnplanned?: Maybe<Scalars["Float"]["output"]>;
+  tariffEC2?: Maybe<Scalars["Float"]["output"]>;
+  tariffEC3?: Maybe<Scalars["Float"]["output"]>;
+  tariffEC4?: Maybe<Scalars["Float"]["output"]>;
+  tariffEC6?: Maybe<Scalars["Float"]["output"]>;
+  tariffEH2?: Maybe<Scalars["Float"]["output"]>;
+  tariffEH4?: Maybe<Scalars["Float"]["output"]>;
+  tariffEH7?: Maybe<Scalars["Float"]["output"]>;
+  tariffNC2?: Maybe<Scalars["Float"]["output"]>;
+  tariffNC3?: Maybe<Scalars["Float"]["output"]>;
+  tariffNC4?: Maybe<Scalars["Float"]["output"]>;
+  tariffNC6?: Maybe<Scalars["Float"]["output"]>;
+  tariffNH2?: Maybe<Scalars["Float"]["output"]>;
+  tariffNH4?: Maybe<Scalars["Float"]["output"]>;
+  tariffNH7?: Maybe<Scalars["Float"]["output"]>;
+  timely?: Maybe<Scalars["Boolean"]["output"]>;
 };
 
 export type SwissMedianObservation = {
@@ -287,6 +334,23 @@ export type SystemInfo = {
   SPARQL_ENDPOINT: Scalars["String"]["output"];
   VERSION: Scalars["String"]["output"];
 };
+
+export enum TariffCategory {
+  Ec2 = "EC2",
+  Ec3 = "EC3",
+  Ec4 = "EC4",
+  Ec6 = "EC6",
+  Eh2 = "EH2",
+  Eh4 = "EH4",
+  Eh7 = "EH7",
+  Nc2 = "NC2",
+  Nc3 = "NC3",
+  Nc4 = "NC4",
+  Nc6 = "NC6",
+  Nh2 = "NH2",
+  Nh4 = "NH4",
+  Nh7 = "NH7",
+}
 
 export type WikiContent = {
   __typename: "WikiContent";
@@ -560,6 +624,70 @@ export type CubeHealthQuery = {
     ok: boolean;
     dimensions: Array<string>;
   } | null;
+};
+
+export type SunshineDataQueryVariables = Exact<{
+  filter: SunshineDataFilter;
+}>;
+
+export type SunshineDataQuery = {
+  __typename: "Query";
+  sunshineData: Array<{
+    __typename: "SunshineDataRow";
+    operatorId?: number | null;
+    operatorUID: string;
+    name: string;
+    period: string;
+    francRule?: number | null;
+    infoYesNo?: boolean | null;
+    infoDaysInAdvance?: number | null;
+    productsCount?: number | null;
+    productsSelection?: boolean | null;
+    timely?: boolean | null;
+    saidiTotal?: number | null;
+    saidiUnplanned?: number | null;
+    saifiTotal?: number | null;
+    saifiUnplanned?: number | null;
+  }>;
+};
+
+export type SunshineTariffQueryVariables = Exact<{
+  filter: SunshineDataFilter;
+}>;
+
+export type SunshineTariffQuery = {
+  __typename: "Query";
+  sunshineTariffs: Array<{
+    __typename: "SunshineDataRow";
+    operatorId?: number | null;
+    operatorUID: string;
+    name: string;
+    period: string;
+    francRule?: number | null;
+    infoYesNo?: boolean | null;
+    infoDaysInAdvance?: number | null;
+    productsCount?: number | null;
+    productsSelection?: boolean | null;
+    timely?: boolean | null;
+    saidiTotal?: number | null;
+    saidiUnplanned?: number | null;
+    saifiTotal?: number | null;
+    saifiUnplanned?: number | null;
+    tariffEC2?: number | null;
+    tariffEC3?: number | null;
+    tariffEC4?: number | null;
+    tariffEC6?: number | null;
+    tariffEH2?: number | null;
+    tariffEH4?: number | null;
+    tariffEH7?: number | null;
+    tariffNC2?: number | null;
+    tariffNC3?: number | null;
+    tariffNC4?: number | null;
+    tariffNC6?: number | null;
+    tariffNH2?: number | null;
+    tariffNH4?: number | null;
+    tariffNH7?: number | null;
+  }>;
 };
 
 export const OperatorObservationFieldsFragmentDoc = gql`
@@ -859,6 +987,78 @@ export function useCubeHealthQuery(
 ) {
   return Urql.useQuery<CubeHealthQuery, CubeHealthQueryVariables>({
     query: CubeHealthDocument,
+    ...options,
+  });
+}
+export const SunshineDataDocument = gql`
+  query SunshineData($filter: SunshineDataFilter!) {
+    sunshineData(filter: $filter) {
+      operatorId
+      operatorUID
+      name
+      period
+      francRule
+      infoYesNo
+      infoDaysInAdvance
+      productsCount
+      productsSelection
+      timely
+      saidiTotal
+      saidiUnplanned
+      saifiTotal
+      saifiUnplanned
+    }
+  }
+`;
+
+export function useSunshineDataQuery(
+  options: Omit<Urql.UseQueryArgs<SunshineDataQueryVariables>, "query">
+) {
+  return Urql.useQuery<SunshineDataQuery, SunshineDataQueryVariables>({
+    query: SunshineDataDocument,
+    ...options,
+  });
+}
+export const SunshineTariffDocument = gql`
+  query SunshineTariff($filter: SunshineDataFilter!) {
+    sunshineTariffs(filter: $filter) {
+      operatorId
+      operatorUID
+      name
+      period
+      francRule
+      infoYesNo
+      infoDaysInAdvance
+      productsCount
+      productsSelection
+      timely
+      saidiTotal
+      saidiUnplanned
+      saifiTotal
+      saifiUnplanned
+      tariffEC2
+      tariffEC3
+      tariffEC4
+      tariffEC6
+      tariffEH2
+      tariffEH4
+      tariffEH7
+      tariffNC2
+      tariffNC3
+      tariffNC4
+      tariffNC6
+      tariffNH2
+      tariffNH4
+      tariffNH7
+    }
+  }
+`;
+
+export function useSunshineTariffQuery(
+  options: Omit<Urql.UseQueryArgs<SunshineTariffQueryVariables>, "query">
+) {
+  return Urql.useQuery<SunshineTariffQuery, SunshineTariffQueryVariables>({
+    query: SunshineTariffDocument,
     ...options,
   });
 }

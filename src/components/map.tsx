@@ -10,7 +10,7 @@ import DeckGL, { DeckGLRef } from "@deck.gl/react/typed";
 import { Trans } from "@lingui/macro";
 import { Box, Typography } from "@mui/material";
 import centroid from "@turf/centroid";
-import { color, extent, group, mean, rollup, ScaleThreshold } from "d3";
+import { extent, group, mean, rollup, ScaleThreshold } from "d3";
 import html2canvas from "html2canvas";
 import React, {
   ComponentProps,
@@ -23,21 +23,17 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import {
-  feature as topojsonFeature,
-  mesh as topojsonMesh,
-} from "topojson-client";
 
 import { TooltipBoxWithoutChartState } from "src/components/charts-generic/interaction/tooltip-box";
 import { WithClassName } from "src/components/detail-page/with-classname";
 import { HighlightContext } from "src/components/highlight-context";
 import { Loading, NoDataHint, NoGeoDataHint } from "src/components/hint";
+import { constrainZoom, getFillColor } from "src/components/map-helpers";
 import { MapPriceColorLegend } from "src/components/price-color-legend";
+import { useGeoData } from "src/data/geo";
 import { useFormatCurrency } from "src/domain/helpers";
 import { OperatorObservationFieldsFragment } from "src/graphql/queries";
 import { maxBy } from "src/lib/array";
-
-import type { Feature, FeatureCollection, MultiLineString } from "geojson";
 
 const DOWNLOAD_ID = "map";
 
@@ -51,80 +47,14 @@ const INITIAL_VIEW_STATE = {
   bearing: 0,
 };
 
-const LINE_COLOR = [100, 100, 100, 127] as [number, number, number, number];
+const LINE_COLOR = [255, 255, 255, 255] as [number, number, number, number];
 
-type BBox = [[number, number], [number, number]];
+export type BBox = [[number, number], [number, number]];
 
 const CH_BBOX: BBox = [
   [5.956800664952974, 45.81912371940225],
   [10.493446773955753, 47.80741209797084],
 ];
-
-/**
- * Constrain the viewState to always _contain_ the supplied bbox.
- *
- * (Other implementations ensure that the bbox _covers_ the viewport)
- *
- * @param viewState deck.gl viewState
- * @param bbox Bounding box of the feature to be contained
- */
-const constrainZoom = (
-  viewState: $FixMe,
-  bbox: BBox,
-  { padding = 150 }: { padding?: number } = {}
-) => {
-  if (viewState.width < padding * 2 || viewState.height < padding * 2) {
-    return viewState;
-  }
-
-  const vp = new WebMercatorViewport(viewState);
-
-  const { width, height, zoom, longitude, latitude } = viewState;
-
-  const [x, y] = vp.project([longitude, latitude]);
-  const [x0, y1] = vp.project(bbox[0]);
-  const [x1, y0] = vp.project(bbox[1]);
-
-  const fitted = vp.fitBounds(bbox, { padding });
-
-  const [cx, cy] = vp.project([fitted.longitude, fitted.latitude]);
-
-  const h = height - padding * 2;
-  const w = width - padding * 2;
-
-  const h2 = h / 2;
-  const w2 = w / 2;
-
-  const y2 =
-    y1 - y0 < h ? cy : y - h2 < y0 ? y0 + h2 : y + h2 > y1 ? y1 - h2 : y;
-  const x2 =
-    x1 - x0 < w ? cx : x - w2 < x0 ? x0 + w2 : x + w2 > x1 ? x1 - w2 : x;
-
-  const p = vp.unproject([x2, y2]);
-
-  return {
-    ...viewState,
-    transitionDuration: 0,
-    transitionInterpolator: null,
-    zoom: Math.max(zoom, fitted.zoom),
-    longitude: p[0],
-    latitude: p[1],
-  };
-};
-
-/**
- * Simple fitZoom to bbox
- * @param viewState deck.gl viewState
- */
-// const fitZoom = (viewState: $FixMe, bbox: BBox) => {
-//   const vp = new WebMercatorViewport(viewState);
-//   const fitted = vp.fitBounds(bbox);
-
-//   return {
-//     ...viewState,
-//     ...fitted,
-//   };
-// };
 
 const __debugCheckObservationsWithoutShapes = (
   observationsByMunicipalityId: Map<
@@ -207,54 +137,6 @@ const HintBox = ({ children }: { children: ReactNode }) => (
   </Box>
 );
 
-type GeoData = {
-  state: "loaded";
-  cantons: FeatureCollection;
-  municipalities: FeatureCollection;
-  municipalityMesh: MultiLineString;
-  cantonMesh: MultiLineString;
-  lakes: FeatureCollection | Feature;
-};
-
-type FetchDataState<T> =
-  | {
-      state: "fetching";
-    }
-  | {
-      state: "error";
-    }
-  | ({
-      state: "loaded";
-    } & T);
-
-type GeoDataState = FetchDataState<GeoData>;
-
-const fetchGeoData = async (year: string) => {
-  const topo = await import(
-    `swiss-maps/${parseInt(year, 10) - 1}/ch-combined.json`
-  );
-
-  const municipalities = topojsonFeature(topo, topo.objects.municipalities);
-  const cantons = topojsonFeature(topo, topo.objects.cantons);
-  const municipalityMesh = topojsonMesh(
-    topo,
-    topo.objects.municipalities,
-    (a, b) => a !== b
-  );
-  const cantonMesh = topojsonMesh(topo, topo.objects.cantons);
-  const lakes = topojsonFeature(topo, topo.objects.lakes);
-  return {
-    municipalities: municipalities as Extract<
-      typeof municipalities,
-      { features: $IntentionalAny }
-    >,
-    cantons: cantons as Extract<typeof cantons, { features: $IntentionalAny }>,
-    municipalityMesh,
-    cantonMesh,
-    lakes,
-  };
-};
-
 type HoverState =
   | {
       x: number;
@@ -270,25 +152,6 @@ type HoverState =
       value: number;
       label: string;
     };
-
-const useGeoData = (year: string) => {
-  const [geoData, setGeoData] = useState<GeoDataState>({ state: "fetching" });
-  useEffect(() => {
-    const load = async () => {
-      try {
-        const geoData = await fetchGeoData(year);
-        setGeoData({
-          state: "loaded",
-          ...geoData,
-        });
-      } catch {
-        setGeoData({ state: "error" });
-      }
-    };
-    load();
-  }, [year]);
-  return geoData;
-};
 
 const toBlob = (canvas: HTMLCanvasElement, type: string) =>
   new Promise<Blob | null>((resolve) => {
@@ -404,7 +267,7 @@ export const ChoroplethMap = ({
   observationsQueryFetching: boolean;
   medianValue: number | undefined;
   municipalities: { id: string; name: string }[];
-  colorScale: ScaleThreshold<number, string> | undefined | 0;
+  colorScale: ScaleThreshold<number, string> | undefined;
   onMunicipalityLayerClick: (_item: PickingInfo) => void;
   controls?: React.MutableRefObject<{
     getImageData: () => Promise<string | undefined>;
@@ -500,28 +363,12 @@ export const ChoroplethMap = ({
     if (geoData.state === "loaded" && observationsByMunicipalityId.size > 0) {
       __debugCheckObservationsWithoutShapes(
         observationsByMunicipalityId,
-        geoData.municipalities
+        geoData.data.municipalities
       );
     }
   }, [geoData, observationsByMunicipalityId]);
 
   const formatNumber = useFormatCurrency();
-
-  const getColor = useCallback(
-    (v: number | undefined, highlighted: boolean): [number, number, number] => {
-      if (v === undefined) {
-        return [0, 0, 0];
-      }
-      const c = colorScale && colorScale(v);
-      const rgb =
-        c &&
-        color(c)
-          ?.darker(highlighted ? 1 : 0)
-          ?.rgb();
-      return rgb ? [rgb.r, rgb.g, rgb.b] : [0, 0, 0];
-    },
-    [colorScale]
-  );
 
   const { value: highlightContext } = useContext(HighlightContext);
 
@@ -529,8 +376,8 @@ export const ChoroplethMap = ({
     if (geoData.state !== "loaded") {
       return;
     }
-    const municipalities = geoData?.municipalities;
-    const cantons = geoData?.cantons;
+    const municipalities = geoData.data.municipalities;
+    const cantons = geoData.data.cantons;
     return {
       municipalities: new Map(
         municipalities?.features.map((x) => [x.id, x]) ?? []
@@ -675,7 +522,8 @@ export const ChoroplethMap = ({
 
           const obs = observationsByMunicipalityId.get(id);
           return obs
-            ? getColor(
+            ? getFillColor(
+                colorScale,
                 mean(obs, (d) => d.value),
                 false
               )
@@ -724,7 +572,7 @@ export const ChoroplethMap = ({
         lineWidthMinPixels: 0.5,
         lineWidthMaxPixels: 1,
         getLineWidth: 100,
-        getFillColor: [255, 255, 255],
+        getFillColor: LINE_COLOR,
         getLineColor: LINE_COLOR,
       }),
       new GeoJsonLayer({
@@ -740,7 +588,7 @@ export const ChoroplethMap = ({
         lineWidthMaxPixels: 3.6,
         getLineWidth: 200,
         lineMiterLimit: 1,
-        getLineColor: [120, 120, 120],
+        getLineColor: LINE_COLOR,
         parameters: {
           depthTest: false,
         },
@@ -784,12 +632,12 @@ export const ChoroplethMap = ({
     ];
   }, [
     geoData,
-    onMunicipalityLayerClick,
-    indexes,
     observationsByMunicipalityId,
-    getColor,
-    hovered,
     highlightContext?.id,
+    hovered,
+    indexes,
+    onMunicipalityLayerClick,
+    colorScale,
   ]);
 
   return (
@@ -820,7 +668,7 @@ export const ChoroplethMap = ({
               <Typography variant="caption" color={"text.500"}>
                 <Trans id="municipality">Gemeinde</Trans>
               </Typography>
-              <Typography variant="h4" sx={{ fontWeight: 700 }}>
+              <Typography variant="h5" sx={{ fontWeight: 700 }}>
                 {tooltipContent.name}
               </Typography>
             </Box>
@@ -838,8 +686,9 @@ export const ChoroplethMap = ({
                   <Box
                     sx={{
                       borderRadius: 9999,
-                      py: 1,
+                      px: 2,
                       display: "inline-block",
+                      width: "fit-content",
                     }}
                     style={{
                       background: colorScale(hovered.value),

@@ -7,7 +7,6 @@ import dynamic from "next/dynamic";
 import ErrorPage from "next/error";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import basicAuthMiddleware from "nextjs-basic-auth-middleware";
 
 const ContentWrapper = dynamic(
   () =>
@@ -78,9 +77,7 @@ type PageParams = { locale: string; id: string; entity: Entity };
 export const getServerSideProps: GetServerSideProps<
   Props,
   PageParams
-> = async ({ params, req, res, locale }) => {
-  await basicAuthMiddleware(req, res);
-
+> = async ({ params, res, locale }) => {
   const { id, entity } = params!;
 
   let props: Props;
@@ -258,7 +255,6 @@ const ElectricityTariffsPage = (props: Props) => {
                 bgcolor: "background.paper",
               }}
             >
-              {/* FIXME: Add Operator download button (after ci-cd) */}
               <DetailPageLayout
                 download={query.download}
                 selector={

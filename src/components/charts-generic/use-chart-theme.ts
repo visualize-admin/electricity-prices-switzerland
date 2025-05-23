@@ -5,7 +5,7 @@ export const useChartTheme = () => {
   const labelColor = palette.secondary[600];
   const legendLabelColor = palette.secondary[700];
   const domainColor = palette.secondary[800];
-  const gridColor = palette.secondary[300];
+  const gridColor = palette.monochrome[200];
   const axisLabelFontSize = 16;
   const axisLabelFontWeight = "bold";
   const axisLabelColor = palette.secondary[800];
