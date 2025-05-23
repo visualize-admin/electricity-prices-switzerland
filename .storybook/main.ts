@@ -7,6 +7,11 @@ const config: StorybookConfig = {
     name: "@storybook/nextjs",
     options: {},
   },
+  env: (config) => ({
+    ...config,
+    SPARQL_ENDPOINT: process.env.SPARQL_ENDPOINT ?? "",
+    SPARQL_EDITOR: process.env.SPARQL_EDITOR ?? "",
+  }),
   staticDirs: [],
 };
 export default config;

@@ -54,6 +54,9 @@ RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 RUN apk add curl
 
+# Cleanup to solve warning in acs-image-scan
+RUN apk --purge del apk-tools
+
 COPY --from=builder /app/public ./public
 
 # Set the correct permission for prerender cache

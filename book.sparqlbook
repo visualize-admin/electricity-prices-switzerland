@@ -1,0 +1,68 @@
+[
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "# Get Elcom cube",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "DESCRIBE <https://energy.ld.admin.ch/elcom/electricityprice>",
+    "metadata": {}
+  },
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "# Get Cube updated date",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "SELECT *\nWHERE {\n  <https://energy.ld.admin.ch/elcom/electricityprice> <http://schema.org/dateModified> ?dateModified .\n}",
+    "metadata": {}
+  },
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "# Get observations",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "SELECT DISTINCT ?dimension0 ?dimension1 ?dimension2 ?dimension3 ?dimension4 ?dimension5 ?dimension6 ?dimension7 ?dimension8 ?dimension9 WHERE {\n  <https://energy.ld.admin.ch/elcom/electricityprice> <https://cube.link/observationSet> ?observationSet0 .\n  ?observationSet0 <https://cube.link/observation> ?source0 .\n  ?source0 <https://energy.ld.admin.ch/elcom/electricityprice/dimension/period> ?dimension0 .\n  ?source0 <https://energy.ld.admin.ch/elcom/electricityprice/dimension/total> ?dimension1 .\n  ?source0 <https://energy.ld.admin.ch/elcom/electricityprice/dimension/operator> ?dimension2 .\n  ?source0 <https://energy.ld.admin.ch/elcom/electricityprice/dimension/category> ?dimension3 .\n  ?source0 <https://energy.ld.admin.ch/elcom/electricityprice/dimension/municipality> ?dimension4 .\n  ?dimension4 <http://schema.org/containedInPlace> ?dimension5 .\n  ?dimension5 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?dimension7 .\n  ?source0 <https://energy.ld.admin.ch/elcom/electricityprice/dimension/product> ?dimension10 .\n  FILTER (\n    (?dimension0 = \"2025\"^^<http://www.w3.org/2001/XMLSchema#gYear>)\n  )\n  FILTER (\n    (?dimension3 = <https://energy.ld.admin.ch/elcom/electricityprice/category/H4>)\n  )\n  FILTER (\n    (?dimension10 = <https://energy.ld.admin.ch/elcom/electricityprice/product/standard>)\n  )\n  FILTER (\n    (?dimension7 = <https://schema.ld.admin.ch/Canton>)\n  )\n  OPTIONAL {\n    ?dimension5 <http://schema.org/name> ?dimension6_0 .\n    FILTER (\n      LANGMATCHES(LANG(?dimension6_0), \"de\")\n    )\n  }\n  OPTIONAL {\n    ?dimension5 <http://schema.org/name> ?dimension6_1 .\n    FILTER (\n      (LANG(?dimension6_1) = \"\")\n    )\n  }\n  BIND(COALESCE(?dimension6_0, ?dimension6_1) AS ?dimension6)\n  OPTIONAL {\n    ?dimension4 <http://schema.org/name> ?dimension8_0 .\n    FILTER (\n      LANGMATCHES(LANG(?dimension8_0), \"de\")\n    )\n  }\n  OPTIONAL {\n    ?dimension4 <http://schema.org/name> ?dimension8_1 .\n    FILTER (\n      (LANG(?dimension8_1) = \"\")\n    )\n  }\n  BIND(COALESCE(?dimension8_0, ?dimension8_1) AS ?dimension8)\n  OPTIONAL {\n    ?dimension2 <http://schema.org/name> ?dimension9_0 .\n    FILTER (\n      LANGMATCHES(LANG(?dimension9_0), \"de\")\n    )\n  }\n  OPTIONAL {\n    ?dimension2 <http://schema.org/name> ?dimension9_1 .\n    FILTER (\n      (LANG(?dimension9_1) = \"\")\n    )\n  }\n  BIND(COALESCE(?dimension9_0, ?dimension9_1) AS ?dimension9)\n}\nGROUP BY ?dimension0 ?dimension1 ?dimension2 ?dimension3 ?dimension4 ?dimension5 ?dimension6 ?dimension7 ?dimension8 ?dimension9",
+    "metadata": {}
+  },
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "# Get municipality operators",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "SELECT DISTINCT ?period ?operator ?municipality ?canton WHERE {\n  <https://energy.ld.admin.ch/elcom/electricityprice> <https://cube.link/observationSet> ?observationSet0 .\n  ?observationSet0 <https://cube.link/observation> ?source0 .\n  ?source0 <https://energy.ld.admin.ch/elcom/electricityprice/dimension/period> \"2025\"^^<http://www.w3.org/2001/XMLSchema#gYear> .\n  ?source0 <https://energy.ld.admin.ch/elcom/electricityprice/dimension/operator> ?operator .\n  ?source0 <https://energy.ld.admin.ch/elcom/electricityprice/dimension/municipality> ?municipality .\n  ?municipality <http://schema.org/containedInPlace> ?canton .\n  ?canton <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.ld.admin.ch/Canton> .\n}\nGROUP BY ?period ?operator ?dimension3 ?municipality ?canton",
+    "metadata": {}
+  },
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "",
+    "metadata": {}
+  },
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "# Find all Elcom operators",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "PREFIX schema: <http://schema.org/>\n\nSELECT ?operator ?identifier ?name where {\n  ?operator a <http://schema.org/Organization> .\n  ?operator schema:identifier ?identifier.\n  ?operator schema:name ?name\n  FILTER(strstarts(str(?operator), \"https://energy.ld.admin.ch/elcom/electricityprice/operator/\" ) )\n}",
+    "metadata": {}
+  }
+]
