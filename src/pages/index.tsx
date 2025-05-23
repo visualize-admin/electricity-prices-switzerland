@@ -12,6 +12,7 @@ import dynamic from "next/dynamic";
 import Head from "next/head";
 import Image from "next/image";
 
+import { SunshineTopics } from "src/components/sunshine/sunshine-topics";
 import { Icon } from "src/icons";
 import { defaultLocale } from "src/locales/locales";
 
@@ -130,6 +131,19 @@ const IndexPage = () => {
               </Box>
             </Box>
           </ContentWrapper>
+          <Box
+            sx={{
+              backgroundColor: "secondary.50",
+            }}
+          >
+            <ContentWrapper
+              sx={{
+                py: 20,
+              }}
+            >
+              <SunshineTopics />
+            </ContentWrapper>
+          </Box>
         </Box>
       </ApplicationLayout>
     </>
