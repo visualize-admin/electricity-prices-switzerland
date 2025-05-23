@@ -18,7 +18,6 @@ const config: KnipConfig = {
     "make",
     // Used for running file encryptions
     "dotenv",
-    "tsx",
   ],
   ignoreUnresolved: [
     // Used in package.json:scripts:start to configure HTTP_PROXY.
