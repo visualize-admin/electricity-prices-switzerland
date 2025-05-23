@@ -26,10 +26,10 @@ import {
 } from "src/components/detail-page/layout";
 import { PriceComponentsBarChart } from "src/components/detail-page/price-components-bars";
 import { PriceDistributionHistograms } from "src/components/detail-page/price-distribution-histogram";
-import { PriceEvolution } from "src/components/detail-page/price-evolution-line-chart";
+import { PriceEvolutionCard } from "src/components/detail-page/price-evolution-line-chart";
 import { SelectorMulti } from "src/components/detail-page/selector-multi";
 import { DetailsPageSidebar } from "src/components/detail-page/sidebar";
-import { Entity } from "src/domain/data";
+import { Entity, priceComponents } from "src/domain/data";
 import { getLocalizedLabel } from "src/domain/translation";
 import { defaultLocale } from "src/locales/locales";
 import {
@@ -284,7 +284,11 @@ const ElectricityTariffsPage = (props: Props) => {
                 <SelectorMulti entity="municipality" />
 
                 <PriceComponentsBarChart id={id} entity={entity as Entity} />
-                <PriceEvolution id={id} entity={entity as Entity} />
+                <PriceEvolutionCard
+                  priceComponents={priceComponents}
+                  id={id}
+                  entity={entity as Entity}
+                />
                 <PriceDistributionHistograms
                   id={id}
                   entity={entity as Entity}

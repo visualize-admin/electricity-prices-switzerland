@@ -61,11 +61,7 @@ export const Example = () => {
           },
         }}
       >
-        <ChoroplethMap
-          {...props}
-          colorScale={colorScale}
-          onMunicipalityLayerClick={() => {}}
-        />
+        <ChoroplethMap {...props} colorScale={colorScale} />
       </Box>
     </I18nProvider>
   );
