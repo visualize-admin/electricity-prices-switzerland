@@ -131,7 +131,7 @@ const useHistogramState = ({
         <>
           <Box sx={{ alignItems: "center", gap: "0.375rem" }} display="flex">
             <LegendSymbol symbol="square" color={colors(d.x0!)} />
-            <Typography variant="caption" sx={{ fontWeight: "bold" }}>
+            <Typography variant="caption" sx={{ fontWeight: 700 }}>
               {d.x0}-{d.x1}
               {xAxisUnit}
             </Typography>

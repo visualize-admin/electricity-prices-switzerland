@@ -146,7 +146,7 @@ export const AnnotationXLabel = () => {
               wordBreak: "break-word",
             }}
           >
-            <Box component="span" sx={{ fontWeight: "bold" }}>
+            <Box component="span" sx={{ fontWeight: 700 }}>
               {a.value} {getLocalizedLabel({ id: "unit" })}{" "}
             </Box>
             {a.label}

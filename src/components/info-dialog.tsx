@@ -47,7 +47,7 @@ const DialogContent = ({
           mb: 3,
         },
         summary: {
-          fontWeight: "bold",
+          fontWeight: 700,
         },
         p: {
           my: 3,
