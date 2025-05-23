@@ -281,7 +281,7 @@ const ElectricityTariffsPage = (props: Props) => {
                   </DetailsPageSubtitle>
                 </DetailsPageHeader>
 
-                <SelectorMulti entity="municipality" />
+                <SelectorMulti entity={entity as Entity} />
 
                 <PriceComponentsBarChart id={id} entity={entity as Entity} />
                 <PriceEvolution id={id} entity={entity as Entity} />
