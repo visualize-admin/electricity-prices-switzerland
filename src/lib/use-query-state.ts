@@ -91,7 +91,7 @@ export const useQueryState = () => {
   return [state as QueryState, setState] as const;
 };
 
-type QueryStateSingle = {
+export type QueryStateSingle = {
   operator?: string;
   municipality?: string;
   canton?: string;
