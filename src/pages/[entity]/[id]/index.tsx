@@ -1,7 +1,7 @@
 import { IncomingMessage, ServerResponse } from "http";
 
 import { t, Trans } from "@lingui/macro";
-import { Box, useMediaQuery, useTheme } from "@mui/material";
+import { Box } from "@mui/material";
 import { GetServerSideProps } from "next";
 import dynamic from "next/dynamic";
 import ErrorPage from "next/error";
@@ -31,6 +31,7 @@ import { SelectorMulti } from "src/components/detail-page/selector-multi";
 import { DetailsPageSidebar } from "src/components/detail-page/sidebar";
 import { Entity } from "src/domain/data";
 import { getLocalizedLabel } from "src/domain/translation";
+import { useIsMobile } from "src/lib/use-mobile";
 import { defaultLocale } from "src/locales/locales";
 import {
   getCanton,
@@ -201,8 +202,7 @@ const ElectricityTariffsPage = (props: Props) => {
 
   const { id, name, entity } = props;
 
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.up("md"));
+  const isMobile = useIsMobile();
 
   return (
     <>
@@ -258,7 +258,7 @@ const ElectricityTariffsPage = (props: Props) => {
               <DetailPageLayout
                 download={query.download}
                 selector={
-                  isMobile ? (
+                  !isMobile ? (
                     <DetailsPageSidebar id={id} entity={entity as Entity} />
                   ) : null
                 }
@@ -281,7 +281,7 @@ const ElectricityTariffsPage = (props: Props) => {
                   </DetailsPageSubtitle>
                 </DetailsPageHeader>
 
-                <SelectorMulti entity="municipality" />
+                <SelectorMulti entity={entity as Entity} />
 
                 <PriceComponentsBarChart id={id} entity={entity as Entity} />
                 <PriceEvolution id={id} entity={entity as Entity} />

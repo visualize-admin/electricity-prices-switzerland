@@ -15,7 +15,7 @@ import { useQueryState } from "src/lib/use-query-state";
 export const SelectorMulti = ({
   entity = "municipality",
 }: {
-  entity?: Entity;
+  entity: Entity;
 }) => {
   const [queryState, setQueryState] = useQueryState();
   const getItemLabel = (id: string) => getLocalizedLabel({ id });
@@ -27,6 +27,8 @@ export const SelectorMulti = ({
       ...categories.filter((x) => x.startsWith("C")),
     ] as React.ComponentProps<typeof Combobox>["items"];
   }, []);
+
+  console.log(entity);
 
   return (
     <Box

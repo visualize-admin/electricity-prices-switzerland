@@ -86,8 +86,6 @@ const AppNavigation = () => {
               color: "secondary.500",
               mt: 2,
               mb: 2,
-              height: [0, 0, "unset"],
-              visibility: ["hidden", "hidden", "visible"],
             }}
           >
             <Trans id="search.global">

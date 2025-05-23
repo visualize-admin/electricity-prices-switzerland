@@ -7,7 +7,7 @@ export const useChartTheme = () => {
   const domainColor = palette.secondary[800];
   const gridColor = palette.monochrome[200];
   const axisLabelFontSize = 16;
-  const axisLabelFontWeight = "bold";
+  const axisLabelFontWeight = 700;
   const axisLabelColor = palette.secondary[800];
   const labelFontSize = 12;
   const fontFamily = typography.fontFamily as string;

@@ -27,7 +27,7 @@ export const Card = (props: CardProps) => {
         bgcolor: "background.paper",
         borderRadius: 1,
         py: 8,
-        px: 10,
+        px: { xxs: 5, md: 10 },
         boxShadow: 2,
         flexDirection: "column",
         gap: 8,

@@ -22,7 +22,7 @@ export const TooltipSingle = ({
       <Box sx={{ alignItems: "center" }} display="flex">
         {color && <LegendSymbol color={color} symbol="square" />}
         {xValue && (
-          <Typography variant="caption" sx={{ fontWeight: "bold" }}>
+          <Typography variant="caption" sx={{ fontWeight: 700 }}>
             {xValue}
           </Typography>
         )}
@@ -43,7 +43,7 @@ export const TooltipMultiple = ({
   return (
     <Box>
       {xValue && (
-        <Typography variant="caption" sx={{ fontWeight: "bold" }}>
+        <Typography variant="caption" sx={{ fontWeight: 700 }}>
           {xValue}
         </Typography>
       )}

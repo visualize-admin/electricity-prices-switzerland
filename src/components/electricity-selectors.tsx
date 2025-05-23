@@ -42,7 +42,7 @@ export const ElectricitySelectors = () => {
       <Typography
         component="legend"
         variant="body2"
-        fontWeight={600}
+        fontWeight={700}
         sx={{ display: "contents" }}
       >
         <Trans id="selector.legend.select.parameters">

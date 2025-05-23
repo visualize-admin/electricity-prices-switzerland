@@ -47,7 +47,7 @@ const DialogContent = ({
           mb: 3,
         },
         summary: {
-          fontWeight: "bold",
+          fontWeight: 700,
         },
         p: {
           my: 3,
@@ -78,7 +78,7 @@ const DialogContent = ({
   );
 };
 
-const HelpDialog: React.FC<{
+export const HelpDialog: React.FC<{
   close: () => void;
   label: string;
   open: boolean;

@@ -76,7 +76,7 @@ const RulerContent = ({
         }}
         sx={{
           position: "absolute",
-          fontWeight: "bold",
+          fontWeight: 700,
           bgcolor: "background.paper",
           transform: "translateX(-50%)",
           px: 1,

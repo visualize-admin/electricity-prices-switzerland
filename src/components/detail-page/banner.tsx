@@ -7,6 +7,7 @@ import { Fragment, useState } from "react";
 import { MapLink } from "src/components/links";
 import { Entity } from "src/domain/data";
 import { Icon } from "src/icons";
+import { useIsMobile } from "src/lib/use-mobile";
 
 import { OperatorDocuments } from "../operator-documents";
 
@@ -73,6 +74,7 @@ export const DetailPageBanner = ({
   municipalities?: { id: string; name: string }[];
 }) => {
   const { query } = useRouter();
+  const isMobile = useIsMobile();
 
   return (
     <Box
@@ -85,7 +87,7 @@ export const DetailPageBanner = ({
       <Box
         display="grid"
         sx={{
-          mb: 6,
+          mb: { md: 6 },
           gridTemplateColumns: [
             `1fr`,
             `minmax(150px,1fr) minmax(300px,3fr) minmax(150px,1fr)`,
@@ -121,7 +123,13 @@ export const DetailPageBanner = ({
       <Box sx={{ mx: "auto", my: 2 }}>
         <Typography
           variant="caption"
-          sx={{ color: "secondary.main" }}
+          sx={{
+            color: "secondary.main",
+            display: {
+              xxs: "none",
+              md: "block",
+            },
+          }}
           display="block"
         >
           {entity === "canton" ? (
@@ -138,10 +146,23 @@ export const DetailPageBanner = ({
               display={"flex"}
               sx={{
                 gap: 2,
-                alignItems: "center",
+                flexDirection: {
+                  xxs: "column",
+                  md: "row",
+                },
+                alignItems: { md: "center" },
               }}
             >
-              <Icon name="industry" size={32} />
+              <Stack
+                direction={"row"}
+                justifyContent={"space-between"}
+                alignItems={"center"}
+              >
+                <Icon name="industry" size={32} />
+                {entity === "operator" && isMobile ? (
+                  <OperatorDocuments id={id} />
+                ) : null}
+              </Stack>
               <Typography
                 component="h1"
                 variant="h1"
@@ -206,7 +227,9 @@ export const DetailPageBanner = ({
               )}
             </Box>
           </Stack>
-          {entity === "operator" ? <OperatorDocuments id={id} /> : null}
+          {entity === "operator" && !isMobile ? (
+            <OperatorDocuments id={id} />
+          ) : null}
         </Stack>
       </Box>
     </Box>

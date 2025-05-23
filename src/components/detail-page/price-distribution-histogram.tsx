@@ -300,8 +300,12 @@ const PriceDistributionHistogram = ({
           <Box
             sx={{
               position: "absolute",
-              right: "2.5rem",
-              top: { xxs: 48, md: 0 },
+              right: { md: "2.5rem" },
+              left: { xxs: 0, md: "auto" },
+              top: {
+                xxs: 0,
+                md: -20,
+              },
             }}
           >
             <PriceColorLegend />

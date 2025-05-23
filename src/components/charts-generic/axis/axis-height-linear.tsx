@@ -10,6 +10,7 @@ import {
 import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
 import { useFormatCurrency, useFormatNumber } from "src/domain/helpers";
 import { getLocalizedLabel } from "src/domain/translation";
+import { useIsMobile } from "src/lib/use-mobile";
 
 const TICK_MIN_HEIGHT = 50;
 
@@ -21,6 +22,8 @@ export const AxisHeightLinear = ({
   const ref = useRef<SVGGElement>(null);
   const formatNumber =
     format === "currency" ? useFormatCurrency() : useFormatNumber();
+
+  const isMobile = useIsMobile();
 
   const { yScale, yAxisLabel, bounds } = useChartState() as
     | ColumnsState
@@ -73,7 +76,7 @@ export const AxisHeightLinear = ({
       <g>
         <text
           x={0}
-          y={0}
+          y={isMobile ? bounds.margins.top / 2 - labelFontSize : 0}
           dy={bounds.margins.top / 2 - labelFontSize / 2}
           fontSize={labelFontSize}
           fill={axisLabelColor}

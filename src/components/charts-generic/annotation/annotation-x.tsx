@@ -10,6 +10,7 @@ import {
 import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
 import { GenericObservation } from "src/domain/data";
 import { getLocalizedLabel } from "src/domain/translation";
+import { useIsMobile } from "src/lib/use-mobile";
 
 const ANNOTATION_DOT_RADIUS = 2.5;
 const ANNOTATION_TRIANGLE_WIDTH = 5;
@@ -39,12 +40,15 @@ export const AnnotationX = () => {
     annotationLabelUnderlineColor,
   } = useChartTheme();
 
+  const isMobile = useIsMobile();
   return (
     <>
       {annotations &&
         annotations.map((a, i) => {
           const x = margins.left + a.x;
-          const y1 = a.yLabel + annotationFontSize * a.nbOfLines;
+          const y1 =
+            (isMobile ? margins.top / 2 + a.yLabel : a.yLabel) +
+            annotationFontSize * a.nbOfLines;
           return (
             <React.Fragment key={i}>
               <g transform={`translate(0, 0)`}>
@@ -126,11 +130,11 @@ export const AnnotationXLabel = () => {
             key={`${a.label}-${i}`}
             sx={{
               width: width,
-              p: 1,
+              p: { xxs: 0, md: 1 },
               zIndex: 2,
               position: "absolute",
               left: 0,
-              top: a.yLabel,
+              top: { xxs: bounds.margins.top / 2 + a.yLabel, md: a.yLabel },
               pointerEvents: "none",
               textAlign: "left",
               transform: `translate3d(${ANNOTATION_TRIANGLE_WIDTH}px, -40%, 0)`,
@@ -142,7 +146,7 @@ export const AnnotationXLabel = () => {
               wordBreak: "break-word",
             }}
           >
-            <Box component="span" sx={{ fontWeight: "bold" }}>
+            <Box component="span" sx={{ fontWeight: 700 }}>
               {a.value} {getLocalizedLabel({ id: "unit" })}{" "}
             </Box>
             {a.label}

@@ -165,7 +165,7 @@ export const ColorPaletteStack = (props: ColorPaletteProps) => {
           flexDirection: "column",
         }}
       >
-        <Typography variant="body2" fontWeight={"bold"} color={"black"}>
+        <Typography variant="body2" fontWeight={700} color={"black"}>
           {title}
         </Typography>
         {accessibilityNotes?.map((note, i) => {

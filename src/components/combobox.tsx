@@ -227,7 +227,7 @@ export const Combobox = ({
           return (
             <>
               {params.group ? (
-                <Typography variant="caption" fontWeight="bold" sx={{ mx: 4 }}>
+                <Typography variant="caption" fontWeight={700} sx={{ mx: 4 }}>
                   {params.group}
                 </Typography>
               ) : null}
