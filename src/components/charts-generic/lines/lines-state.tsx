@@ -16,7 +16,10 @@ import {
 } from "d3";
 import { ReactNode, useCallback, useMemo } from "react";
 
-import { LEFT_MARGIN_OFFSET } from "src/components/charts-generic/constants";
+import {
+  LEFT_MARGIN_OFFSET,
+  MINI_CHART_WIDTH,
+} from "src/components/charts-generic/constants";
 import { Tooltip } from "src/components/charts-generic/interaction/tooltip";
 import {
   ChartContext,
@@ -177,11 +180,13 @@ const useLinesState = ({
     estimateTextWidth(minText) + floatingPointExtra,
     estimateTextWidth(maxText) + floatingPointExtra
   );
+
+  const isMiniChart = width <= MINI_CHART_WIDTH;
   const margins = {
     top: 40,
     right: 40,
     bottom: 40,
-    left: left + LEFT_MARGIN_OFFSET,
+    left: isMiniChart ? 20 : left + LEFT_MARGIN_OFFSET,
   };
   const chartWidth = width - margins.left - margins.right;
   const chartHeight = chartWidth * aspectRatio;
