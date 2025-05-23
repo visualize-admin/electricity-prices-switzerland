@@ -78,7 +78,7 @@ const DialogContent = ({
   );
 };
 
-const HelpDialog: React.FC<{
+export const HelpDialog: React.FC<{
   close: () => void;
   label: string;
   open: boolean;
