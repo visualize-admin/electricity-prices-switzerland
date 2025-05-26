@@ -5,16 +5,14 @@ import {
   Autocomplete,
   Card,
   CardHeader,
-  TextField,
-} from "@mui/material";
-import {
+  Paper,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
-  Paper,
+  TextField,
 } from "@mui/material";
 import { Decorator, Meta } from "@storybook/react";
 import { Axis } from "@visx/axis";
@@ -24,14 +22,14 @@ import { MarkerCircle } from "@visx/marker";
 import { ParentSize } from "@visx/responsive";
 import { scaleLinear } from "@visx/scale";
 import { LinePath } from "@visx/shape";
-import { useTooltip, TooltipWithBounds, defaultStyles } from "@visx/tooltip";
+import { TooltipWithBounds, defaultStyles, useTooltip } from "@visx/tooltip";
 import { sortBy } from "lodash";
 import React, { useMemo, useState } from "react";
 import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 import { z } from "zod";
 
 const ErrorComponent = ({ message }: { message: string }) => (
-  <div style={{ color: "red", fontWeight: "bold" }}>
+  <div style={{ color: "red", fontWeight: 700 }}>
     <p>Error: {message}</p>
   </div>
 );

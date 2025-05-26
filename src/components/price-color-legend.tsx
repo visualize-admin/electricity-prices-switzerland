@@ -6,6 +6,7 @@ import { useState } from "react";
 import { InfoDialogButton } from "src/components/info-dialog";
 import { useFormatCurrency } from "src/domain/helpers";
 import { Icon } from "src/icons";
+import { useIsMobile } from "src/lib/use-mobile";
 import { chartPalette } from "src/themes/palette";
 
 const LEGEND_WIDTH = 215;
@@ -33,7 +34,8 @@ export const MapPriceColorLegend = ({
   id: string;
 }) => {
   const formatCurrency = useFormatCurrency();
-  const [open, setOpen] = useState(true);
+  const isMobile = useIsMobile();
+  const [open, setOpen] = useState(!isMobile);
 
   if (!open) {
     return (

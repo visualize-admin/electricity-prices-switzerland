@@ -135,7 +135,7 @@ export const BarsGroupedLabels = () => {
           >
             {!getSegment(d).includes(EXPANDED_TAG) && (
               <>
-                <tspan fontWeight="bold">
+                <tspan fontWeight={700}>
                   {formatCurrency(getX(d))} {getLocalizedLabel({ id: "unit" })}
                 </tspan>{" "}
               </>

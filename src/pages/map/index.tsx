@@ -237,7 +237,13 @@ const IndexPage = ({ locale }: Props) => {
         }}
       >
         <Box sx={{ display: { xxs: "block", md: "none" }, width: "100%" }}>
-          <ContentWrapper>
+          <ContentWrapper
+            sx={{
+              px: {
+                xxs: "0px !important",
+              },
+            }}
+          >
             <Box
               id={DOWNLOAD_ID}
               sx={{

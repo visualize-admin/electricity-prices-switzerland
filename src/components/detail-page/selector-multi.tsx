@@ -12,11 +12,7 @@ import { categories, Entity, periods, products } from "src/domain/data";
 import { getLocalizedLabel } from "src/domain/translation";
 import { useQueryState } from "src/lib/use-query-state";
 
-export const SelectorMulti = ({
-  entity = "municipality",
-}: {
-  entity?: Entity;
-}) => {
+export const SelectorMulti = ({ entity }: { entity: Entity }) => {
   const [queryState, setQueryState] = useQueryState();
   const getItemLabel = (id: string) => getLocalizedLabel({ id });
   const groupedCategories = useMemo(() => {

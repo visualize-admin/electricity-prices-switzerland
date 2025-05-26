@@ -34,6 +34,7 @@ import { useGeoData } from "src/data/geo";
 import { useFormatCurrency } from "src/domain/helpers";
 import { OperatorObservationFieldsFragment } from "src/graphql/queries";
 import { maxBy } from "src/lib/array";
+import { useIsMobile } from "src/lib/use-mobile";
 
 const DOWNLOAD_ID = "map";
 
@@ -55,6 +56,20 @@ const CH_BBOX: BBox = [
   [5.956800664952974, 45.81912371940225],
   [10.493446773955753, 47.80741209797084],
 ];
+
+/**
+ * Simple fitZoom to bbox
+ * @param viewState deck.gl viewState
+ */
+// const fitZoom = (viewState: $FixMe, bbox: BBox) => {
+//   const vp = new WebMercatorViewport(viewState);
+//   const fitted = vp.fitBounds(bbox);
+
+//   return {
+//     ...viewState,
+//     ...fitted,
+//   };
+// };
 
 const __debugCheckObservationsWithoutShapes = (
   observationsByMunicipalityId: Map<
@@ -274,6 +289,8 @@ export const ChoroplethMap = ({
   } | null>;
 }) => {
   const [hovered, setHovered] = useState<HoverState>();
+  const isMobile = useIsMobile();
+  const mapZoomPadding = isMobile ? 20 : 150;
 
   const [viewState, setViewState] = useState(INITIAL_VIEW_STATE);
   const [screenshotting, setScreenshotting] = useState(false);
@@ -288,19 +305,23 @@ export const ChoroplethMap = ({
       if (interactionState.inTransition) {
         setViewState(viewState as typeof INITIAL_VIEW_STATE);
       } else {
-        setViewState(constrainZoom(viewState, CH_BBOX));
+        setViewState(
+          constrainZoom(viewState, CH_BBOX, { padding: mapZoomPadding })
+        );
       }
     },
-    [screenshotting]
+    [screenshotting, mapZoomPadding]
   );
 
   const onResize = useCallback(
     ({ width, height }: { width: number; height: number }) => {
       setViewState((viewState) =>
-        constrainZoom({ ...viewState, width, height }, CH_BBOX)
+        constrainZoom({ ...viewState, width, height }, CH_BBOX, {
+          padding: mapZoomPadding,
+        })
       );
     },
-    [setViewState]
+    [setViewState, mapZoomPadding]
   );
 
   const deckRef = React.useRef<DeckGLRef>(null);
@@ -802,7 +823,8 @@ export const ChoroplethMap = ({
                     width: SCREENSHOT_CANVAS_SIZE.width,
                     height: SCREENSHOT_CANVAS_SIZE.height,
                   },
-                  CH_BBOX
+                  CH_BBOX,
+                  { padding: mapZoomPadding }
                 ) as $FixMe
               }
               layers={layers?.map((l) => l?.clone({}))}
