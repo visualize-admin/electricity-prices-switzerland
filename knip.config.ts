@@ -40,6 +40,9 @@ const config: KnipConfig = {
 
     // Used through webpack loaders
     "raw-loader",
+
+    // Used when debugging
+    "react-inspector",
   ],
 };
 export default config;
