@@ -235,7 +235,7 @@ const ElectricityTariffsPage = (props: Props) => {
               municipalities={
                 entity === "operator" ? props.municipalities : undefined
               }
-              entity={entity as Entity}
+              entity={entity}
             />
           </ContentWrapper>
         </Box>
@@ -259,7 +259,7 @@ const ElectricityTariffsPage = (props: Props) => {
                 download={query.download}
                 selector={
                   !isMobile ? (
-                    <DetailsPageSidebar id={id} entity={entity as Entity} />
+                    <DetailsPageSidebar id={id} entity={entity} />
                   ) : null
                 }
               >
@@ -281,18 +281,12 @@ const ElectricityTariffsPage = (props: Props) => {
                   </DetailsPageSubtitle>
                 </DetailsPageHeader>
 
-                <SelectorMulti entity={entity as Entity} />
+                <SelectorMulti entity={entity} />
 
-                <PriceComponentsBarChart id={id} entity={entity as Entity} />
-                <PriceEvolution id={id} entity={entity as Entity} />
-                <PriceDistributionHistograms
-                  id={id}
-                  entity={entity as Entity}
-                />
-                <CantonsComparisonRangePlots
-                  id={id}
-                  entity={entity as Entity}
-                />
+                <PriceComponentsBarChart id={id} entity={entity} />
+                <PriceEvolution id={id} entity={entity} />
+                <PriceDistributionHistograms id={id} entity={entity} />
+                <CantonsComparisonRangePlots id={id} entity={entity} />
               </DetailPageLayout>
             </Box>
           </ContentWrapper>
