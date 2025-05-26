@@ -30,11 +30,7 @@ type Props = {
   download?: string | string[];
 } & DetailsPageBaseProps;
 
-export const DetailPageContentLayout = ({
-  children,
-  selector,
-  download,
-}: Props) => {
+const DetailPageContentLayout = ({ children, selector, download }: Props) => {
   const renderedChildren = download
     ? Children.map(children, (child) => {
         if (
