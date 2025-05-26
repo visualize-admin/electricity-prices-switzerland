@@ -1,7 +1,5 @@
 import { GeoJsonLayer } from "@deck.gl/layers/typed";
 import DeckGL, { DeckGLRef } from "@deck.gl/react/typed";
-import { I18n } from "@lingui/core";
-import { I18nProvider } from "@lingui/react";
 import { Box, List, ListItemButton } from "@mui/material";
 import { Decorator } from "@storybook/react";
 import * as turf from "@turf/turf";
@@ -9,7 +7,6 @@ import { easeExpIn, mean, median } from "d3";
 import { Feature, Geometry, MultiPolygon, Polygon } from "geojson";
 import { keyBy } from "lodash";
 import { useCallback, useMemo, useRef, useState } from "react";
-import { ObjectInspector } from "react-inspector";
 import { createClient, Provider } from "urql";
 
 import { ChoroplethMap } from "src/components/map";
@@ -34,10 +31,6 @@ import { props } from "./map.mock";
 
 const TRANSPARENT = [255, 255, 255, 0] as [number, number, number, number];
 
-const i18n = new I18n({
-  locale: "en",
-});
-
 const colorAccessor = (d: { value: number }) => d.value;
 
 export const Example = () => {
@@ -47,25 +40,23 @@ export const Example = () => {
     accessor: colorAccessor,
   });
   return (
-    <I18nProvider i18n={i18n}>
-      <Box
-        width="800px"
-        height="800px"
-        position="relative"
-        sx={{
-          "& #deckgl-wrapper": {
-            width: "100%",
-            height: "100%",
-          },
-        }}
-      >
-        <ChoroplethMap
-          {...props}
-          colorScale={colorScale}
-          onMunicipalityLayerClick={() => {}}
-        />
-      </Box>
-    </I18nProvider>
+    <Box
+      width="800px"
+      height="800px"
+      position="relative"
+      sx={{
+        "& #deckgl-wrapper": {
+          width: "100%",
+          height: "100%",
+        },
+      }}
+    >
+      <ChoroplethMap
+        {...props}
+        colorScale={colorScale}
+        onMunicipalityLayerClick={() => {}}
+      />
+    </Box>
   );
 };
 
@@ -186,8 +177,7 @@ export const Operators = () => {
 
   const deckglRef = useRef<DeckGLRef>(null);
   return (
-    <I18nProvider i18n={i18n}>
-      <ObjectInspector data={sunshineTarriffs} />
+    <>
       Attribute selection
       <Box
         width="800px"
@@ -321,7 +311,7 @@ export const Operators = () => {
           ) : null}
         </Box>
       </Box>
-    </I18nProvider>
+    </>
   );
 };
 
