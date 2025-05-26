@@ -75,7 +75,7 @@ export type MunicipalityFeatureCollection = FeatureCollection<
 >;
 
 export type OperatorLayerProperties = {
-  municipalityCount: number;
+  municipalities: number[];
   operators: number[];
 };
 
@@ -141,7 +141,8 @@ export const getOperatorsFeatureCollection = (
 
   const municipalitiesById = keyBy(municipalities.features, "id");
   const operatorFeatures = Object.entries(municipalitiesByOperators)
-    .map(([operators, municipalities]) => {
+    .map(([operators, municipalities_]) => {
+      const municipalities = Array.from(new Set(municipalities_));
       // Get geometry features for all municipalities of this operator
       const municipalityFeatures = municipalities
         .map((muni) => municipalitiesById[muni])
@@ -173,7 +174,7 @@ export const getOperatorsFeatureCollection = (
         type: "Feature" as const,
         properties: {
           operators: operators.split("/").map((x) => parseInt(x, 10)),
-          municipalityCount: municipalities.length,
+          municipalities: municipalities,
         },
         geometry: geometry,
       };
