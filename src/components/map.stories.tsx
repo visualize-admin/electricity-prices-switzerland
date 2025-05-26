@@ -24,7 +24,7 @@ import { SunshineDataRow } from "src/graphql/resolver-types";
 import { truthy } from "src/lib/truthy";
 import {
   ElectricityCategory,
-  getOperatorMunicipalities,
+  getOperatorsMunicipalities,
 } from "src/rdf/queries";
 
 import { props } from "./map.mock";
@@ -112,7 +112,7 @@ export const Operators = () => {
     sunshineAttributeToElectricityCategory[attribute] ?? "all";
   const { data: operatorMunicipalities } = useFetch({
     key: `operator-municipalities-${period}-${electricityCategory}`,
-    queryFn: () => getOperatorMunicipalities(period, electricityCategory),
+    queryFn: () => getOperatorsMunicipalities(period, electricityCategory),
   });
   const { data: geoData } = useGeoData(period);
   const [sunshineTarriffs] = useSunshineTariffQuery({

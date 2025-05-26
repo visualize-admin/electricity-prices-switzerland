@@ -1,5 +1,3 @@
-import { IncomingMessage, ServerResponse } from "http";
-
 import { t, Trans } from "@lingui/macro";
 import { Box } from "@mui/material";
 import { GetServerSideProps } from "next";
@@ -29,51 +27,22 @@ import { PriceDistributionHistograms } from "src/components/detail-page/price-di
 import { PriceEvolution } from "src/components/detail-page/price-evolution-line-chart";
 import { SelectorMulti } from "src/components/detail-page/selector-multi";
 import { DetailsPageSidebar } from "src/components/detail-page/sidebar";
-import { Entity } from "src/domain/data";
+import {
+  handleCantonEntity,
+  handleMunicipalityEntity,
+  handleOperatorsEntity,
+  PageParams,
+  Props,
+} from "src/data/shared-page-props";
 import { getLocalizedLabel } from "src/domain/translation";
 import { useIsMobile } from "src/lib/use-mobile";
 import { defaultLocale } from "src/locales/locales";
-import {
-  getCanton,
-  getDimensionValuesAndLabels,
-  getMunicipality,
-  getObservationsCube,
-  getOperator,
-} from "src/rdf/queries";
 
 const ApplicationLayout = dynamic(
   () =>
     import("src/components/app-layout").then((mod) => mod.ApplicationLayout),
   { ssr: false }
 );
-
-type Props =
-  | {
-      entity: "canton";
-      status: "found";
-      id: string;
-      name: string;
-    }
-  | {
-      entity: "municipality";
-      status: "found";
-      id: string;
-      name: string;
-      operators: { id: string; name: string }[];
-      locale: string;
-    }
-  | {
-      entity: "operator";
-      status: "found";
-      id: string;
-      name: string;
-      municipalities: { id: string; name: string }[];
-    }
-  | {
-      status: "notfound";
-    };
-
-type PageParams = { locale: string; id: string; entity: Entity };
 
 export const getServerSideProps: GetServerSideProps<
   Props,
@@ -115,81 +84,6 @@ export const getServerSideProps: GetServerSideProps<
 
   return {
     props,
-  };
-};
-
-const handleCantonEntity = async (
-  params: Omit<PageParams, "entity"> & { res: ServerResponse<IncomingMessage> }
-): Promise<Props> => {
-  const { id, locale, res } = params!;
-  const canton = await getCanton({ id, locale: locale! });
-
-  if (!canton) {
-    res.statusCode = 404;
-    return { status: "notfound" };
-  }
-
-  return { status: "found", id, name: canton.name, entity: "canton" };
-};
-
-const handleMunicipalityEntity = async (
-  params: Omit<PageParams, "entity"> & { res: ServerResponse<IncomingMessage> }
-): Promise<Props> => {
-  const { id, locale, res } = params!;
-  const municipality = await getMunicipality({ id });
-
-  if (!municipality) {
-    res.statusCode = 404;
-    return { status: "notfound" };
-  }
-
-  const cube = await getObservationsCube();
-
-  const operators = await getDimensionValuesAndLabels({
-    cube,
-    dimensionKey: "operator",
-    filters: { municipality: [id] },
-  });
-
-  return {
-    entity: "municipality",
-    status: "found",
-    id,
-    name: municipality.name,
-    operators: operators
-      .sort((a, b) => a.name.localeCompare(b.name, locale))
-      .map(({ id, name }) => ({ id, name })),
-    locale: locale ?? defaultLocale,
-  };
-};
-
-const handleOperatorsEntity = async (
-  params: Omit<PageParams, "entity"> & { res: ServerResponse<IncomingMessage> }
-): Promise<Props> => {
-  const { id, locale, res } = params!;
-  const operator = await getOperator({ id });
-
-  if (!operator) {
-    res.statusCode = 404;
-    return { status: "notfound" };
-  }
-
-  const cube = await getObservationsCube();
-
-  const municipalities = await getDimensionValuesAndLabels({
-    cube,
-    dimensionKey: "municipality",
-    filters: { operator: [id] },
-  });
-
-  return {
-    entity: "operator",
-    status: "found",
-    id,
-    name: operator.name,
-    municipalities: municipalities
-      .sort((a, b) => a.name.localeCompare(b.name, locale))
-      .map(({ id, name }) => ({ id, name })),
   };
 };
 
