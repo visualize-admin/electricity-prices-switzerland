@@ -358,6 +358,7 @@ const IndexPage = ({ locale }: Props) => {
               position: "relative",
             }}
           >
+            
             <ElectricitySelectors />
             <List
               observations={observations}
