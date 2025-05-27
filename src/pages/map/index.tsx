@@ -254,6 +254,7 @@ const IndexPage = ({ locale }: Props) => {
                   observationsQueryFetching={
                     observationsQuery.fetching || municipalitiesQuery.fetching
                   }
+                  onMunicipalityLayerClick={() => {}}
                   medianValue={medianValue}
                   colorScale={colorScale}
                   controls={controlsRef}
@@ -312,6 +313,7 @@ const IndexPage = ({ locale }: Props) => {
                 observationsQueryFetching={
                   observationsQuery.fetching || municipalitiesQuery.fetching
                 }
+                onMunicipalityLayerClick={() => {}}
                 medianValue={medianValue}
                 colorScale={colorScale}
                 controls={controlsRef}
