@@ -7,7 +7,7 @@ and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 You can also check the
-[release page](https://github.com/visualize-admin/visualization-tool/releases)
+[release page](https://github.com/visualize-admin/electricity-prices-switzerland/releases)
 
 # Unreleased
 

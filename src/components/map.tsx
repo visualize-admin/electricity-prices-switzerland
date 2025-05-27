@@ -36,10 +36,9 @@ import { useGeoData } from "src/data/geo";
 import { useFormatCurrency } from "src/domain/helpers";
 import { OperatorObservationFieldsFragment } from "src/graphql/queries";
 import { maxBy } from "src/lib/array";
+import { useIsMobile } from "src/lib/use-mobile";
 
 import { useMap } from "./map-context";
-
-import type { Feature, FeatureCollection, MultiLineString } from "geojson";
 
 const DOWNLOAD_ID = "map";
 
@@ -65,56 +64,7 @@ const CH_BBOX: BBox = [
 ];
 
 /**
- * Constrain the viewState to always _contain_ the supplied bbox.
- *
- * (Other implementations ensure that the bbox _covers_ the viewport)
- *
- * @param viewState deck.gl viewState
- * @param bbox Bounding box of the feature to be contained
- */
-const constrainZoom = (
-  viewState: $FixMe,
-  bbox: BBox,
-  { padding = 150 }: { padding?: number } = {}
-) => {
-  if (viewState.width < padding * 2 || viewState.height < padding * 2) {
-    return viewState;
-  }
 
-  const vp = new WebMercatorViewport(viewState);
-
-  const { width, height, zoom, longitude, latitude } = viewState;
-
-  const [x, y] = vp.project([longitude, latitude]);
-  const [x0, y1] = vp.project(bbox[0]);
-  const [x1, y0] = vp.project(bbox[1]);
-
-  const fitted = vp.fitBounds(bbox, { padding });
-
-  const [cx, cy] = vp.project([fitted.longitude, fitted.latitude]);
-
-  const h = height - padding * 2;
-  const w = width - padding * 2;
-
-  const h2 = h / 2;
-  const w2 = w / 2;
-
-  const y2 =
-    y1 - y0 < h ? cy : y - h2 < y0 ? y0 + h2 : y + h2 > y1 ? y1 - h2 : y;
-  const x2 =
-    x1 - x0 < w ? cx : x - w2 < x0 ? x0 + w2 : x + w2 > x1 ? x1 - w2 : x;
-
-  const p = vp.unproject([x2, y2]);
-
-  return {
-    ...viewState,
-    zoom: Math.max(zoom, fitted.zoom),
-    longitude: p[0],
-    latitude: p[1],
-  };
-};
-
-/**
  * Simple fitZoom to bbox
  * @param viewState deck.gl viewState
  */
@@ -348,6 +298,8 @@ export const ChoroplethMap = ({
   } | null>;
 }) => {
   const [hovered, setHovered] = useState<HoverState>();
+  const isMobile = useIsMobile();
+  const mapZoomPadding = isMobile ? 20 : 150;
 
   const [viewState, setViewState] = useState({
     ...INITIAL_VIEW_STATE,
@@ -365,19 +317,23 @@ export const ChoroplethMap = ({
       if (interactionState.inTransition) {
         setViewState(viewState as typeof INITIAL_VIEW_STATE);
       } else {
-        setViewState(constrainZoom(viewState, CH_BBOX));
+        setViewState(
+          constrainZoom(viewState, CH_BBOX, { padding: mapZoomPadding })
+        );
       }
     },
-    [screenshotting]
+    [screenshotting, mapZoomPadding]
   );
 
   const onResize = useCallback(
     ({ width, height }: { width: number; height: number }) => {
       setViewState((viewState) =>
-        constrainZoom({ ...viewState, width, height }, CH_BBOX)
+        constrainZoom({ ...viewState, width, height }, CH_BBOX, {
+          padding: mapZoomPadding,
+        })
       );
     },
-    [setViewState]
+    [setViewState, mapZoomPadding]
   );
 
   const deckRef = React.useRef<DeckGLRef>(null);
@@ -934,7 +890,8 @@ export const ChoroplethMap = ({
                     width: SCREENSHOT_CANVAS_SIZE.width,
                     height: SCREENSHOT_CANVAS_SIZE.height,
                   },
-                  CH_BBOX
+                  CH_BBOX,
+                  { padding: mapZoomPadding }
                 ) as $FixMe
               }
               layers={layers?.map((l) => l?.clone({}))}

@@ -40,12 +40,12 @@ export const useFormatNumber = () => {
 // We don't use CHF currency because the unit used is Rp./kWh. Intead we just reuse the regular number format:
 // E.g. 3,5 Rp./kWh, 1 Rp./kWh
 // Same as useFormatNumber currently
-export const useFormatCurrency = () => {
+export const useFormatCurrency = (alwaysLeaveDecimals: boolean = false) => {
   const locale = useLocale();
   const formatter = React.useMemo(() => {
     const { format } = d3FormatLocales[locale];
-    return format(",.2f");
-  }, [locale]);
+    return format(alwaysLeaveDecimals ? ",.2f" : ",.2~f");
+  }, [locale, alwaysLeaveDecimals]);
   return formatter;
 };
 

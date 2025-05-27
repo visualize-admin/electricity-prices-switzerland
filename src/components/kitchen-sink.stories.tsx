@@ -59,37 +59,37 @@ export const TypographyStory = () => {
             {defaultText}
           </TypographyStack>
         </DesignSection>
-        <DesignSection title="Bold">
-          <TypographyStack fontWeight={"bold"} variant="display1">
+        <DesignSection title={"Bold"}>
+          <TypographyStack fontWeight={700} variant="display1">
             {defaultText}
           </TypographyStack>
-          <TypographyStack fontWeight={"bold"} variant="display2">
+          <TypographyStack fontWeight={700} variant="display2">
             {defaultText}
           </TypographyStack>
-          <TypographyStack fontWeight={"bold"} variant="h1">
+          <TypographyStack fontWeight={700} variant="h1">
             {defaultText}
           </TypographyStack>
-          <TypographyStack fontWeight={"bold"} variant="h2">
+          <TypographyStack fontWeight={700} variant="h2">
             {defaultText}
           </TypographyStack>
-          <TypographyStack fontWeight={"bold"} variant="h3">
+          <TypographyStack fontWeight={700} variant="h3">
             {defaultText}
           </TypographyStack>
-          <TypographyStack fontWeight={"bold"} variant="body1">
+          <TypographyStack fontWeight={700} variant="body1">
             {defaultText}
           </TypographyStack>
-          <TypographyStack fontWeight={"bold"} variant="body2">
+          <TypographyStack fontWeight={700} variant="body2">
             {defaultText}
           </TypographyStack>
-          <TypographyStack fontWeight={"bold"} variant="body3">
+          <TypographyStack fontWeight={700} variant="body3">
             {defaultText}
           </TypographyStack>
-          <TypographyStack fontWeight={"bold"} variant="caption">
+          <TypographyStack fontWeight={700} variant="caption">
             {defaultText}
           </TypographyStack>
           {/* FIXME: Currently there is no caption superscript type in swiss-federal-ci */}
           <TypographyStack
-            fontWeight={"bold"}
+            fontWeight={700}
             variant="caption"
             sx={{
               fontFeatureSettings: `'liga' off, 'clig' off, 'sups' on`,

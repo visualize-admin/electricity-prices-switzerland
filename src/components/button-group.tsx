@@ -5,7 +5,7 @@ import { VisuallyHidden } from "src/components/visually-hidden";
 
 import { InfoDialogButton } from "./info-dialog";
 
-type RadioTabsProps<T> = {
+type ButtonGroupProps<T> = {
   id: string;
   options: { value: T; label: ReactNode }[];
   value: T;
@@ -72,7 +72,7 @@ export const ButtonGroup = <T extends string>({
   label,
   showLabel = true,
   infoDialogSlug,
-}: RadioTabsProps<T>) => {
+}: ButtonGroupProps<T>) => {
   const onTabChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
     (e) => {
       if (e.currentTarget.checked) {
