@@ -7,12 +7,9 @@ import {
   Card,
   CardContent,
   Grid,
-  Table,
   TableBody,
   TableRow,
   TableCell,
-  tableClasses,
-  tableCellClasses,
 } from "@mui/material";
 import { GetServerSideProps } from "next";
 import ErrorPage from "next/error";
@@ -22,6 +19,7 @@ import React, { useState } from "react";
 import { ButtonGroup } from "src/components/button-group";
 import CardGrid from "src/components/card-grid";
 import { Combobox } from "src/components/combobox";
+import ComparisonTable from "src/components/comparison-table";
 import { DetailPageBanner } from "src/components/detail-page/banner";
 import {
   DetailsPageLayout,
@@ -30,6 +28,7 @@ import {
   DetailsPageTitle,
 } from "src/components/detail-page/layout";
 import { DetailsPageSidebar } from "src/components/detail-page/sidebar";
+import UnitValueWithTrend from "src/components/unit-value-with-trend";
 import {
   handleOperatorsEntity,
   PageParams,
@@ -244,32 +243,16 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
                 Network Costs at {networkLabels.long} Level
               </Trans>
             </Typography>
-            <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+            <Typography
+              variant="subtitle2"
+              color="text.  secondary"
+              gutterBottom
+            >
               <Trans id="sunshine.costs-and-tariffs.latest-year">
                 Latest year ({latestYear})
               </Trans>
             </Typography>
-            <Table
-              size="small"
-              sx={{
-                mb: 2,
-                width: "100%",
-
-                [`& .${tableClasses.root}`]: {
-                  tableLayout: "fixed", // Ensures the table takes full width
-                  width: "100%",
-                },
-
-                // Make sure the 1st column takes 50% of the width
-                [`& .${tableCellClasses.root}:first-child`]: {
-                  paddingLeft: 0,
-                  width: "50%", // Ensures the first column takes 50% of the width
-                },
-                [`& .${tableCellClasses.root}:last-child`]: {
-                  textAlign: "right", // Ensures the first column takes 50% of the width
-                },
-              }}
-            >
+            <ComparisonTable size="small">
               <TableBody>
                 <TableRow>
                   <TableCell>
@@ -304,7 +287,7 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
                   </TableCell>
                 </TableRow>
               </TableBody>
-            </Table>
+            </ComparisonTable>
           </CardContent>
         </Card>
 
@@ -330,58 +313,53 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
             {/* Dropdown Controls */}
             <Grid container spacing={3} sx={{ mb: 3 }}>
               <Grid item xs={12} sm={6}>
-                <Box>
-                  <Typography variant="caption" gutterBottom></Typography>
-                  <ButtonGroup
-                    id="view-by-button-group"
-                    label={t({
-                      id: "sunshine.costs-and-tariffs.view-by",
-                      message: "View By",
-                    })}
-                    options={[
-                      {
-                        value: "latest",
-                        label: (
-                          <Trans id="sunshine.costs-and-tariffs.latest-year-option">
-                            Latest year
-                          </Trans>
-                        ),
-                      },
-                      {
-                        value: "progress",
-                        label: (
-                          <Trans id="sunshine.costs-and-tariffs.progress-over-time">
-                            Progress over time
-                          </Trans>
-                        ),
-                      },
-                    ]}
-                    value={viewBy}
-                    setValue={setViewBy}
-                  />
-                </Box>
+                <ButtonGroup
+                  id="view-by-button-group"
+                  label={t({
+                    id: "sunshine.costs-and-tariffs.view-by",
+                    message: "View By",
+                  })}
+                  options={[
+                    {
+                      value: "latest",
+                      label: (
+                        <Trans id="sunshine.costs-and-tariffs.latest-year-option">
+                          Latest year
+                        </Trans>
+                      ),
+                    },
+                    {
+                      value: "progress",
+                      label: (
+                        <Trans id="sunshine.costs-and-tariffs.progress-over-time">
+                          Progress over time
+                        </Trans>
+                      ),
+                    },
+                  ]}
+                  value={viewBy}
+                  setValue={setViewBy}
+                />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <Box>
-                  <Combobox
-                    id="compare-with-selection"
-                    label={t({
-                      id: "sunshine.costs-and-tariffs.compare-with",
-                      message: "Compare With",
-                    })}
-                    items={[
-                      "sunshine.costs-and-tariffs.all-peer-group",
-                      "sunshine.costs-and-tariffs.selected-operators",
-                    ]}
-                    selectedItem={compareWith}
-                    setSelectedItem={setCompareWith}
-                    getItemLabel={(item) =>
-                      getLocalizedLabel({
-                        id: item,
-                      })
-                    }
-                  />
-                </Box>
+                <Combobox
+                  id="compare-with-selection"
+                  label={t({
+                    id: "sunshine.costs-and-tariffs.compare-with",
+                    message: "Compare With",
+                  })}
+                  items={[
+                    "sunshine.costs-and-tariffs.all-peer-group",
+                    "sunshine.costs-and-tariffs.selected-operators",
+                  ]}
+                  selectedItem={compareWith}
+                  setSelectedItem={setCompareWith}
+                  getItemLabel={(item) =>
+                    getLocalizedLabel({
+                      id: item,
+                    })
+                  }
+                />
               </Grid>
             </Grid>
 
@@ -405,35 +383,6 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
         </Card>
       </CardGrid>
     </>
-  );
-};
-
-const UnitValueWithTrend: React.FC<{
-  value: number;
-  unit: string;
-  trend: "stable" | "increasing" | "decreasing";
-}> = ({ value, unit, trend }) => {
-  const trendIcon = {
-    stable: "↔️",
-    increasing: "📈",
-    decreasing: "📉",
-  }[trend];
-
-  return (
-    <Box sx={{ display: "inline-flex", alignItems: "baseline", gap: 1 }}>
-      <span>{trendIcon}</span>
-      <Typography
-        variant="h3"
-        color="text.primary"
-        component="span"
-        fontWeight={700}
-      >
-        {value}
-      </Typography>
-      <Typography variant="caption" color="text.primary">
-        {unit}
-      </Typography>
-    </Box>
   );
 };
 
