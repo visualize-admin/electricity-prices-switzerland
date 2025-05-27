@@ -10,7 +10,8 @@ import { getLocalizedLabel } from "src/domain/translation";
 import { Icon } from "src/icons";
 import { QueryStateSingle, useQueryStateSingle } from "src/lib/use-query-state";
 
-import { ListItemType, ListState } from "./list";
+import { ListItemType } from "./list";
+import { ListState } from "./map-context";
 
 type MapDetailsContentProps = {
   onBack: () => void;
