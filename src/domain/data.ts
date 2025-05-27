@@ -111,3 +111,44 @@ export const categories = [
   "C6",
   "C7",
 ];
+
+export type PeerGroup = {
+  energyDensity: string;
+  settlementDensity: string;
+};
+
+export type NetworkLevel = {
+  id: string;
+};
+
+export type SunshineCostsAndTariffsData = {
+  networkLevel: {
+    id: string;
+  };
+  latestYear: string;
+  operatorRate: number;
+  peerGroupMedianRate: number;
+  peerGroup: {
+    energyDensity: string;
+    settlementDensity: string;
+  };
+  updateDate: string;
+};
+
+export const fetchOperatorCostsAndTariffsData = async (id: string) => {
+  return {
+    peerGroup: {
+      energyDensity: "low",
+      settlementDensity: "rural",
+    },
+
+    networkLevel: {
+      id: "NE7",
+    },
+    latestYear: "2024",
+
+    operatorRate: 23.4,
+    peerGroupMedianRate: 25.6,
+    updateDate: "March 7, 2024, 1:28 PM",
+  };
+};

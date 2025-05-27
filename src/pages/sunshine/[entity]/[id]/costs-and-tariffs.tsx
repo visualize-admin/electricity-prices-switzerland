@@ -18,6 +18,7 @@ import React, { useState } from "react";
 
 import { ButtonGroup } from "src/components/button-group";
 import CardGrid from "src/components/card-grid";
+import CardSource from "src/components/card-source";
 import { Combobox } from "src/components/combobox";
 import ComparisonTable from "src/components/comparison-table";
 import { DetailPageBanner } from "src/components/detail-page/banner";
@@ -34,7 +35,15 @@ import {
   PageParams,
   Props as SharedPageProps,
 } from "src/data/shared-page-props";
-import { getLocalizedLabel } from "src/domain/translation";
+import {
+  fetchOperatorCostsAndTariffsData,
+  SunshineCostsAndTariffsData,
+} from "src/domain/data";
+import {
+  getLocalizedLabel,
+  getNetworkLevelLabels,
+  getPeerGroupLabels,
+} from "src/domain/translation";
 import { defaultLocale } from "src/locales/locales";
 
 enum TabOption {
@@ -43,22 +52,9 @@ enum TabOption {
   ENERGY_TARIFFS = 2,
 }
 
-type OperatorSunshineData = {
-  networkLevel: {
-    id: string;
-  };
-  latestYear: string;
-  operatorRate: number;
-  peerGroupMedianRate: number;
-  peerGroup: {
-    energyDensity: string;
-    settlementDensity: string;
-  };
-  updateDate: string;
-};
 type Props =
   | (Extract<SharedPageProps, { entity: "operator"; status: "found" }> & {
-      sunshine: OperatorSunshineData;
+      costsAndTariffs: SunshineCostsAndTariffsData;
     })
   | { status: "notfound" };
 
@@ -82,53 +78,13 @@ export const getServerSideProps: GetServerSideProps<
     res,
   });
 
-  const sunshineMockedData = {
-    peerGroup: {
-      energyDensity: "low",
-      settlementDensity: "rural",
-    },
-
-    networkLevel: {
-      id: "NE7",
-    },
-    latestYear: "2024",
-
-    operatorRate: 23.4,
-    peerGroupMedianRate: 25.6,
-    updateDate: "March 7, 2024, 1:28 PM",
-  };
+  const costsAndTariffs = await fetchOperatorCostsAndTariffsData(id);
 
   return {
     props: {
       ...props,
-      sunshine: sunshineMockedData as OperatorSunshineData,
+      costsAndTariffs: costsAndTariffs as SunshineCostsAndTariffsData,
     },
-  };
-};
-
-const getPeerGroupLabels = function (peerGroup: {
-  energyDensity: string;
-  settlementDensity: string;
-}) {
-  const settlementDensityLabel = getLocalizedLabel({
-    id: `peer-group.settlement-density.${peerGroup.settlementDensity}`,
-  });
-  const energyDensityLabel = getLocalizedLabel({
-    id: `peer-group.energy-density.${peerGroup.energyDensity}`,
-  });
-
-  const peerGroupLabel = `${settlementDensityLabel} / ${energyDensityLabel}`;
-  return {
-    peerGroupLabel,
-    settlementDensityLabel,
-    energyDensityLabel,
-  };
-};
-
-const getNetworkLevelLabels = function (networkLevel: { id: string }) {
-  return {
-    short: getLocalizedLabel({ id: `network-level.${networkLevel.id}.short` }),
-    long: getLocalizedLabel({ id: `network-level.${networkLevel.id}.long` }),
   };
 };
 
@@ -161,23 +117,6 @@ const CostsAndTariffsNavigation: React.FC<{
   );
 };
 
-const CardSource = ({ date, source }: { date: string; source: string }) => (
-  <Box
-    sx={{
-      mt: 4,
-      color: "text.secondary",
-      typography: "caption",
-    }}
-  >
-    <div>
-      <Trans id="sunshine.costs-and-tariffs.date">Date: {date}</Trans>
-    </div>
-    <div>
-      <Trans id="sunshine.costs-and-tariffs.source">Source: {source}</Trans>
-    </div>
-  </Box>
-);
-
 const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
   const [compareWith, setCompareWith] = useState(
     "sunshine.costs-and-tariffs.all-peer-group"
@@ -191,7 +130,7 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
     peerGroupMedianRate,
     peerGroup,
     updateDate,
-  } = props.sunshine;
+  } = props.costsAndTariffs;
   const { peerGroupLabel } = getPeerGroupLabels(peerGroup);
   const networkLabels = getNetworkLevelLabels(networkLevel);
 
