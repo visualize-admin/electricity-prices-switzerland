@@ -1,5 +1,7 @@
 import { t } from "@lingui/macro";
 
+import { NetworkLevel, PeerGroup } from "src/domain/data";
+
 export const getLocalizedLabel = ({ id }: { id: string }): string => {
   switch (id) {
     case "collapsed-operator":
@@ -211,4 +213,27 @@ export const getLocalizedLabel = ({ id }: { id: string }): string => {
     default:
       return id;
   }
+};
+
+export const getPeerGroupLabels = function (peerGroup: PeerGroup) {
+  const settlementDensityLabel = getLocalizedLabel({
+    id: `peer-group.settlement-density.${peerGroup.settlementDensity}`,
+  });
+  const energyDensityLabel = getLocalizedLabel({
+    id: `peer-group.energy-density.${peerGroup.energyDensity}`,
+  });
+
+  const peerGroupLabel = `${settlementDensityLabel} / ${energyDensityLabel}`;
+  return {
+    peerGroupLabel,
+    settlementDensityLabel,
+    energyDensityLabel,
+  };
+};
+
+export const getNetworkLevelLabels = function (networkLevel: NetworkLevel) {
+  return {
+    short: getLocalizedLabel({ id: `network-level.${networkLevel.id}.short` }),
+    long: getLocalizedLabel({ id: `network-level.${networkLevel.id}.long` }),
+  };
 };
