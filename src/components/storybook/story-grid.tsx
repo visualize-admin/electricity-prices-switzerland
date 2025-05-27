@@ -11,6 +11,8 @@ interface StoryGridProps {
   cols?: number;
   cellClassName?: string;
   storyClassName?: string;
+  title: string;
+  reference?: string;
 }
 
 const DocsStory: FC<DocBlock.DocsStoryProps & { className?: string }> = ({
@@ -97,8 +99,10 @@ export const StoryGrid: FC<StoryGridProps> = ({
   cols = 3,
   cellClassName,
   storyClassName,
+  title,
+  reference,
 }) => {
-  const { componentStories, projectAnnotations, getStoryContext } =
+  const { componentStories, projectAnnotations, getStoryContext, ...ctx } =
     useContext(DocsContext);
 
   let stories = componentStories();
@@ -139,46 +143,48 @@ export const StoryGrid: FC<StoryGridProps> = ({
   }
 
   const groupEntries = Object.entries(groups);
-  return groupEntries.map(([group, stories]) => (
-    <DesignStory title="Kitchen Sink" reference="BUND Library">
-      <Box
-        sx={{
-          "& + &": {
-            marginTop: "2rem",
-          },
-        }}
-        key={group}
-      >
-        {groupEntries.length > 1 ? (
-          <Typography variant="h3" className="sb-unstyled">
-            {titleCase(group)}
-          </Typography>
-        ) : null}
-        <StoryGridLayout cols={cols} key={group}>
-          {stories.map(
-            (story) =>
-              story && (
-                <Box
-                  key={story.id}
-                  sx={{
-                    display: "grid",
-                    gridTemplateRows: "subgrid",
-                    gridRow: "span/3",
-                    marginBottom: "2.5rem",
-                  }}
-                  className={cellClassName}
-                >
-                  <DocsStory
-                    of={story.moduleExport}
-                    expanded
-                    __forceInitialArgs
-                    className={storyClassName}
-                  />
-                </Box>
-              )
-          )}
-        </StoryGridLayout>
-      </Box>
+  return (
+    <DesignStory title={title} reference={reference}>
+      {groupEntries.map(([group, stories]) => (
+        <Box
+          sx={{
+            "& + &": {
+              marginTop: "2rem",
+            },
+          }}
+          key={group}
+        >
+          {groupEntries.length > 1 ? (
+            <Typography variant="h3" className="sb-unstyled">
+              {titleCase(group)}
+            </Typography>
+          ) : null}
+          <StoryGridLayout cols={cols} key={group}>
+            {stories.map(
+              (story) =>
+                story && (
+                  <Box
+                    key={story.id}
+                    sx={{
+                      display: "grid",
+                      gridTemplateRows: "subgrid",
+                      gridRow: "span/3",
+                      marginBottom: "2.5rem",
+                    }}
+                    className={cellClassName}
+                  >
+                    <DocsStory
+                      of={story.moduleExport}
+                      expanded
+                      __forceInitialArgs
+                      className={storyClassName}
+                    />
+                  </Box>
+                )
+            )}
+          </StoryGridLayout>
+        </Box>
+      ))}
     </DesignStory>
-  ));
+  );
 };

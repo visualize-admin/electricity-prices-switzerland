@@ -673,7 +673,9 @@ export default {
   parameters: {
     layout: "centered",
     docs: {
-      page: () => <StoryGrid cols={2} />,
+      page: () => (
+        <StoryGrid cols={2} title="Kitchen Sink" reference="Bund Library" />
+      ),
     },
   },
 };
