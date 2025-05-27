@@ -7,8 +7,6 @@ import {
   Card,
   CardContent,
   Grid,
-  gridClasses,
-  cardClasses,
   Table,
   TableBody,
   TableRow,
@@ -22,6 +20,7 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 
 import { ButtonGroup } from "src/components/button-group";
+import CardGrid from "src/components/card-grid";
 import { Combobox } from "src/components/combobox";
 import { DetailPageBanner } from "src/components/detail-page/banner";
 import {
@@ -202,15 +201,8 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
   return (
     <>
       {/* Summary Cards */}
-      <Box
-        display="grid"
+      <CardGrid
         sx={{
-          // Card inside the grid takes full height of their cells
-          [`& .${gridClasses.item} .${cardClasses.root}`]: {
-            height: "100%",
-          },
-
-          gap: "1rem",
           gridTemplateColumns: {
             xs: "1fr", // Single column on small screens
             sm: "repeat(2, 1fr)", // Two columns on medium screens
@@ -225,11 +217,6 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
             `"peer-group" "network-costs" "network-costs-trend"`, // One column on small screens
             `"peer-group network-costs" "network-costs-trend network-costs-trend"`, // Two columns on medium screens
           ],
-
-          [`& .${cardClasses.root}`]: {
-            boxShadow: 2,
-            padding: 4,
-          },
         }}
       >
         {/* Peer group */}
@@ -416,7 +403,7 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
             <CardSource date={`${updateDate}`} source={"Lindas "} />
           </CardContent>
         </Card>
-      </Box>
+      </CardGrid>
     </>
   );
 };
