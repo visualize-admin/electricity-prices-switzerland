@@ -434,7 +434,7 @@ export const ChoroplethMap = ({
       new GeoJsonLayer({
         id: "municipalities-base",
         /** @ts-expect-error bad types */
-        data: geoData.municipalities,
+        data: geoData.data.municipalities,
         pickable: true,
         stroked: false,
         filled: true,
@@ -474,7 +474,7 @@ export const ChoroplethMap = ({
       new GeoJsonLayer({
         id: "municipality-mesh",
         /** @ts-expect-error GeoJsonLayer type seems bad */
-        data: geoData.municipalityMesh,
+        data: geoData.data.municipalityMesh,
         pickable: false,
         stroked: true,
         filled: false,
@@ -488,7 +488,7 @@ export const ChoroplethMap = ({
       new GeoJsonLayer({
         id: "lakes",
         /** @ts-expect-error GeoJsonLayer type seems bad */
-        data: geoData.lakes,
+        data: geoData.data.lakes,
         pickable: false,
         stroked: true,
         filled: true,
@@ -503,7 +503,7 @@ export const ChoroplethMap = ({
         id: "cantons",
 
         /** @ts-expect-error GeoJsonLayer type seems bad */
-        data: geoData.cantonMesh,
+        data: geoData.data.cantonMesh,
         pickable: false,
         stroked: true,
         filled: false,
@@ -521,7 +521,7 @@ export const ChoroplethMap = ({
       new GeoJsonLayer({
         id: "municipalities-overlay",
         /** @ts-expect-error bad types */
-        data: geoData.municipalities,
+        data: geoData.data.municipalities,
         pickable: false,
         stroked: true,
         filled: true,
