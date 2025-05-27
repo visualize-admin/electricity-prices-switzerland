@@ -1,6 +1,5 @@
 import {
   Deck,
-  FlyToInterpolator,
   MapController,
   PickingInfo,
   WebMercatorViewport,
@@ -10,7 +9,6 @@ import { GeoJsonLayer } from "@deck.gl/layers/typed";
 import DeckGL, { DeckGLRef } from "@deck.gl/react/typed";
 import { Trans } from "@lingui/macro";
 import { Box, Typography } from "@mui/material";
-import bbox from "@turf/bbox";
 import centroid from "@turf/centroid";
 import { extent, group, mean, rollup, ScaleThreshold } from "d3";
 import html2canvas from "html2canvas";
@@ -38,8 +36,6 @@ import { OperatorObservationFieldsFragment } from "src/graphql/queries";
 import { maxBy } from "src/lib/array";
 import { useIsMobile } from "src/lib/use-mobile";
 
-import { useMap } from "./map-context";
-
 const DOWNLOAD_ID = "map";
 
 const INITIAL_VIEW_STATE = {
@@ -50,8 +46,6 @@ const INITIAL_VIEW_STATE = {
   minZoom: 2,
   pitch: 0,
   bearing: 0,
-  width: 1120,
-  height: 730,
 };
 
 const LINE_COLOR = [255, 255, 255, 255] as [number, number, number, number];
@@ -64,7 +58,6 @@ const CH_BBOX: BBox = [
 ];
 
 /**
-
  * Simple fitZoom to bbox
  * @param viewState deck.gl viewState
  */
@@ -281,32 +274,27 @@ export const ChoroplethMap = ({
   medianValue,
   municipalities,
   colorScale,
-  controls,
   onMunicipalityLayerClick,
+  controls,
 }: {
   year: string;
   observations: OperatorObservationFieldsFragment[];
-  onMunicipalityLayerClick?: (_item: PickingInfo) => void;
   observationsQueryFetching: boolean;
   medianValue: number | undefined;
   municipalities: { id: string; name: string }[];
-  colorScale: ScaleThreshold<number, string> | undefined | 0;
+  colorScale: ScaleThreshold<number, string> | undefined;
+  onMunicipalityLayerClick: (_item: PickingInfo) => void;
   controls?: React.MutableRefObject<{
     getImageData: () => Promise<string | undefined>;
-    zoomOn: (id: string) => void;
-    zoomOut: () => void;
   } | null>;
 }) => {
   const [hovered, setHovered] = useState<HoverState>();
   const isMobile = useIsMobile();
   const mapZoomPadding = isMobile ? 20 : 150;
 
-  const [viewState, setViewState] = useState({
-    ...INITIAL_VIEW_STATE,
-  });
+  const [viewState, setViewState] = useState(INITIAL_VIEW_STATE);
   const [screenshotting, setScreenshotting] = useState(false);
 
-  const { activeId, setActiveId } = useMap();
   const onViewStateChange = useCallback(
     ({ viewState, interactionState }: ViewStateChangeParameters) => {
       if (screenshotting) {
@@ -369,56 +357,25 @@ export const ChoroplethMap = ({
           await frame();
           await sleep(1000);
           const ref = deckRef.current;
-          if (!ref) return;
+          if (!ref) {
+            return;
+          }
           const deck = ref.deck;
-          if (!deck) return;
+          if (!deck) {
+            return;
+          }
+
           const legend = document.getElementById(legendId);
-          if (!legend) return;
+          if (!legend) {
+            return;
+          }
 
           return getImageData(deck, legend);
         } finally {
-          setScreenshotting(false);
-        }
-      },
-      zoomOn: (id: string) => {
-        if (geoData.state !== "loaded" || !geoData.municipalities) return;
-
-        const feature = geoData.municipalities.features.find(
-          (f) => f.id?.toString() === id
-        );
-        if (!feature) return;
-
-        const boundsArray = feature.bbox ?? bbox(feature);
-        const bboxCoords: BBox = [
-          [boundsArray[0], boundsArray[1]],
-          [boundsArray[2], boundsArray[3]],
-        ];
-
-        const newViewState = constrainZoom(
           {
-            ...viewState,
-            transitionInterpolator: new FlyToInterpolator(),
-            transitionDuration: 1000,
-          },
-          bboxCoords
-        );
-
-        setViewState(newViewState);
-      },
-      zoomOut: () => {
-        const baseState = {
-          ...viewState,
-          zoom: Math.max(
-            (viewState.zoom ?? INITIAL_VIEW_STATE.zoom) - 10,
-            INITIAL_VIEW_STATE.minZoom
-          ),
-          transitionInterpolator: new FlyToInterpolator(),
-          transitionDuration: 500,
-        };
-
-        const newViewState = constrainZoom(baseState, CH_BBOX);
-
-        setViewState(newViewState);
+            setScreenshotting(false);
+          }
+        }
       },
     };
   }
@@ -567,8 +524,7 @@ export const ChoroplethMap = ({
       ) {
         return;
       }
-      setActiveId(id.toString());
-      onMunicipalityLayerClick?.(ev);
+      onMunicipalityLayerClick(ev);
     };
 
     return [
@@ -671,42 +627,21 @@ export const ChoroplethMap = ({
           const id = d?.id?.toString();
           if (!id) return [0, 0, 0, 0];
 
-          if (hovered?.type === "municipality") {
-            if (id === hovered.id) return [0, 0, 0, 0];
-            return [255, 255, 255, 102];
+          if (!hovered || hovered.type !== "municipality") {
+            return [0, 0, 0, 0];
           }
 
-          if (activeId && id !== activeId) return [255, 255, 255, 102];
-
-          return [0, 0, 0, 0];
+          return id === hovered.id ? [0, 0, 0, 0] : [255, 255, 255, 102];
         },
-
         getLineColor: (d) => {
           const id = d?.id?.toString();
-
-          if (hovered?.type === "municipality" && hovered.id === id) {
-            return [31, 41, 55];
-          }
-
-          if (activeId && activeId === id) {
-            return [31, 41, 55];
-          }
-
-          return [0, 0, 0, 0];
+          return hovered?.type === "municipality" && hovered.id === id
+            ? [31, 41, 55]
+            : [0, 0, 0, 0];
         },
-
         getLineWidth: (d) => {
           const id = d?.id?.toString();
-
-          if (hovered?.type === "municipality" && hovered.id === id) {
-            return 3;
-          }
-
-          if (activeId && activeId === id) {
-            return 3;
-          }
-
-          return 0;
+          return hovered?.type === "municipality" && hovered.id === id ? 3 : 0;
         },
         lineWidthUnits: "pixels",
         updateTriggers: {
@@ -720,8 +655,6 @@ export const ChoroplethMap = ({
     geoData,
     observationsByMunicipalityId,
     highlightContext?.id,
-    setActiveId,
-    activeId,
     hovered,
     indexes,
     onMunicipalityLayerClick,
