@@ -286,6 +286,7 @@ const IndexPage = ({ locale }: Props) => {
               bgcolor: "background.paper",
             }}
           >
+            
             <ElectricitySelectors />
             <List
               observations={observations}
