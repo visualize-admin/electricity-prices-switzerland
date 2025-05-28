@@ -15,6 +15,7 @@ import Image from "next/image";
 import { SunshineTopics } from "src/components/sunshine/sunshine-topics";
 import { Icon } from "src/icons";
 import { defaultLocale } from "src/locales/locales";
+import { useFlag } from "src/utils/flags";
 
 const ApplicationLayout = dynamic(
   () => import("../components/app-layout").then((mod) => mod.ApplicationLayout),
@@ -37,6 +38,8 @@ export const getServerSideProps: GetServerSideProps<
 };
 
 const IndexPage = () => {
+  const isSunshine = useFlag("sunshine");
+
   return (
     <>
       <Head>
@@ -131,19 +134,21 @@ const IndexPage = () => {
               </Box>
             </Box>
           </ContentWrapper>
-          <Box
-            sx={{
-              backgroundColor: "secondary.50",
-            }}
-          >
-            <ContentWrapper
+          {isSunshine && (
+            <Box
               sx={{
-                py: 20,
+                backgroundColor: "secondary.50",
               }}
             >
-              <SunshineTopics />
-            </ContentWrapper>
-          </Box>
+              <ContentWrapper
+                sx={{
+                  py: 20,
+                }}
+              >
+                <SunshineTopics />
+              </ContentWrapper>
+            </Box>
+          )}
         </Box>
       </ApplicationLayout>
     </>
