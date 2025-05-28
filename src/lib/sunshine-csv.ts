@@ -6,12 +6,15 @@ import { parse } from "csv-parse/sync";
 
 import serverEnv from "src/env/server";
 
-export const encryptSunshineCSV = () => {
+export const sunshineFileIds = ["observations"] as const;
+type Id = (typeof sunshineFileIds)[number];
+
+export const encryptSunshineCSV = (id: Id) => {
   const PASSWORD = process.env.PREVIEW_PASSWORD!;
   if (!PASSWORD) throw new Error("PREVIEW_PASSWORD not set");
 
-  const INPUT_PATH = path.join(process.cwd(), "./src/sunshine-data.csv");
-  const OUTPUT_PATH = path.join(process.cwd(), "./src/sunshine-data.enc");
+  const INPUT_PATH = path.join(process.cwd(), `./src/sunshine-data/${id}.csv`);
+  const OUTPUT_PATH = path.join(process.cwd(), `./src/sunshine-data/${id}.enc`);
 
   const data = fs.readFileSync(INPUT_PATH);
 
@@ -30,11 +33,11 @@ export const encryptSunshineCSV = () => {
   console.log("✅ Encrypted and saved to:", OUTPUT_PATH);
 };
 
-export const decryptSunshineCsv = (): string => {
+export const decryptSunshineCsv = (id: Id): string => {
   const PASSWORD = serverEnv.PREVIEW_PASSWORD!;
   try {
     const encryptedData = fs.readFileSync(
-      path.join(process.cwd(), "./src/sunshine-data.enc")
+      path.join(process.cwd(), `./src/sunshine-data/${id}.enc`)
     );
 
     const salt = encryptedData.subarray(0, 16);
@@ -71,8 +74,8 @@ const parseNumberBoolean = (val: string): boolean | null => {
 
 type RawRow = Record<string, string>;
 
-const parseSunshineCsv = () => {
-  const csv = decryptSunshineCsv();
+const parseSunshineCsv = (id: Id) => {
+  const csv = decryptSunshineCsv(id);
 
   const rows: RawRow[] = parse(csv, {
     columns: true,
@@ -121,9 +124,9 @@ const parseSunshineCsv = () => {
 type ParsedRow = ReturnType<typeof parseSunshineCsv>[number];
 
 let sunshineDataCache: ParsedRow[] | undefined = undefined;
-export const getSunshineData = async () => {
+export const getSunshineData = async (id: Id) => {
   if (!sunshineDataCache) {
-    sunshineDataCache = await parseSunshineCsv();
+    sunshineDataCache = await parseSunshineCsv(id);
   }
   return sunshineDataCache!;
 };
