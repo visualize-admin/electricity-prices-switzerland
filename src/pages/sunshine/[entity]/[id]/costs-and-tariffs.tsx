@@ -107,11 +107,9 @@ const CostsAndTariffsNavigation: React.FC<{
 
 const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
   const {
-    networkLevel,
+    networkCosts: { networkLevel, operatorRate, peerGroupMedianRate },
+    operator: { peerGroup },
     latestYear,
-    operatorRate,
-    peerGroupMedianRate,
-    peerGroup,
     updateDate,
   } = props.costsAndTariffs;
   const networkLabels = getNetworkLevelLabels(networkLevel);

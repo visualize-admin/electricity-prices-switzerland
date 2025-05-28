@@ -122,33 +122,42 @@ export type NetworkLevel = {
 };
 
 export type SunshineCostsAndTariffsData = {
-  networkLevel: {
-    id: string;
-  };
   latestYear: string;
-  operatorRate: number;
-  peerGroupMedianRate: number;
-  peerGroup: {
-    energyDensity: string;
-    settlementDensity: string;
+  networkCosts: {
+    networkLevel: {
+      id: string;
+    };
+    peerGroupMedianRate: number;
+    operatorRate: number;
+  };
+  operator: {
+    peerGroup: {
+      energyDensity: string;
+      settlementDensity: string;
+    };
   };
   updateDate: string;
 };
 
-export const fetchOperatorCostsAndTariffsData = async (id: string) => {
+// We will need operatorId to fetch the data for the operator
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const fetchOperatorCostsAndTariffsData = async (operatorId: string) => {
   return {
-    peerGroup: {
-      energyDensity: "low",
-      settlementDensity: "rural",
+    operator: {
+      peerGroup: {
+        energyDensity: "low",
+        settlementDensity: "rural",
+      },
     },
-
-    networkLevel: {
-      id: "NE7",
+    networkCosts: {
+      networkLevel: {
+        id: "NE7",
+      },
+      operatorRate: 23.4,
+      peerGroupMedianRate: 25.6,
     },
     latestYear: "2024",
 
-    operatorRate: 23.4,
-    peerGroupMedianRate: 25.6,
     updateDate: "March 7, 2024, 1:28 PM",
-  };
+  } satisfies SunshineCostsAndTariffsData;
 };
