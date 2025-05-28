@@ -1,6 +1,7 @@
 import { t, Trans } from "@lingui/macro";
 import { Box, Button, Divider, Typography } from "@mui/material";
 import { ascending, descending, mean, rollup, ScaleThreshold } from "d3";
+import { useRouter } from "next/router";
 import {
   MouseEvent,
   MouseEventHandler,
@@ -22,6 +23,7 @@ import {
 } from "src/graphql/queries";
 import { Icon } from "src/icons";
 import useEvent from "src/lib/use-event";
+import { useFlag } from "src/utils/flags";
 
 import { AnchorNav } from "./anchor-nav";
 import { PriceEvolution } from "./detail-page/price-evolution-line-chart";
@@ -120,10 +122,16 @@ const ListItems = ({
   const [open, setOpen] = useState<boolean>(false);
   const [selectedItem, setSelectedItem] = useState<ListItemType | null>(null);
   const { activeId, setActiveId } = useMap();
+  const isSunshine = useFlag("sunshine");
+  const router = useRouter();
 
   const handleListItemSelect = useEvent(
     (_: MouseEvent<HTMLAnchorElement, globalThis.MouseEvent>, id: string) => {
-      setActiveId(id);
+      if (isSunshine) {
+        setActiveId(id);
+      } else {
+        router.push(`/${getEntity()}/${id}`);
+      }
     }
   );
   useEffect(() => {
