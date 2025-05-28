@@ -14,6 +14,7 @@ import {
   DetailsPageTitle,
 } from "src/components/detail-page/layout";
 import { DetailsPageSidebar } from "src/components/detail-page/sidebar";
+import NetTariffsTrendCard from "src/components/net-tariffs-trend-card";
 import NetworkCostsTrendCard from "src/components/network-costs-trend-card";
 import PeerGroupCard from "src/components/peer-group-card";
 import TableComparisonCard, {
@@ -29,6 +30,7 @@ import {
   SunshineCostsAndTariffsData,
 } from "src/domain/data";
 import {
+  getCategoryLabels,
   getLocalizedLabel,
   getNetworkLevelLabels,
 } from "src/domain/translation";
@@ -196,6 +198,92 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
   );
 };
 
+const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
+  const {
+    netTariffs: { category, operatorRate, peerGroupMedianRate },
+    operator: { peerGroup },
+    latestYear,
+    updateDate,
+  } = props.costsAndTariffs;
+  const categoryLabels = getCategoryLabels(category);
+
+  const operatorLabel = props.name;
+
+  const comparisonCardProps = {
+    title: (
+      <Trans id="sunshine.costs-and-tariffs.net-tariffs-comparison-title">
+        Net Tariffs {categoryLabels.long}
+      </Trans>
+    ),
+    subtitle: (
+      <Trans id="sunshine.costs-and-tariffs.latest-year">
+        Latest year ({latestYear})
+      </Trans>
+    ),
+    rows: [
+      {
+        label: (
+          <Trans id="sunshine.costs-and-tariffs.operator">
+            {operatorLabel}
+          </Trans>
+        ),
+        value: {
+          value: operatorRate,
+          unit: "Rp./km",
+          trend: "stable" satisfies Trend,
+        },
+      },
+      {
+        label: (
+          <Trans id="sunshine.costs-and-tariffs.median-peer-group">
+            Median Peer Group
+          </Trans>
+        ),
+        value: {
+          value: peerGroupMedianRate,
+          unit: "Rp./km",
+          trend: "stable" as Trend,
+        },
+      },
+    ],
+  } satisfies React.ComponentProps<typeof TableComparisonCard>;
+
+  return (
+    <>
+      <CardGrid
+        sx={{
+          gridTemplateColumns: {
+            xs: "1fr", // Single column on small screens
+            sm: "repeat(2, 1fr)", // Two columns on medium screens
+          },
+          gridTemplateRows: ["auto auto auto", "auto auto"], // Three rows: two for cards, one for trend chart
+          gridTemplateAreas: [
+            `"peer-group" "net-tariffs" "net-tariffs-trend"`, // One column on small screens
+            `"peer-group net-tariffs" "net-tariffs-trend net-tariffs-trend"`, // Two columns on medium screens
+          ],
+        }}
+      >
+        <PeerGroupCard
+          latestYear={latestYear}
+          peerGroup={peerGroup}
+          sx={{ gridArea: "peer-group" }}
+        />
+
+        <TableComparisonCard
+          {...comparisonCardProps}
+          sx={{ gridArea: "net-tariffs" }}
+        />
+
+        <NetTariffsTrendCard
+          sx={{ gridArea: "net-tariffs-trend" }}
+          peerGroup={peerGroup}
+          updateDate={updateDate}
+        />
+      </CardGrid>
+    </>
+  );
+};
+
 const CostsAndTariffs = (props: Props) => {
   const { query } = useRouter();
   const [activeTab, setActiveTab] = useState<TabOption>(
@@ -251,21 +339,7 @@ const CostsAndTariffs = (props: Props) => {
       />
 
       {activeTab === TabOption.NETWORK_COSTS && <NetworkCosts {...props} />}
-
-      {activeTab === TabOption.NET_TARIFFS && (
-        <Box sx={{ textAlign: "center", py: 8 }}>
-          <Typography variant="h5">
-            <Trans id="sunshine.costs-and-tariffs.net-tariffs-content">
-              Net Tariffs Content
-            </Trans>
-          </Typography>
-          <Typography variant="body1" color="text.secondary">
-            <Trans id="sunshine.costs-and-tariffs.under-development">
-              This section is under development.
-            </Trans>
-          </Typography>
-        </Box>
-      )}
+      {activeTab === TabOption.NET_TARIFFS && <NetTariffs {...props} />}
 
       {activeTab === TabOption.ENERGY_TARIFFS && (
         <Box sx={{ textAlign: "center", py: 8 }}>

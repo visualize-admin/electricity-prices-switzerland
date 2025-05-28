@@ -121,8 +121,26 @@ export type NetworkLevel = {
   id: string;
 };
 
+export type Category = {
+  id: string;
+};
+
 export type SunshineCostsAndTariffsData = {
   latestYear: string;
+  netTariffs: {
+    category: {
+      id: string;
+    };
+    peerGroupMedianRate: number;
+    operatorRate: number;
+    yearlyData: {
+      year: string;
+      rate: number;
+      operator: number;
+      category: string;
+    }[];
+  };
+
   networkCosts: {
     networkLevel: {
       id: string;
@@ -171,6 +189,18 @@ export const fetchOperatorCostsAndTariffsData = async (operatorId: string) => {
         { year: "2022", rate: 19.0, operator: 370, category: "H1" },
         { year: "2023", rate: 19.8, operator: 370, category: "H1" },
         { year: "2024", rate: 20.5, operator: 370, category: "H1" },
+      ],
+    },
+    netTariffs: {
+      category: {
+        id: "H1",
+      },
+      operatorRate: 0.12,
+      peerGroupMedianRate: 0.15,
+      yearlyData: [
+        { year: "2022", rate: 0.11, operator: 0.1, category: "H1" },
+        { year: "2023", rate: 0.12, operator: 0.11, category: "H1" },
+        { year: "2024", rate: 0.12, operator: 0.12, category: "H1" },
       ],
     },
     latestYear: "2024",
