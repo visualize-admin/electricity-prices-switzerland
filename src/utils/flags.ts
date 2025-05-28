@@ -50,4 +50,4 @@ if (typeof window !== "undefined" && window.location) {
 }
 
 /** @knipignore */
-export { flag, useFlag, useFlags, FlagList };
+export { flag, FlagList, useFlag, useFlags };
