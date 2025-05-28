@@ -5,6 +5,7 @@ import { Literal, NamedNode } from "rdf-js";
 import ParsingClient from "sparql-http-client/ParsingClient";
 import { LRUCache } from "typescript-lru-cache";
 
+import { ElectricityCategory } from "src/domain/data";
 import serverEnv from "src/env/server";
 import { OperatorDocumentCategory } from "src/graphql/resolver-types";
 import assert from "src/lib/assert";
@@ -513,24 +514,6 @@ export const getOperatorDocuments = async ({
     };
   });
 };
-
-export type ElectricityCategory =
-  | "C1"
-  | "C2"
-  | "C3"
-  | "C4"
-  | "C5"
-  | "C6"
-  | "C7"
-  | "C8"
-  | "H1"
-  | "H2"
-  | "H3"
-  | "H4"
-  | "H5"
-  | "H6"
-  | "H7"
-  | "H8";
 
 export const getOperatorsMunicipalities = async (
   year: string,

@@ -121,23 +121,35 @@ export type NetworkLevel = {
   id: string;
 };
 
-export type Category = {
-  id: string;
-};
+export type ElectricityCategory =
+  | "C1"
+  | "C2"
+  | "C3"
+  | "C4"
+  | "C5"
+  | "C6"
+  | "C7"
+  | "C8"
+  | "H1"
+  | "H2"
+  | "H3"
+  | "H4"
+  | "H5"
+  | "H6"
+  | "H7"
+  | "H8";
 
 export type SunshineCostsAndTariffsData = {
   latestYear: string;
   netTariffs: {
-    category: {
-      id: string;
-    };
+    category: ElectricityCategory;
     peerGroupMedianRate: number;
     operatorRate: number;
     yearlyData: {
       year: string;
       rate: number;
       operator: number;
-      category: string;
+      category: ElectricityCategory;
     }[];
   };
 
@@ -151,7 +163,7 @@ export type SunshineCostsAndTariffsData = {
       year: string;
       rate: number;
       operator: number;
-      category: string;
+      category: ElectricityCategory;
     }[];
   };
   operator: {
@@ -163,15 +175,22 @@ export type SunshineCostsAndTariffsData = {
   updateDate: string;
 };
 
+const fetchOperatorPeerGroup = async (operatorId: string) => {
+  // Simulating a fetch operation to get the operator's peer group data
+  // In a real application, this would be replaced with an actual API call
+  return {
+    energyDensity: "low",
+    settlementDensity: "rural",
+  };
+};
+
 // We will need operatorId to fetch the data for the operator
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const fetchOperatorCostsAndTariffsData = async (operatorId: string) => {
+  const peerGroup = await fetchOperatorPeerGroup(operatorId);
   return {
     operator: {
-      peerGroup: {
-        energyDensity: "low",
-        settlementDensity: "rural",
-      },
+      peerGroup,
     },
     networkCosts: {
       networkLevel: {
@@ -192,9 +211,7 @@ export const fetchOperatorCostsAndTariffsData = async (operatorId: string) => {
       ],
     },
     netTariffs: {
-      category: {
-        id: "H1",
-      },
+      category: "H1",
       operatorRate: 0.12,
       peerGroupMedianRate: 0.15,
       yearlyData: [

@@ -19,14 +19,11 @@ import {
   useGeoData,
 } from "src/data/geo";
 import { useFetch } from "src/data/use-fetch";
-import { useColorScale } from "src/domain/data";
+import { ElectricityCategory, useColorScale } from "src/domain/data";
 import { useSunshineTariffQuery } from "src/graphql/queries";
 import { SunshineDataRow } from "src/graphql/resolver-types";
 import { truthy } from "src/lib/truthy";
-import {
-  ElectricityCategory,
-  getOperatorsMunicipalities,
-} from "src/rdf/queries";
+import { getOperatorsMunicipalities } from "src/rdf/queries";
 
 import { props } from "./map.mock";
 

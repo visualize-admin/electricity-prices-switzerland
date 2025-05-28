@@ -1,6 +1,6 @@
 import { t } from "@lingui/macro";
 
-import { Category, NetworkLevel, PeerGroup } from "src/domain/data";
+import { ElectricityCategory, NetworkLevel, PeerGroup } from "src/domain/data";
 
 export const getLocalizedLabel = ({ id }: { id: string }): string => {
   switch (id) {
@@ -281,9 +281,9 @@ export const getNetworkLevelLabels = function (networkLevel: NetworkLevel) {
   };
 };
 
-export const getCategoryLabels = function (category: Category) {
+export const getCategoryLabels = function (category: ElectricityCategory) {
   return {
-    short: getLocalizedLabel({ id: `${category.id}` }),
-    long: getLocalizedLabel({ id: `${category.id}-long` }),
+    short: getLocalizedLabel({ id: `${category}` }),
+    long: getLocalizedLabel({ id: `${category}-long` }),
   };
 };
