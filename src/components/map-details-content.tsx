@@ -47,9 +47,9 @@ export const MapDetailsContentWrapper = (props: MapDetailsContentProps) => {
 type MapDetailProps = ListItemType & { entity: ListState };
 
 export const MapDetailsEntityHeader = (props: MapDetailProps) => {
-  const { entity, label, canton, cantonLabel, operators } = props;
+  const { entity, label, canton, cantonLabel } = props;
   const entityValue = getLocalizedLabel({ id: entity.toLowerCase() });
-  console.log(operators);
+
   return (
     <Stack direction={"column"} spacing={2}>
       <Stack direction={"column"}>
@@ -76,7 +76,6 @@ export const MapDetailsEntityHeader = (props: MapDetailProps) => {
       {entity !== "CANTONS" && canton && cantonLabel && (
         <Typography variant="body3" color={"text.500"}>
           <Trans id="search.result.canton">Canton</Trans>:{" "}
-          {/* FIXME: Currently the functionality here is not clear yet  */}
           <Link
             href={`/canton/${canton}`}
             color={"primary"}

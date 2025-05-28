@@ -202,7 +202,7 @@ export const ChoroplethMap = ({
   const [hovered, setHovered] = useState<HoverState>();
   const isMobile = useIsMobile();
   const mapZoomPadding = isMobile ? 20 : 150;
-  const { setActiveId } = useMap();
+  const { setActiveId, activeId } = useMap();
   const router = useRouter();
   const isSunshine = useFlag("sunshine");
 
@@ -588,27 +588,34 @@ export const ChoroplethMap = ({
           const id = d?.id?.toString();
           if (!id) return [0, 0, 0, 0];
 
-          if (!hovered || hovered.type !== "municipality") {
+          if (!hovered && !activeId) {
             return [0, 0, 0, 0];
           }
 
-          return id === hovered.id ? [0, 0, 0, 0] : [255, 255, 255, 102];
+          return (hovered?.type === "municipality" && hovered.id === id) ||
+            activeId === id
+            ? [0, 0, 0, 0]
+            : [255, 255, 255, 102];
         },
         getLineColor: (d) => {
           const id = d?.id?.toString();
-          return hovered?.type === "municipality" && hovered.id === id
+          return (hovered?.type === "municipality" && hovered.id === id) ||
+            activeId === id
             ? [31, 41, 55]
             : [0, 0, 0, 0];
         },
         getLineWidth: (d) => {
           const id = d?.id?.toString();
-          return hovered?.type === "municipality" && hovered.id === id ? 3 : 0;
+          return (hovered?.type === "municipality" && hovered.id === id) ||
+            activeId === id
+            ? 3
+            : 0;
         },
         lineWidthUnits: "pixels",
         updateTriggers: {
-          getFillColor: [hovered],
-          getLineColor: [hovered],
-          getLineWidth: [hovered],
+          getFillColor: [hovered, activeId],
+          getLineColor: [hovered, activeId],
+          getLineWidth: [hovered, activeId],
         },
       }),
     ];
@@ -622,6 +629,7 @@ export const ChoroplethMap = ({
     colorScale,
     setActiveId,
     router,
+    activeId,
     isSunshine,
   ]);
 
