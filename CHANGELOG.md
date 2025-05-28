@@ -21,3 +21,4 @@ You can also check the
 - Maintenance
   - Added Sentry
   - Split Static checks and e2e tests
+  - Improved Storybook screenshotting to avoid blank screenshots
