@@ -106,7 +106,7 @@ export const getLocalizedLabel = ({ id }: { id: string }): string => {
     case "CantonResult":
     case "canton":
       return t({ id: "search.result.canton", message: `Kanton` });
-    case "canton":
+    case "cantons":
       return t({ id: "chart.annotation.cantons", message: `Kantone` });
     case "median-asc":
       return t({
