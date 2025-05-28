@@ -18,7 +18,7 @@
     "test": "vitest",
     "setup": "yarn && yarn locales:compile && yarn graphql:codegen",
     "locales:extract": "NODE_ENV=development lingui extract --clean; ./scripts/strip-locale-line-numbers.sh",
-    "locales:compile": "lingui compile --verbose",
+    "locales:compile": "lingui compile --verbose --typescript",
     "locales:sync": "dotenv -e .env.local -- accent sync --add-translations --merge-type=passive --order-by=key; yarn locales:extract # putting back file location comments",
     "locales:browse": "open 'https://accent.interactivethings.io/app/projects/584e1dfa-ff1f-4b26-8cac-07004c465134'",
     "graphql:codegen": "graphql-codegen --config codegen.yml",
