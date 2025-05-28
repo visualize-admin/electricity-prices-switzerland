@@ -20,4 +20,5 @@ You can also check the
   - Update Design System to match the Bund new CI system
 - Maintenance
   - Added Sentry
+  - Split Static checks and e2e tests
   - Improved Storybook screenshotting to avoid blank screenshots
