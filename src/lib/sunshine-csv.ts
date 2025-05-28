@@ -6,7 +6,11 @@ import { parse } from "csv-parse/sync";
 
 import serverEnv from "src/env/server";
 
-export const sunshineFileIds = ["observations"] as const;
+export const sunshineFileIds = [
+  "observations",
+  "energy",
+  "peer-groups",
+] as const;
 type Id = (typeof sunshineFileIds)[number];
 
 export const encryptSunshineCSV = (id: Id) => {
@@ -72,61 +76,100 @@ const parseNumberBoolean = (val: string): boolean | null => {
   return null;
 };
 
-type RawRow = Record<string, string>;
+type RawObservationsRow = Record<string, string>;
 
-const parseSunshineCsv = (id: Id) => {
+const parseObservationRow = (row: RawObservationsRow) => ({
+  operatorId: parseInt(row.SunPartnerID, 10),
+  operatorUID: row.SunUID,
+  name: row.SunName,
+  period: row.SunPeriode,
+  francRule: parseNumber(row.SunFrankenRegel),
+  infoYesNo: parseGermanBoolean(row.SunInfoJaNein),
+  infoDaysInAdvance: parseInt(row.SunInfoTageimVoraus),
+  networkCostsNE5: parseNumber(row.SunNetzkostenNE5),
+  networkCostsNE6: parseNumber(row.SunNetzkostenNE6),
+  networkCostsNE7: parseNumber(row.SunNetzkostenNE7),
+  productsCount: parseInt(row.SunProdukteAnzahl),
+  productsSelection: parseGermanBoolean(row.SunProdukteAuswahl),
+  timely: parseNumberBoolean(row.SunRechtzeitig),
+  saidiTotal: parseNumber(row.SunSAIDItotal),
+  saidiUnplanned: parseNumber(row.SunSAIDIungeplant),
+  saifiTotal: parseNumber(row.SunSAIFItotal),
+  saifiUnplanned: parseNumber(row.SunSAIFIungeplant),
+  tariffEC2: parseNumber(row.SunTarifEC2),
+  tariffEC3: parseNumber(row.SunTarifEC3),
+  tariffEC4: parseNumber(row.SunTarifEC4),
+  tariffEC6: parseNumber(row.SunTarifEC6),
+  tariffEH2: parseNumber(row.SunTarifEH2),
+  tariffEH4: parseNumber(row.SunTarifEH4),
+  tariffEH7: parseNumber(row.SunTarifEH7),
+  tariffNC2: parseNumber(row.SunTarifNC2),
+  tariffNC3: parseNumber(row.SunTarifNC3),
+  tariffNC4: parseNumber(row.SunTarifNC4),
+  tariffNC6: parseNumber(row.SunTarifNC6),
+  tariffNH2: parseNumber(row.SunTarifNH2),
+  tariffNH4: parseNumber(row.SunTarifNH4),
+  tariffNH7: parseNumber(row.SunTarifNH7),
+});
+
+type RawPeerGroupRow = {
+  network_operator_id: string;
+  settlement_density: string;
+  energy_density: string;
+};
+
+const parsePeerGroupRow = (row: RawPeerGroupRow) => ({
+  operatorId: parseInt(row.network_operator_id, 10),
+  settlementDensity: row.settlement_density as string,
+  energyDensity: row.energy_density as string,
+});
+
+const parseEnergyRow = (_row: RawObservationsRow) => 0 as never;
+
+type ObservationRow = ReturnType<typeof parseObservationRow>;
+type PeerGroupRow = ReturnType<typeof parsePeerGroupRow>;
+
+interface ParserMap {
+  observations: typeof parseObservationRow;
+  "peer-groups": typeof parsePeerGroupRow;
+  energy: typeof parseEnergyRow; // Assuming energy uses the same parser as observations
+}
+
+type ParsedRowType<T extends Id> = T extends "observations"
+  ? ObservationRow
+  : T extends "peer-groups"
+  ? PeerGroupRow
+  : never;
+
+const parsers: ParserMap = {
+  observations: parseObservationRow,
+  "peer-groups": parsePeerGroupRow,
+  energy: parseEnergyRow,
+};
+
+const parseSunshineCsv = <T extends Id>(id: T): ParsedRowType<T>[] => {
   const csv = decryptSunshineCsv(id);
 
-  const rows: RawRow[] = parse(csv, {
+  const rows = parse(csv, {
     columns: true,
     skip_empty_lines: true,
     trim: true,
     bom: true,
   });
 
-  const data = rows.map((row) => ({
-    operatorId: parseInt(row.SunPartnerID, 10),
-    operatorUID: row.SunUID,
-    name: row.SunName,
-    period: row.SunPeriode,
-    francRule: parseNumber(row.SunFrankenRegel),
-    infoYesNo: parseGermanBoolean(row.SunInfoJaNein),
-    infoDaysInAdvance: parseInt(row.SunInfoTageimVoraus),
-    networkCostsNE5: parseNumber(row.SunNetzkostenNE5),
-    networkCostsNE6: parseNumber(row.SunNetzkostenNE6),
-    networkCostsNE7: parseNumber(row.SunNetzkostenNE7),
-    productsCount: parseInt(row.SunProdukteAnzahl),
-    productsSelection: parseGermanBoolean(row.SunProdukteAuswahl),
-    timely: parseNumberBoolean(row.SunRechtzeitig),
-    saidiTotal: parseNumber(row.SunSAIDItotal),
-    saidiUnplanned: parseNumber(row.SunSAIDIungeplant),
-    saifiTotal: parseNumber(row.SunSAIFItotal),
-    saifiUnplanned: parseNumber(row.SunSAIFIungeplant),
-    tariffEC2: parseNumber(row.SunTarifEC2),
-    tariffEC3: parseNumber(row.SunTarifEC3),
-    tariffEC4: parseNumber(row.SunTarifEC4),
-    tariffEC6: parseNumber(row.SunTarifEC6),
-    tariffEH2: parseNumber(row.SunTarifEH2),
-    tariffEH4: parseNumber(row.SunTarifEH4),
-    tariffEH7: parseNumber(row.SunTarifEH7),
-    tariffNC2: parseNumber(row.SunTarifNC2),
-    tariffNC3: parseNumber(row.SunTarifNC3),
-    tariffNC4: parseNumber(row.SunTarifNC4),
-    tariffNC6: parseNumber(row.SunTarifNC6),
-    tariffNH2: parseNumber(row.SunTarifNH2),
-    tariffNH4: parseNumber(row.SunTarifNH4),
-    tariffNH7: parseNumber(row.SunTarifNH7),
-  }));
-
-  return data;
+  // Type assertion here is necessary because TypeScript can't infer the connection
+  // between the id parameter and the parser that will be selected
+  return rows.map(parsers[id]) as ParsedRowType<T>[];
 };
 
 type ParsedRow = ReturnType<typeof parseSunshineCsv>[number];
 
 let sunshineDataCache: ParsedRow[] | undefined = undefined;
-export const getSunshineData = async (id: Id) => {
+export const getSunshineData = async <T extends Id>(
+  id: T
+): Promise<ParsedRowType<T>[]> => {
   if (!sunshineDataCache) {
     sunshineDataCache = await parseSunshineCsv(id);
   }
-  return sunshineDataCache!;
+  return sunshineDataCache! as ParsedRowType<T>[];
 };
