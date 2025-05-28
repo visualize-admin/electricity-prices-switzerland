@@ -1,26 +1,11 @@
 import { Trans, t } from "@lingui/macro";
-import {
-  Box,
-  Typography,
-  Tabs,
-  Tab,
-  Card,
-  CardContent,
-  Grid,
-  TableBody,
-  TableRow,
-  TableCell,
-} from "@mui/material";
+import { Box, Typography, Tabs, Tab } from "@mui/material";
 import { GetServerSideProps } from "next";
 import ErrorPage from "next/error";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 
-import { ButtonGroup } from "src/components/button-group";
 import CardGrid from "src/components/card-grid";
-import CardSource from "src/components/card-source";
-import { Combobox } from "src/components/combobox";
-import ComparisonTable from "src/components/comparison-table";
 import { DetailPageBanner } from "src/components/detail-page/banner";
 import {
   DetailsPageLayout,
@@ -29,7 +14,11 @@ import {
   DetailsPageTitle,
 } from "src/components/detail-page/layout";
 import { DetailsPageSidebar } from "src/components/detail-page/sidebar";
-import UnitValueWithTrend from "src/components/unit-value-with-trend";
+import NetworkCostsTrendCard from "src/components/network-costs-trend-card";
+import PeerGroupCard from "src/components/peer-group-card";
+import TableComparisonCard, {
+  Trend,
+} from "src/components/table-comparison-card";
 import {
   handleOperatorsEntity,
   PageParams,
@@ -42,7 +31,6 @@ import {
 import {
   getLocalizedLabel,
   getNetworkLevelLabels,
-  getPeerGroupLabels,
 } from "src/domain/translation";
 import { defaultLocale } from "src/locales/locales";
 
@@ -118,11 +106,6 @@ const CostsAndTariffsNavigation: React.FC<{
 };
 
 const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
-  const [compareWith, setCompareWith] = useState(
-    "sunshine.costs-and-tariffs.all-peer-group"
-  );
-  const [viewBy, setViewBy] = useState("latest");
-
   const {
     networkLevel,
     latestYear,
@@ -131,14 +114,51 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
     peerGroup,
     updateDate,
   } = props.costsAndTariffs;
-  const { peerGroupLabel } = getPeerGroupLabels(peerGroup);
   const networkLabels = getNetworkLevelLabels(networkLevel);
 
   const operatorLabel = props.name;
 
+  const comparisonCardProps = {
+    title: (
+      <Trans id="sunshine.costs-and-tariffs.network-costs-end-consumer">
+        Network Costs at {networkLabels.long} Level
+      </Trans>
+    ),
+    subtitle: (
+      <Trans id="sunshine.costs-and-tariffs.latest-year">
+        Latest year ({latestYear})
+      </Trans>
+    ),
+    rows: [
+      {
+        label: (
+          <Trans id="sunshine.costs-and-tariffs.operator">
+            {operatorLabel}
+          </Trans>
+        ),
+        value: {
+          value: operatorRate,
+          unit: "Rp./km",
+          trend: "stable" satisfies Trend,
+        },
+      },
+      {
+        label: (
+          <Trans id="sunshine.costs-and-tariffs.median-peer-group">
+            Median Peer Group
+          </Trans>
+        ),
+        value: {
+          value: peerGroupMedianRate,
+          unit: "Rp./km",
+          trend: "stable" as Trend,
+        },
+      },
+    ],
+  } satisfies React.ComponentProps<typeof TableComparisonCard>;
+
   return (
     <>
-      {/* Summary Cards */}
       <CardGrid
         sx={{
           gridTemplateColumns: {
@@ -157,169 +177,22 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
           ],
         }}
       >
-        {/* Peer group */}
-        <Card sx={{ gridArea: "peer-group" }}>
-          <CardContent>
-            <Typography variant="h3" gutterBottom>
-              <Trans id="sunshine.costs-and-tariffs.peer-group">
-                Peer Group
-              </Trans>
-            </Typography>
-            <Typography variant="subtitle2" color="text.secondary" gutterBottom>
-              <Trans id="sunshine.costs-and-tariffs.latest-year">
-                Latest year ({latestYear})
-              </Trans>
-            </Typography>
-            <Typography variant="body1">{peerGroupLabel}</Typography>
-          </CardContent>
-        </Card>
+        <PeerGroupCard
+          latestYear={latestYear}
+          peerGroup={peerGroup}
+          sx={{ gridArea: "peer-group" }}
+        />
 
-        {/* Network costs */}
-        <Card sx={{ gridArea: "network-costs" }}>
-          <CardContent>
-            <Typography variant="h3" gutterBottom>
-              <Trans id="sunshine.costs-and-tariffs.network-costs-end-consumer">
-                Network Costs at {networkLabels.long} Level
-              </Trans>
-            </Typography>
-            <Typography
-              variant="subtitle2"
-              color="text.  secondary"
-              gutterBottom
-            >
-              <Trans id="sunshine.costs-and-tariffs.latest-year">
-                Latest year ({latestYear})
-              </Trans>
-            </Typography>
-            <ComparisonTable size="small">
-              <TableBody>
-                <TableRow>
-                  <TableCell>
-                    <Typography variant="body3" color="text.secondary">
-                      <Trans id="sunshine.costs-and-tariffs.operator">
-                        {operatorLabel}
-                      </Trans>
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <UnitValueWithTrend
-                      value={operatorRate}
-                      unit="Rp./km"
-                      trend="stable"
-                    />
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>
-                    <Typography variant="body3" color="text.secondary">
-                      <Trans id="sunshine.costs-and-tariffs.median-peer-group">
-                        Median Peer Group
-                      </Trans>
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <UnitValueWithTrend
-                      value={peerGroupMedianRate}
-                      unit="Rp./km"
-                      trend="stable"
-                    />
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </ComparisonTable>
-          </CardContent>
-        </Card>
+        <TableComparisonCard
+          {...comparisonCardProps}
+          sx={{ gridArea: "network-costs" }}
+        />
 
-        {/* Network Cost Trend */}
-        <Card sx={{ gridArea: "network-costs-trend" }}>
-          <CardContent>
-            <Typography variant="h3" gutterBottom>
-              <Trans id="sunshine.costs-and-tariffs.network-cost-trend">
-                Network Cost Trend
-              </Trans>
-            </Typography>
-            <Typography
-              variant="body2"
-              color="text.secondary"
-              gutterBottom
-              mb={8}
-            >
-              <Trans id="sunshine.costs-and-tariffs.benchmarking-peer-group">
-                Benchmarking within the Peer Group: {peerGroupLabel}
-              </Trans>
-            </Typography>
-
-            {/* Dropdown Controls */}
-            <Grid container spacing={3} sx={{ mb: 3 }}>
-              <Grid item xs={12} sm={6}>
-                <ButtonGroup
-                  id="view-by-button-group"
-                  label={t({
-                    id: "sunshine.costs-and-tariffs.view-by",
-                    message: "View By",
-                  })}
-                  options={[
-                    {
-                      value: "latest",
-                      label: (
-                        <Trans id="sunshine.costs-and-tariffs.latest-year-option">
-                          Latest year
-                        </Trans>
-                      ),
-                    },
-                    {
-                      value: "progress",
-                      label: (
-                        <Trans id="sunshine.costs-and-tariffs.progress-over-time">
-                          Progress over time
-                        </Trans>
-                      ),
-                    },
-                  ]}
-                  value={viewBy}
-                  setValue={setViewBy}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <Combobox
-                  id="compare-with-selection"
-                  label={t({
-                    id: "sunshine.costs-and-tariffs.compare-with",
-                    message: "Compare With",
-                  })}
-                  items={[
-                    "sunshine.costs-and-tariffs.all-peer-group",
-                    "sunshine.costs-and-tariffs.selected-operators",
-                  ]}
-                  selectedItem={compareWith}
-                  setSelectedItem={setCompareWith}
-                  getItemLabel={(item) =>
-                    getLocalizedLabel({
-                      id: item,
-                    })
-                  }
-                />
-              </Grid>
-            </Grid>
-
-            {/* Scatter Plot */}
-            <Box sx={{ height: 400, width: "100%" }}>
-              {/* This is a placeholder for the ScatterPlot component */}
-              <Typography color="text.secondary" sx={{ pt: 10 }}>
-                <Trans id="sunshine.costs-and-tariffs.scatter-plot-description">
-                  Scatter Plot visualization showing network costs across
-                  different levels (End Consumer Level, Low Voltage
-                  Distribution, Medium Voltage Distribution)
-                </Trans>
-              </Typography>
-
-              {/* Implement your ScatterPlot component here */}
-              {/* <ScatterPlot /> */}
-            </Box>
-            {/* Footer Info */}
-            <CardSource date={`${updateDate}`} source={"Lindas "} />
-          </CardContent>
-        </Card>
+        <NetworkCostsTrendCard
+          sx={{ gridArea: "network-costs-trend" }}
+          peerGroup={peerGroup}
+          updateDate={updateDate}
+        />
       </CardGrid>
     </>
   );
