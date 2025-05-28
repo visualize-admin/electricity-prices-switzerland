@@ -129,6 +129,12 @@ export type SunshineCostsAndTariffsData = {
     };
     peerGroupMedianRate: number;
     operatorRate: number;
+    yearlyData: {
+      year: string;
+      rate: number;
+      operator: number;
+      category: string;
+    }[];
   };
   operator: {
     peerGroup: {
@@ -155,6 +161,17 @@ export const fetchOperatorCostsAndTariffsData = async (operatorId: string) => {
       },
       operatorRate: 23.4,
       peerGroupMedianRate: 25.6,
+      yearlyData: [
+        { year: "2022", rate: 21.9, operator: 410, category: "H1" },
+        { year: "2023", rate: 22.8, operator: 410, category: "H1" },
+        { year: "2024", rate: 23.4, operator: 410, category: "H1" },
+        { year: "2022", rate: 20.5, operator: 390, category: "H1" },
+        { year: "2023", rate: 21.3, operator: 390, category: "H1" },
+        { year: "2024", rate: 22.0, operator: 390, category: "H1" },
+        { year: "2022", rate: 19.0, operator: 370, category: "H1" },
+        { year: "2023", rate: 19.8, operator: 370, category: "H1" },
+        { year: "2024", rate: 20.5, operator: 370, category: "H1" },
+      ],
     },
     latestYear: "2024",
 
