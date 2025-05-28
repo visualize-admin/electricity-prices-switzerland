@@ -9,8 +9,7 @@ type AnchorNavProps = {
   size?: "sm" | "lg";
   icon?: ReactElement;
   hideBorder?: boolean;
-} & Omit<LinkProps, "href"> &
-  Pick<NextLinkProps, "href">;
+} & Partial<Omit<LinkProps, "href"> & Pick<NextLinkProps, "href">>;
 
 export const AnchorNav = (props: AnchorNavProps) => {
   const {

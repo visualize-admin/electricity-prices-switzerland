@@ -12,6 +12,8 @@ import { useFormatCurrency, useFormatNumber } from "src/domain/helpers";
 import { getLocalizedLabel } from "src/domain/translation";
 import { useIsMobile } from "src/lib/use-mobile";
 
+import { MINI_CHART_WIDTH } from "../constants";
+
 const TICK_MIN_HEIGHT = 50;
 
 export const AxisHeightLinear = ({
@@ -33,6 +35,8 @@ export const AxisHeightLinear = ({
   const ticks = Math.max(Math.min(bounds.chartHeight / TICK_MIN_HEIGHT, 4), 2);
   const { axisLabelColor, labelColor, labelFontSize, gridColor, fontFamily } =
     useChartTheme();
+
+  const isMiniChart = bounds.width <= MINI_CHART_WIDTH;
 
   const mkAxis = (g: Selection<SVGGElement, unknown, null, undefined>) => {
     const tickValues = yScale.ticks(ticks);
@@ -62,9 +66,9 @@ export const AxisHeightLinear = ({
       .attr("font-size", labelFontSize)
       .attr("font-family", fontFamily)
       .attr("fill", labelColor)
-      .attr("x", -6)
+      .attr("x", isMiniChart ? -bounds.margins.left : -6)
       .attr("dy", 3)
-      .attr("text-anchor", "end");
+      .attr("text-anchor", isMiniChart ? "start" : "end");
   };
   useEffect(() => {
     const g = select(ref.current);

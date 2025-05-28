@@ -1,4 +1,5 @@
 import {
+  FlyToInterpolator,
   MapController,
   PickingInfo,
   WebMercatorViewport,
@@ -8,8 +9,10 @@ import { GeoJsonLayer } from "@deck.gl/layers/typed";
 import DeckGL, { DeckGLRef } from "@deck.gl/react/typed";
 import { Trans } from "@lingui/macro";
 import { Box, Typography } from "@mui/material";
+import bbox from "@turf/bbox";
 import centroid from "@turf/centroid";
 import { extent, group, mean, rollup, ScaleThreshold } from "d3";
+import { useRouter } from "next/router";
 import React, {
   ComponentProps,
   Fragment,
@@ -34,6 +37,9 @@ import { getImageData, SCREENSHOT_CANVAS_SIZE } from "src/domain/screenshot";
 import { OperatorObservationFieldsFragment } from "src/graphql/queries";
 import { maxBy } from "src/lib/array";
 import { useIsMobile } from "src/lib/use-mobile";
+import { useFlag } from "src/utils/flags";
+
+import { useMap } from "./map-context";
 
 const DOWNLOAD_ID = "map";
 
@@ -189,11 +195,16 @@ export const ChoroplethMap = ({
   onMunicipalityLayerClick: (_item: PickingInfo) => void;
   controls?: React.MutableRefObject<{
     getImageData: () => Promise<string | undefined>;
+    zoomOn: (id: string) => void;
+    zoomOut: () => void;
   } | null>;
 }) => {
   const [hovered, setHovered] = useState<HoverState>();
   const isMobile = useIsMobile();
   const mapZoomPadding = isMobile ? 20 : 150;
+  const { setActiveId } = useMap();
+  const router = useRouter();
+  const isSunshine = useFlag("sunshine");
 
   const [viewState, setViewState] = useState(INITIAL_VIEW_STATE);
   const [screenshotting, setScreenshotting] = useState(false);
@@ -279,6 +290,46 @@ export const ChoroplethMap = ({
             setScreenshotting(false);
           }
         }
+      },
+      zoomOn: (id: string) => {
+        if (geoData.state !== "loaded" || !geoData.data.municipalities) return;
+
+        const feature = geoData.data.municipalities.features.find(
+          (f) => f.id?.toString() === id
+        );
+        if (!feature) return;
+
+        const boundsArray = feature.bbox ?? bbox(feature);
+        const bboxCoords: BBox = [
+          [boundsArray[0], boundsArray[1]],
+          [boundsArray[2], boundsArray[3]],
+        ];
+
+        const newViewState = constrainZoom(
+          {
+            ...viewState,
+            transitionInterpolator: new FlyToInterpolator(),
+            transitionDuration: 1000,
+          },
+          bboxCoords
+        );
+
+        setViewState(newViewState);
+      },
+      zoomOut: () => {
+        const baseState = {
+          ...viewState,
+          zoom: Math.max(
+            (viewState.zoom ?? INITIAL_VIEW_STATE.zoom) - 10,
+            INITIAL_VIEW_STATE.minZoom
+          ),
+          transitionInterpolator: new FlyToInterpolator(),
+          transitionDuration: 500,
+        };
+
+        const newViewState = constrainZoom(baseState, CH_BBOX);
+
+        setViewState(newViewState);
       },
     };
   }
@@ -427,6 +478,13 @@ export const ChoroplethMap = ({
       ) {
         return;
       }
+
+      //FLAG: Sunshine Features
+      if (isSunshine) {
+        setActiveId(id.toString());
+      } else {
+        router.push(`/municipality/${id}`);
+      }
       onMunicipalityLayerClick(ev);
     };
 
@@ -562,6 +620,9 @@ export const ChoroplethMap = ({
     indexes,
     onMunicipalityLayerClick,
     colorScale,
+    setActiveId,
+    router,
+    isSunshine,
   ]);
 
   return (
