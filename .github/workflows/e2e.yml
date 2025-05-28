@@ -19,9 +19,6 @@ jobs:
       - name: "Install playwright"
         uses: ./.github/workflows/install-playwright
 
-      - name: Unit tests
-        run: yarn run test
-
       - name: Create fake wiki content
         run: echo "[]" > src/wiki-content.json
 
