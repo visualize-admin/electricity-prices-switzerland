@@ -19,23 +19,11 @@ jobs:
       - name: "Install playwright"
         uses: ./.github/workflows/install-playwright
 
-      - name: Compile locales
-        run: yarn run lingui compile
+      - name: Unit tests
+        run: yarn run test
 
       - name: Create fake wiki content
         run: echo "[]" > src/wiki-content.json
-
-      - name: Knip
-        run: yarn run knip
-
-      - name: Lint
-        run: yarn run lint
-
-      - name: Typecheck
-        run: yarn run typecheck
-
-      - name: Unit tests
-        run: yarn run test
 
       - name: Sets DEPLOY_SHA environment variable
         run: |
