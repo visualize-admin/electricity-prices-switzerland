@@ -14,6 +14,7 @@ const config: KnipConfig = {
   ],
   project: ["src/**", "scripts/**"],
   ignore: ["src/graphql/resolver-types.ts", "src/graphql/queries.ts"],
+  tags: ["-knipignore"],
   ignoreBinaries: [
     // Used to download content, can be removed when we switch to DatoCMS
     "make",

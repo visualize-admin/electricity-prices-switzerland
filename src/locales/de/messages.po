@@ -13,7 +13,11 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/domain/translation.tsx
+#: src/domain/translation.tsx:110
+msgid "chart.annotation.cantons"
+msgstr "Kantone"
+
+#: src/domain/translation.tsx:105
 msgid "chart.annotation.municipalities"
 msgstr "Gemeinden"
 
@@ -27,9 +31,9 @@ msgstr "Netzbetreiber"
 msgid "chart.axis.unit.Rp/kWh"
 msgstr "Rp./kWh"
 
-#: src/components/combobox.tsx
-#: src/components/combobox.tsx
-#: src/components/search.tsx
+#: src/components/combobox.tsx:92
+#: src/components/combobox.tsx:277
+#: src/components/search.tsx:253
 msgid "combobox.noitems"
 msgstr "Keine Resultate"
 
@@ -41,11 +45,11 @@ msgstr "Bezeichnung eingeben …"
 msgid "controls.search.clear"
 msgstr "Clear search field"
 
-#: src/components/list.tsx
+#: src/components/list.tsx:476
 msgid "dataset.results"
 msgstr "{0} Resultate"
 
-#: src/components/list.tsx
+#: src/components/list.tsx:496
 msgid "dataset.sortby"
 msgstr "Sortieren"
 
@@ -68,8 +72,8 @@ msgstr "Preiskomponenten"
 msgid "detail.card.title.prices.distribution"
 msgstr "Preisverteilung in der Schweiz"
 
-#: src/components/detail-page/price-evolution-line-chart.tsx
-#: src/components/detail-page/price-evolution-line-chart.tsx
+#: src/components/detail-page/price-evolution-line-chart.tsx:68
+#: src/components/detail-page/price-evolution-line-chart.tsx:83
 msgid "detail.card.title.prices.evolution"
 msgstr "Tarifentwicklung"
 
@@ -265,15 +269,15 @@ msgstr "Min"
 msgid "histogram.municipality-count"
 msgstr "Anzahl Gemeinde"
 
-#: src/pages/index.tsx
+#: src/pages/index.tsx:84
 msgid "home.hero-section.description"
 msgstr "Diese Website bietet aktuelle Informationen zu den Stromtarifen über die Stromtarife in der Schweiz und ermöglicht den Vergleich der Preise für Privat- und Gewerbekunden nach Gemeinde, Kantonen oder Netzbetreibern vergleichen. Sie können detaillierte Aufschlüsselungen von Energie-, Netz- und Zusatzkosten sowie historische Trends, um die Stromkosten in Ihrer Region besser zu Region."
 
-#: src/pages/index.tsx
+#: src/pages/index.tsx:104
 msgid "home.hero-section.primary-cta"
 msgstr "Stromtarife in der Schweiz"
 
-#: src/pages/index.tsx
+#: src/pages/index.tsx:79
 msgid "home.hero-section.title"
 msgstr "Entdecken Sie die Stromtarife in der Kartenansicht"
 
@@ -285,7 +289,75 @@ msgstr "Karten Ansicht"
 msgid "home.menu.overview"
 msgstr "Übersicht"
 
-#: src/components/detail-page/download-image.tsx
+#: src/components/sunshine/sunshine-topics.tsx:50
+msgid "home.sunshine-regulation.description"
+msgstr "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum."
+
+#: src/components/sunshine/sunshine-topics.tsx:37
+msgid "home.sunshine-regulation.title"
+msgstr "The Sunshine Regulation"
+
+#: src/components/sunshine/sunshine-topics.tsx:198
+msgid "home.sunshine-topics.card.compliance.description"
+msgstr "Product variety reflects the range of ecological electricity products offered. Service quality captures how well customers are informed about outages. Compliance measures how consistently a grid operator follows laws, regulations, and internal standards."
+
+#: src/components/sunshine/sunshine-topics.tsx:193
+msgid "home.sunshine-topics.card.compliance.title"
+msgstr "Compliance"
+
+#: src/components/sunshine/sunshine-topics.tsx:91
+msgid "home.sunshine-topics.card.costs-and-tariffs.description"
+msgstr "Electricity bills consist of energy tariffs and network costs. Network tariffs (levels 5–7) cover infrastructure, grid maintenance, metering, and administrative services, while energy tariffs reflect actual consumption in households (H) or businesses (C)."
+
+#: src/components/sunshine/sunshine-topics.tsx:86
+msgid "home.sunshine-topics.card.costs-and-tariffs.title"
+msgstr "Costs and Tariffs"
+
+#: src/components/sunshine/sunshine-topics.tsx:149
+msgid "home.sunshine-topics.card.power-stability.description"
+msgstr "SAIDI measures the total duration of power outages per customer each year, while SAIFI indicates how often outages occur. Together, they provide key insights into the reliability and stability of the electricity supply over a defined period."
+
+#: src/components/sunshine/sunshine-topics.tsx:144
+msgid "home.sunshine-topics.card.power-stability.title"
+msgstr "Power Stability"
+
+#: src/components/sunshine/sunshine-topics.tsx:224
+msgid "home.sunshine-topics.compliance.link"
+msgstr "Compliance"
+
+#: src/components/sunshine/sunshine-topics.tsx:117
+msgid "home.sunshine-topics.energy-tariff.link"
+msgstr "Energy Tariff"
+
+#: src/components/sunshine/sunshine-topics.tsx:109
+msgid "home.sunshine-topics.net-tariff.link"
+msgstr "Net Tariff"
+
+#: src/components/sunshine/sunshine-topics.tsx:101
+msgid "home.sunshine-topics.network-costs.link"
+msgstr "Network Costs"
+
+#: src/components/sunshine/sunshine-topics.tsx:159
+msgid "home.sunshine-topics.power-outage-duration.link"
+msgstr "Power Outage Duration (SAIDI)"
+
+#: src/components/sunshine/sunshine-topics.tsx:167
+msgid "home.sunshine-topics.power-outage-frequency.link"
+msgstr "Power Outage Frequency (SAIFI)"
+
+#: src/components/sunshine/sunshine-topics.tsx:208
+msgid "home.sunshine-topics.product-variety.link"
+msgstr "Product Variety"
+
+#: src/components/sunshine/sunshine-topics.tsx:216
+msgid "home.sunshine-topics.service-quality.link"
+msgstr "Service Quality"
+
+#: src/components/sunshine/sunshine-topics.tsx:67
+msgid "home.sunshine-topics.title"
+msgstr "Sunshine Topics"
+
+#: src/components/detail-page/download-image.tsx:113
 msgid "image.download"
 msgstr "Bild herunterladen"
 
@@ -297,59 +369,67 @@ msgstr "Eidgenössische Elektrizitätskommission ElCom"
 msgid "image.download.unit"
 msgstr "Tarifvergleich in Rp./kWh"
 
-#: src/components/list.tsx
+#: src/components/list.tsx:430
 msgid "list.cantons"
 msgstr "Kantone"
 
-#: src/components/list.tsx
+#: src/components/list.tsx:426
 msgid "list.municipalities"
 msgstr "Gemeinden"
 
-#: src/components/list.tsx
+#: src/components/list.tsx:434
 msgid "list.operators"
 msgstr "Netzbetreiber"
 
-#: src/components/list.tsx
+#: src/components/list.tsx:315
 msgid "list.order.asc"
 msgstr "Günstigste zuerst"
 
-#: src/components/list.tsx
+#: src/components/list.tsx:319
 msgid "list.order.desc"
 msgstr "Teuerste zuerst"
 
-#: src/components/list.tsx
+#: src/components/list.tsx:322
 msgid "list.search.label"
 msgstr "Liste filtern"
 
-#: src/components/list.tsx
+#: src/components/list.tsx:224
 msgid "list.showmore"
 msgstr "Mehr anzeigen …"
 
-#: src/components/list.tsx
+#: src/components/list.tsx:438
 msgid "list.viewby.label"
 msgstr "Ansicht nach"
 
-#: src/components/price-color-legend.tsx
+#: src/components/map-details-content.tsx:33
+msgid "map.details-sidebar-panel.back-button"
+msgstr "Zurück zu den Filtern"
+
+#: src/components/list.tsx:190
+msgid "map.details-sidebar-panel.next-button"
+msgstr "Energie Preise Detail anzeigen"
+
+#: src/components/price-color-legend.tsx:65
 msgid "map.legend.title"
 msgstr "Tarifvergleich in Rp./kWh (Angaben exkl. MwSt.)"
 
-#: src/pages/map/index.tsx
+#: src/pages/map/index.tsx:107
 msgid "map.share"
 msgstr "Teilen"
 
-#: src/components/map.tsx
+#: src/components/map.tsx:735
 msgid "map.tooltipnodata"
 msgstr "Keine Daten"
 
-#: src/components/map.tsx
+#: src/components/map.tsx:662
 msgid "municipality"
 msgstr "Gemeinde"
 
-#: src/pages/[entity]/[id]/index.tsx
+#: src/pages/[entity]/[id]/index.tsx:107
 msgid "page.electricity-tariffs.description"
 msgstr "Auf der Detailseite des Netzbetreibers finden Sie aktuelle Informationen zu den Stromtarifen, die einen Preisvergleich ermöglichen. Sie können die Aufschlüsselung der Energie-, Netz- und Zusatzkosten einsehen und unter historische Trends abrufen, um ein besseres Verständnis der Stromkosten von zu erhalten."
 
-#: src/pages/[entity]/[id]/index.tsx
+#: src/pages/[entity]/[id]/index.tsx:104
 msgid "page.electricity-tariffs.title"
 msgstr "Stromtarife"
 
@@ -388,19 +468,19 @@ msgstr "Einzelne Netzbetreiber anzeigen"
 msgid "rangeplot.select.order.hint"
 msgstr "Sortieren nach"
 
-#: src/domain/translation.tsx
+#: src/domain/translation.tsx:122
 msgid "rangeplot.select.sorting.alpha-asc"
 msgstr "Alphabetisch aufsteigend"
 
-#: src/domain/translation.tsx
+#: src/domain/translation.tsx:127
 msgid "rangeplot.select.sorting.alpha-desc"
 msgstr "Alphabetisch absteigend"
 
-#: src/domain/translation.tsx
+#: src/domain/translation.tsx:112
 msgid "rangeplot.select.sorting.median-asc"
 msgstr "Median aufsteigend"
 
-#: src/domain/translation.tsx
+#: src/domain/translation.tsx:117
 msgid "rangeplot.select.sorting.median-desc"
 msgstr "Median absteigend"
 
@@ -430,7 +510,8 @@ msgstr "Suche nach Gemeindename, PLZ, Netzbetreiber, Kanton"
 msgid "search.open"
 msgstr "Suche öffnen"
 
-#: src/domain/translation.tsx
+#: src/components/map-details-content.tsx:78
+#: src/domain/translation.tsx:108
 msgid "search.result.canton"
 msgstr "Kanton"
 
@@ -442,8 +523,8 @@ msgstr "Gemeinde"
 msgid "search.result.operator"
 msgstr "Netzbetreiber"
 
-#: src/components/detail-page/selector-multi.tsx
-#: src/components/electricity-selectors.tsx
+#: src/components/detail-page/selector-multi.tsx:89
+#: src/components/electricity-selectors.tsx:74
 msgid "selector.category"
 msgstr "Kategorie"
 
@@ -515,15 +596,15 @@ msgstr "H7"
 msgid "selector.category.H8"
 msgstr "H8"
 
-#: src/components/detail-page/selector-multi.tsx
+#: src/components/detail-page/selector-multi.tsx:73
 msgid "selector.comparecantons"
 msgstr "Kantone zum Vergleich"
 
-#: src/components/detail-page/selector-multi.tsx
+#: src/components/detail-page/selector-multi.tsx:63
 msgid "selector.comparemunicipalities"
 msgstr "Gemeinden zum Vergleich"
 
-#: src/components/detail-page/selector-multi.tsx
+#: src/components/detail-page/selector-multi.tsx:53
 msgid "selector.compareoperators"
 msgstr "Netzbetreiber zum Vergleich"
 
@@ -561,8 +642,8 @@ msgstr "Netznutzung"
 msgid "selector.pricecomponent.total"
 msgstr "Total"
 
-#: src/components/detail-page/selector-multi.tsx
-#: src/components/electricity-selectors.tsx
+#: src/components/detail-page/selector-multi.tsx:100
+#: src/components/electricity-selectors.tsx:85
 msgid "selector.product"
 msgstr "Produkt"
 
@@ -578,16 +659,20 @@ msgstr "Standard"
 msgid "selector.year"
 msgstr "Jahr"
 
-#: src/components/detail-page/selector-multi.tsx
+#: src/components/detail-page/selector-multi.tsx:81
 msgid "selector.years"
 msgstr "Jahre"
 
-#: src/pages/map/index.tsx
+#: src/pages/map/index.tsx:127
 msgid "share.url-copied"
 msgstr "URL kopiert ✅"
 
-#: src/components/app-layout.tsx
-#: src/pages/[entity]/[id]/index.tsx
-#: src/pages/index.tsx
+#: src/components/app-layout.tsx:80
+#: src/pages/[entity]/[id]/index.tsx:83
+#: src/pages/index.tsx:44
 msgid "site.title"
 msgstr "Stromtarife in der Schweiz"
+
+#: src/components/header.tsx:30
+msgid "topbar.open-flag-menu"
+msgstr "Open flag menu"

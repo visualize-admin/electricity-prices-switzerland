@@ -6,14 +6,14 @@ import { useRouter } from "next/router";
 import { DetailPageBanner } from "src/components/detail-page/banner";
 import { CantonsComparisonRangePlots } from "src/components/detail-page/cantons-comparison-range";
 import {
-  DetailsPageLayout,
   DetailsPageHeader,
+  DetailsPageLayout,
   DetailsPageSubtitle,
   DetailsPageTitle,
 } from "src/components/detail-page/layout";
 import { PriceComponentsBarChart } from "src/components/detail-page/price-components-bars";
 import { PriceDistributionHistograms } from "src/components/detail-page/price-distribution-histogram";
-import { PriceEvolution } from "src/components/detail-page/price-evolution-line-chart";
+import { PriceEvolutionCard } from "src/components/detail-page/price-evolution-line-chart";
 import { SelectorMulti } from "src/components/detail-page/selector-multi";
 import { DetailsPageSidebar } from "src/components/detail-page/sidebar";
 import {
@@ -23,6 +23,7 @@ import {
   PageParams,
   Props,
 } from "src/data/shared-page-props";
+import { priceComponents } from "src/domain/data";
 import { getLocalizedLabel } from "src/domain/translation";
 import { defaultLocale } from "src/locales/locales";
 
@@ -116,7 +117,11 @@ const ElectricityTariffsPage = (props: Props) => {
       <SelectorMulti entity={entity} />
 
       <PriceComponentsBarChart id={id} entity={entity} />
-      <PriceEvolution id={id} entity={entity} />
+      <PriceEvolutionCard
+        priceComponents={priceComponents}
+        id={id}
+        entity={entity}
+      />
       <PriceDistributionHistograms id={id} entity={entity} />
       <CantonsComparisonRangePlots id={id} entity={entity} />
     </>

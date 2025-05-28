@@ -1,9 +1,15 @@
 import { t, Trans } from "@lingui/macro";
-import { Box, Button, Link, Typography } from "@mui/material";
+import { Box, Button, Divider, Typography } from "@mui/material";
 import { ascending, descending, mean, rollup, ScaleThreshold } from "d3";
-import NextLink from "next/link";
 import { useRouter } from "next/router";
-import { useContext, useMemo, useState } from "react";
+import {
+  MouseEvent,
+  MouseEventHandler,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 
 import { ButtonGroup } from "src/components/button-group";
 import { MiniSelect, SearchField } from "src/components/form";
@@ -16,6 +22,28 @@ import {
   OperatorObservationFieldsFragment,
 } from "src/graphql/queries";
 import { Icon } from "src/icons";
+import useEvent from "src/lib/use-event";
+import { useFlag } from "src/utils/flags";
+
+import { AnchorNav } from "./anchor-nav";
+import { PriceEvolution } from "./detail-page/price-evolution-line-chart";
+import { InlineDrawer } from "./drawer";
+import { ListState, useMap } from "./map-context";
+import {
+  MapDetailsContentWrapper,
+  MapDetailsEntityHeader,
+  MapDetailsEntityTable,
+} from "./map-details-content";
+
+type ListItemProps = {
+  id: string;
+  label: string;
+  value: number;
+  colorScale: (d: number) => string;
+  formatNumber: (d: number) => string;
+  listState: ListState;
+  handleClick?: MouseEventHandler<HTMLAnchorElement>;
+};
 
 const ListItem = ({
   id,
@@ -24,101 +52,149 @@ const ListItem = ({
   colorScale,
   formatNumber,
   listState,
-}: {
-  id: string;
-  label: string;
-  value: number;
-  colorScale: (d: number) => string;
-  formatNumber: (d: number) => string;
-  listState: ListState;
-}) => {
-  const { query } = useRouter();
+  handleClick,
+}: ListItemProps) => {
   const { setValue: setHighlightContext } = useContext(HighlightContext);
   const entity =
     listState === "MUNICIPALITIES"
       ? "municipality"
-      : listState === "PROVIDERS"
+      : listState === "OPERATORS"
       ? "operator"
       : ("canton" as Entity);
 
   return (
-    <Link
+    <AnchorNav
+      icon={<Icon name="arrowright" />}
+      tag={
+        <Box
+          sx={{
+            borderRadius: 9999,
+            px: 2,
+            flexShrink: 0,
+          }}
+          style={{ background: colorScale(value) }}
+        >
+          <Typography variant="body3" lineHeight={1.4} color="black">
+            {formatNumber(value)}
+          </Typography>
+        </Box>
+      }
+      size="sm"
+      label={label}
       underline="none"
       color="inherit"
-      component={NextLink}
-      href={{
-        pathname: `/${entity}/[id]`,
-        query: { ...query, id },
-      }}
+      component={"a"}
+      onClick={(event) => handleClick?.(event)}
       onMouseOver={() => setHighlightContext({ entity, id, label, value })}
       onMouseOut={() => setHighlightContext(undefined)}
-      sx={{
-        pl: 3,
-        py: 4,
-        mx: 0,
-        gap: 1,
-        borderBottomWidth: "1px",
-        borderBottomStyle: "solid",
-        borderBottomColor: "monochrome.200",
-        alignItems: "center",
-        minHeight: "3.5rem",
-        lineHeight: "1rem",
-        color: "text",
-        textDecoration: "none",
-        "&:hover": {
-          bgcolor: "monochrome.50",
-        },
-        "&:active": {
-          bgcolor: "monochrome.100",
-        },
-        "&:focus": {
-          outline: 0,
-          bgcolor: "monochrome.100",
-        },
-      }}
-      display="flex"
-    >
-      <Typography variant="body2" sx={{ flexGrow: 1, mr: 1 }}>
-        {label}
-      </Typography>
-      <Box
-        sx={{
-          borderRadius: 9999,
-          px: 2,
-          flexShrink: 0,
-        }}
-        style={{ background: colorScale(value) }}
-      >
-        <Typography variant="body3" color="black">
-          {formatNumber(value)}
-        </Typography>
-      </Box>
-      <Box sx={{ width: "24px", flexShrink: 0 }}>
-        <Icon name="arrowright"></Icon>
-      </Box>
-    </Link>
+    />
   );
 };
 
 const TRUNCATION_INCREMENT = 20;
+
+export type ListItemType = {
+  id: string;
+  label?: string | null;
+  value: number;
+  canton?: string | null;
+  cantonLabel?: string | null;
+  operators?:
+    | {
+        id: string;
+        label?: string | null;
+        value: number;
+      }[]
+    | null;
+};
 
 const ListItems = ({
   items,
   colorScale,
   listState,
 }: {
-  items: [string, { id: string; label?: string | null; value: number }][];
+  items: [string, ListItemType][];
   colorScale: ScaleThreshold<number, string>;
   listState: ListState;
 }) => {
   const [truncated, setTruncated] = useState<number>(TRUNCATION_INCREMENT);
-  const formatNumber = useFormatCurrency(true);
+  const formatNumber = useFormatCurrency();
+  const [open, setOpen] = useState<boolean>(false);
+  const [selectedItem, setSelectedItem] = useState<ListItemType | null>(null);
+  const { activeId, setActiveId } = useMap();
+  const isSunshine = useFlag("sunshine");
+  const router = useRouter();
+
+  const handleListItemSelect = useEvent(
+    (_: MouseEvent<HTMLAnchorElement, globalThis.MouseEvent>, id: string) => {
+      if (isSunshine) {
+        setActiveId(id);
+      } else {
+        router.push(`/${getEntity()}/${id}`);
+      }
+    }
+  );
+  useEffect(() => {
+    if (activeId) {
+      const selected = items.find(([itemId]) => itemId === activeId);
+      setSelectedItem(selected?.[1] ?? null);
+      setOpen(true);
+    }
+  }, [activeId, items, listState]);
 
   const listItems =
     items.length > truncated ? items.slice(0, truncated) : items;
 
+  const getEntity = (): Entity => {
+    switch (listState) {
+      case "MUNICIPALITIES":
+        return "municipality";
+      case "OPERATORS":
+        return "operator";
+      case "CANTONS":
+        return "canton";
+    }
+  };
+
   return (
     <Box>
+      {selectedItem && (
+        <InlineDrawer open={open} onClose={() => setOpen(false)}>
+          <MapDetailsContentWrapper
+            onBack={() => {
+              setOpen(false);
+              setActiveId(null);
+            }}
+          >
+            <MapDetailsEntityHeader entity={listState} {...selectedItem} />
+            <MapDetailsEntityTable
+              colorScale={colorScale}
+              entity={listState}
+              {...selectedItem}
+            />
+            <Divider />
+            <PriceEvolution
+              priceComponents={["total"]}
+              id={selectedItem.id}
+              entity={getEntity()}
+            />
+            <Button
+              variant="contained"
+              color="secondary"
+              size="sm"
+              sx={{
+                justifyContent: "space-between",
+              }}
+              href={`/${getEntity()}/${selectedItem.id}`}
+            >
+              <Trans id="map.details-sidebar-panel.next-button">
+                Energie Preise Detail anzeigen
+              </Trans>
+              <Icon name="arrowright" />
+            </Button>
+          </MapDetailsContentWrapper>
+        </InlineDrawer>
+      )}
       {listItems.map(([id, d]) => {
         return (
           <ListItem
@@ -129,6 +205,7 @@ const ListItems = ({
             colorScale={colorScale}
             formatNumber={formatNumber}
             listState={listState}
+            handleClick={(e) => handleListItemSelect(e, d.id)}
           />
         );
       })}
@@ -215,7 +292,6 @@ const PlaceholderListItems = () => {
   );
 };
 
-type ListState = "MUNICIPALITIES" | "PROVIDERS" | "CANTONS";
 type SortState = "ASC" | "DESC";
 
 export const List = ({
@@ -229,9 +305,9 @@ export const List = ({
   colorScale: ScaleThreshold<number, string>;
   observationsQueryFetching: boolean;
 }) => {
-  const [listState, setListState] = useState<ListState>("MUNICIPALITIES");
   const [sortState, setSortState] = useState<SortState>("ASC");
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const { listState, setListState } = useMap();
 
   const sortOptions = [
     {
@@ -256,6 +332,8 @@ export const List = ({
                 id: first.canton,
                 label: first.cantonLabel,
                 value: mean(values, (d) => d.value) ?? first.value,
+                canton: first.canton,
+                cantonLabel: first.cantonLabel,
               };
             },
             (d) => d.canton
@@ -266,19 +344,49 @@ export const List = ({
             observations,
             (values) => {
               const first = values[0];
+              const operatorIds = new Set(values.map((v) => v.operator));
               return {
                 id:
-                  listState === "PROVIDERS"
+                  listState === "OPERATORS"
                     ? first.operator
                     : first.municipality,
                 label:
-                  listState === "PROVIDERS"
+                  listState === "OPERATORS"
                     ? first.operatorLabel
                     : first.municipalityLabel,
                 value: mean(values, (d) => d.value) ?? first.value,
+                canton: first.canton,
+                cantonLabel: first.cantonLabel,
+                operators:
+                  listState === "MUNICIPALITIES"
+                    ? observations
+                        .filter((o) => operatorIds.has(o.operator))
+                        .reduce(
+                          (acc, o) => {
+                            if (acc.seen.has(o.operator)) return acc;
+                            acc.seen.add(o.operator);
+                            acc.result?.push({
+                              id: o.operator,
+                              label: o.operatorLabel,
+                              value: o.value,
+                            });
+                            return acc;
+                          },
+                          {
+                            seen: new Set<string>(),
+                            result: [] as ListItemType["operators"],
+                          }
+                        ).result
+                    : [
+                        {
+                          id: first.operator,
+                          label: first.operatorLabel,
+                          value: first.value,
+                        },
+                      ],
               };
             },
-            (d) => (listState === "PROVIDERS" ? d.operator : d.municipality)
+            (d) => (listState === "OPERATORS" ? d.operator : d.municipality)
           )
         );
   }, [listState, cantonObservations, observations]);
@@ -322,7 +430,7 @@ export const List = ({
             label: t({ id: "list.cantons", message: "Kantone" }),
           },
           {
-            value: "PROVIDERS",
+            value: "OPERATORS",
             label: t({ id: "list.operators", message: "Netzbetreiber" }),
           },
         ]}
