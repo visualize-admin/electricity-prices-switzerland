@@ -550,10 +550,7 @@ export const components: Components = {
           -ms-overflow-style: -ms-autohiding-scrollbar;
         }
 
-        * {
-          line-height: 1;
-        }
-
+  
         fieldset {
           border: none;
         }

@@ -135,6 +135,8 @@ export const ComboboxMulti = ({
   );
 };
 
+export type ComboboxItem = string | { type: "header"; title: string };
+
 export const Combobox = ({
   id,
   label,
@@ -149,7 +151,7 @@ export const Combobox = ({
 }: {
   id: string;
   label: string;
-  items: (string | { type: "header"; title: string })[];
+  items: ComboboxItem[];
   selectedItem: string;
   setSelectedItem: (selectedItem: string) => void;
   getItemLabel?: (item: string) => string;
@@ -227,7 +229,7 @@ export const Combobox = ({
           return (
             <>
               {params.group ? (
-                <Typography variant="caption" fontWeight="bold" sx={{ mx: 4 }}>
+                <Typography variant="caption" fontWeight={700} sx={{ mx: 4 }}>
                   {params.group}
                 </Typography>
               ) : null}

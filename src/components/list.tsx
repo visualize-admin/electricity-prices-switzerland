@@ -88,7 +88,7 @@ const ListItems = ({
   listState: ListState;
 }) => {
   const [truncated, setTruncated] = useState<number>(TRUNCATION_INCREMENT);
-  const formatNumber = useFormatCurrency();
+  const formatNumber = useFormatCurrency(true);
 
   const listItems =
     items.length > truncated ? items.slice(0, truncated) : items;

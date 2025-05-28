@@ -1,5 +1,4 @@
 import {
-  Deck,
   MapController,
   PickingInfo,
   WebMercatorViewport,
@@ -11,7 +10,6 @@ import { Trans } from "@lingui/macro";
 import { Box, Typography } from "@mui/material";
 import centroid from "@turf/centroid";
 import { extent, group, mean, rollup, ScaleThreshold } from "d3";
-import html2canvas from "html2canvas";
 import React, {
   ComponentProps,
   Fragment,
@@ -32,8 +30,10 @@ import { constrainZoom, getFillColor } from "src/components/map-helpers";
 import { MapPriceColorLegend } from "src/components/price-color-legend";
 import { useGeoData } from "src/data/geo";
 import { useFormatCurrency } from "src/domain/helpers";
+import { getImageData, SCREENSHOT_CANVAS_SIZE } from "src/domain/screenshot";
 import { OperatorObservationFieldsFragment } from "src/graphql/queries";
 import { maxBy } from "src/lib/array";
+import { useIsMobile } from "src/lib/use-mobile";
 
 const DOWNLOAD_ID = "map";
 
@@ -55,6 +55,20 @@ const CH_BBOX: BBox = [
   [5.956800664952974, 45.81912371940225],
   [10.493446773955753, 47.80741209797084],
 ];
+
+/**
+ * Simple fitZoom to bbox
+ * @param viewState deck.gl viewState
+ */
+// const fitZoom = (viewState: $FixMe, bbox: BBox) => {
+//   const vp = new WebMercatorViewport(viewState);
+//   const fitted = vp.fitBounds(bbox);
+
+//   return {
+//     ...viewState,
+//     ...fitted,
+//   };
+// };
 
 const __debugCheckObservationsWithoutShapes = (
   observationsByMunicipalityId: Map<
@@ -153,102 +167,6 @@ type HoverState =
       label: string;
     };
 
-const toBlob = (canvas: HTMLCanvasElement, type: string) =>
-  new Promise<Blob | null>((resolve) => {
-    canvas.toBlob((blob) => resolve(blob), type);
-  });
-
-const SCREENSHOT_IMAGE_SIZE = {
-  width: 1120,
-  height: 928,
-};
-
-const SCREENSHOT_CANVAS_SIZE = {
-  width: 1120,
-  height: 730,
-};
-
-/**
- * Get the map as an image, using the Deck.gl canvas and html2canvas to get
- * the legend as an image.
- */
-const getImageData = async (deck: Deck, legend: HTMLElement) => {
-  if (!deck || "canvas" in deck === false) {
-    return;
-  }
-
-  // @ts-expect-error canvas is private
-  const canvas = deck.canvas;
-  if (!canvas) {
-    return;
-  }
-
-  const initialSize = {
-    width: canvas.width,
-    height: canvas.height,
-  };
-
-  const imageSize = {
-    width: SCREENSHOT_IMAGE_SIZE.width * 2,
-    height: SCREENSHOT_IMAGE_SIZE.height * 2,
-  };
-  const canvasSize = {
-    width: SCREENSHOT_CANVAS_SIZE.width * 2,
-    height: SCREENSHOT_CANVAS_SIZE.height * 2,
-  };
-
-  Object.assign(canvas, canvasSize);
-  deck.redraw("New size");
-
-  const newCanvas = document.createElement("canvas");
-  newCanvas.width = imageSize.width;
-  newCanvas.height = imageSize.height;
-  const context = newCanvas.getContext("2d");
-  if (!context) {
-    return;
-  }
-
-  // Using html2canvas, take the legend element, and draw it on the new canvas
-  // Make a new canvas element to convert the image to a png
-  // We need a new canvas since we will draw the legend onto it
-  context.fillStyle = "white";
-  context.fillRect(0, 0, newCanvas.width, newCanvas.height);
-
-  const ratio = window.devicePixelRatio;
-  context.drawImage(
-    canvas,
-    (newCanvas.width - canvas.width) / 2,
-    (newCanvas.height - canvas.height) / 2,
-    canvas.width,
-    canvas.height
-  );
-
-  const legendCanvas = await html2canvas(legend);
-
-  // We need to draw the legend using the device pixel ratio otherwise we get
-  // difference between different browsers (Safari legend would be bigger somehow)
-  const { width, height } = legend.getBoundingClientRect();
-
-  const legendPadding = 24;
-  context.drawImage(
-    legendCanvas,
-    legendPadding,
-    legendPadding,
-    width * ratio,
-    height * ratio
-  );
-
-  // Returns the canvas as a png
-  const res = await toBlob(newCanvas, "image/png").then((blob) =>
-    blob ? URL.createObjectURL(blob) : undefined
-  );
-
-  Object.assign(canvas, initialSize);
-  deck.redraw("Initial size");
-
-  return res;
-};
-
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 const frame = () => new Promise((resolve) => requestAnimationFrame(resolve));
 
@@ -274,6 +192,8 @@ export const ChoroplethMap = ({
   } | null>;
 }) => {
   const [hovered, setHovered] = useState<HoverState>();
+  const isMobile = useIsMobile();
+  const mapZoomPadding = isMobile ? 20 : 150;
 
   const [viewState, setViewState] = useState(INITIAL_VIEW_STATE);
   const [screenshotting, setScreenshotting] = useState(false);
@@ -288,19 +208,23 @@ export const ChoroplethMap = ({
       if (interactionState.inTransition) {
         setViewState(viewState as typeof INITIAL_VIEW_STATE);
       } else {
-        setViewState(constrainZoom(viewState, CH_BBOX));
+        setViewState(
+          constrainZoom(viewState, CH_BBOX, { padding: mapZoomPadding })
+        );
       }
     },
-    [screenshotting]
+    [screenshotting, mapZoomPadding]
   );
 
   const onResize = useCallback(
     ({ width, height }: { width: number; height: number }) => {
       setViewState((viewState) =>
-        constrainZoom({ ...viewState, width, height }, CH_BBOX)
+        constrainZoom({ ...viewState, width, height }, CH_BBOX, {
+          padding: mapZoomPadding,
+        })
       );
     },
-    [setViewState]
+    [setViewState, mapZoomPadding]
   );
 
   const deckRef = React.useRef<DeckGLRef>(null);
@@ -510,7 +434,7 @@ export const ChoroplethMap = ({
       new GeoJsonLayer({
         id: "municipalities-base",
         /** @ts-expect-error bad types */
-        data: geoData.municipalities,
+        data: geoData.data.municipalities,
         pickable: true,
         stroked: false,
         filled: true,
@@ -550,7 +474,7 @@ export const ChoroplethMap = ({
       new GeoJsonLayer({
         id: "municipality-mesh",
         /** @ts-expect-error GeoJsonLayer type seems bad */
-        data: geoData.municipalityMesh,
+        data: geoData.data.municipalityMesh,
         pickable: false,
         stroked: true,
         filled: false,
@@ -564,7 +488,7 @@ export const ChoroplethMap = ({
       new GeoJsonLayer({
         id: "lakes",
         /** @ts-expect-error GeoJsonLayer type seems bad */
-        data: geoData.lakes,
+        data: geoData.data.lakes,
         pickable: false,
         stroked: true,
         filled: true,
@@ -579,7 +503,7 @@ export const ChoroplethMap = ({
         id: "cantons",
 
         /** @ts-expect-error GeoJsonLayer type seems bad */
-        data: geoData.cantonMesh,
+        data: geoData.data.cantonMesh,
         pickable: false,
         stroked: true,
         filled: false,
@@ -597,7 +521,7 @@ export const ChoroplethMap = ({
       new GeoJsonLayer({
         id: "municipalities-overlay",
         /** @ts-expect-error bad types */
-        data: geoData.municipalities,
+        data: geoData.data.municipalities,
         pickable: false,
         stroked: true,
         filled: true,
@@ -802,7 +726,8 @@ export const ChoroplethMap = ({
                     width: SCREENSHOT_CANVAS_SIZE.width,
                     height: SCREENSHOT_CANVAS_SIZE.height,
                   },
-                  CH_BBOX
+                  CH_BBOX,
+                  { padding: mapZoomPadding }
                 ) as $FixMe
               }
               layers={layers?.map((l) => l?.clone({}))}

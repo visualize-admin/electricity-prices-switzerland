@@ -182,7 +182,7 @@ export const PriceEvolutionLineCharts = memo(
         {priceComponents.map((pc, i) => {
           return (
             <Box key={i}>
-              <Box sx={{ fontSize: "1rem", fontWeight: "bold" }}>
+              <Box sx={{ fontSize: "1rem", fontWeight: 700 }}>
                 {getLocalizedLabel({ id: pc })}
               </Box>
               <LineChart

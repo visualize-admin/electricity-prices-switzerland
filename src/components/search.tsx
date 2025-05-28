@@ -246,8 +246,11 @@ const SearchField = ({
         onChange={handleOptionSelect}
         noOptionsText={
           inputValue === ""
-            ? t({ id: "search.global.label" })
-            : t({ id: "combobox.noitems" })
+            ? t({
+                id: "search.global.label",
+                message: "Suche nach Gemeindename, PLZ, Netzbetreiber, Kanton",
+              })
+            : t({ id: "combobox.noitems", message: "Keine Resultate" })
         }
         loading={isLoading}
         popupIcon={null}

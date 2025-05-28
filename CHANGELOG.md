@@ -7,7 +7,7 @@ and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 You can also check the
-[release page](https://github.com/visualize-admin/visualization-tool/releases)
+[release page](https://github.com/visualize-admin/electricity-prices-switzerland/releases)
 
 # Unreleased
 
@@ -18,3 +18,6 @@ You can also check the
   - Operator map has no overlap for operators
 - Styles
   - Update Design System to match the Bund new CI system
+- Maintenance
+  - Added Sentry
+  - Improved Storybook screenshotting to avoid blank screenshots

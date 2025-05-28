@@ -25,6 +25,7 @@ import {
   useFormatCurrency,
 } from "src/domain/helpers";
 import { estimateTextWidth } from "src/lib/estimate-text-width";
+import { useIsMobile } from "src/lib/use-mobile";
 import { chartPalette } from "src/themes/palette";
 
 const useHistogramState = ({
@@ -93,8 +94,10 @@ const useHistogramState = ({
     )
   );
 
+  const isMobile = useIsMobile();
+
   const margins = {
-    top: 70,
+    top: isMobile ? 140 : 70,
     right: 40,
     bottom: 100,
     left: left + LEFT_MARGIN_OFFSET,
@@ -128,7 +131,7 @@ const useHistogramState = ({
         <>
           <Box sx={{ alignItems: "center", gap: "0.375rem" }} display="flex">
             <LegendSymbol symbol="square" color={colors(d.x0!)} />
-            <Typography variant="caption" sx={{ fontWeight: "bold" }}>
+            <Typography variant="caption" sx={{ fontWeight: 700 }}>
               {d.x0}-{d.x1}
               {xAxisUnit}
             </Typography>

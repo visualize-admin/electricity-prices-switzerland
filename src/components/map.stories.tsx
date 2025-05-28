@@ -1,26 +1,22 @@
 import { GeoJsonLayer } from "@deck.gl/layers/typed";
 import DeckGL, { DeckGLRef } from "@deck.gl/react/typed";
-import { I18n } from "@lingui/core";
-import { I18nProvider } from "@lingui/react";
 import { Box, List, ListItemButton } from "@mui/material";
 import { Decorator } from "@storybook/react";
 import * as turf from "@turf/turf";
-import { easeExpIn, mean, median, sort } from "d3";
-import {
-  Feature,
-  FeatureCollection,
-  Geometry,
-  MultiPolygon,
-  Polygon,
-} from "geojson";
-import { groupBy, keyBy } from "lodash";
+import { easeExpIn, mean, median } from "d3";
+import { Feature, Geometry, MultiPolygon, Polygon } from "geojson";
+import { keyBy } from "lodash";
 import { useCallback, useMemo, useRef, useState } from "react";
-import { ObjectInspector } from "react-inspector";
 import { createClient, Provider } from "urql";
 
 import { ChoroplethMap } from "src/components/map";
 import { getFillColor, getZoomFromBounds } from "src/components/map-helpers";
-import { MunicipalityFeatureCollection, useGeoData } from "src/data/geo";
+import {
+  getOperatorsFeatureCollection,
+  MunicipalityFeatureCollection,
+  OperatorLayerProperties,
+  useGeoData,
+} from "src/data/geo";
 import { useFetch } from "src/data/use-fetch";
 import { useColorScale } from "src/domain/data";
 import { useSunshineTariffQuery } from "src/graphql/queries";
@@ -28,17 +24,12 @@ import { SunshineDataRow } from "src/graphql/resolver-types";
 import { truthy } from "src/lib/truthy";
 import {
   ElectricityCategory,
-  getOperatorMunicipalities,
-  OperatorMunicipalityRecord,
+  getOperatorsMunicipalities,
 } from "src/rdf/queries";
 
 import { props } from "./map.mock";
 
 const TRANSPARENT = [255, 255, 255, 0] as [number, number, number, number];
-
-const i18n = new I18n({
-  locale: "en",
-});
 
 const colorAccessor = (d: { value: number }) => d.value;
 
@@ -49,122 +40,24 @@ export const Example = () => {
     accessor: colorAccessor,
   });
   return (
-    <I18nProvider i18n={i18n}>
-      <Box
-        width="800px"
-        height="800px"
-        position="relative"
-        sx={{
-          "& #deckgl-wrapper": {
-            width: "100%",
-            height: "100%",
-          },
-        }}
-      >
-        <ChoroplethMap
-          {...props}
-          colorScale={colorScale}
-          onMunicipalityLayerClick={() => {}}
-        />
-      </Box>
-    </I18nProvider>
-  );
-};
-
-type OperatorLayerProperties = {
-  municipalityCount: number;
-  operators: number[];
-};
-
-const multiGroupBy = <T,>(arr: T[], iter: (item: T) => string[]) => {
-  const res: Record<string, T[]> = {};
-  for (let i = 0; i < arr.length; i++) {
-    const item = arr[i];
-    const keys = iter(item);
-    for (let j = 0; j < keys.length; j++) {
-      const key = keys[j];
-      if (!res[key]) {
-        res[key] = [];
-      }
-      res[key].push(item);
-    }
-  }
-  return res;
-};
-
-const getOperatorsFeatureCollection = (
-  operatorMunicipalities: OperatorMunicipalityRecord[],
-  municipalities: MunicipalityFeatureCollection
-): FeatureCollection<
-  MultiPolygon | Polygon,
-  OperatorLayerProperties
-> | null => {
-  if (!operatorMunicipalities || !municipalities) return null;
-
-  const operatorsByMunicipality = groupBy(
-    operatorMunicipalities,
-    "municipality"
-  );
-  const municipalitySet = Array.from(
-    new Set(operatorMunicipalities.map((x) => x.municipality))
-  );
-
-  // Group municipalities by operator, a municipality will be part of several groups if it
-  // has several operators, the groups are sorted so that the multiple operators are last
-  // Example: Kilchberg is served by EWL and EWA, it will be part of 3 groups
-  // EWL, EWA, EWL/EWA
-  const municipalitiesByOperators = multiGroupBy(municipalitySet, (x) => {
-    const operatorIds = operatorsByMunicipality[x].map((x) => x.operator);
-    const all = sort(operatorIds).join("/");
-    return [...operatorIds, all];
-  });
-
-  const municipalitiesById = keyBy(municipalities.features, "id");
-  const operatorFeatures = Object.entries(municipalitiesByOperators)
-    .map(([operators, municipalities]) => {
-      // Get geometry features for all municipalities of this operator
-      const municipalityFeatures = municipalities
-        .map((muni) => municipalitiesById[muni])
-        .filter(Boolean);
-
-      if (municipalityFeatures.length === 0) {
-        console.warn(
-          `No geometry found for operator ${operators} with municipalities: ${municipalities
-            .map((m) => m)
-            .join(", ")}`
-        );
-        return null;
-      }
-      const featureCollection = turf.featureCollection(
-        municipalityFeatures.map((feat) =>
-          turf.feature(feat.geometry as Polygon | MultiPolygon)
-        )
-      );
-
-      const geometry =
-        municipalityFeatures.length > 1
-          ? turf.union(featureCollection)?.geometry
-          : featureCollection.features[0].geometry;
-
-      if (!geometry) {
-        return null;
-      }
-      return {
-        type: "Feature" as const,
-        properties: {
-          operators: operators.split("/").map((x) => parseInt(x, 10)),
-          municipalityCount: municipalities.length,
+    <Box
+      width="800px"
+      height="800px"
+      position="relative"
+      sx={{
+        "& #deckgl-wrapper": {
+          width: "100%",
+          height: "100%",
         },
-        geometry: geometry,
-      };
-    })
-    .filter(truthy);
-
-  // Create the final GeoJSON
-  return {
-    type: "FeatureCollection",
-    features: operatorFeatures,
-  };
+      }}
+    >
+      <ChoroplethMap
+        {...props}
+        colorScale={colorScale}
+        onMunicipalityLayerClick={() => {}}
+      />
+    </Box>
+  );
 };
 
 const sunshineAttributeToElectricityCategory: Partial<
@@ -219,7 +112,7 @@ export const Operators = () => {
     sunshineAttributeToElectricityCategory[attribute] ?? "all";
   const { data: operatorMunicipalities } = useFetch({
     key: `operator-municipalities-${period}-${electricityCategory}`,
-    queryFn: () => getOperatorMunicipalities(period, electricityCategory),
+    queryFn: () => getOperatorsMunicipalities(period, electricityCategory),
   });
   const { data: geoData } = useGeoData(period);
   const [sunshineTarriffs] = useSunshineTariffQuery({
@@ -284,8 +177,7 @@ export const Operators = () => {
 
   const deckglRef = useRef<DeckGLRef>(null);
   return (
-    <I18nProvider i18n={i18n}>
-      <ObjectInspector data={sunshineTarriffs} />
+    <>
       Attribute selection
       <Box
         width="800px"
@@ -384,7 +276,7 @@ export const Operators = () => {
                   },
                 }),
 
-                // Transparent layers for hover effect
+                // Transparent layer only used for hover effect
                 new GeoJsonLayer<
                   Feature<Polygon | MultiPolygon, OperatorLayerProperties>
                 >({
@@ -407,9 +299,7 @@ export const Operators = () => {
                 new GeoJsonLayer({
                   id: "municipality-layer",
                   data: geoData.municipalities.features,
-                  filled: true,
                   getLineColor: [255, 255, 255],
-                  getFillColor: TRANSPARENT,
                   highlightColor: [0, 0, 255],
                   lineWidthUnits: "pixels",
                   stroked: true,
@@ -421,7 +311,7 @@ export const Operators = () => {
           ) : null}
         </Box>
       </Box>
-    </I18nProvider>
+    </>
   );
 };
 

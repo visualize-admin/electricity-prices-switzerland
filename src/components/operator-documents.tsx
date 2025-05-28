@@ -124,7 +124,7 @@ export const OperatorDocuments = ({ id }: { id: string }) => {
 
   if (documents.length === 0) {
     return (
-      <Typography variant="body2" sx={{ m: 6, color: "hint.main" }}>
+      <Typography variant="body2" sx={{ color: "hint.main" }}>
         <Trans id="download.nooperatordocuments">
           Keine Netzbetreiber-Dokumente
         </Trans>
@@ -141,7 +141,15 @@ export const OperatorDocuments = ({ id }: { id: string }) => {
         onClick={handleOpen}
         color="tertiary"
       >
-        <Typography variant="body2">
+        <Typography
+          variant="body2"
+          sx={{
+            display: {
+              xxs: "none",
+              md: "block",
+            },
+          }}
+        >
           <Trans id="download.cta">Download Berichte & Tarife</Trans>
         </Typography>
       </Button>

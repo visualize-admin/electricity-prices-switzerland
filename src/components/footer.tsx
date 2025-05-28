@@ -11,6 +11,7 @@ import { Link, SxProps } from "@mui/material";
 import { useLocale } from "src/lib/use-locale";
 import { useQueryStateSingle } from "src/lib/use-query-state";
 
+import { HelpDialog } from "./info-dialog";
 import { useDisclosure } from "./use-disclosure";
 
 export const Footer = ({ sx }: { sx?: SxProps }) => {
@@ -59,6 +60,15 @@ export const Footer = ({ sx }: { sx?: SxProps }) => {
             id: "footer.more-information",
             message: "Weitere Informationen",
           })}
+        />
+        <HelpDialog
+          close={helpCalculationDisclosure.close}
+          label={t({
+            id: "help.calculation",
+            message: `Berechnungsgrundlage`,
+          })}
+          open={helpCalculationDisclosure.isOpen}
+          slug="help-calculation"
         />
         <FooterSectionButton
           iconName="arrow-right"
