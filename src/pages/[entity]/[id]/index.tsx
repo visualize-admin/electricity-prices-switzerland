@@ -13,12 +13,9 @@ import {
 } from "src/components/detail-page/layout";
 import { PriceComponentsBarChart } from "src/components/detail-page/price-components-bars";
 import { PriceDistributionHistograms } from "src/components/detail-page/price-distribution-histogram";
+import { PriceEvolutionCard } from "src/components/detail-page/price-evolution-line-chart";
 import { SelectorMulti } from "src/components/detail-page/selector-multi";
 import { DetailsPageSidebar } from "src/components/detail-page/sidebar";
-import { getLocalizedLabel } from "src/domain/translation";
-import { defaultLocale } from "src/locales/locales";
-
-import { PriceEvolution } from "src/components/detail-page/price-evolution-line-chart";
 import {
   handleCantonEntity,
   handleMunicipalityEntity,
@@ -27,6 +24,8 @@ import {
   Props,
 } from "src/data/shared-page-props";
 import { priceComponents } from "src/domain/data";
+import { getLocalizedLabel } from "src/domain/translation";
+import { defaultLocale } from "src/locales/locales";
 
 export const getServerSideProps: GetServerSideProps<
   Props,
@@ -118,7 +117,7 @@ const ElectricityTariffsPage = (props: Props) => {
       <SelectorMulti entity={entity} />
 
       <PriceComponentsBarChart id={id} entity={entity} />
-      <PriceEvolution
+      <PriceEvolutionCard
         priceComponents={priceComponents}
         id={id}
         entity={entity}

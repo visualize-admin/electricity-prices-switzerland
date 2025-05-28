@@ -2,7 +2,7 @@ import { DrawerProps } from "@mui/material";
 import MuiDrawer from "@mui/material/Drawer";
 import { ReactNode } from "react";
 
-export const DRAWER_WIDTH = 340;
+const DRAWER_WIDTH = 340;
 
 type CustomDrawerProps = {
   children: ReactNode;

@@ -196,7 +196,7 @@ export const PriceEvolutionLineCharts = memo(
   }
 );
 
-export const PriceEvolutionLineChart = (props: {
+const PriceEvolutionLineChart = (props: {
   pc: string;
   i: number;
   observations: GenericObservation[];
