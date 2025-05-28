@@ -1,9 +1,9 @@
 import * as fs from "fs";
 import * as path from "path";
 
-import * as Playwright from "@playwright/test";
+import { Page } from "@playwright/test";
 
-import { test, expect } from "./common";
+import { test, expect, sleep } from "./common";
 
 type StorybookManifestStory = {
   id: string;
@@ -35,7 +35,7 @@ const loadStories = (): StorybookManifestStory[] => {
 };
 
 /** Load Storybook story for Playwright testing */
-export async function loadStory(page: Playwright.Page, storyId: string) {
+export async function loadStory(page: Page, storyId: string) {
   const search = new URLSearchParams({ viewMode: "story", id: storyId });
   const resp = await page.goto(
     `${PLAYWRIGHT_BASE_URL}/iframe.html?${search.toString()}`,
@@ -55,6 +55,14 @@ export async function loadStory(page: Playwright.Page, storyId: string) {
   // 404 do not cause a problem on Playwright
   expect(resp?.status()).toEqual(200);
 
+  const allFramesAreLoaded = (page: Page) => {
+    return Promise.all(
+      page.frames().map((frame) => {
+        return frame.waitForLoadState("domcontentloaded");
+      })
+    );
+  };
+
   // wait for page to finish rendering before starting test
   const node = await Promise.race([
     page
@@ -67,6 +75,14 @@ export async function loadStory(page: Playwright.Page, storyId: string) {
       .waitForSelector("#error-message")
       .then((x) => ({ result: x, type: "error" })),
   ]);
+
+  await allFramesAreLoaded(page);
+
+  // Prevents blank screenshots, which can happen if the component is not fully rendered yet
+  // The data-storybook-state="loaded" attribute by a decorator in Storybook preview.ts
+  await page.waitForSelector('[data-storybook-state="loaded"]');
+
+  await sleep(100);
 
   if (node?.type === "error") {
     throw new Error("An error happened while rendering the component");

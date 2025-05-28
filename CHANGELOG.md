@@ -13,6 +13,7 @@ You can also check the
 
 - Features
   - GraphQL API: Add new queries to get sunshine data
+  - Added Sunshine Cards to the homepage (flagged)
 - Storybook
   - Add new map to show sunshine data for operators
   - Operator map has no overlap for operators
@@ -20,3 +21,4 @@ You can also check the
   - Update Design System to match the Bund new CI system
 - Maintenance
   - Added Sentry
+  - Improved Storybook screenshotting to avoid blank screenshots

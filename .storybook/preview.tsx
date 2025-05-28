@@ -8,12 +8,14 @@ import { I18nProvider } from "@lingui/react";
 
 const withAppProviders: Decorator = (Story: any) => {
   return (
-    <I18nProvider i18n={i18n}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Story />
-      </ThemeProvider>
-    </I18nProvider>
+    <div data-storybook-state="loaded">
+      <I18nProvider i18n={i18n}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Story />
+        </ThemeProvider>
+      </I18nProvider>
+    </div>
   );
 };
 
