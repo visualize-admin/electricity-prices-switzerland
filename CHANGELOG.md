@@ -18,3 +18,5 @@ You can also check the
   - Operator map has no overlap for operators
 - Styles
   - Update Design System to match the Bund new CI system
+- Maintenance
+  - Added Sentry

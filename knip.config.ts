@@ -6,6 +6,7 @@ const config: KnipConfig = {
     "k6-load-test.ts",
     "lingui.config.js",
     "src/pages/**/*.ts",
+    "src/pages/**/*.tsx",
     "src/domain/gever/output/cli.js",
     "src/domain/gever/rollup.config.js",
     "e2e/common.ts",
@@ -39,6 +40,9 @@ const config: KnipConfig = {
 
     // Used through webpack loaders
     "raw-loader",
+
+    // Used when debugging
+    "react-inspector",
   ],
 };
 export default config;

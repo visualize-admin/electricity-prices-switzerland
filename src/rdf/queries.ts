@@ -532,7 +532,7 @@ export type ElectricityCategory =
   | "H7"
   | "H8";
 
-export const getOperatorMunicipalities = async (
+export const getOperatorsMunicipalities = async (
   year: string,
   category: ElectricityCategory | "all",
   client = sparqlClient
@@ -580,8 +580,22 @@ export const getOperatorMunicipalities = async (
 };
 
 export type OperatorMunicipalityRecord = Awaited<
-  ReturnType<typeof getOperatorMunicipalities>
+  ReturnType<typeof getOperatorsMunicipalities>
 >[number];
+
+export const getOperatorMunicipalities = async (id: string, locale: string) => {
+  const cube = await getObservationsCube();
+
+  const municipalities = await getDimensionValuesAndLabels({
+    cube,
+    dimensionKey: "municipality",
+    filters: { operator: [id] },
+  });
+
+  return municipalities
+    .sort((a, b) => a.name.localeCompare(b.name, locale))
+    .map(({ id, name }) => ({ id, name }));
+};
 
 export const getSparqlEditorUrl = (query: string): string | null => {
   assert(!!serverEnv, "serverEnv is not defined");
