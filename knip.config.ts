@@ -19,6 +19,8 @@ const config: KnipConfig = {
     "make",
     // Used for running file encryptions
     "dotenv",
+    //Used for opening accent project in the browser
+    "open",
   ],
   ignoreUnresolved: [
     // Used in package.json:scripts:start to configure HTTP_PROXY.
