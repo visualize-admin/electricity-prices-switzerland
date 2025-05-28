@@ -32,6 +32,7 @@ import { copyToClipboard } from "src/lib/copy-to-clipboard";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { useQueryStateSingle } from "src/lib/use-query-state";
 import { defaultLocale } from "src/locales/locales";
+import { useFlag } from "src/utils/flags";
 
 const ApplicationLayout = dynamic(
   () =>
@@ -206,15 +207,19 @@ const IndexPage = ({ locale }: Props) => {
     accessor: colorAccessor,
   });
 
+  const isSunshine = useFlag("sunshine");
+
   const controlsRef: NonNullable<ChoroplethMapProps["controls"]> = useRef(null);
 
   useEffect(() => {
-    if (activeId) {
-      controlsRef.current?.zoomOn(activeId);
-    } else {
-      controlsRef.current?.zoomOut();
+    if (isSunshine) {
+      if (activeId) {
+        controlsRef.current?.zoomOn(activeId);
+      } else {
+        controlsRef.current?.zoomOut();
+      }
     }
-  }, [activeId]);
+  }, [activeId, isSunshine]);
 
   return (
     <MapProvider activeId={activeId} setActiveId={setActiveId}>
@@ -360,7 +365,6 @@ const IndexPage = ({ locale }: Props) => {
               position: "relative",
             }}
           >
-            
             <ElectricitySelectors />
             <List
               observations={observations}
