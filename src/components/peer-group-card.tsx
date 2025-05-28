@@ -24,7 +24,9 @@ const PeerGroupCard: React.FC<
             Latest year ({latestYear})
           </Trans>
         </Typography>
-        <Typography variant="body1">{peerGroupLabel}</Typography>
+        <Typography variant="body1" fontWeight={700}>
+          {peerGroupLabel}
+        </Typography>
       </CardContent>
     </Card>
   );
