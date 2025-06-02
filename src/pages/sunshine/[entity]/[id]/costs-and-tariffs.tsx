@@ -406,21 +406,6 @@ const CostsAndTariffs = (props: Props) => {
       {activeTab === TabOption.NETWORK_COSTS && <NetworkCosts {...props} />}
       {activeTab === TabOption.NET_TARIFFS && <NetTariffs {...props} />}
       {activeTab === TabOption.ENERGY_TARIFFS && <EnergyTariffs {...props} />}
-
-      {activeTab === TabOption.ENERGY_TARIFFS && (
-        <Box sx={{ textAlign: "center", py: 8 }}>
-          <Typography variant="h5">
-            <Trans id="sunshine.costs-and-tariffs.energy-tariffs-content">
-              Energy Tariffs Content
-            </Trans>
-          </Typography>
-          <Typography variant="body1" color="text.secondary">
-            <Trans id="sunshine.costs-and-tariffs.under-development-energy">
-              This section is under development.
-            </Trans>
-          </Typography>
-        </Box>
-      )}
     </>
   );
 
