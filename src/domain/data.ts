@@ -2,6 +2,7 @@ import { extent, range, scaleThreshold } from "d3";
 import { useMemo } from "react";
 
 import buildEnv from "src/env/build";
+import { getPeerGroup } from "src/lib/sunshine-csv";
 import { chartPalette } from "src/themes/palette";
 
 export type ObservationValue = string | number | boolean | Date;
@@ -176,12 +177,8 @@ export type SunshineCostsAndTariffsData = {
 };
 
 const fetchOperatorPeerGroup = async (operatorId: string) => {
-  // Simulating a fetch operation to get the operator's peer group data
-  // In a real application, this would be replaced with an actual API call
-  return {
-    energyDensity: "low",
-    settlementDensity: "rural",
-  };
+  const peerGroup = await getPeerGroup(operatorId);
+  return peerGroup;
 };
 
 // We will need operatorId to fetch the data for the operator
