@@ -13,7 +13,11 @@ const config: KnipConfig = {
     "src/**/*.stories.tsx",
   ],
   project: ["src/**", "scripts/**"],
-  ignore: ["src/graphql/resolver-types.ts", "src/graphql/queries.ts"],
+  ignore: [
+    "src/graphql/resolver-types.ts",
+    "src/graphql/queries.ts",
+    "src/locales/trans-dummy.tsx",
+  ],
   tags: ["-knipignore"],
   ignoreBinaries: [
     // Used to download content, can be removed when we switch to DatoCMS
