@@ -185,6 +185,9 @@ const fetchOperatorPeerGroup = async (operatorId: string) => {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const fetchOperatorCostsAndTariffsData = async (operatorId: string) => {
   const peerGroup = await fetchOperatorPeerGroup(operatorId);
+  if (!peerGroup) {
+    throw new Error(`Peer group not found for operator ID: ${operatorId}`);
+  }
   return {
     operator: {
       peerGroup,
