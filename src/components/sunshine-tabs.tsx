@@ -40,3 +40,33 @@ export const CostsAndTariffsNavigation: React.FC<{
   );
 };
 
+export enum PowerStabilityTabOption {
+  SAIDI = 0,
+  SAIFI = 1,
+}
+
+export const PowerStabilityNavigation: React.FC<{
+  activeTab: unknown;
+  handleTabChange: (event: React.SyntheticEvent, newValue: number) => void;
+}> = ({ activeTab, handleTabChange }) => {
+  return (
+    <Tabs value={activeTab} onChange={handleTabChange}>
+      <Tab
+        value={PowerStabilityTabOption.SAIDI}
+        label={
+          <Trans id="sunshine.power-stability.saidi">
+            Power Outage Duration (SAIDI)
+          </Trans>
+        }
+      />
+      <Tab
+        value={PowerStabilityTabOption.SAIFI}
+        label={
+          <Trans id="sunshine.power-stability.saifi">
+            Power Outage Frequency (SAIFI)
+          </Trans>
+        }
+      />
+    </Tabs>
+  );
+};

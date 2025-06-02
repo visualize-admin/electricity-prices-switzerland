@@ -188,6 +188,38 @@ export type SunshineCostsAndTariffsData = {
   updateDate: string;
 };
 
+export type SunshinePowerStabilityData = {
+  latestYear: string;
+  saidi: {
+    operatorMinutes: number;
+    peerGroupMinutes: number;
+    yearlyData: {
+      year: string;
+      minutes: number;
+      operator: number;
+      planned: boolean;
+    }[];
+  };
+  saifi: {
+    operatorMinutes: number;
+    peerGroupMinutes: number;
+    yearlyData: {
+      year: string;
+      minutes: number;
+      operator: number;
+      planned: boolean;
+    }[];
+  };
+
+  operator: {
+    peerGroup: {
+      energyDensity: string;
+      settlementDensity: string;
+    };
+  };
+  updateDate: string;
+};
+
 const fetchOperatorPeerGroup = async (operatorId: string) => {
   const peerGroup = await getPeerGroup(operatorId);
   return peerGroup;
@@ -244,4 +276,68 @@ export const fetchOperatorCostsAndTariffsData = async (operatorId: string) => {
 
     updateDate: "March 7, 2024, 1:28 PM",
   } satisfies SunshineCostsAndTariffsData;
+};
+
+export const fetchPowerStability = async (operatorId: string) => {
+  const peerGroup = await fetchOperatorPeerGroup(operatorId);
+  if (!peerGroup) {
+    throw new Error(`Peer group not found for operator ID: ${operatorId}`);
+  }
+  return {
+    operator: {
+      peerGroup,
+    },
+    saidi: {
+      operatorMinutes: 23.4,
+      peerGroupMinutes: 25.6,
+      yearlyData: [
+        { year: "2022", minutes: 21.9, operator: 410, planned: true },
+        { year: "2023", minutes: 22.8, operator: 410, planned: true },
+        { year: "2024", minutes: 23.4, operator: 410, planned: true },
+        { year: "2022", minutes: 20.5, operator: 390, planned: true },
+        { year: "2023", minutes: 21.3, operator: 390, planned: true },
+        { year: "2024", minutes: 22.0, operator: 390, planned: true },
+        { year: "2022", minutes: 19.0, operator: 370, planned: true },
+        { year: "2023", minutes: 19.8, operator: 370, planned: true },
+        { year: "2024", minutes: 20.5, operator: 370, planned: true },
+        { year: "2022", minutes: 21.9, operator: 410, planned: false },
+        { year: "2023", minutes: 22.8, operator: 410, planned: false },
+        { year: "2024", minutes: 23.4, operator: 410, planned: false },
+        { year: "2022", minutes: 20.5, operator: 390, planned: false },
+        { year: "2023", minutes: 21.3, operator: 390, planned: false },
+        { year: "2024", minutes: 22.0, operator: 390, planned: false },
+        { year: "2022", minutes: 19.0, operator: 370, planned: false },
+        { year: "2023", minutes: 19.8, operator: 370, planned: false },
+        { year: "2024", minutes: 20.5, operator: 370, planned: false },
+      ],
+    },
+    saifi: {
+      operatorMinutes: 23.4,
+      peerGroupMinutes: 25.6,
+      yearlyData: [
+        { year: "2022", minutes: 21.9, operator: 410, planned: true },
+        { year: "2023", minutes: 22.8, operator: 410, planned: true },
+        { year: "2024", minutes: 23.4, operator: 410, planned: true },
+        { year: "2022", minutes: 20.5, operator: 390, planned: true },
+        { year: "2023", minutes: 21.3, operator: 390, planned: true },
+        { year: "2024", minutes: 22.0, operator: 390, planned: true },
+        { year: "2022", minutes: 19.0, operator: 370, planned: true },
+        { year: "2023", minutes: 19.8, operator: 370, planned: true },
+        { year: "2024", minutes: 20.5, operator: 370, planned: true },
+        { year: "2022", minutes: 21.9, operator: 410, planned: false },
+        { year: "2023", minutes: 22.8, operator: 410, planned: false },
+        { year: "2024", minutes: 23.4, operator: 410, planned: false },
+        { year: "2022", minutes: 20.5, operator: 390, planned: false },
+        { year: "2023", minutes: 21.3, operator: 390, planned: false },
+        { year: "2024", minutes: 22.0, operator: 390, planned: false },
+        { year: "2022", minutes: 19.0, operator: 370, planned: false },
+        { year: "2023", minutes: 19.8, operator: 370, planned: false },
+        { year: "2024", minutes: 20.5, operator: 370, planned: false },
+      ],
+    },
+
+    latestYear: "2024",
+
+    updateDate: "March 7, 2024, 1:28 PM",
+  } satisfies SunshinePowerStabilityData;
 };
