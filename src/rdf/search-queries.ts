@@ -4,7 +4,7 @@ import rdf from "rdf-ext";
 import { Literal, NamedNode, Quad } from "rdf-js";
 import ParsingClient from "sparql-http-client/ParsingClient";
 
-import { defaultLocale } from "src/locales/locales";
+import { defaultLocale } from "src/locales/config";
 
 import * as ns from "./namespace";
 import { getSparqlEditorUrl } from "./queries";

@@ -37,7 +37,7 @@ import {
   getLocalizedLabel,
   getNetworkLevelLabels,
 } from "src/domain/translation";
-import { defaultLocale } from "src/locales/locales";
+import { defaultLocale } from "src/locales/config";
 
 type Props =
   | (Extract<SharedPageProps, { entity: "operator"; status: "found" }> & {

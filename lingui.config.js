@@ -1,7 +1,7 @@
-const { locales } = require("./src/locales/locales.json");
+import { accentLocales } from "./src/locales/config";
 
 module.exports = {
-  locales,
+  locales: accentLocales,
   catalogs: [
     {
       path: "<rootDir>/src/locales/{locale}/messages",

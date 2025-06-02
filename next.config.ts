@@ -4,7 +4,7 @@ import { withSentryConfig } from "@sentry/nextjs";
 import { nodeFileTrace } from "@vercel/nft";
 import { NextConfig } from "next";
 
-import { defaultLocale, locales } from "src/locales/locales";
+import { defaultLocale, locales } from "src/locales/config";
 
 import pkg from "./package.json";
 

@@ -12,6 +12,8 @@ import {
   it as pluralsIt,
 } from "make-plural/plurals";
 
+import { defaultLocale } from "src/locales/config";
+
 import { messages as catalogDe } from "./de/messages";
 import { messages as catalogFr } from "./fr/messages";
 import { messages as catalogIt } from "./it/messages";
@@ -26,11 +28,6 @@ const timeFormatEn = require("d3-time-format/locale/en-GB");
 const timeFormatFr = require("d3-time-format/locale/fr-FR");
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const timeFormatIt = require("d3-time-format/locale/it-IT");
-
-export const defaultLocale = "en";
-
-// The order specified here will determine the fallback order when strings are not available in the preferred language
-export const locales = ["de", "fr", "it", "en"] as const;
 
 export type Locale = "de" | "fr" | "it" | "en";
 
