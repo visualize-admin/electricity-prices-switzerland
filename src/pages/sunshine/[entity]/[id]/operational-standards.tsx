@@ -79,7 +79,6 @@ const ProductVariety = (props: Extract<Props, { status: "found" }>) => {
   const {
     operator: { peerGroup },
     latestYear,
-    updateDate,
   } = props.operationalStandards;
 
   const data = props.operationalStandards;
@@ -166,7 +165,6 @@ const ServiceQuality = (props: Extract<Props, { status: "found" }>) => {
   const {
     operator: { peerGroup },
     latestYear,
-    updateDate,
   } = props.operationalStandards;
 
   const data = props.operationalStandards;
@@ -253,7 +251,6 @@ const Compliance = (props: Extract<Props, { status: "found" }>) => {
   const {
     operator: { peerGroup },
     latestYear,
-    updateDate,
   } = props.operationalStandards;
 
   const data = props.operationalStandards;

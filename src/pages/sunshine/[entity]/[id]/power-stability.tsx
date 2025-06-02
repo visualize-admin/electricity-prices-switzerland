@@ -83,7 +83,6 @@ const SaidiSaifi = (
   const {
     operator: { peerGroup },
     latestYear,
-    updateDate,
   } = props.powerStability;
   const { attribute } = props;
 
