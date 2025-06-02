@@ -11,7 +11,7 @@
   "scripts": {
     "dev": "make content && NODE_OPTIONS='--openssl-legacy-provider --max_old_space_size=4096' next",
     "update-wiki-content": "make content",
-    "build": "lingui compile && yarn build-storybook && NODE_OPTIONS='--max_old_space_size=16384 --openssl-legacy-provider' next build -d && cp src/sunshine-data.enc  .next/server/pages/sunshine-data.enc",
+    "build": "lingui compile && yarn build-storybook && NODE_OPTIONS='--max_old_space_size=16384 --openssl-legacy-provider' next build -d && mkdir .next/server/pages/sunshine-data/ && cp src/sunshine-data/*.enc  .next/server/pages/sunshine-data/",
     "start": "GLOBAL_AGENT_ENVIRONMENT_VARIABLE_NAMESPACE='' NODE_OPTIONS='-r \"./configure-proxy\" --max_old_space_size=2048 --openssl-legacy-provider --unhandled-rejections=warn' next start -p $PORT",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
