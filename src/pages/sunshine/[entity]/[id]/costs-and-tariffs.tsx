@@ -16,7 +16,10 @@ import { DetailsPageSidebar } from "src/components/detail-page/sidebar";
 import NetTariffsTrendCard from "src/components/net-tariffs-trend-card";
 import NetworkCostsTrendCard from "src/components/network-costs-trend-card";
 import PeerGroupCard from "src/components/peer-group-card";
-import { CostsAndTariffsNavigation } from "src/components/sunshine-tabs";
+import {
+  CostAndTariffsTabOption,
+  CostsAndTariffsNavigation,
+} from "src/components/sunshine-tabs";
 import TableComparisonCard, {
   Trend,
 } from "src/components/table-comparison-card";
@@ -35,12 +38,6 @@ import {
   getNetworkLevelLabels,
 } from "src/domain/translation";
 import { defaultLocale } from "src/locales/locales";
-
-enum TabOption {
-  NETWORK_COSTS = 0,
-  NET_TARIFFS = 1,
-  ENERGY_TARIFFS = 2,
-}
 
 type Props =
   | (Extract<SharedPageProps, { entity: "operator"; status: "found" }> & {
@@ -351,8 +348,8 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
 
 const CostsAndTariffs = (props: Props) => {
   const { query } = useRouter();
-  const [activeTab, setActiveTab] = useState<TabOption>(
-    TabOption.NETWORK_COSTS
+  const [activeTab, setActiveTab] = useState<CostAndTariffsTabOption>(
+    CostAndTariffsTabOption.NETWORK_COSTS
   );
 
   if (props.status === "notfound") {
@@ -403,9 +400,15 @@ const CostsAndTariffs = (props: Props) => {
         handleTabChange={handleTabChange}
       />
 
-      {activeTab === TabOption.NETWORK_COSTS && <NetworkCosts {...props} />}
-      {activeTab === TabOption.NET_TARIFFS && <NetTariffs {...props} />}
-      {activeTab === TabOption.ENERGY_TARIFFS && <EnergyTariffs {...props} />}
+      {activeTab === CostAndTariffsTabOption.NETWORK_COSTS && (
+        <NetworkCosts {...props} />
+      )}
+      {activeTab === CostAndTariffsTabOption.NET_TARIFFS && (
+        <NetTariffs {...props} />
+      )}
+      {activeTab === CostAndTariffsTabOption.ENERGY_TARIFFS && (
+        <EnergyTariffs {...props} />
+      )}
     </>
   );
 
