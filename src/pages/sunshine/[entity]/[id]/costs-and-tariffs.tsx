@@ -266,8 +266,8 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
           },
           gridTemplateRows: ["auto auto auto", "auto auto"], // Three rows: two for cards, one for trend chart
           gridTemplateAreas: [
-            `"peer-group" "net-tariffs" "net-tariffs-trend"`, // One column on small screens
-            `"peer-group net-tariffs" "net-tariffs-trend net-tariffs-trend"`, // Two columns on medium screens
+            `"peer-group" "comparison" "trend"`, // One column on small screens
+            `"peer-group comparison" "trend trend"`, // Two columns on medium screens
           ],
         }}
       >
@@ -279,11 +279,11 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
 
         <TableComparisonCard
           {...comparisonCardProps}
-          sx={{ gridArea: "net-tariffs" }}
+          sx={{ gridArea: "comparison" }}
         />
 
         <NetTariffsTrendCard
-          sx={{ gridArea: "net-tariffs-trend" }}
+          sx={{ gridArea: "trend" }}
           peerGroup={peerGroup}
           updateDate={updateDate}
         />
