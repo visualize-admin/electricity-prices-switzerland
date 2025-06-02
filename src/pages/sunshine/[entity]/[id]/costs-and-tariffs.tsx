@@ -1,5 +1,4 @@
 import { Trans, t } from "@lingui/macro";
-import { Box, Typography, Tabs, Tab } from "@mui/material";
 import { GetServerSideProps } from "next";
 import ErrorPage from "next/error";
 import { useRouter } from "next/router";
@@ -17,6 +16,7 @@ import { DetailsPageSidebar } from "src/components/detail-page/sidebar";
 import NetTariffsTrendCard from "src/components/net-tariffs-trend-card";
 import NetworkCostsTrendCard from "src/components/network-costs-trend-card";
 import PeerGroupCard from "src/components/peer-group-card";
+import { CostsAndTariffsNavigation } from "src/components/sunshine-tabs";
 import TableComparisonCard, {
   Trend,
 } from "src/components/table-comparison-card";
@@ -84,35 +84,6 @@ export const getServerSideProps: GetServerSideProps<
       costsAndTariffs,
     },
   };
-};
-
-const CostsAndTariffsNavigation: React.FC<{
-  activeTab: unknown;
-  handleTabChange: (event: React.SyntheticEvent, newValue: number) => void;
-}> = ({ activeTab, handleTabChange }) => {
-  return (
-    <Tabs value={activeTab} onChange={handleTabChange}>
-      <Tab
-        label={
-          <Trans id="sunshine.costs-and-tariffs.network-costs">
-            Network Costs
-          </Trans>
-        }
-      />
-      <Tab
-        label={
-          <Trans id="sunshine.costs-and-tariffs.net-tariffs">Net Tariffs</Trans>
-        }
-      />
-      <Tab
-        label={
-          <Trans id="sunshine.costs-and-tariffs.energy-tariffs">
-            Energy Tariffs
-          </Trans>
-        }
-      />
-    </Tabs>
-  );
 };
 
 const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
