@@ -27,12 +27,12 @@ const timeFormatFr = require("d3-time-format/locale/fr-FR");
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const timeFormatIt = require("d3-time-format/locale/it-IT");
 
-export const defaultLocale = "de";
+export const defaultLocale = "en";
 
 // The order specified here will determine the fallback order when strings are not available in the preferred language
-export const locales = ["de", "fr", "it"] as const;
+export const locales = ["de", "fr", "it", "en"] as const;
 
-export type Locale = "de" | "fr" | "it";
+export type Locale = "de" | "fr" | "it" | "en";
 
 i18n.loadLocaleData({
   de: { plurals: pluralsDe },
@@ -58,7 +58,7 @@ export const parseLocaleString = (localeString: string | undefined): Locale => {
   if (!localeString) {
     return defaultLocale;
   }
-  const result = /^(de|fr|it)/.exec(localeString);
+  const result = /^(de|fr|it|en)/.exec(localeString);
   return result ? (result[1] as Locale) : defaultLocale;
 };
 
