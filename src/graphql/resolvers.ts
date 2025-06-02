@@ -22,7 +22,7 @@ import {
   Resolvers,
   SwissMedianObservationResolvers,
 } from "src/graphql/resolver-types";
-import { getSunshineData } from "src/lib/sunshine-csv";
+import { getPeerGroup, getSunshineData } from "src/lib/sunshine-csv";
 import { defaultLocale } from "src/locales/locales";
 import {
   getCantonMedianCube,
@@ -451,6 +451,11 @@ const Operator: OperatorResolvers = {
       );
       return [];
     }
+  },
+
+  peerGroup: async ({ id }) => {
+    const peerGroups = await getPeerGroup(id);
+    return peerGroups;
   },
 };
 

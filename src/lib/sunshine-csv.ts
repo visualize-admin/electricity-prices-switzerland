@@ -3,8 +3,10 @@ import fs from "fs";
 import path from "path";
 
 import { parse } from "csv-parse/sync";
+import { keyBy, memoize } from "lodash";
 
 import serverEnv from "src/env/server";
+import { Operator } from "src/graphql/queries";
 
 export const sunshineFileIds = [
   "observations",
@@ -173,3 +175,18 @@ export const getSunshineData = async <T extends Id>(
   }
   return sunshineDataCache! as ParsedRowType<T>[];
 };
+
+const getIndexedPeerGroups = memoize(async () => {
+  const peerGroups = await getSunshineData("peer-groups");
+  const indexed = keyBy(peerGroups, (pg) => pg.operatorId);
+  console.log(peerGroups.length, "peer groups loaded", indexed);
+  return indexed;
+});
+
+export const getPeerGroup = memoize(async (id: Operator["id"]) => {
+  if (!id) {
+    throw new Error("Operator ID is required to get operator peer group");
+  }
+  const energyData = await getIndexedPeerGroups();
+  return energyData[id] || null;
+});
