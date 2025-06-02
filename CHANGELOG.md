@@ -23,3 +23,5 @@ You can also check the
   - Added Sentry
   - Split Static checks and e2e tests
   - Improved Storybook screenshotting to avoid blank screenshots
+  - Changed default language to english
+  - Initialized all sunshine translation strings to accent
