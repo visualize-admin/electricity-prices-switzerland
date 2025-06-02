@@ -68,6 +68,14 @@ export const getServerSideProps: GetServerSideProps<
     res,
   });
 
+  if (operatorProps.status === "notfound") {
+    return {
+      props: {
+        status: "notfound",
+      },
+    };
+  }
+
   const costsAndTariffs = await fetchOperatorCostsAndTariffsData(id);
 
   return {
