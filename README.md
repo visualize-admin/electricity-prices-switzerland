@@ -215,13 +215,26 @@ to open it.
 ## Sunshine CSV
 
 At the moment, the Sunshine data is mocked and encrypted, it is available
-provided you have the password. Through the `yarn sunshine-csv` script you
-can manage it.
+provided you have the password.
 
-```
-yarn sunshine-csv encrypt
-yarn sunshine-csv decrypt -o decrypted.csv
+There are several subsets of the data:
+
+- observations: the individual measurements for each operator
+- energy: The energy data made in https://github.com/interactivethings/elcom-sunshine-data-analysis, made from data sent by Elcom in summer 2024
+- peer-groups: the peer groups from each operator, inferred from "energy.csv" data
+
+Through the `yarn sunshine-csv` script you can encrypt/decrypt individual subset of the data.
+
+```bash
+# Decrypt observations
+yarn sunshine-csv encrypt observations
+yarn sunshine-csv decrypt observations -o decrypted.csv
+
+yarn sunshine-csv decrypt peer-groups
 
 # How it's parsed as a JSON used in the app
-yarn sunshine-csv json
+yarn sunshine-csv json observations
 ```
+
+The peer groups CSV is generated from "energy.csv" through "duckdb", you can regenerate it
+via `yarn data:peer-groups`.

@@ -35,7 +35,8 @@
     "knip": "knip",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build -o public/storybook",
-    "test:argos": "argos upload ./e2e/snapshots"
+    "test:argos": "argos upload ./e2e/snapshots",
+    "data:peer-groups": "duckdb -f ./scripts/peer-groups.sql"
   },
   "dependencies": {
     "@apollo/server": "^4.3.3",
