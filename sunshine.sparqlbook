@@ -1,0 +1,44 @@
+[
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "ElCom Sunshine SPARQL Notebook\n==============================",
+    "metadata": {}
+  },
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "Sunshine indicators are measure dimensions of observations in the cube `<https://energy.ld.admin.ch/elcom/sunshine>`.\n\nThe following query returns SAIDI indicators for a specific year and operator:",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nPREFIX cube: <https://cube.link/>\nPREFIX : <https://energy.ld.admin.ch/elcom/sunshine/dimension/>\n\nSELECT ?saidi_total ?saidi_unplanned\nWHERE {\n  <https://energy.ld.admin.ch/elcom/sunshine> cube:observationSet/cube:observation ?obs . \n  ?obs \n    :operator <https://energy.ld.admin.ch/elcom/electricityprice/operator/94> ;\n  \t:period \"2022\"^^xsd:gYear ;\n  \t:saidi_total ?saidi_total ;\n    :saidi_unplanned ?saidi_unplanned ;\n}",
+    "metadata": {}
+  },
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "To get the same indicators across years, just replace the literal `\"2022\"^^xsd:gYear` with a variable `?period`:",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nPREFIX cube: <https://cube.link/>\nPREFIX : <https://energy.ld.admin.ch/elcom/sunshine/dimension/>\n\nSELECT ?period ?saidi_total ?saidi_unplanned \nWHERE {\n  <https://energy.ld.admin.ch/elcom/sunshine> cube:observationSet/cube:observation ?obs . \n  ?obs \n    :operator <https://energy.ld.admin.ch/elcom/electricityprice/operator/94> ;\n  \t:period ?period ;\n  \t:saidi_total ?saidi_total ;\n    :saidi_unplanned ?saidi_unplanned ;\n}",
+    "metadata": {}
+  },
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "Energy and grid usage costs depend on the category, hence they are in a dedicated cube `<https://energy.ld.admin.ch/elcom/sunshine-cat>`.\n\nThe following query returns the costs for a specific year and operator:\n",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nPREFIX cube: <https://cube.link/>\nPREFIX : <https://energy.ld.admin.ch/elcom/sunshine/dimension/>\n\nSELECT * \nWHERE {  \n    <https://energy.ld.admin.ch/elcom/sunshine-cat> cube:observationSet/cube:observation ?obs . \n    ?obs \n        :operator <https://energy.ld.admin.ch/elcom/electricityprice/operator/94> ;\n        :period \"2022\"^^xsd:gYear ; \n        :category ?category ;\n        :energy ?energy ;\n        :gridusage ?gridusage\n}",
+    "metadata": {}
+  }
+]
