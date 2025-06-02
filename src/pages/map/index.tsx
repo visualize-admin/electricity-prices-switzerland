@@ -242,7 +242,11 @@ const IndexPage = ({ locale }: Props) => {
           }}
         >
           <Box sx={{ display: { xxs: "block", md: "none" }, width: "100%" }}>
-            <ContentWrapper>
+            <ContentWrapper
+              sx={{
+                padding: "0px !important",
+              }}
+            >
               <Box
                 id={DOWNLOAD_ID}
                 sx={{
@@ -270,7 +274,7 @@ const IndexPage = ({ locale }: Props) => {
 
           <ContentWrapper
             sx={{
-              display: { xxs: "none", md: "grid" },
+              display: { xxs: "none !important", md: "grid" },
               gridTemplateColumns: "22.5rem 1fr",
               gap: 0,
             }}
@@ -355,7 +359,6 @@ const IndexPage = ({ locale }: Props) => {
 
           <Box
             sx={{
-              top: HEADER_HEIGHT_UP,
               height: `calc(100vh - ${HEADER_HEIGHT_UP})`,
               maxHeight: `calc(100vh - ${HEADER_HEIGHT_UP})`,
               overflowY: "auto",
