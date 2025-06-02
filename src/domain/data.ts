@@ -220,6 +220,45 @@ export type SunshinePowerStabilityData = {
   updateDate: string;
 };
 
+export type SunshineOperationalStandardsData = {
+  latestYear: string;
+  productVariety: {
+    ecoFriendlyProductsOffered: number;
+    productCombinationsOptions: boolean;
+    operatorsProductsOffered: {
+      operatorId: string;
+      ecoFriendlyProductsOffered: number;
+      year: string;
+    }[];
+  };
+  serviceQuality: {
+    notificationPeriodDays: number;
+    informingCustomersOfOutage: boolean;
+    operatorsNotificationPeriodDays: {
+      operatorId: string;
+      days: number;
+      year: string;
+    }[];
+  };
+
+  compliance: {
+    francsRule: string;
+    timelyPaperSubmission: boolean;
+    operatorsFrancsPerInvoice: {
+      operatorId: string;
+      francsPerInvoice: number;
+      year: string;
+    }[];
+  };
+  operator: {
+    peerGroup: {
+      energyDensity: string;
+      settlementDensity: string;
+    };
+  };
+  updateDate: string;
+};
+
 const fetchOperatorPeerGroup = async (operatorId: string) => {
   const peerGroup = await getPeerGroup(operatorId);
   return peerGroup;
@@ -340,4 +379,38 @@ export const fetchPowerStability = async (operatorId: string) => {
 
     updateDate: "March 7, 2024, 1:28 PM",
   } satisfies SunshinePowerStabilityData;
+};
+
+export const fetchOperationalStandards = async (operatorId: string) => {
+  const peerGroup = await fetchOperatorPeerGroup(operatorId);
+  if (!peerGroup) {
+    throw new Error(`Peer group not found for operator ID: ${operatorId}`);
+  }
+  return {
+    operator: {
+      peerGroup,
+    },
+    productVariety: {
+      ecoFriendlyProductsOffered: 5,
+      productCombinationsOptions: true,
+      operatorsProductsOffered: [
+        { operatorId, ecoFriendlyProductsOffered: 5, year: "2024" },
+      ],
+    },
+    serviceQuality: {
+      notificationPeriodDays: 3,
+      informingCustomersOfOutage: true,
+      operatorsNotificationPeriodDays: [{ operatorId, days: 3, year: "2024" }],
+    },
+    compliance: {
+      francsRule: "CHF 5",
+      timelyPaperSubmission: true,
+      operatorsFrancsPerInvoice: [
+        { operatorId, francsPerInvoice: 5, year: "2024" },
+      ],
+    },
+    latestYear: "2024",
+
+    updateDate: "March 7, 2024, 1:28 PM",
+  } satisfies SunshineOperationalStandardsData;
 };

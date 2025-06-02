@@ -9,7 +9,7 @@ export enum CostAndTariffsTabOption {
 }
 
 export const CostsAndTariffsNavigation: React.FC<{
-  activeTab: unknown;
+  activeTab: CostAndTariffsTabOption;
   handleTabChange: (event: React.SyntheticEvent, newValue: number) => void;
 }> = ({ activeTab, handleTabChange }) => {
   return (
@@ -46,7 +46,7 @@ export enum PowerStabilityTabOption {
 }
 
 export const PowerStabilityNavigation: React.FC<{
-  activeTab: unknown;
+  activeTab: PowerStabilityTabOption;
   handleTabChange: (event: React.SyntheticEvent, newValue: number) => void;
 }> = ({ activeTab, handleTabChange }) => {
   return (
@@ -64,6 +64,46 @@ export const PowerStabilityNavigation: React.FC<{
         label={
           <Trans id="sunshine.power-stability.saifi">
             Power Outage Frequency (SAIFI)
+          </Trans>
+        }
+      />
+    </Tabs>
+  );
+};
+
+export enum OperationalStandardsTabOption {
+  PRODUCT_VARIETY = 0,
+  SERVICE_QUALITY = 1,
+  COMPLIANCE = 2,
+}
+
+export const OperationalStandardsNavigation: React.FC<{
+  activeTab: OperationalStandardsTabOption;
+  handleTabChange: (event: React.SyntheticEvent, newValue: number) => void;
+}> = ({ activeTab, handleTabChange }) => {
+  return (
+    <Tabs value={activeTab} onChange={handleTabChange}>
+      <Tab
+        value={OperationalStandardsTabOption.PRODUCT_VARIETY}
+        label={
+          <Trans id="sunshine.operational-standards.product-variety">
+            Product Variety
+          </Trans>
+        }
+      />
+      <Tab
+        value={OperationalStandardsTabOption.SERVICE_QUALITY}
+        label={
+          <Trans id="sunshine.operational-standards.service-quality">
+            Service Quality
+          </Trans>
+        }
+      />
+      <Tab
+        value={OperationalStandardsTabOption.COMPLIANCE}
+        label={
+          <Trans id="sunshine.operational-standards.compliance">
+            Compliance
           </Trans>
         }
       />
