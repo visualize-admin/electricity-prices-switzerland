@@ -459,16 +459,6 @@ const Operator: OperatorResolvers = {
   },
 };
 
-// const Canton: CantonResolvers = {
-//   name: (canton) => MOCK_DATA.cantons[canton.id].name,
-//   municipalities: (canton) => {
-//     return Object.values(MOCK_DATA.municipalities).filter(
-//       (m) => m.canton === canton.id
-//     );
-//   },
-//
-// };
-
 const getResolverFields = (info: GraphQLResolveInfo, type: string) => {
   const resolveInfo = parseResolveInfo(info);
 
