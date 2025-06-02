@@ -26,6 +26,8 @@ tsconfig.tsbuildinfo
 e2e/snapshots
 
 /src/sunshine-data/*.csv
+tpo.config.json
+
 /public/storybook
 # Sentry Config File
 .env.sentry-build-plugin

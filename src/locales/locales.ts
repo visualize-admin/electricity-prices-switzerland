@@ -7,9 +7,9 @@ import {
 } from "d3";
 import {
   de as pluralsDe,
+  en as pluralsEn,
   fr as pluralsFr,
   it as pluralsIt,
-  en as pluralsEn,
 } from "make-plural/plurals";
 
 import { messages as catalogDe } from "./de/messages";

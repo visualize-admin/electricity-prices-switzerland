@@ -13,666 +13,1085 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/domain/translation.tsx:110
 msgid "chart.annotation.cantons"
 msgstr "Cantons"
 
-#: src/domain/translation.tsx:105
 msgid "chart.annotation.municipalities"
 msgstr "communes"
 
-#: src/domain/translation.tsx
 msgid "chart.annotation.operators"
 msgstr "gestionnaires de réseau"
 
-#: src/components/charts-generic/axis/axis-width-linear.tsx
-#: src/components/detail-page/price-distribution-histogram.tsx
-#: src/domain/translation.tsx
 msgid "chart.axis.unit.Rp/kWh"
 msgstr "ct./kWh"
 
-#: src/components/combobox.tsx:92
-#: src/components/combobox.tsx:277
-#: src/components/search.tsx:253
 msgid "combobox.noitems"
 msgstr "Aucune entrée"
 
-#: src/components/combobox.tsx
 msgid "combobox.prompt"
 msgstr "Saisir la description…"
 
-#: src/components/form.tsx
 msgid "controls.search.clear"
 msgstr "Supprimer"
 
-#: src/components/list.tsx:476
 msgid "dataset.results"
 msgstr "{0} Résultats"
 
-#: src/components/list.tsx:496
 msgid "dataset.sortby"
 msgstr "Trier"
 
-#: src/components/detail-page/banner.tsx
-#: src/components/detail-page/banner.tsx
+msgid "detail.button.download_reports"
+msgstr "Télécharger les rapports"
+
 msgid "detail.canton"
 msgstr "Canton"
 
-#: src/components/detail-page/cantons-comparison-range.tsx
-#: src/components/detail-page/cantons-comparison-range.tsx
 msgid "detail.card.title.cantons.comparison"
 msgstr "Comparaison des cantons"
 
-#: src/components/detail-page/price-components-bars.tsx
 msgid "detail.card.title.price.components"
 msgstr "Composantes du prix"
 
-#: src/components/detail-page/price-distribution-histogram.tsx
-#: src/components/detail-page/price-distribution-histogram.tsx
 msgid "detail.card.title.prices.distribution"
 msgstr "Distribution des prix en Suisse"
 
-#: src/components/detail-page/price-evolution-line-chart.tsx:68
-#: src/components/detail-page/price-evolution-line-chart.tsx:83
 msgid "detail.card.title.prices.evolution"
 msgstr "Évolution des tarifs"
 
-#: src/components/detail-page/banner.tsx
+msgid "detail.costs.description"
+msgstr "La page Coûts et tarifs fournit une ventilation détaillée des dépenses d'électricité, avec trois indicateurs clés : les coûts du réseau, les tarifs nets et les tarifs de l'énergie. Ces éléments représentent les frais d'entretien du réseau, les tarifs de base imposés et le coût de la consommation d'énergie. Toutes les données affichées sont comparables au sein d'un même groupe de gestionnaires de réseau, ce qui permet d'évaluer facilement les différents tarifs sur l'ensemble du réseau."
+
+msgid "detail.costs.energytariffs.subtitle"
+msgstr "Tarifs de l'énergie 5 Room Flat (H4) en 2024"
+
+msgid "detail.costs.energytariffs.title"
+msgstr "Tarifs de l'énergie"
+
+msgid "detail.costs.energytariffs.trend.title"
+msgstr "Évolution des tarifs de l'énergie"
+
+msgid "detail.costs.nettariffs.subtitle"
+msgstr "Tarifs nets 5 Room Flat (H4) en 2024"
+
+msgid "detail.costs.nettariffs.title"
+msgstr "Tarifs nets"
+
+msgid "detail.costs.nettariffs.trend.info"
+msgstr "Lorem ipsum dolor sit amet..."
+
+msgid "detail.costs.nettariffs.trend.title"
+msgstr "Tendance des tarifs nets"
+
+msgid "detail.costs.networkcosts.latest"
+msgstr "Dernière année ({year})"
+
+msgid "detail.costs.networkcosts.subtitle"
+msgstr "Au niveau du consommateur final"
+
+msgid "detail.costs.networkcosts.title"
+msgstr "Coûts du réseau"
+
+msgid "detail.costs.networkcosts.trend.info"
+msgstr "Lorem ipsum dolor sit amet..."
+
+msgid "detail.costs.networkcosts.trend.title"
+msgstr "Évolution des coûts du réseau"
+
+msgid "detail.costs.title"
+msgstr "Coûts et tarifs"
+
+msgid "detail.costs.trend.subtitle"
+msgstr "Benchmarking au sein du groupe de pairs : {peergroup}"
+
+msgid "detail.graph.legend.comparison"
+msgstr "Groupe de comparaison médian"
+
+msgid "detail.graph.legend.otheroperators"
+msgstr "Autres opérateurs"
+
+msgid "detail.graph.legend.peergroup"
+msgstr "Médiane du groupe de référence"
+
+msgid "detail.graph.legend.swissmedian"
+msgstr "Médiane suisse"
+
+msgid "detail.graph.legend.total"
+msgstr "Médiane Total"
+
 msgid "detail.maplink"
 msgstr "Retour à la carte"
 
-#: src/components/detail-page/banner.tsx
 msgid "detail.municipalities"
 msgstr "Communes"
 
-#: src/components/detail-page/banner.tsx
 msgid "detail.municipality"
 msgstr "Commune"
 
-#: src/components/detail-page/banner.tsx
+msgid "detail.operational.compliance.75.franc.rule.na"
+msgstr "Pas de données"
+
+msgid "detail.operational.compliance.75.franc.rule.no"
+msgstr "Non"
+
+msgid "detail.operational.compliance.75.franc.rule.subtle"
+msgstr "Subtil"
+
+msgid "detail.operational.compliance.75.franc.rule.yes"
+msgstr "Oui"
+
+msgid "detail.operational.compliance.comparison.info"
+msgstr "Lorem ipsum dolor sit amet..."
+
+msgid "detail.operational.compliance.comparison.subtitle"
+msgstr "Comparaison avec tous les opérateurs de réseaux suisses"
+
+msgid "detail.operational.compliance.comparison.title"
+msgstr "Comparaison des francs par destinataire de la facture"
+
+msgid "detail.operational.compliance.francsrule"
+msgstr "75 Francs Règle Règlement"
+
+msgid "detail.operational.compliance.submission"
+msgstr "Soumission des documents à l'ElCom dans les délais impartis"
+
+msgid "detail.operational.compliance.submission_short"
+msgstr "Soumission dans les délais"
+
+msgid "detail.operational.compliance.title"
+msgstr "Conformité"
+
+msgid "detail.operational.description"
+msgstr "La page Normes opérationnelles évalue les indicateurs de performance clés qui mettent en évidence la qualité du service fourni par les compagnies d'électricité. Ces indicateurs comprennent la variété des produits, qui mesure la gamme de produits écologiques et d'énergie combinée proposés ; la qualité du service, qui évalue la manière dont les entreprises informent les consommateurs des interruptions de courant prévues et du délai de préavis ; et la conformité, qui assure le respect de la règle des 75 francs et la soumission en temps voulu des documents officiels à la Commission fédérale de l'électricité (ElCom)."
+
+msgid "detail.operational.highlight_operator"
+msgstr "Opérateur de mise en valeur"
+
+msgid "detail.operational.label.advancenotice"
+msgstr "Préavis en jours"
+
+msgid "detail.operational.label.chf_per_invoice"
+msgstr "CHF/bénéficiaire de la facture"
+
+msgid "detail.operational.label.numberofproducts"
+msgstr "Nombre de produits"
+
+msgid "detail.operational.label.share"
+msgstr "Part des opérateurs"
+
+msgid "detail.operational.peergroup_all"
+msgstr "Tous les opérateurs de réseaux suisses"
+
+msgid "detail.operational.product.combination"
+msgstr "Options de combinaison de produits"
+
+msgid "detail.operational.product.combination_short"
+msgstr "Options de combinaison"
+
+msgid "detail.operational.product.comparison.info"
+msgstr "Lorem ipsum dolor sit amet..."
+
+msgid "detail.operational.product.comparison.subtitle"
+msgstr "Comparaison avec tous les opérateurs de réseaux suisses"
+
+msgid "detail.operational.product.comparison.title"
+msgstr "Comparaison de la diversité des produits écologiques"
+
+msgid "detail.operational.product.ecofriendly"
+msgstr "Produits écologiques proposés"
+
+msgid "detail.operational.product.ecofriendly_short"
+msgstr "Produits proposés"
+
+msgid "detail.operational.product.title"
+msgstr "Variété de produits"
+
+msgid "detail.operational.service.comparison.info"
+msgstr "Lorem ipsum dolor sit amet..."
+
+msgid "detail.operational.service.comparison.subtitle"
+msgstr "Comparaison avec tous les opérateurs de réseaux suisses"
+
+msgid "detail.operational.service.comparison.title"
+msgstr "Comparaison des délais de préavis pour les arrêts planifiés"
+
+msgid "detail.operational.service.notification"
+msgstr "Notification jours à l'avance"
+
+msgid "detail.operational.service.outageinfo"
+msgstr "Informer les clients des coupures de courant"
+
+msgid "detail.operational.service.outageinfo_short"
+msgstr "Informations sur les pannes"
+
+msgid "detail.operational.service.title"
+msgstr "Qualité du service"
+
+msgid "detail.operational.title"
+msgstr "Normes opérationnelles"
+
 msgid "detail.operator"
 msgstr "Gestionnaire de réseau"
 
-#: src/components/detail-page/banner.tsx
 msgid "detail.operators"
 msgstr "Gestionnaires de réseau"
 
-#: src/components/detail-page/sidebar.tsx
+msgid "detail.overview.intro_text"
+msgstr "Lorem ipsum dolor..."
+
+msgid "detail.overview.peer_group.label"
+msgstr "Groupe de pairs : {peergroup}"
+
+msgid "detail.overview.peergroup"
+msgstr "Groupe de pairs"
+
+msgid "detail.overview.sunshine.description"
+msgstr "Lorem ipsum dolor sit amet..."
+
+msgid "detail.overview.sunshine.title"
+msgstr "Aperçu des indicateurs d'ensoleillement"
+
+msgid "detail.overview.title"
+msgstr "Aperçu des indicateurs d'ensoleillement"
+
+msgid "detail.power.description"
+msgstr "La page Stabilité de l'énergie donne un aperçu de la fiabilité de l'approvisionnement en électricité grâce à deux indicateurs clés : SAIFI (System Average Interruption Frequency Index) et SAIDI (System Average Interruption Duration Index). Ces indicateurs mesurent la fréquence et la durée des interruptions de courant. Les données sont comparables au sein d'un même groupe de gestionnaires de réseau, ce qui permet une évaluation claire de la stabilité et de la fiabilité de l'électricité sur l'ensemble du réseau."
+
+msgid "detail.power.saidi.latest"
+msgstr "Dernière année ({Année})"
+
+msgid "detail.power.saidi.title"
+msgstr "Durée de la panne d'électricité (SAIDI)"
+
+msgid "detail.power.saidi.total"
+msgstr "Durée totale de l'interruption"
+
+msgid "detail.power.saidi.total_unit"
+msgstr "min/an"
+
+msgid "detail.power.saidi.trend.info"
+msgstr "Lorem ipsum dolor sit amet..."
+
+msgid "detail.power.saidi.trend.title"
+msgstr "Durée moyenne des coupures de courant (SAIDI)"
+
+msgid "detail.power.saifi.latest"
+msgstr "Dernière année ({Année})"
+
+msgid "detail.power.saifi.title"
+msgstr "Fréquence des pannes d'électricité (SAIFI)"
+
+msgid "detail.power.saifi.total"
+msgstr "Fréquence totale des interruptions"
+
+msgid "detail.power.saifi.total_unit"
+msgstr "fois/an"
+
+msgid "detail.power.saifi.trend.info"
+msgstr "Lorem ipsum dolor sit amet..."
+
+msgid "detail.power.saifi.trend.title"
+msgstr "Fréquence moyenne des pannes d'électricité (SAIFI)"
+
+msgid "detail.power.title"
+msgstr "Stabilité de la puissance"
+
+msgid "detail.power.trend.subtitle"
+msgstr "Analyse comparative au sein du groupe de pairs : {peergroup}"
+
+msgid "detail.power.view.duration"
+msgstr "Durée de l'accord"
+
+msgid "detail.power.view.overall"
+msgstr "Dans l'ensemble"
+
+msgid "detail.power.view.planned"
+msgstr "Prévu"
+
+msgid "detail.power.view.ratio"
+msgstr "Ratio"
+
+msgid "detail.power.view.total"
+msgstr "Total"
+
+msgid "detail.power.view.unplanned"
+msgstr "Non planifié"
+
+msgid "detail.view.allpeergroupoperators"
+msgstr "Tous les opérateurs du groupe de référence"
+
+msgid "detail.view.by"
+msgstr "Voir par"
+
+msgid "detail.view.compare"
+msgstr "Comparer avec"
+
+msgid "detail.view.domestic"
+msgstr "Domestique"
+
+msgid "detail.view.industrial"
+msgstr "Industriel"
+
+msgid "detail.view.latestyear"
+msgstr "Dernière année"
+
+msgid "detail.view.level_5"
+msgstr "Niveau 5"
+
+msgid "detail.view.level_6"
+msgstr "Niveau 6"
+
+msgid "detail.view.level_7"
+msgstr "Niveau 7"
+
+msgid "detail.view.network"
+msgstr "Réseau"
+
+msgid "detail.view.progressovertime"
+msgstr "Progrès dans le temps"
+
+msgid "detail.view.usage.category"
+msgstr "Catégorie d'utilisation"
+
+msgid "details.costs.energytariffs.trend.info"
+msgstr "Lorem ipsum dolor sit amet..."
+
 msgid "details.page.navigation.electricity-insights-title"
 msgstr "Aperçus sur l’électricité"
 
-#: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.electricity-tariffs-item"
 msgstr "Tarifs d'électricité"
 
-#: src/components/info-dialog.tsx
 msgid "dialog.close"
 msgstr "Fermer la boîte de dialogue"
 
-#: src/components/info-dialog.tsx
 msgid "dialog.infoprefix"
 msgstr "Info:"
 
-#: src/components/operator-documents.tsx
 msgid "download.category.annualreport"
 msgstr "Comptes annuels"
 
-#: src/components/operator-documents.tsx
 msgid "download.category.annualreports"
-msgstr "Comptes annuels de réseau"
+msgstr "Lorem"
 
-#: src/components/operator-documents.tsx
+msgid "download.category.annualreports_description"
+msgstr "Lorem"
+
 msgid "download.category.financial-statement"
 msgstr "Déclaration financière"
 
-#: src/components/operator-documents.tsx
 msgid "download.category.financial-statement-report"
 msgstr "Rapport sur les états financiers"
 
-#: src/components/operator-documents.tsx
+msgid "download.category.sunshine_report"
+msgstr "Rapport sur le soleil"
+
+msgid "download.category.sunshine_report_description"
+msgstr "Lorem"
+
 msgid "download.category.tariff"
 msgstr "Fiche tarifaire"
 
-#: src/components/operator-documents.tsx
 msgid "download.category.tariffs"
-msgstr "Fiches tarifaires"
+msgstr "Lorem"
 
-#: src/components/operator-documents.tsx
+msgid "download.category.tariffs_description"
+msgstr "Lorem"
+
 msgid "download.cta"
 msgstr "Télécharger les rapports et les tarifs"
 
-#: src/components/operator-documents.tsx
 msgid "download.filetype.pdf"
 msgstr "Fichier PDF"
 
-#: src/components/operator-documents.tsx
 msgid "download.nooperatordocuments"
 msgstr "Aucun document d'opérateur de réseau"
 
-#: src/components/operator-documents.tsx
 msgid "download.reports"
 msgstr "Télécharger les rapports"
 
-#: src/domain/translation.tsx
 msgid "filters.category"
 msgstr "Categorie"
 
-#: src/domain/translation.tsx
 msgid "filters.price.component"
 msgstr "Composantes du prix"
 
-#: src/domain/translation.tsx
 msgid "filters.product"
 msgstr "Produit"
 
-#: src/domain/translation.tsx
 msgid "filters.year"
 msgstr "Année"
 
-#: src/components/footer.tsx
+msgid "footer.about_us"
+msgstr "A propos de nous"
+
 msgid "footer.about_us.label"
 msgstr "À propos de nous"
 
-#: src/components/footer.tsx
 msgid "footer.about_us.text"
 msgstr "ElCom, le régulateur indépendant de l’électricité en Suisse, veille au respect de la législation sur l’électricité et l’énergie. Elle surveille les prix de l’électricité, la sécurité d’approvisionnement, le commerce international et arbitre les litiges liés à l’accès au réseau et aux tarifs."
 
-#: src/components/footer.tsx
+msgid "footer.about_us_text"
+msgstr "L'ElCom, autorité indépendante de régulation de l'électricité en Suisse, veille au respect des lois fédérales sur l'électricité et l'énergie. Elle surveille les prix de l'électricité, la sécurité de l'approvisionnement et le commerce international, et résout les litiges concernant l'accès au réseau, les tarifs de rachat, et entre les opérateurs et les producteurs."
+
 msgid "footer.additional-information"
 msgstr "Plus d'informations sur les tarifs en Suisse"
 
-#: src/components/footer.tsx
 msgid "footer.basis-of-calculation"
 msgstr "Base de calcul"
 
-#: src/components/footer.tsx
 msgid "footer.create-data-visualizations"
 msgstr "Créer des visualisations de données avec les données ElCom"
 
-#: src/components/footer.tsx
 msgid "footer.data-as-csv"
 msgstr "Données au format .csv"
 
-#: src/components/footer.tsx
 msgid "footer.data-on-opendata-swiss"
 msgstr "Données sur opendata.swiss"
 
-#: src/components/footer.tsx
 msgid "footer.download-visualize-data"
 msgstr "Télécharger / visualiser les données"
 
-#: src/components/footer.tsx
+msgid "footer.download_data"
+msgstr "Télécharger les données"
+
 msgid "footer.legal-framework"
 msgstr "Conditions d'utilisation"
 
-#: src/components/footer.tsx
 msgid "footer.legal-framework.link"
 msgstr "https://www.admin.ch/gov/fr/accueil/conditions-utilisation.html"
 
-#: src/components/footer.tsx
+msgid "footer.link.energy_saving"
+msgstr "Économie d'énergie"
+
+msgid "footer.link.policy"
+msgstr "Politique"
+
+msgid "footer.link.supply_situation"
+msgstr "Situation de l'offre"
+
 msgid "footer.more-information"
 msgstr "Informations complémentaires"
 
-#: src/components/footer.tsx
 msgid "footer.swiss-municipalities-grid"
 msgstr "Communes suisses et gestionnaires de réseau d'électricité compétents"
 
-#: src/components/footer.tsx
 msgid "footer.tariff-components"
 msgstr "Composantes tarifaires du réseau de transport - Swissgrid"
 
-#: src/components/footer.tsx
+msgid "header.title"
+msgstr "Commission fédérale de l'électricité ElCom"
+
 msgid "help.calculation"
 msgstr "Base de calcul"
 
-#: src/components/price-color-legend.tsx
 msgid "help.price-comparison"
 msgstr "Comparaison des tarifs"
 
-#: src/components/hint.tsx
 msgid "hint.loading.data"
 msgstr "Chargement des données…"
 
-#: src/components/hint.tsx
 msgid "hint.nocontent.message"
 msgstr "Ce contenu n'a pas pu être chargé"
 
-#: src/components/hint.tsx
 msgid "hint.nodata.message"
 msgstr "Aucune donnée ne peut être téléchargée avec les paramètres de recherches choisis."
 
-#: src/components/hint.tsx
 msgid "hint.nodata.title"
 msgstr "Aucune donnée"
 
-#: src/components/hint.tsx
 msgid "hint.nogeodata.message"
 msgstr "Aucune carte ne peut être affichée pour l'année sélectionnée"
 
-#: src/components/hint.tsx
 msgid "hint.nogeodata.title"
 msgstr "Aucune carte ne peut être affichée pour l'année sélectionnée"
 
-#: src/components/detail-page/price-distribution-histogram.tsx
 msgid "histogram.canton-count"
 msgstr "Nombre de cantons"
 
-#: src/components/charts-generic/histogram/histogram-min-max-values.tsx
 msgid "histogram.max"
 msgstr "Max"
 
-#: src/components/charts-generic/histogram/histogram-min-max-values.tsx
 msgid "histogram.min"
 msgstr "Min"
 
-#: src/components/detail-page/price-distribution-histogram.tsx
 msgid "histogram.municipality-count"
 msgstr "Nombre de communes"
 
-#: src/pages/index.tsx:84
 msgid "home.hero-section.description"
 msgstr "Ce site fournit des informations actuelles sur les tarifs d'électricité en Suisse et permet de comparer les prix pour les clients privés et commerciaux par commune, canton ou gestionnaire de réseau. Vous pouvez consulter les détails des coûts d’énergie, du réseau et des suppléments ainsi que les tendances historiques pour mieux comprendre les coûts d’électricité dans votre région."
 
-#: src/pages/index.tsx:104
 msgid "home.hero-section.primary-cta"
 msgstr "Tarifs d'électricité en Suisse"
 
-#: src/pages/index.tsx:79
 msgid "home.hero-section.title"
 msgstr "Découvrez les tarifs d'électricité en vue cartographique"
 
-#: src/components/app-layout.tsx
 msgid "home.menu.map-view"
 msgstr "Vue cartographique"
 
-#: src/components/app-layout.tsx
 msgid "home.menu.overview"
 msgstr "Vue d’ensemble"
 
-#: src/components/sunshine/sunshine-topics.tsx:50
 msgid "home.sunshine-regulation.description"
 msgstr "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercice ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in volupté velit esse cillum."
 
-#: src/components/sunshine/sunshine-topics.tsx:37
 msgid "home.sunshine-regulation.title"
 msgstr "La réglementation Sunshine"
 
-#: src/components/sunshine/sunshine-topics.tsx:198
 msgid "home.sunshine-topics.card.compliance.description"
 msgstr "La variété des produits reflète la gamme de produits d'électricité écologiques proposés. La qualité du service reflète la qualité de l'information des clients sur les pannes. La conformité mesure la constance avec laquelle un gestionnaire de réseau respecte les lois, les réglementations et les normes internes."
 
-#: src/components/sunshine/sunshine-topics.tsx:193
 msgid "home.sunshine-topics.card.compliance.title"
 msgstr "Conformité"
 
-#: src/components/sunshine/sunshine-topics.tsx:91
 msgid "home.sunshine-topics.card.costs-and-tariffs.description"
 msgstr "Les factures d'électricité comprennent les tarifs énergétiques et les coûts de réseau. Les tarifs de réseau (niveaux 5 à 7) couvrent l'infrastructure, la maintenance du réseau, le comptage et les services administratifs, tandis que les tarifs énergétiques reflètent la consommation réelle des ménages (H) ou des entreprises (C)."
 
-#: src/components/sunshine/sunshine-topics.tsx:86
 msgid "home.sunshine-topics.card.costs-and-tariffs.title"
 msgstr "Coûts et tarifs"
 
-#: src/components/sunshine/sunshine-topics.tsx:149
 msgid "home.sunshine-topics.card.power-stability.description"
 msgstr "Le SAIDI mesure la durée totale des coupures de courant par client chaque année, tandis que le SAIFI indique la fréquence des coupures. Ensemble, ils fournissent des informations clés sur la fiabilité et la stabilité de l'approvisionnement en électricité sur une période définie."
 
-#: src/components/sunshine/sunshine-topics.tsx:144
 msgid "home.sunshine-topics.card.power-stability.title"
 msgstr "Stabilité énergétique"
 
-#: src/components/sunshine/sunshine-topics.tsx:224
 msgid "home.sunshine-topics.compliance.link"
 msgstr "Conformité"
 
-#: src/components/sunshine/sunshine-topics.tsx:117
 msgid "home.sunshine-topics.energy-tariff.link"
 msgstr "Tarif énergétique"
 
-#: src/components/sunshine/sunshine-topics.tsx:109
 msgid "home.sunshine-topics.net-tariff.link"
 msgstr "Tarif net"
 
-#: src/components/sunshine/sunshine-topics.tsx:101
 msgid "home.sunshine-topics.network-costs.link"
 msgstr "Coûts du réseau"
 
-#: src/components/sunshine/sunshine-topics.tsx:159
 msgid "home.sunshine-topics.power-outage-duration.link"
 msgstr "Durée de la panne de courant (SAIDI)"
 
-#: src/components/sunshine/sunshine-topics.tsx:167
 msgid "home.sunshine-topics.power-outage-frequency.link"
 msgstr "Fréquence des pannes de courant (SAIFI)"
 
-#: src/components/sunshine/sunshine-topics.tsx:208
 msgid "home.sunshine-topics.product-variety.link"
 msgstr "Variété de produits"
 
-#: src/components/sunshine/sunshine-topics.tsx:216
 msgid "home.sunshine-topics.service-quality.link"
 msgstr "Qualité de service"
 
-#: src/components/sunshine/sunshine-topics.tsx:67
 msgid "home.sunshine-topics.title"
 msgstr "Sujets Sunshine"
 
-#: src/components/detail-page/download-image.tsx:113
 msgid "image.download"
 msgstr "Télécharger comme image"
 
-#: src/components/detail-page/download-image.tsx
 msgid "image.download.source"
 msgstr "Commission fédérale de l'électricité ElCom"
 
-#: src/components/detail-page/download-image.tsx
 msgid "image.download.unit"
 msgstr "Comparaison des tarifs en ct./kWh (TVA exclue)"
 
-#: src/components/list.tsx:430
 msgid "list.cantons"
 msgstr "Cantons"
 
-#: src/components/list.tsx:426
 msgid "list.municipalities"
 msgstr "Communes"
 
-#: src/components/list.tsx:434
 msgid "list.operators"
 msgstr "Gestionnaires de réseau"
 
-#: src/components/list.tsx:315
 msgid "list.order.asc"
 msgstr "croissant"
 
-#: src/components/list.tsx:319
 msgid "list.order.desc"
 msgstr "décroissant"
 
-#: src/components/list.tsx:322
 msgid "list.search.label"
 msgstr "Filtrer"
 
-#: src/components/list.tsx:224
 msgid "list.showmore"
 msgstr "Voir plus ..."
 
-#: src/components/list.tsx:438
 msgid "list.viewby.label"
 msgstr "Vue selon"
 
-#: src/components/map-details-content.tsx:33
+msgid "map.button.back_to_filters"
+msgstr "Retour aux filtres"
+
+msgid "map.button.show_all_indicators"
+msgstr "Afficher tous les indicateurs d'ensoleillement"
+
+msgid "map.button.show_saidi_details"
+msgstr "Afficher les détails de l'indicateur SAIDI"
+
+msgid "map.chart.saidi_progress"
+msgstr "Progrès de SAIDI en termes d'heures supplémentaires"
+
 msgid "map.details-sidebar-panel.back-button"
 msgstr "Retour aux filtres"
 
-#: src/components/list.tsx:190
 msgid "map.details-sidebar-panel.next-button"
 msgstr "Afficher le détail des prix de l'énergie"
 
-#: src/components/price-color-legend.tsx:65
+msgid "map.filter.indicator"
+msgstr "Indicateur"
+
+msgid "map.filter.indicator_info"
+msgstr "Lorem ipsum dolor sit amet..."
+
+msgid "map.filter.topology"
+msgstr "Topologie"
+
+msgid "map.filter.topology_info"
+msgstr "Lorem ipsum dolor sit amet..."
+
+msgid "map.filter.view_by"
+msgstr "Voir par"
+
+msgid "map.filter.year"
+msgstr "Année"
+
+msgid "map.indicator.compliance"
+msgstr "Conformité"
+
+msgid "map.indicator.costs_tariffs"
+msgstr "Coûts et tarifs"
+
+msgid "map.indicator.energy_tariff"
+msgstr "Tarif de l'énergie"
+
+msgid "map.indicator.net_tariff"
+msgstr "Tarif net"
+
+msgid "map.indicator.network_costs"
+msgstr "Coûts du réseau"
+
+msgid "map.indicator.operational_standards"
+msgstr "Normes opérationnelles"
+
+msgid "map.indicator.power_outage_duration"
+msgstr "Durée de la panne d'électricité (SAIDI)"
+
+msgid "map.indicator.power_outage_frequency"
+msgstr "Fréquence des pannes d'électricité (SAIFI)"
+
+msgid "map.indicator.power_stability"
+msgstr "Stabilité de la puissance"
+
+msgid "map.indicator.product_variety"
+msgstr "Variété de produits"
+
+msgid "map.indicator.service_quality"
+msgstr "Qualité du service"
+
+msgid "map.label.operator"
+msgstr "Opérateur"
+
+msgid "map.label.results"
+msgstr "résultats"
+
+msgid "map.label.sunshine_indicator"
+msgstr "Indicateur d'ensoleillement"
+
+msgid "map.label.value_avg"
+msgstr "Valeur moyenne"
+
+msgid "map.legend.informing_customer"
+msgstr "Informer le client concerné des interruptions prévues"
+
 msgid "map.legend.title"
 msgstr "Comparaison des tarifs en ct./kWh (TVA exclue)"
 
-#: src/pages/map/index.tsx:107
+msgid "map.peer_group.all_grid_operators"
+msgstr "Tous les gestionnaires de réseau"
+
+msgid "map.peer_group.medium_high_energy"
+msgstr "Densité énergétique moyenne, élevée"
+
+msgid "map.peer_group.medium_low_energy"
+msgstr "Densité énergétique moyenne, faible"
+
+msgid "map.peer_group.mountain_high_energy"
+msgstr "Montagne, haute densité énergétique"
+
+msgid "map.peer_group.mountain_low_energy"
+msgstr "Montagne, faible densité énergétique"
+
+msgid "map.peer_group.rural_high_energy"
+msgstr "Rural, haute densité énergétique"
+
+msgid "map.peer_group.rural_low_energy"
+msgstr "Rural, faible densité énergétique"
+
+msgid "map.peer_group.tourist_high_energy"
+msgstr "Touristique, haute densité énergétique"
+
+msgid "map.peer_group.tourist_low_energy"
+msgstr "Touriste, faible densité énergétique"
+
+msgid "map.search.operator"
+msgstr "Opérateur de recherche"
+
+msgid "map.section.filters"
+msgstr "Filtres"
+
 msgid "map.share"
 msgstr "Partager"
 
-#: src/components/map.tsx:735
+msgid "map.sort.ascending"
+msgstr "ascendante"
+
+msgid "map.sort.label"
+msgstr "Trier par"
+
+msgid "map.tab.electricity_tariffs"
+msgstr "Tarifs de l'électricité"
+
+msgid "map.tab.indicators"
+msgstr "Indicateurs"
+
 msgid "map.tooltipnodata"
 msgstr "Aucune donnée"
 
-#: src/components/map.tsx:662
+msgid "map.typology.planned"
+msgstr "Prévu"
+
+msgid "map.typology.total_planned_unplanned"
+msgstr "Total (prévu et non prévu)"
+
+msgid "map.typology.unplanned"
+msgstr "Non planifié"
+
+msgid "map.unit.min_year"
+msgstr "min/an"
+
+msgid "map.value.no"
+msgstr "Non"
+
+msgid "map.value.yes"
+msgstr "Oui"
+
 msgid "municipality"
 msgstr "Commune"
 
-#: src/pages/[entity]/[id]/index.tsx:107
+msgid "overview.button.tariffs_switzerland"
+msgstr "Tarifs de l'électricité en Suisse"
+
+msgid "overview.card.compliance"
+msgstr "Conformité"
+
+msgid "overview.card.compliance_text"
+msgstr "La variété des produits reflète la gamme des produits d'électricité écologique proposés. La qualité du service indique dans quelle mesure les clients sont informés sur les tensions. La conformité mesure la régularité avec laquelle un gestionnaire de réseau respecte les lois, les réglementations et les normes internes."
+
+msgid "overview.card.costs_tariffs"
+msgstr "Coûts et tarifs"
+
+msgid "overview.card.costs_tariffs_text"
+msgstr "Les factures d'électricité se composent des tarifs de l'énergie et des coûts du réseau. Les tarifs de réseau (niveaux 5 à 7) couvrent l'infrastructure, l'entretien du réseau, le comptage et les services administratifs, tandis que les tarifs de l'énergie reflètent la consommation réelle des ménages (H) ou des entreprises (C)."
+
+msgid "overview.card.power_stability"
+msgstr "Stabilité de la puissance"
+
+msgid "overview.card.power_stability_text"
+msgstr "Le SAIDI mesure la durée totale des coupures de courant par client chaque année, tandis que le SAIFI indique la fréquence des coupures. Ensemble, ils fournissent des informations clés sur la fiabilité et la stabilité de l'approvisionnement en électricité sur une période donnée."
+
+msgid "overview.link.compliance"
+msgstr "Conformité"
+
+msgid "overview.link.energy_tariff"
+msgstr "Tarif de l'énergie"
+
+msgid "overview.link.net_tariff"
+msgstr "Tarif net"
+
+msgid "overview.link.network_costs"
+msgstr "Coûts du réseau"
+
+msgid "overview.link.power_outage_duration"
+msgstr "Durée de la panne d'électricité (SAIDI)"
+
+msgid "overview.link.power_outage_frequency"
+msgstr "Fréquence des pannes d'électricité (SAIFI)"
+
+msgid "overview.link.product_variety"
+msgstr "Variété de produits"
+
+msgid "overview.link.service_quality"
+msgstr "Qualité du service"
+
+msgid "overview.section.discover_text"
+msgstr "Ce site fournit des informations actualisées sur les tarifs de l'électricité en Suisse, vous permettant de comparer les prix pour les clients résidentiels et commerciaux par commune, canton ou gestionnaire de réseau. Vous pouvez également consulter les tendances historiques pour mieux comprendre les coûts de l'électricité dans votre région."
+
+msgid "overview.section.discover_title"
+msgstr "Découvrez les tarifs de l'électricité sur la carte"
+
+msgid "overview.section.sunshine_text"
+msgstr "Lorem ipsum dolor sit amet..."
+
+msgid "overview.section.sunshine_title"
+msgstr "Le règlement \"Sunshine\" (rayon de soleil)"
+
+msgid "overview.section.sunshine_topics"
+msgstr "Sujets d'actualité"
+
 msgid "page.electricity-tariffs.description"
 msgstr "La page de détail du gestionnaire de réseau fournit des informations actuelles sur les tarifs d’électricité pour permettre une comparaison des prix. Vous pouvez voir la répartition des coûts d’énergie, du réseau et des suppléments, ainsi que les tendances historiques pour mieux comprendre les coûts d’électricité."
 
-#: src/pages/[entity]/[id]/index.tsx:104
 msgid "page.electricity-tariffs.title"
 msgstr "Tarifs d'électricité"
 
-#: src/components/price-color-legend.tsx
-#: src/components/price-color-legend.tsx
+msgid "page.subtitle.indicators"
+msgstr "Tarifs de l'électricité en Suisse et indicateurs de régulation de l'ensoleillement"
+
+msgid "page.title.tariffs_regulations"
+msgstr "Tarifs et réglementation de l'électricité"
+
 msgid "price.legend.max"
 msgstr "Max"
 
-#: src/components/price-color-legend.tsx
-#: src/components/price-color-legend.tsx
 msgid "price.legend.median"
 msgstr "Médiane"
 
-#: src/components/price-color-legend.tsx
-#: src/components/price-color-legend.tsx
 msgid "price.legend.min"
 msgstr "Min"
 
-#: src/domain/translation.tsx
 msgid "priceComponents.view.collapsed.municipalities"
 msgstr "Grouper les municipalités"
 
-#: src/domain/translation.tsx
 msgid "priceComponents.view.collapsed.operators"
 msgstr "Grouper les gestionnaires"
 
-#: src/domain/translation.tsx
 msgid "priceComponents.view.expanded.municipalities"
 msgstr "Montrer toutes les municipalités"
 
-#: src/domain/translation.tsx
 msgid "priceComponents.view.expanded.operators"
 msgstr "Montrer tous les gestionnaires"
 
-#: src/components/detail-page/cantons-comparison-range.tsx
 msgid "rangeplot.select.order.hint"
 msgstr "Trier selon"
 
-#: src/domain/translation.tsx:122
 msgid "rangeplot.select.sorting.alpha-asc"
 msgstr "alphabétique croissant"
 
-#: src/domain/translation.tsx:127
 msgid "rangeplot.select.sorting.alpha-desc"
 msgstr "alphabétique décroissant"
 
-#: src/domain/translation.tsx:112
 msgid "rangeplot.select.sorting.median-asc"
 msgstr "médiane, croissant"
 
-#: src/domain/translation.tsx:117
 msgid "rangeplot.select.sorting.median-desc"
 msgstr "médiane, décroissant"
 
-#: src/components/detail-page/banner.tsx
 msgid "relations.showmore"
 msgstr "montrer {rest} plus…"
 
-#: src/components/app-layout.tsx
 msgid "search.global"
 msgstr "Voir l'analyse détaillée des prix par cantons, communes et gestionnaires de réseau."
 
-#: src/components/search.tsx
 msgid "search.global.hint.canton.muni.operator"
 msgstr "Nom de la commune, code postal, gestionnaire de réseau, canton"
 
-#: src/components/search.tsx
 msgid "search.global.hint.go.to"
 msgstr "Aller à…"
 
-#: src/components/search.tsx
-#: src/components/search.tsx
-#: src/components/search.tsx
 msgid "search.global.label"
 msgstr "Entrez le nom de la commune, le code postal, le gestionnaire de réseau, le canton…"
 
-#: src/components/search.tsx
 msgid "search.open"
 msgstr "recherche ouverte"
 
-#: src/components/map-details-content.tsx:78
-#: src/domain/translation.tsx:108
+msgid "search.placeholder.entities"
+msgstr "Municipalité, Canton, Gestionnaire de réseau"
+
+msgid "search.placeholder.go_to"
+msgstr "Aller à..."
+
 msgid "search.result.canton"
 msgstr "Canton"
 
-#: src/domain/translation.tsx
 msgid "search.result.municipality"
 msgstr "Commune"
 
-#: src/domain/translation.tsx
 msgid "search.result.operator"
 msgstr "Gestionnaire de réseau"
 
-#: src/components/detail-page/selector-multi.tsx:89
-#: src/components/electricity-selectors.tsx:74
 msgid "selector.category"
 msgstr "Catégorie"
 
-#: src/domain/translation.tsx
 msgid "selector.category.C-group"
 msgstr "Entreprises"
 
-#: src/domain/translation.tsx
 msgid "selector.category.C1"
 msgstr "C1"
 
-#: src/domain/translation.tsx
 msgid "selector.category.C2"
 msgstr "C2"
 
-#: src/domain/translation.tsx
 msgid "selector.category.C3"
 msgstr "C3"
 
-#: src/domain/translation.tsx
 msgid "selector.category.C4"
 msgstr "C4"
 
-#: src/domain/translation.tsx
 msgid "selector.category.C5"
 msgstr "C5"
 
-#: src/domain/translation.tsx
 msgid "selector.category.C6"
 msgstr "C6"
 
-#: src/domain/translation.tsx
 msgid "selector.category.C7"
 msgstr "C7"
 
-#: src/domain/translation.tsx
 msgid "selector.category.H-group"
 msgstr "Ménages types"
 
-#: src/domain/translation.tsx
 msgid "selector.category.H1"
 msgstr "H1"
 
-#: src/domain/translation.tsx
 msgid "selector.category.H2"
 msgstr "H2"
 
-#: src/domain/translation.tsx
 msgid "selector.category.H3"
 msgstr "H3"
 
-#: src/domain/translation.tsx
 msgid "selector.category.H4"
 msgstr "H4"
 
-#: src/domain/translation.tsx
 msgid "selector.category.H5"
 msgstr "H5"
 
-#: src/domain/translation.tsx
 msgid "selector.category.H6"
 msgstr "H6"
 
-#: src/domain/translation.tsx
 msgid "selector.category.H7"
 msgstr "H7"
 
-#: src/domain/translation.tsx
 msgid "selector.category.H8"
 msgstr "H8"
 
-#: src/components/detail-page/selector-multi.tsx:73
 msgid "selector.comparecantons"
 msgstr "Comparaison entre cantons"
 
-#: src/components/detail-page/selector-multi.tsx:63
 msgid "selector.comparemunicipalities"
 msgstr "Comparaison entre communes"
 
-#: src/components/detail-page/selector-multi.tsx:53
 msgid "selector.compareoperators"
 msgstr "Comparaison entre gestionnaires de réseau"
 
-#: src/components/electricity-selectors.tsx
 msgid "selector.legend.select.parameters"
 msgstr "Sélectionner les paramètres"
 
-#: src/components/detail-page/price-components-bars.tsx
-#: src/components/electricity-selectors.tsx
 msgid "selector.priceComponent"
 msgstr "Composantes du prix"
 
-#: src/components/detail-page/cantons-comparison-range.tsx
-#: src/components/detail-page/price-distribution-histogram.tsx
 msgid "selector.priceComponents"
 msgstr "Composantes du prix"
 
-#: src/domain/translation.tsx
 msgid "selector.pricecomponent.aidfee"
 msgstr "Supplément de réseau selon l'art. 35 LEne"
 
-#: src/domain/translation.tsx
 msgid "selector.pricecomponent.charge"
 msgstr "Taxes à la collectivité publique"
 
-#: src/domain/translation.tsx
 msgid "selector.pricecomponent.energy"
 msgstr "Énergie"
 
-#: src/domain/translation.tsx
 msgid "selector.pricecomponent.gridusage"
 msgstr "Utilisation du réseau"
 
-#: src/domain/translation.tsx
 msgid "selector.pricecomponent.total"
 msgstr "Total"
 
-#: src/components/detail-page/selector-multi.tsx:100
-#: src/components/electricity-selectors.tsx:85
 msgid "selector.product"
 msgstr "Produit"
 
-#: src/domain/translation.tsx
 msgid "selector.product.cheapest"
 msgstr "Meilleur marché"
 
-#: src/domain/translation.tsx
 msgid "selector.product.standard"
 msgstr "Standard"
 
-#: src/components/electricity-selectors.tsx
 msgid "selector.year"
 msgstr "Année"
 
-#: src/components/detail-page/selector-multi.tsx:81
 msgid "selector.years"
 msgstr "Années"
 
-#: src/pages/map/index.tsx:127
 msgid "share.url-copied"
 msgstr "URL copiée ✅"
 
-#: src/components/app-layout.tsx:80
-#: src/pages/[entity]/[id]/index.tsx:83
-#: src/pages/index.tsx:44
 msgid "site.title"
 msgstr "Prix de l'électricité en Suisse"
 
-#: src/components/header.tsx:30
+msgid "tab.map_view"
+msgstr "Voir la carte"
+
+msgid "tab.overview"
+msgstr "Vue d'ensemble"
+
+msgid "tariff.category.c1"
+msgstr "Très petites entreprises (C1)"
+
+msgid "tariff.category.c2"
+msgstr "Petites entreprises (C2)"
+
+msgid "tariff.category.c3"
+msgstr "Moyenne entreprise (C3)"
+
+msgid "tariff.category.c4"
+msgstr "Grandes entreprises (C4)"
+
+msgid "tariff.category.c5"
+msgstr "Grande entreprise avec son propre transformateur (C5)"
+
+msgid "tariff.category.c6"
+msgstr "Grande entreprise avec son propre transformateur (C6)"
+
+msgid "tariff.category.c7"
+msgstr "Grande entreprise avec son propre transformateur (C7)"
+
+msgid "tariff.category.h1"
+msgstr "Appartement 2 pièces (H1)"
+
+msgid "tariff.category.h2"
+msgstr "Appartement 4 pièces (H2)"
+
+msgid "tariff.category.h3"
+msgstr "Appartement 4 pièces (H3)"
+
+msgid "tariff.category.h4"
+msgstr "Appartement de 5 pièces (H4)"
+
+msgid "tariff.category.h5"
+msgstr "Maison individuelle (H6)"
+
+msgid "tariff.category.h7"
+msgstr "Pompe à chaleur pour maison individuelle (H7)"
+
+msgid "tariff.category.h8"
+msgstr "Grand immeuble en copropriété hautement électrifié (H8)"
+
+msgid "tariff.grid.level.1"
+msgstr "Transmission à très haute tension (niveau 1)"
+
+msgid "tariff.grid.level.2"
+msgstr "Transformation à très haute tension (niveau 2)"
+
+msgid "tariff.grid.level.3"
+msgstr "Distribution haute tension (niveau 3)"
+
+msgid "tariff.grid.level.4"
+msgstr "Transformation haute tension (niveau 4)"
+
+msgid "tariff.grid.level.5"
+msgstr "Distribution moyenne tension (niveau 5)"
+
+msgid "tariff.grid.level.6"
+msgstr "Distribution basse tension (niveau 6)"
+
+msgid "tariff.grid.level.7"
+msgstr "Niveau du consommateur final (niveau 7)"
+
 msgid "topbar.open-flag-menu"
 msgstr "Ouvrir le menu des drapeaux"
