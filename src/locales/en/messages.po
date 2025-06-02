@@ -1,11 +1,11 @@
 msgid ""
 msgstr ""
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: POEditor.com\n"
 "Project-Id-Version: elcom-electricity-website\n"
-"Language: de\n"
+"Language: en\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
 "PO-Revision-Date: \n"
@@ -14,232 +14,232 @@ msgstr ""
 "Plural-Forms: \n"
 
 msgid "chart.annotation.cantons"
-msgstr "Kantone"
+msgstr "Cantons"
 
 msgid "chart.annotation.municipalities"
-msgstr "Gemeinden"
+msgstr "Municipalities"
 
 msgid "chart.annotation.operators"
-msgstr "Netzbetreiber"
+msgstr "Network operator"
 
 msgid "chart.axis.unit.Rp/kWh"
 msgstr "Rp./kWh"
 
 msgid "combobox.noitems"
-msgstr "Keine Resultate"
+msgstr "No results"
 
 msgid "combobox.prompt"
-msgstr "Bezeichnung eingeben …"
+msgstr "Enter designation ..."
 
 msgid "controls.search.clear"
 msgstr "Clear search field"
 
 msgid "dataset.results"
-msgstr "{0} Resultate"
+msgstr "{0} Results"
 
 msgid "dataset.sortby"
-msgstr "Sortieren"
+msgstr "Sort"
 
 msgid "detail.button.download_reports"
-msgstr "Berichte herunterladen"
+msgstr "Download Reports"
 
 msgid "detail.canton"
-msgstr "Kanton"
+msgstr "Canton"
 
 msgid "detail.card.title.cantons.comparison"
-msgstr "Kantonsvergleich"
+msgstr "Canton comparison"
 
 msgid "detail.card.title.price.components"
-msgstr "Preiskomponenten"
+msgstr "Price components"
 
 msgid "detail.card.title.prices.distribution"
-msgstr "Preisverteilung in der Schweiz"
+msgstr "Prize distribution in Switzerland"
 
 msgid "detail.card.title.prices.evolution"
-msgstr "Tarifentwicklung"
+msgstr "Tariff development"
 
 msgid "detail.costs.description"
-msgstr "Die Seite Kosten und Tarife bietet eine detaillierte Aufschlüsselung der Stromkosten mit drei Schlüsselindikatoren: Netzkosten, Nettotarife und Energietarife. Diese Komponenten stellen die Gebühren für die Instandhaltung des Netzes, die auferlegten Grundtarife und die Kosten des Energieverbrauchs dar. Alle angezeigten Daten sind innerhalb der gleichen Netzbetreibergruppe vergleichbar, so dass eine einfache Bewertung der verschiedenen Tarife im gesamten Netz möglich ist."
+msgstr "The Costs and Tariffs page provides a detailed breakdown of electricity expenses, featuring three key indicators: network costs, net tariffs, and energy tariffs. These components represent the charges for maintaining the grid, the basic tariffs imposed, and the cost of energy consumption. All data displayed is comparable within the same grid operator group, allowing for an easy evaluation of different tariffs across the network."
 
 msgid "detail.costs.energytariffs.subtitle"
-msgstr "Energietarife 5-Zimmer-Wohnung (H4) im Jahr 2024"
+msgstr "Energy Tariffs 5 Room Flat (H4) in 2024"
 
 msgid "detail.costs.energytariffs.title"
-msgstr "Energie-Tarife"
+msgstr "Energy Tariffs"
 
 msgid "detail.costs.energytariffs.trend.title"
-msgstr "Entwicklung der Energietarife"
+msgstr "Energy Tariffs Trend"
 
 msgid "detail.costs.nettariffs.subtitle"
-msgstr "Nettotarife 5-Zimmer-Wohnung (H4) im Jahr 2024"
+msgstr "Net Tariffs 5 Room Flat (H4) in 2024"
 
 msgid "detail.costs.nettariffs.title"
-msgstr "Netto-Tarife"
+msgstr "Net Tariffs"
 
 msgid "detail.costs.nettariffs.trend.info"
 msgstr "Lorem ipsum dolor sit amet..."
 
 msgid "detail.costs.nettariffs.trend.title"
-msgstr "Entwicklung der Nettotarife"
+msgstr "Net Tariffs Trend"
 
 msgid "detail.costs.networkcosts.latest"
-msgstr "Letztes Jahr ({Jahr})"
+msgstr "Latest year ({year})"
 
 msgid "detail.costs.networkcosts.subtitle"
-msgstr "Auf der Ebene der Endverbraucher"
+msgstr "At end consumer level"
 
 msgid "detail.costs.networkcosts.title"
-msgstr "Netzkosten"
+msgstr "Network Costs"
 
 msgid "detail.costs.networkcosts.trend.info"
 msgstr "Lorem ipsum dolor sit amet..."
 
 msgid "detail.costs.networkcosts.trend.title"
-msgstr "Entwicklung der Netzkosten"
+msgstr "Network Cost Trend"
 
 msgid "detail.costs.title"
-msgstr "Kosten und Tarife"
+msgstr "Costs and Tariffs"
 
 msgid "detail.costs.trend.subtitle"
-msgstr "Benchmarking innerhalb der Peer Group: {Peergroup}"
+msgstr "Benchmarking within the Peer Group: {peergroup}"
 
 msgid "detail.graph.legend.comparison"
-msgstr "Median der Vergleichsgruppe"
+msgstr "Median comparison group"
 
 msgid "detail.graph.legend.otheroperators"
-msgstr "Andere Betreiber"
+msgstr "Other operators"
 
 msgid "detail.graph.legend.peergroup"
-msgstr "Median der Vergleichsgruppe"
+msgstr "Median Peer Group"
 
 msgid "detail.graph.legend.swissmedian"
-msgstr "Schweizer Median"
+msgstr "Swiss Median"
 
 msgid "detail.graph.legend.total"
-msgstr "Median Gesamt"
+msgstr "Median Total"
 
 msgid "detail.maplink"
-msgstr "Zurück zur Kartenansicht"
+msgstr "Back to map view"
 
 msgid "detail.municipalities"
-msgstr "Gemeinden"
+msgstr "Municipalities"
 
 msgid "detail.municipality"
-msgstr "Gemeinde"
+msgstr "Municipality"
 
 msgid "detail.operational.compliance.75.franc.rule.na"
-msgstr "Keine Daten"
+msgstr "No Data"
 
 msgid "detail.operational.compliance.75.franc.rule.no"
-msgstr "Nein"
+msgstr "No"
 
 msgid "detail.operational.compliance.75.franc.rule.subtle"
-msgstr "Subtile"
+msgstr "Subtle"
 
 msgid "detail.operational.compliance.75.franc.rule.yes"
-msgstr "Ja"
+msgstr "Yes"
 
 msgid "detail.operational.compliance.comparison.info"
 msgstr "Lorem ipsum dolor sit amet..."
 
 msgid "detail.operational.compliance.comparison.subtitle"
-msgstr "Benchmarking mit allen Schweizer Netzbetreibern"
+msgstr "Benchmarking against all swiss network operators"
 
 msgid "detail.operational.compliance.comparison.title"
-msgstr "Vergleich der Franken pro Rechnungsempfänger"
+msgstr "Comparison of francs per invoice recipient"
 
 msgid "detail.operational.compliance.francsrule"
-msgstr "75-Franken-Regel Verordnung"
+msgstr "75 Francs Rule Regulation"
 
 msgid "detail.operational.compliance.submission"
-msgstr "Rechtzeitige Einreichung der Unterlagen bei der ElCom"
+msgstr "Timely paper submission to ElCom"
 
 msgid "detail.operational.compliance.submission_short"
-msgstr "Rechtzeitige Vorlage"
+msgstr "Timely submission"
 
 msgid "detail.operational.compliance.title"
-msgstr "Einhaltung der Vorschriften"
+msgstr "Compliance"
 
 msgid "detail.operational.description"
-msgstr "Auf der Seite \"Operative Standards\" werden die wichtigsten Leistungsindikatoren bewertet, die die Qualität der von den Elektrizitätsunternehmen erbrachten Dienstleistungen aufzeigen. Zu diesen Indikatoren gehören die Produktvielfalt, die das Angebot an umweltfreundlichen und kombinierten Energieprodukten misst, die Servicequalität, die beurteilt, wie gut die Unternehmen die Verbraucher über geplante Stromunterbrechungen und die vorgesehenen Ankündigungsfristen informieren, und die Einhaltung der 75-Franken-Regel und die rechtzeitige Einreichung der offiziellen Dokumente bei der Eidgenössischen Elektrizitätskommission (ElCom)."
+msgstr "The Operational Standards page evaluates key performance indicators that highlight the quality of service provided by electricity companies. These indicators include Product Variety, measuring the range of eco-friendly and combined energy products offered; Service Quality, assessing how well companies inform consumers about planned electricity interruptions and the notice period provided; and Compliance, ensuring adherence to the 75 francs rule and the timely submission of official documents to the Federal Electricity Commission (ElCom)."
 
 msgid "detail.operational.highlight_operator"
-msgstr "Operator hervorheben"
+msgstr "Highlight operator"
 
 msgid "detail.operational.label.advancenotice"
-msgstr "Vorankündigung in Tagen"
+msgstr "Advance notice in days"
 
 msgid "detail.operational.label.chf_per_invoice"
-msgstr "CHF/Rechnungsempfänger"
+msgstr "CHF/invoice recipient"
 
 msgid "detail.operational.label.numberofproducts"
-msgstr "Anzahl der Produkte"
+msgstr "Number of Products"
 
 msgid "detail.operational.label.share"
-msgstr "Anteil der Betreiber"
+msgstr "Share of operators"
 
 msgid "detail.operational.peergroup_all"
-msgstr "Alle Schweizer Netzbetreiber"
+msgstr "All swiss network operators"
 
 msgid "detail.operational.product.combination"
-msgstr "Optionen für Produktkombinationen"
+msgstr "Product combination options"
 
 msgid "detail.operational.product.combination_short"
-msgstr "Kombinationsmöglichkeiten"
+msgstr "Combination options"
 
 msgid "detail.operational.product.comparison.info"
 msgstr "Lorem ipsum dolor sit amet..."
 
 msgid "detail.operational.product.comparison.subtitle"
-msgstr "Benchmarking mit allen Schweizer Netzbetreibern"
+msgstr "Benchmarking to all swiss network operators"
 
 msgid "detail.operational.product.comparison.title"
-msgstr "Vergleich der umweltfreundlichen Produktvielfalt"
+msgstr "Comparison of eco-friendly product diversity"
 
 msgid "detail.operational.product.ecofriendly"
-msgstr "Angebot umweltfreundlicher Produkte"
+msgstr "Eco-friendly products offered"
 
 msgid "detail.operational.product.ecofriendly_short"
-msgstr "Angebotene Produkte"
+msgstr "Products offered"
 
 msgid "detail.operational.product.title"
-msgstr "Produktvielfalt"
+msgstr "Product Variety"
 
 msgid "detail.operational.service.comparison.info"
 msgstr "Lorem ipsum dolor sit amet..."
 
 msgid "detail.operational.service.comparison.subtitle"
-msgstr "Benchmarking mit allen Schweizer Netzbetreibern"
+msgstr "Benchmarking against all swiss network operators"
 
 msgid "detail.operational.service.comparison.title"
-msgstr "Vergleich der Vorankündigungsfristen für geplante Ausfälle"
+msgstr "Comparison of advance notice periods for planned outages"
 
 msgid "detail.operational.service.notification"
-msgstr "Benachrichtigung Tage im Voraus"
+msgstr "Notification Days in Advance"
 
 msgid "detail.operational.service.outageinfo"
-msgstr "Information der Kunden über Stromausfälle"
+msgstr "Informing customers about power outages"
 
 msgid "detail.operational.service.outageinfo_short"
-msgstr "Informationen zu Ausfällen"
+msgstr "Outage information"
 
 msgid "detail.operational.service.title"
-msgstr "Qualität der Dienstleistungen"
+msgstr "Service Quality"
 
 msgid "detail.operational.title"
-msgstr "Operative Standards"
+msgstr "Operational Standards"
 
 msgid "detail.operator"
-msgstr "Netzbetreiber"
+msgstr "Network operator"
 
 msgid "detail.operators"
-msgstr "Netzbetreiber"
+msgstr "Network operator"
 
 msgid "detail.overview.intro_text"
 msgstr "Lorem ipsum dolor..."
 
 msgid "detail.overview.peer_group.label"
-msgstr "Peer-Gruppe: {peergroup}"
+msgstr "Peer Group: {peergroup}"
 
 msgid "detail.overview.peergroup"
 msgstr "Peer Group"
@@ -248,265 +248,265 @@ msgid "detail.overview.sunshine.description"
 msgstr "Lorem ipsum dolor sit amet..."
 
 msgid "detail.overview.sunshine.title"
-msgstr "Sunshine Indicators Überblick"
+msgstr "Sunshine Indicators Overview"
 
 msgid "detail.overview.title"
-msgstr "Sunshine Indicators Überblick"
+msgstr "Sunshine Indicators Overview"
 
 msgid "detail.power.description"
-msgstr "Die Seite Stromstabilität bietet Einblicke in die Zuverlässigkeit der Stromversorgung durch zwei Schlüsselindikatoren: SAIFI (System Average Interruption Frequency Index) und SAIDI (System Average Interruption Duration Index). Diese Indikatoren messen die Häufigkeit und Dauer von Stromunterbrechungen. Die Daten sind innerhalb der gleichen Netzbetreibergruppe vergleichbar und ermöglichen eine klare Bewertung der Stabilität und Zuverlässigkeit der Stromversorgung im gesamten Netz."
+msgstr "The Power Stability page provides insights into the reliability of the electricity supply through two key indicators: SAIFI (System Average Interruption Frequency Index) and SAIDI (System Average Interruption Duration Index). These indicators measure the frequency and duration of power interruptions. The data is comparable within the same grid operator group, allowing for a clear assessment of power stability and reliability across the network."
 
 msgid "detail.power.saidi.latest"
-msgstr "Letztes Jahr ({Jahr})"
+msgstr "Latest year ({Year})"
 
 msgid "detail.power.saidi.title"
-msgstr "Dauer des Stromausfalls (SAIDI)"
+msgstr "Power Outage Duration (SAIDI)"
 
 msgid "detail.power.saidi.total"
-msgstr "Gesamtdauer des Ausfalls"
+msgstr "Total Outage Duration"
 
 msgid "detail.power.saidi.total_unit"
-msgstr "min/Jahr"
+msgstr "min/year"
 
 msgid "detail.power.saidi.trend.info"
 msgstr "Lorem ipsum dolor sit amet..."
 
 msgid "detail.power.saidi.trend.title"
-msgstr "Durchschnittliche Dauer des Stromausfalls (SAIDI)"
+msgstr "Average Power Outage Duration (SAIDI)"
 
 msgid "detail.power.saifi.latest"
-msgstr "Letztes Jahr ({Jahr})"
+msgstr "Latest year ({Year})"
 
 msgid "detail.power.saifi.title"
-msgstr "Häufigkeit von Stromausfällen (SAIFI)"
+msgstr "Power Outage Frequency (SAIFI)"
 
 msgid "detail.power.saifi.total"
-msgstr "Ausfallhäufigkeit insgesamt"
+msgstr "Total Outage Frequency"
 
 msgid "detail.power.saifi.total_unit"
-msgstr "Mal/Jahr"
+msgstr "times/year"
 
 msgid "detail.power.saifi.trend.info"
 msgstr "Lorem ipsum dolor sit amet..."
 
 msgid "detail.power.saifi.trend.title"
-msgstr "Durchschnittliche Häufigkeit von Stromausfällen (SAIFI)"
+msgstr "Average Power Outage Frequency (SAIFI)"
 
 msgid "detail.power.title"
-msgstr ""
+msgstr "Power Stability"
 
 msgid "detail.power.trend.subtitle"
-msgstr "Benchmarking innerhalb der Peer Group: {Peergroup}"
+msgstr "Benchmarking within the Peer Group: {peergroup}"
 
 msgid "detail.power.view.duration"
-msgstr "Dauer"
+msgstr "Duration"
 
 msgid "detail.power.view.overall"
-msgstr "Insgesamt"
+msgstr "Overall"
 
 msgid "detail.power.view.planned"
-msgstr "Geplant"
+msgstr "Planned"
 
 msgid "detail.power.view.ratio"
 msgstr "Ratio"
 
 msgid "detail.power.view.total"
-msgstr "Insgesamt"
+msgstr "Total"
 
 msgid "detail.power.view.unplanned"
-msgstr "Ungeplantes"
+msgstr "Unplanned"
 
 msgid "detail.view.allpeergroupoperators"
-msgstr "Alle Betreiber der Peer Group"
+msgstr "All peer group operators"
 
 msgid "detail.view.by"
-msgstr "Ansicht von"
+msgstr "View by"
 
 msgid "detail.view.compare"
-msgstr "Vergleiche mit"
+msgstr "Compare with"
 
 msgid "detail.view.domestic"
-msgstr "Inländische"
+msgstr "Domestic"
 
 msgid "detail.view.industrial"
-msgstr "Industriell"
+msgstr "Industrial"
 
 msgid "detail.view.latestyear"
-msgstr "Letztes Jahr"
+msgstr "Latest year"
 
 msgid "detail.view.level_5"
-msgstr "Stufe 5"
+msgstr "Level 5"
 
 msgid "detail.view.level_6"
-msgstr "Stufe 6"
+msgstr "Level 6"
 
 msgid "detail.view.level_7"
-msgstr "Stufe 7"
+msgstr "Level 7"
 
 msgid "detail.view.network"
-msgstr "Netzwerk"
+msgstr "Network"
 
 msgid "detail.view.progressovertime"
-msgstr "Fortschritte im Laufe der Zeit"
+msgstr "Progress over time"
 
 msgid "detail.view.usage.category"
-msgstr "Verwendungskategorie"
+msgstr "Usage Category"
 
 msgid "details.costs.energytariffs.trend.info"
 msgstr "Lorem ipsum dolor sit amet..."
 
 msgid "details.page.navigation.electricity-insights-title"
-msgstr "Einblicke in die Elektrizität"
+msgstr "Insights into electricity"
 
 msgid "details.page.navigation.electricity-tariffs-item"
-msgstr "Stromtarife"
+msgstr "Electricity tariffs"
 
 msgid "dialog.close"
-msgstr "Dialog schliessen"
+msgstr "Close dialog"
 
 msgid "dialog.infoprefix"
 msgstr "Info:"
 
 msgid "download.category.annualreport"
-msgstr "Jahresrechnung"
+msgstr "Financial statements"
 
 msgid "download.category.annualreports"
-msgstr "Jahresrechnungen Netz"
+msgstr "Annual Reports"
 
 msgid "download.category.annualreports_description"
-msgstr "Bericht über die Jahresberichte"
+msgstr "Report on the annual reports"
 
 msgid "download.category.financial-statement"
-msgstr "Finanzbericht"
+msgstr "Financial report"
 
 msgid "download.category.financial-statement-report"
-msgstr "Bericht zum Finanzbericht"
+msgstr "Report on the financial report"
 
 msgid "download.category.sunshine_report"
-msgstr "Sonnenschein-Bericht"
+msgstr "Sunshine Report"
 
 msgid "download.category.sunshine_report_description"
-msgstr "Bericht über die Sonnenscheinberichte"
+msgstr "Report on the sunshine reports"
 
 msgid "download.category.tariff"
-msgstr "Tarifblatt"
+msgstr "Tariff sheet"
 
 msgid "download.category.tariffs"
-msgstr "Tarifblätter"
+msgstr "Tariffs"
 
 msgid "download.category.tariffs_description"
-msgstr "Beschreibung der Tarife"
+msgstr "Tariffs description"
 
 msgid "download.cta"
-msgstr "Download Berichte & Tarife"
+msgstr "Download reports & tariffs"
 
 msgid "download.filetype.pdf"
-msgstr "PDF-Datei"
+msgstr "PDF file"
 
 msgid "download.nooperatordocuments"
-msgstr "Keine Netzbetreiber-Dokumente"
+msgstr "No network operator documents"
 
 msgid "download.reports"
-msgstr "Download Reports"
+msgstr "Download reports"
 
 msgid "filters.category"
-msgstr "Kategorie"
+msgstr "Category"
 
 msgid "filters.price.component"
-msgstr "Preiskomponente"
+msgstr "Price component"
 
 msgid "filters.product"
-msgstr "Produkt"
+msgstr "Product"
 
 msgid "filters.year"
-msgstr "Jahr"
+msgstr "Year"
 
 msgid "footer.about_us"
-msgstr "Über uns"
+msgstr "About us"
 
 msgid "footer.about_us.label"
 msgstr "About us"
 
 msgid "footer.about_us.text"
-msgstr "Die ElCom, der unabhängige Stromregulator der Schweiz, überwacht die Einhaltung des Elektrizitäts- und des Energiegesetzes. Sie überwacht die Strompreise, die Versorgungssicherheit und den internationalen Handel und schlichtet Streitigkeiten beim Netzzugang, bei den Einspeisevergütungen sowie zwischen Betreibern und Produzenten."
+msgstr "ElCom, Switzerland's independent electricity regulator, monitors compliance with the Electricity Act and the Energy Act. It monitors electricity prices, security of supply and international trade and settles disputes regarding grid access, feed-in tariffs and between operators and producers."
 
 msgid "footer.about_us_text"
-msgstr "Die ElCom, der unabhängige Stromregulator der Schweiz, überwacht die Einhaltung des Elektrizitäts- und des Energiegesetzes. Sie überwacht die Strompreise, die Versorgungssicherheit und den internationalen Handel und schlichtet Streitigkeiten beim Netzzugang, bei den Einspeisevergütungen sowie zwischen Betreibern und Produzenten."
+msgstr "ElCom, Switzerland's independent electricity regulator, oversees compliance with the Federal Electricity and Energy Acts. It monitors electricity prices, supply security, and international trading, and resolves disputes on network access, feed-in tariffs, and between operators and producers."
 
 msgid "footer.additional-information"
-msgstr "Weitere Informationen zu den Tarifen in der Schweiz"
+msgstr "Further information on tariffs in Switzerland"
 
 msgid "footer.basis-of-calculation"
-msgstr "Berechnungsgrundlagen"
+msgstr "Basis of calculation"
 
 msgid "footer.create-data-visualizations"
-msgstr "Datenvisualisierungen mit ElCom-Datensatz erstellen"
+msgstr "Create data visualizations with ElCom data set"
 
 msgid "footer.data-as-csv"
-msgstr "Daten als csv"
+msgstr "Data as csv"
 
 msgid "footer.data-on-opendata-swiss"
-msgstr "Daten auf opendata.swiss"
+msgstr "Data on opendata.swiss"
 
 msgid "footer.download-visualize-data"
-msgstr "Daten herunterladen"
+msgstr "Download data"
 
 msgid "footer.download_data"
-msgstr "Daten herunterladen"
+msgstr "Download data"
 
 msgid "footer.legal-framework"
-msgstr "Rechtliches"
+msgstr "Legal matters"
 
 msgid "footer.legal-framework.link"
 msgstr "https://www.admin.ch/gov/de/start/rechtliches.html"
 
 msgid "footer.link.energy_saving"
-msgstr "Energieeinsparung"
+msgstr "Energy saving"
 
 msgid "footer.link.policy"
-msgstr "Politik"
+msgstr "Policy"
 
 msgid "footer.link.supply_situation"
-msgstr "Versorgungslage"
+msgstr "Supply situation"
 
 msgid "footer.more-information"
-msgstr "Weitere Informationen"
+msgstr "Further information"
 
 msgid "footer.swiss-municipalities-grid"
-msgstr "Schweizerische Gemeinden und zuständige Stromnetzbetreiber"
+msgstr "Swiss municipalities and responsible electricity grid operators"
 
 msgid "footer.tariff-components"
-msgstr "Tarifkomponenten Übertragungsnetz - Swissgrid"
+msgstr "Transmission grid tariff components - Swissgrid"
 
 msgid "header.title"
-msgstr "Eidgenössische Elektrizitätskommission ElCom"
+msgstr "Federal Electricity Commission ElCom"
 
 msgid "help.calculation"
-msgstr "Berechnungsgrundlage"
+msgstr "Calculation basis"
 
 msgid "help.price-comparison"
-msgstr "Tarifvergleich"
+msgstr "Tariff comparison"
 
 msgid "hint.loading.data"
-msgstr "Loading data…"
+msgstr "Loading data..."
 
 msgid "hint.nocontent.message"
-msgstr "Dieser Inhalt konnte nicht geladen werden"
+msgstr "This content could not be loaded"
 
 msgid "hint.nodata.message"
-msgstr "Für die aktuelle Auswahl konnten keine Daten geladen werden."
+msgstr "No data could be loaded for the current selection."
 
 msgid "hint.nodata.title"
-msgstr "Keine Daten"
+msgstr "No data"
 
 msgid "hint.nogeodata.message"
-msgstr "Für das ausgewählte Jahr kann keine Karte angezeigt werden."
+msgstr "No map can be displayed for the selected year."
 
 msgid "hint.nogeodata.title"
-msgstr "Keine Kartendarstellung möglich"
+msgstr "No map display possible"
 
 msgid "histogram.canton-count"
-msgstr "Anzahl Kanton"
+msgstr "Number of cantons"
 
 msgid "histogram.max"
 msgstr "Max"
@@ -515,22 +515,22 @@ msgid "histogram.min"
 msgstr "Min"
 
 msgid "histogram.municipality-count"
-msgstr "Anzahl Gemeinde"
+msgstr "Number of municipalities"
 
 msgid "home.hero-section.description"
-msgstr "Diese Website bietet aktuelle Informationen zu den Stromtarifen über die Stromtarife in der Schweiz und ermöglicht den Vergleich der Preise für Privat- und Gewerbekunden nach Gemeinde, Kantonen oder Netzbetreibern vergleichen. Sie können detaillierte Aufschlüsselungen von Energie-, Netz- und Zusatzkosten sowie historische Trends, um die Stromkosten in Ihrer Region besser zu Region."
+msgstr "This website provides up-to-date information on electricity tariffs in Switzerland and allows you to compare prices for private and commercial customers by municipality, canton or grid operator. You can view detailed breakdowns of energy, grid and additional costs as well as historical trends to better understand the cost of electricity in your region."
 
 msgid "home.hero-section.primary-cta"
-msgstr "Stromtarife in der Schweiz"
+msgstr "Electricity tariffs in Switzerland"
 
 msgid "home.hero-section.title"
-msgstr "Entdecken Sie die Stromtarife in der Kartenansicht"
+msgstr "Discover the electricity tariffs in the map view"
 
 msgid "home.menu.map-view"
-msgstr "Karten Ansicht"
+msgstr "Map view"
 
 msgid "home.menu.overview"
-msgstr "Übersicht"
+msgstr "Overview"
 
 msgid "home.sunshine-regulation.description"
 msgstr "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum."
@@ -545,7 +545,7 @@ msgid "home.sunshine-topics.card.compliance.title"
 msgstr "Compliance"
 
 msgid "home.sunshine-topics.card.costs-and-tariffs.description"
-msgstr "Electricity bills consist of energy tariffs and network costs. Network tariffs (levels 5–7) cover infrastructure, grid maintenance, metering, and administrative services, while energy tariffs reflect actual consumption in households (H) or businesses (C)."
+msgstr "Electricity bills consist of energy tariffs and network costs. Network tariffs (levels 5-7) cover infrastructure, grid maintenance, metering, and administrative services, while energy tariffs reflect actual consumption in households (H) or businesses (C)."
 
 msgid "home.sunshine-topics.card.costs-and-tariffs.title"
 msgstr "Costs and Tariffs"
@@ -584,268 +584,268 @@ msgid "home.sunshine-topics.title"
 msgstr "Sunshine Topics"
 
 msgid "image.download"
-msgstr "Bild herunterladen"
+msgstr "Download image"
 
 msgid "image.download.source"
-msgstr "Eidgenössische Elektrizitätskommission ElCom"
+msgstr "Swiss Federal Electricity Commission ElCom"
 
 msgid "image.download.unit"
-msgstr "Tarifvergleich in Rp./kWh"
+msgstr "Tariff comparison in Rp./kWh"
 
 msgid "list.cantons"
-msgstr "Kantone"
+msgstr "Cantons"
 
 msgid "list.municipalities"
-msgstr "Gemeinden"
+msgstr "Municipalities"
 
 msgid "list.operators"
-msgstr "Netzbetreiber"
+msgstr "Network operator"
 
 msgid "list.order.asc"
-msgstr "Günstigste zuerst"
+msgstr "Cheapest first"
 
 msgid "list.order.desc"
-msgstr "Teuerste zuerst"
+msgstr "Most expensive first"
 
 msgid "list.search.label"
-msgstr "Liste filtern"
+msgstr "Filter list"
 
 msgid "list.showmore"
-msgstr "Mehr anzeigen …"
+msgstr "Show more ..."
 
 msgid "list.viewby.label"
-msgstr "Ansicht nach"
+msgstr "View according to"
 
 msgid "map.button.back_to_filters"
-msgstr "Zurück zu den Filtern"
+msgstr "Back to filters"
 
 msgid "map.button.show_all_indicators"
-msgstr "Alle Sonnenschein-Indikatoren anzeigen"
+msgstr "Show all Sunshine Indicators"
 
 msgid "map.button.show_saidi_details"
-msgstr "SAIDI-Indikator-Details anzeigen"
+msgstr "Show SAIDI Indicator Details"
 
 msgid "map.chart.saidi_progress"
-msgstr "SAIDI-Fortschritt im Laufe der Zeit"
+msgstr "SAIDI progress overtime"
 
 msgid "map.details-sidebar-panel.back-button"
-msgstr "Zurück zu den Filtern"
+msgstr "Back to the filters"
 
 msgid "map.details-sidebar-panel.next-button"
-msgstr "Energie Preise Detail anzeigen"
+msgstr "Energy prices Show detail"
 
 msgid "map.filter.indicator"
-msgstr "Indikator"
+msgstr "Indicator"
 
 msgid "map.filter.indicator_info"
 msgstr "Lorem ipsum dolor sit amet..."
 
 msgid "map.filter.topology"
-msgstr "Topologie"
+msgstr "Topology"
 
 msgid "map.filter.topology_info"
 msgstr "Lorem ipsum dolor sit amet..."
 
 msgid "map.filter.view_by"
-msgstr "Ansicht von"
+msgstr "View by"
 
 msgid "map.filter.year"
-msgstr "Jahr"
+msgstr "Year"
 
 msgid "map.indicator.compliance"
-msgstr "Einhaltung der Vorschriften"
+msgstr "Compliance"
 
 msgid "map.indicator.costs_tariffs"
-msgstr "Kosten und Tarife"
+msgstr "Costs and Tariffs"
 
 msgid "map.indicator.energy_tariff"
-msgstr "Energie-Tarif"
+msgstr "Energy Tariff"
 
 msgid "map.indicator.net_tariff"
-msgstr "Netto-Tarif"
+msgstr "Net Tariff"
 
 msgid "map.indicator.network_costs"
-msgstr "Netzkosten"
+msgstr "Network Costs"
 
 msgid "map.indicator.operational_standards"
-msgstr "Operative Standards"
+msgstr "Operational Standards"
 
 msgid "map.indicator.power_outage_duration"
-msgstr "Dauer des Stromausfalls (SAIDI)"
+msgstr "Power Outage Duration (SAIDI)"
 
 msgid "map.indicator.power_outage_frequency"
-msgstr "Häufigkeit von Stromausfällen (SAIFI)"
+msgstr "Power Outage Frequency (SAIFI)"
 
 msgid "map.indicator.power_stability"
-msgstr "Leistungsstabilität"
+msgstr "Power Stability"
 
 msgid "map.indicator.product_variety"
-msgstr "Produktvielfalt"
+msgstr "Product Variety"
 
 msgid "map.indicator.service_quality"
-msgstr "Qualität der Dienstleistungen"
+msgstr "Service Quality"
 
 msgid "map.label.operator"
-msgstr "Betreiber"
+msgstr "Operator"
 
 msgid "map.label.results"
-msgstr "Ergebnisse"
+msgstr "results"
 
 msgid "map.label.sunshine_indicator"
-msgstr "Sonnenschein-Indikator"
+msgstr "Sunshine Indicator"
 
 msgid "map.label.value_avg"
-msgstr "Wert avg."
+msgstr "Value avg."
 
 msgid "map.legend.informing_customer"
-msgstr "Information der betroffenen Kunden über geplante Unterbrechungen"
+msgstr "Informing the affected customer about planned interruptions"
 
 msgid "map.legend.title"
-msgstr "Tarifvergleich in Rp./kWh (Angaben exkl. MwSt.)"
+msgstr "Tariff comparison in Rp./kWh (figures excl. VAT)"
 
 msgid "map.peer_group.all_grid_operators"
-msgstr "Alle Netzbetreiber"
+msgstr "All grid operators"
 
 msgid "map.peer_group.medium_high_energy"
-msgstr "Mittlere, hohe Energiedichte"
+msgstr "Medium, high energy density"
 
 msgid "map.peer_group.medium_low_energy"
-msgstr "Mittlere, niedrige Energiedichte"
+msgstr "Medium, low energy density"
 
 msgid "map.peer_group.mountain_high_energy"
-msgstr "Berg, hohe Energiedichte"
+msgstr "Mountain, high energy density"
 
 msgid "map.peer_group.mountain_low_energy"
-msgstr "Berg, geringe Energiedichte"
+msgstr "Mountain, low energy density"
 
 msgid "map.peer_group.rural_high_energy"
-msgstr "Ländlich, hohe Energiedichte"
+msgstr "Rural, high energy density"
 
 msgid "map.peer_group.rural_low_energy"
-msgstr "Ländlich, geringe Energiedichte"
+msgstr "Rural, low energy density"
 
 msgid "map.peer_group.tourist_high_energy"
-msgstr "Tourist, hohe Energiedichte"
+msgstr "Tourist, high energy density"
 
 msgid "map.peer_group.tourist_low_energy"
-msgstr "Tourist, geringe Energiedichte"
+msgstr "Tourist, low energy density"
 
 msgid "map.search.operator"
-msgstr "Operator suchen"
+msgstr "Search operator"
 
 msgid "map.section.filters"
-msgstr "Filter"
+msgstr "Filters"
 
 msgid "map.share"
-msgstr "Teilen"
+msgstr "Share"
 
 msgid "map.sort.ascending"
-msgstr "aufsteigend"
+msgstr "ascending"
 
 msgid "map.sort.label"
-msgstr "Sortieren nach"
+msgstr "Sort by"
 
 msgid "map.tab.electricity_tariffs"
-msgstr "Stromtarife"
+msgstr "Electricity Tariffs"
 
 msgid "map.tab.indicators"
-msgstr "Indikatoren"
+msgstr "Indicators"
 
 msgid "map.tooltipnodata"
-msgstr "Keine Daten"
+msgstr "No data"
 
 msgid "map.typology.planned"
-msgstr "Geplant"
+msgstr "Planned"
 
 msgid "map.typology.total_planned_unplanned"
-msgstr "Insgesamt (geplant und ungeplant)"
+msgstr "Total (planned and unplanned)"
 
 msgid "map.typology.unplanned"
-msgstr "Ungeplantes"
+msgstr "Unplanned"
 
 msgid "map.unit.min_year"
-msgstr "min/Jahr"
+msgstr "min/year"
 
 msgid "map.value.no"
-msgstr "Nein"
+msgstr "No"
 
 msgid "map.value.yes"
-msgstr "Ja"
+msgstr "Yes"
 
 msgid "municipality"
-msgstr "Gemeinde"
+msgstr "Municipality"
 
 msgid "overview.button.tariffs_switzerland"
-msgstr "Stromtarife in der Schweiz"
+msgstr "Electricity Tariffs in Switzerland"
 
 msgid "overview.card.compliance"
-msgstr "Einhaltung der Vorschriften"
+msgstr "Compliance"
 
 msgid "overview.card.compliance_text"
-msgstr "Die Produktvielfalt spiegelt die Palette der angebotenen Ökostromprodukte wider. Die Servicequalität erfasst, wie gut die Kunden über die Spannungen informiert werden. Compliance misst, wie konsequent ein Netzbetreiber Gesetze, Vorschriften und interne Standards einhält."
+msgstr "Product variety reflects the range of ecological electricity products offered. Service quality captures how well customers are informed about voltages. Compliance measures how consistently a grid operator follows laws, regulations, and internal standards."
 
 msgid "overview.card.costs_tariffs"
-msgstr "Kosten und Tarife"
+msgstr "Costs and Tariffs"
 
 msgid "overview.card.costs_tariffs_text"
-msgstr "Stromrechnungen setzen sich aus Energietarifen und Netzkosten zusammen. Die Netztarife (Stufen 5-7) decken die Kosten für Infrastruktur, Netzwartung, Messung und Verwaltungsdienstleistungen ab, während die Energietarife den tatsächlichen Verbrauch in Haushalten (H) oder Unternehmen (C) widerspiegeln."
+msgstr "Electricity bills consist of energy tariffs and network costs. Network tariffs (levels 5-7) cover infrastructure, grid maintenance, metering, and administrative services, while energy tariffs reflect actual consumption in households (H) or businesses (C)."
 
 msgid "overview.card.power_stability"
-msgstr "Leistungsstabilität"
+msgstr "Power Stability"
 
 msgid "overview.card.power_stability_text"
-msgstr "SAIDI misst die Gesamtdauer der Stromausfälle pro Kunde und Jahr, während SAIFI angibt, wie häufig Ausfälle auftreten. Zusammen liefern sie wichtige Erkenntnisse über die Zuverlässigkeit und Stabilität der Stromversorgung über einen bestimmten Zeitraum."
+msgstr "SAIDI measures the total duration of power outages per customer each year, while SAIFI indicates how often outages occur. Together, they provide key insights into the reliability and stability of the electricity supply over a defined period."
 
 msgid "overview.link.compliance"
-msgstr "Einhaltung der Vorschriften"
+msgstr "Compliance"
 
 msgid "overview.link.energy_tariff"
-msgstr "Energie-Tarif"
+msgstr "Energy Tariff"
 
 msgid "overview.link.net_tariff"
-msgstr "Netto-Tarif"
+msgstr "Net Tariff"
 
 msgid "overview.link.network_costs"
-msgstr "Netzkosten"
+msgstr "Network Costs"
 
 msgid "overview.link.power_outage_duration"
-msgstr "Dauer des Stromausfalls (SAIDI)"
+msgstr "Power Outage Duration (SAIDI)"
 
 msgid "overview.link.power_outage_frequency"
-msgstr "Häufigkeit von Stromausfällen (SAIFI)"
+msgstr "Power Outage Frequency (SAIFI)"
 
 msgid "overview.link.product_variety"
-msgstr "Produktvielfalt"
+msgstr "Product Variety"
 
 msgid "overview.link.service_quality"
-msgstr "Qualität der Dienstleistungen"
+msgstr "Service Quality"
 
 msgid "overview.section.discover_text"
-msgstr "Auf dieser Website finden Sie aktuelle Informationen zu den Stromtarifen in der Schweiz. Sie können die Preise für Privat- und Geschäftskunden nach Gemeinde, Kanton oder Netzbetreiber vergleichen. Entdecken Sie die detaillierte Aufschlüsselung der Energie-, Netz- und Zusatzkosten und sehen Sie sich historische Trends an, um die Stromkosten in Ihrer Region besser zu verstehen."
+msgstr "This site provides up-to-date information on electricity tariffs across Switzerland, allowing you to compare prices for residential and commercial customers by municipality, canton, or grid operator. Explore detailed breakdowns of energy, network, and additional charges, and view historical trends to better understand electricity costs in your region."
 
 msgid "overview.section.discover_title"
-msgstr "Entdecken Sie die Stromtarife in der Kartenansicht"
+msgstr "Discover the Electricity Tariffs in the Map View"
 
 msgid "overview.section.sunshine_text"
 msgstr "Lorem ipsum dolor sit amet..."
 
 msgid "overview.section.sunshine_title"
-msgstr "Die Sunshine-Verordnung"
+msgstr "The Sunshine Regulation"
 
 msgid "overview.section.sunshine_topics"
-msgstr "Sonnenschein-Themen"
+msgstr "Sunshine Topics"
 
 msgid "page.electricity-tariffs.description"
-msgstr "Auf der Detailseite des Netzbetreibers finden Sie aktuelle Informationen zu den Stromtarifen, die einen Preisvergleich ermöglichen. Sie können die Aufschlüsselung der Energie-, Netz- und Zusatzkosten einsehen und unter historische Trends abrufen, um ein besseres Verständnis der Stromkosten von zu erhalten."
+msgstr "On the grid operator's details page, you will find up-to-date information on electricity tariffs, allowing you to compare prices. You can view the breakdown of energy, grid and additional costs and call up historical trends to gain a better understanding of electricity costs."
 
 msgid "page.electricity-tariffs.title"
-msgstr "Stromtarife"
+msgstr "Electricity tariffs"
 
 msgid "page.subtitle.indicators"
-msgstr "Schweizer Stromtarife und Indikatoren der Sonnenscheinregelung"
+msgstr "Swiss electricity tariffs and sunshine regulation indicators"
 
 msgid "page.title.tariffs_regulations"
-msgstr "Stromtarife und Vorschriften"
+msgstr "Electricity Tariffs and Regulations"
 
 msgid "price.legend.max"
 msgstr "max"
@@ -857,70 +857,70 @@ msgid "price.legend.min"
 msgstr "min"
 
 msgid "priceComponents.view.collapsed.municipalities"
-msgstr "Gemeinden gruppieren"
+msgstr "Group municipalities"
 
 msgid "priceComponents.view.collapsed.operators"
-msgstr "Netzbetreiber gruppieren"
+msgstr "Grouping network operators"
 
 msgid "priceComponents.view.expanded.municipalities"
-msgstr "Einzelne Gemeinden anzeigen"
+msgstr "Show individual municipalities"
 
 msgid "priceComponents.view.expanded.operators"
-msgstr "Einzelne Netzbetreiber anzeigen"
+msgstr "Show individual network operators"
 
 msgid "rangeplot.select.order.hint"
-msgstr "Sortieren nach"
+msgstr "Sort by"
 
 msgid "rangeplot.select.sorting.alpha-asc"
-msgstr "Alphabetisch aufsteigend"
+msgstr "Alphabetically ascending"
 
 msgid "rangeplot.select.sorting.alpha-desc"
-msgstr "Alphabetisch absteigend"
+msgstr "Alphabetically descending"
 
 msgid "rangeplot.select.sorting.median-asc"
-msgstr "Median aufsteigend"
+msgstr "Median ascending"
 
 msgid "rangeplot.select.sorting.median-desc"
-msgstr "Median absteigend"
+msgstr "Median descending"
 
 msgid "relations.showmore"
-msgstr "{rest} weitere …"
+msgstr "{rest} more ..."
 
 msgid "search.global"
-msgstr "Detaillierte Preisanalysen von Kantonen, Gemeinden und Netzbetreibern."
+msgstr "Detailed price analyses of cantons, municipalities and grid operators."
 
 msgid "search.global.hint.canton.muni.operator"
-msgstr "Gemeinde, Kanton, Netzbetreiber"
+msgstr "Municipality, canton, grid operator"
 
 msgid "search.global.hint.go.to"
-msgstr "Gehe zu…"
+msgstr "Go to..."
 
 msgid "search.global.label"
-msgstr "Suche nach Gemeindename, PLZ, Netzbetreiber, Kanton"
+msgstr "Search by municipality name, zip code, network operator, canton"
 
 msgid "search.open"
-msgstr "Suche öffnen"
+msgstr "Open search"
 
 msgid "search.placeholder.entities"
-msgstr "Gemeinde, Kanton, Netzbetreiber"
+msgstr "Municipality, Canton, Grid Operator"
 
 msgid "search.placeholder.go_to"
-msgstr "Weiter zu..."
+msgstr "Go to..."
 
 msgid "search.result.canton"
-msgstr "Kanton"
+msgstr "Canton"
 
 msgid "search.result.municipality"
-msgstr "Gemeinde"
+msgstr "Municipality"
 
 msgid "search.result.operator"
-msgstr "Netzbetreiber"
+msgstr "Network operator"
 
 msgid "selector.category"
-msgstr "Kategorie"
+msgstr "Category"
 
 msgid "selector.category.C-group"
-msgstr "Gewerbe- und Industriebetrieben"
+msgstr "Commercial and industrial companies"
 
 msgid "selector.category.C1"
 msgstr "C1"
@@ -944,7 +944,7 @@ msgid "selector.category.C7"
 msgstr "C7"
 
 msgid "selector.category.H-group"
-msgstr "Haushalte"
+msgstr "Households"
 
 msgid "selector.category.H1"
 msgstr "H1"
@@ -971,127 +971,127 @@ msgid "selector.category.H8"
 msgstr "H8"
 
 msgid "selector.comparecantons"
-msgstr "Kantone zum Vergleich"
+msgstr "Cantons for comparison"
 
 msgid "selector.comparemunicipalities"
-msgstr "Gemeinden zum Vergleich"
+msgstr "Municipalities for comparison"
 
 msgid "selector.compareoperators"
-msgstr "Netzbetreiber zum Vergleich"
+msgstr "Network operator for comparison"
 
 msgid "selector.legend.select.parameters"
-msgstr "Liste und Karte filtern"
+msgstr "Filter list and map"
 
 msgid "selector.priceComponent"
-msgstr "Preiskomponente"
+msgstr "Price component"
 
 msgid "selector.priceComponents"
-msgstr "Preiskomponenten"
+msgstr "Price components"
 
 msgid "selector.pricecomponent.aidfee"
-msgstr "Netzzuschlag gem. Art. 35 EnG"
+msgstr "Grid surcharge pursuant to Art. 35 EnG"
 
 msgid "selector.pricecomponent.charge"
-msgstr "Abgaben an das Gemeinwesen"
+msgstr "Charges to the community"
 
 msgid "selector.pricecomponent.energy"
-msgstr "Energie"
+msgstr "Energy"
 
 msgid "selector.pricecomponent.gridusage"
-msgstr "Netznutzung"
+msgstr "Grid usage"
 
 msgid "selector.pricecomponent.total"
 msgstr "Total"
 
 msgid "selector.product"
-msgstr "Produkt"
+msgstr "Product"
 
 msgid "selector.product.cheapest"
-msgstr "Günstigstes"
+msgstr "Cheapest"
 
 msgid "selector.product.standard"
 msgstr "Standard"
 
 msgid "selector.year"
-msgstr "Jahr"
+msgstr "Year"
 
 msgid "selector.years"
-msgstr "Jahre"
+msgstr "years"
 
 msgid "share.url-copied"
-msgstr "URL kopiert ✅"
+msgstr "URL copied ✅"
 
 msgid "site.title"
-msgstr "Stromtarife in der Schweiz"
+msgstr "Electricity tariffs in Switzerland"
 
 msgid "tab.map_view"
-msgstr "Kartenansicht"
+msgstr "Map View"
 
 msgid "tab.overview"
-msgstr "Übersicht"
+msgstr "Overview"
 
 msgid "tariff.category.c1"
-msgstr "Sehr kleine Unternehmen (C1)"
+msgstr "Very Small Business (C1)"
 
 msgid "tariff.category.c2"
-msgstr "Kleine Unternehmen (C2)"
+msgstr "Small Business (C2)"
 
 msgid "tariff.category.c3"
-msgstr "Mittlere Unternehmen (C3)"
+msgstr "Medium Business (C3)"
 
 msgid "tariff.category.c4"
-msgstr "Großunternehmen (C4)"
+msgstr "Large Business (C4)"
 
 msgid "tariff.category.c5"
-msgstr "Großunternehmen mit eigenem Transformator (C5)"
+msgstr "Large Business with own Transformer (C5)"
 
 msgid "tariff.category.c6"
-msgstr "Großunternehmen mit eigenem Transformator (C6)"
+msgstr "Large Business with own Transformer (C6)"
 
 msgid "tariff.category.c7"
-msgstr "Großunternehmen mit eigenem Transformator (C7)"
+msgstr "Large Business with own Transformer (C7)"
 
 msgid "tariff.category.h1"
-msgstr "2-Zimmer-Wohnung (H1)"
+msgstr "2-Room Apartment (H1)"
 
 msgid "tariff.category.h2"
-msgstr "4-Zimmer-Wohnung (H2)"
+msgstr "4-Room Apartment (H2)"
 
 msgid "tariff.category.h3"
-msgstr "4-Zimmer-Wohnung (H3)"
+msgstr "4-Room Apartment (H3)"
 
 msgid "tariff.category.h4"
-msgstr "5-Zimmer-Wohnung (H4)"
+msgstr "5-Room Apartment (H4)"
 
 msgid "tariff.category.h5"
-msgstr "Einzelfamilienhaus (H6)"
+msgstr "Single-Family House (H6)"
 
 msgid "tariff.category.h7"
-msgstr "Einfamilienhaus Wärmepumpe (H7)"
+msgstr "Single-Family House Heat Pump (H7)"
 
 msgid "tariff.category.h8"
-msgstr "Große, hoch elektrifizierte Eigentumswohnungen (H8)"
+msgstr "Large Highly Electrified Condominium (H8)"
 
 msgid "tariff.grid.level.1"
-msgstr "Höchstspannungsübertragung (Ebene 1)"
+msgstr "Extra-High Voltage Transmission (Level 1)"
 
 msgid "tariff.grid.level.2"
-msgstr "Höchstspannungstransformation (Stufe 2)"
+msgstr "Extra-High Voltage Transformation (Level 2)"
 
 msgid "tariff.grid.level.3"
-msgstr "Hochspannungsverteilung (Ebene 3)"
+msgstr "High Voltage Distribution (Level 3)"
 
 msgid "tariff.grid.level.4"
-msgstr "Hochspannungstransformation (Stufe 4)"
+msgstr "High Voltage Transformation (Level 4)"
 
 msgid "tariff.grid.level.5"
-msgstr "Mittelspannungsverteilung (Ebene 5)"
+msgstr "Medium Voltage Distribution (Level 5)"
 
 msgid "tariff.grid.level.6"
-msgstr "Niederspannungsverteilung (Ebene 6)"
+msgstr "Low Voltage Distribution (Level 6)"
 
 msgid "tariff.grid.level.7"
-msgstr "Endverbraucherebene (Ebene 7)"
+msgstr "End Consumer Level (Level 7)"
 
 msgid "topbar.open-flag-menu"
 msgstr "Open flag menu"
