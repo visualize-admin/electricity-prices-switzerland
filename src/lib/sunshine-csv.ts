@@ -226,6 +226,7 @@ export const getPeerGroup = memoize(async (id: Operator["id"]) => {
   return peerGroupsById[id] || null;
 });
 
+/** @knipignore */
 export const getNetworkCosts = async (
   operatorId: Operator["id"],
   networkLevel: NetworkLevel["id"]
