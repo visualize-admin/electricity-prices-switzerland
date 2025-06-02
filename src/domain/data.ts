@@ -154,6 +154,18 @@ export type SunshineCostsAndTariffsData = {
     }[];
   };
 
+  energyTariffs: {
+    category: ElectricityCategory;
+    peerGroupMedianRate: number;
+    operatorRate: number;
+    yearlyData: {
+      year: string;
+      rate: number;
+      operator: number;
+      category: ElectricityCategory;
+    }[];
+  };
+
   networkCosts: {
     networkLevel: {
       id: string;
@@ -181,8 +193,6 @@ const fetchOperatorPeerGroup = async (operatorId: string) => {
   return peerGroup;
 };
 
-// We will need operatorId to fetch the data for the operator
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const fetchOperatorCostsAndTariffsData = async (operatorId: string) => {
   const peerGroup = await fetchOperatorPeerGroup(operatorId);
   if (!peerGroup) {
@@ -211,6 +221,16 @@ export const fetchOperatorCostsAndTariffsData = async (operatorId: string) => {
       ],
     },
     netTariffs: {
+      category: "H1",
+      operatorRate: 0.12,
+      peerGroupMedianRate: 0.15,
+      yearlyData: [
+        { year: "2022", rate: 0.11, operator: 0.1, category: "H1" },
+        { year: "2023", rate: 0.12, operator: 0.11, category: "H1" },
+        { year: "2024", rate: 0.12, operator: 0.12, category: "H1" },
+      ],
+    },
+    energyTariffs: {
       category: "H1",
       operatorRate: 0.12,
       peerGroupMedianRate: 0.15,

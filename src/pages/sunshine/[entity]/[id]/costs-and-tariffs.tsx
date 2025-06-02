@@ -180,8 +180,8 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
           // Network costs trend is below them
           // On Mobile, they are stacked
           gridTemplateAreas: [
-            `"peer-group" "network-costs" "network-costs-trend"`, // One column on small screens
-            `"peer-group network-costs" "network-costs-trend network-costs-trend"`, // Two columns on medium screens
+            `"peer-group" "comparison" "trend"`, // One column on small screens
+            `"peer-group comparison" "trend trend"`, // Two columns on medium screens
           ],
         }}
       >
@@ -193,11 +193,97 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
 
         <TableComparisonCard
           {...comparisonCardProps}
-          sx={{ gridArea: "network-costs" }}
+          sx={{ gridArea: "comparison" }}
         />
 
         <NetworkCostsTrendCard
-          sx={{ gridArea: "network-costs-trend" }}
+          sx={{ gridArea: "trend" }}
+          peerGroup={peerGroup}
+          updateDate={updateDate}
+        />
+      </CardGrid>
+    </>
+  );
+};
+
+const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
+  const {
+    energyTariffs: { category, operatorRate, peerGroupMedianRate },
+    operator: { peerGroup },
+    latestYear,
+    updateDate,
+  } = props.costsAndTariffs;
+  const categoryLabels = getCategoryLabels(category);
+
+  const operatorLabel = props.name;
+
+  const comparisonCardProps = {
+    title: (
+      <Trans id="sunshine.costs-and-tariffs.energy-tariffs-comparison-title">
+        Energy Tariffs {categoryLabels.long}
+      </Trans>
+    ),
+    subtitle: (
+      <Trans id="sunshine.costs-and-tariffs.latest-year">
+        Latest year ({latestYear})
+      </Trans>
+    ),
+    rows: [
+      {
+        label: (
+          <Trans id="sunshine.costs-and-tariffs.operator">
+            {operatorLabel}
+          </Trans>
+        ),
+        value: {
+          value: operatorRate,
+          unit: "Rp./km",
+          trend: "stable" satisfies Trend,
+        },
+      },
+      {
+        label: (
+          <Trans id="sunshine.costs-and-tariffs.median-peer-group">
+            Median Peer Group
+          </Trans>
+        ),
+        value: {
+          value: peerGroupMedianRate,
+          unit: "Rp./km",
+          trend: "stable" as Trend,
+        },
+      },
+    ],
+  } satisfies React.ComponentProps<typeof TableComparisonCard>;
+
+  return (
+    <>
+      <CardGrid
+        sx={{
+          gridTemplateColumns: {
+            xs: "1fr", // Single column on small screens
+            sm: "repeat(2, 1fr)", // Two columns on medium screens
+          },
+          gridTemplateRows: ["auto auto auto", "auto auto"], // Three rows: two for cards, one for trend chart
+          gridTemplateAreas: [
+            `"peer-group" "comparison" "trend"`, // One column on small screens
+            `"peer-group comparison" "trend trend"`, // Two columns on medium screens
+          ],
+        }}
+      >
+        <PeerGroupCard
+          latestYear={latestYear}
+          peerGroup={peerGroup}
+          sx={{ gridArea: "peer-group" }}
+        />
+
+        <TableComparisonCard
+          {...comparisonCardProps}
+          sx={{ gridArea: "comparison" }}
+        />
+
+        <NetTariffsTrendCard
+          sx={{ gridArea: "trend" }}
           peerGroup={peerGroup}
           updateDate={updateDate}
         />
@@ -348,6 +434,7 @@ const CostsAndTariffs = (props: Props) => {
 
       {activeTab === TabOption.NETWORK_COSTS && <NetworkCosts {...props} />}
       {activeTab === TabOption.NET_TARIFFS && <NetTariffs {...props} />}
+      {activeTab === TabOption.ENERGY_TARIFFS && <EnergyTariffs {...props} />}
 
       {activeTab === TabOption.ENERGY_TARIFFS && (
         <Box sx={{ textAlign: "center", py: 8 }}>
