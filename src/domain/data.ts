@@ -264,6 +264,7 @@ const fetchOperatorPeerGroup = async (operatorId: string) => {
   return peerGroup;
 };
 
+// FIXME: Mocked data
 export const fetchOperatorCostsAndTariffsData = async (operatorId: string) => {
   const peerGroup = await fetchOperatorPeerGroup(operatorId);
   if (!peerGroup) {
@@ -317,6 +318,7 @@ export const fetchOperatorCostsAndTariffsData = async (operatorId: string) => {
   } satisfies SunshineCostsAndTariffsData;
 };
 
+// FIXME: Mocked data
 export const fetchPowerStability = async (operatorId: string) => {
   const peerGroup = await fetchOperatorPeerGroup(operatorId);
   if (!peerGroup) {
@@ -381,6 +383,7 @@ export const fetchPowerStability = async (operatorId: string) => {
   } satisfies SunshinePowerStabilityData;
 };
 
+// FIXME: Mocked data
 export const fetchOperationalStandards = async (operatorId: string) => {
   const peerGroup = await fetchOperatorPeerGroup(operatorId);
   if (!peerGroup) {
