@@ -12,7 +12,7 @@ import {
   it as pluralsIt,
 } from "make-plural/plurals";
 
-import { defaultLocale } from "src/locales/config";
+import { defaultLocale } from "src/locales/config.js";
 
 import { messages as catalogDe } from "./de/messages";
 import { messages as catalogFr } from "./fr/messages";

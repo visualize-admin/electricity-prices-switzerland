@@ -1,6 +1,6 @@
-import { accentLocales } from "./src/locales/config";
+const { accentLocales } = require("./src/locales/config.js");
 
-export default {
+module.exports = {
   locales: accentLocales,
   catalogs: [
     {
