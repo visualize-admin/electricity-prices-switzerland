@@ -2,7 +2,6 @@ import { extent, range, scaleThreshold } from "d3";
 import { useMemo } from "react";
 
 import buildEnv from "src/env/build";
-import { getPeerGroup } from "src/lib/sunshine-csv";
 import { chartPalette } from "src/themes/palette";
 
 export type ObservationValue = string | number | boolean | Date;
@@ -144,24 +143,24 @@ export type SunshineCostsAndTariffsData = {
   latestYear: string;
   netTariffs: {
     category: ElectricityCategory;
-    peerGroupMedianRate: number;
-    operatorRate: number;
+    peerGroupMedianRate?: number;
+    operatorRate?: number;
     yearlyData: {
-      year: string;
+      period: number;
       rate: number;
-      operator: number;
+      operator_id: number;
       category: ElectricityCategory;
     }[];
   };
 
   energyTariffs: {
     category: ElectricityCategory;
-    peerGroupMedianRate: number;
-    operatorRate: number;
+    peerGroupMedianRate?: number;
+    operatorRate?: number;
     yearlyData: {
-      year: string;
+      period: number;
       rate: number;
-      operator: number;
+      operator_id: number;
       category: ElectricityCategory;
     }[];
   };
@@ -170,13 +169,13 @@ export type SunshineCostsAndTariffsData = {
     networkLevel: {
       id: string;
     };
-    peerGroupMedianRate: number;
-    operatorRate: number;
+    peerGroupMedianRate?: number;
+    operatorRate?: number;
     yearlyData: {
-      year: string;
+      year: number;
       rate: number;
-      operator: number;
-      category: ElectricityCategory;
+      operator_id: number;
+      network_level: NetworkLevel["id"];
     }[];
   };
   operator: {
@@ -194,7 +193,7 @@ export type SunshinePowerStabilityData = {
     operatorMinutes: number;
     peerGroupMinutes: number;
     yearlyData: {
-      year: string;
+      year: number;
       minutes: number;
       operator: number;
       planned: boolean;
@@ -204,7 +203,7 @@ export type SunshinePowerStabilityData = {
     operatorMinutes: number;
     peerGroupMinutes: number;
     yearlyData: {
-      year: string;
+      year: number;
       minutes: number;
       operator: number;
       planned: boolean;
@@ -259,161 +258,6 @@ export type SunshineOperationalStandardsData = {
   updateDate: string;
 };
 
-const fetchOperatorPeerGroup = async (operatorId: string) => {
-  const peerGroup = await getPeerGroup(operatorId);
-  return peerGroup;
-};
-
-// FIXME: Mocked data
-export const fetchOperatorCostsAndTariffsData = async (operatorId: string) => {
-  const peerGroup = await fetchOperatorPeerGroup(operatorId);
-  if (!peerGroup) {
-    throw new Error(`Peer group not found for operator ID: ${operatorId}`);
-  }
-  return {
-    operator: {
-      peerGroup,
-    },
-    networkCosts: {
-      networkLevel: {
-        id: "NE7",
-      },
-      operatorRate: 23.4,
-      peerGroupMedianRate: 25.6,
-      yearlyData: [
-        { year: "2022", rate: 21.9, operator: 410, category: "H1" },
-        { year: "2023", rate: 22.8, operator: 410, category: "H1" },
-        { year: "2024", rate: 23.4, operator: 410, category: "H1" },
-        { year: "2022", rate: 20.5, operator: 390, category: "H1" },
-        { year: "2023", rate: 21.3, operator: 390, category: "H1" },
-        { year: "2024", rate: 22.0, operator: 390, category: "H1" },
-        { year: "2022", rate: 19.0, operator: 370, category: "H1" },
-        { year: "2023", rate: 19.8, operator: 370, category: "H1" },
-        { year: "2024", rate: 20.5, operator: 370, category: "H1" },
-      ],
-    },
-    netTariffs: {
-      category: "H1",
-      operatorRate: 0.12,
-      peerGroupMedianRate: 0.15,
-      yearlyData: [
-        { year: "2022", rate: 0.11, operator: 0.1, category: "H1" },
-        { year: "2023", rate: 0.12, operator: 0.11, category: "H1" },
-        { year: "2024", rate: 0.12, operator: 0.12, category: "H1" },
-      ],
-    },
-    energyTariffs: {
-      category: "H1",
-      operatorRate: 0.12,
-      peerGroupMedianRate: 0.15,
-      yearlyData: [
-        { year: "2022", rate: 0.11, operator: 0.1, category: "H1" },
-        { year: "2023", rate: 0.12, operator: 0.11, category: "H1" },
-        { year: "2024", rate: 0.12, operator: 0.12, category: "H1" },
-      ],
-    },
-    latestYear: "2024",
-
-    updateDate: "March 7, 2024, 1:28 PM",
-  } satisfies SunshineCostsAndTariffsData;
-};
-
-// FIXME: Mocked data
-export const fetchPowerStability = async (operatorId: string) => {
-  const peerGroup = await fetchOperatorPeerGroup(operatorId);
-  if (!peerGroup) {
-    throw new Error(`Peer group not found for operator ID: ${operatorId}`);
-  }
-  return {
-    operator: {
-      peerGroup,
-    },
-    saidi: {
-      operatorMinutes: 23.4,
-      peerGroupMinutes: 25.6,
-      yearlyData: [
-        { year: "2022", minutes: 21.9, operator: 410, planned: true },
-        { year: "2023", minutes: 22.8, operator: 410, planned: true },
-        { year: "2024", minutes: 23.4, operator: 410, planned: true },
-        { year: "2022", minutes: 20.5, operator: 390, planned: true },
-        { year: "2023", minutes: 21.3, operator: 390, planned: true },
-        { year: "2024", minutes: 22.0, operator: 390, planned: true },
-        { year: "2022", minutes: 19.0, operator: 370, planned: true },
-        { year: "2023", minutes: 19.8, operator: 370, planned: true },
-        { year: "2024", minutes: 20.5, operator: 370, planned: true },
-        { year: "2022", minutes: 21.9, operator: 410, planned: false },
-        { year: "2023", minutes: 22.8, operator: 410, planned: false },
-        { year: "2024", minutes: 23.4, operator: 410, planned: false },
-        { year: "2022", minutes: 20.5, operator: 390, planned: false },
-        { year: "2023", minutes: 21.3, operator: 390, planned: false },
-        { year: "2024", minutes: 22.0, operator: 390, planned: false },
-        { year: "2022", minutes: 19.0, operator: 370, planned: false },
-        { year: "2023", minutes: 19.8, operator: 370, planned: false },
-        { year: "2024", minutes: 20.5, operator: 370, planned: false },
-      ],
-    },
-    saifi: {
-      operatorMinutes: 23.4,
-      peerGroupMinutes: 25.6,
-      yearlyData: [
-        { year: "2022", minutes: 21.9, operator: 410, planned: true },
-        { year: "2023", minutes: 22.8, operator: 410, planned: true },
-        { year: "2024", minutes: 23.4, operator: 410, planned: true },
-        { year: "2022", minutes: 20.5, operator: 390, planned: true },
-        { year: "2023", minutes: 21.3, operator: 390, planned: true },
-        { year: "2024", minutes: 22.0, operator: 390, planned: true },
-        { year: "2022", minutes: 19.0, operator: 370, planned: true },
-        { year: "2023", minutes: 19.8, operator: 370, planned: true },
-        { year: "2024", minutes: 20.5, operator: 370, planned: true },
-        { year: "2022", minutes: 21.9, operator: 410, planned: false },
-        { year: "2023", minutes: 22.8, operator: 410, planned: false },
-        { year: "2024", minutes: 23.4, operator: 410, planned: false },
-        { year: "2022", minutes: 20.5, operator: 390, planned: false },
-        { year: "2023", minutes: 21.3, operator: 390, planned: false },
-        { year: "2024", minutes: 22.0, operator: 390, planned: false },
-        { year: "2022", minutes: 19.0, operator: 370, planned: false },
-        { year: "2023", minutes: 19.8, operator: 370, planned: false },
-        { year: "2024", minutes: 20.5, operator: 370, planned: false },
-      ],
-    },
-
-    latestYear: "2024",
-
-    updateDate: "March 7, 2024, 1:28 PM",
-  } satisfies SunshinePowerStabilityData;
-};
-
-// FIXME: Mocked data
-export const fetchOperationalStandards = async (operatorId: string) => {
-  const peerGroup = await fetchOperatorPeerGroup(operatorId);
-  if (!peerGroup) {
-    throw new Error(`Peer group not found for operator ID: ${operatorId}`);
-  }
-  return {
-    operator: {
-      peerGroup,
-    },
-    productVariety: {
-      ecoFriendlyProductsOffered: 5,
-      productCombinationsOptions: true,
-      operatorsProductsOffered: [
-        { operatorId, ecoFriendlyProductsOffered: 5, year: "2024" },
-      ],
-    },
-    serviceQuality: {
-      notificationPeriodDays: 3,
-      informingCustomersOfOutage: true,
-      operatorsNotificationPeriodDays: [{ operatorId, days: 3, year: "2024" }],
-    },
-    compliance: {
-      francsRule: "CHF 5",
-      timelyPaperSubmission: true,
-      operatorsFrancsPerInvoice: [
-        { operatorId, francsPerInvoice: 5, year: "2024" },
-      ],
-    },
-    latestYear: "2024",
-
-    updateDate: "March 7, 2024, 1:28 PM",
-  } satisfies SunshineOperationalStandardsData;
-};
+export { fetchOperationalStandards } from "src/lib/db/sunshine-data";
+export { fetchOperatorCostsAndTariffsData } from "src/lib/db/sunshine-data";
+export { fetchPowerStability } from "src/lib/db/sunshine-data";

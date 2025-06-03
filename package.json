@@ -36,7 +36,8 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build -o public/storybook",
     "test:argos": "argos upload ./e2e/snapshots",
-    "data:peer-groups": "duckdb -f ./scripts/peer-groups.sql"
+    "data:peer-groups": "duckdb -f ./scripts/peer-groups.sql",
+    "test:sunshine-data": "ts-node scripts/test-sunshine-data.ts"
   },
   "dependencies": {
     "@apollo/server": "^4.3.3",
@@ -46,6 +47,7 @@
     "@deck.gl/core": "8.8",
     "@deck.gl/layers": "8.8",
     "@deck.gl/react": "8.8",
+    "@duckdb/node-api": "^1.3.0-alpha.21",
     "@emotion/cache": "^11.14.0",
     "@emotion/react": "^11.13.0",
     "@emotion/server": "^11.11.0",
