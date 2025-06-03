@@ -4,10 +4,9 @@ import { useRouter } from "next/router";
 import { ReactNode } from "react";
 
 import { Icon } from "src/icons";
+import { useFlag } from "src/utils/flags";
 
 import { SectionProps } from "./card";
-
-const useFlag = (flag: string) => true;
 
 export const DetailsPageSidebar = (props: SectionProps) => {
   const { id, entity } = props;

@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 
-import { TrendIcon } from "src/components/TrendIcon";
+import { TrendIcon } from "src/components/trend-icon";
 
 const UnitValueWithTrend: React.FC<{
   value: number;

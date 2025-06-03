@@ -1,4 +1,5 @@
 import { ComponentProps } from "react";
+
 import { Icon } from "src/icons";
 
 type Trend = "stable" | "increasing" | "decreasing";

@@ -102,7 +102,7 @@ export const StoryGrid: FC<StoryGridProps> = ({
   title,
   reference,
 }) => {
-  const { componentStories, projectAnnotations, getStoryContext, ...ctx } =
+  const { componentStories, projectAnnotations, getStoryContext } =
     useContext(DocsContext);
 
   let stories = componentStories();
