@@ -10,6 +10,7 @@ import { useCallback, useMemo, useRef, useState } from "react";
 import { createClient, Provider } from "urql";
 
 import { ChoroplethMap } from "src/components/map";
+import { MapProvider } from "src/components/map-context";
 import { getFillColor, getZoomFromBounds } from "src/components/map-helpers";
 import {
   getOperatorsFeatureCollection,
@@ -330,10 +331,19 @@ const UrqlDecorator: Decorator = (Story) => {
   );
 };
 
+const MapDecorator: Decorator = (Story) => {
+  const [activeId, setActiveId] = useState<string | null>(null);
+  return (
+    <MapProvider activeId={activeId} setActiveId={setActiveId}>
+      <Story />
+    </MapProvider>
+  );
+};
+
 const meta = {
   component: ChoroplethMap,
   title: "components/Map",
-  decorators: [UrqlDecorator],
+  decorators: [UrqlDecorator, MapDecorator],
 };
 
 export default meta;
