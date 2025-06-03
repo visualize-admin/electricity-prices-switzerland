@@ -1,6 +1,6 @@
 import { accentLocales } from "./src/locales/config";
 
-module.exports = {
+export default {
   locales: accentLocales,
   catalogs: [
     {
