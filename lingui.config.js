@@ -10,7 +10,7 @@ module.exports = {
     },
   ],
   format: "po",
-  sourceLocale: "de",
+  sourceLocale: "en",
   fallbackLocales: {
     default: "de",
   },
