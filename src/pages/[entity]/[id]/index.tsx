@@ -25,7 +25,8 @@ import {
 } from "src/data/shared-page-props";
 import { priceComponents } from "src/domain/data";
 import { getLocalizedLabel } from "src/domain/translation";
-import { defaultLocale } from "src/locales/locales";
+
+import { defaultLocale } from "../../../locales/locales";
 
 export const getServerSideProps: GetServerSideProps<
   Props,

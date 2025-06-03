@@ -5,12 +5,6 @@ import {
   timeFormatLocale,
   TimeLocaleDefinition,
 } from "d3";
-import {
-  de as pluralsDe,
-  en as pluralsEn,
-  fr as pluralsFr,
-  it as pluralsIt,
-} from "make-plural/plurals";
 
 import { messages as catalogDe } from "./de/messages";
 import { messages as catalogFr } from "./fr/messages";
@@ -30,16 +24,17 @@ const timeFormatIt = require("d3-time-format/locale/it-IT");
 export const defaultLocale = "en";
 
 // The order specified here will determine the fallback order when strings are not available in the preferred language
-export const locales = ["de", "fr", "it", "en"] as const;
+export const locales = [
+  "de",
+  "fr",
+  "it",
+  ...(process.env.NODE_ENV === "development" ? ["en"] : []),
+];
+
+export const accentLocales = ["de", "fr", "it", "en"];
 
 export type Locale = "de" | "fr" | "it" | "en";
 
-i18n.loadLocaleData({
-  de: { plurals: pluralsDe },
-  fr: { plurals: pluralsFr },
-  it: { plurals: pluralsIt },
-  en: { plurals: pluralsEn },
-});
 i18n.load({
   de: catalogDe,
   fr: catalogFr,

@@ -1,7 +1,9 @@
-const { locales } = require("./src/locales/locales.json");
+import { defineConfig } from "@lingui/cli";
 
-module.exports = {
-  locales,
+import { accentLocales } from "./src/locales/locales";
+
+export default defineConfig({
+  locales: accentLocales,
   catalogs: [
     {
       path: "<rootDir>/src/locales/{locale}/messages",
@@ -12,7 +14,7 @@ module.exports = {
   format: "po",
   sourceLocale: "en",
   fallbackLocales: {
-    default: "en",
+    default: "de",
   },
   compileNamespace: "ts",
-};
+});
