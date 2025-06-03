@@ -10,6 +10,15 @@ import { typography } from "./typography";
 export const components: Components = {
   MuiAutocomplete: {
     styleOverrides: {
+      input: {
+        position: "absolute",
+        ":focus": {
+          zIndex: 1,
+          backgroundColor: palette.background.paper,
+          height: "100%",
+          width: "calc(100% - 49px)",
+        },
+      },
       popper: {
         zIndex: 1300,
       },
@@ -20,6 +29,7 @@ export const components: Components = {
         minWidth: "calc(100% + 8px)",
         marginLeft: "-4px",
       },
+
       listbox: {
         fontSize: "14px",
         overflowY: "auto",
