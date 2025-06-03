@@ -85,7 +85,11 @@ const useGroupedBarsState = ({
     : segments;
   const colors = scaleOrdinal<string, string>()
     .domain(colorDomain)
-    .range(getPalette(fields.segment?.palette));
+    .range(
+      getPalette(fields.segment?.palette)
+        .slice(1)
+        .map((c) => c)
+    );
 
   const opacityDomain = fields.style?.opacityDomain
     ? fields.style?.opacityDomain

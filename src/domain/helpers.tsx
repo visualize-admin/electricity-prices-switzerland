@@ -1,4 +1,5 @@
 import {
+  color,
   schemeAccent,
   schemeCategory10,
   schemeDark2,
@@ -287,4 +288,24 @@ export const getOpacityRanges = (c: number) => {
         1, 0.92, 0.84, 0.76, 0.68, 0.6, 0.52, 0.44, 0.36, 0.28, 0.2, 0.12,
       ];
   }
+};
+
+const getRelativeLuminance = (r: number, g: number, b: number): number => {
+  const [rs, gs, bs] = [r, g, b].map((v) => {
+    const s = v / 255;
+    return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
+  });
+  return 0.2126 * rs + 0.7152 * gs + 0.0722 * bs;
+};
+
+export const getContrastColor = (background: string): "black" | "white" => {
+  const c = color(background)?.rgb();
+  if (!c) return "black";
+
+  const bgLuminance = getRelativeLuminance(c.r, c.g, c.b);
+
+  const contrastWithWhite = (1.0 + 0.05) / (bgLuminance + 0.05);
+  const contrastWithBlack = (bgLuminance + 0.05) / (0.0 + 0.05);
+
+  return contrastWithWhite >= contrastWithBlack ? "white" : "black";
 };
