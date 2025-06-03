@@ -274,7 +274,7 @@ const IndexPage = ({ locale }: Props) => {
 
           <ContentWrapper
             sx={{
-              display: { xxs: "none !important", md: "grid" },
+              display: { xxs: "none", md: "grid" },
               gridTemplateColumns: "22.5rem 1fr",
               gap: 0,
             }}
