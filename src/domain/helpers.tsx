@@ -159,7 +159,7 @@ export const getPalette = (
     case "set3":
       return schemeSet3;
     case "elcom":
-      return chartPalette.categorical;
+      return chartPalette.categorical.slice(1).map((c) => c);
     default:
       return schemeCategory10;
   }
