@@ -46,6 +46,7 @@ export const MunicipalitiesCombobox = (
       items={items.map(({ id }) => id)}
       getItemLabel={(id) => itemById.get(id)?.name ?? `[${id}]`}
       lazy
+      max={8}
       onInputValueChange={setInputValue}
       isLoading={gqlQuery.fetching && inputValue.length > 0}
     />
@@ -86,7 +87,7 @@ export const OperatorsCombobox = (
     <ComboboxMulti
       {...comboboxMultiProps}
       id="operators"
-      
+      max={8}
       items={items.map(({ id }) => id)}
       getItemLabel={(id) => itemById.get(id)?.name ?? `[${id}]`}
       lazy
@@ -133,6 +134,7 @@ export const CantonsCombobox = (
       items={items.map(({ id }) => id)}
       getItemLabel={(id) => itemById.get(id)?.name ?? `[${id}]`}
       lazy
+      max={8}
       onInputValueChange={setInputValue}
       isLoading={gqlQuery.fetching && inputValue.length > 0}
     />

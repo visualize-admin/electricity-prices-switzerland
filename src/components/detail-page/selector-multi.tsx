@@ -31,7 +31,7 @@ export const SelectorMulti = ({ entity }: { entity: Entity }) => {
         display: "grid",
         gap: 4,
         bgcolor: "muted.colored",
-        alignItems: "end",
+        alignItems: "start",
         zIndex: 13,
         mt: 1,
         gridTemplateColumns: {
