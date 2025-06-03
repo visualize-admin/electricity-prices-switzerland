@@ -21,7 +21,8 @@ const timeFormatFr = require("d3-time-format/locale/fr-FR");
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const timeFormatIt = require("d3-time-format/locale/it-IT");
 
-export const defaultLocale = "en";
+export const defaultLocale =
+  process.env.NODE_ENV === "development" ? "en" : "de";
 
 // The order specified here will determine the fallback order when strings are not available in the preferred language
 export const locales = [
