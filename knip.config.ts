@@ -28,6 +28,8 @@ const config: KnipConfig = {
     "dotenv",
     //Used for opening accent project in the browser
     "open",
+    // Used for managing mock data, available via nix
+    "duckdb",
   ],
   ignoreUnresolved: [
     // Used in package.json:scripts:start to configure HTTP_PROXY.

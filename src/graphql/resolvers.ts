@@ -22,7 +22,7 @@ import {
   Resolvers,
   SwissMedianObservationResolvers,
 } from "src/graphql/resolver-types";
-import { decryptSunshineCsv, getSunshineData } from "src/lib/sunshine-csv";
+import { getPeerGroup, getSunshineData } from "src/lib/sunshine-csv";
 import { defaultLocale } from "src/locales/locales";
 import {
   getCantonMedianCube,
@@ -58,7 +58,7 @@ const expectedCubeDimensions = [
 const Query: QueryResolvers = {
   sunshineData: async (_parent, args) => {
     const filter = args.filter;
-    const sunshineData = await getSunshineData();
+    const sunshineData = await getSunshineData("observations");
     return sunshineData.filter((row) => {
       if (
         filter.operatorId !== undefined &&
@@ -77,7 +77,7 @@ const Query: QueryResolvers = {
     if (!filter.operatorId && !filter.period) {
       throw new Error("Must either filter by year or by provider.");
     }
-    const sunshineData = await getSunshineData();
+    const sunshineData = await getSunshineData("observations");
     return sunshineData.filter((row) => {
       if (
         filter.operatorId !== undefined &&
@@ -452,17 +452,12 @@ const Operator: OperatorResolvers = {
       return [];
     }
   },
-};
 
-// const Canton: CantonResolvers = {
-//   name: (canton) => MOCK_DATA.cantons[canton.id].name,
-//   municipalities: (canton) => {
-//     return Object.values(MOCK_DATA.municipalities).filter(
-//       (m) => m.canton === canton.id
-//     );
-//   },
-//
-// };
+  peerGroup: async ({ id }) => {
+    const peerGroups = await getPeerGroup(id);
+    return peerGroups;
+  },
+};
 
 const getResolverFields = (info: GraphQLResolveInfo, type: string) => {
   const resolveInfo = parseResolveInfo(info);

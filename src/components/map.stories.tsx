@@ -10,6 +10,7 @@ import { useCallback, useMemo, useRef, useState } from "react";
 import { createClient, Provider } from "urql";
 
 import { ChoroplethMap } from "src/components/map";
+import { MapProvider } from "src/components/map-context";
 import { getFillColor, getZoomFromBounds } from "src/components/map-helpers";
 import {
   getOperatorsFeatureCollection,
@@ -18,14 +19,11 @@ import {
   useGeoData,
 } from "src/data/geo";
 import { useFetch } from "src/data/use-fetch";
-import { useColorScale } from "src/domain/data";
+import { ElectricityCategory, useColorScale } from "src/domain/data";
 import { useSunshineTariffQuery } from "src/graphql/queries";
 import { SunshineDataRow } from "src/graphql/resolver-types";
 import { truthy } from "src/lib/truthy";
-import {
-  ElectricityCategory,
-  getOperatorsMunicipalities,
-} from "src/rdf/queries";
+import { getOperatorsMunicipalities } from "src/rdf/queries";
 
 import { props } from "./map.mock";
 
@@ -330,10 +328,19 @@ const UrqlDecorator: Decorator = (Story) => {
   );
 };
 
+const MapDecorator: Decorator = (Story) => {
+  const [activeId, setActiveId] = useState<string | null>(null);
+  return (
+    <MapProvider activeId={activeId} setActiveId={setActiveId}>
+      <Story />
+    </MapProvider>
+  );
+};
+
 const meta = {
   component: ChoroplethMap,
   title: "components/Map",
-  decorators: [UrqlDecorator],
+  decorators: [UrqlDecorator, MapDecorator],
 };
 
 export default meta;

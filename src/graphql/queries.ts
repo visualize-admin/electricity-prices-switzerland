@@ -112,6 +112,7 @@ export type Operator = {
   id?: Maybe<Scalars["String"]["output"]>;
   municipalities: Array<Municipality>;
   name: Scalars["String"]["output"];
+  peerGroup?: Maybe<PeerGroup>;
 };
 
 export type OperatorDocument = {
@@ -150,6 +151,12 @@ export type OperatorResult = SearchResult & {
   __typename: "OperatorResult";
   id: Scalars["String"]["output"];
   name: Scalars["String"]["output"];
+};
+
+export type PeerGroup = {
+  __typename: "PeerGroup";
+  energyDensity?: Maybe<Scalars["String"]["output"]>;
+  settlementDensity?: Maybe<Scalars["String"]["output"]>;
 };
 
 export enum PriceComponent {
