@@ -311,7 +311,7 @@
     semver "^5.4.1"
     source-map "^0.5.0"
 
-"@babel/core@^7.13.16", "@babel/core@^7.14.0", "@babel/core@^7.18.5", "@babel/core@^7.18.9", "@babel/core@^7.20.12", "@babel/core@^7.21.0", "@babel/core@^7.21.3", "@babel/core@^7.24.4", "@babel/core@^7.26.10":
+"@babel/core@^7.14.0", "@babel/core@^7.18.5", "@babel/core@^7.18.9", "@babel/core@^7.20.12", "@babel/core@^7.21.0", "@babel/core@^7.21.3", "@babel/core@^7.24.4", "@babel/core@^7.26.10":
   version "7.27.3"
   resolved "https://registry.yarnpkg.com/@babel/core/-/core-7.27.3.tgz#d7d05502bccede3cab36373ed142e6a1df554c2f"
   integrity sha512-hyrN8ivxfvJ4i0fIJuV4EOlV0WDMz5Ui4StRTgVaAvWeiRCilXgwVvxJKtFQ3TKtHgJscB2YiXKGNJuVwhQMtA==
