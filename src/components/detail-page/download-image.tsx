@@ -1,10 +1,12 @@
 import { Trans } from "@lingui/macro";
-import { Box, IconButton, Link as MUILink, Typography } from "@mui/material";
+import { Box, IconButton, Link as MUILink } from "@mui/material";
 import html2canvas from "html2canvas";
 import * as React from "react";
 
 import { Icon } from "src/icons";
 import assert from "src/lib/assert";
+
+import { LoadingIconInline } from "../hint";
 
 export type Download =
   | "map"
@@ -114,25 +116,19 @@ export const DownloadImage = ({
         </MUILink>
       )}
 
-      {!downloading && iconOnly && (
+      {iconOnly && (
         <IconButton
           color="tertiary"
           sx={{ fontSize: iconSize }}
-          onClick={onDownload}
+          onClick={(e) => !downloading && onDownload(e)}
         >
-          <Icon name="download" size={iconSize} />
+          {downloading ? (
+            <LoadingIconInline size={24} />
+          ) : (
+            <Icon name="download" size={iconSize} />
+          )}
         </IconButton>
       )}
-      {/* This text is shown only when the image is downloading, this is done through
-      a global class on body */}
-      {downloading ? (
-        <Typography variant="caption" sx={{ mt: 4 }}>
-          <Trans id="image.download.source">
-            Eidgenössische Elektrizitätskommission ElCom
-          </Trans>{" "}
-          -<Trans id="image.download.unit">Tarifvergleich in Rp./kWh</Trans>
-        </Typography>
-      ) : null}
     </Box>
   );
 };
