@@ -114,11 +114,13 @@ export const Header = ({
               },
             }}
           >
-            {locales.map((locale) => (
-              <option key={locale} value={locale}>
-                {locale.toUpperCase()}
-              </option>
-            ))}
+            {locales
+              .filter((locale) => locale !== "en")
+              .map((locale) => (
+                <option key={locale} value={locale}>
+                  {locale.toUpperCase()}
+                </option>
+              ))}
           </NativeSelect>
         </Box>
       </TopBar>
