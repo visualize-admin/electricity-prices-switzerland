@@ -111,3 +111,100 @@ export const categories = [
   "C6",
   "C7",
 ];
+
+export type PeerGroup = {
+  energyDensity: string;
+  settlementDensity: string;
+};
+
+export type NetworkLevel = {
+  id: string;
+};
+
+export type Category = {
+  id: string;
+};
+
+export type SunshineCostsAndTariffsData = {
+  latestYear: string;
+  netTariffs: {
+    category: {
+      id: string;
+    };
+    peerGroupMedianRate: number;
+    operatorRate: number;
+    yearlyData: {
+      year: string;
+      rate: number;
+      operator: number;
+      category: string;
+    }[];
+  };
+
+  networkCosts: {
+    networkLevel: {
+      id: string;
+    };
+    peerGroupMedianRate: number;
+    operatorRate: number;
+    yearlyData: {
+      year: string;
+      rate: number;
+      operator: number;
+      category: string;
+    }[];
+  };
+  operator: {
+    peerGroup: {
+      energyDensity: string;
+      settlementDensity: string;
+    };
+  };
+  updateDate: string;
+};
+
+// We will need operatorId to fetch the data for the operator
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const fetchOperatorCostsAndTariffsData = async (operatorId: string) => {
+  return {
+    operator: {
+      peerGroup: {
+        energyDensity: "low",
+        settlementDensity: "rural",
+      },
+    },
+    networkCosts: {
+      networkLevel: {
+        id: "NE7",
+      },
+      operatorRate: 23.4,
+      peerGroupMedianRate: 25.6,
+      yearlyData: [
+        { year: "2022", rate: 21.9, operator: 410, category: "H1" },
+        { year: "2023", rate: 22.8, operator: 410, category: "H1" },
+        { year: "2024", rate: 23.4, operator: 410, category: "H1" },
+        { year: "2022", rate: 20.5, operator: 390, category: "H1" },
+        { year: "2023", rate: 21.3, operator: 390, category: "H1" },
+        { year: "2024", rate: 22.0, operator: 390, category: "H1" },
+        { year: "2022", rate: 19.0, operator: 370, category: "H1" },
+        { year: "2023", rate: 19.8, operator: 370, category: "H1" },
+        { year: "2024", rate: 20.5, operator: 370, category: "H1" },
+      ],
+    },
+    netTariffs: {
+      category: {
+        id: "H1",
+      },
+      operatorRate: 0.12,
+      peerGroupMedianRate: 0.15,
+      yearlyData: [
+        { year: "2022", rate: 0.11, operator: 0.1, category: "H1" },
+        { year: "2023", rate: 0.12, operator: 0.11, category: "H1" },
+        { year: "2024", rate: 0.12, operator: 0.12, category: "H1" },
+      ],
+    },
+    latestYear: "2024",
+
+    updateDate: "March 7, 2024, 1:28 PM",
+  } satisfies SunshineCostsAndTariffsData;
+};

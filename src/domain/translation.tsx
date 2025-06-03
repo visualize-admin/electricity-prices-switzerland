@@ -1,5 +1,7 @@
 import { t } from "@lingui/macro";
 
+import { Category, NetworkLevel, PeerGroup } from "src/domain/data";
+
 export const getLocalizedLabel = ({ id }: { id: string }): string => {
   switch (id) {
     case "collapsed-operator":
@@ -78,6 +80,49 @@ export const getLocalizedLabel = ({ id }: { id: string }): string => {
       return t({ id: "selector.category.C6", message: `C6` });
     case "C7":
       return t({ id: "selector.category.C7", message: `C7` });
+
+    // Long versions taken from the Kategorie Info Dialog
+    case "H1-long":
+      return t({
+        id: "selector.category.H1-long",
+        message: `H1 - 2-Zimmerwohnung mit Elektroherd`,
+      });
+    case "H2-long":
+      return t({
+        id: "selector.category.H2-long",
+        message: `H2 - 4-Zimmerwohnung mit Elektroherd`,
+      });
+    case "H3-long":
+      return t({
+        id: "selector.category.H3-long",
+        message: `H3 - 4-Zimmerwohnung mit Elektroherd und Elektroboiler`,
+      });
+    case "H4-long":
+      return t({
+        id: "selector.category.H4-long",
+        message: `H4 - 5-Zimmerwohnung mit Elektroherd und Tumbler`,
+      });
+    case "H5-long":
+      return t({
+        id: "selector.category.H5-long",
+        message: `H5 - 5-Zimmer-Einfamilienhaus mit Elektroherd, Elektroboiler und Tumbler`,
+      });
+    case "H6-long":
+      return t({
+        id: "selector.category.H6-long",
+        message: `H6 - 5-Zimmer-Einfamilienhaus mit elektrischer Widerstandsheizung`,
+      });
+    case "H7-long":
+      return t({
+        id: "selector.category.H7-long",
+        message: `H7 - 5-Zimmer-Einfamilienhaus mit Wärmepumpe zur Beheizung`,
+      });
+    case "H8-long":
+      return t({
+        id: "selector.category.H8-long",
+        message: `H8 - Grosse, hoch elektrifizierte Eigentumswohnung`,
+      });
+
     case "H-group":
       return t({ id: "selector.category.H-group", message: `Haushalte` });
     case "C-group":
@@ -128,7 +173,117 @@ export const getLocalizedLabel = ({ id }: { id: string }): string => {
         id: "rangeplot.select.sorting.alpha-desc",
         message: `Alphabetisch absteigend`,
       });
+
+    case "peer-group.settlement-density.na":
+      return t({
+        id: "peer-group.settlement-density.na",
+        message: `Keine Angabe`,
+      });
+    case "peer-group.settlement-density.tourist":
+      return t({
+        id: "peer-group.settlement-density.tourist",
+        message: `Tourismus`,
+      });
+    case "peer-group.settlement-density.mountain":
+      return t({
+        id: "peer-group.settlement-density.mountain",
+        message: `Berggebiet`,
+      });
+    case "peer-group.settlement-density.unknown":
+      return t({
+        id: "peer-group.settlement-density.unknown",
+        message: `Unbekannt`,
+      });
+    case "peer-group.settlement-density.medium":
+      return t({
+        id: "peer-group.settlement-density.medium",
+        message: `Mittlere Siedlungsdichte`,
+      });
+    case "peer-group.settlement-density.rural":
+      return t({
+        id: "peer-group.settlement-density.rural",
+        message: `Ländliche Siedlungsdichte`,
+      });
+    case "peer-group.energy-density.na":
+      return t({
+        id: "peer-group.energy-density.na",
+        message: `Keine Angabe`,
+      });
+    case "peer-group.energy-density.high":
+      return t({
+        id: "peer-group.energy-density.high",
+        message: `Hohe Energiedichte`,
+      });
+    case "peer-group.energy-density.low":
+      return t({
+        id: "peer-group.energy-density.low",
+        message: `Niedrige Energiedichte`,
+      });
+
+    // NL (Not yet sure about translations)
+    case "network-level.NL5.short":
+      return t({ id: "network-level.NL5.short", message: `NL5` });
+    case "network-level.NL5.long":
+      return t({ id: "network-level.NL5.long", message: `Hochspannung` });
+    case "network-level.NL6.short":
+      return t({ id: "network-level.NL6.short", message: `NL6` });
+    case "network-level.NL6.long":
+      return t({ id: "network-level.NL6.long", message: `Mittelspannung` });
+    case "network-level.NL7.short":
+      return t({ id: "network-level.NL7.short", message: `NL7` });
+
+    // NE (Not yet sure about translations)
+    case "network-level.NE5.short":
+      return t({ id: "network-level.NE5.short", message: `NE5` });
+    case "network-level.NE5.long":
+      return t({ id: "network-level.NE5.long", message: `Hochspannung` });
+    case "network-level.NE7.short":
+      return t({ id: "network-level.NE7.short", message: `NE7` });
+    case "network-level.NE7.long":
+      return t({ id: "network-level.NE7.long", message: `Niederspannung` });
+
+    case "sunshine.costs-and-tariffs.all-peer-group":
+      return t({
+        id: "sunshine.costs-and-tariffs.all-peer-group",
+        message: `Alle Peer-Group-Netzbetreiber`,
+      });
+    case "sunshine.costs-and-tariffs.selected-operators":
+      return t({
+        id: "sunshine.costs-and-tariffs.selected-operators",
+        message: `Ausgewählte Netzbetreiber`,
+      });
+
     default:
       return id;
   }
+};
+
+export const getPeerGroupLabels = function (peerGroup: PeerGroup) {
+  const settlementDensityLabel = getLocalizedLabel({
+    id: `peer-group.settlement-density.${peerGroup.settlementDensity}`,
+  });
+  const energyDensityLabel = getLocalizedLabel({
+    id: `peer-group.energy-density.${peerGroup.energyDensity}`,
+  });
+
+  const peerGroupLabel = `${settlementDensityLabel} / ${energyDensityLabel}`;
+  return {
+    peerGroupLabel,
+    settlementDensityLabel,
+    energyDensityLabel,
+  };
+};
+
+export const getNetworkLevelLabels = function (networkLevel: NetworkLevel) {
+  return {
+    short: getLocalizedLabel({ id: `network-level.${networkLevel.id}.short` }),
+    long: getLocalizedLabel({ id: `network-level.${networkLevel.id}.long` }),
+  };
+};
+
+export const getCategoryLabels = function (category: Category) {
+  return {
+    short: getLocalizedLabel({ id: `${category.id}` }),
+    long: getLocalizedLabel({ id: `${category.id}-long` }),
+  };
 };
