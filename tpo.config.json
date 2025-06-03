@@ -1,0 +1,4 @@
+{
+  "mainLanguage": "en",
+  "localesPath": "./src/locales/{locale}/messages.po"
+}
