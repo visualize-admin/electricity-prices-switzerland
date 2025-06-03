@@ -1,7 +1,7 @@
 import { ServerResponse, IncomingMessage } from "http";
 
 import { Entity } from "src/domain/data";
-import { defaultLocale } from "src/locales/locales";
+import { defaultLocale } from "src/locales/config";
 import {
   getMunicipality,
   getObservationsCube,

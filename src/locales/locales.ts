@@ -6,6 +6,8 @@ import {
   TimeLocaleDefinition,
 } from "d3";
 
+import { defaultLocale } from "src/locales/config";
+
 import { messages as catalogDe } from "./de/messages";
 import { messages as catalogFr } from "./fr/messages";
 import { messages as catalogIt } from "./it/messages";
@@ -20,19 +22,6 @@ const timeFormatEn = require("d3-time-format/locale/en-GB");
 const timeFormatFr = require("d3-time-format/locale/fr-FR");
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const timeFormatIt = require("d3-time-format/locale/it-IT");
-
-export const defaultLocale =
-  process.env.NODE_ENV === "development" ? "en" : "de";
-
-// The order specified here will determine the fallback order when strings are not available in the preferred language
-export const locales = [
-  "de",
-  "fr",
-  "it",
-  ...(process.env.NODE_ENV === "development" ? ["en"] : []),
-];
-
-export const accentLocales = ["de", "fr", "it", "en"];
 
 export type Locale = "de" | "fr" | "it" | "en";
 

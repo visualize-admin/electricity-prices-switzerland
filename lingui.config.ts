@@ -1,6 +1,6 @@
 import { defineConfig } from "@lingui/cli";
 
-import { accentLocales } from "./src/locales/locales";
+import { accentLocales } from "./src/locales/config";
 
 export default defineConfig({
   locales: accentLocales,

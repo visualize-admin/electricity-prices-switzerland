@@ -16,7 +16,7 @@ import {
 } from "src/graphql/queries";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { useQueryStateSingle } from "src/lib/use-query-state";
-import { defaultLocale } from "src/locales/locales";
+import { defaultLocale } from "src/locales/config";
 
 type Props = {
   locale: string;
