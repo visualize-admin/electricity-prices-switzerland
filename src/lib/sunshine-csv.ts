@@ -179,7 +179,6 @@ export const getSunshineData = async <T extends Id>(
 const getIndexedPeerGroups = memoize(async () => {
   const peerGroups = await getSunshineData("peer-groups");
   const indexed = keyBy(peerGroups, (pg) => pg.operatorId);
-  console.log(peerGroups.length, "peer groups loaded", indexed);
   return indexed;
 });
 
