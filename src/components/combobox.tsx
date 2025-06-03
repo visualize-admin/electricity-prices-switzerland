@@ -97,7 +97,7 @@ export const ComboboxMulti = ({
               max && selectedItems.length >= max
                 ? t({
                     id: "combobox.maxitems",
-                    message: "Maximal {max} Einträge erlaubt",
+                    message: "A maximum of {max} Entries are allowed",
                     values: { max },
                   })
                 : undefined
