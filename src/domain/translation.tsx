@@ -224,23 +224,28 @@ export const getLocalizedLabel = ({ id }: { id: string }): string => {
     case "network-level.NL5.short":
       return t({ id: "network-level.NL5.short", message: `NL5` });
     case "network-level.NL5.long":
-      return t({ id: "network-level.NL5.long", message: `Hochspannung` });
+      return t({ id: "network-level.NL5.long", message: `Hochspannung NL5` });
+
     case "network-level.NL6.short":
       return t({ id: "network-level.NL6.short", message: `NL6` });
     case "network-level.NL6.long":
-      return t({ id: "network-level.NL6.long", message: `Mittelspannung` });
+      return t({ id: "network-level.NL6.long", message: `Mittelspannung NL6` });
+
     case "network-level.NL7.short":
       return t({ id: "network-level.NL7.short", message: `NL7` });
+    case "network-level.NL7.long":
+      return t({ id: "network-level.NL7.long", message: `Niederspannung NL7` });
 
     // NE (Not yet sure about translations)
     case "network-level.NE5.short":
       return t({ id: "network-level.NE5.short", message: `NE5` });
     case "network-level.NE5.long":
-      return t({ id: "network-level.NE5.long", message: `Hochspannung` });
+      return t({ id: "network-level.NE5.long", message: `Hochspannung NE5` });
+
     case "network-level.NE7.short":
       return t({ id: "network-level.NE7.short", message: `NE7` });
     case "network-level.NE7.long":
-      return t({ id: "network-level.NE7.long", message: `Niederspannung` });
+      return t({ id: "network-level.NE7.long", message: `Niederspannung NE7` });
 
     case "sunshine.costs-and-tariffs.all-peer-group":
       return t({
@@ -260,10 +265,10 @@ export const getLocalizedLabel = ({ id }: { id: string }): string => {
 
 export const getPeerGroupLabels = function (peerGroup: PeerGroup) {
   const settlementDensityLabel = getLocalizedLabel({
-    id: `peer-group.settlement-density.${peerGroup.settlementDensity}`,
+    id: `peer-group.settlement-density.${peerGroup.settlementDensity.toLowerCase()}`,
   });
   const energyDensityLabel = getLocalizedLabel({
-    id: `peer-group.energy-density.${peerGroup.energyDensity}`,
+    id: `peer-group.energy-density.${peerGroup.energyDensity.toLowerCase()}`,
   });
 
   const peerGroupLabel = `${settlementDensityLabel} / ${energyDensityLabel}`;

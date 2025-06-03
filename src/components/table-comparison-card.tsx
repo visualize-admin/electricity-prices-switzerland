@@ -20,7 +20,9 @@ const TableComparisonCard: React.FC<
     subtitle: React.ReactNode;
     rows: {
       label: React.ReactNode;
-      value: { value: number; unit: string; trend: Trend };
+      value:
+        | { value: number; unit: string; trend: Trend }
+        | { value: React.ReactElement | string };
     }[];
   } & Omit<CardProps, "title" | "subtitle" | "rows">
 > = ({ title, subtitle, rows, ...props }) => (
@@ -42,11 +44,15 @@ const TableComparisonCard: React.FC<
                 </Typography>
               </TableCell>
               <TableCell>
-                <UnitValueWithTrend
-                  value={row.value.value}
-                  unit={row.value.unit}
-                  trend={row.value.trend}
-                />
+                {"unit" in row.value ? (
+                  <UnitValueWithTrend
+                    value={row.value.value}
+                    unit={row.value.unit}
+                    trend={row.value.trend}
+                  />
+                ) : (
+                  <Typography variant="body3">{row.value.value}</Typography>
+                )}
               </TableCell>
             </TableRow>
           ))}

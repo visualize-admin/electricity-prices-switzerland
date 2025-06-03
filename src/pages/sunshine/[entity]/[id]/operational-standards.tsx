@@ -13,35 +13,27 @@ import {
   DetailsPageTitle,
 } from "src/components/detail-page/layout";
 import { DetailsPageSidebar } from "src/components/detail-page/sidebar";
-import NetTariffsTrendCard from "src/components/net-tariffs-trend-card";
-import NetworkCostsTrendCard from "src/components/network-costs-trend-card";
 import PeerGroupCard from "src/components/peer-group-card";
 import {
-  CostAndTariffsTabOption,
-  CostsAndTariffsNavigation,
+  OperationalStandardsNavigation,
+  OperationalStandardsTabOption,
 } from "src/components/sunshine-tabs";
-import TableComparisonCard, {
-  Trend,
-} from "src/components/table-comparison-card";
+import TableComparisonCard from "src/components/table-comparison-card";
 import {
   handleOperatorsEntity,
   PageParams,
   Props as SharedPageProps,
 } from "src/data/shared-page-props";
 import {
-  fetchOperatorCostsAndTariffsData,
-  SunshineCostsAndTariffsData,
+  fetchOperationalStandards,
+  SunshineOperationalStandardsData,
 } from "src/domain/data";
-import {
-  getCategoryLabels,
-  getLocalizedLabel,
-  getNetworkLevelLabels,
-} from "src/domain/translation";
+import { getLocalizedLabel } from "src/domain/translation";
 import { defaultLocale } from "src/locales/locales";
 
 type Props =
   | (Extract<SharedPageProps, { entity: "operator"; status: "found" }> & {
-      costsAndTariffs: SunshineCostsAndTariffsData;
+      operationalStandards: SunshineOperationalStandardsData;
     })
   | { status: "notfound" };
 
@@ -73,61 +65,62 @@ export const getServerSideProps: GetServerSideProps<
     };
   }
 
-  const costsAndTariffs = await fetchOperatorCostsAndTariffsData(id);
+  const operationalStandards = await fetchOperationalStandards(id);
 
   return {
     props: {
       ...operatorProps,
-      costsAndTariffs,
+      operationalStandards,
     },
   };
 };
 
-const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
+const ProductVariety = (props: Extract<Props, { status: "found" }>) => {
   const {
-    networkCosts: { networkLevel, operatorRate, peerGroupMedianRate },
     operator: { peerGroup },
     latestYear,
-    updateDate,
-  } = props.costsAndTariffs;
-  const networkLabels = getNetworkLevelLabels(networkLevel);
+  } = props.operationalStandards;
 
-  const operatorLabel = props.name;
+  const data = props.operationalStandards;
 
   const comparisonCardProps = {
     title: (
-      <Trans id="sunshine.costs-and-tariffs.network-costs-end-consumer">
-        Network Costs at {networkLabels.long} Level
+      <Trans id="sunshine.operational-standards.product-variety.comparison-card-title">
+        Product Variety
       </Trans>
     ),
     subtitle: (
-      <Trans id="sunshine.costs-and-tariffs.latest-year">
+      <Trans id="sunshine.product-variety.latest-year">
         Latest year ({latestYear})
       </Trans>
     ),
     rows: [
       {
         label: (
-          <Trans id="sunshine.costs-and-tariffs.operator">
-            {operatorLabel}
+          <Trans id="sunshine.product-variety.eco-friendly-products-offered">
+            Eco-friendly products offered
           </Trans>
         ),
         value: {
-          value: operatorRate,
-          unit: "Rp./km",
-          trend: "stable" satisfies Trend,
+          value: `${data.productVariety.ecoFriendlyProductsOffered}`,
         },
       },
       {
         label: (
-          <Trans id="sunshine.costs-and-tariffs.median-peer-group">
-            Median Peer Group
+          <Trans id="sunshine.product-variety.product-combinations-options">
+            Product combination options
           </Trans>
         ),
         value: {
-          value: peerGroupMedianRate,
-          unit: "Rp./km",
-          trend: "stable" as Trend,
+          value: data.productVariety.productCombinationsOptions ? (
+            <Trans id="sunshine.product-variety.product-combinations-options.yes">
+              Yes
+            </Trans>
+          ) : (
+            <Trans id="sunshine.product-variety.product-combinations-options.no">
+              No
+            </Trans>
+          ),
         },
       },
     ],
@@ -163,62 +156,57 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
           {...comparisonCardProps}
           sx={{ gridArea: "comparison" }}
         />
-
-        <NetworkCostsTrendCard
-          sx={{ gridArea: "trend" }}
-          peerGroup={peerGroup}
-          updateDate={updateDate}
-        />
       </CardGrid>
     </>
   );
 };
 
-const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
+const ServiceQuality = (props: Extract<Props, { status: "found" }>) => {
   const {
-    energyTariffs: { category, operatorRate, peerGroupMedianRate },
     operator: { peerGroup },
     latestYear,
-    updateDate,
-  } = props.costsAndTariffs;
-  const categoryLabels = getCategoryLabels(category);
+  } = props.operationalStandards;
 
-  const operatorLabel = props.name;
+  const data = props.operationalStandards;
 
   const comparisonCardProps = {
     title: (
-      <Trans id="sunshine.costs-and-tariffs.energy-tariffs-comparison-title">
-        Energy Tariffs {categoryLabels.long}
+      <Trans id="sunshine.operational-standards.service-quality.comparison-card-title">
+        Service Quality
       </Trans>
     ),
     subtitle: (
-      <Trans id="sunshine.costs-and-tariffs.latest-year">
+      <Trans id="sunshine.service-quality.latest-year">
         Latest year ({latestYear})
       </Trans>
     ),
     rows: [
       {
         label: (
-          <Trans id="sunshine.costs-and-tariffs.operator">
-            {operatorLabel}
+          <Trans id="sunshine.service-quality.eco-friendly-products-offered">
+            Informing customers about power outages
           </Trans>
         ),
         value: {
-          value: operatorRate,
-          unit: "Rp./km",
-          trend: "stable" satisfies Trend,
+          value: `${data.serviceQuality.informingCustomersOfOutage}` ? (
+            <Trans id="sunshine.service-quality.informing-customers-outage.yes">
+              Yes
+            </Trans>
+          ) : (
+            <Trans id="sunshine.service-quality.informing-customers-outage.no">
+              No
+            </Trans>
+          ),
         },
       },
       {
         label: (
-          <Trans id="sunshine.costs-and-tariffs.median-peer-group">
-            Median Peer Group
+          <Trans id="sunshine.service-quality.notification-period">
+            Notification Days in Advance
           </Trans>
         ),
         value: {
-          value: peerGroupMedianRate,
-          unit: "Rp./km",
-          trend: "stable" as Trend,
+          value: `${data.serviceQuality.notificationPeriodDays}`,
         },
       },
     ],
@@ -232,7 +220,12 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
             xs: "1fr", // Single column on small screens
             sm: "repeat(2, 1fr)", // Two columns on medium screens
           },
+
           gridTemplateRows: ["auto auto auto", "auto auto"], // Three rows: two for cards, one for trend chart
+
+          // On Desktop, peer group and network costs cards are side by side
+          // Network costs trend is below them
+          // On Mobile, they are stacked
           gridTemplateAreas: [
             `"peer-group" "comparison" "trend"`, // One column on small screens
             `"peer-group comparison" "trend trend"`, // Two columns on medium screens
@@ -249,62 +242,58 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
           {...comparisonCardProps}
           sx={{ gridArea: "comparison" }}
         />
-
-        <NetTariffsTrendCard
-          sx={{ gridArea: "trend" }}
-          peerGroup={peerGroup}
-          updateDate={updateDate}
-        />
       </CardGrid>
     </>
   );
 };
 
-const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
+const Compliance = (props: Extract<Props, { status: "found" }>) => {
   const {
-    netTariffs: { category, operatorRate, peerGroupMedianRate },
     operator: { peerGroup },
     latestYear,
-    updateDate,
-  } = props.costsAndTariffs;
-  const categoryLabels = getCategoryLabels(category);
+  } = props.operationalStandards;
 
-  const operatorLabel = props.name;
+  const data = props.operationalStandards;
 
   const comparisonCardProps = {
     title: (
-      <Trans id="sunshine.costs-and-tariffs.net-tariffs-comparison-title">
-        Net Tariffs {categoryLabels.long}
+      <Trans id="sunshine.operational-standards.compliance.comparison-card-title">
+        Compliance
       </Trans>
     ),
     subtitle: (
-      <Trans id="sunshine.costs-and-tariffs.latest-year">
+      <Trans id="sunshine.compliance.latest-year">
         Latest year ({latestYear})
       </Trans>
     ),
     rows: [
       {
         label: (
-          <Trans id="sunshine.costs-and-tariffs.operator">
-            {operatorLabel}
+          <Trans id="sunshine.compliance.francs-rule-regulation">
+            75 Francs Rule Regulation
           </Trans>
         ),
         value: {
-          value: operatorRate,
-          unit: "Rp./km",
-          trend: "stable" satisfies Trend,
+          // TODO Translate
+          value: `${data.compliance.francsRule}`,
         },
       },
       {
         label: (
-          <Trans id="sunshine.costs-and-tariffs.median-peer-group">
-            Median Peer Group
+          <Trans id="sunshine.compliance.notification-period">
+            Notification Days in Advance
           </Trans>
         ),
         value: {
-          value: peerGroupMedianRate,
-          unit: "Rp./km",
-          trend: "stable" as Trend,
+          value: `${data.compliance.timelyPaperSubmission}` ? (
+            <Trans id="sunshine.compliance.timely-paper-submission.yes">
+              Yes
+            </Trans>
+          ) : (
+            <Trans id="sunshine.compliance.timely-paper-submission.no">
+              No
+            </Trans>
+          ),
         },
       },
     ],
@@ -318,7 +307,12 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
             xs: "1fr", // Single column on small screens
             sm: "repeat(2, 1fr)", // Two columns on medium screens
           },
+
           gridTemplateRows: ["auto auto auto", "auto auto"], // Three rows: two for cards, one for trend chart
+
+          // On Desktop, peer group and network costs cards are side by side
+          // Network costs trend is below them
+          // On Mobile, they are stacked
           gridTemplateAreas: [
             `"peer-group" "comparison" "trend"`, // One column on small screens
             `"peer-group comparison" "trend trend"`, // Two columns on medium screens
@@ -335,21 +329,15 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
           {...comparisonCardProps}
           sx={{ gridArea: "comparison" }}
         />
-
-        <NetTariffsTrendCard
-          sx={{ gridArea: "trend" }}
-          peerGroup={peerGroup}
-          updateDate={updateDate}
-        />
       </CardGrid>
     </>
   );
 };
 
-const CostsAndTariffs = (props: Props) => {
+const PowerStability = (props: Props) => {
   const { query } = useRouter();
-  const [activeTab, setActiveTab] = useState<CostAndTariffsTabOption>(
-    CostAndTariffsTabOption.NETWORK_COSTS
+  const [activeTab, setActiveTab] = useState<OperationalStandardsTabOption>(
+    OperationalStandardsTabOption.PRODUCT_VARIETY
   );
 
   if (props.status === "notfound") {
@@ -359,8 +347,8 @@ const CostsAndTariffs = (props: Props) => {
   const { id, name, entity } = props;
 
   const pageTitle = `${getLocalizedLabel({ id: entity })} ${name} – ${t({
-    id: "sunshine.costs-and-tariffs.title",
-    message: "Costs and Tariffs",
+    id: "sunshine.power-stability.title",
+    message: "Power Stability",
   })}`;
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -382,32 +370,39 @@ const CostsAndTariffs = (props: Props) => {
     <>
       <DetailsPageHeader>
         <DetailsPageTitle>
-          <Trans id="sunshine.costs-and-tariffs.title">Costs and Tariffs</Trans>
+          <Trans id="sunshine.operational-standards.title">
+            Operational Standards
+          </Trans>
         </DetailsPageTitle>
         <DetailsPageSubtitle>
-          <Trans id="sunshine.costs-and-tariffs.description">
-            This page provides an overview of electricity costs and tariffs,
-            including network costs, net tariffs, and energy tariffs. Compare
-            different providers and analyze trends within your peer group to
-            better understand your position in the market.
+          <Trans id="sunshine.operational-standards.description">
+            The Operational Standards page evaluates key performance indicators
+            that highlight the quality of service provided by electricity
+            companies. These indicators include Product Variety, measuring the
+            range of eco-friendly and combined energy products offered; Service
+            Quality, assessing how well companies inform consumers about planned
+            electricity interruptions and the notice period provided; and
+            Compliance, ensuring adherence to the 75 francs rule and the timely
+            submission of official documents to the Federal Electricity
+            Commission (ElCom).
           </Trans>
         </DetailsPageSubtitle>
       </DetailsPageHeader>
 
       {/* Tab Navigation */}
-      <CostsAndTariffsNavigation
+      <OperationalStandardsNavigation
         activeTab={activeTab}
         handleTabChange={handleTabChange}
       />
 
-      {activeTab === CostAndTariffsTabOption.NETWORK_COSTS && (
-        <NetworkCosts {...props} />
+      {activeTab === OperationalStandardsTabOption.PRODUCT_VARIETY && (
+        <ProductVariety {...props} />
       )}
-      {activeTab === CostAndTariffsTabOption.NET_TARIFFS && (
-        <NetTariffs {...props} />
+      {activeTab === OperationalStandardsTabOption.SERVICE_QUALITY && (
+        <ServiceQuality {...props} />
       )}
-      {activeTab === CostAndTariffsTabOption.ENERGY_TARIFFS && (
-        <EnergyTariffs {...props} />
+      {activeTab === OperationalStandardsTabOption.COMPLIANCE && (
+        <Compliance {...props} />
       )}
     </>
   );
@@ -423,4 +418,4 @@ const CostsAndTariffs = (props: Props) => {
   );
 };
 
-export default CostsAndTariffs;
+export default PowerStability;

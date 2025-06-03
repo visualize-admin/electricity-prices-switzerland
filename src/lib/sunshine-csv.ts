@@ -4,7 +4,9 @@ import path from "path";
 
 import { parse } from "csv-parse/sync";
 import { keyBy, memoize } from "lodash";
+import { z } from "zod";
 
+import { NetworkLevel } from "src/domain/data";
 import serverEnv from "src/env/server";
 import { Operator } from "src/graphql/queries";
 
@@ -12,6 +14,7 @@ export const sunshineFileIds = [
   "observations",
   "energy",
   "peer-groups",
+  "network-costs",
 ] as const;
 type Id = (typeof sunshineFileIds)[number];
 
@@ -128,25 +131,58 @@ const parsePeerGroupRow = (row: RawPeerGroupRow) => ({
 
 const parseEnergyRow = (_row: RawObservationsRow) => 0 as never;
 
+const NetworkCostRow = z
+  .object({
+    "Network Operator ID": z.string(),
+    SettlementDensity: z.string(),
+    EnergyDensity: z.string(),
+    Value: z.string().transform(parseFloat),
+    NetworkLevel: z.enum(["NL5", "NE7", "NL7", "NE5", "NL6"]),
+    Metric: z.enum(["avg", "CHF/Km", "tot?", "CHF/kVA", "Med"]),
+  })
+  .transform((row) => ({
+    // TODO we should have a "period"/year here but it is not yet there in the CSV
+    operatorId: parseInt(row["Network Operator ID"], 10),
+    peerGroup: {
+      settlementDensity: row.SettlementDensity,
+      energyDensity: row.EnergyDensity,
+    },
+    value: row.Value,
+    networkLevel: row.NetworkLevel,
+    metric: row.Metric,
+  }));
+
+const parseNetworkCostsRow = (row: RawObservationsRow) => {
+  return NetworkCostRow.parse(row);
+};
+
 type ObservationRow = ReturnType<typeof parseObservationRow>;
 type PeerGroupRow = ReturnType<typeof parsePeerGroupRow>;
+type EnergyRow = ReturnType<typeof parseEnergyRow>; // Assuming energy uses the same parser as observations
+type NetworkCostsRow = ReturnType<typeof parseNetworkCostsRow>;
 
 interface ParserMap {
   observations: typeof parseObservationRow;
   "peer-groups": typeof parsePeerGroupRow;
   energy: typeof parseEnergyRow; // Assuming energy uses the same parser as observations
+  "network-costs": typeof parseNetworkCostsRow;
 }
 
 type ParsedRowType<T extends Id> = T extends "observations"
   ? ObservationRow
   : T extends "peer-groups"
   ? PeerGroupRow
+  : T extends "energy"
+  ? EnergyRow
+  : T extends "network-costs"
+  ? NetworkCostsRow
   : never;
 
 const parsers: ParserMap = {
   observations: parseObservationRow,
   "peer-groups": parsePeerGroupRow,
   energy: parseEnergyRow,
+  "network-costs": parseNetworkCostsRow,
 };
 
 const parseSunshineCsv = <T extends Id>(id: T): ParsedRowType<T>[] => {
@@ -186,6 +222,22 @@ export const getPeerGroup = memoize(async (id: Operator["id"]) => {
   if (!id) {
     throw new Error("Operator ID is required to get operator peer group");
   }
-  const energyData = await getIndexedPeerGroups();
-  return energyData[id] || null;
+  const peerGroupsById = await getIndexedPeerGroups();
+  return peerGroupsById[id] || null;
 });
+
+/** @knipignore */
+export const getNetworkCosts = async (
+  operatorId: Operator["id"],
+  networkLevel: NetworkLevel["id"]
+) => {
+  if (!operatorId) {
+    throw new Error("Operator ID is required to get operator peer group");
+  }
+  const networkCosts = await getSunshineData("network-costs");
+  return networkCosts.filter(
+    (row) =>
+      row.operatorId === parseInt(operatorId, 10) &&
+      row.networkLevel === networkLevel
+  );
+};
