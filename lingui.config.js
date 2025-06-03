@@ -1,8 +1,6 @@
-import { defineConfig } from "@lingui/cli";
-
 import { accentLocales } from "./src/locales/config";
 
-export default defineConfig({
+export default {
   locales: accentLocales,
   catalogs: [
     {
@@ -14,7 +12,7 @@ export default defineConfig({
   format: "po",
   sourceLocale: "en",
   fallbackLocales: {
-    default: "de",
+    default: "en",
   },
   compileNamespace: "ts",
-});
+};

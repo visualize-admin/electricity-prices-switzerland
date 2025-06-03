@@ -10,7 +10,6 @@ const config: KnipConfig = {
     "src/domain/gever/output/cli.js",
     "src/domain/gever/rollup.config.js",
     "e2e/common.ts",
-    "lingui.config.ts",
     "src/**/*.stories.tsx",
   ],
   project: ["src/**", "scripts/**"],
@@ -20,7 +19,6 @@ const config: KnipConfig = {
     "src/locales/trans-dummy.tsx",
   ],
   tags: ["-knipignore"],
-
   ignoreBinaries: [
     // Used to download content, can be removed when we switch to DatoCMS
     "make",

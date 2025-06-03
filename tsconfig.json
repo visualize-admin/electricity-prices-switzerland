@@ -9,7 +9,7 @@
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
-    "moduleResolution": "bundler",
+    "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
@@ -20,7 +20,11 @@
     },
     "baseUrl": "./"
   },
-  "exclude": ["node_modules", "./src/graphql", "./public/"],
+  "exclude": [
+    "node_modules",
+    "./src/graphql",
+    "./public/"
+  ],
   "include": [
     "*.js",
     "*.ts",

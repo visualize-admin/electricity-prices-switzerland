@@ -5,6 +5,12 @@ import {
   timeFormatLocale,
   TimeLocaleDefinition,
 } from "d3";
+import {
+  de as pluralsDe,
+  en as pluralsEn,
+  fr as pluralsFr,
+  it as pluralsIt,
+} from "make-plural/plurals";
 
 import { defaultLocale } from "src/locales/config";
 
@@ -25,6 +31,12 @@ const timeFormatIt = require("d3-time-format/locale/it-IT");
 
 export type Locale = "de" | "fr" | "it" | "en";
 
+i18n.loadLocaleData({
+  de: { plurals: pluralsDe },
+  fr: { plurals: pluralsFr },
+  it: { plurals: pluralsIt },
+  en: { plurals: pluralsEn },
+});
 i18n.load({
   de: catalogDe,
   fr: catalogFr,
