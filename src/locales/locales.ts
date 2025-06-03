@@ -15,6 +15,7 @@ import {
 import { defaultLocale } from "src/locales/config.js";
 
 import { messages as catalogDe } from "./de/messages";
+import { messages as catalogEn } from "./en/messages";
 import { messages as catalogFr } from "./fr/messages";
 import { messages as catalogIt } from "./it/messages";
 
@@ -41,6 +42,7 @@ i18n.load({
   de: catalogDe,
   fr: catalogFr,
   it: catalogIt,
+  en: catalogEn,
 });
 i18n.activate(defaultLocale);
 
