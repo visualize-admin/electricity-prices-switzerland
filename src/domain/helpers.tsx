@@ -24,6 +24,7 @@ import { estimateTextWidth } from "src/lib/estimate-text-width";
 import { useLocale } from "src/lib/use-locale";
 import { d3FormatLocales, d3TimeFormatLocales } from "src/locales/locales";
 import { chartPalette } from "src/themes/palette";
+import { typography } from "src/themes/typography";
 
 export const isNumber = (x: $IntentionalAny): boolean =>
   typeof x === "number" && !isNaN(x);
@@ -308,4 +309,19 @@ export const getContrastColor = (background: string): "black" | "white" => {
   const contrastWithBlack = (bgLuminance + 0.05) / (0.0 + 0.05);
 
   return contrastWithWhite >= contrastWithBlack ? "white" : "black";
+};
+
+let canvas: HTMLCanvasElement;
+let ctx: CanvasRenderingContext2D;
+const fontFamily = typography.fontFamily as string;
+
+export const getTextWidth = (text: string, options: { fontSize: number }) => {
+  if (canvas === undefined && ctx === undefined) {
+    canvas = document.createElement("canvas");
+    ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
+  }
+
+  ctx.font = `${options.fontSize}px ${fontFamily}`;
+
+  return ctx.measureText(text).width;
 };

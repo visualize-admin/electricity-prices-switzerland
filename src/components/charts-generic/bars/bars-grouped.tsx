@@ -7,7 +7,11 @@ import {
 } from "src/components/charts-generic/use-chart-state";
 import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
 import { EXPANDED_TAG } from "src/components/detail-page/price-components-bars";
-import { getContrastColor, useFormatCurrency } from "src/domain/helpers";
+import {
+  getContrastColor,
+  getTextWidth,
+  useFormatCurrency,
+} from "src/domain/helpers";
 import { getLocalizedLabel } from "src/domain/translation";
 
 export const BarsGroupedAxis = ({
@@ -126,7 +130,7 @@ export const BarsGroupedLabels = ({ title }: { title: string }) => {
   } = useChartState() as GroupedBarsState;
 
   const { margins, chartWidth } = bounds;
-  const { labelFontSize, fontFamily } = useChartTheme();
+  const { labelFontSize } = useChartTheme();
   const formatCurrency = useFormatCurrency();
 
   const paddingX = 6;
@@ -136,11 +140,23 @@ export const BarsGroupedLabels = ({ title }: { title: string }) => {
     <g transform={`translate(${margins.left} ${margins.top})`}>
       <defs>
         {sortedData.map((d, i) => {
-          const y = yScale(getSegment(d)) as number;
-          const width = !getSegment(d).includes(EXPANDED_TAG)
+          const segment = getSegment(d);
+          const y = yScale(segment) as number;
+          const width = !segment.includes(EXPANDED_TAG)
             ? xScale(Math.max(0, getX(d)))
             : 0;
           const height = yScale.bandwidth();
+
+          const value = formatCurrency(getX(d));
+          const unit = getLocalizedLabel({ id: "unit" });
+          const label = getLabel(d);
+          const fullText = !segment.includes(EXPANDED_TAG)
+            ? `${value} ${unit} ${label}`
+            : label;
+
+          const textWidth = getTextWidth(fullText, { fontSize: labelFontSize });
+
+          if (textWidth + paddingX <= width) return null;
 
           return (
             <Fragment key={`clip-${i}-${safeTitle}`}>
@@ -172,18 +188,23 @@ export const BarsGroupedLabels = ({ title }: { title: string }) => {
         const value = formatCurrency(getX(d));
         const unit = getLocalizedLabel({ id: "unit" });
         const label = getLabel(d);
+        const fullText = !segment.includes(EXPANDED_TAG)
+          ? `${value} ${unit} ${label}`
+          : label;
 
-        if (width < paddingX) {
+        const textWidth = getTextWidth(fullText, { fontSize: labelFontSize });
+
+        if (textWidth + paddingX <= width) {
           return (
             <text
-              key={`label-fallback-${i}`}
+              key={`label-${i}`}
               x={paddingX}
               y={y + height / 2}
               dominantBaseline="middle"
               style={{
-                fontFamily,
+                fontFamily: "Inter, sans-serif", // or use from theme
                 fontSize: labelFontSize,
-                fill: "black",
+                fill: getContrastColor(barColor),
               }}
             >
               {!segment.includes(EXPANDED_TAG) && (
@@ -204,7 +225,7 @@ export const BarsGroupedLabels = ({ title }: { title: string }) => {
               dominantBaseline="middle"
               clipPath={`url(#clip-inside-${i}-${safeTitle})`}
               style={{
-                fontFamily,
+                fontFamily: "Inter, sans-serif",
                 fontSize: labelFontSize,
                 fill: getContrastColor(barColor),
               }}
@@ -223,7 +244,7 @@ export const BarsGroupedLabels = ({ title }: { title: string }) => {
               dominantBaseline="middle"
               clipPath={`url(#clip-outside-${i}-${safeTitle})`}
               style={{
-                fontFamily,
+                fontFamily: "Inter, sans-serif",
                 fontSize: labelFontSize,
                 fill: "black",
               }}
