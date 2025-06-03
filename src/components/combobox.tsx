@@ -113,39 +113,24 @@ export const ComboboxMulti = ({
           ? t({ id: "combobox.prompt", message: "Bezeichnung eingeben …" })
           : t({ id: "combobox.noitems", message: "Keine Einträge" })
       }
-      renderTags={(value, getTagProps) => (
-        <Box
-          sx={{
-            display: "flex",
-            flexWrap: "nowrap",
-            paddingRight: 7.5,
-            overflowX: "auto",
-            maxWidth: "100%",
-            gap: "4px",
-            scrollbarWidth: "none",
-            "&::-webkit-scrollbar": {
-              display: "none",
-            },
-          }}
-        >
-          {value.map((option, index) => {
-            const { key, ...tagProps } = getTagProps({ index });
-            return (
-              <Chip
-                key={key}
-                label={getItemLabel(option)}
-                {...tagProps}
-                size="xs"
-                disabled={disabled}
-                onDelete={() =>
-                  canRemoveItems &&
-                  setSelectedItems(selectedItems.filter((d) => d !== option))
-                }
-              />
-            );
-          })}
-        </Box>
-      )}
+      renderTags={(value, getTagProps) =>
+        value.map((option, index) => {
+          const { key, ...tagProps } = getTagProps({ index });
+          return (
+            <Chip
+              key={key}
+              label={getItemLabel(option)}
+              {...tagProps}
+              size="xs"
+              disabled={disabled}
+              onDelete={() =>
+                canRemoveItems &&
+                setSelectedItems(selectedItems.filter((d) => d !== option))
+              }
+            />
+          );
+        })
+      }
       renderOption={(props, option) => (
         <li {...props} key={option}>
           {getItemLabel(option)}
