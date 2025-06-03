@@ -37,7 +37,7 @@ msgstr "Rp./kWh"
 
 #: src/components/combobox.tsx
 msgid "combobox.maxitems"
-msgstr "Es sind maximal {max} Eingaben sind erlaubt"
+msgstr "Es sind maximal {max} Eingaben erlaubt"
 
 #: src/components/combobox.tsx
 #: src/components/combobox.tsx
