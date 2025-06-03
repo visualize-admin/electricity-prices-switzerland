@@ -6,7 +6,12 @@ import {
   encryptSunshineCSV,
   decryptSunshineCsv,
   getSunshineData,
+  sunshineFileIds,
 } from "../src/lib/sunshine-csv";
+
+const mutable = (arr: readonly string[]) => {
+  return arr as string[];
+};
 
 const main = async () => {
   const parser = new argparse.ArgumentParser({
@@ -21,21 +26,38 @@ const main = async () => {
   });
 
   // Encrypt command
-  subparsers.add_parser("encrypt", {
+  const encrypt = subparsers.add_parser("encrypt", {
     help: "Encrypt the sunshine CSV data",
   });
 
+  encrypt.add_argument("-i", "--id", {
+    help: "ID of the sunshine CSV data to encrypt",
+    required: true,
+    choices: mutable(sunshineFileIds),
+  });
+
   // Decrypt command
-  const decryptParser = subparsers.add_parser("decrypt", {
+  const decrypt = subparsers.add_parser("decrypt", {
     help: "Decrypt the sunshine CSV data",
   });
-  decryptParser.add_argument("-o", "--output", {
+  decrypt.add_argument("-o", "--output", {
     help: "Output path for decrypted data",
     required: false,
   });
+  decrypt.add_argument("-i", "--id", {
+    help: "ID of the sunshine CSV data to decrypt",
+    required: true,
+    choices: mutable(sunshineFileIds),
+  });
 
-  subparsers.add_parser("json", {
+  const json = subparsers.add_parser("json", {
     help: "Outputs the sunshine CSV data as the JSON used in the app",
+  });
+
+  json.add_argument("-i", "--id", {
+    help: "ID of the sunshine CSV data to convert to JSON",
+    required: true,
+    choices: mutable(sunshineFileIds),
   });
 
   // Parse arguments
@@ -45,7 +67,7 @@ const main = async () => {
   if (args.command === "encrypt") {
     try {
       console.log("🔒 Starting encryption process...");
-      encryptSunshineCSV();
+      encryptSunshineCSV(args.id);
     } catch (error) {
       console.error("❌ Encryption failed:", error);
       process.exit(1);
@@ -53,7 +75,7 @@ const main = async () => {
   } else if (args.command === "decrypt") {
     try {
       console.log("🔓 Starting decryption process...");
-      const decryptedData = decryptSunshineCsv();
+      const decryptedData = decryptSunshineCsv(args.id);
 
       if (args.output) {
         fs.writeFileSync(args.output, decryptedData);
@@ -66,7 +88,7 @@ const main = async () => {
       process.exit(1);
     }
   } else if (args.command === "json") {
-    const decryptedData = await getSunshineData();
+    const decryptedData = await getSunshineData(args.id);
     console.log(JSON.stringify(decryptedData, null, 2));
   } else {
     parser.print_help();

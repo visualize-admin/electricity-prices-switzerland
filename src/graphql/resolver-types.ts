@@ -128,6 +128,7 @@ export type Operator = {
   id?: Maybe<Scalars["String"]["output"]>;
   municipalities: Array<Municipality>;
   name: Scalars["String"]["output"];
+  peerGroup?: Maybe<PeerGroup>;
 };
 
 export type OperatorDocument = {
@@ -166,6 +167,12 @@ export type OperatorResult = SearchResult & {
   __typename?: "OperatorResult";
   id: Scalars["String"]["output"];
   name: Scalars["String"]["output"];
+};
+
+export type PeerGroup = {
+  __typename?: "PeerGroup";
+  energyDensity?: Maybe<Scalars["String"]["output"]>;
+  settlementDensity?: Maybe<Scalars["String"]["output"]>;
 };
 
 export enum PriceComponent {
@@ -511,6 +518,7 @@ export type ResolversTypes = ResolversObject<{
   OperatorDocumentCategory: OperatorDocumentCategory;
   OperatorObservation: ResolverTypeWrapper<ResolvedOperatorObservation>;
   OperatorResult: ResolverTypeWrapper<ResolvedSearchResult>;
+  PeerGroup: ResolverTypeWrapper<PeerGroup>;
   PriceComponent: PriceComponent;
   Query: ResolverTypeWrapper<{}>;
   SearchResult: ResolverTypeWrapper<
@@ -543,6 +551,7 @@ export type ResolversParentTypes = ResolversObject<{
   OperatorDocument: OperatorDocument;
   OperatorObservation: ResolvedOperatorObservation;
   OperatorResult: ResolvedSearchResult;
+  PeerGroup: PeerGroup;
   Query: {};
   SearchResult: ResolversInterfaceTypes<ResolversParentTypes>["SearchResult"];
   String: Scalars["String"]["output"];
@@ -694,6 +703,11 @@ export type OperatorResolvers<
     ContextType
   >;
   name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  peerGroup?: Resolver<
+    Maybe<ResolversTypes["PeerGroup"]>,
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -752,6 +766,23 @@ export type OperatorResultResolvers<
 > = ResolversObject<{
   id?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type PeerGroupResolvers<
+  ContextType = ServerContext,
+  ParentType extends ResolversParentTypes["PeerGroup"] = ResolversParentTypes["PeerGroup"]
+> = ResolversObject<{
+  energyDensity?: Resolver<
+    Maybe<ResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  settlementDensity?: Resolver<
+    Maybe<ResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -1003,6 +1034,7 @@ export type Resolvers<ContextType = ServerContext> = ResolversObject<{
   OperatorDocument?: OperatorDocumentResolvers<ContextType>;
   OperatorObservation?: OperatorObservationResolvers<ContextType>;
   OperatorResult?: OperatorResultResolvers<ContextType>;
+  PeerGroup?: PeerGroupResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   SearchResult?: SearchResultResolvers<ContextType>;
   SunshineDataRow?: SunshineDataRowResolvers<ContextType>;

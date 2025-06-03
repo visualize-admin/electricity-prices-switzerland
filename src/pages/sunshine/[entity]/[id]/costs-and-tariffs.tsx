@@ -62,7 +62,7 @@ export const getServerSideProps: GetServerSideProps<
     };
   }
 
-  const props = await handleOperatorsEntity({
+  const operatorProps = await handleOperatorsEntity({
     id,
     locale: locale ?? defaultLocale,
     res,
@@ -72,8 +72,8 @@ export const getServerSideProps: GetServerSideProps<
 
   return {
     props: {
-      ...props,
-      costsAndTariffs: costsAndTariffs as SunshineCostsAndTariffsData,
+      ...operatorProps,
+      costsAndTariffs,
     },
   };
 };

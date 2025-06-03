@@ -34,6 +34,11 @@ type Municipality @cacheControl(maxAge: 300) {
   operators: [Operator!]!
 }
 
+type PeerGroup {
+  settlementDensity: String
+  energyDensity: String
+}
+
 type Operator @cacheControl(maxAge: 300) {
   id: String
   geverId: String
@@ -42,6 +47,7 @@ type Operator @cacheControl(maxAge: 300) {
   cantons: [Canton!]!
   documents: [OperatorDocument!]!
   geverDocuments: [OperatorDocument!]!
+  peerGroup: PeerGroup
 }
 
 enum OperatorDocumentCategory {
