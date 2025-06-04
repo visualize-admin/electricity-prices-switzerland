@@ -36,6 +36,7 @@ export const TooltipBox = forwardRef<HTMLDivElement, TooltipBoxProps>(
           top: mxYOffset(y!, placement) + margins.top,
           pointerEvents: interactive ? "all" : "none",
           transform: mkTranslation(placement),
+          boxShadow: theme.shadows[4],
           ...style,
         }}
       >

@@ -22,6 +22,7 @@ export type ComboboxMultiProps = {
   lazy?: boolean;
   onInputValueChange?: (inputValue: string) => void;
   isLoading?: boolean;
+  max?: number;
 };
 
 const defaultGetItemLabel = (d: string) => d;
@@ -39,6 +40,7 @@ export const ComboboxMulti = ({
   isLoading,
   disabled,
   error,
+  max,
 }: ComboboxMultiProps) => {
   const [inputValue, setInputValue] = useState("");
 
@@ -52,8 +54,15 @@ export const ComboboxMulti = ({
       options={items}
       value={selectedItems}
       onChange={(_, newValue) => {
-        setSelectedItems(newValue);
+        if (!max || newValue.length <= max) {
+          setSelectedItems(newValue);
+        }
       }}
+      getOptionDisabled={(option) =>
+        max !== undefined &&
+        selectedItems.length >= max &&
+        !selectedItems.includes(option)
+      }
       sx={{
         width: "100%",
       }}
@@ -63,12 +72,16 @@ export const ComboboxMulti = ({
           sx={{
             position: "relative",
             flexDirection: "column",
-            gap: 2,
             width: "100%",
           }}
           display={"flex"}
         >
-          <Typography color={"text.primary"} variant="h6" component="label">
+          <Typography
+            sx={{ py: 2.5 }}
+            color={"text.primary"}
+            variant="h6"
+            component="label"
+          >
             {label}
           </Typography>
           <TextField
@@ -80,6 +93,15 @@ export const ComboboxMulti = ({
               onInputValueChange?.(e.target.value);
             }}
             error={error}
+            helperText={
+              max && selectedItems.length >= max
+                ? t({
+                    id: "combobox.maxitems",
+                    message: "A maximum of {max} Entries are allowed",
+                    values: { max },
+                  })
+                : undefined
+            }
             InputProps={{
               ...params.InputProps,
             }}

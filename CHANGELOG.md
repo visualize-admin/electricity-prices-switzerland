@@ -19,6 +19,11 @@ You can also check the
 - Fixes
 
   - Fixed map layout issues on mobile
+  - Dropdown adjustments
+  - Fixed bar chart colors
+  - Fixed accordion in info dialog
+  - Fixed loading on image download
+  - Added tooltip shadows
 
 - Storybook
   - Add new map to show sunshine data for operators

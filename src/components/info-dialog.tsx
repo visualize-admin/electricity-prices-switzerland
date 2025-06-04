@@ -1,5 +1,8 @@
 import { Trans } from "@lingui/macro";
 import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
   Backdrop,
   Box,
   Dialog,
@@ -8,6 +11,12 @@ import {
   DialogTitle as MuiDialogTitle,
   Typography,
 } from "@mui/material";
+import parse, {
+  DOMNode,
+  domToReact,
+  Element,
+  HTMLReactParserOptions,
+} from "html-react-parser";
 import { createPortal } from "react-dom";
 
 import { LoadingIcon, NoContentHint } from "src/components/hint";
@@ -39,19 +48,38 @@ const DialogContent = ({
     );
   }
 
+  const transform: HTMLReactParserOptions["replace"] = (node, index) => {
+    if (node.type === "tag" && node.name === "details") {
+      const element = node as Element;
+      const summaryNode = element.children.find(
+        (c): c is Element => c.type === "tag" && c.name === "summary"
+      );
+
+      const contentNodes = element.children.filter(
+        (c): c is import("html-react-parser").DOMNode => c !== summaryNode
+      );
+      return (
+        <Accordion key={index}>
+          <AccordionSummary expandIcon={<Icon name="chevrondown" />}>
+            <Typography fontWeight={700}>
+              {summaryNode
+                ? domToReact(summaryNode.children as DOMNode[])
+                : null}
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails>{domToReact(contentNodes)}</AccordionDetails>
+        </Accordion>
+      );
+    }
+  };
+
   return (
     <Box
       component="section"
       sx={{
-        details: {
-          mb: 3,
-        },
-        summary: {
-          fontWeight: 700,
-        },
-        p: {
-          my: 3,
-        },
+        details: { mb: 3 },
+        summary: { fontWeight: 700 },
+        p: { my: 3 },
         table: {
           borderCollapse: "collapse",
           my: 2,
@@ -73,8 +101,9 @@ const DialogContent = ({
           },
         },
       }}
-      dangerouslySetInnerHTML={{ __html: contentQuery.data.wikiContent.html }}
-    />
+    >
+      {parse(contentQuery.data.wikiContent.html, { replace: transform })}
+    </Box>
   );
 };
 

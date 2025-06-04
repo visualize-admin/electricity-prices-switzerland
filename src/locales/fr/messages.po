@@ -36,6 +36,10 @@ msgid "chart.axis.unit.Rp/kWh"
 msgstr "ct./kWh"
 
 #: src/components/combobox.tsx
+msgid "combobox.maxitems"
+msgstr "Un maximum de {max} Les entrées sont autorisées"
+
+#: src/components/combobox.tsx
 #: src/components/combobox.tsx
 #: src/components/search.tsx
 #: src/locales/trans-dummy.tsx
