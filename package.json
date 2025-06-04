@@ -116,7 +116,6 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.10.1",
-    "@babel/core": "^7.13.16",
     "@graphql-codegen/cli": "^5.0.2",
     "@graphql-codegen/typescript": "^4.0.9",
     "@graphql-codegen/typescript-operations": "^4.2.3",
@@ -176,6 +175,7 @@
     "raw-loader": "^4.0.2",
     "rollup-plugin-string": "^3.0.0",
     "storybook": "^8.6.11",
+    "tpo-deepl": "^1.0.5",
     "typescript": "^5.8.2",
     "vite": "6.2.4"
   },

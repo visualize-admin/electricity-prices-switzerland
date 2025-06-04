@@ -31,7 +31,7 @@ import { Icon } from "src/icons";
 import { copyToClipboard } from "src/lib/copy-to-clipboard";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { useQueryStateSingle } from "src/lib/use-query-state";
-import { defaultLocale } from "src/locales/locales";
+import { defaultLocale } from "src/locales/config";
 import { useFlag } from "src/utils/flags";
 
 const ApplicationLayout = dynamic(

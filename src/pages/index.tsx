@@ -14,7 +14,7 @@ import Image from "next/image";
 
 import { SunshineTopics } from "src/components/sunshine/sunshine-topics";
 import { Icon } from "src/icons";
-import { defaultLocale } from "src/locales/locales";
+import { defaultLocale } from "src/locales/config";
 import { useFlag } from "src/utils/flags";
 
 const ApplicationLayout = dynamic(

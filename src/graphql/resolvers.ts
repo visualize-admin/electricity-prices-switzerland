@@ -23,7 +23,7 @@ import {
   SwissMedianObservationResolvers,
 } from "src/graphql/resolver-types";
 import { getPeerGroup, getSunshineData } from "src/lib/sunshine-csv";
-import { defaultLocale } from "src/locales/locales";
+import { defaultLocale } from "src/locales/config";
 import {
   getCantonMedianCube,
   getDimensionValuesAndLabels,

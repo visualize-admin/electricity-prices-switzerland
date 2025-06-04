@@ -9,7 +9,7 @@ import contentRoutes from "src/content-routes.json";
 import { IconChevronDown } from "src/icons/ic-chevron-down";
 import { useLocale } from "src/lib/use-locale";
 import { useResizeObserver } from "src/lib/use-resize-observer";
-import { locales } from "src/locales/locales";
+import { locales } from "src/locales/config";
 import { palette } from "src/themes/palette";
 import { F, FlagList, useFlag } from "src/utils/flags";
 
@@ -114,11 +114,13 @@ export const Header = ({
               },
             }}
           >
-            {locales.map((locale) => (
-              <option key={locale} value={locale}>
-                {locale.toUpperCase()}
-              </option>
-            ))}
+            {locales
+              .filter((locale) => locale !== "en")
+              .map((locale) => (
+                <option key={locale} value={locale}>
+                  {locale.toUpperCase()}
+                </option>
+              ))}
           </NativeSelect>
         </Box>
       </TopBar>

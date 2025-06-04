@@ -1,0 +1,1097 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: POEditor.com\n"
+"Project-Id-Version: elcom-electricity-website\n"
+"Language: en\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "chart.annotation.cantons"
+msgstr "Cantons"
+
+msgid "chart.annotation.municipalities"
+msgstr "Municipalities"
+
+msgid "chart.annotation.operators"
+msgstr "Network operator"
+
+msgid "chart.axis.unit.Rp/kWh"
+msgstr "Rp./kWh"
+
+msgid "combobox.noitems"
+msgstr "No results"
+
+msgid "combobox.prompt"
+msgstr "Enter designation ..."
+
+msgid "controls.search.clear"
+msgstr "Clear search field"
+
+msgid "dataset.results"
+msgstr "{0} Results"
+
+msgid "dataset.sortby"
+msgstr "Sort"
+
+msgid "detail.button.download_reports"
+msgstr "Download Reports"
+
+msgid "detail.canton"
+msgstr "Canton"
+
+msgid "detail.card.title.cantons.comparison"
+msgstr "Canton comparison"
+
+msgid "detail.card.title.price.components"
+msgstr "Price components"
+
+msgid "detail.card.title.prices.distribution"
+msgstr "Prize distribution in Switzerland"
+
+msgid "detail.card.title.prices.evolution"
+msgstr "Tariff development"
+
+msgid "detail.costs.description"
+msgstr "The Costs and Tariffs page provides a detailed breakdown of electricity expenses, featuring three key indicators: network costs, net tariffs, and energy tariffs. These components represent the charges for maintaining the grid, the basic tariffs imposed, and the cost of energy consumption. All data displayed is comparable within the same grid operator group, allowing for an easy evaluation of different tariffs across the network."
+
+msgid "detail.costs.energytariffs.subtitle"
+msgstr "Energy Tariffs 5 Room Flat (H4) in 2024"
+
+msgid "detail.costs.energytariffs.title"
+msgstr "Energy Tariffs"
+
+msgid "detail.costs.energytariffs.trend.title"
+msgstr "Energy Tariffs Trend"
+
+msgid "detail.costs.nettariffs.subtitle"
+msgstr "Net Tariffs 5 Room Flat (H4) in 2024"
+
+msgid "detail.costs.nettariffs.title"
+msgstr "Net Tariffs"
+
+msgid "detail.costs.nettariffs.trend.info"
+msgstr "Lorem ipsum dolor sit amet..."
+
+msgid "detail.costs.nettariffs.trend.title"
+msgstr "Net Tariffs Trend"
+
+msgid "detail.costs.networkcosts.latest"
+msgstr "Latest year ({year})"
+
+msgid "detail.costs.networkcosts.subtitle"
+msgstr "At end consumer level"
+
+msgid "detail.costs.networkcosts.title"
+msgstr "Network Costs"
+
+msgid "detail.costs.networkcosts.trend.info"
+msgstr "Lorem ipsum dolor sit amet..."
+
+msgid "detail.costs.networkcosts.trend.title"
+msgstr "Network Cost Trend"
+
+msgid "detail.costs.title"
+msgstr "Costs and Tariffs"
+
+msgid "detail.costs.trend.subtitle"
+msgstr "Benchmarking within the Peer Group: {peergroup}"
+
+msgid "detail.graph.legend.comparison"
+msgstr "Median comparison group"
+
+msgid "detail.graph.legend.otheroperators"
+msgstr "Other operators"
+
+msgid "detail.graph.legend.peergroup"
+msgstr "Median Peer Group"
+
+msgid "detail.graph.legend.swissmedian"
+msgstr "Swiss Median"
+
+msgid "detail.graph.legend.total"
+msgstr "Median Total"
+
+msgid "detail.maplink"
+msgstr "Back to map view"
+
+msgid "detail.municipalities"
+msgstr "Municipalities"
+
+msgid "detail.municipality"
+msgstr "Municipality"
+
+msgid "detail.operational.compliance.75.franc.rule.na"
+msgstr "No Data"
+
+msgid "detail.operational.compliance.75.franc.rule.no"
+msgstr "No"
+
+msgid "detail.operational.compliance.75.franc.rule.subtle"
+msgstr "Subtle"
+
+msgid "detail.operational.compliance.75.franc.rule.yes"
+msgstr "Yes"
+
+msgid "detail.operational.compliance.comparison.info"
+msgstr "Lorem ipsum dolor sit amet..."
+
+msgid "detail.operational.compliance.comparison.subtitle"
+msgstr "Benchmarking against all swiss network operators"
+
+msgid "detail.operational.compliance.comparison.title"
+msgstr "Comparison of francs per invoice recipient"
+
+msgid "detail.operational.compliance.francsrule"
+msgstr "75 Francs Rule Regulation"
+
+msgid "detail.operational.compliance.submission"
+msgstr "Timely paper submission to ElCom"
+
+msgid "detail.operational.compliance.submission_short"
+msgstr "Timely submission"
+
+msgid "detail.operational.compliance.title"
+msgstr "Compliance"
+
+msgid "detail.operational.description"
+msgstr "The Operational Standards page evaluates key performance indicators that highlight the quality of service provided by electricity companies. These indicators include Product Variety, measuring the range of eco-friendly and combined energy products offered; Service Quality, assessing how well companies inform consumers about planned electricity interruptions and the notice period provided; and Compliance, ensuring adherence to the 75 francs rule and the timely submission of official documents to the Federal Electricity Commission (ElCom)."
+
+msgid "detail.operational.highlight_operator"
+msgstr "Highlight operator"
+
+msgid "detail.operational.label.advancenotice"
+msgstr "Advance notice in days"
+
+msgid "detail.operational.label.chf_per_invoice"
+msgstr "CHF/invoice recipient"
+
+msgid "detail.operational.label.numberofproducts"
+msgstr "Number of Products"
+
+msgid "detail.operational.label.share"
+msgstr "Share of operators"
+
+msgid "detail.operational.peergroup_all"
+msgstr "All swiss network operators"
+
+msgid "detail.operational.product.combination"
+msgstr "Product combination options"
+
+msgid "detail.operational.product.combination_short"
+msgstr "Combination options"
+
+msgid "detail.operational.product.comparison.info"
+msgstr "Lorem ipsum dolor sit amet..."
+
+msgid "detail.operational.product.comparison.subtitle"
+msgstr "Benchmarking to all swiss network operators"
+
+msgid "detail.operational.product.comparison.title"
+msgstr "Comparison of eco-friendly product diversity"
+
+msgid "detail.operational.product.ecofriendly"
+msgstr "Eco-friendly products offered"
+
+msgid "detail.operational.product.ecofriendly_short"
+msgstr "Products offered"
+
+msgid "detail.operational.product.title"
+msgstr "Product Variety"
+
+msgid "detail.operational.service.comparison.info"
+msgstr "Lorem ipsum dolor sit amet..."
+
+msgid "detail.operational.service.comparison.subtitle"
+msgstr "Benchmarking against all swiss network operators"
+
+msgid "detail.operational.service.comparison.title"
+msgstr "Comparison of advance notice periods for planned outages"
+
+msgid "detail.operational.service.notification"
+msgstr "Notification Days in Advance"
+
+msgid "detail.operational.service.outageinfo"
+msgstr "Informing customers about power outages"
+
+msgid "detail.operational.service.outageinfo_short"
+msgstr "Outage information"
+
+msgid "detail.operational.service.title"
+msgstr "Service Quality"
+
+msgid "detail.operational.title"
+msgstr "Operational Standards"
+
+msgid "detail.operator"
+msgstr "Network operator"
+
+msgid "detail.operators"
+msgstr "Network operator"
+
+msgid "detail.overview.intro_text"
+msgstr "Lorem ipsum dolor..."
+
+msgid "detail.overview.peer_group.label"
+msgstr "Peer Group: {peergroup}"
+
+msgid "detail.overview.peergroup"
+msgstr "Peer Group"
+
+msgid "detail.overview.sunshine.description"
+msgstr "Lorem ipsum dolor sit amet..."
+
+msgid "detail.overview.sunshine.title"
+msgstr "Sunshine Indicators Overview"
+
+msgid "detail.overview.title"
+msgstr "Sunshine Indicators Overview"
+
+msgid "detail.power.description"
+msgstr "The Power Stability page provides insights into the reliability of the electricity supply through two key indicators: SAIFI (System Average Interruption Frequency Index) and SAIDI (System Average Interruption Duration Index). These indicators measure the frequency and duration of power interruptions. The data is comparable within the same grid operator group, allowing for a clear assessment of power stability and reliability across the network."
+
+msgid "detail.power.saidi.latest"
+msgstr "Latest year ({Year})"
+
+msgid "detail.power.saidi.title"
+msgstr "Power Outage Duration (SAIDI)"
+
+msgid "detail.power.saidi.total"
+msgstr "Total Outage Duration"
+
+msgid "detail.power.saidi.total_unit"
+msgstr "min/year"
+
+msgid "detail.power.saidi.trend.info"
+msgstr "Lorem ipsum dolor sit amet..."
+
+msgid "detail.power.saidi.trend.title"
+msgstr "Average Power Outage Duration (SAIDI)"
+
+msgid "detail.power.saifi.latest"
+msgstr "Latest year ({Year})"
+
+msgid "detail.power.saifi.title"
+msgstr "Power Outage Frequency (SAIFI)"
+
+msgid "detail.power.saifi.total"
+msgstr "Total Outage Frequency"
+
+msgid "detail.power.saifi.total_unit"
+msgstr "times/year"
+
+msgid "detail.power.saifi.trend.info"
+msgstr "Lorem ipsum dolor sit amet..."
+
+msgid "detail.power.saifi.trend.title"
+msgstr "Average Power Outage Frequency (SAIFI)"
+
+msgid "detail.power.title"
+msgstr "Power Stability"
+
+msgid "detail.power.trend.subtitle"
+msgstr "Benchmarking within the Peer Group: {peergroup}"
+
+msgid "detail.power.view.duration"
+msgstr "Duration"
+
+msgid "detail.power.view.overall"
+msgstr "Overall"
+
+msgid "detail.power.view.planned"
+msgstr "Planned"
+
+msgid "detail.power.view.ratio"
+msgstr "Ratio"
+
+msgid "detail.power.view.total"
+msgstr "Total"
+
+msgid "detail.power.view.unplanned"
+msgstr "Unplanned"
+
+msgid "detail.view.allpeergroupoperators"
+msgstr "All peer group operators"
+
+msgid "detail.view.by"
+msgstr "View by"
+
+msgid "detail.view.compare"
+msgstr "Compare with"
+
+msgid "detail.view.domestic"
+msgstr "Domestic"
+
+msgid "detail.view.industrial"
+msgstr "Industrial"
+
+msgid "detail.view.latestyear"
+msgstr "Latest year"
+
+msgid "detail.view.level_5"
+msgstr "Level 5"
+
+msgid "detail.view.level_6"
+msgstr "Level 6"
+
+msgid "detail.view.level_7"
+msgstr "Level 7"
+
+msgid "detail.view.network"
+msgstr "Network"
+
+msgid "detail.view.progressovertime"
+msgstr "Progress over time"
+
+msgid "detail.view.usage.category"
+msgstr "Usage Category"
+
+msgid "details.costs.energytariffs.trend.info"
+msgstr "Lorem ipsum dolor sit amet..."
+
+msgid "details.page.navigation.electricity-insights-title"
+msgstr "Insights into electricity"
+
+msgid "details.page.navigation.electricity-tariffs-item"
+msgstr "Electricity tariffs"
+
+msgid "dialog.close"
+msgstr "Close dialog"
+
+msgid "dialog.infoprefix"
+msgstr "Info:"
+
+msgid "download.category.annualreport"
+msgstr "Financial statements"
+
+msgid "download.category.annualreports"
+msgstr "Annual Reports"
+
+msgid "download.category.annualreports_description"
+msgstr "Report on the annual reports"
+
+msgid "download.category.financial-statement"
+msgstr "Financial report"
+
+msgid "download.category.financial-statement-report"
+msgstr "Report on the financial report"
+
+msgid "download.category.sunshine_report"
+msgstr "Sunshine Report"
+
+msgid "download.category.sunshine_report_description"
+msgstr "Report on the sunshine reports"
+
+msgid "download.category.tariff"
+msgstr "Tariff sheet"
+
+msgid "download.category.tariffs"
+msgstr "Tariffs"
+
+msgid "download.category.tariffs_description"
+msgstr "Tariffs description"
+
+msgid "download.cta"
+msgstr "Download reports & tariffs"
+
+msgid "download.filetype.pdf"
+msgstr "PDF file"
+
+msgid "download.nooperatordocuments"
+msgstr "No network operator documents"
+
+msgid "download.reports"
+msgstr "Download reports"
+
+msgid "filters.category"
+msgstr "Category"
+
+msgid "filters.price.component"
+msgstr "Price component"
+
+msgid "filters.product"
+msgstr "Product"
+
+msgid "filters.year"
+msgstr "Year"
+
+msgid "footer.about_us"
+msgstr "About us"
+
+msgid "footer.about_us.label"
+msgstr "About us"
+
+msgid "footer.about_us.text"
+msgstr "ElCom, Switzerland's independent electricity regulator, monitors compliance with the Electricity Act and the Energy Act. It monitors electricity prices, security of supply and international trade and settles disputes regarding grid access, feed-in tariffs and between operators and producers."
+
+msgid "footer.about_us_text"
+msgstr "ElCom, Switzerland's independent electricity regulator, oversees compliance with the Federal Electricity and Energy Acts. It monitors electricity prices, supply security, and international trading, and resolves disputes on network access, feed-in tariffs, and between operators and producers."
+
+msgid "footer.additional-information"
+msgstr "Further information on tariffs in Switzerland"
+
+msgid "footer.basis-of-calculation"
+msgstr "Basis of calculation"
+
+msgid "footer.create-data-visualizations"
+msgstr "Create data visualizations with ElCom data set"
+
+msgid "footer.data-as-csv"
+msgstr "Data as csv"
+
+msgid "footer.data-on-opendata-swiss"
+msgstr "Data on opendata.swiss"
+
+msgid "footer.download-visualize-data"
+msgstr "Download data"
+
+msgid "footer.download_data"
+msgstr "Download data"
+
+msgid "footer.legal-framework"
+msgstr "Legal matters"
+
+msgid "footer.legal-framework.link"
+msgstr "https://www.admin.ch/gov/de/start/rechtliches.html"
+
+msgid "footer.link.energy_saving"
+msgstr "Energy saving"
+
+msgid "footer.link.policy"
+msgstr "Policy"
+
+msgid "footer.link.supply_situation"
+msgstr "Supply situation"
+
+msgid "footer.more-information"
+msgstr "Further information"
+
+msgid "footer.swiss-municipalities-grid"
+msgstr "Swiss municipalities and responsible electricity grid operators"
+
+msgid "footer.tariff-components"
+msgstr "Transmission grid tariff components - Swissgrid"
+
+msgid "header.title"
+msgstr "Federal Electricity Commission ElCom"
+
+msgid "help.calculation"
+msgstr "Calculation basis"
+
+msgid "help.price-comparison"
+msgstr "Tariff comparison"
+
+msgid "hint.loading.data"
+msgstr "Loading data..."
+
+msgid "hint.nocontent.message"
+msgstr "This content could not be loaded"
+
+msgid "hint.nodata.message"
+msgstr "No data could be loaded for the current selection."
+
+msgid "hint.nodata.title"
+msgstr "No data"
+
+msgid "hint.nogeodata.message"
+msgstr "No map can be displayed for the selected year."
+
+msgid "hint.nogeodata.title"
+msgstr "No map display possible"
+
+msgid "histogram.canton-count"
+msgstr "Number of cantons"
+
+msgid "histogram.max"
+msgstr "Max"
+
+msgid "histogram.min"
+msgstr "Min"
+
+msgid "histogram.municipality-count"
+msgstr "Number of municipalities"
+
+msgid "home.hero-section.description"
+msgstr "This website provides up-to-date information on electricity tariffs in Switzerland and allows you to compare prices for private and commercial customers by municipality, canton or grid operator. You can view detailed breakdowns of energy, grid and additional costs as well as historical trends to better understand the cost of electricity in your region."
+
+msgid "home.hero-section.primary-cta"
+msgstr "Electricity tariffs in Switzerland"
+
+msgid "home.hero-section.title"
+msgstr "Discover the electricity tariffs in the map view"
+
+msgid "home.menu.map-view"
+msgstr "Map view"
+
+msgid "home.menu.overview"
+msgstr "Overview"
+
+msgid "home.sunshine-regulation.description"
+msgstr "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum."
+
+msgid "home.sunshine-regulation.title"
+msgstr "The Sunshine Regulation"
+
+msgid "home.sunshine-topics.card.compliance.description"
+msgstr "Product variety reflects the range of ecological electricity products offered. Service quality captures how well customers are informed about outages. Compliance measures how consistently a grid operator follows laws, regulations, and internal standards."
+
+msgid "home.sunshine-topics.card.compliance.title"
+msgstr "Compliance"
+
+msgid "home.sunshine-topics.card.costs-and-tariffs.description"
+msgstr "Electricity bills consist of energy tariffs and network costs. Network tariffs (levels 5-7) cover infrastructure, grid maintenance, metering, and administrative services, while energy tariffs reflect actual consumption in households (H) or businesses (C)."
+
+msgid "home.sunshine-topics.card.costs-and-tariffs.title"
+msgstr "Costs and Tariffs"
+
+msgid "home.sunshine-topics.card.power-stability.description"
+msgstr "SAIDI measures the total duration of power outages per customer each year, while SAIFI indicates how often outages occur. Together, they provide key insights into the reliability and stability of the electricity supply over a defined period."
+
+msgid "home.sunshine-topics.card.power-stability.title"
+msgstr "Power Stability"
+
+msgid "home.sunshine-topics.compliance.link"
+msgstr "Compliance"
+
+msgid "home.sunshine-topics.energy-tariff.link"
+msgstr "Energy Tariff"
+
+msgid "home.sunshine-topics.net-tariff.link"
+msgstr "Net Tariff"
+
+msgid "home.sunshine-topics.network-costs.link"
+msgstr "Network Costs"
+
+msgid "home.sunshine-topics.power-outage-duration.link"
+msgstr "Power Outage Duration (SAIDI)"
+
+msgid "home.sunshine-topics.power-outage-frequency.link"
+msgstr "Power Outage Frequency (SAIFI)"
+
+msgid "home.sunshine-topics.product-variety.link"
+msgstr "Product Variety"
+
+msgid "home.sunshine-topics.service-quality.link"
+msgstr "Service Quality"
+
+msgid "home.sunshine-topics.title"
+msgstr "Sunshine Topics"
+
+msgid "image.download"
+msgstr "Download image"
+
+msgid "image.download.source"
+msgstr "Swiss Federal Electricity Commission ElCom"
+
+msgid "image.download.unit"
+msgstr "Tariff comparison in Rp./kWh"
+
+msgid "list.cantons"
+msgstr "Cantons"
+
+msgid "list.municipalities"
+msgstr "Municipalities"
+
+msgid "list.operators"
+msgstr "Network operator"
+
+msgid "list.order.asc"
+msgstr "Cheapest first"
+
+msgid "list.order.desc"
+msgstr "Most expensive first"
+
+msgid "list.search.label"
+msgstr "Filter list"
+
+msgid "list.showmore"
+msgstr "Show more ..."
+
+msgid "list.viewby.label"
+msgstr "View according to"
+
+msgid "map.button.back_to_filters"
+msgstr "Back to filters"
+
+msgid "map.button.show_all_indicators"
+msgstr "Show all Sunshine Indicators"
+
+msgid "map.button.show_saidi_details"
+msgstr "Show SAIDI Indicator Details"
+
+msgid "map.chart.saidi_progress"
+msgstr "SAIDI progress overtime"
+
+msgid "map.details-sidebar-panel.back-button"
+msgstr "Back to the filters"
+
+msgid "map.details-sidebar-panel.next-button"
+msgstr "Energy prices Show detail"
+
+msgid "map.filter.indicator"
+msgstr "Indicator"
+
+msgid "map.filter.indicator_info"
+msgstr "Lorem ipsum dolor sit amet..."
+
+msgid "map.filter.topology"
+msgstr "Topology"
+
+msgid "map.filter.topology_info"
+msgstr "Lorem ipsum dolor sit amet..."
+
+msgid "map.filter.view_by"
+msgstr "View by"
+
+msgid "map.filter.year"
+msgstr "Year"
+
+msgid "map.indicator.compliance"
+msgstr "Compliance"
+
+msgid "map.indicator.costs_tariffs"
+msgstr "Costs and Tariffs"
+
+msgid "map.indicator.energy_tariff"
+msgstr "Energy Tariff"
+
+msgid "map.indicator.net_tariff"
+msgstr "Net Tariff"
+
+msgid "map.indicator.network_costs"
+msgstr "Network Costs"
+
+msgid "map.indicator.operational_standards"
+msgstr "Operational Standards"
+
+msgid "map.indicator.power_outage_duration"
+msgstr "Power Outage Duration (SAIDI)"
+
+msgid "map.indicator.power_outage_frequency"
+msgstr "Power Outage Frequency (SAIFI)"
+
+msgid "map.indicator.power_stability"
+msgstr "Power Stability"
+
+msgid "map.indicator.product_variety"
+msgstr "Product Variety"
+
+msgid "map.indicator.service_quality"
+msgstr "Service Quality"
+
+msgid "map.label.operator"
+msgstr "Operator"
+
+msgid "map.label.results"
+msgstr "results"
+
+msgid "map.label.sunshine_indicator"
+msgstr "Sunshine Indicator"
+
+msgid "map.label.value_avg"
+msgstr "Value avg."
+
+msgid "map.legend.informing_customer"
+msgstr "Informing the affected customer about planned interruptions"
+
+msgid "map.legend.title"
+msgstr "Tariff comparison in Rp./kWh (figures excl. VAT)"
+
+msgid "map.peer_group.all_grid_operators"
+msgstr "All grid operators"
+
+msgid "map.peer_group.medium_high_energy"
+msgstr "Medium, high energy density"
+
+msgid "map.peer_group.medium_low_energy"
+msgstr "Medium, low energy density"
+
+msgid "map.peer_group.mountain_high_energy"
+msgstr "Mountain, high energy density"
+
+msgid "map.peer_group.mountain_low_energy"
+msgstr "Mountain, low energy density"
+
+msgid "map.peer_group.rural_high_energy"
+msgstr "Rural, high energy density"
+
+msgid "map.peer_group.rural_low_energy"
+msgstr "Rural, low energy density"
+
+msgid "map.peer_group.tourist_high_energy"
+msgstr "Tourist, high energy density"
+
+msgid "map.peer_group.tourist_low_energy"
+msgstr "Tourist, low energy density"
+
+msgid "map.search.operator"
+msgstr "Search operator"
+
+msgid "map.section.filters"
+msgstr "Filters"
+
+msgid "map.share"
+msgstr "Share"
+
+msgid "map.sort.ascending"
+msgstr "ascending"
+
+msgid "map.sort.label"
+msgstr "Sort by"
+
+msgid "map.tab.electricity_tariffs"
+msgstr "Electricity Tariffs"
+
+msgid "map.tab.indicators"
+msgstr "Indicators"
+
+msgid "map.tooltipnodata"
+msgstr "No data"
+
+msgid "map.typology.planned"
+msgstr "Planned"
+
+msgid "map.typology.total_planned_unplanned"
+msgstr "Total (planned and unplanned)"
+
+msgid "map.typology.unplanned"
+msgstr "Unplanned"
+
+msgid "map.unit.min_year"
+msgstr "min/year"
+
+msgid "map.value.no"
+msgstr "No"
+
+msgid "map.value.yes"
+msgstr "Yes"
+
+msgid "municipality"
+msgstr "Municipality"
+
+msgid "overview.button.tariffs_switzerland"
+msgstr "Electricity Tariffs in Switzerland"
+
+msgid "overview.card.compliance"
+msgstr "Compliance"
+
+msgid "overview.card.compliance_text"
+msgstr "Product variety reflects the range of ecological electricity products offered. Service quality captures how well customers are informed about voltages. Compliance measures how consistently a grid operator follows laws, regulations, and internal standards."
+
+msgid "overview.card.costs_tariffs"
+msgstr "Costs and Tariffs"
+
+msgid "overview.card.costs_tariffs_text"
+msgstr "Electricity bills consist of energy tariffs and network costs. Network tariffs (levels 5-7) cover infrastructure, grid maintenance, metering, and administrative services, while energy tariffs reflect actual consumption in households (H) or businesses (C)."
+
+msgid "overview.card.power_stability"
+msgstr "Power Stability"
+
+msgid "overview.card.power_stability_text"
+msgstr "SAIDI measures the total duration of power outages per customer each year, while SAIFI indicates how often outages occur. Together, they provide key insights into the reliability and stability of the electricity supply over a defined period."
+
+msgid "overview.link.compliance"
+msgstr "Compliance"
+
+msgid "overview.link.energy_tariff"
+msgstr "Energy Tariff"
+
+msgid "overview.link.net_tariff"
+msgstr "Net Tariff"
+
+msgid "overview.link.network_costs"
+msgstr "Network Costs"
+
+msgid "overview.link.power_outage_duration"
+msgstr "Power Outage Duration (SAIDI)"
+
+msgid "overview.link.power_outage_frequency"
+msgstr "Power Outage Frequency (SAIFI)"
+
+msgid "overview.link.product_variety"
+msgstr "Product Variety"
+
+msgid "overview.link.service_quality"
+msgstr "Service Quality"
+
+msgid "overview.section.discover_text"
+msgstr "This site provides up-to-date information on electricity tariffs across Switzerland, allowing you to compare prices for residential and commercial customers by municipality, canton, or grid operator. Explore detailed breakdowns of energy, network, and additional charges, and view historical trends to better understand electricity costs in your region."
+
+msgid "overview.section.discover_title"
+msgstr "Discover the Electricity Tariffs in the Map View"
+
+msgid "overview.section.sunshine_text"
+msgstr "Lorem ipsum dolor sit amet..."
+
+msgid "overview.section.sunshine_title"
+msgstr "The Sunshine Regulation"
+
+msgid "overview.section.sunshine_topics"
+msgstr "Sunshine Topics"
+
+msgid "page.electricity-tariffs.description"
+msgstr "On the grid operator's details page, you will find up-to-date information on electricity tariffs, allowing you to compare prices. You can view the breakdown of energy, grid and additional costs and call up historical trends to gain a better understanding of electricity costs."
+
+msgid "page.electricity-tariffs.title"
+msgstr "Electricity tariffs"
+
+msgid "page.subtitle.indicators"
+msgstr "Swiss electricity tariffs and sunshine regulation indicators"
+
+msgid "page.title.tariffs_regulations"
+msgstr "Electricity Tariffs and Regulations"
+
+msgid "price.legend.max"
+msgstr "max"
+
+msgid "price.legend.median"
+msgstr "median"
+
+msgid "price.legend.min"
+msgstr "min"
+
+msgid "priceComponents.view.collapsed.municipalities"
+msgstr "Group municipalities"
+
+msgid "priceComponents.view.collapsed.operators"
+msgstr "Grouping network operators"
+
+msgid "priceComponents.view.expanded.municipalities"
+msgstr "Show individual municipalities"
+
+msgid "priceComponents.view.expanded.operators"
+msgstr "Show individual network operators"
+
+msgid "rangeplot.select.order.hint"
+msgstr "Sort by"
+
+msgid "rangeplot.select.sorting.alpha-asc"
+msgstr "Alphabetically ascending"
+
+msgid "rangeplot.select.sorting.alpha-desc"
+msgstr "Alphabetically descending"
+
+msgid "rangeplot.select.sorting.median-asc"
+msgstr "Median ascending"
+
+msgid "rangeplot.select.sorting.median-desc"
+msgstr "Median descending"
+
+msgid "relations.showmore"
+msgstr "{rest} more ..."
+
+msgid "search.global"
+msgstr "Detailed price analyses of cantons, municipalities and grid operators."
+
+msgid "search.global.hint.canton.muni.operator"
+msgstr "Municipality, canton, grid operator"
+
+msgid "search.global.hint.go.to"
+msgstr "Go to..."
+
+msgid "search.global.label"
+msgstr "Search by municipality name, zip code, network operator, canton"
+
+msgid "search.open"
+msgstr "Open search"
+
+msgid "search.placeholder.entities"
+msgstr "Municipality, Canton, Grid Operator"
+
+msgid "search.placeholder.go_to"
+msgstr "Go to..."
+
+msgid "search.result.canton"
+msgstr "Canton"
+
+msgid "search.result.municipality"
+msgstr "Municipality"
+
+msgid "search.result.operator"
+msgstr "Network operator"
+
+msgid "selector.category"
+msgstr "Category"
+
+msgid "selector.category.C-group"
+msgstr "Commercial and industrial companies"
+
+msgid "selector.category.C1"
+msgstr "C1"
+
+msgid "selector.category.C2"
+msgstr "C2"
+
+msgid "selector.category.C3"
+msgstr "C3"
+
+msgid "selector.category.C4"
+msgstr "C4"
+
+msgid "selector.category.C5"
+msgstr "C5"
+
+msgid "selector.category.C6"
+msgstr "C6"
+
+msgid "selector.category.C7"
+msgstr "C7"
+
+msgid "selector.category.H-group"
+msgstr "Households"
+
+msgid "selector.category.H1"
+msgstr "H1"
+
+msgid "selector.category.H2"
+msgstr "H2"
+
+msgid "selector.category.H3"
+msgstr "H3"
+
+msgid "selector.category.H4"
+msgstr "H4"
+
+msgid "selector.category.H5"
+msgstr "H5"
+
+msgid "selector.category.H6"
+msgstr "H6"
+
+msgid "selector.category.H7"
+msgstr "H7"
+
+msgid "selector.category.H8"
+msgstr "H8"
+
+msgid "selector.comparecantons"
+msgstr "Cantons for comparison"
+
+msgid "selector.comparemunicipalities"
+msgstr "Municipalities for comparison"
+
+msgid "selector.compareoperators"
+msgstr "Network operator for comparison"
+
+msgid "selector.legend.select.parameters"
+msgstr "Filter list and map"
+
+msgid "selector.priceComponent"
+msgstr "Price component"
+
+msgid "selector.priceComponents"
+msgstr "Price components"
+
+msgid "selector.pricecomponent.aidfee"
+msgstr "Grid surcharge pursuant to Art. 35 EnG"
+
+msgid "selector.pricecomponent.charge"
+msgstr "Charges to the community"
+
+msgid "selector.pricecomponent.energy"
+msgstr "Energy"
+
+msgid "selector.pricecomponent.gridusage"
+msgstr "Grid usage"
+
+msgid "selector.pricecomponent.total"
+msgstr "Total"
+
+msgid "selector.product"
+msgstr "Product"
+
+msgid "selector.product.cheapest"
+msgstr "Cheapest"
+
+msgid "selector.product.standard"
+msgstr "Standard"
+
+msgid "selector.year"
+msgstr "Year"
+
+msgid "selector.years"
+msgstr "years"
+
+msgid "share.url-copied"
+msgstr "URL copied ✅"
+
+msgid "site.title"
+msgstr "Electricity tariffs in Switzerland"
+
+msgid "tab.map_view"
+msgstr "Map View"
+
+msgid "tab.overview"
+msgstr "Overview"
+
+msgid "tariff.category.c1"
+msgstr "Very Small Business (C1)"
+
+msgid "tariff.category.c2"
+msgstr "Small Business (C2)"
+
+msgid "tariff.category.c3"
+msgstr "Medium Business (C3)"
+
+msgid "tariff.category.c4"
+msgstr "Large Business (C4)"
+
+msgid "tariff.category.c5"
+msgstr "Large Business with own Transformer (C5)"
+
+msgid "tariff.category.c6"
+msgstr "Large Business with own Transformer (C6)"
+
+msgid "tariff.category.c7"
+msgstr "Large Business with own Transformer (C7)"
+
+msgid "tariff.category.h1"
+msgstr "2-Room Apartment (H1)"
+
+msgid "tariff.category.h2"
+msgstr "4-Room Apartment (H2)"
+
+msgid "tariff.category.h3"
+msgstr "4-Room Apartment (H3)"
+
+msgid "tariff.category.h4"
+msgstr "5-Room Apartment (H4)"
+
+msgid "tariff.category.h5"
+msgstr "Single-Family House (H6)"
+
+msgid "tariff.category.h7"
+msgstr "Single-Family House Heat Pump (H7)"
+
+msgid "tariff.category.h8"
+msgstr "Large Highly Electrified Condominium (H8)"
+
+msgid "tariff.grid.level.1"
+msgstr "Extra-High Voltage Transmission (Level 1)"
+
+msgid "tariff.grid.level.2"
+msgstr "Extra-High Voltage Transformation (Level 2)"
+
+msgid "tariff.grid.level.3"
+msgstr "High Voltage Distribution (Level 3)"
+
+msgid "tariff.grid.level.4"
+msgstr "High Voltage Transformation (Level 4)"
+
+msgid "tariff.grid.level.5"
+msgstr "Medium Voltage Distribution (Level 5)"
+
+msgid "tariff.grid.level.6"
+msgstr "Low Voltage Distribution (Level 6)"
+
+msgid "tariff.grid.level.7"
+msgstr "End Consumer Level (Level 7)"
+
+msgid "topbar.open-flag-menu"
+msgstr "Open flag menu"

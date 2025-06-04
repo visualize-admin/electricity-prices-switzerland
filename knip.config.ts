@@ -10,11 +10,17 @@ const config: KnipConfig = {
     "src/domain/gever/output/cli.js",
     "src/domain/gever/rollup.config.js",
     "e2e/common.ts",
+    "lingui.config.ts",
     "src/**/*.stories.tsx",
   ],
   project: ["src/**", "scripts/**"],
-  ignore: ["src/graphql/resolver-types.ts", "src/graphql/queries.ts"],
+  ignore: [
+    "src/graphql/resolver-types.ts",
+    "src/graphql/queries.ts",
+    "src/locales/trans-dummy.tsx",
+  ],
   tags: ["-knipignore"],
+
   ignoreBinaries: [
     // Used to download content, can be removed when we switch to DatoCMS
     "make",
@@ -48,6 +54,9 @@ const config: KnipConfig = {
 
     // Used when debugging
     "react-inspector",
+
+    // Global library to auto translate po files
+    "tpo-deepl",
   ],
 };
 export default config;

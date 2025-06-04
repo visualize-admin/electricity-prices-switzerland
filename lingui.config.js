@@ -1,7 +1,7 @@
-const { locales } = require("./src/locales/locales.json");
+const { accentLocales } = require("./src/locales/config.js");
 
 module.exports = {
-  locales,
+  locales: accentLocales,
   catalogs: [
     {
       path: "<rootDir>/src/locales/{locale}/messages",
@@ -10,7 +10,7 @@ module.exports = {
     },
   ],
   format: "po",
-  sourceLocale: "de",
+  sourceLocale: "en",
   fallbackLocales: {
     default: "de",
   },
