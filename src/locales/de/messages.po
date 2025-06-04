@@ -981,11 +981,11 @@ msgstr "Dauer des Stromausfalls (SAIDI)"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.saidi.comparison-card-title"
-msgstr ""
+msgstr "Stromausfall-Dauer insgesamt"
 
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.power-stability.saifi"
-msgstr ""
+msgstr "Stromausfall-Häufigkeit (SAIFI)"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.saifi.comparison-card-title"
