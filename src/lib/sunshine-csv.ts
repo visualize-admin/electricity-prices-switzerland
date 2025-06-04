@@ -15,6 +15,8 @@ export const sunshineFileIds = [
   "energy",
   "peer-groups",
   "network-costs",
+  "Sunshine 2025 28.05.2025",
+  "Sunshine 2024 28.05.2025",
 ] as const;
 type Id = (typeof sunshineFileIds)[number];
 
@@ -202,9 +204,13 @@ const parseSunshineCsv = <T extends Id>(id: T): ParsedRowType<T>[] => {
     bom: true,
   });
 
+  if (id === "Sunshine 2024 28.05.2025" || id === "Sunshine 2025 28.05.2025") {
+    throw new Error("Those files should not be parsed directly.");
+  }
+
   // Type assertion here is necessary because TypeScript can't infer the connection
   // between the id parameter and the parser that will be selected
-  return rows.map(parsers[id]) as ParsedRowType<T>[];
+  return rows.map(parsers[id as keyof typeof parsers]) as ParsedRowType<T>[];
 };
 
 type ParsedRow = ReturnType<typeof parseSunshineCsv>[number];
