@@ -238,3 +238,10 @@ yarn sunshine-csv json observations
 
 The peer groups CSV is generated from "energy.csv" through "duckdb", you can regenerate it
 via `yarn data:peer-groups`.
+
+## Mocked data
+
+Currently, to display the Sunshine pages, we rely on mock data.
+
+This mocked data is based on the CSV sent to us by Elcom. The CSV files are encrypted
+in the repository and can only be decrypted if you have the password.

@@ -37,8 +37,8 @@
     "build-storybook": "storybook build -o public/storybook",
     "test:argos": "argos upload ./e2e/snapshots",
     "data:peer-groups": "duckdb -f ./scripts/peer-groups.sql",
-    "test:sunshine-data": "tsx scripts/test-sunshine-data.ts",
-    "show:sunshine-views": "tsx scripts/show-sunshine-views.ts"
+    "mocks": "dotenv -e .env.local -- tsx scripts/mocks.ts",
+    "mocks:debug-views": "tsx scripts/show-sunshine-views.ts"
   },
   "dependencies": {
     "@apollo/server": "^4.3.3",
