@@ -82,7 +82,7 @@ const ElectricityTariffsPage = (props: Props) => {
 
   const pageTitle = `${getLocalizedLabel({ id: entity })} ${name} – ${t({
     id: "site.title",
-    message: "Stromtarife und Vorschriften",
+    message: "Electricity tariffs in Switzerland",
   })}`;
 
   const bannerContent = (

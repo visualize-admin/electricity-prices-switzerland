@@ -312,14 +312,14 @@ export const List = ({
   const sortOptions = [
     {
       value: "ASC" as SortState,
-      label: t({ id: "list.order.asc", message: `Günstigste zuerst` }),
+      label: t({ id: "list.order.asc", message: "Cheapest first" }),
     },
     {
       value: "DESC" as SortState,
-      label: t({ id: "list.order.desc", message: `Teuerste zuerst` }),
+      label: t({ id: "list.order.desc", message: "Most expensive first" }),
     },
   ];
-  const searchLabel = t({ id: "list.search.label", message: `Liste filtern` });
+  const searchLabel = t({ id: "list.search.label", message: "Filter list" });
 
   const grouped = useMemo(() => {
     return listState === "CANTONS"
@@ -423,22 +423,21 @@ export const List = ({
         options={[
           {
             value: "MUNICIPALITIES",
-            label: t({ id: "list.municipalities", message: "Gemeinden" }),
+            label: t({ id: "list.municipalities", message: "Municipalities" }),
           },
           {
             value: "CANTONS",
-            label: t({ id: "list.cantons", message: "Kantone" }),
+            label: t({ id: "list.cantons", message: "Cantons" }),
           },
           {
             value: "OPERATORS",
-            label: t({ id: "list.operators", message: "Netzbetreiber" }),
+            label: t({ id: "list.operators", message: "Network operator" }),
           },
         ]}
         value={listState}
-        label={t({ id: "list.viewby.label", message: `Ansicht nach` })}
+        label={t({ id: "list.viewby.label", message: "View according to" })}
         setValue={setListState}
       />
-
       <Stack
         direction="row"
         spacing={0}
@@ -458,7 +457,6 @@ export const List = ({
           sx={{ flexGrow: 1 }}
         />
       </Stack>
-
       <Box
         sx={{ justifyContent: "space-between", mb: 2, alignItems: "center" }}
         display="flex"
@@ -505,7 +503,6 @@ export const List = ({
           />
         </Box>
       </Box>
-
       {observationsQueryFetching ? (
         <PlaceholderListItems />
       ) : (

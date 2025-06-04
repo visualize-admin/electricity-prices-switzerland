@@ -86,7 +86,7 @@ export const SelectorMulti = ({ entity }: { entity: Entity }) => {
         />
         <Combobox
           id="categories"
-          label={t({ id: "selector.category", message: `Kategorie` })}
+          label={t({ id: "selector.category", message: "Category" })}
           items={groupedCategories}
           getItemLabel={getItemLabel}
           selectedItem={queryState.category[0]}
@@ -97,7 +97,7 @@ export const SelectorMulti = ({ entity }: { entity: Entity }) => {
         />
         <Combobox
           id="products"
-          label={t({ id: "selector.product", message: `Produkt` })}
+          label={t({ id: "selector.product", message: "Product" })}
           items={products}
           getItemLabel={getItemLabel}
           selectedItem={queryState.product[0]}

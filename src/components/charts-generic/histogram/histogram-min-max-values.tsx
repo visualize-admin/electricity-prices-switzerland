@@ -50,7 +50,7 @@ export const HistogramMinMaxValues = () => {
               textAnchor: "start",
             }}
           >
-            {t({ id: "histogram.min", message: `Min` })}
+            {t({ id: "histogram.min", message: "Min" })}
           </text>
         </g>
       )}
@@ -84,7 +84,7 @@ export const HistogramMinMaxValues = () => {
               textAnchor: "end",
             }}
           >
-            {t({ id: "histogram.max", message: `Max` })}
+            {t({ id: "histogram.max", message: "Max" })}
           </text>
         </g>
       )}

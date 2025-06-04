@@ -105,7 +105,7 @@ const ShareButton = () => {
         }}
       >
         <Icon name="share" size={20} />
-        {t({ id: "map.share", message: "Teilen" })}
+        {t({ id: "map.share", message: "Share" })}
       </Link>
       {isOpen && (
         <TooltipBox
@@ -125,7 +125,7 @@ const ShareButton = () => {
             <Typography variant="h6">URL</Typography>
             <Typography variant="caption" color="success">
               {hasCopied
-                ? t({ id: "share.url-copied", message: "URL kopiert ✅" })
+                ? t({ id: "share.url-copied", message: "URL copied ✅" })
                 : ""}
             </Typography>
           </Box>

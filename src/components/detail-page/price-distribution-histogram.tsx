@@ -119,7 +119,6 @@ export const PriceDistributionHistograms = ({ id, entity }: SectionProps) => {
           <FilterSetDescription filters={filters} />
         </CardDescription>
       </CardHeader>
-
       {!download && (
         <>
           <Box sx={{ display: ["none", "none", "block"] }}>
@@ -156,7 +155,7 @@ export const PriceDistributionHistograms = ({ id, entity }: SectionProps) => {
               id="priceComponents-histogram"
               label={t({
                 id: "selector.priceComponents",
-                message: `Preiskomponenten`,
+                message: "Price components",
               })}
               items={priceComponents}
               getItemLabel={getItemLabel}
@@ -189,7 +188,7 @@ const getEntityLabelId = (entity: Entity): string => {
     case "canton":
       return t({
         id: "histogram.canton-count",
-        message: "Anzahl Kanton",
+        message: "Number of cantons",
       });
 
     // We use the same translation whether we are looking at operator or municipality
@@ -200,7 +199,7 @@ const getEntityLabelId = (entity: Entity): string => {
     case "municipality":
       return t({
         id: "histogram.municipality-count",
-        message: "Anzahl Gemeinde",
+        message: "Number of municipalities",
       });
   }
 };
@@ -314,7 +313,7 @@ const PriceDistributionHistogram = ({
             data={observations as GenericObservation[]}
             medianValue={medianValue}
             yAxisLabel={getEntityLabelId(entity)}
-            xAxisUnit={t({ id: "chart.axis.unit.Rp/kWh", message: `Rp./kWh` })}
+            xAxisUnit={t({ id: "chart.axis.unit.Rp/kWh", message: "Rp./kWh" })}
             fields={{
               x: {
                 componentIri: "value",

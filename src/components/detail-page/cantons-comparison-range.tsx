@@ -153,7 +153,6 @@ export const CantonsComparisonRangePlots = ({ id, entity }: SectionProps) => {
           <FilterSetDescription filters={filters} />
         </CardDescription>
       </CardHeader>
-
       {!download && (
         <>
           <Box sx={{ display: ["none", "none", "block"] }}>
@@ -190,7 +189,7 @@ export const CantonsComparisonRangePlots = ({ id, entity }: SectionProps) => {
               id="priceComponents-cantons-comparison"
               label={t({
                 id: "selector.priceComponents",
-                message: "Preiskomponenten",
+                message: "Price components",
               })}
               items={priceComponents}
               getItemLabel={getItemLabel}
@@ -216,7 +215,7 @@ export const CantonsComparisonRangePlots = ({ id, entity }: SectionProps) => {
               <Combobox
                 label={t({
                   id: "rangeplot.select.order.hint",
-                  message: "Sortieren nach",
+                  message: "Sort by",
                 })}
                 id={"rangeplot-sorting-select"}
                 items={SORTING_VALUES}
@@ -230,7 +229,6 @@ export const CantonsComparisonRangePlots = ({ id, entity }: SectionProps) => {
           </Box>
         </>
       )}
-
       {period.map((p) => (
         <CantonsComparisonRangePlot
           key={p}

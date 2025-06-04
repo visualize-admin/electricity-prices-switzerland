@@ -51,7 +51,7 @@ export const ElectricitySelectors = () => {
       </Typography>
       <Combobox
         id="year"
-        label={t({ id: "selector.year", message: `Jahr` })}
+        label={t({ id: "selector.year", message: "Year" })}
         items={periods}
         selectedItem={queryState.period ?? "2020"}
         setSelectedItem={(selectedItem) =>
@@ -60,7 +60,7 @@ export const ElectricitySelectors = () => {
       />
       <Combobox
         id="priceComponent"
-        label={t({ id: "selector.priceComponent", message: `Preiskomponente` })}
+        label={t({ id: "selector.priceComponent", message: "Price component" })}
         items={priceComponents}
         getItemLabel={getItemLabel}
         selectedItem={queryState.priceComponent ?? "total"}
@@ -71,7 +71,7 @@ export const ElectricitySelectors = () => {
       />
       <Combobox
         id="category"
-        label={t({ id: "selector.category", message: `Kategorie` })}
+        label={t({ id: "selector.category", message: "Category" })}
         items={groupedCategories}
         getItemLabel={getItemLabel}
         selectedItem={queryState.category ?? "H4"}
@@ -82,7 +82,7 @@ export const ElectricitySelectors = () => {
       />
       <Combobox
         id="product"
-        label={t({ id: "selector.product", message: `Produkt` })}
+        label={t({ id: "selector.product", message: "Product" })}
         items={products}
         getItemLabel={getItemLabel}
         selectedItem={queryState.product ?? "standard"}

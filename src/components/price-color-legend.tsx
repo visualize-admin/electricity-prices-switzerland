@@ -69,7 +69,10 @@ export const MapPriceColorLegend = ({
         <InfoDialogButton
           iconOnly
           slug="help-price-comparison"
-          label={t({ id: "help.price-comparison", message: `Tarifvergleich` })}
+          label={t({
+            id: "help.price-comparison",
+            message: "Tariff comparison",
+          })}
         />
         <Box
           onClick={() => setOpen(false)}
