@@ -501,6 +501,10 @@ msgid "details.costs.energytariffs.trend.info"
 msgstr "Lorem ipsum dolor sit amet..."
 
 #: src/components/detail-page/sidebar.tsx
+msgid "details.page.navigation.costs-and-tariffs-item"
+msgstr ""
+
+#: src/components/detail-page/sidebar.tsx
 #: src/locales/trans-dummy.tsx
 msgid "details.page.navigation.electricity-insights-title"
 msgstr "Approfondimenti sull'elettricità"
@@ -509,6 +513,22 @@ msgstr "Approfondimenti sull'elettricità"
 #: src/locales/trans-dummy.tsx
 msgid "details.page.navigation.electricity-tariffs-item"
 msgstr "Tariffe elettriche"
+
+#: src/components/detail-page/sidebar.tsx
+msgid "details.page.navigation.operational-standards-item"
+msgstr ""
+
+#: src/components/detail-page/sidebar.tsx
+msgid "details.page.navigation.power-stability-item"
+msgstr ""
+
+#: src/components/detail-page/sidebar.tsx
+msgid "details.page.navigation.sunshine-indicators-title"
+msgstr ""
+
+#: src/components/detail-page/sidebar.tsx
+msgid "details.page.navigation.sunshine-overview-item"
+msgstr ""
 
 #: src/components/info-dialog.tsx
 #: src/locales/trans-dummy.tsx
@@ -874,12 +894,10 @@ msgstr "Sunshine Topics"
 msgid "image.download"
 msgstr "Scaricare l'immagine"
 
-#: src/components/detail-page/download-image.tsx
 #: src/locales/trans-dummy.tsx
 msgid "image.download.source"
 msgstr "Commissione federale dell'energia elettrica Elcom"
 
-#: src/components/detail-page/download-image.tsx
 #: src/locales/trans-dummy.tsx
 msgid "image.download.unit"
 msgstr "Confronto tariffe in ct./kWh (IVA esclusa)"
@@ -1142,6 +1160,46 @@ msgstr "Sì"
 msgid "municipality"
 msgstr "Comune"
 
+#: src/domain/translation.tsx
+msgid "network-level.NE5.long"
+msgstr ""
+
+#: src/domain/translation.tsx
+msgid "network-level.NE5.short"
+msgstr ""
+
+#: src/domain/translation.tsx
+msgid "network-level.NE7.long"
+msgstr ""
+
+#: src/domain/translation.tsx
+msgid "network-level.NE7.short"
+msgstr ""
+
+#: src/domain/translation.tsx
+msgid "network-level.NL5.long"
+msgstr ""
+
+#: src/domain/translation.tsx
+msgid "network-level.NL5.short"
+msgstr ""
+
+#: src/domain/translation.tsx
+msgid "network-level.NL6.long"
+msgstr ""
+
+#: src/domain/translation.tsx
+msgid "network-level.NL6.short"
+msgstr ""
+
+#: src/domain/translation.tsx
+msgid "network-level.NL7.long"
+msgstr ""
+
+#: src/domain/translation.tsx
+msgid "network-level.NL7.short"
+msgstr ""
+
 #: src/locales/trans-dummy.tsx
 msgid "overview.button.tariffs_switzerland"
 msgstr "Tariffe elettriche in Svizzera"
@@ -1239,6 +1297,42 @@ msgstr "Tariffe elettriche svizzere e indicatori di regolazione del sole"
 #: src/locales/trans-dummy.tsx
 msgid "page.title.tariffs_regulations"
 msgstr "Tariffe e regolamenti per l'energia elettrica"
+
+#: src/domain/translation.tsx
+msgid "peer-group.energy-density.high"
+msgstr ""
+
+#: src/domain/translation.tsx
+msgid "peer-group.energy-density.low"
+msgstr ""
+
+#: src/domain/translation.tsx
+msgid "peer-group.energy-density.na"
+msgstr ""
+
+#: src/domain/translation.tsx
+msgid "peer-group.settlement-density.medium"
+msgstr ""
+
+#: src/domain/translation.tsx
+msgid "peer-group.settlement-density.mountain"
+msgstr ""
+
+#: src/domain/translation.tsx
+msgid "peer-group.settlement-density.na"
+msgstr ""
+
+#: src/domain/translation.tsx
+msgid "peer-group.settlement-density.rural"
+msgstr ""
+
+#: src/domain/translation.tsx
+msgid "peer-group.settlement-density.tourist"
+msgstr ""
+
+#: src/domain/translation.tsx
+msgid "peer-group.settlement-density.unknown"
+msgstr ""
 
 #: src/components/price-color-legend.tsx
 #: src/components/price-color-legend.tsx
@@ -1416,9 +1510,17 @@ msgid "selector.category.H1"
 msgstr "H1"
 
 #: src/domain/translation.tsx
+msgid "selector.category.H1-long"
+msgstr ""
+
+#: src/domain/translation.tsx
 #: src/locales/trans-dummy.tsx
 msgid "selector.category.H2"
 msgstr "H2"
+
+#: src/domain/translation.tsx
+msgid "selector.category.H2-long"
+msgstr ""
 
 #: src/domain/translation.tsx
 #: src/locales/trans-dummy.tsx
@@ -1426,9 +1528,17 @@ msgid "selector.category.H3"
 msgstr "H3"
 
 #: src/domain/translation.tsx
+msgid "selector.category.H3-long"
+msgstr ""
+
+#: src/domain/translation.tsx
 #: src/locales/trans-dummy.tsx
 msgid "selector.category.H4"
 msgstr "H4"
+
+#: src/domain/translation.tsx
+msgid "selector.category.H4-long"
+msgstr ""
 
 #: src/domain/translation.tsx
 #: src/locales/trans-dummy.tsx
@@ -1436,9 +1546,17 @@ msgid "selector.category.H5"
 msgstr "H5"
 
 #: src/domain/translation.tsx
+msgid "selector.category.H5-long"
+msgstr ""
+
+#: src/domain/translation.tsx
 #: src/locales/trans-dummy.tsx
 msgid "selector.category.H6"
 msgstr "H6"
+
+#: src/domain/translation.tsx
+msgid "selector.category.H6-long"
+msgstr ""
 
 #: src/domain/translation.tsx
 #: src/locales/trans-dummy.tsx
@@ -1446,9 +1564,17 @@ msgid "selector.category.H7"
 msgstr "H7"
 
 #: src/domain/translation.tsx
+msgid "selector.category.H7-long"
+msgstr ""
+
+#: src/domain/translation.tsx
 #: src/locales/trans-dummy.tsx
 msgid "selector.category.H8"
 msgstr "H8"
+
+#: src/domain/translation.tsx
+msgid "selector.category.H8-long"
+msgstr ""
 
 #: src/components/detail-page/selector-multi.tsx
 #: src/locales/trans-dummy.tsx
@@ -1544,6 +1670,246 @@ msgstr "URL copiato ✅"
 #: src/pages/index.tsx
 msgid "site.title"
 msgstr "Tariffe elettriche della Svizzera"
+
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+msgid "sunshine.compliance.francs-rule-regulation"
+msgstr ""
+
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+msgid "sunshine.compliance.latest-year"
+msgstr ""
+
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+msgid "sunshine.compliance.notification-period"
+msgstr ""
+
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+msgid "sunshine.compliance.timely-paper-submission.no"
+msgstr ""
+
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+msgid "sunshine.compliance.timely-paper-submission.yes"
+msgstr ""
+
+#: src/domain/translation.tsx
+msgid "sunshine.costs-and-tariffs.all-peer-group"
+msgstr ""
+
+#: src/components/net-tariffs-trend-card.tsx
+#: src/components/network-costs-trend-card.tsx
+msgid "sunshine.costs-and-tariffs.benchmarking-peer-group"
+msgstr ""
+
+#: src/components/net-tariffs-trend-card.tsx
+#: src/components/network-costs-trend-card.tsx
+msgid "sunshine.costs-and-tariffs.compare-with"
+msgstr ""
+
+#: src/components/card-source.tsx
+msgid "sunshine.costs-and-tariffs.date"
+msgstr ""
+
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+msgid "sunshine.costs-and-tariffs.description"
+msgstr ""
+
+#: src/components/sunshine-tabs.tsx
+msgid "sunshine.costs-and-tariffs.energy-tariffs"
+msgstr ""
+
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+msgid "sunshine.costs-and-tariffs.energy-tariffs-comparison-title"
+msgstr ""
+
+#: src/components/peer-group-card.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+msgid "sunshine.costs-and-tariffs.latest-year"
+msgstr ""
+
+#: src/components/net-tariffs-trend-card.tsx
+#: src/components/network-costs-trend-card.tsx
+msgid "sunshine.costs-and-tariffs.latest-year-option"
+msgstr ""
+
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+msgid "sunshine.costs-and-tariffs.median-peer-group"
+msgstr ""
+
+#: src/components/sunshine-tabs.tsx
+msgid "sunshine.costs-and-tariffs.net-tariffs"
+msgstr ""
+
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+msgid "sunshine.costs-and-tariffs.net-tariffs-comparison-title"
+msgstr ""
+
+#: src/components/net-tariffs-trend-card.tsx
+msgid "sunshine.costs-and-tariffs.net-tariffs-trend"
+msgstr ""
+
+#: src/components/network-costs-trend-card.tsx
+msgid "sunshine.costs-and-tariffs.network-cost-trend"
+msgstr ""
+
+#: src/components/sunshine-tabs.tsx
+msgid "sunshine.costs-and-tariffs.network-costs"
+msgstr ""
+
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+msgid "sunshine.costs-and-tariffs.network-costs-end-consumer"
+msgstr ""
+
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+msgid "sunshine.costs-and-tariffs.operator"
+msgstr ""
+
+#: src/components/peer-group-card.tsx
+msgid "sunshine.costs-and-tariffs.peer-group"
+msgstr ""
+
+#: src/components/net-tariffs-trend-card.tsx
+#: src/components/network-costs-trend-card.tsx
+msgid "sunshine.costs-and-tariffs.progress-over-time"
+msgstr ""
+
+#: src/components/net-tariffs-trend-card.tsx
+#: src/components/network-costs-trend-card.tsx
+msgid "sunshine.costs-and-tariffs.scatter-plot-description"
+msgstr ""
+
+#: src/domain/translation.tsx
+msgid "sunshine.costs-and-tariffs.selected-operators"
+msgstr ""
+
+#: src/components/card-source.tsx
+msgid "sunshine.costs-and-tariffs.source"
+msgstr ""
+
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+msgid "sunshine.costs-and-tariffs.title"
+msgstr ""
+
+#: src/components/net-tariffs-trend-card.tsx
+#: src/components/network-costs-trend-card.tsx
+msgid "sunshine.costs-and-tariffs.view-by"
+msgstr ""
+
+#: src/components/sunshine-tabs.tsx
+msgid "sunshine.operational-standards.compliance"
+msgstr ""
+
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+msgid "sunshine.operational-standards.compliance.comparison-card-title"
+msgstr ""
+
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+msgid "sunshine.operational-standards.description"
+msgstr ""
+
+#: src/components/sunshine-tabs.tsx
+msgid "sunshine.operational-standards.product-variety"
+msgstr ""
+
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+msgid "sunshine.operational-standards.product-variety.comparison-card-title"
+msgstr ""
+
+#: src/components/sunshine-tabs.tsx
+msgid "sunshine.operational-standards.service-quality"
+msgstr ""
+
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+msgid "sunshine.operational-standards.service-quality.comparison-card-title"
+msgstr ""
+
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+msgid "sunshine.operational-standards.title"
+msgstr ""
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.description"
+msgstr ""
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.latest-year"
+msgstr ""
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.median-peer-group"
+msgstr ""
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.operator"
+msgstr ""
+
+#: src/components/sunshine-tabs.tsx
+msgid "sunshine.power-stability.saidi"
+msgstr ""
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.saidi.comparison-card-title"
+msgstr ""
+
+#: src/components/sunshine-tabs.tsx
+msgid "sunshine.power-stability.saifi"
+msgstr ""
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.saifi.comparison-card-title"
+msgstr ""
+
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.title"
+msgstr ""
+
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+msgid "sunshine.product-variety.eco-friendly-products-offered"
+msgstr ""
+
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+msgid "sunshine.product-variety.latest-year"
+msgstr ""
+
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+msgid "sunshine.product-variety.product-combinations-options"
+msgstr ""
+
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+msgid "sunshine.product-variety.product-combinations-options.no"
+msgstr ""
+
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+msgid "sunshine.product-variety.product-combinations-options.yes"
+msgstr ""
+
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+msgid "sunshine.service-quality.eco-friendly-products-offered"
+msgstr ""
+
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+msgid "sunshine.service-quality.informing-customers-outage.no"
+msgstr ""
+
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+msgid "sunshine.service-quality.informing-customers-outage.yes"
+msgstr ""
+
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+msgid "sunshine.service-quality.latest-year"
+msgstr ""
+
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+msgid "sunshine.service-quality.notification-period"
+msgstr ""
 
 #: src/locales/trans-dummy.tsx
 msgid "tab.map_view"
