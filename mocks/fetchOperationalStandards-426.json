@@ -1,0 +1,43 @@
+{
+  "latestYear": 2025,
+  "operator": {
+    "peerGroup": {
+      "settlementDensity": "Mountain",
+      "energyDensity": "Low"
+    }
+  },
+  "productVariety": {
+    "ecoFriendlyProductsOffered": 0,
+    "productCombinationsOptions": false,
+    "operatorsProductsOffered": [
+      {
+        "operatorId": "426",
+        "ecoFriendlyProductsOffered": 0,
+        "year": 2025
+      }
+    ]
+  },
+  "serviceQuality": {
+    "notificationPeriodDays": 1,
+    "informingCustomersOfOutage": true,
+    "operatorsNotificationPeriodDays": [
+      {
+        "operatorId": "426",
+        "days": 1,
+        "year": 2025
+      }
+    ]
+  },
+  "compliance": {
+    "francsRule": "CHF 75.00",
+    "timelyPaperSubmission": false,
+    "operatorsFrancsPerInvoice": [
+      {
+        "operatorId": "426",
+        "francsPerInvoice": 75,
+        "year": 2025
+      }
+    ]
+  },
+  "updateDate": "June 5, 2025 at 09:37 AM"
+}

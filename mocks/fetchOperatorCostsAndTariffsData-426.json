@@ -1,0 +1,1548 @@
+{
+  "latestYear": "2025",
+  "operator": {
+    "peerGroup": {
+      "settlementDensity": "Mountain",
+      "energyDensity": "Low"
+    }
+  },
+  "networkCosts": {
+    "networkLevel": {
+      "id": "NE5"
+    },
+    "operatorRate": 12953.11261,
+    "peerGroupMedianRate": 15107.98733,
+    "yearlyData": [
+      {
+        "operator_id": 581,
+        "operator_name": "Vortiq Energy Systems",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 10626.66667
+      },
+      {
+        "operator_id": 234,
+        "operator_name": "NovaHarvest Energy",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 37309.10413
+      },
+      {
+        "operator_id": 484,
+        "operator_name": "Dynawatt Solutions",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 21761.88513
+      },
+      {
+        "operator_id": 320,
+        "operator_name": "ArcadiaAmp",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 13331.69642
+      },
+      {
+        "operator_id": 833,
+        "operator_name": "EcoMagnetix",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 1803.624382
+      },
+      {
+        "operator_id": 64,
+        "operator_name": "Soltrix Energy",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 16171.40373
+      },
+      {
+        "operator_id": 11,
+        "operator_name": "Stratavolt Solutions",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 30679.42728
+      },
+      {
+        "operator_id": 421,
+        "operator_name": "RadiantArc Power",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 13792.84079
+      },
+      {
+        "operator_id": 739,
+        "operator_name": "CleanSpire Energy",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 10461.58221
+      },
+      {
+        "operator_id": 42,
+        "operator_name": "Fluxonomy Energy",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 4418.947295
+      },
+      {
+        "operator_id": 91,
+        "operator_name": "ClarityGrid Utilities",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 8681.291639
+      },
+      {
+        "operator_id": 85,
+        "operator_name": "GridEcho Utilities",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": null
+      },
+      {
+        "operator_id": 707,
+        "operator_name": "PowerNova Corp",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 27386.36152
+      },
+      {
+        "operator_id": 938,
+        "operator_name": "QuantumLux Power",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 10675.985
+      },
+      {
+        "operator_id": 27,
+        "operator_name": "DynaGenix Energy",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 22454.02551
+      },
+      {
+        "operator_id": 152,
+        "operator_name": "GreenVibe Power",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 25665.08571
+      },
+      {
+        "operator_id": 380,
+        "operator_name": "SolStream Power",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 13258.122
+      },
+      {
+        "operator_id": 535,
+        "operator_name": "Fluxora Power",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 21236
+      },
+      {
+        "operator_id": 450,
+        "operator_name": "EcoAxis Energy",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 9240.140323
+      },
+      {
+        "operator_id": 120,
+        "operator_name": "Peakphase Power",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 4757.502283
+      },
+      {
+        "operator_id": 157,
+        "operator_name": "Soluxion Energy Co.",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 17752.53821
+      },
+      {
+        "operator_id": 818,
+        "operator_name": "Altigen Solutions",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 20318.67431
+      },
+      {
+        "operator_id": 467,
+        "operator_name": "Zenithra Power",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": null
+      },
+      {
+        "operator_id": 674,
+        "operator_name": "Etherlume Energy",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 14688.26087
+      },
+      {
+        "operator_id": 629,
+        "operator_name": "Gravion Energy",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 572.0540541
+      },
+      {
+        "operator_id": 771,
+        "operator_name": "Sunclave Energy",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 585.7575758
+      },
+      {
+        "operator_id": 643,
+        "operator_name": "GridHaven Energy",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 6245.784314
+      },
+      {
+        "operator_id": 180,
+        "operator_name": "Emberline Energy",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 11572.54524
+      },
+      {
+        "operator_id": 318,
+        "operator_name": "OmegaStream Utilities",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 16184.16282
+      },
+      {
+        "operator_id": 148,
+        "operator_name": "Ampenity Energy",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": null
+      },
+      {
+        "operator_id": 204,
+        "operator_name": "ViridisGrid Co.",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 7897.227171
+      },
+      {
+        "operator_id": 652,
+        "operator_name": "AeroTide Power",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 12434.01144
+      },
+      {
+        "operator_id": 198,
+        "operator_name": "Quantum Gridworks",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 4226.525904
+      },
+      {
+        "operator_id": 822,
+        "operator_name": "Apexion Power",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 37065.79749
+      },
+      {
+        "operator_id": 408,
+        "operator_name": "HorizonSpark Utilities",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 25008.21135
+      },
+      {
+        "operator_id": 886,
+        "operator_name": "Windnetic Energy",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 4655.892398
+      },
+      {
+        "operator_id": 923,
+        "operator_name": "PureShift Power",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 28630.87696
+      },
+      {
+        "operator_id": 25,
+        "operator_name": "NexaVolt Solutions",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 11449.50848
+      },
+      {
+        "operator_id": 987,
+        "operator_name": "BlueNova Energy",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 27166.42735
+      },
+      {
+        "operator_id": 557,
+        "operator_name": "Ionflow Energy",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 29793.29129
+      },
+      {
+        "operator_id": 58,
+        "operator_name": "Ecorelic Utilities",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 14649.94408
+      },
+      {
+        "operator_id": 655,
+        "operator_name": "Voltania Group",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 12631.92885
+      },
+      {
+        "operator_id": 736,
+        "operator_name": "SparkNex Energy",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 35747.15824
+      },
+      {
+        "operator_id": 215,
+        "operator_name": "NovaAmp Systems",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 33737.35
+      },
+      {
+        "operator_id": 333,
+        "operator_name": "RevoPulse Power",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 11046.55565
+      },
+      {
+        "operator_id": 381,
+        "operator_name": "Enerlytix Corp",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 12953.11261
+      },
+      {
+        "operator_id": 295,
+        "operator_name": "Purewatt Systems",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 24465.18044
+      },
+      {
+        "operator_id": 951,
+        "operator_name": "ZeonGrid Energy",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 14557.11833
+      },
+      {
+        "operator_id": 233,
+        "operator_name": "HyperVibe Energy",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 10111.56042
+      },
+      {
+        "operator_id": 540,
+        "operator_name": "Helionix Power Co.",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 24294.29247
+      },
+      {
+        "operator_id": 713,
+        "operator_name": "VoltSpring Energy",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 15046.14833
+      },
+      {
+        "operator_id": 417,
+        "operator_name": "EcoFuse Gridworks",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 16934.93556
+      },
+      {
+        "operator_id": 330,
+        "operator_name": "FusionSpan Utilities",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 12841.46923
+      },
+      {
+        "operator_id": 927,
+        "operator_name": "VortexPath Energy",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 18101.95466
+      },
+      {
+        "operator_id": 724,
+        "operator_name": "Megalux Power Systems",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 55635.12779
+      },
+      {
+        "operator_id": 384,
+        "operator_name": "Omniflow Energy",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 35895.95657
+      },
+      {
+        "operator_id": 362,
+        "operator_name": "Sunlinea Power",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 22242.32146
+      },
+      {
+        "operator_id": 556,
+        "operator_name": "NexCraft Power",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 14238.26667
+      },
+      {
+        "operator_id": 214,
+        "operator_name": "TrueAmp Utilities",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 11177.0254
+      },
+      {
+        "operator_id": 191,
+        "operator_name": "Zephyrion Grid",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 0
+      },
+      {
+        "operator_id": 650,
+        "operator_name": "Sparkterra Utilities",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 113386.4815
+      },
+      {
+        "operator_id": 275,
+        "operator_name": "EtherCore Energy",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 10421.13055
+      },
+      {
+        "operator_id": 967,
+        "operator_name": "Windova Power",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 39196.43136
+      },
+      {
+        "operator_id": 637,
+        "operator_name": "BlueCrest Power",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 14432.17557
+      },
+      {
+        "operator_id": 702,
+        "operator_name": "EcoVerra Solutions",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 21210.38217
+      },
+      {
+        "operator_id": 969,
+        "operator_name": "EarthPulse Energy",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 71787.31471
+      },
+      {
+        "operator_id": 871,
+        "operator_name": "PulseNova Energy",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 10097.01486
+      },
+      {
+        "operator_id": 127,
+        "operator_name": "TerraLink Power",
+        "year": 2025,
+        "network_level": "NE5",
+        "rate": 21515.14508
+      }
+    ]
+  },
+  "netTariffs": {
+    "category": "NC2",
+    "operatorRate": 15.33027,
+    "peerGroupMedianRate": 10.661583333333333,
+    "yearlyData": [
+      {
+        "operator_id": 581,
+        "operator_name": "Vortiq Energy Systems",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 13.999644444444444
+      },
+      {
+        "operator_id": 234,
+        "operator_name": "NovaHarvest Energy",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 8.67
+      },
+      {
+        "operator_id": 484,
+        "operator_name": "Dynawatt Solutions",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 12.423333333333332
+      },
+      {
+        "operator_id": 320,
+        "operator_name": "ArcadiaAmp",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 12.246666666666668
+      },
+      {
+        "operator_id": 833,
+        "operator_name": "EcoMagnetix",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 11.773333333333333
+      },
+      {
+        "operator_id": 64,
+        "operator_name": "Soltrix Energy",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 8.32
+      },
+      {
+        "operator_id": 11,
+        "operator_name": "Stratavolt Solutions",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 8.18
+      },
+      {
+        "operator_id": 421,
+        "operator_name": "RadiantArc Power",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 11.26
+      },
+      {
+        "operator_id": 91,
+        "operator_name": "ClarityGrid Utilities",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 5.976233333333334
+      },
+      {
+        "operator_id": 85,
+        "operator_name": "GridEcho Utilities",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 5.94
+      },
+      {
+        "operator_id": 707,
+        "operator_name": "PowerNova Corp",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 9.368783333333333
+      },
+      {
+        "operator_id": 938,
+        "operator_name": "QuantumLux Power",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 8.3115
+      },
+      {
+        "operator_id": 27,
+        "operator_name": "DynaGenix Energy",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 13.58
+      },
+      {
+        "operator_id": 380,
+        "operator_name": "SolStream Power",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 11.056799999999999
+      },
+      {
+        "operator_id": 535,
+        "operator_name": "Fluxora Power",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 9.5078
+      },
+      {
+        "operator_id": 450,
+        "operator_name": "EcoAxis Energy",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 13.657
+      },
+      {
+        "operator_id": 120,
+        "operator_name": "Peakphase Power",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 8.6282
+      },
+      {
+        "operator_id": 157,
+        "operator_name": "Soluxion Energy Co.",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 11.440916666666666
+      },
+      {
+        "operator_id": 818,
+        "operator_name": "Altigen Solutions",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 10.053333333333333
+      },
+      {
+        "operator_id": 467,
+        "operator_name": "Zenithra Power",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 13.662222222222221
+      },
+      {
+        "operator_id": 629,
+        "operator_name": "Gravion Energy",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 11.136544444444443
+      },
+      {
+        "operator_id": 771,
+        "operator_name": "Sunclave Energy",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 8.18
+      },
+      {
+        "operator_id": 643,
+        "operator_name": "GridHaven Energy",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 8.799999999999999
+      },
+      {
+        "operator_id": 180,
+        "operator_name": "Emberline Energy",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 15.859841666666668
+      },
+      {
+        "operator_id": 318,
+        "operator_name": "OmegaStream Utilities",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 8.6282
+      },
+      {
+        "operator_id": 148,
+        "operator_name": "Ampenity Energy",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 12.26
+      },
+      {
+        "operator_id": 204,
+        "operator_name": "ViridisGrid Co.",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 10.93
+      },
+      {
+        "operator_id": 652,
+        "operator_name": "AeroTide Power",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 11.388955555555555
+      },
+      {
+        "operator_id": 198,
+        "operator_name": "Quantum Gridworks",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 13.5
+      },
+      {
+        "operator_id": 115,
+        "operator_name": "Zyntara Utilities",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 9.289175
+      },
+      {
+        "operator_id": 822,
+        "operator_name": "Apexion Power",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 12.35069
+      },
+      {
+        "operator_id": 408,
+        "operator_name": "HorizonSpark Utilities",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 10.68
+      },
+      {
+        "operator_id": 886,
+        "operator_name": "Windnetic Energy",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 10.8
+      },
+      {
+        "operator_id": 923,
+        "operator_name": "PureShift Power",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 12.423883333333334
+      },
+      {
+        "operator_id": 25,
+        "operator_name": "NexaVolt Solutions",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 13.879999999999999
+      },
+      {
+        "operator_id": 987,
+        "operator_name": "BlueNova Energy",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 11.420499999999999
+      },
+      {
+        "operator_id": 557,
+        "operator_name": "Ionflow Energy",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 6.9783333333333335
+      },
+      {
+        "operator_id": 58,
+        "operator_name": "Ecorelic Utilities",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 8.709408333333334
+      },
+      {
+        "operator_id": 655,
+        "operator_name": "Voltania Group",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 11.46
+      },
+      {
+        "operator_id": 736,
+        "operator_name": "SparkNex Energy",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 11.268600000000001
+      },
+      {
+        "operator_id": 215,
+        "operator_name": "NovaAmp Systems",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 7.58
+      },
+      {
+        "operator_id": 333,
+        "operator_name": "RevoPulse Power",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 7.22
+      },
+      {
+        "operator_id": 107,
+        "operator_name": "GridMorph Energy",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 8.03
+      },
+      {
+        "operator_id": 381,
+        "operator_name": "Enerlytix Corp",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 15.33027
+      },
+      {
+        "operator_id": 951,
+        "operator_name": "ZeonGrid Energy",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 11.204893333333333
+      },
+      {
+        "operator_id": 233,
+        "operator_name": "HyperVibe Energy",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 6.492
+      },
+      {
+        "operator_id": 540,
+        "operator_name": "Helionix Power Co.",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 9.015649999999999
+      },
+      {
+        "operator_id": 713,
+        "operator_name": "VoltSpring Energy",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 9.969733333333334
+      },
+      {
+        "operator_id": 417,
+        "operator_name": "EcoFuse Gridworks",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 7.162
+      },
+      {
+        "operator_id": 927,
+        "operator_name": "VortexPath Energy",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 8.38
+      },
+      {
+        "operator_id": 724,
+        "operator_name": "Megalux Power Systems",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 9.178875
+      },
+      {
+        "operator_id": 384,
+        "operator_name": "Omniflow Energy",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 11.743333333333334
+      },
+      {
+        "operator_id": 362,
+        "operator_name": "Sunlinea Power",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 12.268999999999998
+      },
+      {
+        "operator_id": 556,
+        "operator_name": "NexCraft Power",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 10.634500000000001
+      },
+      {
+        "operator_id": 214,
+        "operator_name": "TrueAmp Utilities",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 10.639999999999999
+      },
+      {
+        "operator_id": 503,
+        "operator_name": "Volturex Energy",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 9.898875
+      },
+      {
+        "operator_id": 191,
+        "operator_name": "Zephyrion Grid",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 8.393333333333334
+      },
+      {
+        "operator_id": 650,
+        "operator_name": "Sparkterra Utilities",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 9.26
+      },
+      {
+        "operator_id": 275,
+        "operator_name": "EtherCore Energy",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 9.8545
+      },
+      {
+        "operator_id": 967,
+        "operator_name": "Windova Power",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 12.909500000000001
+      },
+      {
+        "operator_id": 637,
+        "operator_name": "BlueCrest Power",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 8.689666666666666
+      },
+      {
+        "operator_id": 702,
+        "operator_name": "EcoVerra Solutions",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 8.54
+      },
+      {
+        "operator_id": 969,
+        "operator_name": "EarthPulse Energy",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 15.829
+      },
+      {
+        "operator_id": 871,
+        "operator_name": "PulseNova Energy",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 11.98
+      },
+      {
+        "operator_id": 127,
+        "operator_name": "TerraLink Power",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 8.82
+      }
+    ]
+  },
+  "energyTariffs": {
+    "category": "NC2",
+    "operatorRate": 15.33027,
+    "yearlyData": [
+      {
+        "operator_id": 581,
+        "operator_name": "Vortiq Energy Systems",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 13.999644444444444
+      },
+      {
+        "operator_id": 234,
+        "operator_name": "NovaHarvest Energy",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 8.67
+      },
+      {
+        "operator_id": 484,
+        "operator_name": "Dynawatt Solutions",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 12.423333333333332
+      },
+      {
+        "operator_id": 320,
+        "operator_name": "ArcadiaAmp",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 12.246666666666668
+      },
+      {
+        "operator_id": 833,
+        "operator_name": "EcoMagnetix",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 11.773333333333333
+      },
+      {
+        "operator_id": 64,
+        "operator_name": "Soltrix Energy",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 8.32
+      },
+      {
+        "operator_id": 11,
+        "operator_name": "Stratavolt Solutions",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 8.18
+      },
+      {
+        "operator_id": 421,
+        "operator_name": "RadiantArc Power",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 11.26
+      },
+      {
+        "operator_id": 91,
+        "operator_name": "ClarityGrid Utilities",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 5.976233333333334
+      },
+      {
+        "operator_id": 85,
+        "operator_name": "GridEcho Utilities",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 5.94
+      },
+      {
+        "operator_id": 707,
+        "operator_name": "PowerNova Corp",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 9.368783333333333
+      },
+      {
+        "operator_id": 938,
+        "operator_name": "QuantumLux Power",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 8.3115
+      },
+      {
+        "operator_id": 27,
+        "operator_name": "DynaGenix Energy",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 13.58
+      },
+      {
+        "operator_id": 380,
+        "operator_name": "SolStream Power",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 11.056799999999999
+      },
+      {
+        "operator_id": 535,
+        "operator_name": "Fluxora Power",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 9.5078
+      },
+      {
+        "operator_id": 450,
+        "operator_name": "EcoAxis Energy",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 13.657
+      },
+      {
+        "operator_id": 120,
+        "operator_name": "Peakphase Power",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 8.6282
+      },
+      {
+        "operator_id": 157,
+        "operator_name": "Soluxion Energy Co.",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 11.440916666666666
+      },
+      {
+        "operator_id": 818,
+        "operator_name": "Altigen Solutions",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 10.053333333333333
+      },
+      {
+        "operator_id": 467,
+        "operator_name": "Zenithra Power",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 13.662222222222221
+      },
+      {
+        "operator_id": 629,
+        "operator_name": "Gravion Energy",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 11.136544444444443
+      },
+      {
+        "operator_id": 771,
+        "operator_name": "Sunclave Energy",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 8.18
+      },
+      {
+        "operator_id": 643,
+        "operator_name": "GridHaven Energy",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 8.799999999999999
+      },
+      {
+        "operator_id": 180,
+        "operator_name": "Emberline Energy",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 15.859841666666668
+      },
+      {
+        "operator_id": 318,
+        "operator_name": "OmegaStream Utilities",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 8.6282
+      },
+      {
+        "operator_id": 148,
+        "operator_name": "Ampenity Energy",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 12.26
+      },
+      {
+        "operator_id": 204,
+        "operator_name": "ViridisGrid Co.",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 10.93
+      },
+      {
+        "operator_id": 652,
+        "operator_name": "AeroTide Power",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 11.388955555555555
+      },
+      {
+        "operator_id": 198,
+        "operator_name": "Quantum Gridworks",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 13.5
+      },
+      {
+        "operator_id": 115,
+        "operator_name": "Zyntara Utilities",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 9.289175
+      },
+      {
+        "operator_id": 822,
+        "operator_name": "Apexion Power",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 12.35069
+      },
+      {
+        "operator_id": 408,
+        "operator_name": "HorizonSpark Utilities",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 10.68
+      },
+      {
+        "operator_id": 886,
+        "operator_name": "Windnetic Energy",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 10.8
+      },
+      {
+        "operator_id": 923,
+        "operator_name": "PureShift Power",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 12.423883333333334
+      },
+      {
+        "operator_id": 25,
+        "operator_name": "NexaVolt Solutions",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 13.879999999999999
+      },
+      {
+        "operator_id": 987,
+        "operator_name": "BlueNova Energy",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 11.420499999999999
+      },
+      {
+        "operator_id": 557,
+        "operator_name": "Ionflow Energy",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 6.9783333333333335
+      },
+      {
+        "operator_id": 58,
+        "operator_name": "Ecorelic Utilities",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 8.709408333333334
+      },
+      {
+        "operator_id": 655,
+        "operator_name": "Voltania Group",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 11.46
+      },
+      {
+        "operator_id": 736,
+        "operator_name": "SparkNex Energy",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 11.268600000000001
+      },
+      {
+        "operator_id": 215,
+        "operator_name": "NovaAmp Systems",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 7.58
+      },
+      {
+        "operator_id": 333,
+        "operator_name": "RevoPulse Power",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 7.22
+      },
+      {
+        "operator_id": 107,
+        "operator_name": "GridMorph Energy",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 8.03
+      },
+      {
+        "operator_id": 381,
+        "operator_name": "Enerlytix Corp",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 15.33027
+      },
+      {
+        "operator_id": 951,
+        "operator_name": "ZeonGrid Energy",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 11.204893333333333
+      },
+      {
+        "operator_id": 233,
+        "operator_name": "HyperVibe Energy",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 6.492
+      },
+      {
+        "operator_id": 540,
+        "operator_name": "Helionix Power Co.",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 9.015649999999999
+      },
+      {
+        "operator_id": 713,
+        "operator_name": "VoltSpring Energy",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 9.969733333333334
+      },
+      {
+        "operator_id": 417,
+        "operator_name": "EcoFuse Gridworks",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 7.162
+      },
+      {
+        "operator_id": 927,
+        "operator_name": "VortexPath Energy",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 8.38
+      },
+      {
+        "operator_id": 724,
+        "operator_name": "Megalux Power Systems",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 9.178875
+      },
+      {
+        "operator_id": 384,
+        "operator_name": "Omniflow Energy",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 11.743333333333334
+      },
+      {
+        "operator_id": 362,
+        "operator_name": "Sunlinea Power",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 12.268999999999998
+      },
+      {
+        "operator_id": 556,
+        "operator_name": "NexCraft Power",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 10.634500000000001
+      },
+      {
+        "operator_id": 214,
+        "operator_name": "TrueAmp Utilities",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 10.639999999999999
+      },
+      {
+        "operator_id": 503,
+        "operator_name": "Volturex Energy",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 9.898875
+      },
+      {
+        "operator_id": 191,
+        "operator_name": "Zephyrion Grid",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 8.393333333333334
+      },
+      {
+        "operator_id": 650,
+        "operator_name": "Sparkterra Utilities",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 9.26
+      },
+      {
+        "operator_id": 275,
+        "operator_name": "EtherCore Energy",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 9.8545
+      },
+      {
+        "operator_id": 967,
+        "operator_name": "Windova Power",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 12.909500000000001
+      },
+      {
+        "operator_id": 637,
+        "operator_name": "BlueCrest Power",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 8.689666666666666
+      },
+      {
+        "operator_id": 702,
+        "operator_name": "EcoVerra Solutions",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 8.54
+      },
+      {
+        "operator_id": 969,
+        "operator_name": "EarthPulse Energy",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 15.829
+      },
+      {
+        "operator_id": 871,
+        "operator_name": "PulseNova Energy",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 11.98
+      },
+      {
+        "operator_id": 127,
+        "operator_name": "TerraLink Power",
+        "period": 2025,
+        "category": "NC2",
+        "tariff_type": "network",
+        "rate": 8.82
+      }
+    ]
+  },
+  "updateDate": "June 5, 2025 at 09:37 AM"
+}
