@@ -183,85 +183,85 @@ export const getLocalizedLabel = ({ id }: { id: string }): string => {
     case "peer-group.settlement-density.na":
       return t({
         id: "peer-group.settlement-density.na",
-        message: `Keine Angabe`,
+        message: `Not specified`,
       });
     case "peer-group.settlement-density.tourist":
       return t({
         id: "peer-group.settlement-density.tourist",
-        message: `Tourismus`,
+        message: `Tourism`,
       });
     case "peer-group.settlement-density.mountain":
       return t({
         id: "peer-group.settlement-density.mountain",
-        message: `Berggebiet`,
+        message: `Mountain region`,
       });
     case "peer-group.settlement-density.unknown":
       return t({
         id: "peer-group.settlement-density.unknown",
-        message: `Unbekannt`,
+        message: `Unknown`,
       });
     case "peer-group.settlement-density.medium":
       return t({
         id: "peer-group.settlement-density.medium",
-        message: `Mittlere Siedlungsdichte`,
+        message: `Medium settlement density`,
       });
     case "peer-group.settlement-density.rural":
       return t({
         id: "peer-group.settlement-density.rural",
-        message: `Ländliche Siedlungsdichte`,
+        message: `Rural settlement density`,
       });
     case "peer-group.energy-density.na":
       return t({
         id: "peer-group.energy-density.na",
-        message: `Keine Angabe`,
+        message: `Not specified`,
       });
     case "peer-group.energy-density.high":
       return t({
         id: "peer-group.energy-density.high",
-        message: `Hohe Energiedichte`,
+        message: `High energy density`,
       });
     case "peer-group.energy-density.low":
       return t({
         id: "peer-group.energy-density.low",
-        message: `Niedrige Energiedichte`,
+        message: `Low energy density`,
       });
 
     // NL (Not yet sure about translations)
     case "network-level.NL5.short":
       return t({ id: "network-level.NL5.short", message: `NL5` });
     case "network-level.NL5.long":
-      return t({ id: "network-level.NL5.long", message: `Hochspannung NL5` });
+      return t({ id: "network-level.NL5.long", message: `High voltage NL5` });
 
     case "network-level.NL6.short":
       return t({ id: "network-level.NL6.short", message: `NL6` });
     case "network-level.NL6.long":
-      return t({ id: "network-level.NL6.long", message: `Mittelspannung NL6` });
+      return t({ id: "network-level.NL6.long", message: `Medium voltage NL6` });
 
     case "network-level.NL7.short":
       return t({ id: "network-level.NL7.short", message: `NL7` });
     case "network-level.NL7.long":
-      return t({ id: "network-level.NL7.long", message: `Niederspannung NL7` });
+      return t({ id: "network-level.NL7.long", message: `Low voltage NL7` });
 
     // NE (Not yet sure about translations)
     case "network-level.NE5.short":
       return t({ id: "network-level.NE5.short", message: `NE5` });
     case "network-level.NE5.long":
-      return t({ id: "network-level.NE5.long", message: `Hochspannung NE5` });
+      return t({ id: "network-level.NE5.long", message: `High voltage NE5` });
 
     case "network-level.NE7.short":
       return t({ id: "network-level.NE7.short", message: `NE7` });
     case "network-level.NE7.long":
-      return t({ id: "network-level.NE7.long", message: `Niederspannung NE7` });
+      return t({ id: "network-level.NE7.long", message: `Low voltage NE7` });
 
     case "sunshine.costs-and-tariffs.all-peer-group":
       return t({
         id: "sunshine.costs-and-tariffs.all-peer-group",
-        message: `Alle Peer-Group-Netzbetreiber`,
+        message: `All peer group network operators`,
       });
     case "sunshine.costs-and-tariffs.selected-operators":
       return t({
         id: "sunshine.costs-and-tariffs.selected-operators",
-        message: `Ausgewählte Netzbetreiber`,
+        message: `Selected network operators`,
       });
 
     default:
