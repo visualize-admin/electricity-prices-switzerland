@@ -3,6 +3,8 @@ import path from "path";
 
 import { DuckDBConnection, DuckDBInstance } from "@duckdb/node-api";
 
+import { decryptSunshineCsvFile } from "src/lib/sunshine-csv";
+
 let instance: DuckDBInstance | null = null;
 let connection: DuckDBConnection | null = null;
 
@@ -139,6 +141,10 @@ export const loadCSV = async (
 export const setupDatabase = async (): Promise<void> => {
   // Initialize the database
   await setupDatabaseConnection();
+
+  // Decrypt Sunshine CSV data
+  await decryptSunshineCsvFile("Sunshine 2024 28.05.2025");
+  await decryptSunshineCsvFile("Sunshine 2025 28.05.2025");
 
   // Read SQL setup file
   const setupSQL = fs.readFileSync(
