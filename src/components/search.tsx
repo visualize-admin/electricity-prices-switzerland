@@ -95,7 +95,7 @@ export const Search = () => {
           setSearchString={setSearchString}
           label={
             <Trans id="search.global.label">
-              Suche nach Gemeindename, PLZ, Netzbetreiber, Kanton
+              Search by municipality name, zip code, network operator, canton
             </Trans>
           }
           isLoading={gqlQuery.fetching && searchString.length > 0}
@@ -151,7 +151,8 @@ export const Search = () => {
                 setSearchString={setSearchString}
                 label={
                   <Trans id="search.global.label">
-                    Suche nach Gemeindename, PLZ, Netzbetreiber, Kanton
+                    Search by municipality name, zip code, network operator,
+                    canton
                   </Trans>
                 }
                 isLoading={gqlQuery.fetching && searchString.length > 0}
@@ -298,7 +299,7 @@ const SearchField = ({
                         fontSize: [16],
                       }}
                     >
-                      <Trans id="search.global.hint.go.to">Gehe zu…</Trans>
+                      <Trans id="search.global.hint.go.to">Go to...</Trans>
                     </Typography>
                   )}
                 </InputAdornment>

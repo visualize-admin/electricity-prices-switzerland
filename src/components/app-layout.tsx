@@ -77,7 +77,7 @@ const AppNavigation = () => {
             variant="display2"
             sx={{ textAlign: "left" }}
           >
-            <Trans id="site.title">Stromtarife und Vorschriften</Trans>
+            <Trans id="site.title">Electricity tariffs in Switzerland</Trans>
           </Typography>
           <Typography
             variant="h3"
@@ -89,8 +89,8 @@ const AppNavigation = () => {
             }}
           >
             <Trans id="search.global">
-              Detaillierte Preisanalysen von Kantonen, Gemeinden und
-              Netzbetreibern.
+              Detailed price analyses of cantons, municipalities and grid
+              operators.
             </Trans>
           </Typography>
         </Box>

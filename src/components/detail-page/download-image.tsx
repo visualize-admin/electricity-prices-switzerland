@@ -112,10 +112,9 @@ export const DownloadImage = ({
           }}
         >
           <Icon name="download" size={iconSize} />
-          <Trans id="image.download">Bild herunterladen</Trans>
+          <Trans id="image.download">Download image</Trans>
         </MUILink>
       )}
-
       {iconOnly && (
         <IconButton
           color="tertiary"

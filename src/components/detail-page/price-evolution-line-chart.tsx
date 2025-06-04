@@ -81,7 +81,7 @@ export const PriceEvolutionCard = ({
       >
         <CardTitle>
           <Trans id="detail.card.title.prices.evolution">
-            Tarifentwicklung
+            Tariff development
           </Trans>
         </CardTitle>
         <CardDescription>

@@ -22,15 +22,14 @@ export const DetailsPageSidebar = (props: SectionProps) => {
     >
       <SidebarSectionTitle>
         <Trans id="details.page.navigation.electricity-insights-title">
-          Einblicke in die Elektrizität
+          Insights into electricity
         </Trans>
       </SidebarSectionTitle>
       <SidebarItem href={`/${entity}/${id}`}>
         <Trans id="details.page.navigation.electricity-tariffs-item">
-          Stromtarife
+          Electricity tariffs
         </Trans>
       </SidebarItem>
-
       {/* FIXME: Make this only a preview and add a coming soon label */}
       {sunshineFlag && entity === "operator" ? (
         <>

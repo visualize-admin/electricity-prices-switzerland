@@ -95,16 +95,25 @@ module.exports = function (file, api, options) {
 
         if (!idValue || !englishTranslations[idValue]) return;
 
-        // Find message attribute to replace
+        // Find and replace the children of the Trans component with the English translation
+        if (path.node.children && path.node.children.length > 0) {
+          // Clear existing children
+          path.node.children = [
+            // Replace with a single text node containing the English translation
+            j.jsxText(englishTranslations[idValue]),
+          ];
+        } else {
+          // If no children, add the translation as a child
+          path.node.children = [j.jsxText(englishTranslations[idValue])];
+        }
+
+        // Optionally, remove the message attribute if it exists
         const messageAttrIndex = attributes.findIndex(
           (attr) => attr.type === "JSXAttribute" && attr.name.name === "message"
         );
 
         if (messageAttrIndex >= 0) {
-          // Replace the message with English translation
-          attributes[messageAttrIndex].value = j.stringLiteral(
-            englishTranslations[idValue]
-          );
+          attributes.splice(messageAttrIndex, 1);
         }
       });
   }

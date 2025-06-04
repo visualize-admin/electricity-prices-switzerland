@@ -101,15 +101,15 @@ const ElectricityTariffsPage = (props: Props) => {
     <>
       <DetailsPageHeader>
         <DetailsPageTitle>
-          <Trans id="page.electricity-tariffs.title">Stromtarife</Trans>
+          <Trans id="page.electricity-tariffs.title">Electricity tariffs</Trans>
         </DetailsPageTitle>
         <DetailsPageSubtitle>
           <Trans id="page.electricity-tariffs.description">
-            Auf der Detailseite des Netzbetreibers finden Sie aktuelle
-            Informationen zu den Stromtarifen, die einen Preisvergleich
-            ermöglichen. Sie können die Aufschlüsselung der Energie-, Netz- und
-            Zusatzkosten einsehen und unter historische Trends abrufen, um ein
-            besseres Verständnis der Stromkosten von zu erhalten.
+            On the grid operator's details page, you will find up-to-date
+            information on electricity tariffs, allowing you to compare prices.
+            You can view the breakdown of energy, grid and additional costs and
+            call up historical trends to gain a better understanding of
+            electricity costs.
           </Trans>
         </DetailsPageSubtitle>
       </DetailsPageHeader>

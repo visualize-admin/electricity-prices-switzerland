@@ -160,7 +160,7 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
       >
         <CardTitle>
           <Trans id="detail.card.title.price.components">
-            Preiskomponenten
+            Price components
           </Trans>
         </CardTitle>
         <CardDescription>

@@ -146,7 +146,7 @@ export const CantonsComparisonRangePlots = ({ id, entity }: SectionProps) => {
       >
         <CardTitle>
           <Trans id="detail.card.title.cantons.comparison">
-            Kantonsvergleich
+            Canton comparison
           </Trans>
         </CardTitle>
         <CardDescription>

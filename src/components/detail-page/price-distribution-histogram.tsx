@@ -112,7 +112,7 @@ export const PriceDistributionHistograms = ({ id, entity }: SectionProps) => {
       >
         <CardTitle>
           <Trans id="detail.card.title.prices.distribution">
-            Preisverteilung in der Schweiz
+            Prize distribution in Switzerland
           </Trans>
         </CardTitle>
         <CardDescription>

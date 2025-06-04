@@ -51,7 +51,7 @@ export const SelectorMulti = ({ entity }: { entity: Entity }) => {
           <OperatorsCombobox
             label={
               <Trans id="selector.compareoperators">
-                Netzbetreiber zum Vergleich
+                Network operator for comparison
               </Trans>
             }
             selectedItems={queryState.operator ?? []}
@@ -61,7 +61,7 @@ export const SelectorMulti = ({ entity }: { entity: Entity }) => {
           <MunicipalitiesCombobox
             label={
               <Trans id="selector.comparemunicipalities">
-                Gemeinden zum Vergleich
+                Municipalities for comparison
               </Trans>
             }
             selectedItems={queryState.municipality ?? []}
@@ -70,7 +70,7 @@ export const SelectorMulti = ({ entity }: { entity: Entity }) => {
         ) : (
           <CantonsCombobox
             label={
-              <Trans id="selector.comparecantons">Kantone zum Vergleich</Trans>
+              <Trans id="selector.comparecantons">Cantons for comparison</Trans>
             }
             selectedItems={queryState.canton ?? []}
             setSelectedItems={(items) => setQueryState({ canton: items })}
@@ -78,7 +78,7 @@ export const SelectorMulti = ({ entity }: { entity: Entity }) => {
         )}
         <ComboboxMulti
           id="periods"
-          label={<Trans id="selector.years">Jahre</Trans>}
+          label={<Trans id="selector.years">years</Trans>}
           items={periods}
           selectedItems={queryState.period}
           minSelectedItems={1}

@@ -31,7 +31,7 @@ export const MapDetailsContentWrapper = (props: MapDetailsContentProps) => {
       >
         <Icon name="arrowleft" />
         <Trans id="map.details-sidebar-panel.back-button">
-          Zurück zu den Filtern
+          Back to the filters
         </Trans>
       </Link>
       <Divider

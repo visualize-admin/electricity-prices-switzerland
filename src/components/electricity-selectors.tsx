@@ -46,7 +46,7 @@ export const ElectricitySelectors = () => {
         sx={{ display: "contents" }}
       >
         <Trans id="selector.legend.select.parameters">
-          Liste und Karte filtern
+          Filter list and map
         </Trans>
       </Typography>
       <Combobox
