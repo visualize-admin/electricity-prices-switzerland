@@ -18,7 +18,7 @@ export const sunshineFileIds = [
 ] as const;
 type Id = (typeof sunshineFileIds)[number];
 
-export const encryptSunshineCSV = (id: Id) => {
+export const encryptSunshineCSVFile = (id: Id) => {
   const PASSWORD = process.env.PREVIEW_PASSWORD!;
   if (!PASSWORD) throw new Error("PREVIEW_PASSWORD not set");
 
@@ -62,6 +62,13 @@ export const decryptSunshineCsv = (id: Id): string => {
     console.error("[Decrypt CSV Error]", e);
     throw new Error(`Failed to decrypt sunshine data: ${e}`);
   }
+};
+
+export const decryptSunshineCsvFile = (id: Id) => {
+  const decryptedData = decryptSunshineCsv(id);
+  const outputPath = path.join(process.cwd(), `./src/sunshine-data/${id}.csv`);
+  fs.writeFileSync(outputPath, decryptedData);
+  console.log(`✅ Decrypted data saved to: ${outputPath}`);
 };
 
 const parseNumber = (val: string): number | null => {

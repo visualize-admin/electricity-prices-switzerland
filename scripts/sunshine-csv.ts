@@ -1,12 +1,10 @@
-import fs from "fs";
-
 import argparse from "argparse";
 
 import {
-  encryptSunshineCSV,
-  decryptSunshineCsv,
+  encryptSunshineCSVFile,
   getSunshineData,
   sunshineFileIds,
+  decryptSunshineCsvFile,
 } from "../src/lib/sunshine-csv";
 
 const mutable = (arr: readonly string[]) => {
@@ -40,10 +38,6 @@ const main = async () => {
   const decrypt = subparsers.add_parser("decrypt", {
     help: "Decrypt the sunshine CSV data",
   });
-  decrypt.add_argument("-o", "--output", {
-    help: "Output path for decrypted data",
-    required: false,
-  });
   decrypt.add_argument("-i", "--id", {
     help: "ID of the sunshine CSV data to decrypt",
     required: true,
@@ -67,7 +61,7 @@ const main = async () => {
   if (args.command === "encrypt") {
     try {
       console.log("🔒 Starting encryption process...");
-      encryptSunshineCSV(args.id);
+      encryptSunshineCSVFile(args.id);
     } catch (error) {
       console.error("❌ Encryption failed:", error);
       process.exit(1);
@@ -75,14 +69,7 @@ const main = async () => {
   } else if (args.command === "decrypt") {
     try {
       console.log("🔓 Starting decryption process...");
-      const decryptedData = decryptSunshineCsv(args.id);
-
-      if (args.output) {
-        fs.writeFileSync(args.output, decryptedData);
-        console.log(`✅ Decrypted data saved to: ${args.output}`);
-      } else {
-        console.log(decryptedData);
-      }
+      decryptSunshineCsvFile(args.id);
     } catch (error) {
       console.error("❌ Decryption failed:", error);
       process.exit(1);
