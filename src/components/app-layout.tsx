@@ -77,7 +77,7 @@ const AppNavigation = () => {
             variant="display2"
             sx={{ textAlign: "left" }}
           >
-            <Trans id="site.title">Stromtarife und Vorschriften</Trans>
+            <Trans id="site.title">Electricity tariffs in Switzerland</Trans>
           </Typography>
           <Typography
             variant="h3"
@@ -89,8 +89,8 @@ const AppNavigation = () => {
             }}
           >
             <Trans id="search.global">
-              Detaillierte Preisanalysen von Kantonen, Gemeinden und
-              Netzbetreibern.
+              Detailed price analyses of cantons, municipalities and grid
+              operators.
             </Trans>
           </Typography>
         </Box>
@@ -105,7 +105,7 @@ const AppNavigation = () => {
         }}
       >
         <MenuButton
-          title={t({ id: "home.menu.overview", message: "Übersicht" })}
+          title={t({ id: "home.menu.overview", message: "Overview" })}
           active={asPath === "/"}
           href={"/"}
           //FIXME: alter MenuButton for searchbar spacing, goal is to have the bottom red border, aligned with bottom of MenuContainer
@@ -118,7 +118,7 @@ const AppNavigation = () => {
           }}
         />
         <MenuButton
-          title={t({ id: "home.menu.map-view", message: "Karten Ansicht" })}
+          title={t({ id: "home.menu.map-view", message: "Map view" })}
           active={
             asPath === "/map" ||
             asPath.includes("municipality") ||

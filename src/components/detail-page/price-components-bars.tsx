@@ -145,7 +145,7 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
               slug="help-price-components"
               label={t({
                 id: "selector.priceComponent",
-                message: `Preiskomponente`,
+                message: "Price component",
               })}
             />
             <DownloadImage
@@ -160,7 +160,7 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
       >
         <CardTitle>
           <Trans id="detail.card.title.price.components">
-            Preiskomponenten
+            Price components
           </Trans>
         </CardTitle>
         <CardDescription>
@@ -287,9 +287,11 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
                           id: priceComponent[0] as string,
                         })}
                       />
-                      <BarsGroupedLabels   title={getLocalizedLabel({
+                      <BarsGroupedLabels
+                        title={getLocalizedLabel({
                           id: priceComponent[0] as string,
-                        })} />
+                        })}
+                      />
                     </ChartSvg>
                   </ChartContainer>
                 </GroupedBarsChart>

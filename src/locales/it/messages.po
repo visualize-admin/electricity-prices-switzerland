@@ -14,24 +14,20 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #: src/domain/translation.tsx
-#: src/locales/trans-dummy.tsx
 msgid "chart.annotation.cantons"
 msgstr "Cantoni"
 
 #: src/domain/translation.tsx
-#: src/locales/trans-dummy.tsx
 msgid "chart.annotation.municipalities"
 msgstr "comuni"
 
 #: src/domain/translation.tsx
-#: src/locales/trans-dummy.tsx
 msgid "chart.annotation.operators"
 msgstr "gestori di rete"
 
 #: src/components/charts-generic/axis/axis-width-linear.tsx
 #: src/components/detail-page/price-distribution-histogram.tsx
 #: src/domain/translation.tsx
-#: src/locales/trans-dummy.tsx
 msgid "chart.axis.unit.Rp/kWh"
 msgstr "ct./kWh"
 
@@ -42,1602 +38,1005 @@ msgstr "Un massimo di {max} Sono consentite le voci"
 #: src/components/combobox.tsx
 #: src/components/combobox.tsx
 #: src/components/search.tsx
-#: src/locales/trans-dummy.tsx
 msgid "combobox.noitems"
 msgstr "Nessun elemento"
 
 #: src/components/combobox.tsx
-#: src/locales/trans-dummy.tsx
 msgid "combobox.prompt"
 msgstr "Inserire…"
 
 #: src/components/form.tsx
-#: src/locales/trans-dummy.tsx
 msgid "controls.search.clear"
 msgstr "Azzerare"
 
 #: src/components/list.tsx
-#: src/locales/trans-dummy.tsx
 msgid "dataset.results"
 msgstr "{0} Risultati"
 
 #: src/components/list.tsx
-#: src/locales/trans-dummy.tsx
 msgid "dataset.sortby"
 msgstr "Ordinare"
 
-#: src/locales/trans-dummy.tsx
-msgid "detail.button.download_reports"
-msgstr "Scarica i rapporti"
-
 #: src/components/detail-page/banner.tsx
 #: src/components/detail-page/banner.tsx
-#: src/locales/trans-dummy.tsx
 msgid "detail.canton"
 msgstr "Cantone"
 
 #: src/components/detail-page/cantons-comparison-range.tsx
 #: src/components/detail-page/cantons-comparison-range.tsx
-#: src/locales/trans-dummy.tsx
 msgid "detail.card.title.cantons.comparison"
 msgstr "Confronto dei cantoni"
 
 #: src/components/detail-page/price-components-bars.tsx
-#: src/locales/trans-dummy.tsx
 msgid "detail.card.title.price.components"
 msgstr "Componenti di prezzo"
 
 #: src/components/detail-page/price-distribution-histogram.tsx
 #: src/components/detail-page/price-distribution-histogram.tsx
-#: src/locales/trans-dummy.tsx
 msgid "detail.card.title.prices.distribution"
 msgstr "Distribuzione dei prezzi"
 
 #: src/components/detail-page/price-evolution-line-chart.tsx
 #: src/components/detail-page/price-evolution-line-chart.tsx
-#: src/locales/trans-dummy.tsx
 msgid "detail.card.title.prices.evolution"
 msgstr "Evoluzione delle tariffe"
 
-#: src/locales/trans-dummy.tsx
-msgid "detail.costs.description"
-msgstr "La pagina Costi e tariffe fornisce una ripartizione dettagliata delle spese per l'energia elettrica, con tre indicatori chiave: costi di rete, tariffe nette e tariffe energetiche. Queste componenti rappresentano i costi di manutenzione della rete, le tariffe di base imposte e il costo del consumo di energia. Tutti i dati visualizzati sono comparabili all'interno dello stesso gruppo di gestori di rete, consentendo una facile valutazione delle diverse tariffe all'interno della rete."
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.costs.energytariffs.subtitle"
-msgstr "Tariffe energetiche 5 Room Flat (H4) nel 2024"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.costs.energytariffs.title"
-msgstr "Tariffe energetiche"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.costs.energytariffs.trend.title"
-msgstr "Andamento delle tariffe energetiche"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.costs.nettariffs.subtitle"
-msgstr "Tariffe nette 5 camere piatte (H4) nel 2024"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.costs.nettariffs.title"
-msgstr "Tariffe nette"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.costs.nettariffs.trend.info"
-msgstr "Lorem ipsum dolor sit amet..."
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.costs.nettariffs.trend.title"
-msgstr "Andamento delle tariffe nette"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.costs.networkcosts.latest"
-msgstr "Ultimo anno ({anno})"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.costs.networkcosts.subtitle"
-msgstr "A livello di consumatore finale"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.costs.networkcosts.title"
-msgstr "Costi di rete"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.costs.networkcosts.trend.info"
-msgstr "Lorem ipsum dolor sit amet..."
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.costs.networkcosts.trend.title"
-msgstr "Andamento dei costi di rete"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.costs.title"
-msgstr "Costi e tariffe"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.costs.trend.subtitle"
-msgstr "Benchmarking all'interno del gruppo di pari: {peergroup}"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.graph.legend.comparison"
-msgstr "Gruppo di confronto mediano"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.graph.legend.otheroperators"
-msgstr "Altri operatori"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.graph.legend.peergroup"
-msgstr "Gruppo di riferimento mediano"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.graph.legend.swissmedian"
-msgstr "Mediana svizzera"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.graph.legend.total"
-msgstr "Totale mediano"
-
 #: src/components/detail-page/banner.tsx
-#: src/locales/trans-dummy.tsx
 msgid "detail.maplink"
 msgstr "Torna alla vista mappa"
 
 #: src/components/detail-page/banner.tsx
-#: src/locales/trans-dummy.tsx
 msgid "detail.municipalities"
 msgstr "Comuni"
 
 #: src/components/detail-page/banner.tsx
-#: src/locales/trans-dummy.tsx
 msgid "detail.municipality"
 msgstr "Comune"
 
-#: src/locales/trans-dummy.tsx
-msgid "detail.operational.compliance.75.franc.rule.na"
-msgstr "Nessun dato"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.operational.compliance.75.franc.rule.no"
-msgstr "No"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.operational.compliance.75.franc.rule.subtle"
-msgstr "Sottile"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.operational.compliance.75.franc.rule.yes"
-msgstr "Sì"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.operational.compliance.comparison.info"
-msgstr "Lorem ipsum dolor sit amet..."
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.operational.compliance.comparison.subtitle"
-msgstr "Benchmarking rispetto a tutti gli operatori di rete svizzeri"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.operational.compliance.comparison.title"
-msgstr "Confronto dei franchi per destinatario della fattura"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.operational.compliance.francsrule"
-msgstr "75 Franchi Regolamento"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.operational.compliance.submission"
-msgstr "Presentazione tempestiva dei documenti alla ElCom"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.operational.compliance.submission_short"
-msgstr "Presentazione tempestiva"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.operational.compliance.title"
-msgstr "Conformità"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.operational.description"
-msgstr "La pagina degli Standard operativi valuta gli indicatori chiave di prestazione che evidenziano la qualità del servizio fornito dalle aziende elettriche. Questi indicatori comprendono la Varietà dei prodotti, che misura la gamma di prodotti energetici ecologici e combinati offerti; la Qualità del servizio, che valuta il grado di informazione delle aziende sui consumatori in merito alle interruzioni elettriche programmate e al periodo di preavviso previsto; e la Conformità, che garantisce il rispetto della regola dei 75 franchi e la presentazione tempestiva dei documenti ufficiali alla Commissione federale dell'energia elettrica (ElCom)."
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.operational.highlight_operator"
-msgstr "Operatore di evidenziazione"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.operational.label.advancenotice"
-msgstr "Preavviso in giorni"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.operational.label.chf_per_invoice"
-msgstr "CHF/destinatario della fattura"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.operational.label.numberofproducts"
-msgstr "Numero di prodotti"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.operational.label.share"
-msgstr "Quota di operatori"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.operational.peergroup_all"
-msgstr "Tutti gli operatori di rete svizzeri"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.operational.product.combination"
-msgstr "Opzioni di combinazione dei prodotti"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.operational.product.combination_short"
-msgstr "Opzioni di combinazione"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.operational.product.comparison.info"
-msgstr "Lorem ipsum dolor sit amet..."
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.operational.product.comparison.subtitle"
-msgstr "Benchmarking con tutti gli operatori di rete svizzeri"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.operational.product.comparison.title"
-msgstr "Confronto tra la diversità dei prodotti ecologici"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.operational.product.ecofriendly"
-msgstr "Prodotti ecologici offerti"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.operational.product.ecofriendly_short"
-msgstr "Prodotti offerti"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.operational.product.title"
-msgstr "Varietà di prodotti"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.operational.service.comparison.info"
-msgstr "Lorem ipsum dolor sit amet..."
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.operational.service.comparison.subtitle"
-msgstr "Benchmarking rispetto a tutti gli operatori di rete svizzeri"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.operational.service.comparison.title"
-msgstr "Confronto dei periodi di preavviso per le interruzioni programmate"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.operational.service.notification"
-msgstr "Notifica con giorni di anticipo"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.operational.service.outageinfo"
-msgstr "Informare i clienti sulle interruzioni di corrente"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.operational.service.outageinfo_short"
-msgstr "Informazioni sulle interruzioni"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.operational.service.title"
-msgstr "Qualità del servizio"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.operational.title"
-msgstr "Standard operativi"
-
 #: src/components/detail-page/banner.tsx
-#: src/locales/trans-dummy.tsx
 msgid "detail.operator"
 msgstr "Gestore di rete"
 
 #: src/components/detail-page/banner.tsx
-#: src/locales/trans-dummy.tsx
 msgid "detail.operators"
 msgstr "Gestori di rete"
 
-#: src/locales/trans-dummy.tsx
-msgid "detail.overview.intro_text"
-msgstr "Lorem ipsum dolor..."
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.overview.peer_group.label"
-msgstr "Gruppo di pari: {peergroup}"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.overview.peergroup"
-msgstr "Gruppo di pari"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.overview.sunshine.description"
-msgstr "Lorem ipsum dolor sit amet..."
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.overview.sunshine.title"
-msgstr "Panoramica degli indicatori di sole"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.overview.title"
-msgstr "Panoramica degli indicatori di sole"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.power.description"
-msgstr "La pagina sulla stabilità dell'energia fornisce informazioni sull'affidabilità della fornitura di energia elettrica attraverso due indicatori chiave: SAIFI (System Average Interruption Frequency Index) e SAIDI (System Average Interruption Duration Index). Questi indicatori misurano la frequenza e la durata delle interruzioni di corrente. I dati sono comparabili all'interno dello stesso gruppo di gestori di rete, consentendo una chiara valutazione della stabilità e dell'affidabilità dell'energia in tutta la rete."
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.power.saidi.latest"
-msgstr "Ultimo anno ({Anno})"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.power.saidi.title"
-msgstr "Durata dell'interruzione di corrente (SAIDI)"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.power.saidi.total"
-msgstr "Durata totale dell'interruzione"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.power.saidi.total_unit"
-msgstr "min/anno"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.power.saidi.trend.info"
-msgstr "Lorem ipsum dolor sit amet..."
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.power.saidi.trend.title"
-msgstr "Durata media delle interruzioni di corrente (SAIDI)"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.power.saifi.latest"
-msgstr "Ultimo anno ({Anno})"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.power.saifi.title"
-msgstr "Frequenza delle interruzioni di corrente (SAIFI)"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.power.saifi.total"
-msgstr "Frequenza totale delle interruzioni"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.power.saifi.total_unit"
-msgstr "volte/anno"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.power.saifi.trend.info"
-msgstr "Lorem ipsum dolor sit amet..."
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.power.saifi.trend.title"
-msgstr "Frequenza media delle interruzioni di corrente (SAIFI)"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.power.title"
-msgstr "Stabilità di potenza"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.power.trend.subtitle"
-msgstr "Benchmarking all'interno del gruppo di pari: {peergroup}"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.power.view.duration"
-msgstr "Durata"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.power.view.overall"
-msgstr "In generale"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.power.view.planned"
-msgstr "Pianificato"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.power.view.ratio"
-msgstr "Rapporto"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.power.view.total"
-msgstr "Totale"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.power.view.unplanned"
-msgstr "Non pianificato"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.view.allpeergroupoperators"
-msgstr "Tutti gli operatori del gruppo peer"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.view.by"
-msgstr "Vedi da"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.view.compare"
-msgstr "Confronta con"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.view.domestic"
-msgstr "Nazionale"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.view.industrial"
-msgstr "Industriale"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.view.latestyear"
-msgstr "Ultimo anno"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.view.level_5"
-msgstr "Livello 5"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.view.level_6"
-msgstr "Livello 6"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.view.level_7"
-msgstr "Livello 7"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.view.network"
-msgstr "Rete"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.view.progressovertime"
-msgstr "Progressi nel tempo"
-
-#: src/locales/trans-dummy.tsx
-msgid "detail.view.usage.category"
-msgstr "Categoria d'uso"
-
-#: src/locales/trans-dummy.tsx
-msgid "details.costs.energytariffs.trend.info"
-msgstr "Lorem ipsum dolor sit amet..."
+#: src/components/detail-page/sidebar.tsx
+msgid "details.page.navigation.costs-and-tariffs-item"
+msgstr "Costi e tariffe"
 
 #: src/components/detail-page/sidebar.tsx
-#: src/locales/trans-dummy.tsx
 msgid "details.page.navigation.electricity-insights-title"
 msgstr "Approfondimenti sull'elettricità"
 
 #: src/components/detail-page/sidebar.tsx
-#: src/locales/trans-dummy.tsx
 msgid "details.page.navigation.electricity-tariffs-item"
 msgstr "Tariffe elettriche"
 
+#: src/components/detail-page/sidebar.tsx
+msgid "details.page.navigation.operational-standards-item"
+msgstr "Standard operativi"
+
+#: src/components/detail-page/sidebar.tsx
+msgid "details.page.navigation.power-stability-item"
+msgstr "Stabilità di funzionamento"
+
+#: src/components/detail-page/sidebar.tsx
+msgid "details.page.navigation.sunshine-indicators-title"
+msgstr "Sunshine Indikatoren"
+
+#: src/components/detail-page/sidebar.tsx
+msgid "details.page.navigation.sunshine-overview-item"
+msgstr "Übersicht"
+
 #: src/components/info-dialog.tsx
-#: src/locales/trans-dummy.tsx
 msgid "dialog.close"
 msgstr "Chiudere la finestra di dialogo"
 
 #: src/components/info-dialog.tsx
-#: src/locales/trans-dummy.tsx
 msgid "dialog.infoprefix"
 msgstr "Info:"
 
 #: src/components/operator-documents.tsx
-#: src/locales/trans-dummy.tsx
 msgid "download.category.annualreport"
 msgstr "Conto annuale"
 
 #: src/components/operator-documents.tsx
-#: src/locales/trans-dummy.tsx
 msgid "download.category.annualreports"
 msgstr "Rapporti annuali"
 
-#: src/locales/trans-dummy.tsx
-msgid "download.category.annualreports_description"
-msgstr "Relazione sulle relazioni annuali"
-
 #: src/components/operator-documents.tsx
-#: src/locales/trans-dummy.tsx
 msgid "download.category.financial-statement"
 msgstr "Relazione finanziaria"
 
 #: src/components/operator-documents.tsx
-#: src/locales/trans-dummy.tsx
 msgid "download.category.financial-statement-report"
 msgstr "Relazione finanziaria"
 
-#: src/locales/trans-dummy.tsx
-msgid "download.category.sunshine_report"
-msgstr "Rapporto Sunshine"
-
-#: src/locales/trans-dummy.tsx
-msgid "download.category.sunshine_report_description"
-msgstr "Relazione sui rapporti Sunshine"
-
 #: src/components/operator-documents.tsx
-#: src/locales/trans-dummy.tsx
 msgid "download.category.tariff"
 msgstr "Foglio tariffario"
 
 #: src/components/operator-documents.tsx
-#: src/locales/trans-dummy.tsx
 msgid "download.category.tariffs"
 msgstr "Tariffe"
 
-#: src/locales/trans-dummy.tsx
-msgid "download.category.tariffs_description"
-msgstr "Descrizione delle tariffe"
-
 #: src/components/operator-documents.tsx
-#: src/locales/trans-dummy.tsx
 msgid "download.cta"
 msgstr "Scarica i rapporti e le tariffe"
 
 #: src/components/operator-documents.tsx
-#: src/locales/trans-dummy.tsx
 msgid "download.filetype.pdf"
 msgstr "Documento PDF"
 
 #: src/components/operator-documents.tsx
-#: src/locales/trans-dummy.tsx
 msgid "download.nooperatordocuments"
 msgstr "Nessun documento dell'operatore di rete"
 
 #: src/components/operator-documents.tsx
-#: src/locales/trans-dummy.tsx
 msgid "download.reports"
 msgstr "Scarica i rapporti"
 
 #: src/domain/translation.tsx
-#: src/locales/trans-dummy.tsx
 msgid "filters.category"
 msgstr "Categoria"
 
 #: src/domain/translation.tsx
-#: src/locales/trans-dummy.tsx
 msgid "filters.price.component"
 msgstr "Componenti di prezzo"
 
 #: src/domain/translation.tsx
-#: src/locales/trans-dummy.tsx
 msgid "filters.product"
 msgstr "Prodotto"
 
 #: src/domain/translation.tsx
-#: src/locales/trans-dummy.tsx
 msgid "filters.year"
 msgstr "Anno"
 
-#: src/locales/trans-dummy.tsx
-msgid "footer.about_us"
-msgstr "Chi siamo"
-
 #: src/components/footer.tsx
-#: src/locales/trans-dummy.tsx
 msgid "footer.about_us.label"
 msgstr "Chi siamo"
 
 #: src/components/footer.tsx
-#: src/locales/trans-dummy.tsx
 msgid "footer.about_us.text"
 msgstr "La ElCom, l'autorità indipendente di regolamentazione dell'energia elettrica in Svizzera, vigila sul rispetto della Legge sull'elettricità e della Legge sull'energia. Controlla i prezzi dell'elettricità, la sicurezza dell'approvvigionamento e il commercio internazionale e risolve le controversie relative all'accesso alla rete, alle tariffe di immissione e tra operatori e produttori."
 
-#: src/locales/trans-dummy.tsx
-msgid "footer.about_us_text"
-msgstr "La ElCom, l'autorità indipendente di regolamentazione dell'elettricità in Svizzera, vigila sul rispetto delle leggi federali sull'elettricità e sull'energia. Controlla i prezzi dell'elettricità, la sicurezza dell'approvvigionamento e il commercio internazionale e risolve le controversie sull'accesso alla rete, sulle tariffe di alimentazione e tra operatori e produttori."
-
 #: src/components/footer.tsx
-#: src/locales/trans-dummy.tsx
 msgid "footer.additional-information"
 msgstr "Ulteriori informazioni sulle tariffe in Svizzera"
 
 #: src/components/footer.tsx
-#: src/locales/trans-dummy.tsx
 msgid "footer.basis-of-calculation"
 msgstr "Base del calcolo"
 
 #: src/components/footer.tsx
-#: src/locales/trans-dummy.tsx
 msgid "footer.create-data-visualizations"
 msgstr "Creare visualizzazioni dei dati con i dati di ElCom"
 
 #: src/components/footer.tsx
-#: src/locales/trans-dummy.tsx
 msgid "footer.data-as-csv"
 msgstr "Dati in formato .csv"
 
 #: src/components/footer.tsx
-#: src/locales/trans-dummy.tsx
 msgid "footer.data-on-opendata-swiss"
 msgstr "Dati su opendata.swiss"
 
 #: src/components/footer.tsx
-#: src/locales/trans-dummy.tsx
 msgid "footer.download-visualize-data"
 msgstr "Scarica / visualizza i dati"
 
-#: src/locales/trans-dummy.tsx
-msgid "footer.download_data"
-msgstr "Scarica i dati"
-
 #: src/components/footer.tsx
-#: src/locales/trans-dummy.tsx
 msgid "footer.legal-framework"
 msgstr "Basi legali"
 
 #: src/components/footer.tsx
-#: src/locales/trans-dummy.tsx
 msgid "footer.legal-framework.link"
 msgstr "https://www.admin.ch/gov/it/pagina-iniziale/basi-legali.html"
 
-#: src/locales/trans-dummy.tsx
-msgid "footer.link.energy_saving"
-msgstr "Risparmio energetico"
-
-#: src/locales/trans-dummy.tsx
-msgid "footer.link.policy"
-msgstr "Politica"
-
-#: src/locales/trans-dummy.tsx
-msgid "footer.link.supply_situation"
-msgstr "Situazione dell'offerta"
-
 #: src/components/footer.tsx
-#: src/locales/trans-dummy.tsx
 msgid "footer.more-information"
 msgstr "Per maggiori informazioni"
 
 #: src/components/footer.tsx
-#: src/locales/trans-dummy.tsx
 msgid "footer.swiss-municipalities-grid"
 msgstr "Comuni svizzeri e gestori di rete elettrica responsabili"
 
 #: src/components/footer.tsx
-#: src/locales/trans-dummy.tsx
 msgid "footer.tariff-components"
 msgstr "Componenti tariffarie della rete di trasmissione - Swissgrid"
 
-#: src/locales/trans-dummy.tsx
-msgid "header.title"
-msgstr "Commissione federale dell'energia elettrica ElCom"
-
 #: src/components/footer.tsx
-#: src/locales/trans-dummy.tsx
 msgid "help.calculation"
 msgstr "Base di calcolo"
 
 #: src/components/price-color-legend.tsx
-#: src/locales/trans-dummy.tsx
 msgid "help.price-comparison"
 msgstr "Confronto tariffe"
 
 #: src/components/hint.tsx
-#: src/locales/trans-dummy.tsx
 msgid "hint.loading.data"
 msgstr "Caricamento dei dati…"
 
 #: src/components/hint.tsx
-#: src/locales/trans-dummy.tsx
 msgid "hint.nocontent.message"
 msgstr "Non è stato possibile caricare il contenuto"
 
 #: src/components/hint.tsx
-#: src/locales/trans-dummy.tsx
 msgid "hint.nodata.message"
 msgstr "Per i parametri di ricerca selezionati non è stato trovato nessun risultato."
 
 #: src/components/hint.tsx
-#: src/locales/trans-dummy.tsx
 msgid "hint.nodata.title"
 msgstr "Nessun dato"
 
 #: src/components/hint.tsx
-#: src/locales/trans-dummy.tsx
 msgid "hint.nogeodata.message"
 msgstr "Per l'anno selezionato non ci sono mappe disponibili"
 
 #: src/components/hint.tsx
-#: src/locales/trans-dummy.tsx
 msgid "hint.nogeodata.title"
 msgstr "Visualizzazione della mappa non disponibile"
 
 #: src/components/detail-page/price-distribution-histogram.tsx
-#: src/locales/trans-dummy.tsx
 msgid "histogram.canton-count"
 msgstr "Numero di cantoni"
 
 #: src/components/charts-generic/histogram/histogram-min-max-values.tsx
-#: src/locales/trans-dummy.tsx
 msgid "histogram.max"
 msgstr "Max"
 
 #: src/components/charts-generic/histogram/histogram-min-max-values.tsx
-#: src/locales/trans-dummy.tsx
 msgid "histogram.min"
 msgstr "Min"
 
 #: src/components/detail-page/price-distribution-histogram.tsx
-#: src/locales/trans-dummy.tsx
 msgid "histogram.municipality-count"
 msgstr "Numero di comuni"
 
-#: src/locales/trans-dummy.tsx
 #: src/pages/index.tsx
 msgid "home.hero-section.description"
 msgstr "Questo sito web fornisce informazioni aggiornate sulle tariffe elettriche in Svizzera e consente di confrontare i prezzi per i clienti privati e commerciali per comune, cantone o gestore di rete. È possibile visualizzare una ripartizione dettagliata dei costi dell'energia, della rete e dei costi aggiuntivi, nonché le tendenze storiche per comprendere meglio il costo dell'elettricità nella propria regione."
 
-#: src/locales/trans-dummy.tsx
 #: src/pages/index.tsx
 msgid "home.hero-section.primary-cta"
 msgstr "Tariffe elettriche in Svizzera"
 
-#: src/locales/trans-dummy.tsx
 #: src/pages/index.tsx
 msgid "home.hero-section.title"
 msgstr "Scoprite le tariffe elettriche nella mappa"
 
 #: src/components/app-layout.tsx
-#: src/locales/trans-dummy.tsx
 msgid "home.menu.map-view"
 msgstr "Vista mappa"
 
 #: src/components/app-layout.tsx
-#: src/locales/trans-dummy.tsx
 msgid "home.menu.overview"
 msgstr "Panoramica"
 
 #: src/components/sunshine/sunshine-topics.tsx
-#: src/locales/trans-dummy.tsx
 msgid "home.sunshine-regulation.description"
 msgstr "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum."
 
 #: src/components/sunshine/sunshine-topics.tsx
-#: src/locales/trans-dummy.tsx
 msgid "home.sunshine-regulation.title"
 msgstr "The Sunshine Regulation"
 
 #: src/components/sunshine/sunshine-topics.tsx
-#: src/locales/trans-dummy.tsx
 msgid "home.sunshine-topics.card.compliance.description"
 msgstr "La varietà dei prodotti riflette la gamma di prodotti elettrici ecologici offerti. La qualità del servizio misura il livello di informazione dei clienti sulle interruzioni. La conformità misura la coerenza con cui un gestore di rete rispetta leggi, regolamenti e standard interni."
 
 #: src/components/sunshine/sunshine-topics.tsx
-#: src/locales/trans-dummy.tsx
 msgid "home.sunshine-topics.card.compliance.title"
 msgstr "Compliance"
 
 #: src/components/sunshine/sunshine-topics.tsx
-#: src/locales/trans-dummy.tsx
 msgid "home.sunshine-topics.card.costs-and-tariffs.description"
 msgstr "Le bollette dell'elettricità sono composte dalle tariffe energetiche e dai costi di rete. Le tariffe di rete (livelli 5-7) coprono le infrastrutture, la manutenzione della rete, la misurazione e i servizi amministrativi, mentre le tariffe energetiche riflettono il consumo effettivo delle famiglie (H) o delle imprese (C)."
 
 #: src/components/sunshine/sunshine-topics.tsx
-#: src/locales/trans-dummy.tsx
 msgid "home.sunshine-topics.card.costs-and-tariffs.title"
 msgstr "Costi e Tariffe"
 
 #: src/components/sunshine/sunshine-topics.tsx
-#: src/locales/trans-dummy.tsx
 msgid "home.sunshine-topics.card.power-stability.description"
 msgstr "SAIDI misura la durata totale delle interruzioni di corrente per cliente ogni anno, mentre SAIFI indica la frequenza con cui si verificano le interruzioni. Insieme, forniscono informazioni chiave sull'affidabilità e la stabilità della fornitura di energia elettrica in un periodo di tempo definito."
 
 #: src/components/sunshine/sunshine-topics.tsx
-#: src/locales/trans-dummy.tsx
 msgid "home.sunshine-topics.card.power-stability.title"
 msgstr "Stabilità energetica"
 
 #: src/components/sunshine/sunshine-topics.tsx
-#: src/locales/trans-dummy.tsx
 msgid "home.sunshine-topics.compliance.link"
 msgstr "Conformità"
 
 #: src/components/sunshine/sunshine-topics.tsx
-#: src/locales/trans-dummy.tsx
 msgid "home.sunshine-topics.energy-tariff.link"
 msgstr "Tariffa energetica"
 
 #: src/components/sunshine/sunshine-topics.tsx
-#: src/locales/trans-dummy.tsx
 msgid "home.sunshine-topics.net-tariff.link"
 msgstr "Net Tariffa"
 
 #: src/components/sunshine/sunshine-topics.tsx
-#: src/locales/trans-dummy.tsx
 msgid "home.sunshine-topics.network-costs.link"
 msgstr "Costi di rete"
 
 #: src/components/sunshine/sunshine-topics.tsx
-#: src/locales/trans-dummy.tsx
 msgid "home.sunshine-topics.power-outage-duration.link"
 msgstr "Durata dell'interruzione di corrente (SAIDI)"
 
 #: src/components/sunshine/sunshine-topics.tsx
-#: src/locales/trans-dummy.tsx
 msgid "home.sunshine-topics.power-outage-frequency.link"
 msgstr "Frequenza dell'interruzione di corrente (SAIFI)"
 
 #: src/components/sunshine/sunshine-topics.tsx
-#: src/locales/trans-dummy.tsx
 msgid "home.sunshine-topics.product-variety.link"
 msgstr "Varietà di prodotti"
 
 #: src/components/sunshine/sunshine-topics.tsx
-#: src/locales/trans-dummy.tsx
 msgid "home.sunshine-topics.service-quality.link"
 msgstr "Qualità del servizio"
 
 #: src/components/sunshine/sunshine-topics.tsx
-#: src/locales/trans-dummy.tsx
 msgid "home.sunshine-topics.title"
 msgstr "Sunshine Topics"
 
 #: src/components/detail-page/download-image.tsx
-#: src/locales/trans-dummy.tsx
 msgid "image.download"
 msgstr "Scaricare l'immagine"
 
-#: src/components/detail-page/download-image.tsx
-#: src/locales/trans-dummy.tsx
-msgid "image.download.source"
-msgstr "Commissione federale dell'energia elettrica Elcom"
-
-#: src/components/detail-page/download-image.tsx
-#: src/locales/trans-dummy.tsx
-msgid "image.download.unit"
-msgstr "Confronto tariffe in ct./kWh (IVA esclusa)"
-
 #: src/components/list.tsx
-#: src/locales/trans-dummy.tsx
 msgid "list.cantons"
 msgstr "Cantoni"
 
 #: src/components/list.tsx
-#: src/locales/trans-dummy.tsx
 msgid "list.municipalities"
 msgstr "Comuni"
 
 #: src/components/list.tsx
-#: src/locales/trans-dummy.tsx
 msgid "list.operators"
 msgstr "Gestori di rete"
 
 #: src/components/list.tsx
-#: src/locales/trans-dummy.tsx
 msgid "list.order.asc"
 msgstr "crescente"
 
 #: src/components/list.tsx
-#: src/locales/trans-dummy.tsx
 msgid "list.order.desc"
 msgstr "decrescente"
 
 #: src/components/list.tsx
-#: src/locales/trans-dummy.tsx
 msgid "list.search.label"
 msgstr "Filtrare"
 
 #: src/components/list.tsx
-#: src/locales/trans-dummy.tsx
 msgid "list.showmore"
 msgstr "Altri risultati…"
 
 #: src/components/list.tsx
-#: src/locales/trans-dummy.tsx
 msgid "list.viewby.label"
 msgstr "Vista secondo"
 
-#: src/locales/trans-dummy.tsx
-msgid "map.button.back_to_filters"
-msgstr "Torna ai filtri"
-
-#: src/locales/trans-dummy.tsx
-msgid "map.button.show_all_indicators"
-msgstr "Mostra tutti gli indicatori di luce solare"
-
-#: src/locales/trans-dummy.tsx
-msgid "map.button.show_saidi_details"
-msgstr "Mostra dettagli dell'indicatore SAIDI"
-
-#: src/locales/trans-dummy.tsx
-msgid "map.chart.saidi_progress"
-msgstr "Progressi del SAIDI nel tempo"
-
 #: src/components/map-details-content.tsx
-#: src/locales/trans-dummy.tsx
 msgid "map.details-sidebar-panel.back-button"
 msgstr "Torna ai filtri"
 
 #: src/components/list.tsx
-#: src/locales/trans-dummy.tsx
 msgid "map.details-sidebar-panel.next-button"
 msgstr "Mostra energia dettagli sui prezzi"
 
-#: src/locales/trans-dummy.tsx
-msgid "map.filter.indicator"
-msgstr "Indicatore"
-
-#: src/locales/trans-dummy.tsx
-msgid "map.filter.indicator_info"
-msgstr "Lorem ipsum dolor sit amet..."
-
-#: src/locales/trans-dummy.tsx
-msgid "map.filter.topology"
-msgstr "Topologia"
-
-#: src/locales/trans-dummy.tsx
-msgid "map.filter.topology_info"
-msgstr "Lorem ipsum dolor sit amet..."
-
-#: src/locales/trans-dummy.tsx
-msgid "map.filter.view_by"
-msgstr "Vedi da"
-
-#: src/locales/trans-dummy.tsx
-msgid "map.filter.year"
-msgstr "Anno"
-
-#: src/locales/trans-dummy.tsx
-msgid "map.indicator.compliance"
-msgstr "Conformità"
-
-#: src/locales/trans-dummy.tsx
-msgid "map.indicator.costs_tariffs"
-msgstr "Costi e tariffe"
-
-#: src/locales/trans-dummy.tsx
-msgid "map.indicator.energy_tariff"
-msgstr "Tariffa energetica"
-
-#: src/locales/trans-dummy.tsx
-msgid "map.indicator.net_tariff"
-msgstr "Tariffa netta"
-
-#: src/locales/trans-dummy.tsx
-msgid "map.indicator.network_costs"
-msgstr "Costi di rete"
-
-#: src/locales/trans-dummy.tsx
-msgid "map.indicator.operational_standards"
-msgstr "Standard operativi"
-
-#: src/locales/trans-dummy.tsx
-msgid "map.indicator.power_outage_duration"
-msgstr "Durata dell'interruzione di corrente (SAIDI)"
-
-#: src/locales/trans-dummy.tsx
-msgid "map.indicator.power_outage_frequency"
-msgstr "Frequenza delle interruzioni di corrente (SAIFI)"
-
-#: src/locales/trans-dummy.tsx
-msgid "map.indicator.power_stability"
-msgstr "Stabilità di potenza"
-
-#: src/locales/trans-dummy.tsx
-msgid "map.indicator.product_variety"
-msgstr "Varietà di prodotti"
-
-#: src/locales/trans-dummy.tsx
-msgid "map.indicator.service_quality"
-msgstr "Qualità del servizio"
-
-#: src/locales/trans-dummy.tsx
-msgid "map.label.operator"
-msgstr "Operatore"
-
-#: src/locales/trans-dummy.tsx
-msgid "map.label.results"
-msgstr "risultati"
-
-#: src/locales/trans-dummy.tsx
-msgid "map.label.sunshine_indicator"
-msgstr "Indicatore di luminosità"
-
-#: src/locales/trans-dummy.tsx
-msgid "map.label.value_avg"
-msgstr "Valore avg."
-
-#: src/locales/trans-dummy.tsx
-msgid "map.legend.informing_customer"
-msgstr "Informare il cliente interessato delle interruzioni programmate."
-
 #: src/components/price-color-legend.tsx
-#: src/locales/trans-dummy.tsx
 msgid "map.legend.title"
 msgstr "Confronto tariffe in ct./kWh (IVA esclusa)"
 
-#: src/locales/trans-dummy.tsx
-msgid "map.peer_group.all_grid_operators"
-msgstr "Tutti i gestori di rete"
-
-#: src/locales/trans-dummy.tsx
-msgid "map.peer_group.medium_high_energy"
-msgstr "Media, alta densità energetica"
-
-#: src/locales/trans-dummy.tsx
-msgid "map.peer_group.medium_low_energy"
-msgstr "Media, bassa densità energetica"
-
-#: src/locales/trans-dummy.tsx
-msgid "map.peer_group.mountain_high_energy"
-msgstr "Montagna, alta densità energetica"
-
-#: src/locales/trans-dummy.tsx
-msgid "map.peer_group.mountain_low_energy"
-msgstr "Montagna, bassa densità energetica"
-
-#: src/locales/trans-dummy.tsx
-msgid "map.peer_group.rural_high_energy"
-msgstr "Rurale, ad alta densità energetica"
-
-#: src/locales/trans-dummy.tsx
-msgid "map.peer_group.rural_low_energy"
-msgstr "Rurale, a bassa densità energetica"
-
-#: src/locales/trans-dummy.tsx
-msgid "map.peer_group.tourist_high_energy"
-msgstr "Turistico, ad alta densità energetica"
-
-#: src/locales/trans-dummy.tsx
-msgid "map.peer_group.tourist_low_energy"
-msgstr "Turistico, a bassa densità energetica"
-
-#: src/locales/trans-dummy.tsx
-msgid "map.search.operator"
-msgstr "Operatore di ricerca"
-
-#: src/locales/trans-dummy.tsx
-msgid "map.section.filters"
-msgstr "Filtri"
-
-#: src/locales/trans-dummy.tsx
 #: src/pages/map/index.tsx
 msgid "map.share"
 msgstr "Condividi"
 
-#: src/locales/trans-dummy.tsx
-msgid "map.sort.ascending"
-msgstr "ascendente"
-
-#: src/locales/trans-dummy.tsx
-msgid "map.sort.label"
-msgstr "Ordina per"
-
-#: src/locales/trans-dummy.tsx
-msgid "map.tab.electricity_tariffs"
-msgstr "Tariffe elettriche"
-
-#: src/locales/trans-dummy.tsx
-msgid "map.tab.indicators"
-msgstr "Indicatori"
-
 #: src/components/map.tsx
-#: src/locales/trans-dummy.tsx
 msgid "map.tooltipnodata"
 msgstr "Nessun dato"
 
-#: src/locales/trans-dummy.tsx
-msgid "map.typology.planned"
-msgstr "Pianificato"
-
-#: src/locales/trans-dummy.tsx
-msgid "map.typology.total_planned_unplanned"
-msgstr "Totale (pianificato e non pianificato)"
-
-#: src/locales/trans-dummy.tsx
-msgid "map.typology.unplanned"
-msgstr "Non pianificato"
-
-#: src/locales/trans-dummy.tsx
-msgid "map.unit.min_year"
-msgstr "min/anno"
-
-#: src/locales/trans-dummy.tsx
-msgid "map.value.no"
-msgstr "No"
-
-#: src/locales/trans-dummy.tsx
-msgid "map.value.yes"
-msgstr "Sì"
-
 #: src/components/map.tsx
-#: src/locales/trans-dummy.tsx
 msgid "municipality"
 msgstr "Comune"
 
-#: src/locales/trans-dummy.tsx
-msgid "overview.button.tariffs_switzerland"
-msgstr "Tariffe elettriche in Svizzera"
+#: src/domain/translation.tsx
+msgid "network-level.NE5.long"
+msgstr "Alta tensione NE5"
 
-#: src/locales/trans-dummy.tsx
-msgid "overview.card.compliance"
-msgstr "Conformità"
+#: src/domain/translation.tsx
+msgid "network-level.NE5.short"
+msgstr "NE5"
 
-#: src/locales/trans-dummy.tsx
-msgid "overview.card.compliance_text"
-msgstr "La varietà dei prodotti riflette la gamma di prodotti elettrici ecologici offerti. La qualità del servizio rileva il livello di informazione dei clienti sulle tensioni. La conformità misura la coerenza con cui un gestore di rete segue leggi, regolamenti e standard interni."
+#: src/domain/translation.tsx
+msgid "network-level.NE7.long"
+msgstr "Bassa tensione NE7"
 
-#: src/locales/trans-dummy.tsx
-msgid "overview.card.costs_tariffs"
-msgstr "Costi e tariffe"
+#: src/domain/translation.tsx
+msgid "network-level.NE7.short"
+msgstr "NE7"
 
-#: src/locales/trans-dummy.tsx
-msgid "overview.card.costs_tariffs_text"
-msgstr "Le bollette dell'elettricità sono composte da tariffe energetiche e costi di rete. Le tariffe di rete (livelli 5-7) coprono le infrastrutture, la manutenzione della rete, la misurazione e i servizi amministrativi, mentre le tariffe dell'energia riflettono il consumo effettivo delle famiglie (H) o delle imprese (C)."
+#: src/domain/translation.tsx
+msgid "network-level.NL5.long"
+msgstr "Alta tensione NL5"
 
-#: src/locales/trans-dummy.tsx
-msgid "overview.card.power_stability"
-msgstr "Stabilità di potenza"
+#: src/domain/translation.tsx
+msgid "network-level.NL5.short"
+msgstr "NL5"
 
-#: src/locales/trans-dummy.tsx
-msgid "overview.card.power_stability_text"
-msgstr "Il SAIDI misura la durata totale delle interruzioni di corrente per cliente ogni anno, mentre il SAIFI indica la frequenza delle interruzioni. Insieme, forniscono indicazioni fondamentali sull'affidabilità e la stabilità della fornitura di energia elettrica in un periodo definito."
+#: src/domain/translation.tsx
+msgid "network-level.NL6.long"
+msgstr "Media tensione NL6"
 
-#: src/locales/trans-dummy.tsx
-msgid "overview.link.compliance"
-msgstr "Conformità"
+#: src/domain/translation.tsx
+msgid "network-level.NL6.short"
+msgstr "NL6"
 
-#: src/locales/trans-dummy.tsx
-msgid "overview.link.energy_tariff"
-msgstr "Tariffa energetica"
+#: src/domain/translation.tsx
+msgid "network-level.NL7.long"
+msgstr "Bassa tensione NL7"
 
-#: src/locales/trans-dummy.tsx
-msgid "overview.link.net_tariff"
-msgstr "Tariffa netta"
+#: src/domain/translation.tsx
+msgid "network-level.NL7.short"
+msgstr "NL7"
 
-#: src/locales/trans-dummy.tsx
-msgid "overview.link.network_costs"
-msgstr "Costi di rete"
-
-#: src/locales/trans-dummy.tsx
-msgid "overview.link.power_outage_duration"
-msgstr "Durata dell'interruzione di corrente (SAIDI)"
-
-#: src/locales/trans-dummy.tsx
-msgid "overview.link.power_outage_frequency"
-msgstr "Frequenza delle interruzioni di corrente (SAIFI)"
-
-#: src/locales/trans-dummy.tsx
-msgid "overview.link.product_variety"
-msgstr "Varietà di prodotti"
-
-#: src/locales/trans-dummy.tsx
-msgid "overview.link.service_quality"
-msgstr "Qualità del servizio"
-
-#: src/locales/trans-dummy.tsx
-msgid "overview.section.discover_text"
-msgstr "Questo sito fornisce informazioni aggiornate sulle tariffe elettriche in tutta la Svizzera, consentendo di confrontare i prezzi per i clienti residenziali e commerciali in base al comune, al cantone o al gestore di rete. Esplorate le ripartizioni dettagliate di energia, rete e costi aggiuntivi e visualizzate le tendenze storiche per comprendere meglio i costi dell'elettricità nella vostra regione."
-
-#: src/locales/trans-dummy.tsx
-msgid "overview.section.discover_title"
-msgstr "Scoprite le tariffe elettriche nella vista della mappa"
-
-#: src/locales/trans-dummy.tsx
-msgid "overview.section.sunshine_text"
-msgstr "Lorem ipsum dolor sit amet..."
-
-#: src/locales/trans-dummy.tsx
-msgid "overview.section.sunshine_title"
-msgstr "Il regolamento Sunshine"
-
-#: src/locales/trans-dummy.tsx
-msgid "overview.section.sunshine_topics"
-msgstr "Argomenti di sole"
-
-#: src/locales/trans-dummy.tsx
 #: src/pages/[entity]/[id]/index.tsx
 msgid "page.electricity-tariffs.description"
 msgstr "Nella pagina dei dettagli del gestore di rete si trovano informazioni aggiornate sulle tariffe elettriche, che consentono di confrontare i prezzi. È possibile visualizzare la ripartizione dei costi dell'energia, della rete e dei costi aggiuntivi e richiamare le tendenze storiche per comprendere meglio i costi dell'elettricità."
 
-#: src/locales/trans-dummy.tsx
 #: src/pages/[entity]/[id]/index.tsx
 msgid "page.electricity-tariffs.title"
 msgstr "Tariffe elettriche"
 
-#: src/locales/trans-dummy.tsx
-msgid "page.subtitle.indicators"
-msgstr "Tariffe elettriche svizzere e indicatori di regolazione del sole"
+#: src/domain/translation.tsx
+msgid "peer-group.energy-density.high"
+msgstr "Alta densità di energia"
 
-#: src/locales/trans-dummy.tsx
-msgid "page.title.tariffs_regulations"
-msgstr "Tariffe e regolamenti per l'energia elettrica"
+#: src/domain/translation.tsx
+msgid "peer-group.energy-density.low"
+msgstr "Bassa densità energetica"
+
+#: src/domain/translation.tsx
+msgid "peer-group.energy-density.na"
+msgstr "Non specificato"
+
+#: src/domain/translation.tsx
+msgid "peer-group.settlement-density.medium"
+msgstr "Media densità di insediamento"
+
+#: src/domain/translation.tsx
+msgid "peer-group.settlement-density.mountain"
+msgstr "Regione montana"
+
+#: src/domain/translation.tsx
+msgid "peer-group.settlement-density.na"
+msgstr "Non specificato"
+
+#: src/domain/translation.tsx
+msgid "peer-group.settlement-density.rural"
+msgstr "Densità degli insediamenti rurali"
+
+#: src/domain/translation.tsx
+msgid "peer-group.settlement-density.tourist"
+msgstr "Turismo"
+
+#: src/domain/translation.tsx
+msgid "peer-group.settlement-density.unknown"
+msgstr "Sconosciuto"
 
 #: src/components/price-color-legend.tsx
 #: src/components/price-color-legend.tsx
-#: src/locales/trans-dummy.tsx
 msgid "price.legend.max"
 msgstr "Max"
 
 #: src/components/price-color-legend.tsx
 #: src/components/price-color-legend.tsx
-#: src/locales/trans-dummy.tsx
 msgid "price.legend.median"
 msgstr "Mediana"
 
 #: src/components/price-color-legend.tsx
 #: src/components/price-color-legend.tsx
-#: src/locales/trans-dummy.tsx
 msgid "price.legend.min"
 msgstr "Min"
 
 #: src/domain/translation.tsx
-#: src/locales/trans-dummy.tsx
 msgid "priceComponents.view.collapsed.municipalities"
 msgstr "Raggruppare per comuni"
 
 #: src/domain/translation.tsx
-#: src/locales/trans-dummy.tsx
 msgid "priceComponents.view.collapsed.operators"
 msgstr "Raggruppare per gestori di rete"
 
 #: src/domain/translation.tsx
-#: src/locales/trans-dummy.tsx
 msgid "priceComponents.view.expanded.municipalities"
 msgstr "Mostrare tutti i comuni"
 
 #: src/domain/translation.tsx
-#: src/locales/trans-dummy.tsx
 msgid "priceComponents.view.expanded.operators"
 msgstr "Mostrare tutti i gestori di rete"
 
 #: src/components/detail-page/cantons-comparison-range.tsx
-#: src/locales/trans-dummy.tsx
 msgid "rangeplot.select.order.hint"
 msgstr "Ordinare per"
 
 #: src/domain/translation.tsx
-#: src/locales/trans-dummy.tsx
 msgid "rangeplot.select.sorting.alpha-asc"
 msgstr "alfabetico crescente"
 
 #: src/domain/translation.tsx
-#: src/locales/trans-dummy.tsx
 msgid "rangeplot.select.sorting.alpha-desc"
 msgstr "alfabetico decrescente"
 
 #: src/domain/translation.tsx
-#: src/locales/trans-dummy.tsx
 msgid "rangeplot.select.sorting.median-asc"
 msgstr "mediana, crescente"
 
 #: src/domain/translation.tsx
-#: src/locales/trans-dummy.tsx
 msgid "rangeplot.select.sorting.median-desc"
 msgstr "mediana, decrescente"
 
 #: src/components/detail-page/banner.tsx
-#: src/locales/trans-dummy.tsx
 msgid "relations.showmore"
 msgstr "mostra {rest} di più…"
 
 #: src/components/app-layout.tsx
-#: src/locales/trans-dummy.tsx
 msgid "search.global"
 msgstr "Visualizzare l'analisi dettagliata dei prezzi per cantone, comune e gestore di rete."
 
 #: src/components/search.tsx
-#: src/locales/trans-dummy.tsx
 msgid "search.global.hint.canton.muni.operator"
 msgstr "Comune, gestore di rete, cantone"
 
 #: src/components/search.tsx
-#: src/locales/trans-dummy.tsx
 msgid "search.global.hint.go.to"
 msgstr "vai a…"
 
 #: src/components/search.tsx
 #: src/components/search.tsx
 #: src/components/search.tsx
-#: src/locales/trans-dummy.tsx
 msgid "search.global.label"
 msgstr "Inserire il nome del comune, codice postale, gestore di rete, cantone…"
 
 #: src/components/search.tsx
-#: src/locales/trans-dummy.tsx
 msgid "search.open"
 msgstr "ricerca aperta"
 
-#: src/locales/trans-dummy.tsx
-msgid "search.placeholder.entities"
-msgstr "Comune, Cantone, Gestore di rete"
-
-#: src/locales/trans-dummy.tsx
-msgid "search.placeholder.go_to"
-msgstr "Vai a..."
-
 #: src/components/map-details-content.tsx
 #: src/domain/translation.tsx
-#: src/locales/trans-dummy.tsx
 msgid "search.result.canton"
 msgstr "Cantone"
 
 #: src/domain/translation.tsx
-#: src/locales/trans-dummy.tsx
 msgid "search.result.municipality"
 msgstr "Comune"
 
 #: src/domain/translation.tsx
-#: src/locales/trans-dummy.tsx
 msgid "search.result.operator"
 msgstr "Gestore di rete"
 
 #: src/components/detail-page/selector-multi.tsx
 #: src/components/electricity-selectors.tsx
-#: src/locales/trans-dummy.tsx
 msgid "selector.category"
 msgstr "Categoria"
 
 #: src/domain/translation.tsx
-#: src/locales/trans-dummy.tsx
 msgid "selector.category.C-group"
 msgstr "Aziende"
 
 #: src/domain/translation.tsx
-#: src/locales/trans-dummy.tsx
 msgid "selector.category.C1"
 msgstr "C1"
 
 #: src/domain/translation.tsx
-#: src/locales/trans-dummy.tsx
 msgid "selector.category.C2"
 msgstr "C2"
 
 #: src/domain/translation.tsx
-#: src/locales/trans-dummy.tsx
 msgid "selector.category.C3"
 msgstr "C3"
 
 #: src/domain/translation.tsx
-#: src/locales/trans-dummy.tsx
 msgid "selector.category.C4"
 msgstr "C4"
 
 #: src/domain/translation.tsx
-#: src/locales/trans-dummy.tsx
 msgid "selector.category.C5"
 msgstr "C5"
 
 #: src/domain/translation.tsx
-#: src/locales/trans-dummy.tsx
 msgid "selector.category.C6"
 msgstr "C6"
 
 #: src/domain/translation.tsx
-#: src/locales/trans-dummy.tsx
 msgid "selector.category.C7"
 msgstr "C7"
 
 #: src/domain/translation.tsx
-#: src/locales/trans-dummy.tsx
 msgid "selector.category.H-group"
 msgstr "Famiglie"
 
 #: src/domain/translation.tsx
-#: src/locales/trans-dummy.tsx
 msgid "selector.category.H1"
 msgstr "H1"
 
 #: src/domain/translation.tsx
-#: src/locales/trans-dummy.tsx
+msgid "selector.category.H1-long"
+msgstr "H1 - Appartamento con 2 camere da letto e cucina elettrica"
+
+#: src/domain/translation.tsx
 msgid "selector.category.H2"
 msgstr "H2"
 
 #: src/domain/translation.tsx
-#: src/locales/trans-dummy.tsx
+msgid "selector.category.H2-long"
+msgstr "H2 - Casa con 4 camere da letto e forno elettrico"
+
+#: src/domain/translation.tsx
 msgid "selector.category.H3"
 msgstr "H3"
 
 #: src/domain/translation.tsx
-#: src/locales/trans-dummy.tsx
+msgid "selector.category.H3-long"
+msgstr "H3 - Casa con 4 camere da letto e caldaia elettrica"
+
+#: src/domain/translation.tsx
 msgid "selector.category.H4"
 msgstr "H4"
 
 #: src/domain/translation.tsx
-#: src/locales/trans-dummy.tsx
+msgid "selector.category.H4-long"
+msgstr "H4 - Casa con 5 camere da letto con elettrodomestico e bicchiere"
+
+#: src/domain/translation.tsx
 msgid "selector.category.H5"
 msgstr "H5"
 
 #: src/domain/translation.tsx
-#: src/locales/trans-dummy.tsx
+msgid "selector.category.H5-long"
+msgstr "H5 - Casa per famiglie da 5 camere con caldaia elettrica, caldaia elettrica e tumbler"
+
+#: src/domain/translation.tsx
 msgid "selector.category.H6"
 msgstr "H6"
 
 #: src/domain/translation.tsx
-#: src/locales/trans-dummy.tsx
+msgid "selector.category.H6-long"
+msgstr "H6 - Casa per famiglie con 5 camere da letto e riscaldamento elettrico"
+
+#: src/domain/translation.tsx
 msgid "selector.category.H7"
 msgstr "H7"
 
 #: src/domain/translation.tsx
-#: src/locales/trans-dummy.tsx
+msgid "selector.category.H7-long"
+msgstr "H7 - Casa per famiglie con 5 camere da letto e una pompa di calore per il riscaldamento"
+
+#: src/domain/translation.tsx
 msgid "selector.category.H8"
 msgstr "H8"
 
+#: src/domain/translation.tsx
+msgid "selector.category.H8-long"
+msgstr "H8 - Grande, grande casa di vacanza con impianto elettrico"
+
 #: src/components/detail-page/selector-multi.tsx
-#: src/locales/trans-dummy.tsx
 msgid "selector.comparecantons"
 msgstr "Confrontare con il cantone…"
 
 #: src/components/detail-page/selector-multi.tsx
-#: src/locales/trans-dummy.tsx
 msgid "selector.comparemunicipalities"
 msgstr "Confrontare con il comune…"
 
 #: src/components/detail-page/selector-multi.tsx
-#: src/locales/trans-dummy.tsx
 msgid "selector.compareoperators"
 msgstr "Confrontare con il gestore di rete…"
 
 #: src/components/electricity-selectors.tsx
-#: src/locales/trans-dummy.tsx
 msgid "selector.legend.select.parameters"
 msgstr "Selezionare i parametri"
 
 #: src/components/detail-page/price-components-bars.tsx
 #: src/components/electricity-selectors.tsx
-#: src/locales/trans-dummy.tsx
 msgid "selector.priceComponent"
 msgstr "Componenti di prezzo"
 
 #: src/components/detail-page/cantons-comparison-range.tsx
 #: src/components/detail-page/price-distribution-histogram.tsx
-#: src/locales/trans-dummy.tsx
 msgid "selector.priceComponents"
 msgstr "Componenti di prezzo"
 
 #: src/domain/translation.tsx
-#: src/locales/trans-dummy.tsx
 msgid "selector.pricecomponent.aidfee"
 msgstr "Supplemento rete ai sensi dell'art. 35 LEne"
 
 #: src/domain/translation.tsx
-#: src/locales/trans-dummy.tsx
 msgid "selector.pricecomponent.charge"
 msgstr "Tributi a enti pubblici"
 
 #: src/domain/translation.tsx
-#: src/locales/trans-dummy.tsx
 msgid "selector.pricecomponent.energy"
 msgstr "Energia"
 
 #: src/domain/translation.tsx
-#: src/locales/trans-dummy.tsx
 msgid "selector.pricecomponent.gridusage"
 msgstr "Utilizzazione della rete"
 
 #: src/domain/translation.tsx
-#: src/locales/trans-dummy.tsx
 msgid "selector.pricecomponent.total"
 msgstr "Totale"
 
 #: src/components/detail-page/selector-multi.tsx
 #: src/components/electricity-selectors.tsx
-#: src/locales/trans-dummy.tsx
 msgid "selector.product"
 msgstr "Prodotto"
 
 #: src/domain/translation.tsx
-#: src/locales/trans-dummy.tsx
 msgid "selector.product.cheapest"
 msgstr "Più economico"
 
 #: src/domain/translation.tsx
-#: src/locales/trans-dummy.tsx
 msgid "selector.product.standard"
 msgstr "Standard"
 
 #: src/components/electricity-selectors.tsx
-#: src/locales/trans-dummy.tsx
 msgid "selector.year"
 msgstr "Anno"
 
 #: src/components/detail-page/selector-multi.tsx
-#: src/locales/trans-dummy.tsx
 msgid "selector.years"
 msgstr "Anni"
 
-#: src/locales/trans-dummy.tsx
 #: src/pages/map/index.tsx
 msgid "share.url-copied"
 msgstr "URL copiato ✅"
 
 #: src/components/app-layout.tsx
-#: src/locales/trans-dummy.tsx
 #: src/pages/[entity]/[id]/index.tsx
 #: src/pages/index.tsx
 msgid "site.title"
 msgstr "Tariffe elettriche della Svizzera"
 
-#: src/locales/trans-dummy.tsx
-msgid "tab.map_view"
-msgstr "Vista sulla mappa"
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+msgid "sunshine.compliance.francs-rule-regulation"
+msgstr "75 Franchi Regolamento"
 
-#: src/locales/trans-dummy.tsx
-msgid "tab.overview"
-msgstr "Panoramica"
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+msgid "sunshine.compliance.latest-year"
+msgstr "Ultimo anno ({latestYear})"
 
-#: src/locales/trans-dummy.tsx
-msgid "tariff.category.c1"
-msgstr "Piccole imprese (C1)"
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+msgid "sunshine.compliance.notification-period"
+msgstr "Notifica con giorni di anticipo"
 
-#: src/locales/trans-dummy.tsx
-msgid "tariff.category.c2"
-msgstr "Piccole imprese (C2)"
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+msgid "sunshine.compliance.timely-paper-submission.no"
+msgstr "No"
 
-#: src/locales/trans-dummy.tsx
-msgid "tariff.category.c3"
-msgstr "Media impresa (C3)"
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+msgid "sunshine.compliance.timely-paper-submission.yes"
+msgstr "Sì"
 
-#: src/locales/trans-dummy.tsx
-msgid "tariff.category.c4"
-msgstr "Grandi imprese (C4)"
+#: src/domain/translation.tsx
+msgid "sunshine.costs-and-tariffs.all-peer-group"
+msgstr "Tutti gli operatori di rete del gruppo peer"
 
-#: src/locales/trans-dummy.tsx
-msgid "tariff.category.c5"
-msgstr "Grande azienda con trasformatore proprio (C5)"
+#: src/components/net-tariffs-trend-card.tsx
+#: src/components/network-costs-trend-card.tsx
+msgid "sunshine.costs-and-tariffs.benchmarking-peer-group"
+msgstr "Benchmarking all'interno del gruppo di pari: {peerGroupLabel}"
 
-#: src/locales/trans-dummy.tsx
-msgid "tariff.category.c6"
-msgstr "Grande azienda con trasformatore proprio (C6)"
+#: src/components/net-tariffs-trend-card.tsx
+#: src/components/network-costs-trend-card.tsx
+msgid "sunshine.costs-and-tariffs.compare-with"
+msgstr "Confronta con"
 
-#: src/locales/trans-dummy.tsx
-msgid "tariff.category.c7"
-msgstr "Grande azienda con trasformatore proprio (C7)"
+#: src/components/card-source.tsx
+msgid "sunshine.costs-and-tariffs.date"
+msgstr "sunshine.costi-e-tariffe.data"
 
-#: src/locales/trans-dummy.tsx
-msgid "tariff.category.h1"
-msgstr "Appartamento con 2 camere (H1)"
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+msgid "sunshine.costs-and-tariffs.description"
+msgstr "Questa pagina fornisce una panoramica dei costi e delle tariffe dell'elettricità, compresi i costi di rete, le tariffe nette e le tariffe energetiche. Confrontate i diversi fornitori e analizzate le tendenze all'interno del vostro gruppo di pari per capire meglio la vostra posizione sul mercato."
 
-#: src/locales/trans-dummy.tsx
-msgid "tariff.category.h2"
-msgstr "Appartamento con 4 camere (H2)"
+#: src/components/sunshine-tabs.tsx
+msgid "sunshine.costs-and-tariffs.energy-tariffs"
+msgstr "Tariffe energetiche"
 
-#: src/locales/trans-dummy.tsx
-msgid "tariff.category.h3"
-msgstr "Appartamento con 4 camere (H3)"
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+msgid "sunshine.costs-and-tariffs.energy-tariffs-comparison-title"
+msgstr "Tariffe energetiche {0}"
 
-#: src/locales/trans-dummy.tsx
-msgid "tariff.category.h4"
-msgstr "Appartamento con 5 camere (H4)"
+#: src/components/peer-group-card.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+msgid "sunshine.costs-and-tariffs.latest-year"
+msgstr "Ultimo anno ({latestYear})"
 
-#: src/locales/trans-dummy.tsx
-msgid "tariff.category.h5"
-msgstr "Casa unifamiliare (H6)"
+#: src/components/net-tariffs-trend-card.tsx
+#: src/components/network-costs-trend-card.tsx
+msgid "sunshine.costs-and-tariffs.latest-year-option"
+msgstr "Ultimo anno"
 
-#: src/locales/trans-dummy.tsx
-msgid "tariff.category.h7"
-msgstr "Pompa di calore per case monofamiliari (H7)"
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+msgid "sunshine.costs-and-tariffs.median-peer-group"
+msgstr "Gruppo di riferimento mediano"
 
-#: src/locales/trans-dummy.tsx
-msgid "tariff.category.h8"
-msgstr "Grande condominio altamente elettrificato (H8)"
+#: src/components/sunshine-tabs.tsx
+msgid "sunshine.costs-and-tariffs.net-tariffs"
+msgstr "Tariffe nette"
 
-#: src/locales/trans-dummy.tsx
-msgid "tariff.grid.level.1"
-msgstr "Trasmissione ad altissima tensione (livello 1)"
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+msgid "sunshine.costs-and-tariffs.net-tariffs-comparison-title"
+msgstr "Tariffe nette {0}"
 
-#: src/locales/trans-dummy.tsx
-msgid "tariff.grid.level.2"
-msgstr "Trasformazione ad altissima tensione (livello 2)"
+#: src/components/net-tariffs-trend-card.tsx
+msgid "sunshine.costs-and-tariffs.net-tariffs-trend"
+msgstr "Andamento delle tariffe nette"
 
-#: src/locales/trans-dummy.tsx
-msgid "tariff.grid.level.3"
-msgstr "Distribuzione ad alta tensione (livello 3)"
+#: src/components/network-costs-trend-card.tsx
+msgid "sunshine.costs-and-tariffs.network-cost-trend"
+msgstr "Andamento dei costi di rete"
 
-#: src/locales/trans-dummy.tsx
-msgid "tariff.grid.level.4"
-msgstr "Trasformazione ad alta tensione (livello 4)"
+#: src/components/sunshine-tabs.tsx
+msgid "sunshine.costs-and-tariffs.network-costs"
+msgstr "Costi di rete"
 
-#: src/locales/trans-dummy.tsx
-msgid "tariff.grid.level.5"
-msgstr "Distribuzione in media tensione (livello 5)"
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+msgid "sunshine.costs-and-tariffs.network-costs-end-consumer"
+msgstr "Costi di rete al livello {0}"
 
-#: src/locales/trans-dummy.tsx
-msgid "tariff.grid.level.6"
-msgstr "Distribuzione in bassa tensione (livello 6)"
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+msgid "sunshine.costs-and-tariffs.operator"
+msgstr "{operatorLabel}"
 
-#: src/locales/trans-dummy.tsx
-msgid "tariff.grid.level.7"
-msgstr "Livello del consumatore finale (livello 7)"
+#: src/components/peer-group-card.tsx
+msgid "sunshine.costs-and-tariffs.peer-group"
+msgstr "Gruppo di pari"
+
+#: src/components/net-tariffs-trend-card.tsx
+#: src/components/network-costs-trend-card.tsx
+msgid "sunshine.costs-and-tariffs.progress-over-time"
+msgstr "Progressi nel tempo"
+
+#: src/components/net-tariffs-trend-card.tsx
+#: src/components/network-costs-trend-card.tsx
+msgid "sunshine.costs-and-tariffs.scatter-plot-description"
+msgstr "Visualizzazione del diagramma di dispersione che mostra i costi di rete a diversi livelli (livello del consumatore finale, distribuzione in bassa tensione, distribuzione in media tensione)."
+
+#: src/domain/translation.tsx
+msgid "sunshine.costs-and-tariffs.selected-operators"
+msgstr "Operatori di rete selezionati"
+
+#: src/components/card-source.tsx
+msgid "sunshine.costs-and-tariffs.source"
+msgstr "sunshine.costi-e-tariffe.source"
+
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+msgid "sunshine.costs-and-tariffs.title"
+msgstr "Costi e tariffe"
+
+#: src/components/net-tariffs-trend-card.tsx
+#: src/components/network-costs-trend-card.tsx
+msgid "sunshine.costs-and-tariffs.view-by"
+msgstr "Vedi da"
+
+#: src/components/sunshine-tabs.tsx
+msgid "sunshine.operational-standards.compliance"
+msgstr "Conformità"
+
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+msgid "sunshine.operational-standards.compliance.comparison-card-title"
+msgstr "Conformità"
+
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+msgid "sunshine.operational-standards.description"
+msgstr "La pagina degli Standard operativi valuta gli indicatori chiave di prestazione che evidenziano la qualità del servizio fornito dalle aziende elettriche. Questi indicatori comprendono la Varietà dei prodotti, che misura la gamma di prodotti energetici ecologici e combinati offerti; la Qualità del servizio, che valuta il livello di informazione dei consumatori sulle interruzioni elettriche programmate e il periodo di preavviso previsto; e la Conformità, che garantisce il rispetto della regola dei 75 franchi e la presentazione tempestiva dei documenti ufficiali alla Commissione federale dell'energia elettrica (ElCom)."
+
+#: src/components/sunshine-tabs.tsx
+msgid "sunshine.operational-standards.product-variety"
+msgstr "Varietà di prodotti"
+
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+msgid "sunshine.operational-standards.product-variety.comparison-card-title"
+msgstr "Varietà di prodotti"
+
+#: src/components/sunshine-tabs.tsx
+msgid "sunshine.operational-standards.service-quality"
+msgstr "Qualità del servizio"
+
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+msgid "sunshine.operational-standards.service-quality.comparison-card-title"
+msgstr "Qualità del servizio"
+
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+msgid "sunshine.operational-standards.title"
+msgstr "Standard operativi"
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.description"
+msgstr "La pagina sulla stabilità dell'energia fornisce informazioni sull'affidabilità della fornitura di energia elettrica attraverso due indicatori chiave: SAIFI (System Average Interruption Frequency Index) e SAIDI (System Average Interruption Duration Index). Questi indicatori misurano la frequenza e la durata delle interruzioni di corrente. I dati sono comparabili all'interno dello stesso gruppo di gestori di rete, consentendo una chiara valutazione della stabilità e dell'affidabilità dell'energia in tutta la rete."
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.latest-year"
+msgstr "Ultimo anno ({latestYear})"
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.median-peer-group"
+msgstr "Gruppo di riferimento mediano"
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.operator"
+msgstr "{operatorLabel}"
+
+#: src/components/sunshine-tabs.tsx
+msgid "sunshine.power-stability.saidi"
+msgstr "Durata dell'interruzione di corrente (SAIDI)"
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.saidi.comparison-card-title"
+msgstr "Durata totale dell'interruzione"
+
+#: src/components/sunshine-tabs.tsx
+msgid "sunshine.power-stability.saifi"
+msgstr "Frequenza delle interruzioni di corrente (SAIFI)"
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.saifi.comparison-card-title"
+msgstr "Frequenza totale delle interruzioni"
+
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.title"
+msgstr "Stabilità di potenza"
+
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+msgid "sunshine.product-variety.eco-friendly-products-offered"
+msgstr "Prodotti ecologici offerti"
+
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+msgid "sunshine.product-variety.latest-year"
+msgstr "Ultimo anno ({latestYear})"
+
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+msgid "sunshine.product-variety.product-combinations-options"
+msgstr "Opzioni di combinazione dei prodotti"
+
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+msgid "sunshine.product-variety.product-combinations-options.no"
+msgstr "No"
+
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+msgid "sunshine.product-variety.product-combinations-options.yes"
+msgstr "Sì"
+
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+msgid "sunshine.service-quality.eco-friendly-products-offered"
+msgstr "Informare i clienti sulle interruzioni di corrente"
+
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+msgid "sunshine.service-quality.informing-customers-outage.no"
+msgstr "No"
+
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+msgid "sunshine.service-quality.informing-customers-outage.yes"
+msgstr "Sì"
+
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+msgid "sunshine.service-quality.latest-year"
+msgstr "Ultimo anno ({latestYear})"
+
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+msgid "sunshine.service-quality.notification-period"
+msgstr "Notifica con giorni di anticipo"
 
 #: src/components/header.tsx
-#: src/locales/trans-dummy.tsx
 msgid "topbar.open-flag-menu"
 msgstr "Apri il menu delle bandiere"

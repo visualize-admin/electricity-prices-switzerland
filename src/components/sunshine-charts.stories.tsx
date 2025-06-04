@@ -335,7 +335,6 @@ const SunshineNumericalChart = ({
           )}
         </Group>
       </svg>
-
       {/* Tooltip */}
       {tooltipData && (
         // @ts-expect-error Mismatch of type, there is no problem

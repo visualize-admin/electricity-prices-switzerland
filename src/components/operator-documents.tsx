@@ -28,26 +28,26 @@ import { useLocale } from "src/lib/use-locale";
 const CATEGORIES = [
   {
     id: OperatorDocumentCategory.Tariffs,
-    itemLabel: <Trans id="download.category.tariff">Tarifblatt</Trans>,
-    categoryLabel: <Trans id="download.category.tariffs">Tarifblätter</Trans>,
+    itemLabel: <Trans id="download.category.tariff">Tariff sheet</Trans>,
+    categoryLabel: <Trans id="download.category.tariffs">Tariffs</Trans>,
   },
   {
     id: OperatorDocumentCategory.AnnualReport,
     itemLabel: (
-      <Trans id="download.category.annualreport">Jahresrechnung</Trans>
+      <Trans id="download.category.annualreport">Financial statements</Trans>
     ),
     categoryLabel: (
-      <Trans id="download.category.annualreports">Jahresrechnungen Netz</Trans>
+      <Trans id="download.category.annualreports">Annual Reports</Trans>
     ),
   },
   {
     id: OperatorDocumentCategory.FinancialStatement,
     itemLabel: (
-      <Trans id="download.category.financial-statement">Finanzbericht</Trans>
+      <Trans id="download.category.financial-statement">Financial report</Trans>
     ),
     categoryLabel: (
       <Trans id="download.category.financial-statement-report">
-        Bericht zum Finanzbericht
+        Report on the financial report
       </Trans>
     ),
   },
@@ -76,7 +76,7 @@ const DocumentList = ({
                 {itemLabel} {doc.year}
               </Typography>
               <Typography variant="caption" color="text.secondary">
-                (<Trans id="download.filetype.pdf">PDF-Datei</Trans>)
+                (<Trans id="download.filetype.pdf">PDF file</Trans>)
               </Typography>
             </Box>
           </Link>
@@ -126,7 +126,7 @@ export const OperatorDocuments = ({ id }: { id: string }) => {
     return (
       <Typography variant="body2" sx={{ color: "hint.main" }}>
         <Trans id="download.nooperatordocuments">
-          Keine Netzbetreiber-Dokumente
+          No network operator documents
         </Trans>
       </Typography>
     );
@@ -150,10 +150,9 @@ export const OperatorDocuments = ({ id }: { id: string }) => {
             },
           }}
         >
-          <Trans id="download.cta">Download Berichte & Tarife</Trans>
+          <Trans id="download.cta">Download reports & tariffs</Trans>
         </Typography>
       </Button>
-
       {/* Popover */}
       <Popover
         open={!!anchorEl}
@@ -174,7 +173,7 @@ export const OperatorDocuments = ({ id }: { id: string }) => {
       >
         <Stack direction={"column"} spacing={2} py={8} px={10}>
           <Typography variant="h5" fontWeight={700}>
-            <Trans id="download.reports">Download Reports</Trans>
+            <Trans id="download.reports">Download reports</Trans>
           </Typography>
 
           <Typography variant="h2">{id}</Typography>

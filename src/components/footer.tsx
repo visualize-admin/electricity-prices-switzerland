@@ -23,7 +23,7 @@ export const Footer = ({ sx }: { sx?: SxProps }) => {
 
   const bottomLinks = [
     {
-      title: t({ id: "footer.legal-framework", message: "Rechtliches" }),
+      title: t({ id: "footer.legal-framework", message: "Legal matters" }),
       href: t({
         id: "footer.legal-framework.link",
         message: "https://www.admin.ch/gov/de/start/rechtliches.html",
@@ -49,23 +49,22 @@ export const Footer = ({ sx }: { sx?: SxProps }) => {
           text={t({
             id: "footer.about_us.text",
             message:
-              "Die ElCom, der unabhängige Stromregulator der Schweiz, überwacht die Einhaltung des Elektrizitäts- und des Energiegesetzes. Sie überwacht die Strompreise, die Versorgungssicherheit und den internationalen Handel und schlichtet Streitigkeiten beim Netzzugang, bei den Einspeisevergütungen sowie zwischen Betreibern und Produzenten.",
+              "ElCom, Switzerland's independent electricity regulator, monitors compliance with the Electricity Act and the Energy Act. It monitors electricity prices, security of supply and international trade and settles disputes regarding grid access, feed-in tariffs and between operators and producers.",
           })}
         />
       </FooterSection>
-
       <FooterSection>
         <FooterSectionTitle
           title={t({
             id: "footer.more-information",
-            message: "Weitere Informationen",
+            message: "Further information",
           })}
         />
         <HelpDialog
           close={helpCalculationDisclosure.close}
           label={t({
             id: "help.calculation",
-            message: `Berechnungsgrundlage`,
+            message: "Calculation basis",
           })}
           open={helpCalculationDisclosure.isOpen}
           slug="help-calculation"
@@ -75,7 +74,7 @@ export const Footer = ({ sx }: { sx?: SxProps }) => {
           onClick={() => helpCalculationDisclosure.open()}
           label={t({
             id: "footer.basis-of-calculation",
-            message: "Berechnungsgrundlagen",
+            message: "Basis of calculation",
           })}
         />
         <Link
@@ -89,7 +88,7 @@ export const Footer = ({ sx }: { sx?: SxProps }) => {
             iconName="external"
             label={t({
               id: "footer.additional-information",
-              message: "Weitere Informationen zu den Tarifen in der Schweiz",
+              message: "Further information on tariffs in Switzerland",
             })}
           />
         </Link>
@@ -104,17 +103,16 @@ export const Footer = ({ sx }: { sx?: SxProps }) => {
             iconName="external"
             label={t({
               id: "footer.tariff-components",
-              message: "Tarifkomponenten Übertragungsnetz - Swissgrid",
+              message: "Transmission grid tariff components - Swissgrid",
             })}
           />
         </Link>
       </FooterSection>
-
       <FooterSection>
         <FooterSectionTitle
           title={t({
             id: "footer.download-visualize-data",
-            message: "Daten herunterladen",
+            message: "Download data",
           })}
         />
         <Link href={`/api/data-export?period=${period}&locale=${locale}`}>
@@ -123,7 +121,7 @@ export const Footer = ({ sx }: { sx?: SxProps }) => {
             onClick={() => helpCsvDisclosure.open()}
             label={t({
               id: "footer.data-as-csv",
-              message: "Daten als csv",
+              message: "Data as csv",
             })}
           />
         </Link>
@@ -135,7 +133,7 @@ export const Footer = ({ sx }: { sx?: SxProps }) => {
             label={t({
               id: "footer.swiss-municipalities-grid",
               message:
-                "Schweizerische Gemeinden und zuständige Stromnetzbetreiber",
+                "Swiss municipalities and responsible electricity grid operators",
             })}
           />
         </Link>
@@ -151,7 +149,7 @@ export const Footer = ({ sx }: { sx?: SxProps }) => {
             iconName="external"
             label={t({
               id: "footer.data-on-opendata-swiss",
-              message: "Daten auf opendata.swiss",
+              message: "Data on opendata.swiss",
             })}
           />
         </Link>
@@ -166,7 +164,7 @@ export const Footer = ({ sx }: { sx?: SxProps }) => {
             iconName="external"
             label={t({
               id: "footer.create-data-visualizations",
-              message: "Datenvisualisierungen mit ElCom-Datensatz erstellen",
+              message: "Create data visualizations with ElCom data set",
             })}
           />
         </Link>

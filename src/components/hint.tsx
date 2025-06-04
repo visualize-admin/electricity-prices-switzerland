@@ -53,7 +53,7 @@ export const Loading = ({ delayMs = 1000 }: { delayMs?: number }) => (
       <Icon name="loading" size={48} />
     </Box>
     <Typography variant="body1">
-      <Trans id="hint.loading.data">Loading data…</Trans>
+      <Trans id="hint.loading.data">Loading data...</Trans>
     </Typography>
   </Box>
 );
@@ -141,11 +141,11 @@ export const NoDataHint = () => (
   >
     <Icon name="warningcircle" size={64} />
     <Typography variant="h2" sx={{ my: 3 }}>
-      <Trans id="hint.nodata.title">Keine Daten</Trans>
+      <Trans id="hint.nodata.title">No data</Trans>
     </Typography>
     <Typography variant="body2" sx={{ maxWidth: "40rem" }}>
       <Trans id="hint.nodata.message">
-        Für die aktuelle Auswahl konnten keine Daten geladen werden.
+        No data could be loaded for the current selection.
       </Trans>
     </Typography>
   </Box>
@@ -169,7 +169,7 @@ export const NoContentHint = () => (
     <Icon name="warningcircle" size={48} />
     <Typography variant="body2" sx={{ maxWidth: "40rem" }}>
       <Trans id="hint.nocontent.message">
-        Dieser Inhalt konnte nicht geladen werden
+        This content could not be loaded
       </Trans>
     </Typography>
   </Box>
@@ -192,11 +192,11 @@ export const NoGeoDataHint = () => (
   >
     <Icon name="warningcircle" size={64} />
     <Typography variant="h2" sx={{ my: 3 }}>
-      <Trans id="hint.nogeodata.title">Keine Kartendarstellung möglich</Trans>
+      <Trans id="hint.nogeodata.title">No map display possible</Trans>
     </Typography>
     <Typography variant="body2" sx={{ maxWidth: "40rem" }}>
       <Trans id="hint.nogeodata.message">
-        Für das ausgewählte Jahr kann keine Karte angezeigt werden.
+        No map can be displayed for the selected year.
       </Trans>
     </Typography>
   </Box>

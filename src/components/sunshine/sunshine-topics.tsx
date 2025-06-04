@@ -90,7 +90,7 @@ export const SunshineTopics = () => {
                   <SunshineCardDescription>
                     <Trans id="home.sunshine-topics.card.costs-and-tariffs.description">
                       Electricity bills consist of energy tariffs and network
-                      costs. Network tariffs (levels 5–7) cover infrastructure,
+                      costs. Network tariffs (levels 5-7) cover infrastructure,
                       grid maintenance, metering, and administrative services,
                       while energy tariffs reflect actual consumption in
                       households (H) or businesses (C).

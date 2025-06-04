@@ -158,7 +158,7 @@ export const HelpDialog: React.FC<{
             onClick={close}
           >
             <VisuallyHidden>
-              <Trans id="dialog.close">Dialog schliessen</Trans>
+              <Trans id="dialog.close">Close dialog</Trans>
             </VisuallyHidden>{" "}
             <Icon name="clear" />
           </IconButton>

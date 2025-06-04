@@ -110,8 +110,8 @@ export const ComboboxMulti = ({
       )}
       noOptionsText={
         inputValue === "" && lazy
-          ? t({ id: "combobox.prompt", message: "Bezeichnung eingeben …" })
-          : t({ id: "combobox.noitems", message: "Keine Einträge" })
+          ? t({ id: "combobox.prompt", message: "Enter designation ..." })
+          : t({ id: "combobox.noitems", message: "No results" })
       }
       renderTags={(value, getTagProps) =>
         value.map((option, index) => {
@@ -296,7 +296,7 @@ export const Combobox = ({
             }}
           />
         )}
-        noOptionsText={t({ id: "combobox.noitems", message: "Keine Einträge" })}
+        noOptionsText={t({ id: "combobox.noitems", message: "No results" })}
         ListboxProps={{
           sx: {
             padding: 0,

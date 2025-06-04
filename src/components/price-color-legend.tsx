@@ -63,13 +63,16 @@ export const MapPriceColorLegend = ({
           sx={{ fontSize: "0.625rem", lineHeight: 1.5, mr: 1 }}
         >
           <Trans id="map.legend.title">
-            Tarifvergleich in Rp./kWh (Angaben exkl. MwSt.)
+            Tariff comparison in Rp./kWh (figures excl. VAT)
           </Trans>
         </Typography>
         <InfoDialogButton
           iconOnly
           slug="help-price-comparison"
-          label={t({ id: "help.price-comparison", message: `Tarifvergleich` })}
+          label={t({
+            id: "help.price-comparison",
+            message: "Tariff comparison",
+          })}
         />
         <Box
           onClick={() => setOpen(false)}
@@ -193,7 +196,6 @@ export const PriceColorLegend = () => {
           <Trans id="price.legend.max">max</Trans>
         </Typography>
       </Box>
-
       <ColorsLine />
     </Box>
   );

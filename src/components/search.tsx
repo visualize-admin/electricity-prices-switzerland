@@ -95,7 +95,7 @@ export const Search = () => {
           setSearchString={setSearchString}
           label={
             <Trans id="search.global.label">
-              Suche nach Gemeindename, PLZ, Netzbetreiber, Kanton
+              Search by municipality name, zip code, network operator, canton
             </Trans>
           }
           isLoading={gqlQuery.fetching && searchString.length > 0}
@@ -103,7 +103,6 @@ export const Search = () => {
           isMobile={false}
         />
       </Box>
-
       <Box
         sx={{
           display: { xxs: "block", md: "none" },
@@ -112,7 +111,7 @@ export const Search = () => {
       >
         <IconButton
           onClick={() => setExpanded(true)}
-          aria-label={t({ id: "search.open", message: "Suche öffnen" })}
+          aria-label={t({ id: "search.open", message: "Open search" })}
         >
           <Icon name="search" />
         </IconButton>
@@ -152,7 +151,8 @@ export const Search = () => {
                 setSearchString={setSearchString}
                 label={
                   <Trans id="search.global.label">
-                    Suche nach Gemeindename, PLZ, Netzbetreiber, Kanton
+                    Search by municipality name, zip code, network operator,
+                    canton
                   </Trans>
                 }
                 isLoading={gqlQuery.fetching && searchString.length > 0}
@@ -248,9 +248,10 @@ const SearchField = ({
           inputValue === ""
             ? t({
                 id: "search.global.label",
-                message: "Suche nach Gemeindename, PLZ, Netzbetreiber, Kanton",
+                message:
+                  "Search by municipality name, zip code, network operator, canton",
               })
-            : t({ id: "combobox.noitems", message: "Keine Resultate" })
+            : t({ id: "combobox.noitems", message: "No results" })
         }
         loading={isLoading}
         popupIcon={null}
@@ -281,7 +282,7 @@ const SearchField = ({
               },
               placeholder: t({
                 id: "search.global.hint.canton.muni.operator",
-                message: "Gemeinde, Kanton, Netzbetreiber",
+                message: "Municipality, canton, grid operator",
               }),
               endAdornment: (
                 <InputAdornment position="end">
@@ -298,7 +299,7 @@ const SearchField = ({
                         fontSize: [16],
                       }}
                     >
-                      <Trans id="search.global.hint.go.to">Gehe zu…</Trans>
+                      <Trans id="search.global.hint.go.to">Go to...</Trans>
                     </Typography>
                   )}
                 </InputAdornment>

@@ -127,7 +127,7 @@ const AxisWidthLinearTop = () => {
           fontSize={labelFontSize}
           textAnchor="end"
         >
-          {t({ id: "chart.axis.unit.Rp/kWh", message: `Rp./kWh` })}
+          {t({ id: "chart.axis.unit.Rp/kWh", message: "Rp./kWh" })}
         </text>
       </g>
       <g
