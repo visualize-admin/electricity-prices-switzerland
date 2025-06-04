@@ -1,0 +1,78 @@
+{
+  "latestYear": 2025,
+  "operator": {
+    "peerGroup": {
+      "settlementDensity": "Mountain",
+      "energyDensity": "Low"
+    }
+  },
+  "saidi": {
+    "operatorMinutes": null,
+    "peerGroupMinutes": 0,
+    "yearlyData": [
+      {
+        "year": 2025,
+        "minutes": null,
+        "operator": 768,
+        "planned": false,
+        "operator_name": "Kinetral Energy"
+      },
+      {
+        "year": 2025,
+        "minutes": null,
+        "operator": 768,
+        "planned": true,
+        "operator_name": "Kinetral Energy"
+      },
+      {
+        "year": 2024,
+        "minutes": 37.7769059146,
+        "operator": 893,
+        "planned": false,
+        "operator_name": "Kinetral Energy"
+      },
+      {
+        "year": 2024,
+        "minutes": 44.6043242396,
+        "operator": 500,
+        "planned": true,
+        "operator_name": "Kinetral Energy"
+      }
+    ]
+  },
+  "saifi": {
+    "operatorMinutes": null,
+    "peerGroupMinutes": 0,
+    "yearlyData": [
+      {
+        "year": 2025,
+        "minutes": null,
+        "operator": 768,
+        "planned": false,
+        "operator_name": "Kinetral Energy"
+      },
+      {
+        "year": 2025,
+        "minutes": null,
+        "operator": 768,
+        "planned": true,
+        "operator_name": "Kinetral Energy"
+      },
+      {
+        "year": 2024,
+        "minutes": 0.6480981646,
+        "operator": 229,
+        "planned": false,
+        "operator_name": "Kinetral Energy"
+      },
+      {
+        "year": 2024,
+        "minutes": 0.7396167344,
+        "operator": 834,
+        "planned": true,
+        "operator_name": "Kinetral Energy"
+      }
+    ]
+  },
+  "updateDate": "June 5, 2025 at 09:37 AM"
+}
