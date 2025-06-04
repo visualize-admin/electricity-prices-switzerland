@@ -55,8 +55,11 @@ const config: KnipConfig = {
     // Used when debugging
     "react-inspector",
 
-    //global library to auto translate po files
+    // global library to auto translate po files
     "tpo-deepl",
+
+    // Used in codemods
+    "jscodeshift",
   ],
 };
 export default config;
