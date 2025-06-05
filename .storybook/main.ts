@@ -7,6 +7,16 @@ const config: StorybookConfig = {
     name: "@storybook/nextjs",
     options: {},
   },
+  webpackFinal: (config) => {
+    if (config.resolve === undefined) {
+      config.resolve = {};
+    }
+    config.resolve.alias = {
+      // Mock the @duckdb/node-api package to avoid issues with Storybook
+      "@duckdb/node-api": require.resolve("../mocks/duckdb-mock.js"),
+    };
+    return config;
+  },
   env: (config) => ({
     ...config,
     SPARQL_ENDPOINT: process.env.SPARQL_ENDPOINT ?? "",
