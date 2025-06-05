@@ -28,15 +28,13 @@ import {
   PageParams,
   Props as SharedPageProps,
 } from "src/data/shared-page-props";
-import {
-  fetchOperatorCostsAndTariffsData,
-  SunshineCostsAndTariffsData,
-} from "src/domain/data";
+import { SunshineCostsAndTariffsData } from "src/domain/data";
 import {
   getCategoryLabels,
   getLocalizedLabel,
   getNetworkLevelLabels,
 } from "src/domain/translation";
+import { fetchOperatorCostsAndTariffsData } from "src/lib/db/sunshine-data";
 import { truthy } from "src/lib/truthy";
 import { defaultLocale } from "src/locales/config";
 

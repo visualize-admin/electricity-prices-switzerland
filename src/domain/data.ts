@@ -262,7 +262,3 @@ export type SunshineOperationalStandardsData = {
   };
   updateDate: string;
 };
-
-export { fetchOperationalStandards } from "src/lib/db/sunshine-data";
-export { fetchOperatorCostsAndTariffsData } from "src/lib/db/sunshine-data";
-export { fetchPowerStability } from "src/lib/db/sunshine-data";
