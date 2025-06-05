@@ -37,6 +37,7 @@ import {
   getLocalizedLabel,
   getNetworkLevelLabels,
 } from "src/domain/translation";
+import { truthy } from "src/lib/truthy";
 import { defaultLocale } from "src/locales/config";
 
 type Props =
@@ -106,31 +107,35 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
       </Trans>
     ),
     rows: [
-      {
-        label: (
-          <Trans id="sunshine.costs-and-tariffs.operator">
-            {operatorLabel}
-          </Trans>
-        ),
-        value: {
-          value: operatorRate,
-          unit: "Rp./km",
-          trend: "stable" satisfies Trend,
-        },
-      },
-      {
-        label: (
-          <Trans id="sunshine.costs-and-tariffs.median-peer-group">
-            Median Peer Group
-          </Trans>
-        ),
-        value: {
-          value: peerGroupMedianRate,
-          unit: "Rp./km",
-          trend: "stable" as Trend,
-        },
-      },
-    ],
+      operatorRate !== null
+        ? {
+            label: (
+              <Trans id="sunshine.costs-and-tariffs.operator">
+                {operatorLabel}
+              </Trans>
+            ),
+            value: {
+              value: operatorRate,
+              unit: "Rp./km",
+              trend: "stable" as Trend,
+            },
+          }
+        : null,
+      peerGroupMedianRate !== null
+        ? {
+            label: (
+              <Trans id="sunshine.costs-and-tariffs.median-peer-group">
+                Median Peer Group
+              </Trans>
+            ),
+            value: {
+              value: peerGroupMedianRate,
+              unit: "Rp./km",
+              trend: "stable" as Trend,
+            },
+          }
+        : null,
+    ].filter(truthy),
   } satisfies React.ComponentProps<typeof TableComparisonCard>;
 
   return (
@@ -197,31 +202,35 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
       </Trans>
     ),
     rows: [
-      {
-        label: (
-          <Trans id="sunshine.costs-and-tariffs.operator">
-            {operatorLabel}
-          </Trans>
-        ),
-        value: {
-          value: operatorRate,
-          unit: "Rp./km",
-          trend: "stable" satisfies Trend,
-        },
-      },
-      {
-        label: (
-          <Trans id="sunshine.costs-and-tariffs.median-peer-group">
-            Median Peer Group
-          </Trans>
-        ),
-        value: {
-          value: peerGroupMedianRate,
-          unit: "Rp./km",
-          trend: "stable" as Trend,
-        },
-      },
-    ],
+      operatorRate !== null
+        ? {
+            label: (
+              <Trans id="sunshine.costs-and-tariffs.operator">
+                {operatorLabel}
+              </Trans>
+            ),
+            value: {
+              value: operatorRate,
+              unit: "Rp./km",
+              trend: "stable" as Trend,
+            },
+          }
+        : null,
+      peerGroupMedianRate !== null
+        ? {
+            label: (
+              <Trans id="sunshine.costs-and-tariffs.median-peer-group">
+                Median Peer Group
+              </Trans>
+            ),
+            value: {
+              value: peerGroupMedianRate,
+              unit: "Rp./km",
+              trend: "stable" as Trend,
+            },
+          }
+        : null,
+    ].filter(truthy),
   } satisfies React.ComponentProps<typeof TableComparisonCard>;
 
   return (
@@ -283,31 +292,35 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
       </Trans>
     ),
     rows: [
-      {
-        label: (
-          <Trans id="sunshine.costs-and-tariffs.operator">
-            {operatorLabel}
-          </Trans>
-        ),
-        value: {
-          value: operatorRate,
-          unit: "Rp./km",
-          trend: "stable" satisfies Trend,
-        },
-      },
-      {
-        label: (
-          <Trans id="sunshine.costs-and-tariffs.median-peer-group">
-            Median Peer Group
-          </Trans>
-        ),
-        value: {
-          value: peerGroupMedianRate,
-          unit: "Rp./km",
-          trend: "stable" as Trend,
-        },
-      },
-    ],
+      operatorRate !== null
+        ? {
+            label: (
+              <Trans id="sunshine.costs-and-tariffs.operator">
+                {operatorLabel}
+              </Trans>
+            ),
+            value: {
+              value: operatorRate,
+              unit: "Rp./km",
+              trend: "stable" as Trend,
+            },
+          }
+        : null,
+      peerGroupMedianRate !== null
+        ? {
+            label: (
+              <Trans id="sunshine.costs-and-tariffs.median-peer-group">
+                Median Peer Group
+              </Trans>
+            ),
+            value: {
+              value: peerGroupMedianRate,
+              unit: "Rp./km",
+              trend: "stable" as Trend,
+            },
+          }
+        : null,
+    ].filter(truthy),
   } satisfies React.ComponentProps<typeof TableComparisonCard>;
 
   return (
