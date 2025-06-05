@@ -212,36 +212,64 @@ A notebook containing Elcom specific SPARQL queries is available at [./book.spar
 You need the [SPARQL Notebook Extension](https://marketplace.visualstudio.com/items?itemName=Zazuko.sparql-notebook)
 to open it.
 
-## Sunshine CSV
+## Mocked data
 
-At the moment, the Sunshine data is mocked and encrypted, it is available
-provided you have the password.
+Currently, the Sunshine pages rely on mocked data since the real data is not yet ready for production use. The mock data system is designed to protect operator anonymity while still providing realistic data for development and testing.
 
-There are several subsets of the data:
+### How mocked data works
 
-- observations: the individual measurements for each operator
-- energy: The energy data made in https://github.com/interactivethings/elcom-sunshine-data-analysis, made from data sent by Elcom in summer 2024
-- peer-groups: the peer groups from each operator, inferred from "energy.csv" data
+The mock data is based on real CSV files provided by Elcom. For privacy and security reasons, these CSV files are encrypted in the repository and can only be accessed by decrypting them with the correct password (`PREVIEW_PASSWORD` environment variable).
 
-Through the `yarn sunshine-csv` script you can encrypt/decrypt individual subset of the data.
+Key aspects of the mocked data system:
+
+1. **Data sources**: The original data is stored as encrypted CSV files in the repository:
+   - `observations`: Individual measurements for each operator
+   - `energy`: Energy data prepared in the [elcom-sunshine-data-analysis](https://github.com/interactivethings/elcom-sunshine-data-analysis) project
+   - `peer-groups`: Peer groups for each operator, derived from the energy data
+   - `Sunshine 2024/2025`: Yearly sunshine data files
+
+2. **Server-side processing**: When the application runs, the CSV files are:
+   - Decrypted on first request using the `PREVIEW_PASSWORD`
+   - Loaded into a DuckDB instance (an in-memory database)
+   - Processed through SQL queries to extract and transform relevant data
+
+3. **Anonymized operator data**: To preserve anonymity while the data is not yet public:
+   - Operator names are replaced with fictional names
+   - Operator IDs are also anonymized
+   - The actual data values remain intact to preserve statistical accuracy
+
+4. **Mock file generation**: Mock files can be regenerated using the CLI command:
+   ```bash
+   npm run mocks -- -o <operatorId>
+   ```
+   This creates JSON files in the `mocks/` directory that can be used in Storybook or for testing.
+
+### Working with the encrypted data
+
+You can work with the encrypted data directly using the `yarn sunshine-csv` script:
 
 ```bash
-# Decrypt observations
+# Encrypt/decrypt observation data
 yarn sunshine-csv encrypt observations
 yarn sunshine-csv decrypt observations -o decrypted.csv
 
+# Decrypt peer groups data
 yarn sunshine-csv decrypt peer-groups
 
-# How it's parsed as a JSON used in the app
+# Parse and output as JSON
 yarn sunshine-csv json observations
 ```
 
-The peer groups CSV is generated from "energy.csv" through "duckdb", you can regenerate it
-via `yarn data:peer-groups`.
+The peer groups CSV is generated from `energy.csv` using DuckDB queries and can be regenerated via:
+```bash
+yarn data:peer-groups
+```
 
-## Mocked data
+### Integration with the application
 
-Currently, to display the Sunshine pages, we rely on mock data.
+The Sunshine pages fetch data server-side in `getServerSideProps`, where:
+1. The encrypted data is decrypted and loaded into DuckDB
+2. SQL queries retrieve and format the data for the frontend components
+3. The data is passed as props to the React components
 
-This mocked data is based on the CSV sent to us by Elcom. The CSV files are encrypted
-in the repository and can only be decrypted if you have the password.
+For components testing in Storybook, the mock files from `mocks/` can be imported to simulate the data flow without needing the decryption key.
