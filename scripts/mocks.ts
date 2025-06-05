@@ -162,9 +162,12 @@ async function generateMocks(options: FetcherOptions) {
       console.log(
         `\n--- Fetching operator costs and tariffs data for operator ${operatorId} ---`
       );
-      const costsAndTariffs = await fetchOperatorCostsAndTariffsData(
-        operatorId
-      );
+      const costsAndTariffs = await fetchOperatorCostsAndTariffsData({
+        operatorId: operatorId,
+        networkLevel: "NE5",
+        period: 2025,
+        category: "NC2",
+      });
 
       // Change names of operators in the data
       for (const attr of [

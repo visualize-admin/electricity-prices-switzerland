@@ -84,6 +84,34 @@ export type MunicipalityResult = SearchResult & {
   name: Scalars["String"]["output"];
 };
 
+export type NetworkCostRow = {
+  __typename: "NetworkCostRow";
+  network_level: Scalars["String"]["output"];
+  operator_id: Scalars["Int"]["output"];
+  operator_name: Scalars["String"]["output"];
+  rate: Scalars["Float"]["output"];
+  year: Scalars["Int"]["output"];
+};
+
+export type NetworkCostsData = {
+  __typename: "NetworkCostsData";
+  networkLevel: NetworkLevel;
+  operatorRate?: Maybe<Scalars["Float"]["output"]>;
+  peerGroupMedianRate?: Maybe<Scalars["Float"]["output"]>;
+  yearlyData: Array<NetworkCostRow>;
+};
+
+export type NetworkCostsFilter = {
+  networkLevel?: InputMaybe<Scalars["String"]["input"]>;
+  operatorId: Scalars["Int"]["input"];
+  period?: InputMaybe<Scalars["Int"]["input"]>;
+};
+
+export type NetworkLevel = {
+  __typename: "NetworkLevel";
+  id: Scalars["String"]["output"];
+};
+
 export type Observation =
   | CantonMedianObservation
   | OperatorObservation
@@ -176,8 +204,11 @@ export type Query = {
   cantonMedianObservations?: Maybe<Array<CantonMedianObservation>>;
   cantons: Array<Canton>;
   cubeHealth?: Maybe<CubeHealth>;
+  energyTariffs: TariffsData;
   municipalities: Array<Municipality>;
   municipality?: Maybe<Municipality>;
+  netTariffs: TariffsData;
+  networkCosts: NetworkCostsData;
   observations?: Maybe<Array<OperatorObservation>>;
   operator?: Maybe<Operator>;
   operators: Array<Operator>;
@@ -213,6 +244,10 @@ export type QueryCantonsArgs = {
   query?: InputMaybe<Scalars["String"]["input"]>;
 };
 
+export type QueryEnergyTariffsArgs = {
+  filter: TariffsFilter;
+};
+
 export type QueryMunicipalitiesArgs = {
   ids?: InputMaybe<Array<Scalars["String"]["input"]>>;
   locale: Scalars["String"]["input"];
@@ -222,6 +257,14 @@ export type QueryMunicipalitiesArgs = {
 export type QueryMunicipalityArgs = {
   id: Scalars["String"]["input"];
   locale: Scalars["String"]["input"];
+};
+
+export type QueryNetTariffsArgs = {
+  filter: TariffsFilter;
+};
+
+export type QueryNetworkCostsArgs = {
+  filter: NetworkCostsFilter;
 };
 
 export type QueryObservationsArgs = {
@@ -358,6 +401,29 @@ export enum TariffCategory {
   Nh4 = "NH4",
   Nh7 = "NH7",
 }
+
+export type TariffRow = {
+  __typename: "TariffRow";
+  category: Scalars["String"]["output"];
+  operator_id: Scalars["Int"]["output"];
+  operator_name: Scalars["String"]["output"];
+  period: Scalars["Int"]["output"];
+  rate: Scalars["Float"]["output"];
+};
+
+export type TariffsData = {
+  __typename: "TariffsData";
+  category: Scalars["String"]["output"];
+  operatorRate?: Maybe<Scalars["Float"]["output"]>;
+  peerGroupMedianRate?: Maybe<Scalars["Float"]["output"]>;
+  yearlyData: Array<TariffRow>;
+};
+
+export type TariffsFilter = {
+  category?: InputMaybe<Scalars["String"]["input"]>;
+  operatorId: Scalars["Int"]["input"];
+  period?: InputMaybe<Scalars["Int"]["input"]>;
+};
 
 export type WikiContent = {
   __typename: "WikiContent";

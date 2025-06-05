@@ -260,7 +260,57 @@ enum TariffCategory {
   NH7
 }
 
+type NetworkCostsData {
+  networkLevel: NetworkLevel!
+  operatorRate: Float
+  peerGroupMedianRate: Float
+  yearlyData: [NetworkCostRow!]!
+}
+
+type NetworkLevel {
+  id: String!
+}
+
+type NetworkCostRow {
+  year: Int!
+  rate: Float!
+  operator_id: Int!
+  operator_name: String!
+  network_level: String!
+}
+
+type TariffsData {
+  category: String!
+  operatorRate: Float
+  peerGroupMedianRate: Float
+  yearlyData: [TariffRow!]!
+}
+
+type TariffRow {
+  period: Int!
+  rate: Float!
+  operator_id: Int!
+  operator_name: String!
+  category: String!
+}
+
+input NetworkCostsFilter {
+  operatorId: Int!
+  networkLevel: String
+  period: Int
+}
+
+input TariffsFilter {
+  operatorId: Int!
+  category: String
+  period: Int
+}
+
 type Query {
   sunshineData(filter: SunshineDataFilter!): [SunshineDataRow!]!
   sunshineTariffs(filter: SunshineDataFilter!): [SunshineDataRow!]!
+  
+  networkCosts(filter: NetworkCostsFilter!): NetworkCostsData!
+  netTariffs(filter: TariffsFilter!): TariffsData!
+  energyTariffs(filter: TariffsFilter!): TariffsData!
 }

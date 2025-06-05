@@ -72,7 +72,11 @@ export const getServerSideProps: GetServerSideProps<
     };
   }
 
-  const costsAndTariffs = await fetchOperatorCostsAndTariffsData(id);
+  const costsAndTariffs = await fetchOperatorCostsAndTariffsData({
+    operatorId: id,
+    networkLevel: "NE5",
+    category: "NC2",
+  });
 
   return {
     props: {

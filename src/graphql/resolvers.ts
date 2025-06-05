@@ -22,6 +22,11 @@ import {
   Resolvers,
   SwissMedianObservationResolvers,
 } from "src/graphql/resolver-types";
+import { 
+  fetchEnergyTariffsData, 
+  fetchNetTariffsData, 
+  fetchNetworkCostsData 
+} from "src/lib/db/sunshine-data";
 import { getPeerGroup, getSunshineData } from "src/lib/sunshine-csv";
 import { defaultLocale } from "src/locales/config";
 import {
@@ -395,6 +400,27 @@ const Query: QueryResolvers = {
         htmlExtensions: [gfmHtml],
       }),
     };
+  },
+  networkCosts: async (_, { filter }) => {
+    return await fetchNetworkCostsData(
+      filter.operatorId,
+      filter.networkLevel ?? undefined,
+      filter.period ?? undefined
+    );
+  },
+  netTariffs: async (_, { filter }) => {
+    return await fetchNetTariffsData(
+      filter.operatorId,
+      filter.category ?? undefined,
+      filter.period ?? undefined
+    );
+  },
+  energyTariffs: async (_, { filter }) => {
+    return await fetchEnergyTariffsData(
+      filter.operatorId,
+      filter.category ?? undefined,
+      filter.period ?? undefined
+    );
   },
 };
 

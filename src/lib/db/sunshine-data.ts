@@ -459,12 +459,16 @@ export const fetchNetworkCostsData = async (
       networkLevel: networkLevel,
     });
 
-  const networkCosts = await getNetworkCosts({
-    period: targetPeriod,
-    settlementDensity: operatorData.settlement_density,
-    energyDensity: operatorData.energy_density,
-    networkLevel: networkLevel,
-  });
+  const networkCosts = (
+    await getNetworkCosts({
+      period: targetPeriod,
+      settlementDensity: operatorData.settlement_density,
+      energyDensity: operatorData.energy_density,
+      networkLevel: networkLevel,
+    })
+  )
+    // TODO Should be done in the view
+    .filter((x) => !Number.isNaN(x.rate) && Number.isFinite(x.rate));
 
   const operatorNetworkCost = networkCosts.find(
     (cost) =>
@@ -537,11 +541,10 @@ export const fetchNetTariffsData = async (
 
 export const fetchEnergyTariffsData = async (
   operatorId: number,
-  // TODO
-  category: NetworkCategory = "NC2",
+  category: NetworkCategory,
   period?: number
 ): Promise<{
-  category: string;
+  category: NetworkCategory;
   operatorRate: number | null;
   peerGroupMedianRate: number | null;
   yearlyData: TariffRecord[];
@@ -590,12 +593,17 @@ export const fetchEnergyTariffsData = async (
   };
 };
 
-export const fetchOperatorCostsAndTariffsData = async (
-  operatorId_: string,
-  networkLevel: string = "NE5",
-  category: NetworkCategory = "NC2",
-  period?: number
-): Promise<SunshineCostsAndTariffsData> => {
+export const fetchOperatorCostsAndTariffsData = async ({
+  operatorId: operatorId_,
+  networkLevel,
+  category,
+  period,
+}: {
+  operatorId: string;
+  networkLevel: NetworkLevel["id"];
+  category: NetworkCategory;
+  period?: number;
+}): Promise<SunshineCostsAndTariffsData> => {
   await ensureDatabaseInitialized();
 
   const operatorId = parseInt(operatorId_, 10);
@@ -614,7 +622,6 @@ export const fetchOperatorCostsAndTariffsData = async (
     targetPeriod = parseInt(latestYearData[0]?.year || "2024", 10);
   }
 
-  // Fetch data using the three sub-functions
   const networkCostsData = await fetchNetworkCostsData(
     operatorId,
     networkLevel,

@@ -100,6 +100,34 @@ export type MunicipalityResult = SearchResult & {
   name: Scalars["String"]["output"];
 };
 
+export type NetworkCostRow = {
+  __typename?: "NetworkCostRow";
+  network_level: Scalars["String"]["output"];
+  operator_id: Scalars["Int"]["output"];
+  operator_name: Scalars["String"]["output"];
+  rate: Scalars["Float"]["output"];
+  year: Scalars["Int"]["output"];
+};
+
+export type NetworkCostsData = {
+  __typename?: "NetworkCostsData";
+  networkLevel: NetworkLevel;
+  operatorRate?: Maybe<Scalars["Float"]["output"]>;
+  peerGroupMedianRate?: Maybe<Scalars["Float"]["output"]>;
+  yearlyData: Array<NetworkCostRow>;
+};
+
+export type NetworkCostsFilter = {
+  networkLevel?: InputMaybe<Scalars["String"]["input"]>;
+  operatorId: Scalars["Int"]["input"];
+  period?: InputMaybe<Scalars["Int"]["input"]>;
+};
+
+export type NetworkLevel = {
+  __typename?: "NetworkLevel";
+  id: Scalars["String"]["output"];
+};
+
 export type Observation =
   | CantonMedianObservation
   | OperatorObservation
@@ -192,8 +220,11 @@ export type Query = {
   cantonMedianObservations?: Maybe<Array<CantonMedianObservation>>;
   cantons: Array<Canton>;
   cubeHealth?: Maybe<CubeHealth>;
+  energyTariffs: TariffsData;
   municipalities: Array<Municipality>;
   municipality?: Maybe<Municipality>;
+  netTariffs: TariffsData;
+  networkCosts: NetworkCostsData;
   observations?: Maybe<Array<OperatorObservation>>;
   operator?: Maybe<Operator>;
   operators: Array<Operator>;
@@ -229,6 +260,10 @@ export type QueryCantonsArgs = {
   query?: InputMaybe<Scalars["String"]["input"]>;
 };
 
+export type QueryEnergyTariffsArgs = {
+  filter: TariffsFilter;
+};
+
 export type QueryMunicipalitiesArgs = {
   ids?: InputMaybe<Array<Scalars["String"]["input"]>>;
   locale: Scalars["String"]["input"];
@@ -238,6 +273,14 @@ export type QueryMunicipalitiesArgs = {
 export type QueryMunicipalityArgs = {
   id: Scalars["String"]["input"];
   locale: Scalars["String"]["input"];
+};
+
+export type QueryNetTariffsArgs = {
+  filter: TariffsFilter;
+};
+
+export type QueryNetworkCostsArgs = {
+  filter: NetworkCostsFilter;
 };
 
 export type QueryObservationsArgs = {
@@ -375,6 +418,29 @@ export enum TariffCategory {
   Nh7 = "NH7",
 }
 
+export type TariffRow = {
+  __typename?: "TariffRow";
+  category: Scalars["String"]["output"];
+  operator_id: Scalars["Int"]["output"];
+  operator_name: Scalars["String"]["output"];
+  period: Scalars["Int"]["output"];
+  rate: Scalars["Float"]["output"];
+};
+
+export type TariffsData = {
+  __typename?: "TariffsData";
+  category: Scalars["String"]["output"];
+  operatorRate?: Maybe<Scalars["Float"]["output"]>;
+  peerGroupMedianRate?: Maybe<Scalars["Float"]["output"]>;
+  yearlyData: Array<TariffRow>;
+};
+
+export type TariffsFilter = {
+  category?: InputMaybe<Scalars["String"]["input"]>;
+  operatorId: Scalars["Int"]["input"];
+  period?: InputMaybe<Scalars["Int"]["input"]>;
+};
+
 export type WikiContent = {
   __typename?: "WikiContent";
   html: Scalars["String"]["output"];
@@ -510,6 +576,10 @@ export type ResolversTypes = ResolversObject<{
   Int: ResolverTypeWrapper<Scalars["Int"]["output"]>;
   Municipality: ResolverTypeWrapper<ResolvedMunicipality>;
   MunicipalityResult: ResolverTypeWrapper<ResolvedSearchResult>;
+  NetworkCostRow: ResolverTypeWrapper<NetworkCostRow>;
+  NetworkCostsData: ResolverTypeWrapper<NetworkCostsData>;
+  NetworkCostsFilter: NetworkCostsFilter;
+  NetworkLevel: ResolverTypeWrapper<NetworkLevel>;
   Observation: ResolverTypeWrapper<ResolvedObservation>;
   ObservationFilters: ObservationFilters;
   ObservationKind: ObservationKind;
@@ -530,6 +600,9 @@ export type ResolversTypes = ResolversObject<{
   SwissMedianObservation: ResolverTypeWrapper<ResolvedSwissMedianObservation>;
   SystemInfo: ResolverTypeWrapper<SystemInfo>;
   TariffCategory: TariffCategory;
+  TariffRow: ResolverTypeWrapper<TariffRow>;
+  TariffsData: ResolverTypeWrapper<TariffsData>;
+  TariffsFilter: TariffsFilter;
   WikiContent: ResolverTypeWrapper<WikiContent>;
   WikiContentInfo: ResolverTypeWrapper<Scalars["WikiContentInfo"]["output"]>;
 }>;
@@ -545,6 +618,10 @@ export type ResolversParentTypes = ResolversObject<{
   Int: Scalars["Int"]["output"];
   Municipality: ResolvedMunicipality;
   MunicipalityResult: ResolvedSearchResult;
+  NetworkCostRow: NetworkCostRow;
+  NetworkCostsData: NetworkCostsData;
+  NetworkCostsFilter: NetworkCostsFilter;
+  NetworkLevel: NetworkLevel;
   Observation: ResolvedObservation;
   ObservationFilters: ObservationFilters;
   Operator: ResolvedOperator;
@@ -559,6 +636,9 @@ export type ResolversParentTypes = ResolversObject<{
   SunshineDataRow: SunshineDataRow;
   SwissMedianObservation: ResolvedSwissMedianObservation;
   SystemInfo: SystemInfo;
+  TariffRow: TariffRow;
+  TariffsData: TariffsData;
+  TariffsFilter: TariffsFilter;
   WikiContent: WikiContent;
   WikiContentInfo: Scalars["WikiContentInfo"]["output"];
 }>;
@@ -664,6 +744,53 @@ export type MunicipalityResultResolvers<
 > = ResolversObject<{
   id?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type NetworkCostRowResolvers<
+  ContextType = ServerContext,
+  ParentType extends ResolversParentTypes["NetworkCostRow"] = ResolversParentTypes["NetworkCostRow"]
+> = ResolversObject<{
+  network_level?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  operator_id?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  operator_name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  rate?: Resolver<ResolversTypes["Float"], ParentType, ContextType>;
+  year?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type NetworkCostsDataResolvers<
+  ContextType = ServerContext,
+  ParentType extends ResolversParentTypes["NetworkCostsData"] = ResolversParentTypes["NetworkCostsData"]
+> = ResolversObject<{
+  networkLevel?: Resolver<
+    ResolversTypes["NetworkLevel"],
+    ParentType,
+    ContextType
+  >;
+  operatorRate?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  peerGroupMedianRate?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  yearlyData?: Resolver<
+    Array<ResolversTypes["NetworkCostRow"]>,
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type NetworkLevelResolvers<
+  ContextType = ServerContext,
+  ParentType extends ResolversParentTypes["NetworkLevel"] = ResolversParentTypes["NetworkLevel"]
+> = ResolversObject<{
+  id?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -819,6 +946,12 @@ export type QueryResolvers<
     ParentType,
     ContextType
   >;
+  energyTariffs?: Resolver<
+    ResolversTypes["TariffsData"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryEnergyTariffsArgs, "filter">
+  >;
   municipalities?: Resolver<
     Array<ResolversTypes["Municipality"]>,
     ParentType,
@@ -830,6 +963,18 @@ export type QueryResolvers<
     ParentType,
     ContextType,
     RequireFields<QueryMunicipalityArgs, "id" | "locale">
+  >;
+  netTariffs?: Resolver<
+    ResolversTypes["TariffsData"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryNetTariffsArgs, "filter">
+  >;
+  networkCosts?: Resolver<
+    ResolversTypes["NetworkCostsData"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryNetworkCostsArgs, "filter">
   >;
   observations?: Resolver<
     Maybe<Array<ResolversTypes["OperatorObservation"]>>,
@@ -1004,6 +1149,41 @@ export type SystemInfoResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export type TariffRowResolvers<
+  ContextType = ServerContext,
+  ParentType extends ResolversParentTypes["TariffRow"] = ResolversParentTypes["TariffRow"]
+> = ResolversObject<{
+  category?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  operator_id?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  operator_name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  period?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  rate?: Resolver<ResolversTypes["Float"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type TariffsDataResolvers<
+  ContextType = ServerContext,
+  ParentType extends ResolversParentTypes["TariffsData"] = ResolversParentTypes["TariffsData"]
+> = ResolversObject<{
+  category?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  operatorRate?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  peerGroupMedianRate?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  yearlyData?: Resolver<
+    Array<ResolversTypes["TariffRow"]>,
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export type WikiContentResolvers<
   ContextType = ServerContext,
   ParentType extends ResolversParentTypes["WikiContent"] = ResolversParentTypes["WikiContent"]
@@ -1029,6 +1209,9 @@ export type Resolvers<ContextType = ServerContext> = ResolversObject<{
   CubeHealth?: CubeHealthResolvers<ContextType>;
   Municipality?: MunicipalityResolvers<ContextType>;
   MunicipalityResult?: MunicipalityResultResolvers<ContextType>;
+  NetworkCostRow?: NetworkCostRowResolvers<ContextType>;
+  NetworkCostsData?: NetworkCostsDataResolvers<ContextType>;
+  NetworkLevel?: NetworkLevelResolvers<ContextType>;
   Observation?: ObservationResolvers<ContextType>;
   Operator?: OperatorResolvers<ContextType>;
   OperatorDocument?: OperatorDocumentResolvers<ContextType>;
@@ -1040,6 +1223,8 @@ export type Resolvers<ContextType = ServerContext> = ResolversObject<{
   SunshineDataRow?: SunshineDataRowResolvers<ContextType>;
   SwissMedianObservation?: SwissMedianObservationResolvers<ContextType>;
   SystemInfo?: SystemInfoResolvers<ContextType>;
+  TariffRow?: TariffRowResolvers<ContextType>;
+  TariffsData?: TariffsDataResolvers<ContextType>;
   WikiContent?: WikiContentResolvers<ContextType>;
   WikiContentInfo?: GraphQLScalarType;
 }>;
