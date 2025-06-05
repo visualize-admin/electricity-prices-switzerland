@@ -100,11 +100,13 @@ export const getNetworkCosts = async ({
   period,
   settlementDensity,
   energyDensity,
+  networkLevel,
 }: {
   operatorId?: number;
   period?: number;
   settlementDensity?: string;
   energyDensity?: string;
+  networkLevel?: NetworkLevel["id"];
 } = {}): Promise<NetworkCostRecord[]> => {
   const operatorFilter = operatorId ? `operator_id = ${operatorId}` : "1=1"; // Default to all operators
   // Instead of querying sunshine_all with filters
@@ -114,6 +116,9 @@ export const getNetworkCosts = async ({
     : "";
   const energyDensityFilter = energyDensity
     ? `AND energy_density = '${energyDensity}'`
+    : "";
+  const networkLevelFilter = networkLevel
+    ? `AND network_level = '${networkLevel}'`
     : "";
   const sql = `
       SELECT
@@ -125,7 +130,7 @@ export const getNetworkCosts = async ({
         settlement_density,
         energy_density
       FROM network_costs
-      WHERE ${operatorFilter} ${periodFilter} ${settlementDensityFilter} ${energyDensityFilter}
+      WHERE ${operatorFilter} ${periodFilter} ${settlementDensityFilter} ${energyDensityFilter} ${networkLevelFilter}
       ORDER BY period DESC, operator_id, network_level
     `;
 
@@ -555,6 +560,7 @@ export const fetchOperatorCostsAndTariffsData = async (
     period: latestYear,
     settlementDensity: operatorData.settlement_density,
     energyDensity: operatorData.energy_density,
+    networkLevel: networkLevel.id,
   });
 
   const netTariffs = await getTariffs({
@@ -562,12 +568,14 @@ export const fetchOperatorCostsAndTariffsData = async (
     settlementDensity: operatorData.settlement_density,
     energyDensity: operatorData.energy_density,
     tariffType: "network",
+    category: category,
   });
 
   const energyTariffs = await getTariffs({
     period: latestYear,
     settlementDensity: operatorData.settlement_density,
     energyDensity: operatorData.energy_density,
+    category: category,
   });
 
   // Based on network level
