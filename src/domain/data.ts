@@ -139,23 +139,26 @@ export type ElectricityCategory =
   | "H7"
   | "H8";
 
+// TODO
+export type NetworkCategory = "NC2" | "NC3";
+
 export type SunshineCostsAndTariffsData = {
   latestYear: string;
   netTariffs: {
-    category: ElectricityCategory;
+    category: NetworkCategory;
     peerGroupMedianRate: number | null;
     operatorRate: number | null;
     yearlyData: {
       period: number;
       rate: number;
       operator_id: number;
-      category: ElectricityCategory;
+      category: NetworkCategory;
       operator_name: string;
     }[];
   };
 
   energyTariffs: {
-    category: ElectricityCategory;
+    category: NetworkCategory;
     peerGroupMedianRate: number | null;
     operatorRate: number | null;
     yearlyData: {
@@ -163,7 +166,7 @@ export type SunshineCostsAndTariffsData = {
       rate: number;
       operator_id: number;
       operator_name: string;
-      category: ElectricityCategory;
+      category: NetworkCategory;
     }[];
   };
 

@@ -1,7 +1,6 @@
-import { omit } from "lodash";
-
 import {
   ElectricityCategory,
+  NetworkCategory,
   NetworkLevel,
   SunshineCostsAndTariffsData,
   SunshineOperationalStandardsData,
@@ -16,8 +15,6 @@ type NetworkCostRecord = {
   year: number;
   network_level: NetworkLevel["id"];
   rate: number;
-  settlement_density: string;
-  energy_density: string;
 };
 
 type OperationalStandardRecord = {
@@ -39,19 +36,15 @@ type StabilityMetricRecord = {
   saidi_unplanned: number;
   saifi_total: number;
   saifi_unplanned: number;
-  settlement_density: string;
-  energy_density: string;
 };
 
 type TariffRecord = {
   operator_id: number;
   operator_name: string;
   period: number;
-  category: ElectricityCategory;
+  category: NetworkCategory;
   tariff_type: string;
   rate: number;
-  settlement_density: string;
-  energy_density: string;
 };
 
 type OperatorDataRecord = {
@@ -95,8 +88,6 @@ const getNetworkCosts = async ({
         period as year, -- TODO
         network_level,
         cost as rate, -- TODO
-        settlement_density,
-        energy_density
       FROM network_costs
       WHERE ${operatorFilter} ${periodFilter} ${settlementDensityFilter} ${energyDensityFilter} ${networkLevelFilter}
       ORDER BY period DESC, operator_id, network_level
@@ -164,9 +155,7 @@ const getStabilityMetrics = async ({
         saidi_total,
         saidi_unplanned,
         saifi_total,
-        saifi_unplanned,
-        settlement_density,
-        energy_density
+        saifi_unplanned
       FROM stability_metrics
       WHERE ${operatorFilter} ${periodFilter} ${settlementDensityFilter} ${energyDensityFilter} 
       ORDER BY period DESC, operator_id
@@ -211,9 +200,7 @@ const getTariffs = async ({
         period,
         category,
         tariff_type,
-        rate,
-        settlement_density,
-        energy_density
+        rate
       FROM tariffs
       WHERE ${operatorFilter} ${periodFilter} ${categoryFilter} ${tariffTypeFilter} ${settlementDensityFilter} ${energyDensityFilter}
       ORDER BY period DESC, operator_id, category, tariff_type
@@ -276,7 +263,7 @@ type NetTariffsParams = {
   settlementDensity: string;
   energyDensity: string;
   period?: number;
-  category: ElectricityCategory; // Required for tariffs
+  category: NetworkCategory; // Required for tariffs
 };
 
 type EnergyTariffsParams = {
@@ -284,7 +271,7 @@ type EnergyTariffsParams = {
   settlementDensity: string;
   energyDensity: string;
   period?: number;
-  category: ElectricityCategory; // Required for tariffs
+  category: NetworkCategory; // Required for tariffs
 };
 
 type PeerGroupMedianValuesParams =
@@ -438,43 +425,86 @@ const getPeerGroupMedianValues = async <
  * @param operatorId The operator ID
  * @returns Costs and tariffs data
  */
-export const fetchOperatorCostsAndTariffsData = async (
-  operatorId_: string
-): Promise<SunshineCostsAndTariffsData> => {
+export const fetchNetworkCostsData = async (
+  operatorId: number,
+  networkLevel: string = "NE5",
+  period?: number
+): Promise<{
+  networkLevel: { id: string };
+  operatorRate: number | null;
+  peerGroupMedianRate: number | null;
+  yearlyData: NetworkCostRecord[];
+}> => {
   await ensureDatabaseInitialized();
 
-  const networkLevel = { id: "NE5" } as NetworkLevel;
-  const category = "NC2" as ElectricityCategory;
-
-  const operatorId = parseInt(operatorId_, 10);
   const operatorData = await getOperatorData(operatorId);
-
   if (!operatorData) {
     throw new Error(`Peer group not found for operator ID: ${operatorId}`);
   }
 
-  // Get the latest year data for the operator
-  const latestYearData = await query<{ year: string }>(`
-    SELECT MAX(period) as year FROM sunshine_all WHERE partner_id = ${operatorId}
-  `);
-
-  const latestYear = parseInt(latestYearData[0]?.year || "2024", 10);
+  // Get the latest year if period not provided
+  let targetPeriod = period;
+  if (!targetPeriod) {
+    const latestYearData = await query<{ year: string }>(`
+      SELECT MAX(period) as year FROM sunshine_all WHERE partner_id = ${operatorId}
+    `);
+    targetPeriod = parseInt(latestYearData[0]?.year || "2024", 10);
+  }
 
   const peerGroupMedianNetworkCosts =
     await getPeerGroupMedianValues<"network_costs">({
       settlementDensity: operatorData.settlement_density,
       energyDensity: operatorData.energy_density,
       metric: "network_costs",
-      networkLevel: networkLevel.id,
+      networkLevel: networkLevel,
     });
 
-  const peerGroupMedianEnergyTariffs =
-    await getPeerGroupMedianValues<"energy-tariffs">({
-      settlementDensity: operatorData.settlement_density,
-      energyDensity: operatorData.energy_density,
-      metric: "energy-tariffs",
-      category: category,
-    });
+  const networkCosts = await getNetworkCosts({
+    period: targetPeriod,
+    settlementDensity: operatorData.settlement_density,
+    energyDensity: operatorData.energy_density,
+    networkLevel: networkLevel,
+  });
+
+  const operatorNetworkCost = networkCosts.find(
+    (cost) =>
+      cost.network_level === networkLevel && cost.operator_id === operatorId
+  );
+
+  return {
+    networkLevel: { id: networkLevel },
+    operatorRate: operatorNetworkCost?.rate ?? null,
+    peerGroupMedianRate: peerGroupMedianNetworkCosts?.median_value ?? null,
+    yearlyData: networkCosts,
+  };
+};
+
+export const fetchNetTariffsData = async (
+  operatorId: number,
+  // TODO it seems NC2 is not an ElectricityCategory, but a NetworkCategory
+  category: NetworkCategory = "NC2",
+  period?: number
+): Promise<{
+  category: NetworkCategory;
+  operatorRate: number | null;
+  peerGroupMedianRate: number | null;
+  yearlyData: TariffRecord[];
+}> => {
+  await ensureDatabaseInitialized();
+
+  const operatorData = await getOperatorData(operatorId);
+  if (!operatorData) {
+    throw new Error(`Peer group not found for operator ID: ${operatorId}`);
+  }
+
+  // Get the latest year if period not provided
+  let targetPeriod = period;
+  if (!targetPeriod) {
+    const latestYearData = await query<{ year: string }>(`
+      SELECT MAX(period) as year FROM sunshine_all WHERE partner_id = ${operatorId}
+    `);
+    targetPeriod = parseInt(latestYearData[0]?.year || "2024", 10);
+  }
 
   const peerGroupMedianNetTariffs =
     await getPeerGroupMedianValues<"net-tariffs">({
@@ -484,80 +514,135 @@ export const fetchOperatorCostsAndTariffsData = async (
       category: category,
     });
 
-  const networkCosts = await getNetworkCosts({
-    period: latestYear,
-    settlementDensity: operatorData.settlement_density,
-    energyDensity: operatorData.energy_density,
-    networkLevel: networkLevel.id,
-  });
-
   const netTariffs = await getTariffs({
-    period: latestYear,
+    period: targetPeriod,
     settlementDensity: operatorData.settlement_density,
     energyDensity: operatorData.energy_density,
     tariffType: "network",
     category: category,
   });
 
-  const energyTariffs = await getTariffs({
-    period: latestYear,
-    settlementDensity: operatorData.settlement_density,
-    energyDensity: operatorData.energy_density,
-    category: category,
-  });
-
-  // Based on network level
-  const operatorNetworkCost = networkCosts.find(
-    (cost) =>
-      cost.network_level === networkLevel.id && cost.operator_id === operatorId
-  );
-
-  // Based on category
   const operatorNetTariff = netTariffs.find(
     (tariff) =>
       tariff.category === category && tariff.operator_id === operatorId
   );
+
+  return {
+    category: category,
+    operatorRate: operatorNetTariff?.rate ?? null,
+    peerGroupMedianRate: peerGroupMedianNetTariffs?.median_rate ?? null,
+    yearlyData: netTariffs,
+  };
+};
+
+export const fetchEnergyTariffsData = async (
+  operatorId: number,
+  // TODO
+  category: NetworkCategory = "NC2",
+  period?: number
+): Promise<{
+  category: string;
+  operatorRate: number | null;
+  peerGroupMedianRate: number | null;
+  yearlyData: TariffRecord[];
+}> => {
+  await ensureDatabaseInitialized();
+
+  const operatorData = await getOperatorData(operatorId);
+  if (!operatorData) {
+    throw new Error(`Peer group not found for operator ID: ${operatorId}`);
+  }
+
+  // Get the latest year if period not provided
+  let targetPeriod = period;
+  if (!targetPeriod) {
+    const latestYearData = await query<{ year: string }>(`
+      SELECT MAX(period) as year FROM sunshine_all WHERE partner_id = ${operatorId}
+    `);
+    targetPeriod = parseInt(latestYearData[0]?.year || "2024", 10);
+  }
+
+  const peerGroupMedianEnergyTariffs =
+    await getPeerGroupMedianValues<"energy-tariffs">({
+      settlementDensity: operatorData.settlement_density,
+      energyDensity: operatorData.energy_density,
+      metric: "energy-tariffs",
+      category: category,
+    });
+
+  const energyTariffs = await getTariffs({
+    period: targetPeriod,
+    settlementDensity: operatorData.settlement_density,
+    energyDensity: operatorData.energy_density,
+    category: category,
+  });
 
   const operatorEnergyTariff = energyTariffs.find(
     (tariff) =>
       tariff.category === category && tariff.operator_id === operatorId
   );
 
+  return {
+    category: category,
+    operatorRate: operatorEnergyTariff?.rate ?? null,
+    peerGroupMedianRate: peerGroupMedianEnergyTariffs?.median_rate ?? null,
+    yearlyData: energyTariffs,
+  };
+};
+
+export const fetchOperatorCostsAndTariffsData = async (
+  operatorId_: string,
+  networkLevel: string = "NE5",
+  category: NetworkCategory = "NC2",
+  period?: number
+): Promise<SunshineCostsAndTariffsData> => {
+  await ensureDatabaseInitialized();
+
+  const operatorId = parseInt(operatorId_, 10);
+  const operatorData = await getOperatorData(operatorId);
+
+  if (!operatorData) {
+    throw new Error(`Peer group not found for operator ID: ${operatorId}`);
+  }
+
+  // Get the latest year if period not provided
+  let targetPeriod = period;
+  if (!targetPeriod) {
+    const latestYearData = await query<{ year: string }>(`
+      SELECT MAX(period) as year FROM sunshine_all WHERE partner_id = ${operatorId}
+    `);
+    targetPeriod = parseInt(latestYearData[0]?.year || "2024", 10);
+  }
+
+  // Fetch data using the three sub-functions
+  const networkCostsData = await fetchNetworkCostsData(
+    operatorId,
+    networkLevel,
+    targetPeriod
+  );
+  const netTariffsData = await fetchNetTariffsData(
+    operatorId,
+    category,
+    targetPeriod
+  );
+  const energyTariffsData = await fetchEnergyTariffsData(
+    operatorId,
+    category,
+    targetPeriod
+  );
+
   // Create response object
   return {
-    latestYear: `${latestYear}`,
+    latestYear: `${targetPeriod}`,
     operator: {
       peerGroup: {
         settlementDensity: operatorData.settlement_density,
         energyDensity: operatorData.energy_density,
       },
     },
-    networkCosts: {
-      networkLevel: {
-        id: networkLevel.id,
-      },
-      operatorRate: operatorNetworkCost?.rate ?? null,
-      peerGroupMedianRate: peerGroupMedianNetworkCosts?.median_value ?? null,
-      yearlyData: networkCosts.map((x) =>
-        omit(x, ["settlement_density", "energy_density"])
-      ),
-    },
-    netTariffs: {
-      category: category,
-      operatorRate: operatorNetTariff?.rate ?? null,
-      peerGroupMedianRate: peerGroupMedianNetTariffs?.median_rate ?? null,
-      yearlyData: netTariffs.map((x) =>
-        omit(x, ["settlement_density", "energy_density"])
-      ),
-    },
-    energyTariffs: {
-      category: category,
-      operatorRate: operatorEnergyTariff?.rate ?? null,
-      peerGroupMedianRate: peerGroupMedianEnergyTariffs?.median_rate ?? null,
-      yearlyData: energyTariffs.map((x) =>
-        omit(x, ["settlement_density", "energy_density"])
-      ),
-    },
+    networkCosts: networkCostsData,
+    netTariffs: netTariffsData,
+    energyTariffs: energyTariffsData,
     updateDate: new Date().toLocaleDateString("en-US", {
       year: "numeric",
       month: "long",
