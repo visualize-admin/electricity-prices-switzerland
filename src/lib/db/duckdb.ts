@@ -3,6 +3,7 @@ import path from "path";
 
 import { DuckDBConnection, DuckDBInstance } from "@duckdb/node-api";
 
+import { setupCleanupHandlers } from "src/lib/db/cleanup";
 import { decryptSunshineCsvFile } from "src/lib/sunshine-csv";
 
 let instance: DuckDBInstance | null = null;
@@ -71,7 +72,7 @@ export const query = async <T = unknown>(
  * Execute a SQL query that doesn't return results
  * @param sql SQL query to execute
  */
-export const exec = async (sql: string): Promise<void> => {
+const exec = async (sql: string): Promise<void> => {
   if (!connection) {
     throw new Error(
       "DuckDB connection not initialized. Call initDuckDB() first."
@@ -83,55 +84,6 @@ export const exec = async (sql: string): Promise<void> => {
   } catch (error) {
     console.error("DuckDB exec error:", error);
     throw error;
-  }
-};
-
-/**
- * Get the absolute path to a file in the project
- * @param relativePath Path relative to the project root
- * @returns Absolute path
- */
-export const getFilePath = (relativePath: string): string => {
-  return path.resolve(process.cwd(), relativePath);
-};
-
-/**
- * Load CSV data into a DuckDB table
- * @param tableName Name of the table to create
- * @param csvPath Path to the CSV file
- * @param options Additional options for loading CSV
- */
-export const loadCSV = async (
-  tableName: string,
-  csvPath: string,
-  options: {
-    autoDetect?: boolean;
-    delimiter?: string;
-    header?: boolean;
-    drop?: boolean;
-  } = {}
-): Promise<void> => {
-  const {
-    autoDetect = true,
-    delimiter = ",",
-    header = true,
-    drop = true,
-  } = options;
-
-  const absolutePath = getFilePath(csvPath);
-
-  if (drop) {
-    await exec(`DROP TABLE IF EXISTS ${tableName}`);
-  }
-
-  if (autoDetect) {
-    await exec(
-      `CREATE TABLE ${tableName} AS SELECT * FROM read_csv_auto('${absolutePath}', header=${header}, delim='${delimiter}')`
-    );
-  } else {
-    await exec(
-      `CREATE TABLE ${tableName} AS SELECT * FROM read_csv('${absolutePath}', header=${header}, delim='${delimiter}', auto_detect=false)`
-    );
   }
 };
 
@@ -156,4 +108,19 @@ export const setupDatabase = async (): Promise<void> => {
   await exec(setupSQL);
 
   console.log("DuckDB setup completed successfully");
+}; // Database initialization will be handled asynchronously on first query
+let databaseInitialized = false;
+/**
+ * Ensure database is initialized before running queries
+ */
+
+export const ensureDatabaseInitialized = async (): Promise<void> => {
+  if (!databaseInitialized) {
+    setupCleanupHandlers();
+    console.log("Initializing DuckDB database...");
+    await setupDatabase();
+    console.log("Setup databse connection.");
+    await setupDatabaseConnection();
+    databaseInitialized = true;
+  }
 };
