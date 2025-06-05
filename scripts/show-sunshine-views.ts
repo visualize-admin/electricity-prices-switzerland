@@ -1,4 +1,4 @@
-import { DuckDBConnection } from "@duckdb/node-api";
+import { DuckDBConnection, Json } from "@duckdb/node-api";
 import { ArgumentParser } from "argparse";
 import Table from "cli-table3";
 
@@ -47,7 +47,7 @@ async function getColumnInfo(
 /**
  * Format a value for display in a table
  */
-function formatValue(value: any): string {
+function formatValue(value: Json): string {
   if (value === null || value === undefined) {
     return "NULL";
   } else if (typeof value === "object") {
