@@ -63,6 +63,10 @@ const nextConfig = async (): Promise<NextConfig> => {
       "**": [...additionalTracedFiles],
     },
 
+    outputFileTracingExcludes: {
+      "/": [".git", ".next/cache"],
+    },
+
     assetPrefix:
       WEBPACK_ASSET_PREFIX && WEBPACK_ASSET_PREFIX !== ""
         ? WEBPACK_ASSET_PREFIX
