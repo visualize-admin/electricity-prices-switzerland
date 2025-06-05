@@ -20,6 +20,9 @@ export const setupDatabaseConnection = async (): Promise<DuckDBConnection> => {
     instance = await DuckDBInstance.create(":memory:");
     connection = await instance.connect();
 
+    // Set home directory
+    await connection.run(`SET home_directory='/tmp';`);
+
     // Load CSV extensions
     await connection.run("INSTALL httpfs; LOAD httpfs;");
 
