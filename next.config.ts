@@ -63,6 +63,10 @@ const nextConfig = async (): Promise<NextConfig> => {
       "**": [...additionalTracedFiles],
     },
 
+    outputFileTracingExcludes: {
+      "/": [".git", ".next/cache"],
+    },
+
     assetPrefix:
       WEBPACK_ASSET_PREFIX && WEBPACK_ASSET_PREFIX !== ""
         ? WEBPACK_ASSET_PREFIX
@@ -78,6 +82,16 @@ const nextConfig = async (): Promise<NextConfig> => {
       domains: i18nDomains,
       localeDetection: false,
     },
+
+    serverExternalPackages: [
+      "@duckdb/node-api",
+      "@duckdb/node-bindings",
+      "@duckdb/node-bindings-linux-x64",
+      "@duckdb/node-bindings-linux-arm64",
+      "@duckdb/node-bindings-darwin-arm64",
+      "@duckdb/node-bindings-darwin-x64",
+      "@duckdb/node-bindings-win32-x64",
+    ],
 
     webpack(config, { isServer }) {
       if (!isServer) {

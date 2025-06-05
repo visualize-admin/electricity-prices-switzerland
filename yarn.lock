@@ -1625,6 +1625,49 @@
   resolved "https://registry.yarnpkg.com/@discoveryjs/json-ext/-/json-ext-0.5.7.tgz#1d572bfbbe14b7704e0ba0f39b74815b84870d70"
   integrity sha512-dBVuXR082gk3jsFp7Rd/JI4kytwGHecnCoTtXFb7DB6CNHp4rg5k1bhg0nWdLGLnOV71lmDzGQaLMy8iPLY0pw==
 
+"@duckdb/node-api@^1.3.0-alpha.21":
+  version "1.3.0-alpha.21"
+  resolved "https://registry.yarnpkg.com/@duckdb/node-api/-/node-api-1.3.0-alpha.21.tgz#7133520aaaf404b41fa16094b791c0a03db0955d"
+  integrity sha512-ukxoIw5J2Cl+awXflEZF1OLWlHXOLMz2mIbrqlm50wMHE2bereQi6hTHCw3lmw1SpmZIqPzKQRwP6FqJQxDYlA==
+  dependencies:
+    "@duckdb/node-bindings" "1.3.0-alpha.21"
+
+"@duckdb/node-bindings-darwin-arm64@1.3.0-alpha.21":
+  version "1.3.0-alpha.21"
+  resolved "https://registry.yarnpkg.com/@duckdb/node-bindings-darwin-arm64/-/node-bindings-darwin-arm64-1.3.0-alpha.21.tgz#460311c71c9b1a91f6e9c75b66769f23ae9052d8"
+  integrity sha512-NoR1ud5zJ8cVnIZ//1OKu5PVVfytTDAnfTjIQvA8T/JO+04Cc9CkscZr2E/tqsW3xgyG3/eHp1x7/S8fcCbdRA==
+
+"@duckdb/node-bindings-darwin-x64@1.3.0-alpha.21":
+  version "1.3.0-alpha.21"
+  resolved "https://registry.yarnpkg.com/@duckdb/node-bindings-darwin-x64/-/node-bindings-darwin-x64-1.3.0-alpha.21.tgz#8b38602e3b1f8bd3667a7f5263ab47bd6fee93c5"
+  integrity sha512-dzjtrcbRJVY4ywthiqwg7HzfONIeGHmCCByVRV7FaYEyrz5k5lLqLD6nER111nhAlo+VvY03JOfDSgcvOWYiwA==
+
+"@duckdb/node-bindings-linux-arm64@1.3.0-alpha.21":
+  version "1.3.0-alpha.21"
+  resolved "https://registry.yarnpkg.com/@duckdb/node-bindings-linux-arm64/-/node-bindings-linux-arm64-1.3.0-alpha.21.tgz#df51a745a072063945f18a4b31935c3032eb1e8c"
+  integrity sha512-D5iYotx4kZl5LuEu/KJXYs4V+vLh65VaXGcI2HQ0OLNoYOP1ju0Hqz/miAUISv28erryK1KHVk5cBG7vSCax1Q==
+
+"@duckdb/node-bindings-linux-x64@1.3.0-alpha.21":
+  version "1.3.0-alpha.21"
+  resolved "https://registry.yarnpkg.com/@duckdb/node-bindings-linux-x64/-/node-bindings-linux-x64-1.3.0-alpha.21.tgz#b07dad7b7396301d0447d3fd67f527d46d260b25"
+  integrity sha512-SWVjGnrGPRkI2Xf3hIwEJh3fwMi1bzPmhwaXc1w6PHHMaGEFbfshCbY63UIfdHfdQZdResa45b8SiOzxdS59+A==
+
+"@duckdb/node-bindings-win32-x64@1.3.0-alpha.21":
+  version "1.3.0-alpha.21"
+  resolved "https://registry.yarnpkg.com/@duckdb/node-bindings-win32-x64/-/node-bindings-win32-x64-1.3.0-alpha.21.tgz#733a9fec4284d1cdb975febab70479b0523e034d"
+  integrity sha512-naZKqsDj85hs1ZvHod3ead8ZhTaN8nNGesMJckiC08yUOf3gKBzwlmR1ViSv0DhUmorX6xlUhYDzEt2vnIRDbA==
+
+"@duckdb/node-bindings@1.3.0-alpha.21":
+  version "1.3.0-alpha.21"
+  resolved "https://registry.yarnpkg.com/@duckdb/node-bindings/-/node-bindings-1.3.0-alpha.21.tgz#eba4c2b88336a74f96124af1464cbc110e334381"
+  integrity sha512-iaLjHAvf3Ie6vEs5TnlsPTDJ18ksESdR4FgPoVzrtshUoWwP4Q3xCABOgtMWcZFwNXDEDKY9EszenV+FJiwbjQ==
+  optionalDependencies:
+    "@duckdb/node-bindings-darwin-arm64" "1.3.0-alpha.21"
+    "@duckdb/node-bindings-darwin-x64" "1.3.0-alpha.21"
+    "@duckdb/node-bindings-linux-arm64" "1.3.0-alpha.21"
+    "@duckdb/node-bindings-linux-x64" "1.3.0-alpha.21"
+    "@duckdb/node-bindings-win32-x64" "1.3.0-alpha.21"
+
 "@emnapi/core@^1.4.3":
   version "1.4.3"
   resolved "https://registry.yarnpkg.com/@emnapi/core/-/core-1.4.3.tgz#9ac52d2d5aea958f67e52c40a065f51de59b77d6"
@@ -9716,7 +9759,7 @@ cli-table3@^0.5.0:
   optionalDependencies:
     colors "^1.1.2"
 
-cli-table3@^0.6.5:
+cli-table3@^0.6.3, cli-table3@^0.6.5:
   version "0.6.5"
   resolved "https://registry.yarnpkg.com/cli-table3/-/cli-table3-0.6.5.tgz#013b91351762739c16a9567c21a04632e449bf2f"
   integrity sha512-+W/5efTR7y5HRD7gACw9yQjqMVvEMLBHmboM/kPWam+H+Hmyrgjh6YncVKK122YZkXrLudzTuAukUw9FnMf7IQ==

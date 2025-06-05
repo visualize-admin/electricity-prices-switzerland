@@ -15,6 +15,8 @@ You can also check the
   - GraphQL API: Add new queries to get sunshine data
   - Added Sunshine Cards to the homepage (flagged)
   - Added Sunshine pages Power  (with mock data, flagged, missing charts)
+  - Load mocked data through duckdb in Sunshine pages, see README
+>>>>>>> 59e2ae16 (docs: Mention mocked data in changelog)
 - Fixes
   - Fixed map layout issues on mobile
   - Dropdown adjustments

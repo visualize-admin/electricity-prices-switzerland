@@ -10,20 +10,44 @@ import { NetworkLevel } from "src/domain/data";
 import serverEnv from "src/env/server";
 import { Operator } from "src/graphql/queries";
 
+const SUNSHINE_ENCRYPTED_DATA_DIR =
+  process.env.SUNSHINE_ENCRYPTED_DATA_DIR ||
+  path.join(process.cwd(), "src/sunshine-data");
+
+const SUNSHINE_CSV_DATA_DIR =
+  process.env.SUNSHINE_CSV_DATA_DIR ||
+  path.join(process.cwd(), "src/sunshine-data");
+
+console.log(
+  "Using sunshine encrypted data directory:",
+  SUNSHINE_ENCRYPTED_DATA_DIR
+);
+console.log("Using sunshine CSV data directory:", SUNSHINE_CSV_DATA_DIR);
+
+export const getCsvDataPath = (filename: string): string => {
+  return path.resolve(SUNSHINE_CSV_DATA_DIR, `${filename}`);
+};
+
+const getEncryptedDataPath = (filename: string): string => {
+  return path.resolve(SUNSHINE_ENCRYPTED_DATA_DIR, `${filename}`);
+};
+
 export const sunshineFileIds = [
   "observations",
   "energy",
   "peer-groups",
   "network-costs",
+  "Sunshine 2025 28.05.2025",
+  "Sunshine 2024 28.05.2025",
 ] as const;
 type Id = (typeof sunshineFileIds)[number];
 
-export const encryptSunshineCSV = (id: Id) => {
+export const encryptSunshineCSVFile = (id: Id) => {
   const PASSWORD = process.env.PREVIEW_PASSWORD!;
   if (!PASSWORD) throw new Error("PREVIEW_PASSWORD not set");
 
-  const INPUT_PATH = path.join(process.cwd(), `./src/sunshine-data/${id}.csv`);
-  const OUTPUT_PATH = path.join(process.cwd(), `./src/sunshine-data/${id}.enc`);
+  const INPUT_PATH = getCsvDataPath(`${id}.csv`);
+  const OUTPUT_PATH = getEncryptedDataPath(`${id}.enc`);
 
   const data = fs.readFileSync(INPUT_PATH);
 
@@ -42,12 +66,10 @@ export const encryptSunshineCSV = (id: Id) => {
   console.log("✅ Encrypted and saved to:", OUTPUT_PATH);
 };
 
-export const decryptSunshineCsv = (id: Id): string => {
+const decryptSunshineCsv = (id: Id): string => {
   const PASSWORD = serverEnv.PREVIEW_PASSWORD!;
   try {
-    const encryptedData = fs.readFileSync(
-      path.join(process.cwd(), `./src/sunshine-data/${id}.enc`)
-    );
+    const encryptedData = fs.readFileSync(getEncryptedDataPath(`${id}.enc`));
 
     const salt = encryptedData.subarray(0, 16);
     const iv = encryptedData.subarray(16, 32);
@@ -62,6 +84,13 @@ export const decryptSunshineCsv = (id: Id): string => {
     console.error("[Decrypt CSV Error]", e);
     throw new Error(`Failed to decrypt sunshine data: ${e}`);
   }
+};
+
+export const decryptSunshineCsvFile = (id: Id) => {
+  const decryptedData = decryptSunshineCsv(id);
+  const outputPath = getCsvDataPath(`${id}.csv`);
+  fs.writeFileSync(outputPath, decryptedData);
+  console.log(`✅ Decrypted data saved to: ${outputPath}`);
 };
 
 const parseNumber = (val: string): number | null => {
@@ -195,9 +224,13 @@ const parseSunshineCsv = <T extends Id>(id: T): ParsedRowType<T>[] => {
     bom: true,
   });
 
+  if (id === "Sunshine 2024 28.05.2025" || id === "Sunshine 2025 28.05.2025") {
+    throw new Error("Those files should not be parsed directly.");
+  }
+
   // Type assertion here is necessary because TypeScript can't infer the connection
   // between the id parameter and the parser that will be selected
-  return rows.map(parsers[id]) as ParsedRowType<T>[];
+  return rows.map(parsers[id as keyof typeof parsers]) as ParsedRowType<T>[];
 };
 
 type ParsedRow = ReturnType<typeof parseSunshineCsv>[number];

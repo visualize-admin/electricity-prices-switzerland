@@ -973,7 +973,7 @@ msgstr "Médiane du groupe de référence"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.operator"
-msgstr "{étiquette de l'opérateur}"
+msgstr "{operatorLabel}"
 
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.power-stability.saidi"

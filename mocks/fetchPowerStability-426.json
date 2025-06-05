@@ -1,0 +1,148 @@
+{
+  "latestYear": "2024",
+  "operator": {
+    "peerGroup": {
+      "settlementDensity": "Mountain",
+      "energyDensity": "Low"
+    }
+  },
+  "saidi": {
+    "operatorMinutes": 44.6043242396,
+    "peerGroupMinutes": 22.6477406564,
+    "yearlyData": [
+      {
+        "year": 2024,
+        "minutes": 22.6477406564,
+        "operator": 694,
+        "operator_name": "RadiantArc Power",
+        "planned": false
+      },
+      {
+        "year": 2024,
+        "minutes": 51.5796399034,
+        "operator": 845,
+        "operator_name": "GreenVibe Power",
+        "planned": false
+      },
+      {
+        "year": 2024,
+        "minutes": 25.0733966871,
+        "operator": 922,
+        "operator_name": "GridHaven Energy",
+        "planned": false
+      },
+      {
+        "year": 2024,
+        "minutes": 44.6043242396,
+        "operator": 159,
+        "operator_name": "ClarityGrid Utilities",
+        "planned": false
+      },
+      {
+        "year": 2024,
+        "minutes": 27.8072223704,
+        "operator": 743,
+        "operator_name": "Zephyrion Grid",
+        "planned": false
+      },
+      {
+        "year": 2024,
+        "minutes": 16.7291675154,
+        "operator": 307,
+        "operator_name": "WindLoom Utilities",
+        "planned": false
+      },
+      {
+        "year": 2024,
+        "minutes": 10.6333277769,
+        "operator": 732,
+        "operator_name": "NexCraft Power",
+        "planned": false
+      },
+      {
+        "year": 2024,
+        "minutes": 8.8868028713,
+        "operator": 887,
+        "operator_name": "Windova Power",
+        "planned": true
+      },
+      {
+        "year": 2024,
+        "minutes": 14.0699144743,
+        "operator": 911,
+        "operator_name": "AeroTide Power",
+        "planned": false
+      }
+    ]
+  },
+  "saifi": {
+    "operatorMinutes": 0.7396167344,
+    "peerGroupMinutes": 0.3035262388,
+    "yearlyData": [
+      {
+        "year": 2024,
+        "minutes": 0.3959103083,
+        "operator": 694,
+        "operator_name": "RadiantArc Power",
+        "planned": false
+      },
+      {
+        "year": 2024,
+        "minutes": 0.3035262388,
+        "operator": 845,
+        "operator_name": "GreenVibe Power",
+        "planned": false
+      },
+      {
+        "year": 2024,
+        "minutes": 0.3387837228,
+        "operator": 922,
+        "operator_name": "GridHaven Energy",
+        "planned": false
+      },
+      {
+        "year": 2024,
+        "minutes": 0.7396167344,
+        "operator": 159,
+        "operator_name": "ClarityGrid Utilities",
+        "planned": false
+      },
+      {
+        "year": 2024,
+        "minutes": 0.2742139886,
+        "operator": 743,
+        "operator_name": "Zephyrion Grid",
+        "planned": false
+      },
+      {
+        "year": 2024,
+        "minutes": 0.6368627395,
+        "operator": 307,
+        "operator_name": "WindLoom Utilities",
+        "planned": false
+      },
+      {
+        "year": 2024,
+        "minutes": 0.1490248375,
+        "operator": 732,
+        "operator_name": "NexCraft Power",
+        "planned": false
+      },
+      {
+        "year": 2024,
+        "minutes": 0.2211485367,
+        "operator": 887,
+        "operator_name": "Windova Power",
+        "planned": true
+      },
+      {
+        "year": 2024,
+        "minutes": 0.2297086501,
+        "operator": 911,
+        "operator_name": "AeroTide Power",
+        "planned": false
+      }
+    ]
+  },
+  "updateDate": "June 5, 2025 at 01:40 PM"
+}

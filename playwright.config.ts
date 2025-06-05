@@ -1,5 +1,19 @@
 import { defineConfig, devices } from "@playwright/test";
 
+const getHttpCredentialsFromEnv = () => {
+  const usernamePassword = process.env.BASIC_AUTH_CREDENTIALS;
+  if (!usernamePassword) {
+    return undefined;
+  }
+  const [username, password] = usernamePassword.split(":");
+  if (!username || !password) {
+    throw new Error(
+      "BASIC_AUTH_CREDENTIALS environment variable must be in the format 'username:password'"
+    );
+  }
+  return { username, password };
+};
+
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
@@ -33,7 +47,10 @@ export default defineConfig({
   projects: [
     {
       name: "chromium",
-      use: { ...devices["Desktop Chrome"] },
+      use: {
+        ...devices["Desktop Chrome"],
+        httpCredentials: getHttpCredentialsFromEnv(),
+      },
     },
 
     // },
