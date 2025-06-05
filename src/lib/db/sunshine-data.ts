@@ -166,11 +166,25 @@ export const getOperationalStandards = async (
 };
 
 // For stability metrics
-export const getStabilityMetrics = async (
-  operatorId: number,
-  period?: number
-): Promise<StabilityMetricRecord[]> => {
+export const getStabilityMetrics = async ({
+  operatorId,
+  period,
+  settlement_density,
+  energy_density,
+}: {
+  operatorId?: number;
+  period?: number;
+  settlement_density?: string;
+  energy_density?: string;
+}): Promise<StabilityMetricRecord[]> => {
+  const operatorFilter = operatorId ? `operator_id = ${operatorId}` : "1=1"; // Default to all operators
   const periodFilter = period ? `AND period = ${period}` : "";
+  const settlementDensityFilter = settlement_density
+    ? `AND settlement_density = '${settlement_density}'`
+    : "";
+  const energyDensityFilter = energy_density
+    ? `AND energy_density = '${energy_density}'`
+    : "";
 
   const sql = `
       SELECT
@@ -184,7 +198,7 @@ export const getStabilityMetrics = async (
         settlement_density,
         energy_density
       FROM stability_metrics
-      WHERE operator_id = ${operatorId} ${periodFilter}
+      WHERE ${operatorFilter} ${periodFilter} ${settlementDensityFilter} ${energyDensityFilter} 
       ORDER BY period DESC, operator_id
     `;
 
@@ -659,108 +673,35 @@ export const fetchPowerStability = async (
 
   // Get the latest year data for the operator
   const latestYearData = await query<{ year: string }>(`
-    SELECT MAX(period) as year FROM sunshine_all WHERE partner_id = ${operatorId}
+    SELECT MAX(period) as year FROM sunshine_all
+    WHERE partner_id = ${operatorId}
+    AND (saidi_total != NULL OR saidi_unplanned != NULL OR saifi_total != NULL OR saifi_unplanned != NULL)
   `);
 
   const latestYear = latestYearData[0]?.year || "2024";
 
-  // Get SAIDI data
-  const saidiData = await query<{ total: number; unplanned: number }>(`
-    SELECT 
-      saidi_total as total,
-      saidi_unplanned as unplanned
-    FROM sunshine_all
-    WHERE partner_id = ${operatorId} AND period = '${latestYear}'
-  `);
-
-  const saidiValues = saidiData[0] || { total: 0, unplanned: 0 };
-
-  // Get SAIFI data
-  const saifiData = await query<{ total: number; unplanned: number }>(`
-    SELECT 
-      saifi_total as total,
-      saifi_unplanned as unplanned
-    FROM sunshine_all
-    WHERE partner_id = ${operatorId} AND period = '${latestYear}'
-  `);
-
-  const saifiValues = saifiData[0] || { total: 0, unplanned: 0 };
-
   // Get peer group median SAIDI
-  const peerGroupMedianSaidi = await query<{ median: number }>(`
-    SELECT percentile_cont(0.5) WITHIN GROUP (ORDER BY saidi_total) as median
-    FROM sunshine_all
-    WHERE period = '${latestYear}'
-    AND partner_id IN (
-      SELECT network_operator_id 
-      FROM peer_groups 
-      WHERE settlement_density = '${operatorData.settlement_density}' 
-      AND energy_density = '${operatorData.energy_density}'
-    )
-  `);
+  const peerGroupMedianStability = await getPeerGroupMedianValues<"stability">({
+    settlementDensity: operatorData.settlement_density,
+    energyDensity: operatorData.energy_density,
+    metric: "stability",
+    period: parseInt(latestYear, 10),
+  });
 
-  // Get peer group median SAIFI
-  const peerGroupMedianSaifi = await query<{ median: number }>(`
-    SELECT percentile_cont(0.5) WITHIN GROUP (ORDER BY saifi_total) as median
-    FROM sunshine_all
-    WHERE period = '${latestYear}'
-    AND partner_id IN (
-      SELECT network_operator_id 
-      FROM peer_groups 
-      WHERE settlement_density = '${operatorData.settlement_density}' 
-      AND energy_density = '${operatorData.energy_density}'
-    )
-  `);
-
-  // Get historical SAIDI data - planned and unplanned
-  const saidiYearlyData = await query<{
-    year: number;
-    minutes: number;
-    operator: number;
-    planned: boolean;
-  }>(`
-    SELECT
-      period as year,
-      saidi_total as minutes,
-      saidi_total as operator,
-      true as planned
-    FROM sunshine_all
-    WHERE partner_id = ${operatorId}
-    UNION ALL
-    SELECT
-      period as year,
-      saidi_unplanned as minutes,
-      saidi_unplanned as operator,
-      false as planned
-    FROM sunshine_all
-    WHERE partner_id = ${operatorId}
-    ORDER BY year DESC, planned
-  `);
-
-  // Get historical SAIFI data - planned and unplanned
-  const saifiYearlyData = await query<{
-    year: number;
-    minutes: number;
-    operator: number;
-    planned: boolean;
-  }>(`
-    SELECT
-      period as year,
-      saifi_total as minutes,
-      saifi_total as operator,
-      true as planned
-    FROM sunshine_all
-    WHERE partner_id = ${operatorId}
-    UNION ALL
-    SELECT
-      period as year,
-      saifi_unplanned as minutes,
-      saifi_unplanned as operator,
-      false as planned
-    FROM sunshine_all
-    WHERE partner_id = ${operatorId}
-    ORDER BY year DESC, planned
-  `);
+  const operatorStability = await getStabilityMetrics({
+    operatorId,
+    period: parseInt(latestYear, 10),
+  });
+  console.log({ operatorStability });
+  if (operatorStability.length > 1) {
+    throw new Error(
+      "Cannot have multiple stability records for one operator in one year"
+    );
+  }
+  const peerGroupYearlyStability = await getStabilityMetrics({
+    settlement_density: operatorData.settlement_density,
+    energy_density: operatorData.energy_density,
+  });
 
   return {
     latestYear,
@@ -771,14 +712,26 @@ export const fetchPowerStability = async (
       },
     },
     saidi: {
-      operatorMinutes: saidiValues.total,
-      peerGroupMinutes: peerGroupMedianSaidi[0]?.median || 0,
-      yearlyData: saidiYearlyData,
+      operatorMinutes: operatorStability?.[0].saidi_total,
+      peerGroupMinutes: peerGroupMedianStability?.median_saidi_total || 0,
+      yearlyData: peerGroupYearlyStability.map((x) => ({
+        year: x.period,
+        minutes: x.saidi_total,
+        operator: x.operator_id,
+        operator_name: x.operator_name,
+        planned: x.saidi_unplanned === 0,
+      })),
     },
     saifi: {
-      operatorMinutes: saifiValues.total,
-      peerGroupMinutes: peerGroupMedianSaifi[0]?.median || 0,
-      yearlyData: saifiYearlyData,
+      operatorMinutes: operatorStability?.[0].saifi_total,
+      peerGroupMinutes: peerGroupMedianStability?.median_saifi_total || 0,
+      yearlyData: peerGroupYearlyStability.map((x) => ({
+        year: x.period,
+        minutes: x.saifi_total,
+        operator: x.operator_id,
+        operator_name: x.operator_name,
+        planned: x.saifi_unplanned === 0,
+      })),
     },
     updateDate: new Date().toLocaleDateString("en-US", {
       year: "numeric",
