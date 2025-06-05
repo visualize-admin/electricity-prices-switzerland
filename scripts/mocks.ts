@@ -15,7 +15,7 @@ import {
 interface FetcherOptions {
   operatorId: string;
   enableCosts: boolean;
-  enablePower: boolean;
+  enableStability: boolean;
   enableOpStandards: boolean;
   outputDir: string;
 }
@@ -186,7 +186,7 @@ async function generateMocks(options: FetcherOptions) {
       console.log(`Saved to ${outputPath}`);
     }
 
-    if (options.enablePower) {
+    if (options.enableStability) {
       console.log(
         `\n--- Fetching power stability data for operator ${operatorId} ---`
       );
@@ -250,10 +250,10 @@ function parseArguments(): FetcherOptions {
     dest: "enableCosts",
   });
 
-  parser.add_argument("--power", {
+  parser.add_argument("--stability", {
     help: "Generate mocks for power stability data",
     action: "store_true",
-    dest: "enablePower",
+    dest: "enableStability",
   });
 
   parser.add_argument("--op-standards", {
@@ -278,14 +278,14 @@ function parseArguments(): FetcherOptions {
   // If --all flag is used, enable all data types
   if (args.all) {
     args.enableCosts = true;
-    args.enablePower = true;
+    args.enableStability = true;
     args.enableOpStandards = true;
   }
 
   // If no specific data type is enabled, enable all by default
-  if (!args.enableCosts && !args.enablePower && !args.enableOpStandards) {
+  if (!args.enableCosts && !args.enableStability && !args.enableOpStandards) {
     args.enableCosts = true;
-    args.enablePower = true;
+    args.enableStability = true;
     args.enableOpStandards = true;
   }
 
