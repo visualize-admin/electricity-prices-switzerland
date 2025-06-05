@@ -606,7 +606,6 @@ export const fetchPowerStability = async (
     operatorId,
     period: parseInt(latestYear, 10),
   });
-  console.log({ operatorStability });
   if (operatorStability.length > 1) {
     throw new Error(
       "Cannot have multiple stability records for one operator in one year"
