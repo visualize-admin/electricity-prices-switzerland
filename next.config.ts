@@ -79,6 +79,8 @@ const nextConfig = async (): Promise<NextConfig> => {
       localeDetection: false,
     },
 
+    serverExternalPackages: ["@duckdb/node-api"],
+
     webpack(config, { isServer }) {
       if (!isServer) {
         config.resolve.fallback = { fs: false };
