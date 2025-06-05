@@ -44,7 +44,7 @@ export const encryptSunshineCSVFile = (id: Id) => {
   console.log("✅ Encrypted and saved to:", OUTPUT_PATH);
 };
 
-export const decryptSunshineCsv = (id: Id): string => {
+const decryptSunshineCsv = (id: Id): string => {
   const PASSWORD = serverEnv.PREVIEW_PASSWORD!;
   try {
     const encryptedData = fs.readFileSync(

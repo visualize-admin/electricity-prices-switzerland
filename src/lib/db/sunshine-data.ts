@@ -8,23 +8,7 @@ import {
   SunshinePowerStabilityData,
 } from "src/domain/data";
 
-import { query, setupDatabase, setupDatabaseConnection } from "./duckdb";
-
-// Database initialization will be handled asynchronously on first query
-let databaseInitialized = false;
-
-/**
- * Ensure database is initialized before running queries
- */
-export const ensureDatabaseInitialized = async (): Promise<void> => {
-  if (!databaseInitialized) {
-    console.log("Initializing DuckDB database...");
-    await setupDatabase();
-    console.log("Setup databse connection.");
-    await setupDatabaseConnection();
-    databaseInitialized = true;
-  }
-};
+import { ensureDatabaseInitialized, query } from "./duckdb";
 
 type NetworkCostRecord = {
   operator_id: number;
@@ -79,23 +63,7 @@ type OperatorDataRecord = {
   energy_density: string;
 };
 
-type OperatorPeerGroupRecord = {
-  operator_id: number;
-  operator_name: string;
-  settlement_density: string;
-  energy_density: string;
-  period: number;
-};
-
-type OperatorBasicRecord = {
-  operator_id: number;
-  operator_name: string;
-  period: number;
-  settlement_density: string;
-  energy_density: string;
-};
-
-export const getNetworkCosts = async ({
+const getNetworkCosts = async ({
   operatorId,
   period,
   settlementDensity,
@@ -138,8 +106,10 @@ export const getNetworkCosts = async ({
   return result;
 };
 
-// For operational standards
-export const getOperationalStandards = async (
+// For operational standards, will be used in the future
+/** @knipignore */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const getOperationalStandards = async (
   operatorId: number,
   period?: number
 ): Promise<OperationalStandardRecord[]> => {
@@ -166,7 +136,7 @@ export const getOperationalStandards = async (
 };
 
 // For stability metrics
-export const getStabilityMetrics = async ({
+const getStabilityMetrics = async ({
   operatorId,
   period,
   settlement_density,
@@ -206,8 +176,7 @@ export const getStabilityMetrics = async ({
   return result;
 };
 
-// For tariffs data
-export const getTariffs = async ({
+const getTariffs = async ({
   operatorId,
   period,
   category,
@@ -254,8 +223,7 @@ export const getTariffs = async ({
   return result;
 };
 
-// For operator basic data
-export const getOperatorData = async (
+const getOperatorData = async (
   operatorId: number,
   period?: number
 ): Promise<OperatorDataRecord> => {
@@ -281,60 +249,6 @@ export const getOperatorData = async (
   return result[0];
 };
 
-// Get list of operators with their latest peer group
-export const getOperatorsWithPeerGroup = async (): Promise<
-  OperatorPeerGroupRecord[]
-> => {
-  const sql = `
-      WITH latest_periods AS (
-        SELECT 
-          operator_id, 
-          MAX(period) as latest_period
-        FROM operator_data
-        GROUP BY operator_id
-      )
-      SELECT
-        od.operator_id,
-        od.operator_name,
-        od.settlement_density,
-        od.energy_density,
-        od.period
-      FROM operator_data od
-      INNER JOIN latest_periods lp 
-        ON od.operator_id = lp.operator_id 
-        AND od.period = lp.latest_period
-      ORDER BY od.operator_name
-    `;
-
-  const result = await query<OperatorPeerGroupRecord>(sql);
-  return result;
-};
-
-// Get operators in the same peer group
-export const getOperatorsInSamePeerGroup = async (
-  settlementDensity: string,
-  energyDensity: string,
-  period?: number
-): Promise<OperatorBasicRecord[]> => {
-  const periodFilter = period ? `AND period = ${period}` : "";
-
-  const sql = `
-      SELECT DISTINCT
-        operator_id,
-        operator_name,
-        period
-      FROM operator_data
-      WHERE 
-        settlement_density = '${settlementDensity}'
-        AND energy_density = '${energyDensity}'
-        ${periodFilter}
-      ORDER BY operator_name
-    `;
-
-  return query<OperatorBasicRecord>(sql);
-};
-
-// Get median values for peer group
 type NetworkCostsParams = {
   metric: "network_costs";
   settlementDensity: string;
@@ -413,7 +327,7 @@ type PeerGroupRecord<Metric extends PeerGroupMedianValuesParams["metric"]> =
       }
     : never;
 
-export const getPeerGroupMedianValues = async <
+const getPeerGroupMedianValues = async <
   Metric extends PeerGroupMedianValuesParams["metric"]
 >(
   params: PeerGroupMedianValuesParams
