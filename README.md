@@ -223,17 +223,21 @@ The mock data is based on real CSV files provided by Elcom. For privacy and secu
 Key aspects of the mocked data system:
 
 1. **Data sources**: The original data is stored as encrypted CSV files in the repository:
+
    - `observations`: Individual measurements for each operator
    - `energy`: Energy data prepared in the [elcom-sunshine-data-analysis](https://github.com/interactivethings/elcom-sunshine-data-analysis) project
    - `peer-groups`: Peer groups for each operator, derived from the energy data
    - `Sunshine 2024/2025`: Yearly sunshine data files
 
 2. **Server-side processing**: When the application runs, the CSV files are:
+
    - Decrypted on first request using the `PREVIEW_PASSWORD`
    - Loaded into a DuckDB instance (an in-memory database)
    - Processed through SQL queries to extract and transform relevant data
+   - You can see which SQL views are created through `npm run mocks:debug-views`. You can also see sample data, for example `npm run mocks:debug-views -- --view stability_metrics --sample` will show you sample data for the `stability_metrics` view.
 
 3. **Anonymized operator data**: To preserve anonymity while the data is not yet public:
+
    - Operator names are replaced with fictional names
    - Operator IDs are also anonymized
    - The actual data values remain intact to preserve statistical accuracy
@@ -261,6 +265,7 @@ yarn sunshine-csv json observations
 ```
 
 The peer groups CSV is generated from `energy.csv` using DuckDB queries and can be regenerated via:
+
 ```bash
 yarn data:peer-groups
 ```
@@ -268,6 +273,7 @@ yarn data:peer-groups
 ### Integration with the application
 
 The Sunshine pages fetch data server-side in `getServerSideProps`, where:
+
 1. The encrypted data is decrypted and loaded into DuckDB
 2. SQL queries retrieve and format the data for the frontend components
 3. The data is passed as props to the React components
