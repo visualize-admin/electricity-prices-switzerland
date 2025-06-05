@@ -143,8 +143,8 @@ export type SunshineCostsAndTariffsData = {
   latestYear: string;
   netTariffs: {
     category: ElectricityCategory;
-    peerGroupMedianRate?: number;
-    operatorRate?: number;
+    peerGroupMedianRate: number | null;
+    operatorRate: number | null;
     yearlyData: {
       period: number;
       rate: number;
@@ -156,8 +156,8 @@ export type SunshineCostsAndTariffsData = {
 
   energyTariffs: {
     category: ElectricityCategory;
-    peerGroupMedianRate?: number;
-    operatorRate?: number;
+    peerGroupMedianRate: number | null;
+    operatorRate: number | null;
     yearlyData: {
       period: number;
       rate: number;
@@ -171,8 +171,8 @@ export type SunshineCostsAndTariffsData = {
     networkLevel: {
       id: string;
     };
-    peerGroupMedianRate?: number;
-    operatorRate?: number;
+    peerGroupMedianRate: number | null;
+    operatorRate: number | null;
     yearlyData: {
       year: number;
       rate: number;
