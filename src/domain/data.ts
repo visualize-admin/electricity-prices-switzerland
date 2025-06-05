@@ -199,6 +199,7 @@ export type SunshinePowerStabilityData = {
       year: number;
       minutes: number;
       operator: number;
+      operator_name: string;
       planned: boolean;
     }[];
   };
@@ -209,6 +210,7 @@ export type SunshinePowerStabilityData = {
       year: number;
       minutes: number;
       operator: number;
+      operator_name: string;
       planned: boolean;
     }[];
   };
