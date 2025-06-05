@@ -1,3 +1,5 @@
+import { omit } from "lodash";
+
 import {
   ElectricityCategory,
   NetworkLevel,
@@ -600,19 +602,25 @@ export const fetchOperatorCostsAndTariffsData = async (
       },
       operatorRate: operatorNetworkCost?.rate,
       peerGroupMedianRate: peerGroupMedianNetworkCosts?.median_value,
-      yearlyData: networkCosts,
+      yearlyData: networkCosts.map((x) =>
+        omit(x, ["settlement_density", "energy_density"])
+      ),
     },
     netTariffs: {
       category: category,
       operatorRate: operatorNetTariff?.rate,
       peerGroupMedianRate: peerGroupMedianNetTariffs?.median_rate,
-      yearlyData: netTariffs,
+      yearlyData: netTariffs.map((x) =>
+        omit(x, ["settlement_density", "energy_density"])
+      ),
     },
     energyTariffs: {
       category: category,
       operatorRate: operatorEnergyTariff?.rate,
       peerGroupMedianRate: peerGroupMedianEnergyTariffs?.median_rate,
-      yearlyData: energyTariffs,
+      yearlyData: energyTariffs.map((x) =>
+        omit(x, ["settlement_density", "energy_density"])
+      ),
     },
     updateDate: new Date().toLocaleDateString("en-US", {
       year: "numeric",
