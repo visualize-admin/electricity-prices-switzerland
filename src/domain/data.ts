@@ -150,6 +150,7 @@ export type SunshineCostsAndTariffsData = {
       rate: number;
       operator_id: number;
       category: ElectricityCategory;
+      operator_name: string;
     }[];
   };
 
@@ -161,6 +162,7 @@ export type SunshineCostsAndTariffsData = {
       period: number;
       rate: number;
       operator_id: number;
+      operator_name: string;
       category: ElectricityCategory;
     }[];
   };
@@ -175,6 +177,7 @@ export type SunshineCostsAndTariffsData = {
       year: number;
       rate: number;
       operator_id: number;
+      operator_name: string;
       network_level: NetworkLevel["id"];
     }[];
   };
