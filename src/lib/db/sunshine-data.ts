@@ -614,6 +614,7 @@ export const fetchPowerStability = async (
   const peerGroupYearlyStability = await getStabilityMetrics({
     settlement_density: operatorData.settlement_density,
     energy_density: operatorData.energy_density,
+    period: parseInt(latestYear, 10),
   });
 
   return {

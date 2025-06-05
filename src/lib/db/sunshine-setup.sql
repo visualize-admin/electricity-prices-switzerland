@@ -6,6 +6,12 @@ DROP TABLE IF EXISTS sunshine_2024;
 DROP TABLE IF EXISTS sunshine_2025;
 DROP TABLE IF EXISTS peer_groups;
 DROP VIEW IF EXISTS sunshine_all;
+DROP VIEW IF EXISTS operator_data;
+DROP VIEW IF EXISTS network_costs;
+DROP VIEW IF EXISTS tariffs;
+DROP VIEW IF EXISTS stability_metrics;
+DROP VIEW IF EXISTS operational_standards;
+DROP VIEW IF EXISTS operator_data;
 
 -- Create tables from CSV files
 CREATE TABLE sunshine_2024 AS 
@@ -174,7 +180,13 @@ SELECT
     o.settlement_density,
     o.energy_density
 FROM operator_data o
-JOIN sunshine_all s ON o.operator_id = s.partner_id AND o.period = s.period;
+JOIN sunshine_all s ON o.operator_id = s.partner_id AND o.period = s.period
+WHERE (
+  s.saidi_total IS NOT NULL OR 
+  s.saidi_unplanned IS NOT NULL OR 
+  s.saifi_total IS NOT NULL OR
+  s.saifi_unplanned IS NOT NULL
+);
 
 -- View for operational standards
 CREATE VIEW operational_standards AS
