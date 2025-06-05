@@ -20,6 +20,130 @@ interface FetcherOptions {
   outputDir: string;
 }
 
+const operatorNames = [
+  "Soltrix Energy",
+  "Apexion Power",
+  "NexaVolt Solutions",
+  "TerraCore Utilities",
+  "Quantum Gridworks",
+  "Vortiq Energy Systems",
+  "BlueNova Energy",
+  "RadiantArc Power",
+  "EcoVerge Utilities",
+  "Helionix Power Co.",
+  "GridMorph Energy",
+  "Fluxwave Energy",
+  "Coreterra Power",
+  "FusionSpan Utilities",
+  "NovaHarvest Energy",
+  "Peakphase Power",
+  "ElectraNex Energy",
+  "GreenVibe Power",
+  "Sunclave Energy",
+  "TurbineX Solutions",
+  "Powerquark Utilities",
+  "Zephyrion Grid",
+  "DynaGenix Energy",
+  "LucentCore Power",
+  "CleanSpire Energy",
+  "Voltania Group",
+  "Nexenflow Utilities",
+  "Brightshift Energy",
+  "Stratavolt Solutions",
+  "AeroTide Power",
+  "EarthPulse Energy",
+  "Zyntara Utilities",
+  "Megalux Power Systems",
+  "Soluxion Energy Co.",
+  "HorizonSpark Utilities",
+  "EcoFuse Gridworks",
+  "Omniflow Energy",
+  "TrueAmp Utilities",
+  "HyperVibe Energy",
+  "Altigen Solutions",
+  "EcoAxis Energy",
+  "Sparkterra Utilities",
+  "Windova Power",
+  "EtherCore Energy",
+  "Purewatt Systems",
+  "Greenbeat Grid",
+  "Fluxonomy Energy",
+  "Ionixis Utilities",
+  "Zenithra Power",
+  "Enerlytix Corp",
+  "Voltstride Solutions",
+  "Sunlinea Power",
+  "ZeonGrid Energy",
+  "Ecorelic Utilities",
+  "GridHaven Energy",
+  "NovaAmp Systems",
+  "RevoPulse Power",
+  "Etherlume Energy",
+  "BlueCrest Power",
+  "WindLoom Utilities",
+  "ArcMatter Energy",
+  "PowerNova Corp",
+  "Dynawatt Solutions",
+  "Lumora Grid Co.",
+  "Volturex Energy",
+  "Radianta Power",
+  "OmegaStream Utilities",
+  "TerraLink Power",
+  "Ionflow Energy",
+  "EcoMagnetix",
+  "GridEcho Utilities",
+  "NexCraft Power",
+  "Windnetic Energy",
+  "EcoVerra Solutions",
+  "SparkNex Energy",
+  "CoreVanta Utilities",
+  "SolStream Power",
+  "Kinetral Energy",
+  "OmniArc Utilities",
+  "PulseNova Energy",
+  "Fluxora Power",
+  "Ampenity Energy",
+  "ViridisGrid Co.",
+  "StellarGen Utilities",
+  "GreenTide Systems",
+  "AetherForge Energy",
+  "ArcadiaAmp",
+  "TerraVolt Solutions",
+  "QuantumLux Power",
+  "Emberline Energy",
+  "EcoThrive Utilities",
+  "VortexPath Energy",
+  "LuminoGrid Systems",
+  "VoltSpring Energy",
+  "BlueHelio Power",
+  "Gravion Energy",
+  "ClarityGrid Utilities",
+  "PureShift Power",
+  "HorizonAxis Energy",
+  "AuroraPulse Systems",
+];
+
+const makePicker = <T>(replacementValues: T[]) => {
+  const choices = [...replacementValues];
+  const mapped = new Map<T, T>();
+  return (initialName: T) => {
+    if (choices.length === 0) {
+      throw new Error("No more operator names available");
+    }
+    if (mapped.has(initialName)) {
+      return mapped.get(initialName)!; // Return the already mapped name
+    }
+    const index = Math.floor(Math.random() * choices.length);
+    const name = choices[index];
+    mapped.set(initialName, name); // Map the initial name to the chosen name
+    choices.splice(index, 1); // Remove the chosen name to avoid duplicates
+    return name;
+  };
+};
+
+const pickId = makePicker(Array.from({ length: 1000 }).map((_, i) => i));
+const pickName = makePicker(operatorNames);
+
 async function generateMocks(options: FetcherOptions) {
   try {
     // Initialize the database explicitly
@@ -40,6 +164,20 @@ async function generateMocks(options: FetcherOptions) {
       const costsAndTariffs = await fetchOperatorCostsAndTariffsData(
         operatorId
       );
+
+      // Change names of operators in the data
+      for (const attr of [
+        "energyTariffs",
+        "netTariffs",
+        "networkCosts",
+      ] as const) {
+        const rates = costsAndTariffs[attr];
+        rates.yearlyData.forEach((data) => {
+          data.operator_name = pickName(data.operator_name);
+          data.operator_id = pickId(data.operator_id);
+        });
+      }
+
       const outputPath = path.join(
         outputDir,
         `fetchOperatorCostsAndTariffsData-${operatorId}.json`
@@ -53,6 +191,13 @@ async function generateMocks(options: FetcherOptions) {
         `\n--- Fetching power stability data for operator ${operatorId} ---`
       );
       const powerStability = await fetchPowerStability(operatorId);
+      for (const attr of ["saidi", "saifi"] as const) {
+        const stabilityData = powerStability[attr];
+        stabilityData.yearlyData.forEach((data) => {
+          data.operator_name = pickName(data.operator_name);
+          data.operator = pickId(data.operator);
+        });
+      }
       const outputPath = path.join(
         outputDir,
         `fetchPowerStability-${operatorId}.json`
