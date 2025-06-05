@@ -608,24 +608,24 @@ export const fetchOperatorCostsAndTariffsData = async (
       networkLevel: {
         id: networkLevel.id,
       },
-      operatorRate: operatorNetworkCost?.rate,
-      peerGroupMedianRate: peerGroupMedianNetworkCosts?.median_value,
+      operatorRate: operatorNetworkCost?.rate ?? null,
+      peerGroupMedianRate: peerGroupMedianNetworkCosts?.median_value ?? null,
       yearlyData: networkCosts.map((x) =>
         omit(x, ["settlement_density", "energy_density"])
       ),
     },
     netTariffs: {
       category: category,
-      operatorRate: operatorNetTariff?.rate,
-      peerGroupMedianRate: peerGroupMedianNetTariffs?.median_rate,
+      operatorRate: operatorNetTariff?.rate ?? null,
+      peerGroupMedianRate: peerGroupMedianNetTariffs?.median_rate ?? null,
       yearlyData: netTariffs.map((x) =>
         omit(x, ["settlement_density", "energy_density"])
       ),
     },
     energyTariffs: {
       category: category,
-      operatorRate: operatorEnergyTariff?.rate,
-      peerGroupMedianRate: peerGroupMedianEnergyTariffs?.median_rate,
+      operatorRate: operatorEnergyTariff?.rate ?? null,
+      peerGroupMedianRate: peerGroupMedianEnergyTariffs?.median_rate ?? null,
       yearlyData: energyTariffs.map((x) =>
         omit(x, ["settlement_density", "energy_density"])
       ),
