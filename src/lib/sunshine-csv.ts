@@ -10,6 +10,28 @@ import { NetworkLevel } from "src/domain/data";
 import serverEnv from "src/env/server";
 import { Operator } from "src/graphql/queries";
 
+const SUNSHINE_ENCRYPTED_DATA_DIR =
+  process.env.SUNSHINE_ENCRYPTED_DATA_DIR ||
+  path.join(process.cwd(), "src/sunshine-data");
+
+const SUNSHINE_CSV_DATA_DIR =
+  process.env.SUNSHINE_CSV_DATA_DIR ||
+  path.join(process.cwd(), "src/sunshine-data");
+
+console.log(
+  "Using sunshine encrypted data directory:",
+  SUNSHINE_ENCRYPTED_DATA_DIR
+);
+console.log("Using sunshine CSV data directory:", SUNSHINE_CSV_DATA_DIR);
+
+export const getCsvDataPath = (filename: string): string => {
+  return path.resolve(SUNSHINE_CSV_DATA_DIR, `${filename}`);
+};
+
+const getEncryptedDataPath = (filename: string): string => {
+  return path.resolve(SUNSHINE_ENCRYPTED_DATA_DIR, `${filename}`);
+};
+
 export const sunshineFileIds = [
   "observations",
   "energy",
@@ -24,8 +46,8 @@ export const encryptSunshineCSVFile = (id: Id) => {
   const PASSWORD = process.env.PREVIEW_PASSWORD!;
   if (!PASSWORD) throw new Error("PREVIEW_PASSWORD not set");
 
-  const INPUT_PATH = path.join(process.cwd(), `./src/sunshine-data/${id}.csv`);
-  const OUTPUT_PATH = path.join(process.cwd(), `./src/sunshine-data/${id}.enc`);
+  const INPUT_PATH = getCsvDataPath(`${id}.csv`);
+  const OUTPUT_PATH = getEncryptedDataPath(`${id}.enc`);
 
   const data = fs.readFileSync(INPUT_PATH);
 
@@ -47,9 +69,7 @@ export const encryptSunshineCSVFile = (id: Id) => {
 const decryptSunshineCsv = (id: Id): string => {
   const PASSWORD = serverEnv.PREVIEW_PASSWORD!;
   try {
-    const encryptedData = fs.readFileSync(
-      path.join(process.cwd(), `./src/sunshine-data/${id}.enc`)
-    );
+    const encryptedData = fs.readFileSync(getEncryptedDataPath(`${id}.enc`));
 
     const salt = encryptedData.subarray(0, 16);
     const iv = encryptedData.subarray(16, 32);
@@ -68,7 +88,7 @@ const decryptSunshineCsv = (id: Id): string => {
 
 export const decryptSunshineCsvFile = (id: Id) => {
   const decryptedData = decryptSunshineCsv(id);
-  const outputPath = path.join(process.cwd(), `./src/sunshine-data/${id}.csv`);
+  const outputPath = getCsvDataPath(`${id}.csv`);
   fs.writeFileSync(outputPath, decryptedData);
   console.log(`✅ Decrypted data saved to: ${outputPath}`);
 };

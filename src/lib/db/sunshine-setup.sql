@@ -15,13 +15,13 @@ DROP VIEW IF EXISTS operator_data;
 
 -- Create tables from CSV files
 CREATE TABLE sunshine_2024 AS 
-SELECT * FROM read_csv_auto('src/sunshine-data/Sunshine 2024 28.05.2025.csv');
+SELECT * FROM read_csv_auto(getvariable('sunshine_2024_csv_path'));
 
 CREATE TABLE sunshine_2025 AS 
-SELECT * FROM read_csv_auto('src/sunshine-data/Sunshine 2025 28.05.2025.csv');
+SELECT * FROM read_csv_auto(getvariable('sunshine_2025_csv_path'));
 
 CREATE TABLE peer_groups AS 
-SELECT * FROM read_csv_auto('src/sunshine-data/peer-groups.csv');
+SELECT * FROM read_csv_auto(getvariable('peer_groups_csv_path'));
 
 -- Create a view that combines data from both years with clean column names
 CREATE VIEW sunshine_all AS

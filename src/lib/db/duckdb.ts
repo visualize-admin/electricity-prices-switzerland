@@ -4,7 +4,7 @@ import path from "path";
 import { DuckDBConnection, DuckDBInstance } from "@duckdb/node-api";
 
 import { setupCleanupHandlers } from "src/lib/db/cleanup";
-import { decryptSunshineCsvFile } from "src/lib/sunshine-csv";
+import { decryptSunshineCsvFile, getCsvDataPath } from "src/lib/sunshine-csv";
 
 let instance: DuckDBInstance | null = null;
 let connection: DuckDBConnection | null = null;
@@ -100,6 +100,7 @@ export const setupDatabase = async (): Promise<void> => {
   // Decrypt Sunshine CSV data
   await decryptSunshineCsvFile("Sunshine 2024 28.05.2025");
   await decryptSunshineCsvFile("Sunshine 2025 28.05.2025");
+  await decryptSunshineCsvFile("peer-groups");
 
   // Read SQL setup file
   const setupSQL = fs.readFileSync(
@@ -107,6 +108,19 @@ export const setupDatabase = async (): Promise<void> => {
     "utf-8"
   );
 
+  await exec(
+    `SET VARIABLE sunshine_2024_csv_path='${getCsvDataPath(
+      "Sunshine 2024 28.05.2025.csv"
+    )}';`
+  );
+  await exec(
+    `SET VARIABLE sunshine_2025_csv_path='${getCsvDataPath(
+      "Sunshine 2025 28.05.2025.csv"
+    )}';`
+  );
+  await exec(
+    `SET VARIABLE peer_groups_csv_path='${getCsvDataPath("peer-groups.csv")}';`
+  );
   // Execute SQL setup
   await exec(setupSQL);
 
