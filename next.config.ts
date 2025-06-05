@@ -79,7 +79,7 @@ const nextConfig = async (): Promise<NextConfig> => {
       localeDetection: false,
     },
 
-    serverExternalPackages: ["@duckdb/node-api"],
+    serverExternalPackages: ["@duckdb/node-api", "@duckdb/node-bindings"],
 
     webpack(config, { isServer }) {
       if (!isServer) {
