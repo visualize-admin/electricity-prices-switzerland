@@ -53,9 +53,10 @@ jobs:
 
       - name: Run storybook tests
         env:
+          BASIC_AUTH_CREDENTIALS: ${{ secrets.BASIC_AUTH_CREDENTIALS }}
           PLAYWRIGHT_BASE_URL: ${{ steps.deployment-url.outputs.deployment-url }}/storybook
         run: |
-          curl "$PLAYWRIGHT_BASE_URL/index.json" -o storybook-index.json
+          curl -u "$BASIC_AUTH_CREDENTIALS" "$PLAYWRIGHT_BASE_URL/index.json" -o storybook-index.json
           yarn playwright test --grep @storybook
 
       - uses: actions/upload-artifact@v4
