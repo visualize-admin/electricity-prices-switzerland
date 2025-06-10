@@ -137,7 +137,7 @@ export const ensureDatabaseInitialized = async (): Promise<void> => {
     setupCleanupHandlers();
     console.log("Initializing DuckDB database...");
     await setupDatabase();
-    console.log("Setup databse connection.");
+    console.log("Setup database connection.");
     await setupDatabaseConnection();
     databaseInitialized = true;
   }
