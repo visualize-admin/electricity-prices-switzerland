@@ -85,7 +85,7 @@ export const NetTariffsTrendChart = ({
           />
           {/* <LegendItem
             item={t({
-              id: "network-cost-trend-chart.legend-item.total-median",
+              id: "net-tariffs-trend-chart.legend-item.total-median",
               message: "Total Median",
             })}
             color={palette.monochrome[800]}
@@ -93,7 +93,7 @@ export const NetTariffsTrendChart = ({
           /> */}
           <LegendItem
             item={t({
-              id: "network-cost-trend-chart.legend-item.peer-group-median",
+              id: "net-tariffs-trend-chart.legend-item.peer-group-median",
               message: "Peer Group Median",
             })}
             color={palette.monochrome[800]}
@@ -102,7 +102,7 @@ export const NetTariffsTrendChart = ({
 
           <LegendItem
             item={t({
-              id: "network-cost-trend-chart.legend-item.other-operators",
+              id: "net-tariffs-trend-chart.legend-item.other-operators",
               message: "Other operators",
             })}
             color={palette.monochrome[200]}
