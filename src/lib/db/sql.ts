@@ -312,7 +312,7 @@ export type NetworkCostRecord = {
   rate: number;
 };
 
-export type OperationalStandardRecord = {
+type OperationalStandardRecord = {
   operator_id: number;
   operator_name: string;
   period: number;
@@ -323,7 +323,7 @@ export type OperationalStandardRecord = {
   settlement_density: string;
   energy_density: string;
 };
-export type StabilityMetricRecord = {
+type StabilityMetricRecord = {
   operator_id: number;
   operator_name: string;
   period: number;
@@ -342,7 +342,7 @@ export type TariffRecord = {
   rate: number;
 };
 
-export type OperatorDataRecord = {
+type OperatorDataRecord = {
   operator_id: number;
   operator_uid: string;
   operator_name: string;
@@ -350,36 +350,36 @@ export type OperatorDataRecord = {
   settlement_density: string;
   energy_density: string;
 };
-export type PeerGroupRecord<
-  Metric extends PeerGroupMedianValuesParams["metric"]
-> = Metric extends "network_costs"
-  ? {
-      network_level: NetworkLevel["id"];
-      median_value: number;
-    }
-  : Metric extends "stability"
-  ? {
-      median_saidi_total: number;
-      median_saidi_unplanned: number;
-      median_saifi_total: number;
-      median_saifi_unplanned: number;
-    }
-  : Metric extends "operational"
-  ? {
-      median_franc_rule: number;
-      median_info_days: number;
-      median_timely: number;
-    }
-  : Metric extends "energy-tariffs"
-  ? {
-      category: ElectricityCategory;
-      tariff_type: string;
-      median_rate: number;
-    }
-  : Metric extends "net-tariffs"
-  ? {
-      category: ElectricityCategory;
-      tariff_type: string;
-      median_rate: number;
-    }
-  : never;
+
+type PeerGroupRecord<Metric extends PeerGroupMedianValuesParams["metric"]> =
+  Metric extends "network_costs"
+    ? {
+        network_level: NetworkLevel["id"];
+        median_value: number;
+      }
+    : Metric extends "stability"
+    ? {
+        median_saidi_total: number;
+        median_saidi_unplanned: number;
+        median_saifi_total: number;
+        median_saifi_unplanned: number;
+      }
+    : Metric extends "operational"
+    ? {
+        median_franc_rule: number;
+        median_info_days: number;
+        median_timely: number;
+      }
+    : Metric extends "energy-tariffs"
+    ? {
+        category: ElectricityCategory;
+        tariff_type: string;
+        median_rate: number;
+      }
+    : Metric extends "net-tariffs"
+    ? {
+        category: ElectricityCategory;
+        tariff_type: string;
+        median_rate: number;
+      }
+    : never;
