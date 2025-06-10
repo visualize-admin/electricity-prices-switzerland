@@ -73,6 +73,7 @@ export const NetworkCostTrendChart = ({
             alignItems: "flex-start",
             flexWrap: "wrap",
             minHeight: "20px",
+            gap: 2,
           }}
           display="flex"
         >
@@ -81,6 +82,14 @@ export const NetworkCostTrendChart = ({
             color={chartPalette.categorical[0]}
             symbol={"circle"}
           />
+          {/* <LegendItem
+            item={t({
+              id: "network-cost-trend-chart.legend-item.total-median",
+              message: "Total Median",
+            })}
+            color={palette.monochrome[800]}
+            symbol={"triangle"}
+          /> */}
           <LegendItem
             item={t({
               id: "network-cost-trend-chart.legend-item.peer-group-median",
@@ -89,6 +98,7 @@ export const NetworkCostTrendChart = ({
             color={palette.monochrome[800]}
             symbol={"diamond"}
           />
+
           <LegendItem
             item={t({
               id: "network-cost-trend-chart.legend-item.other-operators",

@@ -6,7 +6,12 @@ import {
   useChartState,
 } from "src/components/charts-generic/use-chart-state";
 
-export type LegendSymbol = "square" | "line" | "circle" | "diamond";
+export type LegendSymbol =
+  | "square"
+  | "line"
+  | "circle"
+  | "diamond"
+  | "triangle";
 
 export const LegendColor = memo(({ symbol }: { symbol: LegendSymbol }) => {
   const { colors } = useChartState() as ColumnsState;
@@ -88,10 +93,26 @@ export const LegendSymbol = ({
         />
       );
 
+    case "triangle":
+      return (
+        <Box
+          component="span"
+          sx={{
+            width: 0,
+            height: 0,
+            display: "inline-block",
+            borderLeft: "0.25rem solid transparent",
+            borderRight: "0.25rem solid transparent",
+            borderBottom: `0.5rem solid ${color}`,
+          }}
+        />
+      );
+
     default:
       return null;
   }
 };
+
 export const LegendItem = ({
   item,
   color,

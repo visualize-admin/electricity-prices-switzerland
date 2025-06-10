@@ -1,5 +1,5 @@
 import { t } from "@lingui/macro";
-import { axisBottom, axisTop, select, Selection } from "d3";
+import { axisBottom, axisTop, NumberValue, select, Selection } from "d3";
 import { useEffect, useRef } from "react";
 
 import {
@@ -48,7 +48,7 @@ const AxisWidthLinearBottom = ({
   const xAxisRef = useRef<SVGGElement>(null);
 
   const formatValue =
-    format === "currency" ? formatCurrency : (d: number) => d.toString();
+    format === "currency" ? formatCurrency : (d: NumberValue) => d.toString();
 
   const mkAxis = (g: Selection<SVGGElement, unknown, null, undefined>) => {
     const maxLabelLength = estimateTextWidth(formatValue(xScale.domain()[1]));
@@ -103,7 +103,7 @@ const AxisWidthLinearTop = ({
   const xAxisRef = useRef<SVGGElement>(null);
 
   const formatValue =
-    format === "currency" ? formatCurrency : (d: number) => d.toString();
+    format === "currency" ? formatCurrency : (d: NumberValue) => d.toString();
 
   const mkAxis = (g: Selection<SVGGElement, unknown, null, undefined>) => {
     const maxLabelLength = estimateTextWidth(formatValue(xScale.domain()[1]));
