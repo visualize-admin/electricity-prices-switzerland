@@ -763,6 +763,72 @@ export type SunshineTariffQuery = {
   }>;
 };
 
+export type NetworkCostsQueryVariables = Exact<{
+  filter: NetworkCostsFilter;
+}>;
+
+export type NetworkCostsQuery = {
+  __typename: "Query";
+  networkCosts: {
+    __typename: "NetworkCostsData";
+    operatorRate?: number | null;
+    peerGroupMedianRate?: number | null;
+    networkLevel: { __typename: "NetworkLevel"; id: string };
+    yearlyData: Array<{
+      __typename: "NetworkCostRow";
+      year: number;
+      rate: number;
+      operator_id: number;
+      operator_name: string;
+      network_level: string;
+    }>;
+  };
+};
+
+export type NetTariffsQueryVariables = Exact<{
+  filter: TariffsFilter;
+}>;
+
+export type NetTariffsQuery = {
+  __typename: "Query";
+  netTariffs: {
+    __typename: "TariffsData";
+    category: string;
+    operatorRate?: number | null;
+    peerGroupMedianRate?: number | null;
+    yearlyData: Array<{
+      __typename: "TariffRow";
+      period: number;
+      rate: number;
+      operator_id: number;
+      operator_name: string;
+      category: string;
+    }>;
+  };
+};
+
+export type EnergyTariffsQueryVariables = Exact<{
+  filter: TariffsFilter;
+}>;
+
+export type EnergyTariffsQuery = {
+  __typename: "Query";
+  energyTariffs: {
+    __typename: "TariffsData";
+    category: string;
+    operatorRate?: number | null;
+    peerGroupMedianRate?: number | null;
+    yearlyData: Array<{
+      __typename: "TariffRow";
+      period: number;
+      rate: number;
+      operator_id: number;
+      operator_name: string;
+      category: string;
+    }>;
+  };
+};
+
 export const OperatorObservationFieldsFragmentDoc = gql`
   fragment operatorObservationFields on OperatorObservation {
     period
@@ -1132,6 +1198,83 @@ export function useSunshineTariffQuery(
 ) {
   return Urql.useQuery<SunshineTariffQuery, SunshineTariffQueryVariables>({
     query: SunshineTariffDocument,
+    ...options,
+  });
+}
+export const NetworkCostsDocument = gql`
+  query NetworkCosts($filter: NetworkCostsFilter!) {
+    networkCosts(filter: $filter) {
+      networkLevel {
+        id
+      }
+      operatorRate
+      peerGroupMedianRate
+      yearlyData {
+        year
+        rate
+        operator_id
+        operator_name
+        network_level
+      }
+    }
+  }
+`;
+
+export function useNetworkCostsQuery(
+  options: Omit<Urql.UseQueryArgs<NetworkCostsQueryVariables>, "query">
+) {
+  return Urql.useQuery<NetworkCostsQuery, NetworkCostsQueryVariables>({
+    query: NetworkCostsDocument,
+    ...options,
+  });
+}
+export const NetTariffsDocument = gql`
+  query NetTariffs($filter: TariffsFilter!) {
+    netTariffs(filter: $filter) {
+      category
+      operatorRate
+      peerGroupMedianRate
+      yearlyData {
+        period
+        rate
+        operator_id
+        operator_name
+        category
+      }
+    }
+  }
+`;
+
+export function useNetTariffsQuery(
+  options: Omit<Urql.UseQueryArgs<NetTariffsQueryVariables>, "query">
+) {
+  return Urql.useQuery<NetTariffsQuery, NetTariffsQueryVariables>({
+    query: NetTariffsDocument,
+    ...options,
+  });
+}
+export const EnergyTariffsDocument = gql`
+  query EnergyTariffs($filter: TariffsFilter!) {
+    energyTariffs(filter: $filter) {
+      category
+      operatorRate
+      peerGroupMedianRate
+      yearlyData {
+        period
+        rate
+        operator_id
+        operator_name
+        category
+      }
+    }
+  }
+`;
+
+export function useEnergyTariffsQuery(
+  options: Omit<Urql.UseQueryArgs<EnergyTariffsQueryVariables>, "query">
+) {
+  return Urql.useQuery<EnergyTariffsQuery, EnergyTariffsQueryVariables>({
+    query: EnergyTariffsDocument,
     ...options,
   });
 }
