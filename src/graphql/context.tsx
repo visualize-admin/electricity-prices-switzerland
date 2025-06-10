@@ -7,6 +7,9 @@ const client = createClient({
   url: "/api/graphql",
   exchanges,
   suspense: isServerSide ? true : false,
+
+  // Uncomment to test correct cache behavior
+  // requestPolicy: isServerSide ? "network-only" : "cache-only",
 });
 
 export const GraphqlProvider = ({ children }: { children: ReactNode }) => {
