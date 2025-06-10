@@ -22,10 +22,10 @@ import {
   Resolvers,
   SwissMedianObservationResolvers,
 } from "src/graphql/resolver-types";
-import { 
-  fetchEnergyTariffsData, 
-  fetchNetTariffsData, 
-  fetchNetworkCostsData 
+import {
+  fetchEnergyTariffsData,
+  fetchNetTariffsData,
+  fetchNetworkCostsData,
 } from "src/lib/db/sunshine-data";
 import { getPeerGroup, getSunshineData } from "src/lib/sunshine-csv";
 import { defaultLocale } from "src/locales/config";
@@ -40,6 +40,7 @@ import {
 } from "src/rdf/queries";
 import { fetchOperatorInfo, search } from "src/rdf/search-queries";
 import * as fs from "fs";
+import { asNetworkCategory, NetworkCategory } from "src/domain/data";
 
 const gfmSyntax = require("micromark-extension-gfm");
 const gfmHtml = require("micromark-extension-gfm/html");
@@ -411,14 +412,16 @@ const Query: QueryResolvers = {
   netTariffs: async (_, { filter }) => {
     return await fetchNetTariffsData(
       filter.operatorId,
-      filter.category ?? undefined,
+
+      asNetworkCategory(filter.category as NetworkCategory),
       filter.period ?? undefined
     );
   },
   energyTariffs: async (_, { filter }) => {
     return await fetchEnergyTariffsData(
       filter.operatorId,
-      filter.category ?? undefined,
+
+      asNetworkCategory(filter.category),
       filter.period ?? undefined
     );
   },

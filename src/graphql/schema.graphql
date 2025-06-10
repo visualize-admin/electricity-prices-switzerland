@@ -296,20 +296,20 @@ type TariffRow {
 
 input NetworkCostsFilter {
   operatorId: Int!
-  networkLevel: String
+  networkLevel: String!
   period: Int
 }
 
 input TariffsFilter {
   operatorId: Int!
-  category: String
+  category: String!
   period: Int
 }
 
 type Query {
   sunshineData(filter: SunshineDataFilter!): [SunshineDataRow!]!
   sunshineTariffs(filter: SunshineDataFilter!): [SunshineDataRow!]!
-  
+
   networkCosts(filter: NetworkCostsFilter!): NetworkCostsData!
   netTariffs(filter: TariffsFilter!): TariffsData!
   energyTariffs(filter: TariffsFilter!): TariffsData!

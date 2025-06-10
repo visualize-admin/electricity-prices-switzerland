@@ -142,6 +142,15 @@ export type ElectricityCategory =
 // TODO
 export type NetworkCategory = "NC2" | "NC3";
 
+// TODO Mapping should be at graphql level, we should be able to remove
+// this function when this is done
+export const asNetworkCategory = (category: string): NetworkCategory => {
+  if (category === "NC2" || category === "NC3") {
+    return category;
+  }
+  throw new Error(`Invalid network category: ${category}`);
+};
+
 export type SunshineCostsAndTariffsData = {
   latestYear: string;
   netTariffs: {
