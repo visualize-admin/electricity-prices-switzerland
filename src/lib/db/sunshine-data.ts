@@ -145,12 +145,6 @@ export const fetchNetTariffsData = async ({
     throw new Error(`Peer group not found for operator ID: ${operatorId}`);
   }
 
-  // Get the latest year if period not provided
-  let targetPeriod = period;
-  if (!targetPeriod) {
-    targetPeriod = await getLatestYearSunshine(operatorId);
-  }
-
   const peerGroupMedianNetTariffs =
     await getPeerGroupMedianValues<"net-tariffs">({
       settlementDensity: operatorData.settlement_density,
@@ -160,7 +154,7 @@ export const fetchNetTariffsData = async ({
     });
 
   const netTariffs = await getTariffs({
-    period: targetPeriod,
+    period: period,
     settlementDensity: operatorData.settlement_density,
     energyDensity: operatorData.energy_density,
     tariffType: "network",
@@ -187,7 +181,7 @@ export const fetchEnergyTariffsData = async ({
 }: {
   operatorId: number;
   category: NetworkCategory;
-  period?: number;
+  period: number;
 }): Promise<{
   category: NetworkCategory;
   operatorRate: number | null;
@@ -199,12 +193,6 @@ export const fetchEnergyTariffsData = async ({
     throw new Error(`Peer group not found for operator ID: ${operatorId}`);
   }
 
-  // Get the latest year if period not provided
-  let targetPeriod = period;
-  if (!targetPeriod) {
-    targetPeriod = await getLatestYearSunshine(operatorId);
-  }
-
   const peerGroupMedianEnergyTariffs =
     await getPeerGroupMedianValues<"energy-tariffs">({
       settlementDensity: operatorData.settlement_density,
@@ -214,7 +202,7 @@ export const fetchEnergyTariffsData = async ({
     });
 
   const energyTariffs = await getTariffs({
-    period: targetPeriod,
+    period: period,
     settlementDensity: operatorData.settlement_density,
     energyDensity: operatorData.energy_density,
     category: category,

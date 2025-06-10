@@ -408,21 +408,21 @@ const Query: QueryResolvers = {
     return await fetchNetworkCostsData({
       operatorId: filter.operatorId,
       networkLevel: filter.networkLevel ?? undefined,
-      period: filter.period ?? undefined,
+      period: filter.period,
     });
   },
   netTariffs: async (_, { filter }) => {
     return await fetchNetTariffsData({
       operatorId: filter.operatorId,
       category: asNetworkCategory(filter.category as NetworkCategory),
-      period: filter.period ?? undefined,
+      period: filter.period,
     });
   },
   energyTariffs: async (_, { filter }) => {
     return await fetchEnergyTariffsData({
       operatorId: filter.operatorId,
       category: asNetworkCategory(filter.category),
-      period: filter.period ?? undefined,
+      period: filter.period,
     });
   },
   saidi: async (_, { filter }) => {

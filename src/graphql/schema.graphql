@@ -297,13 +297,13 @@ type TariffRow {
 input NetworkCostsFilter {
   operatorId: Int!
   networkLevel: String!
-  period: Int
+  period: Int!
 }
 
 input TariffsFilter {
   operatorId: Int!
   category: String!
-  period: Int
+  period: Int!
 }
 
 type StabilityDataRow {
