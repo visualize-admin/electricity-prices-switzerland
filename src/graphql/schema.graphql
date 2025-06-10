@@ -306,6 +306,25 @@ input TariffsFilter {
   period: Int
 }
 
+type StabilityDataRow {
+  year: Int!
+  minutes: Float!
+  operator: Int!
+  operator_name: String!
+  planned: Boolean!
+}
+
+type StabilityData {
+  operatorMinutes: Float!
+  peerGroupMinutes: Float!
+  yearlyData: [StabilityDataRow!]!
+}
+
+input StabilityFilter {
+  operatorId: Int!
+  year: Int!
+}
+
 type Query {
   sunshineData(filter: SunshineDataFilter!): [SunshineDataRow!]!
   sunshineTariffs(filter: SunshineDataFilter!): [SunshineDataRow!]!
@@ -313,4 +332,7 @@ type Query {
   networkCosts(filter: NetworkCostsFilter!): NetworkCostsData!
   netTariffs(filter: TariffsFilter!): TariffsData!
   energyTariffs(filter: TariffsFilter!): TariffsData!
+
+  saidi(filter: StabilityFilter!): StabilityData!
+  saifi(filter: StabilityFilter!): StabilityData!
 }

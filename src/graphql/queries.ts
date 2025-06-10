@@ -212,6 +212,8 @@ export type Query = {
   observations?: Maybe<Array<OperatorObservation>>;
   operator?: Maybe<Operator>;
   operators: Array<Operator>;
+  saidi: StabilityData;
+  saifi: StabilityData;
   search: Array<SearchResult>;
   searchCantons: Array<CantonResult>;
   searchMunicipalities: Array<MunicipalityResult>;
@@ -285,6 +287,14 @@ export type QueryOperatorsArgs = {
   query?: InputMaybe<Scalars["String"]["input"]>;
 };
 
+export type QuerySaidiArgs = {
+  filter: StabilityFilter;
+};
+
+export type QuerySaifiArgs = {
+  filter: StabilityFilter;
+};
+
 export type QuerySearchArgs = {
   locale: Scalars["String"]["input"];
   query?: InputMaybe<Scalars["String"]["input"]>;
@@ -329,6 +339,27 @@ export type QueryWikiContentArgs = {
 export type SearchResult = {
   id: Scalars["String"]["output"];
   name: Scalars["String"]["output"];
+};
+
+export type StabilityData = {
+  __typename: "StabilityData";
+  operatorMinutes: Scalars["Float"]["output"];
+  peerGroupMinutes: Scalars["Float"]["output"];
+  yearlyData: Array<StabilityDataRow>;
+};
+
+export type StabilityDataRow = {
+  __typename: "StabilityDataRow";
+  minutes: Scalars["Float"]["output"];
+  operator: Scalars["Int"]["output"];
+  operator_name: Scalars["String"]["output"];
+  planned: Scalars["Boolean"]["output"];
+  year: Scalars["Int"]["output"];
+};
+
+export type StabilityFilter = {
+  operatorId: Scalars["Int"]["input"];
+  year: Scalars["Int"]["input"];
 };
 
 export type SunshineDataFilter = {
@@ -785,6 +816,28 @@ export type NetworkCostsQuery = {
   };
 };
 
+export type EnergyTariffsQueryVariables = Exact<{
+  filter: TariffsFilter;
+}>;
+
+export type EnergyTariffsQuery = {
+  __typename: "Query";
+  energyTariffs: {
+    __typename: "TariffsData";
+    category: string;
+    operatorRate?: number | null;
+    peerGroupMedianRate?: number | null;
+    yearlyData: Array<{
+      __typename: "TariffRow";
+      period: number;
+      rate: number;
+      operator_id: number;
+      operator_name: string;
+      category: string;
+    }>;
+  };
+};
+
 export type NetTariffsQueryVariables = Exact<{
   filter: TariffsFilter;
 }>;
@@ -807,24 +860,44 @@ export type NetTariffsQuery = {
   };
 };
 
-export type EnergyTariffsQueryVariables = Exact<{
-  filter: TariffsFilter;
+export type SaidiQueryVariables = Exact<{
+  filter: StabilityFilter;
 }>;
 
-export type EnergyTariffsQuery = {
+export type SaidiQuery = {
   __typename: "Query";
-  energyTariffs: {
-    __typename: "TariffsData";
-    category: string;
-    operatorRate?: number | null;
-    peerGroupMedianRate?: number | null;
+  saidi: {
+    __typename: "StabilityData";
+    operatorMinutes: number;
+    peerGroupMinutes: number;
     yearlyData: Array<{
-      __typename: "TariffRow";
-      period: number;
-      rate: number;
-      operator_id: number;
+      __typename: "StabilityDataRow";
+      year: number;
+      minutes: number;
+      operator: number;
       operator_name: string;
-      category: string;
+      planned: boolean;
+    }>;
+  };
+};
+
+export type SaifiQueryVariables = Exact<{
+  filter: StabilityFilter;
+}>;
+
+export type SaifiQuery = {
+  __typename: "Query";
+  saifi: {
+    __typename: "StabilityData";
+    operatorMinutes: number;
+    peerGroupMinutes: number;
+    yearlyData: Array<{
+      __typename: "StabilityDataRow";
+      year: number;
+      minutes: number;
+      operator: number;
+      operator_name: string;
+      planned: boolean;
     }>;
   };
 };
@@ -1228,6 +1301,31 @@ export function useNetworkCostsQuery(
     ...options,
   });
 }
+export const EnergyTariffsDocument = gql`
+  query EnergyTariffs($filter: TariffsFilter!) {
+    energyTariffs(filter: $filter) {
+      category
+      operatorRate
+      peerGroupMedianRate
+      yearlyData {
+        period
+        rate
+        operator_id
+        operator_name
+        category
+      }
+    }
+  }
+`;
+
+export function useEnergyTariffsQuery(
+  options: Omit<Urql.UseQueryArgs<EnergyTariffsQueryVariables>, "query">
+) {
+  return Urql.useQuery<EnergyTariffsQuery, EnergyTariffsQueryVariables>({
+    query: EnergyTariffsDocument,
+    ...options,
+  });
+}
 export const NetTariffsDocument = gql`
   query NetTariffs($filter: TariffsFilter!) {
     netTariffs(filter: $filter) {
@@ -1253,28 +1351,51 @@ export function useNetTariffsQuery(
     ...options,
   });
 }
-export const EnergyTariffsDocument = gql`
-  query EnergyTariffs($filter: TariffsFilter!) {
-    energyTariffs(filter: $filter) {
-      category
-      operatorRate
-      peerGroupMedianRate
+export const SaidiDocument = gql`
+  query Saidi($filter: StabilityFilter!) {
+    saidi(filter: $filter) {
+      operatorMinutes
+      peerGroupMinutes
       yearlyData {
-        period
-        rate
-        operator_id
+        year
+        minutes
+        operator
         operator_name
-        category
+        planned
       }
     }
   }
 `;
 
-export function useEnergyTariffsQuery(
-  options: Omit<Urql.UseQueryArgs<EnergyTariffsQueryVariables>, "query">
+export function useSaidiQuery(
+  options: Omit<Urql.UseQueryArgs<SaidiQueryVariables>, "query">
 ) {
-  return Urql.useQuery<EnergyTariffsQuery, EnergyTariffsQueryVariables>({
-    query: EnergyTariffsDocument,
+  return Urql.useQuery<SaidiQuery, SaidiQueryVariables>({
+    query: SaidiDocument,
+    ...options,
+  });
+}
+export const SaifiDocument = gql`
+  query Saifi($filter: StabilityFilter!) {
+    saifi(filter: $filter) {
+      operatorMinutes
+      peerGroupMinutes
+      yearlyData {
+        year
+        minutes
+        operator
+        operator_name
+        planned
+      }
+    }
+  }
+`;
+
+export function useSaifiQuery(
+  options: Omit<Urql.UseQueryArgs<SaifiQueryVariables>, "query">
+) {
+  return Urql.useQuery<SaifiQuery, SaifiQueryVariables>({
+    query: SaifiDocument,
     ...options,
   });
 }

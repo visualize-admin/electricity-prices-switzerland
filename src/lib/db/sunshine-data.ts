@@ -665,6 +665,136 @@ export const fetchOperatorCostsAndTariffsData = async ({
  * @param operatorId The operator ID
  * @returns Power stability data
  */
+/**
+ * Fetch SAIDI (System Average Interruption Duration Index) data for a specific operator
+ * @param operatorId The operator ID
+ * @param year Year parameter
+ * @returns SAIDI data
+ */
+export const fetchSaidi = async (
+  operatorId: number,
+  year: number
+): Promise<{
+  operatorMinutes: number;
+  peerGroupMinutes: number;
+  yearlyData: {
+    year: number;
+    minutes: number;
+    operator: number;
+    operator_name: string;
+    planned: boolean;
+  }[];
+}> => {
+  await ensureDatabaseInitialized();
+
+  const operatorData = await getOperatorData(operatorId);
+  if (!operatorData) {
+    throw new Error(`Peer group not found for operator ID: ${operatorId}`);
+  }
+
+  const targetYear = year;
+
+  // Get peer group median SAIDI
+  const peerGroupMedianStability = await getPeerGroupMedianValues<"stability">({
+    settlementDensity: operatorData.settlement_density,
+    energyDensity: operatorData.energy_density,
+    metric: "stability",
+    period: targetYear,
+  });
+
+  const operatorStability = await getStabilityMetrics({
+    operatorId,
+    period: targetYear,
+  });
+  if (operatorStability.length > 1) {
+    throw new Error(
+      "Cannot have multiple stability records for one operator in one year"
+    );
+  }
+  const peerGroupYearlyStability = await getStabilityMetrics({
+    settlement_density: operatorData.settlement_density,
+    energy_density: operatorData.energy_density,
+    period: targetYear,
+  });
+
+  return {
+    operatorMinutes: operatorStability?.[0]?.saidi_total || 0,
+    peerGroupMinutes: peerGroupMedianStability?.median_saidi_total || 0,
+    yearlyData: peerGroupYearlyStability.map((x) => ({
+      year: x.period,
+      minutes: x.saidi_total,
+      operator: x.operator_id,
+      operator_name: x.operator_name,
+      planned: x.saidi_unplanned === 0,
+    })),
+  };
+};
+
+/**
+ * Fetch SAIFI (System Average Interruption Frequency Index) data for a specific operator
+ * @param operatorId The operator ID
+ * @param year Year parameter
+ * @returns SAIFI data
+ */
+export const fetchSaifi = async (
+  operatorId: number,
+  year?: number
+): Promise<{
+  operatorMinutes: number;
+  peerGroupMinutes: number;
+  yearlyData: {
+    year: number;
+    minutes: number;
+    operator: number;
+    operator_name: string;
+    planned: boolean;
+  }[];
+}> => {
+  await ensureDatabaseInitialized();
+
+  const operatorData = await getOperatorData(operatorId);
+  if (!operatorData) {
+    throw new Error(`Peer group not found for operator ID: ${operatorId}`);
+  }
+
+  const targetYear = year;
+
+  // Get peer group median SAIFI
+  const peerGroupMedianStability = await getPeerGroupMedianValues<"stability">({
+    settlementDensity: operatorData.settlement_density,
+    energyDensity: operatorData.energy_density,
+    metric: "stability",
+    period: targetYear,
+  });
+
+  const operatorStability = await getStabilityMetrics({
+    operatorId,
+    period: targetYear,
+  });
+  if (operatorStability.length > 1) {
+    throw new Error(
+      "Cannot have multiple stability records for one operator in one year"
+    );
+  }
+  const peerGroupYearlyStability = await getStabilityMetrics({
+    settlement_density: operatorData.settlement_density,
+    energy_density: operatorData.energy_density,
+    period: targetYear,
+  });
+
+  return {
+    operatorMinutes: operatorStability?.[0]?.saifi_total || 0,
+    peerGroupMinutes: peerGroupMedianStability?.median_saifi_total || 0,
+    yearlyData: peerGroupYearlyStability.map((x) => ({
+      year: x.period,
+      minutes: x.saifi_total,
+      operator: x.operator_id,
+      operator_name: x.operator_name,
+      planned: x.saifi_unplanned === 0,
+    })),
+  };
+};
+
 export const fetchPowerStability = async (
   _operatorId: string
 ): Promise<SunshinePowerStabilityData> => {
@@ -681,33 +811,15 @@ export const fetchPowerStability = async (
   const latestYearData = await query<{ year: string }>(`
     SELECT MAX(period) as year FROM sunshine_all
     WHERE partner_id = ${operatorId}
-    AND (saidi_total != NULL OR saidi_unplanned != NULL OR saifi_total != NULL OR saifi_unplanned != NULL)
+    AND (saidi_total IS NOT NULL OR saidi_unplanned IS NOT NULL OR saifi_total IS NOT NULL OR saifi_unplanned IS NOT NULL)
   `);
 
   const latestYear = latestYearData[0]?.year || "2024";
+  const targetYear = parseInt(latestYear, 10);
 
-  // Get peer group median SAIDI
-  const peerGroupMedianStability = await getPeerGroupMedianValues<"stability">({
-    settlementDensity: operatorData.settlement_density,
-    energyDensity: operatorData.energy_density,
-    metric: "stability",
-    period: parseInt(latestYear, 10),
-  });
-
-  const operatorStability = await getStabilityMetrics({
-    operatorId,
-    period: parseInt(latestYear, 10),
-  });
-  if (operatorStability.length > 1) {
-    throw new Error(
-      "Cannot have multiple stability records for one operator in one year"
-    );
-  }
-  const peerGroupYearlyStability = await getStabilityMetrics({
-    settlement_density: operatorData.settlement_density,
-    energy_density: operatorData.energy_density,
-    period: parseInt(latestYear, 10),
-  });
+  // Fetch SAIDI and SAIFI data using the new sub-functions
+  const saidiData = await fetchSaidi(operatorId, targetYear);
+  const saifiData = await fetchSaifi(operatorId, targetYear);
 
   return {
     latestYear,
@@ -717,28 +829,8 @@ export const fetchPowerStability = async (
         energyDensity: operatorData.energy_density,
       },
     },
-    saidi: {
-      operatorMinutes: operatorStability?.[0].saidi_total,
-      peerGroupMinutes: peerGroupMedianStability?.median_saidi_total || 0,
-      yearlyData: peerGroupYearlyStability.map((x) => ({
-        year: x.period,
-        minutes: x.saidi_total,
-        operator: x.operator_id,
-        operator_name: x.operator_name,
-        planned: x.saidi_unplanned === 0,
-      })),
-    },
-    saifi: {
-      operatorMinutes: operatorStability?.[0].saifi_total,
-      peerGroupMinutes: peerGroupMedianStability?.median_saifi_total || 0,
-      yearlyData: peerGroupYearlyStability.map((x) => ({
-        year: x.period,
-        minutes: x.saifi_total,
-        operator: x.operator_id,
-        operator_name: x.operator_name,
-        planned: x.saifi_unplanned === 0,
-      })),
-    },
+    saidi: saidiData,
+    saifi: saifiData,
     updateDate: new Date().toLocaleDateString("en-US", {
       year: "numeric",
       month: "long",

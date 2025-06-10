@@ -26,6 +26,8 @@ import {
   fetchEnergyTariffsData,
   fetchNetTariffsData,
   fetchNetworkCostsData,
+  fetchSaidi,
+  fetchSaifi,
 } from "src/lib/db/sunshine-data";
 import { getPeerGroup, getSunshineData } from "src/lib/sunshine-csv";
 import { defaultLocale } from "src/locales/config";
@@ -424,6 +426,12 @@ const Query: QueryResolvers = {
       asNetworkCategory(filter.category),
       filter.period ?? undefined
     );
+  },
+  saidi: async (_, { filter }) => {
+    return await fetchSaidi(filter.operatorId, filter.year);
+  },
+  saifi: async (_, { filter }) => {
+    return await fetchSaifi(filter.operatorId, filter.year);
   },
 };
 

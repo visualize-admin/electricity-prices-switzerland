@@ -228,6 +228,8 @@ export type Query = {
   observations?: Maybe<Array<OperatorObservation>>;
   operator?: Maybe<Operator>;
   operators: Array<Operator>;
+  saidi: StabilityData;
+  saifi: StabilityData;
   search: Array<SearchResult>;
   searchCantons: Array<CantonResult>;
   searchMunicipalities: Array<MunicipalityResult>;
@@ -301,6 +303,14 @@ export type QueryOperatorsArgs = {
   query?: InputMaybe<Scalars["String"]["input"]>;
 };
 
+export type QuerySaidiArgs = {
+  filter: StabilityFilter;
+};
+
+export type QuerySaifiArgs = {
+  filter: StabilityFilter;
+};
+
 export type QuerySearchArgs = {
   locale: Scalars["String"]["input"];
   query?: InputMaybe<Scalars["String"]["input"]>;
@@ -345,6 +355,27 @@ export type QueryWikiContentArgs = {
 export type SearchResult = {
   id: Scalars["String"]["output"];
   name: Scalars["String"]["output"];
+};
+
+export type StabilityData = {
+  __typename?: "StabilityData";
+  operatorMinutes: Scalars["Float"]["output"];
+  peerGroupMinutes: Scalars["Float"]["output"];
+  yearlyData: Array<StabilityDataRow>;
+};
+
+export type StabilityDataRow = {
+  __typename?: "StabilityDataRow";
+  minutes: Scalars["Float"]["output"];
+  operator: Scalars["Int"]["output"];
+  operator_name: Scalars["String"]["output"];
+  planned: Scalars["Boolean"]["output"];
+  year: Scalars["Int"]["output"];
+};
+
+export type StabilityFilter = {
+  operatorId: Scalars["Int"]["input"];
+  year: Scalars["Int"]["input"];
 };
 
 export type SunshineDataFilter = {
@@ -594,6 +625,9 @@ export type ResolversTypes = ResolversObject<{
   SearchResult: ResolverTypeWrapper<
     ResolversInterfaceTypes<ResolversTypes>["SearchResult"]
   >;
+  StabilityData: ResolverTypeWrapper<StabilityData>;
+  StabilityDataRow: ResolverTypeWrapper<StabilityDataRow>;
+  StabilityFilter: StabilityFilter;
   String: ResolverTypeWrapper<Scalars["String"]["output"]>;
   SunshineDataFilter: SunshineDataFilter;
   SunshineDataRow: ResolverTypeWrapper<SunshineDataRow>;
@@ -631,6 +665,9 @@ export type ResolversParentTypes = ResolversObject<{
   PeerGroup: PeerGroup;
   Query: {};
   SearchResult: ResolversInterfaceTypes<ResolversParentTypes>["SearchResult"];
+  StabilityData: StabilityData;
+  StabilityDataRow: StabilityDataRow;
+  StabilityFilter: StabilityFilter;
   String: Scalars["String"]["output"];
   SunshineDataFilter: SunshineDataFilter;
   SunshineDataRow: SunshineDataRow;
@@ -994,6 +1031,18 @@ export type QueryResolvers<
     ContextType,
     RequireFields<QueryOperatorsArgs, "locale">
   >;
+  saidi?: Resolver<
+    ResolversTypes["StabilityData"],
+    ParentType,
+    ContextType,
+    RequireFields<QuerySaidiArgs, "filter">
+  >;
+  saifi?: Resolver<
+    ResolversTypes["StabilityData"],
+    ParentType,
+    ContextType,
+    RequireFields<QuerySaifiArgs, "filter">
+  >;
   search?: Resolver<
     Array<ResolversTypes["SearchResult"]>,
     ParentType,
@@ -1056,6 +1105,32 @@ export type SearchResultResolvers<
   >;
   id?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+}>;
+
+export type StabilityDataResolvers<
+  ContextType = ServerContext,
+  ParentType extends ResolversParentTypes["StabilityData"] = ResolversParentTypes["StabilityData"]
+> = ResolversObject<{
+  operatorMinutes?: Resolver<ResolversTypes["Float"], ParentType, ContextType>;
+  peerGroupMinutes?: Resolver<ResolversTypes["Float"], ParentType, ContextType>;
+  yearlyData?: Resolver<
+    Array<ResolversTypes["StabilityDataRow"]>,
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type StabilityDataRowResolvers<
+  ContextType = ServerContext,
+  ParentType extends ResolversParentTypes["StabilityDataRow"] = ResolversParentTypes["StabilityDataRow"]
+> = ResolversObject<{
+  minutes?: Resolver<ResolversTypes["Float"], ParentType, ContextType>;
+  operator?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  operator_name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  planned?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
+  year?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type SunshineDataRowResolvers<
@@ -1220,6 +1295,8 @@ export type Resolvers<ContextType = ServerContext> = ResolversObject<{
   PeerGroup?: PeerGroupResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   SearchResult?: SearchResultResolvers<ContextType>;
+  StabilityData?: StabilityDataResolvers<ContextType>;
+  StabilityDataRow?: StabilityDataRowResolvers<ContextType>;
   SunshineDataRow?: SunshineDataRowResolvers<ContextType>;
   SwissMedianObservation?: SwissMedianObservationResolvers<ContextType>;
   SystemInfo?: SystemInfoResolvers<ContextType>;

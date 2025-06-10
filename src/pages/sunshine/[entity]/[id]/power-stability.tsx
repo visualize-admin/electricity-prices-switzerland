@@ -3,6 +3,7 @@ import { GetServerSideProps } from "next";
 import ErrorPage from "next/error";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
+import { gql } from "urql";
 
 import CardGrid from "src/components/card-grid";
 import { DetailPageBanner } from "src/components/detail-page/banner";
@@ -28,12 +29,13 @@ import {
 } from "src/data/shared-page-props";
 import { SunshinePowerStabilityData } from "src/domain/data";
 import { getLocalizedLabel } from "src/domain/translation";
+import { useSaidiQuery, useSaifiQuery } from "src/graphql/queries";
 import { fetchPowerStability } from "src/lib/db/sunshine-data";
 import { defaultLocale } from "src/locales/config";
 
 type Props =
   | (Extract<SharedPageProps, { entity: "operator"; status: "found" }> & {
-      powerStability: SunshinePowerStabilityData;
+      powerStability: Omit<SunshinePowerStabilityData, "saidi" | "saifi">;
     })
   | { status: "notfound" };
 
@@ -75,6 +77,44 @@ export const getServerSideProps: GetServerSideProps<
   };
 };
 
+// Operator document and year filter
+export const SaidiDocument = gql`
+  query Saidi($filter: StabilityFilter!) {
+    saidi(filter: $filter) {
+      operatorMinutes
+      peerGroupMinutes
+      yearlyData {
+        year
+        minutes
+        operator
+        operator_name
+        planned
+      }
+    }
+  }
+`;
+
+export const SaifiDocument = gql`
+  query Saifi($filter: StabilityFilter!) {
+    saifi(filter: $filter) {
+      operatorMinutes
+      peerGroupMinutes
+      yearlyData {
+        year
+        minutes
+        operator
+        operator_name
+        planned
+      }
+    }
+  }
+`;
+
+const useSaidiOrSaifiByAttribute = {
+  saidi: useSaidiQuery,
+  saifi: useSaifiQuery,
+} as const;
+
 const SaidiSaifi = (
   props: Extract<Props, { status: "found" }> & { attribute: "saidi" | "saifi" }
 ) => {
@@ -84,7 +124,28 @@ const SaidiSaifi = (
   } = props.powerStability;
   const { attribute } = props;
 
-  const data = props.powerStability[attribute];
+  const useQuery = useSaidiOrSaifiByAttribute[attribute];
+  const [queryState] = useQuery({
+    variables: {
+      filter: {
+        operatorId: parseInt(props.id, 10),
+        year: parseInt(latestYear, 10),
+      },
+    },
+  });
+
+  const data = queryState.data
+    ? "saidi" in queryState?.data
+      ? queryState.data.saidi
+      : "saifi" in queryState?.data
+      ? queryState.data.saifi
+      : null
+    : null;
+
+  if (!data) {
+    return null;
+  }
+
   const operatorLabel = props.name;
 
   const comparisonCardProps = {
