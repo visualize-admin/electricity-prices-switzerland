@@ -1,24 +1,29 @@
 import { Trans, t } from "@lingui/macro";
 import {
   Box,
-  Typography,
   Card,
   CardContent,
-  Grid,
   CardProps,
+  Grid,
+  Typography,
 } from "@mui/material";
 import React, { useState } from "react";
 
 import { ButtonGroup } from "src/components/button-group";
 import CardSource from "src/components/card-source";
 import { Combobox } from "src/components/combobox";
-import { PeerGroup } from "src/domain/data";
+import { PeerGroup, SunshineCostsAndTariffsData } from "src/domain/data";
 import { getLocalizedLabel, getPeerGroupLabels } from "src/domain/translation";
+
+import { NetworkCostTrendChart } from "./network-cost-trend-chart";
 
 const NetworkCostsTrendCard: React.FC<
   {
     peerGroup: PeerGroup;
     updateDate: string;
+    networkCosts: SunshineCostsAndTariffsData["networkCosts"];
+    operatorId: string;
+    operatorLabel: string;
   } & CardProps
 > = (props) => {
   const [compareWith, setCompareWith] = useState(
@@ -26,7 +31,8 @@ const NetworkCostsTrendCard: React.FC<
   );
   const [viewBy, setViewBy] = useState("latest");
 
-  const { peerGroup, updateDate } = props;
+  const { peerGroup, updateDate, networkCosts, operatorId, operatorLabel } =
+    props;
   const { peerGroupLabel } = getPeerGroupLabels(peerGroup);
   return (
     <Card {...props}>
@@ -96,18 +102,12 @@ const NetworkCostsTrendCard: React.FC<
         </Grid>
 
         {/* Scatter Plot */}
-        <Box sx={{ height: 400, width: "100%" }}>
-          {/* This is a placeholder for the ScatterPlot component */}
-          <Typography color="text.secondary" sx={{ pt: 10 }}>
-            <Trans id="sunshine.costs-and-tariffs.scatter-plot-description">
-              Scatter Plot visualization showing network costs across different
-              levels (End Consumer Level, Low Voltage Distribution, Medium
-              Voltage Distribution)
-            </Trans>
-          </Typography>
-
-          {/* Implement your ScatterPlot component here */}
-          {/* <ScatterPlot /> */}
+        <Box sx={{ height: 200, width: "100%" }}>
+          <NetworkCostTrendChart
+            id={operatorId}
+            operatorLabel={operatorLabel}
+            observations={networkCosts.yearlyData}
+          />
         </Box>
         {/* Footer Info */}
         <CardSource date={`${updateDate}`} source={"Lindas"} />

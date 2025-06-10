@@ -1,124 +1,89 @@
+import { t } from "@lingui/macro";
 import { Box } from "@mui/material";
-import { useMemo } from "react";
 
-import type { GenericObservation, ObservationValue } from "src/domain/data";
+import type { SunshineCostsAndTariffsData } from "src/domain/data";
+import { getLocalizedLabel } from "src/domain/translation";
+import { chartPalette, palette } from "src/themes/palette";
 
 import { AxisHeightCategories } from "./charts-generic/axis/axis-height-categories";
 import { AxisWidthLinear } from "./charts-generic/axis/axis-width-linear";
 import { ChartContainer, ChartSvg } from "./charts-generic/containers";
 import { Tooltip } from "./charts-generic/interaction/tooltip";
+import { LegendItem } from "./charts-generic/legends/color";
 import { InteractionDotted } from "./charts-generic/overlay/interaction-dotted";
 import { Dots } from "./charts-generic/scatter-plot/dots";
 import { ScatterPlot } from "./charts-generic/scatter-plot/scatter-plot-state";
 import { SectionProps } from "./detail-page/card";
 
 type NetworkCostTrendChartProps = {
-  observations: GenericObservation[];
+  observations: SunshineCostsAndTariffsData["networkCosts"]["yearlyData"];
+  operatorLabel: string;
 };
-
-type CategoryKey =
-  | "SunNetworkCostsNE5"
-  | "SunNetworkCostsNE6"
-  | "SunNetworkCostsNE7";
-
-type TransformedDatum = {
-  category: string;
-  value: number;
-  SunName: string;
-  operatorLabel: ObservationValue;
-  operator: ObservationValue;
-  uniqueId: ObservationValue;
-  municipalityLabel: ObservationValue;
-  period: ObservationValue;
-};
-
-const TARGET_OPERATORS = [
-  "Elektrizitätswerk der Stadt Zürich",
-  "BKW Energie AG",
-];
-
-const CATEGORIES: { key: CategoryKey; label: string }[] = [
-  {
-    key: "SunNetworkCostsNE5",
-    label: "Medium Voltage Distribution (Level 5) - CHF./kVA",
-  },
-];
 
 export const NetworkCostTrendChart = ({
   observations,
   id,
+  operatorLabel,
 }: NetworkCostTrendChartProps & Omit<SectionProps, "entity">) => {
-  const transformedData: TransformedDatum[] = useMemo(() => {
-    return CATEGORIES.flatMap(({ key, label }) => {
-      const entries: TransformedDatum[] = [];
-
-      const all = observations
-        .map((obs) => obs[key])
-        .filter((v): v is number => !isNaN(v as number));
-      const median =
-        all.length > 0
-          ? all.sort((a, b) => a - b)[Math.floor(all.length / 2)]
-          : undefined;
-
-      if (median !== undefined) {
-        entries.push({
-          category: label,
-          value: median,
-          SunName: label,
-          operatorLabel: "Median Total",
-          operator: "median",
-          uniqueId: `median-${key}`,
-          municipalityLabel: "Median Total",
-          period: "2024",
-        });
-      }
-
-      for (const obs of observations) {
-        const value = obs[key];
-        if (typeof value === "number" && !isNaN(value)) {
-          entries.push({
-            category: label,
-            value,
-            SunName: label,
-            operatorLabel: obs.SunName,
-            operator: obs.SunPartnerId,
-            uniqueId: `${obs.SunName}-${key}`,
-            municipalityLabel: obs.SunName,
-            period: obs.SunPeriod,
-          });
-        }
-      }
-
-      return entries;
-    });
-  }, [observations]);
-
   return (
     <Box>
       <ScatterPlot
-        data={transformedData.slice(0, 20)}
+        data={observations.map((o) => ({
+          ...o,
+          network_level: getLocalizedLabel({
+            id: `network-level.${o.network_level}.long`,
+          }),
+        }))}
         operatorsId={id}
         fields={{
-          x: { componentIri: "value" },
-          y: { componentIri: "SunName" },
+          x: { componentIri: "rate" },
+          y: { componentIri: "network_level" },
           segment: {
-            componentIri: "operatorLabel",
+            componentIri: "operator_name",
             palette: "elcom",
           },
           style: {
-            entity: "operator",
+            entity: "operator_id",
             colorDomain: [
-              ...new Set(transformedData.map((d) => d.operatorLabel)),
+              ...new Set(observations.map((d) => d.operator_name)),
             ] as string[],
-            colorAcc: "operatorLabel",
+            colorAcc: "operator_name",
           },
         }}
-        measures={[{ iri: "value", label: "Value", __typename: "Measure" }]}
+        measures={[{ iri: "rate", label: "Rate", __typename: "Measure" }]}
         dimensions={[
-          { iri: "SunName", label: "Category", __typename: "NominalDimension" },
+          {
+            iri: "operator_name",
+            label: "Operator",
+            __typename: "NominalDimension",
+          },
         ]}
-        aspectRatio={0.3}
+        aspectRatio={0.15}
       >
+        <Box
+          sx={{
+            position: "relative",
+            justifyContent: "flex-start",
+            alignItems: "flex-start",
+            flexWrap: "wrap",
+            minHeight: "20px",
+          }}
+          display="flex"
+        >
+          <LegendItem
+            item={operatorLabel}
+            color={chartPalette.categorical[0]}
+            symbol={"circle"}
+          />
+          <LegendItem
+            item={t({
+              id: "network-cost-trend-chart.legend-item.other-operators",
+              message: "Other operators",
+            })}
+            color={palette.monochrome[200]}
+            symbol={"circle"}
+          />
+        </Box>
         <ChartContainer>
           <ChartSvg>
             <AxisWidthLinear position="top" hideXAxisTitle format="number" />

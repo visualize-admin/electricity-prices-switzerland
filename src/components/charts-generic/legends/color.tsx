@@ -6,7 +6,7 @@ import {
   useChartState,
 } from "src/components/charts-generic/use-chart-state";
 
-type LegendSymbol = "square" | "line" | "circle";
+export type LegendSymbol = "square" | "line" | "circle";
 
 export const LegendColor = memo(({ symbol }: { symbol: LegendSymbol }) => {
   const { colors } = useChartState() as ColumnsState;

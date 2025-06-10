@@ -23,11 +23,11 @@ export const Dots = () => {
   }, [data, getX, getY, xScale, yScale]);
 
   const regularDots = dotProps.filter(
-    ({ d }) => d !== hovered && operatorsId !== d.operator.toString()
+    ({ d }) => d !== hovered && operatorsId !== d.operator_id.toString()
   );
 
   const selectedDots = dotProps.filter(
-    ({ d }) => operatorsId === d.operator.toString()
+    ({ d }) => operatorsId === d.operator_id.toString()
   );
 
   const hoveredDot = dotProps.find(({ d }) => d === hovered);

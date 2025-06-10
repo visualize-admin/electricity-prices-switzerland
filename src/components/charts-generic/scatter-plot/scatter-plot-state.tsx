@@ -26,7 +26,7 @@ import { GenericObservation } from "src/domain/data";
 import { getPalette, getTextWidth } from "src/domain/helpers";
 import { chartPalette } from "src/themes/palette";
 
-import { Tooltip } from "../interaction/tooltip";
+import { Tooltip, TooltipValue } from "../interaction/tooltip";
 import { useChartTheme } from "../use-chart-theme";
 
 export interface ScatterPlotState {
@@ -42,17 +42,20 @@ export interface ScatterPlotState {
   getAnnotationInfo: (d: GenericObservation) => Tooltip;
   getColor: (d: GenericObservation) => string;
   operatorsId?: string;
+  medianValue: number;
 }
 
 const useScatterPlotState = ({
   data,
   fields,
   aspectRatio,
+  medianValue,
   operatorsId,
 }: Pick<ChartProps, "data" | "dimensions" | "measures"> & {
   fields: ScatterPlotFields;
   aspectRatio: number;
   operatorsId: string;
+  medianValue: number;
 }): ScatterPlotState => {
   const width = useWidth();
 
@@ -131,10 +134,10 @@ const useScatterPlotState = ({
   yScale.range([0, chartHeight]);
 
   const getAnnotationInfo = (d: GenericObservation): Tooltip => {
-    const tooltipValues = [];
+    const tooltipValues: TooltipValue[] = [];
 
     const selectedPoint = data.find((point) => {
-      const matchesId = point.operator.toString() === operatorsId;
+      const matchesId = point.operator_id.toString() === operatorsId;
       const sameCategory = getY(point) === getY(d);
       return matchesId && sameCategory;
     });
@@ -144,15 +147,17 @@ const useScatterPlotState = ({
         label: getSegment(selectedPoint),
         value: `${getX(selectedPoint)}`,
         color: chartPalette.categorical[0],
+        symbol: "circle",
       });
     }
 
-    const hoveredPointIsSelected = d.operator.toString() === operatorsId;
+    const hoveredPointIsSelected = d.operator_id.toString() === operatorsId;
     if (!hoveredPointIsSelected) {
       tooltipValues.push({
         label: getSegment(d),
         value: `${getX(d)}`,
         color: chartPalette.categorical[2],
+        symbol: "circle",
       });
     }
 
@@ -161,7 +166,7 @@ const useScatterPlotState = ({
       xAnchor: xScale(getX(d)),
       yAnchor: (yScale(getY(d)) ?? 0) + yScale.bandwidth() / 2,
       placement: { x: "center", y: "top" },
-      xValue: getY(d),
+      xValue: d.year.toString(),
     };
   };
   return {
@@ -177,6 +182,7 @@ const useScatterPlotState = ({
     getAnnotationInfo,
     operatorsId,
     getColor,
+    medianValue,
   };
 };
 
@@ -186,12 +192,14 @@ const ScatterPlotProvider = ({
   dimensions,
   measures,
   aspectRatio,
+  medianValue,
   operatorsId,
   children,
 }: Pick<ChartProps, "data" | "dimensions" | "measures"> & {
   children: ReactNode;
   fields: ScatterPlotFields;
   aspectRatio: number;
+  medianValue: number;
   operatorsId: string;
 }) => {
   const state = useScatterPlotState({
@@ -201,6 +209,7 @@ const ScatterPlotProvider = ({
     measures,
     aspectRatio,
     operatorsId,
+    medianValue,
   });
   return (
     <ChartContext.Provider value={state}>{children}</ChartContext.Provider>
@@ -214,11 +223,13 @@ export const ScatterPlot = ({
   measures,
   aspectRatio,
   operatorsId,
+  medianValue,
   children,
 }: Pick<ChartProps, "data" | "dimensions" | "measures"> & {
   aspectRatio: number;
   fields: ScatterPlotFields;
   operatorsId: string;
+  medianValue: number;
   children: ReactNode;
 }) => {
   return (
@@ -231,6 +242,7 @@ export const ScatterPlot = ({
           measures={measures}
           aspectRatio={aspectRatio}
           operatorsId={operatorsId}
+          medianValue={medianValue}
         >
           {children}
         </ScatterPlotProvider>
