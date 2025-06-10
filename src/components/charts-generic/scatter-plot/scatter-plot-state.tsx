@@ -23,7 +23,11 @@ import {
 } from "src/components/charts-generic/use-width";
 import { ScatterPlotFields } from "src/domain/config-types";
 import { GenericObservation } from "src/domain/data";
-import { getPalette, getTextWidth } from "src/domain/helpers";
+import {
+  getPalette,
+  getTextWidth,
+  useFormatCurrency,
+} from "src/domain/helpers";
 import { chartPalette } from "src/themes/palette";
 
 import { Tooltip, TooltipValue } from "../interaction/tooltip";
@@ -133,6 +137,8 @@ const useScatterPlotState = ({
   xScale.range([0, chartWidth]);
   yScale.range([0, chartHeight]);
 
+  const formatCurrency = useFormatCurrency();
+
   const getAnnotationInfo = (d: GenericObservation): Tooltip => {
     const tooltipValues: TooltipValue[] = [];
 
@@ -145,7 +151,7 @@ const useScatterPlotState = ({
     if (selectedPoint) {
       tooltipValues.push({
         label: getSegment(selectedPoint),
-        value: `${getX(selectedPoint)}`,
+        value: `${formatCurrency(getX(selectedPoint))}`,
         color: chartPalette.categorical[0],
         symbol: "circle",
       });
@@ -155,7 +161,7 @@ const useScatterPlotState = ({
     if (!hoveredPointIsSelected) {
       tooltipValues.push({
         label: getSegment(d),
-        value: `${getX(d)}`,
+        value: `${formatCurrency(getX(d))}`,
         color: chartPalette.categorical[2],
         symbol: "circle",
       });
