@@ -560,7 +560,7 @@ export const components: Components = {
           font-display: swap;
           font-style: normal;
           font-weight: 300;
-          src: url("/static/fonts/NotoSans-Light.woff2") format("woff2");
+          src: url("/fonts/NotoSans-Light.woff2") format("woff2");
         }
         
         @font-face {
@@ -568,7 +568,7 @@ export const components: Components = {
           font-display: swap;
           font-style: italic;
           font-weight: 300;
-          src: url("/static/fonts/NotoSans-LightItalic.woff2") format("woff2");
+          src: url("/fonts/NotoSans-LightItalic.woff2") format("woff2");
         }
   
         @font-face {
@@ -576,7 +576,7 @@ export const components: Components = {
           font-display: swap;
           font-style: normal;
           font-weight: 400;
-          src: url("/static/fonts/NotoSans-Regular.woff2") format("woff2");
+          src: url("/fonts/NotoSans-Regular.woff2") format("woff2");
         }
         
         @font-face {
@@ -584,7 +584,7 @@ export const components: Components = {
           font-display: swap;
           font-style: italic;
           font-weight: 400;
-          src: url("/static/fonts/NotoSans-Italic.woff2") format("woff2");
+          src: url("/fonts/NotoSans-Italic.woff2") format("woff2");
         }
   
         @font-face {
@@ -592,7 +592,7 @@ export const components: Components = {
           font-display: swap;
           font-style: normal;
           font-weight: 700;
-          src: url("/static/fonts/NotoSans-Bold.woff2") format("woff2");
+          src: url("/fonts/NotoSans-Bold.woff2") format("woff2");
         }
   
         @font-face {
@@ -600,7 +600,7 @@ export const components: Components = {
           font-display: swap;
           font-style: italic;
           font-weight: 700;
-          src: url("/static/fonts/NotoSans-BoldItalic.woff2") format("woff2");
+          src: url("/fonts/NotoSans-BoldItalic.woff2") format("woff2");
         }
         `,
   },
