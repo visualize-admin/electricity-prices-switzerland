@@ -55,6 +55,7 @@ export const query = async <T = unknown>(
   sql: string,
   params?: Parameters<DuckDBConnection["runAndReadAll"]>[1]
 ): Promise<T[]> => {
+  await ensureDatabaseInitialized();
   const connection = await setupDatabaseConnection();
 
   try {

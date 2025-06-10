@@ -18,7 +18,7 @@ import {
   TariffRecord,
 } from "src/lib/db/sql";
 
-import { ensureDatabaseInitialized, query } from "./duckdb";
+import { query } from "./duckdb";
 
 type NetworkCostsParams = {
   metric: "network_costs";
@@ -80,8 +80,6 @@ export const fetchNetworkCostsData = async (
   peerGroupMedianRate: number | null;
   yearlyData: NetworkCostRecord[];
 }> => {
-  await ensureDatabaseInitialized();
-
   const operatorData = await getOperatorData(operatorId);
   if (!operatorData) {
     throw new Error(`Peer group not found for operator ID: ${operatorId}`);
@@ -136,8 +134,6 @@ export const fetchNetTariffsData = async (
   peerGroupMedianRate: number | null;
   yearlyData: TariffRecord[];
 }> => {
-  await ensureDatabaseInitialized();
-
   const operatorData = await getOperatorData(operatorId);
   if (!operatorData) {
     throw new Error(`Peer group not found for operator ID: ${operatorId}`);
@@ -188,8 +184,6 @@ export const fetchEnergyTariffsData = async (
   peerGroupMedianRate: number | null;
   yearlyData: TariffRecord[];
 }> => {
-  await ensureDatabaseInitialized();
-
   const operatorData = await getOperatorData(operatorId);
   if (!operatorData) {
     throw new Error(`Peer group not found for operator ID: ${operatorId}`);
@@ -240,8 +234,6 @@ export const fetchOperatorCostsAndTariffsData = async ({
   category: NetworkCategory;
   period?: number;
 }): Promise<SunshineCostsAndTariffsData> => {
-  await ensureDatabaseInitialized();
-
   const operatorId = parseInt(operatorId_, 10);
   const operatorData = await getOperatorData(operatorId);
 
@@ -318,8 +310,6 @@ export const fetchSaidi = async (
     planned: boolean;
   }[];
 }> => {
-  await ensureDatabaseInitialized();
-
   const operatorData = await getOperatorData(operatorId);
   if (!operatorData) {
     throw new Error(`Peer group not found for operator ID: ${operatorId}`);
@@ -383,8 +373,6 @@ export const fetchSaifi = async (
     planned: boolean;
   }[];
 }> => {
-  await ensureDatabaseInitialized();
-
   const operatorData = await getOperatorData(operatorId);
   if (!operatorData) {
     throw new Error(`Peer group not found for operator ID: ${operatorId}`);
@@ -431,8 +419,6 @@ export const fetchSaifi = async (
 export const fetchPowerStability = async (
   _operatorId: string
 ): Promise<SunshinePowerStabilityData> => {
-  await ensureDatabaseInitialized();
-
   const operatorId = parseInt(_operatorId, 10);
   const operatorData = await getOperatorData(operatorId);
 
@@ -477,8 +463,6 @@ export const fetchPowerStability = async (
 export const fetchOperationalStandards = async (
   _operatorId: string
 ): Promise<SunshineOperationalStandardsData> => {
-  await ensureDatabaseInitialized();
-
   const operatorId = parseInt(_operatorId, 10);
   const operatorData = await getOperatorData(operatorId);
 
