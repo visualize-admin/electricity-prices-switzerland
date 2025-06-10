@@ -42,7 +42,7 @@ export interface ScatterPlotState {
   getAnnotationInfo: (d: GenericObservation) => Tooltip;
   getColor: (d: GenericObservation) => string;
   operatorsId?: string;
-  medianValue: number;
+  medianValue?: number;
 }
 
 const useScatterPlotState = ({
@@ -55,7 +55,7 @@ const useScatterPlotState = ({
   fields: ScatterPlotFields;
   aspectRatio: number;
   operatorsId: string;
-  medianValue: number;
+  medianValue?: number;
 }): ScatterPlotState => {
   const width = useWidth();
 
@@ -114,7 +114,7 @@ const useScatterPlotState = ({
       .map((label) => getTextWidth(String(label), { fontSize: labelFontSize }))
   );
   const margins = {
-    top: 40,
+    top: 80,
     right: 60,
     bottom: 60,
     left: maxYLabelWidth + LEFT_MARGIN_OFFSET,
@@ -199,7 +199,7 @@ const ScatterPlotProvider = ({
   children: ReactNode;
   fields: ScatterPlotFields;
   aspectRatio: number;
-  medianValue: number;
+  medianValue?: number;
   operatorsId: string;
 }) => {
   const state = useScatterPlotState({
@@ -229,7 +229,7 @@ export const ScatterPlot = ({
   aspectRatio: number;
   fields: ScatterPlotFields;
   operatorsId: string;
-  medianValue: number;
+  medianValue?: number;
   children: ReactNode;
 }) => {
   return (

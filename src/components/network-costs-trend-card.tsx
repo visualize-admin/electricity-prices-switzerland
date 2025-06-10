@@ -102,11 +102,11 @@ const NetworkCostsTrendCard: React.FC<
         </Grid>
 
         {/* Scatter Plot */}
-        <Box sx={{ height: 200, width: "100%" }}>
+        <Box sx={{ height: 300, width: "100%" }}>
           <NetworkCostTrendChart
             id={operatorId}
             operatorLabel={operatorLabel}
-            observations={networkCosts.yearlyData}
+            observations={networkCosts}
           />
         </Box>
         {/* Footer Info */}

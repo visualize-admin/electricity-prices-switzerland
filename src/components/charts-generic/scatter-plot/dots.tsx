@@ -35,7 +35,7 @@ export const Dots = () => {
   return (
     <g transform={`translate(${bounds.margins.left} ${bounds.margins.top})`}>
       {/* Regular dots */}
-      {regularDots.map(({ d, cx, cy }, i) => (
+      {regularDots.map(({ cx, cy }, i) => (
         <Dot
           key={`regular-${i}`}
           cx={cx}

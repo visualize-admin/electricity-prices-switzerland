@@ -12,11 +12,12 @@ import { Tooltip } from "./charts-generic/interaction/tooltip";
 import { LegendItem } from "./charts-generic/legends/color";
 import { InteractionDotted } from "./charts-generic/overlay/interaction-dotted";
 import { Dots } from "./charts-generic/scatter-plot/dots";
+import { ScatterPlotMedian } from "./charts-generic/scatter-plot/median";
 import { ScatterPlot } from "./charts-generic/scatter-plot/scatter-plot-state";
 import { SectionProps } from "./detail-page/card";
 
 type NetworkCostTrendChartProps = {
-  observations: SunshineCostsAndTariffsData["networkCosts"]["yearlyData"];
+  observations: SunshineCostsAndTariffsData["networkCosts"];
   operatorLabel: string;
 };
 
@@ -26,9 +27,14 @@ export const NetworkCostTrendChart = ({
   operatorLabel,
 }: NetworkCostTrendChartProps & Omit<SectionProps, "entity">) => {
   return (
-    <Box>
+    <Box
+      sx={{
+        mt: 8,
+      }}
+    >
       <ScatterPlot
-        data={observations.map((o) => ({
+        medianValue={observations.peerGroupMedianRate ?? undefined}
+        data={observations.yearlyData.map((o) => ({
           ...o,
           network_level: getLocalizedLabel({
             id: `network-level.${o.network_level}.long`,
@@ -45,7 +51,7 @@ export const NetworkCostTrendChart = ({
           style: {
             entity: "operator_id",
             colorDomain: [
-              ...new Set(observations.map((d) => d.operator_name)),
+              ...new Set(observations.yearlyData.map((d) => d.operator_name)),
             ] as string[],
             colorAcc: "operator_name",
           },
@@ -77,6 +83,14 @@ export const NetworkCostTrendChart = ({
           />
           <LegendItem
             item={t({
+              id: "network-cost-trend-chart.legend-item.peer-group-median",
+              message: "Peer Group Median",
+            })}
+            color={palette.monochrome[800]}
+            symbol={"diamond"}
+          />
+          <LegendItem
+            item={t({
               id: "network-cost-trend-chart.legend-item.other-operators",
               message: "Other operators",
             })}
@@ -90,6 +104,7 @@ export const NetworkCostTrendChart = ({
             <AxisHeightCategories stretch />
             <Dots />
             <InteractionDotted />
+            <ScatterPlotMedian />
           </ChartSvg>
           <Tooltip type="multiple" forceYAnchor />
         </ChartContainer>

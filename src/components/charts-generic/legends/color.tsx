@@ -6,7 +6,7 @@ import {
   useChartState,
 } from "src/components/charts-generic/use-chart-state";
 
-export type LegendSymbol = "square" | "line" | "circle";
+export type LegendSymbol = "square" | "line" | "circle" | "diamond";
 
 export const LegendColor = memo(({ symbol }: { symbol: LegendSymbol }) => {
   const { colors } = useChartState() as ColumnsState;
@@ -36,21 +36,62 @@ export const LegendSymbol = ({
   symbol: LegendSymbol;
   color: string;
 }) => {
-  return (
-    <Box
-      sx={{
-        content: "''",
-        position: "relative",
-        display: "block",
-        width: ".5rem",
-        height: symbol === "square" || symbol === "circle" ? `.5rem` : 3,
-        borderRadius: symbol === "circle" ? "50%" : 0,
-        bgcolor: color,
-      }}
-    />
-  );
-};
+  switch (symbol) {
+    case "circle":
+      return (
+        <Box
+          sx={{
+            width: "0.5rem",
+            height: "0.5rem",
+            borderRadius: "50%",
+            bgcolor: color,
+            display: "inline-block",
+          }}
+        />
+      );
 
+    case "square":
+      return (
+        <Box
+          sx={{
+            width: "0.5rem",
+            height: "0.5rem",
+            bgcolor: color,
+            display: "inline-block",
+          }}
+        />
+      );
+
+    case "line":
+      return (
+        <Box
+          sx={{
+            width: "1rem",
+            height: "3px",
+            bgcolor: color,
+            display: "inline-block",
+          }}
+        />
+      );
+
+    case "diamond":
+      return (
+        <Box
+          sx={{
+            width: "0.5rem",
+            height: "0.5rem",
+            bgcolor: color,
+            transform: "rotate(45deg)",
+            transformOrigin: "center",
+            display: "inline-block",
+          }}
+        />
+      );
+
+    default:
+      return null;
+  }
+};
 export const LegendItem = ({
   item,
   color,
