@@ -2794,10 +2794,10 @@
   resolved "https://registry.yarnpkg.com/@img/sharp-win32-x64/-/sharp-win32-x64-0.34.2.tgz#ecf19250f8fe35de684aa2b0ec6f773b3447247b"
   integrity sha512-aUdT6zEYtDKCaxkofmmJDJYGCf0+pJg3eU9/oBuqvEeoB9dKI6ZLc/1iLJCTuJQDO4ptntAlkUmHgGjyuobZbw==
 
-"@interactivethings/swiss-federal-ci@^3.0.3":
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/@interactivethings/swiss-federal-ci/-/swiss-federal-ci-3.1.0.tgz#0ac8170737fe6ec6f10f78c3a21b300bb0840b90"
-  integrity sha512-yymCK/CpJMV9+FXW02Wgn5XrlC4lV7O3YXrXdxOiWjcvsamQ0s8XB8VoqKXTJNimv464qEa4xFlpxCO3azyLrA==
+"@interactivethings/swiss-federal-ci@^3.1.1":
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/@interactivethings/swiss-federal-ci/-/swiss-federal-ci-3.1.1.tgz#5771d899e98251ec3a9fff3bdd33b5f3d424b5dd"
+  integrity sha512-5HbXA2RTXS7ejdNwPcnkgc5b5pY354EGA/HFDBqZoWDR7T4obDArecjmpLsNAxiXLvbPDnbhjQoB+WJZ9U683g==
 
 "@isaacs/cliui@^8.0.2":
   version "8.0.2"
