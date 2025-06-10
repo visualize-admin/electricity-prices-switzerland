@@ -14,9 +14,9 @@ You can also check the
 - Features
   - GraphQL API: Add new queries to get sunshine data
   - Added Sunshine Cards to the homepage (flagged)
-  - Added Sunshine pages Power  (with mock data, flagged, missing charts)
+  - Added Sunshine pages Power (with mock data, flagged, missing charts)
   - Load mocked data through duckdb in Sunshine pages, see README
->>>>>>> 59e2ae16 (docs: Mention mocked data in changelog)
+    
 - Fixes
   - Fixed map layout issues on mobile
   - Dropdown adjustments
@@ -35,3 +35,4 @@ You can also check the
   - Improved Storybook screenshotting to avoid blank screenshots
   - Changed default language to english
   - Initialized all sunshine translation strings to accent
+  - Updated tpo-deepl see README.md for details `https://www.npmjs.com/package/tpo-deepl`
