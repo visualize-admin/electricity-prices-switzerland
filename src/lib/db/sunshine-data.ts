@@ -420,6 +420,24 @@ const getPeerGroupMedianValues = async <
   return result[0];
 };
 
+const getLatestYearSunshine = async (operatorId: number) => {
+  const latestYearData = await query<{ year: string }>(`
+      SELECT MAX(period) as year FROM sunshine_all WHERE partner_id = ${operatorId}
+    `);
+  return parseInt(latestYearData[0]?.year || "2024", 10);
+};
+
+const getLatestYearPowerStability = async (
+  operatorId: number
+): Promise<string> => {
+  const latestYearData = await query<{ year: string }>(`
+    SELECT MAX(period) as year FROM sunshine_all
+    WHERE partner_id = ${operatorId}
+    AND (saidi_total IS NOT NULL OR saidi_unplanned IS NOT NULL OR saifi_total IS NOT NULL OR saifi_unplanned IS NOT NULL)
+  `);
+  return latestYearData[0]?.year || "2024";
+};
+
 /**
  * Fetch costs and tariffs data for a specific operator
  * @param operatorId The operator ID
@@ -445,10 +463,7 @@ export const fetchNetworkCostsData = async (
   // Get the latest year if period not provided
   let targetPeriod = period;
   if (!targetPeriod) {
-    const latestYearData = await query<{ year: string }>(`
-      SELECT MAX(period) as year FROM sunshine_all WHERE partner_id = ${operatorId}
-    `);
-    targetPeriod = parseInt(latestYearData[0]?.year || "2024", 10);
+    targetPeriod = await getLatestYearSunshine(operatorId);
   }
 
   const peerGroupMedianNetworkCosts =
@@ -487,7 +502,7 @@ export const fetchNetTariffsData = async (
   operatorId: number,
   // TODO it seems NC2 is not an ElectricityCategory, but a NetworkCategory
   category: NetworkCategory = "NC2",
-  period?: number
+  period: number
 ): Promise<{
   category: NetworkCategory;
   operatorRate: number | null;
@@ -504,10 +519,7 @@ export const fetchNetTariffsData = async (
   // Get the latest year if period not provided
   let targetPeriod = period;
   if (!targetPeriod) {
-    const latestYearData = await query<{ year: string }>(`
-      SELECT MAX(period) as year FROM sunshine_all WHERE partner_id = ${operatorId}
-    `);
-    targetPeriod = parseInt(latestYearData[0]?.year || "2024", 10);
+    targetPeriod = await getLatestYearSunshine(operatorId);
   }
 
   const peerGroupMedianNetTariffs =
@@ -559,10 +571,7 @@ export const fetchEnergyTariffsData = async (
   // Get the latest year if period not provided
   let targetPeriod = period;
   if (!targetPeriod) {
-    const latestYearData = await query<{ year: string }>(`
-      SELECT MAX(period) as year FROM sunshine_all WHERE partner_id = ${operatorId}
-    `);
-    targetPeriod = parseInt(latestYearData[0]?.year || "2024", 10);
+    targetPeriod = await getLatestYearSunshine(operatorId);
   }
 
   const peerGroupMedianEnergyTariffs =
@@ -616,10 +625,7 @@ export const fetchOperatorCostsAndTariffsData = async ({
   // Get the latest year if period not provided
   let targetPeriod = period;
   if (!targetPeriod) {
-    const latestYearData = await query<{ year: string }>(`
-      SELECT MAX(period) as year FROM sunshine_all WHERE partner_id = ${operatorId}
-    `);
-    targetPeriod = parseInt(latestYearData[0]?.year || "2024", 10);
+    targetPeriod = await getLatestYearSunshine(operatorId);
   }
 
   const networkCostsData = await fetchNetworkCostsData(
@@ -738,7 +744,7 @@ export const fetchSaidi = async (
  */
 export const fetchSaifi = async (
   operatorId: number,
-  year?: number
+  year: number
 ): Promise<{
   operatorMinutes: number;
   peerGroupMinutes: number;
@@ -808,13 +814,8 @@ export const fetchPowerStability = async (
   }
 
   // Get the latest year data for the operator
-  const latestYearData = await query<{ year: string }>(`
-    SELECT MAX(period) as year FROM sunshine_all
-    WHERE partner_id = ${operatorId}
-    AND (saidi_total IS NOT NULL OR saidi_unplanned IS NOT NULL OR saifi_total IS NOT NULL OR saifi_unplanned IS NOT NULL)
-  `);
+  const latestYear = await getLatestYearPowerStability(operatorId);
 
-  const latestYear = latestYearData[0]?.year || "2024";
   const targetYear = parseInt(latestYear, 10);
 
   // Fetch SAIDI and SAIFI data using the new sub-functions
@@ -859,11 +860,8 @@ export const fetchOperationalStandards = async (
   }
 
   // Get the latest year data for the operator
-  const latestYearData = await query<{ year: string }>(`
-    SELECT MAX(period) as year FROM sunshine_all WHERE partner_id = ${operatorId}
-  `);
 
-  const latestYear = latestYearData[0]?.year || "2024";
+  const period = await getLatestYearSunshine(operatorId);
 
   // Get operational standards data
   const operationalData = await query<OperationalStandardRecord>(`
@@ -873,7 +871,7 @@ export const fetchOperationalStandards = async (
       info_days_in_advance,
       timely
     FROM sunshine_all
-    WHERE partner_id = ${operatorId} AND period = '${latestYear}'
+    WHERE partner_id = ${operatorId} AND period = '${period}'
   `);
 
   const data = operationalData[0] || {
@@ -889,7 +887,7 @@ export const fetchOperationalStandards = async (
   const timelyPaperSubmission = data.timely === 1;
 
   return {
-    latestYear,
+    latestYear: `${period}`,
     operator: {
       peerGroup: {
         // TODO
@@ -904,7 +902,7 @@ export const fetchOperationalStandards = async (
         {
           operatorId: _operatorId, // TODO
           ecoFriendlyProductsOffered: 0, // TODO
-          year: latestYear,
+          year: `${period}`,
         },
       ],
     },
@@ -915,7 +913,7 @@ export const fetchOperationalStandards = async (
         {
           operatorId: _operatorId, // TODO
           days: data.info_days_in_advance || 0,
-          year: latestYear,
+          year: `${period}`,
         },
       ],
     },
@@ -926,7 +924,7 @@ export const fetchOperationalStandards = async (
         {
           operatorId: _operatorId, // TODO
           francsPerInvoice: data.franc_rule || 0,
-          year: latestYear,
+          year: `${period}`,
         },
       ],
     },
