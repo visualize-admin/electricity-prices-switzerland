@@ -1,11 +1,12 @@
 import { ReactNode } from "react";
 import { createClient, Provider } from "urql";
 import { exchanges } from "./urql-exchanges";
+import { isServerSide } from "src/utils/server-side";
 
 const client = createClient({
   url: "/api/graphql",
   exchanges,
-  suspense: true,
+  suspense: isServerSide ? true : false,
 });
 
 export const GraphqlProvider = ({ children }: { children: ReactNode }) => {
