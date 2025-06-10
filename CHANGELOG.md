@@ -16,7 +16,7 @@ You can also check the
   - Added Sunshine Cards to the homepage (flagged)
   - Added Sunshine pages Power (with mock data, flagged, missing charts)
   - Load mocked data through duckdb in Sunshine pages, see README
-    
+  - Load data through urql in sunshine pages, urql client cache is primed by the server
 - Fixes
   - Fixed map layout issues on mobile
   - Dropdown adjustments
