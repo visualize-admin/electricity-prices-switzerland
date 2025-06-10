@@ -264,6 +264,9 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
           sx={{ gridArea: "trend" }}
           peerGroup={peerGroup}
           updateDate={updateDate}
+          operatorId={props.id}
+          operatorLabel={operatorLabel}
+          netTariffs={props.costsAndTariffs.netTariffs}
         />
       </CardGrid>
     </>
@@ -354,6 +357,9 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
           sx={{ gridArea: "trend" }}
           peerGroup={peerGroup}
           updateDate={updateDate}
+          operatorId={props.id}
+          operatorLabel={operatorLabel}
+          netTariffs={props.costsAndTariffs.netTariffs}
         />
       </CardGrid>
     </>
