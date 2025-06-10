@@ -17,7 +17,7 @@ export const ScatterPlotMedian = () => {
     return null;
   }
 
-  const x = xScale(m);
+  const x = xScale(m) + bounds.margins.left;
   const y = bounds.chartHeight / 2 + bounds.margins.top;
   return (
     <rect

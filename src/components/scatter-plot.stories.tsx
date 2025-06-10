@@ -1,11 +1,11 @@
 import { i18n } from "@lingui/core";
 import { I18nProvider } from "@lingui/react";
 import { Decorator } from "@storybook/react/*";
+import data from "mocks/fetchOperatorCostsAndTariffsData-426.json";
 import { useMemo } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 
-import { GenericObservation } from "src/domain/data";
-import data from "src/graphql/sunshine-data.json";
+import { SunshineCostsAndTariffsData } from "src/domain/data";
 
 import { NetworkCostTrendChart } from "./network-cost-trend-chart";
 import { DesignGrid, DesignStory } from "./storybook/base-style";
@@ -20,7 +20,10 @@ export const ScatterpotChart = () => {
         <DesignGrid>
           <NetworkCostTrendChart
             id="11"
-            observations={data as GenericObservation[]}
+            operatorLabel="Elektrizitätswerk des Kantons Schaffhausen AG"
+            observations={
+              data.networkCosts as SunshineCostsAndTariffsData["networkCosts"]
+            }
           />
         </DesignGrid>
       </DesignStory>
