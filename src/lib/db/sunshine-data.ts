@@ -14,11 +14,9 @@ import {
   getLatestYearSunshine,
   getPeerGroupMedianValues,
   NetworkCostRecord,
-  OperationalStandardRecord,
   TariffRecord,
+  getOperationalStandards,
 } from "src/lib/db/sql";
-
-import { query } from "./duckdb";
 
 type NetworkCostsParams = {
   metric: "network_costs";
@@ -70,11 +68,15 @@ export type PeerGroupMedianValuesParams =
  * @param operatorId The operator ID
  * @returns Costs and tariffs data
  */
-export const fetchNetworkCostsData = async (
-  operatorId: number,
-  networkLevel: string = "NE5",
-  period?: number
-): Promise<{
+export const fetchNetworkCostsData = async ({
+  operatorId,
+  networkLevel = "NE5",
+  period,
+}: {
+  operatorId: number;
+  networkLevel?: string;
+  period?: number;
+}): Promise<{
   networkLevel: { id: string };
   operatorRate: number | null;
   peerGroupMedianRate: number | null;
@@ -123,12 +125,16 @@ export const fetchNetworkCostsData = async (
   };
 };
 
-export const fetchNetTariffsData = async (
-  operatorId: number,
+export const fetchNetTariffsData = async ({
+  operatorId,
+  category = "NC2",
+  period,
+}: {
+  operatorId: number;
   // TODO it seems NC2 is not an ElectricityCategory, but a NetworkCategory
-  category: NetworkCategory = "NC2",
-  period: number
-): Promise<{
+  category: NetworkCategory;
+  period: number;
+}): Promise<{
   category: NetworkCategory;
   operatorRate: number | null;
   peerGroupMedianRate: number | null;
@@ -174,11 +180,15 @@ export const fetchNetTariffsData = async (
   };
 };
 
-export const fetchEnergyTariffsData = async (
-  operatorId: number,
-  category: NetworkCategory,
-  period?: number
-): Promise<{
+export const fetchEnergyTariffsData = async ({
+  operatorId,
+  category,
+  period,
+}: {
+  operatorId: number;
+  category: NetworkCategory;
+  period?: number;
+}): Promise<{
   category: NetworkCategory;
   operatorRate: number | null;
   peerGroupMedianRate: number | null;
@@ -247,21 +257,21 @@ export const fetchOperatorCostsAndTariffsData = async ({
     targetPeriod = await getLatestYearSunshine(operatorId);
   }
 
-  const networkCostsData = await fetchNetworkCostsData(
+  const networkCostsData = await fetchNetworkCostsData({
     operatorId,
     networkLevel,
-    targetPeriod
-  );
-  const netTariffsData = await fetchNetTariffsData(
+    period: targetPeriod,
+  });
+  const netTariffsData = await fetchNetTariffsData({
     operatorId,
     category,
-    targetPeriod
-  );
-  const energyTariffsData = await fetchEnergyTariffsData(
+    period: targetPeriod,
+  });
+  const energyTariffsData = await fetchEnergyTariffsData({
     operatorId,
     category,
-    targetPeriod
-  );
+    period: targetPeriod,
+  });
 
   // Create response object
   return {
@@ -293,13 +303,16 @@ export const fetchOperatorCostsAndTariffsData = async ({
 /**
  * Fetch SAIDI (System Average Interruption Duration Index) data for a specific operator
  * @param operatorId The operator ID
- * @param year Year parameter
+ * @param period Year parameter
  * @returns SAIDI data
  */
-export const fetchSaidi = async (
-  operatorId: number,
-  year: number
-): Promise<{
+export const fetchSaidi = async ({
+  operatorId,
+  period,
+}: {
+  operatorId: number;
+  period: number;
+}): Promise<{
   operatorMinutes: number;
   peerGroupMinutes: number;
   yearlyData: {
@@ -315,19 +328,17 @@ export const fetchSaidi = async (
     throw new Error(`Peer group not found for operator ID: ${operatorId}`);
   }
 
-  const targetYear = year;
-
   // Get peer group median SAIDI
   const peerGroupMedianStability = await getPeerGroupMedianValues<"stability">({
     settlementDensity: operatorData.settlement_density,
     energyDensity: operatorData.energy_density,
     metric: "stability",
-    period: targetYear,
+    period,
   });
 
   const operatorStability = await getStabilityMetrics({
     operatorId,
-    period: targetYear,
+    period,
   });
   if (operatorStability.length > 1) {
     throw new Error(
@@ -337,7 +348,7 @@ export const fetchSaidi = async (
   const peerGroupYearlyStability = await getStabilityMetrics({
     settlement_density: operatorData.settlement_density,
     energy_density: operatorData.energy_density,
-    period: targetYear,
+    period,
   });
 
   return {
@@ -359,10 +370,13 @@ export const fetchSaidi = async (
  * @param year Year parameter
  * @returns SAIFI data
  */
-export const fetchSaifi = async (
-  operatorId: number,
-  year: number
-): Promise<{
+export const fetchSaifi = async ({
+  operatorId,
+  period,
+}: {
+  operatorId: number;
+  period: number;
+}): Promise<{
   operatorMinutes: number;
   peerGroupMinutes: number;
   yearlyData: {
@@ -378,19 +392,16 @@ export const fetchSaifi = async (
     throw new Error(`Peer group not found for operator ID: ${operatorId}`);
   }
 
-  const targetYear = year;
-
-  // Get peer group median SAIFI
   const peerGroupMedianStability = await getPeerGroupMedianValues<"stability">({
     settlementDensity: operatorData.settlement_density,
     energyDensity: operatorData.energy_density,
     metric: "stability",
-    period: targetYear,
+    period,
   });
 
   const operatorStability = await getStabilityMetrics({
     operatorId,
-    period: targetYear,
+    period,
   });
   if (operatorStability.length > 1) {
     throw new Error(
@@ -400,7 +411,7 @@ export const fetchSaifi = async (
   const peerGroupYearlyStability = await getStabilityMetrics({
     settlement_density: operatorData.settlement_density,
     energy_density: operatorData.energy_density,
-    period: targetYear,
+    period,
   });
 
   return {
@@ -416,24 +427,28 @@ export const fetchSaifi = async (
   };
 };
 
-export const fetchPowerStability = async (
-  _operatorId: string
-): Promise<SunshinePowerStabilityData> => {
-  const operatorId = parseInt(_operatorId, 10);
+export const fetchPowerStability = async ({
+  operatorId: operatorId_,
+}: {
+  operatorId: string;
+}): Promise<SunshinePowerStabilityData> => {
+  const operatorId = parseInt(operatorId_, 10);
   const operatorData = await getOperatorData(operatorId);
 
   if (!operatorData) {
     throw new Error(`Peer group not found for operator ID: ${operatorId}`);
   }
 
-  // Get the latest year data for the operator
   const latestYear = await getLatestYearPowerStability(operatorId);
-
   const targetYear = parseInt(latestYear, 10);
-
-  // Fetch SAIDI and SAIFI data using the new sub-functions
-  const saidiData = await fetchSaidi(operatorId, targetYear);
-  const saifiData = await fetchSaifi(operatorId, targetYear);
+  const saidiData = await fetchSaidi({
+    operatorId: operatorId,
+    period: targetYear,
+  });
+  const saifiData = await fetchSaifi({
+    operatorId: operatorId,
+    period: targetYear,
+  });
 
   return {
     latestYear,
@@ -460,30 +475,23 @@ export const fetchPowerStability = async (
  * @param operatorId The operator ID
  * @returns Operational standards data
  */
-export const fetchOperationalStandards = async (
-  _operatorId: string
-): Promise<SunshineOperationalStandardsData> => {
-  const operatorId = parseInt(_operatorId, 10);
+export const fetchOperationalStandards = async ({
+  operatorId: operatorId_,
+}: {
+  operatorId: string;
+}): Promise<SunshineOperationalStandardsData> => {
+  const operatorId = parseInt(operatorId_, 10);
   const operatorData = await getOperatorData(operatorId);
 
   if (!operatorData) {
     throw new Error(`Peer group not found for operator ID: ${operatorId}`);
   }
 
-  // Get the latest year data for the operator
-
   const period = await getLatestYearSunshine(operatorId);
-
-  // Get operational standards data
-  const operationalData = await query<OperationalStandardRecord>(`
-    SELECT 
-      franc_rule,
-      info_yes_no,
-      info_days_in_advance,
-      timely
-    FROM sunshine_all
-    WHERE partner_id = ${operatorId} AND period = '${period}'
-  `);
+  const operationalData = await getOperationalStandards({
+    operatorId: operatorId,
+    period: period,
+  });
 
   const data = operationalData[0] || {
     frankenRegel: 0,
@@ -501,7 +509,6 @@ export const fetchOperationalStandards = async (
     latestYear: `${period}`,
     operator: {
       peerGroup: {
-        // TODO
         settlementDensity: operatorData.settlement_density,
         energyDensity: operatorData.energy_density,
       },
@@ -511,7 +518,7 @@ export const fetchOperationalStandards = async (
       productCombinationsOptions: false, // TODO,
       operatorsProductsOffered: [
         {
-          operatorId: _operatorId, // TODO
+          operatorId: `${operatorId}`, // TODO
           ecoFriendlyProductsOffered: 0, // TODO
           year: `${period}`,
         },
@@ -522,7 +529,7 @@ export const fetchOperationalStandards = async (
       informingCustomersOfOutage,
       operatorsNotificationPeriodDays: [
         {
-          operatorId: _operatorId, // TODO
+          operatorId: `${operatorId}`, // TODO
           days: data.info_days_in_advance || 0,
           year: `${period}`,
         },
@@ -533,7 +540,7 @@ export const fetchOperationalStandards = async (
       timelyPaperSubmission,
       operatorsFrancsPerInvoice: [
         {
-          operatorId: _operatorId, // TODO
+          operatorId: `${operatorId}`, // TODO
           francsPerInvoice: data.franc_rule || 0,
           year: `${period}`,
         },

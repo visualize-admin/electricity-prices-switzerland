@@ -67,7 +67,7 @@ export const getServerSideProps: GetServerSideProps<
     };
   }
 
-  const powerStability = await fetchPowerStability(id);
+  const powerStability = await fetchPowerStability({ operatorId: id });
 
   return {
     props: {

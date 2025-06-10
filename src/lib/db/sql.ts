@@ -47,13 +47,14 @@ export const getNetworkCosts = async ({
   const result = await query<NetworkCostRecord>(sql);
   return result;
 };
-// For operational standards, will be used in the future
-/** @knipignore */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const getOperationalStandards = async (
-  operatorId: number,
-  period?: number
-): Promise<OperationalStandardRecord[]> => {
+
+export const getOperationalStandards = async ({
+  operatorId,
+  period,
+}: {
+  operatorId: number;
+  period?: number;
+}): Promise<OperationalStandardRecord[]> => {
   const periodFilter = period ? `AND period = ${period}` : "";
 
   const sql = `

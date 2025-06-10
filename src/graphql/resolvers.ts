@@ -405,33 +405,37 @@ const Query: QueryResolvers = {
     };
   },
   networkCosts: async (_, { filter }) => {
-    return await fetchNetworkCostsData(
-      filter.operatorId,
-      filter.networkLevel ?? undefined,
-      filter.period ?? undefined
-    );
+    return await fetchNetworkCostsData({
+      operatorId: filter.operatorId,
+      networkLevel: filter.networkLevel ?? undefined,
+      period: filter.period ?? undefined,
+    });
   },
   netTariffs: async (_, { filter }) => {
-    return await fetchNetTariffsData(
-      filter.operatorId,
-
-      asNetworkCategory(filter.category as NetworkCategory),
-      filter.period ?? undefined
-    );
+    return await fetchNetTariffsData({
+      operatorId: filter.operatorId,
+      category: asNetworkCategory(filter.category as NetworkCategory),
+      period: filter.period ?? undefined,
+    });
   },
   energyTariffs: async (_, { filter }) => {
-    return await fetchEnergyTariffsData(
-      filter.operatorId,
-
-      asNetworkCategory(filter.category),
-      filter.period ?? undefined
-    );
+    return await fetchEnergyTariffsData({
+      operatorId: filter.operatorId,
+      category: asNetworkCategory(filter.category),
+      period: filter.period ?? undefined,
+    });
   },
   saidi: async (_, { filter }) => {
-    return await fetchSaidi(filter.operatorId, filter.year);
+    return await fetchSaidi({
+      operatorId: filter.operatorId,
+      period: filter.year,
+    });
   },
   saifi: async (_, { filter }) => {
-    return await fetchSaifi(filter.operatorId, filter.year);
+    return await fetchSaifi({
+      operatorId: filter.operatorId,
+      period: filter.year,
+    });
   },
 };
 
