@@ -20,13 +20,12 @@ const NetworkCostsTrendCard: React.FC<
     peerGroup: PeerGroup;
     updateDate: string;
   } & CardProps
-> = (props) => {
+> = ({ peerGroup, updateDate, ...props }) => {
   const [compareWith, setCompareWith] = useState(
     "sunshine.costs-and-tariffs.all-peer-group"
   );
   const [viewBy, setViewBy] = useState("latest");
 
-  const { peerGroup, updateDate } = props;
   const { peerGroupLabel } = getPeerGroupLabels(peerGroup);
   return (
     <Card {...props}>
