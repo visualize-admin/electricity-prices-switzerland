@@ -168,6 +168,7 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
               value: operatorRate,
               unit: "Rp./km",
               trend: "stable" as Trend,
+              round: 0,
             },
           }
         : null,
@@ -182,6 +183,7 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
               value: peerGroupMedianRate,
               unit: "Rp./km",
               trend: "stable" as Trend,
+              round: 0,
             },
           }
         : null,
