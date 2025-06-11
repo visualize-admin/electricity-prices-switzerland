@@ -24,6 +24,7 @@ const test = base.extend<TestingLibraryFixtures>(fixtures).extend<{
   flash: (message: string, duration?: number) => void;
   demoLogin: (page: Page) => void;
   currentView: () => Promise<Locator | Page>;
+  withFlag: (route: string, flags: Record<string, boolean>) => string;
 }>({
   snapshot: async ({ page }, use, testInfo) => {
     let index = 0;
@@ -57,6 +58,17 @@ const test = base.extend<TestingLibraryFixtures>(fixtures).extend<{
           "heading-order",
         ]);
     await use(makeAxeBuilder);
+  },
+
+  withFlag: async ({ baseURL }, use) => {
+    const withFlag = (route: string, flags: Record<string, boolean>) => {
+      const searchParams = new URLSearchParams();
+      for (const [key, value] of Object.entries(flags)) {
+        searchParams.set(`flag:${key}`, value ? "true" : "false");
+      }
+      return `${baseURL}${route}?${searchParams.toString()}`;
+    };
+    await use(withFlag);
   },
 });
 

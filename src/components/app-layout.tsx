@@ -15,6 +15,7 @@ import {
   HighlightContext,
   HighlightValue,
 } from "src/components/highlight-context";
+import { SafeHydration } from "src/components/hydration";
 import { Search } from "src/components/search";
 
 type ApplicationLayoutProps = {
@@ -45,7 +46,9 @@ export const ApplicationLayout = ({ children }: ApplicationLayoutProps) => {
           }}
           display="flex"
         >
-          <AppNavigation />
+          <SafeHydration>
+            <AppNavigation />
+          </SafeHydration>
           {children}
         </Box>
       </Box>

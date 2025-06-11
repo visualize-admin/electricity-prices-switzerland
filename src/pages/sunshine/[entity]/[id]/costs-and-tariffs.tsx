@@ -3,6 +3,7 @@ import { GetServerSideProps } from "next";
 import ErrorPage from "next/error";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
+import { gql } from "urql";
 
 import CardGrid from "src/components/card-grid";
 import { DetailPageBanner } from "src/components/detail-page/banner";
@@ -28,19 +29,29 @@ import {
   PageParams,
   Props as SharedPageProps,
 } from "src/data/shared-page-props";
-import { SunshineCostsAndTariffsData } from "src/domain/data";
+import { NetworkLevel, SunshineCostsAndTariffsData } from "src/domain/data";
 import {
   getCategoryLabels,
   getLocalizedLabel,
   getNetworkLevelLabels,
 } from "src/domain/translation";
+import {
+  NetworkCostsQuery,
+  useEnergyTariffsQuery,
+  useNetTariffsQuery,
+  useNetworkCostsQuery,
+} from "src/graphql/queries";
+import { TariffCategory } from "src/graphql/resolver-mapped-types";
 import { fetchOperatorCostsAndTariffsData } from "src/lib/db/sunshine-data";
 import { truthy } from "src/lib/truthy";
 import { defaultLocale } from "src/locales/config";
 
 type Props =
   | (Extract<SharedPageProps, { entity: "operator"; status: "found" }> & {
-      costsAndTariffs: SunshineCostsAndTariffsData;
+      costsAndTariffs: Omit<
+        SunshineCostsAndTariffsData,
+        "energyTariffs" | "networkCosts" | "netTariffs"
+      >;
     })
   | { status: "notfound" };
 
@@ -72,7 +83,11 @@ export const getServerSideProps: GetServerSideProps<
     };
   }
 
-  const costsAndTariffs = await fetchOperatorCostsAndTariffsData(id);
+  const costsAndTariffs = await fetchOperatorCostsAndTariffsData({
+    operatorId: id,
+    networkLevel: "NE5",
+    category: "NC2",
+  });
 
   return {
     props: {
@@ -82,14 +97,51 @@ export const getServerSideProps: GetServerSideProps<
   };
 };
 
+export const NetworkCostsDocument = gql`
+  query NetworkCosts($filter: NetworkCostsFilter!) {
+    networkCosts(filter: $filter) {
+      networkLevel {
+        id
+      }
+      operatorRate
+      peerGroupMedianRate
+      yearlyData {
+        year
+        rate
+        operator_id
+        operator_name
+        network_level
+      }
+    }
+  }
+`;
+
 const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
   const {
-    networkCosts: { networkLevel, operatorRate, peerGroupMedianRate },
     operator: { peerGroup },
     latestYear,
     updateDate,
   } = props.costsAndTariffs;
-  const networkLabels = getNetworkLevelLabels(networkLevel);
+
+  // TODO Assuming NE5 is the network level for the operator
+  const [networkLevel, setNetworkLevel] = useState<NetworkLevel["id"]>("NE5");
+  const [query] = useNetworkCostsQuery({
+    variables: {
+      filter: {
+        operatorId: parseInt(props.id, 10),
+        networkLevel: networkLevel,
+        period: parseInt(latestYear, 10),
+      },
+    },
+  });
+  const networkCosts = query.data
+    ?.networkCosts as NetworkCostsQuery["networkCosts"];
+  if (!networkCosts) {
+    // TODO
+    return null;
+  }
+  const { operatorRate, peerGroupMedianRate, yearlyData } = networkCosts;
+  const networkLabels = getNetworkLevelLabels({ id: networkLevel });
 
   const operatorLabel = props.name;
 
@@ -105,7 +157,7 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
       </Trans>
     ),
     rows: [
-      operatorRate !== null
+      operatorRate !== null && operatorRate !== undefined
         ? {
             label: (
               <Trans id="sunshine.costs-and-tariffs.operator">
@@ -119,7 +171,7 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
             },
           }
         : null,
-      peerGroupMedianRate !== null
+      peerGroupMedianRate !== null && peerGroupMedianRate !== undefined
         ? {
             label: (
               <Trans id="sunshine.costs-and-tariffs.median-peer-group">
@@ -173,20 +225,53 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
           updateDate={updateDate}
           operatorId={props.id}
           operatorLabel={operatorLabel}
-          networkCosts={props.costsAndTariffs.networkCosts}
+          networkCosts={networkCosts}
         />
       </CardGrid>
     </>
   );
 };
 
+export const EnergyTariffsDocument = gql`
+  query EnergyTariffs($filter: TariffsFilter!) {
+    energyTariffs(filter: $filter) {
+      category
+      operatorRate
+      peerGroupMedianRate
+      yearlyData {
+        period
+        rate
+        operator_id
+        operator_name
+        category
+      }
+    }
+  }
+`;
+
 const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
   const {
-    energyTariffs: { category, operatorRate, peerGroupMedianRate },
     operator: { peerGroup },
     latestYear,
     updateDate,
   } = props.costsAndTariffs;
+
+  const [category, setCategory] = useState<TariffCategory>("NC2"); // Default category, can be changed based on user input
+  const [{ data }] = useEnergyTariffsQuery({
+    variables: {
+      filter: {
+        operatorId: parseInt(props.id, 10),
+        period: parseInt(latestYear, 10),
+        category: category,
+      },
+    },
+  });
+  const energyTariffs = data?.energyTariffs;
+  if (!energyTariffs) {
+    return null;
+  }
+  const { operatorRate, peerGroupMedianRate } = energyTariffs;
+
   const categoryLabels = getCategoryLabels(category);
 
   const operatorLabel = props.name;
@@ -203,7 +288,7 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
       </Trans>
     ),
     rows: [
-      operatorRate !== null
+      operatorRate !== null && operatorRate !== undefined
         ? {
             label: (
               <Trans id="sunshine.costs-and-tariffs.operator">
@@ -217,7 +302,7 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
             },
           }
         : null,
-      peerGroupMedianRate !== null
+      peerGroupMedianRate !== null && peerGroupMedianRate !== undefined
         ? {
             label: (
               <Trans id="sunshine.costs-and-tariffs.median-peer-group">
@@ -266,20 +351,52 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
           updateDate={updateDate}
           operatorId={props.id}
           operatorLabel={operatorLabel}
-          netTariffs={props.costsAndTariffs.netTariffs}
+          netTariffs={energyTariffs}
         />
       </CardGrid>
     </>
   );
 };
 
+export const NetTariffsDocument = gql`
+  query NetTariffs($filter: TariffsFilter!) {
+    netTariffs(filter: $filter) {
+      category
+      operatorRate
+      peerGroupMedianRate
+      yearlyData {
+        period
+        rate
+        operator_id
+        operator_name
+        category
+      }
+    }
+  }
+`;
+
 const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
   const {
-    netTariffs: { category, operatorRate, peerGroupMedianRate },
     operator: { peerGroup },
     latestYear,
     updateDate,
   } = props.costsAndTariffs;
+
+  const [category, setCategory] = useState<TariffCategory>("NC2"); // Default category, can be changed based on user input
+  const [{ data }] = useNetTariffsQuery({
+    variables: {
+      filter: {
+        operatorId: parseInt(props.id, 10),
+        period: parseInt(latestYear, 10),
+        category: category,
+      },
+    },
+  });
+  const netTariffs = data?.netTariffs;
+  if (!netTariffs) {
+    return null;
+  }
+  const { operatorRate, peerGroupMedianRate } = netTariffs;
   const categoryLabels = getCategoryLabels(category);
 
   const operatorLabel = props.name;
@@ -296,7 +413,7 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
       </Trans>
     ),
     rows: [
-      operatorRate !== null
+      operatorRate !== null && operatorRate !== undefined
         ? {
             label: (
               <Trans id="sunshine.costs-and-tariffs.operator">
@@ -310,7 +427,7 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
             },
           }
         : null,
-      peerGroupMedianRate !== null
+      peerGroupMedianRate !== null && peerGroupMedianRate !== undefined
         ? {
             label: (
               <Trans id="sunshine.costs-and-tariffs.median-peer-group">
@@ -359,7 +476,7 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
           updateDate={updateDate}
           operatorId={props.id}
           operatorLabel={operatorLabel}
-          netTariffs={props.costsAndTariffs.netTariffs}
+          netTariffs={netTariffs}
         />
       </CardGrid>
     </>

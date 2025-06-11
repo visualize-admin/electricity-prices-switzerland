@@ -5,6 +5,7 @@ import * as React from "react";
 
 import createEmotionCache from "src/emotion-cache";
 import buildEnv from "src/env/build";
+import UrqlSSRScript from "src/graphql/urql-ssr-script";
 
 class MyDocument extends Document {
   render() {
@@ -12,6 +13,7 @@ class MyDocument extends Document {
       <Html data-app-version={`${buildEnv.VERSION}`}>
         <Head />
         <body>
+          <UrqlSSRScript />
           <Main />
           <script noModule src="/static/ie-check.js"></script>
           <NextScript />
@@ -48,6 +50,7 @@ MyDocument.getInitialProps = async (ctx) => {
 
   return {
     ...initialProps,
+
     styles: [
       ...React.Children.toArray(initialProps.styles),
       ...emotionStyleTags,

@@ -4,6 +4,7 @@ import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { Fragment, useState } from "react";
 
+import { SafeHydration } from "src/components/hydration";
 import { MapLink } from "src/components/links";
 import { Entity } from "src/domain/data";
 import { Icon } from "src/icons";
@@ -159,9 +160,6 @@ export const DetailPageBanner = ({
                 alignItems={"center"}
               >
                 <Icon name="industry" size={32} />
-                {entity === "operator" && isMobile ? (
-                  <OperatorDocuments id={id} />
-                ) : null}
               </Stack>
               <Typography
                 component="h1"
@@ -228,7 +226,9 @@ export const DetailPageBanner = ({
             </Box>
           </Stack>
           {entity === "operator" && !isMobile ? (
-            <OperatorDocuments id={id} />
+            <SafeHydration>
+              <OperatorDocuments id={id} />
+            </SafeHydration>
           ) : null}
         </Stack>
       </Box>

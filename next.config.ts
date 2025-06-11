@@ -103,6 +103,11 @@ const nextConfig = async (): Promise<NextConfig> => {
         loader: "graphql-tag/loader",
       });
 
+      if (isServer) {
+        config.resolve.extensions.unshift(".server.ts", ".server.tsx");
+      } else {
+        config.resolve.extensions.unshift(".browser.ts", ".browser.tsx");
+      }
       return config;
     },
   };

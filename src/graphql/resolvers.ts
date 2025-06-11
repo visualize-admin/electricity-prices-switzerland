@@ -10,6 +10,7 @@ import {
   ResolvedCantonMedianObservation,
   ResolvedOperatorObservation,
   ResolvedSwissMedianObservation,
+  TariffCategory,
 } from "src/graphql/resolver-mapped-types";
 import {
   CantonMedianObservationResolvers,
@@ -22,6 +23,13 @@ import {
   Resolvers,
   SwissMedianObservationResolvers,
 } from "src/graphql/resolver-types";
+import {
+  fetchEnergyTariffsData,
+  fetchNetTariffsData,
+  fetchNetworkCostsData,
+  fetchSaidi,
+  fetchSaifi,
+} from "src/lib/db/sunshine-data";
 import { getPeerGroup, getSunshineData } from "src/lib/sunshine-csv";
 import { defaultLocale } from "src/locales/config";
 import {
@@ -35,6 +43,7 @@ import {
 } from "src/rdf/queries";
 import { fetchOperatorInfo, search } from "src/rdf/search-queries";
 import * as fs from "fs";
+import { asTariffCategory } from "src/domain/data";
 
 const gfmSyntax = require("micromark-extension-gfm");
 const gfmHtml = require("micromark-extension-gfm/html");
@@ -395,6 +404,39 @@ const Query: QueryResolvers = {
         htmlExtensions: [gfmHtml],
       }),
     };
+  },
+  networkCosts: async (_, { filter }) => {
+    return await fetchNetworkCostsData({
+      operatorId: filter.operatorId,
+      networkLevel: filter.networkLevel ?? undefined,
+      period: filter.period,
+    });
+  },
+  netTariffs: async (_, { filter }) => {
+    return await fetchNetTariffsData({
+      operatorId: filter.operatorId,
+      category: asTariffCategory(filter.category as TariffCategory),
+      period: filter.period,
+    });
+  },
+  energyTariffs: async (_, { filter }) => {
+    return await fetchEnergyTariffsData({
+      operatorId: filter.operatorId,
+      category: asTariffCategory(filter.category),
+      period: filter.period,
+    });
+  },
+  saidi: async (_, { filter }) => {
+    return await fetchSaidi({
+      operatorId: filter.operatorId,
+      period: filter.year,
+    });
+  },
+  saifi: async (_, { filter }) => {
+    return await fetchSaifi({
+      operatorId: filter.operatorId,
+      period: filter.year,
+    });
   },
 };
 

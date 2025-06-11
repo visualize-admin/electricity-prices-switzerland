@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+"@0no-co/graphql.web@^1.0.5":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@0no-co/graphql.web/-/graphql.web-1.1.2.tgz#9af8deaf3f236c1c6ee99cc5349051475e5dcc83"
+  integrity sha512-N2NGsU5FLBhT8NZ+3l2YrzZSHITjNXNuDhC4iDiikv0IujaJ0Xc6xIxQZ/Ek3Cb+rgPjnLHYyJm11tInuJn+cw==
+
 "@adobe/css-tools@^4.4.0":
   version "4.4.3"
   resolved "https://registry.yarnpkg.com/@adobe/css-tools/-/css-tools-4.4.3.tgz#beebbefb0264fdeb32d3052acae0e0d94315a9a2"
@@ -2794,10 +2799,10 @@
   resolved "https://registry.yarnpkg.com/@img/sharp-win32-x64/-/sharp-win32-x64-0.34.2.tgz#ecf19250f8fe35de684aa2b0ec6f773b3447247b"
   integrity sha512-aUdT6zEYtDKCaxkofmmJDJYGCf0+pJg3eU9/oBuqvEeoB9dKI6ZLc/1iLJCTuJQDO4ptntAlkUmHgGjyuobZbw==
 
-"@interactivethings/swiss-federal-ci@^3.0.3":
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/@interactivethings/swiss-federal-ci/-/swiss-federal-ci-3.1.0.tgz#0ac8170737fe6ec6f10f78c3a21b300bb0840b90"
-  integrity sha512-yymCK/CpJMV9+FXW02Wgn5XrlC4lV7O3YXrXdxOiWjcvsamQ0s8XB8VoqKXTJNimv464qEa4xFlpxCO3azyLrA==
+"@interactivethings/swiss-federal-ci@^3.1.1":
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/@interactivethings/swiss-federal-ci/-/swiss-federal-ci-3.1.1.tgz#5771d899e98251ec3a9fff3bdd33b5f3d424b5dd"
+  integrity sha512-5HbXA2RTXS7ejdNwPcnkgc5b5pY354EGA/HFDBqZoWDR7T4obDArecjmpLsNAxiXLvbPDnbhjQoB+WJZ9U683g==
 
 "@isaacs/cliui@^8.0.2":
   version "8.0.2"
@@ -7963,6 +7968,22 @@
   dependencies:
     "@graphql-typed-document-node/core" "^3.1.1"
     wonka "^4.0.14"
+
+"@urql/core@^5.1.1":
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/@urql/core/-/core-5.1.1.tgz#d83c405451806a5936dabbd3f10a22967199e2f5"
+  integrity sha512-aGh024z5v2oINGD/In6rAtVKTm4VmQ2TxKQBAtk2ZSME5dunZFcjltw4p5ENQg+5CBhZ3FHMzl0Oa+rwqiWqlg==
+  dependencies:
+    "@0no-co/graphql.web" "^1.0.5"
+    wonka "^6.3.2"
+
+"@urql/exchange-execute@^2.3.1":
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/@urql/exchange-execute/-/exchange-execute-2.3.1.tgz#475ae6594c8ea1560ec5cffba98dcafd9f8c9dd4"
+  integrity sha512-lfJO+ln85/6IHVnfp9z4XN1KpGwFrhutdb8YIr4KWQUskUlYPjfrfZMOnam4+bGBe6XFX8bTItkhOJu7u6Cbkw==
+  dependencies:
+    "@urql/core" "^5.1.1"
+    wonka "^6.3.2"
 
 "@vercel/nft@^0.27.6":
   version "0.27.10"
@@ -19240,6 +19261,11 @@ wonka@^4.0.14:
   version "4.0.15"
   resolved "https://registry.yarnpkg.com/wonka/-/wonka-4.0.15.tgz#9aa42046efa424565ab8f8f451fcca955bf80b89"
   integrity sha512-U0IUQHKXXn6PFo9nqsHphVCE5m3IntqZNB9Jjn7EB1lrR7YTDY3YWgFvEvwniTzXSvOH/XMzAZaIfJF/LvHYXg==
+
+wonka@^6.3.2:
+  version "6.3.5"
+  resolved "https://registry.yarnpkg.com/wonka/-/wonka-6.3.5.tgz#33fa54ea700ff3e87b56fe32202112a9e8fea1a2"
+  integrity sha512-SSil+ecw6B4/Dm7Pf2sAshKQ5hWFvfyGlfPbEd6A14dOH6VDjrmbY86u6nZvy9omGwwIPFR8V41+of1EezgoUw==
 
 word-wrap@^1.2.5, word-wrap@~1.2.3:
   version "1.2.5"

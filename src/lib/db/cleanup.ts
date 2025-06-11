@@ -25,22 +25,19 @@ export const setupCleanupHandlers = (): void => {
 
   // Handle CTRL+C
   process.on("SIGINT", () => {
-    console.log("Application terminating...");
+    console.log("Application terminating: cleanup database connections");
     cleanupDatabaseConnections();
-    process.exit(0);
   });
 
   // Handle kill command
   process.on("SIGTERM", () => {
-    console.log("Application killed");
+    console.log("Application killed: cleanup database connections");
     cleanupDatabaseConnections();
-    process.exit(0);
   });
 
   // Handle uncaught exceptions
   process.on("uncaughtException", (error) => {
-    console.error("Uncaught exception:", error);
+    console.log("Uncaught exceptions: clean up database connections");
     cleanupDatabaseConnections();
-    process.exit(1);
   });
 };
