@@ -116,7 +116,9 @@ export type NetworkCostsData = {
   __typename?: "NetworkCostsData";
   networkLevel: NetworkLevel;
   operatorRate?: Maybe<Scalars["Float"]["output"]>;
+  operatorTrend?: Maybe<Trend>;
   peerGroupMedianRate?: Maybe<Scalars["Float"]["output"]>;
+  peerGroupMedianTrend?: Maybe<Trend>;
   yearlyData: Array<NetworkCostRow>;
 };
 
@@ -814,8 +816,18 @@ export type NetworkCostsDataResolvers<
     ParentType,
     ContextType
   >;
+  operatorTrend?: Resolver<
+    Maybe<ResolversTypes["Trend"]>,
+    ParentType,
+    ContextType
+  >;
   peerGroupMedianRate?: Resolver<
     Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  peerGroupMedianTrend?: Resolver<
+    Maybe<ResolversTypes["Trend"]>,
     ParentType,
     ContextType
   >;

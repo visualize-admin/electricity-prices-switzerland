@@ -5,6 +5,7 @@ import {
   SunshineOperationalStandardsData,
   SunshinePowerStabilityData,
 } from "src/domain/data";
+import { NetworkCostsData, Trend } from "src/graphql/resolver-types";
 import {
   getOperatorData,
   getNetworkCosts,
@@ -13,7 +14,6 @@ import {
   getLatestYearPowerStability,
   getLatestYearSunshine,
   getPeerGroupMedianValues,
-  NetworkCostRecord,
   TariffRecord,
   getOperationalStandards,
 } from "src/lib/db/sql";
@@ -63,6 +63,25 @@ export type PeerGroupMedianValuesParams =
   | NetTariffsParams
   | EnergyTariffsParams;
 
+const getTrend = (
+  previousValue: number | undefined | null,
+  currentValue: number | undefined | null
+): Trend => {
+  if (previousValue === null || currentValue === null) {
+    return Trend.Stable; // Cannot determine trend without both values
+  }
+  if (currentValue === undefined || previousValue === undefined) {
+    return Trend.Stable; // Cannot determine trend without both values
+  }
+  if (currentValue > previousValue) {
+    return Trend.Up;
+  } else if (currentValue < previousValue) {
+    return Trend.Down;
+  } else {
+    return Trend.Stable;
+  }
+};
+
 /**
  * Fetch costs and tariffs data for a specific operator
  * @param operatorId The operator ID
@@ -76,12 +95,7 @@ export const fetchNetworkCostsData = async ({
   operatorId: number;
   networkLevel?: string;
   period?: number;
-}): Promise<{
-  networkLevel: { id: string };
-  operatorRate: number | null;
-  peerGroupMedianRate: number | null;
-  yearlyData: NetworkCostRecord[];
-}> => {
+}): Promise<NetworkCostsData> => {
   const operatorData = await getOperatorData(operatorId);
   if (!operatorData) {
     throw new Error(`Peer group not found for operator ID: ${operatorId}`);
@@ -99,6 +113,20 @@ export const fetchNetworkCostsData = async ({
       energyDensity: operatorData.energy_density,
       metric: "network_costs",
       networkLevel: networkLevel,
+      period: targetPeriod,
+    });
+
+  // Might be a little fragile, we should get the latest year when there is data
+  const previousYear = targetPeriod - 1;
+
+  const previousPeerGroupMedianNetworkCosts =
+    await getPeerGroupMedianValues<"network_costs">({
+      settlementDensity: operatorData.settlement_density,
+      energyDensity: operatorData.energy_density,
+      metric: "network_costs",
+      networkLevel: networkLevel,
+
+      period: previousYear,
     });
 
   const networkCosts = (
@@ -117,10 +145,28 @@ export const fetchNetworkCostsData = async ({
       cost.network_level === networkLevel && cost.operator_id === operatorId
   );
 
+  const previousOperatorNetworkCosts = await getNetworkCosts({
+    period: previousYear,
+    operatorId,
+    networkLevel,
+  });
+
+  const previousOperatorNetworkCost = previousOperatorNetworkCosts
+    ? previousOperatorNetworkCosts[0]
+    : undefined;
+
   return {
     networkLevel: { id: networkLevel },
     operatorRate: operatorNetworkCost?.rate ?? null,
+    operatorTrend: getTrend(
+      previousOperatorNetworkCost?.rate,
+      operatorNetworkCost?.rate
+    ),
     peerGroupMedianRate: peerGroupMedianNetworkCosts?.median_value ?? null,
+    peerGroupMedianTrend: getTrend(
+      previousPeerGroupMedianNetworkCosts?.median_value,
+      peerGroupMedianNetworkCosts?.median_value
+    ),
     yearlyData: networkCosts,
   };
 };

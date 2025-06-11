@@ -253,7 +253,9 @@ enum Trend {
 type NetworkCostsData {
   networkLevel: NetworkLevel!
   operatorRate: Float
+  operatorTrend: Trend
   peerGroupMedianRate: Float
+  peerGroupMedianTrend: Trend
   yearlyData: [NetworkCostRow!]!
 }
 

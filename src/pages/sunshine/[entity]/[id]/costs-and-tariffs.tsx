@@ -105,7 +105,9 @@ export const NetworkCostsDocument = gql`
         id
       }
       operatorRate
+      operatorTrend
       peerGroupMedianRate
+      peerGroupMedianTrend
       yearlyData {
         year
         rate
@@ -141,7 +143,13 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
     // TODO
     return null;
   }
-  const { operatorRate, peerGroupMedianRate, yearlyData } = networkCosts;
+  const {
+    operatorRate,
+    operatorTrend,
+    peerGroupMedianRate,
+    peerGroupMedianTrend,
+    yearlyData,
+  } = networkCosts;
   const networkLabels = getNetworkLevelLabels({ id: networkLevel });
 
   const operatorLabel = props.name;
@@ -168,7 +176,7 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
             value: {
               value: operatorRate,
               unit: "Rp./km",
-              trend: "stable" as Trend,
+              trend: operatorTrend,
               round: 0,
             },
           }
@@ -183,7 +191,7 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
             value: {
               value: peerGroupMedianRate,
               unit: "Rp./km",
-              trend: "stable" as Trend,
+              trend: peerGroupMedianTrend,
               round: 0,
             },
           }
