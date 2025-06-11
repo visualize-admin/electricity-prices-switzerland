@@ -11,7 +11,8 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Fixes
+  - Added libc6-compat to Docker image to be able to use duckdb
 
 # 2.0.0 - 2025-06-11
 
