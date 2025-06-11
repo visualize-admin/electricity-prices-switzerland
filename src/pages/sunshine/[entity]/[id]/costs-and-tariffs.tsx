@@ -228,7 +228,7 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
           updateDate={updateDate}
           operatorId={props.id}
           operatorLabel={operatorLabel}
-          networkCosts={props.costsAndTariffs.networkCosts}
+          networkCosts={networkCosts}
         />
       </CardGrid>
     </>
