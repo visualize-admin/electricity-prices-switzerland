@@ -2,6 +2,7 @@ import { extent, range, scaleThreshold } from "d3";
 import { useMemo } from "react";
 
 import buildEnv from "src/env/build";
+import { NetworkCostsData } from "src/graphql/resolver-types";
 import { chartPalette } from "src/themes/palette";
 
 export type ObservationValue = string | number | boolean | Date;
@@ -179,20 +180,7 @@ export type SunshineCostsAndTariffsData = {
     }[];
   };
 
-  networkCosts: {
-    networkLevel: {
-      id: string;
-    };
-    peerGroupMedianRate: number | null;
-    operatorRate: number | null;
-    yearlyData: {
-      year: number;
-      rate: number;
-      operator_id: number;
-      operator_name: string;
-      network_level: NetworkLevel["id"];
-    }[];
-  };
+  networkCosts: NetworkCostsData;
   operator: {
     peerGroup: {
       energyDensity: string;
