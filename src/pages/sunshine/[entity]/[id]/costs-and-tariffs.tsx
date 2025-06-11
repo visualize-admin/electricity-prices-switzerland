@@ -1,10 +1,12 @@
-import { t, Trans } from "@lingui/macro";
+import { Trans, t } from "@lingui/macro";
+import { Box } from "@mui/material";
 import { GetServerSideProps } from "next";
 import ErrorPage from "next/error";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { gql } from "urql";
 
+import { ButtonGroup } from "src/components/button-group";
 import CardGrid from "src/components/card-grid";
 import { DetailPageBanner } from "src/components/detail-page/banner";
 import {
@@ -191,7 +193,29 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
   } satisfies React.ComponentProps<typeof TableComparisonCard>;
 
   return (
-    <>
+    <div>
+      <Box sx={{ mb: 2 }}>
+        <ButtonGroup
+          id="basic-button-group"
+          label={getLocalizedLabel({ id: "network-level" })}
+          options={[
+            {
+              value: "NE5",
+              label: getLocalizedLabel({ id: "network-level.NE5.short" }),
+            },
+            {
+              value: "NE6",
+              label: getLocalizedLabel({ id: "network-level.NE6.short" }),
+            },
+            {
+              value: "NE7",
+              label: getLocalizedLabel({ id: "network-level.NE7.short" }),
+            },
+          ]}
+          value={networkLevel}
+          setValue={setNetworkLevel}
+        />
+      </Box>
       <CardGrid
         sx={{
           gridTemplateColumns: {
@@ -230,7 +254,7 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
           networkCosts={networkCosts}
         />
       </CardGrid>
-    </>
+    </div>
   );
 };
 

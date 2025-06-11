@@ -226,12 +226,13 @@ export const getLocalizedLabel = ({ id }: { id: string }): string => {
         message: `Low energy density`,
       });
 
+    case "network-level":
+      return t({ id: "network-level", message: `Network level` });
     // NL (Not yet sure about translations)
     case "network-level.NL5.short":
       return t({ id: "network-level.NL5.short", message: `NL5` });
     case "network-level.NL5.long":
       return t({ id: "network-level.NL5.long", message: `High voltage NL5` });
-
     case "network-level.NL6.short":
       return t({ id: "network-level.NL6.short", message: `NL6` });
     case "network-level.NL6.long":
@@ -247,6 +248,11 @@ export const getLocalizedLabel = ({ id }: { id: string }): string => {
       return t({ id: "network-level.NE5.short", message: `NE5` });
     case "network-level.NE5.long":
       return t({ id: "network-level.NE5.long", message: `High voltage NE5` });
+
+    case "network-level.NE6.short":
+      return t({ id: "network-level.NE6.short", message: `NE6` });
+    case "network-level.NE6.long":
+      return t({ id: "network-level.NE6.long", message: `Medium voltage NE6` });
 
     case "network-level.NE7.short":
       return t({ id: "network-level.NE7.short", message: `NE7` });
