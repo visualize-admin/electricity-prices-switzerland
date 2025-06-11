@@ -17,7 +17,7 @@ You can also check the
   - Added Sunshine Cards to the homepage (flagged)
   - Added Sunshine pages Power (with mock data, flagged, missing charts)
   - Load mocked data through duckdb in Sunshine pages, see README
-  - Added Scatterplot Map to sunshine charts
+  - Added Scatterplot Chart to sunshine charts
 
 - Fixes
   - Fixed map layout issues on mobile
@@ -29,7 +29,7 @@ You can also check the
 - Storybook
   - Add new map to show sunshine data for operators
   - Operator map has no overlap for operators
-  - Add new scatterplot map
+  - Add new Scatterplot Chart
 - Styles
   - Update Design System to match the Bund new CI system
 - Maintenance
