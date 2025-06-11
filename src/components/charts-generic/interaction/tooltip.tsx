@@ -13,15 +13,33 @@ import {
 import { useInteraction } from "src/components/charts-generic/use-interaction";
 import { GenericObservation } from "src/domain/data";
 
+import { LegendSymbol } from "../legends/color";
+import { ScatterPlotState } from "../scatter-plot/scatter-plot-state";
+
 export const TRIANGLE_SIZE = 8;
 export const TOOLTIP_OFFSET = 4;
 
-export const Tooltip = ({ type = "single" }: { type: TooltipType }) => {
+export const Tooltip = ({
+  type = "single",
+  forceYAnchor,
+}: {
+  type: TooltipType;
+  forceYAnchor?: boolean;
+}) => {
   const [state] = useInteraction();
   const { visible, mouse, d } = state.interaction;
 
   return (
-    <>{visible && d && <TooltipInner d={d} mouse={mouse} type={type} />}</>
+    <>
+      {visible && d && (
+        <TooltipInner
+          d={d}
+          mouse={mouse}
+          forceYAnchor={forceYAnchor}
+          type={type}
+        />
+      )}
+    </>
   );
 };
 
@@ -34,6 +52,7 @@ export type TooltipValue = {
   value: string;
   color?: string;
   yPos?: number;
+  symbol?: LegendSymbol;
 };
 type TooltipCommon = {
   xAnchor: number;
@@ -51,14 +70,17 @@ const TooltipInner = ({
   d,
   mouse,
   type,
+  forceYAnchor = false,
 }: {
   d: GenericObservation;
   mouse?: { x: number; y: number };
   type: TooltipType;
+  forceYAnchor?: boolean;
 }) => {
   const { bounds, getAnnotationInfo } = useChartState() as
     | LinesState
-    | HistogramState;
+    | HistogramState
+    | ScatterPlotState;
   const { margins } = bounds;
   const { xAnchor, yAnchor, placement, xValue, tooltipContent, datum, values } =
     getAnnotationInfo(d);
@@ -66,7 +88,13 @@ const TooltipInner = ({
   return (
     <TooltipBox
       x={xAnchor}
-      y={mouse && values && values.length > 1 ? mouse.y : yAnchor}
+      y={
+        mouse && values && values.length > 1
+          ? forceYAnchor
+            ? yAnchor
+            : mouse.y
+          : yAnchor
+      }
       placement={placement}
       margins={margins}
     >

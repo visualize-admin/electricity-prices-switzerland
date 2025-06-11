@@ -53,7 +53,7 @@ export const TooltipMultiple = ({
             key={i}
             item={`${segment.label}: ${segment.value}`}
             color={segment.color}
-            symbol="square"
+            symbol={segment.symbol ?? "square"}
           />
         ) : null
       )}

@@ -1,24 +1,29 @@
 import { Trans, t } from "@lingui/macro";
 import {
   Box,
-  Typography,
   Card,
   CardContent,
-  Grid,
   CardProps,
+  Grid,
+  Typography,
 } from "@mui/material";
 import React, { useState } from "react";
 
 import { ButtonGroup } from "src/components/button-group";
 import CardSource from "src/components/card-source";
 import { Combobox } from "src/components/combobox";
-import { PeerGroup } from "src/domain/data";
+import { PeerGroup, SunshineCostsAndTariffsData } from "src/domain/data";
 import { getLocalizedLabel, getPeerGroupLabels } from "src/domain/translation";
+
+import { NetTariffsTrendChart } from "./net-tariffs-trend-chart";
 
 const NetTariffsTrendCard: React.FC<
   {
     peerGroup: PeerGroup;
     updateDate: string;
+    netTariffs: SunshineCostsAndTariffsData["netTariffs"];
+    operatorId: string;
+    operatorLabel: string;
   } & CardProps
 > = (props) => {
   const [compareWith, setCompareWith] = useState(
@@ -26,7 +31,8 @@ const NetTariffsTrendCard: React.FC<
   );
   const [viewBy, setViewBy] = useState("latest");
 
-  const { peerGroup, updateDate } = props;
+  const { peerGroup, updateDate, netTariffs, operatorId, operatorLabel } =
+    props;
   const { peerGroupLabel } = getPeerGroupLabels(peerGroup);
   return (
     <Card {...props}>
@@ -96,18 +102,12 @@ const NetTariffsTrendCard: React.FC<
         </Grid>
 
         {/* Scatter Plot */}
-        <Box sx={{ height: 400, width: "100%" }}>
-          {/* This is a placeholder for the ScatterPlot component */}
-          <Typography color="text.secondary" sx={{ pt: 10 }}>
-            <Trans id="sunshine.costs-and-tariffs.scatter-plot-description">
-              Scatter Plot visualization showing net tariffs costs across
-              different levels (End Consumer Level, Low Voltage Distribution,
-              Medium Voltage Distribution)
-            </Trans>
-          </Typography>
-
-          {/* Implement your ScatterPlot component here */}
-          {/* <ScatterPlot /> */}
+        <Box sx={{ height: 300, width: "100%" }}>
+          <NetTariffsTrendChart
+            id={operatorId}
+            operatorLabel={operatorLabel}
+            observations={netTariffs}
+          />
         </Box>
         {/* Footer Info */}
         <CardSource date={`${updateDate}`} source={"Lindas"} />

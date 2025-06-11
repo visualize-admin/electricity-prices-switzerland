@@ -441,6 +441,22 @@ msgstr "Aucune donnée"
 msgid "municipality"
 msgstr "Commune"
 
+#: src/components/net-tariffs-trend-chart.tsx
+msgid "net-tariffs-trend-chart.legend-item.other-operators"
+msgstr "Autres opérateurs"
+
+#: src/components/net-tariffs-trend-chart.tsx
+msgid "net-tariffs-trend-chart.legend-item.peer-group-median"
+msgstr "Médiane du groupe de référence"
+
+#: src/components/network-cost-trend-chart.tsx
+msgid "network-cost-trend-chart.legend-item.other-operators"
+msgstr "Autres opérateurs"
+
+#: src/components/network-cost-trend-chart.tsx
+msgid "network-cost-trend-chart.legend-item.peer-group-median"
+msgstr "Médiane du groupe de référence"
+
 #: src/domain/translation.tsx
 msgid "network-level.NE5.long"
 msgstr "Haute tension NE5"
@@ -903,11 +919,6 @@ msgstr "Groupe de pairs"
 #: src/components/network-costs-trend-card.tsx
 msgid "sunshine.costs-and-tariffs.progress-over-time"
 msgstr "Progrès dans le temps"
-
-#: src/components/net-tariffs-trend-card.tsx
-#: src/components/network-costs-trend-card.tsx
-msgid "sunshine.costs-and-tariffs.scatter-plot-description"
-msgstr "Visualisation des diagrammes de dispersion montrant les coûts du réseau à différents niveaux (niveau du consommateur final, distribution basse tension, distribution moyenne tension)."
 
 #: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.selected-operators"

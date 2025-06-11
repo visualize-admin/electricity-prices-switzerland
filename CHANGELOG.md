@@ -12,10 +12,13 @@ You can also check the
 # Unreleased
 
 - Features
+
   - GraphQL API: Add new queries to get sunshine data
   - Added Sunshine Cards to the homepage (flagged)
   - Added Sunshine pages Power (with mock data, flagged, missing charts)
   - Load mocked data through duckdb in Sunshine pages, see README
+  - Added Scatterplot Chart to sunshine charts
+
 - Fixes
   - Fixed map layout issues on mobile
   - Dropdown adjustments
@@ -26,6 +29,7 @@ You can also check the
 - Storybook
   - Add new map to show sunshine data for operators
   - Operator map has no overlap for operators
+  - Add new Scatterplot Chart
 - Styles
   - Update Design System to match the Bund new CI system
   - Improved map animations / transitions
