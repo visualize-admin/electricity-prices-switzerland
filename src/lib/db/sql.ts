@@ -304,7 +304,8 @@ export const getLatestYearPowerStability = async (
   `);
   return latestYearData[0]?.year || "2024";
 };
-export type NetworkCostRecord = {
+
+type NetworkCostRecord = {
   operator_id: number;
   operator_name: string;
   year: number;
