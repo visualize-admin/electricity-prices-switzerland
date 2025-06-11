@@ -41,7 +41,6 @@ export const NetTariffsTrendChart = ({
           }),
           year: o.period,
         }))}
-        operatorsId={id}
         fields={{
           x: { componentIri: "rate" },
           y: { componentIri: "category" },
@@ -55,6 +54,10 @@ export const NetTariffsTrendChart = ({
               ...new Set(observations.yearlyData.map((d) => d.operator_name)),
             ] as string[],
             colorAcc: "operator_name",
+            highlightValue: id,
+          },
+          tooltip: {
+            componentIri: "year",
           },
         }}
         measures={[{ iri: "rate", label: "Rate", __typename: "Measure" }]}
@@ -83,14 +86,6 @@ export const NetTariffsTrendChart = ({
             color={chartPalette.categorical[0]}
             symbol={"circle"}
           />
-          {/* <LegendItem
-            item={t({
-              id: "net-tariffs-trend-chart.legend-item.total-median",
-              message: "Total Median",
-            })}
-            color={palette.monochrome[800]}
-            symbol={"triangle"}
-          /> */}
           <LegendItem
             item={t({
               id: "net-tariffs-trend-chart.legend-item.peer-group-median",
@@ -99,7 +94,6 @@ export const NetTariffsTrendChart = ({
             color={palette.monochrome[800]}
             symbol={"diamond"}
           />
-
           <LegendItem
             item={t({
               id: "net-tariffs-trend-chart.legend-item.other-operators",

@@ -8,7 +8,7 @@ import { useInteraction } from "../use-interaction";
 import { ScatterPlotState } from "./scatter-plot-state";
 
 export const Dots = () => {
-  const { data, getX, getY, xScale, yScale, bounds, operatorsId } =
+  const { data, getX, getY, xScale, yScale, bounds, getHighlightEntity } =
     useChartState() as ScatterPlotState;
 
   const [interaction] = useInteraction();
@@ -22,12 +22,21 @@ export const Dots = () => {
     }));
   }, [data, getX, getY, xScale, yScale]);
 
+  const highlightedValue = useMemo(() => {
+    return data.length > 0 ? getHighlightEntity(data[0]) : null;
+  }, [data, getHighlightEntity]);
+
   const regularDots = dotProps.filter(
-    ({ d }) => d !== hovered && operatorsId !== d.operator_id.toString()
+    ({ d }) =>
+      d !== hovered &&
+      (!highlightedValue ||
+        getHighlightEntity(d)?.toString() !== highlightedValue.toString())
   );
 
   const selectedDots = dotProps.filter(
-    ({ d }) => operatorsId === d.operator_id.toString()
+    ({ d }) =>
+      highlightedValue &&
+      getHighlightEntity(d)?.toString() === highlightedValue.toString()
   );
 
   const hoveredDot = dotProps.find(({ d }) => d === hovered);

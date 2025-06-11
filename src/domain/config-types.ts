@@ -115,6 +115,12 @@ const ScatterPlotFields = z.object({
       entity: z.string(),
       colorDomain: z.array(z.string()),
       colorAcc: z.string(),
+      highlightValue: z.union([z.string(), z.number()]).optional(),
+    })
+    .optional(),
+  tooltip: z
+    .object({
+      componentIri: z.string(),
     })
     .optional(),
 });

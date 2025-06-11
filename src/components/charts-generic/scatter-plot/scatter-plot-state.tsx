@@ -45,7 +45,8 @@ export interface ScatterPlotState {
   colors: ScaleOrdinal<string, string>;
   getAnnotationInfo: (d: GenericObservation) => Tooltip;
   getColor: (d: GenericObservation) => string;
-  operatorsId?: string;
+  getHighlightEntity: (d: GenericObservation) => string | number | null;
+  getTooltipLabel: (d: GenericObservation) => string;
   medianValue?: number;
 }
 
@@ -54,14 +55,14 @@ const useScatterPlotState = ({
   fields,
   aspectRatio,
   medianValue,
-  operatorsId,
 }: Pick<ChartProps, "data" | "dimensions" | "measures"> & {
   fields: ScatterPlotFields;
   aspectRatio: number;
-  operatorsId: string;
   medianValue?: number;
 }): ScatterPlotState => {
   const width = useWidth();
+  const formatCurrency = useFormatCurrency();
+  const { labelFontSize } = useChartTheme();
 
   const getX = useCallback(
     (d: GenericObservation): number => +d[fields.x.componentIri] as number,
@@ -75,7 +76,7 @@ const useScatterPlotState = ({
 
   const getSegment = useCallback(
     (d: GenericObservation): string =>
-      fields.segment && fields.segment.componentIri
+      fields.segment?.componentIri
         ? (d[fields.segment.componentIri] as string)
         : "segment",
     [fields.segment]
@@ -83,98 +84,143 @@ const useScatterPlotState = ({
 
   const getColor = useCallback(
     (d: GenericObservation): string =>
-      fields.style && fields.style.colorAcc
+      fields.style?.colorAcc
         ? (d[fields.style.colorAcc] as string)
-        : "operatorLabel",
+        : "defaultColor",
     [fields.style]
   );
 
-  const sortedData = useMemo(() => [...data], [data]);
-
-  // X scale (horizontal, for values)
-  const minValue = min(sortedData, getX) || 0;
-  const maxValue = max(sortedData, getX) as number;
-  const xDomain = [minValue, maxValue];
-  const xScale = scaleLinear().domain(xDomain).nice();
-
-  // Y scale (vertical, for categories)
-  const yDomain = [...new Set(sortedData.map(getY))].filter(Boolean);
-  const yScale = scaleBand()
-    .domain(yDomain)
-    .paddingInner(0.3)
-    .paddingOuter(0.2);
-
-  const segments = [...new Set(sortedData.map(getSegment))];
-
-  const colors = scaleOrdinal<string, string>();
-  colors.domain(segments);
-  colors.range(getPalette(fields.segment?.palette));
-
-  // Calculate margins based on y-axis labels
-  const { labelFontSize } = useChartTheme();
-  const maxYLabelWidth = Math.max(
-    ...yDomain
-      .filter((label) => label != null && label !== undefined)
-      .map((label) => getTextWidth(String(label), { fontSize: labelFontSize }))
+  const getHighlightEntity = useCallback(
+    (d: GenericObservation): string | number | null =>
+      fields.style?.entity ? (d[fields.style.entity] as string | number) : null,
+    [fields.style?.entity]
   );
-  const margins = {
-    top: 80,
-    right: 60,
-    bottom: 60,
-    left: maxYLabelWidth + LEFT_MARGIN_OFFSET,
-  };
 
-  const chartWidth = width - margins.left - margins.right;
-  const chartHeight = chartWidth * aspectRatio;
-  const bounds = {
-    width,
-    height: chartHeight + margins.top + margins.bottom,
-    margins,
-    chartWidth,
-    chartHeight,
-  };
+  const getTooltipLabel = useCallback(
+    (d: GenericObservation): string =>
+      fields.tooltip?.componentIri
+        ? (d[fields.tooltip.componentIri] as string)
+        : "",
+    [fields.tooltip]
+  );
 
-  xScale.range([0, chartWidth]);
-  yScale.range([0, chartHeight]);
+  const { sortedData, xScale, yScale, bounds, segments, colors } =
+    useMemo(() => {
+      const sortedData = [...data];
 
-  const formatCurrency = useFormatCurrency();
+      const minValue = min(sortedData, getX) ?? 0;
+      const maxValue = max(sortedData, getX) ?? 0;
+      const xDomain = [minValue, maxValue];
+      const xScale = scaleLinear().domain(xDomain).nice();
 
-  const getAnnotationInfo = (d: GenericObservation): Tooltip => {
-    const tooltipValues: TooltipValue[] = [];
+      const yDomain = [...new Set(sortedData.map(getY))].filter(Boolean);
+      const yScale = scaleBand()
+        .domain(yDomain)
+        .paddingInner(0.3)
+        .paddingOuter(0.2);
 
-    const selectedPoint = data.find((point) => {
-      const matchesId = point.operator_id.toString() === operatorsId;
-      const sameCategory = getY(point) === getY(d);
-      return matchesId && sameCategory;
-    });
+      const segments = [...new Set(sortedData.map(getSegment))];
+      const colors = scaleOrdinal<string, string>()
+        .domain(segments)
+        .range(getPalette(fields.segment?.palette));
 
-    if (selectedPoint) {
-      tooltipValues.push({
-        label: getSegment(selectedPoint),
-        value: `${formatCurrency(getX(selectedPoint))}`,
-        color: chartPalette.categorical[0],
-        symbol: "circle",
-      });
-    }
+      const maxYLabelWidth = Math.max(
+        ...yDomain.map((label) =>
+          getTextWidth(label, { fontSize: labelFontSize })
+        )
+      );
 
-    const hoveredPointIsSelected = d.operator_id.toString() === operatorsId;
-    if (!hoveredPointIsSelected) {
-      tooltipValues.push({
-        label: getSegment(d),
-        value: `${formatCurrency(getX(d))}`,
-        color: chartPalette.categorical[2],
-        symbol: "circle",
-      });
-    }
+      const margins = {
+        top: 80,
+        right: 60,
+        bottom: 60,
+        left: maxYLabelWidth + LEFT_MARGIN_OFFSET,
+      };
 
-    return {
-      values: tooltipValues,
-      xAnchor: xScale(getX(d)),
-      yAnchor: (yScale(getY(d)) ?? 0) + yScale.bandwidth() / 2,
-      placement: { x: "center", y: "top" },
-      xValue: d.year.toString(),
-    };
-  };
+      const chartWidth = width - margins.left - margins.right;
+      const chartHeight = chartWidth * aspectRatio;
+      const bounds = {
+        width,
+        height: chartHeight + margins.top + margins.bottom,
+        margins,
+        chartWidth,
+        chartHeight,
+      };
+
+      xScale.range([0, chartWidth]);
+      yScale.range([0, chartHeight]);
+
+      return { sortedData, xScale, yScale, bounds, segments, colors };
+    }, [
+      data,
+      width,
+      aspectRatio,
+      fields.segment,
+      getX,
+      getY,
+      getSegment,
+      labelFontSize,
+    ]);
+
+  const getAnnotationInfo = useCallback(
+    (d: GenericObservation): Tooltip => {
+      const tooltipValues: TooltipValue[] = [];
+
+      const highlightedPoint =
+        fields.style?.highlightValue && fields.style?.entity
+          ? data.find((point) => {
+              return (
+                getHighlightEntity(point)?.toString() ===
+                  fields.style!.highlightValue!.toString() &&
+                getY(point) === getY(d)
+              );
+            })
+          : null;
+
+      if (highlightedPoint) {
+        tooltipValues.push({
+          label: getSegment(highlightedPoint),
+          value: `${formatCurrency(getX(highlightedPoint))}`,
+          color: chartPalette.categorical[0],
+          symbol: "circle",
+        });
+      }
+
+      if (
+        !fields.style?.entity ||
+        getHighlightEntity(d)?.toString() !==
+          fields.style.highlightValue?.toString()
+      ) {
+        tooltipValues.push({
+          label: getSegment(d),
+          value: `${formatCurrency(getX(d))}`,
+          color: chartPalette.categorical[2],
+          symbol: "circle",
+        });
+      }
+
+      return {
+        values: tooltipValues,
+        xAnchor: xScale(getX(d)),
+        yAnchor: (yScale(getY(d)) ?? 0) + yScale.bandwidth() / 2,
+        placement: { x: "center", y: "top" },
+        xValue: getTooltipLabel(d),
+      };
+    },
+    [
+      data,
+      getX,
+      getY,
+      getSegment,
+      getHighlightEntity,
+      getTooltipLabel,
+      xScale,
+      yScale,
+      formatCurrency,
+      fields.style,
+    ]
+  );
+
   return {
     data: sortedData,
     bounds,
@@ -186,8 +232,9 @@ const useScatterPlotState = ({
     segments,
     colors,
     getAnnotationInfo,
-    operatorsId,
     getColor,
+    getHighlightEntity,
+    getTooltipLabel,
     medianValue,
   };
 };
@@ -199,14 +246,12 @@ const ScatterPlotProvider = ({
   measures,
   aspectRatio,
   medianValue,
-  operatorsId,
   children,
 }: Pick<ChartProps, "data" | "dimensions" | "measures"> & {
   children: ReactNode;
   fields: ScatterPlotFields;
   aspectRatio: number;
   medianValue?: number;
-  operatorsId: string;
 }) => {
   const state = useScatterPlotState({
     data,
@@ -214,7 +259,6 @@ const ScatterPlotProvider = ({
     dimensions,
     measures,
     aspectRatio,
-    operatorsId,
     medianValue,
   });
   return (
@@ -228,13 +272,11 @@ export const ScatterPlot = ({
   dimensions,
   measures,
   aspectRatio,
-  operatorsId,
   medianValue,
   children,
 }: Pick<ChartProps, "data" | "dimensions" | "measures"> & {
   aspectRatio: number;
   fields: ScatterPlotFields;
-  operatorsId: string;
   medianValue?: number;
   children: ReactNode;
 }) => {
@@ -247,7 +289,6 @@ export const ScatterPlot = ({
           dimensions={dimensions}
           measures={measures}
           aspectRatio={aspectRatio}
-          operatorsId={operatorsId}
           medianValue={medianValue}
         >
           {children}

@@ -40,7 +40,6 @@ export const NetworkCostTrendChart = ({
             id: `network-level.${o.network_level}.long`,
           }),
         }))}
-        operatorsId={id}
         fields={{
           x: { componentIri: "rate" },
           y: { componentIri: "network_level" },
@@ -54,6 +53,10 @@ export const NetworkCostTrendChart = ({
               ...new Set(observations.yearlyData.map((d) => d.operator_name)),
             ] as string[],
             colorAcc: "operator_name",
+            highlightValue: id,
+          },
+          tooltip: {
+            componentIri: "year",
           },
         }}
         measures={[{ iri: "rate", label: "Rate", __typename: "Measure" }]}
