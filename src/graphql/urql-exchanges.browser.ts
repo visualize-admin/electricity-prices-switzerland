@@ -10,7 +10,7 @@ declare global {
 /** @knipignore */
 export const ssr = ssrExchange({
   isClient: true,
-  initialState: window.__URQL_DATA__ || {},
+  initialState: typeof window !== "undefined" ? window.__URQL_DATA__ || {} : {},
 });
 
 /** @knipignore */
