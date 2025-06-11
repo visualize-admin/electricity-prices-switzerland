@@ -458,6 +458,12 @@ export type TariffsFilter = {
   period: Scalars["Int"]["input"];
 };
 
+export enum Trend {
+  Down = "down",
+  Stable = "stable",
+  Up = "up",
+}
+
 export type WikiContent = {
   __typename?: "WikiContent";
   html: Scalars["String"]["output"];
@@ -629,6 +635,7 @@ export type ResolversTypes = ResolversObject<{
     }
   >;
   TariffsFilter: TariffsFilter;
+  Trend: Trend;
   WikiContent: ResolverTypeWrapper<WikiContent>;
   WikiContentInfo: ResolverTypeWrapper<Scalars["WikiContentInfo"]["output"]>;
 }>;

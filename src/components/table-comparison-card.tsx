@@ -11,8 +11,7 @@ import React from "react";
 
 import ComparisonTable from "src/components/comparison-table";
 import UnitValueWithTrend from "src/components/unit-value-with-trend";
-
-export type Trend = "stable" | "increasing" | "decreasing";
+import { Trend } from "src/graphql/resolver-types";
 
 const TableComparisonCard: React.FC<
   {
@@ -21,7 +20,12 @@ const TableComparisonCard: React.FC<
     rows: {
       label: React.ReactNode;
       value:
-        | { value: number; unit: string; trend: Trend; round?: number }
+        | {
+            value: number;
+            unit: string;
+            trend: Trend | undefined | null;
+            round?: number;
+          }
         | { value: React.ReactElement | string };
     }[];
   } & Omit<CardProps, "title" | "subtitle" | "rows">

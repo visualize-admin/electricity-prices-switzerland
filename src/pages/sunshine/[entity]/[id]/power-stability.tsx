@@ -19,9 +19,7 @@ import {
   PowerStabilityNavigation,
   PowerStabilityTabOption,
 } from "src/components/sunshine-tabs";
-import TableComparisonCard, {
-  Trend,
-} from "src/components/table-comparison-card";
+import TableComparisonCard from "src/components/table-comparison-card";
 import {
   handleOperatorsEntity,
   PageParams,
@@ -30,6 +28,7 @@ import {
 import { SunshinePowerStabilityData } from "src/domain/data";
 import { getLocalizedLabel } from "src/domain/translation";
 import { useSaidiQuery, useSaifiQuery } from "src/graphql/queries";
+import { Trend } from "src/graphql/resolver-types";
 import { fetchPowerStability } from "src/lib/db/sunshine-data";
 import { defaultLocale } from "src/locales/config";
 
@@ -172,7 +171,9 @@ const SaidiSaifi = (
         value: {
           value: data.operatorMinutes,
           unit: "min/year",
-          trend: "decreasing" satisfies Trend,
+
+          // TODO Compute the trend
+          trend: Trend.Down,
         },
       },
       {
@@ -184,7 +185,9 @@ const SaidiSaifi = (
         value: {
           value: data.peerGroupMinutes,
           unit: "min/year",
-          trend: "stable" as Trend,
+
+          // TODO Compute the trend
+          trend: Trend.Stable,
         },
       },
     ],

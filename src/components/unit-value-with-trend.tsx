@@ -1,6 +1,7 @@
 import { Box, Typography } from "@mui/material";
 
 import { TrendIcon } from "src/components/trend-icon";
+import { Trend } from "src/graphql/resolver-types";
 
 const roundTo = (value: number, round?: number): number => {
   if (round === undefined) return value;
@@ -11,7 +12,7 @@ const roundTo = (value: number, round?: number): number => {
 const UnitValueWithTrend: React.FC<{
   value: number;
   unit: string;
-  trend: "stable" | "increasing" | "decreasing";
+  trend: Trend | undefined | null;
   round?: number;
 }> = ({ value, unit, trend, round }) => {
   return (

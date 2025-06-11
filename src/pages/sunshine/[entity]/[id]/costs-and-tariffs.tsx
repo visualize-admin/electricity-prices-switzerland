@@ -23,9 +23,7 @@ import {
   CostAndTariffsTabOption,
   CostsAndTariffsNavigation,
 } from "src/components/sunshine-tabs";
-import TableComparisonCard, {
-  Trend,
-} from "src/components/table-comparison-card";
+import TableComparisonCard from "src/components/table-comparison-card";
 import {
   handleOperatorsEntity,
   PageParams,
@@ -44,6 +42,7 @@ import {
   useNetworkCostsQuery,
 } from "src/graphql/queries";
 import { TariffCategory } from "src/graphql/resolver-mapped-types";
+import { Trend } from "src/graphql/resolver-types";
 import { fetchOperatorCostsAndTariffsData } from "src/lib/db/sunshine-data";
 import { truthy } from "src/lib/truthy";
 import { defaultLocale } from "src/locales/config";
@@ -324,7 +323,7 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
             value: {
               value: operatorRate,
               unit: "Rp./km",
-              trend: "stable" as Trend,
+              trend: Trend.Stable,
             },
           }
         : null,
@@ -338,7 +337,7 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
             value: {
               value: peerGroupMedianRate,
               unit: "Rp./km",
-              trend: "stable" as Trend,
+              trend: Trend.Stable,
             },
           }
         : null,

@@ -244,6 +244,12 @@ input SunshineDataFilter {
 # TODO Map more closely to predefined strings
 scalar TariffCategory
 
+enum Trend {
+  up
+  down
+  stable
+}
+
 type NetworkCostsData {
   networkLevel: NetworkLevel!
   operatorRate: Float
