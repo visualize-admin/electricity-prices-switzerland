@@ -97,7 +97,9 @@ const AxisWidthLinearTop = ({
   hideXAxisTitle: boolean;
 }) => {
   const formatCurrency = useFormatCurrency();
-  const { xScale, bounds } = useChartState() as ScatterPlotState;
+  const { xScale, bounds } = useChartState() as
+    | ScatterPlotState
+    | RangePlotState;
   const { chartWidth, chartHeight, margins } = bounds;
   const { labelColor, labelFontSize, gridColor, fontFamily } = useChartTheme();
   const xAxisRef = useRef<SVGGElement>(null);
