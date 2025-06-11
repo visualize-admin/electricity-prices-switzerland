@@ -53,7 +53,6 @@
     "@emotion/react": "^11.13.0",
     "@emotion/server": "^11.11.0",
     "@emotion/styled": "^11.13.0",
-    "@graphql-tools/schema": "^10.0.23",
     "@interactivethings/swiss-federal-ci": "^3.1.1",
     "@juggle/resize-observer": "^3.3.1",
     "@lingui/babel-plugin-lingui-macro": "^5.3.1",
