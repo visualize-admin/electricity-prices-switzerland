@@ -25,7 +25,7 @@ const NetworkCostsTrendCard: React.FC<
     operatorId: string;
     operatorLabel: string;
   } & CardProps
-> = ({ peerGroup, updateDate, ...props }) => {
+> = (props) => {
   const [compareWith, setCompareWith] = useState(
     "sunshine.costs-and-tariffs.all-peer-group"
   );
