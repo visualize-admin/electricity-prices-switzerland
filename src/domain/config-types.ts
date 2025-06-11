@@ -100,6 +100,33 @@ const LineFields = z.object({
 
 export type LineFields = z.infer<typeof LineFields>;
 
+const ScatterPlotFields = z.object({
+  x: GenericField,
+  y: GenericField,
+  segment: z
+    .object({
+      componentIri: z.string(),
+      palette: z.string(),
+      colorMapping: ColorMapping.optional(),
+    })
+    .optional(),
+  style: z
+    .object({
+      entity: z.string(),
+      colorDomain: z.array(z.string()),
+      colorAcc: z.string(),
+      highlightValue: z.union([z.string(), z.number()]).optional(),
+    })
+    .optional(),
+  tooltip: z
+    .object({
+      componentIri: z.string(),
+    })
+    .optional(),
+});
+
+export type ScatterPlotFields = z.infer<typeof ScatterPlotFields>;
+
 const AreaFields = z.object({
   x: GenericField,
   y: GenericField,
@@ -151,4 +178,5 @@ export type ChartFields =
   | AreaFields
   | LineFields
   | HistogramFields
-  | RangePlotFields;
+  | RangePlotFields
+  | ScatterPlotFields;

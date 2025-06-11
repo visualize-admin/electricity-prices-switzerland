@@ -11,6 +11,8 @@ import {
   ObservationValue,
 } from "src/domain/data";
 
+import { ScatterPlotState } from "./scatter-plot/scatter-plot-state";
+
 export type ChartProps = {
   data: GenericObservation[];
   fields: ChartFields;
@@ -176,6 +178,7 @@ type ChartState =
   | LinesState
   | HistogramState
   | RangePlotState
+  | ScatterPlotState
   | undefined;
 
 export const ChartContext = createContext<ChartState>(undefined);
