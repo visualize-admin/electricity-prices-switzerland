@@ -441,6 +441,22 @@ msgstr "Keine Daten"
 msgid "municipality"
 msgstr "Gemeinde"
 
+#: src/components/net-tariffs-trend-chart.tsx
+msgid "net-tariffs-trend-chart.legend-item.other-operators"
+msgstr "Andere Betreiber"
+
+#: src/components/net-tariffs-trend-chart.tsx
+msgid "net-tariffs-trend-chart.legend-item.peer-group-median"
+msgstr "Peer Group Median"
+
+#: src/components/network-cost-trend-chart.tsx
+msgid "network-cost-trend-chart.legend-item.other-operators"
+msgstr "Andere Betreiber"
+
+#: src/components/network-cost-trend-chart.tsx
+msgid "network-cost-trend-chart.legend-item.peer-group-median"
+msgstr "Peer Group Median"
+
 #: src/domain/translation.tsx
 msgid "network-level.NE5.long"
 msgstr "Hochspannung NE5"
@@ -903,11 +919,6 @@ msgstr "Peer Group"
 #: src/components/network-costs-trend-card.tsx
 msgid "sunshine.costs-and-tariffs.progress-over-time"
 msgstr "Fortschritte im Laufe der Zeit"
-
-#: src/components/net-tariffs-trend-card.tsx
-#: src/components/network-costs-trend-card.tsx
-msgid "sunshine.costs-and-tariffs.scatter-plot-description"
-msgstr "Streudiagramm zur Visualisierung der Netzkosten auf verschiedenen Ebenen (Endverbraucherebene, Niederspannungsverteilung, Mittelspannungsverteilung)"
 
 #: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.selected-operators"

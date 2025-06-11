@@ -1,4 +1,4 @@
-import { Trans, t } from "@lingui/macro";
+import { t, Trans } from "@lingui/macro";
 import { GetServerSideProps } from "next";
 import ErrorPage from "next/error";
 import { useRouter } from "next/router";
@@ -8,8 +8,8 @@ import { gql } from "urql";
 import CardGrid from "src/components/card-grid";
 import { DetailPageBanner } from "src/components/detail-page/banner";
 import {
-  DetailsPageLayout,
   DetailsPageHeader,
+  DetailsPageLayout,
   DetailsPageSubtitle,
   DetailsPageTitle,
 } from "src/components/detail-page/layout";
@@ -226,6 +226,9 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
           sx={{ gridArea: "trend" }}
           peerGroup={peerGroup}
           updateDate={updateDate}
+          operatorId={props.id}
+          operatorLabel={operatorLabel}
+          networkCosts={props.costsAndTariffs.networkCosts}
         />
       </CardGrid>
     </>
@@ -349,6 +352,9 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
           sx={{ gridArea: "trend" }}
           peerGroup={peerGroup}
           updateDate={updateDate}
+          operatorId={props.id}
+          operatorLabel={operatorLabel}
+          netTariffs={props.costsAndTariffs.netTariffs}
         />
       </CardGrid>
     </>
@@ -471,6 +477,9 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
           sx={{ gridArea: "trend" }}
           peerGroup={peerGroup}
           updateDate={updateDate}
+          operatorId={props.id}
+          operatorLabel={operatorLabel}
+          netTariffs={props.costsAndTariffs.netTariffs}
         />
       </CardGrid>
     </>
