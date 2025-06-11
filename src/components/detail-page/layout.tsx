@@ -77,6 +77,7 @@ const DetailPageContentLayout = ({ children, selector, download }: Props) => {
             flexDirection: "column",
             gap: 10,
           }}
+          data-testid="details-page-content"
           display={"flex"}
         >
           {renderedChildren}

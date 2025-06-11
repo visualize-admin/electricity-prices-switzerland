@@ -14,6 +14,8 @@ test.describe("Sunshine details page", () => {
     await expect(resp?.status()).toEqual(200);
     await snapshot({
       note: "Sunshine details page",
+      locator: await page.getByTestId("details-page-content"),
+      fullPage: true,
     });
   });
 });
