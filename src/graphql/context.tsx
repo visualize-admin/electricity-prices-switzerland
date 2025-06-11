@@ -6,7 +6,7 @@ import { isServerSide } from "src/utils/server-side";
 const client = createClient({
   url: "/api/graphql",
   exchanges,
-  suspense: isServerSide ? true : false,
+  suspense: isServerSide,
 
   // Uncomment to test correct cache behavior
   // requestPolicy: isServerSide ? "network-only" : "cache-only",
