@@ -29,11 +29,7 @@ import {
   PageParams,
   Props as SharedPageProps,
 } from "src/data/shared-page-props";
-import {
-  NetworkCategory,
-  NetworkLevel,
-  SunshineCostsAndTariffsData,
-} from "src/domain/data";
+import { NetworkLevel, SunshineCostsAndTariffsData } from "src/domain/data";
 import {
   getCategoryLabels,
   getLocalizedLabel,
@@ -45,6 +41,7 @@ import {
   useNetTariffsQuery,
   useNetworkCostsQuery,
 } from "src/graphql/queries";
+import { TariffCategory } from "src/graphql/resolver-mapped-types";
 import { fetchOperatorCostsAndTariffsData } from "src/lib/db/sunshine-data";
 import { truthy } from "src/lib/truthy";
 import { defaultLocale } from "src/locales/config";
@@ -259,7 +256,7 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
     updateDate,
   } = props.costsAndTariffs;
 
-  const [category, setCategory] = useState<NetworkCategory>("NC2"); // Default category, can be changed based on user input
+  const [category, setCategory] = useState<TariffCategory>("NC2"); // Default category, can be changed based on user input
   const [{ data }] = useEnergyTariffsQuery({
     variables: {
       filter: {
@@ -354,7 +351,7 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
           updateDate={updateDate}
           operatorId={props.id}
           operatorLabel={operatorLabel}
-          netTariffs={props.costsAndTariffs.netTariffs}
+          netTariffs={energyTariffs}
         />
       </CardGrid>
     </>
@@ -385,7 +382,7 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
     updateDate,
   } = props.costsAndTariffs;
 
-  const [category, setCategory] = useState<NetworkCategory>("NC2"); // Default category, can be changed based on user input
+  const [category, setCategory] = useState<TariffCategory>("NC2"); // Default category, can be changed based on user input
   const [{ data }] = useNetTariffsQuery({
     variables: {
       filter: {
@@ -479,7 +476,7 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
           updateDate={updateDate}
           operatorId={props.id}
           operatorLabel={operatorLabel}
-          netTariffs={props.costsAndTariffs.netTariffs}
+          netTariffs={netTariffs}
         />
       </CardGrid>
     </>

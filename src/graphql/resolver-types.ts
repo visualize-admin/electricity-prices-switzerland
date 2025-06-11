@@ -7,6 +7,7 @@ import {
   ResolvedCanton,
   ResolvedMunicipality,
   ResolvedOperator,
+  TariffCategory,
   ResolvedObservation,
   ResolvedCantonMedianObservation,
   ResolvedSwissMedianObservation,
@@ -34,6 +35,7 @@ export type Incremental<T> =
   | {
       [P in keyof T]?: P extends " $fragmentName" | "__typename" ? T[P] : never;
     };
+export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 export type RequireFields<T, K extends keyof T> = Omit<T, K> & {
   [P in K]-?: NonNullable<T[P]>;
 };
@@ -44,6 +46,7 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean };
   Int: { input: number; output: number };
   Float: { input: number; output: number };
+  TariffCategory: { input: any; output: any };
   WikiContentInfo: { input: any; output: any };
 };
 
@@ -432,26 +435,9 @@ export type SystemInfo = {
   VERSION: Scalars["String"]["output"];
 };
 
-export enum TariffCategory {
-  Ec2 = "EC2",
-  Ec3 = "EC3",
-  Ec4 = "EC4",
-  Ec6 = "EC6",
-  Eh2 = "EH2",
-  Eh4 = "EH4",
-  Eh7 = "EH7",
-  Nc2 = "NC2",
-  Nc3 = "NC3",
-  Nc4 = "NC4",
-  Nc6 = "NC6",
-  Nh2 = "NH2",
-  Nh4 = "NH4",
-  Nh7 = "NH7",
-}
-
 export type TariffRow = {
   __typename?: "TariffRow";
-  category: Scalars["String"]["output"];
+  category: Scalars["TariffCategory"]["output"];
   operator_id: Scalars["Int"]["output"];
   operator_name: Scalars["String"]["output"];
   period: Scalars["Int"]["output"];
@@ -460,7 +446,7 @@ export type TariffRow = {
 
 export type TariffsData = {
   __typename?: "TariffsData";
-  category: Scalars["String"]["output"];
+  category: Scalars["TariffCategory"]["output"];
   operatorRate?: Maybe<Scalars["Float"]["output"]>;
   peerGroupMedianRate?: Maybe<Scalars["Float"]["output"]>;
   yearlyData: Array<TariffRow>;
@@ -633,9 +619,15 @@ export type ResolversTypes = ResolversObject<{
   SunshineDataRow: ResolverTypeWrapper<SunshineDataRow>;
   SwissMedianObservation: ResolverTypeWrapper<ResolvedSwissMedianObservation>;
   SystemInfo: ResolverTypeWrapper<SystemInfo>;
-  TariffCategory: TariffCategory;
-  TariffRow: ResolverTypeWrapper<TariffRow>;
-  TariffsData: ResolverTypeWrapper<TariffsData>;
+  TariffCategory: ResolverTypeWrapper<TariffCategory>;
+  TariffRow: ResolverTypeWrapper<
+    Omit<TariffRow, "category"> & { category: ResolversTypes["TariffCategory"] }
+  >;
+  TariffsData: ResolverTypeWrapper<
+    Omit<TariffsData, "category"> & {
+      category: ResolversTypes["TariffCategory"];
+    }
+  >;
   TariffsFilter: TariffsFilter;
   WikiContent: ResolverTypeWrapper<WikiContent>;
   WikiContentInfo: ResolverTypeWrapper<Scalars["WikiContentInfo"]["output"]>;
@@ -673,8 +665,13 @@ export type ResolversParentTypes = ResolversObject<{
   SunshineDataRow: SunshineDataRow;
   SwissMedianObservation: ResolvedSwissMedianObservation;
   SystemInfo: SystemInfo;
-  TariffRow: TariffRow;
-  TariffsData: TariffsData;
+  TariffCategory: TariffCategory;
+  TariffRow: Omit<TariffRow, "category"> & {
+    category: ResolversParentTypes["TariffCategory"];
+  };
+  TariffsData: Omit<TariffsData, "category"> & {
+    category: ResolversParentTypes["TariffCategory"];
+  };
   TariffsFilter: TariffsFilter;
   WikiContent: WikiContent;
   WikiContentInfo: Scalars["WikiContentInfo"]["output"];
@@ -1224,11 +1221,20 @@ export type SystemInfoResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export interface TariffCategoryScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["TariffCategory"], any> {
+  name: "TariffCategory";
+}
+
 export type TariffRowResolvers<
   ContextType = ServerContext,
   ParentType extends ResolversParentTypes["TariffRow"] = ResolversParentTypes["TariffRow"]
 > = ResolversObject<{
-  category?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  category?: Resolver<
+    ResolversTypes["TariffCategory"],
+    ParentType,
+    ContextType
+  >;
   operator_id?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
   operator_name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   period?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
@@ -1240,7 +1246,11 @@ export type TariffsDataResolvers<
   ContextType = ServerContext,
   ParentType extends ResolversParentTypes["TariffsData"] = ResolversParentTypes["TariffsData"]
 > = ResolversObject<{
-  category?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  category?: Resolver<
+    ResolversTypes["TariffCategory"],
+    ParentType,
+    ContextType
+  >;
   operatorRate?: Resolver<
     Maybe<ResolversTypes["Float"]>,
     ParentType,
@@ -1300,6 +1310,7 @@ export type Resolvers<ContextType = ServerContext> = ResolversObject<{
   SunshineDataRow?: SunshineDataRowResolvers<ContextType>;
   SwissMedianObservation?: SwissMedianObservationResolvers<ContextType>;
   SystemInfo?: SystemInfoResolvers<ContextType>;
+  TariffCategory?: GraphQLScalarType;
   TariffRow?: TariffRowResolvers<ContextType>;
   TariffsData?: TariffsDataResolvers<ContextType>;
   WikiContent?: WikiContentResolvers<ContextType>;

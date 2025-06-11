@@ -28,6 +28,7 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean };
   Int: { input: number; output: number };
   Float: { input: number; output: number };
+  TariffCategory: { input: any; output: any };
   WikiContentInfo: { input: any; output: any };
 };
 
@@ -416,26 +417,9 @@ export type SystemInfo = {
   VERSION: Scalars["String"]["output"];
 };
 
-export enum TariffCategory {
-  Ec2 = "EC2",
-  Ec3 = "EC3",
-  Ec4 = "EC4",
-  Ec6 = "EC6",
-  Eh2 = "EH2",
-  Eh4 = "EH4",
-  Eh7 = "EH7",
-  Nc2 = "NC2",
-  Nc3 = "NC3",
-  Nc4 = "NC4",
-  Nc6 = "NC6",
-  Nh2 = "NH2",
-  Nh4 = "NH4",
-  Nh7 = "NH7",
-}
-
 export type TariffRow = {
   __typename: "TariffRow";
-  category: Scalars["String"]["output"];
+  category: Scalars["TariffCategory"]["output"];
   operator_id: Scalars["Int"]["output"];
   operator_name: Scalars["String"]["output"];
   period: Scalars["Int"]["output"];
@@ -444,7 +428,7 @@ export type TariffRow = {
 
 export type TariffsData = {
   __typename: "TariffsData";
-  category: Scalars["String"]["output"];
+  category: Scalars["TariffCategory"]["output"];
   operatorRate?: Maybe<Scalars["Float"]["output"]>;
   peerGroupMedianRate?: Maybe<Scalars["Float"]["output"]>;
   yearlyData: Array<TariffRow>;
@@ -824,7 +808,7 @@ export type EnergyTariffsQuery = {
   __typename: "Query";
   energyTariffs: {
     __typename: "TariffsData";
-    category: string;
+    category: any;
     operatorRate?: number | null;
     peerGroupMedianRate?: number | null;
     yearlyData: Array<{
@@ -833,7 +817,7 @@ export type EnergyTariffsQuery = {
       rate: number;
       operator_id: number;
       operator_name: string;
-      category: string;
+      category: any;
     }>;
   };
 };
@@ -846,7 +830,7 @@ export type NetTariffsQuery = {
   __typename: "Query";
   netTariffs: {
     __typename: "TariffsData";
-    category: string;
+    category: any;
     operatorRate?: number | null;
     peerGroupMedianRate?: number | null;
     yearlyData: Array<{
@@ -855,7 +839,7 @@ export type NetTariffsQuery = {
       rate: number;
       operator_id: number;
       operator_name: string;
-      category: string;
+      category: any;
     }>;
   };
 };

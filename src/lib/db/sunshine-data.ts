@@ -1,5 +1,5 @@
 import {
-  NetworkCategory,
+  TariffCategory,
   NetworkLevel,
   SunshineCostsAndTariffsData,
   SunshineOperationalStandardsData,
@@ -45,7 +45,7 @@ type NetTariffsParams = {
   settlementDensity: string;
   energyDensity: string;
   period?: number;
-  category: NetworkCategory; // Required for tariffs
+  category: TariffCategory; // Required for tariffs
 };
 
 type EnergyTariffsParams = {
@@ -53,7 +53,7 @@ type EnergyTariffsParams = {
   settlementDensity: string;
   energyDensity: string;
   period?: number;
-  category: NetworkCategory; // Required for tariffs
+  category: TariffCategory; // Required for tariffs
 };
 
 export type PeerGroupMedianValuesParams =
@@ -132,10 +132,10 @@ export const fetchNetTariffsData = async ({
 }: {
   operatorId: number;
   // TODO it seems NC2 is not an ElectricityCategory, but a NetworkCategory
-  category: NetworkCategory;
+  category: TariffCategory;
   period: number;
 }): Promise<{
-  category: NetworkCategory;
+  category: TariffCategory;
   operatorRate: number | null;
   peerGroupMedianRate: number | null;
   yearlyData: TariffRecord[];
@@ -180,10 +180,10 @@ export const fetchEnergyTariffsData = async ({
   period,
 }: {
   operatorId: number;
-  category: NetworkCategory;
+  category: TariffCategory;
   period: number;
 }): Promise<{
-  category: NetworkCategory;
+  category: TariffCategory;
   operatorRate: number | null;
   peerGroupMedianRate: number | null;
   yearlyData: TariffRecord[];
@@ -229,7 +229,7 @@ export const fetchOperatorCostsAndTariffsData = async ({
 }: {
   operatorId: string;
   networkLevel: NetworkLevel["id"];
-  category: NetworkCategory;
+  category: TariffCategory;
   period?: number;
 }): Promise<SunshineCostsAndTariffsData> => {
   const operatorId = parseInt(operatorId_, 10);

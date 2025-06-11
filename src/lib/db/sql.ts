@@ -1,6 +1,6 @@
 import {
   ElectricityCategory,
-  NetworkCategory,
+  TariffCategory,
   NetworkLevel,
 } from "src/domain/data";
 import { query } from "src/lib/db/duckdb";
@@ -337,7 +337,7 @@ export type TariffRecord = {
   operator_id: number;
   operator_name: string;
   period: number;
-  category: NetworkCategory;
+  category: TariffCategory;
   tariff_type: string;
   rate: number;
 };

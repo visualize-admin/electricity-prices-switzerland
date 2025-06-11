@@ -241,24 +241,8 @@ input SunshineDataFilter {
   period: String
 }
 
-enum TariffCategory {
-  # Electricity costs
-  EC2
-  EC3
-  EC4
-  EC6
-  EH2
-  EH4
-  EH7
-  # Networks costs
-  NC2
-  NC3
-  NC4
-  NC6
-  NH2
-  NH4
-  NH7
-}
+# TODO Map more closely to predefined strings
+scalar TariffCategory
 
 type NetworkCostsData {
   networkLevel: NetworkLevel!
@@ -280,7 +264,7 @@ type NetworkCostRow {
 }
 
 type TariffsData {
-  category: String!
+  category: TariffCategory!
   operatorRate: Float
   peerGroupMedianRate: Float
   yearlyData: [TariffRow!]!
@@ -291,7 +275,7 @@ type TariffRow {
   rate: Float!
   operator_id: Int!
   operator_name: String!
-  category: String!
+  category: TariffCategory!
 }
 
 input NetworkCostsFilter {

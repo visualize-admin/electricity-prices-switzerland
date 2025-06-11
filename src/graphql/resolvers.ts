@@ -10,6 +10,7 @@ import {
   ResolvedCantonMedianObservation,
   ResolvedOperatorObservation,
   ResolvedSwissMedianObservation,
+  TariffCategory,
 } from "src/graphql/resolver-mapped-types";
 import {
   CantonMedianObservationResolvers,
@@ -42,7 +43,7 @@ import {
 } from "src/rdf/queries";
 import { fetchOperatorInfo, search } from "src/rdf/search-queries";
 import * as fs from "fs";
-import { asNetworkCategory, NetworkCategory } from "src/domain/data";
+import { asTariffCategory } from "src/domain/data";
 
 const gfmSyntax = require("micromark-extension-gfm");
 const gfmHtml = require("micromark-extension-gfm/html");
@@ -414,14 +415,14 @@ const Query: QueryResolvers = {
   netTariffs: async (_, { filter }) => {
     return await fetchNetTariffsData({
       operatorId: filter.operatorId,
-      category: asNetworkCategory(filter.category as NetworkCategory),
+      category: asTariffCategory(filter.category as TariffCategory),
       period: filter.period,
     });
   },
   energyTariffs: async (_, { filter }) => {
     return await fetchEnergyTariffsData({
       operatorId: filter.operatorId,
-      category: asNetworkCategory(filter.category),
+      category: asTariffCategory(filter.category),
       period: filter.period,
     });
   },

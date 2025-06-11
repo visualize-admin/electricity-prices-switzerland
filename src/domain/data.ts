@@ -2,7 +2,8 @@ import { extent, range, scaleThreshold } from "d3";
 import { useMemo } from "react";
 
 import buildEnv from "src/env/build";
-import { NetworkCostsData } from "src/graphql/resolver-types";
+import { TariffCategory } from "src/graphql/resolver-mapped-types";
+import { NetworkCostsData, TariffsData } from "src/graphql/resolver-types";
 import { chartPalette } from "src/themes/palette";
 
 export type ObservationValue = string | number | boolean | Date;
@@ -140,46 +141,21 @@ export type ElectricityCategory =
   | "H7"
   | "H8";
 
-// TODO
-export type NetworkCategory = "NC2" | "NC3";
+export { type TariffCategory } from "src/graphql/resolver-mapped-types";
 
 // TODO Mapping should be at graphql level, we should be able to remove
 // this function when this is done
-export const asNetworkCategory = (category: string): NetworkCategory => {
+export const asTariffCategory = (category: string): TariffCategory => {
   if (category === "NC2" || category === "NC3") {
-    return category;
+    return category as TariffCategory;
   }
   throw new Error(`Invalid network category: ${category}`);
 };
 
 export type SunshineCostsAndTariffsData = {
   latestYear: string;
-  netTariffs: {
-    category: NetworkCategory;
-    peerGroupMedianRate: number | null;
-    operatorRate: number | null;
-    yearlyData: {
-      period: number;
-      rate: number;
-      operator_id: number;
-      category: NetworkCategory;
-      operator_name: string;
-    }[];
-  };
-
-  energyTariffs: {
-    category: NetworkCategory;
-    peerGroupMedianRate: number | null;
-    operatorRate: number | null;
-    yearlyData: {
-      period: number;
-      rate: number;
-      operator_id: number;
-      operator_name: string;
-      category: NetworkCategory;
-    }[];
-  };
-
+  netTariffs: TariffsData;
+  energyTariffs: TariffsData;
   networkCosts: NetworkCostsData;
   operator: {
     peerGroup: {

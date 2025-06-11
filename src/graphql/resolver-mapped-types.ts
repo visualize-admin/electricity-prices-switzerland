@@ -6,7 +6,6 @@
  *
  */
 
-
 export type ResolvedSearchResult = {
   id: string;
   name: string;
@@ -57,3 +56,5 @@ export type ResolvedObservation =
   | ResolvedCantonMedianObservation
   | ResolvedSwissMedianObservation
   | ResolvedOperatorObservation;
+
+export type TariffCategory = "NC2" | "NC3";
