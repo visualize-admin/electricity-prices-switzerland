@@ -38,3 +38,4 @@ You can also check the
   - Improved Storybook screenshotting to avoid blank screenshots
   - Changed default language to english
   - Initialized all sunshine translation strings to accent
+  - Updated tpo-deepl see README.md for details `https://www.npmjs.com/package/tpo-deepl`

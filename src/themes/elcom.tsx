@@ -31,10 +31,6 @@ export const theme = createTheme({
  * Use WOFF2 fonts if possible!
  */
 export const preloadFonts = [
-  "/fonts/NotoSans-Light.woff2",
-  "/fonts/NotoSans-LightItalic.woff2",
   "/fonts/NotoSans-Regular.woff2",
-  "/fonts/NotoSans-Italic.woff2",
   "/fonts/NotoSans-Bold.woff2",
-  "/fonts/NotoSans-BoldItalic.woff2",
 ];

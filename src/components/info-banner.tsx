@@ -40,8 +40,8 @@ export const InfoBanner = ({
             __html: contentQuery.data.wikiContent.html,
           }}
           sx={{
-            "& > :first-child": { pt: 0, mt: 0 },
-            "& > :last-child": { mb: 0, pb: 0 },
+            "& > :first-of-type": { pt: 0, mt: 0 },
+            "& > :last-of-type": { mb: 0, pb: 0 },
           }}
         />
       }
