@@ -11,6 +11,10 @@ You can also check the
 
 # Unreleased
 
+Nothing yet.
+
+# 2.0.0 - 2025-06-11
+
 - Features
 
   - GraphQL API: Add new queries to get sunshine data
