@@ -98,7 +98,9 @@ export type NetworkCostsData = {
   __typename: "NetworkCostsData";
   networkLevel: NetworkLevel;
   operatorRate?: Maybe<Scalars["Float"]["output"]>;
+  operatorTrend?: Maybe<Trend>;
   peerGroupMedianRate?: Maybe<Scalars["Float"]["output"]>;
+  peerGroupMedianTrend?: Maybe<Trend>;
   yearlyData: Array<NetworkCostRow>;
 };
 
@@ -439,6 +441,12 @@ export type TariffsFilter = {
   operatorId: Scalars["Int"]["input"];
   period: Scalars["Int"]["input"];
 };
+
+export enum Trend {
+  Down = "down",
+  Stable = "stable",
+  Up = "up",
+}
 
 export type WikiContent = {
   __typename: "WikiContent";
@@ -787,7 +795,9 @@ export type NetworkCostsQuery = {
   networkCosts: {
     __typename: "NetworkCostsData";
     operatorRate?: number | null;
+    operatorTrend?: Trend | null;
     peerGroupMedianRate?: number | null;
+    peerGroupMedianTrend?: Trend | null;
     networkLevel: { __typename: "NetworkLevel"; id: string };
     yearlyData: Array<{
       __typename: "NetworkCostRow";
@@ -1265,7 +1275,9 @@ export const NetworkCostsDocument = gql`
         id
       }
       operatorRate
+      operatorTrend
       peerGroupMedianRate
+      peerGroupMedianTrend
       yearlyData {
         year
         rate

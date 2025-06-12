@@ -2,6 +2,7 @@ import { TableBody, TableRow, TableCell, Typography } from "@mui/material";
 
 import ComparisonTable from "src/components/comparison-table";
 import UnitValueWithTrend from "src/components/unit-value-with-trend";
+import { Trend } from "src/graphql/resolver-types";
 
 export const Example = () => {
   const operatorLabel = "Operator XYZ";
@@ -20,7 +21,7 @@ export const Example = () => {
             <UnitValueWithTrend
               value={operatorRate}
               unit="Rp./km"
-              trend="stable"
+              trend={Trend.Down}
             />
           </TableCell>
         </TableRow>
@@ -34,7 +35,7 @@ export const Example = () => {
             <UnitValueWithTrend
               value={peerGroupMedianRate}
               unit="Rp./km"
-              trend="stable"
+              trend={Trend.Stable}
             />
           </TableCell>
         </TableRow>

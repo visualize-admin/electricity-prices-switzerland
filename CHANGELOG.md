@@ -24,7 +24,7 @@ You can also check the
   - Load mocked data through duckdb in Sunshine pages, see README
   - Load data through urql in sunshine pages, urql client cache is primed by the server
   - Added Scatterplot Chart to sunshine charts
-
+  - Ability to change network level on costs and tariffs > network costs page.
 - Fixes
   - Fixed map layout issues on mobile
   - Dropdown adjustments

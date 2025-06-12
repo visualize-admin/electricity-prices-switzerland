@@ -1,10 +1,12 @@
-import { t, Trans } from "@lingui/macro";
+import { Trans, t } from "@lingui/macro";
+import { Box } from "@mui/material";
 import { GetServerSideProps } from "next";
 import ErrorPage from "next/error";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { gql } from "urql";
 
+import { ButtonGroup } from "src/components/button-group";
 import CardGrid from "src/components/card-grid";
 import { DetailPageBanner } from "src/components/detail-page/banner";
 import {
@@ -21,9 +23,7 @@ import {
   CostAndTariffsTabOption,
   CostsAndTariffsNavigation,
 } from "src/components/sunshine-tabs";
-import TableComparisonCard, {
-  Trend,
-} from "src/components/table-comparison-card";
+import TableComparisonCard from "src/components/table-comparison-card";
 import {
   handleOperatorsEntity,
   PageParams,
@@ -42,6 +42,7 @@ import {
   useNetworkCostsQuery,
 } from "src/graphql/queries";
 import { TariffCategory } from "src/graphql/resolver-mapped-types";
+import { Trend } from "src/graphql/resolver-types";
 import { fetchOperatorCostsAndTariffsData } from "src/lib/db/sunshine-data";
 import { truthy } from "src/lib/truthy";
 import { defaultLocale } from "src/locales/config";
@@ -104,7 +105,9 @@ export const NetworkCostsDocument = gql`
         id
       }
       operatorRate
+      operatorTrend
       peerGroupMedianRate
+      peerGroupMedianTrend
       yearlyData {
         year
         rate
@@ -140,7 +143,13 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
     // TODO
     return null;
   }
-  const { operatorRate, peerGroupMedianRate, yearlyData } = networkCosts;
+  const {
+    operatorRate,
+    operatorTrend,
+    peerGroupMedianRate,
+    peerGroupMedianTrend,
+    yearlyData,
+  } = networkCosts;
   const networkLabels = getNetworkLevelLabels({ id: networkLevel });
 
   const operatorLabel = props.name;
@@ -167,7 +176,8 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
             value: {
               value: operatorRate,
               unit: "Rp./km",
-              trend: "stable" as Trend,
+              trend: operatorTrend,
+              round: 0,
             },
           }
         : null,
@@ -181,7 +191,8 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
             value: {
               value: peerGroupMedianRate,
               unit: "Rp./km",
-              trend: "stable" as Trend,
+              trend: peerGroupMedianTrend,
+              round: 0,
             },
           }
         : null,
@@ -189,7 +200,29 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
   } satisfies React.ComponentProps<typeof TableComparisonCard>;
 
   return (
-    <>
+    <div>
+      <Box sx={{ mb: 2 }}>
+        <ButtonGroup
+          id="basic-button-group"
+          label={getLocalizedLabel({ id: "network-level" })}
+          options={[
+            {
+              value: "NE5",
+              label: getLocalizedLabel({ id: "network-level.NE5.short" }),
+            },
+            {
+              value: "NE6",
+              label: getLocalizedLabel({ id: "network-level.NE6.short" }),
+            },
+            {
+              value: "NE7",
+              label: getLocalizedLabel({ id: "network-level.NE7.short" }),
+            },
+          ]}
+          value={networkLevel}
+          setValue={setNetworkLevel}
+        />
+      </Box>
       <CardGrid
         sx={{
           gridTemplateColumns: {
@@ -228,7 +261,7 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
           networkCosts={networkCosts}
         />
       </CardGrid>
-    </>
+    </div>
   );
 };
 
@@ -298,7 +331,7 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
             value: {
               value: operatorRate,
               unit: "Rp./km",
-              trend: "stable" as Trend,
+              trend: Trend.Stable,
             },
           }
         : null,
@@ -312,7 +345,7 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
             value: {
               value: peerGroupMedianRate,
               unit: "Rp./km",
-              trend: "stable" as Trend,
+              trend: Trend.Stable,
             },
           }
         : null,

@@ -116,7 +116,9 @@ export type NetworkCostsData = {
   __typename?: "NetworkCostsData";
   networkLevel: NetworkLevel;
   operatorRate?: Maybe<Scalars["Float"]["output"]>;
+  operatorTrend?: Maybe<Trend>;
   peerGroupMedianRate?: Maybe<Scalars["Float"]["output"]>;
+  peerGroupMedianTrend?: Maybe<Trend>;
   yearlyData: Array<NetworkCostRow>;
 };
 
@@ -458,6 +460,12 @@ export type TariffsFilter = {
   period: Scalars["Int"]["input"];
 };
 
+export enum Trend {
+  Down = "down",
+  Stable = "stable",
+  Up = "up",
+}
+
 export type WikiContent = {
   __typename?: "WikiContent";
   html: Scalars["String"]["output"];
@@ -629,6 +637,7 @@ export type ResolversTypes = ResolversObject<{
     }
   >;
   TariffsFilter: TariffsFilter;
+  Trend: Trend;
   WikiContent: ResolverTypeWrapper<WikiContent>;
   WikiContentInfo: ResolverTypeWrapper<Scalars["WikiContentInfo"]["output"]>;
 }>;
@@ -807,8 +816,18 @@ export type NetworkCostsDataResolvers<
     ParentType,
     ContextType
   >;
+  operatorTrend?: Resolver<
+    Maybe<ResolversTypes["Trend"]>,
+    ParentType,
+    ContextType
+  >;
   peerGroupMedianRate?: Resolver<
     Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  peerGroupMedianTrend?: Resolver<
+    Maybe<ResolversTypes["Trend"]>,
     ParentType,
     ContextType
   >;
