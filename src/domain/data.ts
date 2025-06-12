@@ -3,7 +3,11 @@ import { useMemo } from "react";
 
 import buildEnv from "src/env/build";
 import { TariffCategory } from "src/graphql/resolver-mapped-types";
-import { NetworkCostsData, TariffsData } from "src/graphql/resolver-types";
+import {
+  NetworkCostsData,
+  StabilityData,
+  TariffsData,
+} from "src/graphql/resolver-types";
 import { chartPalette } from "src/themes/palette";
 
 export type ObservationValue = string | number | boolean | Date;
@@ -168,28 +172,8 @@ export type SunshineCostsAndTariffsData = {
 
 export type SunshinePowerStabilityData = {
   latestYear: string;
-  saidi: {
-    operatorMinutes: number;
-    peerGroupMinutes: number;
-    yearlyData: {
-      year: number;
-      minutes: number;
-      operator: number;
-      operator_name: string;
-      planned: boolean;
-    }[];
-  };
-  saifi: {
-    operatorMinutes: number;
-    peerGroupMinutes: number;
-    yearlyData: {
-      year: number;
-      minutes: number;
-      operator: number;
-      operator_name: string;
-      planned: boolean;
-    }[];
-  };
+  saidi: StabilityData;
+  saifi: StabilityData;
 
   operator: {
     peerGroup: {

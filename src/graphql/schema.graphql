@@ -300,15 +300,15 @@ input TariffsFilter {
 
 type StabilityDataRow {
   year: Int!
-  minutes: Float!
+  total: Float!
+  unplanned: Float!
   operator: Int!
   operator_name: String!
-  planned: Boolean!
 }
 
 type StabilityData {
-  operatorMinutes: Float!
-  peerGroupMinutes: Float!
+  operatorTotal: Float!
+  peerGroupTotal: Float!
   yearlyData: [StabilityDataRow!]!
 }
 

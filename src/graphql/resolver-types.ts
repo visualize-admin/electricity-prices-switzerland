@@ -364,17 +364,17 @@ export type SearchResult = {
 
 export type StabilityData = {
   __typename?: "StabilityData";
-  operatorMinutes: Scalars["Float"]["output"];
-  peerGroupMinutes: Scalars["Float"]["output"];
+  operatorTotal: Scalars["Float"]["output"];
+  peerGroupTotal: Scalars["Float"]["output"];
   yearlyData: Array<StabilityDataRow>;
 };
 
 export type StabilityDataRow = {
   __typename?: "StabilityDataRow";
-  minutes: Scalars["Float"]["output"];
   operator: Scalars["Int"]["output"];
   operator_name: Scalars["String"]["output"];
-  planned: Scalars["Boolean"]["output"];
+  total: Scalars["Float"]["output"];
+  unplanned: Scalars["Float"]["output"];
   year: Scalars["Int"]["output"];
 };
 
@@ -1127,8 +1127,8 @@ export type StabilityDataResolvers<
   ContextType = ServerContext,
   ParentType extends ResolversParentTypes["StabilityData"] = ResolversParentTypes["StabilityData"]
 > = ResolversObject<{
-  operatorMinutes?: Resolver<ResolversTypes["Float"], ParentType, ContextType>;
-  peerGroupMinutes?: Resolver<ResolversTypes["Float"], ParentType, ContextType>;
+  operatorTotal?: Resolver<ResolversTypes["Float"], ParentType, ContextType>;
+  peerGroupTotal?: Resolver<ResolversTypes["Float"], ParentType, ContextType>;
   yearlyData?: Resolver<
     Array<ResolversTypes["StabilityDataRow"]>,
     ParentType,
@@ -1141,10 +1141,10 @@ export type StabilityDataRowResolvers<
   ContextType = ServerContext,
   ParentType extends ResolversParentTypes["StabilityDataRow"] = ResolversParentTypes["StabilityDataRow"]
 > = ResolversObject<{
-  minutes?: Resolver<ResolversTypes["Float"], ParentType, ContextType>;
   operator?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
   operator_name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  planned?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
+  total?: Resolver<ResolversTypes["Float"], ParentType, ContextType>;
+  unplanned?: Resolver<ResolversTypes["Float"], ParentType, ContextType>;
   year?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;

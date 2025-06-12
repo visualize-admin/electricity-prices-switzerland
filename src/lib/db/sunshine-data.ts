@@ -5,7 +5,12 @@ import {
   SunshineOperationalStandardsData,
   SunshinePowerStabilityData,
 } from "src/domain/data";
-import { NetworkCostsData, Trend } from "src/graphql/resolver-types";
+import {
+  NetworkCostsData,
+  StabilityData,
+  TariffsData,
+  Trend,
+} from "src/graphql/resolver-types";
 import {
   getOperatorData,
   getNetworkCosts,
@@ -228,12 +233,7 @@ export const fetchEnergyTariffsData = async ({
   operatorId: number;
   category: TariffCategory;
   period: number;
-}): Promise<{
-  category: TariffCategory;
-  operatorRate: number | null;
-  peerGroupMedianRate: number | null;
-  yearlyData: TariffRecord[];
-}> => {
+}): Promise<TariffsData> => {
   const operatorData = await getOperatorData(operatorId);
   if (!operatorData) {
     throw new Error(`Peer group not found for operator ID: ${operatorId}`);
@@ -346,17 +346,7 @@ export const fetchSaidi = async ({
 }: {
   operatorId: number;
   period: number;
-}): Promise<{
-  operatorMinutes: number;
-  peerGroupMinutes: number;
-  yearlyData: {
-    year: number;
-    minutes: number;
-    operator: number;
-    operator_name: string;
-    planned: boolean;
-  }[];
-}> => {
+}): Promise<StabilityData> => {
   const operatorData = await getOperatorData(operatorId);
   if (!operatorData) {
     throw new Error(`Peer group not found for operator ID: ${operatorId}`);
@@ -386,14 +376,14 @@ export const fetchSaidi = async ({
   });
 
   return {
-    operatorMinutes: operatorStability?.[0]?.saidi_total || 0,
-    peerGroupMinutes: peerGroupMedianStability?.median_saidi_total || 0,
+    operatorTotal: operatorStability?.[0]?.saidi_total || 0,
+    peerGroupTotal: peerGroupMedianStability?.median_saidi_total || 0,
     yearlyData: peerGroupYearlyStability.map((x) => ({
       year: x.period,
-      minutes: x.saidi_total,
+      total: x.saidi_total,
       operator: x.operator_id,
       operator_name: x.operator_name,
-      planned: x.saidi_unplanned === 0,
+      unplanned: x.saidi_unplanned,
     })),
   };
 };
@@ -410,17 +400,7 @@ export const fetchSaifi = async ({
 }: {
   operatorId: number;
   period: number;
-}): Promise<{
-  operatorMinutes: number;
-  peerGroupMinutes: number;
-  yearlyData: {
-    year: number;
-    minutes: number;
-    operator: number;
-    operator_name: string;
-    planned: boolean;
-  }[];
-}> => {
+}): Promise<StabilityData> => {
   const operatorData = await getOperatorData(operatorId);
   if (!operatorData) {
     throw new Error(`Peer group not found for operator ID: ${operatorId}`);
@@ -449,14 +429,14 @@ export const fetchSaifi = async ({
   });
 
   return {
-    operatorMinutes: operatorStability?.[0]?.saifi_total || 0,
-    peerGroupMinutes: peerGroupMedianStability?.median_saifi_total || 0,
+    operatorTotal: operatorStability?.[0]?.saifi_total || 0,
+    peerGroupTotal: peerGroupMedianStability?.median_saifi_total || 0,
     yearlyData: peerGroupYearlyStability.map((x) => ({
       year: x.period,
-      minutes: x.saifi_total,
+      total: x.saifi_total,
       operator: x.operator_id,
       operator_name: x.operator_name,
-      planned: x.saifi_unplanned === 0,
+      unplanned: x.saifi_unplanned,
     })),
   };
 };
