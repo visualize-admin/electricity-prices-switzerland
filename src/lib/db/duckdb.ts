@@ -23,9 +23,6 @@ export const setupDatabaseConnection = async (): Promise<DuckDBConnection> => {
     // Set home directory
     await connection.run(`SET home_directory='/tmp';`);
 
-    // Load CSV extensions
-    await connection.run("INSTALL httpfs; LOAD httpfs;");
-
     return connection;
   } catch (error) {
     console.error("Failed to initialize DuckDB:", error);

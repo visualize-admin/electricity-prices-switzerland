@@ -2,11 +2,13 @@
 # and only ship what's actually required by the app to run.
 # https://docs.docker.com/get-started/09_image_best/#multi-stage-builds
 
-FROM node:22-alpine AS base
+FROM node:22-slim AS base
 
 # Install npm and force cross-spawn version
-# Remove old version and install new one
-RUN npm install -g npm@10.9.0 && \
+RUN apt update && apt install -y --no-install-recommends ca-certificates curl && \
+    apt clean && \
+    rm -rf /var/lib/apt/lists/* && \
+    npm install -g npm@10.9.0 && \
     # Remove old version
     npm uninstall -g cross-spawn && \
     npm cache clean --force && \
@@ -17,8 +19,6 @@ RUN npm install -g npm@10.9.0 && \
     # Configure npm
     npm config set save-exact=true && \
     npm config set legacy-peer-deps=true
-
-RUN apk update && apk upgrade --no-cache openssl
 
 
 # Dependency image
@@ -38,7 +38,9 @@ RUN yarn install --frozen-lockfile && \
 # Builder image
 FROM base AS builder
 WORKDIR /app
-RUN apk add alpine-sdk make curl
+RUN apt update && apt install -y --no-install-recommends build-essential make && \
+    apt clean && \
+    rm -rf /var/lib/apt/lists/*
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
@@ -50,18 +52,14 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
-RUN apk add curl
-
-# Cleanup to solve warning in acs-image-scan
-RUN apk --purge del apk-tools
+RUN groupadd --system --gid 1001 nodejs && \
+    useradd --system --uid 1001 --gid nodejs nextjs
 
 COPY --from=builder /app/public ./public
 
 # Set the correct permission for prerender cache
-RUN mkdir .next
-RUN chown nextjs:nodejs .next
+RUN mkdir .next && \
+    chown nextjs:nodejs .next
 
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
