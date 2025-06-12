@@ -180,6 +180,33 @@ export const getLocalizedLabel = ({ id }: { id: string }): string => {
         message: "Alphabetically descending",
       });
 
+    // Sunshine selectors labels
+    case "all_grid_operators":
+      return t({
+        id: "viewBy.all_grid_operators",
+        message: "All grid operators",
+      });
+    case "planned":
+      return t({
+        id: "typology.planned",
+        message: "Planned",
+      });
+    case "unplanned":
+      return t({
+        id: "typology.unplanned",
+        message: "Unplanned",
+      });
+    case "saidi":
+      return t({
+        id: "indicator.saidi",
+        message: "Power Outage Duration (SAIDI)",
+      });
+    case "saifi":
+      return t({
+        id: "indicator.saifi",
+        message: "Power Outage Frequency (SAIFI)",
+      });
+
     case "peer-group.settlement-density.na":
       return t({
         id: "peer-group.settlement-density.na",
