@@ -12,7 +12,8 @@ You can also check the
 # Unreleased
 
 - Fixes
-  - Added libc6-compat to Docker image to be able to use duckdb
+  - Changes to Docker image to be able to use duckdb (alpine based to debian based)
+  - Correct fetching of power stability metrics through graphql queries
 
 # 2.0.0 - 2025-06-11
 
