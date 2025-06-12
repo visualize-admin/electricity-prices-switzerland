@@ -5,9 +5,7 @@ import path from "path";
 import { parse } from "csv-parse/sync";
 import { z } from "zod";
 
-import { NetworkLevel } from "src/domain/data";
 import serverEnv from "src/env/server";
-import { Operator } from "src/graphql/queries";
 
 const SUNSHINE_ENCRYPTED_DATA_DIR =
   process.env.SUNSHINE_ENCRYPTED_DATA_DIR ||
@@ -235,27 +233,11 @@ const parseSunshineCsv = <T extends Id>(id: T): ParsedRowType<T>[] => {
 type ParsedRow = ReturnType<typeof parseSunshineCsv>[number];
 
 let sunshineDataCache: ParsedRow[] | undefined = undefined;
-export const getSunshineData = async <T extends Id>(
+export const getSunshineCsvData = async <T extends Id>(
   id: T
 ): Promise<ParsedRowType<T>[]> => {
   if (!sunshineDataCache) {
     sunshineDataCache = await parseSunshineCsv(id);
   }
   return sunshineDataCache! as ParsedRowType<T>[];
-};
-
-/** @knipignore */
-export const getNetworkCosts = async (
-  operatorId: Operator["id"],
-  networkLevel: NetworkLevel["id"]
-) => {
-  if (!operatorId) {
-    throw new Error("Operator ID is required to get operator peer group");
-  }
-  const networkCosts = await getSunshineData("network-costs");
-  return networkCosts.filter(
-    (row) =>
-      row.operatorId === parseInt(operatorId, 10) &&
-      row.networkLevel === networkLevel
-  );
 };
