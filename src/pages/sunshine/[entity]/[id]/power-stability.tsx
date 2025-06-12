@@ -1,4 +1,4 @@
-import { Trans, t } from "@lingui/macro";
+import { t, Trans } from "@lingui/macro";
 import { GetServerSideProps } from "next";
 import ErrorPage from "next/error";
 import { useRouter } from "next/router";
@@ -8,13 +8,14 @@ import { gql } from "urql";
 import CardGrid from "src/components/card-grid";
 import { DetailPageBanner } from "src/components/detail-page/banner";
 import {
-  DetailsPageLayout,
   DetailsPageHeader,
+  DetailsPageLayout,
   DetailsPageSubtitle,
   DetailsPageTitle,
 } from "src/components/detail-page/layout";
 import { DetailsPageSidebar } from "src/components/detail-page/sidebar";
 import PeerGroupCard from "src/components/peer-group-card";
+import PowerStabilityCard from "src/components/power-stability-card";
 import {
   PowerStabilityNavigation,
   PowerStabilityTabOption,
@@ -120,6 +121,7 @@ const SaidiSaifi = (
   const {
     operator: { peerGroup },
     latestYear,
+    updateDate,
   } = props.powerStability;
   const { attribute } = props;
 
@@ -222,6 +224,15 @@ const SaidiSaifi = (
         <TableComparisonCard
           {...comparisonCardProps}
           sx={{ gridArea: "comparison" }}
+        />
+
+        <PowerStabilityCard
+          sx={{ gridArea: "trend" }}
+          peerGroup={peerGroup}
+          updateDate={updateDate}
+          operatorId={props.id}
+          operatorLabel={operatorLabel}
+          powerStability={data}
         />
       </CardGrid>
     </>
