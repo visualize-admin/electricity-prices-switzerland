@@ -85,10 +85,8 @@ jobs:
           severity: "CRITICAL,HIGH"
 
       - name: Push Docker image
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          file: ./Dockerfile
-          push: true
-          tags: ${{ steps.meta-app.outputs.tags }}
-          labels: ${{ steps.meta-app.outputs.labels }}
+        shell: bash
+        run: |
+          for tag in ${{ join(fromJSON(steps.meta-app.outputs.json).tags, ' ') }}; do
+            docker push $tag
+          done
