@@ -1,8 +1,6 @@
 import { palette } from "src/themes/palette";
 
-import { useChartState } from "../use-chart-state";
-
-import { ScatterPlotState } from "./scatter-plot-state";
+import { ScatterPlotState, useChartState } from "../use-chart-state";
 
 export const ScatterPlotMedian = () => {
   const { medianValue, bounds, xScale, yScale } =
