@@ -1,5 +1,4 @@
 import {
-  FlyToInterpolator,
   MapController,
   PickingInfo,
   WebMercatorViewport,
@@ -29,7 +28,12 @@ import { TooltipBoxWithoutChartState } from "src/components/charts-generic/inter
 import { WithClassName } from "src/components/detail-page/with-classname";
 import { HighlightContext } from "src/components/highlight-context";
 import { Loading, NoDataHint, NoGeoDataHint } from "src/components/hint";
-import { constrainZoom, getFillColor } from "src/components/map-helpers";
+import {
+  constrainZoom,
+  flattenBBox,
+  getFillColor,
+  getZoomedViewState,
+} from "src/components/map-helpers";
 import { MapPriceColorLegend } from "src/components/price-color-legend";
 import { useGeoData } from "src/data/geo";
 import { useFormatCurrency } from "src/domain/helpers";
@@ -211,22 +215,12 @@ export const ChoroplethMap = ({
 
   const onViewStateChange = useCallback(
     ({ viewState, interactionState }: ViewStateChangeParameters) => {
-      if (screenshotting) {
-        return;
-      }
+      if (screenshotting) return;
       setHovered(undefined);
-
-      if (interactionState.inTransition) {
-        setViewState(viewState as typeof INITIAL_VIEW_STATE);
-      } else {
-        setViewState(
-          constrainZoom(viewState, CH_BBOX, { padding: mapZoomPadding })
-        );
-      }
+      setViewState(viewState as typeof INITIAL_VIEW_STATE);
     },
-    [screenshotting, mapZoomPadding]
+    [screenshotting]
   );
-
   const onResize = useCallback(
     ({ width, height }: { width: number; height: number }) => {
       setViewState((viewState) =>
@@ -305,30 +299,26 @@ export const ChoroplethMap = ({
           [boundsArray[2], boundsArray[3]],
         ];
 
-        const newViewState = constrainZoom(
+        const newViewState = getZoomedViewState(
+          viewState,
+          flattenBBox(bboxCoords),
           {
-            ...viewState,
-            transitionInterpolator: new FlyToInterpolator(),
+            padding: mapZoomPadding,
             transitionDuration: 1000,
-          },
-          bboxCoords
+          }
         );
 
         setViewState(newViewState);
       },
       zoomOut: () => {
-        const baseState = {
-          ...viewState,
-          zoom: Math.max(
-            (viewState.zoom ?? INITIAL_VIEW_STATE.zoom) - 10,
-            INITIAL_VIEW_STATE.minZoom
-          ),
-          transitionInterpolator: new FlyToInterpolator(),
-          transitionDuration: 500,
-        };
-
-        const newViewState = constrainZoom(baseState, CH_BBOX);
-
+        const newViewState = getZoomedViewState(
+          viewState,
+          flattenBBox(CH_BBOX),
+          {
+            padding: mapZoomPadding,
+            transitionDuration: 1000,
+          }
+        );
         setViewState(newViewState);
       },
     };
