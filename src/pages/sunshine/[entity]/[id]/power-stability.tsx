@@ -80,14 +80,14 @@ export const getServerSideProps: GetServerSideProps<
 export const SaidiDocument = gql`
   query Saidi($filter: StabilityFilter!) {
     saidi(filter: $filter) {
-      operatorMinutes
-      peerGroupMinutes
+      operatorTotal
+      peerGroupTotal
       yearlyData {
         year
-        minutes
+        total
+        unplanned
         operator
         operator_name
-        planned
       }
     }
   }
@@ -96,14 +96,14 @@ export const SaidiDocument = gql`
 export const SaifiDocument = gql`
   query Saifi($filter: StabilityFilter!) {
     saifi(filter: $filter) {
-      operatorMinutes
-      peerGroupMinutes
+      operatorTotal
+      peerGroupTotal
       yearlyData {
         year
-        minutes
+        total
+        unplanned
         operator
         operator_name
-        planned
       }
     }
   }
@@ -169,7 +169,7 @@ const SaidiSaifi = (
           <Trans id="sunshine.power-stability.operator">{operatorLabel}</Trans>
         ),
         value: {
-          value: data.operatorMinutes,
+          value: data.operatorTotal,
           unit: "min/year",
 
           // TODO Compute the trend
@@ -183,7 +183,7 @@ const SaidiSaifi = (
           </Trans>
         ),
         value: {
-          value: data.peerGroupMinutes,
+          value: data.peerGroupTotal,
           unit: "min/year",
 
           // TODO Compute the trend

@@ -346,17 +346,17 @@ export type SearchResult = {
 
 export type StabilityData = {
   __typename: "StabilityData";
-  operatorMinutes: Scalars["Float"]["output"];
-  peerGroupMinutes: Scalars["Float"]["output"];
+  operatorTotal: Scalars["Float"]["output"];
+  peerGroupTotal: Scalars["Float"]["output"];
   yearlyData: Array<StabilityDataRow>;
 };
 
 export type StabilityDataRow = {
   __typename: "StabilityDataRow";
-  minutes: Scalars["Float"]["output"];
   operator: Scalars["Int"]["output"];
   operator_name: Scalars["String"]["output"];
-  planned: Scalars["Boolean"]["output"];
+  total: Scalars["Float"]["output"];
+  unplanned: Scalars["Float"]["output"];
   year: Scalars["Int"]["output"];
 };
 
@@ -862,15 +862,15 @@ export type SaidiQuery = {
   __typename: "Query";
   saidi: {
     __typename: "StabilityData";
-    operatorMinutes: number;
-    peerGroupMinutes: number;
+    operatorTotal: number;
+    peerGroupTotal: number;
     yearlyData: Array<{
       __typename: "StabilityDataRow";
       year: number;
-      minutes: number;
+      total: number;
+      unplanned: number;
       operator: number;
       operator_name: string;
-      planned: boolean;
     }>;
   };
 };
@@ -883,15 +883,15 @@ export type SaifiQuery = {
   __typename: "Query";
   saifi: {
     __typename: "StabilityData";
-    operatorMinutes: number;
-    peerGroupMinutes: number;
+    operatorTotal: number;
+    peerGroupTotal: number;
     yearlyData: Array<{
       __typename: "StabilityDataRow";
       year: number;
-      minutes: number;
+      total: number;
+      unplanned: number;
       operator: number;
       operator_name: string;
-      planned: boolean;
     }>;
   };
 };
@@ -1350,14 +1350,14 @@ export function useNetTariffsQuery(
 export const SaidiDocument = gql`
   query Saidi($filter: StabilityFilter!) {
     saidi(filter: $filter) {
-      operatorMinutes
-      peerGroupMinutes
+      operatorTotal
+      peerGroupTotal
       yearlyData {
         year
-        minutes
+        total
+        unplanned
         operator
         operator_name
-        planned
       }
     }
   }
@@ -1374,14 +1374,14 @@ export function useSaidiQuery(
 export const SaifiDocument = gql`
   query Saifi($filter: StabilityFilter!) {
     saifi(filter: $filter) {
-      operatorMinutes
-      peerGroupMinutes
+      operatorTotal
+      peerGroupTotal
       yearlyData {
         year
-        minutes
+        total
+        unplanned
         operator
         operator_name
-        planned
       }
     }
   }

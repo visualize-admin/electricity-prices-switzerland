@@ -111,7 +111,9 @@ export const getStabilityMetrics = async ({
       ORDER BY period DESC, operator_id
     `;
 
+  console.log(sql);
   const result = await query<StabilityMetricRecord>(sql);
+  console.log(result);
   return result;
 };
 export const getTariffs = async ({

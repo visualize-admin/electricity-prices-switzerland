@@ -1,5 +1,5 @@
 {
-  "latestYear": "2024",
+  "latestYear": 2024,
   "operator": {
     "peerGroup": {
       "settlementDensity": "Mountain",
@@ -7,142 +7,142 @@
     }
   },
   "saidi": {
-    "operatorMinutes": 44.6043242396,
-    "peerGroupMinutes": 22.6477406564,
+    "operatorTotal": 44.6043242396,
+    "peerGroupTotal": 22.6477406564,
     "yearlyData": [
       {
         "year": 2024,
-        "minutes": 22.6477406564,
-        "operator": 694,
-        "operator_name": "RadiantArc Power",
-        "planned": false
+        "total": 22.6477406564,
+        "operator": 515,
+        "operator_name": "Fluxonomy Energy",
+        "unplanned": 10.8663473594
       },
       {
         "year": 2024,
-        "minutes": 51.5796399034,
-        "operator": 845,
-        "operator_name": "GreenVibe Power",
-        "planned": false
+        "total": 51.5796399034,
+        "operator": 965,
+        "operator_name": "PulseNova Energy",
+        "unplanned": 9.6740689609
       },
       {
         "year": 2024,
-        "minutes": 25.0733966871,
-        "operator": 922,
-        "operator_name": "GridHaven Energy",
-        "planned": false
+        "total": 25.0733966871,
+        "operator": 491,
+        "operator_name": "PureShift Power",
+        "unplanned": 10.2890395283
       },
       {
         "year": 2024,
-        "minutes": 44.6043242396,
-        "operator": 159,
+        "total": 44.6043242396,
+        "operator": 955,
+        "operator_name": "TrueAmp Utilities",
+        "unplanned": 37.7769059146
+      },
+      {
+        "year": 2024,
+        "total": 27.8072223704,
+        "operator": 230,
         "operator_name": "ClarityGrid Utilities",
-        "planned": false
+        "unplanned": 15.1045884793
       },
       {
         "year": 2024,
-        "minutes": 27.8072223704,
-        "operator": 743,
-        "operator_name": "Zephyrion Grid",
-        "planned": false
+        "total": 16.7291675154,
+        "operator": 670,
+        "operator_name": "Soltrix Energy",
+        "unplanned": 15.6410511047
       },
       {
         "year": 2024,
-        "minutes": 16.7291675154,
-        "operator": 307,
-        "operator_name": "WindLoom Utilities",
-        "planned": false
+        "total": 10.6333277769,
+        "operator": 921,
+        "operator_name": "FusionSpan Utilities",
+        "unplanned": 0.2505973218
       },
       {
         "year": 2024,
-        "minutes": 10.6333277769,
-        "operator": 732,
-        "operator_name": "NexCraft Power",
-        "planned": false
+        "total": 8.8868028713,
+        "operator": 104,
+        "operator_name": "Greenbeat Grid",
+        "unplanned": 0
       },
       {
         "year": 2024,
-        "minutes": 8.8868028713,
-        "operator": 887,
-        "operator_name": "Windova Power",
-        "planned": true
-      },
-      {
-        "year": 2024,
-        "minutes": 14.0699144743,
-        "operator": 911,
-        "operator_name": "AeroTide Power",
-        "planned": false
+        "total": 14.0699144743,
+        "operator": 118,
+        "operator_name": "AetherForge Energy",
+        "unplanned": 8.3813969101
       }
     ]
   },
   "saifi": {
-    "operatorMinutes": 0.7396167344,
-    "peerGroupMinutes": 0.3035262388,
+    "operatorTotal": 0.7396167344,
+    "peerGroupTotal": 0.3035262388,
     "yearlyData": [
       {
         "year": 2024,
-        "minutes": 0.3959103083,
-        "operator": 694,
-        "operator_name": "RadiantArc Power",
-        "planned": false
+        "total": 0.3959103083,
+        "operator": 515,
+        "operator_name": "Fluxonomy Energy",
+        "unplanned": 0.1709180815
       },
       {
         "year": 2024,
-        "minutes": 0.3035262388,
-        "operator": 845,
-        "operator_name": "GreenVibe Power",
-        "planned": false
+        "total": 0.3035262388,
+        "operator": 965,
+        "operator_name": "PulseNova Energy",
+        "unplanned": 0.155755342
       },
       {
         "year": 2024,
-        "minutes": 0.3387837228,
-        "operator": 922,
-        "operator_name": "GridHaven Energy",
-        "planned": false
+        "total": 0.3387837228,
+        "operator": 491,
+        "operator_name": "PureShift Power",
+        "unplanned": 0.1946637044
       },
       {
         "year": 2024,
-        "minutes": 0.7396167344,
-        "operator": 159,
+        "total": 0.7396167344,
+        "operator": 955,
+        "operator_name": "TrueAmp Utilities",
+        "unplanned": 0.6480981646
+      },
+      {
+        "year": 2024,
+        "total": 0.2742139886,
+        "operator": 230,
         "operator_name": "ClarityGrid Utilities",
-        "planned": false
+        "unplanned": 0.1789233757
       },
       {
         "year": 2024,
-        "minutes": 0.2742139886,
-        "operator": 743,
-        "operator_name": "Zephyrion Grid",
-        "planned": false
+        "total": 0.6368627395,
+        "operator": 670,
+        "operator_name": "Soltrix Energy",
+        "unplanned": 0.6247366279
       },
       {
         "year": 2024,
-        "minutes": 0.6368627395,
-        "operator": 307,
-        "operator_name": "WindLoom Utilities",
-        "planned": false
+        "total": 0.1490248375,
+        "operator": 921,
+        "operator_name": "FusionSpan Utilities",
+        "unplanned": 0.0022225927
       },
       {
         "year": 2024,
-        "minutes": 0.1490248375,
-        "operator": 732,
-        "operator_name": "NexCraft Power",
-        "planned": false
+        "total": 0.2211485367,
+        "operator": 104,
+        "operator_name": "Greenbeat Grid",
+        "unplanned": 0
       },
       {
         "year": 2024,
-        "minutes": 0.2211485367,
-        "operator": 887,
-        "operator_name": "Windova Power",
-        "planned": true
-      },
-      {
-        "year": 2024,
-        "minutes": 0.2297086501,
-        "operator": 911,
-        "operator_name": "AeroTide Power",
-        "planned": false
+        "total": 0.2297086501,
+        "operator": 118,
+        "operator_name": "AetherForge Energy",
+        "unplanned": 0.1025787509
       }
     ]
   },
-  "updateDate": "June 5, 2025 at 01:40 PM"
+  "updateDate": "June 12, 2025 at 11:24 AM"
 }
