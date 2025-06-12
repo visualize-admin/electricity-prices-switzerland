@@ -30,7 +30,6 @@ import {
   fetchSaidi,
   fetchSaifi,
 } from "src/lib/db/sunshine-data";
-import { getSunshineData } from "src/lib/sunshine-csv";
 import { defaultLocale } from "src/locales/config";
 import {
   getCantonMedianCube,
@@ -44,7 +43,7 @@ import {
 import { fetchOperatorInfo, search } from "src/rdf/search-queries";
 import * as fs from "fs";
 import { asTariffCategory } from "src/domain/data";
-import { getPeerGroup } from "src/lib/db/sql";
+import { getPeerGroup, getSunshineData } from "src/lib/db/sql";
 
 const gfmSyntax = require("micromark-extension-gfm");
 const gfmHtml = require("micromark-extension-gfm/html");
@@ -68,38 +67,16 @@ const expectedCubeDimensions = [
 const Query: QueryResolvers = {
   sunshineData: async (_parent, args) => {
     const filter = args.filter;
-    const sunshineData = await getSunshineData("observations");
-    return sunshineData.filter((row) => {
-      if (
-        filter.operatorId !== undefined &&
-        row.operatorId !== filter.operatorId
-      ) {
-        return false;
-      }
-      if (filter.period !== undefined && row.period !== filter.period) {
-        return false;
-      }
-      return true;
-    });
+    const sunshineData = await getSunshineData(filter);
+    return sunshineData;
   },
   sunshineTariffs: async (_parent, args) => {
     const filter = args.filter;
     if (!filter.operatorId && !filter.period) {
       throw new Error("Must either filter by year or by provider.");
     }
-    const sunshineData = await getSunshineData("observations");
-    return sunshineData.filter((row) => {
-      if (
-        filter.operatorId !== undefined &&
-        row.operatorId !== filter.operatorId
-      ) {
-        return false;
-      }
-      if (filter.period !== undefined && row.period !== filter.period) {
-        return false;
-      }
-      return row;
-    });
+    const sunshineData = await getSunshineData(filter);
+    return sunshineData;
   },
   systemInfo: async () => {
     return {

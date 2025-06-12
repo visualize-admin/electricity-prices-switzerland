@@ -3,6 +3,7 @@ import {
   TariffCategory,
   NetworkLevel,
 } from "src/domain/data";
+import { SunshineDataRow } from "src/graphql/resolver-types";
 import { query } from "src/lib/db/duckdb";
 import { PeerGroupMedianValuesParams } from "src/lib/db/sunshine-data";
 
@@ -329,6 +330,88 @@ export const getPeerGroup = async (
     settlementDensity: peerGroupData[0].settlement_density,
     energyDensity: peerGroupData[0].energy_density,
   };
+};
+
+export const getSunshineData = async ({
+  operatorId,
+  period,
+}: {
+  operatorId?: number | undefined | null;
+  period?: string | undefined | null;
+}): Promise<SunshineDataRow[]> => {
+  const operatorFilter = operatorId ? `partner_id = ${operatorId}` : "1=1"; // Default to all operators
+  const periodFilter = period ? `AND period = ${period}` : "";
+
+  const sql = `
+    SELECT *
+    FROM sunshine_all
+    WHERE ${operatorFilter} ${periodFilter}
+    ORDER BY period DESC, partner_id
+  `;
+
+  const result = await query<{
+    partner_id: number;
+    uid: string;
+    name: string;
+    period: number;
+    franc_rule: number;
+    info_yes_no: string;
+    info_days_in_advance: number;
+    network_costs_ne5: number;
+    network_costs_ne6: number;
+    network_costs_ne7: number;
+    timely: number;
+    saidi_total: number;
+    saidi_unplanned: number;
+    saifi_total: number;
+    saifi_unplanned: number;
+    tariff_ec2: number;
+    tariff_ec3: number;
+    tariff_ec4: number;
+    tariff_ec6: number;
+    tariff_eh2: number;
+    tariff_eh4: number;
+    tariff_eh7: number;
+    tariff_nc2: number;
+    tariff_nc3: number;
+    tariff_nc4: number;
+    tariff_nc6: number;
+    tariff_nh2: number;
+    tariff_nh4: number;
+    tariff_nh7: number;
+    year: number;
+  }>(sql);
+  return result.map((row) => ({
+    operatorId: row.partner_id,
+    operatorUID: row.uid,
+    name: row.name,
+    period: `${row.period}`,
+    francRule: row.franc_rule,
+    infoYesNo: row.info_yes_no === "ja",
+    infoDaysInAdvance: row.info_days_in_advance,
+    networkCostsNE5: row.network_costs_ne5,
+    networkCostsNE6: row.network_costs_ne6,
+    networkCostsNE7: row.network_costs_ne7,
+    timely: row.timely === 1,
+    saidiTotal: row.saidi_total,
+    saidiUnplanned: row.saidi_unplanned,
+    saifiTotal: row.saifi_total,
+    saifiUnplanned: row.saifi_unplanned,
+    tariffEC2: row.tariff_ec2,
+    tariffEC3: row.tariff_ec3,
+    tariffEC4: row.tariff_ec4,
+    tariffEC6: row.tariff_ec6,
+    tariffEH2: row.tariff_eh2,
+    tariffEH4: row.tariff_eh4,
+    tariffEH7: row.tariff_eh7,
+    tariffNC2: row.tariff_nc2,
+    tariffNC3: row.tariff_nc3,
+    tariffNC4: row.tariff_nc4,
+    tariffNC6: row.tariff_nc6,
+    tariffNH2: row.tariff_nh2,
+    tariffNH4: row.tariff_nh4,
+    tariffNH7: row.tariff_nh7,
+  }));
 };
 
 type NetworkCostRecord = {
