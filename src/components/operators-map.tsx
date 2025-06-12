@@ -15,13 +15,13 @@ import {
 } from "src/data/geo";
 import { useFetch } from "src/data/use-fetch";
 import { ElectricityCategory } from "src/domain/data";
-import { SunshineDataRow } from "src/graphql/resolver-types";
+import { Maybe, SunshineDataRow } from "src/graphql/queries";
 import { truthy } from "src/lib/truthy";
 import { getOperatorsMunicipalities } from "src/rdf/queries";
 
 const TRANSPARENT = [255, 255, 255, 0] as [number, number, number, number];
 
-export const sunshineAttributeToElectricityCategory: Partial<
+const sunshineAttributeToElectricityCategory: Partial<
   Record<keyof SunshineDataRow, ElectricityCategory>
 > = {
   tariffEC2: "C2",
@@ -66,19 +66,21 @@ export type DisplayedAttribute = (typeof displayedAttributes)[number];
 type OperatorsMapProps = {
   period: string;
   colorScale: ScaleThreshold<number, string, never>;
-  attribute: DisplayedAttribute;
+  accessor: (x: SunshineDataRow) => Maybe<number> | undefined;
   observations?: SunshineDataRow[];
 };
 
 const OperatorsMap = ({
   period,
   colorScale,
-  attribute,
+  accessor,
   observations,
 }: OperatorsMapProps) => {
   const deckglRef = useRef<DeckGLRef>(null);
+
+  // TODO
   const electricityCategory =
-    sunshineAttributeToElectricityCategory[attribute] ?? "all";
+    sunshineAttributeToElectricityCategory["tariffEC2" as const]!;
   const { data: operatorMunicipalities } = useFetch({
     key: `operator-municipalities-${period}-${electricityCategory}`,
     queryFn: () => getOperatorsMunicipalities(period, electricityCategory),
@@ -88,8 +90,6 @@ const OperatorsMap = ({
   const observationsByOperator = useMemo(() => {
     return keyBy(observations ?? [], "operatorId");
   }, [observations]);
-
-  console.log({ observationsByOperator, attribute });
 
   const enhancedGeoData = useMemo(() => {
     if (!operatorMunicipalities || !geoData) {
@@ -110,21 +110,18 @@ const OperatorsMap = ({
       const values = operatorIds
         .map((x) => {
           const op = observationsByOperator[x];
-          return op?.[attribute] ?? null;
+
+          return accessor(op) ?? null;
         })
         .filter(truthy);
       if (values.length === 0) {
         return TRANSPARENT;
       }
       const value = mean(values);
-      console.log(
-        `getMapFillColor: attribute=${attribute}, value=${value}, operatorIds=${operatorIds}`
-      );
       const color = getFillColor(colorScale, value, false);
-      console.log(color);
       return color;
     },
-    [attribute, colorScale, observationsByOperator]
+    [accessor, colorScale, observationsByOperator]
   );
 
   if (!geoData || !geoData.municipalities || !enhancedGeoData) {

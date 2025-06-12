@@ -1,7 +1,7 @@
 import { Box, List, ListItemButton } from "@mui/material";
 import { Decorator } from "@storybook/react";
 import { median } from "d3";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { createClient, Provider } from "urql";
 
 import { ChoroplethMap } from "src/components/map";
@@ -11,7 +11,7 @@ import OperatorsMap, {
   displayedAttributes,
 } from "src/components/operators-map";
 import { useColorScale } from "src/domain/data";
-import { useSunshineTariffQuery } from "src/graphql/queries";
+import { SunshineDataRow, useSunshineTariffQuery } from "src/graphql/queries";
 
 export const Operators = () => {
   const period = "2024";
@@ -30,10 +30,17 @@ export const Operators = () => {
   const observations = useMemo(() => data?.sunshineTariffs ?? [], [data]);
 
   // TODO: Should come from Lindas, to ask
+  const accessor = useCallback(
+    (d: SunshineDataRow) => {
+      return d[attribute];
+    },
+    [attribute]
+  );
+
   const attributeMedian = useMemo(() => {
-    const values = observations.map((x) => x[attribute]);
+    const values = observations.map(accessor);
     return median(values);
-  }, [attribute, observations]);
+  }, [accessor, observations]);
 
   const colorScale = useColorScale({
     observations: observations,
@@ -75,7 +82,7 @@ export const Operators = () => {
         <Box width={800} height={800} position="relative">
           <OperatorsMap
             period={period}
-            attribute={attribute}
+            accessor={accessor}
             colorScale={colorScale}
             observations={observations}
           />

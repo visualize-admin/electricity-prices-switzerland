@@ -3,8 +3,7 @@ import { Box, Typography } from "@mui/material";
 
 import { Combobox } from "src/components/combobox";
 
-// Types for the props
-export type SunshineSelectorsBaseProps = {
+type SunshineSelectorsBaseProps = {
   year: string;
   setYear: (year: string) => void;
   years: string[];

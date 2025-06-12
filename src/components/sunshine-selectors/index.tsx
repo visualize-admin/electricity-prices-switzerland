@@ -18,7 +18,7 @@ export const SunshineSelectors = () => {
   const defaultValues = useMemo(
     () => ({
       tab: "sunshine",
-      year: queryState.year ?? "2024",
+      year: queryState.period ?? "2024",
       viewBy: queryState.viewBy ?? "all_grid_operators",
       typology: queryState.typology ?? "total",
       indicator: queryState.indicator ?? "saidi",
@@ -29,7 +29,7 @@ export const SunshineSelectors = () => {
   return (
     <SunshineSelectorsBase
       year={defaultValues.year}
-      setYear={(year) => setQueryState({ year })}
+      setYear={(period) => setQueryState({ period })}
       years={years}
       viewBy={defaultValues.viewBy}
       setViewBy={(viewBy) => setQueryState({ viewBy })}

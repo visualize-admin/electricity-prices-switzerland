@@ -24,13 +24,13 @@ const queryStateKeys = [
   "view",
 
   // sunshine
-  "year",
   "viewBy",
   "typology",
   "indicator",
 ] as const;
 
 const queryStateDefaults = {
+  tab: "electricity",
   id: "261",
   period: buildEnv.CURRENT_PERIOD,
   category: "H4",
@@ -42,9 +42,14 @@ const queryStateDefaults = {
   download: undefined,
   cantonsOrder: "median-asc",
   view: "collapsed",
+  viewBy: "all_grid_operators",
+  typology: "total",
+  indicator: "saidi",
 } as const;
 
 type QueryState = {
+  tab: string[];
+
   id: string;
   operator?: string[];
   municipality?: string[];
@@ -56,6 +61,11 @@ type QueryState = {
   download?: string[];
   cantonsOrder: string[];
   view: string[];
+
+  // Sunshine
+  viewBy: string[];
+  typology: string[];
+  indicator: string[];
 };
 
 // e.g. /de/municipality/4096?municipality=261&period=2020&period=2019
@@ -100,27 +110,24 @@ export const useQueryState = () => {
   return [state as QueryState, setState] as const;
 };
 
-export type QueryStateSingle =
-  | {
-      tab: "electricity";
-      operator?: string;
-      municipality?: string;
-      canton?: string;
-      period: string;
-      category: string;
-      priceComponent: string;
-      product: string;
-      download?: string;
-      cantonsOrder: string;
-      view: string;
-    }
-  | {
-      tab: "sunshine";
-      year: string;
-      viewBy: string;
-      typology: string;
-      indicator: string;
-    };
+export type QueryStateSingle = {
+  tab: string;
+  operator?: string;
+  municipality?: string;
+  canton?: string;
+  period: string;
+  category: string;
+  priceComponent: string;
+  product: string;
+  download?: string;
+  cantonsOrder: string;
+  view: string;
+
+  // Sunshine
+  viewBy: string;
+  typology: string;
+  indicator: string;
+};
 
 export const useQueryStateSingle = () => {
   const { query, replace, pathname } = useRouter();

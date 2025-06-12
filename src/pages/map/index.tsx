@@ -1,8 +1,10 @@
 import { t } from "@lingui/macro";
 import { Box, Button, Input, Link, Typography } from "@mui/material";
+import { median } from "d3";
+import { property } from "lodash";
 import { GetServerSideProps } from "next";
 import dynamic from "next/dynamic";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 const ContentWrapper = dynamic(
   () =>
@@ -13,19 +15,22 @@ const ContentWrapper = dynamic(
 );
 
 import { TooltipBox } from "src/components/charts-generic/interaction/tooltip-box";
+import { CombinedSelectors } from "src/components/combined-selectors";
 import { DownloadImage } from "src/components/detail-page/download-image";
-import { ElectricitySelectors } from "src/components/electricity-selectors";
 import { InfoBanner } from "src/components/info-banner";
 import { List } from "src/components/list";
 import { ChoroplethMap, ChoroplethMapProps } from "src/components/map";
 import { MapProvider } from "src/components/map-context";
+import OperatorsMap from "src/components/operators-map";
 import { useDisclosure } from "src/components/use-disclosure";
 import { useOutsideClick } from "src/components/use-outside-click";
 import { useColorScale } from "src/domain/data";
 import {
   PriceComponent,
+  SunshineDataRow,
   useAllMunicipalitiesQuery,
   useObservationsQuery,
+  useSunshineDataQuery,
 } from "src/graphql/queries";
 import { Icon } from "src/icons";
 import { copyToClipboard } from "src/lib/copy-to-clipboard";
@@ -174,40 +179,132 @@ const ShareButton = () => {
   );
 };
 
+const isDefined = (x: number | undefined | null): x is number =>
+  x !== undefined && x !== null;
+
+const accessorsByAttribute: Record<
+  string,
+  (x: SunshineDataRow) => number | undefined
+> = {
+  saidiTotal: property("saidiTotal"),
+  saidiUnplanned: property("saidiUnplanned"),
+  saidiPlanned: (x) => {
+    if (isDefined(x.saidiTotal) && isDefined(x.saidiUnplanned)) {
+      return x.saidiTotal - x.saidiUnplanned;
+    }
+  },
+  saifiTotal: property("saifiTotal"),
+  saifiUnplanned: property("saifiUnplanned"),
+  saifiPlanned: (x) => {
+    if (isDefined(x.saifiTotal) && isDefined(x.saifiUnplanned)) {
+      return x.saifiTotal - x.saifiUnplanned;
+    }
+  },
+};
+
 const IndexPage = ({ locale }: Props) => {
-  const [{ period, priceComponent, category, product, download }] =
-    useQueryStateSingle();
+  const [
+    {
+      period,
+      priceComponent,
+      category,
+      product,
+      download,
+      tab = "electricity",
+      typology = "total",
+      indicator = "saidi",
+    },
+  ] = useQueryStateSingle();
   const [activeId, setActiveId] = useState<string | null>(null);
+  const isElectricityTab = tab === "electricity";
+  const isSunshineTab = tab === "sunshine";
+
   const [observationsQuery] = useObservationsQuery({
     variables: {
       locale,
       priceComponent: priceComponent as PriceComponent,
       filters: { period: [period], category: [category], product: [product] },
     },
+    pause: !isElectricityTab,
   });
+
+  const [sunshineDataQuery] = useSunshineDataQuery({
+    variables: {
+      filter: { period: period || "2024" },
+    },
+    pause: !isSunshineTab,
+  });
+
   const [municipalitiesQuery] = useAllMunicipalitiesQuery({
     variables: { locale },
   });
-  const observations = observationsQuery.fetching
-    ? EMPTY_ARRAY
-    : observationsQuery.data?.observations ?? EMPTY_ARRAY;
-  const cantonMedianObservations = observationsQuery.fetching
-    ? EMPTY_ARRAY
-    : observationsQuery.data?.cantonMedianObservations ?? EMPTY_ARRAY;
-  const swissMedianObservations = observationsQuery.fetching
-    ? EMPTY_ARRAY
-    : observationsQuery.data?.swissMedianObservations ?? EMPTY_ARRAY;
+  // Get the right data based on the active tab and indicator
+  const observations = useMemo(() => {
+    return observationsQuery.fetching
+      ? EMPTY_ARRAY
+      : observationsQuery.data?.observations ?? EMPTY_ARRAY;
+  }, [observationsQuery.data?.observations, observationsQuery.fetching]);
+
+  const sunshineObservations = useMemo(() => {
+    return sunshineDataQuery.fetching
+      ? EMPTY_ARRAY
+      : sunshineDataQuery.data?.sunshineData ?? EMPTY_ARRAY;
+  }, [sunshineDataQuery.data?.sunshineData, sunshineDataQuery.fetching]);
+
+  const cantonMedianObservations = isElectricityTab
+    ? observationsQuery.fetching
+      ? EMPTY_ARRAY
+      : observationsQuery.data?.cantonMedianObservations ?? EMPTY_ARRAY
+    : EMPTY_ARRAY;
+
+  const swissMedianObservations = isElectricityTab
+    ? observationsQuery.fetching
+      ? EMPTY_ARRAY
+      : observationsQuery.data?.swissMedianObservations ?? EMPTY_ARRAY
+    : EMPTY_ARRAY;
   const municipalities =
     municipalitiesQuery.data?.municipalities ?? EMPTY_ARRAY;
-  const medianValue = swissMedianObservations[0]?.value;
+
   const colorAccessor = useCallback((d: { value: number }) => d.value, []);
+  const sunshineAccessor: (r: SunshineDataRow) => number | undefined =
+    indicator === "saidi" || indicator === "saifi"
+      ? typology === "total"
+        ? accessorsByAttribute[`${indicator}Total`]
+        : typology === "unplanned"
+        ? accessorsByAttribute[`${indicator}Unplanned`]
+        : accessorsByAttribute[`${indicator}Planned`]
+      : () => 0;
+
+  const sunshineValues = sunshineObservations
+    .map((x) => sunshineAccessor(x) ?? null)
+    .filter((x) => x !== null);
+
+  console.log("sunshineValues", sunshineValues);
+  const medianValue = isElectricityTab
+    ? swissMedianObservations[0]?.value
+    : // TODO
+      median(sunshineValues);
   const colorScale = useColorScale({
     observations,
     medianValue,
     accessor: colorAccessor,
   });
 
+  const sunshineColorScale = useColorScale({
+    observations: sunshineObservations,
+    medianValue,
+    accessor: sunshineAccessor,
+  });
+
   const isSunshine = useFlag("sunshine");
+
+  // Determine the data field to use for the map based on the active tab and indicator
+  const mapYear = period;
+
+  // Determine if the map data is loading
+  const isMapDataLoading = isElectricityTab
+    ? observationsQuery.fetching || municipalitiesQuery.fetching
+    : sunshineDataQuery.fetching || municipalitiesQuery.fetching;
 
   const controlsRef: NonNullable<ChoroplethMapProps["controls"]> = useRef(null);
 
@@ -220,6 +317,26 @@ const IndexPage = ({ locale }: Props) => {
       }
     }
   }, [activeId, isSunshine]);
+
+  const map = isElectricityTab ? (
+    <ChoroplethMap
+      year={mapYear}
+      observations={observations}
+      municipalities={municipalities}
+      observationsQueryFetching={isMapDataLoading}
+      onMunicipalityLayerClick={() => {}}
+      medianValue={medianValue}
+      colorScale={colorScale}
+      controls={controlsRef}
+    />
+  ) : (
+    <OperatorsMap
+      accessor={sunshineAccessor}
+      period={mapYear}
+      colorScale={sunshineColorScale}
+      observations={sunshineObservations}
+    />
+  );
 
   return (
     <MapProvider activeId={activeId} setActiveId={setActiveId}>
@@ -256,18 +373,7 @@ const IndexPage = ({ locale }: Props) => {
                   position: "relative",
                 }}
               >
-                <ChoroplethMap
-                  year={period}
-                  observations={observations}
-                  municipalities={municipalities}
-                  observationsQueryFetching={
-                    observationsQuery.fetching || municipalitiesQuery.fetching
-                  }
-                  onMunicipalityLayerClick={() => {}}
-                  medianValue={medianValue}
-                  colorScale={colorScale}
-                  controls={controlsRef}
-                />
+                {map}
               </Box>
             </ContentWrapper>
           </Box>
@@ -281,28 +387,26 @@ const IndexPage = ({ locale }: Props) => {
           >
             <Box
               sx={{
-                position: "sticky",
-                top: HEADER_HEIGHT_UP,
-                maxHeight: `calc(100vh - ${HEADER_HEIGHT_UP})`,
+                height: "100%",
                 overflowY: "auto",
                 bgcolor: "background.paper",
+                border: "1x solid green",
+                maxHeight: `calc(100vh - ${HEADER_HEIGHT_UP})`,
               }}
             >
-              <Box
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  position: "relative",
-                }}
-              >
-                <ElectricitySelectors />
+              <CombinedSelectors />
+              {isElectricityTab ? (
                 <List
                   observations={observations}
                   cantonObservations={cantonMedianObservations}
                   colorScale={colorScale}
-                  observationsQueryFetching={observationsQuery.fetching}
+                  observationsQueryFetching={
+                    isElectricityTab
+                      ? observationsQuery.fetching
+                      : sunshineDataQuery.fetching
+                  }
                 />
-              </Box>
+              ) : null}
             </Box>
 
             <Box
@@ -315,18 +419,7 @@ const IndexPage = ({ locale }: Props) => {
                 bgcolor: "secondary.50",
               }}
             >
-              <ChoroplethMap
-                year={period}
-                observations={observations}
-                municipalities={municipalities}
-                observationsQueryFetching={
-                  observationsQuery.fetching || municipalitiesQuery.fetching
-                }
-                onMunicipalityLayerClick={() => {}}
-                medianValue={medianValue}
-                colorScale={colorScale}
-                controls={controlsRef}
-              />
+              {map}
               {!download && (
                 <Box
                   sx={{
@@ -368,12 +461,16 @@ const IndexPage = ({ locale }: Props) => {
               position: "relative",
             }}
           >
-            <ElectricitySelectors />
+            <CombinedSelectors />
             <List
               observations={observations}
               cantonObservations={cantonMedianObservations}
               colorScale={colorScale}
-              observationsQueryFetching={observationsQuery.fetching}
+              observationsQueryFetching={
+                isElectricityTab
+                  ? observationsQuery.fetching
+                  : sunshineDataQuery.fetching
+              }
             />
           </Box>
         </Box>
