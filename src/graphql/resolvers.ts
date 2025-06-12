@@ -30,7 +30,7 @@ import {
   fetchSaidi,
   fetchSaifi,
 } from "src/lib/db/sunshine-data";
-import { getPeerGroup, getSunshineData } from "src/lib/sunshine-csv";
+import { getSunshineData } from "src/lib/sunshine-csv";
 import { defaultLocale } from "src/locales/config";
 import {
   getCantonMedianCube,
@@ -44,6 +44,7 @@ import {
 import { fetchOperatorInfo, search } from "src/rdf/search-queries";
 import * as fs from "fs";
 import { asTariffCategory } from "src/domain/data";
+import { getPeerGroup } from "src/lib/db/sql";
 
 const gfmSyntax = require("micromark-extension-gfm");
 const gfmHtml = require("micromark-extension-gfm/html");

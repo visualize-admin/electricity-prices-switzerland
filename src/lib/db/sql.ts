@@ -307,6 +307,30 @@ export const getLatestYearPowerStability = async (
   return latestYearData[0]?.year || "2024";
 };
 
+export const getPeerGroup = async (
+  operatorId: number | string
+): Promise<{
+  settlementDensity: string;
+  energyDensity: string;
+}> => {
+  const peerGroupData = await query<{
+    settlement_density: string;
+    energy_density: string;
+  }>(`
+    SELECT operator_id, settlement_density, energy_density
+    FROM operator_data
+    WHERE operator_id = ${operatorId}
+  `);
+
+  if (peerGroupData.length === 0) {
+    throw new Error(`No peer group data found for operator ID: ${operatorId}`);
+  }
+  return {
+    settlementDensity: peerGroupData[0].settlement_density,
+    energyDensity: peerGroupData[0].energy_density,
+  };
+};
+
 type NetworkCostRecord = {
   operator_id: number;
   operator_name: string;
