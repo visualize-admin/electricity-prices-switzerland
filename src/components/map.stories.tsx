@@ -3,7 +3,7 @@ import DeckGL, { DeckGLRef } from "@deck.gl/react/typed";
 import { Box, List, ListItemButton } from "@mui/material";
 import { Decorator } from "@storybook/react";
 import * as turf from "@turf/turf";
-import { easeExpIn, mean, median } from "d3";
+import { easeExpIn, mean, median, ScaleThreshold } from "d3";
 import { Feature, Geometry, MultiPolygon, Polygon } from "geojson";
 import { keyBy } from "lodash";
 import { useCallback, useMemo, useRef, useState } from "react";
@@ -100,12 +100,20 @@ const displayedAttributes = [
 
 type DisplayedAttribute = (typeof displayedAttributes)[number];
 
-export const Operators = () => {
-  const period = "2024";
-  const [attribute, setAttribute] = useState<DisplayedAttribute>(
-    displayedAttributes[0]
-  );
+type OperatorsMapProps = {
+  period: string;
+  colorScale: ScaleThreshold<number, string, never>;
+  attribute: DisplayedAttribute;
+  observations?: SunshineDataRow[];
+};
 
+const OperatorsMap = ({
+  period,
+  colorScale,
+  attribute,
+  observations,
+}: OperatorsMapProps) => {
+  const deckglRef = useRef<DeckGLRef>(null);
   const electricityCategory =
     sunshineAttributeToElectricityCategory[attribute] ?? "all";
   const { data: operatorMunicipalities } = useFetch({
@@ -113,33 +121,12 @@ export const Operators = () => {
     queryFn: () => getOperatorsMunicipalities(period, electricityCategory),
   });
   const { data: geoData } = useGeoData(period);
-  const [sunshineTarriffs] = useSunshineTariffQuery({
-    variables: {
-      filter: {
-        period: period,
-      },
-    },
-  });
 
-  const sunshineTariffsByOperator = useMemo(() => {
-    return keyBy(sunshineTarriffs.data?.sunshineTariffs ?? [], "operatorId");
-  }, [sunshineTarriffs.data?.sunshineTariffs]);
+  const observationsByOperator = useMemo(() => {
+    return keyBy(observations ?? [], "operatorId");
+  }, [observations]);
 
-  // TODO: Should come from Lindas, to ask
-  const attributeMedian = useMemo(() => {
-    const values = Object.values(sunshineTariffsByOperator).map(
-      (x) => x[attribute]
-    );
-    return median(values);
-  }, [attribute, sunshineTariffsByOperator]);
-
-  const colorScale = useColorScale({
-    observations: sunshineTarriffs.data?.sunshineTariffs ?? [],
-    accessor: (x) => {
-      return x.tariffEC2 ?? 0;
-    },
-    medianValue: attributeMedian,
-  });
+  console.log({ observationsByOperator, attribute });
 
   const enhancedGeoData = useMemo(() => {
     if (!operatorMunicipalities || !geoData) {
@@ -159,7 +146,7 @@ export const Operators = () => {
       const operatorIds = x.properties.operators;
       const values = operatorIds
         .map((x) => {
-          const op = sunshineTariffsByOperator[x];
+          const op = observationsByOperator[x];
           return op?.[attribute] ?? null;
         })
         .filter(truthy);
@@ -167,13 +154,150 @@ export const Operators = () => {
         return TRANSPARENT;
       }
       const value = mean(values);
+      console.log(
+        `getMapFillColor: attribute=${attribute}, value=${value}, operatorIds=${operatorIds}`
+      );
       const color = getFillColor(colorScale, value, false);
+      console.log(color);
       return color;
     },
-    [attribute, colorScale, sunshineTariffsByOperator]
+    [attribute, colorScale, observationsByOperator]
   );
 
-  const deckglRef = useRef<DeckGLRef>(null);
+  if (!geoData || !geoData.municipalities || !enhancedGeoData) {
+    return null;
+  }
+
+  return (
+    <DeckGL
+      initialViewState={{
+        latitude: 46.8182,
+        longitude: 8.2275,
+        zoom: 7,
+        maxZoom: 16,
+        minZoom: 2,
+        pitch: 0,
+        bearing: 0,
+      }}
+      getTooltip={({ object }) => {
+        if (!object) {
+          return null;
+        }
+        const operatorIds = (object.properties as OperatorLayerProperties)
+          ?.operators;
+        return {
+          html: `<div>${operatorIds.join("<br/>")}</div>`,
+          style: {
+            backgroundColor: "white",
+            color: "black",
+            fontSize: "12px",
+            padding: "5px",
+          },
+        };
+      }}
+      controller={true}
+      ref={deckglRef}
+      layers={[
+        new GeoJsonLayer<
+          Feature<Polygon | MultiPolygon, OperatorLayerProperties>
+        >({
+          id: "operator-layer",
+          data: enhancedGeoData.features,
+          filled: true,
+          autoHighlight: true,
+          highlightColor: [0, 0, 0, 100],
+          updateTriggers: {
+            getFillColor: [getMapFillColor],
+          },
+          getFillColor: (x) => getMapFillColor(x),
+          getLineColor: [255, 255, 255, 100],
+          getLineWidth: 1.5,
+          lineWidthUnits: "pixels",
+          onClick: (info) => {
+            if (info.object && info.viewport) {
+              const bounds = turf.bbox(info.object.geometry);
+              deckglRef.current?.deck?.setProps({
+                viewState: {
+                  longitude: (bounds[0] + bounds[2]) / 2,
+                  latitude: (bounds[1] + bounds[3]) / 2,
+                  zoom: getZoomFromBounds(bounds, info.viewport),
+                  transitionDuration: 300,
+                },
+              });
+            }
+          },
+          transitions: {
+            getFillColor: {
+              duration: 300,
+              easing: easeExpIn,
+            },
+          },
+        }),
+
+        // Transparent layer only used for hover effect
+        new GeoJsonLayer<
+          Feature<Polygon | MultiPolygon, OperatorLayerProperties>
+        >({
+          id: "operator-layer-pickable",
+          data: enhancedGeoData.features,
+          filled: true,
+          autoHighlight: true,
+          stroked: false,
+          highlightColor: [0, 0, 0, 100],
+          updateTriggers: {
+            getFillColor: [getMapFillColor],
+          },
+          getFillColor: TRANSPARENT,
+          lineWidthUnits: "pixels",
+          pickable: true,
+        }),
+
+        // Municipality Layer
+        new GeoJsonLayer({
+          id: "municipality-layer",
+          data: geoData.municipalities.features,
+          getLineColor: [255, 255, 255],
+          highlightColor: [0, 0, 255],
+          lineWidthUnits: "pixels",
+          stroked: true,
+          autoHighlight: true,
+          getLineWidth: 0.25,
+        }),
+      ]}
+    />
+  );
+};
+
+export const Operators = () => {
+  const period = "2024";
+  const [attribute, setAttribute] = useState<DisplayedAttribute>(
+    displayedAttributes[0]
+  );
+
+  const [{ data }] = useSunshineTariffQuery({
+    variables: {
+      filter: {
+        period: period,
+      },
+    },
+  });
+
+  const observations = useMemo(() => data?.sunshineTariffs ?? [], [data]);
+
+  // TODO: Should come from Lindas, to ask
+  const attributeMedian = useMemo(() => {
+    const values = observations.map((x) => x[attribute]);
+    return median(values);
+  }, [attribute, observations]);
+
+  const colorScale = useColorScale({
+    observations: observations,
+    accessor: (x) => {
+      return x.tariffEC2 ?? 0;
+    },
+    medianValue: attributeMedian,
+  });
+
   return (
     <>
       Attribute selection
@@ -204,109 +328,12 @@ export const Operators = () => {
           </List>
         </Box>
         <Box width={800} height={800} position="relative">
-          {/** Display merged operators geojson with DeckGl, with a tooltip */}
-          {geoData && geoData.municipalities && enhancedGeoData ? (
-            <DeckGL
-              initialViewState={{
-                latitude: 46.8182,
-                longitude: 8.2275,
-                zoom: 7,
-                maxZoom: 16,
-                minZoom: 2,
-                pitch: 0,
-                bearing: 0,
-              }}
-              getTooltip={({ object }) => {
-                if (!object) {
-                  return null;
-                }
-                const operatorIds = (
-                  object.properties as OperatorLayerProperties
-                )?.operators;
-                return {
-                  html: `<div>${operatorIds.join("<br/>")}</div>`,
-                  style: {
-                    backgroundColor: "white",
-                    color: "black",
-                    fontSize: "12px",
-                    padding: "5px",
-                  },
-                };
-              }}
-              controller={true}
-              ref={deckglRef}
-              layers={[
-                new GeoJsonLayer<
-                  Feature<Polygon | MultiPolygon, OperatorLayerProperties>
-                >({
-                  id: "operator-layer",
-                  data: enhancedGeoData.features,
-
-                  filled: true,
-                  autoHighlight: true,
-                  highlightColor: [0, 0, 0, 100],
-                  updateTriggers: {
-                    getFillColor: [getMapFillColor],
-                  },
-                  getFillColor: (x) => getMapFillColor(x),
-                  getLineColor: [255, 255, 255, 100],
-                  getLineWidth: 1.5,
-                  lineWidthUnits: "pixels",
-                  onClick: (info) => {
-                    console.log("Clicked on operator:", info.object);
-                    if (info.object && info.viewport) {
-                      const bounds = turf.bbox(info.object.geometry);
-                      deckglRef.current?.deck?.setProps({
-                        viewState: {
-                          longitude: (bounds[0] + bounds[2]) / 2,
-                          latitude: (bounds[1] + bounds[3]) / 2,
-                          zoom: getZoomFromBounds(bounds, info.viewport),
-                          transitionDuration: 300,
-                        },
-                      });
-                    }
-                  },
-                  transitions: {
-                    getFillColor: {
-                      duration: 300,
-                      easing: easeExpIn,
-                    },
-                  },
-                }),
-
-                // Transparent layer only used for hover effect
-                new GeoJsonLayer<
-                  Feature<Polygon | MultiPolygon, OperatorLayerProperties>
-                >({
-                  id: "operator-layer-pickable",
-                  data: enhancedGeoData.features,
-
-                  filled: true,
-                  autoHighlight: true,
-                  stroked: false,
-                  highlightColor: [0, 0, 0, 100],
-                  updateTriggers: {
-                    getFillColor: [getMapFillColor],
-                  },
-                  getFillColor: TRANSPARENT,
-                  lineWidthUnits: "pixels",
-                  pickable: true,
-                }),
-
-                // Municipality Layer
-                new GeoJsonLayer({
-                  id: "municipality-layer",
-                  data: geoData.municipalities.features,
-                  getLineColor: [255, 255, 255],
-                  highlightColor: [0, 0, 255],
-                  lineWidthUnits: "pixels",
-                  stroked: true,
-                  autoHighlight: true,
-                  getLineWidth: 0.25,
-                }),
-              ]}
-            />
-          ) : null}
+          <OperatorsMap
+            period={period}
+            attribute={attribute}
+            colorScale={colorScale}
+            observations={observations}
+          />
         </Box>
       </Box>
     </>
