@@ -9,6 +9,9 @@ const ensureString = (input: string | string[]): string =>
   Array.isArray(input) ? input[0] : input;
 
 const queryStateKeys = [
+  "tab",
+
+  // electricity
   "operator",
   "period",
   "municipality",
@@ -19,6 +22,12 @@ const queryStateKeys = [
   "download",
   "cantonsOrder",
   "view",
+
+  // sunshine
+  "year",
+  "viewBy",
+  "typology",
+  "indicator",
 ] as const;
 
 const queryStateDefaults = {
@@ -91,18 +100,27 @@ export const useQueryState = () => {
   return [state as QueryState, setState] as const;
 };
 
-export type QueryStateSingle = {
-  operator?: string;
-  municipality?: string;
-  canton?: string;
-  period: string;
-  category: string;
-  priceComponent: string;
-  product: string;
-  download?: string;
-  cantonsOrder: string;
-  view: string;
-};
+export type QueryStateSingle =
+  | {
+      tab: "electricity";
+      operator?: string;
+      municipality?: string;
+      canton?: string;
+      period: string;
+      category: string;
+      priceComponent: string;
+      product: string;
+      download?: string;
+      cantonsOrder: string;
+      view: string;
+    }
+  | {
+      tab: "sunshine";
+      year: string;
+      viewBy: string;
+      typology: string;
+      indicator: string;
+    };
 
 export const useQueryStateSingle = () => {
   const { query, replace, pathname } = useRouter();
@@ -117,6 +135,8 @@ export const useQueryStateSingle = () => {
           newQuery[k] = v;
         }
       }
+
+      console.log("useQueryStateSingle setState", newQuery);
 
       const href = {
         pathname,
