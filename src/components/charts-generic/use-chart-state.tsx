@@ -189,8 +189,30 @@ export interface ScatterPlotState {
   getTooltipLabel: (d: GenericObservation) => string;
   medianValue?: number;
 }
+export type StackRow = Record<string, number | string>;
+
+export type StackedBarsState = {
+  data: GenericObservation[];
+  bounds: Bounds;
+  getX: (d: GenericObservation) => number;
+  xScale: ScaleLinear<number, number>;
+  yScale: ScaleBand<string>;
+  getSegment: (d: GenericObservation) => string;
+  getLabel: (d: GenericObservation) => string;
+  getColor: (d: GenericObservation) => string;
+  getOpacity: (d: GenericObservation) => string;
+  segments: string[];
+  colors: ScaleOrdinal<string, string>;
+  opacityScale: ScaleOrdinal<string, number>;
+  categories: string[];
+  stackedData: Series<StackRow, string>[];
+  getSegmentValue: (category: string, segment: string) => number;
+  getTotalValue: (category: string) => number;
+  getCategory: (d: GenericObservation) => string;
+};
 
 type ChartState =
+  | StackedBarsState
   | ColumnsState
   | BarsState
   | GroupedBarsState
