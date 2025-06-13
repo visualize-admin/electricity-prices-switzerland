@@ -109,11 +109,17 @@ declare module "@mui/material/styles" {
   interface Palette {
     tertiary: { main: string; light: string; dark: string };
     monochrome: FederalColor & { main: string };
+    blue: FederalColor & {
+      main: string;
+    };
   }
 
   interface PaletteOptions {
     tertiary: { main: string; light: string; dark: string };
     monochrome: FederalColor & { main: string };
+    blue: FederalColor & {
+      main: string;
+    };
   }
 }
 

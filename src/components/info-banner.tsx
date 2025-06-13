@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import { useState } from "react";
 
-import { HintRed } from "src/components/hint";
+import { HintBlue } from "src/components/hint";
 import { useWikiContentQuery } from "src/graphql/queries";
 import { useLocale } from "src/lib/use-locale";
 
@@ -32,7 +32,7 @@ export const InfoBanner = ({
   }
 
   return open ? (
-    <HintRed iconName="infocircle" onRemove={() => setOpen(false)}>
+    <HintBlue iconName="infocircle" onRemove={() => setOpen(false)}>
       {
         <Box
           component="section"
@@ -45,6 +45,6 @@ export const InfoBanner = ({
           }}
         />
       }
-    </HintRed>
+    </HintBlue>
   ) : null;
 };
