@@ -11,6 +11,8 @@ You can also check the
 
 # Unreleased
 
+- Features
+  - Added Error States & enhanced existing hint styles
 - Fixes
   - Changes to Docker image to be able to use duckdb (alpine based to debian based)
   - Correct fetching of power stability metrics through graphql queries
@@ -26,6 +28,7 @@ You can also check the
   - Load data through urql in sunshine pages, urql client cache is primed by the server
   - Added Scatterplot Chart to sunshine charts
   - Ability to change network level on costs and tariffs > network costs page.
+
 - Fixes
   - Fixed map layout issues on mobile
   - Dropdown adjustments

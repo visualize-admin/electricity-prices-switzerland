@@ -20,9 +20,13 @@ import { Search } from "src/components/search";
 
 type ApplicationLayoutProps = {
   children: ReactNode;
+  notFound?: boolean;
 };
 
-export const ApplicationLayout = ({ children }: ApplicationLayoutProps) => {
+export const ApplicationLayout = ({
+  children,
+  notFound,
+}: ApplicationLayoutProps) => {
   const [highlightContext, setHighlightContext] = useState<HighlightValue>();
 
   return (
@@ -35,7 +39,6 @@ export const ApplicationLayout = ({ children }: ApplicationLayoutProps) => {
       <Box
         sx={{
           display: "flex",
-          minHeight: "100vh",
           flexDirection: "column",
         }}
       >
@@ -46,9 +49,11 @@ export const ApplicationLayout = ({ children }: ApplicationLayoutProps) => {
           }}
           display="flex"
         >
-          <SafeHydration>
-            <AppNavigation />
-          </SafeHydration>
+          {!notFound && (
+            <SafeHydration>
+              <AppNavigation />
+            </SafeHydration>
+          )}
           {children}
         </Box>
       </Box>

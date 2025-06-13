@@ -202,7 +202,7 @@ export const NoGeoDataHint = () => (
   </Box>
 );
 
-export const HintRed = ({
+export const HintBlue = ({
   iconName,
   children,
   onRemove,
@@ -215,25 +215,27 @@ export const HintRed = ({
     sx={{
       width: "auto",
       height: "auto",
-      p: 5,
-      bgcolor: "primary.50",
-      color: "primary.main",
+      py: 4,
+      px: 12,
+      bgcolor: "blue.50",
+      color: "blue.700",
       textAlign: "center",
       justifyContent: "flex-start",
+      gap: 4,
       alignItems: ["flex-start", "center"],
     }}
     display="flex"
   >
     <ContentWrapper>
-      <Box sx={{ width: 24, pr: 4 }}>
-        <Icon name={iconName} size={24} />
+      <Box sx={{ width: 24 }}>
+        <Icon name={iconName} size={24} color={palette.blue[700]} />
       </Box>
-      <Typography variant="body3" sx={{ textAlign: "left", ml: 4 }}>
+      <Typography variant="body3" sx={{ textAlign: "left" }}>
         {children}
       </Typography>
       {onRemove && (
         <IconButton size="sm" onClick={onRemove}>
-          <Icon name={"cancel"} color={palette.primary.main} size={24} />
+          <Icon name={"cancel"} color={palette.blue[700]} size={24} />
         </IconButton>
       )}
     </ContentWrapper>
