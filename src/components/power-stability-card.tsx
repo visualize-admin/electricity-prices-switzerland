@@ -14,6 +14,8 @@ import CardSource from "src/components/card-source";
 import { PeerGroup, SunshinePowerStabilityData } from "src/domain/data";
 import { getPeerGroupLabels } from "src/domain/translation";
 
+import { PowerStabilityChart } from "./power-stability-chart";
+
 const PowerStabilityCard: React.FC<
   {
     peerGroup: PeerGroup;
@@ -114,7 +116,12 @@ const PowerStabilityCard: React.FC<
         </Grid>
 
         {/* Stacked Horizontal Bar Chart */}
-        <Box sx={{ height: 300, width: "100%" }}>
+        <Box sx={{ height: 400, width: "100%" }}>
+          <PowerStabilityChart
+            observations={powerStability}
+            id={operatorId}
+            operatorLabel={operatorLabel}
+          />
         </Box>
         {/* Footer Info */}
         <CardSource date={`${updateDate}`} source={"Lindas"} />
