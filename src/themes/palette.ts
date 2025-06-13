@@ -1,5 +1,19 @@
 import { c as colors } from "@interactivethings/swiss-federal-ci";
-import { type ThemeOptions } from "@mui/material";
+import { PaletteOptions, type ThemeOptions } from "@mui/material";
+
+const blue: PaletteOptions["blue"] = {
+  main: "#1D4ED8",
+  50: "#EFF6FF",
+  100: "#DBEAFE",
+  200: "#BFDBFE",
+  300: "#93C5FD",
+  400: "#60A5FA",
+  500: "#3B82F6",
+  600: "#2563EB",
+  700: "#1D4ED8",
+  800: "#1E40AF",
+  900: "#1E3A8A",
+};
 
 export const palette = {
   ...colors,
@@ -29,6 +43,7 @@ export const palette = {
     dark: colors.red[600],
     light: colors.background.paper, //FIXME: rename this to contrastText once swiss-federal-ci is updated
   },
+  blue,
 } satisfies ThemeOptions["palette"];
 
 export const chartPalette = {
