@@ -177,6 +177,34 @@ msgstr "No network operator documents"
 msgid "download.reports"
 msgstr "Download reports"
 
+#: src/pages/404.tsx
+msgid "error.page.404.back-link"
+msgstr "Click here to return to homepage"
+
+#: src/pages/404.tsx
+msgid "error.page.404.description"
+msgstr "You may have entered an incorrect address (URL), or the page or document no longer exists or its name may have been changed. The page you requested could not be found."
+
+#: src/pages/404.tsx
+msgid "error.page.404.title"
+msgstr "Page not found"
+
+#: src/pages/404.tsx
+msgid "error.page.404.type"
+msgstr "Error 404"
+
+#: src/pages/500.tsx
+msgid "error.page.500.description"
+msgstr "The desired page or function is unfortunately not available at the moment. Please try again later."
+
+#: src/pages/500.tsx
+msgid "error.page.500.reload-link"
+msgstr "Reload page"
+
+#: src/pages/500.tsx
+msgid "error.page.500.title"
+msgstr "Temporarily Unavailable"
+
 #: src/domain/translation.tsx
 msgid "filters.category"
 msgstr "Category"
@@ -458,12 +486,24 @@ msgid "network-cost-trend-chart.legend-item.peer-group-median"
 msgstr "Peer Group Median"
 
 #: src/domain/translation.tsx
+msgid "network-level"
+msgstr "Network level"
+
+#: src/domain/translation.tsx
 msgid "network-level.NE5.long"
 msgstr "High voltage NE5"
 
 #: src/domain/translation.tsx
 msgid "network-level.NE5.short"
 msgstr "NE5"
+
+#: src/domain/translation.tsx
+msgid "network-level.NE6.long"
+msgstr "Medium voltage NE6"
+
+#: src/domain/translation.tsx
+msgid "network-level.NE6.short"
+msgstr "NE6"
 
 #: src/domain/translation.tsx
 msgid "network-level.NE7.long"
