@@ -31,7 +31,12 @@ const useGroupedBarsState = ({
 }): GroupedBarsState => {
   const width = useWidth();
   const getX = useCallback(
-    (d: GenericObservation) => d[fields.x.componentIri] as number,
+    (d: GenericObservation) =>
+      d[
+        Array.isArray(fields.x.componentIri)
+          ? fields.x.componentIri[0]
+          : fields.x.componentIri
+      ] as number,
     [fields.x.componentIri]
   );
 
@@ -95,7 +100,7 @@ const useGroupedBarsState = ({
     .domain(opacityDomain.sort((a, b) => descending(a, b)))
     .range(getOpacityRanges(opacityDomain.length));
 
-  const xScale = scaleLinear().domain(fields.x.domain).nice();
+  const xScale = scaleLinear().domain(fields.domain).nice();
 
   const chartHeight = BAR_HEIGHT * segments.length;
   const yScale = scaleBand()

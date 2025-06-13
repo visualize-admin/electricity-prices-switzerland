@@ -4,13 +4,12 @@ import { useEffect, useRef } from "react";
 
 import {
   RangePlotState,
+  ScatterPlotState,
   useChartState,
 } from "src/components/charts-generic/use-chart-state";
 import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
 import { useFormatCurrency } from "src/domain/helpers";
 import { estimateTextWidth } from "src/lib/estimate-text-width";
-
-import { ScatterPlotState } from "../scatter-plot/scatter-plot-state";
 
 export const AxisWidthLinear = ({
   position,

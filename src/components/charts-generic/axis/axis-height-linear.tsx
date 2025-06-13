@@ -41,7 +41,7 @@ export const AxisHeightLinear = ({
   const mkAxis = (g: Selection<SVGGElement, unknown, null, undefined>) => {
     const tickValues = yScale.ticks(ticks);
     const yDomain = yScale.domain();
-    // Ensure we have a tick above the maximum value
+
     if (
       Math.max(yDomain[0], yDomain[1]) >
       Math.max(tickValues[0], tickValues[tickValues.length - 1])

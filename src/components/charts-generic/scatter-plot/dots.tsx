@@ -1,11 +1,12 @@
 import { memo, useMemo } from "react";
 
-import { useChartState } from "src/components/charts-generic/use-chart-state";
+import {
+  ScatterPlotState,
+  useChartState,
+} from "src/components/charts-generic/use-chart-state";
 import { chartPalette, palette } from "src/themes/palette";
 
 import { useInteraction } from "../use-interaction";
-
-import { ScatterPlotState } from "./scatter-plot-state";
 
 export const Dots = () => {
   const { data, getX, getY, xScale, yScale, bounds, getHighlightEntity } =

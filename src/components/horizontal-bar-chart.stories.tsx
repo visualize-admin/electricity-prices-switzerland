@@ -1,0 +1,30 @@
+import data from "mocks/fetchPowerStability-426.json";
+
+import { SunshinePowerStabilityData } from "src/domain/data";
+
+import { PowerStabilityChart } from "./power-stability-chart";
+import { DesignGrid, DesignStory } from "./storybook/base-style";
+
+export const HorizontalBarChart = () => {
+  return (
+    <DesignStory
+      title="Horizontal Bar Chart"
+      reference="ElCom Library (Sunshine Indicators)"
+    >
+      <DesignGrid>
+        <PowerStabilityChart
+          observations={data.saidi as SunshinePowerStabilityData["saidi"]}
+          id="11"
+          operatorLabel="Elektrizitätswerk des Kantons Schaffhausen AG"
+        />
+      </DesignGrid>
+    </DesignStory>
+  );
+};
+
+const meta = {
+  component: HorizontalBarChart,
+  title: "charts/HorizontalBarChart",
+};
+
+export default meta;

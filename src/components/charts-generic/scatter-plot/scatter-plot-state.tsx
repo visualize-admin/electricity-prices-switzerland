@@ -1,26 +1,14 @@
-import {
-  max,
-  min,
-  scaleBand,
-  ScaleBand,
-  ScaleLinear,
-  scaleLinear,
-  ScaleOrdinal,
-  scaleOrdinal,
-} from "d3";
+import { max, min, scaleBand, scaleLinear, scaleOrdinal } from "d3";
 import { ReactNode, useCallback, useMemo } from "react";
 
 import { LEFT_MARGIN_OFFSET } from "src/components/charts-generic/constants";
 import {
   ChartContext,
   ChartProps,
+  ScatterPlotState,
 } from "src/components/charts-generic/use-chart-state";
 import { InteractionProvider } from "src/components/charts-generic/use-interaction";
-import {
-  Bounds,
-  Observer,
-  useWidth,
-} from "src/components/charts-generic/use-width";
+import { Observer, useWidth } from "src/components/charts-generic/use-width";
 import { ScatterPlotFields } from "src/domain/config-types";
 import { GenericObservation } from "src/domain/data";
 import {
@@ -32,23 +20,6 @@ import { chartPalette } from "src/themes/palette";
 
 import { Tooltip, TooltipValue } from "../interaction/tooltip";
 import { useChartTheme } from "../use-chart-theme";
-
-export interface ScatterPlotState {
-  data: GenericObservation[];
-  bounds: Bounds;
-  segments: string[];
-  getX: (d: GenericObservation) => number;
-  xScale: ScaleLinear<number, number>;
-  getY: (d: GenericObservation) => string;
-  yScale: ScaleBand<string>;
-  getSegment: (d: GenericObservation) => string;
-  colors: ScaleOrdinal<string, string>;
-  getAnnotationInfo: (d: GenericObservation) => Tooltip;
-  getColor: (d: GenericObservation) => string;
-  getHighlightEntity: (d: GenericObservation) => string | number | null;
-  getTooltipLabel: (d: GenericObservation) => string;
-  medianValue?: number;
-}
 
 const useScatterPlotState = ({
   data,
