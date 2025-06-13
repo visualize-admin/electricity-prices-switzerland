@@ -35,7 +35,7 @@ export const setupDatabaseConnection = async (): Promise<DuckDBConnection> => {
  */
 export const closeDuckDB = (): void => {
   if (connection) {
-    console.log("Closing DuckDB connection...");
+    console.info("Closing DuckDB connection...");
     connection.disconnectSync();
     connection = null;
   }
@@ -122,7 +122,7 @@ export const setupDatabase = async (): Promise<void> => {
   // Execute SQL setup
   await exec(setupSQL);
 
-  console.log("DuckDB setup completed successfully");
+  console.info("DuckDB setup completed successfully");
 }; // Database initialization will be handled asynchronously on first query
 let databaseInitialized = false;
 /**
@@ -132,9 +132,9 @@ let databaseInitialized = false;
 export const ensureDatabaseInitialized = async (): Promise<void> => {
   if (!databaseInitialized) {
     setupCleanupHandlers();
-    console.log("Initializing DuckDB database...");
+    console.info("Initializing DuckDB database...");
     await setupDatabase();
-    console.log("Setup database connection.");
+    console.info("Setup database connection.");
     await setupDatabaseConnection();
     databaseInitialized = true;
   }

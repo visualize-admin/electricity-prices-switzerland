@@ -97,7 +97,7 @@ const __debugCheckObservationsWithoutShapes = (
     );
 
     if (obsWithoutFeatures.length > 0) {
-      console.log("Obervations without features", obsWithoutFeatures);
+      console.info("Obervations without features", obsWithoutFeatures);
     }
 
     const featuresWithoutObs = [...featureIds].filter(
@@ -105,10 +105,8 @@ const __debugCheckObservationsWithoutShapes = (
     );
 
     if (featuresWithoutObs.length > 0) {
-      console.log("Features without observations", featuresWithoutObs);
+      console.info("Features without observations", featuresWithoutObs);
     }
-  } else {
-    console.log("Obervations vs. Features OK");
   }
 };
 

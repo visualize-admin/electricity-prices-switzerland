@@ -115,16 +115,16 @@ const main = async () => {
       `export const options = ${JSON.stringify(options, null, 2)}`
     );
   fs.writeFileSync(scriptFilename, script);
-  console.log(`Converted HAR ${harFile} to K6 script ${scriptFilename} ✅`);
+  console.info(`Converted HAR ${harFile} to K6 script ${scriptFilename} ✅`);
 
   if (update !== false) {
-    console.log(`Updating test ${testId} on K6 cloud...`);
+    console.info(`Updating test ${testId} on K6 cloud...`);
     await api.updateTest(testId, script);
-    console.log("Updated test ✅");
+    console.info("Updated test ✅");
   }
 
   if (keepScriptFile !== true) {
-    console.log(`Removing script file ${scriptFilename}`);
+    console.info(`Removing script file ${scriptFilename}`);
     fs.unlinkSync(scriptFilename);
   }
 };

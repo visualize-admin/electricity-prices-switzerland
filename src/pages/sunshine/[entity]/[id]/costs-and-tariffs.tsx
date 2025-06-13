@@ -160,7 +160,7 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
     operatorTrend,
     peerGroupMedianRate,
     peerGroupMedianTrend,
-    yearlyData,
+    yearlyData: _yearlyData,
   } = networkCosts;
   const networkLabels = getNetworkLevelLabels({ id: networkLevel });
 
@@ -301,7 +301,7 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
     updateDate,
   } = props.costsAndTariffs;
 
-  const [category, setCategory] = useState<TariffCategory>("NC2"); // Default category, can be changed based on user input
+  const [category, _setCategory] = useState<TariffCategory>("NC2"); // Default category, can be changed based on user input
   const [{ data, fetching }] = useEnergyTariffsQuery({
     variables: {
       filter: {
@@ -440,7 +440,7 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
     updateDate,
   } = props.costsAndTariffs;
 
-  const [category, setCategory] = useState<TariffCategory>("NC2"); // Default category, can be changed based on user input
+  const [category, _setCategory] = useState<TariffCategory>("NC2"); // Default category, can be changed based on user input
   const [{ data, fetching }] = useNetTariffsQuery({
     variables: {
       filter: {

@@ -60,7 +60,7 @@ const main = async () => {
   // Handle commands
   if (args.command === "encrypt") {
     try {
-      console.log("🔒 Starting encryption process...");
+      console.info("🔒 Starting encryption process...");
       encryptSunshineCSVFile(args.id);
     } catch (error) {
       console.error("❌ Encryption failed:", error);
@@ -68,7 +68,7 @@ const main = async () => {
     }
   } else if (args.command === "decrypt") {
     try {
-      console.log("🔓 Starting decryption process...");
+      console.info("🔓 Starting decryption process...");
       decryptSunshineCsvFile(args.id);
     } catch (error) {
       console.error("❌ Decryption failed:", error);
@@ -76,7 +76,7 @@ const main = async () => {
     }
   } else if (args.command === "json") {
     const decryptedData = await getSunshineCsvData(args.id);
-    console.log(JSON.stringify(decryptedData, null, 2));
+    console.info(JSON.stringify(decryptedData, null, 2));
   } else {
     parser.print_help();
   }

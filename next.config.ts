@@ -21,9 +21,9 @@ const buildEnv = {
   FIRST_PERIOD: process.env.FIRST_PERIOD,
 };
 
-console.log("Build Environment:", buildEnv);
-console.log("Matomo ID:", MATOMO_ID);
-console.log("Asset prefix:", WEBPACK_ASSET_PREFIX);
+console.info("Build Environment:", buildEnv);
+console.info("Matomo ID:", MATOMO_ID);
+console.info("Asset prefix:", WEBPACK_ASSET_PREFIX);
 
 type I18NDomains = { domain: string; defaultLocale: string }[];
 let i18nDomains: I18NDomains | undefined;

@@ -56,7 +56,7 @@ const getCachedWikiPages = async (
     const json: WikiCacheJson = await fs.readJSON(filePath);
 
     if (Date.now() - json._created < CACHE_TTL) {
-      console.log("Using cached wiki pages");
+      console.info("Using cached wiki pages");
       return json.pages;
     }
 
@@ -97,7 +97,7 @@ export const getWikiPage = async (
     return wikiPages.find((page) => page.slug === slug);
   } catch (e: $IntentionalAny) {
     console.warn("Getting Wiki from API failed with error", e.message);
-    console.log("Serving build-time Wiki content instead");
+    console.info("Serving build-time Wiki content instead");
     return getStaticWikiPage(slug);
   }
 };

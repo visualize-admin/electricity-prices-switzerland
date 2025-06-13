@@ -11,7 +11,7 @@ export const setupUndiciHttpAgent = () => {
     return;
   }
   if (!globalThis.__undiciProxyAgent__) {
-    console.log("Setting up undici proxy agent: ", HTTP_PROXY);
+    console.info("Setting up undici proxy agent: ", HTTP_PROXY);
     globalThis.__undiciProxyAgent__ = new ProxyAgent(HTTP_PROXY);
     setGlobalDispatcher(globalThis.__undiciProxyAgent__);
   }
