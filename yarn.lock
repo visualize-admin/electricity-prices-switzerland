@@ -18241,10 +18241,10 @@ tough-cookie@^5.0.0:
   dependencies:
     tldts "^6.1.32"
 
-tpo-deepl@^1.2.2:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/tpo-deepl/-/tpo-deepl-1.2.2.tgz#99778004a66af2fa6096959cf208ca6317f5332e"
-  integrity sha512-Wm1IkckEgIQnElm07KFSfGKC/AnL8jJxGxjaIE+oNcMnRXHb28ax9vkv/rIS/9JAwwXCkvg6zFABeqXcvI+pXg==
+tpo-deepl@^1.2.3:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/tpo-deepl/-/tpo-deepl-1.2.3.tgz#7503b484541d18edffd16047ea53e1f3280c17ec"
+  integrity sha512-gjkvqr43kFpUmcL1IsDp2tLUuQvo68PnlCYAdJMX564KyHkT72HahBHD/JyvBgEdDYu8nHsK+OSEkhrMiC+GMg==
   dependencies:
     chalk "^5.4.1"
     cli-table3 "^0.6.5"
