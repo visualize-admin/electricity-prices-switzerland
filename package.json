@@ -183,7 +183,7 @@
     "raw-loader": "^4.0.2",
     "rollup-plugin-string": "^3.0.0",
     "storybook": "^8.6.11",
-    "tpo-deepl": "^1.2.1",
+    "tpo-deepl": "^1.2.2",
     "typescript": "^5.8.2",
     "vite": "6.2.4"
   },
