@@ -14,11 +14,13 @@ You can also check the
 - Features
 
   - Added stacked horizontal charts for power stability to the sunshine charts
+  - Added Error States & enhanced existing hint styles
 
 - Storybook
 
   - Added stacked horizontal chart to storybook
   - SAIDI / SAIFI indicators can be shown on the map (behind "sunshine" flag)
+  - Added Error States to storybook
   - Network costs, energy tariffs, and net tariffs can be shown on the map (behind "sunshine" flag)
 
 - Fixes
