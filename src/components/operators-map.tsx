@@ -64,7 +64,7 @@ export const displayedAttributes = [
 
 export type DisplayedAttribute = (typeof displayedAttributes)[number];
 
-export type PickingInfoGeneric<Props> = Omit<PickingInfo, "object"> & {
+type PickingInfoGeneric<Props> = Omit<PickingInfo, "object"> & {
   object?: Feature<Geometry, Props> | null;
 };
 
