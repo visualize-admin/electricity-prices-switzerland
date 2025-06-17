@@ -1,4 +1,8 @@
-import { Viewport, WebMercatorViewport } from "@deck.gl/core/typed";
+import {
+  FlyToInterpolator,
+  Viewport,
+  WebMercatorViewport,
+} from "@deck.gl/core/typed";
 import { ScaleThreshold, color } from "d3";
 import { BBox } from "geojson";
 
@@ -79,4 +83,34 @@ export const getZoomFromBounds = (bounds: BBox, viewport: Viewport) => {
   const zoomX = Math.log(viewport.width / width) / Math.log(2);
   const zoomY = Math.log(viewport.height / height) / Math.log(2);
   return Math.min(zoomX, zoomY) - 1;
+};
+
+export const getZoomedViewState = (
+  currentViewState: $FixMe,
+  bbox: BBox,
+  {
+    padding = 150,
+    transitionDuration = 1000,
+  }: { padding?: number; transitionDuration?: number } = {}
+) => {
+  const vp = new WebMercatorViewport(currentViewState);
+
+  const nestedBBox: [[number, number], [number, number]] = [
+    [bbox[0], bbox[1]],
+    [bbox[2], bbox[3]],
+  ];
+  const fitted = vp.fitBounds(nestedBBox, { padding });
+
+  return {
+    ...currentViewState,
+    ...fitted,
+    transitionDuration,
+    transitionInterpolator: new FlyToInterpolator(),
+  };
+};
+
+export const flattenBBox = (
+  bbox: [[number, number], [number, number]]
+): [number, number, number, number] => {
+  return [bbox[0][0], bbox[0][1], bbox[1][0], bbox[1][1]];
 };

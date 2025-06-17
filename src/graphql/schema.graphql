@@ -241,26 +241,90 @@ input SunshineDataFilter {
   period: String
 }
 
-enum TariffCategory {
-  # Electricity costs
-  EC2
-  EC3
-  EC4
-  EC6
-  EH2
-  EH4
-  EH7
-  # Networks costs
-  NC2
-  NC3
-  NC4
-  NC6
-  NH2
-  NH4
-  NH7
+# TODO Map more closely to predefined strings
+scalar TariffCategory
+
+enum Trend {
+  up
+  down
+  stable
+}
+
+type NetworkCostsData {
+  networkLevel: NetworkLevel!
+  operatorRate: Float
+  operatorTrend: Trend
+  peerGroupMedianRate: Float
+  peerGroupMedianTrend: Trend
+  yearlyData: [NetworkCostRow!]!
+}
+
+type NetworkLevel {
+  id: String!
+}
+
+type NetworkCostRow {
+  year: Int!
+  rate: Float!
+  operator_id: Int!
+  operator_name: String!
+  network_level: String!
+}
+
+type TariffsData {
+  category: TariffCategory!
+  operatorRate: Float
+  peerGroupMedianRate: Float
+  yearlyData: [TariffRow!]!
+}
+
+type TariffRow {
+  period: Int!
+  rate: Float!
+  operator_id: Int!
+  operator_name: String!
+  category: TariffCategory!
+}
+
+input NetworkCostsFilter {
+  operatorId: Int!
+  networkLevel: String!
+  period: Int!
+}
+
+input TariffsFilter {
+  operatorId: Int!
+  category: String!
+  period: Int!
+}
+
+type StabilityDataRow {
+  year: Int!
+  total: Float!
+  unplanned: Float!
+  operator: Int!
+  operator_name: String!
+}
+
+type StabilityData {
+  operatorTotal: Float!
+  peerGroupTotal: Float!
+  yearlyData: [StabilityDataRow!]!
+}
+
+input StabilityFilter {
+  operatorId: Int!
+  year: Int!
 }
 
 type Query {
   sunshineData(filter: SunshineDataFilter!): [SunshineDataRow!]!
   sunshineTariffs(filter: SunshineDataFilter!): [SunshineDataRow!]!
+
+  networkCosts(filter: NetworkCostsFilter!): NetworkCostsData!
+  netTariffs(filter: TariffsFilter!): TariffsData!
+  energyTariffs(filter: TariffsFilter!): TariffsData!
+
+  saidi(filter: StabilityFilter!): StabilityData!
+  saifi(filter: StabilityFilter!): StabilityData!
 }

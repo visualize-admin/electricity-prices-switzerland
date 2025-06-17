@@ -1,6 +1,6 @@
 import { t } from "@lingui/macro";
 
-import { ElectricityCategory, NetworkLevel, PeerGroup } from "src/domain/data";
+import { NetworkLevel, PeerGroup, TariffCategory } from "src/domain/data";
 
 export const getLocalizedLabel = ({ id }: { id: string }): string => {
   switch (id) {
@@ -49,7 +49,16 @@ export const getLocalizedLabel = ({ id }: { id: string }): string => {
       });
     case "total":
       return t({ id: "selector.pricecomponent.total", message: "Total" });
-
+    case "saidi-trend":
+      return t({
+        id: "sunshine.power-stability.saidi-trend",
+        message: "Average Power Outage Duration (SAIDI)",
+      });
+    case "saifi-trend":
+      return t({
+        id: "sunshine.power-stability.saifi-trend",
+        message: "Average Power Outage Frequency (SAIFI)",
+      });
     case "H1":
       return t({ id: "selector.category.H1", message: "H1" });
     case "H2":
@@ -180,6 +189,33 @@ export const getLocalizedLabel = ({ id }: { id: string }): string => {
         message: "Alphabetically descending",
       });
 
+    // Sunshine selectors labels
+    case "all_grid_operators":
+      return t({
+        id: "viewBy.all_grid_operators",
+        message: "All grid operators",
+      });
+    case "planned":
+      return t({
+        id: "typology.planned",
+        message: "Planned",
+      });
+    case "unplanned":
+      return t({
+        id: "typology.unplanned",
+        message: "Unplanned",
+      });
+    case "saidi":
+      return t({
+        id: "indicator.saidi",
+        message: "Power Outage Duration (SAIDI)",
+      });
+    case "saifi":
+      return t({
+        id: "indicator.saifi",
+        message: "Power Outage Frequency (SAIFI)",
+      });
+
     case "peer-group.settlement-density.na":
       return t({
         id: "peer-group.settlement-density.na",
@@ -226,12 +262,13 @@ export const getLocalizedLabel = ({ id }: { id: string }): string => {
         message: `Low energy density`,
       });
 
+    case "network-level":
+      return t({ id: "network-level", message: `Network level` });
     // NL (Not yet sure about translations)
     case "network-level.NL5.short":
       return t({ id: "network-level.NL5.short", message: `NL5` });
     case "network-level.NL5.long":
       return t({ id: "network-level.NL5.long", message: `High voltage NL5` });
-
     case "network-level.NL6.short":
       return t({ id: "network-level.NL6.short", message: `NL6` });
     case "network-level.NL6.long":
@@ -247,6 +284,11 @@ export const getLocalizedLabel = ({ id }: { id: string }): string => {
       return t({ id: "network-level.NE5.short", message: `NE5` });
     case "network-level.NE5.long":
       return t({ id: "network-level.NE5.long", message: `High voltage NE5` });
+
+    case "network-level.NE6.short":
+      return t({ id: "network-level.NE6.short", message: `NE6` });
+    case "network-level.NE6.long":
+      return t({ id: "network-level.NE6.long", message: `Medium voltage NE6` });
 
     case "network-level.NE7.short":
       return t({ id: "network-level.NE7.short", message: `NE7` });
@@ -292,7 +334,7 @@ export const getNetworkLevelLabels = function (networkLevel: NetworkLevel) {
   };
 };
 
-export const getCategoryLabels = function (category: ElectricityCategory) {
+export const getCategoryLabels = function (category: TariffCategory) {
   return {
     short: getLocalizedLabel({ id: `${category}` }),
     long: getLocalizedLabel({ id: `${category}-long` }),

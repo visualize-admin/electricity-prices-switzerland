@@ -3,6 +3,7 @@ import { Box, Link as MUILink, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import { ReactNode } from "react";
 
+import { SafeHydration } from "src/components/hydration";
 import { Icon } from "src/icons";
 import { useFlag } from "src/utils/flags";
 
@@ -32,33 +33,37 @@ export const DetailsPageSidebar = (props: SectionProps) => {
       </SidebarItem>
       {/* FIXME: Make this only a preview and add a coming soon label */}
       {sunshineFlag && entity === "operator" ? (
-        <>
-          <SidebarSectionTitle>
-            <Trans id="details.page.navigation.sunshine-indicators-title">
-              Sunshine Indikatoren
-            </Trans>
-          </SidebarSectionTitle>
-          <SidebarItem href={`/sunshine/${entity}/${id}/overview`}>
-            <Trans id="details.page.navigation.sunshine-overview-item">
-              Übersicht
-            </Trans>
-          </SidebarItem>
-          <SidebarItem href={`/sunshine/${entity}/${id}/costs-and-tariffs`}>
-            <Trans id="details.page.navigation.costs-and-tariffs-item">
-              Kosten und Tariffe
-            </Trans>
-          </SidebarItem>
-          <SidebarItem href={`/sunshine/${entity}/${id}/power-stability`}>
-            <Trans id="details.page.navigation.power-stability-item">
-              Leistungsstabilität
-            </Trans>
-          </SidebarItem>
-          <SidebarItem href={`/sunshine/${entity}/${id}/operational-standards`}>
-            <Trans id="details.page.navigation.operational-standards-item">
-              Operationelle Standards
-            </Trans>
-          </SidebarItem>
-        </>
+        <SafeHydration>
+          <>
+            <SidebarSectionTitle>
+              <Trans id="details.page.navigation.sunshine-indicators-title">
+                Sunshine Indikatoren
+              </Trans>
+            </SidebarSectionTitle>
+            <SidebarItem href={`/sunshine/${entity}/${id}/overview`}>
+              <Trans id="details.page.navigation.sunshine-overview-item">
+                Übersicht
+              </Trans>
+            </SidebarItem>
+            <SidebarItem href={`/sunshine/${entity}/${id}/costs-and-tariffs`}>
+              <Trans id="details.page.navigation.costs-and-tariffs-item">
+                Kosten und Tariffe
+              </Trans>
+            </SidebarItem>
+            <SidebarItem href={`/sunshine/${entity}/${id}/power-stability`}>
+              <Trans id="details.page.navigation.power-stability-item">
+                Leistungsstabilität
+              </Trans>
+            </SidebarItem>
+            <SidebarItem
+              href={`/sunshine/${entity}/${id}/operational-standards`}
+            >
+              <Trans id="details.page.navigation.operational-standards-item">
+                Operationelle Standards
+              </Trans>
+            </SidebarItem>
+          </>
+        </SafeHydration>
       ) : null}
     </Box>
   );

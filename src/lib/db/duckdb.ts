@@ -23,9 +23,6 @@ export const setupDatabaseConnection = async (): Promise<DuckDBConnection> => {
     // Set home directory
     await connection.run(`SET home_directory='/tmp';`);
 
-    // Load CSV extensions
-    await connection.run("INSTALL httpfs; LOAD httpfs;");
-
     return connection;
   } catch (error) {
     console.error("Failed to initialize DuckDB:", error);
@@ -55,6 +52,7 @@ export const query = async <T = unknown>(
   sql: string,
   params?: Parameters<DuckDBConnection["runAndReadAll"]>[1]
 ): Promise<T[]> => {
+  await ensureDatabaseInitialized();
   const connection = await setupDatabaseConnection();
 
   try {
@@ -136,7 +134,7 @@ export const ensureDatabaseInitialized = async (): Promise<void> => {
     setupCleanupHandlers();
     console.log("Initializing DuckDB database...");
     await setupDatabase();
-    console.log("Setup databse connection.");
+    console.log("Setup database connection.");
     await setupDatabaseConnection();
     databaseInitialized = true;
   }

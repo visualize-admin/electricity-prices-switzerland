@@ -5,6 +5,7 @@ import { Box, Button, NativeSelect, Popover, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
+import { SafeHydration } from "src/components/hydration";
 import contentRoutes from "src/content-routes.json";
 import { IconChevronDown } from "src/icons/ic-chevron-down";
 import { useLocale } from "src/lib/use-locale";
@@ -85,7 +86,9 @@ export const Header = ({
         }}
       >
         <Box display="flex" alignItems="center" gap={3} marginLeft="auto">
-          <FlagMenu />
+          <SafeHydration>
+            <FlagMenu />
+          </SafeHydration>
           <NativeSelect
             disableUnderline
             data-testid="locale-select"

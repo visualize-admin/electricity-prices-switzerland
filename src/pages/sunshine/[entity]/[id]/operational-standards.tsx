@@ -63,7 +63,9 @@ export const getServerSideProps: GetServerSideProps<
     };
   }
 
-  const operationalStandards = await fetchOperationalStandards(id);
+  const operationalStandards = await fetchOperationalStandards({
+    operatorId: id,
+  });
 
   return {
     props: {

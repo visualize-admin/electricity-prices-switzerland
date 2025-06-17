@@ -1160,6 +1160,22 @@ msgstr "Sì"
 msgid "municipality"
 msgstr "Comune"
 
+#: src/components/net-tariffs-trend-chart.tsx
+msgid "net-tariffs-trend-chart.legend-item.other-operators"
+msgstr "Altri operatori"
+
+#: src/components/net-tariffs-trend-chart.tsx
+msgid "net-tariffs-trend-chart.legend-item.peer-group-median"
+msgstr "Mediana del gruppo di riferimento"
+
+#: src/components/network-cost-trend-chart.tsx
+msgid "network-cost-trend-chart.legend-item.other-operators"
+msgstr "Altri operatori"
+
+#: src/components/network-cost-trend-chart.tsx
+msgid "network-cost-trend-chart.legend-item.peer-group-median"
+msgstr "Mediana del gruppo di riferimento"
+
 #: src/domain/translation.tsx
 msgid "network-level.NE5.long"
 msgstr ""

@@ -2,7 +2,7 @@ import argparse from "argparse";
 
 import {
   encryptSunshineCSVFile,
-  getSunshineData,
+  getSunshineCsvData,
   sunshineFileIds,
   decryptSunshineCsvFile,
 } from "../src/lib/sunshine-csv";
@@ -75,7 +75,7 @@ const main = async () => {
       process.exit(1);
     }
   } else if (args.command === "json") {
-    const decryptedData = await getSunshineData(args.id);
+    const decryptedData = await getSunshineCsvData(args.id);
     console.log(JSON.stringify(decryptedData, null, 2));
   } else {
     parser.print_help();

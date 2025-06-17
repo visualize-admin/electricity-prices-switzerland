@@ -2,6 +2,12 @@ import { extent, range, scaleThreshold } from "d3";
 import { useMemo } from "react";
 
 import buildEnv from "src/env/build";
+import { TariffCategory } from "src/graphql/resolver-mapped-types";
+import {
+  NetworkCostsData,
+  StabilityData,
+  TariffsData,
+} from "src/graphql/resolver-types";
 import { chartPalette } from "src/themes/palette";
 
 export type ObservationValue = string | number | boolean | Date;
@@ -53,7 +59,7 @@ const getDomainFromMedianValue = (medianValue: number | undefined) => {
 export const useColorScale = <T>(options: {
   observations: T[];
   medianValue?: number | undefined;
-  accessor: (x: T) => number;
+  accessor: (x: T) => number | undefined;
 }) => {
   return useMemo(() => {
     const domain =
@@ -139,48 +145,22 @@ export type ElectricityCategory =
   | "H7"
   | "H8";
 
+export { type TariffCategory } from "src/graphql/resolver-mapped-types";
+
+// TODO Mapping should be at graphql level, we should be able to remove
+// this function when this is done
+export const asTariffCategory = (category: string): TariffCategory => {
+  if (category === "NC2" || category === "NC3") {
+    return category as TariffCategory;
+  }
+  throw new Error(`Invalid network category: ${category}`);
+};
+
 export type SunshineCostsAndTariffsData = {
   latestYear: string;
-  netTariffs: {
-    category: ElectricityCategory;
-    peerGroupMedianRate: number | null;
-    operatorRate: number | null;
-    yearlyData: {
-      period: number;
-      rate: number;
-      operator_id: number;
-      category: ElectricityCategory;
-      operator_name: string;
-    }[];
-  };
-
-  energyTariffs: {
-    category: ElectricityCategory;
-    peerGroupMedianRate: number | null;
-    operatorRate: number | null;
-    yearlyData: {
-      period: number;
-      rate: number;
-      operator_id: number;
-      operator_name: string;
-      category: ElectricityCategory;
-    }[];
-  };
-
-  networkCosts: {
-    networkLevel: {
-      id: string;
-    };
-    peerGroupMedianRate: number | null;
-    operatorRate: number | null;
-    yearlyData: {
-      year: number;
-      rate: number;
-      operator_id: number;
-      operator_name: string;
-      network_level: NetworkLevel["id"];
-    }[];
-  };
+  netTariffs: TariffsData;
+  energyTariffs: TariffsData;
+  networkCosts: NetworkCostsData;
   operator: {
     peerGroup: {
       energyDensity: string;
@@ -192,28 +172,8 @@ export type SunshineCostsAndTariffsData = {
 
 export type SunshinePowerStabilityData = {
   latestYear: string;
-  saidi: {
-    operatorMinutes: number;
-    peerGroupMinutes: number;
-    yearlyData: {
-      year: number;
-      minutes: number;
-      operator: number;
-      operator_name: string;
-      planned: boolean;
-    }[];
-  };
-  saifi: {
-    operatorMinutes: number;
-    peerGroupMinutes: number;
-    yearlyData: {
-      year: number;
-      minutes: number;
-      operator: number;
-      operator_name: string;
-      planned: boolean;
-    }[];
-  };
+  saidi: StabilityData;
+  saifi: StabilityData;
 
   operator: {
     peerGroup: {

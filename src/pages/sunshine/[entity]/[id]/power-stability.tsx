@@ -1,26 +1,26 @@
-import { Trans, t } from "@lingui/macro";
+import { t, Trans } from "@lingui/macro";
 import { GetServerSideProps } from "next";
 import ErrorPage from "next/error";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
+import { gql } from "urql";
 
 import CardGrid from "src/components/card-grid";
 import { DetailPageBanner } from "src/components/detail-page/banner";
 import {
-  DetailsPageLayout,
   DetailsPageHeader,
+  DetailsPageLayout,
   DetailsPageSubtitle,
   DetailsPageTitle,
 } from "src/components/detail-page/layout";
 import { DetailsPageSidebar } from "src/components/detail-page/sidebar";
 import PeerGroupCard from "src/components/peer-group-card";
+import PowerStabilityCard from "src/components/power-stability-card";
 import {
   PowerStabilityNavigation,
   PowerStabilityTabOption,
 } from "src/components/sunshine-tabs";
-import TableComparisonCard, {
-  Trend,
-} from "src/components/table-comparison-card";
+import TableComparisonCard from "src/components/table-comparison-card";
 import {
   handleOperatorsEntity,
   PageParams,
@@ -28,12 +28,14 @@ import {
 } from "src/data/shared-page-props";
 import { SunshinePowerStabilityData } from "src/domain/data";
 import { getLocalizedLabel } from "src/domain/translation";
+import { useSaidiQuery, useSaifiQuery } from "src/graphql/queries";
+import { Trend } from "src/graphql/resolver-types";
 import { fetchPowerStability } from "src/lib/db/sunshine-data";
 import { defaultLocale } from "src/locales/config";
 
 type Props =
   | (Extract<SharedPageProps, { entity: "operator"; status: "found" }> & {
-      powerStability: SunshinePowerStabilityData;
+      powerStability: Omit<SunshinePowerStabilityData, "saidi" | "saifi">;
     })
   | { status: "notfound" };
 
@@ -65,7 +67,7 @@ export const getServerSideProps: GetServerSideProps<
     };
   }
 
-  const powerStability = await fetchPowerStability(id);
+  const powerStability = await fetchPowerStability({ operatorId: id });
 
   return {
     props: {
@@ -75,16 +77,76 @@ export const getServerSideProps: GetServerSideProps<
   };
 };
 
+// Operator document and year filter
+export const SaidiDocument = gql`
+  query Saidi($filter: StabilityFilter!) {
+    saidi(filter: $filter) {
+      operatorTotal
+      peerGroupTotal
+      yearlyData {
+        year
+        total
+        unplanned
+        operator
+        operator_name
+      }
+    }
+  }
+`;
+
+export const SaifiDocument = gql`
+  query Saifi($filter: StabilityFilter!) {
+    saifi(filter: $filter) {
+      operatorTotal
+      peerGroupTotal
+      yearlyData {
+        year
+        total
+        unplanned
+        operator
+        operator_name
+      }
+    }
+  }
+`;
+
+const useSaidiOrSaifiByAttribute = {
+  saidi: useSaidiQuery,
+  saifi: useSaifiQuery,
+} as const;
+
 const SaidiSaifi = (
   props: Extract<Props, { status: "found" }> & { attribute: "saidi" | "saifi" }
 ) => {
   const {
     operator: { peerGroup },
     latestYear,
+    updateDate,
   } = props.powerStability;
   const { attribute } = props;
 
-  const data = props.powerStability[attribute];
+  const useQuery = useSaidiOrSaifiByAttribute[attribute];
+  const [queryState] = useQuery({
+    variables: {
+      filter: {
+        operatorId: parseInt(props.id, 10),
+        year: parseInt(latestYear, 10),
+      },
+    },
+  });
+
+  const data = queryState.data
+    ? "saidi" in queryState?.data
+      ? queryState.data.saidi
+      : "saifi" in queryState?.data
+      ? queryState.data.saifi
+      : null
+    : null;
+
+  if (!data) {
+    return null;
+  }
+
   const operatorLabel = props.name;
 
   const comparisonCardProps = {
@@ -109,9 +171,11 @@ const SaidiSaifi = (
           <Trans id="sunshine.power-stability.operator">{operatorLabel}</Trans>
         ),
         value: {
-          value: data.operatorMinutes,
+          value: data.operatorTotal,
           unit: "min/year",
-          trend: "decreasing" satisfies Trend,
+
+          // TODO Compute the trend
+          trend: Trend.Down,
         },
       },
       {
@@ -121,9 +185,11 @@ const SaidiSaifi = (
           </Trans>
         ),
         value: {
-          value: data.peerGroupMinutes,
+          value: data.peerGroupTotal,
           unit: "min/year",
-          trend: "stable" as Trend,
+
+          // TODO Compute the trend
+          trend: Trend.Stable,
         },
       },
     ],
@@ -158,6 +224,16 @@ const SaidiSaifi = (
         <TableComparisonCard
           {...comparisonCardProps}
           sx={{ gridArea: "comparison" }}
+        />
+
+        <PowerStabilityCard
+          sx={{ gridArea: "trend" }}
+          peerGroup={peerGroup}
+          updateDate={updateDate}
+          operatorId={props.id}
+          operatorLabel={operatorLabel}
+          powerStability={data}
+          attribute={attribute}
         />
       </CardGrid>
     </>

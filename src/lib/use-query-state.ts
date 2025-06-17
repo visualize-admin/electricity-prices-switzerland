@@ -9,6 +9,9 @@ const ensureString = (input: string | string[]): string =>
   Array.isArray(input) ? input[0] : input;
 
 const queryStateKeys = [
+  "tab",
+
+  // electricity
   "operator",
   "period",
   "municipality",
@@ -19,9 +22,15 @@ const queryStateKeys = [
   "download",
   "cantonsOrder",
   "view",
+
+  // sunshine
+  "viewBy",
+  "typology",
+  "indicator",
 ] as const;
 
 const queryStateDefaults = {
+  tab: "electricity",
   id: "261",
   period: buildEnv.CURRENT_PERIOD,
   category: "H4",
@@ -33,9 +42,14 @@ const queryStateDefaults = {
   download: undefined,
   cantonsOrder: "median-asc",
   view: "collapsed",
+  viewBy: "all_grid_operators",
+  typology: "total",
+  indicator: "saidi",
 } as const;
 
 type QueryState = {
+  tab: string[];
+
   id: string;
   operator?: string[];
   municipality?: string[];
@@ -47,6 +61,11 @@ type QueryState = {
   download?: string[];
   cantonsOrder: string[];
   view: string[];
+
+  // Sunshine
+  viewBy: string[];
+  typology: string[];
+  indicator: string[];
 };
 
 // e.g. /de/municipality/4096?municipality=261&period=2020&period=2019
@@ -92,6 +111,7 @@ export const useQueryState = () => {
 };
 
 export type QueryStateSingle = {
+  tab: string;
   operator?: string;
   municipality?: string;
   canton?: string;
@@ -102,6 +122,11 @@ export type QueryStateSingle = {
   download?: string;
   cantonsOrder: string;
   view: string;
+
+  // Sunshine
+  viewBy: string;
+  typology: string;
+  indicator: string;
 };
 
 export const useQueryStateSingle = () => {
@@ -117,6 +142,8 @@ export const useQueryStateSingle = () => {
           newQuery[k] = v;
         }
       }
+
+      console.log("useQueryStateSingle setState", newQuery);
 
       const href = {
         pathname,

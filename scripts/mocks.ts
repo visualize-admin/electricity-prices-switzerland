@@ -162,9 +162,12 @@ async function generateMocks(options: FetcherOptions) {
       console.log(
         `\n--- Fetching operator costs and tariffs data for operator ${operatorId} ---`
       );
-      const costsAndTariffs = await fetchOperatorCostsAndTariffsData(
-        operatorId
-      );
+      const costsAndTariffs = await fetchOperatorCostsAndTariffsData({
+        operatorId: operatorId,
+        networkLevel: "NE5",
+        period: 2025,
+        category: "NC2",
+      });
 
       // Change names of operators in the data
       for (const attr of [
@@ -191,7 +194,9 @@ async function generateMocks(options: FetcherOptions) {
       console.log(
         `\n--- Fetching power stability data for operator ${operatorId} ---`
       );
-      const powerStability = await fetchPowerStability(operatorId);
+      const powerStability = await fetchPowerStability({
+        operatorId: operatorId,
+      });
       for (const attr of ["saidi", "saifi"] as const) {
         const stabilityData = powerStability[attr];
         stabilityData.yearlyData.forEach((data) => {
@@ -211,7 +216,9 @@ async function generateMocks(options: FetcherOptions) {
       console.log(
         `\n--- Fetching operational standards for operator ${operatorId} ---`
       );
-      const operationalStandards = await fetchOperationalStandards(operatorId);
+      const operationalStandards = await fetchOperationalStandards({
+        operatorId,
+      });
       const outputPath = path.join(
         outputDir,
         `fetchOperationalStandards-${operatorId}.json`
