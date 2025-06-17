@@ -100,7 +100,7 @@ export const fetchNetworkCostsData = async ({
   period,
 }: {
   operatorId: number;
-  networkLevel?: string;
+  networkLevel?: NetworkLevel["id"];
   period?: number;
 }): Promise<NetworkCostsData> => {
   const operatorData = await getOperatorData(operatorId);

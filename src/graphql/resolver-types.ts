@@ -394,6 +394,9 @@ export type SunshineDataRow = {
   infoDaysInAdvance?: Maybe<Scalars["Int"]["output"]>;
   infoYesNo?: Maybe<Scalars["Boolean"]["output"]>;
   name: Scalars["String"]["output"];
+  networkCostsNE5?: Maybe<Scalars["Float"]["output"]>;
+  networkCostsNE6?: Maybe<Scalars["Float"]["output"]>;
+  networkCostsNE7?: Maybe<Scalars["Float"]["output"]>;
   operatorId?: Maybe<Scalars["Int"]["output"]>;
   operatorUID: Scalars["String"]["output"];
   period: Scalars["String"]["output"];
@@ -1165,6 +1168,21 @@ export type SunshineDataRowResolvers<
     ContextType
   >;
   name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  networkCostsNE5?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  networkCostsNE6?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  networkCostsNE7?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
   operatorId?: Resolver<Maybe<ResolversTypes["Int"]>, ParentType, ContextType>;
   operatorUID?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   period?: Resolver<ResolversTypes["String"], ParentType, ContextType>;

@@ -57,4 +57,4 @@ export type ResolvedObservation =
   | ResolvedSwissMedianObservation
   | ResolvedOperatorObservation;
 
-export type TariffCategory = "NC2" | "NC3";
+export { type TariffCategory } from "src/domain/data";

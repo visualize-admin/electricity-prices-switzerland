@@ -21,6 +21,7 @@ You can also check the
   - Added stacked horizontal chart to storybook
   - SAIDI / SAIFI indicators can be shown on the map (behind "sunshine" flag)
   - Added Error States to storybook
+  - Network costs, energy tariffs, and net tariffs can be shown on the map (behind "sunshine" flag)
 
 - Fixes
 

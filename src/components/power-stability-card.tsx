@@ -20,9 +20,9 @@ const PowerStabilityCard: React.FC<
   {
     peerGroup: PeerGroup;
     updateDate: string;
-    powerStability:
-      | SunshinePowerStabilityData["saidi"]
-      | SunshinePowerStabilityData["saifi"];
+    observations:
+      | SunshinePowerStabilityData["saidi"]["yearlyData"]
+      | SunshinePowerStabilityData["saifi"]["yearlyData"];
     operatorId: string;
     operatorLabel: string;
     attribute: keyof Pick<SunshinePowerStabilityData, "saidi" | "saifi">;
@@ -36,7 +36,7 @@ const PowerStabilityCard: React.FC<
   const {
     peerGroup,
     updateDate,
-    powerStability,
+    observations,
     operatorId,
     operatorLabel,
     attribute,
@@ -125,7 +125,7 @@ const PowerStabilityCard: React.FC<
         {/* Stacked Horizontal Bar Chart */}
         <Box sx={{ height: 400, width: "100%" }}>
           <PowerStabilityChart
-            observations={powerStability}
+            observations={observations}
             id={operatorId}
             operatorLabel={operatorLabel}
           />

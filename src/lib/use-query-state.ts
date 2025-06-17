@@ -2,6 +2,8 @@ import { useRouter } from "next/router";
 import { useCallback } from "react";
 
 import buildEnv from "src/env/build";
+import { TariffCategory } from "src/graphql/resolver-mapped-types";
+import { NetworkLevel } from "src/graphql/resolver-types";
 
 const ensureArray = (input: string | string[]): string[] =>
   Array.isArray(input) ? input : [input];
@@ -27,6 +29,9 @@ const queryStateKeys = [
   "viewBy",
   "typology",
   "indicator",
+  "energyTariffCategory",
+  "netTariffCategory",
+  "networkLevel",
 ] as const;
 
 const queryStateDefaults = {
@@ -45,6 +50,9 @@ const queryStateDefaults = {
   viewBy: "all_grid_operators",
   typology: "total",
   indicator: "saidi",
+  energyTariffCategory: "EC2" satisfies TariffCategory,
+  netTariffCategory: "NC2" satisfies TariffCategory,
+  networkLevel: "NE5" satisfies NetworkLevel["id"],
 } as const;
 
 type QueryState = {
@@ -66,6 +74,9 @@ type QueryState = {
   viewBy: string[];
   typology: string[];
   indicator: string[];
+  energyTariffCategory: string[];
+  netTariffCategory: string[];
+  networkLevel: string[];
 };
 
 // e.g. /de/municipality/4096?municipality=261&period=2020&period=2019
@@ -127,6 +138,9 @@ export type QueryStateSingle = {
   viewBy: string;
   typology: string;
   indicator: string;
+  energyTariffCategory: string;
+  netTariffCategory: string;
+  networkLevel: string;
 };
 
 export const useQueryStateSingle = () => {

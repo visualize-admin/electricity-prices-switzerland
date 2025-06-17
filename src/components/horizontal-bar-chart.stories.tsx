@@ -1,7 +1,5 @@
 import data from "mocks/sunshine-powerStability-426.json";
 
-import { SunshinePowerStabilityData } from "src/domain/data";
-
 import { PowerStabilityChart } from "./power-stability-chart";
 import { DesignGrid, DesignStory } from "./storybook/base-style";
 
@@ -13,7 +11,7 @@ export const HorizontalBarChart = () => {
     >
       <DesignGrid>
         <PowerStabilityChart
-          observations={data.saidi as SunshinePowerStabilityData["saidi"]}
+          observations={data.saidi.yearlyData.filter((x) => x.year === 2024)}
           id="11"
           operatorLabel="Elektrizitätswerk des Kantons Schaffhausen AG"
         />

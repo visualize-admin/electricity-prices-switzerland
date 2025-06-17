@@ -1,7 +1,6 @@
-import { t } from "@lingui/macro";
-import { Box, Button, Input, Link, Typography } from "@mui/material";
+import { Box, paperClasses } from "@mui/material";
 import { median } from "d3";
-import { property } from "lodash";
+import { keyBy, property } from "lodash";
 import { GetServerSideProps } from "next";
 import dynamic from "next/dynamic";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -14,7 +13,6 @@ const ContentWrapper = dynamic(
   { ssr: false }
 );
 
-import { TooltipBox } from "src/components/charts-generic/interaction/tooltip-box";
 import { CombinedSelectors } from "src/components/combined-selectors";
 import { DownloadImage } from "src/components/detail-page/download-image";
 import { InfoBanner } from "src/components/info-banner";
@@ -22,9 +20,8 @@ import { List } from "src/components/list";
 import { ChoroplethMap, ChoroplethMapProps } from "src/components/map";
 import { MapProvider } from "src/components/map-context";
 import OperatorsMap from "src/components/operators-map";
-import { useDisclosure } from "src/components/use-disclosure";
-import { useOutsideClick } from "src/components/use-outside-click";
-import { useColorScale } from "src/domain/data";
+import ShareButton from "src/components/share-button";
+import { NetworkLevel, TariffCategory, useColorScale } from "src/domain/data";
 import {
   PriceComponent,
   SunshineDataRow,
@@ -32,9 +29,8 @@ import {
   useObservationsQuery,
   useSunshineDataQuery,
 } from "src/graphql/queries";
-import { Icon } from "src/icons";
-import { copyToClipboard } from "src/lib/copy-to-clipboard";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
+import { truthy } from "src/lib/truthy";
 import { useQueryStateSingle } from "src/lib/use-query-state";
 import { defaultLocale } from "src/locales/config";
 import { useFlag } from "src/utils/flags";
@@ -59,126 +55,6 @@ export const getServerSideProps: GetServerSideProps<
   return { props: { locale: locale ?? defaultLocale } };
 };
 
-const ShareButton = () => {
-  const { isOpen, open, close } = useDisclosure();
-  const {
-    isOpen: hasInputFocus,
-    open: setFocusOn,
-    close: setFocusOff,
-  } = useDisclosure();
-  const tooltipBoxRef = useRef<HTMLDivElement>(null);
-  const linkRef = useRef<HTMLAnchorElement>(null);
-  const mouse = useRef({ x: 0, y: 0 });
-
-  const handleClick = () => {
-    open();
-    const linkRect = linkRef.current?.getBoundingClientRect() || {
-      x: 0,
-      y: 0,
-      width: 0,
-    };
-    Object.assign(mouse.current, {
-      x: linkRect.width ?? 0,
-      y: linkRect.y ?? 0,
-    });
-  };
-
-  useOutsideClick(tooltipBoxRef, () => {
-    close();
-    setFocusOff();
-  });
-
-  const { isOpen: hasCopied, setIsOpen: setCopied } = useDisclosure();
-  const handleClickCopyButton = async () => {
-    await copyToClipboard(window.location.toString());
-    setCopied(true);
-    setTimeout(() => setCopied(false), 3000);
-  };
-
-  return (
-    <>
-      <Link
-        variant="body2"
-        color="text.primary"
-        ref={linkRef}
-        onClick={handleClick}
-        sx={{
-          cursor: "pointer",
-          display: "flex",
-          alignItems: "center",
-          gap: 1,
-        }}
-      >
-        <Icon name="share" size={20} />
-        {t({ id: "map.share", message: "Share" })}
-      </Link>
-      {isOpen && (
-        <TooltipBox
-          ref={tooltipBoxRef}
-          placement={{ x: "center", y: "top" }}
-          margins={{ top: 0, bottom: 0, left: 0, right: 0 }}
-          x={mouse.current.x}
-          y={0}
-          interactive
-        >
-          <Box
-            display="flex"
-            mb={2}
-            alignItems="center"
-            justifyContent="space-between"
-          >
-            <Typography variant="h6">URL</Typography>
-            <Typography variant="caption" color="success">
-              {hasCopied
-                ? t({ id: "share.url-copied", message: "URL copied ✅" })
-                : ""}
-            </Typography>
-          </Box>
-          <Box
-            sx={{
-              borderStyle: "solid",
-              boxSizing: "border-box",
-              borderWidth: 1,
-              borderColor: "monochrome.300",
-              outline: hasInputFocus ? "2px solid" : "none",
-              outlineColor: "primary.main",
-              display: "flex",
-              alignItems: "center",
-              borderRadius: 6,
-              overflow: "hidden",
-            }}
-          >
-            <Input
-              onFocus={setFocusOn}
-              onBlur={setFocusOff}
-              sx={{
-                width: 300,
-                border: "none",
-                height: "100%",
-                "&:focus": { border: "none", outline: 0 },
-              }}
-              value={window.location.toString()}
-            />
-            <Button
-              color="secondary"
-              onClick={handleClickCopyButton}
-              sx={{
-                width: "3rem",
-                height: "3rem",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Icon name="duplicate" />
-            </Button>
-          </Box>
-        </TooltipBox>
-      )}
-    </>
-  );
-};
-
 const isDefined = (x: number | undefined | null): x is number =>
   x !== undefined && x !== null;
 
@@ -200,7 +76,51 @@ const accessorsByAttribute: Record<
       return x.saifiTotal - x.saifiUnplanned;
     }
   },
+  networkCostsNE5: property("networkCostsNE5"),
+  networkCostsNE6: property("networkCostsNE6"),
+  networkCostsNE7: property("networkCostsNE7"),
+
+  tariffEC2: property("tariffEC2"),
+  tariffEC3: property("tariffEC3"),
+  tariffEC4: property("tariffEC4"),
+  tariffEC6: property("tariffEC6"),
+  tariffEH2: property("tariffEH2"),
+  tariffEH4: property("tariffEH4"),
+  tariffEH7: property("tariffEH7"),
+  tariffNC2: property("tariffNC2"),
+  tariffNC3: property("tariffNC3"),
+  tariffNC4: property("tariffNC4"),
+  tariffNC6: property("tariffNC6"),
+  tariffNH2: property("tariffNH2"),
+  tariffNH4: property("tariffNH4"),
+  tariffNH7: property("tariffNH7"),
 };
+
+function getSunshineAccessor(
+  indicator: string,
+  typology: string,
+  networkLevel: NetworkLevel["id"],
+  netTariffCategory: TariffCategory,
+  energyTariffCategory: TariffCategory
+): (r: SunshineDataRow) => number | undefined {
+  if (indicator === "saidi" || indicator === "saifi") {
+    return typology === "total"
+      ? accessorsByAttribute[`${indicator}Total`]
+      : typology === "unplanned"
+      ? accessorsByAttribute[`${indicator}Unplanned`]
+      : accessorsByAttribute[`${indicator}Planned`];
+  }
+  if (indicator === "networkCosts") {
+    return accessorsByAttribute[`networkCosts${networkLevel}`];
+  }
+  if (indicator === "netTariffs") {
+    return accessorsByAttribute[`tariff${netTariffCategory}`];
+  }
+  if (indicator === "energyTariffs") {
+    return accessorsByAttribute[`tariff${energyTariffCategory}`];
+  }
+  throw new Error("Invalid indicator: " + indicator);
+}
 
 const IndexPage = ({ locale }: Props) => {
   const [
@@ -211,8 +131,11 @@ const IndexPage = ({ locale }: Props) => {
       product,
       download,
       tab = "electricity",
-      typology = "total",
-      indicator = "saidi",
+      typology,
+      indicator,
+      networkLevel,
+      netTariffCategory,
+      energyTariffCategory,
     },
   ] = useQueryStateSingle();
   const [activeId, setActiveId] = useState<string | null>(null);
@@ -266,20 +189,28 @@ const IndexPage = ({ locale }: Props) => {
     municipalitiesQuery.data?.municipalities ?? EMPTY_ARRAY;
 
   const colorAccessor = useCallback((d: { value: number }) => d.value, []);
-  const sunshineAccessor: (r: SunshineDataRow) => number | undefined =
-    indicator === "saidi" || indicator === "saifi"
-      ? typology === "total"
-        ? accessorsByAttribute[`${indicator}Total`]
-        : typology === "unplanned"
-        ? accessorsByAttribute[`${indicator}Unplanned`]
-        : accessorsByAttribute[`${indicator}Planned`]
-      : () => 0;
+  const sunshineAccessor = useMemo<
+    (r: SunshineDataRow) => number | undefined
+  >(() => {
+    return getSunshineAccessor(
+      indicator,
+      typology,
+      networkLevel as NetworkLevel["id"],
+      netTariffCategory as TariffCategory,
+      energyTariffCategory as TariffCategory
+    );
+  }, [
+    indicator,
+    typology,
+    networkLevel,
+    netTariffCategory,
+    energyTariffCategory,
+  ]);
 
   const sunshineValues = sunshineObservations
     .map((x) => sunshineAccessor(x) ?? null)
     .filter((x) => x !== null);
 
-  console.log("sunshineValues", sunshineValues);
   const medianValue = isElectricityTab
     ? swissMedianObservations[0]?.value
     : // TODO
@@ -318,6 +249,10 @@ const IndexPage = ({ locale }: Props) => {
     }
   }, [activeId, isSunshine]);
 
+  const sunshineValuesByOperator = useMemo(() => {
+    return keyBy(sunshineObservations, "operatorId");
+  }, [sunshineObservations]);
+
   const map = isElectricityTab ? (
     <ChoroplethMap
       year={mapYear}
@@ -335,6 +270,34 @@ const IndexPage = ({ locale }: Props) => {
       period={mapYear}
       colorScale={sunshineColorScale}
       observations={sunshineObservations}
+      getTooltip={(info) => {
+        if (!info.object) {
+          return null;
+        }
+        const operatorIds = info.object.properties?.operators;
+        const values = operatorIds
+          .map((x) => {
+            const op = sunshineValuesByOperator[x];
+            if (!op) {
+              return undefined;
+            }
+            return {
+              label: op.name,
+              value: sunshineAccessor(op),
+            };
+          })
+          .filter(truthy);
+        const html = `<div class="${paperClasses.root}">${values
+          .map((x) => {
+            return `<strong>${x.label}</strong>: ${
+              x.value?.toFixed(2) ?? "N/A"
+            }`;
+          })
+          .join("<br/>")}</div>`;
+        return {
+          html,
+        };
+      }}
     />
   );
 

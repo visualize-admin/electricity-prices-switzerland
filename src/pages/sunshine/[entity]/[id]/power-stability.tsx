@@ -2,7 +2,7 @@ import { t, Trans } from "@lingui/macro";
 import { GetServerSideProps } from "next";
 import ErrorPage from "next/error";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { gql } from "urql";
 
 import CardGrid from "src/components/card-grid";
@@ -142,6 +142,10 @@ const SaidiSaifi = (
       ? queryState.data.saifi
       : null
     : null;
+  const yearlyObservations = useMemo(() => {
+    const year = parseInt(latestYear, 10);
+    return data?.["yearlyData"].filter((x) => x.year === year) ?? [];
+  }, [data, latestYear]);
 
   if (!data) {
     return null;
@@ -232,7 +236,7 @@ const SaidiSaifi = (
           updateDate={updateDate}
           operatorId={props.id}
           operatorLabel={operatorLabel}
-          powerStability={data}
+          observations={yearlyObservations}
           attribute={attribute}
         />
       </CardGrid>
