@@ -5,6 +5,9 @@ import CardSource from "src/components/card-source";
 import { PeerGroup, SunshineOperationalStandardsData } from "src/domain/data";
 import { getLocalizedLabel, getPeerGroupLabels } from "src/domain/translation";
 
+import { CardHeader } from "./detail-page/card";
+import { Download, DownloadImage } from "./detail-page/download-image";
+import { InfoDialogButton } from "./info-dialog";
 import {
   ComplianceChart,
   ProductVarietyChart,
@@ -31,6 +34,8 @@ type OperationalStandardsCardProps = AttributeProps & {
   operatorLabel: string;
 } & CardProps;
 
+const DOWNLOAD_ID: Download = "operational-standards";
+
 const OperationalStandardsCard: React.FC<OperationalStandardsCardProps> = (
   props
 ) => {
@@ -45,18 +50,47 @@ const OperationalStandardsCard: React.FC<OperationalStandardsCardProps> = (
 
   const { peerGroupLabel } = getPeerGroupLabels(peerGroup);
   return (
-    <Card {...props}>
+    <Card {...props} id={DOWNLOAD_ID}>
       <CardContent>
-        <Typography variant="h3" gutterBottom>
-          {getLocalizedLabel({
-            id: `${attribute.toLowerCase()}-trend`,
-          })}
-        </Typography>
-        <Typography variant="body2" color="text.secondary" gutterBottom mb={8}>
-          <Trans id="sunshine.costs-and-tariffs.benchmarking-peer-group">
-            Benchmarking within the Peer Group: {peerGroupLabel}
-          </Trans>
-        </Typography>
+        <CardHeader
+          trailingContent={
+            <>
+              <InfoDialogButton
+                iconOnly
+                iconSize={24}
+                type="outline"
+                //FIXME: use correct slug
+                slug="help-operational-standards"
+                label={getLocalizedLabel({
+                  id: `${attribute.toLowerCase()}-trend`,
+                })}
+              />
+              <DownloadImage
+                iconOnly
+                iconSize={24}
+                elementId={DOWNLOAD_ID}
+                fileName={DOWNLOAD_ID}
+                downloadType={DOWNLOAD_ID}
+              />
+            </>
+          }
+        >
+          <Typography variant="h3">
+            {getLocalizedLabel({
+              id: `${attribute.toLowerCase()}-trend`,
+            })}
+          </Typography>
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            gutterBottom
+            mb={8}
+          >
+            <Trans id="sunshine.costs-and-tariffs.benchmarking-peer-group">
+              Benchmarking within the Peer Group: {peerGroupLabel}
+            </Trans>
+          </Typography>
+        </CardHeader>
 
         {/* Stacked Horizontal Bar Chart */}
         <Box sx={{ height: 400, width: "100%" }}>

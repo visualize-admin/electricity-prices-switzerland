@@ -15,7 +15,12 @@ import { Combobox } from "src/components/combobox";
 import { PeerGroup, SunshineCostsAndTariffsData } from "src/domain/data";
 import { getLocalizedLabel, getPeerGroupLabels } from "src/domain/translation";
 
+import { CardHeader } from "./detail-page/card";
+import { Download, DownloadImage } from "./detail-page/download-image";
+import { InfoDialogButton } from "./info-dialog";
 import { NetTariffsTrendChart } from "./net-tariffs-trend-chart";
+
+const DOWNLOAD_ID: Download = "costs-and-tariffs";
 
 const NetTariffsTrendCard: React.FC<
   {
@@ -35,18 +40,45 @@ const NetTariffsTrendCard: React.FC<
     props;
   const { peerGroupLabel } = getPeerGroupLabels(peerGroup);
   return (
-    <Card {...props}>
+    <Card {...props} id={DOWNLOAD_ID}>
       <CardContent>
-        <Typography variant="h3" gutterBottom>
-          <Trans id="sunshine.costs-and-tariffs.net-tariffs-trend">
-            Net Tariffs Trend
-          </Trans>
-        </Typography>
-        <Typography variant="body2" color="text.secondary" gutterBottom mb={8}>
-          <Trans id="sunshine.costs-and-tariffs.benchmarking-peer-group">
-            Benchmarking within the Peer Group: {peerGroupLabel}
-          </Trans>
-        </Typography>
+        <CardHeader
+          trailingContent={
+            <>
+              <InfoDialogButton
+                iconOnly
+                iconSize={24}
+                type="outline"
+                //FIXME: use correct slug
+                slug="help-costs-and-tariffs"
+                label={"sunshine.costs-and-tariffs.net-tariffs-trend"}
+              />
+              <DownloadImage
+                iconOnly
+                iconSize={24}
+                elementId={DOWNLOAD_ID}
+                fileName={DOWNLOAD_ID}
+                downloadType={DOWNLOAD_ID}
+              />
+            </>
+          }
+        >
+          <Typography variant="h3">
+            <Trans id="sunshine.costs-and-tariffs.net-tariffs-trend">
+              Net Tariffs Trend
+            </Trans>
+          </Typography>
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            gutterBottom
+            mb={8}
+          >
+            <Trans id="sunshine.costs-and-tariffs.benchmarking-peer-group">
+              Benchmarking within the Peer Group: {peerGroupLabel}
+            </Trans>
+          </Typography>
+        </CardHeader>
 
         {/* Dropdown Controls */}
         <Grid container spacing={3} sx={{ mb: 3 }}>

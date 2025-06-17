@@ -13,7 +13,10 @@ export type Download =
   | "components"
   | "evolution"
   | "distribution"
-  | "comparison";
+  | "comparison"
+  | "operational-standards"
+  | "costs-and-tariffs"
+  | "power-stability";
 
 const getImageDataFromElement = async (elementId: string): Promise<string> => {
   const element = document.getElementById(elementId);
