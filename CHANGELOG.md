@@ -11,6 +11,8 @@ You can also check the
 
 # Unreleased
 
+- Features
+  - SAIDI / SAIFI indicators can be shown on the map (behind "sunshine" flag)
 - Fixes
   - Changes to Docker image to be able to use duckdb (alpine based to debian based)
   - Correct fetching of power stability metrics through graphql queries
