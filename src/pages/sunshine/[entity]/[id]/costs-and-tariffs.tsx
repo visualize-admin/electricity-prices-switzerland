@@ -1,5 +1,5 @@
 import { Trans, t } from "@lingui/macro";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
 import ErrorPage from "next/error";
 import { useRouter } from "next/router";
@@ -16,6 +16,7 @@ import {
   DetailsPageTitle,
 } from "src/components/detail-page/layout";
 import { DetailsPageSidebar } from "src/components/detail-page/sidebar";
+import { Loading } from "src/components/hint";
 import NetTariffsTrendCard from "src/components/net-tariffs-trend-card";
 import NetworkCostsTrendCard from "src/components/network-costs-trend-card";
 import PeerGroupCard from "src/components/peer-group-card";
@@ -128,7 +129,7 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
 
   // TODO Assuming NE5 is the network level for the operator
   const [networkLevel, setNetworkLevel] = useState<NetworkLevel["id"]>("NE5");
-  const [query] = useNetworkCostsQuery({
+  const [{ data, fetching }] = useNetworkCostsQuery({
     variables: {
       filter: {
         operatorId: parseInt(props.id, 10),
@@ -137,12 +138,23 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
       },
     },
   });
-  const networkCosts = query.data
-    ?.networkCosts as NetworkCostsQuery["networkCosts"];
-  if (!networkCosts) {
-    // TODO
-    return null;
+  const networkCosts = data?.networkCosts as NetworkCostsQuery["networkCosts"];
+
+  if (fetching) {
+    return <Loading />;
   }
+
+  if (!networkCosts) {
+    return (
+      <Typography variant="body2" color="text.secondary">
+        <Trans id="sunshine.costs-and-tariffs.no-network-costs">
+          No network costs data available for this operator in the selected
+          year.
+        </Trans>
+      </Typography>
+    );
+  }
+
   const {
     operatorRate,
     operatorTrend,
@@ -290,7 +302,7 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
   } = props.costsAndTariffs;
 
   const [category, setCategory] = useState<TariffCategory>("NC2"); // Default category, can be changed based on user input
-  const [{ data }] = useEnergyTariffsQuery({
+  const [{ data, fetching }] = useEnergyTariffsQuery({
     variables: {
       filter: {
         operatorId: parseInt(props.id, 10),
@@ -300,9 +312,22 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
     },
   });
   const energyTariffs = data?.energyTariffs;
-  if (!energyTariffs) {
-    return null;
+
+  if (fetching) {
+    return <Loading />;
   }
+
+  if (!energyTariffs) {
+    return (
+      <Typography variant="body2" color="text.secondary">
+        <Trans id="sunshine.costs-and-tariffs.no-energy-tariffs">
+          No energy tariffs data available for this operator in the selected
+          year.
+        </Trans>
+      </Typography>
+    );
+  }
+
   const { operatorRate, peerGroupMedianRate } = energyTariffs;
 
   const categoryLabels = getCategoryLabels(category);
@@ -416,7 +441,7 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
   } = props.costsAndTariffs;
 
   const [category, setCategory] = useState<TariffCategory>("NC2"); // Default category, can be changed based on user input
-  const [{ data }] = useNetTariffsQuery({
+  const [{ data, fetching }] = useNetTariffsQuery({
     variables: {
       filter: {
         operatorId: parseInt(props.id, 10),
@@ -426,9 +451,22 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
     },
   });
   const netTariffs = data?.netTariffs;
-  if (!netTariffs) {
-    return null;
+
+  if (fetching) {
+    return <Loading />;
   }
+
+  if (!netTariffs) {
+    return (
+      <Typography variant="body2" color="text.secondary">
+        <Trans id="sunshine.costs-and-tariffs.no-net-tariffs">
+          No network tariffs data available for this operator in the selected
+          year.
+        </Trans>
+      </Typography>
+    );
+  }
+
   const { operatorRate, peerGroupMedianRate } = netTariffs;
   const categoryLabels = getCategoryLabels(category);
 

@@ -63,6 +63,15 @@ export const getLocalizedLabel = ({ id }: { id: string }): string => {
       return t({
         id: "sunshine.operational-standards.service-quality-trend",
         message: "Comparison of advance notice periods for planned outages",
+    case "saidi-trend":
+      return t({
+        id: "sunshine.power-stability.saidi-trend",
+        message: "Average Power Outage Duration (SAIDI)",
+      });
+    case "saifi-trend":
+      return t({
+        id: "sunshine.power-stability.saifi-trend",
+        message: "Average Power Outage Frequency (SAIFI)",
       });
     case "H1":
       return t({ id: "selector.category.H1", message: "H1" });
@@ -192,6 +201,33 @@ export const getLocalizedLabel = ({ id }: { id: string }): string => {
       return t({
         id: "rangeplot.select.sorting.alpha-desc",
         message: "Alphabetically descending",
+      });
+
+    // Sunshine selectors labels
+    case "all_grid_operators":
+      return t({
+        id: "viewBy.all_grid_operators",
+        message: "All grid operators",
+      });
+    case "planned":
+      return t({
+        id: "typology.planned",
+        message: "Planned",
+      });
+    case "unplanned":
+      return t({
+        id: "typology.unplanned",
+        message: "Unplanned",
+      });
+    case "saidi":
+      return t({
+        id: "indicator.saidi",
+        message: "Power Outage Duration (SAIDI)",
+      });
+    case "saifi":
+      return t({
+        id: "indicator.saifi",
+        message: "Power Outage Frequency (SAIFI)",
       });
 
     case "peer-group.settlement-density.na":

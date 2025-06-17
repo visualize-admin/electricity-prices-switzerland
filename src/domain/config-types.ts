@@ -7,6 +7,7 @@ const SortingType = z.union([
   z.literal("byDimensionLabel"),
   z.literal("byMeasure"),
   z.literal("byTotalSize"),
+  z.literal("byExternalValue"),
 ]);
 export type SortingType = z.infer<typeof SortingType>;
 
@@ -30,6 +31,12 @@ const SegmentField = z.object({
     .object({
       sortingType: SortingType,
       sortingOrder: SortingOrder,
+      valueAccessor: z
+        .object({
+          prop: z.string(),
+          value: z.any().optional(),
+        })
+        .optional(),
     })
     .optional(),
 });
@@ -38,9 +45,9 @@ type SegmentField = z.infer<typeof SegmentField>;
 
 const BarFields = z.object({
   x: z.object({
-    componentIri: z.string(),
-    domain: z.array(z.number()),
+    componentIri: z.union([z.string(), z.array(z.string())]),
   }),
+  domain: z.array(z.number()),
   y: z.object({
     componentIri: z.string(),
     sorting: z
@@ -59,6 +66,7 @@ const BarFields = z.object({
       opacityDomain: z.array(z.string()),
       colorAcc: z.string(),
       opacityAcc: z.string(),
+      highlightValue: z.union([z.string(), z.number()]).optional(),
     })
     .optional(),
 });
