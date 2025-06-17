@@ -60,7 +60,7 @@ export const MapTooltipContent: React.FC<{
                   <Typography
                     variant="caption"
                     style={{
-                      color: getContrastColor(d.color),
+                      color: d.color ? getContrastColor(d.color) : undefined,
                     }}
                   >
                     {d.formattedValue}
