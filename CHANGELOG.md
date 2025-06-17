@@ -14,8 +14,12 @@ You can also check the
 - Features
   - SAIDI / SAIFI indicators can be shown on the map (behind "sunshine" flag)
 - Fixes
+
   - Changes to Docker image to be able to use duckdb (alpine based to debian based)
   - Correct fetching of power stability metrics through graphql queries
+
+- Maintenance
+  - Updated tpo-deepl see README.md for details `https://www.npmjs.com/package/tpo-deepl`
 
 # 2.0.0 - 2025-06-11
 
@@ -28,6 +32,7 @@ You can also check the
   - Load data through urql in sunshine pages, urql client cache is primed by the server
   - Added Scatterplot Chart to sunshine charts
   - Ability to change network level on costs and tariffs > network costs page.
+
 - Fixes
   - Fixed map layout issues on mobile
   - Dropdown adjustments
