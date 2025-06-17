@@ -63,6 +63,7 @@ export const getLocalizedLabel = ({ id }: { id: string }): string => {
       return t({
         id: "sunshine.operational-standards.service-quality-trend",
         message: "Comparison of advance notice periods for planned outages",
+      });
     case "saidi-trend":
       return t({
         id: "sunshine.power-stability.saidi-trend",
