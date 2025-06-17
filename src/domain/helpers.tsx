@@ -315,13 +315,17 @@ let canvas: HTMLCanvasElement;
 let ctx: CanvasRenderingContext2D;
 const fontFamily = typography.fontFamily as string;
 
-export const getTextWidth = (text: string, options: { fontSize: number }) => {
-  if (canvas === undefined && ctx === undefined) {
+export const getTextWidth = (
+  text: string,
+  options: { fontSize: number; fontWeight?: number | "normal" | "bold" }
+) => {
+  if (!canvas) {
     canvas = document.createElement("canvas");
     ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
   }
 
-  ctx.font = `${options.fontSize}px ${fontFamily}`;
+  const weight = options.fontWeight ?? "normal";
+  ctx.font = `${weight} ${options.fontSize}px ${fontFamily}`;
 
   return ctx.measureText(text).width;
 };

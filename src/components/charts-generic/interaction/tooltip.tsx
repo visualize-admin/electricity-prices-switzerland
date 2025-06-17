@@ -8,13 +8,13 @@ import {
 import { LinesState } from "src/components/charts-generic/lines/lines-state";
 import {
   HistogramState,
+  ScatterPlotState,
   useChartState,
 } from "src/components/charts-generic/use-chart-state";
 import { useInteraction } from "src/components/charts-generic/use-interaction";
 import { GenericObservation } from "src/domain/data";
 
 import { LegendSymbol } from "../legends/color";
-import { ScatterPlotState } from "../scatter-plot/scatter-plot-state";
 
 export const TRIANGLE_SIZE = 8;
 export const TOOLTIP_OFFSET = 4;

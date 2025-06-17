@@ -239,9 +239,8 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
                   fields={{
                     x: {
                       componentIri: "value",
-                      domain: xDomain,
                     },
-                    // Y is not used in the chart state...
+                    domain: xDomain,
                     y: {
                       componentIri: "priceComponent",
                       sorting: {

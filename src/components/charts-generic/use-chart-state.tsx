@@ -1,4 +1,11 @@
-import { Bin, ScaleBand, ScaleLinear, ScaleOrdinal, ScaleTime } from "d3";
+import {
+  Bin,
+  ScaleBand,
+  ScaleLinear,
+  ScaleOrdinal,
+  ScaleTime,
+  Series,
+} from "d3";
 import { createContext, useContext } from "react";
 
 import { Annotation } from "src/components/charts-generic/annotation/annotation-x";
@@ -10,8 +17,6 @@ import {
   GenericObservation,
   ObservationValue,
 } from "src/domain/data";
-
-import { ScatterPlotState } from "./scatter-plot/scatter-plot-state";
 
 export type ChartProps = {
   data: GenericObservation[];
@@ -168,7 +173,46 @@ type StackedColumnsState = {
   ) => Tooltip;
 };
 
+export interface ScatterPlotState {
+  data: GenericObservation[];
+  bounds: Bounds;
+  segments: string[];
+  getX: (d: GenericObservation) => number;
+  xScale: ScaleLinear<number, number>;
+  getY: (d: GenericObservation) => string;
+  yScale: ScaleBand<string>;
+  getSegment: (d: GenericObservation) => string;
+  colors: ScaleOrdinal<string, string>;
+  getAnnotationInfo: (d: GenericObservation) => Tooltip;
+  getColor: (d: GenericObservation) => string;
+  getHighlightEntity: (d: GenericObservation) => string | number | null;
+  getTooltipLabel: (d: GenericObservation) => string;
+  medianValue?: number;
+}
+export type StackRow = Record<string, number | string>;
+
+export type StackedBarsState = {
+  data: GenericObservation[];
+  bounds: Bounds;
+  getX: (d: GenericObservation) => number;
+  xScale: ScaleLinear<number, number>;
+  yScale: ScaleBand<string>;
+  getSegment: (d: GenericObservation) => string;
+  getLabel: (d: GenericObservation) => string;
+  getColor: (d: GenericObservation) => string;
+  getOpacity: (d: GenericObservation) => string;
+  segments: string[];
+  colors: ScaleOrdinal<string, string>;
+  opacityScale: ScaleOrdinal<string, number>;
+  categories: string[];
+  stackedData: Series<StackRow, string>[];
+  getSegmentValue: (category: string, segment: string) => number;
+  getTotalValue: (category: string) => number;
+  getCategory: (d: GenericObservation) => string;
+};
+
 type ChartState =
+  | StackedBarsState
   | ColumnsState
   | BarsState
   | GroupedBarsState
