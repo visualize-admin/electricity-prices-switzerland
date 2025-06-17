@@ -1,10 +1,11 @@
-import { useMemo } from "react";
-
 import {
   years,
   viewByOptions,
   typologyOptions,
   indicatorOptions,
+  networkLevelOptions,
+  netTariffCategoryOptions,
+  energyTariffCategoryOptions,
 } from "src/domain/sunshine-data";
 import { getLocalizedLabel } from "src/domain/translation";
 import { useQueryStateSingle } from "src/lib/use-query-state";
@@ -15,32 +16,34 @@ export const SunshineSelectors = () => {
   const [queryState, setQueryState] = useQueryStateSingle();
   const getItemLabel = (id: string) => getLocalizedLabel({ id });
 
-  const defaultValues = useMemo(
-    () => ({
-      tab: "sunshine",
-      year: queryState.period ?? "2024",
-      viewBy: queryState.viewBy ?? "all_grid_operators",
-      typology: queryState.typology ?? "total",
-      indicator: queryState.indicator ?? "saidi",
-    }),
-    [queryState]
-  );
-
   return (
     <SunshineSelectorsBase
-      year={defaultValues.year}
+      year={queryState.period}
       setYear={(period) => setQueryState({ period })}
       years={years}
-      viewBy={defaultValues.viewBy}
+      viewBy={queryState.viewBy}
       setViewBy={(viewBy) => setQueryState({ viewBy })}
       viewByOptions={viewByOptions}
-      typology={defaultValues.typology}
+      typology={queryState.typology}
       setTypology={(typology) => setQueryState({ typology })}
       typologyOptions={typologyOptions}
-      indicator={defaultValues.indicator}
+      indicator={queryState.indicator}
       setIndicator={(indicator) => setQueryState({ indicator })}
       indicatorOptions={indicatorOptions}
       getItemLabel={getItemLabel}
+      networkLevel={queryState.networkLevel}
+      setNetworkLevel={(networkLevel) => setQueryState({ networkLevel })}
+      networkLevelOptions={networkLevelOptions}
+      netTariffCategory={queryState.netTariffCategory}
+      netTariffsCategoryOptions={netTariffCategoryOptions}
+      setNetTariffCategory={(netTariffCategory) =>
+        setQueryState({ netTariffCategory })
+      }
+      energyTariffCategory={queryState.energyTariffCategory}
+      energyTariffsCategoryOptions={energyTariffCategoryOptions}
+      setEnergyTariffCategory={(energyTariffCategory) =>
+        setQueryState({ energyTariffCategory })
+      }
     />
   );
 };

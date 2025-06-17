@@ -376,6 +376,9 @@ export type SunshineDataRow = {
   infoDaysInAdvance?: Maybe<Scalars["Int"]["output"]>;
   infoYesNo?: Maybe<Scalars["Boolean"]["output"]>;
   name: Scalars["String"]["output"];
+  networkCostsNE5?: Maybe<Scalars["Float"]["output"]>;
+  networkCostsNE6?: Maybe<Scalars["Float"]["output"]>;
+  networkCostsNE7?: Maybe<Scalars["Float"]["output"]>;
   operatorId?: Maybe<Scalars["Int"]["output"]>;
   operatorUID: Scalars["String"]["output"];
   period: Scalars["String"]["output"];
@@ -744,6 +747,23 @@ export type SunshineDataQuery = {
     saidiUnplanned?: number | null;
     saifiTotal?: number | null;
     saifiUnplanned?: number | null;
+    networkCostsNE5?: number | null;
+    networkCostsNE6?: number | null;
+    networkCostsNE7?: number | null;
+    tariffEC2?: number | null;
+    tariffEC3?: number | null;
+    tariffEC4?: number | null;
+    tariffEC6?: number | null;
+    tariffEH2?: number | null;
+    tariffEH4?: number | null;
+    tariffEH7?: number | null;
+    tariffNC2?: number | null;
+    tariffNC3?: number | null;
+    tariffNC4?: number | null;
+    tariffNC6?: number | null;
+    tariffNH2?: number | null;
+    tariffNH4?: number | null;
+    tariffNH7?: number | null;
   }>;
 };
 
@@ -1213,6 +1233,23 @@ export const SunshineDataDocument = gql`
       saidiUnplanned
       saifiTotal
       saifiUnplanned
+      networkCostsNE5
+      networkCostsNE6
+      networkCostsNE7
+      tariffEC2
+      tariffEC3
+      tariffEC4
+      tariffEC6
+      tariffEH2
+      tariffEH4
+      tariffEH7
+      tariffNC2
+      tariffNC3
+      tariffNC4
+      tariffNC6
+      tariffNH2
+      tariffNH4
+      tariffNH7
     }
   }
 `;

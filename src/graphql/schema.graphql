@@ -234,6 +234,9 @@ type SunshineDataRow {
   tariffNH2: Float
   tariffNH4: Float
   tariffNH7: Float
+  networkCostsNE5: Float
+  networkCostsNE6: Float
+  networkCostsNE7: Float
 }
 
 input SunshineDataFilter {
