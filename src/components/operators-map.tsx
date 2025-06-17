@@ -1,3 +1,4 @@
+import { PickingInfo } from "@deck.gl/core/typed";
 import { GeoJsonLayer } from "@deck.gl/layers/typed";
 import DeckGL, { DeckGLRef } from "@deck.gl/react/typed";
 import * as turf from "@turf/turf";
@@ -63,11 +64,22 @@ export const displayedAttributes = [
 
 export type DisplayedAttribute = (typeof displayedAttributes)[number];
 
+export type PickingInfoGeneric<Props> = Omit<PickingInfo, "object"> & {
+  object?: Feature<Geometry, Props> | null;
+};
+
+export type GetOperatorsMapTooltip = (
+  info: PickingInfoGeneric<OperatorLayerProperties>
+) => null | {
+  html: string;
+};
+
 type OperatorsMapProps = {
   period: string;
   colorScale: ScaleThreshold<number, string, never>;
   accessor: (x: SunshineDataRow) => Maybe<number> | undefined;
   observations?: SunshineDataRow[];
+  getTooltip?: GetOperatorsMapTooltip;
 };
 
 const OperatorsMap = ({
@@ -75,6 +87,7 @@ const OperatorsMap = ({
   colorScale,
   accessor,
   observations,
+  getTooltip,
 }: OperatorsMapProps) => {
   const deckglRef = useRef<DeckGLRef>(null);
 
@@ -139,22 +152,7 @@ const OperatorsMap = ({
         pitch: 0,
         bearing: 0,
       }}
-      getTooltip={({ object }) => {
-        if (!object) {
-          return null;
-        }
-        const operatorIds = (object.properties as OperatorLayerProperties)
-          ?.operators;
-        return {
-          html: `<div>${operatorIds.join("<br/>")}</div>`,
-          style: {
-            backgroundColor: "white",
-            color: "black",
-            fontSize: "12px",
-            padding: "5px",
-          },
-        };
-      }}
+      getTooltip={getTooltip}
       controller={true}
       ref={deckglRef}
       layers={[
