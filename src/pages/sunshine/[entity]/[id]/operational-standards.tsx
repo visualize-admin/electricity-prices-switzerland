@@ -1,4 +1,4 @@
-import { Trans, t } from "@lingui/macro";
+import { t, Trans } from "@lingui/macro";
 import { GetServerSideProps } from "next";
 import ErrorPage from "next/error";
 import { useRouter } from "next/router";
@@ -7,12 +7,13 @@ import React, { useState } from "react";
 import CardGrid from "src/components/card-grid";
 import { DetailPageBanner } from "src/components/detail-page/banner";
 import {
-  DetailsPageLayout,
   DetailsPageHeader,
+  DetailsPageLayout,
   DetailsPageSubtitle,
   DetailsPageTitle,
 } from "src/components/detail-page/layout";
 import { DetailsPageSidebar } from "src/components/detail-page/sidebar";
+import OperationalStandardsCard from "src/components/operational-standards-card";
 import PeerGroupCard from "src/components/peer-group-card";
 import {
   OperationalStandardsNavigation,
@@ -79,9 +80,11 @@ const ProductVariety = (props: Extract<Props, { status: "found" }>) => {
   const {
     operator: { peerGroup },
     latestYear,
+    updateDate,
   } = props.operationalStandards;
 
   const data = props.operationalStandards;
+  const operatorLabel = props.name;
 
   const comparisonCardProps = {
     title: (
@@ -156,6 +159,16 @@ const ProductVariety = (props: Extract<Props, { status: "found" }>) => {
           {...comparisonCardProps}
           sx={{ gridArea: "comparison" }}
         />
+
+        <OperationalStandardsCard
+          sx={{ gridArea: "trend" }}
+          peerGroup={peerGroup}
+          updateDate={updateDate}
+          operatorId={props.id}
+          operatorLabel={operatorLabel}
+          operationalStandards={data.productVariety}
+          attribute="productVariety"
+        />
       </CardGrid>
     </>
   );
@@ -165,10 +178,11 @@ const ServiceQuality = (props: Extract<Props, { status: "found" }>) => {
   const {
     operator: { peerGroup },
     latestYear,
+    updateDate,
   } = props.operationalStandards;
 
   const data = props.operationalStandards;
-
+  const operatorLabel = props.name;
   const comparisonCardProps = {
     title: (
       <Trans id="sunshine.operational-standards.service-quality.comparison-card-title">
@@ -242,6 +256,16 @@ const ServiceQuality = (props: Extract<Props, { status: "found" }>) => {
           {...comparisonCardProps}
           sx={{ gridArea: "comparison" }}
         />
+
+        <OperationalStandardsCard
+          sx={{ gridArea: "trend" }}
+          peerGroup={peerGroup}
+          updateDate={updateDate}
+          operatorId={props.id}
+          operatorLabel={operatorLabel}
+          operationalStandards={data.serviceQuality}
+          attribute="serviceQuality"
+        />
       </CardGrid>
     </>
   );
@@ -251,10 +275,11 @@ const Compliance = (props: Extract<Props, { status: "found" }>) => {
   const {
     operator: { peerGroup },
     latestYear,
+    updateDate,
   } = props.operationalStandards;
 
   const data = props.operationalStandards;
-
+  const operatorLabel = props.name;
   const comparisonCardProps = {
     title: (
       <Trans id="sunshine.operational-standards.compliance.comparison-card-title">
@@ -328,6 +353,16 @@ const Compliance = (props: Extract<Props, { status: "found" }>) => {
         <TableComparisonCard
           {...comparisonCardProps}
           sx={{ gridArea: "comparison" }}
+        />
+
+        <OperationalStandardsCard
+          sx={{ gridArea: "trend" }}
+          peerGroup={peerGroup}
+          updateDate={updateDate}
+          operatorId={props.id}
+          operatorLabel={operatorLabel}
+          operationalStandards={data.compliance}
+          attribute="compliance"
         />
       </CardGrid>
     </>
