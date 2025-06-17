@@ -111,12 +111,6 @@ function getSunshineAccessor(
       : accessorsByAttribute[`${indicator}Planned`];
   }
   if (indicator === "networkCosts") {
-    console.log(
-      `networkCosts${networkLevel}`,
-      accessorsByAttribute,
-      accessorsByAttribute[`networkCosts${networkLevel}`]
-    );
-    console.log({ networkLevel, networkCosts: `networkCosts${networkLevel}` });
     return accessorsByAttribute[`networkCosts${networkLevel}`];
   }
   if (indicator === "netTariffs") {
