@@ -2,7 +2,6 @@ import { extent, range, scaleThreshold } from "d3";
 import { useMemo } from "react";
 
 import buildEnv from "src/env/build";
-import { TariffCategory } from "src/graphql/resolver-mapped-types";
 import {
   NetworkCostsData,
   StabilityData,
@@ -124,7 +123,14 @@ export type PeerGroup = {
 };
 
 export type NetworkLevel = {
-  id: string;
+  id: "NE5" | "NE6" | "NE7";
+};
+
+export const asNetworkLevel = (id: string): NetworkLevel["id"] => {
+  if (id === "NE5" || id === "NE6" || id === "NE7") {
+    return id as NetworkLevel["id"];
+  }
+  throw new Error(`Invalid network level: ${id}`);
 };
 
 export type ElectricityCategory =
@@ -144,17 +150,6 @@ export type ElectricityCategory =
   | "H6"
   | "H7"
   | "H8";
-
-export { type TariffCategory } from "src/graphql/resolver-mapped-types";
-
-// TODO Mapping should be at graphql level, we should be able to remove
-// this function when this is done
-export const asTariffCategory = (category: string): TariffCategory => {
-  if (category === "NC2" || category === "NC3") {
-    return category as TariffCategory;
-  }
-  throw new Error(`Invalid network category: ${category}`);
-};
 
 export type SunshineCostsAndTariffsData = {
   latestYear: string;
@@ -221,4 +216,51 @@ export type SunshineOperationalStandardsData = {
     };
   };
   updateDate: string;
+};
+
+export type TariffCategory =
+  // EC
+  | "EC2"
+  | "EC3"
+  | "EC4"
+  | "EC6"
+
+  // EH
+  | "EH2"
+  | "EH4"
+  | "EH7"
+
+  // NC
+  | "NC2"
+  | "NC3"
+  | "NC4"
+  | "NC6"
+
+  // NH
+  | "NH2"
+  | "NH4"
+  | "NH7";
+
+// TODO Mapping should be at graphql level, we should be able to remove
+// this function when this is done
+export const asTariffCategory = (category: string): TariffCategory => {
+  if (
+    category === "EC2" ||
+    category === "EC3" ||
+    category === "EC4" ||
+    category === "EC6" ||
+    category === "EH2" ||
+    category === "EH4" ||
+    category === "EH7" ||
+    category === "NC2" ||
+    category === "NC3" ||
+    category === "NC4" ||
+    category === "NC6" ||
+    category === "NH2" ||
+    category === "NH4" ||
+    category === "NH7"
+  ) {
+    return category as TariffCategory;
+  }
+  throw new Error(`Invalid network category: ${category}`);
 };
