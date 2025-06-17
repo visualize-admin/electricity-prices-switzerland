@@ -3,18 +3,14 @@ import { SunshineSelectorsBase } from "./base";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta: Meta<typeof SunshineSelectorsBase> = {
-  title: "Components/SunshineSelectors/Base",
+  title: "Components/SunshineSelectors",
   component: SunshineSelectorsBase,
-  parameters: {
-    layout: "centered",
-  },
-  tags: ["autodocs"],
 };
 
 export default meta;
 type Story = StoryObj<typeof SunshineSelectorsBase>;
 
-export const Default: Story = {
+export const SunshineSelectors: Story = {
   args: {
     year: "2024",
     years: ["2024", "2023", "2022", "2021", "2020"],
