@@ -1,6 +1,6 @@
 import { t } from "@lingui/macro";
 
-import { TariffCategory, NetworkLevel, PeerGroup } from "src/domain/data";
+import { NetworkLevel, PeerGroup, TariffCategory } from "src/domain/data";
 
 export const getLocalizedLabel = ({ id }: { id: string }): string => {
   switch (id) {
@@ -49,7 +49,21 @@ export const getLocalizedLabel = ({ id }: { id: string }): string => {
       });
     case "total":
       return t({ id: "selector.pricecomponent.total", message: "Total" });
-
+    case "productvariety-trend":
+      return t({
+        id: "sunshine.operational-standards.product-variety-trend",
+        message: "Comparison of eco-friendly product diversity",
+      });
+    case "comliance-trend":
+      return t({
+        id: "sunshine.operational-standards.compliance-trend",
+        message: "Comparison of francs per invoice recipient",
+      });
+    case "servicequality-trend":
+      return t({
+        id: "sunshine.operational-standards.service-quality-trend",
+        message: "Comparison of advance notice periods for planned outages",
+      });
     case "H1":
       return t({ id: "selector.category.H1", message: "H1" });
     case "H2":
