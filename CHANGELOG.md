@@ -41,6 +41,7 @@ You can also check the
   - Add new Scatterplot Chart
 - Styles
   - Update Design System to match the Bund new CI system
+  - Improved map animations / transitions
 - Maintenance
   - Added Sentry
   - Split Static checks and e2e tests
