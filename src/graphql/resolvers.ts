@@ -42,7 +42,11 @@ import {
 } from "src/rdf/queries";
 import { fetchOperatorInfo, search } from "src/rdf/search-queries";
 import * as fs from "fs";
-import { asTariffCategory } from "src/domain/data";
+import {
+  asNetworkLevel,
+  asTariffCategory,
+  NetworkLevel,
+} from "src/domain/data";
 import { getPeerGroup, getSunshineData } from "src/lib/db/sql";
 
 const gfmSyntax = require("micromark-extension-gfm");
@@ -386,7 +390,9 @@ const Query: QueryResolvers = {
   networkCosts: async (_, { filter }) => {
     return await fetchNetworkCostsData({
       operatorId: filter.operatorId,
-      networkLevel: filter.networkLevel ?? undefined,
+      networkLevel: filter.networkLevel
+        ? asNetworkLevel(filter.networkLevel)
+        : undefined,
       period: filter.period,
     });
   },
