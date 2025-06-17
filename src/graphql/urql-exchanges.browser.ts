@@ -13,5 +13,4 @@ export const ssr = ssrExchange({
   initialState: typeof window !== "undefined" ? window.__URQL_DATA__ || {} : {},
 });
 
-/** @knipignore */
 export const exchanges = [cacheExchange, ssr, fetchExchange];
