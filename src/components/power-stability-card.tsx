@@ -25,7 +25,7 @@ const PowerStabilityCard: React.FC<
       | SunshinePowerStabilityData["saifi"];
     operatorId: string;
     operatorLabel: string;
-    attribute: "saidi" | "saifi";
+    attribute: keyof Pick<SunshinePowerStabilityData, "saidi" | "saifi">;
   } & CardProps
 > = (props) => {
   const [compareWith, setCompareWith] = useState(
