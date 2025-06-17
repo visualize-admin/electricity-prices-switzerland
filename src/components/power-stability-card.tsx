@@ -12,7 +12,7 @@ import React, { useState } from "react";
 import { ButtonGroup } from "src/components/button-group";
 import CardSource from "src/components/card-source";
 import { PeerGroup, SunshinePowerStabilityData } from "src/domain/data";
-import { getPeerGroupLabels } from "src/domain/translation";
+import { getLocalizedLabel, getPeerGroupLabels } from "src/domain/translation";
 
 import { PowerStabilityChart } from "./power-stability-chart";
 
@@ -25,23 +25,30 @@ const PowerStabilityCard: React.FC<
       | SunshinePowerStabilityData["saifi"];
     operatorId: string;
     operatorLabel: string;
+    attribute: "saidi" | "saifi";
   } & CardProps
 > = (props) => {
   const [compareWith, setCompareWith] = useState(
-    "sunshine.costs-and-tariffs.all-peer-group"
+    "sunshine.power-stability.all-peer-group"
   );
   const [viewBy, setViewBy] = useState("latest");
 
-  const { peerGroup, updateDate, powerStability, operatorId, operatorLabel } =
-    props;
+  const {
+    peerGroup,
+    updateDate,
+    powerStability,
+    operatorId,
+    operatorLabel,
+    attribute,
+  } = props;
   const { peerGroupLabel } = getPeerGroupLabels(peerGroup);
   return (
     <Card {...props}>
       <CardContent>
         <Typography variant="h3" gutterBottom>
-          <Trans id="sunshine.costs-and-tariffs.net-tariffs-trend">
-            Net Tariffs Trend
-          </Trans>
+          {getLocalizedLabel({
+            id: `${attribute}-trend`,
+          })}
         </Typography>
         <Typography variant="body2" color="text.secondary" gutterBottom mb={8}>
           <Trans id="sunshine.costs-and-tariffs.benchmarking-peer-group">

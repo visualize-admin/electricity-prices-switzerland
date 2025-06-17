@@ -1,6 +1,6 @@
 import { t } from "@lingui/macro";
 
-import { TariffCategory, NetworkLevel, PeerGroup } from "src/domain/data";
+import { NetworkLevel, PeerGroup, TariffCategory } from "src/domain/data";
 
 export const getLocalizedLabel = ({ id }: { id: string }): string => {
   switch (id) {
@@ -49,7 +49,16 @@ export const getLocalizedLabel = ({ id }: { id: string }): string => {
       });
     case "total":
       return t({ id: "selector.pricecomponent.total", message: "Total" });
-
+    case "saidi-trend":
+      return t({
+        id: "sunshine.power-stability.saidi-trend",
+        message: "Average Power Outage Duration (SAIDI)",
+      });
+    case "saifi-trend":
+      return t({
+        id: "sunshine.power-stability.saifi-trend",
+        message: "Average Power Outage Frequency (SAIFI)",
+      });
     case "H1":
       return t({ id: "selector.category.H1", message: "H1" });
     case "H2":

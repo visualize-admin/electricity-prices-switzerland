@@ -233,6 +233,7 @@ const SaidiSaifi = (
           operatorId={props.id}
           operatorLabel={operatorLabel}
           powerStability={data}
+          attribute={attribute}
         />
       </CardGrid>
     </>
