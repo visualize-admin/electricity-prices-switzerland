@@ -59,7 +59,7 @@ const getDomainFromMedianValue = (medianValue: number | undefined) => {
 export const useColorScale = <T>(options: {
   observations: T[];
   medianValue?: number | undefined;
-  accessor: (x: T) => number;
+  accessor: (x: T) => number | undefined;
 }) => {
   return useMemo(() => {
     const domain =
