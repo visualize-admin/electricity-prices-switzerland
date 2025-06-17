@@ -1,6 +1,6 @@
-import { Box } from "@mui/material";
+import { Box, paperClasses } from "@mui/material";
 import { median } from "d3";
-import { property } from "lodash";
+import { keyBy, property } from "lodash";
 import { GetServerSideProps } from "next";
 import dynamic from "next/dynamic";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -30,6 +30,7 @@ import {
   useSunshineDataQuery,
 } from "src/graphql/queries";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
+import { truthy } from "src/lib/truthy";
 import { useQueryStateSingle } from "src/lib/use-query-state";
 import { defaultLocale } from "src/locales/config";
 import { useFlag } from "src/utils/flags";
@@ -254,6 +255,10 @@ const IndexPage = ({ locale }: Props) => {
     }
   }, [activeId, isSunshine]);
 
+  const sunshineValuesByOperator = useMemo(() => {
+    return keyBy(sunshineObservations, "operatorId");
+  }, [sunshineObservations]);
+
   const map = isElectricityTab ? (
     <ChoroplethMap
       year={mapYear}
@@ -271,6 +276,34 @@ const IndexPage = ({ locale }: Props) => {
       period={mapYear}
       colorScale={sunshineColorScale}
       observations={sunshineObservations}
+      getTooltip={(info) => {
+        if (!info.object) {
+          return null;
+        }
+        const operatorIds = info.object.properties?.operators;
+        const values = operatorIds
+          .map((x) => {
+            const op = sunshineValuesByOperator[x];
+            if (!op) {
+              return undefined;
+            }
+            return {
+              label: op.name,
+              value: sunshineAccessor(op),
+            };
+          })
+          .filter(truthy);
+        const html = `<div class="${paperClasses.root}">${values
+          .map((x) => {
+            return `<strong>${x.label}</strong>: ${
+              x.value?.toFixed(2) ?? "N/A"
+            }`;
+          })
+          .join("<br/>")}</div>`;
+        return {
+          html,
+        };
+      }}
     />
   );
 
