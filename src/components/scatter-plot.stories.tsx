@@ -1,4 +1,4 @@
-import data from "mocks/fetchOperatorCostsAndTariffsData-426.json";
+import data from "mocks/sunshine-costsAndTariffs-426.json";
 
 import { SunshineCostsAndTariffsData } from "src/domain/data";
 

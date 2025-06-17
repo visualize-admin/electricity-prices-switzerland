@@ -1,4 +1,4 @@
-import data from "mocks/fetchPowerStability-426.json";
+import data from "mocks/sunshine-powerStability-426.json";
 
 import { SunshinePowerStabilityData } from "src/domain/data";
 

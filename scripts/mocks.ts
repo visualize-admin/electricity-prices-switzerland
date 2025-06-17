@@ -184,7 +184,7 @@ async function generateMocks(options: FetcherOptions) {
 
       const outputPath = path.join(
         outputDir,
-        `fetchOperatorCostsAndTariffsData-${operatorId}.json`
+        `sunshine-costsAndTariffs-${operatorId}.json`
       );
       fs.writeFileSync(outputPath, JSON.stringify(costsAndTariffs, null, 2));
       console.log(`Saved to ${outputPath}`);
@@ -206,7 +206,7 @@ async function generateMocks(options: FetcherOptions) {
       }
       const outputPath = path.join(
         outputDir,
-        `fetchPowerStability-${operatorId}.json`
+        `sunshine-powerStability-${operatorId}.json`
       );
       fs.writeFileSync(outputPath, JSON.stringify(powerStability, null, 2));
       console.log(`Saved to ${outputPath}`);
@@ -221,7 +221,7 @@ async function generateMocks(options: FetcherOptions) {
       });
       const outputPath = path.join(
         outputDir,
-        `fetchOperationalStandards-${operatorId}.json`
+        `sunshine-operationalStandards-${operatorId}.json`
       );
       fs.writeFileSync(
         outputPath,
