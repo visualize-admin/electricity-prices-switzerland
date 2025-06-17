@@ -1,5 +1,4 @@
-import { t } from "@lingui/macro";
-import { Box, Button, Input, Link, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import { median } from "d3";
 import { property } from "lodash";
 import { GetServerSideProps } from "next";
@@ -14,7 +13,6 @@ const ContentWrapper = dynamic(
   { ssr: false }
 );
 
-import { TooltipBox } from "src/components/charts-generic/interaction/tooltip-box";
 import { CombinedSelectors } from "src/components/combined-selectors";
 import { DownloadImage } from "src/components/detail-page/download-image";
 import { InfoBanner } from "src/components/info-banner";
@@ -22,9 +20,8 @@ import { List } from "src/components/list";
 import { ChoroplethMap, ChoroplethMapProps } from "src/components/map";
 import { MapProvider } from "src/components/map-context";
 import OperatorsMap from "src/components/operators-map";
-import { useDisclosure } from "src/components/use-disclosure";
-import { useOutsideClick } from "src/components/use-outside-click";
-import { useColorScale } from "src/domain/data";
+import ShareButton from "src/components/share-button";
+import { NetworkLevel, TariffCategory, useColorScale } from "src/domain/data";
 import {
   PriceComponent,
   SunshineDataRow,
@@ -32,8 +29,6 @@ import {
   useObservationsQuery,
   useSunshineDataQuery,
 } from "src/graphql/queries";
-import { Icon } from "src/icons";
-import { copyToClipboard } from "src/lib/copy-to-clipboard";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { useQueryStateSingle } from "src/lib/use-query-state";
 import { defaultLocale } from "src/locales/config";
@@ -57,126 +52,6 @@ export const getServerSideProps: GetServerSideProps<
   { locale: string }
 > = async ({ locale }) => {
   return { props: { locale: locale ?? defaultLocale } };
-};
-
-const ShareButton = () => {
-  const { isOpen, open, close } = useDisclosure();
-  const {
-    isOpen: hasInputFocus,
-    open: setFocusOn,
-    close: setFocusOff,
-  } = useDisclosure();
-  const tooltipBoxRef = useRef<HTMLDivElement>(null);
-  const linkRef = useRef<HTMLAnchorElement>(null);
-  const mouse = useRef({ x: 0, y: 0 });
-
-  const handleClick = () => {
-    open();
-    const linkRect = linkRef.current?.getBoundingClientRect() || {
-      x: 0,
-      y: 0,
-      width: 0,
-    };
-    Object.assign(mouse.current, {
-      x: linkRect.width ?? 0,
-      y: linkRect.y ?? 0,
-    });
-  };
-
-  useOutsideClick(tooltipBoxRef, () => {
-    close();
-    setFocusOff();
-  });
-
-  const { isOpen: hasCopied, setIsOpen: setCopied } = useDisclosure();
-  const handleClickCopyButton = async () => {
-    await copyToClipboard(window.location.toString());
-    setCopied(true);
-    setTimeout(() => setCopied(false), 3000);
-  };
-
-  return (
-    <>
-      <Link
-        variant="body2"
-        color="text.primary"
-        ref={linkRef}
-        onClick={handleClick}
-        sx={{
-          cursor: "pointer",
-          display: "flex",
-          alignItems: "center",
-          gap: 1,
-        }}
-      >
-        <Icon name="share" size={20} />
-        {t({ id: "map.share", message: "Share" })}
-      </Link>
-      {isOpen && (
-        <TooltipBox
-          ref={tooltipBoxRef}
-          placement={{ x: "center", y: "top" }}
-          margins={{ top: 0, bottom: 0, left: 0, right: 0 }}
-          x={mouse.current.x}
-          y={0}
-          interactive
-        >
-          <Box
-            display="flex"
-            mb={2}
-            alignItems="center"
-            justifyContent="space-between"
-          >
-            <Typography variant="h6">URL</Typography>
-            <Typography variant="caption" color="success">
-              {hasCopied
-                ? t({ id: "share.url-copied", message: "URL copied ✅" })
-                : ""}
-            </Typography>
-          </Box>
-          <Box
-            sx={{
-              borderStyle: "solid",
-              boxSizing: "border-box",
-              borderWidth: 1,
-              borderColor: "monochrome.300",
-              outline: hasInputFocus ? "2px solid" : "none",
-              outlineColor: "primary.main",
-              display: "flex",
-              alignItems: "center",
-              borderRadius: 6,
-              overflow: "hidden",
-            }}
-          >
-            <Input
-              onFocus={setFocusOn}
-              onBlur={setFocusOff}
-              sx={{
-                width: 300,
-                border: "none",
-                height: "100%",
-                "&:focus": { border: "none", outline: 0 },
-              }}
-              value={window.location.toString()}
-            />
-            <Button
-              color="secondary"
-              onClick={handleClickCopyButton}
-              sx={{
-                width: "3rem",
-                height: "3rem",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Icon name="duplicate" />
-            </Button>
-          </Box>
-        </TooltipBox>
-      )}
-    </>
-  );
 };
 
 const isDefined = (x: number | undefined | null): x is number =>
