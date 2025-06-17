@@ -20,12 +20,12 @@ import { Search } from "src/components/search";
 
 type ApplicationLayoutProps = {
   children: ReactNode;
-  notFound?: boolean;
+  errorState?: boolean;
 };
 
 export const ApplicationLayout = ({
   children,
-  notFound,
+  errorState,
 }: ApplicationLayoutProps) => {
   const [highlightContext, setHighlightContext] = useState<HighlightValue>();
 
@@ -49,7 +49,7 @@ export const ApplicationLayout = ({
           }}
           display="flex"
         >
-          {!notFound && (
+          {!errorState && (
             <SafeHydration>
               <AppNavigation />
             </SafeHydration>
