@@ -1,27 +1,39 @@
 import { Trans } from "@lingui/macro";
 import { Box, Card, CardContent, CardProps, Typography } from "@mui/material";
-import React from "react";
 
 import CardSource from "src/components/card-source";
 import { PeerGroup, SunshineOperationalStandardsData } from "src/domain/data";
 import { getLocalizedLabel, getPeerGroupLabels } from "src/domain/translation";
 
-const OperationalStandardsCard: React.FC<
-  {
-    peerGroup: PeerGroup;
-    updateDate: string;
-    operationalStandards:
-      | SunshineOperationalStandardsData["productVariety"]
-      | SunshineOperationalStandardsData["serviceQuality"]
-      | SunshineOperationalStandardsData["compliance"];
-    operatorId: string;
-    operatorLabel: string;
-    attribute: keyof Pick<
-      SunshineOperationalStandardsData,
-      "productVariety" | "serviceQuality" | "compliance"
-    >;
-  } & CardProps
-> = (props) => {
+import {
+  ComplianceChart,
+  ProductVarietyChart,
+  ServiceQualityChart,
+} from "./operational-standards-chart";
+type AttributeProps =
+  | {
+      attribute: "productVariety";
+      operationalStandards: SunshineOperationalStandardsData["productVariety"];
+    }
+  | {
+      attribute: "serviceQuality";
+      operationalStandards: SunshineOperationalStandardsData["serviceQuality"];
+    }
+  | {
+      attribute: "compliance";
+      operationalStandards: SunshineOperationalStandardsData["compliance"];
+    };
+
+type OperationalStandardsCardProps = AttributeProps & {
+  peerGroup: PeerGroup;
+  updateDate: string;
+  operatorId: string;
+  operatorLabel: string;
+} & CardProps;
+
+const OperationalStandardsCard: React.FC<OperationalStandardsCardProps> = (
+  props
+) => {
   const {
     peerGroup,
     updateDate,
@@ -30,6 +42,7 @@ const OperationalStandardsCard: React.FC<
     operatorLabel,
     attribute,
   } = props;
+
   const { peerGroupLabel } = getPeerGroupLabels(peerGroup);
   return (
     <Card {...props}>
@@ -46,7 +59,39 @@ const OperationalStandardsCard: React.FC<
         </Typography>
 
         {/* Stacked Horizontal Bar Chart */}
-        <Box sx={{ height: 400, width: "100%" }}></Box>
+        <Box sx={{ height: 400, width: "100%" }}>
+          {(() => {
+            switch (attribute) {
+              case "productVariety":
+                return (
+                  <ProductVarietyChart
+                    data={operationalStandards}
+                    id={operatorId}
+                    operatorLabel={operatorLabel}
+                  />
+                );
+              case "serviceQuality":
+                return (
+                  <ServiceQualityChart
+                    data={operationalStandards}
+                    id={operatorId}
+                    operatorLabel={operatorLabel}
+                  />
+                );
+              case "compliance":
+                return (
+                  <ComplianceChart
+                    data={operationalStandards}
+                    id={operatorId}
+                    operatorLabel={operatorLabel}
+                  />
+                );
+              default:
+                const _exhaustiveCheck: never = attribute;
+                return _exhaustiveCheck;
+            }
+          })()}
+        </Box>
         {/* Footer Info */}
         <CardSource date={`${updateDate}`} source={"Lindas"} />
       </CardContent>
