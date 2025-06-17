@@ -19,7 +19,8 @@ You can also check the
 
   - Added stacked horizontal chart to storybook
   - SAIDI / SAIFI indicators can be shown on the map (behind "sunshine" flag)
-  - 
+  - Network costs, energy tariffs, and net tariffs can be shown on the map (behind "sunshine" flag)
+
 - Fixes
 
   - Changes to Docker image to be able to use duckdb (alpine based to debian based)
