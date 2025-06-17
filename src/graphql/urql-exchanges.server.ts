@@ -10,7 +10,6 @@ const schema = makeExecutableSchema({
   resolvers: resolvers,
 });
 
-/** @knipignore */
 export const ssr = ssrExchange({
   isClient: false,
   initialState: {},
