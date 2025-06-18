@@ -1,3 +1,4 @@
+import { t } from "@lingui/macro";
 import { Box, paperClasses } from "@mui/material";
 import { median } from "d3";
 import { keyBy, property } from "lodash";
@@ -13,12 +14,18 @@ const ContentWrapper = dynamic(
   { ssr: false }
 );
 
+import { ButtonGroup } from "src/components/button-group";
 import { CombinedSelectors } from "src/components/combined-selectors";
 import { DownloadImage } from "src/components/detail-page/download-image";
 import { InfoBanner } from "src/components/info-banner";
-import { List } from "src/components/list";
+import {
+  groupsFromCantonObservations,
+  groupsFromMunicipalities,
+  groupsFromOperators,
+  List,
+} from "src/components/list";
 import { ChoroplethMap, ChoroplethMapProps } from "src/components/map";
-import { MapProvider } from "src/components/map-context";
+import { ListState, MapProvider, useMap } from "src/components/map-context";
 import OperatorsMap from "src/components/operators-map";
 import ShareButton from "src/components/share-button";
 import { NetworkLevel, TariffCategory, useColorScale } from "src/domain/data";
@@ -125,7 +132,10 @@ function getSunshineAccessor(
   throw new Error("Invalid indicator: " + indicator);
 }
 
-const IndexPage = ({ locale }: Props) => {
+const IndexPageContent = ({
+  locale,
+  activeId,
+}: Props & { activeId: string | null }) => {
   const [
     {
       period,
@@ -136,6 +146,7 @@ const IndexPage = ({ locale }: Props) => {
       tab = "electricity",
     },
   ] = useQueryStateSingleElectricity();
+
   const [
     {
       typology,
@@ -146,7 +157,6 @@ const IndexPage = ({ locale }: Props) => {
     },
   ] = useQueryStateSingleSunshine();
 
-  const [activeId, setActiveId] = useState<string | null>(null);
   const isElectricityTab = tab === "electricity";
   const isSunshineTab = tab === "sunshine";
 
@@ -309,8 +319,63 @@ const IndexPage = ({ locale }: Props) => {
     />
   );
 
+  const { listState, setListState } = useMap();
+
+  const listGroups = useMemo(() => {
+    return listState === "CANTONS"
+      ? groupsFromCantonObservations(cantonMedianObservations)
+      : listState === "OPERATORS"
+      ? groupsFromOperators(observations)
+      : groupsFromMunicipalities(observations);
+  }, [listState, cantonMedianObservations, observations]);
+
+  const list = isElectricityTab ? (
+    <List
+      listState={listState}
+      grouped={listGroups}
+      colorScale={colorScale}
+      observationsQueryFetching={
+        isElectricityTab
+          ? observationsQuery.fetching
+          : sunshineDataQuery.fetching
+      }
+    />
+  ) : null;
+
+  const listButtonGroup = isElectricityTab ? (
+    <ButtonGroup<ListState>
+      id="list-state-tabs"
+      options={[
+        {
+          value: "MUNICIPALITIES",
+          label: t({
+            id: "list.municipalities",
+            message: "Municipalities",
+          }),
+        },
+        {
+          value: "CANTONS",
+          label: t({ id: "list.cantons", message: "Cantons" }),
+        },
+        {
+          value: "OPERATORS",
+          label: t({
+            id: "list.operators",
+            message: "Network operator",
+          }),
+        },
+      ]}
+      value={listState}
+      label={t({
+        id: "list.viewby.label",
+        message: "View according to",
+      })}
+      setValue={setListState}
+    />
+  ) : null;
+
   return (
-    <MapProvider activeId={activeId} setActiveId={setActiveId}>
+    <>
       <ApplicationLayout>
         <InfoBanner
           bypassBannerEnabled={
@@ -366,18 +431,18 @@ const IndexPage = ({ locale }: Props) => {
               }}
             >
               <CombinedSelectors />
-              {isElectricityTab ? (
-                <List
-                  observations={observations}
-                  cantonObservations={cantonMedianObservations}
-                  colorScale={colorScale}
-                  observationsQueryFetching={
-                    isElectricityTab
-                      ? observationsQuery.fetching
-                      : sunshineDataQuery.fetching
-                  }
-                />
-              ) : null}
+
+              <Box
+                sx={{
+                  px: 6,
+                  flexDirection: "column",
+                  gap: 4,
+                }}
+                display="flex"
+              >
+                {listButtonGroup}
+                {list}
+              </Box>
             </Box>
 
             <Box
@@ -433,19 +498,20 @@ const IndexPage = ({ locale }: Props) => {
             }}
           >
             <CombinedSelectors />
-            <List
-              observations={observations}
-              cantonObservations={cantonMedianObservations}
-              colorScale={colorScale}
-              observationsQueryFetching={
-                isElectricityTab
-                  ? observationsQuery.fetching
-                  : sunshineDataQuery.fetching
-              }
-            />
+            {list}
           </Box>
         </Box>
       </ApplicationLayout>
+    </>
+  );
+};
+
+export const IndexPage = ({ locale }: Props) => {
+  const [activeId, setActiveId] = useState<string | null>(null);
+
+  return (
+    <MapProvider activeId={activeId} setActiveId={setActiveId}>
+      <IndexPageContent locale={locale} activeId={activeId} />
     </MapProvider>
   );
 };

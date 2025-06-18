@@ -11,7 +11,6 @@ import {
   useState,
 } from "react";
 
-import { ButtonGroup } from "src/components/button-group";
 import { MiniSelect, SearchField } from "src/components/form";
 import { HighlightContext } from "src/components/highlight-context";
 import { Stack } from "src/components/stack";
@@ -295,19 +294,18 @@ const PlaceholderListItems = () => {
 type SortState = "ASC" | "DESC";
 
 export const List = ({
-  observations,
-  cantonObservations,
+  grouped,
   colorScale,
   observationsQueryFetching,
+  listState,
 }: {
-  observations: OperatorObservationFieldsFragment[];
-  cantonObservations: CantonMedianObservationFieldsFragment[];
+  grouped: Groups;
   colorScale: ScaleThreshold<number, string>;
   observationsQueryFetching: boolean;
+  listState: ListState;
 }) => {
   const [sortState, setSortState] = useState<SortState>("ASC");
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const { listState, setListState } = useMap();
 
   const sortOptions = [
     {
@@ -321,76 +319,6 @@ export const List = ({
   ];
   const searchLabel = t({ id: "list.search.label", message: "Filter list" });
 
-  const grouped = useMemo(() => {
-    return listState === "CANTONS"
-      ? Array.from(
-          rollup(
-            cantonObservations,
-            (values) => {
-              const first = values[0];
-              return {
-                id: first.canton,
-                label: first.cantonLabel,
-                value: mean(values, (d) => d.value) ?? first.value,
-                canton: first.canton,
-                cantonLabel: first.cantonLabel,
-              };
-            },
-            (d) => d.canton
-          )
-        )
-      : Array.from(
-          rollup(
-            observations,
-            (values) => {
-              const first = values[0];
-              const operatorIds = new Set(values.map((v) => v.operator));
-              return {
-                id:
-                  listState === "OPERATORS"
-                    ? first.operator
-                    : first.municipality,
-                label:
-                  listState === "OPERATORS"
-                    ? first.operatorLabel
-                    : first.municipalityLabel,
-                value: mean(values, (d) => d.value) ?? first.value,
-                canton: first.canton,
-                cantonLabel: first.cantonLabel,
-                operators:
-                  listState === "MUNICIPALITIES"
-                    ? observations
-                        .filter((o) => operatorIds.has(o.operator))
-                        .reduce(
-                          (acc, o) => {
-                            if (acc.seen.has(o.operator)) return acc;
-                            acc.seen.add(o.operator);
-                            acc.result?.push({
-                              id: o.operator,
-                              label: o.operatorLabel,
-                              value: o.value,
-                            });
-                            return acc;
-                          },
-                          {
-                            seen: new Set<string>(),
-                            result: [] as ListItemType["operators"],
-                          }
-                        ).result
-                    : [
-                        {
-                          id: first.operator,
-                          label: first.operatorLabel,
-                          value: first.value,
-                        },
-                      ],
-              };
-            },
-            (d) => (listState === "OPERATORS" ? d.operator : d.municipality)
-          )
-        );
-  }, [listState, cantonObservations, observations]);
-
   const filtered = useMemo(() => {
     if (searchQuery === "") {
       return grouped;
@@ -399,7 +327,7 @@ export const List = ({
     return grouped.filter(([, d]) => d.label?.match(filterRe));
   }, [grouped, searchQuery]);
 
-  const sorted = useMemo(() => {
+  const listItems = useMemo(() => {
     return [...filtered].sort(([, a], [, b]) => {
       return sortState === "ASC"
         ? ascending(a.value, b.value)
@@ -407,37 +335,8 @@ export const List = ({
     });
   }, [filtered, sortState]);
 
-  const listItems = sorted;
-
   return (
-    <Box
-      sx={{
-        px: 6,
-        flexDirection: "column",
-        gap: 4,
-      }}
-      display="flex"
-    >
-      <ButtonGroup<ListState>
-        id="list-state-tabs"
-        options={[
-          {
-            value: "MUNICIPALITIES",
-            label: t({ id: "list.municipalities", message: "Municipalities" }),
-          },
-          {
-            value: "CANTONS",
-            label: t({ id: "list.cantons", message: "Cantons" }),
-          },
-          {
-            value: "OPERATORS",
-            label: t({ id: "list.operators", message: "Network operator" }),
-          },
-        ]}
-        value={listState}
-        label={t({ id: "list.viewby.label", message: "View according to" })}
-        setValue={setListState}
-      />
+    <Box flexDirection="column" gap={4} display="flex">
       <Stack
         direction="row"
         spacing={0}
@@ -515,3 +414,121 @@ export const List = ({
     </Box>
   );
 };
+
+type Groups = [
+  string,
+  {
+    id: string;
+    label: string | null | undefined;
+    value: number;
+    canton: string;
+    cantonLabel: string | null | undefined;
+  }
+][];
+
+export function groupsFromMunicipalities(
+  observations: OperatorObservationFieldsFragment[]
+): Groups {
+  return Array.from(
+    rollup(
+      observations,
+      (values) => {
+        const first = values[0];
+        const operatorIds = new Set(values.map((v) => v.operator));
+        return {
+          id: first.municipality,
+          label: first.municipalityLabel,
+          value: mean(values, (d) => d.value) ?? first.value,
+          canton: first.canton,
+          cantonLabel: first.cantonLabel,
+          operators: observations
+            .filter((o) => operatorIds.has(o.operator))
+            .reduce(
+              (acc, o) => {
+                if (acc.seen.has(o.operator)) return acc;
+                acc.seen.add(o.operator);
+                acc.result?.push({
+                  id: o.operator,
+                  label: o.operatorLabel,
+                  value: o.value,
+                });
+                return acc;
+              },
+              {
+                seen: new Set<string>(),
+                result: [] as ListItemType["operators"],
+              }
+            ).result,
+        };
+      },
+      (d) => d.municipality
+    )
+  );
+}
+
+export function groupsFromOperators(
+  observations: OperatorObservationFieldsFragment[]
+): [
+  string,
+  {
+    id: string;
+    label: string | null | undefined;
+    value: number;
+    canton: string;
+    cantonLabel: string | null | undefined;
+  }
+][] {
+  return Array.from(
+    rollup(
+      observations,
+      (values) => {
+        const first = values[0];
+        return {
+          id: first.operator,
+          label: first.operatorLabel,
+          value: mean(values, (d) => d.value) ?? first.value,
+          canton: first.canton,
+          cantonLabel: first.cantonLabel,
+          operators: [
+            {
+              id: first.operator,
+              label: first.operatorLabel,
+              value: first.value,
+            },
+          ],
+        };
+      },
+      (d) => d.operator
+    )
+  );
+}
+
+export function groupsFromCantonObservations(
+  cantonObservations: CantonMedianObservationFieldsFragment[]
+): [
+  string,
+  {
+    id: string;
+    label: string | null | undefined;
+    value: number;
+    canton: string;
+    cantonLabel: string | null | undefined;
+  }
+][] {
+  return Array.from(
+    rollup(
+      cantonObservations,
+      (values) => {
+        const first = values[0];
+        return {
+          id: first.canton,
+          label: first.cantonLabel,
+          value: mean(values, (d) => d.value) ?? first.value,
+          canton: first.canton,
+          cantonLabel: first.cantonLabel,
+        };
+      },
+      (d) => d.canton
+    )
+  );
+}
