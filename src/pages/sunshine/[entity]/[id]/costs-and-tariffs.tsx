@@ -1,4 +1,4 @@
-import { Trans, t } from "@lingui/macro";
+import { t, Trans } from "@lingui/macro";
 import { Box, Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
 import ErrorPage from "next/error";
@@ -265,6 +265,7 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
         />
 
         <NetworkCostsTrendCard
+          latestYear={Number(latestYear)}
           sx={{ gridArea: "trend" }}
           peerGroup={peerGroup}
           updateDate={updateDate}
@@ -404,6 +405,7 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
         />
 
         <NetTariffsTrendCard
+          latestYear={Number(latestYear)}
           sx={{ gridArea: "trend" }}
           peerGroup={peerGroup}
           updateDate={updateDate}
@@ -542,6 +544,7 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
         />
 
         <NetTariffsTrendCard
+          latestYear={Number(latestYear)}
           sx={{ gridArea: "trend" }}
           peerGroup={peerGroup}
           updateDate={updateDate}
