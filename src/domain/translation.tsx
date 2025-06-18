@@ -49,6 +49,21 @@ export const getLocalizedLabel = ({ id }: { id: string }): string => {
       });
     case "total":
       return t({ id: "selector.pricecomponent.total", message: "Total" });
+    case "productvariety-trend":
+      return t({
+        id: "sunshine.operational-standards.product-variety-trend",
+        message: "Comparison of eco-friendly product diversity",
+      });
+    case "comliance-trend":
+      return t({
+        id: "sunshine.operational-standards.compliance-trend",
+        message: "Comparison of francs per invoice recipient",
+      });
+    case "servicequality-trend":
+      return t({
+        id: "sunshine.operational-standards.service-quality-trend",
+        message: "Comparison of advance notice periods for planned outages",
+      });
     case "saidi-trend":
       return t({
         id: "sunshine.power-stability.saidi-trend",
