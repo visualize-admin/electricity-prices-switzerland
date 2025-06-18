@@ -34,7 +34,7 @@ const defaultOptionEqualToValue = (
   return option === value;
 };
 
-export const ComboboxMulti = ({
+export const MultiCombobox = ({
   id,
   label,
   items,
@@ -126,7 +126,7 @@ export const ComboboxMulti = ({
           const { key, ...tagProps } = getTagProps({ index });
           return (
             <Chip
-              key={key}
+              key={`${key}-${id}-chip`}
               label={getItemLabel(option)}
               {...tagProps}
               size="xs"
@@ -140,7 +140,7 @@ export const ComboboxMulti = ({
         })
       }
       renderOption={(props, option) => (
-        <li {...props} key={option}>
+        <li {...props} key={`${option}-${id}-selectable`}>
           {getItemLabel(option)}
         </li>
       )}

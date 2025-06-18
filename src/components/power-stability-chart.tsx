@@ -82,6 +82,7 @@ export const PowerStabilityChart = ({
             __typename: "NominalDimension",
           },
         ]}
+        //FIXME: we need a better solution for this since having less bars increases the spacing between them
         aspectRatio={0.8}
       >
         <ChartContainer>

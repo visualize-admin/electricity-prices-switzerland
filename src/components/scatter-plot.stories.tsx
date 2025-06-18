@@ -6,6 +6,9 @@ import { NetworkCostTrendChart } from "./network-cost-trend-chart";
 import { DesignGrid, DesignStory } from "./storybook/base-style";
 
 export const ScatterpotChart = () => {
+  const networkCosts =
+    data.networkCosts as SunshineCostsAndTariffsData["networkCosts"];
+  const { yearlyData, ...restNetworkCosts } = networkCosts;
   return (
     <DesignStory
       title="Scatterplot Chart"
@@ -15,9 +18,10 @@ export const ScatterpotChart = () => {
         <NetworkCostTrendChart
           id="11"
           operatorLabel="Elektrizitätswerk des Kantons Schaffhausen AG"
-          observations={
-            data.networkCosts as SunshineCostsAndTariffsData["networkCosts"]
-          }
+          observations={yearlyData.filter(
+            (d) => d.year === new Date().getFullYear()
+          )}
+          networkCosts={restNetworkCosts}
         />
       </DesignGrid>
     </DesignStory>

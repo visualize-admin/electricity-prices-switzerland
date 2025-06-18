@@ -329,3 +329,17 @@ export const getTextWidth = (
 
   return ctx.measureText(text).width;
 };
+
+export const filterBySeparator = (
+  arr: string[],
+  prev: string[],
+  separator: string
+): string[] => {
+  const prevHasSeparator = prev.includes(separator);
+  const arrHasSeparator = arr.includes(separator);
+
+  if (arr.length === 0) return [separator];
+  if (!prevHasSeparator && arrHasSeparator) return [separator];
+
+  return arr.filter((item) => item !== separator);
+};

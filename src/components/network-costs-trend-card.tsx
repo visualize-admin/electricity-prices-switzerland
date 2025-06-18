@@ -7,18 +7,20 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 
 import { ButtonGroup } from "src/components/button-group";
 import CardSource from "src/components/card-source";
-import { Combobox } from "src/components/combobox";
 import { PeerGroup, SunshineCostsAndTariffsData } from "src/domain/data";
-import { getLocalizedLabel, getPeerGroupLabels } from "src/domain/translation";
+import { filterBySeparator } from "src/domain/helpers";
+import { getPeerGroupLabels } from "src/domain/translation";
 
 import { CardHeader } from "./detail-page/card";
 import { Download, DownloadImage } from "./detail-page/download-image";
 import { InfoDialogButton } from "./info-dialog";
 import { NetworkCostTrendChart } from "./network-cost-trend-chart";
+import { AllOrMultiCombobox } from "./query-combobox";
+
 const DOWNLOAD_ID: Download = "costs-and-tariffs";
 
 const NetworkCostsTrendCard: React.FC<
@@ -30,14 +32,31 @@ const NetworkCostsTrendCard: React.FC<
     operatorLabel: string;
   } & CardProps
 > = (props) => {
-  const [compareWith, setCompareWith] = useState(
-    "sunshine.costs-and-tariffs.all-peer-group"
-  );
+  const [compareWith, setCompareWith] = useState(["sunshine.select-all"]);
   const [viewBy, setViewBy] = useState("latest");
 
   const { peerGroup, updateDate, networkCosts, operatorId, operatorLabel } =
     props;
   const { peerGroupLabel } = getPeerGroupLabels(peerGroup);
+
+  const latestYear = new Date().getFullYear();
+  const { yearlyData, ...restNetworkCosts } = networkCosts;
+  const latestYearDataItems = useMemo(() => {
+    return yearlyData.filter(
+      (d) => d.year === latestYear && d.operator_id.toString() !== operatorId
+    );
+  }, [yearlyData, latestYear, operatorId]);
+
+  const latestYearData = useMemo(() => {
+    return yearlyData.filter(
+      (d) =>
+        d.year === latestYear &&
+        (compareWith.includes("sunshine.select-all") ||
+          compareWith.includes(d.operator_id.toString()) ||
+          d.operator_id.toString() === operatorId)
+    );
+  }, [yearlyData, compareWith, latestYear, operatorId]);
+
   return (
     <Card {...props} id={DOWNLOAD_ID}>
       <CardContent>
@@ -111,22 +130,25 @@ const NetworkCostsTrendCard: React.FC<
             />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <Combobox
-              id="compare-with-selection"
+            <AllOrMultiCombobox
               label={t({
                 id: "sunshine.costs-and-tariffs.compare-with",
                 message: "Compare With",
               })}
               items={[
-                "sunshine.costs-and-tariffs.all-peer-group",
-                "sunshine.costs-and-tariffs.selected-operators",
+                { id: "sunshine.select-all" },
+                ...latestYearDataItems.map((item) => {
+                  return {
+                    id: String(item.operator_id),
+                    name: item.operator_name,
+                  };
+                }),
               ]}
-              selectedItem={compareWith}
-              setSelectedItem={setCompareWith}
-              getItemLabel={(item) =>
-                getLocalizedLabel({
-                  id: item,
-                })
+              selectedItems={compareWith}
+              setSelectedItems={(items) =>
+                setCompareWith((prev) =>
+                  filterBySeparator(items, prev, "sunshine.select-all")
+                )
               }
             />
           </Grid>
@@ -137,7 +159,8 @@ const NetworkCostsTrendCard: React.FC<
           <NetworkCostTrendChart
             id={operatorId}
             operatorLabel={operatorLabel}
-            observations={networkCosts}
+            observations={latestYearData}
+            networkCosts={restNetworkCosts}
           />
         </Box>
         {/* Footer Info */}
