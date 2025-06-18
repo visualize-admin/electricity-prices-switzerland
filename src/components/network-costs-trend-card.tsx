@@ -19,6 +19,7 @@ import { CardHeader } from "./detail-page/card";
 import { Download, DownloadImage } from "./detail-page/download-image";
 import { InfoDialogButton } from "./info-dialog";
 import { NetworkCostTrendChart } from "./network-cost-trend-chart";
+import { ViewByFilter } from "./power-stability-card";
 import { AllOrMultiCombobox } from "./query-combobox";
 
 const DOWNLOAD_ID: Download = "costs-and-tariffs";
@@ -34,7 +35,7 @@ const NetworkCostsTrendCard: React.FC<
   } & CardProps
 > = (props) => {
   const [compareWith, setCompareWith] = useState(["sunshine.select-all"]);
-  const [viewBy, setViewBy] = useState("latest");
+  const [viewBy, setViewBy] = useState<ViewByFilter>("latest");
 
   const {
     peerGroup,
@@ -111,7 +112,14 @@ const NetworkCostsTrendCard: React.FC<
 
         {/* Dropdown Controls */}
         <Grid container spacing={3} sx={{ mb: 3 }}>
-          <Grid item xs={12} sm={6}>
+          <Grid
+            item
+            xs={12}
+            sm={6}
+            sx={{
+              mt: 2.5,
+            }}
+          >
             <ButtonGroup
               id="view-by-button-group"
               label={t({
@@ -172,6 +180,7 @@ const NetworkCostsTrendCard: React.FC<
             operatorLabel={operatorLabel}
             observations={latestYearData}
             networkCosts={restNetworkCosts}
+            view={viewBy}
           />
         </Box>
         {/* Footer Info */}
