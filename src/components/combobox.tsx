@@ -34,7 +34,7 @@ const defaultOptionEqualToValue = (
   return option === value;
 };
 
-export const ComboboxMulti = ({
+export const MultiCombobox = ({
   id,
   label,
   items,

@@ -2,7 +2,7 @@ import { t, Trans } from "@lingui/macro";
 import { Box } from "@mui/material";
 import { useMemo } from "react";
 
-import { Combobox, ComboboxMulti } from "src/components/combobox";
+import { Combobox, MultiCombobox } from "src/components/combobox";
 import {
   CantonsCombobox,
   MunicipalitiesCombobox,
@@ -76,7 +76,7 @@ export const SelectorMulti = ({ entity }: { entity: Entity }) => {
             setSelectedItems={(items) => setQueryState({ canton: items })}
           />
         )}
-        <ComboboxMulti
+        <MultiCombobox
           id="periods"
           label={<Trans id="selector.years">years</Trans>}
           items={periods}

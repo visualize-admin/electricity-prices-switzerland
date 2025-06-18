@@ -17,7 +17,7 @@ import { chartPalette, palette } from "src/themes/palette";
 
 import { AnchorNav } from "./anchor-nav";
 import { ButtonGroup } from "./button-group";
-import { Combobox, ComboboxMulti } from "./combobox";
+import { Combobox, MultiCombobox } from "./combobox";
 import {
   ColorPaletteStack,
   ColorSwatch,
@@ -643,14 +643,14 @@ export const FormStory = () => {
         </DesignSection>
         <DesignSection
           title="Multi-Select"
-          note="Currently using ComboboxMulti + Autocomplete Component!"
+          note="Currently using MultiCombobox + Autocomplete Component!"
           sx={{
             gap: 8,
             maxWidth: 300,
           }}
         >
           {selectStates.map((state) => (
-            <ComboboxMulti
+            <MultiCombobox
               key={state}
               id={`multi-select-${state}`}
               disabled={state === "disabled"}

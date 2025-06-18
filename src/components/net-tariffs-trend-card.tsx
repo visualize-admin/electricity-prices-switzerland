@@ -16,7 +16,7 @@ import { containsDelimiter, filterByDelimiter } from "src/domain/helpers";
 import { getPeerGroupLabels } from "src/domain/translation";
 
 import { NetTariffsTrendChart } from "./net-tariffs-trend-chart";
-import { AllOrComboboxMulti } from "./query-combobox";
+import { AllOrMultiCombobox } from "./query-combobox";
 
 const NetTariffsTrendCard: React.FC<
   {
@@ -98,7 +98,7 @@ const NetTariffsTrendCard: React.FC<
             />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <AllOrComboboxMulti
+            <AllOrMultiCombobox
               label={t({
                 id: "sunshine.costs-and-tariffs.compare-with",
                 message: "Compare With",

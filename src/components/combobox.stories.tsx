@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { Combobox, ComboboxItem, ComboboxMulti } from "./combobox";
+import { Combobox, ComboboxItem, MultiCombobox } from "./combobox";
 
 import type { Meta, StoryObj } from "@storybook/react";
 
@@ -141,7 +141,7 @@ export const UsageCategorySelection: Story = {
 };
 
 // Multi-Selection Example
-export const MultiSelection: StoryObj<typeof ComboboxMulti> = {
+export const MultiSelection: StoryObj<typeof MultiCombobox> = {
   render: () => {
     const [selectedMunicipalities, setSelectedMunicipalities] = useState([
       "zurich",
@@ -174,7 +174,7 @@ export const MultiSelection: StoryObj<typeof ComboboxMulti> = {
 
     return (
       <div style={{ width: "400px" }}>
-        <ComboboxMulti
+        <MultiCombobox
           id="municipality-multi-selection"
           label="Select Municipalities for Comparison"
           items={municipalities}
