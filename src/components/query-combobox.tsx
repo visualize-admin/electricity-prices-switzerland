@@ -2,6 +2,7 @@ import { rollup } from "d3";
 import { useMemo, useState } from "react";
 
 import { ComboboxMulti, ComboboxMultiProps } from "src/components/combobox";
+import { getLocalizedLabel } from "src/domain/translation";
 import {
   useCantonsQuery,
   useMunicipalitiesQuery,
@@ -137,6 +138,39 @@ export const CantonsCombobox = (
       max={8}
       onInputValueChange={setInputValue}
       isLoading={gqlQuery.fetching && inputValue.length > 0}
+    />
+  );
+};
+
+export const AllOrComboboxMulti = (
+  comboboxMultiProps: Pick<
+    ComboboxMultiProps,
+    "label" | "selectedItems" | "setSelectedItems"
+  > & { items: { id: string; name?: string }[] }
+) => {
+  const { items } = comboboxMultiProps;
+  const itemById = useMemo(() => {
+    return rollup(
+      items,
+      (values) => values[0],
+      (d) => d.id
+    );
+  }, [items]);
+
+  return (
+    <ComboboxMulti
+      {...comboboxMultiProps}
+      items={items.map(({ id }) => id)}
+      id="compare-with-selection"
+      getItemLabel={(id) => {
+        return (
+          itemById.get(id)?.name ??
+          getLocalizedLabel({
+            id,
+          }) ??
+          `[${id}]`
+        );
+      }}
     />
   );
 };
