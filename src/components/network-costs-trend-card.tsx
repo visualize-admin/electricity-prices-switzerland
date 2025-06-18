@@ -37,20 +37,23 @@ const NetworkCostsTrendCard: React.FC<
   const latestYear = new Date().getFullYear();
   const { yearlyData, ...restNetworkCosts } = networkCosts;
   const latestYearDataItems = useMemo(() => {
-    return yearlyData.filter((d) => d.year === latestYear);
-  }, [yearlyData, latestYear]);
+    return yearlyData.filter(
+      (d) => d.year === latestYear && d.operator_id.toString() !== operatorId
+    );
+  }, [yearlyData, latestYear, operatorId]);
 
   const latestYearData = useMemo(() => {
     return yearlyData.filter(
       (d) =>
         d.year === latestYear &&
-        containsDelimiter(
+        (containsDelimiter(
           compareWith,
           "sunshine.select-all",
           d.operator_id.toString()
-        )
+        ) ||
+          d.operator_id.toString() === operatorId)
     );
-  }, [yearlyData, compareWith, latestYear]);
+  }, [yearlyData, compareWith, latestYear, operatorId]);
 
   return (
     <Card {...props}>

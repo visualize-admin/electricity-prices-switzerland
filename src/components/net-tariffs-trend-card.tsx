@@ -37,20 +37,23 @@ const NetTariffsTrendCard: React.FC<
   const { yearlyData, ...restNetTariffs } = netTariffs;
   const latestYear = new Date().getFullYear();
   const latestYearDataItems = useMemo(() => {
-    return yearlyData.filter((d) => d.period === latestYear);
-  }, [yearlyData, latestYear]);
+    return yearlyData.filter(
+      (d) => d.period === latestYear && d.operator_id.toString() !== operatorId
+    );
+  }, [yearlyData, latestYear, operatorId]);
 
   const latestYearData = useMemo(() => {
     return yearlyData.filter(
       (d) =>
         d.period === latestYear &&
-        containsDelimiter(
+        (containsDelimiter(
           compareWith,
           "sunshine.select-all",
           d.operator_id.toString()
-        )
+        ) ||
+          d.operator_id.toString() === operatorId)
     );
-  }, [yearlyData, compareWith, latestYear]);
+  }, [yearlyData, compareWith, latestYear, operatorId]);
 
   return (
     <Card {...props}>
