@@ -7,14 +7,16 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 
 import { ButtonGroup } from "src/components/button-group";
 import CardSource from "src/components/card-source";
 import { PeerGroup, SunshinePowerStabilityData } from "src/domain/data";
+import { containsDelimiter, filterByDelimiter } from "src/domain/helpers";
 import { getLocalizedLabel, getPeerGroupLabels } from "src/domain/translation";
 
 import { PowerStabilityChart } from "./power-stability-chart";
+import { AllOrMultiCombobox } from "./query-combobox";
 
 const PowerStabilityCard: React.FC<
   {
@@ -28,6 +30,7 @@ const PowerStabilityCard: React.FC<
     attribute: keyof Pick<SunshinePowerStabilityData, "saidi" | "saifi">;
   } & CardProps
 > = (props) => {
+  const [compareWith, setCompareWith] = useState(["sunshine.select-all"]);
   const [viewBy, setViewBy] = useState("latest");
   const [overallOrRatio, setOverallOrRatio] = useState("overall");
 
@@ -40,6 +43,29 @@ const PowerStabilityCard: React.FC<
     attribute,
   } = props;
   const { peerGroupLabel } = getPeerGroupLabels(peerGroup);
+
+  //FIXME: doesn't seem to have any data in 2025
+  const latestYear = new Date().getFullYear() - 1;
+
+  const latestYearDataItems = useMemo(() => {
+    return observations.filter(
+      (d) => d.year === latestYear && d.operator.toString() !== operatorId
+    );
+  }, [observations, latestYear, operatorId]);
+
+  const latestYearData = useMemo(() => {
+    return observations.filter(
+      (d) =>
+        d.year === latestYear &&
+        (containsDelimiter(
+          compareWith,
+          "sunshine.select-all",
+          d.operator.toString()
+        ) ||
+          d.operator.toString() === operatorId)
+    );
+  }, [observations, compareWith, latestYear, operatorId]);
+
   return (
     <Card {...props}>
       <CardContent>
@@ -54,10 +80,9 @@ const PowerStabilityCard: React.FC<
           </Trans>
         </Typography>
 
-        {/* Dropdown Controls */}
         <Grid container spacing={3} sx={{ mb: 3 }}>
-          <Grid item xs={12} sm={6} sx={{ display: "flex" }}>
-            <Box sx={{ flex: 1 }}>
+          <Grid item xs={12} sm={4} sx={{ display: "flex" }}>
+            <Box sx={{ flex: 1, mt: 2.5 }}>
               <ButtonGroup
                 id="view-by-button-group-1"
                 label={t({
@@ -87,8 +112,8 @@ const PowerStabilityCard: React.FC<
               />
             </Box>
           </Grid>
-          <Grid item xs={12} sm={6} sx={{ display: "flex" }}>
-            <Box sx={{ flex: 1 }}>
+          <Grid item xs={12} sm={4} sx={{ display: "flex" }}>
+            <Box sx={{ flex: 1, mt: 2.5 }}>
               <ButtonGroup
                 id="view-by-button-group-2"
                 label={t({
@@ -118,12 +143,35 @@ const PowerStabilityCard: React.FC<
               />
             </Box>
           </Grid>
+          <Grid item xs={12} sm={4} sx={{ display: "flex" }}>
+            <AllOrMultiCombobox
+              label={t({
+                id: "sunshine.costs-and-tariffs.compare-with",
+                message: "Compare With",
+              })}
+              items={[
+                { id: "sunshine.select-all" },
+                ...latestYearDataItems.map((item) => {
+                  return {
+                    id: String(item.operator),
+                    name: item.operator_name,
+                  };
+                }),
+              ]}
+              selectedItems={compareWith}
+              setSelectedItems={(items) =>
+                setCompareWith((prev) =>
+                  filterByDelimiter(items, prev, "sunshine.select-all")
+                )
+              }
+            />
+          </Grid>
         </Grid>
 
         {/* Stacked Horizontal Bar Chart */}
         <Box sx={{ height: 400, width: "100%" }}>
           <PowerStabilityChart
-            observations={observations}
+            observations={latestYearData}
             id={operatorId}
             operatorLabel={operatorLabel}
           />
