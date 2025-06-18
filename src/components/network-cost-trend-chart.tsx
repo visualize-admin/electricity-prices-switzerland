@@ -7,11 +7,18 @@ import { getLocalizedLabel } from "src/domain/translation";
 import { chartPalette, palette } from "src/themes/palette";
 
 import { AxisHeightCategories } from "./charts-generic/axis/axis-height-categories";
+import { AxisHeightLinear } from "./charts-generic/axis/axis-height-linear";
 import { AxisWidthLinear } from "./charts-generic/axis/axis-width-linear";
+import { AxisTime } from "./charts-generic/axis/axis-width-time";
 import { ChartContainer, ChartSvg } from "./charts-generic/containers";
+import { HoverDotMultiple } from "./charts-generic/interaction/hover-dots-multiple";
+import { Ruler } from "./charts-generic/interaction/ruler";
 import { Tooltip } from "./charts-generic/interaction/tooltip";
 import { LegendItem } from "./charts-generic/legends/color";
+import { Lines } from "./charts-generic/lines/lines";
+import { LineChart } from "./charts-generic/lines/lines-state";
 import { InteractionDotted } from "./charts-generic/overlay/interaction-dotted";
+import { InteractionHorizontal } from "./charts-generic/overlay/interaction-horizontal";
 import { Dots } from "./charts-generic/scatter-plot/dots";
 import { ScatterPlotMedian } from "./charts-generic/scatter-plot/median";
 import { ScatterPlot } from "./charts-generic/scatter-plot/scatter-plot-state";
@@ -161,5 +168,52 @@ const ProgressOvertimeChartView = (
     operatorsNames: Set<string>;
   }
 ) => {
-  return null;
+  const { observations, operatorLabel, operatorsNames } = props;
+
+  return (
+    <LineChart
+      data={observations}
+      fields={{
+        x: {
+          componentIri: "year",
+        },
+        y: {
+          componentIri: "rate",
+        },
+        segment: {
+          componentIri: "operator_name",
+          palette: "monochrome",
+          colorMapping: {
+            [operatorLabel]: chartPalette.categorical[0],
+          },
+        },
+        style: {
+          entity: "operator_id",
+          colorDomain: [...operatorsNames] as string[],
+          colorAcc: `operator_name`,
+        },
+      }}
+      measures={[{ iri: "rate", label: "Rate", __typename: "Measure" }]}
+      dimensions={[
+        {
+          iri: "operator_name",
+          label: "Operator",
+          __typename: "NominalDimension",
+        },
+      ]}
+      aspectRatio={0.2}
+    >
+      <ChartContainer>
+        <ChartSvg>
+          <AxisHeightLinear format="currency" /> <AxisTime />
+          <Lines />
+          <InteractionHorizontal />
+        </ChartSvg>
+        <Ruler />
+        <HoverDotMultiple />
+
+        <Tooltip type={"multiple"} />
+      </ChartContainer>
+    </LineChart>
+  );
 };

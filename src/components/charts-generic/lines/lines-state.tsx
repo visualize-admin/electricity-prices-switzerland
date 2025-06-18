@@ -134,13 +134,25 @@ const useLinesState = ({
 
   const segments = [...new Set(sortedData.map(getSegment))];
 
-  const colorDomain = fields.style?.colorDomain
-    ? fields.style?.colorDomain
-    : [""];
+  const colorDomain = fields.style?.colorDomain ?? [""];
 
+  const paletteColors = getPalette(fields.segment?.palette);
+
+  const defaultMapping: Record<string, string> = {};
+  colorDomain.forEach((domainItem, index) => {
+    defaultMapping[domainItem] = paletteColors[index % paletteColors.length];
+  });
+
+  const colorMapping = fields.segment?.colorMapping ?? {};
+  const mergedMapping: Record<string, string> = {
+    ...defaultMapping,
+    ...colorMapping,
+  };
+
+  // 5. Create final color scale
   const colors = scaleOrdinal<string, string>();
   colors.domain(colorDomain);
-  colors.range(getPalette(fields.segment?.palette));
+  colors.range(colorDomain.map((domainItem) => mergedMapping[domainItem]));
 
   const xKey = fields.x.componentIri;
 
@@ -183,7 +195,7 @@ const useLinesState = ({
 
   const isMiniChart = width <= MINI_CHART_WIDTH;
   const margins = {
-    top: 40,
+    top: 80,
     right: 40,
     bottom: 40,
     left: isMiniChart ? 20 : left + LEFT_MARGIN_OFFSET,

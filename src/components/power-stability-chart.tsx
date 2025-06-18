@@ -1,17 +1,27 @@
 import { Box } from "@mui/material";
 import { max } from "d3";
 import { sortBy } from "lodash";
+import { useMemo } from "react";
 
 import type { SunshinePowerStabilityData } from "src/domain/data";
+import { chartPalette } from "src/themes/palette";
 
 import { AxisHeightCategories } from "./charts-generic/axis/axis-height-categories";
+import { AxisHeightLinear } from "./charts-generic/axis/axis-height-linear";
 import { AxisWidthLinear } from "./charts-generic/axis/axis-width-linear";
+import { AxisTime } from "./charts-generic/axis/axis-width-time";
 import {
   BarsStacked,
   BarsStackedAxis,
 } from "./charts-generic/bars/bars-stacked";
 import { StackedBarsChart } from "./charts-generic/bars/bars-stacked-state";
 import { ChartContainer, ChartSvg } from "./charts-generic/containers";
+import { HoverDotMultiple } from "./charts-generic/interaction/hover-dots-multiple";
+import { Ruler } from "./charts-generic/interaction/ruler";
+import { Tooltip } from "./charts-generic/interaction/tooltip";
+import { Lines } from "./charts-generic/lines/lines";
+import { LineChart } from "./charts-generic/lines/lines-state";
+import { InteractionHorizontal } from "./charts-generic/overlay/interaction-horizontal";
 import { SectionProps } from "./detail-page/card";
 import { OverallOrRatioFilter, ViewByFilter } from "./power-stability-card";
 
@@ -120,5 +130,54 @@ const LatestYearChartView = (props: Omit<PowerStabilityChartProps, "view">) => {
 const ProgressOvertimeChartView = (
   props: Omit<PowerStabilityChartProps, "view">
 ) => {
-  return null;
+  const { observations, operatorLabel } = props;
+  const operatorsNames = useMemo(() => {
+    return new Set(observations.map((d) => d.operator_name));
+  }, [observations]);
+  return (
+    <LineChart
+      data={observations}
+      fields={{
+        x: {
+          componentIri: "year",
+        },
+        y: {
+          componentIri: "total",
+        },
+        segment: {
+          componentIri: "operator_name",
+          palette: "monochrome",
+          colorMapping: {
+            [operatorLabel]: chartPalette.categorical[0],
+          },
+        },
+        style: {
+          entity: "operator",
+          colorDomain: [...operatorsNames] as string[],
+          colorAcc: `operator_name`,
+        },
+      }}
+      measures={[{ iri: "total", label: "Total", __typename: "Measure" }]}
+      dimensions={[
+        {
+          iri: "operator_name",
+          label: "Operator",
+          __typename: "NominalDimension",
+        },
+      ]}
+      aspectRatio={0.2}
+    >
+      <ChartContainer>
+        <ChartSvg>
+          <AxisHeightLinear format="currency" /> <AxisTime />
+          <Lines />
+          <InteractionHorizontal />
+        </ChartSvg>
+        <Ruler />
+        <HoverDotMultiple />
+
+        <Tooltip type={"multiple"} />
+      </ChartContainer>
+    </LineChart>
+  );
 };

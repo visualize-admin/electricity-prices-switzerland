@@ -51,11 +51,9 @@ const NetworkCostsTrendCard: React.FC<
 
   const latestYearDataItems = useMemo(() => {
     return yearlyData.filter(
-      (d) =>
-        (viewBy === "latest" ? d.year === latestYear : true) &&
-        d.operator_id.toString() !== operatorId
+      (d) => d.year === latestYear && d.operator_id.toString() !== operatorId
     );
-  }, [yearlyData, latestYear, operatorId, viewBy]);
+  }, [yearlyData, latestYear, operatorId]);
 
   const latestYearData = useMemo(() => {
     return yearlyData.filter((d) => {

@@ -55,11 +55,9 @@ const PowerStabilityCard: React.FC<
 
   const latestYearDataItems = useMemo(() => {
     return observations.filter(
-      (d) =>
-        (viewBy === "latest" ? d.year === latestYear : true) &&
-        d.operator.toString() !== operatorId
+      (d) => d.year === latestYear && d.operator.toString() !== operatorId
     );
-  }, [observations, latestYear, operatorId, viewBy]);
+  }, [observations, latestYear, operatorId]);
 
   const latestYearData = useMemo(() => {
     return observations.filter((d) => {

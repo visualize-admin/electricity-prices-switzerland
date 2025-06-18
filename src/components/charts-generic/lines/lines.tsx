@@ -1,8 +1,10 @@
 import { ascending, line } from "d3";
 import * as React from "react";
 
-import { LinesState } from "src/components/charts-generic/lines/lines-state";
-import { useChartState } from "src/components/charts-generic/use-chart-state";
+import {
+  LinesState,
+  useChartState,
+} from "src/components/charts-generic/use-chart-state";
 import { GenericObservation } from "src/domain/data";
 import { chartPalette } from "src/themes/palette";
 
