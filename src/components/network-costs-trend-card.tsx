@@ -7,15 +7,16 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 
 import { ButtonGroup } from "src/components/button-group";
 import CardSource from "src/components/card-source";
-import { Combobox } from "src/components/combobox";
 import { PeerGroup, SunshineCostsAndTariffsData } from "src/domain/data";
-import { getLocalizedLabel, getPeerGroupLabels } from "src/domain/translation";
+import { containsDelimiter, filterByDelimiter } from "src/domain/helpers";
+import { getPeerGroupLabels } from "src/domain/translation";
 
 import { NetworkCostTrendChart } from "./network-cost-trend-chart";
+import { AllOrComboboxMulti } from "./query-combobox";
 
 const NetworkCostsTrendCard: React.FC<
   {
@@ -26,14 +27,31 @@ const NetworkCostsTrendCard: React.FC<
     operatorLabel: string;
   } & CardProps
 > = (props) => {
-  const [compareWith, setCompareWith] = useState(
-    "sunshine.costs-and-tariffs.all-peer-group"
-  );
+  const [compareWith, setCompareWith] = useState(["sunshine.select-all"]);
   const [viewBy, setViewBy] = useState("latest");
 
   const { peerGroup, updateDate, networkCosts, operatorId, operatorLabel } =
     props;
   const { peerGroupLabel } = getPeerGroupLabels(peerGroup);
+
+  const latestYear = new Date().getFullYear();
+  const { yearlyData, ...restNetworkCosts } = networkCosts;
+  const latestYearDataItems = useMemo(() => {
+    return yearlyData.filter((d) => d.year === latestYear);
+  }, [yearlyData, latestYear]);
+
+  const latestYearData = useMemo(() => {
+    return yearlyData.filter(
+      (d) =>
+        d.year === latestYear &&
+        containsDelimiter(
+          compareWith,
+          "sunshine.select-all",
+          d.operator_id.toString()
+        )
+    );
+  }, [yearlyData, compareWith, latestYear]);
+
   return (
     <Card {...props}>
       <CardContent>
@@ -80,22 +98,23 @@ const NetworkCostsTrendCard: React.FC<
             />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <Combobox
-              id="compare-with-selection"
+            <AllOrComboboxMulti
               label={t({
                 id: "sunshine.costs-and-tariffs.compare-with",
                 message: "Compare With",
               })}
               items={[
-                "sunshine.costs-and-tariffs.all-peer-group",
-                "sunshine.costs-and-tariffs.selected-operators",
+                { id: "sunshine.select-all" },
+                ...latestYearDataItems.map((item) => {
+                  return {
+                    id: String(item.operator_id),
+                    name: item.operator_name,
+                  };
+                }),
               ]}
-              selectedItem={compareWith}
-              setSelectedItem={setCompareWith}
-              getItemLabel={(item) =>
-                getLocalizedLabel({
-                  id: item,
-                })
+              selectedItems={compareWith}
+              setSelectedItems={(items) =>
+                setCompareWith(filterByDelimiter(items, "sunshine.select-all"))
               }
             />
           </Grid>
@@ -106,7 +125,8 @@ const NetworkCostsTrendCard: React.FC<
           <NetworkCostTrendChart
             id={operatorId}
             operatorLabel={operatorLabel}
-            observations={networkCosts}
+            observations={latestYearData}
+            networkCosts={restNetworkCosts}
           />
         </Box>
         {/* Footer Info */}
