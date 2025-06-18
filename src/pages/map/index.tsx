@@ -349,7 +349,7 @@ const IndexPageContent = ({
       listState={listState}
       grouped={listGroups}
       colorScale={colorScale}
-      observationsQueryFetching={
+      fetching={
         isElectricityTab
           ? observationsQuery.fetching
           : sunshineDataQuery.fetching

@@ -297,12 +297,12 @@ type SortState = "ASC" | "DESC";
 export const List = ({
   grouped,
   colorScale,
-  observationsQueryFetching,
+  fetching,
   listState,
 }: {
   grouped: Groups;
   colorScale: ScaleThreshold<number, string>;
-  observationsQueryFetching: boolean;
+  fetching: boolean;
   listState: ListState;
 }) => {
   const [sortState, setSortState] = useState<SortState>("ASC");
@@ -403,7 +403,7 @@ export const List = ({
           />
         </Box>
       </Box>
-      {observationsQueryFetching ? (
+      {fetching ? (
         <PlaceholderListItems />
       ) : (
         <ListItems
