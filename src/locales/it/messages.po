@@ -175,31 +175,31 @@ msgstr "Nessun documento dell'operatore di rete"
 msgid "download.reports"
 msgstr "Scarica i rapporti"
 
-#: src/pages/404.tsx
+#: src/components/not-found.tsx
 msgid "error.page.404.back-link"
 msgstr "Clicca qui per tornare alla homepage"
 
-#: src/pages/404.tsx
+#: src/components/not-found.tsx
 msgid "error.page.404.description"
 msgstr "È possibile che sia stato inserito un indirizzo (URL) errato, oppure che la pagina o il documento non esistano più o che il loro nome sia stato cambiato. Non è stato possibile trovare la pagina richiesta."
 
-#: src/pages/404.tsx
+#: src/components/not-found.tsx
 msgid "error.page.404.title"
 msgstr "Pagina non trovata"
 
-#: src/pages/404.tsx
+#: src/components/not-found.tsx
 msgid "error.page.404.type"
 msgstr "Errore 404"
 
-#: src/pages/500.tsx
+#: src/components/server-error.tsx
 msgid "error.page.500.description"
 msgstr "La pagina o la funzione desiderata non è purtroppo disponibile al momento. Si prega di riprovare più tardi."
 
-#: src/pages/500.tsx
+#: src/components/server-error.tsx
 msgid "error.page.500.reload-link"
 msgstr "Ricarica la pagina"
 
-#: src/pages/500.tsx
+#: src/components/server-error.tsx
 msgid "error.page.500.title"
 msgstr "Temporaneamente non disponibile"
 
@@ -412,6 +412,18 @@ msgid "image.download"
 msgstr "Scaricare l'immagine"
 
 #: src/domain/translation.tsx
+msgid "indicator.energyTariffs"
+msgstr ""
+
+#: src/domain/translation.tsx
+msgid "indicator.netTariffs"
+msgstr ""
+
+#: src/domain/translation.tsx
+msgid "indicator.networkCosts"
+msgstr ""
+
+#: src/domain/translation.tsx
 msgid "indicator.saidi"
 msgstr "Durata dell'interruzione di corrente (SAIDI)"
 
@@ -463,7 +475,7 @@ msgstr "Mostra energia dettagli sui prezzi"
 msgid "map.legend.title"
 msgstr "Confronto tariffe in ct./kWh (IVA esclusa)"
 
-#: src/pages/map/index.tsx
+#: src/components/share-button.tsx
 msgid "map.share"
 msgstr "Condividi"
 
@@ -494,30 +506,6 @@ msgstr "Mediana del gruppo di riferimento"
 #: src/domain/translation.tsx
 msgid "network-level"
 msgstr "Livello di rete"
-
-#: src/domain/translation.tsx
-msgid "network-level.NE5.long"
-msgstr "Alta tensione NE5"
-
-#: src/domain/translation.tsx
-msgid "network-level.NE5.short"
-msgstr "NE5"
-
-#: src/domain/translation.tsx
-msgid "network-level.NE6.long"
-msgstr "Media tensione NE6"
-
-#: src/domain/translation.tsx
-msgid "network-level.NE6.short"
-msgstr "NE6"
-
-#: src/domain/translation.tsx
-msgid "network-level.NE7.long"
-msgstr "Bassa tensione NE7"
-
-#: src/domain/translation.tsx
-msgid "network-level.NE7.short"
-msgstr "NE7"
 
 #: src/domain/translation.tsx
 msgid "network-level.NL5.long"
@@ -795,6 +783,10 @@ msgid "selector.compareoperators"
 msgstr "Confrontare con il gestore di rete…"
 
 #: src/components/sunshine-selectors/base.tsx
+msgid "selector.energy-tariffs-category"
+msgstr ""
+
+#: src/components/sunshine-selectors/base.tsx
 msgid "selector.indicator"
 msgstr "Indicatore"
 
@@ -802,6 +794,14 @@ msgstr "Indicatore"
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.legend.select.parameters"
 msgstr "Selezionare i parametri"
+
+#: src/components/sunshine-selectors/base.tsx
+msgid "selector.net-tariffs-category"
+msgstr ""
+
+#: src/components/sunshine-selectors/base.tsx
+msgid "selector.network-level"
+msgstr ""
 
 #: src/components/detail-page/price-components-bars.tsx
 #: src/components/electricity-selectors.tsx
@@ -858,10 +858,6 @@ msgstr "Indicatori"
 msgid "selector.typology"
 msgstr "Tipologia"
 
-#: src/components/sunshine-selectors/base.tsx
-msgid "selector.viewBy"
-msgstr "Vedi da"
-
 #: src/components/electricity-selectors.tsx
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.year"
@@ -871,7 +867,7 @@ msgstr "Anno"
 msgid "selector.years"
 msgstr "Anni"
 
-#: src/pages/map/index.tsx
+#: src/components/share-button.tsx
 msgid "share.url-copied"
 msgstr "URL copiato ✅"
 
@@ -907,6 +903,7 @@ msgstr "Tutti gli operatori di rete del gruppo peer"
 
 #: src/components/net-tariffs-trend-card.tsx
 #: src/components/network-costs-trend-card.tsx
+#: src/components/operational-standards-card.tsx
 #: src/components/power-stability-card.tsx
 msgid "sunshine.costs-and-tariffs.benchmarking-peer-group"
 msgstr "Benchmarking all'interno del gruppo di riferimento: {peerGroupLabel}"
@@ -1023,6 +1020,10 @@ msgstr "Vedi da"
 msgid "sunshine.operational-standards.compliance"
 msgstr "Conformità"
 
+#: src/domain/translation.tsx
+msgid "sunshine.operational-standards.compliance-trend"
+msgstr ""
+
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.compliance.comparison-card-title"
 msgstr "Conformità"
@@ -1035,6 +1036,10 @@ msgstr "La pagina degli Standard operativi valuta gli indicatori chiave di perfo
 msgid "sunshine.operational-standards.product-variety"
 msgstr "Varietà di prodotti"
 
+#: src/domain/translation.tsx
+msgid "sunshine.operational-standards.product-variety-trend"
+msgstr ""
+
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.product-variety.comparison-card-title"
 msgstr "Varietà di prodotti"
@@ -1042,6 +1047,10 @@ msgstr "Varietà di prodotti"
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.operational-standards.service-quality"
 msgstr "Qualità del servizio"
+
+#: src/domain/translation.tsx
+msgid "sunshine.operational-standards.service-quality-trend"
+msgstr ""
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.service-quality.comparison-card-title"
