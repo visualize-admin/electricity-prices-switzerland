@@ -17,12 +17,14 @@ import { ScatterPlot } from "./charts-generic/scatter-plot/scatter-plot-state";
 import { SectionProps } from "./detail-page/card";
 
 type NetworkCostTrendChartProps = {
-  observations: SunshineCostsAndTariffsData["networkCosts"];
+  observations: SunshineCostsAndTariffsData["networkCosts"]["yearlyData"];
+  networkCosts: Omit<SunshineCostsAndTariffsData["networkCosts"], "yearlyData">;
   operatorLabel: string;
 };
 
 export const NetworkCostTrendChart = ({
   observations,
+  networkCosts,
   id,
   operatorLabel,
 }: NetworkCostTrendChartProps & Omit<SectionProps, "entity">) => {
@@ -33,8 +35,8 @@ export const NetworkCostTrendChart = ({
       }}
     >
       <ScatterPlot
-        medianValue={observations.peerGroupMedianRate ?? undefined}
-        data={observations.yearlyData.map((o) => ({
+        medianValue={networkCosts.peerGroupMedianRate ?? undefined}
+        data={observations.map((o) => ({
           ...o,
           network_level: getLocalizedLabel({
             id: `network-level.${o.network_level}.long`,
@@ -50,7 +52,7 @@ export const NetworkCostTrendChart = ({
           style: {
             entity: "operator_id",
             colorDomain: [
-              ...new Set(observations.yearlyData.map((d) => d.operator_name)),
+              ...new Set(observations.map((d) => d.operator_name)),
             ] as string[],
             colorAcc: "operator_name",
             highlightValue: id,

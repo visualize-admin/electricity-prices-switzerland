@@ -17,12 +17,14 @@ import { ScatterPlot } from "./charts-generic/scatter-plot/scatter-plot-state";
 import { SectionProps } from "./detail-page/card";
 
 type NetTariffsTrendChartProps = {
-  observations: SunshineCostsAndTariffsData["netTariffs"];
+  observations: SunshineCostsAndTariffsData["netTariffs"]["yearlyData"];
+  netTariffs: Omit<SunshineCostsAndTariffsData["netTariffs"], "yearlyData">;
   operatorLabel: string;
 };
 
 export const NetTariffsTrendChart = ({
   observations,
+  netTariffs,
   id,
   operatorLabel,
 }: NetTariffsTrendChartProps & Omit<SectionProps, "entity">) => {
@@ -33,8 +35,8 @@ export const NetTariffsTrendChart = ({
       }}
     >
       <ScatterPlot
-        medianValue={observations.peerGroupMedianRate ?? undefined}
-        data={observations.yearlyData.map((o) => ({
+        medianValue={netTariffs.peerGroupMedianRate ?? undefined}
+        data={observations.map((o) => ({
           ...o,
           category: getLocalizedLabel({
             id: `selector.category.${o.category}`,
@@ -51,7 +53,7 @@ export const NetTariffsTrendChart = ({
           style: {
             entity: "operator_id",
             colorDomain: [
-              ...new Set(observations.yearlyData.map((d) => d.operator_name)),
+              ...new Set(observations.map((d) => d.operator_name)),
             ] as string[],
             colorAcc: "operator_name",
             highlightValue: id,
