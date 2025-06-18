@@ -175,6 +175,34 @@ msgstr "Keine Netzbetreiber-Dokumente"
 msgid "download.reports"
 msgstr "Download Reports"
 
+#: src/pages/404.tsx
+msgid "error.page.404.back-link"
+msgstr "Klicken Sie hier, um zur Homepage zurückzukehren"
+
+#: src/pages/404.tsx
+msgid "error.page.404.description"
+msgstr "Möglicherweise haben Sie eine falsche Adresse (URL) eingegeben, oder die Seite bzw. das Dokument existiert nicht mehr oder ihr Name wurde geändert. Die von Ihnen angeforderte Seite konnte nicht gefunden werden."
+
+#: src/pages/404.tsx
+msgid "error.page.404.title"
+msgstr "Seite nicht gefunden"
+
+#: src/pages/404.tsx
+msgid "error.page.404.type"
+msgstr "Fehler 404"
+
+#: src/pages/500.tsx
+msgid "error.page.500.description"
+msgstr "Die gewünschte Seite oder Funktion ist im Moment leider nicht verfügbar. Bitte versuchen Sie es später noch einmal."
+
+#: src/pages/500.tsx
+msgid "error.page.500.reload-link"
+msgstr "Seite neu laden"
+
+#: src/pages/500.tsx
+msgid "error.page.500.title"
+msgstr "Vorübergehend nicht verfügbar"
+
 #: src/domain/translation.tsx
 msgid "filters.category"
 msgstr "Kategorie"
@@ -465,7 +493,11 @@ msgstr "Peer Group Median"
 
 #: src/domain/translation.tsx
 msgid "network-level"
+<<<<<<< feat/update-translations
 msgstr ""
+=======
+msgstr "Netzwerkebene"
+>>>>>>> main
 
 #: src/domain/translation.tsx
 msgid "network-level.NE5.long"
@@ -482,6 +514,14 @@ msgstr ""
 #: src/domain/translation.tsx
 msgid "network-level.NE6.short"
 msgstr ""
+
+#: src/domain/translation.tsx
+msgid "network-level.NE6.long"
+msgstr "Mittelspannung NE6"
+
+#: src/domain/translation.tsx
+msgid "network-level.NE6.short"
+msgstr "NE6"
 
 #: src/domain/translation.tsx
 msgid "network-level.NE7.long"

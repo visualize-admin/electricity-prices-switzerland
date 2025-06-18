@@ -49,6 +49,21 @@ export const getLocalizedLabel = ({ id }: { id: string }): string => {
       });
     case "total":
       return t({ id: "selector.pricecomponent.total", message: "Total" });
+    case "productvariety-trend":
+      return t({
+        id: "sunshine.operational-standards.product-variety-trend",
+        message: "Comparison of eco-friendly product diversity",
+      });
+    case "comliance-trend":
+      return t({
+        id: "sunshine.operational-standards.compliance-trend",
+        message: "Comparison of francs per invoice recipient",
+      });
+    case "servicequality-trend":
+      return t({
+        id: "sunshine.operational-standards.service-quality-trend",
+        message: "Comparison of advance notice periods for planned outages",
+      });
     case "saidi-trend":
       return t({
         id: "sunshine.power-stability.saidi-trend",
@@ -215,7 +230,21 @@ export const getLocalizedLabel = ({ id }: { id: string }): string => {
         id: "indicator.saifi",
         message: "Power Outage Frequency (SAIFI)",
       });
-
+    case "networkCosts":
+      return t({
+        id: "indicator.networkCosts",
+        message: "Network costs",
+      });
+    case "netTariffs":
+      return t({
+        id: "indicator.netTariffs",
+        message: "Net tariffs",
+      });
+    case "energyTariffs":
+      return t({
+        id: "indicator.energyTariffs",
+        message: "Energy tariffs",
+      });
     case "peer-group.settlement-density.na":
       return t({
         id: "peer-group.settlement-density.na",
@@ -278,22 +307,6 @@ export const getLocalizedLabel = ({ id }: { id: string }): string => {
       return t({ id: "network-level.NL7.short", message: `NL7` });
     case "network-level.NL7.long":
       return t({ id: "network-level.NL7.long", message: `Low voltage NL7` });
-
-    // NE (Not yet sure about translations)
-    case "network-level.NE5.short":
-      return t({ id: "network-level.NE5.short", message: `NE5` });
-    case "network-level.NE5.long":
-      return t({ id: "network-level.NE5.long", message: `High voltage NE5` });
-
-    case "network-level.NE6.short":
-      return t({ id: "network-level.NE6.short", message: `NE6` });
-    case "network-level.NE6.long":
-      return t({ id: "network-level.NE6.long", message: `Medium voltage NE6` });
-
-    case "network-level.NE7.short":
-      return t({ id: "network-level.NE7.short", message: `NE7` });
-    case "network-level.NE7.long":
-      return t({ id: "network-level.NE7.long", message: `Low voltage NE7` });
 
     case "sunshine.costs-and-tariffs.all-peer-group":
       return t({

@@ -11,66 +11,73 @@
     "peerGroupTotal": 22.6477406564,
     "yearlyData": [
       {
+        "year": 2025,
+        "total": 0,
+        "operator": 228,
+        "operator_name": "Fluxonomy Energy",
+        "unplanned": 0
+      },
+      {
         "year": 2024,
         "total": 22.6477406564,
-        "operator": 515,
-        "operator_name": "Fluxonomy Energy",
+        "operator": 11,
+        "operator_name": "Fluxwave Energy",
         "unplanned": 10.8663473594
       },
       {
         "year": 2024,
         "total": 51.5796399034,
-        "operator": 965,
-        "operator_name": "PulseNova Energy",
+        "operator": 122,
+        "operator_name": "ArcMatter Energy",
         "unplanned": 9.6740689609
       },
       {
         "year": 2024,
         "total": 25.0733966871,
-        "operator": 491,
-        "operator_name": "PureShift Power",
+        "operator": 916,
+        "operator_name": "Windnetic Energy",
         "unplanned": 10.2890395283
       },
       {
         "year": 2024,
         "total": 44.6043242396,
-        "operator": 955,
-        "operator_name": "TrueAmp Utilities",
+        "operator": 229,
+        "operator_name": "Dynawatt Solutions",
         "unplanned": 37.7769059146
       },
       {
         "year": 2024,
         "total": 27.8072223704,
-        "operator": 230,
-        "operator_name": "ClarityGrid Utilities",
+        "operator": 528,
+        "operator_name": "GridEcho Utilities",
         "unplanned": 15.1045884793
       },
       {
         "year": 2024,
         "total": 16.7291675154,
-        "operator": 670,
-        "operator_name": "Soltrix Energy",
+        "operator": 228,
+        "operator_name": "Fluxonomy Energy",
         "unplanned": 15.6410511047
       },
       {
         "year": 2024,
         "total": 10.6333277769,
-        "operator": 921,
-        "operator_name": "FusionSpan Utilities",
+        "operator": 636,
+        "operator_name": "Altigen Solutions",
         "unplanned": 0.2505973218
       },
       {
         "year": 2024,
         "total": 8.8868028713,
-        "operator": 104,
-        "operator_name": "Greenbeat Grid",
+        "operator": 882,
+        "operator_name": "Lumora Grid Co.",
         "unplanned": 0
       },
       {
         "year": 2024,
         "total": 14.0699144743,
-        "operator": 118,
-        "operator_name": "AetherForge Energy",
+        "operator": 583,
+        "operator_name": "NovaHarvest Energy",
         "unplanned": 8.3813969101
       }
     ]
@@ -80,69 +87,76 @@
     "peerGroupTotal": 0.3035262388,
     "yearlyData": [
       {
+        "year": 2025,
+        "total": 0,
+        "operator": 228,
+        "operator_name": "Fluxonomy Energy",
+        "unplanned": 0
+      },
+      {
         "year": 2024,
         "total": 0.3959103083,
-        "operator": 515,
-        "operator_name": "Fluxonomy Energy",
+        "operator": 11,
+        "operator_name": "Fluxwave Energy",
         "unplanned": 0.1709180815
       },
       {
         "year": 2024,
         "total": 0.3035262388,
-        "operator": 965,
-        "operator_name": "PulseNova Energy",
+        "operator": 122,
+        "operator_name": "ArcMatter Energy",
         "unplanned": 0.155755342
       },
       {
         "year": 2024,
         "total": 0.3387837228,
-        "operator": 491,
-        "operator_name": "PureShift Power",
+        "operator": 916,
+        "operator_name": "Windnetic Energy",
         "unplanned": 0.1946637044
       },
       {
         "year": 2024,
         "total": 0.7396167344,
-        "operator": 955,
-        "operator_name": "TrueAmp Utilities",
+        "operator": 229,
+        "operator_name": "Dynawatt Solutions",
         "unplanned": 0.6480981646
       },
       {
         "year": 2024,
         "total": 0.2742139886,
-        "operator": 230,
-        "operator_name": "ClarityGrid Utilities",
+        "operator": 528,
+        "operator_name": "GridEcho Utilities",
         "unplanned": 0.1789233757
       },
       {
         "year": 2024,
         "total": 0.6368627395,
-        "operator": 670,
-        "operator_name": "Soltrix Energy",
+        "operator": 228,
+        "operator_name": "Fluxonomy Energy",
         "unplanned": 0.6247366279
       },
       {
         "year": 2024,
         "total": 0.1490248375,
-        "operator": 921,
-        "operator_name": "FusionSpan Utilities",
+        "operator": 636,
+        "operator_name": "Altigen Solutions",
         "unplanned": 0.0022225927
       },
       {
         "year": 2024,
         "total": 0.2211485367,
-        "operator": 104,
-        "operator_name": "Greenbeat Grid",
+        "operator": 882,
+        "operator_name": "Lumora Grid Co.",
         "unplanned": 0
       },
       {
         "year": 2024,
         "total": 0.2297086501,
-        "operator": 118,
-        "operator_name": "AetherForge Energy",
+        "operator": 583,
+        "operator_name": "NovaHarvest Energy",
         "unplanned": 0.1025787509
       }
     ]
   },
-  "updateDate": "June 12, 2025 at 11:24 AM"
+  "updateDate": "June 17, 2025 at 11:47 AM"
 }

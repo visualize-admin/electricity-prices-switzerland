@@ -23,9 +23,16 @@ export type ComboboxMultiProps = {
   onInputValueChange?: (inputValue: string) => void;
   isLoading?: boolean;
   max?: number;
+  isOptionEqualToValue?: (option: unknown, value: string) => boolean;
 };
 
 const defaultGetItemLabel = (d: string) => d;
+const defaultOptionEqualToValue = (
+  option: unknown,
+  value: unknown
+): boolean => {
+  return option === value;
+};
 
 export const ComboboxMulti = ({
   id,
@@ -35,6 +42,7 @@ export const ComboboxMulti = ({
   setSelectedItems,
   minSelectedItems = 0,
   getItemLabel = defaultGetItemLabel,
+  isOptionEqualToValue = defaultOptionEqualToValue,
   lazy,
   onInputValueChange,
   isLoading,
@@ -150,7 +158,7 @@ export const ComboboxMulti = ({
       onClose={() => {
         setInputValue("");
       }}
-      isOptionEqualToValue={(option, value) => option === value}
+      isOptionEqualToValue={isOptionEqualToValue}
       disableClearable
       loading={isLoading}
     />

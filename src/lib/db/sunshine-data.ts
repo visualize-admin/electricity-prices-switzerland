@@ -1,3 +1,5 @@
+import { first } from "lodash";
+
 import {
   TariffCategory,
   NetworkLevel,
@@ -98,7 +100,7 @@ export const fetchNetworkCostsData = async ({
   period,
 }: {
   operatorId: number;
-  networkLevel?: string;
+  networkLevel?: NetworkLevel["id"];
   period?: number;
 }): Promise<NetworkCostsData> => {
   const operatorData = await getOperatorData(operatorId);
@@ -134,9 +136,20 @@ export const fetchNetworkCostsData = async ({
       period: previousYear,
     });
 
+  const operatorNetworkCosts = await getNetworkCosts({
+    operatorId,
+    networkLevel: networkLevel,
+    period: targetPeriod,
+  });
+
+  if (operatorNetworkCosts.length > 1) {
+    throw new Error(
+      "Cannot have multiple network costs records for one operator in one year"
+    );
+  }
+
   const networkCosts = (
     await getNetworkCosts({
-      period: targetPeriod,
       settlementDensity: operatorData.settlement_density,
       energyDensity: operatorData.energy_density,
       networkLevel: networkLevel,
@@ -145,10 +158,7 @@ export const fetchNetworkCostsData = async ({
     // TODO Should be done in the view
     .filter((x) => !Number.isNaN(x.rate) && Number.isFinite(x.rate));
 
-  const operatorNetworkCost = networkCosts.find(
-    (cost) =>
-      cost.network_level === networkLevel && cost.operator_id === operatorId
-  );
+  const operatorNetworkCost = first(operatorNetworkCosts);
 
   const previousOperatorNetworkCosts = await getNetworkCosts({
     period: previousYear,
@@ -182,7 +192,6 @@ export const fetchNetTariffsData = async ({
   period,
 }: {
   operatorId: number;
-  // TODO it seems NC2 is not an ElectricityCategory, but a NetworkCategory
   category: TariffCategory;
   period: number;
 }): Promise<{
@@ -204,18 +213,27 @@ export const fetchNetTariffsData = async ({
       category: category,
     });
 
-  const netTariffs = await getTariffs({
+  const operatorNetTariffs = await getTariffs({
     period: period,
+    tariffType: "network",
+    category: category,
+    operatorId,
+  });
+
+  if (operatorNetTariffs.length > 1) {
+    throw new Error(
+      "Cannot have multiple net tariffs records for one operator in one year"
+    );
+  }
+
+  const operatorNetTariff = first(operatorNetTariffs);
+
+  const netTariffs = await getTariffs({
     settlementDensity: operatorData.settlement_density,
     energyDensity: operatorData.energy_density,
     tariffType: "network",
     category: category,
   });
-
-  const operatorNetTariff = netTariffs.find(
-    (tariff) =>
-      tariff.category === category && tariff.operator_id === operatorId
-  );
 
   return {
     category: category,
@@ -247,17 +265,26 @@ export const fetchEnergyTariffsData = async ({
       category: category,
     });
 
-  const energyTariffs = await getTariffs({
+  const operatorEnergyTariffs = await getTariffs({
     period: period,
+    category: category,
+    operatorId: operatorId,
+  });
+
+  if (operatorEnergyTariffs.length > 1) {
+    throw new Error(
+      "Cannot have multiple energy tariffs records for one operator in one year"
+    );
+  }
+
+  const operatorEnergyTariff = first(operatorEnergyTariffs);
+
+  const energyTariffs = await getTariffs({
     settlementDensity: operatorData.settlement_density,
     energyDensity: operatorData.energy_density,
     category: category,
+    operatorId: operatorId,
   });
-
-  const operatorEnergyTariff = energyTariffs.find(
-    (tariff) =>
-      tariff.category === category && tariff.operator_id === operatorId
-  );
 
   return {
     category: category,
@@ -372,7 +399,6 @@ export const fetchSaidi = async ({
   const peerGroupYearlyStability = await getStabilityMetrics({
     settlement_density: operatorData.settlement_density,
     energy_density: operatorData.energy_density,
-    period,
   });
 
   return {
@@ -425,7 +451,6 @@ export const fetchSaifi = async ({
   const peerGroupYearlyStability = await getStabilityMetrics({
     settlement_density: operatorData.settlement_density,
     energy_density: operatorData.energy_density,
-    period,
   });
 
   return {

@@ -175,6 +175,34 @@ msgstr "Nessun documento dell'operatore di rete"
 msgid "download.reports"
 msgstr "Scarica i rapporti"
 
+#: src/pages/404.tsx
+msgid "error.page.404.back-link"
+msgstr "Clicca qui per tornare alla homepage"
+
+#: src/pages/404.tsx
+msgid "error.page.404.description"
+msgstr "È possibile che sia stato inserito un indirizzo (URL) errato, oppure che la pagina o il documento non esistano più o che il loro nome sia stato cambiato. Non è stato possibile trovare la pagina richiesta."
+
+#: src/pages/404.tsx
+msgid "error.page.404.title"
+msgstr "Pagina non trovata"
+
+#: src/pages/404.tsx
+msgid "error.page.404.type"
+msgstr "Errore 404"
+
+#: src/pages/500.tsx
+msgid "error.page.500.description"
+msgstr "La pagina o la funzione desiderata non è purtroppo disponibile al momento. Si prega di riprovare più tardi."
+
+#: src/pages/500.tsx
+msgid "error.page.500.reload-link"
+msgstr "Ricarica la pagina"
+
+#: src/pages/500.tsx
+msgid "error.page.500.title"
+msgstr "Temporaneamente non disponibile"
+
 #: src/domain/translation.tsx
 msgid "filters.category"
 msgstr "Categoria"

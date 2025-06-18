@@ -17,6 +17,17 @@ type SunshineSelectorsBaseProps = {
   setIndicator: (indicator: string) => void;
   indicatorOptions: string[];
   getItemLabel?: (id: string) => string;
+  networkLevel: string;
+  setNetworkLevel: (networkLevel: string) => void;
+  networkLevelOptions: string[];
+
+  netTariffCategory: string;
+  setNetTariffCategory: (category: string) => void;
+  netTariffsCategoryOptions: string[];
+
+  energyTariffCategory: string;
+  energyTariffsCategoryOptions: string[];
+  setEnergyTariffCategory: (category: string) => void;
 };
 
 export const SunshineSelectorsBase = ({
@@ -32,7 +43,16 @@ export const SunshineSelectorsBase = ({
   indicator,
   setIndicator,
   indicatorOptions,
+  networkLevel,
   getItemLabel = (id) => id,
+  networkLevelOptions,
+  setNetworkLevel,
+  netTariffCategory,
+  setNetTariffCategory,
+  netTariffsCategoryOptions,
+  energyTariffCategory,
+  energyTariffsCategoryOptions,
+  setEnergyTariffCategory,
 }: SunshineSelectorsBaseProps) => {
   return (
     <Box
@@ -60,14 +80,14 @@ export const SunshineSelectorsBase = ({
         </Trans>
       </Typography>
 
-      <Combobox
+      {/* <Combobox
         id="viewBy"
         label={t({ id: "selector.viewBy", message: "View by" })}
         items={viewByOptions}
         getItemLabel={getItemLabel}
         selectedItem={viewBy}
         setSelectedItem={setViewBy}
-      />
+      /> */}
 
       <Combobox
         id="year"
@@ -75,16 +95,6 @@ export const SunshineSelectorsBase = ({
         items={years}
         selectedItem={year}
         setSelectedItem={setYear}
-      />
-
-      <Combobox
-        id="typology"
-        label={t({ id: "selector.typology", message: "Typology" })}
-        items={typologyOptions}
-        getItemLabel={getItemLabel}
-        selectedItem={typology}
-        setSelectedItem={setTypology}
-        infoDialogSlug="help-typology"
       />
 
       <Combobox
@@ -96,6 +106,56 @@ export const SunshineSelectorsBase = ({
         setSelectedItem={setIndicator}
         infoDialogSlug="help-indicator"
       />
+      {indicator === "saifi" || indicator === "saidi" ? (
+        <Combobox
+          id="typology"
+          label={t({ id: "selector.typology", message: "Typology" })}
+          items={typologyOptions}
+          getItemLabel={getItemLabel}
+          selectedItem={typology}
+          setSelectedItem={setTypology}
+          infoDialogSlug="help-typology"
+        />
+      ) : null}
+      {indicator === "networkCosts" ? (
+        <Combobox
+          id="networkLevel"
+          label={t({ id: "selector.network-level", message: "Network level" })}
+          items={networkLevelOptions}
+          getItemLabel={getItemLabel}
+          selectedItem={networkLevel}
+          setSelectedItem={setNetworkLevel}
+          infoDialogSlug="help-network-level"
+        />
+      ) : null}
+      {indicator === "netTariffs" ? (
+        <Combobox
+          id="net-tariffs-category"
+          label={t({
+            id: "selector.net-tariffs-category",
+            message: "Category",
+          })}
+          items={netTariffsCategoryOptions}
+          getItemLabel={getItemLabel}
+          selectedItem={netTariffCategory}
+          setSelectedItem={setNetTariffCategory}
+          infoDialogSlug="help-net-tariff-category"
+        />
+      ) : null}
+      {indicator === "energyTariffs" ? (
+        <Combobox
+          id="energy-tariffs-category"
+          label={t({
+            id: "selector.energy-tariffs-category",
+            message: "Category",
+          })}
+          items={energyTariffsCategoryOptions}
+          getItemLabel={getItemLabel}
+          selectedItem={energyTariffCategory}
+          setSelectedItem={setEnergyTariffCategory}
+          infoDialogSlug="help-energy-tariff-category"
+        />
+      ) : null}
     </Box>
   );
 };

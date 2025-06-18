@@ -1,5 +1,6 @@
 import { Box } from "@mui/material";
 import { max } from "d3";
+import { sortBy } from "lodash";
 
 import type { SunshinePowerStabilityData } from "src/domain/data";
 
@@ -15,8 +16,8 @@ import { SectionProps } from "./detail-page/card";
 
 type PowerStabilityChartProps = {
   observations:
-    | SunshinePowerStabilityData["saifi"]
-    | SunshinePowerStabilityData["saidi"];
+    | SunshinePowerStabilityData["saifi"]["yearlyData"]
+    | SunshinePowerStabilityData["saidi"]["yearlyData"];
   operatorLabel: string;
 };
 
@@ -25,7 +26,7 @@ export const PowerStabilityChart = ({
   id,
   operatorLabel,
 }: PowerStabilityChartProps & Omit<SectionProps, "entity">) => {
-  const dataWithStackFields = observations.yearlyData.map((d) => ({
+  const dataWithStackFields = observations.map((d) => ({
     ...d,
     planned: d.total,
     unplanned: d.unplanned,
@@ -35,10 +36,9 @@ export const PowerStabilityChart = ({
     max(dataWithStackFields, (d) => d.planned + d.unplanned) ?? 0;
   const xDomain: [number, number] = [0, maxValue];
 
-  const sortedData = [
-    ...dataWithStackFields.filter((d) => d.operator.toString() === id),
-    ...dataWithStackFields.filter((d) => d.operator.toString() !== id),
-  ];
+  const sortedData = sortBy(dataWithStackFields, (x) => {
+    return x.operator.toString() === id ? 0 : 1;
+  });
 
   return (
     <Box sx={{ mt: 8 }}>

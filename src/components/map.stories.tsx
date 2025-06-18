@@ -9,10 +9,26 @@ import { MapProvider } from "src/components/map-context";
 import OperatorsMap, {
   DisplayedAttribute,
   displayedAttributes,
+  GetOperatorsMapTooltip,
 } from "src/components/operators-map";
 import { useColorScale } from "src/domain/data";
 import { SunshineDataRow, useSunshineTariffQuery } from "src/graphql/queries";
 
+const debugTooltip: GetOperatorsMapTooltip = ({ object }) => {
+  if (!object) {
+    return null;
+  }
+  const operatorIds = object.properties?.operators;
+  return {
+    html: `<div>${operatorIds.join("<br/>")}</div>`,
+    style: {
+      backgroundColor: "white",
+      color: "black",
+      fontSize: "12px",
+      padding: "5px",
+    },
+  };
+};
 export const Operators = () => {
   const period = "2024";
   const [attribute, setAttribute] = useState<DisplayedAttribute>(
@@ -85,6 +101,7 @@ export const Operators = () => {
             accessor={accessor}
             colorScale={colorScale}
             observations={observations}
+            getTooltip={debugTooltip}
           />
         </Box>
       </Box>
