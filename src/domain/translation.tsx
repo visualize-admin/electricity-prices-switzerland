@@ -293,10 +293,10 @@ export const getLocalizedLabel = ({ id }: { id: string }): string => {
     case "network-level.NL7.long":
       return t({ id: "network-level.NL7.long", message: `Low voltage NL7` });
 
-    case "sunshine.costs-and-tariffs.all-peer-group":
+    case "sunshine.select-all":
       return t({
-        id: "sunshine.costs-and-tariffs.all-peer-group",
-        message: `All peer group network operators`,
+        id: "sunshine.select-all",
+        message: `Select All`,
       });
     case "sunshine.costs-and-tariffs.selected-operators":
       return t({
