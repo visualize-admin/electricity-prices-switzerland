@@ -18,6 +18,9 @@ import { getLocalizedLabel, getPeerGroupLabels } from "src/domain/translation";
 import { PowerStabilityChart } from "./power-stability-chart";
 import { AllOrMultiCombobox } from "./query-combobox";
 
+export type ViewByFilter = "latest" | "progress";
+export type OverallOrRatioFilter = "overall" | "ratio";
+
 const PowerStabilityCard: React.FC<
   {
     peerGroup: PeerGroup;
@@ -32,8 +35,9 @@ const PowerStabilityCard: React.FC<
   } & CardProps
 > = (props) => {
   const [compareWith, setCompareWith] = useState(["sunshine.select-all"]);
-  const [viewBy, setViewBy] = useState("latest");
-  const [overallOrRatio, setOverallOrRatio] = useState("overall");
+  const [viewBy, setViewBy] = useState<ViewByFilter>("latest");
+  const [overallOrRatio, setOverallOrRatio] =
+    useState<OverallOrRatioFilter>("overall");
 
   const {
     peerGroup,
@@ -84,67 +88,63 @@ const PowerStabilityCard: React.FC<
         </Typography>
 
         <Grid container spacing={3} sx={{ mb: 3 }}>
-          <Grid item xs={12} sm={4} sx={{ display: "flex" }}>
-            <Box sx={{ flex: 1, mt: 2.5 }}>
-              <ButtonGroup
-                id="view-by-button-group-1"
-                label={t({
-                  id: "sunshine.power-stability.view-by",
-                  message: "View By",
-                })}
-                options={[
-                  {
-                    value: "latest",
-                    label: (
-                      <Trans id="sunshine.power-stability.latest-year-option">
-                        Latest year
-                      </Trans>
-                    ),
-                  },
-                  {
-                    value: "progress",
-                    label: (
-                      <Trans id="sunshine.power-stability.progress-over-time">
-                        Progress over time
-                      </Trans>
-                    ),
-                  },
-                ]}
-                value={viewBy}
-                setValue={setViewBy}
-              />
-            </Box>
+          <Grid item xs={12} sm={4} sx={{ mt: 2.5 }}>
+            <ButtonGroup
+              id="view-by-button-group-1"
+              label={t({
+                id: "sunshine.power-stability.view-by",
+                message: "View By",
+              })}
+              options={[
+                {
+                  value: "latest",
+                  label: (
+                    <Trans id="sunshine.power-stability.latest-year-option">
+                      Latest year
+                    </Trans>
+                  ),
+                },
+                {
+                  value: "progress",
+                  label: (
+                    <Trans id="sunshine.power-stability.progress-over-time">
+                      Progress over time
+                    </Trans>
+                  ),
+                },
+              ]}
+              value={viewBy}
+              setValue={setViewBy}
+            />
           </Grid>
-          <Grid item xs={12} sm={4} sx={{ display: "flex" }}>
-            <Box sx={{ flex: 1, mt: 2.5 }}>
-              <ButtonGroup
-                id="view-by-button-group-2"
-                label={t({
-                  id: "sunshine.power-stability.view-by",
-                  message: "View By",
-                })}
-                options={[
-                  {
-                    value: "overall",
-                    label: (
-                      <Trans id="sunshine.power-stability.overall-option">
-                        Overall
-                      </Trans>
-                    ),
-                  },
-                  {
-                    value: "ratio",
-                    label: (
-                      <Trans id="sunshine.power-stability.ratio-option">
-                        Ratio
-                      </Trans>
-                    ),
-                  },
-                ]}
-                value={overallOrRatio}
-                setValue={setOverallOrRatio}
-              />
-            </Box>
+          <Grid item xs={12} sm={4} sx={{ mt: 2.5 }}>
+            <ButtonGroup
+              id="view-by-button-group-2"
+              label={t({
+                id: "sunshine.power-stability.view-by",
+                message: "View By",
+              })}
+              options={[
+                {
+                  value: "overall",
+                  label: (
+                    <Trans id="sunshine.power-stability.overall-option">
+                      Overall
+                    </Trans>
+                  ),
+                },
+                {
+                  value: "ratio",
+                  label: (
+                    <Trans id="sunshine.power-stability.ratio-option">
+                      Ratio
+                    </Trans>
+                  ),
+                },
+              ]}
+              value={overallOrRatio}
+              setValue={setOverallOrRatio}
+            />
           </Grid>
           <Grid item xs={12} sm={4} sx={{ display: "flex" }}>
             <AllOrMultiCombobox
@@ -184,6 +184,8 @@ const PowerStabilityCard: React.FC<
             observations={latestYearData}
             id={operatorId}
             operatorLabel={operatorLabel}
+            view={viewBy}
+            overallOrRatio={overallOrRatio}
           />
         </Box>
         {/* Footer Info */}

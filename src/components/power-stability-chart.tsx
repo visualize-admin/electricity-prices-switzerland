@@ -13,19 +13,36 @@ import {
 import { StackedBarsChart } from "./charts-generic/bars/bars-stacked-state";
 import { ChartContainer, ChartSvg } from "./charts-generic/containers";
 import { SectionProps } from "./detail-page/card";
+import { OverallOrRatioFilter, ViewByFilter } from "./power-stability-card";
+
+type PowerStabilityFilters = {
+  view: ViewByFilter;
+  overallOrRatio: OverallOrRatioFilter;
+};
 
 type PowerStabilityChartProps = {
   observations:
     | SunshinePowerStabilityData["saifi"]["yearlyData"]
     | SunshinePowerStabilityData["saidi"]["yearlyData"];
   operatorLabel: string;
+} & Omit<SectionProps, "entity"> &
+  PowerStabilityFilters;
+
+export const PowerStabilityChart = (props: PowerStabilityChartProps) => {
+  const { view, ...restProps } = props;
+  return (
+    <Box sx={{ mt: 8 }}>
+      {view === "latest" ? (
+        <LatestYearChartView {...restProps} />
+      ) : (
+        <ProgressOvertimeChartView {...restProps} />
+      )}
+    </Box>
+  );
 };
 
-export const PowerStabilityChart = ({
-  observations,
-  id,
-  operatorLabel,
-}: PowerStabilityChartProps & Omit<SectionProps, "entity">) => {
+const LatestYearChartView = (props: Omit<PowerStabilityChartProps, "view">) => {
+  const { observations, id, operatorLabel } = props;
   const dataWithStackFields = observations.map((d) => ({
     ...d,
     planned: d.total,
@@ -41,63 +58,67 @@ export const PowerStabilityChart = ({
   });
 
   return (
-    <Box sx={{ mt: 8 }}>
-      <StackedBarsChart
-        data={sortedData}
-        fields={{
-          x: {
-            componentIri: ["planned", "unplanned"],
-          },
-          domain: xDomain,
-          y: {
-            componentIri: "operator_name",
-            sorting: { sortingType: "byTotalSize", sortingOrder: "desc" },
-          },
-          label: { componentIri: "operator_name" },
-          segment: {
-            palette: "elcom",
-            type: "stacked",
-            componentIri: "unplanned",
-          },
-          style: {
-            colorDomain: ["planned", "unplanned"],
-            opacityDomain: ["2024"],
-            colorAcc: "operator",
-            opacityAcc: "year",
-            highlightValue: id,
-          },
-        }}
-        measures={[
-          { iri: "planned", label: "Planned Minutes", __typename: "Measure" },
-          {
-            iri: "unplanned",
-            label: "Unplanned Minutes",
-            __typename: "Measure",
-          },
-        ]}
-        dimensions={[
-          {
-            iri: "operator_name",
-            label: "Operator",
-            __typename: "NominalDimension",
-          },
-        ]}
-        //FIXME: we need a better solution for this since having less bars increases the spacing between them
-        aspectRatio={0.8}
-      >
-        <ChartContainer>
-          <ChartSvg>
-            <AxisWidthLinear position="top" hideXAxisTitle />
-            <AxisHeightCategories
-              stretch
-              hideXAxis
-              highlightedCategory={operatorLabel}
-            />
-            <BarsStacked />
-            <BarsStackedAxis />
-          </ChartSvg>
-        </ChartContainer>
-      </StackedBarsChart>
-    </Box>
+    <StackedBarsChart
+      data={sortedData}
+      fields={{
+        x: {
+          componentIri: ["planned", "unplanned"],
+        },
+        domain: xDomain,
+        y: {
+          componentIri: "operator_name",
+          sorting: { sortingType: "byTotalSize", sortingOrder: "desc" },
+        },
+        label: { componentIri: "operator_name" },
+        segment: {
+          palette: "elcom",
+          type: "stacked",
+          componentIri: "unplanned",
+        },
+        style: {
+          colorDomain: ["planned", "unplanned"],
+          opacityDomain: ["2024"],
+          colorAcc: "operator",
+          opacityAcc: "year",
+          highlightValue: id,
+        },
+      }}
+      measures={[
+        { iri: "planned", label: "Planned Minutes", __typename: "Measure" },
+        {
+          iri: "unplanned",
+          label: "Unplanned Minutes",
+          __typename: "Measure",
+        },
+      ]}
+      dimensions={[
+        {
+          iri: "operator_name",
+          label: "Operator",
+          __typename: "NominalDimension",
+        },
+      ]}
+      //FIXME: we need a better solution for this since having less bars increases the spacing between them
+      aspectRatio={0.8}
+    >
+      <ChartContainer>
+        <ChartSvg>
+          <AxisWidthLinear position="top" hideXAxisTitle />
+          <AxisHeightCategories
+            stretch
+            hideXAxis
+            highlightedCategory={operatorLabel}
+          />
+          <BarsStacked />
+          <BarsStackedAxis />
+        </ChartSvg>
+      </ChartContainer>
+    </StackedBarsChart>
   );
+};
+
+const ProgressOvertimeChartView = (
+  props: Omit<PowerStabilityChartProps, "view">
+) => {
+  return null;
 };
