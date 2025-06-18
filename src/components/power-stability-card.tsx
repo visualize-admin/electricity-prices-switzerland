@@ -97,7 +97,7 @@ const PowerStabilityCard: React.FC<
                 })}
                 options={[
                   {
-                    value: "latest",
+                    value: "overall",
                     label: (
                       <Trans id="sunshine.power-stability.overall-option">
                         Overall
@@ -105,7 +105,7 @@ const PowerStabilityCard: React.FC<
                     ),
                   },
                   {
-                    value: "progress",
+                    value: "ratio",
                     label: (
                       <Trans id="sunshine.power-stability.ratio-option">
                         Ratio
