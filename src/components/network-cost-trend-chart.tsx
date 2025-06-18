@@ -1,5 +1,6 @@
 import { t } from "@lingui/macro";
 import { Box } from "@mui/material";
+import { useMemo } from "react";
 
 import type { SunshineCostsAndTariffsData } from "src/domain/data";
 import { getLocalizedLabel } from "src/domain/translation";
@@ -28,6 +29,9 @@ export const NetworkCostTrendChart = ({
   id,
   operatorLabel,
 }: NetworkCostTrendChartProps & Omit<SectionProps, "entity">) => {
+  const operatorsNames = useMemo(() => {
+    return new Set(observations.map((d) => d.operator_name));
+  }, [observations]);
   return (
     <Box
       sx={{
@@ -51,9 +55,7 @@ export const NetworkCostTrendChart = ({
           },
           style: {
             entity: "operator_id",
-            colorDomain: [
-              ...new Set(observations.map((d) => d.operator_name)),
-            ] as string[],
+            colorDomain: [...operatorsNames] as string[],
             colorAcc: "operator_name",
             highlightValue: id,
           },
