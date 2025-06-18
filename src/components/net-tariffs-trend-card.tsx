@@ -12,7 +12,7 @@ import React, { useMemo, useState } from "react";
 import { ButtonGroup } from "src/components/button-group";
 import CardSource from "src/components/card-source";
 import { PeerGroup, SunshineCostsAndTariffsData } from "src/domain/data";
-import { containsDelimiter, filterByDelimiter } from "src/domain/helpers";
+import { filterByDelimiter } from "src/domain/helpers";
 import { getPeerGroupLabels } from "src/domain/translation";
 
 import { CardHeader } from "./detail-page/card";
@@ -51,11 +51,8 @@ const NetTariffsTrendCard: React.FC<
     return yearlyData.filter(
       (d) =>
         d.period === latestYear &&
-        (containsDelimiter(
-          compareWith,
-          "sunshine.select-all",
-          d.operator_id.toString()
-        ) ||
+        (compareWith.includes("sunshine.select-all") ||
+          compareWith.includes(d.operator_id.toString()) ||
           d.operator_id.toString() === operatorId)
     );
   }, [yearlyData, compareWith, latestYear, operatorId]);

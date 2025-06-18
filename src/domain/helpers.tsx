@@ -342,11 +342,3 @@ export const filterByDelimiter = (
 
   return arr.filter((item) => item !== delimiter);
 };
-
-export const containsDelimiter = (
-  arr: string[],
-  delimiter: string,
-  item: string
-): boolean => {
-  return arr.includes(delimiter) || arr.includes(item);
-};

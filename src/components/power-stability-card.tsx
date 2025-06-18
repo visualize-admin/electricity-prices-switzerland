@@ -12,7 +12,7 @@ import React, { useMemo, useState } from "react";
 import { ButtonGroup } from "src/components/button-group";
 import CardSource from "src/components/card-source";
 import { PeerGroup, SunshinePowerStabilityData } from "src/domain/data";
-import { containsDelimiter, filterByDelimiter } from "src/domain/helpers";
+import { filterByDelimiter } from "src/domain/helpers";
 import { getLocalizedLabel, getPeerGroupLabels } from "src/domain/translation";
 
 import { PowerStabilityChart } from "./power-stability-chart";
@@ -57,11 +57,8 @@ const PowerStabilityCard: React.FC<
     return observations.filter(
       (d) =>
         d.year === latestYear &&
-        (containsDelimiter(
-          compareWith,
-          "sunshine.select-all",
-          d.operator.toString()
-        ) ||
+        (compareWith.includes("sunshine.select-all") ||
+          compareWith.includes(d.operator.toString()) ||
           d.operator.toString() === operatorId)
     );
   }, [observations, compareWith, latestYear, operatorId]);
