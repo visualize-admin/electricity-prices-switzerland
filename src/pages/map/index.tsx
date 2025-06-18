@@ -19,9 +19,10 @@ import { CombinedSelectors } from "src/components/combined-selectors";
 import { DownloadImage } from "src/components/detail-page/download-image";
 import { InfoBanner } from "src/components/info-banner";
 import {
-  groupsFromCantonObservations,
-  groupsFromMunicipalities,
-  groupsFromOperators,
+  groupsFromCantonElectricityObservations,
+  groupsFromElectricityMunicipalities,
+  groupsFromElectricityOperators,
+  groupsFromSunshineObservations,
   List,
 } from "src/components/list";
 import { ChoroplethMap, ChoroplethMapProps } from "src/components/map";
@@ -322,14 +323,28 @@ const IndexPageContent = ({
   const { listState, setListState } = useMap();
 
   const listGroups = useMemo(() => {
-    return listState === "CANTONS"
-      ? groupsFromCantonObservations(cantonMedianObservations)
-      : listState === "OPERATORS"
-      ? groupsFromOperators(observations)
-      : groupsFromMunicipalities(observations);
-  }, [listState, cantonMedianObservations, observations]);
+    if (isElectricityTab) {
+      return listState === "CANTONS"
+        ? groupsFromCantonElectricityObservations(cantonMedianObservations)
+        : listState === "OPERATORS"
+        ? groupsFromElectricityOperators(observations)
+        : groupsFromElectricityMunicipalities(observations);
+    } else {
+      return groupsFromSunshineObservations(
+        sunshineObservations,
+        sunshineAccessor
+      );
+    }
+  }, [
+    isElectricityTab,
+    listState,
+    cantonMedianObservations,
+    observations,
+    sunshineObservations,
+    sunshineAccessor,
+  ]);
 
-  const list = isElectricityTab ? (
+  const list = (
     <List
       listState={listState}
       grouped={listGroups}
@@ -340,7 +355,7 @@ const IndexPageContent = ({
           : sunshineDataQuery.fetching
       }
     />
-  ) : null;
+  );
 
   const listButtonGroup = isElectricityTab ? (
     <ButtonGroup<ListState>

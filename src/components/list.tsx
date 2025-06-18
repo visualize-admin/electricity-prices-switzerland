@@ -19,6 +19,7 @@ import { useFormatCurrency } from "src/domain/helpers";
 import {
   CantonMedianObservationFieldsFragment,
   OperatorObservationFieldsFragment,
+  SunshineDataRow,
 } from "src/graphql/queries";
 import { Icon } from "src/icons";
 import useEvent from "src/lib/use-event";
@@ -426,7 +427,7 @@ type Groups = [
   }
 ][];
 
-export function groupsFromMunicipalities(
+export function groupsFromElectricityMunicipalities(
   observations: OperatorObservationFieldsFragment[]
 ): Groups {
   return Array.from(
@@ -466,18 +467,48 @@ export function groupsFromMunicipalities(
   );
 }
 
-export function groupsFromOperators(
+const isValueAttributeDefined = <T extends { value: number | undefined }>(
+  d: T
+): d is T & { value: number } => {
+  return d.value !== undefined && d.value !== null;
+};
+export const groupsFromSunshineObservations = (
+  observations: SunshineDataRow[],
+  sunshineAccessor: (d: SunshineDataRow) => number | undefined
+): Groups => {
+  const withValues = observations
+    .map((d) => ({
+      ...d,
+      value: sunshineAccessor(d),
+    }))
+    .filter(isValueAttributeDefined);
+
+  return Array.from(
+    rollup(
+      withValues,
+      (values) => {
+        const first = values[0];
+        return {
+          id: `${first.operatorId}`,
+          label: first.name,
+          value: mean(values, (d) => d.value) ?? first.value,
+          canton: "",
+          cantonLabel: "",
+          operators: values.map((v) => ({
+            id: v.operatorId,
+            label: v.name,
+            value: v.value,
+          })),
+        };
+      },
+      (d) => `${d.operatorId}`
+    )
+  );
+};
+
+export function groupsFromElectricityOperators(
   observations: OperatorObservationFieldsFragment[]
-): [
-  string,
-  {
-    id: string;
-    label: string | null | undefined;
-    value: number;
-    canton: string;
-    cantonLabel: string | null | undefined;
-  }
-][] {
+): Groups {
   return Array.from(
     rollup(
       observations,
@@ -503,7 +534,7 @@ export function groupsFromOperators(
   );
 }
 
-export function groupsFromCantonObservations(
+export function groupsFromCantonElectricityObservations(
   cantonObservations: CantonMedianObservationFieldsFragment[]
 ): [
   string,
