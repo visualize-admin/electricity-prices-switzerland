@@ -169,7 +169,14 @@ const PowerStabilityCard: React.FC<
         </Grid>
 
         {/* Stacked Horizontal Bar Chart */}
-        <Box sx={{ height: 400, width: "100%" }}>
+        <Box
+          sx={{
+            height: 400,
+            width: "100%",
+            overflowY: "auto",
+            mt: 8,
+          }}
+        >
           <PowerStabilityChart
             observations={latestYearData}
             id={operatorId}

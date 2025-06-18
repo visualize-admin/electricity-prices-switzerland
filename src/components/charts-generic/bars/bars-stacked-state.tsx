@@ -129,7 +129,7 @@ const useStackedBarsState = ({
     );
 
     const margins = {
-      top: 50,
+      top: 20,
       right: 40,
       bottom: 40,
       left: maxYLabelWidth + LEFT_MARGIN_OFFSET,

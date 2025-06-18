@@ -15,7 +15,7 @@ You can also check the
 
   - Added stacked horizontal charts for power stability to the sunshine charts
   - Added Error States & enhanced existing hint styles
-  - Added new Select All or MultiCombobox variant integrated into costs and tariffs pages
+  - Added new Select All or MultiCombobox variant integrated into sunshine pages
 
 - Storybook
 
