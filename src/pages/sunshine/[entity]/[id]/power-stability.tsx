@@ -231,6 +231,7 @@ const SaidiSaifi = (
         />
 
         <PowerStabilityCard
+          latestYear={Number(latestYear)}
           sx={{ gridArea: "trend" }}
           peerGroup={peerGroup}
           updateDate={updateDate}

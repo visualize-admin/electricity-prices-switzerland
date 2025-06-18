@@ -30,17 +30,24 @@ const NetworkCostsTrendCard: React.FC<
     networkCosts: SunshineCostsAndTariffsData["networkCosts"];
     operatorId: string;
     operatorLabel: string;
+    latestYear: number;
   } & CardProps
 > = (props) => {
   const [compareWith, setCompareWith] = useState(["sunshine.select-all"]);
   const [viewBy, setViewBy] = useState("latest");
 
-  const { peerGroup, updateDate, networkCosts, operatorId, operatorLabel } =
-    props;
+  const {
+    peerGroup,
+    updateDate,
+    networkCosts,
+    operatorId,
+    operatorLabel,
+    latestYear,
+  } = props;
   const { peerGroupLabel } = getPeerGroupLabels(peerGroup);
 
-  const latestYear = new Date().getFullYear();
   const { yearlyData, ...restNetworkCosts } = networkCosts;
+
   const latestYearDataItems = useMemo(() => {
     return yearlyData.filter(
       (d) => d.year === latestYear && d.operator_id.toString() !== operatorId

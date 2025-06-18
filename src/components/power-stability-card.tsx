@@ -28,6 +28,7 @@ const PowerStabilityCard: React.FC<
     operatorId: string;
     operatorLabel: string;
     attribute: keyof Pick<SunshinePowerStabilityData, "saidi" | "saifi">;
+    latestYear: number;
   } & CardProps
 > = (props) => {
   const [compareWith, setCompareWith] = useState(["sunshine.select-all"]);
@@ -41,6 +42,7 @@ const PowerStabilityCard: React.FC<
     operatorId,
     operatorLabel,
     attribute,
+    latestYear: useThisOnceDataIsAvailable,
   } = props;
   const { peerGroupLabel } = getPeerGroupLabels(peerGroup);
 
