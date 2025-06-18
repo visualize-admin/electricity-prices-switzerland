@@ -11,6 +11,10 @@ You can also check the
 
 # Unreleased
 
+Nothing yet.
+
+# 2.1.0
+
 - Features
 
   - Added stacked horizontal charts for power stability to the sunshine charts
