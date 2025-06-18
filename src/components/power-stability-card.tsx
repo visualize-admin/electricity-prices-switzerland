@@ -28,10 +28,8 @@ const PowerStabilityCard: React.FC<
     attribute: keyof Pick<SunshinePowerStabilityData, "saidi" | "saifi">;
   } & CardProps
 > = (props) => {
-  const [compareWith, setCompareWith] = useState(
-    "sunshine.power-stability.all-peer-group"
-  );
   const [viewBy, setViewBy] = useState("latest");
+  const [overallOrRatio, setOverallOrRatio] = useState("overall");
 
   const {
     peerGroup,
@@ -115,8 +113,8 @@ const PowerStabilityCard: React.FC<
                     ),
                   },
                 ]}
-                value={viewBy}
-                setValue={setViewBy}
+                value={overallOrRatio}
+                setValue={setOverallOrRatio}
               />
             </Box>
           </Grid>
