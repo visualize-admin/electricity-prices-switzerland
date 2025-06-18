@@ -108,6 +108,56 @@ export type ListItemType = {
     | null;
 };
 
+const DetailPreviewDrawerContent: React.FC<{
+  colorScale: ScaleThreshold<number, string>;
+  getEntity: () => Entity;
+  listState: ListState;
+  selectedItem: ListItemType;
+  setActiveId: React.Dispatch<React.SetStateAction<string | null>>;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}> = ({
+  colorScale,
+  getEntity,
+  listState,
+  selectedItem,
+  setActiveId,
+  setOpen,
+}) => (
+  <MapDetailsContentWrapper
+    onBack={() => {
+      setOpen(false);
+      setActiveId(null);
+    }}
+  >
+    <MapDetailsEntityHeader entity={listState} {...selectedItem} />
+    <MapDetailsEntityTable
+      colorScale={colorScale}
+      entity={listState}
+      {...selectedItem}
+    />
+    <Divider />
+    <PriceEvolution
+      priceComponents={["total"]}
+      id={selectedItem.id}
+      entity={getEntity()}
+    />
+    <Button
+      variant="contained"
+      color="secondary"
+      size="sm"
+      sx={{
+        justifyContent: "space-between",
+      }}
+      href={`/${getEntity()}/${selectedItem.id}`}
+    >
+      <Trans id="map.details-sidebar-panel.next-button">
+        Energy Prices in detail
+      </Trans>
+      <Icon name="arrowright" />
+    </Button>
+  </MapDetailsContentWrapper>
+);
+
 const ListItems = ({
   items,
   colorScale,
@@ -160,39 +210,14 @@ const ListItems = ({
     <Box>
       {selectedItem && (
         <InlineDrawer open={open} onClose={() => setOpen(false)}>
-          <MapDetailsContentWrapper
-            onBack={() => {
-              setOpen(false);
-              setActiveId(null);
-            }}
-          >
-            <MapDetailsEntityHeader entity={listState} {...selectedItem} />
-            <MapDetailsEntityTable
-              colorScale={colorScale}
-              entity={listState}
-              {...selectedItem}
-            />
-            <Divider />
-            <PriceEvolution
-              priceComponents={["total"]}
-              id={selectedItem.id}
-              entity={getEntity()}
-            />
-            <Button
-              variant="contained"
-              color="secondary"
-              size="sm"
-              sx={{
-                justifyContent: "space-between",
-              }}
-              href={`/${getEntity()}/${selectedItem.id}`}
-            >
-              <Trans id="map.details-sidebar-panel.next-button">
-                Energy Prices in detail
-              </Trans>
-              <Icon name="arrowright" />
-            </Button>
-          </MapDetailsContentWrapper>
+          <DetailPreviewDrawerContent
+            colorScale={colorScale}
+            getEntity={getEntity}
+            listState={listState}
+            setOpen={setOpen}
+            selectedItem={selectedItem}
+            setActiveId={setActiveId}
+          />
         </InlineDrawer>
       )}
       {listItems.map(([id, d]) => {
