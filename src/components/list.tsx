@@ -120,6 +120,17 @@ const ListItems = ({
   const isSunshine = useFlag("sunshine");
   const router = useRouter();
 
+  const getEntity = (): Entity => {
+    switch (listState) {
+      case "MUNICIPALITIES":
+        return "municipality";
+      case "OPERATORS":
+        return "operator";
+      case "CANTONS":
+        return "canton";
+    }
+  };
+
   const handleListItemSelect = useEvent(
     (_: MouseEvent<HTMLAnchorElement, globalThis.MouseEvent>, id: string) => {
       if (isSunshine) {
@@ -140,24 +151,13 @@ const ListItems = ({
   const listItems =
     items.length > truncated ? items.slice(0, truncated) : items;
 
-  const getEntity = (): Entity => {
-    switch (listState) {
-      case "MUNICIPALITIES":
-        return "municipality";
-      case "OPERATORS":
-        return "operator";
-      case "CANTONS":
-        return "canton";
-    }
-  };
-
   return (
     <Box>
       {selectedItem && (
         <InlineDrawer open={open} onClose={() => setOpen(false)}>
           <MapDetailsContent
             colorScale={colorScale}
-            getEntity={getEntity}
+            entity={getEntity()}
             listState={listState}
             setOpen={setOpen}
             selectedItem={selectedItem}

@@ -199,14 +199,14 @@ const KeyValueTableRow = <T extends Record<string, string | undefined>>(props: {
 
 export const MapDetailsContent: React.FC<{
   colorScale: ScaleThreshold<number, string>;
-  getEntity: () => Entity;
+  entity: Entity;
   listState: ListState;
   selectedItem: ListItemType;
   setActiveId: React.Dispatch<React.SetStateAction<string | null>>;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }> = ({
   colorScale,
-  getEntity,
+  entity,
   listState,
   selectedItem,
   setActiveId,
@@ -228,7 +228,7 @@ export const MapDetailsContent: React.FC<{
     <PriceEvolution
       priceComponents={["total"]}
       id={selectedItem.id}
-      entity={getEntity()}
+      entity={entity}
     />
     <Button
       variant="contained"
@@ -237,7 +237,7 @@ export const MapDetailsContent: React.FC<{
       sx={{
         justifyContent: "space-between",
       }}
-      href={`/${getEntity()}/${selectedItem.id}`}
+      href={`/${entity}/${selectedItem.id}`}
     >
       <Trans id="map.details-sidebar-panel.next-button">
         Energy Prices in detail
