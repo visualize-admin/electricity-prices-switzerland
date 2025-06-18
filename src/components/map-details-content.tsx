@@ -56,23 +56,10 @@ export const MapDetailsEntityHeader = (props: MapDetailProps) => {
   return (
     <Stack direction={"column"} spacing={2}>
       <Stack direction={"column"}>
-        <Typography
-          lineHeight={"140%"}
-          variant="body3"
-          sx={{
-            fontFeatureSettings: "'liga' off, 'clig' off",
-          }}
-        >
+        <Typography lineHeight={"140%"} variant="body3">
           {entityValue}
         </Typography>
-        <Typography
-          fontWeight={700}
-          lineHeight={"160%"}
-          variant="h3"
-          sx={{
-            fontFeatureSettings: "'liga' off, 'clig' off",
-          }}
-        >
+        <Typography fontWeight={700} lineHeight={"160%"} variant="h3">
           {label}
         </Typography>
       </Stack>
