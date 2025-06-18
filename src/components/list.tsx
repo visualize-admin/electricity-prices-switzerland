@@ -188,7 +188,7 @@ const ListItems = ({
               href={`/${getEntity()}/${selectedItem.id}`}
             >
               <Trans id="map.details-sidebar-panel.next-button">
-                Energie Preise Detail anzeigen
+                Energy Prices in detail
               </Trans>
               <Icon name="arrowright" />
             </Button>
@@ -221,7 +221,7 @@ const ListItems = ({
             variant="text"
             onClick={() => setTruncated((n) => n + TRUNCATION_INCREMENT)}
           >
-            <Trans id="list.showmore">Mehr anzeigen …</Trans>
+            <Trans id="list.showmore">Show more …</Trans>
           </Button>
         </Box>
       )}

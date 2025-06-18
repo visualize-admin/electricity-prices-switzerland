@@ -1,16 +1,14 @@
 msgid ""
 msgstr ""
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: POEditor.com\n"
-"Project-Id-Version: elcom-electricity-website\n"
-"Language: en\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
+"Language: en\n"
 "Language-Team: \n"
+"Content-Type: \n"
+"Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/domain/translation.tsx
@@ -51,11 +49,11 @@ msgstr "Clear search field"
 
 #: src/components/list.tsx
 msgid "dataset.results"
-msgstr "{0} Results"
+msgstr "{0} Resultate"
 
 #: src/components/list.tsx
 msgid "dataset.sortby"
-msgstr "Sort"
+msgstr "Sortieren"
 
 #: src/components/detail-page/banner.tsx
 #: src/components/detail-page/banner.tsx
@@ -95,15 +93,15 @@ msgstr "Municipality"
 
 #: src/components/detail-page/banner.tsx
 msgid "detail.operator"
-msgstr "Network operator"
+msgstr "Operator"
 
 #: src/components/detail-page/banner.tsx
 msgid "detail.operators"
-msgstr "Network operator"
+msgstr "Operators"
 
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.costs-and-tariffs-item"
-msgstr "Kosten und Tariffe"
+msgstr "Costs and Tariffs"
 
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.electricity-insights-title"
@@ -115,19 +113,19 @@ msgstr "Electricity tariffs"
 
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.operational-standards-item"
-msgstr "Operationelle Standards"
+msgstr "Operational Standards"
 
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.power-stability-item"
-msgstr "Leistungsstabilität"
+msgstr "Power Stability"
 
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.sunshine-indicators-title"
-msgstr "Sunshine Indikatoren"
+msgstr "Sunshine Indicators"
 
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.sunshine-overview-item"
-msgstr "Übersicht"
+msgstr "Overview"
 
 #: src/components/info-dialog.tsx
 msgid "dialog.close"
@@ -177,31 +175,31 @@ msgstr "No network operator documents"
 msgid "download.reports"
 msgstr "Download reports"
 
-#: src/pages/404.tsx
+#: src/components/not-found.tsx
 msgid "error.page.404.back-link"
 msgstr "Click here to return to homepage"
 
-#: src/pages/404.tsx
+#: src/components/not-found.tsx
 msgid "error.page.404.description"
 msgstr "You may have entered an incorrect address (URL), or the page or document no longer exists or its name may have been changed. The page you requested could not be found."
 
-#: src/pages/404.tsx
+#: src/components/not-found.tsx
 msgid "error.page.404.title"
 msgstr "Page not found"
 
-#: src/pages/404.tsx
+#: src/components/not-found.tsx
 msgid "error.page.404.type"
 msgstr "Error 404"
 
-#: src/pages/500.tsx
+#: src/components/server-error.tsx
 msgid "error.page.500.description"
 msgstr "The desired page or function is unfortunately not available at the moment. Please try again later."
 
-#: src/pages/500.tsx
+#: src/components/server-error.tsx
 msgid "error.page.500.reload-link"
 msgstr "Reload page"
 
-#: src/pages/500.tsx
+#: src/components/server-error.tsx
 msgid "error.page.500.title"
 msgstr "Temporarily Unavailable"
 
@@ -413,6 +411,26 @@ msgstr "Sunshine Topics"
 msgid "image.download"
 msgstr "Download image"
 
+#: src/domain/translation.tsx
+msgid "indicator.energyTariffs"
+msgstr "Energy tariffs"
+
+#: src/domain/translation.tsx
+msgid "indicator.netTariffs"
+msgstr "Net tariffs"
+
+#: src/domain/translation.tsx
+msgid "indicator.networkCosts"
+msgstr "Network costs"
+
+#: src/domain/translation.tsx
+msgid "indicator.saidi"
+msgstr "Power Outage Duration (SAIDI)"
+
+#: src/domain/translation.tsx
+msgid "indicator.saifi"
+msgstr "Power Outage Frequency (SAIFI)"
+
 #: src/components/list.tsx
 msgid "list.cantons"
 msgstr "Cantons"
@@ -439,7 +457,7 @@ msgstr "Filter list"
 
 #: src/components/list.tsx
 msgid "list.showmore"
-msgstr "Show more ..."
+msgstr "Show more …"
 
 #: src/components/list.tsx
 msgid "list.viewby.label"
@@ -451,13 +469,13 @@ msgstr "Back to the filters"
 
 #: src/components/list.tsx
 msgid "map.details-sidebar-panel.next-button"
-msgstr "Energy prices Show detail"
+msgstr "Energy Prices in detail"
 
 #: src/components/price-color-legend.tsx
 msgid "map.legend.title"
 msgstr "Tariff comparison in Rp./kWh (figures excl. VAT)"
 
-#: src/pages/map/index.tsx
+#: src/components/share-button.tsx
 msgid "map.share"
 msgstr "Share"
 
@@ -488,30 +506,6 @@ msgstr "Peer Group Median"
 #: src/domain/translation.tsx
 msgid "network-level"
 msgstr "Network level"
-
-#: src/domain/translation.tsx
-msgid "network-level.NE5.long"
-msgstr "High voltage NE5"
-
-#: src/domain/translation.tsx
-msgid "network-level.NE5.short"
-msgstr "NE5"
-
-#: src/domain/translation.tsx
-msgid "network-level.NE6.long"
-msgstr "Medium voltage NE6"
-
-#: src/domain/translation.tsx
-msgid "network-level.NE6.short"
-msgstr "NE6"
-
-#: src/domain/translation.tsx
-msgid "network-level.NE7.long"
-msgstr "Low voltage NE7"
-
-#: src/domain/translation.tsx
-msgid "network-level.NE7.short"
-msgstr "NE7"
 
 #: src/domain/translation.tsx
 msgid "network-level.NL5.long"
@@ -634,7 +628,7 @@ msgstr "Median descending"
 
 #: src/components/detail-page/banner.tsx
 msgid "relations.showmore"
-msgstr "{rest} more ..."
+msgstr "{rest} weitere …"
 
 #: src/components/app-layout.tsx
 msgid "search.global"
@@ -718,7 +712,7 @@ msgstr "H1"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H1-long"
-msgstr "H1 - 2-Zimmerwohnung mit Elektroherd"
+msgstr "H1 - 2-Room apartment with induction stove"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H2"
@@ -726,7 +720,7 @@ msgstr "H2"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H2-long"
-msgstr "H2 - 4-Zimmerwohnung mit Elektroherd"
+msgstr "H2 - 4-room apartment with electric stove"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H3"
@@ -734,7 +728,7 @@ msgstr "H3"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H3-long"
-msgstr "H3 - 4-Zimmerwohnung mit Elektroherd und Elektroboiler"
+msgstr "H3 - 4-room apartment with electric stove and electric boiler"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H4"
@@ -742,7 +736,7 @@ msgstr "H4"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H4-long"
-msgstr "H4 - 5-Zimmerwohnung mit Elektroherd und Tumbler"
+msgstr "H4 - 5-room apartment with electric stove and dryer"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H5"
@@ -750,7 +744,7 @@ msgstr "H5"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H5-long"
-msgstr "H5 - 5-Zimmer-Einfamilienhaus mit Elektroherd, Elektroboiler und Tumbler"
+msgstr "H5 - 5-room single-family house with electric stove, electric boiler, and dryer"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H6"
@@ -758,7 +752,7 @@ msgstr "H6"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H6-long"
-msgstr "H6 - 5-Zimmer-Einfamilienhaus mit elektrischer Widerstandsheizung"
+msgstr "H6 - 5-room single-family house with electric resistance heating"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H7"
@@ -766,7 +760,7 @@ msgstr "H7"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H7-long"
-msgstr "H7 - 5-Zimmer-Einfamilienhaus mit Wärmepumpe zur Beheizung"
+msgstr "H7 - 5-room single-family house with heat pump for heating"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H8"
@@ -774,7 +768,7 @@ msgstr "H8"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H8-long"
-msgstr "H8 - Grosse, hoch elektrifizierte Eigentumswohnung"
+msgstr "H8 - Large, highly electrified condominium"
 
 #: src/components/detail-page/selector-multi.tsx
 msgid "selector.comparecantons"
@@ -788,9 +782,26 @@ msgstr "Municipalities for comparison"
 msgid "selector.compareoperators"
 msgstr "Network operator for comparison"
 
+#: src/components/sunshine-selectors/base.tsx
+msgid "selector.energy-tariffs-category"
+msgstr "Category"
+
+#: src/components/sunshine-selectors/base.tsx
+msgid "selector.indicator"
+msgstr "Indicator"
+
 #: src/components/electricity-selectors.tsx
+#: src/components/sunshine-selectors/base.tsx
 msgid "selector.legend.select.parameters"
 msgstr "Filter list and map"
+
+#: src/components/sunshine-selectors/base.tsx
+msgid "selector.net-tariffs-category"
+msgstr "Category"
+
+#: src/components/sunshine-selectors/base.tsx
+msgid "selector.network-level"
+msgstr "Network level"
 
 #: src/components/detail-page/price-components-bars.tsx
 #: src/components/electricity-selectors.tsx
@@ -835,7 +846,20 @@ msgstr "Cheapest"
 msgid "selector.product.standard"
 msgstr "Standard"
 
+#: src/components/combined-selectors/index.tsx
+msgid "selector.tab.electricity"
+msgstr "Electricity Tariffs"
+
+#: src/components/combined-selectors/index.tsx
+msgid "selector.tab.indicators"
+msgstr "Indicators"
+
+#: src/components/sunshine-selectors/base.tsx
+msgid "selector.typology"
+msgstr "Typology"
+
 #: src/components/electricity-selectors.tsx
+#: src/components/sunshine-selectors/base.tsx
 msgid "selector.year"
 msgstr "Year"
 
@@ -843,7 +867,7 @@ msgstr "Year"
 msgid "selector.years"
 msgstr "years"
 
-#: src/pages/map/index.tsx
+#: src/components/share-button.tsx
 msgid "share.url-copied"
 msgstr "URL copied ✅"
 
@@ -879,6 +903,8 @@ msgstr "All peer group network operators"
 
 #: src/components/net-tariffs-trend-card.tsx
 #: src/components/network-costs-trend-card.tsx
+#: src/components/operational-standards-card.tsx
+#: src/components/power-stability-card.tsx
 msgid "sunshine.costs-and-tariffs.benchmarking-peer-group"
 msgstr "Benchmarking within the Peer Group: {peerGroupLabel}"
 
@@ -946,6 +972,18 @@ msgid "sunshine.costs-and-tariffs.network-costs-end-consumer"
 msgstr "Network Costs at {0} Level"
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+msgid "sunshine.costs-and-tariffs.no-energy-tariffs"
+msgstr "No energy tariffs data available for this operator in the selected year."
+
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+msgid "sunshine.costs-and-tariffs.no-net-tariffs"
+msgstr "No network tariffs data available for this operator in the selected year."
+
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+msgid "sunshine.costs-and-tariffs.no-network-costs"
+msgstr "No network costs data available for this operator in the selected year."
+
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.operator"
@@ -982,6 +1020,10 @@ msgstr "View By"
 msgid "sunshine.operational-standards.compliance"
 msgstr "Compliance"
 
+#: src/domain/translation.tsx
+msgid "sunshine.operational-standards.compliance-trend"
+msgstr "Comparison of francs per invoice recipient"
+
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.compliance.comparison-card-title"
 msgstr "Compliance"
@@ -994,6 +1036,10 @@ msgstr "The Operational Standards page evaluates key performance indicators that
 msgid "sunshine.operational-standards.product-variety"
 msgstr "Product Variety"
 
+#: src/domain/translation.tsx
+msgid "sunshine.operational-standards.product-variety-trend"
+msgstr "Comparison of eco-friendly product diversity"
+
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.product-variety.comparison-card-title"
 msgstr "Product Variety"
@@ -1001,6 +1047,10 @@ msgstr "Product Variety"
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.operational-standards.service-quality"
 msgstr "Service Quality"
+
+#: src/domain/translation.tsx
+msgid "sunshine.operational-standards.service-quality-trend"
+msgstr "Comparison of advance notice periods for planned outages"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.service-quality.comparison-card-title"
@@ -1018,6 +1068,10 @@ msgstr "The Power Stability page provides insights into the reliability of the e
 msgid "sunshine.power-stability.latest-year"
 msgstr "Latest year ({latestYear})"
 
+#: src/components/power-stability-card.tsx
+msgid "sunshine.power-stability.latest-year-option"
+msgstr "Latest year"
+
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.median-peer-group"
 msgstr "Median Peer Group"
@@ -1026,9 +1080,25 @@ msgstr "Median Peer Group"
 msgid "sunshine.power-stability.operator"
 msgstr "{operatorLabel}"
 
+#: src/components/power-stability-card.tsx
+msgid "sunshine.power-stability.overall-option"
+msgstr "Overall"
+
+#: src/components/power-stability-card.tsx
+msgid "sunshine.power-stability.progress-over-time"
+msgstr "Progress over time"
+
+#: src/components/power-stability-card.tsx
+msgid "sunshine.power-stability.ratio-option"
+msgstr "Ratio"
+
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.power-stability.saidi"
 msgstr "Power Outage Duration (SAIDI)"
+
+#: src/domain/translation.tsx
+msgid "sunshine.power-stability.saidi-trend"
+msgstr "Average Power Outage Duration (SAIDI)"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.saidi.comparison-card-title"
@@ -1037,6 +1107,10 @@ msgstr "Total Outage Duration"
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.power-stability.saifi"
 msgstr "Power Outage Frequency (SAIFI)"
+
+#: src/domain/translation.tsx
+msgid "sunshine.power-stability.saifi-trend"
+msgstr "Average Power Outage Frequency (SAIFI)"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.saifi.comparison-card-title"
@@ -1047,6 +1121,11 @@ msgstr "Total Outage Frequency"
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.title"
 msgstr "Power Stability"
+
+#: src/components/power-stability-card.tsx
+#: src/components/power-stability-card.tsx
+msgid "sunshine.power-stability.view-by"
+msgstr "View By"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.product-variety.eco-friendly-products-offered"
@@ -1091,3 +1170,15 @@ msgstr "Notification Days in Advance"
 #: src/components/header.tsx
 msgid "topbar.open-flag-menu"
 msgstr "Open flag menu"
+
+#: src/domain/translation.tsx
+msgid "typology.planned"
+msgstr "Planned"
+
+#: src/domain/translation.tsx
+msgid "typology.unplanned"
+msgstr "Unplanned"
+
+#: src/domain/translation.tsx
+msgid "viewBy.all_grid_operators"
+msgstr "All grid operators"

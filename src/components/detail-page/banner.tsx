@@ -116,7 +116,7 @@ export const DetailPageBanner = ({
             }}
           >
             <Icon name="arrowleft" size={24}></Icon>
-            <Trans id="detail.maplink">Zurück zur Kartenansicht</Trans>
+            <Trans id="detail.maplink">Back to map view</Trans>
           </UILink>
         </Box>
       </Box>
@@ -134,11 +134,11 @@ export const DetailPageBanner = ({
           display="block"
         >
           {entity === "canton" ? (
-            <Trans id="detail.canton">Kanton</Trans>
+            <Trans id="detail.canton">Canton</Trans>
           ) : entity === "municipality" ? (
-            <Trans id="detail.municipality">Gemeinde</Trans>
+            <Trans id="detail.municipality">Municipality</Trans>
           ) : (
-            <Trans id="detail.operator">Netzbetreiber</Trans>
+            <Trans id="detail.operator">Operator</Trans>
           )}
         </Typography>
         <Stack spacing={0} direction="row" justifyContent={"space-between"}>
@@ -177,7 +177,7 @@ export const DetailPageBanner = ({
             >
               {canton && (
                 <Box sx={{ pr: 3, my: 1 }}>
-                  <Trans id="detail.canton">Kanton</Trans>:{" "}
+                  <Trans id="detail.canton">Canton</Trans>:{" "}
                   <NextLink
                     href={{
                       pathname: `/[entity]/[id]`,
@@ -198,7 +198,7 @@ export const DetailPageBanner = ({
                     lineHeight: "1.125rem",
                   }}
                 >
-                  <Trans id="detail.municipalities">Gemeinden</Trans>:{" "}
+                  <Trans id="detail.municipalities">Municipalities</Trans>:{" "}
                   <RelationsList
                     key={`${entity}-${id}`}
                     relationPathname={`/municipality/[id]`}

@@ -37,29 +37,29 @@ export const DetailsPageSidebar = (props: SectionProps) => {
           <>
             <SidebarSectionTitle>
               <Trans id="details.page.navigation.sunshine-indicators-title">
-                Sunshine Indikatoren
+                Sunshine Indicators
               </Trans>
             </SidebarSectionTitle>
             <SidebarItem href={`/sunshine/${entity}/${id}/overview`}>
               <Trans id="details.page.navigation.sunshine-overview-item">
-                Übersicht
+                Overview
               </Trans>
             </SidebarItem>
             <SidebarItem href={`/sunshine/${entity}/${id}/costs-and-tariffs`}>
               <Trans id="details.page.navigation.costs-and-tariffs-item">
-                Kosten und Tariffe
+                Costs and Tariffs
               </Trans>
             </SidebarItem>
             <SidebarItem href={`/sunshine/${entity}/${id}/power-stability`}>
               <Trans id="details.page.navigation.power-stability-item">
-                Leistungsstabilität
+                Power Stability
               </Trans>
             </SidebarItem>
             <SidebarItem
               href={`/sunshine/${entity}/${id}/operational-standards`}
             >
               <Trans id="details.page.navigation.operational-standards-item">
-                Operationelle Standards
+                Operational Standards
               </Trans>
             </SidebarItem>
           </>

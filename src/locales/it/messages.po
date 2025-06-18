@@ -1,16 +1,14 @@
 msgid ""
 msgstr ""
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: POEditor.com\n"
-"Project-Id-Version: elcom-electricity-website\n"
-"Language: it\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
+"Language: it\n"
 "Language-Team: \n"
+"Content-Type: \n"
+"Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #: src/domain/translation.tsx
@@ -33,7 +31,7 @@ msgstr "ct./kWh"
 
 #: src/components/combobox.tsx
 msgid "combobox.maxitems"
-msgstr "Un massimo di {max} Sono consentite le voci"
+msgstr "È consentito un massimo di {max} Iscrizioni"
 
 #: src/components/combobox.tsx
 #: src/components/combobox.tsx
@@ -119,15 +117,15 @@ msgstr "Standard operativi"
 
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.power-stability-item"
-msgstr "Stabilità di funzionamento"
+msgstr "Stabilità di potenza"
 
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.sunshine-indicators-title"
-msgstr "Sunshine Indikatoren"
+msgstr "Indicatori di luminosità"
 
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.sunshine-overview-item"
-msgstr "Übersicht"
+msgstr "Panoramica"
 
 #: src/components/info-dialog.tsx
 msgid "dialog.close"
@@ -177,31 +175,31 @@ msgstr "Nessun documento dell'operatore di rete"
 msgid "download.reports"
 msgstr "Scarica i rapporti"
 
-#: src/pages/404.tsx
+#: src/components/not-found.tsx
 msgid "error.page.404.back-link"
 msgstr "Clicca qui per tornare alla homepage"
 
-#: src/pages/404.tsx
+#: src/components/not-found.tsx
 msgid "error.page.404.description"
 msgstr "È possibile che sia stato inserito un indirizzo (URL) errato, oppure che la pagina o il documento non esistano più o che il loro nome sia stato cambiato. Non è stato possibile trovare la pagina richiesta."
 
-#: src/pages/404.tsx
+#: src/components/not-found.tsx
 msgid "error.page.404.title"
 msgstr "Pagina non trovata"
 
-#: src/pages/404.tsx
+#: src/components/not-found.tsx
 msgid "error.page.404.type"
 msgstr "Errore 404"
 
-#: src/pages/500.tsx
+#: src/components/server-error.tsx
 msgid "error.page.500.description"
 msgstr "La pagina o la funzione desiderata non è purtroppo disponibile al momento. Si prega di riprovare più tardi."
 
-#: src/pages/500.tsx
+#: src/components/server-error.tsx
 msgid "error.page.500.reload-link"
 msgstr "Ricarica la pagina"
 
-#: src/pages/500.tsx
+#: src/components/server-error.tsx
 msgid "error.page.500.title"
 msgstr "Temporaneamente non disponibile"
 
@@ -413,6 +411,26 @@ msgstr "Sunshine Topics"
 msgid "image.download"
 msgstr "Scaricare l'immagine"
 
+#: src/domain/translation.tsx
+msgid "indicator.energyTariffs"
+msgstr ""
+
+#: src/domain/translation.tsx
+msgid "indicator.netTariffs"
+msgstr ""
+
+#: src/domain/translation.tsx
+msgid "indicator.networkCosts"
+msgstr ""
+
+#: src/domain/translation.tsx
+msgid "indicator.saidi"
+msgstr "Durata dell'interruzione di corrente (SAIDI)"
+
+#: src/domain/translation.tsx
+msgid "indicator.saifi"
+msgstr "Frequenza delle interruzioni di corrente (SAIFI)"
+
 #: src/components/list.tsx
 msgid "list.cantons"
 msgstr "Cantoni"
@@ -457,7 +475,7 @@ msgstr "Mostra energia dettagli sui prezzi"
 msgid "map.legend.title"
 msgstr "Confronto tariffe in ct./kWh (IVA esclusa)"
 
-#: src/pages/map/index.tsx
+#: src/components/share-button.tsx
 msgid "map.share"
 msgstr "Condividi"
 
@@ -488,30 +506,6 @@ msgstr "Mediana del gruppo di riferimento"
 #: src/domain/translation.tsx
 msgid "network-level"
 msgstr "Livello di rete"
-
-#: src/domain/translation.tsx
-msgid "network-level.NE5.long"
-msgstr "Alta tensione NE5"
-
-#: src/domain/translation.tsx
-msgid "network-level.NE5.short"
-msgstr "NE5"
-
-#: src/domain/translation.tsx
-msgid "network-level.NE6.long"
-msgstr "Media tensione NE6"
-
-#: src/domain/translation.tsx
-msgid "network-level.NE6.short"
-msgstr "NE6"
-
-#: src/domain/translation.tsx
-msgid "network-level.NE7.long"
-msgstr "Bassa tensione NE7"
-
-#: src/domain/translation.tsx
-msgid "network-level.NE7.short"
-msgstr "NE7"
 
 #: src/domain/translation.tsx
 msgid "network-level.NL5.long"
@@ -563,7 +557,7 @@ msgstr "Media densità di insediamento"
 
 #: src/domain/translation.tsx
 msgid "peer-group.settlement-density.mountain"
-msgstr "Regione montana"
+msgstr "Regione di montagna"
 
 #: src/domain/translation.tsx
 msgid "peer-group.settlement-density.na"
@@ -718,7 +712,7 @@ msgstr "H1"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H1-long"
-msgstr "H1 - Appartamento con 2 camere da letto e cucina elettrica"
+msgstr "H1 - Appartamento con 2 stanze e cucina a induzione"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H2"
@@ -726,7 +720,7 @@ msgstr "H2"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H2-long"
-msgstr "H2 - Casa con 4 camere da letto e forno elettrico"
+msgstr "H2 - Appartamento di 4 locali con stufa elettrica"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H3"
@@ -734,7 +728,7 @@ msgstr "H3"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H3-long"
-msgstr "H3 - Casa con 4 camere da letto e caldaia elettrica"
+msgstr "H3 - Appartamento di 4 locali con stufa elettrica e boiler elettrico"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H4"
@@ -742,7 +736,7 @@ msgstr "H4"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H4-long"
-msgstr "H4 - Casa con 5 camere da letto con elettrodomestico e bicchiere"
+msgstr "H4 - Appartamento di 5 stanze con stufa elettrica e asciugatrice"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H5"
@@ -750,7 +744,7 @@ msgstr "H5"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H5-long"
-msgstr "H5 - Casa per famiglie da 5 camere con caldaia elettrica, caldaia elettrica e tumbler"
+msgstr "H5 - Casa unifamiliare di 5 locali con stufa elettrica, boiler elettrico e asciugatrice"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H6"
@@ -758,7 +752,7 @@ msgstr "H6"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H6-long"
-msgstr "H6 - Casa per famiglie con 5 camere da letto e riscaldamento elettrico"
+msgstr "H6 - Casa unifamiliare di 5 locali con riscaldamento a resistenza elettrica"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H7"
@@ -766,7 +760,7 @@ msgstr "H7"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H7-long"
-msgstr "H7 - Casa per famiglie con 5 camere da letto e una pompa di calore per il riscaldamento"
+msgstr "H7 - Casa unifamiliare di 5 locali con pompa di calore per il riscaldamento"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H8"
@@ -774,7 +768,7 @@ msgstr "H8"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H8-long"
-msgstr "H8 - Grande, grande casa di vacanza con impianto elettrico"
+msgstr "H8 - Grande condominio altamente elettrificato"
 
 #: src/components/detail-page/selector-multi.tsx
 msgid "selector.comparecantons"
@@ -788,9 +782,26 @@ msgstr "Confrontare con il comune…"
 msgid "selector.compareoperators"
 msgstr "Confrontare con il gestore di rete…"
 
+#: src/components/sunshine-selectors/base.tsx
+msgid "selector.energy-tariffs-category"
+msgstr ""
+
+#: src/components/sunshine-selectors/base.tsx
+msgid "selector.indicator"
+msgstr "Indicatore"
+
 #: src/components/electricity-selectors.tsx
+#: src/components/sunshine-selectors/base.tsx
 msgid "selector.legend.select.parameters"
 msgstr "Selezionare i parametri"
+
+#: src/components/sunshine-selectors/base.tsx
+msgid "selector.net-tariffs-category"
+msgstr ""
+
+#: src/components/sunshine-selectors/base.tsx
+msgid "selector.network-level"
+msgstr ""
 
 #: src/components/detail-page/price-components-bars.tsx
 #: src/components/electricity-selectors.tsx
@@ -835,7 +846,20 @@ msgstr "Più economico"
 msgid "selector.product.standard"
 msgstr "Standard"
 
+#: src/components/combined-selectors/index.tsx
+msgid "selector.tab.electricity"
+msgstr "Tariffe elettriche"
+
+#: src/components/combined-selectors/index.tsx
+msgid "selector.tab.indicators"
+msgstr "Indicatori"
+
+#: src/components/sunshine-selectors/base.tsx
+msgid "selector.typology"
+msgstr "Tipologia"
+
 #: src/components/electricity-selectors.tsx
+#: src/components/sunshine-selectors/base.tsx
 msgid "selector.year"
 msgstr "Anno"
 
@@ -843,7 +867,7 @@ msgstr "Anno"
 msgid "selector.years"
 msgstr "Anni"
 
-#: src/pages/map/index.tsx
+#: src/components/share-button.tsx
 msgid "share.url-copied"
 msgstr "URL copiato ✅"
 
@@ -879,8 +903,10 @@ msgstr "Tutti gli operatori di rete del gruppo peer"
 
 #: src/components/net-tariffs-trend-card.tsx
 #: src/components/network-costs-trend-card.tsx
+#: src/components/operational-standards-card.tsx
+#: src/components/power-stability-card.tsx
 msgid "sunshine.costs-and-tariffs.benchmarking-peer-group"
-msgstr "Benchmarking all'interno del gruppo di pari: {peerGroupLabel}"
+msgstr "Benchmarking all'interno del gruppo di riferimento: {peerGroupLabel}"
 
 #: src/components/net-tariffs-trend-card.tsx
 #: src/components/network-costs-trend-card.tsx
@@ -943,7 +969,19 @@ msgstr "Costi di rete"
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.network-costs-end-consumer"
-msgstr "Costi di rete al livello {0}"
+msgstr "Costi di rete a livello di {0}"
+
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+msgid "sunshine.costs-and-tariffs.no-energy-tariffs"
+msgstr "Non sono disponibili dati sulle tariffe energetiche per questo operatore nell'anno selezionato."
+
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+msgid "sunshine.costs-and-tariffs.no-net-tariffs"
+msgstr "Non sono disponibili dati sulle tariffe di rete per questo operatore nell'anno selezionato."
+
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+msgid "sunshine.costs-and-tariffs.no-network-costs"
+msgstr "Non sono disponibili dati sui costi di rete per questo operatore nell'anno selezionato."
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
@@ -966,7 +1004,7 @@ msgstr "Operatori di rete selezionati"
 
 #: src/components/card-source.tsx
 msgid "sunshine.costs-and-tariffs.source"
-msgstr "sunshine.costi-e-tariffe.source"
+msgstr "sunshine.costi-e-tariffe.fonte"
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
@@ -982,17 +1020,25 @@ msgstr "Vedi da"
 msgid "sunshine.operational-standards.compliance"
 msgstr "Conformità"
 
+#: src/domain/translation.tsx
+msgid "sunshine.operational-standards.compliance-trend"
+msgstr ""
+
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.compliance.comparison-card-title"
 msgstr "Conformità"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.description"
-msgstr "La pagina degli Standard operativi valuta gli indicatori chiave di prestazione che evidenziano la qualità del servizio fornito dalle aziende elettriche. Questi indicatori comprendono la Varietà dei prodotti, che misura la gamma di prodotti energetici ecologici e combinati offerti; la Qualità del servizio, che valuta il livello di informazione dei consumatori sulle interruzioni elettriche programmate e il periodo di preavviso previsto; e la Conformità, che garantisce il rispetto della regola dei 75 franchi e la presentazione tempestiva dei documenti ufficiali alla Commissione federale dell'energia elettrica (ElCom)."
+msgstr "La pagina degli Standard operativi valuta gli indicatori chiave di performance che evidenziano la qualità del servizio fornito dalle aziende elettriche. Questi indicatori comprendono la Varietà dei prodotti, che misura la gamma di prodotti energetici ecologici e combinati offerti; la Qualità del servizio, che valuta quanto le aziende informano i consumatori sulle interruzioni elettriche programmate e sul periodo di preavviso previsto; e la Conformità, che garantisce il rispetto della regola dei 75 franchi e la presentazione tempestiva dei documenti ufficiali alla Commissione federale dell'energia elettrica (ElCom)."
 
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.operational-standards.product-variety"
 msgstr "Varietà di prodotti"
+
+#: src/domain/translation.tsx
+msgid "sunshine.operational-standards.product-variety-trend"
+msgstr ""
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.product-variety.comparison-card-title"
@@ -1001,6 +1047,10 @@ msgstr "Varietà di prodotti"
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.operational-standards.service-quality"
 msgstr "Qualità del servizio"
+
+#: src/domain/translation.tsx
+msgid "sunshine.operational-standards.service-quality-trend"
+msgstr ""
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.service-quality.comparison-card-title"
@@ -1018,6 +1068,10 @@ msgstr "La pagina sulla stabilità dell'energia fornisce informazioni sull'affid
 msgid "sunshine.power-stability.latest-year"
 msgstr "Ultimo anno ({latestYear})"
 
+#: src/components/power-stability-card.tsx
+msgid "sunshine.power-stability.latest-year-option"
+msgstr "Ultimo anno"
+
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.median-peer-group"
 msgstr "Gruppo di riferimento mediano"
@@ -1026,9 +1080,25 @@ msgstr "Gruppo di riferimento mediano"
 msgid "sunshine.power-stability.operator"
 msgstr "{operatorLabel}"
 
+#: src/components/power-stability-card.tsx
+msgid "sunshine.power-stability.overall-option"
+msgstr "In generale"
+
+#: src/components/power-stability-card.tsx
+msgid "sunshine.power-stability.progress-over-time"
+msgstr "Progressi nel tempo"
+
+#: src/components/power-stability-card.tsx
+msgid "sunshine.power-stability.ratio-option"
+msgstr "Rapporto"
+
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.power-stability.saidi"
 msgstr "Durata dell'interruzione di corrente (SAIDI)"
+
+#: src/domain/translation.tsx
+msgid "sunshine.power-stability.saidi-trend"
+msgstr "Durata media delle interruzioni di corrente (SAIDI)"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.saidi.comparison-card-title"
@@ -1037,6 +1107,10 @@ msgstr "Durata totale dell'interruzione"
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.power-stability.saifi"
 msgstr "Frequenza delle interruzioni di corrente (SAIFI)"
+
+#: src/domain/translation.tsx
+msgid "sunshine.power-stability.saifi-trend"
+msgstr "Frequenza media delle interruzioni di corrente (SAIFI)"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.saifi.comparison-card-title"
@@ -1047,6 +1121,11 @@ msgstr "Frequenza totale delle interruzioni"
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.title"
 msgstr "Stabilità di potenza"
+
+#: src/components/power-stability-card.tsx
+#: src/components/power-stability-card.tsx
+msgid "sunshine.power-stability.view-by"
+msgstr "Vedi da"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.product-variety.eco-friendly-products-offered"
@@ -1091,3 +1170,15 @@ msgstr "Notifica con giorni di anticipo"
 #: src/components/header.tsx
 msgid "topbar.open-flag-menu"
 msgstr "Apri il menu delle bandiere"
+
+#: src/domain/translation.tsx
+msgid "typology.planned"
+msgstr "Pianificato"
+
+#: src/domain/translation.tsx
+msgid "typology.unplanned"
+msgstr "Non pianificato"
+
+#: src/domain/translation.tsx
+msgid "viewBy.all_grid_operators"
+msgstr "Tutti i gestori di rete"
