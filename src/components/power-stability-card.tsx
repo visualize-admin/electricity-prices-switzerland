@@ -12,7 +12,7 @@ import React, { useMemo, useState } from "react";
 import { ButtonGroup } from "src/components/button-group";
 import CardSource from "src/components/card-source";
 import { PeerGroup, SunshinePowerStabilityData } from "src/domain/data";
-import { filterByDelimiter } from "src/domain/helpers";
+import { filterBySeparator } from "src/domain/helpers";
 import { getLocalizedLabel, getPeerGroupLabels } from "src/domain/translation";
 
 import { PowerStabilityChart } from "./power-stability-chart";
@@ -158,7 +158,7 @@ const PowerStabilityCard: React.FC<
               selectedItems={compareWith}
               setSelectedItems={(items) =>
                 setCompareWith((prev) =>
-                  filterByDelimiter(items, prev, "sunshine.select-all")
+                  filterBySeparator(items, prev, "sunshine.select-all")
                 )
               }
             />

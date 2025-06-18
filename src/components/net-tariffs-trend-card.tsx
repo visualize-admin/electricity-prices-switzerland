@@ -12,7 +12,7 @@ import React, { useMemo, useState } from "react";
 import { ButtonGroup } from "src/components/button-group";
 import CardSource from "src/components/card-source";
 import { PeerGroup, SunshineCostsAndTariffsData } from "src/domain/data";
-import { filterByDelimiter } from "src/domain/helpers";
+import { filterBySeparator } from "src/domain/helpers";
 import { getPeerGroupLabels } from "src/domain/translation";
 
 import { CardHeader } from "./detail-page/card";
@@ -147,7 +147,7 @@ const NetTariffsTrendCard: React.FC<
               selectedItems={compareWith}
               setSelectedItems={(items) =>
                 setCompareWith((prev) =>
-                  filterByDelimiter(items, prev, "sunshine.select-all")
+                  filterBySeparator(items, prev, "sunshine.select-all")
                 )
               }
             />
