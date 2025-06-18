@@ -1,10 +1,12 @@
 import { Trans } from "@lingui/macro";
-import { Divider, Link, Typography } from "@mui/material";
+import { Button, Divider, Link, Typography } from "@mui/material";
 import { Box, Stack } from "@mui/system";
 import { ScaleThreshold } from "d3";
 import NextLink from "next/link";
 import { ReactElement, ReactNode } from "react";
 
+import { PriceEvolution } from "src/components/detail-page/price-evolution-line-chart";
+import { Entity } from "src/domain/data";
 import { useFormatCurrency } from "src/domain/helpers";
 import { getLocalizedLabel } from "src/domain/translation";
 import { Icon } from "src/icons";
@@ -194,3 +196,53 @@ const KeyValueTableRow = <T extends Record<string, string | undefined>>(props: {
     </Stack>
   );
 };
+
+export const MapDetailsContent: React.FC<{
+  colorScale: ScaleThreshold<number, string>;
+  getEntity: () => Entity;
+  listState: ListState;
+  selectedItem: ListItemType;
+  setActiveId: React.Dispatch<React.SetStateAction<string | null>>;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}> = ({
+  colorScale,
+  getEntity,
+  listState,
+  selectedItem,
+  setActiveId,
+  setOpen,
+}) => (
+  <MapDetailsContentWrapper
+    onBack={() => {
+      setOpen(false);
+      setActiveId(null);
+    }}
+  >
+    <MapDetailsEntityHeader entity={listState} {...selectedItem} />
+    <MapDetailsEntityTable
+      colorScale={colorScale}
+      entity={listState}
+      {...selectedItem}
+    />
+    <Divider />
+    <PriceEvolution
+      priceComponents={["total"]}
+      id={selectedItem.id}
+      entity={getEntity()}
+    />
+    <Button
+      variant="contained"
+      color="secondary"
+      size="sm"
+      sx={{
+        justifyContent: "space-between",
+      }}
+      href={`/${getEntity()}/${selectedItem.id}`}
+    >
+      <Trans id="map.details-sidebar-panel.next-button">
+        Energy Prices in detail
+      </Trans>
+      <Icon name="arrowright" />
+    </Button>
+  </MapDetailsContentWrapper>
+);

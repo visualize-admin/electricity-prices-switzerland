@@ -1,5 +1,5 @@
 import { t, Trans } from "@lingui/macro";
-import { Box, Button, Divider, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { ascending, descending, mean, rollup, ScaleThreshold } from "d3";
 import { useRouter } from "next/router";
 import {
@@ -26,14 +26,9 @@ import useEvent from "src/lib/use-event";
 import { useFlag } from "src/utils/flags";
 
 import { AnchorNav } from "./anchor-nav";
-import { PriceEvolution } from "./detail-page/price-evolution-line-chart";
 import { InlineDrawer } from "./drawer";
 import { ListState, useMap } from "./map-context";
-import {
-  MapDetailsContentWrapper,
-  MapDetailsEntityHeader,
-  MapDetailsEntityTable,
-} from "./map-details-content";
+import { MapDetailsContent } from "./map-details-content";
 
 type ListItemProps = {
   id: string;
@@ -108,56 +103,6 @@ export type ListItemType = {
     | null;
 };
 
-const DetailPreviewDrawerContent: React.FC<{
-  colorScale: ScaleThreshold<number, string>;
-  getEntity: () => Entity;
-  listState: ListState;
-  selectedItem: ListItemType;
-  setActiveId: React.Dispatch<React.SetStateAction<string | null>>;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}> = ({
-  colorScale,
-  getEntity,
-  listState,
-  selectedItem,
-  setActiveId,
-  setOpen,
-}) => (
-  <MapDetailsContentWrapper
-    onBack={() => {
-      setOpen(false);
-      setActiveId(null);
-    }}
-  >
-    <MapDetailsEntityHeader entity={listState} {...selectedItem} />
-    <MapDetailsEntityTable
-      colorScale={colorScale}
-      entity={listState}
-      {...selectedItem}
-    />
-    <Divider />
-    <PriceEvolution
-      priceComponents={["total"]}
-      id={selectedItem.id}
-      entity={getEntity()}
-    />
-    <Button
-      variant="contained"
-      color="secondary"
-      size="sm"
-      sx={{
-        justifyContent: "space-between",
-      }}
-      href={`/${getEntity()}/${selectedItem.id}`}
-    >
-      <Trans id="map.details-sidebar-panel.next-button">
-        Energy Prices in detail
-      </Trans>
-      <Icon name="arrowright" />
-    </Button>
-  </MapDetailsContentWrapper>
-);
-
 const ListItems = ({
   items,
   colorScale,
@@ -210,7 +155,7 @@ const ListItems = ({
     <Box>
       {selectedItem && (
         <InlineDrawer open={open} onClose={() => setOpen(false)}>
-          <DetailPreviewDrawerContent
+          <MapDetailsContent
             colorScale={colorScale}
             getEntity={getEntity}
             listState={listState}
