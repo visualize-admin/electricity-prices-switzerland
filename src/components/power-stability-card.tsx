@@ -51,19 +51,23 @@ const PowerStabilityCard: React.FC<
 
   const latestYearDataItems = useMemo(() => {
     return observations.filter(
-      (d) => d.year === latestYear && d.operator.toString() !== operatorId
+      (d) =>
+        (viewBy === "latest" ? d.year === latestYear : true) &&
+        d.operator.toString() !== operatorId
     );
-  }, [observations, latestYear, operatorId]);
+  }, [observations, latestYear, operatorId, viewBy]);
 
   const latestYearData = useMemo(() => {
-    return observations.filter(
-      (d) =>
-        d.year === latestYear &&
-        (compareWith.includes("sunshine.select-all") ||
-          compareWith.includes(d.operator.toString()) ||
-          d.operator.toString() === operatorId)
-    );
-  }, [observations, compareWith, latestYear, operatorId]);
+    return observations.filter((d) => {
+      const isLatestYear = viewBy === "latest" ? d.year === latestYear : true;
+      const isSelected =
+        compareWith.includes("sunshine.select-all") ||
+        compareWith.includes(d.operator.toString()) ||
+        d.operator.toString() === operatorId;
+
+      return isLatestYear && isSelected;
+    });
+  }, [observations, compareWith, latestYear, operatorId, viewBy]);
 
   return (
     <Card {...props}>
