@@ -31,7 +31,10 @@ import {
 } from "src/graphql/queries";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { truthy } from "src/lib/truthy";
-import { useQueryStateSingle } from "src/lib/use-query-state";
+import {
+  useQueryStateSingleElectricity,
+  useQueryStateSingleSunshine,
+} from "src/lib/use-query-state";
 import { defaultLocale } from "src/locales/config";
 import { useFlag } from "src/utils/flags";
 
@@ -131,13 +134,18 @@ const IndexPage = ({ locale }: Props) => {
       product,
       download,
       tab = "electricity",
+    },
+  ] = useQueryStateSingleElectricity();
+  const [
+    {
       typology,
       indicator,
       networkLevel,
       netTariffCategory,
       energyTariffCategory,
     },
-  ] = useQueryStateSingle();
+  ] = useQueryStateSingleSunshine();
+
   const [activeId, setActiveId] = useState<string | null>(null);
   const isElectricityTab = tab === "electricity";
   const isSunshineTab = tab === "sunshine";

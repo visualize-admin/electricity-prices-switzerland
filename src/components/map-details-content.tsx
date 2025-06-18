@@ -8,7 +8,10 @@ import { ReactElement, ReactNode } from "react";
 import { useFormatCurrency } from "src/domain/helpers";
 import { getLocalizedLabel } from "src/domain/translation";
 import { Icon } from "src/icons";
-import { QueryStateSingle, useQueryStateSingle } from "src/lib/use-query-state";
+import {
+  QueryStateSingleElectricity,
+  useQueryStateSingleElectricity,
+} from "src/lib/use-query-state";
 
 import { ListItemType } from "./list";
 import { ListState } from "./map-context";
@@ -90,7 +93,10 @@ export const MapDetailsEntityHeader = (props: MapDetailProps) => {
   );
 };
 
-const entityTableRows: Record<ListState, (keyof QueryStateSingle)[]> = {
+const entityTableRows: Record<
+  ListState,
+  (keyof QueryStateSingleElectricity)[]
+> = {
   OPERATORS: ["period", "priceComponent", "category", "product"],
   MUNICIPALITIES: [
     "period",
@@ -106,7 +112,7 @@ export const MapDetailsEntityTable = (
   props: MapDetailProps & { colorScale: ScaleThreshold<number, string> }
 ) => {
   const { entity, operators, colorScale } = props;
-  const [queryState] = useQueryStateSingle();
+  const [queryState] = useQueryStateSingleElectricity();
   const tableRows = entityTableRows[entity];
   const formatNumber = useFormatCurrency();
 
@@ -114,7 +120,7 @@ export const MapDetailsEntityTable = (
     <Stack direction={"column"} spacing={2}>
       {tableRows.map((row, i) => {
         return (
-          <KeyValueTableRow<QueryStateSingle>
+          <KeyValueTableRow<QueryStateSingleElectricity> // Exclude 'operator' and 'period' for the table rows
             key={`${row}-${i}`}
             dataKey={row}
             state={{ ...queryState, operator: operators?.length.toString() }}
@@ -149,7 +155,7 @@ export const MapDetailsEntityTable = (
   );
 };
 
-const KeyValueTableRow = <T extends Record<string, string>>(props: {
+const KeyValueTableRow = <T extends Record<string, string | undefined>>(props: {
   state?: T;
   dataKey: keyof T | string;
   component?: "span" | typeof NextLink;

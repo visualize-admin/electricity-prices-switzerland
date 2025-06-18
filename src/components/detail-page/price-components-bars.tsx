@@ -44,7 +44,7 @@ import {
 } from "src/graphql/queries";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { useLocale } from "src/lib/use-locale";
-import { useQueryState } from "src/lib/use-query-state";
+import { useQueryStateElectricity } from "src/lib/use-query-state";
 
 import { FilterSetDescription } from "./filter-set-description";
 
@@ -65,7 +65,7 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
       view,
     },
     setQueryState,
-  ] = useQueryState();
+  ] = useQueryStateElectricity();
   const comparisonIds =
     entity === "municipality"
       ? municipality

@@ -15,7 +15,7 @@ import {
   useObservationsQuery,
 } from "src/graphql/queries";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
-import { useQueryStateSingle } from "src/lib/use-query-state";
+import { useQueryStateSingleElectricity } from "src/lib/use-query-state";
 import { defaultLocale } from "src/locales/config";
 
 type Props = {
@@ -44,7 +44,8 @@ const assertBaseDomainOK = (baseDomain: string) => {
 };
 
 const IndexPage = ({ locale }: Props) => {
-  const [{ period, priceComponent, category, product }] = useQueryStateSingle();
+  const [{ period, priceComponent, category, product }] =
+    useQueryStateSingleElectricity();
 
   const [observationsQuery] = useObservationsQuery({
     variables: {

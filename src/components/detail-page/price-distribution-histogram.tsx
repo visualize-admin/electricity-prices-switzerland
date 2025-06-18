@@ -44,7 +44,7 @@ import { Entity, GenericObservation, priceComponents } from "src/domain/data";
 import { getLocalizedLabel } from "src/domain/translation";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { useLocale } from "src/lib/use-locale";
-import { useQueryState } from "src/lib/use-query-state";
+import { useQueryStateElectricity } from "src/lib/use-query-state";
 
 import { InteractionHistogram } from "../charts-generic/overlay/interaction-histogram";
 
@@ -63,7 +63,7 @@ export const PriceDistributionHistograms = ({ id, entity }: SectionProps) => {
       product,
     },
     setQueryState,
-  ] = useQueryState();
+  ] = useQueryStateElectricity();
 
   const getItemLabel = (id: string) => getLocalizedLabel({ id });
 

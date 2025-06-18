@@ -49,7 +49,7 @@ import {
 } from "src/graphql/queries";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { useLocale } from "src/lib/use-locale";
-import { useQueryState } from "src/lib/use-query-state";
+import { useQueryStateElectricity } from "src/lib/use-query-state";
 
 const DOWNLOAD_ID: Download = "comparison";
 
@@ -76,7 +76,7 @@ export const CantonsComparisonRangePlots = ({ id, entity }: SectionProps) => {
       product,
     },
     setQueryState,
-  ] = useQueryState();
+  ] = useQueryStateElectricity();
 
   const [sortingType, setSortingType] = useState<SortingType>("byMeasure");
   const [sortingOrder, setSortingOrder] = useState<SortingOrder>("asc");

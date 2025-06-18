@@ -10,10 +10,10 @@ import {
   products,
 } from "src/domain/data";
 import { getLocalizedLabel } from "src/domain/translation";
-import { useQueryStateSingle } from "src/lib/use-query-state";
+import { useQueryStateSingleElectricity } from "src/lib/use-query-state";
 
 export const ElectricitySelectors = () => {
-  const [queryState, setQueryState] = useQueryStateSingle();
+  const [queryState, setQueryState] = useQueryStateSingleElectricity();
   const getItemLabel = (id: string) => getLocalizedLabel({ id });
   const groupedCategories = useMemo(() => {
     return [
