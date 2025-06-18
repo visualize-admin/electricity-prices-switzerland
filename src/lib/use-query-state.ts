@@ -21,7 +21,7 @@ type UseQueryStateArray<T extends z.ZodRawShape> = {
 };
 
 // Generic function to make useQueryState with specific schema
-export function makeUseQueryState<T extends z.ZodRawShape>(
+function makeUseQueryState<T extends z.ZodRawShape>(
   schema: z.ZodObject<T>
 ): {
   useQueryState: () => readonly [
@@ -172,10 +172,8 @@ const sunshineSchema = z.object({
   networkLevel: z.string().default("NE5"),
 });
 
-export const {
-  useQueryState: useQueryStateCommon,
-  useQueryStateSingle: useQueryStateSingleCommon,
-} = makeUseQueryState(commonSchema);
+export const { useQueryStateSingle: useQueryStateSingleCommon } =
+  makeUseQueryState(commonSchema);
 
 // Create the hooks
 export const {
@@ -183,20 +181,24 @@ export const {
   useQueryStateSingle: useQueryStateSingleElectricity,
 } = makeUseQueryState(electricitySchema);
 
-export const {
-  useQueryState: useQueryStateSunshine,
-  useQueryStateSingle: useQueryStateSingleSunshine,
-} = makeUseQueryState(sunshineSchema);
+export const { useQueryStateSingle: useQueryStateSingleSunshine } =
+  makeUseQueryState(sunshineSchema);
 
 export type QueryStateSingleElectricity = UseQueryStateSingle<
   typeof electricitySchema.shape
 >;
+
+/** @knipignore */
 export type QueryStateArrayElectricity = UseQueryStateArray<
   typeof electricitySchema.shape
 >;
+
+/** @knipignore */
 export type QueryStateSingleSunshine = UseQueryStateSingle<
   typeof sunshineSchema.shape
 >;
+
+/** @knipignore */
 export type QueryStateArraySunshine = UseQueryStateArray<
   typeof sunshineSchema.shape
 >;

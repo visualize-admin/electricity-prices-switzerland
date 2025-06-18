@@ -23,7 +23,7 @@ type MapDetailsContentProps = {
   children: ReactNode;
 };
 
-export const MapDetailsContentWrapper = (props: MapDetailsContentProps) => {
+const MapDetailsContentWrapper = (props: MapDetailsContentProps) => {
   const { onBack, children } = props;
   return (
     <Stack direction={"column"} spacing={4} padding={6}>
@@ -51,7 +51,7 @@ export const MapDetailsContentWrapper = (props: MapDetailsContentProps) => {
 
 type MapDetailProps = ListItemType & { entity: ListState };
 
-export const MapDetailsEntityHeader = (props: MapDetailProps) => {
+const MapDetailsEntityHeader = (props: MapDetailProps) => {
   const { entity, label, canton, cantonLabel } = props;
   const entityValue = getLocalizedLabel({ id: entity.toLowerCase() });
 
@@ -97,7 +97,7 @@ const entityTableRows: Record<
   CANTONS: ["period", "priceComponent", "category", "product"],
 };
 
-export const MapDetailsEntityTable = (
+const MapDetailsEntityTable = (
   props: MapDetailProps & { colorScale: ScaleThreshold<number, string> }
 ) => {
   const { entity, operators, colorScale } = props;
