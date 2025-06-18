@@ -22,6 +22,7 @@ export const ScatterpotChart = () => {
             (d) => d.year === new Date().getFullYear()
           )}
           networkCosts={restNetworkCosts}
+          view="latest"
         />
       </DesignGrid>
     </DesignStory>

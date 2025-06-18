@@ -14,6 +14,8 @@ export const HorizontalBarChart = () => {
           observations={data.saidi.yearlyData.filter((x) => x.year === 2024)}
           id="11"
           operatorLabel="Elektrizitätswerk des Kantons Schaffhausen AG"
+          view="latest"
+          overallOrRatio="overall"
         />
       </DesignGrid>
     </DesignStory>
