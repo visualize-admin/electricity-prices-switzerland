@@ -117,7 +117,7 @@ const NetworkCostsTrendCard: React.FC<
               ]}
               selectedItems={compareWith}
               setSelectedItems={(items) =>
-                setCompareWith(filterByDelimiter(items, "sunshine.select-all"))
+                setCompareWith((prev) => filterByDelimiter(items, prev, "sunshine.select-all"))
               }
             />
           </Grid>
