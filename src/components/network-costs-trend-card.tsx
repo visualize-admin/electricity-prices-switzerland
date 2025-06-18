@@ -50,19 +50,23 @@ const NetworkCostsTrendCard: React.FC<
 
   const latestYearDataItems = useMemo(() => {
     return yearlyData.filter(
-      (d) => d.year === latestYear && d.operator_id.toString() !== operatorId
+      (d) =>
+        (viewBy === "latest" ? d.year === latestYear : true) &&
+        d.operator_id.toString() !== operatorId
     );
-  }, [yearlyData, latestYear, operatorId]);
+  }, [yearlyData, latestYear, operatorId, viewBy]);
 
   const latestYearData = useMemo(() => {
-    return yearlyData.filter(
-      (d) =>
-        d.year === latestYear &&
-        (compareWith.includes("sunshine.select-all") ||
-          compareWith.includes(d.operator_id.toString()) ||
-          d.operator_id.toString() === operatorId)
-    );
-  }, [yearlyData, compareWith, latestYear, operatorId]);
+    return yearlyData.filter((d) => {
+      const isLatestYear = viewBy === "latest" ? d.year === latestYear : true;
+      const isSelected =
+        compareWith.includes("sunshine.select-all") ||
+        compareWith.includes(d.operator_id.toString()) ||
+        d.operator_id.toString() === operatorId;
+
+      return isLatestYear && isSelected;
+    });
+  }, [yearlyData, compareWith, latestYear, operatorId, viewBy]);
 
   return (
     <Card {...props} id={DOWNLOAD_ID}>
