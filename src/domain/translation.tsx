@@ -94,42 +94,42 @@ export const getLocalizedLabel = ({ id }: { id: string }): string => {
     case "H1-long":
       return t({
         id: "selector.category.H1-long",
-        message: `H1 - 2-Zimmerwohnung mit Elektroherd`,
+        message: `H1 - 2-Room apartment with induction stove`,
       });
     case "H2-long":
       return t({
         id: "selector.category.H2-long",
-        message: `H2 - 4-Zimmerwohnung mit Elektroherd`,
+        message: `H2 - 4-room apartment with electric stove`,
       });
     case "H3-long":
       return t({
         id: "selector.category.H3-long",
-        message: `H3 - 4-Zimmerwohnung mit Elektroherd und Elektroboiler`,
+        message: `H3 - 4-room apartment with electric stove and electric boiler`,
       });
     case "H4-long":
       return t({
         id: "selector.category.H4-long",
-        message: `H4 - 5-Zimmerwohnung mit Elektroherd und Tumbler`,
+        message: `H4 - 5-room apartment with electric stove and dryer`,
       });
     case "H5-long":
       return t({
         id: "selector.category.H5-long",
-        message: `H5 - 5-Zimmer-Einfamilienhaus mit Elektroherd, Elektroboiler und Tumbler`,
+        message: `H5 - 5-room single-family house with electric stove, electric boiler, and dryer`,
       });
     case "H6-long":
       return t({
         id: "selector.category.H6-long",
-        message: `H6 - 5-Zimmer-Einfamilienhaus mit elektrischer Widerstandsheizung`,
+        message: `H6 - 5-room single-family house with electric resistance heating`,
       });
     case "H7-long":
       return t({
         id: "selector.category.H7-long",
-        message: `H7 - 5-Zimmer-Einfamilienhaus mit Wärmepumpe zur Beheizung`,
+        message: `H7 - 5-room single-family house with heat pump for heating`,
       });
     case "H8-long":
       return t({
         id: "selector.category.H8-long",
-        message: `H8 - Grosse, hoch elektrifizierte Eigentumswohnung`,
+        message: `H8 - Large, highly electrified condominium`,
       });
 
     case "H-group":
