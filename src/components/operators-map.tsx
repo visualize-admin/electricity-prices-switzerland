@@ -8,6 +8,7 @@ import { keyBy } from "lodash";
 import { useCallback, useMemo, useRef, useState } from "react";
 
 import { GenericMap } from "src/components/generic-map";
+import { HighlightValue } from "src/components/highlight-context";
 import { getFillColor, styles } from "src/components/map-helpers";
 import { MapTooltipContent } from "src/components/map-tooltip";
 import {
@@ -328,6 +329,35 @@ const OperatorsMap = ({
     onHoverOperatorLayer,
   ]);
 
+  const index = useMemo(() => {
+    return new Map(
+      enhancedGeoData?.features
+        .map((f) => {
+          if (f.properties.operators.length !== 1) {
+            // Ignore multi operator features for now
+            return null;
+          }
+          return [f.properties.operators[0], f] as const;
+        })
+        .filter(truthy)
+    );
+  }, [enhancedGeoData?.features]);
+
+  const getEntityFromHighlight = useCallback(
+    (highlight: HighlightValue) => {
+      const { entity: type, id } = highlight;
+      if (!id || type !== "operator") {
+        return;
+      }
+      const entity = index?.get(parseInt(id, 10));
+      if (!entity) {
+        return;
+      }
+      return entity;
+    },
+    [index]
+  );
+
   if (!geoData || !geoData.municipalities || !enhancedGeoData) {
     return null;
   }
@@ -339,6 +369,8 @@ const OperatorsMap = ({
       onLayerClick={handleLayerClick}
       controls={mapControlsRef}
       downloadId={`operator-map-${period}`}
+      setHovered={setHovered}
+      getEntityFromHighlight={getEntityFromHighlight}
     />
   );
 };

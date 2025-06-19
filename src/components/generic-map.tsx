@@ -106,11 +106,10 @@ export const GenericMap = ({
     }
     const vp = new WebMercatorViewport(viewState);
     const type = highlightContext.entity;
-    if (type === "operator") {
-      return;
-    }
+
     const entity = getEntityFromHighlight?.(highlightContext);
     if (!entity) {
+      setHovered(undefined);
       return;
     }
     const center = centroid(entity as Parameters<typeof centroid>[0]);
@@ -129,12 +128,25 @@ export const GenericMap = ({
             ...common,
             type: "municipality",
           }
-        : {
+        : type === "canton"
+        ? {
             ...common,
             type: "canton",
             label: highlightContext.label,
             value: highlightContext.value,
-          };
+          }
+        : type === "operator"
+        ? {
+            ...common,
+            type: "operator",
+            values: [
+              {
+                operatorName: highlightContext.label,
+                value: highlightContext.value,
+              },
+            ],
+          }
+        : (null as never);
     setHovered(newHoverState);
   }, [getEntityFromHighlight, highlightContext, setHovered, viewState]);
 

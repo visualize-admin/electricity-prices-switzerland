@@ -280,7 +280,7 @@ const IndexPageContent = ({
 
   const list = (
     <List
-      listState={listState}
+      listState={isElectricityTab ? listState : "OPERATORS"}
       grouped={listGroups}
       colorScale={colorScale}
       fetching={
