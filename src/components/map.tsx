@@ -15,7 +15,7 @@ import React, {
 
 import { MapColorLegend } from "src/components/color-legend";
 import { HighlightContext } from "src/components/highlight-context";
-import { getFillColor } from "src/components/map-helpers";
+import { getFillColor, styles } from "src/components/map-helpers";
 import { MapTooltipContent } from "src/components/map-tooltip";
 import { useGeoData } from "src/data/geo";
 import { useFormatCurrency } from "src/domain/helpers";
@@ -25,7 +25,7 @@ import { useFlag } from "src/utils/flags";
 
 import { GenericMap } from "./generic-map";
 import { useMap } from "./map-context";
-import { HoverState, LINE_COLOR } from "./map-helpers";
+import { HoverState } from "./map-helpers";
 
 // Insert our new GenericMap component to replace most of the code
 // Then adapt the ChoroplethMap to use it
@@ -77,57 +77,6 @@ const __debugCheckObservationsWithoutShapes = (
       console.info("Features without observations", featuresWithoutObs);
     }
   }
-};
-
-type Color = [number, number, number, number];
-
-// Define style tokens for map layers
-const styles = {
-  municipalities: {
-    base: {
-      fillColor: [0, 0, 0, 0] as Color,
-      opacity: {
-        withData: [0, 0, 0, 255] as Color,
-        withoutData: [0, 0, 0, 20] as Color,
-      },
-    },
-    overlay: {
-      default: {
-        fillColor: [0, 0, 0, 0] as Color,
-        lineColor: [0, 0, 0, 0] as Color,
-        lineWidth: 0,
-      },
-      active: {
-        fillColor: [0, 0, 0, 0] as Color,
-        lineColor: [31, 41, 55, 255] as Color,
-        lineWidth: 3,
-      },
-      inactive: {
-        fillColor: [255, 255, 255, 102] as Color,
-        lineColor: [0, 0, 0, 0],
-        lineWidth: 0,
-      },
-    },
-  },
-  municipalityMesh: {
-    lineColor: LINE_COLOR,
-    lineWidthMinPixels: 0.5,
-    lineWidthMaxPixels: 1,
-    lineWidth: 100,
-  },
-  lakes: {
-    fillColor: LINE_COLOR,
-    lineColor: LINE_COLOR,
-    lineWidthMinPixels: 0.5,
-    lineWidthMaxPixels: 1,
-    lineWidth: 100,
-  },
-  cantons: {
-    lineColor: LINE_COLOR,
-    lineWidthMinPixels: 1.2,
-    lineWidthMaxPixels: 3.6,
-    lineWidth: 200,
-  },
 };
 
 export const ChoroplethMap = ({

@@ -159,3 +159,54 @@ export const CH_BBOX: BBox = [
   [5.956800664952974, 45.81912371940225],
   [10.493446773955753, 47.80741209797084],
 ];
+
+type Color = [number, number, number, number];
+
+// Define style tokens for map layers
+export const styles = {
+  municipalities: {
+    base: {
+      fillColor: [0, 0, 0, 0] as Color,
+      opacity: {
+        withData: [0, 0, 0, 255] as Color,
+        withoutData: [0, 0, 0, 20] as Color,
+      },
+    },
+    overlay: {
+      default: {
+        fillColor: [0, 0, 0, 0] as Color,
+        lineColor: [0, 0, 0, 0] as Color,
+        lineWidth: 0,
+      },
+      active: {
+        fillColor: [0, 0, 0, 0] as Color,
+        lineColor: [31, 41, 55, 255] as Color,
+        lineWidth: 3,
+      },
+      inactive: {
+        fillColor: [255, 255, 255, 102] as Color,
+        lineColor: [0, 0, 0, 0],
+        lineWidth: 0,
+      },
+    },
+  },
+  municipalityMesh: {
+    lineColor: LINE_COLOR,
+    lineWidthMinPixels: 0.5,
+    lineWidthMaxPixels: 1,
+    lineWidth: 100,
+  },
+  lakes: {
+    fillColor: LINE_COLOR,
+    lineColor: LINE_COLOR,
+    lineWidthMinPixels: 0.5,
+    lineWidthMaxPixels: 1,
+    lineWidth: 100,
+  },
+  cantons: {
+    lineColor: LINE_COLOR,
+    lineWidthMinPixels: 1.2,
+    lineWidthMaxPixels: 3.6,
+    lineWidth: 200,
+  },
+};
