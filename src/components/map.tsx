@@ -1,15 +1,6 @@
-import {
-  MapController,
-  PickingInfo,
-  WebMercatorViewport,
-} from "@deck.gl/core/typed";
-import { ViewStateChangeParameters } from "@deck.gl/core/typed/controllers/controller";
+import { Layer, PickingInfo } from "@deck.gl/core/typed";
 import { GeoJsonLayer } from "@deck.gl/layers/typed";
-import DeckGL, { DeckGLRef } from "@deck.gl/react/typed";
 import { Trans } from "@lingui/macro";
-import { Box } from "@mui/material";
-import bbox from "@turf/bbox";
-import centroid from "@turf/centroid";
 import { extent, group, mean, rollup, ScaleThreshold } from "d3";
 import { useRouter } from "next/router";
 import React, {
@@ -22,35 +13,24 @@ import React, {
   useState,
 } from "react";
 
-import { WithClassName } from "src/components/detail-page/with-classname";
 import { HighlightContext } from "src/components/highlight-context";
-import { Loading, NoDataHint, NoGeoDataHint } from "src/components/hint";
-import {
-  constrainZoom,
-  flattenBBox,
-  getFillColor,
-  getZoomedViewState,
-} from "src/components/map-helpers";
-import HintBox from "src/components/map-hint-box";
-import { MapTooltip, MapTooltipContent } from "src/components/map-tooltip";
+import { getFillColor } from "src/components/map-helpers";
+import { MapTooltipContent } from "src/components/map-tooltip";
 import { MapPriceColorLegend } from "src/components/price-color-legend";
 import { useGeoData } from "src/data/geo";
 import { useFormatCurrency } from "src/domain/helpers";
-import { getImageData, SCREENSHOT_CANVAS_SIZE } from "src/domain/screenshot";
 import { OperatorObservationFieldsFragment } from "src/graphql/queries";
 import { maxBy } from "src/lib/array";
-import { useIsMobile } from "src/lib/use-mobile";
-import { frame, sleep } from "src/utils/delay";
 import { useFlag } from "src/utils/flags";
 
+import { GenericMap } from "./generic-map";
 import { useMap } from "./map-context";
-import {
-  BBox,
-  CH_BBOX,
-  HoverState,
-  INITIAL_VIEW_STATE,
-  LINE_COLOR,
-} from "./map-helpers";
+import { HoverState, LINE_COLOR } from "./map-helpers";
+
+// Insert our new GenericMap component to replace most of the code
+// Then adapt the ChoroplethMap to use it
+
+// Import our new GenericMap implementation
 
 const DOWNLOAD_ID = "map";
 
@@ -123,35 +103,9 @@ export const ChoroplethMap = ({
   } | null>;
 }) => {
   const [hovered, setHovered] = useState<HoverState>();
-  const isMobile = useIsMobile();
-  const mapZoomPadding = isMobile ? 20 : 150;
   const { setActiveId, activeId } = useMap();
   const router = useRouter();
   const isSunshine = useFlag("sunshine");
-
-  const [viewState, setViewState] = useState(INITIAL_VIEW_STATE);
-  const [screenshotting, setScreenshotting] = useState(false);
-
-  const onViewStateChange = useCallback(
-    ({ viewState }: ViewStateChangeParameters) => {
-      if (screenshotting) return;
-      setHovered(undefined);
-      setViewState(viewState as typeof INITIAL_VIEW_STATE);
-    },
-    [screenshotting]
-  );
-  const onResize = useCallback(
-    ({ width, height }: { width: number; height: number }) => {
-      setViewState((viewState) =>
-        constrainZoom({ ...viewState, width, height }, CH_BBOX, {
-          padding: mapZoomPadding,
-        })
-      );
-    },
-    [setViewState, mapZoomPadding]
-  );
-
-  const deckRef = React.useRef<DeckGLRef>(null);
   const legendId = useId();
 
   const geoData = useGeoData(year);
@@ -175,73 +129,6 @@ export const ChoroplethMap = ({
       (d) => d.id
     );
   }, [municipalities]);
-
-  if (controls) {
-    controls.current = {
-      getImageData: async () => {
-        setScreenshotting(true);
-        try {
-          await frame();
-          await sleep(1000);
-          const ref = deckRef.current;
-          if (!ref) {
-            return;
-          }
-          const deck = ref.deck;
-          if (!deck) {
-            return;
-          }
-
-          const legend = document.getElementById(legendId);
-          if (!legend) {
-            return;
-          }
-
-          return getImageData(deck, legend);
-        } finally {
-          {
-            setScreenshotting(false);
-          }
-        }
-      },
-      zoomOn: (id: string) => {
-        if (geoData.state !== "loaded" || !geoData.data.municipalities) return;
-
-        const feature = geoData.data.municipalities.features.find(
-          (f) => f.id?.toString() === id
-        );
-        if (!feature) return;
-
-        const boundsArray = feature.bbox ?? bbox(feature);
-        const bboxCoords: BBox = [
-          [boundsArray[0], boundsArray[1]],
-          [boundsArray[2], boundsArray[3]],
-        ];
-
-        const newViewState = getZoomedViewState(
-          viewState,
-          flattenBBox(bboxCoords),
-          {
-            padding: mapZoomPadding,
-            transitionDuration: 1000,
-          }
-        );
-
-        setViewState(newViewState);
-      },
-      zoomOut: () => {
-        const newViewState = getZoomedViewState(
-          viewState,
-          flattenBBox(CH_BBOX),
-          {
-            padding: mapZoomPadding,
-            transitionDuration: 1000,
-          }
-        );
-        setViewState(newViewState);
-      },
-    };
-  }
 
   useEffect(() => {
     if (geoData.state === "loaded" && observationsByMunicipalityId.size > 0) {
@@ -270,94 +157,64 @@ export const ChoroplethMap = ({
     };
   }, [geoData]);
 
-  // Syncs highlight context (coming from the right list hover) with hovered
-  useEffect(() => {
-    if (!indexes || !highlightContext) {
-      setHovered(undefined);
-      return;
-    }
-    const vp = new WebMercatorViewport(viewState);
-    const type = highlightContext.entity;
-    if (type === "operator") {
-      return;
-    }
-    const index =
-      type === "canton"
-        ? indexes.cantons
-        : type === "municipality"
-        ? indexes.municipalities
-        : undefined;
-    const entity = index?.get(parseInt(highlightContext.id, 10));
-    if (!entity) {
-      return;
-    }
-    const center = centroid(entity as Parameters<typeof centroid>[0]);
-    const projected = vp.project(
-      center.geometry.coordinates as [number, number]
-    );
-
-    const common = {
-      x: projected[0],
-      y: projected[1] + 10,
-      id: highlightContext.id,
-    };
-    const newHoverState: HoverState =
-      type === "municipality"
-        ? {
-            ...common,
-            type: "municipality",
-          }
-        : {
-            ...common,
-            type: "canton",
-            label: highlightContext.label,
-            value: highlightContext.value,
-          };
-    setHovered(newHoverState);
-  }, [viewState, highlightContext, indexes]);
-
-  const { hoveredMunicipalityName, hoveredCanton } = useMemo(() => {
-    if (!hovered) {
-      return {
-        hoveredMunicipalityName: undefined,
-        hoveredObservations: undefined,
-        hoveredCanton: undefined,
-      };
-    }
+  // Create tooltip content
+  const tooltipContent = useMemo(() => {
+    if (!hovered || !colorScale)
+      return { hoveredState: undefined, content: null };
 
     if (hovered.type === "municipality") {
       const hoveredObservations = observationsByMunicipalityId.get(hovered.id);
-      return {
-        hoveredMunicipalityName: municipalityNames.get(hovered.id)?.name,
+      const hoveredMunicipalityName = municipalityNames.get(hovered.id)?.name;
+      const hoveredCanton = maxBy(
         hoveredObservations,
-        hoveredCanton: maxBy(hoveredObservations, (x) => x.period)?.cantonLabel,
-      };
-    } else {
-      return {
-        hoveredCanton: hovered.id,
-        hoveredObservations: [],
-        hoveredMunicipalityName: "",
-      };
-    }
-  }, [hovered, municipalityNames, observationsByMunicipalityId]);
+        (x) => x.period
+      )?.cantonLabel;
 
-  const tooltipContent = hovered
-    ? hovered.type === "municipality"
-      ? {
-          id: hovered.id,
-          name: `${hoveredMunicipalityName ?? "-"} ${
+      const content = (
+        <MapTooltipContent
+          title={`${hoveredMunicipalityName ?? "-"} ${
             hoveredCanton ? `- ${hoveredCanton}` : ""
-          }`,
-          observations: observationsByMunicipalityId.get(hovered.id),
-        }
-      : hovered.type === "canton"
-      ? {
-          id: hovered.id,
-          name: hovered.label,
-          observations: [],
-        }
-      : undefined
-    : undefined;
+          }`}
+          caption={<Trans id="municipality">Municipality</Trans>}
+          values={
+            hoveredObservations?.length
+              ? hoveredObservations.map((d) => ({
+                  label: d.operatorLabel,
+                  formattedValue: formatNumber(d.value),
+                  color: colorScale(d.value),
+                }))
+              : []
+          }
+        />
+      );
+
+      return { hoveredState: hovered, content };
+    } else if (hovered.type === "canton") {
+      const content = (
+        <MapTooltipContent
+          title={hovered.label}
+          caption={<Trans id="canton">Canton</Trans>}
+          values={[
+            {
+              label: "",
+              formattedValue: formatNumber(hovered.value),
+              color: colorScale(hovered.value),
+            },
+          ]}
+        />
+      );
+
+      return { hoveredState: hovered, content };
+    }
+
+    return { hoveredState: undefined, content: null };
+  }, [
+    hovered,
+    colorScale,
+    observationsByMunicipalityId,
+    municipalityNames,
+    formatNumber,
+  ]);
 
   const valuesExtent = useMemo(() => {
     const meansByMunicipality = rollup(
@@ -368,11 +225,10 @@ export const ChoroplethMap = ({
     return extent(meansByMunicipality, (d) => d) as [number, number];
   }, [observations]);
 
-  const m = medianValue;
-
+  // Create layers
   const layers = useMemo(() => {
     if (geoData.state !== "loaded") {
-      return;
+      return [];
     }
 
     const handleMunicipalityLayerClick: typeof onMunicipalityLayerClick = (
@@ -403,6 +259,7 @@ export const ChoroplethMap = ({
       new GeoJsonLayer({
         id: "municipalities-base",
         /** @ts-expect-error bad types */
+
         data: geoData.data.municipalities,
         pickable: true,
         stroked: false,
@@ -442,7 +299,8 @@ export const ChoroplethMap = ({
       }),
       new GeoJsonLayer({
         id: "municipality-mesh",
-        /** @ts-expect-error GeoJsonLayer type seems bad */
+        /** @ts-expect-error bad types */
+
         data: geoData.data.municipalityMesh,
         pickable: false,
         stroked: true,
@@ -456,7 +314,8 @@ export const ChoroplethMap = ({
       }),
       new GeoJsonLayer({
         id: "lakes",
-        /** @ts-expect-error GeoJsonLayer type seems bad */
+        /** @ts-expect-error bad types */
+
         data: geoData.data.lakes,
         pickable: false,
         stroked: true,
@@ -470,8 +329,8 @@ export const ChoroplethMap = ({
       }),
       new GeoJsonLayer({
         id: "cantons",
+        /** @ts-expect-error bad types */
 
-        /** @ts-expect-error GeoJsonLayer type seems bad */
         data: geoData.data.cantonMesh,
         pickable: false,
         stroked: true,
@@ -486,10 +345,10 @@ export const ChoroplethMap = ({
           depthTest: false,
         },
       }),
-
       new GeoJsonLayer({
         id: "municipalities-overlay",
         /** @ts-expect-error bad types */
+
         data: geoData.data.municipalities,
         pickable: false,
         stroked: true,
@@ -544,114 +403,29 @@ export const ChoroplethMap = ({
     isSunshine,
   ]);
 
-  return (
-    <>
-      {geoData.state === "fetching" || observationsQueryFetching ? (
-        <HintBox>
-          <Loading delayMs={0} />
-        </HintBox>
-      ) : observations.length === 0 ? (
-        <HintBox>
-          <NoDataHint />
-        </HintBox>
-      ) : geoData.state === "error" ? (
-        <HintBox>
-          <NoGeoDataHint />
-        </HintBox>
-      ) : null}
-      <>
-        {hovered && tooltipContent && colorScale && (
-          <MapTooltip x={hovered.x} y={hovered.y}>
-            <MapTooltipContent
-              title={tooltipContent.name}
-              caption={<Trans id="municipality">Municipality</Trans>}
-              values={
-                hovered.type === "municipality"
-                  ? tooltipContent.observations?.length
-                    ? tooltipContent.observations.map((d) => ({
-                        label: d.operatorLabel,
-                        formattedValue: formatNumber(d.value),
-                        color: colorScale(d.value),
-                      }))
-                    : []
-                  : hovered.type === "canton"
-                  ? [
-                      {
-                        label: "",
-                        formattedValue: formatNumber(hovered.value),
-                        color: colorScale(hovered.value),
-                      },
-                    ]
-                  : []
-              }
-            />
-          </MapTooltip>
-        )}
-        {geoData.state === "loaded" && (
-          <WithClassName
-            downloadId={DOWNLOAD_ID}
-            isFetching={observationsQueryFetching}
-          >
-            <Box
-              sx={{
-                zIndex: 13,
-                position: "absolute",
-                top: 0,
-                right: 0,
-                mt: 3,
-                mr: 3,
-                backgroundColor: "background.paper",
-                borderRadius: "2px",
-                p: 4,
-              }}
-            >
-              <MapPriceColorLegend
-                id={legendId}
-                stats={[valuesExtent[0], m, valuesExtent[1]]}
-              />
-            </Box>
+  // Render legend
+  const renderLegend = useCallback(() => {
+    if (!valuesExtent || !medianValue || !colorScale) return null;
 
-            <DeckGL
-              controller={{ type: MapController }}
-              viewState={viewState}
-              onViewStateChange={onViewStateChange}
-              onResize={onResize}
-              layers={layers}
-            />
-          </WithClassName>
-        )}
-        {screenshotting ? (
-          <Box
-            sx={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              width: 1120,
-              height: 730,
-              opacity: 0,
-            }}
-          >
-            <DeckGL
-              ref={deckRef}
-              controller={{ type: MapController }}
-              viewState={
-                constrainZoom(
-                  {
-                    ...viewState,
-                    zoom: 5,
-                    width: SCREENSHOT_CANVAS_SIZE.width,
-                    height: SCREENSHOT_CANVAS_SIZE.height,
-                  },
-                  CH_BBOX,
-                  { padding: mapZoomPadding }
-                ) as $FixMe
-              }
-              layers={layers?.map((l) => l?.clone({}))}
-            />
-          </Box>
-        ) : null}
-      </>
-    </>
+    return (
+      <MapPriceColorLegend
+        id={legendId}
+        stats={[valuesExtent[0], medianValue, valuesExtent[1]]}
+      />
+    );
+  }, [legendId, medianValue, valuesExtent, colorScale]);
+
+  return (
+    <GenericMap
+      layers={(layers as unknown as Layer[]) || []}
+      isLoading={geoData.state === "fetching" || observationsQueryFetching}
+      hasNoData={observations.length === 0}
+      hasError={geoData.state === "error"}
+      tooltipContent={tooltipContent}
+      renderLegend={renderLegend}
+      downloadId={DOWNLOAD_ID}
+      controls={controls}
+    />
   );
 };
 
