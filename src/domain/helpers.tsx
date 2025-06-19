@@ -161,6 +161,8 @@ export const getPalette = (
       return schemeSet3;
     case "elcom":
       return chartPalette.categorical.slice(1).map((c) => c);
+    case "elcom2":
+      return chartPalette.categorical.slice(2).map((c) => c);
     case "monochrome":
       return [themePalette.monochrome[100]];
     default:

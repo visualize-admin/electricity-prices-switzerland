@@ -16,13 +16,14 @@ export type ComboboxMultiProps = {
   setSelectedItems: (items: string[]) => void;
   minSelectedItems?: number;
   getItemLabel?: (item: string) => string;
+  max?: number;
+  colorful?: readonly string[];
   // For lazy combobox
   disabled?: boolean;
   error?: boolean;
   lazy?: boolean;
   onInputValueChange?: (inputValue: string) => void;
   isLoading?: boolean;
-  max?: number;
   isOptionEqualToValue?: (option: unknown, value: string) => boolean;
 };
 
@@ -48,6 +49,7 @@ export const MultiCombobox = ({
   isLoading,
   disabled,
   error,
+  colorful,
   max,
 }: ComboboxMultiProps) => {
   const [inputValue, setInputValue] = useState("");
@@ -129,6 +131,11 @@ export const MultiCombobox = ({
               key={`${key}-${id}-chip`}
               label={getItemLabel(option)}
               {...tagProps}
+              sx={{
+                backgroundColor: colorful
+                  ? colorful[index % colorful.length]
+                  : undefined,
+              }}
               size="xs"
               disabled={disabled}
               onDelete={() =>
