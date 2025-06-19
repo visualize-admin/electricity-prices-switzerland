@@ -16,6 +16,7 @@ export const HorizontalBarChart = () => {
           operatorLabel="Elektrizitätswerk des Kantons Schaffhausen AG"
           view="latest"
           overallOrRatio="overall"
+          duration={"total"}
         />
       </DesignGrid>
     </DesignStory>

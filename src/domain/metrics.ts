@@ -8,8 +8,8 @@ export const getNetworkLevelMetrics = (level: NetworkLevel["id"]) => {
     case "NE5":
       return RP_OVER_KWH;
     case "NE6":
-      return RP_OVER_KWH;
-    case "NE7":
       return RP_OVER_KM;
+    case "NE7":
+      return RP_OVER_KWH;
   }
 };
