@@ -239,7 +239,8 @@ const OperatorsMap = ({
       },
       getFillColor: getMapFillColor,
       getLineColor: styles.operators.base.lineColor,
-      getLineWidth: styles.operators.base.lineWidth,
+      lineWidthMinPixels: styles.operators.base.lineWidthMinPixels,
+      lineWidthMaxPixels: styles.operators.base.lineWidthMaxPixels,
       lineWidthUnits: "pixels",
       transitions: {
         getFillColor: {
@@ -270,13 +271,26 @@ const OperatorsMap = ({
     new GeoJsonLayer({
       id: "municipality-layer",
       data: geoData.municipalities.features,
-      getLineColor: styles.operators.municipalityOutline.lineColor,
-      highlightColor: styles.operators.municipalityOutline.highlightColor,
+      getLineColor: styles.operators.municipalityMesh.lineColor,
       lineWidthUnits: "pixels",
       stroked: true,
-      autoHighlight: true,
-      getLineWidth: styles.operators.municipalityOutline.lineWidth,
+      lineWidthMinPixels: styles.operators.municipalityMesh.lineWidthMinPixels,
+      lineWidthMaxPixels: styles.operators.municipalityMesh.lineWidthMaxPixels,
       filled: false,
+    }),
+
+    // Lakes Layer
+    new GeoJsonLayer({
+      id: "lakes-layer",
+      /** @ts-expect-error bad types */
+      data: geoData.lakes,
+      getFillColor: styles.lakes.fillColor,
+      getLineColor: styles.lakes.lineColor,
+      lineWidthUnits: "pixels",
+      lineWidthMinPixels: styles.lakes.lineWidthMinPixels,
+      lineWidthMaxPixels: styles.lakes.lineWidthMaxPixels,
+      filled: true,
+      stroked: true,
     }),
   ];
 

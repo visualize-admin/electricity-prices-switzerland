@@ -146,12 +146,6 @@ export const INITIAL_VIEW_STATE = {
   pitch: 0,
   bearing: 0,
 };
-export const LINE_COLOR = [255, 255, 255, 255] as [
-  number,
-  number,
-  number,
-  number
-];
 
 export type BBox = [[number, number], [number, number]];
 
@@ -161,6 +155,8 @@ export const CH_BBOX: BBox = [
 ];
 
 type Color = [number, number, number, number];
+
+export const LINE_COLOR: Color = [255, 255, 255, 255];
 
 // Define style tokens for map layers
 export const styles = {
@@ -211,8 +207,9 @@ export const styles = {
   },
   operators: {
     base: {
-      lineColor: [255, 255, 255, 100] as Color,
-      lineWidth: 1.5,
+      lineColor: LINE_COLOR as Color,
+      lineWidthMinPixels: 0.5,
+      lineWidthMaxPixels: 1,
       highlightColor: [0, 0, 0, 100] as Color,
       transitions: {
         duration: 300,
@@ -223,10 +220,10 @@ export const styles = {
       fillColor: [255, 255, 255, 0] as Color, // Transparent
       highlightColor: [0, 0, 0, 100] as Color,
     },
-    municipalityOutline: {
-      lineColor: [255, 255, 255, 255] as Color,
-      highlightColor: [0, 0, 255, 255] as Color,
-      lineWidth: 0.25,
+    municipalityMesh: {
+      lineColor: LINE_COLOR as Color,
+      lineWidthMinPixels: 0.5,
+      lineWidthMaxPixels: 0.5,
     },
   },
 };
