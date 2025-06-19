@@ -17,6 +17,11 @@ type ColorMapping = z.infer<typeof ColorMapping>;
 const GenericField = z.object({ componentIri: z.string() });
 type GenericField = z.infer<typeof GenericField>;
 
+const AxisField = z.object({
+  axisLabel: z.string().optional(),
+});
+type AxisField = z.infer<typeof AxisField>;
+
 const Observation = z.record(
   z.string(),
   z.union([z.string(), z.number(), z.boolean()])
@@ -88,8 +93,8 @@ const ColumnFields = z.object({
 type ColumnFields = z.infer<typeof ColumnFields>;
 
 const LineFields = z.object({
-  x: GenericField,
-  y: GenericField,
+  x: z.intersection(GenericField, AxisField),
+  y: z.intersection(GenericField, AxisField),
   segment: z
     .object({
       componentIri: z.string(),
@@ -109,8 +114,8 @@ const LineFields = z.object({
 export type LineFields = z.infer<typeof LineFields>;
 
 const ScatterPlotFields = z.object({
-  x: GenericField,
-  y: GenericField,
+  x: z.intersection(GenericField, AxisField),
+  y: z.intersection(GenericField, AxisField),
   segment: z
     .object({
       componentIri: z.string(),
@@ -164,7 +169,7 @@ const HistogramFields = z.object({
 export type HistogramFields = z.infer<typeof HistogramFields>;
 
 const RangePlotFields = z.object({
-  x: GenericField,
+  x: z.intersection(GenericField, AxisField),
   y: z.object({
     componentIri: z.string(),
     sorting: z

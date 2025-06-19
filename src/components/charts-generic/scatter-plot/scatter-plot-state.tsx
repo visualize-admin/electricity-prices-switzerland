@@ -75,6 +75,9 @@ const useScatterPlotState = ({
     [fields.tooltip]
   );
 
+  const yAxisLabel = fields.y.axisLabel;
+  const xAxisLabel = fields.x.axisLabel;
+
   const { sortedData, xScale, yScale, bounds, segments, colors } =
     useMemo(() => {
       const sortedData = [...data];
@@ -206,6 +209,8 @@ const useScatterPlotState = ({
     getColor,
     getHighlightEntity,
     getTooltipLabel,
+    xAxisLabel,
+    yAxisLabel,
     medianValue,
   };
 };

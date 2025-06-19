@@ -33,6 +33,7 @@ import {
 } from "src/domain/helpers";
 import { getLocalizedLabel } from "src/domain/translation";
 
+import { LEFT_MARGIN_OFFSET } from "../constants";
 import { useChartTheme } from "../use-chart-theme";
 
 const roundDomain = (scale: ScaleLinear<number, number>) => {
@@ -43,7 +44,6 @@ const roundDomain = (scale: ScaleLinear<number, number>) => {
 const useLinesState = ({
   data,
   fields,
-  measures,
   aspectRatio,
 }: Pick<ChartProps, "data" | "dimensions" | "measures"> & {
   fields: LineFields;
@@ -96,16 +96,14 @@ const useLinesState = ({
   const xDomain = extent(sortedData, (d) => getX(d)) as [Date, Date];
   const xScale = scaleTime().domain(xDomain);
 
-  const xAxisLabel =
-    measures.find((d) => d.iri === fields.x.componentIri)?.label ??
-    fields.x.componentIri;
+  const xAxisLabel = fields.x.axisLabel;
+  const yAxisLabel = fields.y.axisLabel;
 
   const minValue = min(sortedData, getY) || 0;
   const maxValue = max(sortedData, getY) as number;
   const yDomain = [minValue, maxValue];
 
   const yScale = roundDomain(scaleLinear().domain(yDomain).nice(4));
-  const yAxisLabel = "unit";
 
   const segments = [...new Set(sortedData.map(getSegment))];
 
@@ -170,7 +168,7 @@ const useLinesState = ({
     top: 80,
     right: 40,
     bottom: 40,
-    left: maxYLabelWidth,
+    left: maxYLabelWidth + LEFT_MARGIN_OFFSET,
   };
 
   const chartWidth = width - margins.left - margins.right;
@@ -264,9 +262,7 @@ const useLinesState = ({
         .sort((a, b) => descending(getY(a), getY(b)))
         .map((td) => ({
           label: getSegment(td),
-          value: `${formatCurrency(getY(td))} ${getLocalizedLabel({
-            id: "unit",
-          })}`,
+          value: `${formatCurrency(getY(td))} ${yAxisLabel}`,
           color:
             segments.length > 1
               ? (colors(getColor(td)) as string)
@@ -286,8 +282,8 @@ const useLinesState = ({
     yScale,
     getSegment,
     getColor,
-    xAxisLabel,
     yAxisLabel,
+    xAxisLabel,
     segments,
     colors,
     grouped,

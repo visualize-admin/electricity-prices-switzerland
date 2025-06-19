@@ -72,6 +72,8 @@ const useRangePlotState = ({
   const sortingType = fields.y.sorting?.sortingType;
   const sortingOrder = fields.y.sorting?.sortingOrder;
 
+  const xAxisLabel = fields.x.axisLabel;
+
   const yDomain =
     sortingType && sortingOrder
       ? sortDomain({ sortingType, sortingOrder, data, getX, getY })
@@ -203,6 +205,7 @@ const useRangePlotState = ({
     colors,
     rangeGroups,
     annotations,
+    xAxisLabel,
     getAnnotationInfo,
   };
 };
