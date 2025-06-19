@@ -1,6 +1,6 @@
 import { t } from "@lingui/macro";
 import { Box, paperClasses } from "@mui/material";
-import { median } from "d3";
+import { median, ScaleThreshold } from "d3";
 import { keyBy } from "lodash";
 import { GetServerSideProps } from "next";
 import dynamic from "next/dynamic";
@@ -17,6 +17,7 @@ const ContentWrapper = dynamic(
 import { ButtonGroup } from "src/components/button-group";
 import { CombinedSelectors } from "src/components/combined-selectors";
 import { DownloadImage } from "src/components/detail-page/download-image";
+import { InlineDrawer } from "src/components/drawer";
 import { InfoBanner } from "src/components/info-banner";
 import {
   groupsFromCantonElectricityObservations,
@@ -24,12 +25,19 @@ import {
   groupsFromElectricityOperators,
   groupsFromSunshineObservations,
   List,
+  ListItemType,
 } from "src/components/list";
 import { ChoroplethMap, ChoroplethMapProps } from "src/components/map";
-import { ListState, MapProvider, useMap } from "src/components/map-context";
+import { MapProvider, useMap } from "src/components/map-context";
+import { MapDetailsContent } from "src/components/map-details-content";
 import OperatorsMap from "src/components/operators-map";
 import ShareButton from "src/components/share-button";
-import { NetworkLevel, TariffCategory, useColorScale } from "src/domain/data";
+import {
+  Entity,
+  NetworkLevel,
+  TariffCategory,
+  useColorScale,
+} from "src/domain/data";
 import { getSunshineAccessor } from "src/domain/sunshine-accessor";
 import {
   PriceComponent,
@@ -254,13 +262,14 @@ const IndexPageContent = ({
     />
   );
 
-  const { listState, setListState } = useMap();
+  const { entity: mapEntity, setEntity } = useMap();
+  const entity = isElectricityTab ? mapEntity : "operator";
 
   const listGroups = useMemo(() => {
     if (isElectricityTab) {
-      return listState === "CANTONS"
+      return entity === "canton"
         ? groupsFromCantonElectricityObservations(cantonMedianObservations)
-        : listState === "OPERATORS"
+        : entity === "operator"
         ? groupsFromElectricityOperators(observations)
         : groupsFromElectricityMunicipalities(observations);
     } else {
@@ -271,7 +280,7 @@ const IndexPageContent = ({
     }
   }, [
     isElectricityTab,
-    listState,
+    entity,
     cantonMedianObservations,
     observations,
     sunshineObservations,
@@ -280,7 +289,7 @@ const IndexPageContent = ({
 
   const list = (
     <List
-      listState={isElectricityTab ? listState : "OPERATORS"}
+      entity={isElectricityTab ? entity : "operator"}
       grouped={listGroups}
       colorScale={colorScale}
       fetching={
@@ -292,36 +301,51 @@ const IndexPageContent = ({
   );
 
   const listButtonGroup = isElectricityTab ? (
-    <ButtonGroup<ListState>
+    <ButtonGroup<Entity>
       id="list-state-tabs"
       options={[
         {
-          value: "MUNICIPALITIES",
+          value: "municipality",
           label: t({
             id: "list.municipalities",
             message: "Municipalities",
           }),
         },
         {
-          value: "CANTONS",
+          value: "canton",
           label: t({ id: "list.cantons", message: "Cantons" }),
         },
         {
-          value: "OPERATORS",
+          value: "operator",
           label: t({
             id: "list.operators",
             message: "Network operator",
           }),
         },
       ]}
-      value={listState}
+      value={entity}
       label={t({
         id: "list.viewby.label",
         message: "View according to",
       })}
-      setValue={setListState}
+      setValue={setEntity}
     />
   ) : null;
+
+  const selectedItem = useMemo(() => {
+    if (activeId) {
+      const selected = listGroups.find(([itemId]) => itemId === activeId);
+      return selected?.[1] ?? null;
+    }
+  }, [activeId, listGroups]);
+
+  const detailsDrawer = (
+    <DetailsDrawer
+      selectedItem={selectedItem}
+      colorScale={isElectricityTab ? colorScale : sunshineColorScale}
+      entity={entity}
+    />
+  );
 
   return (
     <>
@@ -374,24 +398,29 @@ const IndexPageContent = ({
               sx={{
                 height: "100%",
                 overflowY: "auto",
+                position: "relative",
                 bgcolor: "background.paper",
                 border: "1x solid green",
                 maxHeight: `calc(100vh - ${HEADER_HEIGHT_UP})`,
               }}
             >
-              <CombinedSelectors />
-
-              <Box
-                sx={{
-                  px: 6,
-                  flexDirection: "column",
-                  gap: 4,
-                }}
-                display="flex"
-              >
-                {listButtonGroup}
-                {list}
-              </Box>
+              {detailsDrawer}
+              {selectedItem ? null : (
+                <>
+                  <CombinedSelectors />
+                  <Box
+                    sx={{
+                      px: 6,
+                      flexDirection: "column",
+                      gap: 4,
+                    }}
+                    display="flex"
+                  >
+                    {listButtonGroup}
+                    {list}
+                  </Box>
+                </>
+              )}
             </Box>
 
             <Box
@@ -446,12 +475,41 @@ const IndexPageContent = ({
               position: "relative",
             }}
           >
-            <CombinedSelectors />
-            {list}
+            {detailsDrawer}
+            {selectedItem ? null : (
+              <>
+                <CombinedSelectors />
+                {list}
+              </>
+            )}
           </Box>
         </Box>
       </ApplicationLayout>
     </>
+  );
+};
+
+const DetailsDrawer = ({
+  selectedItem,
+  colorScale,
+  entity,
+}: {
+  selectedItem: ListItemType | undefined | null;
+  colorScale: ScaleThreshold<number, string, never>;
+  entity: Entity;
+}) => {
+  const { setActiveId } = useMap();
+  return (
+    selectedItem && (
+      <InlineDrawer open={!!selectedItem} onClose={() => setActiveId(null)}>
+        <MapDetailsContent
+          colorScale={colorScale}
+          entity={entity}
+          selectedItem={selectedItem}
+          onBack={() => setActiveId(null)}
+        />
+      </InlineDrawer>
+    )
   );
 };
 

@@ -6,7 +6,6 @@ import {
   MouseEvent,
   MouseEventHandler,
   useContext,
-  useEffect,
   useMemo,
   useState,
 } from "react";
@@ -27,7 +26,7 @@ import { useFlag } from "src/utils/flags";
 
 import { AnchorNav } from "./anchor-nav";
 import { InlineDrawer } from "./drawer";
-import { ListState, useMap } from "./map-context";
+import { useMap } from "./map-context";
 import { MapDetailsContent } from "./map-details-content";
 
 type ListItemProps = {
@@ -36,7 +35,7 @@ type ListItemProps = {
   value: number;
   colorScale: (d: number) => string;
   formatNumber: (d: number) => string;
-  listState: ListState;
+  entity: Entity;
   handleClick?: MouseEventHandler<HTMLAnchorElement>;
 };
 
@@ -46,16 +45,10 @@ const ListItem = ({
   value,
   colorScale,
   formatNumber,
-  listState,
+  entity,
   handleClick,
 }: ListItemProps) => {
   const { setValue: setHighlightContext } = useContext(HighlightContext);
-  const entity =
-    listState === "MUNICIPALITIES"
-      ? "municipality"
-      : listState === "OPERATORS"
-      ? "operator"
-      : ("canton" as Entity);
 
   return (
     <AnchorNav
@@ -106,47 +99,34 @@ export type ListItemType = {
 const ListItems = ({
   items,
   colorScale,
-  listState,
+  entity: entity,
 }: {
   items: [string, ListItemType][];
   colorScale: ScaleThreshold<number, string>;
-  listState: ListState;
+  entity: Entity;
 }) => {
   const [truncated, setTruncated] = useState<number>(TRUNCATION_INCREMENT);
   const formatNumber = useFormatCurrency();
-  const [open, setOpen] = useState<boolean>(false);
-  const [selectedItem, setSelectedItem] = useState<ListItemType | null>(null);
   const { activeId, setActiveId } = useMap();
   const isSunshine = useFlag("sunshine");
   const router = useRouter();
-
-  const getEntity = (): Entity => {
-    switch (listState) {
-      case "MUNICIPALITIES":
-        return "municipality";
-      case "OPERATORS":
-        return "operator";
-      case "CANTONS":
-        return "canton";
-    }
-  };
 
   const handleListItemSelect = useEvent(
     (_: MouseEvent<HTMLAnchorElement, globalThis.MouseEvent>, id: string) => {
       if (isSunshine) {
         setActiveId(id);
       } else {
-        router.push(`/${getEntity()}/${id}`);
+        router.push(`/${entity}/${id}`);
       }
     }
   );
-  useEffect(() => {
+
+  const selectedItem = useMemo(() => {
     if (activeId) {
       const selected = items.find(([itemId]) => itemId === activeId);
-      setSelectedItem(selected?.[1] ?? null);
-      setOpen(true);
+      return selected?.[1] ?? null;
     }
-  }, [activeId, items, listState]);
+  }, [activeId, items]);
 
   const listItems =
     items.length > truncated ? items.slice(0, truncated) : items;
@@ -154,14 +134,12 @@ const ListItems = ({
   return (
     <Box>
       {selectedItem && (
-        <InlineDrawer open={open} onClose={() => setOpen(false)}>
+        <InlineDrawer open={!!selectedItem} onClose={() => setActiveId(null)}>
           <MapDetailsContent
             colorScale={colorScale}
-            entity={getEntity()}
-            listState={listState}
-            setOpen={setOpen}
+            entity={entity}
             selectedItem={selectedItem}
-            setActiveId={setActiveId}
+            onBack={() => setActiveId(null)}
           />
         </InlineDrawer>
       )}
@@ -174,7 +152,7 @@ const ListItems = ({
             label={d.label || d.id}
             colorScale={colorScale}
             formatNumber={formatNumber}
-            listState={listState}
+            entity={entity}
             handleClick={(e) => handleListItemSelect(e, d.id)}
           />
         );
@@ -268,12 +246,12 @@ export const List = ({
   grouped,
   colorScale,
   fetching,
-  listState,
+  entity,
 }: {
   grouped: Groups;
   colorScale: ScaleThreshold<number, string>;
   fetching: boolean;
-  listState: ListState;
+  entity: Entity;
 }) => {
   const [sortState, setSortState] = useState<SortState>("ASC");
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -376,11 +354,7 @@ export const List = ({
       {fetching ? (
         <PlaceholderListItems />
       ) : (
-        <ListItems
-          items={listItems}
-          colorScale={colorScale}
-          listState={listState}
-        />
+        <ListItems items={listItems} colorScale={colorScale} entity={entity} />
       )}
     </Box>
   );
