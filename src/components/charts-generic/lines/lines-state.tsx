@@ -14,10 +14,6 @@ import {
 } from "d3";
 import { ReactNode, useCallback, useMemo } from "react";
 
-import {
-  LEFT_MARGIN_OFFSET,
-  MINI_CHART_WIDTH,
-} from "src/components/charts-generic/constants";
 import { Tooltip } from "src/components/charts-generic/interaction/tooltip";
 import {
   ChartContext,
@@ -30,12 +26,14 @@ import { LineFields } from "src/domain/config-types";
 import { GenericObservation, ObservationValue } from "src/domain/data";
 import {
   getPalette,
+  getTextWidth,
   parseDate,
   useFormatCurrency,
   useFormatFullDateAuto,
 } from "src/domain/helpers";
 import { getLocalizedLabel } from "src/domain/translation";
-import { estimateTextWidth } from "src/lib/estimate-text-width";
+
+import { useChartTheme } from "../use-chart-theme";
 
 const roundDomain = (scale: ScaleLinear<number, number>) => {
   const d = scale.domain();
@@ -52,7 +50,9 @@ const useLinesState = ({
   aspectRatio: number;
 }): LinesState => {
   const theme = useTheme();
+  const { labelFontSize } = useChartTheme();
   const width = useWidth();
+
   const formatCurrency = useFormatCurrency();
   const formatDateAuto = useFormatFullDateAuto();
 
@@ -158,23 +158,21 @@ const useLinesState = ({
     });
   });
 
-  const minText = formatCurrency(yDomain[0]);
-  const maxText = formatCurrency(yDomain[1]);
-  const floatingPointExtra =
-    Math.abs(yDomain[yDomain.length - 1] - yDomain[0]) === 1 ? 10 : 0;
-
-  const left = Math.max(
-    estimateTextWidth(minText) + floatingPointExtra,
-    estimateTextWidth(maxText) + floatingPointExtra
+  const maxYLabelWidth = Math.max(
+    ...yDomain.map((label) =>
+      getTextWidth(label.toString(), {
+        fontSize: labelFontSize,
+      })
+    )
   );
 
-  const isMiniChart = width <= MINI_CHART_WIDTH;
   const margins = {
     top: 80,
     right: 40,
     bottom: 40,
-    left: isMiniChart ? 20 : left + LEFT_MARGIN_OFFSET,
+    left: maxYLabelWidth,
   };
+
   const chartWidth = width - margins.left - margins.right;
   const chartHeight = chartWidth * aspectRatio;
   const bounds = {
