@@ -1,8 +1,10 @@
 import { Box } from "@mui/material";
 import * as React from "react";
 
-import { LinesState } from "src/components/charts-generic/lines/lines-state";
-import { useChartState } from "src/components/charts-generic/use-chart-state";
+import {
+  LinesState,
+  useChartState,
+} from "src/components/charts-generic/use-chart-state";
 import { useInteraction } from "src/components/charts-generic/use-interaction";
 import { GenericObservation } from "src/domain/data";
 
