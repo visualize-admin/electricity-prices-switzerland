@@ -7,7 +7,7 @@ import {
 } from "src/components/charts-generic/use-chart-state";
 import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
 import { useFormatCurrency } from "src/domain/helpers";
-import { getLocalizedLabel } from "src/domain/translation";
+import { RP_PER_KWH } from "src/domain/metrics";
 
 export const HistogramMinMaxValues = () => {
   const { data, bounds, getX, xScale } = useChartState() as HistogramState;
@@ -37,7 +37,7 @@ export const HistogramMinMaxValues = () => {
               textAnchor: "start",
             }}
           >
-            {formatCurrency(minValue)} {getLocalizedLabel({ id: "unit" })}
+            {formatCurrency(minValue)} {RP_PER_KWH}
           </text>
           <text
             x={0}
@@ -71,7 +71,7 @@ export const HistogramMinMaxValues = () => {
               textAnchor: "end",
             }}
           >
-            {formatCurrency(maxValue)} {getLocalizedLabel({ id: "unit" })}
+            {formatCurrency(maxValue)} {RP_PER_KWH}
           </text>
           <text
             x={0}

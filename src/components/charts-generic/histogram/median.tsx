@@ -4,7 +4,7 @@ import {
 } from "src/components/charts-generic/use-chart-state";
 import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
 import { useFormatCurrency } from "src/domain/helpers";
-import { getLocalizedLabel } from "src/domain/translation";
+import { RP_PER_KWH } from "src/domain/metrics";
 
 export const HistogramMedian = ({ label }: { label: string }) => {
   const {
@@ -41,7 +41,7 @@ export const HistogramMedian = ({ label }: { label: string }) => {
               textAnchor: "middle",
             }}
           >
-            {formatCurrency(m)} {getLocalizedLabel({ id: "unit" })}
+            {formatCurrency(m)} {RP_PER_KWH}
           </text>
           <text
             x={xScale(m)}
