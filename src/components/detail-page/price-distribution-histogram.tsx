@@ -23,6 +23,7 @@ import { HistogramMinMaxValues } from "src/components/charts-generic/histogram/h
 import { Histogram } from "src/components/charts-generic/histogram/histogram-state";
 import { HistogramMedian } from "src/components/charts-generic/histogram/median";
 import { Tooltip } from "src/components/charts-generic/interaction/tooltip";
+import { ColorLegend } from "src/components/color-legend";
 import { Combobox } from "src/components/combobox";
 import {
   Card,
@@ -39,7 +40,6 @@ import { FilterSetDescription } from "src/components/detail-page/filter-set-desc
 import { WithClassName } from "src/components/detail-page/with-classname";
 import { Loading, NoDataHint } from "src/components/hint";
 import { InfoDialogButton } from "src/components/info-dialog";
-import { ColorLegend } from "src/components/color-legend";
 import { Entity, GenericObservation, priceComponents } from "src/domain/data";
 import { getLocalizedLabel } from "src/domain/translation";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
