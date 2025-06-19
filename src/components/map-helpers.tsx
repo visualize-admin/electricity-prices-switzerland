@@ -194,7 +194,7 @@ export const styles = {
   },
   operators: {
     base: {
-      lineColor: LINE_COLOR as Color,
+      lineColor: LINE_COLOR,
       lineWidthMinPixels: 0.5,
       lineWidthMaxPixels: 1,
       highlightColor: [0, 0, 0, 100] as Color,
@@ -212,7 +212,7 @@ export const styles = {
       highlightColor: [0, 0, 0, 50] as Color,
     },
     municipalityMesh: {
-      lineColor: LINE_COLOR as Color,
+      lineColor: LINE_COLOR,
       lineWidthMinPixels: 0.5,
       lineWidthMaxPixels: 0.5,
     },
