@@ -30,6 +30,16 @@ import { CH_BBOX, HoverState, INITIAL_VIEW_STATE } from "./map-helpers";
 /**
  * GenericMap component that handles common map functionality
  * regardless of the specific entities being displayed
+ *
+ * Functionality includes:
+ * - Displaying layers on a map
+ * - Handling loading states, no data, and error states
+ * - Displaying tooltips for hovered states
+ * - Providing a legend
+ * - Downloading map images
+ * - Zooming on specific features
+ * - Handling view state changes
+ * - Providing controls for external components
  */
 export const GenericMap = ({
   layers,

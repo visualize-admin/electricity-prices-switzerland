@@ -1,15 +1,15 @@
 import { LayerProps, PickingInfo } from "@deck.gl/core/typed";
 import { GeoJsonLayer } from "@deck.gl/layers/typed";
-import DeckGL, { DeckGLRef } from "@deck.gl/react/typed";
 import { Trans } from "@lingui/macro";
-import * as turf from "@turf/turf";
+// We don't need turf anymore as GenericMap handles zooming
 import { easeExpIn, mean, ScaleThreshold } from "d3";
 import { Feature, Geometry, MultiPolygon, Polygon } from "geojson";
 import { keyBy } from "lodash";
 import { useCallback, useMemo, useRef, useState } from "react";
 
-import { getFillColor, getZoomFromBounds } from "src/components/map-helpers";
-import { MapTooltip, MapTooltipContent } from "src/components/map-tooltip";
+import { GenericMap } from "src/components/generic-map";
+import { getFillColor } from "src/components/map-helpers";
+import { MapTooltipContent } from "src/components/map-tooltip";
 import {
   getOperatorsFeatureCollection,
   MunicipalityFeatureCollection,
@@ -23,7 +23,7 @@ import { Maybe, SunshineDataRow } from "src/graphql/queries";
 import { truthy } from "src/lib/truthy";
 import { getOperatorsMunicipalities } from "src/rdf/queries";
 
-import { HoverState, INITIAL_VIEW_STATE } from "./map-helpers";
+import { HoverState } from "./map-helpers";
 
 const TRANSPARENT = [255, 255, 255, 0] as [number, number, number, number];
 
@@ -94,7 +94,11 @@ const OperatorsMap = ({
   accessor,
   observations,
 }: OperatorsMapProps) => {
-  const deckglRef = useRef<DeckGLRef>(null);
+  const mapControlsRef = useRef<{
+    getImageData: () => Promise<string | undefined>;
+    zoomOn: (id: string) => void;
+    zoomOut: () => void;
+  } | null>(null);
 
   // TODO Right now we fetch operators municipalities through EC2 indicators
   // This is not ideal, but we don't have a better way to get the operator municipalities
@@ -145,7 +149,7 @@ const OperatorsMap = ({
     [accessor, colorScale, observationsByOperator]
   );
 
-  const [viewState, setViewState] = useState(INITIAL_VIEW_STATE);
+  // We'll use GenericMap's internal viewState management instead
 
   const [hovered, setHovered] = useState<HoverState>();
   const onHoverOperatorLayer: LayerProps["onHover"] = useCallback(
@@ -186,111 +190,104 @@ const OperatorsMap = ({
   );
   const formatNumber = useFormatCurrency();
 
+  // Create tooltip content conditionally, only when there's a hover state
+  const tooltipContent = useMemo(() => {
+    if (!hovered || hovered.type !== "operator" || !colorScale) {
+      return { hoveredState: hovered, content: null };
+    }
+
+    return {
+      hoveredState: hovered,
+      content: (
+        <MapTooltipContent
+          title={""}
+          caption={<Trans id="operator">Operator</Trans>}
+          values={
+            hovered.values.map((x) => ({
+              label: x.operatorName,
+              formattedValue: formatNumber(x.value),
+              color: colorScale(x.value),
+            })) ?? []
+          }
+        />
+      ),
+    };
+  }, [hovered, colorScale, formatNumber]);
+
+  // Handle click on map layers (primarily for zooming)
+  const handleLayerClick = useCallback((info: PickingInfo) => {
+    if (info.object && info.object.geometry) {
+      // No need to handle zoom directly, GenericMap will handle this
+      // when we return the object from the click handler
+    }
+  }, []);
+
   if (!geoData || !geoData.municipalities || !enhancedGeoData) {
     return null;
   }
 
+  // Create map layers
+  const mapLayers = [
+    new GeoJsonLayer<Feature<Polygon | MultiPolygon, OperatorLayerProperties>>({
+      id: "operator-layer",
+      data: enhancedGeoData.features,
+      filled: true,
+      pickable: true,
+      highlightColor: [0, 0, 0, 100],
+      updateTriggers: {
+        getFillColor: [getMapFillColor],
+      },
+      getFillColor: getMapFillColor,
+      getLineColor: [255, 255, 255, 100],
+      getLineWidth: 1.5,
+      lineWidthUnits: "pixels",
+      transitions: {
+        getFillColor: {
+          duration: 300,
+          easing: easeExpIn,
+        },
+      },
+    }),
+
+    // Transparent layer only used for hover effect
+    new GeoJsonLayer<Feature<Polygon | MultiPolygon, OperatorLayerProperties>>({
+      id: "operator-layer-pickable",
+      data: enhancedGeoData.features,
+      filled: true,
+      onHover: onHoverOperatorLayer,
+      autoHighlight: true,
+      stroked: false,
+      highlightColor: [0, 0, 0, 100],
+      updateTriggers: {
+        getFillColor: [getMapFillColor],
+      },
+      getFillColor: TRANSPARENT,
+      lineWidthUnits: "pixels",
+      pickable: true,
+    }),
+
+    // Municipality Layer
+    new GeoJsonLayer({
+      id: "municipality-layer",
+      data: geoData.municipalities.features,
+      getLineColor: [255, 255, 255],
+      highlightColor: [0, 0, 255],
+      lineWidthUnits: "pixels",
+      stroked: true,
+      autoHighlight: true,
+      getLineWidth: 0.25,
+      filled: false,
+    }),
+  ];
+
   return (
-    <>
-      {hovered && hovered.type === "operator" && colorScale && (
-        <MapTooltip x={hovered.x} y={hovered.y}>
-          <MapTooltipContent
-            title={""}
-            caption={<Trans id="operator">Operator</Trans>}
-            values={
-              hovered.values.map((x) => ({
-                label: x.operatorName,
-                formattedValue: formatNumber(x.value),
-                color: colorScale(x.value),
-              })) ?? []
-            }
-          />
-        </MapTooltip>
-      )}
-      <DeckGL
-        initialViewState={{
-          latitude: 46.8182,
-          longitude: 8.2275,
-          zoom: 7,
-          maxZoom: 16,
-          minZoom: 2,
-          pitch: 0,
-          bearing: 0,
-        }}
-        controller={true}
-        ref={deckglRef}
-        layers={[
-          new GeoJsonLayer<
-            Feature<Polygon | MultiPolygon, OperatorLayerProperties>
-          >({
-            id: "operator-layer",
-            data: enhancedGeoData.features,
-            filled: true,
-            pickable: true,
-            highlightColor: [0, 0, 0, 100],
-            updateTriggers: {
-              getFillColor: [getMapFillColor],
-            },
-            getFillColor: getMapFillColor,
-            getLineColor: [255, 255, 255, 100],
-            getLineWidth: 1.5,
-            lineWidthUnits: "pixels",
-
-            onClick: (info) => {
-              if (info.object && info.viewport) {
-                const bounds = turf.bbox(info.object.geometry);
-                deckglRef.current?.deck?.setProps({
-                  viewState: {
-                    longitude: (bounds[0] + bounds[2]) / 2,
-                    latitude: (bounds[1] + bounds[3]) / 2,
-                    zoom: getZoomFromBounds(bounds, info.viewport),
-                    transitionDuration: 300,
-                  },
-                });
-              }
-            },
-            transitions: {
-              getFillColor: {
-                duration: 300,
-                easing: easeExpIn,
-              },
-            },
-          }),
-
-          // // Transparent layer only used for hover effect
-          new GeoJsonLayer<
-            Feature<Polygon | MultiPolygon, OperatorLayerProperties>
-          >({
-            id: "operator-layer-pickable",
-            data: enhancedGeoData.features,
-            filled: true,
-            onHover: onHoverOperatorLayer,
-            autoHighlight: true,
-            stroked: false,
-            highlightColor: [0, 0, 0, 100],
-            updateTriggers: {
-              getFillColor: [getMapFillColor],
-            },
-            getFillColor: TRANSPARENT,
-            lineWidthUnits: "pixels",
-            pickable: true,
-          }),
-
-          // Municipality Layer
-          new GeoJsonLayer({
-            id: "municipality-layer",
-            data: geoData.municipalities.features,
-            getLineColor: [255, 255, 255],
-            highlightColor: [0, 0, 255],
-            lineWidthUnits: "pixels",
-            stroked: true,
-            autoHighlight: true,
-            getLineWidth: 0.25,
-            filled: false,
-          }),
-        ]}
-      />
-    </>
+    <GenericMap
+      layers={mapLayers}
+      tooltipContent={tooltipContent}
+      onLayerClick={handleLayerClick}
+      controls={mapControlsRef}
+      downloadId={`operator-map-${period}`}
+    />
   );
 };
 
