@@ -115,7 +115,7 @@ export const categories = [
   "C5",
   "C6",
   "C7",
-];
+] as const;
 
 export type PeerGroup = {
   energyDensity: string;
@@ -133,23 +133,7 @@ export const asNetworkLevel = (id: string): NetworkLevel["id"] => {
   throw new Error(`Invalid network level: ${id}`);
 };
 
-export type ElectricityCategory =
-  | "C1"
-  | "C2"
-  | "C3"
-  | "C4"
-  | "C5"
-  | "C6"
-  | "C7"
-  | "C8"
-  | "H1"
-  | "H2"
-  | "H3"
-  | "H4"
-  | "H5"
-  | "H6"
-  | "H7"
-  | "H8";
+export type ElectricityCategory = (typeof categories)[number];
 
 export type SunshineCostsAndTariffsData = {
   latestYear: string;
@@ -218,29 +202,31 @@ export type SunshineOperationalStandardsData = {
   updateDate: string;
 };
 
-export type TariffCategory =
+export const tariffCategories = [
   // EC
-  | "EC2"
-  | "EC3"
-  | "EC4"
-  | "EC6"
+  "EC2",
+  "EC3",
+  "EC4",
+  "EC6",
 
   // EH
-  | "EH2"
-  | "EH4"
-  | "EH7"
+  "EH2",
+  "EH4",
+  "EH7",
 
   // NC
-  | "NC2"
-  | "NC3"
-  | "NC4"
-  | "NC6"
+  "NC2",
+  "NC3",
+  "NC4",
+  "NC6",
 
   // NH
-  | "NH2"
-  | "NH4"
-  | "NH7";
+  "NH2",
+  "NH4",
+  "NH7",
+] as const;
 
+export type TariffCategory = (typeof tariffCategories)[number];
 // TODO Mapping should be at graphql level, we should be able to remove
 // this function when this is done
 export const asTariffCategory = (category: string): TariffCategory => {

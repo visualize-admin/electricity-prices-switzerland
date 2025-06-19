@@ -3,11 +3,12 @@ import { Box, Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
 import ErrorPage from "next/error";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { ComponentProps, useMemo, useState } from "react";
 import { gql } from "urql";
 
 import { ButtonGroup } from "src/components/button-group";
 import CardGrid from "src/components/card-grid";
+import { Combobox } from "src/components/combobox";
 import { DetailPageBanner } from "src/components/detail-page/banner";
 import {
   DetailsPageHeader,
@@ -30,7 +31,12 @@ import {
   PageParams,
   Props as SharedPageProps,
 } from "src/data/shared-page-props";
-import { NetworkLevel, SunshineCostsAndTariffsData } from "src/domain/data";
+import {
+  NetworkLevel,
+  SunshineCostsAndTariffsData,
+  tariffCategories,
+} from "src/domain/data";
+import { getNetworkLevelMetrics, RP_PER_KM } from "src/domain/metrics";
 import {
   getCategoryLabels,
   getLocalizedLabel,
@@ -187,7 +193,7 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
             ),
             value: {
               value: operatorRate,
-              unit: "Rp./km",
+              unit: getNetworkLevelMetrics(networkLevel),
               trend: operatorTrend,
               round: 0,
             },
@@ -202,7 +208,7 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
             ),
             value: {
               value: peerGroupMedianRate,
-              unit: "Rp./km",
+              unit: getNetworkLevelMetrics(networkLevel),
               trend: peerGroupMedianTrend,
               round: 0,
             },
@@ -212,29 +218,7 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
   } satisfies React.ComponentProps<typeof TableComparisonCard>;
 
   return (
-    <div>
-      <Box sx={{ mb: 2 }}>
-        <ButtonGroup
-          id="basic-button-group"
-          label={getLocalizedLabel({ id: "network-level" })}
-          options={[
-            {
-              value: "NE5",
-              label: getLocalizedLabel({ id: "network-level.NE5.short" }),
-            },
-            {
-              value: "NE6",
-              label: getLocalizedLabel({ id: "network-level.NE6.short" }),
-            },
-            {
-              value: "NE7",
-              label: getLocalizedLabel({ id: "network-level.NE7.short" }),
-            },
-          ]}
-          value={networkLevel}
-          setValue={setNetworkLevel}
-        />
-      </Box>
+    <>
       <CardGrid
         sx={{
           gridTemplateColumns: {
@@ -248,11 +232,34 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
           // Network costs trend is below them
           // On Mobile, they are stacked
           gridTemplateAreas: [
-            `"peer-group" "comparison" "trend"`, // One column on small screens
-            `"peer-group comparison" "trend trend"`, // Two columns on medium screens
+            `"selector" "peer-group" "comparison" "trend"`, // One column on small screens
+            `"selector space" "peer-group comparison" "trend trend"`, // Two columns on medium screens
           ],
         }}
       >
+        <Box sx={{ mb: 2, gridArea: "selector" }}>
+          <ButtonGroup
+            id="basic-button-group"
+            label={getLocalizedLabel({ id: "network-level" })}
+            options={[
+              {
+                value: "NE5",
+                label: getLocalizedLabel({ id: "network-level.NE5.short" }),
+              },
+              {
+                value: "NE6",
+                label: getLocalizedLabel({ id: "network-level.NE6.short" }),
+              },
+              {
+                value: "NE7",
+                label: getLocalizedLabel({ id: "network-level.NE7.short" }),
+              },
+            ]}
+            value={networkLevel}
+            setValue={setNetworkLevel}
+          />
+        </Box>
+
         <PeerGroupCard
           latestYear={latestYear}
           peerGroup={peerGroup}
@@ -274,7 +281,7 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
           networkCosts={networkCosts}
         />
       </CardGrid>
-    </div>
+    </>
   );
 };
 
@@ -301,6 +308,20 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
     latestYear,
     updateDate,
   } = props.costsAndTariffs;
+
+  const getItemLabel = (id: string) => getLocalizedLabel({ id });
+  const groupedCategories = useMemo(() => {
+    return [
+      { type: "header", title: getItemLabel("EC-group") },
+      ...tariffCategories.filter((x) => x.startsWith("EC")),
+      { type: "header", title: getItemLabel("EH-group") },
+      ...tariffCategories.filter((x) => x.startsWith("EH")),
+      { type: "header", title: getItemLabel("NC-group") },
+      ...tariffCategories.filter((x) => x.startsWith("NC")),
+      { type: "header", title: getItemLabel("NH-group") },
+      ...tariffCategories.filter((x) => x.startsWith("NH")),
+    ] as ComponentProps<typeof Combobox>["items"];
+  }, []);
 
   const [category, _setCategory] = useState<TariffCategory>("NC2"); // Default category, can be changed based on user input
   const [{ data, fetching }] = useEnergyTariffsQuery({
@@ -356,7 +377,7 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
             ),
             value: {
               value: operatorRate,
-              unit: "Rp./km",
+              unit: RP_PER_KM,
               trend: Trend.Stable,
             },
           }
@@ -370,7 +391,7 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
             ),
             value: {
               value: peerGroupMedianRate,
-              unit: "Rp./km",
+              unit: RP_PER_KM,
               trend: Trend.Stable,
             },
           }
@@ -388,11 +409,24 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
           },
           gridTemplateRows: ["auto auto auto", "auto auto"], // Three rows: two for cards, one for trend chart
           gridTemplateAreas: [
-            `"peer-group" "comparison" "trend"`, // One column on small screens
-            `"peer-group comparison" "trend trend"`, // Two columns on medium screens
+            `"selector" "peer-group" "comparison" "trend"`, // One column on small screens
+            `"selector space" "peer-group comparison" "trend trend"`, // Two columns on medium screens
           ],
         }}
       >
+        <Box sx={{ mb: 2, gridArea: "selector" }}>
+          <Combobox
+            id="category"
+            label={t({ id: "selector.category", message: "Category" })}
+            items={groupedCategories}
+            getItemLabel={getItemLabel}
+            selectedItem={category}
+            setSelectedItem={(item) => _setCategory(item as TariffCategory)}
+            //FIXME: Might need change
+            infoDialogSlug="help-categories"
+          />
+        </Box>
+
         <PeerGroupCard
           latestYear={latestYear}
           peerGroup={peerGroup}
@@ -441,6 +475,20 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
     latestYear,
     updateDate,
   } = props.costsAndTariffs;
+
+  const getItemLabel = (id: string) => getLocalizedLabel({ id });
+  const groupedCategories = useMemo(() => {
+    return [
+      { type: "header", title: getItemLabel("EC-group") },
+      ...tariffCategories.filter((x) => x.startsWith("EC")),
+      { type: "header", title: getItemLabel("EH-group") },
+      ...tariffCategories.filter((x) => x.startsWith("EH")),
+      { type: "header", title: getItemLabel("NC-group") },
+      ...tariffCategories.filter((x) => x.startsWith("NC")),
+      { type: "header", title: getItemLabel("NH-group") },
+      ...tariffCategories.filter((x) => x.startsWith("NH")),
+    ] as ComponentProps<typeof Combobox>["items"];
+  }, []);
 
   const [category, _setCategory] = useState<TariffCategory>("NC2"); // Default category, can be changed based on user input
   const [{ data, fetching }] = useNetTariffsQuery({
@@ -495,7 +543,7 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
             ),
             value: {
               value: operatorRate,
-              unit: "Rp./km",
+              unit: RP_PER_KM,
               trend: "stable" as Trend,
             },
           }
@@ -509,7 +557,7 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
             ),
             value: {
               value: peerGroupMedianRate,
-              unit: "Rp./km",
+              unit: RP_PER_KM,
               trend: "stable" as Trend,
             },
           }
@@ -527,11 +575,24 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
           },
           gridTemplateRows: ["auto auto auto", "auto auto"], // Three rows: two for cards, one for trend chart
           gridTemplateAreas: [
-            `"peer-group" "comparison" "trend"`, // One column on small screens
-            `"peer-group comparison" "trend trend"`, // Two columns on medium screens
+            `"selector" "peer-group" "comparison" "trend"`, // One column on small screens
+            `"selector space" "peer-group comparison" "trend trend"`, // Two columns on medium screens
           ],
         }}
       >
+        <Box sx={{ mb: 2, gridArea: "selector" }}>
+          <Combobox
+            id="category"
+            label={t({ id: "selector.category", message: "Category" })}
+            items={groupedCategories}
+            getItemLabel={getItemLabel}
+            selectedItem={category}
+            setSelectedItem={(item) => _setCategory(item as TariffCategory)}
+            //FIXME: Might need change
+            infoDialogSlug="help-categories"
+          />
+        </Box>
+
         <PeerGroupCard
           latestYear={latestYear}
           peerGroup={peerGroup}

@@ -1,4 +1,3 @@
-import { t } from "@lingui/macro";
 import { axisBottom, axisTop, NumberValue, select, Selection } from "d3";
 import { useEffect, useRef } from "react";
 
@@ -14,17 +13,13 @@ import { estimateTextWidth } from "src/lib/estimate-text-width";
 export const AxisWidthLinear = ({
   position,
   format = "number",
-  hideXAxisTitle = false,
 }: {
   position: "top" | "bottom";
   format?: "number" | "currency";
-  hideXAxisTitle?: boolean;
 }) => {
   switch (position) {
     case "top":
-      return (
-        <AxisWidthLinearTop hideXAxisTitle={hideXAxisTitle} format={format} />
-      );
+      return <AxisWidthLinearTop format={format} />;
     case "bottom":
       return <AxisWidthLinearBottom format={format} />;
     default:
@@ -88,15 +83,9 @@ const AxisWidthLinearBottom = ({
   );
 };
 
-const AxisWidthLinearTop = ({
-  format,
-  hideXAxisTitle,
-}: {
-  format: "number" | "currency";
-  hideXAxisTitle: boolean;
-}) => {
+const AxisWidthLinearTop = ({ format }: { format: "number" | "currency" }) => {
   const formatCurrency = useFormatCurrency();
-  const { xScale, bounds } = useChartState() as
+  const { xScale, bounds, xAxisLabel } = useChartState() as
     | ScatterPlotState
     | RangePlotState;
   const { chartWidth, chartHeight, margins } = bounds;
@@ -139,7 +128,7 @@ const AxisWidthLinearTop = ({
   return (
     <>
       <g transform={`translate(${margins.left}, ${margins.top})`}>
-        {!hideXAxisTitle && (
+        {xAxisLabel && (
           <text
             x={chartWidth + margins.right}
             y={0}
@@ -147,7 +136,7 @@ const AxisWidthLinearTop = ({
             fontSize={labelFontSize}
             textAnchor="end"
           >
-            {t({ id: "chart.axis.unit.Rp/kWh", message: `Rp./kWh` })}
+            {xAxisLabel}
           </text>
         )}
       </g>

@@ -23,7 +23,7 @@ import { GenericObservation } from "src/domain/data";
 import { estimateTextWidth } from "src/lib/estimate-text-width";
 import { useLocale } from "src/lib/use-locale";
 import { d3FormatLocales, d3TimeFormatLocales } from "src/locales/locales";
-import { chartPalette } from "src/themes/palette";
+import { chartPalette, palette as themePalette } from "src/themes/palette";
 import { typography } from "src/themes/typography";
 
 export const isNumber = (x: $IntentionalAny): boolean =>
@@ -161,6 +161,10 @@ export const getPalette = (
       return schemeSet3;
     case "elcom":
       return chartPalette.categorical.slice(1).map((c) => c);
+    case "elcom2":
+      return chartPalette.categorical.slice(2).map((c) => c);
+    case "monochrome":
+      return [themePalette.monochrome[100]];
     default:
       return schemeCategory10;
   }

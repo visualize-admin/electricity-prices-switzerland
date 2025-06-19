@@ -55,6 +55,7 @@ export type RangePlotState = {
   rangeGroups: [string, Record<string, ObservationValue>[]][];
   annotations?: Annotation[];
   getAnnotationInfo: (d: GenericObservation) => Tooltip;
+  xAxisLabel?: string;
 };
 
 export type AreasState = {
@@ -113,8 +114,8 @@ export type LinesState = {
   getSegment: (d: GenericObservation) => string;
   getColor: (d: GenericObservation) => string;
   colors: ScaleOrdinal<string, string>;
-  xAxisLabel: string;
-  yAxisLabel: string;
+  xAxisLabel?: string;
+  yAxisLabel?: string;
   grouped: [string, Record<string, ObservationValue>[]][];
   wide: ArrayLike<Record<string, ObservationValue>>;
   xKey: string;
@@ -188,6 +189,8 @@ export interface ScatterPlotState {
   getHighlightEntity: (d: GenericObservation) => string | number | null;
   getTooltipLabel: (d: GenericObservation) => string;
   medianValue?: number;
+  xAxisLabel?: string;
+  yAxisLabel?: string;
 }
 export type StackRow = Record<string, number | string>;
 

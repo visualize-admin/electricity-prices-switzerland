@@ -75,6 +75,9 @@ const useScatterPlotState = ({
     [fields.tooltip]
   );
 
+  const yAxisLabel = fields.y.axisLabel;
+  const xAxisLabel = fields.x.axisLabel;
+
   const { sortedData, xScale, yScale, bounds, segments, colors } =
     useMemo(() => {
       const sortedData = [...data];
@@ -151,7 +154,9 @@ const useScatterPlotState = ({
       if (highlightedPoint) {
         tooltipValues.push({
           label: getSegment(highlightedPoint),
-          value: `${formatCurrency(getX(highlightedPoint))}`,
+          value: `${formatCurrency(getX(highlightedPoint))} ${
+            xAxisLabel ? xAxisLabel : ""
+          }`,
           color: chartPalette.categorical[0],
           symbol: "circle",
         });
@@ -164,7 +169,7 @@ const useScatterPlotState = ({
       ) {
         tooltipValues.push({
           label: getSegment(d),
-          value: `${formatCurrency(getX(d))}`,
+          value: `${formatCurrency(getX(d))} ${xAxisLabel ? xAxisLabel : ""}`,
           color: chartPalette.categorical[2],
           symbol: "circle",
         });
@@ -189,6 +194,7 @@ const useScatterPlotState = ({
       yScale,
       formatCurrency,
       fields.style,
+      xAxisLabel,
     ]
   );
 
@@ -206,6 +212,8 @@ const useScatterPlotState = ({
     getColor,
     getHighlightEntity,
     getTooltipLabel,
+    xAxisLabel,
+    yAxisLabel,
     medianValue,
   };
 };

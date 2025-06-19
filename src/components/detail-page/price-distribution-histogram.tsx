@@ -41,6 +41,7 @@ import { WithClassName } from "src/components/detail-page/with-classname";
 import { Loading, NoDataHint } from "src/components/hint";
 import { InfoDialogButton } from "src/components/info-dialog";
 import { Entity, GenericObservation, priceComponents } from "src/domain/data";
+import { RP_PER_KWH } from "src/domain/metrics";
 import { getLocalizedLabel } from "src/domain/translation";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { useLocale } from "src/lib/use-locale";
@@ -313,7 +314,7 @@ const PriceDistributionHistogram = ({
             data={observations as GenericObservation[]}
             medianValue={medianValue}
             yAxisLabel={getEntityLabelId(entity)}
-            xAxisUnit={t({ id: "chart.axis.unit.Rp/kWh", message: "Rp./kWh" })}
+            xAxisUnit={RP_PER_KWH}
             fields={{
               x: {
                 componentIri: "value",

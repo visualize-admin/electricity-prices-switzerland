@@ -12,7 +12,7 @@ import {
   getTextWidth,
   useFormatCurrency,
 } from "src/domain/helpers";
-import { getLocalizedLabel } from "src/domain/translation";
+import { RP_PER_KWH } from "src/domain/metrics";
 
 export const BarsGroupedAxis = ({
   title,
@@ -148,7 +148,7 @@ export const BarsGroupedLabels = ({ title }: { title: string }) => {
           const height = yScale.bandwidth();
 
           const value = formatCurrency(getX(d));
-          const unit = getLocalizedLabel({ id: "unit" });
+          const unit = RP_PER_KWH;
           const label = getLabel(d);
           const fullText = !segment.includes(EXPANDED_TAG)
             ? `${value} ${unit} ${label}`
@@ -186,7 +186,7 @@ export const BarsGroupedLabels = ({ title }: { title: string }) => {
 
         const barColor = colors(getColor(d));
         const value = formatCurrency(getX(d));
-        const unit = getLocalizedLabel({ id: "unit" });
+        const unit = RP_PER_KWH;
         const label = getLabel(d);
         const fullText = !segment.includes(EXPANDED_TAG)
           ? `${value} ${unit} ${label}`

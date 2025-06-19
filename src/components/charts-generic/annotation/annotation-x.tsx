@@ -9,7 +9,7 @@ import {
 } from "src/components/charts-generic/use-chart-state";
 import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
 import { GenericObservation } from "src/domain/data";
-import { getLocalizedLabel } from "src/domain/translation";
+import { RP_PER_KWH } from "src/domain/metrics";
 import { useIsMobile } from "src/lib/use-mobile";
 
 const ANNOTATION_DOT_RADIUS = 2.5;
@@ -147,7 +147,7 @@ export const AnnotationXLabel = () => {
             }}
           >
             <Box component="span" sx={{ fontWeight: 700 }}>
-              {a.value} {getLocalizedLabel({ id: "unit" })}{" "}
+              {a.value} {RP_PER_KWH}{" "}
             </Box>
             {a.label}
           </Box>

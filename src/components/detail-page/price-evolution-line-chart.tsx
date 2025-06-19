@@ -31,6 +31,7 @@ import { WithClassName } from "src/components/detail-page/with-classname";
 import { Loading, NoDataHint } from "src/components/hint";
 import { InfoDialogButton } from "src/components/info-dialog";
 import { Entity, GenericObservation } from "src/domain/data";
+import { RP_PER_KWH } from "src/domain/metrics";
 import { getLocalizedLabel } from "src/domain/translation";
 import {
   ObservationKind,
@@ -232,15 +233,14 @@ const PriceEvolutionLineChart = (props: {
           },
           y: {
             componentIri: pc,
+            axisLabel: RP_PER_KWH,
           },
           segment: hasMultipleLines
             ? {
                 componentIri: "uniqueId",
                 palette: "elcom",
-                // colorMapping. sadly, we can't use colorMapping here because colors should not match segment values
               }
             : undefined,
-          // This field doesn't respect the same chart system and context as Prisma
           style: {
             entity,
             colorDomain,

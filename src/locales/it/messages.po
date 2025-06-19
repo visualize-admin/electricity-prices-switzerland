@@ -7,7 +7,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language: it\n"
 "Language-Team: \n"
-"Content-Type: \n"
+"Content-Type: text/plain\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
@@ -22,12 +22,6 @@ msgstr "comuni"
 #: src/domain/translation.tsx
 msgid "chart.annotation.operators"
 msgstr "gestori di rete"
-
-#: src/components/charts-generic/axis/axis-width-linear.tsx
-#: src/components/detail-page/price-distribution-histogram.tsx
-#: src/domain/translation.tsx
-msgid "chart.axis.unit.Rp/kWh"
-msgstr "ct./kWh"
 
 #: src/components/combobox.tsx
 msgid "combobox.maxitems"
@@ -413,15 +407,15 @@ msgstr "Scaricare l'immagine"
 
 #: src/domain/translation.tsx
 msgid "indicator.energyTariffs"
-msgstr ""
+msgstr "Tariffe energetiche"
 
 #: src/domain/translation.tsx
 msgid "indicator.netTariffs"
-msgstr ""
+msgstr "Tariffe nette"
 
 #: src/domain/translation.tsx
 msgid "indicator.networkCosts"
-msgstr ""
+msgstr "Costi di rete"
 
 #: src/domain/translation.tsx
 msgid "indicator.saidi"
@@ -488,6 +482,7 @@ msgid "municipality"
 msgstr "Comune"
 
 #: src/components/net-tariffs-trend-chart.tsx
+#: src/components/net-tariffs-trend-chart.tsx
 msgid "net-tariffs-trend-chart.legend-item.other-operators"
 msgstr "Altri operatori"
 
@@ -496,6 +491,8 @@ msgid "net-tariffs-trend-chart.legend-item.peer-group-median"
 msgstr "Mediana del gruppo di riferimento"
 
 #: src/components/network-cost-trend-chart.tsx
+#: src/components/network-cost-trend-chart.tsx
+#: src/components/power-stability-chart.tsx
 msgid "network-cost-trend-chart.legend-item.other-operators"
 msgstr "Altri operatori"
 
@@ -508,28 +505,28 @@ msgid "network-level"
 msgstr "Livello di rete"
 
 #: src/domain/translation.tsx
-msgid "network-level.NL5.long"
-msgstr "Alta tensione NL5"
+msgid "network-level.NE5.long"
+msgstr "Alta tensione NE5"
 
 #: src/domain/translation.tsx
-msgid "network-level.NL5.short"
-msgstr "NL5"
+msgid "network-level.NE5.short"
+msgstr "NE5"
 
 #: src/domain/translation.tsx
-msgid "network-level.NL6.long"
-msgstr "Media tensione NL6"
+msgid "network-level.NE6.long"
+msgstr "Media tensione NE6"
 
 #: src/domain/translation.tsx
-msgid "network-level.NL6.short"
-msgstr "NL6"
+msgid "network-level.NE6.short"
+msgstr "NE6"
 
 #: src/domain/translation.tsx
-msgid "network-level.NL7.long"
-msgstr "Bassa tensione NL7"
+msgid "network-level.NE7.long"
+msgstr "Bassa tensione NE7"
 
 #: src/domain/translation.tsx
-msgid "network-level.NL7.short"
-msgstr "NL7"
+msgid "network-level.NE7.short"
+msgstr "NE7"
 
 #: src/pages/[entity]/[id]/index.tsx
 msgid "page.electricity-tariffs.description"
@@ -667,6 +664,8 @@ msgstr "Gestore di rete"
 
 #: src/components/detail-page/selector-multi.tsx
 #: src/components/electricity-selectors.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "selector.category"
 msgstr "Categoria"
 
@@ -784,7 +783,7 @@ msgstr "Confrontare con il gestore di rete…"
 
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.energy-tariffs-category"
-msgstr ""
+msgstr "Categoria"
 
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.indicator"
@@ -797,11 +796,11 @@ msgstr "Selezionare i parametri"
 
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.net-tariffs-category"
-msgstr ""
+msgstr "Categoria"
 
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.network-level"
-msgstr ""
+msgstr "Livello di rete"
 
 #: src/components/detail-page/price-components-bars.tsx
 #: src/components/electricity-selectors.tsx
@@ -897,10 +896,6 @@ msgstr "No"
 msgid "sunshine.compliance.timely-paper-submission.yes"
 msgstr "Sì"
 
-#: src/domain/translation.tsx
-msgid "sunshine.costs-and-tariffs.all-peer-group"
-msgstr "Tutti gli operatori di rete del gruppo peer"
-
 #: src/components/net-tariffs-trend-card.tsx
 #: src/components/network-costs-trend-card.tsx
 #: src/components/operational-standards-card.tsx
@@ -910,6 +905,7 @@ msgstr "Benchmarking all'interno del gruppo di riferimento: {peerGroupLabel}"
 
 #: src/components/net-tariffs-trend-card.tsx
 #: src/components/network-costs-trend-card.tsx
+#: src/components/power-stability-card.tsx
 msgid "sunshine.costs-and-tariffs.compare-with"
 msgstr "Confronta con"
 
@@ -1022,7 +1018,7 @@ msgstr "Conformità"
 
 #: src/domain/translation.tsx
 msgid "sunshine.operational-standards.compliance-trend"
-msgstr ""
+msgstr "Confronto dei franchi per destinatario della fattura"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.compliance.comparison-card-title"
@@ -1038,7 +1034,7 @@ msgstr "Varietà di prodotti"
 
 #: src/domain/translation.tsx
 msgid "sunshine.operational-standards.product-variety-trend"
-msgstr ""
+msgstr "Confronto tra la diversità dei prodotti ecologici"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.product-variety.comparison-card-title"
@@ -1050,7 +1046,7 @@ msgstr "Qualità del servizio"
 
 #: src/domain/translation.tsx
 msgid "sunshine.operational-standards.service-quality-trend"
-msgstr ""
+msgstr "Confronto dei periodi di preavviso per le interruzioni programmate"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.service-quality.comparison-card-title"
@@ -1063,6 +1059,10 @@ msgstr "Standard operativi"
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.description"
 msgstr "La pagina sulla stabilità dell'energia fornisce informazioni sull'affidabilità della fornitura di energia elettrica attraverso due indicatori chiave: SAIFI (System Average Interruption Frequency Index) e SAIDI (System Average Interruption Duration Index). Questi indicatori misurano la frequenza e la durata delle interruzioni di corrente. I dati sono comparabili all'interno dello stesso gruppo di gestori di rete, consentendo una chiara valutazione della stabilità e dell'affidabilità dell'energia in tutta la rete."
+
+#: src/components/power-stability-card.tsx
+msgid "sunshine.power-stability.duration"
+msgstr "Durata"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.latest-year"
@@ -1083,6 +1083,10 @@ msgstr "{operatorLabel}"
 #: src/components/power-stability-card.tsx
 msgid "sunshine.power-stability.overall-option"
 msgstr "In generale"
+
+#: src/components/power-stability-card.tsx
+msgid "sunshine.power-stability.planned-option"
+msgstr "Pianificato"
 
 #: src/components/power-stability-card.tsx
 msgid "sunshine.power-stability.progress-over-time"
@@ -1123,6 +1127,14 @@ msgid "sunshine.power-stability.title"
 msgstr "Stabilità di potenza"
 
 #: src/components/power-stability-card.tsx
+msgid "sunshine.power-stability.total-option"
+msgstr "Totale"
+
+#: src/components/power-stability-card.tsx
+msgid "sunshine.power-stability.unplanned-option"
+msgstr "Non pianificato"
+
+#: src/components/power-stability-card.tsx
 #: src/components/power-stability-card.tsx
 msgid "sunshine.power-stability.view-by"
 msgstr "Vedi da"
@@ -1146,6 +1158,10 @@ msgstr "No"
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.product-variety.product-combinations-options.yes"
 msgstr "Sì"
+
+#: src/domain/translation.tsx
+msgid "sunshine.select-all"
+msgstr "Seleziona tutti"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.service-quality.eco-friendly-products-offered"

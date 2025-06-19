@@ -9,58 +9,32 @@ import {
   min,
   ScaleLinear,
   scaleLinear,
-  ScaleOrdinal,
   scaleOrdinal,
-  ScaleTime,
   scaleTime,
 } from "d3";
 import { ReactNode, useCallback, useMemo } from "react";
 
-import {
-  LEFT_MARGIN_OFFSET,
-  MINI_CHART_WIDTH,
-} from "src/components/charts-generic/constants";
 import { Tooltip } from "src/components/charts-generic/interaction/tooltip";
 import {
   ChartContext,
   ChartProps,
+  LinesState,
 } from "src/components/charts-generic/use-chart-state";
 import { InteractionProvider } from "src/components/charts-generic/use-interaction";
-import {
-  Bounds,
-  Observer,
-  useWidth,
-} from "src/components/charts-generic/use-width";
+import { Observer, useWidth } from "src/components/charts-generic/use-width";
 import { LineFields } from "src/domain/config-types";
 import { GenericObservation, ObservationValue } from "src/domain/data";
 import {
   getPalette,
+  getTextWidth,
   parseDate,
   useFormatCurrency,
   useFormatFullDateAuto,
 } from "src/domain/helpers";
 import { getLocalizedLabel } from "src/domain/translation";
-import { estimateTextWidth } from "src/lib/estimate-text-width";
 
-export interface LinesState {
-  data: GenericObservation[];
-  bounds: Bounds;
-  segments: string[];
-  getX: (d: GenericObservation) => Date;
-  xScale: ScaleTime<number, number>;
-  xUniqueValues: Date[];
-  getY: (d: GenericObservation) => number;
-  yScale: ScaleLinear<number, number>;
-  getSegment: (d: GenericObservation) => string;
-  getColor: (d: GenericObservation) => string;
-  colors: ScaleOrdinal<string, string>;
-  xAxisLabel: string;
-  yAxisLabel: string;
-  grouped: [string, Record<string, ObservationValue>[]][];
-  wide: ArrayLike<Record<string, ObservationValue>>;
-  xKey: string;
-  getAnnotationInfo: (d: GenericObservation) => Tooltip;
-}
+import { LEFT_MARGIN_OFFSET } from "../constants";
+import { useChartTheme } from "../use-chart-theme";
 
 const roundDomain = (scale: ScaleLinear<number, number>) => {
   const d = scale.domain();
@@ -70,14 +44,15 @@ const roundDomain = (scale: ScaleLinear<number, number>) => {
 const useLinesState = ({
   data,
   fields,
-  measures,
   aspectRatio,
 }: Pick<ChartProps, "data" | "dimensions" | "measures"> & {
   fields: LineFields;
   aspectRatio: number;
 }): LinesState => {
   const theme = useTheme();
+  const { labelFontSize } = useChartTheme();
   const width = useWidth();
+
   const formatCurrency = useFormatCurrency();
   const formatDateAuto = useFormatFullDateAuto();
 
@@ -121,26 +96,36 @@ const useLinesState = ({
   const xDomain = extent(sortedData, (d) => getX(d)) as [Date, Date];
   const xScale = scaleTime().domain(xDomain);
 
-  const xAxisLabel =
-    measures.find((d) => d.iri === fields.x.componentIri)?.label ??
-    fields.x.componentIri;
+  const xAxisLabel = fields.x.axisLabel;
+  const yAxisLabel = fields.y.axisLabel;
 
   const minValue = min(sortedData, getY) || 0;
   const maxValue = max(sortedData, getY) as number;
   const yDomain = [minValue, maxValue];
 
   const yScale = roundDomain(scaleLinear().domain(yDomain).nice(4));
-  const yAxisLabel = "unit";
 
   const segments = [...new Set(sortedData.map(getSegment))];
 
-  const colorDomain = fields.style?.colorDomain
-    ? fields.style?.colorDomain
-    : [""];
+  const colorDomain = fields.style?.colorDomain ?? [""];
 
+  const paletteColors = getPalette(fields.segment?.palette);
+
+  const defaultMapping: Record<string, string> = {};
+  colorDomain.forEach((domainItem, index) => {
+    defaultMapping[domainItem] = paletteColors[index % paletteColors.length];
+  });
+
+  const colorMapping = fields.segment?.colorMapping ?? {};
+  const mergedMapping: Record<string, string> = {
+    ...defaultMapping,
+    ...colorMapping,
+  };
+
+  // 5. Create final color scale
   const colors = scaleOrdinal<string, string>();
   colors.domain(colorDomain);
-  colors.range(getPalette(fields.segment?.palette));
+  colors.range(colorDomain.map((domainItem) => mergedMapping[domainItem]));
 
   const xKey = fields.x.componentIri;
 
@@ -171,23 +156,23 @@ const useLinesState = ({
     });
   });
 
-  const minText = formatCurrency(yDomain[0]);
-  const maxText = formatCurrency(yDomain[1]);
-  const floatingPointExtra =
-    Math.abs(yDomain[yDomain.length - 1] - yDomain[0]) === 1 ? 10 : 0;
+  const maxYLabelWidth = useMemo(() => {
+    return Math.max(
+      ...yScale.ticks().map((label) =>
+        getTextWidth(label.toString(), {
+          fontSize: labelFontSize,
+        })
+      )
+    );
+  }, [yScale, labelFontSize]);
 
-  const left = Math.max(
-    estimateTextWidth(minText) + floatingPointExtra,
-    estimateTextWidth(maxText) + floatingPointExtra
-  );
-
-  const isMiniChart = width <= MINI_CHART_WIDTH;
   const margins = {
-    top: 40,
+    top: 80,
     right: 40,
     bottom: 40,
-    left: isMiniChart ? 20 : left + LEFT_MARGIN_OFFSET,
+    left: maxYLabelWidth + LEFT_MARGIN_OFFSET,
   };
+
   const chartWidth = width - margins.left - margins.right;
   const chartHeight = chartWidth * aspectRatio;
   const bounds = {
@@ -271,17 +256,14 @@ const useLinesState = ({
       xValue: formatDateAuto(getX(datum)),
       datum: {
         label: fields.segment && getSegment(datum),
-        value: `${formatCurrency(getY(datum))} ${getLocalizedLabel({
-          id: "unit",
-        })}`,
+        value: `${formatCurrency(getY(datum))} ${yAxisLabel ? yAxisLabel : ""}`,
       },
       values: summarizedTooltipValues
         .sort((a, b) => descending(getY(a), getY(b)))
         .map((td) => ({
+          symbol: "line",
           label: getSegment(td),
-          value: `${formatCurrency(getY(td))} ${getLocalizedLabel({
-            id: "unit",
-          })}`,
+          value: `${formatCurrency(getY(td))} ${yAxisLabel}`,
           color:
             segments.length > 1
               ? (colors(getColor(td)) as string)
@@ -301,8 +283,8 @@ const useLinesState = ({
     yScale,
     getSegment,
     getColor,
-    xAxisLabel,
     yAxisLabel,
+    xAxisLabel,
     segments,
     colors,
     grouped,

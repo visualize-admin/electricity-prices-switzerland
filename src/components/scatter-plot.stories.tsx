@@ -23,6 +23,7 @@ export const ScatterpotChart = () => {
           )}
           networkCosts={restNetworkCosts}
           view="latest"
+          compareWith={["sunshine.select-all"]}
         />
       </DesignGrid>
     </DesignStory>

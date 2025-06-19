@@ -5,9 +5,9 @@ import {
   TooltipMultiple,
   TooltipSingle,
 } from "src/components/charts-generic/interaction/tooltip-content";
-import { LinesState } from "src/components/charts-generic/lines/lines-state";
 import {
   HistogramState,
+  LinesState,
   ScatterPlotState,
   useChartState,
 } from "src/components/charts-generic/use-chart-state";

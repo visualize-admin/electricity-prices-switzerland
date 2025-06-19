@@ -4,8 +4,10 @@ import {
   TooltipPlacement,
   TooltipValue,
 } from "src/components/charts-generic/interaction/tooltip";
-import { LinesState } from "src/components/charts-generic/lines/lines-state";
-import { useChartState } from "src/components/charts-generic/use-chart-state";
+import {
+  LinesState,
+  useChartState,
+} from "src/components/charts-generic/use-chart-state";
 import { useInteraction } from "src/components/charts-generic/use-interaction";
 import { Margins } from "src/components/charts-generic/use-width";
 import { GenericObservation } from "src/domain/data";

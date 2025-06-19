@@ -50,11 +50,9 @@ const NetTariffsTrendCard: React.FC<
   const { yearlyData, ...restNetTariffs } = netTariffs;
   const latestYearDataItems = useMemo(() => {
     return yearlyData.filter(
-      (d) =>
-        (viewBy === "latest" ? d.period === latestYear : true) &&
-        d.operator_id.toString() !== operatorId
+      (d) => d.period === latestYear && d.operator_id.toString() !== operatorId
     );
-  }, [yearlyData, latestYear, operatorId, viewBy]);
+  }, [yearlyData, latestYear, operatorId]);
 
   const latestYearData = useMemo(() => {
     return yearlyData.filter((d) => {
@@ -173,13 +171,14 @@ const NetTariffsTrendCard: React.FC<
         </Grid>
 
         {/* Scatter Plot */}
-        <Box sx={{ height: 300, width: "100%" }}>
+        <Box sx={{ height: 350, width: "100%" }}>
           <NetTariffsTrendChart
             id={operatorId}
             operatorLabel={operatorLabel}
             observations={latestYearData}
             netTariffs={restNetTariffs}
             view={viewBy}
+            compareWith={compareWith} 
           />
         </Box>
         {/* Footer Info */}

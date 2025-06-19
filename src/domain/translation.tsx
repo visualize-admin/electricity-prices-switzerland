@@ -24,8 +24,6 @@ export const getLocalizedLabel = ({ id }: { id: string }): string => {
         id: "priceComponents.view.expanded.operators",
         message: "Show individual network operators",
       });
-    case "unit":
-      return t({ id: "chart.axis.unit.Rp/kWh", message: "Rp./kWh" });
     case "standard":
       return t({ id: "selector.product.standard", message: "Standard" });
     case "cheapest":
@@ -293,20 +291,20 @@ export const getLocalizedLabel = ({ id }: { id: string }): string => {
 
     case "network-level":
       return t({ id: "network-level", message: `Network level` });
-    // NL (Not yet sure about translations)
-    case "network-level.NL5.short":
-      return t({ id: "network-level.NL5.short", message: `NL5` });
-    case "network-level.NL5.long":
-      return t({ id: "network-level.NL5.long", message: `High voltage NL5` });
-    case "network-level.NL6.short":
-      return t({ id: "network-level.NL6.short", message: `NL6` });
-    case "network-level.NL6.long":
-      return t({ id: "network-level.NL6.long", message: `Medium voltage NL6` });
+    // NE (Not yet sure about translations)
+    case "network-level.NE5.short":
+      return t({ id: "network-level.NE5.short", message: `NE5` });
+    case "network-level.NE5.long":
+      return t({ id: "network-level.NE5.long", message: `High voltage NE5` });
+    case "network-level.NE6.short":
+      return t({ id: "network-level.NE6.short", message: `NE6` });
+    case "network-level.NE6.long":
+      return t({ id: "network-level.NE6.long", message: `Medium voltage NE6` });
 
-    case "network-level.NL7.short":
-      return t({ id: "network-level.NL7.short", message: `NL7` });
-    case "network-level.NL7.long":
-      return t({ id: "network-level.NL7.long", message: `Low voltage NL7` });
+    case "network-level.NE7.short":
+      return t({ id: "network-level.NE7.short", message: `NE7` });
+    case "network-level.NE7.long":
+      return t({ id: "network-level.NE7.long", message: `Low voltage NE7` });
 
     case "sunshine.select-all":
       return t({

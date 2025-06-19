@@ -12,7 +12,7 @@ import React, { useMemo, useState } from "react";
 import { ButtonGroup } from "src/components/button-group";
 import CardSource from "src/components/card-source";
 import { PeerGroup, SunshineCostsAndTariffsData } from "src/domain/data";
-import { filterBySeparator } from "src/domain/helpers";
+import { filterBySeparator, getPalette } from "src/domain/helpers";
 import { getPeerGroupLabels } from "src/domain/translation";
 
 import { CardHeader } from "./detail-page/card";
@@ -51,11 +51,9 @@ const NetworkCostsTrendCard: React.FC<
 
   const latestYearDataItems = useMemo(() => {
     return yearlyData.filter(
-      (d) =>
-        (viewBy === "latest" ? d.year === latestYear : true) &&
-        d.operator_id.toString() !== operatorId
+      (d) => d.year === latestYear && d.operator_id.toString() !== operatorId
     );
-  }, [yearlyData, latestYear, operatorId, viewBy]);
+  }, [yearlyData, latestYear, operatorId]);
 
   const latestYearData = useMemo(() => {
     return yearlyData.filter((d) => {
@@ -150,6 +148,11 @@ const NetworkCostsTrendCard: React.FC<
           </Grid>
           <Grid item xs={12} sm={6}>
             <AllOrMultiCombobox
+              colorful={
+                compareWith.includes("sunshine.select-all")
+                  ? undefined
+                  : getPalette("elcom2")
+              }
               label={t({
                 id: "sunshine.costs-and-tariffs.compare-with",
                 message: "Compare With",
@@ -174,13 +177,14 @@ const NetworkCostsTrendCard: React.FC<
         </Grid>
 
         {/* Scatter Plot */}
-        <Box sx={{ height: 300, width: "100%" }}>
+        <Box sx={{ height: 350, width: "100%" }}>
           <NetworkCostTrendChart
             id={operatorId}
             operatorLabel={operatorLabel}
             observations={latestYearData}
             networkCosts={restNetworkCosts}
             view={viewBy}
+            compareWith={compareWith}
           />
         </Box>
         {/* Footer Info */}

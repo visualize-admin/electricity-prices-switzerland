@@ -7,6 +7,7 @@ import {
 } from "src/components/charts-generic/use-chart-state";
 import { useInteraction } from "src/components/charts-generic/use-interaction";
 
+import { BAR_HEIGHT_SMALL } from "../constants";
 import { useChartTheme } from "../use-chart-theme";
 
 export const BarsStacked = () => {
@@ -66,7 +67,7 @@ export const BarsStacked = () => {
                   x={x}
                   y={y}
                   width={width}
-                  height={18}
+                  height={BAR_HEIGHT_SMALL}
                   color={colors(segment)}
                   fillOpacity={isHovered ? 1 : fillOpacity}
                 />
