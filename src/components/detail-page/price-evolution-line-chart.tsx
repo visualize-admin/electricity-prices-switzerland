@@ -31,7 +31,7 @@ import { WithClassName } from "src/components/detail-page/with-classname";
 import { Loading, NoDataHint } from "src/components/hint";
 import { InfoDialogButton } from "src/components/info-dialog";
 import { Entity, GenericObservation } from "src/domain/data";
-import { RP_OVER_KWH } from "src/domain/metrics";
+import { RP_PER_KWH } from "src/domain/metrics";
 import { getLocalizedLabel } from "src/domain/translation";
 import {
   ObservationKind,
@@ -233,7 +233,7 @@ const PriceEvolutionLineChart = (props: {
           },
           y: {
             componentIri: pc,
-            axisLabel: RP_OVER_KWH,
+            axisLabel: RP_PER_KWH,
           },
           segment: hasMultipleLines
             ? {

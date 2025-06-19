@@ -2,7 +2,7 @@ import { TableBody, TableCell, TableRow, Typography } from "@mui/material";
 
 import ComparisonTable from "src/components/comparison-table";
 import UnitValueWithTrend from "src/components/unit-value-with-trend";
-import { RP_OVER_KM } from "src/domain/metrics";
+import { RP_PER_KM } from "src/domain/metrics";
 import { Trend } from "src/graphql/resolver-types";
 
 export const Example = () => {
@@ -21,7 +21,7 @@ export const Example = () => {
           <TableCell>
             <UnitValueWithTrend
               value={operatorRate}
-              unit={RP_OVER_KM}
+              unit={RP_PER_KM}
               trend={Trend.Down}
             />
           </TableCell>
@@ -35,7 +35,7 @@ export const Example = () => {
           <TableCell>
             <UnitValueWithTrend
               value={peerGroupMedianRate}
-              unit={RP_OVER_KM}
+              unit={RP_PER_KM}
               trend={Trend.Stable}
             />
           </TableCell>

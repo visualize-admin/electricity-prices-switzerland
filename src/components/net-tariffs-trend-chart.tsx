@@ -3,7 +3,7 @@ import { Box } from "@mui/material";
 import { useMemo } from "react";
 
 import type { SunshineCostsAndTariffsData } from "src/domain/data";
-import { RP_OVER_KM, RP_OVER_KWH } from "src/domain/metrics";
+import { RP_PER_KM, RP_PER_KWH } from "src/domain/metrics";
 import { getLocalizedLabel } from "src/domain/translation";
 import { chartPalette, palette } from "src/themes/palette";
 
@@ -83,7 +83,7 @@ const LatestYearChartView = (
         year: o.period,
       }))}
       fields={{
-        x: { componentIri: "rate", axisLabel: RP_OVER_KWH },
+        x: { componentIri: "rate", axisLabel: RP_PER_KWH },
         y: { componentIri: "category" },
         segment: {
           componentIri: "operator_name",
@@ -172,7 +172,7 @@ const ProgressOvertimeChartView = (
         },
         y: {
           componentIri: "rate",
-          axisLabel: RP_OVER_KM,
+          axisLabel: RP_PER_KM,
         },
         segment: {
           componentIri: "operator_name",

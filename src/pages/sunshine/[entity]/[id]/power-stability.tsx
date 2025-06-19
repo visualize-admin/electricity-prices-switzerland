@@ -27,6 +27,7 @@ import {
   Props as SharedPageProps,
 } from "src/data/shared-page-props";
 import { SunshinePowerStabilityData } from "src/domain/data";
+import { MIN_PER_YEAR } from "src/domain/metrics";
 import { getLocalizedLabel } from "src/domain/translation";
 import { useSaidiQuery, useSaifiQuery } from "src/graphql/queries";
 import { Trend } from "src/graphql/resolver-types";
@@ -176,7 +177,7 @@ const SaidiSaifi = (
         ),
         value: {
           value: data.operatorTotal,
-          unit: "min/year",
+          unit: MIN_PER_YEAR,
 
           // TODO Compute the trend
           trend: Trend.Down,
@@ -190,7 +191,7 @@ const SaidiSaifi = (
         ),
         value: {
           value: data.peerGroupTotal,
-          unit: "min/year",
+          unit: MIN_PER_YEAR,
 
           // TODO Compute the trend
           trend: Trend.Stable,

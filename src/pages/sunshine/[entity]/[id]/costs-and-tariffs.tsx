@@ -36,7 +36,7 @@ import {
   SunshineCostsAndTariffsData,
   tariffCategories,
 } from "src/domain/data";
-import { getNetworkLevelMetrics, RP_OVER_KM } from "src/domain/metrics";
+import { getNetworkLevelMetrics, RP_PER_KM } from "src/domain/metrics";
 import {
   getCategoryLabels,
   getLocalizedLabel,
@@ -377,7 +377,7 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
             ),
             value: {
               value: operatorRate,
-              unit: RP_OVER_KM,
+              unit: RP_PER_KM,
               trend: Trend.Stable,
             },
           }
@@ -391,7 +391,7 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
             ),
             value: {
               value: peerGroupMedianRate,
-              unit: RP_OVER_KM,
+              unit: RP_PER_KM,
               trend: Trend.Stable,
             },
           }
@@ -543,7 +543,7 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
             ),
             value: {
               value: operatorRate,
-              unit: RP_OVER_KM,
+              unit: RP_PER_KM,
               trend: "stable" as Trend,
             },
           }
@@ -557,7 +557,7 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
             ),
             value: {
               value: peerGroupMedianRate,
-              unit: RP_OVER_KM,
+              unit: RP_PER_KM,
               trend: "stable" as Trend,
             },
           }
