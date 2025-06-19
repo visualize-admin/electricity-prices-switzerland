@@ -491,7 +491,6 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
     ] as ComponentProps<typeof Combobox>["items"];
   }, []);
 
-  console.log(groupedCategories);
   const [{ data, fetching }] = useNetTariffsQuery({
     variables: {
       filter: {
