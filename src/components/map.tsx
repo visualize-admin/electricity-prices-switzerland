@@ -403,12 +403,10 @@ export const ChoroplethMap = ({
     isSunshine,
   ]);
 
-  // Render legend
+  const formatCurrency = useFormatCurrency();
+
   const renderLegend = useCallback(() => {
     if (!valuesExtent || !medianValue || !colorScale) return null;
-
-    const formatCurrency = useFormatCurrency();
-
     const legendData = [valuesExtent[0], medianValue, valuesExtent[1]];
     return (
       <MapColorLegend
@@ -431,7 +429,7 @@ export const ChoroplethMap = ({
         }}
       />
     );
-  }, [legendId, medianValue, valuesExtent, colorScale]);
+  }, [valuesExtent, medianValue, colorScale, legendId, formatCurrency]);
 
   return (
     <GenericMap
@@ -440,7 +438,7 @@ export const ChoroplethMap = ({
       hasNoData={observations.length === 0}
       hasError={geoData.state === "error"}
       tooltipContent={tooltipContent}
-      renderLegend={renderLegend}
+      legend={renderLegend()}
       downloadId={DOWNLOAD_ID}
       controls={controls}
     />

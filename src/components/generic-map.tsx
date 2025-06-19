@@ -37,7 +37,7 @@ export const GenericMap = ({
   hasNoData = false,
   hasError = false,
   tooltipContent,
-  renderLegend,
+  legend,
   downloadId,
   onViewStateChange: userOnViewStateChange,
   onLayerClick,
@@ -52,7 +52,7 @@ export const GenericMap = ({
     hoveredState: HoverState | undefined;
     content: React.ReactNode | null;
   };
-  renderLegend?: () => React.ReactNode;
+  legend?: React.ReactNode;
   downloadId?: string;
   onViewStateChange?: (viewState: MapViewState) => void;
   onLayerClick?: (info: PickingInfo) => void;
@@ -112,14 +112,14 @@ export const GenericMap = ({
             if (!deck) return;
 
             // Get the legend element if a download ID is provided
-            const legend = downloadId
+            const legendElement = downloadId
               ? document.getElementById(downloadId)
               : null;
-            if (!legend) {
+            if (!legendElement) {
               return;
             }
 
-            return getImageData(deck, legend || undefined);
+            return getImageData(deck, legendElement || undefined);
           } finally {
             setScreenshotting(false);
           }
@@ -202,7 +202,7 @@ export const GenericMap = ({
           )}
 
         <WithClassName downloadId={downloadId || "map"} isFetching={isLoading}>
-          {renderLegend && (
+          {legend && (
             <Box
               sx={{
                 zIndex: 13,
@@ -216,7 +216,7 @@ export const GenericMap = ({
                 p: 4,
               }}
             >
-              {renderLegend()}
+              {legend}
             </Box>
           )}
 
