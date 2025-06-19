@@ -79,6 +79,57 @@ const __debugCheckObservationsWithoutShapes = (
   }
 };
 
+type Color = [number, number, number, number];
+
+// Define style tokens for map layers
+const styles = {
+  municipalities: {
+    base: {
+      fillColor: [0, 0, 0, 0] as Color,
+      opacity: {
+        withData: [0, 0, 0, 255] as Color,
+        withoutData: [0, 0, 0, 20] as Color,
+      },
+    },
+    overlay: {
+      default: {
+        fillColor: [0, 0, 0, 0] as Color,
+        lineColor: [0, 0, 0, 0] as Color,
+        lineWidth: 0,
+      },
+      active: {
+        fillColor: [0, 0, 0, 0] as Color,
+        lineColor: [31, 41, 55, 255] as Color,
+        lineWidth: 3,
+      },
+      inactive: {
+        fillColor: [255, 255, 255, 102] as Color,
+        lineColor: [0, 0, 0, 0],
+        lineWidth: 0,
+      },
+    },
+  },
+  municipalityMesh: {
+    lineColor: LINE_COLOR,
+    lineWidthMinPixels: 0.5,
+    lineWidthMaxPixels: 1,
+    lineWidth: 100,
+  },
+  lakes: {
+    fillColor: LINE_COLOR,
+    lineColor: LINE_COLOR,
+    lineWidthMinPixels: 0.5,
+    lineWidthMaxPixels: 1,
+    lineWidth: 100,
+  },
+  cantons: {
+    lineColor: LINE_COLOR,
+    lineWidthMinPixels: 1.2,
+    lineWidthMaxPixels: 3.6,
+    lineWidth: 200,
+  },
+};
+
 export const ChoroplethMap = ({
   year,
   observations,
@@ -259,7 +310,6 @@ export const ChoroplethMap = ({
       new GeoJsonLayer({
         id: "municipalities-base",
         /** @ts-expect-error bad types */
-
         data: geoData.data.municipalities,
         pickable: true,
         stroked: false,
@@ -268,7 +318,7 @@ export const ChoroplethMap = ({
         autoHighlight: false,
         getFillColor: (d) => {
           const id = d?.id?.toString();
-          if (!id) return [0, 0, 0, 0];
+          if (!id) return styles.municipalities.base.fillColor;
 
           const obs = observationsByMunicipalityId.get(id);
           return obs
@@ -277,7 +327,7 @@ export const ChoroplethMap = ({
                 mean(obs, (d) => d.value),
                 false
               )
-            : [0, 0, 0, 20];
+            : styles.municipalities.base.opacity.withoutData;
         },
         onHover: ({ x, y, object }: PickingInfo) => {
           const id = object?.id?.toString();
@@ -300,47 +350,44 @@ export const ChoroplethMap = ({
       new GeoJsonLayer({
         id: "municipality-mesh",
         /** @ts-expect-error bad types */
-
         data: geoData.data.municipalityMesh,
         pickable: false,
         stroked: true,
         filled: false,
         extruded: false,
-        lineWidthMinPixels: 0.5,
-        lineWidthMaxPixels: 1,
-        getLineWidth: 100,
+        lineWidthMinPixels: styles.municipalityMesh.lineWidthMinPixels,
+        lineWidthMaxPixels: styles.municipalityMesh.lineWidthMaxPixels,
+        getLineWidth: styles.municipalityMesh.lineWidth,
         lineMiterLimit: 1,
-        getLineColor: LINE_COLOR,
+        getLineColor: styles.municipalityMesh.lineColor,
       }),
       new GeoJsonLayer({
         id: "lakes",
         /** @ts-expect-error bad types */
-
         data: geoData.data.lakes,
         pickable: false,
         stroked: true,
         filled: true,
         extruded: false,
-        lineWidthMinPixels: 0.5,
-        lineWidthMaxPixels: 1,
-        getLineWidth: 100,
-        getFillColor: LINE_COLOR,
-        getLineColor: LINE_COLOR,
+        lineWidthMinPixels: styles.lakes.lineWidthMinPixels,
+        lineWidthMaxPixels: styles.lakes.lineWidthMaxPixels,
+        getLineWidth: styles.lakes.lineWidth,
+        getFillColor: styles.lakes.fillColor,
+        getLineColor: styles.lakes.lineColor,
       }),
       new GeoJsonLayer({
         id: "cantons",
         /** @ts-expect-error bad types */
-
         data: geoData.data.cantonMesh,
         pickable: false,
         stroked: true,
         filled: false,
         extruded: false,
-        lineWidthMinPixels: 1.2,
-        lineWidthMaxPixels: 3.6,
-        getLineWidth: 200,
+        lineWidthMinPixels: styles.cantons.lineWidthMinPixels,
+        lineWidthMaxPixels: styles.cantons.lineWidthMaxPixels,
+        getLineWidth: styles.cantons.lineWidth,
         lineMiterLimit: 1,
-        getLineColor: LINE_COLOR,
+        getLineColor: styles.cantons.lineColor,
         parameters: {
           depthTest: false,
         },
@@ -348,7 +395,6 @@ export const ChoroplethMap = ({
       new GeoJsonLayer({
         id: "municipalities-overlay",
         /** @ts-expect-error bad types */
-
         data: geoData.data.municipalities,
         pickable: false,
         stroked: true,
@@ -356,30 +402,41 @@ export const ChoroplethMap = ({
         extruded: false,
         getFillColor: (d) => {
           const id = d?.id?.toString();
-          if (!id) return [0, 0, 0, 0];
+          if (!id) return styles.municipalities.overlay.default.fillColor;
 
-          if (!hovered && !activeId) {
-            return [0, 0, 0, 0];
+          const isActive = activeId === id;
+          const isHovered =
+            hovered?.type === "municipality" && hovered.id === id;
+          const hasInteraction = hovered || activeId;
+
+          if (isActive || isHovered) {
+            return styles.municipalities.overlay.active.fillColor;
+          } else if (hasInteraction) {
+            return styles.municipalities.overlay.inactive.fillColor;
           }
-
-          return (hovered?.type === "municipality" && hovered.id === id) ||
-            activeId === id
-            ? [0, 0, 0, 0]
-            : [255, 255, 255, 102];
+          return styles.municipalities.overlay.default.fillColor;
         },
         getLineColor: (d) => {
           const id = d?.id?.toString();
-          return (hovered?.type === "municipality" && hovered.id === id) ||
-            activeId === id
-            ? [31, 41, 55]
-            : [0, 0, 0, 0];
+          const isActive = activeId === id;
+          const isHovered =
+            hovered?.type === "municipality" && hovered.id === id;
+
+          if (isActive || isHovered) {
+            return styles.municipalities.overlay.active.lineColor;
+          }
+          return styles.municipalities.overlay.default.lineColor;
         },
         getLineWidth: (d) => {
           const id = d?.id?.toString();
-          return (hovered?.type === "municipality" && hovered.id === id) ||
-            activeId === id
-            ? 3
-            : 0;
+          const isActive = activeId === id;
+          const isHovered =
+            hovered?.type === "municipality" && hovered.id === id;
+
+          if (isActive || isHovered) {
+            return styles.municipalities.overlay.active.lineWidth;
+          }
+          return styles.municipalities.overlay.default.lineWidth;
         },
         lineWidthUnits: "pixels",
         updateTriggers: {
