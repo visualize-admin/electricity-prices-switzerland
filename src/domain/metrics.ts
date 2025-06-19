@@ -3,7 +3,7 @@ import { NetworkLevel } from "./data";
 export const RP_OVER_KWH = "Rp./kWh";
 export const RP_OVER_KM = "Rp./km";
 
-export const networkLevelMetrics = (level: NetworkLevel["id"]) => {
+export const getNetworkLevelMetrics = (level: NetworkLevel["id"]) => {
   switch (level) {
     case "NE5":
       return RP_OVER_KWH;
