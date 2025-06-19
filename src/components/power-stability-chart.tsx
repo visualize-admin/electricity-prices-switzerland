@@ -1,10 +1,11 @@
+import { t } from "@lingui/macro";
 import { Box } from "@mui/material";
 import { max } from "d3";
 import { sortBy } from "lodash";
 import { useMemo } from "react";
 
 import type { SunshinePowerStabilityData } from "src/domain/data";
-import { chartPalette } from "src/themes/palette";
+import { chartPalette, palette } from "src/themes/palette";
 
 import { AxisHeightCategories } from "./charts-generic/axis/axis-height-categories";
 import { AxisHeightLinear } from "./charts-generic/axis/axis-height-linear";
@@ -19,15 +20,21 @@ import { ChartContainer, ChartSvg } from "./charts-generic/containers";
 import { HoverDotMultiple } from "./charts-generic/interaction/hover-dots-multiple";
 import { Ruler } from "./charts-generic/interaction/ruler";
 import { Tooltip } from "./charts-generic/interaction/tooltip";
+import { LegendItem } from "./charts-generic/legends/color";
 import { Lines } from "./charts-generic/lines/lines";
 import { LineChart } from "./charts-generic/lines/lines-state";
 import { InteractionHorizontal } from "./charts-generic/overlay/interaction-horizontal";
 import { SectionProps } from "./detail-page/card";
-import { OverallOrRatioFilter, ViewByFilter } from "./power-stability-card";
+import {
+  DurationFilter,
+  OverallOrRatioFilter,
+  ViewByFilter,
+} from "./power-stability-card";
 
 type PowerStabilityFilters = {
   view: ViewByFilter;
   overallOrRatio: OverallOrRatioFilter;
+  duration: DurationFilter;
 };
 
 type PowerStabilityChartProps = {
@@ -38,32 +45,64 @@ type PowerStabilityChartProps = {
 } & Omit<SectionProps, "entity"> &
   PowerStabilityFilters;
 
+type PowerStabilityRow =
+  SunshinePowerStabilityData["saidi"]["yearlyData"][0] & { planned: number };
+
 export const PowerStabilityChart = (props: PowerStabilityChartProps) => {
-  const { view, ...restProps } = props;
+  const { view, observations, ...restProps } = props;
+
+  const dataWithStackFields = useMemo(() => {
+    return observations.map((d) => ({
+      ...d,
+      planned: d.total,
+      unplanned: d.unplanned,
+    }));
+  }, [observations]);
+
   return (
     <Box sx={{ mt: 8 }}>
       {view === "latest" ? (
-        <LatestYearChartView {...restProps} />
+        <LatestYearChartView
+          observations={dataWithStackFields}
+          {...restProps}
+        />
       ) : (
-        <ProgressOvertimeChartView {...restProps} />
+        <ProgressOvertimeChartView
+          observations={dataWithStackFields}
+          {...restProps}
+        />
       )}
     </Box>
   );
 };
 
-const LatestYearChartView = (props: Omit<PowerStabilityChartProps, "view">) => {
-  const { observations, id, operatorLabel } = props;
-  const dataWithStackFields = observations.map((d) => ({
-    ...d,
-    planned: d.total,
-    unplanned: d.unplanned,
-  }));
+const LatestYearChartView = (
+  props: Omit<PowerStabilityChartProps, "view" | "observations"> & {
+    observations: PowerStabilityRow[];
+  }
+) => {
+  const { observations, id, operatorLabel, overallOrRatio } = props;
+
+  const dataWithRatioApplied = useMemo(() => {
+    if (overallOrRatio === "ratio") {
+      return observations.map((d) => {
+        const total = d.planned + d.unplanned || 1;
+        return {
+          ...d,
+          planned: (d.planned / total) * 100,
+          unplanned: (d.unplanned / total) * 100,
+        };
+      });
+    }
+    return observations;
+  }, [observations, overallOrRatio]);
 
   const maxValue =
-    max(dataWithStackFields, (d) => d.planned + d.unplanned) ?? 0;
-  const xDomain: [number, number] = [0, maxValue];
+    max(dataWithRatioApplied, (d) => d.planned + d.unplanned) ?? 0;
+  const xDomain: [number, number] =
+    overallOrRatio === "ratio" ? [0, 100] : [0, maxValue];
 
-  const sortedData = sortBy(dataWithStackFields, (x) => {
+  const sortedData = sortBy(dataWithRatioApplied, (x) => {
     return x.operator.toString() === id ? 0 : 1;
   });
 
@@ -108,12 +147,10 @@ const LatestYearChartView = (props: Omit<PowerStabilityChartProps, "view">) => {
           __typename: "NominalDimension",
         },
       ]}
-      //FIXME: we need a better solution for this since having less bars increases the spacing between them
-      aspectRatio={0.8}
     >
       <ChartContainer>
         <ChartSvg>
-          <AxisWidthLinear position="top" hideXAxisTitle />
+          <AxisWidthLinear position="top" />
           <AxisHeightCategories
             stretch
             hideXAxis
@@ -128,12 +165,16 @@ const LatestYearChartView = (props: Omit<PowerStabilityChartProps, "view">) => {
 };
 
 const ProgressOvertimeChartView = (
-  props: Omit<PowerStabilityChartProps, "view">
+  props: Omit<PowerStabilityChartProps, "view" | "observations"> & {
+    observations: PowerStabilityRow[];
+  }
 ) => {
-  const { observations, operatorLabel } = props;
+  const { observations, operatorLabel, duration } = props;
   const operatorsNames = useMemo(() => {
     return new Set(observations.map((d) => d.operator_name));
   }, [observations]);
+
+  // FIXME: Currently not tested as there is only data for 2024
   return (
     <LineChart
       data={observations}
@@ -142,7 +183,7 @@ const ProgressOvertimeChartView = (
           componentIri: "year",
         },
         y: {
-          componentIri: "total",
+          componentIri: duration,
         },
         segment: {
           componentIri: "operator_name",
@@ -167,6 +208,48 @@ const ProgressOvertimeChartView = (
       ]}
       aspectRatio={0.2}
     >
+      <Box
+        sx={{
+          position: "relative",
+          justifyContent: "flex-start",
+          alignItems: "flex-start",
+          flexWrap: "wrap",
+          minHeight: "20px",
+          gap: 2,
+        }}
+        display="flex"
+      >
+        <LegendItem
+          item={operatorLabel}
+          color={chartPalette.categorical[0]}
+          symbol={"line"}
+        />
+        {/* <LegendItem
+    item={t({
+      id: "network-cost-trend-chart.legend-item.total-median",
+      message: "Total Median",
+    })}
+    color={palette.monochrome[800]}
+    symbol={"triangle"}
+  /> */}
+        {/* <LegendItem
+          item={t({
+            id: "network-cost-trend-chart.legend-item.peer-group-median",
+            message: "Peer Group Median",
+          })}
+          color={palette.monochrome[800]}
+          symbol={"line"}
+        /> */}
+
+        <LegendItem
+          item={t({
+            id: "network-cost-trend-chart.legend-item.other-operators",
+            message: "Other operators",
+          })}
+          color={palette.monochrome[200]}
+          symbol={"line"}
+        />
+      </Box>
       <ChartContainer>
         <ChartSvg>
           <AxisHeightLinear format="currency" /> <AxisTime />

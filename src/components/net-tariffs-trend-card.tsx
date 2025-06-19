@@ -171,13 +171,14 @@ const NetTariffsTrendCard: React.FC<
         </Grid>
 
         {/* Scatter Plot */}
-        <Box sx={{ height: 300, width: "100%" }}>
+        <Box sx={{ height: 350, width: "100%" }}>
           <NetTariffsTrendChart
             id={operatorId}
             operatorLabel={operatorLabel}
             observations={latestYearData}
             netTariffs={restNetTariffs}
             view={viewBy}
+            compareWith={compareWith} 
           />
         </Box>
         {/* Footer Info */}

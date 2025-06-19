@@ -3,6 +3,7 @@ import { Box } from "@mui/material";
 import { useMemo } from "react";
 
 import type { SunshineCostsAndTariffsData } from "src/domain/data";
+import { RP_OVER_KM, RP_OVER_KWH } from "src/domain/metrics";
 import { getLocalizedLabel } from "src/domain/translation";
 import { chartPalette, palette } from "src/themes/palette";
 
@@ -23,9 +24,11 @@ import { Dots } from "./charts-generic/scatter-plot/dots";
 import { ScatterPlotMedian } from "./charts-generic/scatter-plot/median";
 import { ScatterPlot } from "./charts-generic/scatter-plot/scatter-plot-state";
 import { SectionProps } from "./detail-page/card";
-import { ViewByFilter } from "./power-stability-card";
+import { CompareWithFilter, ViewByFilter } from "./power-stability-card";
+
 type NetTariffsTrendFilters = {
   view: ViewByFilter;
+  compareWith: CompareWithFilter;
 };
 type NetTariffsTrendChartProps = {
   observations: SunshineCostsAndTariffsData["netTariffs"]["yearlyData"];
@@ -80,7 +83,7 @@ const LatestYearChartView = (
         year: o.period,
       }))}
       fields={{
-        x: { componentIri: "rate" },
+        x: { componentIri: "rate", axisLabel: RP_OVER_KWH },
         y: { componentIri: "category" },
         segment: {
           componentIri: "operator_name",
@@ -141,7 +144,7 @@ const LatestYearChartView = (
       </Box>
       <ChartContainer>
         <ChartSvg>
-          <AxisWidthLinear position="top" hideXAxisTitle format="number" />
+          <AxisWidthLinear position="top" format="number" />
           <AxisHeightCategories stretch />
           <Dots />
           <InteractionDotted />
@@ -157,7 +160,8 @@ const ProgressOvertimeChartView = (
     operatorsNames: Set<string>;
   }
 ) => {
-  const { observations, operatorLabel, operatorsNames } = props;
+  const { observations, operatorLabel, operatorsNames, compareWith } = props;
+  const hasNotSelectedAll = !compareWith.includes("sunshine.select-all");
 
   return (
     <LineChart
@@ -168,6 +172,7 @@ const ProgressOvertimeChartView = (
         },
         y: {
           componentIri: "rate",
+          axisLabel: RP_OVER_KM,
         },
         segment: {
           componentIri: "operator_name",
@@ -208,14 +213,14 @@ const ProgressOvertimeChartView = (
           color={chartPalette.categorical[0]}
           symbol={"line"}
         />
-        <LegendItem
+        {/* <LegendItem
           item={t({
             id: "net-tariffs-trend-chart.legend-item.peer-group-median",
             message: "Peer Group Median",
           })}
           color={palette.monochrome[800]}
           symbol={"line"}
-        />
+        /> */}
         <LegendItem
           item={t({
             id: "net-tariffs-trend-chart.legend-item.other-operators",
@@ -229,12 +234,12 @@ const ProgressOvertimeChartView = (
         <ChartSvg>
           <AxisHeightLinear format="currency" /> <AxisTime />
           <Lines />
-          <InteractionHorizontal />
+          {hasNotSelectedAll && <InteractionHorizontal />}
         </ChartSvg>
         <Ruler />
-        <HoverDotMultiple />
+        {hasNotSelectedAll && <HoverDotMultiple />}
 
-        <Tooltip type={"multiple"} />
+        {hasNotSelectedAll && <Tooltip type={"multiple"} />}
       </ChartContainer>
     </LineChart>
   );

@@ -19,7 +19,9 @@ import { PowerStabilityChart } from "./power-stability-chart";
 import { AllOrMultiCombobox } from "./query-combobox";
 
 export type ViewByFilter = "latest" | "progress";
+export type CompareWithFilter = string[];
 export type OverallOrRatioFilter = "overall" | "ratio";
+export type DurationFilter = "total" | "planned" | "unplanned";
 
 const PowerStabilityCard: React.FC<
   {
@@ -36,6 +38,7 @@ const PowerStabilityCard: React.FC<
 > = (props) => {
   const [compareWith, setCompareWith] = useState(["sunshine.select-all"]);
   const [viewBy, setViewBy] = useState<ViewByFilter>("latest");
+  const [duration, setDuration] = useState<DurationFilter>("total");
   const [overallOrRatio, setOverallOrRatio] =
     useState<OverallOrRatioFilter>("overall");
 
@@ -116,33 +119,71 @@ const PowerStabilityCard: React.FC<
             />
           </Grid>
           <Grid item xs={12} sm={4} sx={{ mt: 2.5 }}>
-            <ButtonGroup
-              id="view-by-button-group-2"
-              label={t({
-                id: "sunshine.power-stability.view-by",
-                message: "View By",
-              })}
-              options={[
-                {
-                  value: "overall",
-                  label: (
-                    <Trans id="sunshine.power-stability.overall-option">
-                      Overall
-                    </Trans>
-                  ),
-                },
-                {
-                  value: "ratio",
-                  label: (
-                    <Trans id="sunshine.power-stability.ratio-option">
-                      Ratio
-                    </Trans>
-                  ),
-                },
-              ]}
-              value={overallOrRatio}
-              setValue={setOverallOrRatio}
-            />
+            {viewBy === "latest" ? (
+              <ButtonGroup
+                id="view-by-button-group-2"
+                label={t({
+                  id: "sunshine.power-stability.view-by",
+                  message: "View By",
+                })}
+                options={[
+                  {
+                    value: "overall",
+                    label: (
+                      <Trans id="sunshine.power-stability.overall-option">
+                        Overall
+                      </Trans>
+                    ),
+                  },
+                  {
+                    value: "ratio",
+                    label: (
+                      <Trans id="sunshine.power-stability.ratio-option">
+                        Ratio
+                      </Trans>
+                    ),
+                  },
+                ]}
+                value={overallOrRatio}
+                setValue={setOverallOrRatio}
+              />
+            ) : (
+              <ButtonGroup
+                id="view-by-button-group-3"
+                label={t({
+                  id: "sunshine.power-stability.duration",
+                  message: "Duration",
+                })}
+                options={[
+                  {
+                    value: "total",
+                    label: (
+                      <Trans id="sunshine.power-stability.total-option">
+                        Total
+                      </Trans>
+                    ),
+                  },
+                  {
+                    value: "planned",
+                    label: (
+                      <Trans id="sunshine.power-stability.planned-option">
+                        Planned
+                      </Trans>
+                    ),
+                  },
+                  {
+                    value: "unplanned",
+                    label: (
+                      <Trans id="sunshine.power-stability.unplanned-option">
+                        Unplanned
+                      </Trans>
+                    ),
+                  },
+                ]}
+                value={duration}
+                setValue={setDuration}
+              />
+            )}
           </Grid>
           <Grid item xs={12} sm={4} sx={{ display: "flex" }}>
             <AllOrMultiCombobox
@@ -184,6 +225,7 @@ const PowerStabilityCard: React.FC<
             operatorLabel={operatorLabel}
             view={viewBy}
             overallOrRatio={overallOrRatio}
+            duration={duration}
           />
         </Box>
         {/* Footer Info */}

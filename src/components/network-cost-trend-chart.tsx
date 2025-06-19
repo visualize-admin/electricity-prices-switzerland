@@ -2,7 +2,11 @@ import { t } from "@lingui/macro";
 import { Box } from "@mui/material";
 import { useMemo } from "react";
 
-import type { SunshineCostsAndTariffsData } from "src/domain/data";
+import type {
+  NetworkLevel,
+  SunshineCostsAndTariffsData,
+} from "src/domain/data";
+import { getNetworkLevelMetrics } from "src/domain/metrics";
 import { getLocalizedLabel } from "src/domain/translation";
 import { chartPalette, palette } from "src/themes/palette";
 
@@ -23,10 +27,11 @@ import { Dots } from "./charts-generic/scatter-plot/dots";
 import { ScatterPlotMedian } from "./charts-generic/scatter-plot/median";
 import { ScatterPlot } from "./charts-generic/scatter-plot/scatter-plot-state";
 import { SectionProps } from "./detail-page/card";
-import { ViewByFilter } from "./power-stability-card";
+import { CompareWithFilter, ViewByFilter } from "./power-stability-card";
 
 type NetworkCostsTrendFilters = {
   view: ViewByFilter;
+  compareWith: CompareWithFilter;
 };
 type NetworkCostTrendChartProps = {
   observations: SunshineCostsAndTariffsData["networkCosts"]["yearlyData"];
@@ -81,7 +86,12 @@ const LatestYearChartView = (
         }),
       }))}
       fields={{
-        x: { componentIri: "rate" },
+        x: {
+          componentIri: "rate",
+          axisLabel: getNetworkLevelMetrics(
+            observations[0].network_level as NetworkLevel["id"]
+          ),
+        },
         y: { componentIri: "network_level" },
         segment: {
           componentIri: "operator_name",
@@ -151,7 +161,7 @@ const LatestYearChartView = (
       </Box>
       <ChartContainer>
         <ChartSvg>
-          <AxisWidthLinear position="top" hideXAxisTitle format="number" />
+          <AxisWidthLinear position="top" format="number" />
           <AxisHeightCategories stretch />
           <Dots />
           <InteractionDotted />
@@ -168,7 +178,8 @@ const ProgressOvertimeChartView = (
     operatorsNames: Set<string>;
   }
 ) => {
-  const { observations, operatorLabel, operatorsNames } = props;
+  const { observations, operatorLabel, operatorsNames, compareWith } = props;
+  const hasNotSelectedAll = !compareWith.includes("sunshine.select-all");
 
   return (
     <LineChart
@@ -179,10 +190,15 @@ const ProgressOvertimeChartView = (
         },
         y: {
           componentIri: "rate",
+          axisLabel: getNetworkLevelMetrics(
+            observations[0].network_level as NetworkLevel["id"]
+          ),
         },
         segment: {
           componentIri: "operator_name",
-          palette: "monochrome",
+          palette: compareWith.includes("sunshine.select-all")
+            ? "monochrome"
+            : "elcom2",
           colorMapping: {
             [operatorLabel]: chartPalette.categorical[0],
           },
@@ -203,16 +219,59 @@ const ProgressOvertimeChartView = (
       ]}
       aspectRatio={0.2}
     >
+      <Box
+        sx={{
+          position: "relative",
+          justifyContent: "flex-start",
+          alignItems: "flex-start",
+          flexWrap: "wrap",
+          minHeight: "20px",
+          gap: 2,
+        }}
+        display="flex"
+      >
+        <LegendItem
+          item={operatorLabel}
+          color={chartPalette.categorical[0]}
+          symbol={"line"}
+        />
+        {/* <LegendItem
+    item={t({
+      id: "network-cost-trend-chart.legend-item.total-median",
+      message: "Total Median",
+    })}
+    color={palette.monochrome[800]}
+    symbol={"triangle"}
+  /> */}
+        {/* <LegendItem
+          item={t({
+            id: "network-cost-trend-chart.legend-item.peer-group-median",
+            message: "Peer Group Median",
+          })}
+          color={palette.monochrome[800]}
+          symbol={"line"}
+        /> */}
+
+        <LegendItem
+          item={t({
+            id: "network-cost-trend-chart.legend-item.other-operators",
+            message: "Other operators",
+          })}
+          color={palette.monochrome[200]}
+          symbol={"line"}
+        />
+      </Box>
       <ChartContainer>
         <ChartSvg>
-          <AxisHeightLinear format="currency" /> <AxisTime />
+          <AxisHeightLinear format="currency" />
+          <AxisTime />
           <Lines />
-          <InteractionHorizontal />
+          {hasNotSelectedAll && <InteractionHorizontal />}
         </ChartSvg>
         <Ruler />
-        <HoverDotMultiple />
+        {hasNotSelectedAll && <HoverDotMultiple />}
 
-        <Tooltip type={"multiple"} />
+        {hasNotSelectedAll && <Tooltip type={"multiple"} />}
       </ChartContainer>
     </LineChart>
   );
