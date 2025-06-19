@@ -373,7 +373,7 @@ const makeSearchRequest = async (
   }
   parameterValueNode.textContent = parameterValue;
 
-  console.log(
+  console.info(
     `Searching with parameterName=${parameterName}, parameterValue=${parameterValue}`
   );
 
@@ -428,12 +428,12 @@ const memoizeSwr = <T, Args extends unknown[]>(
 
 const makeAuthRequest = memoizeSwr(
   async () => {
-    console.log("IP-STS request...");
+    console.info("IP-STS request...");
     const ipStsInfo = await makeIpStsRequest();
-    console.log(`IP-STS OK, assertion: ${ipStsInfo.assertionId}`);
-    console.log("RP-STS...");
+    console.info(`IP-STS OK, assertion: ${ipStsInfo.assertionId}`);
+    console.info("RP-STS...");
     const resp2 = await makeRpStsRequest(ipStsInfo);
-    console.log(`RP-STS OK: ${resp2.samlAssertion}`);
+    console.info(`RP-STS OK: ${resp2.samlAssertion}`);
     return resp2;
   },
   {
@@ -445,7 +445,7 @@ const makeAuthRequest = memoizeSwr(
 export const downloadGeverDocument = memoize(
   async (encryptedReference: string) => {
     const reference = decrypt(encryptedReference);
-    console.log("Download gever document", reference);
+    console.info("Download gever document", reference);
     const authResp = await makeAuthRequest();
     const resp3 = await makeContentRequest(authResp, reference);
     return resp3;

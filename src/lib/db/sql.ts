@@ -5,6 +5,7 @@ import {
 } from "src/domain/data";
 import { SunshineDataRow } from "src/graphql/resolver-types";
 import { query } from "src/lib/db/duckdb";
+import { PeerGroupNotFoundError } from "src/lib/db/errors";
 import { PeerGroupMedianValuesParams } from "src/lib/db/sunshine-data";
 
 export const getNetworkCosts = async ({
@@ -112,9 +113,7 @@ export const getStabilityMetrics = async ({
       ORDER BY period DESC, operator_id
     `;
 
-  console.log(sql);
   const result = await query<StabilityMetricRecord>(sql);
-  console.log(result);
   return result;
 };
 export const getTariffs = async ({
@@ -161,6 +160,7 @@ export const getTariffs = async ({
   const result = await query<TariffRecord>(sql);
   return result;
 };
+
 export const getOperatorData = async (
   operatorId: number,
   period?: number
@@ -182,7 +182,7 @@ export const getOperatorData = async (
 
   const result = await query<OperatorDataRecord>(sql);
   if (result.length === 0) {
-    throw new Error(`No data found for operator ID: ${operatorId}`);
+    throw new PeerGroupNotFoundError(operatorId);
   }
   return result[0];
 };

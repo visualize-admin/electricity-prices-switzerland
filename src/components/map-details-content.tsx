@@ -1,24 +1,28 @@
 import { Trans } from "@lingui/macro";
-import { Divider, Link, Typography } from "@mui/material";
+import { Button, Divider, Link, Typography } from "@mui/material";
 import { Box, Stack } from "@mui/system";
 import { ScaleThreshold } from "d3";
 import NextLink from "next/link";
 import { ReactElement, ReactNode } from "react";
 
+import { PriceEvolution } from "src/components/detail-page/price-evolution-line-chart";
+import { Entity } from "src/domain/data";
 import { useFormatCurrency } from "src/domain/helpers";
 import { getLocalizedLabel } from "src/domain/translation";
 import { Icon } from "src/icons";
-import { QueryStateSingle, useQueryStateSingle } from "src/lib/use-query-state";
+import {
+  QueryStateSingleElectricity,
+  useQueryStateSingleElectricity,
+} from "src/lib/use-query-state";
 
 import { ListItemType } from "./list";
-import { ListState } from "./map-context";
 
 type MapDetailsContentProps = {
   onBack: () => void;
   children: ReactNode;
 };
 
-export const MapDetailsContentWrapper = (props: MapDetailsContentProps) => {
+const MapDetailsContentWrapper = (props: MapDetailsContentProps) => {
   const { onBack, children } = props;
   return (
     <Stack direction={"column"} spacing={4} padding={6}>
@@ -44,36 +48,23 @@ export const MapDetailsContentWrapper = (props: MapDetailsContentProps) => {
   );
 };
 
-type MapDetailProps = ListItemType & { entity: ListState };
+type MapDetailProps = ListItemType & { entity: Entity };
 
-export const MapDetailsEntityHeader = (props: MapDetailProps) => {
+const MapDetailsEntityHeader = (props: MapDetailProps) => {
   const { entity, label, canton, cantonLabel } = props;
   const entityValue = getLocalizedLabel({ id: entity.toLowerCase() });
 
   return (
     <Stack direction={"column"} spacing={2}>
       <Stack direction={"column"}>
-        <Typography
-          lineHeight={"140%"}
-          variant="body3"
-          sx={{
-            fontFeatureSettings: "'liga' off, 'clig' off",
-          }}
-        >
+        <Typography lineHeight={"140%"} variant="body3">
           {entityValue}
         </Typography>
-        <Typography
-          fontWeight={700}
-          lineHeight={"160%"}
-          variant="h3"
-          sx={{
-            fontFeatureSettings: "'liga' off, 'clig' off",
-          }}
-        >
+        <Typography fontWeight={700} lineHeight={"160%"} variant="h3">
           {label}
         </Typography>
       </Stack>
-      {entity !== "CANTONS" && canton && cantonLabel && (
+      {entity !== "canton" && canton && cantonLabel && (
         <Typography variant="body3" color={"text.500"}>
           <Trans id="search.result.canton">Canton</Trans>:{" "}
           <Link
@@ -90,23 +81,17 @@ export const MapDetailsEntityHeader = (props: MapDetailProps) => {
   );
 };
 
-const entityTableRows: Record<ListState, (keyof QueryStateSingle)[]> = {
-  OPERATORS: ["period", "priceComponent", "category", "product"],
-  MUNICIPALITIES: [
-    "period",
-    "priceComponent",
-    "category",
-    "product",
-    "operator",
-  ],
-  CANTONS: ["period", "priceComponent", "category", "product"],
+const entityTableRows: Record<Entity, (keyof QueryStateSingleElectricity)[]> = {
+  operator: ["period", "priceComponent", "category", "product"],
+  municipality: ["period", "priceComponent", "category", "product", "operator"],
+  canton: ["period", "priceComponent", "category", "product"],
 };
 
-export const MapDetailsEntityTable = (
+const MapDetailsEntityTable = (
   props: MapDetailProps & { colorScale: ScaleThreshold<number, string> }
 ) => {
   const { entity, operators, colorScale } = props;
-  const [queryState] = useQueryStateSingle();
+  const [queryState] = useQueryStateSingleElectricity();
   const tableRows = entityTableRows[entity];
   const formatNumber = useFormatCurrency();
 
@@ -114,7 +99,7 @@ export const MapDetailsEntityTable = (
     <Stack direction={"column"} spacing={2}>
       {tableRows.map((row, i) => {
         return (
-          <KeyValueTableRow<QueryStateSingle>
+          <KeyValueTableRow<QueryStateSingleElectricity> // Exclude 'operator' and 'period' for the table rows
             key={`${row}-${i}`}
             dataKey={row}
             state={{ ...queryState, operator: operators?.length.toString() }}
@@ -149,7 +134,7 @@ export const MapDetailsEntityTable = (
   );
 };
 
-const KeyValueTableRow = <T extends Record<string, string>>(props: {
+const KeyValueTableRow = <T extends Record<string, string | undefined>>(props: {
   state?: T;
   dataKey: keyof T | string;
   component?: "span" | typeof NextLink;
@@ -201,3 +186,39 @@ const KeyValueTableRow = <T extends Record<string, string>>(props: {
     </Stack>
   );
 };
+
+export const MapDetailsContent: React.FC<{
+  colorScale: ScaleThreshold<number, string>;
+  entity: Entity;
+  selectedItem: ListItemType;
+  onBack: () => void;
+}> = ({ colorScale, entity, selectedItem, onBack }) => (
+  <MapDetailsContentWrapper onBack={onBack}>
+    <MapDetailsEntityHeader entity={entity} {...selectedItem} />
+    <MapDetailsEntityTable
+      colorScale={colorScale}
+      entity={entity}
+      {...selectedItem}
+    />
+    <Divider />
+    <PriceEvolution
+      priceComponents={["total"]}
+      id={selectedItem.id}
+      entity={entity}
+    />
+    <Button
+      variant="contained"
+      color="secondary"
+      size="sm"
+      sx={{
+        justifyContent: "space-between",
+      }}
+      href={`/${entity}/${selectedItem.id}`}
+    >
+      <Trans id="map.details-sidebar-panel.next-button">
+        Energy Prices in detail
+      </Trans>
+      <Icon name="arrowright" />
+    </Button>
+  </MapDetailsContentWrapper>
+);

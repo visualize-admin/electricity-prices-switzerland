@@ -159,7 +159,7 @@ async function generateMocks(options: FetcherOptions) {
     const operatorId = options.operatorId;
 
     if (options.enableCosts) {
-      console.log(
+      console.info(
         `\n--- Fetching operator costs and tariffs data for operator ${operatorId} ---`
       );
       const costsAndTariffs = await fetchOperatorCostsAndTariffsData({
@@ -187,11 +187,11 @@ async function generateMocks(options: FetcherOptions) {
         `sunshine-costsAndTariffs-${operatorId}.json`
       );
       fs.writeFileSync(outputPath, JSON.stringify(costsAndTariffs, null, 2));
-      console.log(`Saved to ${outputPath}`);
+      console.info(`Saved to ${outputPath}`);
     }
 
     if (options.enableStability) {
-      console.log(
+      console.info(
         `\n--- Fetching power stability data for operator ${operatorId} ---`
       );
       const powerStability = await fetchPowerStability({
@@ -209,11 +209,11 @@ async function generateMocks(options: FetcherOptions) {
         `sunshine-powerStability-${operatorId}.json`
       );
       fs.writeFileSync(outputPath, JSON.stringify(powerStability, null, 2));
-      console.log(`Saved to ${outputPath}`);
+      console.info(`Saved to ${outputPath}`);
     }
 
     if (options.enableOpStandards) {
-      console.log(
+      console.info(
         `\n--- Fetching operational standards for operator ${operatorId} ---`
       );
       const operationalStandards = await fetchOperationalStandards({
@@ -227,10 +227,10 @@ async function generateMocks(options: FetcherOptions) {
         outputPath,
         JSON.stringify(operationalStandards, null, 2)
       );
-      console.log(`Saved to ${outputPath}`);
+      console.info(`Saved to ${outputPath}`);
     }
 
-    console.log("\n--- All mocks generated successfully ---");
+    console.info("\n--- All mocks generated successfully ---");
   } catch (error) {
     console.error("Error generating mocks:", error);
   } finally {

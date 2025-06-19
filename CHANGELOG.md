@@ -13,6 +13,16 @@ You can also check the
 
 - Features
 
+  - Operator list is showing in the map page when on sunshine indicators
+  - Added story for map tooltip
+  - Use same map tooltip as energy for sunshine map
+  - Hover on operator list for sunshine indicators highlights operators on map
+  - Sunshine map has better styling and is closer to the current prices map
+
+# 2.1.0
+
+- Features
+
   - Added stacked horizontal charts for power stability to the sunshine charts
   - Added Error States & enhanced existing hint styles
   - Added new Select All or MultiCombobox variant integrated into sunshine pages

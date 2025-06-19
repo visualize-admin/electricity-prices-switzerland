@@ -4,18 +4,17 @@ import { useCallback } from "react";
 
 import { ElectricitySelectors } from "src/components/electricity-selectors";
 import { SunshineSelectors } from "src/components/sunshine-selectors";
-import { useQueryStateSingle } from "src/lib/use-query-state";
+import { useQueryStateSingleCommon } from "src/lib/use-query-state";
 import { useFlag } from "src/utils/flags";
 
 type TabValue = "electricity" | "sunshine";
 
 export const CombinedSelectors = () => {
-  const [queryState, setQueryState] = useQueryStateSingle();
-  const activeTab = (queryState.tab as TabValue) || "electricity";
+  const [queryState, setQueryState] = useQueryStateSingleCommon();
+  const activeTab = queryState.tab as TabValue;
 
   const handleTabChange = useCallback(
     (_: React.SyntheticEvent, newValue: TabValue) => {
-      console.log("Tab changed to:", newValue);
       setQueryState({ tab: newValue });
     },
     [setQueryState]

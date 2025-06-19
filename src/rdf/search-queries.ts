@@ -7,7 +7,6 @@ import ParsingClient from "sparql-http-client/ParsingClient";
 import { defaultLocale } from "src/locales/config";
 
 import * as ns from "./namespace";
-import { getSparqlEditorUrl } from "./queries";
 import { sparqlClient } from "./sparql-client";
 
 // regex based search query for municipalities and operators
@@ -244,11 +243,6 @@ export const search = async ({
   if (abort) {
     return [];
   }
-
-  console.log(
-    `SEARCH query for '${query}'`,
-    getSparqlEditorUrl(sparqlQuery.build())
-  );
 
   const results = (await client.query.select(sparqlQuery.build())) as {
     type: Literal;

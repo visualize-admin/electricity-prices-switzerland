@@ -1,17 +1,15 @@
 import { t, Trans } from "@lingui/macro";
-import { Box, Button, Divider, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { ascending, descending, mean, rollup, ScaleThreshold } from "d3";
 import { useRouter } from "next/router";
 import {
   MouseEvent,
   MouseEventHandler,
   useContext,
-  useEffect,
   useMemo,
   useState,
 } from "react";
 
-import { ButtonGroup } from "src/components/button-group";
 import { MiniSelect, SearchField } from "src/components/form";
 import { HighlightContext } from "src/components/highlight-context";
 import { Stack } from "src/components/stack";
@@ -20,20 +18,16 @@ import { useFormatCurrency } from "src/domain/helpers";
 import {
   CantonMedianObservationFieldsFragment,
   OperatorObservationFieldsFragment,
+  SunshineDataRow,
 } from "src/graphql/queries";
 import { Icon } from "src/icons";
 import useEvent from "src/lib/use-event";
 import { useFlag } from "src/utils/flags";
 
 import { AnchorNav } from "./anchor-nav";
-import { PriceEvolution } from "./detail-page/price-evolution-line-chart";
 import { InlineDrawer } from "./drawer";
-import { ListState, useMap } from "./map-context";
-import {
-  MapDetailsContentWrapper,
-  MapDetailsEntityHeader,
-  MapDetailsEntityTable,
-} from "./map-details-content";
+import { useMap } from "./map-context";
+import { MapDetailsContent } from "./map-details-content";
 
 type ListItemProps = {
   id: string;
@@ -41,7 +35,7 @@ type ListItemProps = {
   value: number;
   colorScale: (d: number) => string;
   formatNumber: (d: number) => string;
-  listState: ListState;
+  entity: Entity;
   handleClick?: MouseEventHandler<HTMLAnchorElement>;
 };
 
@@ -51,16 +45,10 @@ const ListItem = ({
   value,
   colorScale,
   formatNumber,
-  listState,
+  entity,
   handleClick,
 }: ListItemProps) => {
   const { setValue: setHighlightContext } = useContext(HighlightContext);
-  const entity =
-    listState === "MUNICIPALITIES"
-      ? "municipality"
-      : listState === "OPERATORS"
-      ? "operator"
-      : ("canton" as Entity);
 
   return (
     <AnchorNav
@@ -111,16 +99,14 @@ export type ListItemType = {
 const ListItems = ({
   items,
   colorScale,
-  listState,
+  entity: entity,
 }: {
   items: [string, ListItemType][];
   colorScale: ScaleThreshold<number, string>;
-  listState: ListState;
+  entity: Entity;
 }) => {
   const [truncated, setTruncated] = useState<number>(TRUNCATION_INCREMENT);
   const formatNumber = useFormatCurrency();
-  const [open, setOpen] = useState<boolean>(false);
-  const [selectedItem, setSelectedItem] = useState<ListItemType | null>(null);
   const { activeId, setActiveId } = useMap();
   const isSunshine = useFlag("sunshine");
   const router = useRouter();
@@ -130,69 +116,31 @@ const ListItems = ({
       if (isSunshine) {
         setActiveId(id);
       } else {
-        router.push(`/${getEntity()}/${id}`);
+        router.push(`/${entity}/${id}`);
       }
     }
   );
-  useEffect(() => {
+
+  const selectedItem = useMemo(() => {
     if (activeId) {
       const selected = items.find(([itemId]) => itemId === activeId);
-      setSelectedItem(selected?.[1] ?? null);
-      setOpen(true);
+      return selected?.[1] ?? null;
     }
-  }, [activeId, items, listState]);
+  }, [activeId, items]);
 
   const listItems =
     items.length > truncated ? items.slice(0, truncated) : items;
 
-  const getEntity = (): Entity => {
-    switch (listState) {
-      case "MUNICIPALITIES":
-        return "municipality";
-      case "OPERATORS":
-        return "operator";
-      case "CANTONS":
-        return "canton";
-    }
-  };
-
   return (
     <Box>
       {selectedItem && (
-        <InlineDrawer open={open} onClose={() => setOpen(false)}>
-          <MapDetailsContentWrapper
-            onBack={() => {
-              setOpen(false);
-              setActiveId(null);
-            }}
-          >
-            <MapDetailsEntityHeader entity={listState} {...selectedItem} />
-            <MapDetailsEntityTable
-              colorScale={colorScale}
-              entity={listState}
-              {...selectedItem}
-            />
-            <Divider />
-            <PriceEvolution
-              priceComponents={["total"]}
-              id={selectedItem.id}
-              entity={getEntity()}
-            />
-            <Button
-              variant="contained"
-              color="secondary"
-              size="sm"
-              sx={{
-                justifyContent: "space-between",
-              }}
-              href={`/${getEntity()}/${selectedItem.id}`}
-            >
-              <Trans id="map.details-sidebar-panel.next-button">
-                Energy Prices in detail
-              </Trans>
-              <Icon name="arrowright" />
-            </Button>
-          </MapDetailsContentWrapper>
+        <InlineDrawer open={!!selectedItem} onClose={() => setActiveId(null)}>
+          <MapDetailsContent
+            colorScale={colorScale}
+            entity={entity}
+            selectedItem={selectedItem}
+            onBack={() => setActiveId(null)}
+          />
         </InlineDrawer>
       )}
       {listItems.map(([id, d]) => {
@@ -204,7 +152,7 @@ const ListItems = ({
             label={d.label || d.id}
             colorScale={colorScale}
             formatNumber={formatNumber}
-            listState={listState}
+            entity={entity}
             handleClick={(e) => handleListItemSelect(e, d.id)}
           />
         );
@@ -295,19 +243,18 @@ const PlaceholderListItems = () => {
 type SortState = "ASC" | "DESC";
 
 export const List = ({
-  observations,
-  cantonObservations,
+  grouped,
   colorScale,
-  observationsQueryFetching,
+  fetching,
+  entity,
 }: {
-  observations: OperatorObservationFieldsFragment[];
-  cantonObservations: CantonMedianObservationFieldsFragment[];
+  grouped: Groups;
   colorScale: ScaleThreshold<number, string>;
-  observationsQueryFetching: boolean;
+  fetching: boolean;
+  entity: Entity;
 }) => {
   const [sortState, setSortState] = useState<SortState>("ASC");
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const { listState, setListState } = useMap();
 
   const sortOptions = [
     {
@@ -321,76 +268,6 @@ export const List = ({
   ];
   const searchLabel = t({ id: "list.search.label", message: "Filter list" });
 
-  const grouped = useMemo(() => {
-    return listState === "CANTONS"
-      ? Array.from(
-          rollup(
-            cantonObservations,
-            (values) => {
-              const first = values[0];
-              return {
-                id: first.canton,
-                label: first.cantonLabel,
-                value: mean(values, (d) => d.value) ?? first.value,
-                canton: first.canton,
-                cantonLabel: first.cantonLabel,
-              };
-            },
-            (d) => d.canton
-          )
-        )
-      : Array.from(
-          rollup(
-            observations,
-            (values) => {
-              const first = values[0];
-              const operatorIds = new Set(values.map((v) => v.operator));
-              return {
-                id:
-                  listState === "OPERATORS"
-                    ? first.operator
-                    : first.municipality,
-                label:
-                  listState === "OPERATORS"
-                    ? first.operatorLabel
-                    : first.municipalityLabel,
-                value: mean(values, (d) => d.value) ?? first.value,
-                canton: first.canton,
-                cantonLabel: first.cantonLabel,
-                operators:
-                  listState === "MUNICIPALITIES"
-                    ? observations
-                        .filter((o) => operatorIds.has(o.operator))
-                        .reduce(
-                          (acc, o) => {
-                            if (acc.seen.has(o.operator)) return acc;
-                            acc.seen.add(o.operator);
-                            acc.result?.push({
-                              id: o.operator,
-                              label: o.operatorLabel,
-                              value: o.value,
-                            });
-                            return acc;
-                          },
-                          {
-                            seen: new Set<string>(),
-                            result: [] as ListItemType["operators"],
-                          }
-                        ).result
-                    : [
-                        {
-                          id: first.operator,
-                          label: first.operatorLabel,
-                          value: first.value,
-                        },
-                      ],
-              };
-            },
-            (d) => (listState === "OPERATORS" ? d.operator : d.municipality)
-          )
-        );
-  }, [listState, cantonObservations, observations]);
-
   const filtered = useMemo(() => {
     if (searchQuery === "") {
       return grouped;
@@ -399,7 +276,7 @@ export const List = ({
     return grouped.filter(([, d]) => d.label?.match(filterRe));
   }, [grouped, searchQuery]);
 
-  const sorted = useMemo(() => {
+  const listItems = useMemo(() => {
     return [...filtered].sort(([, a], [, b]) => {
       return sortState === "ASC"
         ? ascending(a.value, b.value)
@@ -407,37 +284,8 @@ export const List = ({
     });
   }, [filtered, sortState]);
 
-  const listItems = sorted;
-
   return (
-    <Box
-      sx={{
-        px: 6,
-        flexDirection: "column",
-        gap: 4,
-      }}
-      display="flex"
-    >
-      <ButtonGroup<ListState>
-        id="list-state-tabs"
-        options={[
-          {
-            value: "MUNICIPALITIES",
-            label: t({ id: "list.municipalities", message: "Municipalities" }),
-          },
-          {
-            value: "CANTONS",
-            label: t({ id: "list.cantons", message: "Cantons" }),
-          },
-          {
-            value: "OPERATORS",
-            label: t({ id: "list.operators", message: "Network operator" }),
-          },
-        ]}
-        value={listState}
-        label={t({ id: "list.viewby.label", message: "View according to" })}
-        setValue={setListState}
-      />
+    <Box flexDirection="column" gap={4} display="flex">
       <Stack
         direction="row"
         spacing={0}
@@ -503,15 +351,159 @@ export const List = ({
           />
         </Box>
       </Box>
-      {observationsQueryFetching ? (
+      {fetching ? (
         <PlaceholderListItems />
       ) : (
-        <ListItems
-          items={listItems}
-          colorScale={colorScale}
-          listState={listState}
-        />
+        <ListItems items={listItems} colorScale={colorScale} entity={entity} />
       )}
     </Box>
   );
 };
+
+type Groups = [
+  string,
+  {
+    id: string;
+    label: string | null | undefined;
+    value: number;
+    canton: string;
+    cantonLabel: string | null | undefined;
+  }
+][];
+
+export function groupsFromElectricityMunicipalities(
+  observations: OperatorObservationFieldsFragment[]
+): Groups {
+  return Array.from(
+    rollup(
+      observations,
+      (values) => {
+        const first = values[0];
+        const operatorIds = new Set(values.map((v) => v.operator));
+        return {
+          id: first.municipality,
+          label: first.municipalityLabel,
+          value: mean(values, (d) => d.value) ?? first.value,
+          canton: first.canton,
+          cantonLabel: first.cantonLabel,
+          operators: observations
+            .filter((o) => operatorIds.has(o.operator))
+            .reduce(
+              (acc, o) => {
+                if (acc.seen.has(o.operator)) return acc;
+                acc.seen.add(o.operator);
+                acc.result?.push({
+                  id: o.operator,
+                  label: o.operatorLabel,
+                  value: o.value,
+                });
+                return acc;
+              },
+              {
+                seen: new Set<string>(),
+                result: [] as ListItemType["operators"],
+              }
+            ).result,
+        };
+      },
+      (d) => d.municipality
+    )
+  );
+}
+
+const isValueAttributeDefined = <T extends { value: number | undefined }>(
+  d: T
+): d is T & { value: number } => {
+  return d.value !== undefined && d.value !== null;
+};
+export const groupsFromSunshineObservations = (
+  observations: SunshineDataRow[],
+  sunshineAccessor: (d: SunshineDataRow) => number | undefined
+): Groups => {
+  const withValues = observations
+    .map((d) => ({
+      ...d,
+      value: sunshineAccessor(d),
+    }))
+    .filter(isValueAttributeDefined);
+
+  return Array.from(
+    rollup(
+      withValues,
+      (values) => {
+        const first = values[0];
+        return {
+          id: `${first.operatorId}`,
+          label: first.name,
+          value: mean(values, (d) => d.value) ?? first.value,
+          canton: "",
+          cantonLabel: "",
+          operators: values.map((v) => ({
+            id: v.operatorId,
+            label: v.name,
+            value: v.value,
+          })),
+        };
+      },
+      (d) => `${d.operatorId}`
+    )
+  );
+};
+
+export function groupsFromElectricityOperators(
+  observations: OperatorObservationFieldsFragment[]
+): Groups {
+  return Array.from(
+    rollup(
+      observations,
+      (values) => {
+        const first = values[0];
+        return {
+          id: first.operator,
+          label: first.operatorLabel,
+          value: mean(values, (d) => d.value) ?? first.value,
+          canton: first.canton,
+          cantonLabel: first.cantonLabel,
+          operators: [
+            {
+              id: first.operator,
+              label: first.operatorLabel,
+              value: first.value,
+            },
+          ],
+        };
+      },
+      (d) => d.operator
+    )
+  );
+}
+
+export function groupsFromCantonElectricityObservations(
+  cantonObservations: CantonMedianObservationFieldsFragment[]
+): [
+  string,
+  {
+    id: string;
+    label: string | null | undefined;
+    value: number;
+    canton: string;
+    cantonLabel: string | null | undefined;
+  }
+][] {
+  return Array.from(
+    rollup(
+      cantonObservations,
+      (values) => {
+        const first = values[0];
+        return {
+          id: first.canton,
+          label: first.cantonLabel,
+          value: mean(values, (d) => d.value) ?? first.value,
+          canton: first.canton,
+          cantonLabel: first.cantonLabel,
+        };
+      },
+      (d) => d.canton
+    )
+  );
+}

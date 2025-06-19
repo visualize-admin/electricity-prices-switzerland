@@ -316,7 +316,6 @@ const useManualQuery = <T, A extends unknown[]>({
 const useLindasQuery = () => {
   const [query, execute] = useManualQuery({
     queryFn: async (options: { endpoint: string; sparqlQuery: string }) => {
-      console.log({ options });
       return fetch(options.endpoint, {
         method: "POST",
         body: `query=${encodeURIComponent(options.sparqlQuery)}`,

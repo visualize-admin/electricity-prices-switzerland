@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 import { DuckDBConnection, Json } from "@duckdb/node-api";
 import { ArgumentParser } from "argparse";
 import Table from "cli-table3";

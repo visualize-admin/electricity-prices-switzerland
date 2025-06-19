@@ -39,7 +39,7 @@ import {
 } from "src/graphql/queries";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { useLocale } from "src/lib/use-locale";
-import { useQueryState } from "src/lib/use-query-state";
+import { useQueryStateElectricity } from "src/lib/use-query-state";
 
 const DOWNLOAD_ID: Download = "evolution";
 
@@ -48,7 +48,7 @@ export const PriceEvolutionCard = ({
   entity,
   priceComponents,
 }: SectionProps & { priceComponents: string[] }) => {
-  const [{ category, product, period }] = useQueryState();
+  const [{ category, product, period }] = useQueryStateElectricity();
 
   const filters = {
     period: period[0],
@@ -107,7 +107,7 @@ export const PriceEvolution = ({
 }: SectionProps & { priceComponents: string[] }) => {
   const locale = useLocale();
   const [{ category, municipality, operator, canton, product }] =
-    useQueryState();
+    useQueryStateElectricity();
 
   const comparisonIds =
     entity === "municipality"

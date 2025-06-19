@@ -15,11 +15,11 @@ const SUNSHINE_CSV_DATA_DIR =
   process.env.SUNSHINE_CSV_DATA_DIR ||
   path.join(process.cwd(), "src/sunshine-data");
 
-console.log(
+console.info(
   "Using sunshine encrypted data directory:",
   SUNSHINE_ENCRYPTED_DATA_DIR
 );
-console.log("Using sunshine CSV data directory:", SUNSHINE_CSV_DATA_DIR);
+console.info("Using sunshine CSV data directory:", SUNSHINE_CSV_DATA_DIR);
 
 export const getCsvDataPath = (filename: string): string => {
   return path.resolve(SUNSHINE_CSV_DATA_DIR, `${filename}`);
@@ -60,7 +60,7 @@ export const encryptSunshineCSVFile = (id: Id) => {
 
   fs.writeFileSync(OUTPUT_PATH, finalBuffer);
 
-  console.log("✅ Encrypted and saved to:", OUTPUT_PATH);
+  console.info("✅ Encrypted and saved to:", OUTPUT_PATH);
 };
 
 const decryptSunshineCsv = (id: Id): string => {
@@ -87,7 +87,7 @@ export const decryptSunshineCsvFile = (id: Id) => {
   const decryptedData = decryptSunshineCsv(id);
   const outputPath = getCsvDataPath(`${id}.csv`);
   fs.writeFileSync(outputPath, decryptedData);
-  console.log(`✅ Decrypted data saved to: ${outputPath}`);
+  console.info(`✅ Decrypted data saved to: ${outputPath}`);
 };
 
 const parseNumber = (val: string): number | null => {

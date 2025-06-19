@@ -4,7 +4,7 @@ const englishTranslations = require("../src/locales/en/messages.ts").messages;
  * This transform replaces the message attribute in t({ id, message }) function calls and <Trans id='' message=''> components
  * with the English version of the message from a given translations object.
  */
-module.exports = function (file, api, options) {
+module.exports = function (file, api) {
   const j = api.jscodeshift;
   const root = j(file.source);
 
@@ -34,7 +34,6 @@ module.exports = function (file, api, options) {
             idValue = idProp.value.value;
           }
 
-          console.log("idValue", idValue);
           if (!idValue || !englishTranslations[idValue]) return;
 
           // Find the message property to replace

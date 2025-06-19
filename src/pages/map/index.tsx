@@ -1,6 +1,7 @@
+import { t } from "@lingui/macro";
 import { Box, paperClasses } from "@mui/material";
-import { median } from "d3";
-import { keyBy, property } from "lodash";
+import { median, ScaleThreshold } from "d3";
+import { keyBy } from "lodash";
 import { GetServerSideProps } from "next";
 import dynamic from "next/dynamic";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -13,15 +14,31 @@ const ContentWrapper = dynamic(
   { ssr: false }
 );
 
+import { ButtonGroup } from "src/components/button-group";
 import { CombinedSelectors } from "src/components/combined-selectors";
 import { DownloadImage } from "src/components/detail-page/download-image";
+import { InlineDrawer } from "src/components/drawer";
 import { InfoBanner } from "src/components/info-banner";
-import { List } from "src/components/list";
+import {
+  groupsFromCantonElectricityObservations,
+  groupsFromElectricityMunicipalities,
+  groupsFromElectricityOperators,
+  groupsFromSunshineObservations,
+  List,
+  ListItemType,
+} from "src/components/list";
 import { ChoroplethMap, ChoroplethMapProps } from "src/components/map";
-import { MapProvider } from "src/components/map-context";
+import { MapProvider, useMap } from "src/components/map-context";
+import { MapDetailsContent } from "src/components/map-details-content";
 import OperatorsMap from "src/components/operators-map";
 import ShareButton from "src/components/share-button";
-import { NetworkLevel, TariffCategory, useColorScale } from "src/domain/data";
+import {
+  Entity,
+  NetworkLevel,
+  TariffCategory,
+  useColorScale,
+} from "src/domain/data";
+import { getSunshineAccessor } from "src/domain/sunshine-accessor";
 import {
   PriceComponent,
   SunshineDataRow,
@@ -31,7 +48,10 @@ import {
 } from "src/graphql/queries";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { truthy } from "src/lib/truthy";
-import { useQueryStateSingle } from "src/lib/use-query-state";
+import {
+  useQueryStateSingleElectricity,
+  useQueryStateSingleSunshine,
+} from "src/lib/use-query-state";
 import { defaultLocale } from "src/locales/config";
 import { useFlag } from "src/utils/flags";
 
@@ -55,74 +75,10 @@ export const getServerSideProps: GetServerSideProps<
   return { props: { locale: locale ?? defaultLocale } };
 };
 
-const isDefined = (x: number | undefined | null): x is number =>
-  x !== undefined && x !== null;
-
-const accessorsByAttribute: Record<
-  string,
-  (x: SunshineDataRow) => number | undefined
-> = {
-  saidiTotal: property("saidiTotal"),
-  saidiUnplanned: property("saidiUnplanned"),
-  saidiPlanned: (x) => {
-    if (isDefined(x.saidiTotal) && isDefined(x.saidiUnplanned)) {
-      return x.saidiTotal - x.saidiUnplanned;
-    }
-  },
-  saifiTotal: property("saifiTotal"),
-  saifiUnplanned: property("saifiUnplanned"),
-  saifiPlanned: (x) => {
-    if (isDefined(x.saifiTotal) && isDefined(x.saifiUnplanned)) {
-      return x.saifiTotal - x.saifiUnplanned;
-    }
-  },
-  networkCostsNE5: property("networkCostsNE5"),
-  networkCostsNE6: property("networkCostsNE6"),
-  networkCostsNE7: property("networkCostsNE7"),
-
-  tariffEC2: property("tariffEC2"),
-  tariffEC3: property("tariffEC3"),
-  tariffEC4: property("tariffEC4"),
-  tariffEC6: property("tariffEC6"),
-  tariffEH2: property("tariffEH2"),
-  tariffEH4: property("tariffEH4"),
-  tariffEH7: property("tariffEH7"),
-  tariffNC2: property("tariffNC2"),
-  tariffNC3: property("tariffNC3"),
-  tariffNC4: property("tariffNC4"),
-  tariffNC6: property("tariffNC6"),
-  tariffNH2: property("tariffNH2"),
-  tariffNH4: property("tariffNH4"),
-  tariffNH7: property("tariffNH7"),
-};
-
-function getSunshineAccessor(
-  indicator: string,
-  typology: string,
-  networkLevel: NetworkLevel["id"],
-  netTariffCategory: TariffCategory,
-  energyTariffCategory: TariffCategory
-): (r: SunshineDataRow) => number | undefined {
-  if (indicator === "saidi" || indicator === "saifi") {
-    return typology === "total"
-      ? accessorsByAttribute[`${indicator}Total`]
-      : typology === "unplanned"
-      ? accessorsByAttribute[`${indicator}Unplanned`]
-      : accessorsByAttribute[`${indicator}Planned`];
-  }
-  if (indicator === "networkCosts") {
-    return accessorsByAttribute[`networkCosts${networkLevel}`];
-  }
-  if (indicator === "netTariffs") {
-    return accessorsByAttribute[`tariff${netTariffCategory}`];
-  }
-  if (indicator === "energyTariffs") {
-    return accessorsByAttribute[`tariff${energyTariffCategory}`];
-  }
-  throw new Error("Invalid indicator: " + indicator);
-}
-
-const IndexPage = ({ locale }: Props) => {
+const IndexPageContent = ({
+  locale,
+  activeId,
+}: Props & { activeId: string | null }) => {
   const [
     {
       period,
@@ -131,14 +87,19 @@ const IndexPage = ({ locale }: Props) => {
       product,
       download,
       tab = "electricity",
+    },
+  ] = useQueryStateSingleElectricity();
+
+  const [
+    {
       typology,
       indicator,
       networkLevel,
       netTariffCategory,
       energyTariffCategory,
     },
-  ] = useQueryStateSingle();
-  const [activeId, setActiveId] = useState<string | null>(null);
+  ] = useQueryStateSingleSunshine();
+
   const isElectricityTab = tab === "electricity";
   const isSunshineTab = tab === "sunshine";
 
@@ -301,8 +262,93 @@ const IndexPage = ({ locale }: Props) => {
     />
   );
 
+  const { entity: mapEntity, setEntity } = useMap();
+  const entity = isElectricityTab ? mapEntity : "operator";
+
+  const listGroups = useMemo(() => {
+    if (isElectricityTab) {
+      return entity === "canton"
+        ? groupsFromCantonElectricityObservations(cantonMedianObservations)
+        : entity === "operator"
+        ? groupsFromElectricityOperators(observations)
+        : groupsFromElectricityMunicipalities(observations);
+    } else {
+      return groupsFromSunshineObservations(
+        sunshineObservations,
+        sunshineAccessor
+      );
+    }
+  }, [
+    isElectricityTab,
+    entity,
+    cantonMedianObservations,
+    observations,
+    sunshineObservations,
+    sunshineAccessor,
+  ]);
+
+  const list = (
+    <List
+      entity={isElectricityTab ? entity : "operator"}
+      grouped={listGroups}
+      colorScale={colorScale}
+      fetching={
+        isElectricityTab
+          ? observationsQuery.fetching
+          : sunshineDataQuery.fetching
+      }
+    />
+  );
+
+  const listButtonGroup = isElectricityTab ? (
+    <ButtonGroup<Entity>
+      id="list-state-tabs"
+      options={[
+        {
+          value: "municipality",
+          label: t({
+            id: "list.municipalities",
+            message: "Municipalities",
+          }),
+        },
+        {
+          value: "canton",
+          label: t({ id: "list.cantons", message: "Cantons" }),
+        },
+        {
+          value: "operator",
+          label: t({
+            id: "list.operators",
+            message: "Network operator",
+          }),
+        },
+      ]}
+      value={entity}
+      label={t({
+        id: "list.viewby.label",
+        message: "View according to",
+      })}
+      setValue={setEntity}
+    />
+  ) : null;
+
+  const selectedItem = useMemo(() => {
+    if (activeId) {
+      const selected = listGroups.find(([itemId]) => itemId === activeId);
+      return selected?.[1] ?? null;
+    }
+  }, [activeId, listGroups]);
+
+  const detailsDrawer = (
+    <DetailsDrawer
+      selectedItem={selectedItem}
+      colorScale={isElectricityTab ? colorScale : sunshineColorScale}
+      entity={entity}
+    />
+  );
+
   return (
-    <MapProvider activeId={activeId} setActiveId={setActiveId}>
+    <>
       <ApplicationLayout>
         <InfoBanner
           bypassBannerEnabled={
@@ -352,24 +398,29 @@ const IndexPage = ({ locale }: Props) => {
               sx={{
                 height: "100%",
                 overflowY: "auto",
+                position: "relative",
                 bgcolor: "background.paper",
                 border: "1x solid green",
                 maxHeight: `calc(100vh - ${HEADER_HEIGHT_UP})`,
               }}
             >
-              <CombinedSelectors />
-              {isElectricityTab ? (
-                <List
-                  observations={observations}
-                  cantonObservations={cantonMedianObservations}
-                  colorScale={colorScale}
-                  observationsQueryFetching={
-                    isElectricityTab
-                      ? observationsQuery.fetching
-                      : sunshineDataQuery.fetching
-                  }
-                />
-              ) : null}
+              {detailsDrawer}
+              {selectedItem ? null : (
+                <>
+                  <CombinedSelectors />
+                  <Box
+                    sx={{
+                      px: 6,
+                      flexDirection: "column",
+                      gap: 4,
+                    }}
+                    display="flex"
+                  >
+                    {listButtonGroup}
+                    {list}
+                  </Box>
+                </>
+              )}
             </Box>
 
             <Box
@@ -424,20 +475,50 @@ const IndexPage = ({ locale }: Props) => {
               position: "relative",
             }}
           >
-            <CombinedSelectors />
-            <List
-              observations={observations}
-              cantonObservations={cantonMedianObservations}
-              colorScale={colorScale}
-              observationsQueryFetching={
-                isElectricityTab
-                  ? observationsQuery.fetching
-                  : sunshineDataQuery.fetching
-              }
-            />
+            {detailsDrawer}
+            {selectedItem ? null : (
+              <>
+                <CombinedSelectors />
+                {list}
+              </>
+            )}
           </Box>
         </Box>
       </ApplicationLayout>
+    </>
+  );
+};
+
+const DetailsDrawer = ({
+  selectedItem,
+  colorScale,
+  entity,
+}: {
+  selectedItem: ListItemType | undefined | null;
+  colorScale: ScaleThreshold<number, string, never>;
+  entity: Entity;
+}) => {
+  const { setActiveId } = useMap();
+  return (
+    selectedItem && (
+      <InlineDrawer open={!!selectedItem} onClose={() => setActiveId(null)}>
+        <MapDetailsContent
+          colorScale={colorScale}
+          entity={entity}
+          selectedItem={selectedItem}
+          onBack={() => setActiveId(null)}
+        />
+      </InlineDrawer>
+    )
+  );
+};
+
+export const IndexPage = ({ locale }: Props) => {
+  const [activeId, setActiveId] = useState<string | null>(null);
+
+  return (
+    <MapProvider activeId={activeId} setActiveId={setActiveId}>
+      <IndexPageContent locale={locale} activeId={activeId} />
     </MapProvider>
   );
 };

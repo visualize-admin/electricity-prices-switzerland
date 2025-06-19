@@ -56,9 +56,9 @@ export const testAndSaveHar = async (
     await run({ browser, page });
 
     await context.close();
-    console.log(`Saved HAR file from test at ${path}`);
+    console.info(`Saved HAR file from test at ${path}`);
 
-    console.log(`Cleaning up HAR to remove postData ${path}`);
+    console.info(`Cleaning up HAR to remove postData ${path}`);
     await cleanupHAR(path);
   });
 };

@@ -166,7 +166,7 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
     operatorTrend,
     peerGroupMedianRate,
     peerGroupMedianTrend,
-    yearlyData,
+    yearlyData: _yearlyData,
   } = networkCosts;
   const networkLabels = getNetworkLevelLabels({ id: networkLevel });
 
@@ -309,7 +309,6 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
     updateDate,
   } = props.costsAndTariffs;
 
-  const [category, setCategory] = useState<TariffCategory>("NC2"); // Default category, can be changed based on user input
   const getItemLabel = (id: string) => getLocalizedLabel({ id });
   const groupedCategories = useMemo(() => {
     return [
@@ -324,6 +323,7 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
     ] as ComponentProps<typeof Combobox>["items"];
   }, []);
 
+  const [category, _setCategory] = useState<TariffCategory>("NC2"); // Default category, can be changed based on user input
   const [{ data, fetching }] = useEnergyTariffsQuery({
     variables: {
       filter: {
@@ -421,7 +421,7 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
             items={groupedCategories}
             getItemLabel={getItemLabel}
             selectedItem={category}
-            setSelectedItem={(item) => setCategory(item as TariffCategory)}
+            setSelectedItem={(item) => _setCategory(item as TariffCategory)}
             //FIXME: Might need change
             infoDialogSlug="help-categories"
           />
@@ -476,7 +476,6 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
     updateDate,
   } = props.costsAndTariffs;
 
-  const [category, setCategory] = useState<TariffCategory>("NC2"); // Default category, can be changed based on user input
   const getItemLabel = (id: string) => getLocalizedLabel({ id });
   const groupedCategories = useMemo(() => {
     return [
@@ -491,6 +490,7 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
     ] as ComponentProps<typeof Combobox>["items"];
   }, []);
 
+  const [category, _setCategory] = useState<TariffCategory>("NC2"); // Default category, can be changed based on user input
   const [{ data, fetching }] = useNetTariffsQuery({
     variables: {
       filter: {
@@ -587,7 +587,7 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
             items={groupedCategories}
             getItemLabel={getItemLabel}
             selectedItem={category}
-            setSelectedItem={(item) => setCategory(item as TariffCategory)}
+            setSelectedItem={(item) => _setCategory(item as TariffCategory)}
             //FIXME: Might need change
             infoDialogSlug="help-categories"
           />

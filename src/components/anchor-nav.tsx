@@ -1,6 +1,7 @@
 import { Link, LinkProps, Stack, Typography } from "@mui/material";
 import NextLink, { LinkProps as NextLinkProps } from "next/link";
 import { ReactElement } from "react";
+
 type AnchorNavProps = {
   label: string;
   tag?: ReactElement;
@@ -43,14 +44,12 @@ export const AnchorNav = (props: AnchorNavProps) => {
           color: disabled ? "secondary.200" : "text.primary",
           px: size === "lg" ? 5 : 3,
           py: size === "lg" ? 5 : 4,
+          gap: 2,
         }}
       >
         <Typography
           variant={size === "lg" ? "body2" : "body3"}
           lineHeight={"150%"}
-          sx={{
-            fontFeatureSettings: "'liga' off, 'clig' off",
-          }}
         >
           {label}
         </Typography>
