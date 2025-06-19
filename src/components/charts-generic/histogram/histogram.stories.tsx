@@ -1,5 +1,7 @@
 import { Box } from "@mui/material";
 
+import { RP_OVER_KWH } from "src/domain/metrics";
+
 import { AnnotationX, AnnotationXLabel } from "../annotation/annotation-x";
 import { AxisHeightLinear } from "../axis/axis-height-linear";
 import { AxisWidthHistogramDomain } from "../axis/axis-width-histogram";
@@ -38,7 +40,7 @@ export const Histogram: Story = {
           aspectRatio={0.3}
           xAxisLabel="Price"
           yAxisLabel="Number of municipalities"
-          xAxisUnit=" Rp./kWh"
+          xAxisUnit={RP_OVER_KWH}
           fields={{
             x: {
               componentIri: "value",

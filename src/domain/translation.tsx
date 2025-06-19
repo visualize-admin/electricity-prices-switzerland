@@ -24,8 +24,6 @@ export const getLocalizedLabel = ({ id }: { id: string }): string => {
         id: "priceComponents.view.expanded.operators",
         message: "Show individual network operators",
       });
-    case "unit":
-      return t({ id: "chart.axis.unit.Rp/kWh", message: "Rp./kWh" });
     case "standard":
       return t({ id: "selector.product.standard", message: "Standard" });
     case "cheapest":

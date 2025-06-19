@@ -31,6 +31,7 @@ import {
   Props as SharedPageProps,
 } from "src/data/shared-page-props";
 import { NetworkLevel, SunshineCostsAndTariffsData } from "src/domain/data";
+import { networkLevelMetrics, RP_OVER_KM } from "src/domain/metrics";
 import {
   getCategoryLabels,
   getLocalizedLabel,
@@ -187,7 +188,7 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
             ),
             value: {
               value: operatorRate,
-              unit: "Rp./km",
+              unit: networkLevelMetrics(networkLevel),
               trend: operatorTrend,
               round: 0,
             },
@@ -202,7 +203,7 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
             ),
             value: {
               value: peerGroupMedianRate,
-              unit: "Rp./km",
+              unit: networkLevelMetrics(networkLevel),
               trend: peerGroupMedianTrend,
               round: 0,
             },
@@ -356,7 +357,7 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
             ),
             value: {
               value: operatorRate,
-              unit: "Rp./km",
+              unit: RP_OVER_KM,
               trend: Trend.Stable,
             },
           }
@@ -370,7 +371,7 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
             ),
             value: {
               value: peerGroupMedianRate,
-              unit: "Rp./km",
+              unit: RP_OVER_KM,
               trend: Trend.Stable,
             },
           }
@@ -495,7 +496,7 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
             ),
             value: {
               value: operatorRate,
-              unit: "Rp./km",
+              unit: RP_OVER_KM,
               trend: "stable" as Trend,
             },
           }
@@ -509,7 +510,7 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
             ),
             value: {
               value: peerGroupMedianRate,
-              unit: "Rp./km",
+              unit: RP_OVER_KM,
               trend: "stable" as Trend,
             },
           }
