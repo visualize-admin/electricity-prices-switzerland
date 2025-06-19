@@ -254,9 +254,7 @@ const useLinesState = ({
       xValue: formatDateAuto(getX(datum)),
       datum: {
         label: fields.segment && getSegment(datum),
-        value: `${formatCurrency(getY(datum))} ${getLocalizedLabel({
-          id: "unit",
-        })}`,
+        value: `${formatCurrency(getY(datum))} ${yAxisLabel ? yAxisLabel : ""}`,
       },
       values: summarizedTooltipValues
         .sort((a, b) => descending(getY(a), getY(b)))

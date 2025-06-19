@@ -239,10 +239,8 @@ const PriceEvolutionLineChart = (props: {
             ? {
                 componentIri: "uniqueId",
                 palette: "elcom",
-                // colorMapping. sadly, we can't use colorMapping here because colors should not match segment values
               }
             : undefined,
-          // This field doesn't respect the same chart system and context as Prisma
           style: {
             entity,
             colorDomain,
