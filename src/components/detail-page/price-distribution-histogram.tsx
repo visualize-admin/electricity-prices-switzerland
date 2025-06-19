@@ -39,7 +39,7 @@ import { FilterSetDescription } from "src/components/detail-page/filter-set-desc
 import { WithClassName } from "src/components/detail-page/with-classname";
 import { Loading, NoDataHint } from "src/components/hint";
 import { InfoDialogButton } from "src/components/info-dialog";
-import { PriceColorLegend } from "src/components/price-color-legend";
+import { ColorLegend } from "src/components/color-legend";
 import { Entity, GenericObservation, priceComponents } from "src/domain/data";
 import { getLocalizedLabel } from "src/domain/translation";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
@@ -307,7 +307,7 @@ const PriceDistributionHistogram = ({
               },
             }}
           >
-            <PriceColorLegend />
+            <ColorLegend />
           </Box>
           <Histogram
             data={observations as GenericObservation[]}

@@ -1,6 +1,6 @@
 import { Layer, PickingInfo } from "@deck.gl/core/typed";
 import { GeoJsonLayer } from "@deck.gl/layers/typed";
-import { Trans } from "@lingui/macro";
+import { t, Trans } from "@lingui/macro";
 import { extent, group, mean, rollup, ScaleThreshold } from "d3";
 import { useRouter } from "next/router";
 import React, {
@@ -13,10 +13,10 @@ import React, {
   useState,
 } from "react";
 
+import { MapColorLegend } from "src/components/color-legend";
 import { HighlightContext } from "src/components/highlight-context";
 import { getFillColor } from "src/components/map-helpers";
 import { MapTooltipContent } from "src/components/map-tooltip";
-import { MapPriceColorLegend } from "src/components/price-color-legend";
 import { useGeoData } from "src/data/geo";
 import { useFormatCurrency } from "src/domain/helpers";
 import { OperatorObservationFieldsFragment } from "src/graphql/queries";
@@ -407,10 +407,28 @@ export const ChoroplethMap = ({
   const renderLegend = useCallback(() => {
     if (!valuesExtent || !medianValue || !colorScale) return null;
 
+    const formatCurrency = useFormatCurrency();
+
+    const legendData = [valuesExtent[0], medianValue, valuesExtent[1]];
     return (
-      <MapPriceColorLegend
+      <MapColorLegend
         id={legendId}
-        stats={[valuesExtent[0], medianValue, valuesExtent[1]]}
+        title={
+          <Trans id="map.legend.title">
+            Tariff comparison in Rp./kWh (figures excl. VAT)
+          </Trans>
+        }
+        ticks={legendData.map((value) => ({
+          value,
+          label: value !== undefined ? formatCurrency(value) : "",
+        }))}
+        infoDialogButtonProps={{
+          slug: "help-price-comparison",
+          label: t({
+            id: "help.price-comparison",
+            message: "Tariff comparison",
+          }),
+        }}
       />
     );
   }, [legendId, medianValue, valuesExtent, colorScale]);
