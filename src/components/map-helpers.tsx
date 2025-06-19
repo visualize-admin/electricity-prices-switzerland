@@ -162,10 +162,9 @@ export const LINE_COLOR: Color = [255, 255, 255, 255];
 export const styles = {
   municipalities: {
     base: {
-      fillColor: [0, 0, 0, 0] as Color,
-      opacity: {
-        withData: [0, 0, 0, 255] as Color,
-        withoutData: [0, 0, 0, 20] as Color,
+      fillColor: {
+        doesNotExist: [0, 0, 0, 0] as Color,
+        withoutData: [221, 225, 227, 255] as Color,
       },
     },
     overlay: {
@@ -214,6 +213,10 @@ export const styles = {
       transitions: {
         duration: 300,
         easing: "easeExpIn" as const,
+      },
+      fillColor: {
+        doesNotExist: [0, 0, 0, 0] as Color,
+        withoutData: [221, 225, 227, 255] as Color,
       },
     },
     pickable: {

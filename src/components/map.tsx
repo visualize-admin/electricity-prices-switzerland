@@ -267,7 +267,7 @@ export const ChoroplethMap = ({
         autoHighlight: false,
         getFillColor: (d) => {
           const id = d?.id?.toString();
-          if (!id) return styles.municipalities.base.fillColor;
+          if (!id) return styles.municipalities.base.fillColor.doesNotExist;
 
           const obs = observationsByMunicipalityId.get(id);
           return obs
@@ -276,7 +276,7 @@ export const ChoroplethMap = ({
                 mean(obs, (d) => d.value),
                 false
               )
-            : styles.municipalities.base.opacity.withoutData;
+            : styles.municipalities.base.fillColor.withoutData;
         },
         onHover: ({ x, y, object }: PickingInfo) => {
           const id = object?.id?.toString();

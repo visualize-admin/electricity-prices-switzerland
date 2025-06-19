@@ -1,5 +1,5 @@
 import { LayerProps, PickingInfo } from "@deck.gl/core/typed";
-import { GeoJsonLayer } from "@deck.gl/layers/typed";
+import { GeoJsonLayer, GeoJsonLayerProps } from "@deck.gl/layers/typed";
 import { Trans } from "@lingui/macro";
 // We don't need turf anymore as GenericMap handles zooming
 import { easeExpIn, mean, ScaleThreshold } from "d3";
@@ -129,7 +129,7 @@ const OperatorsMap = ({
   const getMapFillColor = useCallback(
     (x: Feature<Geometry, OperatorLayerProperties>) => {
       if (!x.properties) {
-        return styles.operators.pickable.fillColor;
+        return styles.operators.base.fillColor.doesNotExist;
       }
       const operatorIds = x.properties.operators;
       const values = operatorIds
@@ -140,7 +140,7 @@ const OperatorsMap = ({
         })
         .filter(truthy);
       if (values.length === 0) {
-        return styles.operators.pickable.fillColor;
+        return styles.operators.base.fillColor.withoutData;
       }
       const value = mean(values);
       const color = getFillColor(colorScale, value, false);
@@ -222,77 +222,115 @@ const OperatorsMap = ({
     }
   }, []);
 
+  const [activeId, setActiveId] = useState<string | null>(null);
+
+  // Create map layers
+  const mapLayers = useMemo(() => {
+    const handleOperatorLayerClick: GeoJsonLayerProps<
+      Feature<Polygon | MultiPolygon, OperatorLayerProperties>
+    >["onClick"] = (ev) => {
+      // TODO Only the first operator is used
+      const id = (ev.object?.properties as OperatorLayerProperties)
+        ?.operators?.[0];
+      setActiveId(id.toString());
+    };
+    if (!enhancedGeoData || !enhancedGeoData.features) {
+      return [];
+    }
+
+    return [
+      enhancedGeoData?.features
+        ? new GeoJsonLayer<
+            Feature<Polygon | MultiPolygon, OperatorLayerProperties>
+          >({
+            id: "operator-layer",
+            data: enhancedGeoData.features,
+            filled: true,
+            pickable: true,
+            highlightColor: styles.operators.base.highlightColor,
+            updateTriggers: {
+              getFillColor: [getMapFillColor],
+            },
+            getFillColor: getMapFillColor,
+            getLineColor: styles.operators.base.lineColor,
+            lineWidthMinPixels: styles.operators.base.lineWidthMinPixels,
+            lineWidthMaxPixels: styles.operators.base.lineWidthMaxPixels,
+            lineWidthUnits: "pixels",
+            transitions: {
+              getFillColor: {
+                duration: styles.operators.base.transitions.duration,
+                easing: easeExpIn,
+              },
+            },
+            onClick: handleOperatorLayerClick,
+          })
+        : null,
+
+      // Transparent layer only used for hover effect
+      enhancedGeoData?.features
+        ? new GeoJsonLayer<
+            Feature<Polygon | MultiPolygon, OperatorLayerProperties>
+          >({
+            id: "operator-layer-pickable",
+            data: enhancedGeoData.features,
+            filled: true,
+            onHover: onHoverOperatorLayer,
+            autoHighlight: true,
+            stroked: false,
+            highlightColor: styles.operators.pickable.highlightColor,
+            updateTriggers: {
+              getFillColor: [getMapFillColor],
+            },
+            getFillColor: styles.operators.pickable.fillColor,
+            lineWidthUnits: "pixels",
+            pickable: true,
+          })
+        : null,
+
+      // Municipality Layer
+      geoData?.municipalities
+        ? new GeoJsonLayer({
+            id: "municipality-layer",
+            data: geoData.municipalities.features,
+            getLineColor: styles.operators.municipalityMesh.lineColor,
+            lineWidthUnits: "pixels",
+            stroked: true,
+            lineWidthMinPixels:
+              styles.operators.municipalityMesh.lineWidthMinPixels,
+            lineWidthMaxPixels:
+              styles.operators.municipalityMesh.lineWidthMaxPixels,
+            filled: false,
+          })
+        : null,
+
+      // Lakes Layer
+      geoData?.lakes
+        ? new GeoJsonLayer({
+            id: "lakes-layer",
+
+            // @ts-expect-error Bad types in deck.gl
+            data: geoData.lakes,
+            getFillColor: styles.lakes.fillColor,
+            getLineColor: styles.lakes.lineColor,
+            lineWidthUnits: "pixels",
+            lineWidthMinPixels: styles.lakes.lineWidthMinPixels,
+            lineWidthMaxPixels: styles.lakes.lineWidthMaxPixels,
+            filled: true,
+            stroked: true,
+          })
+        : null,
+    ].filter(truthy);
+  }, [
+    enhancedGeoData,
+    geoData?.lakes,
+    geoData?.municipalities,
+    getMapFillColor,
+    onHoverOperatorLayer,
+  ]);
+
   if (!geoData || !geoData.municipalities || !enhancedGeoData) {
     return null;
   }
-
-  // Create map layers
-  const mapLayers = [
-    new GeoJsonLayer<Feature<Polygon | MultiPolygon, OperatorLayerProperties>>({
-      id: "operator-layer",
-      data: enhancedGeoData.features,
-      filled: true,
-      pickable: true,
-      highlightColor: styles.operators.base.highlightColor,
-      updateTriggers: {
-        getFillColor: [getMapFillColor],
-      },
-      getFillColor: getMapFillColor,
-      getLineColor: styles.operators.base.lineColor,
-      lineWidthMinPixels: styles.operators.base.lineWidthMinPixels,
-      lineWidthMaxPixels: styles.operators.base.lineWidthMaxPixels,
-      lineWidthUnits: "pixels",
-      transitions: {
-        getFillColor: {
-          duration: styles.operators.base.transitions.duration,
-          easing: easeExpIn,
-        },
-      },
-    }),
-
-    // Transparent layer only used for hover effect
-    new GeoJsonLayer<Feature<Polygon | MultiPolygon, OperatorLayerProperties>>({
-      id: "operator-layer-pickable",
-      data: enhancedGeoData.features,
-      filled: true,
-      onHover: onHoverOperatorLayer,
-      autoHighlight: true,
-      stroked: false,
-      highlightColor: styles.operators.pickable.highlightColor,
-      updateTriggers: {
-        getFillColor: [getMapFillColor],
-      },
-      getFillColor: styles.operators.pickable.fillColor,
-      lineWidthUnits: "pixels",
-      pickable: true,
-    }),
-
-    // Municipality Layer
-    new GeoJsonLayer({
-      id: "municipality-layer",
-      data: geoData.municipalities.features,
-      getLineColor: styles.operators.municipalityMesh.lineColor,
-      lineWidthUnits: "pixels",
-      stroked: true,
-      lineWidthMinPixels: styles.operators.municipalityMesh.lineWidthMinPixels,
-      lineWidthMaxPixels: styles.operators.municipalityMesh.lineWidthMaxPixels,
-      filled: false,
-    }),
-
-    // Lakes Layer
-    new GeoJsonLayer({
-      id: "lakes-layer",
-      /** @ts-expect-error bad types */
-      data: geoData.lakes,
-      getFillColor: styles.lakes.fillColor,
-      getLineColor: styles.lakes.lineColor,
-      lineWidthUnits: "pixels",
-      lineWidthMinPixels: styles.lakes.lineWidthMinPixels,
-      lineWidthMaxPixels: styles.lakes.lineWidthMaxPixels,
-      filled: true,
-      stroked: true,
-    }),
-  ];
 
   return (
     <GenericMap
