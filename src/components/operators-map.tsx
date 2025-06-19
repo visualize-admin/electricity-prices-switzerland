@@ -8,7 +8,7 @@ import { keyBy } from "lodash";
 import { useCallback, useMemo, useRef, useState } from "react";
 
 import { GenericMap } from "src/components/generic-map";
-import { getFillColor } from "src/components/map-helpers";
+import { getFillColor, styles } from "src/components/map-helpers";
 import { MapTooltipContent } from "src/components/map-tooltip";
 import {
   getOperatorsFeatureCollection,
@@ -25,7 +25,7 @@ import { getOperatorsMunicipalities } from "src/rdf/queries";
 
 import { HoverState } from "./map-helpers";
 
-const TRANSPARENT = [255, 255, 255, 0] as [number, number, number, number];
+// Using styles.operators.pickable.fillColor instead of defining a constant
 
 const sunshineAttributeToElectricityCategory: Partial<
   Record<keyof SunshineDataRow, ElectricityCategory>
@@ -129,7 +129,7 @@ const OperatorsMap = ({
   const getMapFillColor = useCallback(
     (x: Feature<Geometry, OperatorLayerProperties>) => {
       if (!x.properties) {
-        return TRANSPARENT;
+        return styles.operators.pickable.fillColor;
       }
       const operatorIds = x.properties.operators;
       const values = operatorIds
@@ -140,7 +140,7 @@ const OperatorsMap = ({
         })
         .filter(truthy);
       if (values.length === 0) {
-        return TRANSPARENT;
+        return styles.operators.pickable.fillColor;
       }
       const value = mean(values);
       const color = getFillColor(colorScale, value, false);
@@ -233,17 +233,17 @@ const OperatorsMap = ({
       data: enhancedGeoData.features,
       filled: true,
       pickable: true,
-      highlightColor: [0, 0, 0, 100],
+      highlightColor: styles.operators.base.highlightColor,
       updateTriggers: {
         getFillColor: [getMapFillColor],
       },
       getFillColor: getMapFillColor,
-      getLineColor: [255, 255, 255, 100],
-      getLineWidth: 1.5,
+      getLineColor: styles.operators.base.lineColor,
+      getLineWidth: styles.operators.base.lineWidth,
       lineWidthUnits: "pixels",
       transitions: {
         getFillColor: {
-          duration: 300,
+          duration: styles.operators.base.transitions.duration,
           easing: easeExpIn,
         },
       },
@@ -257,11 +257,11 @@ const OperatorsMap = ({
       onHover: onHoverOperatorLayer,
       autoHighlight: true,
       stroked: false,
-      highlightColor: [0, 0, 0, 100],
+      highlightColor: styles.operators.pickable.highlightColor,
       updateTriggers: {
         getFillColor: [getMapFillColor],
       },
-      getFillColor: TRANSPARENT,
+      getFillColor: styles.operators.pickable.fillColor,
       lineWidthUnits: "pixels",
       pickable: true,
     }),
@@ -270,12 +270,12 @@ const OperatorsMap = ({
     new GeoJsonLayer({
       id: "municipality-layer",
       data: geoData.municipalities.features,
-      getLineColor: [255, 255, 255],
-      highlightColor: [0, 0, 255],
+      getLineColor: styles.operators.municipalityOutline.lineColor,
+      highlightColor: styles.operators.municipalityOutline.highlightColor,
       lineWidthUnits: "pixels",
       stroked: true,
       autoHighlight: true,
-      getLineWidth: 0.25,
+      getLineWidth: styles.operators.municipalityOutline.lineWidth,
       filled: false,
     }),
   ];

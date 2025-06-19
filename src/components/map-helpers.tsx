@@ -209,4 +209,24 @@ export const styles = {
     lineWidthMaxPixels: 3.6,
     lineWidth: 200,
   },
+  operators: {
+    base: {
+      lineColor: [255, 255, 255, 100] as Color,
+      lineWidth: 1.5,
+      highlightColor: [0, 0, 0, 100] as Color,
+      transitions: {
+        duration: 300,
+        easing: "easeExpIn" as const,
+      },
+    },
+    pickable: {
+      fillColor: [255, 255, 255, 0] as Color, // Transparent
+      highlightColor: [0, 0, 0, 100] as Color,
+    },
+    municipalityOutline: {
+      lineColor: [255, 255, 255, 255] as Color,
+      highlightColor: [0, 0, 255, 255] as Color,
+      lineWidth: 0.25,
+    },
+  },
 };
