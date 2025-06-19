@@ -262,7 +262,8 @@ const IndexPageContent = ({
     />
   );
 
-  const { entity, setEntity } = useMap();
+  const { entity: mapEntity, setEntity } = useMap();
+  const entity = isElectricityTab ? mapEntity : "operator";
 
   const listGroups = useMemo(() => {
     if (isElectricityTab) {
