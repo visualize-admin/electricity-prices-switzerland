@@ -32,6 +32,7 @@ import {
   getZoomedViewState,
 } from "src/components/map-helpers";
 import HintBox from "src/components/map-hint-box";
+import { HoverState } from "src/components/map-shared";
 import { MapTooltip, MapTooltipContent } from "src/components/map-tooltip";
 import { MapPriceColorLegend } from "src/components/price-color-legend";
 import { useGeoData } from "src/data/geo";
@@ -110,22 +111,6 @@ const __debugCheckObservationsWithoutShapes = (
     }
   }
 };
-
-type HoverState =
-  | {
-      x: number;
-      y: number;
-      id: string;
-      type: "municipality";
-    }
-  | {
-      x: number;
-      y: number;
-      id: string;
-      type: "canton";
-      value: number;
-      label: string;
-    };
 
 export const ChoroplethMap = ({
   year,
