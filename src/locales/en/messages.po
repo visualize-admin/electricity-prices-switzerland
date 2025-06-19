@@ -23,12 +23,6 @@ msgstr "Municipalities"
 msgid "chart.annotation.operators"
 msgstr "Network operator"
 
-#: src/components/charts-generic/axis/axis-width-linear.tsx
-#: src/components/detail-page/price-distribution-histogram.tsx
-#: src/domain/translation.tsx
-msgid "chart.axis.unit.Rp/kWh"
-msgstr "Rp./kWh"
-
 #: src/components/combobox.tsx
 msgid "combobox.maxitems"
 msgstr "A maximum of {max} Entries are allowed"
@@ -488,6 +482,7 @@ msgid "municipality"
 msgstr "Municipality"
 
 #: src/components/net-tariffs-trend-chart.tsx
+#: src/components/net-tariffs-trend-chart.tsx
 msgid "net-tariffs-trend-chart.legend-item.other-operators"
 msgstr "Other operators"
 
@@ -496,6 +491,8 @@ msgid "net-tariffs-trend-chart.legend-item.peer-group-median"
 msgstr "Peer Group Median"
 
 #: src/components/network-cost-trend-chart.tsx
+#: src/components/network-cost-trend-chart.tsx
+#: src/components/power-stability-chart.tsx
 msgid "network-cost-trend-chart.legend-item.other-operators"
 msgstr "Other operators"
 
@@ -508,28 +505,28 @@ msgid "network-level"
 msgstr "Network level"
 
 #: src/domain/translation.tsx
-msgid "network-level.NL5.long"
-msgstr "High voltage NL5"
+msgid "network-level.NE5.long"
+msgstr "High voltage NE5"
 
 #: src/domain/translation.tsx
-msgid "network-level.NL5.short"
-msgstr "NL5"
+msgid "network-level.NE5.short"
+msgstr "NE5"
 
 #: src/domain/translation.tsx
-msgid "network-level.NL6.long"
-msgstr "Medium voltage NL6"
+msgid "network-level.NE6.long"
+msgstr "Medium voltage NE6"
 
 #: src/domain/translation.tsx
-msgid "network-level.NL6.short"
-msgstr "NL6"
+msgid "network-level.NE6.short"
+msgstr "NE6"
 
 #: src/domain/translation.tsx
-msgid "network-level.NL7.long"
-msgstr "Low voltage NL7"
+msgid "network-level.NE7.long"
+msgstr "Low voltage NE7"
 
 #: src/domain/translation.tsx
-msgid "network-level.NL7.short"
-msgstr "NL7"
+msgid "network-level.NE7.short"
+msgstr "NE7"
 
 #: src/pages/[entity]/[id]/index.tsx
 msgid "page.electricity-tariffs.description"
@@ -667,6 +664,8 @@ msgstr "Network operator"
 
 #: src/components/detail-page/selector-multi.tsx
 #: src/components/electricity-selectors.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "selector.category"
 msgstr "Category"
 
@@ -897,10 +896,6 @@ msgstr "No"
 msgid "sunshine.compliance.timely-paper-submission.yes"
 msgstr "Yes"
 
-#: src/domain/translation.tsx
-msgid "sunshine.costs-and-tariffs.all-peer-group"
-msgstr "All peer group network operators"
-
 #: src/components/net-tariffs-trend-card.tsx
 #: src/components/network-costs-trend-card.tsx
 #: src/components/operational-standards-card.tsx
@@ -910,6 +905,7 @@ msgstr "Benchmarking within the Peer Group: {peerGroupLabel}"
 
 #: src/components/net-tariffs-trend-card.tsx
 #: src/components/network-costs-trend-card.tsx
+#: src/components/power-stability-card.tsx
 msgid "sunshine.costs-and-tariffs.compare-with"
 msgstr "Compare With"
 
@@ -1064,6 +1060,10 @@ msgstr "Operational Standards"
 msgid "sunshine.power-stability.description"
 msgstr "The Power Stability page provides insights into the reliability of the electricity supply through two key indicators: SAIFI (System Average Interruption Frequency Index) and SAIDI (System Average Interruption Duration Index). These indicators measure the frequency and duration of power interruptions. The data is comparable within the same grid operator group, allowing for a clear assessment of power stability and reliability across the network."
 
+#: src/components/power-stability-card.tsx
+msgid "sunshine.power-stability.duration"
+msgstr "Duration"
+
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.latest-year"
 msgstr "Latest year ({latestYear})"
@@ -1083,6 +1083,10 @@ msgstr "{operatorLabel}"
 #: src/components/power-stability-card.tsx
 msgid "sunshine.power-stability.overall-option"
 msgstr "Overall"
+
+#: src/components/power-stability-card.tsx
+msgid "sunshine.power-stability.planned-option"
+msgstr "Planned"
 
 #: src/components/power-stability-card.tsx
 msgid "sunshine.power-stability.progress-over-time"
@@ -1123,6 +1127,14 @@ msgid "sunshine.power-stability.title"
 msgstr "Power Stability"
 
 #: src/components/power-stability-card.tsx
+msgid "sunshine.power-stability.total-option"
+msgstr "Total"
+
+#: src/components/power-stability-card.tsx
+msgid "sunshine.power-stability.unplanned-option"
+msgstr "Unplanned"
+
+#: src/components/power-stability-card.tsx
 #: src/components/power-stability-card.tsx
 msgid "sunshine.power-stability.view-by"
 msgstr "View By"
@@ -1146,6 +1158,10 @@ msgstr "No"
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.product-variety.product-combinations-options.yes"
 msgstr "Yes"
+
+#: src/domain/translation.tsx
+msgid "sunshine.select-all"
+msgstr "Select All"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.service-quality.eco-friendly-products-offered"
