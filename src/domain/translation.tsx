@@ -291,7 +291,7 @@ export const getLocalizedLabel = ({ id }: { id: string }): string => {
 
     case "network-level":
       return t({ id: "network-level", message: `Network level` });
-    // NL (Not yet sure about translations)
+    // NE (Not yet sure about translations)
     case "network-level.NE5.short":
       return t({ id: "network-level.NE5.short", message: `NE5` });
     case "network-level.NE5.long":
