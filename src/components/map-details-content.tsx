@@ -16,7 +16,6 @@ import {
 } from "src/lib/use-query-state";
 
 import { ListItemType } from "./list";
-import { ListState } from "./map-context";
 
 type MapDetailsContentProps = {
   onBack: () => void;
@@ -49,7 +48,7 @@ const MapDetailsContentWrapper = (props: MapDetailsContentProps) => {
   );
 };
 
-type MapDetailProps = ListItemType & { entity: ListState };
+type MapDetailProps = ListItemType & { entity: Entity };
 
 const MapDetailsEntityHeader = (props: MapDetailProps) => {
   const { entity, label, canton, cantonLabel } = props;
@@ -65,7 +64,7 @@ const MapDetailsEntityHeader = (props: MapDetailProps) => {
           {label}
         </Typography>
       </Stack>
-      {entity !== "CANTONS" && canton && cantonLabel && (
+      {entity !== "canton" && canton && cantonLabel && (
         <Typography variant="body3" color={"text.500"}>
           <Trans id="search.result.canton">Canton</Trans>:{" "}
           <Link
@@ -82,19 +81,10 @@ const MapDetailsEntityHeader = (props: MapDetailProps) => {
   );
 };
 
-const entityTableRows: Record<
-  ListState,
-  (keyof QueryStateSingleElectricity)[]
-> = {
-  OPERATORS: ["period", "priceComponent", "category", "product"],
-  MUNICIPALITIES: [
-    "period",
-    "priceComponent",
-    "category",
-    "product",
-    "operator",
-  ],
-  CANTONS: ["period", "priceComponent", "category", "product"],
+const entityTableRows: Record<Entity, (keyof QueryStateSingleElectricity)[]> = {
+  operator: ["period", "priceComponent", "category", "product"],
+  municipality: ["period", "priceComponent", "category", "product", "operator"],
+  canton: ["period", "priceComponent", "category", "product"],
 };
 
 const MapDetailsEntityTable = (
@@ -200,15 +190,14 @@ const KeyValueTableRow = <T extends Record<string, string | undefined>>(props: {
 export const MapDetailsContent: React.FC<{
   colorScale: ScaleThreshold<number, string>;
   entity: Entity;
-  listState: ListState;
   selectedItem: ListItemType;
   onBack: () => void;
-}> = ({ colorScale, entity, listState, selectedItem, onBack }) => (
+}> = ({ colorScale, entity, selectedItem, onBack }) => (
   <MapDetailsContentWrapper onBack={onBack}>
-    <MapDetailsEntityHeader entity={listState} {...selectedItem} />
+    <MapDetailsEntityHeader entity={entity} {...selectedItem} />
     <MapDetailsEntityTable
       colorScale={colorScale}
-      entity={listState}
+      entity={entity}
       {...selectedItem}
     />
     <Divider />

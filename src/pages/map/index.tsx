@@ -1,6 +1,6 @@
 import { t } from "@lingui/macro";
 import { Box, paperClasses } from "@mui/material";
-import { median } from "d3";
+import { median, ScaleThreshold } from "d3";
 import { keyBy } from "lodash";
 import { GetServerSideProps } from "next";
 import dynamic from "next/dynamic";
@@ -17,19 +17,28 @@ const ContentWrapper = dynamic(
 import { ButtonGroup } from "src/components/button-group";
 import { CombinedSelectors } from "src/components/combined-selectors";
 import { DownloadImage } from "src/components/detail-page/download-image";
+import { InlineDrawer } from "src/components/drawer";
 import { InfoBanner } from "src/components/info-banner";
 import {
+  getEntityFromListState,
   groupsFromCantonElectricityObservations,
   groupsFromElectricityMunicipalities,
   groupsFromElectricityOperators,
   groupsFromSunshineObservations,
   List,
+  ListItemType,
 } from "src/components/list";
 import { ChoroplethMap, ChoroplethMapProps } from "src/components/map";
 import { ListState, MapProvider, useMap } from "src/components/map-context";
+import { MapDetailsContent } from "src/components/map-details-content";
 import OperatorsMap from "src/components/operators-map";
 import ShareButton from "src/components/share-button";
-import { NetworkLevel, TariffCategory, useColorScale } from "src/domain/data";
+import {
+  Entity,
+  NetworkLevel,
+  TariffCategory,
+  useColorScale,
+} from "src/domain/data";
 import { getSunshineAccessor } from "src/domain/sunshine-accessor";
 import {
   PriceComponent,
@@ -323,6 +332,14 @@ const IndexPageContent = ({
     />
   ) : null;
 
+  const detailsDrawer = (
+    <DetailsDrawer
+      items={listGroups}
+      colorScale={isElectricityTab ? colorScale : sunshineColorScale}
+      entity={getEntityFromListState(listState)}
+    />
+  );
+
   return (
     <>
       <ApplicationLayout>
@@ -374,11 +391,13 @@ const IndexPageContent = ({
               sx={{
                 height: "100%",
                 overflowY: "auto",
+                position: "relative",
                 bgcolor: "background.paper",
                 border: "1x solid green",
                 maxHeight: `calc(100vh - ${HEADER_HEIGHT_UP})`,
               }}
             >
+              {detailsDrawer}
               <CombinedSelectors />
 
               <Box
@@ -446,12 +465,44 @@ const IndexPageContent = ({
               position: "relative",
             }}
           >
+            {detailsDrawer}
             <CombinedSelectors />
             {list}
           </Box>
         </Box>
       </ApplicationLayout>
     </>
+  );
+};
+
+const DetailsDrawer = ({
+  items,
+  colorScale,
+  entity,
+}: {
+  items: [string, ListItemType][];
+  colorScale: ScaleThreshold<number, string, never>;
+  entity: Entity;
+}) => {
+  const { activeId, setActiveId } = useMap();
+  const selectedItem = useMemo(() => {
+    if (activeId) {
+      const selected = items.find(([itemId]) => itemId === activeId);
+      return selected?.[1] ?? null;
+    }
+  }, [activeId, items]);
+
+  return (
+    selectedItem && (
+      <InlineDrawer open={!!selectedItem} onClose={() => setActiveId(null)}>
+        <MapDetailsContent
+          colorScale={colorScale}
+          entity={entity}
+          selectedItem={selectedItem}
+          onBack={() => setActiveId(null)}
+        />
+      </InlineDrawer>
+    )
   );
 };
 

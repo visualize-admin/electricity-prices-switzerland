@@ -102,6 +102,17 @@ export type ListItemType = {
     | null;
 };
 
+export const getEntityFromListState = (listState: ListState): Entity => {
+  switch (listState) {
+    case "MUNICIPALITIES":
+      return "municipality";
+    case "OPERATORS":
+      return "operator";
+    case "CANTONS":
+      return "canton";
+  }
+};
+
 const ListItems = ({
   items,
   colorScale,
