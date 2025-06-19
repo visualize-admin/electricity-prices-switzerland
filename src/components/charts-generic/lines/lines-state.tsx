@@ -9,9 +9,7 @@ import {
   min,
   ScaleLinear,
   scaleLinear,
-  ScaleOrdinal,
   scaleOrdinal,
-  ScaleTime,
   scaleTime,
 } from "d3";
 import { ReactNode, useCallback, useMemo } from "react";
@@ -24,13 +22,10 @@ import { Tooltip } from "src/components/charts-generic/interaction/tooltip";
 import {
   ChartContext,
   ChartProps,
+  LinesState,
 } from "src/components/charts-generic/use-chart-state";
 import { InteractionProvider } from "src/components/charts-generic/use-interaction";
-import {
-  Bounds,
-  Observer,
-  useWidth,
-} from "src/components/charts-generic/use-width";
+import { Observer, useWidth } from "src/components/charts-generic/use-width";
 import { LineFields } from "src/domain/config-types";
 import { GenericObservation, ObservationValue } from "src/domain/data";
 import {
@@ -41,26 +36,6 @@ import {
 } from "src/domain/helpers";
 import { getLocalizedLabel } from "src/domain/translation";
 import { estimateTextWidth } from "src/lib/estimate-text-width";
-
-export interface LinesState {
-  data: GenericObservation[];
-  bounds: Bounds;
-  segments: string[];
-  getX: (d: GenericObservation) => Date;
-  xScale: ScaleTime<number, number>;
-  xUniqueValues: Date[];
-  getY: (d: GenericObservation) => number;
-  yScale: ScaleLinear<number, number>;
-  getSegment: (d: GenericObservation) => string;
-  getColor: (d: GenericObservation) => string;
-  colors: ScaleOrdinal<string, string>;
-  xAxisLabel: string;
-  yAxisLabel: string;
-  grouped: [string, Record<string, ObservationValue>[]][];
-  wide: ArrayLike<Record<string, ObservationValue>>;
-  xKey: string;
-  getAnnotationInfo: (d: GenericObservation) => Tooltip;
-}
 
 const roundDomain = (scale: ScaleLinear<number, number>) => {
   const d = scale.domain();
