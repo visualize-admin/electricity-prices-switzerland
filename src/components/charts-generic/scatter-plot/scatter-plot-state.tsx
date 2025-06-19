@@ -154,7 +154,9 @@ const useScatterPlotState = ({
       if (highlightedPoint) {
         tooltipValues.push({
           label: getSegment(highlightedPoint),
-          value: `${formatCurrency(getX(highlightedPoint))}`,
+          value: `${formatCurrency(getX(highlightedPoint))} ${
+            xAxisLabel ? xAxisLabel : ""
+          }`,
           color: chartPalette.categorical[0],
           symbol: "circle",
         });
@@ -167,7 +169,7 @@ const useScatterPlotState = ({
       ) {
         tooltipValues.push({
           label: getSegment(d),
-          value: `${formatCurrency(getX(d))}`,
+          value: `${formatCurrency(getX(d))} ${xAxisLabel ? xAxisLabel : ""}`,
           color: chartPalette.categorical[2],
           symbol: "circle",
         });
@@ -192,6 +194,7 @@ const useScatterPlotState = ({
       yScale,
       formatCurrency,
       fields.style,
+      xAxisLabel,
     ]
   );
 

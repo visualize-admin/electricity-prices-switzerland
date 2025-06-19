@@ -157,7 +157,7 @@ const useLinesState = ({
   });
 
   const maxYLabelWidth = Math.max(
-    ...yDomain.map((label) =>
+    ...yScale.ticks().map((label) =>
       getTextWidth(label.toString(), {
         fontSize: labelFontSize,
       })
@@ -261,6 +261,7 @@ const useLinesState = ({
       values: summarizedTooltipValues
         .sort((a, b) => descending(getY(a), getY(b)))
         .map((td) => ({
+          symbol: "line",
           label: getSegment(td),
           value: `${formatCurrency(getY(td))} ${yAxisLabel}`,
           color:
