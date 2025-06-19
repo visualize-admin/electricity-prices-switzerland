@@ -568,6 +568,7 @@ export const getOperatorMunicipalities = async (id: string, locale: string) => {
     .map(({ id, name }) => ({ id, name }));
 };
 
+/** @knipignore */
 export const getSparqlEditorUrl = (query: string): string | null => {
   assert(!!serverEnv, "serverEnv is not defined");
   return serverEnv.SPARQL_EDITOR

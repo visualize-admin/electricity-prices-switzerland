@@ -1,8 +1,4 @@
-import {
-  FlyToInterpolator,
-  Viewport,
-  WebMercatorViewport,
-} from "@deck.gl/core/typed";
+import { FlyToInterpolator, WebMercatorViewport } from "@deck.gl/core/typed";
 import { ScaleThreshold, color } from "d3";
 import { BBox as GeoJsonBBox } from "geojson";
 
@@ -73,14 +69,6 @@ export const constrainZoom = (
     longitude: p[0],
     latitude: p[1],
   };
-};
-export const getZoomFromBounds = (bounds: GeoJsonBBox, viewport: Viewport) => {
-  const [x0, y0, x1, y1] = bounds;
-  const width = Math.abs(x1 - x0);
-  const height = Math.abs(y1 - y0);
-  const zoomX = Math.log(viewport.width / width) / Math.log(2);
-  const zoomY = Math.log(viewport.height / height) / Math.log(2);
-  return Math.min(zoomX, zoomY) - 1;
 };
 
 export const getZoomedViewState = (
@@ -156,7 +144,7 @@ export const CH_BBOX: BBox = [
 
 type Color = [number, number, number, number];
 
-export const LINE_COLOR: Color = [255, 255, 255, 255];
+const LINE_COLOR: Color = [255, 255, 255, 255];
 
 // Define style tokens for map layers
 export const styles = {
