@@ -332,9 +332,16 @@ const IndexPageContent = ({
     />
   ) : null;
 
+  const selectedItem = useMemo(() => {
+    if (activeId) {
+      const selected = listGroups.find(([itemId]) => itemId === activeId);
+      return selected?.[1] ?? null;
+    }
+  }, [activeId, listGroups]);
+
   const detailsDrawer = (
     <DetailsDrawer
-      items={listGroups}
+      selectedItem={selectedItem}
       colorScale={isElectricityTab ? colorScale : sunshineColorScale}
       entity={getEntityFromListState(listState)}
     />
@@ -398,19 +405,22 @@ const IndexPageContent = ({
               }}
             >
               {detailsDrawer}
-              <CombinedSelectors />
-
-              <Box
-                sx={{
-                  px: 6,
-                  flexDirection: "column",
-                  gap: 4,
-                }}
-                display="flex"
-              >
-                {listButtonGroup}
-                {list}
-              </Box>
+              {selectedItem ? null : (
+                <>
+                  <CombinedSelectors />
+                  <Box
+                    sx={{
+                      px: 6,
+                      flexDirection: "column",
+                      gap: 4,
+                    }}
+                    display="flex"
+                  >
+                    {listButtonGroup}
+                    {list}
+                  </Box>
+                </>
+              )}
             </Box>
 
             <Box
@@ -466,8 +476,12 @@ const IndexPageContent = ({
             }}
           >
             {detailsDrawer}
-            <CombinedSelectors />
-            {list}
+            {selectedItem ? null : (
+              <>
+                <CombinedSelectors />
+                {list}
+              </>
+            )}
           </Box>
         </Box>
       </ApplicationLayout>
@@ -476,22 +490,15 @@ const IndexPageContent = ({
 };
 
 const DetailsDrawer = ({
-  items,
+  selectedItem,
   colorScale,
   entity,
 }: {
-  items: [string, ListItemType][];
+  selectedItem: ListItemType | undefined | null;
   colorScale: ScaleThreshold<number, string, never>;
   entity: Entity;
 }) => {
-  const { activeId, setActiveId } = useMap();
-  const selectedItem = useMemo(() => {
-    if (activeId) {
-      const selected = items.find(([itemId]) => itemId === activeId);
-      return selected?.[1] ?? null;
-    }
-  }, [activeId, items]);
-
+  const { setActiveId } = useMap();
   return (
     selectedItem && (
       <InlineDrawer open={!!selectedItem} onClose={() => setActiveId(null)}>
