@@ -128,7 +128,7 @@ const AxisWidthLinearTop = ({ format }: { format: "number" | "currency" }) => {
   return (
     <>
       <g transform={`translate(${margins.left}, ${margins.top})`}>
-        {!xAxisLabel && (
+        {xAxisLabel && (
           <text
             x={chartWidth + margins.right}
             y={0}

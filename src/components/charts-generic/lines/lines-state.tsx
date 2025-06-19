@@ -156,13 +156,15 @@ const useLinesState = ({
     });
   });
 
-  const maxYLabelWidth = Math.max(
-    ...yScale.ticks().map((label) =>
-      getTextWidth(label.toString(), {
-        fontSize: labelFontSize,
-      })
-    )
-  );
+  const maxYLabelWidth = useMemo(() => {
+    return Math.max(
+      ...yScale.ticks().map((label) =>
+        getTextWidth(label.toString(), {
+          fontSize: labelFontSize,
+        })
+      )
+    );
+  }, [yScale, labelFontSize]);
 
   const margins = {
     top: 80,

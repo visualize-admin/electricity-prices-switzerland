@@ -86,11 +86,10 @@ const LatestYearChartView = (
   const dataWithRatioApplied = useMemo(() => {
     if (overallOrRatio === "ratio") {
       return observations.map((d) => {
-        const total = d.planned + d.unplanned || 1;
         return {
           ...d,
-          planned: (d.planned / total) * 100,
-          unplanned: (d.unplanned / total) * 100,
+          planned: (d.planned / d.total) * 100,
+          unplanned: (d.unplanned / d.total) * 100,
         };
       });
     }
