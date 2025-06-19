@@ -146,7 +146,7 @@ export const ChoroplethMap = ({
   const [screenshotting, setScreenshotting] = useState(false);
 
   const onViewStateChange = useCallback(
-    ({ viewState, interactionState }: ViewStateChangeParameters) => {
+    ({ viewState }: ViewStateChangeParameters) => {
       if (screenshotting) return;
       setHovered(undefined);
       setViewState(viewState as typeof INITIAL_VIEW_STATE);
@@ -363,11 +363,13 @@ export const ChoroplethMap = ({
           }`,
           observations: observationsByMunicipalityId.get(hovered.id),
         }
-      : {
+      : hovered.type === "canton"
+      ? {
           id: hovered.id,
           name: hovered.label,
           observations: [],
         }
+      : undefined
     : undefined;
 
   const valuesExtent = useMemo(() => {
@@ -433,7 +435,7 @@ export const ChoroplethMap = ({
               )
             : [0, 0, 0, 20];
         },
-        onHover: ({ x, y, object }: $FixMe) => {
+        onHover: ({ x, y, object }: PickingInfo) => {
           const id = object?.id?.toString();
           setHovered(
             object && id
@@ -585,13 +587,15 @@ export const ChoroplethMap = ({
                         color: colorScale(d.value),
                       }))
                     : []
-                  : [
+                  : hovered.type === "canton"
+                  ? [
                       {
                         label: "",
                         formattedValue: formatNumber(hovered.value),
                         color: colorScale(hovered.value),
                       },
                     ]
+                  : []
               }
             />
           </MapTooltip>

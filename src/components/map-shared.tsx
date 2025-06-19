@@ -12,4 +12,14 @@ export type HoverState =
       type: "canton";
       value: number;
       label: string;
+    }
+  | {
+      x: number;
+      y: number;
+      id: string;
+      type: "operator";
+      values: {
+        operatorName: string;
+        value: number;
+      }[];
     };

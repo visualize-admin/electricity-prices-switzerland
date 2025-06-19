@@ -15,6 +15,7 @@ You can also check the
 
   - Operator list is showing in the map page when on sunshine indicators
   - Added story for map tooltip
+  - Use same map tooltip as energy for sunshine map
 
 # 2.1.0
 
