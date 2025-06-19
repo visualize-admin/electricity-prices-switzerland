@@ -1,3 +1,4 @@
+import { t } from "@lingui/macro";
 import { Box, paperClasses } from "@mui/material";
 import { median } from "d3";
 import { keyBy, property } from "lodash";
@@ -13,12 +14,19 @@ const ContentWrapper = dynamic(
   { ssr: false }
 );
 
+import { ButtonGroup } from "src/components/button-group";
 import { CombinedSelectors } from "src/components/combined-selectors";
 import { DownloadImage } from "src/components/detail-page/download-image";
 import { InfoBanner } from "src/components/info-banner";
-import { List } from "src/components/list";
+import {
+  groupsFromCantonElectricityObservations,
+  groupsFromElectricityMunicipalities,
+  groupsFromElectricityOperators,
+  groupsFromSunshineObservations,
+  List,
+} from "src/components/list";
 import { ChoroplethMap, ChoroplethMapProps } from "src/components/map";
-import { MapProvider } from "src/components/map-context";
+import { ListState, MapProvider, useMap } from "src/components/map-context";
 import OperatorsMap from "src/components/operators-map";
 import ShareButton from "src/components/share-button";
 import { NetworkLevel, TariffCategory, useColorScale } from "src/domain/data";
@@ -31,7 +39,10 @@ import {
 } from "src/graphql/queries";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { truthy } from "src/lib/truthy";
-import { useQueryStateSingle } from "src/lib/use-query-state";
+import {
+  useQueryStateSingleElectricity,
+  useQueryStateSingleSunshine,
+} from "src/lib/use-query-state";
 import { defaultLocale } from "src/locales/config";
 import { useFlag } from "src/utils/flags";
 
@@ -122,7 +133,10 @@ function getSunshineAccessor(
   throw new Error("Invalid indicator: " + indicator);
 }
 
-const IndexPage = ({ locale }: Props) => {
+const IndexPageContent = ({
+  locale,
+  activeId,
+}: Props & { activeId: string | null }) => {
   const [
     {
       period,
@@ -131,14 +145,19 @@ const IndexPage = ({ locale }: Props) => {
       product,
       download,
       tab = "electricity",
+    },
+  ] = useQueryStateSingleElectricity();
+
+  const [
+    {
       typology,
       indicator,
       networkLevel,
       netTariffCategory,
       energyTariffCategory,
     },
-  ] = useQueryStateSingle();
-  const [activeId, setActiveId] = useState<string | null>(null);
+  ] = useQueryStateSingleSunshine();
+
   const isElectricityTab = tab === "electricity";
   const isSunshineTab = tab === "sunshine";
 
@@ -301,8 +320,77 @@ const IndexPage = ({ locale }: Props) => {
     />
   );
 
+  const { listState, setListState } = useMap();
+
+  const listGroups = useMemo(() => {
+    if (isElectricityTab) {
+      return listState === "CANTONS"
+        ? groupsFromCantonElectricityObservations(cantonMedianObservations)
+        : listState === "OPERATORS"
+        ? groupsFromElectricityOperators(observations)
+        : groupsFromElectricityMunicipalities(observations);
+    } else {
+      return groupsFromSunshineObservations(
+        sunshineObservations,
+        sunshineAccessor
+      );
+    }
+  }, [
+    isElectricityTab,
+    listState,
+    cantonMedianObservations,
+    observations,
+    sunshineObservations,
+    sunshineAccessor,
+  ]);
+
+  const list = (
+    <List
+      listState={listState}
+      grouped={listGroups}
+      colorScale={colorScale}
+      fetching={
+        isElectricityTab
+          ? observationsQuery.fetching
+          : sunshineDataQuery.fetching
+      }
+    />
+  );
+
+  const listButtonGroup = isElectricityTab ? (
+    <ButtonGroup<ListState>
+      id="list-state-tabs"
+      options={[
+        {
+          value: "MUNICIPALITIES",
+          label: t({
+            id: "list.municipalities",
+            message: "Municipalities",
+          }),
+        },
+        {
+          value: "CANTONS",
+          label: t({ id: "list.cantons", message: "Cantons" }),
+        },
+        {
+          value: "OPERATORS",
+          label: t({
+            id: "list.operators",
+            message: "Network operator",
+          }),
+        },
+      ]}
+      value={listState}
+      label={t({
+        id: "list.viewby.label",
+        message: "View according to",
+      })}
+      setValue={setListState}
+    />
+  ) : null;
+
   return (
-    <MapProvider activeId={activeId} setActiveId={setActiveId}>
+    <>
       <ApplicationLayout>
         <InfoBanner
           bypassBannerEnabled={
@@ -358,18 +446,18 @@ const IndexPage = ({ locale }: Props) => {
               }}
             >
               <CombinedSelectors />
-              {isElectricityTab ? (
-                <List
-                  observations={observations}
-                  cantonObservations={cantonMedianObservations}
-                  colorScale={colorScale}
-                  observationsQueryFetching={
-                    isElectricityTab
-                      ? observationsQuery.fetching
-                      : sunshineDataQuery.fetching
-                  }
-                />
-              ) : null}
+
+              <Box
+                sx={{
+                  px: 6,
+                  flexDirection: "column",
+                  gap: 4,
+                }}
+                display="flex"
+              >
+                {listButtonGroup}
+                {list}
+              </Box>
             </Box>
 
             <Box
@@ -425,19 +513,20 @@ const IndexPage = ({ locale }: Props) => {
             }}
           >
             <CombinedSelectors />
-            <List
-              observations={observations}
-              cantonObservations={cantonMedianObservations}
-              colorScale={colorScale}
-              observationsQueryFetching={
-                isElectricityTab
-                  ? observationsQuery.fetching
-                  : sunshineDataQuery.fetching
-              }
-            />
+            {list}
           </Box>
         </Box>
       </ApplicationLayout>
+    </>
+  );
+};
+
+export const IndexPage = ({ locale }: Props) => {
+  const [activeId, setActiveId] = useState<string | null>(null);
+
+  return (
+    <MapProvider activeId={activeId} setActiveId={setActiveId}>
+      <IndexPageContent locale={locale} activeId={activeId} />
     </MapProvider>
   );
 };

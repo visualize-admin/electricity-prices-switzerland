@@ -7,14 +7,13 @@ import { ViewStateChangeParameters } from "@deck.gl/core/typed/controllers/contr
 import { GeoJsonLayer } from "@deck.gl/layers/typed";
 import DeckGL, { DeckGLRef } from "@deck.gl/react/typed";
 import { Trans } from "@lingui/macro";
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import bbox from "@turf/bbox";
 import centroid from "@turf/centroid";
 import { extent, group, mean, rollup, ScaleThreshold } from "d3";
 import { useRouter } from "next/router";
 import React, {
   ComponentProps,
-  Fragment,
   ReactNode,
   useCallback,
   useContext,
@@ -24,7 +23,6 @@ import React, {
   useState,
 } from "react";
 
-import { TooltipBoxWithoutChartState } from "src/components/charts-generic/interaction/tooltip-box";
 import { WithClassName } from "src/components/detail-page/with-classname";
 import { HighlightContext } from "src/components/highlight-context";
 import { Loading, NoDataHint, NoGeoDataHint } from "src/components/hint";
@@ -34,6 +32,7 @@ import {
   getFillColor,
   getZoomedViewState,
 } from "src/components/map-helpers";
+import { MapTooltip, MapTooltipContent } from "src/components/map-tooltip";
 import { MapPriceColorLegend } from "src/components/price-color-legend";
 import { useGeoData } from "src/data/geo";
 import { useFormatCurrency } from "src/domain/helpers";
@@ -111,32 +110,6 @@ const __debugCheckObservationsWithoutShapes = (
   } else {
     console.log("Obervations vs. Features OK");
   }
-};
-
-const MapTooltip = ({
-  x,
-  y,
-  children,
-}: {
-  x: number;
-  y: number;
-  children: ReactNode;
-}) => {
-  return (
-    <TooltipBoxWithoutChartState
-      x={x}
-      y={y - 20}
-      placement={{ x: "center", y: "top" }}
-      margins={{ bottom: 0, left: 0, right: 0, top: 0 }}
-    >
-      <Box
-        sx={{ width: 200, flexDirection: "column", gap: 1 }}
-        display={"flex"}
-      >
-        {children}
-      </Box>
-    </TooltipBoxWithoutChartState>
-  );
 };
 
 const HintBox = ({ children }: { children: ReactNode }) => (
@@ -641,93 +614,27 @@ export const ChoroplethMap = ({
       <>
         {hovered && tooltipContent && colorScale && (
           <MapTooltip x={hovered.x} y={hovered.y}>
-            <Box
-              sx={{
-                flexDirection: "column",
-                gap: -1,
-              }}
-              display={"flex"}
-            >
-              <Typography variant="caption" color={"text.500"}>
-                <Trans id="municipality">Municipality</Trans>
-              </Typography>
-              <Typography variant="h5" sx={{ fontWeight: 700 }}>
-                {tooltipContent.name}
-              </Typography>
-            </Box>
-            <Box
-              display="grid"
-              sx={{
-                width: "100%",
-                gridTemplateColumns: "1fr auto",
-                gap: 1,
-                alignItems: "center",
-              }}
-            >
-              {hovered.type === "canton" ? (
-                <>
-                  <Box
-                    sx={{
-                      borderRadius: 9999,
-                      px: 2,
-                      display: "inline-block",
-                      width: "fit-content",
-                    }}
-                    style={{
-                      background: colorScale(hovered.value),
-                    }}
-                  >
-                    <Typography variant="caption">
-                      {formatNumber(hovered.value)}
-                    </Typography>
-                  </Box>
-                </>
-              ) : null}
-            </Box>
-            <Box
-              display="grid"
-              sx={{
-                width: "100%",
-                gridTemplateColumns: "1fr auto",
-                gap: 1,
-                alignItems: "center",
-              }}
-            >
-              {hovered.type === "municipality" ? (
-                <>
-                  {tooltipContent.observations ? (
-                    tooltipContent.observations.map((d, i) => {
-                      return (
-                        <Fragment key={i}>
-                          <Typography variant="caption" sx={{}}>
-                            {d.operatorLabel}
-                          </Typography>
-                          <Box
-                            sx={{
-                              borderRadius: 9999,
-                              px: 2,
-                              display: "inline-block",
-                            }}
-                            style={{ background: colorScale(d.value) }}
-                          >
-                            <Typography variant="caption">
-                              {formatNumber(d.value)}
-                            </Typography>
-                          </Box>
-                        </Fragment>
-                      );
-                    })
-                  ) : (
-                    <Typography
-                      variant="caption"
-                      sx={{ color: "secondary.main" }}
-                    >
-                      <Trans id="map.tooltipnodata">No data</Trans>
-                    </Typography>
-                  )}
-                </>
-              ) : null}
-            </Box>
+            <MapTooltipContent
+              title={tooltipContent.name}
+              caption={<Trans id="municipality">Municipality</Trans>}
+              values={
+                hovered.type === "municipality"
+                  ? tooltipContent.observations?.length
+                    ? tooltipContent.observations.map((d) => ({
+                        label: d.operatorLabel,
+                        formattedValue: formatNumber(d.value),
+                        color: colorScale(d.value),
+                      }))
+                    : []
+                  : [
+                      {
+                        label: "",
+                        formattedValue: formatNumber(hovered.value),
+                        color: colorScale(hovered.value),
+                      },
+                    ]
+              }
+            />
           </MapTooltip>
         )}
         {geoData.state === "loaded" && (

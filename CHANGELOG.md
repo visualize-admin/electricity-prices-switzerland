@@ -11,7 +11,10 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Features
+
+  - Operator list is showing in the map page when on sunshine indicators
+  - Added story for map tooltip
 
 # 2.1.0
 

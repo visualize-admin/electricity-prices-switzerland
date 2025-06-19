@@ -40,5 +40,17 @@
     "language": "sparql",
     "value": "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nPREFIX cube: <https://cube.link/>\nPREFIX : <https://energy.ld.admin.ch/elcom/sunshine/dimension/>\n\nSELECT * \nWHERE {  \n    <https://energy.ld.admin.ch/elcom/sunshine-cat> cube:observationSet/cube:observation ?obs . \n    ?obs \n        :operator <https://energy.ld.admin.ch/elcom/electricityprice/operator/94> ;\n        :period \"2022\"^^xsd:gYear ; \n        :category ?category ;\n        :energy ?energy ;\n        :gridusage ?gridusage\n}",
     "metadata": {}
+  },
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "### Get the group of an operator (depends on the year)",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nPREFIX cube: <https://cube.link/>\nBASE <https://energy.ld.admin.ch/elcom/>\n\nSELECT ?group\nWHERE {\n  <sunshine> cube:observationSet/cube:observation ?obs .\n  ?obs <sunshine/dimension/operator> <electricityprice/operator/355> .\n  ?obs <sunshine/dimension/period> \"2025\"^^xsd:gYear.\n  ?obs <sunshine/dimension/group> ?group .\n} ",
+    "metadata": {}
   }
 ]

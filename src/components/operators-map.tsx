@@ -1,4 +1,4 @@
-import { PickingInfo } from "@deck.gl/core/typed";
+import { LayerProps, PickingInfo } from "@deck.gl/core/typed";
 import { GeoJsonLayer } from "@deck.gl/layers/typed";
 import DeckGL, { DeckGLRef } from "@deck.gl/react/typed";
 import * as turf from "@turf/turf";
@@ -80,6 +80,7 @@ type OperatorsMapProps = {
   accessor: (x: SunshineDataRow) => Maybe<number> | undefined;
   observations?: SunshineDataRow[];
   getTooltip?: GetOperatorsMapTooltip;
+  onHoverOperatorLayer?: LayerProps["onHover"];
 };
 
 const OperatorsMap = ({
@@ -88,6 +89,7 @@ const OperatorsMap = ({
   accessor,
   observations,
   getTooltip,
+  onHoverOperatorLayer,
 }: OperatorsMapProps) => {
   const deckglRef = useRef<DeckGLRef>(null);
 
@@ -171,6 +173,7 @@ const OperatorsMap = ({
           getLineColor: [255, 255, 255, 100],
           getLineWidth: 1.5,
           lineWidthUnits: "pixels",
+          onHover: onHoverOperatorLayer,
           onClick: (info) => {
             if (info.object && info.viewport) {
               const bounds = turf.bbox(info.object.geometry);

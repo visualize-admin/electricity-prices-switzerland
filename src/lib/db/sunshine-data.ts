@@ -104,9 +104,6 @@ export const fetchNetworkCostsData = async ({
   period?: number;
 }): Promise<NetworkCostsData> => {
   const operatorData = await getOperatorData(operatorId);
-  if (!operatorData) {
-    throw new Error(`Peer group not found for operator ID: ${operatorId}`);
-  }
 
   // Get the latest year if period not provided
   let targetPeriod = period;
@@ -201,9 +198,6 @@ export const fetchNetTariffsData = async ({
   yearlyData: TariffRecord[];
 }> => {
   const operatorData = await getOperatorData(operatorId);
-  if (!operatorData) {
-    throw new Error(`Peer group not found for operator ID: ${operatorId}`);
-  }
 
   const peerGroupMedianNetTariffs =
     await getPeerGroupMedianValues<"net-tariffs">({
@@ -253,9 +247,6 @@ export const fetchEnergyTariffsData = async ({
   period: number;
 }): Promise<TariffsData> => {
   const operatorData = await getOperatorData(operatorId);
-  if (!operatorData) {
-    throw new Error(`Peer group not found for operator ID: ${operatorId}`);
-  }
 
   const peerGroupMedianEnergyTariffs =
     await getPeerGroupMedianValues<"energy-tariffs">({
@@ -307,10 +298,6 @@ export const fetchOperatorCostsAndTariffsData = async ({
 }): Promise<SunshineCostsAndTariffsData> => {
   const operatorId = parseInt(operatorId_, 10);
   const operatorData = await getOperatorData(operatorId);
-
-  if (!operatorData) {
-    throw new Error(`Peer group not found for operator ID: ${operatorId}`);
-  }
 
   // Get the latest year if period not provided
   let targetPeriod = period;
@@ -375,9 +362,6 @@ export const fetchSaidi = async ({
   period: number;
 }): Promise<StabilityData> => {
   const operatorData = await getOperatorData(operatorId);
-  if (!operatorData) {
-    throw new Error(`Peer group not found for operator ID: ${operatorId}`);
-  }
 
   // Get peer group median SAIDI
   const peerGroupMedianStability = await getPeerGroupMedianValues<"stability">({
@@ -474,10 +458,6 @@ export const fetchPowerStability = async ({
   const operatorId = parseInt(operatorId_, 10);
   const operatorData = await getOperatorData(operatorId);
 
-  if (!operatorData) {
-    throw new Error(`Peer group not found for operator ID: ${operatorId}`);
-  }
-
   const latestYear = await getLatestYearPowerStability(operatorId);
   const targetYear = parseInt(latestYear, 10);
   const saidiData = await fetchSaidi({
@@ -521,10 +501,6 @@ export const fetchOperationalStandards = async ({
 }): Promise<SunshineOperationalStandardsData> => {
   const operatorId = parseInt(operatorId_, 10);
   const operatorData = await getOperatorData(operatorId);
-
-  if (!operatorData) {
-    throw new Error(`Peer group not found for operator ID: ${operatorId}`);
-  }
 
   const period = await getLatestYearSunshine(operatorId);
   const operationalData = await getOperationalStandards({

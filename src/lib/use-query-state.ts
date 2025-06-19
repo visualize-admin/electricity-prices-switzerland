@@ -1,182 +1,204 @@
 import { useRouter } from "next/router";
 import { useCallback } from "react";
+import * as z from "zod";
 
 import buildEnv from "src/env/build";
-import { TariffCategory } from "src/graphql/resolver-mapped-types";
-import { NetworkLevel } from "src/graphql/resolver-types";
 
 const ensureArray = (input: string | string[]): string[] =>
   Array.isArray(input) ? input : [input];
 const ensureString = (input: string | string[]): string =>
   Array.isArray(input) ? input[0] : input;
 
-const queryStateKeys = [
-  "tab",
-
-  // electricity
-  "operator",
-  "period",
-  "municipality",
-  "canton",
-  "category",
-  "priceComponent",
-  "product",
-  "download",
-  "cantonsOrder",
-  "view",
-
-  // sunshine
-  "viewBy",
-  "typology",
-  "indicator",
-  "energyTariffCategory",
-  "netTariffCategory",
-  "networkLevel",
-] as const;
-
-const queryStateDefaults = {
-  tab: "electricity",
-  id: "261",
-  period: buildEnv.CURRENT_PERIOD,
-  category: "H4",
-  priceComponent: "total",
-  product: "standard",
-  operator: undefined,
-  municipality: undefined,
-  canton: undefined,
-  download: undefined,
-  cantonsOrder: "median-asc",
-  view: "collapsed",
-  viewBy: "all_grid_operators",
-  typology: "total",
-  indicator: "saidi",
-  energyTariffCategory: "EC2" satisfies TariffCategory,
-  netTariffCategory: "NC2" satisfies TariffCategory,
-  networkLevel: "NE5" satisfies NetworkLevel["id"],
-} as const;
-
-type QueryState = {
-  tab: string[];
-
-  id: string;
-  operator?: string[];
-  municipality?: string[];
-  canton?: string[];
-  period: string[];
-  category: string[];
-  priceComponent: string[];
-  product: string[];
-  download?: string[];
-  cantonsOrder: string[];
-  view: string[];
-
-  // Sunshine
-  viewBy: string[];
-  typology: string[];
-  indicator: string[];
-  energyTariffCategory: string[];
-  netTariffCategory: string[];
-  networkLevel: string[];
+type UseQueryStateSingle<T extends z.ZodRawShape> = {
+  [K in keyof T]: T[K] extends z.ZodArray<z.ZodTypeAny>
+    ? z.infer<T[K]>[number]
+    : z.infer<T[K]>;
+};
+type UseQueryStateArray<T extends z.ZodRawShape> = {
+  [K in keyof T]: T[K] extends z.ZodArray<z.ZodTypeAny>
+    ? z.infer<T[K]>
+    : string[];
 };
 
-// e.g. /de/municipality/4096?municipality=261&period=2020&period=2019
-// raw query => { id: "4096", municipality: "261", period: ["2020","2019"] }
-// we want??? => { id: "4096", municipality: ["261"], period: ["2020","2019"] }
+// Generic function to make useQueryState with specific schema
+function makeUseQueryState<T extends z.ZodRawShape>(
+  schema: z.ZodObject<T>
+): {
+  useQueryState: () => readonly [
+    UseQueryStateArray<T>,
+    (newState: Partial<UseQueryStateArray<T>>) => void
+  ];
+  useQueryStateSingle: () => readonly [
+    UseQueryStateSingle<T>,
+    (newState: Partial<UseQueryStateSingle<T>>) => void
+  ];
+} {
+  type SchemaType = z.infer<typeof schema>;
 
-export const useQueryState = () => {
-  const { query, replace, pathname } = useRouter();
+  // Create array version for multi-select
+  const makeUseQueryStateArray = () => {
+    type QueryStateArray = {
+      [K in keyof SchemaType]: SchemaType[K] extends z.ZodArray<$IntentionalAny>
+        ? z.infer<SchemaType[K]>
+        : string[];
+    };
 
-  const setState = useCallback(
-    (newQueryState: Partial<QueryState>) => {
-      const newQuery: { [k: string]: string[] } = {};
+    const schemaKeys = Object.keys(schema.shape) as (keyof SchemaType)[];
 
-      for (const k of queryStateKeys) {
-        const v = newQueryState[k];
+    return () => {
+      const { query, replace, pathname } = useRouter();
+
+      const setState = useCallback(
+        (newQueryState: Partial<QueryStateArray>) => {
+          const newQuery: { [k: string]: string[] } = {};
+
+          for (const k of schemaKeys) {
+            const v = newQueryState[k as keyof typeof newQueryState];
+            if (v !== undefined) {
+              newQuery[k as string] = v as string[];
+            }
+          }
+
+          const href = {
+            pathname,
+            query: { ...query, ...newQuery },
+          };
+
+          replace(href, undefined, { shallow: true });
+        },
+        [replace, pathname, query]
+      );
+
+      const state: Partial<QueryStateArray> = {};
+
+      for (const k of schemaKeys) {
+        const key = k as string;
+        const defaultValue = schema.shape[k]._def.defaultValue?.();
+        const v = query[key] !== undefined ? query[key] : defaultValue;
+
         if (v !== undefined) {
-          newQuery[k] = v;
+          state[k] = ensureArray(v);
         }
       }
 
-      const href = {
-        pathname,
-        query: { ...query, ...newQuery },
-      };
-
-      replace(href, undefined, { shallow: true });
-    },
-    [replace, pathname, query]
-  );
-
-  const state: Partial<QueryState> = {
-    id: query.id ? ensureString(query.id) : undefined,
+      return [state as QueryStateArray, setState] as const;
+    };
   };
 
-  for (const k of queryStateKeys) {
-    const v = query[k] ?? queryStateDefaults[k];
-    if (v !== undefined) {
-      state[k] = ensureArray(v);
-    }
-  }
+  // Create single value version
+  const makeUseQueryStateSingle = () => {
+    type QueryStateSingle = {
+      [K in keyof SchemaType]: SchemaType[K] extends z.ZodArray<$IntentionalAny>
+        ? z.infer<SchemaType[K]>[number]
+        : z.infer<SchemaType[K]>;
+    };
 
-  return [state as QueryState, setState] as const;
-};
+    const schemaKeys = Object.keys(schema.shape) as (keyof SchemaType)[];
+    return () => {
+      const { query, replace, pathname } = useRouter();
 
-export type QueryStateSingle = {
-  tab: string;
-  operator?: string;
-  municipality?: string;
-  canton?: string;
-  period: string;
-  category: string;
-  priceComponent: string;
-  product: string;
-  download?: string;
-  cantonsOrder: string;
-  view: string;
+      const setState = useCallback(
+        (newQueryState: Partial<QueryStateSingle>) => {
+          const newQuery: { [k: string]: string } = {};
 
-  // Sunshine
-  viewBy: string;
-  typology: string;
-  indicator: string;
-  energyTariffCategory: string;
-  netTariffCategory: string;
-  networkLevel: string;
-};
+          for (const k of schemaKeys) {
+            const v = newQueryState[k as keyof typeof newQueryState];
+            if (v !== undefined) {
+              newQuery[k as string] = v as string;
+            }
+          }
 
-export const useQueryStateSingle = () => {
-  const { query, replace, pathname } = useRouter();
+          const href = {
+            pathname,
+            query: { ...query, ...newQuery },
+          };
 
-  const setState = useCallback(
-    (newQueryState: Partial<QueryStateSingle>) => {
-      const newQuery: { [k: string]: string } = {};
+          replace(href, undefined, { shallow: true });
+        },
+        [replace, pathname, query]
+      );
 
-      for (const k of queryStateKeys) {
-        const v = newQueryState[k];
+      const state: Partial<QueryStateSingle> = {};
+
+      for (const k of schemaKeys) {
+        const key = k as string;
+        const defaultValue = schema.shape[k]._def.defaultValue?.();
+        const v = query[key] !== undefined ? query[key] : defaultValue;
+
         if (v !== undefined) {
-          newQuery[k] = v;
+          state[k] = ensureString(v);
         }
       }
 
-      console.log("useQueryStateSingle setState", newQuery);
+      return [state as QueryStateSingle, setState] as const;
+    };
+  };
 
-      const href = {
-        pathname,
-        query: { ...query, ...newQuery },
-      };
+  return {
+    useQueryState: makeUseQueryStateArray(),
+    useQueryStateSingle: makeUseQueryStateSingle(),
+  };
+}
 
-      replace(href, undefined, { shallow: true });
-    },
-    [replace, pathname, query]
-  );
+const commonSchema = z.object({
+  tab: z.enum(["electricity", "sunshine"] as const).default("electricity"),
+});
 
-  const state: Partial<QueryStateSingle> = {};
+const tabsSchema = z.enum(["electricity", "sunshine"] as const);
 
-  for (const k of queryStateKeys) {
-    const v = query[k] ?? queryStateDefaults[k];
-    if (v !== undefined) {
-      state[k] = ensureString(v);
-    }
-  }
+// Example schemas for different pages
+const electricitySchema = z.object({
+  tab: tabsSchema.default("electricity"),
+  operator: z.string().optional(),
+  period: z.string().default(buildEnv.CURRENT_PERIOD),
+  municipality: z.string().optional(),
+  canton: z.string().optional(),
+  category: z.string().default("H4"),
+  priceComponent: z.string().default("total"),
+  product: z.string().default("standard"),
+  download: z.string().optional(),
+  cantonsOrder: z.string().default("median-asc"),
+  view: z.string().default("collapsed"),
+});
 
-  return [state as QueryStateSingle, setState] as const;
-};
+const sunshineSchema = z.object({
+  tab: tabsSchema.default("sunshine"),
+  period: z.string().default(buildEnv.CURRENT_PERIOD),
+  viewBy: z.string().default("all_grid_operators"),
+  typology: z.string().default("total"),
+  indicator: z.string().default("saidi"),
+  energyTariffCategory: z.string().default("EC2"),
+  netTariffCategory: z.string().default("NC2"),
+  networkLevel: z.string().default("NE5"),
+});
+
+export const { useQueryStateSingle: useQueryStateSingleCommon } =
+  makeUseQueryState(commonSchema);
+
+// Create the hooks
+export const {
+  useQueryState: useQueryStateElectricity,
+  useQueryStateSingle: useQueryStateSingleElectricity,
+} = makeUseQueryState(electricitySchema);
+
+export const { useQueryStateSingle: useQueryStateSingleSunshine } =
+  makeUseQueryState(sunshineSchema);
+
+export type QueryStateSingleElectricity = UseQueryStateSingle<
+  typeof electricitySchema.shape
+>;
+
+/** @knipignore */
+export type QueryStateArrayElectricity = UseQueryStateArray<
+  typeof electricitySchema.shape
+>;
+
+/** @knipignore */
+export type QueryStateSingleSunshine = UseQueryStateSingle<
+  typeof sunshineSchema.shape
+>;
+
+/** @knipignore */
+export type QueryStateArraySunshine = UseQueryStateArray<
+  typeof sunshineSchema.shape
+>;
