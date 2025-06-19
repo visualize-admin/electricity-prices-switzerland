@@ -14,6 +14,7 @@
   ],
   "rules": {
     "@typescript-eslint/no-empty-object-type": "off",
+    "no-console": ["warn", { "allow": ["warn", "error", "info"] }],
     "@typescript-eslint/no-empty-interface": "off",
     "react-hooks/exhaustive-deps": "error",
     "import/no-unresolved": "off",

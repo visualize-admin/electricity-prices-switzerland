@@ -22,6 +22,7 @@ import {
 } from "src/components/charts-generic/rangeplot/rangeplot";
 import { RangeplotMedian } from "src/components/charts-generic/rangeplot/rangeplot-median";
 import { RangePlot } from "src/components/charts-generic/rangeplot/rangeplot-state";
+import { ColorLegend } from "src/components/color-legend";
 import { Combobox } from "src/components/combobox";
 import {
   Card,
@@ -38,7 +39,6 @@ import { FilterSetDescription } from "src/components/detail-page/filter-set-desc
 import { WithClassName } from "src/components/detail-page/with-classname";
 import { Loading, NoDataHint } from "src/components/hint";
 import { InfoDialogButton } from "src/components/info-dialog";
-import { PriceColorLegend } from "src/components/price-color-legend";
 import { SortingOrder, SortingType } from "src/domain/config-types";
 import { Entity, GenericObservation, priceComponents } from "src/domain/data";
 import { getLocalizedLabel } from "src/domain/translation";
@@ -225,7 +225,7 @@ export const CantonsComparisonRangePlots = ({ id, entity }: SectionProps) => {
                 showLabel={true}
               />
             </Box>
-            <PriceColorLegend />
+            <ColorLegend />
           </Box>
         </>
       )}

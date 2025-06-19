@@ -15,6 +15,9 @@ You can also check the
 
   - Operator list is showing in the map page when on sunshine indicators
   - Added story for map tooltip
+  - Use same map tooltip as energy for sunshine map
+  - Hover on operator list for sunshine indicators highlights operators on map
+  - Sunshine map has better styling and is closer to the current prices map
 
 # 2.1.0
 

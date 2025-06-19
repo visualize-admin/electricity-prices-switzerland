@@ -18,7 +18,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const reference = req.query.reference as string;
   const fileAttrs = await downloadGeverDocument(reference);
   res.setHeader("Content-type", fileAttrs.contentType);
-  console.log(`Downloading ${fileAttrs.name}`);
+  console.info(`Downloading ${fileAttrs.name}`);
   res.setHeader(
     "Content-Disposition",
     `attachment; filename="${sanitizeHeaderValue(

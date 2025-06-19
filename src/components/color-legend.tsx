@@ -1,10 +1,9 @@
 import styled from "@emotion/styled";
-import { Trans, t } from "@lingui/macro";
+import { Trans } from "@lingui/macro";
 import { Box, Typography } from "@mui/material";
 import { useState } from "react";
 
 import { InfoDialogButton } from "src/components/info-dialog";
-import { useFormatCurrency } from "src/domain/helpers";
 import { Icon } from "src/icons";
 import { useIsMobile } from "src/lib/use-mobile";
 import { chartPalette } from "src/themes/palette";
@@ -26,14 +25,22 @@ const LegendBox = styled(Box)({
   py: 2,
 });
 
-export const MapPriceColorLegend = ({
-  stats,
+type Tick = {
+  value: number | undefined;
+  label: string;
+};
+
+export const MapColorLegend = ({
+  ticks,
   id,
+  title,
+  infoDialogButtonProps,
 }: {
-  stats: [number | undefined, number | undefined, number | undefined];
+  ticks: Tick[];
   id: string;
+  title: React.ReactNode;
+  infoDialogButtonProps?: React.ComponentProps<typeof InfoDialogButton>;
 }) => {
-  const formatCurrency = useFormatCurrency();
   const isMobile = useIsMobile();
   const [open, setOpen] = useState(!isMobile);
 
@@ -62,18 +69,11 @@ export const MapPriceColorLegend = ({
           variant="inherit"
           sx={{ fontSize: "0.625rem", lineHeight: 1.5, mr: 1 }}
         >
-          <Trans id="map.legend.title">
-            Tariff comparison in Rp./kWh (figures excl. VAT)
-          </Trans>
+          {title}
         </Typography>
-        <InfoDialogButton
-          iconOnly
-          slug="help-price-comparison"
-          label={t({
-            id: "help.price-comparison",
-            message: "Tariff comparison",
-          })}
-        />
+        {infoDialogButtonProps ? (
+          <InfoDialogButton iconOnly {...infoDialogButtonProps} />
+        ) : null}
         <Box
           onClick={() => setOpen(false)}
           sx={{
@@ -102,24 +102,24 @@ export const MapPriceColorLegend = ({
           }}
           display="flex"
         >
-          <Typography
-            variant="inherit"
-            sx={{ flex: "1 1 0px", display: "flex" }}
-          >
-            {stats[0] && formatCurrency(stats[0])}
-          </Typography>
-          <Typography
-            variant="inherit"
-            sx={{ flex: "1 1 0px", textAlign: "center" }}
-          >
-            {stats[1] && formatCurrency(stats[1])}
-          </Typography>
-          <Typography
-            variant="inherit"
-            sx={{ flex: "1 1 0px", textAlign: "right" }}
-          >
-            {stats[2] && formatCurrency(stats[2])}
-          </Typography>
+          {ticks.map((stat, index) => (
+            <Typography
+              key={index}
+              variant="inherit"
+              sx={{
+                flex: "1 1 0px",
+                textAlign:
+                  index === 0
+                    ? "left"
+                    : index === ticks.length - 1
+                    ? "right"
+                    : "center",
+                ...(index === 0 ? { display: "flex" } : {}),
+              }}
+            >
+              {stat.label || ""}
+            </Typography>
+          ))}
         </Box>
         <Box
           sx={{
@@ -159,7 +159,7 @@ export const MapPriceColorLegend = ({
   );
 };
 
-export const PriceColorLegend = () => {
+export const ColorLegend = () => {
   return (
     <Box
       sx={{

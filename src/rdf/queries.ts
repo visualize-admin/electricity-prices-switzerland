@@ -232,12 +232,6 @@ export const getObservations = async (
         }
   );
 
-  console.log("> getObservations");
-
-  console.log({
-    query: getSparqlEditorUrl(filterView.observationsQuery().query.toString()),
-  });
-
   const cacheKey = filterView.observationsQuery().query.toString();
 
   const cached = cache.get(cacheKey);
@@ -306,10 +300,6 @@ export const getDimensionValuesAndLabels = async ({
     as: ns.electricityPriceDimension(`${dimensionKey}Label`),
   });
   lookupView.addDimension(dimension).addDimension(labelDimension);
-
-  console.log({
-    query: getSparqlEditorUrl(lookupView.observationsQuery().query.toString()),
-  });
 
   const observations = await lookupView.observations();
 
@@ -474,8 +464,6 @@ export const getOperatorDocuments = async ({
   ${ns.schema.category} ?category ;
   ${ns.schema.creator} ${rdf.namedNode(operatorIri)} .`.build();
 
-  console.log({ query: getSparqlEditorUrl(query) });
-
   const results = (await client.query.select(query)) as {
     name: Literal;
     url: Literal;
@@ -580,6 +568,7 @@ export const getOperatorMunicipalities = async (id: string, locale: string) => {
     .map(({ id, name }) => ({ id, name }));
 };
 
+/** @knipignore */
 export const getSparqlEditorUrl = (query: string): string | null => {
   assert(!!serverEnv, "serverEnv is not defined");
   return serverEnv.SPARQL_EDITOR

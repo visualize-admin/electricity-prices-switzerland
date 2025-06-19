@@ -48,7 +48,6 @@ const createAPI = (namespace: string) => {
         try {
           const flagName = param.substring(FLAG_URL_PREFIX.length);
           const flagValue = JSON.parse(value);
-          console.log("Setting flag", flagName, flagValue);
           flag(flagName, flagValue);
         } catch (e) {
           console.error(e);

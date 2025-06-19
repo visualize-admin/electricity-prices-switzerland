@@ -15,7 +15,6 @@ export const CombinedSelectors = () => {
 
   const handleTabChange = useCallback(
     (_: React.SyntheticEvent, newValue: TabValue) => {
-      console.log("Tab changed to:", newValue);
       setQueryState({ tab: newValue });
     },
     [setQueryState]

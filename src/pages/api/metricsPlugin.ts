@@ -35,7 +35,7 @@ const metricsLogger = (metricsPerOperation: OperationMetrics) => {
     const bar = `${key}${" ".repeat(spaces)}${"█".repeat(filled)}${"░".repeat(
       rest
     )} ${cachehits}/${totalhits} ${format(".0%")(cachehits / totalhits)}`;
-    console.log(bar);
+    console.info(bar);
   }
 };
 

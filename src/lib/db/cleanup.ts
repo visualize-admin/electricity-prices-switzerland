@@ -8,7 +8,7 @@ const cleanupDatabaseConnections = (): void => {
   try {
     // Close DuckDB connections
     closeDuckDB();
-    console.log("Database connections closed successfully");
+    console.info("Database connections closed successfully");
   } catch (error) {
     console.error("Error closing database connections:", error);
   }
@@ -25,19 +25,19 @@ export const setupCleanupHandlers = (): void => {
 
   // Handle CTRL+C
   process.on("SIGINT", () => {
-    console.log("Application terminating: cleanup database connections");
+    console.info("Application terminating: cleanup database connections");
     cleanupDatabaseConnections();
   });
 
   // Handle kill command
   process.on("SIGTERM", () => {
-    console.log("Application killed: cleanup database connections");
+    console.info("Application killed: cleanup database connections");
     cleanupDatabaseConnections();
   });
 
   // Handle uncaught exceptions
-  process.on("uncaughtException", (error) => {
-    console.log("Uncaught exceptions: clean up database connections");
+  process.on("uncaughtException", () => {
+    console.info("Uncaught exceptions: clean up database connections");
     cleanupDatabaseConnections();
   });
 };

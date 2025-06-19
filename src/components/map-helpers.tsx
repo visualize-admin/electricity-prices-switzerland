@@ -1,12 +1,6 @@
-import {
-  FlyToInterpolator,
-  Viewport,
-  WebMercatorViewport,
-} from "@deck.gl/core/typed";
+import { FlyToInterpolator, WebMercatorViewport } from "@deck.gl/core/typed";
 import { ScaleThreshold, color } from "d3";
-import { BBox } from "geojson";
-
-import { BBox as MapBBox } from "src/components/map";
+import { BBox as GeoJsonBBox } from "geojson";
 
 export const getFillColor = (
   colorScale: ScaleThreshold<number, string, never> | undefined,
@@ -35,7 +29,7 @@ export const getFillColor = (
  */
 export const constrainZoom = (
   viewState: $FixMe,
-  bbox: MapBBox,
+  bbox: BBox,
   { padding = 150 }: { padding?: number } = {}
 ) => {
   if (viewState.width < padding * 2 || viewState.height < padding * 2) {
@@ -76,18 +70,10 @@ export const constrainZoom = (
     latitude: p[1],
   };
 };
-export const getZoomFromBounds = (bounds: BBox, viewport: Viewport) => {
-  const [x0, y0, x1, y1] = bounds;
-  const width = Math.abs(x1 - x0);
-  const height = Math.abs(y1 - y0);
-  const zoomX = Math.log(viewport.width / width) / Math.log(2);
-  const zoomY = Math.log(viewport.height / height) / Math.log(2);
-  return Math.min(zoomX, zoomY) - 1;
-};
 
 export const getZoomedViewState = (
   currentViewState: $FixMe,
-  bbox: BBox,
+  bbox: GeoJsonBBox,
   {
     padding = 150,
     transitionDuration = 1000,
@@ -113,4 +99,134 @@ export const flattenBBox = (
   bbox: [[number, number], [number, number]]
 ): [number, number, number, number] => {
   return [bbox[0][0], bbox[0][1], bbox[1][0], bbox[1][1]];
+};
+export type HoverState =
+  | {
+      x: number;
+      y: number;
+      id: string;
+      type: "municipality";
+    }
+  | {
+      x: number;
+      y: number;
+      id: string;
+      type: "canton";
+      value: number;
+      label: string;
+    }
+  | {
+      x: number;
+      y: number;
+      id: string;
+      type: "operator";
+      values: {
+        operatorName: string;
+        value: number;
+      }[];
+    };
+export const INITIAL_VIEW_STATE = {
+  latitude: 46.8182,
+  longitude: 8.2275,
+  zoom: 2,
+  maxZoom: 16,
+  minZoom: 2,
+  pitch: 0,
+  bearing: 0,
+};
+
+export type BBox = [[number, number], [number, number]];
+
+export const CH_BBOX: BBox = [
+  [5.956800664952974, 45.81912371940225],
+  [10.493446773955753, 47.80741209797084],
+];
+
+type Color = [number, number, number, number];
+
+const LINE_COLOR: Color = [255, 255, 255, 255];
+
+// Define style tokens for map layers
+export const styles = {
+  municipalities: {
+    base: {
+      fillColor: {
+        doesNotExist: [0, 0, 0, 0] as Color,
+        withoutData: [221, 225, 227, 255] as Color,
+      },
+    },
+    overlay: {
+      default: {
+        fillColor: [0, 0, 0, 0] as Color,
+        lineColor: [0, 0, 0, 0] as Color,
+        lineWidth: 0,
+      },
+      active: {
+        fillColor: [0, 0, 0, 0] as Color,
+        lineColor: [31, 41, 55, 255] as Color,
+        lineWidth: 3,
+      },
+      inactive: {
+        fillColor: [255, 255, 255, 102] as Color,
+        lineColor: [0, 0, 0, 0],
+        lineWidth: 0,
+      },
+    },
+  },
+  municipalityMesh: {
+    lineColor: LINE_COLOR,
+    lineWidthMinPixels: 0.5,
+    lineWidthMaxPixels: 1,
+    lineWidth: 100,
+  },
+  lakes: {
+    fillColor: LINE_COLOR,
+    lineColor: LINE_COLOR,
+    lineWidthMinPixels: 0.5,
+    lineWidthMaxPixels: 1,
+    lineWidth: 100,
+  },
+  cantons: {
+    lineColor: LINE_COLOR,
+    lineWidthMinPixels: 1.2,
+    lineWidthMaxPixels: 3.6,
+    lineWidth: 200,
+  },
+  operators: {
+    base: {
+      lineColor: LINE_COLOR,
+      lineWidthMinPixels: 0.5,
+      lineWidthMaxPixels: 1,
+      highlightColor: [0, 0, 0, 100] as Color,
+      transitions: {
+        duration: 300,
+        easing: "easeExpIn" as const,
+      },
+      fillColor: {
+        doesNotExist: [0, 0, 0, 0] as Color,
+        withoutData: [221, 225, 227, 255] as Color,
+      },
+    },
+    pickable: {
+      fillColor: [255, 255, 255, 0] as Color, // Transparent
+      highlightColor: [0, 0, 0, 50] as Color,
+    },
+    municipalityMesh: {
+      lineColor: LINE_COLOR,
+      lineWidthMinPixels: 0.5,
+      lineWidthMaxPixels: 0.5,
+    },
+    overlay: {
+      active: {
+        fillColor: [0, 0, 0, 0] as Color,
+        lineColor: [31, 41, 55, 255] as Color,
+        lineWidth: 3,
+      },
+      inactive: {
+        fillColor: [255, 255, 255, 102] as Color,
+        lineColor: [0, 0, 0, 0] as Color,
+        lineWidth: 2,
+      },
+    },
+  },
 };
