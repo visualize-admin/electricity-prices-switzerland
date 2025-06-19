@@ -22,16 +22,18 @@ import { BarFields } from "src/domain/config-types";
 import { GenericObservation } from "src/domain/data";
 import { getOpacityRanges, getPalette, getTextWidth } from "src/domain/helpers";
 
-import { LEFT_MARGIN_OFFSET } from "../constants";
+import {
+  BAR_HEIGHT_SMALL,
+  BAR_PADDING,
+  LEFT_MARGIN_OFFSET,
+} from "../constants";
 import { useChartTheme } from "../use-chart-theme";
 
 const useStackedBarsState = ({
   data,
   fields,
-  aspectRatio,
 }: Pick<ChartProps, "data" | "dimensions" | "measures"> & {
   fields: BarFields;
-  aspectRatio: number;
 }): StackedBarsState => {
   const width = useWidth();
   const { labelFontSize } = useChartTheme();
@@ -136,7 +138,7 @@ const useStackedBarsState = ({
     };
 
     const chartWidth = width - margins.left - margins.right;
-    const chartHeight = chartWidth * aspectRatio;
+    const chartHeight = categories.length * (BAR_HEIGHT_SMALL + BAR_PADDING);
 
     const bounds = {
       width,
@@ -162,7 +164,7 @@ const useStackedBarsState = ({
       yScale,
       bounds,
     };
-  }, [data, fields, width, getCategory, segments, labelFontSize, aspectRatio]);
+  }, [data, fields, width, getCategory, segments, labelFontSize]);
 
   const getSegmentValue = useCallback(
     (category: string, segment: string): number => {
@@ -221,18 +223,15 @@ const StackedBarsChartProvider = ({
   dimensions,
   measures,
   children,
-  aspectRatio,
 }: Pick<ChartProps, "data" | "dimensions" | "measures"> & {
   children: ReactNode;
   fields: BarFields;
-  aspectRatio: number;
 }) => {
   const state = useStackedBarsState({
     data,
     fields,
     dimensions,
     measures,
-    aspectRatio,
   });
   return (
     <ChartContext.Provider value={state}>{children}</ChartContext.Provider>
@@ -245,11 +244,9 @@ export const StackedBarsChart = ({
   dimensions,
   measures,
   children,
-  aspectRatio,
 }: Pick<ChartProps, "data" | "dimensions" | "measures"> & {
   children: ReactNode;
   fields: BarFields;
-  aspectRatio: number;
 }) => {
   return (
     <Observer>
@@ -259,7 +256,6 @@ export const StackedBarsChart = ({
           fields={fields}
           dimensions={dimensions}
           measures={measures}
-          aspectRatio={aspectRatio}
         >
           {children}
         </StackedBarsChartProvider>
