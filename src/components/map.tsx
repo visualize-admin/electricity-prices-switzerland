@@ -14,7 +14,10 @@ import React, {
 } from "react";
 
 import { MapColorLegend } from "src/components/color-legend";
-import { HighlightContext } from "src/components/highlight-context";
+import {
+  HighlightContext,
+  HighlightValue,
+} from "src/components/highlight-context";
 import { getFillColor, styles } from "src/components/map-helpers";
 import { MapTooltipContent } from "src/components/map-tooltip";
 import { useGeoData } from "src/data/geo";
@@ -216,6 +219,27 @@ export const ChoroplethMap = ({
     formatNumber,
   ]);
 
+  const getEntityFromHighlight = useCallback(
+    (highlight: HighlightValue) => {
+      const { entity: type, id } = highlight;
+      if (!indexes || !id) {
+        return;
+      }
+      const index =
+        type === "canton"
+          ? indexes.cantons
+          : type === "municipality"
+          ? indexes.municipalities
+          : undefined;
+      const entity = index?.get(parseInt(id, 10));
+      if (!entity) {
+        return;
+      }
+      return entity;
+    },
+    [indexes]
+  );
+
   const valuesExtent = useMemo(() => {
     const meansByMunicipality = rollup(
       observations,
@@ -274,7 +298,7 @@ export const ChoroplethMap = ({
             ? getFillColor(
                 colorScale,
                 mean(obs, (d) => d.value),
-                false
+                highlightContext?.id === id
               )
             : styles.municipalities.base.fillColor.withoutData;
         },
@@ -447,6 +471,8 @@ export const ChoroplethMap = ({
       legend={renderLegend()}
       downloadId={DOWNLOAD_ID}
       controls={controls}
+      getEntityFromHighlight={getEntityFromHighlight}
+      setHovered={setHovered}
     />
   );
 };

@@ -3,15 +3,28 @@ import {
   MapController,
   MapViewState,
   PickingInfo,
+  WebMercatorViewport,
 } from "@deck.gl/core/typed";
 import { ViewStateChangeParameters } from "@deck.gl/core/typed/controllers/controller";
 import DeckGL, { DeckGLRef } from "@deck.gl/react/typed";
 import { Box } from "@mui/material";
 import bbox from "@turf/bbox";
+import centroid from "@turf/centroid";
 import { Feature } from "geojson";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  Dispatch,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
 import { WithClassName } from "src/components/detail-page/with-classname";
+import {
+  HighlightContext,
+  HighlightValue,
+} from "src/components/highlight-context";
 import { Loading, NoDataHint, NoGeoDataHint } from "src/components/hint";
 import {
   BBox,
@@ -53,6 +66,8 @@ export const GenericMap = ({
   onLayerClick,
   controls,
   initialBBox = CH_BBOX,
+  getEntityFromHighlight,
+  setHovered,
 }: {
   layers: Layer[];
   isLoading?: boolean;
@@ -72,12 +87,56 @@ export const GenericMap = ({
     zoomOut: () => void;
   } | null>;
   initialBBox?: BBox;
+  getEntityFromHighlight?: (highlight: HighlightValue) => Feature | undefined;
+  setHovered: Dispatch<HoverState | undefined>;
 }) => {
   const isMobile = useIsMobile();
   const mapZoomPadding = isMobile ? 20 : 150;
 
   const [viewState, setViewState] = useState(INITIAL_VIEW_STATE);
   const [screenshotting, setScreenshotting] = useState(false);
+
+  const highlightContext = useContext(HighlightContext).value;
+
+  // Syncs highlight context (coming from the right list hover) with hovered
+  useEffect(() => {
+    if (!getEntityFromHighlight || !highlightContext) {
+      setHovered(undefined);
+      return;
+    }
+    const vp = new WebMercatorViewport(viewState);
+    const type = highlightContext.entity;
+    if (type === "operator") {
+      return;
+    }
+    const entity = getEntityFromHighlight?.(highlightContext);
+    if (!entity) {
+      return;
+    }
+    const center = centroid(entity as Parameters<typeof centroid>[0]);
+    const projected = vp.project(
+      center.geometry.coordinates as [number, number]
+    );
+
+    const common = {
+      x: projected[0],
+      y: projected[1] + 10,
+      id: highlightContext.id,
+    };
+    const newHoverState: HoverState =
+      type === "municipality"
+        ? {
+            ...common,
+            type: "municipality",
+          }
+        : {
+            ...common,
+            type: "canton",
+            label: highlightContext.label,
+            value: highlightContext.value,
+          };
+    setHovered(newHoverState);
+  }, [getEntityFromHighlight, highlightContext, setHovered, viewState]);
 
   // View state change handler
   const onViewStateChangeHandler = useCallback(
