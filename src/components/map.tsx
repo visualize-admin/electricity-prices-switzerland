@@ -14,7 +14,6 @@ import { extent, group, mean, rollup, ScaleThreshold } from "d3";
 import { useRouter } from "next/router";
 import React, {
   ComponentProps,
-  ReactNode,
   useCallback,
   useContext,
   useEffect,
@@ -32,6 +31,7 @@ import {
   getFillColor,
   getZoomedViewState,
 } from "src/components/map-helpers";
+import HintBox from "src/components/map-hint-box";
 import { MapTooltip, MapTooltipContent } from "src/components/map-tooltip";
 import { MapPriceColorLegend } from "src/components/price-color-legend";
 import { useGeoData } from "src/data/geo";
@@ -40,6 +40,7 @@ import { getImageData, SCREENSHOT_CANVAS_SIZE } from "src/domain/screenshot";
 import { OperatorObservationFieldsFragment } from "src/graphql/queries";
 import { maxBy } from "src/lib/array";
 import { useIsMobile } from "src/lib/use-mobile";
+import { frame, sleep } from "src/utils/delay";
 import { useFlag } from "src/utils/flags";
 
 import { useMap } from "./map-context";
@@ -110,28 +111,6 @@ const __debugCheckObservationsWithoutShapes = (
   }
 };
 
-const HintBox = ({ children }: { children: ReactNode }) => (
-  <Box
-    sx={{
-      width: "100%",
-      height: "100%",
-      color: "hint.main",
-      margin: "auto",
-      textAlign: "center",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
-      zIndex: 1,
-      position: "relative",
-    }}
-    display="flex"
-  >
-    <Box sx={{ bgcolor: "muted.transparent", borderRadius: "bigger", p: 2 }}>
-      {children}
-    </Box>
-  </Box>
-);
-
 type HoverState =
   | {
       x: number;
@@ -147,9 +126,6 @@ type HoverState =
       value: number;
       label: string;
     };
-
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-const frame = () => new Promise((resolve) => requestAnimationFrame(resolve));
 
 export const ChoroplethMap = ({
   year,
