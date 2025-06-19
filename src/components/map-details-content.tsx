@@ -202,22 +202,9 @@ export const MapDetailsContent: React.FC<{
   entity: Entity;
   listState: ListState;
   selectedItem: ListItemType;
-  setActiveId: React.Dispatch<React.SetStateAction<string | null>>;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}> = ({
-  colorScale,
-  entity,
-  listState,
-  selectedItem,
-  setActiveId,
-  setOpen,
-}) => (
-  <MapDetailsContentWrapper
-    onBack={() => {
-      setOpen(false);
-      setActiveId(null);
-    }}
-  >
+  onBack: () => void;
+}> = ({ colorScale, entity, listState, selectedItem, onBack }) => (
+  <MapDetailsContentWrapper onBack={onBack}>
     <MapDetailsEntityHeader entity={listState} {...selectedItem} />
     <MapDetailsEntityTable
       colorScale={colorScale}

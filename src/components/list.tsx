@@ -6,7 +6,6 @@ import {
   MouseEvent,
   MouseEventHandler,
   useContext,
-  useEffect,
   useMemo,
   useState,
 } from "react";
@@ -114,8 +113,6 @@ const ListItems = ({
 }) => {
   const [truncated, setTruncated] = useState<number>(TRUNCATION_INCREMENT);
   const formatNumber = useFormatCurrency();
-  const [open, setOpen] = useState<boolean>(false);
-  const [selectedItem, setSelectedItem] = useState<ListItemType | null>(null);
   const { activeId, setActiveId } = useMap();
   const isSunshine = useFlag("sunshine");
   const router = useRouter();
@@ -140,13 +137,13 @@ const ListItems = ({
       }
     }
   );
-  useEffect(() => {
+
+  const selectedItem = useMemo(() => {
     if (activeId) {
       const selected = items.find(([itemId]) => itemId === activeId);
-      setSelectedItem(selected?.[1] ?? null);
-      setOpen(true);
+      return selected?.[1] ?? null;
     }
-  }, [activeId, items, listState]);
+  }, [activeId, items]);
 
   const listItems =
     items.length > truncated ? items.slice(0, truncated) : items;
@@ -154,14 +151,13 @@ const ListItems = ({
   return (
     <Box>
       {selectedItem && (
-        <InlineDrawer open={open} onClose={() => setOpen(false)}>
+        <InlineDrawer open={!!selectedItem} onClose={() => setActiveId(null)}>
           <MapDetailsContent
             colorScale={colorScale}
             entity={getEntity()}
             listState={listState}
-            setOpen={setOpen}
             selectedItem={selectedItem}
-            setActiveId={setActiveId}
+            onBack={() => setActiveId(null)}
           />
         </InlineDrawer>
       )}
