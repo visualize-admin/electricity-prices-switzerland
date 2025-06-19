@@ -20,7 +20,6 @@ import { DownloadImage } from "src/components/detail-page/download-image";
 import { InlineDrawer } from "src/components/drawer";
 import { InfoBanner } from "src/components/info-banner";
 import {
-  getEntityFromListState,
   groupsFromCantonElectricityObservations,
   groupsFromElectricityMunicipalities,
   groupsFromElectricityOperators,
@@ -29,7 +28,7 @@ import {
   ListItemType,
 } from "src/components/list";
 import { ChoroplethMap, ChoroplethMapProps } from "src/components/map";
-import { ListState, MapProvider, useMap } from "src/components/map-context";
+import { MapProvider, useMap } from "src/components/map-context";
 import { MapDetailsContent } from "src/components/map-details-content";
 import OperatorsMap from "src/components/operators-map";
 import ShareButton from "src/components/share-button";
@@ -263,13 +262,13 @@ const IndexPageContent = ({
     />
   );
 
-  const { listState, setListState } = useMap();
+  const { entity, setEntity } = useMap();
 
   const listGroups = useMemo(() => {
     if (isElectricityTab) {
-      return listState === "CANTONS"
+      return entity === "canton"
         ? groupsFromCantonElectricityObservations(cantonMedianObservations)
-        : listState === "OPERATORS"
+        : entity === "operator"
         ? groupsFromElectricityOperators(observations)
         : groupsFromElectricityMunicipalities(observations);
     } else {
@@ -280,7 +279,7 @@ const IndexPageContent = ({
     }
   }, [
     isElectricityTab,
-    listState,
+    entity,
     cantonMedianObservations,
     observations,
     sunshineObservations,
@@ -289,7 +288,7 @@ const IndexPageContent = ({
 
   const list = (
     <List
-      listState={isElectricityTab ? listState : "OPERATORS"}
+      entity={isElectricityTab ? entity : "operator"}
       grouped={listGroups}
       colorScale={colorScale}
       fetching={
@@ -301,34 +300,34 @@ const IndexPageContent = ({
   );
 
   const listButtonGroup = isElectricityTab ? (
-    <ButtonGroup<ListState>
+    <ButtonGroup<Entity>
       id="list-state-tabs"
       options={[
         {
-          value: "MUNICIPALITIES",
+          value: "municipality",
           label: t({
             id: "list.municipalities",
             message: "Municipalities",
           }),
         },
         {
-          value: "CANTONS",
+          value: "canton",
           label: t({ id: "list.cantons", message: "Cantons" }),
         },
         {
-          value: "OPERATORS",
+          value: "operator",
           label: t({
             id: "list.operators",
             message: "Network operator",
           }),
         },
       ]}
-      value={listState}
+      value={entity}
       label={t({
         id: "list.viewby.label",
         message: "View according to",
       })}
-      setValue={setListState}
+      setValue={setEntity}
     />
   ) : null;
 
@@ -343,7 +342,7 @@ const IndexPageContent = ({
     <DetailsDrawer
       selectedItem={selectedItem}
       colorScale={isElectricityTab ? colorScale : sunshineColorScale}
-      entity={getEntityFromListState(listState)}
+      entity={entity}
     />
   );
 

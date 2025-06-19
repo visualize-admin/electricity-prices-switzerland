@@ -7,13 +7,13 @@ import {
   useState,
 } from "react";
 
-export type ListState = "MUNICIPALITIES" | "OPERATORS" | "CANTONS";
+import { Entity } from "src/domain/data";
 
 type MapContextType = {
   activeId: string | null;
   setActiveId: Dispatch<SetStateAction<string | null>>;
-  listState: ListState;
-  setListState: Dispatch<SetStateAction<ListState>>;
+  entity: Entity;
+  setEntity: Dispatch<SetStateAction<Entity>>;
 };
 
 const MapContext = createContext<MapContextType | undefined>(undefined);
@@ -29,11 +29,11 @@ export const MapProvider = ({
   setActiveId,
   children,
 }: MapProviderProps) => {
-  const [listState, setListState] = useState<ListState>("MUNICIPALITIES");
+  const [entity, setEntity] = useState<Entity>("municipality");
 
   return (
     <MapContext.Provider
-      value={{ activeId, setActiveId, listState, setListState }}
+      value={{ activeId, setActiveId, entity: entity, setEntity: setEntity }}
     >
       {children}
     </MapContext.Provider>

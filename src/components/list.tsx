@@ -26,7 +26,7 @@ import { useFlag } from "src/utils/flags";
 
 import { AnchorNav } from "./anchor-nav";
 import { InlineDrawer } from "./drawer";
-import { ListState, useMap } from "./map-context";
+import { useMap } from "./map-context";
 import { MapDetailsContent } from "./map-details-content";
 
 type ListItemProps = {
@@ -35,7 +35,7 @@ type ListItemProps = {
   value: number;
   colorScale: (d: number) => string;
   formatNumber: (d: number) => string;
-  listState: ListState;
+  entity: Entity;
   handleClick?: MouseEventHandler<HTMLAnchorElement>;
 };
 
@@ -45,16 +45,10 @@ const ListItem = ({
   value,
   colorScale,
   formatNumber,
-  listState,
+  entity,
   handleClick,
 }: ListItemProps) => {
   const { setValue: setHighlightContext } = useContext(HighlightContext);
-  const entity =
-    listState === "MUNICIPALITIES"
-      ? "municipality"
-      : listState === "OPERATORS"
-      ? "operator"
-      : ("canton" as Entity);
 
   return (
     <AnchorNav
@@ -102,25 +96,14 @@ export type ListItemType = {
     | null;
 };
 
-export const getEntityFromListState = (listState: ListState): Entity => {
-  switch (listState) {
-    case "MUNICIPALITIES":
-      return "municipality";
-    case "OPERATORS":
-      return "operator";
-    case "CANTONS":
-      return "canton";
-  }
-};
-
 const ListItems = ({
   items,
   colorScale,
-  listState,
+  entity: entity,
 }: {
   items: [string, ListItemType][];
   colorScale: ScaleThreshold<number, string>;
-  listState: ListState;
+  entity: Entity;
 }) => {
   const [truncated, setTruncated] = useState<number>(TRUNCATION_INCREMENT);
   const formatNumber = useFormatCurrency();
@@ -128,23 +111,12 @@ const ListItems = ({
   const isSunshine = useFlag("sunshine");
   const router = useRouter();
 
-  const getEntity = (): Entity => {
-    switch (listState) {
-      case "MUNICIPALITIES":
-        return "municipality";
-      case "OPERATORS":
-        return "operator";
-      case "CANTONS":
-        return "canton";
-    }
-  };
-
   const handleListItemSelect = useEvent(
     (_: MouseEvent<HTMLAnchorElement, globalThis.MouseEvent>, id: string) => {
       if (isSunshine) {
         setActiveId(id);
       } else {
-        router.push(`/${getEntity()}/${id}`);
+        router.push(`/${entity}/${id}`);
       }
     }
   );
@@ -165,8 +137,7 @@ const ListItems = ({
         <InlineDrawer open={!!selectedItem} onClose={() => setActiveId(null)}>
           <MapDetailsContent
             colorScale={colorScale}
-            entity={getEntity()}
-            listState={listState}
+            entity={entity}
             selectedItem={selectedItem}
             onBack={() => setActiveId(null)}
           />
@@ -181,7 +152,7 @@ const ListItems = ({
             label={d.label || d.id}
             colorScale={colorScale}
             formatNumber={formatNumber}
-            listState={listState}
+            entity={entity}
             handleClick={(e) => handleListItemSelect(e, d.id)}
           />
         );
@@ -275,12 +246,12 @@ export const List = ({
   grouped,
   colorScale,
   fetching,
-  listState,
+  entity,
 }: {
   grouped: Groups;
   colorScale: ScaleThreshold<number, string>;
   fetching: boolean;
-  listState: ListState;
+  entity: Entity;
 }) => {
   const [sortState, setSortState] = useState<SortState>("ASC");
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -383,11 +354,7 @@ export const List = ({
       {fetching ? (
         <PlaceholderListItems />
       ) : (
-        <ListItems
-          items={listItems}
-          colorScale={colorScale}
-          listState={listState}
-        />
+        <ListItems items={listItems} colorScale={colorScale} entity={entity} />
       )}
     </Box>
   );
