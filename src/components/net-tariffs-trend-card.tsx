@@ -19,6 +19,7 @@ import { CardHeader } from "./detail-page/card";
 import { Download, DownloadImage } from "./detail-page/download-image";
 import { InfoDialogButton } from "./info-dialog";
 import { NetTariffsTrendChart } from "./net-tariffs-trend-chart";
+import { ViewByFilter } from "./power-stability-card";
 import { AllOrMultiCombobox } from "./query-combobox";
 
 const DOWNLOAD_ID: Download = "costs-and-tariffs";
@@ -30,32 +31,42 @@ const NetTariffsTrendCard: React.FC<
     netTariffs: SunshineCostsAndTariffsData["netTariffs"];
     operatorId: string;
     operatorLabel: string;
+    latestYear: number;
   } & CardProps
 > = (props) => {
   const [compareWith, setCompareWith] = useState(["sunshine.select-all"]);
-  const [viewBy, setViewBy] = useState("latest");
+  const [viewBy, setViewBy] = useState<ViewByFilter>("latest");
 
-  const { peerGroup, updateDate, netTariffs, operatorId, operatorLabel } =
-    props;
+  const {
+    peerGroup,
+    updateDate,
+    netTariffs,
+    operatorId,
+    operatorLabel,
+    latestYear,
+  } = props;
   const { peerGroupLabel } = getPeerGroupLabels(peerGroup);
 
   const { yearlyData, ...restNetTariffs } = netTariffs;
-  const latestYear = new Date().getFullYear();
   const latestYearDataItems = useMemo(() => {
     return yearlyData.filter(
-      (d) => d.period === latestYear && d.operator_id.toString() !== operatorId
+      (d) =>
+        (viewBy === "latest" ? d.period === latestYear : true) &&
+        d.operator_id.toString() !== operatorId
     );
-  }, [yearlyData, latestYear, operatorId]);
+  }, [yearlyData, latestYear, operatorId, viewBy]);
 
   const latestYearData = useMemo(() => {
-    return yearlyData.filter(
-      (d) =>
-        d.period === latestYear &&
-        (compareWith.includes("sunshine.select-all") ||
-          compareWith.includes(d.operator_id.toString()) ||
-          d.operator_id.toString() === operatorId)
-    );
-  }, [yearlyData, compareWith, latestYear, operatorId]);
+    return yearlyData.filter((d) => {
+      const isLatestYear = viewBy === "latest" ? d.period === latestYear : true;
+      const isSelected =
+        compareWith.includes("sunshine.select-all") ||
+        compareWith.includes(d.operator_id.toString()) ||
+        d.operator_id.toString() === operatorId;
+
+      return isLatestYear && isSelected;
+    });
+  }, [yearlyData, compareWith, latestYear, operatorId, viewBy]);
 
   return (
     <Card {...props} id={DOWNLOAD_ID}>
@@ -100,7 +111,14 @@ const NetTariffsTrendCard: React.FC<
 
         {/* Dropdown Controls */}
         <Grid container spacing={3} sx={{ mb: 3 }}>
-          <Grid item xs={12} sm={6}>
+          <Grid
+            item
+            xs={12}
+            sm={6}
+            sx={{
+              mt: 2.5,
+            }}
+          >
             <ButtonGroup
               id="view-by-button-group"
               label={t({
@@ -161,6 +179,7 @@ const NetTariffsTrendCard: React.FC<
             operatorLabel={operatorLabel}
             observations={latestYearData}
             netTariffs={restNetTariffs}
+            view={viewBy}
           />
         </Box>
         {/* Footer Info */}

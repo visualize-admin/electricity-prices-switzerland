@@ -1,5 +1,6 @@
 import { t } from "@lingui/macro";
 import { Box } from "@mui/material";
+import { useMemo } from "react";
 
 import type { SunshineCostsAndTariffsData } from "src/domain/data";
 import { getLocalizedLabel } from "src/domain/translation";
@@ -15,115 +16,150 @@ import { Dots } from "./charts-generic/scatter-plot/dots";
 import { ScatterPlotMedian } from "./charts-generic/scatter-plot/median";
 import { ScatterPlot } from "./charts-generic/scatter-plot/scatter-plot-state";
 import { SectionProps } from "./detail-page/card";
+import { ViewByFilter } from "./power-stability-card";
 
+type NetworkCostsTrendFilters = {
+  view: ViewByFilter;
+};
 type NetworkCostTrendChartProps = {
   observations: SunshineCostsAndTariffsData["networkCosts"]["yearlyData"];
   networkCosts: Omit<SunshineCostsAndTariffsData["networkCosts"], "yearlyData">;
   operatorLabel: string;
-};
+} & Omit<SectionProps, "entity"> &
+  NetworkCostsTrendFilters;
 
-export const NetworkCostTrendChart = ({
-  observations,
-  networkCosts,
-  id,
-  operatorLabel,
-}: NetworkCostTrendChartProps & Omit<SectionProps, "entity">) => {
+export const NetworkCostTrendChart = (props: NetworkCostTrendChartProps) => {
+  const { observations, view, ...restProps } = props;
+  const operatorsNames = useMemo(() => {
+    return new Set(observations.map((d) => d.operator_name));
+  }, [observations]);
   return (
     <Box
       sx={{
         mt: 8,
       }}
     >
-      <ScatterPlot
-        medianValue={networkCosts.peerGroupMedianRate ?? undefined}
-        data={observations.map((o) => ({
-          ...o,
-          network_level: getLocalizedLabel({
-            id: `network-level.${o.network_level}.long`,
-          }),
-        }))}
-        fields={{
-          x: { componentIri: "rate" },
-          y: { componentIri: "network_level" },
-          segment: {
-            componentIri: "operator_name",
-            palette: "elcom",
-          },
-          style: {
-            entity: "operator_id",
-            colorDomain: [
-              ...new Set(observations.map((d) => d.operator_name)),
-            ] as string[],
-            colorAcc: "operator_name",
-            highlightValue: id,
-          },
-          tooltip: {
-            componentIri: "year",
-          },
-        }}
-        measures={[{ iri: "rate", label: "Rate", __typename: "Measure" }]}
-        dimensions={[
-          {
-            iri: "operator_name",
-            label: "Operator",
-            __typename: "NominalDimension",
-          },
-        ]}
-        aspectRatio={0.15}
-      >
-        <Box
-          sx={{
-            position: "relative",
-            justifyContent: "flex-start",
-            alignItems: "flex-start",
-            flexWrap: "wrap",
-            minHeight: "20px",
-            gap: 2,
-          }}
-          display="flex"
-        >
-          <LegendItem
-            item={operatorLabel}
-            color={chartPalette.categorical[0]}
-            symbol={"circle"}
-          />
-          {/* <LegendItem
-            item={t({
-              id: "network-cost-trend-chart.legend-item.total-median",
-              message: "Total Median",
-            })}
-            color={palette.monochrome[800]}
-            symbol={"triangle"}
-          /> */}
-          <LegendItem
-            item={t({
-              id: "network-cost-trend-chart.legend-item.peer-group-median",
-              message: "Peer Group Median",
-            })}
-            color={palette.monochrome[800]}
-            symbol={"diamond"}
-          />
-
-          <LegendItem
-            item={t({
-              id: "network-cost-trend-chart.legend-item.other-operators",
-              message: "Other operators",
-            })}
-            color={palette.monochrome[200]}
-            symbol={"circle"}
-          />
-        </Box>
-        <ChartContainer>
-          <ChartSvg>
-            <AxisWidthLinear position="top" hideXAxisTitle format="number" />
-            <AxisHeightCategories stretch />
-            <Dots />
-            <InteractionDotted />
-            <ScatterPlotMedian />
-          </ChartSvg>
-          <Tooltip type="multiple" forceYAnchor />
-        </ChartContainer>
-      </ScatterPlot>
+      {view === "latest" ? (
+        <LatestYearChartView
+          observations={observations}
+          operatorsNames={operatorsNames}
+          {...restProps}
+        />
+      ) : (
+        <ProgressOvertimeChartView
+          observations={observations}
+          operatorsNames={operatorsNames}
+          {...restProps}
+        />
+      )}
     </Box>
   );
+};
+
+const LatestYearChartView = (
+  props: Omit<NetworkCostTrendChartProps, "view"> & {
+    operatorsNames: Set<string>;
+  }
+) => {
+  const { observations, networkCosts, id, operatorLabel, operatorsNames } =
+    props;
+
+  return (
+    <ScatterPlot
+      medianValue={networkCosts.peerGroupMedianRate ?? undefined}
+      data={observations.map((o) => ({
+        ...o,
+        network_level: getLocalizedLabel({
+          id: `network-level.${o.network_level}.long`,
+        }),
+      }))}
+      fields={{
+        x: { componentIri: "rate" },
+        y: { componentIri: "network_level" },
+        segment: {
+          componentIri: "operator_name",
+          palette: "elcom",
+        },
+        style: {
+          entity: "operator_id",
+          colorDomain: [...operatorsNames] as string[],
+          colorAcc: "operator_name",
+          highlightValue: id,
+        },
+        tooltip: {
+          componentIri: "year",
+        },
+      }}
+      measures={[{ iri: "rate", label: "Rate", __typename: "Measure" }]}
+      dimensions={[
+        {
+          iri: "operator_name",
+          label: "Operator",
+          __typename: "NominalDimension",
+        },
+      ]}
+      aspectRatio={0.15}
+    >
+      <Box
+        sx={{
+          position: "relative",
+          justifyContent: "flex-start",
+          alignItems: "flex-start",
+          flexWrap: "wrap",
+          minHeight: "20px",
+          gap: 2,
+        }}
+        display="flex"
+      >
+        <LegendItem
+          item={operatorLabel}
+          color={chartPalette.categorical[0]}
+          symbol={"circle"}
+        />
+        {/* <LegendItem
+    item={t({
+      id: "network-cost-trend-chart.legend-item.total-median",
+      message: "Total Median",
+    })}
+    color={palette.monochrome[800]}
+    symbol={"triangle"}
+  /> */}
+        <LegendItem
+          item={t({
+            id: "network-cost-trend-chart.legend-item.peer-group-median",
+            message: "Peer Group Median",
+          })}
+          color={palette.monochrome[800]}
+          symbol={"diamond"}
+        />
+
+        <LegendItem
+          item={t({
+            id: "network-cost-trend-chart.legend-item.other-operators",
+            message: "Other operators",
+          })}
+          color={palette.monochrome[200]}
+          symbol={"circle"}
+        />
+      </Box>
+      <ChartContainer>
+        <ChartSvg>
+          <AxisWidthLinear position="top" hideXAxisTitle format="number" />
+          <AxisHeightCategories stretch />
+          <Dots />
+          <InteractionDotted />
+          <ScatterPlotMedian />
+        </ChartSvg>
+        <Tooltip type="multiple" forceYAnchor />
+      </ChartContainer>
+    </ScatterPlot>
+  );
+};
+
+const ProgressOvertimeChartView = (
+  props: Omit<NetworkCostTrendChartProps, "view"> & {
+    operatorsNames: Set<string>;
+  }
+) => {
+  return null;
 };
