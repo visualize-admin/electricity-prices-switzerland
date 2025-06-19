@@ -4,9 +4,7 @@ import {
   WebMercatorViewport,
 } from "@deck.gl/core/typed";
 import { ScaleThreshold, color } from "d3";
-import { BBox } from "geojson";
-
-import { BBox as MapBBox } from "src/components/map";
+import { BBox as GeoJsonBBox } from "geojson";
 
 export const getFillColor = (
   colorScale: ScaleThreshold<number, string, never> | undefined,
@@ -35,7 +33,7 @@ export const getFillColor = (
  */
 export const constrainZoom = (
   viewState: $FixMe,
-  bbox: MapBBox,
+  bbox: BBox,
   { padding = 150 }: { padding?: number } = {}
 ) => {
   if (viewState.width < padding * 2 || viewState.height < padding * 2) {
@@ -76,7 +74,7 @@ export const constrainZoom = (
     latitude: p[1],
   };
 };
-export const getZoomFromBounds = (bounds: BBox, viewport: Viewport) => {
+export const getZoomFromBounds = (bounds: GeoJsonBBox, viewport: Viewport) => {
   const [x0, y0, x1, y1] = bounds;
   const width = Math.abs(x1 - x0);
   const height = Math.abs(y1 - y0);
@@ -87,7 +85,7 @@ export const getZoomFromBounds = (bounds: BBox, viewport: Viewport) => {
 
 export const getZoomedViewState = (
   currentViewState: $FixMe,
-  bbox: BBox,
+  bbox: GeoJsonBBox,
   {
     padding = 150,
     transitionDuration = 1000,
@@ -114,3 +112,50 @@ export const flattenBBox = (
 ): [number, number, number, number] => {
   return [bbox[0][0], bbox[0][1], bbox[1][0], bbox[1][1]];
 };
+export type HoverState =
+  | {
+      x: number;
+      y: number;
+      id: string;
+      type: "municipality";
+    }
+  | {
+      x: number;
+      y: number;
+      id: string;
+      type: "canton";
+      value: number;
+      label: string;
+    }
+  | {
+      x: number;
+      y: number;
+      id: string;
+      type: "operator";
+      values: {
+        operatorName: string;
+        value: number;
+      }[];
+    };
+export const INITIAL_VIEW_STATE = {
+  latitude: 46.8182,
+  longitude: 8.2275,
+  zoom: 2,
+  maxZoom: 16,
+  minZoom: 2,
+  pitch: 0,
+  bearing: 0,
+};
+export const LINE_COLOR = [255, 255, 255, 255] as [
+  number,
+  number,
+  number,
+  number
+];
+
+export type BBox = [[number, number], [number, number]];
+
+export const CH_BBOX: BBox = [
+  [5.956800664952974, 45.81912371940225],
+  [10.493446773955753, 47.80741209797084],
+];

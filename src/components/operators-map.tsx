@@ -9,7 +9,6 @@ import { keyBy } from "lodash";
 import { useCallback, useMemo, useRef, useState } from "react";
 
 import { getFillColor, getZoomFromBounds } from "src/components/map-helpers";
-import { HoverState } from "src/components/map-shared";
 import { MapTooltip, MapTooltipContent } from "src/components/map-tooltip";
 import {
   getOperatorsFeatureCollection,
@@ -23,6 +22,8 @@ import { useFormatCurrency } from "src/domain/helpers";
 import { Maybe, SunshineDataRow } from "src/graphql/queries";
 import { truthy } from "src/lib/truthy";
 import { getOperatorsMunicipalities } from "src/rdf/queries";
+
+import { HoverState, INITIAL_VIEW_STATE } from "./map-helpers";
 
 const TRANSPARENT = [255, 255, 255, 0] as [number, number, number, number];
 
@@ -143,6 +144,8 @@ const OperatorsMap = ({
     },
     [accessor, colorScale, observationsByOperator]
   );
+
+  const [viewState, setViewState] = useState(INITIAL_VIEW_STATE);
 
   const [hovered, setHovered] = useState<HoverState>();
   const onHoverOperatorLayer: LayerProps["onHover"] = useCallback(

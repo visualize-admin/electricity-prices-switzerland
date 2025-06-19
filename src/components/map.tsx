@@ -32,7 +32,6 @@ import {
   getZoomedViewState,
 } from "src/components/map-helpers";
 import HintBox from "src/components/map-hint-box";
-import { HoverState } from "src/components/map-shared";
 import { MapTooltip, MapTooltipContent } from "src/components/map-tooltip";
 import { MapPriceColorLegend } from "src/components/price-color-legend";
 import { useGeoData } from "src/data/geo";
@@ -45,27 +44,15 @@ import { frame, sleep } from "src/utils/delay";
 import { useFlag } from "src/utils/flags";
 
 import { useMap } from "./map-context";
+import {
+  BBox,
+  CH_BBOX,
+  HoverState,
+  INITIAL_VIEW_STATE,
+  LINE_COLOR,
+} from "./map-helpers";
 
 const DOWNLOAD_ID = "map";
-
-const INITIAL_VIEW_STATE = {
-  latitude: 46.8182,
-  longitude: 8.2275,
-  zoom: 2,
-  maxZoom: 16,
-  minZoom: 2,
-  pitch: 0,
-  bearing: 0,
-};
-
-const LINE_COLOR = [255, 255, 255, 255] as [number, number, number, number];
-
-export type BBox = [[number, number], [number, number]];
-
-const CH_BBOX: BBox = [
-  [5.956800664952974, 45.81912371940225],
-  [10.493446773955753, 47.80741209797084],
-];
 
 /**
  * Simple fitZoom to bbox
