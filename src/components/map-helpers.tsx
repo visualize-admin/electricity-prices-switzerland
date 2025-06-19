@@ -221,12 +221,24 @@ export const styles = {
     },
     pickable: {
       fillColor: [255, 255, 255, 0] as Color, // Transparent
-      highlightColor: [0, 0, 0, 100] as Color,
+      highlightColor: [0, 0, 0, 50] as Color,
     },
     municipalityMesh: {
       lineColor: LINE_COLOR as Color,
       lineWidthMinPixels: 0.5,
       lineWidthMaxPixels: 0.5,
+    },
+    overlay: {
+      active: {
+        fillColor: [0, 0, 0, 0] as Color,
+        lineColor: [31, 41, 55, 255] as Color,
+        lineWidth: 3,
+      },
+      inactive: {
+        fillColor: [255, 255, 255, 102] as Color,
+        lineColor: [0, 0, 0, 0] as Color,
+        lineWidth: 2,
+      },
     },
   },
 };

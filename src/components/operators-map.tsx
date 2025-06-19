@@ -127,29 +127,6 @@ const OperatorsMap = ({
     );
   }, [operatorMunicipalities, geoData]);
 
-  const getMapFillColor = useCallback(
-    (x: Feature<Geometry, OperatorLayerProperties>) => {
-      if (!x.properties) {
-        return styles.operators.base.fillColor.doesNotExist;
-      }
-      const operatorIds = x.properties.operators;
-      const values = operatorIds
-        .map((x) => {
-          const op = observationsByOperator[x];
-
-          return accessor(op) ?? null;
-        })
-        .filter(truthy);
-      if (values.length === 0) {
-        return styles.operators.base.fillColor.withoutData;
-      }
-      const value = mean(values);
-      const color = getFillColor(colorScale, value, false);
-      return color;
-    },
-    [accessor, colorScale, observationsByOperator]
-  );
-
   // We'll use GenericMap's internal viewState management instead
 
   const [hovered, setHovered] = useState<HoverState>();
@@ -248,14 +225,31 @@ const OperatorsMap = ({
             data: enhancedGeoData.features,
             filled: true,
             pickable: true,
+            stroked: false,
             highlightColor: styles.operators.base.highlightColor,
             updateTriggers: {
-              getFillColor: [getMapFillColor],
+              getFillColor: [activeId, hovered],
             },
-            getFillColor: getMapFillColor,
-            getLineColor: styles.operators.base.lineColor,
-            lineWidthMinPixels: styles.operators.base.lineWidthMinPixels,
-            lineWidthMaxPixels: styles.operators.base.lineWidthMaxPixels,
+            getFillColor: (x: Feature<Geometry, OperatorLayerProperties>) => {
+              if (!x.properties) {
+                return styles.operators.base.fillColor.doesNotExist;
+              }
+              const operatorIds = x.properties.operators;
+              const values = operatorIds
+                .map((x) => {
+                  const op = observationsByOperator[x];
+
+                  return accessor(op) ?? null;
+                })
+                .filter(truthy);
+              if (values.length === 0) {
+                return styles.operators.base.fillColor.withoutData;
+              }
+              const value = mean(values);
+              const color = getFillColor(colorScale, value, false);
+              return color;
+            },
+
             lineWidthUnits: "pixels",
             transitions: {
               getFillColor: {
@@ -264,27 +258,6 @@ const OperatorsMap = ({
               },
             },
             onClick: handleOperatorLayerClick,
-          })
-        : null,
-
-      // Transparent layer only used for hover effect
-      enhancedGeoData?.features
-        ? new GeoJsonLayer<
-            Feature<Polygon | MultiPolygon, OperatorLayerProperties>
-          >({
-            id: "operator-layer-pickable",
-            data: enhancedGeoData.features,
-            filled: true,
-            onHover: onHoverOperatorLayer,
-            autoHighlight: true,
-            stroked: false,
-            highlightColor: styles.operators.pickable.highlightColor,
-            updateTriggers: {
-              getFillColor: [getMapFillColor],
-            },
-            getFillColor: styles.operators.pickable.fillColor,
-            lineWidthUnits: "pixels",
-            pickable: true,
           })
         : null,
 
@@ -320,12 +293,72 @@ const OperatorsMap = ({
             stroked: true,
           })
         : null,
+
+      // Transparent layer only used for hover effect
+      enhancedGeoData?.features
+        ? new GeoJsonLayer<
+            Feature<Polygon | MultiPolygon, OperatorLayerProperties>
+          >({
+            id: "operator-layer-pickable",
+            data: enhancedGeoData.features,
+            filled: true,
+            onHover: onHoverOperatorLayer,
+            autoHighlight: false,
+            stroked: true,
+            getFillColor: (d: Feature<Geometry, OperatorLayerProperties>) => {
+              const id = d.properties.operators?.[0]?.toString();
+              const isActive = activeId === id;
+              const isHovered =
+                hovered?.type === "operator" && hovered.id === id;
+
+              if (isActive || isHovered) {
+                return styles.operators.pickable.highlightColor;
+              }
+              return styles.operators.pickable.fillColor;
+            },
+            lineWidthUnits: "pixels",
+            pickable: true,
+            updateTriggers: {
+              getFillColor: [activeId, hovered],
+              getLineColor: [activeId, hovered],
+              getLineWidth: [activeId, hovered],
+            },
+            getLineColor: (d: Feature<Geometry, OperatorLayerProperties>) => {
+              const id = d.properties.operators?.[0]?.toString();
+              const isActive = activeId === id;
+              // Check if the hovered state matches the current operator
+              const isHovered =
+                hovered?.type === "operator" && hovered.id === id;
+
+              if (isActive || isHovered) {
+                return styles.operators.overlay.active.lineColor;
+              }
+              return styles.operators.overlay.inactive.lineColor;
+            },
+            getLineWidth: (d: Feature<Geometry, OperatorLayerProperties>) => {
+              const id = d.properties.operators?.[0]?.toString();
+
+              const isActive = activeId === id;
+              const isHovered =
+                hovered?.type === "operator" && hovered.id === id;
+
+              if (isActive || isHovered) {
+                return styles.operators.overlay.active.lineWidth;
+              }
+              return styles.operators.overlay.inactive.lineWidth;
+            },
+          })
+        : null,
     ].filter(truthy);
   }, [
+    accessor,
+    activeId,
+    colorScale,
     enhancedGeoData,
     geoData?.lakes,
     geoData?.municipalities,
-    getMapFillColor,
+    hovered,
+    observationsByOperator,
     onHoverOperatorLayer,
   ]);
 
