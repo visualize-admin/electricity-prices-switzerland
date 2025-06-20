@@ -329,6 +329,9 @@ const prepareObservations = ({
       year[1].flatMap((ent) =>
         ent[1].flatMap((value) => ({
           ...value[1][0],
+          //FIXME: Dynamic Mock Data
+          max: 65.45,
+          min: 12.89,
           label: value[1][0].uniqueId,
         }))
       )
@@ -339,10 +342,19 @@ const prepareObservations = ({
           year[1].flatMap((ent) =>
             ent[1].flatMap((value) =>
               value[1].length === 1
-                ? { ...value[1][0], label: value[1][0].uniqueId }
+                ? {
+                    ...value[1][0],
+                    label: value[1][0].uniqueId,
+                    //FIXME: Dynamic Mock Data
+                    max: 65.45,
+                    min: 12.89,
+                  }
                 : {
                     priceComponent,
                     value: value[0],
+                    //FIXME: Dynamic Mock Data
+                    max: 65.45,
+                    min: 12.89,
                     [entity]: value[1][0][entity],
                     period: value[1][0].period,
                     uniqueId: `${priceComponent}${value[1][0].period}${value[1][0].operatorLabel}${value[1][0].municipalityLabel}${value[1].length}`,
@@ -364,6 +376,9 @@ const prepareObservations = ({
                 .flatMap((d) => ({
                   priceComponent,
                   value: d.value,
+                  //FIXME: Dynamic Mock Data
+                  max: 65.45,
+                  min: 12.89,
                   [entity]: d[entity],
                   period: d.period,
                   uniqueId: `${priceComponent}${d.period}${d.operatorLabel}${d.municipalityLabel}${value[1].length}${EXPANDED_TAG}`,
@@ -377,6 +392,9 @@ const prepareObservations = ({
                 {
                   priceComponent,
                   value: value[0],
+                  //FIXME: Dynamic Mock Data
+                  max: 65.45,
+                  min: 12.89,
                   [entity]: value[1][0][entity],
                   period: value[1][0].period,
                   uniqueId: `${priceComponent}${value[1][0].period}${value[1][0].operatorLabel}${value[1][0].municipalityLabel}${value[1].length}`,
