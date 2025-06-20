@@ -65,11 +65,12 @@ function makeUseQueryState<T extends z.ZodRawShape>(
   };
 }
 
-const commonSchema = z.object({
-  tab: z.enum(["electricity", "sunshine"] as const).default("electricity"),
-});
-
 const mapTabsSchema = z.enum(["electricity", "sunshine"] as const);
+
+const mapCommonSchema = z.object({
+  tab: mapTabsSchema.default("electricity"),
+  activeId: z.string().nullable().default(null),
+});
 
 const periodSchema = z.string().default(buildEnv.CURRENT_PERIOD);
 
@@ -109,6 +110,7 @@ const mapSunshineSchema = z.object({
   energyTariffCategory: z.string().default("EC2"),
   netTariffCategory: z.string().default("NC2"),
   networkLevel: z.string().default("NE5"),
+  activeId: z.string().optional(),
 });
 
 const detailTabsSchema = z.enum([
@@ -143,7 +145,7 @@ const sunshineDetailsSchema = z.object({
 
 export const sunshineDetailsLink = makeLinkGenerator(sunshineDetailsSchema);
 
-export const useQueryStateMapCommon = makeUseQueryState(commonSchema);
+export const useQueryStateMapCommon = makeUseQueryState(mapCommonSchema);
 export const useQueryStateEnergyPricesDetails = makeUseQueryState(
   energyPricesDetailsSchema
 );

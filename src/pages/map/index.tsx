@@ -4,7 +4,7 @@ import { median, ScaleThreshold } from "d3";
 import { keyBy } from "lodash";
 import { GetServerSideProps } from "next";
 import dynamic from "next/dynamic";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 
 const ContentWrapper = dynamic(
   () =>
@@ -53,6 +53,7 @@ import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { truthy } from "src/lib/truthy";
 import {
   useQueryStateEnergyPricesMap,
+  useQueryStateMapCommon,
   useQueryStateSunshineMap,
 } from "src/lib/use-query-state";
 import { defaultLocale } from "src/locales/config";
@@ -518,7 +519,13 @@ const DetailsDrawer = ({
 };
 
 export const IndexPage = ({ locale }: Props) => {
-  const [activeId, setActiveId] = useState<string | null>(null);
+  const [{ activeId }, setQueryState] = useQueryStateMapCommon();
+  const setActiveId = useCallback(
+    (id: string | null) => {
+      setQueryState({ activeId: id });
+    },
+    [setQueryState]
+  );
 
   return (
     <MapProvider activeId={activeId} setActiveId={setActiveId}>

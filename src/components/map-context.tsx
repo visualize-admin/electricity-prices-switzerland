@@ -16,7 +16,7 @@ import { useFlag } from "src/utils/flags";
 
 type MapContextType = {
   activeId: string | null;
-  setActiveId: Dispatch<SetStateAction<string | null>>;
+  setActiveId: (activeId: string | null) => void;
   entity: Entity;
   setEntity: Dispatch<SetStateAction<Entity>>;
   onEntitySelect: (_event: unknown, entity: Entity, id: string) => void;
@@ -26,7 +26,7 @@ const MapContext = createContext<MapContextType | undefined>(undefined);
 
 type MapProviderProps = {
   activeId: string | null;
-  setActiveId: Dispatch<SetStateAction<string | null>>;
+  setActiveId: (activeId: string | null) => void;
   children: ReactNode;
   embed?: boolean;
 };
