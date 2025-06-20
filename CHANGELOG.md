@@ -18,6 +18,7 @@ You can also check the
   - Use same map tooltip as energy for sunshine map
   - Hover on operator list for sunshine indicators highlights operators on map
   - Sunshine map has better styling and is closer to the current prices map
+  - Added Latest Year indicator to map details panel mini line chart
 
 - Maintenance
 
