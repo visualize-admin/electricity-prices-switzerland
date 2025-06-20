@@ -56,22 +56,28 @@ const PowerStabilityCard: React.FC<
   //FIXME: doesn't seem to have any data in 2025
   const latestYear = new Date().getFullYear() - 1;
 
-  const latestYearDataItems = useMemo(() => {
-    return observations.filter(
-      (d) => d.year === latestYear && d.operator.toString() !== operatorId
-    );
-  }, [observations, latestYear, operatorId]);
+  const { chartData, multiComboboxOptions } = useMemo(() => {
+    const multiComboboxOptions: typeof observations = [];
+    const chartData: typeof observations = [];
 
-  const latestYearData = useMemo(() => {
-    return observations.filter((d) => {
-      const isLatestYear = viewBy === "latest" ? d.year === latestYear : true;
+    observations.forEach((d) => {
+      const isLatestYear = d.year === latestYear;
+      const operatorIdStr = d.operator.toString();
       const isSelected =
         compareWith.includes("sunshine.select-all") ||
-        compareWith.includes(d.operator.toString()) ||
-        d.operator.toString() === operatorId;
+        compareWith.includes(operatorIdStr) ||
+        operatorIdStr === operatorId;
 
-      return isLatestYear && isSelected;
+      if ((viewBy === "latest" ? isLatestYear : true) && isSelected) {
+        chartData.push(d);
+      }
+
+      if (isLatestYear && operatorIdStr !== operatorId) {
+        multiComboboxOptions.push(d);
+      }
     });
+
+    return { chartData, multiComboboxOptions };
   }, [observations, compareWith, latestYear, operatorId, viewBy]);
 
   return (
@@ -193,7 +199,7 @@ const PowerStabilityCard: React.FC<
               })}
               items={[
                 { id: "sunshine.select-all" },
-                ...latestYearDataItems.map((item) => {
+                ...multiComboboxOptions.map((item) => {
                   return {
                     id: String(item.operator),
                     name: item.operator_name,
@@ -220,7 +226,7 @@ const PowerStabilityCard: React.FC<
           }}
         >
           <PowerStabilityChart
-            observations={latestYearData}
+            observations={chartData}
             id={operatorId}
             operatorLabel={operatorLabel}
             view={viewBy}
