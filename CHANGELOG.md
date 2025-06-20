@@ -20,6 +20,10 @@ You can also check the
   - Sunshine map has better styling and is closer to the current prices map
   - Added Latest Year indicator to map details panel mini line chart
 
+- Fixes
+
+  - Unify the way we handle different metrics in charts
+
 - Maintenance
 
   - Added Screenshot testing to all sunshine details pages and sub categories
