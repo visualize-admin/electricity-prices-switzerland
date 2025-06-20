@@ -32,6 +32,7 @@ import { Loading, NoDataHint } from "src/components/hint";
 import { InfoDialogButton } from "src/components/info-dialog";
 import { Entity, GenericObservation } from "src/domain/data";
 import { RP_PER_KWH } from "src/domain/metrics";
+import { useQueryStateEnergyPricesDetails } from "src/domain/query-states";
 import { getLocalizedLabel } from "src/domain/translation";
 import {
   ObservationKind,
@@ -39,7 +40,6 @@ import {
 } from "src/graphql/queries";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { useLocale } from "src/lib/use-locale";
-import { useQueryStateEnergyPricesDetails } from "src/domain/query-states";
 
 import { LatestIndicator } from "../charts-generic/interaction/latest-indicator";
 

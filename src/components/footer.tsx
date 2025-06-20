@@ -8,8 +8,8 @@ import {
 import { t } from "@lingui/macro";
 import { Link, SxProps } from "@mui/material";
 
-import { useLocale } from "src/lib/use-locale";
 import { useQueryStateEnergyPricesMap } from "src/domain/query-states";
+import { useLocale } from "src/lib/use-locale";
 
 import { HelpDialog } from "./info-dialog";
 import { useDisclosure } from "./use-disclosure";

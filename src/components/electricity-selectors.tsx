@@ -9,8 +9,8 @@ import {
   priceComponents,
   products,
 } from "src/domain/data";
-import { getLocalizedLabel } from "src/domain/translation";
 import { useQueryStateEnergyPricesMap } from "src/domain/query-states";
+import { getLocalizedLabel } from "src/domain/translation";
 
 export const ElectricitySelectors = () => {
   const [queryState, setQueryState] = useQueryStateEnergyPricesMap();
