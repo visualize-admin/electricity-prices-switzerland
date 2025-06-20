@@ -1,6 +1,6 @@
 import { expect } from "@playwright/test";
 
-import { test } from "./common";
+import { sleep, test } from "./common";
 
 test.describe("Sunshine details page", () => {
   test("it should load the sunshine details page costs and and each sub category tariffs", async ({
@@ -12,6 +12,7 @@ test.describe("Sunshine details page", () => {
       withFlag("/sunshine/operator/426/costs-and-tariffs", { sunshine: true })
     );
     await expect(resp?.status()).toEqual(200);
+    await sleep(3000);
 
     await snapshot({
       note: "Costs and tariffs - Network Costs",
@@ -22,6 +23,7 @@ test.describe("Sunshine details page", () => {
     const netTariffsButton = await page.getByTestId("net-tariffs-tab");
     await expect(netTariffsButton).toBeVisible();
     await netTariffsButton.click();
+    await sleep(3000);
 
     await snapshot({
       note: "Costs and tariffs - Net Tariffs",
@@ -32,6 +34,7 @@ test.describe("Sunshine details page", () => {
     const energyTariffsButton = await page.getByTestId("energy-tariffs-tab");
     await expect(energyTariffsButton).toBeVisible();
     await energyTariffsButton.click();
+    await sleep(3000);
 
     await snapshot({
       note: "Costs and tariffs - Energy Tariffs",
@@ -49,6 +52,7 @@ test.describe("Sunshine details page", () => {
       withFlag("/sunshine/operator/426/power-stability", { sunshine: true })
     );
     await expect(resp?.status()).toEqual(200);
+    await sleep(3000);
 
     await snapshot({
       note: "Power stability - SAIDI",
@@ -59,6 +63,7 @@ test.describe("Sunshine details page", () => {
     const saifiButton = await page.getByTestId("saifi-tab");
     await expect(saifiButton).toBeVisible();
     await saifiButton.click();
+    await sleep(3000);
 
     await snapshot({
       note: "Power stability - SAIFI",
@@ -78,6 +83,8 @@ test.describe("Sunshine details page", () => {
       })
     );
     await expect(resp?.status()).toEqual(200);
+    await sleep(3000);
+
     await snapshot({
       note: "Operational standards - Product Variety",
       locator: await page.getByTestId("details-page-content"),
@@ -87,6 +94,7 @@ test.describe("Sunshine details page", () => {
     const serviceQualityButton = await page.getByTestId("service-quality-tab");
     await expect(serviceQualityButton).toBeVisible();
     await serviceQualityButton.click();
+    await sleep(3000);
 
     await snapshot({
       note: "Operational standards - Service Quality",
@@ -97,6 +105,7 @@ test.describe("Sunshine details page", () => {
     const complianceButton = await page.getByTestId("compliance-tab");
     await expect(complianceButton).toBeVisible();
     await complianceButton.click();
+    await sleep(3000);
 
     await snapshot({
       note: "Operational standards - Compliance",
