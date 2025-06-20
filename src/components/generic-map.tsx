@@ -208,18 +208,7 @@ export const GenericMap = ({
         },
         zoomOn: (id: string) => {
           // Find the feature in one of the layers
-          let feature;
-          for (const layer of layers) {
-            if (
-              typeof layer.props.data === "string" ||
-              !("features" in layer.props.data) ||
-              !layer.props.data?.features
-            )
-              continue;
-            const features = layer.props.data.features as Feature[];
-            feature = features.find((f) => f.id?.toString() === id);
-            if (feature) break;
-          }
+          const feature = findFeatureInLayers(layers, id);
 
           if (!feature) return;
 
@@ -345,3 +334,18 @@ export const GenericMap = ({
     </>
   );
 };
+function findFeatureInLayers(layers: Layer<{}>[], id: string) {
+  let feature;
+  for (const layer of layers) {
+    if (
+      typeof layer.props.data === "string" ||
+      !("features" in layer.props.data) ||
+      !layer.props.data?.features
+    )
+      continue;
+    const features = layer.props.data.features as Feature[];
+    feature = features.find((f) => f.id?.toString() === id);
+    if (feature) break;
+  }
+  return feature;
+}
