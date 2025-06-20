@@ -4,13 +4,13 @@ import { useCallback } from "react";
 
 import { ElectricitySelectors } from "src/components/electricity-selectors";
 import { SunshineSelectors } from "src/components/sunshine-selectors";
-import { useQueryStateSingleCommon } from "src/lib/use-query-state";
+import { useQueryStateMapCommon } from "src/domain/query-states";
 import { useFlag } from "src/utils/flags";
 
 type TabValue = "electricity" | "sunshine";
 
 export const CombinedSelectors = () => {
-  const [queryState, setQueryState] = useQueryStateSingleCommon();
+  const [queryState, setQueryState] = useQueryStateMapCommon();
   const activeTab = queryState.tab as TabValue;
 
   const handleTabChange = useCallback(

@@ -174,7 +174,7 @@ export const MultiCombobox = ({
 
 export type ComboboxItem = string | { type: "header"; title: string };
 
-export const Combobox = ({
+export const Combobox = <T extends string>({
   id,
   label,
   items,
@@ -189,9 +189,9 @@ export const Combobox = ({
   id: string;
   label: string;
   items: ComboboxItem[];
-  selectedItem: string;
-  setSelectedItem: (selectedItem: string) => void;
-  getItemLabel?: (item: string) => string;
+  selectedItem: T;
+  setSelectedItem: (selectedItem: T) => void;
+  getItemLabel?: (item: T) => string;
   showLabel?: boolean;
   infoDialogSlug?: string;
   disabled?: boolean;
@@ -258,7 +258,7 @@ export const Combobox = ({
       <Autocomplete
         id={`combobox-${id}`}
         disabled={disabled}
-        options={filteredItems as string[]}
+        options={filteredItems as T[]}
         groupBy={(option) => {
           return groupsByLabel[option];
         }}

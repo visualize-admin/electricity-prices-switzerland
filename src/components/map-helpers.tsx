@@ -197,7 +197,6 @@ export const styles = {
       lineColor: LINE_COLOR,
       lineWidthMinPixels: 0.5,
       lineWidthMaxPixels: 1,
-      highlightColor: [0, 0, 0, 100] as Color,
       transitions: {
         duration: 300,
         easing: "easeExpIn" as const,

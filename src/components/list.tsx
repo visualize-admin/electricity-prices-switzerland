@@ -1,14 +1,7 @@
 import { t, Trans } from "@lingui/macro";
 import { Box, Button, Typography } from "@mui/material";
 import { ascending, descending, mean, rollup, ScaleThreshold } from "d3";
-import { useRouter } from "next/router";
-import {
-  MouseEvent,
-  MouseEventHandler,
-  useContext,
-  useMemo,
-  useState,
-} from "react";
+import { MouseEventHandler, useContext, useMemo, useState } from "react";
 
 import { MiniSelect, SearchField } from "src/components/form";
 import { HighlightContext } from "src/components/highlight-context";
@@ -21,8 +14,6 @@ import {
   SunshineDataRow,
 } from "src/graphql/queries";
 import { Icon } from "src/icons";
-import useEvent from "src/lib/use-event";
-import { useFlag } from "src/utils/flags";
 
 import { AnchorNav } from "./anchor-nav";
 import { InlineDrawer } from "./drawer";
@@ -107,19 +98,7 @@ const ListItems = ({
 }) => {
   const [truncated, setTruncated] = useState<number>(TRUNCATION_INCREMENT);
   const formatNumber = useFormatCurrency();
-  const { activeId, setActiveId } = useMap();
-  const isSunshine = useFlag("sunshine");
-  const router = useRouter();
-
-  const handleListItemSelect = useEvent(
-    (_: MouseEvent<HTMLAnchorElement, globalThis.MouseEvent>, id: string) => {
-      if (isSunshine) {
-        setActiveId(id);
-      } else {
-        router.push(`/${entity}/${id}`);
-      }
-    }
-  );
+  const { activeId, setActiveId, onEntitySelect } = useMap();
 
   const selectedItem = useMemo(() => {
     if (activeId) {
@@ -153,7 +132,7 @@ const ListItems = ({
             colorScale={colorScale}
             formatNumber={formatNumber}
             entity={entity}
-            handleClick={(e) => handleListItemSelect(e, d.id)}
+            handleClick={(e) => onEntitySelect(e, entity, d.id)}
           />
         );
       })}

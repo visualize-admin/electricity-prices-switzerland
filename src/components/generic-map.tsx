@@ -10,7 +10,8 @@ import DeckGL, { DeckGLRef } from "@deck.gl/react/typed";
 import { Box } from "@mui/material";
 import bbox from "@turf/bbox";
 import centroid from "@turf/centroid";
-import { Feature } from "geojson";
+import { Feature, FeatureCollection } from "geojson";
+import { isObject } from "lodash";
 import React, {
   Dispatch,
   useCallback,
@@ -40,6 +41,11 @@ import { frame, sleep } from "src/utils/delay";
 
 import { CH_BBOX, HoverState, INITIAL_VIEW_STATE } from "./map-helpers";
 
+export type GenericMapControls = React.RefObject<{
+  getImageData: () => Promise<string | undefined>;
+  zoomOn: (id: string) => void;
+  zoomOut: () => void;
+} | null>;
 /**
  * GenericMap component that handles common map functionality
  * regardless of the specific entities being displayed
@@ -68,6 +74,7 @@ export const GenericMap = ({
   initialBBox = CH_BBOX,
   getEntityFromHighlight,
   setHovered,
+  featureMatchesId = defaultFeatureMatchesId,
 }: {
   layers: Layer[];
   isLoading?: boolean;
@@ -81,14 +88,11 @@ export const GenericMap = ({
   downloadId?: string;
   onViewStateChange?: (viewState: MapViewState) => void;
   onLayerClick?: (info: PickingInfo) => void;
-  controls?: React.MutableRefObject<{
-    getImageData: () => Promise<string | undefined>;
-    zoomOn: (id: string) => void;
-    zoomOut: () => void;
-  } | null>;
+  controls?: GenericMapControls;
   initialBBox?: BBox;
   getEntityFromHighlight?: (highlight: HighlightValue) => Feature | undefined;
   setHovered: Dispatch<HoverState | undefined>;
+  featureMatchesId?: (feature: Feature, id: string) => boolean;
 }) => {
   const isMobile = useIsMobile();
   const mapZoomPadding = isMobile ? 20 : 150;
@@ -206,19 +210,7 @@ export const GenericMap = ({
           }
         },
         zoomOn: (id: string) => {
-          // Find the feature in one of the layers
-          let feature;
-          for (const layer of layers) {
-            if (
-              typeof layer.props.data === "string" ||
-              !("features" in layer.props.data) ||
-              !layer.props.data?.features
-            )
-              continue;
-            const features = layer.props.data.features as Feature[];
-            feature = features.find((f) => f.id?.toString() === id);
-            if (feature) break;
-          }
+          const feature = findFeatureInLayers(layers, id, featureMatchesId);
 
           if (!feature) return;
 
@@ -252,7 +244,15 @@ export const GenericMap = ({
         },
       };
     }
-  }, [controls, downloadId, initialBBox, layers, mapZoomPadding, viewState]);
+  }, [
+    controls,
+    downloadId,
+    featureMatchesId,
+    initialBBox,
+    layers,
+    mapZoomPadding,
+    viewState,
+  ]);
 
   return (
     <>
@@ -344,3 +344,36 @@ export const GenericMap = ({
     </>
   );
 };
+
+const isFeatureCollection = (data: unknown): data is FeatureCollection => {
+  return !!(
+    data &&
+    isObject(data) &&
+    "type" in data &&
+    data.type === "FeatureCollection"
+  );
+};
+
+function findFeatureInLayers(
+  layers: Layer<{}>[],
+  id: string,
+  featureMatchesId: (feature: Feature, id: string) => boolean
+): Feature | undefined {
+  let feature;
+  for (const layer of layers) {
+    const data = layer.props.data;
+    if (!data || typeof data === "string") continue;
+
+    const features = isFeatureCollection(data)
+      ? data.features
+      : (data as Feature[]);
+    feature = features.find((f) => featureMatchesId(f, id));
+
+    if (feature) break;
+  }
+  return feature;
+}
+
+function defaultFeatureMatchesId(feature: Feature, id: string): boolean {
+  return feature.id?.toString() === id;
+}

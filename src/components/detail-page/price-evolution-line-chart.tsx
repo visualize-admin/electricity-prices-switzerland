@@ -32,6 +32,7 @@ import { Loading, NoDataHint } from "src/components/hint";
 import { InfoDialogButton } from "src/components/info-dialog";
 import { Entity, GenericObservation } from "src/domain/data";
 import { RP_PER_KWH } from "src/domain/metrics";
+import { useQueryStateEnergyPricesDetails } from "src/domain/query-states";
 import { getLocalizedLabel } from "src/domain/translation";
 import {
   ObservationKind,
@@ -39,7 +40,6 @@ import {
 } from "src/graphql/queries";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { useLocale } from "src/lib/use-locale";
-import { useQueryStateElectricity } from "src/lib/use-query-state";
 
 import { LatestIndicator } from "../charts-generic/interaction/latest-indicator";
 
@@ -50,7 +50,7 @@ export const PriceEvolutionCard = ({
   entity,
   priceComponents,
 }: SectionProps & { priceComponents: string[] }) => {
-  const [{ category, product, period }] = useQueryStateElectricity();
+  const [{ category, product, period }] = useQueryStateEnergyPricesDetails();
 
   const filters = {
     period: period[0],
@@ -110,7 +110,7 @@ export const PriceEvolution = ({
 }: SectionProps & { priceComponents: string[]; mini?: boolean }) => {
   const locale = useLocale();
   const [{ category, municipality, operator, canton, product }] =
-    useQueryStateElectricity();
+    useQueryStateEnergyPricesDetails();
 
   const comparisonIds =
     entity === "municipality"

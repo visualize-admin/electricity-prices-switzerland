@@ -11,7 +11,10 @@ You can also check the
 
 # Unreleased
 
-- Nothing yet
+- Features
+
+  - Click on operator on Sunshine map brings details panel and zooms in the operator
+  - Click Details button from details panel while showing a Sunshine indicator brings to the correct sunshine page
 
 # 2.2.0 - 2025-06-20
 

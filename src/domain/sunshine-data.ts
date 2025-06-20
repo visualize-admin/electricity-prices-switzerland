@@ -1,3 +1,4 @@
+import { QueryStateSunshineIndicator } from "src/domain/query-states";
 import { TariffCategory } from "src/graphql/resolver-mapped-types";
 import { NetworkLevel } from "src/graphql/resolver-types";
 
@@ -25,7 +26,7 @@ export const indicatorOptions = [
   "energyTariffs",
   "saidi", // Power Outage Duration
   "saifi", // Power Outage Frequency
-];
+] satisfies QueryStateSunshineIndicator[];
 
 /**
  * Network level options for filtering

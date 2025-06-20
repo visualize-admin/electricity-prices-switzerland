@@ -77,6 +77,20 @@ export type MunicipalityFeatureCollection = FeatureCollection<
 export type OperatorLayerProperties = {
   municipalities: number[];
   operators: number[];
+  type: "OperatorFeature";
+};
+
+export type OperatorFeature = Feature<
+  MultiPolygon | Polygon,
+  OperatorLayerProperties
+>;
+
+export const isOperatorFeature = (
+  feature: Feature
+): feature is OperatorFeature => {
+  return (
+    feature.type === "Feature" && feature.properties?.type === "OperatorFeature"
+  );
 };
 
 type OperatorFeatureCollection = FeatureCollection<
@@ -173,6 +187,7 @@ export const getOperatorsFeatureCollection = (
       return {
         type: "Feature" as const,
         properties: {
+          type: "OperatorFeature" as const,
           operators: operators.split("/").map((x) => parseInt(x, 10)),
           municipalities: municipalities,
         },

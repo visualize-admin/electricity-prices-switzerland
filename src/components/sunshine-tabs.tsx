@@ -2,21 +2,20 @@ import { Trans } from "@lingui/macro";
 import { Tab, Tabs } from "@mui/material";
 import React from "react";
 
-export enum CostAndTariffsTabOption {
-  NETWORK_COSTS = 0,
-  NET_TARIFFS = 1,
-  ENERGY_TARIFFS = 2,
-}
+export type CostAndTariffsTab = "networkCosts" | "netTariffs" | "energyTariffs";
 
 export const CostsAndTariffsNavigation: React.FC<{
-  activeTab: CostAndTariffsTabOption;
-  handleTabChange: (event: React.SyntheticEvent, newValue: number) => void;
+  activeTab: string;
+  handleTabChange: (
+    event: React.SyntheticEvent,
+    newValue: CostAndTariffsTab
+  ) => void;
 }> = ({ activeTab, handleTabChange }) => {
   return (
     <Tabs value={activeTab} onChange={handleTabChange}>
       <Tab
         data-testid="network-costs-tab"
-        value={CostAndTariffsTabOption.NETWORK_COSTS}
+        value={"networkCosts" satisfies CostAndTariffsTab}
         label={
           <Trans id="sunshine.costs-and-tariffs.network-costs">
             Network Costs
@@ -25,14 +24,14 @@ export const CostsAndTariffsNavigation: React.FC<{
       />
       <Tab
         data-testid="net-tariffs-tab"
-        value={CostAndTariffsTabOption.NET_TARIFFS}
+        value={"netTariffs" satisfies CostAndTariffsTab}
         label={
           <Trans id="sunshine.costs-and-tariffs.net-tariffs">Net Tariffs</Trans>
         }
       />
       <Tab
         data-testid="energy-tariffs-tab"
-        value={CostAndTariffsTabOption.ENERGY_TARIFFS}
+        value={"energyTariffs" satisfies CostAndTariffsTab}
         label={
           <Trans id="sunshine.costs-and-tariffs.energy-tariffs">
             Energy Tariffs
@@ -43,20 +42,20 @@ export const CostsAndTariffsNavigation: React.FC<{
   );
 };
 
-export enum PowerStabilityTabOption {
-  SAIDI = 0,
-  SAIFI = 1,
-}
+export type PowerStabilityTab = "saidi" | "saifi";
 
 export const PowerStabilityNavigation: React.FC<{
-  activeTab: PowerStabilityTabOption;
-  handleTabChange: (event: React.SyntheticEvent, newValue: number) => void;
+  activeTab: string;
+  handleTabChange: (
+    event: React.SyntheticEvent,
+    newValue: PowerStabilityTab
+  ) => void;
 }> = ({ activeTab, handleTabChange }) => {
   return (
     <Tabs value={activeTab} onChange={handleTabChange}>
       <Tab
         data-testid="saidi-tab"
-        value={PowerStabilityTabOption.SAIDI}
+        value={"saidi" satisfies PowerStabilityTab}
         label={
           <Trans id="sunshine.power-stability.saidi">
             Power Outage Duration (SAIDI)
@@ -65,7 +64,7 @@ export const PowerStabilityNavigation: React.FC<{
       />
       <Tab
         data-testid="saifi-tab"
-        value={PowerStabilityTabOption.SAIFI}
+        value={"saifi" satisfies PowerStabilityTab}
         label={
           <Trans id="sunshine.power-stability.saifi">
             Power Outage Frequency (SAIFI)

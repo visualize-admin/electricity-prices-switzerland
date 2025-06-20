@@ -42,10 +42,10 @@ import { Loading, NoDataHint } from "src/components/hint";
 import { InfoDialogButton } from "src/components/info-dialog";
 import { Entity, GenericObservation, priceComponents } from "src/domain/data";
 import { RP_PER_KWH } from "src/domain/metrics";
+import { useQueryStateEnergyPricesDetails } from "src/domain/query-states";
 import { getLocalizedLabel } from "src/domain/translation";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { useLocale } from "src/lib/use-locale";
-import { useQueryStateElectricity } from "src/lib/use-query-state";
 
 import { InteractionHistogram } from "../charts-generic/overlay/interaction-histogram";
 
@@ -64,7 +64,7 @@ export const PriceDistributionHistograms = ({ id, entity }: SectionProps) => {
       product,
     },
     setQueryState,
-  ] = useQueryStateElectricity();
+  ] = useQueryStateEnergyPricesDetails();
 
   const getItemLabel = (id: string) => getLocalizedLabel({ id });
 
