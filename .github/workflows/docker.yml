@@ -20,8 +20,6 @@ on:
 
   # version tags on main branch
   push:
-    branches:
-      - main
     tags:
       - "v*.*.*"
 
