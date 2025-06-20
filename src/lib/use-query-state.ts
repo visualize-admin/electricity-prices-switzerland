@@ -146,11 +146,12 @@ const commonSchema = z.object({
 
 const mapTabsSchema = z.enum(["electricity", "sunshine"] as const);
 
-// Example schemas for different pages
-const electricitySchema = z.object({
+const periodSchema = z.string().default(buildEnv.CURRENT_PERIOD);
+
+const energyPricesMapSchema = z.object({
   tab: mapTabsSchema.default("electricity"),
   operator: z.string().optional(),
-  period: z.string().default(buildEnv.CURRENT_PERIOD),
+  period: periodSchema,
   municipality: z.string().optional(),
   canton: z.string().optional(),
   category: z.string().default("H4"),
@@ -161,9 +162,22 @@ const electricitySchema = z.object({
   view: z.string().default("collapsed"),
 });
 
+const energyPricesDetailsSchema = z.object({
+  operator: z.array(z.string()).optional(),
+  period: z.array(periodSchema).default([buildEnv.CURRENT_PERIOD]),
+  municipality: z.array(z.string()).default([]),
+  canton: z.array(z.string()).default([]),
+  category: z.array(z.string()).default(["H4"]),
+  priceComponent: z.array(z.string()).default(["total"]),
+  product: z.array(z.string()).default(["standard"]),
+  cantonsOrder: z.array(z.string()).default(["median-asc"]),
+  download: z.string().optional(),
+  view: z.array(z.string()).default(["collapsed"]),
+});
+
 const mapSunshineSchema = z.object({
   tab: mapTabsSchema.default("sunshine"),
-  period: z.string().default(buildEnv.CURRENT_PERIOD),
+  period: periodSchema,
   viewBy: z.string().default("all_grid_operators"),
   typology: z.string().default("total"),
   indicator: z.string().default("saidi"),
@@ -207,21 +221,22 @@ export const sunshineDetailsLink = makeLinkGenerator(sunshineDetailsSchema);
 export const { useQueryStateSingle: useQueryStateSingleCommon } =
   makeUseQueryState(commonSchema);
 
-export const {
-  useQueryState: useQueryStateElectricity,
-  useQueryStateSingle: useQueryStateSingleElectricity,
-} = makeUseQueryState(electricitySchema);
+export const { useQueryStateSingle: useQueryStateElectricity } =
+  makeUseQueryState(energyPricesDetailsSchema);
+
+export const { useQueryStateSingle: useQueryStateSingleElectricity } =
+  makeUseQueryState(energyPricesMapSchema);
 
 export const { useQueryStateSingle: useQueryStateSingleSunshineMap } =
   makeUseQueryState(mapSunshineSchema);
 
 export type QueryStateSingleElectricity = UseQueryStateSingle<
-  typeof electricitySchema.shape
+  typeof energyPricesMapSchema.shape
 >;
 
 /** @knipignore */
 export type QueryStateArrayElectricity = UseQueryStateArray<
-  typeof electricitySchema.shape
+  typeof energyPricesMapSchema.shape
 >;
 
 /** @knipignore */
