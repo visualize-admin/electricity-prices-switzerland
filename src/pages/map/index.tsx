@@ -234,6 +234,7 @@ const IndexPageContent = ({
       period={mapYear}
       colorScale={sunshineColorScale}
       observations={sunshineObservations}
+      controls={controlsRef}
       getTooltip={(info) => {
         if (!info.object) {
           return null;

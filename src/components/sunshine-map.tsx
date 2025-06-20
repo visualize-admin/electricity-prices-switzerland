@@ -5,9 +5,9 @@ import { Trans } from "@lingui/macro";
 import { easeExpIn, mean, ScaleThreshold } from "d3";
 import { Feature, Geometry, MultiPolygon, Polygon } from "geojson";
 import { keyBy } from "lodash";
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 
-import { GenericMap } from "src/components/generic-map";
+import { GenericMap, GenericMapControls } from "src/components/generic-map";
 import { HighlightValue } from "src/components/highlight-context";
 import { useMap } from "src/components/map-context";
 import { getFillColor, styles } from "src/components/map-helpers";
@@ -88,6 +88,7 @@ type SunshineMapProps = {
   observations?: SunshineDataRow[];
   getTooltip?: GetOperatorsMapTooltip;
   onHoverOperatorLayer?: LayerProps["onHover"];
+  controls?: GenericMapControls;
 };
 
 const SunshineMap = ({
@@ -95,13 +96,8 @@ const SunshineMap = ({
   colorScale,
   accessor,
   observations,
+  controls,
 }: SunshineMapProps) => {
-  const mapControlsRef = useRef<{
-    getImageData: () => Promise<string | undefined>;
-    zoomOn: (id: string) => void;
-    zoomOut: () => void;
-  } | null>(null);
-
   // TODO Right now we fetch operators municipalities through EC2 indicators
   // This is not ideal, but we don't have a better way to get the operator municipalities
   // We should probably add a query to get the operator municipalities directly
@@ -404,7 +400,7 @@ const SunshineMap = ({
       layers={mapLayers}
       tooltipContent={tooltipContent}
       onLayerClick={handleLayerClick}
-      controls={mapControlsRef}
+      controls={controls}
       downloadId={`operator-map-${period}`}
       setHovered={setHovered}
       getEntityFromHighlight={getEntityFromHighlight}
