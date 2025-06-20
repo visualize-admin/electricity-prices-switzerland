@@ -1,15 +1,8 @@
 import { Trans } from "@lingui/macro";
 import { Tab, Tabs } from "@mui/material";
 import React from "react";
-import { z } from "zod";
 
-export const costAndTariffsTab = z.enum([
-  "networkCosts",
-  "netTariffs",
-  "energyTariffs",
-]);
-
-export type CostAndTariffsTab = z.infer<typeof costAndTariffsTab>;
+export type CostAndTariffsTab = "networkCosts" | "netTariffs" | "energyTariffs";
 
 export const CostsAndTariffsNavigation: React.FC<{
   activeTab: string;
@@ -49,9 +42,7 @@ export const CostsAndTariffsNavigation: React.FC<{
   );
 };
 
-export const powerStabilityTab = z.enum(["saidi", "saifi"]);
-
-export type PowerStabilityTab = z.infer<typeof powerStabilityTab>;
+export type PowerStabilityTab = "saidi" | "saifi";
 
 export const PowerStabilityNavigation: React.FC<{
   activeTab: string;

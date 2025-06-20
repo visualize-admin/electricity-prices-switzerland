@@ -9,14 +9,14 @@ import {
 
 const mapTabsSchema = z.enum(["electricity", "sunshine"] as const);
 
-export const mapCommonSchema = z.object({
+const mapCommonSchema = z.object({
   tab: mapTabsSchema.default("electricity"),
   activeId: z.string().nullable().default(null),
 });
 
 const periodSchema = z.string().default(buildEnv.CURRENT_PERIOD);
 
-export const energyPricesMapSchema = z.object({
+const energyPricesMapSchema = z.object({
   tab: mapTabsSchema.default("electricity"),
   operator: z.string().optional(),
   period: periodSchema,
@@ -29,7 +29,7 @@ export const energyPricesMapSchema = z.object({
   cantonsOrder: z.string().default("median-asc"),
   view: z.string().default("collapsed"),
 });
-export const energyPricesDetailsSchema = z.object({
+const energyPricesDetailsSchema = z.object({
   operator: z.array(z.string()).optional(),
   period: z.array(periodSchema).default([buildEnv.CURRENT_PERIOD]),
   municipality: z.array(z.string()).default([]),
@@ -50,7 +50,7 @@ const sunshineIndicatorSchema = z.enum([
   "saifi",
 ] as const);
 
-export const mapSunshineSchema = z.object({
+const mapSunshineSchema = z.object({
   tab: mapTabsSchema.default("sunshine"),
   period: periodSchema,
   viewBy: z.string().default("all_grid_operators"),
@@ -61,10 +61,8 @@ export const mapSunshineSchema = z.object({
   networkLevel: z.string().default("NE5"),
   activeId: z.string().optional(),
 });
-export const detailTabsSchema = z.union([
-  sunshineIndicatorSchema,
-  z.undefined(),
-]); // TODO Add Operational Standards page
+
+const detailTabsSchema = z.union([sunshineIndicatorSchema, z.undefined()]); // TODO Add Operational Standards page
 
 export type QueryStateSunshineIndicator = QueryStateSingleSunshine["indicator"];
 
