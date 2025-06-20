@@ -624,7 +624,10 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
 
 const CostsAndTariffs = (props: Props) => {
   const { query } = useRouter();
-  const [{ tab: activeTab }, setQueryState] = useQueryStateSunshineDetails();
+  const [{ tab: activeTabQuery }, setQueryState] =
+    useQueryStateSunshineDetails();
+  const activeTab =
+    activeTabQuery ?? ("networkCosts" satisfies CostAndTariffsTab);
   const setActiveTab = useCallback(
     (tab: QueryStateSingleSunshineDetails["tab"]) => {
       setQueryState({
