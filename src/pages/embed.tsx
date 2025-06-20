@@ -1,13 +1,12 @@
-import { PickingInfo } from "@deck.gl/core/typed";
 import { GetServerSideProps } from "next";
-import { useRouter } from "next/router";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 
 import {
   HighlightContext,
   HighlightValue,
 } from "src/components/highlight-context";
 import { ChoroplethMap } from "src/components/map";
+import { MapProvider } from "src/components/map-context";
 import { useColorScale } from "src/domain/data";
 import {
   PriceComponent,
@@ -31,16 +30,6 @@ export const getServerSideProps: GetServerSideProps<
       locale: locale ?? defaultLocale,
     },
   };
-};
-
-const assertBaseDomainOK = (baseDomain: string) => {
-  const url = new URL(baseDomain);
-
-  if (url.hostname.endsWith("elcom.admin.ch") || url.hostname === "localhost") {
-    return true;
-  }
-
-  throw new Error("Bad baseDomain, baseDomain should end with elcom.admin.ch");
 };
 
 const IndexPage = ({ locale }: Props) => {
@@ -85,52 +74,28 @@ const IndexPage = ({ locale }: Props) => {
     accessor: colorAccessor,
   });
 
-  const router = useRouter();
-
-  const baseDomain = useMemo(() => {
-    const url = new URL(
-      typeof window !== "undefined"
-        ? window.location.href
-        : "https://strompreis.elcom.admin.ch"
-    );
-    const urlDomain = `${url?.protocol}//${url?.hostname}${
-      url?.port !== "80" ? `:${url?.port}` : ""
-    }`;
-    return router.query.baseDomain || urlDomain;
-  }, [router.query]);
-
-  const target =
-    router.query.target && typeof router.query.target === "string"
-      ? router.query.target
-      : "_blank";
-
-  assertBaseDomainOK(baseDomain as string);
-
-  const handleMunicipalityLayerClick = ({ object }: PickingInfo) => {
-    const id = object?.id.toString();
-    window.open(`${baseDomain}/municipality/${id}`, target);
-  };
-
+  const [activeId, setActiveId] = useState<string | null>(null);
   const [highlightContext, setHighlightContext] = useState<HighlightValue>();
   return (
-    <HighlightContext.Provider
-      value={{
-        value: highlightContext,
-        setValue: setHighlightContext,
-      }}
-    >
-      <ChoroplethMap
-        year={period}
-        onMunicipalityLayerClick={handleMunicipalityLayerClick}
-        observations={observations}
-        municipalities={municipalities}
-        observationsQueryFetching={
-          observationsQuery.fetching || municipalitiesQuery.fetching
-        }
-        medianValue={medianValue}
-        colorScale={colorScale}
-      />
-    </HighlightContext.Provider>
+    <MapProvider activeId={activeId} setActiveId={setActiveId} embed>
+      <HighlightContext.Provider
+        value={{
+          value: highlightContext,
+          setValue: setHighlightContext,
+        }}
+      >
+        <ChoroplethMap
+          year={period}
+          observations={observations}
+          municipalities={municipalities}
+          observationsQueryFetching={
+            observationsQuery.fetching || municipalitiesQuery.fetching
+          }
+          medianValue={medianValue}
+          colorScale={colorScale}
+        />
+      </HighlightContext.Provider>
+    </MapProvider>
   );
 };
 

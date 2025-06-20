@@ -220,7 +220,6 @@ const IndexPageContent = ({
       observations={observations}
       municipalities={municipalities}
       observationsQueryFetching={isMapDataLoading}
-      onMunicipalityLayerClick={() => {}}
       medianValue={medianValue}
       colorScale={colorScale}
       controls={controlsRef}

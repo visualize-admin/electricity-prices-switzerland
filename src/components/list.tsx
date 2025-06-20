@@ -98,7 +98,7 @@ const ListItems = ({
 }) => {
   const [truncated, setTruncated] = useState<number>(TRUNCATION_INCREMENT);
   const formatNumber = useFormatCurrency();
-  const { activeId, setActiveId, onListItemSelect } = useMap();
+  const { activeId, setActiveId, onEntitySelect } = useMap();
 
   const selectedItem = useMemo(() => {
     if (activeId) {
@@ -132,7 +132,7 @@ const ListItems = ({
             colorScale={colorScale}
             formatNumber={formatNumber}
             entity={entity}
-            handleClick={(e) => onListItemSelect(e, d.id)}
+            handleClick={(e) => onEntitySelect(e, entity, d.id)}
           />
         );
       })}

@@ -144,11 +144,11 @@ const commonSchema = z.object({
   tab: z.enum(["electricity", "sunshine"] as const).default("electricity"),
 });
 
-const tabsSchema = z.enum(["electricity", "sunshine"] as const);
+const mapTabsSchema = z.enum(["electricity", "sunshine"] as const);
 
 // Example schemas for different pages
 const electricitySchema = z.object({
-  tab: tabsSchema.default("electricity"),
+  tab: mapTabsSchema.default("electricity"),
   operator: z.string().optional(),
   period: z.string().default(buildEnv.CURRENT_PERIOD),
   municipality: z.string().optional(),
@@ -162,7 +162,7 @@ const electricitySchema = z.object({
 });
 
 const mapSunshineSchema = z.object({
-  tab: tabsSchema.default("sunshine"),
+  tab: mapTabsSchema.default("sunshine"),
   period: z.string().default(buildEnv.CURRENT_PERIOD),
   viewBy: z.string().default("all_grid_operators"),
   typology: z.string().default("total"),
@@ -172,10 +172,41 @@ const mapSunshineSchema = z.object({
   networkLevel: z.string().default("NE5"),
 });
 
+const detailTabsSchema = z.enum([
+  "network-costs",
+  "network-tariffs",
+  "energy-tariffs",
+  "saidi",
+  "saifi",
+  "service-quality",
+  "compliance",
+] as const);
+
+const makeLinkGenerator = <T extends z.ZodRawShape>(
+  _schema: z.ZodObject<T>
+) => {
+  return (route: string, state: UseQueryStateSingle<T>) => {
+    const query: { [key: string]: string } = {};
+    for (const key in state) {
+      const value = state[key];
+      if (value !== undefined) {
+        query[key] = Array.isArray(value) ? value.join(",") : value;
+      }
+    }
+    const queryString = new URLSearchParams(query).toString();
+    return `${route}?${queryString}`;
+  };
+};
+
+const sunshineDetailsSchema = z.object({
+  tab: detailTabsSchema.default("network-costs"),
+});
+
+export const sunshineDetailsLink = makeLinkGenerator(sunshineDetailsSchema);
+
 export const { useQueryStateSingle: useQueryStateSingleCommon } =
   makeUseQueryState(commonSchema);
 
-// Create the hooks
 export const {
   useQueryState: useQueryStateElectricity,
   useQueryStateSingle: useQueryStateSingleElectricity,

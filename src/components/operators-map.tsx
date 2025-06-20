@@ -9,6 +9,7 @@ import { useCallback, useMemo, useRef, useState } from "react";
 
 import { GenericMap } from "src/components/generic-map";
 import { HighlightValue } from "src/components/highlight-context";
+import { useMap } from "src/components/map-context";
 import { getFillColor, styles } from "src/components/map-helpers";
 import { MapTooltipContent } from "src/components/map-tooltip";
 import {
@@ -200,7 +201,7 @@ const OperatorsMap = ({
     }
   }, []);
 
-  const [activeId, setActiveId] = useState<string | null>(null);
+  const { onEntitySelect, activeId } = useMap();
 
   // Create map layers
   const mapLayers = useMemo(() => {
@@ -210,7 +211,10 @@ const OperatorsMap = ({
       // TODO Only the first operator is used
       const id = (ev.object?.properties as OperatorLayerProperties)
         ?.operators?.[0];
-      setActiveId(id.toString());
+      if (!id) {
+        return;
+      }
+      onEntitySelect(ev, "operator", id.toString());
     };
     if (!enhancedGeoData || !enhancedGeoData.features) {
       return [];
@@ -224,9 +228,7 @@ const OperatorsMap = ({
             id: "operator-layer",
             data: enhancedGeoData.features,
             filled: true,
-            pickable: true,
             stroked: false,
-            highlightColor: styles.operators.base.highlightColor,
             updateTriggers: {
               getFillColor: [activeId, hovered],
             },
@@ -257,7 +259,6 @@ const OperatorsMap = ({
                 easing: easeExpIn,
               },
             },
-            onClick: handleOperatorLayerClick,
           })
         : null,
 
@@ -304,6 +305,8 @@ const OperatorsMap = ({
             filled: true,
             onHover: onHoverOperatorLayer,
             autoHighlight: false,
+            onClick: handleOperatorLayerClick,
+
             stroked: true,
             getFillColor: (d: Feature<Geometry, OperatorLayerProperties>) => {
               const id = d.properties.operators?.[0]?.toString();
@@ -359,6 +362,7 @@ const OperatorsMap = ({
     geoData?.municipalities,
     hovered,
     observationsByOperator,
+    onEntitySelect,
     onHoverOperatorLayer,
   ]);
 
