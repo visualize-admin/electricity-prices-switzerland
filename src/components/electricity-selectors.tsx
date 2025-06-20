@@ -10,7 +10,7 @@ import {
   products,
 } from "src/domain/data";
 import { getLocalizedLabel } from "src/domain/translation";
-import { useQueryStateEnergyPricesMap } from "src/lib/use-query-state";
+import { useQueryStateEnergyPricesMap } from "src/domain/query-states";
 
 export const ElectricitySelectors = () => {
   const [queryState, setQueryState] = useQueryStateEnergyPricesMap();

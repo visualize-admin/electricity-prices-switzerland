@@ -49,7 +49,7 @@ import {
 } from "src/graphql/queries";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { useLocale } from "src/lib/use-locale";
-import { useQueryStateEnergyPricesDetails } from "src/lib/use-query-state";
+import { useQueryStateEnergyPricesDetails } from "src/domain/query-states";
 
 const DOWNLOAD_ID: Download = "comparison";
 

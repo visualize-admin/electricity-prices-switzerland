@@ -41,6 +41,11 @@ import {
   TariffCategory,
   useColorScale,
 } from "src/domain/data";
+import {
+  useQueryStateEnergyPricesMap,
+  useQueryStateMapCommon,
+  useQueryStateSunshineMap,
+} from "src/domain/query-states";
 import { getSunshineAccessor } from "src/domain/sunshine-accessor";
 import {
   PriceComponent,
@@ -51,11 +56,6 @@ import {
 } from "src/graphql/queries";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { truthy } from "src/lib/truthy";
-import {
-  useQueryStateEnergyPricesMap,
-  useQueryStateMapCommon,
-  useQueryStateSunshineMap,
-} from "src/lib/use-query-state";
 import { defaultLocale } from "src/locales/config";
 import { useFlag } from "src/utils/flags";
 

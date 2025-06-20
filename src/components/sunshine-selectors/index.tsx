@@ -8,7 +8,7 @@ import {
   energyTariffCategoryOptions,
 } from "src/domain/sunshine-data";
 import { getLocalizedLabel } from "src/domain/translation";
-import { useQueryStateSunshineMap } from "src/lib/use-query-state";
+import { useQueryStateSunshineMap } from "src/domain/query-states";
 
 import { SunshineSelectorsBase } from "./base";
 

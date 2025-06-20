@@ -38,6 +38,10 @@ import {
 } from "src/domain/data";
 import { getNetworkLevelMetrics, RP_PER_KM } from "src/domain/metrics";
 import {
+  QueryStateSingleSunshineDetails,
+  useQueryStateSunshineDetails,
+} from "src/domain/query-states";
+import {
   getCategoryLabels,
   getLocalizedLabel,
   getNetworkLevelLabels,
@@ -52,10 +56,6 @@ import { TariffCategory } from "src/graphql/resolver-mapped-types";
 import { Trend } from "src/graphql/resolver-types";
 import { fetchOperatorCostsAndTariffsData } from "src/lib/db/sunshine-data";
 import { truthy } from "src/lib/truthy";
-import {
-  QueryStateSingleSunshineDetails,
-  useQueryStateSunshineDetails,
-} from "src/lib/use-query-state";
 import { defaultLocale } from "src/locales/config";
 
 type Props =

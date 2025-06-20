@@ -4,7 +4,7 @@ import { useCallback } from "react";
 
 import { ElectricitySelectors } from "src/components/electricity-selectors";
 import { SunshineSelectors } from "src/components/sunshine-selectors";
-import { useQueryStateMapCommon } from "src/lib/use-query-state";
+import { useQueryStateMapCommon } from "src/domain/query-states";
 import { useFlag } from "src/utils/flags";
 
 type TabValue = "electricity" | "sunshine";

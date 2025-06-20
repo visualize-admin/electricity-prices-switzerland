@@ -10,7 +10,7 @@ import {
 } from "src/components/query-combobox";
 import { categories, Entity, periods, products } from "src/domain/data";
 import { getLocalizedLabel } from "src/domain/translation";
-import { useQueryStateEnergyPricesDetails } from "src/lib/use-query-state";
+import { useQueryStateEnergyPricesDetails } from "src/domain/query-states";
 
 export const SelectorMulti = ({ entity }: { entity: Entity }) => {
   const [queryState, setQueryState] = useQueryStateEnergyPricesDetails();

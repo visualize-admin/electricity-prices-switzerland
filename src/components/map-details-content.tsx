@@ -8,8 +8,6 @@ import { ReactElement, ReactNode } from "react";
 import { PriceEvolution } from "src/components/detail-page/price-evolution-line-chart";
 import { Entity } from "src/domain/data";
 import { useFormatCurrency } from "src/domain/helpers";
-import { getLocalizedLabel } from "src/domain/translation";
-import { Icon } from "src/icons";
 import {
   getSunshineDetailsPageFromIndicator,
   QueryStateSingleElectricity,
@@ -17,7 +15,9 @@ import {
   useQueryStateEnergyPricesMap,
   useQueryStateMapCommon,
   useQueryStateSunshineMap,
-} from "src/lib/use-query-state";
+} from "src/domain/query-states";
+import { getLocalizedLabel } from "src/domain/translation";
+import { Icon } from "src/icons";
 
 import { ListItemType } from "./list";
 
