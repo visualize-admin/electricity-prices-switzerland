@@ -23,7 +23,9 @@ test.describe("Sunshine details page", () => {
       fullPage: true,
     });
 
-    await page.getByTestId("button-group-1").click();
+    const netTariffsButton = await page.getByTestId("net-tariffs-tab");
+    await expect(netTariffsButton).toBeVisible();
+    await netTariffsButton.click();
     await page.waitForResponse(
       (response) =>
         response.url().includes("/api/graphql") && response.status() === 200
@@ -35,7 +37,9 @@ test.describe("Sunshine details page", () => {
       fullPage: true,
     });
 
-    await page.getByTestId("button-group-2").click();
+    const energyTariffsButton = await page.getByTestId("energy-tariffs-tab");
+    await expect(energyTariffsButton).toBeVisible();
+    await energyTariffsButton.click();
     await page.waitForResponse(
       (response) =>
         response.url().includes("/api/graphql") && response.status() === 200
@@ -68,7 +72,9 @@ test.describe("Sunshine details page", () => {
       fullPage: true,
     });
 
-    await page.getByTestId("button-group-1").click();
+    const saifiButton = await page.getByTestId("saifi-tab");
+    await expect(saifiButton).toBeVisible();
+    await saifiButton.click();
     await page.waitForResponse(
       (response) =>
         response.url().includes("/api/graphql") && response.status() === 200
@@ -102,7 +108,9 @@ test.describe("Sunshine details page", () => {
       fullPage: true,
     });
 
-    await page.getByTestId("button-group-1").click();
+    const serviceQualityButton = await page.getByTestId("service-quality-tab");
+    await expect(serviceQualityButton).toBeVisible();
+    await serviceQualityButton.click();
     await page.waitForResponse(
       (response) =>
         response.url().includes("/api/graphql") && response.status() === 200
@@ -114,7 +122,9 @@ test.describe("Sunshine details page", () => {
       fullPage: true,
     });
 
-    await page.getByTestId("button-group-2").click();
+    const complianceButton = await page.getByTestId("compliance-tab");
+    await expect(complianceButton).toBeVisible();
+    await complianceButton.click();
     await page.waitForResponse(
       (response) =>
         response.url().includes("/api/graphql") && response.status() === 200
