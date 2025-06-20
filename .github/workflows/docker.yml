@@ -18,6 +18,13 @@ on:
         default: "main"
         type: string
 
+  # version tags on main branch
+  push:
+    branches:
+      - main
+    tags:
+      - "v*.*.*"
+
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME_APP: ghcr.io/visualize-admin/electricity-prices-switzerland
