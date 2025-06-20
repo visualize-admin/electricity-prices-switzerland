@@ -50,7 +50,7 @@ const sunshineIndicatorSchema = z.enum([
   "saifi",
 ] as const);
 
-const mapSunshineSchema = z.object({
+const sunshineMapSchema = z.object({
   tab: mapTabsSchema.default("sunshine"),
   period: periodSchema,
   viewBy: z.string().default("all_grid_operators"),
@@ -64,10 +64,10 @@ const mapSunshineSchema = z.object({
 
 const detailTabsSchema = z.union([sunshineIndicatorSchema, z.undefined()]); // TODO Add Operational Standards page
 
-export type QueryStateSunshineIndicator = QueryStateSingleSunshine["indicator"];
+export type QueryStateSunshineIndicator = QueryStateSunshineMap["indicator"];
 
 export const getSunshineDetailsPageFromIndicator = (
-  indicator: QueryStateSingleSunshine["indicator"]
+  indicator: QueryStateSunshineMap["indicator"]
 ) => {
   if (indicator === "saidi" || indicator === "saifi") {
     return "power-stability";
@@ -92,7 +92,7 @@ export const useQueryStateMapCommon = makeUseQueryState(mapCommonSchema);
 export const useQueryStateEnergyPricesMap = makeUseQueryState(
   energyPricesMapSchema
 );
-export const useQueryStateSunshineMap = makeUseQueryState(mapSunshineSchema);
+export const useQueryStateSunshineMap = makeUseQueryState(sunshineMapSchema);
 
 // Details pages
 export const useQueryStateEnergyPricesDetails = makeUseQueryState(
@@ -102,13 +102,12 @@ export const useQueryStateSunshineDetails = makeUseQueryState(
   sunshineDetailsSchema
 );
 
-export type QueryStateSingleElectricity = UseQueryStateSingle<
+export type QueryStateEnergyPricesMap = UseQueryStateSingle<
   typeof energyPricesMapSchema.shape
 >;
-/** @knipignore */
 
-export type QueryStateSingleSunshine = UseQueryStateSingle<
-  typeof mapSunshineSchema.shape
+export type QueryStateSunshineMap = UseQueryStateSingle<
+  typeof sunshineMapSchema.shape
 >;
 
 export type QueryStateSingleSunshineDetails = UseQueryStateSingle<

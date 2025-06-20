@@ -10,7 +10,7 @@ import { Entity } from "src/domain/data";
 import { useFormatCurrency } from "src/domain/helpers";
 import {
   getSunshineDetailsPageFromIndicator,
-  QueryStateSingleElectricity,
+  QueryStateEnergyPricesMap,
   sunshineDetailsLink,
   useQueryStateEnergyPricesMap,
   useQueryStateMapCommon,
@@ -85,7 +85,7 @@ const MapDetailsEntityHeader = (props: MapDetailProps) => {
   );
 };
 
-const entityTableRows: Record<Entity, (keyof QueryStateSingleElectricity)[]> = {
+const entityTableRows: Record<Entity, (keyof QueryStateEnergyPricesMap)[]> = {
   operator: ["period", "priceComponent", "category", "product"],
   municipality: ["period", "priceComponent", "category", "product", "operator"],
   canton: ["period", "priceComponent", "category", "product"],
@@ -103,7 +103,7 @@ const MapDetailsEntityTable = (
     <Stack direction={"column"} spacing={2}>
       {tableRows.map((row, i) => {
         return (
-          <KeyValueTableRow<QueryStateSingleElectricity> // Exclude 'operator' and 'period' for the table rows
+          <KeyValueTableRow<QueryStateEnergyPricesMap> // Exclude 'operator' and 'period' for the table rows
             key={`${row}-${i}`}
             dataKey={row}
             state={{ ...queryState, operator: operators?.length.toString() }}
