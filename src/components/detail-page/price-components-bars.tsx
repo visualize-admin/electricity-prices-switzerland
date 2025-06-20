@@ -27,7 +27,7 @@ import {
   DownloadImage,
 } from "src/components/detail-page/download-image";
 import { WithClassName } from "src/components/detail-page/with-classname";
-import { Loading, NoDataHint } from "src/components/hint";
+import { HintBlue, Loading, NoDataHint } from "src/components/hint";
 import { InfoDialogButton } from "src/components/info-dialog";
 import {
   Entity,
@@ -46,6 +46,7 @@ import {
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { useLocale } from "src/lib/use-locale";
 import { useQueryStateElectricity } from "src/lib/use-query-state";
+import { useFlag } from "src/utils/flags";
 
 import { FilterSetDescription } from "./filter-set-description";
 
@@ -134,6 +135,8 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
     product: product[0],
   };
 
+  const dynamicTariffsFlag = useFlag("dynamicElectricityTariffs");
+
   return (
     <Card downloadId={DOWNLOAD_ID}>
       <CardHeader
@@ -208,6 +211,14 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
             />
           </Box>
         </>
+      )}
+      {dynamicTariffsFlag && (
+        <HintBlue iconName="infocircle">
+          <Trans id="dynamic-tariffs.hint">
+            Prices shown with values in brackets are dynamic. You can find more
+            information about how dynamic pricing works [here].
+          </Trans>
+        </HintBlue>
       )}
       {observationsQuery.fetching ? (
         <Loading />

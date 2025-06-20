@@ -1,15 +1,7 @@
 import { keyframes } from "@emotion/react";
 import { Trans } from "@lingui/macro";
 import { Box, BoxProps, IconButton, Typography } from "@mui/material";
-import dynamic from "next/dynamic";
 import { ReactNode } from "react";
-const ContentWrapper = dynamic(
-  () =>
-    import("@interactivethings/swiss-federal-ci/dist/components").then(
-      (mod) => mod.ContentWrapper
-    ),
-  { ssr: false }
-);
 
 import { Icon, IconName } from "src/icons";
 import { palette } from "src/themes/palette";
@@ -216,7 +208,7 @@ export const HintBlue = ({
       width: "auto",
       height: "auto",
       py: 4,
-      px: 12,
+      px: 9,
       bgcolor: "blue.50",
       color: "blue.700",
       textAlign: "center",
@@ -226,18 +218,19 @@ export const HintBlue = ({
     }}
     display="flex"
   >
-    <ContentWrapper>
-      <Box sx={{ width: 24 }}>
-        <Icon name={iconName} size={24} color={palette.blue[700]} />
-      </Box>
-      <Typography variant="body3" sx={{ textAlign: "left" }}>
-        {children}
-      </Typography>
-      {onRemove && (
-        <IconButton size="sm" onClick={onRemove}>
-          <Icon name={"cancel"} color={palette.blue[700]} size={24} />
-        </IconButton>
-      )}
-    </ContentWrapper>
+    <Box
+      sx={{ width: 24, alignItems: "center", justifyContent: "center" }}
+      display={"flex"}
+    >
+      <Icon name={iconName} size={24} color={palette.blue[700]} />
+    </Box>
+    <Typography variant="body3" sx={{ textAlign: "left" }}>
+      {children}
+    </Typography>
+    {onRemove && (
+      <IconButton size="sm" onClick={onRemove}>
+        <Icon name={"cancel"} color={palette.blue[700]} size={24} />
+      </IconButton>
+    )}
   </Box>
 );
