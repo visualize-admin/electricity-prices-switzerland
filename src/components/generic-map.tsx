@@ -73,6 +73,7 @@ export const GenericMap = ({
   initialBBox = CH_BBOX,
   getEntityFromHighlight,
   setHovered,
+  featureMatchesId = defaultFeatureMatchesId,
 }: {
   layers: Layer[];
   isLoading?: boolean;
@@ -90,6 +91,7 @@ export const GenericMap = ({
   initialBBox?: BBox;
   getEntityFromHighlight?: (highlight: HighlightValue) => Feature | undefined;
   setHovered: Dispatch<HoverState | undefined>;
+  featureMatchesId?: (feature: Feature, id: string) => boolean;
 }) => {
   const isMobile = useIsMobile();
   const mapZoomPadding = isMobile ? 20 : 150;
@@ -207,8 +209,7 @@ export const GenericMap = ({
           }
         },
         zoomOn: (id: string) => {
-          // Find the feature in one of the layers
-          const feature = findFeatureInLayers(layers, id);
+          const feature = findFeatureInLayers(layers, id, featureMatchesId);
 
           if (!feature) return;
 
@@ -242,7 +243,15 @@ export const GenericMap = ({
         },
       };
     }
-  }, [controls, downloadId, initialBBox, layers, mapZoomPadding, viewState]);
+  }, [
+    controls,
+    downloadId,
+    featureMatchesId,
+    initialBBox,
+    layers,
+    mapZoomPadding,
+    viewState,
+  ]);
 
   return (
     <>
@@ -334,7 +343,12 @@ export const GenericMap = ({
     </>
   );
 };
-function findFeatureInLayers(layers: Layer<{}>[], id: string) {
+
+function findFeatureInLayers(
+  layers: Layer<{}>[],
+  id: string,
+  featureMatchesId: (feature: Feature, id: string) => boolean
+): Feature | undefined {
   let feature;
   for (const layer of layers) {
     if (
@@ -344,8 +358,12 @@ function findFeatureInLayers(layers: Layer<{}>[], id: string) {
     )
       continue;
     const features = layer.props.data.features as Feature[];
-    feature = features.find((f) => f.id?.toString() === id);
+    feature = features.find((f) => featureMatchesId(f, id));
     if (feature) break;
   }
   return feature;
+}
+
+function defaultFeatureMatchesId(feature: Feature, id: string): boolean {
+  return feature.id?.toString() === id;
 }
