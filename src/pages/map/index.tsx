@@ -52,8 +52,8 @@ import {
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { truthy } from "src/lib/truthy";
 import {
-  useQueryStateSingleElectricity,
-  useQueryStateSingleSunshineMap,
+  useQueryStateEnergyPricesMap,
+  useQueryStateSunshineMap,
 } from "src/lib/use-query-state";
 import { defaultLocale } from "src/locales/config";
 import { useFlag } from "src/utils/flags";
@@ -91,7 +91,7 @@ const IndexPageContent = ({
       download,
       tab = "electricity",
     },
-  ] = useQueryStateSingleElectricity();
+  ] = useQueryStateEnergyPricesMap();
 
   const [
     {
@@ -101,7 +101,7 @@ const IndexPageContent = ({
       netTariffCategory,
       energyTariffCategory,
     },
-  ] = useQueryStateSingleSunshineMap();
+  ] = useQueryStateSunshineMap();
 
   const isElectricityTab = tab === "electricity";
   const isSunshineTab = tab === "sunshine";

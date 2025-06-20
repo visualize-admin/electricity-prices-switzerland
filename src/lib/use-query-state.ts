@@ -4,8 +4,6 @@ import * as z from "zod";
 
 import buildEnv from "src/env/build";
 
-const ensureArray = (input: string | string[]): string[] =>
-  Array.isArray(input) ? input : [input];
 const ensureString = (input: string | string[]): string =>
   Array.isArray(input) ? input[0] : input;
 
@@ -14,129 +12,56 @@ type UseQueryStateSingle<T extends z.ZodRawShape> = {
     ? z.infer<T[K]>[number]
     : z.infer<T[K]>;
 };
-type UseQueryStateArray<T extends z.ZodRawShape> = {
-  [K in keyof T]: T[K] extends z.ZodArray<z.ZodTypeAny>
-    ? z.infer<T[K]>
-    : string[];
-};
 
 // Generic function to make useQueryState with specific schema
 function makeUseQueryState<T extends z.ZodRawShape>(
   schema: z.ZodObject<T>
-): {
-  useQueryState: () => readonly [
-    UseQueryStateArray<T>,
-    (newState: Partial<UseQueryStateArray<T>>) => void
-  ];
-  useQueryStateSingle: () => readonly [
-    UseQueryStateSingle<T>,
-    (newState: Partial<UseQueryStateSingle<T>>) => void
-  ];
-} {
+): () => readonly [
+  UseQueryStateSingle<T>,
+  (newState: Partial<UseQueryStateSingle<T>>) => void
+] {
   type SchemaType = z.infer<typeof schema>;
 
-  // Create array version for multi-select
-  const makeUseQueryStateArray = () => {
-    type QueryStateArray = {
-      [K in keyof SchemaType]: SchemaType[K] extends z.ZodArray<$IntentionalAny>
-        ? z.infer<SchemaType[K]>
-        : string[];
-    };
+  type QueryStateSingle = UseQueryStateSingle<T>;
 
-    const schemaKeys = Object.keys(schema.shape) as (keyof SchemaType)[];
+  const schemaKeys = Object.keys(schema.shape) as (keyof SchemaType)[];
+  return () => {
+    const { query, replace, pathname } = useRouter();
 
-    return () => {
-      const { query, replace, pathname } = useRouter();
+    const setState = useCallback(
+      (newQueryState: Partial<QueryStateSingle>) => {
+        const newQuery: { [k: string]: string } = {};
 
-      const setState = useCallback(
-        (newQueryState: Partial<QueryStateArray>) => {
-          const newQuery: { [k: string]: string[] } = {};
-
-          for (const k of schemaKeys) {
-            const v = newQueryState[k as keyof typeof newQueryState];
-            if (v !== undefined) {
-              newQuery[k as string] = v as string[];
-            }
+        for (const k of schemaKeys) {
+          const v = newQueryState[k as keyof typeof newQueryState];
+          if (v !== undefined) {
+            newQuery[k as string] = v as string;
           }
-
-          const href = {
-            pathname,
-            query: { ...query, ...newQuery },
-          };
-
-          replace(href, undefined, { shallow: true });
-        },
-        [replace, pathname, query]
-      );
-
-      const state: Partial<QueryStateArray> = {};
-
-      for (const k of schemaKeys) {
-        const key = k as string;
-        const defaultValue = schema.shape[k]._def.defaultValue?.();
-        const v = query[key] !== undefined ? query[key] : defaultValue;
-
-        if (v !== undefined) {
-          state[k] = ensureArray(v);
         }
+
+        const href = {
+          pathname,
+          query: { ...query, ...newQuery },
+        };
+
+        replace(href, undefined, { shallow: true });
+      },
+      [replace, pathname, query]
+    );
+
+    const state: Partial<QueryStateSingle> = {};
+
+    for (const k of schemaKeys) {
+      const key = k as string;
+      const defaultValue = schema.shape[k]._def.defaultValue?.();
+      const v = query[key] !== undefined ? query[key] : defaultValue;
+
+      if (v !== undefined) {
+        state[k] = ensureString(v);
       }
+    }
 
-      return [state as QueryStateArray, setState] as const;
-    };
-  };
-
-  // Create single value version
-  const makeUseQueryStateSingle = () => {
-    type QueryStateSingle = {
-      [K in keyof SchemaType]: SchemaType[K] extends z.ZodArray<$IntentionalAny>
-        ? z.infer<SchemaType[K]>[number]
-        : z.infer<SchemaType[K]>;
-    };
-
-    const schemaKeys = Object.keys(schema.shape) as (keyof SchemaType)[];
-    return () => {
-      const { query, replace, pathname } = useRouter();
-
-      const setState = useCallback(
-        (newQueryState: Partial<QueryStateSingle>) => {
-          const newQuery: { [k: string]: string } = {};
-
-          for (const k of schemaKeys) {
-            const v = newQueryState[k as keyof typeof newQueryState];
-            if (v !== undefined) {
-              newQuery[k as string] = v as string;
-            }
-          }
-
-          const href = {
-            pathname,
-            query: { ...query, ...newQuery },
-          };
-
-          replace(href, undefined, { shallow: true });
-        },
-        [replace, pathname, query]
-      );
-
-      const state: Partial<QueryStateSingle> = {};
-
-      for (const k of schemaKeys) {
-        const key = k as string;
-        const defaultValue = schema.shape[k]._def.defaultValue?.();
-        const v = query[key] !== undefined ? query[key] : defaultValue;
-
-        if (v !== undefined) {
-          state[k] = ensureString(v);
-        }
-      }
-
-      return [state as QueryStateSingle, setState] as const;
-    };
-  };
-
-  return {
-    useQueryState: makeUseQueryStateArray(),
-    useQueryStateSingle: makeUseQueryStateSingle(),
+    return [state as QueryStateSingle, setState] as const;
   };
 }
 
@@ -218,33 +143,20 @@ const sunshineDetailsSchema = z.object({
 
 export const sunshineDetailsLink = makeLinkGenerator(sunshineDetailsSchema);
 
-export const { useQueryStateSingle: useQueryStateSingleCommon } =
-  makeUseQueryState(commonSchema);
-
-export const { useQueryStateSingle: useQueryStateElectricity } =
-  makeUseQueryState(energyPricesDetailsSchema);
-
-export const { useQueryStateSingle: useQueryStateSingleElectricity } =
-  makeUseQueryState(energyPricesMapSchema);
-
-export const { useQueryStateSingle: useQueryStateSingleSunshineMap } =
-  makeUseQueryState(mapSunshineSchema);
+export const useQueryStateMapCommon = makeUseQueryState(commonSchema);
+export const useQueryStateEnergyPricesDetails = makeUseQueryState(
+  energyPricesDetailsSchema
+);
+export const useQueryStateEnergyPricesMap = makeUseQueryState(
+  energyPricesMapSchema
+);
+export const useQueryStateSunshineMap = makeUseQueryState(mapSunshineSchema);
 
 export type QueryStateSingleElectricity = UseQueryStateSingle<
   typeof energyPricesMapSchema.shape
 >;
 
 /** @knipignore */
-export type QueryStateArrayElectricity = UseQueryStateArray<
-  typeof energyPricesMapSchema.shape
->;
-
-/** @knipignore */
 export type QueryStateSingleSunshine = UseQueryStateSingle<
-  typeof mapSunshineSchema.shape
->;
-
-/** @knipignore */
-export type QueryStateArraySunshine = UseQueryStateArray<
   typeof mapSunshineSchema.shape
 >;

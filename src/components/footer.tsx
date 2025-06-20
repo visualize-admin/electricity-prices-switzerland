@@ -9,14 +9,14 @@ import { t } from "@lingui/macro";
 import { Link, SxProps } from "@mui/material";
 
 import { useLocale } from "src/lib/use-locale";
-import { useQueryStateSingleElectricity } from "src/lib/use-query-state";
+import { useQueryStateEnergyPricesMap } from "src/lib/use-query-state";
 
 import { HelpDialog } from "./info-dialog";
 import { useDisclosure } from "./use-disclosure";
 
 export const Footer = ({ sx }: { sx?: SxProps }) => {
   const locale = useLocale();
-  const [{ period }] = useQueryStateSingleElectricity();
+  const [{ period }] = useQueryStateEnergyPricesMap();
   const helpCalculationDisclosure = useDisclosure();
   const helpCsvDisclosure = useDisclosure();
   const helpMunicipalitiesInfoDisclosure = useDisclosure();

@@ -45,7 +45,7 @@ import { RP_PER_KWH } from "src/domain/metrics";
 import { getLocalizedLabel } from "src/domain/translation";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { useLocale } from "src/lib/use-locale";
-import { useQueryStateElectricity } from "src/lib/use-query-state";
+import { useQueryStateEnergyPricesDetails } from "src/lib/use-query-state";
 
 import { InteractionHistogram } from "../charts-generic/overlay/interaction-histogram";
 
@@ -64,7 +64,7 @@ export const PriceDistributionHistograms = ({ id, entity }: SectionProps) => {
       product,
     },
     setQueryState,
-  ] = useQueryStateElectricity();
+  ] = useQueryStateEnergyPricesDetails();
 
   const getItemLabel = (id: string) => getLocalizedLabel({ id });
 

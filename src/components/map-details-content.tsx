@@ -12,7 +12,7 @@ import { getLocalizedLabel } from "src/domain/translation";
 import { Icon } from "src/icons";
 import {
   QueryStateSingleElectricity,
-  useQueryStateSingleElectricity,
+  useQueryStateEnergyPricesMap,
 } from "src/lib/use-query-state";
 
 import { ListItemType } from "./list";
@@ -91,7 +91,7 @@ const MapDetailsEntityTable = (
   props: MapDetailProps & { colorScale: ScaleThreshold<number, string> }
 ) => {
   const { entity, operators, colorScale } = props;
-  const [queryState] = useQueryStateSingleElectricity();
+  const [queryState] = useQueryStateEnergyPricesMap();
   const tableRows = entityTableRows[entity];
   const formatNumber = useFormatCurrency();
 

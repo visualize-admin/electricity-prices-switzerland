@@ -14,7 +14,7 @@ import {
   useObservationsQuery,
 } from "src/graphql/queries";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
-import { useQueryStateSingleElectricity } from "src/lib/use-query-state";
+import { useQueryStateEnergyPricesMap } from "src/lib/use-query-state";
 import { defaultLocale } from "src/locales/config";
 
 type Props = {
@@ -34,7 +34,7 @@ export const getServerSideProps: GetServerSideProps<
 
 const IndexPage = ({ locale }: Props) => {
   const [{ period, priceComponent, category, product }] =
-    useQueryStateSingleElectricity();
+    useQueryStateEnergyPricesMap();
 
   const [observationsQuery] = useObservationsQuery({
     variables: {
