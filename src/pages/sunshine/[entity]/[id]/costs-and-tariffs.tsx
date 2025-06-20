@@ -3,7 +3,7 @@ import { Box, Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
 import ErrorPage from "next/error";
 import { useRouter } from "next/router";
-import React, { ComponentProps, useMemo, useState } from "react";
+import React, { ComponentProps, useCallback, useMemo, useState } from "react";
 import { gql } from "urql";
 
 import { ButtonGroup } from "src/components/button-group";
@@ -22,7 +22,7 @@ import NetTariffsTrendCard from "src/components/net-tariffs-trend-card";
 import NetworkCostsTrendCard from "src/components/network-costs-trend-card";
 import PeerGroupCard from "src/components/peer-group-card";
 import {
-  CostAndTariffsTabOption,
+  CostAndTariffsTab,
   CostsAndTariffsNavigation,
 } from "src/components/sunshine-tabs";
 import TableComparisonCard from "src/components/table-comparison-card";
@@ -52,6 +52,10 @@ import { TariffCategory } from "src/graphql/resolver-mapped-types";
 import { Trend } from "src/graphql/resolver-types";
 import { fetchOperatorCostsAndTariffsData } from "src/lib/db/sunshine-data";
 import { truthy } from "src/lib/truthy";
+import {
+  QueryStateSingleSunshineDetails,
+  useQueryStateSunshineDetails,
+} from "src/lib/use-query-state";
 import { defaultLocale } from "src/locales/config";
 
 type Props =
@@ -620,8 +624,14 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
 
 const CostsAndTariffs = (props: Props) => {
   const { query } = useRouter();
-  const [activeTab, setActiveTab] = useState<CostAndTariffsTabOption>(
-    CostAndTariffsTabOption.NETWORK_COSTS
+  const [{ tab: activeTab }, setQueryState] = useQueryStateSunshineDetails();
+  const setActiveTab = useCallback(
+    (tab: QueryStateSingleSunshineDetails["tab"]) => {
+      setQueryState({
+        tab,
+      });
+    },
+    [setQueryState]
   );
 
   if (props.status === "notfound") {
@@ -635,7 +645,10 @@ const CostsAndTariffs = (props: Props) => {
     message: "Costs and Tariffs",
   })}`;
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleTabChange = (
+    event: React.SyntheticEvent,
+    newValue: CostAndTariffsTab
+  ) => {
     setActiveTab(newValue);
   };
 
@@ -672,15 +685,9 @@ const CostsAndTariffs = (props: Props) => {
         handleTabChange={handleTabChange}
       />
 
-      {activeTab === CostAndTariffsTabOption.NETWORK_COSTS && (
-        <NetworkCosts {...props} />
-      )}
-      {activeTab === CostAndTariffsTabOption.NET_TARIFFS && (
-        <NetTariffs {...props} />
-      )}
-      {activeTab === CostAndTariffsTabOption.ENERGY_TARIFFS && (
-        <EnergyTariffs {...props} />
-      )}
+      {activeTab === "networkCosts" && <NetworkCosts {...props} />}
+      {activeTab === "netTariffs" && <NetTariffs {...props} />}
+      {activeTab === "energyTariffs" && <EnergyTariffs {...props} />}
     </>
   );
 

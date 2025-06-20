@@ -11,8 +11,12 @@ import { useFormatCurrency } from "src/domain/helpers";
 import { getLocalizedLabel } from "src/domain/translation";
 import { Icon } from "src/icons";
 import {
+  getSunshineDetailsPageFromIndicator,
   QueryStateSingleElectricity,
+  sunshineDetailsLink,
   useQueryStateEnergyPricesMap,
+  useQueryStateMapCommon,
+  useQueryStateSunshineMap,
 } from "src/lib/use-query-state";
 
 import { ListItemType } from "./list";
@@ -192,34 +196,47 @@ export const MapDetailsContent: React.FC<{
   entity: Entity;
   selectedItem: ListItemType;
   onBack: () => void;
-}> = ({ colorScale, entity, selectedItem, onBack }) => (
-  <MapDetailsContentWrapper onBack={onBack}>
-    <MapDetailsEntityHeader entity={entity} {...selectedItem} />
-    <MapDetailsEntityTable
-      colorScale={colorScale}
-      entity={entity}
-      {...selectedItem}
-    />
-    <Divider />
-    <PriceEvolution
-      priceComponents={["total"]}
-      id={selectedItem.id}
-      entity={entity}
-      mini
-    />
-    <Button
-      variant="contained"
-      color="secondary"
-      size="sm"
-      sx={{
-        justifyContent: "space-between",
-      }}
-      href={`/${entity}/${selectedItem.id}`}
-    >
-      <Trans id="map.details-sidebar-panel.next-button">
-        Energy Prices in detail
-      </Trans>
-      <Icon name="arrowright" />
-    </Button>
-  </MapDetailsContentWrapper>
-);
+}> = ({ colorScale, entity, selectedItem, onBack }) => {
+  const [{ tab }] = useQueryStateMapCommon();
+  const [{ indicator }] = useQueryStateSunshineMap();
+  return (
+    <MapDetailsContentWrapper onBack={onBack}>
+      <MapDetailsEntityHeader entity={entity} {...selectedItem} />
+      <MapDetailsEntityTable
+        colorScale={colorScale}
+        entity={entity}
+        {...selectedItem}
+      />
+      <Divider />
+      <PriceEvolution
+        priceComponents={["total"]}
+        id={selectedItem.id}
+        entity={entity}
+        mini
+      />
+      <Button
+        variant="contained"
+        color="secondary"
+        size="sm"
+        sx={{
+          justifyContent: "space-between",
+        }}
+        href={
+          tab === "electricity"
+            ? `/${entity}/${selectedItem.id}`
+            : sunshineDetailsLink(
+                `/sunshine/operator/${
+                  selectedItem.id
+                }/${getSunshineDetailsPageFromIndicator(indicator)}`,
+                { tab: indicator }
+              )
+        }
+      >
+        <Trans id="map.details-sidebar-panel.next-button">
+          Energy Prices in detail
+        </Trans>
+        <Icon name="arrowright" />
+      </Button>
+    </MapDetailsContentWrapper>
+  );
+};

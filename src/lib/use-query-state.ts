@@ -101,27 +101,27 @@ const energyPricesDetailsSchema = z.object({
   view: z.array(z.string()).default(["collapsed"]),
 });
 
+const sunshineIndicatorSchema = z.enum([
+  "networkCosts",
+  "netTariffs",
+  "energyTariffs",
+  "saidi",
+  "saifi",
+] as const);
+
 const mapSunshineSchema = z.object({
   tab: mapTabsSchema.default("sunshine"),
   period: periodSchema,
   viewBy: z.string().default("all_grid_operators"),
   typology: z.string().default("total"),
-  indicator: z.string().default("saidi"),
+  indicator: sunshineIndicatorSchema.default("saidi"),
   energyTariffCategory: z.string().default("EC2"),
   netTariffCategory: z.string().default("NC2"),
   networkLevel: z.string().default("NE5"),
   activeId: z.string().optional(),
 });
 
-const detailTabsSchema = z.enum([
-  "network-costs",
-  "network-tariffs",
-  "energy-tariffs",
-  "saidi",
-  "saifi",
-  "service-quality",
-  "compliance",
-] as const);
+const detailTabsSchema = sunshineIndicatorSchema;
 
 const makeLinkGenerator = <T extends z.ZodRawShape>(
   _schema: z.ZodObject<T>
@@ -139,20 +139,43 @@ const makeLinkGenerator = <T extends z.ZodRawShape>(
   };
 };
 
+// TODO Add Operational Standards page
+export const getSunshineDetailsPageFromIndicator = (
+  indicator: QueryStateSingleSunshine["indicator"]
+) => {
+  if (indicator === "saidi" || indicator === "saifi") {
+    return "power-stability";
+  } else if (
+    indicator === "networkCosts" ||
+    indicator === "netTariffs" ||
+    indicator === "energyTariffs"
+  ) {
+    return "costs-and-tariffs";
+  } else {
+    return "operational-standards";
+  }
+};
+
 const sunshineDetailsSchema = z.object({
-  tab: detailTabsSchema.default("network-costs"),
+  tab: detailTabsSchema,
 });
 
 export const sunshineDetailsLink = makeLinkGenerator(sunshineDetailsSchema);
 
+// Map pages
 export const useQueryStateMapCommon = makeUseQueryState(mapCommonSchema);
-export const useQueryStateEnergyPricesDetails = makeUseQueryState(
-  energyPricesDetailsSchema
-);
 export const useQueryStateEnergyPricesMap = makeUseQueryState(
   energyPricesMapSchema
 );
 export const useQueryStateSunshineMap = makeUseQueryState(mapSunshineSchema);
+
+// Details pages
+export const useQueryStateEnergyPricesDetails = makeUseQueryState(
+  energyPricesDetailsSchema
+);
+export const useQueryStateSunshineDetails = makeUseQueryState(
+  sunshineDetailsSchema
+);
 
 export type QueryStateSingleElectricity = UseQueryStateSingle<
   typeof energyPricesMapSchema.shape
@@ -161,4 +184,8 @@ export type QueryStateSingleElectricity = UseQueryStateSingle<
 /** @knipignore */
 export type QueryStateSingleSunshine = UseQueryStateSingle<
   typeof mapSunshineSchema.shape
+>;
+
+export type QueryStateSingleSunshineDetails = UseQueryStateSingle<
+  typeof sunshineDetailsSchema.shape
 >;
