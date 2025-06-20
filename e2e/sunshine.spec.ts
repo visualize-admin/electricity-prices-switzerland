@@ -2,6 +2,11 @@ import { expect } from "@playwright/test";
 
 import { test } from "./common";
 
+/**
+ * FIXME - This test suite is currently flaky and needs to be fixed.
+ *
+ * waitForLoadState often causes issues it doesn't work as expected causing screenshots while the page is still loading
+ */
 test.describe("Sunshine details page", () => {
   const tabs = [
     {
