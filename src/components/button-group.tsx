@@ -122,13 +122,14 @@ export const ButtonGroup = <T extends string>({
           overflow: "hidden",
         }}
       >
-        {options.map((option) => {
+        {options.map((option, i) => {
           const isActive = option.value === value;
 
           return (
             <Box
               key={option.value}
               component="label"
+              data-testid={`button-group-${i}`}
               title={
                 typeof option.label === "string" ? option.label : undefined
               }
