@@ -1,3 +1,4 @@
+import { t } from "@lingui/macro";
 import { Fragment } from "react";
 
 import { Bar } from "src/components/charts-generic/bars/bars-simple";
@@ -12,7 +13,7 @@ import {
   getTextWidth,
   useFormatCurrency,
 } from "src/domain/helpers";
-import { RP_PER_KWH } from "src/domain/metrics";
+import { useFlag } from "src/utils/flags";
 
 export const BarsGroupedAxis = ({
   title,
@@ -137,6 +138,8 @@ export const BarsGroupedLabels = ({ title }: { title: string }) => {
   const paddingX = 6;
   const safeTitle = title.replace(/[^a-zA-Z0-9]/g, "-");
 
+  const dynamicTariffsFlag = useFlag("dynamicElectricityTariffs");
+
   return (
     <g transform={`translate(${margins.left} ${margins.top})`}>
       <defs>
@@ -148,11 +151,20 @@ export const BarsGroupedLabels = ({ title }: { title: string }) => {
             : 0;
           const height = yScale.bandwidth();
 
+          const isDynamic = dynamicTariffsFlag; // FIXME: Simulate dynamic but use actual property in the future
+
           const value = formatCurrency(getX(d));
-          const unit = RP_PER_KWH;
           const label = getLabel(d);
+          const dynamicText = isDynamic
+            ? `(${formatCurrency(d.min as number)}-${formatCurrency(
+                d.max as number
+              )}, ${t({
+                id: "metric.dynamic",
+                message: "dynamic",
+              })}),`
+            : "";
           const fullText = !segment.includes(EXPANDED_TAG)
-            ? `${value} ${unit} ${label}`
+            ? `${value} ${xAxisLabel} ${dynamicText} ${label}`
             : label;
 
           const textWidth = getTextWidth(fullText, { fontSize: labelFontSize });
@@ -188,6 +200,17 @@ export const BarsGroupedLabels = ({ title }: { title: string }) => {
         const barColor = colors(getColor(d));
         const value = formatCurrency(getX(d));
         const label = getLabel(d);
+
+        const isDynamic = dynamicTariffsFlag; // FIXME: Simulate dynamic but use actual property in the future
+
+        const dynamicText = isDynamic
+          ? `(${formatCurrency(d.min as number)}-${formatCurrency(
+              d.max as number
+            )}, ${t({
+              id: "metric.dynamic",
+              message: "dynamic",
+            })}),`
+          : "";
         const fullText = !segment.includes(EXPANDED_TAG)
           ? `${value} ${xAxisLabel} ${label}`
           : label;
@@ -209,7 +232,7 @@ export const BarsGroupedLabels = ({ title }: { title: string }) => {
             >
               {!segment.includes(EXPANDED_TAG) && (
                 <tspan fontWeight={700}>
-                  {value} {xAxisLabel}
+                  {value} {xAxisLabel} {dynamicText}
                 </tspan>
               )}{" "}
               {label}
@@ -232,7 +255,7 @@ export const BarsGroupedLabels = ({ title }: { title: string }) => {
             >
               {!segment.includes(EXPANDED_TAG) && (
                 <tspan fontWeight={700}>
-                  {value} {xAxisLabel}
+                  {value} {xAxisLabel} {dynamicText}
                 </tspan>
               )}{" "}
               {label}
@@ -251,7 +274,7 @@ export const BarsGroupedLabels = ({ title }: { title: string }) => {
             >
               {!segment.includes(EXPANDED_TAG) && (
                 <tspan fontWeight={700}>
-                  {value} {xAxisLabel}
+                  {value} {xAxisLabel} {dynamicText}
                 </tspan>
               )}{" "}
               {label}
