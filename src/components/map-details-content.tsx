@@ -205,6 +205,7 @@ export const MapDetailsContent: React.FC<{
       priceComponents={["total"]}
       id={selectedItem.id}
       entity={entity}
+      mini
     />
     <Button
       variant="contained"

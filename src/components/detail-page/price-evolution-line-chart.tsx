@@ -41,6 +41,8 @@ import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { useLocale } from "src/lib/use-locale";
 import { useQueryStateElectricity } from "src/lib/use-query-state";
 
+import { LatestIndicator } from "../charts-generic/interaction/latest-indicator";
+
 const DOWNLOAD_ID: Download = "evolution";
 
 export const PriceEvolutionCard = ({
@@ -104,7 +106,8 @@ export const PriceEvolution = ({
   id,
   entity,
   priceComponents,
-}: SectionProps & { priceComponents: string[] }) => {
+  mini,
+}: SectionProps & { priceComponents: string[]; mini?: boolean }) => {
   const locale = useLocale();
   const [{ category, municipality, operator, canton, product }] =
     useQueryStateElectricity();
@@ -158,6 +161,7 @@ export const PriceEvolution = ({
           observations={observations as GenericObservation[]}
           entity={entity}
           priceComponents={priceComponents}
+          mini={mini}
         />
       </WithClassName>
     </div>
@@ -169,9 +173,11 @@ export const PriceEvolutionLineCharts = memo(
     observations,
     entity,
     priceComponents,
+    mini,
   }: Pick<SectionProps, "entity"> & {
     priceComponents: string[];
     observations: GenericObservation[];
+    mini?: boolean;
   }) => {
     return (
       <Box
@@ -189,6 +195,7 @@ export const PriceEvolutionLineCharts = memo(
               pc={pc}
               entity={entity}
               observations={observations}
+              mini={mini}
             />
           );
         })}
@@ -202,8 +209,9 @@ const PriceEvolutionLineChart = (props: {
   i: number;
   observations: GenericObservation[];
   entity: Entity;
+  mini?: boolean;
 }) => {
-  const { pc, entity, i, observations } = props;
+  const { pc, entity, i, observations, mini } = props;
 
   const withUniqueEntityId: GenericObservation[] = observations.map((obs) => ({
     uniqueId:
@@ -276,7 +284,7 @@ const PriceEvolutionLineChart = (props: {
           </ChartSvg>
 
           {hasMultipleLines && <Ruler />}
-
+          {mini && <LatestIndicator />}
           <HoverDotMultiple />
 
           <Tooltip type={hasMultipleLines ? "multiple" : "single"} />
