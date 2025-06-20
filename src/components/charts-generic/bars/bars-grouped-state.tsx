@@ -9,7 +9,9 @@ import { ReactNode, useCallback } from "react";
 
 import {
   BAR_HEIGHT,
+  BAR_PADDING,
   BOTTOM_MARGIN_OFFSET,
+  LABEL_PADDING,
 } from "src/components/charts-generic/constants";
 import {
   ChartContext,
@@ -102,11 +104,14 @@ const useGroupedBarsState = ({
 
   const xScale = scaleLinear().domain(fields.domain).nice();
 
-  const chartHeight = BAR_HEIGHT * segments.length;
+  const BAR_FULL_HEIGHT = BAR_HEIGHT + BAR_PADDING + LABEL_PADDING;
+  const chartHeight = BAR_FULL_HEIGHT * segments.length;
+
   const yScale = scaleBand()
     .domain(segments)
     .range([0, chartHeight])
-    .paddingOuter(0.1);
+    .paddingInner(0)
+    .paddingOuter(0);
 
   const margins = {
     top: 50,

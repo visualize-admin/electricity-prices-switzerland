@@ -288,11 +288,7 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
                           id: priceComponent[0] as string,
                         })}
                       />
-                      <BarsGroupedLabels
-                        title={getLocalizedLabel({
-                          id: priceComponent[0] as string,
-                        })}
-                      />
+                      <BarsGroupedLabels />
                     </ChartSvg>
                   </ChartContainer>
                 </GroupedBarsChart>
