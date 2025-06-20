@@ -10,7 +10,8 @@ import DeckGL, { DeckGLRef } from "@deck.gl/react/typed";
 import { Box } from "@mui/material";
 import bbox from "@turf/bbox";
 import centroid from "@turf/centroid";
-import { Feature } from "geojson";
+import { Feature, FeatureCollection } from "geojson";
+import { isObject } from "lodash";
 import React, {
   Dispatch,
   useCallback,
@@ -344,6 +345,15 @@ export const GenericMap = ({
   );
 };
 
+const isFeatureCollection = (data: unknown): data is FeatureCollection => {
+  return !!(
+    data &&
+    isObject(data) &&
+    "type" in data &&
+    data.type === "FeatureCollection"
+  );
+};
+
 function findFeatureInLayers(
   layers: Layer<{}>[],
   id: string,
@@ -351,14 +361,14 @@ function findFeatureInLayers(
 ): Feature | undefined {
   let feature;
   for (const layer of layers) {
-    if (
-      typeof layer.props.data === "string" ||
-      !("features" in layer.props.data) ||
-      !layer.props.data?.features
-    )
-      continue;
-    const features = layer.props.data.features as Feature[];
+    const data = layer.props.data;
+    if (!data || typeof data === "string") continue;
+
+    const features = isFeatureCollection(data)
+      ? data.features
+      : (data as Feature[]);
     feature = features.find((f) => featureMatchesId(f, id));
+
     if (feature) break;
   }
   return feature;

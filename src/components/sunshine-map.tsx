@@ -401,8 +401,20 @@ const SunshineMap = ({
       downloadId={`operator-map-${period}`}
       setHovered={setHovered}
       getEntityFromHighlight={getEntityFromHighlight}
+      featureMatchesId={featureMatchesId}
     />
   );
+};
+
+const featureMatchesId = (
+  feature: Feature<Geometry, GeoJsonProperties>,
+  id: string
+) => {
+  if (!isOperatorFeature(feature)) {
+    return false;
+  }
+  const { operators } = feature.properties;
+  return operators.length === 1 && operators[0] == parseInt(id, 10);
 };
 
 export default SunshineMap;
