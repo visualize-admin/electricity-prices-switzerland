@@ -8,13 +8,13 @@ import {
 } from "src/components/highlight-context";
 import { MapProvider } from "src/components/map-context";
 import { useColorScale } from "src/domain/data";
+import { useQueryStateEnergyPricesMap } from "src/domain/query-states";
 import {
   PriceComponent,
   useAllMunicipalitiesQuery,
   useObservationsQuery,
 } from "src/graphql/queries";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
-import { useQueryStateEnergyPricesMap } from "src/domain/query-states";
 import { defaultLocale } from "src/locales/config";
 
 type Props = {

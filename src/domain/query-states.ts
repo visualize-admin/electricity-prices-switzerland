@@ -61,7 +61,12 @@ export const mapSunshineSchema = z.object({
   networkLevel: z.string().default("NE5"),
   activeId: z.string().optional(),
 });
-export const detailTabsSchema = sunshineIndicatorSchema; // TODO Add Operational Standards page
+export const detailTabsSchema = z.union([
+  sunshineIndicatorSchema,
+  z.undefined(),
+]); // TODO Add Operational Standards page
+
+export type QueryStateSunshineIndicator = QueryStateSingleSunshine["indicator"];
 
 export const getSunshineDetailsPageFromIndicator = (
   indicator: QueryStateSingleSunshine["indicator"]

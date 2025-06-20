@@ -1,3 +1,4 @@
+import { useQueryStateSunshineMap } from "src/domain/query-states";
 import {
   years,
   viewByOptions,
@@ -8,7 +9,6 @@ import {
   energyTariffCategoryOptions,
 } from "src/domain/sunshine-data";
 import { getLocalizedLabel } from "src/domain/translation";
-import { useQueryStateSunshineMap } from "src/domain/query-states";
 
 import { SunshineSelectorsBase } from "./base";
 
