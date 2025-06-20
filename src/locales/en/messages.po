@@ -11,6 +11,10 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: src/components/map.tsx
+msgid "canton"
+msgstr "Canton"
+
 #: src/domain/translation.tsx
 msgid "chart.annotation.cantons"
 msgstr "Cantons"
@@ -169,6 +173,10 @@ msgstr "No network operator documents"
 msgid "download.reports"
 msgstr "Download reports"
 
+#: src/components/detail-page/price-components-bars.tsx
+msgid "dynamic-tariffs.hint"
+msgstr "Prices shown with values in brackets are dynamic. You can find more information about how dynamic pricing works [here]."
+
 #: src/components/not-found.tsx
 msgid "error.page.404.back-link"
 msgstr "Click here to return to homepage"
@@ -269,7 +277,7 @@ msgstr "Transmission grid tariff components - Swissgrid"
 msgid "help.calculation"
 msgstr "Calculation basis"
 
-#: src/components/price-color-legend.tsx
+#: src/components/map.tsx
 msgid "help.price-comparison"
 msgstr "Tariff comparison"
 
@@ -425,15 +433,15 @@ msgstr "Power Outage Duration (SAIDI)"
 msgid "indicator.saifi"
 msgstr "Power Outage Frequency (SAIFI)"
 
-#: src/components/list.tsx
+#: src/pages/map/index.tsx
 msgid "list.cantons"
 msgstr "Cantons"
 
-#: src/components/list.tsx
+#: src/pages/map/index.tsx
 msgid "list.municipalities"
 msgstr "Municipalities"
 
-#: src/components/list.tsx
+#: src/pages/map/index.tsx
 msgid "list.operators"
 msgstr "Network operator"
 
@@ -453,7 +461,7 @@ msgstr "Filter list"
 msgid "list.showmore"
 msgstr "Show more …"
 
-#: src/components/list.tsx
+#: src/pages/map/index.tsx
 msgid "list.viewby.label"
 msgstr "View according to"
 
@@ -461,11 +469,11 @@ msgstr "View according to"
 msgid "map.details-sidebar-panel.back-button"
 msgstr "Back to the filters"
 
-#: src/components/list.tsx
+#: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.next-button"
 msgstr "Energy Prices in detail"
 
-#: src/components/price-color-legend.tsx
+#: src/components/map.tsx
 msgid "map.legend.title"
 msgstr "Tariff comparison in Rp./kWh (figures excl. VAT)"
 
@@ -473,7 +481,7 @@ msgstr "Tariff comparison in Rp./kWh (figures excl. VAT)"
 msgid "map.share"
 msgstr "Share"
 
-#: src/components/map.tsx
+#: src/components/map-tooltip.tsx
 msgid "map.tooltipnodata"
 msgstr "No data"
 
@@ -528,6 +536,10 @@ msgstr "Low voltage NE7"
 msgid "network-level.NE7.short"
 msgstr "NE7"
 
+#: src/components/operators-map.tsx
+msgid "operator"
+msgstr "Operator"
+
 #: src/pages/[entity]/[id]/index.tsx
 msgid "page.electricity-tariffs.description"
 msgstr "On the grid operator's details page, you will find up-to-date information on electricity tariffs, allowing you to compare prices. You can view the breakdown of energy, grid and additional costs and call up historical trends to gain a better understanding of electricity costs."
@@ -572,18 +584,18 @@ msgstr "Tourism"
 msgid "peer-group.settlement-density.unknown"
 msgstr "Unknown"
 
-#: src/components/price-color-legend.tsx
-#: src/components/price-color-legend.tsx
+#: src/components/color-legend.tsx
+#: src/components/color-legend.tsx
 msgid "price.legend.max"
 msgstr "max"
 
-#: src/components/price-color-legend.tsx
-#: src/components/price-color-legend.tsx
+#: src/components/color-legend.tsx
+#: src/components/color-legend.tsx
 msgid "price.legend.median"
 msgstr "median"
 
-#: src/components/price-color-legend.tsx
-#: src/components/price-color-legend.tsx
+#: src/components/color-legend.tsx
+#: src/components/color-legend.tsx
 msgid "price.legend.min"
 msgstr "min"
 

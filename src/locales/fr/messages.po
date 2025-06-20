@@ -11,6 +11,10 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
+#: src/components/map.tsx
+msgid "canton"
+msgstr "Canton"
+
 #: src/domain/translation.tsx
 msgid "chart.annotation.cantons"
 msgstr "Cantons"
@@ -169,6 +173,10 @@ msgstr "Aucun document d'opérateur de réseau"
 msgid "download.reports"
 msgstr "Télécharger les rapports"
 
+#: src/components/detail-page/price-components-bars.tsx
+msgid "dynamic-tariffs.hint"
+msgstr "Les prix indiqués avec des valeurs entre parenthèses sont dynamiques. Vous trouverez plus d'informations sur le fonctionnement de la tarification dynamique [ici]."
+
 #: src/components/not-found.tsx
 msgid "error.page.404.back-link"
 msgstr "Cliquez ici pour revenir à la page d'accueil"
@@ -269,7 +277,7 @@ msgstr "Composantes tarifaires du réseau de transport - Swissgrid"
 msgid "help.calculation"
 msgstr "Base de calcul"
 
-#: src/components/price-color-legend.tsx
+#: src/components/map.tsx
 msgid "help.price-comparison"
 msgstr "Comparaison des tarifs"
 
@@ -425,15 +433,15 @@ msgstr "Durée de la panne d'électricité (SAIDI)"
 msgid "indicator.saifi"
 msgstr "Fréquence des pannes d'électricité (SAIFI)"
 
-#: src/components/list.tsx
+#: src/pages/map/index.tsx
 msgid "list.cantons"
 msgstr "Cantons"
 
-#: src/components/list.tsx
+#: src/pages/map/index.tsx
 msgid "list.municipalities"
 msgstr "Communes"
 
-#: src/components/list.tsx
+#: src/pages/map/index.tsx
 msgid "list.operators"
 msgstr "Gestionnaires de réseau"
 
@@ -453,7 +461,7 @@ msgstr "Filtrer"
 msgid "list.showmore"
 msgstr "Voir plus ..."
 
-#: src/components/list.tsx
+#: src/pages/map/index.tsx
 msgid "list.viewby.label"
 msgstr "Vue selon"
 
@@ -461,11 +469,11 @@ msgstr "Vue selon"
 msgid "map.details-sidebar-panel.back-button"
 msgstr "Retour aux filtres"
 
-#: src/components/list.tsx
+#: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.next-button"
 msgstr "Afficher le détail des prix de l'énergie"
 
-#: src/components/price-color-legend.tsx
+#: src/components/map.tsx
 msgid "map.legend.title"
 msgstr "Comparaison des tarifs en ct./kWh (TVA exclue)"
 
@@ -473,7 +481,7 @@ msgstr "Comparaison des tarifs en ct./kWh (TVA exclue)"
 msgid "map.share"
 msgstr "Partager"
 
-#: src/components/map.tsx
+#: src/components/map-tooltip.tsx
 msgid "map.tooltipnodata"
 msgstr "Aucune donnée"
 
@@ -528,6 +536,10 @@ msgstr "Basse tension NE7"
 msgid "network-level.NE7.short"
 msgstr "NE7"
 
+#: src/components/operators-map.tsx
+msgid "operator"
+msgstr "Opérateur"
+
 #: src/pages/[entity]/[id]/index.tsx
 msgid "page.electricity-tariffs.description"
 msgstr "La page de détail du gestionnaire de réseau fournit des informations actuelles sur les tarifs d’électricité pour permettre une comparaison des prix. Vous pouvez voir la répartition des coûts d’énergie, du réseau et des suppléments, ainsi que les tendances historiques pour mieux comprendre les coûts d’électricité."
@@ -572,18 +584,18 @@ msgstr "Tourisme"
 msgid "peer-group.settlement-density.unknown"
 msgstr "Inconnu"
 
-#: src/components/price-color-legend.tsx
-#: src/components/price-color-legend.tsx
+#: src/components/color-legend.tsx
+#: src/components/color-legend.tsx
 msgid "price.legend.max"
 msgstr "Max"
 
-#: src/components/price-color-legend.tsx
-#: src/components/price-color-legend.tsx
+#: src/components/color-legend.tsx
+#: src/components/color-legend.tsx
 msgid "price.legend.median"
 msgstr "Médiane"
 
-#: src/components/price-color-legend.tsx
-#: src/components/price-color-legend.tsx
+#: src/components/color-legend.tsx
+#: src/components/color-legend.tsx
 msgid "price.legend.min"
 msgstr "Min"
 
