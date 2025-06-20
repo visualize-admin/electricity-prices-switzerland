@@ -49,9 +49,12 @@ const SegmentField = z.object({
 type SegmentField = z.infer<typeof SegmentField>;
 
 const BarFields = z.object({
-  x: z.object({
-    componentIri: z.union([z.string(), z.array(z.string())]),
-  }),
+  x: z.intersection(
+    AxisField,
+    z.object({
+      componentIri: z.union([z.string(), z.array(z.string())]),
+    })
+  ),
   domain: z.array(z.number()),
   y: z.object({
     componentIri: z.string(),

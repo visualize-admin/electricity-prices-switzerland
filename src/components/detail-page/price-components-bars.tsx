@@ -36,6 +36,7 @@ import {
   priceComponents,
 } from "src/domain/data";
 import { mkNumber, pivot_longer } from "src/domain/helpers";
+import { RP_PER_KWH } from "src/domain/metrics";
 import { getLocalizedLabel } from "src/domain/translation";
 import {
   ObservationKind,
@@ -239,6 +240,7 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
                   fields={{
                     x: {
                       componentIri: "value",
+                      axisLabel: RP_PER_KWH,
                     },
                     domain: xDomain,
                     y: {

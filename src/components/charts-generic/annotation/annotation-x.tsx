@@ -9,7 +9,6 @@ import {
 } from "src/components/charts-generic/use-chart-state";
 import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
 import { GenericObservation } from "src/domain/data";
-import { RP_PER_KWH } from "src/domain/metrics";
 import { useIsMobile } from "src/lib/use-mobile";
 
 const ANNOTATION_DOT_RADIUS = 2.5;
@@ -116,7 +115,7 @@ export const AnnotationXDataPoint = () => {
 };
 
 export const AnnotationXLabel = () => {
-  const { bounds, annotations } = useChartState() as
+  const { bounds, annotations, xAxisLabel } = useChartState() as
     | RangePlotState
     | HistogramState;
   const { annotationFontSize, fontFamily, annotationColor } = useChartTheme();
@@ -147,7 +146,7 @@ export const AnnotationXLabel = () => {
             }}
           >
             <Box component="span" sx={{ fontWeight: 700 }}>
-              {a.value} {RP_PER_KWH}{" "}
+              {a.value} {xAxisLabel}{" "}
             </Box>
             {a.label}
           </Box>
