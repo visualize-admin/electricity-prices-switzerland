@@ -28,26 +28,7 @@ import { GenericMap } from "./generic-map";
 import { useMap } from "./map-context";
 import { HoverState } from "./map-helpers";
 
-// Insert our new GenericMap component to replace most of the code
-// Then adapt the EnergyPricesMap to use it
-
-// Import our new GenericMap implementation
-
 const DOWNLOAD_ID = "map";
-
-/**
- * Simple fitZoom to bbox
- * @param viewState deck.gl viewState
- */
-// const fitZoom = (viewState: $FixMe, bbox: BBox) => {
-//   const vp = new WebMercatorViewport(viewState);
-//   const fitted = vp.fitBounds(bbox);
-
-//   return {
-//     ...viewState,
-//     ...fitted,
-//   };
-// };
 
 const __debugCheckObservationsWithoutShapes = (
   observationsByMunicipalityId: Map<
@@ -154,7 +135,6 @@ export const EnergyPricesMap = ({
     };
   }, [geoData]);
 
-  // Create tooltip content
   const tooltipContent = useMemo(() => {
     if (!hovered || !colorScale)
       return { hoveredState: undefined, content: null };
@@ -243,7 +223,6 @@ export const EnergyPricesMap = ({
     return extent(meansByMunicipality, (d) => d) as [number, number];
   }, [observations]);
 
-  // Create layers
   const layers = useMemo(() => {
     if (geoData.state !== "loaded") {
       return [];
