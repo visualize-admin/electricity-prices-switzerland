@@ -4,9 +4,8 @@ import { median } from "d3";
 import { useCallback, useMemo, useState } from "react";
 import { createClient, Provider } from "urql";
 
-import { EnergyPricesMap } from "src/components/energy-prices-map";
 import { MapProvider } from "src/components/map-context";
-import SunshineMap, {
+import SunshineMapComponent, {
   DisplayedAttribute,
   displayedAttributes,
   GetOperatorsMapTooltip,
@@ -29,7 +28,7 @@ const debugTooltip: GetOperatorsMapTooltip = ({ object }) => {
     },
   };
 };
-export const Operators = () => {
+export const SunshineMap = () => {
   const period = "2024";
   const [attribute, setAttribute] = useState<DisplayedAttribute>(
     displayedAttributes[0]
@@ -96,7 +95,7 @@ export const Operators = () => {
           </List>
         </Box>
         <Box width={800} height={800} position="relative">
-          <SunshineMap
+          <SunshineMapComponent
             period={period}
             accessor={accessor}
             colorScale={colorScale}
@@ -134,8 +133,8 @@ const MapDecorator: Decorator = (Story) => {
 };
 
 const meta = {
-  component: EnergyPricesMap,
-  title: "components/Map",
+  component: SunshineMapComponent,
+  title: "components/SunshineMap",
   decorators: [UrqlDecorator, MapDecorator],
 };
 
