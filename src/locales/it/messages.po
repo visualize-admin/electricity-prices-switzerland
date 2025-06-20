@@ -1024,6 +1024,18 @@ msgstr "Costi e tariffe"
 msgid "sunshine.costs-and-tariffs.view-by"
 msgstr "Vedi da"
 
+#: src/domain/metrics.ts
+msgid "sunshine.metric-unit.min-year"
+msgstr "Min./anno"
+
+#: src/domain/metrics.ts
+msgid "sunshine.metric-unit.rp-km"
+msgstr "Rp./km"
+
+#: src/domain/metrics.ts
+msgid "sunshine.metric-unit.rp-kwh"
+msgstr "Rp./kWh"
+
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.operational-standards.compliance"
 msgstr "Conformità"

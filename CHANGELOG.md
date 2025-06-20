@@ -11,6 +11,10 @@ You can also check the
 
 # Unreleased
 
+- Nothing yet
+
+# 2.2.0 - 2025-06-20
+
 - Features
 
   - Operator list is showing in the map page when on sunshine indicators
