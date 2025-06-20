@@ -19,7 +19,11 @@ You can also check the
   - Hover on operator list for sunshine indicators highlights operators on map
   - Sunshine map has better styling and is closer to the current prices map
 
-# 2.1.0
+- Maintenance
+
+  - Added Screenshot testing to all sunshine details pages and sub categories
+
+# 2.1.0 - 2025-06-19
 
 - Features
 

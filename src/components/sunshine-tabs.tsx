@@ -1,5 +1,5 @@
 import { Trans } from "@lingui/macro";
-import { Tabs, Tab } from "@mui/material";
+import { Tab, Tabs } from "@mui/material";
 import React from "react";
 
 export enum CostAndTariffsTabOption {
@@ -15,6 +15,7 @@ export const CostsAndTariffsNavigation: React.FC<{
   return (
     <Tabs value={activeTab} onChange={handleTabChange}>
       <Tab
+        data-testid="network-costs-tab"
         value={CostAndTariffsTabOption.NETWORK_COSTS}
         label={
           <Trans id="sunshine.costs-and-tariffs.network-costs">
@@ -23,12 +24,14 @@ export const CostsAndTariffsNavigation: React.FC<{
         }
       />
       <Tab
+        data-testid="net-tariffs-tab"
         value={CostAndTariffsTabOption.NET_TARIFFS}
         label={
           <Trans id="sunshine.costs-and-tariffs.net-tariffs">Net Tariffs</Trans>
         }
       />
       <Tab
+        data-testid="energy-tariffs-tab"
         value={CostAndTariffsTabOption.ENERGY_TARIFFS}
         label={
           <Trans id="sunshine.costs-and-tariffs.energy-tariffs">
@@ -52,6 +55,7 @@ export const PowerStabilityNavigation: React.FC<{
   return (
     <Tabs value={activeTab} onChange={handleTabChange}>
       <Tab
+        data-testid="saidi-tab"
         value={PowerStabilityTabOption.SAIDI}
         label={
           <Trans id="sunshine.power-stability.saidi">
@@ -60,6 +64,7 @@ export const PowerStabilityNavigation: React.FC<{
         }
       />
       <Tab
+        data-testid="saifi-tab"
         value={PowerStabilityTabOption.SAIFI}
         label={
           <Trans id="sunshine.power-stability.saifi">
@@ -84,6 +89,7 @@ export const OperationalStandardsNavigation: React.FC<{
   return (
     <Tabs value={activeTab} onChange={handleTabChange}>
       <Tab
+        data-testid="product-variety-tab"
         value={OperationalStandardsTabOption.PRODUCT_VARIETY}
         label={
           <Trans id="sunshine.operational-standards.product-variety">
@@ -92,6 +98,7 @@ export const OperationalStandardsNavigation: React.FC<{
         }
       />
       <Tab
+        data-testid="service-quality-tab"
         value={OperationalStandardsTabOption.SERVICE_QUALITY}
         label={
           <Trans id="sunshine.operational-standards.service-quality">
@@ -100,6 +107,7 @@ export const OperationalStandardsNavigation: React.FC<{
         }
       />
       <Tab
+        data-testid="compliance-tab"
         value={OperationalStandardsTabOption.COMPLIANCE}
         label={
           <Trans id="sunshine.operational-standards.compliance">
