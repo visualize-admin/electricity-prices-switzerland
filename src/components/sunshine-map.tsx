@@ -81,7 +81,7 @@ export type GetOperatorsMapTooltip = (
   html: string;
 };
 
-type OperatorsMapProps = {
+type SunshineMapProps = {
   period: string;
   colorScale: ScaleThreshold<number, string, never>;
   accessor: (x: SunshineDataRow) => Maybe<number> | undefined;
@@ -90,12 +90,12 @@ type OperatorsMapProps = {
   onHoverOperatorLayer?: LayerProps["onHover"];
 };
 
-const OperatorsMap = ({
+const SunshineMap = ({
   period,
   colorScale,
   accessor,
   observations,
-}: OperatorsMapProps) => {
+}: SunshineMapProps) => {
   const mapControlsRef = useRef<{
     getImageData: () => Promise<string | undefined>;
     zoomOn: (id: string) => void;
@@ -412,4 +412,4 @@ const OperatorsMap = ({
   );
 };
 
-export default OperatorsMap;
+export default SunshineMap;

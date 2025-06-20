@@ -6,11 +6,11 @@ import { createClient, Provider } from "urql";
 
 import { EnergyPricesMap } from "src/components/energy-prices-map";
 import { MapProvider } from "src/components/map-context";
-import OperatorsMap, {
+import SunshineMap, {
   DisplayedAttribute,
   displayedAttributes,
   GetOperatorsMapTooltip,
-} from "src/components/operators-map";
+} from "src/components/sunshine-map";
 import { useColorScale } from "src/domain/data";
 import { SunshineDataRow, useSunshineTariffQuery } from "src/graphql/queries";
 
@@ -96,7 +96,7 @@ export const Operators = () => {
           </List>
         </Box>
         <Box width={800} height={800} position="relative">
-          <OperatorsMap
+          <SunshineMap
             period={period}
             accessor={accessor}
             colorScale={colorScale}

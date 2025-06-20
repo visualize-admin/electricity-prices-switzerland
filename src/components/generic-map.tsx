@@ -40,6 +40,11 @@ import { frame, sleep } from "src/utils/delay";
 
 import { CH_BBOX, HoverState, INITIAL_VIEW_STATE } from "./map-helpers";
 
+export type GenericMapControls = React.RefObject<{
+  getImageData: () => Promise<string | undefined>;
+  zoomOn: (id: string) => void;
+  zoomOut: () => void;
+} | null>;
 /**
  * GenericMap component that handles common map functionality
  * regardless of the specific entities being displayed
@@ -81,11 +86,7 @@ export const GenericMap = ({
   downloadId?: string;
   onViewStateChange?: (viewState: MapViewState) => void;
   onLayerClick?: (info: PickingInfo) => void;
-  controls?: React.MutableRefObject<{
-    getImageData: () => Promise<string | undefined>;
-    zoomOn: (id: string) => void;
-    zoomOut: () => void;
-  } | null>;
+  controls?: GenericMapControls;
   initialBBox?: BBox;
   getEntityFromHighlight?: (highlight: HighlightValue) => Feature | undefined;
   setHovered: Dispatch<HoverState | undefined>;

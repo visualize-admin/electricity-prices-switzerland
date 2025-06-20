@@ -33,8 +33,8 @@ import {
 } from "src/components/list";
 import { MapProvider, useMap } from "src/components/map-context";
 import { MapDetailsContent } from "src/components/map-details-content";
-import OperatorsMap from "src/components/operators-map";
 import ShareButton from "src/components/share-button";
+import SunshineMap from "src/components/sunshine-map";
 import {
   Entity,
   NetworkLevel,
@@ -229,7 +229,7 @@ const IndexPageContent = ({
       controls={controlsRef}
     />
   ) : (
-    <OperatorsMap
+    <SunshineMap
       accessor={sunshineAccessor}
       period={mapYear}
       colorScale={sunshineColorScale}

@@ -24,7 +24,7 @@ import { useFormatCurrency } from "src/domain/helpers";
 import { OperatorObservationFieldsFragment } from "src/graphql/queries";
 import { maxBy } from "src/lib/array";
 
-import { GenericMap } from "./generic-map";
+import { GenericMap, GenericMapControls } from "./generic-map";
 import { useMap } from "./map-context";
 import { HoverState } from "./map-helpers";
 
@@ -76,11 +76,7 @@ export const EnergyPricesMap = ({
   medianValue: number | undefined;
   municipalities: { id: string; name: string }[];
   colorScale: ScaleThreshold<number, string> | undefined;
-  controls?: React.MutableRefObject<{
-    getImageData: () => Promise<string | undefined>;
-    zoomOn: (id: string) => void;
-    zoomOut: () => void;
-  } | null>;
+  controls?: GenericMapControls;
 }) => {
   const [hovered, setHovered] = useState<HoverState>();
   const { activeId, onEntitySelect } = useMap();
