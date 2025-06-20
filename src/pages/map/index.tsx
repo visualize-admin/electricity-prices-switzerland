@@ -50,7 +50,7 @@ import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { truthy } from "src/lib/truthy";
 import {
   useQueryStateSingleElectricity,
-  useQueryStateSingleSunshine,
+  useQueryStateSingleSunshineMap,
 } from "src/lib/use-query-state";
 import { defaultLocale } from "src/locales/config";
 import { useFlag } from "src/utils/flags";
@@ -98,7 +98,7 @@ const IndexPageContent = ({
       netTariffCategory,
       energyTariffCategory,
     },
-  ] = useQueryStateSingleSunshine();
+  ] = useQueryStateSingleSunshineMap();
 
   const isElectricityTab = tab === "electricity";
   const isSunshineTab = tab === "sunshine";

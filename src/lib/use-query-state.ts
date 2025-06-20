@@ -161,7 +161,7 @@ const electricitySchema = z.object({
   view: z.string().default("collapsed"),
 });
 
-const sunshineSchema = z.object({
+const mapSunshineSchema = z.object({
   tab: tabsSchema.default("sunshine"),
   period: z.string().default(buildEnv.CURRENT_PERIOD),
   viewBy: z.string().default("all_grid_operators"),
@@ -181,8 +181,8 @@ export const {
   useQueryStateSingle: useQueryStateSingleElectricity,
 } = makeUseQueryState(electricitySchema);
 
-export const { useQueryStateSingle: useQueryStateSingleSunshine } =
-  makeUseQueryState(sunshineSchema);
+export const { useQueryStateSingle: useQueryStateSingleSunshineMap } =
+  makeUseQueryState(mapSunshineSchema);
 
 export type QueryStateSingleElectricity = UseQueryStateSingle<
   typeof electricitySchema.shape
@@ -195,10 +195,10 @@ export type QueryStateArrayElectricity = UseQueryStateArray<
 
 /** @knipignore */
 export type QueryStateSingleSunshine = UseQueryStateSingle<
-  typeof sunshineSchema.shape
+  typeof mapSunshineSchema.shape
 >;
 
 /** @knipignore */
 export type QueryStateArraySunshine = UseQueryStateArray<
-  typeof sunshineSchema.shape
+  typeof mapSunshineSchema.shape
 >;

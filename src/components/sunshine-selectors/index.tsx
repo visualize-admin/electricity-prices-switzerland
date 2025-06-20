@@ -8,12 +8,12 @@ import {
   energyTariffCategoryOptions,
 } from "src/domain/sunshine-data";
 import { getLocalizedLabel } from "src/domain/translation";
-import { useQueryStateSingleSunshine } from "src/lib/use-query-state";
+import { useQueryStateSingleSunshineMap } from "src/lib/use-query-state";
 
 import { SunshineSelectorsBase } from "./base";
 
 export const SunshineSelectors = () => {
-  const [queryState, setQueryState] = useQueryStateSingleSunshine();
+  const [queryState, setQueryState] = useQueryStateSingleSunshineMap();
   const getItemLabel = (id: string) => getLocalizedLabel({ id });
 
   return (
