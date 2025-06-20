@@ -4,7 +4,6 @@ import {
 } from "src/components/charts-generic/use-chart-state";
 import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
 import { useFormatCurrency } from "src/domain/helpers";
-import { RP_PER_KWH } from "src/domain/metrics";
 
 export const RangeplotMedian = ({ label }: { label: string }) => {
   const {
@@ -12,6 +11,7 @@ export const RangeplotMedian = ({ label }: { label: string }) => {
     bounds,
     xScale,
     yScale,
+    xAxisLabel,
   } = useChartState() as RangePlotState;
   const { margins } = bounds;
   const { labelColor, domainColor, labelFontSize, fontFamily } =
@@ -45,7 +45,7 @@ export const RangeplotMedian = ({ label }: { label: string }) => {
               textAnchor: "middle",
             }}
           >
-            {formatCurrency(m)} {RP_PER_KWH}
+            {formatCurrency(m)} {xAxisLabel}
           </text>
           <text
             x={xScale(m)}
