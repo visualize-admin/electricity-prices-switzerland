@@ -49,22 +49,28 @@ const NetworkCostsTrendCard: React.FC<
 
   const { yearlyData, ...restNetworkCosts } = networkCosts;
 
-  const latestYearDataItems = useMemo(() => {
-    return yearlyData.filter(
-      (d) => d.year === latestYear && d.operator_id.toString() !== operatorId
-    );
-  }, [yearlyData, latestYear, operatorId]);
+  const { chartData, multiComboboxOptions } = useMemo(() => {
+    const multiComboboxOptions: typeof yearlyData = [];
+    const chartData: typeof yearlyData = [];
 
-  const latestYearData = useMemo(() => {
-    return yearlyData.filter((d) => {
-      const isLatestYear = viewBy === "latest" ? d.year === latestYear : true;
+    yearlyData.forEach((d) => {
+      const isLatestYear = d.year === latestYear;
+      const operatorIdStr = d.operator_id.toString();
       const isSelected =
         compareWith.includes("sunshine.select-all") ||
-        compareWith.includes(d.operator_id.toString()) ||
-        d.operator_id.toString() === operatorId;
+        compareWith.includes(operatorIdStr) ||
+        operatorIdStr === operatorId;
 
-      return isLatestYear && isSelected;
+      if ((viewBy === "latest" ? isLatestYear : true) && isSelected) {
+        chartData.push(d);
+      }
+
+      if (isLatestYear && operatorIdStr !== operatorId) {
+        multiComboboxOptions.push(d);
+      }
     });
+
+    return { chartData, multiComboboxOptions };
   }, [yearlyData, compareWith, latestYear, operatorId, viewBy]);
 
   return (
@@ -159,7 +165,7 @@ const NetworkCostsTrendCard: React.FC<
               })}
               items={[
                 { id: "sunshine.select-all" },
-                ...latestYearDataItems.map((item) => {
+                ...multiComboboxOptions.map((item) => {
                   return {
                     id: String(item.operator_id),
                     name: item.operator_name,
@@ -181,7 +187,7 @@ const NetworkCostsTrendCard: React.FC<
           <NetworkCostTrendChart
             id={operatorId}
             operatorLabel={operatorLabel}
-            observations={latestYearData}
+            observations={chartData}
             networkCosts={restNetworkCosts}
             view={viewBy}
             compareWith={compareWith}

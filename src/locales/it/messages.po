@@ -11,6 +11,10 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
+#: src/components/map.tsx
+msgid "canton"
+msgstr "Canton"
+
 #: src/domain/translation.tsx
 msgid "chart.annotation.cantons"
 msgstr "Cantoni"
@@ -269,7 +273,7 @@ msgstr "Componenti tariffarie della rete di trasmissione - Swissgrid"
 msgid "help.calculation"
 msgstr "Base di calcolo"
 
-#: src/components/price-color-legend.tsx
+#: src/components/map.tsx
 msgid "help.price-comparison"
 msgstr "Confronto tariffe"
 
@@ -425,15 +429,15 @@ msgstr "Durata dell'interruzione di corrente (SAIDI)"
 msgid "indicator.saifi"
 msgstr "Frequenza delle interruzioni di corrente (SAIFI)"
 
-#: src/components/list.tsx
+#: src/pages/map/index.tsx
 msgid "list.cantons"
 msgstr "Cantoni"
 
-#: src/components/list.tsx
+#: src/pages/map/index.tsx
 msgid "list.municipalities"
 msgstr "Comuni"
 
-#: src/components/list.tsx
+#: src/pages/map/index.tsx
 msgid "list.operators"
 msgstr "Gestori di rete"
 
@@ -453,7 +457,7 @@ msgstr "Filtrare"
 msgid "list.showmore"
 msgstr "Altri risultati…"
 
-#: src/components/list.tsx
+#: src/pages/map/index.tsx
 msgid "list.viewby.label"
 msgstr "Vista secondo"
 
@@ -461,11 +465,11 @@ msgstr "Vista secondo"
 msgid "map.details-sidebar-panel.back-button"
 msgstr "Torna ai filtri"
 
-#: src/components/list.tsx
+#: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.next-button"
 msgstr "Mostra energia dettagli sui prezzi"
 
-#: src/components/price-color-legend.tsx
+#: src/components/map.tsx
 msgid "map.legend.title"
 msgstr "Confronto tariffe in ct./kWh (IVA esclusa)"
 
@@ -473,7 +477,7 @@ msgstr "Confronto tariffe in ct./kWh (IVA esclusa)"
 msgid "map.share"
 msgstr "Condividi"
 
-#: src/components/map.tsx
+#: src/components/map-tooltip.tsx
 msgid "map.tooltipnodata"
 msgstr "Nessun dato"
 
@@ -528,6 +532,10 @@ msgstr "Bassa tensione NE7"
 msgid "network-level.NE7.short"
 msgstr "NE7"
 
+#: src/components/operators-map.tsx
+msgid "operator"
+msgstr "Operatore"
+
 #: src/pages/[entity]/[id]/index.tsx
 msgid "page.electricity-tariffs.description"
 msgstr "Nella pagina dei dettagli del gestore di rete si trovano informazioni aggiornate sulle tariffe elettriche, che consentono di confrontare i prezzi. È possibile visualizzare la ripartizione dei costi dell'energia, della rete e dei costi aggiuntivi e richiamare le tendenze storiche per comprendere meglio i costi dell'elettricità."
@@ -572,18 +580,18 @@ msgstr "Turismo"
 msgid "peer-group.settlement-density.unknown"
 msgstr "Sconosciuto"
 
-#: src/components/price-color-legend.tsx
-#: src/components/price-color-legend.tsx
+#: src/components/color-legend.tsx
+#: src/components/color-legend.tsx
 msgid "price.legend.max"
 msgstr "Max"
 
-#: src/components/price-color-legend.tsx
-#: src/components/price-color-legend.tsx
+#: src/components/color-legend.tsx
+#: src/components/color-legend.tsx
 msgid "price.legend.median"
 msgstr "Mediana"
 
-#: src/components/price-color-legend.tsx
-#: src/components/price-color-legend.tsx
+#: src/components/color-legend.tsx
+#: src/components/color-legend.tsx
 msgid "price.legend.min"
 msgstr "Min"
 
@@ -1011,6 +1019,18 @@ msgstr "Costi e tariffe"
 #: src/components/network-costs-trend-card.tsx
 msgid "sunshine.costs-and-tariffs.view-by"
 msgstr "Vedi da"
+
+#: src/domain/metrics.ts
+msgid "sunshine.metric-unit.min-year"
+msgstr "Min./anno"
+
+#: src/domain/metrics.ts
+msgid "sunshine.metric-unit.rp-km"
+msgstr "Rp./km"
+
+#: src/domain/metrics.ts
+msgid "sunshine.metric-unit.rp-kwh"
+msgstr "Rp./kWh"
 
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.operational-standards.compliance"

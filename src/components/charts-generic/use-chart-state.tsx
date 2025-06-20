@@ -88,6 +88,7 @@ export type GroupedBarsState = {
   segments: string[];
   colors: ScaleOrdinal<string, string>;
   opacityScale: ScaleOrdinal<string, number>;
+  xAxisLabel?: string;
 };
 
 type BarsState = {

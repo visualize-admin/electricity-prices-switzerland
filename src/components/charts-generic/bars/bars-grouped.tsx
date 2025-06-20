@@ -127,6 +127,7 @@ export const BarsGroupedLabels = ({ title }: { title: string }) => {
     colors,
     xScale,
     getColor,
+    xAxisLabel,
   } = useChartState() as GroupedBarsState;
 
   const { margins, chartWidth } = bounds;
@@ -186,10 +187,9 @@ export const BarsGroupedLabels = ({ title }: { title: string }) => {
 
         const barColor = colors(getColor(d));
         const value = formatCurrency(getX(d));
-        const unit = RP_PER_KWH;
         const label = getLabel(d);
         const fullText = !segment.includes(EXPANDED_TAG)
-          ? `${value} ${unit} ${label}`
+          ? `${value} ${xAxisLabel} ${label}`
           : label;
 
         const textWidth = getTextWidth(fullText, { fontSize: labelFontSize });
@@ -209,7 +209,7 @@ export const BarsGroupedLabels = ({ title }: { title: string }) => {
             >
               {!segment.includes(EXPANDED_TAG) && (
                 <tspan fontWeight={700}>
-                  {value} {unit}
+                  {value} {xAxisLabel}
                 </tspan>
               )}{" "}
               {label}
@@ -232,7 +232,7 @@ export const BarsGroupedLabels = ({ title }: { title: string }) => {
             >
               {!segment.includes(EXPANDED_TAG) && (
                 <tspan fontWeight={700}>
-                  {value} {unit}
+                  {value} {xAxisLabel}
                 </tspan>
               )}{" "}
               {label}
@@ -251,7 +251,7 @@ export const BarsGroupedLabels = ({ title }: { title: string }) => {
             >
               {!segment.includes(EXPANDED_TAG) && (
                 <tspan fontWeight={700}>
-                  {value} {unit}
+                  {value} {xAxisLabel}
                 </tspan>
               )}{" "}
               {label}

@@ -125,12 +125,15 @@ const useGroupedBarsState = ({
 
   xScale.range([0, chartWidth]);
 
+  const xAxisLabel = fields.x.axisLabel;
+
   return {
     sortedData,
     bounds,
     getX,
     xScale,
     yScale,
+    xAxisLabel,
     getSegment,
     getLabel,
     getColor,
