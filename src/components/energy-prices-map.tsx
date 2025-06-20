@@ -29,7 +29,7 @@ import { useMap } from "./map-context";
 import { HoverState } from "./map-helpers";
 
 // Insert our new GenericMap component to replace most of the code
-// Then adapt the ChoroplethMap to use it
+// Then adapt the EnergyPricesMap to use it
 
 // Import our new GenericMap implementation
 
@@ -80,7 +80,7 @@ const __debugCheckObservationsWithoutShapes = (
   }
 };
 
-export const ChoroplethMap = ({
+export const EnergyPricesMap = ({
   year,
   observations,
   observationsQueryFetching,
@@ -462,4 +462,4 @@ export const ChoroplethMap = ({
   );
 };
 
-export type ChoroplethMapProps = ComponentProps<typeof ChoroplethMap>;
+export type EnergyPricesMapProps = ComponentProps<typeof EnergyPricesMap>;

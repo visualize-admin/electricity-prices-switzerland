@@ -4,7 +4,7 @@ import { median } from "d3";
 import { useCallback, useMemo, useState } from "react";
 import { createClient, Provider } from "urql";
 
-import { ChoroplethMap } from "src/components/map";
+import { EnergyPricesMap } from "src/components/energy-prices-map";
 import { MapProvider } from "src/components/map-context";
 import OperatorsMap, {
   DisplayedAttribute,
@@ -134,7 +134,7 @@ const MapDecorator: Decorator = (Story) => {
 };
 
 const meta = {
-  component: ChoroplethMap,
+  component: EnergyPricesMap,
   title: "components/Map",
   decorators: [UrqlDecorator, MapDecorator],
 };

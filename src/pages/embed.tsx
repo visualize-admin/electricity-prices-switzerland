@@ -1,11 +1,11 @@
 import { GetServerSideProps } from "next";
 import { useCallback, useState } from "react";
 
+import { EnergyPricesMap } from "src/components/energy-prices-map";
 import {
   HighlightContext,
   HighlightValue,
 } from "src/components/highlight-context";
-import { ChoroplethMap } from "src/components/map";
 import { MapProvider } from "src/components/map-context";
 import { useColorScale } from "src/domain/data";
 import {
@@ -84,7 +84,7 @@ const IndexPage = ({ locale }: Props) => {
           setValue: setHighlightContext,
         }}
       >
-        <ChoroplethMap
+        <EnergyPricesMap
           year={period}
           observations={observations}
           municipalities={municipalities}

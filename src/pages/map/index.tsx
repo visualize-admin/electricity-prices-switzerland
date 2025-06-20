@@ -18,6 +18,10 @@ import { ButtonGroup } from "src/components/button-group";
 import { CombinedSelectors } from "src/components/combined-selectors";
 import { DownloadImage } from "src/components/detail-page/download-image";
 import { InlineDrawer } from "src/components/drawer";
+import {
+  EnergyPricesMap,
+  EnergyPricesMapProps,
+} from "src/components/energy-prices-map";
 import { InfoBanner } from "src/components/info-banner";
 import {
   groupsFromCantonElectricityObservations,
@@ -27,7 +31,6 @@ import {
   List,
   ListItemType,
 } from "src/components/list";
-import { ChoroplethMap, ChoroplethMapProps } from "src/components/map";
 import { MapProvider, useMap } from "src/components/map-context";
 import { MapDetailsContent } from "src/components/map-details-content";
 import OperatorsMap from "src/components/operators-map";
@@ -198,7 +201,8 @@ const IndexPageContent = ({
     ? observationsQuery.fetching || municipalitiesQuery.fetching
     : sunshineDataQuery.fetching || municipalitiesQuery.fetching;
 
-  const controlsRef: NonNullable<ChoroplethMapProps["controls"]> = useRef(null);
+  const controlsRef: NonNullable<EnergyPricesMapProps["controls"]> =
+    useRef(null);
 
   useEffect(() => {
     if (isSunshine) {
@@ -215,7 +219,7 @@ const IndexPageContent = ({
   }, [sunshineObservations]);
 
   const map = isElectricityTab ? (
-    <ChoroplethMap
+    <EnergyPricesMap
       year={mapYear}
       observations={observations}
       municipalities={municipalities}
