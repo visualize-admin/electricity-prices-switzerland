@@ -5,6 +5,9 @@ const specs = {
   debug: {},
   /** Show sunshine specific UI */
   sunshine: {},
+
+  /** Show dynamic electricity tariffs */
+  dynamicElectricityTariffs: {},
 } as const;
 
 const keysAsValues = <R extends Record<string | number | symbol, unknown>>(
