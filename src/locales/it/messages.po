@@ -173,6 +173,10 @@ msgstr "Nessun documento dell'operatore di rete"
 msgid "download.reports"
 msgstr "Scarica i rapporti"
 
+#: src/components/detail-page/price-components-bars.tsx
+msgid "dynamic-tariffs.hint"
+msgstr "I prezzi indicati con i valori tra parentesi sono dinamici. Per maggiori informazioni sul funzionamento dei prezzi dinamici [qui]."
+
 #: src/components/not-found.tsx
 msgid "error.page.404.back-link"
 msgstr "Clicca qui per tornare alla homepage"

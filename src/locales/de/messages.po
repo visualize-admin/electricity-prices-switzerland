@@ -173,6 +173,10 @@ msgstr "Keine Netzbetreiber-Dokumente"
 msgid "download.reports"
 msgstr "Download Reports"
 
+#: src/components/detail-page/price-components-bars.tsx
+msgid "dynamic-tariffs.hint"
+msgstr "Die Preise mit den in Klammern angegebenen Werten sind dynamisch. Weitere Informationen über die Funktionsweise der dynamischen Preisgestaltung finden Sie [hier]."
+
 #: src/components/not-found.tsx
 msgid "error.page.404.back-link"
 msgstr "Klicken Sie hier, um zur Homepage zurückzukehren"
@@ -488,7 +492,7 @@ msgstr "Gemeinde"
 #: src/components/net-tariffs-trend-chart.tsx
 #: src/components/net-tariffs-trend-chart.tsx
 msgid "net-tariffs-trend-chart.legend-item.other-operators"
-msgstr "Andere Betreiber"
+msgstr "Andere Netzbetreiber"
 
 #: src/components/net-tariffs-trend-chart.tsx
 msgid "net-tariffs-trend-chart.legend-item.peer-group-median"
@@ -498,7 +502,7 @@ msgstr "Peer Group Median"
 #: src/components/network-cost-trend-chart.tsx
 #: src/components/power-stability-chart.tsx
 msgid "network-cost-trend-chart.legend-item.other-operators"
-msgstr "Andere Betreiber"
+msgstr "Andere Netzbetreiber"
 
 #: src/components/network-cost-trend-chart.tsx
 msgid "network-cost-trend-chart.legend-item.peer-group-median"
@@ -534,7 +538,7 @@ msgstr "NE7"
 
 #: src/components/operators-map.tsx
 msgid "operator"
-msgstr Netzbetreiber"
+msgstr "Netzbetreiber"
 
 #: src/pages/[entity]/[id]/index.tsx
 msgid "page.electricity-tariffs.description"
@@ -977,15 +981,15 @@ msgstr "Netzkosten auf der Ebene {0}"
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.no-energy-tariffs"
-msgstr "Für diesen Betreiber sind für das ausgewählte Jahr keine Daten zu den Energietarifen verfügbar."
+msgstr "Für diesen Netzbetreiber sind für das ausgewählte Jahr keine Daten zu den Energietarifen verfügbar."
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.no-net-tariffs"
-msgstr "Für diesen Betreiber sind für das ausgewählte Jahr keine Netztarifdaten verfügbar."
+msgstr "Für diesen Netzbetreiber sind für das ausgewählte Jahr keine Netztarifdaten verfügbar."
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.no-network-costs"
-msgstr "Für diesen Betreiber sind für das ausgewählte Jahr keine Daten zu den Netzkosten verfügbar."
+msgstr "Für diesen Netzbetreiber sind für das ausgewählte Jahr keine Daten zu den Netzkosten verfügbar."
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx

@@ -27,7 +27,7 @@ import {
   DownloadImage,
 } from "src/components/detail-page/download-image";
 import { WithClassName } from "src/components/detail-page/with-classname";
-import { Loading, NoDataHint } from "src/components/hint";
+import { HintBlue, Loading, NoDataHint } from "src/components/hint";
 import { InfoDialogButton } from "src/components/info-dialog";
 import {
   Entity,
@@ -38,6 +38,7 @@ import {
 import { mkNumber, pivot_longer } from "src/domain/helpers";
 import { RP_PER_KWH } from "src/domain/metrics";
 import { getLocalizedLabel } from "src/domain/translation";
+import { FlagValue } from "src/flags";
 import {
   ObservationKind,
   PriceComponent,
@@ -46,6 +47,7 @@ import {
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { useLocale } from "src/lib/use-locale";
 import { useQueryStateElectricity } from "src/lib/use-query-state";
+import { useFlag } from "src/utils/flags";
 
 import { FilterSetDescription } from "./filter-set-description";
 
@@ -134,6 +136,8 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
     product: product[0],
   };
 
+  const dynamicTariffsFlag = useFlag("dynamicElectricityTariffs");
+
   return (
     <Card downloadId={DOWNLOAD_ID}>
       <CardHeader
@@ -209,6 +213,14 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
           </Box>
         </>
       )}
+      {dynamicTariffsFlag && (
+        <HintBlue iconName="infocircle">
+          <Trans id="dynamic-tariffs.hint">
+            Prices shown with values in brackets are dynamic. You can find more
+            information about how dynamic pricing works [here].
+          </Trans>
+        </HintBlue>
+      )}
       {observationsQuery.fetching ? (
         <Loading />
       ) : observations.length === 0 ? (
@@ -231,6 +243,7 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
               view: view[0],
               priceComponent: priceComponent[0] as PriceComponent,
               entity,
+              dynamicTariffsFlag,
             });
 
             return (
@@ -288,11 +301,7 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
                           id: priceComponent[0] as string,
                         })}
                       />
-                      <BarsGroupedLabels
-                        title={getLocalizedLabel({
-                          id: priceComponent[0] as string,
-                        })}
-                      />
+                      <BarsGroupedLabels />
                     </ChartSvg>
                   </ChartContainer>
                 </GroupedBarsChart>
@@ -312,6 +321,7 @@ const prepareObservations = ({
   priceComponent,
   entity,
   view,
+  dynamicTariffsFlag,
 }: {
   groupedObservations: [
     ObservationValue,
@@ -323,12 +333,14 @@ const prepareObservations = ({
   priceComponent: PriceComponent;
   entity: Entity;
   view: string;
+  dynamicTariffsFlag: FlagValue;
 }) => {
   if (entity === "canton") {
     return groupedObservations.flatMap((year) =>
       year[1].flatMap((ent) =>
         ent[1].flatMap((value) => ({
           ...value[1][0],
+          ...(dynamicTariffsFlag ? { max: 65.45, min: 12.89 } : {}),
           label: value[1][0].uniqueId,
         }))
       )
@@ -339,10 +351,15 @@ const prepareObservations = ({
           year[1].flatMap((ent) =>
             ent[1].flatMap((value) =>
               value[1].length === 1
-                ? { ...value[1][0], label: value[1][0].uniqueId }
+                ? {
+                    ...value[1][0],
+                    label: value[1][0].uniqueId,
+                    ...(dynamicTariffsFlag ? { max: 65.45, min: 12.89 } : {}),
+                  }
                 : {
                     priceComponent,
                     value: value[0],
+                    ...(dynamicTariffsFlag ? { max: 65.45, min: 12.89 } : {}),
                     [entity]: value[1][0][entity],
                     period: value[1][0].period,
                     uniqueId: `${priceComponent}${value[1][0].period}${value[1][0].operatorLabel}${value[1][0].municipalityLabel}${value[1].length}`,
@@ -364,6 +381,7 @@ const prepareObservations = ({
                 .flatMap((d) => ({
                   priceComponent,
                   value: d.value,
+                  ...(dynamicTariffsFlag ? { max: 65.45, min: 12.89 } : {}),
                   [entity]: d[entity],
                   period: d.period,
                   uniqueId: `${priceComponent}${d.period}${d.operatorLabel}${d.municipalityLabel}${value[1].length}${EXPANDED_TAG}`,
@@ -377,6 +395,7 @@ const prepareObservations = ({
                 {
                   priceComponent,
                   value: value[0],
+                  ...(dynamicTariffsFlag ? { max: 65.45, min: 12.89 } : {}),
                   [entity]: value[1][0][entity],
                   period: value[1][0].period,
                   uniqueId: `${priceComponent}${value[1][0].period}${value[1][0].operatorLabel}${value[1][0].municipalityLabel}${value[1].length}`,

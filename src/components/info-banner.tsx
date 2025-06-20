@@ -1,9 +1,18 @@
 import { Box } from "@mui/material";
+import dynamic from "next/dynamic";
 import { useState } from "react";
 
 import { HintBlue } from "src/components/hint";
 import { useWikiContentQuery } from "src/graphql/queries";
 import { useLocale } from "src/lib/use-locale";
+
+const ContentWrapper = dynamic(
+  () =>
+    import("@interactivethings/swiss-federal-ci/dist/components").then(
+      (mod) => mod.ContentWrapper
+    ),
+  { ssr: false }
+);
 
 export const InfoBanner = ({
   bypassBannerEnabled,
@@ -33,18 +42,22 @@ export const InfoBanner = ({
 
   return open ? (
     <HintBlue iconName="infocircle" onRemove={() => setOpen(false)}>
-      {
-        <Box
-          component="section"
-          dangerouslySetInnerHTML={{
-            __html: contentQuery.data.wikiContent.html,
-          }}
-          sx={{
-            "& > :first-of-type": { pt: 0, mt: 0 },
-            "& > :last-of-type": { mb: 0, pb: 0 },
-          }}
-        />
-      }
+      <Box sx={{ px: 3 }}>
+        <ContentWrapper>
+          {
+            <Box
+              component="section"
+              dangerouslySetInnerHTML={{
+                __html: contentQuery.data.wikiContent.html,
+              }}
+              sx={{
+                "& > :first-of-type": { pt: 0, mt: 0 },
+                "& > :last-of-type": { mb: 0, pb: 0 },
+              }}
+            />
+          }
+        </ContentWrapper>
+      </Box>
     </HintBlue>
   ) : null;
 };
