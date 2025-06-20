@@ -3,7 +3,7 @@ import { GeoJsonLayer, GeoJsonLayerProps } from "@deck.gl/layers/typed";
 import { Trans } from "@lingui/macro";
 // We don't need turf anymore as GenericMap handles zooming
 import { easeExpIn, mean, ScaleThreshold } from "d3";
-import { Feature, Geometry, MultiPolygon, Polygon } from "geojson";
+import { Feature, GeoJsonProperties, Geometry } from "geojson";
 import { keyBy } from "lodash";
 import { useCallback, useMemo, useState } from "react";
 
@@ -14,7 +14,9 @@ import { getFillColor, styles } from "src/components/map-helpers";
 import { MapTooltipContent } from "src/components/map-tooltip";
 import {
   getOperatorsFeatureCollection,
+  isOperatorFeature,
   MunicipalityFeatureCollection,
+  OperatorFeature,
   OperatorLayerProperties,
   useGeoData,
 } from "src/data/geo";
@@ -201,26 +203,23 @@ const SunshineMap = ({
 
   // Create map layers
   const mapLayers = useMemo(() => {
-    const handleOperatorLayerClick: GeoJsonLayerProps<
-      Feature<Polygon | MultiPolygon, OperatorLayerProperties>
-    >["onClick"] = (ev) => {
-      // TODO Only the first operator is used
-      const id = (ev.object?.properties as OperatorLayerProperties)
-        ?.operators?.[0];
-      if (!id) {
-        return;
-      }
-      onEntitySelect(ev, "operator", id.toString());
-    };
+    const handleOperatorLayerClick: GeoJsonLayerProps<OperatorFeature>["onClick"] =
+      (ev) => {
+        // TODO Only the first operator is used
+        const id = (ev.object?.properties as OperatorLayerProperties)
+          ?.operators?.[0];
+        if (!id) {
+          return;
+        }
+        onEntitySelect(ev, "operator", id.toString());
+      };
     if (!enhancedGeoData || !enhancedGeoData.features) {
       return [];
     }
 
     return [
       enhancedGeoData?.features
-        ? new GeoJsonLayer<
-            Feature<Polygon | MultiPolygon, OperatorLayerProperties>
-          >({
+        ? new GeoJsonLayer<OperatorFeature>({
             id: "operator-layer",
             data: enhancedGeoData.features,
             filled: true,
@@ -293,9 +292,7 @@ const SunshineMap = ({
 
       // Transparent layer only used for hover effect
       enhancedGeoData?.features
-        ? new GeoJsonLayer<
-            Feature<Polygon | MultiPolygon, OperatorLayerProperties>
-          >({
+        ? new GeoJsonLayer<OperatorFeature>({
             id: "operator-layer-pickable",
             data: enhancedGeoData.features,
             filled: true,
@@ -304,7 +301,7 @@ const SunshineMap = ({
             onClick: handleOperatorLayerClick,
 
             stroked: true,
-            getFillColor: (d: Feature<Geometry, OperatorLayerProperties>) => {
+            getFillColor: (d: OperatorFeature) => {
               const id = d.properties.operators?.[0]?.toString();
               const isActive = activeId === id;
               const isHovered =
