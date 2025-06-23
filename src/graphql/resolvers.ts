@@ -203,6 +203,7 @@ const Query: QueryResolvers = {
     try {
       observationsCube = await getElectricityPriceCube(ctx.sparqlClient);
     } catch (e: unknown) {
+      console.error(e);
       console.error(e instanceof Error ? e.message : e);
       return [];
     }
@@ -259,7 +260,7 @@ const Query: QueryResolvers = {
       });
     }
 
-    return operatorObservations.filter((o) => {
+    const coverageFilteredObservations = operatorObservations.filter((o) => {
       if (
         o.coverageRatio !== undefined &&
         o.coverageRatio < COVERAGE_RATIO_THRESHOLD
@@ -268,6 +269,8 @@ const Query: QueryResolvers = {
       }
       return true;
     });
+
+    return sortBy(coverageFilteredObservations, operatorObservationsSorter);
   },
   cantonMedianObservations: async (
     _,
@@ -329,7 +332,10 @@ const Query: QueryResolvers = {
       ...x,
     })) as ResolvedCantonMedianObservation[];
 
-    return medianObservations;
+    return sortBy(
+      medianObservations as ResolvedCantonMedianObservation[],
+      cantonMedianObservationsSorter
+    );
   },
   swissMedianObservations: async (_, { locale, filters }, ctx, info) => {
     let swissCube;
@@ -384,7 +390,10 @@ const Query: QueryResolvers = {
       __typename: "SwissMedianObservation",
     })) as ResolvedSwissMedianObservation[];
 
-    return medianObservations;
+    return sortBy(
+      medianObservations as ResolvedSwissMedianObservation[],
+      swissMedianObservationsSorter
+    );
   },
   operators: async (_, { query, ids, locale }, context) => {
     const results = await search({
@@ -434,7 +443,7 @@ const Query: QueryResolvers = {
       client: context.sparqlClient,
     });
 
-    return results;
+    return sortBy(results, (x) => x.type);
   },
   searchMunicipalities: async (_, { query, locale, ids }, context) => {
     const results = await search({
@@ -457,7 +466,9 @@ const Query: QueryResolvers = {
       client: context.sparqlClient,
     });
 
-    return results;
+    return sortBy(results, (x) => {
+      return `${x.id}-${x.name}`;
+    });
   },
   searchOperators: async (_, { query, locale, ids }, context) => {
     const results = await search({
@@ -879,3 +890,15 @@ const getMedianValueFromResult = (
 
   return undefined;
 };
+
+const operatorObservationsSorter = (x: ResolvedOperatorObservation) => {
+  const key = `${x.period}-${x.category}-${x.canton}-${x.municipality}-${x.operator}-${x.value}`;
+  console.log("SORTER KEY", key);
+  return key;
+};
+
+const cantonMedianObservationsSorter = (x: ResolvedCantonMedianObservation) =>
+  `${x.period}-${x.category}-${x.canton}`;
+
+const swissMedianObservationsSorter = (x: ResolvedSwissMedianObservation) =>
+  `${x.period}-${x.category}`;
