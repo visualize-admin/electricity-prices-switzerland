@@ -7,6 +7,19 @@ import {
   UseQueryStateSingle,
 } from "src/lib/use-query-state";
 
+/**
+ * Helper function to convert comma-separated query parameter strings to arrays
+ * This is necessary because URL query parameters don't naturally encode arrays
+ */
+const stringToArray = (defaultValue: string[] = []) => {
+  return z
+    .string()
+    .transform((x) => {
+      return x ? x.split(",").filter(Boolean) : defaultValue;
+    })
+    .default(defaultValue.join(","));
+};
+
 const mapTabsSchema = z.enum(["electricity", "sunshine"] as const);
 
 const mapCommonSchema = z.object({
@@ -30,16 +43,16 @@ const energyPricesMapSchema = z.object({
   view: z.string().default("collapsed"),
 });
 const energyPricesDetailsSchema = z.object({
-  operator: z.array(z.string()).optional(),
-  period: z.array(periodSchema).default([buildEnv.CURRENT_PERIOD]),
-  municipality: z.array(z.string()).default([]),
-  canton: z.array(z.string()).default([]),
-  category: z.array(z.string()).default(["H4"]),
-  priceComponent: z.array(z.string()).default(["total"]),
-  product: z.array(z.string()).default(["standard"]),
-  cantonsOrder: z.array(z.string()).default(["median-asc"]),
+  operator: stringToArray().optional(),
+  period: stringToArray([buildEnv.CURRENT_PERIOD]),
+  municipality: stringToArray([]),
+  canton: stringToArray([]),
+  category: stringToArray(["H4"]),
+  priceComponent: stringToArray(["total"]),
+  product: stringToArray(["standard"]),
+  cantonsOrder: stringToArray(["median-asc"]),
   download: z.string().optional(),
-  view: z.array(z.string()).default(["collapsed"]),
+  view: stringToArray(["collapsed"]),
 });
 
 const sunshineIndicatorSchema = z.enum([

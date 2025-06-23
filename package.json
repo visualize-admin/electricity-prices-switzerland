@@ -143,6 +143,7 @@
     "@storybook/react": "^8.6.11",
     "@storybook/test": "^8.6.11",
     "@svgr/cli": "^8.1.0",
+    "@testing-library/react-hooks": "^8.0.1",
     "@types/argparse": "^2.0.10",
     "@types/clownface": "^1.2.2",
     "@types/d3": "^6.3.0",
