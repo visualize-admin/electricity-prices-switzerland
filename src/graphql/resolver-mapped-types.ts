@@ -30,8 +30,8 @@ export type ResolvedCantonMedianObservation = {
   __typename: "CantonMedianObservation";
   category?: string;
   period?: string;
-  region?: string;
-  regionLabel?: string;
+  canton?: string;
+  cantonLabel?: string;
 } & { [key: string]: number };
 
 export type ResolvedSwissMedianObservation = {
