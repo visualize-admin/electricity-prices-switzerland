@@ -14,7 +14,6 @@ export const ssr = ssrExchange({
   initialState: {},
 });
 
-/** @knipignore */
 export const makeExchanges = (context: any) => [
   cacheExchange,
   ssr,

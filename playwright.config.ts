@@ -19,6 +19,7 @@ const getHttpCredentialsFromEnv = () => {
  */
 export default defineConfig({
   testDir: "./src/e2e",
+  globalSetup: "./src/e2e/setup",
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */

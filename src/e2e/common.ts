@@ -83,20 +83,6 @@ const test = base.extend<TestingLibraryFixtures>(fixtures).extend<{
 
 const { expect } = test;
 
-// When running outside CI, pause Playwright when a test failed.
-// See: https://github.com/microsoft/playwright/issues/10132
-test.afterEach(async ({ page }, testInfo) => {
-  if (!process.env.CI && testInfo.status !== testInfo.expectedStatus) {
-    process.stderr.write(
-      `❌ ❌ PLAYWRIGHT TEST FAILURE ❌ ❌\n${
-        testInfo.error?.stack || testInfo.error
-      }\n`
-    );
-    testInfo.setTimeout(0);
-    await page.pause();
-  }
-});
-
 export const sleep = (dur: number) => new Promise((r) => setTimeout(r, dur));
 
 export const ensureLoadingIsComplete = async (page: Page) =>
