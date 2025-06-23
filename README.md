@@ -279,3 +279,9 @@ The Sunshine pages fetch data server-side in `getServerSideProps`, where:
 3. The data is passed as props to the React components
 
 For components testing in Storybook, the mock files from `mocks/` can be imported to simulate the data flow without needing the decryption key.
+
+### Compare different SPARQL endpoints
+
+It can be useful to compare results across different endpoints.
+See this document (private) for more information https://www.notion.so/interactivethings/21b30da5430280f4ae29d51db94c227f?d=16c30da5430283dca65e830ec9525f40
+
