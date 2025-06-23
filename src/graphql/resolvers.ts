@@ -48,6 +48,7 @@ import {
   NetworkLevel,
 } from "src/domain/data";
 import { getPeerGroup, getSunshineData } from "src/lib/db/sql";
+import { sortBy } from "lodash";
 
 const gfmSyntax = require("micromark-extension-gfm");
 const gfmHtml = require("micromark-extension-gfm/html");
@@ -137,7 +138,10 @@ const Query: QueryResolvers = {
       ...o,
     }));
 
-    return operatorObservations as ResolvedOperatorObservation[];
+    return sortBy(
+      operatorObservations as ResolvedOperatorObservation[],
+      operatorObservationsSorter
+    );
   },
   cantonMedianObservations: async (
     _,
@@ -199,7 +203,10 @@ const Query: QueryResolvers = {
       ...x,
     }));
 
-    return medianObservations as ResolvedCantonMedianObservation[];
+    return sortBy(
+      medianObservations as ResolvedCantonMedianObservation[],
+      cantonMedianObservationsSorter
+    );
   },
   swissMedianObservations: async (_, { locale, filters }, ctx, info) => {
     let cantonCube;
@@ -254,7 +261,10 @@ const Query: QueryResolvers = {
       __typename: "MedianObservation",
     }));
 
-    return medianObservations as ResolvedSwissMedianObservation[];
+    return sortBy(
+      medianObservations as ResolvedSwissMedianObservation[],
+      swissMedianObservationsSorter
+    );
   },
   operators: async (_, { query, ids, locale }) => {
     const results = await search({
@@ -294,7 +304,7 @@ const Query: QueryResolvers = {
       types: ["municipality", "operator", "canton"],
     });
 
-    return results;
+    return sortBy(results, (x) => x.type);
   },
   searchMunicipalities: async (_, { query, locale, ids }) => {
     const results = await search({
@@ -586,3 +596,12 @@ export const resolvers: Resolvers = {
     },
   },
 };
+
+const operatorObservationsSorter = (x: ResolvedOperatorObservation) =>
+  `${x.period}-${x.category}-${x.canton}-${x.operator}-${x.municipality}-${x.value}`;
+
+const cantonMedianObservationsSorter = (x: ResolvedCantonMedianObservation) =>
+  `${x.period}-${x.category}-${x.canton}`;
+
+const swissMedianObservationsSorter = (x: ResolvedSwissMedianObservation) =>
+  `${x.period}-${x.category}`;
