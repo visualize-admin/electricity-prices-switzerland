@@ -14,6 +14,7 @@ import typeDefs from "src/graphql/schema.graphql";
 import { context } from "src/graphql/server-context";
 import assert from "src/lib/assert";
 import { metricsPlugin } from "src/pages/api/metricsPlugin";
+import { saveRequestPlugin } from "src/pages/api/saveRequestPlugin";
 
 assert(!!serverEnv, "serverEnv is not defined");
 
@@ -27,6 +28,10 @@ const server = new ApolloServer({
       enabled:
         serverEnv.NODE_ENV === "development" ||
         serverEnv.METRICS_PLUGIN_ENABLED === "true",
+    }),
+    saveRequestPlugin({
+      enabled: serverEnv.SAVE_REQUEST_PLUGIN_ENABLED === "true",
+      saveFolder: serverEnv.SAVE_REQUEST_PLUGIN_FOLDER,
     }),
     serverEnv.NODE_ENV === "development"
       ? ApolloServerPluginLandingPageLocalDefault({ embed: false })
