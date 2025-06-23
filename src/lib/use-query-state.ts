@@ -64,7 +64,6 @@ export function makeUseQueryState<T extends z.ZodRawShape>(
           const parsed = schema.shape[k].parse(ensureString(v));
           state[k] = parsed;
         } catch {
-          console.log("catch");
           // Fall back to default if parsing fails
           state[k] = defaultValue;
         }

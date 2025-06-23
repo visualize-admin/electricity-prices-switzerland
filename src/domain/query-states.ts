@@ -119,7 +119,7 @@ export type QueryStateEnergyPricesMap = UseQueryStateSingle<
   typeof energyPricesMapSchema.shape
 >;
 
-export type QueryStateSunshineMap = UseQueryStateSingle<
+type QueryStateSunshineMap = UseQueryStateSingle<
   typeof sunshineMapSchema.shape
 >;
 
