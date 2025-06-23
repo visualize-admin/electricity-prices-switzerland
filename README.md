@@ -311,3 +311,11 @@ It is possible to regenerate the home map screenshots automatically using Playwr
 ```bash
 yarn design:generate-home-maps
 ```
+
+### Compare different SPARQL endpoints
+
+It can be useful to compare results across different endpoints to validate migrations or test different backend providers.
+
+See [SPARQL Endpoint Comparison Documentation](./docs/sparql-endpoint-comparison.md) for detailed instructions on recording and comparing GraphQL responses from different SPARQL endpoints.
+
+For internal context, see also this [Notion document](https://www.notion.so/interactivethings/21b30da5430280f4ae29d51db94c227f?d=16c30da5430283dca65e830ec9525f40) (private).
