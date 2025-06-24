@@ -5,6 +5,7 @@ import { useMemo } from "react";
 import { Loading } from "src/components/hint";
 import { NetTariffsTrendChart } from "src/components/net-tariffs-trend-chart";
 import { NetworkCostTrendChart } from "src/components/network-cost-trend-chart";
+import { PowerStabilityChart } from "src/components/power-stability-chart";
 import {
   QueryStateSunshineIndicator,
   useQueryStateSunshineMap,
@@ -13,6 +14,8 @@ import {
   useEnergyTariffsQuery,
   useNetTariffsQuery,
   useNetworkCostsQuery,
+  useSaidiQuery,
+  useSaifiQuery,
 } from "src/graphql/queries";
 
 import { ListItemType } from "./list";
@@ -187,6 +190,77 @@ const NetworkCostsChartAdapter = ({
   );
 };
 
+const SaidiSaifiChartAdapter = ({
+  period,
+  selectedItem,
+}: {
+  period: string;
+  selectedItem: ListItemType;
+}) => {
+  const { id, label: operatorLabel } = selectedItem;
+  const [queryState] = useQueryStateSunshineMap();
+  const { indicator, typology } = queryState;
+  const [{ data, fetching }] = (
+    indicator === "saidi" ? useSaidiQuery : useSaifiQuery
+  )({
+    variables: {
+      filter: {
+        operatorId: parseInt(id, 10),
+        // TODO Change in graphql to use period
+        year: parseInt(period, 10),
+      },
+    },
+  });
+
+  // TODO Do the filtering to get only operator observations at
+  // graphql level
+  const yearlyData = useMemo(() => {
+    const operatorId = parseInt(id, 10);
+    if (!data) {
+      return [];
+    }
+    const yearlyData =
+      indicator === "saidi" && "saidi" in data
+        ? data.saidi.yearlyData
+        : "saifi" in data
+        ? data.saifi.yearlyData
+        : [];
+    return yearlyData.filter(
+      // TODO Change in graphql to use operatorId
+      (p) => p.operator === operatorId
+    );
+  }, [data, id, indicator]);
+
+  if (fetching) {
+    return <Loading />;
+  }
+
+  return (
+    <div>
+      <Typography variant="h6" fontWeight="bold" mb={2}>
+        {indicator === "saidi" ? (
+          <Trans id="sunshine.costs-and-tariffs.saidi-trend.title">
+            SAIDI Trend
+          </Trans>
+        ) : indicator === "saifi" ? (
+          <Trans id="sunshine.costs-and-tariffs.saifi-trend.title">
+            SAIFI Trend
+          </Trans>
+        ) : null}
+      </Typography>
+
+      <PowerStabilityChart
+        observations={yearlyData}
+        id={id}
+        operatorLabel={operatorLabel ?? ""}
+        view="progress"
+        overallOrRatio="overall"
+        duration={typology}
+        mini
+      />
+    </div>
+  );
+};
 export const indicatorToChart: Partial<
   Record<
     QueryStateSunshineIndicator,
@@ -196,4 +270,9 @@ export const indicatorToChart: Partial<
   energyTariffs: EnergyTariffsChartAdapter,
   netTariffs: NetTariffsChartAdapter,
   networkCosts: NetworkCostsChartAdapter,
+
+  // Using keys to make sure the component is not reused when the indicator changes
+  // This is important since the useQuery hook is conditionally executed
+  saidi: (props) => <SaidiSaifiChartAdapter {...props} key="saidi" />,
+  saifi: (props) => <SaidiSaifiChartAdapter {...props} key="saidi" />,
 } as const;
