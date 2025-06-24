@@ -73,7 +73,7 @@ const NetTariffsChartAdapter = ({
   return (
     <ChartAdapterWrapper
       title={
-        <Trans id="sunshine.costs-and-tariffs.net-tariffs-trend.title">
+        <Trans id="sunshine.costs-and-tariffs.net-tariffs-trend">
           Net Tariffs Trend
         </Trans>
       }
@@ -130,7 +130,7 @@ const EnergyTariffsChartAdapter = ({
   return (
     <ChartAdapterWrapper
       title={
-        <Trans id="sunshine.costs-and-tariffs.energy-tariffs-trend.title">
+        <Trans id="sunshine.costs-and-tariffs.energy-tariffs-trend">
           Energy Tariffs Trend
         </Trans>
       }
@@ -187,7 +187,7 @@ const NetworkCostsChartAdapter = ({
   return (
     <ChartAdapterWrapper
       title={
-        <Trans id="sunshine.costs-and-tariffs.network-costs-trend.title">
+        <Trans id="sunshine.costs-and-tariffs.network-cost-trend">
           Network Costs Trend
         </Trans>
       }
@@ -259,13 +259,9 @@ const SaidiSaifiChartAdapter = ({
     <ChartAdapterWrapper
       title={
         indicator === "saidi" ? (
-          <Trans id="sunshine.costs-and-tariffs.saidi-trend.title">
-            SAIDI Trend
-          </Trans>
+          <Trans id="sunshine.power-stability.saidi-trend">SAIDI Trend</Trans>
         ) : indicator === "saifi" ? (
-          <Trans id="sunshine.costs-and-tariffs.saifi-trend.title">
-            SAIFI Trend
-          </Trans>
+          <Trans id="sunshine.power-stability.saifi-trend">SAIFI Trend</Trans>
         ) : null
       }
     >
