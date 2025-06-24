@@ -95,16 +95,21 @@ const LatestYearChartView = (
     useState<PowerStabilitySortableType>("planned");
 
   const dataWithRatioApplied = useMemo(() => {
-    if (overallOrRatio === "ratio") {
-      return observations.map((d) => {
+    return observations.map((d) => {
+      const total = d.planned + d.unplanned;
+      if (overallOrRatio === "ratio" && total > 0) {
         return {
           ...d,
-          planned: (d.planned / d.total) * 100,
-          unplanned: (d.unplanned / d.total) * 100,
+          planned: (d.planned / total) * 100,
+          unplanned: (d.unplanned / total) * 100,
+          total,
         };
-      });
-    }
-    return observations;
+      }
+      return {
+        ...d,
+        total,
+      };
+    });
   }, [observations, overallOrRatio]);
 
   const maxValue =
