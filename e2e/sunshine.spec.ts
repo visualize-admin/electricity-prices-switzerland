@@ -80,7 +80,7 @@ test.describe("Sunshine map details panel", () => {
     await page.getByRole("option", { name: "2024" }).click();
     await snapshot({
       note: "Sunshine Map - Initial",
-      locator: page.getByTestId("map-sidebar").first(),
+      locator: page.getByTestId("map-sidebar"),
     });
     await page
       .locator("a")
@@ -95,7 +95,7 @@ test.describe("Sunshine map details panel", () => {
       locator: page.getByTestId("map-details-content"),
     });
 
-    await page.getByText("Back to the filters").first().click();
+    await page.getByText("Back to the filters").click();
     await page.getByRole("combobox", { name: "Indicator" }).click();
     await page.getByRole("option", { name: "Energy tariffs" }).click();
     await page
@@ -109,7 +109,7 @@ test.describe("Sunshine map details panel", () => {
       note: "Sunshine Map - Energy tariffs - Clicked on a list item",
       locator: page.getByTestId("map-details-content"),
     });
-    await page.getByText("Back to the filters").first().click();
+    await page.getByText("Back to the filters").click();
     await page.getByRole("combobox", { name: "Indicator" }).click();
     await page.getByRole("option", { name: "Network costs" }).click();
     await page
