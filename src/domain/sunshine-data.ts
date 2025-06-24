@@ -8,7 +8,7 @@ import { NetworkLevel } from "src/graphql/resolver-types";
 /**
  * Years available for sunshine data queries
  */
-export const years = ["2024", "2023", "2022", "2021", "2020"];
+export const years = ["2024", "2023"];
 
 /**
  * View by options for filtering
