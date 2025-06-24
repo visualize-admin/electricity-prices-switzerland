@@ -1,5 +1,5 @@
 import { t } from "@lingui/macro";
-import { Box } from "@mui/material";
+import { Box, BoxProps } from "@mui/material";
 import { useMemo } from "react";
 
 import type { SunshineCostsAndTariffsData } from "src/domain/data";
@@ -31,6 +31,7 @@ type NetTariffsTrendFilters = {
   compareWith: CompareWithFilter;
 };
 type NetTariffsTrendChartProps = {
+  rootProps?: BoxProps;
   observations: SunshineCostsAndTariffsData["netTariffs"]["yearlyData"];
   netTariffs: Omit<SunshineCostsAndTariffsData["netTariffs"], "yearlyData">;
   operatorLabel: string;
@@ -38,17 +39,13 @@ type NetTariffsTrendChartProps = {
   NetTariffsTrendFilters;
 
 export const NetTariffsTrendChart = (props: NetTariffsTrendChartProps) => {
-  const { observations, view, ...restProps } = props;
+  const { observations, view, rootProps, ...restProps } = props;
   const operatorsNames = useMemo(() => {
     return new Set(observations.map((d) => d.operator_name));
   }, [observations]);
 
   return (
-    <Box
-      sx={{
-        mt: 8,
-      }}
-    >
+    <Box {...rootProps}>
       {view === "latest" ? (
         <LatestYearChartView
           observations={observations}

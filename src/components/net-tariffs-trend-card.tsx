@@ -185,6 +185,11 @@ const NetTariffsTrendCard: React.FC<
             netTariffs={restNetTariffs}
             view={viewBy}
             compareWith={compareWith}
+            rootProps={{
+              sx: {
+                mt: 8,
+              },
+            }}
           />
         </Box>
         {/* Footer Info */}
