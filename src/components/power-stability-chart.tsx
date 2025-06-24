@@ -1,6 +1,6 @@
 import { t } from "@lingui/macro";
 import { Box } from "@mui/material";
-import { max } from "d3";
+import { max, mean } from "d3";
 import { useMemo, useState } from "react";
 
 import type { SunshinePowerStabilityData } from "src/domain/data";
@@ -87,6 +87,7 @@ export const PowerStabilityChart = (props: PowerStabilityChartProps) => {
   );
 };
 
+//TODO: align with query-states
 type PowerStabilitySortableType =
   | "planned"
   | "unplanned"
@@ -142,9 +143,8 @@ const LatestYearChartView = (
         return 0;
     }
   });
-
   const average = useMemo(() => {
-    return sortedData.reduce((acc, d) => acc + d.total, 0) / sortedData.length;
+    return mean(sortedData.map((d) => d.total)) ?? 0;
   }, [sortedData]);
 
   const maxYLabelWidth = Math.max(
@@ -181,7 +181,7 @@ const LatestYearChartView = (
         y: {
           componentIri: "operator_name",
         },
-        label: { componentIri: "avrLabel" },
+        label: { componentIri: "avgLabel" },
         segment: {
           palette: "elcom",
           type: "stacked",
@@ -189,7 +189,7 @@ const LatestYearChartView = (
         },
         annotation: [
           {
-            avrLabel: t({
+            avgLabel: t({
               id: "chart.avr.peer-group",
               message: "Average Peer Group",
             }),
