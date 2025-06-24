@@ -16,6 +16,10 @@ You can also check the
   - Click on operator on Sunshine map brings details panel and zooms in the operator
   - Click Details button from details panel while showing a Sunshine indicator brings to the correct sunshine page
 
+- Maintenance
+
+  - Added AA (Afar) language and script for populating it with msgid - this allows for finding msgid within the app, this is a temporary solution
+
 # 2.2.0 - 2025-06-20
 
 - Features
