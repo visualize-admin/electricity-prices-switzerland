@@ -11,7 +11,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-#: src/components/map.tsx
+#: src/components/energy-prices-map.tsx
 msgid "canton"
 msgstr "Canton"
 
@@ -277,7 +277,7 @@ msgstr "Componenti tariffarie della rete di trasmissione - Swissgrid"
 msgid "help.calculation"
 msgstr "Base di calcolo"
 
-#: src/components/map.tsx
+#: src/components/energy-prices-map.tsx
 msgid "help.price-comparison"
 msgstr "Confronto tariffe"
 
@@ -473,7 +473,7 @@ msgstr "Torna ai filtri"
 msgid "map.details-sidebar-panel.next-button"
 msgstr "Mostra energia dettagli sui prezzi"
 
-#: src/components/map.tsx
+#: src/components/energy-prices-map.tsx
 msgid "map.legend.title"
 msgstr "Confronto tariffe in ct./kWh (IVA esclusa)"
 
@@ -485,7 +485,7 @@ msgstr "Condividi"
 msgid "map.tooltipnodata"
 msgstr "Nessun dato"
 
-#: src/components/map.tsx
+#: src/components/energy-prices-map.tsx
 msgid "municipality"
 msgstr "Comune"
 
@@ -536,7 +536,7 @@ msgstr "Bassa tensione NE7"
 msgid "network-level.NE7.short"
 msgstr "NE7"
 
-#: src/components/operators-map.tsx
+#: src/components/sunshine-map.tsx
 msgid "operator"
 msgstr "Operatore"
 
@@ -583,6 +583,22 @@ msgstr "Turismo"
 #: src/domain/translation.tsx
 msgid "peer-group.settlement-density.unknown"
 msgstr "Sconosciuto"
+
+#: src/components/power-stability-chart.tsx
+msgid "power-stability-trend-chart.legend-item.grid-operators"
+msgstr "Operatori di rete"
+
+#: src/components/power-stability-chart.tsx
+msgid "power-stability-trend-chart.sortable-legend-item.planned"
+msgstr "Pianificato"
+
+#: src/components/power-stability-chart.tsx
+msgid "power-stability-trend-chart.sortable-legend-item.total"
+msgstr "Totale"
+
+#: src/components/power-stability-chart.tsx
+msgid "power-stability-trend-chart.sortable-legend-item.unplanned"
+msgstr "Non pianificato"
 
 #: src/components/color-legend.tsx
 #: src/components/color-legend.tsx
