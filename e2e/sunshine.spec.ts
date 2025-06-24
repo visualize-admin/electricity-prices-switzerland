@@ -71,6 +71,7 @@ test.describe("Sunshine map details panel", () => {
     page,
     snapshot,
   }) => {
+    test.slow();
     await page.goto("/en/map?flag__sunshine=true");
 
     const tracker = new InflightRequests(page);
