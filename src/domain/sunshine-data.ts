@@ -1,4 +1,7 @@
-import { QueryStateSunshineIndicator } from "src/domain/query-states";
+import {
+  QueryStateSunshineIndicator,
+  QueryStateSunshineSaidiSaifiTypology,
+} from "src/domain/query-states";
 import { TariffCategory } from "src/graphql/resolver-mapped-types";
 import { NetworkLevel } from "src/graphql/resolver-types";
 
@@ -15,7 +18,11 @@ export const viewByOptions = ["all_grid_operators", "canton", "municipality"];
 /**
  * Typology options for filtering
  */
-export const typologyOptions = ["total", "planned", "unplanned"];
+export const typologyOptions = [
+  "total",
+  "planned",
+  "unplanned",
+] satisfies QueryStateSunshineSaidiSaifiTypology[];
 
 /**
  * Indicator options for filtering
