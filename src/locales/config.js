@@ -13,4 +13,5 @@ export const locales = [
     ? ["en"]
     : []),
 ];
+
 export const accentLocales = ["de", "fr", "it", "en"];
