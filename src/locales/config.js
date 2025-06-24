@@ -8,4 +8,4 @@ export const locales = [
   "it",
   ...(process.env.NODE_ENV === "development" ? ["en", "aa"] : []),
 ];
-export const accentLocales = ["de", "fr", "it", "en"];
+export const accentLocales = ["de", "fr", "it", "en", "aa"];

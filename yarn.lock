@@ -7410,6 +7410,14 @@
   resolved "https://registry.yarnpkg.com/@types/geojson/-/geojson-7946.0.16.tgz#8ebe53d69efada7044454e3305c19017d97ced2a"
   integrity sha512-6C8nqWur3j98U6+lXDfTUWIfgvZU+EumvpHKcYjujKH7woYyLj2sUmff0tRhrqM7BohUw7Pz3ZB1jj2gW9Fvmg==
 
+"@types/gettext-parser@^8.0.0":
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/@types/gettext-parser/-/gettext-parser-8.0.0.tgz#98fa6ed717b1b4a4636002bd76696a5bdc067557"
+  integrity sha512-oBBIahfWKqAC8LsIw+uFwhXfwlF8GhWDUhyEjoP7Pl9g5bFLhYA/2SiXPkE4oKhDX9fL091qCAyPVZtIkd5X6Q==
+  dependencies:
+    "@types/node" "*"
+    "@types/readable-stream" "*"
+
 "@types/hammerjs@^2.0.41":
   version "2.0.46"
   resolved "https://registry.yarnpkg.com/@types/hammerjs/-/hammerjs-2.0.46.tgz#381daaca1360ff8a7c8dff63f32e69745b9fb1e1"
@@ -7663,6 +7671,13 @@
   integrity sha512-MY3oPudxvMYyesqs/kW1Bh8y9VqSmf+tzqw3ae8a9DZW68pUe3zAdHeI1jc6iAysuRdACnVknHP8AhwD4/dxtg==
   dependencies:
     csstype "^3.0.2"
+
+"@types/readable-stream@*":
+  version "4.0.21"
+  resolved "https://registry.yarnpkg.com/@types/readable-stream/-/readable-stream-4.0.21.tgz#716558454a5e0c3c0651520f8154efc3288f59cb"
+  integrity sha512-19eKVv9tugr03IgfXlA9UVUVRbW6IuqRO5B92Dl4a6pT7K8uaGrNS0GkxiZD0BOk6PLuXl5FhWl//eX/pzYdTQ==
+  dependencies:
+    "@types/node" "*"
 
 "@types/resolve@^1.20.2":
   version "1.20.6"

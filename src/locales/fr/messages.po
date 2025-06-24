@@ -11,7 +11,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: src/components/map.tsx
+#: src/components/energy-prices-map.tsx
 msgid "canton"
 msgstr "Canton"
 
@@ -277,7 +277,7 @@ msgstr "Composantes tarifaires du réseau de transport - Swissgrid"
 msgid "help.calculation"
 msgstr "Base de calcul"
 
-#: src/components/map.tsx
+#: src/components/energy-prices-map.tsx
 msgid "help.price-comparison"
 msgstr "Comparaison des tarifs"
 
@@ -473,7 +473,7 @@ msgstr "Retour aux filtres"
 msgid "map.details-sidebar-panel.next-button"
 msgstr "Afficher le détail des prix de l'énergie"
 
-#: src/components/map.tsx
+#: src/components/energy-prices-map.tsx
 msgid "map.legend.title"
 msgstr "Comparaison des tarifs en ct./kWh (TVA exclue)"
 
@@ -485,7 +485,7 @@ msgstr "Partager"
 msgid "map.tooltipnodata"
 msgstr "Aucune donnée"
 
-#: src/components/map.tsx
+#: src/components/energy-prices-map.tsx
 msgid "municipality"
 msgstr "Commune"
 
@@ -536,7 +536,7 @@ msgstr "Basse tension NE7"
 msgid "network-level.NE7.short"
 msgstr "NE7"
 
-#: src/components/operators-map.tsx
+#: src/components/sunshine-map.tsx
 msgid "operator"
 msgstr "Opérateur"
 
