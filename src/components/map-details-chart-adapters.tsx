@@ -4,11 +4,16 @@ import { useMemo } from "react";
 
 import { Loading } from "src/components/hint";
 import { NetTariffsTrendChart } from "src/components/net-tariffs-trend-chart";
+import { NetworkCostTrendChart } from "src/components/network-cost-trend-chart";
 import {
   QueryStateSunshineIndicator,
   useQueryStateSunshineMap,
 } from "src/domain/query-states";
-import { useEnergyTariffsQuery, useNetTariffsQuery } from "src/graphql/queries";
+import {
+  useEnergyTariffsQuery,
+  useNetTariffsQuery,
+  useNetworkCostsQuery,
+} from "src/graphql/queries";
 
 import { ListItemType } from "./list";
 
@@ -124,6 +129,64 @@ const EnergyTariffsChartAdapter = ({
   );
 };
 
+const NetworkCostsChartAdapter = ({
+  period,
+  selectedItem,
+}: {
+  period: string;
+  selectedItem: ListItemType;
+}) => {
+  const { id, label: operatorLabel } = selectedItem;
+  const [queryState] = useQueryStateSunshineMap();
+  const { networkLevel } = queryState;
+  const [{ data, fetching }] = useNetworkCostsQuery({
+    variables: {
+      filter: {
+        operatorId: parseInt(id, 10),
+        period: parseInt(period, 10),
+        networkLevel: networkLevel,
+      },
+    },
+  });
+
+  // TODO Do the filtering to get only operator observations at
+  // graphql level
+  const yearlyData = useMemo(() => {
+    const operatorId = parseInt(id, 10);
+    return data?.networkCosts.yearlyData.filter(
+      (p) => p.operator_id === operatorId
+    );
+  }, [data?.networkCosts.yearlyData, id]);
+
+  if (fetching) {
+    return <Loading />;
+  }
+
+  return (
+    <div>
+      <Typography variant="h6" fontWeight="bold" mb={2}>
+        <Trans id="sunshine.costs-and-tariffs.energy-tariffs-trend.title">
+          Network Costs Trend
+        </Trans>
+      </Typography>
+      <NetworkCostTrendChart
+        id={id}
+        observations={yearlyData ?? []}
+        networkCosts={{
+          networkLevel: {
+            id: networkLevel,
+          },
+          peerGroupMedianRate: data?.networkCosts?.peerGroupMedianRate,
+        }}
+        operatorLabel={operatorLabel ?? ""}
+        view="progress"
+        compareWith={[]}
+        mini
+      />
+    </div>
+  );
+};
+
 export const indicatorToChart: Partial<
   Record<
     QueryStateSunshineIndicator,
@@ -132,4 +195,5 @@ export const indicatorToChart: Partial<
 > = {
   energyTariffs: EnergyTariffsChartAdapter,
   netTariffs: NetTariffsChartAdapter,
+  networkCosts: NetworkCostsChartAdapter,
 } as const;
