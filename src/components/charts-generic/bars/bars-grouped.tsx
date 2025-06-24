@@ -135,7 +135,7 @@ export const BarsGroupedLabels = () => {
           <text
             key={`label-${i}`}
             x={0}
-            y={y - LABEL_PADDING}
+            y={y - LABEL_PADDING + labelFontSize / 2}
             fontFamily="Inter, sans-serif"
             fontSize={labelFontSize}
             fill="black"
