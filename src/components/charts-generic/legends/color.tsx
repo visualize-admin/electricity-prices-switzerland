@@ -1,17 +1,19 @@
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { memo } from "react";
 
 import {
   ColumnsState,
   useChartState,
 } from "src/components/charts-generic/use-chart-state";
+import { Icon } from "src/icons";
 
 export type LegendSymbol =
   | "square"
   | "line"
   | "circle"
   | "diamond"
-  | "triangle";
+  | "triangle"
+  | "arrow";
 
 export const LegendColor = memo(({ symbol }: { symbol: LegendSymbol }) => {
   const { colors } = useChartState() as ColumnsState;
@@ -33,6 +35,10 @@ export const LegendColor = memo(({ symbol }: { symbol: LegendSymbol }) => {
     </Box>
   );
 });
+
+export const ARROW_WIDTH = 16;
+export const SORTABLE_EXTERNAL_GAP = 16;
+export const SORTABLE_INTERNAL_GAP = 4;
 
 export const LegendSymbol = ({
   symbol,
@@ -108,6 +114,9 @@ export const LegendSymbol = ({
         />
       );
 
+    case "arrow":
+      return <Icon name="arrowdown" size={ARROW_WIDTH} />;
+
     default:
       return null;
   }
@@ -130,7 +139,7 @@ export const LegendItem = ({
       justifyContent: "flex-start",
       alignItems: "center",
       pl: 0,
-      gap: "0.375rem",
+      gap: 1,
       lineHeight: ["1rem", "1.125rem", "1.125rem"],
       fontWeight: "regular",
       fontSize: ["0.625rem", "0.75rem", "0.75rem"],
@@ -140,5 +149,51 @@ export const LegendItem = ({
   >
     <LegendSymbol color={color} symbol={symbol} />
     {item}
+  </Box>
+);
+
+export const SortableLegendItem = <T extends string>({
+  item,
+  color,
+  value,
+  handleClick,
+  state,
+}: {
+  item: string;
+  color: string;
+  value: T;
+  state: T;
+  handleClick: (value: T) => void;
+}) => (
+  <Box
+    sx={{
+      all: "unset",
+      display: "flex",
+      position: "relative",
+      mr: `${SORTABLE_EXTERNAL_GAP}px`,
+      justifyContent: "flex-start",
+      alignItems: "center",
+      pl: 0,
+      gap: `${SORTABLE_INTERNAL_GAP}px`,
+      color,
+      cursor: "pointer",
+    }}
+    component={"button"}
+    onClick={() => handleClick(value)}
+  >
+    <Typography variant="caption" fontWeight={700}>
+      {item}
+    </Typography>
+
+    <Box
+      sx={{
+        rotate: value === state ? "180deg" : "0deg",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+      display="flex"
+    >
+      <LegendSymbol color={color} symbol={"arrow"} />
+    </Box>
   </Box>
 );

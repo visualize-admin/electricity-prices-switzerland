@@ -2,9 +2,10 @@ import { t } from "@lingui/macro";
 import { Box } from "@mui/material";
 import { max } from "d3";
 import { sortBy } from "lodash";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 
 import type { SunshinePowerStabilityData } from "src/domain/data";
+import { getTextWidth } from "src/domain/helpers";
 import { chartPalette, palette } from "src/themes/palette";
 
 import { AxisHeightCategories } from "./charts-generic/axis/axis-height-categories";
@@ -20,7 +21,13 @@ import { ChartContainer, ChartSvg } from "./charts-generic/containers";
 import { HoverDotMultiple } from "./charts-generic/interaction/hover-dots-multiple";
 import { Ruler } from "./charts-generic/interaction/ruler";
 import { Tooltip } from "./charts-generic/interaction/tooltip";
-import { LegendItem } from "./charts-generic/legends/color";
+import {
+  ARROW_WIDTH,
+  LegendItem,
+  SORTABLE_EXTERNAL_GAP,
+  SORTABLE_INTERNAL_GAP,
+  SortableLegendItem,
+} from "./charts-generic/legends/color";
 import { Lines } from "./charts-generic/lines/lines";
 import { LineChart } from "./charts-generic/lines/lines-state";
 import { InteractionHorizontal } from "./charts-generic/overlay/interaction-horizontal";
@@ -76,12 +83,16 @@ export const PowerStabilityChart = (props: PowerStabilityChartProps) => {
   );
 };
 
+type PowerStabilitySortableType = "planned" | "unplanned" | "total";
+
 const LatestYearChartView = (
   props: Omit<PowerStabilityChartProps, "view" | "observations"> & {
     observations: PowerStabilityRow[];
   }
 ) => {
   const { observations, id, operatorLabel, overallOrRatio } = props;
+  const [sortByItem, setSortByItem] =
+    useState<PowerStabilitySortableType>("planned");
 
   const dataWithRatioApplied = useMemo(() => {
     if (overallOrRatio === "ratio") {
@@ -101,9 +112,35 @@ const LatestYearChartView = (
   const xDomain: [number, number] =
     overallOrRatio === "ratio" ? [0, 100] : [0, maxValue];
 
-  const sortedData = sortBy(dataWithRatioApplied, (x) => {
-    return x.operator.toString() === id ? 0 : 1;
+  const sortedData = sortBy(dataWithRatioApplied, [
+    (x) => x.operator.toString() !== id,
+    (x) => {
+      if (sortByItem === "planned") return -x.planned;
+      if (sortByItem === "unplanned") return -x.unplanned;
+      return -(x.planned + x.unplanned);
+    },
+  ]);
+  const maxYLabelWidth = Math.max(
+    ...sortedData.map((label) =>
+      getTextWidth(label.operator_name, { fontSize: 12, fontWeight: "bold" })
+    )
+  );
+
+  const gridOperatorsLabel = t({
+    id: "power-stability-trend-chart.legend-item.grid-operators",
+    message: "Grid Operators",
   });
+
+  const gridOperatorsLabelWidth = getTextWidth(gridOperatorsLabel, {
+    fontSize: 12,
+    fontWeight: "bold",
+  });
+
+  const SORTABLE_GRID_ITEM_WIDTH =
+    gridOperatorsLabelWidth +
+    ARROW_WIDTH +
+    SORTABLE_EXTERNAL_GAP +
+    SORTABLE_INTERNAL_GAP;
 
   return (
     <StackedBarsChart
@@ -147,6 +184,64 @@ const LatestYearChartView = (
         },
       ]}
     >
+      <Box
+        sx={{
+          position: "relative",
+          justifyContent: "flex-start",
+          alignItems: "flex-start",
+          flexWrap: "wrap",
+          minHeight: "20px",
+          gap: 2,
+          mb: 2,
+        }}
+        display="flex"
+      >
+        <Box
+          sx={{
+            mr: `${maxYLabelWidth - SORTABLE_GRID_ITEM_WIDTH}px`,
+          }}
+        >
+          <SortableLegendItem
+            item={gridOperatorsLabel}
+            color={palette.text.primary}
+            state=""
+            value=""
+            handleClick={() => {}}
+          />
+        </Box>
+
+        <SortableLegendItem<PowerStabilitySortableType>
+          item={t({
+            id: "power-stability-trend-chart.sortable-legend-item.planned",
+            message: "Planned",
+          })}
+          color={chartPalette.categorical[1]}
+          value="planned"
+          state={sortByItem}
+          handleClick={setSortByItem}
+        />
+
+        <SortableLegendItem<PowerStabilitySortableType>
+          item={t({
+            id: "power-stability-trend-chart.sortable-legend-item.unplanned",
+            message: "Unplanned",
+          })}
+          color={chartPalette.categorical[2]}
+          value="unplanned"
+          state={sortByItem}
+          handleClick={setSortByItem}
+        />
+        <SortableLegendItem<PowerStabilitySortableType>
+          item={t({
+            id: "power-stability-trend-chart.sortable-legend-item.total",
+            message: "Total",
+          })}
+          color={palette.text.primary}
+          value="total"
+          state={sortByItem}
+          handleClick={setSortByItem}
+        />
+      </Box>
       <ChartContainer>
         <ChartSvg>
           <AxisWidthLinear position="top" />
