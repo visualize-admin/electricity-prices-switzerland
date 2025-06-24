@@ -47,16 +47,21 @@ export const waitForRequests = async (
   // We need a delay to ensure that the requests have started
   await sleep(delay);
   return expect
-    .poll(() => {
-      const inflightXhrs = tracker.inflightRequests().filter((request) => {
-        if (type === undefined) {
-          return true;
-        }
-        return request.resourceType() === type;
-      });
+    .poll(
+      () => {
+        const inflightXhrs = tracker.inflightRequests().filter((request) => {
+          if (type === undefined) {
+            return true;
+          }
+          return request.resourceType() === type;
+        });
 
-      return inflightXhrs.length;
-    })
+        return inflightXhrs.length;
+      },
+      {
+        timeout: 10000,
+      }
+    )
     .toBe(0);
 };
 
