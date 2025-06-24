@@ -176,7 +176,8 @@ export const SortableLegendItem = <T extends string>({
       pl: 0,
       gap: `${SORTABLE_INTERNAL_GAP}px`,
       color,
-      cursor: "pointer",
+      cursor: value === state ? "not-allowed" : "pointer",
+      opacity: value === state ? 0.5 : 1,
     }}
     component={"button"}
     onClick={() => handleClick(value)}

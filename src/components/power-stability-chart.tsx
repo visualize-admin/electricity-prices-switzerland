@@ -1,7 +1,6 @@
 import { t } from "@lingui/macro";
 import { Box } from "@mui/material";
 import { max } from "d3";
-import { sortBy } from "lodash";
 import { useMemo, useState } from "react";
 
 import type { SunshinePowerStabilityData } from "src/domain/data";
@@ -88,7 +87,11 @@ export const PowerStabilityChart = (props: PowerStabilityChartProps) => {
   );
 };
 
-type PowerStabilitySortableType = "planned" | "unplanned" | "total";
+type PowerStabilitySortableType =
+  | "planned"
+  | "unplanned"
+  | "total"
+  | "operator";
 
 const LatestYearChartView = (
   props: Omit<PowerStabilityChartProps, "view" | "observations"> & {
@@ -122,14 +125,23 @@ const LatestYearChartView = (
   const xDomain: [number, number] =
     overallOrRatio === "ratio" ? [0, 100] : [0, maxValue];
 
-  const sortedData = sortBy(dataWithRatioApplied, [
-    (x) => x.operator.toString() !== id,
-    (x) => {
-      if (sortByItem === "planned") return -x.planned;
-      if (sortByItem === "unplanned") return -x.unplanned;
-      return -(x.planned + x.unplanned);
-    },
-  ]);
+  const sortedData = [...dataWithRatioApplied].sort((a, b) => {
+    if (a.operator.toString() === id) return -1;
+    if (b.operator.toString() === id) return 1;
+
+    switch (sortByItem) {
+      case "operator":
+        return a.operator_name.localeCompare(b.operator_name);
+      case "planned":
+        return b.planned - a.planned;
+      case "unplanned":
+        return b.unplanned - a.unplanned;
+      case "total":
+        return b.planned + b.unplanned - (a.planned + a.unplanned);
+      default:
+        return 0;
+    }
+  });
 
   const average = useMemo(() => {
     return sortedData.reduce((acc, d) => acc + d.total, 0) / sortedData.length;
@@ -168,7 +180,6 @@ const LatestYearChartView = (
         domain: xDomain,
         y: {
           componentIri: "operator_name",
-          sorting: { sortingType: "byTotalSize", sortingOrder: "desc" },
         },
         label: { componentIri: "avrLabel" },
         segment: {
@@ -229,9 +240,9 @@ const LatestYearChartView = (
           <SortableLegendItem
             item={gridOperatorsLabel}
             color={palette.text.primary}
-            state=""
-            value=""
-            handleClick={() => {}}
+            value={"operator"}
+            state={sortByItem}
+            handleClick={setSortByItem}
           />
         </Box>
 
