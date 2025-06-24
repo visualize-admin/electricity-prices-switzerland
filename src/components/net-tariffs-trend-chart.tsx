@@ -35,6 +35,7 @@ type NetTariffsTrendChartProps = {
   observations: SunshineCostsAndTariffsData["netTariffs"]["yearlyData"];
   netTariffs: Omit<SunshineCostsAndTariffsData["netTariffs"], "yearlyData">;
   operatorLabel: string;
+  mini?: boolean;
 } & Omit<SectionProps, "entity"> &
   NetTariffsTrendFilters;
 
@@ -157,7 +158,8 @@ const ProgressOvertimeChartView = (
     operatorsNames: Set<string>;
   }
 ) => {
-  const { observations, operatorLabel, operatorsNames, compareWith } = props;
+  const { observations, operatorLabel, operatorsNames, compareWith, mini } =
+    props;
   const hasNotSelectedAll = !compareWith.includes("sunshine.select-all");
 
   return (
@@ -194,23 +196,24 @@ const ProgressOvertimeChartView = (
       ]}
       aspectRatio={0.2}
     >
-      <Box
-        sx={{
-          position: "relative",
-          justifyContent: "flex-start",
-          alignItems: "flex-start",
-          flexWrap: "wrap",
-          minHeight: "20px",
-          gap: 2,
-        }}
-        display="flex"
-      >
-        <LegendItem
-          item={operatorLabel}
-          color={chartPalette.categorical[0]}
-          symbol={"line"}
-        />
-        {/* <LegendItem
+      {mini ? null : (
+        <Box
+          sx={{
+            position: "relative",
+            justifyContent: "flex-start",
+            alignItems: "flex-start",
+            flexWrap: "wrap",
+            minHeight: "20px",
+            gap: 2,
+          }}
+          display="flex"
+        >
+          <LegendItem
+            item={operatorLabel}
+            color={chartPalette.categorical[0]}
+            symbol={"line"}
+          />
+          {/* <LegendItem
           item={t({
             id: "net-tariffs-trend-chart.legend-item.peer-group-median",
             message: "Peer Group Median",
@@ -218,15 +221,18 @@ const ProgressOvertimeChartView = (
           color={palette.monochrome[800]}
           symbol={"line"}
         /> */}
-        <LegendItem
-          item={t({
-            id: "net-tariffs-trend-chart.legend-item.other-operators",
-            message: "Other operators",
-          })}
-          color={palette.monochrome[200]}
-          symbol={"line"}
-        />
-      </Box>
+          {operatorsNames.size > 1 ? (
+            <LegendItem
+              item={t({
+                id: "net-tariffs-trend-chart.legend-item.other-operators",
+                message: "Other operators",
+              })}
+              color={palette.monochrome[200]}
+              symbol={"line"}
+            />
+          ) : null}
+        </Box>
+      )}
       <ChartContainer>
         <ChartSvg>
           <AxisHeightLinear format="currency" /> <AxisTime />
