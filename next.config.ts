@@ -19,6 +19,7 @@ const buildEnv = {
   DEPLOYMENT: process.env.DEPLOYMENT,
   CURRENT_PERIOD: process.env.CURRENT_PERIOD,
   FIRST_PERIOD: process.env.FIRST_PERIOD,
+  ALLOW_ENGLISH: process.env.ALLOW_ENGLISH,
 };
 
 console.info("Build Environment:", buildEnv);

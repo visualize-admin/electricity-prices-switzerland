@@ -6,6 +6,11 @@ export const locales = [
   "de",
   "fr",
   "it",
-  ...(process.env.NODE_ENV === "development" ? ["en"] : []),
+
+  // TODO: Use buildEnv when we figure out how to import the src/env/build file
+  ...(process.env.NODE_ENV === "development" ||
+  process.env.ALLOW_ENGLISH === "true"
+    ? ["en"]
+    : []),
 ];
 export const accentLocales = ["de", "fr", "it", "en"];
