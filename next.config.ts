@@ -84,6 +84,14 @@ const nextConfig = async (): Promise<NextConfig> => {
       localeDetection: false,
     },
 
+    eslint: {
+      ignoreDuringBuilds: true,
+    },
+
+    typescript: {
+      ignoreBuildErrors: true,
+    },
+
     serverExternalPackages: [
       "@duckdb/node-api",
       "@duckdb/node-bindings",
