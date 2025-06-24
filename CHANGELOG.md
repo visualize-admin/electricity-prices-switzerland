@@ -15,6 +15,7 @@ You can also check the
 
   - Click on operator on Sunshine map brings details panel and zooms in the operator
   - Click Details button from details panel while showing a Sunshine indicator brings to the correct sunshine page
+  - The details panel for the sunshine map shows the correct chart for the selected indicator
 
 - Enhancements
 
