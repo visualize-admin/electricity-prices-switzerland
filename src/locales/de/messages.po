@@ -177,6 +177,10 @@ msgstr "Download Reports"
 msgid "dynamic-tariffs.hint"
 msgstr "Die Preise mit den in Klammern angegebenen Werten sind dynamisch. Weitere Informationen über die Funktionsweise der dynamischen Preisgestaltung finden Sie [hier]."
 
+#: src/components/charts-generic/bars/bars-grouped.tsx
+msgid "dynamic.tariff"
+msgstr "dynamisch"
+
 #: src/components/not-found.tsx
 msgid "error.page.404.back-link"
 msgstr "Klicken Sie hier, um zur Homepage zurückzukehren"

@@ -215,6 +215,7 @@ export const HintBlue = ({
       justifyContent: "flex-start",
       gap: 4,
       alignItems: ["flex-start", "center"],
+      boxShadow: 1,
     }}
     display="flex"
   >
