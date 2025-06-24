@@ -3,20 +3,24 @@ import { Button, Divider, Link, Typography } from "@mui/material";
 import { Box, Stack } from "@mui/system";
 import { ScaleThreshold } from "d3";
 import NextLink from "next/link";
-import { ReactElement, ReactNode } from "react";
+import { ReactElement, ReactNode, useMemo } from "react";
 
 import { PriceEvolution } from "src/components/detail-page/price-evolution-line-chart";
+import { Loading } from "src/components/hint";
+import { NetTariffsTrendChart } from "src/components/net-tariffs-trend-chart";
 import { Entity } from "src/domain/data";
 import { useFormatCurrency } from "src/domain/helpers";
 import {
   getSunshineDetailsPageFromIndicator,
   QueryStateEnergyPricesMap,
+  QueryStateSunshineIndicator,
   sunshineDetailsLink,
   useQueryStateEnergyPricesMap,
   useQueryStateMapCommon,
   useQueryStateSunshineMap,
 } from "src/domain/query-states";
 import { getLocalizedLabel } from "src/domain/translation";
+import { useNetTariffsQuery } from "src/graphql/queries";
 import { Icon } from "src/icons";
 
 import { ListItemType } from "./list";
@@ -191,6 +195,71 @@ const KeyValueTableRow = <T extends Record<string, string | undefined>>(props: {
   );
 };
 
+const NetTariffsChartAdapter = ({
+  period,
+  selectedItem,
+}: {
+  period: string;
+  selectedItem: ListItemType;
+}) => {
+  const { id, label: operatorLabel } = selectedItem;
+  const [queryState] = useQueryStateSunshineMap();
+  const { netTariffCategory } = queryState;
+  const [{ data, fetching }] = useNetTariffsQuery({
+    variables: {
+      filter: {
+        operatorId: parseInt(id, 10),
+        period: parseInt(period, 10),
+        category: netTariffCategory,
+      },
+    },
+  });
+
+  // TODO Do the filtering to get only operator observations at
+  // graphql level
+  const yearlyData = useMemo(() => {
+    const operatorId = parseInt(id, 10);
+    return data?.netTariffs.yearlyData.filter(
+      (p) => p.operator_id === operatorId
+    );
+  }, [data?.netTariffs.yearlyData, id]);
+
+  if (fetching) {
+    return <Loading />;
+  }
+
+  return (
+    <div>
+      <Typography variant="h6" fontWeight="bold" mb={2}>
+        <Trans id="sunshine.costs-and-tariffs.net-tariffs-trend.title">
+          Net Tariffs Trend
+        </Trans>
+      </Typography>
+      <NetTariffsTrendChart
+        id={id}
+        observations={yearlyData ?? []}
+        netTariffs={{
+          category: netTariffCategory,
+          peerGroupMedianRate: data?.netTariffs?.peerGroupMedianRate,
+        }}
+        operatorLabel={operatorLabel ?? ""}
+        view="progress"
+        compareWith={[]}
+        mini
+      />
+    </div>
+  );
+};
+
+const indicatorToChart: Partial<
+  Record<
+    QueryStateSunshineIndicator,
+    React.FC<{ period: string; selectedItem: ListItemType }>
+  >
+> = {
+  netTariffs: NetTariffsChartAdapter,
+} as const;
+
 export const MapDetailsContent: React.FC<{
   colorScale: ScaleThreshold<number, string>;
   entity: Entity;
@@ -198,7 +267,7 @@ export const MapDetailsContent: React.FC<{
   onBack: () => void;
 }> = ({ colorScale, entity, selectedItem, onBack }) => {
   const [{ tab }] = useQueryStateMapCommon();
-  const [{ indicator }] = useQueryStateSunshineMap();
+  const [{ indicator, period }] = useQueryStateSunshineMap();
   return (
     <MapDetailsContentWrapper onBack={onBack}>
       <MapDetailsEntityHeader entity={entity} {...selectedItem} />
@@ -208,12 +277,21 @@ export const MapDetailsContent: React.FC<{
         {...selectedItem}
       />
       <Divider />
-      <PriceEvolution
-        priceComponents={["total"]}
-        id={selectedItem.id}
-        entity={entity}
-        mini
-      />
+      {tab === "electricity" ? (
+        <PriceEvolution
+          priceComponents={["total"]}
+          id={selectedItem.id}
+          entity={entity}
+          mini
+        />
+      ) : (
+        (() => {
+          const Component = indicatorToChart[indicator];
+          return Component ? (
+            <Component period={period} selectedItem={selectedItem} />
+          ) : null;
+        })()
+      )}
       <Button
         variant="contained"
         color="secondary"
