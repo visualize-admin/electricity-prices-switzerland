@@ -26,20 +26,20 @@ import { ScatterPlot } from "./charts-generic/scatter-plot/scatter-plot-state";
 import { SectionProps } from "./detail-page/card";
 import { CompareWithFilter, ViewByFilter } from "./power-stability-card";
 
-type NetTariffsTrendFilters = {
+type TariffsTrendFilters = {
   view: ViewByFilter;
   compareWith: CompareWithFilter;
 };
-type NetTariffsTrendChartProps = {
+type TariffsTrendChartProps = {
   rootProps?: BoxProps;
   observations: SunshineCostsAndTariffsData["netTariffs"]["yearlyData"];
   netTariffs: Omit<SunshineCostsAndTariffsData["netTariffs"], "yearlyData">;
   operatorLabel: string;
   mini?: boolean;
 } & Omit<SectionProps, "entity"> &
-  NetTariffsTrendFilters;
+  TariffsTrendFilters;
 
-export const NetTariffsTrendChart = (props: NetTariffsTrendChartProps) => {
+export const TariffsTrendChart = (props: TariffsTrendChartProps) => {
   const { observations, view, rootProps, ...restProps } = props;
   const operatorsNames = useMemo(() => {
     return new Set(observations.map((d) => d.operator_name));
@@ -64,7 +64,7 @@ export const NetTariffsTrendChart = (props: NetTariffsTrendChartProps) => {
   );
 };
 const LatestYearChartView = (
-  props: Omit<NetTariffsTrendChartProps, "view"> & {
+  props: Omit<TariffsTrendChartProps, "view"> & {
     operatorsNames: Set<string>;
   }
 ) => {
@@ -154,7 +154,7 @@ const LatestYearChartView = (
   );
 };
 const ProgressOvertimeChartView = (
-  props: Omit<NetTariffsTrendChartProps, "view"> & {
+  props: Omit<TariffsTrendChartProps, "view"> & {
     operatorsNames: Set<string>;
   }
 ) => {

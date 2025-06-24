@@ -18,7 +18,6 @@ import {
 } from "src/components/detail-page/layout";
 import { DetailsPageSidebar } from "src/components/detail-page/sidebar";
 import { Loading } from "src/components/hint";
-import NetTariffsTrendCard from "src/components/net-tariffs-trend-card";
 import NetworkCostsTrendCard from "src/components/network-costs-trend-card";
 import PeerGroupCard from "src/components/peer-group-card";
 import {
@@ -26,6 +25,7 @@ import {
   CostsAndTariffsNavigation,
 } from "src/components/sunshine-tabs";
 import TableComparisonCard from "src/components/table-comparison-card";
+import TariffsTrendCard from "src/components/tariffs-trend-card";
 import {
   handleOperatorsEntity,
   PageParams,
@@ -442,7 +442,7 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
           sx={{ gridArea: "comparison" }}
         />
 
-        <NetTariffsTrendCard
+        <TariffsTrendCard
           latestYear={Number(latestYear)}
           sx={{ gridArea: "trend" }}
           peerGroup={peerGroup}
@@ -450,6 +450,18 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
           operatorId={props.id}
           operatorLabel={operatorLabel}
           netTariffs={energyTariffs}
+          cardTitle={
+            <Trans id="sunshine.costs-and-tariffs.energy-tariffs-trend">
+              Energy Tariffs Trend
+            </Trans>
+          }
+          infoDialogProps={{
+            slug: "help-energy-tariffs",
+            label: t({
+              id: "sunshine.costs-and-tariffs.energy-tariffs-trend",
+              message: "Energy Tariffs Trend",
+            }),
+          }}
         />
       </CardGrid>
     </>
@@ -608,7 +620,7 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
           sx={{ gridArea: "comparison" }}
         />
 
-        <NetTariffsTrendCard
+        <TariffsTrendCard
           latestYear={Number(latestYear)}
           sx={{ gridArea: "trend" }}
           peerGroup={peerGroup}
@@ -616,6 +628,18 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
           operatorId={props.id}
           operatorLabel={operatorLabel}
           netTariffs={netTariffs}
+          cardTitle={
+            <Trans id="sunshine.costs-and-tariffs.net-tariffs-trend">
+              Net Tariffs Trend
+            </Trans>
+          }
+          infoDialogProps={{
+            slug: "help-net-tariffs",
+            label: t({
+              id: "sunshine.costs-and-tariffs.net-tariffs-trend",
+              message: "Net Tariffs Trend",
+            }),
+          }}
         />
       </CardGrid>
     </>

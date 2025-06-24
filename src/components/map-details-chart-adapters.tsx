@@ -3,9 +3,9 @@ import { Typography } from "@mui/material";
 import { ReactNode, useMemo } from "react";
 
 import { Loading } from "src/components/hint";
-import { NetTariffsTrendChart } from "src/components/net-tariffs-trend-chart";
 import { NetworkCostTrendChart } from "src/components/network-cost-trend-chart";
 import { PowerStabilityChart } from "src/components/power-stability-chart";
+import { TariffsTrendChart } from "src/components/tariffs-trend-chart";
 import {
   QueryStateSunshineIndicator,
   useQueryStateSunshineMap,
@@ -78,7 +78,7 @@ const NetTariffsChartAdapter = ({
         </Trans>
       }
     >
-      <NetTariffsTrendChart
+      <TariffsTrendChart
         id={id}
         observations={yearlyData ?? []}
         netTariffs={{
@@ -135,7 +135,7 @@ const EnergyTariffsChartAdapter = ({
         </Trans>
       }
     >
-      <NetTariffsTrendChart
+      <TariffsTrendChart
         id={id}
         observations={yearlyData ?? []}
         netTariffs={{
