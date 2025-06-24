@@ -30,7 +30,12 @@ type MapDetailsContentProps = {
 const MapDetailsContentWrapper = (props: MapDetailsContentProps) => {
   const { onBack, children } = props;
   return (
-    <Stack direction={"column"} spacing={4} padding={6}>
+    <Stack
+      direction={"column"}
+      spacing={4}
+      padding={6}
+      data-testid="map-details-content"
+    >
       <Link
         component={"button"}
         sx={{ alignItems: "center", display: "flex", gap: 1 }}

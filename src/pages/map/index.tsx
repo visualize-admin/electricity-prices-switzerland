@@ -56,6 +56,7 @@ import {
 } from "src/graphql/queries";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { truthy } from "src/lib/truthy";
+import { useIsMobile } from "src/lib/use-mobile";
 import { defaultLocale } from "src/locales/config";
 import { useFlag } from "src/utils/flags";
 
@@ -352,6 +353,8 @@ const IndexPageContent = ({
     />
   );
 
+  const isMobile = useIsMobile();
+
   return (
     <>
       <ApplicationLayout>
@@ -392,102 +395,111 @@ const IndexPageContent = ({
             </ContentWrapper>
           </Box>
 
-          <ContentWrapper
-            sx={{
-              display: { xxs: "none", md: "grid" },
-              gridTemplateColumns: "22.5rem 1fr",
-              gap: 0,
-            }}
-          >
+          {isMobile ? null : (
+            <ContentWrapper
+              sx={{
+                // Need to have && here to override the default flexbox
+                "&&": {
+                  display: "grid",
+                },
+                gridTemplateColumns: "22.5rem 1fr",
+                gap: 0,
+              }}
+            >
+              <Box
+                sx={{
+                  height: "100%",
+                  overflowY: "auto",
+                  position: "relative",
+                  bgcolor: "background.paper",
+                  border: "1x solid green",
+                  maxHeight: `calc(100vh - ${HEADER_HEIGHT_UP})`,
+                }}
+                data-testid="map-sidebar"
+              >
+                {detailsDrawer}
+                {selectedItem ? null : (
+                  <>
+                    <CombinedSelectors />
+                    <Box
+                      sx={{
+                        px: 6,
+                        flexDirection: "column",
+                        gap: 4,
+                      }}
+                      display="flex"
+                    >
+                      {listButtonGroup}
+                      {list}
+                    </Box>
+                  </>
+                )}
+              </Box>
+
+              <Box
+                id={DOWNLOAD_ID}
+                sx={{
+                  top: HEADER_HEIGHT_UP,
+                  width: "100%",
+                  height: `calc(100vh - ${HEADER_HEIGHT_UP})`,
+                  position: "sticky",
+                  bgcolor: "secondary.50",
+                }}
+              >
+                {map}
+                {!download && (
+                  <Box
+                    sx={{
+                      zIndex: 13,
+                      position: "absolute",
+                      bottom: 0,
+                      right: 0,
+                      mb: 0,
+                      mr: 3,
+                      px: 4,
+                      py: 3,
+                      backgroundColor: "background.paper",
+                      display: "flex",
+                      gap: "2rem",
+                      borderRadius: "3px 3px 0 0",
+                    }}
+                  >
+                    <ShareButton />
+                    <DownloadImage
+                      fileName={"map.png"}
+                      downloadType={DOWNLOAD_ID}
+                      getImageData={async () =>
+                        controlsRef.current?.getImageData()
+                      }
+                    />
+                  </Box>
+                )}
+              </Box>
+            </ContentWrapper>
+          )}
+
+          {!isMobile ? null : (
             <Box
               sx={{
-                height: "100%",
-                overflowY: "auto",
-                position: "relative",
-                bgcolor: "background.paper",
-                border: "1x solid green",
+                height: `calc(100vh - ${HEADER_HEIGHT_UP})`,
                 maxHeight: `calc(100vh - ${HEADER_HEIGHT_UP})`,
+                overflowY: "auto",
+                display: "block",
+                bgcolor: "background.paper",
+                width: "100%",
+                position: "relative",
               }}
+              data-testid="map-sidebar"
             >
               {detailsDrawer}
               {selectedItem ? null : (
                 <>
                   <CombinedSelectors />
-                  <Box
-                    sx={{
-                      px: 6,
-                      flexDirection: "column",
-                      gap: 4,
-                    }}
-                    display="flex"
-                  >
-                    {listButtonGroup}
-                    {list}
-                  </Box>
+                  {list}
                 </>
               )}
             </Box>
-
-            <Box
-              id={DOWNLOAD_ID}
-              sx={{
-                top: HEADER_HEIGHT_UP,
-                width: "100%",
-                height: `calc(100vh - ${HEADER_HEIGHT_UP})`,
-                position: "sticky",
-                bgcolor: "secondary.50",
-              }}
-            >
-              {map}
-              {!download && (
-                <Box
-                  sx={{
-                    zIndex: 13,
-                    position: "absolute",
-                    bottom: 0,
-                    right: 0,
-                    mb: 0,
-                    mr: 3,
-                    px: 4,
-                    py: 3,
-                    backgroundColor: "background.paper",
-                    display: "flex",
-                    gap: "2rem",
-                    borderRadius: "3px 3px 0 0",
-                  }}
-                >
-                  <ShareButton />
-                  <DownloadImage
-                    fileName={"map.png"}
-                    downloadType={DOWNLOAD_ID}
-                    getImageData={async () =>
-                      controlsRef.current?.getImageData()
-                    }
-                  />
-                </Box>
-              )}
-            </Box>
-          </ContentWrapper>
-
-          <Box
-            sx={{
-              height: `calc(100vh - ${HEADER_HEIGHT_UP})`,
-              maxHeight: `calc(100vh - ${HEADER_HEIGHT_UP})`,
-              overflowY: "auto",
-              display: { xxs: "block", md: "none" },
-              bgcolor: "background.paper",
-              width: "100%",
-              position: "relative",
-            }}
-          >
-            {detailsDrawer}
-            {selectedItem ? null : (
-              <>
-                <CombinedSelectors />
-                {list}
-              </>
-            )}
-          </Box>
+          )}
         </Box>
       </ApplicationLayout>
     </>

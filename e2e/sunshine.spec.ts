@@ -1,6 +1,7 @@
 import { expect } from "@playwright/test";
+import InflightRequests, { waitForRequests } from "e2e/inflight";
 
-import { test } from "./common";
+import { sleep, test } from "./common";
 
 /**
  * FIXME - This test suite is currently flaky and needs to be fixed.
@@ -63,4 +64,65 @@ test.describe("Sunshine details page", () => {
       });
     });
   }
+});
+
+test.describe("Sunshine map details panel", () => {
+  test("it should show the mini chart when clicking on a map item", async ({
+    page,
+    snapshot,
+  }) => {
+    await page.goto("/map?flag__sunshine=true");
+
+    const tracker = new InflightRequests(page);
+    await page.getByRole("tab", { name: "Indicators" }).click();
+    await sleep(1000);
+    await page.getByRole("combobox", { name: "Year" }).click();
+    await page.getByRole("option", { name: "2024" }).click();
+    await snapshot({
+      note: "Sunshine Map - Initial",
+      locator: page.getByTestId("map-sidebar").first(),
+    });
+    await page
+      .locator("a")
+      .filter({ hasText: "Werke am Zürichsee AG (" })
+      .first()
+      .click();
+
+    await waitForRequests(tracker);
+
+    await snapshot({
+      note: "Sunshine Map - SAIDI - Clicked on a list item",
+      locator: page.getByTestId("map-details-content"),
+    });
+
+    await page.getByText("Back to the filters").first().click();
+    await page.getByRole("combobox", { name: "Indicator" }).click();
+    await page.getByRole("option", { name: "Energy tariffs" }).click();
+    await page
+      .locator("a")
+      .filter({ hasText: "Elektrizitätswerk Göschenen1," })
+      .first()
+      .click();
+    await waitForRequests(tracker);
+
+    await snapshot({
+      note: "Sunshine Map - Energy tariffs - Clicked on a list item",
+      locator: page.getByTestId("map-details-content"),
+    });
+    await page.getByText("Back to the filters").first().click();
+    await page.getByRole("combobox", { name: "Indicator" }).click();
+    await page.getByRole("option", { name: "Network costs" }).click();
+    await page
+      .locator("a")
+      .filter({ hasText: "Elektra Genossenschaft" })
+      .first()
+      .click();
+
+    await waitForRequests(tracker);
+
+    await snapshot({
+      note: "Sunshine Map - Network costs - Clicked on a list item",
+      locator: page.getByTestId("map-details-content"),
+    });
+  });
 });
