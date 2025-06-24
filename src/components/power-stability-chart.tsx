@@ -6,8 +6,13 @@ import { useMemo, useState } from "react";
 
 import type { SunshinePowerStabilityData } from "src/domain/data";
 import { getTextWidth } from "src/domain/helpers";
+import { MIN_PER_YEAR } from "src/domain/metrics";
 import { chartPalette, palette } from "src/themes/palette";
 
+import {
+  AnnotationX,
+  AnnotationXLabel,
+} from "./charts-generic/annotation/annotation-x";
 import { AxisHeightCategories } from "./charts-generic/axis/axis-height-categories";
 import { AxisHeightLinear } from "./charts-generic/axis/axis-height-linear";
 import { AxisWidthLinear } from "./charts-generic/axis/axis-width-linear";
@@ -125,6 +130,11 @@ const LatestYearChartView = (
       return -(x.planned + x.unplanned);
     },
   ]);
+
+  const average = useMemo(() => {
+    return sortedData.reduce((acc, d) => acc + d.total, 0) / sortedData.length;
+  }, [sortedData]);
+
   const maxYLabelWidth = Math.max(
     ...sortedData.map((label) =>
       getTextWidth(label.operator_name, { fontSize: 12, fontWeight: "bold" })
@@ -153,18 +163,28 @@ const LatestYearChartView = (
       fields={{
         x: {
           componentIri: ["planned", "unplanned"],
+          axisLabel: MIN_PER_YEAR,
         },
         domain: xDomain,
         y: {
           componentIri: "operator_name",
           sorting: { sortingType: "byTotalSize", sortingOrder: "desc" },
         },
-        label: { componentIri: "operator_name" },
+        label: { componentIri: "avrLabel" },
         segment: {
           palette: "elcom",
           type: "stacked",
           componentIri: "unplanned",
         },
+        annotation: [
+          {
+            avrLabel: t({
+              id: "chart.avr.peer-group",
+              message: "Average Peer Group",
+            }),
+            value: Math.round(average * 100) / 100,
+          },
+        ],
         style: {
           colorDomain: ["planned", "unplanned"],
           opacityDomain: ["2024"],
@@ -197,7 +217,7 @@ const LatestYearChartView = (
           flexWrap: "wrap",
           minHeight: "20px",
           gap: 2,
-          mb: 2,
+          mb: 6,
         }}
         display="flex"
       >
@@ -257,7 +277,9 @@ const LatestYearChartView = (
           />
           <BarsStacked />
           <BarsStackedAxis />
+          <AnnotationX />
         </ChartSvg>
+        <AnnotationXLabel />
       </ChartContainer>
     </StackedBarsChart>
   );
