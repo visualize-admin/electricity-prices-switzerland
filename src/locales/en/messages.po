@@ -957,6 +957,10 @@ msgstr "Energy Tariffs"
 msgid "sunshine.costs-and-tariffs.energy-tariffs-comparison-title"
 msgstr "Energy Tariffs {0}"
 
+#: src/components/map-details-chart-adapters.tsx
+msgid "sunshine.costs-and-tariffs.energy-tariffs-trend.title"
+msgstr "Energy Tariffs Trend"
+
 #: src/components/peer-group-card.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
@@ -987,6 +991,10 @@ msgstr "Net Tariffs {0}"
 msgid "sunshine.costs-and-tariffs.net-tariffs-trend"
 msgstr "Net Tariffs Trend"
 
+#: src/components/map-details-chart-adapters.tsx
+msgid "sunshine.costs-and-tariffs.net-tariffs-trend.title"
+msgstr "Net Tariffs Trend"
+
 #: src/components/network-costs-trend-card.tsx
 msgid "sunshine.costs-and-tariffs.network-cost-trend"
 msgstr "Network Cost Trend"
@@ -998,6 +1006,10 @@ msgstr "Network Costs"
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.network-costs-end-consumer"
 msgstr "Network Costs at {0} Level"
+
+#: src/components/map-details-chart-adapters.tsx
+msgid "sunshine.costs-and-tariffs.network-costs-trend.title"
+msgstr "Network Costs Trend"
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.no-energy-tariffs"
@@ -1025,6 +1037,14 @@ msgstr "Peer Group"
 #: src/components/network-costs-trend-card.tsx
 msgid "sunshine.costs-and-tariffs.progress-over-time"
 msgstr "Progress over time"
+
+#: src/components/map-details-chart-adapters.tsx
+msgid "sunshine.costs-and-tariffs.saidi-trend.title"
+msgstr "SAIDI Trend"
+
+#: src/components/map-details-chart-adapters.tsx
+msgid "sunshine.costs-and-tariffs.saifi-trend.title"
+msgstr "SAIFI Trend"
 
 #: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.selected-operators"
