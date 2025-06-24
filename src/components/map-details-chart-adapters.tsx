@@ -187,7 +187,7 @@ const NetworkCostsChartAdapter = ({
   return (
     <ChartAdapterWrapper
       title={
-        <Trans id="sunshine.costs-and-tariffs.energy-tariffs-trend.title">
+        <Trans id="sunshine.costs-and-tariffs.network-costs-trend.title">
           Network Costs Trend
         </Trans>
       }
