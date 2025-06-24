@@ -177,6 +177,10 @@ msgstr "Download reports"
 msgid "dynamic-tariffs.hint"
 msgstr "Prices shown with values in brackets are dynamic. You can find more information about how dynamic pricing works [here]."
 
+#: src/components/charts-generic/bars/bars-grouped.tsx
+msgid "dynamic.tariff"
+msgstr "dynamic"
+
 #: src/components/not-found.tsx
 msgid "error.page.404.back-link"
 msgstr "Click here to return to homepage"

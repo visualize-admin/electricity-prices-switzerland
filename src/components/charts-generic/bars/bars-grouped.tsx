@@ -1,3 +1,5 @@
+import { t } from "@lingui/macro";
+
 import { Bar } from "src/components/charts-generic/bars/bars-simple";
 import {
   GroupedBarsState,
@@ -123,7 +125,10 @@ export const BarsGroupedLabels = () => {
         const dynamicText = isDynamic
           ? `(${formatCurrency(d.min as number)} - ${formatCurrency(
               d.max as number
-            )}, dynamic)`
+            )}, ${t({
+              id: "dynamic.tariff",
+              message: "dynamic",
+            })})`
           : "";
 
         return (
