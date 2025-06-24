@@ -9,11 +9,11 @@ import {
   priceComponents,
   products,
 } from "src/domain/data";
+import { useQueryStateEnergyPricesMap } from "src/domain/query-states";
 import { getLocalizedLabel } from "src/domain/translation";
-import { useQueryStateSingleElectricity } from "src/lib/use-query-state";
 
 export const ElectricitySelectors = () => {
-  const [queryState, setQueryState] = useQueryStateSingleElectricity();
+  const [queryState, setQueryState] = useQueryStateEnergyPricesMap();
   const getItemLabel = (id: string) => getLocalizedLabel({ id });
   const groupedCategories = useMemo(() => {
     return [

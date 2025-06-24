@@ -4,13 +4,12 @@ import { median } from "d3";
 import { useCallback, useMemo, useState } from "react";
 import { createClient, Provider } from "urql";
 
-import { ChoroplethMap } from "src/components/map";
 import { MapProvider } from "src/components/map-context";
-import OperatorsMap, {
+import SunshineMapComponent, {
   DisplayedAttribute,
   displayedAttributes,
   GetOperatorsMapTooltip,
-} from "src/components/operators-map";
+} from "src/components/sunshine-map";
 import { useColorScale } from "src/domain/data";
 import { SunshineDataRow, useSunshineTariffQuery } from "src/graphql/queries";
 
@@ -29,7 +28,7 @@ const debugTooltip: GetOperatorsMapTooltip = ({ object }) => {
     },
   };
 };
-export const Operators = () => {
+export const SunshineMap = () => {
   const period = "2024";
   const [attribute, setAttribute] = useState<DisplayedAttribute>(
     displayedAttributes[0]
@@ -96,7 +95,7 @@ export const Operators = () => {
           </List>
         </Box>
         <Box width={800} height={800} position="relative">
-          <OperatorsMap
+          <SunshineMapComponent
             period={period}
             accessor={accessor}
             colorScale={colorScale}
@@ -134,8 +133,8 @@ const MapDecorator: Decorator = (Story) => {
 };
 
 const meta = {
-  component: ChoroplethMap,
-  title: "components/Map",
+  component: SunshineMapComponent,
+  title: "components/SunshineMap",
   decorators: [UrqlDecorator, MapDecorator],
 };
 

@@ -8,12 +8,16 @@ import { ReactElement, ReactNode } from "react";
 import { PriceEvolution } from "src/components/detail-page/price-evolution-line-chart";
 import { Entity } from "src/domain/data";
 import { useFormatCurrency } from "src/domain/helpers";
+import {
+  getSunshineDetailsPageFromIndicator,
+  QueryStateEnergyPricesMap,
+  sunshineDetailsLink,
+  useQueryStateEnergyPricesMap,
+  useQueryStateMapCommon,
+  useQueryStateSunshineMap,
+} from "src/domain/query-states";
 import { getLocalizedLabel } from "src/domain/translation";
 import { Icon } from "src/icons";
-import {
-  QueryStateSingleElectricity,
-  useQueryStateSingleElectricity,
-} from "src/lib/use-query-state";
 
 import { ListItemType } from "./list";
 
@@ -81,7 +85,7 @@ const MapDetailsEntityHeader = (props: MapDetailProps) => {
   );
 };
 
-const entityTableRows: Record<Entity, (keyof QueryStateSingleElectricity)[]> = {
+const entityTableRows: Record<Entity, (keyof QueryStateEnergyPricesMap)[]> = {
   operator: ["period", "priceComponent", "category", "product"],
   municipality: ["period", "priceComponent", "category", "product", "operator"],
   canton: ["period", "priceComponent", "category", "product"],
@@ -91,7 +95,7 @@ const MapDetailsEntityTable = (
   props: MapDetailProps & { colorScale: ScaleThreshold<number, string> }
 ) => {
   const { entity, operators, colorScale } = props;
-  const [queryState] = useQueryStateSingleElectricity();
+  const [queryState] = useQueryStateEnergyPricesMap();
   const tableRows = entityTableRows[entity];
   const formatNumber = useFormatCurrency();
 
@@ -99,7 +103,7 @@ const MapDetailsEntityTable = (
     <Stack direction={"column"} spacing={2}>
       {tableRows.map((row, i) => {
         return (
-          <KeyValueTableRow<QueryStateSingleElectricity> // Exclude 'operator' and 'period' for the table rows
+          <KeyValueTableRow<QueryStateEnergyPricesMap> // Exclude 'operator' and 'period' for the table rows
             key={`${row}-${i}`}
             dataKey={row}
             state={{ ...queryState, operator: operators?.length.toString() }}
@@ -192,34 +196,47 @@ export const MapDetailsContent: React.FC<{
   entity: Entity;
   selectedItem: ListItemType;
   onBack: () => void;
-}> = ({ colorScale, entity, selectedItem, onBack }) => (
-  <MapDetailsContentWrapper onBack={onBack}>
-    <MapDetailsEntityHeader entity={entity} {...selectedItem} />
-    <MapDetailsEntityTable
-      colorScale={colorScale}
-      entity={entity}
-      {...selectedItem}
-    />
-    <Divider />
-    <PriceEvolution
-      priceComponents={["total"]}
-      id={selectedItem.id}
-      entity={entity}
-      mini
-    />
-    <Button
-      variant="contained"
-      color="secondary"
-      size="sm"
-      sx={{
-        justifyContent: "space-between",
-      }}
-      href={`/${entity}/${selectedItem.id}`}
-    >
-      <Trans id="map.details-sidebar-panel.next-button">
-        Energy Prices in detail
-      </Trans>
-      <Icon name="arrowright" />
-    </Button>
-  </MapDetailsContentWrapper>
-);
+}> = ({ colorScale, entity, selectedItem, onBack }) => {
+  const [{ tab }] = useQueryStateMapCommon();
+  const [{ indicator }] = useQueryStateSunshineMap();
+  return (
+    <MapDetailsContentWrapper onBack={onBack}>
+      <MapDetailsEntityHeader entity={entity} {...selectedItem} />
+      <MapDetailsEntityTable
+        colorScale={colorScale}
+        entity={entity}
+        {...selectedItem}
+      />
+      <Divider />
+      <PriceEvolution
+        priceComponents={["total"]}
+        id={selectedItem.id}
+        entity={entity}
+        mini
+      />
+      <Button
+        variant="contained"
+        color="secondary"
+        size="sm"
+        sx={{
+          justifyContent: "space-between",
+        }}
+        href={
+          tab === "electricity"
+            ? `/${entity}/${selectedItem.id}`
+            : sunshineDetailsLink(
+                `/sunshine/operator/${
+                  selectedItem.id
+                }/${getSunshineDetailsPageFromIndicator(indicator)}`,
+                { tab: indicator }
+              )
+        }
+      >
+        <Trans id="map.details-sidebar-panel.next-button">
+          Energy Prices in detail
+        </Trans>
+        <Icon name="arrowright" />
+      </Button>
+    </MapDetailsContentWrapper>
+  );
+};

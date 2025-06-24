@@ -37,6 +37,7 @@ import {
 } from "src/domain/data";
 import { mkNumber, pivot_longer } from "src/domain/helpers";
 import { RP_PER_KWH } from "src/domain/metrics";
+import { useQueryStateEnergyPricesDetails } from "src/domain/query-states";
 import { getLocalizedLabel } from "src/domain/translation";
 import { FlagValue } from "src/flags";
 import {
@@ -46,7 +47,6 @@ import {
 } from "src/graphql/queries";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { useLocale } from "src/lib/use-locale";
-import { useQueryStateElectricity } from "src/lib/use-query-state";
 import { useFlag } from "src/utils/flags";
 
 import { FilterSetDescription } from "./filter-set-description";
@@ -68,7 +68,7 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
       view,
     },
     setQueryState,
-  ] = useQueryStateElectricity();
+  ] = useQueryStateEnergyPricesDetails();
   const comparisonIds =
     entity === "municipality"
       ? municipality

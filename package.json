@@ -67,6 +67,7 @@
     "@rdfjs/namespace": "^1.1.0",
     "@sentry/nextjs": "^9.22.0",
     "@storybook/nextjs": "^8.6.12",
+    "@testing-library/react": "^16.3.0",
     "@tpluscode/rdf-ns-builders": "^1.0.0",
     "@tpluscode/rdf-string": "^1.3.3",
     "@tpluscode/sparql-builder": "^2.0.3",

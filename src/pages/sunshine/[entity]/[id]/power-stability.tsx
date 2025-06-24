@@ -2,7 +2,7 @@ import { t, Trans } from "@lingui/macro";
 import { GetServerSideProps } from "next";
 import ErrorPage from "next/error";
 import { useRouter } from "next/router";
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useMemo } from "react";
 import { gql } from "urql";
 
 import CardGrid from "src/components/card-grid";
@@ -18,7 +18,7 @@ import PeerGroupCard from "src/components/peer-group-card";
 import PowerStabilityCard from "src/components/power-stability-card";
 import {
   PowerStabilityNavigation,
-  PowerStabilityTabOption,
+  PowerStabilityTab,
 } from "src/components/sunshine-tabs";
 import TableComparisonCard from "src/components/table-comparison-card";
 import {
@@ -28,6 +28,10 @@ import {
 } from "src/data/shared-page-props";
 import { SunshinePowerStabilityData } from "src/domain/data";
 import { MIN_PER_YEAR } from "src/domain/metrics";
+import {
+  QueryStateSingleSunshineDetails,
+  useQueryStateSunshineDetails,
+} from "src/domain/query-states";
 import { getLocalizedLabel } from "src/domain/translation";
 import { useSaidiQuery, useSaifiQuery } from "src/graphql/queries";
 import { Trend } from "src/graphql/resolver-types";
@@ -248,8 +252,16 @@ const SaidiSaifi = (
 
 const PowerStability = (props: Props) => {
   const { query } = useRouter();
-  const [activeTab, setActiveTab] = useState<PowerStabilityTabOption>(
-    PowerStabilityTabOption.SAIDI
+  const [{ tab: activeTabQuery }, setQueryState] =
+    useQueryStateSunshineDetails();
+  const activeTab = activeTabQuery ?? ("saidi" satisfies PowerStabilityTab);
+  const setActiveTab = useCallback(
+    (tab: QueryStateSingleSunshineDetails["tab"]) => {
+      setQueryState({
+        tab,
+      });
+    },
+    [setQueryState]
   );
 
   if (props.status === "notfound") {
@@ -263,7 +275,10 @@ const PowerStability = (props: Props) => {
     message: "Power Stability",
   })}`;
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleTabChange = (
+    event: React.SyntheticEvent,
+    newValue: PowerStabilityTab
+  ) => {
     setActiveTab(newValue);
   };
 
@@ -303,12 +318,8 @@ const PowerStability = (props: Props) => {
         handleTabChange={handleTabChange}
       />
 
-      {activeTab === PowerStabilityTabOption.SAIDI && (
-        <SaidiSaifi attribute="saidi" {...props} />
-      )}
-      {activeTab === PowerStabilityTabOption.SAIFI && (
-        <SaidiSaifi attribute="saifi" {...props} />
-      )}
+      {activeTab === "saidi" && <SaidiSaifi attribute="saidi" {...props} />}
+      {activeTab === "saifi" && <SaidiSaifi attribute="saifi" {...props} />}
     </>
   );
 

@@ -4,7 +4,7 @@ import { median, ScaleThreshold } from "d3";
 import { keyBy } from "lodash";
 import { GetServerSideProps } from "next";
 import dynamic from "next/dynamic";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 
 const ContentWrapper = dynamic(
   () =>
@@ -18,6 +18,10 @@ import { ButtonGroup } from "src/components/button-group";
 import { CombinedSelectors } from "src/components/combined-selectors";
 import { DownloadImage } from "src/components/detail-page/download-image";
 import { InlineDrawer } from "src/components/drawer";
+import {
+  EnergyPricesMap,
+  EnergyPricesMapProps,
+} from "src/components/energy-prices-map";
 import { InfoBanner } from "src/components/info-banner";
 import {
   groupsFromCantonElectricityObservations,
@@ -27,17 +31,21 @@ import {
   List,
   ListItemType,
 } from "src/components/list";
-import { ChoroplethMap, ChoroplethMapProps } from "src/components/map";
 import { MapProvider, useMap } from "src/components/map-context";
 import { MapDetailsContent } from "src/components/map-details-content";
-import OperatorsMap from "src/components/operators-map";
 import ShareButton from "src/components/share-button";
+import SunshineMap from "src/components/sunshine-map";
 import {
   Entity,
   NetworkLevel,
   TariffCategory,
   useColorScale,
 } from "src/domain/data";
+import {
+  useQueryStateEnergyPricesMap,
+  useQueryStateMapCommon,
+  useQueryStateSunshineMap,
+} from "src/domain/query-states";
 import { getSunshineAccessor } from "src/domain/sunshine-accessor";
 import {
   PriceComponent,
@@ -48,10 +56,6 @@ import {
 } from "src/graphql/queries";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { truthy } from "src/lib/truthy";
-import {
-  useQueryStateSingleElectricity,
-  useQueryStateSingleSunshine,
-} from "src/lib/use-query-state";
 import { defaultLocale } from "src/locales/config";
 import { useFlag } from "src/utils/flags";
 
@@ -88,7 +92,7 @@ const IndexPageContent = ({
       download,
       tab = "electricity",
     },
-  ] = useQueryStateSingleElectricity();
+  ] = useQueryStateEnergyPricesMap();
 
   const [
     {
@@ -98,7 +102,7 @@ const IndexPageContent = ({
       netTariffCategory,
       energyTariffCategory,
     },
-  ] = useQueryStateSingleSunshine();
+  ] = useQueryStateSunshineMap();
 
   const isElectricityTab = tab === "electricity";
   const isSunshineTab = tab === "sunshine";
@@ -198,7 +202,8 @@ const IndexPageContent = ({
     ? observationsQuery.fetching || municipalitiesQuery.fetching
     : sunshineDataQuery.fetching || municipalitiesQuery.fetching;
 
-  const controlsRef: NonNullable<ChoroplethMapProps["controls"]> = useRef(null);
+  const controlsRef: NonNullable<EnergyPricesMapProps["controls"]> =
+    useRef(null);
 
   useEffect(() => {
     if (isSunshine) {
@@ -215,22 +220,22 @@ const IndexPageContent = ({
   }, [sunshineObservations]);
 
   const map = isElectricityTab ? (
-    <ChoroplethMap
+    <EnergyPricesMap
       year={mapYear}
       observations={observations}
       municipalities={municipalities}
       observationsQueryFetching={isMapDataLoading}
-      onMunicipalityLayerClick={() => {}}
       medianValue={medianValue}
       colorScale={colorScale}
       controls={controlsRef}
     />
   ) : (
-    <OperatorsMap
+    <SunshineMap
       accessor={sunshineAccessor}
       period={mapYear}
       colorScale={sunshineColorScale}
       observations={sunshineObservations}
+      controls={controlsRef}
       getTooltip={(info) => {
         if (!info.object) {
           return null;
@@ -514,7 +519,13 @@ const DetailsDrawer = ({
 };
 
 export const IndexPage = ({ locale }: Props) => {
-  const [activeId, setActiveId] = useState<string | null>(null);
+  const [{ activeId }, setQueryState] = useQueryStateMapCommon();
+  const setActiveId = useCallback(
+    (id: string | null) => {
+      setQueryState({ activeId: id });
+    },
+    [setQueryState]
+  );
 
   return (
     <MapProvider activeId={activeId} setActiveId={setActiveId}>

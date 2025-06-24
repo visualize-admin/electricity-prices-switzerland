@@ -6,4 +6,12 @@ export default defineConfig({
     // include: ["**/*.spec.tsx", "**/*.test.ts", "**/*.test.js"],
     exclude: ["**/node_modules/**", "e2e/**"],
   },
+
+  // Resolve aliases
+  resolve: {
+    alias: {
+      "@": "/src",
+      src: "/src",
+    },
+  },
 });

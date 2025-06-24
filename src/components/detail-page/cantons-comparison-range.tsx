@@ -41,6 +41,7 @@ import { Loading, NoDataHint } from "src/components/hint";
 import { InfoDialogButton } from "src/components/info-dialog";
 import { SortingOrder, SortingType } from "src/domain/config-types";
 import { Entity, GenericObservation, priceComponents } from "src/domain/data";
+import { useQueryStateEnergyPricesDetails } from "src/domain/query-states";
 import { getLocalizedLabel } from "src/domain/translation";
 import {
   ObservationKind,
@@ -49,7 +50,6 @@ import {
 } from "src/graphql/queries";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { useLocale } from "src/lib/use-locale";
-import { useQueryStateElectricity } from "src/lib/use-query-state";
 
 const DOWNLOAD_ID: Download = "comparison";
 
@@ -76,7 +76,7 @@ export const CantonsComparisonRangePlots = ({ id, entity }: SectionProps) => {
       product,
     },
     setQueryState,
-  ] = useQueryStateElectricity();
+  ] = useQueryStateEnergyPricesDetails();
 
   const [sortingType, setSortingType] = useState<SortingType>("byMeasure");
   const [sortingOrder, setSortingOrder] = useState<SortingOrder>("asc");

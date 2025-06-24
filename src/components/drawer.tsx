@@ -32,6 +32,7 @@ export const InlineDrawer = ({
         },
       }}
       PaperProps={{
+        elevation: 0,
         sx: {
           position: "absolute",
           top: 0,

@@ -1,8 +1,7 @@
-import { Layer, PickingInfo } from "@deck.gl/core/typed";
+import { Layer, LayerProps, PickingInfo } from "@deck.gl/core/typed";
 import { GeoJsonLayer } from "@deck.gl/layers/typed";
 import { t, Trans } from "@lingui/macro";
 import { extent, group, mean, rollup, ScaleThreshold } from "d3";
-import { useRouter } from "next/router";
 import React, {
   ComponentProps,
   useCallback,
@@ -24,32 +23,12 @@ import { useGeoData } from "src/data/geo";
 import { useFormatCurrency } from "src/domain/helpers";
 import { OperatorObservationFieldsFragment } from "src/graphql/queries";
 import { maxBy } from "src/lib/array";
-import { useFlag } from "src/utils/flags";
 
-import { GenericMap } from "./generic-map";
+import { GenericMap, GenericMapControls } from "./generic-map";
 import { useMap } from "./map-context";
 import { HoverState } from "./map-helpers";
 
-// Insert our new GenericMap component to replace most of the code
-// Then adapt the ChoroplethMap to use it
-
-// Import our new GenericMap implementation
-
 const DOWNLOAD_ID = "map";
-
-/**
- * Simple fitZoom to bbox
- * @param viewState deck.gl viewState
- */
-// const fitZoom = (viewState: $FixMe, bbox: BBox) => {
-//   const vp = new WebMercatorViewport(viewState);
-//   const fitted = vp.fitBounds(bbox);
-
-//   return {
-//     ...viewState,
-//     ...fitted,
-//   };
-// };
 
 const __debugCheckObservationsWithoutShapes = (
   observationsByMunicipalityId: Map<
@@ -82,14 +61,13 @@ const __debugCheckObservationsWithoutShapes = (
   }
 };
 
-export const ChoroplethMap = ({
+export const EnergyPricesMap = ({
   year,
   observations,
   observationsQueryFetching,
   medianValue,
   municipalities,
   colorScale,
-  onMunicipalityLayerClick,
   controls,
 }: {
   year: string;
@@ -98,17 +76,10 @@ export const ChoroplethMap = ({
   medianValue: number | undefined;
   municipalities: { id: string; name: string }[];
   colorScale: ScaleThreshold<number, string> | undefined;
-  onMunicipalityLayerClick: (_item: PickingInfo) => void;
-  controls?: React.MutableRefObject<{
-    getImageData: () => Promise<string | undefined>;
-    zoomOn: (id: string) => void;
-    zoomOut: () => void;
-  } | null>;
+  controls?: GenericMapControls;
 }) => {
   const [hovered, setHovered] = useState<HoverState>();
-  const { setActiveId, activeId } = useMap();
-  const router = useRouter();
-  const isSunshine = useFlag("sunshine");
+  const { activeId, onEntitySelect } = useMap();
   const legendId = useId();
 
   const geoData = useGeoData(year);
@@ -160,7 +131,6 @@ export const ChoroplethMap = ({
     };
   }, [geoData]);
 
-  // Create tooltip content
   const tooltipContent = useMemo(() => {
     if (!hovered || !colorScale)
       return { hoveredState: undefined, content: null };
@@ -249,20 +219,18 @@ export const ChoroplethMap = ({
     return extent(meansByMunicipality, (d) => d) as [number, number];
   }, [observations]);
 
-  // Create layers
   const layers = useMemo(() => {
     if (geoData.state !== "loaded") {
       return [];
     }
 
-    const handleMunicipalityLayerClick: typeof onMunicipalityLayerClick = (
-      ev
-    ) => {
-      if (!indexes || !ev.layer) {
+    const handleMunicipalityLayerClick: LayerProps["onClick"] = (info, ev) => {
+      if (!indexes || !info.layer) {
         return;
       }
-      const id = ev.object.id as number;
-      const type = ev.layer.id === "municipalities" ? "municipality" : "canton";
+      const id = info.object.id as number;
+      const type =
+        info.layer.id === "municipalities" ? "municipality" : "canton";
       if (
         type === "municipality" &&
         !observationsByMunicipalityId.get(`${id}`)
@@ -270,13 +238,7 @@ export const ChoroplethMap = ({
         return;
       }
 
-      //FLAG: Sunshine Features
-      if (isSunshine) {
-        setActiveId(id.toString());
-      } else {
-        router.push(`/municipality/${id}`);
-      }
-      onMunicipalityLayerClick(ev);
+      onEntitySelect(ev, "municipality", id.toString());
     };
 
     return [
@@ -420,17 +382,15 @@ export const ChoroplethMap = ({
       }),
     ];
   }, [
-    geoData,
+    geoData.state,
+    geoData.data,
     observationsByMunicipalityId,
     highlightContext?.id,
     hovered,
-    indexes,
-    onMunicipalityLayerClick,
-    colorScale,
-    setActiveId,
-    router,
     activeId,
-    isSunshine,
+    indexes,
+    onEntitySelect,
+    colorScale,
   ]);
 
   const formatCurrency = useFormatCurrency();
@@ -477,4 +437,4 @@ export const ChoroplethMap = ({
   );
 };
 
-export type ChoroplethMapProps = ComponentProps<typeof ChoroplethMap>;
+export type EnergyPricesMapProps = ComponentProps<typeof EnergyPricesMap>;

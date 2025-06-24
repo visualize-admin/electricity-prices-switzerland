@@ -2,6 +2,7 @@ import { Trans, t } from "@lingui/macro";
 import { Box, Typography } from "@mui/material";
 
 import { Combobox } from "src/components/combobox";
+import { QueryStateSunshineIndicator } from "src/domain/query-states";
 
 type SunshineSelectorsBaseProps = {
   year: string;
@@ -13,9 +14,9 @@ type SunshineSelectorsBaseProps = {
   typology: string;
   setTypology: (typology: string) => void;
   typologyOptions: string[];
-  indicator: string;
-  setIndicator: (indicator: string) => void;
-  indicatorOptions: string[];
+  indicator: QueryStateSunshineIndicator;
+  setIndicator: (indicator: QueryStateSunshineIndicator) => void;
+  indicatorOptions: QueryStateSunshineIndicator[];
   getItemLabel?: (id: string) => string;
   networkLevel: string;
   setNetworkLevel: (networkLevel: string) => void;
