@@ -1,6 +1,6 @@
 import { Trans } from "@lingui/macro";
 import { Typography } from "@mui/material";
-import { useMemo } from "react";
+import { ReactNode, useMemo } from "react";
 
 import { Loading } from "src/components/hint";
 import { NetTariffsTrendChart } from "src/components/net-tariffs-trend-chart";
@@ -19,6 +19,23 @@ import {
 } from "src/graphql/queries";
 
 import { ListItemType } from "./list";
+
+const ChartAdapterWrapper = ({
+  title,
+  children,
+}: {
+  title: ReactNode;
+  children: ReactNode;
+}) => {
+  return (
+    <div>
+      <Typography variant="h6" fontWeight="bold" mb={2}>
+        {title}
+      </Typography>
+      {children}
+    </div>
+  );
+};
 
 const NetTariffsChartAdapter = ({
   period,
@@ -54,12 +71,13 @@ const NetTariffsChartAdapter = ({
   }
 
   return (
-    <div>
-      <Typography variant="h6" fontWeight="bold" mb={2}>
+    <ChartAdapterWrapper
+      title={
         <Trans id="sunshine.costs-and-tariffs.net-tariffs-trend.title">
           Net Tariffs Trend
         </Trans>
-      </Typography>
+      }
+    >
       <NetTariffsTrendChart
         id={id}
         observations={yearlyData ?? []}
@@ -72,7 +90,7 @@ const NetTariffsChartAdapter = ({
         compareWith={[]}
         mini
       />
-    </div>
+    </ChartAdapterWrapper>
   );
 };
 
@@ -110,12 +128,13 @@ const EnergyTariffsChartAdapter = ({
   }
 
   return (
-    <div>
-      <Typography variant="h6" fontWeight="bold" mb={2}>
+    <ChartAdapterWrapper
+      title={
         <Trans id="sunshine.costs-and-tariffs.energy-tariffs-trend.title">
           Energy Tariffs Trend
         </Trans>
-      </Typography>
+      }
+    >
       <NetTariffsTrendChart
         id={id}
         observations={yearlyData ?? []}
@@ -128,7 +147,7 @@ const EnergyTariffsChartAdapter = ({
         compareWith={[]}
         mini
       />
-    </div>
+    </ChartAdapterWrapper>
   );
 };
 
@@ -166,12 +185,13 @@ const NetworkCostsChartAdapter = ({
   }
 
   return (
-    <div>
-      <Typography variant="h6" fontWeight="bold" mb={2}>
+    <ChartAdapterWrapper
+      title={
         <Trans id="sunshine.costs-and-tariffs.energy-tariffs-trend.title">
           Network Costs Trend
         </Trans>
-      </Typography>
+      }
+    >
       <NetworkCostTrendChart
         id={id}
         observations={yearlyData ?? []}
@@ -186,7 +206,7 @@ const NetworkCostsChartAdapter = ({
         compareWith={[]}
         mini
       />
-    </div>
+    </ChartAdapterWrapper>
   );
 };
 
@@ -236,9 +256,9 @@ const SaidiSaifiChartAdapter = ({
   }
 
   return (
-    <div>
-      <Typography variant="h6" fontWeight="bold" mb={2}>
-        {indicator === "saidi" ? (
+    <ChartAdapterWrapper
+      title={
+        indicator === "saidi" ? (
           <Trans id="sunshine.costs-and-tariffs.saidi-trend.title">
             SAIDI Trend
           </Trans>
@@ -246,9 +266,9 @@ const SaidiSaifiChartAdapter = ({
           <Trans id="sunshine.costs-and-tariffs.saifi-trend.title">
             SAIFI Trend
           </Trans>
-        ) : null}
-      </Typography>
-
+        ) : null
+      }
+    >
       <PowerStabilityChart
         observations={yearlyData}
         id={id}
@@ -258,9 +278,10 @@ const SaidiSaifiChartAdapter = ({
         duration={typology}
         mini
       />
-    </div>
+    </ChartAdapterWrapper>
   );
 };
+
 export const indicatorToChart: Partial<
   Record<
     QueryStateSunshineIndicator,
