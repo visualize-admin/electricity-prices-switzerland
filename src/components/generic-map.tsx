@@ -366,8 +366,10 @@ function findFeatureInLayers(
 
     const features = isFeatureCollection(data)
       ? data.features
-      : (data as Feature[]);
-    feature = features.find((f) => featureMatchesId(f, id));
+      : Array.isArray(data)
+      ? (data as Feature[])
+      : undefined;
+    feature = features?.find((f) => featureMatchesId(f, id));
 
     if (feature) break;
   }

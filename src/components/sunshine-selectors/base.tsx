@@ -2,7 +2,10 @@ import { Trans, t } from "@lingui/macro";
 import { Box, Typography } from "@mui/material";
 
 import { Combobox } from "src/components/combobox";
-import { QueryStateSunshineIndicator } from "src/domain/query-states";
+import {
+  QueryStateSunshineIndicator,
+  QueryStateSunshineSaidiSaifiTypology,
+} from "src/domain/query-states";
 
 type SunshineSelectorsBaseProps = {
   year: string;
@@ -11,9 +14,9 @@ type SunshineSelectorsBaseProps = {
   viewBy: string;
   setViewBy: (viewBy: string) => void;
   viewByOptions: string[];
-  typology: string;
-  setTypology: (typology: string) => void;
-  typologyOptions: string[];
+  typology: QueryStateSunshineSaidiSaifiTypology;
+  setTypology: (typology: QueryStateSunshineSaidiSaifiTypology) => void;
+  typologyOptions: QueryStateSunshineSaidiSaifiTypology[];
   indicator: QueryStateSunshineIndicator;
   setIndicator: (indicator: QueryStateSunshineIndicator) => void;
   indicatorOptions: QueryStateSunshineIndicator[];
@@ -108,7 +111,7 @@ export const SunshineSelectorsBase = ({
         infoDialogSlug="help-indicator"
       />
       {indicator === "saifi" || indicator === "saidi" ? (
-        <Combobox
+        <Combobox<QueryStateSunshineSaidiSaifiTypology>
           id="typology"
           label={t({ id: "selector.typology", message: "Typology" })}
           items={typologyOptions}

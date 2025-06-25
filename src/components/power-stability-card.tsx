@@ -18,6 +18,7 @@ import { getLocalizedLabel, getPeerGroupLabels } from "src/domain/translation";
 import { PowerStabilityChart } from "./power-stability-chart";
 import { AllOrMultiCombobox } from "./query-combobox";
 
+// TODO Those should come from the query state SunshineMap
 export type ViewByFilter = "latest" | "progress";
 export type CompareWithFilter = string[];
 export type OverallOrRatioFilter = "overall" | "ratio";
@@ -233,6 +234,11 @@ const PowerStabilityCard: React.FC<
             view={viewBy}
             overallOrRatio={overallOrRatio}
             duration={duration}
+            rootProps={{
+              sx: {
+                mt: 8,
+              },
+            }}
           />
         </Box>
         {/* Footer Info */}

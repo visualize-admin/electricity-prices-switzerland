@@ -6,6 +6,7 @@ export const buildSchema = z.object({
   CURRENT_PERIOD: z.string().default("2025"),
   FIRST_PERIOD: z.string().default("2009"),
   VERSION: z.string().optional(),
+  ALLOW_ENGLISH: z.boolean().default(false),
 });
 
 // Define the schema for server-side variables

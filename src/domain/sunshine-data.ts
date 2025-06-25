@@ -1,11 +1,14 @@
-import { QueryStateSunshineIndicator } from "src/domain/query-states";
+import {
+  QueryStateSunshineIndicator,
+  QueryStateSunshineSaidiSaifiTypology,
+} from "src/domain/query-states";
 import { TariffCategory } from "src/graphql/resolver-mapped-types";
 import { NetworkLevel } from "src/graphql/resolver-types";
 
 /**
  * Years available for sunshine data queries
  */
-export const years = ["2024", "2023", "2022", "2021", "2020"];
+export const years = ["2024", "2023"];
 
 /**
  * View by options for filtering
@@ -15,7 +18,11 @@ export const viewByOptions = ["all_grid_operators", "canton", "municipality"];
 /**
  * Typology options for filtering
  */
-export const typologyOptions = ["total", "planned", "unplanned"];
+export const typologyOptions = [
+  "total",
+  "planned",
+  "unplanned",
+] satisfies QueryStateSunshineSaidiSaifiTypology[];
 
 /**
  * Indicator options for filtering

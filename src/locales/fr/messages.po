@@ -474,7 +474,7 @@ msgid "map.details-sidebar-panel.back-button"
 msgstr "Retour aux filtres"
 
 #: src/components/map-details-content.tsx
-msgid "map.details-sidebar-panel.next-button"
+msgid "map.details-sidebar-panel.next-button.energy-prices"
 msgstr "Afficher le détail des prix de l'énergie"
 
 #: src/components/energy-prices-map.tsx
@@ -493,12 +493,12 @@ msgstr "Aucune donnée"
 msgid "municipality"
 msgstr "Commune"
 
-#: src/components/net-tariffs-trend-chart.tsx
-#: src/components/net-tariffs-trend-chart.tsx
+#: src/components/tariffs-trend-chart.tsx
+#: src/components/tariffs-trend-chart.tsx
 msgid "net-tariffs-trend-chart.legend-item.other-operators"
 msgstr "Autres opérateurs"
 
-#: src/components/net-tariffs-trend-chart.tsx
+#: src/components/tariffs-trend-chart.tsx
 msgid "net-tariffs-trend-chart.legend-item.peer-group-median"
 msgstr "Médiane du groupe de référence"
 
@@ -928,16 +928,16 @@ msgstr "Non"
 msgid "sunshine.compliance.timely-paper-submission.yes"
 msgstr "Oui"
 
-#: src/components/net-tariffs-trend-card.tsx
 #: src/components/network-costs-trend-card.tsx
 #: src/components/operational-standards-card.tsx
 #: src/components/power-stability-card.tsx
+#: src/components/tariffs-trend-card.tsx
 msgid "sunshine.costs-and-tariffs.benchmarking-peer-group"
 msgstr "Analyse comparative au sein du groupe de référence : {peerGroupLabel}"
 
-#: src/components/net-tariffs-trend-card.tsx
 #: src/components/network-costs-trend-card.tsx
 #: src/components/power-stability-card.tsx
+#: src/components/tariffs-trend-card.tsx
 msgid "sunshine.costs-and-tariffs.compare-with"
 msgstr "Comparer avec"
 
@@ -957,6 +957,12 @@ msgstr "Tarifs de l'énergie"
 msgid "sunshine.costs-and-tariffs.energy-tariffs-comparison-title"
 msgstr "Tarifs de l'énergie {0}"
 
+#: src/components/map-details-chart-adapters.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+msgid "sunshine.costs-and-tariffs.energy-tariffs-trend"
+msgstr "Évolution des tarifs de l'énergie"
+
 #: src/components/peer-group-card.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
@@ -964,8 +970,8 @@ msgstr "Tarifs de l'énergie {0}"
 msgid "sunshine.costs-and-tariffs.latest-year"
 msgstr "Dernière année ({latestYear})"
 
-#: src/components/net-tariffs-trend-card.tsx
 #: src/components/network-costs-trend-card.tsx
+#: src/components/tariffs-trend-card.tsx
 msgid "sunshine.costs-and-tariffs.latest-year-option"
 msgstr "Dernière année"
 
@@ -983,10 +989,13 @@ msgstr "Tarifs nets"
 msgid "sunshine.costs-and-tariffs.net-tariffs-comparison-title"
 msgstr "Tarifs nets {0}"
 
-#: src/components/net-tariffs-trend-card.tsx
+#: src/components/map-details-chart-adapters.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.net-tariffs-trend"
 msgstr "Tendance des tarifs nets"
 
+#: src/components/map-details-chart-adapters.tsx
 #: src/components/network-costs-trend-card.tsx
 msgid "sunshine.costs-and-tariffs.network-cost-trend"
 msgstr "Évolution des coûts du réseau"
@@ -1021,8 +1030,8 @@ msgstr "{operatorLabel}"
 msgid "sunshine.costs-and-tariffs.peer-group"
 msgstr "Groupe de pairs"
 
-#: src/components/net-tariffs-trend-card.tsx
 #: src/components/network-costs-trend-card.tsx
+#: src/components/tariffs-trend-card.tsx
 msgid "sunshine.costs-and-tariffs.progress-over-time"
 msgstr "Progrès dans le temps"
 
@@ -1039,8 +1048,8 @@ msgstr "sunshine.costs-and-tariffs.source"
 msgid "sunshine.costs-and-tariffs.title"
 msgstr "Coûts et tarifs"
 
-#: src/components/net-tariffs-trend-card.tsx
 #: src/components/network-costs-trend-card.tsx
+#: src/components/tariffs-trend-card.tsx
 msgid "sunshine.costs-and-tariffs.view-by"
 msgstr "Voir par"
 
@@ -1144,6 +1153,7 @@ msgstr "Ratio"
 msgid "sunshine.power-stability.saidi"
 msgstr "Durée de la panne d'électricité (SAIDI)"
 
+#: src/components/map-details-chart-adapters.tsx
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.saidi-trend"
 msgstr "Durée moyenne des coupures de courant (SAIDI)"
@@ -1156,6 +1166,7 @@ msgstr "Durée totale de l'interruption"
 msgid "sunshine.power-stability.saifi"
 msgstr "Fréquence des pannes d'électricité (SAIFI)"
 
+#: src/components/map-details-chart-adapters.tsx
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.saifi-trend"
 msgstr "Fréquence moyenne des coupures de courant (SAIFI)"

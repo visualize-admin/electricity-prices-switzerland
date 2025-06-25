@@ -1,5 +1,5 @@
 import { t } from "@lingui/macro";
-import { Box } from "@mui/material";
+import { Box, BoxProps } from "@mui/material";
 import { useMemo } from "react";
 
 import type { SunshineCostsAndTariffsData } from "src/domain/data";
@@ -26,29 +26,27 @@ import { ScatterPlot } from "./charts-generic/scatter-plot/scatter-plot-state";
 import { SectionProps } from "./detail-page/card";
 import { CompareWithFilter, ViewByFilter } from "./power-stability-card";
 
-type NetTariffsTrendFilters = {
+type TariffsTrendFilters = {
   view: ViewByFilter;
   compareWith: CompareWithFilter;
 };
-type NetTariffsTrendChartProps = {
+type TariffsTrendChartProps = {
+  rootProps?: BoxProps;
   observations: SunshineCostsAndTariffsData["netTariffs"]["yearlyData"];
   netTariffs: Omit<SunshineCostsAndTariffsData["netTariffs"], "yearlyData">;
   operatorLabel: string;
+  mini?: boolean;
 } & Omit<SectionProps, "entity"> &
-  NetTariffsTrendFilters;
+  TariffsTrendFilters;
 
-export const NetTariffsTrendChart = (props: NetTariffsTrendChartProps) => {
-  const { observations, view, ...restProps } = props;
+export const TariffsTrendChart = (props: TariffsTrendChartProps) => {
+  const { observations, view, rootProps, ...restProps } = props;
   const operatorsNames = useMemo(() => {
     return new Set(observations.map((d) => d.operator_name));
   }, [observations]);
 
   return (
-    <Box
-      sx={{
-        mt: 8,
-      }}
-    >
+    <Box {...rootProps}>
       {view === "latest" ? (
         <LatestYearChartView
           observations={observations}
@@ -66,7 +64,7 @@ export const NetTariffsTrendChart = (props: NetTariffsTrendChartProps) => {
   );
 };
 const LatestYearChartView = (
-  props: Omit<NetTariffsTrendChartProps, "view"> & {
+  props: Omit<TariffsTrendChartProps, "view"> & {
     operatorsNames: Set<string>;
   }
 ) => {
@@ -156,11 +154,12 @@ const LatestYearChartView = (
   );
 };
 const ProgressOvertimeChartView = (
-  props: Omit<NetTariffsTrendChartProps, "view"> & {
+  props: Omit<TariffsTrendChartProps, "view"> & {
     operatorsNames: Set<string>;
   }
 ) => {
-  const { observations, operatorLabel, operatorsNames, compareWith } = props;
+  const { observations, operatorLabel, operatorsNames, compareWith, mini } =
+    props;
   const hasNotSelectedAll = !compareWith.includes("sunshine.select-all");
 
   return (
@@ -197,23 +196,24 @@ const ProgressOvertimeChartView = (
       ]}
       aspectRatio={0.2}
     >
-      <Box
-        sx={{
-          position: "relative",
-          justifyContent: "flex-start",
-          alignItems: "flex-start",
-          flexWrap: "wrap",
-          minHeight: "20px",
-          gap: 2,
-        }}
-        display="flex"
-      >
-        <LegendItem
-          item={operatorLabel}
-          color={chartPalette.categorical[0]}
-          symbol={"line"}
-        />
-        {/* <LegendItem
+      {mini ? null : (
+        <Box
+          sx={{
+            position: "relative",
+            justifyContent: "flex-start",
+            alignItems: "flex-start",
+            flexWrap: "wrap",
+            minHeight: "20px",
+            gap: 2,
+          }}
+          display="flex"
+        >
+          <LegendItem
+            item={operatorLabel}
+            color={chartPalette.categorical[0]}
+            symbol={"line"}
+          />
+          {/* <LegendItem
           item={t({
             id: "net-tariffs-trend-chart.legend-item.peer-group-median",
             message: "Peer Group Median",
@@ -221,15 +221,18 @@ const ProgressOvertimeChartView = (
           color={palette.monochrome[800]}
           symbol={"line"}
         /> */}
-        <LegendItem
-          item={t({
-            id: "net-tariffs-trend-chart.legend-item.other-operators",
-            message: "Other operators",
-          })}
-          color={palette.monochrome[200]}
-          symbol={"line"}
-        />
-      </Box>
+          {operatorsNames.size > 1 ? (
+            <LegendItem
+              item={t({
+                id: "net-tariffs-trend-chart.legend-item.other-operators",
+                message: "Other operators",
+              })}
+              color={palette.monochrome[200]}
+              symbol={"line"}
+            />
+          ) : null}
+        </Box>
+      )}
       <ChartContainer>
         <ChartSvg>
           <AxisHeightLinear format="currency" /> <AxisTime />

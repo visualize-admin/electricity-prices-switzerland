@@ -1,5 +1,5 @@
 import { t } from "@lingui/macro";
-import { Box } from "@mui/material";
+import { Box, BoxProps } from "@mui/material";
 import { max, mean } from "d3";
 import { useMemo, useState } from "react";
 
@@ -46,6 +46,8 @@ type PowerStabilityFilters = {
   view: ViewByFilter;
   overallOrRatio: OverallOrRatioFilter;
   duration: DurationFilter;
+  mini?: boolean;
+  rootProps?: Omit<BoxProps, "children">;
 };
 
 type PowerStabilityChartProps = {
@@ -60,7 +62,7 @@ type PowerStabilityRow =
   SunshinePowerStabilityData["saidi"]["yearlyData"][0] & { planned: number };
 
 export const PowerStabilityChart = (props: PowerStabilityChartProps) => {
-  const { view, observations, ...restProps } = props;
+  const { view, observations, rootProps, ...restProps } = props;
 
   const dataWithStackFields = useMemo(() => {
     return observations.map((d) => ({
@@ -71,7 +73,7 @@ export const PowerStabilityChart = (props: PowerStabilityChartProps) => {
   }, [observations]);
 
   return (
-    <Box sx={{ mt: 8 }}>
+    <Box {...rootProps}>
       {view === "latest" ? (
         <LatestYearChartView
           observations={dataWithStackFields}
@@ -301,7 +303,7 @@ const ProgressOvertimeChartView = (
     observations: PowerStabilityRow[];
   }
 ) => {
-  const { observations, operatorLabel, duration } = props;
+  const { observations, operatorLabel, duration, mini } = props;
   const operatorsNames = useMemo(() => {
     return new Set(observations.map((d) => d.operator_name));
   }, [observations]);
@@ -340,23 +342,24 @@ const ProgressOvertimeChartView = (
       ]}
       aspectRatio={0.2}
     >
-      <Box
-        sx={{
-          position: "relative",
-          justifyContent: "flex-start",
-          alignItems: "flex-start",
-          flexWrap: "wrap",
-          minHeight: "20px",
-          gap: 2,
-        }}
-        display="flex"
-      >
-        <LegendItem
-          item={operatorLabel}
-          color={chartPalette.categorical[0]}
-          symbol={"line"}
-        />
-        {/* <LegendItem
+      {mini ? null : (
+        <Box
+          sx={{
+            position: "relative",
+            justifyContent: "flex-start",
+            alignItems: "flex-start",
+            flexWrap: "wrap",
+            minHeight: "20px",
+            gap: 2,
+          }}
+          display="flex"
+        >
+          <LegendItem
+            item={operatorLabel}
+            color={chartPalette.categorical[0]}
+            symbol={"line"}
+          />
+          {/* <LegendItem
     item={t({
       id: "network-cost-trend-chart.legend-item.total-median",
       message: "Total Median",
@@ -364,7 +367,7 @@ const ProgressOvertimeChartView = (
     color={palette.monochrome[800]}
     symbol={"triangle"}
   /> */}
-        {/* <LegendItem
+          {/* <LegendItem
           item={t({
             id: "network-cost-trend-chart.legend-item.peer-group-median",
             message: "Peer Group Median",
@@ -373,15 +376,16 @@ const ProgressOvertimeChartView = (
           symbol={"line"}
         /> */}
 
-        <LegendItem
-          item={t({
-            id: "network-cost-trend-chart.legend-item.other-operators",
-            message: "Other operators",
-          })}
-          color={palette.monochrome[200]}
-          symbol={"line"}
-        />
-      </Box>
+          <LegendItem
+            item={t({
+              id: "network-cost-trend-chart.legend-item.other-operators",
+              message: "Other operators",
+            })}
+            color={palette.monochrome[200]}
+            symbol={"line"}
+          />
+        </Box>
+      )}
       <ChartContainer>
         <ChartSvg>
           <AxisHeightLinear format="currency" /> <AxisTime />

@@ -474,7 +474,7 @@ msgid "map.details-sidebar-panel.back-button"
 msgstr "Back to the filters"
 
 #: src/components/map-details-content.tsx
-msgid "map.details-sidebar-panel.next-button"
+msgid "map.details-sidebar-panel.next-button.energy-prices"
 msgstr "Energy Prices in detail"
 
 #: src/components/energy-prices-map.tsx
@@ -493,12 +493,12 @@ msgstr "No data"
 msgid "municipality"
 msgstr "Municipality"
 
-#: src/components/net-tariffs-trend-chart.tsx
-#: src/components/net-tariffs-trend-chart.tsx
+#: src/components/tariffs-trend-chart.tsx
+#: src/components/tariffs-trend-chart.tsx
 msgid "net-tariffs-trend-chart.legend-item.other-operators"
 msgstr "Other operators"
 
-#: src/components/net-tariffs-trend-chart.tsx
+#: src/components/tariffs-trend-chart.tsx
 msgid "net-tariffs-trend-chart.legend-item.peer-group-median"
 msgstr "Peer Group Median"
 
@@ -928,16 +928,16 @@ msgstr "No"
 msgid "sunshine.compliance.timely-paper-submission.yes"
 msgstr "Yes"
 
-#: src/components/net-tariffs-trend-card.tsx
 #: src/components/network-costs-trend-card.tsx
 #: src/components/operational-standards-card.tsx
 #: src/components/power-stability-card.tsx
+#: src/components/tariffs-trend-card.tsx
 msgid "sunshine.costs-and-tariffs.benchmarking-peer-group"
 msgstr "Benchmarking within the Peer Group: {peerGroupLabel}"
 
-#: src/components/net-tariffs-trend-card.tsx
 #: src/components/network-costs-trend-card.tsx
 #: src/components/power-stability-card.tsx
+#: src/components/tariffs-trend-card.tsx
 msgid "sunshine.costs-and-tariffs.compare-with"
 msgstr "Compare With"
 
@@ -957,6 +957,12 @@ msgstr "Energy Tariffs"
 msgid "sunshine.costs-and-tariffs.energy-tariffs-comparison-title"
 msgstr "Energy Tariffs {0}"
 
+#: src/components/map-details-chart-adapters.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+msgid "sunshine.costs-and-tariffs.energy-tariffs-trend"
+msgstr "Energy Tariffs Trend"
+
 #: src/components/peer-group-card.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
@@ -964,8 +970,8 @@ msgstr "Energy Tariffs {0}"
 msgid "sunshine.costs-and-tariffs.latest-year"
 msgstr "Latest year ({latestYear})"
 
-#: src/components/net-tariffs-trend-card.tsx
 #: src/components/network-costs-trend-card.tsx
+#: src/components/tariffs-trend-card.tsx
 msgid "sunshine.costs-and-tariffs.latest-year-option"
 msgstr "Latest year"
 
@@ -983,10 +989,13 @@ msgstr "Net Tariffs"
 msgid "sunshine.costs-and-tariffs.net-tariffs-comparison-title"
 msgstr "Net Tariffs {0}"
 
-#: src/components/net-tariffs-trend-card.tsx
+#: src/components/map-details-chart-adapters.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.net-tariffs-trend"
 msgstr "Net Tariffs Trend"
 
+#: src/components/map-details-chart-adapters.tsx
 #: src/components/network-costs-trend-card.tsx
 msgid "sunshine.costs-and-tariffs.network-cost-trend"
 msgstr "Network Cost Trend"
@@ -1021,8 +1030,8 @@ msgstr "{operatorLabel}"
 msgid "sunshine.costs-and-tariffs.peer-group"
 msgstr "Peer Group"
 
-#: src/components/net-tariffs-trend-card.tsx
 #: src/components/network-costs-trend-card.tsx
+#: src/components/tariffs-trend-card.tsx
 msgid "sunshine.costs-and-tariffs.progress-over-time"
 msgstr "Progress over time"
 
@@ -1039,8 +1048,8 @@ msgstr "sunshine.costs-and-tariffs.source"
 msgid "sunshine.costs-and-tariffs.title"
 msgstr "Costs and Tariffs"
 
-#: src/components/net-tariffs-trend-card.tsx
 #: src/components/network-costs-trend-card.tsx
+#: src/components/tariffs-trend-card.tsx
 msgid "sunshine.costs-and-tariffs.view-by"
 msgstr "View By"
 
@@ -1144,6 +1153,7 @@ msgstr "Ratio"
 msgid "sunshine.power-stability.saidi"
 msgstr "Power Outage Duration (SAIDI)"
 
+#: src/components/map-details-chart-adapters.tsx
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.saidi-trend"
 msgstr "Average Power Outage Duration (SAIDI)"
@@ -1156,6 +1166,7 @@ msgstr "Total Outage Duration"
 msgid "sunshine.power-stability.saifi"
 msgstr "Power Outage Frequency (SAIFI)"
 
+#: src/components/map-details-chart-adapters.tsx
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.saifi-trend"
 msgstr "Average Power Outage Frequency (SAIFI)"

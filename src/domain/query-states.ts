@@ -67,7 +67,7 @@ const sunshineMapSchema = z.object({
   tab: mapTabsSchema.default("sunshine"),
   period: periodSchema,
   viewBy: z.string().default("all_grid_operators"),
-  typology: z.string().default("total"),
+  typology: z.enum(["total", "planned", "unplanned"]).default("total"),
   indicator: sunshineIndicatorSchema.default("saidi"),
   energyTariffCategory: z.string().default("EC2"),
   netTariffCategory: z.string().default("NC2"),
@@ -77,6 +77,8 @@ const sunshineMapSchema = z.object({
 
 const detailTabsSchema = z.union([sunshineIndicatorSchema, z.undefined()]); // TODO Add Operational Standards page
 
+export type QueryStateSunshineSaidiSaifiTypology =
+  QueryStateSunshineMap["typology"];
 export type QueryStateSunshineIndicator = QueryStateSunshineMap["indicator"];
 
 export const getSunshineDetailsPageFromIndicator = (

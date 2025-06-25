@@ -6,6 +6,7 @@ import NextLink from "next/link";
 import { ReactElement, ReactNode } from "react";
 
 import { PriceEvolution } from "src/components/detail-page/price-evolution-line-chart";
+import { indicatorToChart } from "src/components/map-details-chart-adapters";
 import { Entity } from "src/domain/data";
 import { useFormatCurrency } from "src/domain/helpers";
 import {
@@ -29,7 +30,12 @@ type MapDetailsContentProps = {
 const MapDetailsContentWrapper = (props: MapDetailsContentProps) => {
   const { onBack, children } = props;
   return (
-    <Stack direction={"column"} spacing={4} padding={6}>
+    <Stack
+      direction={"column"}
+      spacing={4}
+      padding={6}
+      data-testid="map-details-content"
+    >
       <Link
         component={"button"}
         sx={{ alignItems: "center", display: "flex", gap: 1 }}
@@ -198,7 +204,7 @@ export const MapDetailsContent: React.FC<{
   onBack: () => void;
 }> = ({ colorScale, entity, selectedItem, onBack }) => {
   const [{ tab }] = useQueryStateMapCommon();
-  const [{ indicator }] = useQueryStateSunshineMap();
+  const [{ indicator, period }] = useQueryStateSunshineMap();
   return (
     <MapDetailsContentWrapper onBack={onBack}>
       <MapDetailsEntityHeader entity={entity} {...selectedItem} />
@@ -208,12 +214,21 @@ export const MapDetailsContent: React.FC<{
         {...selectedItem}
       />
       <Divider />
-      <PriceEvolution
-        priceComponents={["total"]}
-        id={selectedItem.id}
-        entity={entity}
-        mini
-      />
+      {tab === "electricity" ? (
+        <PriceEvolution
+          priceComponents={["total"]}
+          id={selectedItem.id}
+          entity={entity}
+          mini
+        />
+      ) : (
+        (() => {
+          const Component = indicatorToChart[indicator];
+          return Component ? (
+            <Component period={period} selectedItem={selectedItem} />
+          ) : null;
+        })()
+      )}
       <Button
         variant="contained"
         color="secondary"
@@ -232,9 +247,52 @@ export const MapDetailsContent: React.FC<{
               )
         }
       >
-        <Trans id="map.details-sidebar-panel.next-button">
-          Energy Prices in detail
-        </Trans>
+        {(() => {
+          if (tab === "electricity") {
+            return (
+              <Trans id="map.details-sidebar-panel.next-button.energy-prices">
+                Energy Prices in detail
+              </Trans>
+            );
+          }
+
+          switch (indicator) {
+            case "networkCosts":
+              return (
+                <Trans id="map.details-sidebar-panel.next-button.network-costs">
+                  Network Costs in detail
+                </Trans>
+              );
+            case "energyTariffs":
+              return (
+                <Trans id="map.details-sidebar-panel.next-button.energy-tariffs">
+                  Energy Tariffs in detail
+                </Trans>
+              );
+            case "netTariffs":
+              return (
+                <Trans id="map.details-sidebar-panel.next-button.net-tariffs">
+                  Net Tariffs in detail
+                </Trans>
+              );
+            case "saidi":
+              return (
+                <Trans id="map.details-sidebar-panel.next-button.saidi">
+                  SAIDI in detail
+                </Trans>
+              );
+            case "saifi":
+              return (
+                <Trans id="map.details-sidebar-panel.next-button.saifi">
+                  SAIFI in detail
+                </Trans>
+              );
+            default:
+              // This ensures exhaustive checking
+              const _exhaustiveCheck: never = indicator;
+              return _exhaustiveCheck;
+          }
+        })()}
         <Icon name="arrowright" />
       </Button>
     </MapDetailsContentWrapper>
