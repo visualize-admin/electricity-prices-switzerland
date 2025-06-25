@@ -115,7 +115,7 @@ const GRAPHQL_URL = `${BASE_URL}/api/graphql`;
 
 const client = createClient({
   url: GRAPHQL_URL,
-  exchanges: exchanges,
+  exchanges,
 });
 const UrqlDecorator: Decorator = (Story) => {
   return (
