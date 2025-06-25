@@ -247,9 +247,52 @@ export const MapDetailsContent: React.FC<{
               )
         }
       >
-        <Trans id="map.details-sidebar-panel.next-button.energy-prices">
-          Energy Prices in detail
-        </Trans>
+        {(() => {
+          if (tab === "electricity") {
+            return (
+              <Trans id="map.details-sidebar-panel.next-button.energy-prices">
+                Energy Prices in detail
+              </Trans>
+            );
+          }
+
+          switch (indicator) {
+            case "networkCosts":
+              return (
+                <Trans id="map.details-sidebar-panel.next-button.network-costs">
+                  Network Costs in detail
+                </Trans>
+              );
+            case "energyTariffs":
+              return (
+                <Trans id="map.details-sidebar-panel.next-button.energy-tariffs">
+                  Energy Tariffs in detail
+                </Trans>
+              );
+            case "netTariffs":
+              return (
+                <Trans id="map.details-sidebar-panel.next-button.net-tariffs">
+                  Net Tariffs in detail
+                </Trans>
+              );
+            case "saidi":
+              return (
+                <Trans id="map.details-sidebar-panel.next-button.saidi">
+                  SAIDI in detail
+                </Trans>
+              );
+            case "saifi":
+              return (
+                <Trans id="map.details-sidebar-panel.next-button.saifi">
+                  SAIFI in detail
+                </Trans>
+              );
+            default:
+              // This ensures exhaustive checking
+              const _exhaustiveCheck: never = indicator;
+              return _exhaustiveCheck;
+          }
+        })()}
         <Icon name="arrowright" />
       </Button>
     </MapDetailsContentWrapper>
