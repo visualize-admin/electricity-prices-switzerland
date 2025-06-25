@@ -17,6 +17,7 @@ import parse, {
   Element,
   HTMLReactParserOptions,
 } from "html-react-parser";
+import { ComponentProps } from "react";
 import { createPortal } from "react-dom";
 
 import { LoadingIcon, NoContentHint } from "src/components/hint";
@@ -231,3 +232,5 @@ export const InfoDialogButton = ({
     </>
   );
 };
+
+export type InfoDialogButtonProps = ComponentProps<typeof InfoDialogButton>;

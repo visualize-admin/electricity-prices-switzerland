@@ -17,14 +17,14 @@ import { getPeerGroupLabels } from "src/domain/translation";
 
 import { CardHeader } from "./detail-page/card";
 import { Download, DownloadImage } from "./detail-page/download-image";
-import { InfoDialogButton } from "./info-dialog";
-import { NetTariffsTrendChart } from "./net-tariffs-trend-chart";
+import { InfoDialogButton, InfoDialogButtonProps } from "./info-dialog";
 import { ViewByFilter } from "./power-stability-card";
 import { AllOrMultiCombobox } from "./query-combobox";
+import { TariffsTrendChart } from "./tariffs-trend-chart";
 
 const DOWNLOAD_ID: Download = "costs-and-tariffs";
 
-const NetTariffsTrendCard: React.FC<
+const TariffsTrendCard: React.FC<
   {
     peerGroup: PeerGroup;
     updateDate: string;
@@ -32,7 +32,9 @@ const NetTariffsTrendCard: React.FC<
     operatorId: string;
     operatorLabel: string;
     latestYear: number;
-  } & CardProps
+    cardTitle: React.ReactNode;
+    infoDialogProps: Pick<InfoDialogButtonProps, "slug" | "label">;
+  } & Omit<CardProps, "title">
 > = (props) => {
   const [compareWith, setCompareWith] = useState(["sunshine.select-all"]);
   const [viewBy, setViewBy] = useState<ViewByFilter>("latest");
@@ -44,6 +46,8 @@ const NetTariffsTrendCard: React.FC<
     operatorId,
     operatorLabel,
     latestYear,
+    cardTitle: title,
+    infoDialogProps,
   } = props;
   const { peerGroupLabel } = getPeerGroupLabels(peerGroup);
 
@@ -82,9 +86,7 @@ const NetTariffsTrendCard: React.FC<
                 iconOnly
                 iconSize={24}
                 type="outline"
-                //FIXME: use correct slug
-                slug="help-costs-and-tariffs"
-                label={"sunshine.costs-and-tariffs.net-tariffs-trend"}
+                {...infoDialogProps}
               />
               <DownloadImage
                 iconOnly
@@ -96,11 +98,7 @@ const NetTariffsTrendCard: React.FC<
             </>
           }
         >
-          <Typography variant="h3">
-            <Trans id="sunshine.costs-and-tariffs.net-tariffs-trend">
-              Net Tariffs Trend
-            </Trans>
-          </Typography>
+          <Typography variant="h3">{title}</Typography>
           <Typography
             variant="body2"
             color="text.secondary"
@@ -178,13 +176,18 @@ const NetTariffsTrendCard: React.FC<
 
         {/* Scatter Plot */}
         <Box sx={{ height: 350, width: "100%" }}>
-          <NetTariffsTrendChart
+          <TariffsTrendChart
             id={operatorId}
             operatorLabel={operatorLabel}
             observations={chartData}
             netTariffs={restNetTariffs}
             view={viewBy}
             compareWith={compareWith}
+            rootProps={{
+              sx: {
+                mt: 8,
+              },
+            }}
           />
         </Box>
         {/* Footer Info */}
@@ -194,4 +197,4 @@ const NetTariffsTrendCard: React.FC<
   );
 };
 
-export default NetTariffsTrendCard;
+export default TariffsTrendCard;

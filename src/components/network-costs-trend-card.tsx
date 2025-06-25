@@ -185,6 +185,11 @@ const NetworkCostsTrendCard: React.FC<
         {/* Scatter Plot */}
         <Box sx={{ height: 350, width: "100%" }}>
           <NetworkCostTrendChart
+            rootProps={{
+              sx: {
+                mt: 8,
+              },
+            }}
             id={operatorId}
             operatorLabel={operatorLabel}
             observations={chartData}

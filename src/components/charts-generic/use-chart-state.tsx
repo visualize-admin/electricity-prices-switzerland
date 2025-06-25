@@ -213,6 +213,8 @@ export type StackedBarsState = {
   getSegmentValue: (category: string, segment: string) => number;
   getTotalValue: (category: string) => number;
   getCategory: (d: GenericObservation) => string;
+  annotations?: Annotation[];
+  xAxisLabel?: string;
 };
 
 type ChartState =

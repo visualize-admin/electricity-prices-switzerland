@@ -12,6 +12,7 @@ import SunshineMapComponent, {
 } from "src/components/sunshine-map";
 import { useColorScale } from "src/domain/data";
 import { SunshineDataRow, useSunshineTariffQuery } from "src/graphql/queries";
+import { exchanges } from "src/graphql/urql-exchanges.browser";
 
 const debugTooltip: GetOperatorsMapTooltip = ({ object }) => {
   if (!object) {
@@ -114,6 +115,7 @@ const GRAPHQL_URL = `${BASE_URL}/api/graphql`;
 
 const client = createClient({
   url: GRAPHQL_URL,
+  exchanges,
 });
 const UrqlDecorator: Decorator = (Story) => {
   return (
