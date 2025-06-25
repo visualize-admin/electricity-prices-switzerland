@@ -27,6 +27,10 @@ msgstr "Municipalities"
 msgid "chart.annotation.operators"
 msgstr "Network operator"
 
+#: src/components/power-stability-chart.tsx
+msgid "chart.avg.peer-group"
+msgstr "Average Peer Group"
+
 #: src/components/combobox.tsx
 msgid "combobox.maxitems"
 msgstr "A maximum of {max} Entries are allowed"
@@ -476,6 +480,26 @@ msgstr "Back to the filters"
 #: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.next-button.energy-prices"
 msgstr "Energy Prices in detail"
+
+#: src/components/map-details-content.tsx
+msgid "map.details-sidebar-panel.next-button.energy-tariffs"
+msgstr "Energy Tariffs in detail"
+
+#: src/components/map-details-content.tsx
+msgid "map.details-sidebar-panel.next-button.net-tariffs"
+msgstr "Net Tariffs in detail"
+
+#: src/components/map-details-content.tsx
+msgid "map.details-sidebar-panel.next-button.network-costs"
+msgstr "Network Costs in detail"
+
+#: src/components/map-details-content.tsx
+msgid "map.details-sidebar-panel.next-button.saidi"
+msgstr "SAIDI in detail"
+
+#: src/components/map-details-content.tsx
+msgid "map.details-sidebar-panel.next-button.saifi"
+msgstr "SAIFI in detail"
 
 #: src/components/energy-prices-map.tsx
 msgid "map.legend.title"

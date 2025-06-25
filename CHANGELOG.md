@@ -11,7 +11,9 @@ You can also check the
 
 # Unreleased
 
-Nothing yet
+- Fixes
+
+  - Add missing translations
 
 # 2.3.0 - 2025-06-25
 
