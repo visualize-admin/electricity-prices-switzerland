@@ -474,7 +474,7 @@ msgid "map.details-sidebar-panel.back-button"
 msgstr "Back to the filters"
 
 #: src/components/map-details-content.tsx
-msgid "map.details-sidebar-panel.next-button"
+msgid "map.details-sidebar-panel.next-button.energy-prices"
 msgstr "Energy Prices in detail"
 
 #: src/components/energy-prices-map.tsx

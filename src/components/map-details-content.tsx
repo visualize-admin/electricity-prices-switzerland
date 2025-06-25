@@ -247,7 +247,7 @@ export const MapDetailsContent: React.FC<{
               )
         }
       >
-        <Trans id="map.details-sidebar-panel.next-button">
+        <Trans id="map.details-sidebar-panel.next-button.energy-prices">
           Energy Prices in detail
         </Trans>
         <Icon name="arrowright" />
