@@ -28,7 +28,7 @@ msgid "chart.annotation.operators"
 msgstr "Netzbetreiber"
 
 #: src/components/power-stability-chart.tsx
-msgid "chart.avr.peer-group"
+msgid "chart.avg.peer-group"
 msgstr "Durchschnitt Peer Group"
 
 #: src/components/combobox.tsx

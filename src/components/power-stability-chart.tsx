@@ -192,7 +192,7 @@ const LatestYearChartView = (
         annotation: [
           {
             avgLabel: t({
-              id: "chart.avr.peer-group",
+              id: "chart.avg.peer-group",
               message: "Average Peer Group",
             }),
             value: Math.round(average * 100) / 100,
