@@ -16,6 +16,11 @@ You can also check the
   - Click on operator on Sunshine map brings details panel and zooms in the operator
   - Click Details button from details panel while showing a Sunshine indicator brings to the correct sunshine page
 
+- Enhancements
+
+  - Added sortable filters to Power Stability Chart
+  - Added average annotations indicator to Power Stability Chart
+
 # 2.2.0 - 2025-06-20
 
 - Features

@@ -222,6 +222,7 @@ const PowerStabilityCard: React.FC<
             height: 400,
             width: "100%",
             overflowY: "auto",
+            overflowX: "hidden",
             mt: 8,
           }}
         >

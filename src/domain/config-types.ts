@@ -65,6 +65,8 @@ const BarFields = z.object({
       })
       .optional(),
   }),
+  annotation: z.array(Observation).optional(),
+
   height: GenericField.optional(),
   segment: SegmentField.optional(),
   label: GenericField.optional(),

@@ -81,6 +81,9 @@ const useStackedBarsState = ({
     [fields.style]
   );
 
+  const { annotation } = fields;
+  const xAxisLabel = fields.x.axisLabel;
+
   const {
     categories,
     stackedData,
@@ -88,6 +91,7 @@ const useStackedBarsState = ({
     opacityScale,
     xScale,
     yScale,
+    annotations,
     bounds,
   } = useMemo(() => {
     const categories = [...new Set(data.map(getCategory))].filter(Boolean);
@@ -131,7 +135,7 @@ const useStackedBarsState = ({
     );
 
     const margins = {
-      top: 20,
+      top: 50,
       right: 40,
       bottom: 40,
       left: maxYLabelWidth + LEFT_MARGIN_OFFSET,
@@ -143,7 +147,10 @@ const useStackedBarsState = ({
     const bounds = {
       width,
       height: chartHeight + margins.top + margins.bottom,
-      margins,
+      margins: {
+        ...margins,
+        annotations: annotation ? chartHeight : 0,
+      },
       chartWidth,
       chartHeight,
     };
@@ -155,16 +162,40 @@ const useStackedBarsState = ({
       .range([0, chartHeight])
       .paddingOuter(0.1);
 
+    const annotations =
+      annotation &&
+      annotation.map((a) => {
+        return {
+          x: xScale(a.value as number),
+          y: yScale("0") ?? 0,
+          nbOfLines: 1,
+          xLabel: xScale(a.value as number),
+          yLabel: 0,
+          value: a.value.toString(),
+          label: getLabel(a),
+        };
+      });
+
     return {
       categories,
       stackedData,
       colors,
       opacityScale,
       xScale,
+      annotations,
       yScale,
       bounds,
     };
-  }, [data, fields, width, getCategory, segments, labelFontSize]);
+  }, [
+    data,
+    fields,
+    width,
+    getCategory,
+    segments,
+    labelFontSize,
+    annotation,
+    getLabel,
+  ]);
 
   const getSegmentValue = useCallback(
     (category: string, segment: string): number => {
@@ -214,6 +245,8 @@ const useStackedBarsState = ({
     getSegment,
     getTotalValue,
     getCategory,
+    annotations,
+    xAxisLabel,
   };
 };
 

@@ -1,12 +1,17 @@
 import { t } from "@lingui/macro";
 import { Box } from "@mui/material";
-import { max } from "d3";
-import { sortBy } from "lodash";
-import { useMemo } from "react";
+import { max, mean } from "d3";
+import { useMemo, useState } from "react";
 
 import type { SunshinePowerStabilityData } from "src/domain/data";
+import { getTextWidth } from "src/domain/helpers";
+import { MIN_PER_YEAR } from "src/domain/metrics";
 import { chartPalette, palette } from "src/themes/palette";
 
+import {
+  AnnotationX,
+  AnnotationXLabel,
+} from "./charts-generic/annotation/annotation-x";
 import { AxisHeightCategories } from "./charts-generic/axis/axis-height-categories";
 import { AxisHeightLinear } from "./charts-generic/axis/axis-height-linear";
 import { AxisWidthLinear } from "./charts-generic/axis/axis-width-linear";
@@ -20,7 +25,13 @@ import { ChartContainer, ChartSvg } from "./charts-generic/containers";
 import { HoverDotMultiple } from "./charts-generic/interaction/hover-dots-multiple";
 import { Ruler } from "./charts-generic/interaction/ruler";
 import { Tooltip } from "./charts-generic/interaction/tooltip";
-import { LegendItem } from "./charts-generic/legends/color";
+import {
+  ARROW_WIDTH,
+  LegendItem,
+  SORTABLE_EXTERNAL_GAP,
+  SORTABLE_INTERNAL_GAP,
+  SortableLegendItem,
+} from "./charts-generic/legends/color";
 import { Lines } from "./charts-generic/lines/lines";
 import { LineChart } from "./charts-generic/lines/lines-state";
 import { InteractionHorizontal } from "./charts-generic/overlay/interaction-horizontal";
@@ -76,24 +87,38 @@ export const PowerStabilityChart = (props: PowerStabilityChartProps) => {
   );
 };
 
+//TODO: align with query-states
+type PowerStabilitySortableType =
+  | "planned"
+  | "unplanned"
+  | "total"
+  | "operator";
+
 const LatestYearChartView = (
   props: Omit<PowerStabilityChartProps, "view" | "observations"> & {
     observations: PowerStabilityRow[];
   }
 ) => {
   const { observations, id, operatorLabel, overallOrRatio } = props;
+  const [sortByItem, setSortByItem] =
+    useState<PowerStabilitySortableType>("planned");
 
   const dataWithRatioApplied = useMemo(() => {
-    if (overallOrRatio === "ratio") {
-      return observations.map((d) => {
+    return observations.map((d) => {
+      const total = d.planned + d.unplanned;
+      if (overallOrRatio === "ratio" && total > 0) {
         return {
           ...d,
-          planned: (d.planned / d.total) * 100,
-          unplanned: (d.unplanned / d.total) * 100,
+          planned: (d.planned / total) * 100,
+          unplanned: (d.unplanned / total) * 100,
+          total,
         };
-      });
-    }
-    return observations;
+      }
+      return {
+        ...d,
+        total,
+      };
+    });
   }, [observations, overallOrRatio]);
 
   const maxValue =
@@ -101,9 +126,48 @@ const LatestYearChartView = (
   const xDomain: [number, number] =
     overallOrRatio === "ratio" ? [0, 100] : [0, maxValue];
 
-  const sortedData = sortBy(dataWithRatioApplied, (x) => {
-    return x.operator.toString() === id ? 0 : 1;
+  const sortedData = [...dataWithRatioApplied].sort((a, b) => {
+    if (a.operator.toString() === id) return -1;
+    if (b.operator.toString() === id) return 1;
+
+    switch (sortByItem) {
+      case "operator":
+        return a.operator_name.localeCompare(b.operator_name);
+      case "planned":
+        return b.planned - a.planned;
+      case "unplanned":
+        return b.unplanned - a.unplanned;
+      case "total":
+        return b.planned + b.unplanned - (a.planned + a.unplanned);
+      default:
+        return 0;
+    }
   });
+  const average = useMemo(() => {
+    return mean(sortedData.map((d) => d.total)) ?? 0;
+  }, [sortedData]);
+
+  const maxYLabelWidth = Math.max(
+    ...sortedData.map((label) =>
+      getTextWidth(label.operator_name, { fontSize: 12, fontWeight: "bold" })
+    )
+  );
+
+  const gridOperatorsLabel = t({
+    id: "power-stability-trend-chart.legend-item.grid-operators",
+    message: "Grid Operators",
+  });
+
+  const gridOperatorsLabelWidth = getTextWidth(gridOperatorsLabel, {
+    fontSize: 12,
+    fontWeight: "bold",
+  });
+
+  const SORTABLE_GRID_ITEM_WIDTH =
+    gridOperatorsLabelWidth +
+    ARROW_WIDTH +
+    SORTABLE_EXTERNAL_GAP +
+    SORTABLE_INTERNAL_GAP;
 
   return (
     <StackedBarsChart
@@ -111,18 +175,27 @@ const LatestYearChartView = (
       fields={{
         x: {
           componentIri: ["planned", "unplanned"],
+          axisLabel: MIN_PER_YEAR,
         },
         domain: xDomain,
         y: {
           componentIri: "operator_name",
-          sorting: { sortingType: "byTotalSize", sortingOrder: "desc" },
         },
-        label: { componentIri: "operator_name" },
+        label: { componentIri: "avgLabel" },
         segment: {
           palette: "elcom",
           type: "stacked",
           componentIri: "unplanned",
         },
+        annotation: [
+          {
+            avgLabel: t({
+              id: "chart.avr.peer-group",
+              message: "Average Peer Group",
+            }),
+            value: Math.round(average * 100) / 100,
+          },
+        ],
         style: {
           colorDomain: ["planned", "unplanned"],
           opacityDomain: ["2024"],
@@ -147,6 +220,64 @@ const LatestYearChartView = (
         },
       ]}
     >
+      <Box
+        sx={{
+          position: "relative",
+          justifyContent: "flex-start",
+          alignItems: "flex-start",
+          flexWrap: "wrap",
+          minHeight: "20px",
+          gap: 2,
+          mb: 6,
+        }}
+        display="flex"
+      >
+        <Box
+          sx={{
+            mr: `${maxYLabelWidth - SORTABLE_GRID_ITEM_WIDTH}px`,
+          }}
+        >
+          <SortableLegendItem
+            item={gridOperatorsLabel}
+            color={palette.text.primary}
+            value={"operator"}
+            state={sortByItem}
+            handleClick={setSortByItem}
+          />
+        </Box>
+
+        <SortableLegendItem<PowerStabilitySortableType>
+          item={t({
+            id: "power-stability-trend-chart.sortable-legend-item.planned",
+            message: "Planned",
+          })}
+          color={chartPalette.categorical[1]}
+          value="planned"
+          state={sortByItem}
+          handleClick={setSortByItem}
+        />
+
+        <SortableLegendItem<PowerStabilitySortableType>
+          item={t({
+            id: "power-stability-trend-chart.sortable-legend-item.unplanned",
+            message: "Unplanned",
+          })}
+          color={chartPalette.categorical[2]}
+          value="unplanned"
+          state={sortByItem}
+          handleClick={setSortByItem}
+        />
+        <SortableLegendItem<PowerStabilitySortableType>
+          item={t({
+            id: "power-stability-trend-chart.sortable-legend-item.total",
+            message: "Total",
+          })}
+          color={palette.text.primary}
+          value="total"
+          state={sortByItem}
+          handleClick={setSortByItem}
+        />
+      </Box>
       <ChartContainer>
         <ChartSvg>
           <AxisWidthLinear position="top" />
@@ -157,7 +288,9 @@ const LatestYearChartView = (
           />
           <BarsStacked />
           <BarsStackedAxis />
+          <AnnotationX />
         </ChartSvg>
+        <AnnotationXLabel />
       </ChartContainer>
     </StackedBarsChart>
   );

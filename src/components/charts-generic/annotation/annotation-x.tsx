@@ -5,6 +5,7 @@ import { DOT_RADIUS } from "src/components/charts-generic/rangeplot/rangeplot-st
 import {
   HistogramState,
   RangePlotState,
+  StackedBarsState,
   useChartState,
 } from "src/components/charts-generic/use-chart-state";
 import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
@@ -16,7 +17,7 @@ const ANNOTATION_TRIANGLE_WIDTH = 5;
 export const ANNOTATION_TRIANGLE_HEIGHT = ANNOTATION_TRIANGLE_WIDTH * 1.5;
 
 export interface Annotation {
-  datum: GenericObservation;
+  datum?: GenericObservation;
   x: number;
   y: number;
   xLabel: number;
@@ -24,13 +25,14 @@ export interface Annotation {
   nbOfLines: number;
   value: string;
   label: string;
-  onTheLeft: boolean;
+  onTheLeft?: boolean;
 }
 
 export const AnnotationX = () => {
   const { bounds, annotations } = useChartState() as
     | RangePlotState
-    | HistogramState;
+    | HistogramState
+    | StackedBarsState;
   const { margins } = bounds;
   const {
     annotationLineColor,
@@ -117,7 +119,8 @@ export const AnnotationXDataPoint = () => {
 export const AnnotationXLabel = () => {
   const { bounds, annotations, xAxisLabel } = useChartState() as
     | RangePlotState
-    | HistogramState;
+    | HistogramState
+    | StackedBarsState;
   const { annotationFontSize, fontFamily, annotationColor } = useChartTheme();
   const { width } = bounds;
 
