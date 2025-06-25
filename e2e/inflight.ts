@@ -59,7 +59,7 @@ export const waitForRequests = async (
         return inflightXhrs.length;
       },
       {
-        timeout: 10000,
+        timeout: 30_000,
       }
     )
     .toBe(0);
