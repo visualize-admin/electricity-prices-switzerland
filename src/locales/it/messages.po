@@ -27,6 +27,10 @@ msgstr "comuni"
 msgid "chart.annotation.operators"
 msgstr "gestori di rete"
 
+#: src/components/power-stability-chart.tsx
+msgid "chart.avr.peer-group"
+msgstr "Media del gruppo di riferimento"
+
 #: src/components/combobox.tsx
 msgid "combobox.maxitems"
 msgstr "È consentito un massimo di {max} Iscrizioni"
@@ -476,6 +480,26 @@ msgstr "Torna ai filtri"
 #: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.next-button.energy-prices"
 msgstr "Mostra energia dettagli sui prezzi"
+
+#: src/components/map-details-content.tsx
+msgid "map.details-sidebar-panel.next-button.energy-tariffs"
+msgstr "Le tariffe energetiche in dettaglio"
+
+#: src/components/map-details-content.tsx
+msgid "map.details-sidebar-panel.next-button.net-tariffs"
+msgstr "Le tariffe nette in dettaglio"
+
+#: src/components/map-details-content.tsx
+msgid "map.details-sidebar-panel.next-button.network-costs"
+msgstr "I costi di rete in dettaglio"
+
+#: src/components/map-details-content.tsx
+msgid "map.details-sidebar-panel.next-button.saidi"
+msgstr "Il SAIDI in dettaglio"
+
+#: src/components/map-details-content.tsx
+msgid "map.details-sidebar-panel.next-button.saifi"
+msgstr "SAIFI in dettaglio"
 
 #: src/components/energy-prices-map.tsx
 msgid "map.legend.title"
