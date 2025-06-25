@@ -11,6 +11,10 @@ You can also check the
 
 # Unreleased
 
+Nothing yet
+
+# 2.3.0 - 2025-06-25
+
 - Features
 
   - Click on operator on Sunshine map brings details panel and zooms in the operator
