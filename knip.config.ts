@@ -18,6 +18,8 @@ const config: KnipConfig = {
     "src/graphql/resolver-types.ts",
     "src/graphql/queries.ts",
     "src/locales/trans-dummy.tsx",
+    // Only used for supporting lingui extract for aa translations
+    "scripts/populate-aa.ts",
   ],
   tags: ["-knipignore"],
 
@@ -62,6 +64,9 @@ const config: KnipConfig = {
 
     // Used in codemods
     "jscodeshift",
+
+    // Used in populating aa translations
+    "@types/gettext-parser",
   ],
 };
 export default config;

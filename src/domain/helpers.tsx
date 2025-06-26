@@ -22,6 +22,7 @@ import { ANNOTATION_TRIANGLE_HEIGHT } from "src/components/charts-generic/annota
 import { GenericObservation } from "src/domain/data";
 import { estimateTextWidth } from "src/lib/estimate-text-width";
 import { useLocale } from "src/lib/use-locale";
+import { defaultLocale } from "src/locales/config";
 import { d3FormatLocales, d3TimeFormatLocales } from "src/locales/locales";
 import { chartPalette, palette as themePalette } from "src/themes/palette";
 import { typography } from "src/themes/typography";
@@ -45,7 +46,8 @@ export const useFormatNumber = () => {
 export const useFormatCurrency = (alwaysLeaveDecimals: boolean = false) => {
   const locale = useLocale();
   const formatter = React.useMemo(() => {
-    const { format } = d3FormatLocales[locale];
+    const { format } =
+      d3FormatLocales[locale] ?? d3FormatLocales[defaultLocale];
     return format(alwaysLeaveDecimals ? ",.2f" : ",.2~f");
   }, [locale, alwaysLeaveDecimals]);
   return formatter;

@@ -57,7 +57,7 @@ export const parseLocaleString = (localeString: string | undefined): Locale => {
   if (!localeString) {
     return defaultLocale;
   }
-  const result = /^(de|fr|it|en)/.exec(localeString);
+  const result = /^(de|fr|it|en|aa)/.exec(localeString);
   return result ? (result[1] as Locale) : defaultLocale;
 };
 
