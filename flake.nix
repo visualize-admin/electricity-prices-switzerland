@@ -18,23 +18,8 @@
           devShells.default = pkgs.mkShell {
             buildInputs = [
               pkgs.nodejs_22
-              pkgs.nodejs_22.pkgs.pnpm
+              pkgs.yarn
             ];
-
-            shellHook = ''
-              clear >$(tty)
-              export PS1="\[\033[0;92m\]\W \$ \[\033[0m\]"
-              echo ""
-              echo "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓"
-              echo "┃                                               ┃"
-              echo "┃  Welcome to the IxT development environment!  ┃"
-              echo "┃                                               ┃"
-              echo "┃  Development Server:   'yarn dev'             ┃"
-              echo "┃  Start Storybook:      'yarn storybook'       ┃"
-              echo "┃                                               ┃"
-              echo "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛"
-              echo ""
-            '';
           };
 
         }
