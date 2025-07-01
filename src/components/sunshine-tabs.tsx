@@ -76,9 +76,8 @@ export const PowerStabilityNavigation: React.FC<{
 };
 
 export enum OperationalStandardsTabOption {
-  PRODUCT_VARIETY = 0,
-  SERVICE_QUALITY = 1,
-  COMPLIANCE = 2,
+  SERVICE_QUALITY = 0,
+  COMPLIANCE = 1,
 }
 
 export const OperationalStandardsNavigation: React.FC<{
@@ -87,15 +86,6 @@ export const OperationalStandardsNavigation: React.FC<{
 }> = ({ activeTab, handleTabChange }) => {
   return (
     <Tabs value={activeTab} onChange={handleTabChange}>
-      <Tab
-        data-testid="product-variety-tab"
-        value={OperationalStandardsTabOption.PRODUCT_VARIETY}
-        label={
-          <Trans id="sunshine.operational-standards.product-variety">
-            Product Variety
-          </Trans>
-        }
-      />
       <Tab
         data-testid="service-quality-tab"
         value={OperationalStandardsTabOption.SERVICE_QUALITY}
