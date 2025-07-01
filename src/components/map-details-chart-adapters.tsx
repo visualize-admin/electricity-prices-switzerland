@@ -86,7 +86,7 @@ const NetTariffsChartAdapter = ({
           peerGroupMedianRate: data?.netTariffs?.peerGroupMedianRate,
         }}
         operatorLabel={operatorLabel ?? ""}
-        view="progress"
+        viewBy="progress"
         compareWith={[]}
         mini
       />
@@ -143,7 +143,7 @@ const EnergyTariffsChartAdapter = ({
           peerGroupMedianRate: data?.energyTariffs?.peerGroupMedianRate,
         }}
         operatorLabel={operatorLabel ?? ""}
-        view="progress"
+        viewBy="progress"
         compareWith={[]}
         mini
       />
@@ -202,7 +202,7 @@ const NetworkCostsChartAdapter = ({
           peerGroupMedianRate: data?.networkCosts?.peerGroupMedianRate,
         }}
         operatorLabel={operatorLabel ?? ""}
-        view="progress"
+        viewBy="progress"
         compareWith={[]}
         mini
       />
@@ -269,7 +269,7 @@ const SaidiSaifiChartAdapter = ({
         observations={yearlyData}
         id={id}
         operatorLabel={operatorLabel ?? ""}
-        view="progress"
+        viewBy="progress"
         overallOrRatio="overall"
         duration={typology}
         mini

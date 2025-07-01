@@ -1,22 +1,27 @@
 import { Trans, t } from "@lingui/macro";
 import {
-  Box,
   Card,
   CardContent,
   CardProps,
   Grid,
+  Stack,
   Typography,
 } from "@mui/material";
-import React, { useMemo, useState } from "react";
+import React, { ReactNode, useMemo, useState } from "react";
 
 import { ButtonGroup } from "src/components/button-group";
 import CardSource from "src/components/card-source";
 import { PeerGroup, SunshinePowerStabilityData } from "src/domain/data";
 import { filterBySeparator } from "src/domain/helpers";
-import { getLocalizedLabel, getPeerGroupLabels } from "src/domain/translation";
+import { getPeerGroupLabels } from "src/domain/translation";
 
+import { CardHeader } from "./detail-page/card";
+import { Download, DownloadImage } from "./detail-page/download-image";
+import { InfoDialogButton, InfoDialogButtonProps } from "./info-dialog";
 import { PowerStabilityChart } from "./power-stability-chart";
 import { AllOrMultiCombobox } from "./query-combobox";
+
+const DOWNLOAD_ID: Download = "power-stability";
 
 // TODO Those should come from the query state SunshineMap
 export type ViewByFilter = "latest" | "progress";
@@ -24,43 +29,54 @@ export type CompareWithFilter = string[];
 export type OverallOrRatioFilter = "overall" | "ratio";
 export type DurationFilter = "total" | "planned" | "unplanned";
 
-const PowerStabilityCard: React.FC<
-  {
-    peerGroup: PeerGroup;
-    updateDate: string;
-    observations:
-      | SunshinePowerStabilityData["saidi"]["yearlyData"]
-      | SunshinePowerStabilityData["saifi"]["yearlyData"];
-    operatorId: string;
-    operatorLabel: string;
-    attribute: keyof Pick<SunshinePowerStabilityData, "saidi" | "saifi">;
-    latestYear: number;
-  } & CardProps
-> = (props) => {
-  const [compareWith, setCompareWith] = useState(["sunshine.select-all"]);
-  const [viewBy, setViewBy] = useState<ViewByFilter>("latest");
-  const [duration, setDuration] = useState<DurationFilter>("total");
-  const [overallOrRatio, setOverallOrRatio] =
-    useState<OverallOrRatioFilter>("overall");
+export type PowerStabilityCardFilters = {
+  compareWith?: CompareWithFilter;
+  viewBy?: ViewByFilter;
+  duration?: DurationFilter;
+  overallOrRatio?: OverallOrRatioFilter;
+};
 
+export type PowerStabilityCardProps = {
+  peerGroup: PeerGroup;
+  updateDate: string;
+  observations:
+    | SunshinePowerStabilityData["saidi"]["yearlyData"]
+    | SunshinePowerStabilityData["saifi"]["yearlyData"];
+  operatorId: string;
+  operatorLabel: string;
+  latestYear: number;
+  cardTitle: React.ReactNode;
+  infoDialogProps: Pick<InfoDialogButtonProps, "slug" | "label">;
+} & CardProps;
+
+const usePowerStabilityCard = (
+  props: Omit<PowerStabilityCardProps, "cardTitle" | "infoDialogProps">,
+  filters?: PowerStabilityCardFilters
+) => {
   const {
     peerGroup,
     updateDate,
     observations,
     operatorId,
     operatorLabel,
-    attribute,
-    latestYear: useThisOnceDataIsAvailable,
+    latestYear,
   } = props;
+  const [compareWith, setCompareWith] = useState(
+    filters?.compareWith ?? ["sunshine.select-all"]
+  );
+  const [viewBy, setViewBy] = useState<ViewByFilter>(
+    filters?.viewBy ?? "latest"
+  );
+  const [duration, setDuration] = useState<DurationFilter>(
+    filters?.duration ?? "total"
+  );
+  const [overallOrRatio, setOverallOrRatio] = useState<OverallOrRatioFilter>(
+    filters?.overallOrRatio ?? "overall"
+  );
   const { peerGroupLabel } = getPeerGroupLabels(peerGroup);
-
-  //FIXME: doesn't seem to have any data in 2025
-  const latestYear = new Date().getFullYear() - 1;
-
   const { chartData, multiComboboxOptions } = useMemo(() => {
     const multiComboboxOptions: typeof observations = [];
     const chartData: typeof observations = [];
-
     observations.forEach((d) => {
       const isLatestYear = d.year === latestYear;
       const operatorIdStr = d.operator.toString();
@@ -68,33 +84,91 @@ const PowerStabilityCard: React.FC<
         compareWith.includes("sunshine.select-all") ||
         compareWith.includes(operatorIdStr) ||
         operatorIdStr === operatorId;
-
       if ((viewBy === "latest" ? isLatestYear : true) && isSelected) {
         chartData.push(d);
       }
-
       if (isLatestYear && operatorIdStr !== operatorId) {
         multiComboboxOptions.push(d);
       }
     });
-
     return { chartData, multiComboboxOptions };
   }, [observations, compareWith, latestYear, operatorId, viewBy]);
+  return {
+    compareWith,
+    setCompareWith,
+    viewBy,
+    setViewBy,
+    duration,
+    setDuration,
+    overallOrRatio,
+    setOverallOrRatio,
+    peerGroupLabel,
+    chartData,
+    multiComboboxOptions,
+    updateDate,
+    operatorId,
+    operatorLabel,
+    latestYear,
+  };
+};
+
+export const PowerStabilityCard: React.FC<PowerStabilityCardProps> = (
+  props
+) => {
+  const logic = usePowerStabilityCard(props);
+  const {
+    compareWith,
+    setCompareWith,
+    viewBy,
+    setViewBy,
+    duration,
+    setDuration,
+    overallOrRatio,
+    setOverallOrRatio,
+    peerGroupLabel,
+    chartData,
+    multiComboboxOptions,
+    updateDate,
+    operatorId,
+    operatorLabel,
+  } = logic;
 
   return (
     <Card {...props}>
       <CardContent>
-        <Typography variant="h3" gutterBottom>
-          {getLocalizedLabel({
-            id: `${attribute}-trend`,
-          })}
-        </Typography>
-        <Typography variant="body2" color="text.secondary" gutterBottom mb={8}>
-          <Trans id="sunshine.costs-and-tariffs.benchmarking-peer-group">
-            Benchmarking within the Peer Group: {peerGroupLabel}
-          </Trans>
-        </Typography>
-
+        <CardHeader
+          trailingContent={
+            <>
+              <InfoDialogButton
+                iconOnly
+                iconSize={24}
+                type="outline"
+                {...props.infoDialogProps}
+              />
+              <DownloadImage
+                iconOnly
+                iconSize={24}
+                elementId={DOWNLOAD_ID}
+                fileName={DOWNLOAD_ID}
+                downloadType={DOWNLOAD_ID}
+              />
+            </>
+          }
+        >
+          <Typography variant="h3" gutterBottom>
+            {props.cardTitle}
+          </Typography>
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            gutterBottom
+            mb={8}
+          >
+            <Trans id="sunshine.costs-and-tariffs.benchmarking-peer-group">
+              Benchmarking within the Peer Group: {peerGroupLabel}
+            </Trans>
+          </Typography>
+        </CardHeader>
         <Grid container spacing={3} sx={{ mb: 3 }}>
           <Grid item xs={12} sm={4} sx={{ mt: 2.5 }}>
             <ButtonGroup
@@ -216,33 +290,68 @@ const PowerStabilityCard: React.FC<
             />
           </Grid>
         </Grid>
+        <PowerStabilityChart
+          observations={chartData}
+          id={operatorId}
+          operatorLabel={operatorLabel}
+          viewBy={viewBy}
+          overallOrRatio={overallOrRatio}
+          duration={duration}
+          rootProps={{
+            sx: {
+              mt: 8,
+            },
+          }}
+        />
+        <CardSource date={`${updateDate}`} source={"Lindas"} />
+      </CardContent>
+    </Card>
+  );
+};
 
-        {/* Stacked Horizontal Bar Chart */}
-        <Box
+export const PowerStabilityCardMinified: React.FC<
+  Omit<PowerStabilityCardProps, "infoDialogProps"> & {
+    linkContent?: ReactNode;
+    filters?: PowerStabilityCardFilters;
+    cardDescription?: ReactNode;
+  }
+> = (props) => {
+  const { filters, cardTitle, cardDescription, ...rest } = props;
+  const logic = usePowerStabilityCard(rest, filters);
+  const { chartData, operatorId, operatorLabel } = logic;
+  return (
+    <Card {...rest}>
+      <CardContent
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          flex: 1,
+          height: "100%",
+        }}
+      >
+        <Typography variant="h3">{cardTitle}</Typography>
+        <Typography variant="body2">{cardDescription}</Typography>
+        <PowerStabilityChart
+          observations={chartData}
+          id={operatorId}
+          operatorLabel={operatorLabel}
+          viewBy={filters?.viewBy ?? "progress"}
+          overallOrRatio={filters?.overallOrRatio ?? "overall"}
+          duration={filters?.duration ?? "total"}
+          compareWith={filters?.compareWith ?? []}
+          rootProps={{ sx: { mt: 2 } }}
+        />
+        <Stack
           sx={{
-            height: 400,
-            width: "100%",
-            overflowY: "auto",
-            overflowX: "hidden",
-            mt: 8,
+            mt: 2,
+            flexGrow: 1,
+            flexDirection: "column",
+            justifyContent: "flex-end",
+            alignItems: "flex-end",
           }}
         >
-          <PowerStabilityChart
-            observations={chartData}
-            id={operatorId}
-            operatorLabel={operatorLabel}
-            view={viewBy}
-            overallOrRatio={overallOrRatio}
-            duration={duration}
-            rootProps={{
-              sx: {
-                mt: 8,
-              },
-            }}
-          />
-        </Box>
-        {/* Footer Info */}
-        <CardSource date={`${updateDate}`} source={"Lindas"} />
+          {props.linkContent}
+        </Stack>
       </CardContent>
     </Card>
   );
