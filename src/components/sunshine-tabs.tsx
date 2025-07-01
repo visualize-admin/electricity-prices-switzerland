@@ -107,3 +107,35 @@ export const OperationalStandardsNavigation: React.FC<{
     </Tabs>
   );
 };
+
+export type YearlyTab = `${number}`;
+
+export type YearlyNavigationProps = {
+  activeTab: string;
+  handleTabChange: (event: React.SyntheticEvent, newValue: YearlyTab) => void;
+};
+
+export const YearlyNavigation: React.FC<YearlyNavigationProps> = ({
+  activeTab,
+  handleTabChange,
+}) => {
+  const currentYear = new Date().getFullYear();
+  const years = [currentYear - 2, currentYear - 1, currentYear];
+
+  return (
+    <Tabs value={activeTab} onChange={handleTabChange}>
+      {years.map((year) => (
+        <Tab
+          key={year}
+          data-testid={`${year}-tab`}
+          value={`${year}` satisfies YearlyTab}
+          label={
+            <Trans id="sunshine.costs-and-tariffs.year" values={{ year }}>
+              {year}
+            </Trans>
+          }
+        />
+      ))}
+    </Tabs>
+  );
+};
