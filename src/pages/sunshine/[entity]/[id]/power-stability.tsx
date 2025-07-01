@@ -115,23 +115,14 @@ export const SaifiDocument = gql`
   }
 `;
 
-const useSaidiOrSaifiByAttribute = {
-  saidi: useSaidiQuery,
-  saifi: useSaifiQuery,
-} as const;
-
-const SaidiSaifi = (
-  props: Extract<Props, { status: "found" }> & { attribute: "saidi" | "saifi" }
-) => {
+const Saidi = (props: Extract<Props, { status: "found" }>) => {
   const {
     operator: { peerGroup },
     latestYear,
     updateDate,
   } = props.powerStability;
-  const { attribute } = props;
 
-  const useQuery = useSaidiOrSaifiByAttribute[attribute];
-  const [queryState] = useQuery({
+  const [{ data }] = useSaidiQuery({
     variables: {
       filter: {
         operatorId: parseInt(props.id, 10),
@@ -140,35 +131,23 @@ const SaidiSaifi = (
     },
   });
 
-  const data = queryState.data
-    ? "saidi" in queryState?.data
-      ? queryState.data.saidi
-      : "saifi" in queryState?.data
-      ? queryState.data.saifi
-      : null
-    : null;
   const yearlyObservations = useMemo(() => {
     const year = parseInt(latestYear, 10);
-    return data?.["yearlyData"].filter((x) => x.year === year) ?? [];
+    return data?.saidi?.yearlyData?.filter((x) => x.year === year) ?? [];
   }, [data, latestYear]);
 
-  if (!data) {
+  if (!data?.saidi) {
     return null;
   }
 
   const operatorLabel = props.name;
 
   const comparisonCardProps = {
-    title:
-      attribute === "saidi" ? (
-        <Trans id="sunshine.power-stability.saidi.comparison-card-title">
-          Total Outage Duration
-        </Trans>
-      ) : (
-        <Trans id="sunshine.power-stability.saifi.comparison-card-title">
-          Total Outage Frequency
-        </Trans>
-      ),
+    title: (
+      <Trans id="sunshine.power-stability.saidi.comparison-card-title">
+        Total Outage Duration
+      </Trans>
+    ),
     subtitle: (
       <Trans id="sunshine.power-stability.latest-year">
         Latest year ({latestYear})
@@ -180,9 +159,8 @@ const SaidiSaifi = (
           <Trans id="sunshine.power-stability.operator">{operatorLabel}</Trans>
         ),
         value: {
-          value: data.operatorTotal,
+          value: data.saidi.operatorTotal,
           unit: MIN_PER_YEAR,
-
           // TODO Compute the trend
           trend: Trend.Down,
         },
@@ -194,9 +172,8 @@ const SaidiSaifi = (
           </Trans>
         ),
         value: {
-          value: data.peerGroupTotal,
+          value: data.saidi.peerGroupTotal,
           unit: MIN_PER_YEAR,
-
           // TODO Compute the trend
           trend: Trend.Stable,
         },
@@ -212,12 +189,7 @@ const SaidiSaifi = (
             xs: "1fr", // Single column on small screens
             sm: "repeat(2, 1fr)", // Two columns on medium screens
           },
-
           gridTemplateRows: ["auto auto auto", "auto auto"], // Three rows: two for cards, one for trend chart
-
-          // On Desktop, peer group and network costs cards are side by side
-          // Network costs trend is below them
-          // On Mobile, they are stacked
           gridTemplateAreas: [
             `"peer-group" "comparison" "trend"`, // One column on small screens
             `"peer-group comparison" "trend trend"`, // Two columns on medium screens
@@ -243,7 +215,134 @@ const SaidiSaifi = (
           operatorId={props.id}
           operatorLabel={operatorLabel}
           observations={yearlyObservations}
-          attribute={attribute}
+          cardTitle={t({
+            id: "sunshine.power-stability.saidi-trend",
+            message: "Average Power Outage Duration (SAIDI)",
+          })}
+          infoDialogProps={{
+            slug: "sunshine.power-stability.saidi.info-dialog",
+            label: t({
+              id: "sunshine.power-stability.saidi.info-dialog-label",
+              message: "Total Outage Duration",
+            }),
+          }}
+        />
+      </CardGrid>
+    </>
+  );
+};
+
+const Saifi = (props: Extract<Props, { status: "found" }>) => {
+  const {
+    operator: { peerGroup },
+    latestYear,
+    updateDate,
+  } = props.powerStability;
+
+  const [{ data }] = useSaifiQuery({
+    variables: {
+      filter: {
+        operatorId: parseInt(props.id, 10),
+        year: parseInt(latestYear, 10),
+      },
+    },
+  });
+
+  const yearlyObservations = useMemo(() => {
+    const year = parseInt(latestYear, 10);
+    return data?.saifi?.yearlyData?.filter((x) => x.year === year) ?? [];
+  }, [data, latestYear]);
+
+  if (!data?.saifi) {
+    return null;
+  }
+
+  const operatorLabel = props.name;
+
+  const comparisonCardProps = {
+    title: (
+      <Trans id="sunshine.power-stability.saifi.comparison-card-title">
+        Total Outage Frequency
+      </Trans>
+    ),
+    subtitle: (
+      <Trans id="sunshine.power-stability.latest-year">
+        Latest year ({latestYear})
+      </Trans>
+    ),
+    rows: [
+      {
+        label: (
+          <Trans id="sunshine.power-stability.operator">{operatorLabel}</Trans>
+        ),
+        value: {
+          value: data.saifi.operatorTotal,
+          unit: MIN_PER_YEAR,
+          // TODO Compute the trend
+          trend: Trend.Down,
+        },
+      },
+      {
+        label: (
+          <Trans id="sunshine.power-stability.median-peer-group">
+            Median Peer Group
+          </Trans>
+        ),
+        value: {
+          value: data.saifi.peerGroupTotal,
+          unit: MIN_PER_YEAR,
+          // TODO Compute the trend
+          trend: Trend.Stable,
+        },
+      },
+    ],
+  } satisfies React.ComponentProps<typeof TableComparisonCard>;
+
+  return (
+    <>
+      <CardGrid
+        sx={{
+          gridTemplateColumns: {
+            xs: "1fr", // Single column on small screens
+            sm: "repeat(2, 1fr)", // Two columns on medium screens
+          },
+          gridTemplateRows: ["auto auto auto", "auto auto"], // Three rows: two for cards, one for trend chart
+          gridTemplateAreas: [
+            `"peer-group" "comparison" "trend"`, // One column on small screens
+            `"peer-group comparison" "trend trend"`, // Two columns on medium screens
+          ],
+        }}
+      >
+        <PeerGroupCard
+          latestYear={latestYear}
+          peerGroup={peerGroup}
+          sx={{ gridArea: "peer-group" }}
+        />
+
+        <TableComparisonCard
+          {...comparisonCardProps}
+          sx={{ gridArea: "comparison" }}
+        />
+
+        <PowerStabilityCard
+          latestYear={Number(latestYear)}
+          sx={{ gridArea: "trend" }}
+          peerGroup={peerGroup}
+          updateDate={updateDate}
+          operatorId={props.id}
+          operatorLabel={operatorLabel}
+          observations={yearlyObservations}
+          cardTitle={t({
+            id: "sunshine.power-stability.saifi-trend",
+            message: "Average Power Outage Frequency (SAIFI)",
+          })}
+          infoDialogProps={{
+            slug: "sunshine.power-stability.saifi.info-dialog",
+            label: t({
+              id: "sunshine.power-stability.saifi.info-dialog-label",
+              message: "Total Outage Frequency",
+            }),
+          }}
         />
       </CardGrid>
     </>
@@ -318,8 +417,8 @@ const PowerStability = (props: Props) => {
         handleTabChange={handleTabChange}
       />
 
-      {activeTab === "saidi" && <SaidiSaifi attribute="saidi" {...props} />}
-      {activeTab === "saifi" && <SaidiSaifi attribute="saifi" {...props} />}
+      {activeTab === "saidi" && <Saidi {...props} />}
+      {activeTab === "saifi" && <Saifi {...props} />}
     </>
   );
 
