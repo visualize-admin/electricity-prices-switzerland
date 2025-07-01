@@ -19,12 +19,12 @@ import { CardHeader } from "./detail-page/card";
 import { Download, DownloadImage } from "./detail-page/download-image";
 import { InfoDialogButton } from "./info-dialog";
 import { NetworkCostTrendChart } from "./network-cost-trend-chart";
-import { ViewByFilter } from "./power-stability-card";
+import { CompareWithFilter, ViewByFilter } from "./power-stability-card";
 import { AllOrMultiCombobox } from "./query-combobox";
 
 const DOWNLOAD_ID: Download = "costs-and-tariffs";
 
-export type NetworkCostsTrendCardProps = {
+type NetworkCostsTrendCardProps = {
   peerGroup: PeerGroup;
   updateDate: string;
   networkCosts: SunshineCostsAndTariffsData["networkCosts"];
@@ -34,7 +34,7 @@ export type NetworkCostsTrendCardProps = {
 } & CardProps;
 
 export type NetworkCostsTrendCardFilters = {
-  compareWith?: string[];
+  compareWith?: CompareWithFilter;
   viewBy?: ViewByFilter;
 };
 

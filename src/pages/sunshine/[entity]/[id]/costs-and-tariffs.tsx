@@ -25,7 +25,7 @@ import {
   CostsAndTariffsNavigation,
 } from "src/components/sunshine-tabs";
 import TableComparisonCard from "src/components/table-comparison-card";
-import TariffsTrendCard from "src/components/tariffs-trend-card";
+import { TariffsTrendCard } from "src/components/tariffs-trend-card";
 import {
   handleOperatorsEntity,
   PageParams,

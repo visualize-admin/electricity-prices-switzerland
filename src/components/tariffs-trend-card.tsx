@@ -24,7 +24,7 @@ import { TariffsTrendChart } from "./tariffs-trend-chart";
 
 const DOWNLOAD_ID: Download = "costs-and-tariffs";
 
-export type TariffsTrendCardProps = {
+type TariffsTrendCardProps = {
   peerGroup: PeerGroup;
   updateDate: string;
   netTariffs: SunshineCostsAndTariffsData["netTariffs"];
@@ -275,5 +275,3 @@ export const TariffsTrendCardMinified: React.FC<
     </Card>
   );
 };
-
-export default TariffsTrendCard;

@@ -26,8 +26,8 @@ const DOWNLOAD_ID: Download = "power-stability";
 // TODO Those should come from the query state SunshineMap
 export type ViewByFilter = "latest" | "progress";
 export type CompareWithFilter = string[];
-export type OverallOrRatioFilter = "overall" | "ratio";
-export type DurationFilter = "total" | "planned" | "unplanned";
+type OverallOrRatioFilter = "overall" | "ratio";
+type DurationFilter = "total" | "planned" | "unplanned";
 
 export type PowerStabilityCardFilters = {
   compareWith?: CompareWithFilter;
@@ -36,7 +36,7 @@ export type PowerStabilityCardFilters = {
   overallOrRatio?: OverallOrRatioFilter;
 };
 
-export type PowerStabilityCardProps = {
+type PowerStabilityCardProps = {
   peerGroup: PeerGroup;
   updateDate: string;
   observations:
@@ -356,5 +356,3 @@ export const PowerStabilityCardMinified: React.FC<
     </Card>
   );
 };
-
-export default PowerStabilityCard;

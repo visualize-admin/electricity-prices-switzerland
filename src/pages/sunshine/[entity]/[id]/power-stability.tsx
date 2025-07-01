@@ -15,7 +15,7 @@ import {
 } from "src/components/detail-page/layout";
 import { DetailsPageSidebar } from "src/components/detail-page/sidebar";
 import PeerGroupCard from "src/components/peer-group-card";
-import PowerStabilityCard from "src/components/power-stability-card";
+import { PowerStabilityCard } from "src/components/power-stability-card";
 import {
   PowerStabilityNavigation,
   PowerStabilityTab,

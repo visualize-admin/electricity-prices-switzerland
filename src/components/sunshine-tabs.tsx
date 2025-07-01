@@ -108,7 +108,7 @@ export const OperationalStandardsNavigation: React.FC<{
   );
 };
 
-export type YearlyTab = `${number}`;
+type YearlyTab = `${number}`;
 
 export type YearlyNavigationProps = {
   activeTab: string;
