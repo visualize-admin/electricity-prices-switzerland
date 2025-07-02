@@ -17,6 +17,7 @@ export const HorizontalBarChart = () => {
           viewBy="latest"
           overallOrRatio="overall"
           duration={"total"}
+          compareWith={[]}
         />
       </DesignGrid>
     </DesignStory>

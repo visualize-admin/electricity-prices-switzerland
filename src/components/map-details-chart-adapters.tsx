@@ -272,6 +272,7 @@ const SaidiSaifiChartAdapter = ({
         viewBy="progress"
         overallOrRatio="overall"
         duration={typology}
+        compareWith={[]}
         mini
       />
     </ChartAdapterWrapper>
