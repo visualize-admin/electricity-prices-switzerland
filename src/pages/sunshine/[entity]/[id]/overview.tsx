@@ -34,6 +34,7 @@ import {
   tariffCategories,
   TariffCategory,
 } from "src/domain/data";
+import { sunshineDetailsLink } from "src/domain/query-states";
 import { getLocalizedLabel } from "src/domain/translation";
 import {
   EnergyTariffsQuery,
@@ -323,7 +324,12 @@ const OverviewPage = (props: Props) => {
             id: `network-level.${networkLevel}.description`,
           })}
           linkContent={
-            <Link href={`/sunshine/${entity}/${id}/network-costs`}>
+            <Link
+              href={sunshineDetailsLink(
+                `/sunshine/${entity}/${id}/costs-and-tariffs`,
+                { tab: "networkCosts" }
+              )}
+            >
               <IconButton variant="outlined" color="primary">
                 <Icon name="arrowright" />
               </IconButton>
@@ -351,7 +357,12 @@ const OverviewPage = (props: Props) => {
           })}
           sx={{ gridArea: "net-tariffs" }}
           linkContent={
-            <Link href={`/sunshine/${entity}/${id}/net-tariffs`}>
+            <Link
+              href={sunshineDetailsLink(
+                `/sunshine/${entity}/${id}/costs-and-tariffs`,
+                { tab: "netTariffs" }
+              )}
+            >
               <IconButton variant="outlined" size="sm" color="primary">
                 <Icon name="arrowright" />
               </IconButton>
@@ -379,7 +390,12 @@ const OverviewPage = (props: Props) => {
           })}
           sx={{ gridArea: "energy-tariffs" }}
           linkContent={
-            <Link href={`/sunshine/${entity}/${id}/energy-tariffs`}>
+            <Link
+              href={sunshineDetailsLink(
+                `/sunshine/${entity}/${id}/costs-and-tariffs`,
+                { tab: "energyTariffs" }
+              )}
+            >
               <IconButton variant="outlined" size="sm" color="primary">
                 <Icon name="arrowright" />
               </IconButton>
@@ -414,7 +430,12 @@ const OverviewPage = (props: Props) => {
           }
           sx={{ gridArea: "saidi" }}
           linkContent={
-            <Link href={`/sunshine/${entity}/${id}/saidi`}>
+            <Link
+              href={sunshineDetailsLink(
+                `/sunshine/${entity}/${id}/power-stability`,
+                { tab: "saidi" }
+              )}
+            >
               <IconButton variant="outlined" size="sm" color="primary">
                 <Icon name="arrowright" />
               </IconButton>
@@ -444,7 +465,12 @@ const OverviewPage = (props: Props) => {
           }
           sx={{ gridArea: "saifi" }}
           linkContent={
-            <Link href={`/sunshine/${entity}/${id}/saidi`}>
+            <Link
+              href={sunshineDetailsLink(
+                `/sunshine/${entity}/${id}/power-stability`,
+                { tab: "saifi" }
+              )}
+            >
               <IconButton variant="outlined" size="sm" color="primary">
                 <Icon name="arrowright" />
               </IconButton>
@@ -461,7 +487,12 @@ const OverviewPage = (props: Props) => {
           activeTab={year}
           handleTabChange={(_, value) => setYear(value)}
           linkContent={
-            <Link href={`/sunshine/${entity}/${id}/operational-standards`}>
+            <Link
+              href={sunshineDetailsLink(
+                `/sunshine/${entity}/${id}/operational-standards`,
+                { tab: "serviceQuality" }
+              )}
+            >
               <IconButton variant="outlined" size="sm" color="primary">
                 <Icon name="arrowright" />
               </IconButton>
@@ -474,7 +505,12 @@ const OverviewPage = (props: Props) => {
           activeTab={year}
           handleTabChange={(_, value) => setYear(value)}
           linkContent={
-            <Link href={`/sunshine/${entity}/${id}/operational-standards`}>
+            <Link
+              href={sunshineDetailsLink(
+                `/sunshine/${entity}/${id}/operational-standards`,
+                { tab: "compliance" }
+              )}
+            >
               <IconButton variant="outlined" size="sm" color="primary">
                 <Icon name="arrowright" />
               </IconButton>
