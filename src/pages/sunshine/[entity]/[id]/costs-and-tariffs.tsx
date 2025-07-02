@@ -18,14 +18,14 @@ import {
 } from "src/components/detail-page/layout";
 import { DetailsPageSidebar } from "src/components/detail-page/sidebar";
 import { Loading } from "src/components/hint";
-import NetworkCostsTrendCard from "src/components/network-costs-trend-card";
+import { NetworkCostsTrendCard } from "src/components/network-costs-trend-card";
 import PeerGroupCard from "src/components/peer-group-card";
 import {
   CostAndTariffsTab,
   CostsAndTariffsNavigation,
 } from "src/components/sunshine-tabs";
 import TableComparisonCard from "src/components/table-comparison-card";
-import TariffsTrendCard from "src/components/tariffs-trend-card";
+import { TariffsTrendCard } from "src/components/tariffs-trend-card";
 import {
   handleOperatorsEntity,
   PageParams,
@@ -673,7 +673,7 @@ const CostsAndTariffs = (props: Props) => {
   })}`;
 
   const handleTabChange = (
-    event: React.SyntheticEvent,
+    _: React.SyntheticEvent,
     newValue: CostAndTariffsTab
   ) => {
     setActiveTab(newValue);

@@ -1,13 +1,13 @@
 import { Trans, t } from "@lingui/macro";
 import {
-  Box,
   Card,
   CardContent,
   CardProps,
   Grid,
+  Stack,
   Typography,
 } from "@mui/material";
-import React, { useMemo, useState } from "react";
+import React, { ReactNode, useMemo, useState } from "react";
 
 import { ButtonGroup } from "src/components/button-group";
 import CardSource from "src/components/card-source";
@@ -19,24 +19,29 @@ import { CardHeader } from "./detail-page/card";
 import { Download, DownloadImage } from "./detail-page/download-image";
 import { InfoDialogButton } from "./info-dialog";
 import { NetworkCostTrendChart } from "./network-cost-trend-chart";
-import { ViewByFilter } from "./power-stability-card";
+import { CompareWithFilter, ViewByFilter } from "./power-stability-card";
 import { AllOrMultiCombobox } from "./query-combobox";
 
 const DOWNLOAD_ID: Download = "costs-and-tariffs";
 
-const NetworkCostsTrendCard: React.FC<
-  {
-    peerGroup: PeerGroup;
-    updateDate: string;
-    networkCosts: SunshineCostsAndTariffsData["networkCosts"];
-    operatorId: string;
-    operatorLabel: string;
-    latestYear: number;
-  } & CardProps
-> = (props) => {
-  const [compareWith, setCompareWith] = useState(["sunshine.select-all"]);
-  const [viewBy, setViewBy] = useState<ViewByFilter>("latest");
+type NetworkCostsTrendCardProps = {
+  peerGroup: PeerGroup;
+  updateDate: string;
+  networkCosts: SunshineCostsAndTariffsData["networkCosts"];
+  operatorId: string;
+  operatorLabel: string;
+  latestYear: number;
+} & CardProps;
 
+export type NetworkCostsTrendCardFilters = {
+  compareWith?: CompareWithFilter;
+  viewBy?: ViewByFilter;
+};
+
+const useNetworkCostsTrendCard = (
+  props: NetworkCostsTrendCardProps,
+  filters?: NetworkCostsTrendCardFilters
+) => {
   const {
     peerGroup,
     updateDate,
@@ -45,8 +50,13 @@ const NetworkCostsTrendCard: React.FC<
     operatorLabel,
     latestYear,
   } = props;
+  const [compareWith, setCompareWith] = useState(
+    filters?.compareWith ?? ["sunshine.select-all"]
+  );
+  const [viewBy, setViewBy] = useState<ViewByFilter>(
+    filters?.viewBy ?? "latest"
+  );
   const { peerGroupLabel } = getPeerGroupLabels(peerGroup);
-
   const { yearlyData, ...restNetworkCosts } = networkCosts;
 
   const { chartData, multiComboboxOptions } = useMemo(() => {
@@ -60,19 +70,48 @@ const NetworkCostsTrendCard: React.FC<
         compareWith.includes("sunshine.select-all") ||
         compareWith.includes(operatorIdStr) ||
         operatorIdStr === operatorId;
-
       if ((viewBy === "latest" ? isLatestYear : true) && isSelected) {
         chartData.push(d);
       }
-
       if (isLatestYear && operatorIdStr !== operatorId) {
         multiComboboxOptions.push(d);
       }
     });
-
     return { chartData, multiComboboxOptions };
   }, [yearlyData, compareWith, latestYear, operatorId, viewBy]);
 
+  return {
+    compareWith,
+    setCompareWith,
+    viewBy,
+    setViewBy,
+    peerGroupLabel,
+    chartData,
+    multiComboboxOptions,
+    restNetworkCosts,
+    updateDate,
+    operatorId,
+    operatorLabel,
+  };
+};
+
+export const NetworkCostsTrendCard: React.FC<NetworkCostsTrendCardProps> = (
+  props
+) => {
+  const logic = useNetworkCostsTrendCard(props);
+  const {
+    compareWith,
+    setCompareWith,
+    viewBy,
+    setViewBy,
+    peerGroupLabel,
+    chartData,
+    multiComboboxOptions,
+    restNetworkCosts,
+    updateDate,
+    operatorId,
+    operatorLabel,
+  } = logic;
   return (
     <Card {...props} id={DOWNLOAD_ID}>
       <CardContent>
@@ -113,7 +152,6 @@ const NetworkCostsTrendCard: React.FC<
             </Trans>
           </Typography>
         </CardHeader>
-
         {/* Dropdown Controls */}
         <Grid container spacing={3} sx={{ mb: 3 }}>
           <Grid
@@ -181,23 +219,20 @@ const NetworkCostsTrendCard: React.FC<
             />
           </Grid>
         </Grid>
-
         {/* Scatter Plot */}
-        <Box sx={{ height: 350, width: "100%" }}>
-          <NetworkCostTrendChart
-            rootProps={{
-              sx: {
-                mt: 8,
-              },
-            }}
-            id={operatorId}
-            operatorLabel={operatorLabel}
-            observations={chartData}
-            networkCosts={restNetworkCosts}
-            view={viewBy}
-            compareWith={compareWith}
-          />
-        </Box>
+        <NetworkCostTrendChart
+          rootProps={{
+            sx: {
+              mt: 8,
+            },
+          }}
+          id={operatorId}
+          operatorLabel={operatorLabel}
+          observations={chartData}
+          networkCosts={restNetworkCosts}
+          viewBy={viewBy}
+          compareWith={compareWith}
+        />
         {/* Footer Info */}
         <CardSource date={`${updateDate}`} source={"Lindas"} />
       </CardContent>
@@ -205,4 +240,53 @@ const NetworkCostsTrendCard: React.FC<
   );
 };
 
-export default NetworkCostsTrendCard;
+export const NetworkCostsTrendCardMinified: React.FC<
+  Omit<NetworkCostsTrendCardProps, "infoDialogProps"> & {
+    linkContent?: ReactNode;
+    filters?: NetworkCostsTrendCardFilters;
+    cardDescription?: ReactNode;
+  }
+> = (props) => {
+  const { filters, cardDescription, ...rest } = props;
+  const logic = useNetworkCostsTrendCard(rest, filters);
+  const { chartData, restNetworkCosts, operatorId, operatorLabel } = logic;
+  return (
+    <Card {...rest}>
+      <CardContent
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          flex: 1,
+          height: "100%",
+        }}
+      >
+        <Typography variant="h3">
+          <Trans id="sunshine.costs-and-tariffs.network-cost-trend.overview">
+            Network Costs
+          </Trans>
+        </Typography>
+        <Typography variant="body2">{cardDescription}</Typography>
+        <NetworkCostTrendChart
+          rootProps={{ sx: { mt: 2 } }}
+          id={operatorId}
+          operatorLabel={operatorLabel}
+          observations={chartData}
+          networkCosts={restNetworkCosts}
+          viewBy={filters?.viewBy ?? "progress"}
+          compareWith={filters?.compareWith ?? []}
+        />
+        <Stack
+          sx={{
+            mt: 2,
+            flexGrow: 1,
+            flexDirection: "column",
+            justifyContent: "flex-end",
+            alignItems: "flex-end",
+          }}
+        >
+          {props.linkContent}
+        </Stack>
+      </CardContent>
+    </Card>
+  );
+};

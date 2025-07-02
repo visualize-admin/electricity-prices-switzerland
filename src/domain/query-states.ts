@@ -61,6 +61,8 @@ const sunshineIndicatorSchema = z.enum([
   "energyTariffs",
   "saidi",
   "saifi",
+  "serviceQuality",
+  "compliance",
 ] as const);
 
 const sunshineMapSchema = z.object({

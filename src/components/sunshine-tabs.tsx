@@ -76,9 +76,8 @@ export const PowerStabilityNavigation: React.FC<{
 };
 
 export enum OperationalStandardsTabOption {
-  PRODUCT_VARIETY = 0,
-  SERVICE_QUALITY = 1,
-  COMPLIANCE = 2,
+  SERVICE_QUALITY = 0,
+  COMPLIANCE = 1,
 }
 
 export const OperationalStandardsNavigation: React.FC<{
@@ -87,15 +86,6 @@ export const OperationalStandardsNavigation: React.FC<{
 }> = ({ activeTab, handleTabChange }) => {
   return (
     <Tabs value={activeTab} onChange={handleTabChange}>
-      <Tab
-        data-testid="product-variety-tab"
-        value={OperationalStandardsTabOption.PRODUCT_VARIETY}
-        label={
-          <Trans id="sunshine.operational-standards.product-variety">
-            Product Variety
-          </Trans>
-        }
-      />
       <Tab
         data-testid="service-quality-tab"
         value={OperationalStandardsTabOption.SERVICE_QUALITY}
@@ -114,6 +104,38 @@ export const OperationalStandardsNavigation: React.FC<{
           </Trans>
         }
       />
+    </Tabs>
+  );
+};
+
+type YearlyTab = `${number}`;
+
+export type YearlyNavigationProps = {
+  activeTab: string;
+  handleTabChange: (event: React.SyntheticEvent, newValue: YearlyTab) => void;
+};
+
+export const YearlyNavigation: React.FC<YearlyNavigationProps> = ({
+  activeTab,
+  handleTabChange,
+}) => {
+  const currentYear = new Date().getFullYear();
+  const years = [currentYear - 2, currentYear - 1, currentYear];
+
+  return (
+    <Tabs value={activeTab} onChange={handleTabChange}>
+      {years.map((year) => (
+        <Tab
+          key={year}
+          data-testid={`${year}-tab`}
+          value={`${year}` satisfies YearlyTab}
+          label={
+            <Trans id="sunshine.costs-and-tariffs.year" values={{ year }}>
+              {year}
+            </Trans>
+          }
+        />
+      ))}
     </Tabs>
   );
 };

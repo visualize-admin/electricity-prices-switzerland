@@ -11,7 +11,9 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Features
+
+  - Added Overview Details Page
 
 # 2.3.1 - 2025-06-26
 

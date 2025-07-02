@@ -1,13 +1,13 @@
 import { Trans, t } from "@lingui/macro";
 import {
-  Box,
   Card,
   CardContent,
   CardProps,
   Grid,
+  Stack,
   Typography,
 } from "@mui/material";
-import React, { useMemo, useState } from "react";
+import React, { ReactNode, useMemo, useState } from "react";
 
 import { ButtonGroup } from "src/components/button-group";
 import CardSource from "src/components/card-source";
@@ -24,21 +24,26 @@ import { TariffsTrendChart } from "./tariffs-trend-chart";
 
 const DOWNLOAD_ID: Download = "costs-and-tariffs";
 
-const TariffsTrendCard: React.FC<
-  {
-    peerGroup: PeerGroup;
-    updateDate: string;
-    netTariffs: SunshineCostsAndTariffsData["netTariffs"];
-    operatorId: string;
-    operatorLabel: string;
-    latestYear: number;
-    cardTitle: React.ReactNode;
-    infoDialogProps: Pick<InfoDialogButtonProps, "slug" | "label">;
-  } & Omit<CardProps, "title">
-> = (props) => {
-  const [compareWith, setCompareWith] = useState(["sunshine.select-all"]);
-  const [viewBy, setViewBy] = useState<ViewByFilter>("latest");
+type TariffsTrendCardProps = {
+  peerGroup: PeerGroup;
+  updateDate: string;
+  netTariffs: SunshineCostsAndTariffsData["netTariffs"];
+  operatorId: string;
+  operatorLabel: string;
+  latestYear: number;
+  cardTitle: React.ReactNode;
+  infoDialogProps: Pick<InfoDialogButtonProps, "slug" | "label">;
+} & Omit<CardProps, "title">;
 
+export type TariffsTrendCardFilters = {
+  compareWith?: string[];
+  viewBy?: ViewByFilter;
+};
+
+const useTariffsTrendCard = (
+  props: Omit<TariffsTrendCardProps, "cardTitle" | "infoDialogProps">,
+  filters?: TariffsTrendCardFilters
+) => {
   const {
     peerGroup,
     updateDate,
@@ -46,12 +51,16 @@ const TariffsTrendCard: React.FC<
     operatorId,
     operatorLabel,
     latestYear,
-    cardTitle: title,
-    infoDialogProps,
   } = props;
+  const [compareWith, setCompareWith] = useState(
+    filters?.compareWith ?? ["sunshine.select-all"]
+  );
+  const [viewBy, setViewBy] = useState<ViewByFilter>(
+    filters?.viewBy ?? "latest"
+  );
   const { peerGroupLabel } = getPeerGroupLabels(peerGroup);
-
   const { yearlyData, ...restNetTariffs } = netTariffs;
+
   const { chartData, multiComboboxOptions } = useMemo(() => {
     const multiComboboxOptions: typeof yearlyData = [];
     const chartData: typeof yearlyData = [];
@@ -63,21 +72,48 @@ const TariffsTrendCard: React.FC<
         compareWith.includes("sunshine.select-all") ||
         compareWith.includes(operatorIdStr) ||
         operatorIdStr === operatorId;
-
       if ((viewBy === "latest" ? isLatestYear : true) && isSelected) {
         chartData.push(d);
       }
-
       if (isLatestYear && operatorIdStr !== operatorId) {
         multiComboboxOptions.push(d);
       }
     });
-
     return { chartData, multiComboboxOptions };
   }, [yearlyData, compareWith, latestYear, operatorId, viewBy]);
+  return {
+    compareWith,
+    setCompareWith,
+    viewBy,
+    setViewBy,
+    peerGroupLabel,
+    chartData,
+    multiComboboxOptions,
+    restNetTariffs,
+    updateDate,
+    operatorId,
+    operatorLabel,
+  };
+};
 
+export const TariffsTrendCard: React.FC<TariffsTrendCardProps> = (props) => {
+  const logic = useTariffsTrendCard(props);
+  const {
+    compareWith,
+    setCompareWith,
+    viewBy,
+    setViewBy,
+    peerGroupLabel,
+    chartData,
+    multiComboboxOptions,
+    restNetTariffs,
+    updateDate,
+    operatorId,
+    operatorLabel,
+  } = logic;
+  const { cardTitle: title, infoDialogProps, ...cardProps } = props;
   return (
-    <Card {...props} id={DOWNLOAD_ID}>
+    <Card {...cardProps} id={DOWNLOAD_ID}>
       <CardContent>
         <CardHeader
           trailingContent={
@@ -110,7 +146,6 @@ const TariffsTrendCard: React.FC<
             </Trans>
           </Typography>
         </CardHeader>
-
         {/* Dropdown Controls */}
         <Grid container spacing={3} sx={{ mb: 3 }}>
           <Grid
@@ -173,23 +208,20 @@ const TariffsTrendCard: React.FC<
             />
           </Grid>
         </Grid>
-
         {/* Scatter Plot */}
-        <Box sx={{ height: 350, width: "100%" }}>
-          <TariffsTrendChart
-            id={operatorId}
-            operatorLabel={operatorLabel}
-            observations={chartData}
-            netTariffs={restNetTariffs}
-            view={viewBy}
-            compareWith={compareWith}
-            rootProps={{
-              sx: {
-                mt: 8,
-              },
-            }}
-          />
-        </Box>
+        <TariffsTrendChart
+          id={operatorId}
+          operatorLabel={operatorLabel}
+          observations={chartData}
+          netTariffs={restNetTariffs}
+          viewBy={viewBy}
+          compareWith={compareWith}
+          rootProps={{
+            sx: {
+              mt: 8,
+            },
+          }}
+        />
         {/* Footer Info */}
         <CardSource date={`${updateDate}`} source={"Lindas"} />
       </CardContent>
@@ -197,4 +229,49 @@ const TariffsTrendCard: React.FC<
   );
 };
 
-export default TariffsTrendCard;
+export const TariffsTrendCardMinified: React.FC<
+  Omit<TariffsTrendCardProps, "infoDialogProps"> & {
+    linkContent?: ReactNode;
+    filters?: TariffsTrendCardFilters;
+    cardDescription?: ReactNode;
+  }
+> = (props) => {
+  const { filters, cardTitle, cardDescription, ...rest } = props;
+  const logic = useTariffsTrendCard(rest, filters);
+  const { chartData, restNetTariffs, operatorId, operatorLabel } = logic;
+  return (
+    <Card {...rest}>
+      <CardContent
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          flex: 1,
+          height: "100%",
+        }}
+      >
+        <Typography variant="h3">{cardTitle}</Typography>
+        <Typography variant="body2">{cardDescription}</Typography>
+        <TariffsTrendChart
+          id={operatorId}
+          operatorLabel={operatorLabel}
+          observations={chartData}
+          netTariffs={restNetTariffs}
+          viewBy={filters?.viewBy ?? "progress"}
+          compareWith={filters?.compareWith ?? []}
+          rootProps={{ sx: { mt: 2 } }}
+        />
+        <Stack
+          sx={{
+            mt: 2,
+            flexGrow: 1,
+            flexDirection: "column",
+            justifyContent: "flex-end",
+            alignItems: "flex-end",
+          }}
+        >
+          {props.linkContent}
+        </Stack>
+      </CardContent>
+    </Card>
+  );
+};

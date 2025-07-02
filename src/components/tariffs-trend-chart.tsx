@@ -24,12 +24,8 @@ import { Dots } from "./charts-generic/scatter-plot/dots";
 import { ScatterPlotMedian } from "./charts-generic/scatter-plot/median";
 import { ScatterPlot } from "./charts-generic/scatter-plot/scatter-plot-state";
 import { SectionProps } from "./detail-page/card";
-import { CompareWithFilter, ViewByFilter } from "./power-stability-card";
+import { TariffsTrendCardFilters } from "./tariffs-trend-card";
 
-type TariffsTrendFilters = {
-  view: ViewByFilter;
-  compareWith: CompareWithFilter;
-};
 type TariffsTrendChartProps = {
   rootProps?: BoxProps;
   observations: SunshineCostsAndTariffsData["netTariffs"]["yearlyData"];
@@ -37,17 +33,17 @@ type TariffsTrendChartProps = {
   operatorLabel: string;
   mini?: boolean;
 } & Omit<SectionProps, "entity"> &
-  TariffsTrendFilters;
+  TariffsTrendCardFilters;
 
 export const TariffsTrendChart = (props: TariffsTrendChartProps) => {
-  const { observations, view, rootProps, ...restProps } = props;
+  const { observations, viewBy, rootProps, ...restProps } = props;
   const operatorsNames = useMemo(() => {
     return new Set(observations.map((d) => d.operator_name));
   }, [observations]);
 
   return (
     <Box {...rootProps}>
-      {view === "latest" ? (
+      {viewBy === "latest" ? (
         <LatestYearChartView
           observations={observations}
           operatorsNames={operatorsNames}
@@ -64,7 +60,7 @@ export const TariffsTrendChart = (props: TariffsTrendChartProps) => {
   );
 };
 const LatestYearChartView = (
-  props: Omit<TariffsTrendChartProps, "view"> & {
+  props: Omit<TariffsTrendChartProps, "viewBy"> & {
     operatorsNames: Set<string>;
   }
 ) => {
@@ -154,12 +150,17 @@ const LatestYearChartView = (
   );
 };
 const ProgressOvertimeChartView = (
-  props: Omit<TariffsTrendChartProps, "view"> & {
+  props: Omit<TariffsTrendChartProps, "viewBy"> & {
     operatorsNames: Set<string>;
   }
 ) => {
-  const { observations, operatorLabel, operatorsNames, compareWith, mini } =
-    props;
+  const {
+    observations,
+    operatorLabel,
+    operatorsNames,
+    compareWith = [],
+    mini,
+  } = props;
   const hasNotSelectedAll = !compareWith.includes("sunshine.select-all");
 
   return (
