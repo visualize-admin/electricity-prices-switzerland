@@ -7,12 +7,12 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import React, { ReactNode, useMemo, useState } from "react";
+import React, { ReactNode } from "react";
 
 import { ButtonGroup } from "src/components/button-group";
 import CardSource from "src/components/card-source";
 import { PeerGroup, SunshineCostsAndTariffsData } from "src/domain/data";
-import { filterBySeparator } from "src/domain/helpers";
+import { useQueryStateTariffsTrendCardFilters } from "src/domain/query-states";
 import { getPeerGroupLabels } from "src/domain/translation";
 
 import { CardHeader } from "./detail-page/card";
@@ -40,9 +40,9 @@ export type TariffsTrendCardFilters = {
   viewBy?: ViewByFilter;
 };
 
-const useTariffsTrendCard = (
+const getTariffsTrendCardState = (
   props: Omit<TariffsTrendCardProps, "cardTitle" | "infoDialogProps">,
-  filters?: TariffsTrendCardFilters
+  filters: TariffsTrendCardFilters
 ) => {
   const {
     peerGroup,
@@ -52,27 +52,19 @@ const useTariffsTrendCard = (
     operatorLabel,
     latestYear,
   } = props;
-  const [compareWith, setCompareWith] = useState(
-    filters?.compareWith ?? ["sunshine.select-all"]
-  );
-  const [viewBy, setViewBy] = useState<ViewByFilter>(
-    filters?.viewBy ?? "latest"
-  );
   const { peerGroupLabel } = getPeerGroupLabels(peerGroup);
   const { yearlyData, ...restNetTariffs } = netTariffs;
-
-  const { chartData, multiComboboxOptions } = useMemo(() => {
+  const { chartData, multiComboboxOptions } = React.useMemo(() => {
     const multiComboboxOptions: typeof yearlyData = [];
     const chartData: typeof yearlyData = [];
-
     yearlyData.forEach((d) => {
       const isLatestYear = d.period === latestYear;
       const operatorIdStr = d.operator_id.toString();
       const isSelected =
-        compareWith.includes("sunshine.select-all") ||
-        compareWith.includes(operatorIdStr) ||
+        filters.compareWith?.includes("sunshine.select-all") ||
+        filters.compareWith?.includes(operatorIdStr) ||
         operatorIdStr === operatorId;
-      if ((viewBy === "latest" ? isLatestYear : true) && isSelected) {
+      if ((filters.viewBy === "latest" ? isLatestYear : true) && isSelected) {
         chartData.push(d);
       }
       if (isLatestYear && operatorIdStr !== operatorId) {
@@ -80,12 +72,8 @@ const useTariffsTrendCard = (
       }
     });
     return { chartData, multiComboboxOptions };
-  }, [yearlyData, compareWith, latestYear, operatorId, viewBy]);
+  }, [yearlyData, filters.compareWith, latestYear, operatorId, filters.viewBy]);
   return {
-    compareWith,
-    setCompareWith,
-    viewBy,
-    setViewBy,
     peerGroupLabel,
     chartData,
     multiComboboxOptions,
@@ -97,12 +85,10 @@ const useTariffsTrendCard = (
 };
 
 export const TariffsTrendCard: React.FC<TariffsTrendCardProps> = (props) => {
-  const logic = useTariffsTrendCard(props);
+  const [state, setQueryState] = useQueryStateTariffsTrendCardFilters();
+  const { compareWith, viewBy } = state;
+  const logic = getTariffsTrendCardState(props, state);
   const {
-    compareWith,
-    setCompareWith,
-    viewBy,
-    setViewBy,
     peerGroupLabel,
     chartData,
     multiComboboxOptions,
@@ -181,7 +167,9 @@ export const TariffsTrendCard: React.FC<TariffsTrendCardProps> = (props) => {
                 },
               ]}
               value={viewBy}
-              setValue={setViewBy}
+              setValue={(value) =>
+                setQueryState({ ...state, viewBy: value as ViewByFilter })
+              }
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -201,9 +189,7 @@ export const TariffsTrendCard: React.FC<TariffsTrendCardProps> = (props) => {
               ]}
               selectedItems={compareWith}
               setSelectedItems={(items) =>
-                setCompareWith((prev) =>
-                  filterBySeparator(items, prev, "sunshine.select-all")
-                )
+                setQueryState({ ...state, compareWith: items })
               }
             />
           </Grid>
@@ -236,9 +222,17 @@ export const TariffsTrendCardMinified: React.FC<
     cardDescription?: ReactNode;
   }
 > = (props) => {
-  const { filters, cardTitle, cardDescription, ...rest } = props;
-  const logic = useTariffsTrendCard(rest, filters);
-  const { chartData, restNetTariffs, operatorId, operatorLabel } = logic;
+  const {
+    filters: defaultFilters,
+    cardTitle,
+    cardDescription,
+    ...rest
+  } = props;
+  const [state] = useQueryStateTariffsTrendCardFilters({
+    defaultValue: defaultFilters,
+  });
+  const { compareWith, viewBy } = state;
+  const logic = getTariffsTrendCardState(rest, state);
   return (
     <Card {...rest}>
       <CardContent
@@ -252,12 +246,12 @@ export const TariffsTrendCardMinified: React.FC<
         <Typography variant="h3">{cardTitle}</Typography>
         <Typography variant="body2">{cardDescription}</Typography>
         <TariffsTrendChart
-          id={operatorId}
-          operatorLabel={operatorLabel}
-          observations={chartData}
-          netTariffs={restNetTariffs}
-          viewBy={filters?.viewBy ?? "progress"}
-          compareWith={filters?.compareWith ?? []}
+          id={logic.operatorId}
+          operatorLabel={logic.operatorLabel}
+          observations={logic.chartData}
+          netTariffs={logic.restNetTariffs}
+          viewBy={viewBy}
+          compareWith={compareWith}
           rootProps={{ sx: { mt: 2 } }}
         />
         <Stack

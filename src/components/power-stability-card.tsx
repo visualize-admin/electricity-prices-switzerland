@@ -7,12 +7,13 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import React, { ReactNode, useMemo, useState } from "react";
+import React, { ReactNode } from "react";
 
 import { ButtonGroup } from "src/components/button-group";
 import CardSource from "src/components/card-source";
 import { PeerGroup, SunshinePowerStabilityData } from "src/domain/data";
 import { filterBySeparator } from "src/domain/helpers";
+import { useQueryStatePowerStabilityCardFilters } from "src/domain/query-states";
 import { getPeerGroupLabels } from "src/domain/translation";
 
 import { CardHeader } from "./detail-page/card";
@@ -49,9 +50,9 @@ type PowerStabilityCardProps = {
   infoDialogProps: Pick<InfoDialogButtonProps, "slug" | "label">;
 } & CardProps;
 
-const usePowerStabilityCard = (
+const getPowerStabilityCardState = (
   props: Omit<PowerStabilityCardProps, "cardTitle" | "infoDialogProps">,
-  filters?: PowerStabilityCardFilters
+  filters: PowerStabilityCardFilters
 ) => {
   const {
     peerGroup,
@@ -61,30 +62,18 @@ const usePowerStabilityCard = (
     operatorLabel,
     latestYear,
   } = props;
-  const [compareWith, setCompareWith] = useState(
-    filters?.compareWith ?? ["sunshine.select-all"]
-  );
-  const [viewBy, setViewBy] = useState<ViewByFilter>(
-    filters?.viewBy ?? "latest"
-  );
-  const [duration, setDuration] = useState<DurationFilter>(
-    filters?.duration ?? "total"
-  );
-  const [overallOrRatio, setOverallOrRatio] = useState<OverallOrRatioFilter>(
-    filters?.overallOrRatio ?? "overall"
-  );
   const { peerGroupLabel } = getPeerGroupLabels(peerGroup);
-  const { chartData, multiComboboxOptions } = useMemo(() => {
+  const { chartData, multiComboboxOptions } = React.useMemo(() => {
     const multiComboboxOptions: typeof observations = [];
     const chartData: typeof observations = [];
     observations.forEach((d) => {
       const isLatestYear = d.year === latestYear;
       const operatorIdStr = d.operator.toString();
       const isSelected =
-        compareWith.includes("sunshine.select-all") ||
-        compareWith.includes(operatorIdStr) ||
+        filters.compareWith?.includes("sunshine.select-all") ||
+        filters.compareWith?.includes(operatorIdStr) ||
         operatorIdStr === operatorId;
-      if ((viewBy === "latest" ? isLatestYear : true) && isSelected) {
+      if ((filters.viewBy === "latest" ? isLatestYear : true) && isSelected) {
         chartData.push(d);
       }
       if (isLatestYear && operatorIdStr !== operatorId) {
@@ -92,16 +81,14 @@ const usePowerStabilityCard = (
       }
     });
     return { chartData, multiComboboxOptions };
-  }, [observations, compareWith, latestYear, operatorId, viewBy]);
+  }, [
+    observations,
+    filters.compareWith,
+    latestYear,
+    operatorId,
+    filters.viewBy,
+  ]);
   return {
-    compareWith,
-    setCompareWith,
-    viewBy,
-    setViewBy,
-    duration,
-    setDuration,
-    overallOrRatio,
-    setOverallOrRatio,
     peerGroupLabel,
     chartData,
     multiComboboxOptions,
@@ -115,16 +102,10 @@ const usePowerStabilityCard = (
 export const PowerStabilityCard: React.FC<PowerStabilityCardProps> = (
   props
 ) => {
-  const logic = usePowerStabilityCard(props);
+  const [state, setQueryState] = useQueryStatePowerStabilityCardFilters();
+  const { compareWith, viewBy, duration, overallOrRatio } = state;
+  const logic = getPowerStabilityCardState(props, state);
   const {
-    compareWith,
-    setCompareWith,
-    viewBy,
-    setViewBy,
-    duration,
-    setDuration,
-    overallOrRatio,
-    setOverallOrRatio,
     peerGroupLabel,
     chartData,
     multiComboboxOptions,
@@ -196,7 +177,9 @@ export const PowerStabilityCard: React.FC<PowerStabilityCardProps> = (
                 },
               ]}
               value={viewBy}
-              setValue={setViewBy}
+              setValue={(value) =>
+                setQueryState({ ...state, viewBy: value as ViewByFilter })
+              }
             />
           </Grid>
           <Grid item xs={12} sm={4} sx={{ mt: 2.5 }}>
@@ -226,7 +209,12 @@ export const PowerStabilityCard: React.FC<PowerStabilityCardProps> = (
                   },
                 ]}
                 value={overallOrRatio}
-                setValue={setOverallOrRatio}
+                setValue={(value) =>
+                  setQueryState({
+                    ...state,
+                    overallOrRatio: value as OverallOrRatioFilter,
+                  })
+                }
               />
             ) : (
               <ButtonGroup
@@ -262,7 +250,9 @@ export const PowerStabilityCard: React.FC<PowerStabilityCardProps> = (
                   },
                 ]}
                 value={duration}
-                setValue={setDuration}
+                setValue={(value) =>
+                  setQueryState({ ...state, duration: value as DurationFilter })
+                }
               />
             )}
           </Grid>
@@ -283,9 +273,14 @@ export const PowerStabilityCard: React.FC<PowerStabilityCardProps> = (
               ]}
               selectedItems={compareWith}
               setSelectedItems={(items) =>
-                setCompareWith((prev) =>
-                  filterBySeparator(items, prev, "sunshine.select-all")
-                )
+                setQueryState({
+                  ...state,
+                  compareWith: filterBySeparator(
+                    items,
+                    compareWith ?? [],
+                    "sunshine.select-all"
+                  ),
+                })
               }
             />
           </Grid>
@@ -297,6 +292,7 @@ export const PowerStabilityCard: React.FC<PowerStabilityCardProps> = (
           viewBy={viewBy}
           overallOrRatio={overallOrRatio}
           duration={duration}
+          compareWith={compareWith}
           rootProps={{
             sx: {
               mt: 8,
@@ -316,9 +312,17 @@ export const PowerStabilityCardMinified: React.FC<
     cardDescription?: ReactNode;
   }
 > = (props) => {
-  const { filters, cardTitle, cardDescription, ...rest } = props;
-  const logic = usePowerStabilityCard(rest, filters);
-  const { chartData, operatorId, operatorLabel } = logic;
+  const {
+    filters: defaultFilters,
+    cardTitle,
+    cardDescription,
+    ...rest
+  } = props;
+  const [state] = useQueryStatePowerStabilityCardFilters({
+    defaultValue: defaultFilters,
+  });
+  const { compareWith, viewBy, duration, overallOrRatio } = state;
+  const logic = getPowerStabilityCardState(rest, state);
   return (
     <Card {...rest}>
       <CardContent
@@ -332,13 +336,13 @@ export const PowerStabilityCardMinified: React.FC<
         <Typography variant="h3">{cardTitle}</Typography>
         <Typography variant="body2">{cardDescription}</Typography>
         <PowerStabilityChart
-          observations={chartData}
-          id={operatorId}
-          operatorLabel={operatorLabel}
-          viewBy={filters?.viewBy ?? "progress"}
-          overallOrRatio={filters?.overallOrRatio ?? "overall"}
-          duration={filters?.duration ?? "total"}
-          compareWith={filters?.compareWith ?? []}
+          observations={logic.chartData}
+          id={logic.operatorId}
+          operatorLabel={logic.operatorLabel}
+          viewBy={viewBy ?? "progress"}
+          overallOrRatio={overallOrRatio ?? "overall"}
+          duration={duration ?? "total"}
+          compareWith={compareWith ?? []}
           rootProps={{ sx: { mt: 2 } }}
         />
         <Stack

@@ -7,12 +7,13 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import React, { ReactNode, useMemo, useState } from "react";
+import React, { ReactNode } from "react";
 
 import { ButtonGroup } from "src/components/button-group";
 import CardSource from "src/components/card-source";
 import { PeerGroup, SunshineCostsAndTariffsData } from "src/domain/data";
 import { filterBySeparator, getPalette } from "src/domain/helpers";
+import { useQueryStateNetworkCostsTrendCardFilters } from "src/domain/query-states";
 import { getPeerGroupLabels } from "src/domain/translation";
 
 import { CardHeader } from "./detail-page/card";
@@ -38,9 +39,9 @@ export type NetworkCostsTrendCardFilters = {
   viewBy?: ViewByFilter;
 };
 
-const useNetworkCostsTrendCard = (
+const getNetworkCostsTrendCardState = (
   props: NetworkCostsTrendCardProps,
-  filters?: NetworkCostsTrendCardFilters
+  filters: NetworkCostsTrendCardFilters
 ) => {
   const {
     peerGroup,
@@ -50,27 +51,19 @@ const useNetworkCostsTrendCard = (
     operatorLabel,
     latestYear,
   } = props;
-  const [compareWith, setCompareWith] = useState(
-    filters?.compareWith ?? ["sunshine.select-all"]
-  );
-  const [viewBy, setViewBy] = useState<ViewByFilter>(
-    filters?.viewBy ?? "latest"
-  );
   const { peerGroupLabel } = getPeerGroupLabels(peerGroup);
   const { yearlyData, ...restNetworkCosts } = networkCosts;
-
-  const { chartData, multiComboboxOptions } = useMemo(() => {
+  const { chartData, multiComboboxOptions } = React.useMemo(() => {
     const multiComboboxOptions: typeof yearlyData = [];
     const chartData: typeof yearlyData = [];
-
     yearlyData.forEach((d) => {
       const isLatestYear = d.year === latestYear;
       const operatorIdStr = d.operator_id.toString();
       const isSelected =
-        compareWith.includes("sunshine.select-all") ||
-        compareWith.includes(operatorIdStr) ||
+        filters.compareWith?.includes("sunshine.select-all") ||
+        filters.compareWith?.includes(operatorIdStr) ||
         operatorIdStr === operatorId;
-      if ((viewBy === "latest" ? isLatestYear : true) && isSelected) {
+      if ((filters.viewBy === "latest" ? isLatestYear : true) && isSelected) {
         chartData.push(d);
       }
       if (isLatestYear && operatorIdStr !== operatorId) {
@@ -78,13 +71,8 @@ const useNetworkCostsTrendCard = (
       }
     });
     return { chartData, multiComboboxOptions };
-  }, [yearlyData, compareWith, latestYear, operatorId, viewBy]);
-
+  }, [yearlyData, filters.compareWith, latestYear, operatorId, filters.viewBy]);
   return {
-    compareWith,
-    setCompareWith,
-    viewBy,
-    setViewBy,
     peerGroupLabel,
     chartData,
     multiComboboxOptions,
@@ -98,12 +86,10 @@ const useNetworkCostsTrendCard = (
 export const NetworkCostsTrendCard: React.FC<NetworkCostsTrendCardProps> = (
   props
 ) => {
-  const logic = useNetworkCostsTrendCard(props);
+  const [state, setQueryState] = useQueryStateNetworkCostsTrendCardFilters();
+  const { compareWith, viewBy } = state;
+  const logic = getNetworkCostsTrendCardState(props, state);
   const {
-    compareWith,
-    setCompareWith,
-    viewBy,
-    setViewBy,
     peerGroupLabel,
     chartData,
     multiComboboxOptions,
@@ -187,13 +173,15 @@ export const NetworkCostsTrendCard: React.FC<NetworkCostsTrendCardProps> = (
                 },
               ]}
               value={viewBy}
-              setValue={setViewBy}
+              setValue={(value) =>
+                setQueryState({ ...state, viewBy: value as ViewByFilter })
+              }
             />
           </Grid>
           <Grid item xs={12} sm={6}>
             <AllOrMultiCombobox
               colorful={
-                compareWith.includes("sunshine.select-all")
+                compareWith?.includes("sunshine.select-all")
                   ? undefined
                   : getPalette("elcom2")
               }
@@ -212,9 +200,14 @@ export const NetworkCostsTrendCard: React.FC<NetworkCostsTrendCardProps> = (
               ]}
               selectedItems={compareWith}
               setSelectedItems={(items) =>
-                setCompareWith((prev) =>
-                  filterBySeparator(items, prev, "sunshine.select-all")
-                )
+                setQueryState({
+                  ...state,
+                  compareWith: filterBySeparator(
+                    items,
+                    compareWith ?? [],
+                    "sunshine.select-all"
+                  ),
+                })
               }
             />
           </Grid>
@@ -247,9 +240,12 @@ export const NetworkCostsTrendCardMinified: React.FC<
     cardDescription?: ReactNode;
   }
 > = (props) => {
-  const { filters, cardDescription, ...rest } = props;
-  const logic = useNetworkCostsTrendCard(rest, filters);
-  const { chartData, restNetworkCosts, operatorId, operatorLabel } = logic;
+  const { filters: defaultFilters, cardDescription, ...rest } = props;
+  const [state] = useQueryStateNetworkCostsTrendCardFilters({
+    defaultValue: defaultFilters,
+  });
+  const { compareWith, viewBy } = state;
+  const logic = getNetworkCostsTrendCardState(rest, state);
   return (
     <Card {...rest}>
       <CardContent
@@ -268,12 +264,12 @@ export const NetworkCostsTrendCardMinified: React.FC<
         <Typography variant="body2">{cardDescription}</Typography>
         <NetworkCostTrendChart
           rootProps={{ sx: { mt: 2 } }}
-          id={operatorId}
-          operatorLabel={operatorLabel}
-          observations={chartData}
-          networkCosts={restNetworkCosts}
-          viewBy={filters?.viewBy ?? "progress"}
-          compareWith={filters?.compareWith ?? []}
+          id={logic.operatorId}
+          operatorLabel={logic.operatorLabel}
+          observations={logic.chartData}
+          networkCosts={logic.restNetworkCosts}
+          viewBy={viewBy}
+          compareWith={compareWith}
         />
         <Stack
           sx={{
