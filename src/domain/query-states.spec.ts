@@ -43,7 +43,7 @@ describe("Query States", () => {
       const mockRouter = createMockRouter({});
 
       const { result } = renderHook(() =>
-        queryStates.useQueryStateMapCommon(mockRouter)
+        queryStates.useQueryStateMapCommon({ router: mockRouter })
       );
 
       expect(result.current[0]).toEqual({
@@ -59,7 +59,7 @@ describe("Query States", () => {
       });
 
       const { result } = renderHook(() =>
-        queryStates.useQueryStateMapCommon(mockRouter)
+        queryStates.useQueryStateMapCommon({ router: mockRouter })
       );
 
       expect(result.current[0]).toEqual({
@@ -73,7 +73,7 @@ describe("Query States", () => {
 
       const router = mockRouter();
       const { result } = renderHook(() =>
-        queryStates.useQueryStateMapCommon(() => router)
+        queryStates.useQueryStateMapCommon({ router: () => router })
       );
 
       act(() => {
@@ -102,7 +102,7 @@ describe("Query States", () => {
       });
 
       const { result } = renderHook(() =>
-        queryStates.useQueryStateEnergyPricesMap(mockRouter)
+        queryStates.useQueryStateEnergyPricesMap({ router: mockRouter })
       );
 
       expect(result.current[0]).toEqual({
@@ -129,7 +129,7 @@ describe("Query States", () => {
       });
 
       const { result } = renderHook(() =>
-        queryStates.useQueryStateEnergyPricesDetails(mockRouter)
+        queryStates.useQueryStateEnergyPricesDetails({ router: mockRouter })
       );
 
       // With the updated schema using stringToArray, these should now be arrays
@@ -143,7 +143,7 @@ describe("Query States", () => {
       const mockRouter = createMockRouter({});
 
       const { result } = renderHook(() =>
-        queryStates.useQueryStateEnergyPricesDetails(mockRouter)
+        queryStates.useQueryStateEnergyPricesDetails({ router: mockRouter })
       );
 
       // Default values should be properly initialized as arrays
@@ -170,7 +170,7 @@ describe("Query States", () => {
       });
 
       const { result } = renderHook(() =>
-        queryStates.useQueryStateSunshineMap(mockRouter)
+        queryStates.useQueryStateSunshineMap({ router: mockRouter })
       );
 
       expect(result.current[0]).toEqual({
@@ -194,7 +194,7 @@ describe("Query States", () => {
       });
 
       const { result } = renderHook(() =>
-        queryStates.useQueryStateSunshineDetails(mockRouter)
+        queryStates.useQueryStateSunshineDetails({ router: mockRouter })
       );
 
       expect(result.current[0]).toEqual({
