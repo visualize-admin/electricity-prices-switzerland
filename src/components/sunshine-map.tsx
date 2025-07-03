@@ -238,7 +238,7 @@ const SunshineMap = ({
 
                   return accessor(op) ?? null;
                 })
-                .filter(truthy);
+                .filter((x) => x !== null && x !== undefined);
               if (values.length === 0) {
                 return styles.operators.base.fillColor.withoutData;
               }
