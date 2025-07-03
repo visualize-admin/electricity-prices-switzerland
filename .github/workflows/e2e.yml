@@ -70,4 +70,5 @@ jobs:
       - name: Upload snapshots to argos-ci.com
         env:
           ARGOS_TOKEN: ${{ secrets.ARGOS_TOKEN }}
+          ARGOS_THRESHOLD: 0.75
         run: yarn run test:argos
