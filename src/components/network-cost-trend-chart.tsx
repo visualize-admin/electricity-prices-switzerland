@@ -83,7 +83,7 @@ const LatestYearChartView = (
         x: {
           componentIri: "rate",
           axisLabel: getNetworkLevelMetrics(
-            observations[0].network_level as NetworkLevel["id"]
+            observations[0]?.network_level as NetworkLevel["id"]
           ),
         },
         y: { componentIri: "network_level" },
