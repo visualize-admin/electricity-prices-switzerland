@@ -478,6 +478,10 @@ msgid "map.details-sidebar-panel.back-button"
 msgstr "Back to the filters"
 
 #: src/components/map-details-content.tsx
+msgid "map.details-sidebar-panel.next-button.compliance"
+msgstr "Compliance in detail"
+
+#: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.next-button.energy-prices"
 msgstr "Energy Prices in detail"
 
@@ -500,6 +504,10 @@ msgstr "SAIDI in detail"
 #: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.next-button.saifi"
 msgstr "SAIFI in detail"
+
+#: src/components/map-details-content.tsx
+msgid "map.details-sidebar-panel.next-button.service-quality"
+msgstr "Service Quality in detail"
 
 #: src/components/energy-prices-map.tsx
 msgid "map.legend.title"

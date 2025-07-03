@@ -11,63 +11,61 @@ export type UseQueryStateSingle<T extends z.ZodRawShape> = {
 
 type UseRouter = typeof useRouter;
 
-// Generic function to make useQueryState with specific schema
+type UseQueryStateOptions<T extends z.ZodRawShape> = {
+  router?: UseRouter;
+  defaultValue?: Partial<UseQueryStateSingle<T>>;
+};
+
 export function makeUseQueryState<T extends z.ZodRawShape>(
   schema: z.ZodObject<T>
-): (
-  useRouterOption?: UseRouter
-) => readonly [
-  UseQueryStateSingle<T>,
-  (newState: Partial<UseQueryStateSingle<T>>) => void
-] {
-  type SchemaType = z.infer<typeof schema>;
+) {
+  return (options?: UseQueryStateOptions<T>) => {
+    type SchemaType = z.infer<typeof schema>;
+    type QueryStateSingle = UseQueryStateSingle<T>;
+    const schemaKeys = Object.keys(schema.shape) as (keyof SchemaType)[];
 
-  type QueryStateSingle = UseQueryStateSingle<T>;
+    const routerFn: UseRouter = options?.router ?? useRouter;
+    const { query, replace, pathname } = routerFn();
 
-  const schemaKeys = Object.keys(schema.shape) as (keyof SchemaType)[];
-  return (useRouterOption) => {
-    const { query, replace, pathname } = (useRouterOption ?? useRouter)();
+    const initial = options?.defaultValue;
 
     const setState = useCallback(
       (newQueryState: Partial<QueryStateSingle>) => {
         const newQuery: { [k: string]: string } = {};
-
         for (const k of schemaKeys) {
           const v = newQueryState[k as keyof typeof newQueryState];
           if (v !== undefined) {
-            // Handle arrays by joining them with commas for URL compatibility
             newQuery[k as string] = Array.isArray(v) ? v.join(",") : String(v);
           }
         }
-
         const href = {
           pathname,
           query: { ...query, ...newQuery },
         };
-
         replace(href, undefined, { shallow: true });
       },
-      [replace, pathname, query]
+      [replace, pathname, query, schemaKeys]
     );
 
-    // Parse the current query state and apply schema transformations
     const state: Partial<QueryStateSingle> = {};
-
     for (const k of schemaKeys) {
       const key = k as string;
       const defaultValue = schema.shape[k]._def.defaultValue?.();
-      const v = query[key] !== undefined ? query[key] : defaultValue;
+      let v = query[key];
+      if (v === undefined && initial && initial[k] !== undefined) {
+        v = initial[k];
+      }
+      if (v === undefined) {
+        v = defaultValue;
+      }
       if (v !== undefined) {
-        // Pass the raw value to Zod schema for parsing and transformation
         try {
-          // Using the schema to parse this specific field value
           const parsed = schema.shape[k].parse(ensureString(v));
           state[k] = parsed;
         } catch {
           console.error(
             `useQueryState:Error parsing query key ${key}: ${v}, defaulting to ${defaultValue}`
           );
-          // Fall back to default if parsing fails
           state[k] = defaultValue;
         }
       }
@@ -85,8 +83,6 @@ export const makeLinkGenerator = <T extends z.ZodRawShape>(
     for (const key in state) {
       const value = state[key];
       if (value !== undefined) {
-        // Ensure consistent array handling across the application
-        // Arrays should always be serialized as comma-separated strings
         query[key] = Array.isArray(value) ? value.join(",") : String(value);
       }
     }

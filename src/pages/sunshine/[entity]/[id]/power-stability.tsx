@@ -351,8 +351,8 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
 
 const PowerStability = (props: Props) => {
   const { query } = useRouter();
-  const [{ tab: activeTabQuery }, setQueryState] =
-    useQueryStateSunshineDetails();
+  const [state, setQueryState] = useQueryStateSunshineDetails();
+  const { tab: activeTabQuery } = state;
   const activeTab = activeTabQuery ?? ("saidi" satisfies PowerStabilityTab);
   const setActiveTab = useCallback(
     (tab: QueryStateSingleSunshineDetails["tab"]) => {
