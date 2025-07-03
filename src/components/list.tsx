@@ -222,18 +222,57 @@ const PlaceholderListItems = () => {
 
 type SortState = "ASC" | "DESC";
 
+type LabelType = "prices" | "quality" | "timely";
+const indicatorLabelTypes: Record<
+  "prices" | QueryStateSunshineIndicator,
+  LabelType
+> = {
+  prices: "prices",
+  // "networkCosts" | "netTariffs" | "energyTariffs" | "saidi" | "saifi" | "serviceQuality" | "compliance"
+  networkCosts: "prices",
+  netTariffs: "prices",
+  energyTariffs: "prices",
+  saidi: "quality",
+  saifi: "quality",
+  serviceQuality: "timely",
+  compliance: "timely",
+} as const;
+
+const labels: Record<
+  LabelType,
+  {
+    ASC: string;
+    DESC: string;
+  }
+> = {
+  prices: {
+    ASC: t({ id: "list.order.prices.asc", message: "Cheapest first" }),
+    DESC: t({ id: "list.order.prices.desc", message: "Most expensive first" }),
+  },
+  quality: {
+    ASC: t({ id: "list.order.quality.asc", message: "Best quality first" }),
+    DESC: t({ id: "list.order.quality.desc", message: "Worst quality first" }),
+  },
+  timely: {
+    ASC: t({ id: "list.order.timely.asc", message: "Most timely first" }),
+    DESC: t({ id: "list.order.timely.desc", message: "Least timely first" }),
+  },
+};
+
 export const List = ({
   grouped,
   colorScale,
   fetching,
   entity,
   valueFormatter,
+  indicator,
 }: {
   grouped: Groups;
   colorScale: ScaleThreshold<number, string>;
   fetching: boolean;
   entity: Entity;
   valueFormatter: ValueFormatter;
+  indicator: QueryStateSunshineIndicator | "prices";
 }) => {
   const [sortState, setSortState] = useState<SortState>("ASC");
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -241,11 +280,11 @@ export const List = ({
   const sortOptions = [
     {
       value: "ASC" as SortState,
-      label: t({ id: "list.order.prices.asc", message: "Cheapest first" }),
+      label: labels[indicatorLabelTypes[indicator]].ASC,
     },
     {
       value: "DESC" as SortState,
-      label: t({ id: "list.order.prices.desc", message: "Most expensive first" }),
+      label: labels[indicatorLabelTypes[indicator]].DESC,
     },
   ];
   const searchLabel = t({ id: "list.search.label", message: "Filter list" });
