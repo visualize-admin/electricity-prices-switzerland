@@ -54,9 +54,9 @@ const getTariffsTrendCardState = (
   } = props;
   const { peerGroupLabel } = getPeerGroupLabels(peerGroup);
   const { yearlyData, ...restNetTariffs } = netTariffs;
-  const { chartData, multiComboboxOptions } = React.useMemo(() => {
+  const { observations, multiComboboxOptions } = React.useMemo(() => {
     const multiComboboxOptions: typeof yearlyData = [];
-    const chartData: typeof yearlyData = [];
+    const observations: typeof yearlyData = [];
     yearlyData.forEach((d) => {
       const isLatestYear = d.period === latestYear;
       const operatorIdStr = d.operator_id.toString();
@@ -65,17 +65,17 @@ const getTariffsTrendCardState = (
         filters.compareWith?.includes(operatorIdStr) ||
         operatorIdStr === operatorId;
       if ((filters.viewBy === "latest" ? isLatestYear : true) && isSelected) {
-        chartData.push(d);
+        observations.push(d);
       }
       if (isLatestYear && operatorIdStr !== operatorId) {
         multiComboboxOptions.push(d);
       }
     });
-    return { chartData, multiComboboxOptions };
+    return { observations, multiComboboxOptions };
   }, [yearlyData, filters.compareWith, latestYear, operatorId, filters.viewBy]);
   return {
     peerGroupLabel,
-    chartData,
+    observations,
     multiComboboxOptions,
     restNetTariffs,
     updateDate,
@@ -87,16 +87,16 @@ const getTariffsTrendCardState = (
 export const TariffsTrendCard: React.FC<TariffsTrendCardProps> = (props) => {
   const [state, setQueryState] = useQueryStateTariffsTrendCardFilters();
   const { compareWith, viewBy } = state;
-  const logic = getTariffsTrendCardState(props, state);
+  const chartData = getTariffsTrendCardState(props, state);
   const {
     peerGroupLabel,
-    chartData,
+    observations,
     multiComboboxOptions,
     restNetTariffs,
     updateDate,
     operatorId,
     operatorLabel,
-  } = logic;
+  } = chartData;
   const { cardTitle: title, infoDialogProps, ...cardProps } = props;
   return (
     <Card {...cardProps} id={DOWNLOAD_ID}>
@@ -198,7 +198,7 @@ export const TariffsTrendCard: React.FC<TariffsTrendCardProps> = (props) => {
         <TariffsTrendChart
           id={operatorId}
           operatorLabel={operatorLabel}
-          observations={chartData}
+          observations={observations}
           netTariffs={restNetTariffs}
           viewBy={viewBy}
           compareWith={compareWith}
@@ -232,7 +232,7 @@ export const TariffsTrendCardMinified: React.FC<
     defaultValue: defaultFilters,
   });
   const { compareWith, viewBy } = state;
-  const logic = getTariffsTrendCardState(rest, state);
+  const chartData = getTariffsTrendCardState(rest, state);
   return (
     <Card {...rest}>
       <CardContent
@@ -246,10 +246,10 @@ export const TariffsTrendCardMinified: React.FC<
         <Typography variant="h3">{cardTitle}</Typography>
         <Typography variant="body2">{cardDescription}</Typography>
         <TariffsTrendChart
-          id={logic.operatorId}
-          operatorLabel={logic.operatorLabel}
-          observations={logic.chartData}
-          netTariffs={logic.restNetTariffs}
+          id={chartData.operatorId}
+          operatorLabel={chartData.operatorLabel}
+          observations={chartData.observations}
+          netTariffs={chartData.restNetTariffs}
           viewBy={viewBy}
           compareWith={compareWith}
           rootProps={{ sx: { mt: 2 } }}

@@ -63,34 +63,35 @@ const getPowerStabilityCardState = (
     latestYear,
   } = props;
   const { peerGroupLabel } = getPeerGroupLabels(peerGroup);
-  const { chartData, multiComboboxOptions } = React.useMemo(() => {
-    const multiComboboxOptions: typeof observations = [];
-    const chartData: typeof observations = [];
-    observations.forEach((d) => {
-      const isLatestYear = d.year === latestYear;
-      const operatorIdStr = d.operator.toString();
-      const isSelected =
-        filters.compareWith?.includes("sunshine.select-all") ||
-        filters.compareWith?.includes(operatorIdStr) ||
-        operatorIdStr === operatorId;
-      if ((filters.viewBy === "latest" ? isLatestYear : true) && isSelected) {
-        chartData.push(d);
-      }
-      if (isLatestYear && operatorIdStr !== operatorId) {
-        multiComboboxOptions.push(d);
-      }
-    });
-    return { chartData, multiComboboxOptions };
-  }, [
-    observations,
-    filters.compareWith,
-    latestYear,
-    operatorId,
-    filters.viewBy,
-  ]);
+  const { observations: chartObservations, multiComboboxOptions } =
+    React.useMemo(() => {
+      const multiComboboxOptions: typeof observations = [];
+      const chartObservations: typeof observations = [];
+      observations.forEach((d) => {
+        const isLatestYear = d.year === latestYear;
+        const operatorIdStr = d.operator.toString();
+        const isSelected =
+          filters.compareWith?.includes("sunshine.select-all") ||
+          filters.compareWith?.includes(operatorIdStr) ||
+          operatorIdStr === operatorId;
+        if ((filters.viewBy === "latest" ? isLatestYear : true) && isSelected) {
+          chartObservations.push(d);
+        }
+        if (isLatestYear && operatorIdStr !== operatorId) {
+          multiComboboxOptions.push(d);
+        }
+      });
+      return { observations: chartObservations, multiComboboxOptions };
+    }, [
+      observations,
+      filters.compareWith,
+      latestYear,
+      operatorId,
+      filters.viewBy,
+    ]);
   return {
     peerGroupLabel,
-    chartData,
+    observations: chartObservations,
     multiComboboxOptions,
     updateDate,
     operatorId,
@@ -104,15 +105,15 @@ export const PowerStabilityCard: React.FC<PowerStabilityCardProps> = (
 ) => {
   const [state, setQueryState] = useQueryStatePowerStabilityCardFilters();
   const { compareWith, viewBy, duration, overallOrRatio } = state;
-  const logic = getPowerStabilityCardState(props, state);
+  const chartData = getPowerStabilityCardState(props, state);
   const {
     peerGroupLabel,
-    chartData,
+    observations,
     multiComboboxOptions,
     updateDate,
     operatorId,
     operatorLabel,
-  } = logic;
+  } = chartData;
 
   return (
     <Card {...props}>
@@ -286,7 +287,7 @@ export const PowerStabilityCard: React.FC<PowerStabilityCardProps> = (
           </Grid>
         </Grid>
         <PowerStabilityChart
-          observations={chartData}
+          observations={observations}
           id={operatorId}
           operatorLabel={operatorLabel}
           viewBy={viewBy}
@@ -322,7 +323,7 @@ export const PowerStabilityCardMinified: React.FC<
     defaultValue: defaultFilters,
   });
   const { compareWith, viewBy, duration, overallOrRatio } = state;
-  const logic = getPowerStabilityCardState(rest, state);
+  const chartData = getPowerStabilityCardState(rest, state);
   return (
     <Card {...rest}>
       <CardContent
@@ -336,9 +337,9 @@ export const PowerStabilityCardMinified: React.FC<
         <Typography variant="h3">{cardTitle}</Typography>
         <Typography variant="body2">{cardDescription}</Typography>
         <PowerStabilityChart
-          observations={logic.chartData}
-          id={logic.operatorId}
-          operatorLabel={logic.operatorLabel}
+          observations={chartData.observations}
+          id={chartData.operatorId}
+          operatorLabel={chartData.operatorLabel}
           viewBy={viewBy ?? "progress"}
           overallOrRatio={overallOrRatio ?? "overall"}
           duration={duration ?? "total"}

@@ -53,9 +53,9 @@ const getNetworkCostsTrendCardState = (
   } = props;
   const { peerGroupLabel } = getPeerGroupLabels(peerGroup);
   const { yearlyData, ...restNetworkCosts } = networkCosts;
-  const { chartData, multiComboboxOptions } = React.useMemo(() => {
+  const { observations, multiComboboxOptions } = React.useMemo(() => {
     const multiComboboxOptions: typeof yearlyData = [];
-    const chartData: typeof yearlyData = [];
+    const observations: typeof yearlyData = [];
     yearlyData.forEach((d) => {
       const isLatestYear = d.year === latestYear;
       const operatorIdStr = d.operator_id.toString();
@@ -64,17 +64,17 @@ const getNetworkCostsTrendCardState = (
         filters.compareWith?.includes(operatorIdStr) ||
         operatorIdStr === operatorId;
       if ((filters.viewBy === "latest" ? isLatestYear : true) && isSelected) {
-        chartData.push(d);
+        observations.push(d);
       }
       if (isLatestYear && operatorIdStr !== operatorId) {
         multiComboboxOptions.push(d);
       }
     });
-    return { chartData, multiComboboxOptions };
+    return { observations, multiComboboxOptions };
   }, [yearlyData, filters.compareWith, latestYear, operatorId, filters.viewBy]);
   return {
     peerGroupLabel,
-    chartData,
+    observations,
     multiComboboxOptions,
     restNetworkCosts,
     updateDate,
@@ -88,16 +88,16 @@ export const NetworkCostsTrendCard: React.FC<NetworkCostsTrendCardProps> = (
 ) => {
   const [state, setQueryState] = useQueryStateNetworkCostsTrendCardFilters();
   const { compareWith, viewBy } = state;
-  const logic = getNetworkCostsTrendCardState(props, state);
+  const chartData = getNetworkCostsTrendCardState(props, state);
   const {
     peerGroupLabel,
-    chartData,
+    observations,
     multiComboboxOptions,
     restNetworkCosts,
     updateDate,
     operatorId,
     operatorLabel,
-  } = logic;
+  } = chartData;
   return (
     <Card {...props} id={DOWNLOAD_ID}>
       <CardContent>
@@ -221,7 +221,7 @@ export const NetworkCostsTrendCard: React.FC<NetworkCostsTrendCardProps> = (
           }}
           id={operatorId}
           operatorLabel={operatorLabel}
-          observations={chartData}
+          observations={observations}
           networkCosts={restNetworkCosts}
           viewBy={viewBy}
           compareWith={compareWith}
@@ -245,7 +245,7 @@ export const NetworkCostsTrendCardMinified: React.FC<
     defaultValue: defaultFilters,
   });
   const { compareWith, viewBy } = state;
-  const logic = getNetworkCostsTrendCardState(rest, state);
+  const chartData = getNetworkCostsTrendCardState(rest, state);
   return (
     <Card {...rest}>
       <CardContent
@@ -264,10 +264,10 @@ export const NetworkCostsTrendCardMinified: React.FC<
         <Typography variant="body2">{cardDescription}</Typography>
         <NetworkCostTrendChart
           rootProps={{ sx: { mt: 2 } }}
-          id={logic.operatorId}
-          operatorLabel={logic.operatorLabel}
-          observations={logic.chartData}
-          networkCosts={logic.restNetworkCosts}
+          id={chartData.operatorId}
+          operatorLabel={chartData.operatorLabel}
+          observations={chartData.observations}
+          networkCosts={chartData.restNetworkCosts}
           viewBy={viewBy}
           compareWith={compareWith}
         />
