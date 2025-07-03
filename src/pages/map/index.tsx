@@ -39,8 +39,11 @@ import {
   NetworkLevel,
   TariffCategory,
   useColorScale,
+  ValueFormatter,
 } from "src/domain/data";
+import { useFormatCurrency } from "src/domain/helpers";
 import {
+  QueryStateSunshineIndicator,
   useQueryStateEnergyPricesMap,
   useQueryStateMapCommon,
   useQueryStateSunshineMap,
@@ -76,6 +79,19 @@ export const getServerSideProps: GetServerSideProps<
   { locale: string }
 > = async ({ locale }) => {
   return { props: { locale: locale ?? defaultLocale } };
+};
+
+const indicatorFormatterType: Record<
+  QueryStateSunshineIndicator,
+  "number" | "boolean"
+> = {
+  saidi: "number",
+  saifi: "number",
+  serviceQuality: "number",
+  compliance: "boolean",
+  energyTariffs: "number",
+  netTariffs: "number",
+  networkCosts: "number",
 };
 
 const IndexPageContent = ({
@@ -214,6 +230,16 @@ const IndexPageContent = ({
     }
   }, [activeId, isSunshine]);
 
+  const formatNumber = useFormatCurrency();
+  const formatBooleanNumber = ((value: number) => {
+    return value === 1 ? t`Yes` : value === 0 ? t`No` : "-";
+  }) as ValueFormatter;
+  const formatterTypes = {
+    number: formatNumber,
+    boolean: formatBooleanNumber,
+  };
+  const valueFormatter = formatterTypes[indicatorFormatterType[indicator]];
+
   const map = isElectricityTab ? (
     <EnergyPricesMap
       year={mapYear}
@@ -231,6 +257,7 @@ const IndexPageContent = ({
       colorScale={sunshineColorScale}
       observations={sunshineObservations}
       controls={controlsRef}
+      valueFormatter={valueFormatter}
     />
   );
 
@@ -264,6 +291,8 @@ const IndexPageContent = ({
       entity={isElectricityTab ? entity : "operator"}
       grouped={listGroups}
       colorScale={colorScale}
+      indicator={indicator}
+      valueFormatter={valueFormatter}
       fetching={
         isElectricityTab
           ? observationsQuery.fetching

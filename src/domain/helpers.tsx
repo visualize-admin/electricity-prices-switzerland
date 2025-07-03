@@ -19,7 +19,7 @@ import {
 import React from "react";
 
 import { ANNOTATION_TRIANGLE_HEIGHT } from "src/components/charts-generic/annotation/annotation-x";
-import { GenericObservation } from "src/domain/data";
+import { GenericObservation, ValueFormatter } from "src/domain/data";
 import { estimateTextWidth } from "src/lib/estimate-text-width";
 import { useLocale } from "src/lib/use-locale";
 import { d3FormatLocales, d3TimeFormatLocales } from "src/locales/locales";
@@ -48,7 +48,7 @@ export const useFormatCurrency = (alwaysLeaveDecimals: boolean = false) => {
     const { format } = d3FormatLocales[locale];
     return format(alwaysLeaveDecimals ? ",.2f" : ",.2~f");
   }, [locale, alwaysLeaveDecimals]);
-  return formatter;
+  return formatter as ValueFormatter;
 };
 
 const parseTime = timeParse("%Y-%m-%dT%H:%M:%S");

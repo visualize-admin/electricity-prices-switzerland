@@ -6,8 +6,8 @@ import { MouseEventHandler, useContext, useMemo, useState } from "react";
 import { MiniSelect, SearchField } from "src/components/form";
 import { HighlightContext } from "src/components/highlight-context";
 import { Stack } from "src/components/stack";
-import { Entity } from "src/domain/data";
-import { useFormatCurrency } from "src/domain/helpers";
+import { Entity, ValueFormatter } from "src/domain/data";
+import { QueryStateSunshineIndicator } from "src/domain/query-states";
 import {
   CantonMedianObservationFieldsFragment,
   OperatorObservationFieldsFragment,
@@ -25,7 +25,7 @@ type ListItemProps = {
   label: string;
   value: number;
   colorScale: (d: number) => string;
-  formatNumber: (d: number) => string;
+  valueFormatter: (d: number) => string;
   entity: Entity;
   handleClick?: MouseEventHandler<HTMLAnchorElement>;
 };
@@ -35,7 +35,7 @@ const ListItem = ({
   label,
   value,
   colorScale,
-  formatNumber,
+  valueFormatter: formatNumber,
   entity,
   handleClick,
 }: ListItemProps) => {
@@ -90,14 +90,15 @@ export type ListItemType = {
 const ListItems = ({
   items,
   colorScale,
-  entity: entity,
+  entity,
+  valueFormatter,
 }: {
   items: [string, ListItemType][];
   colorScale: ScaleThreshold<number, string>;
   entity: Entity;
+  valueFormatter: ValueFormatter;
 }) => {
   const [truncated, setTruncated] = useState<number>(TRUNCATION_INCREMENT);
-  const formatNumber = useFormatCurrency();
   const { activeId, setActiveId, onEntitySelect } = useMap();
 
   const selectedItem = useMemo(() => {
@@ -130,7 +131,7 @@ const ListItems = ({
             value={d.value}
             label={d.label || d.id}
             colorScale={colorScale}
-            formatNumber={formatNumber}
+            valueFormatter={valueFormatter}
             entity={entity}
             handleClick={(e) => onEntitySelect(e, entity, d.id)}
           />
@@ -226,11 +227,13 @@ export const List = ({
   colorScale,
   fetching,
   entity,
+  valueFormatter,
 }: {
   grouped: Groups;
   colorScale: ScaleThreshold<number, string>;
   fetching: boolean;
   entity: Entity;
+  valueFormatter: ValueFormatter;
 }) => {
   const [sortState, setSortState] = useState<SortState>("ASC");
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -333,7 +336,12 @@ export const List = ({
       {fetching ? (
         <PlaceholderListItems />
       ) : (
-        <ListItems items={listItems} colorScale={colorScale} entity={entity} />
+        <ListItems
+          items={listItems}
+          colorScale={colorScale}
+          valueFormatter={valueFormatter}
+          entity={entity}
+        />
       )}
     </Box>
   );
