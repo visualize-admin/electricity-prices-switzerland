@@ -28,6 +28,7 @@ import { useWikiContentQuery } from "src/graphql/queries";
 import { Icon } from "src/icons";
 import { useLocale } from "src/lib/use-locale";
 import { theme } from "src/themes/elcom";
+import { useFlag } from "src/utils/flags";
 
 const DialogContent = ({
   contentQuery,
@@ -204,8 +205,22 @@ export const InfoDialogButton = ({
     close: closeDialog,
     open: openDialog,
   } = useDisclosure();
+  const debugInfoDialog = useFlag("debugInfoDialog");
   return (
     <>
+      {debugInfoDialog && (
+        <Box
+          sx={{
+            background: "hotpink",
+            fontSize: 10,
+            height: 16,
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          slug: {slug}
+        </Box>
+      )}
       <IconButton
         color="tertiary"
         sx={{

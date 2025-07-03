@@ -3,6 +3,10 @@ import { createComponents, createHooks } from "src/flags";
 const specs = {
   /** Activates flag control in top bar */
   debug: {},
+
+  /** Activates flag control in top bar */
+  debugInfoDialog: {},
+
   /** Show sunshine specific UI */
   sunshine: {},
 

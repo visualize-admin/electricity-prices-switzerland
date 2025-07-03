@@ -255,7 +255,7 @@ export const asTariffCategory = (category: string): TariffCategory => {
  * Use `bun wiki-content:update-types` to update this variable
  */
 export const wikiPageSlugs = {
-  "available": [
+  available: [
     "help-calculation",
     "help-canton-comparison",
     "help-categories",
@@ -275,14 +275,16 @@ export const wikiPageSlugs = {
     "help-saidi",
     "help-saifi",
     "help-search-list",
-    "home-banner"
+    "home-banner",
   ],
-  "missing": [
+  missing: [
     "help.calculation",
     "help-net-tariffs",
     "help-operational-standards",
-    "help-costs-and-tariffs"
-  ]
+    "help-costs-and-tariffs",
+  ],
 } as const;
 
-export type WikiPageSlug = (typeof wikiPageSlugs)["available"][number];
+export type WikiPageSlug = (typeof wikiPageSlugs)[
+  | "available"
+  | "missing"][number];
