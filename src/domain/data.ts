@@ -278,7 +278,6 @@ export const wikiPageSlugs = {
     "home-banner",
   ],
   missing: [
-    "help-costs-and-tariffs",
     "help-net-tariffs",
     "help-operational-standards",
     "help-net-tariff-category",

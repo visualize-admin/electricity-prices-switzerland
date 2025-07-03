@@ -15,9 +15,14 @@ You can also check the
 
   - Added Overview Details Page
 
-Enhancements
+- Enhancements
 
-- Add Query state to details pages
+  - Add Query state to details pages
+  - Add ability to debug info dialog slugs (via flag\_\_debugInfoDialog)
+
+- Fixes
+
+  - Fix some of the info dialogs used
 
 # 2.3.1 - 2025-06-26
 
