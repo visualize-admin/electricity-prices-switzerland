@@ -1,3 +1,4 @@
+import { t } from "@lingui/macro";
 import {
   color,
   schemeAccent,
@@ -19,7 +20,8 @@ import {
 import React from "react";
 
 import { ANNOTATION_TRIANGLE_HEIGHT } from "src/components/charts-generic/annotation/annotation-x";
-import { GenericObservation, ValueFormatter } from "src/domain/data";
+import { GenericObservation } from "src/domain/data";
+import { QueryStateSunshineIndicator } from "src/domain/query-states";
 import { estimateTextWidth } from "src/lib/estimate-text-width";
 import { useLocale } from "src/lib/use-locale";
 import { d3FormatLocales, d3TimeFormatLocales } from "src/locales/locales";
@@ -48,7 +50,7 @@ export const useFormatCurrency = (alwaysLeaveDecimals: boolean = false) => {
     const { format } = d3FormatLocales[locale];
     return format(alwaysLeaveDecimals ? ",.2f" : ",.2~f");
   }, [locale, alwaysLeaveDecimals]);
-  return formatter as ValueFormatter;
+  return formatter;
 };
 
 const parseTime = timeParse("%Y-%m-%dT%H:%M:%S");
@@ -346,4 +348,28 @@ export const filterBySeparator = (
   if (!prevHasSeparator && arrHasSeparator) return [separator];
 
   return arr.filter((item) => item !== separator);
+};
+const indicatorFormatterType: Record<
+  QueryStateSunshineIndicator,
+  "number" | "boolean"
+> = {
+  saidi: "number",
+  saifi: "number",
+  serviceQuality: "number",
+  compliance: "boolean",
+  energyTariffs: "number",
+  netTariffs: "number",
+  networkCosts: "number",
+};
+export const useIndicatorValueFormatter = (
+  indicator: QueryStateSunshineIndicator
+): ((value: number) => string) => {
+  const formatNumber = useFormatCurrency();
+  const formatBooleanNumber = (value: number) =>
+    value === 1 ? t`Yes` : value === 0 ? t`No` : "-";
+  const formatterTypes = {
+    number: formatNumber,
+    boolean: formatBooleanNumber,
+  };
+  return formatterTypes[indicatorFormatterType[indicator]];
 };
