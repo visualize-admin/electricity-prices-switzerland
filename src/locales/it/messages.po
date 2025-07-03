@@ -454,11 +454,11 @@ msgid "list.operators"
 msgstr "Gestori di rete"
 
 #: src/components/list.tsx
-msgid "list.order.asc"
+msgid "list.order.prices.asc"
 msgstr "crescente"
 
 #: src/components/list.tsx
-msgid "list.order.desc"
+msgid "list.order.prices.desc"
 msgstr "decrescente"
 
 #: src/components/list.tsx

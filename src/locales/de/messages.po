@@ -454,11 +454,11 @@ msgid "list.operators"
 msgstr "Netzbetreiber"
 
 #: src/components/list.tsx
-msgid "list.order.asc"
+msgid "list.order.prices.asc"
 msgstr "Günstigste zuerst"
 
 #: src/components/list.tsx
-msgid "list.order.desc"
+msgid "list.order.prices.desc"
 msgstr "Teuerste zuerst"
 
 #: src/components/list.tsx

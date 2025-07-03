@@ -238,11 +238,11 @@ export const List = ({
   const sortOptions = [
     {
       value: "ASC" as SortState,
-      label: t({ id: "list.order.asc", message: "Cheapest first" }),
+      label: t({ id: "list.order.prices.asc", message: "Cheapest first" }),
     },
     {
       value: "DESC" as SortState,
-      label: t({ id: "list.order.desc", message: "Most expensive first" }),
+      label: t({ id: "list.order.prices.desc", message: "Most expensive first" }),
     },
   ];
   const searchLabel = t({ id: "list.search.label", message: "Filter list" });
