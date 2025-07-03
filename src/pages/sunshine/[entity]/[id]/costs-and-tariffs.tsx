@@ -634,7 +634,7 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
             </Trans>
           }
           infoDialogProps={{
-            slug: "help-net-tariffs",
+            slug: "help-network-costs",
             label: t({
               id: "sunshine.costs-and-tariffs.net-tariffs-trend",
               message: "Net Tariffs Trend",
