@@ -2,19 +2,6 @@ import { Box } from "@mui/material";
 
 import type { SunshineOperationalStandardsData } from "src/domain/data";
 
-export const ProductVarietyChart = ({
-  data,
-  id,
-  operatorLabel,
-}: {
-  data: SunshineOperationalStandardsData["productVariety"];
-  id: string;
-  operatorLabel: string;
-}) => {
-  const { operatorsProductsOffered: observations } = data;
-  return <Box sx={{ mt: 8 }}></Box>;
-};
-
 export const ServiceQualityChart = ({
   data,
   id,
