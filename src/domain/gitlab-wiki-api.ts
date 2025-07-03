@@ -22,7 +22,7 @@ type WikiCacheJson = {
 
 const CACHE_TTL = 1000;
 
-export const fetchWithTimeout = async (
+const fetchWithTimeout = async (
   url: string,
   options: RequestInit & { timeout?: number; agent?: https.Agent } = {}
 ) => {
