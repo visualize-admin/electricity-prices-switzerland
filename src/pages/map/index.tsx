@@ -175,7 +175,7 @@ const IndexPageContent = ({
 
   const sunshineValues = sunshineObservations
     .map((x) => sunshineAccessor(x) ?? null)
-    .filter((x) => x !== null);
+    .filter((x) => x !== null && x !== undefined);
 
   const medianValue = isElectricityTab
     ? swissMedianObservations[0]?.value
