@@ -381,6 +381,8 @@ export const getSunshineData = async ({
     tariff_nh7: number;
     year: number;
   }>(sql);
+
+  console.log("timely", new Set(result.map((row) => row.timely)));
   return result.map((row) => ({
     operatorId: row.partner_id,
     operatorUID: row.uid,
