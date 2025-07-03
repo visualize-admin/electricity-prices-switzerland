@@ -163,6 +163,7 @@ const Saidi = (props: Extract<Props, { status: "found" }>) => {
           unit: MIN_PER_YEAR,
           // TODO Compute the trend
           trend: Trend.Down,
+          round: 2,
         },
       },
       {
@@ -176,6 +177,7 @@ const Saidi = (props: Extract<Props, { status: "found" }>) => {
           unit: MIN_PER_YEAR,
           // TODO Compute the trend
           trend: Trend.Stable,
+          round: 2,
         },
       },
     ],
@@ -278,6 +280,7 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
         value: {
           value: data.saifi.operatorTotal,
           unit: MIN_PER_YEAR,
+          round: 2,
           // TODO Compute the trend
           trend: Trend.Down,
         },
@@ -291,6 +294,7 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
         value: {
           value: data.saifi.peerGroupTotal,
           unit: MIN_PER_YEAR,
+          round: 2,
           // TODO Compute the trend
           trend: Trend.Stable,
         },

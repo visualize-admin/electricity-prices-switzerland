@@ -382,6 +382,8 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
             value: {
               value: operatorRate,
               unit: RP_PER_KM,
+              round: 2,
+              // TODO
               trend: Trend.Stable,
             },
           }
@@ -396,6 +398,8 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
             value: {
               value: peerGroupMedianRate,
               unit: RP_PER_KM,
+              round: 2,
+              // TODO
               trend: Trend.Stable,
             },
           }
@@ -560,6 +564,8 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
             value: {
               value: operatorRate,
               unit: RP_PER_KM,
+              round: 2,
+              // TODO
               trend: "stable" as Trend,
             },
           }
@@ -574,6 +580,8 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
             value: {
               value: peerGroupMedianRate,
               unit: RP_PER_KM,
+              round: 2,
+              // TODO
               trend: "stable" as Trend,
             },
           }
@@ -634,7 +642,7 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
             </Trans>
           }
           infoDialogProps={{
-            slug: "help-network-costs",
+            slug: "help-net-tariffs",
             label: t({
               id: "sunshine.costs-and-tariffs.net-tariffs-trend",
               message: "Net Tariffs Trend",
