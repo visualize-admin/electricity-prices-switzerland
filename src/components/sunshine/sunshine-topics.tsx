@@ -112,7 +112,7 @@ export const SunshineTopics = () => {
                 <AnchorNav
                   label={t({
                     id: "home.sunshine-topics.net-tariff.link",
-                    message: "Net Tariff",
+                    message: "Net Tariffs",
                   })}
                   href={sunshineMapLink("/map", {
                     tab: "sunshine",
@@ -123,7 +123,7 @@ export const SunshineTopics = () => {
                 <AnchorNav
                   label={t({
                     id: "home.sunshine-topics.energy-tariff.link",
-                    message: "Energy Tariff",
+                    message: "Energy Tariffs",
                   })}
                   href={sunshineMapLink("/map", {
                     tab: "sunshine",
