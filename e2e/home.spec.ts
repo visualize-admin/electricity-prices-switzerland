@@ -60,10 +60,11 @@ test.describe("The Home Page", () => {
       const anchor = page.getByRole("link", { name: link });
       await expect(anchor).toBeVisible();
 
+      const isMac = process.platform === "darwin";
       // ctrl click to open in new tab
       const [newPage] = await Promise.all([
         page.context().waitForEvent("page"),
-        anchor.click({ modifiers: ["Meta"] }),
+        anchor.click({ modifiers: [isMac ? "Meta" : "Control"] }),
       ]);
 
       // Activate tab
