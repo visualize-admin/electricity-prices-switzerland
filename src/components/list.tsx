@@ -228,7 +228,6 @@ const indicatorLabelTypes: Record<
   LabelType
 > = {
   prices: "prices",
-  // "networkCosts" | "netTariffs" | "energyTariffs" | "saidi" | "saifi" | "serviceQuality" | "compliance"
   networkCosts: "prices",
   netTariffs: "prices",
   energyTariffs: "prices",
@@ -246,16 +245,16 @@ const labels: Record<
   }
 > = {
   prices: {
-    ASC: t({ id: "list.order.prices.asc", message: "Cheapest first" }),
-    DESC: t({ id: "list.order.prices.desc", message: "Most expensive first" }),
+    ASC: t({ id: "list.order.prices.asc", message: "Ascending" }),
+    DESC: t({ id: "list.order.prices.desc", message: "Descending" }),
   },
   quality: {
-    ASC: t({ id: "list.order.quality.asc", message: "Best quality first" }),
-    DESC: t({ id: "list.order.quality.desc", message: "Worst quality first" }),
+    ASC: t({ id: "list.order.quality.asc", message: "Ascending" }),
+    DESC: t({ id: "list.order.quality.desc", message: "Descending" }),
   },
   timely: {
-    ASC: t({ id: "list.order.timely.asc", message: "Most timely first" }),
-    DESC: t({ id: "list.order.timely.desc", message: "Least timely first" }),
+    ASC: t({ id: "list.order.timely.asc", message: "Ascending" }),
+    DESC: t({ id: "list.order.timely.desc", message: "Descending" }),
   },
 };
 

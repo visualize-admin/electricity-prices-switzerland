@@ -11,6 +11,14 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: src/domain/helpers.tsx
+msgid "No"
+msgstr "No"
+
+#: src/domain/helpers.tsx
+msgid "Yes"
+msgstr "Yes"
+
 #: src/components/energy-prices-map.tsx
 msgid "canton"
 msgstr "Canton"
@@ -406,10 +414,6 @@ msgid "home.sunshine-topics.power-outage-frequency.link"
 msgstr "Power Outage Frequency (SAIFI)"
 
 #: src/components/sunshine/sunshine-topics.tsx
-msgid "home.sunshine-topics.product-variety.link"
-msgstr "Product Variety"
-
-#: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.service-quality.link"
 msgstr "Service Quality"
 
@@ -420,6 +424,10 @@ msgstr "Sunshine Topics"
 #: src/components/detail-page/download-image.tsx
 msgid "image.download"
 msgstr "Download image"
+
+#: src/domain/translation.tsx
+msgid "indicator.compliance"
+msgstr "Compliance"
 
 #: src/domain/translation.tsx
 msgid "indicator.energyTariffs"
@@ -441,6 +449,10 @@ msgstr "Power Outage Duration (SAIDI)"
 msgid "indicator.saifi"
 msgstr "Power Outage Frequency (SAIFI)"
 
+#: src/domain/translation.tsx
+msgid "indicator.serviceQuality"
+msgstr "Service quality"
+
 #: src/pages/map/index.tsx
 msgid "list.cantons"
 msgstr "Cantons"
@@ -460,6 +472,22 @@ msgstr "Cheapest first"
 #: src/components/list.tsx
 msgid "list.order.prices.desc"
 msgstr "Most expensive first"
+
+#: src/components/list.tsx
+msgid "list.order.quality.asc"
+msgstr "Ascending"
+
+#: src/components/list.tsx
+msgid "list.order.quality.desc"
+msgstr "Descending"
+
+#: src/components/list.tsx
+msgid "list.order.timely.asc"
+msgstr "Ascending"
+
+#: src/components/list.tsx
+msgid "list.order.timely.desc"
+msgstr "Descending"
 
 #: src/components/list.tsx
 msgid "list.search.label"
@@ -1050,6 +1078,7 @@ msgid "sunshine.costs-and-tariffs.net-tariffs.overview"
 msgstr "Net Tariffs"
 
 #: src/components/map-details-chart-adapters.tsx
+#: src/components/network-costs-trend-card.tsx
 #: src/components/network-costs-trend-card.tsx
 msgid "sunshine.costs-and-tariffs.network-cost-trend"
 msgstr "Network Cost Trend"

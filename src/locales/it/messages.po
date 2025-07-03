@@ -11,6 +11,14 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
+#: src/domain/helpers.tsx
+msgid "No"
+msgstr "No"
+
+#: src/domain/helpers.tsx
+msgid "Yes"
+msgstr "Sì"
+
 #: src/components/energy-prices-map.tsx
 msgid "canton"
 msgstr "Canton"
@@ -406,10 +414,6 @@ msgid "home.sunshine-topics.power-outage-frequency.link"
 msgstr "Frequenza dell'interruzione di corrente (SAIFI)"
 
 #: src/components/sunshine/sunshine-topics.tsx
-msgid "home.sunshine-topics.product-variety.link"
-msgstr "Varietà di prodotti"
-
-#: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.service-quality.link"
 msgstr "Qualità del servizio"
 
@@ -420,6 +424,10 @@ msgstr "Sunshine Topics"
 #: src/components/detail-page/download-image.tsx
 msgid "image.download"
 msgstr "Scaricare l'immagine"
+
+#: src/domain/translation.tsx
+msgid "indicator.compliance"
+msgstr "Conformità"
 
 #: src/domain/translation.tsx
 msgid "indicator.energyTariffs"
@@ -441,6 +449,10 @@ msgstr "Durata dell'interruzione di corrente (SAIDI)"
 msgid "indicator.saifi"
 msgstr "Frequenza delle interruzioni di corrente (SAIFI)"
 
+#: src/domain/translation.tsx
+msgid "indicator.serviceQuality"
+msgstr "Qualità del servizio"
+
 #: src/pages/map/index.tsx
 msgid "list.cantons"
 msgstr "Cantoni"
@@ -460,6 +472,22 @@ msgstr "crescente"
 #: src/components/list.tsx
 msgid "list.order.prices.desc"
 msgstr "decrescente"
+
+#: src/components/list.tsx
+msgid "list.order.quality.asc"
+msgstr "In salita"
+
+#: src/components/list.tsx
+msgid "list.order.quality.desc"
+msgstr "In discesa"
+
+#: src/components/list.tsx
+msgid "list.order.timely.asc"
+msgstr "In salita"
+
+#: src/components/list.tsx
+msgid "list.order.timely.desc"
+msgstr "In discesa"
 
 #: src/components/list.tsx
 msgid "list.search.label"
@@ -1050,6 +1078,7 @@ msgid "sunshine.costs-and-tariffs.net-tariffs.overview"
 msgstr "Tariffe nette"
 
 #: src/components/map-details-chart-adapters.tsx
+#: src/components/network-costs-trend-card.tsx
 #: src/components/network-costs-trend-card.tsx
 msgid "sunshine.costs-and-tariffs.network-cost-trend"
 msgstr "Andamento dei costi di rete"
