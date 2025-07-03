@@ -235,4 +235,36 @@ describe("Query States", () => {
       expect(link).toBe("/test?items=item1%2Citem2%2Citem3&singleValue=value");
     });
   });
+
+  describe("defaultValue option", () => {
+    it("should use the custom defaultValue when no query params are present", () => {
+      const mockRouter = createMockRouter({});
+      const customDefault = { tab: "sunshine" as const, activeId: "custom" };
+      const { result } = renderHook(() =>
+        queryStates.useQueryStateMapCommon({
+          router: mockRouter,
+          defaultValue: customDefault,
+        })
+      );
+      expect(result.current[0]).toEqual(customDefault);
+    });
+
+    it("should let query params override the custom defaultValue", () => {
+      const mockRouter = createMockRouter({
+        tab: "electricity",
+        activeId: "fromQuery",
+      });
+      const customDefault = { tab: "sunshine" as const, activeId: "custom" };
+      const { result } = renderHook(() =>
+        queryStates.useQueryStateMapCommon({
+          router: mockRouter,
+          defaultValue: customDefault,
+        })
+      );
+      expect(result.current[0]).toEqual({
+        tab: "electricity",
+        activeId: "fromQuery",
+      });
+    });
+  });
 });
