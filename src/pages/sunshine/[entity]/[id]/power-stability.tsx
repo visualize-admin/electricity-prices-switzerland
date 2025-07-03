@@ -222,7 +222,7 @@ const Saidi = (props: Extract<Props, { status: "found" }>) => {
             message: "Average Power Outage Duration (SAIDI)",
           })}
           infoDialogProps={{
-            slug: "sunshine.power-stability.saidi.info-dialog",
+            slug: "help-saidi",
             label: t({
               id: "sunshine.power-stability.saidi.info-dialog-label",
               message: "Total Outage Duration",
@@ -341,7 +341,7 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
             message: "Average Power Outage Frequency (SAIFI)",
           })}
           infoDialogProps={{
-            slug: "sunshine.power-stability.saifi.info-dialog",
+            slug: "help-saifi",
             label: t({
               id: "sunshine.power-stability.saifi.info-dialog-label",
               message: "Total Outage Frequency",

@@ -612,8 +612,7 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
             getItemLabel={getItemLabel}
             selectedItem={category}
             setSelectedItem={(item) => _setCategory(item as TariffCategory)}
-            //FIXME: Might need change
-            infoDialogSlug="help-categories"
+            infoDialogSlug="help-net-tariff-category"
           />
         </Box>
 

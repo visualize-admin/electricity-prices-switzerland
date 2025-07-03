@@ -5,6 +5,7 @@ import TextField from "@mui/material/TextField";
 import { useEffect, useMemo, useState } from "react";
 
 import { InfoDialogButton } from "src/components/info-dialog";
+import { WikiPageSlug } from "src/domain/data";
 import { getLocalizedLabel } from "src/domain/translation";
 import { Icon } from "src/icons";
 
@@ -193,7 +194,7 @@ export const Combobox = <T extends string>({
   setSelectedItem: (selectedItem: T) => void;
   getItemLabel?: (item: T) => string;
   showLabel?: boolean;
-  infoDialogSlug?: string;
+  infoDialogSlug?: WikiPageSlug;
   disabled?: boolean;
   error?: boolean;
 }) => {

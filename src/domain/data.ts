@@ -282,6 +282,11 @@ export const wikiPageSlugs = {
     "help-net-tariffs",
     "help-operational-standards",
     "help-costs-and-tariffs",
+    "help-net-tariff-category",
+    "help-energy-tariff-category",
+    "help-indicator",
+    "help-typology",
+    "help-network-level",
   ],
 } as const;
 
