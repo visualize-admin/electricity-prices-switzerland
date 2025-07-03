@@ -23,6 +23,7 @@ import { createPortal } from "react-dom";
 import { LoadingIcon, NoContentHint } from "src/components/hint";
 import { useDisclosure } from "src/components/use-disclosure";
 import { VisuallyHidden } from "src/components/visually-hidden";
+import { WikiPageSlug } from "src/domain/data";
 import { useWikiContentQuery } from "src/graphql/queries";
 import { Icon } from "src/icons";
 import { useLocale } from "src/lib/use-locale";
@@ -193,7 +194,7 @@ export const InfoDialogButton = ({
   type = "fill",
 }: {
   label: string;
-  slug: string;
+  slug: WikiPageSlug;
   iconOnly?: boolean;
   iconSize?: number;
   type?: "fill" | "outline";

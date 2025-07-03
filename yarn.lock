@@ -7456,6 +7456,14 @@
   resolved "https://registry.yarnpkg.com/@types/js-yaml/-/js-yaml-4.0.9.tgz#cd82382c4f902fed9691a2ed79ec68c5898af4c2"
   integrity sha512-k4MGaQl5TGo/iipqb2UDG2UwjXziSWkh0uysQelTlJpX1qGlpUZYm8PnO4DxG1qBomtJUdYJ6qR6xdIah10JLg==
 
+"@types/jscodeshift@^17.3.0":
+  version "17.3.0"
+  resolved "https://registry.yarnpkg.com/@types/jscodeshift/-/jscodeshift-17.3.0.tgz#f54cb4e165742e78980cd0973c07ac3785ac7bc4"
+  integrity sha512-ogvGG8VQQqAQQ096uRh+d6tBHrYuZjsumHirKtvBa5qEyTMN3IQJ7apo+sw9lxaB/iKWIhbbLlF3zmAWk9XQIg==
+  dependencies:
+    ast-types "^0.16.1"
+    recast "^0.23.11"
+
 "@types/jsdom@^21.1.7":
   version "21.1.7"
   resolved "https://registry.yarnpkg.com/@types/jsdom/-/jsdom-21.1.7.tgz#9edcb09e0b07ce876e7833922d3274149c898cfa"

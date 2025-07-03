@@ -8,23 +8,21 @@ import { getWikiPage as getStaticWikiPage } from "src/domain/gitlab-wiki-static"
 import serverEnv from "src/env/server";
 import { setupUndiciHttpAgent } from "src/pages/api/http-agent";
 
-type WikiPage = {
+export type WikiPage = {
   format: string;
   slug: string;
   title: string;
   content: string;
 };
 
-type WikiPages = WikiPage[];
-
 type WikiCacheJson = {
   _created: number;
-  pages: WikiPages;
+  pages: WikiPage[];
 };
 
 const CACHE_TTL = 1000;
 
-const fetchWithTimeout = async (
+export const fetchWithTimeout = async (
   url: string,
   options: RequestInit & { timeout?: number; agent?: https.Agent } = {}
 ) => {
@@ -46,10 +44,10 @@ const fetchWithTimeout = async (
   return value as Response;
 };
 
-const getCachedWikiPages = async (
+export const getCachedWikiPages = async (
   url: string,
   token: string
-): Promise<WikiPages> => {
+): Promise<WikiPage[]> => {
   const filePath = path.join(os.tmpdir(), url.replace(/\W+/g, "-") + ".json");
 
   if (fs.existsSync(filePath)) {
@@ -71,7 +69,7 @@ const getCachedWikiPages = async (
     // the GLOBAL_AGENT_FORCE_GLOBAL_AGENT variable is set
     agent: https.globalAgent,
   });
-  const pages: WikiPages = await res.json();
+  const pages: WikiPage[] = await res.json();
 
   const json: WikiCacheJson = { _created: Date.now(), pages };
   await fs.writeJSON(filePath, json);
