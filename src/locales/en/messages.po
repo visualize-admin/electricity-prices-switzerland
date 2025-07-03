@@ -395,11 +395,11 @@ msgstr "Compliance"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.energy-tariff.link"
-msgstr "Energy Tariff"
+msgstr "Energy Tariffs"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.net-tariff.link"
-msgstr "Net Tariff"
+msgstr "Net Tariffs"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.network-costs.link"
