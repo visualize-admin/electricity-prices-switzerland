@@ -1,5 +1,3 @@
-import * as fs from "fs/promises";
-
 import { NetworkLevel } from "src/domain/data";
 import { SunshineDataRow } from "src/graphql/resolver-types";
 import { query } from "src/lib/db/duckdb";
@@ -464,7 +462,7 @@ const getSunshineData = async ({
   }));
 };
 
-const sunshineDataServiceRaw = {
+export const sunshineDataServiceSql = {
   name: "sql",
   getNetworkCosts,
   getOperationalStandards,
@@ -477,26 +475,3 @@ const sunshineDataServiceRaw = {
   getPeerGroup,
   getSunshineData,
 } satisfies SunshineDataService;
-
-// Export the service such that all the methods are logged with their name and parameters
-// Use the Proxy pattern to log method calls
-export const sunshineDataService = new Proxy(sunshineDataServiceRaw, {
-  get(target, prop: string) {
-    if (prop === "name") {
-      return target.name;
-    }
-    if (prop in target) {
-      return async (...args: $IntentionalAny[]) => {
-        await fs.appendFile(
-          `/tmp/method-log`,
-          `Calling ${prop} with args: ${JSON.stringify(args)}\n`
-        );
-        const result = await (target as $IntentionalAny)[prop](...args);
-        return result;
-      };
-    }
-    throw new Error(`Method ${prop} does not exist on SunshineDataService`);
-  },
-});
-
-sunshineDataService.name = sunshineDataServiceRaw.name;

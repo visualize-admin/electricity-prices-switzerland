@@ -1,5 +1,3 @@
-import * as fs from "fs/promises";
-
 import { keyBy } from "lodash";
 import ParsingClient from "sparql-http-client/ParsingClient";
 
@@ -1034,7 +1032,7 @@ const getSunshineData = async ({
   });
 };
 
-const sunshineDataServiceRaw = {
+export const sunshineDataServiceSparql = {
   name: "sparql",
   getNetworkCosts,
   getOperationalStandards,
@@ -1047,27 +1045,3 @@ const sunshineDataServiceRaw = {
   getPeerGroup,
   getSunshineData,
 } satisfies SunshineDataService;
-
-// Export the service with logging proxy
-export const sunshineDataServiceSparql = new Proxy(sunshineDataServiceRaw, {
-  get(target, prop: string) {
-    if (prop === "name") {
-      return target.name;
-    }
-    if (prop in target) {
-      return async (...args: unknown[]) => {
-        await fs.appendFile(
-          `/tmp/method-log-sparql`,
-          `Calling ${prop} with args: ${JSON.stringify(args)}\n`
-        );
-        const result = await (
-          target as unknown as Record<string, (...args: unknown[]) => unknown>
-        )[prop](...args);
-        return result;
-      };
-    }
-    throw new Error(`Method ${prop} does not exist on SunshineDataService`);
-  },
-});
-
-sunshineDataServiceSparql.name = sunshineDataServiceRaw.name;
