@@ -9,7 +9,7 @@ export const locales = [
 
   // TODO: Use buildEnv when we figure out how to import the src/env/build file
   ...(process.env.NODE_ENV === "development" ||
-  process.env.ALLOW_DEV_LANGS === "true"
+  process.env.ALLOW_LANGS === "true"
     ? ["en", "aa"]
     : []),
 ];
