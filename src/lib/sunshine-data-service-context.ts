@@ -13,14 +13,9 @@ export function getSunshineDataService(
   serviceKey: string
 ): SunshineDataService {
   if (!serviceKey || !DATABASE_SERVICE_MAP[serviceKey]) {
-    console.log(
-      "Using default database service:",
-      DEFAULT_DATABASE_SERVICE_KEY
-    );
     return DATABASE_SERVICE_MAP[DEFAULT_DATABASE_SERVICE_KEY];
   }
 
-  console.log("Using database service:", serviceKey);
   return DATABASE_SERVICE_MAP[serviceKey];
 }
 
@@ -30,6 +25,27 @@ export { SUNSHINE_DATA_SERVICE_COOKIE_NAME };
 
 export function getValidServiceKeys(): string[] {
   return Object.keys(DATABASE_SERVICE_MAP);
+}
+
+export function getDefaultServiceKey(): string {
+  return DEFAULT_DATABASE_SERVICE_KEY;
+}
+
+export function getSunshineDataServiceInfo(
+  context: GetServerSidePropsContext
+): {
+  serviceName: string;
+  isDefault: boolean;
+} {
+  const serviceKey = getSunshineDataServiceFromCookies(
+    context.req.headers.cookie
+  );
+  const service = getSunshineDataService(serviceKey);
+
+  return {
+    serviceName: service.name,
+    isDefault: serviceKey === DEFAULT_DATABASE_SERVICE_KEY,
+  };
 }
 
 export function getSunshineDataServiceFromCookies(

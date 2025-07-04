@@ -20,6 +20,7 @@ import { DetailsPageSidebar } from "src/components/detail-page/sidebar";
 import { Loading } from "src/components/hint";
 import { NetworkCostsTrendCard } from "src/components/network-costs-trend-card";
 import PeerGroupCard from "src/components/peer-group-card";
+import { SunshineDataServiceDebug } from "src/components/sunshine-data-service-debug";
 import {
   CostAndTariffsTab,
   CostsAndTariffsNavigation,
@@ -27,6 +28,7 @@ import {
 import TableComparisonCard from "src/components/table-comparison-card";
 import { TariffsTrendCard } from "src/components/tariffs-trend-card";
 import {
+  DataServiceProps,
   handleOperatorsEntity,
   PageParams,
   Props as SharedPageProps,
@@ -55,7 +57,10 @@ import {
 import { TariffCategory } from "src/graphql/resolver-mapped-types";
 import { Trend } from "src/graphql/resolver-types";
 import { fetchOperatorCostsAndTariffsData } from "src/lib/sunshine-data";
-import { getSunshineDataServiceFromGetServerSidePropsContext } from "src/lib/sunshine-data-service-context";
+import {
+  getSunshineDataServiceFromGetServerSidePropsContext,
+  getSunshineDataServiceInfo,
+} from "src/lib/sunshine-data-service-context";
 import { truthy } from "src/lib/truthy";
 import { defaultLocale } from "src/locales/config";
 
@@ -65,6 +70,7 @@ type Props =
         SunshineCostsAndTariffsData,
         "energyTariffs" | "networkCosts" | "netTariffs"
       >;
+      dataService: DataServiceProps;
     })
   | { status: "notfound" };
 
@@ -99,6 +105,7 @@ export const getServerSideProps: GetServerSideProps<Props, PageParams> = async (
 
   const sunshineDataService =
     getSunshineDataServiceFromGetServerSidePropsContext(context);
+  const dataService = getSunshineDataServiceInfo(context);
   const costsAndTariffs = await fetchOperatorCostsAndTariffsData(
     sunshineDataService,
     {
@@ -112,6 +119,7 @@ export const getServerSideProps: GetServerSideProps<Props, PageParams> = async (
     props: {
       ...operatorProps,
       costsAndTariffs,
+      dataService,
     },
   };
 };
@@ -733,13 +741,18 @@ const CostsAndTariffs = (props: Props) => {
   );
 
   return (
-    <DetailsPageLayout
-      title={pageTitle}
-      BannerContent={bannerContent}
-      SidebarContent={sidebarContent}
-      MainContent={mainContent}
-      download={query.download}
-    />
+    <>
+      {props.status === "found" && !props.dataService.isDefault && (
+        <SunshineDataServiceDebug serviceName={props.dataService.serviceName} />
+      )}
+      <DetailsPageLayout
+        title={pageTitle}
+        BannerContent={bannerContent}
+        SidebarContent={sidebarContent}
+        MainContent={mainContent}
+        download={query.download}
+      />
+    </>
   );
 };
 

@@ -423,6 +423,7 @@ const getSunshineData = async ({
 
 // all SQL functions as a SunshineDataService implementation
 export const sunshineDataService = {
+  name: "sql",
   getNetworkCosts,
   getOperationalStandards,
   getStabilityMetrics,

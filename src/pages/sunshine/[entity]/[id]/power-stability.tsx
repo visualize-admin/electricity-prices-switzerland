@@ -16,12 +16,14 @@ import {
 import { DetailsPageSidebar } from "src/components/detail-page/sidebar";
 import PeerGroupCard from "src/components/peer-group-card";
 import { PowerStabilityCard } from "src/components/power-stability-card";
+import { SunshineDataServiceDebug } from "src/components/sunshine-data-service-debug";
 import {
   PowerStabilityNavigation,
   PowerStabilityTab,
 } from "src/components/sunshine-tabs";
 import TableComparisonCard from "src/components/table-comparison-card";
 import {
+  DataServiceProps,
   handleOperatorsEntity,
   PageParams,
   Props as SharedPageProps,
@@ -36,12 +38,16 @@ import { getLocalizedLabel } from "src/domain/translation";
 import { useSaidiQuery, useSaifiQuery } from "src/graphql/queries";
 import { Trend } from "src/graphql/resolver-types";
 import { fetchPowerStability } from "src/lib/sunshine-data";
-import { getSunshineDataServiceFromGetServerSidePropsContext } from "src/lib/sunshine-data-service-context";
+import {
+  getSunshineDataServiceFromGetServerSidePropsContext,
+  getSunshineDataServiceInfo,
+} from "src/lib/sunshine-data-service-context";
 import { defaultLocale } from "src/locales/config";
 
 type Props =
   | (Extract<SharedPageProps, { entity: "operator"; status: "found" }> & {
       powerStability: Omit<SunshinePowerStabilityData, "saidi" | "saifi">;
+      dataService: DataServiceProps;
     })
   | { status: "notfound" };
 
@@ -75,6 +81,7 @@ export const getServerSideProps: GetServerSideProps<Props, PageParams> = async (
 
   const sunshineDataService =
     getSunshineDataServiceFromGetServerSidePropsContext(context);
+  const dataService = getSunshineDataServiceInfo(context);
 
   const powerStability = await fetchPowerStability(sunshineDataService, {
     operatorId: id,
@@ -84,6 +91,7 @@ export const getServerSideProps: GetServerSideProps<Props, PageParams> = async (
     props: {
       ...operatorProps,
       powerStability,
+      dataService,
     },
   };
 };
@@ -433,13 +441,18 @@ const PowerStability = (props: Props) => {
   );
 
   return (
-    <DetailsPageLayout
-      title={pageTitle}
-      BannerContent={bannerContent}
-      SidebarContent={sidebarContent}
-      MainContent={mainContent}
-      download={query.download}
-    />
+    <>
+      {props.status === "found" && !props.dataService.isDefault && (
+        <SunshineDataServiceDebug serviceName={props.dataService.serviceName} />
+      )}
+      <DetailsPageLayout
+        title={pageTitle}
+        BannerContent={bannerContent}
+        SidebarContent={sidebarContent}
+        MainContent={mainContent}
+        download={query.download}
+      />
+    </>
   );
 };
 
