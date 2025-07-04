@@ -64,7 +64,7 @@ const expectedCubeDimensions = [
 const Query: QueryResolvers = {
   sunshineData: async (_parent, args, context) => {
     const filter = args.filter;
-    const sunshineData = await context.databaseService.getSunshineData(filter);
+    const sunshineData = await context.sunshineDataService.getSunshineData(filter);
     return sunshineData;
   },
   sunshineTariffs: async (_parent, args, context) => {
@@ -72,7 +72,7 @@ const Query: QueryResolvers = {
     if (!filter.operatorId && !filter.period) {
       throw new Error("Must either filter by year or by provider.");
     }
-    const sunshineData = await context.databaseService.getSunshineData(filter);
+    const sunshineData = await context.sunshineDataService.getSunshineData(filter);
     return sunshineData;
   },
   systemInfo: async () => {
@@ -383,7 +383,7 @@ const Query: QueryResolvers = {
     };
   },
   networkCosts: async (_, { filter }, context) => {
-    return await fetchNetworkCostsData(context.databaseService, {
+    return await fetchNetworkCostsData(context.sunshineDataService, {
       operatorId: filter.operatorId,
       networkLevel: filter.networkLevel
         ? asNetworkLevel(filter.networkLevel)
@@ -392,27 +392,27 @@ const Query: QueryResolvers = {
     });
   },
   netTariffs: async (_, { filter }, context) => {
-    return await fetchNetTariffsData(context.databaseService, {
+    return await fetchNetTariffsData(context.sunshineDataService, {
       operatorId: filter.operatorId,
       category: asTariffCategory(filter.category as TariffCategory),
       period: filter.period,
     });
   },
   energyTariffs: async (_, { filter }, context) => {
-    return await fetchEnergyTariffsData(context.databaseService, {
+    return await fetchEnergyTariffsData(context.sunshineDataService, {
       operatorId: filter.operatorId,
       category: asTariffCategory(filter.category),
       period: filter.period,
     });
   },
   saidi: async (_, { filter }, context) => {
-    return await fetchSaidi(context.databaseService, {
+    return await fetchSaidi(context.sunshineDataService, {
       operatorId: filter.operatorId,
       period: filter.year,
     });
   },
   saifi: async (_, { filter }, context) => {
-    return await fetchSaifi(context.databaseService, {
+    return await fetchSaifi(context.sunshineDataService, {
       operatorId: filter.operatorId,
       period: filter.year,
     });
@@ -475,7 +475,7 @@ const Operator: OperatorResolvers = {
   },
 
   peerGroup: async ({ id }, args, context) => {
-    const peerGroups = await context.databaseService.getPeerGroup(id);
+    const peerGroups = await context.sunshineDataService.getPeerGroup(id);
     return peerGroups;
   },
 };

@@ -10,8 +10,8 @@ import type {
   TariffRecord,
   OperatorDataRecord,
   PeerGroupRecord,
-  DatabaseService,
-} from "src/lib/sunshine-database-service";
+  SunshineDataService,
+} from "src/lib/sunshine-data-service";
 
 const getNetworkCosts = async ({
   operatorId,
@@ -421,8 +421,8 @@ const getSunshineData = async ({
   }));
 };
 
-// all SQL functions as a DatabaseService implementation
-export const databaseService = {
+// all SQL functions as a SunshineDataService implementation
+export const sunshineDataService = {
   getNetworkCosts,
   getOperationalStandards,
   getStabilityMetrics,
@@ -433,4 +433,4 @@ export const databaseService = {
   getLatestYearPowerStability,
   getPeerGroup,
   getSunshineData,
-} satisfies DatabaseService;
+} satisfies SunshineDataService;

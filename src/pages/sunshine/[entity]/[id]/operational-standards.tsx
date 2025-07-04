@@ -28,7 +28,7 @@ import {
 import { SunshineOperationalStandardsData } from "src/domain/data";
 import { getLocalizedLabel } from "src/domain/translation";
 import { fetchOperationalStandards } from "src/lib/sunshine-data";
-import { getDatabaseServiceFromGetServerSidePropsContext } from "src/lib/sunshine-database-service-context";
+import { getSunshineDataServiceFromGetServerSidePropsContext } from "src/lib/sunshine-data-service-context";
 import { defaultLocale } from "src/locales/config";
 
 type Props =
@@ -66,11 +66,11 @@ export const getServerSideProps: GetServerSideProps<Props, PageParams> = async (
   }
 
   // Get the appropriate database service based on request headers
-  const databaseService =
-    getDatabaseServiceFromGetServerSidePropsContext(context);
+  const sunshineDataService =
+    getSunshineDataServiceFromGetServerSidePropsContext(context);
 
   const operationalStandards = await fetchOperationalStandards(
-    databaseService,
+    sunshineDataService,
     {
       operatorId: id,
     }

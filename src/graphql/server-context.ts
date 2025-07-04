@@ -1,15 +1,15 @@
 import { NextApiRequest } from "next";
 
-import { databaseService as sqlDatabaseService } from "src/lib/db/sql";
-import { DatabaseService } from "src/lib/sunshine-database-service";
+import { sunshineDataService as sqlSunshineDataService } from "src/lib/db/sql";
+import { SunshineDataService } from "src/lib/sunshine-database-service";
 
-const DATABASE_SERVICE_MAP: Record<string, DatabaseService> = {
-  sql: sqlDatabaseService,
+const DATABASE_SERVICE_MAP: Record<string, SunshineDataService> = {
+  sql: sqlSunshineDataService,
 };
 
 const DEFAULT_DATABASE_SERVICE_KEY = "sql";
 
-function getDatabaseService(req: NextApiRequest): DatabaseService {
+function getSunshineDataService(req: NextApiRequest): SunshineDataService {
   const serviceKey = req.headers["x-database-service"] as string;
 
   if (!serviceKey || !DATABASE_SERVICE_MAP[serviceKey]) {
@@ -25,13 +25,13 @@ function getDatabaseService(req: NextApiRequest): DatabaseService {
 }
 
 export type ServerContext = {
-  databaseService: DatabaseService;
+  sunshineDataService: SunshineDataService;
 };
 
 export const context = async (req: NextApiRequest): Promise<ServerContext> => {
-  const databaseService = getDatabaseService(req);
+  const sunshineDataService = getSunshineDataService(req);
 
   return {
-    databaseService,
+    sunshineDataService,
   };
 };

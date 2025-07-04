@@ -8,7 +8,7 @@ import { ensureDatabaseInitialized } from "src/lib/db/duckdb";
 
 import { closeDuckDB } from "../src/lib/db/duckdb";
 import {
-  defaultDatabaseService,
+  defaultSunshineDataService,
   fetchOperationalStandards,
   fetchOperatorCostsAndTariffsData,
   fetchPowerStability,
@@ -164,7 +164,7 @@ async function generateMocks(options: FetcherOptions) {
         `\n--- Fetching operator costs and tariffs data for operator ${operatorId} ---`
       );
       const costsAndTariffs = await fetchOperatorCostsAndTariffsData(
-        defaultDatabaseService,
+        defaultSunshineDataService,
         {
           operatorId: operatorId,
           networkLevel: "NE5",
@@ -198,7 +198,7 @@ async function generateMocks(options: FetcherOptions) {
       console.info(
         `\n--- Fetching power stability data for operator ${operatorId} ---`
       );
-      const powerStability = await fetchPowerStability(defaultDatabaseService, {
+      const powerStability = await fetchPowerStability(defaultSunshineDataService, {
         operatorId: operatorId,
       });
       for (const attr of ["saidi", "saifi"] as const) {
@@ -221,7 +221,7 @@ async function generateMocks(options: FetcherOptions) {
         `\n--- Fetching operational standards for operator ${operatorId} ---`
       );
       const operationalStandards = await fetchOperationalStandards(
-        defaultDatabaseService,
+        defaultSunshineDataService,
         {
           operatorId,
         }

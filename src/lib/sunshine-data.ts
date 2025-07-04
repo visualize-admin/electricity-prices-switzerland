@@ -13,11 +13,11 @@ import {
   TariffsData,
   Trend,
 } from "src/graphql/resolver-types";
-import { databaseService as sqlDatabaseService } from "src/lib/db/sql";
+import { sunshineDataService as sqlSunshineDataService } from "src/lib/db/sql";
 import {
-  DatabaseService,
+  SunshineDataService,
   TariffRecord,
-} from "src/lib/sunshine-database-service";
+} from "src/lib/sunshine-data-service";
 
 type NetworkCostsParams = {
   metric: "network_costs";
@@ -90,7 +90,7 @@ const getTrend = (
  * @returns Costs and tariffs data
  */
 export const fetchNetworkCostsData = async (
-  db: DatabaseService,
+  db: SunshineDataService,
   {
     operatorId,
     networkLevel = "NE5",
@@ -182,7 +182,7 @@ export const fetchNetworkCostsData = async (
 };
 
 export const fetchNetTariffsData = async (
-  db: DatabaseService,
+  db: SunshineDataService,
   {
     operatorId,
     category = "NC2",
@@ -239,7 +239,7 @@ export const fetchNetTariffsData = async (
 };
 
 export const fetchEnergyTariffsData = async (
-  db: DatabaseService,
+  db: SunshineDataService,
   {
     operatorId,
     category,
@@ -290,7 +290,7 @@ export const fetchEnergyTariffsData = async (
 };
 
 export const fetchOperatorCostsAndTariffsData = async (
-  db: DatabaseService,
+  db: SunshineDataService,
   {
     operatorId: operatorId_,
     networkLevel,
@@ -363,7 +363,7 @@ export const fetchOperatorCostsAndTariffsData = async (
  * @returns SAIDI data
  */
 export const fetchSaidi = async (
-  db: DatabaseService,
+  db: SunshineDataService,
   {
     operatorId,
     period,
@@ -418,7 +418,7 @@ export const fetchSaidi = async (
  * @returns SAIFI data
  */
 export const fetchSaifi = async (
-  db: DatabaseService,
+  db: SunshineDataService,
   {
     operatorId,
     period,
@@ -468,7 +468,7 @@ export const fetchSaifi = async (
 };
 
 export const fetchPowerStability = async (
-  db: DatabaseService,
+  db: SunshineDataService,
   {
     operatorId: operatorId_,
   }: {
@@ -516,7 +516,7 @@ export const fetchPowerStability = async (
  * @returns Operational standards data
  */
 export const fetchOperationalStandards = async (
-  db: DatabaseService,
+  db: SunshineDataService,
   {
     operatorId: operatorId_,
   }: {
@@ -595,4 +595,4 @@ export const fetchOperationalStandards = async (
 };
 
 // Default database service implementation using sql module
-export const defaultDatabaseService = sqlDatabaseService;
+export const defaultSunshineDataService = sqlSunshineDataService;

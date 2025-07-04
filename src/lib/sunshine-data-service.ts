@@ -88,7 +88,7 @@ export type PeerGroupRecord<
     }
   : never;
 
-export interface DatabaseService {
+export interface SunshineDataService {
   getNetworkCosts(params?: {
     operatorId?: number;
     period?: number;
