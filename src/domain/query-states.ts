@@ -61,6 +61,8 @@ const sunshineIndicatorSchema = z.enum([
   "energyTariffs",
   "saidi",
   "saifi",
+  "serviceQuality",
+  "compliance",
 ] as const);
 
 const sunshineMapSchema = z.object({
@@ -128,3 +130,36 @@ type QueryStateSunshineMap = UseQueryStateSingle<
 export type QueryStateSingleSunshineDetails = UseQueryStateSingle<
   typeof sunshineDetailsSchema.shape
 >;
+
+const viewByFilterSchema = z.enum(["latest", "progress"]);
+const compareWithFilterSchema = z
+  .union([
+    z.string().transform((x) => (x ? x.split(",").filter(Boolean) : [])),
+    z.array(z.string()),
+  ])
+  .transform((x) => (Array.isArray(x) ? x : []));
+const durationFilterSchema = z.enum(["total", "planned", "unplanned"]);
+const overallOrRatioFilterSchema = z.enum(["overall", "ratio"]);
+const powerStabilityCardFiltersSchema = z.object({
+  compareWith: compareWithFilterSchema.default(["sunshine.select-all"]),
+  viewBy: viewByFilterSchema.default("latest"),
+  duration: durationFilterSchema.default("total"),
+  overallOrRatio: overallOrRatioFilterSchema.default("overall"),
+});
+export const useQueryStatePowerStabilityCardFilters = makeUseQueryState(
+  powerStabilityCardFiltersSchema
+);
+const networkCostsTrendCardFiltersSchema = z.object({
+  compareWith: compareWithFilterSchema.default(["sunshine.select-all"]),
+  viewBy: viewByFilterSchema.default("latest"),
+});
+export const useQueryStateNetworkCostsTrendCardFilters = makeUseQueryState(
+  networkCostsTrendCardFiltersSchema
+);
+const tariffsTrendCardFiltersSchema = z.object({
+  compareWith: compareWithFilterSchema.default(["sunshine.select-all"]),
+  viewBy: viewByFilterSchema.default("latest"),
+});
+export const useQueryStateTariffsTrendCardFilters = makeUseQueryState(
+  tariffsTrendCardFiltersSchema
+);

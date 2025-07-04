@@ -22,7 +22,7 @@ export const ScatterpotChart = () => {
             (d) => d.year === new Date().getFullYear()
           )}
           networkCosts={restNetworkCosts}
-          view="latest"
+          viewBy="latest"
           compareWith={["sunshine.select-all"]}
         />
       </DesignGrid>

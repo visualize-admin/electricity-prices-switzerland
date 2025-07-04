@@ -1,6 +1,6 @@
 {
   "name": "elcom-electricity-price-website",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "repository": "git@github.com:interactivethings/elcom-electricity-price-website.git",
   "author": "Federal Electricity Commission ElCom <info@elcom.admin.ch>",
   "license": "BSD-3-Clause",
@@ -11,6 +11,7 @@
   "scripts": {
     "dev": "make content && NODE_OPTIONS='--openssl-legacy-provider --max_old_space_size=4096' next",
     "update-wiki-content": "make content",
+    "wiki-content:update-types": "tsx scripts/wiki-content.ts pages --format typescript --file src/domain/data.ts",
     "build": "lingui compile && yarn build-storybook && NODE_OPTIONS='--max_old_space_size=16384 --openssl-legacy-provider' next build -d && mkdir .next/server/pages/sunshine-data/ && cp src/sunshine-data/*.enc  .next/server/pages/sunshine-data/",
     "start": "GLOBAL_AGENT_ENVIRONMENT_VARIABLE_NAMESPACE='' NODE_OPTIONS='-r \"./configure-proxy\" --max_old_space_size=2048 --openssl-legacy-provider --unhandled-rejections=warn' next start -p $PORT",
     "typecheck": "tsc --noEmit",
@@ -149,6 +150,7 @@
     "@types/d3": "^6.3.0",
     "@types/fs-extra": "^9.0.11",
     "@types/gettext-parser": "^8.0.0",
+    "@types/jscodeshift": "^17.3.0",
     "@types/k6": "^0.46.3",
     "@types/lodash": "^4.14.182",
     "@types/node": "^22.13.16",
@@ -173,6 +175,7 @@
     "accent-cli": "^0.16.2",
     "argparse": "^2.0.1",
     "babel-plugin-macros": "^3.0.1",
+    "dotenv": "^17.0.1",
     "eslint": "^8.50.0",
     "eslint-config-next": "15.0.4",
     "eslint-plugin-import": "^2.28.1",

@@ -76,114 +76,12 @@ export const getServerSideProps: GetServerSideProps<
   };
 };
 
-const ProductVariety = (props: Extract<Props, { status: "found" }>) => {
-  const {
-    operator: { peerGroup },
-    latestYear,
-    updateDate,
-  } = props.operationalStandards;
-
+export const prepServiceQualityCardProps = (
+  props: Extract<Props, { status: "found" }>
+) => {
+  const { latestYear } = props.operationalStandards;
   const data = props.operationalStandards;
-  const operatorLabel = props.name;
-
-  const comparisonCardProps = {
-    title: (
-      <Trans id="sunshine.operational-standards.product-variety.comparison-card-title">
-        Product Variety
-      </Trans>
-    ),
-    subtitle: (
-      <Trans id="sunshine.product-variety.latest-year">
-        Latest year ({latestYear})
-      </Trans>
-    ),
-    rows: [
-      {
-        label: (
-          <Trans id="sunshine.product-variety.eco-friendly-products-offered">
-            Eco-friendly products offered
-          </Trans>
-        ),
-        value: {
-          value: `${data.productVariety.ecoFriendlyProductsOffered}`,
-        },
-      },
-      {
-        label: (
-          <Trans id="sunshine.product-variety.product-combinations-options">
-            Product combination options
-          </Trans>
-        ),
-        value: {
-          value: data.productVariety.productCombinationsOptions ? (
-            <Trans id="sunshine.product-variety.product-combinations-options.yes">
-              Yes
-            </Trans>
-          ) : (
-            <Trans id="sunshine.product-variety.product-combinations-options.no">
-              No
-            </Trans>
-          ),
-        },
-      },
-    ],
-  } satisfies React.ComponentProps<typeof TableComparisonCard>;
-
-  return (
-    <>
-      <CardGrid
-        sx={{
-          gridTemplateColumns: {
-            xs: "1fr", // Single column on small screens
-            sm: "repeat(2, 1fr)", // Two columns on medium screens
-          },
-
-          gridTemplateRows: ["auto auto auto", "auto auto"], // Three rows: two for cards, one for trend chart
-
-          // On Desktop, peer group and network costs cards are side by side
-          // Network costs trend is below them
-          // On Mobile, they are stacked
-          gridTemplateAreas: [
-            `"peer-group" "comparison" "trend"`, // One column on small screens
-            `"peer-group comparison" "trend trend"`, // Two columns on medium screens
-          ],
-        }}
-      >
-        <PeerGroupCard
-          latestYear={latestYear}
-          peerGroup={peerGroup}
-          sx={{ gridArea: "peer-group" }}
-        />
-
-        <TableComparisonCard
-          {...comparisonCardProps}
-          sx={{ gridArea: "comparison" }}
-        />
-
-        <OperationalStandardsCard
-          sx={{ gridArea: "trend" }}
-          peerGroup={peerGroup}
-          updateDate={updateDate}
-          operatorId={props.id}
-          operatorLabel={operatorLabel}
-          operationalStandards={data.productVariety}
-          attribute="productVariety"
-        />
-      </CardGrid>
-    </>
-  );
-};
-
-const ServiceQuality = (props: Extract<Props, { status: "found" }>) => {
-  const {
-    operator: { peerGroup },
-    latestYear,
-    updateDate,
-  } = props.operationalStandards;
-
-  const data = props.operationalStandards;
-  const operatorLabel = props.name;
-  const comparisonCardProps = {
+  return {
     title: (
       <Trans id="sunshine.operational-standards.service-quality.comparison-card-title">
         Service Quality
@@ -225,6 +123,17 @@ const ServiceQuality = (props: Extract<Props, { status: "found" }>) => {
       },
     ],
   } satisfies React.ComponentProps<typeof TableComparisonCard>;
+};
+
+const ServiceQuality = (props: Extract<Props, { status: "found" }>) => {
+  const {
+    operator: { peerGroup },
+    latestYear,
+    updateDate,
+  } = props.operationalStandards;
+
+  const data = props.operationalStandards;
+  const operatorLabel = props.name;
 
   return (
     <>
@@ -253,7 +162,7 @@ const ServiceQuality = (props: Extract<Props, { status: "found" }>) => {
         />
 
         <TableComparisonCard
-          {...comparisonCardProps}
+          {...prepServiceQualityCardProps(props)}
           sx={{ gridArea: "comparison" }}
         />
 
@@ -271,16 +180,12 @@ const ServiceQuality = (props: Extract<Props, { status: "found" }>) => {
   );
 };
 
-const Compliance = (props: Extract<Props, { status: "found" }>) => {
-  const {
-    operator: { peerGroup },
-    latestYear,
-    updateDate,
-  } = props.operationalStandards;
-
+export const prepComplianceCardProps = (
+  props: Extract<Props, { status: "found" }>
+) => {
+  const { latestYear } = props.operationalStandards;
   const data = props.operationalStandards;
-  const operatorLabel = props.name;
-  const comparisonCardProps = {
+  return {
     title: (
       <Trans id="sunshine.operational-standards.compliance.comparison-card-title">
         Compliance
@@ -323,6 +228,17 @@ const Compliance = (props: Extract<Props, { status: "found" }>) => {
       },
     ],
   } satisfies React.ComponentProps<typeof TableComparisonCard>;
+};
+
+const Compliance = (props: Extract<Props, { status: "found" }>) => {
+  const {
+    operator: { peerGroup },
+    latestYear,
+    updateDate,
+  } = props.operationalStandards;
+
+  const data = props.operationalStandards;
+  const operatorLabel = props.name;
 
   return (
     <>
@@ -351,7 +267,7 @@ const Compliance = (props: Extract<Props, { status: "found" }>) => {
         />
 
         <TableComparisonCard
-          {...comparisonCardProps}
+          {...prepComplianceCardProps(props)}
           sx={{ gridArea: "comparison" }}
         />
 
@@ -372,7 +288,7 @@ const Compliance = (props: Extract<Props, { status: "found" }>) => {
 const PowerStability = (props: Props) => {
   const { query } = useRouter();
   const [activeTab, setActiveTab] = useState<OperationalStandardsTabOption>(
-    OperationalStandardsTabOption.PRODUCT_VARIETY
+    OperationalStandardsTabOption.SERVICE_QUALITY
   );
 
   if (props.status === "notfound") {
@@ -386,7 +302,7 @@ const PowerStability = (props: Props) => {
     message: "Power Stability",
   })}`;
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleTabChange = (_: React.SyntheticEvent, newValue: number) => {
     setActiveTab(newValue);
   };
 
@@ -430,9 +346,6 @@ const PowerStability = (props: Props) => {
         handleTabChange={handleTabChange}
       />
 
-      {activeTab === OperationalStandardsTabOption.PRODUCT_VARIETY && (
-        <ProductVariety {...props} />
-      )}
       {activeTab === OperationalStandardsTabOption.SERVICE_QUALITY && (
         <ServiceQuality {...props} />
       )}

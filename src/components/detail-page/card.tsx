@@ -77,38 +77,6 @@ export const CardHeader = (props: CardHeaderProps) => {
   );
 };
 
-//FIXME: Implement once we have source and date from the data
-// type CardFooterProps = {
-//   date: string;
-//   source: string;
-// };
-
-// export const CardFooter = (props: CardFooterProps) => {
-//   const { date, source } = props;
-//   return (
-//     <Box
-//       display={"flex"}
-//       sx={{
-//         flexDirection: "column",
-//         gap: 2.5,
-//       }}
-//     >
-//       <Typography
-//         variant="caption"
-//         sx={{ color: "text.500", lineHeight: "150%" }}
-//       >
-//         <Trans id="date">Datum</Trans>: {date}
-//       </Typography>
-//       <Typography
-//         variant="caption"
-//         sx={{ color: "text.500", lineHeight: "150%" }}
-//       >
-//         <Trans id="source">Quelle</Trans>: {source}
-//       </Typography>
-//     </Box>
-//   );
-// };
-
 export const CardTitle = (props: CardBase) => {
   const { children } = props;
   return (

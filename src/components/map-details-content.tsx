@@ -287,6 +287,18 @@ export const MapDetailsContent: React.FC<{
                   SAIFI in detail
                 </Trans>
               );
+            case "serviceQuality":
+              return (
+                <Trans id="map.details-sidebar-panel.next-button.service-quality">
+                  Service Quality in detail
+                </Trans>
+              );
+            case "compliance":
+              return (
+                <Trans id="map.details-sidebar-panel.next-button.compliance">
+                  Compliance in detail
+                </Trans>
+              );
             default:
               // This ensures exhaustive checking
               const _exhaustiveCheck: never = indicator;

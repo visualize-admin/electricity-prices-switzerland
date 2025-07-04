@@ -36,33 +36,23 @@ import { Lines } from "./charts-generic/lines/lines";
 import { LineChart } from "./charts-generic/lines/lines-state";
 import { InteractionHorizontal } from "./charts-generic/overlay/interaction-horizontal";
 import { SectionProps } from "./detail-page/card";
-import {
-  DurationFilter,
-  OverallOrRatioFilter,
-  ViewByFilter,
-} from "./power-stability-card";
-
-type PowerStabilityFilters = {
-  view: ViewByFilter;
-  overallOrRatio: OverallOrRatioFilter;
-  duration: DurationFilter;
-  mini?: boolean;
-  rootProps?: Omit<BoxProps, "children">;
-};
+import { PowerStabilityCardFilters } from "./power-stability-card";
 
 type PowerStabilityChartProps = {
   observations:
     | SunshinePowerStabilityData["saifi"]["yearlyData"]
     | SunshinePowerStabilityData["saidi"]["yearlyData"];
   operatorLabel: string;
+  mini?: boolean;
+  rootProps?: Omit<BoxProps, "children">;
 } & Omit<SectionProps, "entity"> &
-  PowerStabilityFilters;
+  PowerStabilityCardFilters;
 
 type PowerStabilityRow =
   SunshinePowerStabilityData["saidi"]["yearlyData"][0] & { planned: number };
 
 export const PowerStabilityChart = (props: PowerStabilityChartProps) => {
-  const { view, observations, rootProps, ...restProps } = props;
+  const { viewBy, observations, rootProps, ...restProps } = props;
 
   const dataWithStackFields = useMemo(() => {
     return observations.map((d) => ({
@@ -74,7 +64,7 @@ export const PowerStabilityChart = (props: PowerStabilityChartProps) => {
 
   return (
     <Box {...rootProps}>
-      {view === "latest" ? (
+      {viewBy === "latest" ? (
         <LatestYearChartView
           observations={dataWithStackFields}
           {...restProps}
@@ -97,7 +87,7 @@ type PowerStabilitySortableType =
   | "operator";
 
 const LatestYearChartView = (
-  props: Omit<PowerStabilityChartProps, "view" | "observations"> & {
+  props: Omit<PowerStabilityChartProps, "viewBy" | "observations"> & {
     observations: PowerStabilityRow[];
   }
 ) => {
@@ -192,7 +182,7 @@ const LatestYearChartView = (
         annotation: [
           {
             avgLabel: t({
-              id: "chart.avr.peer-group",
+              id: "chart.avg.peer-group",
               message: "Average Peer Group",
             }),
             value: Math.round(average * 100) / 100,
@@ -299,11 +289,17 @@ const LatestYearChartView = (
 };
 
 const ProgressOvertimeChartView = (
-  props: Omit<PowerStabilityChartProps, "view" | "observations"> & {
+  props: Omit<PowerStabilityChartProps, "viewBy" | "observations"> & {
     observations: PowerStabilityRow[];
   }
 ) => {
-  const { observations, operatorLabel, duration, mini } = props;
+  const {
+    observations,
+    operatorLabel,
+    duration = "total",
+    mini,
+    compareWith = [],
+  } = props;
   const operatorsNames = useMemo(() => {
     return new Set(observations.map((d) => d.operator_name));
   }, [observations]);
@@ -376,14 +372,16 @@ const ProgressOvertimeChartView = (
           symbol={"line"}
         /> */}
 
-          <LegendItem
-            item={t({
-              id: "network-cost-trend-chart.legend-item.other-operators",
-              message: "Other operators",
-            })}
-            color={palette.monochrome[200]}
-            symbol={"line"}
-          />
+          {compareWith.length > 0 && (
+            <LegendItem
+              item={t({
+                id: "network-cost-trend-chart.legend-item.other-operators",
+                message: "Other operators",
+              })}
+              color={palette.monochrome[200]}
+              symbol={"line"}
+            />
+          )}
         </Box>
       )}
       <ChartContainer>

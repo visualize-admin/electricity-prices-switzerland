@@ -27,12 +27,8 @@ import { Dots } from "./charts-generic/scatter-plot/dots";
 import { ScatterPlotMedian } from "./charts-generic/scatter-plot/median";
 import { ScatterPlot } from "./charts-generic/scatter-plot/scatter-plot-state";
 import { SectionProps } from "./detail-page/card";
-import { CompareWithFilter, ViewByFilter } from "./power-stability-card";
+import { NetworkCostsTrendCardFilters } from "./network-costs-trend-card";
 
-type NetworkCostsTrendFilters = {
-  view: ViewByFilter;
-  compareWith: CompareWithFilter;
-};
 type NetworkCostTrendChartProps = {
   rootProps?: Omit<BoxProps, "children">;
   observations: SunshineCostsAndTariffsData["networkCosts"]["yearlyData"];
@@ -40,16 +36,16 @@ type NetworkCostTrendChartProps = {
   operatorLabel: string;
   mini?: boolean;
 } & Omit<SectionProps, "entity"> &
-  NetworkCostsTrendFilters;
+  NetworkCostsTrendCardFilters;
 
 export const NetworkCostTrendChart = (props: NetworkCostTrendChartProps) => {
-  const { observations, view, rootProps, ...restProps } = props;
+  const { observations, viewBy, rootProps, ...restProps } = props;
   const operatorsNames = useMemo(() => {
     return new Set(observations.map((d) => d.operator_name));
   }, [observations]);
   return (
     <Box {...rootProps}>
-      {view === "latest" ? (
+      {viewBy === "latest" ? (
         <LatestYearChartView
           observations={observations}
           operatorsNames={operatorsNames}
@@ -67,7 +63,7 @@ export const NetworkCostTrendChart = (props: NetworkCostTrendChartProps) => {
 };
 
 const LatestYearChartView = (
-  props: Omit<NetworkCostTrendChartProps, "view"> & {
+  props: Omit<NetworkCostTrendChartProps, "viewBy"> & {
     operatorsNames: Set<string>;
   }
 ) => {
@@ -172,12 +168,17 @@ const LatestYearChartView = (
 };
 
 const ProgressOvertimeChartView = (
-  props: Omit<NetworkCostTrendChartProps, "view"> & {
+  props: Omit<NetworkCostTrendChartProps, "viewBy"> & {
     operatorsNames: Set<string>;
   }
 ) => {
-  const { observations, operatorLabel, operatorsNames, compareWith, mini } =
-    props;
+  const {
+    observations,
+    operatorLabel,
+    operatorsNames,
+    compareWith = [],
+    mini,
+  } = props;
   const hasNotSelectedAll = !compareWith.includes("sunshine.select-all");
 
   return (
@@ -252,14 +253,16 @@ const ProgressOvertimeChartView = (
           symbol={"line"}
         /> */}
 
-          <LegendItem
-            item={t({
-              id: "network-cost-trend-chart.legend-item.other-operators",
-              message: "Other operators",
-            })}
-            color={palette.monochrome[200]}
-            symbol={"line"}
-          />
+          {compareWith.length > 0 && (
+            <LegendItem
+              item={t({
+                id: "network-cost-trend-chart.legend-item.other-operators",
+                message: "Other operators",
+              })}
+              color={palette.monochrome[200]}
+              symbol={"line"}
+            />
+          )}
         </Box>
       )}
       <ChartContainer>
