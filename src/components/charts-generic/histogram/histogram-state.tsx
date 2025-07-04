@@ -1,7 +1,16 @@
 import { t } from "@lingui/macro";
 import { Box, Typography } from "@mui/material";
-import { Theme } from "@mui/material/styles";
-import { ascending, bin, Bin, interpolateHsl, max, min, scaleLinear } from "d3";
+import { Theme, useTheme } from "@mui/material/styles";
+import {
+  ascending,
+  bin,
+  Bin,
+  interpolateHsl,
+  max,
+  min,
+  scaleBand,
+  scaleLinear,
+} from "d3";
 import { ReactNode, useCallback } from "react";
 
 import {
@@ -129,6 +138,7 @@ const useHistogramState = ({
   const width = useWidth();
   const formatCurrency = useFormatCurrency();
   const { annotationFontSize } = useChartTheme();
+  const theme = useTheme();
 
   const getX = useCallback(
     (d: GenericObservation) => d[fields.x.componentIri] as number,
@@ -219,9 +229,29 @@ const useHistogramState = ({
     : [{ height: 0, nbOfLines: 1 }];
 
   const getAnnotationInfo = (d: Bin<GenericObservation, number>) => {
+    let xAnchor;
+    let binIndex = 0;
+    let meta = undefined;
+    if (groupedBy && binMeta) {
+      const bandDomain = binMeta.map((b, i) => b.label ?? String(i));
+      const bandScale = scaleBand().domain(bandDomain).range([0, chartWidth]);
+      const label =
+        (d as { label?: string }).label ??
+        bandDomain.find(
+          (_, i) => binMeta[i].x0 === d.x0 && binMeta[i].x1 === d.x1
+        ) ??
+        String(0);
+      xAnchor = (bandScale(label) ?? 0) + bandScale.bandwidth() / 2;
+      binIndex = binMeta.findIndex((b) => b.label === label);
+      meta = binMeta[binIndex];
+    } else {
+      xAnchor = xScale(((d.x1 ?? 0) + (d.x0 ?? 0)) / 2) + margins.left;
+      binIndex = bins.findIndex((b) => b === d);
+      meta = binMeta ? binMeta[binIndex] : undefined;
+    }
     return {
       placement: { x: "center", y: "top" },
-      xAnchor: xScale(((d.x1 ?? 0) + (d.x0 ?? 0)) / 2),
+      xAnchor,
       yAnchor:
         yScale(getY(d)) +
         margins.top -
@@ -231,7 +261,17 @@ const useHistogramState = ({
       tooltipContent: (
         <>
           <Box sx={{ alignItems: "center", gap: "0.375rem" }} display="flex">
-            <LegendSymbol symbol="square" color={colors(d.x0 ?? 0)} />
+            <LegendSymbol
+              symbol="square"
+              color={getBarColor({
+                bin: d,
+                meta: meta ?? { x0: 0, x1: 0, label: "" },
+                fields,
+                colors,
+                theme,
+                binIndex,
+              })}
+            />
             <Typography variant="caption" sx={{ fontWeight: 700 }}>
               {(d as Bin<GenericObservation, number> & { label?: string })
                 .label || `${d.x0}-${d.x1}`}

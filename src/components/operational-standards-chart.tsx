@@ -53,7 +53,7 @@ export const ServiceQualityChart = ({
   const median =
     values.length % 2 !== 0 ? values[mid] : (values[mid - 1] + values[mid]) / 2;
   return (
-    <Box sx={{ mt: 8 }}>
+    <Box sx={{ mt: 8, position: "relative" }}>
       <Histogram
         data={mockServiceQualityData(id)}
         medianValue={median}
@@ -122,7 +122,7 @@ export const ComplianceChart = ({
   const median =
     values.length % 2 !== 0 ? values[mid] : (values[mid - 1] + values[mid]) / 2;
   return (
-    <Box sx={{ mt: 8 }}>
+    <Box sx={{ mt: 8, position: "relative" }}>
       <Histogram
         data={mockComplianceData(id)}
         medianValue={median}
