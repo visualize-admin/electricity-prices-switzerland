@@ -350,7 +350,7 @@ const getTariffs = async ({
 } = {}): Promise<TariffRecord[]> => {
   const category = truncateCategory(categoryRaw);
   const tariffType =
-    tariffTypeRaw ?? categoryRaw?.startsWith("N") ? "network" : "energy";
+    tariffTypeRaw ?? (categoryRaw?.startsWith("N") ? "network" : "energy");
   const periodFilter = period
     ? `:period "${period}"^^xsd:gYear`
     : `:period ?period`;

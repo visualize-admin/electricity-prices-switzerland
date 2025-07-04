@@ -201,25 +201,15 @@ describe("SPARQL Sunshine Data Service", () => {
   });
 
   describe("getTariffs", () => {
-    // TODO To review, it seems on Lindas, they use C2 for both energy and network tariffs
-    // whereas in duckdb se use NC2 and EC2
     it("should return tariffs for a specific operator, period, and category", async () => {
       const result = await sunshineDataServiceSparql.getTariffs({
         operatorId: 672,
         period: 2025,
-        category: "EC2",
+        category: "NC2",
       });
 
       expect(result).toMatchInlineSnapshot(`
         [
-          {
-            "category": "C2",
-            "operator_id": 672,
-            "operator_name": "St.Galler Stadtwerke",
-            "period": 2025,
-            "rate": 14.021,
-            "tariff_type": "energy",
-          },
           {
             "category": "C2",
             "operator_id": 672,
