@@ -8,7 +8,7 @@ import {
   useChartState,
 } from "src/components/charts-generic/use-chart-state";
 import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
-import { useFormatCurrency, useFormatNumber } from "src/domain/helpers";
+import { getTextWidth } from "src/domain/helpers";
 import { getLocalizedLabel } from "src/domain/translation";
 import { useIsMobile } from "src/lib/use-mobile";
 
@@ -18,12 +18,12 @@ const TICK_MIN_HEIGHT = 50;
 
 export const AxisHeightLinear = ({
   format,
+  percentage,
 }: {
-  format?: "currency" | "number";
+  format?: (d: number, i: number) => string;
+  percentage?: boolean;
 }) => {
   const ref = useRef<SVGGElement>(null);
-  const formatNumber =
-    format === "currency" ? useFormatCurrency() : useFormatNumber();
 
   const isMobile = useIsMobile();
 
@@ -38,8 +38,17 @@ export const AxisHeightLinear = ({
 
   const isMiniChart = bounds.width <= MINI_CHART_WIDTH;
 
+  const formatTick = (d: number, i: number) =>
+    percentage ? `${d}%` : format ? format(d, i) : String(d);
+  const tickValues = yScale.ticks(ticks);
+  const maxLabelWidth = Math.max(
+    ...tickValues.map((d, i) =>
+      getTextWidth(formatTick(Number(d), i), { fontSize: labelFontSize })
+    ),
+    0
+  );
+
   const mkAxis = (g: Selection<SVGGElement, unknown, null, undefined>) => {
-    const tickValues = yScale.ticks(ticks);
     const yDomain = yScale.domain();
 
     if (
@@ -52,12 +61,16 @@ export const AxisHeightLinear = ({
           : tickValues[0] - tickValues[1];
       tickValues.push(tickValues[tickValues.length - 1] + diff);
     }
-    g.call(
-      axisLeft(yScale)
-        .tickValues(tickValues)
-        .tickSizeInner(-bounds.chartWidth)
-        .tickFormat(formatNumber)
-    );
+    let axis = axisLeft(yScale)
+      .tickValues(tickValues)
+      .tickSizeInner(-bounds.chartWidth)
+      .tickSizeOuter(0);
+    if (percentage) {
+      axis = axis.tickFormat((d) => `${d}%`);
+    } else if (format) {
+      axis = axis.tickFormat((d, i) => format(Number(d), i));
+    }
+    g.call(axis);
 
     g.select(".domain").remove();
 
@@ -75,6 +88,8 @@ export const AxisHeightLinear = ({
     mkAxis(g as Selection<SVGGElement, unknown, null, undefined>);
   });
 
+  const leftMargin = bounds.margins.left + maxLabelWidth + 8;
+
   return (
     <>
       <g>
@@ -90,7 +105,7 @@ export const AxisHeightLinear = ({
       </g>
       <g
         ref={ref}
-        transform={`translate(${bounds.margins.left}, ${bounds.margins.top})`}
+        transform={`translate(${leftMargin}, ${bounds.margins.top})`}
       />
     </>
   );

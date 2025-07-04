@@ -14,6 +14,14 @@ export const MIN_PER_YEAR = t({
   id: "sunshine.metric-unit.min-year",
   message: "Min./year",
 });
+export const DAYS = t({
+  id: "sunshine.metric-unit.days",
+  message: "days",
+});
+export const SWISS_FRANCS = t({
+  id: "sunshine.metric-unit.swiss-francs",
+  message: "CHF",
+});
 
 export const getNetworkLevelMetrics = (level: NetworkLevel["id"]) => {
   switch (level) {

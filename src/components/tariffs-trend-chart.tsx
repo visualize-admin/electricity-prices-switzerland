@@ -3,6 +3,7 @@ import { Box, BoxProps } from "@mui/material";
 import { useMemo } from "react";
 
 import type { SunshineCostsAndTariffsData } from "src/domain/data";
+import { useFormatCurrency } from "src/domain/helpers";
 import { RP_PER_KM, RP_PER_KWH } from "src/domain/metrics";
 import { getLocalizedLabel } from "src/domain/translation";
 import { chartPalette, palette } from "src/themes/palette";
@@ -162,7 +163,7 @@ const ProgressOvertimeChartView = (
     mini,
   } = props;
   const hasNotSelectedAll = !compareWith.includes("sunshine.select-all");
-
+  const formatCurrency = useFormatCurrency();
   return (
     <LineChart
       data={observations}
@@ -236,7 +237,7 @@ const ProgressOvertimeChartView = (
       )}
       <ChartContainer>
         <ChartSvg>
-          <AxisHeightLinear format="currency" /> <AxisTime />
+          <AxisHeightLinear format={formatCurrency} /> <AxisTime />
           <Lines />
           {hasNotSelectedAll && <InteractionHorizontal />}
         </ChartSvg>

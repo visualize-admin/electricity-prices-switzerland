@@ -52,7 +52,7 @@ export const getLocalizedLabel = ({ id }: { id: string }): string => {
         id: "sunshine.operational-standards.product-variety-trend",
         message: "Comparison of eco-friendly product diversity",
       });
-    case "comliance-trend":
+    case "compliance-trend":
       return t({
         id: "sunshine.operational-standards.compliance-trend",
         message: "Comparison of francs per invoice recipient",

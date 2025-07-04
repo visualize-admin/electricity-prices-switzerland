@@ -1,4 +1,5 @@
 import { Box } from "@mui/material";
+import { scaleBand } from "d3";
 import * as React from "react";
 
 import { DOT_RADIUS } from "src/components/charts-generic/rangeplot/rangeplot-state";
@@ -42,11 +43,37 @@ export const AnnotationX = () => {
   } = useChartTheme();
 
   const isMobile = useIsMobile();
+  // Only use groupedBy logic if present (HistogramState)
+  const chartState = useChartState();
+  function isHistogramState(state: unknown): state is HistogramState {
+    return (
+      typeof state === "object" &&
+      state !== null &&
+      "groupedBy" in state &&
+      "binMeta" in state &&
+      "chartWidth" in state
+    );
+  }
+  let bandScale: ((label: string) => number) | undefined = undefined;
+  let bandDomain: string[] = [];
+  if (isHistogramState(chartState)) {
+    const hist = chartState as HistogramState;
+    bandDomain = hist.binMeta.map((b, i) => b.label ?? String(i));
+    const scale = scaleBand<string>()
+      .domain(bandDomain)
+      .range([0, hist.bounds.chartWidth]);
+    bandScale = (label: string) => (scale(label) ?? 0) + scale.bandwidth() / 2;
+  }
   return (
     <>
       {annotations &&
         annotations.map((a, i) => {
-          const x = margins.left + a.x;
+          // If groupedBy, use bandScale for x
+          let x = a.x;
+          if (bandScale && typeof a.label === "string") {
+            x = bandScale(a.label);
+          }
+          x = margins.left + x;
           const y1 =
             (isMobile ? margins.top / 2 + a.yLabel : a.yLabel) +
             annotationFontSize * a.nbOfLines;
