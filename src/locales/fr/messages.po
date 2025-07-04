@@ -7,7 +7,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language: fr\n"
 "Language-Team: \n"
-"Content-Type: text/plain\n"
+"Content-Type: \n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
@@ -1219,7 +1219,7 @@ msgstr "La page Stabilité de l'énergie donne un aperçu de la fiabilité de l'
 
 #: src/components/power-stability-card.tsx
 msgid "sunshine.power-stability.duration"
-msgstr "Durée de l'accord"
+msgstr "Durée de l’accord"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx

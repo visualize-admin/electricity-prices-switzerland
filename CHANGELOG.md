@@ -45,6 +45,10 @@ You can also check the
   - Added sortable filters to Power Stability Chart
   - Added average annotations indicator to Power Stability Chart
 
+- Maintenance
+
+  - Added AA (Afar) language and script for populating it with msgid - this allows for finding msgid within the app, this is a temporary solution
+
 # 2.2.0 - 2025-06-20
 
 - Features
