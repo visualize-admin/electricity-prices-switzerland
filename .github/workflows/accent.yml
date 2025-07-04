@@ -14,9 +14,9 @@ jobs:
 
       - name: "Install dependencies"
         uses: ./.github/workflows/install-deps
-        env:
-          ACCENT_API_KEY: ${{ secrets.ACCENT_API_KEY }}
 
       - run: yarn run locales:extract
       - run: yarn run locales:sync
+        env:
+          ACCENT_API_KEY: ${{ secrets.ACCENT_API_KEY }}
       - run: git status
