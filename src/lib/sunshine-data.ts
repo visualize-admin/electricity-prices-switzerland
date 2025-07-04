@@ -13,17 +13,7 @@ import {
   TariffsData,
   Trend,
 } from "src/graphql/resolver-types";
-import {
-  getOperatorData,
-  getNetworkCosts,
-  getTariffs,
-  getStabilityMetrics,
-  getLatestYearPowerStability,
-  getLatestYearSunshine,
-  getPeerGroupMedianValues,
-  TariffRecord,
-  getOperationalStandards,
-} from "src/lib/db/sql";
+import * as sql from "src/lib/db/sql";
 
 type NetworkCostsParams = {
   metric: "network_costs";
@@ -103,16 +93,16 @@ export const fetchNetworkCostsData = async ({
   networkLevel?: NetworkLevel["id"];
   period?: number;
 }): Promise<NetworkCostsData> => {
-  const operatorData = await getOperatorData(operatorId);
+  const operatorData = await sql.getOperatorData(operatorId);
 
   // Get the latest year if period not provided
   let targetPeriod = period;
   if (!targetPeriod) {
-    targetPeriod = await getLatestYearSunshine(operatorId);
+    targetPeriod = await sql.getLatestYearSunshine(operatorId);
   }
 
   const peerGroupMedianNetworkCosts =
-    await getPeerGroupMedianValues<"network_costs">({
+    await sql.getPeerGroupMedianValues<"network_costs">({
       settlementDensity: operatorData.settlement_density,
       energyDensity: operatorData.energy_density,
       metric: "network_costs",
@@ -124,7 +114,7 @@ export const fetchNetworkCostsData = async ({
   const previousYear = targetPeriod - 1;
 
   const previousPeerGroupMedianNetworkCosts =
-    await getPeerGroupMedianValues<"network_costs">({
+    await sql.getPeerGroupMedianValues<"network_costs">({
       settlementDensity: operatorData.settlement_density,
       energyDensity: operatorData.energy_density,
       metric: "network_costs",
@@ -133,7 +123,7 @@ export const fetchNetworkCostsData = async ({
       period: previousYear,
     });
 
-  const operatorNetworkCosts = await getNetworkCosts({
+  const operatorNetworkCosts = await sql.getNetworkCosts({
     operatorId,
     networkLevel: networkLevel,
     period: targetPeriod,
@@ -146,7 +136,7 @@ export const fetchNetworkCostsData = async ({
   }
 
   const networkCosts = (
-    await getNetworkCosts({
+    await sql.getNetworkCosts({
       settlementDensity: operatorData.settlement_density,
       energyDensity: operatorData.energy_density,
       networkLevel: networkLevel,
@@ -157,7 +147,7 @@ export const fetchNetworkCostsData = async ({
 
   const operatorNetworkCost = first(operatorNetworkCosts);
 
-  const previousOperatorNetworkCosts = await getNetworkCosts({
+  const previousOperatorNetworkCosts = await sql.getNetworkCosts({
     period: previousYear,
     operatorId,
     networkLevel,
@@ -195,19 +185,19 @@ export const fetchNetTariffsData = async ({
   category: TariffCategory;
   operatorRate: number | null;
   peerGroupMedianRate: number | null;
-  yearlyData: TariffRecord[];
+  yearlyData: sql.TariffRecord[];
 }> => {
-  const operatorData = await getOperatorData(operatorId);
+  const operatorData = await sql.getOperatorData(operatorId);
 
   const peerGroupMedianNetTariffs =
-    await getPeerGroupMedianValues<"net-tariffs">({
+    await sql.getPeerGroupMedianValues<"net-tariffs">({
       settlementDensity: operatorData.settlement_density,
       energyDensity: operatorData.energy_density,
       metric: "net-tariffs",
       category: category,
     });
 
-  const operatorNetTariffs = await getTariffs({
+  const operatorNetTariffs = await sql.getTariffs({
     period: period,
     tariffType: "network",
     category: category,
@@ -222,7 +212,7 @@ export const fetchNetTariffsData = async ({
 
   const operatorNetTariff = first(operatorNetTariffs);
 
-  const netTariffs = await getTariffs({
+  const netTariffs = await sql.getTariffs({
     settlementDensity: operatorData.settlement_density,
     energyDensity: operatorData.energy_density,
     tariffType: "network",
@@ -246,17 +236,17 @@ export const fetchEnergyTariffsData = async ({
   category: TariffCategory;
   period: number;
 }): Promise<TariffsData> => {
-  const operatorData = await getOperatorData(operatorId);
+  const operatorData = await sql.getOperatorData(operatorId);
 
   const peerGroupMedianEnergyTariffs =
-    await getPeerGroupMedianValues<"energy-tariffs">({
+    await sql.getPeerGroupMedianValues<"energy-tariffs">({
       settlementDensity: operatorData.settlement_density,
       energyDensity: operatorData.energy_density,
       metric: "energy-tariffs",
       category: category,
     });
 
-  const operatorEnergyTariffs = await getTariffs({
+  const operatorEnergyTariffs = await sql.getTariffs({
     period: period,
     category: category,
     operatorId: operatorId,
@@ -270,7 +260,7 @@ export const fetchEnergyTariffsData = async ({
 
   const operatorEnergyTariff = first(operatorEnergyTariffs);
 
-  const energyTariffs = await getTariffs({
+  const energyTariffs = await sql.getTariffs({
     settlementDensity: operatorData.settlement_density,
     energyDensity: operatorData.energy_density,
     category: category,
@@ -297,12 +287,12 @@ export const fetchOperatorCostsAndTariffsData = async ({
   period?: number;
 }): Promise<SunshineCostsAndTariffsData> => {
   const operatorId = parseInt(operatorId_, 10);
-  const operatorData = await getOperatorData(operatorId);
+  const operatorData = await sql.getOperatorData(operatorId);
 
   // Get the latest year if period not provided
   let targetPeriod = period;
   if (!targetPeriod) {
-    targetPeriod = await getLatestYearSunshine(operatorId);
+    targetPeriod = await sql.getLatestYearSunshine(operatorId);
   }
 
   const networkCostsData = await fetchNetworkCostsData({
@@ -361,17 +351,18 @@ export const fetchSaidi = async ({
   operatorId: number;
   period: number;
 }): Promise<StabilityData> => {
-  const operatorData = await getOperatorData(operatorId);
+  const operatorData = await sql.getOperatorData(operatorId);
 
   // Get peer group median SAIDI
-  const peerGroupMedianStability = await getPeerGroupMedianValues<"stability">({
-    settlementDensity: operatorData.settlement_density,
-    energyDensity: operatorData.energy_density,
-    metric: "stability",
-    period,
-  });
+  const peerGroupMedianStability =
+    await sql.getPeerGroupMedianValues<"stability">({
+      settlementDensity: operatorData.settlement_density,
+      energyDensity: operatorData.energy_density,
+      metric: "stability",
+      period,
+    });
 
-  const operatorStability = await getStabilityMetrics({
+  const operatorStability = await sql.getStabilityMetrics({
     operatorId,
     period,
   });
@@ -380,7 +371,7 @@ export const fetchSaidi = async ({
       "Cannot have multiple stability records for one operator in one year"
     );
   }
-  const peerGroupYearlyStability = await getStabilityMetrics({
+  const peerGroupYearlyStability = await sql.getStabilityMetrics({
     settlement_density: operatorData.settlement_density,
     energy_density: operatorData.energy_density,
   });
@@ -411,19 +402,20 @@ export const fetchSaifi = async ({
   operatorId: number;
   period: number;
 }): Promise<StabilityData> => {
-  const operatorData = await getOperatorData(operatorId);
+  const operatorData = await sql.getOperatorData(operatorId);
   if (!operatorData) {
     throw new Error(`Peer group not found for operator ID: ${operatorId}`);
   }
 
-  const peerGroupMedianStability = await getPeerGroupMedianValues<"stability">({
-    settlementDensity: operatorData.settlement_density,
-    energyDensity: operatorData.energy_density,
-    metric: "stability",
-    period,
-  });
+  const peerGroupMedianStability =
+    await sql.getPeerGroupMedianValues<"stability">({
+      settlementDensity: operatorData.settlement_density,
+      energyDensity: operatorData.energy_density,
+      metric: "stability",
+      period,
+    });
 
-  const operatorStability = await getStabilityMetrics({
+  const operatorStability = await sql.getStabilityMetrics({
     operatorId,
     period,
   });
@@ -432,7 +424,7 @@ export const fetchSaifi = async ({
       "Cannot have multiple stability records for one operator in one year"
     );
   }
-  const peerGroupYearlyStability = await getStabilityMetrics({
+  const peerGroupYearlyStability = await sql.getStabilityMetrics({
     settlement_density: operatorData.settlement_density,
     energy_density: operatorData.energy_density,
   });
@@ -456,9 +448,9 @@ export const fetchPowerStability = async ({
   operatorId: string;
 }): Promise<SunshinePowerStabilityData> => {
   const operatorId = parseInt(operatorId_, 10);
-  const operatorData = await getOperatorData(operatorId);
+  const operatorData = await sql.getOperatorData(operatorId);
 
-  const latestYear = await getLatestYearPowerStability(operatorId);
+  const latestYear = await sql.getLatestYearPowerStability(operatorId);
   const targetYear = parseInt(latestYear, 10);
   const saidiData = await fetchSaidi({
     operatorId: operatorId,
@@ -500,9 +492,9 @@ export const fetchOperationalStandards = async ({
   operatorId: string;
 }): Promise<SunshineOperationalStandardsData> => {
   const operatorId = parseInt(operatorId_, 10);
-  const operatorData = await getOperatorData(operatorId);
-  const period = await getLatestYearSunshine(operatorId);
-  const operationalData = await getOperationalStandards({
+  const operatorData = await sql.getOperatorData(operatorId);
+  const period = await sql.getLatestYearSunshine(operatorId);
+  const operationalData = await sql.getOperationalStandards({
     operatorId: operatorId,
     period: period,
   });
