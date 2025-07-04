@@ -43,7 +43,7 @@ msgstr "No results"
 
 #: src/components/combobox.tsx
 msgid "combobox.prompt"
-msgstr "Enter designation ..."
+msgstr "Enter designation…"
 
 #: src/components/form.tsx
 msgid "controls.search.clear"
@@ -291,7 +291,7 @@ msgstr "Tariff comparison"
 
 #: src/components/hint.tsx
 msgid "hint.loading.data"
-msgstr "Loading data..."
+msgstr "Loading data…"
 
 #: src/components/hint.tsx
 msgid "hint.nocontent.message"
@@ -427,7 +427,7 @@ msgstr "Energy tariffs"
 
 #: src/domain/translation.tsx
 msgid "indicator.netTariffs"
-msgstr "Net tariffs"
+msgstr "Grid Tariffs"
 
 #: src/domain/translation.tsx
 msgid "indicator.networkCosts"
@@ -714,7 +714,7 @@ msgstr "Municipality, canton, grid operator"
 
 #: src/components/search.tsx
 msgid "search.global.hint.go.to"
-msgstr "Go to..."
+msgstr "Go to…"
 
 #: src/components/search.tsx
 #: src/components/search.tsx
@@ -989,7 +989,7 @@ msgstr "Compare With"
 
 #: src/components/card-source.tsx
 msgid "sunshine.costs-and-tariffs.date"
-msgstr "sunshine.costs-and-tariffs.date"
+msgstr "Date: {publicationDate}"
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.description"
@@ -1033,7 +1033,7 @@ msgstr "Median Peer Group"
 
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.costs-and-tariffs.net-tariffs"
-msgstr "Net Tariffs"
+msgstr "Grid Tariffs"
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.net-tariffs-comparison-title"
@@ -1050,6 +1050,7 @@ msgid "sunshine.costs-and-tariffs.net-tariffs.overview"
 msgstr "Net Tariffs"
 
 #: src/components/map-details-chart-adapters.tsx
+#: src/components/network-costs-trend-card.tsx
 #: src/components/network-costs-trend-card.tsx
 msgid "sunshine.costs-and-tariffs.network-cost-trend"
 msgstr "Network Cost Trend"
@@ -1099,7 +1100,7 @@ msgstr "Selected network operators"
 
 #: src/components/card-source.tsx
 msgid "sunshine.costs-and-tariffs.source"
-msgstr "sunshine.costs-and-tariffs.source"
+msgstr "Source: {dataSource}"
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
@@ -1190,7 +1191,7 @@ msgstr "The Power Stability page provides insights into the reliability of the e
 
 #: src/components/power-stability-card.tsx
 msgid "sunshine.power-stability.duration"
-msgstr "Duration"
+msgstr "Outage Duration"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx

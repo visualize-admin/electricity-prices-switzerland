@@ -7,7 +7,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language: it\n"
 "Language-Team: \n"
-"Content-Type: text/plain\n"
+"Content-Type: \n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
@@ -714,7 +714,7 @@ msgstr "Comune, gestore di rete, cantone"
 
 #: src/components/search.tsx
 msgid "search.global.hint.go.to"
-msgstr "vai a…"
+msgstr "Vai a…"
 
 #: src/components/search.tsx
 #: src/components/search.tsx
@@ -1050,6 +1050,7 @@ msgid "sunshine.costs-and-tariffs.net-tariffs.overview"
 msgstr "Tariffe nette"
 
 #: src/components/map-details-chart-adapters.tsx
+#: src/components/network-costs-trend-card.tsx
 #: src/components/network-costs-trend-card.tsx
 msgid "sunshine.costs-and-tariffs.network-cost-trend"
 msgstr "Andamento dei costi di rete"
