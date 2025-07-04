@@ -11,7 +11,7 @@ import {
   fetchOperationalStandards,
   fetchOperatorCostsAndTariffsData,
   fetchPowerStability,
-} from "../src/lib/db/sunshine-data";
+} from "../src/lib/sunshine-data";
 
 interface FetcherOptions {
   operatorId: string;

@@ -27,7 +27,7 @@ import {
 } from "src/data/shared-page-props";
 import { SunshineOperationalStandardsData } from "src/domain/data";
 import { getLocalizedLabel } from "src/domain/translation";
-import { fetchOperationalStandards } from "src/lib/db/sunshine-data";
+import { fetchOperationalStandards } from "src/lib/sunshine-data";
 import { defaultLocale } from "src/locales/config";
 
 type Props =

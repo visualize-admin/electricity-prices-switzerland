@@ -6,7 +6,7 @@ import {
 import { SunshineDataRow } from "src/graphql/resolver-types";
 import { query } from "src/lib/db/duckdb";
 import { PeerGroupNotFoundError } from "src/lib/db/errors";
-import { PeerGroupMedianValuesParams } from "src/lib/db/sunshine-data";
+import { PeerGroupMedianValuesParams } from "src/lib/sunshine-data";
 
 export const getNetworkCosts = async ({
   operatorId,

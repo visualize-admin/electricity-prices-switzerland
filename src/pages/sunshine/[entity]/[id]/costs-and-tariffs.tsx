@@ -54,7 +54,7 @@ import {
 } from "src/graphql/queries";
 import { TariffCategory } from "src/graphql/resolver-mapped-types";
 import { Trend } from "src/graphql/resolver-types";
-import { fetchOperatorCostsAndTariffsData } from "src/lib/db/sunshine-data";
+import { fetchOperatorCostsAndTariffsData } from "src/lib/sunshine-data";
 import { truthy } from "src/lib/truthy";
 import { defaultLocale } from "src/locales/config";
 

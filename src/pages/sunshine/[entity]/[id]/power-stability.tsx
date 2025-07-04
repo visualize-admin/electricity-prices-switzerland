@@ -35,7 +35,7 @@ import {
 import { getLocalizedLabel } from "src/domain/translation";
 import { useSaidiQuery, useSaifiQuery } from "src/graphql/queries";
 import { Trend } from "src/graphql/resolver-types";
-import { fetchPowerStability } from "src/lib/db/sunshine-data";
+import { fetchPowerStability } from "src/lib/sunshine-data";
 import { defaultLocale } from "src/locales/config";
 
 type Props =

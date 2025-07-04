@@ -29,7 +29,7 @@ import {
   fetchNetworkCostsData,
   fetchSaidi,
   fetchSaifi,
-} from "src/lib/db/sunshine-data";
+} from "src/lib/sunshine-data";
 import { defaultLocale } from "src/locales/config";
 import {
   getCantonMedianCube,

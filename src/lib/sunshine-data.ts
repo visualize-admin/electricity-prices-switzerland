@@ -501,7 +501,6 @@ export const fetchOperationalStandards = async ({
 }): Promise<SunshineOperationalStandardsData> => {
   const operatorId = parseInt(operatorId_, 10);
   const operatorData = await getOperatorData(operatorId);
-
   const period = await getLatestYearSunshine(operatorId);
   const operationalData = await getOperationalStandards({
     operatorId: operatorId,
