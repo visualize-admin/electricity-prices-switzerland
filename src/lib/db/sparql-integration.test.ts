@@ -207,7 +207,7 @@ describe("SPARQL Sunshine Data Service", () => {
       const result = await sunshineDataServiceSparql.getTariffs({
         operatorId: 672,
         period: 2025,
-        category: "C2",
+        category: "EC2",
       });
 
       expect(result).toMatchInlineSnapshot(`
@@ -236,7 +236,7 @@ describe("SPARQL Sunshine Data Service", () => {
       const result = await sunshineDataServiceSparql.getTariffs({
         operatorId: 672,
         period: 2025,
-        category: "C2",
+        category: "EC2",
         tariffType: "energy",
       });
 
@@ -258,7 +258,7 @@ describe("SPARQL Sunshine Data Service", () => {
       const result = await sunshineDataServiceSparql.getTariffs({
         operatorId: 672,
         period: 2025,
-        category: "C2",
+        category: "NC2",
         tariffType: "network",
       });
 
@@ -367,12 +367,12 @@ describe("SPARQL Sunshine Data Service", () => {
         peerGroup: "A",
         metric: "energy-tariffs",
         // TODO
-        category: "C2",
+        category: "EC2",
       });
 
       expect(result).toMatchInlineSnapshot(`
         {
-          "category": "C2",
+          "category": "EC2",
           "median_rate": 15.496,
           "tariff_type": "energy",
         }
@@ -383,12 +383,12 @@ describe("SPARQL Sunshine Data Service", () => {
       const result = await sunshineDataServiceSparql.getPeerGroupMedianValues({
         peerGroup: "A",
         metric: "net-tariffs",
-        category: "C2",
+        category: "NC2",
       });
 
       expect(result).toMatchInlineSnapshot(`
         {
-          "category": "C2",
+          "category": "NC2",
           "median_rate": 10.945,
           "tariff_type": "network",
         }

@@ -325,18 +325,34 @@ const getStabilityMetrics = async ({
   }));
 };
 
+// TODO We should remove this once we have refactored the app
+// category to not have "N" or "E" prefixes
+const truncateCategory = <T extends TariffCategory | undefined>(
+  category: T
+): TariffCategory | undefined => {
+  if (category === undefined) {
+    return category;
+  }
+  // Ensure the category is always a valid TariffCategory
+  const truncated = category.slice(-2) as TariffCategory;
+  return truncated;
+};
+
 const getTariffs = async ({
   operatorId,
   period,
-  category,
-  tariffType,
+  category: categoryRaw,
+  tariffType: tariffTypeRaw,
 }: {
   operatorId?: number;
   period?: number;
-  category?: string;
+  category?: TariffCategory;
   tariffType?: "network" | "energy";
   peerGroup?: string;
 } = {}): Promise<TariffRecord[]> => {
+  const category = truncateCategory(categoryRaw);
+  const tariffType =
+    tariffTypeRaw ?? categoryRaw?.startsWith("N") ? "network" : "energy";
   const periodFilter = period
     ? `:period "${period}"^^xsd:gYear`
     : `:period ?period`;
@@ -591,7 +607,8 @@ const getPeerGroupMedianValues = async <
 
     case "energy-tariffs":
     case "net-tariffs": {
-      const { category } = params;
+      const { category: categoryRaw } = params;
+      const category = truncateCategory(categoryRaw);
       const isEnergy = metric === "energy-tariffs";
       cube = "<https://energy.ld.admin.ch/elcom/sunshine-cat-median>";
       query = `
@@ -611,7 +628,7 @@ const getPeerGroupMedianValues = async <
             ${periodFilter} ;
             :category <${addNamespaceToID({
               dimension: "category",
-              id: category,
+              id: category!,
             })}> ;
             :${isEnergy ? "energy" : "gridusage"} ?${
         isEnergy ? "energy" : "gridusage"
