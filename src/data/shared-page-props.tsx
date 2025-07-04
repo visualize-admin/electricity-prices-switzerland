@@ -13,6 +13,10 @@ import {
 
 export type PageParams = { locale: string; id: string; entity: Entity };
 
+export type DataServiceProps = {
+  serviceName: string;
+  isDefault: boolean;
+};
 export type Props =
   | {
       entity: "canton";

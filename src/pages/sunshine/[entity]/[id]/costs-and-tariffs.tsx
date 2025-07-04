@@ -20,6 +20,7 @@ import { DetailsPageSidebar } from "src/components/detail-page/sidebar";
 import { Loading } from "src/components/hint";
 import { NetworkCostsTrendCard } from "src/components/network-costs-trend-card";
 import PeerGroupCard from "src/components/peer-group-card";
+import { SunshineDataServiceDebug } from "src/components/sunshine-data-service-debug";
 import {
   CostAndTariffsTab,
   CostsAndTariffsNavigation,
@@ -27,6 +28,7 @@ import {
 import TableComparisonCard from "src/components/table-comparison-card";
 import { TariffsTrendCard } from "src/components/tariffs-trend-card";
 import {
+  DataServiceProps,
   handleOperatorsEntity,
   PageParams,
   Props as SharedPageProps,
@@ -54,7 +56,11 @@ import {
 } from "src/graphql/queries";
 import { TariffCategory } from "src/graphql/resolver-mapped-types";
 import { Trend } from "src/graphql/resolver-types";
-import { fetchOperatorCostsAndTariffsData } from "src/lib/db/sunshine-data";
+import { fetchOperatorCostsAndTariffsData } from "src/lib/sunshine-data";
+import {
+  getSunshineDataServiceFromGetServerSidePropsContext,
+  getSunshineDataServiceInfo,
+} from "src/lib/sunshine-data-service-context";
 import { truthy } from "src/lib/truthy";
 import { defaultLocale } from "src/locales/config";
 
@@ -64,13 +70,15 @@ type Props =
         SunshineCostsAndTariffsData,
         "energyTariffs" | "networkCosts" | "netTariffs"
       >;
+      dataService: DataServiceProps;
     })
   | { status: "notfound" };
 
-export const getServerSideProps: GetServerSideProps<
-  Props,
-  PageParams
-> = async ({ params, res, locale }) => {
+export const getServerSideProps: GetServerSideProps<Props, PageParams> = async (
+  context
+) => {
+  const { params, res, locale } = context;
+
   const { id, entity } = params!;
 
   if (entity !== "operator") {
@@ -95,16 +103,23 @@ export const getServerSideProps: GetServerSideProps<
     };
   }
 
-  const costsAndTariffs = await fetchOperatorCostsAndTariffsData({
-    operatorId: id,
-    networkLevel: "NE5",
-    category: "NC2",
-  });
+  const sunshineDataService =
+    getSunshineDataServiceFromGetServerSidePropsContext(context);
+  const dataService = getSunshineDataServiceInfo(context);
+  const costsAndTariffs = await fetchOperatorCostsAndTariffsData(
+    sunshineDataService,
+    {
+      operatorId: id,
+      networkLevel: "NE5",
+      category: "NC2",
+    }
+  );
 
   return {
     props: {
       ...operatorProps,
       costsAndTariffs,
+      dataService,
     },
   };
 };
@@ -726,13 +741,18 @@ const CostsAndTariffs = (props: Props) => {
   );
 
   return (
-    <DetailsPageLayout
-      title={pageTitle}
-      BannerContent={bannerContent}
-      SidebarContent={sidebarContent}
-      MainContent={mainContent}
-      download={query.download}
-    />
+    <>
+      {props.status === "found" && !props.dataService.isDefault && (
+        <SunshineDataServiceDebug serviceName={props.dataService.serviceName} />
+      )}
+      <DetailsPageLayout
+        title={pageTitle}
+        BannerContent={bannerContent}
+        SidebarContent={sidebarContent}
+        MainContent={mainContent}
+        download={query.download}
+      />
+    </>
   );
 };
 

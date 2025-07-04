@@ -5,3 +5,11 @@ export class PeerGroupNotFoundError extends Error {
     this.name = "PeerGroupNotFoundError";
   }
 }
+
+export class UnknownPeerGroupError extends Error {
+  constructor(operatorId: string | number, peerGroup: string) {
+    const message = `Peer group ${peerGroup} is unknown (operator ID: ${operatorId})`;
+    super(message);
+    this.name = "UnknownPeerGroupError";
+  }
+}

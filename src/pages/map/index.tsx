@@ -33,7 +33,9 @@ import {
 import { MapProvider, useMap } from "src/components/map-context";
 import { MapDetailsContent } from "src/components/map-details-content";
 import ShareButton from "src/components/share-button";
+import { SunshineDataServiceDebug } from "src/components/sunshine-data-service-debug";
 import SunshineMap from "src/components/sunshine-map";
+import { DataServiceProps } from "src/data/shared-page-props";
 import {
   Entity,
   NetworkLevel,
@@ -55,6 +57,7 @@ import {
   useSunshineDataQuery,
 } from "src/graphql/queries";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
+import { getSunshineDataServiceInfo } from "src/lib/sunshine-data-service-context";
 import { useIsMobile } from "src/lib/use-mobile";
 import { defaultLocale } from "src/locales/config";
 import { useFlag } from "src/utils/flags";
@@ -70,19 +73,22 @@ const HEADER_HEIGHT_UP = "144px";
 
 type Props = {
   locale: string;
+  dataService: DataServiceProps;
 };
 
 export const getServerSideProps: GetServerSideProps<
   Props,
   { locale: string }
-> = async ({ locale }) => {
-  return { props: { locale: locale ?? defaultLocale } };
+> = async (context) => {
+  const { locale } = context;
+  const dataService = getSunshineDataServiceInfo(context);
+  return { props: { locale: locale ?? defaultLocale, dataService } };
 };
 
 const IndexPageContent = ({
   locale,
   activeId,
-}: Props & { activeId: string | null }) => {
+}: Omit<Props, "dataService"> & { activeId: string | null }) => {
   const [
     {
       period,
@@ -502,7 +508,7 @@ const DetailsDrawer = ({
   );
 };
 
-export const IndexPage = ({ locale }: Props) => {
+export const IndexPage = ({ locale, dataService }: Props) => {
   const [{ activeId }, setQueryState] = useQueryStateMapCommon();
   const setActiveId = useCallback(
     (id: string | null) => {
@@ -513,6 +519,9 @@ export const IndexPage = ({ locale }: Props) => {
 
   return (
     <MapProvider activeId={activeId} setActiveId={setActiveId}>
+      {!dataService.isDefault && (
+        <SunshineDataServiceDebug serviceName={dataService.serviceName} />
+      )}
       <IndexPageContent locale={locale} activeId={activeId} />
     </MapProvider>
   );

@@ -30,10 +30,8 @@ const getEncryptedDataPath = (filename: string): string => {
 };
 
 export const sunshineFileIds = [
-  "observations",
   "energy",
   "peer-groups",
-  "network-costs",
   "Sunshine 2025 28.05.2025",
   "Sunshine 2024 28.05.2025",
 ] as const;

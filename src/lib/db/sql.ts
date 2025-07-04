@@ -1,14 +1,19 @@
-import {
-  ElectricityCategory,
-  TariffCategory,
-  NetworkLevel,
-} from "src/domain/data";
+import { NetworkLevel } from "src/domain/data";
 import { SunshineDataRow } from "src/graphql/resolver-types";
 import { query } from "src/lib/db/duckdb";
 import { PeerGroupNotFoundError } from "src/lib/db/errors";
-import { PeerGroupMedianValuesParams } from "src/lib/db/sunshine-data";
+import { PeerGroupMedianValuesParams } from "src/lib/sunshine-data";
+import type {
+  NetworkCostRecord,
+  OperationalStandardRecord,
+  StabilityMetricRecord,
+  TariffRecord,
+  OperatorDataRecord,
+  PeerGroupRecord,
+  SunshineDataService,
+} from "src/lib/sunshine-data-service";
 
-export const getNetworkCosts = async ({
+const getNetworkCosts = async ({
   operatorId,
   period,
   settlementDensity,
@@ -50,7 +55,7 @@ export const getNetworkCosts = async ({
   return result;
 };
 
-export const getOperationalStandards = async ({
+const getOperationalStandards = async ({
   operatorId,
   period,
 }: {
@@ -79,7 +84,7 @@ export const getOperationalStandards = async ({
   return result;
 };
 // For stability metrics
-export const getStabilityMetrics = async ({
+const getStabilityMetrics = async ({
   operatorId,
   period,
   settlement_density,
@@ -116,7 +121,7 @@ export const getStabilityMetrics = async ({
   const result = await query<StabilityMetricRecord>(sql);
   return result;
 };
-export const getTariffs = async ({
+const getTariffs = async ({
   operatorId,
   period,
   category,
@@ -161,7 +166,7 @@ export const getTariffs = async ({
   return result;
 };
 
-export const getOperatorData = async (
+const getOperatorData = async (
   operatorId: number,
   period?: number
 ): Promise<OperatorDataRecord> => {
@@ -180,18 +185,53 @@ export const getOperatorData = async (
       ORDER BY period DESC
     `;
 
-  const result = await query<OperatorDataRecord>(sql);
+  const result = await query<Omit<OperatorDataRecord, "peer_group">>(sql);
   if (result.length === 0) {
     throw new PeerGroupNotFoundError(operatorId);
   }
-  return result[0];
+  return {
+    ...result[0],
+    peer_group: getPeerGroupIdFromSettlementAndEnergyDensity(
+      result[0].settlement_density,
+      result[0].energy_density
+    ),
+  };
 };
-export const getPeerGroupMedianValues = async <
+
+const getSettlementAndEnergyDensity = (
+  peerGroup: string
+): {
+  settlementDensity: string;
+  energyDensity: string;
+} => {
+  const [settlementDensity, energyDensity] = peerGroup.split("-");
+  if (!settlementDensity || !energyDensity) {
+    throw new Error(`Invalid peer group format: ${peerGroup}`);
+  }
+  return { settlementDensity, energyDensity };
+};
+
+const getPeerGroupIdFromSettlementAndEnergyDensity = (
+  settlementDensity: string,
+  energyDensity: string
+): string => {
+  if (!settlementDensity || !energyDensity) {
+    throw new Error(
+      `Invalid settlement or energy density: ${settlementDensity}, ${energyDensity}`
+    );
+  }
+  return `${settlementDensity}-${energyDensity}`;
+};
+
+const getPeerGroupMedianValues = async <
   Metric extends PeerGroupMedianValuesParams["metric"]
 >(
   params: PeerGroupMedianValuesParams
 ) => {
-  const { settlementDensity, energyDensity, metric, period } = params;
+  const { peerGroup, metric, period } = params;
+
+  const { settlementDensity, energyDensity } =
+    getSettlementAndEnergyDensity(peerGroup);
 
   const peerGroupFilter = `
     settlement_density = '${settlementDensity}'
@@ -291,13 +331,13 @@ export const getPeerGroupMedianValues = async <
   const result = await query<PeerGroupRecord<Metric> | undefined>(sql);
   return result[0];
 };
-export const getLatestYearSunshine = async (operatorId: number) => {
+const getLatestYearSunshine = async (operatorId: number) => {
   const latestYearData = await query<{ year: string }>(`
       SELECT MAX(period) as year FROM sunshine_all WHERE partner_id = ${operatorId}
     `);
   return parseInt(latestYearData[0]?.year || "2024", 10);
 };
-export const getLatestYearPowerStability = async (
+const getLatestYearPowerStability = async (
   operatorId: number
 ): Promise<string> => {
   const latestYearData = await query<{ year: string }>(`
@@ -308,11 +348,12 @@ export const getLatestYearPowerStability = async (
   return latestYearData[0]?.year || "2024";
 };
 
-export const getPeerGroup = async (
+const getPeerGroup = async (
   operatorId: number | string
 ): Promise<{
   settlementDensity: string;
   energyDensity: string;
+  id: string;
 }> => {
   const peerGroupData = await query<{
     settlement_density: string;
@@ -326,13 +367,18 @@ export const getPeerGroup = async (
   if (peerGroupData.length === 0) {
     throw new Error(`No peer group data found for operator ID: ${operatorId}`);
   }
+
   return {
     settlementDensity: peerGroupData[0].settlement_density,
     energyDensity: peerGroupData[0].energy_density,
+    id: getPeerGroupIdFromSettlementAndEnergyDensity(
+      peerGroupData[0].settlement_density,
+      peerGroupData[0].energy_density
+    ),
   };
 };
 
-export const getSunshineData = async ({
+const getSunshineData = async ({
   operatorId,
   period,
 }: {
@@ -416,82 +462,16 @@ export const getSunshineData = async ({
   }));
 };
 
-type NetworkCostRecord = {
-  operator_id: number;
-  operator_name: string;
-  year: number;
-  network_level: NetworkLevel["id"];
-  rate: number;
-};
-
-type OperationalStandardRecord = {
-  operator_id: number;
-  operator_name: string;
-  period: number;
-  franc_rule: number;
-  info_yes_no: string;
-  info_days_in_advance: number;
-  timely: number;
-  settlement_density: string;
-  energy_density: string;
-};
-type StabilityMetricRecord = {
-  operator_id: number;
-  operator_name: string;
-  period: number;
-  saidi_total: number;
-  saidi_unplanned: number;
-  saifi_total: number;
-  saifi_unplanned: number;
-};
-
-export type TariffRecord = {
-  operator_id: number;
-  operator_name: string;
-  period: number;
-  category: TariffCategory;
-  tariff_type: string;
-  rate: number;
-};
-
-type OperatorDataRecord = {
-  operator_id: number;
-  operator_uid: string;
-  operator_name: string;
-  period: number;
-  settlement_density: string;
-  energy_density: string;
-};
-
-type PeerGroupRecord<Metric extends PeerGroupMedianValuesParams["metric"]> =
-  Metric extends "network_costs"
-    ? {
-        network_level: NetworkLevel["id"];
-        median_value: number;
-      }
-    : Metric extends "stability"
-    ? {
-        median_saidi_total: number;
-        median_saidi_unplanned: number;
-        median_saifi_total: number;
-        median_saifi_unplanned: number;
-      }
-    : Metric extends "operational"
-    ? {
-        median_franc_rule: number;
-        median_info_days: number;
-        median_timely: number;
-      }
-    : Metric extends "energy-tariffs"
-    ? {
-        category: ElectricityCategory;
-        tariff_type: string;
-        median_rate: number;
-      }
-    : Metric extends "net-tariffs"
-    ? {
-        category: ElectricityCategory;
-        tariff_type: string;
-        median_rate: number;
-      }
-    : never;
+export const sunshineDataServiceSql = {
+  name: "sql",
+  getNetworkCosts,
+  getOperationalStandards,
+  getStabilityMetrics,
+  getTariffs,
+  getOperatorData,
+  getPeerGroupMedianValues,
+  getLatestYearSunshine,
+  getLatestYearPowerStability,
+  getPeerGroup,
+  getSunshineData,
+} satisfies SunshineDataService;
