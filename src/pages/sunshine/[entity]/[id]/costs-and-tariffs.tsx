@@ -18,14 +18,14 @@ import {
 } from "src/components/detail-page/layout";
 import { DetailsPageSidebar } from "src/components/detail-page/sidebar";
 import { Loading } from "src/components/hint";
-import NetworkCostsTrendCard from "src/components/network-costs-trend-card";
+import { NetworkCostsTrendCard } from "src/components/network-costs-trend-card";
 import PeerGroupCard from "src/components/peer-group-card";
 import {
   CostAndTariffsTab,
   CostsAndTariffsNavigation,
 } from "src/components/sunshine-tabs";
 import TableComparisonCard from "src/components/table-comparison-card";
-import TariffsTrendCard from "src/components/tariffs-trend-card";
+import { TariffsTrendCard } from "src/components/tariffs-trend-card";
 import {
   handleOperatorsEntity,
   PageParams,
@@ -382,6 +382,8 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
             value: {
               value: operatorRate,
               unit: RP_PER_KM,
+              round: 2,
+              // TODO
               trend: Trend.Stable,
             },
           }
@@ -396,6 +398,8 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
             value: {
               value: peerGroupMedianRate,
               unit: RP_PER_KM,
+              round: 2,
+              // TODO
               trend: Trend.Stable,
             },
           }
@@ -560,6 +564,8 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
             value: {
               value: operatorRate,
               unit: RP_PER_KM,
+              round: 2,
+              // TODO
               trend: "stable" as Trend,
             },
           }
@@ -574,6 +580,8 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
             value: {
               value: peerGroupMedianRate,
               unit: RP_PER_KM,
+              round: 2,
+              // TODO
               trend: "stable" as Trend,
             },
           }
@@ -604,8 +612,7 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
             getItemLabel={getItemLabel}
             selectedItem={category}
             setSelectedItem={(item) => _setCategory(item as TariffCategory)}
-            //FIXME: Might need change
-            infoDialogSlug="help-categories"
+            infoDialogSlug="help-net-tariff-category"
           />
         </Box>
 
@@ -648,8 +655,8 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
 
 const CostsAndTariffs = (props: Props) => {
   const { query } = useRouter();
-  const [{ tab: activeTabQuery }, setQueryState] =
-    useQueryStateSunshineDetails();
+  const [state, setQueryState] = useQueryStateSunshineDetails();
+  const { tab: activeTabQuery } = state;
   const activeTab =
     activeTabQuery ?? ("networkCosts" satisfies CostAndTariffsTab);
   const setActiveTab = useCallback(
@@ -673,7 +680,7 @@ const CostsAndTariffs = (props: Props) => {
   })}`;
 
   const handleTabChange = (
-    event: React.SyntheticEvent,
+    _: React.SyntheticEvent,
     newValue: CostAndTariffsTab
   ) => {
     setActiveTab(newValue);

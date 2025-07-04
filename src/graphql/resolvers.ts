@@ -372,7 +372,9 @@ const Query: QueryResolvers = {
   wikiContent: async (_, { locale, slug }) => {
     // Exit early if home-banner is requested and it's disabled
     const extraInfo = await getExtraInfo(slug);
-    const wikiPage = await getWikiPage(`${slug}/${locale}`);
+    const wikiPage = await getWikiPage(
+      `${slug}/${locale === "en" ? "de" : locale}`
+    );
 
     if (!wikiPage) {
       return null;

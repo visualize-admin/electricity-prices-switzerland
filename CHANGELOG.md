@@ -13,6 +13,27 @@ You can also check the
 
 - Features
 
+  - Added Overview Details Page
+
+- Enhancements
+
+  - Add Query state to details pages
+  - Add ability to debug info dialog slugs (via flag\_\_debugInfoDialog)
+
+- Fixes
+
+  - Fix some of the info dialogs used
+
+# 2.3.1 - 2025-06-26
+
+- Fixes
+
+  - Add missing translations
+
+# 2.3.0 - 2025-06-25
+
+- Features
+
   - Click on operator on Sunshine map brings details panel and zooms in the operator
   - Click Details button from details panel while showing a Sunshine indicator brings to the correct sunshine page
   - The details panel for the sunshine map shows the correct chart for the selected indicator

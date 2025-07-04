@@ -62,16 +62,6 @@ export const getLocalizedLabel = ({ id }: { id: string }): string => {
         id: "sunshine.operational-standards.service-quality-trend",
         message: "Comparison of advance notice periods for planned outages",
       });
-    case "saidi-trend":
-      return t({
-        id: "sunshine.power-stability.saidi-trend",
-        message: "Average Power Outage Duration (SAIDI)",
-      });
-    case "saifi-trend":
-      return t({
-        id: "sunshine.power-stability.saifi-trend",
-        message: "Average Power Outage Frequency (SAIFI)",
-      });
     case "H1":
       return t({ id: "selector.category.H1", message: "H1" });
     case "H2":
@@ -296,15 +286,35 @@ export const getLocalizedLabel = ({ id }: { id: string }): string => {
       return t({ id: "network-level.NE5.short", message: `NE5` });
     case "network-level.NE5.long":
       return t({ id: "network-level.NE5.long", message: `High voltage NE5` });
+    case "network-level.NE5.description":
+      return t({
+        id: "network-level.NE5.description",
+        message: `At Network Level NE5`,
+      });
     case "network-level.NE6.short":
       return t({ id: "network-level.NE6.short", message: `NE6` });
+    case "network-level.NE6.description":
+      return t({
+        id: "network-level.NE6.description",
+        message: `At Network Level NE6`,
+      });
     case "network-level.NE6.long":
       return t({ id: "network-level.NE6.long", message: `Medium voltage NE6` });
 
     case "network-level.NE7.short":
       return t({ id: "network-level.NE7.short", message: `NE7` });
+    case "network-level.NE7.description":
+      return t({
+        id: "network-level.NE7.description",
+        message: `At Network Level NE7`,
+      });
     case "network-level.NE7.long":
       return t({ id: "network-level.NE7.long", message: `Low voltage NE7` });
+    case "network-level.NE7.description":
+      return t({
+        id: "network-level.NE7.description",
+        message: `At Network Level NE7`,
+      });
 
     case "sunshine.select-all":
       return t({

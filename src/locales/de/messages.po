@@ -27,6 +27,10 @@ msgstr "Gemeinden"
 msgid "chart.annotation.operators"
 msgstr "Netzbetreiber"
 
+#: src/components/power-stability-chart.tsx
+msgid "chart.avg.peer-group"
+msgstr "Durchschnitt Peer Group"
+
 #: src/components/combobox.tsx
 msgid "combobox.maxitems"
 msgstr "Es sind maximal {max} Einträge erlaubt"
@@ -474,8 +478,36 @@ msgid "map.details-sidebar-panel.back-button"
 msgstr "Zurück zu den Filtern"
 
 #: src/components/map-details-content.tsx
+msgid "map.details-sidebar-panel.next-button.compliance"
+msgstr "Einhaltung der Vorschriften im Detail"
+
+#: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.next-button.energy-prices"
 msgstr "Energie Preise Detail anzeigen"
+
+#: src/components/map-details-content.tsx
+msgid "map.details-sidebar-panel.next-button.energy-tariffs"
+msgstr "Energietarife im Detail"
+
+#: src/components/map-details-content.tsx
+msgid "map.details-sidebar-panel.next-button.net-tariffs"
+msgstr "Nettotarife im Detail"
+
+#: src/components/map-details-content.tsx
+msgid "map.details-sidebar-panel.next-button.network-costs"
+msgstr "Netzkosten im Detail"
+
+#: src/components/map-details-content.tsx
+msgid "map.details-sidebar-panel.next-button.saidi"
+msgstr "SAIDI im Detail"
+
+#: src/components/map-details-content.tsx
+msgid "map.details-sidebar-panel.next-button.saifi"
+msgstr "SAIFI im Detail"
+
+#: src/components/map-details-content.tsx
+msgid "map.details-sidebar-panel.next-button.service-quality"
+msgstr "Servicequalität im Detail"
 
 #: src/components/energy-prices-map.tsx
 msgid "map.legend.title"
@@ -517,6 +549,10 @@ msgid "network-level"
 msgstr "Netzwerkebene"
 
 #: src/domain/translation.tsx
+msgid "network-level.NE5.description"
+msgstr "Auf Netzebene NE5"
+
+#: src/domain/translation.tsx
 msgid "network-level.NE5.long"
 msgstr "Hochspannung NE5"
 
@@ -525,12 +561,21 @@ msgid "network-level.NE5.short"
 msgstr "NE5"
 
 #: src/domain/translation.tsx
+msgid "network-level.NE6.description"
+msgstr "Auf Netzebene NE6"
+
+#: src/domain/translation.tsx
 msgid "network-level.NE6.long"
 msgstr "Mittelspannung NE6"
 
 #: src/domain/translation.tsx
 msgid "network-level.NE6.short"
 msgstr "NE6"
+
+#: src/domain/translation.tsx
+#: src/domain/translation.tsx
+msgid "network-level.NE7.description"
+msgstr "Auf Netzebene NE7"
 
 #: src/domain/translation.tsx
 msgid "network-level.NE7.long"
@@ -698,6 +743,7 @@ msgstr "Netzbetreiber"
 #: src/components/electricity-selectors.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+#: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "selector.category"
 msgstr "Kategorie"
 
@@ -963,6 +1009,10 @@ msgstr "Energie-Tarife {0}"
 msgid "sunshine.costs-and-tariffs.energy-tariffs-trend"
 msgstr "Entwicklung der Energietarife"
 
+#: src/pages/sunshine/[entity]/[id]/overview.tsx
+msgid "sunshine.costs-and-tariffs.energy-tariffs.overview"
+msgstr "Energie-Tarife"
+
 #: src/components/peer-group-card.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
@@ -995,10 +1045,18 @@ msgstr "Netto-Tarife {0}"
 msgid "sunshine.costs-and-tariffs.net-tariffs-trend"
 msgstr "Entwicklung der Nettotarife"
 
+#: src/pages/sunshine/[entity]/[id]/overview.tsx
+msgid "sunshine.costs-and-tariffs.net-tariffs.overview"
+msgstr "Netto-Tarife"
+
 #: src/components/map-details-chart-adapters.tsx
 #: src/components/network-costs-trend-card.tsx
 msgid "sunshine.costs-and-tariffs.network-cost-trend"
 msgstr "Entwicklung der Netzkosten"
+
+#: src/components/network-costs-trend-card.tsx
+msgid "sunshine.costs-and-tariffs.network-cost-trend.overview"
+msgstr "Netzkosten"
 
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.costs-and-tariffs.network-costs"
@@ -1053,6 +1111,22 @@ msgstr "Kosten und Tarife"
 msgid "sunshine.costs-and-tariffs.view-by"
 msgstr "Ansicht von"
 
+#: src/components/sunshine-tabs.tsx
+msgid "sunshine.costs-and-tariffs.year"
+msgstr "{year}"
+
+#: src/pages/sunshine/[entity]/[id]/overview.tsx
+msgid "sunshine.grid.network-costs-title"
+msgstr "Netzkosten"
+
+#: src/pages/sunshine/[entity]/[id]/overview.tsx
+msgid "sunshine.grid.operational-standards-title"
+msgstr "Operationelle Standards"
+
+#: src/pages/sunshine/[entity]/[id]/overview.tsx
+msgid "sunshine.grid.power-stability-title"
+msgstr "Leistungsstabilität"
+
 #: src/domain/metrics.ts
 msgid "sunshine.metric-unit.min-year"
 msgstr "Min./Jahr"
@@ -1081,17 +1155,9 @@ msgstr "Einhaltung der Vorschriften"
 msgid "sunshine.operational-standards.description"
 msgstr "Auf der Seite \"Operative Standards\" werden die wichtigsten Leistungsindikatoren bewertet, die die Qualität der von den Elektrizitätsunternehmen erbrachten Dienstleistungen aufzeigen. Zu diesen Indikatoren gehören die Produktvielfalt, die das Angebot an umweltfreundlichen und kombinierten Energieprodukten misst, die Servicequalität, die beurteilt, wie gut die Unternehmen die Verbraucher über geplante Stromunterbrechungen und die vorgesehenen Ankündigungsfristen informieren, und die Compliance, die die Einhaltung der 75-Franken-Regel und die rechtzeitige Einreichung der offiziellen Dokumente bei der Eidgenössischen Elektrizitätskommission (ElCom) sicherstellt."
 
-#: src/components/sunshine-tabs.tsx
-msgid "sunshine.operational-standards.product-variety"
-msgstr "Produktvielfalt"
-
 #: src/domain/translation.tsx
 msgid "sunshine.operational-standards.product-variety-trend"
 msgstr "Vergleich der umweltfreundlichen Produktvielfalt"
-
-#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
-msgid "sunshine.operational-standards.product-variety.comparison-card-title"
-msgstr "Produktvielfalt"
 
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.operational-standards.service-quality"
@@ -1109,6 +1175,15 @@ msgstr "Qualität der Dienstleistungen"
 msgid "sunshine.operational-standards.title"
 msgstr "Operationelle Standards"
 
+#: src/pages/sunshine/[entity]/[id]/overview.tsx
+msgid "sunshine.overview-sunshine.description"
+msgstr "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at tellus at leo fermentum gravida. Nam eu mollis lacus. Sed libero augue, porttitor at velit fringilla, blandit cursus ipsum. In neque metus, ultricies ut tellus et, ornare condimentu."
+
+#: src/pages/sunshine/[entity]/[id]/overview.tsx
+#: src/pages/sunshine/[entity]/[id]/overview.tsx
+msgid "sunshine.overview-sunshine.title"
+msgstr "Sunshine Indicators Überblick"
+
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.description"
 msgstr "Die Seite Stromstabilität bietet Einblicke in die Zuverlässigkeit der Stromversorgung durch zwei Schlüsselindikatoren: SAIFI (System Average Interruption Frequency Index) und SAIDI (System Average Interruption Duration Index). Diese Indikatoren messen die Häufigkeit und Dauer von Stromunterbrechungen. Die Daten sind innerhalb der gleichen Netzbetreibergruppe vergleichbar und ermöglichen eine klare Bewertung der Stabilität und Zuverlässigkeit der Stromversorgung im gesamten Netz."
@@ -1118,6 +1193,7 @@ msgid "sunshine.power-stability.duration"
 msgstr "Dauer"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.latest-year"
 msgstr "Letztes Jahr ({latestYear})"
 
@@ -1126,9 +1202,11 @@ msgid "sunshine.power-stability.latest-year-option"
 msgstr "Letztes Jahr"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.median-peer-group"
 msgstr "Median der Vergleichsgruppe"
 
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.operator"
 msgstr "{operatorLabel}"
@@ -1154,12 +1232,24 @@ msgid "sunshine.power-stability.saidi"
 msgstr "Dauer des Stromausfalls (SAIDI)"
 
 #: src/components/map-details-chart-adapters.tsx
-#: src/domain/translation.tsx
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.saidi-trend"
 msgstr "Durchschnittliche Dauer des Stromausfalls (SAIDI)"
 
+#: src/pages/sunshine/[entity]/[id]/overview.tsx
+msgid "sunshine.power-stability.saidi-trend.description"
+msgstr "Dauer des Stromausfalls"
+
+#: src/pages/sunshine/[entity]/[id]/overview.tsx
+msgid "sunshine.power-stability.saidi-trend.overview"
+msgstr "Stromausfall (SAIDI)"
+
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.saidi.comparison-card-title"
+msgstr "Gesamtdauer des Ausfalls"
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.saidi.info-dialog-label"
 msgstr "Gesamtdauer des Ausfalls"
 
 #: src/components/sunshine-tabs.tsx
@@ -1167,12 +1257,24 @@ msgid "sunshine.power-stability.saifi"
 msgstr "Häufigkeit von Stromausfällen (SAIFI)"
 
 #: src/components/map-details-chart-adapters.tsx
-#: src/domain/translation.tsx
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.saifi-trend"
 msgstr "Durchschnittliche Häufigkeit von Stromausfällen (SAIFI)"
 
+#: src/pages/sunshine/[entity]/[id]/overview.tsx
+msgid "sunshine.power-stability.saifi-trend.description"
+msgstr "Häufigkeit von Stromausfällen"
+
+#: src/pages/sunshine/[entity]/[id]/overview.tsx
+msgid "sunshine.power-stability.saifi-trend.overview"
+msgstr "Stromausfall (SAIFI)"
+
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.saifi.comparison-card-title"
+msgstr "Ausfallhäufigkeit insgesamt"
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.saifi.info-dialog-label"
 msgstr "Ausfallhäufigkeit insgesamt"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
@@ -1193,26 +1295,6 @@ msgstr "Ungeplantes"
 #: src/components/power-stability-card.tsx
 msgid "sunshine.power-stability.view-by"
 msgstr "Ansicht von"
-
-#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
-msgid "sunshine.product-variety.eco-friendly-products-offered"
-msgstr "Angebot umweltfreundlicher Produkte"
-
-#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
-msgid "sunshine.product-variety.latest-year"
-msgstr "Letztes Jahr ({latestYear})"
-
-#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
-msgid "sunshine.product-variety.product-combinations-options"
-msgstr "Optionen für Produktkombinationen"
-
-#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
-msgid "sunshine.product-variety.product-combinations-options.no"
-msgstr "Nein"
-
-#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
-msgid "sunshine.product-variety.product-combinations-options.yes"
-msgstr "Ja"
 
 #: src/domain/translation.tsx
 msgid "sunshine.select-all"
