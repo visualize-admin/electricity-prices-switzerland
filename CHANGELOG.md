@@ -16,6 +16,7 @@ You can also check the
   - Added Overview Details Page
   - Add links to Sunshine Map to Home page
   - Add Operational Standards indicators to map page
+  - Ability to switch behind Lindas or Mocked data (see Readme "Sunshine Data Service" for more information)
 
 - Enhancements
 
