@@ -11,7 +11,7 @@ import { createContext, useContext } from "react";
 import { Annotation } from "src/components/charts-generic/annotation/annotation-x";
 import { Tooltip } from "src/components/charts-generic/interaction/tooltip";
 import { Bounds } from "src/components/charts-generic/use-width";
-import { ChartFields } from "src/domain/config-types";
+import { ChartFields, HistogramFields } from "src/domain/config-types";
 import {
   ComponentFieldsFragment,
   GenericObservation,
@@ -138,8 +138,11 @@ export type HistogramState = {
   bins: Bin<GenericObservation, number>[];
   binMeta: BinMeta[];
   colors: ScaleLinear<string, string>;
+  fields: HistogramFields;
   annotations?: Annotation[];
   getAnnotationInfo: (d: GenericObservation) => Tooltip;
+  yAsPercentage?: boolean;
+  totalCount?: number;
 };
 
 export type ColumnsState = {

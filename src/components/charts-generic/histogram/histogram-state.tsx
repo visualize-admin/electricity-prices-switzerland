@@ -1,5 +1,6 @@
 import { t } from "@lingui/macro";
 import { Box, Typography } from "@mui/material";
+import { Theme } from "@mui/material/styles";
 import { ascending, bin, Bin, interpolateHsl, max, min, scaleLinear } from "d3";
 import { ReactNode, useCallback } from "react";
 
@@ -22,6 +23,7 @@ import { HistogramFields } from "src/domain/config-types";
 import { GenericObservation } from "src/domain/data";
 import {
   getAnnotationSpaces,
+  getPalette,
   mkNumber,
   useFormatCurrency,
 } from "src/domain/helpers";
@@ -114,6 +116,7 @@ const useHistogramState = ({
   yAxisLabel,
   xAxisUnit,
   groupedBy,
+  yAsPercentage,
 }: Pick<ChartProps, "data" | "measures" | "medianValue"> & {
   fields: HistogramFields;
   aspectRatio: number;
@@ -121,7 +124,8 @@ const useHistogramState = ({
   yAxisLabel?: string;
   xAxisUnit?: string;
   groupedBy?: number;
-}): HistogramState  => {
+  yAsPercentage?: boolean;
+}): HistogramState => {
   const width = useWidth();
   const formatCurrency = useFormatCurrency();
   const { annotationFontSize } = useChartTheme();
@@ -131,7 +135,9 @@ const useHistogramState = ({
     [fields.x.componentIri]
   );
 
-  const getY = (d: GenericObservation[]) => d?.length ?? 0;
+  const totalCount = data.length;
+  const getY = (d: GenericObservation[]) =>
+    yAsPercentage ? ((d?.length ?? 0) / totalCount) * 100 : d?.length ?? 0;
 
   const getLabel = useCallback(
     (d: GenericObservation) => d[fields.label.componentIri] as string,
@@ -164,7 +170,21 @@ const useHistogramState = ({
     maxValue,
     xScale
   );
-  const yScale = scaleLinear().domain([0, max(bins, (d) => d.length) || 100]);
+
+  let yDomainMax;
+  if (yAsPercentage) {
+    // Find the max percentage in bins
+    const maxPct = Math.max(
+      ...bins.map((d) => ((d.length ?? 0) / totalCount) * 100)
+    );
+    // Round up to the next logical tick (nearest 5%)
+    yDomainMax = Math.ceil(maxPct / 5) * 5;
+    // Optionally, always show up to 100%:
+    // yDomainMax = 100;
+  } else {
+    yDomainMax = max(bins, (d) => d.length) || 100;
+  }
+  const yScale = scaleLinear().domain([0, yDomainMax]);
 
   // Dimensions
   const left = Math.max(
@@ -187,7 +207,6 @@ const useHistogramState = ({
 
   const chartWidth = width - margins.left - margins.right;
 
-  // Added space for annotations above the chart
   const annotationSpaces = annotation
     ? getAnnotationSpaces({
         annotation,
@@ -277,6 +296,9 @@ const useHistogramState = ({
       d: GenericObservation
     ) => Tooltip,
     binMeta,
+    fields,
+    yAsPercentage,
+    totalCount,
   };
 };
 
@@ -291,6 +313,7 @@ const HistogramProvider = ({
   yAxisLabel,
   xAxisUnit,
   groupedBy,
+  yAsPercentage,
 }: Pick<ChartProps, "data" | "measures" | "medianValue"> & {
   children: ReactNode;
   fields: HistogramFields;
@@ -299,6 +322,7 @@ const HistogramProvider = ({
   yAxisLabel?: string;
   xAxisUnit?: string;
   groupedBy?: number;
+  yAsPercentage?: boolean;
 }) => {
   const state = useHistogramState({
     data,
@@ -310,6 +334,7 @@ const HistogramProvider = ({
     yAxisLabel,
     xAxisUnit,
     groupedBy,
+    yAsPercentage,
   });
   return (
     <ChartContext.Provider value={state}>{children}</ChartContext.Provider>
@@ -327,6 +352,7 @@ export const Histogram = ({
   children,
   aspectRatio,
   groupedBy,
+  yAsPercentage,
 }: Pick<ChartProps, "data" | "measures" | "medianValue"> & {
   children: ReactNode;
   fields: HistogramFields;
@@ -335,6 +361,7 @@ export const Histogram = ({
   yAxisLabel?: string;
   xAxisUnit?: string;
   groupedBy?: number;
+  yAsPercentage?: boolean;
 }) => {
   return (
     <Observer>
@@ -349,10 +376,46 @@ export const Histogram = ({
           yAxisLabel={yAxisLabel}
           xAxisUnit={xAxisUnit}
           groupedBy={groupedBy}
+          yAsPercentage={yAsPercentage}
         >
           {children}
         </HistogramProvider>
       </InteractionProvider>
     </Observer>
   );
+};
+
+export const getBarColor = ({
+  bin,
+  meta,
+  fields,
+  colors,
+  theme,
+  binIndex,
+}: {
+  bin: GenericObservation[];
+  meta: BinMeta;
+  fields: HistogramFields;
+  colors: d3.ScaleLinear<string, string> | undefined;
+  theme: Theme;
+  binIndex: number;
+}): string => {
+  if (fields?.style?.colorAcc) {
+    const d = bin[0];
+    if (d && d[fields.style.colorAcc]) {
+      return d[fields.style.colorAcc] as string;
+    }
+  }
+  if (fields?.style?.palette) {
+    const palette = getPalette(fields.style.palette);
+    if (palette && palette.length > 0) {
+      return palette[binIndex % palette.length];
+    }
+  }
+  if (meta.isNoData) return "transparent";
+  if (bin.length > 0)
+    return colors
+      ? colors((meta.x0 + meta.x1) / 2)
+      : theme.palette.primary.main;
+  return "transparent";
 };

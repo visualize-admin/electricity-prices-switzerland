@@ -7,11 +7,21 @@ import {
   HistogramState,
   useChartState,
 } from "src/components/charts-generic/use-chart-state";
-import { GenericObservation } from "src/domain/data";
+
+import { getBarColor } from "./histogram-state";
 
 export const HistogramColumns = () => {
-  const { bounds, xScale, yScale, bins, colors, binMeta } =
-    useChartState() as HistogramState;
+  const {
+    bounds,
+    xScale,
+    yScale,
+    bins,
+    colors,
+    binMeta,
+    fields,
+    yAsPercentage,
+    totalCount,
+  } = useChartState() as HistogramState;
   const theme = useTheme();
   const { margins, chartWidth } = bounds;
 
@@ -21,18 +31,6 @@ export const HistogramColumns = () => {
       .domain(bandDomain)
       .range([0, chartWidth]);
 
-    const getBarColor = (
-      meta: (typeof binMeta)[number],
-      d: GenericObservation[]
-    ) => {
-      if (meta.isNoData) return "transparent";
-      if (d.length > 0)
-        return colors
-          ? colors((meta.x0 + meta.x1) / 2)
-          : theme.palette.primary.main;
-      return "transparent";
-    };
-
     return (
       <g transform={`translate(${margins.left} ${margins.top})`}>
         {bins.map((d, i) => {
@@ -41,10 +39,14 @@ export const HistogramColumns = () => {
           const label = meta.label ?? String(i);
           const x = bandScale(label) ?? 0;
           const width = bandScale.bandwidth();
-          const y = meta.isNoData ? yScale(0) : yScale(d.length);
+          const barValue =
+            yAsPercentage && totalCount
+              ? (d.length / totalCount) * 100
+              : d.length;
+          const y = meta.isNoData ? yScale(0) : yScale(barValue);
           const height = meta.isNoData
             ? 0
-            : Math.abs(yScale(d.length) - yScale(0));
+            : Math.abs(yScale(barValue) - yScale(0));
           return (
             <Column
               key={i}
@@ -52,7 +54,14 @@ export const HistogramColumns = () => {
               width={width}
               y={y}
               height={height}
-              color={getBarColor(meta, d)}
+              color={getBarColor({
+                bin: d,
+                meta,
+                fields,
+                colors,
+                theme,
+                binIndex: i,
+              })}
             />
           );
         })}
