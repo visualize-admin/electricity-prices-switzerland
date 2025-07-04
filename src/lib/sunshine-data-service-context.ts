@@ -1,10 +1,12 @@
 import { GetServerSidePropsContext, NextApiRequest } from "next";
 
-import { sunshineDataService as sqlSunshineDataService } from "src/lib/db/sql";
+import { sunshineDataServiceSparql } from "src/lib/db/sparql";
+import { sunshineDataServiceSql } from "src/lib/db/sql";
 import { SunshineDataService } from "src/lib/sunshine-data-service";
 
 const DATABASE_SERVICE_MAP: Record<string, SunshineDataService> = {
-  sql: sqlSunshineDataService,
+  sql: sunshineDataServiceSql,
+  sparql: sunshineDataServiceSparql,
 };
 
 const DEFAULT_DATABASE_SERVICE_KEY = "sql";
