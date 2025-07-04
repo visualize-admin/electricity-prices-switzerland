@@ -14,6 +14,7 @@ You can also check the
 - Features
 
   - Added Overview Details Page
+  - Add Operational Standards Page
 
 Enhancements
 
