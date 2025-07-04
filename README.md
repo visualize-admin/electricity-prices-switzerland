@@ -224,7 +224,6 @@ Key aspects of the mocked data system:
 
 1. **Data sources**: The original data is stored as encrypted CSV files in the repository:
 
-   - `observations`: Individual measurements for each operator
    - `energy`: Energy data prepared in the [elcom-sunshine-data-analysis](https://github.com/interactivethings/elcom-sunshine-data-analysis) project
    - `peer-groups`: Peer groups for each operator, derived from the energy data
    - `Sunshine 2024/2025`: Yearly sunshine data files
@@ -254,14 +253,11 @@ You can work with the encrypted data directly using the `yarn sunshine-csv` scri
 
 ```bash
 # Encrypt/decrypt observation data
-yarn sunshine-csv encrypt observations
-yarn sunshine-csv decrypt observations -o decrypted.csv
+yarn sunshine-csv encrypt -i "Sunshine 2025 28.05.2025"
+yarn sunshine-csv decrypt -i "Sunshine 2025 28.05.2025"
 
 # Decrypt peer groups data
 yarn sunshine-csv decrypt peer-groups
-
-# Parse and output as JSON
-yarn sunshine-csv json observations
 ```
 
 The peer groups CSV is generated from `energy.csv` using DuckDB queries and can be regenerated via:
