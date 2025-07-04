@@ -1,10 +1,14 @@
 import * as fs from "fs/promises";
 
+import { keyBy } from "lodash";
 import ParsingClient from "sparql-http-client/ParsingClient";
 
 import { NetworkLevel, TariffCategory } from "src/domain/data";
 import { SunshineDataRow } from "src/graphql/resolver-types";
-import { PeerGroupNotFoundError } from "src/lib/db/errors";
+import {
+  PeerGroupNotFoundError,
+  UnknownPeerGroupError,
+} from "src/lib/db/errors";
 import { PeerGroupMedianValuesParams } from "src/lib/sunshine-data";
 import type {
   NetworkCostRecord,
@@ -33,7 +37,10 @@ const executeSparqlQuery = async <T>(query: string): Promise<T[]> => {
       const extractedRow: Record<string, unknown> = {};
       for (const [key, value] of Object.entries(row)) {
         extractedRow[key] =
-          value && typeof value === "object" && "value" in value
+          "datatype" in value &&
+          value.datatype.value === "https://cube.link/Undefined"
+            ? undefined
+            : value && typeof value === "object" && "value" in value
             ? value.value
             : value;
       }
@@ -54,6 +61,13 @@ const convertOperatorIdToUri = (operatorId: number): string => {
 
 const extractOperatorIdFromUri = (uri: string): number => {
   return parseInt(stripNamespaceFromIri({ iri: uri }), 10);
+};
+const parseFloatOrUndefined = <T extends string | undefined>(
+  value: T
+): T extends string ? number : undefined => {
+  return (
+    value === undefined ? undefined : parseFloat(value)
+  ) as T extends string ? number : undefined;
 };
 
 const getNetworkCosts = async ({
@@ -79,6 +93,16 @@ const getNetworkCosts = async ({
     ? `:gridcost_${networkLevel.toLowerCase()}`
     : "";
 
+  const values = `
+    ${
+      operatorId
+        ? `VALUES ?operator { <${convertOperatorIdToUri(operatorId!)}> } `
+        : ""
+    }
+    ${period ? `VALUES ?period { "${period.toString()}" } ` : ""}
+    ${networkLevel ? `VALUES ?networkLevel { "${networkLevel}" } ` : ""}
+`;
+
   const query = `
     PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
     PREFIX cube: <https://cube.link/>
@@ -92,6 +116,8 @@ const getNetworkCosts = async ({
     }
     WHERE {
       <https://energy.ld.admin.ch/elcom/sunshine> cube:observationSet/cube:observation ?obs .
+
+      ${values}
       ?obs
         :operator ?operator ;
         ${periodFilter} ;
@@ -141,7 +167,7 @@ const getNetworkCosts = async ({
           operator_name: operatorName,
           year,
           network_level: networkLevel,
-          rate: parseFloat(rate),
+          rate: parseFloatOrUndefined(rate),
         });
       }
     } else {
@@ -159,7 +185,7 @@ const getNetworkCosts = async ({
             operator_name: operatorName,
             year,
             network_level: level,
-            rate: parseFloat(rate),
+            rate: parseFloatOrUndefined(rate),
           });
         }
       }
@@ -180,6 +206,8 @@ const getOperationalStandards = async ({
     ? `:period "${period}"^^xsd:gYear`
     : `:period ?period`;
 
+  const values = period ? `VALUES ?period { "${period.toString()}" } ` : "";
+
   const query = `
     PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
     PREFIX cube: <https://cube.link/>
@@ -189,6 +217,8 @@ const getOperationalStandards = async ({
     SELECT ?operator_name ?period ?franken_regel ?info ?days_in_advance ?in_time
     WHERE {
       <https://energy.ld.admin.ch/elcom/sunshine> cube:observationSet/cube:observation ?obs .
+
+      ${values}
       ?obs
         :operator <${convertOperatorIdToUri(operatorId)}> ;
         ${periodFilter} ;
@@ -215,7 +245,7 @@ const getOperationalStandards = async ({
     operator_id: operatorId,
     operator_name: row.operator_name,
     period: parseInt(row.period, 10),
-    franc_rule: parseFloat(row.franken_regel),
+    franc_rule: parseFloatOrUndefined(row.franken_regel),
     info_yes_no: row.info === "true" ? "ja" : "nein",
     info_days_in_advance: parseInt(row.days_in_advance, 10),
     timely: row.in_time === "true" ? 1 : 0,
@@ -232,12 +262,18 @@ const getStabilityMetrics = async ({
   period?: number;
   peerGroup?: string;
 }): Promise<StabilityMetricRecord[]> => {
-  const operatorFilter = operatorId
-    ? `:operator <${convertOperatorIdToUri(operatorId)}>`
-    : "";
   const periodFilter = period
     ? `:period "${period}"^^xsd:gYear`
     : `:period ?period`;
+
+  const values = `
+    ${
+      operatorId
+        ? `VALUES ?operator { <${convertOperatorIdToUri(operatorId!)}> } `
+        : ""
+    }
+    ${period ? `VALUES ?period { "${period.toString()}" } ` : ""}
+  `;
 
   const query = `
     PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
@@ -248,6 +284,8 @@ const getStabilityMetrics = async ({
     SELECT ?operator ?operator_name ?period ?saidi_total ?saidi_unplanned ?saifi_total ?saifi_unplanned
     WHERE {
       <https://energy.ld.admin.ch/elcom/sunshine> cube:observationSet/cube:observation ?obs .
+
+      ${values}
       ?obs
         :operator ?operator ;
         ${periodFilter} ;
@@ -256,7 +294,7 @@ const getStabilityMetrics = async ({
         :saifi_total ?saifi_total ;
         :saifi_unplanned ?saifi_unplanned .
       ${
-        operatorFilter
+        operatorId
           ? `FILTER(?operator = <${convertOperatorIdToUri(operatorId!)}>)`
           : ""
       }
@@ -280,10 +318,10 @@ const getStabilityMetrics = async ({
     operator_id: extractOperatorIdFromUri(row.operator),
     operator_name: row.operator_name,
     period: parseInt(row.period, 10),
-    saidi_total: parseFloat(row.saidi_total),
-    saidi_unplanned: parseFloat(row.saidi_unplanned),
-    saifi_total: parseFloat(row.saifi_total),
-    saifi_unplanned: parseFloat(row.saifi_unplanned),
+    saidi_total: parseFloatOrUndefined(row.saidi_total),
+    saidi_unplanned: parseFloatOrUndefined(row.saidi_unplanned),
+    saifi_total: parseFloatOrUndefined(row.saifi_total),
+    saifi_unplanned: parseFloatOrUndefined(row.saifi_unplanned),
   }));
 };
 
@@ -299,15 +337,29 @@ const getTariffs = async ({
   tariffType?: "network" | "energy";
   peerGroup?: string;
 } = {}): Promise<TariffRecord[]> => {
-  const operatorFilter = operatorId
-    ? `:operator <${convertOperatorIdToUri(operatorId)}>`
-    : "";
   const periodFilter = period
     ? `:period "${period}"^^xsd:gYear`
     : `:period ?period`;
   const categoryFilter = category
     ? `:category <${addNamespaceToID({ dimension: "category", id: category })}>`
     : `:category ?category`;
+
+  const values = `
+    ${
+      operatorId
+        ? `VALUES ?operator { <${convertOperatorIdToUri(operatorId!)}> } `
+        : ""
+    }
+    ${period ? `VALUES ?period { "${period.toString()}" } ` : ""}
+    ${
+      category
+        ? `VALUES ?category { <${addNamespaceToID({
+            dimension: "category",
+            id: category,
+          })}> } `
+        : ""
+    }
+  `;
 
   // Query the sunshine-cat cube for tariff data
   const query = `
@@ -319,6 +371,8 @@ const getTariffs = async ({
     SELECT ?operator ?operator_name ?period ?category ?energy ?gridusage
     WHERE {
       <https://energy.ld.admin.ch/elcom/sunshine-cat> cube:observationSet/cube:observation ?obs .
+
+      ${values}
       ?obs
         :operator ?operator ;
         ${periodFilter} ;
@@ -326,7 +380,7 @@ const getTariffs = async ({
         :energy ?energy ;
         :gridusage ?gridusage .
       ${
-        operatorFilter
+        operatorId
           ? `FILTER(?operator = <${convertOperatorIdToUri(operatorId!)}>)`
           : ""
       }
@@ -361,7 +415,7 @@ const getTariffs = async ({
         period: periodValue,
         category: categoryValue as TariffCategory,
         tariff_type: "energy",
-        rate: parseFloat(row.energy),
+        rate: parseFloatOrUndefined(row.energy),
       });
     }
 
@@ -373,7 +427,7 @@ const getTariffs = async ({
         period: periodValue,
         category: categoryValue as TariffCategory,
         tariff_type: "network",
-        rate: parseFloat(row.gridusage),
+        rate: parseFloatOrUndefined(row.gridusage),
       });
     }
   }
@@ -391,6 +445,8 @@ const getOperatorData = async (
     ? `:period "${period}"^^xsd:gYear`
     : `:period ?period`;
 
+  const values = period ? `VALUES ?period { "${period.toString()}" } ` : "";
+
   const query = `
     PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
     PREFIX cube: <https://cube.link/>
@@ -400,6 +456,8 @@ const getOperatorData = async (
     SELECT ?operator_name ?period
     WHERE {
       <https://energy.ld.admin.ch/elcom/sunshine> cube:observationSet/cube:observation ?obs .
+
+      ${values}
       ?obs
         :operator <${convertOperatorIdToUri(operatorId)}> ;
         ${periodFilter} .
@@ -447,6 +505,10 @@ const getPeerGroupMedianValues = async <
     ? `:period "${period}"^^xsd:gYear`
     : `:period ?period`;
 
+  const periodValues = period
+    ? `VALUES ?period { "${period.toString()}" } `
+    : "";
+
   // Query the median cubes based on the metric type
   let query = "";
   let cube = "";
@@ -463,13 +525,15 @@ const getPeerGroupMedianValues = async <
         
         SELECT ?gridcost_${networkLevel?.toLowerCase()}
         WHERE {
+         VALUES ?group { <https://energy.ld.admin.ch/elcom/electricityprice/group/${peerGroup}> }
           ${cube} cube:observationSet/cube:observation ?obs .
+
+          ${periodValues}
           ?obs
             :group ?group ;
             ${periodFilter} ;
             :gridcost_${networkLevel?.toLowerCase()} ?gridcost_${networkLevel?.toLowerCase()} .
           
-          ?group schema:name "${peerGroup}"@de .
         }
       `;
       break;
@@ -486,6 +550,9 @@ const getPeerGroupMedianValues = async <
         SELECT ?saidi_total ?saidi_unplanned ?saifi_total ?saifi_unplanned
         WHERE {
           ${cube} cube:observationSet/cube:observation ?obs .
+         VALUES ?group { <https://energy.ld.admin.ch/elcom/electricityprice/group/${peerGroup}> }
+
+          ${periodValues}
           ?obs
             :group ?group ;
             ${periodFilter} ;
@@ -494,7 +561,6 @@ const getPeerGroupMedianValues = async <
             :saifi_total ?saifi_total ;
             :saifi_unplanned ?saifi_unplanned .
           
-          ?group schema:name "${peerGroup}"@de .
         }
       `;
       break;
@@ -510,14 +576,15 @@ const getPeerGroupMedianValues = async <
         SELECT ?franken_regel ?days_in_advance ?in_time
         WHERE {
           ${cube} cube:observationSet/cube:observation ?obs .
+          VALUES ?group { <https://energy.ld.admin.ch/elcom/electricityprice/group/${peerGroup}> }
+
+          ${periodValues}
           ?obs
             :group ?group ;
             ${periodFilter} ;
             :franken_regel ?franken_regel ;
             :days_in_advance ?days_in_advance ;
             :in_time ?in_time .
-          
-          ?group schema:name "${peerGroup}"@de .
         }
       `;
       break;
@@ -536,6 +603,9 @@ const getPeerGroupMedianValues = async <
         SELECT ?${isEnergy ? "energy" : "gridusage"}
         WHERE {
           ${cube} cube:observationSet/cube:observation ?obs .
+         VALUES ?group { <https://energy.ld.admin.ch/elcom/electricityprice/group/${peerGroup}> }
+
+          ${periodValues}
           ?obs
             :group ?group ;
             ${periodFilter} ;
@@ -547,7 +617,6 @@ const getPeerGroupMedianValues = async <
         isEnergy ? "energy" : "gridusage"
       } .
           
-          ?group schema:name "${peerGroup}"@de .
         }
       `;
       break;
@@ -574,21 +643,25 @@ const getPeerGroupMedianValues = async <
       const valueKey = `gridcost_${networkLevel?.toLowerCase()}`;
       return {
         network_level: networkLevel,
-        median_value: parseFloat(result[valueKey] || "0"),
+        median_value: parseFloatOrUndefined(result[valueKey] || "0"),
       } as PeerGroupRecord<Metric>;
     }
 
     case "stability":
       return {
-        median_saidi_total: parseFloat(result.saidi_total || "0"),
-        median_saidi_unplanned: parseFloat(result.saidi_unplanned || "0"),
-        median_saifi_total: parseFloat(result.saifi_total || "0"),
-        median_saifi_unplanned: parseFloat(result.saifi_unplanned || "0"),
+        median_saidi_total: parseFloatOrUndefined(result.saidi_total || "0"),
+        median_saidi_unplanned: parseFloatOrUndefined(
+          result.saidi_unplanned || "0"
+        ),
+        median_saifi_total: parseFloatOrUndefined(result.saifi_total || "0"),
+        median_saifi_unplanned: parseFloatOrUndefined(
+          result.saifi_unplanned || "0"
+        ),
       } as PeerGroupRecord<Metric>;
 
     case "operational":
       return {
-        median_franc_rule: parseFloat(result.franken_regel || "0"),
+        median_franc_rule: parseFloatOrUndefined(result.franken_regel || "0"),
         median_info_days: parseInt(result.days_in_advance || "0", 10),
         median_timely: result.in_time === "true" ? 1 : 0,
       } as PeerGroupRecord<Metric>;
@@ -598,7 +671,7 @@ const getPeerGroupMedianValues = async <
       return {
         category,
         tariff_type: "energy",
-        median_rate: parseFloat(result.energy || "0"),
+        median_rate: parseFloatOrUndefined(result.energy || "0"),
       } as unknown as PeerGroupRecord<Metric>;
     }
 
@@ -607,7 +680,7 @@ const getPeerGroupMedianValues = async <
       return {
         category,
         tariff_type: "network",
-        median_rate: parseFloat(result.gridusage || "0"),
+        median_rate: parseFloatOrUndefined(result.gridusage || "0"),
       } as unknown as PeerGroupRecord<Metric>;
     }
 
@@ -670,6 +743,57 @@ const getLatestYearPowerStability = async (
   return results.length > 0 ? results[0].period : "2024";
 };
 
+// TODO This is a temporary hardcoded peer group mapping
+// We should get the info from Lindas at some point but it
+// does not seem the info is there already
+// DESCRIBE <https://energy.ld.admin.ch/elcom/electricityprice/group/F>
+// does not have this info
+const peerGroups = keyBy(
+  [
+    {
+      id: "A",
+      settlement_density: "Urban",
+      energy_density: "High",
+    },
+    {
+      id: "B",
+      settlement_density: "Suburban",
+      energy_density: "Medium-High",
+    },
+    {
+      id: "C",
+      settlement_density: "Suburban",
+      energy_density: "Medium",
+    },
+    {
+      id: "D",
+      settlement_density: "Semi-Rural",
+      energy_density: "Medium-Low",
+    },
+    {
+      id: "E",
+      settlement_density: "Rural",
+      energy_density: "Low",
+    },
+    {
+      id: "F",
+      settlement_density: "Remote Rural",
+      energy_density: "Very Low",
+    },
+    {
+      id: "G",
+      settlement_density: "Alpine",
+      energy_density: "Very Low",
+    },
+    {
+      id: "H",
+      settlement_density: "Special/Industrial",
+      energy_density: "Variable",
+    },
+  ],
+  (x) => x.id
+);
+
 const getPeerGroup = async (
   _operatorId: number | string
 ): Promise<{
@@ -677,14 +801,47 @@ const getPeerGroup = async (
   energyDensity: string;
   id: string;
 }> => {
-  // Based on the method logs, operator 8 seems to be in "Tourist-Low" peer group
-  const settlementDensity = "Tourist";
-  const energyDensity = "Low";
+  const operatorId =
+    typeof _operatorId === "number" ? _operatorId : parseInt(_operatorId, 10);
+  // Get the group via a sparql query, the operator is bound
+  // to a peer group via :group predicate
+  const query = `
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX cube: <https://cube.link/>
+BASE <https://energy.ld.admin.ch/elcom/>
+
+SELECT ?group
+WHERE {
+  <sunshine> cube:observationSet/cube:observation ?obs .
+  ?obs <sunshine/dimension/operator> <${convertOperatorIdToUri(operatorId)}> .
+  ?obs <sunshine/dimension/period> "2025"^^xsd:gYear.
+  ?obs <sunshine/dimension/group> ?group .
+} 
+    LIMIT 1
+  `;
+
+  const results = await executeSparqlQuery<{
+    group: string;
+  }>(query);
+
+  if (results.length === 0) {
+    throw new PeerGroupNotFoundError(_operatorId);
+  }
+  const groupUri = results[0].group;
+  // Strip the namespace to get the peer group ID, remove zufällig from the id
+  // TODO Review when Peer groups are in better shape in Lindas
+  const peerGroupId = stripNamespaceFromIri({ iri: groupUri })
+    .slice(0, 1)
+    .toUpperCase();
+  if (peerGroups[peerGroupId] === undefined) {
+    throw new UnknownPeerGroupError(_operatorId, peerGroupId);
+  }
+  const peerGroup = peerGroups[peerGroupId];
 
   return {
-    settlementDensity,
-    energyDensity,
-    id: `${settlementDensity}-${energyDensity}`,
+    settlementDensity: peerGroup.settlement_density,
+    energyDensity: peerGroup.energy_density,
+    id: `${peerGroup.id}`,
   };
 };
 
@@ -695,12 +852,18 @@ const getSunshineData = async ({
   operatorId?: number | undefined | null;
   period?: string | undefined | null;
 }): Promise<SunshineDataRow[]> => {
-  const operatorFilter = operatorId
-    ? `:operator <${convertOperatorIdToUri(operatorId)}>`
-    : "";
   const periodFilter = period
     ? `:period "${period}"^^xsd:gYear`
     : `:period ?period`;
+
+  const values = `
+    ${
+      operatorId
+        ? `VALUES ?operator { <${convertOperatorIdToUri(operatorId!)}> } `
+        : ""
+    }
+    ${period ? `VALUES ?period { "${period.toString()}" } ` : ""}
+  `;
 
   // First, get main sunshine data
   const mainQuery = `
@@ -713,6 +876,8 @@ const getSunshineData = async ({
            ?franken_regel ?info ?days_in_advance ?in_time ?saidi_total ?saidi_unplanned ?saifi_total ?saifi_unplanned
     WHERE {
       <https://energy.ld.admin.ch/elcom/sunshine> cube:observationSet/cube:observation ?obs .
+
+      ${values}
       ?obs
         :operator ?operator ;
         ${periodFilter} ;
@@ -728,7 +893,7 @@ const getSunshineData = async ({
         :saifi_total ?saifi_total ;
         :saifi_unplanned ?saifi_unplanned .
       ${
-        operatorFilter
+        operatorId
           ? `FILTER(?operator = <${convertOperatorIdToUri(operatorId!)}>)`
           : ""
       }
@@ -764,6 +929,8 @@ const getSunshineData = async ({
     SELECT ?operator ?period ?category ?energy ?gridusage
     WHERE {
       <https://energy.ld.admin.ch/elcom/sunshine-cat> cube:observationSet/cube:observation ?obs .
+
+      ${values}
       ?obs
         :operator ?operator ;
         ${periodFilter} ;
@@ -771,7 +938,7 @@ const getSunshineData = async ({
         :energy ?energy ;
         :gridusage ?gridusage .
       ${
-        operatorFilter
+        operatorId
           ? `FILTER(?operator = <${convertOperatorIdToUri(operatorId!)}>)`
           : ""
       }
@@ -804,8 +971,8 @@ const getSunshineData = async ({
     }
 
     tariffsByOperatorPeriod.get(key)!.set(category, {
-      energy: parseFloat(row.energy),
-      gridusage: parseFloat(row.gridusage),
+      energy: parseFloatOrUndefined(row.energy),
+      gridusage: parseFloatOrUndefined(row.gridusage),
     });
   }
 
@@ -821,17 +988,17 @@ const getSunshineData = async ({
       operatorUID: operatorId.toString(), // TODO: Get actual UID
       name: row.operator_name,
       period,
-      francRule: parseFloat(row.franken_regel),
+      francRule: parseFloatOrUndefined(row.franken_regel),
       infoYesNo: row.info === "true",
       infoDaysInAdvance: parseInt(row.days_in_advance, 10),
-      networkCostsNE5: parseFloat(row.gridcost_ne5),
-      networkCostsNE6: parseFloat(row.gridcost_ne6),
-      networkCostsNE7: parseFloat(row.gridcost_ne7),
+      networkCostsNE5: parseFloatOrUndefined(row.gridcost_ne5),
+      networkCostsNE6: parseFloatOrUndefined(row.gridcost_ne6),
+      networkCostsNE7: parseFloatOrUndefined(row.gridcost_ne7),
       timely: row.in_time === "true",
-      saidiTotal: parseFloat(row.saidi_total),
-      saidiUnplanned: parseFloat(row.saidi_unplanned),
-      saifiTotal: parseFloat(row.saifi_total),
-      saifiUnplanned: parseFloat(row.saifi_unplanned),
+      saidiTotal: parseFloatOrUndefined(row.saidi_total),
+      saidiUnplanned: parseFloatOrUndefined(row.saidi_unplanned),
+      saifiTotal: parseFloatOrUndefined(row.saifi_total),
+      saifiUnplanned: parseFloatOrUndefined(row.saifi_unplanned),
       tariffEC2: tariffs.get("C2")?.energy || 0,
       tariffEC3: tariffs.get("C3")?.energy || 0,
       tariffEC4: tariffs.get("C4")?.energy || 0,
