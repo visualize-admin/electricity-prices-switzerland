@@ -6,6 +6,7 @@ import type {
   NetworkLevel,
   SunshineCostsAndTariffsData,
 } from "src/domain/data";
+import { useFormatCurrency } from "src/domain/helpers";
 import { getNetworkLevelMetrics } from "src/domain/metrics";
 import { getLocalizedLabel } from "src/domain/translation";
 import { chartPalette, palette } from "src/themes/palette";
@@ -180,6 +181,7 @@ const ProgressOvertimeChartView = (
     mini,
   } = props;
   const hasNotSelectedAll = !compareWith.includes("sunshine.select-all");
+  const formatCurrency = useFormatCurrency();
 
   return (
     <LineChart
@@ -267,7 +269,7 @@ const ProgressOvertimeChartView = (
       )}
       <ChartContainer>
         <ChartSvg>
-          <AxisHeightLinear format="currency" />
+          <AxisHeightLinear format={formatCurrency} />
           <AxisTime />
           <Lines />
           {hasNotSelectedAll && <InteractionHorizontal />}
