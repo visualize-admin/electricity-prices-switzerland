@@ -4,21 +4,23 @@ import { sunshineDataServiceSparql } from "src/lib/db/sparql";
 import { sunshineDataServiceSql } from "src/lib/db/sql";
 import { SunshineDataService } from "src/lib/sunshine-data-service";
 
-const DATABASE_SERVICE_MAP: Record<string, SunshineDataService> = {
+const DATABASE_SERVICE_MAP = {
   sql: sunshineDataServiceSql,
   sparql: sunshineDataServiceSparql,
-};
+} satisfies Record<string, SunshineDataService>;
+
+type DatabaseServiceKey = keyof typeof DATABASE_SERVICE_MAP;
 
 const DEFAULT_DATABASE_SERVICE_KEY = "sql";
 
 export function getSunshineDataService(
-  serviceKey: string
+  serviceKey: (string & {}) | DatabaseServiceKey
 ): SunshineDataService {
-  if (!serviceKey || !DATABASE_SERVICE_MAP[serviceKey]) {
+  if (!serviceKey || !(serviceKey in DATABASE_SERVICE_MAP)) {
     return DATABASE_SERVICE_MAP[DEFAULT_DATABASE_SERVICE_KEY];
   }
 
-  return DATABASE_SERVICE_MAP[serviceKey];
+  return DATABASE_SERVICE_MAP[serviceKey as DatabaseServiceKey];
 }
 
 const SUNSHINE_DATA_SERVICE_COOKIE_NAME = "sunshine-data-service";

@@ -13,7 +13,6 @@ import {
   TariffsData,
   Trend,
 } from "src/graphql/resolver-types";
-import { sunshineDataService as sqlSunshineDataService } from "src/lib/db/sql";
 import {
   SunshineDataService,
   TariffRecord,
@@ -577,6 +576,3 @@ export const fetchOperationalStandards = async (
     }),
   };
 };
-
-// Default database service implementation using sql module
-export const defaultSunshineDataService = sqlSunshineDataService;

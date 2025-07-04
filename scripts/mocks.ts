@@ -5,14 +5,18 @@ import * as path from "path";
 import * as argparse from "argparse";
 
 import { ensureDatabaseInitialized } from "src/lib/db/duckdb";
+import { getSunshineDataService } from "src/lib/sunshine-data-service-context";
 
 import { closeDuckDB } from "../src/lib/db/duckdb";
 import {
-  defaultSunshineDataService,
   fetchOperationalStandards,
   fetchOperatorCostsAndTariffsData,
   fetchPowerStability,
 } from "../src/lib/sunshine-data";
+
+// Right now we use the SQL service for mocks, but this can be changed
+// to SPARQL if needed
+const mockSunshineDataService = getSunshineDataService("sql");
 
 interface FetcherOptions {
   operatorId: string;
@@ -164,7 +168,7 @@ async function generateMocks(options: FetcherOptions) {
         `\n--- Fetching operator costs and tariffs data for operator ${operatorId} ---`
       );
       const costsAndTariffs = await fetchOperatorCostsAndTariffsData(
-        defaultSunshineDataService,
+        mockSunshineDataService,
         {
           operatorId: operatorId,
           networkLevel: "NE5",
@@ -198,9 +202,12 @@ async function generateMocks(options: FetcherOptions) {
       console.info(
         `\n--- Fetching power stability data for operator ${operatorId} ---`
       );
-      const powerStability = await fetchPowerStability(defaultSunshineDataService, {
-        operatorId: operatorId,
-      });
+      const powerStability = await fetchPowerStability(
+        mockSunshineDataService,
+        {
+          operatorId: operatorId,
+        }
+      );
       for (const attr of ["saidi", "saifi"] as const) {
         const stabilityData = powerStability[attr];
         stabilityData.yearlyData.forEach((data) => {
@@ -221,7 +228,7 @@ async function generateMocks(options: FetcherOptions) {
         `\n--- Fetching operational standards for operator ${operatorId} ---`
       );
       const operationalStandards = await fetchOperationalStandards(
-        defaultSunshineDataService,
+        mockSunshineDataService,
         {
           operatorId,
         }
