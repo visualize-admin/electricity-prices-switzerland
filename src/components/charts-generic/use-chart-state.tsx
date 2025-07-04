@@ -18,6 +18,8 @@ import {
   ObservationValue,
 } from "src/domain/data";
 
+import { BinMeta } from "./histogram/histogram-state";
+
 export type ChartProps = {
   data: GenericObservation[];
   fields: ChartFields;
@@ -134,6 +136,7 @@ export type HistogramState = {
   xAxisLabel?: string;
   yAxisLabel?: string;
   bins: Bin<GenericObservation, number>[];
+  binMeta: BinMeta[];
   colors: ScaleLinear<string, string>;
   annotations?: Annotation[];
   getAnnotationInfo: (d: GenericObservation) => Tooltip;
