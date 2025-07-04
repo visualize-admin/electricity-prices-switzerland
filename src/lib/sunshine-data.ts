@@ -21,38 +21,33 @@ import {
 
 type NetworkCostsParams = {
   metric: "network_costs";
-  settlementDensity: string;
-  energyDensity: string;
+  peerGroup: string;
   period?: number;
   networkLevel: NetworkLevel["id"]; // Required for network_costs
 };
 
 type StabilityParams = {
   metric: "stability";
-  settlementDensity: string;
-  energyDensity: string;
+  peerGroup: string;
   period?: number;
 };
 
 type OperationalParams = {
   metric: "operational";
-  settlementDensity: string;
-  energyDensity: string;
+  peerGroup: string;
   period?: number;
 };
 
 type NetTariffsParams = {
   metric: "net-tariffs";
-  settlementDensity: string;
-  energyDensity: string;
+  peerGroup: string;
   period?: number;
   category: TariffCategory; // Required for tariffs
 };
 
 type EnergyTariffsParams = {
   metric: "energy-tariffs";
-  settlementDensity: string;
-  energyDensity: string;
+  peerGroup: string;
   period?: number;
   category: TariffCategory; // Required for tariffs
 };
@@ -111,8 +106,7 @@ export const fetchNetworkCostsData = async (
 
   const peerGroupMedianNetworkCosts =
     await db.getPeerGroupMedianValues<"network_costs">({
-      settlementDensity: operatorData.settlement_density,
-      energyDensity: operatorData.energy_density,
+      peerGroup: operatorData.peer_group,
       metric: "network_costs",
       networkLevel: networkLevel,
       period: targetPeriod,
@@ -123,8 +117,7 @@ export const fetchNetworkCostsData = async (
 
   const previousPeerGroupMedianNetworkCosts =
     await db.getPeerGroupMedianValues<"network_costs">({
-      settlementDensity: operatorData.settlement_density,
-      energyDensity: operatorData.energy_density,
+      peerGroup: operatorData.peer_group,
       metric: "network_costs",
       networkLevel: networkLevel,
 
@@ -145,8 +138,7 @@ export const fetchNetworkCostsData = async (
 
   const networkCosts = (
     await db.getNetworkCosts({
-      settlementDensity: operatorData.settlement_density,
-      energyDensity: operatorData.energy_density,
+      peerGroup: operatorData.peer_group,
       networkLevel: networkLevel,
     })
   )
@@ -202,8 +194,7 @@ export const fetchNetTariffsData = async (
 
   const peerGroupMedianNetTariffs =
     await db.getPeerGroupMedianValues<"net-tariffs">({
-      settlementDensity: operatorData.settlement_density,
-      energyDensity: operatorData.energy_density,
+      peerGroup: operatorData.peer_group,
       metric: "net-tariffs",
       category: category,
     });
@@ -224,8 +215,7 @@ export const fetchNetTariffsData = async (
   const operatorNetTariff = first(operatorNetTariffs);
 
   const netTariffs = await db.getTariffs({
-    settlementDensity: operatorData.settlement_density,
-    energyDensity: operatorData.energy_density,
+    peerGroup: operatorData.peer_group,
     tariffType: "network",
     category: category,
   });
@@ -254,8 +244,7 @@ export const fetchEnergyTariffsData = async (
 
   const peerGroupMedianEnergyTariffs =
     await db.getPeerGroupMedianValues<"energy-tariffs">({
-      settlementDensity: operatorData.settlement_density,
-      energyDensity: operatorData.energy_density,
+      peerGroup: operatorData.peer_group,
       metric: "energy-tariffs",
       category: category,
     });
@@ -275,8 +264,7 @@ export const fetchEnergyTariffsData = async (
   const operatorEnergyTariff = first(operatorEnergyTariffs);
 
   const energyTariffs = await db.getTariffs({
-    settlementDensity: operatorData.settlement_density,
-    energyDensity: operatorData.energy_density,
+    peerGroup: operatorData.peer_group,
     category: category,
     operatorId: operatorId,
   });
@@ -377,8 +365,7 @@ export const fetchSaidi = async (
   // Get peer group median SAIDI
   const peerGroupMedianStability =
     await db.getPeerGroupMedianValues<"stability">({
-      settlementDensity: operatorData.settlement_density,
-      energyDensity: operatorData.energy_density,
+      peerGroup: operatorData.peer_group,
       metric: "stability",
       period,
     });
@@ -393,8 +380,7 @@ export const fetchSaidi = async (
     );
   }
   const peerGroupYearlyStability = await db.getStabilityMetrics({
-    settlement_density: operatorData.settlement_density,
-    energy_density: operatorData.energy_density,
+    peerGroup: operatorData.peer_group,
   });
 
   return {
@@ -434,8 +420,7 @@ export const fetchSaifi = async (
 
   const peerGroupMedianStability =
     await db.getPeerGroupMedianValues<"stability">({
-      settlementDensity: operatorData.settlement_density,
-      energyDensity: operatorData.energy_density,
+      peerGroup: operatorData.peer_group,
       metric: "stability",
       period,
     });
@@ -450,8 +435,7 @@ export const fetchSaifi = async (
     );
   }
   const peerGroupYearlyStability = await db.getStabilityMetrics({
-    settlement_density: operatorData.settlement_density,
-    energy_density: operatorData.energy_density,
+    peerGroup: operatorData.peer_group,
   });
 
   return {

@@ -185,18 +185,53 @@ const getOperatorData = async (
       ORDER BY period DESC
     `;
 
-  const result = await query<OperatorDataRecord>(sql);
+  const result = await query<Omit<OperatorDataRecord, "peer_group">>(sql);
   if (result.length === 0) {
     throw new PeerGroupNotFoundError(operatorId);
   }
-  return result[0];
+  return {
+    ...result[0],
+    peer_group: getPeerGroupIdFromSettlementAndEnergyDensity(
+      result[0].settlement_density,
+      result[0].energy_density
+    ),
+  };
 };
+
+const getSettlementAndEnergyDensity = (
+  peerGroup: string
+): {
+  settlementDensity: string;
+  energyDensity: string;
+} => {
+  const [settlementDensity, energyDensity] = peerGroup.split("-");
+  if (!settlementDensity || !energyDensity) {
+    throw new Error(`Invalid peer group format: ${peerGroup}`);
+  }
+  return { settlementDensity, energyDensity };
+};
+
+const getPeerGroupIdFromSettlementAndEnergyDensity = (
+  settlementDensity: string,
+  energyDensity: string
+): string => {
+  if (!settlementDensity || !energyDensity) {
+    throw new Error(
+      `Invalid settlement or energy density: ${settlementDensity}, ${energyDensity}`
+    );
+  }
+  return `${settlementDensity}-${energyDensity}`;
+};
+
 const getPeerGroupMedianValues = async <
   Metric extends PeerGroupMedianValuesParams["metric"]
 >(
   params: PeerGroupMedianValuesParams
 ) => {
-  const { settlementDensity, energyDensity, metric, period } = params;
+  const { peerGroup, metric, period } = params;
+
+  const { settlementDensity, energyDensity } =
+    getSettlementAndEnergyDensity(peerGroup);
 
   const peerGroupFilter = `
     settlement_density = '${settlementDensity}'
@@ -318,6 +353,7 @@ const getPeerGroup = async (
 ): Promise<{
   settlementDensity: string;
   energyDensity: string;
+  id: string;
 }> => {
   const peerGroupData = await query<{
     settlement_density: string;
@@ -331,9 +367,14 @@ const getPeerGroup = async (
   if (peerGroupData.length === 0) {
     throw new Error(`No peer group data found for operator ID: ${operatorId}`);
   }
+
   return {
     settlementDensity: peerGroupData[0].settlement_density,
     energyDensity: peerGroupData[0].energy_density,
+    id: getPeerGroupIdFromSettlementAndEnergyDensity(
+      peerGroupData[0].settlement_density,
+      peerGroupData[0].energy_density
+    ),
   };
 };
 
@@ -421,7 +462,6 @@ const getSunshineData = async ({
   }));
 };
 
-// all SQL functions as a SunshineDataService implementation
 export const sunshineDataService = {
   name: "sql",
   getNetworkCosts,

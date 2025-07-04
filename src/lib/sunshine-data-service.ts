@@ -52,6 +52,7 @@ export type OperatorDataRecord = {
   period: number;
   settlement_density: string;
   energy_density: string;
+  peer_group: string;
 };
 
 export type PeerGroupRecord<
@@ -93,8 +94,7 @@ export interface SunshineDataService {
   getNetworkCosts(params?: {
     operatorId?: number;
     period?: number;
-    settlementDensity?: string;
-    energyDensity?: string;
+    peerGroup?: string;
     networkLevel?: NetworkLevel["id"];
   }): Promise<NetworkCostRecord[]>;
 
@@ -106,8 +106,7 @@ export interface SunshineDataService {
   getStabilityMetrics(params?: {
     operatorId?: number;
     period?: number;
-    settlement_density?: string;
-    energy_density?: string;
+    peerGroup?: string;
   }): Promise<StabilityMetricRecord[]>;
 
   getTariffs(params?: {
@@ -115,8 +114,7 @@ export interface SunshineDataService {
     period?: number;
     category?: string;
     tariffType?: "network" | "energy";
-    settlementDensity?: string;
-    energyDensity?: string;
+    peerGroup?: string;
   }): Promise<TariffRecord[]>;
 
   getOperatorData(
@@ -135,6 +133,7 @@ export interface SunshineDataService {
   getLatestYearPowerStability(operatorId: number): Promise<string>;
 
   getPeerGroup(operatorId: number | string): Promise<{
+    id: string;
     settlementDensity: string;
     energyDensity: string;
   }>;
