@@ -20,8 +20,37 @@ export function getSunshineDataService(
     return DATABASE_SERVICE_MAP[DEFAULT_DATABASE_SERVICE_KEY];
   }
 
-  console.log("Using database service:", DEFAULT_DATABASE_SERVICE_KEY);
+  console.log("Using database service:", serviceKey);
   return DATABASE_SERVICE_MAP[serviceKey];
+}
+
+const SUNSHINE_DATA_SERVICE_COOKIE_NAME = "sunshine-data-service";
+
+export { SUNSHINE_DATA_SERVICE_COOKIE_NAME };
+
+export function getValidServiceKeys(): string[] {
+  return Object.keys(DATABASE_SERVICE_MAP);
+}
+
+export function getSunshineDataServiceFromCookies(
+  cookies: string | undefined
+): string {
+  if (!cookies) {
+    return DEFAULT_DATABASE_SERVICE_KEY;
+  }
+
+  // Parse the cookie string to find our specific cookie
+  const cookieArray = cookies.split(";");
+  const serviceCookie = cookieArray.find((cookie) =>
+    cookie.trim().startsWith(`${SUNSHINE_DATA_SERVICE_COOKIE_NAME}=`)
+  );
+
+  if (!serviceCookie) {
+    return DEFAULT_DATABASE_SERVICE_KEY;
+  }
+
+  const serviceKey = serviceCookie.split("=")[1]?.trim();
+  return serviceKey;
 }
 
 export function getSunshineDataServiceFromHeaders(
@@ -31,8 +60,18 @@ export function getSunshineDataServiceFromHeaders(
   return getSunshineDataService(serviceKey);
 }
 
+export function getSunshineDataServiceFromApiRequest(
+  req: NextApiRequest
+): SunshineDataService {
+  const serviceKey = getSunshineDataServiceFromCookies(req.headers.cookie);
+  return getSunshineDataService(serviceKey);
+}
+
 export function getSunshineDataServiceFromGetServerSidePropsContext(
   context: GetServerSidePropsContext
 ): SunshineDataService {
-  return getSunshineDataServiceFromHeaders(context.req.headers);
+  const serviceKey = getSunshineDataServiceFromCookies(
+    context.req.headers.cookie
+  );
+  return getSunshineDataService(serviceKey);
 }
