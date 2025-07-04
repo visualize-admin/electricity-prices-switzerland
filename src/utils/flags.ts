@@ -1,3 +1,4 @@
+import clientEnv from "src/env/client";
 import { createComponents, createHooks } from "src/flags";
 
 const specs = {
@@ -49,10 +50,19 @@ if (typeof window !== "undefined" && window.location) {
   // Development flags
   if (
     process.env.NODE_ENV === "development" ||
-    process.env.NEXT_PUBLIC_VERCEL_ENV === "development" ||
-    process.env.NEXT_PUBLIC_VERCEL_ENV === "preview"
+    clientEnv.NEXT_PUBLIC_VERCEL_ENV === "development" ||
+    clientEnv.NEXT_PUBLIC_VERCEL_ENV === "preview"
   ) {
     flag.enable([["debug", true]]);
+  }
+
+  if (clientEnv.NEXT_PUBLIC_FLAGS) {
+    try {
+      const flags = JSON.parse(clientEnv.NEXT_PUBLIC_FLAGS);
+      flag.enable(flags);
+    } catch (e) {
+      console.error("Failed to parse NEXT_PUBLIC_FLAGS", e);
+    }
   }
 }
 
