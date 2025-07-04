@@ -33,6 +33,8 @@ export const indicatorOptions = [
   "energyTariffs",
   "saidi", // Power Outage Duration
   "saifi", // Power Outage Frequency
+  "serviceQuality",
+  "compliance",
 ] satisfies QueryStateSunshineIndicator[];
 
 /**

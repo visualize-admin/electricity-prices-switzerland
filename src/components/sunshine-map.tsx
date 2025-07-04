@@ -21,8 +21,7 @@ import {
   useGeoData,
 } from "src/data/geo";
 import { useFetch } from "src/data/use-fetch";
-import { ElectricityCategory } from "src/domain/data";
-import { useFormatCurrency } from "src/domain/helpers";
+import { ElectricityCategory, ValueFormatter } from "src/domain/data";
 import { Maybe, SunshineDataRow } from "src/graphql/queries";
 import { truthy } from "src/lib/truthy";
 import { getOperatorsMunicipalities } from "src/rdf/queries";
@@ -88,7 +87,7 @@ type SunshineMapProps = {
   colorScale: ScaleThreshold<number, string, never>;
   accessor: (x: SunshineDataRow) => Maybe<number> | undefined;
   observations?: SunshineDataRow[];
-  getTooltip?: GetOperatorsMapTooltip;
+  valueFormatter: ValueFormatter;
   onHoverOperatorLayer?: LayerProps["onHover"];
   controls?: GenericMapControls;
 };
@@ -99,6 +98,7 @@ const SunshineMap = ({
   accessor,
   observations,
   controls,
+  valueFormatter: tooltipValueFormatter,
 }: SunshineMapProps) => {
   // TODO Right now we fetch operators municipalities through EC2 indicators
   // This is not ideal, but we don't have a better way to get the operator municipalities
@@ -165,7 +165,6 @@ const SunshineMap = ({
     },
     [accessor, observationsByOperator]
   );
-  const formatNumber = useFormatCurrency();
 
   // Create tooltip content conditionally, only when there's a hover state
   const tooltipContent = useMemo(() => {
@@ -182,14 +181,14 @@ const SunshineMap = ({
           values={
             hovered.values.map((x) => ({
               label: x.operatorName,
-              formattedValue: formatNumber(x.value),
+              formattedValue: tooltipValueFormatter(x.value),
               color: colorScale(x.value),
             })) ?? []
           }
         />
       ),
     };
-  }, [hovered, colorScale, formatNumber]);
+  }, [hovered, colorScale, tooltipValueFormatter]);
 
   // Handle click on map layers (primarily for zooming)
   const handleLayerClick = useCallback((info: PickingInfo) => {
@@ -238,7 +237,7 @@ const SunshineMap = ({
 
                   return accessor(op) ?? null;
                 })
-                .filter(truthy);
+                .filter((x) => x !== null && x !== undefined);
               if (values.length === 0) {
                 return styles.operators.base.fillColor.withoutData;
               }

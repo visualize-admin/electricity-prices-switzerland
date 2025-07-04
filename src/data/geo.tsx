@@ -163,11 +163,11 @@ export const getOperatorsFeatureCollection = (
         .filter(Boolean);
 
       if (municipalityFeatures.length === 0) {
-        console.warn(
-          `No geometry found for operator ${operators} with municipalities: ${municipalities
-            .map((m) => m)
-            .join(", ")}`
-        );
+        // console.warn(
+        //   `No geometry found for operator ${operators} with municipalities: ${municipalities
+        //     .map((m) => m)
+        //     .join(", ")}`
+        // );
         return null;
       }
       const featureCollection = turf.featureCollection(

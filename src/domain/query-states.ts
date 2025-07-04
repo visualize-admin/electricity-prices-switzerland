@@ -77,6 +77,8 @@ const sunshineMapSchema = z.object({
   activeId: z.string().optional(),
 });
 
+export const sunshineMapLink = makeLinkGenerator(sunshineMapSchema);
+
 const detailTabsSchema = z.union([sunshineIndicatorSchema, z.undefined()]); // TODO Add Operational Standards page
 
 export type QueryStateSunshineSaidiSaifiTypology =

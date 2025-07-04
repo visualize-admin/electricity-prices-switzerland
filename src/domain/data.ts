@@ -291,3 +291,5 @@ export const wikiPageSlugs = {
 export type WikiPageSlug = (typeof wikiPageSlugs)[
   | "available"
   | "missing"][number];
+
+export type ValueFormatter = (value: number) => string;

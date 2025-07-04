@@ -11,6 +11,14 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
+#: src/domain/helpers.tsx
+msgid "No"
+msgstr "Non"
+
+#: src/domain/helpers.tsx
+msgid "Yes"
+msgstr "Oui"
+
 #: src/components/energy-prices-map.tsx
 msgid "canton"
 msgstr "Canton"
@@ -406,10 +414,6 @@ msgid "home.sunshine-topics.power-outage-frequency.link"
 msgstr "Fréquence des pannes de courant (SAIFI)"
 
 #: src/components/sunshine/sunshine-topics.tsx
-msgid "home.sunshine-topics.product-variety.link"
-msgstr "Variété de produits"
-
-#: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.service-quality.link"
 msgstr "Qualité de service"
 
@@ -420,6 +424,10 @@ msgstr "Sujets Sunshine"
 #: src/components/detail-page/download-image.tsx
 msgid "image.download"
 msgstr "Télécharger comme image"
+
+#: src/domain/translation.tsx
+msgid "indicator.compliance"
+msgstr "Conformité"
 
 #: src/domain/translation.tsx
 msgid "indicator.energyTariffs"
@@ -441,6 +449,10 @@ msgstr "Durée de la panne d'électricité (SAIDI)"
 msgid "indicator.saifi"
 msgstr "Fréquence des pannes d'électricité (SAIFI)"
 
+#: src/domain/translation.tsx
+msgid "indicator.serviceQuality"
+msgstr "Qualité du service"
+
 #: src/pages/map/index.tsx
 msgid "list.cantons"
 msgstr "Cantons"
@@ -454,12 +466,28 @@ msgid "list.operators"
 msgstr "Gestionnaires de réseau"
 
 #: src/components/list.tsx
-msgid "list.order.asc"
-msgstr "croissant"
+msgid "list.order.prices.asc"
+msgstr "Croissant"
 
 #: src/components/list.tsx
-msgid "list.order.desc"
-msgstr "décroissant"
+msgid "list.order.prices.desc"
+msgstr "Décroissant"
+
+#: src/components/list.tsx
+msgid "list.order.quality.asc"
+msgstr "Croissant"
+
+#: src/components/list.tsx
+msgid "list.order.quality.desc"
+msgstr "Décroissant"
+
+#: src/components/list.tsx
+msgid "list.order.timely.asc"
+msgstr "Croissant"
+
+#: src/components/list.tsx
+msgid "list.order.timely.desc"
+msgstr "Décroissant"
 
 #: src/components/list.tsx
 msgid "list.search.label"
@@ -483,31 +511,31 @@ msgstr "La conformité en détail"
 
 #: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.next-button.energy-prices"
-msgstr "Afficher le détail des prix de l'énergie"
+msgstr "Voir le détail des prix de l'énergie"
 
 #: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.next-button.energy-tariffs"
-msgstr "Les tarifs de l'énergie en détail"
+msgstr "Voir le détail des tarifs de l'énergie"
 
 #: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.next-button.net-tariffs"
-msgstr "Les tarifs nets en détail"
+msgstr "Voir le détail des tarifs nets"
 
 #: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.next-button.network-costs"
-msgstr "Les coûts du réseau en détail"
+msgstr "Voir le détail des coûts du réseau"
 
 #: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.next-button.saidi"
-msgstr "SAIDI en détail"
+msgstr "Voir le détail de SAIDI"
 
 #: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.next-button.saifi"
-msgstr "Le SAIFI en détail"
+msgstr "Voir le détail de SAIFI"
 
 #: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.next-button.service-quality"
-msgstr "La qualité des services en détail"
+msgstr "Voir le détail de la qualité de service"
 
 #: src/components/energy-prices-map.tsx
 msgid "map.legend.title"
@@ -1050,6 +1078,7 @@ msgid "sunshine.costs-and-tariffs.net-tariffs.overview"
 msgstr "Tarifs nets"
 
 #: src/components/map-details-chart-adapters.tsx
+#: src/components/network-costs-trend-card.tsx
 #: src/components/network-costs-trend-card.tsx
 msgid "sunshine.costs-and-tariffs.network-cost-trend"
 msgstr "Évolution des coûts du réseau"

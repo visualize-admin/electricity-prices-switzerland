@@ -1,7 +1,6 @@
 import { t } from "@lingui/macro";
-import { Box, paperClasses } from "@mui/material";
+import { Box } from "@mui/material";
 import { median, ScaleThreshold } from "d3";
-import { keyBy } from "lodash";
 import { GetServerSideProps } from "next";
 import dynamic from "next/dynamic";
 import { useCallback, useEffect, useMemo, useRef } from "react";
@@ -41,6 +40,7 @@ import {
   TariffCategory,
   useColorScale,
 } from "src/domain/data";
+import { useIndicatorValueFormatter } from "src/domain/helpers";
 import {
   useQueryStateEnergyPricesMap,
   useQueryStateMapCommon,
@@ -55,7 +55,6 @@ import {
   useSunshineDataQuery,
 } from "src/graphql/queries";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
-import { truthy } from "src/lib/truthy";
 import { useIsMobile } from "src/lib/use-mobile";
 import { defaultLocale } from "src/locales/config";
 import { useFlag } from "src/utils/flags";
@@ -175,7 +174,7 @@ const IndexPageContent = ({
 
   const sunshineValues = sunshineObservations
     .map((x) => sunshineAccessor(x) ?? null)
-    .filter((x) => x !== null);
+    .filter((x) => x !== null && x !== undefined);
 
   const medianValue = isElectricityTab
     ? swissMedianObservations[0]?.value
@@ -216,9 +215,7 @@ const IndexPageContent = ({
     }
   }, [activeId, isSunshine]);
 
-  const sunshineValuesByOperator = useMemo(() => {
-    return keyBy(sunshineObservations, "operatorId");
-  }, [sunshineObservations]);
+  const valueFormatter = useIndicatorValueFormatter(indicator);
 
   const map = isElectricityTab ? (
     <EnergyPricesMap
@@ -237,34 +234,7 @@ const IndexPageContent = ({
       colorScale={sunshineColorScale}
       observations={sunshineObservations}
       controls={controlsRef}
-      getTooltip={(info) => {
-        if (!info.object) {
-          return null;
-        }
-        const operatorIds = info.object.properties?.operators;
-        const values = operatorIds
-          .map((x) => {
-            const op = sunshineValuesByOperator[x];
-            if (!op) {
-              return undefined;
-            }
-            return {
-              label: op.name,
-              value: sunshineAccessor(op),
-            };
-          })
-          .filter(truthy);
-        const html = `<div class="${paperClasses.root}">${values
-          .map((x) => {
-            return `<strong>${x.label}</strong>: ${
-              x.value?.toFixed(2) ?? "N/A"
-            }`;
-          })
-          .join("<br/>")}</div>`;
-        return {
-          html,
-        };
-      }}
+      valueFormatter={valueFormatter}
     />
   );
 
@@ -298,6 +268,8 @@ const IndexPageContent = ({
       entity={isElectricityTab ? entity : "operator"}
       grouped={listGroups}
       colorScale={colorScale}
+      indicator={indicator}
+      valueFormatter={valueFormatter}
       fetching={
         isElectricityTab
           ? observationsQuery.fetching
