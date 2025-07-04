@@ -329,6 +329,10 @@ msgstr "Min"
 msgid "histogram.municipality-count"
 msgstr "Number of municipalities"
 
+#: src/components/charts-generic/histogram/histogram-state.tsx
+msgid "histogram.noData"
+msgstr "No Data"
+
 #: src/pages/index.tsx
 msgid "home.hero-section.description"
 msgstr "This website provides up-to-date information on electricity tariffs in Switzerland and allows you to compare prices for private and commercial customers by municipality, canton or grid operator. You can view detailed breakdowns of energy, grid and additional costs as well as historical trends to better understand the cost of electricity in your region."
@@ -1128,6 +1132,10 @@ msgid "sunshine.grid.power-stability-title"
 msgstr "Power Stability"
 
 #: src/domain/metrics.ts
+msgid "sunshine.metric-unit.days"
+msgstr "days"
+
+#: src/domain/metrics.ts
 msgid "sunshine.metric-unit.min-year"
 msgstr "Min./year"
 
@@ -1138,6 +1146,10 @@ msgstr "Rp./km"
 #: src/domain/metrics.ts
 msgid "sunshine.metric-unit.rp-kwh"
 msgstr "Rp./kWh"
+
+#: src/domain/metrics.ts
+msgid "sunshine.metric-unit.swiss-francs"
+msgstr "CHF"
 
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.operational-standards.compliance"
@@ -1150,6 +1162,10 @@ msgstr "Comparison of francs per invoice recipient"
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.compliance.comparison-card-title"
 msgstr "Compliance"
+
+#: src/components/operational-standards-chart.tsx
+msgid "sunshine.operational-standards.compliance.share-of-operators"
+msgstr "Share of operators"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.description"
@@ -1170,6 +1186,10 @@ msgstr "Comparison of advance notice periods for planned outages"
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.service-quality.comparison-card-title"
 msgstr "Service Quality"
+
+#: src/components/operational-standards-chart.tsx
+msgid "sunshine.operational-standards.service-quality.share-of-operators"
+msgstr "Share of operators"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.title"

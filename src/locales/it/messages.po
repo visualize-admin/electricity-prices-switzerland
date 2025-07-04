@@ -329,6 +329,10 @@ msgstr "Min"
 msgid "histogram.municipality-count"
 msgstr "Numero di comuni"
 
+#: src/components/charts-generic/histogram/histogram-state.tsx
+msgid "histogram.noData"
+msgstr "Nessun dato"
+
 #: src/pages/index.tsx
 msgid "home.hero-section.description"
 msgstr "Questo sito web fornisce informazioni aggiornate sulle tariffe elettriche in Svizzera e consente di confrontare i prezzi per i clienti privati e commerciali per comune, cantone o gestore di rete. È possibile visualizzare una ripartizione dettagliata dei costi dell'energia, della rete e dei costi aggiuntivi, nonché le tendenze storiche per comprendere meglio il costo dell'elettricità nella propria regione."
@@ -1128,6 +1132,10 @@ msgid "sunshine.grid.power-stability-title"
 msgstr "Stabilità di potenza"
 
 #: src/domain/metrics.ts
+msgid "sunshine.metric-unit.days"
+msgstr "giorni"
+
+#: src/domain/metrics.ts
 msgid "sunshine.metric-unit.min-year"
 msgstr "Min./anno"
 
@@ -1138,6 +1146,10 @@ msgstr "Rp./km"
 #: src/domain/metrics.ts
 msgid "sunshine.metric-unit.rp-kwh"
 msgstr "Rp./kWh"
+
+#: src/domain/metrics.ts
+msgid "sunshine.metric-unit.swiss-francs"
+msgstr "CHF"
 
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.operational-standards.compliance"
@@ -1150,6 +1162,10 @@ msgstr "Confronto dei franchi per destinatario della fattura"
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.compliance.comparison-card-title"
 msgstr "Conformità"
+
+#: src/components/operational-standards-chart.tsx
+msgid "sunshine.operational-standards.compliance.share-of-operators"
+msgstr "Quota di operatori"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.description"
@@ -1170,6 +1186,10 @@ msgstr "Confronto dei periodi di preavviso per le interruzioni programmate"
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.service-quality.comparison-card-title"
 msgstr "Qualità del servizio"
+
+#: src/components/operational-standards-chart.tsx
+msgid "sunshine.operational-standards.service-quality.share-of-operators"
+msgstr "Quota di operatori"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.title"
