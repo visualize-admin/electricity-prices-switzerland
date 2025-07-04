@@ -8,6 +8,7 @@ import { ensureDatabaseInitialized } from "src/lib/db/duckdb";
 
 import { closeDuckDB } from "../src/lib/db/duckdb";
 import {
+  defaultDatabaseService,
   fetchOperationalStandards,
   fetchOperatorCostsAndTariffsData,
   fetchPowerStability,
@@ -162,12 +163,15 @@ async function generateMocks(options: FetcherOptions) {
       console.info(
         `\n--- Fetching operator costs and tariffs data for operator ${operatorId} ---`
       );
-      const costsAndTariffs = await fetchOperatorCostsAndTariffsData({
-        operatorId: operatorId,
-        networkLevel: "NE5",
-        period: 2025,
-        category: "NC2",
-      });
+      const costsAndTariffs = await fetchOperatorCostsAndTariffsData(
+        defaultDatabaseService,
+        {
+          operatorId: operatorId,
+          networkLevel: "NE5",
+          period: 2025,
+          category: "NC2",
+        }
+      );
 
       // Change names of operators in the data
       for (const attr of [
@@ -194,7 +198,7 @@ async function generateMocks(options: FetcherOptions) {
       console.info(
         `\n--- Fetching power stability data for operator ${operatorId} ---`
       );
-      const powerStability = await fetchPowerStability({
+      const powerStability = await fetchPowerStability(defaultDatabaseService, {
         operatorId: operatorId,
       });
       for (const attr of ["saidi", "saifi"] as const) {
@@ -216,9 +220,12 @@ async function generateMocks(options: FetcherOptions) {
       console.info(
         `\n--- Fetching operational standards for operator ${operatorId} ---`
       );
-      const operationalStandards = await fetchOperationalStandards({
-        operatorId,
-      });
+      const operationalStandards = await fetchOperationalStandards(
+        defaultDatabaseService,
+        {
+          operatorId,
+        }
+      );
       const outputPath = path.join(
         outputDir,
         `sunshine-operationalStandards-${operatorId}.json`

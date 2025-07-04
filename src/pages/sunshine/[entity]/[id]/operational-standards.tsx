@@ -27,7 +27,10 @@ import {
 } from "src/data/shared-page-props";
 import { SunshineOperationalStandardsData } from "src/domain/data";
 import { getLocalizedLabel } from "src/domain/translation";
-import { fetchOperationalStandards } from "src/lib/sunshine-data";
+import {
+  fetchOperationalStandards,
+  defaultDatabaseService,
+} from "src/lib/sunshine-data";
 import { defaultLocale } from "src/locales/config";
 
 type Props =
@@ -64,9 +67,12 @@ export const getServerSideProps: GetServerSideProps<
     };
   }
 
-  const operationalStandards = await fetchOperationalStandards({
-    operatorId: id,
-  });
+  const operationalStandards = await fetchOperationalStandards(
+    defaultDatabaseService,
+    {
+      operatorId: id,
+    }
+  );
 
   return {
     props: {

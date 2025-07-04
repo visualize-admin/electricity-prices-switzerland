@@ -54,7 +54,10 @@ import {
 } from "src/graphql/queries";
 import { TariffCategory } from "src/graphql/resolver-mapped-types";
 import { Trend } from "src/graphql/resolver-types";
-import { fetchOperatorCostsAndTariffsData } from "src/lib/sunshine-data";
+import {
+  fetchOperatorCostsAndTariffsData,
+  defaultDatabaseService,
+} from "src/lib/sunshine-data";
 import { truthy } from "src/lib/truthy";
 import { defaultLocale } from "src/locales/config";
 
@@ -95,11 +98,14 @@ export const getServerSideProps: GetServerSideProps<
     };
   }
 
-  const costsAndTariffs = await fetchOperatorCostsAndTariffsData({
-    operatorId: id,
-    networkLevel: "NE5",
-    category: "NC2",
-  });
+  const costsAndTariffs = await fetchOperatorCostsAndTariffsData(
+    defaultDatabaseService,
+    {
+      operatorId: id,
+      networkLevel: "NE5",
+      category: "NC2",
+    }
+  );
 
   return {
     props: {

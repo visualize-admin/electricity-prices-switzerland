@@ -49,6 +49,7 @@ import {
   fetchOperationalStandards,
   fetchOperatorCostsAndTariffsData,
   fetchPowerStability,
+  defaultDatabaseService,
 } from "src/lib/sunshine-data";
 import { defaultLocale } from "src/locales/config";
 
@@ -95,11 +96,11 @@ export const getServerSideProps: GetServerSideProps<
 
   const [operationalStandards, powerStability, costsAndTariffs] =
     await Promise.all([
-      fetchOperationalStandards({
+      fetchOperationalStandards(defaultDatabaseService, {
         operatorId: id,
       }),
-      fetchPowerStability({ operatorId: id }),
-      fetchOperatorCostsAndTariffsData({
+      fetchPowerStability(defaultDatabaseService, { operatorId: id }),
+      fetchOperatorCostsAndTariffsData(defaultDatabaseService, {
         operatorId: id,
         networkLevel: "NE5",
         category: "NC2",

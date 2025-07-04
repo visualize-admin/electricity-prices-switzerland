@@ -15,6 +15,17 @@ import {
 } from "src/graphql/resolver-types";
 import * as sql from "src/lib/db/sql";
 
+interface DatabaseService {
+  getOperatorData: typeof sql.getOperatorData;
+  getNetworkCosts: typeof sql.getNetworkCosts;
+  getTariffs: typeof sql.getTariffs;
+  getStabilityMetrics: typeof sql.getStabilityMetrics;
+  getLatestYearPowerStability: typeof sql.getLatestYearPowerStability;
+  getLatestYearSunshine: typeof sql.getLatestYearSunshine;
+  getPeerGroupMedianValues: typeof sql.getPeerGroupMedianValues;
+  getOperationalStandards: typeof sql.getOperationalStandards;
+}
+
 type NetworkCostsParams = {
   metric: "network_costs";
   settlementDensity: string;
@@ -81,28 +92,32 @@ const getTrend = (
 
 /**
  * Fetch costs and tariffs data for a specific operator
+ * @param db Database service
  * @param operatorId The operator ID
  * @returns Costs and tariffs data
  */
-export const fetchNetworkCostsData = async ({
-  operatorId,
-  networkLevel = "NE5",
-  period,
-}: {
-  operatorId: number;
-  networkLevel?: NetworkLevel["id"];
-  period?: number;
-}): Promise<NetworkCostsData> => {
-  const operatorData = await sql.getOperatorData(operatorId);
+export const fetchNetworkCostsData = async (
+  db: DatabaseService,
+  {
+    operatorId,
+    networkLevel = "NE5",
+    period,
+  }: {
+    operatorId: number;
+    networkLevel?: NetworkLevel["id"];
+    period?: number;
+  }
+): Promise<NetworkCostsData> => {
+  const operatorData = await db.getOperatorData(operatorId);
 
   // Get the latest year if period not provided
   let targetPeriod = period;
   if (!targetPeriod) {
-    targetPeriod = await sql.getLatestYearSunshine(operatorId);
+    targetPeriod = await db.getLatestYearSunshine(operatorId);
   }
 
   const peerGroupMedianNetworkCosts =
-    await sql.getPeerGroupMedianValues<"network_costs">({
+    await db.getPeerGroupMedianValues<"network_costs">({
       settlementDensity: operatorData.settlement_density,
       energyDensity: operatorData.energy_density,
       metric: "network_costs",
@@ -114,7 +129,7 @@ export const fetchNetworkCostsData = async ({
   const previousYear = targetPeriod - 1;
 
   const previousPeerGroupMedianNetworkCosts =
-    await sql.getPeerGroupMedianValues<"network_costs">({
+    await db.getPeerGroupMedianValues<"network_costs">({
       settlementDensity: operatorData.settlement_density,
       energyDensity: operatorData.energy_density,
       metric: "network_costs",
@@ -123,7 +138,7 @@ export const fetchNetworkCostsData = async ({
       period: previousYear,
     });
 
-  const operatorNetworkCosts = await sql.getNetworkCosts({
+  const operatorNetworkCosts = await db.getNetworkCosts({
     operatorId,
     networkLevel: networkLevel,
     period: targetPeriod,
@@ -136,7 +151,7 @@ export const fetchNetworkCostsData = async ({
   }
 
   const networkCosts = (
-    await sql.getNetworkCosts({
+    await db.getNetworkCosts({
       settlementDensity: operatorData.settlement_density,
       energyDensity: operatorData.energy_density,
       networkLevel: networkLevel,
@@ -147,7 +162,7 @@ export const fetchNetworkCostsData = async ({
 
   const operatorNetworkCost = first(operatorNetworkCosts);
 
-  const previousOperatorNetworkCosts = await sql.getNetworkCosts({
+  const previousOperatorNetworkCosts = await db.getNetworkCosts({
     period: previousYear,
     operatorId,
     networkLevel,
@@ -173,31 +188,34 @@ export const fetchNetworkCostsData = async ({
   };
 };
 
-export const fetchNetTariffsData = async ({
-  operatorId,
-  category = "NC2",
-  period,
-}: {
-  operatorId: number;
-  category: TariffCategory;
-  period: number;
-}): Promise<{
+export const fetchNetTariffsData = async (
+  db: DatabaseService,
+  {
+    operatorId,
+    category = "NC2",
+    period,
+  }: {
+    operatorId: number;
+    category: TariffCategory;
+    period: number;
+  }
+): Promise<{
   category: TariffCategory;
   operatorRate: number | null;
   peerGroupMedianRate: number | null;
   yearlyData: sql.TariffRecord[];
 }> => {
-  const operatorData = await sql.getOperatorData(operatorId);
+  const operatorData = await db.getOperatorData(operatorId);
 
   const peerGroupMedianNetTariffs =
-    await sql.getPeerGroupMedianValues<"net-tariffs">({
+    await db.getPeerGroupMedianValues<"net-tariffs">({
       settlementDensity: operatorData.settlement_density,
       energyDensity: operatorData.energy_density,
       metric: "net-tariffs",
       category: category,
     });
 
-  const operatorNetTariffs = await sql.getTariffs({
+  const operatorNetTariffs = await db.getTariffs({
     period: period,
     tariffType: "network",
     category: category,
@@ -212,7 +230,7 @@ export const fetchNetTariffsData = async ({
 
   const operatorNetTariff = first(operatorNetTariffs);
 
-  const netTariffs = await sql.getTariffs({
+  const netTariffs = await db.getTariffs({
     settlementDensity: operatorData.settlement_density,
     energyDensity: operatorData.energy_density,
     tariffType: "network",
@@ -227,26 +245,29 @@ export const fetchNetTariffsData = async ({
   };
 };
 
-export const fetchEnergyTariffsData = async ({
-  operatorId,
-  category,
-  period,
-}: {
-  operatorId: number;
-  category: TariffCategory;
-  period: number;
-}): Promise<TariffsData> => {
-  const operatorData = await sql.getOperatorData(operatorId);
+export const fetchEnergyTariffsData = async (
+  db: DatabaseService,
+  {
+    operatorId,
+    category,
+    period,
+  }: {
+    operatorId: number;
+    category: TariffCategory;
+    period: number;
+  }
+): Promise<TariffsData> => {
+  const operatorData = await db.getOperatorData(operatorId);
 
   const peerGroupMedianEnergyTariffs =
-    await sql.getPeerGroupMedianValues<"energy-tariffs">({
+    await db.getPeerGroupMedianValues<"energy-tariffs">({
       settlementDensity: operatorData.settlement_density,
       energyDensity: operatorData.energy_density,
       metric: "energy-tariffs",
       category: category,
     });
 
-  const operatorEnergyTariffs = await sql.getTariffs({
+  const operatorEnergyTariffs = await db.getTariffs({
     period: period,
     category: category,
     operatorId: operatorId,
@@ -260,7 +281,7 @@ export const fetchEnergyTariffsData = async ({
 
   const operatorEnergyTariff = first(operatorEnergyTariffs);
 
-  const energyTariffs = await sql.getTariffs({
+  const energyTariffs = await db.getTariffs({
     settlementDensity: operatorData.settlement_density,
     energyDensity: operatorData.energy_density,
     category: category,
@@ -275,37 +296,40 @@ export const fetchEnergyTariffsData = async ({
   };
 };
 
-export const fetchOperatorCostsAndTariffsData = async ({
-  operatorId: operatorId_,
-  networkLevel,
-  category,
-  period,
-}: {
-  operatorId: string;
-  networkLevel: NetworkLevel["id"];
-  category: TariffCategory;
-  period?: number;
-}): Promise<SunshineCostsAndTariffsData> => {
+export const fetchOperatorCostsAndTariffsData = async (
+  db: DatabaseService,
+  {
+    operatorId: operatorId_,
+    networkLevel,
+    category,
+    period,
+  }: {
+    operatorId: string;
+    networkLevel: NetworkLevel["id"];
+    category: TariffCategory;
+    period?: number;
+  }
+): Promise<SunshineCostsAndTariffsData> => {
   const operatorId = parseInt(operatorId_, 10);
-  const operatorData = await sql.getOperatorData(operatorId);
+  const operatorData = await db.getOperatorData(operatorId);
 
   // Get the latest year if period not provided
   let targetPeriod = period;
   if (!targetPeriod) {
-    targetPeriod = await sql.getLatestYearSunshine(operatorId);
+    targetPeriod = await db.getLatestYearSunshine(operatorId);
   }
 
-  const networkCostsData = await fetchNetworkCostsData({
+  const networkCostsData = await fetchNetworkCostsData(db, {
     operatorId,
     networkLevel,
     period: targetPeriod,
   });
-  const netTariffsData = await fetchNetTariffsData({
+  const netTariffsData = await fetchNetTariffsData(db, {
     operatorId,
     category,
     period: targetPeriod,
   });
-  const energyTariffsData = await fetchEnergyTariffsData({
+  const energyTariffsData = await fetchEnergyTariffsData(db, {
     operatorId,
     category,
     period: targetPeriod,
@@ -340,29 +364,33 @@ export const fetchOperatorCostsAndTariffsData = async ({
  */
 /**
  * Fetch SAIDI (System Average Interruption Duration Index) data for a specific operator
+ * @param db Database service
  * @param operatorId The operator ID
  * @param period Year parameter
  * @returns SAIDI data
  */
-export const fetchSaidi = async ({
-  operatorId,
-  period,
-}: {
-  operatorId: number;
-  period: number;
-}): Promise<StabilityData> => {
-  const operatorData = await sql.getOperatorData(operatorId);
+export const fetchSaidi = async (
+  db: DatabaseService,
+  {
+    operatorId,
+    period,
+  }: {
+    operatorId: number;
+    period: number;
+  }
+): Promise<StabilityData> => {
+  const operatorData = await db.getOperatorData(operatorId);
 
   // Get peer group median SAIDI
   const peerGroupMedianStability =
-    await sql.getPeerGroupMedianValues<"stability">({
+    await db.getPeerGroupMedianValues<"stability">({
       settlementDensity: operatorData.settlement_density,
       energyDensity: operatorData.energy_density,
       metric: "stability",
       period,
     });
 
-  const operatorStability = await sql.getStabilityMetrics({
+  const operatorStability = await db.getStabilityMetrics({
     operatorId,
     period,
   });
@@ -371,7 +399,7 @@ export const fetchSaidi = async ({
       "Cannot have multiple stability records for one operator in one year"
     );
   }
-  const peerGroupYearlyStability = await sql.getStabilityMetrics({
+  const peerGroupYearlyStability = await db.getStabilityMetrics({
     settlement_density: operatorData.settlement_density,
     energy_density: operatorData.energy_density,
   });
@@ -391,31 +419,35 @@ export const fetchSaidi = async ({
 
 /**
  * Fetch SAIFI (System Average Interruption Frequency Index) data for a specific operator
+ * @param db Database service
  * @param operatorId The operator ID
  * @param year Year parameter
  * @returns SAIFI data
  */
-export const fetchSaifi = async ({
-  operatorId,
-  period,
-}: {
-  operatorId: number;
-  period: number;
-}): Promise<StabilityData> => {
-  const operatorData = await sql.getOperatorData(operatorId);
+export const fetchSaifi = async (
+  db: DatabaseService,
+  {
+    operatorId,
+    period,
+  }: {
+    operatorId: number;
+    period: number;
+  }
+): Promise<StabilityData> => {
+  const operatorData = await db.getOperatorData(operatorId);
   if (!operatorData) {
     throw new Error(`Peer group not found for operator ID: ${operatorId}`);
   }
 
   const peerGroupMedianStability =
-    await sql.getPeerGroupMedianValues<"stability">({
+    await db.getPeerGroupMedianValues<"stability">({
       settlementDensity: operatorData.settlement_density,
       energyDensity: operatorData.energy_density,
       metric: "stability",
       period,
     });
 
-  const operatorStability = await sql.getStabilityMetrics({
+  const operatorStability = await db.getStabilityMetrics({
     operatorId,
     period,
   });
@@ -424,7 +456,7 @@ export const fetchSaifi = async ({
       "Cannot have multiple stability records for one operator in one year"
     );
   }
-  const peerGroupYearlyStability = await sql.getStabilityMetrics({
+  const peerGroupYearlyStability = await db.getStabilityMetrics({
     settlement_density: operatorData.settlement_density,
     energy_density: operatorData.energy_density,
   });
@@ -442,21 +474,24 @@ export const fetchSaifi = async ({
   };
 };
 
-export const fetchPowerStability = async ({
-  operatorId: operatorId_,
-}: {
-  operatorId: string;
-}): Promise<SunshinePowerStabilityData> => {
+export const fetchPowerStability = async (
+  db: DatabaseService,
+  {
+    operatorId: operatorId_,
+  }: {
+    operatorId: string; // Operator ID as a string
+  }
+): Promise<SunshinePowerStabilityData> => {
   const operatorId = parseInt(operatorId_, 10);
-  const operatorData = await sql.getOperatorData(operatorId);
+  const operatorData = await db.getOperatorData(operatorId);
 
-  const latestYear = await sql.getLatestYearPowerStability(operatorId);
+  const latestYear = await db.getLatestYearPowerStability(operatorId);
   const targetYear = parseInt(latestYear, 10);
-  const saidiData = await fetchSaidi({
+  const saidiData = await fetchSaidi(db, {
     operatorId: operatorId,
     period: targetYear,
   });
-  const saifiData = await fetchSaifi({
+  const saifiData = await fetchSaifi(db, {
     operatorId: operatorId,
     period: targetYear,
   });
@@ -483,18 +518,22 @@ export const fetchPowerStability = async ({
 
 /**
  * Fetch operational standards data for a specific operator
+ * @param db Database service
  * @param operatorId The operator ID
  * @returns Operational standards data
  */
-export const fetchOperationalStandards = async ({
-  operatorId: operatorId_,
-}: {
-  operatorId: string;
-}): Promise<SunshineOperationalStandardsData> => {
+export const fetchOperationalStandards = async (
+  db: DatabaseService,
+  {
+    operatorId: operatorId_,
+  }: {
+    operatorId: string;
+  }
+): Promise<SunshineOperationalStandardsData> => {
   const operatorId = parseInt(operatorId_, 10);
-  const operatorData = await sql.getOperatorData(operatorId);
-  const period = await sql.getLatestYearSunshine(operatorId);
-  const operationalData = await sql.getOperationalStandards({
+  const operatorData = await db.getOperatorData(operatorId);
+  const period = await db.getLatestYearSunshine(operatorId);
+  const operationalData = await db.getOperationalStandards({
     operatorId: operatorId,
     period: period,
   });
@@ -560,4 +599,16 @@ export const fetchOperationalStandards = async ({
       minute: "2-digit",
     }),
   };
+};
+
+// Default database service implementation using sql module
+export const defaultDatabaseService: DatabaseService = {
+  getOperatorData: sql.getOperatorData,
+  getNetworkCosts: sql.getNetworkCosts,
+  getTariffs: sql.getTariffs,
+  getStabilityMetrics: sql.getStabilityMetrics,
+  getLatestYearPowerStability: sql.getLatestYearPowerStability,
+  getLatestYearSunshine: sql.getLatestYearSunshine,
+  getPeerGroupMedianValues: sql.getPeerGroupMedianValues,
+  getOperationalStandards: sql.getOperationalStandards,
 };

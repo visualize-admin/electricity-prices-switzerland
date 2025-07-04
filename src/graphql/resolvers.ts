@@ -29,6 +29,7 @@ import {
   fetchNetworkCostsData,
   fetchSaidi,
   fetchSaifi,
+  defaultDatabaseService,
 } from "src/lib/sunshine-data";
 import { defaultLocale } from "src/locales/config";
 import {
@@ -390,7 +391,7 @@ const Query: QueryResolvers = {
     };
   },
   networkCosts: async (_, { filter }) => {
-    return await fetchNetworkCostsData({
+    return await fetchNetworkCostsData(defaultDatabaseService, {
       operatorId: filter.operatorId,
       networkLevel: filter.networkLevel
         ? asNetworkLevel(filter.networkLevel)
@@ -399,27 +400,27 @@ const Query: QueryResolvers = {
     });
   },
   netTariffs: async (_, { filter }) => {
-    return await fetchNetTariffsData({
+    return await fetchNetTariffsData(defaultDatabaseService, {
       operatorId: filter.operatorId,
       category: asTariffCategory(filter.category as TariffCategory),
       period: filter.period,
     });
   },
   energyTariffs: async (_, { filter }) => {
-    return await fetchEnergyTariffsData({
+    return await fetchEnergyTariffsData(defaultDatabaseService, {
       operatorId: filter.operatorId,
       category: asTariffCategory(filter.category),
       period: filter.period,
     });
   },
   saidi: async (_, { filter }) => {
-    return await fetchSaidi({
+    return await fetchSaidi(defaultDatabaseService, {
       operatorId: filter.operatorId,
       period: filter.year,
     });
   },
   saifi: async (_, { filter }) => {
-    return await fetchSaifi({
+    return await fetchSaifi(defaultDatabaseService, {
       operatorId: filter.operatorId,
       period: filter.year,
     });
