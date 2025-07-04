@@ -299,6 +299,7 @@ const useHistogramState = ({
     fields,
     yAsPercentage,
     totalCount,
+    groupedBy,
   };
 };
 

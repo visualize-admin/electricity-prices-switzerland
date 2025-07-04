@@ -143,6 +143,7 @@ export type HistogramState = {
   getAnnotationInfo: (d: GenericObservation) => Tooltip;
   yAsPercentage?: boolean;
   totalCount?: number;
+  groupedBy?: number;
 };
 
 export type ColumnsState = {
