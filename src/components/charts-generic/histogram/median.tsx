@@ -1,10 +1,11 @@
+import { scaleBand } from "d3";
+
 import {
   HistogramState,
   useChartState,
 } from "src/components/charts-generic/use-chart-state";
 import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
 import { useFormatCurrency } from "src/domain/helpers";
-
 export const HistogramMedian = ({ label }: { label: string }) => {
   const {
     medianValue: m,
@@ -13,6 +14,7 @@ export const HistogramMedian = ({ label }: { label: string }) => {
     yScale,
     xAxisLabel,
     groupedBy,
+    binMeta,
   } = useChartState() as HistogramState;
   const { margins } = bounds;
   const { labelColor, domainColor, labelFontSize, fontFamily } =
@@ -20,14 +22,24 @@ export const HistogramMedian = ({ label }: { label: string }) => {
   const formatCurrency = useFormatCurrency();
 
   let medianX: number | undefined = undefined;
-  if (m !== undefined) {
-    medianX = xScale(m);
-    if (groupedBy) {
-      const binStart = Math.floor(m / groupedBy) * groupedBy;
-      const binEnd = binStart + groupedBy;
-      const binCenter = (binStart + binEnd) / 2;
-      medianX = xScale(binCenter);
+
+  if (m !== undefined && groupedBy && binMeta) {
+    // Find the bin containing the median
+    const bin = binMeta.find((b) => !b.isNoData && m >= b.x0 && m <= b.x1);
+    if (bin) {
+      // Use band scale to get the center of the bar
+      const bandDomain = binMeta.map((b, i) => b.label ?? String(i));
+      const bandScale = scaleBand<string>()
+        .domain(bandDomain)
+        .range([0, bounds.chartWidth]);
+      const label = bin.label ?? "";
+      const x = bandScale(label);
+      if (x !== undefined) {
+        medianX = x + bandScale.bandwidth() / 2;
+      }
     }
+  } else if (m !== undefined) {
+    medianX = xScale(m);
   }
 
   return (
