@@ -34,12 +34,12 @@ import {
 } from "src/lib/sunshine-data";
 import { defaultLocale } from "src/locales/config";
 import {
-  getCantonMedianCube,
+  getElectricityPriceCantonCube,
   getDimensionValuesAndLabels,
-  getObservations,
-  getObservationsCube,
+  getElectricityPriceObservations,
+  getElectricityPriceCube,
   getOperatorDocuments,
-  getSwissMedianCube,
+  getElectricityPriceSwissCube,
   getView,
 } from "src/rdf/queries";
 import { fetchOperatorInfo, search } from "src/rdf/search-queries";
@@ -168,7 +168,7 @@ const Query: QueryResolvers = {
 
     let observationsCube;
     try {
-      observationsCube = await getObservationsCube();
+      observationsCube = await getElectricityPriceCube();
     } catch (e: unknown) {
       console.error(e instanceof Error ? e.message : e);
       return [];
@@ -191,7 +191,7 @@ const Query: QueryResolvers = {
 
     const rawOperatorObservations =
       observationDimensionKeys.length > 0
-        ? await getObservations(
+        ? await getElectricityPriceObservations(
             {
               view: observationsView,
               source: observationsCube.source,
@@ -223,7 +223,7 @@ const Query: QueryResolvers = {
 
     let cantonCube;
     try {
-      cantonCube = await getCantonMedianCube();
+      cantonCube = await getElectricityPriceCantonCube();
     } catch (e: unknown) {
       const message = e instanceof Error ? e.message : `${e}`;
       console.error(message);
@@ -252,7 +252,7 @@ const Query: QueryResolvers = {
 
     const rawMedianObservations =
       medianDimensionKeys.length > 0
-        ? await getObservations(
+        ? await getElectricityPriceObservations(
             {
               view: cantonObservationsView,
               source: cantonCube.source,
@@ -276,7 +276,7 @@ const Query: QueryResolvers = {
   swissMedianObservations: async (_, { locale, filters }, ctx, info) => {
     let cantonCube;
     try {
-      cantonCube = await getSwissMedianCube();
+      cantonCube = await getElectricityPriceSwissCube();
     } catch (e: unknown) {
       const message = `${e instanceof Error ? e.message : e}`;
       console.error(message);
@@ -307,7 +307,7 @@ const Query: QueryResolvers = {
 
     const rawMedianObservations =
       medianDimensionKeys.length > 0
-        ? await getObservations(
+        ? await getElectricityPriceObservations(
             {
               view: cantonObservationsView,
               source: cantonCube.source,
@@ -410,7 +410,7 @@ const Query: QueryResolvers = {
     return results;
   },
   municipality: async (_, { id }) => {
-    const cube = await getObservationsCube();
+    const cube = await getElectricityPriceCube();
 
     const results = await getDimensionValuesAndLabels({
       cube,
@@ -422,7 +422,7 @@ const Query: QueryResolvers = {
   },
   canton: async (_, { id }) => ({ id }),
   operator: async (_, { id, geverId }) => {
-    const cube = await getObservationsCube();
+    const cube = await getElectricityPriceCube();
 
     const results = await getDimensionValuesAndLabels({
       cube,
@@ -433,7 +433,7 @@ const Query: QueryResolvers = {
     return { ...results[0], id, geverId: geverId || undefined };
   },
   cubeHealth: async () => {
-    const cube = await getObservationsCube();
+    const cube = await getElectricityPriceCube();
     const dimensions = cube.dimensions.map((d) => d.path.value);
     const missingDimensions = difference(expectedCubeDimensions, dimensions);
     return {
@@ -511,7 +511,7 @@ const getExtraInfo = async (slug: string) => {
 
 const Municipality: MunicipalityResolvers = {
   operators: async ({ id }) => {
-    const cube = await getObservationsCube();
+    const cube = await getElectricityPriceCube();
     return getDimensionValuesAndLabels({
       cube,
       dimensionKey: "operator",
@@ -522,7 +522,7 @@ const Municipality: MunicipalityResolvers = {
 
 const Operator: OperatorResolvers = {
   municipalities: async ({ id }) => {
-    const cube = await getObservationsCube();
+    const cube = await getElectricityPriceCube();
 
     return getDimensionValuesAndLabels({
       cube,

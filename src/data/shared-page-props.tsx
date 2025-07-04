@@ -5,8 +5,8 @@ import { defaultLocale } from "src/locales/config";
 import {
   getCanton,
   getDimensionValuesAndLabels,
+  getElectricityPriceCube,
   getMunicipality,
-  getObservationsCube,
   getOperator,
   getOperatorMunicipalities,
 } from "src/rdf/queries";
@@ -56,7 +56,7 @@ export const handleMunicipalityEntity = async (
     return { status: "notfound" };
   }
 
-  const cube = await getObservationsCube();
+  const cube = await getElectricityPriceCube();
 
   const operators = await getDimensionValuesAndLabels({
     cube,

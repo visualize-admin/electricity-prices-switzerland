@@ -3,7 +3,11 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 import buildEnv from "src/env/build";
 import { parseLocaleString } from "src/locales/locales";
-import { getObservations, getObservationsCube, getView } from "src/rdf/queries";
+import {
+  getElectricityPriceObservations,
+  getElectricityPriceCube,
+  getView,
+} from "src/rdf/queries";
 
 const formatters: Record<string, ReturnType<typeof format>> = {
   // See if this is needed later
@@ -57,11 +61,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const locale = parseLocaleString(req.query.locale?.toString());
   const period = req.query.period?.toString() ?? buildEnv.CURRENT_PERIOD!;
 
-  const cube = await getObservationsCube();
+  const cube = await getElectricityPriceCube();
 
   const view = getView(cube);
 
-  const observations = await getObservations(
+  const observations = await getElectricityPriceObservations(
     { source: cube.source, view, locale },
     {
       filters: {
