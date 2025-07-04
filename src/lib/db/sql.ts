@@ -1,12 +1,17 @@
-import {
-  ElectricityCategory,
-  TariffCategory,
-  NetworkLevel,
-} from "src/domain/data";
+import { NetworkLevel } from "src/domain/data";
 import { SunshineDataRow } from "src/graphql/resolver-types";
 import { query } from "src/lib/db/duckdb";
 import { PeerGroupNotFoundError } from "src/lib/db/errors";
 import { PeerGroupMedianValuesParams } from "src/lib/sunshine-data";
+import type {
+  NetworkCostRecord,
+  OperationalStandardRecord,
+  StabilityMetricRecord,
+  TariffRecord,
+  OperatorDataRecord,
+  PeerGroupRecord,
+  DatabaseService,
+} from "src/lib/sunshine-database-service";
 
 export const getNetworkCosts = async ({
   operatorId,
@@ -416,82 +421,16 @@ export const getSunshineData = async ({
   }));
 };
 
-type NetworkCostRecord = {
-  operator_id: number;
-  operator_name: string;
-  year: number;
-  network_level: NetworkLevel["id"];
-  rate: number;
-};
-
-type OperationalStandardRecord = {
-  operator_id: number;
-  operator_name: string;
-  period: number;
-  franc_rule: number;
-  info_yes_no: string;
-  info_days_in_advance: number;
-  timely: number;
-  settlement_density: string;
-  energy_density: string;
-};
-type StabilityMetricRecord = {
-  operator_id: number;
-  operator_name: string;
-  period: number;
-  saidi_total: number;
-  saidi_unplanned: number;
-  saifi_total: number;
-  saifi_unplanned: number;
-};
-
-export type TariffRecord = {
-  operator_id: number;
-  operator_name: string;
-  period: number;
-  category: TariffCategory;
-  tariff_type: string;
-  rate: number;
-};
-
-type OperatorDataRecord = {
-  operator_id: number;
-  operator_uid: string;
-  operator_name: string;
-  period: number;
-  settlement_density: string;
-  energy_density: string;
-};
-
-type PeerGroupRecord<Metric extends PeerGroupMedianValuesParams["metric"]> =
-  Metric extends "network_costs"
-    ? {
-        network_level: NetworkLevel["id"];
-        median_value: number;
-      }
-    : Metric extends "stability"
-    ? {
-        median_saidi_total: number;
-        median_saidi_unplanned: number;
-        median_saifi_total: number;
-        median_saifi_unplanned: number;
-      }
-    : Metric extends "operational"
-    ? {
-        median_franc_rule: number;
-        median_info_days: number;
-        median_timely: number;
-      }
-    : Metric extends "energy-tariffs"
-    ? {
-        category: ElectricityCategory;
-        tariff_type: string;
-        median_rate: number;
-      }
-    : Metric extends "net-tariffs"
-    ? {
-        category: ElectricityCategory;
-        tariff_type: string;
-        median_rate: number;
-      }
-    : never;
+// Export all SQL functions as a DatabaseService implementation
+export const databaseService = {
+  getNetworkCosts,
+  getOperationalStandards,
+  getStabilityMetrics,
+  getTariffs,
+  getOperatorData,
+  getPeerGroupMedianValues,
+  getLatestYearSunshine,
+  getLatestYearPowerStability,
+  getPeerGroup,
+  getSunshineData,
+} satisfies DatabaseService;

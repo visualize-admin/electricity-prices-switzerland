@@ -13,18 +13,11 @@ import {
   TariffsData,
   Trend,
 } from "src/graphql/resolver-types";
-import * as sql from "src/lib/db/sql";
-
-interface DatabaseService {
-  getOperatorData: typeof sql.getOperatorData;
-  getNetworkCosts: typeof sql.getNetworkCosts;
-  getTariffs: typeof sql.getTariffs;
-  getStabilityMetrics: typeof sql.getStabilityMetrics;
-  getLatestYearPowerStability: typeof sql.getLatestYearPowerStability;
-  getLatestYearSunshine: typeof sql.getLatestYearSunshine;
-  getPeerGroupMedianValues: typeof sql.getPeerGroupMedianValues;
-  getOperationalStandards: typeof sql.getOperationalStandards;
-}
+import { databaseService as sqlDatabaseService } from "src/lib/db/sql";
+import {
+  DatabaseService,
+  TariffRecord,
+} from "src/lib/sunshine-database-service";
 
 type NetworkCostsParams = {
   metric: "network_costs";
@@ -203,7 +196,7 @@ export const fetchNetTariffsData = async (
   category: TariffCategory;
   operatorRate: number | null;
   peerGroupMedianRate: number | null;
-  yearlyData: sql.TariffRecord[];
+  yearlyData: TariffRecord[];
 }> => {
   const operatorData = await db.getOperatorData(operatorId);
 
@@ -602,13 +595,4 @@ export const fetchOperationalStandards = async (
 };
 
 // Default database service implementation using sql module
-export const defaultDatabaseService: DatabaseService = {
-  getOperatorData: sql.getOperatorData,
-  getNetworkCosts: sql.getNetworkCosts,
-  getTariffs: sql.getTariffs,
-  getStabilityMetrics: sql.getStabilityMetrics,
-  getLatestYearPowerStability: sql.getLatestYearPowerStability,
-  getLatestYearSunshine: sql.getLatestYearSunshine,
-  getPeerGroupMedianValues: sql.getPeerGroupMedianValues,
-  getOperationalStandards: sql.getOperationalStandards,
-};
+export const defaultDatabaseService = sqlDatabaseService;
