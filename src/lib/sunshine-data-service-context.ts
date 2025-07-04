@@ -31,10 +31,6 @@ export function getValidServiceKeys(): string[] {
   return Object.keys(DATABASE_SERVICE_MAP);
 }
 
-export function getDefaultServiceKey(): string {
-  return DEFAULT_DATABASE_SERVICE_KEY;
-}
-
 export function getSunshineDataServiceInfo(
   context: GetServerSidePropsContext
 ): {
@@ -52,7 +48,7 @@ export function getSunshineDataServiceInfo(
   };
 }
 
-export function getSunshineDataServiceFromCookies(
+function getSunshineDataServiceFromCookies(
   cookies: string | undefined
 ): string {
   if (!cookies) {
@@ -71,13 +67,6 @@ export function getSunshineDataServiceFromCookies(
 
   const serviceKey = serviceCookie.split("=")[1]?.trim();
   return serviceKey;
-}
-
-export function getSunshineDataServiceFromHeaders(
-  headers: NextApiRequest["headers"]
-): SunshineDataService {
-  const serviceKey = headers["x-database-service"] as string;
-  return getSunshineDataService(serviceKey);
 }
 
 export function getSunshineDataServiceFromApiRequest(
