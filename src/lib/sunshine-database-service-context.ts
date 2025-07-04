@@ -1,4 +1,4 @@
-import { NextApiRequest } from "next";
+import { GetServerSidePropsContext, NextApiRequest } from "next";
 
 import { databaseService as sqlDatabaseService } from "src/lib/db/sql";
 import { DatabaseService } from "src/lib/sunshine-database-service";
@@ -9,9 +9,7 @@ const DATABASE_SERVICE_MAP: Record<string, DatabaseService> = {
 
 const DEFAULT_DATABASE_SERVICE_KEY = "sql";
 
-function getDatabaseService(req: NextApiRequest): DatabaseService {
-  const serviceKey = req.headers["x-database-service"] as string;
-
+export function getDatabaseService(serviceKey: string): DatabaseService {
   if (!serviceKey || !DATABASE_SERVICE_MAP[serviceKey]) {
     console.log(
       "Using default database service:",
@@ -24,14 +22,15 @@ function getDatabaseService(req: NextApiRequest): DatabaseService {
   return DATABASE_SERVICE_MAP[serviceKey];
 }
 
-export type ServerContext = {
-  databaseService: DatabaseService;
-};
+export function getDatabaseServiceFromHeaders(
+  headers: NextApiRequest["headers"]
+): DatabaseService {
+  const serviceKey = headers["x-database-service"] as string;
+  return getDatabaseService(serviceKey);
+}
 
-export const context = async (req: NextApiRequest): Promise<ServerContext> => {
-  const databaseService = getDatabaseService(req);
-
-  return {
-    databaseService,
-  };
-};
+export function getDatabaseServiceFromGetServerSidePropsContext(
+  context: GetServerSidePropsContext
+): DatabaseService {
+  return getDatabaseServiceFromHeaders(context.req.headers);
+}

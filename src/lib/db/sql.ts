@@ -13,7 +13,7 @@ import type {
   DatabaseService,
 } from "src/lib/sunshine-database-service";
 
-export const getNetworkCosts = async ({
+const getNetworkCosts = async ({
   operatorId,
   period,
   settlementDensity,
@@ -55,7 +55,7 @@ export const getNetworkCosts = async ({
   return result;
 };
 
-export const getOperationalStandards = async ({
+const getOperationalStandards = async ({
   operatorId,
   period,
 }: {
@@ -84,7 +84,7 @@ export const getOperationalStandards = async ({
   return result;
 };
 // For stability metrics
-export const getStabilityMetrics = async ({
+const getStabilityMetrics = async ({
   operatorId,
   period,
   settlement_density,
@@ -121,7 +121,7 @@ export const getStabilityMetrics = async ({
   const result = await query<StabilityMetricRecord>(sql);
   return result;
 };
-export const getTariffs = async ({
+const getTariffs = async ({
   operatorId,
   period,
   category,
@@ -166,7 +166,7 @@ export const getTariffs = async ({
   return result;
 };
 
-export const getOperatorData = async (
+const getOperatorData = async (
   operatorId: number,
   period?: number
 ): Promise<OperatorDataRecord> => {
@@ -191,7 +191,7 @@ export const getOperatorData = async (
   }
   return result[0];
 };
-export const getPeerGroupMedianValues = async <
+const getPeerGroupMedianValues = async <
   Metric extends PeerGroupMedianValuesParams["metric"]
 >(
   params: PeerGroupMedianValuesParams
@@ -296,13 +296,13 @@ export const getPeerGroupMedianValues = async <
   const result = await query<PeerGroupRecord<Metric> | undefined>(sql);
   return result[0];
 };
-export const getLatestYearSunshine = async (operatorId: number) => {
+const getLatestYearSunshine = async (operatorId: number) => {
   const latestYearData = await query<{ year: string }>(`
       SELECT MAX(period) as year FROM sunshine_all WHERE partner_id = ${operatorId}
     `);
   return parseInt(latestYearData[0]?.year || "2024", 10);
 };
-export const getLatestYearPowerStability = async (
+const getLatestYearPowerStability = async (
   operatorId: number
 ): Promise<string> => {
   const latestYearData = await query<{ year: string }>(`
@@ -313,7 +313,7 @@ export const getLatestYearPowerStability = async (
   return latestYearData[0]?.year || "2024";
 };
 
-export const getPeerGroup = async (
+const getPeerGroup = async (
   operatorId: number | string
 ): Promise<{
   settlementDensity: string;
@@ -337,7 +337,7 @@ export const getPeerGroup = async (
   };
 };
 
-export const getSunshineData = async ({
+const getSunshineData = async ({
   operatorId,
   period,
 }: {
@@ -421,7 +421,7 @@ export const getSunshineData = async ({
   }));
 };
 
-// Export all SQL functions as a DatabaseService implementation
+// all SQL functions as a DatabaseService implementation
 export const databaseService = {
   getNetworkCosts,
   getOperationalStandards,

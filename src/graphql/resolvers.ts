@@ -1,4 +1,3 @@
-import { parse } from "csv-parse/sync";
 import { difference } from "d3";
 import { GraphQLError, GraphQLResolveInfo } from "graphql";
 import { parseResolveInfo, ResolveTree } from "graphql-parse-resolve-info";
@@ -29,7 +28,6 @@ import {
   fetchNetworkCostsData,
   fetchSaidi,
   fetchSaifi,
-  defaultDatabaseService,
 } from "src/lib/sunshine-data";
 import { defaultLocale } from "src/locales/config";
 import {
@@ -42,13 +40,7 @@ import {
   getView,
 } from "src/rdf/queries";
 import { fetchOperatorInfo, search } from "src/rdf/search-queries";
-import * as fs from "fs";
-import {
-  asNetworkLevel,
-  asTariffCategory,
-  NetworkLevel,
-} from "src/domain/data";
-import { getPeerGroup, getSunshineData } from "src/lib/db/sql";
+import { asNetworkLevel, asTariffCategory } from "src/domain/data";
 
 const gfmSyntax = require("micromark-extension-gfm");
 const gfmHtml = require("micromark-extension-gfm/html");
@@ -70,17 +62,17 @@ const expectedCubeDimensions = [
 ];
 
 const Query: QueryResolvers = {
-  sunshineData: async (_parent, args) => {
+  sunshineData: async (_parent, args, context) => {
     const filter = args.filter;
-    const sunshineData = await getSunshineData(filter);
+    const sunshineData = await context.databaseService.getSunshineData(filter);
     return sunshineData;
   },
-  sunshineTariffs: async (_parent, args) => {
+  sunshineTariffs: async (_parent, args, context) => {
     const filter = args.filter;
     if (!filter.operatorId && !filter.period) {
       throw new Error("Must either filter by year or by provider.");
     }
-    const sunshineData = await getSunshineData(filter);
+    const sunshineData = await context.databaseService.getSunshineData(filter);
     return sunshineData;
   },
   systemInfo: async () => {
@@ -390,8 +382,8 @@ const Query: QueryResolvers = {
       }),
     };
   },
-  networkCosts: async (_, { filter }) => {
-    return await fetchNetworkCostsData(defaultDatabaseService, {
+  networkCosts: async (_, { filter }, context) => {
+    return await fetchNetworkCostsData(context.databaseService, {
       operatorId: filter.operatorId,
       networkLevel: filter.networkLevel
         ? asNetworkLevel(filter.networkLevel)
@@ -399,28 +391,28 @@ const Query: QueryResolvers = {
       period: filter.period,
     });
   },
-  netTariffs: async (_, { filter }) => {
-    return await fetchNetTariffsData(defaultDatabaseService, {
+  netTariffs: async (_, { filter }, context) => {
+    return await fetchNetTariffsData(context.databaseService, {
       operatorId: filter.operatorId,
       category: asTariffCategory(filter.category as TariffCategory),
       period: filter.period,
     });
   },
-  energyTariffs: async (_, { filter }) => {
-    return await fetchEnergyTariffsData(defaultDatabaseService, {
+  energyTariffs: async (_, { filter }, context) => {
+    return await fetchEnergyTariffsData(context.databaseService, {
       operatorId: filter.operatorId,
       category: asTariffCategory(filter.category),
       period: filter.period,
     });
   },
-  saidi: async (_, { filter }) => {
-    return await fetchSaidi(defaultDatabaseService, {
+  saidi: async (_, { filter }, context) => {
+    return await fetchSaidi(context.databaseService, {
       operatorId: filter.operatorId,
       period: filter.year,
     });
   },
-  saifi: async (_, { filter }) => {
-    return await fetchSaifi(defaultDatabaseService, {
+  saifi: async (_, { filter }, context) => {
+    return await fetchSaifi(context.databaseService, {
       operatorId: filter.operatorId,
       period: filter.year,
     });
@@ -482,8 +474,8 @@ const Operator: OperatorResolvers = {
     }
   },
 
-  peerGroup: async ({ id }) => {
-    const peerGroups = await getPeerGroup(id);
+  peerGroup: async ({ id }, args, context) => {
+    const peerGroups = await context.databaseService.getPeerGroup(id);
     return peerGroups;
   },
 };

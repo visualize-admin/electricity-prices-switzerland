@@ -49,8 +49,8 @@ import {
   fetchOperationalStandards,
   fetchOperatorCostsAndTariffsData,
   fetchPowerStability,
-  defaultDatabaseService,
 } from "src/lib/sunshine-data";
+import { getDatabaseServiceFromGetServerSidePropsContext } from "src/lib/sunshine-database-service-context";
 import { defaultLocale } from "src/locales/config";
 
 import {
@@ -66,10 +66,10 @@ type Props =
     })
   | { status: "notfound" };
 
-export const getServerSideProps: GetServerSideProps<
-  Props,
-  PageParams
-> = async ({ params, res, locale }) => {
+export const getServerSideProps: GetServerSideProps<Props, PageParams> = async (
+  context
+) => {
+  const { params, res, locale } = context;
   const { id, entity } = params!;
 
   if (entity !== "operator") {
@@ -94,13 +94,16 @@ export const getServerSideProps: GetServerSideProps<
     };
   }
 
+  const databaseService =
+    getDatabaseServiceFromGetServerSidePropsContext(context);
+
   const [operationalStandards, powerStability, costsAndTariffs] =
     await Promise.all([
-      fetchOperationalStandards(defaultDatabaseService, {
+      fetchOperationalStandards(databaseService, {
         operatorId: id,
       }),
-      fetchPowerStability(defaultDatabaseService, { operatorId: id }),
-      fetchOperatorCostsAndTariffsData(defaultDatabaseService, {
+      fetchPowerStability(databaseService, { operatorId: id }),
+      fetchOperatorCostsAndTariffsData(databaseService, {
         operatorId: id,
         networkLevel: "NE5",
         category: "NC2",

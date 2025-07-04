@@ -35,10 +35,8 @@ import {
 import { getLocalizedLabel } from "src/domain/translation";
 import { useSaidiQuery, useSaifiQuery } from "src/graphql/queries";
 import { Trend } from "src/graphql/resolver-types";
-import {
-  fetchPowerStability,
-  defaultDatabaseService,
-} from "src/lib/sunshine-data";
+import { fetchPowerStability } from "src/lib/sunshine-data";
+import { getDatabaseServiceFromGetServerSidePropsContext } from "src/lib/sunshine-database-service-context";
 import { defaultLocale } from "src/locales/config";
 
 type Props =
@@ -47,10 +45,10 @@ type Props =
     })
   | { status: "notfound" };
 
-export const getServerSideProps: GetServerSideProps<
-  Props,
-  PageParams
-> = async ({ params, res, locale }) => {
+export const getServerSideProps: GetServerSideProps<Props, PageParams> = async (
+  context
+) => {
+  const { params, res, locale } = context;
   const { id, entity } = params!;
 
   if (entity !== "operator") {
@@ -75,7 +73,10 @@ export const getServerSideProps: GetServerSideProps<
     };
   }
 
-  const powerStability = await fetchPowerStability(defaultDatabaseService, {
+  const databaseService =
+    getDatabaseServiceFromGetServerSidePropsContext(context);
+
+  const powerStability = await fetchPowerStability(databaseService, {
     operatorId: id,
   });
 

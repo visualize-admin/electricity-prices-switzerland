@@ -54,10 +54,8 @@ import {
 } from "src/graphql/queries";
 import { TariffCategory } from "src/graphql/resolver-mapped-types";
 import { Trend } from "src/graphql/resolver-types";
-import {
-  fetchOperatorCostsAndTariffsData,
-  defaultDatabaseService,
-} from "src/lib/sunshine-data";
+import { fetchOperatorCostsAndTariffsData } from "src/lib/sunshine-data";
+import { getDatabaseServiceFromGetServerSidePropsContext } from "src/lib/sunshine-database-service-context";
 import { truthy } from "src/lib/truthy";
 import { defaultLocale } from "src/locales/config";
 
@@ -70,10 +68,11 @@ type Props =
     })
   | { status: "notfound" };
 
-export const getServerSideProps: GetServerSideProps<
-  Props,
-  PageParams
-> = async ({ params, res, locale }) => {
+export const getServerSideProps: GetServerSideProps<Props, PageParams> = async (
+  context
+) => {
+  const { params, res, locale } = context;
+
   const { id, entity } = params!;
 
   if (entity !== "operator") {
@@ -98,8 +97,10 @@ export const getServerSideProps: GetServerSideProps<
     };
   }
 
+  const databaseService =
+    getDatabaseServiceFromGetServerSidePropsContext(context);
   const costsAndTariffs = await fetchOperatorCostsAndTariffsData(
-    defaultDatabaseService,
+    databaseService,
     {
       operatorId: id,
       networkLevel: "NE5",

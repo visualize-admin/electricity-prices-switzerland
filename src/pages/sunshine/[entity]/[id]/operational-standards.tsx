@@ -27,10 +27,8 @@ import {
 } from "src/data/shared-page-props";
 import { SunshineOperationalStandardsData } from "src/domain/data";
 import { getLocalizedLabel } from "src/domain/translation";
-import {
-  fetchOperationalStandards,
-  defaultDatabaseService,
-} from "src/lib/sunshine-data";
+import { fetchOperationalStandards } from "src/lib/sunshine-data";
+import { getDatabaseServiceFromGetServerSidePropsContext } from "src/lib/sunshine-database-service-context";
 import { defaultLocale } from "src/locales/config";
 
 type Props =
@@ -39,10 +37,10 @@ type Props =
     })
   | { status: "notfound" };
 
-export const getServerSideProps: GetServerSideProps<
-  Props,
-  PageParams
-> = async ({ params, res, locale }) => {
+export const getServerSideProps: GetServerSideProps<Props, PageParams> = async (
+  context
+) => {
+  const { params, res, locale } = context;
   const { id, entity } = params!;
 
   if (entity !== "operator") {
@@ -67,8 +65,12 @@ export const getServerSideProps: GetServerSideProps<
     };
   }
 
+  // Get the appropriate database service based on request headers
+  const databaseService =
+    getDatabaseServiceFromGetServerSidePropsContext(context);
+
   const operationalStandards = await fetchOperationalStandards(
-    defaultDatabaseService,
+    databaseService,
     {
       operatorId: id,
     }
