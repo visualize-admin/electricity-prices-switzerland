@@ -58,8 +58,16 @@ if (typeof window !== "undefined" && window.location) {
 
   if (clientEnv.NEXT_PUBLIC_FLAGS) {
     try {
-      const flags = JSON.parse(clientEnv.NEXT_PUBLIC_FLAGS);
-      flag.enable(flags);
+      const toEnable = clientEnv.NEXT_PUBLIC_FLAGS.filter((x) => {
+        return flag(x) === null;
+      });
+
+      if (toEnable.length) {
+        console.info(
+          `Enabling flags ${toEnable} from environment variable NEXT_PUBLIC_FLAGS (skipped already enabled flags)`
+        );
+        flag.enable(toEnable.map((envFlag) => [envFlag, true]));
+      }
     } catch (e) {
       console.error("Failed to parse NEXT_PUBLIC_FLAGS", e);
     }
