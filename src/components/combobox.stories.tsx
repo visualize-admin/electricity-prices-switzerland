@@ -77,7 +77,7 @@ export const MunicipalitySelection: Story = {
           selectedItem={selectedMunicipality}
           setSelectedItem={setSelectedMunicipality}
           getItemLabel={getLabel}
-          infoDialogSlug="municipality-info"
+          infoDialogSlug="help-municipalities-and-grid-operators-info"
         />
       </div>
     );

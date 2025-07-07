@@ -78,7 +78,7 @@ export function makeUseQueryState<T extends z.ZodRawShape>(
 export const makeLinkGenerator = <T extends z.ZodRawShape>(
   _schema: z.ZodObject<T>
 ) => {
-  return (route: string, state: UseQueryStateSingle<T>) => {
+  return (route: string, state: Partial<UseQueryStateSingle<T>>) => {
     const query: { [key: string]: string } = {};
     for (const key in state) {
       const value = state[key];

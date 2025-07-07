@@ -2,6 +2,7 @@ import { Box, Typography } from "@mui/material";
 import { ChangeEventHandler, ReactNode, useCallback } from "react";
 
 import { VisuallyHidden } from "src/components/visually-hidden";
+import { WikiPageSlug } from "src/domain/data";
 
 import { InfoDialogButton } from "./info-dialog";
 
@@ -12,7 +13,7 @@ type ButtonGroupProps<T> = {
   setValue: (value: T) => void;
   label?: string;
   showLabel?: boolean;
-  infoDialogSlug?: string;
+  infoDialogSlug?: WikiPageSlug;
 };
 
 const STYLES = {

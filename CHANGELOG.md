@@ -15,10 +15,17 @@ You can also check the
 
   - Added Overview Details Page
   - Add Operational Standards Page
+  - Add links to Sunshine Map to Home page
+  - Add Operational Standards indicators to map page
 
-Enhancements
+- Enhancements
 
-- Add Query state to details pages
+  - Add Query state to details pages
+  - Add ability to debug info dialog slugs (via flag\_\_debugInfoDialog)
+
+- Fixes
+
+  - Fix some of the info dialogs used
 
 # 2.3.1 - 2025-06-26
 
@@ -38,6 +45,10 @@ Enhancements
 
   - Added sortable filters to Power Stability Chart
   - Added average annotations indicator to Power Stability Chart
+
+- Maintenance
+
+  - Added AA (Afar) language and script for populating it with msgid - this allows for finding msgid within the app, this is a temporary solution
 
 # 2.2.0 - 2025-06-20
 

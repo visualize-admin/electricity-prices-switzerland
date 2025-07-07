@@ -163,6 +163,7 @@ const Saidi = (props: Extract<Props, { status: "found" }>) => {
           unit: MIN_PER_YEAR,
           // TODO Compute the trend
           trend: Trend.Down,
+          round: 2,
         },
       },
       {
@@ -176,6 +177,7 @@ const Saidi = (props: Extract<Props, { status: "found" }>) => {
           unit: MIN_PER_YEAR,
           // TODO Compute the trend
           trend: Trend.Stable,
+          round: 2,
         },
       },
     ],
@@ -220,7 +222,7 @@ const Saidi = (props: Extract<Props, { status: "found" }>) => {
             message: "Average Power Outage Duration (SAIDI)",
           })}
           infoDialogProps={{
-            slug: "sunshine.power-stability.saidi.info-dialog",
+            slug: "help-saidi",
             label: t({
               id: "sunshine.power-stability.saidi.info-dialog-label",
               message: "Total Outage Duration",
@@ -278,6 +280,7 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
         value: {
           value: data.saifi.operatorTotal,
           unit: MIN_PER_YEAR,
+          round: 2,
           // TODO Compute the trend
           trend: Trend.Down,
         },
@@ -291,6 +294,7 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
         value: {
           value: data.saifi.peerGroupTotal,
           unit: MIN_PER_YEAR,
+          round: 2,
           // TODO Compute the trend
           trend: Trend.Stable,
         },
@@ -337,7 +341,7 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
             message: "Average Power Outage Frequency (SAIFI)",
           })}
           infoDialogProps={{
-            slug: "sunshine.power-stability.saifi.info-dialog",
+            slug: "help-saifi",
             label: t({
               id: "sunshine.power-stability.saifi.info-dialog-label",
               message: "Total Outage Frequency",

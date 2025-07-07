@@ -5,6 +5,7 @@ export const assertBaseDomainOK = (baseDomain: string) => {
     url.hostname.endsWith("elcom.admin.ch") ||
     url.hostname === "localhost" ||
     url.hostname.match(/^elcom\.admin\.ch$/i) ||
+    url.hostname.match(/^elcom-strompreis-dev\.interactivethings\.io/i) ||
     url.hostname.match(
       /^elcom-electricity-price-website-[a-z0-9-]+\.vercel\.app$/i
     )

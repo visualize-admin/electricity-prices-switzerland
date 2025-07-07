@@ -382,6 +382,8 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
             value: {
               value: operatorRate,
               unit: RP_PER_KM,
+              round: 2,
+              // TODO
               trend: Trend.Stable,
             },
           }
@@ -396,6 +398,8 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
             value: {
               value: peerGroupMedianRate,
               unit: RP_PER_KM,
+              round: 2,
+              // TODO
               trend: Trend.Stable,
             },
           }
@@ -560,6 +564,8 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
             value: {
               value: operatorRate,
               unit: RP_PER_KM,
+              round: 2,
+              // TODO
               trend: "stable" as Trend,
             },
           }
@@ -574,6 +580,8 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
             value: {
               value: peerGroupMedianRate,
               unit: RP_PER_KM,
+              round: 2,
+              // TODO
               trend: "stable" as Trend,
             },
           }
@@ -604,8 +612,7 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
             getItemLabel={getItemLabel}
             selectedItem={category}
             setSelectedItem={(item) => _setCategory(item as TariffCategory)}
-            //FIXME: Might need change
-            infoDialogSlug="help-categories"
+            infoDialogSlug="help-net-tariff-category"
           />
         </Box>
 

@@ -11,6 +11,7 @@ import SunshineMapComponent, {
   GetOperatorsMapTooltip,
 } from "src/components/sunshine-map";
 import { useColorScale } from "src/domain/data";
+import { useIndicatorValueFormatter } from "src/domain/helpers";
 import { SunshineDataRow, useSunshineTariffQuery } from "src/graphql/queries";
 import { exchanges } from "src/graphql/urql-exchanges.browser";
 
@@ -34,6 +35,10 @@ export const SunshineMap = () => {
   const [attribute, setAttribute] = useState<DisplayedAttribute>(
     displayedAttributes[0]
   );
+
+  // We do not really have "indicator" here, this is why we hardcode networkCosts
+  // TODO Refactor to use the same data as the Sunshine Map
+  const valueFormatter = useIndicatorValueFormatter("networkCosts");
 
   const [{ data }] = useSunshineTariffQuery({
     variables: {
@@ -101,7 +106,7 @@ export const SunshineMap = () => {
             accessor={accessor}
             colorScale={colorScale}
             observations={observations}
-            getTooltip={debugTooltip}
+            valueFormatter={valueFormatter}
           />
         </Box>
       </Box>
