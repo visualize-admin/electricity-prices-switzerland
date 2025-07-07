@@ -19,9 +19,11 @@ import {
 import { DetailsPageSidebar } from "src/components/detail-page/sidebar";
 import { NetworkCostsTrendCardMinified } from "src/components/network-costs-trend-card";
 import { PowerStabilityCardMinified } from "src/components/power-stability-card";
+import { SunshineDataServiceDebug } from "src/components/sunshine-data-service-debug";
 import TableComparisonCard from "src/components/table-comparison-card";
 import { TariffsTrendCardMinified } from "src/components/tariffs-trend-card";
 import {
+  DataServiceProps,
   handleOperatorsEntity,
   PageParams,
   Props as SharedPageProps,
@@ -49,7 +51,11 @@ import {
   fetchOperationalStandards,
   fetchOperatorCostsAndTariffsData,
   fetchPowerStability,
-} from "src/lib/db/sunshine-data";
+} from "src/lib/sunshine-data";
+import {
+  getSunshineDataServiceFromGetServerSidePropsContext,
+  getSunshineDataServiceInfo,
+} from "src/lib/sunshine-data-service-context";
 import { defaultLocale } from "src/locales/config";
 
 import {
@@ -62,13 +68,14 @@ type Props =
       costsAndTariffs: SunshineCostsAndTariffsData;
       powerStability: SunshinePowerStabilityData;
       operationalStandards: SunshineOperationalStandardsData;
+      dataService: DataServiceProps;
     })
   | { status: "notfound" };
 
-export const getServerSideProps: GetServerSideProps<
-  Props,
-  PageParams
-> = async ({ params, res, locale }) => {
+export const getServerSideProps: GetServerSideProps<Props, PageParams> = async (
+  context
+) => {
+  const { params, res, locale } = context;
   const { id, entity } = params!;
 
   if (entity !== "operator") {
@@ -93,13 +100,17 @@ export const getServerSideProps: GetServerSideProps<
     };
   }
 
+  const sunshineDataService =
+    getSunshineDataServiceFromGetServerSidePropsContext(context);
+  const dataService = getSunshineDataServiceInfo(context);
+
   const [operationalStandards, powerStability, costsAndTariffs] =
     await Promise.all([
-      fetchOperationalStandards({
+      fetchOperationalStandards(sunshineDataService, {
         operatorId: id,
       }),
-      fetchPowerStability({ operatorId: id }),
-      fetchOperatorCostsAndTariffsData({
+      fetchPowerStability(sunshineDataService, { operatorId: id }),
+      fetchOperatorCostsAndTariffsData(sunshineDataService, {
         operatorId: id,
         networkLevel: "NE5",
         category: "NC2",
@@ -112,6 +123,7 @@ export const getServerSideProps: GetServerSideProps<
       operationalStandards,
       powerStability,
       costsAndTariffs,
+      dataService,
     },
   };
 };
@@ -523,13 +535,18 @@ const OverviewPage = (props: Props) => {
   );
 
   return (
-    <DetailsPageLayout
-      title={pageTitle}
-      BannerContent={bannerContent}
-      SidebarContent={sidebarContent}
-      MainContent={mainContent}
-      download={query.download}
-    />
+    <>
+      {props.status === "found" && !props.dataService.isDefault && (
+        <SunshineDataServiceDebug serviceName={props.dataService.serviceName} />
+      )}
+      <DetailsPageLayout
+        title={pageTitle}
+        BannerContent={bannerContent}
+        SidebarContent={sidebarContent}
+        MainContent={mainContent}
+        download={query.download}
+      />
+    </>
   );
 };
 
