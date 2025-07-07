@@ -16,8 +16,6 @@ import { ReactNode, useCallback } from "react";
 import {
   LEFT_MARGIN_OFFSET,
   LEFT_MARGIN_OFFSET_GROUPED,
-  TOOLTIP_ARROW_HEIGHT,
-  VERTICAL_TICK_OFFSET,
 } from "src/components/charts-generic/constants";
 import { Tooltip } from "src/components/charts-generic/interaction/tooltip";
 import { LegendSymbol } from "src/components/charts-generic/legends/color";
@@ -295,11 +293,7 @@ const useHistogramState = ({
     return {
       placement: { x: "center", y: "top" },
       xAnchor,
-      yAnchor:
-        yScale(getY(d)) +
-        margins.top -
-        TOOLTIP_ARROW_HEIGHT -
-        VERTICAL_TICK_OFFSET,
+      yAnchor: yScale(getY(d)),
       xValue: "",
       tooltipContent: (
         <>
