@@ -46,7 +46,7 @@ export const useFormatPercentage = () => {
   const locale = useLocale();
   const formatter = React.useMemo(() => {
     const { format } = d3FormatLocales[locale];
-    return format(",.2f");
+    return format(",.2%");
   }, [locale]);
   return formatter;
 };

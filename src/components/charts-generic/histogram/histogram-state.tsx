@@ -311,7 +311,7 @@ const useHistogramState = ({
             </Typography>
           </Box>
           <Typography variant="caption">
-            {yAxisLabel}: {formatPercentage((d.length / totalCount) * 100)}%
+            {yAxisLabel}: {formatPercentage(d.length / totalCount)}
           </Typography>
         </>
       ),
