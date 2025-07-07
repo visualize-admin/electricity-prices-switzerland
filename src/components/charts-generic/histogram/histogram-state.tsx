@@ -116,7 +116,7 @@ const computeBins = (
     }),
   ];
 
-  const bins = binMeta.map((meta) => {
+  const bins = binMeta.map((meta, i) => {
     let arr: GenericObservation[] = [];
     if (meta.isNoData) {
       arr = data.filter((d) => getX(d) === 0);
@@ -126,11 +126,13 @@ const computeBins = (
     const binArr = arr as Bin<GenericObservation, number> & {
       label?: string;
       type?: BinType;
+      metaIndex?: number;
     };
     binArr.x0 = meta.x0;
     binArr.x1 = meta.x1;
     binArr.label = meta.label;
     binArr.type = meta.type;
+    binArr.metaIndex = i;
     return binArr;
   });
 
@@ -271,24 +273,16 @@ const useHistogramState = ({
       .paddingOuter(0.01);
   }
 
-  const getAnnotationInfo = (d: Bin<GenericObservation, number>) => {
+  const getAnnotationInfo = (
+    d: Bin<GenericObservation, number> & { metaIndex?: number; label?: string }
+  ) => {
     let xAnchor;
-    let binIndex = 0;
-    let meta = undefined;
+    const binIndex = d.metaIndex ?? 0;
+    const meta = binMeta[binIndex];
     if (groupedBy && binMeta && bandScale) {
-      const label =
-        (d as { label?: string }).label ??
-        bandDomain.find(
-          (_, i) => binMeta[i].x0 === d.x0 && binMeta[i].x1 === d.x1
-        ) ??
-        String(0);
-      xAnchor = (bandScale(label) ?? 0) + bandScale.bandwidth() / 2;
-      binIndex = binMeta.findIndex((b) => b.label === label);
-      meta = binMeta[binIndex];
+      xAnchor = (bandScale(meta.label) ?? 0) + bandScale.bandwidth() / 2;
     } else {
       xAnchor = xScale(((d.x1 ?? 0) + (d.x0 ?? 0)) / 2) + margins.left;
-      binIndex = bins.findIndex((b) => b === d);
-      meta = binMeta ? binMeta[binIndex] : undefined;
     }
     return {
       placement: { x: "center", y: "top" },
@@ -310,8 +304,7 @@ const useHistogramState = ({
               })}
             />
             <Typography variant="caption" sx={{ fontWeight: 700 }}>
-              {(d as Bin<GenericObservation, number> & { label?: string })
-                .label || `${d.x0}-${d.x1}`}
+              {d.label || `${d.x0}-${d.x1}`}
               {xAxisUnit}
             </Typography>
           </Box>
