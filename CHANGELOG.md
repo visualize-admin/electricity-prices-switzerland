@@ -11,6 +11,10 @@ You can also check the
 
 # Unreleased
 
+Nothing yet.
+
+# 2.4.0 - 2025-07-07
+
 - Features
 
   - Added Overview Details Page
