@@ -1,5 +1,8 @@
 import { t } from "@lingui/macro";
 import { Box } from "@mui/material";
+import { median as d3Median } from "d3";
+import complianceMock from "mocks/sunshine-operationalStandards-compliance-mock.json";
+import serviceQualityMock from "mocks/sunshine-operationalStandards-serviceQuality-mock.json";
 
 import { AxisHeightLinear } from "src/components/charts-generic/axis/axis-height-linear";
 import { AxisWidthHistogram } from "src/components/charts-generic/axis/axis-width-histogram";
@@ -11,6 +14,7 @@ import { HistogramColumns } from "src/components/charts-generic/histogram/histog
 import { Histogram } from "src/components/charts-generic/histogram/histogram-state";
 import type { SunshineOperationalStandardsData } from "src/domain/data";
 import { DAYS, SWISS_FRANCS } from "src/domain/metrics";
+import { useFlag } from "src/utils/flags";
 
 import {
   AnnotationX,
@@ -19,22 +23,6 @@ import {
 import { HistogramMedian } from "./charts-generic/histogram/median";
 import { Tooltip } from "./charts-generic/interaction/tooltip";
 import { InteractionHistogram } from "./charts-generic/overlay/interaction-histogram";
-
-//FIXME: replace with data.operatorsNotificationPeriodDays
-const mockServiceQualityData = (selectedOperator: string) =>
-  Array.from({ length: 30 }, (_, i) => ({
-    id: i === 0 ? selectedOperator : Math.random() * 100,
-    value: Math.round(Math.random() * 30),
-    label: `Operator ${i + 1}`,
-  }));
-
-//FIXME: replace with data.operatorsFrancsPerInvoice
-const mockComplianceData = (selectedOperator: string) =>
-  Array.from({ length: 30 }, (_, i) => ({
-    id: i === 0 ? selectedOperator : Math.random() * 100,
-    value: Math.round(Math.random() * 100),
-    label: `Operator ${i + 1}`,
-  }));
 
 export const ServiceQualityChart = ({
   data,
@@ -45,17 +33,16 @@ export const ServiceQualityChart = ({
   id: string;
   operatorLabel: string;
 }) => {
-  //FIXME: replace with data.operatorsNotificationPeriodDays
-  const values = mockServiceQualityData(id)
-    .map((d) => d.value)
-    .sort((a, b) => a - b);
-  const mid = Math.floor(values.length / 2);
-  const median =
-    values.length % 2 !== 0 ? values[mid] : (values[mid - 1] + values[mid]) / 2;
+  const mock = useFlag("mockOperationalStandardsChart");
+  const chartData = mock
+    ? serviceQualityMock
+    : data.operatorsNotificationPeriodDays;
+  const median = d3Median(chartData, (d) => d.days);
+
   return (
     <Box sx={{ mt: 8, position: "relative" }}>
       <Histogram
-        data={mockServiceQualityData(id)}
+        data={chartData}
         medianValue={median}
         aspectRatio={0.3}
         groupedBy={5}
@@ -67,7 +54,7 @@ export const ServiceQualityChart = ({
         xAxisUnit={DAYS}
         yAsPercentage
         fields={{
-          x: { componentIri: "value" },
+          x: { componentIri: "days" },
           label: { componentIri: "label" },
           style: {
             palette: "elcom-categorical-2",
@@ -75,14 +62,13 @@ export const ServiceQualityChart = ({
           annotation: [
             {
               label: operatorLabel,
-              value:
-                mockServiceQualityData(id).find((o) => o.id === id)?.value ?? 0,
+              days: chartData.find((o) => o.operatorId === id)?.days ?? 0,
             },
           ],
         }}
         measures={[
           {
-            iri: "value",
+            iri: "days",
             label: "Notification period (days)",
             __typename: "Measure",
           },
@@ -114,17 +100,13 @@ export const ComplianceChart = ({
   id: string;
   operatorLabel: string;
 }) => {
-  //FIXME: replace with data.operatorsFrancsPerInvoice
-  const values = mockComplianceData(id)
-    .map((d) => d.value)
-    .sort((a, b) => a - b);
-  const mid = Math.floor(values.length / 2);
-  const median =
-    values.length % 2 !== 0 ? values[mid] : (values[mid - 1] + values[mid]) / 2;
+  const mock = useFlag("mockOperationalStandardsChart");
+  const chartData = mock ? complianceMock : data.operatorsFrancsPerInvoice;
+  const median = d3Median(chartData, (d) => d.francsPerInvoice);
   return (
     <Box sx={{ mt: 8, position: "relative" }}>
       <Histogram
-        data={mockComplianceData(id)}
+        data={chartData}
         medianValue={median}
         aspectRatio={0.3}
         groupedBy={25}
@@ -136,7 +118,7 @@ export const ComplianceChart = ({
         xAxisUnit={SWISS_FRANCS}
         yAsPercentage
         fields={{
-          x: { componentIri: "value" },
+          x: { componentIri: "francsPerInvoice" },
           label: { componentIri: "label" },
           style: {
             palette: "elcom-categorical-2",
@@ -144,14 +126,15 @@ export const ComplianceChart = ({
           annotation: [
             {
               label: operatorLabel,
-              value:
-                mockComplianceData(id).find((o) => o.id === id)?.value ?? 0,
+              francsPerInvoice:
+                chartData.find((o) => o.operatorId === id)?.francsPerInvoice ??
+                0,
             },
           ],
         }}
         measures={[
           {
-            iri: "value",
+            iri: "francsPerInvoice",
             label: "Compliance value",
             __typename: "Measure",
           },
