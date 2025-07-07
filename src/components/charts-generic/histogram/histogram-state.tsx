@@ -1,11 +1,21 @@
+import { t } from "@lingui/macro";
 import { Box, Typography } from "@mui/material";
-import { ascending, bin, interpolateHsl, max, min, scaleLinear } from "d3";
+import { Theme, useTheme } from "@mui/material/styles";
+import {
+  ascending,
+  bin,
+  Bin,
+  interpolateHsl,
+  max,
+  min,
+  scaleBand,
+  scaleLinear,
+} from "d3";
 import { ReactNode, useCallback } from "react";
 
 import {
   LEFT_MARGIN_OFFSET,
-  TOOLTIP_ARROW_HEIGHT,
-  VERTICAL_TICK_OFFSET,
+  LEFT_MARGIN_OFFSET_GROUPED,
 } from "src/components/charts-generic/constants";
 import { Tooltip } from "src/components/charts-generic/interaction/tooltip";
 import { LegendSymbol } from "src/components/charts-generic/legends/color";
@@ -21,12 +31,129 @@ import { HistogramFields } from "src/domain/config-types";
 import { GenericObservation } from "src/domain/data";
 import {
   getAnnotationSpaces,
+  getPalette,
   mkNumber,
   useFormatCurrency,
+  useFormatPercentage,
 } from "src/domain/helpers";
 import { estimateTextWidth } from "src/lib/estimate-text-width";
 import { useIsMobile } from "src/lib/use-mobile";
 import { chartPalette } from "src/themes/palette";
+
+type BinType = "no-data" | "rest" | "normal";
+export type BinMeta = {
+  x0: number;
+  x1: number;
+  label: string;
+  isNoData?: boolean;
+  type: BinType;
+};
+
+const computeBins = (
+  data: GenericObservation[],
+  getX: (d: GenericObservation) => number,
+  groupedBy: number | undefined,
+  minValue: number,
+  maxValue: number,
+  xScale: d3.ScaleLinear<number, number>
+): {
+  bins: Array<
+    Bin<GenericObservation, number> & {
+      label?: string;
+      type?: BinType;
+    }
+  >;
+  binMeta: BinMeta[];
+} => {
+  if (!groupedBy) {
+    const bins = bin<GenericObservation, number>()
+      .value(getX)
+      .domain([mkNumber(minValue), mkNumber(maxValue)])
+      .thresholds(xScale.ticks(25))(data)
+      .map((b) =>
+        Object.assign(b, { label: `${b.x0}-${b.x1}`, type: "normal" })
+      );
+    const binMeta = bins.map((b) => ({
+      x0: b.x0!,
+      x1: b.x1!,
+      label: `${b.x0}-${b.x1}`,
+      type: "normal",
+    }));
+    return { bins, binMeta } as {
+      bins: Array<
+        Bin<GenericObservation, number> & {
+          label?: string;
+          type?: BinType;
+        }
+      >;
+      binMeta: BinMeta[];
+    };
+  }
+
+  const values = data
+    .map(getX)
+    .filter((v) => typeof v === "number" && !isNaN(v));
+  const nonZero = values.filter((v) => v > 0);
+  const max = Math.max(...nonZero, groupedBy);
+
+  const binMeta: BinMeta[] = [
+    {
+      x0: 0,
+      x1: 0,
+      label: t({ id: "histogram.noData", message: "No Data" }),
+      isNoData: true,
+      type: "no-data",
+    },
+    ...Array.from({ length: Math.ceil((max - 1 + 1) / groupedBy) }, (_, i) => {
+      const start = 1 + i * groupedBy;
+      const end = start + groupedBy - 1;
+      const isLast = end >= max;
+      return {
+        x0: start,
+        x1: isLast ? max : end,
+        label: isLast ? `${start}+` : `${start}-${end}`,
+        type: isLast ? "rest" : "normal",
+      } as BinMeta;
+    }),
+  ];
+
+  const bins = binMeta.map((meta, i) => {
+    let arr: GenericObservation[] = [];
+    if (meta.isNoData) {
+      arr = data.filter((d) => getX(d) === 0);
+    } else {
+      arr = [];
+    }
+    const binArr = arr as Bin<GenericObservation, number> & {
+      label?: string;
+      type?: BinType;
+      metaIndex?: number;
+    };
+    binArr.x0 = meta.x0;
+    binArr.x1 = meta.x1;
+    binArr.label = meta.label;
+    binArr.type = meta.type;
+    binArr.metaIndex = i;
+    return binArr;
+  });
+
+  if (groupedBy) {
+    const binData: GenericObservation[][] = binMeta.map(() => []);
+    data.forEach((d) => {
+      const value = getX(d);
+      const idx = binMeta.findIndex((b) => b.x0 <= value && value <= b.x1);
+      if (idx !== -1) {
+        binData[idx].push(d);
+      }
+    });
+    binData.forEach((arr, i) => {
+      bins[i].length = 0;
+      arr.forEach((d) => bins[i].push(d));
+    });
+  }
+
+  return { bins, binMeta };
+};
 
 const useHistogramState = ({
   data,
@@ -36,23 +163,31 @@ const useHistogramState = ({
   xAxisLabel,
   yAxisLabel,
   xAxisUnit,
+  groupedBy,
+  yAsPercentage,
 }: Pick<ChartProps, "data" | "measures" | "medianValue"> & {
   fields: HistogramFields;
   aspectRatio: number;
   xAxisLabel?: string;
   yAxisLabel?: string;
   xAxisUnit?: string;
+  groupedBy?: number;
+  yAsPercentage?: boolean;
 }): HistogramState => {
   const width = useWidth();
   const formatCurrency = useFormatCurrency();
+  const formatPercentage = useFormatPercentage();
   const { annotationFontSize } = useChartTheme();
+  const theme = useTheme();
 
   const getX = useCallback(
     (d: GenericObservation) => d[fields.x.componentIri] as number,
     [fields.x.componentIri]
   );
 
-  const getY = (d: GenericObservation[]) => d?.length ?? 0;
+  const totalCount = data.length;
+  const getY = (d: GenericObservation[]) =>
+    yAsPercentage ? ((d?.length ?? 0) / totalCount) * 100 : d?.length ?? 0;
 
   const getLabel = useCallback(
     (d: GenericObservation) => d[fields.label.componentIri] as string,
@@ -60,13 +195,11 @@ const useHistogramState = ({
   );
   const { annotation } = fields;
 
-  // x
   const minValue = min(data, (d) => getX(d)) || 0;
   const maxValue = max(data, (d) => getX(d)) || 10000;
   const xDomain = [mkNumber(minValue), mkNumber(maxValue)];
   const xScale = scaleLinear().domain(xDomain).nice();
 
-  // CH Median (all data points)
   const m = medianValue;
   const colorDomain = m
     ? [minValue, m - m * 0.1, m, m + m * 0.1, maxValue]
@@ -76,13 +209,28 @@ const useHistogramState = ({
     .domain(colorDomain)
     .range(chartPalette.diverging.GreenToOrange)
     .interpolate(interpolateHsl);
-  // y
-  const bins = bin<GenericObservation, number>()
-    .value((x) => getX(x))
-    .domain([mkNumber(minValue), mkNumber(maxValue)])
-    .thresholds(xScale.ticks(25))(data);
 
-  const yScale = scaleLinear().domain([0, max(bins, (d) => d.length) || 100]);
+  const { bins, binMeta } = computeBins(
+    data,
+    getX,
+    groupedBy,
+    minValue,
+    maxValue,
+    xScale
+  );
+
+  let yDomainMax;
+  if (yAsPercentage) {
+    const maxPct = Math.max(
+      ...bins.map((d) => ((d.length ?? 0) / totalCount) * 100)
+    );
+    yDomainMax = Math.ceil(maxPct / 5) * 5;
+    // Optionally, always show up to 100%:
+    // yDomainMax = 100;
+  } else {
+    yDomainMax = max(bins, (d) => d.length) || 100;
+  }
+  const yScale = scaleLinear().domain([0, yDomainMax]);
 
   // Dimensions
   const left = Math.max(
@@ -100,12 +248,11 @@ const useHistogramState = ({
     top: isMobile ? 140 : 70,
     right: 40,
     bottom: 100,
-    left: left + LEFT_MARGIN_OFFSET,
+    left: left + (groupedBy ? LEFT_MARGIN_OFFSET_GROUPED : LEFT_MARGIN_OFFSET),
   };
 
   const chartWidth = width - margins.left - margins.right;
 
-  // Added space for annotations above the chart
   const annotationSpaces = annotation
     ? getAnnotationSpaces({
         annotation,
@@ -117,27 +264,54 @@ const useHistogramState = ({
       })
     : [{ height: 0, nbOfLines: 1 }];
 
-  const getAnnotationInfo = (d: (typeof bins)[number]): Tooltip => {
+  let bandScale: d3.ScaleBand<string> | undefined = undefined;
+  let bandDomain: string[] = [];
+  if (groupedBy && binMeta) {
+    bandDomain = binMeta.map((b, i) => b.label ?? String(i));
+    bandScale = scaleBand<string>()
+      .domain(bandDomain)
+      .range([margins.left, chartWidth])
+      .paddingInner(0.01)
+      .paddingOuter(0.01);
+  }
+
+  const getAnnotationInfo = (
+    d: Bin<GenericObservation, number> & { metaIndex?: number; label?: string }
+  ) => {
+    let xAnchor;
+    const binIndex = d.metaIndex ?? 0;
+    const meta = binMeta[binIndex];
+    if (groupedBy && binMeta && bandScale) {
+      xAnchor = (bandScale(meta.label) ?? 0) + bandScale.bandwidth() / 2;
+    } else {
+      xAnchor = xScale(((d.x1 ?? 0) + (d.x0 ?? 0)) / 2) + margins.left;
+    }
     return {
       placement: { x: "center", y: "top" },
-      xAnchor: xScale((d.x1! + d.x0!) / 2),
-      yAnchor:
-        yScale(getY(d)) +
-        margins.top -
-        TOOLTIP_ARROW_HEIGHT -
-        VERTICAL_TICK_OFFSET,
+      xAnchor,
+      yAnchor: yScale(getY(d)),
       xValue: "",
       tooltipContent: (
         <>
           <Box sx={{ alignItems: "center", gap: "0.375rem" }} display="flex">
-            <LegendSymbol symbol="square" color={colors(d.x0!)} />
+            <LegendSymbol
+              symbol="square"
+              color={getBarColor({
+                bin: d,
+                meta: meta ?? { x0: 0, x1: 0, label: "", type: "normal" },
+                fields,
+                colors,
+                theme,
+                binIndex,
+              })}
+            />
             <Typography variant="caption" sx={{ fontWeight: 700 }}>
-              {d.x0}-{d.x1}
+              {d.label || `${d.x0}-${d.x1}`}
               {xAxisUnit}
             </Typography>
           </Box>
           <Typography variant="caption">
-            {yAxisLabel}: {d.length}
+            {yAxisLabel}: {formatPercentage(d.length / totalCount)}
           </Typography>
         </>
       ),
@@ -193,6 +367,12 @@ const useHistogramState = ({
     getAnnotationInfo: getAnnotationInfo as unknown as (
       d: GenericObservation
     ) => Tooltip,
+    binMeta,
+    fields,
+    yAsPercentage,
+    totalCount,
+    groupedBy,
+    bandScale,
   };
 };
 
@@ -206,6 +386,8 @@ const HistogramProvider = ({
   xAxisLabel,
   yAxisLabel,
   xAxisUnit,
+  groupedBy,
+  yAsPercentage,
 }: Pick<ChartProps, "data" | "measures" | "medianValue"> & {
   children: ReactNode;
   fields: HistogramFields;
@@ -213,6 +395,8 @@ const HistogramProvider = ({
   xAxisLabel?: string;
   yAxisLabel?: string;
   xAxisUnit?: string;
+  groupedBy?: number;
+  yAsPercentage?: boolean;
 }) => {
   const state = useHistogramState({
     data,
@@ -223,6 +407,8 @@ const HistogramProvider = ({
     xAxisLabel,
     yAxisLabel,
     xAxisUnit,
+    groupedBy,
+    yAsPercentage,
   });
   return (
     <ChartContext.Provider value={state}>{children}</ChartContext.Provider>
@@ -239,6 +425,8 @@ export const Histogram = ({
   measures,
   children,
   aspectRatio,
+  groupedBy,
+  yAsPercentage,
 }: Pick<ChartProps, "data" | "measures" | "medianValue"> & {
   children: ReactNode;
   fields: HistogramFields;
@@ -246,6 +434,8 @@ export const Histogram = ({
   xAxisLabel?: string;
   yAxisLabel?: string;
   xAxisUnit?: string;
+  groupedBy?: number;
+  yAsPercentage?: boolean;
 }) => {
   return (
     <Observer>
@@ -259,10 +449,46 @@ export const Histogram = ({
           xAxisLabel={xAxisLabel}
           yAxisLabel={yAxisLabel}
           xAxisUnit={xAxisUnit}
+          groupedBy={groupedBy}
+          yAsPercentage={yAsPercentage}
         >
           {children}
         </HistogramProvider>
       </InteractionProvider>
     </Observer>
   );
+};
+
+export const getBarColor = ({
+  bin,
+  meta,
+  fields,
+  colors,
+  theme,
+  binIndex,
+}: {
+  bin: GenericObservation[];
+  meta: BinMeta;
+  fields: HistogramFields;
+  colors: d3.ScaleLinear<string, string> | undefined;
+  theme: Theme;
+  binIndex: number;
+}): string => {
+  if (fields?.style?.colorAcc) {
+    const d = bin[0];
+    if (d && d[fields.style.colorAcc]) {
+      return d[fields.style.colorAcc] as string;
+    }
+  }
+  if (fields?.style?.palette) {
+    const palette = getPalette(fields.style.palette);
+    if (palette && palette.length > 0) {
+      return palette[binIndex % palette.length];
+    }
+  }
+  if (bin.length > 0)
+    return colors
+      ? colors((meta.x0 + meta.x1) / 2)
+      : theme.palette.primary.main;
+  return "transparent";
 };

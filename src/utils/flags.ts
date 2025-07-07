@@ -13,6 +13,9 @@ const specs = {
 
   /** Show dynamic electricity tariffs */
   dynamicElectricityTariffs: {},
+
+  /** Show mock operational standards chart */
+  mockOperationalStandardsChart: {},
 } as const;
 
 const keysAsValues = <R extends Record<string | number | symbol, unknown>>(

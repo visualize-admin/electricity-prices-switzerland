@@ -42,11 +42,33 @@ export const AnnotationX = () => {
   } = useChartTheme();
 
   const isMobile = useIsMobile();
+  const chartState = useChartState() as
+    | HistogramState
+    | RangePlotState
+    | StackedBarsState;
+  const bandScale =
+    "bandScale" in chartState ? chartState.bandScale : undefined;
+  const binMeta = "binMeta" in chartState ? chartState.binMeta : undefined;
+  const groupedBy =
+    "groupedBy" in chartState ? chartState.groupedBy : undefined;
+  const getX = "getX" in chartState ? chartState.getX : undefined;
+
   return (
     <>
       {annotations &&
         annotations.map((a, i) => {
-          const x = margins.left + a.x;
+          let x = a.x;
+          if (bandScale && binMeta && groupedBy && getX && a.datum) {
+            const value = getX(a.datum);
+            const bin =
+              binMeta.find(
+                (b) => !b.isNoData && value >= b.x0 && value <= b.x1
+              ) || binMeta[0];
+            if (bin && bin.label) {
+              x = (bandScale(bin.label) ?? 0) + bandScale.bandwidth() / 2;
+            }
+          }
+          x = margins.left + x;
           const y1 =
             (isMobile ? margins.top / 2 + a.yLabel : a.yLabel) +
             annotationFontSize * a.nbOfLines;

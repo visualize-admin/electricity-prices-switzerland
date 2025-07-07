@@ -33,15 +33,6 @@ export const isNumber = (x: $IntentionalAny): boolean =>
   typeof x === "number" && !isNaN(x);
 export const mkNumber = (x: $IntentionalAny): number => +x;
 
-export const useFormatNumber = () => {
-  const locale = useLocale();
-  const formatter = React.useMemo(() => {
-    const { format } = d3FormatLocales[locale];
-    return format(",.2~f");
-  }, [locale]);
-  return formatter;
-};
-
 // We don't use CHF currency because the unit used is Rp./kWh. Intead we just reuse the regular number format:
 // E.g. 3,5 Rp./kWh, 1 Rp./kWh
 // Same as useFormatNumber currently
@@ -52,6 +43,15 @@ export const useFormatCurrency = (alwaysLeaveDecimals: boolean = false) => {
       d3FormatLocales[locale] ?? d3FormatLocales[defaultLocale];
     return format(alwaysLeaveDecimals ? ",.2f" : ",.2~f");
   }, [locale, alwaysLeaveDecimals]);
+  return formatter;
+};
+
+export const useFormatPercentage = () => {
+  const locale = useLocale();
+  const formatter = React.useMemo(() => {
+    const { format } = d3FormatLocales[locale];
+    return format(",.2%");
+  }, [locale]);
   return formatter;
 };
 
@@ -169,6 +169,8 @@ export const getPalette = (
       return chartPalette.categorical.slice(2).map((c) => c);
     case "monochrome":
       return [themePalette.monochrome[100]];
+    case "elcom-categorical-2":
+      return [chartPalette.categorical[1]];
     default:
       return schemeCategory10;
   }

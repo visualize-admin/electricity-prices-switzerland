@@ -337,6 +337,10 @@ msgstr "Min"
 msgid "histogram.municipality-count"
 msgstr "Nombre de communes"
 
+#: src/components/charts-generic/histogram/histogram-state.tsx
+msgid "histogram.noData"
+msgstr "Pas de données"
+
 #: src/pages/index.tsx
 msgid "home.hero-section.description"
 msgstr "Ce site fournit des informations actuelles sur les tarifs d'électricité en Suisse et permet de comparer les prix pour les clients privés et commerciaux par commune, canton ou gestionnaire de réseau. Vous pouvez consulter les détails des coûts d’énergie, du réseau et des suppléments ainsi que les tendances historiques pour mieux comprendre les coûts d’électricité dans votre région."
@@ -1157,6 +1161,10 @@ msgid "sunshine.grid.power-stability-title"
 msgstr "Stabilité de la puissance"
 
 #: src/domain/metrics.ts
+msgid "sunshine.metric-unit.days"
+msgstr "jours"
+
+#: src/domain/metrics.ts
 msgid "sunshine.metric-unit.min-year"
 msgstr "Min./an"
 
@@ -1167,6 +1175,10 @@ msgstr "Rp./km"
 #: src/domain/metrics.ts
 msgid "sunshine.metric-unit.rp-kwh"
 msgstr "Rp./kWh"
+
+#: src/domain/metrics.ts
+msgid "sunshine.metric-unit.swiss-francs"
+msgstr "CHF"
 
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.operational-standards.compliance"
@@ -1179,6 +1191,10 @@ msgstr "Comparaison des francs par destinataire de la facture"
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.compliance.comparison-card-title"
 msgstr "Conformité"
+
+#: src/components/operational-standards-chart.tsx
+msgid "sunshine.operational-standards.compliance.share-of-operators"
+msgstr "Part des opérateurs"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.description"
@@ -1199,6 +1215,10 @@ msgstr "Comparaison des délais de préavis pour les arrêts planifiés"
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.service-quality.comparison-card-title"
 msgstr "Qualité du service"
+
+#: src/components/operational-standards-chart.tsx
+msgid "sunshine.operational-standards.service-quality.share-of-operators"
+msgstr "Part des opérateurs"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.title"

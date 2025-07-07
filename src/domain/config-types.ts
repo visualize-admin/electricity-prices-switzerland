@@ -170,6 +170,12 @@ const HistogramFields = z.object({
   label: GenericField,
   segment: SegmentField.optional(),
   annotation: z.array(Observation).optional(),
+  style: z
+    .object({
+      colorAcc: z.string().optional(),
+      palette: z.string().optional(),
+    })
+    .optional(),
 });
 export type HistogramFields = z.infer<typeof HistogramFields>;
 

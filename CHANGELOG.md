@@ -14,6 +14,7 @@ You can also check the
 - Features
 
   - Added Overview Details Page
+  - Add Operational Standards Page
   - Add links to Sunshine Map to Home page
   - Add Operational Standards indicators to map page
 

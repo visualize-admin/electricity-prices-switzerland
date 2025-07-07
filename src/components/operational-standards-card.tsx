@@ -1,5 +1,5 @@
 import { Trans } from "@lingui/macro";
-import { Box, Card, CardContent, CardProps, Typography } from "@mui/material";
+import { Card, CardContent, CardProps, Typography } from "@mui/material";
 
 import CardSource from "src/components/card-source";
 import { PeerGroup, SunshineOperationalStandardsData } from "src/domain/data";
@@ -10,14 +10,9 @@ import { Download, DownloadImage } from "./detail-page/download-image";
 import { InfoDialogButton } from "./info-dialog";
 import {
   ComplianceChart,
-  ProductVarietyChart,
   ServiceQualityChart,
 } from "./operational-standards-chart";
 type AttributeProps =
-  | {
-      attribute: "productVariety";
-      operationalStandards: SunshineOperationalStandardsData["productVariety"];
-    }
   | {
       attribute: "serviceQuality";
       operationalStandards: SunshineOperationalStandardsData["serviceQuality"];
@@ -93,39 +88,29 @@ const OperationalStandardsCard: React.FC<OperationalStandardsCardProps> = (
         </CardHeader>
 
         {/* Stacked Horizontal Bar Chart */}
-        <Box sx={{ height: 400, width: "100%" }}>
-          {(() => {
-            switch (attribute) {
-              case "productVariety":
-                return (
-                  <ProductVarietyChart
-                    data={operationalStandards}
-                    id={operatorId}
-                    operatorLabel={operatorLabel}
-                  />
-                );
-              case "serviceQuality":
-                return (
-                  <ServiceQualityChart
-                    data={operationalStandards}
-                    id={operatorId}
-                    operatorLabel={operatorLabel}
-                  />
-                );
-              case "compliance":
-                return (
-                  <ComplianceChart
-                    data={operationalStandards}
-                    id={operatorId}
-                    operatorLabel={operatorLabel}
-                  />
-                );
-              default:
-                const _exhaustiveCheck: never = attribute;
-                return _exhaustiveCheck;
-            }
-          })()}
-        </Box>
+        {(() => {
+          switch (attribute) {
+            case "serviceQuality":
+              return (
+                <ServiceQualityChart
+                  data={operationalStandards}
+                  id={operatorId}
+                  operatorLabel={operatorLabel}
+                />
+              );
+            case "compliance":
+              return (
+                <ComplianceChart
+                  data={operationalStandards}
+                  id={operatorId}
+                  operatorLabel={operatorLabel}
+                />
+              );
+            default:
+              const _exhaustiveCheck: never = attribute;
+              return _exhaustiveCheck;
+          }
+        })()}
         {/* Footer Info */}
         <CardSource date={`${updateDate}`} source={"Lindas"} />
       </CardContent>

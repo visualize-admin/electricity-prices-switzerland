@@ -11,12 +11,14 @@ import { createContext, useContext } from "react";
 import { Annotation } from "src/components/charts-generic/annotation/annotation-x";
 import { Tooltip } from "src/components/charts-generic/interaction/tooltip";
 import { Bounds } from "src/components/charts-generic/use-width";
-import { ChartFields } from "src/domain/config-types";
+import { ChartFields, HistogramFields } from "src/domain/config-types";
 import {
   ComponentFieldsFragment,
   GenericObservation,
   ObservationValue,
 } from "src/domain/data";
+
+import { BinMeta } from "./histogram/histogram-state";
 
 export type ChartProps = {
   data: GenericObservation[];
@@ -134,9 +136,15 @@ export type HistogramState = {
   xAxisLabel?: string;
   yAxisLabel?: string;
   bins: Bin<GenericObservation, number>[];
+  binMeta: BinMeta[];
   colors: ScaleLinear<string, string>;
+  fields: HistogramFields;
   annotations?: Annotation[];
   getAnnotationInfo: (d: GenericObservation) => Tooltip;
+  yAsPercentage?: boolean;
+  totalCount?: number;
+  groupedBy?: number;
+  bandScale?: ScaleBand<string>;
 };
 
 export type ColumnsState = {

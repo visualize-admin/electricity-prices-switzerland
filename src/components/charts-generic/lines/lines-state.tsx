@@ -263,7 +263,7 @@ const useLinesState = ({
         .map((td) => ({
           symbol: "line",
           label: getSegment(td),
-          value: `${formatCurrency(getY(td))} ${yAxisLabel}`,
+          value: `${formatCurrency(getY(td))} ${yAxisLabel ? yAxisLabel : ""}`,
           color:
             segments.length > 1
               ? (colors(getColor(td)) as string)

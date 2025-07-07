@@ -38,3 +38,68 @@ export const AxisWidthHistogramDomain = () => {
     />
   );
 };
+
+export const AxisWidthHistogram = () => {
+  const { xScale, bounds, binMeta, bandScale } =
+    useChartState() as HistogramState;
+  const { chartHeight, margins } = bounds;
+  const { labelColor, labelFontSize, gridColor, fontFamily } = useChartTheme();
+  const xAxisRef = useRef<SVGGElement>(null);
+
+  useEffect(() => {
+    const g = select(xAxisRef.current) as Selection<
+      SVGGElement,
+      unknown,
+      null,
+      undefined
+    >;
+    g.selectAll("*").remove();
+    if (!binMeta || !bandScale) {
+      const ticks = Math.min(bounds.chartWidth / 60, 10);
+      g.call(axisBottom(xScale).ticks(ticks).tickSizeInner(6).tickSizeOuter(0));
+      g.selectAll(".tick line").attr("stroke", gridColor);
+      g.selectAll(".tick text")
+        .attr("font-size", labelFontSize)
+        .attr("font-family", fontFamily)
+        .attr("fill", labelColor);
+      g.select("path.domain").attr("stroke", gridColor);
+      return;
+    }
+
+    binMeta.forEach((bin, i) => {
+      const label = bin.label ?? String(i);
+      const x = (bandScale(label) ?? 0) + bandScale.bandwidth() / 2;
+      g.append("line")
+        .attr("x1", x)
+        .attr("x2", x)
+        .attr("y1", 0)
+        .attr("y2", 6)
+        .attr("stroke", gridColor);
+      g.append("text")
+        .attr("x", x)
+        .attr("y", labelFontSize + 8)
+        .attr("font-size", labelFontSize)
+        .attr("font-family", fontFamily)
+        .attr("fill", labelColor)
+        .attr("text-anchor", "middle")
+        .text(bin.label);
+    });
+  }, [
+    xScale,
+    bounds,
+    labelColor,
+    labelFontSize,
+    gridColor,
+    fontFamily,
+    binMeta,
+    bandScale,
+  ]);
+
+  return (
+    <g
+      ref={xAxisRef}
+      key="x-axis-histogram"
+      transform={`translate(${margins.left}, ${chartHeight + margins.top})`}
+    />
+  );
+};
