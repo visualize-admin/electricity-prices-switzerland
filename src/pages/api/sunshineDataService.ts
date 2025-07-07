@@ -42,9 +42,29 @@ export default async function handler(
 
   res.setHeader("Set-Cookie", cookieOptions);
 
-  return res.status(200).json({
-    success: true,
-    serviceKey,
-    message: `Sunshine data service set to: ${serviceKey}`,
-  });
+  const html = `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title>Service Updated</title>
+        <meta http-equiv="refresh" content="3;url=/map?tab=sunshine">
+        <style>
+          body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+          }
+        </style>
+      </head>
+      <body>
+        <div>Sunshine data service set to: ${serviceKey}<br/>Redirecting to sunshine map...</div>
+      </body>
+    </html>
+  `;
+
+  res.setHeader("Content-Type", "text/html");
+  return res.status(200).send(html);
 }
