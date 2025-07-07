@@ -84,6 +84,12 @@ export const categories = [
 
 export type ElectricityCategory = (typeof categories)[number];
 
+export const isElectricityCategory = (
+  category: string
+): category is ElectricityCategory => {
+  return categories.includes(category as ElectricityCategory);
+};
+
 export const tariffCategories = [
   // EC
   "EC2",
