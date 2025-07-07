@@ -1,5 +1,8 @@
 import { NetworkLevel } from "src/domain/data";
-import { SunshineDataRow } from "src/graphql/resolver-types";
+import {
+  SunshineDataRow,
+  SunshineDataIndicatorRow,
+} from "src/graphql/resolver-types";
 import { query } from "src/lib/db/duckdb";
 import { PeerGroupNotFoundError } from "src/lib/db/errors";
 import { PeerGroupMedianValuesParams } from "src/lib/sunshine-data";
@@ -428,7 +431,6 @@ const getSunshineData = async ({
     year: number;
   }>(sql);
 
-  console.log("timely", new Set(result.map((row) => row.timely)));
   return result.map((row) => ({
     operatorId: row.partner_id,
     operatorUID: row.uid,
@@ -462,6 +464,34 @@ const getSunshineData = async ({
   }));
 };
 
+const getSunshineDataByIndicator = async (
+  {
+    operatorId,
+    period,
+  }: {
+    operatorId?: number | undefined | null;
+    period?: string | undefined | null;
+  },
+  indicator: string
+): Promise<SunshineDataIndicatorRow[]> => {
+  // Get the full data first
+  const fullData = await getSunshineData({ operatorId, period });
+
+  // Extract only the value for the specified indicator and return minimal structure
+  return fullData.map((row) => {
+    // Get the value for the specified indicator using the same field mapping as SPARQL
+    const value = row[indicator as keyof typeof row] as number | undefined;
+
+    return {
+      operatorId: row.operatorId,
+      operatorUID: row.operatorUID,
+      name: row.name,
+      period: row.period,
+      value: value ?? null,
+    };
+  });
+};
+
 export const sunshineDataServiceSql = {
   name: "sql",
   getNetworkCosts,
@@ -474,4 +504,5 @@ export const sunshineDataServiceSql = {
   getLatestYearPowerStability,
   getPeerGroup,
   getSunshineData,
+  getSunshineDataByIndicator,
 } satisfies SunshineDataService;

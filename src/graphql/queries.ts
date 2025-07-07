@@ -222,7 +222,9 @@ export type Query = {
   searchMunicipalities: Array<MunicipalityResult>;
   searchOperators: Array<OperatorResult>;
   sunshineData: Array<SunshineDataRow>;
+  sunshineDataByIndicator: Array<SunshineDataIndicatorRow>;
   sunshineTariffs: Array<SunshineDataRow>;
+  sunshineTariffsByIndicator: Array<SunshineDataIndicatorRow>;
   swissMedianObservations?: Maybe<Array<SwissMedianObservation>>;
   systemInfo: SystemInfo;
   wikiContent?: Maybe<WikiContent>;
@@ -325,8 +327,18 @@ export type QuerySunshineDataArgs = {
   filter: SunshineDataFilter;
 };
 
+export type QuerySunshineDataByIndicatorArgs = {
+  filter: SunshineDataFilter;
+  indicator: Scalars["String"]["input"];
+};
+
 export type QuerySunshineTariffsArgs = {
   filter: SunshineDataFilter;
+};
+
+export type QuerySunshineTariffsByIndicatorArgs = {
+  filter: SunshineDataFilter;
+  indicator: Scalars["String"]["input"];
 };
 
 export type QuerySwissMedianObservationsArgs = {
@@ -368,6 +380,15 @@ export type StabilityFilter = {
 export type SunshineDataFilter = {
   operatorId?: InputMaybe<Scalars["Int"]["input"]>;
   period?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+export type SunshineDataIndicatorRow = {
+  __typename: "SunshineDataIndicatorRow";
+  name: Scalars["String"]["output"];
+  operatorId?: Maybe<Scalars["Int"]["output"]>;
+  operatorUID: Scalars["String"]["output"];
+  period: Scalars["String"]["output"];
+  value?: Maybe<Scalars["Float"]["output"]>;
 };
 
 export type SunshineDataRow = {
@@ -767,6 +788,23 @@ export type SunshineDataQuery = {
   }>;
 };
 
+export type SunshineDataByIndicatorQueryVariables = Exact<{
+  filter: SunshineDataFilter;
+  indicator: Scalars["String"]["input"];
+}>;
+
+export type SunshineDataByIndicatorQuery = {
+  __typename: "Query";
+  sunshineDataByIndicator: Array<{
+    __typename: "SunshineDataIndicatorRow";
+    operatorId?: number | null;
+    operatorUID: string;
+    name: string;
+    period: string;
+    value?: number | null;
+  }>;
+};
+
 export type SunshineTariffQueryVariables = Exact<{
   filter: SunshineDataFilter;
 }>;
@@ -803,6 +841,23 @@ export type SunshineTariffQuery = {
     tariffNH2?: number | null;
     tariffNH4?: number | null;
     tariffNH7?: number | null;
+  }>;
+};
+
+export type SunshineTariffByIndicatorQueryVariables = Exact<{
+  filter: SunshineDataFilter;
+  indicator: Scalars["String"]["input"];
+}>;
+
+export type SunshineTariffByIndicatorQuery = {
+  __typename: "Query";
+  sunshineTariffsByIndicator: Array<{
+    __typename: "SunshineDataIndicatorRow";
+    operatorId?: number | null;
+    operatorUID: string;
+    name: string;
+    period: string;
+    value?: number | null;
   }>;
 };
 
@@ -1262,6 +1317,32 @@ export function useSunshineDataQuery(
     ...options,
   });
 }
+export const SunshineDataByIndicatorDocument = gql`
+  query SunshineDataByIndicator(
+    $filter: SunshineDataFilter!
+    $indicator: String!
+  ) {
+    sunshineDataByIndicator(filter: $filter, indicator: $indicator) {
+      operatorId
+      operatorUID
+      name
+      period
+      value
+    }
+  }
+`;
+
+export function useSunshineDataByIndicatorQuery(
+  options: Omit<
+    Urql.UseQueryArgs<SunshineDataByIndicatorQueryVariables>,
+    "query"
+  >
+) {
+  return Urql.useQuery<
+    SunshineDataByIndicatorQuery,
+    SunshineDataByIndicatorQueryVariables
+  >({ query: SunshineDataByIndicatorDocument, ...options });
+}
 export const SunshineTariffDocument = gql`
   query SunshineTariff($filter: SunshineDataFilter!) {
     sunshineTariffs(filter: $filter) {
@@ -1304,6 +1385,32 @@ export function useSunshineTariffQuery(
     query: SunshineTariffDocument,
     ...options,
   });
+}
+export const SunshineTariffByIndicatorDocument = gql`
+  query SunshineTariffByIndicator(
+    $filter: SunshineDataFilter!
+    $indicator: String!
+  ) {
+    sunshineTariffsByIndicator(filter: $filter, indicator: $indicator) {
+      operatorId
+      operatorUID
+      name
+      period
+      value
+    }
+  }
+`;
+
+export function useSunshineTariffByIndicatorQuery(
+  options: Omit<
+    Urql.UseQueryArgs<SunshineTariffByIndicatorQueryVariables>,
+    "query"
+  >
+) {
+  return Urql.useQuery<
+    SunshineTariffByIndicatorQuery,
+    SunshineTariffByIndicatorQueryVariables
+  >({ query: SunshineTariffByIndicatorDocument, ...options });
 }
 export const NetworkCostsDocument = gql`
   query NetworkCosts($filter: NetworkCostsFilter!) {

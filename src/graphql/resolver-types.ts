@@ -240,7 +240,9 @@ export type Query = {
   searchMunicipalities: Array<MunicipalityResult>;
   searchOperators: Array<OperatorResult>;
   sunshineData: Array<SunshineDataRow>;
+  sunshineDataByIndicator: Array<SunshineDataIndicatorRow>;
   sunshineTariffs: Array<SunshineDataRow>;
+  sunshineTariffsByIndicator: Array<SunshineDataIndicatorRow>;
   swissMedianObservations?: Maybe<Array<SwissMedianObservation>>;
   systemInfo: SystemInfo;
   wikiContent?: Maybe<WikiContent>;
@@ -343,8 +345,18 @@ export type QuerySunshineDataArgs = {
   filter: SunshineDataFilter;
 };
 
+export type QuerySunshineDataByIndicatorArgs = {
+  filter: SunshineDataFilter;
+  indicator: Scalars["String"]["input"];
+};
+
 export type QuerySunshineTariffsArgs = {
   filter: SunshineDataFilter;
+};
+
+export type QuerySunshineTariffsByIndicatorArgs = {
+  filter: SunshineDataFilter;
+  indicator: Scalars["String"]["input"];
 };
 
 export type QuerySwissMedianObservationsArgs = {
@@ -386,6 +398,15 @@ export type StabilityFilter = {
 export type SunshineDataFilter = {
   operatorId?: InputMaybe<Scalars["Int"]["input"]>;
   period?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+export type SunshineDataIndicatorRow = {
+  __typename?: "SunshineDataIndicatorRow";
+  name: Scalars["String"]["output"];
+  operatorId?: Maybe<Scalars["Int"]["output"]>;
+  operatorUID: Scalars["String"]["output"];
+  period: Scalars["String"]["output"];
+  value?: Maybe<Scalars["Float"]["output"]>;
 };
 
 export type SunshineDataRow = {
@@ -627,6 +648,7 @@ export type ResolversTypes = ResolversObject<{
   StabilityFilter: StabilityFilter;
   String: ResolverTypeWrapper<Scalars["String"]["output"]>;
   SunshineDataFilter: SunshineDataFilter;
+  SunshineDataIndicatorRow: ResolverTypeWrapper<SunshineDataIndicatorRow>;
   SunshineDataRow: ResolverTypeWrapper<SunshineDataRow>;
   SwissMedianObservation: ResolverTypeWrapper<ResolvedSwissMedianObservation>;
   SystemInfo: ResolverTypeWrapper<SystemInfo>;
@@ -674,6 +696,7 @@ export type ResolversParentTypes = ResolversObject<{
   StabilityFilter: StabilityFilter;
   String: Scalars["String"]["output"];
   SunshineDataFilter: SunshineDataFilter;
+  SunshineDataIndicatorRow: SunshineDataIndicatorRow;
   SunshineDataRow: SunshineDataRow;
   SwissMedianObservation: ResolvedSwissMedianObservation;
   SystemInfo: SystemInfo;
@@ -1092,11 +1115,23 @@ export type QueryResolvers<
     ContextType,
     RequireFields<QuerySunshineDataArgs, "filter">
   >;
+  sunshineDataByIndicator?: Resolver<
+    Array<ResolversTypes["SunshineDataIndicatorRow"]>,
+    ParentType,
+    ContextType,
+    RequireFields<QuerySunshineDataByIndicatorArgs, "filter" | "indicator">
+  >;
   sunshineTariffs?: Resolver<
     Array<ResolversTypes["SunshineDataRow"]>,
     ParentType,
     ContextType,
     RequireFields<QuerySunshineTariffsArgs, "filter">
+  >;
+  sunshineTariffsByIndicator?: Resolver<
+    Array<ResolversTypes["SunshineDataIndicatorRow"]>,
+    ParentType,
+    ContextType,
+    RequireFields<QuerySunshineTariffsByIndicatorArgs, "filter" | "indicator">
   >;
   swissMedianObservations?: Resolver<
     Maybe<Array<ResolversTypes["SwissMedianObservation"]>>,
@@ -1149,6 +1184,18 @@ export type StabilityDataRowResolvers<
   total?: Resolver<ResolversTypes["Float"], ParentType, ContextType>;
   unplanned?: Resolver<ResolversTypes["Float"], ParentType, ContextType>;
   year?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type SunshineDataIndicatorRowResolvers<
+  ContextType = ServerContext,
+  ParentType extends ResolversParentTypes["SunshineDataIndicatorRow"] = ResolversParentTypes["SunshineDataIndicatorRow"]
+> = ResolversObject<{
+  name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  operatorId?: Resolver<Maybe<ResolversTypes["Int"]>, ParentType, ContextType>;
+  operatorUID?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  period?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  value?: Resolver<Maybe<ResolversTypes["Float"]>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -1344,6 +1391,7 @@ export type Resolvers<ContextType = ServerContext> = ResolversObject<{
   SearchResult?: SearchResultResolvers<ContextType>;
   StabilityData?: StabilityDataResolvers<ContextType>;
   StabilityDataRow?: StabilityDataRowResolvers<ContextType>;
+  SunshineDataIndicatorRow?: SunshineDataIndicatorRowResolvers<ContextType>;
   SunshineDataRow?: SunshineDataRowResolvers<ContextType>;
   SwissMedianObservation?: SwissMedianObservationResolvers<ContextType>;
   SystemInfo?: SystemInfoResolvers<ContextType>;

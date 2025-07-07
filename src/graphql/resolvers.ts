@@ -63,16 +63,41 @@ const expectedCubeDimensions = [
 
 const Query: QueryResolvers = {
   sunshineData: async (_parent, args, context) => {
-    const filter = args.filter;
-    const sunshineData = await context.sunshineDataService.getSunshineData(filter);
+    const { filter } = args;
+    const sunshineData = await context.sunshineDataService.getSunshineData(
+      filter
+    );
+    return sunshineData;
+  },
+  sunshineDataByIndicator: async (_parent, args, context) => {
+    const { filter, indicator } = args;
+    const sunshineData =
+      await context.sunshineDataService.getSunshineDataByIndicator(
+        filter,
+        indicator
+      );
     return sunshineData;
   },
   sunshineTariffs: async (_parent, args, context) => {
-    const filter = args.filter;
+    const { filter } = args;
     if (!filter.operatorId && !filter.period) {
       throw new Error("Must either filter by year or by provider.");
     }
-    const sunshineData = await context.sunshineDataService.getSunshineData(filter);
+    const sunshineData = await context.sunshineDataService.getSunshineData(
+      filter
+    );
+    return sunshineData;
+  },
+  sunshineTariffsByIndicator: async (_parent, args, context) => {
+    const { filter, indicator } = args;
+    if (!filter.operatorId && !filter.period) {
+      throw new Error("Must either filter by year or by provider.");
+    }
+    const sunshineData =
+      await context.sunshineDataService.getSunshineDataByIndicator(
+        filter,
+        indicator
+      );
     return sunshineData;
   },
   systemInfo: async () => {

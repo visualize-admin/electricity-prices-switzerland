@@ -1032,6 +1032,61 @@ const getSunshineData = async ({
   });
 };
 
+const getSunshineDataByIndicator = async (
+  {
+    operatorId,
+    period,
+  }: {
+    operatorId?: number | undefined | null;
+    period?: string | undefined | null;
+  },
+  indicator: string
+): Promise<SunshineDataIndicatorRow[]> => {
+  // Get the full data first
+  const fullData = await getSunshineData({ operatorId, period });
+
+  // Extract only the value for the specified indicator and return minimal structure
+  return fullData.map((row) => {
+    // Extract the value for the specified indicator
+    const dataForIndicator = {
+      francRule: row.francRule,
+      infoYesNo: row.infoYesNo,
+      infoDaysInAdvance: row.infoDaysInAdvance,
+      networkCostsNE5: row.networkCostsNE5,
+      networkCostsNE6: row.networkCostsNE6,
+      networkCostsNE7: row.networkCostsNE7,
+      timely: row.timely,
+      saidiTotal: row.saidiTotal,
+      saidiUnplanned: row.saidiUnplanned,
+      saifiTotal: row.saifiTotal,
+      saifiUnplanned: row.saifiUnplanned,
+      tariffEC2: row.tariffEC2,
+      tariffEC3: row.tariffEC3,
+      tariffEC4: row.tariffEC4,
+      tariffEC6: row.tariffEC6,
+      tariffEH2: row.tariffEH2,
+      tariffEH4: row.tariffEH4,
+      tariffEH7: row.tariffEH7,
+      tariffNC2: row.tariffNC2,
+      tariffNC3: row.tariffNC3,
+      tariffNC4: row.tariffNC4,
+      tariffNC6: row.tariffNC6,
+      tariffNH2: row.tariffNH2,
+      tariffNH4: row.tariffNH4,
+      tariffNH7: row.tariffNH7,
+    };
+    const value = getIndicatorValue(dataForIndicator, indicator);
+
+    return {
+      operatorId: row.operatorId,
+      operatorUID: row.operatorUID,
+      name: row.name,
+      period: row.period,
+      value,
+    };
+  });
+};
+
 export const sunshineDataServiceSparql = {
   name: "sparql",
   getNetworkCosts,
@@ -1044,4 +1099,5 @@ export const sunshineDataServiceSparql = {
   getLatestYearPowerStability,
   getPeerGroup,
   getSunshineData,
+  getSunshineDataByIndicator,
 } satisfies SunshineDataService;

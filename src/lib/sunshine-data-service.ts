@@ -3,7 +3,10 @@ import {
   TariffCategory,
   NetworkLevel,
 } from "src/domain/data";
-import { SunshineDataRow } from "src/graphql/resolver-types";
+import {
+  SunshineDataRow,
+  SunshineDataIndicatorRow,
+} from "src/graphql/resolver-types";
 import { PeerGroupMedianValuesParams } from "src/lib/sunshine-data";
 
 export type NetworkCostRecord = {
@@ -142,4 +145,12 @@ export interface SunshineDataService {
     operatorId?: number | undefined | null;
     period?: string | undefined | null;
   }): Promise<SunshineDataRow[]>;
+
+  getSunshineDataByIndicator(
+    params: {
+      operatorId?: number | undefined | null;
+      period?: string | undefined | null;
+    },
+    indicator: string
+  ): Promise<SunshineDataIndicatorRow[]>;
 }

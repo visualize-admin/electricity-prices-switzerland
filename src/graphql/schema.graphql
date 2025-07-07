@@ -239,6 +239,14 @@ type SunshineDataRow {
   networkCostsNE7: Float
 }
 
+type SunshineDataIndicatorRow {
+  operatorId: Int
+  operatorUID: String!
+  name: String!
+  period: String!
+  value: Float
+}
+
 input SunshineDataFilter {
   operatorId: Int
   period: String
@@ -323,6 +331,14 @@ input StabilityFilter {
 type Query {
   sunshineData(filter: SunshineDataFilter!): [SunshineDataRow!]!
   sunshineTariffs(filter: SunshineDataFilter!): [SunshineDataRow!]!
+  sunshineDataByIndicator(
+    filter: SunshineDataFilter!
+    indicator: String!
+  ): [SunshineDataIndicatorRow!]!
+  sunshineTariffsByIndicator(
+    filter: SunshineDataFilter!
+    indicator: String!
+  ): [SunshineDataIndicatorRow!]!
 
   networkCosts(filter: NetworkCostsFilter!): NetworkCostsData!
   netTariffs(filter: TariffsFilter!): TariffsData!

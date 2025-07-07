@@ -215,6 +215,19 @@ query SunshineData($filter: SunshineDataFilter!) {
   }
 }
 
+query SunshineDataByIndicator(
+  $filter: SunshineDataFilter!
+  $indicator: String!
+) {
+  sunshineDataByIndicator(filter: $filter, indicator: $indicator) {
+    operatorId
+    operatorUID
+    name
+    period
+    value
+  }
+}
+
 query SunshineTariff($filter: SunshineDataFilter!) {
   sunshineTariffs(filter: $filter) {
     operatorId
@@ -245,5 +258,18 @@ query SunshineTariff($filter: SunshineDataFilter!) {
     tariffNH2
     tariffNH4
     tariffNH7
+  }
+}
+
+query SunshineTariffByIndicator(
+  $filter: SunshineDataFilter!
+  $indicator: String!
+) {
+  sunshineTariffsByIndicator(filter: $filter, indicator: $indicator) {
+    operatorId
+    operatorUID
+    name
+    period
+    value
   }
 }
