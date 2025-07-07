@@ -216,12 +216,15 @@ const OverviewPage = (props: Props) => {
     },
   });
 
-  const networkCosts = networkCostsResult.data
-    ?.networkCosts as NetworkCostsQuery["networkCosts"];
-  const netTariffs = netTariffsResult.data
-    ?.netTariffs as NetTariffsQuery["netTariffs"];
-  const energyTariffs = energyTariffsResult.data
-    ?.energyTariffs as EnergyTariffsQuery["energyTariffs"];
+  const networkCosts = networkCostsResult.data?.networkCosts as
+    | NetworkCostsQuery["networkCosts"]
+    | undefined;
+  const netTariffs = netTariffsResult.data?.netTariffs as
+    | NetTariffsQuery["netTariffs"]
+    | undefined;
+  const energyTariffs = energyTariffsResult.data?.energyTariffs as
+    | EnergyTariffsQuery["energyTariffs"]
+    | undefined;
 
   const mainContent = (
     <>
@@ -320,100 +323,112 @@ const OverviewPage = (props: Props) => {
             setValue={setNetworkLevel}
           />
         </Box>
-        <NetworkCostsTrendCardMinified
-          filters={{
-            viewBy: "progress",
-            compareWith: [],
-          }}
-          peerGroup={props.costsAndTariffs.operator.peerGroup}
-          updateDate={props.costsAndTariffs.updateDate}
-          networkCosts={networkCosts}
-          operatorId={id}
-          operatorLabel={name}
-          latestYear={latestYear}
-          sx={{ gridArea: "network-costs" }}
-          cardDescription={getLocalizedLabel({
-            id: `network-level.${networkLevel}.description`,
-          })}
-          linkContent={
-            <Link
-              href={sunshineDetailsLink(
-                `/sunshine/${entity}/${id}/costs-and-tariffs`,
-                { tab: "networkCosts" }
-              )}
-            >
-              <IconButton variant="outlined" color="primary">
-                <Icon name="arrowright" />
-              </IconButton>
-            </Link>
-          }
-        />
-        <TariffsTrendCardMinified
-          filters={{
-            viewBy: "progress",
-            compareWith: [],
-          }}
-          peerGroup={props.costsAndTariffs.operator.peerGroup}
-          updateDate={props.costsAndTariffs.updateDate}
-          netTariffs={netTariffs}
-          operatorId={id}
-          operatorLabel={name}
-          latestYear={latestYear}
-          cardTitle={
-            <Trans id="sunshine.costs-and-tariffs.net-tariffs.overview">
-              Net Tariffs
-            </Trans>
-          }
-          cardDescription={getLocalizedLabel({
-            id: `selector.category.${category}.long`,
-          })}
-          sx={{ gridArea: "net-tariffs" }}
-          linkContent={
-            <Link
-              href={sunshineDetailsLink(
-                `/sunshine/${entity}/${id}/costs-and-tariffs`,
-                { tab: "netTariffs" }
-              )}
-            >
-              <IconButton variant="outlined" size="sm" color="primary">
-                <Icon name="arrowright" />
-              </IconButton>
-            </Link>
-          }
-        />
-        <TariffsTrendCardMinified
-          filters={{
-            viewBy: "progress",
-            compareWith: [],
-          }}
-          peerGroup={props.costsAndTariffs.operator.peerGroup}
-          updateDate={props.costsAndTariffs.updateDate}
-          netTariffs={energyTariffs}
-          operatorId={id}
-          operatorLabel={name}
-          latestYear={latestYear}
-          cardTitle={
-            <Trans id="sunshine.costs-and-tariffs.energy-tariffs.overview">
-              Energy Tariffs
-            </Trans>
-          }
-          cardDescription={getLocalizedLabel({
-            id: `selector.category.${category}.long`,
-          })}
-          sx={{ gridArea: "energy-tariffs" }}
-          linkContent={
-            <Link
-              href={sunshineDetailsLink(
-                `/sunshine/${entity}/${id}/costs-and-tariffs`,
-                { tab: "energyTariffs" }
-              )}
-            >
-              <IconButton variant="outlined" size="sm" color="primary">
-                <Icon name="arrowright" />
-              </IconButton>
-            </Link>
-          }
-        />{" "}
+        {networkCosts ? (
+          <NetworkCostsTrendCardMinified
+            filters={{
+              viewBy: "progress",
+              compareWith: [],
+            }}
+            peerGroup={props.costsAndTariffs.operator.peerGroup}
+            updateDate={props.costsAndTariffs.updateDate}
+            networkCosts={networkCosts}
+            operatorId={id}
+            operatorLabel={name}
+            latestYear={latestYear}
+            sx={{ gridArea: "network-costs" }}
+            cardDescription={getLocalizedLabel({
+              id: `network-level.${networkLevel}.description`,
+            })}
+            linkContent={
+              <Link
+                href={sunshineDetailsLink(
+                  `/sunshine/${entity}/${id}/costs-and-tariffs`,
+                  { tab: "networkCosts" }
+                )}
+              >
+                <IconButton variant="outlined" color="primary">
+                  <Icon name="arrowright" />
+                </IconButton>
+              </Link>
+            }
+          />
+        ) : (
+          <div />
+        )}
+        {netTariffs ? (
+          <TariffsTrendCardMinified
+            filters={{
+              viewBy: "progress",
+              compareWith: [],
+            }}
+            peerGroup={props.costsAndTariffs.operator.peerGroup}
+            updateDate={props.costsAndTariffs.updateDate}
+            netTariffs={netTariffs}
+            operatorId={id}
+            operatorLabel={name}
+            latestYear={latestYear}
+            cardTitle={
+              <Trans id="sunshine.costs-and-tariffs.net-tariffs.overview">
+                Net Tariffs
+              </Trans>
+            }
+            cardDescription={getLocalizedLabel({
+              id: `selector.category.${category}.long`,
+            })}
+            sx={{ gridArea: "net-tariffs" }}
+            linkContent={
+              <Link
+                href={sunshineDetailsLink(
+                  `/sunshine/${entity}/${id}/costs-and-tariffs`,
+                  { tab: "netTariffs" }
+                )}
+              >
+                <IconButton variant="outlined" size="sm" color="primary">
+                  <Icon name="arrowright" />
+                </IconButton>
+              </Link>
+            }
+          />
+        ) : (
+          <div />
+        )}
+        {energyTariffs ? (
+          <TariffsTrendCardMinified
+            filters={{
+              viewBy: "progress",
+              compareWith: [],
+            }}
+            peerGroup={props.costsAndTariffs.operator.peerGroup}
+            updateDate={props.costsAndTariffs.updateDate}
+            netTariffs={energyTariffs}
+            operatorId={id}
+            operatorLabel={name}
+            latestYear={latestYear}
+            cardTitle={
+              <Trans id="sunshine.costs-and-tariffs.energy-tariffs.overview">
+                Energy Tariffs
+              </Trans>
+            }
+            cardDescription={getLocalizedLabel({
+              id: `selector.category.${category}.long`,
+            })}
+            sx={{ gridArea: "energy-tariffs" }}
+            linkContent={
+              <Link
+                href={sunshineDetailsLink(
+                  `/sunshine/${entity}/${id}/costs-and-tariffs`,
+                  { tab: "energyTariffs" }
+                )}
+              >
+                <IconButton variant="outlined" size="sm" color="primary">
+                  <Icon name="arrowright" />
+                </IconButton>
+              </Link>
+            }
+          />
+        ) : (
+          <div />
+        )}
         <Typography variant="h2" sx={{ gridArea: "row-title-2" }}>
           <Trans id="sunshine.grid.power-stability-title">
             Power Stability
