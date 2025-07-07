@@ -3,7 +3,7 @@ import { Box, Typography } from "@mui/material";
 
 import { Combobox } from "src/components/combobox";
 import {
-  QueryStateSunshineIndicator,
+  SunshineIndicator,
   QueryStateSunshineSaidiSaifiTypology,
 } from "src/domain/query-states";
 
@@ -18,9 +18,9 @@ type SunshineSelectorsBaseProps = {
   typology: QueryStateSunshineSaidiSaifiTypology;
   setTypology: (typology: QueryStateSunshineSaidiSaifiTypology) => void;
   typologyOptions: QueryStateSunshineSaidiSaifiTypology[];
-  indicator: QueryStateSunshineIndicator;
-  setIndicator: (indicator: QueryStateSunshineIndicator) => void;
-  indicatorOptions: QueryStateSunshineIndicator[];
+  indicator: SunshineIndicator;
+  setIndicator: (indicator: SunshineIndicator) => void;
+  indicatorOptions: SunshineIndicator[];
   getItemLabel?: (id: string) => string;
   networkLevel: string;
   setNetworkLevel: (networkLevel: string) => void;

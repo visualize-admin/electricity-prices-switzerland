@@ -77,16 +77,17 @@ const sunshineMapSchema = z.object({
   activeId: z.string().optional(),
 });
 
+export type SunshineIndicator = z.infer<typeof sunshineIndicatorSchema>;
+
 export const sunshineMapLink = makeLinkGenerator(sunshineMapSchema);
 
 const detailTabsSchema = z.union([sunshineIndicatorSchema, z.undefined()]); // TODO Add Operational Standards page
 
 export type QueryStateSunshineSaidiSaifiTypology =
   QueryStateSunshineMap["typology"];
-export type QueryStateSunshineIndicator = QueryStateSunshineMap["indicator"];
 
 export const getSunshineDetailsPageFromIndicator = (
-  indicator: QueryStateSunshineMap["indicator"]
+  indicator: SunshineIndicator
 ) => {
   if (indicator === "saidi" || indicator === "saifi") {
     return "power-stability";

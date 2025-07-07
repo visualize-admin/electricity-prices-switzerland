@@ -7,7 +7,7 @@ import { NetworkCostTrendChart } from "src/components/network-cost-trend-chart";
 import { PowerStabilityChart } from "src/components/power-stability-chart";
 import { TariffsTrendChart } from "src/components/tariffs-trend-chart";
 import {
-  QueryStateSunshineIndicator,
+  SunshineIndicator,
   useQueryStateSunshineMap,
 } from "src/domain/query-states";
 import {
@@ -281,7 +281,7 @@ const SaidiSaifiChartAdapter = ({
 
 export const indicatorToChart: Partial<
   Record<
-    QueryStateSunshineIndicator,
+    SunshineIndicator,
     React.FC<{ period: string; selectedItem: ListItemType }>
   >
 > = {
