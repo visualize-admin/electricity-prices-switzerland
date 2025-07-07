@@ -1,4 +1,5 @@
 import { t, Trans } from "@lingui/macro";
+import { Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
 import ErrorPage from "next/error";
 import { useRouter } from "next/router";
@@ -151,7 +152,13 @@ const Saidi = (props: Extract<Props, { status: "found" }>) => {
   }, [data, latestYear]);
 
   if (!data?.saidi) {
-    return null;
+    return (
+      <Typography variant="body2" color="text.secondary">
+        <Trans id="sunshine.power-stability.no-saidi-data">
+          No SAIDI data available for this operator in the selected year.
+        </Trans>
+      </Typography>
+    );
   }
 
   const operatorLabel = props.name;
@@ -270,7 +277,13 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
   }, [data, latestYear]);
 
   if (!data?.saifi) {
-    return null;
+    return (
+      <Typography variant="body2" color="text.secondary">
+        <Trans id="sunshine.power-stability.no-saifi-data">
+          No SAIFI data available for this operator in the selected year.
+        </Trans>
+      </Typography>
+    );
   }
 
   const operatorLabel = props.name;
