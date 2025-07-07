@@ -22,56 +22,14 @@ import {
   useGeoData,
 } from "src/data/geo";
 import { useFetch } from "src/data/use-fetch";
-import { ElectricityCategory, ValueFormatter } from "src/domain/data";
-import { Maybe, SunshineDataRow } from "src/graphql/queries";
+import { ValueFormatter } from "src/domain/data";
+import { Maybe, SunshineDataIndicatorRow } from "src/graphql/queries";
 import { truthy } from "src/lib/truthy";
 import { getOperatorsMunicipalities } from "src/rdf/queries";
 
 import { HoverState } from "./map-helpers";
 
 // Using styles.operators.pickable.fillColor instead of defining a constant
-
-const sunshineAttributeToElectricityCategory: Partial<
-  Record<keyof SunshineDataRow, ElectricityCategory>
-> = {
-  tariffEC2: "C2",
-  tariffEC3: "C3",
-  tariffEC4: "C4",
-  tariffEC6: "C6",
-  tariffEH2: "H2",
-  tariffEH4: "H4",
-  tariffEH7: "H7",
-  tariffNC2: "C2",
-  tariffNC3: "C3",
-  tariffNC4: "C4",
-  tariffNC6: "C6",
-  tariffNH2: "H2",
-  tariffNH4: "H4",
-  tariffNH7: "H7",
-};
-
-export const displayedAttributes = [
-  "tariffEC2",
-  "tariffEC3",
-  "tariffEC4",
-  "tariffEC6",
-  "tariffEH2",
-  "tariffEH4",
-  "tariffEH7",
-  "tariffNC2",
-  "tariffNC3",
-  "tariffNC4",
-  "tariffNC6",
-  "tariffNH2",
-  "tariffNH4",
-  "tariffNH7",
-  "saidiTotal",
-  "saidiUnplanned",
-  "saifiTotal",
-  "saifiUnplanned",
-] satisfies (keyof SunshineDataRow)[];
-
-export type DisplayedAttribute = (typeof displayedAttributes)[number];
 
 type PickingInfoGeneric<Props> = Omit<PickingInfo, "object"> & {
   object?: Feature<Geometry, Props> | null;
@@ -86,8 +44,8 @@ export type GetOperatorsMapTooltip = (
 type SunshineMapProps = {
   period: string;
   colorScale: ScaleThreshold<number, string, never>;
-  accessor: (x: SunshineDataRow) => Maybe<number> | undefined;
-  observations?: SunshineDataRow[];
+  accessor: (x: SunshineDataIndicatorRow) => Maybe<number> | undefined;
+  observations?: SunshineDataIndicatorRow[];
   valueFormatter: ValueFormatter;
   onHoverOperatorLayer?: LayerProps["onHover"];
   controls?: GenericMapControls;
@@ -104,8 +62,7 @@ const SunshineMap = ({
   // TODO Right now we fetch operators municipalities through EC2 indicators
   // This is not ideal, but we don't have a better way to get the operator municipalities
   // We should probably add a query to get the operator municipalities directly
-  const electricityCategory =
-    sunshineAttributeToElectricityCategory["tariffEC2" as const]!;
+  const electricityCategory = "C2" as const;
 
   const operatorMunicipalitiesResult = useFetch({
     key: `operator-municipalities-${period}-${electricityCategory}`,
@@ -113,8 +70,8 @@ const SunshineMap = ({
   });
   const geoDataResult = useGeoData(period);
 
-  const isLoading = 
-    operatorMunicipalitiesResult.state === "fetching" || 
+  const isLoading =
+    operatorMunicipalitiesResult.state === "fetching" ||
     geoDataResult.state === "fetching";
 
   const operatorMunicipalities = operatorMunicipalitiesResult.data;

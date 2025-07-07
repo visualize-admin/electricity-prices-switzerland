@@ -48,13 +48,12 @@ import {
   useQueryStateMapCommon,
   useQueryStateSunshineMap,
 } from "src/domain/query-states";
-import { getSunshineAccessor } from "src/domain/sunshine-accessor";
 import {
   PriceComponent,
-  SunshineDataRow,
+  SunshineDataIndicatorRow,
   useAllMunicipalitiesQuery,
   useObservationsQuery,
-  useSunshineDataQuery,
+  useSunshineDataByIndicatorQuery,
 } from "src/graphql/queries";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { getSunshineDataServiceInfo } from "src/lib/sunshine-data-service-context";
@@ -122,9 +121,26 @@ const IndexPageContent = ({
     pause: !isElectricityTab,
   });
 
-  const [sunshineDataQuery] = useSunshineDataQuery({
+  const sunshineIndicatorFieldName = useMemo(() => {
+    return getSunshineIndicatorFieldName(
+      indicator,
+      typology,
+      networkLevel as NetworkLevel["id"],
+      netTariffCategory as TariffCategory,
+      energyTariffCategory as TariffCategory
+    );
+  }, [
+    indicator,
+    typology,
+    networkLevel,
+    netTariffCategory,
+    energyTariffCategory,
+  ]);
+
+  const [sunshineDataQuery] = useSunshineDataByIndicatorQuery({
     variables: {
       filter: { period: period || "2024" },
+      indicator: sunshineIndicatorFieldName,
     },
     pause: !isSunshineTab,
   });
@@ -142,8 +158,11 @@ const IndexPageContent = ({
   const sunshineObservations = useMemo(() => {
     return sunshineDataQuery.fetching
       ? EMPTY_ARRAY
-      : sunshineDataQuery.data?.sunshineData ?? EMPTY_ARRAY;
-  }, [sunshineDataQuery.data?.sunshineData, sunshineDataQuery.fetching]);
+      : sunshineDataQuery.data?.sunshineDataByIndicator ?? EMPTY_ARRAY;
+  }, [
+    sunshineDataQuery.data?.sunshineDataByIndicator,
+    sunshineDataQuery.fetching,
+  ]);
 
   const cantonMedianObservations = isElectricityTab
     ? observationsQuery.fetching
@@ -160,27 +179,16 @@ const IndexPageContent = ({
     municipalitiesQuery.data?.municipalities ?? EMPTY_ARRAY;
 
   const colorAccessor = useCallback((d: { value: number }) => d.value, []);
-  const sunshineAccessor = useMemo<
-    (r: SunshineDataRow) => number | undefined
-  >(() => {
-    return getSunshineAccessor(
-      indicator,
-      typology,
-      networkLevel as NetworkLevel["id"],
-      netTariffCategory as TariffCategory,
-      energyTariffCategory as TariffCategory
-    );
-  }, [
-    indicator,
-    typology,
-    networkLevel,
-    netTariffCategory,
-    energyTariffCategory,
-  ]);
+
+  // Simple accessor for sunshine data - just get the value field
+  const sunshineAccessor = useCallback(
+    (r: SunshineDataIndicatorRow) => r.value ?? undefined,
+    []
+  );
 
   const sunshineValues = sunshineObservations
-    .map((x) => sunshineAccessor(x) ?? null)
-    .filter((x) => x !== null && x !== undefined);
+    .map((x: SunshineDataIndicatorRow) => sunshineAccessor(x) ?? null)
+    .filter((x: number | null) => x !== null && x !== undefined);
 
   const medianValue = isElectricityTab
     ? swissMedianObservations[0]?.value
@@ -255,10 +263,7 @@ const IndexPageContent = ({
         ? groupsFromElectricityOperators(observations)
         : groupsFromElectricityMunicipalities(observations);
     } else {
-      return groupsFromSunshineObservations(
-        sunshineObservations,
-        sunshineAccessor
-      );
+      return groupsFromSunshineObservations(sunshineObservations);
     }
   }, [
     isElectricityTab,
@@ -266,7 +271,6 @@ const IndexPageContent = ({
     cantonMedianObservations,
     observations,
     sunshineObservations,
-    sunshineAccessor,
   ]);
 
   const list = (
@@ -506,6 +510,39 @@ const DetailsDrawer = ({
       </InlineDrawer>
     )
   );
+};
+
+// Function to convert UI indicator parameters to the actual field name
+const getSunshineIndicatorFieldName = (
+  indicator: string,
+  typology: string,
+  networkLevel: NetworkLevel["id"],
+  netTariffCategory: TariffCategory,
+  energyTariffCategory: TariffCategory
+): string => {
+  if (indicator === "saidi" || indicator === "saifi") {
+    return typology === "total"
+      ? `${indicator}Total`
+      : typology === "unplanned"
+      ? `${indicator}Unplanned`
+      : `${indicator}Planned`;
+  }
+  if (indicator === "networkCosts") {
+    return `networkCosts${networkLevel}`;
+  }
+  if (indicator === "netTariffs") {
+    return `tariff${netTariffCategory}`;
+  }
+  if (indicator === "energyTariffs") {
+    return `tariff${energyTariffCategory}`;
+  }
+  if (indicator === "serviceQuality") {
+    return "infoDaysInAdvance";
+  }
+  if (indicator === "compliance") {
+    return "timely";
+  }
+  throw new Error("Invalid indicator: " + indicator);
 };
 
 export const IndexPage = ({ locale, dataService }: Props) => {

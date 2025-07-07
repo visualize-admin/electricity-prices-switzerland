@@ -11,7 +11,7 @@ import { QueryStateSunshineIndicator } from "src/domain/query-states";
 import {
   CantonMedianObservationFieldsFragment,
   OperatorObservationFieldsFragment,
-  SunshineDataRow,
+  SunshineDataIndicatorRow,
 } from "src/graphql/queries";
 import { Icon } from "src/icons";
 
@@ -436,21 +436,15 @@ export function groupsFromElectricityMunicipalities(
   );
 }
 
-const isValueAttributeDefined = <T extends { value: number | undefined }>(
-  d: T
-): d is T & { value: number } => {
-  return d.value !== undefined && d.value !== null;
-};
 export const groupsFromSunshineObservations = (
-  observations: SunshineDataRow[],
-  sunshineAccessor: (d: SunshineDataRow) => number | undefined
+  observations: SunshineDataIndicatorRow[]
 ): Groups => {
   const withValues = observations
+    .filter((d) => d.value !== undefined && d.value !== null)
     .map((d) => ({
       ...d,
-      value: sunshineAccessor(d),
-    }))
-    .filter(isValueAttributeDefined);
+      value: d.value!,
+    }));
 
   return Array.from(
     rollup(
