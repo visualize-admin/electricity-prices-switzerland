@@ -387,10 +387,10 @@ export const fetchSaidi = async (
     peerGroupTotal: peerGroupMedianStability?.median_saidi_total || 0,
     yearlyData: peerGroupYearlyStability.map((x) => ({
       year: x.period,
-      total: x.saidi_total,
+      total: x.saidi_total ?? null,
       operator: x.operator_id,
-      operator_name: x.operator_name,
-      unplanned: x.saidi_unplanned,
+      operator_name: x.operator_name ?? null,
+      unplanned: x.saidi_unplanned ?? null,
     })),
   };
 };
@@ -442,10 +442,10 @@ export const fetchSaifi = async (
     peerGroupTotal: peerGroupMedianStability?.median_saifi_total || 0,
     yearlyData: peerGroupYearlyStability.map((x) => ({
       year: x.period,
-      total: x.saifi_total,
+      total: x.saifi_total ?? null,
       operator: x.operator_id,
       operator_name: x.operator_name,
-      unplanned: x.saifi_unplanned,
+      unplanned: x.saifi_unplanned ?? null,
     })),
   };
 };
