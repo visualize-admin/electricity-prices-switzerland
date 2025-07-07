@@ -1,4 +1,5 @@
 import { NetworkLevel } from "src/domain/data";
+import { peerGroupMapping } from "src/domain/sunshine-data";
 import {
   SunshineDataRow,
   SunshineDataIndicatorRow,
@@ -384,18 +385,34 @@ const getPeerGroup = async (
 const getSunshineData = async ({
   operatorId,
   period,
+  peerGroup,
 }: {
   operatorId?: number | undefined | null;
   period?: string | undefined | null;
+  peerGroup?: string | undefined | null;
 }): Promise<SunshineDataRow[]> => {
   const operatorFilter = operatorId ? `partner_id = ${operatorId}` : "1=1"; // Default to all operators
   const periodFilter = period ? `AND period = ${period}` : "";
 
+  // Handle peer group filtering
+  let peerGroupFilter = "";
+  if (peerGroup && peerGroup !== "all_grid_operators") {
+    const mapping = peerGroupMapping[peerGroup];
+    if (mapping) {
+      peerGroupFilter = `AND energy_density = '${mapping.energy_density}' AND settlement_density = '${mapping.settlement_density}'`;
+    }
+  }
+
+  const peerGroupJoin = peerGroup
+    ? `JOIN peer_groups pg ON s.partner_id = pg.network_operator_id`
+    : ""; // Only join if peer group filtering is applied
+
   const sql = `
     SELECT *
-    FROM sunshine_all
-    WHERE ${operatorFilter} ${periodFilter}
-    ORDER BY period DESC, partner_id
+    FROM sunshine_all s
+    ${peerGroupJoin}
+    WHERE ${operatorFilter} ${periodFilter} ${peerGroupFilter}
+    ORDER BY period DESC, partner_id;
   `;
 
   const result = await query<{
@@ -468,14 +485,17 @@ const getSunshineDataByIndicator = async (
   {
     operatorId,
     period,
+    peerGroup,
   }: {
     operatorId?: number | undefined | null;
     period?: string | undefined | null;
+    // FIX ME, Peer group should be a type coming from the domain
+    peerGroup?: string | undefined | null;
   },
   indicator: string
 ): Promise<SunshineDataIndicatorRow[]> => {
-  // Get the full data first
-  const fullData = await getSunshineData({ operatorId, period });
+  // Get the full data with peer group filtering
+  const fullData = await getSunshineData({ operatorId, period, peerGroup });
 
   // Extract only the value for the specified indicator and return minimal structure
   return fullData.map((row) => {

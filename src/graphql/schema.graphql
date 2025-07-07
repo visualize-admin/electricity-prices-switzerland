@@ -250,6 +250,7 @@ type SunshineDataIndicatorRow {
 input SunshineDataFilter {
   operatorId: Int
   period: String
+  peerGroup: String
 }
 
 # TODO Map more closely to predefined strings

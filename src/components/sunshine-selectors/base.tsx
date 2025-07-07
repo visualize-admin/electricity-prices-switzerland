@@ -14,6 +14,7 @@ type SunshineSelectorsBaseProps = {
   viewBy: string;
   setViewBy: (viewBy: string) => void;
   viewByOptions: string[];
+  getViewByLabel?: (id: string) => string;
   typology: QueryStateSunshineSaidiSaifiTypology;
   setTypology: (typology: QueryStateSunshineSaidiSaifiTypology) => void;
   typologyOptions: QueryStateSunshineSaidiSaifiTypology[];
@@ -41,6 +42,7 @@ export const SunshineSelectorsBase = ({
   viewBy,
   setViewBy,
   viewByOptions,
+  getViewByLabel = (id) => id,
   typology,
   setTypology,
   typologyOptions,
@@ -84,14 +86,14 @@ export const SunshineSelectorsBase = ({
         </Trans>
       </Typography>
 
-      {/* <Combobox
+      <Combobox
         id="viewBy"
         label={t({ id: "selector.viewBy", message: "View by" })}
         items={viewByOptions}
-        getItemLabel={getItemLabel}
+        getItemLabel={getViewByLabel}
         selectedItem={viewBy}
         setSelectedItem={setViewBy}
-      /> */}
+      />
 
       <Combobox
         id="year"

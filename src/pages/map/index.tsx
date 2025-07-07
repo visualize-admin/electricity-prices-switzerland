@@ -106,6 +106,7 @@ const IndexPageContent = ({
       networkLevel,
       netTariffCategory,
       energyTariffCategory,
+      viewBy,
     },
   ] = useQueryStateSunshineMap();
 
@@ -139,7 +140,10 @@ const IndexPageContent = ({
 
   const [sunshineDataQuery] = useSunshineDataByIndicatorQuery({
     variables: {
-      filter: { period: period || "2024" },
+      filter: {
+        period: period || "2024",
+        peerGroup: viewBy === "all_grid_operators" ? undefined : viewBy,
+      },
       indicator: sunshineIndicatorFieldName,
     },
     pause: !isSunshineTab,
@@ -182,7 +186,7 @@ const IndexPageContent = ({
 
   // Simple accessor for sunshine data - just get the value field
   const sunshineAccessor = useCallback(
-    (r: SunshineDataIndicatorRow) => r.value ?? undefined,
+    (r: SunshineDataIndicatorRow) => r?.value ?? undefined,
     []
   );
 
@@ -243,6 +247,7 @@ const IndexPageContent = ({
     />
   ) : (
     <SunshineMap
+      key={`${indicator}-${viewBy}`}
       accessor={sunshineAccessor}
       period={mapYear}
       colorScale={sunshineColorScale}

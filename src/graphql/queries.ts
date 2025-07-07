@@ -379,6 +379,7 @@ export type StabilityFilter = {
 
 export type SunshineDataFilter = {
   operatorId?: InputMaybe<Scalars["Int"]["input"]>;
+  peerGroup?: InputMaybe<Scalars["String"]["input"]>;
   period?: InputMaybe<Scalars["String"]["input"]>;
 };
 

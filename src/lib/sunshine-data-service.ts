@@ -144,12 +144,14 @@ export interface SunshineDataService {
   getSunshineData(params: {
     operatorId?: number | undefined | null;
     period?: string | undefined | null;
+    peerGroup?: string | undefined | null;
   }): Promise<SunshineDataRow[]>;
 
   getSunshineDataByIndicator(
     params: {
       operatorId?: number | undefined | null;
       period?: string | undefined | null;
+      peerGroup?: string | undefined | null;
     },
     indicator: string
   ): Promise<SunshineDataIndicatorRow[]>;

@@ -73,7 +73,11 @@ const Query: QueryResolvers = {
     const { filter, indicator } = args;
     const sunshineData =
       await context.sunshineDataService.getSunshineDataByIndicator(
-        filter,
+        {
+          operatorId: filter.operatorId,
+          period: filter.period,
+          peerGroup: filter.peerGroup,
+        },
         indicator
       );
     return sunshineData;

@@ -863,10 +863,21 @@ WHERE {
 const getSunshineData = async ({
   operatorId,
   period,
+  peerGroup,
 }: {
   operatorId?: number | undefined | null;
   period?: string | undefined | null;
+  peerGroup?: string | undefined | null;
 }): Promise<SunshineDataRow[]> => {
+  // For now, SPARQL implementation doesn't filter by peer group directly
+  // since peer group structure in SPARQL is not well defined
+  // TODO: Implement proper peer group filtering when SPARQL data structure improves
+  if (peerGroup && peerGroup !== "all_grid_operators") {
+    // Log that peer group filtering is not implemented in SPARQL yet
+    console.warn(
+      `SPARQL: Peer group filtering for '${peerGroup}' is not yet implemented`
+    );
+  }
   const periodFilter = period
     ? `:period "${period}"^^xsd:gYear`
     : `:period ?period`;
@@ -1036,14 +1047,16 @@ const getSunshineDataByIndicator = async (
   {
     operatorId,
     period,
+    peerGroup,
   }: {
     operatorId?: number | undefined | null;
     period?: string | undefined | null;
+    peerGroup?: string | undefined | null;
   },
   indicator: string
 ): Promise<SunshineDataIndicatorRow[]> => {
-  // Get the full data first
-  const fullData = await getSunshineData({ operatorId, period });
+  // Get the full data with peer group parameter (though SPARQL doesn't filter by it yet)
+  const fullData = await getSunshineData({ operatorId, period, peerGroup });
 
   // Extract only the value for the specified indicator and return minimal structure
   return fullData.map((row) => {

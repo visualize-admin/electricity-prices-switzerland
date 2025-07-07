@@ -193,7 +193,7 @@ export const getLocalizedLabel = ({ id }: { id: string }): string => {
       });
 
     // Sunshine selectors labels
-    case "all_grid_operators":
+    case "viewBy.all_grid_operators":
       return t({
         id: "viewBy.all_grid_operators",
         message: "All grid operators",
