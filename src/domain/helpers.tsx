@@ -42,6 +42,15 @@ export const useFormatCurrency = (alwaysLeaveDecimals: boolean = false) => {
   return formatter;
 };
 
+export const useFormatPercentage = () => {
+  const locale = useLocale();
+  const formatter = React.useMemo(() => {
+    const { format } = d3FormatLocales[locale];
+    return format(",.2f");
+  }, [locale]);
+  return formatter;
+};
+
 const parseTime = timeParse("%Y-%m-%dT%H:%M:%S");
 const parseDay = timeParse("%Y-%m-%d");
 const parseMonth = timeParse("%Y-%m");

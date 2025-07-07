@@ -34,6 +34,7 @@ import {
   getPalette,
   mkNumber,
   useFormatCurrency,
+  useFormatPercentage,
 } from "src/domain/helpers";
 import { estimateTextWidth } from "src/lib/estimate-text-width";
 import { useIsMobile } from "src/lib/use-mobile";
@@ -175,6 +176,7 @@ const useHistogramState = ({
 }): HistogramState => {
   const width = useWidth();
   const formatCurrency = useFormatCurrency();
+  const formatPercentage = useFormatPercentage();
   const { annotationFontSize } = useChartTheme();
   const theme = useTheme();
 
@@ -309,7 +311,7 @@ const useHistogramState = ({
             </Typography>
           </Box>
           <Typography variant="caption">
-            {yAxisLabel}: {d.length}
+            {yAxisLabel}: {formatPercentage((d.length / totalCount) * 100)}%
           </Typography>
         </>
       ),
