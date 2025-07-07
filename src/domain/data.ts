@@ -1,5 +1,6 @@
 import { extent, range, scaleThreshold } from "d3";
 import { useMemo } from "react";
+import * as z from "zod";
 
 import buildEnv from "src/env/build";
 import {
@@ -293,3 +294,14 @@ export type WikiPageSlug = (typeof wikiPageSlugs)[
   | "missing"][number];
 
 export type ValueFormatter = (value: number) => string;
+export const sunshineIndicatorSchema = z.enum([
+  "networkCosts",
+  "netTariffs",
+  "energyTariffs",
+  "saidi",
+  "saifi",
+  "serviceQuality",
+  "compliance",
+] as const);
+
+export type SunshineIndicator = z.infer<typeof sunshineIndicatorSchema>;

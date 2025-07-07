@@ -1,5 +1,6 @@
 import * as z from "zod";
 
+import { sunshineIndicatorSchema, SunshineIndicator } from "src/domain/data";
 import buildEnv from "src/env/build";
 import {
   makeLinkGenerator,
@@ -55,16 +56,6 @@ const energyPricesDetailsSchema = z.object({
   view: stringToArray(["collapsed"]),
 });
 
-const sunshineIndicatorSchema = z.enum([
-  "networkCosts",
-  "netTariffs",
-  "energyTariffs",
-  "saidi",
-  "saifi",
-  "serviceQuality",
-  "compliance",
-] as const);
-
 const sunshineMapSchema = z.object({
   tab: mapTabsSchema.default("sunshine"),
   period: periodSchema,
@@ -76,8 +67,6 @@ const sunshineMapSchema = z.object({
   networkLevel: z.string().default("NE5"),
   activeId: z.string().optional(),
 });
-
-export type SunshineIndicator = z.infer<typeof sunshineIndicatorSchema>;
 
 export const sunshineMapLink = makeLinkGenerator(sunshineMapSchema);
 

@@ -21,7 +21,7 @@ import React from "react";
 
 import { ANNOTATION_TRIANGLE_HEIGHT } from "src/components/charts-generic/annotation/annotation-x";
 import { GenericObservation } from "src/domain/data";
-import { SunshineIndicator } from "src/domain/query-states";
+import { SunshineIndicator } from "./data";
 import { estimateTextWidth } from "src/lib/estimate-text-width";
 import { useLocale } from "src/lib/use-locale";
 import { defaultLocale } from "src/locales/config";
@@ -353,18 +353,16 @@ export const filterBySeparator = (
 
   return arr.filter((item) => item !== separator);
 };
-const indicatorFormatterType: Record<
-  SunshineIndicator,
-  "number" | "boolean"
-> = {
-  saidi: "number",
-  saifi: "number",
-  serviceQuality: "number",
-  compliance: "boolean",
-  energyTariffs: "number",
-  netTariffs: "number",
-  networkCosts: "number",
-};
+const indicatorFormatterType: Record<SunshineIndicator, "number" | "boolean"> =
+  {
+    saidi: "number",
+    saifi: "number",
+    serviceQuality: "number",
+    compliance: "boolean",
+    energyTariffs: "number",
+    netTariffs: "number",
+    networkCosts: "number",
+  };
 export const useIndicatorValueFormatter = (
   indicator: SunshineIndicator
 ): ((value: number) => string) => {

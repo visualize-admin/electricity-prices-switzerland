@@ -7,7 +7,7 @@ import { MiniSelect, SearchField } from "src/components/form";
 import { HighlightContext } from "src/components/highlight-context";
 import { Stack } from "src/components/stack";
 import { Entity, ValueFormatter } from "src/domain/data";
-import { SunshineIndicator } from "src/domain/query-states";
+import { SunshineIndicator } from "src/domain/data";
 import {
   CantonMedianObservationFieldsFragment,
   OperatorObservationFieldsFragment,
@@ -223,10 +223,7 @@ const PlaceholderListItems = () => {
 type SortState = "ASC" | "DESC";
 
 type LabelType = "prices" | "quality" | "timely";
-const indicatorLabelTypes: Record<
-  "prices" | SunshineIndicator,
-  LabelType
-> = {
+const indicatorLabelTypes: Record<"prices" | SunshineIndicator, LabelType> = {
   prices: "prices",
   networkCosts: "prices",
   netTariffs: "prices",

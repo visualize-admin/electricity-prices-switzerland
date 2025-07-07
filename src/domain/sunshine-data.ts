@@ -1,7 +1,5 @@
-import {
-  SunshineIndicator,
-  QueryStateSunshineSaidiSaifiTypology,
-} from "src/domain/query-states";
+import { QueryStateSunshineSaidiSaifiTypology } from "src/domain/query-states";
+import { SunshineIndicator } from "./data";
 import { TariffCategory } from "src/graphql/resolver-mapped-types";
 import { NetworkLevel } from "src/graphql/resolver-types";
 
