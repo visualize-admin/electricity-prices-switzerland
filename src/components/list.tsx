@@ -6,8 +6,8 @@ import { MouseEventHandler, useContext, useMemo, useState } from "react";
 import { MiniSelect, SearchField } from "src/components/form";
 import { HighlightContext } from "src/components/highlight-context";
 import { Stack } from "src/components/stack";
-import { Entity } from "src/domain/data";
-import { useFormatCurrency } from "src/domain/helpers";
+import { Entity, ValueFormatter } from "src/domain/data";
+import { QueryStateSunshineIndicator } from "src/domain/query-states";
 import {
   CantonMedianObservationFieldsFragment,
   OperatorObservationFieldsFragment,
@@ -25,7 +25,7 @@ type ListItemProps = {
   label: string;
   value: number;
   colorScale: (d: number) => string;
-  formatNumber: (d: number) => string;
+  valueFormatter: (d: number) => string;
   entity: Entity;
   handleClick?: MouseEventHandler<HTMLAnchorElement>;
 };
@@ -35,7 +35,7 @@ const ListItem = ({
   label,
   value,
   colorScale,
-  formatNumber,
+  valueFormatter: formatNumber,
   entity,
   handleClick,
 }: ListItemProps) => {
@@ -90,14 +90,15 @@ export type ListItemType = {
 const ListItems = ({
   items,
   colorScale,
-  entity: entity,
+  entity,
+  valueFormatter,
 }: {
   items: [string, ListItemType][];
   colorScale: ScaleThreshold<number, string>;
   entity: Entity;
+  valueFormatter: ValueFormatter;
 }) => {
   const [truncated, setTruncated] = useState<number>(TRUNCATION_INCREMENT);
-  const formatNumber = useFormatCurrency();
   const { activeId, setActiveId, onEntitySelect } = useMap();
 
   const selectedItem = useMemo(() => {
@@ -130,7 +131,7 @@ const ListItems = ({
             value={d.value}
             label={d.label || d.id}
             colorScale={colorScale}
-            formatNumber={formatNumber}
+            valueFormatter={valueFormatter}
             entity={entity}
             handleClick={(e) => onEntitySelect(e, entity, d.id)}
           />
@@ -221,16 +222,56 @@ const PlaceholderListItems = () => {
 
 type SortState = "ASC" | "DESC";
 
+type LabelType = "prices" | "quality" | "timely";
+const indicatorLabelTypes: Record<
+  "prices" | QueryStateSunshineIndicator,
+  LabelType
+> = {
+  prices: "prices",
+  networkCosts: "prices",
+  netTariffs: "prices",
+  energyTariffs: "prices",
+  saidi: "quality",
+  saifi: "quality",
+  serviceQuality: "timely",
+  compliance: "timely",
+} as const;
+
+const labels: Record<
+  LabelType,
+  {
+    ASC: string;
+    DESC: string;
+  }
+> = {
+  prices: {
+    ASC: t({ id: "list.order.prices.asc", message: "Ascending" }),
+    DESC: t({ id: "list.order.prices.desc", message: "Descending" }),
+  },
+  quality: {
+    ASC: t({ id: "list.order.quality.asc", message: "Ascending" }),
+    DESC: t({ id: "list.order.quality.desc", message: "Descending" }),
+  },
+  timely: {
+    ASC: t({ id: "list.order.timely.asc", message: "Ascending" }),
+    DESC: t({ id: "list.order.timely.desc", message: "Descending" }),
+  },
+};
+
 export const List = ({
   grouped,
   colorScale,
   fetching,
   entity,
+  valueFormatter,
+  indicator,
 }: {
   grouped: Groups;
   colorScale: ScaleThreshold<number, string>;
   fetching: boolean;
   entity: Entity;
+  valueFormatter: ValueFormatter;
+  indicator: QueryStateSunshineIndicator | "prices";
 }) => {
   const [sortState, setSortState] = useState<SortState>("ASC");
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -238,11 +279,11 @@ export const List = ({
   const sortOptions = [
     {
       value: "ASC" as SortState,
-      label: t({ id: "list.order.asc", message: "Cheapest first" }),
+      label: labels[indicatorLabelTypes[indicator]].ASC,
     },
     {
       value: "DESC" as SortState,
-      label: t({ id: "list.order.desc", message: "Most expensive first" }),
+      label: labels[indicatorLabelTypes[indicator]].DESC,
     },
   ];
   const searchLabel = t({ id: "list.search.label", message: "Filter list" });
@@ -333,7 +374,12 @@ export const List = ({
       {fetching ? (
         <PlaceholderListItems />
       ) : (
-        <ListItems items={listItems} colorScale={colorScale} entity={entity} />
+        <ListItems
+          items={listItems}
+          colorScale={colorScale}
+          valueFormatter={valueFormatter}
+          entity={entity}
+        />
       )}
     </Box>
   );

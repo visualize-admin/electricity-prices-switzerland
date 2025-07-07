@@ -2,6 +2,7 @@ import { t, Trans } from "@lingui/macro";
 import { Box, Grid, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 
+import { sunshineMapLink } from "src/domain/query-states";
 import { Icon } from "src/icons";
 
 import { AnchorNav } from "../anchor-nav";
@@ -102,23 +103,32 @@ export const SunshineTopics = () => {
                     id: "home.sunshine-topics.network-costs.link",
                     message: "Network Costs",
                   })}
-                  href={"#"}
+                  href={sunshineMapLink("/map", {
+                    tab: "sunshine",
+                    indicator: "networkCosts",
+                  })}
                   icon={<Icon name="arrowright" />}
                 />
                 <AnchorNav
                   label={t({
                     id: "home.sunshine-topics.net-tariff.link",
-                    message: "Net Tariff",
+                    message: "Net Tariffs",
                   })}
-                  href={"#"}
+                  href={sunshineMapLink("/map", {
+                    tab: "sunshine",
+                    indicator: "netTariffs",
+                  })}
                   icon={<Icon name="arrowright" />}
                 />
                 <AnchorNav
                   label={t({
                     id: "home.sunshine-topics.energy-tariff.link",
-                    message: "Energy Tariff",
+                    message: "Energy Tariffs",
                   })}
-                  href={"#"}
+                  href={sunshineMapLink("/map", {
+                    tab: "sunshine",
+                    indicator: "energyTariffs",
+                  })}
                   icon={<Icon name="arrowright" />}
                   hideBorder
                 />
@@ -160,7 +170,10 @@ export const SunshineTopics = () => {
                     id: "home.sunshine-topics.power-outage-duration.link",
                     message: "Power Outage Duration (SAIDI)",
                   })}
-                  href={"#"}
+                  href={sunshineMapLink("/map", {
+                    tab: "sunshine",
+                    indicator: "saidi",
+                  })}
                   icon={<Icon name="arrowright" />}
                 />
                 <AnchorNav
@@ -168,7 +181,10 @@ export const SunshineTopics = () => {
                     id: "home.sunshine-topics.power-outage-frequency.link",
                     message: "Power Outage Frequency (SAIFI)",
                   })}
-                  href={"#"}
+                  href={sunshineMapLink("/map", {
+                    tab: "sunshine",
+                    indicator: "saifi",
+                  })}
                   icon={<Icon name="arrowright" />}
                 />
               </SunshineCardContent>
@@ -206,18 +222,13 @@ export const SunshineTopics = () => {
                 </Stack>
                 <AnchorNav
                   label={t({
-                    id: "home.sunshine-topics.product-variety.link",
-                    message: "Product Variety",
-                  })}
-                  href={"#"}
-                  icon={<Icon name="arrowright" />}
-                />
-                <AnchorNav
-                  label={t({
                     id: "home.sunshine-topics.service-quality.link",
                     message: "Service Quality",
                   })}
-                  href={"#"}
+                  href={sunshineMapLink("/map", {
+                    tab: "sunshine",
+                    indicator: "serviceQuality",
+                  })}
                   icon={<Icon name="arrowright" />}
                 />
                 <AnchorNav
@@ -225,7 +236,10 @@ export const SunshineTopics = () => {
                     id: "home.sunshine-topics.compliance.link",
                     message: "Compliance",
                   })}
-                  href={"#"}
+                  href={sunshineMapLink("/map", {
+                    tab: "sunshine",
+                    indicator: "compliance",
+                  })}
                   icon={<Icon name="arrowright" />}
                   hideBorder
                 />

@@ -5,771 +5,739 @@ msgstr ""
 "POT-Creation-Date: \n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
-"Language: en\n"
+"Language: aa\n"
 "Language-Team: \n"
-"Content-Type: \n"
+"Content-Type: text/plain\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-#: src/domain/helpers.tsx
-msgid "No"
-msgstr "No"
-
-#: src/domain/helpers.tsx
-msgid "Yes"
-msgstr "Yes"
+"Plural-Forms: \n"
 
 #: src/components/energy-prices-map.tsx
 msgid "canton"
-msgstr "Canton"
+msgstr "canton"
 
 #: src/domain/translation.tsx
 msgid "chart.annotation.cantons"
-msgstr "Cantons"
+msgstr "chart.annotation.cantons"
 
 #: src/domain/translation.tsx
 msgid "chart.annotation.municipalities"
-msgstr "Municipalities"
+msgstr "chart.annotation.municipalities"
 
 #: src/domain/translation.tsx
 msgid "chart.annotation.operators"
-msgstr "Network operator"
+msgstr "chart.annotation.operators"
 
 #: src/components/power-stability-chart.tsx
 msgid "chart.avg.peer-group"
-msgstr "Average Peer Group"
+msgstr "chart.avg.peer-group"
 
 #: src/components/combobox.tsx
 msgid "combobox.maxitems"
-msgstr "A maximum of {max} Entries are allowed"
+msgstr "combobox.maxitems"
 
 #: src/components/combobox.tsx
 #: src/components/combobox.tsx
 #: src/components/search.tsx
 msgid "combobox.noitems"
-msgstr "No results"
+msgstr "combobox.noitems"
 
 #: src/components/combobox.tsx
 msgid "combobox.prompt"
-msgstr "Enter designation…"
+msgstr "combobox.prompt"
 
 #: src/components/form.tsx
 msgid "controls.search.clear"
-msgstr "Clear search field"
+msgstr "controls.search.clear"
 
 #: src/components/list.tsx
 msgid "dataset.results"
-msgstr "{0} Resultate"
+msgstr "dataset.results"
 
 #: src/components/list.tsx
 msgid "dataset.sortby"
-msgstr "Sortieren"
+msgstr "dataset.sortby"
 
 #: src/components/detail-page/banner.tsx
 #: src/components/detail-page/banner.tsx
 msgid "detail.canton"
-msgstr "Canton"
+msgstr "detail.canton"
 
 #: src/components/detail-page/cantons-comparison-range.tsx
 #: src/components/detail-page/cantons-comparison-range.tsx
 msgid "detail.card.title.cantons.comparison"
-msgstr "Canton comparison"
+msgstr "detail.card.title.cantons.comparison"
 
 #: src/components/detail-page/price-components-bars.tsx
 msgid "detail.card.title.price.components"
-msgstr "Price components"
+msgstr "detail.card.title.price.components"
 
 #: src/components/detail-page/price-distribution-histogram.tsx
 #: src/components/detail-page/price-distribution-histogram.tsx
 msgid "detail.card.title.prices.distribution"
-msgstr "Prize distribution in Switzerland"
+msgstr "detail.card.title.prices.distribution"
 
 #: src/components/detail-page/price-evolution-line-chart.tsx
 #: src/components/detail-page/price-evolution-line-chart.tsx
 msgid "detail.card.title.prices.evolution"
-msgstr "Tariff development"
+msgstr "detail.card.title.prices.evolution"
 
 #: src/components/detail-page/banner.tsx
 msgid "detail.maplink"
-msgstr "Back to map view"
+msgstr "detail.maplink"
 
 #: src/components/detail-page/banner.tsx
 msgid "detail.municipalities"
-msgstr "Municipalities"
+msgstr "detail.municipalities"
 
 #: src/components/detail-page/banner.tsx
 msgid "detail.municipality"
-msgstr "Municipality"
+msgstr "detail.municipality"
 
 #: src/components/detail-page/banner.tsx
 msgid "detail.operator"
-msgstr "Operator"
+msgstr "detail.operator"
 
 #: src/components/detail-page/banner.tsx
 msgid "detail.operators"
-msgstr "Operators"
+msgstr "detail.operators"
 
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.costs-and-tariffs-item"
-msgstr "Costs and Tariffs"
+msgstr "details.page.navigation.costs-and-tariffs-item"
 
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.electricity-insights-title"
-msgstr "Insights into electricity"
+msgstr "details.page.navigation.electricity-insights-title"
 
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.electricity-tariffs-item"
-msgstr "Electricity tariffs"
+msgstr "details.page.navigation.electricity-tariffs-item"
 
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.operational-standards-item"
-msgstr "Operational Standards"
+msgstr "details.page.navigation.operational-standards-item"
 
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.power-stability-item"
-msgstr "Power Stability"
+msgstr "details.page.navigation.power-stability-item"
 
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.sunshine-indicators-title"
-msgstr "Sunshine Indicators"
+msgstr "details.page.navigation.sunshine-indicators-title"
 
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.sunshine-overview-item"
-msgstr "Overview"
+msgstr "details.page.navigation.sunshine-overview-item"
 
 #: src/components/info-dialog.tsx
 msgid "dialog.close"
-msgstr "Close dialog"
+msgstr "dialog.close"
 
 #: src/components/info-dialog.tsx
 msgid "dialog.infoprefix"
-msgstr "Info:"
+msgstr "dialog.infoprefix"
 
 #: src/components/operator-documents.tsx
 msgid "download.category.annualreport"
-msgstr "Financial statements"
+msgstr "download.category.annualreport"
 
 #: src/components/operator-documents.tsx
 msgid "download.category.annualreports"
-msgstr "Annual Reports"
+msgstr "download.category.annualreports"
 
 #: src/components/operator-documents.tsx
 msgid "download.category.financial-statement"
-msgstr "Financial report"
+msgstr "download.category.financial-statement"
 
 #: src/components/operator-documents.tsx
 msgid "download.category.financial-statement-report"
-msgstr "Report on the financial report"
+msgstr "download.category.financial-statement-report"
 
 #: src/components/operator-documents.tsx
 msgid "download.category.tariff"
-msgstr "Tariff sheet"
+msgstr "download.category.tariff"
 
 #: src/components/operator-documents.tsx
 msgid "download.category.tariffs"
-msgstr "Tariffs"
+msgstr "download.category.tariffs"
 
 #: src/components/operator-documents.tsx
 msgid "download.cta"
-msgstr "Download reports & tariffs"
+msgstr "download.cta"
 
 #: src/components/operator-documents.tsx
 msgid "download.filetype.pdf"
-msgstr "PDF file"
+msgstr "download.filetype.pdf"
 
 #: src/components/operator-documents.tsx
 msgid "download.nooperatordocuments"
-msgstr "No network operator documents"
+msgstr "download.nooperatordocuments"
 
 #: src/components/operator-documents.tsx
 msgid "download.reports"
-msgstr "Download reports"
+msgstr "download.reports"
 
 #: src/components/detail-page/price-components-bars.tsx
 msgid "dynamic-tariffs.hint"
-msgstr "Prices shown with values in brackets are dynamic. You can find more information about how dynamic pricing works [here]."
+msgstr "dynamic-tariffs.hint"
 
 #: src/components/charts-generic/bars/bars-grouped.tsx
 msgid "dynamic.tariff"
-msgstr "dynamic"
+msgstr "dynamic.tariff"
 
 #: src/components/not-found.tsx
 msgid "error.page.404.back-link"
-msgstr "Click here to return to homepage"
+msgstr "error.page.404.back-link"
 
 #: src/components/not-found.tsx
 msgid "error.page.404.description"
-msgstr "You may have entered an incorrect address (URL), or the page or document no longer exists or its name may have been changed. The page you requested could not be found."
+msgstr "error.page.404.description"
 
 #: src/components/not-found.tsx
 msgid "error.page.404.title"
-msgstr "Page not found"
+msgstr "error.page.404.title"
 
 #: src/components/not-found.tsx
 msgid "error.page.404.type"
-msgstr "Error 404"
+msgstr "error.page.404.type"
 
 #: src/components/server-error.tsx
 msgid "error.page.500.description"
-msgstr "The desired page or function is unfortunately not available at the moment. Please try again later."
+msgstr "error.page.500.description"
 
 #: src/components/server-error.tsx
 msgid "error.page.500.reload-link"
-msgstr "Reload page"
+msgstr "error.page.500.reload-link"
 
 #: src/components/server-error.tsx
 msgid "error.page.500.title"
-msgstr "Temporarily Unavailable"
+msgstr "error.page.500.title"
 
 #: src/domain/translation.tsx
 msgid "filters.category"
-msgstr "Category"
+msgstr "filters.category"
 
 #: src/domain/translation.tsx
 msgid "filters.price.component"
-msgstr "Price component"
+msgstr "filters.price.component"
 
 #: src/domain/translation.tsx
 msgid "filters.product"
-msgstr "Product"
+msgstr "filters.product"
 
 #: src/domain/translation.tsx
 msgid "filters.year"
-msgstr "Year"
+msgstr "filters.year"
 
 #: src/components/footer.tsx
 msgid "footer.about_us.label"
-msgstr "About us"
+msgstr "footer.about_us.label"
 
 #: src/components/footer.tsx
 msgid "footer.about_us.text"
-msgstr "ElCom, Switzerland's independent electricity regulator, monitors compliance with the Electricity Act and the Energy Act. It monitors electricity prices, security of supply and international trade and settles disputes regarding grid access, feed-in tariffs and between operators and producers."
+msgstr "footer.about_us.text"
 
 #: src/components/footer.tsx
 msgid "footer.additional-information"
-msgstr "Further information on tariffs in Switzerland"
+msgstr "footer.additional-information"
 
 #: src/components/footer.tsx
 msgid "footer.basis-of-calculation"
-msgstr "Basis of calculation"
+msgstr "footer.basis-of-calculation"
 
 #: src/components/footer.tsx
 msgid "footer.create-data-visualizations"
-msgstr "Create data visualizations with ElCom data set"
+msgstr "footer.create-data-visualizations"
 
 #: src/components/footer.tsx
 msgid "footer.data-as-csv"
-msgstr "Data as csv"
+msgstr "footer.data-as-csv"
 
 #: src/components/footer.tsx
 msgid "footer.data-on-opendata-swiss"
-msgstr "Data on opendata.swiss"
+msgstr "footer.data-on-opendata-swiss"
 
 #: src/components/footer.tsx
 msgid "footer.download-visualize-data"
-msgstr "Download data"
+msgstr "footer.download-visualize-data"
 
 #: src/components/footer.tsx
 msgid "footer.legal-framework"
-msgstr "Legal matters"
+msgstr "footer.legal-framework"
 
 #: src/components/footer.tsx
 msgid "footer.legal-framework.link"
-msgstr "https://www.admin.ch/gov/de/start/rechtliches.html"
+msgstr "footer.legal-framework.link"
 
 #: src/components/footer.tsx
 msgid "footer.more-information"
-msgstr "Further information"
+msgstr "footer.more-information"
 
 #: src/components/footer.tsx
 msgid "footer.swiss-municipalities-grid"
-msgstr "Swiss municipalities and responsible electricity grid operators"
+msgstr "footer.swiss-municipalities-grid"
 
 #: src/components/footer.tsx
 msgid "footer.tariff-components"
-msgstr "Transmission grid tariff components - Swissgrid"
+msgstr "footer.tariff-components"
 
 #: src/components/footer.tsx
 msgid "help.calculation"
-msgstr "Calculation basis"
+msgstr "help.calculation"
 
 #: src/components/energy-prices-map.tsx
 msgid "help.price-comparison"
-msgstr "Tariff comparison"
+msgstr "help.price-comparison"
 
 #: src/components/hint.tsx
 msgid "hint.loading.data"
-msgstr "Loading data…"
+msgstr "hint.loading.data"
 
 #: src/components/hint.tsx
 msgid "hint.nocontent.message"
-msgstr "This content could not be loaded"
+msgstr "hint.nocontent.message"
 
 #: src/components/hint.tsx
 msgid "hint.nodata.message"
-msgstr "No data could be loaded for the current selection."
+msgstr "hint.nodata.message"
 
 #: src/components/hint.tsx
 msgid "hint.nodata.title"
-msgstr "No data"
+msgstr "hint.nodata.title"
 
 #: src/components/hint.tsx
 msgid "hint.nogeodata.message"
-msgstr "No map can be displayed for the selected year."
+msgstr "hint.nogeodata.message"
 
 #: src/components/hint.tsx
 msgid "hint.nogeodata.title"
-msgstr "No map display possible"
+msgstr "hint.nogeodata.title"
 
 #: src/components/detail-page/price-distribution-histogram.tsx
 msgid "histogram.canton-count"
-msgstr "Number of cantons"
+msgstr "histogram.canton-count"
 
 #: src/components/charts-generic/histogram/histogram-min-max-values.tsx
 msgid "histogram.max"
-msgstr "Max"
+msgstr "histogram.max"
 
 #: src/components/charts-generic/histogram/histogram-min-max-values.tsx
 msgid "histogram.min"
-msgstr "Min"
+msgstr "histogram.min"
 
 #: src/components/detail-page/price-distribution-histogram.tsx
 msgid "histogram.municipality-count"
-msgstr "Number of municipalities"
-
-#: src/components/charts-generic/histogram/histogram-state.tsx
-msgid "histogram.noData"
-msgstr "No Data"
+msgstr "histogram.municipality-count"
 
 #: src/pages/index.tsx
 msgid "home.hero-section.description"
-msgstr "This website provides up-to-date information on electricity tariffs in Switzerland and allows you to compare prices for private and commercial customers by municipality, canton or grid operator. You can view detailed breakdowns of energy, grid and additional costs as well as historical trends to better understand the cost of electricity in your region."
+msgstr "home.hero-section.description"
 
 #: src/pages/index.tsx
 msgid "home.hero-section.primary-cta"
-msgstr "Electricity tariffs in Switzerland"
+msgstr "home.hero-section.primary-cta"
 
 #: src/pages/index.tsx
 msgid "home.hero-section.title"
-msgstr "Discover the electricity tariffs in the map view"
+msgstr "home.hero-section.title"
 
 #: src/components/app-layout.tsx
 msgid "home.menu.map-view"
-msgstr "Map view"
+msgstr "home.menu.map-view"
 
 #: src/components/app-layout.tsx
 msgid "home.menu.overview"
-msgstr "Overview"
+msgstr "home.menu.overview"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-regulation.description"
-msgstr "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum."
+msgstr "home.sunshine-regulation.description"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-regulation.title"
-msgstr "The Sunshine Regulation"
+msgstr "home.sunshine-regulation.title"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.card.compliance.description"
-msgstr "Product variety reflects the range of ecological electricity products offered. Service quality captures how well customers are informed about outages. Compliance measures how consistently a grid operator follows laws, regulations, and internal standards."
+msgstr "home.sunshine-topics.card.compliance.description"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.card.compliance.title"
-msgstr "Compliance"
+msgstr "home.sunshine-topics.card.compliance.title"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.card.costs-and-tariffs.description"
-msgstr "Electricity bills consist of energy tariffs and network costs. Network tariffs (levels 5-7) cover infrastructure, grid maintenance, metering, and administrative services, while energy tariffs reflect actual consumption in households (H) or businesses (C)."
+msgstr "home.sunshine-topics.card.costs-and-tariffs.description"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.card.costs-and-tariffs.title"
-msgstr "Costs and Tariffs"
+msgstr "home.sunshine-topics.card.costs-and-tariffs.title"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.card.power-stability.description"
-msgstr "SAIDI measures the total duration of power outages per customer each year, while SAIFI indicates how often outages occur. Together, they provide key insights into the reliability and stability of the electricity supply over a defined period."
+msgstr "home.sunshine-topics.card.power-stability.description"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.card.power-stability.title"
-msgstr "Power Stability"
+msgstr "home.sunshine-topics.card.power-stability.title"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.compliance.link"
-msgstr "Compliance"
+msgstr "home.sunshine-topics.compliance.link"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.energy-tariff.link"
-msgstr "Energy Tariffs"
+msgstr "home.sunshine-topics.energy-tariff.link"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.net-tariff.link"
-msgstr "Net Tariffs"
+msgstr "home.sunshine-topics.net-tariff.link"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.network-costs.link"
-msgstr "Network Costs"
+msgstr "home.sunshine-topics.network-costs.link"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.power-outage-duration.link"
-msgstr "Power Outage Duration (SAIDI)"
+msgstr "home.sunshine-topics.power-outage-duration.link"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.power-outage-frequency.link"
-msgstr "Power Outage Frequency (SAIFI)"
+msgstr "home.sunshine-topics.power-outage-frequency.link"
+
+#: src/components/sunshine/sunshine-topics.tsx
+msgid "home.sunshine-topics.product-variety.link"
+msgstr "home.sunshine-topics.product-variety.link"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.service-quality.link"
-msgstr "Service Quality"
+msgstr "home.sunshine-topics.service-quality.link"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.title"
-msgstr "Sunshine Topics"
+msgstr "home.sunshine-topics.title"
 
 #: src/components/detail-page/download-image.tsx
 msgid "image.download"
-msgstr "Download image"
-
-#: src/domain/translation.tsx
-msgid "indicator.compliance"
-msgstr "Compliance"
+msgstr "image.download"
 
 #: src/domain/translation.tsx
 msgid "indicator.energyTariffs"
-msgstr "Energy tariffs"
+msgstr "indicator.energyTariffs"
 
 #: src/domain/translation.tsx
 msgid "indicator.netTariffs"
-msgstr "Grid Tariffs"
+msgstr "indicator.netTariffs"
 
 #: src/domain/translation.tsx
 msgid "indicator.networkCosts"
-msgstr "Network costs"
+msgstr "indicator.networkCosts"
 
 #: src/domain/translation.tsx
 msgid "indicator.saidi"
-msgstr "Power Outage Duration (SAIDI)"
+msgstr "indicator.saidi"
 
 #: src/domain/translation.tsx
 msgid "indicator.saifi"
-msgstr "Power Outage Frequency (SAIFI)"
-
-#: src/domain/translation.tsx
-msgid "indicator.serviceQuality"
-msgstr "Service quality"
+msgstr "indicator.saifi"
 
 #: src/pages/map/index.tsx
 msgid "list.cantons"
-msgstr "Cantons"
+msgstr "list.cantons"
 
 #: src/pages/map/index.tsx
 msgid "list.municipalities"
-msgstr "Municipalities"
+msgstr "list.municipalities"
 
 #: src/pages/map/index.tsx
 msgid "list.operators"
-msgstr "Network operator"
+msgstr "list.operators"
 
 #: src/components/list.tsx
-msgid "list.order.prices.asc"
-msgstr "Cheapest first"
+msgid "list.order.asc"
+msgstr "list.order.asc"
 
 #: src/components/list.tsx
-msgid "list.order.prices.desc"
-msgstr "Most expensive first"
-
-#: src/components/list.tsx
-msgid "list.order.quality.asc"
-msgstr "Ascending"
-
-#: src/components/list.tsx
-msgid "list.order.quality.desc"
-msgstr "Descending"
-
-#: src/components/list.tsx
-msgid "list.order.timely.asc"
-msgstr "Ascending"
-
-#: src/components/list.tsx
-msgid "list.order.timely.desc"
-msgstr "Descending"
+msgid "list.order.desc"
+msgstr "list.order.desc"
 
 #: src/components/list.tsx
 msgid "list.search.label"
-msgstr "Filter list"
+msgstr "list.search.label"
 
 #: src/components/list.tsx
 msgid "list.showmore"
-msgstr "Show more …"
+msgstr "list.showmore"
 
 #: src/pages/map/index.tsx
 msgid "list.viewby.label"
-msgstr "View according to"
+msgstr "list.viewby.label"
 
 #: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.back-button"
-msgstr "Back to the filters"
+msgstr "map.details-sidebar-panel.back-button"
 
 #: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.next-button.compliance"
-msgstr "Compliance in detail"
+msgstr "map.details-sidebar-panel.next-button.compliance"
 
 #: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.next-button.energy-prices"
-msgstr "Energy Prices in detail"
+msgstr "map.details-sidebar-panel.next-button.energy-prices"
 
 #: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.next-button.energy-tariffs"
-msgstr "Energy Tariffs in detail"
+msgstr "map.details-sidebar-panel.next-button.energy-tariffs"
 
 #: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.next-button.net-tariffs"
-msgstr "Net Tariffs in detail"
+msgstr "map.details-sidebar-panel.next-button.net-tariffs"
 
 #: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.next-button.network-costs"
-msgstr "Network Costs in detail"
+msgstr "map.details-sidebar-panel.next-button.network-costs"
 
 #: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.next-button.saidi"
-msgstr "SAIDI in detail"
+msgstr "map.details-sidebar-panel.next-button.saidi"
 
 #: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.next-button.saifi"
-msgstr "SAIFI in detail"
+msgstr "map.details-sidebar-panel.next-button.saifi"
 
 #: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.next-button.service-quality"
-msgstr "Service Quality in detail"
+msgstr "map.details-sidebar-panel.next-button.service-quality"
 
 #: src/components/energy-prices-map.tsx
 msgid "map.legend.title"
-msgstr "Tariff comparison in Rp./kWh (figures excl. VAT)"
+msgstr "map.legend.title"
 
 #: src/components/share-button.tsx
 msgid "map.share"
-msgstr "Share"
+msgstr "map.share"
 
 #: src/components/map-tooltip.tsx
 msgid "map.tooltipnodata"
-msgstr "No data"
+msgstr "map.tooltipnodata"
 
 #: src/components/energy-prices-map.tsx
 msgid "municipality"
-msgstr "Municipality"
+msgstr "municipality"
 
 #: src/components/tariffs-trend-chart.tsx
 #: src/components/tariffs-trend-chart.tsx
 msgid "net-tariffs-trend-chart.legend-item.other-operators"
-msgstr "Other operators"
+msgstr "net-tariffs-trend-chart.legend-item.other-operators"
 
 #: src/components/tariffs-trend-chart.tsx
 msgid "net-tariffs-trend-chart.legend-item.peer-group-median"
-msgstr "Peer Group Median"
+msgstr "net-tariffs-trend-chart.legend-item.peer-group-median"
 
 #: src/components/network-cost-trend-chart.tsx
 #: src/components/network-cost-trend-chart.tsx
 #: src/components/power-stability-chart.tsx
 msgid "network-cost-trend-chart.legend-item.other-operators"
-msgstr "Other operators"
+msgstr "network-cost-trend-chart.legend-item.other-operators"
 
 #: src/components/network-cost-trend-chart.tsx
 msgid "network-cost-trend-chart.legend-item.peer-group-median"
-msgstr "Peer Group Median"
+msgstr "network-cost-trend-chart.legend-item.peer-group-median"
 
 #: src/domain/translation.tsx
 msgid "network-level"
-msgstr "Network level"
+msgstr "network-level"
 
 #: src/domain/translation.tsx
 msgid "network-level.NE5.description"
-msgstr "At Network Level NE5"
+msgstr "network-level.NE5.description"
 
 #: src/domain/translation.tsx
 msgid "network-level.NE5.long"
-msgstr "High voltage NE5"
+msgstr "network-level.NE5.long"
 
 #: src/domain/translation.tsx
 msgid "network-level.NE5.short"
-msgstr "NE5"
+msgstr "network-level.NE5.short"
 
 #: src/domain/translation.tsx
 msgid "network-level.NE6.description"
-msgstr "At Network Level NE6"
+msgstr "network-level.NE6.description"
 
 #: src/domain/translation.tsx
 msgid "network-level.NE6.long"
-msgstr "Medium voltage NE6"
+msgstr "network-level.NE6.long"
 
 #: src/domain/translation.tsx
 msgid "network-level.NE6.short"
-msgstr "NE6"
+msgstr "network-level.NE6.short"
 
 #: src/domain/translation.tsx
 #: src/domain/translation.tsx
 msgid "network-level.NE7.description"
-msgstr "At Network Level NE7"
+msgstr "network-level.NE7.description"
 
 #: src/domain/translation.tsx
 msgid "network-level.NE7.long"
-msgstr "Low voltage NE7"
+msgstr "network-level.NE7.long"
 
 #: src/domain/translation.tsx
 msgid "network-level.NE7.short"
-msgstr "NE7"
+msgstr "network-level.NE7.short"
 
 #: src/components/sunshine-map.tsx
 msgid "operator"
-msgstr "Operator"
+msgstr "operator"
 
 #: src/pages/[entity]/[id]/index.tsx
 msgid "page.electricity-tariffs.description"
-msgstr "On the grid operator's details page, you will find up-to-date information on electricity tariffs, allowing you to compare prices. You can view the breakdown of energy, grid and additional costs and call up historical trends to gain a better understanding of electricity costs."
+msgstr "page.electricity-tariffs.description"
 
 #: src/pages/[entity]/[id]/index.tsx
 msgid "page.electricity-tariffs.title"
-msgstr "Electricity tariffs"
+msgstr "page.electricity-tariffs.title"
 
 #: src/domain/translation.tsx
 msgid "peer-group.energy-density.high"
-msgstr "High energy density"
+msgstr "peer-group.energy-density.high"
 
 #: src/domain/translation.tsx
 msgid "peer-group.energy-density.low"
-msgstr "Low energy density"
+msgstr "peer-group.energy-density.low"
 
 #: src/domain/translation.tsx
 msgid "peer-group.energy-density.na"
-msgstr "Not specified"
+msgstr "peer-group.energy-density.na"
 
 #: src/domain/translation.tsx
 msgid "peer-group.settlement-density.medium"
-msgstr "Medium settlement density"
+msgstr "peer-group.settlement-density.medium"
 
 #: src/domain/translation.tsx
 msgid "peer-group.settlement-density.mountain"
-msgstr "Mountain region"
+msgstr "peer-group.settlement-density.mountain"
 
 #: src/domain/translation.tsx
 msgid "peer-group.settlement-density.na"
-msgstr "Not specified"
+msgstr "peer-group.settlement-density.na"
 
 #: src/domain/translation.tsx
 msgid "peer-group.settlement-density.rural"
-msgstr "Rural settlement density"
+msgstr "peer-group.settlement-density.rural"
 
 #: src/domain/translation.tsx
 msgid "peer-group.settlement-density.tourist"
-msgstr "Tourism"
+msgstr "peer-group.settlement-density.tourist"
 
 #: src/domain/translation.tsx
 msgid "peer-group.settlement-density.unknown"
-msgstr "Unknown"
+msgstr "peer-group.settlement-density.unknown"
 
 #: src/components/power-stability-chart.tsx
 msgid "power-stability-trend-chart.legend-item.grid-operators"
-msgstr "Grid Operators"
+msgstr "power-stability-trend-chart.legend-item.grid-operators"
 
 #: src/components/power-stability-chart.tsx
 msgid "power-stability-trend-chart.sortable-legend-item.planned"
-msgstr "Planned"
+msgstr "power-stability-trend-chart.sortable-legend-item.planned"
 
 #: src/components/power-stability-chart.tsx
 msgid "power-stability-trend-chart.sortable-legend-item.total"
-msgstr "Total"
+msgstr "power-stability-trend-chart.sortable-legend-item.total"
 
 #: src/components/power-stability-chart.tsx
 msgid "power-stability-trend-chart.sortable-legend-item.unplanned"
-msgstr "Unplanned"
+msgstr "power-stability-trend-chart.sortable-legend-item.unplanned"
 
 #: src/components/color-legend.tsx
 #: src/components/color-legend.tsx
 msgid "price.legend.max"
-msgstr "max"
+msgstr "price.legend.max"
 
 #: src/components/color-legend.tsx
 #: src/components/color-legend.tsx
 msgid "price.legend.median"
-msgstr "median"
+msgstr "price.legend.median"
 
 #: src/components/color-legend.tsx
 #: src/components/color-legend.tsx
 msgid "price.legend.min"
-msgstr "min"
+msgstr "price.legend.min"
 
 #: src/domain/translation.tsx
 msgid "priceComponents.view.collapsed.municipalities"
-msgstr "Group municipalities"
+msgstr "priceComponents.view.collapsed.municipalities"
 
 #: src/domain/translation.tsx
 msgid "priceComponents.view.collapsed.operators"
-msgstr "Grouping network operators"
+msgstr "priceComponents.view.collapsed.operators"
 
 #: src/domain/translation.tsx
 msgid "priceComponents.view.expanded.municipalities"
-msgstr "Show individual municipalities"
+msgstr "priceComponents.view.expanded.municipalities"
 
 #: src/domain/translation.tsx
 msgid "priceComponents.view.expanded.operators"
-msgstr "Show individual network operators"
+msgstr "priceComponents.view.expanded.operators"
 
 #: src/components/detail-page/cantons-comparison-range.tsx
 msgid "rangeplot.select.order.hint"
-msgstr "Sort by"
+msgstr "rangeplot.select.order.hint"
 
 #: src/domain/translation.tsx
 msgid "rangeplot.select.sorting.alpha-asc"
-msgstr "Alphabetically ascending"
+msgstr "rangeplot.select.sorting.alpha-asc"
 
 #: src/domain/translation.tsx
 msgid "rangeplot.select.sorting.alpha-desc"
-msgstr "Alphabetically descending"
+msgstr "rangeplot.select.sorting.alpha-desc"
 
 #: src/domain/translation.tsx
 msgid "rangeplot.select.sorting.median-asc"
-msgstr "Median ascending"
+msgstr "rangeplot.select.sorting.median-asc"
 
 #: src/domain/translation.tsx
 msgid "rangeplot.select.sorting.median-desc"
-msgstr "Median descending"
+msgstr "rangeplot.select.sorting.median-desc"
 
 #: src/components/detail-page/banner.tsx
 msgid "relations.showmore"
-msgstr "{rest} weitere …"
+msgstr "relations.showmore"
 
 #: src/components/app-layout.tsx
 msgid "search.global"
-msgstr "Detailed price analyses of cantons, municipalities and grid operators."
+msgstr "search.global"
 
 #: src/components/search.tsx
 msgid "search.global.hint.canton.muni.operator"
-msgstr "Municipality, canton, grid operator"
+msgstr "search.global.hint.canton.muni.operator"
 
 #: src/components/search.tsx
 msgid "search.global.hint.go.to"
-msgstr "Go to…"
+msgstr "search.global.hint.go.to"
 
 #: src/components/search.tsx
 #: src/components/search.tsx
 #: src/components/search.tsx
 msgid "search.global.label"
-msgstr "Search by municipality name, zip code, network operator, canton"
+msgstr "search.global.label"
 
 #: src/components/search.tsx
 msgid "search.open"
-msgstr "Open search"
+msgstr "search.open"
 
 #: src/components/map-details-content.tsx
 #: src/domain/translation.tsx
 msgid "search.result.canton"
-msgstr "Canton"
+msgstr "search.result.canton"
 
 #: src/domain/translation.tsx
 msgid "search.result.municipality"
-msgstr "Municipality"
+msgstr "search.result.municipality"
 
 #: src/domain/translation.tsx
 msgid "search.result.operator"
-msgstr "Network operator"
+msgstr "search.result.operator"
 
 #: src/components/detail-page/selector-multi.tsx
 #: src/components/electricity-selectors.tsx
@@ -777,610 +745,594 @@ msgstr "Network operator"
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "selector.category"
-msgstr "Category"
+msgstr "selector.category"
 
 #: src/domain/translation.tsx
 msgid "selector.category.C-group"
-msgstr "Commercial and industrial companies"
+msgstr "selector.category.C-group"
 
 #: src/domain/translation.tsx
 msgid "selector.category.C1"
-msgstr "C1"
+msgstr "selector.category.C1"
 
 #: src/domain/translation.tsx
 msgid "selector.category.C2"
-msgstr "C2"
+msgstr "selector.category.C2"
 
 #: src/domain/translation.tsx
 msgid "selector.category.C3"
-msgstr "C3"
+msgstr "selector.category.C3"
 
 #: src/domain/translation.tsx
 msgid "selector.category.C4"
-msgstr "C4"
+msgstr "selector.category.C4"
 
 #: src/domain/translation.tsx
 msgid "selector.category.C5"
-msgstr "C5"
+msgstr "selector.category.C5"
 
 #: src/domain/translation.tsx
 msgid "selector.category.C6"
-msgstr "C6"
+msgstr "selector.category.C6"
 
 #: src/domain/translation.tsx
 msgid "selector.category.C7"
-msgstr "C7"
+msgstr "selector.category.C7"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H-group"
-msgstr "Households"
+msgstr "selector.category.H-group"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H1"
-msgstr "H1"
+msgstr "selector.category.H1"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H1-long"
-msgstr "H1 - 2-Room apartment with induction stove"
+msgstr "selector.category.H1-long"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H2"
-msgstr "H2"
+msgstr "selector.category.H2"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H2-long"
-msgstr "H2 - 4-room apartment with electric stove"
+msgstr "selector.category.H2-long"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H3"
-msgstr "H3"
+msgstr "selector.category.H3"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H3-long"
-msgstr "H3 - 4-room apartment with electric stove and electric boiler"
+msgstr "selector.category.H3-long"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H4"
-msgstr "H4"
+msgstr "selector.category.H4"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H4-long"
-msgstr "H4 - 5-room apartment with electric stove and dryer"
+msgstr "selector.category.H4-long"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H5"
-msgstr "H5"
+msgstr "selector.category.H5"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H5-long"
-msgstr "H5 - 5-room single-family house with electric stove, electric boiler, and dryer"
+msgstr "selector.category.H5-long"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H6"
-msgstr "H6"
+msgstr "selector.category.H6"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H6-long"
-msgstr "H6 - 5-room single-family house with electric resistance heating"
+msgstr "selector.category.H6-long"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H7"
-msgstr "H7"
+msgstr "selector.category.H7"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H7-long"
-msgstr "H7 - 5-room single-family house with heat pump for heating"
+msgstr "selector.category.H7-long"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H8"
-msgstr "H8"
+msgstr "selector.category.H8"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H8-long"
-msgstr "H8 - Large, highly electrified condominium"
+msgstr "selector.category.H8-long"
 
 #: src/components/detail-page/selector-multi.tsx
 msgid "selector.comparecantons"
-msgstr "Cantons for comparison"
+msgstr "selector.comparecantons"
 
 #: src/components/detail-page/selector-multi.tsx
 msgid "selector.comparemunicipalities"
-msgstr "Municipalities for comparison"
+msgstr "selector.comparemunicipalities"
 
 #: src/components/detail-page/selector-multi.tsx
 msgid "selector.compareoperators"
-msgstr "Network operator for comparison"
+msgstr "selector.compareoperators"
 
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.energy-tariffs-category"
-msgstr "Category"
+msgstr "selector.energy-tariffs-category"
 
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.indicator"
-msgstr "Indicator"
+msgstr "selector.indicator"
 
 #: src/components/electricity-selectors.tsx
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.legend.select.parameters"
-msgstr "Filter list and map"
+msgstr "selector.legend.select.parameters"
 
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.net-tariffs-category"
-msgstr "Category"
+msgstr "selector.net-tariffs-category"
 
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.network-level"
-msgstr "Network level"
+msgstr "selector.network-level"
 
 #: src/components/detail-page/price-components-bars.tsx
 #: src/components/electricity-selectors.tsx
 msgid "selector.priceComponent"
-msgstr "Price component"
+msgstr "selector.priceComponent"
 
 #: src/components/detail-page/cantons-comparison-range.tsx
 #: src/components/detail-page/price-distribution-histogram.tsx
 msgid "selector.priceComponents"
-msgstr "Price components"
+msgstr "selector.priceComponents"
 
 #: src/domain/translation.tsx
 msgid "selector.pricecomponent.aidfee"
-msgstr "Grid surcharge pursuant to Art. 35 EnG"
+msgstr "selector.pricecomponent.aidfee"
 
 #: src/domain/translation.tsx
 msgid "selector.pricecomponent.charge"
-msgstr "Charges to the community"
+msgstr "selector.pricecomponent.charge"
 
 #: src/domain/translation.tsx
 msgid "selector.pricecomponent.energy"
-msgstr "Energy"
+msgstr "selector.pricecomponent.energy"
 
 #: src/domain/translation.tsx
 msgid "selector.pricecomponent.gridusage"
-msgstr "Grid usage"
+msgstr "selector.pricecomponent.gridusage"
 
 #: src/domain/translation.tsx
 msgid "selector.pricecomponent.total"
-msgstr "Total"
+msgstr "selector.pricecomponent.total"
 
 #: src/components/detail-page/selector-multi.tsx
 #: src/components/electricity-selectors.tsx
 msgid "selector.product"
-msgstr "Product"
+msgstr "selector.product"
 
 #: src/domain/translation.tsx
 msgid "selector.product.cheapest"
-msgstr "Cheapest"
+msgstr "selector.product.cheapest"
 
 #: src/domain/translation.tsx
 msgid "selector.product.standard"
-msgstr "Standard"
+msgstr "selector.product.standard"
 
 #: src/components/combined-selectors/index.tsx
 msgid "selector.tab.electricity"
-msgstr "Electricity Tariffs"
+msgstr "selector.tab.electricity"
 
 #: src/components/combined-selectors/index.tsx
 msgid "selector.tab.indicators"
-msgstr "Indicators"
+msgstr "selector.tab.indicators"
 
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.typology"
-msgstr "Typology"
+msgstr "selector.typology"
 
 #: src/components/electricity-selectors.tsx
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.year"
-msgstr "Year"
+msgstr "selector.year"
 
 #: src/components/detail-page/selector-multi.tsx
 msgid "selector.years"
-msgstr "years"
+msgstr "selector.years"
 
 #: src/components/share-button.tsx
 msgid "share.url-copied"
-msgstr "URL copied ✅"
+msgstr "share.url-copied"
 
 #: src/components/app-layout.tsx
 #: src/pages/[entity]/[id]/index.tsx
 #: src/pages/index.tsx
 msgid "site.title"
-msgstr "Electricity tariffs in Switzerland"
+msgstr "site.title"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.compliance.francs-rule-regulation"
-msgstr "75 Francs Rule Regulation"
+msgstr "sunshine.compliance.francs-rule-regulation"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.compliance.latest-year"
-msgstr "Latest year ({latestYear})"
+msgstr "sunshine.compliance.latest-year"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.compliance.notification-period"
-msgstr "Notification Days in Advance"
+msgstr "sunshine.compliance.notification-period"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.compliance.timely-paper-submission.no"
-msgstr "No"
+msgstr "sunshine.compliance.timely-paper-submission.no"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.compliance.timely-paper-submission.yes"
-msgstr "Yes"
+msgstr "sunshine.compliance.timely-paper-submission.yes"
 
 #: src/components/network-costs-trend-card.tsx
 #: src/components/operational-standards-card.tsx
 #: src/components/power-stability-card.tsx
 #: src/components/tariffs-trend-card.tsx
 msgid "sunshine.costs-and-tariffs.benchmarking-peer-group"
-msgstr "Benchmarking within the Peer Group: {peerGroupLabel}"
+msgstr "sunshine.costs-and-tariffs.benchmarking-peer-group"
 
 #: src/components/network-costs-trend-card.tsx
 #: src/components/power-stability-card.tsx
 #: src/components/tariffs-trend-card.tsx
 msgid "sunshine.costs-and-tariffs.compare-with"
-msgstr "Compare With"
+msgstr "sunshine.costs-and-tariffs.compare-with"
 
 #: src/components/card-source.tsx
 msgid "sunshine.costs-and-tariffs.date"
-msgstr "Date: {publicationDate}"
+msgstr "sunshine.costs-and-tariffs.date"
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.description"
-msgstr "This page provides an overview of electricity costs and tariffs, including network costs, net tariffs, and energy tariffs. Compare different providers and analyze trends within your peer group to better understand your position in the market."
+msgstr "sunshine.costs-and-tariffs.description"
 
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.costs-and-tariffs.energy-tariffs"
-msgstr "Energy Tariffs"
+msgstr "sunshine.costs-and-tariffs.energy-tariffs"
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.energy-tariffs-comparison-title"
-msgstr "Energy Tariffs {0}"
+msgstr "sunshine.costs-and-tariffs.energy-tariffs-comparison-title"
 
 #: src/components/map-details-chart-adapters.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.energy-tariffs-trend"
-msgstr "Energy Tariffs Trend"
+msgstr "sunshine.costs-and-tariffs.energy-tariffs-trend"
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.costs-and-tariffs.energy-tariffs.overview"
-msgstr "Energy Tariffs"
+msgstr "sunshine.costs-and-tariffs.energy-tariffs.overview"
 
 #: src/components/peer-group-card.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.latest-year"
-msgstr "Latest year ({latestYear})"
+msgstr "sunshine.costs-and-tariffs.latest-year"
 
 #: src/components/network-costs-trend-card.tsx
 #: src/components/tariffs-trend-card.tsx
 msgid "sunshine.costs-and-tariffs.latest-year-option"
-msgstr "Latest year"
+msgstr "sunshine.costs-and-tariffs.latest-year-option"
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.median-peer-group"
-msgstr "Median Peer Group"
+msgstr "sunshine.costs-and-tariffs.median-peer-group"
 
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.costs-and-tariffs.net-tariffs"
-msgstr "Grid Tariffs"
+msgstr "sunshine.costs-and-tariffs.net-tariffs"
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.net-tariffs-comparison-title"
-msgstr "Net Tariffs {0}"
+msgstr "sunshine.costs-and-tariffs.net-tariffs-comparison-title"
 
 #: src/components/map-details-chart-adapters.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.net-tariffs-trend"
-msgstr "Net Tariffs Trend"
+msgstr "sunshine.costs-and-tariffs.net-tariffs-trend"
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.costs-and-tariffs.net-tariffs.overview"
-msgstr "Net Tariffs"
+msgstr "sunshine.costs-and-tariffs.net-tariffs.overview"
 
 #: src/components/map-details-chart-adapters.tsx
 #: src/components/network-costs-trend-card.tsx
 #: src/components/network-costs-trend-card.tsx
 msgid "sunshine.costs-and-tariffs.network-cost-trend"
-msgstr "Network Cost Trend"
+msgstr "sunshine.costs-and-tariffs.network-cost-trend"
 
 #: src/components/network-costs-trend-card.tsx
 msgid "sunshine.costs-and-tariffs.network-cost-trend.overview"
-msgstr "Network Costs"
+msgstr "sunshine.costs-and-tariffs.network-cost-trend.overview"
 
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.costs-and-tariffs.network-costs"
-msgstr "Network Costs"
+msgstr "sunshine.costs-and-tariffs.network-costs"
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.network-costs-end-consumer"
-msgstr "Network Costs at {0} Level"
+msgstr "sunshine.costs-and-tariffs.network-costs-end-consumer"
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.no-energy-tariffs"
-msgstr "No energy tariffs data available for this operator in the selected year."
+msgstr "sunshine.costs-and-tariffs.no-energy-tariffs"
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.no-net-tariffs"
-msgstr "No network tariffs data available for this operator in the selected year."
+msgstr "sunshine.costs-and-tariffs.no-net-tariffs"
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.no-network-costs"
-msgstr "No network costs data available for this operator in the selected year."
+msgstr "sunshine.costs-and-tariffs.no-network-costs"
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.operator"
-msgstr "{operatorLabel}"
+msgstr "sunshine.costs-and-tariffs.operator"
 
 #: src/components/peer-group-card.tsx
 msgid "sunshine.costs-and-tariffs.peer-group"
-msgstr "Peer Group"
+msgstr "sunshine.costs-and-tariffs.peer-group"
 
 #: src/components/network-costs-trend-card.tsx
 #: src/components/tariffs-trend-card.tsx
 msgid "sunshine.costs-and-tariffs.progress-over-time"
-msgstr "Progress over time"
+msgstr "sunshine.costs-and-tariffs.progress-over-time"
 
 #: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.selected-operators"
-msgstr "Selected network operators"
+msgstr "sunshine.costs-and-tariffs.selected-operators"
 
 #: src/components/card-source.tsx
 msgid "sunshine.costs-and-tariffs.source"
-msgstr "Source: {dataSource}"
+msgstr "sunshine.costs-and-tariffs.source"
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.title"
-msgstr "Costs and Tariffs"
+msgstr "sunshine.costs-and-tariffs.title"
 
 #: src/components/network-costs-trend-card.tsx
 #: src/components/tariffs-trend-card.tsx
 msgid "sunshine.costs-and-tariffs.view-by"
-msgstr "View By"
+msgstr "sunshine.costs-and-tariffs.view-by"
 
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.costs-and-tariffs.year"
-msgstr "{year}"
+msgstr "sunshine.costs-and-tariffs.year"
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.grid.network-costs-title"
-msgstr "Network Costs"
+msgstr "sunshine.grid.network-costs-title"
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.grid.operational-standards-title"
-msgstr "Operational Standards"
+msgstr "sunshine.grid.operational-standards-title"
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.grid.power-stability-title"
-msgstr "Power Stability"
-
-#: src/domain/metrics.ts
-msgid "sunshine.metric-unit.days"
-msgstr "days"
+msgstr "sunshine.grid.power-stability-title"
 
 #: src/domain/metrics.ts
 msgid "sunshine.metric-unit.min-year"
-msgstr "Min./year"
+msgstr "sunshine.metric-unit.min-year"
 
 #: src/domain/metrics.ts
 msgid "sunshine.metric-unit.rp-km"
-msgstr "Rp./km"
+msgstr "sunshine.metric-unit.rp-km"
 
 #: src/domain/metrics.ts
 msgid "sunshine.metric-unit.rp-kwh"
-msgstr "Rp./kWh"
-
-#: src/domain/metrics.ts
-msgid "sunshine.metric-unit.swiss-francs"
-msgstr "CHF"
+msgstr "sunshine.metric-unit.rp-kwh"
 
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.operational-standards.compliance"
-msgstr "Compliance"
+msgstr "sunshine.operational-standards.compliance"
 
 #: src/domain/translation.tsx
 msgid "sunshine.operational-standards.compliance-trend"
-msgstr "Comparison of francs per invoice recipient"
+msgstr "sunshine.operational-standards.compliance-trend"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.compliance.comparison-card-title"
-msgstr "Compliance"
-
-#: src/components/operational-standards-chart.tsx
-msgid "sunshine.operational-standards.compliance.share-of-operators"
-msgstr "Share of operators"
+msgstr "sunshine.operational-standards.compliance.comparison-card-title"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.description"
-msgstr "The Operational Standards page evaluates key performance indicators that highlight the quality of service provided by electricity companies. These indicators include Product Variety, measuring the range of eco-friendly and combined energy products offered; Service Quality, assessing how well companies inform consumers about planned electricity interruptions and the notice period provided; and Compliance, ensuring adherence to the 75 francs rule and the timely submission of official documents to the Federal Electricity Commission (ElCom)."
+msgstr "sunshine.operational-standards.description"
 
 #: src/domain/translation.tsx
 msgid "sunshine.operational-standards.product-variety-trend"
-msgstr "Comparison of eco-friendly product diversity"
+msgstr "sunshine.operational-standards.product-variety-trend"
 
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.operational-standards.service-quality"
-msgstr "Service Quality"
+msgstr "sunshine.operational-standards.service-quality"
 
 #: src/domain/translation.tsx
 msgid "sunshine.operational-standards.service-quality-trend"
-msgstr "Comparison of advance notice periods for planned outages"
+msgstr "sunshine.operational-standards.service-quality-trend"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.service-quality.comparison-card-title"
-msgstr "Service Quality"
-
-#: src/components/operational-standards-chart.tsx
-msgid "sunshine.operational-standards.service-quality.share-of-operators"
-msgstr "Share of operators"
+msgstr "sunshine.operational-standards.service-quality.comparison-card-title"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.title"
-msgstr "Operational Standards"
+msgstr "sunshine.operational-standards.title"
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.overview-sunshine.description"
-msgstr "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at tellus at leo fermentum gravida. Nam eu mollis lacus. Sed libero augue, porttitor at velit fringilla, blandit cursus ipsum. In neque metus, ultricies ut tellus et, ornare condimentu."
+msgstr "sunshine.overview-sunshine.description"
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.overview-sunshine.title"
-msgstr "Sunshine Indicators Overview"
+msgstr "sunshine.overview-sunshine.title"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.description"
-msgstr "The Power Stability page provides insights into the reliability of the electricity supply through two key indicators: SAIFI (System Average Interruption Frequency Index) and SAIDI (System Average Interruption Duration Index). These indicators measure the frequency and duration of power interruptions. The data is comparable within the same grid operator group, allowing for a clear assessment of power stability and reliability across the network."
+msgstr "sunshine.power-stability.description"
 
 #: src/components/power-stability-card.tsx
 msgid "sunshine.power-stability.duration"
-msgstr "Outage Duration"
+msgstr "sunshine.power-stability.duration"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.latest-year"
-msgstr "Latest year ({latestYear})"
+msgstr "sunshine.power-stability.latest-year"
 
 #: src/components/power-stability-card.tsx
 msgid "sunshine.power-stability.latest-year-option"
-msgstr "Latest year"
+msgstr "sunshine.power-stability.latest-year-option"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.median-peer-group"
-msgstr "Median Peer Group"
+msgstr "sunshine.power-stability.median-peer-group"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.operator"
-msgstr "{operatorLabel}"
+msgstr "sunshine.power-stability.operator"
 
 #: src/components/power-stability-card.tsx
 msgid "sunshine.power-stability.overall-option"
-msgstr "Overall"
+msgstr "sunshine.power-stability.overall-option"
 
 #: src/components/power-stability-card.tsx
 msgid "sunshine.power-stability.planned-option"
-msgstr "Planned"
+msgstr "sunshine.power-stability.planned-option"
 
 #: src/components/power-stability-card.tsx
 msgid "sunshine.power-stability.progress-over-time"
-msgstr "Progress over time"
+msgstr "sunshine.power-stability.progress-over-time"
 
 #: src/components/power-stability-card.tsx
 msgid "sunshine.power-stability.ratio-option"
-msgstr "Ratio"
+msgstr "sunshine.power-stability.ratio-option"
 
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.power-stability.saidi"
-msgstr "Power Outage Duration (SAIDI)"
+msgstr "sunshine.power-stability.saidi"
 
 #: src/components/map-details-chart-adapters.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.saidi-trend"
-msgstr "Average Power Outage Duration (SAIDI)"
+msgstr "sunshine.power-stability.saidi-trend"
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.power-stability.saidi-trend.description"
-msgstr "Power Outage Duration"
+msgstr "sunshine.power-stability.saidi-trend.description"
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.power-stability.saidi-trend.overview"
-msgstr "Power Outage (SAIDI)"
+msgstr "sunshine.power-stability.saidi-trend.overview"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.saidi.comparison-card-title"
-msgstr "Total Outage Duration"
+msgstr "sunshine.power-stability.saidi.comparison-card-title"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.saidi.info-dialog-label"
-msgstr "Total Outage Duration"
+msgstr "sunshine.power-stability.saidi.info-dialog-label"
 
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.power-stability.saifi"
-msgstr "Power Outage Frequency (SAIFI)"
+msgstr "sunshine.power-stability.saifi"
 
 #: src/components/map-details-chart-adapters.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.saifi-trend"
-msgstr "Average Power Outage Frequency (SAIFI)"
+msgstr "sunshine.power-stability.saifi-trend"
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.power-stability.saifi-trend.description"
-msgstr "Power Outage Frequency"
+msgstr "sunshine.power-stability.saifi-trend.description"
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.power-stability.saifi-trend.overview"
-msgstr "Power Outage (SAIFI)"
+msgstr "sunshine.power-stability.saifi-trend.overview"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.saifi.comparison-card-title"
-msgstr "Total Outage Frequency"
+msgstr "sunshine.power-stability.saifi.comparison-card-title"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.saifi.info-dialog-label"
-msgstr "Total Outage Frequency"
+msgstr "sunshine.power-stability.saifi.info-dialog-label"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.title"
-msgstr "Power Stability"
+msgstr "sunshine.power-stability.title"
 
 #: src/components/power-stability-card.tsx
 msgid "sunshine.power-stability.total-option"
-msgstr "Total"
+msgstr "sunshine.power-stability.total-option"
 
 #: src/components/power-stability-card.tsx
 msgid "sunshine.power-stability.unplanned-option"
-msgstr "Unplanned"
+msgstr "sunshine.power-stability.unplanned-option"
 
 #: src/components/power-stability-card.tsx
 #: src/components/power-stability-card.tsx
 msgid "sunshine.power-stability.view-by"
-msgstr "View By"
+msgstr "sunshine.power-stability.view-by"
 
 #: src/domain/translation.tsx
 msgid "sunshine.select-all"
-msgstr "Select All"
+msgstr "sunshine.select-all"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.service-quality.eco-friendly-products-offered"
-msgstr "Informing customers about power outages"
+msgstr "sunshine.service-quality.eco-friendly-products-offered"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.service-quality.informing-customers-outage.no"
-msgstr "No"
+msgstr "sunshine.service-quality.informing-customers-outage.no"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.service-quality.informing-customers-outage.yes"
-msgstr "Yes"
+msgstr "sunshine.service-quality.informing-customers-outage.yes"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.service-quality.latest-year"
-msgstr "Latest year ({latestYear})"
+msgstr "sunshine.service-quality.latest-year"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.service-quality.notification-period"
-msgstr "Notification Days in Advance"
+msgstr "sunshine.service-quality.notification-period"
 
 #: src/components/header.tsx
 msgid "topbar.open-flag-menu"
-msgstr "Open flag menu"
+msgstr "topbar.open-flag-menu"
 
 #: src/domain/translation.tsx
 msgid "typology.planned"
-msgstr "Planned"
+msgstr "typology.planned"
 
 #: src/domain/translation.tsx
 msgid "typology.unplanned"
-msgstr "Unplanned"
+msgstr "typology.unplanned"
 
 #: src/domain/translation.tsx
 msgid "viewBy.all_grid_operators"
-msgstr "All grid operators"
+msgstr "viewBy.all_grid_operators"

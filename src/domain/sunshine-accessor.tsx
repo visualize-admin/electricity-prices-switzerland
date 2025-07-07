@@ -42,6 +42,9 @@ const accessorsByAttribute: Record<
   tariffNH2: property("tariffNH2"),
   tariffNH4: property("tariffNH4"),
   tariffNH7: property("tariffNH7"),
+
+  infoDaysInAdvance: property("infoDaysInAdvance"),
+  timely: property("timely"),
 };
 export function getSunshineAccessor(
   indicator: string,
@@ -65,6 +68,12 @@ export function getSunshineAccessor(
   }
   if (indicator === "energyTariffs") {
     return accessorsByAttribute[`tariff${energyTariffCategory}`];
+  }
+  if (indicator === "serviceQuality") {
+    return accessorsByAttribute.infoDaysInAdvance;
+  }
+  if (indicator === "compliance") {
+    return accessorsByAttribute.timely;
   }
   throw new Error("Invalid indicator: " + indicator);
 }

@@ -108,9 +108,11 @@ export const NetworkCostsTrendCard: React.FC<NetworkCostsTrendCardProps> = (
                 iconOnly
                 iconSize={24}
                 type="outline"
-                //FIXME: use correct slug
-                slug="help-costs-and-tariffs"
-                label={"sunshine.costs-and-tariffs.network-cost-trend"}
+                slug="help-network-costs"
+                label={t({
+                  id: "sunshine.costs-and-tariffs.network-cost-trend",
+                  message: "Network Cost Trend",
+                })}
               />
               <DownloadImage
                 iconOnly

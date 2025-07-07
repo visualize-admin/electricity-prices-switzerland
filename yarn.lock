@@ -7410,6 +7410,14 @@
   resolved "https://registry.yarnpkg.com/@types/geojson/-/geojson-7946.0.16.tgz#8ebe53d69efada7044454e3305c19017d97ced2a"
   integrity sha512-6C8nqWur3j98U6+lXDfTUWIfgvZU+EumvpHKcYjujKH7woYyLj2sUmff0tRhrqM7BohUw7Pz3ZB1jj2gW9Fvmg==
 
+"@types/gettext-parser@^8.0.0":
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/@types/gettext-parser/-/gettext-parser-8.0.0.tgz#98fa6ed717b1b4a4636002bd76696a5bdc067557"
+  integrity sha512-oBBIahfWKqAC8LsIw+uFwhXfwlF8GhWDUhyEjoP7Pl9g5bFLhYA/2SiXPkE4oKhDX9fL091qCAyPVZtIkd5X6Q==
+  dependencies:
+    "@types/node" "*"
+    "@types/readable-stream" "*"
+
 "@types/hammerjs@^2.0.41":
   version "2.0.46"
   resolved "https://registry.yarnpkg.com/@types/hammerjs/-/hammerjs-2.0.46.tgz#381daaca1360ff8a7c8dff63f32e69745b9fb1e1"
@@ -7455,6 +7463,14 @@
   version "4.0.9"
   resolved "https://registry.yarnpkg.com/@types/js-yaml/-/js-yaml-4.0.9.tgz#cd82382c4f902fed9691a2ed79ec68c5898af4c2"
   integrity sha512-k4MGaQl5TGo/iipqb2UDG2UwjXziSWkh0uysQelTlJpX1qGlpUZYm8PnO4DxG1qBomtJUdYJ6qR6xdIah10JLg==
+
+"@types/jscodeshift@^17.3.0":
+  version "17.3.0"
+  resolved "https://registry.yarnpkg.com/@types/jscodeshift/-/jscodeshift-17.3.0.tgz#f54cb4e165742e78980cd0973c07ac3785ac7bc4"
+  integrity sha512-ogvGG8VQQqAQQ096uRh+d6tBHrYuZjsumHirKtvBa5qEyTMN3IQJ7apo+sw9lxaB/iKWIhbbLlF3zmAWk9XQIg==
+  dependencies:
+    ast-types "^0.16.1"
+    recast "^0.23.11"
 
 "@types/jsdom@^21.1.7":
   version "21.1.7"
@@ -7663,6 +7679,13 @@
   integrity sha512-MY3oPudxvMYyesqs/kW1Bh8y9VqSmf+tzqw3ae8a9DZW68pUe3zAdHeI1jc6iAysuRdACnVknHP8AhwD4/dxtg==
   dependencies:
     csstype "^3.0.2"
+
+"@types/readable-stream@*":
+  version "4.0.21"
+  resolved "https://registry.yarnpkg.com/@types/readable-stream/-/readable-stream-4.0.21.tgz#716558454a5e0c3c0651520f8154efc3288f59cb"
+  integrity sha512-19eKVv9tugr03IgfXlA9UVUVRbW6IuqRO5B92Dl4a6pT7K8uaGrNS0GkxiZD0BOk6PLuXl5FhWl//eX/pzYdTQ==
+  dependencies:
+    "@types/node" "*"
 
 "@types/resolve@^1.20.2":
   version "1.20.6"
@@ -11164,6 +11187,11 @@ dotenv@^16.0.0, dotenv@^16.3.1, dotenv@^16.5.0:
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-16.5.0.tgz#092b49f25f808f020050051d1ff258e404c78692"
   integrity sha512-m/C+AwOAr9/W1UOIZUo232ejMNnJAJtYQjUbHoNTBNTJSvqzzDh7vnrei3o3r3m9blf6ZoDkvcw0VmozNRFJxg==
 
+dotenv@^17.0.1:
+  version "17.0.1"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-17.0.1.tgz#79bc4d232fadb42a4092685ff1206d31b2a43f95"
+  integrity sha512-GLjkduuAL7IMJg/ZnOPm9AnWKJ82mSE2tzXLaJ/6hD6DhwGfZaXG77oB8qbReyiczNxnbxQKyh0OE5mXq0bAHA==
+
 dset@^3.1.2, dset@^3.1.4:
   version "3.1.4"
   resolved "https://registry.yarnpkg.com/dset/-/dset-3.1.4.tgz#f8eaf5f023f068a036d08cd07dc9ffb7d0065248"
@@ -11472,7 +11500,7 @@ esbuild-register@^3.5.0:
   dependencies:
     debug "^4.3.4"
 
-"esbuild@^0.18.0 || ^0.19.0 || ^0.20.0 || ^0.21.0 || ^0.22.0 || ^0.23.0 || ^0.24.0 || ^0.25.0", esbuild@^0.25.0, esbuild@^0.25.1:
+"esbuild@^0.18.0 || ^0.19.0 || ^0.20.0 || ^0.21.0 || ^0.22.0 || ^0.23.0 || ^0.24.0 || ^0.25.0", esbuild@^0.25.0, esbuild@^0.25.1, esbuild@~0.25.0:
   version "0.25.5"
   resolved "https://registry.yarnpkg.com/esbuild/-/esbuild-0.25.5.tgz#71075054993fdfae76c66586f9b9c1f8d7edd430"
   integrity sha512-P8OtKZRv/5J5hhz0cUAdu/cLuPIKXpQl1R9pZtvmHWQvrAUVd0UNIPT4IB4W3rNOqVO0rlqHmCIbSwxh/c9yUQ==
@@ -12479,7 +12507,7 @@ get-symbol-description@^1.1.0:
     es-errors "^1.3.0"
     get-intrinsic "^1.2.6"
 
-get-tsconfig@^4.10.0:
+get-tsconfig@^4.10.0, get-tsconfig@^4.7.5:
   version "4.10.1"
   resolved "https://registry.yarnpkg.com/get-tsconfig/-/get-tsconfig-4.10.1.tgz#d34c1c01f47d65a606c37aa7a177bc3e56ab4b2e"
   integrity sha512-auHyJ4AgMz7vgS8Hp3N6HXSmlMdUyhSUrfBF16w153rxtLIEOE+HGqaBppczZvnHLqQJfiHotCYpNhl0lUROFQ==
@@ -18406,6 +18434,16 @@ tss-react@^4.9.16:
     "@emotion/cache" "*"
     "@emotion/serialize" "*"
     "@emotion/utils" "*"
+
+tsx@^4.20.3:
+  version "4.20.3"
+  resolved "https://registry.yarnpkg.com/tsx/-/tsx-4.20.3.tgz#f913e4911d59ad177c1bcee19d1035ef8dd6e2fb"
+  integrity sha512-qjbnuR9Tr+FJOMBqJCW5ehvIo/buZq7vH7qD7JziU98h6l3qGy0a/yPFjwO+y0/T7GFpNgNAvEcPPVfyT8rrPQ==
+  dependencies:
+    esbuild "~0.25.0"
+    get-tsconfig "^4.7.5"
+  optionalDependencies:
+    fsevents "~2.3.3"
 
 tty-browserify@^0.0.1:
   version "0.0.1"
