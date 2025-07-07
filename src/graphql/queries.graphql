@@ -215,16 +215,16 @@ query SunshineData($filter: SunshineDataFilter!) {
   }
 }
 
-query SunshineDataByIndicator(
-  $filter: SunshineDataFilter!
-  $indicator: String!
-) {
-  sunshineDataByIndicator(filter: $filter, indicator: $indicator) {
-    operatorId
-    operatorUID
-    name
-    period
-    value
+query SunshineDataByIndicator($filter: SunshineDataFilter!) {
+  sunshineDataByIndicator(filter: $filter) {
+    data {
+      operatorId
+      operatorUID
+      name
+      period
+      value
+    }
+    median
   }
 }
 

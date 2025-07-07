@@ -1,6 +1,6 @@
 import { t } from "@lingui/macro";
 import { Box } from "@mui/material";
-import { median, ScaleThreshold } from "d3";
+import { ScaleThreshold } from "d3";
 import { GetServerSideProps } from "next";
 import dynamic from "next/dynamic";
 import { useCallback, useEffect, useMemo, useRef } from "react";
@@ -122,29 +122,18 @@ const IndexPageContent = ({
     pause: !isElectricityTab,
   });
 
-  const sunshineIndicatorFieldName = useMemo(() => {
-    return getSunshineIndicatorFieldName(
-      indicator,
-      typology,
-      networkLevel as NetworkLevel["id"],
-      netTariffCategory as TariffCategory,
-      energyTariffCategory as TariffCategory
-    );
-  }, [
-    indicator,
-    typology,
-    networkLevel,
-    netTariffCategory,
-    energyTariffCategory,
-  ]);
-
   const [sunshineDataQuery] = useSunshineDataByIndicatorQuery({
     variables: {
       filter: {
         period: period || "2024",
         peerGroup: viewBy === "all_grid_operators" ? undefined : viewBy,
+        indicator,
+        typology,
+        networkLevel: networkLevel as NetworkLevel["id"],
+        category:
+          (netTariffCategory as TariffCategory) ||
+          (energyTariffCategory as TariffCategory),
       },
-      indicator: sunshineIndicatorFieldName,
     },
     pause: !isSunshineTab,
   });
@@ -162,9 +151,9 @@ const IndexPageContent = ({
   const sunshineObservations = useMemo(() => {
     return sunshineDataQuery.fetching
       ? EMPTY_ARRAY
-      : sunshineDataQuery.data?.sunshineDataByIndicator ?? EMPTY_ARRAY;
+      : sunshineDataQuery.data?.sunshineDataByIndicator?.data ?? EMPTY_ARRAY;
   }, [
-    sunshineDataQuery.data?.sunshineDataByIndicator,
+    sunshineDataQuery.data?.sunshineDataByIndicator?.data,
     sunshineDataQuery.fetching,
   ]);
 
@@ -190,14 +179,9 @@ const IndexPageContent = ({
     []
   );
 
-  const sunshineValues = sunshineObservations
-    .map((x: SunshineDataIndicatorRow) => sunshineAccessor(x) ?? null)
-    .filter((x: number | null) => x !== null && x !== undefined);
-
   const medianValue = isElectricityTab
     ? swissMedianObservations[0]?.value
-    : // TODO
-      median(sunshineValues);
+    : sunshineDataQuery.data?.sunshineDataByIndicator?.median ?? undefined;
   const colorScale = useColorScale({
     observations,
     medianValue,

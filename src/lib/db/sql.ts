@@ -1,4 +1,4 @@
-import { NetworkLevel } from "src/domain/data";
+import { NetworkLevel, SunshineIndicator } from "src/domain/data";
 import { peerGroupMapping } from "src/domain/sunshine-data";
 import {
   SunshineDataRow,
@@ -6,7 +6,7 @@ import {
 } from "src/graphql/resolver-types";
 import { query } from "src/lib/db/duckdb";
 import { PeerGroupNotFoundError } from "src/lib/db/errors";
-import { PeerGroupMedianValuesParams } from "src/lib/sunshine-data";
+import { IndicatorMedianParams } from "src/lib/sunshine-data";
 import type {
   NetworkCostRecord,
   OperationalStandardRecord,
@@ -203,12 +203,15 @@ const getOperatorData = async (
 };
 
 const getSettlementAndEnergyDensity = (
-  peerGroup: string
+  peerGroup: string // Letter
 ): {
   settlementDensity: string;
   energyDensity: string;
 } => {
-  const [settlementDensity, energyDensity] = peerGroup.split("-");
+  const {
+    settlement_density: settlementDensity,
+    energy_density: energyDensity,
+  } = peerGroupMapping[peerGroup];
   if (!settlementDensity || !energyDensity) {
     throw new Error(`Invalid peer group format: ${peerGroup}`);
   }
@@ -224,23 +227,37 @@ const getPeerGroupIdFromSettlementAndEnergyDensity = (
       `Invalid settlement or energy density: ${settlementDensity}, ${energyDensity}`
     );
   }
-  return `${settlementDensity}-${energyDensity}`;
+  const peerGroup = Object.entries(peerGroupMapping).find(
+    ([, value]) =>
+      value.settlement_density === settlementDensity &&
+      value.energy_density === energyDensity
+  );
+  if (!peerGroup) {
+    throw new PeerGroupNotFoundError(
+      `No peer group found for settlement density: ${settlementDensity} and energy density: ${energyDensity}`
+    );
+  }
+  return peerGroup[0]; // Return the key (peer group letter)
 };
 
-const getPeerGroupMedianValues = async <
-  Metric extends PeerGroupMedianValuesParams["metric"]
+const getIndicatorMedian = async <
+  Metric extends IndicatorMedianParams["metric"]
 >(
-  params: PeerGroupMedianValuesParams
+  params: IndicatorMedianParams
 ) => {
   const { peerGroup, metric, period } = params;
 
-  const { settlementDensity, energyDensity } =
-    getSettlementAndEnergyDensity(peerGroup);
+  // Handle optional peer group
+  let peerGroupFilter = "1=1"; // Default to no filter (all data)
+  if (peerGroup) {
+    const { settlementDensity, energyDensity } =
+      getSettlementAndEnergyDensity(peerGroup);
+    peerGroupFilter = `
+      settlement_density = '${settlementDensity}'
+      AND energy_density = '${energyDensity}'
+    `;
+  }
 
-  const peerGroupFilter = `
-    settlement_density = '${settlementDensity}'
-    AND energy_density = '${energyDensity}'
-  `;
   const periodFilter = period ? `AND period = ${period}` : "";
   let sql = "";
 
@@ -481,33 +498,67 @@ const getSunshineData = async ({
   }));
 };
 
-const getSunshineDataByIndicator = async (
-  {
-    operatorId,
-    period,
-    peerGroup,
-  }: {
-    operatorId?: number | undefined | null;
-    period?: string | undefined | null;
-    // FIX ME, Peer group should be a type coming from the domain
-    peerGroup?: string | undefined | null;
-  },
-  indicator: string
-): Promise<SunshineDataIndicatorRow[]> => {
+const getSunshineDataByIndicator = async ({
+  operatorId,
+  period,
+  peerGroup,
+  indicator,
+  category,
+  networkLevel,
+  typology,
+}: {
+  operatorId?: number | undefined | null;
+  period?: string | undefined | null;
+  // FIX ME, Peer group should be a type coming from the domain
+  peerGroup?: string | undefined | null;
+  indicator: SunshineIndicator;
+  category?: string;
+  networkLevel?: string;
+  typology?: string;
+}): Promise<SunshineDataIndicatorRow[]> => {
   // Get the full data with peer group filtering
   const fullData = await getSunshineData({ operatorId, period, peerGroup });
 
+  // Map the structured indicator to field names
+  const getFieldName = (
+    indicator: SunshineIndicator,
+    category?: string,
+    networkLevel?: string,
+    typology?: string
+  ): string => {
+    switch (indicator) {
+      case "networkCosts":
+        return `networkCosts${networkLevel}`;
+      case "netTariffs":
+        return `tariffN${category}`;
+      case "energyTariffs":
+        return `tariffE${category}`;
+      case "saidi":
+        return typology === "unplanned" ? "saidiUnplanned" : "saidiTotal";
+      case "saifi":
+        return typology === "unplanned" ? "saifiUnplanned" : "saifiTotal";
+      case "serviceQuality":
+        return "francRule"; // Default to franc rule, could be enhanced
+      case "compliance":
+        return "timely"; // Default to timely, could be enhanced
+      default:
+        throw new Error(`Unsupported indicator: ${indicator}`);
+    }
+  };
+
+  const fieldName = getFieldName(indicator, category, networkLevel, typology);
+
   // Extract only the value for the specified indicator and return minimal structure
   return fullData.map((row) => {
-    // Get the value for the specified indicator using the same field mapping as SPARQL
-    const value = row[indicator as keyof typeof row] as number | undefined;
+    // Get the value for the specified indicator field
+    const value = row[fieldName as keyof typeof row] as number | undefined;
 
     return {
       operatorId: row.operatorId,
       operatorUID: row.operatorUID,
       name: row.name,
       period: row.period,
-      value: value ?? null,
+      value: Number.isFinite(value) ? value : null,
     };
   });
 };
@@ -519,7 +570,7 @@ export const sunshineDataServiceSql = {
   getStabilityMetrics,
   getTariffs,
   getOperatorData,
-  getPeerGroupMedianValues,
+  getIndicatorMedian,
   getLatestYearSunshine,
   getLatestYearPowerStability,
   getPeerGroup,

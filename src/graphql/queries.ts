@@ -222,7 +222,7 @@ export type Query = {
   searchMunicipalities: Array<MunicipalityResult>;
   searchOperators: Array<OperatorResult>;
   sunshineData: Array<SunshineDataRow>;
-  sunshineDataByIndicator: Array<SunshineDataIndicatorRow>;
+  sunshineDataByIndicator: SunshineDataByIndicatorResult;
   sunshineTariffs: Array<SunshineDataRow>;
   sunshineTariffsByIndicator: Array<SunshineDataIndicatorRow>;
   swissMedianObservations?: Maybe<Array<SwissMedianObservation>>;
@@ -329,7 +329,6 @@ export type QuerySunshineDataArgs = {
 
 export type QuerySunshineDataByIndicatorArgs = {
   filter: SunshineDataFilter;
-  indicator: Scalars["String"]["input"];
 };
 
 export type QuerySunshineTariffsArgs = {
@@ -377,10 +376,20 @@ export type StabilityFilter = {
   year: Scalars["Int"]["input"];
 };
 
+export type SunshineDataByIndicatorResult = {
+  __typename: "SunshineDataByIndicatorResult";
+  data: Array<SunshineDataIndicatorRow>;
+  median?: Maybe<Scalars["Float"]["output"]>;
+};
+
 export type SunshineDataFilter = {
+  category?: InputMaybe<Scalars["String"]["input"]>;
+  indicator?: InputMaybe<Scalars["String"]["input"]>;
+  networkLevel?: InputMaybe<Scalars["String"]["input"]>;
   operatorId?: InputMaybe<Scalars["Int"]["input"]>;
   peerGroup?: InputMaybe<Scalars["String"]["input"]>;
   period?: InputMaybe<Scalars["String"]["input"]>;
+  typology?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type SunshineDataIndicatorRow = {
@@ -791,19 +800,22 @@ export type SunshineDataQuery = {
 
 export type SunshineDataByIndicatorQueryVariables = Exact<{
   filter: SunshineDataFilter;
-  indicator: Scalars["String"]["input"];
 }>;
 
 export type SunshineDataByIndicatorQuery = {
   __typename: "Query";
-  sunshineDataByIndicator: Array<{
-    __typename: "SunshineDataIndicatorRow";
-    operatorId?: number | null;
-    operatorUID: string;
-    name: string;
-    period: string;
-    value?: number | null;
-  }>;
+  sunshineDataByIndicator: {
+    __typename: "SunshineDataByIndicatorResult";
+    median?: number | null;
+    data: Array<{
+      __typename: "SunshineDataIndicatorRow";
+      operatorId?: number | null;
+      operatorUID: string;
+      name: string;
+      period: string;
+      value?: number | null;
+    }>;
+  };
 };
 
 export type SunshineTariffQueryVariables = Exact<{
@@ -1319,16 +1331,16 @@ export function useSunshineDataQuery(
   });
 }
 export const SunshineDataByIndicatorDocument = gql`
-  query SunshineDataByIndicator(
-    $filter: SunshineDataFilter!
-    $indicator: String!
-  ) {
-    sunshineDataByIndicator(filter: $filter, indicator: $indicator) {
-      operatorId
-      operatorUID
-      name
-      period
-      value
+  query SunshineDataByIndicator($filter: SunshineDataFilter!) {
+    sunshineDataByIndicator(filter: $filter) {
+      data {
+        operatorId
+        operatorUID
+        name
+        period
+        value
+      }
+      median
     }
   }
 `;

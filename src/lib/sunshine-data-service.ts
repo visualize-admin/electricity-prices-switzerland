@@ -2,12 +2,16 @@ import {
   ElectricityCategory,
   TariffCategory,
   NetworkLevel,
+  SunshineIndicator,
 } from "src/domain/data";
 import {
   SunshineDataRow,
   SunshineDataIndicatorRow,
 } from "src/graphql/resolver-types";
-import { PeerGroupMedianValuesParams } from "src/lib/sunshine-data";
+import {
+  PeerGroupMedianValuesParams,
+  IndicatorMedianParams,
+} from "src/lib/sunshine-data";
 
 export type NetworkCostRecord = {
   operator_id: number;
@@ -125,10 +129,8 @@ export interface SunshineDataService {
     period?: number
   ): Promise<OperatorDataRecord>;
 
-  getPeerGroupMedianValues<
-    Metric extends PeerGroupMedianValuesParams["metric"]
-  >(
-    params: PeerGroupMedianValuesParams
+  getIndicatorMedian<Metric extends IndicatorMedianParams["metric"]>(
+    params: IndicatorMedianParams
   ): Promise<PeerGroupRecord<Metric> | undefined>;
 
   getLatestYearSunshine(operatorId: number): Promise<number>;
@@ -147,12 +149,13 @@ export interface SunshineDataService {
     peerGroup?: string | undefined | null;
   }): Promise<SunshineDataRow[]>;
 
-  getSunshineDataByIndicator(
-    params: {
-      operatorId?: number | undefined | null;
-      period?: string | undefined | null;
-      peerGroup?: string | undefined | null;
-    },
-    indicator: string
-  ): Promise<SunshineDataIndicatorRow[]>;
+  getSunshineDataByIndicator(params: {
+    operatorId?: number | undefined | null;
+    period?: string | undefined | null;
+    peerGroup?: string | undefined | null;
+    indicator: SunshineIndicator;
+    category?: string;
+    networkLevel?: string;
+    typology?: string;
+  }): Promise<SunshineDataIndicatorRow[]>;
 }

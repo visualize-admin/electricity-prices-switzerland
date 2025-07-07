@@ -301,9 +301,9 @@ describe("SPARQL Sunshine Data Service", () => {
     });
   });
 
-  describe("getPeerGroupMedianValues", () => {
+  describe("getIndicatorMedian", () => {
     it("should return median network costs for a peer group", async () => {
-      const result = await sunshineDataServiceSparql.getPeerGroupMedianValues({
+      const result = await sunshineDataServiceSparql.getIndicatorMedian({
         // TODO To review, how to get peer groups correctly
         peerGroup: "A",
         metric: "network_costs",
@@ -320,7 +320,7 @@ describe("SPARQL Sunshine Data Service", () => {
     });
 
     it("should return median stability metrics for a peer group", async () => {
-      const result = await sunshineDataServiceSparql.getPeerGroupMedianValues({
+      const result = await sunshineDataServiceSparql.getIndicatorMedian({
         peerGroup: "A",
         metric: "stability",
         period: 2025,
@@ -337,7 +337,7 @@ describe("SPARQL Sunshine Data Service", () => {
     });
 
     it("should return median operational standards for a peer group", async () => {
-      const result = await sunshineDataServiceSparql.getPeerGroupMedianValues({
+      const result = await sunshineDataServiceSparql.getIndicatorMedian({
         peerGroup: "A",
         metric: "operational",
         period: 2025,
@@ -353,7 +353,7 @@ describe("SPARQL Sunshine Data Service", () => {
     });
 
     it("should return median energy tariffs for a peer group", async () => {
-      const result = await sunshineDataServiceSparql.getPeerGroupMedianValues({
+      const result = await sunshineDataServiceSparql.getIndicatorMedian({
         peerGroup: "A",
         metric: "energy-tariffs",
         // TODO
@@ -370,7 +370,7 @@ describe("SPARQL Sunshine Data Service", () => {
     });
 
     it("should return median net tariffs for a peer group", async () => {
-      const result = await sunshineDataServiceSparql.getPeerGroupMedianValues({
+      const result = await sunshineDataServiceSparql.getIndicatorMedian({
         peerGroup: "A",
         metric: "net-tariffs",
         category: "NC2",
