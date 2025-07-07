@@ -61,15 +61,13 @@ export const AxisHeightLinear = ({
           : tickValues[0] - tickValues[1];
       tickValues.push(tickValues[tickValues.length - 1] + diff);
     }
-    let axis = axisLeft(yScale)
+    const axis = axisLeft(yScale)
       .tickValues(tickValues)
       .tickSizeInner(-bounds.chartWidth)
-      .tickSizeOuter(0);
-    if (percentage) {
-      axis = axis.tickFormat((d) => `${d}%`);
-    } else if (format) {
-      axis = axis.tickFormat((d, i) => format(Number(d), i));
-    }
+      .tickSizeOuter(0)
+      .tickFormat((d, i) =>
+        percentage ? `${d}%` : format ? format(Number(d), i) : String(d)
+      );
     g.call(axis);
 
     g.select(".domain").remove();

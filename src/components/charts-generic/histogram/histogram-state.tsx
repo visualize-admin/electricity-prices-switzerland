@@ -15,6 +15,7 @@ import { ReactNode, useCallback } from "react";
 
 import {
   LEFT_MARGIN_OFFSET,
+  LEFT_MARGIN_OFFSET_GROUPED,
   TOOLTIP_ARROW_HEIGHT,
   VERTICAL_TICK_OFFSET,
 } from "src/components/charts-generic/constants";
@@ -40,11 +41,13 @@ import { estimateTextWidth } from "src/lib/estimate-text-width";
 import { useIsMobile } from "src/lib/use-mobile";
 import { chartPalette } from "src/themes/palette";
 
+type BinType = "no-data" | "rest" | "normal";
 export type BinMeta = {
   x0: number;
   x1: number;
   label: string;
   isNoData?: boolean;
+  type: BinType;
 };
 
 const computeBins = (
@@ -55,7 +58,12 @@ const computeBins = (
   maxValue: number,
   xScale: d3.ScaleLinear<number, number>
 ): {
-  bins: Array<Bin<GenericObservation, number> & { label?: string }>;
+  bins: Array<
+    Bin<GenericObservation, number> & {
+      label?: string;
+      type?: BinType;
+    }
+  >;
   binMeta: BinMeta[];
 } => {
   if (!groupedBy) {
@@ -63,13 +71,24 @@ const computeBins = (
       .value(getX)
       .domain([mkNumber(minValue), mkNumber(maxValue)])
       .thresholds(xScale.ticks(25))(data)
-      .map((b) => Object.assign(b, { label: `${b.x0}-${b.x1}` }));
+      .map((b) =>
+        Object.assign(b, { label: `${b.x0}-${b.x1}`, type: "normal" })
+      );
     const binMeta = bins.map((b) => ({
       x0: b.x0!,
       x1: b.x1!,
       label: `${b.x0}-${b.x1}`,
+      type: "normal",
     }));
-    return { bins, binMeta };
+    return { bins, binMeta } as {
+      bins: Array<
+        Bin<GenericObservation, number> & {
+          label?: string;
+          type?: BinType;
+        }
+      >;
+      binMeta: BinMeta[];
+    };
   }
 
   const values = data
@@ -84,6 +103,7 @@ const computeBins = (
       x1: 0,
       label: t({ id: "histogram.noData", message: "No Data" }),
       isNoData: true,
+      type: "no-data",
     },
     ...Array.from({ length: Math.ceil((max - 1 + 1) / groupedBy) }, (_, i) => {
       const start = 1 + i * groupedBy;
@@ -93,7 +113,8 @@ const computeBins = (
         x0: start,
         x1: isLast ? max : end,
         label: isLast ? `${start}+` : `${start}-${end}`,
-      };
+        type: isLast ? "rest" : "normal",
+      } as BinMeta;
     }),
   ];
 
@@ -101,17 +122,34 @@ const computeBins = (
     let arr: GenericObservation[] = [];
     if (meta.isNoData) {
       arr = data.filter((d) => getX(d) === 0);
-    } else if (meta.label.endsWith("+")) {
-      arr = data.filter((d) => getX(d) >= meta.x0);
     } else {
-      arr = data.filter((d) => getX(d) >= meta.x0 && getX(d) <= meta.x1);
+      arr = [];
     }
-    const binArr = arr as Bin<GenericObservation, number> & { label?: string };
+    const binArr = arr as Bin<GenericObservation, number> & {
+      label?: string;
+      type?: BinType;
+    };
     binArr.x0 = meta.x0;
     binArr.x1 = meta.x1;
     binArr.label = meta.label;
+    binArr.type = meta.type;
     return binArr;
   });
+
+  if (groupedBy) {
+    const binData: GenericObservation[][] = binMeta.map(() => []);
+    data.forEach((d) => {
+      const value = getX(d);
+      const idx = binMeta.findIndex((b) => b.x0 <= value && value <= b.x1);
+      if (idx !== -1) {
+        binData[idx].push(d);
+      }
+    });
+    binData.forEach((arr, i) => {
+      bins[i].length = 0;
+      arr.forEach((d) => bins[i].push(d));
+    });
+  }
 
   return { bins, binMeta };
 };
@@ -155,13 +193,11 @@ const useHistogramState = ({
   );
   const { annotation } = fields;
 
-  // x
   const minValue = min(data, (d) => getX(d)) || 0;
   const maxValue = max(data, (d) => getX(d)) || 10000;
   const xDomain = [mkNumber(minValue), mkNumber(maxValue)];
   const xScale = scaleLinear().domain(xDomain).nice();
 
-  // CH Median (all data points)
   const m = medianValue;
   const colorDomain = m
     ? [minValue, m - m * 0.1, m, m + m * 0.1, maxValue]
@@ -183,11 +219,9 @@ const useHistogramState = ({
 
   let yDomainMax;
   if (yAsPercentage) {
-    // Find the max percentage in bins
     const maxPct = Math.max(
       ...bins.map((d) => ((d.length ?? 0) / totalCount) * 100)
     );
-    // Round up to the next logical tick (nearest 5%)
     yDomainMax = Math.ceil(maxPct / 5) * 5;
     // Optionally, always show up to 100%:
     // yDomainMax = 100;
@@ -212,7 +246,7 @@ const useHistogramState = ({
     top: isMobile ? 140 : 70,
     right: 40,
     bottom: 100,
-    left: left + LEFT_MARGIN_OFFSET,
+    left: left + (groupedBy ? LEFT_MARGIN_OFFSET_GROUPED : LEFT_MARGIN_OFFSET),
   };
 
   const chartWidth = width - margins.left - margins.right;
@@ -228,13 +262,22 @@ const useHistogramState = ({
       })
     : [{ height: 0, nbOfLines: 1 }];
 
+  let bandScale: d3.ScaleBand<string> | undefined = undefined;
+  let bandDomain: string[] = [];
+  if (groupedBy && binMeta) {
+    bandDomain = binMeta.map((b, i) => b.label ?? String(i));
+    bandScale = scaleBand<string>()
+      .domain(bandDomain)
+      .range([margins.left, chartWidth])
+      .paddingInner(0.01)
+      .paddingOuter(0.01);
+  }
+
   const getAnnotationInfo = (d: Bin<GenericObservation, number>) => {
     let xAnchor;
     let binIndex = 0;
     let meta = undefined;
-    if (groupedBy && binMeta) {
-      const bandDomain = binMeta.map((b, i) => b.label ?? String(i));
-      const bandScale = scaleBand().domain(bandDomain).range([0, chartWidth]);
+    if (groupedBy && binMeta && bandScale) {
       const label =
         (d as { label?: string }).label ??
         bandDomain.find(
@@ -265,7 +308,7 @@ const useHistogramState = ({
               symbol="square"
               color={getBarColor({
                 bin: d,
-                meta: meta ?? { x0: 0, x1: 0, label: "" },
+                meta: meta ?? { x0: 0, x1: 0, label: "", type: "normal" },
                 fields,
                 colors,
                 theme,
@@ -340,6 +383,7 @@ const useHistogramState = ({
     yAsPercentage,
     totalCount,
     groupedBy,
+    bandScale,
   };
 };
 
@@ -453,7 +497,6 @@ export const getBarColor = ({
       return palette[binIndex % palette.length];
     }
   }
-  if (meta.isNoData) return "transparent";
   if (bin.length > 0)
     return colors
       ? colors((meta.x0 + meta.x1) / 2)

@@ -1,5 +1,3 @@
-import { scaleBand } from "d3";
-
 import {
   HistogramState,
   useChartState,
@@ -15,6 +13,7 @@ export const HistogramMedian = ({ label }: { label: string }) => {
     xAxisLabel,
     groupedBy,
     binMeta,
+    bandScale,
   } = useChartState() as HistogramState;
   const { margins } = bounds;
   const { labelColor, domainColor, labelFontSize, fontFamily } =
@@ -23,20 +22,11 @@ export const HistogramMedian = ({ label }: { label: string }) => {
 
   let medianX: number | undefined = undefined;
 
-  if (m !== undefined && groupedBy && binMeta) {
-    // Find the bin containing the median
+  if (m !== undefined && groupedBy && binMeta && bandScale) {
     const bin = binMeta.find((b) => !b.isNoData && m >= b.x0 && m <= b.x1);
     if (bin) {
-      // Use band scale to get the center of the bar
-      const bandDomain = binMeta.map((b, i) => b.label ?? String(i));
-      const bandScale = scaleBand<string>()
-        .domain(bandDomain)
-        .range([0, bounds.chartWidth]);
       const label = bin.label ?? "";
-      const x = bandScale(label);
-      if (x !== undefined) {
-        medianX = x + bandScale.bandwidth() / 2;
-      }
+      medianX = (bandScale(label) ?? 0) + bandScale.bandwidth() / 2;
     }
   } else if (m !== undefined) {
     medianX = xScale(m);
@@ -62,6 +52,8 @@ export const HistogramMedian = ({ label }: { label: string }) => {
               fontFamily,
               fill: domainColor,
               fontSize: labelFontSize,
+              fontWeight: 700,
+
               textAnchor: "middle",
             }}
           >
@@ -75,6 +67,7 @@ export const HistogramMedian = ({ label }: { label: string }) => {
               fontFamily,
               fill: labelColor,
               fontSize: labelFontSize,
+              fontWeight: 700,
               textAnchor: "middle",
             }}
           >

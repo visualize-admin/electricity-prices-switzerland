@@ -1,4 +1,4 @@
-import { axisBottom, scaleBand, select, Selection } from "d3";
+import { axisBottom, select, Selection } from "d3";
 import { useEffect, useRef } from "react";
 
 import {
@@ -6,8 +6,6 @@ import {
   useChartState,
 } from "src/components/charts-generic/use-chart-state";
 import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
-
-import { BinMeta } from "../histogram/histogram-state";
 
 export const AxisWidthHistogramDomain = () => {
   const { xScale, yScale, bounds } = useChartState() as HistogramState;
@@ -42,9 +40,8 @@ export const AxisWidthHistogramDomain = () => {
 };
 
 export const AxisWidthHistogram = () => {
-  const { xScale, bounds, binMeta } = useChartState() as HistogramState & {
-    binMeta?: BinMeta[];
-  };
+  const { xScale, bounds, binMeta, bandScale } =
+    useChartState() as HistogramState;
   const { chartHeight, margins } = bounds;
   const { labelColor, labelFontSize, gridColor, fontFamily } = useChartTheme();
   const xAxisRef = useRef<SVGGElement>(null);
@@ -57,7 +54,7 @@ export const AxisWidthHistogram = () => {
       undefined
     >;
     g.selectAll("*").remove();
-    if (!binMeta) {
+    if (!binMeta || !bandScale) {
       const ticks = Math.min(bounds.chartWidth / 60, 10);
       g.call(axisBottom(xScale).ticks(ticks).tickSizeInner(6).tickSizeOuter(0));
       g.selectAll(".tick line").attr("stroke", gridColor);
@@ -69,16 +66,6 @@ export const AxisWidthHistogram = () => {
       return;
     }
 
-    const bandDomain = binMeta.map((b, i) => b.label ?? String(i));
-    const bandScale = scaleBand<string>()
-      .domain(bandDomain)
-      .range([0, bounds.chartWidth]);
-
-    g.append("path")
-      .attr("class", "domain")
-      .attr("stroke", gridColor)
-      .attr("fill", "none")
-      .attr("d", `M0,0H${bandScale.range()[1]}`);
     binMeta.forEach((bin, i) => {
       const label = bin.label ?? String(i);
       const x = (bandScale(label) ?? 0) + bandScale.bandwidth() / 2;
@@ -105,6 +92,7 @@ export const AxisWidthHistogram = () => {
     gridColor,
     fontFamily,
     binMeta,
+    bandScale,
   ]);
 
   return (

@@ -144,6 +144,7 @@ export type HistogramState = {
   yAsPercentage?: boolean;
   totalCount?: number;
   groupedBy?: number;
+  bandScale?: ScaleBand<string>;
 };
 
 export type ColumnsState = {

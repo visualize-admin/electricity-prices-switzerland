@@ -1,5 +1,4 @@
 import { useTheme } from "@mui/material";
-import { scaleBand } from "d3";
 import * as React from "react";
 
 import { Column } from "src/components/charts-generic/columns/columns-simple";
@@ -21,16 +20,12 @@ export const HistogramColumns = () => {
     fields,
     yAsPercentage,
     totalCount,
+    bandScale,
   } = useChartState() as HistogramState;
   const theme = useTheme();
-  const { margins, chartWidth } = bounds;
+  const { margins } = bounds;
 
-  if (binMeta) {
-    const bandDomain = binMeta.map((b, i) => b.label ?? String(i));
-    const bandScale = scaleBand<string>()
-      .domain(bandDomain)
-      .range([0, chartWidth]);
-
+  if (binMeta && bandScale) {
     return (
       <g transform={`translate(${margins.left} ${margins.top})`}>
         {bins.map((d, i) => {
@@ -43,10 +38,8 @@ export const HistogramColumns = () => {
             yAsPercentage && totalCount
               ? (d.length / totalCount) * 100
               : d.length;
-          const y = meta.isNoData ? yScale(0) : yScale(barValue);
-          const height = meta.isNoData
-            ? 0
-            : Math.abs(yScale(barValue) - yScale(0));
+          const y = yScale(barValue);
+          const height = Math.abs(yScale(barValue) - yScale(0));
           return (
             <Column
               key={i}
