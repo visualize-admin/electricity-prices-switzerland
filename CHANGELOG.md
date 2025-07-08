@@ -21,6 +21,10 @@ You can also check the
 
   - Split domain data file to improve code organization
 
+- Fix
+
+  - Show more/less button in details panel on municipalities list does not trigger layout change
+
 # 2.4.0 - 2025-07-07
 
 - Features
