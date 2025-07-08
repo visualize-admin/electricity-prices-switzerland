@@ -231,6 +231,7 @@ const IndexPageContent = ({
       key={`${indicator}-${viewBy}`}
       accessor={sunshineAccessor}
       period={mapYear}
+      indicator={indicator}
       colorScale={sunshineColorScale}
       observations={sunshineObservations}
       controls={controlsRef}

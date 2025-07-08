@@ -98,6 +98,7 @@ export const peerGroupMapping: Record<
   G: { energy_density: "Low", settlement_density: "Mountain" },
   H: { energy_density: "Low", settlement_density: "Tourist" },
 };
+
 export const sunshineIndicatorSchema = z.enum([
   "networkCosts",
   "netTariffs",

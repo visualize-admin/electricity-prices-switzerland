@@ -24,6 +24,7 @@ import {
 } from "src/data/geo";
 import { useFetch } from "src/data/use-fetch";
 import { ValueFormatter } from "src/domain/data";
+import { SunshineIndicator } from "src/domain/sunshine";
 import { Maybe, SunshineDataIndicatorRow } from "src/graphql/queries";
 import { truthy } from "src/lib/truthy";
 import { getOperatorsMunicipalities } from "src/rdf/queries";
@@ -36,6 +37,40 @@ type PickingInfoGeneric<Props> = Omit<PickingInfo, "object"> & {
   object?: Feature<Geometry, Props> | null;
 };
 
+/**
+ * Mapping from sunshine indicators to legend titles
+ */
+const indicatorLegendTitleMapping: Record<SunshineIndicator, string> = {
+  networkCosts: t({
+    message: "Network costs in CHF/MWh",
+    id: "sunshine.indicator.networkCosts",
+  }),
+  netTariffs: t({
+    message: "Net tariffs in Rp./kWh",
+    id: "sunshine.indicator.netTariffs",
+  }),
+  energyTariffs: t({
+    message: "Energy tariffs in Rp./kWh",
+    id: "sunshine.indicator.energyTariffs",
+  }),
+  saidi: t({
+    message: "Power outage duration (SAIDI) in minutes",
+    id: "sunshine.indicator.saidi",
+  }),
+  saifi: t({
+    message: "Power outage frequency (SAIFI) per year",
+    id: "sunshine.indicator.saifi",
+  }),
+  serviceQuality: t({
+    message: "Service quality score",
+    id: "sunshine.indicator.serviceQuality",
+  }),
+  compliance: t({
+    message: "Compliance score",
+    id: "sunshine.indicator.compliance",
+  }),
+};
+
 export type GetOperatorsMapTooltip = (
   info: PickingInfoGeneric<OperatorLayerProperties>
 ) => null | {
@@ -44,6 +79,7 @@ export type GetOperatorsMapTooltip = (
 
 type SunshineMapProps = {
   period: string;
+  indicator: SunshineIndicator;
   colorScale: ScaleThreshold<number, string, never>;
   accessor: (x: SunshineDataIndicatorRow) => Maybe<number> | undefined;
   observations?: SunshineDataIndicatorRow[];
@@ -55,6 +91,7 @@ type SunshineMapProps = {
 
 const SunshineMap = ({
   period,
+  indicator,
   colorScale,
   accessor,
   observations,
@@ -369,11 +406,7 @@ const SunshineMap = ({
     return (
       <MapColorLegend
         id={legendId}
-        title={
-          <Trans id="energy-prices-map.legend.title">
-            Tariff comparison in Rp./kWh (figures excl. VAT)
-          </Trans>
-        }
+        title={indicatorLegendTitleMapping[indicator]}
         ticks={legendData.map((value) => ({
           value,
           label: value !== undefined ? valueFormatter(value) : "",
@@ -388,7 +421,14 @@ const SunshineMap = ({
         }}
       />
     );
-  }, [valuesExtent, medianValue, colorScale, legendId, valueFormatter]);
+  }, [
+    valuesExtent,
+    medianValue,
+    colorScale,
+    legendId,
+    valueFormatter,
+    indicator,
+  ]);
 
   if (isLoading) {
     return <Loading />;
