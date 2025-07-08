@@ -16,6 +16,7 @@ You can also check the
   - Added peer group filtering functionality to map page
   - Implemented server-side median retrieval using database-stored values
   - Enhanced map legend with indicator-specific titles, formatting, and info slugs
+  - Add "Show all Sunshine Indicators" button in map details panel
 
 - Refactors
 

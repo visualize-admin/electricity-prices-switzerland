@@ -236,6 +236,7 @@ export const MapDetailsContent: React.FC<{
         sx={{
           justifyContent: "space-between",
         }}
+        endIcon={<Icon name="arrowright" />}
         href={
           tab === "electricity"
             ? `/${entity}/${selectedItem.id}`
@@ -305,8 +306,24 @@ export const MapDetailsContent: React.FC<{
               return _exhaustiveCheck;
           }
         })()}
-        <Icon name="arrowright" />
       </Button>
+      {/* Show all Sunshine indicators by going to sunshine detials "overview" */}
+      {tab === "sunshine" && (
+        <Button
+          variant="outlined"
+          size="sm"
+          sx={{
+            justifyContent: "space-between",
+          }}
+          endIcon={<Icon name="arrowright" />}
+          color="primary"
+          href={`/sunshine/operator/${selectedItem.id}/overview`}
+        >
+          <Trans id="map.details-sidebar-panel.next-button.sunshine-overview">
+            Show all Sunshine Indicators
+          </Trans>
+        </Button>
+      )}
     </MapDetailsContentWrapper>
   );
 };
