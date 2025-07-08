@@ -9,6 +9,7 @@ import { useCallback, useMemo, useState } from "react";
 
 import { GenericMap, GenericMapControls } from "src/components/generic-map";
 import { HighlightValue } from "src/components/highlight-context";
+import { Loading } from "src/components/hint";
 import { useMap } from "src/components/map-context";
 import { getFillColor, styles } from "src/components/map-helpers";
 import { MapTooltipContent } from "src/components/map-tooltip";
@@ -106,11 +107,18 @@ const SunshineMap = ({
   const electricityCategory =
     sunshineAttributeToElectricityCategory["tariffEC2" as const]!;
 
-  const { data: operatorMunicipalities } = useFetch({
+  const operatorMunicipalitiesResult = useFetch({
     key: `operator-municipalities-${period}-${electricityCategory}`,
     queryFn: () => getOperatorsMunicipalities(period, electricityCategory),
   });
-  const { data: geoData } = useGeoData(period);
+  const geoDataResult = useGeoData(period);
+
+  const isLoading = 
+    operatorMunicipalitiesResult.state === "fetching" || 
+    geoDataResult.state === "fetching";
+
+  const operatorMunicipalities = operatorMunicipalitiesResult.data;
+  const geoData = geoDataResult.data;
 
   const observationsByOperator = useMemo(() => {
     return keyBy(observations ?? [], "operatorId");
@@ -386,6 +394,10 @@ const SunshineMap = ({
     },
     [index]
   );
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   if (!geoData || !geoData.municipalities || !enhancedGeoData) {
     return null;
