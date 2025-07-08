@@ -14,6 +14,8 @@ import typeDefs from "src/graphql/schema.graphql";
 import { context } from "src/graphql/server-context";
 import assert from "src/lib/assert";
 import { metricsPlugin } from "src/pages/api/metricsPlugin";
+import { runMiddleware } from "src/pages/api/run-middleware";
+import { createLogMiddleware } from "src/pages/api/log-middleware";
 
 assert(!!serverEnv, "serverEnv is not defined");
 
@@ -43,6 +45,14 @@ const handler = startServerAndCreateNextHandler(server, {
   context,
 });
 
+const logMiddleware = createLogMiddleware({
+  filepath: "/tmp/graphql.log",
+});
+
+// Enable this middleware to log GraphQL queries and variables to a file.
+// This is useful for debugging or for making integration tests
+const LOG_MIDDLEWARE_ENABLED = false;
+
 const graphql: NextApiHandler = async (req, res) => {
   res.setHeader("Access-Control-Allow-Credentials", "true");
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -57,6 +67,9 @@ const graphql: NextApiHandler = async (req, res) => {
   }
 
   try {
+    if (LOG_MIDDLEWARE_ENABLED) {
+      await runMiddleware(req, res, logMiddleware);
+    }
     await handler(req, res);
   } catch (e) {
     res.status(500).send(`Error: ${e instanceof Error ? e.message : `${e}`}`);
