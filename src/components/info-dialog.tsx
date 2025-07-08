@@ -23,7 +23,7 @@ import { createPortal } from "react-dom";
 import { LoadingIcon, NoContentHint } from "src/components/hint";
 import { useDisclosure } from "src/components/use-disclosure";
 import { VisuallyHidden } from "src/components/visually-hidden";
-import { WikiPageSlug } from "src/domain/data";
+import { WikiPageSlug } from "src/domain/wiki";
 import { useWikiContentQuery } from "src/graphql/queries";
 import { Icon } from "src/icons";
 import { useLocale } from "src/lib/use-locale";

@@ -5,7 +5,7 @@ import TextField from "@mui/material/TextField";
 import { useEffect, useMemo, useState } from "react";
 
 import { InfoDialogButton } from "src/components/info-dialog";
-import { WikiPageSlug } from "src/domain/data";
+import { WikiPageSlug } from "src/domain/wiki";
 import { getLocalizedLabel } from "src/domain/translation";
 import { Icon } from "src/icons";
 
