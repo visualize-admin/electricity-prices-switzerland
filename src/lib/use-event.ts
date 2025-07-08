@@ -1,6 +1,8 @@
-import { useLayoutEffect, useMemo, useRef } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef } from "react";
 
 type Fn<ARGS extends unknown[], R> = (...args: ARGS) => R;
+
+const isServerSide = typeof window === "undefined";
 
 /**
  * Used for event handlers.
@@ -12,7 +14,7 @@ type Fn<ARGS extends unknown[], R> = (...args: ARGS) => R;
  */
 const useEvent = <A extends unknown[], R>(fn: Fn<A, R>): Fn<A, R> => {
   const ref = useRef<Fn<A, R>>(fn);
-  useLayoutEffect(() => {
+  (isServerSide ? useEffect : useLayoutEffect)(() => {
     ref.current = fn;
   });
   return useMemo(
