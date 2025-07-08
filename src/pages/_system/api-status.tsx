@@ -407,7 +407,7 @@ DESCRIBE <https://ld.admin.ch/municipality/${formData.municipalityId}>
                 : "❌ Could not find municipality"}
             </Box>
           ) : null}
-          <details>{data && data ? <pre>{data}</pre> : null}</details>
+          <details>{data ? <pre>{data}</pre> : null}</details>
           {query.error ? (
             <div>
               Error:{" "}

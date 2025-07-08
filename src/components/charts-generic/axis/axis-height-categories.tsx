@@ -18,7 +18,7 @@ export const AxisHeightCategories = ({
   hideXAxis = false,
   highlightedCategory,
 }: AxisHeightCategoriesProps) => {
-  const { yScale, bounds, data } = useChartState() as
+  const { yScale, bounds } = useChartState() as
     | ScatterPlotState
     | StackedBarsState;
   const { labelFontSize } = useChartTheme();
