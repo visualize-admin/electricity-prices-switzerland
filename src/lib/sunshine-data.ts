@@ -1,12 +1,12 @@
 import { first } from "lodash";
 
+import { TariffCategory } from "src/domain/data";
 import {
-  TariffCategory,
   NetworkLevel,
   SunshineCostsAndTariffsData,
   SunshineOperationalStandardsData,
   SunshinePowerStabilityData,
-} from "src/domain/data";
+} from "src/domain/sunshine";
 import {
   NetworkCostsData,
   StabilityData,
@@ -20,38 +20,38 @@ import {
 
 type NetworkCostsParams = {
   metric: "network_costs";
-  peerGroup: string;
+  peerGroup?: string;
   period?: number;
   networkLevel: NetworkLevel["id"]; // Required for network_costs
 };
 
 type StabilityParams = {
   metric: "stability";
-  peerGroup: string;
+  peerGroup?: string;
   period?: number;
 };
 
 type OperationalParams = {
   metric: "operational";
-  peerGroup: string;
+  peerGroup?: string;
   period?: number;
 };
 
 type NetTariffsParams = {
   metric: "net-tariffs";
-  peerGroup: string;
+  peerGroup?: string;
   period?: number;
   category: TariffCategory; // Required for tariffs
 };
 
 type EnergyTariffsParams = {
   metric: "energy-tariffs";
-  peerGroup: string;
+  peerGroup?: string;
   period?: number;
   category: TariffCategory; // Required for tariffs
 };
 
-export type PeerGroupMedianValuesParams =
+export type IndicatorMedianParams =
   | NetworkCostsParams
   | StabilityParams
   | OperationalParams
@@ -104,7 +104,7 @@ export const fetchNetworkCostsData = async (
   }
 
   const peerGroupMedianNetworkCosts =
-    await db.getPeerGroupMedianValues<"network_costs">({
+    await db.getIndicatorMedian<"network_costs">({
       peerGroup: operatorData.peer_group,
       metric: "network_costs",
       networkLevel: networkLevel,
@@ -115,7 +115,7 @@ export const fetchNetworkCostsData = async (
   const previousYear = targetPeriod - 1;
 
   const previousPeerGroupMedianNetworkCosts =
-    await db.getPeerGroupMedianValues<"network_costs">({
+    await db.getIndicatorMedian<"network_costs">({
       peerGroup: operatorData.peer_group,
       metric: "network_costs",
       networkLevel: networkLevel,
@@ -191,12 +191,11 @@ export const fetchNetTariffsData = async (
 }> => {
   const operatorData = await db.getOperatorData(operatorId);
 
-  const peerGroupMedianNetTariffs =
-    await db.getPeerGroupMedianValues<"net-tariffs">({
-      peerGroup: operatorData.peer_group,
-      metric: "net-tariffs",
-      category: category,
-    });
+  const peerGroupMedianNetTariffs = await db.getIndicatorMedian<"net-tariffs">({
+    peerGroup: operatorData.peer_group,
+    metric: "net-tariffs",
+    category: category,
+  });
 
   const operatorNetTariffs = await db.getTariffs({
     period: period,
@@ -242,7 +241,7 @@ export const fetchEnergyTariffsData = async (
   const operatorData = await db.getOperatorData(operatorId);
 
   const peerGroupMedianEnergyTariffs =
-    await db.getPeerGroupMedianValues<"energy-tariffs">({
+    await db.getIndicatorMedian<"energy-tariffs">({
       peerGroup: operatorData.peer_group,
       metric: "energy-tariffs",
       category: category,
@@ -362,12 +361,11 @@ export const fetchSaidi = async (
   const operatorData = await db.getOperatorData(operatorId);
 
   // Get peer group median SAIDI
-  const peerGroupMedianStability =
-    await db.getPeerGroupMedianValues<"stability">({
-      peerGroup: operatorData.peer_group,
-      metric: "stability",
-      period,
-    });
+  const peerGroupMedianStability = await db.getIndicatorMedian<"stability">({
+    peerGroup: operatorData.peer_group,
+    metric: "stability",
+    period,
+  });
 
   const operatorStability = await db.getStabilityMetrics({
     operatorId,
@@ -417,12 +415,11 @@ export const fetchSaifi = async (
     throw new Error(`Peer group not found for operator ID: ${operatorId}`);
   }
 
-  const peerGroupMedianStability =
-    await db.getPeerGroupMedianValues<"stability">({
-      peerGroup: operatorData.peer_group,
-      metric: "stability",
-      period,
-    });
+  const peerGroupMedianStability = await db.getIndicatorMedian<"stability">({
+    peerGroup: operatorData.peer_group,
+    metric: "stability",
+    period,
+  });
 
   const operatorStability = await db.getStabilityMetrics({
     operatorId,

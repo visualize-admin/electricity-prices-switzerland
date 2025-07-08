@@ -4,7 +4,7 @@ import {
   netTariffCategoryOptions,
   networkLevelOptions,
   typologyOptions,
-} from "src/domain/sunshine-data";
+} from "src/domain/sunshine";
 
 import { SunshineSelectorsBase } from "./base";
 

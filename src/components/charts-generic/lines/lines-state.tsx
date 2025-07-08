@@ -7,8 +7,8 @@ import {
   groups,
   max,
   min,
-  ScaleLinear,
   scaleLinear,
+  ScaleLinear,
   scaleOrdinal,
   scaleTime,
 } from "d3";

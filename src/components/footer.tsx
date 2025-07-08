@@ -1,9 +1,9 @@
 import {
+  Footer as SwissFederalCiFooter,
   FooterSection,
   FooterSectionButton,
   FooterSectionText,
   FooterSectionTitle,
-  Footer as SwissFederalCiFooter,
 } from "@interactivethings/swiss-federal-ci/dist/components";
 import { t } from "@lingui/macro";
 import { Link, SxProps } from "@mui/material";

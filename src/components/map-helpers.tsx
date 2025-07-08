@@ -1,5 +1,5 @@
 import { FlyToInterpolator, WebMercatorViewport } from "@deck.gl/core/typed";
-import { ScaleThreshold, color } from "d3";
+import { color, ScaleThreshold } from "d3";
 import { BBox as GeoJsonBBox } from "geojson";
 
 export const getFillColor = (

@@ -28,15 +28,14 @@ import {
   PageParams,
   Props as SharedPageProps,
 } from "src/data/shared-page-props";
+import { tariffCategories, TariffCategory } from "src/domain/data";
+import { sunshineDetailsLink } from "src/domain/query-states";
 import {
   NetworkLevel,
   SunshineCostsAndTariffsData,
   SunshineOperationalStandardsData,
   SunshinePowerStabilityData,
-  tariffCategories,
-  TariffCategory,
-} from "src/domain/data";
-import { sunshineDetailsLink } from "src/domain/query-states";
+} from "src/domain/sunshine";
 import { getLocalizedLabel } from "src/domain/translation";
 import {
   EnergyTariffsQuery,

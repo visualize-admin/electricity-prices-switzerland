@@ -1,12 +1,12 @@
 import { LayerProps, PickingInfo } from "@deck.gl/core/typed";
 import { GeoJsonLayer, GeoJsonLayerProps } from "@deck.gl/layers/typed";
-import { Trans } from "@lingui/macro";
-// We don't need turf anymore as GenericMap handles zooming
-import { easeExpIn, mean, ScaleThreshold } from "d3";
+import { t, Trans } from "@lingui/macro";
+import { easeExpIn, extent, mean, ScaleThreshold } from "d3";
 import { Feature, GeoJsonProperties, Geometry } from "geojson";
 import { keyBy } from "lodash";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useId, useMemo, useState } from "react";
 
+import { MapColorLegend } from "src/components/color-legend";
 import { GenericMap, GenericMapControls } from "src/components/generic-map";
 import { HighlightValue } from "src/components/highlight-context";
 import { Loading } from "src/components/hint";
@@ -22,90 +22,74 @@ import {
   useGeoData,
 } from "src/data/geo";
 import { useFetch } from "src/data/use-fetch";
-import { ElectricityCategory, ValueFormatter } from "src/domain/data";
-import { Maybe, SunshineDataRow } from "src/graphql/queries";
+import { ValueFormatter } from "src/domain/data";
+import {
+  indicatorWikiPageSlugMapping,
+  SunshineIndicator,
+} from "src/domain/sunshine";
+import { Maybe, SunshineDataIndicatorRow } from "src/graphql/queries";
 import { truthy } from "src/lib/truthy";
 import { getOperatorsMunicipalities } from "src/rdf/queries";
 
 import { HoverState } from "./map-helpers";
 
-// Using styles.operators.pickable.fillColor instead of defining a constant
-
-const sunshineAttributeToElectricityCategory: Partial<
-  Record<keyof SunshineDataRow, ElectricityCategory>
-> = {
-  tariffEC2: "C2",
-  tariffEC3: "C3",
-  tariffEC4: "C4",
-  tariffEC6: "C6",
-  tariffEH2: "H2",
-  tariffEH4: "H4",
-  tariffEH7: "H7",
-  tariffNC2: "C2",
-  tariffNC3: "C3",
-  tariffNC4: "C4",
-  tariffNC6: "C6",
-  tariffNH2: "H2",
-  tariffNH4: "H4",
-  tariffNH7: "H7",
-};
-
-export const displayedAttributes = [
-  "tariffEC2",
-  "tariffEC3",
-  "tariffEC4",
-  "tariffEC6",
-  "tariffEH2",
-  "tariffEH4",
-  "tariffEH7",
-  "tariffNC2",
-  "tariffNC3",
-  "tariffNC4",
-  "tariffNC6",
-  "tariffNH2",
-  "tariffNH4",
-  "tariffNH7",
-  "saidiTotal",
-  "saidiUnplanned",
-  "saifiTotal",
-  "saifiUnplanned",
-] satisfies (keyof SunshineDataRow)[];
-
-export type DisplayedAttribute = (typeof displayedAttributes)[number];
-
-type PickingInfoGeneric<Props> = Omit<PickingInfo, "object"> & {
-  object?: Feature<Geometry, Props> | null;
-};
-
-export type GetOperatorsMapTooltip = (
-  info: PickingInfoGeneric<OperatorLayerProperties>
-) => null | {
-  html: string;
+const indicatorLegendTitleMapping: Record<SunshineIndicator, string> = {
+  networkCosts: t({
+    message: "Network costs in CHF/MWh",
+    id: "sunshine.indicator.networkCosts",
+  }),
+  netTariffs: t({
+    message: "Net tariffs in Rp./kWh",
+    id: "sunshine.indicator.netTariffs",
+  }),
+  energyTariffs: t({
+    message: "Energy tariffs in Rp./kWh",
+    id: "sunshine.indicator.energyTariffs",
+  }),
+  saidi: t({
+    message: "Power outage duration (SAIDI) in minutes",
+    id: "sunshine.indicator.saidi",
+  }),
+  saifi: t({
+    message: "Power outage frequency (SAIFI) per year",
+    id: "sunshine.indicator.saifi",
+  }),
+  serviceQuality: t({
+    message: "Service quality score",
+    id: "sunshine.indicator.serviceQuality",
+  }),
+  compliance: t({
+    message: "Compliance score",
+    id: "sunshine.indicator.compliance",
+  }),
 };
 
 type SunshineMapProps = {
   period: string;
+  indicator: SunshineIndicator;
   colorScale: ScaleThreshold<number, string, never>;
-  accessor: (x: SunshineDataRow) => Maybe<number> | undefined;
-  observations?: SunshineDataRow[];
+  accessor: (x: SunshineDataIndicatorRow) => Maybe<number> | undefined;
+  observations?: SunshineDataIndicatorRow[];
   valueFormatter: ValueFormatter;
   onHoverOperatorLayer?: LayerProps["onHover"];
   controls?: GenericMapControls;
+  medianValue: number | undefined;
 };
 
 const SunshineMap = ({
   period,
+  indicator,
   colorScale,
   accessor,
   observations,
   controls,
-  valueFormatter: tooltipValueFormatter,
+  valueFormatter,
+  medianValue,
 }: SunshineMapProps) => {
   // TODO Right now we fetch operators municipalities through EC2 indicators
   // This is not ideal, but we don't have a better way to get the operator municipalities
   // We should probably add a query to get the operator municipalities directly
-  const electricityCategory =
-    sunshineAttributeToElectricityCategory["tariffEC2" as const]!;
+  const electricityCategory = "C2" as const;
 
   const operatorMunicipalitiesResult = useFetch({
     key: `operator-municipalities-${period}-${electricityCategory}`,
@@ -113,8 +97,8 @@ const SunshineMap = ({
   });
   const geoDataResult = useGeoData(period);
 
-  const isLoading = 
-    operatorMunicipalitiesResult.state === "fetching" || 
+  const isLoading =
+    operatorMunicipalitiesResult.state === "fetching" ||
     geoDataResult.state === "fetching";
 
   const operatorMunicipalities = operatorMunicipalitiesResult.data;
@@ -189,14 +173,14 @@ const SunshineMap = ({
           values={
             hovered.values.map((x) => ({
               label: x.operatorName,
-              formattedValue: tooltipValueFormatter(x.value),
+              formattedValue: valueFormatter(x.value),
               color: colorScale(x.value),
             })) ?? []
           }
         />
       ),
     };
-  }, [hovered, colorScale, tooltipValueFormatter]);
+  }, [hovered, colorScale, valueFormatter]);
 
   // Handle click on map layers (primarily for zooming)
   const handleLayerClick = useCallback((info: PickingInfo) => {
@@ -395,6 +379,43 @@ const SunshineMap = ({
     [index]
   );
 
+  const valuesExtent = useMemo(() => {
+    if (!observations || observations.length === 0) {
+      return undefined;
+    }
+    return extent(observations.map((x) => accessor(x)).filter(truthy));
+  }, [accessor, observations]);
+  const legendId = useId();
+
+  const renderLegend = useCallback(() => {
+    if (!valuesExtent || !medianValue || !colorScale) return null;
+    const legendData = [valuesExtent[0], medianValue, valuesExtent[1]];
+    return (
+      <MapColorLegend
+        id={legendId}
+        title={indicatorLegendTitleMapping[indicator]}
+        ticks={legendData.map((value) => ({
+          value,
+          label: value !== undefined ? valueFormatter(value) : "",
+        }))}
+        infoDialogButtonProps={{
+          slug: indicatorWikiPageSlugMapping[indicator],
+          label: t({
+            id: `help.${indicator}`,
+            message: indicatorLegendTitleMapping[indicator],
+          }),
+        }}
+      />
+    );
+  }, [
+    valuesExtent,
+    medianValue,
+    colorScale,
+    legendId,
+    valueFormatter,
+    indicator,
+  ]);
+
   if (isLoading) {
     return <Loading />;
   }
@@ -406,6 +427,7 @@ const SunshineMap = ({
   return (
     <GenericMap
       layers={mapLayers}
+      legend={renderLegend()}
       tooltipContent={tooltipContent}
       onLayerClick={handleLayerClick}
       controls={controls}

@@ -1,14 +1,14 @@
-import { ServerResponse, IncomingMessage } from "http";
+import { IncomingMessage, ServerResponse } from "http";
 
 import { Entity } from "src/domain/data";
 import { defaultLocale } from "src/locales/config";
 import {
+  getCanton,
+  getDimensionValuesAndLabels,
   getMunicipality,
   getObservationsCube,
-  getDimensionValuesAndLabels,
   getOperator,
   getOperatorMunicipalities,
-  getCanton,
 } from "src/rdf/queries";
 
 export type PageParams = { locale: string; id: string; entity: Entity };

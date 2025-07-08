@@ -7,11 +7,11 @@ import { MiniSelect, SearchField } from "src/components/form";
 import { HighlightContext } from "src/components/highlight-context";
 import { Stack } from "src/components/stack";
 import { Entity, ValueFormatter } from "src/domain/data";
-import { QueryStateSunshineIndicator } from "src/domain/query-states";
+import { SunshineIndicator } from "src/domain/sunshine";
 import {
   CantonMedianObservationFieldsFragment,
   OperatorObservationFieldsFragment,
-  SunshineDataRow,
+  SunshineDataIndicatorRow,
 } from "src/graphql/queries";
 import { Icon } from "src/icons";
 
@@ -223,10 +223,7 @@ const PlaceholderListItems = () => {
 type SortState = "ASC" | "DESC";
 
 type LabelType = "prices" | "quality" | "timely";
-const indicatorLabelTypes: Record<
-  "prices" | QueryStateSunshineIndicator,
-  LabelType
-> = {
+const indicatorLabelTypes: Record<"prices" | SunshineIndicator, LabelType> = {
   prices: "prices",
   networkCosts: "prices",
   netTariffs: "prices",
@@ -271,7 +268,7 @@ export const List = ({
   fetching: boolean;
   entity: Entity;
   valueFormatter: ValueFormatter;
-  indicator: QueryStateSunshineIndicator | "prices";
+  indicator: SunshineIndicator | "prices";
 }) => {
   const [sortState, setSortState] = useState<SortState>("ASC");
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -436,21 +433,15 @@ export function groupsFromElectricityMunicipalities(
   );
 }
 
-const isValueAttributeDefined = <T extends { value: number | undefined }>(
-  d: T
-): d is T & { value: number } => {
-  return d.value !== undefined && d.value !== null;
-};
 export const groupsFromSunshineObservations = (
-  observations: SunshineDataRow[],
-  sunshineAccessor: (d: SunshineDataRow) => number | undefined
+  observations: SunshineDataIndicatorRow[]
 ): Groups => {
   const withValues = observations
+    .filter((d) => d.value !== undefined && d.value !== null)
     .map((d) => ({
       ...d,
-      value: sunshineAccessor(d),
-    }))
-    .filter(isValueAttributeDefined);
+      value: d.value!,
+    }));
 
   return Array.from(
     rollup(

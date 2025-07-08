@@ -7,7 +7,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language: de\n"
 "Language-Team: \n"
-"Content-Type: \n"
+"Content-Type: text/plain\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -193,6 +193,10 @@ msgstr "Die Preise mit den in Klammern angegebenen Werten sind dynamisch. Weiter
 msgid "dynamic.tariff"
 msgstr "dynamisch"
 
+#: src/components/energy-prices-map.tsx
+msgid "energy-prices-map.legend.title"
+msgstr "Tarifvergleich in Rp./kWh (Angaben exkl. MwSt.)"
+
 #: src/components/not-found.tsx
 msgid "error.page.404.back-link"
 msgstr "Klicken Sie hier, um zur Startseite zurückzukehren"
@@ -288,6 +292,10 @@ msgstr "Schweizerische Gemeinden und zuständige Stromnetzbetreiber"
 #: src/components/footer.tsx
 msgid "footer.tariff-components"
 msgstr "Tarifkomponenten Übertragungsnetz - Swissgrid"
+
+#: src/components/sunshine-map.tsx
+msgid "help."
+msgstr "helfen."
 
 #: src/components/footer.tsx
 msgid "help.calculation"
@@ -547,10 +555,6 @@ msgstr "SAIFI im Detail"
 #: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.next-button.service-quality"
 msgstr "Servicequalität im Detail"
-
-#: src/components/energy-prices-map.tsx
-msgid "map.legend.title"
-msgstr "Tarifvergleich in Rp./kWh (Angaben exkl. MwSt.)"
 
 #: src/components/share-button.tsx
 msgid "map.share"
@@ -974,6 +978,10 @@ msgstr "Indikatoren"
 msgid "selector.typology"
 msgstr "Typologie"
 
+#: src/components/sunshine-selectors/base.tsx
+msgid "selector.viewBy"
+msgstr "Ansicht von"
+
 #: src/components/electricity-selectors.tsx
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.year"
@@ -1167,6 +1175,34 @@ msgstr "Operationelle Standards"
 msgid "sunshine.grid.power-stability-title"
 msgstr "Leistungsstabilität"
 
+#: src/components/sunshine-map.tsx
+msgid "sunshine.indicator.compliance"
+msgstr "Bewertung der Einhaltung"
+
+#: src/components/sunshine-map.tsx
+msgid "sunshine.indicator.energyTariffs"
+msgstr "Energietarife in Rp./kWh"
+
+#: src/components/sunshine-map.tsx
+msgid "sunshine.indicator.netTariffs"
+msgstr "Nettotarife in Rp./kWh"
+
+#: src/components/sunshine-map.tsx
+msgid "sunshine.indicator.networkCosts"
+msgstr "Netzkosten in CHF/MWh"
+
+#: src/components/sunshine-map.tsx
+msgid "sunshine.indicator.saidi"
+msgstr "Dauer des Stromausfalls (SAIDI) in Minuten"
+
+#: src/components/sunshine-map.tsx
+msgid "sunshine.indicator.saifi"
+msgstr "Häufigkeit von Stromausfällen (SAIFI) pro Jahr"
+
+#: src/components/sunshine-map.tsx
+msgid "sunshine.indicator.serviceQuality"
+msgstr "Bewertung der Servicequalität"
+
 #: src/domain/metrics.ts
 msgid "sunshine.metric-unit.days"
 msgstr "tage"
@@ -1261,6 +1297,14 @@ msgstr "Aktuelles Jahr"
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.median-peer-group"
 msgstr "Median der Vergleichsgruppe"
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.no-saidi-data"
+msgstr "Für diesen Betreiber sind für das ausgewählte Jahr keine SAIDI-Daten verfügbar."
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.no-saifi-data"
+msgstr "Für diesen Betreiber sind für das ausgewählte Jahr keine SAIFI-Daten verfügbar."
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
@@ -1387,6 +1431,38 @@ msgstr "Geplant"
 #: src/domain/translation.tsx
 msgid "typology.unplanned"
 msgstr "Ungeplant"
+
+#: src/domain/translation.tsx
+msgid "viewBy.A"
+msgstr "Hohe Energiedichte / Mittlere Siedlungsdichte"
+
+#: src/domain/translation.tsx
+msgid "viewBy.B"
+msgstr "Hohe Energiedichte / Ländliche Siedlungsdichte"
+
+#: src/domain/translation.tsx
+msgid "viewBy.C"
+msgstr "Hohe Energiedichte / Bergregion"
+
+#: src/domain/translation.tsx
+msgid "viewBy.D"
+msgstr "Hohe Energiedichte / Unbekannt"
+
+#: src/domain/translation.tsx
+msgid "viewBy.E"
+msgstr "Geringe Energiedichte / Mittlere Siedlungsdichte"
+
+#: src/domain/translation.tsx
+msgid "viewBy.F"
+msgstr "Geringe Energiedichte / Ländliche Siedlungsdichte"
+
+#: src/domain/translation.tsx
+msgid "viewBy.G"
+msgstr "Geringe Energiedichte / Bergregion"
+
+#: src/domain/translation.tsx
+msgid "viewBy.H"
+msgstr "Geringe Energiedichte / Tourismus"
 
 #: src/domain/translation.tsx
 msgid "viewBy.all_grid_operators"

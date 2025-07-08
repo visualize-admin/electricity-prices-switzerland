@@ -1,5 +1,5 @@
 import mitt from "mitt";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 type FetchDataState<T> =
   | {

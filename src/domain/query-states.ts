@@ -7,6 +7,8 @@ import {
   UseQueryStateSingle,
 } from "src/lib/use-query-state";
 
+import { SunshineIndicator, sunshineIndicatorSchema } from "./sunshine";
+
 /**
  * Helper function to convert comma-separated query parameter strings to arrays
  * This is necessary because URL query parameters don't naturally encode arrays
@@ -55,16 +57,6 @@ const energyPricesDetailsSchema = z.object({
   view: stringToArray(["collapsed"]),
 });
 
-const sunshineIndicatorSchema = z.enum([
-  "networkCosts",
-  "netTariffs",
-  "energyTariffs",
-  "saidi",
-  "saifi",
-  "serviceQuality",
-  "compliance",
-] as const);
-
 const sunshineMapSchema = z.object({
   tab: mapTabsSchema.default("sunshine"),
   period: periodSchema,
@@ -83,10 +75,9 @@ const detailTabsSchema = z.union([sunshineIndicatorSchema, z.undefined()]); // T
 
 export type QueryStateSunshineSaidiSaifiTypology =
   QueryStateSunshineMap["typology"];
-export type QueryStateSunshineIndicator = QueryStateSunshineMap["indicator"];
 
 export const getSunshineDetailsPageFromIndicator = (
-  indicator: QueryStateSunshineMap["indicator"]
+  indicator: SunshineIndicator
 ) => {
   if (indicator === "saidi" || indicator === "saifi") {
     return "power-stability";

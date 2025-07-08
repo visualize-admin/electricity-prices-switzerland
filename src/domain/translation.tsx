@@ -1,6 +1,8 @@
 import { t } from "@lingui/macro";
 
-import { NetworkLevel, PeerGroup, TariffCategory } from "src/domain/data";
+import { TariffCategory } from "src/domain/data";
+
+import { NetworkLevel, PeerGroup } from "./sunshine";
 
 export const getLocalizedLabel = ({ id }: { id: string }): string => {
   switch (id) {
@@ -193,11 +195,45 @@ export const getLocalizedLabel = ({ id }: { id: string }): string => {
       });
 
     // Sunshine selectors labels
-    case "all_grid_operators":
+    case "viewBy.all_grid_operators":
       return t({
         id: "viewBy.all_grid_operators",
         message: "All grid operators",
       });
+    case "viewBy.A":
+      return t({
+        id: "viewBy.A",
+        message: "High energy density / Medium settlement density",
+      });
+    case "viewBy.B":
+      return t({
+        id: "viewBy.B",
+        message: "High energy density / Rural settlement density",
+      });
+    case "viewBy.C":
+      return t({
+        id: "viewBy.C",
+        message: "High energy density / Mountain region",
+      });
+    case "viewBy.D":
+      return t({ id: "viewBy.D", message: "High energy density / Unknown" });
+    case "viewBy.E":
+      return t({
+        id: "viewBy.E",
+        message: "Low energy density / Medium settlement density",
+      });
+    case "viewBy.F":
+      return t({
+        id: "viewBy.F",
+        message: "Low energy density / Rural settlement density",
+      });
+    case "viewBy.G":
+      return t({
+        id: "viewBy.G",
+        message: "Low energy density / Mountain region",
+      });
+    case "viewBy.H":
+      return t({ id: "viewBy.H", message: "Low energy density / Tourism" });
     case "planned":
       return t({
         id: "typology.planned",

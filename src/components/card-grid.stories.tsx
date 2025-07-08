@@ -2,8 +2,8 @@ import {
   Card,
   CardContent,
   Typography,
-  useTheme,
   useMediaQuery,
+  useTheme,
 } from "@mui/material";
 
 import CardGrid from "./card-grid";

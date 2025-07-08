@@ -1,4 +1,4 @@
-import { Trans, t } from "@lingui/macro";
+import { t, Trans } from "@lingui/macro";
 import { Box, Typography } from "@mui/material";
 import { ComponentProps, useMemo } from "react";
 

@@ -1,11 +1,9 @@
-import { Trans, t } from "@lingui/macro";
+import { t, Trans } from "@lingui/macro";
 import { Box, Typography } from "@mui/material";
 
 import { Combobox } from "src/components/combobox";
-import {
-  QueryStateSunshineIndicator,
-  QueryStateSunshineSaidiSaifiTypology,
-} from "src/domain/query-states";
+import { QueryStateSunshineSaidiSaifiTypology } from "src/domain/query-states";
+import { SunshineIndicator } from "src/domain/sunshine";
 
 type SunshineSelectorsBaseProps = {
   year: string;
@@ -14,12 +12,13 @@ type SunshineSelectorsBaseProps = {
   viewBy: string;
   setViewBy: (viewBy: string) => void;
   viewByOptions: string[];
+  getViewByLabel?: (id: string) => string;
   typology: QueryStateSunshineSaidiSaifiTypology;
   setTypology: (typology: QueryStateSunshineSaidiSaifiTypology) => void;
   typologyOptions: QueryStateSunshineSaidiSaifiTypology[];
-  indicator: QueryStateSunshineIndicator;
-  setIndicator: (indicator: QueryStateSunshineIndicator) => void;
-  indicatorOptions: QueryStateSunshineIndicator[];
+  indicator: SunshineIndicator;
+  setIndicator: (indicator: SunshineIndicator) => void;
+  indicatorOptions: SunshineIndicator[];
   getItemLabel?: (id: string) => string;
   networkLevel: string;
   setNetworkLevel: (networkLevel: string) => void;
@@ -41,6 +40,7 @@ export const SunshineSelectorsBase = ({
   viewBy,
   setViewBy,
   viewByOptions,
+  getViewByLabel = (id) => id,
   typology,
   setTypology,
   typologyOptions,
@@ -84,14 +84,14 @@ export const SunshineSelectorsBase = ({
         </Trans>
       </Typography>
 
-      {/* <Combobox
+      <Combobox
         id="viewBy"
         label={t({ id: "selector.viewBy", message: "View by" })}
         items={viewByOptions}
-        getItemLabel={getItemLabel}
+        getItemLabel={getViewByLabel}
         selectedItem={viewBy}
         setSelectedItem={setViewBy}
-      /> */}
+      />
 
       <Combobox
         id="year"

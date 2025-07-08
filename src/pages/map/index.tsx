@@ -1,6 +1,6 @@
 import { t } from "@lingui/macro";
 import { Box } from "@mui/material";
-import { median, ScaleThreshold } from "d3";
+import { ScaleThreshold } from "d3";
 import { GetServerSideProps } from "next";
 import dynamic from "next/dynamic";
 import { useCallback, useEffect, useMemo, useRef } from "react";
@@ -36,25 +36,21 @@ import ShareButton from "src/components/share-button";
 import { SunshineDataServiceDebug } from "src/components/sunshine-data-service-debug";
 import SunshineMap from "src/components/sunshine-map";
 import { DataServiceProps } from "src/data/shared-page-props";
-import {
-  Entity,
-  NetworkLevel,
-  TariffCategory,
-  useColorScale,
-} from "src/domain/data";
+import { useColorScale } from "src/domain/charts";
+import { Entity, TariffCategory } from "src/domain/data";
 import { useIndicatorValueFormatter } from "src/domain/helpers";
 import {
   useQueryStateEnergyPricesMap,
   useQueryStateMapCommon,
   useQueryStateSunshineMap,
 } from "src/domain/query-states";
-import { getSunshineAccessor } from "src/domain/sunshine-accessor";
+import { NetworkLevel } from "src/domain/sunshine";
 import {
   PriceComponent,
-  SunshineDataRow,
+  SunshineDataIndicatorRow,
   useAllMunicipalitiesQuery,
   useObservationsQuery,
-  useSunshineDataQuery,
+  useSunshineDataByIndicatorQuery,
 } from "src/graphql/queries";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { getSunshineDataServiceInfo } from "src/lib/sunshine-data-service-context";
@@ -107,6 +103,7 @@ const IndexPageContent = ({
       networkLevel,
       netTariffCategory,
       energyTariffCategory,
+      viewBy,
     },
   ] = useQueryStateSunshineMap();
 
@@ -122,9 +119,18 @@ const IndexPageContent = ({
     pause: !isElectricityTab,
   });
 
-  const [sunshineDataQuery] = useSunshineDataQuery({
+  const [sunshineDataQuery] = useSunshineDataByIndicatorQuery({
     variables: {
-      filter: { period: period || "2024" },
+      filter: {
+        period: period || "2024",
+        peerGroup: viewBy === "all_grid_operators" ? undefined : viewBy,
+        indicator,
+        typology,
+        networkLevel: networkLevel as NetworkLevel["id"],
+        category:
+          (netTariffCategory as TariffCategory) ||
+          (energyTariffCategory as TariffCategory),
+      },
     },
     pause: !isSunshineTab,
   });
@@ -142,8 +148,11 @@ const IndexPageContent = ({
   const sunshineObservations = useMemo(() => {
     return sunshineDataQuery.fetching
       ? EMPTY_ARRAY
-      : sunshineDataQuery.data?.sunshineData ?? EMPTY_ARRAY;
-  }, [sunshineDataQuery.data?.sunshineData, sunshineDataQuery.fetching]);
+      : sunshineDataQuery.data?.sunshineDataByIndicator?.data ?? EMPTY_ARRAY;
+  }, [
+    sunshineDataQuery.data?.sunshineDataByIndicator?.data,
+    sunshineDataQuery.fetching,
+  ]);
 
   const cantonMedianObservations = isElectricityTab
     ? observationsQuery.fetching
@@ -160,32 +169,16 @@ const IndexPageContent = ({
     municipalitiesQuery.data?.municipalities ?? EMPTY_ARRAY;
 
   const colorAccessor = useCallback((d: { value: number }) => d.value, []);
-  const sunshineAccessor = useMemo<
-    (r: SunshineDataRow) => number | undefined
-  >(() => {
-    return getSunshineAccessor(
-      indicator,
-      typology,
-      networkLevel as NetworkLevel["id"],
-      netTariffCategory as TariffCategory,
-      energyTariffCategory as TariffCategory
-    );
-  }, [
-    indicator,
-    typology,
-    networkLevel,
-    netTariffCategory,
-    energyTariffCategory,
-  ]);
 
-  const sunshineValues = sunshineObservations
-    .map((x) => sunshineAccessor(x) ?? null)
-    .filter((x) => x !== null && x !== undefined);
+  // Simple accessor for sunshine data - just get the value field
+  const sunshineAccessor = useCallback(
+    (r: SunshineDataIndicatorRow) => r?.value ?? undefined,
+    []
+  );
 
   const medianValue = isElectricityTab
     ? swissMedianObservations[0]?.value
-    : // TODO
-      median(sunshineValues);
+    : sunshineDataQuery.data?.sunshineDataByIndicator?.median ?? undefined;
   const colorScale = useColorScale({
     observations,
     medianValue,
@@ -235,12 +228,15 @@ const IndexPageContent = ({
     />
   ) : (
     <SunshineMap
+      key={`${indicator}-${viewBy}`}
       accessor={sunshineAccessor}
       period={mapYear}
+      indicator={indicator}
       colorScale={sunshineColorScale}
       observations={sunshineObservations}
       controls={controlsRef}
       valueFormatter={valueFormatter}
+      medianValue={medianValue}
     />
   );
 
@@ -255,10 +251,7 @@ const IndexPageContent = ({
         ? groupsFromElectricityOperators(observations)
         : groupsFromElectricityMunicipalities(observations);
     } else {
-      return groupsFromSunshineObservations(
-        sunshineObservations,
-        sunshineAccessor
-      );
+      return groupsFromSunshineObservations(sunshineObservations);
     }
   }, [
     isElectricityTab,
@@ -266,7 +259,6 @@ const IndexPageContent = ({
     cantonMedianObservations,
     observations,
     sunshineObservations,
-    sunshineAccessor,
   ]);
 
   const list = (

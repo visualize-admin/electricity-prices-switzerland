@@ -1,6 +1,6 @@
 import data from "mocks/sunshine-costsAndTariffs-426.json";
 
-import { SunshineCostsAndTariffsData } from "src/domain/data";
+import { SunshineCostsAndTariffsData } from "src/domain/sunshine";
 
 import { NetworkCostTrendChart } from "./network-cost-trend-chart";
 import { DesignGrid, DesignStory } from "./storybook/base-style";

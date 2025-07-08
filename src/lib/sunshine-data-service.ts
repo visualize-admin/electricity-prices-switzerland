@@ -1,10 +1,10 @@
+import { ElectricityCategory, TariffCategory } from "src/domain/data";
+import { NetworkLevel, SunshineIndicator } from "src/domain/sunshine";
 import {
-  ElectricityCategory,
-  TariffCategory,
-  NetworkLevel,
-} from "src/domain/data";
-import { SunshineDataRow } from "src/graphql/resolver-types";
-import { PeerGroupMedianValuesParams } from "src/lib/sunshine-data";
+  SunshineDataIndicatorRow,
+  SunshineDataRow,
+} from "src/graphql/resolver-types";
+import { IndicatorMedianParams } from "src/lib/sunshine-data";
 
 export type NetworkCostRecord = {
   operator_id: number;
@@ -55,39 +55,38 @@ export type OperatorDataRecord = {
   peer_group: string;
 };
 
-export type PeerGroupRecord<
-  Metric extends PeerGroupMedianValuesParams["metric"]
-> = Metric extends "network_costs"
-  ? {
-      network_level: NetworkLevel["id"];
-      median_value: number;
-    }
-  : Metric extends "stability"
-  ? {
-      median_saidi_total: number;
-      median_saidi_unplanned: number;
-      median_saifi_total: number;
-      median_saifi_unplanned: number;
-    }
-  : Metric extends "operational"
-  ? {
-      median_franc_rule: number;
-      median_info_days: number;
-      median_timely: number;
-    }
-  : Metric extends "energy-tariffs"
-  ? {
-      category: ElectricityCategory;
-      tariff_type: string;
-      median_rate: number;
-    }
-  : Metric extends "net-tariffs"
-  ? {
-      category: ElectricityCategory;
-      tariff_type: string;
-      median_rate: number;
-    }
-  : never;
+export type PeerGroupRecord<Metric extends IndicatorMedianParams["metric"]> =
+  Metric extends "network_costs"
+    ? {
+        network_level: NetworkLevel["id"];
+        median_value: number;
+      }
+    : Metric extends "stability"
+    ? {
+        median_saidi_total: number;
+        median_saidi_unplanned: number;
+        median_saifi_total: number;
+        median_saifi_unplanned: number;
+      }
+    : Metric extends "operational"
+    ? {
+        median_franc_rule: number;
+        median_info_days: number;
+        median_timely: number;
+      }
+    : Metric extends "energy-tariffs"
+    ? {
+        category: ElectricityCategory;
+        tariff_type: string;
+        median_rate: number;
+      }
+    : Metric extends "net-tariffs"
+    ? {
+        category: ElectricityCategory;
+        tariff_type: string;
+        median_rate: number;
+      }
+    : never;
 
 export interface SunshineDataService {
   name: string;
@@ -122,10 +121,8 @@ export interface SunshineDataService {
     period?: number
   ): Promise<OperatorDataRecord>;
 
-  getPeerGroupMedianValues<
-    Metric extends PeerGroupMedianValuesParams["metric"]
-  >(
-    params: PeerGroupMedianValuesParams
+  getIndicatorMedian<Metric extends IndicatorMedianParams["metric"]>(
+    params: IndicatorMedianParams
   ): Promise<PeerGroupRecord<Metric> | undefined>;
 
   getLatestYearSunshine(operatorId: number): Promise<number>;
@@ -141,5 +138,16 @@ export interface SunshineDataService {
   getSunshineData(params: {
     operatorId?: number | undefined | null;
     period?: string | undefined | null;
+    peerGroup?: string | undefined | null;
   }): Promise<SunshineDataRow[]>;
+
+  getSunshineDataByIndicator(params: {
+    operatorId?: number | undefined | null;
+    period?: string | undefined | null;
+    peerGroup?: string | undefined | null;
+    indicator: SunshineIndicator;
+    category?: string;
+    networkLevel?: string;
+    typology?: string;
+  }): Promise<SunshineDataIndicatorRow[]>;
 }

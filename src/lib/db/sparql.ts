@@ -1,21 +1,29 @@
 import { keyBy } from "lodash";
 import ParsingClient from "sparql-http-client/ParsingClient";
 
-import { NetworkLevel, TariffCategory } from "src/domain/data";
-import { SunshineDataRow } from "src/graphql/resolver-types";
+import {
+  ElectricityCategory,
+  isElectricityCategory,
+  TariffCategory,
+} from "src/domain/data";
+import { NetworkLevel, SunshineIndicator } from "src/domain/sunshine";
+import {
+  SunshineDataIndicatorRow,
+  SunshineDataRow,
+} from "src/graphql/resolver-types";
 import {
   PeerGroupNotFoundError,
   UnknownPeerGroupError,
 } from "src/lib/db/errors";
-import { PeerGroupMedianValuesParams } from "src/lib/sunshine-data";
+import { IndicatorMedianParams } from "src/lib/sunshine-data";
 import type {
   NetworkCostRecord,
   OperationalStandardRecord,
-  StabilityMetricRecord,
-  TariffRecord,
   OperatorDataRecord,
   PeerGroupRecord,
+  StabilityMetricRecord,
   SunshineDataService,
+  TariffRecord,
 } from "src/lib/sunshine-data-service";
 import { addNamespaceToID, stripNamespaceFromIri } from "src/rdf/namespace";
 
@@ -327,13 +335,17 @@ const getStabilityMetrics = async ({
 // category to not have "N" or "E" prefixes
 const truncateCategory = <T extends TariffCategory | undefined>(
   category: T
-): TariffCategory | undefined => {
+): ElectricityCategory | undefined => {
   if (category === undefined) {
     return category;
   }
   // Ensure the category is always a valid TariffCategory
-  const truncated = category.slice(-2) as TariffCategory;
-  return truncated;
+  const truncated = category.slice(-2);
+  if (isElectricityCategory(truncated)) {
+    return truncated;
+  } else {
+    throw new Error("Unknown tariff category: " + truncated);
+  }
 };
 
 const getTariffs = async ({
@@ -509,10 +521,10 @@ const getOperatorData = async (
   };
 };
 
-const getPeerGroupMedianValues = async <
-  Metric extends PeerGroupMedianValuesParams["metric"]
+const getIndicatorMedian = async <
+  Metric extends IndicatorMedianParams["metric"]
 >(
-  params: PeerGroupMedianValuesParams
+  params: IndicatorMedianParams
 ) => {
   const { peerGroup, metric, period } = params;
   const periodFilter = period
@@ -522,6 +534,13 @@ const getPeerGroupMedianValues = async <
   const periodValues = period
     ? `VALUES ?period { "${period.toString()}" } `
     : "";
+
+  // Handle optional peer group
+  const peerGroupFilter = peerGroup
+    ? `VALUES ?group { <https://energy.ld.admin.ch/elcom/electricityprice/group/${peerGroup}> }`
+    : "";
+
+  const peerGroupConstraint = peerGroup ? `:group ?group ;` : "";
 
   // Query the median cubes based on the metric type
   let query = "";
@@ -539,12 +558,12 @@ const getPeerGroupMedianValues = async <
         
         SELECT ?gridcost_${networkLevel?.toLowerCase()}
         WHERE {
-         VALUES ?group { <https://energy.ld.admin.ch/elcom/electricityprice/group/${peerGroup}> }
+         ${peerGroupFilter}
           ${cube} cube:observationSet/cube:observation ?obs .
 
           ${periodValues}
           ?obs
-            :group ?group ;
+            ${peerGroupConstraint}
             ${periodFilter} ;
             :gridcost_${networkLevel?.toLowerCase()} ?gridcost_${networkLevel?.toLowerCase()} .
           
@@ -564,11 +583,11 @@ const getPeerGroupMedianValues = async <
         SELECT ?saidi_total ?saidi_unplanned ?saifi_total ?saifi_unplanned
         WHERE {
           ${cube} cube:observationSet/cube:observation ?obs .
-         VALUES ?group { <https://energy.ld.admin.ch/elcom/electricityprice/group/${peerGroup}> }
+         ${peerGroupFilter}
 
           ${periodValues}
           ?obs
-            :group ?group ;
+            ${peerGroupConstraint}
             ${periodFilter} ;
             :saidi_total ?saidi_total ;
             :saidi_unplanned ?saidi_unplanned ;
@@ -590,11 +609,11 @@ const getPeerGroupMedianValues = async <
         SELECT ?franken_regel ?days_in_advance ?in_time
         WHERE {
           ${cube} cube:observationSet/cube:observation ?obs .
-          VALUES ?group { <https://energy.ld.admin.ch/elcom/electricityprice/group/${peerGroup}> }
+          ${peerGroupFilter}
 
           ${periodValues}
           ?obs
-            :group ?group ;
+            ${peerGroupConstraint}
             ${periodFilter} ;
             :franken_regel ?franken_regel ;
             :days_in_advance ?days_in_advance ;
@@ -618,11 +637,11 @@ const getPeerGroupMedianValues = async <
         SELECT ?${isEnergy ? "energy" : "gridusage"}
         WHERE {
           ${cube} cube:observationSet/cube:observation ?obs .
-         VALUES ?group { <https://energy.ld.admin.ch/elcom/electricityprice/group/${peerGroup}> }
+         ${peerGroupFilter}
 
           ${periodValues}
           ?obs
-            :group ?group ;
+            ${peerGroupConstraint}
             ${periodFilter} ;
             :category <${addNamespaceToID({
               dimension: "category",
@@ -863,10 +882,21 @@ WHERE {
 const getSunshineData = async ({
   operatorId,
   period,
+  peerGroup,
 }: {
   operatorId?: number | undefined | null;
   period?: string | undefined | null;
+  peerGroup?: string | undefined | null;
 }): Promise<SunshineDataRow[]> => {
+  // For now, SPARQL implementation doesn't filter by peer group directly
+  // since peer group structure in SPARQL is not well defined
+  // TODO: Implement proper peer group filtering when SPARQL data structure improves
+  if (peerGroup && peerGroup !== "all_grid_operators") {
+    // Log that peer group filtering is not implemented in SPARQL yet
+    console.warn(
+      `SPARQL: Peer group filtering for '${peerGroup}' is not yet implemented`
+    );
+  }
   const periodFilter = period
     ? `:period "${period}"^^xsd:gYear`
     : `:period ?period`;
@@ -1032,6 +1062,70 @@ const getSunshineData = async ({
   });
 };
 
+const getSunshineDataByIndicator = async ({
+  operatorId,
+  period,
+  peerGroup,
+  indicator,
+  category,
+  networkLevel,
+  typology,
+}: {
+  operatorId?: number | undefined | null;
+  period?: string | undefined | null;
+  peerGroup?: string | undefined | null;
+  indicator: SunshineIndicator;
+  category?: string;
+  networkLevel?: string;
+  typology?: string;
+}): Promise<SunshineDataIndicatorRow[]> => {
+  // Get the full data with peer group parameter (though SPARQL doesn't filter by it yet)
+  const fullData = await getSunshineData({ operatorId, period, peerGroup });
+
+  // Map the structured indicator to field names
+  const getFieldName = (
+    indicator: SunshineIndicator,
+    category?: string,
+    networkLevel?: string,
+    typology?: string
+  ): string => {
+    switch (indicator) {
+      case "networkCosts":
+        return `networkCosts${networkLevel}`;
+      case "netTariffs":
+        return `tariffN${category}`;
+      case "energyTariffs":
+        return `tariffE${category}`;
+      case "saidi":
+        return typology === "unplanned" ? "saidiUnplanned" : "saidiTotal";
+      case "saifi":
+        return typology === "unplanned" ? "saifiUnplanned" : "saifiTotal";
+      case "serviceQuality":
+        return "francRule"; // Default to franc rule, could be enhanced
+      case "compliance":
+        return "timely"; // Default to timely, could be enhanced
+      default:
+        throw new Error(`Unsupported indicator: ${indicator}`);
+    }
+  };
+
+  const fieldName = getFieldName(indicator, category, networkLevel, typology);
+
+  // Extract only the value for the specified indicator and return minimal structure
+  return fullData.map((row) => {
+    // Get the value for the specified indicator field
+    const value = row[fieldName as keyof typeof row] as number | undefined;
+
+    return {
+      operatorId: row.operatorId,
+      operatorUID: row.operatorUID,
+      name: row.name,
+      period: row.period,
+      value: value ?? null,
+    };
+  });
+};
+
 export const sunshineDataServiceSparql = {
   name: "sparql",
   getNetworkCosts,
@@ -1039,9 +1133,10 @@ export const sunshineDataServiceSparql = {
   getStabilityMetrics,
   getTariffs,
   getOperatorData,
-  getPeerGroupMedianValues,
+  getIndicatorMedian,
   getLatestYearSunshine,
   getLatestYearPowerStability,
   getPeerGroup,
   getSunshineData,
+  getSunshineDataByIndicator,
 } satisfies SunshineDataService;

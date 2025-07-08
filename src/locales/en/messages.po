@@ -51,7 +51,7 @@ msgstr "No results"
 
 #: src/components/combobox.tsx
 msgid "combobox.prompt"
-msgstr "Enter designation…"
+msgstr "Enter designation ..."
 
 #: src/components/form.tsx
 msgid "controls.search.clear"
@@ -107,7 +107,7 @@ msgstr "Operator"
 
 #: src/components/detail-page/banner.tsx
 msgid "detail.operators"
-msgstr "Operators"
+msgstr "Netzbetreiber"
 
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.costs-and-tariffs-item"
@@ -192,6 +192,10 @@ msgstr "Prices shown with values in brackets are dynamic. You can find more inf
 #: src/components/charts-generic/bars/bars-grouped.tsx
 msgid "dynamic.tariff"
 msgstr "dynamic"
+
+#: src/components/energy-prices-map.tsx
+msgid "energy-prices-map.legend.title"
+msgstr "Tariff comparison in Rp./kWh (figures excl. VAT)"
 
 #: src/components/not-found.tsx
 msgid "error.page.404.back-link"
@@ -289,6 +293,10 @@ msgstr "Swiss municipalities and responsible electricity grid operators"
 msgid "footer.tariff-components"
 msgstr "Transmission grid tariff components - Swissgrid"
 
+#: src/components/sunshine-map.tsx
+msgid "help."
+msgstr "help."
+
 #: src/components/footer.tsx
 msgid "help.calculation"
 msgstr "Calculation basis"
@@ -299,7 +307,7 @@ msgstr "Tariff comparison"
 
 #: src/components/hint.tsx
 msgid "hint.loading.data"
-msgstr "Loading data…"
+msgstr "Loading data..."
 
 #: src/components/hint.tsx
 msgid "hint.nocontent.message"
@@ -439,7 +447,7 @@ msgstr "Energy tariffs"
 
 #: src/domain/translation.tsx
 msgid "indicator.netTariffs"
-msgstr "Grid Tariffs"
+msgstr "Net tariffs"
 
 #: src/domain/translation.tsx
 msgid "indicator.networkCosts"
@@ -471,11 +479,11 @@ msgstr "Network operator"
 
 #: src/components/list.tsx
 msgid "list.order.prices.asc"
-msgstr "Cheapest first"
+msgstr "Ascending"
 
 #: src/components/list.tsx
 msgid "list.order.prices.desc"
-msgstr "Most expensive first"
+msgstr "Descending"
 
 #: src/components/list.tsx
 msgid "list.order.quality.asc"
@@ -540,10 +548,6 @@ msgstr "SAIFI in detail"
 #: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.next-button.service-quality"
 msgstr "Service Quality in detail"
-
-#: src/components/energy-prices-map.tsx
-msgid "map.legend.title"
-msgstr "Tariff comparison in Rp./kWh (figures excl. VAT)"
 
 #: src/components/share-button.tsx
 msgid "map.share"
@@ -746,7 +750,7 @@ msgstr "Municipality, canton, grid operator"
 
 #: src/components/search.tsx
 msgid "search.global.hint.go.to"
-msgstr "Go to…"
+msgstr "Go to..."
 
 #: src/components/search.tsx
 #: src/components/search.tsx
@@ -967,6 +971,10 @@ msgstr "Indicators"
 msgid "selector.typology"
 msgstr "Typology"
 
+#: src/components/sunshine-selectors/base.tsx
+msgid "selector.viewBy"
+msgstr "View by"
+
 #: src/components/electricity-selectors.tsx
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.year"
@@ -1021,7 +1029,7 @@ msgstr "Compare With"
 
 #: src/components/card-source.tsx
 msgid "sunshine.costs-and-tariffs.date"
-msgstr "Date: {publicationDate}"
+msgstr "sunshine.costs-and-tariffs.date"
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.description"
@@ -1065,7 +1073,7 @@ msgstr "Median Peer Group"
 
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.costs-and-tariffs.net-tariffs"
-msgstr "Grid Tariffs"
+msgstr "Net Tariffs"
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.net-tariffs-comparison-title"
@@ -1132,7 +1140,7 @@ msgstr "Selected network operators"
 
 #: src/components/card-source.tsx
 msgid "sunshine.costs-and-tariffs.source"
-msgstr "Source: {dataSource}"
+msgstr "sunshine.costs-and-tariffs.source"
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
@@ -1159,6 +1167,34 @@ msgstr "Operational Standards"
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.grid.power-stability-title"
 msgstr "Power Stability"
+
+#: src/components/sunshine-map.tsx
+msgid "sunshine.indicator.compliance"
+msgstr "Compliance score"
+
+#: src/components/sunshine-map.tsx
+msgid "sunshine.indicator.energyTariffs"
+msgstr "Energy tariffs in Rp./kWh"
+
+#: src/components/sunshine-map.tsx
+msgid "sunshine.indicator.netTariffs"
+msgstr "Net tariffs in Rp./kWh"
+
+#: src/components/sunshine-map.tsx
+msgid "sunshine.indicator.networkCosts"
+msgstr "Network costs in CHF/MWh"
+
+#: src/components/sunshine-map.tsx
+msgid "sunshine.indicator.saidi"
+msgstr "Power outage duration (SAIDI) in minutes"
+
+#: src/components/sunshine-map.tsx
+msgid "sunshine.indicator.saifi"
+msgstr "Power outage frequency (SAIFI) per year"
+
+#: src/components/sunshine-map.tsx
+msgid "sunshine.indicator.serviceQuality"
+msgstr "Service quality score"
 
 #: src/domain/metrics.ts
 msgid "sunshine.metric-unit.days"
@@ -1239,7 +1275,7 @@ msgstr "The Power Stability page provides insights into the reliability of the e
 
 #: src/components/power-stability-card.tsx
 msgid "sunshine.power-stability.duration"
-msgstr "Outage Duration"
+msgstr "Duration"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
@@ -1254,6 +1290,14 @@ msgstr "Latest year"
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.median-peer-group"
 msgstr "Median Peer Group"
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.no-saidi-data"
+msgstr "No SAIDI data available for this operator in the selected year."
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.no-saifi-data"
+msgstr "No SAIFI data available for this operator in the selected year."
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
@@ -1380,6 +1424,38 @@ msgstr "Planned"
 #: src/domain/translation.tsx
 msgid "typology.unplanned"
 msgstr "Unplanned"
+
+#: src/domain/translation.tsx
+msgid "viewBy.A"
+msgstr "High energy density / Medium settlement density"
+
+#: src/domain/translation.tsx
+msgid "viewBy.B"
+msgstr "High energy density / Rural settlement density"
+
+#: src/domain/translation.tsx
+msgid "viewBy.C"
+msgstr "High energy density / Mountain region"
+
+#: src/domain/translation.tsx
+msgid "viewBy.D"
+msgstr "High energy density / Unknown"
+
+#: src/domain/translation.tsx
+msgid "viewBy.E"
+msgstr "Low energy density / Medium settlement density"
+
+#: src/domain/translation.tsx
+msgid "viewBy.F"
+msgstr "Low energy density / Rural settlement density"
+
+#: src/domain/translation.tsx
+msgid "viewBy.G"
+msgstr "Low energy density / Mountain region"
+
+#: src/domain/translation.tsx
+msgid "viewBy.H"
+msgstr "Low energy density / Tourism"
 
 #: src/domain/translation.tsx
 msgid "viewBy.all_grid_operators"

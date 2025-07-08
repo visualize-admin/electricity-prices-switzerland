@@ -1,16 +1,23 @@
-import { NetworkLevel } from "src/domain/data";
-import { SunshineDataRow } from "src/graphql/resolver-types";
+import {
+  NetworkLevel,
+  peerGroupMapping,
+  SunshineIndicator,
+} from "src/domain/sunshine";
+import {
+  SunshineDataIndicatorRow,
+  SunshineDataRow,
+} from "src/graphql/resolver-types";
 import { query } from "src/lib/db/duckdb";
 import { PeerGroupNotFoundError } from "src/lib/db/errors";
-import { PeerGroupMedianValuesParams } from "src/lib/sunshine-data";
+import { IndicatorMedianParams } from "src/lib/sunshine-data";
 import type {
   NetworkCostRecord,
   OperationalStandardRecord,
-  StabilityMetricRecord,
-  TariffRecord,
   OperatorDataRecord,
   PeerGroupRecord,
+  StabilityMetricRecord,
   SunshineDataService,
+  TariffRecord,
 } from "src/lib/sunshine-data-service";
 
 const getNetworkCosts = async ({
@@ -199,12 +206,15 @@ const getOperatorData = async (
 };
 
 const getSettlementAndEnergyDensity = (
-  peerGroup: string
+  peerGroup: string // Letter
 ): {
   settlementDensity: string;
   energyDensity: string;
 } => {
-  const [settlementDensity, energyDensity] = peerGroup.split("-");
+  const {
+    settlement_density: settlementDensity,
+    energy_density: energyDensity,
+  } = peerGroupMapping[peerGroup];
   if (!settlementDensity || !energyDensity) {
     throw new Error(`Invalid peer group format: ${peerGroup}`);
   }
@@ -220,23 +230,37 @@ const getPeerGroupIdFromSettlementAndEnergyDensity = (
       `Invalid settlement or energy density: ${settlementDensity}, ${energyDensity}`
     );
   }
-  return `${settlementDensity}-${energyDensity}`;
+  const peerGroup = Object.entries(peerGroupMapping).find(
+    ([, value]) =>
+      value.settlement_density === settlementDensity &&
+      value.energy_density === energyDensity
+  );
+  if (!peerGroup) {
+    throw new PeerGroupNotFoundError(
+      `No peer group found for settlement density: ${settlementDensity} and energy density: ${energyDensity}`
+    );
+  }
+  return peerGroup[0]; // Return the key (peer group letter)
 };
 
-const getPeerGroupMedianValues = async <
-  Metric extends PeerGroupMedianValuesParams["metric"]
+const getIndicatorMedian = async <
+  Metric extends IndicatorMedianParams["metric"]
 >(
-  params: PeerGroupMedianValuesParams
+  params: IndicatorMedianParams
 ) => {
   const { peerGroup, metric, period } = params;
 
-  const { settlementDensity, energyDensity } =
-    getSettlementAndEnergyDensity(peerGroup);
+  // Handle optional peer group
+  let peerGroupFilter = "1=1"; // Default to no filter (all data)
+  if (peerGroup) {
+    const { settlementDensity, energyDensity } =
+      getSettlementAndEnergyDensity(peerGroup);
+    peerGroupFilter = `
+      settlement_density = '${settlementDensity}'
+      AND energy_density = '${energyDensity}'
+    `;
+  }
 
-  const peerGroupFilter = `
-    settlement_density = '${settlementDensity}'
-    AND energy_density = '${energyDensity}'
-  `;
   const periodFilter = period ? `AND period = ${period}` : "";
   let sql = "";
 
@@ -381,18 +405,34 @@ const getPeerGroup = async (
 const getSunshineData = async ({
   operatorId,
   period,
+  peerGroup,
 }: {
   operatorId?: number | undefined | null;
   period?: string | undefined | null;
+  peerGroup?: string | undefined | null;
 }): Promise<SunshineDataRow[]> => {
   const operatorFilter = operatorId ? `partner_id = ${operatorId}` : "1=1"; // Default to all operators
   const periodFilter = period ? `AND period = ${period}` : "";
 
+  // Handle peer group filtering
+  let peerGroupFilter = "";
+  if (peerGroup && peerGroup !== "all_grid_operators") {
+    const mapping = peerGroupMapping[peerGroup];
+    if (mapping) {
+      peerGroupFilter = `AND energy_density = '${mapping.energy_density}' AND settlement_density = '${mapping.settlement_density}'`;
+    }
+  }
+
+  const peerGroupJoin = peerGroup
+    ? `JOIN peer_groups pg ON s.partner_id = pg.network_operator_id`
+    : ""; // Only join if peer group filtering is applied
+
   const sql = `
     SELECT *
-    FROM sunshine_all
-    WHERE ${operatorFilter} ${periodFilter}
-    ORDER BY period DESC, partner_id
+    FROM sunshine_all s
+    ${peerGroupJoin}
+    WHERE ${operatorFilter} ${periodFilter} ${peerGroupFilter}
+    ORDER BY period DESC, partner_id;
   `;
 
   const result = await query<{
@@ -428,7 +468,6 @@ const getSunshineData = async ({
     year: number;
   }>(sql);
 
-  console.log("timely", new Set(result.map((row) => row.timely)));
   return result.map((row) => ({
     operatorId: row.partner_id,
     operatorUID: row.uid,
@@ -462,6 +501,71 @@ const getSunshineData = async ({
   }));
 };
 
+const getSunshineDataByIndicator = async ({
+  operatorId,
+  period,
+  peerGroup,
+  indicator,
+  category,
+  networkLevel,
+  typology,
+}: {
+  operatorId?: number | undefined | null;
+  period?: string | undefined | null;
+  // FIX ME, Peer group should be a type coming from the domain
+  peerGroup?: string | undefined | null;
+  indicator: SunshineIndicator;
+  category?: string;
+  networkLevel?: string;
+  typology?: string;
+}): Promise<SunshineDataIndicatorRow[]> => {
+  // Get the full data with peer group filtering
+  const fullData = await getSunshineData({ operatorId, period, peerGroup });
+
+  // Map the structured indicator to field names
+  const getFieldName = (
+    indicator: SunshineIndicator,
+    category?: string,
+    networkLevel?: string,
+    typology?: string
+  ): string => {
+    switch (indicator) {
+      case "networkCosts":
+        return `networkCosts${networkLevel}`;
+      case "netTariffs":
+        return `tariffN${category}`;
+      case "energyTariffs":
+        return `tariffE${category}`;
+      case "saidi":
+        return typology === "unplanned" ? "saidiUnplanned" : "saidiTotal";
+      case "saifi":
+        return typology === "unplanned" ? "saifiUnplanned" : "saifiTotal";
+      case "serviceQuality":
+        return "francRule"; // Default to franc rule, could be enhanced
+      case "compliance":
+        return "timely"; // Default to timely, could be enhanced
+      default:
+        throw new Error(`Unsupported indicator: ${indicator}`);
+    }
+  };
+
+  const fieldName = getFieldName(indicator, category, networkLevel, typology);
+
+  // Extract only the value for the specified indicator and return minimal structure
+  return fullData.map((row) => {
+    // Get the value for the specified indicator field
+    const value = row[fieldName as keyof typeof row] as number | undefined;
+
+    return {
+      operatorId: row.operatorId,
+      operatorUID: row.operatorUID,
+      name: row.name,
+      period: row.period,
+      value: Number.isFinite(value) ? value : null,
+    };
+  });
+};
+
 export const sunshineDataServiceSql = {
   name: "sql",
   getNetworkCosts,
@@ -469,9 +573,10 @@ export const sunshineDataServiceSql = {
   getStabilityMetrics,
   getTariffs,
   getOperatorData,
-  getPeerGroupMedianValues,
+  getIndicatorMedian,
   getLatestYearSunshine,
   getLatestYearPowerStability,
   getPeerGroup,
   getSunshineData,
+  getSunshineDataByIndicator,
 } satisfies SunshineDataService;

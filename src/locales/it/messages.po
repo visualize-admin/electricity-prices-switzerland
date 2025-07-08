@@ -7,7 +7,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language: it\n"
 "Language-Team: \n"
-"Content-Type: \n"
+"Content-Type: text/plain\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
@@ -193,6 +193,10 @@ msgstr "I prezzi indicati con i valori tra parentesi sono dinamici. Per maggiori
 msgid "dynamic.tariff"
 msgstr "dinamico"
 
+#: src/components/energy-prices-map.tsx
+msgid "energy-prices-map.legend.title"
+msgstr "Confronto tariffe in ct./kWh (IVA esclusa)"
+
 #: src/components/not-found.tsx
 msgid "error.page.404.back-link"
 msgstr "Clicca qui per tornare alla homepage"
@@ -288,6 +292,10 @@ msgstr "Comuni svizzeri e gestori di rete elettrica responsabili"
 #: src/components/footer.tsx
 msgid "footer.tariff-components"
 msgstr "Componenti tariffarie della rete di trasmissione - Swissgrid"
+
+#: src/components/sunshine-map.tsx
+msgid "help."
+msgstr "aiuto."
 
 #: src/components/footer.tsx
 msgid "help.calculation"
@@ -540,10 +548,6 @@ msgstr "SAIFI in dettaglio"
 #: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.next-button.service-quality"
 msgstr "La qualità del servizio in dettaglio"
-
-#: src/components/energy-prices-map.tsx
-msgid "map.legend.title"
-msgstr "Confronto tariffe in ct./kWh (IVA esclusa)"
 
 #: src/components/share-button.tsx
 msgid "map.share"
@@ -967,6 +971,10 @@ msgstr "Indicatori"
 msgid "selector.typology"
 msgstr "Tipologia"
 
+#: src/components/sunshine-selectors/base.tsx
+msgid "selector.viewBy"
+msgstr "Vedi da"
+
 #: src/components/electricity-selectors.tsx
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.year"
@@ -1160,6 +1168,34 @@ msgstr "Standard operativi"
 msgid "sunshine.grid.power-stability-title"
 msgstr "Stabilità di potenza"
 
+#: src/components/sunshine-map.tsx
+msgid "sunshine.indicator.compliance"
+msgstr "Punteggio di conformità"
+
+#: src/components/sunshine-map.tsx
+msgid "sunshine.indicator.energyTariffs"
+msgstr "Tariffe energetiche in Rp./kWh"
+
+#: src/components/sunshine-map.tsx
+msgid "sunshine.indicator.netTariffs"
+msgstr "Tariffe nette in Rp./kWh"
+
+#: src/components/sunshine-map.tsx
+msgid "sunshine.indicator.networkCosts"
+msgstr "Costi di rete in CHF/MWh"
+
+#: src/components/sunshine-map.tsx
+msgid "sunshine.indicator.saidi"
+msgstr "Durata dell'interruzione di corrente (SAIDI) in minuti"
+
+#: src/components/sunshine-map.tsx
+msgid "sunshine.indicator.saifi"
+msgstr "Frequenza delle interruzioni di corrente (SAIFI) all'anno"
+
+#: src/components/sunshine-map.tsx
+msgid "sunshine.indicator.serviceQuality"
+msgstr "Punteggio di qualità del servizio"
+
 #: src/domain/metrics.ts
 msgid "sunshine.metric-unit.days"
 msgstr "giorni"
@@ -1254,6 +1290,14 @@ msgstr "Ultimo anno"
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.median-peer-group"
 msgstr "Gruppo di riferimento mediano"
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.no-saidi-data"
+msgstr "Non sono disponibili dati SAIDI per questo operatore nell'anno selezionato."
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.no-saifi-data"
+msgstr "Non sono disponibili dati SAIFI per questo operatore nell'anno selezionato."
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
@@ -1380,6 +1424,38 @@ msgstr "Pianificato"
 #: src/domain/translation.tsx
 msgid "typology.unplanned"
 msgstr "Non pianificato"
+
+#: src/domain/translation.tsx
+msgid "viewBy.A"
+msgstr "Alta densità energetica / Media densità di insediamento"
+
+#: src/domain/translation.tsx
+msgid "viewBy.B"
+msgstr "Alta densità energetica / Densità di insediamenti rurali"
+
+#: src/domain/translation.tsx
+msgid "viewBy.C"
+msgstr "Alta densità energetica / Regione montana"
+
+#: src/domain/translation.tsx
+msgid "viewBy.D"
+msgstr "Alta densità di energia / Sconosciuto"
+
+#: src/domain/translation.tsx
+msgid "viewBy.E"
+msgstr "Bassa densità energetica / Media densità di insediamento"
+
+#: src/domain/translation.tsx
+msgid "viewBy.F"
+msgstr "Bassa densità energetica / Densità di insediamenti rurali"
+
+#: src/domain/translation.tsx
+msgid "viewBy.G"
+msgstr "Bassa densità energetica / Regione montana"
+
+#: src/domain/translation.tsx
+msgid "viewBy.H"
+msgstr "Bassa densità energetica / Turismo"
 
 #: src/domain/translation.tsx
 msgid "viewBy.all_grid_operators"

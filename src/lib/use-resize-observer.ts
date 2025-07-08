@@ -1,5 +1,5 @@
 import { ResizeObserver } from "@juggle/resize-observer";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export const useResizeObserver = <T extends Element>() => {
   const roRef = useRef<ResizeObserver>(undefined);

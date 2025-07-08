@@ -1,6 +1,6 @@
 import { t } from "@lingui/macro";
 
-import { NetworkLevel } from "./data";
+import { NetworkLevel } from "./sunshine";
 
 export const RP_PER_KWH = t({
   id: "sunshine.metric-unit.rp-kwh",

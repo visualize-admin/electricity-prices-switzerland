@@ -2,7 +2,7 @@ import { Box, Typography } from "@mui/material";
 import { ChangeEventHandler, ReactNode, useCallback } from "react";
 
 import { VisuallyHidden } from "src/components/visually-hidden";
-import { WikiPageSlug } from "src/domain/data";
+import { WikiPageSlug } from "src/domain/wiki";
 
 import { InfoDialogButton } from "./info-dialog";
 

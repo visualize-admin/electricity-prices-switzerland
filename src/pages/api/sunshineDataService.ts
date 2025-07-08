@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
 import {
-  SUNSHINE_DATA_SERVICE_COOKIE_NAME,
   getValidServiceKeys,
+  SUNSHINE_DATA_SERVICE_COOKIE_NAME,
 } from "src/lib/sunshine-data-service-context";
 
 export default async function handler(

@@ -3,9 +3,9 @@ import { Box, BoxProps } from "@mui/material";
 import { max, mean } from "d3";
 import { useMemo, useState } from "react";
 
-import type { SunshinePowerStabilityData } from "src/domain/data";
 import { getTextWidth, useFormatCurrency } from "src/domain/helpers";
 import { MIN_PER_YEAR } from "src/domain/metrics";
+import type { SunshinePowerStabilityData } from "src/domain/sunshine";
 import { chartPalette, palette } from "src/themes/palette";
 
 import {

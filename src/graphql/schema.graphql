@@ -239,9 +239,27 @@ type SunshineDataRow {
   networkCostsNE7: Float
 }
 
+type SunshineDataIndicatorRow {
+  operatorId: Int
+  operatorUID: String!
+  name: String!
+  period: String!
+  value: Float
+}
+
+type SunshineDataByIndicatorResult {
+  data: [SunshineDataIndicatorRow!]!
+  median: Float
+}
+
 input SunshineDataFilter {
   operatorId: Int
   period: String
+  peerGroup: String
+  indicator: String
+  category: String
+  networkLevel: String
+  typology: String
 }
 
 # TODO Map more closely to predefined strings
@@ -323,6 +341,13 @@ input StabilityFilter {
 type Query {
   sunshineData(filter: SunshineDataFilter!): [SunshineDataRow!]!
   sunshineTariffs(filter: SunshineDataFilter!): [SunshineDataRow!]!
+  sunshineDataByIndicator(
+    filter: SunshineDataFilter!
+  ): SunshineDataByIndicatorResult!
+  sunshineTariffsByIndicator(
+    filter: SunshineDataFilter!
+    indicator: String!
+  ): [SunshineDataIndicatorRow!]!
 
   networkCosts(filter: NetworkCostsFilter!): NetworkCostsData!
   netTariffs(filter: TariffsFilter!): TariffsData!

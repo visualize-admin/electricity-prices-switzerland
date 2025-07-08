@@ -11,6 +11,14 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
+#: src/domain/helpers.tsx
+msgid "No"
+msgstr "No"
+
+#: src/domain/helpers.tsx
+msgid "Yes"
+msgstr "Yes"
+
 #: src/components/energy-prices-map.tsx
 msgid "canton"
 msgstr "canton"
@@ -185,6 +193,10 @@ msgstr "dynamic-tariffs.hint"
 msgid "dynamic.tariff"
 msgstr "dynamic.tariff"
 
+#: src/components/energy-prices-map.tsx
+msgid "energy-prices-map.legend.title"
+msgstr "energy-prices-map.legend.title"
+
 #: src/components/not-found.tsx
 msgid "error.page.404.back-link"
 msgstr "error.page.404.back-link"
@@ -281,6 +293,10 @@ msgstr "footer.swiss-municipalities-grid"
 msgid "footer.tariff-components"
 msgstr "footer.tariff-components"
 
+#: src/components/sunshine-map.tsx
+msgid "help."
+msgstr "help."
+
 #: src/components/footer.tsx
 msgid "help.calculation"
 msgstr "help.calculation"
@@ -328,6 +344,10 @@ msgstr "histogram.min"
 #: src/components/detail-page/price-distribution-histogram.tsx
 msgid "histogram.municipality-count"
 msgstr "histogram.municipality-count"
+
+#: src/components/charts-generic/histogram/histogram-state.tsx
+msgid "histogram.noData"
+msgstr "histogram.noData"
 
 #: src/pages/index.tsx
 msgid "home.hero-section.description"
@@ -406,10 +426,6 @@ msgid "home.sunshine-topics.power-outage-frequency.link"
 msgstr "home.sunshine-topics.power-outage-frequency.link"
 
 #: src/components/sunshine/sunshine-topics.tsx
-msgid "home.sunshine-topics.product-variety.link"
-msgstr "home.sunshine-topics.product-variety.link"
-
-#: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.service-quality.link"
 msgstr "home.sunshine-topics.service-quality.link"
 
@@ -420,6 +436,10 @@ msgstr "home.sunshine-topics.title"
 #: src/components/detail-page/download-image.tsx
 msgid "image.download"
 msgstr "image.download"
+
+#: src/domain/translation.tsx
+msgid "indicator.compliance"
+msgstr "indicator.compliance"
 
 #: src/domain/translation.tsx
 msgid "indicator.energyTariffs"
@@ -441,6 +461,10 @@ msgstr "indicator.saidi"
 msgid "indicator.saifi"
 msgstr "indicator.saifi"
 
+#: src/domain/translation.tsx
+msgid "indicator.serviceQuality"
+msgstr "indicator.serviceQuality"
+
 #: src/pages/map/index.tsx
 msgid "list.cantons"
 msgstr "list.cantons"
@@ -454,12 +478,28 @@ msgid "list.operators"
 msgstr "list.operators"
 
 #: src/components/list.tsx
-msgid "list.order.asc"
-msgstr "list.order.asc"
+msgid "list.order.prices.asc"
+msgstr "list.order.prices.asc"
 
 #: src/components/list.tsx
-msgid "list.order.desc"
-msgstr "list.order.desc"
+msgid "list.order.prices.desc"
+msgstr "list.order.prices.desc"
+
+#: src/components/list.tsx
+msgid "list.order.quality.asc"
+msgstr "list.order.quality.asc"
+
+#: src/components/list.tsx
+msgid "list.order.quality.desc"
+msgstr "list.order.quality.desc"
+
+#: src/components/list.tsx
+msgid "list.order.timely.asc"
+msgstr "list.order.timely.asc"
+
+#: src/components/list.tsx
+msgid "list.order.timely.desc"
+msgstr "list.order.timely.desc"
 
 #: src/components/list.tsx
 msgid "list.search.label"
@@ -508,10 +548,6 @@ msgstr "map.details-sidebar-panel.next-button.saifi"
 #: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.next-button.service-quality"
 msgstr "map.details-sidebar-panel.next-button.service-quality"
-
-#: src/components/energy-prices-map.tsx
-msgid "map.legend.title"
-msgstr "map.legend.title"
 
 #: src/components/share-button.tsx
 msgid "map.share"
@@ -935,6 +971,10 @@ msgstr "selector.tab.indicators"
 msgid "selector.typology"
 msgstr "selector.typology"
 
+#: src/components/sunshine-selectors/base.tsx
+msgid "selector.viewBy"
+msgstr "selector.viewBy"
+
 #: src/components/electricity-selectors.tsx
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.year"
@@ -1128,6 +1168,38 @@ msgstr "sunshine.grid.operational-standards-title"
 msgid "sunshine.grid.power-stability-title"
 msgstr "sunshine.grid.power-stability-title"
 
+#: src/components/sunshine-map.tsx
+msgid "sunshine.indicator.compliance"
+msgstr "sunshine.indicator.compliance"
+
+#: src/components/sunshine-map.tsx
+msgid "sunshine.indicator.energyTariffs"
+msgstr "sunshine.indicator.energyTariffs"
+
+#: src/components/sunshine-map.tsx
+msgid "sunshine.indicator.netTariffs"
+msgstr "sunshine.indicator.netTariffs"
+
+#: src/components/sunshine-map.tsx
+msgid "sunshine.indicator.networkCosts"
+msgstr "sunshine.indicator.networkCosts"
+
+#: src/components/sunshine-map.tsx
+msgid "sunshine.indicator.saidi"
+msgstr "sunshine.indicator.saidi"
+
+#: src/components/sunshine-map.tsx
+msgid "sunshine.indicator.saifi"
+msgstr "sunshine.indicator.saifi"
+
+#: src/components/sunshine-map.tsx
+msgid "sunshine.indicator.serviceQuality"
+msgstr "sunshine.indicator.serviceQuality"
+
+#: src/domain/metrics.ts
+msgid "sunshine.metric-unit.days"
+msgstr "sunshine.metric-unit.days"
+
 #: src/domain/metrics.ts
 msgid "sunshine.metric-unit.min-year"
 msgstr "sunshine.metric-unit.min-year"
@@ -1140,6 +1212,10 @@ msgstr "sunshine.metric-unit.rp-km"
 msgid "sunshine.metric-unit.rp-kwh"
 msgstr "sunshine.metric-unit.rp-kwh"
 
+#: src/domain/metrics.ts
+msgid "sunshine.metric-unit.swiss-francs"
+msgstr "sunshine.metric-unit.swiss-francs"
+
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.operational-standards.compliance"
 msgstr "sunshine.operational-standards.compliance"
@@ -1151,6 +1227,10 @@ msgstr "sunshine.operational-standards.compliance-trend"
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.compliance.comparison-card-title"
 msgstr "sunshine.operational-standards.compliance.comparison-card-title"
+
+#: src/components/operational-standards-chart.tsx
+msgid "sunshine.operational-standards.compliance.share-of-operators"
+msgstr "sunshine.operational-standards.compliance.share-of-operators"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.description"
@@ -1171,6 +1251,10 @@ msgstr "sunshine.operational-standards.service-quality-trend"
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.service-quality.comparison-card-title"
 msgstr "sunshine.operational-standards.service-quality.comparison-card-title"
+
+#: src/components/operational-standards-chart.tsx
+msgid "sunshine.operational-standards.service-quality.share-of-operators"
+msgstr "sunshine.operational-standards.service-quality.share-of-operators"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.title"
@@ -1206,6 +1290,14 @@ msgstr "sunshine.power-stability.latest-year-option"
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.median-peer-group"
 msgstr "sunshine.power-stability.median-peer-group"
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.no-saidi-data"
+msgstr "sunshine.power-stability.no-saidi-data"
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.no-saifi-data"
+msgstr "sunshine.power-stability.no-saifi-data"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
@@ -1332,6 +1424,38 @@ msgstr "typology.planned"
 #: src/domain/translation.tsx
 msgid "typology.unplanned"
 msgstr "typology.unplanned"
+
+#: src/domain/translation.tsx
+msgid "viewBy.A"
+msgstr "viewBy.A"
+
+#: src/domain/translation.tsx
+msgid "viewBy.B"
+msgstr "viewBy.B"
+
+#: src/domain/translation.tsx
+msgid "viewBy.C"
+msgstr "viewBy.C"
+
+#: src/domain/translation.tsx
+msgid "viewBy.D"
+msgstr "viewBy.D"
+
+#: src/domain/translation.tsx
+msgid "viewBy.E"
+msgstr "viewBy.E"
+
+#: src/domain/translation.tsx
+msgid "viewBy.F"
+msgstr "viewBy.F"
+
+#: src/domain/translation.tsx
+msgid "viewBy.G"
+msgstr "viewBy.G"
+
+#: src/domain/translation.tsx
+msgid "viewBy.H"
+msgstr "viewBy.H"
 
 #: src/domain/translation.tsx
 msgid "viewBy.all_grid_operators"
