@@ -33,15 +33,6 @@ import { getOperatorsMunicipalities } from "src/rdf/queries";
 
 import { HoverState } from "./map-helpers";
 
-// Using styles.operators.pickable.fillColor instead of defining a constant
-
-type PickingInfoGeneric<Props> = Omit<PickingInfo, "object"> & {
-  object?: Feature<Geometry, Props> | null;
-};
-
-/**
- * Mapping from sunshine indicators to legend titles
- */
 const indicatorLegendTitleMapping: Record<SunshineIndicator, string> = {
   networkCosts: t({
     message: "Network costs in CHF/MWh",
@@ -71,12 +62,6 @@ const indicatorLegendTitleMapping: Record<SunshineIndicator, string> = {
     message: "Compliance score",
     id: "sunshine.indicator.compliance",
   }),
-};
-
-export type GetOperatorsMapTooltip = (
-  info: PickingInfoGeneric<OperatorLayerProperties>
-) => null | {
-  html: string;
 };
 
 type SunshineMapProps = {
