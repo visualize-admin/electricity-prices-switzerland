@@ -47,14 +47,23 @@ const RelationsList = ({
           </Fragment>
         );
       })}
-      {rest > 0 && (
+      {count > TRUNCATE_COUNT ? (
         <>
           {", "}
-          <Button variant="text" onClick={() => setTruncate(false)}>
-            <Trans id="relations.showmore">{rest} weitere …</Trans>
+          <Button
+            variant="text"
+            size="sm"
+            sx={{ position: "relative", top: -2.5, px: 0 }}
+            onClick={() => setTruncate((truncate) => !truncate)}
+          >
+            {truncate ? (
+              <Trans id="relations.showmore">{rest} weitere …</Trans>
+            ) : (
+              <Trans id="relations.showless">Show less</Trans>
+            )}
           </Button>
         </>
-      )}
+      ) : null}
     </>
   );
 };
