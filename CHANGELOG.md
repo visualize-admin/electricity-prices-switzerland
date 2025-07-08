@@ -11,7 +11,15 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Features
+
+  - Added peer group filtering functionality to map page
+  - Implemented server-side median retrieval using database-stored values
+  - Enhanced map legend with indicator-specific titles, formatting, and info slugs
+
+- Refactors
+
+  - Split domain data file to improve code organization
 
 # 2.4.0 - 2025-07-07
 
