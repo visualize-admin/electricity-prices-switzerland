@@ -1,6 +1,7 @@
 import * as z from "zod";
 
 import { QueryStateSunshineSaidiSaifiTypology } from "src/domain/query-states";
+import { WikiPageSlug } from "src/domain/wiki";
 import { TariffCategory } from "src/graphql/resolver-mapped-types";
 import {
   NetworkCostsData,
@@ -189,4 +190,17 @@ export const asNetworkLevel = (id: string): NetworkLevel["id"] => {
     return id as NetworkLevel["id"];
   }
   throw new Error(`Invalid network level: ${id}`);
+};
+
+export const indicatorWikiPageSlugMapping: Record<
+  SunshineIndicator,
+  WikiPageSlug
+> = {
+  networkCosts: "help-network-costs",
+  netTariffs: "help-net-tariffs",
+  energyTariffs: "help-energy-tariffs",
+  saidi: "help-saidi",
+  saifi: "help-saifi",
+  serviceQuality: "help-operational-standards",
+  compliance: "help-compliance",
 };

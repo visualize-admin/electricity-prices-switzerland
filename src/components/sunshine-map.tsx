@@ -24,7 +24,10 @@ import {
 } from "src/data/geo";
 import { useFetch } from "src/data/use-fetch";
 import { ValueFormatter } from "src/domain/data";
-import { SunshineIndicator } from "src/domain/sunshine";
+import {
+  SunshineIndicator,
+  indicatorWikiPageSlugMapping,
+} from "src/domain/sunshine";
 import { Maybe, SunshineDataIndicatorRow } from "src/graphql/queries";
 import { truthy } from "src/lib/truthy";
 import { getOperatorsMunicipalities } from "src/rdf/queries";
@@ -411,12 +414,11 @@ const SunshineMap = ({
           value,
           label: value !== undefined ? valueFormatter(value) : "",
         }))}
-        // FIXME: Should depend on the indicator selected
         infoDialogButtonProps={{
-          slug: "help-price-comparison",
+          slug: indicatorWikiPageSlugMapping[indicator],
           label: t({
-            id: "help.price-comparison",
-            message: "Tariff comparison",
+            id: `help.${indicator}`,
+            message: indicatorLegendTitleMapping[indicator],
           }),
         }}
       />
