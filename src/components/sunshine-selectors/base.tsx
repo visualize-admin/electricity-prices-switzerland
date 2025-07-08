@@ -2,8 +2,8 @@ import { Trans, t } from "@lingui/macro";
 import { Box, Typography } from "@mui/material";
 
 import { Combobox } from "src/components/combobox";
-import { SunshineIndicator } from "src/domain/sunshine";
 import { QueryStateSunshineSaidiSaifiTypology } from "src/domain/query-states";
+import { SunshineIndicator } from "src/domain/sunshine";
 
 type SunshineSelectorsBaseProps = {
   year: string;

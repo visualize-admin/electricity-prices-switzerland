@@ -6,7 +6,6 @@ import { useEffect, useMemo, useState } from "react";
 
 import { InfoDialogButton } from "src/components/info-dialog";
 import { WikiPageSlug } from "src/domain/wiki";
-import { getLocalizedLabel } from "src/domain/translation";
 import { Icon } from "src/icons";
 
 export type ComboboxMultiProps = {
@@ -284,7 +283,7 @@ export const Combobox = <T extends string>({
               justifyContent: "space-between",
             }}
           >
-            {getLocalizedLabel({ id: option })}
+            {getItemLabel(option)}
             {selected && <Icon name="checkmark" />}
           </li>
         )}
