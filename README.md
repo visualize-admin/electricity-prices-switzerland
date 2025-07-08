@@ -109,7 +109,7 @@ The detailed transformation steps are described in this project's `Makefile`.
 
 ## Http Proxy
 
-On CloudFoundry, an HTTP proxy is used for external requests. This is for example used to fetch
+On the government infrastructure, an HTTP proxy is used for external requests. This is for example used to fetch
 the gitlab content. The proxy is configured via the `./configure-proxy.js` script that is
 required in the `package.json` start command. It uses the `HTTP_PROXY` environment variable
 
