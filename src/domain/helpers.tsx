@@ -17,17 +17,18 @@ import {
   timeParse,
   timeYear,
 } from "d3";
-import React from "react";
+import React, { useMemo } from "react";
 
 import { ANNOTATION_TRIANGLE_HEIGHT } from "src/components/charts-generic/annotation/annotation-x";
 import { GenericObservation } from "src/domain/data";
-import { SunshineIndicator } from "./sunshine";
 import { estimateTextWidth } from "src/lib/estimate-text-width";
 import { useLocale } from "src/lib/use-locale";
 import { defaultLocale } from "src/locales/config";
 import { d3FormatLocales, d3TimeFormatLocales } from "src/locales/locales";
 import { chartPalette, palette as themePalette } from "src/themes/palette";
 import { typography } from "src/themes/typography";
+
+import { SunshineIndicator } from "./sunshine";
 
 export const isNumber = (x: $IntentionalAny): boolean =>
   typeof x === "number" && !isNaN(x);
@@ -43,6 +44,16 @@ export const useFormatCurrency = (alwaysLeaveDecimals: boolean = false) => {
       d3FormatLocales[locale] ?? d3FormatLocales[defaultLocale];
     return format(alwaysLeaveDecimals ? ",.2f" : ",.2~f");
   }, [locale, alwaysLeaveDecimals]);
+  return formatter;
+};
+
+export const useD3Format = (fmtString: string) => {
+  const locale = useLocale();
+  const formatter = React.useMemo(() => {
+    const { format } =
+      d3FormatLocales[locale] ?? d3FormatLocales[defaultLocale];
+    return format(fmtString);
+  }, [fmtString, locale]);
   return formatter;
 };
 
@@ -353,25 +364,32 @@ export const filterBySeparator = (
 
   return arr.filter((item) => item !== separator);
 };
-const indicatorFormatterType: Record<SunshineIndicator, "number" | "boolean"> =
-  {
-    saidi: "number",
-    saifi: "number",
-    serviceQuality: "number",
-    compliance: "boolean",
-    energyTariffs: "number",
-    netTariffs: "number",
-    networkCosts: "number",
-  };
+type FormatterConfig =
+  | { type: "d3"; format: string }
+  | { type: "custom"; fn: (value: number) => string };
+
+const indicatorFormatterConfig: Record<SunshineIndicator, FormatterConfig> = {
+  saidi: { type: "d3", format: ".0~f" },
+  saifi: { type: "d3", format: ",.2~f" },
+  serviceQuality: { type: "d3", format: ",.2~f" },
+  compliance: {
+    type: "custom",
+    fn: (value: number) => (value === 1 ? t`Yes` : value === 0 ? t`No` : "-"),
+  },
+  energyTariffs: { type: "d3", format: ",.2~f" },
+  netTariffs: { type: "d3", format: ",.2~f" },
+
+  networkCosts: { type: "d3", format: ",.0~f" },
+};
+
 export const useIndicatorValueFormatter = (
   indicator: SunshineIndicator
 ): ((value: number) => string) => {
-  const formatNumber = useFormatCurrency();
-  const formatBooleanNumber = (value: number) =>
-    value === 1 ? t`Yes` : value === 0 ? t`No` : "-";
-  const formatterTypes = {
-    number: formatNumber,
-    boolean: formatBooleanNumber,
-  };
-  return formatterTypes[indicatorFormatterType[indicator]];
+  const config = indicatorFormatterConfig[indicator];
+  const d3Formatter = useD3Format(config.type === "d3" ? config.format : "");
+
+  return useMemo(
+    () => (config.type === "d3" ? d3Formatter : config.fn),
+    [config, d3Formatter]
+  );
 };
