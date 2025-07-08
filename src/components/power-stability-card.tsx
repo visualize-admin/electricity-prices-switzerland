@@ -11,7 +11,8 @@ import React, { ReactNode } from "react";
 
 import { ButtonGroup } from "src/components/button-group";
 import CardSource from "src/components/card-source";
-import { PeerGroup, SunshinePowerStabilityData } from "src/domain/data";
+import { SunshinePowerStabilityData } from "src/domain/sunshine";
+import { PeerGroup } from "src/domain/sunshine";
 import { filterBySeparator } from "src/domain/helpers";
 import { useQueryStatePowerStabilityCardFilters } from "src/domain/query-states";
 import { getPeerGroupLabels } from "src/domain/translation";

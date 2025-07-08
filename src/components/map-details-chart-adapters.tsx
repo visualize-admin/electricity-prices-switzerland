@@ -7,7 +7,7 @@ import { NetworkCostTrendChart } from "src/components/network-cost-trend-chart";
 import { PowerStabilityChart } from "src/components/power-stability-chart";
 import { TariffsTrendChart } from "src/components/tariffs-trend-chart";
 import { useQueryStateSunshineMap } from "src/domain/query-states";
-import { SunshineIndicator } from "src/domain/data";
+import { SunshineIndicator } from "src/domain/sunshine";
 import {
   useEnergyTariffsQuery,
   useNetTariffsQuery,

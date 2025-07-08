@@ -7,7 +7,7 @@ import {
   networkLevelOptions,
   netTariffCategoryOptions,
   energyTariffCategoryOptions,
-} from "src/domain/sunshine-data";
+} from "src/domain/sunshine";
 import { getLocalizedLabel } from "src/domain/translation";
 
 import { SunshineSelectorsBase } from "./base";

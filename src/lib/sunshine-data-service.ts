@@ -1,9 +1,6 @@
-import {
-  ElectricityCategory,
-  TariffCategory,
-  NetworkLevel,
-  SunshineIndicator,
-} from "src/domain/data";
+import { ElectricityCategory, TariffCategory } from "src/domain/data";
+import { NetworkLevel } from "src/domain/sunshine";
+import { SunshineIndicator } from "src/domain/sunshine";
 import {
   SunshineDataRow,
   SunshineDataIndicatorRow,

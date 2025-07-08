@@ -21,7 +21,7 @@ import React from "react";
 
 import { ANNOTATION_TRIANGLE_HEIGHT } from "src/components/charts-generic/annotation/annotation-x";
 import { GenericObservation } from "src/domain/data";
-import { SunshineIndicator } from "./data";
+import { SunshineIndicator } from "./sunshine";
 import { estimateTextWidth } from "src/lib/estimate-text-width";
 import { useLocale } from "src/lib/use-locale";
 import { defaultLocale } from "src/locales/config";

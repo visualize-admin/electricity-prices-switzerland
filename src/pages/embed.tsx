@@ -7,7 +7,7 @@ import {
   HighlightValue,
 } from "src/components/highlight-context";
 import { MapProvider } from "src/components/map-context";
-import { useColorScale } from "src/domain/data";
+import { useColorScale } from "src/domain/charts";
 import { useQueryStateEnergyPricesMap } from "src/domain/query-states";
 import {
   PriceComponent,

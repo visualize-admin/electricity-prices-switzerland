@@ -1,5 +1,6 @@
-import { NetworkLevel, SunshineIndicator } from "src/domain/data";
-import { peerGroupMapping } from "src/domain/sunshine-data";
+import { NetworkLevel } from "src/domain/sunshine";
+import { SunshineIndicator } from "src/domain/sunshine";
+import { peerGroupMapping } from "src/domain/sunshine";
 import {
   SunshineDataRow,
   SunshineDataIndicatorRow,

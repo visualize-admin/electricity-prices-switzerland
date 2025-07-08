@@ -36,18 +36,15 @@ import ShareButton from "src/components/share-button";
 import { SunshineDataServiceDebug } from "src/components/sunshine-data-service-debug";
 import SunshineMap from "src/components/sunshine-map";
 import { DataServiceProps } from "src/data/shared-page-props";
-import {
-  Entity,
-  NetworkLevel,
-  TariffCategory,
-  useColorScale,
-} from "src/domain/data";
+import { useColorScale } from "src/domain/charts";
+import { Entity, TariffCategory } from "src/domain/data";
 import { useIndicatorValueFormatter } from "src/domain/helpers";
 import {
   useQueryStateEnergyPricesMap,
   useQueryStateMapCommon,
   useQueryStateSunshineMap,
 } from "src/domain/query-states";
+import { NetworkLevel } from "src/domain/sunshine";
 import {
   PriceComponent,
   SunshineDataIndicatorRow,

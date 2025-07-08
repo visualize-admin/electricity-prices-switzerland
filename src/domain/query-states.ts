@@ -1,6 +1,6 @@
 import * as z from "zod";
 
-import { sunshineIndicatorSchema, SunshineIndicator } from "src/domain/data";
+import { sunshineIndicatorSchema, SunshineIndicator } from "./sunshine";
 import buildEnv from "src/env/build";
 import {
   makeLinkGenerator,

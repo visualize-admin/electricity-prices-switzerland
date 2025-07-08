@@ -33,11 +33,9 @@ import {
   PageParams,
   Props as SharedPageProps,
 } from "src/data/shared-page-props";
-import {
-  NetworkLevel,
-  SunshineCostsAndTariffsData,
-  tariffCategories,
-} from "src/domain/data";
+import { tariffCategories } from "src/domain/data";
+import { NetworkLevel } from "src/domain/sunshine";
+import { SunshineCostsAndTariffsData } from "src/domain/sunshine";
 import { getNetworkLevelMetrics, RP_PER_KM } from "src/domain/metrics";
 import {
   QueryStateSingleSunshineDetails,

@@ -7,7 +7,7 @@ import { MiniSelect, SearchField } from "src/components/form";
 import { HighlightContext } from "src/components/highlight-context";
 import { Stack } from "src/components/stack";
 import { Entity, ValueFormatter } from "src/domain/data";
-import { SunshineIndicator } from "src/domain/data";
+import { SunshineIndicator } from "src/domain/sunshine";
 import {
   CantonMedianObservationFieldsFragment,
   OperatorObservationFieldsFragment,

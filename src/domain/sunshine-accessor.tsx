@@ -1,6 +1,6 @@
 import { property } from "lodash";
 
-import { NetworkLevel } from "src/domain/data";
+import { NetworkLevel } from "./sunshine";
 import { SunshineDataRow } from "src/graphql/queries";
 import { TariffCategory } from "src/graphql/resolver-mapped-types";
 

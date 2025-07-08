@@ -1,12 +1,9 @@
 import { keyBy } from "lodash";
 import ParsingClient from "sparql-http-client/ParsingClient";
 
-import {
-  NetworkLevel,
-  SunshineIndicator,
-  tariffCategories,
-  TariffCategory,
-} from "src/domain/data";
+import { tariffCategories, TariffCategory } from "src/domain/data";
+import { NetworkLevel } from "src/domain/sunshine";
+import { SunshineIndicator } from "src/domain/sunshine";
 import {
   SunshineDataRow,
   SunshineDataIndicatorRow,

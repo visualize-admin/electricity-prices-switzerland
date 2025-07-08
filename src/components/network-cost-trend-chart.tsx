@@ -2,10 +2,8 @@ import { t } from "@lingui/macro";
 import { Box, BoxProps } from "@mui/material";
 import { useMemo } from "react";
 
-import type {
-  NetworkLevel,
-  SunshineCostsAndTariffsData,
-} from "src/domain/data";
+import type { NetworkLevel } from "src/domain/sunshine";
+import type { SunshineCostsAndTariffsData } from "src/domain/sunshine";
 import { useFormatCurrency } from "src/domain/helpers";
 import { getNetworkLevelMetrics } from "src/domain/metrics";
 import { getLocalizedLabel } from "src/domain/translation";

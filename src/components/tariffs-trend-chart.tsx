@@ -2,7 +2,7 @@ import { t } from "@lingui/macro";
 import { Box, BoxProps } from "@mui/material";
 import { useMemo } from "react";
 
-import type { SunshineCostsAndTariffsData } from "src/domain/data";
+import type { SunshineCostsAndTariffsData } from "src/domain/sunshine";
 import { useFormatCurrency } from "src/domain/helpers";
 import { RP_PER_KM, RP_PER_KWH } from "src/domain/metrics";
 import { getLocalizedLabel } from "src/domain/translation";

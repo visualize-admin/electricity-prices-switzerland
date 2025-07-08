@@ -29,7 +29,7 @@ import {
   PageParams,
   Props as SharedPageProps,
 } from "src/data/shared-page-props";
-import { SunshinePowerStabilityData } from "src/domain/data";
+import { SunshinePowerStabilityData } from "src/domain/sunshine";
 import { MIN_PER_YEAR } from "src/domain/metrics";
 import {
   QueryStateSingleSunshineDetails,

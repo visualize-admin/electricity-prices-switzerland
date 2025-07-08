@@ -43,7 +43,8 @@ import {
   getView,
 } from "src/rdf/queries";
 import { fetchOperatorInfo, search } from "src/rdf/search-queries";
-import { asNetworkLevel, asTariffCategory } from "src/domain/data";
+import { asTariffCategory } from "src/domain/data";
+import { asNetworkLevel } from "src/domain/sunshine";
 
 const gfmSyntax = require("micromark-extension-gfm");
 const gfmHtml = require("micromark-extension-gfm/html");
