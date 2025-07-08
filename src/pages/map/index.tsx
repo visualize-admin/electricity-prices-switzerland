@@ -235,6 +235,7 @@ const IndexPageContent = ({
       observations={sunshineObservations}
       controls={controlsRef}
       valueFormatter={valueFormatter}
+      medianValue={medianValue}
     />
   );
 
@@ -496,39 +497,6 @@ const DetailsDrawer = ({
       </InlineDrawer>
     )
   );
-};
-
-// Function to convert UI indicator parameters to the actual field name
-const getSunshineIndicatorFieldName = (
-  indicator: string,
-  typology: string,
-  networkLevel: NetworkLevel["id"],
-  netTariffCategory: TariffCategory,
-  energyTariffCategory: TariffCategory
-): string => {
-  if (indicator === "saidi" || indicator === "saifi") {
-    return typology === "total"
-      ? `${indicator}Total`
-      : typology === "unplanned"
-      ? `${indicator}Unplanned`
-      : `${indicator}Planned`;
-  }
-  if (indicator === "networkCosts") {
-    return `networkCosts${networkLevel}`;
-  }
-  if (indicator === "netTariffs") {
-    return `tariff${netTariffCategory}`;
-  }
-  if (indicator === "energyTariffs") {
-    return `tariff${energyTariffCategory}`;
-  }
-  if (indicator === "serviceQuality") {
-    return "infoDaysInAdvance";
-  }
-  if (indicator === "compliance") {
-    return "timely";
-  }
-  throw new Error("Invalid indicator: " + indicator);
 };
 
 export const IndexPage = ({ locale, dataService }: Props) => {

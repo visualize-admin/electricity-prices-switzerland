@@ -1,12 +1,13 @@
 import { LayerProps, PickingInfo } from "@deck.gl/core/typed";
 import { GeoJsonLayer, GeoJsonLayerProps } from "@deck.gl/layers/typed";
-import { Trans } from "@lingui/macro";
+import { t, Trans } from "@lingui/macro";
 // We don't need turf anymore as GenericMap handles zooming
-import { easeExpIn, mean, ScaleThreshold } from "d3";
+import { easeExpIn, extent, mean, ScaleThreshold } from "d3";
 import { Feature, GeoJsonProperties, Geometry } from "geojson";
 import { keyBy } from "lodash";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useId, useMemo, useState } from "react";
 
+import { MapColorLegend } from "src/components/color-legend";
 import { GenericMap, GenericMapControls } from "src/components/generic-map";
 import { HighlightValue } from "src/components/highlight-context";
 import { Loading } from "src/components/hint";
@@ -49,6 +50,7 @@ type SunshineMapProps = {
   valueFormatter: ValueFormatter;
   onHoverOperatorLayer?: LayerProps["onHover"];
   controls?: GenericMapControls;
+  medianValue: number | undefined;
 };
 
 const SunshineMap = ({
@@ -57,7 +59,8 @@ const SunshineMap = ({
   accessor,
   observations,
   controls,
-  valueFormatter: tooltipValueFormatter,
+  valueFormatter,
+  medianValue,
 }: SunshineMapProps) => {
   // TODO Right now we fetch operators municipalities through EC2 indicators
   // This is not ideal, but we don't have a better way to get the operator municipalities
@@ -146,14 +149,14 @@ const SunshineMap = ({
           values={
             hovered.values.map((x) => ({
               label: x.operatorName,
-              formattedValue: tooltipValueFormatter(x.value),
+              formattedValue: valueFormatter(x.value),
               color: colorScale(x.value),
             })) ?? []
           }
         />
       ),
     };
-  }, [hovered, colorScale, tooltipValueFormatter]);
+  }, [hovered, colorScale, valueFormatter]);
 
   // Handle click on map layers (primarily for zooming)
   const handleLayerClick = useCallback((info: PickingInfo) => {
@@ -352,6 +355,41 @@ const SunshineMap = ({
     [index]
   );
 
+  const valuesExtent = useMemo(() => {
+    if (!observations || observations.length === 0) {
+      return undefined;
+    }
+    return extent(observations.map((x) => accessor(x)).filter(truthy));
+  }, [accessor, observations]);
+  const legendId = useId();
+
+  const renderLegend = useCallback(() => {
+    if (!valuesExtent || !medianValue || !colorScale) return null;
+    const legendData = [valuesExtent[0], medianValue, valuesExtent[1]];
+    return (
+      <MapColorLegend
+        id={legendId}
+        title={
+          <Trans id="map.legend.title">
+            Tariff comparison in Rp./kWh (figures excl. VAT)
+          </Trans>
+        }
+        ticks={legendData.map((value) => ({
+          value,
+          label: value !== undefined ? valueFormatter(value) : "",
+        }))}
+        // FIXME: Should depend on the indicator selected
+        infoDialogButtonProps={{
+          slug: "help-price-comparison",
+          label: t({
+            id: "help.price-comparison",
+            message: "Tariff comparison",
+          }),
+        }}
+      />
+    );
+  }, [valuesExtent, medianValue, colorScale, legendId, valueFormatter]);
+
   if (isLoading) {
     return <Loading />;
   }
@@ -363,6 +401,7 @@ const SunshineMap = ({
   return (
     <GenericMap
       layers={mapLayers}
+      legend={renderLegend()}
       tooltipContent={tooltipContent}
       onLayerClick={handleLayerClick}
       controls={controls}
