@@ -206,10 +206,14 @@ const IndexPageContent = ({
 
   useEffect(() => {
     if (isSunshine) {
-      if (activeId) {
-        controlsRef.current?.zoomOn(activeId);
-      } else {
-        controlsRef.current?.zoomOut();
+      try {
+        if (activeId) {
+          controlsRef.current?.zoomOn(activeId);
+        } else {
+          controlsRef.current?.zoomOut();
+        }
+      } catch (e) {
+        console.error("Error zooming on map:", e);
       }
     }
   }, [activeId, isSunshine]);

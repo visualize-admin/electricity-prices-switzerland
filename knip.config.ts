@@ -32,8 +32,6 @@ const config: KnipConfig = {
     "open",
     // Used for managing mock data, available via nix
     "duckdb",
-    // Used to run scripts
-    "tsx",
   ],
   ignoreUnresolved: [
     // Used in package.json:scripts:start to configure HTTP_PROXY.
@@ -61,12 +59,6 @@ const config: KnipConfig = {
 
     // global library to auto translate po files
     "tpo-deepl",
-
-    // Used in codemods
-    "jscodeshift",
-
-    // Used in populating aa translations
-    "@types/gettext-parser",
   ],
 };
 export default config;

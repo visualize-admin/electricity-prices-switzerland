@@ -1,4 +1,8 @@
-import { FlyToInterpolator, WebMercatorViewport } from "@deck.gl/core/typed";
+import {
+  FlyToInterpolator,
+  MapViewState,
+  WebMercatorViewport,
+} from "@deck.gl/core/typed";
 import { color, ScaleThreshold } from "d3";
 import { BBox as GeoJsonBBox } from "geojson";
 
@@ -28,7 +32,7 @@ export const getFillColor = (
  * @param bbox Bounding box of the feature to be contained
  */
 export const constrainZoom = (
-  viewState: $FixMe,
+  viewState: MapViewState & { width: number; height: number },
   bbox: BBox,
   { padding = 150 }: { padding?: number } = {}
 ) => {
@@ -72,7 +76,7 @@ export const constrainZoom = (
 };
 
 export const getZoomedViewState = (
-  currentViewState: $FixMe,
+  currentViewState: MapViewState & { width: number; height: number },
   bbox: GeoJsonBBox,
   {
     padding = 150,
@@ -85,14 +89,23 @@ export const getZoomedViewState = (
     [bbox[0], bbox[1]],
     [bbox[2], bbox[3]],
   ];
-  const fitted = vp.fitBounds(nestedBBox, { padding });
 
-  return {
-    ...currentViewState,
-    ...fitted,
-    transitionDuration,
-    transitionInterpolator: new FlyToInterpolator(),
-  };
+  // progressively reduce padding until it fits
+  while (padding > 0) {
+    try {
+      const fitted = vp.fitBounds(nestedBBox, { padding });
+
+      return {
+        ...currentViewState,
+        ...fitted,
+        transitionDuration,
+        transitionInterpolator: new FlyToInterpolator(),
+      };
+    } catch {
+      // If it fails, reduce padding and try again
+      padding -= 50;
+    }
+  }
 };
 
 export const flattenBBox = (
@@ -133,6 +146,8 @@ export const INITIAL_VIEW_STATE = {
   minZoom: 2,
   pitch: 0,
   bearing: 0,
+  width: 200,
+  height: 200,
 };
 
 export type BBox = [[number, number], [number, number]];

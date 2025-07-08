@@ -170,11 +170,21 @@ export const GenericMap = ({
   // Resize handler
   const onResize = useCallback(
     ({ width, height }: { width: number; height: number }) => {
-      setViewState((viewState) =>
-        constrainZoom({ ...viewState, width, height }, initialBBox, {
-          padding: mapZoomPadding,
-        })
-      );
+      setViewState((viewState) => {
+        const constrained = constrainZoom(
+          { ...viewState, width, height },
+          initialBBox,
+          {
+            padding: mapZoomPadding,
+          }
+        );
+        return {
+          ...viewState,
+          zoom: constrained.zoom,
+          longitude: constrained.longitude,
+          latitude: constrained.latitude,
+        };
+      });
     },
     [setViewState, mapZoomPadding, initialBBox]
   );
@@ -229,7 +239,14 @@ export const GenericMap = ({
             }
           );
 
-          setViewState(newViewState);
+          if (newViewState) {
+            setViewState({
+              ...viewState,
+              zoom: newViewState.zoom,
+              longitude: newViewState.longitude,
+              latitude: newViewState.latitude,
+            });
+          }
         },
         zoomOut: () => {
           const newViewState = getZoomedViewState(
@@ -240,7 +257,15 @@ export const GenericMap = ({
               transitionDuration: 1000,
             }
           );
-          setViewState(newViewState);
+
+          if (newViewState) {
+            setViewState({
+              ...viewState,
+              zoom: newViewState.zoom,
+              longitude: newViewState.longitude,
+              latitude: newViewState.latitude,
+            });
+          }
         },
       };
     }
