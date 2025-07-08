@@ -370,7 +370,7 @@ const SunshineMap = ({
       <MapColorLegend
         id={legendId}
         title={
-          <Trans id="map.legend.title">
+          <Trans id="energy-prices-map.legend.title">
             Tariff comparison in Rp./kWh (figures excl. VAT)
           </Trans>
         }

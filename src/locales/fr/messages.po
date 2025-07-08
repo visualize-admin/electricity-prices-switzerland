@@ -542,7 +542,7 @@ msgid "map.details-sidebar-panel.next-button.service-quality"
 msgstr "Voir le détail de la qualité de service"
 
 #: src/components/energy-prices-map.tsx
-msgid "map.legend.title"
+msgid "energy-prices-map.legend.title"
 msgstr "Comparaison des tarifs en ct./kWh (TVA exclue)"
 
 #: src/components/share-button.tsx

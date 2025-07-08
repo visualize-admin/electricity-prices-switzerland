@@ -510,8 +510,8 @@ msgid "map.details-sidebar-panel.next-button.service-quality"
 msgstr "map.details-sidebar-panel.next-button.service-quality"
 
 #: src/components/energy-prices-map.tsx
-msgid "map.legend.title"
-msgstr "map.legend.title"
+msgid "energy-prices-map.legend.title"
+msgstr "energy-prices-map.legend.title"
 
 #: src/components/share-button.tsx
 msgid "map.share"
