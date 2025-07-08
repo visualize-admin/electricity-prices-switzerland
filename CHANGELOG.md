@@ -16,10 +16,16 @@ You can also check the
   - Added peer group filtering functionality to map page
   - Implemented server-side median retrieval using database-stored values
   - Enhanced map legend with indicator-specific titles, formatting, and info slugs
+  - Add "Show all Sunshine Indicators" button in map details panel
 
 - Refactors
 
   - Split domain data file to improve code organization
+
+- Fix
+
+  - Map tab indicator not correctly selected
+  - Show more/less button in details panel on municipalities list does not trigger layout change
 
 # 2.4.0 - 2025-07-07
 
