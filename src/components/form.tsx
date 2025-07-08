@@ -9,8 +9,7 @@ import {
   OutlinedInput,
   Typography,
 } from "@mui/material";
-import * as React from "react";
-import { ReactNode } from "react";
+import React, { ReactNode } from "react";
 
 import { VisuallyHidden } from "src/components/visually-hidden";
 import { Icon } from "src/icons";

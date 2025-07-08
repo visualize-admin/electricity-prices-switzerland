@@ -1,5 +1,5 @@
 import { Trans } from "@lingui/macro";
-import { Typography, Card, CardContent, CardProps } from "@mui/material";
+import { Card, CardContent, CardProps, Typography } from "@mui/material";
 import React from "react";
 
 import { PeerGroup } from "src/domain/sunshine";

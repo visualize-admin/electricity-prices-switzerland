@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 
-import { it, expect } from "vitest";
+import { expect, it } from "vitest";
 
 import { parseMultiPart } from "src/domain/gever/multipart";
 

@@ -22,7 +22,7 @@ import { MarkerCircle } from "@visx/marker";
 import { ParentSize } from "@visx/responsive";
 import { scaleLinear } from "@visx/scale";
 import { LinePath } from "@visx/shape";
-import { TooltipWithBounds, defaultStyles, useTooltip } from "@visx/tooltip";
+import { defaultStyles, TooltipWithBounds, useTooltip } from "@visx/tooltip";
 import { sortBy } from "lodash";
 import React, { useMemo, useState } from "react";
 import { QueryClient, QueryClientProvider, useQuery } from "react-query";

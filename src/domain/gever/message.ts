@@ -10,13 +10,13 @@ import { redactSAML } from "src/domain/gever/redact";
 import { makeRequest, makeSslConfiguredAgent } from "src/domain/gever/soap";
 import * as templates from "src/domain/gever/templates";
 import {
-  ns,
   $,
+  $$,
   canonicalizeXML,
+  ns,
   parseXMLString,
   serializeXMLToString,
   stripWhitespace,
-  $$,
 } from "src/domain/gever/utils";
 import serverEnv from "src/env/server";
 import { OperatorDocumentCategory } from "src/graphql/queries";

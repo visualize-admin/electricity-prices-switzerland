@@ -2,11 +2,10 @@ import { keyBy } from "lodash";
 import ParsingClient from "sparql-http-client/ParsingClient";
 
 import { tariffCategories, TariffCategory } from "src/domain/data";
-import { NetworkLevel } from "src/domain/sunshine";
-import { SunshineIndicator } from "src/domain/sunshine";
+import { NetworkLevel, SunshineIndicator } from "src/domain/sunshine";
 import {
-  SunshineDataRow,
   SunshineDataIndicatorRow,
+  SunshineDataRow,
 } from "src/graphql/resolver-types";
 import {
   PeerGroupNotFoundError,
@@ -16,11 +15,11 @@ import { IndicatorMedianParams } from "src/lib/sunshine-data";
 import type {
   NetworkCostRecord,
   OperationalStandardRecord,
-  StabilityMetricRecord,
-  TariffRecord,
   OperatorDataRecord,
   PeerGroupRecord,
+  StabilityMetricRecord,
   SunshineDataService,
+  TariffRecord,
 } from "src/lib/sunshine-data-service";
 import { addNamespaceToID, stripNamespaceFromIri } from "src/rdf/namespace";
 

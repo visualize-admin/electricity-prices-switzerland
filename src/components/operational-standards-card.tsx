@@ -2,8 +2,10 @@ import { Trans } from "@lingui/macro";
 import { Card, CardContent, CardProps, Typography } from "@mui/material";
 
 import CardSource from "src/components/card-source";
-import { SunshineOperationalStandardsData } from "src/domain/sunshine";
-import { PeerGroup } from "src/domain/sunshine";
+import {
+  PeerGroup,
+  SunshineOperationalStandardsData,
+} from "src/domain/sunshine";
 import { getLocalizedLabel, getPeerGroupLabels } from "src/domain/translation";
 
 import { CardHeader } from "./detail-page/card";

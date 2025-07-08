@@ -2,7 +2,7 @@ import { assert } from "console";
 import fs from "fs";
 import path from "path";
 
-import { it, expect, vi } from "vitest";
+import { expect, it, vi } from "vitest";
 
 import {
   digestSignedInfoNode,
@@ -12,7 +12,12 @@ import {
   prepareIpStsMessage,
   prepareRpStsDoc,
 } from "src/domain/gever/message";
-import { parseXMLString, $, ns, serializeXMLToString } from "src/domain/gever/utils";
+import {
+  $,
+  ns,
+  parseXMLString,
+  serializeXMLToString,
+} from "src/domain/gever/utils";
 
 vi.mock("src/env/server", () => ({
   __esModule: true,

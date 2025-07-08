@@ -1,9 +1,11 @@
-import { NetworkLevel } from "src/domain/sunshine";
-import { SunshineIndicator } from "src/domain/sunshine";
-import { peerGroupMapping } from "src/domain/sunshine";
 import {
-  SunshineDataRow,
+  NetworkLevel,
+  peerGroupMapping,
+  SunshineIndicator,
+} from "src/domain/sunshine";
+import {
   SunshineDataIndicatorRow,
+  SunshineDataRow,
 } from "src/graphql/resolver-types";
 import { query } from "src/lib/db/duckdb";
 import { PeerGroupNotFoundError } from "src/lib/db/errors";
@@ -11,11 +13,11 @@ import { IndicatorMedianParams } from "src/lib/sunshine-data";
 import type {
   NetworkCostRecord,
   OperationalStandardRecord,
-  StabilityMetricRecord,
-  TariffRecord,
   OperatorDataRecord,
   PeerGroupRecord,
+  StabilityMetricRecord,
   SunshineDataService,
+  TariffRecord,
 } from "src/lib/sunshine-data-service";
 
 const getNetworkCosts = async ({

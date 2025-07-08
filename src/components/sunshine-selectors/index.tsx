@@ -1,12 +1,12 @@
 import { useQueryStateSunshineMap } from "src/domain/query-states";
 import {
-  years,
-  viewByOptions,
-  typologyOptions,
-  indicatorOptions,
-  networkLevelOptions,
-  netTariffCategoryOptions,
   energyTariffCategoryOptions,
+  indicatorOptions,
+  netTariffCategoryOptions,
+  networkLevelOptions,
+  typologyOptions,
+  viewByOptions,
+  years,
 } from "src/domain/sunshine";
 import { getLocalizedLabel } from "src/domain/translation";
 

@@ -1,8 +1,9 @@
 import { property } from "lodash";
 
-import { NetworkLevel } from "./sunshine";
 import { SunshineDataRow } from "src/graphql/queries";
 import { TariffCategory } from "src/graphql/resolver-mapped-types";
+
+import { NetworkLevel } from "./sunshine";
 
 const isDefined = (x: number | undefined | null): x is number =>
   x !== undefined && x !== null;

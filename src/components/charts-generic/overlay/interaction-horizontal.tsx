@@ -1,6 +1,5 @@
 import { bisector, pointer } from "d3";
-import * as React from "react";
-import { useRef } from "react";
+import React, { useRef } from "react";
 
 import {
   AreasState,

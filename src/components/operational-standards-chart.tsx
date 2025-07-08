@@ -12,8 +12,8 @@ import {
 } from "src/components/charts-generic/containers";
 import { HistogramColumns } from "src/components/charts-generic/histogram/histogram";
 import { Histogram } from "src/components/charts-generic/histogram/histogram-state";
-import type { SunshineOperationalStandardsData } from "src/domain/sunshine";
 import { DAYS, SWISS_FRANCS } from "src/domain/metrics";
+import type { SunshineOperationalStandardsData } from "src/domain/sunshine";
 import { useFlag } from "src/utils/flags";
 
 import {

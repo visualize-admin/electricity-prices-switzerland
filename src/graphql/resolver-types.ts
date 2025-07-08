@@ -5,14 +5,14 @@ import {
 } from "graphql";
 import {
   ResolvedCanton,
-  ResolvedMunicipality,
-  ResolvedOperator,
-  TariffCategory,
-  ResolvedObservation,
   ResolvedCantonMedianObservation,
-  ResolvedSwissMedianObservation,
+  ResolvedMunicipality,
+  ResolvedObservation,
+  ResolvedOperator,
   ResolvedOperatorObservation,
   ResolvedSearchResult,
+  ResolvedSwissMedianObservation,
+  TariffCategory,
 } from "./resolver-mapped-types";
 import { ServerContext } from "./server-context";
 export type Maybe<T> = T | null;

@@ -7,8 +7,8 @@ import { ArgumentParser } from "argparse";
 import { config } from "dotenv";
 import jscodeshift from "jscodeshift";
 
-import { wikiPageSlugs } from "src/domain/wiki";
 import { getCachedWikiPages, WikiPage } from "src/domain/gitlab-wiki-api";
+import { wikiPageSlugs } from "src/domain/wiki";
 
 // Load environment variables from .env file
 config();

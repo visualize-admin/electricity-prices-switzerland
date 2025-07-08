@@ -34,13 +34,12 @@ import {
   Props as SharedPageProps,
 } from "src/data/shared-page-props";
 import { tariffCategories } from "src/domain/data";
-import { NetworkLevel } from "src/domain/sunshine";
-import { SunshineCostsAndTariffsData } from "src/domain/sunshine";
 import { getNetworkLevelMetrics, RP_PER_KM } from "src/domain/metrics";
 import {
   QueryStateSingleSunshineDetails,
   useQueryStateSunshineDetails,
 } from "src/domain/query-states";
+import { NetworkLevel, SunshineCostsAndTariffsData } from "src/domain/sunshine";
 import {
   getCategoryLabels,
   getLocalizedLabel,

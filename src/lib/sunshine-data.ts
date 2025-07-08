@@ -1,8 +1,8 @@
 import { first } from "lodash";
 
 import { TariffCategory } from "src/domain/data";
-import { NetworkLevel } from "src/domain/sunshine";
 import {
+  NetworkLevel,
   SunshineCostsAndTariffsData,
   SunshineOperationalStandardsData,
   SunshinePowerStabilityData,

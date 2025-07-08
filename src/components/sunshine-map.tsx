@@ -1,7 +1,6 @@
 import { LayerProps, PickingInfo } from "@deck.gl/core/typed";
 import { GeoJsonLayer, GeoJsonLayerProps } from "@deck.gl/layers/typed";
 import { t, Trans } from "@lingui/macro";
-// We don't need turf anymore as GenericMap handles zooming
 import { easeExpIn, extent, mean, ScaleThreshold } from "d3";
 import { Feature, GeoJsonProperties, Geometry } from "geojson";
 import { keyBy } from "lodash";
@@ -25,8 +24,8 @@ import {
 import { useFetch } from "src/data/use-fetch";
 import { ValueFormatter } from "src/domain/data";
 import {
-  SunshineIndicator,
   indicatorWikiPageSlugMapping,
+  SunshineIndicator,
 } from "src/domain/sunshine";
 import { Maybe, SunshineDataIndicatorRow } from "src/graphql/queries";
 import { truthy } from "src/lib/truthy";

@@ -1,4 +1,4 @@
-import { Trans, t } from "@lingui/macro";
+import { t, Trans } from "@lingui/macro";
 import {
   Card,
   CardContent,
@@ -12,8 +12,7 @@ import React, { ReactNode } from "react";
 import { ButtonGroup } from "src/components/button-group";
 import CardSource from "src/components/card-source";
 import { useQueryStateTariffsTrendCardFilters } from "src/domain/query-states";
-import { SunshineCostsAndTariffsData } from "src/domain/sunshine";
-import { PeerGroup } from "src/domain/sunshine";
+import { PeerGroup, SunshineCostsAndTariffsData } from "src/domain/sunshine";
 import { getPeerGroupLabels } from "src/domain/translation";
 
 import { CardHeader } from "./detail-page/card";

@@ -1,9 +1,8 @@
 import { ElectricityCategory, TariffCategory } from "src/domain/data";
-import { NetworkLevel } from "src/domain/sunshine";
-import { SunshineIndicator } from "src/domain/sunshine";
+import { NetworkLevel, SunshineIndicator } from "src/domain/sunshine";
 import {
-  SunshineDataRow,
   SunshineDataIndicatorRow,
+  SunshineDataRow,
 } from "src/graphql/resolver-types";
 import { IndicatorMedianParams } from "src/lib/sunshine-data";
 

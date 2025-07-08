@@ -30,8 +30,8 @@ import {
 } from "src/data/shared-page-props";
 import { tariffCategories, TariffCategory } from "src/domain/data";
 import { sunshineDetailsLink } from "src/domain/query-states";
-import { NetworkLevel } from "src/domain/sunshine";
 import {
+  NetworkLevel,
   SunshineCostsAndTariffsData,
   SunshineOperationalStandardsData,
   SunshinePowerStabilityData,

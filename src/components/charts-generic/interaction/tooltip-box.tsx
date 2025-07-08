@@ -1,10 +1,10 @@
 import { Box, useTheme } from "@mui/material";
-import React, { ReactNode, forwardRef } from "react";
+import React, { forwardRef, ReactNode } from "react";
 
 import {
   TOOLTIP_OFFSET,
-  TRIANGLE_SIZE,
   TooltipPlacement,
+  TRIANGLE_SIZE,
   XPlacement,
   YPlacement,
 } from "src/components/charts-generic/interaction/tooltip";

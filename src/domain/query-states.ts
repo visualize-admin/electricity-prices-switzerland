@@ -1,12 +1,13 @@
 import * as z from "zod";
 
-import { sunshineIndicatorSchema, SunshineIndicator } from "./sunshine";
 import buildEnv from "src/env/build";
 import {
   makeLinkGenerator,
   makeUseQueryState,
   UseQueryStateSingle,
 } from "src/lib/use-query-state";
+
+import { SunshineIndicator, sunshineIndicatorSchema } from "./sunshine";
 
 /**
  * Helper function to convert comma-separated query parameter strings to arrays
