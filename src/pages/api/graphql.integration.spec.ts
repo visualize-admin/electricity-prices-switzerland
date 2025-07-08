@@ -1,5 +1,5 @@
 import { Client, fetchExchange } from "urql";
-import { describe, expect, it } from "vitest";
+import { beforeAll, describe, expect, it } from "vitest";
 
 import {
   SunshineDataByIndicatorDocument,
@@ -9,6 +9,31 @@ import {
 
 const GRAPHQL_BASE_URL =
   process.env.GRAPHQL_BASE_URL || "http://localhost:3000/api/graphql";
+
+const performHealthCheck = (graphqlEndpoint: string) => {
+  return fetch(graphqlEndpoint, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ query: "{ __typename }" }),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`GraphQL API is not reachable: ${response.statusText}`);
+      }
+      return response.json();
+    })
+    .catch((error) => {
+      console.error("Error performing health check:", error);
+      throw error;
+    });
+};
+
+// We need to ensure first that the graphql API is running before executing these tests.
+beforeAll(async () => {
+  await performHealthCheck(GRAPHQL_BASE_URL);
+});
 
 const client = new Client({
   url: GRAPHQL_BASE_URL,

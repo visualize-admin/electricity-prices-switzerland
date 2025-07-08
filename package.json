@@ -16,7 +16,8 @@
     "start": "GLOBAL_AGENT_ENVIRONMENT_VARIABLE_NAMESPACE='' NODE_OPTIONS='-r \"./configure-proxy\" --max_old_space_size=2048 --openssl-legacy-provider --unhandled-rejections=warn' next start -p $PORT",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
-    "test": "vitest",
+    "test": "vitest --project unit",
+    "test:integration": "vitest --project integration",
     "setup": "yarn && yarn locales:compile && yarn graphql:codegen",
     "locales:extract": "NODE_ENV=development lingui extract --clean && ./scripts/strip-locale-line-numbers.sh && tsx scripts/populate-aa.ts",
     "locales:compile": "lingui compile --verbose --typescript",
@@ -120,7 +121,7 @@
     "typescript-lru-cache": "^2.0.0",
     "undici": "^5.25.2",
     "urql": "^4.2.2",
-    "vitest": "^3.1.1",
+    "vitest": "^3.2.4",
     "xml-c14n": "^0.0.6",
     "zod": "^3.24.2"
   },
