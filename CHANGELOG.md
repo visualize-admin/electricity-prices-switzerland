@@ -23,6 +23,7 @@ You can also check the
 
 - Fix
 
+  - Map tab indicator not correctly selected
   - Show more/less button in details panel on municipalities list does not trigger layout change
 
 # 2.4.0 - 2025-07-07

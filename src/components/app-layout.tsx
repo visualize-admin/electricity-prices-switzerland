@@ -63,7 +63,8 @@ export const ApplicationLayout = ({
 };
 
 const AppNavigation = () => {
-  const { asPath } = useRouter();
+  const { asPath: asPathWithQueryString } = useRouter();
+  const asPath = asPathWithQueryString.split("?")[0];
 
   return (
     <Box
