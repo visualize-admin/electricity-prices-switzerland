@@ -1,5 +1,5 @@
 import {
-  ScatterPlotState,
+  DotPlotState,
   StackedBarsState,
   useChartState,
 } from "src/components/charts-generic/use-chart-state";
@@ -18,9 +18,7 @@ export const AxisHeightCategories = ({
   hideXAxis = false,
   highlightedCategory,
 }: AxisHeightCategoriesProps) => {
-  const { yScale, bounds } = useChartState() as
-    | ScatterPlotState
-    | StackedBarsState;
+  const { yScale, bounds } = useChartState() as DotPlotState | StackedBarsState;
   const { labelFontSize } = useChartTheme();
 
   return (

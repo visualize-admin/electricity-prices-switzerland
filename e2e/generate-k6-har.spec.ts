@@ -1,4 +1,3 @@
-
 import { testAndSaveHar, sleep, getEnv } from "./utils";
 
 const envName = process.env.ELCOM_ENV || "ref";

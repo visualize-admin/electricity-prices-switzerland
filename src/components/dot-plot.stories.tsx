@@ -5,13 +5,13 @@ import { SunshineCostsAndTariffsData } from "src/domain/sunshine";
 import { NetworkCostTrendChart } from "./network-cost-trend-chart";
 import { DesignGrid, DesignStory } from "./storybook/base-style";
 
-export const ScatterpotChart = () => {
+export const DotPlotChart = () => {
   const networkCosts =
     data.networkCosts as SunshineCostsAndTariffsData["networkCosts"];
   const { yearlyData, ...restNetworkCosts } = networkCosts;
   return (
     <DesignStory
-      title="Scatterplot Chart"
+      title="Dot Plot Chart"
       reference="ElCom Library (Sunshine Indicators)"
     >
       <DesignGrid>
@@ -31,8 +31,8 @@ export const ScatterpotChart = () => {
 };
 
 const meta = {
-  component: ScatterpotChart,
-  title: "charts/ScatterpotChart",
+  component: DotPlotChart,
+  title: "charts/DotPlotChart",
 };
 
 export default meta;

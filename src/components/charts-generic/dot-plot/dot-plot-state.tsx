@@ -5,11 +5,11 @@ import { LEFT_MARGIN_OFFSET } from "src/components/charts-generic/constants";
 import {
   ChartContext,
   ChartProps,
-  ScatterPlotState,
+  DotPlotState,
 } from "src/components/charts-generic/use-chart-state";
 import { InteractionProvider } from "src/components/charts-generic/use-interaction";
 import { Observer, useWidth } from "src/components/charts-generic/use-width";
-import { ScatterPlotFields } from "src/domain/config-types";
+import { DotPlotFields } from "src/domain/config-types";
 import { GenericObservation } from "src/domain/data";
 import {
   getPalette,
@@ -27,10 +27,10 @@ const useScatterPlotState = ({
   aspectRatio,
   medianValue,
 }: Pick<ChartProps, "data" | "dimensions" | "measures"> & {
-  fields: ScatterPlotFields;
+  fields: DotPlotFields;
   aspectRatio: number;
   medianValue?: number;
-}): ScatterPlotState => {
+}): DotPlotState => {
   const width = useWidth();
   const formatCurrency = useFormatCurrency();
   const { labelFontSize } = useChartTheme();
@@ -218,7 +218,7 @@ const useScatterPlotState = ({
   };
 };
 
-const ScatterPlotProvider = ({
+const DotPlotProvider = ({
   data,
   fields,
   dimensions,
@@ -228,7 +228,7 @@ const ScatterPlotProvider = ({
   children,
 }: Pick<ChartProps, "data" | "dimensions" | "measures"> & {
   children: ReactNode;
-  fields: ScatterPlotFields;
+  fields: DotPlotFields;
   aspectRatio: number;
   medianValue?: number;
 }) => {
@@ -245,7 +245,7 @@ const ScatterPlotProvider = ({
   );
 };
 
-export const ScatterPlot = ({
+export const DotPlot = ({
   data,
   fields,
   dimensions,
@@ -255,14 +255,14 @@ export const ScatterPlot = ({
   children,
 }: Pick<ChartProps, "data" | "dimensions" | "measures"> & {
   aspectRatio: number;
-  fields: ScatterPlotFields;
+  fields: DotPlotFields;
   medianValue?: number;
   children: ReactNode;
 }) => {
   return (
     <Observer>
       <InteractionProvider>
-        <ScatterPlotProvider
+        <DotPlotProvider
           data={data}
           fields={fields}
           dimensions={dimensions}
@@ -271,7 +271,7 @@ export const ScatterPlot = ({
           medianValue={medianValue}
         >
           {children}
-        </ScatterPlotProvider>
+        </DotPlotProvider>
       </InteractionProvider>
     </Observer>
   );

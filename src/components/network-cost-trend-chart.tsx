@@ -14,13 +14,13 @@ import { chartPalette, palette } from "src/themes/palette";
 import { AxisHeightCategories } from "./charts-generic/axis/axis-height-categories";
 import { AxisWidthLinear } from "./charts-generic/axis/axis-width-linear";
 import { ChartContainer, ChartSvg } from "./charts-generic/containers";
+import { DotPlot } from "./charts-generic/dot-plot/dot-plot-state";
+import { Dots } from "./charts-generic/dot-plot/dots";
+import { DotPlotMedian } from "./charts-generic/dot-plot/median";
 import { Tooltip } from "./charts-generic/interaction/tooltip";
 import { LegendItem } from "./charts-generic/legends/color";
 import { InteractionDotted } from "./charts-generic/overlay/interaction-dotted";
 import { ProgressOvertimeChart } from "./charts-generic/progress-overtime-chart";
-import { Dots } from "./charts-generic/scatter-plot/dots";
-import { ScatterPlotMedian } from "./charts-generic/scatter-plot/median";
-import { ScatterPlot } from "./charts-generic/scatter-plot/scatter-plot-state";
 import { SectionProps } from "./detail-page/card";
 import { NetworkCostsTrendCardFilters } from "./network-costs-trend-card";
 
@@ -66,7 +66,7 @@ const LatestYearChartView = (
     props;
 
   return (
-    <ScatterPlot
+    <DotPlot
       medianValue={networkCosts.peerGroupMedianRate ?? undefined}
       data={observations.map((o) => ({
         ...o,
@@ -154,11 +154,11 @@ const LatestYearChartView = (
           <AxisHeightCategories stretch />
           <Dots />
           <InteractionDotted />
-          <ScatterPlotMedian />
+          <DotPlotMedian />
         </ChartSvg>
         <Tooltip type="multiple" forceYAnchor />
       </ChartContainer>
-    </ScatterPlot>
+    </DotPlot>
   );
 };
 

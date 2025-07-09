@@ -3,7 +3,7 @@ import { useEffect, useRef } from "react";
 
 import {
   RangePlotState,
-  ScatterPlotState,
+  DotPlotState,
   useChartState,
 } from "src/components/charts-generic/use-chart-state";
 import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
@@ -34,9 +34,7 @@ const AxisWidthLinearBottom = ({
   format: "number" | "currency";
 }) => {
   const formatCurrency = useFormatCurrency();
-  const { xScale, bounds } = useChartState() as
-    | ScatterPlotState
-    | RangePlotState;
+  const { xScale, bounds } = useChartState() as DotPlotState | RangePlotState;
   const { chartHeight, margins } = bounds;
   const { labelColor, labelFontSize, gridColor, fontFamily } = useChartTheme();
   const xAxisRef = useRef<SVGGElement>(null);
@@ -86,7 +84,7 @@ const AxisWidthLinearBottom = ({
 const AxisWidthLinearTop = ({ format }: { format: "number" | "currency" }) => {
   const formatCurrency = useFormatCurrency();
   const { xScale, bounds, xAxisLabel } = useChartState() as
-    | ScatterPlotState
+    | DotPlotState
     | RangePlotState;
   const { chartWidth, chartHeight, margins } = bounds;
   const { labelColor, labelFontSize, gridColor, fontFamily } = useChartTheme();

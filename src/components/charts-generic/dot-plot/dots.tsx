@@ -1,7 +1,7 @@
 import { memo, useMemo } from "react";
 
 import {
-  ScatterPlotState,
+  DotPlotState,
   useChartState,
 } from "src/components/charts-generic/use-chart-state";
 import { chartPalette, palette } from "src/themes/palette";
@@ -10,7 +10,7 @@ import { useInteraction } from "../use-interaction";
 
 export const Dots = () => {
   const { data, getX, getY, xScale, yScale, bounds, getHighlightEntity } =
-    useChartState() as ScatterPlotState;
+    useChartState() as DotPlotState;
 
   const [interaction] = useInteraction();
   const hovered = interaction.interaction?.d;

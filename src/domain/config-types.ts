@@ -118,7 +118,7 @@ const LineFields = z.object({
 
 export type LineFields = z.infer<typeof LineFields>;
 
-const ScatterPlotFields = z.object({
+const DotPlotFields = z.object({
   x: z.intersection(GenericField, AxisField),
   y: z.intersection(GenericField, AxisField),
   segment: z
@@ -143,7 +143,7 @@ const ScatterPlotFields = z.object({
     .optional(),
 });
 
-export type ScatterPlotFields = z.infer<typeof ScatterPlotFields>;
+export type DotPlotFields = z.infer<typeof DotPlotFields>;
 
 const AreaFields = z.object({
   x: GenericField,
@@ -203,4 +203,4 @@ export type ChartFields =
   | LineFields
   | HistogramFields
   | RangePlotFields
-  | ScatterPlotFields;
+  | DotPlotFields;
