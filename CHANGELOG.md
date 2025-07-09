@@ -15,6 +15,10 @@ You can also check the
 
   - Map page: Same hover style on Energy Prices vs Sunshine Map
 
+- Fix
+
+  - Map page: Shadow for tooltip
+
 # 2.5.0 - 2025-07-09
 
 - Features
