@@ -95,6 +95,7 @@ export const TooltipBoxWithoutChartState = ({
         top: mxYOffset(y!, placement) + margins.top,
         pointerEvents: "none",
         transform: mkTranslation(placement),
+        boxShadow: theme.shadows[4],
       }}
     >
       <Box

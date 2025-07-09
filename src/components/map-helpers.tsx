@@ -177,7 +177,7 @@ export const styles = {
         lineWidth: 0,
       },
       active: {
-        fillColor: [0, 0, 0, 0] as Color,
+        fillColor: [0, 0, 0, 50] as Color, // Dark overlay similar to sunshine layers
         lineColor: [31, 41, 55, 255] as Color,
         lineWidth: 3,
       },
@@ -224,11 +224,6 @@ export const styles = {
     pickable: {
       fillColor: [255, 255, 255, 0] as Color, // Transparent
       highlightColor: [0, 0, 0, 50] as Color,
-    },
-    municipalityMesh: {
-      lineColor: LINE_COLOR,
-      lineWidthMinPixels: 0.5,
-      lineWidthMaxPixels: 0.5,
     },
     overlay: {
       active: {
