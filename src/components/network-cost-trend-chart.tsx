@@ -197,7 +197,6 @@ const ProgressOvertimeChartView = (
       }
       showInteractionsWhenComparing={true}
       showOtherOperatorsLegend={(_, compareWith) => compareWith.length > 0}
-      showNoDataHint={false}
     />
   );
 };

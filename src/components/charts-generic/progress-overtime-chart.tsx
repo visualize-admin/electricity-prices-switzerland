@@ -18,7 +18,7 @@ import { Lines } from "./lines/lines";
 import { LineChart } from "./lines/lines-state";
 import { InteractionHorizontal } from "./overlay/interaction-horizontal";
 
-export interface ProgressOvertimeChartProps<
+interface ProgressOvertimeChartProps<
   T extends GenericObservation = GenericObservation
 > {
   observations: T[];
@@ -39,8 +39,6 @@ export interface ProgressOvertimeChartProps<
   showOtherOperatorsLegend?:
     | boolean
     | ((operatorsNames: Set<string>, compareWith: string[]) => boolean);
-  // Data validation
-  showNoDataHint?: boolean;
 }
 
 export const ProgressOvertimeChart = <T extends GenericObservation>(
@@ -59,7 +57,6 @@ export const ProgressOvertimeChart = <T extends GenericObservation>(
     paletteType = "monochrome",
     showInteractionsWhenComparing = true,
     showOtherOperatorsLegend = true,
-    showNoDataHint = false,
   } = props;
 
   const formatCurrency = useFormatCurrency();
@@ -86,7 +83,7 @@ export const ProgressOvertimeChart = <T extends GenericObservation>(
     return compareWith.length > 0;
   }, [showOtherOperatorsLegend, operatorsNames, compareWith]);
 
-  if (showNoDataHint && observations.length === 0) {
+  if (observations.length === 0) {
     return <NoDataHint />;
   }
 
