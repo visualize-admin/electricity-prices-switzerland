@@ -240,6 +240,7 @@ const IndexPageContent = ({
       controls={controlsRef}
       valueFormatter={valueFormatter}
       medianValue={medianValue}
+      observationsQueryFetching={isMapDataLoading}
     />
   );
 

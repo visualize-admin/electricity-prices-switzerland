@@ -9,7 +9,6 @@ import { useCallback, useId, useMemo, useState } from "react";
 import { MapColorLegend } from "src/components/color-legend";
 import { GenericMap, GenericMapControls } from "src/components/generic-map";
 import { HighlightValue } from "src/components/highlight-context";
-import { Loading } from "src/components/hint";
 import { useMap } from "src/components/map-context";
 import { getFillColor, styles } from "src/components/map-helpers";
 import { MapTooltipContent } from "src/components/map-tooltip";
@@ -74,6 +73,7 @@ type SunshineMapProps = {
   onHoverOperatorLayer?: LayerProps["onHover"];
   controls?: GenericMapControls;
   medianValue: number | undefined;
+  observationsQueryFetching: boolean;
 };
 
 const SunshineMap = ({
@@ -82,6 +82,7 @@ const SunshineMap = ({
   colorScale,
   accessor,
   observations,
+  observationsQueryFetching,
   controls,
   valueFormatter,
   medianValue,
@@ -99,7 +100,8 @@ const SunshineMap = ({
 
   const isLoading =
     operatorMunicipalitiesResult.state === "fetching" ||
-    geoDataResult.state === "fetching";
+    geoDataResult.state === "fetching" ||
+    observationsQueryFetching;
 
   const operatorMunicipalities = operatorMunicipalitiesResult.data;
   const geoData = geoDataResult.data;
@@ -416,10 +418,6 @@ const SunshineMap = ({
     indicator,
   ]);
 
-  if (isLoading) {
-    return <Loading />;
-  }
-
   if (!geoData || !geoData.municipalities || !enhancedGeoData) {
     return null;
   }
@@ -429,6 +427,7 @@ const SunshineMap = ({
       layers={mapLayers}
       legend={renderLegend()}
       tooltipContent={tooltipContent}
+      isLoading={isLoading}
       onLayerClick={handleLayerClick}
       controls={controls}
       downloadId={`operator-map-${period}`}
