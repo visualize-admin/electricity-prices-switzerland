@@ -293,6 +293,10 @@ msgstr "Swiss municipalities and responsible electricity grid operators"
 msgid "footer.tariff-components"
 msgstr "Transmission grid tariff components - Swissgrid"
 
+#: src/components/header.tsx
+msgid "header.long-title"
+msgstr "Federal Electricity Commission ElCom"
+
 #: src/components/sunshine-map.tsx
 msgid "help."
 msgstr "help."
@@ -549,6 +553,10 @@ msgstr "SAIFI in detail"
 msgid "map.details-sidebar-panel.next-button.service-quality"
 msgstr "Service Quality in detail"
 
+#: src/components/map-details-content.tsx
+msgid "map.details-sidebar-panel.next-button.sunshine-overview"
+msgstr "Show all Sunshine Indicators"
+
 #: src/components/share-button.tsx
 msgid "map.share"
 msgstr "Share"
@@ -737,6 +745,10 @@ msgid "rangeplot.select.sorting.median-desc"
 msgstr "Median descending"
 
 #: src/components/detail-page/banner.tsx
+msgid "relations.showless"
+msgstr "Show less"
+
+#: src/components/detail-page/banner.tsx
 msgid "relations.showmore"
 msgstr "{rest} weitere …"
 
@@ -903,8 +915,7 @@ msgstr "Category"
 msgid "selector.indicator"
 msgstr "Indicator"
 
-#: src/components/electricity-selectors.tsx
-#: src/components/sunshine-selectors/base.tsx
+#: src/components/combined-selectors/index.tsx
 msgid "selector.legend.select.parameters"
 msgstr "Parameters"
 
@@ -1305,8 +1316,13 @@ msgid "sunshine.power-stability.operator"
 msgstr "{operatorLabel}"
 
 #: src/components/power-stability-card.tsx
+#: src/components/power-stability-card.tsx
 msgid "sunshine.power-stability.overall-option"
 msgstr "Overall"
+
+#: src/components/power-stability-card.tsx
+msgid "sunshine.power-stability.overall-tooltip"
+msgstr "Shows the total outage duration per operator, combining planned and unplanned outages for direct comparison."
 
 #: src/components/power-stability-card.tsx
 msgid "sunshine.power-stability.planned-option"
@@ -1317,8 +1333,13 @@ msgid "sunshine.power-stability.progress-over-time"
 msgstr "Progress over time"
 
 #: src/components/power-stability-card.tsx
+#: src/components/power-stability-card.tsx
 msgid "sunshine.power-stability.ratio-option"
 msgstr "Ratio"
+
+#: src/components/power-stability-card.tsx
+msgid "sunshine.power-stability.ratio-tooltip"
+msgstr "Shows the ratio of unplanned outages to total outages, providing insight into the stability of the power supply."
 
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.power-stability.saidi"

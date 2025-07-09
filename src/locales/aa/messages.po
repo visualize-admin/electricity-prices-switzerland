@@ -293,6 +293,10 @@ msgstr "footer.swiss-municipalities-grid"
 msgid "footer.tariff-components"
 msgstr "footer.tariff-components"
 
+#: src/components/header.tsx
+msgid "header.long-title"
+msgstr "header.long-title"
+
 #: src/components/sunshine-map.tsx
 msgid "help."
 msgstr "help."
@@ -549,6 +553,10 @@ msgstr "map.details-sidebar-panel.next-button.saifi"
 msgid "map.details-sidebar-panel.next-button.service-quality"
 msgstr "map.details-sidebar-panel.next-button.service-quality"
 
+#: src/components/map-details-content.tsx
+msgid "map.details-sidebar-panel.next-button.sunshine-overview"
+msgstr "map.details-sidebar-panel.next-button.sunshine-overview"
+
 #: src/components/share-button.tsx
 msgid "map.share"
 msgstr "map.share"
@@ -737,6 +745,10 @@ msgid "rangeplot.select.sorting.median-desc"
 msgstr "rangeplot.select.sorting.median-desc"
 
 #: src/components/detail-page/banner.tsx
+msgid "relations.showless"
+msgstr "relations.showless"
+
+#: src/components/detail-page/banner.tsx
 msgid "relations.showmore"
 msgstr "relations.showmore"
 
@@ -903,8 +915,7 @@ msgstr "selector.energy-tariffs-category"
 msgid "selector.indicator"
 msgstr "selector.indicator"
 
-#: src/components/electricity-selectors.tsx
-#: src/components/sunshine-selectors/base.tsx
+#: src/components/combined-selectors/index.tsx
 msgid "selector.legend.select.parameters"
 msgstr "selector.legend.select.parameters"
 
@@ -1305,8 +1316,13 @@ msgid "sunshine.power-stability.operator"
 msgstr "sunshine.power-stability.operator"
 
 #: src/components/power-stability-card.tsx
+#: src/components/power-stability-card.tsx
 msgid "sunshine.power-stability.overall-option"
 msgstr "sunshine.power-stability.overall-option"
+
+#: src/components/power-stability-card.tsx
+msgid "sunshine.power-stability.overall-tooltip"
+msgstr "sunshine.power-stability.overall-tooltip"
 
 #: src/components/power-stability-card.tsx
 msgid "sunshine.power-stability.planned-option"
@@ -1317,8 +1333,13 @@ msgid "sunshine.power-stability.progress-over-time"
 msgstr "sunshine.power-stability.progress-over-time"
 
 #: src/components/power-stability-card.tsx
+#: src/components/power-stability-card.tsx
 msgid "sunshine.power-stability.ratio-option"
 msgstr "sunshine.power-stability.ratio-option"
+
+#: src/components/power-stability-card.tsx
+msgid "sunshine.power-stability.ratio-tooltip"
+msgstr "sunshine.power-stability.ratio-tooltip"
 
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.power-stability.saidi"
