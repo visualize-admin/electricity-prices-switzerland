@@ -7,7 +7,8 @@ import {
 } from "@deck.gl/core/typed";
 import { ViewStateChangeParameters } from "@deck.gl/core/typed/controllers/controller";
 import DeckGL, { DeckGLRef } from "@deck.gl/react/typed";
-import { Box } from "@mui/material";
+import { Trans } from "@lingui/macro";
+import { Box, Typography } from "@mui/material";
 import bbox from "@turf/bbox";
 import centroid from "@turf/centroid";
 import { Feature, FeatureCollection } from "geojson";
@@ -17,11 +18,11 @@ import React, {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
 
-import { WithClassName } from "src/components/detail-page/with-classname";
 import {
   HighlightContext,
   HighlightValue,
@@ -279,6 +280,50 @@ export const GenericMap = ({
     viewState,
   ]);
 
+  const [scrollZoom, setScrollZoom] = useState(false);
+  const [displayScrollZoom, setDisplayScrollZoom] = useState(false);
+  const mapContainerRef = useRef<HTMLDivElement>(null);
+  const mouseOverRef = useRef(false);
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Control" || event.key === "Meta") {
+        setScrollZoom(true);
+      }
+    };
+    const handleKeyUp = (event: KeyboardEvent) => {
+      if (event.key === "Control" || event.key === "Meta") {
+        setScrollZoom(false);
+      }
+    };
+    let timeout = 0;
+    const handleWheel = (event: Event) => {
+      // Get the element over which the mouse is
+      if (!mouseOverRef.current) {
+        return;
+      }
+      setDisplayScrollZoom(true);
+      clearTimeout(timeout);
+      timeout = +setTimeout(() => {
+        setDisplayScrollZoom(false);
+      }, 2000);
+    };
+    window.addEventListener("scroll", handleWheel, { passive: true });
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keyup", handleKeyUp);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("keyup", handleKeyUp);
+      window.removeEventListener("wheel", handleWheel);
+    };
+  }, []);
+
+  const isMacOS = useMemo(
+    () =>
+      typeof navigator !== "undefined" &&
+      navigator.userAgent.indexOf("Mac OS X") != -1,
+    []
+  );
+
   return (
     <>
       {isLoading ? (
@@ -309,6 +354,14 @@ export const GenericMap = ({
 
         <div
           className={isLoading ? "" : downloadId || "map"}
+          ref={mapContainerRef}
+          onMouseOver={() => {
+            mouseOverRef.current = true;
+          }}
+          onMouseLeave={() => {
+            mouseOverRef.current = false;
+          }}
+        >
           {legend && (
             <Box
               sx={{
@@ -327,8 +380,37 @@ export const GenericMap = ({
             </Box>
           )}
 
+          {/* A Widget absolutely positionned, with a button to activate scroll zoom */}
+
+          <Box
+            sx={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              zIndex: 10,
+              m: 2,
+              p: 2,
+              display: "flex",
+              flexDirection: "column",
+              backgroundColor: "white",
+              opacity: !scrollZoom && displayScrollZoom ? 1 : 0,
+              transition: "opacity 0.25s ease-in",
+            }}
+          >
+            <Typography variant="caption">
+              <Trans
+                id="map.scrollzoom.hint"
+                values={{
+                  key: isMacOS ? "⌘" : "Ctrl",
+                }}
+              >
+                {`Hold {key} and scroll to zoom`}
+              </Trans>
+            </Typography>
+          </Box>
+
           <DeckGL
-            controller={{ type: MapController }}
+            controller={{ type: MapController, scrollZoom }}
             viewState={viewState}
             onViewStateChange={onViewStateChangeHandler}
             onResize={onResize}

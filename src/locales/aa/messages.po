@@ -557,6 +557,10 @@ msgstr "map.details-sidebar-panel.next-button.service-quality"
 msgid "map.details-sidebar-panel.next-button.sunshine-overview"
 msgstr "map.details-sidebar-panel.next-button.sunshine-overview"
 
+#: src/components/generic-map.tsx
+msgid "map.scrollzoom.hint"
+msgstr "map.scrollzoom.hint"
+
 #: src/components/share-button.tsx
 msgid "map.share"
 msgstr "map.share"
@@ -570,7 +574,6 @@ msgid "municipality"
 msgstr "municipality"
 
 #: src/components/tariffs-trend-chart.tsx
-#: src/components/tariffs-trend-chart.tsx
 msgid "net-tariffs-trend-chart.legend-item.other-operators"
 msgstr "net-tariffs-trend-chart.legend-item.other-operators"
 
@@ -579,8 +582,6 @@ msgid "net-tariffs-trend-chart.legend-item.peer-group-median"
 msgstr "net-tariffs-trend-chart.legend-item.peer-group-median"
 
 #: src/components/network-cost-trend-chart.tsx
-#: src/components/network-cost-trend-chart.tsx
-#: src/components/power-stability-chart.tsx
 msgid "network-cost-trend-chart.legend-item.other-operators"
 msgstr "network-cost-trend-chart.legend-item.other-operators"
 
@@ -723,6 +724,10 @@ msgstr "priceComponents.view.expanded.municipalities"
 #: src/domain/translation.tsx
 msgid "priceComponents.view.expanded.operators"
 msgstr "priceComponents.view.expanded.operators"
+
+#: src/components/charts-generic/progress-overtime-chart.tsx
+msgid "progress-overtime-chart.legend-item.other-operators"
+msgstr "progress-overtime-chart.legend-item.other-operators"
 
 #: src/components/detail-page/cantons-comparison-range.tsx
 msgid "rangeplot.select.order.hint"

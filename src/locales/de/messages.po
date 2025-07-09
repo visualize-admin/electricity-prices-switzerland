@@ -564,6 +564,10 @@ msgstr "Servicequalität im Detail"
 msgid "map.details-sidebar-panel.next-button.sunshine-overview"
 msgstr "Alle Sonnenschein-Indikatoren anzeigen"
 
+#: src/components/generic-map.tsx
+msgid "map.scrollzoom.hint"
+msgstr "Halten Sie {key} gedrückt und blättern Sie zum Zoomen"
+
 #: src/components/share-button.tsx
 msgid "map.share"
 msgstr "Teilen"
@@ -577,7 +581,6 @@ msgid "municipality"
 msgstr "Gemeinde"
 
 #: src/components/tariffs-trend-chart.tsx
-#: src/components/tariffs-trend-chart.tsx
 msgid "net-tariffs-trend-chart.legend-item.other-operators"
 msgstr "Andere Netzbetreiber"
 
@@ -586,8 +589,6 @@ msgid "net-tariffs-trend-chart.legend-item.peer-group-median"
 msgstr "Peer Group Median"
 
 #: src/components/network-cost-trend-chart.tsx
-#: src/components/network-cost-trend-chart.tsx
-#: src/components/power-stability-chart.tsx
 msgid "network-cost-trend-chart.legend-item.other-operators"
 msgstr "Andere Netzbetreiber"
 
@@ -730,6 +731,10 @@ msgstr "Einzelne Gemeinden anzeigen"
 #: src/domain/translation.tsx
 msgid "priceComponents.view.expanded.operators"
 msgstr "Einzelne Netzbetreiber anzeigen"
+
+#: src/components/charts-generic/progress-overtime-chart.tsx
+msgid "progress-overtime-chart.legend-item.other-operators"
+msgstr "Andere Betreiber"
 
 #: src/components/detail-page/cantons-comparison-range.tsx
 msgid "rangeplot.select.order.hint"
