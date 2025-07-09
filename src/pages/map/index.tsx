@@ -232,7 +232,6 @@ const IndexPageContent = ({
     />
   ) : (
     <SunshineMap
-      key={`${indicator}-${viewBy}`}
       accessor={sunshineAccessor}
       period={mapYear}
       indicator={indicator}
