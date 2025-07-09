@@ -2,6 +2,7 @@ import { t } from "@lingui/macro";
 import { Box, BoxProps } from "@mui/material";
 import { useMemo } from "react";
 
+import { NoDataHint } from "src/components/hint";
 import { useFormatCurrency } from "src/domain/helpers";
 import { getNetworkLevelMetrics } from "src/domain/metrics";
 import type {
@@ -182,6 +183,10 @@ const ProgressOvertimeChartView = (
   } = props;
   const hasNotSelectedAll = !compareWith.includes("sunshine.select-all");
   const formatCurrency = useFormatCurrency();
+
+  if (observations.length === 0) {
+    return <NoDataHint />;
+  }
 
   return (
     <LineChart
