@@ -11,7 +11,9 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Features
+
+  - Map page: Same hover style on Energy Prices vs Sunshine Map
 
 # 2.5.0 - 2025-07-09
 
