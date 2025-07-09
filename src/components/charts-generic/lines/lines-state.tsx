@@ -141,7 +141,7 @@ const useLinesState = ({
 
       if (!thisYear) {
         lineData[1].push({
-          period: `${xValue.getFullYear()}`,
+          [fields.x.componentIri]: `${xValue.getFullYear()}`,
           [fields.y.componentIri]: undefined as unknown as ObservationValue,
           uniqueId:
             lineData[1][0].__typename === "OperatorObservation"
