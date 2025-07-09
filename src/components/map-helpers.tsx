@@ -177,7 +177,7 @@ export const styles = {
         lineWidth: 0,
       },
       active: {
-        fillColor: [0, 0, 0, 0] as Color,
+        fillColor: [0, 0, 0, 50] as Color, // Dark overlay similar to sunshine layers
         lineColor: [31, 41, 55, 255] as Color,
         lineWidth: 3,
       },

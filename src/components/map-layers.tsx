@@ -182,13 +182,12 @@ export function makeEnergyPricesMunicipalitiesOverlayLayer(
 
       const isActive = activeId === id;
       const isHovered = hovered?.type === "municipality" && hovered.id === id;
-      const hasInteraction = hovered || activeId;
 
+      // Only show overlay for the hovered/active municipality
       if (isActive || isHovered) {
         return styles.municipalities.overlay.active.fillColor;
-      } else if (hasInteraction) {
-        return styles.municipalities.overlay.inactive.fillColor;
       }
+      // All other municipalities remain transparent (no reduced opacity overlay)
       return styles.municipalities.overlay.default.fillColor;
     },
     getLineColor: (d) => {
