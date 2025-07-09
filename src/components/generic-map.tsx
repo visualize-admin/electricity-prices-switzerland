@@ -307,7 +307,8 @@ export const GenericMap = ({
             </MapTooltip>
           )}
 
-        <WithClassName downloadId={downloadId || "map"} isFetching={isLoading}>
+        <div
+          className={isLoading ? "" : downloadId || "map"}
           {legend && (
             <Box
               sx={{
@@ -335,7 +336,7 @@ export const GenericMap = ({
             onClick={onLayerClick}
             ref={deckRef}
           />
-        </WithClassName>
+        </div>
 
         {screenshotting ? (
           <Box
