@@ -308,9 +308,27 @@ const SunshineMap = ({
             lineWidthUnits: "pixels",
             pickable: true,
             updateTriggers: {
-              getFillColor: [getFillColor, accessor, observationsByOperator],
-              getLineColor: [getFillColor, accessor, observationsByOperator],
-              getLineWidth: [getFillColor, accessor, observationsByOperator],
+              getFillColor: [
+                getFillColor,
+                accessor,
+                observationsByOperator,
+                hovered,
+                activeId,
+              ],
+              getLineColor: [
+                getFillColor,
+                accessor,
+                observationsByOperator,
+                hovered,
+                activeId,
+              ],
+              getLineWidth: [
+                getFillColor,
+                accessor,
+                observationsByOperator,
+                hovered,
+                activeId,
+              ],
             },
             getLineColor: (d: Feature<Geometry, OperatorLayerProperties>) => {
               const id = d.properties.operators?.[0]?.toString();
