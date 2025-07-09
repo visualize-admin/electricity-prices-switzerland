@@ -395,13 +395,13 @@ export const fetchSaidi = async (
 
 /**
  * Fetch SAIFI (System Average Interruption Frequency Index) data for a specific operator
- * @param db Database service
+ * @param service Database service
  * @param operatorId The operator ID
  * @param year Year parameter
  * @returns SAIFI data
  */
 export const fetchSaifi = async (
-  db: SunshineDataService,
+  service: SunshineDataService,
   {
     operatorId,
     period,
@@ -410,18 +410,19 @@ export const fetchSaifi = async (
     period: number;
   }
 ): Promise<StabilityData> => {
-  const operatorData = await db.getOperatorData(operatorId);
+  const operatorData = await service.getOperatorData(operatorId);
   if (!operatorData) {
     throw new Error(`Peer group not found for operator ID: ${operatorId}`);
   }
 
-  const peerGroupMedianStability = await db.getIndicatorMedian<"stability">({
-    peerGroup: operatorData.peer_group,
-    metric: "stability",
-    period,
-  });
+  const peerGroupMedianStability =
+    await service.getIndicatorMedian<"stability">({
+      peerGroup: operatorData.peer_group,
+      metric: "stability",
+      period,
+    });
 
-  const operatorStability = await db.getStabilityMetrics({
+  const operatorStability = await service.getStabilityMetrics({
     operatorId,
     period,
   });
@@ -430,7 +431,7 @@ export const fetchSaifi = async (
       "Cannot have multiple stability records for one operator in one year"
     );
   }
-  const peerGroupYearlyStability = await db.getStabilityMetrics({
+  const peerGroupYearlyStability = await service.getStabilityMetrics({
     peerGroup: operatorData.peer_group,
   });
 
