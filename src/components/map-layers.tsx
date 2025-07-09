@@ -12,10 +12,10 @@ import {
 } from "src/graphql/queries";
 
 // Common types for layer options
-export type LayerHoverHandler = (info: PickingInfo) => void;
-export type LayerClickHandler = (info: PickingInfo, event?: unknown) => void;
+type LayerHoverHandler = (info: PickingInfo) => void;
+type LayerClickHandler = (info: PickingInfo, event?: unknown) => void;
 
-export interface MunicipalityLayerOptions {
+interface MunicipalityLayerOptions {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any; // Can be FeatureCollection for base layer or MultiLineString for mesh
   layerId: string;
@@ -31,14 +31,14 @@ export interface MunicipalityLayerOptions {
   onClick?: LayerClickHandler;
 }
 
-export interface SunshineOperatorLayerOptions {
+interface SunshineOperatorLayerOptions {
   data: OperatorFeature[];
   accessor: (x: SunshineDataIndicatorRow) => Maybe<number> | undefined;
   observationsByOperator: Record<string, SunshineDataIndicatorRow>;
   colorScale: ScaleThreshold<number, string>;
 }
 
-export interface SunshineOperatorPickableLayerOptions {
+interface SunshineOperatorPickableLayerOptions {
   data: OperatorFeature[];
   accessor: (x: SunshineDataIndicatorRow) => Maybe<number> | undefined;
   observationsByOperator: Record<string, SunshineDataIndicatorRow>;
@@ -48,13 +48,13 @@ export interface SunshineOperatorPickableLayerOptions {
   onClick?: GeoJsonLayerProps<OperatorFeature>["onClick"];
 }
 
-export interface LakesLayerOptions {
+interface LakesLayerOptions {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any; // This can be either FeatureCollection or Feature
   layerId?: string;
 }
 
-export interface CantonsLayerOptions {
+interface CantonsLayerOptions {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any; // This is a MultiLineString, not a FeatureCollection
   layerId?: string;
@@ -174,7 +174,7 @@ export function makeCantonsLayer(options: CantonsLayerOptions) {
   });
 }
 
-export interface EnergyPricesMunicipalitiesOverlayLayerOptions {
+interface EnergyPricesMunicipalitiesOverlayLayerOptions {
   data: GeoJSON.FeatureCollection;
   hovered?: HoverState;
   activeId?: string | null;
