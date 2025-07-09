@@ -13,7 +13,7 @@ import {
 /**
  * Years available for sunshine data queries
  */
-export const years = ["2024", "2023"];
+export const years = ["2025", "2024", "2023"];
 
 /**
  * View by options for filtering
