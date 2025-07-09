@@ -1,5 +1,4 @@
-import { Layer, LayerProps, PickingInfo } from "@deck.gl/core/typed";
-import { GeoJsonLayer } from "@deck.gl/layers/typed";
+import { Layer, PickingInfo } from "@deck.gl/core/typed";
 import { t, Trans } from "@lingui/macro";
 import { extent, group, mean, rollup, ScaleThreshold } from "d3";
 import React, {
@@ -17,7 +16,14 @@ import {
   HighlightContext,
   HighlightValue,
 } from "src/components/highlight-context";
-import { getFillColor, styles } from "src/components/map-helpers";
+import { HoverState } from "src/components/map-helpers";
+import {
+  makeEnergyPricesCantonsLayer,
+  makeEnergyPricesLakesLayer,
+  makeEnergyPricesMunicipalitiesBaseLayer,
+  makeEnergyPricesMunicipalitiesOverlayLayer,
+  makeEnergyPricesMunicipalityMeshLayer,
+} from "src/components/map-layers";
 import { MapTooltipContent } from "src/components/map-tooltip";
 import { useGeoData } from "src/data/geo";
 import { useFormatCurrency } from "src/domain/helpers";
@@ -26,7 +32,6 @@ import { maxBy } from "src/lib/array";
 
 import { GenericMap, GenericMapControls } from "./generic-map";
 import { useMap } from "./map-context";
-import { HoverState } from "./map-helpers";
 
 const DOWNLOAD_ID = "map";
 
@@ -224,7 +229,7 @@ export const EnergyPricesMap = ({
       return [];
     }
 
-    const handleMunicipalityLayerClick: LayerProps["onClick"] = (info, ev) => {
+    const handleMunicipalityLayerClick = (info: PickingInfo, ev: unknown) => {
       if (!indexes || !info.layer) {
         return;
       }
@@ -241,144 +246,42 @@ export const EnergyPricesMap = ({
       onEntitySelect(ev, "municipality", id.toString());
     };
 
+    const handleHover = ({ x, y, object }: PickingInfo) => {
+      const id = object?.id?.toString();
+      setHovered(
+        object && id
+          ? {
+              x,
+              y,
+              id,
+              type: "municipality",
+            }
+          : undefined
+      );
+    };
+
     return [
-      new GeoJsonLayer({
-        id: "municipalities-base",
-        /** @ts-expect-error bad types */
+      makeEnergyPricesMunicipalitiesBaseLayer({
         data: geoData.data.municipalities,
-        pickable: true,
-        stroked: false,
-        filled: true,
-        extruded: false,
-        autoHighlight: false,
-        getFillColor: (d) => {
-          const id = d?.id?.toString();
-          if (!id) return styles.municipalities.base.fillColor.doesNotExist;
-
-          const obs = observationsByMunicipalityId.get(id);
-          return obs
-            ? getFillColor(
-                colorScale,
-                mean(obs, (d) => d.value),
-                highlightContext?.id === id
-              )
-            : styles.municipalities.base.fillColor.withoutData;
-        },
-        onHover: ({ x, y, object }: PickingInfo) => {
-          const id = object?.id?.toString();
-          setHovered(
-            object && id
-              ? {
-                  x,
-                  y,
-                  id,
-                  type: "municipality",
-                }
-              : undefined
-          );
-        },
+        observationsByMunicipalityId,
+        colorScale,
+        highlightId: highlightContext?.id,
+        onHover: handleHover,
         onClick: handleMunicipalityLayerClick,
-        updateTriggers: {
-          getFillColor: [observationsByMunicipalityId, highlightContext?.id],
-        },
       }),
-      new GeoJsonLayer({
-        id: "municipality-mesh",
-        /** @ts-expect-error bad types */
+      makeEnergyPricesMunicipalityMeshLayer({
         data: geoData.data.municipalityMesh,
-        pickable: false,
-        stroked: true,
-        filled: false,
-        extruded: false,
-        lineWidthMinPixels: styles.municipalityMesh.lineWidthMinPixels,
-        lineWidthMaxPixels: styles.municipalityMesh.lineWidthMaxPixels,
-        getLineWidth: styles.municipalityMesh.lineWidth,
-        lineMiterLimit: 1,
-        getLineColor: styles.municipalityMesh.lineColor,
       }),
-      new GeoJsonLayer({
-        id: "lakes",
-        /** @ts-expect-error bad types */
+      makeEnergyPricesLakesLayer({
         data: geoData.data.lakes,
-        pickable: false,
-        stroked: true,
-        filled: true,
-        extruded: false,
-        lineWidthMinPixels: styles.lakes.lineWidthMinPixels,
-        lineWidthMaxPixels: styles.lakes.lineWidthMaxPixels,
-        getLineWidth: styles.lakes.lineWidth,
-        getFillColor: styles.lakes.fillColor,
-        getLineColor: styles.lakes.lineColor,
       }),
-      new GeoJsonLayer({
-        id: "cantons",
-        /** @ts-expect-error bad types */
+      makeEnergyPricesCantonsLayer({
         data: geoData.data.cantonMesh,
-        pickable: false,
-        stroked: true,
-        filled: false,
-        extruded: false,
-        lineWidthMinPixels: styles.cantons.lineWidthMinPixels,
-        lineWidthMaxPixels: styles.cantons.lineWidthMaxPixels,
-        getLineWidth: styles.cantons.lineWidth,
-        lineMiterLimit: 1,
-        getLineColor: styles.cantons.lineColor,
-        parameters: {
-          depthTest: false,
-        },
       }),
-      new GeoJsonLayer({
-        id: "municipalities-overlay",
-        /** @ts-expect-error bad types */
+      makeEnergyPricesMunicipalitiesOverlayLayer({
         data: geoData.data.municipalities,
-        pickable: false,
-        stroked: true,
-        filled: true,
-        extruded: false,
-        getFillColor: (d) => {
-          const id = d?.id?.toString();
-          if (!id) return styles.municipalities.overlay.default.fillColor;
-
-          const isActive = activeId === id;
-          const isHovered =
-            hovered?.type === "municipality" && hovered.id === id;
-          const hasInteraction = hovered || activeId;
-
-          if (isActive || isHovered) {
-            return styles.municipalities.overlay.active.fillColor;
-          } else if (hasInteraction) {
-            return styles.municipalities.overlay.inactive.fillColor;
-          }
-          return styles.municipalities.overlay.default.fillColor;
-        },
-        getLineColor: (d) => {
-          const id = d?.id?.toString();
-          const isActive = activeId === id;
-          const isHovered =
-            hovered?.type === "municipality" && hovered.id === id;
-
-          if (isActive || isHovered) {
-            return styles.municipalities.overlay.active.lineColor;
-          }
-          return styles.municipalities.overlay.default.lineColor;
-        },
-        getLineWidth: (d) => {
-          const id = d?.id?.toString();
-          const isActive = activeId === id;
-          const isHovered =
-            hovered?.type === "municipality" && hovered.id === id;
-
-          if (isActive || isHovered) {
-            return styles.municipalities.overlay.active.lineWidth;
-          }
-          return styles.municipalities.overlay.default.lineWidth;
-        },
-        lineWidthUnits: "pixels",
-        updateTriggers: {
-          getFillColor: [hovered, activeId],
-          getLineColor: [hovered, activeId],
-          getLineWidth: [hovered, activeId],
-        },
+        hovered,
+        activeId: activeId ?? undefined,
       }),
     ];
   }, [
