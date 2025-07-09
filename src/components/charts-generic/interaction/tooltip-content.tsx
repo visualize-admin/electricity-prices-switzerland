@@ -43,7 +43,7 @@ export const TooltipMultiple = ({
   return (
     <Box>
       {xValue && (
-        <Typography variant="caption" sx={{ fontWeight: 700 }}>
+        <Typography variant="caption" display="block" fontWeight={700}>
           {xValue}
         </Typography>
       )}

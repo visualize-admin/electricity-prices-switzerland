@@ -53,6 +53,7 @@ export const LegendSymbol = ({
         <Box
           sx={{
             width: "0.5rem",
+            minWidth: "0.5rem",
             height: "0.5rem",
             borderRadius: "50%",
             bgcolor: color,
@@ -66,6 +67,7 @@ export const LegendSymbol = ({
         <Box
           sx={{
             width: "0.5rem",
+            minWidth: "0.5rem",
             height: "0.5rem",
             bgcolor: color,
             display: "inline-block",
@@ -78,6 +80,7 @@ export const LegendSymbol = ({
         <Box
           sx={{
             width: "1rem",
+            minWidth: "0.5rem",
             height: "3px",
             bgcolor: color,
             display: "inline-block",
@@ -90,6 +93,7 @@ export const LegendSymbol = ({
         <Box
           sx={{
             width: "0.5rem",
+            minWidth: "0.5rem",
             height: "0.5rem",
             bgcolor: color,
             transform: "rotate(45deg)",
