@@ -225,11 +225,6 @@ export const styles = {
       fillColor: [255, 255, 255, 0] as Color, // Transparent
       highlightColor: [0, 0, 0, 50] as Color,
     },
-    municipalityMesh: {
-      lineColor: LINE_COLOR,
-      lineWidthMinPixels: 0.5,
-      lineWidthMaxPixels: 0.5,
-    },
     overlay: {
       active: {
         fillColor: [0, 0, 0, 0] as Color,

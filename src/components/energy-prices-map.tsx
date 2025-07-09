@@ -18,11 +18,10 @@ import {
 } from "src/components/highlight-context";
 import { HoverState } from "src/components/map-helpers";
 import {
-  makeEnergyPricesCantonsLayer,
-  makeEnergyPricesLakesLayer,
-  makeEnergyPricesMunicipalitiesBaseLayer,
+  makeCantonsLayer,
   makeEnergyPricesMunicipalitiesOverlayLayer,
-  makeEnergyPricesMunicipalityMeshLayer,
+  makeLakesLayer,
+  makeMunicipalityLayer,
 } from "src/components/map-layers";
 import { MapTooltipContent } from "src/components/map-tooltip";
 import { useGeoData } from "src/data/geo";
@@ -261,21 +260,25 @@ export const EnergyPricesMap = ({
     };
 
     return [
-      makeEnergyPricesMunicipalitiesBaseLayer({
+      makeMunicipalityLayer({
         data: geoData.data.municipalities,
         observationsByMunicipalityId,
         colorScale,
         highlightId: highlightContext?.id,
         onHover: handleHover,
         onClick: handleMunicipalityLayerClick,
+        layerId: "municipalities-base",
+        mode: "base",
       }),
-      makeEnergyPricesMunicipalityMeshLayer({
+      makeMunicipalityLayer({
         data: geoData.data.municipalityMesh,
+        layerId: "municipality-mesh",
+        mode: "mesh",
       }),
-      makeEnergyPricesLakesLayer({
+      makeLakesLayer({
         data: geoData.data.lakes,
       }),
-      makeEnergyPricesCantonsLayer({
+      makeCantonsLayer({
         data: geoData.data.cantonMesh,
       }),
       makeEnergyPricesMunicipalitiesOverlayLayer({

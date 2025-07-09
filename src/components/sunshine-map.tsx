@@ -12,8 +12,9 @@ import { HighlightValue } from "src/components/highlight-context";
 import { useMap } from "src/components/map-context";
 import { HoverState } from "src/components/map-helpers";
 import {
-  makeSunshineLakesLayer,
-  makeSunshineMunicipalityLayer,
+  makeCantonsLayer,
+  makeLakesLayer,
+  makeMunicipalityLayer,
   makeSunshineOperatorLayer,
   makeSunshineOperatorPickableLayer,
 } from "src/components/map-layers";
@@ -221,13 +222,20 @@ const SunshineMap = ({
         colorScale,
       }),
       geoData?.municipalities?.features
-        ? makeSunshineMunicipalityLayer({
+        ? makeMunicipalityLayer({
             data: geoData.municipalities.features,
+            layerId: "municipality-layer",
+            mode: "mesh",
           })
         : null,
       geoData?.lakes
-        ? makeSunshineLakesLayer({
+        ? makeLakesLayer({
             data: geoData.lakes,
+          })
+        : null,
+      geoData?.cantonMesh
+        ? makeCantonsLayer({
+            data: geoData.cantonMesh,
           })
         : null,
       makeSunshineOperatorPickableLayer({
@@ -245,8 +253,9 @@ const SunshineMap = ({
     activeId,
     colorScale,
     enhancedGeoData,
+    geoData?.cantonMesh,
     geoData?.lakes,
-    geoData?.municipalities,
+    geoData?.municipalities.features,
     hovered,
     observationsByOperator,
     onEntitySelect,

@@ -15,25 +15,56 @@ import {
 export type LayerHoverHandler = (info: PickingInfo) => void;
 export type LayerClickHandler = (info: PickingInfo, event?: unknown) => void;
 
-// Energy Prices Map Layers
-
-export interface EnergyPricesMunicipalitiesBaseLayerOptions {
-  data: GeoJSON.FeatureCollection;
-  observationsByMunicipalityId: Map<
+export interface MunicipalityLayerOptions {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  data: any; // Can be FeatureCollection for base layer or MultiLineString for mesh
+  layerId: string;
+  mode: "base" | "mesh";
+  // Options for base mode (data visualization)
+  observationsByMunicipalityId?: Map<
     string,
     OperatorObservationFieldsFragment[]
   >;
-  colorScale: ScaleThreshold<number, string> | undefined;
+  colorScale?: ScaleThreshold<number, string> | undefined;
   highlightId?: string;
   onHover?: LayerHoverHandler;
   onClick?: LayerClickHandler;
 }
 
-export function makeEnergyPricesMunicipalitiesBaseLayer(
-  options: EnergyPricesMunicipalitiesBaseLayerOptions
-) {
+export interface SunshineOperatorLayerOptions {
+  data: OperatorFeature[];
+  accessor: (x: SunshineDataIndicatorRow) => Maybe<number> | undefined;
+  observationsByOperator: Record<string, SunshineDataIndicatorRow>;
+  colorScale: ScaleThreshold<number, string>;
+}
+
+export interface SunshineOperatorPickableLayerOptions {
+  data: OperatorFeature[];
+  accessor: (x: SunshineDataIndicatorRow) => Maybe<number> | undefined;
+  observationsByOperator: Record<string, SunshineDataIndicatorRow>;
+  hovered?: HoverState;
+  activeId?: string;
+  onHover?: LayerHoverHandler;
+  onClick?: GeoJsonLayerProps<OperatorFeature>["onClick"];
+}
+
+export interface LakesLayerOptions {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  data: any; // This can be either FeatureCollection or Feature
+  layerId?: string;
+}
+
+export interface CantonsLayerOptions {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  data: any; // This is a MultiLineString, not a FeatureCollection
+  layerId?: string;
+}
+
+export function makeMunicipalityLayer(options: MunicipalityLayerOptions) {
   const {
     data,
+    layerId,
+    mode,
     observationsByMunicipalityId,
     colorScale,
     highlightId,
@@ -41,81 +72,74 @@ export function makeEnergyPricesMunicipalitiesBaseLayer(
     onClick,
   } = options;
 
-  return new GeoJsonLayer({
-    id: "municipalities-base",
-    /** @ts-expect-error bad types */
-    data,
-    pickable: true,
-    stroked: false,
-    filled: true,
-    extruded: false,
-    autoHighlight: false,
-    getFillColor: (d) => {
-      const id = d?.id?.toString();
-      if (!id) return styles.municipalities.base.fillColor.doesNotExist;
+  if (mode === "base") {
+    if (!observationsByMunicipalityId || !colorScale) {
+      throw new Error(
+        "Base mode requires observationsByMunicipalityId and colorScale"
+      );
+    }
 
-      const obs = observationsByMunicipalityId.get(id);
-      return obs
-        ? getFillColor(
-            colorScale,
-            mean(obs, (d) => d.value),
-            highlightId === id
-          )
-        : styles.municipalities.base.fillColor.withoutData;
-    },
-    onHover: onHover
-      ? ({ x, y, object }: PickingInfo) => {
-          const id = object?.id?.toString();
-          onHover({
-            x,
-            y,
-            object:
-              object && id ? { x, y, id, type: "municipality" } : undefined,
-          } as PickingInfo);
-        }
-      : undefined,
-    onClick,
-    updateTriggers: {
-      getFillColor: [observationsByMunicipalityId, highlightId],
-    },
-  });
+    return new GeoJsonLayer({
+      id: layerId,
+      data,
+      pickable: true,
+      stroked: false,
+      filled: true,
+      extruded: false,
+      autoHighlight: false,
+      getFillColor: (d) => {
+        const id = d?.id?.toString();
+        if (!id) return styles.municipalities.base.fillColor.doesNotExist;
+
+        const obs = observationsByMunicipalityId.get(id);
+        return obs
+          ? getFillColor(
+              colorScale,
+              mean(obs, (d) => d.value),
+              highlightId === id
+            )
+          : styles.municipalities.base.fillColor.withoutData;
+      },
+      onHover: onHover
+        ? ({ x, y, object }: PickingInfo) => {
+            const id = object?.id?.toString();
+            onHover({
+              x,
+              y,
+              object:
+                object && id ? { x, y, id, type: "municipality" } : undefined,
+            } as PickingInfo);
+          }
+        : undefined,
+      onClick,
+      updateTriggers: {
+        getFillColor: [observationsByMunicipalityId, highlightId],
+      },
+    });
+  } else {
+    const meshStyles = styles.municipalityMesh;
+
+    return new GeoJsonLayer({
+      id: layerId,
+      data,
+      pickable: false,
+      stroked: true,
+      filled: false,
+      extruded: false,
+      lineWidthMinPixels: meshStyles.lineWidthMinPixels,
+      lineWidthMaxPixels: meshStyles.lineWidthMaxPixels,
+      getLineWidth: styles.municipalityMesh.lineWidth,
+      lineMiterLimit: 1,
+      getLineColor: meshStyles.lineColor,
+    });
+  }
 }
 
-export interface EnergyPricesMunicipalityMeshLayerOptions {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  data: any; // This is a MultiLineString, not a FeatureCollection
-}
-
-export function makeEnergyPricesMunicipalityMeshLayer(
-  options: EnergyPricesMunicipalityMeshLayerOptions
-) {
-  const { data } = options;
-
-  return new GeoJsonLayer({
-    id: "municipality-mesh",
-    data,
-    pickable: false,
-    stroked: true,
-    filled: false,
-    extruded: false,
-    lineWidthMinPixels: styles.municipalityMesh.lineWidthMinPixels,
-    lineWidthMaxPixels: styles.municipalityMesh.lineWidthMaxPixels,
-    getLineWidth: styles.municipalityMesh.lineWidth,
-    lineMiterLimit: 1,
-    getLineColor: styles.municipalityMesh.lineColor,
-  });
-}
-
-export interface LakesLayerOptions {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  data: any; // This can be either FeatureCollection or Feature
-}
-
-export function makeEnergyPricesLakesLayer(options: LakesLayerOptions) {
-  const { data } = options;
+export function makeLakesLayer(options: LakesLayerOptions) {
+  const { data, layerId = "lakes" } = options;
 
   return new GeoJsonLayer({
-    id: "lakes",
+    id: layerId,
     data,
     pickable: false,
     stroked: true,
@@ -129,18 +153,11 @@ export function makeEnergyPricesLakesLayer(options: LakesLayerOptions) {
   });
 }
 
-export interface EnergyPricesCantonsLayerOptions {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  data: any; // This is a MultiLineString, not a FeatureCollection
-}
-
-export function makeEnergyPricesCantonsLayer(
-  options: EnergyPricesCantonsLayerOptions
-) {
-  const { data } = options;
+export function makeCantonsLayer(options: CantonsLayerOptions) {
+  const { data, layerId = "cantons" } = options;
 
   return new GeoJsonLayer({
-    id: "cantons",
+    id: layerId,
     data,
     pickable: false,
     stroked: true,
@@ -219,15 +236,6 @@ export function makeEnergyPricesMunicipalitiesOverlayLayer(
   });
 }
 
-// Sunshine Map Layers
-
-export interface SunshineOperatorLayerOptions {
-  data: OperatorFeature[];
-  accessor: (x: SunshineDataIndicatorRow) => Maybe<number> | undefined;
-  observationsByOperator: Record<string, SunshineDataIndicatorRow>;
-  colorScale: ScaleThreshold<number, string>;
-}
-
 export function makeSunshineOperatorLayer(
   options: SunshineOperatorLayerOptions
 ) {
@@ -267,53 +275,6 @@ export function makeSunshineOperatorLayer(
       },
     },
   });
-}
-
-export interface SunshineMunicipalityLayerOptions {
-  data: GeoJSON.Feature[];
-}
-
-export function makeSunshineMunicipalityLayer(
-  options: SunshineMunicipalityLayerOptions
-) {
-  const { data } = options;
-
-  return new GeoJsonLayer({
-    id: "municipality-layer",
-    data,
-    getLineColor: styles.operators.municipalityMesh.lineColor,
-    lineWidthUnits: "pixels",
-    stroked: true,
-    lineWidthMinPixels: styles.operators.municipalityMesh.lineWidthMinPixels,
-    lineWidthMaxPixels: styles.operators.municipalityMesh.lineWidthMaxPixels,
-    filled: false,
-  });
-}
-
-export function makeSunshineLakesLayer(options: LakesLayerOptions) {
-  const { data } = options;
-
-  return new GeoJsonLayer({
-    id: "lakes-layer",
-    data,
-    getFillColor: styles.lakes.fillColor,
-    getLineColor: styles.lakes.lineColor,
-    lineWidthUnits: "pixels",
-    lineWidthMinPixels: styles.lakes.lineWidthMinPixels,
-    lineWidthMaxPixels: styles.lakes.lineWidthMaxPixels,
-    filled: true,
-    stroked: true,
-  });
-}
-
-export interface SunshineOperatorPickableLayerOptions {
-  data: OperatorFeature[];
-  accessor: (x: SunshineDataIndicatorRow) => Maybe<number> | undefined;
-  observationsByOperator: Record<string, SunshineDataIndicatorRow>;
-  hovered?: HoverState;
-  activeId?: string;
-  onHover?: LayerHoverHandler;
-  onClick?: GeoJsonLayerProps<OperatorFeature>["onClick"];
 }
 
 export function makeSunshineOperatorPickableLayer(
