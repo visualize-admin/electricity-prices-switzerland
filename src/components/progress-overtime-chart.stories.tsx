@@ -10,7 +10,6 @@ import { TariffsTrendChart } from "./tariffs-trend-chart";
 
 import type { Meta, StoryObj } from "@storybook/react";
 
-// Network Cost Trend Chart Story
 const NetworkCostTrendChartProgressStory = () => {
   return (
     <DesignStory
@@ -25,7 +24,7 @@ const NetworkCostTrendChartProgressStory = () => {
             operatorTrend: Trend.Down,
             peerGroupMedianTrend: Trend.Down,
           }}
-          operatorLabel="Sample Network Operator"
+          operatorLabel="Sample Operatorr"
           id="426"
           viewBy="progress"
           compareWith={[]}
@@ -36,7 +35,6 @@ const NetworkCostTrendChartProgressStory = () => {
   );
 };
 
-// Power Stability Chart Story
 const PowerStabilityChartProgressStory = () => {
   return (
     <DesignStory
@@ -47,7 +45,7 @@ const PowerStabilityChartProgressStory = () => {
         <PowerStabilityChart
           observations={powerStabilityData.saidi.yearlyData}
           id="426"
-          operatorLabel="Sample Power Operator"
+          operatorLabel="Sample Operator"
           viewBy="progress"
           overallOrRatio="overall"
           duration="total"
@@ -58,7 +56,6 @@ const PowerStabilityChartProgressStory = () => {
   );
 };
 
-// Tariffs Trend Chart Story
 const TariffsTrendChartProgressStory = () => {
   return (
     <DesignStory
@@ -69,7 +66,7 @@ const TariffsTrendChartProgressStory = () => {
         <TariffsTrendChart
           observations={costsAndTariffsData.netTariffs.yearlyData}
           netTariffs={costsAndTariffsData.netTariffs}
-          operatorLabel="Sample Tariffs Operator"
+          operatorLabel="Sample Operator"
           id="426"
           viewBy="progress"
           compareWith={[]}
