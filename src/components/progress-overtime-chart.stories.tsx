@@ -24,8 +24,8 @@ const NetworkCostTrendChartProgressStory = () => {
             operatorTrend: Trend.Down,
             peerGroupMedianTrend: Trend.Down,
           }}
-          operatorLabel="Sample Operatorr"
-          id="426"
+          operatorLabel="Fluxonomy Energy"
+          id="228"
           viewBy="progress"
           compareWith={[]}
           mini={false}
@@ -44,8 +44,8 @@ const PowerStabilityChartProgressStory = () => {
       <DesignGrid>
         <PowerStabilityChart
           observations={powerStabilityData.saidi.yearlyData}
-          id="426"
-          operatorLabel="Sample Operator"
+          id="228"
+          operatorLabel="Fluxonomy Energy"
           viewBy="progress"
           overallOrRatio="overall"
           duration="total"
@@ -66,8 +66,8 @@ const TariffsTrendChartProgressStory = () => {
         <TariffsTrendChart
           observations={costsAndTariffsData.netTariffs.yearlyData}
           netTariffs={costsAndTariffsData.netTariffs}
-          operatorLabel="Sample Operator"
-          id="426"
+          operatorLabel="Fluxonomy Energy"
+          id="228"
           viewBy="progress"
           compareWith={[]}
           mini={false}
