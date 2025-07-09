@@ -283,12 +283,12 @@ const OverviewPage = (props: Props) => {
         </Typography>
         <Box
           sx={{
-            display: "flex",
-            flexDirection: { xs: "column", sm: "row" },
             gap: 4,
             mb: 2,
             gridArea: "filters",
             alignItems: "end",
+            display: "grid",
+            gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" },
           }}
         >
           <Combobox

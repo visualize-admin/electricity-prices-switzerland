@@ -3,7 +3,7 @@ import { Box, BoxProps } from "@mui/material";
 import { max, mean } from "d3";
 import { useMemo, useState } from "react";
 
-import { getTextWidth, useFormatCurrency } from "src/domain/helpers";
+import { getTextWidth } from "src/domain/helpers";
 import { MIN_PER_YEAR } from "src/domain/metrics";
 import type { SunshinePowerStabilityData } from "src/domain/sunshine";
 import { chartPalette, palette } from "src/themes/palette";
@@ -13,28 +13,20 @@ import {
   AnnotationXLabel,
 } from "./charts-generic/annotation/annotation-x";
 import { AxisHeightCategories } from "./charts-generic/axis/axis-height-categories";
-import { AxisHeightLinear } from "./charts-generic/axis/axis-height-linear";
 import { AxisWidthLinear } from "./charts-generic/axis/axis-width-linear";
-import { AxisTime } from "./charts-generic/axis/axis-width-time";
 import {
   BarsStacked,
   BarsStackedAxis,
 } from "./charts-generic/bars/bars-stacked";
 import { StackedBarsChart } from "./charts-generic/bars/bars-stacked-state";
 import { ChartContainer, ChartSvg } from "./charts-generic/containers";
-import { HoverDotMultiple } from "./charts-generic/interaction/hover-dots-multiple";
-import { Ruler } from "./charts-generic/interaction/ruler";
-import { Tooltip } from "./charts-generic/interaction/tooltip";
 import {
   ARROW_WIDTH,
-  LegendItem,
   SORTABLE_EXTERNAL_GAP,
   SORTABLE_INTERNAL_GAP,
   SortableLegendItem,
 } from "./charts-generic/legends/color";
-import { Lines } from "./charts-generic/lines/lines";
-import { LineChart } from "./charts-generic/lines/lines-state";
-import { InteractionHorizontal } from "./charts-generic/overlay/interaction-horizontal";
+import { ProgressOvertimeChart } from "./charts-generic/progress-overtime-chart";
 import { SectionProps } from "./detail-page/card";
 import { PowerStabilityCardFilters } from "./power-stability-card";
 
@@ -300,102 +292,24 @@ const ProgressOvertimeChartView = (
     mini,
     compareWith = [],
   } = props;
-  const formatCurrency = useFormatCurrency();
   const operatorsNames = useMemo(() => {
     return new Set(observations.map((d) => d.operator_name));
   }, [observations]);
 
   // FIXME: Currently not tested as there is only data for 2024
   return (
-    <LineChart
-      data={observations}
-      fields={{
-        x: {
-          componentIri: "year",
-        },
-        y: {
-          componentIri: duration,
-        },
-        segment: {
-          componentIri: "operator_name",
-          palette: "monochrome",
-          colorMapping: {
-            [operatorLabel]: chartPalette.categorical[0],
-          },
-        },
-        style: {
-          entity: "operator",
-          colorDomain: [...operatorsNames] as string[],
-          colorAcc: `operator_name`,
-        },
-      }}
-      measures={[{ iri: "total", label: "Total", __typename: "Measure" }]}
-      dimensions={[
-        {
-          iri: "operator_name",
-          label: "Operator",
-          __typename: "NominalDimension",
-        },
-      ]}
-      aspectRatio={0.2}
-    >
-      {mini ? null : (
-        <Box
-          sx={{
-            position: "relative",
-            justifyContent: "flex-start",
-            alignItems: "flex-start",
-            flexWrap: "wrap",
-            minHeight: "20px",
-            gap: 2,
-          }}
-          display="flex"
-        >
-          <LegendItem
-            item={operatorLabel}
-            color={chartPalette.categorical[0]}
-            symbol={"line"}
-          />
-          {/* <LegendItem
-    item={t({
-      id: "network-cost-trend-chart.legend-item.total-median",
-      message: "Total Median",
-    })}
-    color={palette.monochrome[800]}
-    symbol={"triangle"}
-  /> */}
-          {/* <LegendItem
-          item={t({
-            id: "network-cost-trend-chart.legend-item.peer-group-median",
-            message: "Peer Group Median",
-          })}
-          color={palette.monochrome[800]}
-          symbol={"line"}
-        /> */}
-
-          {compareWith.length > 0 && (
-            <LegendItem
-              item={t({
-                id: "network-cost-trend-chart.legend-item.other-operators",
-                message: "Other operators",
-              })}
-              color={palette.monochrome[200]}
-              symbol={"line"}
-            />
-          )}
-        </Box>
-      )}
-      <ChartContainer>
-        <ChartSvg>
-          <AxisHeightLinear format={formatCurrency} /> <AxisTime />
-          <Lines />
-          <InteractionHorizontal />
-        </ChartSvg>
-        <Ruler />
-        <HoverDotMultiple />
-
-        <Tooltip type={"multiple"} />
-      </ChartContainer>
-    </LineChart>
+    <ProgressOvertimeChart
+      observations={observations}
+      operatorLabel={operatorLabel}
+      operatorsNames={operatorsNames}
+      compareWith={compareWith}
+      mini={mini}
+      xField="year"
+      yField={duration}
+      entityField="operator"
+      paletteType="monochrome"
+      showInteractionsWhenComparing={false}
+      showOtherOperatorsLegend={(_, compareWith) => compareWith.length > 0}
+    />
   );
 };

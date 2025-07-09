@@ -183,7 +183,7 @@ type StackedColumnsState = {
   ) => Tooltip;
 };
 
-export interface ScatterPlotState {
+export interface DotPlotState {
   data: GenericObservation[];
   bounds: Bounds;
   segments: string[];
@@ -236,7 +236,7 @@ type ChartState =
   | LinesState
   | HistogramState
   | RangePlotState
-  | ScatterPlotState
+  | DotPlotState
   | undefined;
 
 export const ChartContext = createContext<ChartState>(undefined);

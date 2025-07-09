@@ -12,10 +12,10 @@
     "yearlyData": [
       {
         "year": 2025,
-        "total": 0,
+        "total": 5,
         "operator": 228,
         "operator_name": "Fluxonomy Energy",
-        "unplanned": 0
+        "unplanned": 2
       },
       {
         "year": 2024,

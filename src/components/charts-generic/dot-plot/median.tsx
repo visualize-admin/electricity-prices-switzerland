@@ -1,10 +1,10 @@
 import { palette } from "src/themes/palette";
 
-import { ScatterPlotState, useChartState } from "../use-chart-state";
+import { DotPlotState, useChartState } from "../use-chart-state";
 
-export const ScatterPlotMedian = () => {
+export const DotPlotMedian = () => {
   const { medianValue, bounds, xScale, yScale } =
-    useChartState() as ScatterPlotState;
+    useChartState() as DotPlotState;
 
   const diamondSize = 8;
 

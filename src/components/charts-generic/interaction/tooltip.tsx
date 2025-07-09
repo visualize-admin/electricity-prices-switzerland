@@ -8,7 +8,7 @@ import {
 import {
   HistogramState,
   LinesState,
-  ScatterPlotState,
+  DotPlotState,
   useChartState,
 } from "src/components/charts-generic/use-chart-state";
 import { useInteraction } from "src/components/charts-generic/use-interaction";
@@ -80,7 +80,7 @@ const TooltipInner = ({
   const { bounds, getAnnotationInfo } = useChartState() as
     | LinesState
     | HistogramState
-    | ScatterPlotState;
+    | DotPlotState;
   const { margins } = bounds;
   const { xAnchor, yAnchor, placement, xValue, tooltipContent, datum, values } =
     getAnnotationInfo(d);

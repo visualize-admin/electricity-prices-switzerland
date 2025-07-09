@@ -13,7 +13,7 @@ import {
 /**
  * Years available for sunshine data queries
  */
-export const years = ["2024", "2023"];
+export const years = ["2025", "2024", "2023"];
 
 /**
  * View by options for filtering
@@ -98,6 +98,7 @@ export const peerGroupMapping: Record<
   F: { energy_density: "Low", settlement_density: "Rural" },
   G: { energy_density: "Low", settlement_density: "Mountain" },
   H: { energy_density: "Low", settlement_density: "Tourist" },
+  NA: { energy_density: "N.A.", settlement_density: "N.A." },
 };
 
 export const sunshineIndicatorSchema = z.enum([

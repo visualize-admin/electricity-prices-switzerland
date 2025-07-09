@@ -2,28 +2,21 @@ import { t } from "@lingui/macro";
 import { Box, BoxProps } from "@mui/material";
 import { useMemo } from "react";
 
-import { useFormatCurrency } from "src/domain/helpers";
 import { RP_PER_KM, RP_PER_KWH } from "src/domain/metrics";
 import type { SunshineCostsAndTariffsData } from "src/domain/sunshine";
 import { getLocalizedLabel } from "src/domain/translation";
 import { chartPalette, palette } from "src/themes/palette";
 
 import { AxisHeightCategories } from "./charts-generic/axis/axis-height-categories";
-import { AxisHeightLinear } from "./charts-generic/axis/axis-height-linear";
 import { AxisWidthLinear } from "./charts-generic/axis/axis-width-linear";
-import { AxisTime } from "./charts-generic/axis/axis-width-time";
 import { ChartContainer, ChartSvg } from "./charts-generic/containers";
-import { HoverDotMultiple } from "./charts-generic/interaction/hover-dots-multiple";
-import { Ruler } from "./charts-generic/interaction/ruler";
+import { DotPlot } from "./charts-generic/dot-plot/dot-plot-state";
+import { Dots } from "./charts-generic/dot-plot/dots";
+import { DotPlotMedian } from "./charts-generic/dot-plot/median";
 import { Tooltip } from "./charts-generic/interaction/tooltip";
 import { LegendItem } from "./charts-generic/legends/color";
-import { Lines } from "./charts-generic/lines/lines";
-import { LineChart } from "./charts-generic/lines/lines-state";
 import { InteractionDotted } from "./charts-generic/overlay/interaction-dotted";
-import { InteractionHorizontal } from "./charts-generic/overlay/interaction-horizontal";
-import { Dots } from "./charts-generic/scatter-plot/dots";
-import { ScatterPlotMedian } from "./charts-generic/scatter-plot/median";
-import { ScatterPlot } from "./charts-generic/scatter-plot/scatter-plot-state";
+import { ProgressOvertimeChart } from "./charts-generic/progress-overtime-chart";
 import { SectionProps } from "./detail-page/card";
 import { TariffsTrendCardFilters } from "./tariffs-trend-card";
 
@@ -68,7 +61,7 @@ const LatestYearChartView = (
   const { observations, netTariffs, id, operatorLabel, operatorsNames } = props;
 
   return (
-    <ScatterPlot
+    <DotPlot
       medianValue={netTariffs.peerGroupMedianRate ?? undefined}
       data={observations.map((o) => ({
         ...o,
@@ -143,11 +136,11 @@ const LatestYearChartView = (
           <AxisHeightCategories stretch />
           <Dots />
           <InteractionDotted />
-          <ScatterPlotMedian />
+          <DotPlotMedian />
         </ChartSvg>
         <Tooltip type="multiple" forceYAnchor />
       </ChartContainer>
-    </ScatterPlot>
+    </DotPlot>
   );
 };
 const ProgressOvertimeChartView = (
@@ -162,90 +155,21 @@ const ProgressOvertimeChartView = (
     compareWith = [],
     mini,
   } = props;
-  const hasNotSelectedAll = !compareWith.includes("sunshine.select-all");
-  const formatCurrency = useFormatCurrency();
-  return (
-    <LineChart
-      data={observations}
-      fields={{
-        x: {
-          componentIri: "period",
-        },
-        y: {
-          componentIri: "rate",
-          axisLabel: RP_PER_KM,
-        },
-        segment: {
-          componentIri: "operator_name",
-          palette: "monochrome",
-          colorMapping: {
-            [operatorLabel]: chartPalette.categorical[0],
-          },
-        },
-        style: {
-          entity: "operator_id",
-          colorDomain: [...operatorsNames] as string[],
-          colorAcc: `operator_name`,
-        },
-      }}
-      measures={[{ iri: "rate", label: "Rate", __typename: "Measure" }]}
-      dimensions={[
-        {
-          iri: "operator_name",
-          label: "Operator",
-          __typename: "NominalDimension",
-        },
-      ]}
-      aspectRatio={0.2}
-    >
-      {mini ? null : (
-        <Box
-          sx={{
-            position: "relative",
-            justifyContent: "flex-start",
-            alignItems: "flex-start",
-            flexWrap: "wrap",
-            minHeight: "20px",
-            gap: 2,
-          }}
-          display="flex"
-        >
-          <LegendItem
-            item={operatorLabel}
-            color={chartPalette.categorical[0]}
-            symbol={"line"}
-          />
-          {/* <LegendItem
-          item={t({
-            id: "net-tariffs-trend-chart.legend-item.peer-group-median",
-            message: "Peer Group Median",
-          })}
-          color={palette.monochrome[800]}
-          symbol={"line"}
-        /> */}
-          {operatorsNames.size > 1 ? (
-            <LegendItem
-              item={t({
-                id: "net-tariffs-trend-chart.legend-item.other-operators",
-                message: "Other operators",
-              })}
-              color={palette.monochrome[200]}
-              symbol={"line"}
-            />
-          ) : null}
-        </Box>
-      )}
-      <ChartContainer>
-        <ChartSvg>
-          <AxisHeightLinear format={formatCurrency} /> <AxisTime />
-          <Lines />
-          {hasNotSelectedAll && <InteractionHorizontal />}
-        </ChartSvg>
-        <Ruler />
-        {hasNotSelectedAll && <HoverDotMultiple />}
 
-        {hasNotSelectedAll && <Tooltip type={"multiple"} />}
-      </ChartContainer>
-    </LineChart>
+  return (
+    <ProgressOvertimeChart
+      observations={observations}
+      operatorLabel={operatorLabel}
+      operatorsNames={operatorsNames}
+      compareWith={compareWith}
+      mini={mini}
+      xField="period"
+      yField="rate"
+      yAxisLabel={RP_PER_KM}
+      entityField="operator_id"
+      paletteType="monochrome"
+      showInteractionsWhenComparing={true}
+      showOtherOperatorsLegend={(operatorsNames) => operatorsNames.size > 1}
+    />
   );
 };

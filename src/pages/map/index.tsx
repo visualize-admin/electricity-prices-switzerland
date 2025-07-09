@@ -232,7 +232,6 @@ const IndexPageContent = ({
     />
   ) : (
     <SunshineMap
-      key={`${indicator}-${viewBy}`}
       accessor={sunshineAccessor}
       period={mapYear}
       indicator={indicator}
@@ -241,6 +240,7 @@ const IndexPageContent = ({
       controls={controlsRef}
       valueFormatter={valueFormatter}
       medianValue={medianValue}
+      observationsQueryFetching={isMapDataLoading}
     />
   );
 
