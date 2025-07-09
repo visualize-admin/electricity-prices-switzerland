@@ -388,6 +388,7 @@ const IndexPageContent = ({
                   bgcolor: "background.paper",
                   border: "1x solid green",
                   maxHeight: `calc(100vh - ${HEADER_HEIGHT_UP})`,
+                  paddingTop: "1rem",
                 }}
                 data-testid="map-sidebar"
               >

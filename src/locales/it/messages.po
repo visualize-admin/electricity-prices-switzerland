@@ -906,7 +906,7 @@ msgstr "Indicatore"
 #: src/components/electricity-selectors.tsx
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.legend.select.parameters"
-msgstr "Selezionare i parametri"
+msgstr "Parametri"
 
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.net-tariffs-category"
