@@ -129,7 +129,10 @@ export const Header = ({
       </TopBar>
       {hideLogo ? null : (
         <SwissFederalCiHeader
-          longTitle="Federal Electricity Commission ElCom"
+          longTitle={t({
+            id: "header.long-title",
+            message: "Federal Electricity Commission ElCom",
+          })}
           shortTitle="ElCom"
           rootHref="/"
           sx={{ backgroundColor: "white" }}

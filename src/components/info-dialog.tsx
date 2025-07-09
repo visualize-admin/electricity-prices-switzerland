@@ -115,7 +115,7 @@ export const HelpDialog: React.FC<{
   label: string;
   open: boolean;
   slug: string;
-}> = ({ close, label, open: open, slug }) => {
+}> = ({ close, label, open, slug }) => {
   const locale = useLocale();
 
   const [contentQuery] = useWikiContentQuery({

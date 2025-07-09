@@ -1,5 +1,4 @@
-import { isServerSide } from "src/utils/server-side";
-import { cacheExchange, Exchange, fetchExchange, ssrExchange } from "urql";
+import { cacheExchange, Exchange, ssrExchange } from "urql";
 import { executeExchange } from "@urql/exchange-execute";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import typeDefs from "src/graphql/schema.graphql";

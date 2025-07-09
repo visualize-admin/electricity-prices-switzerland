@@ -293,6 +293,10 @@ msgstr "Comuni svizzeri e gestori di rete elettrica responsabili"
 msgid "footer.tariff-components"
 msgstr "Componenti tariffarie della rete di trasmissione - Swissgrid"
 
+#: src/components/header.tsx
+msgid "header.long-title"
+msgstr "Commissione federale dell'energia elettrica ElCom"
+
 #: src/components/sunshine-map.tsx
 msgid "help."
 msgstr "aiuto."
@@ -549,6 +553,10 @@ msgstr "SAIFI in dettaglio"
 msgid "map.details-sidebar-panel.next-button.service-quality"
 msgstr "La qualità del servizio in dettaglio"
 
+#: src/components/map-details-content.tsx
+msgid "map.details-sidebar-panel.next-button.sunshine-overview"
+msgstr "Mostra tutti gli indicatori di luce solare"
+
 #: src/components/share-button.tsx
 msgid "map.share"
 msgstr "Condividi"
@@ -737,6 +745,10 @@ msgid "rangeplot.select.sorting.median-desc"
 msgstr "mediana, decrescente"
 
 #: src/components/detail-page/banner.tsx
+msgid "relations.showless"
+msgstr "Mostra meno"
+
+#: src/components/detail-page/banner.tsx
 msgid "relations.showmore"
 msgstr "mostra {rest} di più…"
 
@@ -903,10 +915,9 @@ msgstr "Categoria"
 msgid "selector.indicator"
 msgstr "Indicatore"
 
-#: src/components/electricity-selectors.tsx
-#: src/components/sunshine-selectors/base.tsx
+#: src/components/combined-selectors/index.tsx
 msgid "selector.legend.select.parameters"
-msgstr "Selezionare i parametri"
+msgstr "Parametri"
 
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.net-tariffs-category"
@@ -1305,8 +1316,13 @@ msgid "sunshine.power-stability.operator"
 msgstr "{operatorLabel}"
 
 #: src/components/power-stability-card.tsx
+#: src/components/power-stability-card.tsx
 msgid "sunshine.power-stability.overall-option"
 msgstr "In generale"
+
+#: src/components/power-stability-card.tsx
+msgid "sunshine.power-stability.overall-tooltip"
+msgstr "Mostra la durata totale delle interruzioni per operatore, combinando le interruzioni pianificate e non pianificate per un confronto diretto."
 
 #: src/components/power-stability-card.tsx
 msgid "sunshine.power-stability.planned-option"
@@ -1317,8 +1333,13 @@ msgid "sunshine.power-stability.progress-over-time"
 msgstr "Progressi nel tempo"
 
 #: src/components/power-stability-card.tsx
+#: src/components/power-stability-card.tsx
 msgid "sunshine.power-stability.ratio-option"
 msgstr "Rapporto"
+
+#: src/components/power-stability-card.tsx
+msgid "sunshine.power-stability.ratio-tooltip"
+msgstr "Mostra il rapporto tra le interruzioni non pianificate e le interruzioni totali, fornendo indicazioni sulla stabilità dell'alimentazione."
 
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.power-stability.saidi"

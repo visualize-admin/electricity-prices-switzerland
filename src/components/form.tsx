@@ -155,8 +155,6 @@ export const SearchField = ({
         color: "text.500",
         fontSize: "0.875rem",
         position: "relative",
-
-        borderRadius: 0.5,
         height: 44,
         borderColor: "monochrome.500",
         ...sx,

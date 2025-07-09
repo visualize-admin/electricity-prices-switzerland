@@ -13,19 +13,22 @@ You can also check the
 
 - Features
 
-  - Added peer group filtering functionality to map page
-  - Implemented server-side median retrieval using database-stored values
-  - Enhanced map legend with indicator-specific titles, formatting, and info slugs
-  - Add "Show all Sunshine Indicators" button in map details panel
+  - Sunshine Map Page: Added peer group filtering functionality
+  - Sunshine Map Page: Enhanced map legend with indicator-specific titles, formatting, and info slugs
+  - Sunshine Map Page: Implemented server-side median retrieval using database-stored values
+  - Sunshine Map Details Panel: Add "Show all Sunshine Indicators" button in map details panel
 
 - Refactors
 
-  - Split domain data file to improve code organization
+  - Domain: Split domain data file to improve code organization
 
 - Fix
 
-  - Map tab indicator not correctly selected
-  - Show more/less button in details panel on municipalities list does not trigger layout change
+  - Map Details Panel: Tab indicator correctly selected when switching between electricity & sunshine tabs
+  - Details Page: Show more/less button in on municipalities list does not trigger layout change
+  - App Banner: Header title is correctly translated
+  - Map Parameters: Border of search field is correct
+  - SAIFI/SAIDI Detail Page: Added tooltip to "Overall" & "Ratio"
 
 # 2.4.0 - 2025-07-07
 

@@ -15,10 +15,11 @@ import { sparqlClient } from "src/rdf/sparql-client";
 
 type Filters = { [key: string]: string[] | null | undefined } | null;
 
-const OBSERVATIONS_CUBE = "https://energy.ld.admin.ch/elcom/electricityprice";
-const CANTON_OBSERVATIONS_CUBE =
+const ELECTRICITY_PRICE_CUBE =
+  "https://energy.ld.admin.ch/elcom/electricityprice";
+const ELECTRICIY_PRICE_CANTON_CUBE =
   "https://energy.ld.admin.ch/elcom/electricityprice-canton";
-const SWISS_OBSERVATIONS_CUBE =
+const ELECTRICITY_PRICE_SWISS_CUBE =
   "https://energy.ld.admin.ch/elcom/electricityprice-swiss";
 
 const createSource = (cubeIri: string | undefined) => {
@@ -44,36 +45,26 @@ const getCube = async ({ iri }: { iri: string }): Promise<Cube | null> => {
   return cube;
 };
 
-export const getObservationsCube = async (): Promise<Cube> => {
-  const cube = await getCube({ iri: OBSERVATIONS_CUBE });
+const makeGetCubeAndCheck = (iri: string) => async (): Promise<Cube> => {
+  const cube = await getCube({ iri });
   if (!cube) {
-    throw Error(`Cube ${OBSERVATIONS_CUBE} not found`);
+    throw Error(`Cube ${iri} not found`);
   }
   if (cube.dimensions.length === 0) {
-    throw Error(`Cube ${OBSERVATIONS_CUBE} has no dimensions`);
+    throw Error(`Cube ${iri} has no dimensions`);
   }
   return cube;
 };
-export const getCantonMedianCube = async (): Promise<Cube> => {
-  const cube = await getCube({ iri: CANTON_OBSERVATIONS_CUBE });
-  if (!cube) {
-    throw Error(`Cube ${CANTON_OBSERVATIONS_CUBE} not found`);
-  }
-  if (cube.dimensions.length === 0) {
-    throw Error(`Cube ${CANTON_OBSERVATIONS_CUBE} has no dimensions`);
-  }
-  return cube;
-};
-export const getSwissMedianCube = async (): Promise<Cube> => {
-  const cube = await getCube({ iri: SWISS_OBSERVATIONS_CUBE });
-  if (!cube) {
-    throw Error(`Cube ${SWISS_OBSERVATIONS_CUBE} not found`);
-  }
-  if (cube.dimensions.length === 0) {
-    throw Error(`Cube ${SWISS_OBSERVATIONS_CUBE} has no dimensions`);
-  }
-  return cube;
-};
+
+export const getElectricityPriceCube = makeGetCubeAndCheck(
+  ELECTRICITY_PRICE_CUBE
+);
+export const getElectricityPriceCantonCube = makeGetCubeAndCheck(
+  ELECTRICIY_PRICE_CANTON_CUBE
+);
+export const getElectricityPriceSwissCube = makeGetCubeAndCheck(
+  ELECTRICITY_PRICE_SWISS_CUBE
+);
 
 export const getView = (cube: Cube): View => View.fromCube(cube);
 
@@ -134,7 +125,7 @@ const cache = new LRUCache<string, Observation[]>({
   entryExpirationTimeInMS: 60 * 1000,
 });
 
-export const getObservations = async (
+export const getElectricityPriceObservations = async (
   {
     view,
     source,
@@ -555,7 +546,7 @@ export type OperatorMunicipalityRecord = Awaited<
 >[number];
 
 export const getOperatorMunicipalities = async (id: string, locale: string) => {
-  const cube = await getObservationsCube();
+  const cube = await getElectricityPriceCube();
 
   const municipalities = await getDimensionValuesAndLabels({
     cube,

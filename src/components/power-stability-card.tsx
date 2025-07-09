@@ -5,12 +5,14 @@ import {
   CardProps,
   Grid,
   Stack,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import React, { ReactNode } from "react";
 
 import { ButtonGroup } from "src/components/button-group";
 import CardSource from "src/components/card-source";
+import TooltipContent from "src/components/tooltip-content";
 import { filterBySeparator } from "src/domain/helpers";
 import { useQueryStatePowerStabilityCardFilters } from "src/domain/query-states";
 import { PeerGroup, SunshinePowerStabilityData } from "src/domain/sunshine";
@@ -195,17 +197,74 @@ export const PowerStabilityCard: React.FC<PowerStabilityCardProps> = (
                   {
                     value: "overall",
                     label: (
-                      <Trans id="sunshine.power-stability.overall-option">
-                        Overall
-                      </Trans>
+                      <Tooltip
+                        title={
+                          <TooltipContent
+                            title={
+                              <Trans id="sunshine.power-stability.overall-option">
+                                Overall
+                              </Trans>
+                            }
+                            content={
+                              <Trans id="sunshine.power-stability.overall-tooltip">
+                                Shows the total outage duration per operator,
+                                combining planned and unplanned outages for
+                                direct comparison.
+                              </Trans>
+                            }
+                          />
+                        }
+                        arrow
+                        placement="top"
+                        slotProps={{
+                          tooltip: {
+                            sx: {
+                              padding: 0,
+                            },
+                          },
+                        }}
+                      >
+                        <span>
+                          <Trans id="sunshine.power-stability.overall-option">
+                            Overall
+                          </Trans>
+                        </span>
+                      </Tooltip>
                     ),
                   },
                   {
                     value: "ratio",
                     label: (
-                      <Trans id="sunshine.power-stability.ratio-option">
-                        Ratio
-                      </Trans>
+                      <Tooltip
+                        title={
+                          <TooltipContent
+                            title={t({
+                              id: "sunshine.power-stability.ratio-option",
+                              message: "Ratio",
+                            })}
+                            content={t({
+                              id: "sunshine.power-stability.ratio-tooltip",
+                              message:
+                                "Shows the ratio of unplanned outages to total outages, providing insight into the stability of the power supply.",
+                            })}
+                          />
+                        }
+                        arrow
+                        placement="top"
+                        slotProps={{
+                          tooltip: {
+                            sx: {
+                              padding: 0,
+                            },
+                          },
+                        }}
+                      >
+                        <span>
+                          <Trans id="sunshine.power-stability.ratio-option">
+                            Ratio
+                          </Trans>
+                        </span>
+                      </Tooltip>
                     ),
                   },
                 ]}

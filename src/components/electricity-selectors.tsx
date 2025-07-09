@@ -1,5 +1,5 @@
-import { t, Trans } from "@lingui/macro";
-import { Box, Typography } from "@mui/material";
+import { t } from "@lingui/macro";
+import { Box } from "@mui/material";
 import { ComponentProps, useMemo } from "react";
 
 import { Combobox } from "src/components/combobox";
@@ -31,7 +31,7 @@ export const ElectricitySelectors = () => {
         border: 0,
         flexDirection: "column",
         justifyContent: "flex-start",
-        px: 6,
+        px: "var(--selector-panel-padding-x)",
         pt: 6,
         pb: 4,
         gap: 4,
@@ -39,16 +39,6 @@ export const ElectricitySelectors = () => {
       }}
       display="flex"
     >
-      <Typography
-        component="legend"
-        variant="body2"
-        fontWeight={700}
-        sx={{ display: "contents" }}
-      >
-        <Trans id="selector.legend.select.parameters">
-          Filter list and map
-        </Trans>
-      </Typography>
       <Combobox
         id="year"
         label={t({ id: "selector.year", message: "Year" })}

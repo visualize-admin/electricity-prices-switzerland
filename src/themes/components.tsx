@@ -8,6 +8,20 @@ import { shadows } from "./shadows";
 import { typography } from "./typography";
 
 export const components: Components = {
+  MuiTooltip: {
+    styleOverrides: {
+      tooltip: {
+        backgroundColor: palette.background.paper,
+        ...typography.caption,
+        borderRadius: 2, // sm border radius
+        boxShadow: shadows[4],
+        color: palette.text.primary,
+      },
+      arrow: {
+        color: palette.background.paper,
+      },
+    },
+  },
   MuiAutocomplete: {
     styleOverrides: {
       popper: {

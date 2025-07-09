@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, BoxProps, Typography } from "@mui/material";
 import { ChangeEventHandler, ReactNode, useCallback } from "react";
 
 import { VisuallyHidden } from "src/components/visually-hidden";
@@ -73,7 +73,8 @@ export const ButtonGroup = <T extends string>({
   label,
   showLabel = true,
   infoDialogSlug,
-}: ButtonGroupProps<T>) => {
+  ...props
+}: ButtonGroupProps<T> & BoxProps) => {
   const onTabChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
     (e) => {
       if (e.currentTarget.checked) {
@@ -85,35 +86,39 @@ export const ButtonGroup = <T extends string>({
 
   return (
     <Box
+      display="flex"
+      {...props}
       sx={{
         position: "relative",
         flexDirection: "column",
         gap: infoDialogSlug ? 0 : 2,
+        ...props.sx,
       }}
-      display="flex"
     >
-      <Box
-        typography="meta"
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        {showLabel && (
-          <Typography
-            color="text.primary"
-            variant="h6"
-            component="label"
-            htmlFor={`radio-tabs-${id}`}
-          >
-            {label}
-          </Typography>
-        )}
-        {infoDialogSlug && label && (
-          <InfoDialogButton iconOnly slug={infoDialogSlug} label={label} />
-        )}
-      </Box>
+      {showLabel && label ? (
+        <Box
+          typography="meta"
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          {showLabel && (
+            <Typography
+              color="text.primary"
+              variant="h6"
+              component="label"
+              htmlFor={`radio-tabs-${id}`}
+            >
+              {label}
+            </Typography>
+          )}
+          {infoDialogSlug && label && (
+            <InfoDialogButton iconOnly slug={infoDialogSlug} label={label} />
+          )}
+        </Box>
+      ) : null}
 
       <Box
         display="flex"
@@ -121,6 +126,7 @@ export const ButtonGroup = <T extends string>({
           width: "100%",
           flexWrap: "nowrap",
           overflow: "hidden",
+          alignItems: "stretch",
         }}
       >
         {options.map((option) => {
@@ -134,6 +140,7 @@ export const ButtonGroup = <T extends string>({
                 typeof option.label === "string" ? option.label : undefined
               }
               sx={{
+                flexBasis: "100%",
                 ...STYLES.tabs.common,
                 ...(isActive ? STYLES.tabs.active : STYLES.tabs.inactive),
               }}
