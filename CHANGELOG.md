@@ -11,6 +11,10 @@ You can also check the
 
 # Unreleased
 
+Nothing yet.
+
+# 2.5.0 - 2025-07-09
+
 - Features
 
   - Sunshine Map Page: Added peer group filtering functionality
