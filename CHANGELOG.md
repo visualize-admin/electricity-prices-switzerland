@@ -27,8 +27,14 @@ You can also check the
   - Map Details Panel: Tab indicator correctly selected when switching between electricity & sunshine tabs
   - Details Page: Show more/less button in on municipalities list does not trigger layout change
   - App Banner: Header title is correctly translated
-  - Map Parameters: Border of search field is correct
   - SAIFI/SAIDI Detail Page: Added tooltip to "Overall" & "Ratio"
+  - Sunshine Map Parameters: Border of search field is correct
+  - Sunshine Map Parameters: Show 2025 in year
+  - Sunshine Overview: Prevent Network selector to be squished
+
+- Dev
+
+  - Progress Overtime Chart: Add stories
 
 # 2.4.0 - 2025-07-07
 
