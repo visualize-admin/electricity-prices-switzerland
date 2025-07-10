@@ -179,8 +179,7 @@ describe("Query States", () => {
         peerGroup: "all_grid_operators",
         typology: "total",
         indicator: "saifi",
-        energyElectricityCategory: "C2",
-        netElectricityCategory: "C2",
+        category: "C2",
         networkLevel: "NE5",
         activeId: "abc123",
       });
