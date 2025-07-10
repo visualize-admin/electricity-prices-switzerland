@@ -6,7 +6,6 @@ import { useRouter } from "next/router";
 import React, { ComponentProps, useCallback, useMemo, useState } from "react";
 import { gql } from "urql";
 
-import { ButtonGroup } from "src/components/button-group";
 import CardGrid from "src/components/card-grid";
 import { Combobox } from "src/components/combobox";
 import { DetailPageBanner } from "src/components/detail-page/banner";
@@ -149,7 +148,6 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
     updateDate,
   } = props.costsAndTariffs;
 
-  // TODO Assuming NE5 is the network level for the operator
   const [networkLevel, setNetworkLevel] = useState<NetworkLevel["id"]>("NE5");
   const [{ data, fetching }] = useNetworkCostsQuery({
     variables: {
@@ -254,25 +252,16 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
         }}
       >
         <Box sx={{ mb: 2, gridArea: "selector" }}>
-          <ButtonGroup
-            id="basic-button-group"
+          <Combobox
+            id="network-level"
             label={getLocalizedLabel({ id: "network-level" })}
-            options={[
-              {
-                value: "NE5",
-                label: getLocalizedLabel({ id: "network-level.NE5.short" }),
-              },
-              {
-                value: "NE6",
-                label: getLocalizedLabel({ id: "network-level.NE6.short" }),
-              },
-              {
-                value: "NE7",
-                label: getLocalizedLabel({ id: "network-level.NE7.short" }),
-              },
-            ]}
-            value={networkLevel}
-            setValue={setNetworkLevel}
+            items={["NE5", "NE6", "NE7"]}
+            getItemLabel={(item) =>
+              getLocalizedLabel({ id: `network-level.${item}.short` })
+            }
+            selectedItem={networkLevel}
+            setSelectedItem={setNetworkLevel}
+            infoDialogSlug="help-network-level"
           />
         </Box>
 
