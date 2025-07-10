@@ -18,6 +18,8 @@ You can also check the
   - Costs and Tariffs: Use Combobox instead of ButtonGroup for network level
   - Detail pages: Invert comparison card & peer group card
   - Overview: Only data for current operator is fetched
+  - Map: Lower min zoom and larger max zoom
+  - Network costs: Yearly peer group medians are shown
 
 - Fix
 
