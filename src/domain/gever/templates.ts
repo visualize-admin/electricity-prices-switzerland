@@ -1,19 +1,13 @@
-export const req1 = /* xml */ `<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/"
-    xmlns:a="http://www.w3.org/2005/08/addressing"
-    xmlns:u="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+export const req1 = /* xml */ `<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" xmlns:a="http://www.w3.org/2005/08/addressing" xmlns:u="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
     <s:Header>
         <a:Action s:mustUnderstand="1">http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Issue</a:Action>
         <a:MessageID>urn:uuid:e5393db9-1753-4dc9-b356-658b71b4b3fe</a:MessageID>
-        <ActivityId CorrelationId="ff547aa6-79ae-4d5e-8fff-6542230de5c4"
-            xmlns="http://schemas.microsoft.com/2004/09/ServiceModel/Diagnostics">
-            061572c2-3a5d-4b18-ab3a-7f99de8b0181</ActivityId>
+        <ActivityId CorrelationId="ff547aa6-79ae-4d5e-8fff-6542230de5c4" xmlns="http://schemas.microsoft.com/2004/09/ServiceModel/Diagnostics">061572c2-3a5d-4b18-ab3a-7f99de8b0181</ActivityId>
         <a:ReplyTo>
             <a:Address>http://www.w3.org/2005/08/addressing/anonymous</a:Address>
         </a:ReplyTo>
-        <a:To s:mustUnderstand="1">
-            https://idp-cert.gate-r.eiam.admin.ch/auth/sts/v14/certificatetransport</a:To>
-        <o:Security s:mustUnderstand="1"
-            xmlns:o="http://docs.oasis-open.org/wss/2004/01/oasis200401-wss-wssecurity-secext-1.0.xsd">
+        <a:To s:mustUnderstand="1">https://idp-cert.gate-r.eiam.admin.ch/auth/sts/v14/certificatetransport</a:To>
+        <o:Security s:mustUnderstand="1" xmlns:o="http://docs.oasis-open.org/wss/2004/01/oasis200401-wss-wssecurity-secext-1.0.xsd">
             <u:Timestamp u:Id="_0">
                 <u:Created>2020-12-21T15:25:27.642Z</u:Created>
                 <u:Expires>2020-12-21T15:30:27.642Z</u:Expires>
@@ -26,8 +20,7 @@ export const req1 = /* xml */ `<s:Envelope xmlns:s="http://schemas.xmlsoap.org/s
     <s:Body>
         <trust:RequestSecurityToken xmlns:trust="http://docs.oasis-open.org/ws-sx/ws-trust/200512">
             <trust:RequestType>http://docs.oasis-open.org/ws-sx/ws-trust/200512/Issue</trust:RequestType>
-            <trust:TokenType>
-                http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV2.0</trust:TokenType>
+            <trust:TokenType>http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV2.0</trust:TokenType>
             <trust:KeyType>http://docs.oasis-open.org/ws-sx/ws-trust/200512/SymmetricKey</trust:KeyType>
             <trust:KeySize>256</trust:KeySize>
             <trust:KeyWrapAlgorithm>http://www.w3.org/2001/04/xmlenc#rsa-oaep-mgf1p</trust:KeyWrapAlgorithm>
