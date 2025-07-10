@@ -1,5 +1,6 @@
 import * as z from "zod";
 
+import { ElectricityCategory, isElectricityCategory } from "src/domain/data";
 import { QueryStateSunshineSaidiSaifiTypology } from "src/domain/query-states";
 import { WikiPageSlug } from "src/domain/wiki";
 import { TariffCategory } from "src/graphql/resolver-mapped-types";
@@ -204,4 +205,20 @@ export const indicatorWikiPageSlugMapping: Record<
   saifi: "help-saifi",
   serviceQuality: "help-operational-standards",
   compliance: "help-compliance",
+}; // TODO We should remove this once we have refactored the app
+// category to not have "N" or "E" prefixes
+
+export const truncateCategory = <T extends TariffCategory | undefined>(
+  category: T
+): ElectricityCategory | undefined => {
+  if (category === undefined) {
+    return category;
+  }
+  // Ensure the category is always a valid TariffCategory
+  const truncated = category.slice(-2);
+  if (isElectricityCategory(truncated)) {
+    return truncated;
+  } else {
+    throw new Error("Unknown tariff category: " + truncated);
+  }
 };

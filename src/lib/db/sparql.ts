@@ -1,12 +1,12 @@
 import { keyBy } from "lodash";
 import ParsingClient from "sparql-http-client/ParsingClient";
 
+import { TariffCategory } from "src/domain/data";
 import {
-  ElectricityCategory,
-  isElectricityCategory,
-  TariffCategory,
-} from "src/domain/data";
-import { NetworkLevel, SunshineIndicator } from "src/domain/sunshine";
+  NetworkLevel,
+  SunshineIndicator,
+  truncateCategory,
+} from "src/domain/sunshine";
 import {
   SunshineDataIndicatorRow,
   SunshineDataRow,
@@ -329,23 +329,6 @@ const getStabilityMetrics = async ({
     saifi_total: parseFloatOrUndefined(row.saifi_total),
     saifi_unplanned: parseFloatOrUndefined(row.saifi_unplanned),
   }));
-};
-
-// TODO We should remove this once we have refactored the app
-// category to not have "N" or "E" prefixes
-const truncateCategory = <T extends TariffCategory | undefined>(
-  category: T
-): ElectricityCategory | undefined => {
-  if (category === undefined) {
-    return category;
-  }
-  // Ensure the category is always a valid TariffCategory
-  const truncated = category.slice(-2);
-  if (isElectricityCategory(truncated)) {
-    return truncated;
-  } else {
-    throw new Error("Unknown tariff category: " + truncated);
-  }
 };
 
 const getTariffs = async ({
