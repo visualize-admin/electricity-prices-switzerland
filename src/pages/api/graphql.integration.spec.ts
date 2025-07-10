@@ -94,7 +94,7 @@ describe("GraphQL API Integration Tests", () => {
     it("should fetch network costs for NC2 NE5 peer group A", async () => {
       const variables: SunshineDataByIndicatorQueryVariables = {
         filter: {
-          category: "NC2",
+          category: "C2",
           indicator: "networkCosts",
           networkLevel: "NE5",
           peerGroup: "A",
@@ -144,7 +144,7 @@ describe("GraphQL API Integration Tests", () => {
     it("should fetch network costs for NC2 NE5 peer group C", async () => {
       const variables: SunshineDataByIndicatorQueryVariables = {
         filter: {
-          category: "NC2",
+          category: "C2",
           indicator: "networkCosts",
           networkLevel: "NE5",
           peerGroup: "C",
@@ -194,7 +194,7 @@ describe("GraphQL API Integration Tests", () => {
     it("should fetch network costs for NC2 NE6 peer group C", async () => {
       const variables: SunshineDataByIndicatorQueryVariables = {
         filter: {
-          category: "NC2",
+          category: "C2",
           indicator: "networkCosts",
           networkLevel: "NE6",
           peerGroup: "C",
@@ -244,7 +244,7 @@ describe("GraphQL API Integration Tests", () => {
     it("should fetch network costs for NC2 NE7 peer group C", async () => {
       const variables: SunshineDataByIndicatorQueryVariables = {
         filter: {
-          category: "NC2",
+          category: "C2",
           indicator: "networkCosts",
           networkLevel: "NE7",
           peerGroup: "C",
@@ -294,7 +294,7 @@ describe("GraphQL API Integration Tests", () => {
     it("should fetch network costs for NC2 NE7 peer group D", async () => {
       const variables: SunshineDataByIndicatorQueryVariables = {
         filter: {
-          category: "NC2",
+          category: "C2",
           indicator: "networkCosts",
           networkLevel: "NE7",
           peerGroup: "D",
@@ -344,7 +344,7 @@ describe("GraphQL API Integration Tests", () => {
     it("should fetch network costs for NC2 NE7 without peer group", async () => {
       const variables: SunshineDataByIndicatorQueryVariables = {
         filter: {
-          category: "NC2",
+          category: "C2",
           indicator: "networkCosts",
           networkLevel: "NE7",
           period: "2025",
@@ -393,7 +393,7 @@ describe("GraphQL API Integration Tests", () => {
     it("should fetch net tariffs for NC2 NE7", async () => {
       const variables: SunshineDataByIndicatorQueryVariables = {
         filter: {
-          category: "NC2",
+          category: "C2",
           indicator: "netTariffs",
           networkLevel: "NE7",
           period: "2025",
@@ -442,7 +442,7 @@ describe("GraphQL API Integration Tests", () => {
     it("should fetch net tariffs for NC3 NE7", async () => {
       const variables: SunshineDataByIndicatorQueryVariables = {
         filter: {
-          category: "NC3",
+          category: "C3",
           indicator: "netTariffs",
           networkLevel: "NE7",
           period: "2025",
@@ -491,7 +491,7 @@ describe("GraphQL API Integration Tests", () => {
     it("should fetch net tariffs for NC4 NE7", async () => {
       const variables: SunshineDataByIndicatorQueryVariables = {
         filter: {
-          category: "NC4",
+          category: "C4",
           indicator: "netTariffs",
           networkLevel: "NE7",
           period: "2025",
@@ -540,7 +540,7 @@ describe("GraphQL API Integration Tests", () => {
     it("should fetch net tariffs for NC6 NE7", async () => {
       const variables: SunshineDataByIndicatorQueryVariables = {
         filter: {
-          category: "NC6",
+          category: "C6",
           indicator: "netTariffs",
           networkLevel: "NE7",
           period: "2025",
@@ -589,7 +589,7 @@ describe("GraphQL API Integration Tests", () => {
     it("should fetch net tariffs for NH2 NE7", async () => {
       const variables: SunshineDataByIndicatorQueryVariables = {
         filter: {
-          category: "NH2",
+          category: "H2",
           indicator: "netTariffs",
           networkLevel: "NE7",
           period: "2025",
@@ -638,7 +638,7 @@ describe("GraphQL API Integration Tests", () => {
     it("should fetch network costs for NH2 NE7", async () => {
       const variables: SunshineDataByIndicatorQueryVariables = {
         filter: {
-          category: "NH2",
+          category: "H2",
           indicator: "networkCosts",
           networkLevel: "NE7",
           period: "2025",
@@ -687,7 +687,7 @@ describe("GraphQL API Integration Tests", () => {
     it("should fetch network costs for NH2 NE7 peer group B", async () => {
       const variables: SunshineDataByIndicatorQueryVariables = {
         filter: {
-          category: "NH2",
+          category: "H2",
           indicator: "networkCosts",
           networkLevel: "NE7",
           peerGroup: "B",

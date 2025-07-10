@@ -533,9 +533,9 @@ const getSunshineDataByIndicator = async ({
       case "networkCosts":
         return `networkCosts${networkLevel}`;
       case "netTariffs":
-        return `tariff${category}`;
+        return `tariffN${category}`;
       case "energyTariffs":
-        return `tariff${category}`;
+        return `tariffE${category}`;
       case "saidi":
         return typology === "unplanned" ? "saidiUnplanned" : "saidiTotal";
       case "saifi":

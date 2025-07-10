@@ -140,7 +140,7 @@ WITH unpivoted_tariffs AS (
         partner_id AS operator_id,
         name AS operator_name,
         period,
-        UPPER(REGEXP_REPLACE(column_name, 'tariff_', '')) AS category,
+        UPPER(REGEXP_REPLACE(column_name, 'tariff_(e|n)', '')) AS category,
         CASE 
             WHEN column_name LIKE 'tariff_e%' THEN 'energy'
             WHEN column_name LIKE 'tariff_n%' THEN 'network'
