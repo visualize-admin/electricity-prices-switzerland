@@ -9,23 +9,25 @@ and this project adheres to
 You can also check the
 [release page](https://github.com/visualize-admin/electricity-prices-switzerland/releases)
 
-# Unreleased
+# 2.6.0 -
 
 - Features
 
-  - Map page: Same hover style on Energy Prices vs Sunshine Map
-  - Map page: Scroll is disabled on map unless user holds ctrl or cmd key
   - Costs and Tariffs: Use Combobox instead of ButtonGroup for network level
-  - Detail pages: Invert comparison card & peer group card
-  - Overview: Only data for current operator is fetched
-  - Map: Lower min zoom and larger max zoom
-  - Network costs: Yearly peer group medians are shown
+  - Map Page: Same hover style on Energy Prices vs Sunshine Map
+  - Map Page: Scroll is disabled on map unless user holds ctrl or cmd key
+  - Map Page: Lower min zoom and larger max zoom
+  - Map Detail Panel: Peer group median yearly data is shown in details panel
+  - Network Costs: Yearly peer group medians are shown
+  - Sunshine Overview: Only data for current operator is fetched
+  - Sunshine Overview: Peer group median yearly data is shown
+  - Sunshine Detail Pages: Invert comparison card & peer group card
 
 - Fix
 
-  - Map page: Shadow for tooltip
   - Charts: Tooltip legend symbol does not get squished
-  - Map detail panel: "viewBy.progress" no longer appears in "View By" select
+  - Map Page: Shadow for tooltip
+  - Map Detail Panel: "viewBy.progress" no longer appears in "View By" select
 
 # 2.5.0 - 2025-07-09
 
