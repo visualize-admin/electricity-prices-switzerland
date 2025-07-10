@@ -678,6 +678,42 @@ msgstr "Tourism"
 msgid "peer-group.settlement-density.unknown"
 msgstr "Unknown"
 
+#: src/domain/translation.tsx
+msgid "peerGroup.A"
+msgstr "High energy density / Medium settlement density"
+
+#: src/domain/translation.tsx
+msgid "peerGroup.B"
+msgstr "High energy density / Rural settlement density"
+
+#: src/domain/translation.tsx
+msgid "peerGroup.C"
+msgstr "High energy density / Mountain region"
+
+#: src/domain/translation.tsx
+msgid "peerGroup.D"
+msgstr "High energy density / Unknown"
+
+#: src/domain/translation.tsx
+msgid "peerGroup.E"
+msgstr "Low energy density / Medium settlement density"
+
+#: src/domain/translation.tsx
+msgid "peerGroup.F"
+msgstr "Low energy density / Rural settlement density"
+
+#: src/domain/translation.tsx
+msgid "peerGroup.G"
+msgstr "Low energy density / Mountain region"
+
+#: src/domain/translation.tsx
+msgid "peerGroup.H"
+msgstr "Low energy density / Tourism"
+
+#: src/domain/translation.tsx
+msgid "peerGroup.all_grid_operators"
+msgstr "All grid operators"
+
 #: src/components/power-stability-chart.tsx
 msgid "power-stability-trend-chart.legend-item.grid-operators"
 msgstr "Grid Operators"
@@ -932,6 +968,10 @@ msgstr "Category"
 msgid "selector.network-level"
 msgstr "Network level"
 
+#: src/components/sunshine-selectors/base.tsx
+msgid "selector.peerGroup"
+msgstr "View by"
+
 #: src/components/detail-page/price-components-bars.tsx
 #: src/components/electricity-selectors.tsx
 msgid "selector.priceComponent"
@@ -986,10 +1026,6 @@ msgstr "Indicators"
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.typology"
 msgstr "Typology"
-
-#: src/components/sunshine-selectors/base.tsx
-msgid "selector.viewBy"
-msgstr "View by"
 
 #: src/components/electricity-selectors.tsx
 #: src/components/sunshine-selectors/base.tsx
@@ -1450,39 +1486,3 @@ msgstr "Planned"
 #: src/domain/translation.tsx
 msgid "typology.unplanned"
 msgstr "Unplanned"
-
-#: src/domain/translation.tsx
-msgid "viewBy.A"
-msgstr "High energy density / Medium settlement density"
-
-#: src/domain/translation.tsx
-msgid "viewBy.B"
-msgstr "High energy density / Rural settlement density"
-
-#: src/domain/translation.tsx
-msgid "viewBy.C"
-msgstr "High energy density / Mountain region"
-
-#: src/domain/translation.tsx
-msgid "viewBy.D"
-msgstr "High energy density / Unknown"
-
-#: src/domain/translation.tsx
-msgid "viewBy.E"
-msgstr "Low energy density / Medium settlement density"
-
-#: src/domain/translation.tsx
-msgid "viewBy.F"
-msgstr "Low energy density / Rural settlement density"
-
-#: src/domain/translation.tsx
-msgid "viewBy.G"
-msgstr "Low energy density / Mountain region"
-
-#: src/domain/translation.tsx
-msgid "viewBy.H"
-msgstr "Low energy density / Tourism"
-
-#: src/domain/translation.tsx
-msgid "viewBy.all_grid_operators"
-msgstr "All grid operators"

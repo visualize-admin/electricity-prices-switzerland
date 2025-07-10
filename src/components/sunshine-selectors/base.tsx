@@ -9,10 +9,10 @@ type SunshineSelectorsBaseProps = {
   year: string;
   setYear: (year: string) => void;
   years: string[];
-  viewBy: string;
-  setViewBy: (viewBy: string) => void;
-  viewByOptions: string[];
-  getViewByLabel?: (id: string) => string;
+  peerGroup: string;
+  setPeerGroup: (viewBy: string) => void;
+  peerGroupOptions: string[];
+  getPeerGroupLabel?: (id: string) => string;
   typology: QueryStateSunshineSaidiSaifiTypology;
   setTypology: (typology: QueryStateSunshineSaidiSaifiTypology) => void;
   typologyOptions: QueryStateSunshineSaidiSaifiTypology[];
@@ -37,10 +37,10 @@ export const SunshineSelectorsBase = ({
   year,
   setYear,
   years,
-  viewBy,
-  setViewBy,
-  viewByOptions,
-  getViewByLabel = (id) => id,
+  peerGroup,
+  setPeerGroup,
+  peerGroupOptions,
+  getPeerGroupLabel = (id) => id,
   typology,
   setTypology,
   typologyOptions,
@@ -75,11 +75,11 @@ export const SunshineSelectorsBase = ({
     >
       <Combobox
         id="viewBy"
-        label={t({ id: "selector.viewBy", message: "View by" })}
-        items={viewByOptions}
-        getItemLabel={getViewByLabel}
-        selectedItem={viewBy}
-        setSelectedItem={setViewBy}
+        label={t({ id: "selector.peerGroup", message: "View by" })}
+        items={peerGroupOptions}
+        getItemLabel={getPeerGroupLabel}
+        selectedItem={peerGroup}
+        setSelectedItem={setPeerGroup}
       />
 
       <Combobox

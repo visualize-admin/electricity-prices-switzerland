@@ -678,6 +678,42 @@ msgstr "Tourisme"
 msgid "peer-group.settlement-density.unknown"
 msgstr "Inconnu"
 
+#: src/domain/translation.tsx
+msgid "peerGroup.A"
+msgstr "Densité énergétique élevée / Densité de peuplement moyenne"
+
+#: src/domain/translation.tsx
+msgid "peerGroup.B"
+msgstr "Densité énergétique élevée / Densité de l'habitat rural"
+
+#: src/domain/translation.tsx
+msgid "peerGroup.C"
+msgstr "Densité énergétique élevée / Région de montagne"
+
+#: src/domain/translation.tsx
+msgid "peerGroup.D"
+msgstr "Densité énergétique élevée / Inconnue"
+
+#: src/domain/translation.tsx
+msgid "peerGroup.E"
+msgstr "Faible densité énergétique / Densité de peuplement moyenne"
+
+#: src/domain/translation.tsx
+msgid "peerGroup.F"
+msgstr "Faible densité énergétique / Densité de l'habitat rural"
+
+#: src/domain/translation.tsx
+msgid "peerGroup.G"
+msgstr "Faible densité énergétique / Région montagneuse"
+
+#: src/domain/translation.tsx
+msgid "peerGroup.H"
+msgstr "Faible densité énergétique / Tourisme"
+
+#: src/domain/translation.tsx
+msgid "peerGroup.all_grid_operators"
+msgstr "Tous les gestionnaires de réseau"
+
 #: src/components/power-stability-chart.tsx
 msgid "power-stability-trend-chart.legend-item.grid-operators"
 msgstr "Opérateurs de réseau"
@@ -932,6 +968,10 @@ msgstr "Catégorie"
 msgid "selector.network-level"
 msgstr "Niveau du réseau"
 
+#: src/components/sunshine-selectors/base.tsx
+msgid "selector.peerGroup"
+msgstr "Voir par"
+
 #: src/components/detail-page/price-components-bars.tsx
 #: src/components/electricity-selectors.tsx
 msgid "selector.priceComponent"
@@ -986,10 +1026,6 @@ msgstr "Indicateurs"
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.typology"
 msgstr "Typologie"
-
-#: src/components/sunshine-selectors/base.tsx
-msgid "selector.viewBy"
-msgstr "Voir par"
 
 #: src/components/electricity-selectors.tsx
 #: src/components/sunshine-selectors/base.tsx
@@ -1450,39 +1486,3 @@ msgstr "Prévu"
 #: src/domain/translation.tsx
 msgid "typology.unplanned"
 msgstr "Non planifié"
-
-#: src/domain/translation.tsx
-msgid "viewBy.A"
-msgstr "Densité énergétique élevée / Densité de peuplement moyenne"
-
-#: src/domain/translation.tsx
-msgid "viewBy.B"
-msgstr "Densité énergétique élevée / Densité de l'habitat rural"
-
-#: src/domain/translation.tsx
-msgid "viewBy.C"
-msgstr "Densité énergétique élevée / Région de montagne"
-
-#: src/domain/translation.tsx
-msgid "viewBy.D"
-msgstr "Densité énergétique élevée / Inconnue"
-
-#: src/domain/translation.tsx
-msgid "viewBy.E"
-msgstr "Faible densité énergétique / Densité de peuplement moyenne"
-
-#: src/domain/translation.tsx
-msgid "viewBy.F"
-msgstr "Faible densité énergétique / Densité de l'habitat rural"
-
-#: src/domain/translation.tsx
-msgid "viewBy.G"
-msgstr "Faible densité énergétique / Région montagneuse"
-
-#: src/domain/translation.tsx
-msgid "viewBy.H"
-msgstr "Faible densité énergétique / Tourisme"
-
-#: src/domain/translation.tsx
-msgid "viewBy.all_grid_operators"
-msgstr "Tous les gestionnaires de réseau"

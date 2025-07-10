@@ -22,8 +22,8 @@ export const SunshineSelectors: Story = {
   args: {
     year: "2024",
     years: ["2024", "2023", "2022"],
-    viewBy: "all_grid_operators",
-    viewByOptions: ["all_grid_operators", "canton", "municipality"],
+    peerGroup: "all_grid_operators",
+    peerGroupOptions: ["all_grid_operators", "canton", "municipality"],
     typology: "total",
     typologyOptions: typologyOptions,
     indicator: "saidi",

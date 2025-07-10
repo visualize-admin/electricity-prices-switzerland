@@ -18,7 +18,7 @@ export const years = ["2025", "2024", "2023"];
 /**
  * View by options for filtering
  */
-export const viewByOptions = [
+export const peerGroupOptions = [
   "all_grid_operators",
   "A", // Urban / High
   "B", // Suburban / Medium-High
