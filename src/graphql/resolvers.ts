@@ -45,6 +45,7 @@ import {
 import { fetchOperatorInfo, search } from "src/rdf/search-queries";
 import { asElectricityCategory } from "src/domain/data";
 import { asNetworkLevel } from "src/domain/sunshine";
+import { last, sortBy } from "lodash";
 
 const gfmSyntax = require("micromark-extension-gfm");
 const gfmHtml = require("micromark-extension-gfm/html");
@@ -98,8 +99,13 @@ const Query: QueryResolvers = {
     try {
       const medianParams = createIndicatorMedianParams(filter);
       if (medianParams) {
-        const medianResult =
-          await context.sunshineDataService.getIndicatorMedian(medianParams);
+        const medianRows = sortBy(
+          await context.sunshineDataService.getIndicatorMedian(medianParams),
+          (x) => x.period
+        );
+        const medianResult = filter.period
+          ? medianRows.find((x) => `${x.period}` === filter.period!)
+          : last(medianRows);
         medianValue =
           getMedianValueFromResult(
             medianResult,

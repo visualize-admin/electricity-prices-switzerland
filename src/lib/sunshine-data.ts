@@ -1,4 +1,4 @@
-import { first } from "lodash";
+import { first, sortBy } from "lodash";
 
 import { ElectricityCategory } from "src/domain/data";
 import {
@@ -80,6 +80,40 @@ const getTrend = (
 const isValidNumber = (n: number) => !Number.isNaN(n) && Number.isFinite(n);
 
 /**
+ * Helper function to find current and previous period data from yearly indicator median results
+ * @param yearlyData Array of yearly data sorted or unsorted
+ * @param targetPeriod The period to find current and previous data for
+ * @returns Object containing current and previous period data with their indices
+ */
+const findCurrentAndPreviousPeriodData = <T extends { period: number }>(
+  yearlyData: T[],
+  targetPeriod: number
+): {
+  currentData: T | undefined;
+  previousData: T | undefined;
+  currentIndex: number;
+  previousIndex: number;
+  previousYear: number;
+} => {
+  const sortedByYear = sortBy(yearlyData, [(x) => x.period]);
+  const currentIndex = sortedByYear?.findIndex(
+    (x) => x.period === targetPeriod
+  );
+  const previousIndex = currentIndex !== undefined ? currentIndex - 1 : -1;
+  const previousData = sortedByYear?.[previousIndex];
+  const currentData = sortedByYear?.[currentIndex];
+  const previousYear = previousData?.period ?? targetPeriod - 1;
+
+  return {
+    currentData,
+    previousData,
+    currentIndex,
+    previousIndex,
+    previousYear,
+  };
+};
+
+/**
  * Fetch costs and tariffs data for a specific operator
  * @param db Database service
  * @param operatorId The operator ID
@@ -107,25 +141,21 @@ export const fetchNetworkCostsData = async (
     targetPeriod = await db.getLatestYearSunshine(operatorId);
   }
 
-  const peerGroupMedianNetworkCosts =
+  const yearlyPeerGroupMedianNetworkCosts =
     await db.getIndicatorMedian<"network_costs">({
       peerGroup: operatorData.peer_group,
       metric: "network_costs",
       networkLevel: networkLevel,
-      period: targetPeriod,
     });
 
-  // Might be a little fragile, we should get the latest year when there is data
-  const previousYear = targetPeriod - 1;
-
-  const previousPeerGroupMedianNetworkCosts =
-    await db.getIndicatorMedian<"network_costs">({
-      peerGroup: operatorData.peer_group,
-      metric: "network_costs",
-      networkLevel: networkLevel,
-
-      period: previousYear,
-    });
+  const {
+    currentData: peerGroupMedianNetworkCosts,
+    previousData: previousPeerGroupMedianNetworkCosts,
+    previousYear,
+  } = findCurrentAndPreviousPeriodData(
+    yearlyPeerGroupMedianNetworkCosts,
+    targetPeriod
+  );
 
   const operatorNetworkCosts = await db.getNetworkCosts({
     operatorId,
@@ -198,11 +228,15 @@ export const fetchNetTariffsData = async (
 }> => {
   const operatorData = await db.getOperatorData(operatorId);
 
-  const peerGroupMedianNetTariffs = await db.getIndicatorMedian<"net-tariffs">({
-    peerGroup: operatorData.peer_group,
-    metric: "net-tariffs",
-    category: category,
-  });
+  const yearlyPeerGroupMedianNetTariffs =
+    await db.getIndicatorMedian<"net-tariffs">({
+      peerGroup: operatorData.peer_group,
+      metric: "net-tariffs",
+      category: category,
+    });
+
+  const { currentData: peerGroupMedianNetTariffs } =
+    findCurrentAndPreviousPeriodData(yearlyPeerGroupMedianNetTariffs, period);
 
   const operatorNetTariffs = await db.getTariffs({
     category: category,
@@ -250,12 +284,18 @@ export const fetchEnergyTariffsData = async (
 ): Promise<TariffsData> => {
   const operatorData = await db.getOperatorData(operatorId);
 
-  const peerGroupMedianEnergyTariffs =
+  const yearlyPeerGroupMedianEnergyTariffs =
     await db.getIndicatorMedian<"energy-tariffs">({
       peerGroup: operatorData.peer_group,
       metric: "energy-tariffs",
       category: category,
     });
+
+  const { currentData: peerGroupMedianEnergyTariffs } =
+    findCurrentAndPreviousPeriodData(
+      yearlyPeerGroupMedianEnergyTariffs,
+      period
+    );
 
   const operatorEnergyTariffs = await db.getTariffs({
     category: category,
@@ -373,11 +413,14 @@ export const fetchSaidi = async (
   const operatorData = await db.getOperatorData(operatorId);
 
   // Get peer group median SAIDI
-  const peerGroupMedianStability = await db.getIndicatorMedian<"stability">({
-    peerGroup: operatorData.peer_group,
-    metric: "stability",
-    period,
-  });
+  const yearlyPeerGroupMedianStability =
+    await db.getIndicatorMedian<"stability">({
+      peerGroup: operatorData.peer_group,
+      metric: "stability",
+    });
+
+  const { currentData: peerGroupMedianStability } =
+    findCurrentAndPreviousPeriodData(yearlyPeerGroupMedianStability, period);
 
   const operatorStability = await db.getStabilityMetrics({
     operatorId,
@@ -427,12 +470,14 @@ export const fetchSaifi = async (
     throw new Error(`Peer group not found for operator ID: ${operatorId}`);
   }
 
-  const peerGroupMedianStability =
+  const yearlyPeerGroupMedianStability =
     await service.getIndicatorMedian<"stability">({
       peerGroup: operatorData.peer_group,
       metric: "stability",
-      period,
     });
+
+  const { currentData: peerGroupMedianStability } =
+    findCurrentAndPreviousPeriodData(yearlyPeerGroupMedianStability, period);
 
   const operatorStability = await service.getStabilityMetrics({
     operatorId,

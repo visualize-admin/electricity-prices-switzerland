@@ -270,13 +270,14 @@ const getIndicatorMedian = async <
       sql = `
         SELECT
           network_level,
-          MEDIAN(cost) as median_value
+          MEDIAN(cost) as median_value,
+          period
         FROM network_costs
         WHERE 
           ${peerGroupFilter}
           ${periodFilter}
           AND network_level = '${networkLevel}'
-        GROUP BY network_level
+        GROUP BY network_level, period
         ORDER BY network_level
       `;
       break;
@@ -288,11 +289,14 @@ const getIndicatorMedian = async <
           MEDIAN(saidi_total) as median_saidi_total,
           MEDIAN(saidi_unplanned) as median_saidi_unplanned,
           MEDIAN(saifi_total) as median_saifi_total,
-          MEDIAN(saifi_unplanned) as median_saifi_unplanned
+          MEDIAN(saifi_unplanned) as median_saifi_unplanned,
+          period
         FROM stability_metrics
         WHERE 
           ${peerGroupFilter}
           ${periodFilter}
+        GROUP BY period
+        ORDER BY period
       `;
       break;
 
@@ -301,11 +305,14 @@ const getIndicatorMedian = async <
         SELECT
           MEDIAN(franc_rule) as median_franc_rule,
           MEDIAN(info_days_in_advance) as median_info_days,
-          MEDIAN(timely) as median_timely
+          MEDIAN(timely) as median_timely,
+          period
         FROM operational_standards
         WHERE 
           ${peerGroupFilter}
           ${periodFilter}
+        GROUP BY period
+        ORDER BY period
       `;
       break;
 
@@ -315,15 +322,16 @@ const getIndicatorMedian = async <
         SELECT
           category,
           tariff_type,
-          MEDIAN(rate) as median_rate
+          MEDIAN(rate) as median_rate,
+          period
         FROM tariffs
         WHERE 
           ${peerGroupFilter}
           ${periodFilter}
           AND category = '${category}'
           AND tariff_type = 'energy'
-        GROUP BY category, tariff_type
-        ORDER BY category, tariff_type
+        GROUP BY category, tariff_type, period
+        ORDER BY category, tariff_type, period
       `;
       break;
     }
@@ -334,15 +342,16 @@ const getIndicatorMedian = async <
         SELECT
           category,
           tariff_type,
-          MEDIAN(rate) as median_rate
+          MEDIAN(rate) as median_rate,
+          period
         FROM tariffs
         WHERE 
           ${peerGroupFilter}
           ${periodFilter}
           AND category = '${category}'
           AND tariff_type = 'network'
-        GROUP BY category, tariff_type
-        ORDER BY category, tariff_type
+        GROUP BY category, tariff_type, period
+        ORDER BY category, tariff_type, period
       `;
       break;
     }
@@ -352,8 +361,8 @@ const getIndicatorMedian = async <
     throw new Error(`Unknown metric: ${metric}`);
   }
 
-  const result = await query<PeerGroupRecord<Metric> | undefined>(sql);
-  return result[0];
+  const result = await query<PeerGroupRecord<Metric>>(sql);
+  return result;
 };
 const getLatestYearSunshine = async (operatorId: number) => {
   const latestYearData = await query<{ year: string }>(`
