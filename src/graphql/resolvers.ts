@@ -11,7 +11,7 @@ import {
   ResolvedCantonMedianObservation,
   ResolvedOperatorObservation,
   ResolvedSwissMedianObservation,
-  TariffCategory,
+  ElectricityCategory,
 } from "src/graphql/resolver-mapped-types";
 import {
   CantonMedianObservationResolvers,
@@ -43,8 +43,9 @@ import {
   getView,
 } from "src/rdf/queries";
 import { fetchOperatorInfo, search } from "src/rdf/search-queries";
-import { asTariffCategory } from "src/domain/data";
+import { asElectricityCategory } from "src/domain/data";
 import { asNetworkLevel } from "src/domain/sunshine";
+import { last, sortBy } from "lodash";
 
 const gfmSyntax = require("micromark-extension-gfm");
 const gfmHtml = require("micromark-extension-gfm/html");
@@ -98,8 +99,13 @@ const Query: QueryResolvers = {
     try {
       const medianParams = createIndicatorMedianParams(filter);
       if (medianParams) {
-        const medianResult =
-          await context.sunshineDataService.getIndicatorMedian(medianParams);
+        const medianRows = sortBy(
+          await context.sunshineDataService.getIndicatorMedian(medianParams),
+          (x) => x.period
+        );
+        const medianResult = filter.period
+          ? medianRows.find((x) => `${x.period}` === filter.period!)
+          : last(medianRows);
         medianValue =
           getMedianValueFromResult(
             medianResult,
@@ -468,20 +474,23 @@ const Query: QueryResolvers = {
         ? asNetworkLevel(filter.networkLevel)
         : undefined,
       period: filter.period,
+      operatorOnly: filter.operatorOnly ?? undefined,
     });
   },
   netTariffs: async (_, { filter }, context) => {
     return await fetchNetTariffsData(context.sunshineDataService, {
       operatorId: filter.operatorId,
-      category: asTariffCategory(filter.category as TariffCategory),
+      category: asElectricityCategory(filter.category as ElectricityCategory),
       period: filter.period,
+      operatorOnly: filter.operatorOnly ?? undefined,
     });
   },
   energyTariffs: async (_, { filter }, context) => {
     return await fetchEnergyTariffsData(context.sunshineDataService, {
       operatorId: filter.operatorId,
-      category: asTariffCategory(filter.category),
+      category: asElectricityCategory(filter.category),
       period: filter.period,
+      operatorOnly: filter.operatorOnly ?? undefined,
     });
   },
   saidi: async (_, { filter }, context) => {
@@ -705,7 +714,7 @@ const createIndicatorMedianParams = (
   if (filter.indicator === "energyTariffs" && filter.category) {
     return {
       metric: "energy-tariffs" as const,
-      category: filter.category as TariffCategory,
+      category: filter.category as ElectricityCategory,
       period: periodNum,
       peerGroup,
     };
@@ -715,7 +724,7 @@ const createIndicatorMedianParams = (
   if (filter.indicator === "netTariffs" && filter.category) {
     return {
       metric: "net-tariffs" as const,
-      category: filter.category as TariffCategory,
+      category: filter.category as ElectricityCategory,
       period: periodNum,
       peerGroup: peerGroup,
     };

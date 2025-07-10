@@ -214,8 +214,8 @@ const Saidi = (props: Extract<Props, { status: "found" }>) => {
           },
           gridTemplateRows: ["auto auto auto", "auto auto"], // Three rows: two for cards, one for trend chart
           gridTemplateAreas: [
-            `"peer-group" "comparison" "trend"`, // One column on small screens
-            `"peer-group comparison" "trend trend"`, // Two columns on medium screens
+            `"comparison" "peer-group" "trend"`, // One column on small screens
+            `"comparison peer-group" "trend trend"`, // Two columns on medium screens
           ],
         }}
       >
@@ -339,8 +339,8 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
           },
           gridTemplateRows: ["auto auto auto", "auto auto"], // Three rows: two for cards, one for trend chart
           gridTemplateAreas: [
-            `"peer-group" "comparison" "trend"`, // One column on small screens
-            `"peer-group comparison" "trend trend"`, // Two columns on medium screens
+            `"comparison" "peer-group" "trend"`, // One column on small screens
+            `"comparison peer-group" "trend trend"`, // Two columns on medium screens
           ],
         }}
       >

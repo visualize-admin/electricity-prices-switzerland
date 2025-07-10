@@ -169,7 +169,7 @@ const ProgressOvertimeChartView = (
       entityField="operator_id"
       paletteType="monochrome"
       showInteractionsWhenComparing={true}
-      showOtherOperatorsLegend={(operatorsNames) => operatorsNames.size > 1}
+      showOtherOperatorsLegend={(_, compareWith) => compareWith.length > 0}
     />
   );
 };

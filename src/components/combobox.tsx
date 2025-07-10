@@ -1,5 +1,5 @@
 import { t } from "@lingui/macro";
-import { Box, Chip, Typography } from "@mui/material";
+import { Box, BoxProps, Chip, Typography } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import { useEffect, useMemo, useState } from "react";
@@ -185,6 +185,7 @@ export const Combobox = <T extends string>({
   showLabel = true,
   disabled,
   error,
+  sx,
 }: {
   id: string;
   label: string;
@@ -196,6 +197,7 @@ export const Combobox = <T extends string>({
   infoDialogSlug?: WikiPageSlug;
   disabled?: boolean;
   error?: boolean;
+  sx?: BoxProps["sx"];
 }) => {
   const [inputValue, setInputValue] = useState(getItemLabel(selectedItem));
 
@@ -225,13 +227,14 @@ export const Combobox = <T extends string>({
 
   return (
     <Box
+      position="relative"
+      flexDirection="column"
+      width="100%"
+      display="flex"
       sx={{
-        position: "relative",
-        flexDirection: "column",
         gap: infoDialogSlug ? 0 : 2,
-        width: "100%",
+        ...sx,
       }}
-      display={"flex"}
     >
       <Box
         typography="meta"

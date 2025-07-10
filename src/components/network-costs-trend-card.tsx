@@ -246,7 +246,7 @@ export const NetworkCostsTrendCardMinified: React.FC<
   const [state] = useQueryStateNetworkCostsTrendCardFilters({
     defaultValue: defaultFilters,
   });
-  const { compareWith, viewBy } = state;
+  const { viewBy } = state;
   const chartData = getNetworkCostsTrendCardState(rest, state);
   return (
     <Card {...rest}>
@@ -271,7 +271,7 @@ export const NetworkCostsTrendCardMinified: React.FC<
           observations={chartData.observations}
           networkCosts={chartData.restNetworkCosts}
           viewBy={viewBy}
-          compareWith={compareWith}
+          compareWith={[]}
         />
         <Stack
           sx={{

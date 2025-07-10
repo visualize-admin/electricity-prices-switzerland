@@ -205,11 +205,19 @@ describe("SPARQL Sunshine Data Service", () => {
       const result = await sunshineDataServiceSparql.getTariffs({
         operatorId: 672,
         period: 2025,
-        category: "NC2",
+        category: "C2",
       });
 
       expect(result).toMatchInlineSnapshot(`
         [
+          {
+            "category": "C2",
+            "operator_id": 672,
+            "operator_name": "St.Galler Stadtwerke",
+            "period": 2025,
+            "rate": 14.021,
+            "tariff_type": "energy",
+          },
           {
             "category": "C2",
             "operator_id": 672,
@@ -226,7 +234,7 @@ describe("SPARQL Sunshine Data Service", () => {
       const result = await sunshineDataServiceSparql.getTariffs({
         operatorId: 672,
         period: 2025,
-        category: "EC2",
+        category: "C2",
         tariffType: "energy",
       });
 
@@ -248,7 +256,7 @@ describe("SPARQL Sunshine Data Service", () => {
       const result = await sunshineDataServiceSparql.getTariffs({
         operatorId: 672,
         period: 2025,
-        category: "NC2",
+        category: "C2",
         tariffType: "network",
       });
 
@@ -356,13 +364,12 @@ describe("SPARQL Sunshine Data Service", () => {
       const result = await sunshineDataServiceSparql.getIndicatorMedian({
         peerGroup: "A",
         metric: "energy-tariffs",
-        // TODO
-        category: "EC2",
+        category: "C2",
       });
 
       expect(result).toMatchInlineSnapshot(`
         {
-          "category": "EC2",
+          "category": "C2",
           "median_rate": 15.496,
           "tariff_type": "energy",
         }
@@ -373,12 +380,12 @@ describe("SPARQL Sunshine Data Service", () => {
       const result = await sunshineDataServiceSparql.getIndicatorMedian({
         peerGroup: "A",
         metric: "net-tariffs",
-        category: "NC2",
+        category: "C2",
       });
 
       expect(result).toMatchInlineSnapshot(`
         {
-          "category": "NC2",
+          "category": "C2",
           "median_rate": 10.945,
           "tariff_type": "network",
         }

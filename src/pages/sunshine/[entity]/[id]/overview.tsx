@@ -6,7 +6,6 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { ComponentProps, useMemo, useState } from "react";
 
-import { ButtonGroup } from "src/components/button-group";
 import CardGrid from "src/components/card-grid";
 import { Combobox } from "src/components/combobox";
 import { DetailPageBanner } from "src/components/detail-page/banner";
@@ -28,7 +27,7 @@ import {
   PageParams,
   Props as SharedPageProps,
 } from "src/data/shared-page-props";
-import { tariffCategories, TariffCategory } from "src/domain/data";
+import { categories, ElectricityCategory } from "src/domain/data";
 import { sunshineDetailsLink } from "src/domain/query-states";
 import {
   NetworkLevel,
@@ -112,7 +111,7 @@ export const getServerSideProps: GetServerSideProps<Props, PageParams> = async (
       fetchOperatorCostsAndTariffsData(sunshineDataService, {
         operatorId: id,
         networkLevel: "NE5",
-        category: "NC2",
+        category: "C2",
       }),
     ]);
 
@@ -170,18 +169,18 @@ const OverviewPage = (props: Props) => {
   const groupedCategories = useMemo(() => {
     return [
       { type: "header", title: getItemLabel("EC-group") },
-      ...tariffCategories.filter((x) => x.startsWith("EC")),
+      ...categories.filter((x) => x.startsWith("C")),
       { type: "header", title: getItemLabel("EH-group") },
-      ...tariffCategories.filter((x) => x.startsWith("EH")),
+      ...categories.filter((x) => x.startsWith("H")),
       { type: "header", title: getItemLabel("NC-group") },
-      ...tariffCategories.filter((x) => x.startsWith("NC")),
+      ...categories.filter((x) => x.startsWith("C")),
       { type: "header", title: getItemLabel("NH-group") },
-      ...tariffCategories.filter((x) => x.startsWith("NH")),
+      ...categories.filter((x) => x.startsWith("H")),
     ] as ComponentProps<typeof Combobox>["items"];
   }, []);
 
   const [year, setYear] = useState<string>("2025");
-  const [category, setCategory] = useState<TariffCategory>("NC2");
+  const [category, setCategory] = useState<ElectricityCategory>("C2");
   const [networkLevel, setNetworkLevel] = useState<NetworkLevel["id"]>("NE5");
 
   const sidebarContent = <DetailsPageSidebar id={id} entity={entity} />;
@@ -193,6 +192,7 @@ const OverviewPage = (props: Props) => {
         operatorId,
         networkLevel,
         period: latestYear,
+        operatorOnly: true,
       },
     },
   });
@@ -202,6 +202,7 @@ const OverviewPage = (props: Props) => {
         operatorId,
         period: latestYear,
         category,
+        operatorOnly: true,
       },
     },
   });
@@ -211,6 +212,7 @@ const OverviewPage = (props: Props) => {
         operatorId,
         period: latestYear,
         category,
+        operatorOnly: true,
       },
     },
   });
@@ -288,38 +290,33 @@ const OverviewPage = (props: Props) => {
             gridArea: "filters",
             alignItems: "end",
             display: "grid",
-            gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" },
+            gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr 1fr" },
+            columnGap: 4,
           }}
         >
+          <Combobox
+            id="network-level"
+            label={getLocalizedLabel({ id: "network-level" })}
+            items={["NE5", "NE6", "NE7"]}
+            getItemLabel={(item) =>
+              getLocalizedLabel({ id: `network-level.${item}.short` })
+            }
+            selectedItem={networkLevel}
+            setSelectedItem={setNetworkLevel}
+            infoDialogSlug="help-network-level"
+          />
           <Combobox
             id="category"
             label={t({ id: "selector.category", message: "Category" })}
             items={groupedCategories}
             getItemLabel={getItemLabel}
             selectedItem={category}
-            setSelectedItem={(item) => setCategory(item as TariffCategory)}
+            setSelectedItem={(item) => setCategory(item as ElectricityCategory)}
             //FIXME: Might need change
             infoDialogSlug="help-categories"
-          />
-          <ButtonGroup
-            id="basic-button-group"
-            label={getLocalizedLabel({ id: "network-level" })}
-            options={[
-              {
-                value: "NE5",
-                label: getLocalizedLabel({ id: "network-level.NE5.short" }),
-              },
-              {
-                value: "NE6",
-                label: getLocalizedLabel({ id: "network-level.NE6.short" }),
-              },
-              {
-                value: "NE7",
-                label: getLocalizedLabel({ id: "network-level.NE7.short" }),
-              },
-            ]}
-            value={networkLevel}
-            setValue={setNetworkLevel}
+            sx={{
+              gridColumn: { xs: "auto", sm: "span 2" },
+            }}
           />
         </Box>
         {networkCosts ? (
@@ -372,7 +369,7 @@ const OverviewPage = (props: Props) => {
               </Trans>
             }
             cardDescription={getLocalizedLabel({
-              id: `selector.category.${category}.long`,
+              id: `${category}-long`,
             })}
             sx={{ gridArea: "net-tariffs" }}
             linkContent={
@@ -409,7 +406,7 @@ const OverviewPage = (props: Props) => {
               </Trans>
             }
             cardDescription={getLocalizedLabel({
-              id: `selector.category.${category}.long`,
+              id: `${category}-long`,
             })}
             sx={{ gridArea: "energy-tariffs" }}
             linkContent={

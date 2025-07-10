@@ -36,18 +36,23 @@ const MapDetailsContentWrapper = (props: MapDetailsContentProps) => {
       padding={6}
       data-testid="map-details-content"
     >
-      <Link
-        component={"button"}
-        sx={{ alignItems: "center", display: "flex", gap: 1 }}
-        color="tertiary"
-        size={"md"}
-        onClick={onBack}
-      >
-        <Icon name="arrowleft" />
-        <Trans id="map.details-sidebar-panel.back-button">
-          Back to the filters
-        </Trans>
-      </Link>
+      <div>
+        <Button
+          variant="text"
+          startIcon={<Icon name="arrowleft" />}
+          sx={{
+            justifySelf: "flex-start",
+            px: 1,
+          }}
+          color="tertiary"
+          size={"md"}
+          onClick={onBack}
+        >
+          <Trans id="map.details-sidebar-panel.back-button">
+            Back to the filters
+          </Trans>
+        </Button>
+      </div>
       <Divider
         sx={{
           bgcolor: "secondary.50",

@@ -24,13 +24,9 @@ type SunshineSelectorsBaseProps = {
   setNetworkLevel: (networkLevel: string) => void;
   networkLevelOptions: string[];
 
-  netTariffCategory: string;
-  setNetTariffCategory: (category: string) => void;
-  netTariffsCategoryOptions: string[];
-
-  energyTariffCategory: string;
-  energyTariffsCategoryOptions: string[];
-  setEnergyTariffCategory: (category: string) => void;
+  category: string;
+  setCategory: (category: string) => void;
+  categoryOptions: string[];
 };
 
 export const SunshineSelectorsBase = ({
@@ -51,12 +47,9 @@ export const SunshineSelectorsBase = ({
   getItemLabel = (id) => id,
   networkLevelOptions,
   setNetworkLevel,
-  netTariffCategory,
-  setNetTariffCategory,
-  netTariffsCategoryOptions,
-  energyTariffCategory,
-  energyTariffsCategoryOptions,
-  setEnergyTariffCategory,
+  category,
+  setCategory,
+  categoryOptions,
 }: SunshineSelectorsBaseProps) => {
   return (
     <Box
@@ -128,11 +121,11 @@ export const SunshineSelectorsBase = ({
             id: "selector.net-tariffs-category",
             message: "Category",
           })}
-          items={netTariffsCategoryOptions}
+          items={categoryOptions}
           getItemLabel={getItemLabel}
-          selectedItem={netTariffCategory}
-          setSelectedItem={setNetTariffCategory}
-          infoDialogSlug="help-net-tariff-category"
+          selectedItem={category}
+          setSelectedItem={setCategory}
+          infoDialogSlug="help-categories"
         />
       ) : null}
       {indicator === "energyTariffs" ? (
@@ -142,11 +135,11 @@ export const SunshineSelectorsBase = ({
             id: "selector.energy-tariffs-category",
             message: "Category",
           })}
-          items={energyTariffsCategoryOptions}
+          items={categoryOptions}
           getItemLabel={getItemLabel}
-          selectedItem={energyTariffCategory}
-          setSelectedItem={setEnergyTariffCategory}
-          infoDialogSlug="help-energy-tariff-category"
+          selectedItem={category}
+          setSelectedItem={setCategory}
+          infoDialogSlug="help-categories"
         />
       ) : null}
     </Box>

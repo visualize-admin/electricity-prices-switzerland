@@ -1,8 +1,7 @@
 import { useQueryStateSunshineMap } from "src/domain/query-states";
 import {
-  energyTariffCategoryOptions,
   indicatorOptions,
-  netTariffCategoryOptions,
+  netElectricityCategoryOptions,
   networkLevelOptions,
   typologyOptions,
   peerGroupOptions,
@@ -44,16 +43,9 @@ export const SunshineSelectors = () => {
       networkLevel={queryState.networkLevel}
       setNetworkLevel={(networkLevel) => setQueryState({ networkLevel })}
       networkLevelOptions={networkLevelOptions}
-      netTariffCategory={queryState.netTariffCategory}
-      netTariffsCategoryOptions={netTariffCategoryOptions}
-      setNetTariffCategory={(netTariffCategory) =>
-        setQueryState({ netTariffCategory })
-      }
-      energyTariffCategory={queryState.energyTariffCategory}
-      energyTariffsCategoryOptions={energyTariffCategoryOptions}
-      setEnergyTariffCategory={(energyTariffCategory) =>
-        setQueryState({ energyTariffCategory })
-      }
+      category={queryState.category}
+      categoryOptions={netElectricityCategoryOptions}
+      setCategory={(category) => setQueryState({ category })}
     />
   );
 };

@@ -1,8 +1,8 @@
 import * as z from "zod";
 
+import { ElectricityCategory } from "src/domain/data";
 import { QueryStateSunshineSaidiSaifiTypology } from "src/domain/query-states";
 import { WikiPageSlug } from "src/domain/wiki";
-import { TariffCategory } from "src/graphql/resolver-mapped-types";
 import {
   NetworkCostsData,
   NetworkLevel as GraphQLNetworkLevel,
@@ -61,24 +61,14 @@ export const networkLevelOptions: GraphQLNetworkLevel["id"][] = [
   "NE7",
 ];
 
-export const energyTariffCategoryOptions: TariffCategory[] = [
-  "EC2",
-  "EC3",
-  "EC4",
-  "EC6",
-  "EH2",
-  "EH4",
-  "EH7",
-];
-
-export const netTariffCategoryOptions: TariffCategory[] = [
-  "NC2",
-  "NC3",
-  "NC4",
-  "NC6",
-  "NH2",
-  "NH4",
-  "NH7",
+export const netElectricityCategoryOptions: ElectricityCategory[] = [
+  "C2",
+  "C3",
+  "C4",
+  "C6",
+  "H2",
+  "H4",
+  "H7",
 ];
 
 /**
@@ -100,6 +90,9 @@ export const peerGroupMapping: Record<
   H: { energy_density: "Low", settlement_density: "Tourist" },
   NA: { energy_density: "N.A.", settlement_density: "N.A." },
 };
+
+export const peerGroupOperatorId = 10000;
+export const peerGroupOperatorName = "MEDIAN_PEER_GROUP";
 
 export const sunshineIndicatorSchema = z.enum([
   "networkCosts",

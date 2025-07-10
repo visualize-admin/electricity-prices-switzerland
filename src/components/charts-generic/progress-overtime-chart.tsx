@@ -1,10 +1,12 @@
 import { t } from "@lingui/macro";
 import { Box } from "@mui/material";
+import { sortBy } from "lodash";
 import { useMemo } from "react";
 
 import { NoDataHint } from "src/components/hint";
 import type { GenericObservation } from "src/domain/data";
 import { useFormatCurrency } from "src/domain/helpers";
+import { peerGroupOperatorName } from "src/domain/sunshine";
 import { chartPalette, palette as themePalette } from "src/themes/palette";
 
 import { AxisHeightLinear } from "./axis/axis-height-linear";
@@ -83,13 +85,26 @@ export const ProgressOvertimeChart = <T extends GenericObservation>(
     return compareWith.length > 0;
   }, [showOtherOperatorsLegend, operatorsNames, compareWith]);
 
+  // Put currently selected operatorLabel at the end of the list
+  // This is a trick to ensure the selected operator is always on top of other operators
+  const sortedObservations = useMemo(() => {
+    return sortBy(observations, [
+      (d) => (d.operator_name === operatorLabel ? 1 : 0),
+    ]).filter((d) => d[entityField] !== operatorLabel);
+  }, [observations, entityField, operatorLabel]);
+
+  const colorMappings = [
+    { label: operatorLabel, color: chartPalette.categorical[0] },
+    { label: peerGroupOperatorName, color: chartPalette.categorical[2] },
+  ];
+
   if (observations.length === 0) {
     return <NoDataHint />;
   }
 
   return (
     <LineChart
-      data={observations}
+      data={sortedObservations}
       fields={{
         x: {
           componentIri: xField,
@@ -101,9 +116,9 @@ export const ProgressOvertimeChart = <T extends GenericObservation>(
         segment: {
           componentIri: "operator_name",
           palette,
-          colorMapping: {
-            [operatorLabel]: chartPalette.categorical[0],
-          },
+          colorMapping: Object.fromEntries(
+            colorMappings.map((item) => [item.label, item.color])
+          ),
         },
         style: {
           entity: entityField,
@@ -133,12 +148,21 @@ export const ProgressOvertimeChart = <T extends GenericObservation>(
           }}
           display="flex"
         >
-          <LegendItem
-            item={operatorLabel}
-            color={chartPalette.categorical[0]}
-            symbol={"line"}
-          />
-
+          {colorMappings.map((item) => (
+            <LegendItem
+              key={item.label}
+              item={
+                item.label === peerGroupOperatorName
+                  ? t({
+                      id: "progress-overtime-chart.legend-item.peer-group",
+                      message: "Median peer group",
+                    })
+                  : item.label
+              }
+              color={item.color}
+              symbol={"line"}
+            />
+          ))}
           {shouldShowOtherOperatorsLegend && (
             <LegendItem
               item={t({

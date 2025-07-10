@@ -24,16 +24,14 @@ export const wikiPageSlugs = {
     "help-saifi",
     "help-search-list",
     "home-banner",
-  ],
-  missing: [
     "help-net-tariffs",
     "help-operational-standards",
-    "help-net-tariff-category",
-    "help-energy-tariff-category",
+    "help-categories",
     "help-indicator",
     "help-typology",
     "help-network-level",
   ],
+  missing: [],
 } as const;
 
 export type WikiPageSlug = (typeof wikiPageSlugs)[

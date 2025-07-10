@@ -263,7 +263,7 @@ input SunshineDataFilter {
 }
 
 # TODO Map more closely to predefined strings
-scalar TariffCategory
+scalar ElectricityCategory
 
 enum Trend {
   up
@@ -293,7 +293,7 @@ type NetworkCostRow {
 }
 
 type TariffsData {
-  category: TariffCategory!
+  category: ElectricityCategory!
   operatorRate: Float
   peerGroupMedianRate: Float
   yearlyData: [TariffRow!]!
@@ -304,19 +304,21 @@ type TariffRow {
   rate: Float!
   operator_id: Int!
   operator_name: String!
-  category: TariffCategory!
+  category: ElectricityCategory!
 }
 
 input NetworkCostsFilter {
   operatorId: Int!
   networkLevel: String!
   period: Int!
+  operatorOnly: Boolean
 }
 
 input TariffsFilter {
   operatorId: Int!
   category: String!
   period: Int!
+  operatorOnly: Boolean
 }
 
 type StabilityDataRow {

@@ -166,8 +166,8 @@ const ServiceQuality = (props: Extract<Props, { status: "found" }>) => {
           // Network costs trend is below them
           // On Mobile, they are stacked
           gridTemplateAreas: [
-            `"peer-group" "comparison" "trend"`, // One column on small screens
-            `"peer-group comparison" "trend trend"`, // Two columns on medium screens
+            `"comparison" "peer-group" "trend"`, // One column on small screens
+            `"comparison peer-group" "trend trend"`, // Two columns on medium screens
           ],
         }}
       >
@@ -271,8 +271,8 @@ const Compliance = (props: Extract<Props, { status: "found" }>) => {
           // Network costs trend is below them
           // On Mobile, they are stacked
           gridTemplateAreas: [
-            `"peer-group" "comparison" "trend"`, // One column on small screens
-            `"peer-group comparison" "trend trend"`, // Two columns on medium screens
+            `"comparison" "peer-group" "trend"`, // One column on small screens
+            `"comparison peer-group" "trend trend"`, // Two columns on medium screens
           ],
         }}
       >

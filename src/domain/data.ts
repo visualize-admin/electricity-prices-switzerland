@@ -84,59 +84,23 @@ export const categories = [
 
 export type ElectricityCategory = (typeof categories)[number];
 
-export const isElectricityCategory = (
+const isElectricityCategory = (
   category: string
 ): category is ElectricityCategory => {
   return categories.includes(category as ElectricityCategory);
 };
 
-export const tariffCategories = [
-  // EC
-  "EC2",
-  "EC3",
-  "EC4",
-  "EC6",
-
-  // EH
-  "EH2",
-  "EH4",
-  "EH7",
-
-  // NC
-  "NC2",
-  "NC3",
-  "NC4",
-  "NC6",
-
-  // NH
-  "NH2",
-  "NH4",
-  "NH7",
-] as const;
-
-export type TariffCategory = (typeof tariffCategories)[number];
-// TODO Mapping should be at graphql level, we should be able to remove
-// this function when this is done
-export const asTariffCategory = (category: string): TariffCategory => {
-  if (
-    category === "EC2" ||
-    category === "EC3" ||
-    category === "EC4" ||
-    category === "EC6" ||
-    category === "EH2" ||
-    category === "EH4" ||
-    category === "EH7" ||
-    category === "NC2" ||
-    category === "NC3" ||
-    category === "NC4" ||
-    category === "NC6" ||
-    category === "NH2" ||
-    category === "NH4" ||
-    category === "NH7"
-  ) {
-    return category as TariffCategory;
+export const asElectricityCategory = (
+  category: string
+): ElectricityCategory => {
+  if (isElectricityCategory(category)) {
+    return category;
   }
-  throw new Error(`Invalid network category: ${category}`);
+  throw new Error(
+    `Invalid electricity category: ${category}. Must be one of: ${categories.join(
+      ", "
+    )}`
+  );
 };
 
 export type ValueFormatter = (value: number) => string;

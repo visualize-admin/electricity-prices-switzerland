@@ -28,7 +28,7 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean };
   Int: { input: number; output: number };
   Float: { input: number; output: number };
-  TariffCategory: { input: any; output: any };
+  ElectricityCategory: { input: any; output: any };
   WikiContentInfo: { input: any; output: any };
 };
 
@@ -107,6 +107,7 @@ export type NetworkCostsData = {
 export type NetworkCostsFilter = {
   networkLevel: Scalars["String"]["input"];
   operatorId: Scalars["Int"]["input"];
+  operatorOnly?: InputMaybe<Scalars["Boolean"]["input"]>;
   period: Scalars["Int"]["input"];
 };
 
@@ -455,7 +456,7 @@ export type SystemInfo = {
 
 export type TariffRow = {
   __typename: "TariffRow";
-  category: Scalars["TariffCategory"]["output"];
+  category: Scalars["ElectricityCategory"]["output"];
   operator_id: Scalars["Int"]["output"];
   operator_name: Scalars["String"]["output"];
   period: Scalars["Int"]["output"];
@@ -464,7 +465,7 @@ export type TariffRow = {
 
 export type TariffsData = {
   __typename: "TariffsData";
-  category: Scalars["TariffCategory"]["output"];
+  category: Scalars["ElectricityCategory"]["output"];
   operatorRate?: Maybe<Scalars["Float"]["output"]>;
   peerGroupMedianRate?: Maybe<Scalars["Float"]["output"]>;
   yearlyData: Array<TariffRow>;
@@ -473,6 +474,7 @@ export type TariffsData = {
 export type TariffsFilter = {
   category: Scalars["String"]["input"];
   operatorId: Scalars["Int"]["input"];
+  operatorOnly?: InputMaybe<Scalars["Boolean"]["input"]>;
   period: Scalars["Int"]["input"];
 };
 

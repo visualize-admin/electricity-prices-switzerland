@@ -1,11 +1,7 @@
 import { keyBy } from "lodash";
 import ParsingClient from "sparql-http-client/ParsingClient";
 
-import {
-  ElectricityCategory,
-  isElectricityCategory,
-  TariffCategory,
-} from "src/domain/data";
+import { ElectricityCategory } from "src/domain/data";
 import { NetworkLevel, SunshineIndicator } from "src/domain/sunshine";
 import {
   SunshineDataIndicatorRow,
@@ -331,38 +327,18 @@ const getStabilityMetrics = async ({
   }));
 };
 
-// TODO We should remove this once we have refactored the app
-// category to not have "N" or "E" prefixes
-const truncateCategory = <T extends TariffCategory | undefined>(
-  category: T
-): ElectricityCategory | undefined => {
-  if (category === undefined) {
-    return category;
-  }
-  // Ensure the category is always a valid TariffCategory
-  const truncated = category.slice(-2);
-  if (isElectricityCategory(truncated)) {
-    return truncated;
-  } else {
-    throw new Error("Unknown tariff category: " + truncated);
-  }
-};
-
 const getTariffs = async ({
   operatorId,
   period,
-  category: categoryRaw,
-  tariffType: tariffTypeRaw,
+  category,
+  tariffType,
 }: {
   operatorId?: number;
   period?: number;
-  category?: TariffCategory;
+  category?: ElectricityCategory;
   tariffType?: "network" | "energy";
   peerGroup?: string;
 } = {}): Promise<TariffRecord[]> => {
-  const category = truncateCategory(categoryRaw);
-  const tariffType =
-    tariffTypeRaw ?? (categoryRaw?.startsWith("N") ? "network" : "energy");
   const periodFilter = period
     ? `:period "${period}"^^xsd:gYear`
     : `:period ?period`;
@@ -439,7 +415,7 @@ const getTariffs = async ({
         operator_id: operatorId,
         operator_name: operatorName,
         period: periodValue,
-        category: categoryValue as TariffCategory,
+        category: categoryValue as ElectricityCategory,
         tariff_type: "energy",
         rate: parseFloatOrUndefined(row.energy),
       });
@@ -451,7 +427,7 @@ const getTariffs = async ({
         operator_id: operatorId,
         operator_name: operatorName,
         period: periodValue,
-        category: categoryValue as TariffCategory,
+        category: categoryValue as ElectricityCategory,
         tariff_type: "network",
         rate: parseFloatOrUndefined(row.gridusage),
       });
@@ -624,8 +600,7 @@ const getIndicatorMedian = async <
 
     case "energy-tariffs":
     case "net-tariffs": {
-      const { category: categoryRaw } = params;
-      const category = truncateCategory(categoryRaw);
+      const { category } = params;
       const isEnergy = metric === "energy-tariffs";
       cube = "<https://energy.ld.admin.ch/elcom/sunshine-cat-median>";
       query = `
@@ -665,62 +640,65 @@ const getIndicatorMedian = async <
     [key: string]: string;
   }>(query);
   if (results.length === 0) {
-    return undefined;
+    return [];
   }
 
-  const result = results[0];
+  const extractPeerGroup = (result: Record<string, string>) => {
+    // Map results based on metric type
+    switch (metric) {
+      case "network_costs": {
+        const { networkLevel } = params;
+        const valueKey = `gridcost_${networkLevel?.toLowerCase()}`;
+        return {
+          network_level: networkLevel,
+          median_value: parseFloatOrUndefined(result[valueKey] || "0"),
+        } as PeerGroupRecord<Metric>;
+      }
 
-  // Map results based on metric type
-  switch (metric) {
-    case "network_costs": {
-      const { networkLevel } = params;
-      const valueKey = `gridcost_${networkLevel?.toLowerCase()}`;
-      return {
-        network_level: networkLevel,
-        median_value: parseFloatOrUndefined(result[valueKey] || "0"),
-      } as PeerGroupRecord<Metric>;
+      case "stability":
+        return {
+          median_saidi_total: parseFloatOrUndefined(result.saidi_total || "0"),
+          median_saidi_unplanned: parseFloatOrUndefined(
+            result.saidi_unplanned || "0"
+          ),
+          median_saifi_total: parseFloatOrUndefined(result.saifi_total || "0"),
+          median_saifi_unplanned: parseFloatOrUndefined(
+            result.saifi_unplanned || "0"
+          ),
+        } as PeerGroupRecord<Metric>;
+
+      case "operational":
+        return {
+          median_franc_rule: parseFloatOrUndefined(result.franken_regel || "0"),
+          median_info_days: parseInt(result.days_in_advance || "0", 10),
+          median_timely: result.in_time === "true" ? 1 : 0,
+        } as PeerGroupRecord<Metric>;
+
+      case "energy-tariffs": {
+        const { category } = params;
+        return {
+          category,
+          tariff_type: "energy",
+          median_rate: parseFloatOrUndefined(result.energy || "0"),
+        } as unknown as PeerGroupRecord<Metric>;
+      }
+
+      case "net-tariffs": {
+        const { category } = params;
+        return {
+          category,
+          tariff_type: "network",
+          median_rate: parseFloatOrUndefined(result.gridusage || "0"),
+        } as unknown as PeerGroupRecord<Metric>;
+      }
+
+      default:
+        const _check: never = metric;
+        throw new Error(`Unhandled metric type: ${metric}`);
     }
+  };
 
-    case "stability":
-      return {
-        median_saidi_total: parseFloatOrUndefined(result.saidi_total || "0"),
-        median_saidi_unplanned: parseFloatOrUndefined(
-          result.saidi_unplanned || "0"
-        ),
-        median_saifi_total: parseFloatOrUndefined(result.saifi_total || "0"),
-        median_saifi_unplanned: parseFloatOrUndefined(
-          result.saifi_unplanned || "0"
-        ),
-      } as PeerGroupRecord<Metric>;
-
-    case "operational":
-      return {
-        median_franc_rule: parseFloatOrUndefined(result.franken_regel || "0"),
-        median_info_days: parseInt(result.days_in_advance || "0", 10),
-        median_timely: result.in_time === "true" ? 1 : 0,
-      } as PeerGroupRecord<Metric>;
-
-    case "energy-tariffs": {
-      const { category } = params;
-      return {
-        category,
-        tariff_type: "energy",
-        median_rate: parseFloatOrUndefined(result.energy || "0"),
-      } as unknown as PeerGroupRecord<Metric>;
-    }
-
-    case "net-tariffs": {
-      const { category } = params;
-      return {
-        category,
-        tariff_type: "network",
-        median_rate: parseFloatOrUndefined(result.gridusage || "0"),
-      } as unknown as PeerGroupRecord<Metric>;
-    }
-
-    default:
-      return undefined;
-  }
+  return results.map((r) => extractPeerGroup(r));
 };
 
 const getLatestYearSunshine = async (operatorId: number): Promise<number> => {

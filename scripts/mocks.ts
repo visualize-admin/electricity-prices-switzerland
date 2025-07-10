@@ -173,7 +173,7 @@ async function generateMocks(options: FetcherOptions) {
           operatorId: operatorId,
           networkLevel: "NE5",
           period: 2025,
-          category: "NC2",
+          category: "C2",
         }
       );
 

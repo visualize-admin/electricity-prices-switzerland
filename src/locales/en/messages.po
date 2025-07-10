@@ -845,28 +845,56 @@ msgid "selector.category.C1"
 msgstr "C1"
 
 #: src/domain/translation.tsx
+msgid "selector.category.C1-long"
+msgstr "C1 - Small business (<8 kW)"
+
+#: src/domain/translation.tsx
 msgid "selector.category.C2"
 msgstr "C2"
+
+#: src/domain/translation.tsx
+msgid "selector.category.C2-long"
+msgstr "C2 - Small business (<15 kW)"
 
 #: src/domain/translation.tsx
 msgid "selector.category.C3"
 msgstr "C3"
 
 #: src/domain/translation.tsx
+msgid "selector.category.C3-long"
+msgstr "C3 - Medium business (<50 kW)"
+
+#: src/domain/translation.tsx
 msgid "selector.category.C4"
 msgstr "C4"
+
+#: src/domain/translation.tsx
+msgid "selector.category.C4-long"
+msgstr "C4 - Large business (<150 kW, low voltage)"
 
 #: src/domain/translation.tsx
 msgid "selector.category.C5"
 msgstr "C5"
 
 #: src/domain/translation.tsx
+msgid "selector.category.C5-long"
+msgstr "C5 - Large business (<150 kW, medium voltage)"
+
+#: src/domain/translation.tsx
 msgid "selector.category.C6"
 msgstr "C6"
 
 #: src/domain/translation.tsx
+msgid "selector.category.C6-long"
+msgstr "C6 - Large business (<400 kW, medium voltage)"
+
+#: src/domain/translation.tsx
 msgid "selector.category.C7"
 msgstr "C7"
+
+#: src/domain/translation.tsx
+msgid "selector.category.C7-long"
+msgstr "C7 - Large business (<1,630 kW, medium voltage)"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H-group"

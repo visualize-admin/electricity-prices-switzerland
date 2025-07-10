@@ -37,7 +37,7 @@ import { SunshineDataServiceDebug } from "src/components/sunshine-data-service-d
 import SunshineMap from "src/components/sunshine-map";
 import { DataServiceProps } from "src/data/shared-page-props";
 import { useColorScale } from "src/domain/charts";
-import { Entity, TariffCategory } from "src/domain/data";
+import { Entity, ElectricityCategory } from "src/domain/data";
 import { useIndicatorValueFormatter } from "src/domain/helpers";
 import {
   useQueryStateEnergyPricesMap,
@@ -101,8 +101,8 @@ const IndexPageContent = ({
       typology,
       indicator,
       networkLevel,
-      netTariffCategory,
-      energyTariffCategory,
+      category: netElectricityCategory,
+      category: energyElectricityCategory,
       peerGroup,
     },
   ] = useQueryStateSunshineMap();
@@ -128,8 +128,8 @@ const IndexPageContent = ({
         typology,
         networkLevel: networkLevel as NetworkLevel["id"],
         category:
-          (netTariffCategory as TariffCategory) ||
-          (energyTariffCategory as TariffCategory),
+          (netElectricityCategory as ElectricityCategory) ||
+          (energyElectricityCategory as ElectricityCategory),
       },
     },
     pause: !isSunshineTab,

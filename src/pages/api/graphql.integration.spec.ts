@@ -91,10 +91,10 @@ const formatForSnapshot = (data: SunshineDataByIndicatorQuery | undefined) => {
 
 describe("GraphQL API Integration Tests", () => {
   describe("SunshineDataByIndicator queries", () => {
-    it("should fetch network costs for NC2 NE5 peer group A", async () => {
+    it("should fetch network costs for C2 NE5 peer group A", async () => {
       const variables: SunshineDataByIndicatorQueryVariables = {
         filter: {
-          category: "NC2",
+          category: "C2",
           indicator: "networkCosts",
           networkLevel: "NE5",
           peerGroup: "A",
@@ -141,10 +141,10 @@ describe("GraphQL API Integration Tests", () => {
       `);
     });
 
-    it("should fetch network costs for NC2 NE5 peer group C", async () => {
+    it("should fetch network costs for C2 NE5 peer group C", async () => {
       const variables: SunshineDataByIndicatorQueryVariables = {
         filter: {
-          category: "NC2",
+          category: "C2",
           indicator: "networkCosts",
           networkLevel: "NE5",
           peerGroup: "C",
@@ -191,10 +191,10 @@ describe("GraphQL API Integration Tests", () => {
       `);
     });
 
-    it("should fetch network costs for NC2 NE6 peer group C", async () => {
+    it("should fetch network costs for C2 NE6 peer group C", async () => {
       const variables: SunshineDataByIndicatorQueryVariables = {
         filter: {
-          category: "NC2",
+          category: "C2",
           indicator: "networkCosts",
           networkLevel: "NE6",
           peerGroup: "C",
@@ -241,10 +241,10 @@ describe("GraphQL API Integration Tests", () => {
       `);
     });
 
-    it("should fetch network costs for NC2 NE7 peer group C", async () => {
+    it("should fetch network costs for C2 NE7 peer group C", async () => {
       const variables: SunshineDataByIndicatorQueryVariables = {
         filter: {
-          category: "NC2",
+          category: "C2",
           indicator: "networkCosts",
           networkLevel: "NE7",
           peerGroup: "C",
@@ -291,10 +291,10 @@ describe("GraphQL API Integration Tests", () => {
       `);
     });
 
-    it("should fetch network costs for NC2 NE7 peer group D", async () => {
+    it("should fetch network costs for C2 NE7 peer group D", async () => {
       const variables: SunshineDataByIndicatorQueryVariables = {
         filter: {
-          category: "NC2",
+          category: "C2",
           indicator: "networkCosts",
           networkLevel: "NE7",
           peerGroup: "D",
@@ -341,10 +341,10 @@ describe("GraphQL API Integration Tests", () => {
       `);
     });
 
-    it("should fetch network costs for NC2 NE7 without peer group", async () => {
+    it("should fetch network costs for C2 NE7 without peer group", async () => {
       const variables: SunshineDataByIndicatorQueryVariables = {
         filter: {
-          category: "NC2",
+          category: "C2",
           indicator: "networkCosts",
           networkLevel: "NE7",
           period: "2025",
@@ -390,10 +390,10 @@ describe("GraphQL API Integration Tests", () => {
       `);
     });
 
-    it("should fetch net tariffs for NC2 NE7", async () => {
+    it("should fetch net tariffs for C2 NE7", async () => {
       const variables: SunshineDataByIndicatorQueryVariables = {
         filter: {
-          category: "NC2",
+          category: "C2",
           indicator: "netTariffs",
           networkLevel: "NE7",
           period: "2025",
@@ -415,21 +415,21 @@ describe("GraphQL API Integration Tests", () => {
                   "operatorId": 2,
                   "operatorUID": "CHE-108.955.110",
                   "period": "2025",
-                  "value": null,
+                  "value": 11.332443333333332,
                 },
                 {
                   "name": "Commune de Courchapoix, electricite",
                   "operatorId": 3,
                   "operatorUID": "CHE-112.591.057",
                   "period": "2025",
-                  "value": null,
+                  "value": 13.999644444444444,
                 },
                 {
                   "name": "AEW Energie AG",
                   "operatorId": 5,
                   "operatorUID": "CHE-105.981.944",
                   "period": "2025",
-                  "value": null,
+                  "value": 10.36465,
                 },
               ],
               "median": 10.68,
@@ -442,7 +442,7 @@ describe("GraphQL API Integration Tests", () => {
     it("should fetch net tariffs for NC3 NE7", async () => {
       const variables: SunshineDataByIndicatorQueryVariables = {
         filter: {
-          category: "NC3",
+          category: "C3",
           indicator: "netTariffs",
           networkLevel: "NE7",
           period: "2025",
@@ -464,21 +464,21 @@ describe("GraphQL API Integration Tests", () => {
                   "operatorId": 2,
                   "operatorUID": "CHE-108.955.110",
                   "period": "2025",
-                  "value": null,
+                  "value": 11.476066666666666,
                 },
                 {
                   "name": "Commune de Courchapoix, electricite",
                   "operatorId": 3,
                   "operatorUID": "CHE-112.591.057",
                   "period": "2025",
-                  "value": null,
+                  "value": 14.345883333333333,
                 },
                 {
                   "name": "AEW Energie AG",
                   "operatorId": 5,
                   "operatorUID": "CHE-105.981.944",
                   "period": "2025",
-                  "value": null,
+                  "value": 10.517333333333333,
                 },
               ],
               "median": 10.570666666666668,
@@ -491,7 +491,7 @@ describe("GraphQL API Integration Tests", () => {
     it("should fetch net tariffs for NC4 NE7", async () => {
       const variables: SunshineDataByIndicatorQueryVariables = {
         filter: {
-          category: "NC4",
+          category: "C4",
           indicator: "netTariffs",
           networkLevel: "NE7",
           period: "2025",
@@ -513,21 +513,21 @@ describe("GraphQL API Integration Tests", () => {
                   "operatorId": 2,
                   "operatorUID": "CHE-108.955.110",
                   "period": "2025",
-                  "value": null,
+                  "value": 10.77508,
                 },
                 {
                   "name": "Commune de Courchapoix, electricite",
                   "operatorId": 3,
                   "operatorUID": "CHE-112.591.057",
                   "period": "2025",
-                  "value": null,
+                  "value": 11.871535,
                 },
                 {
                   "name": "AEW Energie AG",
                   "operatorId": 5,
                   "operatorUID": "CHE-105.981.944",
                   "period": "2025",
-                  "value": null,
+                  "value": 9.517866666666666,
                 },
               ],
               "median": 9.918,
@@ -540,7 +540,7 @@ describe("GraphQL API Integration Tests", () => {
     it("should fetch net tariffs for NC6 NE7", async () => {
       const variables: SunshineDataByIndicatorQueryVariables = {
         filter: {
-          category: "NC6",
+          category: "C6",
           indicator: "netTariffs",
           networkLevel: "NE7",
           period: "2025",
@@ -562,7 +562,7 @@ describe("GraphQL API Integration Tests", () => {
                   "operatorId": 2,
                   "operatorUID": "CHE-108.955.110",
                   "period": "2025",
-                  "value": null,
+                  "value": 8.117,
                 },
                 {
                   "name": "Commune de Courchapoix, electricite",
@@ -576,7 +576,7 @@ describe("GraphQL API Integration Tests", () => {
                   "operatorId": 5,
                   "operatorUID": "CHE-105.981.944",
                   "period": "2025",
-                  "value": null,
+                  "value": 4.4350000000000005,
                 },
               ],
               "median": 6.573944444444445,
@@ -589,7 +589,7 @@ describe("GraphQL API Integration Tests", () => {
     it("should fetch net tariffs for NH2 NE7", async () => {
       const variables: SunshineDataByIndicatorQueryVariables = {
         filter: {
-          category: "NH2",
+          category: "H2",
           indicator: "netTariffs",
           networkLevel: "NE7",
           period: "2025",
@@ -611,21 +611,21 @@ describe("GraphQL API Integration Tests", () => {
                   "operatorId": 2,
                   "operatorUID": "CHE-108.955.110",
                   "period": "2025",
-                  "value": null,
+                  "value": 14.77256,
                 },
                 {
                   "name": "Commune de Courchapoix, electricite",
                   "operatorId": 3,
                   "operatorUID": "CHE-112.591.057",
                   "period": "2025",
-                  "value": null,
+                  "value": 21.02,
                 },
                 {
                   "name": "AEW Energie AG",
                   "operatorId": 5,
                   "operatorUID": "CHE-105.981.944",
                   "period": "2025",
-                  "value": null,
+                  "value": 13.981714285714284,
                 },
               ],
               "median": 14.579142857142857,
@@ -638,7 +638,7 @@ describe("GraphQL API Integration Tests", () => {
     it("should fetch network costs for NH2 NE7", async () => {
       const variables: SunshineDataByIndicatorQueryVariables = {
         filter: {
-          category: "NH2",
+          category: "H2",
           indicator: "networkCosts",
           networkLevel: "NE7",
           period: "2025",
@@ -687,7 +687,7 @@ describe("GraphQL API Integration Tests", () => {
     it("should fetch network costs for NH2 NE7 peer group B", async () => {
       const variables: SunshineDataByIndicatorQueryVariables = {
         filter: {
-          category: "NH2",
+          category: "H2",
           indicator: "networkCosts",
           networkLevel: "NE7",
           peerGroup: "B",
