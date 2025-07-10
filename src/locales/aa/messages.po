@@ -845,28 +845,56 @@ msgid "selector.category.C1"
 msgstr "selector.category.C1"
 
 #: src/domain/translation.tsx
+msgid "selector.category.C1-long"
+msgstr "selector.category.C1-long"
+
+#: src/domain/translation.tsx
 msgid "selector.category.C2"
 msgstr "selector.category.C2"
+
+#: src/domain/translation.tsx
+msgid "selector.category.C2-long"
+msgstr "selector.category.C2-long"
 
 #: src/domain/translation.tsx
 msgid "selector.category.C3"
 msgstr "selector.category.C3"
 
 #: src/domain/translation.tsx
+msgid "selector.category.C3-long"
+msgstr "selector.category.C3-long"
+
+#: src/domain/translation.tsx
 msgid "selector.category.C4"
 msgstr "selector.category.C4"
+
+#: src/domain/translation.tsx
+msgid "selector.category.C4-long"
+msgstr "selector.category.C4-long"
 
 #: src/domain/translation.tsx
 msgid "selector.category.C5"
 msgstr "selector.category.C5"
 
 #: src/domain/translation.tsx
+msgid "selector.category.C5-long"
+msgstr "selector.category.C5-long"
+
+#: src/domain/translation.tsx
 msgid "selector.category.C6"
 msgstr "selector.category.C6"
 
 #: src/domain/translation.tsx
+msgid "selector.category.C6-long"
+msgstr "selector.category.C6-long"
+
+#: src/domain/translation.tsx
 msgid "selector.category.C7"
 msgstr "selector.category.C7"
+
+#: src/domain/translation.tsx
+msgid "selector.category.C7-long"
+msgstr "selector.category.C7-long"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H-group"

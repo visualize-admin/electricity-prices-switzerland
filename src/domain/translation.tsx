@@ -137,6 +137,42 @@ export const getLocalizedLabel = ({ id }: { id: string }): string => {
         message: `H8 - Large, highly electrified condominium`,
       });
 
+    case "C1-long":
+      return t({
+        id: "selector.category.C1-long",
+        message: `C1 - Small business (<8 kW)`,
+      });
+    case "C2-long":
+      return t({
+        id: "selector.category.C2-long",
+        message: `C2 - Small business (<15 kW)`,
+      });
+    case "C3-long":
+      return t({
+        id: "selector.category.C3-long",
+        message: `C3 - Medium business (<50 kW)`,
+      });
+    case "C4-long":
+      return t({
+        id: "selector.category.C4-long",
+        message: `C4 - Large business (<150 kW, low voltage)`,
+      });
+    case "C5-long":
+      return t({
+        id: "selector.category.C5-long",
+        message: `C5 - Large business (<150 kW, medium voltage)`,
+      });
+    case "C6-long":
+      return t({
+        id: "selector.category.C6-long",
+        message: `C6 - Large business (<400 kW, medium voltage)`,
+      });
+    case "C7-long":
+      return t({
+        id: "selector.category.C7-long",
+        message: `C7 - Large business (<1,630 kW, medium voltage)`,
+      });
+
     case "H-group":
       return t({ id: "selector.category.H-group", message: "Households" });
     case "C-group":

@@ -366,7 +366,7 @@ const OverviewPage = (props: Props) => {
               </Trans>
             }
             cardDescription={getLocalizedLabel({
-              id: `selector.category.${category}.long`,
+              id: `${category}-long`,
             })}
             sx={{ gridArea: "net-tariffs" }}
             linkContent={
@@ -403,7 +403,7 @@ const OverviewPage = (props: Props) => {
               </Trans>
             }
             cardDescription={getLocalizedLabel({
-              id: `selector.category.${category}.long`,
+              id: `${category}-long`,
             })}
             sx={{ gridArea: "energy-tariffs" }}
             linkContent={
