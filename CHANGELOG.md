@@ -9,9 +9,11 @@ and this project adheres to
 You can also check the
 [release page](https://github.com/visualize-admin/electricity-prices-switzerland/releases)
 
-# Unreleased
+# 2.6.2 - 2025-07-10
 
-Nothing yet.
+- Features
+
+  - Sync locales from Accent
 
 # 2.6.1 - 2025-07-10
 
