@@ -246,8 +246,8 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
           // Network costs trend is below them
           // On Mobile, they are stacked
           gridTemplateAreas: [
-            `"selector" "peer-group" "comparison" "trend"`, // One column on small screens
-            `"selector space" "peer-group comparison" "trend trend"`, // Two columns on medium screens
+            `"selector" "comparison" "peer-group" "trend"`, // One column on small screens
+            `"selector space" "comparison peer-group" "trend trend"`, // Two columns on medium screens
           ],
         }}
       >
@@ -418,8 +418,8 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
           },
           gridTemplateRows: ["auto auto auto", "auto auto"], // Three rows: two for cards, one for trend chart
           gridTemplateAreas: [
-            `"selector" "peer-group" "comparison" "trend"`, // One column on small screens
-            `"selector space" "peer-group comparison" "trend trend"`, // Two columns on medium screens
+            `"selector" "comparison" "peer-group" "trend"`, // One column on small screens
+            `"selector space" "comparison peer-group" "trend trend"`, // Two columns on medium screens
           ],
         }}
       >
@@ -602,8 +602,8 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
           },
           gridTemplateRows: ["auto auto auto", "auto auto"], // Three rows: two for cards, one for trend chart
           gridTemplateAreas: [
-            `"selector" "peer-group" "comparison" "trend"`, // One column on small screens
-            `"selector space" "peer-group comparison" "trend trend"`, // Two columns on medium screens
+            `"selector" "comparison" "peer-group" "trend"`, // One column on small screens
+            `"selector space" "comparison peer-group" "trend trend"`, // Two columns on medium screens
           ],
         }}
       >
