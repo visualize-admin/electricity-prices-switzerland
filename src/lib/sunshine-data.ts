@@ -266,6 +266,7 @@ export const fetchEnergyTariffsData = async (
     peerGroup: operatorData.peer_group,
     category: category,
     operatorId: operatorId,
+    tariffType: "energy",
   });
 
   return {
