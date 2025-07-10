@@ -14,6 +14,7 @@ You can also check the
 - Features
 
   - Map page: Same hover style on Energy Prices vs Sunshine Map
+  - Map page: Scroll is disabled on map unless user holds ctrl or cmd key
 
 - Fix
 
