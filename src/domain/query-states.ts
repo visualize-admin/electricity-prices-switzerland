@@ -62,7 +62,7 @@ const sunshineMapSchema = z.object({
   period: periodSchema,
   peerGroup: z.string().default("all_grid_operators"),
   typology: z.enum(["total", "planned", "unplanned"]).default("total"),
-  indicator: sunshineIndicatorSchema.default("saidi"),
+  indicator: sunshineIndicatorSchema.default("networkCosts"),
   category: z.string().default("C2"),
   networkLevel: z.string().default("NE5"),
   activeId: z.string().optional(),
