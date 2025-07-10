@@ -13,10 +13,7 @@ import {
   TariffsData,
   Trend,
 } from "src/graphql/resolver-types";
-import {
-  SunshineDataService,
-  TariffRecord,
-} from "src/lib/sunshine-data-service";
+import { SunshineDataService } from "src/lib/sunshine-data-service";
 
 type NetworkCostsParams = {
   metric: "network_costs";
@@ -191,6 +188,18 @@ export const fetchNetworkCostsData = async (
     ? previousOperatorNetworkCosts[0]
     : undefined;
 
+  const peerGroupMedianAsYearlyData = yearlyPeerGroupMedianNetworkCosts.map(
+    (item) => ({
+      year: item.period,
+      rate: item.median_value,
+      operator_id: 10000,
+      operator_name: "Peer Group Median",
+      network_level: item.network_level,
+    })
+  );
+
+  const combinedYearlyData = [...networkCosts, ...peerGroupMedianAsYearlyData];
+
   return {
     networkLevel: { id: networkLevel },
     operatorRate: operatorNetworkCost?.rate ?? null,
@@ -203,7 +212,7 @@ export const fetchNetworkCostsData = async (
       previousPeerGroupMedianNetworkCosts?.median_value,
       peerGroupMedianNetworkCosts?.median_value
     ),
-    yearlyData: networkCosts,
+    yearlyData: combinedYearlyData,
   };
 };
 
@@ -220,12 +229,7 @@ export const fetchNetTariffsData = async (
     period: number;
     operatorOnly?: boolean;
   }
-): Promise<{
-  category: ElectricityCategory;
-  operatorRate: number | null;
-  peerGroupMedianRate: number | null;
-  yearlyData: TariffRecord[];
-}> => {
+): Promise<TariffsData> => {
   const operatorData = await db.getOperatorData(operatorId);
 
   const yearlyPeerGroupMedianNetTariffs =
@@ -260,11 +264,23 @@ export const fetchNetTariffsData = async (
     operatorId: operatorOnly ? operatorId : undefined,
   });
 
+  const peerGroupMedianAsYearlyData = yearlyPeerGroupMedianNetTariffs.map(
+    (item) => ({
+      period: item.period,
+      rate: item.median_rate,
+      operator_id: 10000,
+      operator_name: "Peer Group Median",
+      category: item.category,
+    })
+  );
+
+  const combinedYearlyData = [...netTariffs, ...peerGroupMedianAsYearlyData];
+
   return {
     category: category,
     operatorRate: operatorNetTariff?.rate ?? null,
     peerGroupMedianRate: peerGroupMedianNetTariffs?.median_rate ?? null,
-    yearlyData: netTariffs,
+    yearlyData: combinedYearlyData,
   };
 };
 
@@ -319,11 +335,23 @@ export const fetchEnergyTariffsData = async (
     operatorId: operatorOnly ? operatorId : undefined,
   });
 
+  const peerGroupMedianAsYearlyData = yearlyPeerGroupMedianEnergyTariffs.map(
+    (item) => ({
+      period: item.period,
+      rate: item.median_rate,
+      operator_id: 10000,
+      operator_name: "Peer Group Median",
+      category: item.category,
+    })
+  );
+
+  const combinedYearlyData = [...energyTariffs, ...peerGroupMedianAsYearlyData];
+
   return {
     category: category,
     operatorRate: operatorEnergyTariff?.rate ?? null,
     peerGroupMedianRate: peerGroupMedianEnergyTariffs?.median_rate ?? null,
-    yearlyData: energyTariffs,
+    yearlyData: combinedYearlyData,
   };
 };
 
