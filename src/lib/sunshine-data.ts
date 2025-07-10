@@ -77,6 +77,8 @@ const getTrend = (
   }
 };
 
+const isValidNumber = (n: number) => !Number.isNaN(n) && Number.isFinite(n);
+
 /**
  * Fetch costs and tariffs data for a specific operator
  * @param db Database service
@@ -89,10 +91,12 @@ export const fetchNetworkCostsData = async (
     operatorId,
     networkLevel = "NE5",
     period,
+    operatorOnly,
   }: {
     operatorId: number;
     networkLevel?: NetworkLevel["id"];
     period?: number;
+    operatorOnly?: boolean;
   }
 ): Promise<NetworkCostsData> => {
   const operatorData = await db.getOperatorData(operatorId);
@@ -139,10 +143,11 @@ export const fetchNetworkCostsData = async (
     await db.getNetworkCosts({
       peerGroup: operatorData.peer_group,
       networkLevel: networkLevel,
+      operatorId: operatorOnly ? operatorId : undefined,
     })
   )
     // TODO Should be done in the view
-    .filter((x) => !Number.isNaN(x.rate) && Number.isFinite(x.rate));
+    .filter((x) => isValidNumber(x.rate));
 
   const operatorNetworkCost = first(operatorNetworkCosts);
 
@@ -178,10 +183,12 @@ export const fetchNetTariffsData = async (
     operatorId,
     category,
     period,
+    operatorOnly,
   }: {
     operatorId: number;
     category: ElectricityCategory;
     period: number;
+    operatorOnly?: boolean;
   }
 ): Promise<{
   category: ElectricityCategory;
@@ -216,6 +223,7 @@ export const fetchNetTariffsData = async (
     peerGroup: operatorData.peer_group,
     tariffType: "network",
     category: category,
+    operatorId: operatorOnly ? operatorId : undefined,
   });
 
   return {
@@ -232,10 +240,12 @@ export const fetchEnergyTariffsData = async (
     operatorId,
     category,
     period,
+    operatorOnly,
   }: {
     operatorId: number;
     category: ElectricityCategory;
     period: number;
+    operatorOnly?: boolean;
   }
 ): Promise<TariffsData> => {
   const operatorData = await db.getOperatorData(operatorId);
@@ -265,8 +275,8 @@ export const fetchEnergyTariffsData = async (
   const energyTariffs = await db.getTariffs({
     peerGroup: operatorData.peer_group,
     category: category,
-    operatorId: operatorId,
     tariffType: "energy",
+    operatorId: operatorOnly ? operatorId : undefined,
   });
 
   return {

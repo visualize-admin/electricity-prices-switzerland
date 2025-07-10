@@ -51,18 +51,14 @@ const NetTariffsChartAdapter = ({
         operatorId: parseInt(id, 10),
         period: parseInt(period, 10),
         category,
+        operatorOnly: true,
       },
     },
   });
 
-  // TODO Do the filtering to get only operator observations at
-  // graphql level
   const yearlyData = useMemo(() => {
-    const operatorId = parseInt(id, 10);
-    return data?.netTariffs.yearlyData.filter(
-      (p) => p.operator_id === operatorId
-    );
-  }, [data?.netTariffs.yearlyData, id]);
+    return data?.netTariffs.yearlyData;
+  }, [data?.netTariffs.yearlyData]);
 
   if (fetching) {
     return <Loading />;
@@ -108,18 +104,14 @@ const EnergyTariffsChartAdapter = ({
         operatorId: parseInt(id, 10),
         period: parseInt(period, 10),
         category: category,
+        operatorOnly: true,
       },
     },
   });
 
-  // TODO Do the filtering to get only operator observations at
-  // graphql level
   const yearlyData = useMemo(() => {
-    const operatorId = parseInt(id, 10);
-    return data?.energyTariffs.yearlyData.filter(
-      (p) => p.operator_id === operatorId
-    );
-  }, [data?.energyTariffs.yearlyData, id]);
+    return data?.energyTariffs.yearlyData;
+  }, [data?.energyTariffs.yearlyData]);
 
   if (fetching) {
     return <Loading />;
@@ -165,18 +157,14 @@ const NetworkCostsChartAdapter = ({
         operatorId: parseInt(id, 10),
         period: parseInt(period, 10),
         networkLevel: networkLevel,
+        operatorOnly: true,
       },
     },
   });
 
-  // TODO Do the filtering to get only operator observations at
-  // graphql level
   const yearlyData = useMemo(() => {
-    const operatorId = parseInt(id, 10);
-    return data?.networkCosts.yearlyData.filter(
-      (p) => p.operator_id === operatorId
-    );
-  }, [data?.networkCosts.yearlyData, id]);
+    return data?.networkCosts.yearlyData;
+  }, [data?.networkCosts.yearlyData]);
 
   if (fetching) {
     return <Loading />;

@@ -468,6 +468,7 @@ const Query: QueryResolvers = {
         ? asNetworkLevel(filter.networkLevel)
         : undefined,
       period: filter.period,
+      operatorOnly: filter.operatorOnly ?? undefined,
     });
   },
   netTariffs: async (_, { filter }, context) => {
@@ -475,6 +476,7 @@ const Query: QueryResolvers = {
       operatorId: filter.operatorId,
       category: asElectricityCategory(filter.category as ElectricityCategory),
       period: filter.period,
+      operatorOnly: filter.operatorOnly ?? undefined,
     });
   },
   energyTariffs: async (_, { filter }, context) => {
@@ -482,6 +484,7 @@ const Query: QueryResolvers = {
       operatorId: filter.operatorId,
       category: asElectricityCategory(filter.category),
       period: filter.period,
+      operatorOnly: filter.operatorOnly ?? undefined,
     });
   },
   saidi: async (_, { filter }, context) => {

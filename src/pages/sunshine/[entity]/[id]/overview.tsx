@@ -192,6 +192,7 @@ const OverviewPage = (props: Props) => {
         operatorId,
         networkLevel,
         period: latestYear,
+        operatorOnly: true,
       },
     },
   });
@@ -201,6 +202,7 @@ const OverviewPage = (props: Props) => {
         operatorId,
         period: latestYear,
         category,
+        operatorOnly: true,
       },
     },
   });
@@ -210,6 +212,7 @@ const OverviewPage = (props: Props) => {
         operatorId,
         period: latestYear,
         category,
+        operatorOnly: true,
       },
     },
   });

@@ -17,6 +17,7 @@ You can also check the
   - Map page: Scroll is disabled on map unless user holds ctrl or cmd key
   - Costs and Tariffs: Use Combobox instead of ButtonGroup for network level
   - Detail pages: Invert comparison card & peer group card
+  - Overview: Only data for current operator is fetched
 
 - Fix
 

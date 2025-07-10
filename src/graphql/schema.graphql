@@ -311,12 +311,14 @@ input NetworkCostsFilter {
   operatorId: Int!
   networkLevel: String!
   period: Int!
+  operatorOnly: Boolean
 }
 
 input TariffsFilter {
   operatorId: Int!
   category: String!
   period: Int!
+  operatorOnly: Boolean
 }
 
 type StabilityDataRow {
