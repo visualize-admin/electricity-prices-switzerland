@@ -231,7 +231,7 @@ export const TariffsTrendCardMinified: React.FC<
   const [state] = useQueryStateTariffsTrendCardFilters({
     defaultValue: defaultFilters,
   });
-  const { compareWith, viewBy } = state;
+  const { viewBy } = state;
   const chartData = getTariffsTrendCardState(rest, state);
   return (
     <Card {...rest}>
@@ -251,7 +251,7 @@ export const TariffsTrendCardMinified: React.FC<
           observations={chartData.observations}
           netTariffs={chartData.restNetTariffs}
           viewBy={viewBy}
-          compareWith={compareWith}
+          compareWith={[]}
           rootProps={{ sx: { mt: 2 } }}
         />
         <Stack

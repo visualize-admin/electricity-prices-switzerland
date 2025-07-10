@@ -3,6 +3,8 @@ import { first, sortBy } from "lodash";
 import { ElectricityCategory } from "src/domain/data";
 import {
   NetworkLevel,
+  peerGroupOperatorId,
+  peerGroupOperatorName,
   SunshineCostsAndTariffsData,
   SunshineOperationalStandardsData,
   SunshinePowerStabilityData,
@@ -188,12 +190,13 @@ export const fetchNetworkCostsData = async (
     ? previousOperatorNetworkCosts[0]
     : undefined;
 
+  // Concatenate peer group median data into yearlyData with special operator_id and name
   const peerGroupMedianAsYearlyData = yearlyPeerGroupMedianNetworkCosts.map(
     (item) => ({
       year: item.period,
       rate: item.median_value,
-      operator_id: 10000,
-      operator_name: "Peer Group Median",
+      operator_id: peerGroupOperatorId,
+      operator_name: peerGroupOperatorName,
       network_level: item.network_level,
     })
   );
@@ -264,12 +267,13 @@ export const fetchNetTariffsData = async (
     operatorId: operatorOnly ? operatorId : undefined,
   });
 
+  // Concatenate peer group median data into yearlyData with special operator_id and name
   const peerGroupMedianAsYearlyData = yearlyPeerGroupMedianNetTariffs.map(
     (item) => ({
       period: item.period,
       rate: item.median_rate,
-      operator_id: 10000,
-      operator_name: "Peer Group Median",
+      operator_id: peerGroupOperatorId,
+      operator_name: peerGroupOperatorName,
       category: item.category,
     })
   );
@@ -335,12 +339,13 @@ export const fetchEnergyTariffsData = async (
     operatorId: operatorOnly ? operatorId : undefined,
   });
 
+  // Concatenate peer group median data into yearlyData with special operator_id and name
   const peerGroupMedianAsYearlyData = yearlyPeerGroupMedianEnergyTariffs.map(
     (item) => ({
       period: item.period,
       rate: item.median_rate,
-      operator_id: 10000,
-      operator_name: "Peer Group Median",
+      operator_id: peerGroupOperatorId,
+      operator_name: peerGroupOperatorName,
       category: item.category,
     })
   );

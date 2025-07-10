@@ -91,6 +91,9 @@ export const peerGroupMapping: Record<
   NA: { energy_density: "N.A.", settlement_density: "N.A." },
 };
 
+export const peerGroupOperatorId = 10000;
+export const peerGroupOperatorName = "MEDIAN_PEER_GROUP";
+
 export const sunshineIndicatorSchema = z.enum([
   "networkCosts",
   "netTariffs",
