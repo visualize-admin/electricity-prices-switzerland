@@ -77,6 +77,7 @@ export const SunshineTopics = () => {
                     alt="map preview"
                     layout="fill"
                     objectFit="contain"
+                    priority={false}
                   />
                 </SunshineImageWrapper>
               </SunshineCardHeader>
@@ -144,6 +145,7 @@ export const SunshineTopics = () => {
                     alt="map preview"
                     layout="fill"
                     objectFit="contain"
+                    priority={false}
                   />
                 </SunshineImageWrapper>
               </SunshineCardHeader>
@@ -199,6 +201,7 @@ export const SunshineTopics = () => {
                     alt="map preview"
                     layout="fill"
                     objectFit="contain"
+                    priority={false}
                   />
                 </SunshineImageWrapper>
               </SunshineCardHeader>
