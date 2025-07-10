@@ -765,6 +765,14 @@ msgstr "priceComponents.view.expanded.operators"
 msgid "progress-overtime-chart.legend-item.other-operators"
 msgstr "progress-overtime-chart.legend-item.other-operators"
 
+#: src/components/charts-generic/progress-overtime-chart.tsx
+msgid "progress-overtime-chart.legend-item.peer-group"
+msgstr "progress-overtime-chart.legend-item.peer-group"
+
+#: src/components/charts-generic/interaction/tooltip-content.tsx
+msgid "progress-overtime-chart.operator-name.peer-group"
+msgstr "progress-overtime-chart.operator-name.peer-group"
+
 #: src/components/detail-page/cantons-comparison-range.tsx
 msgid "rangeplot.select.order.hint"
 msgstr "rangeplot.select.order.hint"

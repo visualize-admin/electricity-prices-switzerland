@@ -299,7 +299,7 @@ msgstr "Federal Electricity Commission ElCom"
 
 #: src/components/sunshine-map.tsx
 msgid "help."
-msgstr "help."
+msgstr "help"
 
 #: src/components/footer.tsx
 msgid "help.calculation"
@@ -311,7 +311,7 @@ msgstr "Tariff comparison"
 
 #: src/components/hint.tsx
 msgid "hint.loading.data"
-msgstr "Loading data..."
+msgstr "Loading data…"
 
 #: src/components/hint.tsx
 msgid "hint.nocontent.message"
@@ -375,7 +375,7 @@ msgstr "Overview"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-regulation.description"
-msgstr "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum."
+msgstr "In Switzerland, electricity tariffs are based on actual costs (Cost Plus regulation). ElCom introduced Sunshine regulation to promote efficiency and create transparency. The Sunshine indicators enable comparisons between grid operators regarding cost efficiency, supply quality, and compliance. Since topographical and structural differences influence values, comparisons are made both nationwide and within comparison groups based on population density and energy consumption."
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-regulation.title"
@@ -415,7 +415,7 @@ msgstr "Energy Tariffs"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.net-tariff.link"
-msgstr "Net Tariffs"
+msgstr "Grid Tariffs"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.network-costs.link"
@@ -435,7 +435,7 @@ msgstr "Service Quality"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.title"
-msgstr "Sunshine Topics"
+msgstr "Sunshine Indicators"
 
 #: src/components/detail-page/download-image.tsx
 msgid "image.download"
@@ -451,7 +451,7 @@ msgstr "Energy tariffs"
 
 #: src/domain/translation.tsx
 msgid "indicator.netTariffs"
-msgstr "Net tariffs"
+msgstr "Grid tariffs"
 
 #: src/domain/translation.tsx
 msgid "indicator.networkCosts"
@@ -535,7 +535,7 @@ msgstr "Energy Tariffs in detail"
 
 #: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.next-button.net-tariffs"
-msgstr "Net Tariffs in detail"
+msgstr "Grid Tariffs in detail"
 
 #: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.next-button.network-costs"
@@ -764,6 +764,14 @@ msgstr "Show individual network operators"
 #: src/components/charts-generic/progress-overtime-chart.tsx
 msgid "progress-overtime-chart.legend-item.other-operators"
 msgstr "Other operators"
+
+#: src/components/charts-generic/progress-overtime-chart.tsx
+msgid "progress-overtime-chart.legend-item.peer-group"
+msgstr "Median peer group"
+
+#: src/components/charts-generic/interaction/tooltip-content.tsx
+msgid "progress-overtime-chart.operator-name.peer-group"
+msgstr "Median peer group"
 
 #: src/components/detail-page/cantons-comparison-range.tsx
 msgid "rangeplot.select.order.hint"
@@ -1109,7 +1117,7 @@ msgstr "Compare With"
 
 #: src/components/card-source.tsx
 msgid "sunshine.costs-and-tariffs.date"
-msgstr "sunshine.costs-and-tariffs.date"
+msgstr "Date: {publicationDate}"
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.description"
@@ -1153,7 +1161,7 @@ msgstr "Median Peer Group"
 
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.costs-and-tariffs.net-tariffs"
-msgstr "Net Tariffs"
+msgstr "Grid Tariffs"
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.net-tariffs-comparison-title"
@@ -1167,7 +1175,7 @@ msgstr "Net Tariffs Trend"
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.costs-and-tariffs.net-tariffs.overview"
-msgstr "Net Tariffs"
+msgstr "Grid Tariffs"
 
 #: src/components/map-details-chart-adapters.tsx
 #: src/components/network-costs-trend-card.tsx
@@ -1220,7 +1228,7 @@ msgstr "Selected network operators"
 
 #: src/components/card-source.tsx
 msgid "sunshine.costs-and-tariffs.source"
-msgstr "sunshine.costs-and-tariffs.source"
+msgstr "Source: {dataSource}"
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
@@ -1258,7 +1266,7 @@ msgstr "Energy tariffs in Rp./kWh"
 
 #: src/components/sunshine-map.tsx
 msgid "sunshine.indicator.netTariffs"
-msgstr "Net tariffs in Rp./kWh"
+msgstr "Grid tariffs in Rp./kWh"
 
 #: src/components/sunshine-map.tsx
 msgid "sunshine.indicator.networkCosts"
@@ -1342,7 +1350,7 @@ msgstr "Operational Standards"
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.overview-sunshine.description"
-msgstr "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at tellus at leo fermentum gravida. Nam eu mollis lacus. Sed libero augue, porttitor at velit fringilla, blandit cursus ipsum. In neque metus, ultricies ut tellus et, ornare condimentu."
+msgstr "In Switzerland, electricity tariffs are based on actual costs (Cost Plus regulation). ElCom introduced Sunshine regulation to promote efficiency and create transparency. The Sunshine indicators enable comparisons between grid operators regarding cost efficiency, supply quality, and compliance. Since topographical and structural differences influence values, comparisons are made both nationwide and within comparison groups based on population density and energy consumption."
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 #: src/pages/sunshine/[entity]/[id]/overview.tsx

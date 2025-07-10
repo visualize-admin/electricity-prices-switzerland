@@ -765,6 +765,14 @@ msgstr "Montrer tous les gestionnaires"
 msgid "progress-overtime-chart.legend-item.other-operators"
 msgstr "Autres opérateurs"
 
+#: src/components/charts-generic/progress-overtime-chart.tsx
+msgid "progress-overtime-chart.legend-item.peer-group"
+msgstr "Groupe de référence médian"
+
+#: src/components/charts-generic/interaction/tooltip-content.tsx
+msgid "progress-overtime-chart.operator-name.peer-group"
+msgstr "Groupe de référence médian"
+
 #: src/components/detail-page/cantons-comparison-range.tsx
 msgid "rangeplot.select.order.hint"
 msgstr "Trier selon"

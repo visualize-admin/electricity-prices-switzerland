@@ -765,6 +765,14 @@ msgstr "Mostrare tutti i gestori di rete"
 msgid "progress-overtime-chart.legend-item.other-operators"
 msgstr "Altri operatori"
 
+#: src/components/charts-generic/progress-overtime-chart.tsx
+msgid "progress-overtime-chart.legend-item.peer-group"
+msgstr "Gruppo di riferimento mediano"
+
+#: src/components/charts-generic/interaction/tooltip-content.tsx
+msgid "progress-overtime-chart.operator-name.peer-group"
+msgstr "Gruppo di riferimento mediano"
+
 #: src/components/detail-page/cantons-comparison-range.tsx
 msgid "rangeplot.select.order.hint"
 msgstr "Ordinare per"

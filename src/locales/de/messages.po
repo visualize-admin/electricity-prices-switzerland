@@ -37,7 +37,7 @@ msgstr "Netzbetreiber"
 
 #: src/components/power-stability-chart.tsx
 msgid "chart.avg.peer-group"
-msgstr "Durchschnitt Peer Group"
+msgstr "Durchschnitt der Vergleichsgruppe"
 
 #: src/components/combobox.tsx
 msgid "combobox.maxitems"
@@ -195,7 +195,7 @@ msgstr "dynamisch"
 
 #: src/components/energy-prices-map.tsx
 msgid "energy-prices-map.legend.title"
-msgstr "Tarifvergleich in Rp./kWh (Angaben exkl. MwSt.)"
+msgstr "Vergleich in Rp./kWh (Angaben exkl. MwSt.)"
 
 #: src/components/not-found.tsx
 msgid "error.page.404.back-link"
@@ -299,7 +299,7 @@ msgstr "Eidgenössische Elektrizitätskommission ElCom"
 
 #: src/components/sunshine-map.tsx
 msgid "help."
-msgstr "helfen."
+msgstr "Hilfe"
 
 #: src/components/footer.tsx
 msgid "help.calculation"
@@ -311,7 +311,7 @@ msgstr "Tarifvergleich"
 
 #: src/components/hint.tsx
 msgid "hint.loading.data"
-msgstr "Daten laden…"
+msgstr "Daten werden laden…"
 
 #: src/components/hint.tsx
 msgid "hint.nocontent.message"
@@ -375,12 +375,7 @@ msgstr "Übersicht"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-regulation.description"
-msgstr ""
-"In der Schweiz werden die Tarife auf der Basis der angefallenen Kosten definiert (sogenannte Cost Plus-Regulierung). Die ElCom hat die Sunshine-Regulierung eingeführt, um Anreize für effizientes und kostenbewusstes Verhalten zu setzen. Die Sunshine-Regulierung liefert zudem den Endverbrauchern wichtige Informationen über die den Tarifen zugrundeliegenden Faktoren wie beispielsweise Kosten oder Versorgungsqualität.\n"
-"\n"
-"Im Rahmen der Sunshine-Regulierung werden solche Indikatoren für alle Schweizer Netzbetreiber errechnet. Damit lassen sich Rückschlüsse auf die Kosteneffizienz, die Versorgungsqualität und die Einhaltung von Gesetz und Vorgaben der ElCom durch einen Netzbetreiber ziehen. Die Publikation dieser sogenannten Sunshine-Indikatoren ist ein wichtiger Schritt, um die Endverbrauchertarife der einzelnen Netzbetreiber besser einordnen zu können.\n"
-"\n"
-"Verschiedene Indikatoren werden durch topografische Gegebenheiten des Versorgungsgebiets, die unterschiedlichen geographischen Regionen, in denen die Netzbetreiber tätig sind, von unterschiedlichen Netzstrukturen sowie Anzahl der Endverbraucher beeinflusst. Um diesen Faktoren Rechnung zu tragen, werden nicht nur Vergleiche der Werte untern den einzelnen Netzbetreiber dargestellt, sondern auch innerhalb von entsprechenden Vergleichsgruppen. Diese berücksichtigen einerseits die Bevölkerungsdichte der Regionen, in denen die Netzbetreiber tätig sind (Städte, Vororte, ländliche Regionen, Bergregionen etc.) und andererseits den Energieverbrauch bzw. die Energiedichte (hohe bzw. tiefe Energiedichte)."
+msgstr "In der Schweiz basieren Stromtarife auf den tatsächlichen Kosten (Cost Plus-Regulierung). Die ElCom hat die Sunshine-Regulierung eingeführt, um Effizienz zu fördern und Transparenz zu schaffen. Die Effizienz-Indikatoren ermöglichen Vergleiche zwischen Netzbetreibern bezüglich Kosteneffizienz, Versorgungsqualität und Compliance. Da topografische und strukturelle Unterschiede die Werte beeinflussen, erfolgen Vergleiche sowohl schweizweit als auch innerhalb von Vergleichsgruppen nach Bevölkerungsdichte und Energieverbrauch."
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-regulation.title"
@@ -404,9 +399,7 @@ msgstr "Netzkosten und Stromtarife"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.card.power-stability.description"
-msgstr ""
-"SAIDI ist die Abkürzung für \"System Average Interruption Duration Index\". Dieser Index wird verwendet, um die durchschnittliche Dauer von Stromunterbrechungen in einem Netz zu messen. SAIFI ist die Abkürzung für \"System Average Interruption Frequency Index\". Dieser Index wird verwendet, um die durchschnittliche Unterbrechungshäufigkeit in einem Versorgungsnetz zu messen.\n"
-"Gemeinsam liefern sie somit wichtige Erkenntnisse über die Zuverlässigkeit und Stabilität der Stromversorgung über einen bestimmten Zeitraum."
+msgstr "SAIDI misst die durchschnittliche Dauer von Stromunterbrechungen, SAIFI deren Häufigkeit. Beide Indikatoren geben wichtige Erkenntnisse über die Zuverlässigkeit und Stabilität der Stromversorgung. Die Werte werden für geplante und ungeplante Unterbrechungen separat ausgewiesen."
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.card.power-stability.title"
@@ -414,11 +407,11 @@ msgstr "Versorgungsqualität"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.compliance.link"
-msgstr "Compliance"
+msgstr "Leistungsindikatoren"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.energy-tariff.link"
-msgstr "Stromtarif"
+msgstr "Stromtarife"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.net-tariff.link"
@@ -438,11 +431,11 @@ msgstr "Häufigkeit von Stromunterbrechungen (SAIFI)"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.service-quality.link"
-msgstr "Servicequalität"
+msgstr "Dienstleistungsqualität"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.title"
-msgstr "Sunshine Indikatoren"
+msgstr "Indikatoren"
 
 #: src/components/detail-page/download-image.tsx
 msgid "image.download"
@@ -450,7 +443,7 @@ msgstr "Bild herunterladen"
 
 #: src/domain/translation.tsx
 msgid "indicator.compliance"
-msgstr "Einhaltung der Vorschriften"
+msgstr "Leistungsindikatoren"
 
 #: src/domain/translation.tsx
 msgid "indicator.energyTariffs"
@@ -474,7 +467,7 @@ msgstr "Häufigkeit von Stromunterbrechungen (SAIFI)"
 
 #: src/domain/translation.tsx
 msgid "indicator.serviceQuality"
-msgstr "Qualität der Dienstleistungen"
+msgstr "Dienstleistungsqualität"
 
 #: src/pages/map/index.tsx
 msgid "list.cantons"
@@ -530,11 +523,11 @@ msgstr "Zurück zu den Filtern"
 
 #: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.next-button.compliance"
-msgstr "Einhaltung der Vorschriften im Detail"
+msgstr "Leistungsindikatoren im Detail"
 
 #: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.next-button.energy-prices"
-msgstr "Energie Preise Detail anzeigen"
+msgstr "Energiepreise im Detail"
 
 #: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.next-button.energy-tariffs"
@@ -542,7 +535,7 @@ msgstr "Energietarife im Detail"
 
 #: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.next-button.net-tariffs"
-msgstr "Nettotarife im Detail"
+msgstr "Netztarife im Detail"
 
 #: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.next-button.network-costs"
@@ -558,15 +551,15 @@ msgstr "SAIFI im Detail"
 
 #: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.next-button.service-quality"
-msgstr "Servicequalität im Detail"
+msgstr "Dienstleistungsqualität im Detail"
 
 #: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.next-button.sunshine-overview"
-msgstr "Alle Sonnenschein-Indikatoren anzeigen"
+msgstr "Alle Effizienz-Indikatoren anzeigen"
 
 #: src/components/generic-map.tsx
 msgid "map.scrollzoom.hint"
-msgstr "Halten Sie {key} gedrückt beim Scrollen um zu Zoomen"
+msgstr "Halten Sie die Taste {key} beim Scrollen gedrückt, um die Karte zu vergrössern"
 
 #: src/components/share-button.tsx
 msgid "map.share"
@@ -586,7 +579,7 @@ msgstr "Andere Netzbetreiber"
 
 #: src/components/tariffs-trend-chart.tsx
 msgid "net-tariffs-trend-chart.legend-item.peer-group-median"
-msgstr "Peer Group Median"
+msgstr "Median der Vergleichsgruppe"
 
 #: src/components/network-cost-trend-chart.tsx
 msgid "network-cost-trend-chart.legend-item.other-operators"
@@ -715,7 +708,7 @@ msgstr "Geringe Energiedichte / Bergregion"
 
 #: src/domain/translation.tsx
 msgid "peerGroup.H"
-msgstr "Geringe Energiedichte / Tourismus"
+msgstr "Geringe Energiedichte / Tourismusgebiet"
 
 #: src/domain/translation.tsx
 msgid "peerGroup.all_grid_operators"
@@ -735,7 +728,7 @@ msgstr "Insgesamt"
 
 #: src/components/power-stability-chart.tsx
 msgid "power-stability-trend-chart.sortable-legend-item.unplanned"
-msgstr "Ungeplantes"
+msgstr "Ungeplant"
 
 #: src/components/color-legend.tsx
 #: src/components/color-legend.tsx
@@ -770,7 +763,15 @@ msgstr "Einzelne Netzbetreiber anzeigen"
 
 #: src/components/charts-generic/progress-overtime-chart.tsx
 msgid "progress-overtime-chart.legend-item.other-operators"
-msgstr "Andere Betreiber"
+msgstr "Andere Netzbetreiber"
+
+#: src/components/charts-generic/progress-overtime-chart.tsx
+msgid "progress-overtime-chart.legend-item.peer-group"
+msgstr "Median der Vergleichsgruppe"
+
+#: src/components/charts-generic/interaction/tooltip-content.tsx
+msgid "progress-overtime-chart.operator-name.peer-group"
+msgstr "Median der Vergleichsgruppe"
 
 #: src/components/detail-page/cantons-comparison-range.tsx
 msgid "rangeplot.select.order.hint"
@@ -853,7 +854,7 @@ msgstr "C1"
 
 #: src/domain/translation.tsx
 msgid "selector.category.C1-long"
-msgstr "C1 - Kleine Unternehmen (&lt;8 kW)"
+msgstr "C1 - Kleine Unternehmen (<8 kW)"
 
 #: src/domain/translation.tsx
 msgid "selector.category.C2"
@@ -861,7 +862,7 @@ msgstr "C2"
 
 #: src/domain/translation.tsx
 msgid "selector.category.C2-long"
-msgstr "C2 - Kleine Unternehmen (&lt;15 kW)"
+msgstr "C2 - Kleine Unternehmen (<15 kW)"
 
 #: src/domain/translation.tsx
 msgid "selector.category.C3"
@@ -869,7 +870,7 @@ msgstr "C3"
 
 #: src/domain/translation.tsx
 msgid "selector.category.C3-long"
-msgstr "C3 - Mittlere Unternehmen (&lt;50 kW)"
+msgstr "C3 - Mittlere Unternehmen (<50 kW)"
 
 #: src/domain/translation.tsx
 msgid "selector.category.C4"
@@ -877,7 +878,7 @@ msgstr "C4"
 
 #: src/domain/translation.tsx
 msgid "selector.category.C4-long"
-msgstr "C4 - Großunternehmen (&lt;150 kW, Niederspannung)"
+msgstr "C4 - Grossunternehmen (<150 kW, Niederspannung)"
 
 #: src/domain/translation.tsx
 msgid "selector.category.C5"
@@ -885,7 +886,7 @@ msgstr "C5"
 
 #: src/domain/translation.tsx
 msgid "selector.category.C5-long"
-msgstr "C5 - Großunternehmen (&lt;150 kW, Mittelspannung)"
+msgstr "C5 - Grossunternehmen (<150 kW, Mittelspannung)"
 
 #: src/domain/translation.tsx
 msgid "selector.category.C6"
@@ -893,7 +894,7 @@ msgstr "C6"
 
 #: src/domain/translation.tsx
 msgid "selector.category.C6-long"
-msgstr "C6 - Großunternehmen (&lt;400 kW, Mittelspannung)"
+msgstr "C6 - Grossunternehmen (<400 kW, Mittelspannung)"
 
 #: src/domain/translation.tsx
 msgid "selector.category.C7"
@@ -901,7 +902,7 @@ msgstr "C7"
 
 #: src/domain/translation.tsx
 msgid "selector.category.C7-long"
-msgstr "C7 - Großunternehmen (&lt;1.630 kW, Mittelspannung)"
+msgstr "C7 - Grossunternehmen (<1.630 kW, Mittelspannung)"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H-group"
@@ -1079,7 +1080,7 @@ msgstr "URL kopiert ✅"
 #: src/pages/[entity]/[id]/index.tsx
 #: src/pages/index.tsx
 msgid "site.title"
-msgstr "Stromtarife in der Schweiz"
+msgstr "Strompreise Schweiz"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.compliance.francs-rule-regulation"
@@ -1138,7 +1139,7 @@ msgstr "Entwicklung der Energietarife"
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.costs-and-tariffs.energy-tariffs.overview"
-msgstr "Energie-Tarife"
+msgstr "Energietarife"
 
 #: src/components/peer-group-card.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
@@ -1174,7 +1175,7 @@ msgstr "Netztarife Trend"
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.costs-and-tariffs.net-tariffs.overview"
-msgstr "Netto-Tarife"
+msgstr "Netztarife"
 
 #: src/components/map-details-chart-adapters.tsx
 #: src/components/network-costs-trend-card.tsx
@@ -1249,15 +1250,15 @@ msgstr "Netzkosten"
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.grid.operational-standards-title"
-msgstr "Operationelle Standards"
+msgstr " Leistungsindikatoren"
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.grid.power-stability-title"
-msgstr "Leistungsstabilität"
+msgstr "Versorgungsqualität"
 
 #: src/components/sunshine-map.tsx
 msgid "sunshine.indicator.compliance"
-msgstr "Bewertung der Einhaltung"
+msgstr "Compliance"
 
 #: src/components/sunshine-map.tsx
 msgid "sunshine.indicator.energyTariffs"
@@ -1265,7 +1266,7 @@ msgstr "Energietarife in Rp./kWh"
 
 #: src/components/sunshine-map.tsx
 msgid "sunshine.indicator.netTariffs"
-msgstr "Nettotarife in Rp./kWh"
+msgstr "Netztarife in Rp./kWh"
 
 #: src/components/sunshine-map.tsx
 msgid "sunshine.indicator.networkCosts"
@@ -1273,11 +1274,11 @@ msgstr "Netzkosten in CHF/MWh"
 
 #: src/components/sunshine-map.tsx
 msgid "sunshine.indicator.saidi"
-msgstr "Dauer des Stromausfalls (SAIDI) in Minuten"
+msgstr "Dauer der Stromunterbrechung (SAIDI) in Minuten"
 
 #: src/components/sunshine-map.tsx
 msgid "sunshine.indicator.saifi"
-msgstr "Häufigkeit von Stromausfällen (SAIFI) pro Jahr"
+msgstr "Häufigkeit von Stromunterbrechungen  (SAIFI) pro Jahr"
 
 #: src/components/sunshine-map.tsx
 msgid "sunshine.indicator.serviceQuality"
@@ -1285,7 +1286,7 @@ msgstr "Bewertung der Servicequalität"
 
 #: src/domain/metrics.ts
 msgid "sunshine.metric-unit.days"
-msgstr "tage"
+msgstr "Tage"
 
 #: src/domain/metrics.ts
 msgid "sunshine.metric-unit.min-year"
@@ -1305,7 +1306,7 @@ msgstr "CHF"
 
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.operational-standards.compliance"
-msgstr "Compliance"
+msgstr "Leistungsindikatoren"
 
 #: src/domain/translation.tsx
 msgid "sunshine.operational-standards.compliance-trend"
@@ -1317,7 +1318,7 @@ msgstr "Leistungsindikatoren"
 
 #: src/components/operational-standards-chart.tsx
 msgid "sunshine.operational-standards.compliance.share-of-operators"
-msgstr "Anteil der Betreiber"
+msgstr "Anteil der Netzbetreiber"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.description"
@@ -1329,7 +1330,7 @@ msgstr "Vergleich des Angebots an Energieprodukten unterschiedlicher ökologisch
 
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.operational-standards.service-quality"
-msgstr "Servicequalität"
+msgstr "Dienstleistungsqualität"
 
 #: src/domain/translation.tsx
 msgid "sunshine.operational-standards.service-quality-trend"
@@ -1337,11 +1338,11 @@ msgstr "Vergleich der Vorankündigungsfristen für geplante Ausfälle"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.service-quality.comparison-card-title"
-msgstr "Servicequalität"
+msgstr "Dienstleistungsqualität"
 
 #: src/components/operational-standards-chart.tsx
 msgid "sunshine.operational-standards.service-quality.share-of-operators"
-msgstr "Anteil der Betreiber"
+msgstr "Anteil der Netzbetreiber"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.title"
@@ -1349,12 +1350,12 @@ msgstr "Leistungsindikatoren"
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.overview-sunshine.description"
-msgstr "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at tellus at leo fermentum gravida. Nam eu mollis lacus. Sed libero augue, porttitor at velit fringilla, blandit cursus ipsum. In neque metus, ultricies ut tellus et, ornare condimentu."
+msgstr "In der Schweiz basieren Stromtarife auf den tatsächlichen Kosten (Cost Plus-Regulierung). Die ElCom hat die Sunshine-Regulierung eingeführt, um Effizienz zu fördern und Transparenz zu schaffen. Die Effizienz-Indikatoren ermöglichen Vergleiche zwischen Netzbetreibern bezüglich Kosteneffizienz, Versorgungsqualität und Compliance. Da topografische und strukturelle Unterschiede die Werte beeinflussen, erfolgen Vergleiche sowohl schweizweit als auch innerhalb von Vergleichsgruppen nach Bevölkerungsdichte und Energieverbrauch."
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.overview-sunshine.title"
-msgstr "Sunshine Indicators Überblick"
+msgstr "Effizienz-Indikatoren Übersicht"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.description"
@@ -1380,11 +1381,11 @@ msgstr "Median der Vergleichsgruppe"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.no-saidi-data"
-msgstr "Für diesen Betreiber sind für das ausgewählte Jahr keine SAIDI-Daten verfügbar."
+msgstr "Für diesen Netzbetreiber sind für das ausgewählte Jahr keine SAIDI-Daten verfügbar."
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.no-saifi-data"
-msgstr "Für diesen Betreiber sind für das ausgewählte Jahr keine SAIFI-Daten verfügbar."
+msgstr "Für diesen Netzbetreiber sind für das ausgewählte Jahr keine SAIFI-Daten verfügbar."
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
@@ -1398,7 +1399,7 @@ msgstr "Gesamtschau"
 
 #: src/components/power-stability-card.tsx
 msgid "sunshine.power-stability.overall-tooltip"
-msgstr "Zeigt die Gesamtdauer der Ausfälle pro Betreiber an, wobei geplante und ungeplante Ausfälle für einen direkten Vergleich kombiniert werden."
+msgstr "Zeigt die Gesamtdauer der Stromunterbrechung pro Netzbetreiber an, wobei geplante und ungeplante Unterbrechungen für einen direkten Vergleich zusammengezählt werden."
 
 #: src/components/power-stability-card.tsx
 msgid "sunshine.power-stability.planned-option"
@@ -1415,7 +1416,7 @@ msgstr "Verhältnis"
 
 #: src/components/power-stability-card.tsx
 msgid "sunshine.power-stability.ratio-tooltip"
-msgstr "Zeigt das Verhältnis von ungeplanten Ausfällen zu den Gesamtausfällen an und gibt so Aufschluss über die Stabilität der Energieversorgung."
+msgstr "Zeigt das Verhältnis von ungeplanten zu den gesamten Stromunterbrechungen an und gibt so Aufschluss über die Stabilität der Energieversorgung."
 
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.power-stability.saidi"
@@ -1428,11 +1429,11 @@ msgstr "Durchschnittliche Dauer von Stromunterbrechungen (SAIDI)"
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.power-stability.saidi-trend.description"
-msgstr "Dauer des Stromausfalls"
+msgstr "Dauer von Stromunterbrechungen (SAIDI)"
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.power-stability.saidi-trend.overview"
-msgstr "Stromausfall (SAIDI)"
+msgstr "Dauer von Stromunterbrechungen (SAIDI)"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.saidi.comparison-card-title"
@@ -1440,7 +1441,7 @@ msgstr "Totale Unterbrechungsdauer"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.saidi.info-dialog-label"
-msgstr "Gesamtdauer des Ausfalls"
+msgstr "Dauer von Stromunterbrechungen (SAIDI)"
 
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.power-stability.saifi"
@@ -1453,11 +1454,11 @@ msgstr "Durchschnittliche Häufigkeit von Stromunterbrechungen (SAIFI)"
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.power-stability.saifi-trend.description"
-msgstr "Häufigkeit von Stromausfällen"
+msgstr "Durchschnittliche Häufigkeit von Stromunterbrechungen (SAIFI)"
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.power-stability.saifi-trend.overview"
-msgstr "Stromausfall (SAIFI)"
+msgstr "Durchschnittliche Häufigkeit von Stromunterbrechungen (SAIFI)"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.saifi.comparison-card-title"
@@ -1465,7 +1466,7 @@ msgstr "Total Häufigkeit von Stromunterbrechungen (SAIFI)"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.saifi.info-dialog-label"
-msgstr "Ausfallhäufigkeit insgesamt"
+msgstr "Durchschnittliche Häufigkeit von Stromunterbrechungen (SAIFI)"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
