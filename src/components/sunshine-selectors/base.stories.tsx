@@ -1,5 +1,4 @@
 import {
-  energyElectricityCategoryOptions,
   indicatorOptions,
   netElectricityCategoryOptions,
   networkLevelOptions,
@@ -29,7 +28,6 @@ export const SunshineSelectors: Story = {
     indicator: "saidi",
     indicatorOptions: indicatorOptions,
     categoryOptions: netElectricityCategoryOptions,
-    categoryOptions: energyElectricityCategoryOptions,
     networkLevel: "NE5",
     networkLevelOptions: networkLevelOptions,
     getItemLabel: (id) => {
