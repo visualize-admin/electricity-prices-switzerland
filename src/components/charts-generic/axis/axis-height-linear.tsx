@@ -77,9 +77,9 @@ export const AxisHeightLinear = ({
       .attr("font-size", labelFontSize)
       .attr("font-family", fontFamily)
       .attr("fill", labelColor)
-      .attr("x", isMiniChart ? -bounds.margins.left : -6)
+      .attr("x", isMiniChart ? -bounds.margins.left - 6 : -6)
       .attr("dy", 3)
-      .attr("text-anchor", isMiniChart ? "start" : "end");
+      .attr("text-anchor", "end");
   };
   useEffect(() => {
     const g = select(ref.current);
