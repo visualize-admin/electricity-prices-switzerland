@@ -1,7 +1,7 @@
 import {
-  energyTariffCategoryOptions,
+  energyElectricityCategoryOptions,
   indicatorOptions,
-  netTariffCategoryOptions,
+  netElectricityCategoryOptions,
   networkLevelOptions,
   typologyOptions,
 } from "src/domain/sunshine";
@@ -28,8 +28,8 @@ export const SunshineSelectors: Story = {
     typologyOptions: typologyOptions,
     indicator: "saidi",
     indicatorOptions: indicatorOptions,
-    netTariffsCategoryOptions: netTariffCategoryOptions,
-    energyTariffsCategoryOptions: energyTariffCategoryOptions,
+    netTariffsCategoryOptions: netElectricityCategoryOptions,
+    energyTariffsCategoryOptions: energyElectricityCategoryOptions,
     networkLevel: "NE5",
     networkLevelOptions: networkLevelOptions,
     getItemLabel: (id) => {

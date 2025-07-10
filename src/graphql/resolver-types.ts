@@ -5,14 +5,13 @@ import {
 } from "graphql";
 import {
   ResolvedCanton,
-  ResolvedCantonMedianObservation,
   ResolvedMunicipality,
-  ResolvedObservation,
   ResolvedOperator,
+  ResolvedObservation,
+  ResolvedCantonMedianObservation,
+  ResolvedSwissMedianObservation,
   ResolvedOperatorObservation,
   ResolvedSearchResult,
-  ResolvedSwissMedianObservation,
-  TariffCategory,
 } from "./resolver-mapped-types";
 import { ServerContext } from "./server-context";
 export type Maybe<T> = T | null;
@@ -35,7 +34,6 @@ export type Incremental<T> =
   | {
       [P in keyof T]?: P extends " $fragmentName" | "__typename" ? T[P] : never;
     };
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 export type RequireFields<T, K extends keyof T> = Omit<T, K> & {
   [P in K]-?: NonNullable<T[P]>;
 };
@@ -46,7 +44,7 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean };
   Int: { input: number; output: number };
   Float: { input: number; output: number };
-  TariffCategory: { input: any; output: any };
+  ElectricityCategory: { input: any; output: any };
   WikiContentInfo: { input: any; output: any };
 };
 
@@ -473,7 +471,7 @@ export type SystemInfo = {
 
 export type TariffRow = {
   __typename?: "TariffRow";
-  category: Scalars["TariffCategory"]["output"];
+  category: Scalars["ElectricityCategory"]["output"];
   operator_id: Scalars["Int"]["output"];
   operator_name: Scalars["String"]["output"];
   period: Scalars["Int"]["output"];
@@ -482,7 +480,7 @@ export type TariffRow = {
 
 export type TariffsData = {
   __typename?: "TariffsData";
-  category: Scalars["TariffCategory"]["output"];
+  category: Scalars["ElectricityCategory"]["output"];
   operatorRate?: Maybe<Scalars["Float"]["output"]>;
   peerGroupMedianRate?: Maybe<Scalars["Float"]["output"]>;
   yearlyData: Array<TariffRow>;
@@ -631,6 +629,9 @@ export type ResolversTypes = ResolversObject<{
   CantonMedianObservation: ResolverTypeWrapper<ResolvedCantonMedianObservation>;
   CantonResult: ResolverTypeWrapper<ResolvedSearchResult>;
   CubeHealth: ResolverTypeWrapper<CubeHealth>;
+  ElectricityCategory: ResolverTypeWrapper<
+    Scalars["ElectricityCategory"]["output"]
+  >;
   Float: ResolverTypeWrapper<Scalars["Float"]["output"]>;
   Int: ResolverTypeWrapper<Scalars["Int"]["output"]>;
   Municipality: ResolverTypeWrapper<ResolvedMunicipality>;
@@ -663,15 +664,8 @@ export type ResolversTypes = ResolversObject<{
   SunshineDataRow: ResolverTypeWrapper<SunshineDataRow>;
   SwissMedianObservation: ResolverTypeWrapper<ResolvedSwissMedianObservation>;
   SystemInfo: ResolverTypeWrapper<SystemInfo>;
-  TariffCategory: ResolverTypeWrapper<TariffCategory>;
-  TariffRow: ResolverTypeWrapper<
-    Omit<TariffRow, "category"> & { category: ResolversTypes["TariffCategory"] }
-  >;
-  TariffsData: ResolverTypeWrapper<
-    Omit<TariffsData, "category"> & {
-      category: ResolversTypes["TariffCategory"];
-    }
-  >;
+  TariffRow: ResolverTypeWrapper<TariffRow>;
+  TariffsData: ResolverTypeWrapper<TariffsData>;
   TariffsFilter: TariffsFilter;
   Trend: Trend;
   WikiContent: ResolverTypeWrapper<WikiContent>;
@@ -685,6 +679,7 @@ export type ResolversParentTypes = ResolversObject<{
   CantonMedianObservation: ResolvedCantonMedianObservation;
   CantonResult: ResolvedSearchResult;
   CubeHealth: CubeHealth;
+  ElectricityCategory: Scalars["ElectricityCategory"]["output"];
   Float: Scalars["Float"]["output"];
   Int: Scalars["Int"]["output"];
   Municipality: ResolvedMunicipality;
@@ -712,13 +707,8 @@ export type ResolversParentTypes = ResolversObject<{
   SunshineDataRow: SunshineDataRow;
   SwissMedianObservation: ResolvedSwissMedianObservation;
   SystemInfo: SystemInfo;
-  TariffCategory: TariffCategory;
-  TariffRow: Omit<TariffRow, "category"> & {
-    category: ResolversParentTypes["TariffCategory"];
-  };
-  TariffsData: Omit<TariffsData, "category"> & {
-    category: ResolversParentTypes["TariffCategory"];
-  };
+  TariffRow: TariffRow;
+  TariffsData: TariffsData;
   TariffsFilter: TariffsFilter;
   WikiContent: WikiContent;
   WikiContentInfo: Scalars["WikiContentInfo"]["output"];
@@ -798,6 +788,11 @@ export type CubeHealthResolvers<
   ok?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
+
+export interface ElectricityCategoryScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["ElectricityCategory"], any> {
+  name: "ElectricityCategory";
+}
 
 export type MunicipalityResolvers<
   ContextType = ServerContext,
@@ -1330,17 +1325,12 @@ export type SystemInfoResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export interface TariffCategoryScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["TariffCategory"], any> {
-  name: "TariffCategory";
-}
-
 export type TariffRowResolvers<
   ContextType = ServerContext,
   ParentType extends ResolversParentTypes["TariffRow"] = ResolversParentTypes["TariffRow"]
 > = ResolversObject<{
   category?: Resolver<
-    ResolversTypes["TariffCategory"],
+    ResolversTypes["ElectricityCategory"],
     ParentType,
     ContextType
   >;
@@ -1356,7 +1346,7 @@ export type TariffsDataResolvers<
   ParentType extends ResolversParentTypes["TariffsData"] = ResolversParentTypes["TariffsData"]
 > = ResolversObject<{
   category?: Resolver<
-    ResolversTypes["TariffCategory"],
+    ResolversTypes["ElectricityCategory"],
     ParentType,
     ContextType
   >;
@@ -1401,6 +1391,7 @@ export type Resolvers<ContextType = ServerContext> = ResolversObject<{
   CantonMedianObservation?: CantonMedianObservationResolvers<ContextType>;
   CantonResult?: CantonResultResolvers<ContextType>;
   CubeHealth?: CubeHealthResolvers<ContextType>;
+  ElectricityCategory?: GraphQLScalarType;
   Municipality?: MunicipalityResolvers<ContextType>;
   MunicipalityResult?: MunicipalityResultResolvers<ContextType>;
   NetworkCostRow?: NetworkCostRowResolvers<ContextType>;
@@ -1421,7 +1412,6 @@ export type Resolvers<ContextType = ServerContext> = ResolversObject<{
   SunshineDataRow?: SunshineDataRowResolvers<ContextType>;
   SwissMedianObservation?: SwissMedianObservationResolvers<ContextType>;
   SystemInfo?: SystemInfoResolvers<ContextType>;
-  TariffCategory?: GraphQLScalarType;
   TariffRow?: TariffRowResolvers<ContextType>;
   TariffsData?: TariffsDataResolvers<ContextType>;
   WikiContent?: WikiContentResolvers<ContextType>;

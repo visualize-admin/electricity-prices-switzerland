@@ -91,7 +91,7 @@ const formatForSnapshot = (data: SunshineDataByIndicatorQuery | undefined) => {
 
 describe("GraphQL API Integration Tests", () => {
   describe("SunshineDataByIndicator queries", () => {
-    it("should fetch network costs for NC2 NE5 peer group A", async () => {
+    it("should fetch network costs for C2 NE5 peer group A", async () => {
       const variables: SunshineDataByIndicatorQueryVariables = {
         filter: {
           category: "C2",
@@ -141,7 +141,7 @@ describe("GraphQL API Integration Tests", () => {
       `);
     });
 
-    it("should fetch network costs for NC2 NE5 peer group C", async () => {
+    it("should fetch network costs for C2 NE5 peer group C", async () => {
       const variables: SunshineDataByIndicatorQueryVariables = {
         filter: {
           category: "C2",
@@ -191,7 +191,7 @@ describe("GraphQL API Integration Tests", () => {
       `);
     });
 
-    it("should fetch network costs for NC2 NE6 peer group C", async () => {
+    it("should fetch network costs for C2 NE6 peer group C", async () => {
       const variables: SunshineDataByIndicatorQueryVariables = {
         filter: {
           category: "C2",
@@ -241,7 +241,7 @@ describe("GraphQL API Integration Tests", () => {
       `);
     });
 
-    it("should fetch network costs for NC2 NE7 peer group C", async () => {
+    it("should fetch network costs for C2 NE7 peer group C", async () => {
       const variables: SunshineDataByIndicatorQueryVariables = {
         filter: {
           category: "C2",
@@ -291,7 +291,7 @@ describe("GraphQL API Integration Tests", () => {
       `);
     });
 
-    it("should fetch network costs for NC2 NE7 peer group D", async () => {
+    it("should fetch network costs for C2 NE7 peer group D", async () => {
       const variables: SunshineDataByIndicatorQueryVariables = {
         filter: {
           category: "C2",
@@ -341,7 +341,7 @@ describe("GraphQL API Integration Tests", () => {
       `);
     });
 
-    it("should fetch network costs for NC2 NE7 without peer group", async () => {
+    it("should fetch network costs for C2 NE7 without peer group", async () => {
       const variables: SunshineDataByIndicatorQueryVariables = {
         filter: {
           category: "C2",
@@ -390,7 +390,7 @@ describe("GraphQL API Integration Tests", () => {
       `);
     });
 
-    it("should fetch net tariffs for NC2 NE7", async () => {
+    it("should fetch net tariffs for C2 NE7", async () => {
       const variables: SunshineDataByIndicatorQueryVariables = {
         filter: {
           category: "C2",

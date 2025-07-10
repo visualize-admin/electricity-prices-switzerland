@@ -27,7 +27,6 @@ generates:
         Canton: "./resolver-mapped-types#ResolvedCanton"
         Municipality: "./resolver-mapped-types#ResolvedMunicipality"
         Operator: "./resolver-mapped-types#ResolvedOperator"
-        TariffCategory: "./resolver-mapped-types#TariffCategory"
         Observation: "./resolver-mapped-types#ResolvedObservation"
         CantonMedianObservation: "./resolver-mapped-types#ResolvedCantonMedianObservation"
         SwissMedianObservation: "./resolver-mapped-types#ResolvedSwissMedianObservation"

@@ -28,7 +28,7 @@ import {
   PageParams,
   Props as SharedPageProps,
 } from "src/data/shared-page-props";
-import { tariffCategories, TariffCategory } from "src/domain/data";
+import { categories, ElectricityCategory } from "src/domain/data";
 import { sunshineDetailsLink } from "src/domain/query-states";
 import {
   NetworkLevel,
@@ -112,7 +112,7 @@ export const getServerSideProps: GetServerSideProps<Props, PageParams> = async (
       fetchOperatorCostsAndTariffsData(sunshineDataService, {
         operatorId: id,
         networkLevel: "NE5",
-        category: "NC2",
+        category: "C2",
       }),
     ]);
 
@@ -170,18 +170,18 @@ const OverviewPage = (props: Props) => {
   const groupedCategories = useMemo(() => {
     return [
       { type: "header", title: getItemLabel("EC-group") },
-      ...tariffCategories.filter((x) => x.startsWith("EC")),
+      ...categories.filter((x) => x.startsWith("C")),
       { type: "header", title: getItemLabel("EH-group") },
-      ...tariffCategories.filter((x) => x.startsWith("EH")),
+      ...categories.filter((x) => x.startsWith("H")),
       { type: "header", title: getItemLabel("NC-group") },
-      ...tariffCategories.filter((x) => x.startsWith("NC")),
+      ...categories.filter((x) => x.startsWith("C")),
       { type: "header", title: getItemLabel("NH-group") },
-      ...tariffCategories.filter((x) => x.startsWith("NH")),
+      ...categories.filter((x) => x.startsWith("H")),
     ] as ComponentProps<typeof Combobox>["items"];
   }, []);
 
   const [year, setYear] = useState<string>("2025");
-  const [category, setCategory] = useState<TariffCategory>("NC2");
+  const [category, setCategory] = useState<ElectricityCategory>("C2");
   const [networkLevel, setNetworkLevel] = useState<NetworkLevel["id"]>("NE5");
 
   const sidebarContent = <DetailsPageSidebar id={id} entity={entity} />;
@@ -297,7 +297,7 @@ const OverviewPage = (props: Props) => {
             items={groupedCategories}
             getItemLabel={getItemLabel}
             selectedItem={category}
-            setSelectedItem={(item) => setCategory(item as TariffCategory)}
+            setSelectedItem={(item) => setCategory(item as ElectricityCategory)}
             //FIXME: Might need change
             infoDialogSlug="help-categories"
           />

@@ -1,6 +1,6 @@
 import { first } from "lodash";
 
-import { TariffCategory } from "src/domain/data";
+import { ElectricityCategory } from "src/domain/data";
 import {
   NetworkLevel,
   SunshineCostsAndTariffsData,
@@ -41,14 +41,14 @@ type NetTariffsParams = {
   metric: "net-tariffs";
   peerGroup?: string;
   period?: number;
-  category: TariffCategory; // Required for tariffs
+  category: ElectricityCategory; // Required for tariffs
 };
 
 type EnergyTariffsParams = {
   metric: "energy-tariffs";
   peerGroup?: string;
   period?: number;
-  category: TariffCategory; // Required for tariffs
+  category: ElectricityCategory; // Required for tariffs
 };
 
 export type IndicatorMedianParams =
@@ -176,15 +176,15 @@ export const fetchNetTariffsData = async (
   db: SunshineDataService,
   {
     operatorId,
-    category = "NC2",
+    category,
     period,
   }: {
     operatorId: number;
-    category: TariffCategory;
+    category: ElectricityCategory;
     period: number;
   }
 ): Promise<{
-  category: TariffCategory;
+  category: ElectricityCategory;
   operatorRate: number | null;
   peerGroupMedianRate: number | null;
   yearlyData: TariffRecord[];
@@ -198,10 +198,10 @@ export const fetchNetTariffsData = async (
   });
 
   const operatorNetTariffs = await db.getTariffs({
-    period: period,
-    tariffType: "network",
     category: category,
     operatorId,
+    period: period,
+    tariffType: "network",
   });
 
   if (operatorNetTariffs.length > 1) {
@@ -234,7 +234,7 @@ export const fetchEnergyTariffsData = async (
     period,
   }: {
     operatorId: number;
-    category: TariffCategory;
+    category: ElectricityCategory;
     period: number;
   }
 ): Promise<TariffsData> => {
@@ -248,14 +248,15 @@ export const fetchEnergyTariffsData = async (
     });
 
   const operatorEnergyTariffs = await db.getTariffs({
-    period: period,
     category: category,
     operatorId: operatorId,
+    period: period,
+    tariffType: "energy",
   });
 
   if (operatorEnergyTariffs.length > 1) {
     throw new Error(
-      "Cannot have multiple energy tariffs records for one operator in one year"
+      "Cannot have more than 1 energy tariff record for one operator in one year"
     );
   }
 
@@ -285,7 +286,7 @@ export const fetchOperatorCostsAndTariffsData = async (
   }: {
     operatorId: string;
     networkLevel: NetworkLevel["id"];
-    category: TariffCategory;
+    category: ElectricityCategory;
     period?: number;
   }
 ): Promise<SunshineCostsAndTariffsData> => {

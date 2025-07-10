@@ -44,13 +44,13 @@ const NetTariffsChartAdapter = ({
 }) => {
   const { id, label: operatorLabel } = selectedItem;
   const [queryState] = useQueryStateSunshineMap();
-  const { netTariffCategory } = queryState;
+  const { netElectricityCategory } = queryState;
   const [{ data, fetching }] = useNetTariffsQuery({
     variables: {
       filter: {
         operatorId: parseInt(id, 10),
         period: parseInt(period, 10),
-        category: netTariffCategory,
+        category: netElectricityCategory,
       },
     },
   });
@@ -80,7 +80,7 @@ const NetTariffsChartAdapter = ({
         id={id}
         observations={yearlyData ?? []}
         netTariffs={{
-          category: netTariffCategory,
+          category: netElectricityCategory,
           peerGroupMedianRate: data?.netTariffs?.peerGroupMedianRate,
         }}
         operatorLabel={operatorLabel ?? ""}
@@ -101,13 +101,13 @@ const EnergyTariffsChartAdapter = ({
 }) => {
   const { id, label: operatorLabel } = selectedItem;
   const [queryState] = useQueryStateSunshineMap();
-  const { energyTariffCategory } = queryState;
+  const { energyElectricityCategory } = queryState;
   const [{ data, fetching }] = useEnergyTariffsQuery({
     variables: {
       filter: {
         operatorId: parseInt(id, 10),
         period: parseInt(period, 10),
-        category: energyTariffCategory,
+        category: energyElectricityCategory,
       },
     },
   });
@@ -137,7 +137,7 @@ const EnergyTariffsChartAdapter = ({
         id={id}
         observations={yearlyData ?? []}
         netTariffs={{
-          category: energyTariffCategory,
+          category: energyElectricityCategory,
           peerGroupMedianRate: data?.energyTariffs?.peerGroupMedianRate,
         }}
         operatorLabel={operatorLabel ?? ""}

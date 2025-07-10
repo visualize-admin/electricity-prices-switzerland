@@ -1,4 +1,4 @@
-import { ElectricityCategory, TariffCategory } from "src/domain/data";
+import { ElectricityCategory } from "src/domain/data";
 import { NetworkLevel, SunshineIndicator } from "src/domain/sunshine";
 import {
   SunshineDataIndicatorRow,
@@ -40,7 +40,7 @@ export type TariffRecord = {
   operator_id: number;
   operator_name: string;
   period: number;
-  category: TariffCategory;
+  category: ElectricityCategory;
   tariff_type: string;
   rate: number;
 };

@@ -33,7 +33,7 @@ import {
   PageParams,
   Props as SharedPageProps,
 } from "src/data/shared-page-props";
-import { tariffCategories } from "src/domain/data";
+import { categories } from "src/domain/data";
 import { getNetworkLevelMetrics, RP_PER_KM } from "src/domain/metrics";
 import {
   QueryStateSingleSunshineDetails,
@@ -51,7 +51,7 @@ import {
   useNetTariffsQuery,
   useNetworkCostsQuery,
 } from "src/graphql/queries";
-import { TariffCategory } from "src/graphql/resolver-mapped-types";
+import { ElectricityCategory } from "src/graphql/resolver-mapped-types";
 import { Trend } from "src/graphql/resolver-types";
 import { fetchOperatorCostsAndTariffsData } from "src/lib/sunshine-data";
 import {
@@ -108,7 +108,7 @@ export const getServerSideProps: GetServerSideProps<Props, PageParams> = async (
     {
       operatorId: id,
       networkLevel: "NE5",
-      category: "NC2",
+      category: "C2",
     }
   );
 
@@ -329,17 +329,17 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
   const groupedCategories = useMemo(() => {
     return [
       { type: "header", title: getItemLabel("EC-group") },
-      ...tariffCategories.filter((x) => x.startsWith("EC")),
+      ...categories.filter((x) => x.startsWith("C")),
       { type: "header", title: getItemLabel("EH-group") },
-      ...tariffCategories.filter((x) => x.startsWith("EH")),
+      ...categories.filter((x) => x.startsWith("H")),
       { type: "header", title: getItemLabel("NC-group") },
-      ...tariffCategories.filter((x) => x.startsWith("NC")),
-      { type: "header", title: getItemLabel("NH-group") },
-      ...tariffCategories.filter((x) => x.startsWith("NH")),
+      ...categories.filter((x) => x.startsWith("C")),
+      { type: "header", title: getItemLabel("H-group") },
+      ...categories.filter((x) => x.startsWith("NH")),
     ] as ComponentProps<typeof Combobox>["items"];
   }, []);
 
-  const [category, _setCategory] = useState<TariffCategory>("NC2"); // Default category, can be changed based on user input
+  const [category, _setCategory] = useState<ElectricityCategory>("C2"); // Default category, can be changed based on user input
   const [{ data, fetching }] = useEnergyTariffsQuery({
     variables: {
       filter: {
@@ -441,7 +441,9 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
             items={groupedCategories}
             getItemLabel={getItemLabel}
             selectedItem={category}
-            setSelectedItem={(item) => _setCategory(item as TariffCategory)}
+            setSelectedItem={(item) =>
+              _setCategory(item as ElectricityCategory)
+            }
             //FIXME: Might need change
             infoDialogSlug="help-categories"
           />
@@ -512,17 +514,17 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
   const groupedCategories = useMemo(() => {
     return [
       { type: "header", title: getItemLabel("EC-group") },
-      ...tariffCategories.filter((x) => x.startsWith("EC")),
+      ...categories.filter((x) => x.startsWith("EC")),
       { type: "header", title: getItemLabel("EH-group") },
-      ...tariffCategories.filter((x) => x.startsWith("EH")),
+      ...categories.filter((x) => x.startsWith("EH")),
       { type: "header", title: getItemLabel("NC-group") },
-      ...tariffCategories.filter((x) => x.startsWith("NC")),
+      ...categories.filter((x) => x.startsWith("NC")),
       { type: "header", title: getItemLabel("NH-group") },
-      ...tariffCategories.filter((x) => x.startsWith("NH")),
+      ...categories.filter((x) => x.startsWith("NH")),
     ] as ComponentProps<typeof Combobox>["items"];
   }, []);
 
-  const [category, _setCategory] = useState<TariffCategory>("NC2"); // Default category, can be changed based on user input
+  const [category, _setCategory] = useState<ElectricityCategory>("C2"); // Default category, can be changed based on user input
   const [{ data, fetching }] = useNetTariffsQuery({
     variables: {
       filter: {
@@ -623,7 +625,9 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
             items={groupedCategories}
             getItemLabel={getItemLabel}
             selectedItem={category}
-            setSelectedItem={(item) => _setCategory(item as TariffCategory)}
+            setSelectedItem={(item) =>
+              _setCategory(item as ElectricityCategory)
+            }
             infoDialogSlug="help-net-tariff-category"
           />
         </Box>

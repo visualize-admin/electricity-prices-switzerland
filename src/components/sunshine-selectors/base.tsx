@@ -24,13 +24,13 @@ type SunshineSelectorsBaseProps = {
   setNetworkLevel: (networkLevel: string) => void;
   networkLevelOptions: string[];
 
-  netTariffCategory: string;
-  setNetTariffCategory: (category: string) => void;
+  netElectricityCategory: string;
+  setNetElectricityCategory: (category: string) => void;
   netTariffsCategoryOptions: string[];
 
-  energyTariffCategory: string;
+  energyElectricityCategory: string;
   energyTariffsCategoryOptions: string[];
-  setEnergyTariffCategory: (category: string) => void;
+  setEnergyElectricityCategory: (category: string) => void;
 };
 
 export const SunshineSelectorsBase = ({
@@ -51,12 +51,12 @@ export const SunshineSelectorsBase = ({
   getItemLabel = (id) => id,
   networkLevelOptions,
   setNetworkLevel,
-  netTariffCategory,
-  setNetTariffCategory,
+  netElectricityCategory,
+  setNetElectricityCategory,
   netTariffsCategoryOptions,
-  energyTariffCategory,
+  energyElectricityCategory,
   energyTariffsCategoryOptions,
-  setEnergyTariffCategory,
+  setEnergyElectricityCategory,
 }: SunshineSelectorsBaseProps) => {
   return (
     <Box
@@ -130,8 +130,8 @@ export const SunshineSelectorsBase = ({
           })}
           items={netTariffsCategoryOptions}
           getItemLabel={getItemLabel}
-          selectedItem={netTariffCategory}
-          setSelectedItem={setNetTariffCategory}
+          selectedItem={netElectricityCategory}
+          setSelectedItem={setNetElectricityCategory}
           infoDialogSlug="help-net-tariff-category"
         />
       ) : null}
@@ -144,8 +144,8 @@ export const SunshineSelectorsBase = ({
           })}
           items={energyTariffsCategoryOptions}
           getItemLabel={getItemLabel}
-          selectedItem={energyTariffCategory}
-          setSelectedItem={setEnergyTariffCategory}
+          selectedItem={energyElectricityCategory}
+          setSelectedItem={setEnergyElectricityCategory}
           infoDialogSlug="help-energy-tariff-category"
         />
       ) : null}

@@ -1,12 +1,8 @@
 import { keyBy } from "lodash";
 import ParsingClient from "sparql-http-client/ParsingClient";
 
-import { TariffCategory } from "src/domain/data";
-import {
-  NetworkLevel,
-  SunshineIndicator,
-  truncateCategory,
-} from "src/domain/sunshine";
+import { ElectricityCategory } from "src/domain/data";
+import { NetworkLevel, SunshineIndicator } from "src/domain/sunshine";
 import {
   SunshineDataIndicatorRow,
   SunshineDataRow,
@@ -334,18 +330,15 @@ const getStabilityMetrics = async ({
 const getTariffs = async ({
   operatorId,
   period,
-  category: categoryRaw,
-  tariffType: tariffTypeRaw,
+  category,
+  tariffType,
 }: {
   operatorId?: number;
   period?: number;
-  category?: TariffCategory;
+  category?: ElectricityCategory;
   tariffType?: "network" | "energy";
   peerGroup?: string;
 } = {}): Promise<TariffRecord[]> => {
-  const category = truncateCategory(categoryRaw);
-  const tariffType =
-    tariffTypeRaw ?? (categoryRaw?.startsWith("N") ? "network" : "energy");
   const periodFilter = period
     ? `:period "${period}"^^xsd:gYear`
     : `:period ?period`;
@@ -422,7 +415,7 @@ const getTariffs = async ({
         operator_id: operatorId,
         operator_name: operatorName,
         period: periodValue,
-        category: categoryValue as TariffCategory,
+        category: categoryValue as ElectricityCategory,
         tariff_type: "energy",
         rate: parseFloatOrUndefined(row.energy),
       });
@@ -434,7 +427,7 @@ const getTariffs = async ({
         operator_id: operatorId,
         operator_name: operatorName,
         period: periodValue,
-        category: categoryValue as TariffCategory,
+        category: categoryValue as ElectricityCategory,
         tariff_type: "network",
         rate: parseFloatOrUndefined(row.gridusage),
       });
@@ -607,8 +600,7 @@ const getIndicatorMedian = async <
 
     case "energy-tariffs":
     case "net-tariffs": {
-      const { category: categoryRaw } = params;
-      const category = truncateCategory(categoryRaw);
+      const { category } = params;
       const isEnergy = metric === "energy-tariffs";
       cube = "<https://energy.ld.admin.ch/elcom/sunshine-cat-median>";
       query = `
