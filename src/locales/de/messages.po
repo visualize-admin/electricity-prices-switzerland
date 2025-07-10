@@ -566,7 +566,7 @@ msgstr "Alle Sonnenschein-Indikatoren anzeigen"
 
 #: src/components/generic-map.tsx
 msgid "map.scrollzoom.hint"
-msgstr "Halten Sie {key} gedrückt und blättern Sie zum Zoomen"
+msgstr "Halten Sie {key} gedrückt beim Scrollen um zu Zoomen"
 
 #: src/components/share-button.tsx
 msgid "map.share"
