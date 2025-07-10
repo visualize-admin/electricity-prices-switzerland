@@ -6,7 +6,6 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { ComponentProps, useMemo, useState } from "react";
 
-import { ButtonGroup } from "src/components/button-group";
 import CardGrid from "src/components/card-grid";
 import { Combobox } from "src/components/combobox";
 import { DetailPageBanner } from "src/components/detail-page/banner";
@@ -288,9 +287,21 @@ const OverviewPage = (props: Props) => {
             gridArea: "filters",
             alignItems: "end",
             display: "grid",
-            gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" },
+            gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr 1fr" },
+            columnGap: 4,
           }}
         >
+          <Combobox
+            id="network-level"
+            label={getLocalizedLabel({ id: "network-level" })}
+            items={["NE5", "NE6", "NE7"]}
+            getItemLabel={(item) =>
+              getLocalizedLabel({ id: `network-level.${item}.short` })
+            }
+            selectedItem={networkLevel}
+            setSelectedItem={setNetworkLevel}
+            infoDialogSlug="help-network-level"
+          />
           <Combobox
             id="category"
             label={t({ id: "selector.category", message: "Category" })}
@@ -300,26 +311,9 @@ const OverviewPage = (props: Props) => {
             setSelectedItem={(item) => setCategory(item as ElectricityCategory)}
             //FIXME: Might need change
             infoDialogSlug="help-categories"
-          />
-          <ButtonGroup
-            id="basic-button-group"
-            label={getLocalizedLabel({ id: "network-level" })}
-            options={[
-              {
-                value: "NE5",
-                label: getLocalizedLabel({ id: "network-level.NE5.short" }),
-              },
-              {
-                value: "NE6",
-                label: getLocalizedLabel({ id: "network-level.NE6.short" }),
-              },
-              {
-                value: "NE7",
-                label: getLocalizedLabel({ id: "network-level.NE7.short" }),
-              },
-            ]}
-            value={networkLevel}
-            setValue={setNetworkLevel}
+            sx={{
+              gridColumn: { xs: "auto", sm: "span 2" },
+            }}
           />
         </Box>
         {networkCosts ? (
