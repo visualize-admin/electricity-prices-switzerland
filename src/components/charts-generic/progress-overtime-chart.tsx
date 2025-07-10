@@ -1,5 +1,6 @@
 import { t } from "@lingui/macro";
 import { Box } from "@mui/material";
+import { sortBy } from "lodash";
 import { useMemo } from "react";
 
 import { NoDataHint } from "src/components/hint";
@@ -83,13 +84,21 @@ export const ProgressOvertimeChart = <T extends GenericObservation>(
     return compareWith.length > 0;
   }, [showOtherOperatorsLegend, operatorsNames, compareWith]);
 
+  // Put currently selected operatorLabel at the end of the list
+  // This is a trick to ensure the selected operator is always on top of other operators
+  const sortedObservations = useMemo(() => {
+    return sortBy(observations, [
+      (d) => (d.operator_name === operatorLabel ? 1 : 0),
+    ]).filter((d) => d[entityField] !== operatorLabel);
+  }, [observations, entityField, operatorLabel]);
+
   if (observations.length === 0) {
     return <NoDataHint />;
   }
 
   return (
     <LineChart
-      data={observations}
+      data={sortedObservations}
       fields={{
         x: {
           componentIri: xField,
