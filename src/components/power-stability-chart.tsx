@@ -308,8 +308,6 @@ const ProgressOvertimeChartView = (
       yField={duration}
       entityField="operator"
       paletteType="monochrome"
-      showInteractionsWhenComparing={false}
-      showOtherOperatorsLegend={(_, compareWith) => compareWith.length > 0}
     />
   );
 };

@@ -195,8 +195,6 @@ const ProgressOvertimeChartView = (
       paletteType={
         compareWith.includes("sunshine.select-all") ? "monochrome" : "elcom2"
       }
-      showInteractionsWhenComparing={true}
-      showOtherOperatorsLegend={(_, compareWith) => compareWith.length > 0}
     />
   );
 };

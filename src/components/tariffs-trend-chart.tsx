@@ -168,8 +168,6 @@ const ProgressOvertimeChartView = (
       yAxisLabel={RP_PER_KM}
       entityField="operator_id"
       paletteType="monochrome"
-      showInteractionsWhenComparing={true}
-      showOtherOperatorsLegend={(_, compareWith) => compareWith.length > 0}
     />
   );
 };
