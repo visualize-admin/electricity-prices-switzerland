@@ -125,7 +125,7 @@ export const SunshineSelectorsBase = ({
           getItemLabel={getItemLabel}
           selectedItem={category}
           setSelectedItem={setCategory}
-          infoDialogSlug="help-net-tariff-category"
+          infoDialogSlug="help-categories"
         />
       ) : null}
       {indicator === "energyTariffs" ? (
@@ -139,7 +139,7 @@ export const SunshineSelectorsBase = ({
           getItemLabel={getItemLabel}
           selectedItem={category}
           setSelectedItem={setCategory}
-          infoDialogSlug="help-energy-tariff-category"
+          infoDialogSlug="help-categories"
         />
       ) : null}
     </Box>

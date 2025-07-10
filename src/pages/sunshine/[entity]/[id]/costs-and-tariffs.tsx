@@ -617,7 +617,7 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
             setSelectedItem={(item) =>
               _setCategory(item as ElectricityCategory)
             }
-            infoDialogSlug="help-net-tariff-category"
+            infoDialogSlug="help-categories"
           />
         </Box>
 
