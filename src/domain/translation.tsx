@@ -195,45 +195,45 @@ export const getLocalizedLabel = ({ id }: { id: string }): string => {
       });
 
     // Sunshine selectors labels
-    case "viewBy.all_grid_operators":
+    case "peerGroup.all_grid_operators":
       return t({
-        id: "viewBy.all_grid_operators",
+        id: "peerGroup.all_grid_operators",
         message: "All grid operators",
       });
-    case "viewBy.A":
+    case "peerGroup.A":
       return t({
-        id: "viewBy.A",
+        id: "peerGroup.A",
         message: "High energy density / Medium settlement density",
       });
-    case "viewBy.B":
+    case "peerGroup.B":
       return t({
-        id: "viewBy.B",
+        id: "peerGroup.B",
         message: "High energy density / Rural settlement density",
       });
-    case "viewBy.C":
+    case "peerGroup.C":
       return t({
-        id: "viewBy.C",
+        id: "peerGroup.C",
         message: "High energy density / Mountain region",
       });
-    case "viewBy.D":
-      return t({ id: "viewBy.D", message: "High energy density / Unknown" });
-    case "viewBy.E":
+    case "peerGroup.D":
+      return t({ id: "peerGroup.D", message: "High energy density / Unknown" });
+    case "peerGroup.E":
       return t({
-        id: "viewBy.E",
+        id: "peerGroup.E",
         message: "Low energy density / Medium settlement density",
       });
-    case "viewBy.F":
+    case "peerGroup.F":
       return t({
-        id: "viewBy.F",
+        id: "peerGroup.F",
         message: "Low energy density / Rural settlement density",
       });
-    case "viewBy.G":
+    case "peerGroup.G":
       return t({
-        id: "viewBy.G",
+        id: "peerGroup.G",
         message: "Low energy density / Mountain region",
       });
-    case "viewBy.H":
-      return t({ id: "viewBy.H", message: "Low energy density / Tourism" });
+    case "peerGroup.H":
+      return t({ id: "peerGroup.H", message: "Low energy density / Tourism" });
     case "planned":
       return t({
         id: "typology.planned",

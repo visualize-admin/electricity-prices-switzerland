@@ -20,6 +20,7 @@ You can also check the
 
   - Map page: Shadow for tooltip
   - Charts: Tooltip legend symbol does not get squished
+  - Map detail panel: "viewBy.progress" no longer appears in "View By" select
 
 # 2.5.0 - 2025-07-09
 

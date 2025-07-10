@@ -685,6 +685,42 @@ msgstr "Tourismusgebiet"
 msgid "peer-group.settlement-density.unknown"
 msgstr "Unbekannt"
 
+#: src/domain/translation.tsx
+msgid "peerGroup.A"
+msgstr "Hohe Energiedichte / Mittlere Siedlungsdichte"
+
+#: src/domain/translation.tsx
+msgid "peerGroup.B"
+msgstr "Hohe Energiedichte / Ländliche Siedlungsdichte"
+
+#: src/domain/translation.tsx
+msgid "peerGroup.C"
+msgstr "Hohe Energiedichte / Bergregion"
+
+#: src/domain/translation.tsx
+msgid "peerGroup.D"
+msgstr "Hohe Energiedichte / Unbekannt"
+
+#: src/domain/translation.tsx
+msgid "peerGroup.E"
+msgstr "Geringe Energiedichte / Mittlere Siedlungsdichte"
+
+#: src/domain/translation.tsx
+msgid "peerGroup.F"
+msgstr "Geringe Energiedichte / Ländliche Siedlungsdichte"
+
+#: src/domain/translation.tsx
+msgid "peerGroup.G"
+msgstr "Geringe Energiedichte / Bergregion"
+
+#: src/domain/translation.tsx
+msgid "peerGroup.H"
+msgstr "Geringe Energiedichte / Tourismus"
+
+#: src/domain/translation.tsx
+msgid "peerGroup.all_grid_operators"
+msgstr "Alle Netzbetreiber"
+
 #: src/components/power-stability-chart.tsx
 msgid "power-stability-trend-chart.legend-item.grid-operators"
 msgstr "Netzbetreiber"
@@ -939,6 +975,10 @@ msgstr "Kategorie"
 msgid "selector.network-level"
 msgstr "Netzebene"
 
+#: src/components/sunshine-selectors/base.tsx
+msgid "selector.peerGroup"
+msgstr "Ansicht von"
+
 #: src/components/detail-page/price-components-bars.tsx
 #: src/components/electricity-selectors.tsx
 msgid "selector.priceComponent"
@@ -993,10 +1033,6 @@ msgstr "Indikatoren"
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.typology"
 msgstr "Typologie"
-
-#: src/components/sunshine-selectors/base.tsx
-msgid "selector.viewBy"
-msgstr "Ansicht von"
 
 #: src/components/electricity-selectors.tsx
 #: src/components/sunshine-selectors/base.tsx
@@ -1457,39 +1493,3 @@ msgstr "Geplant"
 #: src/domain/translation.tsx
 msgid "typology.unplanned"
 msgstr "Ungeplant"
-
-#: src/domain/translation.tsx
-msgid "viewBy.A"
-msgstr "Hohe Energiedichte / Mittlere Siedlungsdichte"
-
-#: src/domain/translation.tsx
-msgid "viewBy.B"
-msgstr "Hohe Energiedichte / Ländliche Siedlungsdichte"
-
-#: src/domain/translation.tsx
-msgid "viewBy.C"
-msgstr "Hohe Energiedichte / Bergregion"
-
-#: src/domain/translation.tsx
-msgid "viewBy.D"
-msgstr "Hohe Energiedichte / Unbekannt"
-
-#: src/domain/translation.tsx
-msgid "viewBy.E"
-msgstr "Geringe Energiedichte / Mittlere Siedlungsdichte"
-
-#: src/domain/translation.tsx
-msgid "viewBy.F"
-msgstr "Geringe Energiedichte / Ländliche Siedlungsdichte"
-
-#: src/domain/translation.tsx
-msgid "viewBy.G"
-msgstr "Geringe Energiedichte / Bergregion"
-
-#: src/domain/translation.tsx
-msgid "viewBy.H"
-msgstr "Geringe Energiedichte / Tourismus"
-
-#: src/domain/translation.tsx
-msgid "viewBy.all_grid_operators"
-msgstr "Alle Netzbetreiber"

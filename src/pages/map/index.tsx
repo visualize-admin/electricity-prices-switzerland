@@ -103,7 +103,7 @@ const IndexPageContent = ({
       networkLevel,
       netTariffCategory,
       energyTariffCategory,
-      viewBy,
+      peerGroup,
     },
   ] = useQueryStateSunshineMap();
 
@@ -123,7 +123,7 @@ const IndexPageContent = ({
     variables: {
       filter: {
         period: period || "2024",
-        peerGroup: viewBy === "all_grid_operators" ? undefined : viewBy,
+        peerGroup: peerGroup === "all_grid_operators" ? undefined : peerGroup,
         indicator,
         typology,
         networkLevel: networkLevel as NetworkLevel["id"],

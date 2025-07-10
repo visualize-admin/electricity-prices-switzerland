@@ -60,7 +60,7 @@ const energyPricesDetailsSchema = z.object({
 const sunshineMapSchema = z.object({
   tab: mapTabsSchema.default("sunshine"),
   period: periodSchema,
-  viewBy: z.string().default("all_grid_operators"),
+  peerGroup: z.string().default("all_grid_operators"),
   typology: z.enum(["total", "planned", "unplanned"]).default("total"),
   indicator: sunshineIndicatorSchema.default("saidi"),
   energyTariffCategory: z.string().default("EC2"),

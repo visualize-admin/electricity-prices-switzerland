@@ -176,7 +176,7 @@ describe("Query States", () => {
       expect(result.current[0]).toEqual({
         tab: "sunshine",
         period: "2023",
-        viewBy: "all_grid_operators",
+        peerGroup: "all_grid_operators",
         typology: "total",
         indicator: "saifi",
         energyTariffCategory: "EC2",
