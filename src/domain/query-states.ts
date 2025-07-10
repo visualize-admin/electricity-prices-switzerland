@@ -96,6 +96,12 @@ const sunshineDetailsSchema = z.object({
 
 export const sunshineDetailsLink = makeLinkGenerator(sunshineDetailsSchema);
 
+const sunshineOverviewFiltersSchema = z.object({
+  year: z.string().default("2025"),
+  category: z.string().default("C2"),
+  networkLevel: z.enum(["NE5", "NE6", "NE7"]).default("NE5"),
+});
+
 // Map pages
 export const useQueryStateMapCommon = makeUseQueryState(mapCommonSchema);
 export const useQueryStateEnergyPricesMap = makeUseQueryState(
@@ -109,6 +115,9 @@ export const useQueryStateEnergyPricesDetails = makeUseQueryState(
 );
 export const useQueryStateSunshineDetails = makeUseQueryState(
   sunshineDetailsSchema
+);
+export const useQueryStateSunshineOverviewFilters = makeUseQueryState(
+  sunshineOverviewFiltersSchema
 );
 
 export type QueryStateEnergyPricesMap = UseQueryStateSingle<
