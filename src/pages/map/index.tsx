@@ -101,8 +101,8 @@ const IndexPageContent = ({
       typology,
       indicator,
       networkLevel,
-      netElectricityCategory,
-      energyElectricityCategory,
+      category: netElectricityCategory,
+      category: energyElectricityCategory,
       peerGroup,
     },
   ] = useQueryStateSunshineMap();

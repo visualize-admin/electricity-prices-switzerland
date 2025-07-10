@@ -24,13 +24,9 @@ type SunshineSelectorsBaseProps = {
   setNetworkLevel: (networkLevel: string) => void;
   networkLevelOptions: string[];
 
-  netElectricityCategory: string;
-  setNetElectricityCategory: (category: string) => void;
-  netTariffsCategoryOptions: string[];
-
-  energyElectricityCategory: string;
-  energyTariffsCategoryOptions: string[];
-  setEnergyElectricityCategory: (category: string) => void;
+  category: string;
+  setCategory: (category: string) => void;
+  categoryOptions: string[];
 };
 
 export const SunshineSelectorsBase = ({
@@ -51,12 +47,9 @@ export const SunshineSelectorsBase = ({
   getItemLabel = (id) => id,
   networkLevelOptions,
   setNetworkLevel,
-  netElectricityCategory,
-  setNetElectricityCategory,
-  netTariffsCategoryOptions,
-  energyElectricityCategory,
-  energyTariffsCategoryOptions,
-  setEnergyElectricityCategory,
+  category,
+  setCategory,
+  categoryOptions,
 }: SunshineSelectorsBaseProps) => {
   return (
     <Box
@@ -128,10 +121,10 @@ export const SunshineSelectorsBase = ({
             id: "selector.net-tariffs-category",
             message: "Category",
           })}
-          items={netTariffsCategoryOptions}
+          items={categoryOptions}
           getItemLabel={getItemLabel}
-          selectedItem={netElectricityCategory}
-          setSelectedItem={setNetElectricityCategory}
+          selectedItem={category}
+          setSelectedItem={setCategory}
           infoDialogSlug="help-net-tariff-category"
         />
       ) : null}
@@ -142,10 +135,10 @@ export const SunshineSelectorsBase = ({
             id: "selector.energy-tariffs-category",
             message: "Category",
           })}
-          items={energyTariffsCategoryOptions}
+          items={categoryOptions}
           getItemLabel={getItemLabel}
-          selectedItem={energyElectricityCategory}
-          setSelectedItem={setEnergyElectricityCategory}
+          selectedItem={category}
+          setSelectedItem={setCategory}
           infoDialogSlug="help-energy-tariff-category"
         />
       ) : null}

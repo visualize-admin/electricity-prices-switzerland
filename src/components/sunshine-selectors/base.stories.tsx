@@ -28,8 +28,8 @@ export const SunshineSelectors: Story = {
     typologyOptions: typologyOptions,
     indicator: "saidi",
     indicatorOptions: indicatorOptions,
-    netTariffsCategoryOptions: netElectricityCategoryOptions,
-    energyTariffsCategoryOptions: energyElectricityCategoryOptions,
+    categoryOptions: netElectricityCategoryOptions,
+    categoryOptions: energyElectricityCategoryOptions,
     networkLevel: "NE5",
     networkLevelOptions: networkLevelOptions,
     getItemLabel: (id) => {
