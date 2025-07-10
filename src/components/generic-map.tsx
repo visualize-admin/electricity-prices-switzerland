@@ -296,8 +296,7 @@ export const GenericMap = ({
       }
     };
     let timeout = 0;
-    const handleWheel = (event: Event) => {
-      // Get the element over which the mouse is
+    const handleWheel = () => {
       if (!mouseOverRef.current) {
         return;
       }
@@ -311,6 +310,7 @@ export const GenericMap = ({
     window.addEventListener("keydown", handleKeyDown);
     window.addEventListener("keyup", handleKeyUp);
     return () => {
+      clearTimeout(timeout);
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("keyup", handleKeyUp);
       window.removeEventListener("wheel", handleWheel);
