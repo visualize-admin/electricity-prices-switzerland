@@ -9,7 +9,17 @@ and this project adheres to
 You can also check the
 [release page](https://github.com/visualize-admin/electricity-prices-switzerland/releases)
 
-# 2.6.0 -
+# Unreleased
+
+Nothing yet.
+
+# 2.6.1 - 2025-07-10
+
+- Fix
+
+  - Download documents: Can download documents again
+
+# 2.6.0 - 2025-07-10
 
 - Features
 
