@@ -7,6 +7,7 @@ import {
   SunshineDataIndicatorRow,
   SunshineDataRow,
 } from "src/graphql/resolver-types";
+import { getFieldName } from "src/lib/db/common";
 import { query } from "src/lib/db/duckdb";
 import { PeerGroupNotFoundError } from "src/lib/db/errors";
 import { IndicatorMedianParams } from "src/lib/sunshine-data";
@@ -509,7 +510,6 @@ const getSunshineData = async ({
     tariffNH7: row.tariff_nh7,
   }));
 };
-
 const getSunshineDataByIndicator = async ({
   operatorId,
   period,
@@ -531,33 +531,6 @@ const getSunshineDataByIndicator = async ({
   // Get the full data with peer group filtering
   const fullData = await getSunshineData({ operatorId, period, peerGroup });
 
-  // Map the structured indicator to field names
-  const getFieldName = (
-    indicator: SunshineIndicator,
-    category?: string,
-    networkLevel?: string,
-    typology?: string
-  ): string => {
-    switch (indicator) {
-      case "networkCosts":
-        return `networkCosts${networkLevel}`;
-      case "netTariffs":
-        return `tariffN${category}`;
-      case "energyTariffs":
-        return `tariffE${category}`;
-      case "saidi":
-        return typology === "unplanned" ? "saidiUnplanned" : "saidiTotal";
-      case "saifi":
-        return typology === "unplanned" ? "saifiUnplanned" : "saifiTotal";
-      case "serviceQuality":
-        return "francRule"; // Default to franc rule, could be enhanced
-      case "compliance":
-        return "timely"; // Default to timely, could be enhanced
-      default:
-        throw new Error(`Unsupported indicator: ${indicator}`);
-    }
-  };
-
   const fieldName = getFieldName(indicator, category, networkLevel, typology);
 
   // Extract only the value for the specified indicator and return minimal structure
@@ -570,7 +543,14 @@ const getSunshineDataByIndicator = async ({
       operatorUID: row.operatorUID,
       name: row.name,
       period: row.period,
-      value: Number.isFinite(value) ? value : null,
+      value:
+        typeof value === "number" && isFinite(value)
+          ? value
+          : typeof value === "boolean"
+          ? value
+            ? 1
+            : 0
+          : null,
     };
   });
 };
