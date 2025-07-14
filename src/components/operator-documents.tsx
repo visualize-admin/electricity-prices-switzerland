@@ -220,6 +220,7 @@ export const OperatorDocuments = ({ id }: { id: string }) => {
         open={!!anchorEl}
         anchorEl={anchorEl}
         onClose={handleClose}
+        disableScrollLock
         anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
         slotProps={{
           paper: {
