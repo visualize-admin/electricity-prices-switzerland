@@ -368,14 +368,16 @@ type FormatterConfig =
   | { type: "d3"; format: string }
   | { type: "custom"; fn: (value: number) => string };
 
+const booleanNumberFormatter = {
+  type: "custom",
+  fn: (value: number) => (value === 1 ? t`Yes` : value === 0 ? t`No` : "-"),
+} as const;
+
 const indicatorFormatterConfig: Record<SunshineIndicator, FormatterConfig> = {
   saidi: { type: "d3", format: ".0~f" },
   saifi: { type: "d3", format: ",.2~f" },
-  serviceQuality: { type: "d3", format: ",.2~f" },
-  compliance: {
-    type: "custom",
-    fn: (value: number) => (value === 1 ? t`Yes` : value === 0 ? t`No` : "-"),
-  },
+  serviceQuality: booleanNumberFormatter,
+  compliance: { type: "d3", format: ",.2~f" },
   energyTariffs: { type: "d3", format: ",.2~f" },
   netTariffs: { type: "d3", format: ",.2~f" },
 

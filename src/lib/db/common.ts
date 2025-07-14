@@ -23,10 +23,10 @@ export const getFieldName = (
       return typology === "unplanned" ? "saidiUnplanned" : "saidiTotal";
     case "saifi":
       return typology === "unplanned" ? "saifiUnplanned" : "saifiTotal";
-    case "serviceQuality":
-      return "francRule"; // Default to franc rule, could be enhanced
     case "compliance":
-      return "timely"; // Default to timely, could be enhanced
+      return "francRule";
+    case "serviceQuality":
+      return "timely";
     default:
       throw new Error(`Unsupported indicator: ${indicator}`);
   }

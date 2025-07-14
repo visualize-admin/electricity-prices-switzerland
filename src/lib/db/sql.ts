@@ -510,6 +510,7 @@ const getSunshineData = async ({
     tariffNH7: row.tariff_nh7,
   }));
 };
+
 const getSunshineDataByIndicator = async ({
   operatorId,
   period,

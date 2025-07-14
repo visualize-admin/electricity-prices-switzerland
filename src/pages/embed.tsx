@@ -1,5 +1,5 @@
 import { GetServerSideProps } from "next";
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 import { EnergyPricesMap } from "src/components/energy-prices-map";
 import {
@@ -7,7 +7,7 @@ import {
   HighlightValue,
 } from "src/components/highlight-context";
 import { MapProvider } from "src/components/map-context";
-import { useColorScale } from "src/domain/charts";
+import { colorScaleSpecs, makeColorScale } from "src/domain/charts";
 import { useQueryStateEnergyPricesMap } from "src/domain/query-states";
 import {
   PriceComponent,
@@ -32,6 +32,7 @@ export const getServerSideProps: GetServerSideProps<
   };
 };
 
+// FIXME Support Sunshine indicators
 const IndexPage = ({ locale }: Props) => {
   const [{ period, priceComponent, category, product }] =
     useQueryStateEnergyPricesMap();
@@ -68,11 +69,13 @@ const IndexPage = ({ locale }: Props) => {
   const medianValue = swissMedianObservations[0]?.value;
 
   const colorAccessor = useCallback((d: { value: number }) => d.value, []);
-  const colorScale = useColorScale({
-    observations,
-    medianValue,
-    accessor: colorAccessor,
-  });
+  const colorScale = useMemo(() => {
+    return makeColorScale(
+      colorScaleSpecs.default,
+      medianValue,
+      observations.map(colorAccessor)
+    );
+  }, [colorAccessor, medianValue, observations]);
 
   const [activeId, setActiveId] = useState<string | null>(null);
   const [highlightContext, setHighlightContext] = useState<HighlightValue>();

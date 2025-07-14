@@ -759,13 +759,16 @@ const getMedianValueFromResult = (
   }
 
   // Operational metrics
-  if (indicator === "serviceQuality" || indicator === "compliance") {
+  if (indicator === "compliance") {
     // For service quality/compliance, we might need to aggregate multiple metrics
     return (
-      (result as any).median_franc_rule ??
-      (result as any).median_info_days ??
-      (result as any).median_timely
+      (result as any).median_franc_rule ?? (result as any).median_info_days
     );
+  }
+
+  if (indicator === "serviceQuality") {
+    // For service quality/compliance, we might need to aggregate multiple metrics
+    return (result as any).median_timely;
   }
 
   // Tariffs (both energy and network)

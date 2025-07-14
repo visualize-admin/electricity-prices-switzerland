@@ -36,7 +36,7 @@ import ShareButton from "src/components/share-button";
 import { SunshineDataServiceDebug } from "src/components/sunshine-data-service-debug";
 import SunshineMap from "src/components/sunshine-map";
 import { DataServiceProps } from "src/data/shared-page-props";
-import { useColorScale } from "src/domain/charts";
+import { colorScaleSpecs, makeColorScale } from "src/domain/charts";
 import { Entity, ElectricityCategory } from "src/domain/data";
 import { useIndicatorValueFormatter } from "src/domain/helpers";
 import {
@@ -179,17 +179,34 @@ const IndexPageContent = ({
   const medianValue = isElectricityTab
     ? swissMedianObservations[0]?.value
     : sunshineDataQuery.data?.sunshineDataByIndicator?.median ?? undefined;
-  const colorScale = useColorScale({
-    observations,
-    medianValue,
-    accessor: colorAccessor,
-  });
 
-  const sunshineColorScale = useColorScale({
-    observations: sunshineObservations,
+  const colorScale = useMemo(() => {
+    const specKey = isElectricityTab ? "energyPrices" : indicator;
+    const spec =
+      specKey in colorScaleSpecs && colorScaleSpecs[specKey]
+        ? colorScaleSpecs[specKey]
+        : colorScaleSpecs.default;
+    const isValidValue = (
+      x: SunshineDataIndicatorRow
+    ): x is SunshineDataIndicatorRow & { value: number } =>
+      x.value !== undefined && x.value !== null;
+
+    const sunshineValues = sunshineObservations
+      .filter(isValidValue)
+      .map((x) => x.value);
+    return makeColorScale(
+      spec,
+      medianValue,
+      isElectricityTab ? observations.map(colorAccessor) : sunshineValues
+    );
+  }, [
+    colorAccessor,
+    indicator,
+    isElectricityTab,
     medianValue,
-    accessor: sunshineAccessor,
-  });
+    observations,
+    sunshineObservations,
+  ]);
 
   const isSunshine = useFlag("sunshine");
 
@@ -235,7 +252,7 @@ const IndexPageContent = ({
       accessor={sunshineAccessor}
       period={mapYear}
       indicator={indicator}
-      colorScale={sunshineColorScale}
+      colorScale={colorScale}
       observations={sunshineObservations}
       controls={controlsRef}
       valueFormatter={valueFormatter}
@@ -322,7 +339,7 @@ const IndexPageContent = ({
   const detailsDrawer = (
     <DetailsDrawer
       selectedItem={selectedItem}
-      colorScale={isElectricityTab ? colorScale : sunshineColorScale}
+      colorScale={colorScale}
       entity={entity}
     />
   );

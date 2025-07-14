@@ -59,11 +59,11 @@ const indicatorLegendTitleMapping: Record<SunshineIndicator, string> = {
     id: "sunshine.indicator.saifi",
   }),
   serviceQuality: t({
-    message: "Service quality score",
+    message: "Informing the affected customer about planned interruptions",
     id: "sunshine.indicator.serviceQuality",
   }),
   compliance: t({
-    message: "Compliance score",
+    message: "Complies with the franc rule",
     id: "sunshine.indicator.compliance",
   }),
 };
