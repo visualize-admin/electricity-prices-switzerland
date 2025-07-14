@@ -15,6 +15,7 @@ import { LocaleProvider } from "src/lib/use-locale";
 import { useNProgress } from "src/lib/use-nprogress";
 import { i18n, parseLocaleString } from "src/locales/locales";
 import { preloadFonts, theme } from "src/themes/elcom";
+import { useRuntimeFlags } from "src/utils/flags";
 
 import "src/styles/nprogress.css";
 
@@ -28,6 +29,8 @@ export default function App(props: AppProps & { emotionCache?: EmotionCache }) {
   const matomoId = useMatomo();
 
   useNProgress();
+  // Load runtime flags from server early in app lifecycle
+  useRuntimeFlags();
 
   // Immediately activate locale to avoid re-render
   if (i18n.locale !== locale) {

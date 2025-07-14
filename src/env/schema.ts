@@ -11,6 +11,20 @@ export const buildSchema = z.object({
 
 // Define the schema for server-side variables
 export const serverSchema = z.object({
+  // Runtime flags configuration
+  FLAGS: z
+    .string()
+    .optional()
+    .transform((flags) => {
+      if (!flags) return [];
+      try {
+        return z.array(z.string()).parse(JSON.parse(flags));
+      } catch (error) {
+        console.error("Failed to parse FLAGS:", error);
+        return [];
+      }
+    }),
+
   // Gever document download
   EIAM_CERTIFICATE_CONTENT: z.string().optional(),
   EIAM_CERTIFICATE_PASSWORD: z.string().optional(),
