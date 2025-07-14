@@ -111,11 +111,15 @@ export const getServerSideProps: GetServerSideProps<Props, PageParams> = async (
       fetchOperationalStandards(sunshineDataService, {
         operatorId: id,
       }),
-      fetchPowerStability(sunshineDataService, { operatorId: id }),
+      fetchPowerStability(sunshineDataService, {
+        operatorId: id,
+        operatorOnly: true,
+      }),
       fetchOperatorCostsAndTariffsData(sunshineDataService, {
         operatorId: id,
         networkLevel: "NE5",
         category: "C2",
+        operatorOnly: true,
       }),
     ]);
 
