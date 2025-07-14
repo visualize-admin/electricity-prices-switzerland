@@ -13,7 +13,7 @@ const clientSchema = z.object({
         return FlagSchema.parse(JSON.parse(flags));
       } catch (error) {
         console.error("Failed to parse NEXT_PUBLIC_FLAGS:", error);
-        return;
+        return [];
       }
     }),
 });
