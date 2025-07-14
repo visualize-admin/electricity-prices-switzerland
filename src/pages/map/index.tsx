@@ -13,8 +13,8 @@ const ContentWrapper = dynamic(
   { ssr: false }
 );
 
-import { ButtonGroup } from "src/components/button-group";
 import { CombinedSelectors } from "src/components/combined-selectors";
+import { Combobox } from "src/components/combobox";
 import { DownloadImage } from "src/components/detail-page/download-image";
 import { InlineDrawer } from "src/components/drawer";
 import {
@@ -298,34 +298,32 @@ const IndexPageContent = ({
   );
 
   const listButtonGroup = isElectricityTab ? (
-    <ButtonGroup<Entity>
+    <Combobox
       id="list-state-tabs"
-      options={[
-        {
-          value: "municipality",
-          label: t({
-            id: "list.municipalities",
-            message: "Municipalities",
-          }),
-        },
-        {
-          value: "canton",
-          label: t({ id: "list.cantons", message: "Cantons" }),
-        },
-        {
-          value: "operator",
-          label: t({
-            id: "list.operators",
-            message: "Network operator",
-          }),
-        },
-      ]}
-      value={entity}
       label={t({
         id: "list.viewby.label",
         message: "View according to",
       })}
-      setValue={setEntity}
+      items={["municipality", "canton", "operator"]}
+      getItemLabel={(item) => {
+        switch (item) {
+          case "municipality":
+            return t({
+              id: "list.viewby.municipality",
+              message: "Municipality",
+            });
+          case "canton":
+            return t({ id: "list.viewby.canton", message: "Canton" });
+          case "operator":
+            return t({ id: "list.viewby.operator", message: "Operator" });
+          default:
+            return item;
+        }
+      }}
+      selectedItem={entity}
+      setSelectedItem={(item) => {
+        return console.log(item) || setEntity(item as Entity);
+      }}
     />
   ) : null;
 
