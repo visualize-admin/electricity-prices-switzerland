@@ -7,6 +7,7 @@ import {
   SunshineDataIndicatorRow,
   SunshineDataRow,
 } from "src/graphql/resolver-types";
+import { getFieldName } from "src/lib/db/common";
 import {
   PeerGroupNotFoundError,
   UnknownPeerGroupError,
@@ -1059,33 +1060,6 @@ const getSunshineDataByIndicator = async ({
 }): Promise<SunshineDataIndicatorRow[]> => {
   // Get the full data with peer group parameter (though SPARQL doesn't filter by it yet)
   const fullData = await getSunshineData({ operatorId, period, peerGroup });
-
-  // Map the structured indicator to field names
-  const getFieldName = (
-    indicator: SunshineIndicator,
-    category?: string,
-    networkLevel?: string,
-    typology?: string
-  ): string => {
-    switch (indicator) {
-      case "networkCosts":
-        return `networkCosts${networkLevel}`;
-      case "netTariffs":
-        return `tariffN${category}`;
-      case "energyTariffs":
-        return `tariffE${category}`;
-      case "saidi":
-        return typology === "unplanned" ? "saidiUnplanned" : "saidiTotal";
-      case "saifi":
-        return typology === "unplanned" ? "saifiUnplanned" : "saifiTotal";
-      case "serviceQuality":
-        return "francRule"; // Default to franc rule, could be enhanced
-      case "compliance":
-        return "timely"; // Default to timely, could be enhanced
-      default:
-        throw new Error(`Unsupported indicator: ${indicator}`);
-    }
-  };
 
   const fieldName = getFieldName(indicator, category, networkLevel, typology);
 

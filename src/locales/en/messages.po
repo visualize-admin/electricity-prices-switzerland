@@ -1258,7 +1258,7 @@ msgstr "Power Stability"
 
 #: src/components/sunshine-map.tsx
 msgid "sunshine.indicator.compliance"
-msgstr "Compliance score"
+msgstr "Franc rule"
 
 #: src/components/sunshine-map.tsx
 msgid "sunshine.indicator.energyTariffs"
@@ -1282,7 +1282,7 @@ msgstr "Power outage frequency (SAIFI) per year"
 
 #: src/components/sunshine-map.tsx
 msgid "sunshine.indicator.serviceQuality"
-msgstr "Service quality score"
+msgstr "Informing the affected customer about planned interruptions"
 
 #: src/domain/metrics.ts
 msgid "sunshine.metric-unit.days"
