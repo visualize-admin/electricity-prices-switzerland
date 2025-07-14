@@ -201,6 +201,7 @@ export const prepComplianceCardProps = (
 ) => {
   const { latestYear } = props.operationalStandards;
   const data = props.operationalStandards;
+  console.log("compliance", data.compliance);
   return {
     title: (
       <Trans id="sunshine.operational-standards.compliance.comparison-card-title">
@@ -231,7 +232,7 @@ export const prepComplianceCardProps = (
           </Trans>
         ),
         value: {
-          value: `${data.compliance.timelyPaperSubmission}` ? (
+          value: data.compliance.timelyPaperSubmission ? (
             <Trans id="sunshine.compliance.timely-paper-submission.yes">
               Yes
             </Trans>
