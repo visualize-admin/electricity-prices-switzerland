@@ -322,7 +322,7 @@ const IndexPageContent = ({
       }}
       selectedItem={entity}
       setSelectedItem={(item) => {
-        return console.log(item) || setEntity(item as Entity);
+        return setEntity(item as Entity);
       }}
     />
   ) : null;

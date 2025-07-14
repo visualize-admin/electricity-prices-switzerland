@@ -303,6 +303,7 @@ export const Combobox = <T extends string>({
         onInputChange={(_, newInputValue) => {
           setInputValue(newInputValue);
         }}
+        blurOnSelect
         renderInput={(params) => (
           <TextField
             {...params}
