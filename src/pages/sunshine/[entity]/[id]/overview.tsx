@@ -28,7 +28,10 @@ import {
   Props as SharedPageProps,
 } from "src/data/shared-page-props";
 import { categories, ElectricityCategory } from "src/domain/data";
-import { sunshineDetailsLink, useQueryStateSunshineOverviewFilters } from "src/domain/query-states";
+import {
+  sunshineDetailsLink,
+  useQueryStateSunshineOverviewFilters,
+} from "src/domain/query-states";
 import {
   NetworkLevel,
   SunshineCostsAndTariffsData,
@@ -150,20 +153,12 @@ const OverviewPage = (props: Props) => {
     />
   );
   const saidiYearlyObservations = useMemo(() => {
-    return (
-      props.powerStability.saidi.yearlyData.filter(
-        (x) => x.year === latestYear
-      ) ?? []
-    );
-  }, [props.powerStability.saidi.yearlyData, latestYear]);
+    return props.powerStability.saidi.yearlyData;
+  }, [props.powerStability.saidi.yearlyData]);
 
   const saifiYearlyObservations = useMemo(() => {
-    return (
-      props.powerStability.saifi.yearlyData.filter(
-        (x) => x.year === latestYear
-      ) ?? []
-    );
-  }, [props.powerStability.saifi.yearlyData, latestYear]);
+    return props.powerStability.saifi.yearlyData;
+  }, [props.powerStability.saifi.yearlyData]);
 
   const getItemLabel = (id: string) => getLocalizedLabel({ id });
   const groupedCategories = useMemo(() => {
@@ -179,7 +174,8 @@ const OverviewPage = (props: Props) => {
     ] as ComponentProps<typeof Combobox>["items"];
   }, []);
 
-  const [overviewFilters, setOverviewFilters] = useQueryStateSunshineOverviewFilters();
+  const [overviewFilters, setOverviewFilters] =
+    useQueryStateSunshineOverviewFilters();
   const { year, category, networkLevel } = overviewFilters;
 
   const updateYear = (newYear: string) => {
@@ -322,7 +318,9 @@ const OverviewPage = (props: Props) => {
             items={groupedCategories}
             getItemLabel={getItemLabel}
             selectedItem={category}
-            setSelectedItem={(item) => updateCategory(item as ElectricityCategory)}
+            setSelectedItem={(item) =>
+              updateCategory(item as ElectricityCategory)
+            }
             //FIXME: Might need change
             infoDialogSlug="help-categories"
             sx={{
