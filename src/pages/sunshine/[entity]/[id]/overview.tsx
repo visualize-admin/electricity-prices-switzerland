@@ -47,6 +47,7 @@ import {
   useEnergyTariffsQuery,
   useNetTariffsQuery,
   useNetworkCostsQuery,
+  useOperationalStandardsQuery,
 } from "src/graphql/queries";
 import { Icon } from "src/icons";
 import {
@@ -229,6 +230,17 @@ const OverviewPage = (props: Props) => {
     },
   });
 
+  // Client-side operational standards query for different years
+  const [operationalStandardsQuery] = useOperationalStandardsQuery({
+    variables: {
+      filter: {
+        operatorId,
+        period: parseInt(overviewFilters.year),
+      },
+    },
+    pause: overviewFilters.year === props.operationalStandards.latestYear,
+  });
+
   const networkCosts = networkCostsResult.data?.networkCosts as
     | NetworkCostsQuery["networkCosts"]
     | undefined;
@@ -240,21 +252,28 @@ const OverviewPage = (props: Props) => {
     | undefined;
 
   const { yearComplianceProps, yearServiceQualityProps } = useMemo(() => {
+    // Use client-side data if available and different year is selected
+    const operationalStandardsData =
+      overviewFilters.year === props.operationalStandards.latestYear
+        ? props.operationalStandards
+        : operationalStandardsQuery.data?.operationalStandards ||
+          props.operationalStandards;
+
     const yearComplianceProps = prepComplianceCardProps(
-      props.operationalStandards.compliance,
-      Number(props.operationalStandards.latestYear),
+      operationalStandardsData.compliance,
+      Number(overviewFilters.year),
       true
     );
     const yearServiceQualityProps = prepServiceQualityCardProps(
-      props.operationalStandards.serviceQuality,
-      Number(props.operationalStandards.latestYear),
+      operationalStandardsData.serviceQuality,
+      Number(overviewFilters.year),
       true
     );
     return {
       yearComplianceProps,
       yearServiceQualityProps,
     };
-  }, [props]);
+  }, [props, operationalStandardsQuery.data, overviewFilters.year]);
 
   const mainContent = (
     <>

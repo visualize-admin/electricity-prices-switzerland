@@ -119,7 +119,7 @@ export const prepServiceQualityCardProps = (
           </Trans>
         ),
         value: {
-          value: `${serviceQuality.informingCustomersOfOutage}` ? (
+          value: serviceQuality.informingCustomersOfOutage ? (
             <Trans id="sunshine.service-quality.informing-customers-outage.yes">
               Yes
             </Trans>

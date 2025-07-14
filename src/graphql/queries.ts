@@ -135,6 +135,68 @@ export enum ObservationKind {
   Municipality = "Municipality",
 }
 
+export type OperationalStandardsCompliance = {
+  __typename: "OperationalStandardsCompliance";
+  francsRule: Scalars["String"]["output"];
+  operatorsFrancsPerInvoice: Array<OperationalStandardsOperatorFrancs>;
+  timelyPaperSubmission: Scalars["Boolean"]["output"];
+};
+
+export type OperationalStandardsData = {
+  __typename: "OperationalStandardsData";
+  compliance: OperationalStandardsCompliance;
+  latestYear: Scalars["String"]["output"];
+  operator: OperationalStandardsOperator;
+  productVariety: OperationalStandardsProductVariety;
+  serviceQuality: OperationalStandardsServiceQuality;
+  updateDate: Scalars["String"]["output"];
+};
+
+export type OperationalStandardsFilter = {
+  operatorId: Scalars["Int"]["input"];
+  period: Scalars["Int"]["input"];
+};
+
+export type OperationalStandardsOperator = {
+  __typename: "OperationalStandardsOperator";
+  peerGroup: PeerGroup;
+};
+
+export type OperationalStandardsOperatorFrancs = {
+  __typename: "OperationalStandardsOperatorFrancs";
+  francsPerInvoice: Scalars["Float"]["output"];
+  operatorId: Scalars["String"]["output"];
+  year: Scalars["String"]["output"];
+};
+
+export type OperationalStandardsOperatorNotification = {
+  __typename: "OperationalStandardsOperatorNotification";
+  days: Scalars["Int"]["output"];
+  operatorId: Scalars["String"]["output"];
+  year: Scalars["String"]["output"];
+};
+
+export type OperationalStandardsOperatorProduct = {
+  __typename: "OperationalStandardsOperatorProduct";
+  ecoFriendlyProductsOffered: Scalars["Int"]["output"];
+  operatorId: Scalars["String"]["output"];
+  year: Scalars["String"]["output"];
+};
+
+export type OperationalStandardsProductVariety = {
+  __typename: "OperationalStandardsProductVariety";
+  ecoFriendlyProductsOffered: Scalars["Int"]["output"];
+  operatorsProductsOffered: Array<OperationalStandardsOperatorProduct>;
+  productCombinationsOptions: Scalars["Boolean"]["output"];
+};
+
+export type OperationalStandardsServiceQuality = {
+  __typename: "OperationalStandardsServiceQuality";
+  informingCustomersOfOutage: Scalars["Boolean"]["output"];
+  notificationPeriodDays: Scalars["Int"]["output"];
+  operatorsNotificationPeriodDays: Array<OperationalStandardsOperatorNotification>;
+};
+
 export type Operator = {
   __typename: "Operator";
   cantons: Array<Canton>;
@@ -214,6 +276,7 @@ export type Query = {
   netTariffs: TariffsData;
   networkCosts: NetworkCostsData;
   observations?: Maybe<Array<OperatorObservation>>;
+  operationalStandards: OperationalStandardsData;
   operator?: Maybe<Operator>;
   operators: Array<Operator>;
   saidi: StabilityData;
@@ -279,6 +342,10 @@ export type QueryObservationsArgs = {
   filters?: InputMaybe<ObservationFilters>;
   locale?: InputMaybe<Scalars["String"]["input"]>;
   observationKind?: InputMaybe<ObservationKind>;
+};
+
+export type QueryOperationalStandardsArgs = {
+  filter: OperationalStandardsFilter;
 };
 
 export type QueryOperatorArgs = {
@@ -876,6 +943,60 @@ export type SunshineTariffByIndicatorQuery = {
   }>;
 };
 
+export type OperationalStandardsQueryVariables = Exact<{
+  filter: OperationalStandardsFilter;
+}>;
+
+export type OperationalStandardsQuery = {
+  __typename: "Query";
+  operationalStandards: {
+    __typename: "OperationalStandardsData";
+    latestYear: string;
+    updateDate: string;
+    operator: {
+      __typename: "OperationalStandardsOperator";
+      peerGroup: {
+        __typename: "PeerGroup";
+        settlementDensity?: string | null;
+        energyDensity?: string | null;
+      };
+    };
+    productVariety: {
+      __typename: "OperationalStandardsProductVariety";
+      ecoFriendlyProductsOffered: number;
+      productCombinationsOptions: boolean;
+      operatorsProductsOffered: Array<{
+        __typename: "OperationalStandardsOperatorProduct";
+        operatorId: string;
+        ecoFriendlyProductsOffered: number;
+        year: string;
+      }>;
+    };
+    serviceQuality: {
+      __typename: "OperationalStandardsServiceQuality";
+      notificationPeriodDays: number;
+      informingCustomersOfOutage: boolean;
+      operatorsNotificationPeriodDays: Array<{
+        __typename: "OperationalStandardsOperatorNotification";
+        operatorId: string;
+        days: number;
+        year: string;
+      }>;
+    };
+    compliance: {
+      __typename: "OperationalStandardsCompliance";
+      francsRule: string;
+      timelyPaperSubmission: boolean;
+      operatorsFrancsPerInvoice: Array<{
+        __typename: "OperationalStandardsOperatorFrancs";
+        operatorId: string;
+        francsPerInvoice: number;
+        year: string;
+      }>;
+    };
+  };
+};
+
 export type NetworkCostsQueryVariables = Exact<{
   filter: NetworkCostsFilter;
 }>;
@@ -1426,6 +1547,56 @@ export function useSunshineTariffByIndicatorQuery(
     SunshineTariffByIndicatorQuery,
     SunshineTariffByIndicatorQueryVariables
   >({ query: SunshineTariffByIndicatorDocument, ...options });
+}
+export const OperationalStandardsDocument = gql`
+  query OperationalStandards($filter: OperationalStandardsFilter!) {
+    operationalStandards(filter: $filter) {
+      latestYear
+      operator {
+        peerGroup {
+          settlementDensity
+          energyDensity
+        }
+      }
+      productVariety {
+        ecoFriendlyProductsOffered
+        productCombinationsOptions
+        operatorsProductsOffered {
+          operatorId
+          ecoFriendlyProductsOffered
+          year
+        }
+      }
+      serviceQuality {
+        notificationPeriodDays
+        informingCustomersOfOutage
+        operatorsNotificationPeriodDays {
+          operatorId
+          days
+          year
+        }
+      }
+      compliance {
+        francsRule
+        timelyPaperSubmission
+        operatorsFrancsPerInvoice {
+          operatorId
+          francsPerInvoice
+          year
+        }
+      }
+      updateDate
+    }
+  }
+`;
+
+export function useOperationalStandardsQuery(
+  options: Omit<Urql.UseQueryArgs<OperationalStandardsQueryVariables>, "query">
+) {
+  return Urql.useQuery<
+    OperationalStandardsQuery,
+    OperationalStandardsQueryVariables
+  >({ query: OperationalStandardsDocument, ...options });
 }
 export const NetworkCostsDocument = gql`
   query NetworkCosts($filter: NetworkCostsFilter!) {

@@ -476,10 +476,6 @@ export const fetchSaidi = async (
     peerGroup: operatorData.peer_group,
     operatorId: operatorOnly ? operatorId : undefined,
   });
-
-  console.log({
-    peerGroupYearlyStability: peerGroupYearlyStability,
-  });
   // Concatenate peer group median data into yearlyData with special operator_id and name
   const peerGroupMedianAsYearlyData = yearlyPeerGroupMedianStability.map(
     (item) => ({
@@ -641,13 +637,22 @@ export const fetchOperationalStandards = async (
   db: SunshineDataService,
   {
     operatorId: operatorId_,
+    period: periodParam,
   }: {
     operatorId: string;
+    period?: number;
   }
 ): Promise<SunshineOperationalStandardsData> => {
   const operatorId = parseInt(operatorId_, 10);
   const operatorData = await db.getOperatorData(operatorId);
-  const period = await db.getLatestYearSunshine(operatorId);
+
+  // Use provided period or get the latest year
+  let period: number;
+  if (periodParam !== undefined) {
+    period = periodParam;
+  } else {
+    period = await db.getLatestYearSunshine(operatorId);
+  }
   const operationalData = await db.getOperationalStandards({
     operatorId: operatorId,
     period: period,
@@ -696,7 +701,9 @@ export const fetchOperationalStandards = async (
       ],
     },
     compliance: {
-      francsRule: `CHF ${data.franc_rule.toFixed(2)}`,
+      francsRule: Number.isFinite(data.franc_rule)
+        ? `CHF ${data.franc_rule.toFixed(2)}`
+        : "N/A",
       timelyPaperSubmission,
       operatorsFrancsPerInvoice: [
         {

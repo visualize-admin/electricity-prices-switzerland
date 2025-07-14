@@ -29,6 +29,7 @@ import {
   fetchEnergyTariffsData,
   fetchNetTariffsData,
   fetchNetworkCostsData,
+  fetchOperationalStandards,
   fetchSaidi,
   fetchSaifi,
 } from "src/lib/sunshine-data";
@@ -505,6 +506,12 @@ const Query: QueryResolvers = {
     return await fetchSaifi(context.sunshineDataService, {
       operatorId: filter.operatorId,
       period: filter.year,
+    });
+  },
+  operationalStandards: async (_, { filter }, context) => {
+    return await fetchOperationalStandards(context.sunshineDataService, {
+      operatorId: filter.operatorId.toString(),
+      period: filter.period,
     });
   },
 };
