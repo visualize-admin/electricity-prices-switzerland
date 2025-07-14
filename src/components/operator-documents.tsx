@@ -24,6 +24,23 @@ import { Icon } from "src/icons";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { useLocale } from "src/lib/use-locale";
 
+export function groupByCategory(
+  documents: {
+    __typename: "OperatorDocument";
+    id: string;
+    name: string;
+    url: string;
+    year: string;
+    category?: OperatorDocumentCategory | null;
+  }[]
+) {
+  return rollup(
+    documents,
+    (values) => [...values].sort((a, b) => descending(a.year, b.year)),
+    (d) => d.category
+  );
+}
+
 // Define categories
 const CATEGORIES = [
   {
@@ -86,11 +103,60 @@ const DocumentList = ({
   );
 };
 
+export const OperatorDocumentsPopoverContent = ({
+  id,
+  documentsByCategory,
+}: {
+  id: string;
+  documentsByCategory:
+    | Map<OperatorDocumentCategory, OperatorDocument[]>
+    | Map<OperatorDocumentCategory | null | undefined, OperatorDocument[]>;
+}) => {
+  const [expanded, setExpanded] = useState<string | false>(false);
+
+  return (
+    <>
+      <Stack direction={"column"} spacing={2} py={8} px={10}>
+        <Typography variant="h5" fontWeight={700}>
+          <Trans id="download.reports">Download reports</Trans>
+        </Typography>
+
+        <Typography variant="h2">{id}</Typography>
+      </Stack>
+
+      {CATEGORIES.map((category) => {
+        const docs = documentsByCategory.get(category.id);
+        if (!docs) return null;
+
+        return (
+          <Accordion
+            key={category.id}
+            expanded={expanded === category.id}
+            onChange={(_, isExpanded) =>
+              setExpanded(isExpanded ? category.id : false)
+            }
+            sx={{
+              px: 10,
+            }}
+            disableGutters
+          >
+            <AccordionSummary expandIcon={<Icon name="chevrondown" />}>
+              {category.categoryLabel}
+            </AccordionSummary>
+            <AccordionDetails>
+              <DocumentList itemLabel={category.itemLabel} documents={docs} />
+            </AccordionDetails>
+          </Accordion>
+        );
+      })}
+    </>
+  );
+};
+
 export const OperatorDocuments = ({ id }: { id: string }) => {
   const locale = useLocale();
   const theme = useTheme();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [expanded, setExpanded] = useState<string | false>(false);
   const handleOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -113,11 +179,7 @@ export const OperatorDocuments = ({ id }: { id: string }) => {
   );
 
   const documentsByCategory = useMemo(() => {
-    return rollup(
-      documents,
-      (values) => [...values].sort((a, b) => descending(a.year, b.year)),
-      (d) => d.category
-    );
+    return groupByCategory(documents);
   }, [documents]);
 
   if (documentsQuery.fetching) return null;
@@ -171,39 +233,10 @@ export const OperatorDocuments = ({ id }: { id: string }) => {
           },
         }}
       >
-        <Stack direction={"column"} spacing={2} py={8} px={10}>
-          <Typography variant="h5" fontWeight={700}>
-            <Trans id="download.reports">Download reports</Trans>
-          </Typography>
-
-          <Typography variant="h2">{id}</Typography>
-        </Stack>
-
-        {CATEGORIES.map((category) => {
-          const docs = documentsByCategory.get(category.id);
-          if (!docs) return null;
-
-          return (
-            <Accordion
-              key={category.id}
-              expanded={expanded === category.id}
-              onChange={(_, isExpanded) =>
-                setExpanded(isExpanded ? category.id : false)
-              }
-              sx={{
-                px: 10,
-              }}
-              disableGutters
-            >
-              <AccordionSummary expandIcon={<Icon name="chevrondown" />}>
-                {category.categoryLabel}
-              </AccordionSummary>
-              <AccordionDetails>
-                <DocumentList itemLabel={category.itemLabel} documents={docs} />
-              </AccordionDetails>
-            </Accordion>
-          );
-        })}
+        <OperatorDocumentsPopoverContent
+          id={id}
+          documentsByCategory={documentsByCategory}
+        />
       </Popover>
     </>
   );
