@@ -386,7 +386,8 @@ const IndexPageContent = ({
                   overflowY: "auto",
                   position: "relative",
                   bgcolor: "background.paper",
-                  border: "1x solid green",
+                  borderRight: "1px solid",
+                  borderColor: "divider",
                   maxHeight: `calc(100vh - ${HEADER_HEIGHT_UP})`,
                   paddingTop: "1rem",
                 }}

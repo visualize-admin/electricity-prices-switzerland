@@ -86,16 +86,14 @@ const DetailPageContentLayout = ({ children, selector, download }: Props) => {
       <Box
         sx={{
           gridArea: "selector",
-          position: "sticky",
-          top: 0,
           alignSelf: "start",
-          height: "fit-content",
-          borderRightWidth: "1px",
-          borderRightStyle: "solid",
-          borderRightColor: "monochrome.300",
+          borderRight: "1px solid",
+          borderRightColor: "divider",
+          position: "relative",
+          height: "100%",
         }}
       >
-        {!download && selector}
+        <Box sx={{ position: "sticky", top: 0 }}>{!download && selector}</Box>
       </Box>
     </Box>
   );

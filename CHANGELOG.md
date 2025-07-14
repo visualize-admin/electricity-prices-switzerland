@@ -9,6 +9,17 @@ and this project adheres to
 You can also check the
 [release page](https://github.com/visualize-admin/electricity-prices-switzerland/releases)
 
+# Unreleased
+
+- Feat
+
+  - Map Page: Network costs is the default Sunshine indicator shown
+  - Sunshine Details: Overview filter state is backed by URL, reloading the page keeps the filters
+
+- Chore
+
+  - Ability to set flags at runtime without rebuilding
+
 # 2.6.2 - 2025-07-10
 
 - Features

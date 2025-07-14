@@ -4,7 +4,7 @@ import { GetServerSideProps } from "next";
 import ErrorPage from "next/error";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { ComponentProps, useMemo, useState } from "react";
+import { ComponentProps, useMemo } from "react";
 
 import CardGrid from "src/components/card-grid";
 import { Combobox } from "src/components/combobox";
@@ -28,7 +28,7 @@ import {
   Props as SharedPageProps,
 } from "src/data/shared-page-props";
 import { categories, ElectricityCategory } from "src/domain/data";
-import { sunshineDetailsLink } from "src/domain/query-states";
+import { sunshineDetailsLink, useQueryStateSunshineOverviewFilters } from "src/domain/query-states";
 import {
   NetworkLevel,
   SunshineCostsAndTariffsData,
@@ -179,9 +179,20 @@ const OverviewPage = (props: Props) => {
     ] as ComponentProps<typeof Combobox>["items"];
   }, []);
 
-  const [year, setYear] = useState<string>("2025");
-  const [category, setCategory] = useState<ElectricityCategory>("C2");
-  const [networkLevel, setNetworkLevel] = useState<NetworkLevel["id"]>("NE5");
+  const [overviewFilters, setOverviewFilters] = useQueryStateSunshineOverviewFilters();
+  const { year, category, networkLevel } = overviewFilters;
+
+  const updateYear = (newYear: string) => {
+    setOverviewFilters({ ...overviewFilters, year: newYear });
+  };
+
+  const updateCategory = (newCategory: ElectricityCategory) => {
+    setOverviewFilters({ ...overviewFilters, category: newCategory });
+  };
+
+  const updateNetworkLevel = (newNetworkLevel: NetworkLevel["id"]) => {
+    setOverviewFilters({ ...overviewFilters, networkLevel: newNetworkLevel });
+  };
 
   const sidebarContent = <DetailsPageSidebar id={id} entity={entity} />;
 
@@ -302,7 +313,7 @@ const OverviewPage = (props: Props) => {
               getLocalizedLabel({ id: `network-level.${item}.short` })
             }
             selectedItem={networkLevel}
-            setSelectedItem={setNetworkLevel}
+            setSelectedItem={updateNetworkLevel}
             infoDialogSlug="help-network-level"
           />
           <Combobox
@@ -311,7 +322,7 @@ const OverviewPage = (props: Props) => {
             items={groupedCategories}
             getItemLabel={getItemLabel}
             selectedItem={category}
-            setSelectedItem={(item) => setCategory(item as ElectricityCategory)}
+            setSelectedItem={(item) => updateCategory(item as ElectricityCategory)}
             //FIXME: Might need change
             infoDialogSlug="help-categories"
             sx={{
@@ -508,7 +519,7 @@ const OverviewPage = (props: Props) => {
         <TableComparisonCard
           {...prepServiceQualityCardProps(props)}
           activeTab={year}
-          handleTabChange={(_, value) => setYear(value)}
+          handleTabChange={(_, value) => updateYear(value)}
           linkContent={
             <Link
               href={sunshineDetailsLink(
@@ -526,7 +537,7 @@ const OverviewPage = (props: Props) => {
         <TableComparisonCard
           {...prepComplianceCardProps(props)}
           activeTab={year}
-          handleTabChange={(_, value) => setYear(value)}
+          handleTabChange={(_, value) => updateYear(value)}
           linkContent={
             <Link
               href={sunshineDetailsLink(
