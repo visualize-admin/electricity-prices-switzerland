@@ -110,7 +110,7 @@ export const OperationalStandardsNavigation: React.FC<{
 
 type YearlyTab = `${number}`;
 
-export type YearlyNavigationProps = {
+type YearlyNavigationProps = {
   activeTab: string;
   handleTabChange: (event: React.SyntheticEvent, newValue: YearlyTab) => void;
 };
