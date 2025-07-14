@@ -60,7 +60,7 @@
     "@juggle/resize-observer": "^3.3.1",
     "@lingui/babel-plugin-lingui-macro": "^5.3.1",
     "@lingui/core": "^3.13.3",
-    "@lingui/react": "^3.13.3",
+    "@lingui/react": "^3.17.2",
     "@mdx-js/react": "^1.6.22",
     "@mui/material": "^5.16.6",
     "@mui/system": "^7.1.0",
