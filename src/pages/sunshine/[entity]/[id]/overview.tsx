@@ -539,6 +539,7 @@ const OverviewPage = (props: Props) => {
             <YearlyNavigation
               activeTab={year}
               handleTabChange={(_, value) => updateYear(value)}
+              sx={{ mb: 4 }}
             />
           }
           linkContent={
@@ -562,6 +563,7 @@ const OverviewPage = (props: Props) => {
             <YearlyNavigation
               activeTab={year}
               handleTabChange={(_, value) => updateYear(value)}
+              sx={{ mb: 4 }}
             />
           }
           linkContent={
