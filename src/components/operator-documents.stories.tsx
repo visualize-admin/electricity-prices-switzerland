@@ -69,14 +69,12 @@ const mockDocuments: OperatorDocument[] = [
 
 export const Default: Story = {
   args: {
-    id: "CH-123456",
     documentsByCategory: groupByCategory(mockDocuments),
   },
 };
 
 export const WithOnlyTariffs: Story = {
   args: {
-    id: "CH-789012",
     documentsByCategory: groupByCategory(
       mockDocuments.filter(
         (doc) => doc.category === OperatorDocumentCategory.Tariffs
@@ -87,7 +85,6 @@ export const WithOnlyTariffs: Story = {
 
 export const WithOnlyAnnualReports: Story = {
   args: {
-    id: "CH-345678",
     documentsByCategory: groupByCategory(
       mockDocuments.filter(
         (doc) => doc.category === OperatorDocumentCategory.AnnualReport
@@ -98,14 +95,12 @@ export const WithOnlyAnnualReports: Story = {
 
 export const EmptyState: Story = {
   args: {
-    id: "CH-000000",
     documentsByCategory: new Map(),
   },
 };
 
 export const SingleDocument: Story = {
   args: {
-    id: "CH-111111",
     documentsByCategory: groupByCategory([mockDocuments[0]]),
   },
 };

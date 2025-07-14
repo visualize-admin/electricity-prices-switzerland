@@ -104,10 +104,8 @@ const DocumentList = ({
 };
 
 export const OperatorDocumentsPopoverContent = ({
-  id,
   documentsByCategory,
 }: {
-  id: string;
   documentsByCategory:
     | Map<OperatorDocumentCategory, OperatorDocument[]>
     | Map<OperatorDocumentCategory | null | undefined, OperatorDocument[]>;
@@ -117,11 +115,9 @@ export const OperatorDocumentsPopoverContent = ({
   return (
     <>
       <Stack direction={"column"} spacing={2} py={8} px={10}>
-        <Typography variant="h5" fontWeight={700}>
+        <Typography variant="h4" fontWeight={700}>
           <Trans id="download.reports">Download reports</Trans>
         </Typography>
-
-        <Typography variant="h2">{id}</Typography>
       </Stack>
 
       {CATEGORIES.map((category) => {
@@ -235,7 +231,6 @@ export const OperatorDocuments = ({ id }: { id: string }) => {
         }}
       >
         <OperatorDocumentsPopoverContent
-          id={id}
           documentsByCategory={documentsByCategory}
         />
       </Popover>
