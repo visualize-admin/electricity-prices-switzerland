@@ -19,6 +19,7 @@ import { DetailsPageSidebar } from "src/components/detail-page/sidebar";
 import { NetworkCostsTrendCardMinified } from "src/components/network-costs-trend-card";
 import { PowerStabilityCardMinified } from "src/components/power-stability-card";
 import { SunshineDataServiceDebug } from "src/components/sunshine-data-service-debug";
+import { YearlyNavigation } from "src/components/sunshine-tabs";
 import TableComparisonCard from "src/components/table-comparison-card";
 import { TariffsTrendCardMinified } from "src/components/tariffs-trend-card";
 import {
@@ -516,8 +517,13 @@ const OverviewPage = (props: Props) => {
         </Typography>
         <TableComparisonCard
           {...prepServiceQualityCardProps(props)}
-          activeTab={year}
-          handleTabChange={(_, value) => updateYear(value)}
+          subtitle={null}
+          description={
+            <YearlyNavigation
+              activeTab={year}
+              handleTabChange={(_, value) => updateYear(value)}
+            />
+          }
           linkContent={
             <Link
               href={sunshineDetailsLink(
@@ -534,8 +540,13 @@ const OverviewPage = (props: Props) => {
         />
         <TableComparisonCard
           {...prepComplianceCardProps(props)}
-          activeTab={year}
-          handleTabChange={(_, value) => updateYear(value)}
+          subtitle={null}
+          description={
+            <YearlyNavigation
+              activeTab={year}
+              handleTabChange={(_, value) => updateYear(value)}
+            />
+          }
           linkContent={
             <Link
               href={sunshineDetailsLink(
