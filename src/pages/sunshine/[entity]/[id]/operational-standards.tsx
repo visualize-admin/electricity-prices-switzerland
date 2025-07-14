@@ -95,8 +95,7 @@ export const getServerSideProps: GetServerSideProps<Props, PageParams> = async (
 export const prepServiceQualityCardProps = (
   props: Extract<Props, { status: "found" }>
 ) => {
-  const { latestYear } = props.operationalStandards;
-  const data = props.operationalStandards;
+  const { latestYear, serviceQuality } = props.operationalStandards;
   return {
     title: (
       <Trans id="sunshine.operational-standards.service-quality.comparison-card-title">
@@ -116,7 +115,7 @@ export const prepServiceQualityCardProps = (
           </Trans>
         ),
         value: {
-          value: `${data.serviceQuality.informingCustomersOfOutage}` ? (
+          value: `${serviceQuality.informingCustomersOfOutage}` ? (
             <Trans id="sunshine.service-quality.informing-customers-outage.yes">
               Yes
             </Trans>
@@ -134,7 +133,7 @@ export const prepServiceQualityCardProps = (
           </Trans>
         ),
         value: {
-          value: `${data.serviceQuality.notificationPeriodDays}`,
+          value: `${serviceQuality.notificationPeriodDays}`,
         },
       },
     ],
@@ -199,9 +198,7 @@ const ServiceQuality = (props: Extract<Props, { status: "found" }>) => {
 export const prepComplianceCardProps = (
   props: Extract<Props, { status: "found" }>
 ) => {
-  const { latestYear } = props.operationalStandards;
-  const data = props.operationalStandards;
-  console.log("compliance", data.compliance);
+  const { latestYear, compliance } = props.operationalStandards;
   return {
     title: (
       <Trans id="sunshine.operational-standards.compliance.comparison-card-title">
@@ -222,7 +219,7 @@ export const prepComplianceCardProps = (
         ),
         value: {
           // TODO Translate
-          value: `${data.compliance.francsRule}`,
+          value: `${compliance.francsRule}`,
         },
       },
       {
@@ -232,7 +229,7 @@ export const prepComplianceCardProps = (
           </Trans>
         ),
         value: {
-          value: data.compliance.timelyPaperSubmission ? (
+          value: compliance.timelyPaperSubmission ? (
             <Trans id="sunshine.compliance.timely-paper-submission.yes">
               Yes
             </Trans>
