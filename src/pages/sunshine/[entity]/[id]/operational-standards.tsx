@@ -93,20 +93,24 @@ export const getServerSideProps: GetServerSideProps<Props, PageParams> = async (
 };
 
 export const prepServiceQualityCardProps = (
-  props: Extract<Props, { status: "found" }>
+  serviceQuality: Extract<
+    Props,
+    { status: "found" }
+  >["operationalStandards"]["serviceQuality"],
+  year: number,
+  isLatestYear: boolean = true
 ) => {
-  const { latestYear, serviceQuality } = props.operationalStandards;
   return {
     title: (
       <Trans id="sunshine.operational-standards.service-quality.comparison-card-title">
         Service Quality
       </Trans>
     ),
-    subtitle: (
+    subtitle: isLatestYear ? (
       <Trans id="sunshine.service-quality.latest-year">
-        Latest year ({latestYear})
+        Latest year ({year})
       </Trans>
-    ),
+    ) : null,
     rows: [
       {
         label: (
@@ -177,7 +181,11 @@ const ServiceQuality = (props: Extract<Props, { status: "found" }>) => {
         />
 
         <TableComparisonCard
-          {...prepServiceQualityCardProps(props)}
+          {...prepServiceQualityCardProps(
+            props.operationalStandards.serviceQuality,
+            Number(props.operationalStandards.latestYear),
+            true
+          )}
           sx={{ gridArea: "comparison" }}
         />
 
@@ -196,20 +204,22 @@ const ServiceQuality = (props: Extract<Props, { status: "found" }>) => {
 };
 
 export const prepComplianceCardProps = (
-  props: Extract<Props, { status: "found" }>
+  compliance: Extract<
+    Props,
+    { status: "found" }
+  >["operationalStandards"]["compliance"],
+  year: number,
+  isLatestYear: boolean = true
 ) => {
-  const { latestYear, compliance } = props.operationalStandards;
   return {
     title: (
       <Trans id="sunshine.operational-standards.compliance.comparison-card-title">
         Compliance
       </Trans>
     ),
-    subtitle: (
-      <Trans id="sunshine.compliance.latest-year">
-        Latest year ({latestYear})
-      </Trans>
-    ),
+    subtitle: isLatestYear ? (
+      <Trans id="sunshine.compliance.latest-year">Latest year ({year})</Trans>
+    ) : null,
     rows: [
       {
         label: (
@@ -281,7 +291,11 @@ const Compliance = (props: Extract<Props, { status: "found" }>) => {
         />
 
         <TableComparisonCard
-          {...prepComplianceCardProps(props)}
+          {...prepComplianceCardProps(
+            props.operationalStandards.compliance,
+            Number(props.operationalStandards.latestYear),
+            true
+          )}
           sx={{ gridArea: "comparison" }}
         />
 

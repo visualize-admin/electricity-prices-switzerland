@@ -235,6 +235,23 @@ const OverviewPage = (props: Props) => {
     | EnergyTariffsQuery["energyTariffs"]
     | undefined;
 
+  const { yearComplianceProps, yearServiceQualityProps } = useMemo(() => {
+    const yearComplianceProps = prepComplianceCardProps(
+      props.operationalStandards.compliance,
+      Number(props.operationalStandards.latestYear),
+      true
+    );
+    const yearServiceQualityProps = prepServiceQualityCardProps(
+      props.operationalStandards.serviceQuality,
+      Number(props.operationalStandards.latestYear),
+      true
+    );
+    return {
+      yearComplianceProps,
+      yearServiceQualityProps,
+    };
+  }, [props]);
+
   const mainContent = (
     <>
       <DetailsPageHeader>
@@ -516,7 +533,7 @@ const OverviewPage = (props: Props) => {
           </Trans>
         </Typography>
         <TableComparisonCard
-          {...prepServiceQualityCardProps(props)}
+          {...yearServiceQualityProps}
           subtitle={null}
           description={
             <YearlyNavigation
@@ -539,7 +556,7 @@ const OverviewPage = (props: Props) => {
           sx={{ gridArea: "service-quality" }}
         />
         <TableComparisonCard
-          {...prepComplianceCardProps(props)}
+          {...yearComplianceProps}
           subtitle={null}
           description={
             <YearlyNavigation
