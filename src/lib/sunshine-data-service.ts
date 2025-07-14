@@ -126,7 +126,7 @@ export interface SunshineDataService {
     period?: number
   ): Promise<OperatorDataRecord>;
 
-  getIndicatorMedian<Metric extends IndicatorMedianParams["metric"]>(
+  getYearlyIndicatorMedians<Metric extends IndicatorMedianParams["metric"]>(
     params: IndicatorMedianParams
   ): Promise<PeerGroupRecord<Metric>[]>;
 

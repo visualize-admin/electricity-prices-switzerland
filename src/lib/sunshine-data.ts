@@ -141,7 +141,7 @@ export const fetchNetworkCostsData = async (
   }
 
   const yearlyPeerGroupMedianNetworkCosts =
-    await db.getIndicatorMedian<"network_costs">({
+    await db.getYearlyIndicatorMedians<"network_costs">({
       peerGroup: operatorData.peer_group,
       metric: "network_costs",
       networkLevel: networkLevel,
@@ -236,7 +236,7 @@ export const fetchNetTariffsData = async (
   const operatorData = await db.getOperatorData(operatorId);
 
   const yearlyPeerGroupMedianNetTariffs =
-    await db.getIndicatorMedian<"net-tariffs">({
+    await db.getYearlyIndicatorMedians<"net-tariffs">({
       peerGroup: operatorData.peer_group,
       metric: "net-tariffs",
       category: category,
@@ -305,7 +305,7 @@ export const fetchEnergyTariffsData = async (
   const operatorData = await db.getOperatorData(operatorId);
 
   const yearlyPeerGroupMedianEnergyTariffs =
-    await db.getIndicatorMedian<"energy-tariffs">({
+    await db.getYearlyIndicatorMedians<"energy-tariffs">({
       peerGroup: operatorData.peer_group,
       metric: "energy-tariffs",
       category: category,
@@ -447,7 +447,7 @@ export const fetchSaidi = async (
 
   // Get peer group median SAIDI
   const yearlyPeerGroupMedianStability =
-    await db.getIndicatorMedian<"stability">({
+    await db.getYearlyIndicatorMedians<"stability">({
       peerGroup: operatorData.peer_group,
       metric: "stability",
     });
@@ -504,7 +504,7 @@ export const fetchSaifi = async (
   }
 
   const yearlyPeerGroupMedianStability =
-    await service.getIndicatorMedian<"stability">({
+    await service.getYearlyIndicatorMedians<"stability">({
       peerGroup: operatorData.peer_group,
       metric: "stability",
     });

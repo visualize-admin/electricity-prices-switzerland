@@ -244,7 +244,7 @@ const getPeerGroupIdFromSettlementAndEnergyDensity = (
   return peerGroup[0]; // Return the key (peer group letter)
 };
 
-const getIndicatorMedian = async <
+const getYearlyIndicatorMedians = async <
   Metric extends IndicatorMedianParams["metric"]
 >(
   params: IndicatorMedianParams
@@ -563,7 +563,7 @@ export const sunshineDataServiceSql = {
   getStabilityMetrics,
   getTariffs,
   getOperatorData,
-  getIndicatorMedian,
+  getYearlyIndicatorMedians,
   getLatestYearSunshine,
   getLatestYearPowerStability,
   getPeerGroup,

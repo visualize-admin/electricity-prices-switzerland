@@ -100,7 +100,9 @@ const Query: QueryResolvers = {
       const medianParams = createIndicatorMedianParams(filter);
       if (medianParams) {
         const medianRows = sortBy(
-          await context.sunshineDataService.getIndicatorMedian(medianParams),
+          await context.sunshineDataService.getYearlyIndicatorMedians(
+            medianParams
+          ),
           (x) => x.period
         );
         const medianResult = filter.period
