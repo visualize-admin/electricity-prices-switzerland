@@ -67,15 +67,6 @@ export const SunshineSelectorsBase = ({
       display="flex"
     >
       <Combobox
-        id="viewBy"
-        label={t({ id: "selector.peerGroup", message: "View by" })}
-        items={peerGroupOptions}
-        getItemLabel={getPeerGroupLabel}
-        selectedItem={peerGroup}
-        setSelectedItem={setPeerGroup}
-      />
-
-      <Combobox
         id="year"
         label={t({ id: "selector.year", message: "Year" })}
         items={years}
@@ -142,6 +133,15 @@ export const SunshineSelectorsBase = ({
           infoDialogSlug="help-categories"
         />
       ) : null}
+
+      <Combobox
+        id="viewBy"
+        label={t({ id: "selector.peerGroup", message: "View by" })}
+        items={peerGroupOptions}
+        getItemLabel={getPeerGroupLabel}
+        selectedItem={peerGroup}
+        setSelectedItem={setPeerGroup}
+      />
     </Box>
   );
 };
