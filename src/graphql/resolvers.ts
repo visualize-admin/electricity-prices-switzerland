@@ -29,6 +29,7 @@ import {
   fetchEnergyTariffsData,
   fetchNetTariffsData,
   fetchNetworkCostsData,
+  fetchOperationalStandards,
   fetchSaidi,
   fetchSaifi,
 } from "src/lib/sunshine-data";
@@ -100,7 +101,9 @@ const Query: QueryResolvers = {
       const medianParams = createIndicatorMedianParams(filter);
       if (medianParams) {
         const medianRows = sortBy(
-          await context.sunshineDataService.getIndicatorMedian(medianParams),
+          await context.sunshineDataService.getYearlyIndicatorMedians(
+            medianParams
+          ),
           (x) => x.period
         );
         const medianResult = filter.period
@@ -503,6 +506,12 @@ const Query: QueryResolvers = {
     return await fetchSaifi(context.sunshineDataService, {
       operatorId: filter.operatorId,
       period: filter.year,
+    });
+  },
+  operationalStandards: async (_, { filter }, context) => {
+    return await fetchOperationalStandards(context.sunshineDataService, {
+      operatorId: filter.operatorId.toString(),
+      period: filter.period,
     });
   },
 };

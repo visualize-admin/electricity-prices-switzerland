@@ -24,26 +24,28 @@ import type {
 const getNetworkCosts = async ({
   operatorId,
   period,
-  settlementDensity,
-  energyDensity,
+  peerGroup,
   networkLevel,
 }: {
   operatorId?: number;
   period?: number;
-  settlementDensity?: string;
-  energyDensity?: string;
+  peerGroup?: string;
   networkLevel?: NetworkLevel["id"];
 } = {}): Promise<NetworkCostRecord[]> => {
   const operatorFilter = operatorId ? `operator_id = ${operatorId}` : "1=1"; // Default to all operators
 
   // Instead of querying sunshine_all with filters
   const periodFilter = period ? `AND period = ${period}` : "";
-  const settlementDensityFilter = settlementDensity
-    ? `AND settlement_density = '${settlementDensity}'`
-    : "";
-  const energyDensityFilter = energyDensity
-    ? `AND energy_density = '${energyDensity}'`
-    : "";
+
+  let peerGroupFilter = ""; // Default to no filter (all data)
+  if (peerGroup) {
+    const { settlementDensity, energyDensity } =
+      getSettlementAndEnergyDensity(peerGroup);
+    peerGroupFilter = `
+      AND settlement_density = '${settlementDensity}'
+      AND energy_density = '${energyDensity}'
+    `;
+  }
   const networkLevelFilter = networkLevel
     ? `AND network_level = '${networkLevel}'`
     : "";
@@ -55,7 +57,7 @@ const getNetworkCosts = async ({
         network_level,
         cost as rate, -- TODO
       FROM network_costs
-      WHERE ${operatorFilter} ${periodFilter} ${settlementDensityFilter} ${energyDensityFilter} ${networkLevelFilter}
+      WHERE ${operatorFilter} ${periodFilter} ${peerGroupFilter} ${networkLevelFilter}
       ORDER BY period DESC, operator_id, network_level
     `;
 
@@ -95,22 +97,24 @@ const getOperationalStandards = async ({
 const getStabilityMetrics = async ({
   operatorId,
   period,
-  settlement_density,
-  energy_density,
+  peerGroup,
 }: {
   operatorId?: number;
   period?: number;
-  settlement_density?: string;
-  energy_density?: string;
+  peerGroup?: string;
 }): Promise<StabilityMetricRecord[]> => {
   const operatorFilter = operatorId ? `operator_id = ${operatorId}` : "1=1"; // Default to all operators
   const periodFilter = period ? `AND period = ${period}` : "";
-  const settlementDensityFilter = settlement_density
-    ? `AND settlement_density = '${settlement_density}'`
-    : "";
-  const energyDensityFilter = energy_density
-    ? `AND energy_density = '${energy_density}'`
-    : "";
+
+  let peerGroupFilter = ""; // Default to no filter (all data)
+  if (peerGroup) {
+    const { settlementDensity, energyDensity } =
+      getSettlementAndEnergyDensity(peerGroup);
+    peerGroupFilter = `
+      AND settlement_density = '${settlementDensity}'
+      AND energy_density = '${energyDensity}'
+    `;
+  }
 
   const sql = `
       SELECT
@@ -122,7 +126,7 @@ const getStabilityMetrics = async ({
         saifi_total,
         saifi_unplanned
       FROM stability_metrics
-      WHERE ${operatorFilter} ${periodFilter} ${settlementDensityFilter} ${energyDensityFilter} 
+      WHERE ${operatorFilter} ${periodFilter} ${peerGroupFilter} 
       ORDER BY period DESC, operator_id
     `;
 
@@ -134,25 +138,26 @@ const getTariffs = async ({
   period,
   category,
   tariffType,
-  settlementDensity,
-  energyDensity,
+  peerGroup,
 }: {
   operatorId?: number;
   period?: number;
   category?: string;
   tariffType?: "network" | "energy";
-  settlementDensity?: string;
-  energyDensity?: string;
+  peerGroup?: string;
 } = {}): Promise<TariffRecord[]> => {
+  let peerGroupFilter = ""; // Default to no filter (all data)
+  if (peerGroup) {
+    const { settlementDensity, energyDensity } =
+      getSettlementAndEnergyDensity(peerGroup);
+    peerGroupFilter = `
+      AND settlement_density = '${settlementDensity}'
+      AND energy_density = '${energyDensity}'
+    `;
+  }
   const operatorFilter = operatorId ? `operator_id = ${operatorId}` : "1=1"; // Default to all operators
   const periodFilter = period ? `AND period = ${period}` : "";
   const categoryFilter = category ? `AND category = '${category}'` : "";
-  const settlementDensityFilter = settlementDensity
-    ? `AND settlement_density = '${settlementDensity}'`
-    : "";
-  const energyDensityFilter = energyDensity
-    ? `AND energy_density = '${energyDensity}'`
-    : "";
   const tariffTypeFilter = tariffType
     ? `AND tariff_type = '${tariffType}'`
     : "";
@@ -166,7 +171,7 @@ const getTariffs = async ({
         tariff_type,
         rate
       FROM tariffs
-      WHERE ${operatorFilter} ${periodFilter} ${categoryFilter} ${tariffTypeFilter} ${settlementDensityFilter} ${energyDensityFilter}
+      WHERE ${operatorFilter} ${periodFilter} ${categoryFilter} ${tariffTypeFilter} ${peerGroupFilter}
       ORDER BY period DESC, operator_id, category, tariff_type
     `;
 
@@ -244,7 +249,7 @@ const getPeerGroupIdFromSettlementAndEnergyDensity = (
   return peerGroup[0]; // Return the key (peer group letter)
 };
 
-const getIndicatorMedian = async <
+const getYearlyIndicatorMedians = async <
   Metric extends IndicatorMedianParams["metric"]
 >(
   params: IndicatorMedianParams
@@ -563,7 +568,7 @@ export const sunshineDataServiceSql = {
   getStabilityMetrics,
   getTariffs,
   getOperatorData,
-  getIndicatorMedian,
+  getYearlyIndicatorMedians,
   getLatestYearSunshine,
   getLatestYearPowerStability,
   getPeerGroup,

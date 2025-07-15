@@ -151,6 +151,68 @@ export enum ObservationKind {
   Municipality = "Municipality",
 }
 
+export type OperationalStandardsCompliance = {
+  __typename?: "OperationalStandardsCompliance";
+  francsRule: Scalars["String"]["output"];
+  operatorsFrancsPerInvoice: Array<OperationalStandardsOperatorFrancs>;
+  timelyPaperSubmission: Scalars["Boolean"]["output"];
+};
+
+export type OperationalStandardsData = {
+  __typename?: "OperationalStandardsData";
+  compliance: OperationalStandardsCompliance;
+  latestYear: Scalars["String"]["output"];
+  operator: OperationalStandardsOperator;
+  productVariety: OperationalStandardsProductVariety;
+  serviceQuality: OperationalStandardsServiceQuality;
+  updateDate: Scalars["String"]["output"];
+};
+
+export type OperationalStandardsFilter = {
+  operatorId: Scalars["Int"]["input"];
+  period: Scalars["Int"]["input"];
+};
+
+export type OperationalStandardsOperator = {
+  __typename?: "OperationalStandardsOperator";
+  peerGroup: PeerGroup;
+};
+
+export type OperationalStandardsOperatorFrancs = {
+  __typename?: "OperationalStandardsOperatorFrancs";
+  francsPerInvoice: Scalars["Float"]["output"];
+  operatorId: Scalars["String"]["output"];
+  year: Scalars["String"]["output"];
+};
+
+export type OperationalStandardsOperatorNotification = {
+  __typename?: "OperationalStandardsOperatorNotification";
+  days: Scalars["Int"]["output"];
+  operatorId: Scalars["String"]["output"];
+  year: Scalars["String"]["output"];
+};
+
+export type OperationalStandardsOperatorProduct = {
+  __typename?: "OperationalStandardsOperatorProduct";
+  ecoFriendlyProductsOffered: Scalars["Int"]["output"];
+  operatorId: Scalars["String"]["output"];
+  year: Scalars["String"]["output"];
+};
+
+export type OperationalStandardsProductVariety = {
+  __typename?: "OperationalStandardsProductVariety";
+  ecoFriendlyProductsOffered: Scalars["Int"]["output"];
+  operatorsProductsOffered: Array<OperationalStandardsOperatorProduct>;
+  productCombinationsOptions: Scalars["Boolean"]["output"];
+};
+
+export type OperationalStandardsServiceQuality = {
+  __typename?: "OperationalStandardsServiceQuality";
+  informingCustomersOfOutage: Scalars["Boolean"]["output"];
+  notificationPeriodDays: Scalars["Int"]["output"];
+  operatorsNotificationPeriodDays: Array<OperationalStandardsOperatorNotification>;
+};
+
 export type Operator = {
   __typename?: "Operator";
   cantons: Array<Canton>;
@@ -230,6 +292,7 @@ export type Query = {
   netTariffs: TariffsData;
   networkCosts: NetworkCostsData;
   observations?: Maybe<Array<OperatorObservation>>;
+  operationalStandards: OperationalStandardsData;
   operator?: Maybe<Operator>;
   operators: Array<Operator>;
   saidi: StabilityData;
@@ -295,6 +358,10 @@ export type QueryObservationsArgs = {
   filters?: InputMaybe<ObservationFilters>;
   locale?: InputMaybe<Scalars["String"]["input"]>;
   observationKind?: InputMaybe<ObservationKind>;
+};
+
+export type QueryOperationalStandardsArgs = {
+  filter: OperationalStandardsFilter;
 };
 
 export type QueryOperatorArgs = {
@@ -645,6 +712,15 @@ export type ResolversTypes = ResolversObject<{
   Observation: ResolverTypeWrapper<ResolvedObservation>;
   ObservationFilters: ObservationFilters;
   ObservationKind: ObservationKind;
+  OperationalStandardsCompliance: ResolverTypeWrapper<OperationalStandardsCompliance>;
+  OperationalStandardsData: ResolverTypeWrapper<OperationalStandardsData>;
+  OperationalStandardsFilter: OperationalStandardsFilter;
+  OperationalStandardsOperator: ResolverTypeWrapper<OperationalStandardsOperator>;
+  OperationalStandardsOperatorFrancs: ResolverTypeWrapper<OperationalStandardsOperatorFrancs>;
+  OperationalStandardsOperatorNotification: ResolverTypeWrapper<OperationalStandardsOperatorNotification>;
+  OperationalStandardsOperatorProduct: ResolverTypeWrapper<OperationalStandardsOperatorProduct>;
+  OperationalStandardsProductVariety: ResolverTypeWrapper<OperationalStandardsProductVariety>;
+  OperationalStandardsServiceQuality: ResolverTypeWrapper<OperationalStandardsServiceQuality>;
   Operator: ResolverTypeWrapper<ResolvedOperator>;
   OperatorDocument: ResolverTypeWrapper<OperatorDocument>;
   OperatorDocumentCategory: OperatorDocumentCategory;
@@ -692,6 +768,15 @@ export type ResolversParentTypes = ResolversObject<{
   NetworkLevel: NetworkLevel;
   Observation: ResolvedObservation;
   ObservationFilters: ObservationFilters;
+  OperationalStandardsCompliance: OperationalStandardsCompliance;
+  OperationalStandardsData: OperationalStandardsData;
+  OperationalStandardsFilter: OperationalStandardsFilter;
+  OperationalStandardsOperator: OperationalStandardsOperator;
+  OperationalStandardsOperatorFrancs: OperationalStandardsOperatorFrancs;
+  OperationalStandardsOperatorNotification: OperationalStandardsOperatorNotification;
+  OperationalStandardsOperatorProduct: OperationalStandardsOperatorProduct;
+  OperationalStandardsProductVariety: OperationalStandardsProductVariety;
+  OperationalStandardsServiceQuality: OperationalStandardsServiceQuality;
   Operator: ResolvedOperator;
   OperatorDocument: OperatorDocument;
   OperatorObservation: ResolvedOperatorObservation;
@@ -895,6 +980,139 @@ export type ObservationResolvers<
   >;
 }>;
 
+export type OperationalStandardsComplianceResolvers<
+  ContextType = ServerContext,
+  ParentType extends ResolversParentTypes["OperationalStandardsCompliance"] = ResolversParentTypes["OperationalStandardsCompliance"]
+> = ResolversObject<{
+  francsRule?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  operatorsFrancsPerInvoice?: Resolver<
+    Array<ResolversTypes["OperationalStandardsOperatorFrancs"]>,
+    ParentType,
+    ContextType
+  >;
+  timelyPaperSubmission?: Resolver<
+    ResolversTypes["Boolean"],
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type OperationalStandardsDataResolvers<
+  ContextType = ServerContext,
+  ParentType extends ResolversParentTypes["OperationalStandardsData"] = ResolversParentTypes["OperationalStandardsData"]
+> = ResolversObject<{
+  compliance?: Resolver<
+    ResolversTypes["OperationalStandardsCompliance"],
+    ParentType,
+    ContextType
+  >;
+  latestYear?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  operator?: Resolver<
+    ResolversTypes["OperationalStandardsOperator"],
+    ParentType,
+    ContextType
+  >;
+  productVariety?: Resolver<
+    ResolversTypes["OperationalStandardsProductVariety"],
+    ParentType,
+    ContextType
+  >;
+  serviceQuality?: Resolver<
+    ResolversTypes["OperationalStandardsServiceQuality"],
+    ParentType,
+    ContextType
+  >;
+  updateDate?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type OperationalStandardsOperatorResolvers<
+  ContextType = ServerContext,
+  ParentType extends ResolversParentTypes["OperationalStandardsOperator"] = ResolversParentTypes["OperationalStandardsOperator"]
+> = ResolversObject<{
+  peerGroup?: Resolver<ResolversTypes["PeerGroup"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type OperationalStandardsOperatorFrancsResolvers<
+  ContextType = ServerContext,
+  ParentType extends ResolversParentTypes["OperationalStandardsOperatorFrancs"] = ResolversParentTypes["OperationalStandardsOperatorFrancs"]
+> = ResolversObject<{
+  francsPerInvoice?: Resolver<ResolversTypes["Float"], ParentType, ContextType>;
+  operatorId?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  year?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type OperationalStandardsOperatorNotificationResolvers<
+  ContextType = ServerContext,
+  ParentType extends ResolversParentTypes["OperationalStandardsOperatorNotification"] = ResolversParentTypes["OperationalStandardsOperatorNotification"]
+> = ResolversObject<{
+  days?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  operatorId?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  year?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type OperationalStandardsOperatorProductResolvers<
+  ContextType = ServerContext,
+  ParentType extends ResolversParentTypes["OperationalStandardsOperatorProduct"] = ResolversParentTypes["OperationalStandardsOperatorProduct"]
+> = ResolversObject<{
+  ecoFriendlyProductsOffered?: Resolver<
+    ResolversTypes["Int"],
+    ParentType,
+    ContextType
+  >;
+  operatorId?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  year?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type OperationalStandardsProductVarietyResolvers<
+  ContextType = ServerContext,
+  ParentType extends ResolversParentTypes["OperationalStandardsProductVariety"] = ResolversParentTypes["OperationalStandardsProductVariety"]
+> = ResolversObject<{
+  ecoFriendlyProductsOffered?: Resolver<
+    ResolversTypes["Int"],
+    ParentType,
+    ContextType
+  >;
+  operatorsProductsOffered?: Resolver<
+    Array<ResolversTypes["OperationalStandardsOperatorProduct"]>,
+    ParentType,
+    ContextType
+  >;
+  productCombinationsOptions?: Resolver<
+    ResolversTypes["Boolean"],
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type OperationalStandardsServiceQualityResolvers<
+  ContextType = ServerContext,
+  ParentType extends ResolversParentTypes["OperationalStandardsServiceQuality"] = ResolversParentTypes["OperationalStandardsServiceQuality"]
+> = ResolversObject<{
+  informingCustomersOfOutage?: Resolver<
+    ResolversTypes["Boolean"],
+    ParentType,
+    ContextType
+  >;
+  notificationPeriodDays?: Resolver<
+    ResolversTypes["Int"],
+    ParentType,
+    ContextType
+  >;
+  operatorsNotificationPeriodDays?: Resolver<
+    Array<ResolversTypes["OperationalStandardsOperatorNotification"]>,
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export type OperatorResolvers<
   ContextType = ServerContext,
   ParentType extends ResolversParentTypes["Operator"] = ResolversParentTypes["Operator"]
@@ -1069,6 +1287,12 @@ export type QueryResolvers<
     ParentType,
     ContextType,
     Partial<QueryObservationsArgs>
+  >;
+  operationalStandards?: Resolver<
+    ResolversTypes["OperationalStandardsData"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryOperationalStandardsArgs, "filter">
   >;
   operator?: Resolver<
     Maybe<ResolversTypes["Operator"]>,
@@ -1400,6 +1624,14 @@ export type Resolvers<ContextType = ServerContext> = ResolversObject<{
   NetworkCostsData?: NetworkCostsDataResolvers<ContextType>;
   NetworkLevel?: NetworkLevelResolvers<ContextType>;
   Observation?: ObservationResolvers<ContextType>;
+  OperationalStandardsCompliance?: OperationalStandardsComplianceResolvers<ContextType>;
+  OperationalStandardsData?: OperationalStandardsDataResolvers<ContextType>;
+  OperationalStandardsOperator?: OperationalStandardsOperatorResolvers<ContextType>;
+  OperationalStandardsOperatorFrancs?: OperationalStandardsOperatorFrancsResolvers<ContextType>;
+  OperationalStandardsOperatorNotification?: OperationalStandardsOperatorNotificationResolvers<ContextType>;
+  OperationalStandardsOperatorProduct?: OperationalStandardsOperatorProductResolvers<ContextType>;
+  OperationalStandardsProductVariety?: OperationalStandardsProductVarietyResolvers<ContextType>;
+  OperationalStandardsServiceQuality?: OperationalStandardsServiceQualityResolvers<ContextType>;
   Operator?: OperatorResolvers<ContextType>;
   OperatorDocument?: OperatorDocumentResolvers<ContextType>;
   OperatorObservation?: OperatorObservationResolvers<ContextType>;

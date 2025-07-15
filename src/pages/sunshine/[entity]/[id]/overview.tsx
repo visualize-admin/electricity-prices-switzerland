@@ -19,6 +19,7 @@ import { DetailsPageSidebar } from "src/components/detail-page/sidebar";
 import { NetworkCostsTrendCardMinified } from "src/components/network-costs-trend-card";
 import { PowerStabilityCardMinified } from "src/components/power-stability-card";
 import { SunshineDataServiceDebug } from "src/components/sunshine-data-service-debug";
+import { YearlyNavigation } from "src/components/sunshine-tabs";
 import TableComparisonCard from "src/components/table-comparison-card";
 import { TariffsTrendCardMinified } from "src/components/tariffs-trend-card";
 import {
@@ -28,7 +29,10 @@ import {
   Props as SharedPageProps,
 } from "src/data/shared-page-props";
 import { categories, ElectricityCategory } from "src/domain/data";
-import { sunshineDetailsLink, useQueryStateSunshineOverviewFilters } from "src/domain/query-states";
+import {
+  sunshineDetailsLink,
+  useQueryStateSunshineOverviewFilters,
+} from "src/domain/query-states";
 import {
   NetworkLevel,
   SunshineCostsAndTariffsData,
@@ -43,6 +47,7 @@ import {
   useEnergyTariffsQuery,
   useNetTariffsQuery,
   useNetworkCostsQuery,
+  useOperationalStandardsQuery,
 } from "src/graphql/queries";
 import { Icon } from "src/icons";
 import {
@@ -107,11 +112,15 @@ export const getServerSideProps: GetServerSideProps<Props, PageParams> = async (
       fetchOperationalStandards(sunshineDataService, {
         operatorId: id,
       }),
-      fetchPowerStability(sunshineDataService, { operatorId: id }),
+      fetchPowerStability(sunshineDataService, {
+        operatorId: id,
+        operatorOnly: true,
+      }),
       fetchOperatorCostsAndTariffsData(sunshineDataService, {
         operatorId: id,
         networkLevel: "NE5",
         category: "C2",
+        operatorOnly: true,
       }),
     ]);
 
@@ -150,20 +159,12 @@ const OverviewPage = (props: Props) => {
     />
   );
   const saidiYearlyObservations = useMemo(() => {
-    return (
-      props.powerStability.saidi.yearlyData.filter(
-        (x) => x.year === latestYear
-      ) ?? []
-    );
-  }, [props.powerStability.saidi.yearlyData, latestYear]);
+    return props.powerStability.saidi.yearlyData;
+  }, [props.powerStability.saidi.yearlyData]);
 
   const saifiYearlyObservations = useMemo(() => {
-    return (
-      props.powerStability.saifi.yearlyData.filter(
-        (x) => x.year === latestYear
-      ) ?? []
-    );
-  }, [props.powerStability.saifi.yearlyData, latestYear]);
+    return props.powerStability.saifi.yearlyData;
+  }, [props.powerStability.saifi.yearlyData]);
 
   const getItemLabel = (id: string) => getLocalizedLabel({ id });
   const groupedCategories = useMemo(() => {
@@ -179,7 +180,8 @@ const OverviewPage = (props: Props) => {
     ] as ComponentProps<typeof Combobox>["items"];
   }, []);
 
-  const [overviewFilters, setOverviewFilters] = useQueryStateSunshineOverviewFilters();
+  const [overviewFilters, setOverviewFilters] =
+    useQueryStateSunshineOverviewFilters();
   const { year, category, networkLevel } = overviewFilters;
 
   const updateYear = (newYear: string) => {
@@ -228,6 +230,17 @@ const OverviewPage = (props: Props) => {
     },
   });
 
+  // Client-side operational standards query for different years
+  const [operationalStandardsQuery] = useOperationalStandardsQuery({
+    variables: {
+      filter: {
+        operatorId,
+        period: parseInt(overviewFilters.year),
+      },
+    },
+    pause: overviewFilters.year === props.operationalStandards.latestYear,
+  });
+
   const networkCosts = networkCostsResult.data?.networkCosts as
     | NetworkCostsQuery["networkCosts"]
     | undefined;
@@ -237,6 +250,30 @@ const OverviewPage = (props: Props) => {
   const energyTariffs = energyTariffsResult.data?.energyTariffs as
     | EnergyTariffsQuery["energyTariffs"]
     | undefined;
+
+  const { yearComplianceProps, yearServiceQualityProps } = useMemo(() => {
+    // Use client-side data if available and different year is selected
+    const operationalStandardsData =
+      overviewFilters.year === props.operationalStandards.latestYear
+        ? props.operationalStandards
+        : operationalStandardsQuery.data?.operationalStandards ||
+          props.operationalStandards;
+
+    const yearComplianceProps = prepComplianceCardProps(
+      operationalStandardsData.compliance,
+      Number(overviewFilters.year),
+      true
+    );
+    const yearServiceQualityProps = prepServiceQualityCardProps(
+      operationalStandardsData.serviceQuality,
+      Number(overviewFilters.year),
+      true
+    );
+    return {
+      yearComplianceProps,
+      yearServiceQualityProps,
+    };
+  }, [props, operationalStandardsQuery.data, overviewFilters.year]);
 
   const mainContent = (
     <>
@@ -322,7 +359,9 @@ const OverviewPage = (props: Props) => {
             items={groupedCategories}
             getItemLabel={getItemLabel}
             selectedItem={category}
-            setSelectedItem={(item) => updateCategory(item as ElectricityCategory)}
+            setSelectedItem={(item) =>
+              updateCategory(item as ElectricityCategory)
+            }
             //FIXME: Might need change
             infoDialogSlug="help-categories"
             sx={{
@@ -517,9 +556,15 @@ const OverviewPage = (props: Props) => {
           </Trans>
         </Typography>
         <TableComparisonCard
-          {...prepServiceQualityCardProps(props)}
-          activeTab={year}
-          handleTabChange={(_, value) => updateYear(value)}
+          {...yearServiceQualityProps}
+          subtitle={null}
+          description={
+            <YearlyNavigation
+              activeTab={year}
+              handleTabChange={(_, value) => updateYear(value)}
+              sx={{ mb: 4 }}
+            />
+          }
           linkContent={
             <Link
               href={sunshineDetailsLink(
@@ -535,9 +580,15 @@ const OverviewPage = (props: Props) => {
           sx={{ gridArea: "service-quality" }}
         />
         <TableComparisonCard
-          {...prepComplianceCardProps(props)}
-          activeTab={year}
-          handleTabChange={(_, value) => updateYear(value)}
+          {...yearComplianceProps}
+          subtitle={null}
+          description={
+            <YearlyNavigation
+              activeTab={year}
+              handleTabChange={(_, value) => updateYear(value)}
+              sx={{ mb: 4 }}
+            />
+          }
           linkContent={
             <Link
               href={sunshineDetailsLink(

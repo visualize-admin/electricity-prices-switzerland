@@ -273,3 +273,43 @@ query SunshineTariffByIndicator(
     value
   }
 }
+
+query OperationalStandards($filter: OperationalStandardsFilter!) {
+  operationalStandards(filter: $filter) {
+    latestYear
+    operator {
+      peerGroup {
+        settlementDensity
+        energyDensity
+      }
+    }
+    productVariety {
+      ecoFriendlyProductsOffered
+      productCombinationsOptions
+      operatorsProductsOffered {
+        operatorId
+        ecoFriendlyProductsOffered
+        year
+      }
+    }
+    serviceQuality {
+      notificationPeriodDays
+      informingCustomersOfOutage
+      operatorsNotificationPeriodDays {
+        operatorId
+        days
+        year
+      }
+    }
+    compliance {
+      francsRule
+      timelyPaperSubmission
+      operatorsFrancsPerInvoice {
+        operatorId
+        francsPerInvoice
+        year
+      }
+    }
+    updateDate
+  }
+}

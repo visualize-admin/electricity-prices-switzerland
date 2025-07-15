@@ -1,5 +1,5 @@
 import { Trans } from "@lingui/macro";
-import { Tab, Tabs } from "@mui/material";
+import { Tab, Tabs, TabsProps } from "@mui/material";
 import React from "react";
 
 export type CostAndTariffsTab = "networkCosts" | "netTariffs" | "energyTariffs";
@@ -110,20 +110,19 @@ export const OperationalStandardsNavigation: React.FC<{
 
 type YearlyTab = `${number}`;
 
-export type YearlyNavigationProps = {
+type YearlyNavigationProps = {
   activeTab: string;
   handleTabChange: (event: React.SyntheticEvent, newValue: YearlyTab) => void;
 };
 
-export const YearlyNavigation: React.FC<YearlyNavigationProps> = ({
-  activeTab,
-  handleTabChange,
-}) => {
+export const YearlyNavigation: React.FC<
+  YearlyNavigationProps & Omit<TabsProps, "onChange">
+> = ({ activeTab, handleTabChange, ...props }) => {
   const currentYear = new Date().getFullYear();
   const years = [currentYear - 2, currentYear - 1, currentYear];
 
   return (
-    <Tabs value={activeTab} onChange={handleTabChange}>
+    <Tabs value={activeTab} onChange={handleTabChange} {...props}>
       {years.map((year) => (
         <Tab
           key={year}

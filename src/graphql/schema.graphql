@@ -340,6 +340,60 @@ input StabilityFilter {
   year: Int!
 }
 
+type OperationalStandardsProductVariety {
+  ecoFriendlyProductsOffered: Int!
+  productCombinationsOptions: Boolean!
+  operatorsProductsOffered: [OperationalStandardsOperatorProduct!]!
+}
+
+type OperationalStandardsOperatorProduct {
+  operatorId: String!
+  ecoFriendlyProductsOffered: Int!
+  year: String!
+}
+
+type OperationalStandardsServiceQuality {
+  notificationPeriodDays: Int!
+  informingCustomersOfOutage: Boolean!
+  operatorsNotificationPeriodDays: [OperationalStandardsOperatorNotification!]!
+}
+
+type OperationalStandardsOperatorNotification {
+  operatorId: String!
+  days: Int!
+  year: String!
+}
+
+type OperationalStandardsCompliance {
+  francsRule: String!
+  timelyPaperSubmission: Boolean!
+  operatorsFrancsPerInvoice: [OperationalStandardsOperatorFrancs!]!
+}
+
+type OperationalStandardsOperatorFrancs {
+  operatorId: String!
+  francsPerInvoice: Float!
+  year: String!
+}
+
+type OperationalStandardsOperator {
+  peerGroup: PeerGroup!
+}
+
+type OperationalStandardsData {
+  latestYear: String!
+  operator: OperationalStandardsOperator!
+  productVariety: OperationalStandardsProductVariety!
+  serviceQuality: OperationalStandardsServiceQuality!
+  compliance: OperationalStandardsCompliance!
+  updateDate: String!
+}
+
+input OperationalStandardsFilter {
+  operatorId: Int!
+  period: Int!
+}
+
 type Query {
   sunshineData(filter: SunshineDataFilter!): [SunshineDataRow!]!
   sunshineTariffs(filter: SunshineDataFilter!): [SunshineDataRow!]!
@@ -357,4 +411,7 @@ type Query {
 
   saidi(filter: StabilityFilter!): StabilityData!
   saifi(filter: StabilityFilter!): StabilityData!
+  operationalStandards(
+    filter: OperationalStandardsFilter!
+  ): OperationalStandardsData!
 }

@@ -141,7 +141,7 @@ export const fetchNetworkCostsData = async (
   }
 
   const yearlyPeerGroupMedianNetworkCosts =
-    await db.getIndicatorMedian<"network_costs">({
+    await db.getYearlyIndicatorMedians<"network_costs">({
       peerGroup: operatorData.peer_group,
       metric: "network_costs",
       networkLevel: networkLevel,
@@ -236,7 +236,7 @@ export const fetchNetTariffsData = async (
   const operatorData = await db.getOperatorData(operatorId);
 
   const yearlyPeerGroupMedianNetTariffs =
-    await db.getIndicatorMedian<"net-tariffs">({
+    await db.getYearlyIndicatorMedians<"net-tariffs">({
       peerGroup: operatorData.peer_group,
       metric: "net-tariffs",
       category: category,
@@ -304,8 +304,9 @@ export const fetchEnergyTariffsData = async (
 ): Promise<TariffsData> => {
   const operatorData = await db.getOperatorData(operatorId);
 
+  //. Get indicator median data for energy tariffs
   const yearlyPeerGroupMedianEnergyTariffs =
-    await db.getIndicatorMedian<"energy-tariffs">({
+    await db.getYearlyIndicatorMedians<"energy-tariffs">({
       peerGroup: operatorData.peer_group,
       metric: "energy-tariffs",
       category: category,
@@ -367,11 +368,13 @@ export const fetchOperatorCostsAndTariffsData = async (
     networkLevel,
     category,
     period,
+    operatorOnly,
   }: {
     operatorId: string;
     networkLevel: NetworkLevel["id"];
     category: ElectricityCategory;
     period?: number;
+    operatorOnly?: boolean;
   }
 ): Promise<SunshineCostsAndTariffsData> => {
   const operatorId = parseInt(operatorId_, 10);
@@ -387,16 +390,19 @@ export const fetchOperatorCostsAndTariffsData = async (
     operatorId,
     networkLevel,
     period: targetPeriod,
+    operatorOnly,
   });
   const netTariffsData = await fetchNetTariffsData(db, {
     operatorId,
     category,
     period: targetPeriod,
+    operatorOnly,
   });
   const energyTariffsData = await fetchEnergyTariffsData(db, {
     operatorId,
     category,
     period: targetPeriod,
+    operatorOnly,
   });
 
   // Create response object
@@ -438,16 +444,18 @@ export const fetchSaidi = async (
   {
     operatorId,
     period,
+    operatorOnly,
   }: {
     operatorId: number;
     period: number;
+    operatorOnly?: boolean;
   }
 ): Promise<StabilityData> => {
   const operatorData = await db.getOperatorData(operatorId);
 
   // Get peer group median SAIDI
   const yearlyPeerGroupMedianStability =
-    await db.getIndicatorMedian<"stability">({
+    await db.getYearlyIndicatorMedians<"stability">({
       peerGroup: operatorData.peer_group,
       metric: "stability",
     });
@@ -466,18 +474,34 @@ export const fetchSaidi = async (
   }
   const peerGroupYearlyStability = await db.getStabilityMetrics({
     peerGroup: operatorData.peer_group,
+    operatorId: operatorOnly ? operatorId : undefined,
   });
+  // Concatenate peer group median data into yearlyData with special operator_id and name
+  const peerGroupMedianAsYearlyData = yearlyPeerGroupMedianStability.map(
+    (item) => ({
+      year: item.period,
+      total: item.median_saidi_total ?? 0,
+      operator: peerGroupOperatorId,
+      operator_name: peerGroupOperatorName,
+      unplanned: 0, // Median data doesn't have unplanned breakdown, default to 0
+    })
+  );
+
+  const combinedYearlyData = [
+    ...peerGroupYearlyStability.map((x) => ({
+      year: x.period,
+      total: x.saidi_total ?? 0,
+      operator: x.operator_id,
+      operator_name: x.operator_name ?? "",
+      unplanned: x.saidi_unplanned ?? 0,
+    })),
+    ...peerGroupMedianAsYearlyData,
+  ];
 
   return {
     operatorTotal: operatorStability?.[0]?.saidi_total || 0,
     peerGroupTotal: peerGroupMedianStability?.median_saidi_total || 0,
-    yearlyData: peerGroupYearlyStability.map((x) => ({
-      year: x.period,
-      total: x.saidi_total ?? null,
-      operator: x.operator_id,
-      operator_name: x.operator_name ?? null,
-      unplanned: x.saidi_unplanned ?? null,
-    })),
+    yearlyData: combinedYearlyData,
   };
 };
 
@@ -493,9 +517,11 @@ export const fetchSaifi = async (
   {
     operatorId,
     period,
+    operatorOnly,
   }: {
     operatorId: number;
     period: number;
+    operatorOnly?: boolean;
   }
 ): Promise<StabilityData> => {
   const operatorData = await service.getOperatorData(operatorId);
@@ -504,7 +530,7 @@ export const fetchSaifi = async (
   }
 
   const yearlyPeerGroupMedianStability =
-    await service.getIndicatorMedian<"stability">({
+    await service.getYearlyIndicatorMedians<"stability">({
       peerGroup: operatorData.peer_group,
       metric: "stability",
     });
@@ -523,18 +549,35 @@ export const fetchSaifi = async (
   }
   const peerGroupYearlyStability = await service.getStabilityMetrics({
     peerGroup: operatorData.peer_group,
+    operatorId: operatorOnly ? operatorId : undefined,
   });
+
+  // Concatenate peer group median data into yearlyData with special operator_id and name
+  const peerGroupMedianAsYearlyData = yearlyPeerGroupMedianStability.map(
+    (item) => ({
+      year: item.period,
+      total: item.median_saifi_total ?? 0,
+      operator: peerGroupOperatorId,
+      operator_name: peerGroupOperatorName,
+      unplanned: 0, // Median data doesn't have unplanned breakdown, default to 0
+    })
+  );
+
+  const combinedYearlyData = [
+    ...peerGroupYearlyStability.map((x) => ({
+      year: x.period,
+      total: x.saifi_total ?? 0,
+      operator: x.operator_id,
+      operator_name: x.operator_name ?? "",
+      unplanned: x.saifi_unplanned ?? 0,
+    })),
+    ...peerGroupMedianAsYearlyData,
+  ];
 
   return {
     operatorTotal: operatorStability?.[0]?.saifi_total || 0,
     peerGroupTotal: peerGroupMedianStability?.median_saifi_total || 0,
-    yearlyData: peerGroupYearlyStability.map((x) => ({
-      year: x.period,
-      total: x.saifi_total ?? null,
-      operator: x.operator_id,
-      operator_name: x.operator_name,
-      unplanned: x.saifi_unplanned ?? null,
-    })),
+    yearlyData: combinedYearlyData,
   };
 };
 
@@ -542,8 +585,10 @@ export const fetchPowerStability = async (
   db: SunshineDataService,
   {
     operatorId: operatorId_,
+    operatorOnly,
   }: {
     operatorId: string; // Operator ID as a string
+    operatorOnly?: boolean;
   }
 ): Promise<SunshinePowerStabilityData> => {
   const operatorId = parseInt(operatorId_, 10);
@@ -554,10 +599,12 @@ export const fetchPowerStability = async (
   const saidiData = await fetchSaidi(db, {
     operatorId: operatorId,
     period: targetYear,
+    operatorOnly,
   });
   const saifiData = await fetchSaifi(db, {
     operatorId: operatorId,
     period: targetYear,
+    operatorOnly,
   });
 
   return {
@@ -590,13 +637,22 @@ export const fetchOperationalStandards = async (
   db: SunshineDataService,
   {
     operatorId: operatorId_,
+    period: periodParam,
   }: {
     operatorId: string;
+    period?: number;
   }
 ): Promise<SunshineOperationalStandardsData> => {
   const operatorId = parseInt(operatorId_, 10);
   const operatorData = await db.getOperatorData(operatorId);
-  const period = await db.getLatestYearSunshine(operatorId);
+
+  // Use provided period or get the latest year
+  let period: number;
+  if (periodParam !== undefined) {
+    period = periodParam;
+  } else {
+    period = await db.getLatestYearSunshine(operatorId);
+  }
   const operationalData = await db.getOperationalStandards({
     operatorId: operatorId,
     period: period,
@@ -645,7 +701,9 @@ export const fetchOperationalStandards = async (
       ],
     },
     compliance: {
-      francsRule: `CHF ${data.franc_rule.toFixed(2)}`,
+      francsRule: Number.isFinite(data.franc_rule)
+        ? `CHF ${data.franc_rule.toFixed(2)}`
+        : "N/A",
       timelyPaperSubmission,
       operatorsFrancsPerInvoice: [
         {

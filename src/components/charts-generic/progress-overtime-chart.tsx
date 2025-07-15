@@ -35,12 +35,6 @@ interface ProgressOvertimeChartProps<
   entityField?: string;
   // Palette configuration
   paletteType?: "monochrome" | "elcom2";
-  // Interaction configuration
-  showInteractionsWhenComparing?: boolean;
-  // Legend configuration
-  showOtherOperatorsLegend?:
-    | boolean
-    | ((operatorsNames: Set<string>, compareWith: string[]) => boolean);
 }
 
 export const ProgressOvertimeChart = <T extends GenericObservation>(
@@ -57,17 +51,13 @@ export const ProgressOvertimeChart = <T extends GenericObservation>(
     yAxisLabel,
     entityField = "operator_id",
     paletteType = "monochrome",
-    showInteractionsWhenComparing = true,
-    showOtherOperatorsLegend = true,
   } = props;
 
   const formatCurrency = useFormatCurrency();
 
   // Determine if we should show interactions
   const hasNotSelectedAll = !compareWith.includes("sunshine.select-all");
-  const showInteractions = showInteractionsWhenComparing
-    ? hasNotSelectedAll
-    : true;
+  const showInteractions = hasNotSelectedAll;
 
   // Determine palette based on comparison selection
   const palette = compareWith.includes("sunshine.select-all")
@@ -75,15 +65,7 @@ export const ProgressOvertimeChart = <T extends GenericObservation>(
     : paletteType;
 
   // Determine if we should show the "Other operators" legend item
-  const shouldShowOtherOperatorsLegend = useMemo(() => {
-    if (typeof showOtherOperatorsLegend === "function") {
-      return showOtherOperatorsLegend(operatorsNames, compareWith);
-    }
-    if (typeof showOtherOperatorsLegend === "boolean") {
-      return showOtherOperatorsLegend && compareWith.length > 0;
-    }
-    return compareWith.length > 0;
-  }, [showOtherOperatorsLegend, operatorsNames, compareWith]);
+  const shouldShowOtherOperatorsLegend = compareWith.length > 0;
 
   // Put currently selected operatorLabel at the end of the list
   // This is a trick to ensure the selected operator is always on top of other operators

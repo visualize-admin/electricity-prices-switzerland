@@ -498,7 +498,7 @@ const getOperatorData = async (
   };
 };
 
-const getIndicatorMedian = async <
+const getYearlyIndicatorMedians = async <
   Metric extends IndicatorMedianParams["metric"]
 >(
   params: IndicatorMedianParams
@@ -1085,7 +1085,7 @@ export const sunshineDataServiceSparql = {
   getStabilityMetrics,
   getTariffs,
   getOperatorData,
-  getIndicatorMedian,
+  getYearlyIndicatorMedians,
   getLatestYearSunshine,
   getLatestYearPowerStability,
   getPeerGroup,
