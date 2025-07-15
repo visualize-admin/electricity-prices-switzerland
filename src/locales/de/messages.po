@@ -274,6 +274,14 @@ msgid "footer.download-visualize-data"
 msgstr "Daten herunterladen"
 
 #: src/components/footer.tsx
+msgid "footer.elcom-dataviz-url"
+msgstr "https://www.elcom.admin.ch/elcom/de/home/themen/strompreise/tarif-rohdaten-verteilnetzbetreiber.html"
+
+#: src/components/footer.tsx
+msgid "footer.elcom-electricity-tariffs-url"
+msgstr "https://www.elcom.admin.ch/elcom/de/home/themen/strompreise.html"
+
+#: src/components/footer.tsx
 msgid "footer.legal-framework"
 msgstr "Rechtliches"
 
@@ -469,18 +477,6 @@ msgstr "Häufigkeit von Stromunterbrechungen (SAIFI)"
 msgid "indicator.serviceQuality"
 msgstr "Dienstleistungsqualität"
 
-#: src/pages/map/index.tsx
-msgid "list.cantons"
-msgstr "Kantone"
-
-#: src/pages/map/index.tsx
-msgid "list.municipalities"
-msgstr "Gemeinden"
-
-#: src/pages/map/index.tsx
-msgid "list.operators"
-msgstr "Netzbetreiber"
-
 #: src/components/list.tsx
 msgid "list.order.prices.asc"
 msgstr "Günstigste zuerst"
@@ -514,8 +510,20 @@ msgid "list.showmore"
 msgstr "Mehr anzeigen …"
 
 #: src/pages/map/index.tsx
+msgid "list.viewby.canton"
+msgstr ""
+
+#: src/pages/map/index.tsx
 msgid "list.viewby.label"
 msgstr "Ansicht nach"
+
+#: src/pages/map/index.tsx
+msgid "list.viewby.municipality"
+msgstr ""
+
+#: src/pages/map/index.tsx
+msgid "list.viewby.operator"
+msgstr ""
 
 #: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.back-button"

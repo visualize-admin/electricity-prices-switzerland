@@ -274,6 +274,14 @@ msgid "footer.download-visualize-data"
 msgstr "footer.download-visualize-data"
 
 #: src/components/footer.tsx
+msgid "footer.elcom-dataviz-url"
+msgstr "footer.elcom-dataviz-url"
+
+#: src/components/footer.tsx
+msgid "footer.elcom-electricity-tariffs-url"
+msgstr "footer.elcom-electricity-tariffs-url"
+
+#: src/components/footer.tsx
 msgid "footer.legal-framework"
 msgstr "footer.legal-framework"
 
@@ -469,18 +477,6 @@ msgstr "indicator.saifi"
 msgid "indicator.serviceQuality"
 msgstr "indicator.serviceQuality"
 
-#: src/pages/map/index.tsx
-msgid "list.cantons"
-msgstr "list.cantons"
-
-#: src/pages/map/index.tsx
-msgid "list.municipalities"
-msgstr "list.municipalities"
-
-#: src/pages/map/index.tsx
-msgid "list.operators"
-msgstr "list.operators"
-
 #: src/components/list.tsx
 msgid "list.order.prices.asc"
 msgstr "list.order.prices.asc"
@@ -514,8 +510,20 @@ msgid "list.showmore"
 msgstr "list.showmore"
 
 #: src/pages/map/index.tsx
+msgid "list.viewby.canton"
+msgstr "list.viewby.canton"
+
+#: src/pages/map/index.tsx
 msgid "list.viewby.label"
 msgstr "list.viewby.label"
+
+#: src/pages/map/index.tsx
+msgid "list.viewby.municipality"
+msgstr "list.viewby.municipality"
+
+#: src/pages/map/index.tsx
+msgid "list.viewby.operator"
+msgstr "list.viewby.operator"
 
 #: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.back-button"

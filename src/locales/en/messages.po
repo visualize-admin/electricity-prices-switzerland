@@ -274,6 +274,14 @@ msgid "footer.download-visualize-data"
 msgstr "Download data"
 
 #: src/components/footer.tsx
+msgid "footer.elcom-dataviz-url"
+msgstr "https://www.elcom.admin.ch/elcom/en/home/topics/electricity-tariffs/basic-data-for-tariffs-of-the-swiss-distribution-network-operato.html"
+
+#: src/components/footer.tsx
+msgid "footer.elcom-electricity-tariffs-url"
+msgstr "https://www.elcom.admin.ch/elcom/en/home/topics/electricity-tariffs.html"
+
+#: src/components/footer.tsx
 msgid "footer.legal-framework"
 msgstr "Legal matters"
 
@@ -469,18 +477,6 @@ msgstr "Power Outage Frequency (SAIFI)"
 msgid "indicator.serviceQuality"
 msgstr "Service quality"
 
-#: src/pages/map/index.tsx
-msgid "list.cantons"
-msgstr "Cantons"
-
-#: src/pages/map/index.tsx
-msgid "list.municipalities"
-msgstr "Municipalities"
-
-#: src/pages/map/index.tsx
-msgid "list.operators"
-msgstr "Network operator"
-
 #: src/components/list.tsx
 msgid "list.order.prices.asc"
 msgstr "Ascending"
@@ -514,8 +510,20 @@ msgid "list.showmore"
 msgstr "Show more …"
 
 #: src/pages/map/index.tsx
+msgid "list.viewby.canton"
+msgstr "Canton"
+
+#: src/pages/map/index.tsx
 msgid "list.viewby.label"
 msgstr "View according to"
+
+#: src/pages/map/index.tsx
+msgid "list.viewby.municipality"
+msgstr "Municipality"
+
+#: src/pages/map/index.tsx
+msgid "list.viewby.operator"
+msgstr "Operator"
 
 #: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.back-button"
