@@ -2,6 +2,8 @@
 -- This script initializes tables and views for the Sunshine data
 
 -- Drop existing tables and views if they exist
+DROP TABLE IF EXISTS sunshine_2022;
+DROP TABLE IF EXISTS sunshine_2023;
 DROP TABLE IF EXISTS sunshine_2024;
 DROP TABLE IF EXISTS sunshine_2025;
 DROP TABLE IF EXISTS peer_groups;
@@ -14,6 +16,12 @@ DROP VIEW IF EXISTS operational_standards;
 DROP VIEW IF EXISTS operator_data;
 
 -- Create tables from CSV files
+CREATE TABLE sunshine_2022 AS 
+SELECT * FROM read_csv_auto(getvariable('sunshine_2022_csv_path'));
+
+CREATE TABLE sunshine_2023 AS 
+SELECT * FROM read_csv_auto(getvariable('sunshine_2023_csv_path'));
+
 CREATE TABLE sunshine_2024 AS 
 SELECT * FROM read_csv_auto(getvariable('sunshine_2024_csv_path'));
 
@@ -23,8 +31,74 @@ SELECT * FROM read_csv_auto(getvariable('sunshine_2025_csv_path'));
 CREATE TABLE peer_groups AS 
 SELECT * FROM read_csv_auto(getvariable('peer_groups_csv_path'));
 
--- Create a view that combines data from both years with clean column names
+-- Create a view that combines data from all years with clean column names
 CREATE VIEW sunshine_all AS
+SELECT 
+    CAST(SunPartnerID AS INTEGER) AS partner_id,
+    SunUID AS uid,
+    SunName AS name,
+    CAST(SunPeriode AS INTEGER) AS period,
+    SunFrankenRegel AS franc_rule,
+    SunInfoJaNein AS info_yes_no,
+    CAST(SunInfoTageimVoraus AS INTEGER) AS info_days_in_advance,
+    SunNetzkostenNE5 AS network_costs_ne5,
+    SunNetzkostenNE6 AS network_costs_ne6,
+    SunNetzkostenNE7 AS network_costs_ne7,
+    CAST(SunRechtzeitig AS INTEGER) AS timely,
+    SunSAIDItotal AS saidi_total,
+    SunSAIDIungeplant AS saidi_unplanned,
+    SunSAIFItotal AS saifi_total,
+    SunSAIFIungeplant AS saifi_unplanned,
+    SunTarifEC2 AS tariff_ec2,
+    SunTarifEC3 AS tariff_ec3,
+    SunTarifEC4 AS tariff_ec4,
+    SunTarifEC6 AS tariff_ec6,
+    SunTarifEH2 AS tariff_eh2,
+    SunTarifEH4 AS tariff_eh4,
+    SunTarifEH7 AS tariff_eh7,
+    SunTarifNC2 AS tariff_nc2,
+    SunTarifNC3 AS tariff_nc3,
+    SunTarifNC4 AS tariff_nc4,
+    SunTarifNC6 AS tariff_nc6,
+    SunTarifNH2 AS tariff_nh2,
+    SunTarifNH4 AS tariff_nh4,
+    SunTarifNH7 AS tariff_nh7,
+    CAST('2022' AS INTEGER) AS year 
+FROM sunshine_2022
+UNION ALL
+SELECT 
+    CAST(SunPartnerID AS INTEGER) AS partner_id,
+    SunUID AS uid,
+    SunName AS name,
+    CAST(SunPeriode AS INTEGER) AS period,
+    SunFrankenRegel AS franc_rule,
+    SunInfoJaNein AS info_yes_no,
+    CAST(SunInfoTageimVoraus AS INTEGER) AS info_days_in_advance,
+    SunNetzkostenNE5 AS network_costs_ne5,
+    SunNetzkostenNE6 AS network_costs_ne6,
+    SunNetzkostenNE7 AS network_costs_ne7,
+    CAST(SunRechtzeitig AS INTEGER) AS timely,
+    SunSAIDItotal AS saidi_total,
+    SunSAIDIungeplant AS saidi_unplanned,
+    SunSAIFItotal AS saifi_total,
+    SunSAIFIungeplant AS saifi_unplanned,
+    SunTarifEC2 AS tariff_ec2,
+    SunTarifEC3 AS tariff_ec3,
+    SunTarifEC4 AS tariff_ec4,
+    SunTarifEC6 AS tariff_ec6,
+    SunTarifEH2 AS tariff_eh2,
+    SunTarifEH4 AS tariff_eh4,
+    SunTarifEH7 AS tariff_eh7,
+    SunTarifNC2 AS tariff_nc2,
+    SunTarifNC3 AS tariff_nc3,
+    SunTarifNC4 AS tariff_nc4,
+    SunTarifNC6 AS tariff_nc6,
+    SunTarifNH2 AS tariff_nh2,
+    SunTarifNH4 AS tariff_nh4,
+    SunTarifNH7 AS tariff_nh7,
+    CAST('2023' AS INTEGER) AS year 
+FROM sunshine_2023
+UNION ALL
 SELECT 
     CAST(SunPartnerID AS INTEGER) AS partner_id,
     SunUID AS uid,
@@ -93,6 +167,8 @@ FROM sunshine_2025;
 
 
 -- Create indexes to improve query performance
+CREATE INDEX idx_sunshine_2022_partner_id ON sunshine_2022 (SunPartnerID);
+CREATE INDEX idx_sunshine_2023_partner_id ON sunshine_2023 (SunPartnerID);
 CREATE INDEX idx_sunshine_2024_partner_id ON sunshine_2024 (SunPartnerID);
 CREATE INDEX idx_sunshine_2025_partner_id ON sunshine_2025 (SunPartnerID);
 CREATE INDEX idx_peer_groups_operator_id ON peer_groups (network_operator_id);
