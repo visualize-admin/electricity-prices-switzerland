@@ -74,10 +74,11 @@ const useLinesState = ({
     [fields.segment]
   );
   const getColor = useCallback(
-    (d: GenericObservation): string =>
-      fields.style && fields.style.colorAcc
+    (d: GenericObservation): string => {
+      return fields.style && fields.style.colorAcc
         ? (d[fields.style.colorAcc] as string)
-        : "municipalityLabel",
+        : "municipalityLabel";
+    },
     [fields.style]
   );
 
@@ -126,7 +127,6 @@ const useLinesState = ({
   const colors = scaleOrdinal<string, string>();
   colors.domain(colorDomain);
   colors.range(colorDomain.map((domainItem) => mergedMapping[domainItem]));
-
   const xKey = fields.x.componentIri;
 
   const grouped = [...group(sortedData, getSegment)];
@@ -167,7 +167,7 @@ const useLinesState = ({
   }, [yScale, labelFontSize]);
 
   const margins = {
-    top: 80,
+    top: yAxisLabel ? 80 : 50,
     right: 40,
     bottom: 40,
     left: maxYLabelWidth + LEFT_MARGIN_OFFSET,
@@ -264,10 +264,7 @@ const useLinesState = ({
           symbol: "line",
           label: getSegment(td),
           value: `${formatCurrency(getY(td))} ${yAxisLabel ? yAxisLabel : ""}`,
-          color:
-            segments.length > 1
-              ? (colors(getColor(td)) as string)
-              : theme.palette.primary.main,
+          color: colors(getColor(td)) as string,
           yPos: yScale(getY(td)),
         })),
     };

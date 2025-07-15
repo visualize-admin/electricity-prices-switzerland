@@ -6,7 +6,6 @@ import {
   useChartState,
 } from "src/components/charts-generic/use-chart-state";
 import { GenericObservation } from "src/domain/data";
-import { chartPalette } from "src/themes/palette";
 
 export const Lines = () => {
   const { getX, xScale, getY, yScale, grouped, colors, getColor, bounds } =
@@ -20,26 +19,35 @@ export const Lines = () => {
   return (
     <g transform={`translate(${bounds.margins.left} ${bounds.margins.top})`}>
       {grouped.map((lineData, index) => {
+        const definedLineData = lineData[1].filter(
+          (d) => !isNaN(getY(d)) || getY(d) === undefined
+        );
+        if (definedLineData.length === 1) {
+          // We need to render a point for single data points
+          const point = lineData[1][0];
+          return (
+            <circle
+              key={index}
+              cx={xScale(getX(point))}
+              cy={yScale(getY(point))}
+              r={2}
+              fill={colors(getColor(point))}
+            />
+          );
+        }
         return (
-          <Line
-            key={index}
-            path={
+          <path
+            d={
               lineGenerator(
                 lineData[1].sort((a, b) => ascending(getX(a), getX(b)))
               ) as string
             }
-            color={
-              grouped.length > 1
-                ? colors(getColor(lineData[1][0]))
-                : chartPalette.categorical[0]
-            }
+            stroke={colors(getColor(lineData[1][0]))}
+            fill="none"
+            strokeWidth={2}
           />
         );
       })}
     </g>
   );
 };
-
-const Line = React.memo(({ path, color }: { path: string; color: string }) => {
-  return <path d={path} stroke={color} fill="none" strokeWidth={2} />;
-});
