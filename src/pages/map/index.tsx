@@ -208,7 +208,7 @@ const IndexPageContent = ({
     sunshineObservations,
   ]);
 
-  const isSunshine = useFlag("sunshine");
+  const hasSunshineFlag = useFlag("sunshine");
 
   // Determine the data field to use for the map based on the active tab and indicator
   const mapYear = period;
@@ -222,7 +222,7 @@ const IndexPageContent = ({
     useRef(null);
 
   useEffect(() => {
-    if (isSunshine) {
+    if (hasSunshineFlag) {
       try {
         if (activeId) {
           controlsRef.current?.zoomOn(activeId);
@@ -233,7 +233,7 @@ const IndexPageContent = ({
         console.error("Error zooming on map:", e);
       }
     }
-  }, [activeId, isSunshine]);
+  }, [activeId, hasSunshineFlag]);
 
   const valueFormatter = useIndicatorValueFormatter(indicator);
 
