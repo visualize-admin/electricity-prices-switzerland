@@ -381,7 +381,7 @@ export const PowerStabilityCardMinified: React.FC<
   const [state] = useQueryStatePowerStabilityCardFilters({
     defaultValue: defaultFilters,
   });
-  const { compareWith, viewBy, duration, overallOrRatio } = state;
+  const { viewBy, duration, overallOrRatio } = state;
   const chartData = getPowerStabilityCardState(rest, state);
   return (
     <Card {...rest}>
@@ -402,7 +402,7 @@ export const PowerStabilityCardMinified: React.FC<
           viewBy={viewBy ?? "progress"}
           overallOrRatio={overallOrRatio ?? "overall"}
           duration={duration ?? "total"}
-          compareWith={compareWith ?? []}
+          compareWith={[]}
           rootProps={{ sx: { mt: 2 } }}
         />
         <Stack
