@@ -274,6 +274,14 @@ msgid "footer.download-visualize-data"
 msgstr "Télécharger / visualiser les données"
 
 #: src/components/footer.tsx
+msgid "footer.elcom-dataviz-url"
+msgstr "https://www.elcom.admin.ch/elcom/fr/home/themes/prix-de-l_electricite/donnees-brutes-des-gestionnaires-suisses-de-reseau-de-distributi.html"
+
+#: src/components/footer.tsx
+msgid "footer.elcom-electricity-tariffs-url"
+msgstr "https://www.elcom.admin.ch/elcom/fr/home/themes/prix-de-l_electricite.html"
+
+#: src/components/footer.tsx
 msgid "footer.legal-framework"
 msgstr "Conditions d'utilisation"
 
@@ -469,18 +477,6 @@ msgstr "Fréquence des pannes d'électricité (SAIFI)"
 msgid "indicator.serviceQuality"
 msgstr "Qualité du service"
 
-#: src/pages/map/index.tsx
-msgid "list.cantons"
-msgstr "Cantons"
-
-#: src/pages/map/index.tsx
-msgid "list.municipalities"
-msgstr "Communes"
-
-#: src/pages/map/index.tsx
-msgid "list.operators"
-msgstr "Gestionnaires de réseau"
-
 #: src/components/list.tsx
 msgid "list.order.prices.asc"
 msgstr "Croissant"
@@ -514,8 +510,20 @@ msgid "list.showmore"
 msgstr "Voir plus ..."
 
 #: src/pages/map/index.tsx
+msgid "list.viewby.canton"
+msgstr ""
+
+#: src/pages/map/index.tsx
 msgid "list.viewby.label"
 msgstr "Vue selon"
+
+#: src/pages/map/index.tsx
+msgid "list.viewby.municipality"
+msgstr ""
+
+#: src/pages/map/index.tsx
+msgid "list.viewby.operator"
+msgstr ""
 
 #: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.back-button"

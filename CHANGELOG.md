@@ -11,7 +11,9 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Fix
+
+  - Footer links can be updated through Accent
 
 # 2.7.0 - 2025-07-15
 

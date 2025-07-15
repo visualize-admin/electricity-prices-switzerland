@@ -78,9 +78,11 @@ export const Footer = ({ sx }: { sx?: SxProps }) => {
           })}
         />
         <Link
-          href={
-            "https://www.elcom.admin.ch/elcom/de/home/themen/strompreise.html"
-          }
+          href={t({
+            id: "footer.elcom-electricity-tariffs-url",
+            message:
+              "https://www.elcom.admin.ch/elcom/en/home/topics/electricity-tariffs.html",
+          })}
           target="_blank"
           underline="none"
         >
@@ -93,9 +95,7 @@ export const Footer = ({ sx }: { sx?: SxProps }) => {
           />
         </Link>
         <Link
-          href={
-            "https://www.swissgrid.ch/dam/swissgrid/customers/topics/tariffs/Tabelle-Tarife-de.pdf"
-          }
+          href={`https://www.swissgrid.ch/dam/swissgrid/customers/topics/tariffs/Tabelle-Tarife-${locale}.pdf`}
           target="_blank"
           underline="none"
         >
@@ -139,9 +139,7 @@ export const Footer = ({ sx }: { sx?: SxProps }) => {
         </Link>
 
         <Link
-          href={
-            "https://opendata.swiss/organization/bundesamt-fur-energie-bfe?q=energiedashboard"
-          }
+          href={`https://opendata.swiss/${locale}/group/ener?organization=elcom`}
           target="_blank"
           underline="none"
         >
@@ -154,9 +152,11 @@ export const Footer = ({ sx }: { sx?: SxProps }) => {
           />
         </Link>
         <Link
-          href={
-            "https://www.elcom.admin.ch/elcom/home/themen/strompreise/tarif-rohdaten-verteilnetzbetreiber.html"
-          }
+          href={t({
+            id: "footer.elcom-dataviz-url",
+            message:
+              "https://www.elcom.admin.ch/elcom/en/home/topics/electricity-tariffs/basic-data-for-tariffs-of-the-swiss-distribution-network-operato.html",
+          })}
           target="_blank"
           underline="none"
         >
