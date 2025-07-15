@@ -1,6 +1,7 @@
 import { t } from "@lingui/macro";
 import { Box, BoxProps } from "@mui/material";
 import { max, mean } from "d3";
+import { sortBy } from "lodash";
 import { useMemo, useState } from "react";
 
 import { getTextWidth } from "src/domain/helpers";
@@ -107,26 +108,33 @@ const LatestYearChartView = (
 
   const maxValue =
     max(dataWithRatioApplied, (d) => d.planned + d.unplanned) ?? 0;
+
   const xDomain: [number, number] =
     overallOrRatio === "ratio" ? [0, 100] : [0, maxValue];
 
-  const sortedData = [...dataWithRatioApplied].sort((a, b) => {
-    if (a.operator.toString() === id) return -1;
-    if (b.operator.toString() === id) return 1;
+  const sortedData = useMemo(() => {
+    const sorted = sortBy(dataWithRatioApplied, (item) => {
+      if (item.operator.toString() === id) {
+        return -Infinity; // Ensure the target operator is always on top
+      }
 
-    switch (sortByItem) {
-      case "operator":
-        return a.operator_name.localeCompare(b.operator_name);
-      case "planned":
-        return b.planned - a.planned;
-      case "unplanned":
-        return b.unplanned - a.unplanned;
-      case "total":
-        return b.planned + b.unplanned - (a.planned + a.unplanned);
-      default:
-        return 0;
-    }
-  });
+      switch (sortByItem) {
+        case "operator":
+          return item.operator_name;
+        case "planned":
+          return -item.planned;
+        case "unplanned":
+          return -item.unplanned;
+        case "total":
+          return -(item.planned + item.unplanned);
+        default:
+          return 0;
+      }
+    });
+
+    return sorted;
+  }, [dataWithRatioApplied, sortByItem, id]);
+
   const average = useMemo(() => {
     return mean(sortedData.map((d) => d.total)) ?? 0;
   }, [sortedData]);
