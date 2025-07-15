@@ -139,9 +139,7 @@ export const Footer = ({ sx }: { sx?: SxProps }) => {
         </Link>
 
         <Link
-          href={
-            "https://opendata.swiss/organization/bundesamt-fur-energie-bfe?q=energiedashboard"
-          }
+          href={`https://opendata.swiss/${locale}/group/ener?organization=elcom`}
           target="_blank"
           underline="none"
         >
