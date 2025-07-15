@@ -93,9 +93,7 @@ export const Footer = ({ sx }: { sx?: SxProps }) => {
           />
         </Link>
         <Link
-          href={
-            "https://www.swissgrid.ch/dam/swissgrid/customers/topics/tariffs/Tabelle-Tarife-de.pdf"
-          }
+          href={`https://www.swissgrid.ch/dam/swissgrid/customers/topics/tariffs/Tabelle-Tarife-${locale}.pdf`}
           target="_blank"
           underline="none"
         >
