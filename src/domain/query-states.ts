@@ -65,7 +65,7 @@ const sunshineMapSchema = z.object({
   indicator: sunshineIndicatorSchema.default("networkCosts"),
   category: z.string().default("C2"),
   networkLevel: z.string().default("NE5"),
-  activeId: z.string().optional(),
+  activeId: z.string().optional().nullable(),
 });
 
 export const sunshineMapLink = makeLinkGenerator(sunshineMapSchema);

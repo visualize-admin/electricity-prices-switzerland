@@ -246,6 +246,8 @@ export const GenericMap = ({
               zoom: newViewState.zoom,
               longitude: newViewState.longitude,
               latitude: newViewState.latitude,
+              transitionDuration: newViewState.transitionDuration,
+              transitionInterpolator: newViewState.transitionInterpolator,
             });
           }
         },
@@ -265,6 +267,8 @@ export const GenericMap = ({
               zoom: newViewState.zoom,
               longitude: newViewState.longitude,
               latitude: newViewState.latitude,
+              transitionDuration: newViewState.transitionDuration,
+              transitionInterpolator: newViewState.transitionInterpolator,
             });
           }
         },

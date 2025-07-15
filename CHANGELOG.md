@@ -17,6 +17,10 @@ You can also check the
   - Sunshine Details: Overview filter state is backed by URL, reloading the page keeps the filters
   - Overview: SAIDI & SAIFI charts correctly display
 
+- Fix
+
+  - Map Page: Zoom in/out animation works again
+
 - Chore
 
   - Ability to set flags at runtime without rebuilding
