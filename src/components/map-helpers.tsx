@@ -75,6 +75,13 @@ export const constrainZoom = (
   };
 };
 
+const getFlyToInterpolator = () => {
+  return new FlyToInterpolator({
+    speed: 4,
+    curve: 1.5,
+  });
+};
+
 export const getZoomedViewState = (
   currentViewState: MapViewState & { width: number; height: number },
   bbox: GeoJsonBBox,
@@ -99,7 +106,7 @@ export const getZoomedViewState = (
         ...currentViewState,
         ...fitted,
         transitionDuration,
-        transitionInterpolator: new FlyToInterpolator(),
+        transitionInterpolator: getFlyToInterpolator(),
       };
     } catch {
       // If it fails, reduce padding and try again
@@ -148,6 +155,8 @@ export const INITIAL_VIEW_STATE = {
   bearing: 0,
   width: 200,
   height: 200,
+  transitionDuration: 0,
+  transitionInterpolator: getFlyToInterpolator(),
 };
 
 export type BBox = [[number, number], [number, number]];
