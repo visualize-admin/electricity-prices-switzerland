@@ -11,6 +11,10 @@ You can also check the
 
 # Unreleased
 
+Nothing yet.
+
+# 2.7.0 - 2025-07-15
+
 - Feat
 
   - Map Page: Network costs is the default Sunshine indicator shown
