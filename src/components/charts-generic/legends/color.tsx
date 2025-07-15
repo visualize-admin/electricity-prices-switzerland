@@ -161,12 +161,14 @@ export const SortableLegendItem = <T extends string>({
   color,
   value,
   handleClick,
-  state,
+  selected,
+  direction,
 }: {
   item: string;
   color: string;
   value: T;
-  state: T;
+  selected: boolean;
+  direction: "asc" | "desc";
   handleClick: (value: T) => void;
 }) => (
   <Box
@@ -180,8 +182,8 @@ export const SortableLegendItem = <T extends string>({
       pl: 0,
       gap: `${SORTABLE_INTERNAL_GAP}px`,
       color,
-      cursor: value === state ? "not-allowed" : "pointer",
-      opacity: value === state ? 0.5 : 1,
+      cursor: "pointer",
+      opacity: selected ? 1 : 0.5,
     }}
     component={"button"}
     onClick={() => handleClick(value)}
@@ -192,9 +194,10 @@ export const SortableLegendItem = <T extends string>({
 
     <Box
       sx={{
-        rotate: value === state ? "180deg" : "0deg",
+        rotate: direction === "asc" ? "0deg" : "180deg",
         alignItems: "center",
         justifyContent: "center",
+        opacity: selected ? 1 : 0,
       }}
       display="flex"
     >

@@ -79,14 +79,40 @@ type PowerStabilitySortableType =
   | "total"
   | "operator";
 
+type SortState = {
+  attribute: PowerStabilitySortableType;
+  direction: "asc" | "desc";
+};
+
 const LatestYearChartView = (
   props: Omit<PowerStabilityChartProps, "viewBy" | "observations"> & {
     observations: PowerStabilityRow[];
   }
 ) => {
   const { observations, id, operatorLabel, overallOrRatio } = props;
-  const [sortByItem, setSortByItem] =
-    useState<PowerStabilitySortableType>("planned");
+  const [sortState, setSortState] = useState<SortState>({
+    attribute: "planned",
+    direction: "desc",
+  });
+
+  const handleSortClick = (attribute: PowerStabilitySortableType) => {
+    setSortState((prevState) => {
+      if (prevState.attribute === attribute) {
+        // Same attribute clicked, toggle direction
+        return {
+          attribute,
+          direction: prevState.direction === "asc" ? "desc" : "asc",
+        };
+      } else {
+        // Different attribute clicked, use default direction based on attribute
+        const defaultDirection = attribute === "operator" ? "asc" : "desc";
+        return {
+          attribute,
+          direction: defaultDirection,
+        };
+      }
+    });
+  };
 
   const dataWithRatioApplied = useMemo(() => {
     return observations.map((d) => {
@@ -114,26 +140,42 @@ const LatestYearChartView = (
 
   const sortedData = useMemo(() => {
     const sorted = sortBy(dataWithRatioApplied, (item) => {
-      if (item.operator.toString() === id) {
-        return -Infinity; // Ensure the target operator is always on top
+      let sortValue: number | string;
+      switch (sortState.attribute) {
+        case "operator":
+          sortValue = item.operator_name;
+          break;
+        case "planned":
+          sortValue = item.planned;
+          break;
+        case "unplanned":
+          sortValue = item.unplanned;
+          break;
+        case "total":
+          sortValue = item.planned + item.unplanned;
+          break;
+        default:
+          sortValue = 0;
       }
 
-      switch (sortByItem) {
-        case "operator":
-          return item.operator_name;
-        case "planned":
-          return -item.planned;
-        case "unplanned":
-          return -item.unplanned;
-        case "total":
-          return -(item.planned + item.unplanned);
-        default:
-          return 0;
-      }
+      return sortValue;
     });
 
+    if (sortState.direction === "desc") {
+      sorted.reverse();
+    }
+
+    // Ensure the target operator is always on top
+    const targetIndex = sorted.findIndex(
+      (item) => item.operator.toString() === id
+    );
+    if (targetIndex > 0) {
+      const [targetItem] = sorted.splice(targetIndex, 1);
+      sorted.unshift(targetItem);
+    }
+
     return sorted;
-  }, [dataWithRatioApplied, sortByItem, id]);
+  }, [dataWithRatioApplied, sortState, id]);
 
   const average = useMemo(() => {
     return mean(sortedData.map((d) => d.total)) ?? 0;
@@ -233,8 +275,9 @@ const LatestYearChartView = (
             item={gridOperatorsLabel}
             color={palette.text.primary}
             value={"operator"}
-            state={sortByItem}
-            handleClick={setSortByItem}
+            selected={sortState.attribute === "operator"}
+            direction={sortState.direction}
+            handleClick={handleSortClick}
           />
         </Box>
 
@@ -245,8 +288,9 @@ const LatestYearChartView = (
           })}
           color={chartPalette.categorical[1]}
           value="planned"
-          state={sortByItem}
-          handleClick={setSortByItem}
+          selected={sortState.attribute === "planned"}
+          direction={sortState.direction}
+          handleClick={handleSortClick}
         />
 
         <SortableLegendItem<PowerStabilitySortableType>
@@ -256,8 +300,9 @@ const LatestYearChartView = (
           })}
           color={chartPalette.categorical[2]}
           value="unplanned"
-          state={sortByItem}
-          handleClick={setSortByItem}
+          selected={sortState.attribute === "unplanned"}
+          direction={sortState.direction}
+          handleClick={handleSortClick}
         />
         <SortableLegendItem<PowerStabilitySortableType>
           item={t({
@@ -266,8 +311,9 @@ const LatestYearChartView = (
           })}
           color={palette.text.primary}
           value="total"
-          state={sortByItem}
-          handleClick={setSortByItem}
+          selected={sortState.attribute === "total"}
+          direction={sortState.direction}
+          handleClick={handleSortClick}
         />
       </Box>
       <ChartContainer>
