@@ -15,6 +15,7 @@ You can also check the
 
   - Map Page: Network costs is the default Sunshine indicator shown
   - Sunshine Details: Overview filter state is backed by URL, reloading the page keeps the filters
+  - Overview: SAIDI & SAIFI charts correctly display
 
 - Chore
 
