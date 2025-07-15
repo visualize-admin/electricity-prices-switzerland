@@ -10,6 +10,7 @@ import { Link, SxProps } from "@mui/material";
 
 import { useQueryStateEnergyPricesMap } from "src/domain/query-states";
 import { useLocale } from "src/lib/use-locale";
+import { Locale } from "src/locales/locales";
 
 import { HelpDialog } from "./info-dialog";
 import { useDisclosure } from "./use-disclosure";
@@ -20,6 +21,20 @@ export const Footer = ({ sx }: { sx?: SxProps }) => {
   const helpCalculationDisclosure = useDisclosure();
   const helpCsvDisclosure = useDisclosure();
   const helpMunicipalitiesInfoDisclosure = useDisclosure();
+
+  const elcomTariffInfoUrls = {
+    en: "https://www.elcom.admin.ch/elcom/en/home/topics/electricity-tariffs.html",
+    de: "https://www.elcom.admin.ch/elcom/de/home/themen/strompreise.html",
+    fr: "https://www.elcom.admin.ch/elcom/fr/home/themes/prix-de-l_electricite.html",
+    it: "https://www.elcom.admin.ch/elcom/it/home/temi/prezzi-dell-energia-elettrica.html",
+  } as const satisfies Record<Locale, string>;
+
+  const elcomDatavizUrls = {
+    en: "https://www.elcom.admin.ch/elcom/en/home/topics/electricity-tariffs/basic-data-for-tariffs-of-the-swiss-distribution-network-operato.html",
+    de: "https://www.elcom.admin.ch/elcom/de/home/themen/strompreise/tarif-rohdaten-verteilnetzbetreiber.html",
+    fr: "https://www.elcom.admin.ch/elcom/fr/home/themes/prix-de-l_electricite/donnees-brutes-des-gestionnaires-suisses-de-reseau-de-distributi.html",
+    it: "https://www.elcom.admin.ch/elcom/it/home/temi/prezzi-dell-energia-elettrica/dati-grezzi-tariffe-dei-gestori-delle-reti-di-distribuzione-sviz.html",
+  } as const satisfies Record<Locale, string>;
 
   const bottomLinks = [
     {
@@ -78,9 +93,7 @@ export const Footer = ({ sx }: { sx?: SxProps }) => {
           })}
         />
         <Link
-          href={
-            "https://www.elcom.admin.ch/elcom/de/home/themen/strompreise.html"
-          }
+          href={elcomTariffInfoUrls[locale] ?? elcomTariffInfoUrls.de}
           target="_blank"
           underline="none"
         >
@@ -150,9 +163,7 @@ export const Footer = ({ sx }: { sx?: SxProps }) => {
           />
         </Link>
         <Link
-          href={
-            "https://www.elcom.admin.ch/elcom/home/themen/strompreise/tarif-rohdaten-verteilnetzbetreiber.html"
-          }
+          href={elcomDatavizUrls[locale] ?? elcomDatavizUrls.de}
           target="_blank"
           underline="none"
         >
