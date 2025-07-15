@@ -184,6 +184,31 @@ describe("Query States", () => {
         activeId: "abc123",
       });
     });
+
+    it('should delete "activeId" when set to null', () => {
+      const mockRouter = createMockRouter({
+        tab: "sunshine",
+        activeId: "abc123",
+      });
+
+      const router = mockRouter();
+      const { result } = renderHook(() =>
+        queryStates.useQueryStateSunshineMap({ router: () => router })
+      );
+
+      act(() => {
+        result.current[1]({ activeId: null });
+      });
+
+      expect(router.replace).toHaveBeenCalledWith(
+        {
+          pathname: "/test",
+          query: { tab: "sunshine" },
+        },
+        undefined,
+        { shallow: true }
+      );
+    });
   });
 
   describe("Sunshine Details Schema", () => {

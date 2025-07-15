@@ -38,9 +38,16 @@ export function makeUseQueryState<T extends z.ZodRawShape>(
             newQuery[k as string] = Array.isArray(v) ? v.join(",") : String(v);
           }
         }
+        const updatedQuery = { ...query, ...newQuery };
+        // Remove keys that are set to null
+        for (const k of schemaKeys) {
+          if (newQueryState[k as keyof typeof newQueryState] === null) {
+            delete updatedQuery[k as string];
+          }
+        }
         const href = {
           pathname,
-          query: { ...query, ...newQuery },
+          query: updatedQuery,
         };
         replace(href, undefined, { shallow: true });
       },
