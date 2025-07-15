@@ -1,4 +1,4 @@
-import { axisBottom, axisTop, select, Selection } from "d3";
+import { axisBottom, select, Selection } from "d3";
 import { useEffect, useRef } from "react";
 
 import {
@@ -11,7 +11,6 @@ import { useFormatShortDateAuto } from "src/domain/helpers";
 
 export const AxisTime = () => {
   const bottomRef = useRef<SVGGElement>(null);
-  const topRef = useRef<SVGGElement>(null);
   const formatDateAuto = useFormatShortDateAuto();
 
   const { xScale, yScale, bounds, xUniqueValues } = useChartState() as
@@ -45,37 +44,17 @@ export const AxisTime = () => {
       .attr("fill", labelColor);
   };
 
-  const mkAxisTop = (g: Selection<SVGGElement, unknown, null, undefined>) => {
-    g.call(axisTop(xScale).ticks(0).tickSize(0));
-    g.select(".domain").attr("stroke", "#ededed");
-    g.selectAll(".tick line").attr("stroke", gridColor);
-    g.selectAll(".tick text")
-      .attr("font-size", labelFontSize)
-      .attr("font-family", fontFamily)
-      .attr("fill", labelColor);
-  };
-
   useEffect(() => {
     const bottom = select(bottomRef.current);
-    const top = select(topRef.current);
     mkAxisBottom(bottom as Selection<SVGGElement, unknown, null, undefined>);
-    mkAxisTop(top as Selection<SVGGElement, unknown, null, undefined>);
   });
 
   return (
-    <>
-      <g
-        ref={bottomRef}
-        transform={`translate(${bounds.margins.left}, ${
-          bounds.chartHeight + bounds.margins.top
-        })`}
-      />
-      <g
-        ref={topRef}
-        transform={`translate(${bounds.margins.left}, ${
-          bounds.margins.top + yScale(yScale.domain()[1])
-        })`}
-      />
-    </>
+    <g
+      ref={bottomRef}
+      transform={`translate(${bounds.margins.left}, ${
+        bounds.chartHeight + bounds.margins.top
+      })`}
+    />
   );
 };

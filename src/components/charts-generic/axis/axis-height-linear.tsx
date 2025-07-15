@@ -8,7 +8,6 @@ import {
   useChartState,
 } from "src/components/charts-generic/use-chart-state";
 import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
-import { getTextWidth } from "src/domain/helpers";
 import { getLocalizedLabel } from "src/domain/translation";
 import { useIsMobile } from "src/lib/use-mobile";
 
@@ -16,39 +15,30 @@ import { MINI_CHART_WIDTH } from "../constants";
 
 const TICK_MIN_HEIGHT = 50;
 
-export const AxisHeightLinear = ({
-  format,
-  percentage,
-}: {
+interface AxisTicksProps {
   format?: (d: number, i: number) => string;
   percentage?: boolean;
-}) => {
+  leftMargin: number;
+}
+
+const AxisTicks = ({ format, percentage, leftMargin }: AxisTicksProps) => {
   const ref = useRef<SVGGElement>(null);
 
-  const isMobile = useIsMobile();
-
-  const { yScale, yAxisLabel, bounds } = useChartState() as
+  const { yScale, bounds } = useChartState() as
     | ColumnsState
     | LinesState
     | AreasState;
 
   const ticks = Math.max(Math.min(bounds.chartHeight / TICK_MIN_HEIGHT, 4), 2);
-  const { axisLabelColor, labelColor, labelFontSize, gridColor, fontFamily } =
-    useChartTheme();
+  const { labelColor, labelFontSize, gridColor, fontFamily } = useChartTheme();
 
   const isMiniChart = bounds.width <= MINI_CHART_WIDTH;
 
   const formatTick = (d: number, i: number) =>
     percentage ? `${d}%` : format ? format(d, i) : String(d);
-  const tickValues = yScale.ticks(ticks);
-  const maxLabelWidth = Math.max(
-    ...tickValues.map((d, i) =>
-      getTextWidth(formatTick(Number(d), i), { fontSize: labelFontSize })
-    ),
-    0
-  );
 
   const mkAxis = (g: Selection<SVGGElement, unknown, null, undefined>) => {
+    const tickValues = yScale.ticks(ticks);
     const yDomain = yScale.domain();
 
     if (
@@ -61,6 +51,7 @@ export const AxisHeightLinear = ({
           : tickValues[0] - tickValues[1];
       tickValues.push(tickValues[tickValues.length - 1] + diff);
     }
+
     const axis = axisLeft(yScale)
       .tickValues(tickValues)
       .tickSizeInner(-bounds.chartWidth)
@@ -77,33 +68,67 @@ export const AxisHeightLinear = ({
       .attr("font-size", labelFontSize)
       .attr("font-family", fontFamily)
       .attr("fill", labelColor)
-      .attr("x", isMiniChart ? -bounds.margins.left - 6 : -6)
+      .attr("x", -6)
       .attr("dy", 3)
       .attr("text-anchor", "end");
   };
+
   useEffect(() => {
     const g = select(ref.current);
     mkAxis(g as Selection<SVGGElement, unknown, null, undefined>);
   });
 
-  const leftMargin = bounds.margins.left + maxLabelWidth + 8;
+  return (
+    <g
+      ref={ref}
+      transform={`translate(${leftMargin}, ${bounds.margins.top})`}
+    />
+  );
+};
+
+interface AxisLabelProps {
+  yAxisLabel?: string;
+}
+
+const AxisLabel = ({ yAxisLabel }: AxisLabelProps) => {
+  const isMobile = useIsMobile();
+  const { bounds } = useChartState() as ColumnsState | LinesState | AreasState;
+  const { axisLabelColor, labelFontSize } = useChartTheme();
+
+  return (
+    <g>
+      <text
+        x={0}
+        y={isMobile ? bounds.margins.top / 2 - labelFontSize : 0}
+        dy={bounds.margins.top / 2 - labelFontSize / 2}
+        fontSize={labelFontSize}
+        fill={axisLabelColor}
+      >
+        {yAxisLabel && getLocalizedLabel({ id: yAxisLabel })}
+      </text>
+    </g>
+  );
+};
+
+export const AxisHeightLinear = ({
+  format,
+  percentage,
+}: {
+  format?: (d: number, i: number) => string;
+  percentage?: boolean;
+}) => {
+  const { yAxisLabel, bounds } = useChartState() as
+    | ColumnsState
+    | LinesState
+    | AreasState;
 
   return (
     <>
-      <g>
-        <text
-          x={0}
-          y={isMobile ? bounds.margins.top / 2 - labelFontSize : 0}
-          dy={bounds.margins.top / 2 - labelFontSize / 2}
-          fontSize={labelFontSize}
-          fill={axisLabelColor}
-        >
-          {yAxisLabel && getLocalizedLabel({ id: yAxisLabel })}
-        </text>
-      </g>
-      <g
-        ref={ref}
-        transform={`translate(${leftMargin}, ${bounds.margins.top})`}
+      <AxisLabel yAxisLabel={yAxisLabel} />
+      <AxisTicks
+        format={format}
+        percentage={percentage}
+        leftMargin={bounds.margins.left}
       />
     </>
   );
