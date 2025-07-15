@@ -12,6 +12,8 @@ const config: KnipConfig = {
     "e2e/common.ts",
     "lingui.config.ts",
     "src/**/*.stories.tsx",
+    // Used for debugging
+    "src/components/page-props-debug.tsx",
   ],
   project: ["src/**", "scripts/**"],
   ignore: [
@@ -53,9 +55,6 @@ const config: KnipConfig = {
 
     // Used through webpack loaders
     "raw-loader",
-
-    // Used when debugging
-    "react-inspector",
 
     // global library to auto translate po files
     "tpo-deepl",

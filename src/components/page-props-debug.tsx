@@ -6,7 +6,6 @@ import { IconClose } from "src/icons/ic-close";
 
 interface PagePropsDebugProps {}
 
-/** @knipignore */
 const PagePropsDebug: React.FC<PagePropsDebugProps> = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
