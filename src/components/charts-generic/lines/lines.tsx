@@ -6,7 +6,6 @@ import {
   useChartState,
 } from "src/components/charts-generic/use-chart-state";
 import { GenericObservation } from "src/domain/data";
-import { chartPalette } from "src/themes/palette";
 
 export const Lines = () => {
   const { getX, xScale, getY, yScale, grouped, colors, getColor, bounds } =
@@ -28,11 +27,7 @@ export const Lines = () => {
                 lineData[1].sort((a, b) => ascending(getX(a), getX(b)))
               ) as string
             }
-            color={
-              grouped.length > 1
-                ? colors(getColor(lineData[1][0]))
-                : chartPalette.categorical[0]
-            }
+            color={colors(getColor(lineData[1][0]))}
           />
         );
       })}
