@@ -96,6 +96,8 @@ export const setupDatabase = async (): Promise<void> => {
   await setupDatabaseConnection();
 
   // Decrypt Sunshine CSV data
+  await decryptSunshineCsvFile("Sunshine 2022 28.05.2025");
+  await decryptSunshineCsvFile("Sunshine 2023 28.05.2025");
   await decryptSunshineCsvFile("Sunshine 2024 28.05.2025");
   await decryptSunshineCsvFile("Sunshine 2025 28.05.2025");
   await decryptSunshineCsvFile("peer-groups");
@@ -106,6 +108,16 @@ export const setupDatabase = async (): Promise<void> => {
     "utf-8"
   );
 
+  await exec(
+    `SET VARIABLE sunshine_2022_csv_path='${getCsvDataPath(
+      "Sunshine 2022 28.05.2025.csv"
+    )}';`
+  );
+  await exec(
+    `SET VARIABLE sunshine_2023_csv_path='${getCsvDataPath(
+      "Sunshine 2023 28.05.2025.csv"
+    )}';`
+  );
   await exec(
     `SET VARIABLE sunshine_2024_csv_path='${getCsvDataPath(
       "Sunshine 2024 28.05.2025.csv"

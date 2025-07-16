@@ -7,7 +7,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language: de\n"
 "Language-Team: \n"
-"Content-Type: text/plain\n"
+"Content-Type: \n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -187,7 +187,7 @@ msgstr "Download Reports"
 
 #: src/components/detail-page/price-components-bars.tsx
 msgid "dynamic-tariffs.hint"
-msgstr "Die Preise mit den in Klammern angegebenen Werten sind dynamisch. Weitere Informationen über die Funktionsweise der dynamischen Preisgestaltung finden Sie [hier]."
+msgstr "Die Preise mit den in Klammern angegebenen Werten sind dynamisch."
 
 #: src/components/charts-generic/bars/bars-grouped.tsx
 msgid "dynamic.tariff"
@@ -415,7 +415,7 @@ msgstr "Versorgungsqualität"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.compliance.link"
-msgstr "Leistungsindikatoren"
+msgstr "Compliance"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.energy-tariff.link"
@@ -511,7 +511,7 @@ msgstr "Mehr anzeigen …"
 
 #: src/pages/map/index.tsx
 msgid "list.viewby.canton"
-msgstr ""
+msgstr "Kanton"
 
 #: src/pages/map/index.tsx
 msgid "list.viewby.label"
@@ -519,11 +519,11 @@ msgstr "Ansicht nach"
 
 #: src/pages/map/index.tsx
 msgid "list.viewby.municipality"
-msgstr ""
+msgstr "Gemeinde"
 
 #: src/pages/map/index.tsx
 msgid "list.viewby.operator"
-msgstr ""
+msgstr "Netzbetreiber"
 
 #: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.back-button"
@@ -1266,7 +1266,7 @@ msgstr "Versorgungsqualität"
 
 #: src/components/sunshine-map.tsx
 msgid "sunshine.indicator.compliance"
-msgstr "Compliance"
+msgstr "Frankenregel"
 
 #: src/components/sunshine-map.tsx
 msgid "sunshine.indicator.energyTariffs"

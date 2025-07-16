@@ -39,7 +39,7 @@
 - [ ] My PR includes only related changes
 - [ ] I have marked this PR with the appropriate label
 - [ ] I have added an entry in the changelog
-- [ ] I have run locales:compile if I changed any locale string
+- [ ] I have run locales:extract if I changed any locale string
 
 ## Notes for Reviewers
 

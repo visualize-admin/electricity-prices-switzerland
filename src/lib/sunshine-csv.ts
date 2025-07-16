@@ -32,8 +32,10 @@ const getEncryptedDataPath = (filename: string): string => {
 export const sunshineFileIds = [
   "energy",
   "peer-groups",
-  "Sunshine 2025 28.05.2025",
+  "Sunshine 2022 28.05.2025",
+  "Sunshine 2023 28.05.2025",
   "Sunshine 2024 28.05.2025",
+  "Sunshine 2025 28.05.2025",
 ] as const;
 type Id = (typeof sunshineFileIds)[number];
 
@@ -219,8 +221,8 @@ const parseSunshineCsv = <T extends Id>(id: T): ParsedRowType<T>[] => {
     bom: true,
   });
 
-  if (id === "Sunshine 2024 28.05.2025" || id === "Sunshine 2025 28.05.2025") {
-    throw new Error("Those files should not be parsed directly.");
+  if (id.startsWith("Sunshine ")) {
+    throw new Error("Sunshine files should not be parsed directly through this function.");
   }
 
   // Type assertion here is necessary because TypeScript can't infer the connection
