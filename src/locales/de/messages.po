@@ -415,7 +415,7 @@ msgstr "Versorgungsqualität"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.compliance.link"
-msgstr "Einhaltung"
+msgstr "Compliance"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.energy-tariff.link"
