@@ -7,7 +7,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language: it\n"
 "Language-Team: \n"
-"Content-Type: text/plain\n"
+"Content-Type: \n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
@@ -187,7 +187,7 @@ msgstr "Scarica i rapporti"
 
 #: src/components/detail-page/price-components-bars.tsx
 msgid "dynamic-tariffs.hint"
-msgstr "I prezzi indicati con i valori tra parentesi sono dinamici. Per maggiori informazioni sul funzionamento dei prezzi dinamici [qui]."
+msgstr "I prezzi indicati con i valori tra parentesi sono dinamici."
 
 #: src/components/charts-generic/bars/bars-grouped.tsx
 msgid "dynamic.tariff"

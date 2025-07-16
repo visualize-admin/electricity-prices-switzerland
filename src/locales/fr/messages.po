@@ -7,7 +7,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language: fr\n"
 "Language-Team: \n"
-"Content-Type: text/plain\n"
+"Content-Type: \n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
@@ -187,7 +187,7 @@ msgstr "Télécharger les rapports"
 
 #: src/components/detail-page/price-components-bars.tsx
 msgid "dynamic-tariffs.hint"
-msgstr "Les prix indiqués avec des valeurs entre parenthèses sont dynamiques. Vous trouverez plus d'informations sur le fonctionnement de la tarification dynamique [ici]."
+msgstr "Les prix indiqués avec des valeurs entre parenthèses sont dynamiques."
 
 #: src/components/charts-generic/bars/bars-grouped.tsx
 msgid "dynamic.tariff"
