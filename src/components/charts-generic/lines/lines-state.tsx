@@ -1,4 +1,3 @@
-import { useTheme } from "@mui/material";
 import {
   ascending,
   descending,
@@ -49,7 +48,6 @@ const useLinesState = ({
   fields: LineFields;
   aspectRatio: number;
 }): LinesState => {
-  const theme = useTheme();
   const { labelFontSize } = useChartTheme();
   const width = useWidth();
 

@@ -13,7 +13,7 @@ export const AxisTime = () => {
   const bottomRef = useRef<SVGGElement>(null);
   const formatDateAuto = useFormatShortDateAuto();
 
-  const { xScale, yScale, bounds, xUniqueValues } = useChartState() as
+  const { xScale, bounds, xUniqueValues } = useChartState() as
     | LinesState
     | AreasState;
 
