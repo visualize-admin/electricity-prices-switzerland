@@ -13,7 +13,8 @@ You can also check the
 
 - Fix
 
-  - Footer links can be updated through Accent
+  - Footer: Links can be updated through Accent
+  - Sushine Detail Page: SAIDI/SAIFI bar charts can be sorted correctly
 
 # 2.7.0 - 2025-07-15
 
@@ -29,7 +30,7 @@ You can also check the
 
 - Chore
 
-  - Ability to set flags at runtime without rebuilding
+  - Flags: Ability to set flags at runtime without rebuilding
 
 # 2.6.2 - 2025-07-10
 
