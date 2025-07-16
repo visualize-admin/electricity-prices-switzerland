@@ -11,6 +11,10 @@ You can also check the
 
 # Unreleased
 
+Nothing yet.
+
+# 2.8.0 - 2025-07-16
+
 - Feat
 
   - Mock data: Add data for years 2022 & 2023
