@@ -11,6 +11,11 @@ You can also check the
 
 # Unreleased
 
+- Feat
+
+  - Mock data: Add data for years 2022 & 2023
+  - Mock data: Add missing values for years 2024 & 2025
+
 - Fix
 
   - Footer links can be updated through Accent
