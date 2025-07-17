@@ -188,6 +188,7 @@ export const SunshineTopics = () => {
                     indicator: "saifi",
                   })}
                   icon={<Icon name="arrowright" />}
+                  hideBorder
                 />
               </SunshineCardContent>
             </SunshineCard>
