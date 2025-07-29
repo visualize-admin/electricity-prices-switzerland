@@ -531,7 +531,7 @@ msgstr "Zurück zu den Filtern"
 
 #: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.next-button.compliance"
-msgstr "Leistungsindikatoren im Detail"
+msgstr "Compliance im Detail"
 
 #: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.next-button.energy-prices"
