@@ -1074,7 +1074,7 @@ msgstr "Typologie"
 #: src/components/electricity-selectors.tsx
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.year"
-msgstr "Année"
+msgstr "année tarifaire"
 
 #: src/components/detail-page/selector-multi.tsx
 msgid "selector.years"

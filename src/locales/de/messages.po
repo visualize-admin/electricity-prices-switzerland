@@ -451,7 +451,7 @@ msgstr "Bild herunterladen"
 
 #: src/domain/translation.tsx
 msgid "indicator.compliance"
-msgstr "Leistungsindikatoren"
+msgstr "Compliance"
 
 #: src/domain/translation.tsx
 msgid "indicator.energyTariffs"
@@ -1074,7 +1074,7 @@ msgstr "Typologie"
 #: src/components/electricity-selectors.tsx
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.year"
-msgstr "Jahr"
+msgstr "Tarifjahr"
 
 #: src/components/detail-page/selector-multi.tsx
 msgid "selector.years"
@@ -1258,7 +1258,7 @@ msgstr "Netzkosten"
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.grid.operational-standards-title"
-msgstr " Leistungsindikatoren"
+msgstr "Leistungsindikatoren"
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.grid.power-stability-title"
@@ -1314,7 +1314,7 @@ msgstr "CHF"
 
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.operational-standards.compliance"
-msgstr "Leistungsindikatoren"
+msgstr "Compliance"
 
 #: src/domain/translation.tsx
 msgid "sunshine.operational-standards.compliance-trend"
@@ -1322,7 +1322,7 @@ msgstr "Vergleich in Franken pro Rechnungsempfänger"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.compliance.comparison-card-title"
-msgstr "Leistungsindikatoren"
+msgstr "Compliance"
 
 #: src/components/operational-standards-chart.tsx
 msgid "sunshine.operational-standards.compliance.share-of-operators"
