@@ -391,7 +391,7 @@ msgstr "Effizienz-Indikatoren"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.card.compliance.description"
-msgstr "Die Produktvielfalt spiegelt das Angebot an ökologischen Stromprodukten wider. Die Dienstleistungsqualität gibt Auskunft darüber, wie gut Kunden über geplante Netzausfälle informiert sind. Die Compliance misst, wie konsequent ein Netzbetreiber Gesetze, Vorschriften und interne Standards einhält."
+msgstr "Die Produktvielfalt spiegelt das Angebot an ökologischen Stromprodukten wider. Die Servicequalität gibt Auskunft darüber, wie gut Kunden über geplante Netzausfälle informiert sind. Die Compliance misst, wie konsequent ein Netzbetreiber Gesetze, Vorschriften und interne Standards einhält."
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.card.compliance.title"
@@ -439,7 +439,7 @@ msgstr "Häufigkeit von Stromunterbrechungen (SAIFI)"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.service-quality.link"
-msgstr "Dienstleistungsqualität"
+msgstr "Servicequalität"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.title"
@@ -475,7 +475,7 @@ msgstr "Häufigkeit von Stromunterbrechungen (SAIFI)"
 
 #: src/domain/translation.tsx
 msgid "indicator.serviceQuality"
-msgstr "Dienstleistungsqualität"
+msgstr "Servicequalität"
 
 #: src/components/list.tsx
 msgid "list.order.prices.asc"
@@ -559,7 +559,7 @@ msgstr "SAIFI im Detail"
 
 #: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.next-button.service-quality"
-msgstr "Dienstleistungsqualität im Detail"
+msgstr "Servicequalität im Detail"
 
 #: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.next-button.sunshine-overview"
@@ -1330,7 +1330,7 @@ msgstr "Anteil der Netzbetreiber"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.description"
-msgstr "Auf dieser Seite werden wichtige Kenngrössen bewertet, die Aufschluss über die Qualität der Leistungen der Stromversorgungsunternehmen geben. Zu diesen Indikatoren gehören die Produktvielfalt, die das Angebot an umweltfreundlichen und kombinierten Energieprodukten misst, die Dienstleistungsqualität, die bewertet, wie gut die Unternehmen ihre Verbraucher über geplante Stromunterbrechungen und die Vorankündigungsfrist informieren, sowie die Compliance, die sicherstellt, dass die Regeln der ElCom zum Maximalgewinn im Vertrieb eingehalten wird und die offiziellen Dokumente fristgerecht bei der Eidgenössischen Elektrizitätskommission (ElCom) eingereicht werden."
+msgstr "Auf dieser Seite werden wichtige Kenngrössen bewertet, die Aufschluss über die Qualität der Leistungen der Stromversorgungsunternehmen geben. Zu diesen Indikatoren gehören die Produktvielfalt, die das Angebot an umweltfreundlichen und kombinierten Energieprodukten misst, die Servicequalität, die bewertet, wie gut die Unternehmen ihre Verbraucher über geplante Stromunterbrechungen und die Vorankündigungsfrist informieren, sowie die Compliance, die sicherstellt, dass die Regeln der ElCom zum Maximalgewinn im Vertrieb eingehalten wird und die offiziellen Dokumente fristgerecht bei der Eidgenössischen Elektrizitätskommission (ElCom) eingereicht werden."
 
 #: src/domain/translation.tsx
 msgid "sunshine.operational-standards.product-variety-trend"
@@ -1338,7 +1338,7 @@ msgstr "Vergleich des Angebots an Energieprodukten unterschiedlicher ökologisch
 
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.operational-standards.service-quality"
-msgstr "Dienstleistungsqualität"
+msgstr "Servicequalität"
 
 #: src/domain/translation.tsx
 msgid "sunshine.operational-standards.service-quality-trend"
@@ -1346,7 +1346,7 @@ msgstr "Vergleich der Vorankündigungsfristen für geplante Ausfälle"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.service-quality.comparison-card-title"
-msgstr "Dienstleistungsqualität"
+msgstr "Servicequalität"
 
 #: src/components/operational-standards-chart.tsx
 msgid "sunshine.operational-standards.service-quality.share-of-operators"
