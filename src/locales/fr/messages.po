@@ -1078,7 +1078,7 @@ msgstr "année tarifaire"
 
 #: src/components/detail-page/selector-multi.tsx
 msgid "selector.years"
-msgstr "Années"
+msgstr "années tarifaires"
 
 #: src/components/share-button.tsx
 msgid "share.url-copied"

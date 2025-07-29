@@ -1078,7 +1078,7 @@ msgstr "Tarifjahr"
 
 #: src/components/detail-page/selector-multi.tsx
 msgid "selector.years"
-msgstr "Jahre"
+msgstr "Tarifjahre"
 
 #: src/components/share-button.tsx
 msgid "share.url-copied"
