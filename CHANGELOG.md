@@ -11,7 +11,9 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Fix
+
+  - Ascending and descending labels are translated when switching languages on the map page
 
 # 2.8.0 - 2025-07-16
 
