@@ -1074,11 +1074,11 @@ msgstr "Tipologia"
 #: src/components/electricity-selectors.tsx
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.year"
-msgstr "Anno"
+msgstr "anno tariffario"
 
 #: src/components/detail-page/selector-multi.tsx
 msgid "selector.years"
-msgstr "Anni"
+msgstr "anni tariffari"
 
 #: src/components/share-button.tsx
 msgid "share.url-copied"
