@@ -6,6 +6,7 @@ import {
   type SunshineDataByIndicatorQuery,
   type SunshineDataByIndicatorQueryVariables,
 } from "src/graphql/queries";
+import { SUNSHINE_DATA_SERVICE_COOKIE_NAME } from "src/lib/sunshine-data-service-context";
 
 const GRAPHQL_BASE_URL =
   process.env.GRAPHQL_BASE_URL || "http://localhost:3000/api/graphql";
@@ -38,6 +39,11 @@ beforeAll(async () => {
 const client = new Client({
   url: GRAPHQL_BASE_URL,
   exchanges: [fetchExchange],
+  fetchOptions: {
+    headers: {
+      cookie: `${SUNSHINE_DATA_SERVICE_COOKIE_NAME}=sql`,
+    },
+  },
 });
 
 async function executeGraphQLQuery(
@@ -184,7 +190,7 @@ describe("GraphQL API Integration Tests", () => {
                   "value": 1930.849802,
                 },
               ],
-              "median": 13577.26056,
+              "median": 13386.626685,
             },
           },
         }
@@ -383,7 +389,7 @@ describe("GraphQL API Integration Tests", () => {
                   "value": 12034.61858,
                 },
               ],
-              "median": 11485.86923,
+              "median": 11449.055805,
             },
           },
         }
@@ -471,14 +477,14 @@ describe("GraphQL API Integration Tests", () => {
                   "operatorId": 3,
                   "operatorUID": "CHE-112.591.057",
                   "period": "2025",
-                  "value": 14.345883333333333,
+                  "value": 14.345883333333331,
                 },
                 {
                   "name": "AEW Energie AG",
                   "operatorId": 5,
                   "operatorUID": "CHE-105.981.944",
                   "period": "2025",
-                  "value": 10.517333333333333,
+                  "value": 10.517333333333331,
                 },
               ],
               "median": 10.570666666666668,
@@ -628,7 +634,7 @@ describe("GraphQL API Integration Tests", () => {
                   "value": 13.981714285714284,
                 },
               ],
-              "median": 14.579142857142857,
+              "median": 14.579142857142859,
             },
           },
         }
@@ -677,7 +683,7 @@ describe("GraphQL API Integration Tests", () => {
                   "value": 12034.61858,
                 },
               ],
-              "median": 11485.86923,
+              "median": 11449.055805,
             },
           },
         }
