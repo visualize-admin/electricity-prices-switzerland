@@ -11,8 +11,6 @@ import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
 import { getLocalizedLabel } from "src/domain/translation";
 import { useIsMobile } from "src/lib/use-mobile";
 
-import { MINI_CHART_WIDTH } from "../constants";
-
 const TICK_MIN_HEIGHT = 50;
 
 interface AxisTicksProps {
@@ -31,11 +29,6 @@ const AxisTicks = ({ format, percentage, leftMargin }: AxisTicksProps) => {
 
   const ticks = Math.max(Math.min(bounds.chartHeight / TICK_MIN_HEIGHT, 4), 2);
   const { labelColor, labelFontSize, gridColor, fontFamily } = useChartTheme();
-
-  const isMiniChart = bounds.width <= MINI_CHART_WIDTH;
-
-  const formatTick = (d: number, i: number) =>
-    percentage ? `${d}%` : format ? format(d, i) : String(d);
 
   const mkAxis = (g: Selection<SVGGElement, unknown, null, undefined>) => {
     const tickValues = yScale.ticks(ticks);

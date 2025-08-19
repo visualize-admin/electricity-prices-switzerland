@@ -11,7 +11,8 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Fix
+  - Correctly fetch indicator median from SPARQL
 
 # 2.8.2 - 2025-08-19
 
