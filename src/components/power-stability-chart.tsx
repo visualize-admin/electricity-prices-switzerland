@@ -251,16 +251,18 @@ const LatestYearChartView = (
           state={sortByItem}
           handleClick={setSortByItem}
         />
-        <SortableLegendItem<PowerStabilitySortableType>
-          item={t({
-            id: "power-stability-trend-chart.sortable-legend-item.total",
-            message: "Total",
-          })}
-          color={palette.text.primary}
-          value="total"
-          state={sortByItem}
-          handleClick={setSortByItem}
-        />
+        {overallOrRatio !== "ratio" && (
+          <SortableLegendItem<PowerStabilitySortableType>
+            item={t({
+              id: "power-stability-trend-chart.sortable-legend-item.total",
+              message: "Total",
+            })}
+            color={palette.text.primary}
+            value="total"
+            state={sortByItem}
+            handleClick={setSortByItem}
+          />
+        )}
       </Box>
       <ChartContainer>
         <ChartSvg>
