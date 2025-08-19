@@ -274,9 +274,9 @@ const LatestYearChartView = (
           />
           <BarsStacked />
           <BarsStackedAxis />
-          <AnnotationX />
+          {overallOrRatio !== "ratio" && <AnnotationX />}
         </ChartSvg>
-        <AnnotationXLabel />
+        {overallOrRatio !== "ratio" && <AnnotationXLabel />}
       </ChartContainer>
     </StackedBarsChart>
   );
