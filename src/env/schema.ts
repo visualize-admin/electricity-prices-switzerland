@@ -83,4 +83,9 @@ export const serverSchema = z.object({
     .optional()
     .default("false")
     .transform((value) => value === "true"),
+
+  SUNSHINE_DEFAULT_SERVICE: z
+    .union([z.literal("sparql"), z.literal("sql")])
+    .optional()
+    .default("sparql"),
 });
