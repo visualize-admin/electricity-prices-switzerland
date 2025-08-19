@@ -12,11 +12,18 @@ You can also check the
 # Unreleased
 
 - Fix
+
   - Correctly fetch indicator median from SPARQL
+  - Made dots on dot chart correct hovering color when multiple operators are selected
+
+- Maintenance
+
+  - Added dot chart Storybook
 
 # 2.8.2 - 2025-08-19
 
 - Fix
+
   - Vulnerability on form-data library
 
 # 2.8.1 - 2025-08-19
