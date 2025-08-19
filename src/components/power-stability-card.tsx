@@ -55,7 +55,10 @@ type PowerStabilityCardProps = {
 } & CardProps;
 
 const getPowerStabilityCardState = (
-  props: Omit<PowerStabilityCardProps, "cardTitle" | "infoDialogProps">,
+  props: Omit<
+    PowerStabilityCardProps,
+    "cardTitle" | "infoDialogProps" | "state" | "setQueryState"
+  >,
   filters: PowerStabilityCardFilters
 ) => {
   const {
@@ -383,7 +386,10 @@ export const PowerStabilityCard: React.FC<PowerStabilityCardProps> = (
 };
 
 export const PowerStabilityCardMinified: React.FC<
-  Omit<PowerStabilityCardProps, "infoDialogProps"> & {
+  Omit<
+    PowerStabilityCardProps,
+    "infoDialogProps" | "state" | "setQueryState"
+  > & {
     linkContent?: ReactNode;
     filters?: PowerStabilityCardFilters;
     cardDescription?: ReactNode;
