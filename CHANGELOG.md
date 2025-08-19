@@ -13,9 +13,15 @@ You can also check the
 
 Nothing yet.
 
+# 2.8.2 - 2025-08-19
+
+- Fix
+  - Vulnerability on form-data library
+
 # 2.8.1 - 2025-08-19
 
 - Fix
+
   - Prevents cache contamination in Apollo Response Cache
   - Disable URQL hydration (due to potentially confusing behavior with build time rendering)
 
