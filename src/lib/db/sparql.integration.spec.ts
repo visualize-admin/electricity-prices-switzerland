@@ -320,10 +320,12 @@ describe("SPARQL Sunshine Data Service", () => {
       });
 
       expect(result).toMatchInlineSnapshot(`
-        {
-          "median_value": 16062.819,
-          "network_level": "NE5",
-        }
+        [
+          {
+            "median_value": 16062.819,
+            "network_level": "NE5",
+          },
+        ]
       `);
     });
 
@@ -335,12 +337,14 @@ describe("SPARQL Sunshine Data Service", () => {
       });
 
       expect(result).toMatchInlineSnapshot(`
-        {
-          "median_saidi_total": 11.11,
-          "median_saidi_unplanned": 7.07,
-          "median_saifi_total": 3.03,
-          "median_saifi_unplanned": 1.01,
-        }
+        [
+          {
+            "median_saidi_total": 11.11,
+            "median_saidi_unplanned": 7.07,
+            "median_saifi_total": 3.03,
+            "median_saifi_unplanned": 1.01,
+          },
+        ]
       `);
     });
 
@@ -352,11 +356,13 @@ describe("SPARQL Sunshine Data Service", () => {
       });
 
       expect(result).toMatchInlineSnapshot(`
-        {
-          "median_franc_rule": 75.313,
-          "median_info_days": 7,
-          "median_timely": 0,
-        }
+        [
+          {
+            "median_franc_rule": 75.313,
+            "median_info_days": 7,
+            "median_timely": 0,
+          },
+        ]
       `);
     });
 
@@ -368,11 +374,13 @@ describe("SPARQL Sunshine Data Service", () => {
       });
 
       expect(result).toMatchInlineSnapshot(`
-        {
-          "category": "C2",
-          "median_rate": 15.496,
-          "tariff_type": "energy",
-        }
+        [
+          {
+            "category": "C2",
+            "median_rate": 15.496,
+            "tariff_type": "energy",
+          },
+        ]
       `);
     });
 
@@ -384,11 +392,13 @@ describe("SPARQL Sunshine Data Service", () => {
       });
 
       expect(result).toMatchInlineSnapshot(`
-        {
-          "category": "C2",
-          "median_rate": 10.945,
-          "tariff_type": "network",
-        }
+        [
+          {
+            "category": "C2",
+            "median_rate": 10.945,
+            "tariff_type": "network",
+          },
+        ]
       `);
     });
   });
