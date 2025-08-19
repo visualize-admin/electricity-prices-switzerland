@@ -198,7 +198,7 @@ export const SortableLegendItem = <T extends string>({
       }}
       display="flex"
     >
-      <LegendSymbol color={color} symbol={"arrow"} />
+      {value === state && <LegendSymbol color={color} symbol={"arrow"} />}
     </Box>
   </Box>
 );

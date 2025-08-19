@@ -216,19 +216,13 @@ const LatestYearChartView = (
         }}
         display="flex"
       >
-        <Box
-          sx={{
-            mr: `${maxYLabelWidth - SORTABLE_GRID_ITEM_WIDTH}px`,
-          }}
-        >
-          <SortableLegendItem
-            item={gridOperatorsLabel}
-            color={palette.text.primary}
-            value={"operator"}
-            state={sortByItem}
-            handleClick={setSortByItem}
-          />
-        </Box>
+        <SortableLegendItem<PowerStabilitySortableType>
+          item={gridOperatorsLabel}
+          color={palette.text.primary}
+          value={"operator"}
+          state={sortByItem}
+          handleClick={setSortByItem}
+        />
 
         <SortableLegendItem<PowerStabilitySortableType>
           item={t({
