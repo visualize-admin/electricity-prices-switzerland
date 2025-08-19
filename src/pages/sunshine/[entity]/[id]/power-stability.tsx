@@ -16,7 +16,7 @@ import {
 } from "src/components/detail-page/layout";
 import { DetailsPageSidebar } from "src/components/detail-page/sidebar";
 import PeerGroupCard from "src/components/peer-group-card";
-import { PowerStabilityCard } from "src/components/power-stability-card";
+import { PowerStabilityCardState } from "src/components/power-stability-card";
 import { SunshineDataServiceDebug } from "src/components/sunshine-data-service-debug";
 import {
   PowerStabilityNavigation,
@@ -230,7 +230,7 @@ const Saidi = (props: Extract<Props, { status: "found" }>) => {
           sx={{ gridArea: "comparison" }}
         />
 
-        <PowerStabilityCard
+        <PowerStabilityCardState
           latestYear={Number(latestYear)}
           sx={{ gridArea: "trend" }}
           peerGroup={peerGroup}
@@ -355,7 +355,7 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
           sx={{ gridArea: "comparison" }}
         />
 
-        <PowerStabilityCard
+        <PowerStabilityCardState
           latestYear={Number(latestYear)}
           sx={{ gridArea: "trend" }}
           peerGroup={peerGroup}
