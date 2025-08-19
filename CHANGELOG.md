@@ -11,7 +11,12 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Fix
+  - Prevents cache contamination in Apollo Response Cache
+  - Disable URQL hydration (due to potentially confusing behavior with build time rendering)
+
+- Feat
+  - Default service is SPARQL
 
 # 2.8.0 - 2025-07-16
 
