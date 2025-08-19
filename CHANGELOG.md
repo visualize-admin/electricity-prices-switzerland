@@ -11,6 +11,10 @@ You can also check the
 
 # Unreleased
 
+Nothing yet.
+
+# 2.8.1 - 2025-08-19
+
 - Fix
   - Prevents cache contamination in Apollo Response Cache
   - Disable URQL hydration (due to potentially confusing behavior with build time rendering)
