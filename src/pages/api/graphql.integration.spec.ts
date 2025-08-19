@@ -26,7 +26,10 @@ const performHealthCheck = (graphqlEndpoint: string) => {
       return response.json();
     })
     .catch((error) => {
-      console.error("Error performing health check:", error);
+      console.error(
+        `Error performing health check (endpoint: ${graphqlEndpoint}):`,
+        error
+      );
       throw error;
     });
 };
