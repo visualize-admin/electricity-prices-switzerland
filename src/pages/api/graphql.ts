@@ -16,6 +16,7 @@ import assert from "src/lib/assert";
 import { metricsPlugin } from "src/pages/api/metricsPlugin";
 import { runMiddleware } from "src/pages/api/run-middleware";
 import { createLogMiddleware } from "src/pages/api/log-middleware";
+import { getSunshineDataServiceFromCookies } from "src/lib/sunshine-data-service-context";
 
 assert(!!serverEnv, "serverEnv is not defined");
 
@@ -37,7 +38,15 @@ const server = new ApolloServer({
       // Cache everything for 1 second by default.
       defaultMaxAge: 1,
     }),
-    responseCachePlugin(),
+    responseCachePlugin({
+      extraCacheKeyData: async (ctx) => {
+        const service = getSunshineDataServiceFromCookies(
+          ctx.request.http?.headers.get("cookie")
+        );
+        const cacheKey = `sunshine-data-service:${service}`;
+        return cacheKey;
+      },
+    }),
   ],
 });
 
