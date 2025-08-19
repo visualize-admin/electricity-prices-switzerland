@@ -11,11 +11,25 @@ import { SUNSHINE_DATA_SERVICE_COOKIE_NAME } from "src/lib/sunshine-data-service
 const GRAPHQL_BASE_URL =
   process.env.GRAPHQL_BASE_URL || "http://localhost:3000/api/graphql";
 
+const headers = {
+  cookie: `${SUNSHINE_DATA_SERVICE_COOKIE_NAME}=sql`,
+
+  ...(process.env.BASIC_AUTH_CREDENTIALS
+    ? {
+        // basic auth
+        authorization: `Basic ${Buffer.from(
+          `${process.env.BASIC_AUTH_CREDENTIALS}`
+        ).toString("base64")}`,
+      }
+    : {}),
+};
+
 const performHealthCheck = (graphqlEndpoint: string) => {
   return fetch(graphqlEndpoint, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      ...headers,
     },
     body: JSON.stringify({ query: "{ __typename }" }),
   })
@@ -43,9 +57,7 @@ const client = new Client({
   url: GRAPHQL_BASE_URL,
   exchanges: [fetchExchange],
   fetchOptions: {
-    headers: {
-      cookie: `${SUNSHINE_DATA_SERVICE_COOKIE_NAME}=sql`,
-    },
+    headers,
   },
 });
 
