@@ -170,7 +170,7 @@ const useScatterPlotState = ({
         tooltipValues.push({
           label: getSegment(d),
           value: `${formatCurrency(getX(d))} ${xAxisLabel ? xAxisLabel : ""}`,
-          color: chartPalette.categorical[2],
+          color: colors(getColor(d)),
           symbol: "circle",
         });
       }
@@ -193,6 +193,8 @@ const useScatterPlotState = ({
       xScale,
       yScale,
       formatCurrency,
+      colors,
+      getColor,
       fields.style,
       xAxisLabel,
     ]
@@ -215,6 +217,7 @@ const useScatterPlotState = ({
     xAxisLabel,
     yAxisLabel,
     medianValue,
+    highlightedValue: fields.style?.highlightValue ?? null,
   };
 };
 

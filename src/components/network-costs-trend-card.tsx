@@ -45,7 +45,7 @@ export type NetworkCostsTrendCardFilters = {
 };
 
 const getNetworkCostsTrendCardState = (
-  props: NetworkCostsTrendCardProps,
+  props: Omit<NetworkCostsTrendCardProps, "state" | "setQueryState">,
   filters: NetworkCostsTrendCardFilters
 ) => {
   const {
@@ -256,7 +256,10 @@ export const NetworkCostsTrendCard: React.FC<NetworkCostsTrendCardProps> = (
 };
 
 export const NetworkCostsTrendCardMinified: React.FC<
-  Omit<NetworkCostsTrendCardProps, "infoDialogProps"> & {
+  Omit<
+    NetworkCostsTrendCardProps,
+    "infoDialogProps" | "state" | "setQueryState"
+  > & {
     linkContent?: ReactNode;
     filters?: NetworkCostsTrendCardFilters;
     cardDescription?: ReactNode;
@@ -268,6 +271,7 @@ export const NetworkCostsTrendCardMinified: React.FC<
   });
   const { viewBy } = state;
   const chartData = getNetworkCostsTrendCardState(rest, state);
+
   return (
     <Card {...rest}>
       <CardContent

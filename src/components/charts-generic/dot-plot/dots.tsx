@@ -9,8 +9,18 @@ import { chartPalette, palette } from "src/themes/palette";
 import { useInteraction } from "../use-interaction";
 
 export const Dots = () => {
-  const { data, getX, getY, xScale, yScale, bounds, getHighlightEntity } =
-    useChartState() as DotPlotState;
+  const {
+    data,
+    getX,
+    getY,
+    xScale,
+    yScale,
+    bounds,
+    getHighlightEntity,
+    highlightedValue,
+    colors,
+    getColor,
+  } = useChartState() as DotPlotState;
 
   const [interaction] = useInteraction();
   const hovered = interaction.interaction?.d;
@@ -22,10 +32,6 @@ export const Dots = () => {
       cy: (yScale(getY(d)) || 0) + yScale.bandwidth() / 2,
     }));
   }, [data, getX, getY, xScale, yScale]);
-
-  const highlightedValue = useMemo(() => {
-    return data.length > 0 ? getHighlightEntity(data[0]) : null;
-  }, [data, getHighlightEntity]);
 
   const regularDots = dotProps.filter(
     ({ d }) =>
@@ -87,7 +93,7 @@ export const Dots = () => {
           key="hovered"
           cx={hoveredDot.cx}
           cy={hoveredDot.cy}
-          color={chartPalette.categorical[2]}
+          color={colors(getColor(hoveredDot.d))}
           opacity={1}
         />
       )}

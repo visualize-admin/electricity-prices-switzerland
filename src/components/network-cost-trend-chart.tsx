@@ -62,8 +62,14 @@ const LatestYearChartView = (
     operatorsNames: Set<string>;
   }
 ) => {
-  const { observations, networkCosts, id, operatorLabel, operatorsNames } =
-    props;
+  const {
+    observations,
+    networkCosts,
+    id,
+    operatorLabel,
+    operatorsNames,
+    compareWith,
+  } = props;
 
   return (
     <DotPlot
@@ -84,7 +90,9 @@ const LatestYearChartView = (
         y: { componentIri: "network_level" },
         segment: {
           componentIri: "operator_name",
-          palette: "elcom",
+          palette: compareWith?.includes("sunshine.select-all")
+            ? "elcom-categorical-3"
+            : "elcom2",
         },
         style: {
           entity: "operator_id",

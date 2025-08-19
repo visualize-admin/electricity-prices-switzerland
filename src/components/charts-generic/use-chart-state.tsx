@@ -196,6 +196,7 @@ export interface DotPlotState {
   getAnnotationInfo: (d: GenericObservation) => Tooltip;
   getColor: (d: GenericObservation) => string;
   getHighlightEntity: (d: GenericObservation) => string | number | null;
+  highlightedValue: string | number | null;
   getTooltipLabel: (d: GenericObservation) => string;
   medianValue?: number;
   xAxisLabel?: string;

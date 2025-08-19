@@ -182,6 +182,8 @@ export const getPalette = (
       return [themePalette.monochrome[100]];
     case "elcom-categorical-2":
       return [chartPalette.categorical[1]];
+    case "elcom-categorical-3":
+      return [chartPalette.categorical[2]];
     default:
       return schemeCategory10;
   }
