@@ -504,7 +504,7 @@ const getYearlyIndicatorMedians = async <
   params: IndicatorMedianParams
 ) => {
   const { peerGroup, metric, period } = params;
-  const periodFilter = period
+  const periodPredicate = period
     ? `:period "${period}"^^xsd:gYear`
     : `:period ?period`;
 
@@ -513,11 +513,11 @@ const getYearlyIndicatorMedians = async <
     : "";
 
   // Handle optional peer group
-  const peerGroupFilter = peerGroup
+  const peerGroupValues = peerGroup
     ? `VALUES ?group { <https://energy.ld.admin.ch/elcom/electricityprice/group/${peerGroup}> }`
-    : "";
+    : "VALUES ?group { <https://energy.ld.admin.ch/elcom/electricityprice/group/alle%20EVU> }";
 
-  const peerGroupConstraint = peerGroup ? `:group ?group ;` : "";
+  const peerGroupPredicate = `:group ?group ;`;
 
   // Query the median cubes based on the metric type
   let query = "";
@@ -533,15 +533,15 @@ const getYearlyIndicatorMedians = async <
         PREFIX schema: <http://schema.org/>
         PREFIX : <https://energy.ld.admin.ch/elcom/sunshine/dimension/>
         
-        SELECT ?gridcost_${networkLevel?.toLowerCase()}
+        SELECT ?period ?group ?gridcost_${networkLevel?.toLowerCase()}
         WHERE {
-         ${peerGroupFilter}
+         ${peerGroupValues}
           ${cube} cube:observationSet/cube:observation ?obs .
 
           ${periodValues}
           ?obs
-            ${peerGroupConstraint}
-            ${periodFilter} ;
+            ${peerGroupPredicate}
+            ${periodPredicate} ;
             :gridcost_${networkLevel?.toLowerCase()} ?gridcost_${networkLevel?.toLowerCase()} .
           
         }
@@ -557,15 +557,15 @@ const getYearlyIndicatorMedians = async <
         PREFIX schema: <http://schema.org/>
         PREFIX : <https://energy.ld.admin.ch/elcom/sunshine/dimension/>
         
-        SELECT ?saidi_total ?saidi_unplanned ?saifi_total ?saifi_unplanned
+        SELECT ?period ?group ?saidi_total ?saidi_unplanned ?saifi_total ?saifi_unplanned
         WHERE {
           ${cube} cube:observationSet/cube:observation ?obs .
-         ${peerGroupFilter}
+         ${peerGroupValues}
 
           ${periodValues}
           ?obs
-            ${peerGroupConstraint}
-            ${periodFilter} ;
+            ${peerGroupPredicate}
+            ${periodPredicate} ;
             :saidi_total ?saidi_total ;
             :saidi_unplanned ?saidi_unplanned ;
             :saifi_total ?saifi_total ;
@@ -583,15 +583,15 @@ const getYearlyIndicatorMedians = async <
         PREFIX schema: <http://schema.org/>
         PREFIX : <https://energy.ld.admin.ch/elcom/sunshine/dimension/>
         
-        SELECT ?franken_regel ?days_in_advance ?in_time
+        SELECT ?period ?group ?franken_regel ?days_in_advance ?in_time
         WHERE {
           ${cube} cube:observationSet/cube:observation ?obs .
-          ${peerGroupFilter}
+          ${peerGroupValues}
 
           ${periodValues}
           ?obs
-            ${peerGroupConstraint}
-            ${periodFilter} ;
+            ${peerGroupPredicate}
+            ${periodPredicate} ;
             :franken_regel ?franken_regel ;
             :days_in_advance ?days_in_advance ;
             :in_time ?in_time .
@@ -610,15 +610,15 @@ const getYearlyIndicatorMedians = async <
         PREFIX schema: <http://schema.org/>
         PREFIX : <https://energy.ld.admin.ch/elcom/sunshine/dimension/>
         
-        SELECT ?${isEnergy ? "energy" : "gridusage"}
+        SELECT ?period ?group ?${isEnergy ? "energy" : "gridusage"}
         WHERE {
           ${cube} cube:observationSet/cube:observation ?obs .
-         ${peerGroupFilter}
+         ${peerGroupValues}
 
           ${periodValues}
           ?obs
-            ${peerGroupConstraint}
-            ${periodFilter} ;
+            ${peerGroupPredicate}
+            ${periodPredicate} ;
             :category <${addNamespaceToID({
               dimension: "category",
               id: category!,
@@ -644,7 +644,7 @@ const getYearlyIndicatorMedians = async <
     return [];
   }
 
-  const extractPeerGroup = (result: Record<string, string>) => {
+  const extractSpecific = (result: Record<string, string>) => {
     // Map results based on metric type
     switch (metric) {
       case "network_costs": {
@@ -699,7 +699,11 @@ const getYearlyIndicatorMedians = async <
     }
   };
 
-  return results.map((r) => extractPeerGroup(r));
+  return results.map((r) => ({
+    ...extractSpecific(r),
+    period: parseInt(r.period || "0", 10),
+    group: r.group || "unknown",
+  }));
 };
 
 const getLatestYearSunshine = async (operatorId: number): Promise<number> => {
