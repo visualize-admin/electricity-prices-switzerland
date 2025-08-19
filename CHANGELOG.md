@@ -11,7 +11,9 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Fix
+
+  - Improved Ratio view on Power Stability Charts
 
 # 2.8.0 - 2025-07-16
 
