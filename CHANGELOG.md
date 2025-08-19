@@ -15,6 +15,10 @@ You can also check the
 
   - Improved Ratio view on Power Stability Charts
 
+- Maintenance
+
+  - Added Power Stability chart card to storybook
+
 # 2.8.2 - 2025-08-19
 
 - Fix
