@@ -49,7 +49,7 @@ test.describe("The Home Page", () => {
     await page.goto("/en?flag__sunshine=true");
     const links = [
       "Network Costs",
-      "Net Tariffs",
+      "Grid Tariffs",
       "Energy Tariffs",
       "Power Outage Duration (SAIDI)",
       "Power Outage Frequency (SAIFI)",
