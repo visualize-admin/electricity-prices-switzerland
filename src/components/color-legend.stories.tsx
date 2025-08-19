@@ -28,6 +28,11 @@ const meta: Meta<typeof MapColorLegend> = {
   argTypes: {
     id: { control: "text" },
     title: { control: "text" },
+    mode: {
+      control: "select",
+      options: ["minMedianMax", "yesNo"],
+      defaultValue: "minMedianMax",
+    },
     ticks: { control: "object" },
     infoDialogButtonProps: { control: "object" },
   },
@@ -42,6 +47,7 @@ export const Default: Story = {
   args: {
     id: "map-legend",
     title: "Price Distribution",
+    mode: "minMedianMax",
     ticks: [
       { value: 100, label: "$100" },
       { value: 250, label: "$250" },
@@ -52,10 +58,23 @@ export const Default: Story = {
   },
 };
 
+export const YesNoMode: Story = {
+  args: {
+    id: "map-legend-yesno",
+    title: "Service Quality",
+    mode: "yesNo",
+    ticks: [
+      { value: 0, label: "Not compliant" },
+      { value: 1, label: "Compliant" },
+    ],
+  },
+};
+
 export const EmptyTicks: Story = {
   args: {
     id: "map-legend-empty",
     title: "No Data Available",
+    mode: "minMedianMax",
     ticks: [
       { value: undefined, label: "" },
       { value: undefined, label: "" },
@@ -68,6 +87,7 @@ export const LongTitle: Story = {
   args: {
     id: "map-legend-long-title",
     title: "Very Long Legend Title That Might Need Truncation",
+    mode: "minMedianMax",
     ticks: [
       { value: 1000, label: "$1,000" },
       { value: 5000, label: "$5,000" },
