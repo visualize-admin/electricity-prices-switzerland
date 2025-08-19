@@ -43,24 +43,22 @@ export const HorizontalBarChartCard = () => {
       title="Power Stability Card"
       reference="ElCom Library (Sunshine Indicators)"
     >
-      <DesignGrid>
-        <PowerStabilityCard
-          state={state}
-          setQueryState={(newState) =>
-            newState && setQueryState((prev) => ({ ...prev, ...newState }))
-          }
-          peerGroup={{
-            energyDensity: "na",
-            settlementDensity: "unknown",
-          }}
-          updateDate={data.saidi.yearlyData[0].year.toString()}
-          latestYear={2024}
-          operatorId="11"
-          operatorLabel="Elektrizitätswerk des Kantons Schaffhausen AG"
-          observations={data.saidi.yearlyData.filter((x) => x.year === 2024)}
-          cardTitle="Average Power Outage Frequency (SAIFI)"
-        />
-      </DesignGrid>
+      <PowerStabilityCard
+        state={state}
+        setQueryState={(newState) =>
+          newState && setQueryState((prev) => ({ ...prev, ...newState }))
+        }
+        peerGroup={{
+          energyDensity: "na",
+          settlementDensity: "unknown",
+        }}
+        updateDate={data.saidi.yearlyData[0].year.toString()}
+        latestYear={2024}
+        operatorId="11"
+        operatorLabel="Elektrizitätswerk des Kantons Schaffhausen AG"
+        observations={data.saidi.yearlyData.filter((x) => x.year === 2024)}
+        cardTitle="Average Power Outage Frequency (SAIFI)"
+      />
     </DesignStory>
   );
 };
