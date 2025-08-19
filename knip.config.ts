@@ -34,6 +34,8 @@ const config: KnipConfig = {
     "open",
     // Used for managing mock data, available via nix
     "duckdb",
+    // Used for scripts
+    "tsx",
   ],
   ignoreUnresolved: [
     // Used in package.json:scripts:start to configure HTTP_PROXY.

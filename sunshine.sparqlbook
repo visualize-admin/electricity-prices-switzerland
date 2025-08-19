@@ -8,25 +8,37 @@
   {
     "kind": 1,
     "language": "markdown",
-    "value": "Sunshine indicators are measure dimensions of observations in the cube `<https://energy.ld.admin.ch/elcom/sunshine>`.\n\nThe following query returns SAIDI indicators for a specific year and operator:",
+    "value": "Sunshine indicators are measure dimensions of observations in the cube `<https://energy.ld.admin.ch/elcom/sunshine>`.\n\nThe following query returns the indicators for a specific year and operator:",
     "metadata": {}
   },
   {
     "kind": 2,
     "language": "sparql",
-    "value": "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nPREFIX cube: <https://cube.link/>\nPREFIX : <https://energy.ld.admin.ch/elcom/sunshine/dimension/>\n\nSELECT ?saidi_total ?saidi_unplanned\nWHERE {\n  <https://energy.ld.admin.ch/elcom/sunshine> cube:observationSet/cube:observation ?obs . \n  ?obs \n    :operator <https://energy.ld.admin.ch/elcom/electricityprice/operator/94> ;\n  \t:period \"2022\"^^xsd:gYear ;\n  \t:saidi_total ?saidi_total ;\n    :saidi_unplanned ?saidi_unplanned ;\n}",
+    "value": "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nPREFIX cube: <https://cube.link/>\nPREFIX : <https://energy.ld.admin.ch/elcom/sunshine/dimension/>\n\nSELECT *\nWHERE {\n  <https://energy.ld.admin.ch/elcom/sunshine> cube:observationSet/cube:observation ?obs . \n  ?obs \n    :operator <https://energy.ld.admin.ch/elcom/electricityprice/operator/313> ;\n  \t:period \"2025\"^^xsd:gYear ;\n  \t:gridcost_ne5 ?gridcost_ne5 ;\n    :gridcost_ne6 ?gridcost_ne6 ;\n    :gridcost_ne7 ?gridcost_ne7 ;\n    :franken_regel ?franken_regel ;\n    :saidi_total ?saidi_total ;\n    :saidi_unplanned ?saidi_unplanned ;\n    :saifi_total ?saifi_total ;\n    :saifi_unplanned ?saifi_unplanned ;\n    :info ?info ;\n    :days_in_advance ?days_in_advance ;   \n    :in_time ?in_time ;\n}",
     "metadata": {}
   },
   {
     "kind": 1,
     "language": "markdown",
-    "value": "To get the same indicators across years, just replace the literal `\"2022\"^^xsd:gYear` with a variable `?period`:",
+    "value": "To get the same indicators across years, just replace the literal `\"2025\"^^xsd:gYear` with a variable `?period`:",
     "metadata": {}
   },
   {
     "kind": 2,
     "language": "sparql",
-    "value": "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nPREFIX cube: <https://cube.link/>\nPREFIX : <https://energy.ld.admin.ch/elcom/sunshine/dimension/>\n\nSELECT ?period ?saidi_total ?saidi_unplanned \nWHERE {\n  <https://energy.ld.admin.ch/elcom/sunshine> cube:observationSet/cube:observation ?obs . \n  ?obs \n    :operator <https://energy.ld.admin.ch/elcom/electricityprice/operator/94> ;\n  \t:period ?period ;\n  \t:saidi_total ?saidi_total ;\n    :saidi_unplanned ?saidi_unplanned ;\n}",
+    "value": "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nPREFIX cube: <https://cube.link/>\nPREFIX : <https://energy.ld.admin.ch/elcom/sunshine/dimension/>\n\nSELECT *\nWHERE {\n  <https://energy.ld.admin.ch/elcom/sunshine> cube:observationSet/cube:observation ?obs . \n  ?obs \n    :operator <https://energy.ld.admin.ch/elcom/electricityprice/operator/313> ;\n  \t:period ?period ;\n    :gridcost_ne5 ?gridcost_ne5 ;\n    :gridcost_ne6 ?gridcost_ne6 ;\n    :gridcost_ne7 ?gridcost_ne7 ;\n    :franken_regel ?franken_regel ;\n    :saidi_total ?saidi_total ;\n    :saidi_unplanned ?saidi_unplanned ;\n    :saifi_total ?saifi_total ;\n    :saifi_unplanned ?saifi_unplanned ;\n    :info ?info ;\n    :days_in_advance ?days_in_advance ;   \n    :in_time ?in_time ;\n}",
+    "metadata": {}
+  },
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "A separate cube `<https://energy.ld.admin.ch/elcom/sunshine-median>` contains the median values for the same indicators in `<https://energy.ld.admin.ch/elcom/sunshine>` ",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nPREFIX cube: <https://cube.link/>\nPREFIX schema: <http://schema.org/>\nPREFIX : <https://energy.ld.admin.ch/elcom/sunshine/dimension/>\n\nSELECT * \nWHERE {\n  <https://energy.ld.admin.ch/elcom/sunshine-median> cube:observationSet/cube:observation ?obs . \n  ?obs \n    :group ?group ;\n  \t:period ?period ;\n  \t:gridcost_ne5 ?gridcost_ne5 ;\n    :gridcost_ne6 ?gridcost_ne6 ;\n    :gridcost_ne7 ?gridcost_ne7 ;\n    :franken_regel ?franken_regel ;\n    :saidi_total ?saidi_total ;\n    :saidi_unplanned ?saidi_unplanned ;\n    :saifi_total ?saifi_total ;\n    :saifi_unplanned ?saifi_unplanned ;\n    :info ?info ;\n    :days_in_advance ?days_in_advance ;   \n    :in_time ?in_time .\n ?group schema:name ?group_name . FILTER(lang(?group_name) = \"de\")\n}",
     "metadata": {}
   },
   {
@@ -38,19 +50,43 @@
   {
     "kind": 2,
     "language": "sparql",
-    "value": "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nPREFIX cube: <https://cube.link/>\nPREFIX : <https://energy.ld.admin.ch/elcom/sunshine/dimension/>\n\nSELECT * \nWHERE {  \n    <https://energy.ld.admin.ch/elcom/sunshine-cat> cube:observationSet/cube:observation ?obs . \n    ?obs \n        :operator <https://energy.ld.admin.ch/elcom/electricityprice/operator/94> ;\n        :period \"2022\"^^xsd:gYear ; \n        :category ?category ;\n        :energy ?energy ;\n        :gridusage ?gridusage\n}",
+    "value": "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nPREFIX cube: <https://cube.link/>\nPREFIX : <https://energy.ld.admin.ch/elcom/sunshine/dimension/>\n\nSELECT * \nWHERE {  \n    <https://energy.ld.admin.ch/elcom/sunshine-cat> cube:observationSet/cube:observation ?obs . \n    ?obs \n        :operator <https://energy.ld.admin.ch/elcom/electricityprice/operator/313> ;\n        :period \"2025\"^^xsd:gYear ; \n        :category ?category ;\n        :energy ?energy ;\n        :gridusage ?gridusage\n}",
     "metadata": {}
   },
   {
     "kind": 1,
     "language": "markdown",
-    "value": "### Get the group of an operator (depends on the year)",
+    "value": "Yet another cube `<https://energy.ld.admin.ch/elcom/sunshine-cat-median>` has median values for the indicators that depend on the category:",
     "metadata": {}
   },
   {
     "kind": 2,
     "language": "sparql",
-    "value": "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nPREFIX cube: <https://cube.link/>\nBASE <https://energy.ld.admin.ch/elcom/>\n\nSELECT ?group\nWHERE {\n  <sunshine> cube:observationSet/cube:observation ?obs .\n  ?obs <sunshine/dimension/operator> <electricityprice/operator/355> .\n  ?obs <sunshine/dimension/period> \"2025\"^^xsd:gYear.\n  ?obs <sunshine/dimension/group> ?group .\n} ",
+    "value": "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nPREFIX cube: <https://cube.link/>\nPREFIX : <https://energy.ld.admin.ch/elcom/sunshine/dimension/>\n\nSELECT * \nWHERE {  \n    <https://energy.ld.admin.ch/elcom/sunshine-cat-median> cube:observationSet/cube:observation ?obs . \n    ?obs \n        :group ?group ;\n        :period \"2025\"^^xsd:gYear ; \n        :category ?category ;\n        :energy ?energy ;\n        :gridusage ?gridusage\n}",
+    "metadata": {}
+  },
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "The following query provides an overview of the cubes and their dimensions:",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX prov: <http://www.w3.org/ns/prov#>\nPREFIX qudt: <http://qudt.org/schema/qudt/>\nPREFIX unit: <http://qudt.org/vocab/unit/>\nPREFIX schema: <http://schema.org/>\nPREFIX sh: <http://www.w3.org/ns/shacl#>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nPREFIX cube: <https://cube.link/>\nPREFIX : <https://energy.ld.admin.ch/elcom/sunshine/dimension/>\nPREFIX elcom: <https://energy.ld.admin.ch/elcom/>\n\n\nSELECT ?cube ?type ?name ?column ?path ?nodeKind ?scaleType ?unit ?partOf ?datatype ?minInclusive ?maxInclusive\nWHERE {\n  VALUES ?cube {\n  \t<https://energy.ld.admin.ch/elcom/sunshine>\n    <https://energy.ld.admin.ch/elcom/sunshine-cat>\n    <https://energy.ld.admin.ch/elcom/sunshine-median>\n    <https://energy.ld.admin.ch/elcom/sunshine-cat-median>\n  }\n  ?cube cube:observationConstraint/sh:property ?property .\n  ?property a ?type ;\n  \tsh:path ?path ;\n   \tsh:nodeKind ?nodeKind ;\n    qudt:scaleType ?scaleType ;\n    prov:wasDerivedFrom [ rdfs:label ?column] ;\n     \n    schema:name ?name FILTER(lang(?name)='de')\n  \t\n  OPTIONAL { ?property qudt:hasUnit ?unit}\n  OPTIONAL { ?property schema:isPartOf ?partOf}\n  OPTIONAL { \n    ?property sh:datatype ?datatype \n    OPTIONAL { ?property sh:minInclusive ?minInclusive ; sh:maxInclusive ?maxInclusive}\n  }\n  \n}\n    \n",
+    "metadata": {}
+  },
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "To get the precise shape definition for a given cube, use a describe query like the following (by convention, the shape IRI is obtained appending `/shape` to the cube IRI):",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "#pragma describe.strategy CBD\ndescribe <https://energy.ld.admin.ch/elcom/sunshine-cat/shape>",
     "metadata": {}
   }
 ]

@@ -1,5 +1,6 @@
 import { GetServerSidePropsContext, NextApiRequest } from "next";
 
+import server from "src/env/server";
 import { sunshineDataServiceSparql } from "src/lib/db/sparql";
 import { sunshineDataServiceSql } from "src/lib/db/sql";
 import { SunshineDataService } from "src/lib/sunshine-data-service";
@@ -11,7 +12,7 @@ const DATABASE_SERVICE_MAP = {
 
 type DatabaseServiceKey = keyof typeof DATABASE_SERVICE_MAP;
 
-const DEFAULT_DATABASE_SERVICE_KEY = "sql";
+const DEFAULT_DATABASE_SERVICE_KEY = server.SUNSHINE_DEFAULT_SERVICE;
 
 export function getSunshineDataService(
   serviceKey: (string & {}) | DatabaseServiceKey
@@ -48,7 +49,7 @@ export function getSunshineDataServiceInfo(
   };
 }
 
-function getSunshineDataServiceFromCookies(
+export function getSunshineDataServiceFromCookies(
   cookies: string | undefined
 ): string {
   if (!cookies) {
