@@ -14,6 +14,10 @@ export const MIN_PER_YEAR = t({
   id: "sunshine.metric-unit.min-year",
   message: "Min./year",
 });
+export const PERCENT = t({
+  id: "sunshine.metric-unit.percent",
+  message: "%",
+});
 export const DAYS = t({
   id: "sunshine.metric-unit.days",
   message: "days",
