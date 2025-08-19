@@ -18,7 +18,7 @@ import { getPeerGroupLabels } from "src/domain/translation";
 
 import { CardHeader } from "./detail-page/card";
 import { Download, DownloadImage } from "./detail-page/download-image";
-import { InfoDialogButton } from "./info-dialog";
+import { InfoDialogButton, InfoDialogButtonProps } from "./info-dialog";
 import { NetworkCostTrendChart } from "./network-cost-trend-chart";
 import { CompareWithFilter, ViewByFilter } from "./power-stability-card";
 import { AllOrMultiCombobox } from "./query-combobox";
@@ -32,6 +32,11 @@ type NetworkCostsTrendCardProps = {
   operatorId: string;
   operatorLabel: string;
   latestYear: number;
+  state: ReturnType<typeof useQueryStateNetworkCostsTrendCardFilters>[0];
+  setQueryState: ReturnType<
+    typeof useQueryStateNetworkCostsTrendCardFilters
+  >[1];
+  infoDialogProps?: Pick<InfoDialogButtonProps, "slug" | "label">;
 } & CardProps;
 
 export type NetworkCostsTrendCardFilters = {
@@ -50,6 +55,7 @@ const getNetworkCostsTrendCardState = (
     operatorId,
     operatorLabel,
     latestYear,
+    infoDialogProps,
   } = props;
   const { peerGroupLabel } = getPeerGroupLabels(peerGroup);
   const { yearlyData, ...restNetworkCosts } = networkCosts;
@@ -80,13 +86,27 @@ const getNetworkCostsTrendCardState = (
     updateDate,
     operatorId,
     operatorLabel,
+    infoDialogProps,
   };
+};
+
+export const NetworkCostsTrendCardState = (
+  props: Omit<NetworkCostsTrendCardProps, "state" | "setQueryState">
+) => {
+  const [state, setQueryState] = useQueryStateNetworkCostsTrendCardFilters();
+  return (
+    <NetworkCostsTrendCard
+      {...props}
+      state={state}
+      setQueryState={setQueryState}
+    />
+  );
 };
 
 export const NetworkCostsTrendCard: React.FC<NetworkCostsTrendCardProps> = (
   props
 ) => {
-  const [state, setQueryState] = useQueryStateNetworkCostsTrendCardFilters();
+  const { state, setQueryState } = props;
   const { compareWith, viewBy } = state;
   const chartData = getNetworkCostsTrendCardState(props, state);
   const {
@@ -97,6 +117,7 @@ export const NetworkCostsTrendCard: React.FC<NetworkCostsTrendCardProps> = (
     updateDate,
     operatorId,
     operatorLabel,
+    infoDialogProps,
   } = chartData;
   return (
     <Card {...props} id={DOWNLOAD_ID}>
@@ -104,16 +125,15 @@ export const NetworkCostsTrendCard: React.FC<NetworkCostsTrendCardProps> = (
         <CardHeader
           trailingContent={
             <>
-              <InfoDialogButton
-                iconOnly
-                iconSize={24}
-                type="outline"
-                slug="help-network-costs"
-                label={t({
-                  id: "sunshine.costs-and-tariffs.network-cost-trend",
-                  message: "Network Cost Trend",
-                })}
-              />
+              {infoDialogProps && (
+                <InfoDialogButton
+                  iconOnly
+                  iconSize={24}
+                  type="outline"
+                  slug={infoDialogProps.slug}
+                  label={infoDialogProps.label}
+                />
+              )}
               <DownloadImage
                 iconOnly
                 iconSize={24}

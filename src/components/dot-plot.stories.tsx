@@ -1,8 +1,11 @@
 import data from "mocks/sunshine-costsAndTariffs-426.json";
+import { useState } from "react";
 
+import { useQueryStateNetworkCostsTrendCardFilters } from "src/domain/query-states";
 import { SunshineCostsAndTariffsData } from "src/domain/sunshine";
 
 import { NetworkCostTrendChart } from "./network-cost-trend-chart";
+import { NetworkCostsTrendCard } from "./network-costs-trend-card";
 import { DesignGrid, DesignStory } from "./storybook/base-style";
 
 export const DotPlotChart = () => {
@@ -30,8 +33,41 @@ export const DotPlotChart = () => {
   );
 };
 
+export const DotPlotChartCard = () => {
+  const networkCosts =
+    data.networkCosts as SunshineCostsAndTariffsData["networkCosts"];
+  const [state, setQueryState] = useState<
+    ReturnType<typeof useQueryStateNetworkCostsTrendCardFilters>[0]
+  >({
+    compareWith: ["sunshine.select-all"],
+    viewBy: "latest",
+  });
+  return (
+    <DesignStory
+      title="Dot Plot Chart"
+      reference="ElCom Library (Sunshine Indicators)"
+    >
+      <NetworkCostsTrendCard
+        peerGroup={{
+          energyDensity: "na",
+          settlementDensity: "unknown",
+        }}
+        operatorLabel="Elektrizitätswerk des Kantons Schaffhausen AG"
+        networkCosts={networkCosts}
+        latestYear={new Date().getFullYear()}
+        updateDate={new Date().toISOString()}
+        operatorId="11"
+        state={state}
+        setQueryState={(newState) =>
+          setQueryState((prev) => ({ ...prev, ...newState }))
+        }
+      />
+    </DesignStory>
+  );
+};
+
 const meta = {
-  component: DotPlotChart,
+  component: [DotPlotChart, DotPlotChartCard],
   title: "charts/DotPlotChart",
 };
 
