@@ -18,6 +18,7 @@ You can also check the
 - Maintenance
 
   - Added Power Stability chart card to storybook
+  - Correctly fetch indicator median from SPARQL
 
 # 2.8.2 - 2025-08-19
 

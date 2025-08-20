@@ -392,11 +392,6 @@ export const getLocalizedLabel = ({ id }: { id: string }): string => {
       });
     case "network-level.NE7.long":
       return t({ id: "network-level.NE7.long", message: `Low voltage NE7` });
-    case "network-level.NE7.description":
-      return t({
-        id: "network-level.NE7.description",
-        message: `At Network Level NE7`,
-      });
 
     case "sunshine.select-all":
       return t({
