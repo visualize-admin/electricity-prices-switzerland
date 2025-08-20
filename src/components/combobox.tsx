@@ -267,14 +267,10 @@ export const Combobox = <T extends string>({
         }}
         renderGroup={(params) => {
           return (
-            <>
-              {params.group ? (
-                <Typography variant="caption" fontWeight={700} sx={{ mx: 4 }}>
-                  {params.group}
-                </Typography>
-              ) : null}
-              {params.children}
-            </>
+            <li key={params.key}>
+              <div className="MuiAutocomplete-groupLabel">{params.group}</div>
+              <ul className="MuiAutocomplete-groupUl">{params.children}</ul>
+            </li>
           );
         }}
         renderOption={(props, option, { selected }) => (
