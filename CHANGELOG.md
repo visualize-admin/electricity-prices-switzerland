@@ -19,10 +19,20 @@ You can also check the
 
   - Added Power Stability chart card to storybook
   - Correctly fetch indicator median from SPARQL
+  - Made dots on dot chart correct hovering color when multiple operators are selected
+
+- Maintenance
+
+  - Added dot chart Storybook
+  - Dropdown design adjustments
+
+- Feat
+  - Anchor details page in order to skip large header
 
 # 2.8.2 - 2025-08-19
 
 - Fix
+
   - Vulnerability on form-data library
 
 # 2.8.1 - 2025-08-19

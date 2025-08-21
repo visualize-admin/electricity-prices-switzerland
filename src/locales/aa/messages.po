@@ -626,7 +626,6 @@ msgid "network-level.NE6.short"
 msgstr "network-level.NE6.short"
 
 #: src/domain/translation.tsx
-#: src/domain/translation.tsx
 msgid "network-level.NE7.description"
 msgstr "network-level.NE7.description"
 
@@ -1187,7 +1186,7 @@ msgstr "sunshine.costs-and-tariffs.net-tariffs.overview"
 
 #: src/components/map-details-chart-adapters.tsx
 #: src/components/network-costs-trend-card.tsx
-#: src/components/network-costs-trend-card.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.network-cost-trend"
 msgstr "sunshine.costs-and-tariffs.network-cost-trend"
 

@@ -2,6 +2,7 @@ let
   pkgs = import <nixpkgs> { };
   nodejs = pkgs.nodejs_22;
   yarn = pkgs.yarn.override { inherit nodejs; };
+  trivy = pkgs.trivy;
 
 in pkgs.mkShell {
   buildInputs = [

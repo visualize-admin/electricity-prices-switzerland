@@ -93,7 +93,17 @@ const useScatterPlotState = ({
         .paddingInner(0.3)
         .paddingOuter(0.2);
 
-      const segments = [...new Set(sortedData.map(getSegment))];
+      const segments = [
+        ...new Set(
+          sortedData
+            .filter(
+              (d) =>
+                getHighlightEntity(d)?.toString() !==
+                fields.style?.highlightValue
+            )
+            .map(getSegment)
+        ),
+      ];
       const colors = scaleOrdinal<string, string>()
         .domain(segments)
         .range(getPalette(fields.segment?.palette));
@@ -134,6 +144,8 @@ const useScatterPlotState = ({
       getY,
       getSegment,
       labelFontSize,
+      fields.style?.highlightValue,
+      getHighlightEntity,
     ]);
 
   const getAnnotationInfo = useCallback(
@@ -170,7 +182,7 @@ const useScatterPlotState = ({
         tooltipValues.push({
           label: getSegment(d),
           value: `${formatCurrency(getX(d))} ${xAxisLabel ? xAxisLabel : ""}`,
-          color: chartPalette.categorical[2],
+          color: colors(getColor(d)),
           symbol: "circle",
         });
       }
@@ -193,6 +205,8 @@ const useScatterPlotState = ({
       xScale,
       yScale,
       formatCurrency,
+      colors,
+      getColor,
       fields.style,
       xAxisLabel,
     ]
@@ -215,6 +229,7 @@ const useScatterPlotState = ({
     xAxisLabel,
     yAxisLabel,
     medianValue,
+    highlightedValue: fields.style?.highlightValue ?? null,
   };
 };
 

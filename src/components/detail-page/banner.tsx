@@ -1,5 +1,5 @@
 import { Trans } from "@lingui/macro";
-import { Box, Button, Link as UILink, Stack, Typography } from "@mui/material";
+import { Box, Button, Stack, Typography, Link as UILink } from "@mui/material";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { Fragment, useState } from "react";
@@ -93,6 +93,7 @@ export const DetailPageBanner = ({
         bgcolor: "background.paper",
         width: "100%",
       }}
+      id="main-content"
     >
       <Box
         display="grid"
