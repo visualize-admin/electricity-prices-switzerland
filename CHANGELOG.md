@@ -12,7 +12,6 @@ You can also check the
 # Unreleased
 
 - Fix
-
   - Correctly fetch indicator median from SPARQL
   - Made dots on dot chart correct hovering color when multiple operators are selected
 
@@ -20,6 +19,7 @@ You can also check the
 
   - Added dot chart Storybook
   - Dropdown design adjustments
+  - Ascending and descending labels are translated when switching languages on the map page
 
 - Feat
   - Anchor details page in order to skip large header
