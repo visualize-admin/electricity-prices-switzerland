@@ -11,19 +11,8 @@ import { SectionProps } from "./card";
 
 export const DetailsPageSidebar = (props: SectionProps) => {
   const { id, entity } = props;
-  const { query } = useRouter();
 
   const sunshineFlag = useFlag("sunshine");
-
-  const preserveQueryParams = (baseUrl: string) => {
-    const currentQuery = { ...query };
-    delete currentQuery.download;
-
-    const queryString = new URLSearchParams(
-      currentQuery as Record<string, string>
-    ).toString();
-    return queryString ? `${baseUrl}?${queryString}` : baseUrl;
-  };
 
   return (
     <Box
@@ -37,7 +26,7 @@ export const DetailsPageSidebar = (props: SectionProps) => {
           Insights into electricity
         </Trans>
       </SidebarSectionTitle>
-      <SidebarItem href={preserveQueryParams(`/${entity}/${id}`)}>
+      <SidebarItem href={`/${entity}/${id}`}>
         <Trans id="details.page.navigation.electricity-tariffs-item">
           Electricity tariffs
         </Trans>
@@ -51,35 +40,23 @@ export const DetailsPageSidebar = (props: SectionProps) => {
                 Sunshine Indicators
               </Trans>
             </SidebarSectionTitle>
-            <SidebarItem
-              href={preserveQueryParams(`/sunshine/${entity}/${id}/overview`)}
-            >
+            <SidebarItem href={`/sunshine/${entity}/${id}/overview`}>
               <Trans id="details.page.navigation.sunshine-overview-item">
                 Overview
               </Trans>
             </SidebarItem>
-            <SidebarItem
-              href={preserveQueryParams(
-                `/sunshine/${entity}/${id}/costs-and-tariffs`
-              )}
-            >
+            <SidebarItem href={`/sunshine/${entity}/${id}/costs-and-tariffs`}>
               <Trans id="details.page.navigation.costs-and-tariffs-item">
                 Costs and Tariffs
               </Trans>
             </SidebarItem>
-            <SidebarItem
-              href={preserveQueryParams(
-                `/sunshine/${entity}/${id}/power-stability`
-              )}
-            >
+            <SidebarItem href={`/sunshine/${entity}/${id}/power-stability`}>
               <Trans id="details.page.navigation.power-stability-item">
                 Power Stability
               </Trans>
             </SidebarItem>
             <SidebarItem
-              href={preserveQueryParams(
-                `/sunshine/${entity}/${id}/operational-standards`
-              )}
+              href={`/sunshine/${entity}/${id}/operational-standards`}
             >
               <Trans id="details.page.navigation.operational-standards-item">
                 Operational Standards
@@ -135,14 +112,13 @@ const SidebarItem = (props: SidebarItemProps) => {
 
   const isActive = () => {
     const path = asPath.split("?")[0];
-    const hrefPath = href.split("?")[0]; // Remove query params from href too
     switch (matchMethod) {
       case "exact":
-        return path === hrefPath;
+        return path === href;
       case "contains":
-        return path.includes(hrefPath);
+        return path.includes(href);
       default:
-        return path === hrefPath;
+        return path === href;
     }
   };
 
