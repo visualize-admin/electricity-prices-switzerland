@@ -8,7 +8,7 @@ import { NetworkCostTrendChart } from "./network-cost-trend-chart";
 import { NetworkCostsTrendCard } from "./network-costs-trend-card";
 import { DesignGrid, DesignStory } from "./storybook/base-style";
 
-export const DotPlotChart = () => {
+export const NetworkCostLatestYear = () => {
   const networkCosts =
     data.networkCosts as SunshineCostsAndTariffsData["networkCosts"];
   const { yearlyData, ...restNetworkCosts } = networkCosts;
@@ -33,7 +33,7 @@ export const DotPlotChart = () => {
   );
 };
 
-export const DotPlotChartCard = () => {
+export const NetworkCostLatestYearCard = () => {
   const networkCosts =
     data.networkCosts as SunshineCostsAndTariffsData["networkCosts"];
   const [state, setQueryState] = useState<
@@ -67,8 +67,8 @@ export const DotPlotChartCard = () => {
 };
 
 const meta = {
-  component: [DotPlotChart, DotPlotChartCard],
-  title: "charts/DotPlotChart",
+  component: [NetworkCostLatestYear, NetworkCostLatestYearCard],
+  title: "charts/NetworkCostLatestYear",
 };
 
 export default meta;
