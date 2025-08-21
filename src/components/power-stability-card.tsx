@@ -49,11 +49,16 @@ type PowerStabilityCardProps = {
   operatorLabel: string;
   latestYear: number;
   cardTitle: React.ReactNode;
-  infoDialogProps: Pick<InfoDialogButtonProps, "slug" | "label">;
+  infoDialogProps?: Pick<InfoDialogButtonProps, "slug" | "label">;
+  state: ReturnType<typeof useQueryStatePowerStabilityCardFilters>[0];
+  setQueryState: ReturnType<typeof useQueryStatePowerStabilityCardFilters>[1];
 } & CardProps;
 
 const getPowerStabilityCardState = (
-  props: Omit<PowerStabilityCardProps, "cardTitle" | "infoDialogProps">,
+  props: Omit<
+    PowerStabilityCardProps,
+    "cardTitle" | "infoDialogProps" | "state" | "setQueryState"
+  >,
   filters: PowerStabilityCardFilters
 ) => {
   const {
@@ -102,10 +107,23 @@ const getPowerStabilityCardState = (
   };
 };
 
+export const PowerStabilityCardState = (
+  props: Omit<PowerStabilityCardProps, "state" | "setQueryState">
+) => {
+  const [state, setQueryState] = useQueryStatePowerStabilityCardFilters();
+  return (
+    <PowerStabilityCard
+      {...props}
+      state={state}
+      setQueryState={setQueryState}
+    />
+  );
+};
+
 export const PowerStabilityCard: React.FC<PowerStabilityCardProps> = (
   props
 ) => {
-  const [state, setQueryState] = useQueryStatePowerStabilityCardFilters();
+  const { state, setQueryState, infoDialogProps } = props;
   const { compareWith, viewBy, duration, overallOrRatio } = state;
   const chartData = getPowerStabilityCardState(props, state);
   const {
@@ -123,12 +141,14 @@ export const PowerStabilityCard: React.FC<PowerStabilityCardProps> = (
         <CardHeader
           trailingContent={
             <>
-              <InfoDialogButton
-                iconOnly
-                iconSize={24}
-                type="outline"
-                {...props.infoDialogProps}
-              />
+              {infoDialogProps && (
+                <InfoDialogButton
+                  iconOnly
+                  iconSize={24}
+                  type="outline"
+                  {...infoDialogProps}
+                />
+              )}
               <DownloadImage
                 iconOnly
                 iconSize={24}
@@ -366,7 +386,10 @@ export const PowerStabilityCard: React.FC<PowerStabilityCardProps> = (
 };
 
 export const PowerStabilityCardMinified: React.FC<
-  Omit<PowerStabilityCardProps, "infoDialogProps"> & {
+  Omit<
+    PowerStabilityCardProps,
+    "infoDialogProps" | "state" | "setQueryState"
+  > & {
     linkContent?: ReactNode;
     filters?: PowerStabilityCardFilters;
     cardDescription?: ReactNode;

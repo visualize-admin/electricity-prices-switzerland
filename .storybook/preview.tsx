@@ -1,10 +1,10 @@
+import { I18nProvider } from "@lingui/react";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import type { Decorator, Preview } from "@storybook/react";
 import React from "react";
+import { i18n } from "../src/locales/locales";
 import { theme } from "../src/themes/elcom";
 import "./preview.css";
-import { i18n } from "../src/locales/locales";
-import { I18nProvider } from "@lingui/react";
 
 const withAppProviders: Decorator = (Story: any) => {
   return (

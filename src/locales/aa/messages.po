@@ -1300,6 +1300,10 @@ msgid "sunshine.metric-unit.min-year"
 msgstr "sunshine.metric-unit.min-year"
 
 #: src/domain/metrics.ts
+msgid "sunshine.metric-unit.percent"
+msgstr "sunshine.metric-unit.percent"
+
+#: src/domain/metrics.ts
 msgid "sunshine.metric-unit.rp-km"
 msgstr "sunshine.metric-unit.rp-km"
 

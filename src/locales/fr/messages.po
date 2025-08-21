@@ -7,7 +7,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language: fr\n"
 "Language-Team: \n"
-"Content-Type: \n"
+"Content-Type: text/plain\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
@@ -511,7 +511,7 @@ msgstr "Voir plus ..."
 
 #: src/pages/map/index.tsx
 msgid "list.viewby.canton"
-msgstr ""
+msgstr "Canton"
 
 #: src/pages/map/index.tsx
 msgid "list.viewby.label"
@@ -519,11 +519,11 @@ msgstr "Vue selon"
 
 #: src/pages/map/index.tsx
 msgid "list.viewby.municipality"
-msgstr ""
+msgstr "Municipalité"
 
 #: src/pages/map/index.tsx
 msgid "list.viewby.operator"
-msgstr ""
+msgstr "Opérateur"
 
 #: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.back-button"
@@ -1298,6 +1298,10 @@ msgstr "jours"
 #: src/domain/metrics.ts
 msgid "sunshine.metric-unit.min-year"
 msgstr "Min./an"
+
+#: src/domain/metrics.ts
+msgid "sunshine.metric-unit.percent"
+msgstr "%"
 
 #: src/domain/metrics.ts
 msgid "sunshine.metric-unit.rp-km"

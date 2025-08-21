@@ -4,7 +4,7 @@ import { max, mean } from "d3";
 import { useMemo, useState } from "react";
 
 import { getTextWidth } from "src/domain/helpers";
-import { MIN_PER_YEAR } from "src/domain/metrics";
+import { MIN_PER_YEAR, PERCENT } from "src/domain/metrics";
 import type { SunshinePowerStabilityData } from "src/domain/sunshine";
 import { chartPalette, palette } from "src/themes/palette";
 
@@ -159,7 +159,7 @@ const LatestYearChartView = (
       fields={{
         x: {
           componentIri: ["planned", "unplanned"],
-          axisLabel: MIN_PER_YEAR,
+          axisLabel: overallOrRatio === "ratio" ? PERCENT : MIN_PER_YEAR,
         },
         domain: xDomain,
         y: {
@@ -216,19 +216,13 @@ const LatestYearChartView = (
         }}
         display="flex"
       >
-        <Box
-          sx={{
-            mr: `${maxYLabelWidth - SORTABLE_GRID_ITEM_WIDTH}px`,
-          }}
-        >
-          <SortableLegendItem
-            item={gridOperatorsLabel}
-            color={palette.text.primary}
-            value={"operator"}
-            state={sortByItem}
-            handleClick={setSortByItem}
-          />
-        </Box>
+        <SortableLegendItem<PowerStabilitySortableType>
+          item={gridOperatorsLabel}
+          color={palette.text.primary}
+          value={"operator"}
+          state={sortByItem}
+          handleClick={setSortByItem}
+        />
 
         <SortableLegendItem<PowerStabilitySortableType>
           item={t({
@@ -251,16 +245,18 @@ const LatestYearChartView = (
           state={sortByItem}
           handleClick={setSortByItem}
         />
-        <SortableLegendItem<PowerStabilitySortableType>
-          item={t({
-            id: "power-stability-trend-chart.sortable-legend-item.total",
-            message: "Total",
-          })}
-          color={palette.text.primary}
-          value="total"
-          state={sortByItem}
-          handleClick={setSortByItem}
-        />
+        {overallOrRatio !== "ratio" && (
+          <SortableLegendItem<PowerStabilitySortableType>
+            item={t({
+              id: "power-stability-trend-chart.sortable-legend-item.total",
+              message: "Total",
+            })}
+            color={palette.text.primary}
+            value="total"
+            state={sortByItem}
+            handleClick={setSortByItem}
+          />
+        )}
       </Box>
       <ChartContainer>
         <ChartSvg>
@@ -272,9 +268,9 @@ const LatestYearChartView = (
           />
           <BarsStacked />
           <BarsStackedAxis />
-          <AnnotationX />
+          {overallOrRatio !== "ratio" && <AnnotationX />}
         </ChartSvg>
-        <AnnotationXLabel />
+        {overallOrRatio !== "ratio" && <AnnotationXLabel />}
       </ChartContainer>
     </StackedBarsChart>
   );

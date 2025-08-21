@@ -18,6 +18,13 @@ You can also check the
 
 - Fix
 
+  - Improved Ratio view on Power Stability Charts
+
+- Maintenance
+
+  - Added Power Stability chart card to storybook
+  - Correctly fetch indicator median from SPARQL
+  - Made dots on dot chart correct hovering color when multiple operators are selected
   - Data: Correctly fetch indicator median from SPARQL
   - Charts: Made dots on dot chart correct hovering color when multiple operators are selected
   - Map: Search can be used while the details panel is opened
