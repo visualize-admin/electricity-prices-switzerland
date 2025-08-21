@@ -180,8 +180,11 @@ export const SortableLegendItem = <T extends string>({
       pl: 0,
       gap: `${SORTABLE_INTERNAL_GAP}px`,
       color,
-      cursor: value === state ? "not-allowed" : "pointer",
-      opacity: value === state ? 0.5 : 1,
+      cursor: value === state ? "default" : "pointer",
+      opacity: value !== state ? 0.7 : 1,
+      textDecoration: value === state ? "underline" : "none",
+      textDecorationThickness: value === state ? "1.5px" : "0px",
+      textUnderlineOffset: value === state ? "4px" : "0px",
     }}
     component={"button"}
     onClick={() => handleClick(value)}
@@ -189,16 +192,5 @@ export const SortableLegendItem = <T extends string>({
     <Typography variant="caption" fontWeight={700}>
       {item}
     </Typography>
-
-    <Box
-      sx={{
-        rotate: value === state ? "180deg" : "0deg",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-      display="flex"
-    >
-      {value === state && <LegendSymbol color={color} symbol={"arrow"} />}
-    </Box>
   </Box>
 );
