@@ -347,7 +347,7 @@ const PowerStability = (props: Props) => {
 
   const mainContent = (
     <>
-      <DetailsPageHeader>
+      <DetailsPageHeader id="main-content">
         <DetailsPageTitle>
           <Trans id="sunshine.operational-standards.title">
             Operational Standards

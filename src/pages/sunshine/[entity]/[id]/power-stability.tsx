@@ -425,7 +425,7 @@ const PowerStability = (props: Props) => {
 
   const mainContent = (
     <>
-      <DetailsPageHeader>
+      <DetailsPageHeader id="main-content">
         <DetailsPageTitle>
           <Trans id="sunshine.power-stability.title">Power Stability</Trans>
         </DetailsPageTitle>

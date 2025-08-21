@@ -704,7 +704,7 @@ const CostsAndTariffs = (props: Props) => {
 
   const mainContent = (
     <>
-      <DetailsPageHeader>
+      <DetailsPageHeader id="main-content">
         <DetailsPageTitle>
           <Trans id="sunshine.costs-and-tariffs.title">Costs and Tariffs</Trans>
         </DetailsPageTitle>
