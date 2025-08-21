@@ -40,7 +40,11 @@ import { WithClassName } from "src/components/detail-page/with-classname";
 import { Loading, NoDataHint } from "src/components/hint";
 import { InfoDialogButton } from "src/components/info-dialog";
 import { SortingOrder, SortingType } from "src/domain/config-types";
-import { Entity, GenericObservation, priceComponents } from "src/domain/data";
+import {
+  Entity,
+  GenericObservation,
+  detailsPriceComponents,
+} from "src/domain/data";
 import { useQueryStateEnergyPricesDetails } from "src/domain/query-states";
 import { getLocalizedLabel } from "src/domain/translation";
 import {
@@ -188,10 +192,10 @@ export const CantonsComparisonRangePlots = ({ id, entity }: SectionProps) => {
                   }),
                 },
                 {
-                  value: "aidfee",
-                  label: getLocalizedLabel({ id: "aidfee" }),
+                  value: "meteringrate",
+                  label: getLocalizedLabel({ id: "meteringrate" }),
                   content: getLocalizedLabel({
-                    id: "price-components.aidfee-content",
+                    id: "price-components.meteringrate-content",
                   }),
                 },
               ]}
@@ -206,7 +210,7 @@ export const CantonsComparisonRangePlots = ({ id, entity }: SectionProps) => {
                 id: "selector.priceComponents",
                 message: "Price components",
               })}
-              items={priceComponents}
+              items={detailsPriceComponents}
               getItemLabel={getItemLabel}
               selectedItem={priceComponent[0]}
               setSelectedItem={(pc) => setQueryState({ priceComponent: [pc] })}

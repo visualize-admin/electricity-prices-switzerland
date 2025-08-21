@@ -216,9 +216,9 @@ const Query: QueryResolvers = {
     const operatorObservations = rawOperatorObservations.map((o) => ({
       __typename: "OperatorObservation",
       ...o,
-    }));
+    })) as ResolvedOperatorObservation[];
 
-    return operatorObservations as ResolvedOperatorObservation[];
+    return operatorObservations;
   },
   cantonMedianObservations: async (
     _,
@@ -276,11 +276,11 @@ const Query: QueryResolvers = {
         : [];
 
     const medianObservations = rawMedianObservations.map((x) => ({
-      __typename: "MedianObservation",
+      __typename: "CantonMedianObservation",
       ...x,
-    }));
+    })) as ResolvedCantonMedianObservation[];
 
-    return medianObservations as ResolvedCantonMedianObservation[];
+    return medianObservations;
   },
   swissMedianObservations: async (_, { locale, filters }, ctx, info) => {
     let swissCube;
@@ -332,10 +332,10 @@ const Query: QueryResolvers = {
 
     const medianObservations = rawMedianObservations.map((o) => ({
       ...o,
-      __typename: "MedianObservation",
-    }));
+      __typename: "SwissMedianObservation",
+    })) as ResolvedSwissMedianObservation[];
 
-    return medianObservations as ResolvedSwissMedianObservation[];
+    return medianObservations;
   },
   operators: async (_, { query, ids, locale }) => {
     const results = await search({

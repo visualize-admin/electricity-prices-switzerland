@@ -271,11 +271,13 @@ export type PeerGroup = {
 
 export enum PriceComponent {
   Aidfee = "aidfee",
+  Annualmeteringcost = "annualmeteringcost",
   Charge = "charge",
   Energy = "energy",
   Fixcosts = "fixcosts",
   Fixcostspercent = "fixcostspercent",
   Gridusage = "gridusage",
+  Meteringrate = "meteringrate",
   Total = "total",
 }
 

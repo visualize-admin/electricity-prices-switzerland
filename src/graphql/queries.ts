@@ -255,11 +255,13 @@ export type PeerGroup = {
 
 export enum PriceComponent {
   Aidfee = "aidfee",
+  Annualmeteringcost = "annualmeteringcost",
   Charge = "charge",
   Energy = "energy",
   Fixcosts = "fixcosts",
   Fixcostspercent = "fixcostspercent",
   Gridusage = "gridusage",
+  Meteringrate = "meteringrate",
   Total = "total",
 }
 
@@ -702,6 +704,8 @@ export type OperatorObservationWithAllPriceComponentsFieldsFragment = {
   operatorLabel?: string | null;
   category: string;
   aidfee: number;
+  annualmeteringcost: number;
+  meteringrate: number;
   fixcosts: number;
   charge: number;
   gridusage: number;
@@ -740,6 +744,8 @@ export type ObservationsWithAllPriceComponentsQuery = {
     operatorLabel?: string | null;
     category: string;
     aidfee: number;
+    annualmeteringcost: number;
+    meteringrate: number;
     fixcosts: number;
     charge: number;
     gridusage: number;
@@ -1145,6 +1151,8 @@ export const OperatorObservationWithAllPriceComponentsFieldsFragmentDoc = gql`
     operatorLabel
     category
     aidfee: value(priceComponent: aidfee)
+    annualmeteringcost: value(priceComponent: annualmeteringcost)
+    meteringrate: value(priceComponent: meteringrate)
     fixcosts: value(priceComponent: fixcosts)
     charge: value(priceComponent: charge)
     gridusage: value(priceComponent: gridusage)

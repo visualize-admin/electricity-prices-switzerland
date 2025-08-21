@@ -56,13 +56,29 @@ export const periods = range(
   -1
 ).map((d) => d.toString());
 
-export const priceComponents = [
+const allPriceComponents = [
   "total",
   "gridusage",
   "energy",
   "charge",
-  "aidfee",
-];
+  /**
+   * Metering costs are measured in CHF per year. For comparing between operators (on the map),
+   * this is the value that is used.
+   */
+  "annualmeteringcost",
+  /*
+   * For the details display, they are converted by Elcom to Rp/kWh to align with other price components.
+   */
+  "meteringrate",
+] as const;
+
+export const mapPriceComponents = allPriceComponents.filter(
+  (x) => x !== "meteringrate"
+);
+export const detailsPriceComponents = allPriceComponents.filter(
+  (x) => x !== "annualmeteringcost"
+);
+
 export const products = ["cheapest", "standard"];
 export const categories = [
   "H1",

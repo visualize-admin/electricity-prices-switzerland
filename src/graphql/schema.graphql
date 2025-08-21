@@ -123,6 +123,8 @@ enum PriceComponent {
   energy
   fixcostspercent
   total
+  annualmeteringcost
+  meteringrate
 }
 
 enum ObservationKind {
