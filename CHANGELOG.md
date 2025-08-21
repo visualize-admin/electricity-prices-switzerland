@@ -9,11 +9,18 @@ and this project adheres to
 You can also check the
 [release page](https://github.com/visualize-admin/electricity-prices-switzerland/releases)
 
-# Unreleased
+# 2.9.0
+
+- Feat
+
+  - Map: Add zoom in/out buttons
+  - Map: Boolean legend for "Service Quality" and "Compliance" sunshine tabs
 
 - Fix
-  - Correctly fetch indicator median from SPARQL
-  - Made dots on dot chart correct hovering color when multiple operators are selected
+
+  - Data: Correctly fetch indicator median from SPARQL
+  - Charts: Made dots on dot chart correct hovering color when multiple operators are selected
+  - Map: Search can be used while the details panel is opened
 
 - Maintenance
 
