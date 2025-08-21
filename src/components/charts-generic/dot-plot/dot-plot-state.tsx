@@ -93,7 +93,17 @@ const useScatterPlotState = ({
         .paddingInner(0.3)
         .paddingOuter(0.2);
 
-      const segments = [...new Set(sortedData.map(getSegment))];
+      const segments = [
+        ...new Set(
+          sortedData
+            .filter(
+              (d) =>
+                getHighlightEntity(d)?.toString() !==
+                fields.style?.highlightValue
+            )
+            .map(getSegment)
+        ),
+      ];
       const colors = scaleOrdinal<string, string>()
         .domain(segments)
         .range(getPalette(fields.segment?.palette));
@@ -134,6 +144,8 @@ const useScatterPlotState = ({
       getY,
       getSegment,
       labelFontSize,
+      fields.style?.highlightValue,
+      getHighlightEntity,
     ]);
 
   const getAnnotationInfo = useCallback(

@@ -20,7 +20,7 @@ export const NetworkCostLatestYear = () => {
       <DesignGrid>
         <NetworkCostTrendChart
           id="11"
-          operatorLabel="Elektrizitätswerk des Kantons Schaffhausen AG"
+          operatorLabel="Fluxwave Energy"
           observations={yearlyData.filter(
             (d) => d.year === new Date().getFullYear()
           )}
@@ -52,7 +52,7 @@ export const NetworkCostLatestYearCard = () => {
           energyDensity: "na",
           settlementDensity: "unknown",
         }}
-        operatorLabel="Elektrizitätswerk des Kantons Schaffhausen AG"
+        operatorLabel="Fluxwave Energy"
         networkCosts={networkCosts}
         latestYear={new Date().getFullYear()}
         updateDate={new Date().toISOString()}
