@@ -14,6 +14,11 @@ You can also check the
 - Fix
 
   - Correctly fetch indicator median from SPARQL
+  - Made dots on dot chart correct hovering color when multiple operators are selected
+
+- Maintenance
+
+  - Added dot chart Storybook
   - Dropdown design adjustments
 
 - Feat
@@ -22,6 +27,7 @@ You can also check the
 # 2.8.2 - 2025-08-19
 
 - Fix
+
   - Vulnerability on form-data library
 
 # 2.8.1 - 2025-08-19

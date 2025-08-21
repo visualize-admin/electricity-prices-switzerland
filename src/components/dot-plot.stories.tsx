@@ -1,11 +1,14 @@
 import data from "mocks/sunshine-costsAndTariffs-426.json";
+import { useState } from "react";
 
+import { useQueryStateNetworkCostsTrendCardFilters } from "src/domain/query-states";
 import { SunshineCostsAndTariffsData } from "src/domain/sunshine";
 
 import { NetworkCostTrendChart } from "./network-cost-trend-chart";
+import { NetworkCostsTrendCard } from "./network-costs-trend-card";
 import { DesignGrid, DesignStory } from "./storybook/base-style";
 
-export const DotPlotChart = () => {
+export const NetworkCostLatestYear = () => {
   const networkCosts =
     data.networkCosts as SunshineCostsAndTariffsData["networkCosts"];
   const { yearlyData, ...restNetworkCosts } = networkCosts;
@@ -17,7 +20,7 @@ export const DotPlotChart = () => {
       <DesignGrid>
         <NetworkCostTrendChart
           id="11"
-          operatorLabel="Elektrizitätswerk des Kantons Schaffhausen AG"
+          operatorLabel="Fluxwave Energy"
           observations={yearlyData.filter(
             (d) => d.year === new Date().getFullYear()
           )}
@@ -30,9 +33,42 @@ export const DotPlotChart = () => {
   );
 };
 
+export const NetworkCostLatestYearCard = () => {
+  const networkCosts =
+    data.networkCosts as SunshineCostsAndTariffsData["networkCosts"];
+  const [state, setQueryState] = useState<
+    ReturnType<typeof useQueryStateNetworkCostsTrendCardFilters>[0]
+  >({
+    compareWith: ["sunshine.select-all"],
+    viewBy: "latest",
+  });
+  return (
+    <DesignStory
+      title="Dot Plot Chart"
+      reference="ElCom Library (Sunshine Indicators)"
+    >
+      <NetworkCostsTrendCard
+        peerGroup={{
+          energyDensity: "na",
+          settlementDensity: "unknown",
+        }}
+        operatorLabel="Fluxwave Energy"
+        networkCosts={networkCosts}
+        latestYear={new Date().getFullYear()}
+        updateDate={new Date().toISOString()}
+        operatorId="11"
+        state={state}
+        setQueryState={(newState) =>
+          setQueryState((prev) => ({ ...prev, ...newState }))
+        }
+      />
+    </DesignStory>
+  );
+};
+
 const meta = {
-  component: DotPlotChart,
-  title: "charts/DotPlotChart",
+  component: [NetworkCostLatestYear, NetworkCostLatestYearCard],
+  title: "charts/NetworkCostLatestYear",
 };
 
 export default meta;

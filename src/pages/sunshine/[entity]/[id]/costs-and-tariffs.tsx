@@ -17,7 +17,7 @@ import {
 } from "src/components/detail-page/layout";
 import { DetailsPageSidebar } from "src/components/detail-page/sidebar";
 import { Loading } from "src/components/hint";
-import { NetworkCostsTrendCard } from "src/components/network-costs-trend-card";
+import { NetworkCostsTrendCardState } from "src/components/network-costs-trend-card";
 import PeerGroupCard from "src/components/peer-group-card";
 import { SunshineDataServiceDebug } from "src/components/sunshine-data-service-debug";
 import {
@@ -276,7 +276,7 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
           sx={{ gridArea: "comparison" }}
         />
 
-        <NetworkCostsTrendCard
+        <NetworkCostsTrendCardState
           latestYear={Number(latestYear)}
           sx={{ gridArea: "trend" }}
           peerGroup={peerGroup}
@@ -284,6 +284,13 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
           operatorId={props.id}
           operatorLabel={operatorLabel}
           networkCosts={networkCosts}
+          infoDialogProps={{
+            slug: "help-network-costs",
+            label: t({
+              id: "sunshine.costs-and-tariffs.network-cost-trend",
+              message: "Network Cost Trend",
+            }),
+          }}
         />
       </CardGrid>
     </>
