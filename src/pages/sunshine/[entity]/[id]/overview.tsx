@@ -49,7 +49,6 @@ import {
   useNetworkCostsQuery,
   useOperationalStandardsQuery,
 } from "src/graphql/queries";
-import { useScrollPersistence } from "src/hooks/use-scroll-persistence";
 import { Icon } from "src/icons";
 import {
   fetchOperationalStandards,
@@ -140,10 +139,6 @@ const OverviewPage = (props: Props) => {
   const { query } = useRouter();
   const latestYear = 2024; //FIXME: only year with data for power stability
 
-  const [overviewFilters, setOverviewFilters] =
-    useQueryStateSunshineOverviewFilters();
-  useScrollPersistence(overviewFilters, setOverviewFilters);
-
   if (props.status === "notfound") {
     return <ErrorPage statusCode={404} />;
   }
@@ -184,6 +179,9 @@ const OverviewPage = (props: Props) => {
       ...categories.filter((x) => x.startsWith("H")),
     ] as ComponentProps<typeof Combobox>["items"];
   }, []);
+
+  const [overviewFilters, setOverviewFilters] =
+    useQueryStateSunshineOverviewFilters();
   const { year, category, networkLevel } = overviewFilters;
 
   const updateYear = (newYear: string) => {
@@ -391,10 +389,7 @@ const OverviewPage = (props: Props) => {
               <Link
                 href={sunshineDetailsLink(
                   `/sunshine/${entity}/${id}/costs-and-tariffs`,
-                  {
-                    tab: "networkCosts",
-                    scrollY: overviewFilters.scrollY,
-                  }
+                  { tab: "networkCosts" }
                 )}
               >
                 <IconButton variant="outlined" color="primary">
@@ -431,10 +426,7 @@ const OverviewPage = (props: Props) => {
               <Link
                 href={sunshineDetailsLink(
                   `/sunshine/${entity}/${id}/costs-and-tariffs`,
-                  {
-                    tab: "netTariffs",
-                    scrollY: overviewFilters.scrollY,
-                  }
+                  { tab: "netTariffs" }
                 )}
               >
                 <IconButton variant="outlined" size="sm" color="primary">
@@ -471,10 +463,7 @@ const OverviewPage = (props: Props) => {
               <Link
                 href={sunshineDetailsLink(
                   `/sunshine/${entity}/${id}/costs-and-tariffs`,
-                  {
-                    tab: "energyTariffs",
-                    scrollY: overviewFilters.scrollY,
-                  }
+                  { tab: "energyTariffs" }
                 )}
               >
                 <IconButton variant="outlined" size="sm" color="primary">
@@ -517,10 +506,7 @@ const OverviewPage = (props: Props) => {
             <Link
               href={sunshineDetailsLink(
                 `/sunshine/${entity}/${id}/power-stability`,
-                {
-                  tab: "saidi",
-                  scrollY: overviewFilters.scrollY,
-                }
+                { tab: "saidi" }
               )}
             >
               <IconButton variant="outlined" size="sm" color="primary">
@@ -555,10 +541,7 @@ const OverviewPage = (props: Props) => {
             <Link
               href={sunshineDetailsLink(
                 `/sunshine/${entity}/${id}/power-stability`,
-                {
-                  tab: "saifi",
-                  scrollY: overviewFilters.scrollY,
-                }
+                { tab: "saifi" }
               )}
             >
               <IconButton variant="outlined" size="sm" color="primary">
@@ -586,10 +569,7 @@ const OverviewPage = (props: Props) => {
             <Link
               href={sunshineDetailsLink(
                 `/sunshine/${entity}/${id}/operational-standards`,
-                {
-                  tab: "serviceQuality",
-                  scrollY: overviewFilters.scrollY,
-                }
+                { tab: "serviceQuality" }
               )}
             >
               <IconButton variant="outlined" size="sm" color="primary">
@@ -613,10 +593,7 @@ const OverviewPage = (props: Props) => {
             <Link
               href={sunshineDetailsLink(
                 `/sunshine/${entity}/${id}/operational-standards`,
-                {
-                  tab: "compliance",
-                  scrollY: overviewFilters.scrollY,
-                }
+                { tab: "compliance" }
               )}
             >
               <IconButton variant="outlined" size="sm" color="primary">

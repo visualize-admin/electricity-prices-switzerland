@@ -52,7 +52,6 @@ import {
 } from "src/graphql/queries";
 import { ElectricityCategory } from "src/graphql/resolver-mapped-types";
 import { Trend } from "src/graphql/resolver-types";
-import { useScrollPersistence } from "src/hooks/use-scroll-persistence";
 import { fetchOperatorCostsAndTariffsData } from "src/lib/sunshine-data";
 import {
   getSunshineDataServiceFromGetServerSidePropsContext,
@@ -665,9 +664,6 @@ const CostsAndTariffs = (props: Props) => {
   const { tab: activeTabQuery } = state;
   const activeTab =
     activeTabQuery ?? ("networkCosts" satisfies CostAndTariffsTab);
-
-  useScrollPersistence(state, setQueryState);
-
   const setActiveTab = useCallback(
     (tab: QueryStateSingleSunshineDetails["tab"]) => {
       setQueryState({

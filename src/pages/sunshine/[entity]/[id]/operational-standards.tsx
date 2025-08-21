@@ -2,7 +2,7 @@ import { t, Trans } from "@lingui/macro";
 import { GetServerSideProps } from "next";
 import ErrorPage from "next/error";
 import { useRouter } from "next/router";
-import React, { useCallback } from "react";
+import React, { useState } from "react";
 
 import CardGrid from "src/components/card-grid";
 import { DetailPageBanner } from "src/components/detail-page/banner";
@@ -27,10 +27,8 @@ import {
   PageParams,
   Props as SharedPageProps,
 } from "src/data/shared-page-props";
-import { useQueryStateSunshineDetails } from "src/domain/query-states";
 import { SunshineOperationalStandardsData } from "src/domain/sunshine";
 import { getLocalizedLabel } from "src/domain/translation";
-import { useScrollPersistence } from "src/hooks/use-scroll-persistence";
 import { fetchOperationalStandards } from "src/lib/sunshine-data";
 import {
   getSunshineDataServiceFromGetServerSidePropsContext,
@@ -317,15 +315,9 @@ const Compliance = (props: Extract<Props, { status: "found" }>) => {
 
 const PowerStability = (props: Props) => {
   const { query } = useRouter();
-  const [state, setQueryState] = useQueryStateSunshineDetails();
-  const { tab: activeTabQuery } = state;
-  const activeTab =
-    activeTabQuery === "serviceQuality"
-      ? OperationalStandardsTabOption.SERVICE_QUALITY
-      : OperationalStandardsTabOption.COMPLIANCE;
-
-  // Initialize scroll persistence
-  useScrollPersistence(state, setQueryState);
+  const [activeTab, setActiveTab] = useState<OperationalStandardsTabOption>(
+    OperationalStandardsTabOption.SERVICE_QUALITY
+  );
 
   if (props.status === "notfound") {
     return <ErrorPage statusCode={404} />;
@@ -338,21 +330,8 @@ const PowerStability = (props: Props) => {
     message: "Power Stability",
   })}`;
 
-  const setActiveTab = useCallback(
-    (tab: "serviceQuality" | "compliance") => {
-      setQueryState({
-        tab,
-      });
-    },
-    [setQueryState]
-  );
-
   const handleTabChange = (_: React.SyntheticEvent, newValue: number) => {
-    const tab =
-      newValue === OperationalStandardsTabOption.SERVICE_QUALITY
-        ? "serviceQuality"
-        : "compliance";
-    setActiveTab(tab);
+    setActiveTab(newValue);
   };
 
   const bannerContent = (
