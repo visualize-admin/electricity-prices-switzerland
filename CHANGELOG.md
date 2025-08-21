@@ -13,6 +13,7 @@ You can also check the
 
 - Fix
   - Correctly fetch indicator median from SPARQL
+  - Dropdown design adjustments
 
 # 2.8.2 - 2025-08-19
 
