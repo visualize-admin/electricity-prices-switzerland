@@ -92,6 +92,10 @@ export const getSunshineDetailsPageFromIndicator = (
 };
 const sunshineDetailsSchema = z.object({
   tab: detailTabsSchema,
+  scrollY: z
+    .string()
+    .transform((val) => (val ? parseFloat(val) : undefined))
+    .optional(),
 });
 
 export const sunshineDetailsLink = makeLinkGenerator(sunshineDetailsSchema);
@@ -100,6 +104,10 @@ const sunshineOverviewFiltersSchema = z.object({
   year: z.string().default("2025"),
   category: z.string().default("C2"),
   networkLevel: z.enum(["NE5", "NE6", "NE7"]).default("NE5"),
+  scrollY: z
+    .string()
+    .transform((val) => (val ? parseFloat(val) : undefined))
+    .optional(),
 });
 
 // Map pages
