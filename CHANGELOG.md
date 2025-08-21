@@ -12,8 +12,27 @@ You can also check the
 # Unreleased
 
 - Fix
-
+  - Correctly fetch indicator median from SPARQL
+  - Dropdown design adjustments
   - Ascending and descending labels are translated when switching languages on the map page
+
+- Feat
+  - Anchor details page in order to skip large header
+
+# 2.8.2 - 2025-08-19
+
+- Fix
+  - Vulnerability on form-data library
+
+# 2.8.1 - 2025-08-19
+
+- Fix
+
+  - Prevents cache contamination in Apollo Response Cache
+  - Disable URQL hydration (due to potentially confusing behavior with build time rendering)
+
+- Feat
+  - Default service is SPARQL
 
 # 2.8.0 - 2025-07-16
 

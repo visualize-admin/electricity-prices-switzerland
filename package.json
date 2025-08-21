@@ -1,6 +1,6 @@
 {
   "name": "elcom-electricity-price-website",
-  "version": "2.8.0",
+  "version": "2.8.2",
   "repository": "git@github.com:interactivethings/elcom-electricity-price-website.git",
   "author": "Federal Electricity Commission ElCom <info@elcom.admin.ch>",
   "license": "BSD-3-Clause",
@@ -12,10 +12,12 @@
     "dev": "make content && NODE_OPTIONS='--openssl-legacy-provider --max_old_space_size=4096' next",
     "update-wiki-content": "make content",
     "wiki-content:update-types": "tsx scripts/wiki-content.ts pages --format typescript --file src/domain/wiki.ts",
-    "build": "lingui compile && yarn build-storybook && NODE_OPTIONS='--max_old_space_size=16384 --openssl-legacy-provider' next build -d && mkdir .next/server/pages/sunshine-data/ && cp src/sunshine-data/*.enc  .next/server/pages/sunshine-data/",
+    "build": "lingui compile && yarn build-storybook && yarn build:next && mkdir .next/server/pages/sunshine-data/ && cp src/sunshine-data/*.enc  .next/server/pages/sunshine-data/",
+    "build:next": "NODE_OPTIONS='--max_old_space_size=16384 --openssl-legacy-provider' next build -d",
     "start": "GLOBAL_AGENT_ENVIRONMENT_VARIABLE_NAMESPACE='' NODE_OPTIONS='-r \"./configure-proxy\" --max_old_space_size=2048 --openssl-legacy-provider --unhandled-rejections=warn' next start -p $PORT",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
+    "oxlint": "oxlint .",
     "test": "vitest --project unit",
     "test:integration": "vitest --project integration",
     "setup": "yarn && yarn locales:compile && yarn graphql:codegen",
@@ -34,6 +36,7 @@
     "e2e:k6:har": "npx playwright test e2e/generate-k6-har.spec.ts --headed",
     "e2e:k6:update": "bun e2e/update-k6-test-from-har.ts browsing-test-ref.har 802626",
     "docker:build": "docker buildx build --platform linux/amd64 -t interactivethings/electricity-prices-switzerland .",
+    "docker:trivy": "trivy image interactivethings/electricity-prices-switzerland:latest --offline-scan --image-src docker --scanners vuln --severity HIGH,CRITICAL  --show-suppressed --ignore-unfixed",
     "knip": "knip",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build -o public/storybook",
@@ -96,7 +99,7 @@
     "html-react-parser": "^5.2.5",
     "html2canvas": "^1.4.1",
     "jscodeshift": "^17.3.0",
-    "jsdom": "^25.0.1",
+    "jsdom": "^26.1.0",
     "lodash": "^4.17.21",
     "make-plural": "^7.0.0",
     "micromark": "^2.11.2",
@@ -121,7 +124,6 @@
     "typescript-lru-cache": "^2.0.0",
     "undici": "^5.25.2",
     "urql": "^4.2.2",
-    "vitest": "^3.2.4",
     "wonka": "^6.3.5",
     "xml-c14n": "^0.0.6",
     "zod": "^3.24.2"
@@ -186,6 +188,7 @@
     "global-agent": "^3.0.0",
     "k6": "^0.0.0",
     "knip": "^5.46.4",
+    "oxlint": "^1.3.0",
     "prettier": "^2.2.1",
     "raw-loader": "^4.0.2",
     "rollup-plugin-string": "^3.0.0",
@@ -193,13 +196,15 @@
     "tpo-deepl": "^1.2.4",
     "tsx": "^4.20.3",
     "typescript": "^5.8.2",
-    "vite": "6.2.4"
+    "vite": "6.2.4",
+    "vitest": "^3.2.4"
   },
   "resolutions": {
     "js-base64": "2.5.2",
     "cross-spawn": "7.0.6",
     "semver": "7.5.2",
     "@types/react": "19.0.0",
-    "@types/react-dom": "19.0.0"
+    "@types/react-dom": "19.0.0",
+    "form-data": "4.0.4"
   }
 }

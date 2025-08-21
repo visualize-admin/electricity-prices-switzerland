@@ -1,5 +1,6 @@
 import { Trans } from "@lingui/macro";
-import { Box, Link as MUILink, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { ReactNode } from "react";
 
@@ -40,23 +41,29 @@ export const DetailsPageSidebar = (props: SectionProps) => {
                 Sunshine Indicators
               </Trans>
             </SidebarSectionTitle>
-            <SidebarItem href={`/sunshine/${entity}/${id}/overview`}>
+            <SidebarItem
+              href={`/sunshine/${entity}/${id}/overview#main-content`}
+            >
               <Trans id="details.page.navigation.sunshine-overview-item">
                 Overview
               </Trans>
             </SidebarItem>
-            <SidebarItem href={`/sunshine/${entity}/${id}/costs-and-tariffs`}>
+            <SidebarItem
+              href={`/sunshine/${entity}/${id}/costs-and-tariffs#main-content`}
+            >
               <Trans id="details.page.navigation.costs-and-tariffs-item">
                 Costs and Tariffs
               </Trans>
             </SidebarItem>
-            <SidebarItem href={`/sunshine/${entity}/${id}/power-stability`}>
+            <SidebarItem
+              href={`/sunshine/${entity}/${id}/power-stability#main-content`}
+            >
               <Trans id="details.page.navigation.power-stability-item">
                 Power Stability
               </Trans>
             </SidebarItem>
             <SidebarItem
-              href={`/sunshine/${entity}/${id}/operational-standards`}
+              href={`/sunshine/${entity}/${id}/operational-standards#main-content`}
             >
               <Trans id="details.page.navigation.operational-standards-item">
                 Operational Standards
@@ -123,27 +130,38 @@ const SidebarItem = (props: SidebarItemProps) => {
   };
 
   return (
-    <MUILink
+    <Link
       href={href}
-      variant="h6"
-      color={"text.primary"}
-      sx={{
-        pl: 12,
-        pr: 8,
-        py: 5,
-        justifyContent: "space-between",
-        borderLeft: isActive() ? 3 : 0,
-        borderLeftStyle: "solid",
-        borderLeftColor: "primary.main",
-        alignItems: "center",
-        borderBottom: 1,
-        borderBottomStyle: "solid",
-        borderBottomColor: "monochrome.200",
+      style={{
+        textDecoration: "none",
+        color: "inherit",
       }}
-      display={"flex"}
     >
-      {children}
-      <Icon name="chevronright" />
-    </MUILink>
+      <Box
+        sx={{
+          pl: 12,
+          pr: 8,
+          py: 5,
+          justifyContent: "space-between",
+          borderLeft: isActive() ? 3 : 0,
+          borderLeftStyle: "solid",
+          borderLeftColor: "primary.main",
+          alignItems: "center",
+          borderBottom: 1,
+          borderBottomStyle: "solid",
+          borderBottomColor: "monochrome.200",
+          cursor: "pointer",
+          "&:hover": {
+            backgroundColor: "action.hover",
+          },
+        }}
+        display={"flex"}
+      >
+        <Typography variant="body2" color={"text.primary"}>
+          {children}
+        </Typography>
+        <Icon name="chevronright" />
+      </Box>
+    </Link>
   );
 };

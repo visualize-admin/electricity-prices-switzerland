@@ -27,8 +27,8 @@ const defaulColorScaleSpec: IndicatorColorScaleSpec = {
 };
 
 const yesNoPalette = [
-  first(chartPalette.diverging.GreenToOrange),
   last(chartPalette.diverging.GreenToOrange),
+  first(chartPalette.diverging.GreenToOrange),
 ] as string[];
 
 export const colorScaleSpecs: Partial<

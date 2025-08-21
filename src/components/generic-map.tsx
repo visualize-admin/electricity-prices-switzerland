@@ -8,7 +8,7 @@ import {
 import { ViewStateChangeParameters } from "@deck.gl/core/typed/controllers/controller";
 import DeckGL, { DeckGLRef } from "@deck.gl/react/typed";
 import { Trans } from "@lingui/macro";
-import { Box, Typography } from "@mui/material";
+import { Box, IconButton, iconButtonClasses, Typography } from "@mui/material";
 import bbox from "@turf/bbox";
 import centroid from "@turf/centroid";
 import { Feature, FeatureCollection } from "geojson";
@@ -37,10 +37,73 @@ import {
 import HintBox from "src/components/map-hint-box";
 import { MapTooltip } from "src/components/map-tooltip";
 import { getImageData, SCREENSHOT_CANVAS_SIZE } from "src/domain/screenshot";
+import { IconMinus } from "src/icons/ic-minus";
+import { IconPlus } from "src/icons/ic-plus";
 import { useIsMobile } from "src/lib/use-mobile";
 import { frame, sleep } from "src/utils/delay";
 
 import { CH_BBOX, HoverState, INITIAL_VIEW_STATE } from "./map-helpers";
+
+const ZoomWidget = ({
+  onZoomIn,
+  onZoomOut,
+}: {
+  onZoomIn: () => void;
+  onZoomOut: () => void;
+}) => {
+  return (
+    <Box
+      zIndex={1}
+      top={16}
+      right={16}
+      display="flex"
+      gap={2}
+      sx={{
+        [`.${iconButtonClasses.root}`]: {
+          backgroundColor: "background.paper",
+          height: 40,
+          "&:hover": {
+            backgroundColor: "secondary.100",
+          },
+          "& svg": {
+            width: 16,
+            height: 16,
+            color: "text.primary",
+          },
+        },
+      }}
+    >
+      <IconButton onClick={onZoomIn} size="sm" sx={{}}>
+        <IconPlus />
+      </IconButton>
+      <IconButton
+        onClick={onZoomOut}
+        sx={{
+          backgroundColor: "background.paper",
+          "&:hover": {
+            backgroundColor: "action.hover",
+          },
+        }}
+      >
+        <IconMinus />
+      </IconButton>
+    </Box>
+  );
+};
+
+const zoomIn = (state: typeof INITIAL_VIEW_STATE) => {
+  return {
+    ...state,
+    zoom: Math.min((state.zoom || 0) + 1, state.maxZoom || 20),
+  };
+};
+
+const zoomOut = (state: typeof INITIAL_VIEW_STATE) => {
+  return {
+    ...state,
+    zoom: Math.max((state.zoom || 0) - 1, state.minZoom || 0),
+  };
+};
 
 export type GenericMapControls = React.RefObject<{
   getImageData: () => Promise<string | undefined>;
@@ -384,33 +447,50 @@ export const GenericMap = ({
             </Box>
           )}
 
-          {/* A Widget absolutely positionned, with a button to activate scroll zoom */}
-
           <Box
             sx={{
               position: "absolute",
               top: 0,
               left: 0,
               zIndex: 10,
-              m: 2,
-              p: 2,
               display: "flex",
-              flexDirection: "column",
-              backgroundColor: "white",
-              opacity: !scrollZoom && displayScrollZoom ? 1 : 0,
-              transition: "opacity 0.25s ease-in",
+              gap: 2,
+              p: 2,
             }}
           >
-            <Typography variant="caption">
-              <Trans
-                id="map.scrollzoom.hint"
-                values={{
-                  key: isMacOS ? "⌘" : "Ctrl",
-                }}
-              >
-                {`Hold {key} and scroll to zoom`}
-              </Trans>
-            </Typography>
+            <ZoomWidget
+              onZoomIn={() => {
+                setViewState((viewState) =>
+                  zoomIn(viewState || INITIAL_VIEW_STATE)
+                );
+              }}
+              onZoomOut={() => {
+                setViewState((viewState) =>
+                  zoomOut(viewState || INITIAL_VIEW_STATE)
+                );
+              }}
+            />
+            <Box
+              sx={{
+                p: 2,
+                display: "flex",
+                alignItems: "center",
+                backgroundColor: "white",
+                opacity: !scrollZoom && displayScrollZoom ? 1 : 0,
+                transition: "opacity 0.25s ease-in",
+              }}
+            >
+              <Typography variant="caption">
+                <Trans
+                  id="map.scrollzoom.hint"
+                  values={{
+                    key: isMacOS ? "⌘" : "Ctrl",
+                  }}
+                >
+                  {`Hold {key} and scroll to zoom`}
+                </Trans>
+              </Typography>
+            </Box>
           </Box>
 
           <DeckGL
@@ -421,7 +501,7 @@ export const GenericMap = ({
             layers={layers}
             onClick={onLayerClick}
             ref={deckRef}
-          />
+          ></DeckGL>
         </div>
 
         {screenshotting ? (

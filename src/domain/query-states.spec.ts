@@ -232,7 +232,7 @@ describe("Query States", () => {
       const link = queryStates.sunshineDetailsLink("/details", {
         tab: "saidi",
       });
-      expect(link).toBe("/details?tab=saidi");
+      expect(link).toBe("/details?tab=saidi#main-content");
     });
 
     it("should correctly convert arrays to comma-separated strings in URLs", () => {

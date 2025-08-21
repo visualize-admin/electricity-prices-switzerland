@@ -267,6 +267,8 @@ const Page = () => {
 
       <SwissMedianStatus />
 
+      <SunshineMedianStatus />
+
       <DocumentDownloadStatus />
 
       <MunicipalityStatus />
@@ -315,14 +317,24 @@ const useManualQuery = <T, A extends unknown[]>({
 
 const useLindasQuery = () => {
   const [query, execute] = useManualQuery({
-    queryFn: async (options: { endpoint: string; sparqlQuery: string }) => {
+    queryFn: async (options: {
+      endpoint: string;
+      sparqlQuery: string;
+      mode: "describe" | "select";
+    }) => {
       return fetch(options.endpoint, {
         method: "POST",
         body: `query=${encodeURIComponent(options.sparqlQuery)}`,
-        headers: {
-          Accept: "application/n-triples",
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
+        headers:
+          options.mode === "describe"
+            ? {
+                Accept: "application/n-triples",
+                "Content-Type": "application/x-www-form-urlencoded",
+              }
+            : {
+                "Content-Type": "application/x-www-form-urlencoded",
+                Accept: "application/sparql-results+json",
+              },
       }).then((x) => x.text());
     },
   });
@@ -342,6 +354,7 @@ const MunicipalityStatus = () => {
       municipalityId: string;
     };
     execute({
+      mode: "describe",
       endpoint: formData.endpoint,
       sparqlQuery: formData.municipalityName
         ? `
@@ -419,6 +432,140 @@ DESCRIBE <https://ld.admin.ch/municipality/${formData.municipalityId}>
         </details>
       </Box>
     </StatusBox>
+  );
+};
+
+const SunshineMedianStatus = () => {
+  const [query, execute] = useLindasQuery();
+
+  const handleSubmit = (ev: FormEvent) => {
+    ev.preventDefault();
+    const formData = Object.fromEntries(
+      new FormData(ev.currentTarget as HTMLFormElement)
+    ) as {
+      endpoint: string;
+    };
+    execute({
+      mode: "select",
+      endpoint: formData.endpoint,
+      sparqlQuery: `
+  PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+  PREFIX cube: <https://cube.link/>
+  PREFIX schema: <http://schema.org/>
+  PREFIX : <https://energy.ld.admin.ch/elcom/sunshine/dimension/>
+
+  SELECT * 
+  WHERE {
+    <https://energy.ld.admin.ch/elcom/sunshine-median> cube:observationSet/cube:observation ?obs . 
+    ?obs 
+      :group ?group ;
+      :period ?period ;
+      :gridcost_ne5 ?gridcost_ne5 ;
+      :gridcost_ne6 ?gridcost_ne6 ;
+      :gridcost_ne7 ?gridcost_ne7 ;
+      :franken_regel ?franken_regel ;
+      :saidi_total ?saidi_total ;
+      :saidi_unplanned ?saidi_unplanned ;
+      :saifi_total ?saifi_total ;
+      :saifi_unplanned ?saifi_unplanned ;
+      :info ?info ;
+      :days_in_advance ?days_in_advance ;   
+      :in_time ?in_time .
+   ?group schema:name ?group_name . FILTER(lang(?group_name) = "de")
+  }`,
+    });
+  };
+
+  return (
+    <StatusBox>
+      <StatusHeading sx={{ mb: 2 }}>Sunshine Median Status</StatusHeading>
+      <Box sx={{ fontSize: "0.75rem" }}>
+        <details>
+          <summary>Details</summary>
+          <Box
+            component="form"
+            sx={{ mt: 2, "& > * + *": { mt: 0.5, display: "block" } }}
+            onSubmit={handleSubmit}
+          >
+            <select name="endpoint">
+              <option value="https://test.lindas.admin.ch/query">
+                test.lindas.admin.ch
+              </option>
+              <option value="https://int.lindas.admin.ch/query">
+                int.lindas.admin.ch
+              </option>
+              <option value="https://lindas.admin.ch/query">
+                lindas.admin.ch
+              </option>
+            </select>
+            <br />
+            <button disabled={query.status === "fetching"} type="submit">
+              fetch sunshine median data
+            </button>
+          </Box>
+          {query.status === "fetching" ? "Loading...." : ""}
+          {query.status === "fetched" ? (
+            <Box sx={{ my: 2 }}>
+              {query.data
+                ? "✅ Query executed successfully"
+                : "❌ No data returned"}
+            </Box>
+          ) : null}
+          <details>
+            {query.data ? <SPARQLTable data={JSON.parse(query.data)} /> : null}
+          </details>
+          {query.error ? (
+            <div>
+              Error:{" "}
+              {query.error instanceof Error
+                ? query.error.message
+                : `${query.error}`}
+            </div>
+          ) : null}
+        </details>
+      </Box>
+    </StatusBox>
+  );
+};
+
+// data
+// {"head":{"vars":["obs","group","period","gridcost_ne5","gridcost_ne6","gridcost_ne7","franken_regel","saidi_total","saidi_unplanned","saifi_total","saifi_unplanned","info","days_in_advance","in_time","group_name"]},"results":{"bindings":[{"obs":{"type":"uri","value":"https://energy.ld.admin.ch/elcom/sunshine-median/B-2025"},"group":{"type":"uri","value":"https://en
+const SPARQLTable = ({
+  data,
+}: {
+  data: {
+    head: {
+      vars: string[];
+    };
+    results: {
+      bindings: Array<{
+        [key: string]: {
+          type: string;
+          value: string;
+        };
+      }>;
+    };
+  };
+}) => {
+  return (
+    <table>
+      <thead>
+        <tr>
+          {data.head.vars.map((varName) => (
+            <th key={varName}>{varName}</th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {data.results.bindings.map((binding, index) => (
+          <tr key={index}>
+            {data.head.vars.map((varName) => (
+              <td key={varName}>{binding[varName]?.value}</td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
 };
 
