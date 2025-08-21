@@ -30,15 +30,19 @@ type Tick = {
   label: string;
 };
 
+type LegendMode = "minMedianMax" | "yesNo";
+
 export const MapColorLegend = ({
   ticks,
   id,
   title,
+  mode = "minMedianMax",
   infoDialogButtonProps,
 }: {
   ticks: Tick[];
   id: string;
   title: React.ReactNode;
+  mode?: LegendMode;
   infoDialogButtonProps?: React.ComponentProps<typeof InfoDialogButton>;
 }) => {
   const isMobile = useIsMobile();
@@ -67,7 +71,7 @@ export const MapColorLegend = ({
       <Box sx={{ alignItems: "center", width: "100%", mb: -1 }} display="flex">
         <Typography
           variant="inherit"
-          sx={{ fontSize: "0.625rem", lineHeight: 1.5, mr: 1 }}
+          sx={{ fontSize: "0.625rem", lineHeight: 1.5, mr: 1, mb: 2 }}
         >
           {title}
         </Typography>
@@ -91,71 +95,119 @@ export const MapColorLegend = ({
           width: LEGEND_WIDTH,
         }}
       >
-        <Box
-          sx={{
-            justifyContent: "space-between",
-            color: "text",
-            fontSize: "0.625rem",
-            lineHeight: 1.5,
-            height: TOP_LABEL_HEIGHT,
-            pointerEvents: "none",
-          }}
-          display="flex"
-        >
-          {ticks.map((stat, index) => (
-            <Typography
-              key={index}
-              variant="inherit"
-              sx={{
-                flex: "1 1 0px",
-                textAlign:
-                  index === 0
-                    ? "left"
-                    : index === ticks.length - 1
-                    ? "right"
-                    : "center",
-                ...(index === 0 ? { display: "flex" } : {}),
-              }}
-            >
-              {stat.label || ""}
-            </Typography>
-          ))}
-        </Box>
-        <Box
-          sx={{
-            justifyContent: "space-between",
-            color: "secondary.600",
-            fontSize: "0.625rem",
-            mb: 3,
-          }}
-          display="flex"
-        >
-          <Typography
-            variant="inherit"
-            component="span"
-            sx={{ flex: "1 1 0px", lineHeight: 1 }}
-          >
-            <Trans id="price.legend.min">min</Trans>
-          </Typography>
-          <Typography
-            variant="inherit"
-            component="span"
-            sx={{ flex: "1 1 0px", textAlign: "center", lineHeight: 1 }}
-          >
-            <Trans id="price.legend.median">median</Trans>
-          </Typography>
-          <Typography
-            variant="inherit"
-            component="span"
-            sx={{ flex: "1 1 0px", textAlign: "right", lineHeight: 1 }}
-          >
-            <Trans id="price.legend.max">max</Trans>
-          </Typography>
-        </Box>
-
-        <ColorsLine />
+        {mode === "minMedianMax" ? (
+          <MinMedianMaxLegend ticks={ticks} />
+        ) : (
+          <YesNoLegend ticks={ticks} />
+        )}
       </Box>
     </LegendBox>
+  );
+};
+
+const MinMedianMaxLegend = ({ ticks }: { ticks: Tick[] }) => {
+  return (
+    <>
+      <Box
+        sx={{
+          justifyContent: "space-between",
+          color: "text",
+          fontSize: "0.625rem",
+          lineHeight: 1.5,
+          height: TOP_LABEL_HEIGHT,
+          pointerEvents: "none",
+        }}
+        display="flex"
+      >
+        {ticks.map((stat, index) => (
+          <Typography
+            key={index}
+            variant="inherit"
+            sx={{
+              flex: "1 1 0px",
+              textAlign:
+                index === 0
+                  ? "left"
+                  : index === ticks.length - 1
+                  ? "right"
+                  : "center",
+              ...(index === 0 ? { display: "flex" } : {}),
+            }}
+          >
+            {stat.label || ""}
+          </Typography>
+        ))}
+      </Box>
+      <Box
+        sx={{
+          justifyContent: "space-between",
+          color: "secondary.600",
+          fontSize: "0.625rem",
+          mb: 3,
+        }}
+        display="flex"
+      >
+        <Typography
+          variant="inherit"
+          component="span"
+          sx={{ flex: "1 1 0px", lineHeight: 1 }}
+        >
+          <Trans id="price.legend.min">min</Trans>
+        </Typography>
+        <Typography
+          variant="inherit"
+          component="span"
+          sx={{ flex: "1 1 0px", textAlign: "center", lineHeight: 1 }}
+        >
+          <Trans id="price.legend.median">median</Trans>
+        </Typography>
+        <Typography
+          variant="inherit"
+          component="span"
+          sx={{ flex: "1 1 0px", textAlign: "right", lineHeight: 1 }}
+        >
+          <Trans id="price.legend.max">max</Trans>
+        </Typography>
+      </Box>
+
+      <ColorsLine />
+    </>
+  );
+};
+
+const YesNoLegend = ({ ticks }: { ticks: Tick[] }) => {
+  return (
+    <>
+      <Box
+        sx={{
+          justifyContent: "space-between",
+          color: "text",
+          fontSize: "0.625rem",
+          lineHeight: 1.5,
+          height: TOP_LABEL_HEIGHT,
+          pointerEvents: "none",
+          width: "100%",
+          mb: 1,
+        }}
+        display="flex"
+      >
+        {ticks.map((stat, index) => (
+          <Typography
+            key={index}
+            variant="inherit"
+            sx={{
+              flex: "1 1 0px",
+              textAlign: index === 0 ? "left" : "right",
+              ...(index === 0 ? { display: "flex" } : {}),
+            }}
+          >
+            {stat.label || ""}
+          </Typography>
+        ))}
+      </Box>
+
+      <YesNoColorsLine />
+    </>
   );
 };
 
@@ -289,6 +341,54 @@ const ColorsLine = () => {
           }`,
         }}
       />
+    </Box>
+  );
+};
+
+const YesNoColorsLine = () => {
+  const yesNoColors = [
+    chartPalette.diverging.GreenToOrange[
+      chartPalette.diverging.GreenToOrange.length - 1
+    ],
+    chartPalette.diverging.GreenToOrange[0],
+  ];
+
+  return (
+    <Box
+      sx={{ height: COLOR_HEIGHT + BOTTOM_LABEL_HEIGHT, position: "relative" }}
+      data-name="color-line"
+      display="flex"
+    >
+      <Box
+        display="grid"
+        sx={{
+          gridTemplateColumns: "1fr 1fr",
+          columnGap: 0,
+          height: COLOR_HEIGHT + BOTTOM_LABEL_HEIGHT,
+          width: "100%",
+        }}
+      >
+        {yesNoColors.map((bg, i) => (
+          <Box
+            key={bg}
+            sx={{
+              flexDirection: "column",
+              alignItems: "center",
+              "&:last-of-type > div": { borderRight: 0 },
+            }}
+            display="flex"
+          >
+            <Box
+              sx={{
+                bgcolor: bg,
+                width: "100%",
+                height: COLOR_HEIGHT,
+                borderRight: i === 0 ? "1px solid #FFF" : 0,
+              }}
+            />
+          </Box>
+        ))}
+      </Box>
     </Box>
   );
 };

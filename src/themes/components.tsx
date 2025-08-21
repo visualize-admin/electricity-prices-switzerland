@@ -35,13 +35,27 @@ export const components: Components = {
         marginLeft: "-4px",
       },
       listbox: {
+        "& .MuiAutocomplete-groupLabel": {
+          ...typography.h6,
+          fontWeight: 400,
+          color: palette.text[500],
+          padding: "10px 16px",
+          borderBottom: `1px solid ${palette.monochrome[300]}`,
+          margin: 0,
+        },
+        "& .MuiAutocomplete-groupUl": {
+          padding: 0,
+          "&:not(:last-child)": {
+            borderBottom: `1px solid ${palette.monochrome[200]}`,
+          },
+        },
         fontSize: "14px",
         overflowY: "auto",
 
         padding: 0,
         "& .MuiAutocomplete-option": {
           padding: "10px 16px",
-          ...typography.body2,
+          ...typography.h6,
           color: palette.text.primary,
           "&:hover": {
             backgroundColor: palette.secondary[50],

@@ -105,6 +105,7 @@ export const DetailsPageHeader = ({ children }: DetailsPageBaseProps) => {
       sx={{
         flexDirection: "column",
         gap: 4,
+        scrollMarginTop: "100px",
       }}
       display={"flex"}
     >

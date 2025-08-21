@@ -14,7 +14,7 @@ import {
   TableRow,
   TextField,
 } from "@mui/material";
-import { Decorator, Meta } from "@storybook/react";
+import { Meta } from "@storybook/react";
 import { Axis } from "@visx/axis";
 import { localPoint } from "@visx/event";
 import { Group } from "@visx/group";
@@ -25,8 +25,10 @@ import { LinePath } from "@visx/shape";
 import { defaultStyles, TooltipWithBounds, useTooltip } from "@visx/tooltip";
 import { sortBy } from "lodash";
 import React, { useMemo, useState } from "react";
-import { QueryClient, QueryClientProvider, useQuery } from "react-query";
+import { useQuery } from "react-query";
 import { z } from "zod";
+
+import withQueryClient from "src/components/storybook/with-query-client";
 
 const ErrorComponent = ({ message }: { message: string }) => (
   <div style={{ color: "red", fontWeight: 700 }}>
@@ -679,15 +681,6 @@ export const Template = () => {
         )}
       </div>
     </div>
-  );
-};
-
-const withQueryClient: Decorator = (Story) => {
-  const queryClient = useMemo(() => new QueryClient(), []);
-  return (
-    <QueryClientProvider client={queryClient}>
-      <Story />
-    </QueryClientProvider>
   );
 };
 

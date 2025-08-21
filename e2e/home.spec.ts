@@ -1,5 +1,5 @@
 import { expect } from "@playwright/test";
-import { test } from "e2e/common";
+import { test, sleep } from "e2e/common";
 
 test.describe("The Home Page", () => {
   test("default language (de) should render on /", async ({ browser }) => {
@@ -70,7 +70,10 @@ test.describe("The Home Page", () => {
       // Activate tab
       await newPage.bringToFront();
 
-      await newPage.waitForLoadState("networkidle");
+      await Promise.race([
+        newPage.waitForLoadState("networkidle"),
+        sleep(5000),
+      ]);
 
       await snapshot({
         note: `Sunshine link - ${link}`,

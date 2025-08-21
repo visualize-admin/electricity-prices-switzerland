@@ -197,14 +197,18 @@ This way it is easy to quickly generate a test.
 Both the frontend and the screenshot service can be built as docker images
 and spin up through docker-compose.
 
-```
-yarn docker:build
-yarn docker:build-screenshot
+```bash
+yarn docker:build # Build the image and tag it as interactivethings/electricity-prices-switzerland
 docker compose up
 ```
 
-To mimick a cloud infrastructure where the /api/screenshot route is routed
-to "screenshots" instances, the traefik reverse proxy is used.
+Trivy is used for vulnerability scanning and must pass for the image to be
+accepted on the Federal Administration infrastructure. A check is done before
+publishing the docker image on GHCR. It can also be run against a local image.
+
+```bash
+yarn docker:trivy # Runs trivy against interactivethings/electricity-prices-switzerland:latest
+```
 
 ## SPARQL notebook
 

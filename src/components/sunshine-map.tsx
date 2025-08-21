@@ -300,6 +300,21 @@ const SunshineMap = ({
   const legendId = useId();
 
   const renderLegend = useCallback(() => {
+    if (indicator === "compliance" || indicator === "serviceQuality") {
+      const complianceTicks = [
+        { value: 0, label: t({ id: "legend.no", message: "No" }) },
+        { value: 1, label: t({ id: "legend.yes", message: "Yes" }) },
+      ];
+      return (
+        <MapColorLegend
+          id={legendId}
+          title={indicatorLegendTitleMapping[indicator]}
+          ticks={complianceTicks}
+          mode="yesNo"
+        />
+      );
+    }
+
     if (!valuesExtent || !medianValue || !colorScale) return null;
     const legendData = [valuesExtent[0], medianValue, valuesExtent[1]];
     return (
