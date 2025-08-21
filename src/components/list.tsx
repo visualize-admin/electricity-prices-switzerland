@@ -234,27 +234,6 @@ const indicatorLabelTypes: Record<"prices" | SunshineIndicator, LabelType> = {
   compliance: "timely",
 } as const;
 
-const labels: Record<
-  LabelType,
-  {
-    ASC: string;
-    DESC: string;
-  }
-> = {
-  prices: {
-    ASC: t({ id: "list.order.prices.asc", message: "Ascending" }),
-    DESC: t({ id: "list.order.prices.desc", message: "Descending" }),
-  },
-  quality: {
-    ASC: t({ id: "list.order.quality.asc", message: "Ascending" }),
-    DESC: t({ id: "list.order.quality.desc", message: "Descending" }),
-  },
-  timely: {
-    ASC: t({ id: "list.order.timely.asc", message: "Ascending" }),
-    DESC: t({ id: "list.order.timely.desc", message: "Descending" }),
-  },
-};
-
 export const List = ({
   grouped,
   colorScale,
@@ -272,6 +251,27 @@ export const List = ({
 }) => {
   const [sortState, setSortState] = useState<SortState>("ASC");
   const [searchQuery, setSearchQuery] = useState<string>("");
+
+  const labels: Record<
+    LabelType,
+    {
+      ASC: string;
+      DESC: string;
+    }
+  > = {
+    prices: {
+      ASC: t({ id: "list.order.prices.asc", message: "Ascending" }),
+      DESC: t({ id: "list.order.prices.desc", message: "Descending" }),
+    },
+    quality: {
+      ASC: t({ id: "list.order.quality.asc", message: "Ascending" }),
+      DESC: t({ id: "list.order.quality.desc", message: "Descending" }),
+    },
+    timely: {
+      ASC: t({ id: "list.order.timely.asc", message: "Ascending" }),
+      DESC: t({ id: "list.order.timely.desc", message: "Descending" }),
+    },
+  };
 
   const sortOptions = [
     {
