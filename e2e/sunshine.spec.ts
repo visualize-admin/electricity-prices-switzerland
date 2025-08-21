@@ -126,4 +126,33 @@ test.describe("Sunshine map details panel", () => {
       locator: page.getByTestId("map-details-content"),
     });
   });
+
+  test("it should be possible to use the search while on detail panel", async ({
+    page,
+    snapshot,
+  }) => {
+    test.setTimeout(120_000);
+    await page.goto("/en/map?flag__sunshine=true");
+
+    const tracker = new InflightRequests(page);
+    await page.getByTitle("Indicators").click();
+    await sleep(1000);
+    await page.getByRole("combobox", { name: "Year" }).click();
+    await page.getByRole("option", { name: "2025" }).click();
+    await snapshot({
+      note: "Sunshine Map - Initial",
+      locator: page.getByTestId("map-sidebar"),
+    });
+    await page
+      .locator("a")
+      .filter({ hasText: "Gemeinde Eichberg, Elektra" })
+      .first()
+      .click();
+
+    await waitForRequests(tracker);
+    await page.getByPlaceholder("Municipality, canton, grid").click();
+    await page.keyboard.type("Bern");
+    await waitForRequests(tracker);
+    await page.locator("#search-global-option-0").getByText("Bern");
+  });
 });
