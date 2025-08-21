@@ -12,8 +12,12 @@ You can also check the
 # Unreleased
 
 - Fix
+
   - Correctly fetch indicator median from SPARQL
   - Dropdown design adjustments
+
+- Feat
+  - Anchor details page in order to skip large header
 
 # 2.8.2 - 2025-08-19
 
