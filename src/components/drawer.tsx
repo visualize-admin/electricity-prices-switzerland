@@ -25,6 +25,7 @@ export const InlineDrawer = ({
       anchor="left"
       ModalProps={{
         disablePortal: true,
+        disableAutoFocus: true,
         keepMounted: true,
         disableScrollLock: true,
         sx: {
