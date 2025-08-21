@@ -277,7 +277,7 @@ const OverviewPage = (props: Props) => {
 
   const mainContent = (
     <>
-      <DetailsPageHeader id="main-content">
+      <DetailsPageHeader>
         <DetailsPageTitle>
           <Trans id="sunshine.overview-sunshine.title">
             Sunshine Indicators Overview
