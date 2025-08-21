@@ -124,7 +124,6 @@
     "typescript-lru-cache": "^2.0.0",
     "undici": "^5.25.2",
     "urql": "^4.2.2",
-    "vitest": "^3.2.4",
     "wonka": "^6.3.5",
     "xml-c14n": "^0.0.6",
     "zod": "^3.24.2"
@@ -197,7 +196,8 @@
     "tpo-deepl": "^1.2.4",
     "tsx": "^4.20.3",
     "typescript": "^5.8.2",
-    "vite": "6.2.4"
+    "vite": "6.2.4",
+    "vitest": "^3.2.4"
   },
   "resolutions": {
     "js-base64": "2.5.2",

@@ -1,0 +1,5 @@
+# This affects form-data only used in development
+CVE-2025-7783
+# This affects esbuild go version, this is only used in development
+CVE-2025-47907 
+
