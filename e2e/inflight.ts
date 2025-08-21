@@ -31,38 +31,32 @@ class InflightRequests {
     this._page.removeListener("requestfinished", this._onFinished);
     this._page.removeListener("requestfailed", this._onFinished);
   }
-}
 
-export const waitForRequests = async (
-  tracker: InflightRequests,
-  options?: {
-    type?: string;
-    delay?: number;
+  async waitForRequests(options?: { type?: string; delay?: number }) {
+    const { type, delay = 500 } = options ?? {
+      delay: undefined,
+      type: undefined,
+    };
+    // We need a delay to ensure that the requests have started
+    await sleep(delay);
+    return expect
+      .poll(
+        () => {
+          const inflightXhrs = this.inflightRequests().filter((request) => {
+            if (type === undefined) {
+              return true;
+            }
+            return request.resourceType() === type;
+          });
+
+          return inflightXhrs.length;
+        },
+        {
+          timeout: 30_000,
+        }
+      )
+      .toBe(0);
   }
-) => {
-  const { type, delay = 500 } = options ?? {
-    delay: undefined,
-    type: undefined,
-  };
-  // We need a delay to ensure that the requests have started
-  await sleep(delay);
-  return expect
-    .poll(
-      () => {
-        const inflightXhrs = tracker.inflightRequests().filter((request) => {
-          if (type === undefined) {
-            return true;
-          }
-          return request.resourceType() === type;
-        });
-
-        return inflightXhrs.length;
-      },
-      {
-        timeout: 30_000,
-      }
-    )
-    .toBe(0);
-};
+}
 
 export default InflightRequests;
