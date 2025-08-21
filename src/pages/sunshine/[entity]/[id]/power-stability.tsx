@@ -38,6 +38,7 @@ import { SunshinePowerStabilityData } from "src/domain/sunshine";
 import { getLocalizedLabel } from "src/domain/translation";
 import { useSaidiQuery, useSaifiQuery } from "src/graphql/queries";
 import { Trend } from "src/graphql/resolver-types";
+import { useScrollPersistence } from "src/hooks/use-scroll-persistence";
 import { fetchPowerStability } from "src/lib/sunshine-data";
 import {
   getSunshineDataServiceFromGetServerSidePropsContext,
@@ -385,6 +386,9 @@ const PowerStability = (props: Props) => {
   const [state, setQueryState] = useQueryStateSunshineDetails();
   const { tab: activeTabQuery } = state;
   const activeTab = activeTabQuery ?? ("saidi" satisfies PowerStabilityTab);
+
+  useScrollPersistence(state, setQueryState);
+
   const setActiveTab = useCallback(
     (tab: QueryStateSingleSunshineDetails["tab"]) => {
       setQueryState({
