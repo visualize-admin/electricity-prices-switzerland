@@ -55,20 +55,17 @@ export const ProgressOvertimeChart = <T extends GenericObservation>(
 
   const formatCurrency = useFormatCurrency();
 
-  // Determine if we should show interactions
   const hasNotSelectedAll = !compareWith.includes("sunshine.select-all");
   const showInteractions = hasNotSelectedAll;
 
-  // Determine palette based on comparison selection
   const palette = compareWith.includes("sunshine.select-all")
     ? "monochrome"
     : paletteType;
 
-  // Determine if we should show the "Other operators" legend item
-  const shouldShowOtherOperatorsLegend = compareWith.length > 0;
+  const shouldShowOtherOperatorsLegend = compareWith.includes(
+    "sunshine.select-all"
+  );
 
-  // Put currently selected operatorLabel at the end of the list
-  // This is a trick to ensure the selected operator is always on top of other operators
   const sortedObservations = useMemo(() => {
     return sortBy(observations, [
       (d) => (d.operator_name === operatorLabel ? 1 : 0),

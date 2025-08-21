@@ -147,20 +147,22 @@ const LatestYearChartView = (
           symbol={"diamond"}
         />
 
-        <LegendItem
-          item={t({
-            id: "network-cost-trend-chart.legend-item.other-operators",
-            message: "Other operators",
-          })}
-          color={palette.monochrome[200]}
-          symbol={"circle"}
-        />
+        {compareWith?.includes("sunshine.select-all") && (
+          <LegendItem
+            item={t({
+              id: "network-cost-trend-chart.legend-item.other-operators",
+              message: "Other operators",
+            })}
+            color={palette.monochrome[200]}
+            symbol={"circle"}
+          />
+        )}
       </Box>
       <ChartContainer>
         <ChartSvg>
           <AxisWidthLinear position="top" format="number" />
           <AxisHeightCategories stretch />
-          <Dots />
+          <Dots compareWith={compareWith} />
           <InteractionDotted />
           <DotPlotMedian />
         </ChartSvg>
