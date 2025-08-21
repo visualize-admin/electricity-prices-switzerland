@@ -205,6 +205,10 @@ msgstr "dynamisch"
 msgid "energy-prices-map.legend.title"
 msgstr "Vergleich in Rp./kWh (Angaben exkl. MwSt.)"
 
+#: src/components/energy-prices-map.tsx
+msgid "energy-prices-map.legend.title-annualmeteringcost"
+msgstr "Tarifvergleich in CHF / Jahr"
+
 #: src/components/not-found.tsx
 msgid "error.page.404.back-link"
 msgstr "Klicken Sie hier, um zur Startseite zurückzukehren"

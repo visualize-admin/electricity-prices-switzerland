@@ -27,6 +27,7 @@ import { MapTooltipContent } from "src/components/map-tooltip";
 import { useGeoData } from "src/data/geo";
 import { useFormatCurrency } from "src/domain/helpers";
 import { OperatorObservationFieldsFragment } from "src/graphql/queries";
+import { PriceComponent } from "src/graphql/resolver-types";
 import { maxBy } from "src/lib/array";
 
 import { GenericMap, GenericMapControls } from "./generic-map";
@@ -73,6 +74,7 @@ export const EnergyPricesMap = ({
   municipalities,
   colorScale,
   controls,
+  priceComponent,
 }: {
   year: string;
   observations: OperatorObservationFieldsFragment[];
@@ -81,6 +83,7 @@ export const EnergyPricesMap = ({
   municipalities: { id: string; name: string }[];
   colorScale: ScaleThreshold<number, string> | undefined;
   controls?: GenericMapControls;
+  priceComponent: string;
 }) => {
   const [hovered, setHovered] = useState<HoverState>();
   const { activeId, onEntitySelect } = useMap();
@@ -308,9 +311,15 @@ export const EnergyPricesMap = ({
       <MapColorLegend
         id={legendId}
         title={
-          <Trans id="energy-prices-map.legend.title">
-            Tariff comparison in Rp./kWh (figures excl. VAT)
-          </Trans>
+          priceComponent === PriceComponent.Annualmeteringcost ? (
+            <Trans id="energy-prices-map.legend.title-annualmeteringcost">
+              Tariff comparison in CHF / year
+            </Trans>
+          ) : (
+            <Trans id="energy-prices-map.legend.title">
+              Tariff comparison in Rp./kWh (figures excl. VAT)
+            </Trans>
+          )
         }
         ticks={legendData.map((value) => ({
           value,
@@ -325,7 +334,14 @@ export const EnergyPricesMap = ({
         }}
       />
     );
-  }, [valuesExtent, medianValue, colorScale, legendId, formatCurrency]);
+  }, [
+    valuesExtent,
+    medianValue,
+    colorScale,
+    legendId,
+    priceComponent,
+    formatCurrency,
+  ]);
 
   return (
     <GenericMap

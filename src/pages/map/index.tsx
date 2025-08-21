@@ -242,6 +242,7 @@ const IndexPageContent = ({
       year={mapYear}
       observations={observations}
       municipalities={municipalities}
+      priceComponent={priceComponent}
       observationsQueryFetching={isMapDataLoading}
       medianValue={medianValue}
       colorScale={colorScale}

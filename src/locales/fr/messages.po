@@ -205,6 +205,10 @@ msgstr "dynamique"
 msgid "energy-prices-map.legend.title"
 msgstr "Comparaison des tarifs en ct./kWh (TVA exclue)"
 
+#: src/components/energy-prices-map.tsx
+msgid "energy-prices-map.legend.title-annualmeteringcost"
+msgstr "Comparaison des tarifs en CHF / année"
+
 #: src/components/not-found.tsx
 msgid "error.page.404.back-link"
 msgstr "Cliquez ici pour revenir à la page d'accueil"

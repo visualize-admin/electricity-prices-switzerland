@@ -205,6 +205,10 @@ msgstr "dynamic.tariff"
 msgid "energy-prices-map.legend.title"
 msgstr "energy-prices-map.legend.title"
 
+#: src/components/energy-prices-map.tsx
+msgid "energy-prices-map.legend.title-annualmeteringcost"
+msgstr "energy-prices-map.legend.title-annualmeteringcost"
+
 #: src/components/not-found.tsx
 msgid "error.page.404.back-link"
 msgstr "error.page.404.back-link"
