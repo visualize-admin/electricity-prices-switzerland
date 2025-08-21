@@ -75,17 +75,17 @@ test.describe("Sunshine map details panel", () => {
     await page.goto("/en/map?flag__sunshine=true");
 
     const tracker = new InflightRequests(page);
-    await page.getByRole("tab", { name: "Indicators" }).click();
+    await page.getByTitle("Indicators").click();
     await sleep(1000);
     await page.getByRole("combobox", { name: "Year" }).click();
-    await page.getByRole("option", { name: "2024" }).click();
+    await page.getByRole("option", { name: "2025" }).click();
     await snapshot({
       note: "Sunshine Map - Initial",
       locator: page.getByTestId("map-sidebar"),
     });
     await page
       .locator("a")
-      .filter({ hasText: "Werke am Zürichsee AG (" })
+      .filter({ hasText: "Gemeinde Eichberg, Elektra" })
       .first()
       .click();
 
@@ -101,7 +101,7 @@ test.describe("Sunshine map details panel", () => {
     await page.getByRole("option", { name: "Energy tariffs" }).click();
     await page
       .locator("a")
-      .filter({ hasText: "Elektrizitätswerk Göschenen1," })
+      .filter({ hasText: "Elektra Andwil Stromversorgung" })
       .first()
       .click();
     await waitForRequests(tracker);
