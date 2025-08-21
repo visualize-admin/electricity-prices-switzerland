@@ -1,5 +1,5 @@
 import { expect } from "@playwright/test";
-import InflightRequests, { waitForRequests } from "e2e/inflight";
+import InflightRequests from "e2e/inflight";
 
 import { sleep, test } from "./common";
 
@@ -89,7 +89,7 @@ test.describe("Sunshine map details panel", () => {
       .first()
       .click();
 
-    await waitForRequests(tracker);
+    await tracker.waitForRequests();
 
     await snapshot({
       note: "Sunshine Map - SAIDI - Clicked on a list item",
@@ -104,7 +104,7 @@ test.describe("Sunshine map details panel", () => {
       .filter({ hasText: "Elektra Andwil Stromversorgung" })
       .first()
       .click();
-    await waitForRequests(tracker);
+    await tracker.waitForRequests();
 
     await snapshot({
       note: "Sunshine Map - Energy tariffs - Clicked on a list item",
@@ -119,7 +119,7 @@ test.describe("Sunshine map details panel", () => {
       .first()
       .click();
 
-    await waitForRequests(tracker);
+    await tracker.waitForRequests();
 
     await snapshot({
       note: "Sunshine Map - Network costs - Clicked on a list item",
@@ -149,10 +149,10 @@ test.describe("Sunshine map details panel", () => {
       .first()
       .click();
 
-    await waitForRequests(tracker);
+    await tracker.waitForRequests();
     await page.getByPlaceholder("Municipality, canton, grid").click();
     await page.keyboard.type("Bern");
-    await waitForRequests(tracker);
+    await tracker.waitForRequests();
     await page.locator("#search-global-option-0").getByText("Bern");
   });
 });

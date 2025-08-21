@@ -50,7 +50,7 @@ export const MapColorLegend = ({
 
   if (!open) {
     return (
-      <LegendBox sx={{ width: "auto" }} id={id}>
+      <LegendBox sx={{ width: "auto" }} id={id} data-testid="map-legend">
         <Box
           onClick={() => setOpen(true)}
           sx={{
@@ -67,7 +67,7 @@ export const MapColorLegend = ({
   }
 
   return (
-    <LegendBox id={id}>
+    <LegendBox id={id} data-testid="map-legend">
       <Box sx={{ alignItems: "center", width: "100%", mb: -1 }} display="flex">
         <Typography
           variant="inherit"

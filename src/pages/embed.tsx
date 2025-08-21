@@ -90,6 +90,7 @@ const IndexPage = ({ locale }: Props) => {
         <EnergyPricesMap
           year={period}
           observations={observations}
+          priceComponent={priceComponent}
           municipalities={municipalities}
           observationsQueryFetching={
             observationsQuery.fetching || municipalitiesQuery.fetching
