@@ -99,14 +99,19 @@ const DetailPageContentLayout = ({ children, selector, download }: Props) => {
   );
 };
 
-export const DetailsPageHeader = ({ children }: DetailsPageBaseProps) => {
+export const DetailsPageHeader = ({
+  children,
+  ...props
+}: DetailsPageBaseProps & { id?: string }) => {
   return (
     <Box
       sx={{
         flexDirection: "column",
         gap: 4,
+        scrollMarginTop: "100px",
       }}
       display={"flex"}
+      {...props}
     >
       {children}
     </Box>
