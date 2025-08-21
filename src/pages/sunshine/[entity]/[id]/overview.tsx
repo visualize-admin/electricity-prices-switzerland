@@ -387,10 +387,10 @@ const OverviewPage = (props: Props) => {
             })}
             linkContent={
               <Link
-                href={`${sunshineDetailsLink(
+                href={sunshineDetailsLink(
                   `/sunshine/${entity}/${id}/costs-and-tariffs`,
                   { tab: "networkCosts" }
-                )}#main-content`}
+                )}
               >
                 <IconButton variant="outlined" color="primary">
                   <Icon name="arrowright" />
@@ -424,10 +424,10 @@ const OverviewPage = (props: Props) => {
             sx={{ gridArea: "net-tariffs" }}
             linkContent={
               <Link
-                href={`${sunshineDetailsLink(
+                href={sunshineDetailsLink(
                   `/sunshine/${entity}/${id}/costs-and-tariffs`,
                   { tab: "netTariffs" }
-                )}#main-content`}
+                )}
               >
                 <IconButton variant="outlined" size="sm" color="primary">
                   <Icon name="arrowright" />
@@ -461,10 +461,10 @@ const OverviewPage = (props: Props) => {
             sx={{ gridArea: "energy-tariffs" }}
             linkContent={
               <Link
-                href={`${sunshineDetailsLink(
+                href={sunshineDetailsLink(
                   `/sunshine/${entity}/${id}/costs-and-tariffs`,
                   { tab: "energyTariffs" }
-                )}#main-content`}
+                )}
               >
                 <IconButton variant="outlined" size="sm" color="primary">
                   <Icon name="arrowright" />
@@ -504,10 +504,10 @@ const OverviewPage = (props: Props) => {
           sx={{ gridArea: "saidi" }}
           linkContent={
             <Link
-              href={`${sunshineDetailsLink(
+              href={sunshineDetailsLink(
                 `/sunshine/${entity}/${id}/power-stability`,
                 { tab: "saidi" }
-              )}#main-content`}
+              )}
             >
               <IconButton variant="outlined" size="sm" color="primary">
                 <Icon name="arrowright" />
@@ -539,10 +539,10 @@ const OverviewPage = (props: Props) => {
           sx={{ gridArea: "saifi" }}
           linkContent={
             <Link
-              href={`${sunshineDetailsLink(
+              href={sunshineDetailsLink(
                 `/sunshine/${entity}/${id}/power-stability`,
                 { tab: "saifi" }
-              )}#main-content`}
+              )}
             >
               <IconButton variant="outlined" size="sm" color="primary">
                 <Icon name="arrowright" />
@@ -567,10 +567,10 @@ const OverviewPage = (props: Props) => {
           }
           linkContent={
             <Link
-              href={`${sunshineDetailsLink(
+              href={sunshineDetailsLink(
                 `/sunshine/${entity}/${id}/operational-standards`,
                 { tab: "serviceQuality" }
-              )}#main-content`}
+              )}
             >
               <IconButton variant="outlined" size="sm" color="primary">
                 <Icon name="arrowright" />
@@ -591,10 +591,10 @@ const OverviewPage = (props: Props) => {
           }
           linkContent={
             <Link
-              href={`${sunshineDetailsLink(
+              href={sunshineDetailsLink(
                 `/sunshine/${entity}/${id}/operational-standards`,
                 { tab: "compliance" }
-              )}#main-content`}
+              )}
             >
               <IconButton variant="outlined" size="sm" color="primary">
                 <Icon name="arrowright" />
