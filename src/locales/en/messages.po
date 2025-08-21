@@ -1046,6 +1046,10 @@ msgid "selector.pricecomponent.aidfee"
 msgstr "Grid surcharge pursuant to Art. 35 EnG"
 
 #: src/domain/translation.tsx
+msgid "selector.pricecomponent.annualmeteringcost"
+msgstr "Annual Metering Cost"
+
+#: src/domain/translation.tsx
 msgid "selector.pricecomponent.charge"
 msgstr "Charges to the community"
 
@@ -1056,6 +1060,10 @@ msgstr "Energy"
 #: src/domain/translation.tsx
 msgid "selector.pricecomponent.gridusage"
 msgstr "Grid usage"
+
+#: src/domain/translation.tsx
+msgid "selector.pricecomponent.meteringrate"
+msgstr "Metering Rate"
 
 #: src/domain/translation.tsx
 msgid "selector.pricecomponent.total"

@@ -1046,6 +1046,10 @@ msgid "selector.pricecomponent.aidfee"
 msgstr "selector.pricecomponent.aidfee"
 
 #: src/domain/translation.tsx
+msgid "selector.pricecomponent.annualmeteringcost"
+msgstr "selector.pricecomponent.annualmeteringcost"
+
+#: src/domain/translation.tsx
 msgid "selector.pricecomponent.charge"
 msgstr "selector.pricecomponent.charge"
 
@@ -1056,6 +1060,10 @@ msgstr "selector.pricecomponent.energy"
 #: src/domain/translation.tsx
 msgid "selector.pricecomponent.gridusage"
 msgstr "selector.pricecomponent.gridusage"
+
+#: src/domain/translation.tsx
+msgid "selector.pricecomponent.meteringrate"
+msgstr "selector.pricecomponent.meteringrate"
 
 #: src/domain/translation.tsx
 msgid "selector.pricecomponent.total"

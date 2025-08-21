@@ -1046,6 +1046,10 @@ msgid "selector.pricecomponent.aidfee"
 msgstr "Netzzuschlag gem. Art. 35 EnG"
 
 #: src/domain/translation.tsx
+msgid "selector.pricecomponent.annualmeteringcost"
+msgstr "Jährliche Zählerkosten"
+
+#: src/domain/translation.tsx
 msgid "selector.pricecomponent.charge"
 msgstr "Abgaben an das Gemeinwesen"
 
@@ -1056,6 +1060,10 @@ msgstr "Energie"
 #: src/domain/translation.tsx
 msgid "selector.pricecomponent.gridusage"
 msgstr "Netznutzung"
+
+#: src/domain/translation.tsx
+msgid "selector.pricecomponent.meteringrate"
+msgstr "Messrate"
 
 #: src/domain/translation.tsx
 msgid "selector.pricecomponent.total"

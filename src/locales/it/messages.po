@@ -1046,6 +1046,10 @@ msgid "selector.pricecomponent.aidfee"
 msgstr "Supplemento rete ai sensi dell'art. 35 LEne"
 
 #: src/domain/translation.tsx
+msgid "selector.pricecomponent.annualmeteringcost"
+msgstr "Costo annuale del contatore"
+
+#: src/domain/translation.tsx
 msgid "selector.pricecomponent.charge"
 msgstr "Tributi a enti pubblici"
 
@@ -1056,6 +1060,10 @@ msgstr "Energia"
 #: src/domain/translation.tsx
 msgid "selector.pricecomponent.gridusage"
 msgstr "Utilizzazione della rete"
+
+#: src/domain/translation.tsx
+msgid "selector.pricecomponent.meteringrate"
+msgstr "Tasso di misurazione"
 
 #: src/domain/translation.tsx
 msgid "selector.pricecomponent.total"
