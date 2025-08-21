@@ -98,7 +98,7 @@ import { IconWarningCircleFilled } from "./ic-warning-circle-filled";
 import { IconWiFi } from "./ic-wi-fi";
 import { IconYoutube } from "./ic-youtube";
 
-const Icons = {
+export const Icons = {
   apps: IconApps,
   arrowdown: IconArrowDown,
   arrowleft: IconArrowLeft,
