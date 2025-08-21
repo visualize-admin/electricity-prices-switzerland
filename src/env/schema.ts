@@ -4,7 +4,7 @@ export const buildSchema = z.object({
   // Used to display a mention of the current deployment in development mode
   DEPLOYMENT: z.string().optional(),
   CURRENT_PERIOD: z.string().default("2025"),
-  FIRST_PERIOD: z.string().default("2009"),
+  FIRST_PERIOD: z.string().default("2011"),
   VERSION: z.string().optional(),
   ALLOW_ENGLISH: z.boolean().default(false),
 });
