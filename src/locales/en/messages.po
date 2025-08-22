@@ -19,6 +19,14 @@ msgstr "No"
 msgid "Yes"
 msgstr "Yes"
 
+#: src/pages/_app.tsx
+msgid "app.meta.description"
+msgstr "Explore and compare electricity prices across Switzerland with interactive visualizations and detailed tariff information."
+
+#: src/pages/_app.tsx
+msgid "app.meta.title"
+msgstr "Swiss Electricity Price Visualization"
+
 #: src/components/energy-prices-map.tsx
 msgid "canton"
 msgstr "Canton"
@@ -476,6 +484,14 @@ msgstr "Power Outage Frequency (SAIFI)"
 #: src/domain/translation.tsx
 msgid "indicator.serviceQuality"
 msgstr "Service quality"
+
+#: src/components/sunshine-map.tsx
+msgid "legend.no"
+msgstr "No"
+
+#: src/components/sunshine-map.tsx
+msgid "legend.yes"
+msgstr "Yes"
 
 #: src/components/list.tsx
 msgid "list.order.prices.asc"

@@ -19,6 +19,14 @@ msgstr "No"
 msgid "Yes"
 msgstr "Sì"
 
+#: src/pages/_app.tsx
+msgid "app.meta.description"
+msgstr "Esplora e confronta i prezzi dell'elettricità in tutta la Svizzera con visualizzazioni interattive e informazioni dettagliate sulle tariffe."
+
+#: src/pages/_app.tsx
+msgid "app.meta.title"
+msgstr "Visualizzazione dei prezzi dell'elettricità in Svizzera"
+
 #: src/components/energy-prices-map.tsx
 msgid "canton"
 msgstr "Canton"
@@ -476,6 +484,14 @@ msgstr "Frequenza delle interruzioni di corrente (SAIFI)"
 #: src/domain/translation.tsx
 msgid "indicator.serviceQuality"
 msgstr "Qualità del servizio"
+
+#: src/components/sunshine-map.tsx
+msgid "legend.no"
+msgstr "No"
+
+#: src/components/sunshine-map.tsx
+msgid "legend.yes"
+msgstr "Sì"
 
 #: src/components/list.tsx
 msgid "list.order.prices.asc"

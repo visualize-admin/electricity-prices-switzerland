@@ -19,6 +19,14 @@ msgstr "Non"
 msgid "Yes"
 msgstr "Oui"
 
+#: src/pages/_app.tsx
+msgid "app.meta.description"
+msgstr "Explore et compare les prix de l'électricité dans toute la Suisse grâce à des visualisations interactives et des informations détaillées sur les tarifs."
+
+#: src/pages/_app.tsx
+msgid "app.meta.title"
+msgstr "Visualisation des prix de l'électricité en Suisse"
+
 #: src/components/energy-prices-map.tsx
 msgid "canton"
 msgstr "Canton"
@@ -476,6 +484,14 @@ msgstr "Fréquence des pannes d'électricité (SAIFI)"
 #: src/domain/translation.tsx
 msgid "indicator.serviceQuality"
 msgstr "Qualité du service"
+
+#: src/components/sunshine-map.tsx
+msgid "legend.no"
+msgstr "Non"
+
+#: src/components/sunshine-map.tsx
+msgid "legend.yes"
+msgstr "Oui"
 
 #: src/components/list.tsx
 msgid "list.order.prices.asc"

@@ -19,6 +19,14 @@ msgstr "Nein"
 msgid "Yes"
 msgstr "Ja"
 
+#: src/pages/_app.tsx
+msgid "app.meta.description"
+msgstr "Entdecke und vergleiche die Strompreise in der Schweiz mit interaktiven Visualisierungen und detaillierten Tarifinformationen."
+
+#: src/pages/_app.tsx
+msgid "app.meta.title"
+msgstr "Visualisierung der Schweizer Strompreise"
+
 #: src/components/energy-prices-map.tsx
 msgid "canton"
 msgstr "Kanton"
@@ -476,6 +484,14 @@ msgstr "Häufigkeit von Stromunterbrechungen (SAIFI)"
 #: src/domain/translation.tsx
 msgid "indicator.serviceQuality"
 msgstr "Servicequalität"
+
+#: src/components/sunshine-map.tsx
+msgid "legend.no"
+msgstr "Nein"
+
+#: src/components/sunshine-map.tsx
+msgid "legend.yes"
+msgstr "Ja"
 
 #: src/components/list.tsx
 msgid "list.order.prices.asc"

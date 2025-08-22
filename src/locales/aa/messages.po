@@ -19,6 +19,14 @@ msgstr "No"
 msgid "Yes"
 msgstr "Yes"
 
+#: src/pages/_app.tsx
+msgid "app.meta.description"
+msgstr "app.meta.description"
+
+#: src/pages/_app.tsx
+msgid "app.meta.title"
+msgstr "app.meta.title"
+
 #: src/components/energy-prices-map.tsx
 msgid "canton"
 msgstr "canton"
@@ -476,6 +484,14 @@ msgstr "indicator.saifi"
 #: src/domain/translation.tsx
 msgid "indicator.serviceQuality"
 msgstr "indicator.serviceQuality"
+
+#: src/components/sunshine-map.tsx
+msgid "legend.no"
+msgstr "legend.no"
+
+#: src/components/sunshine-map.tsx
+msgid "legend.yes"
+msgstr "legend.yes"
 
 #: src/components/list.tsx
 msgid "list.order.prices.asc"
