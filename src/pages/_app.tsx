@@ -15,7 +15,7 @@ import createEmotionCache from "src/emotion-cache";
 import { GraphqlProvider } from "src/graphql/context";
 import { LocaleProvider } from "src/lib/use-locale";
 import { useNProgress } from "src/lib/use-nprogress";
-import { i18n, parseLocaleString } from "src/locales/locales";
+import { i18n as appI18n, parseLocaleString } from "src/locales/locales";
 import { preloadFonts, theme } from "src/themes/elcom";
 import { useRuntimeFlags } from "src/utils/flags";
 
@@ -40,8 +40,8 @@ export default function App(props: AppProps & { emotionCache?: EmotionCache }) {
   useRuntimeFlags();
 
   // Immediately activate locale to avoid re-render
-  if (i18n.locale !== locale) {
-    i18n.activate(locale);
+  if (appI18n.locale !== locale) {
+    appI18n.activate(locale);
   }
 
   useEffect(() => {
@@ -51,8 +51,8 @@ export default function App(props: AppProps & { emotionCache?: EmotionCache }) {
 
     const handleRouteStart = (url: string) => {
       const locale = parseLocaleString(url.slice(1));
-      if (i18n.locale !== locale) {
-        i18n.activate(locale);
+      if (appI18n.locale !== locale) {
+        appI18n.activate(locale);
       }
     };
 
@@ -97,7 +97,7 @@ export default function App(props: AppProps & { emotionCache?: EmotionCache }) {
         ))}
       </Head>
       <LocaleProvider value={locale}>
-        <I18nProvider i18n={i18n}>
+        <I18nProvider i18n={appI18n}>
           <GraphqlProvider>
             <ThemeProvider theme={theme}>
               <CssBaseline />
