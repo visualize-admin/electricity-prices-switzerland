@@ -73,7 +73,7 @@ export default function App(props: AppProps & { emotionCache?: EmotionCache }) {
           property="og:title"
           content={t({
             id: "app.meta.title",
-            message: "Swiss Electricity Price Visualization",
+            message: "Electricity tariffs in Switzerland",
           })}
         />
         <meta
@@ -81,7 +81,7 @@ export default function App(props: AppProps & { emotionCache?: EmotionCache }) {
           content={t({
             id: "app.meta.description",
             message:
-              "Explore and compare electricity prices across Switzerland with interactive visualizations and detailed tariff information.",
+              "Detailed price analyses of cantons, municipalities and grid operators.",
           })}
         />
         <meta property="og:image" content={`${PUBLIC_URL}/og-image.png`} />

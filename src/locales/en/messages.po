@@ -21,11 +21,11 @@ msgstr "Yes"
 
 #: src/pages/_app.tsx
 msgid "app.meta.description"
-msgstr "Explore and compare electricity prices across Switzerland with interactive visualizations and detailed tariff information."
+msgstr "Detailed price analyses of cantons, municipalities and grid operators."
 
 #: src/pages/_app.tsx
 msgid "app.meta.title"
-msgstr "Swiss Electricity Price Visualization"
+msgstr "Electricity tariffs in Switzerland"
 
 #: src/components/energy-prices-map.tsx
 msgid "canton"

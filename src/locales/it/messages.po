@@ -21,11 +21,11 @@ msgstr "Sì"
 
 #: src/pages/_app.tsx
 msgid "app.meta.description"
-msgstr "Esplora e confronta i prezzi dell'elettricità in tutta la Svizzera con visualizzazioni interattive e informazioni dettagliate sulle tariffe."
+msgstr "Analisi dettagliate dei prezzi di cantoni, comuni e operatori di rete."
 
 #: src/pages/_app.tsx
 msgid "app.meta.title"
-msgstr "Visualizzazione dei prezzi dell'elettricità in Svizzera"
+msgstr "Tariffe elettriche in Svizzera"
 
 #: src/components/energy-prices-map.tsx
 msgid "canton"

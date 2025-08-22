@@ -21,11 +21,11 @@ msgstr "Ja"
 
 #: src/pages/_app.tsx
 msgid "app.meta.description"
-msgstr "Entdecke und vergleiche die Strompreise in der Schweiz mit interaktiven Visualisierungen und detaillierten Tarifinformationen."
+msgstr "Detaillierte Preisanalysen von Kantonen, Gemeinden und Netzbetreibern."
 
 #: src/pages/_app.tsx
 msgid "app.meta.title"
-msgstr "Visualisierung der Schweizer Strompreise"
+msgstr "Stromtarife in der Schweiz"
 
 #: src/components/energy-prices-map.tsx
 msgid "canton"
