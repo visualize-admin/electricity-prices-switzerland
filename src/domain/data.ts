@@ -70,10 +70,13 @@ const allPriceComponents = [
    * For the details display, they are converted by Elcom to Rp/kWh to align with other price components.
    */
   "meteringrate",
+
+  /** We need to keep aidfee even if not shown on the map for the total to be OK */
+  "aidfee",
 ] as const;
 
 export const mapPriceComponents = allPriceComponents.filter(
-  (x) => x !== "meteringrate"
+  (x) => x !== "meteringrate" && x !== "aidfee"
 );
 export const detailsPriceComponents = allPriceComponents.filter(
   (x) => x !== "annualmeteringcost"
