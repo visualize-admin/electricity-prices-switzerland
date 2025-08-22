@@ -1,0 +1,24 @@
+const isRunningInBrowser = () => {
+  return typeof window !== "undefined";
+};
+
+declare global {
+  interface Window {
+    __clientEnv__: Record<string, string | undefined>;
+  }
+}
+
+/**
+ * Client and server-side **RUNTIME** variables
+ *
+ * These values are exposed in pages/_document.tsx to the browser or read from process.env on the server-side.
+ * Note: we can't destructure process.env because it's mangled in the Next.js runtime
+ */
+
+const clientEnv = isRunningInBrowser() ? window.__clientEnv__ : undefined;
+
+export const PUBLIC_URL = (
+  clientEnv?.PUBLIC_URL ??
+  process.env.PUBLIC_URL ??
+  ""
+).replace(/\/$/, "");

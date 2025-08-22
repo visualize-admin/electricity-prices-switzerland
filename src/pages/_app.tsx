@@ -1,6 +1,7 @@
 // pages/_app.tsx
 import { CacheProvider, EmotionCache } from "@emotion/react";
 import { Matomo } from "@interactivethings/swiss-federal-ci/dist/components/pages-router";
+import { t } from "@lingui/macro";
 import { I18nProvider } from "@lingui/react";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { AppProps } from "next/app";
@@ -9,6 +10,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 import { analyticsPageView } from "src/domain/analytics";
+import { PUBLIC_URL } from "src/domain/env";
 import createEmotionCache from "src/emotion-cache";
 import { GraphqlProvider } from "src/graphql/context";
 import { LocaleProvider } from "src/lib/use-locale";
@@ -23,7 +25,12 @@ const clientSideEmotionCache = createEmotionCache();
 
 export default function App(props: AppProps & { emotionCache?: EmotionCache }) {
   const { Component, pageProps, emotionCache = clientSideEmotionCache } = props;
-  const { query, events: routerEvents, locale: routerLocale } = useRouter();
+  const {
+    query,
+    events: routerEvents,
+    locale: routerLocale,
+    asPath,
+  } = useRouter();
   const locale = parseLocaleString(routerLocale ?? "");
 
   const matomoId = useMatomo();
@@ -60,6 +67,25 @@ export default function App(props: AppProps & { emotionCache?: EmotionCache }) {
   return (
     <CacheProvider value={emotionCache}>
       <Head>
+        <title key="title">strompreis.elcom.admin.ch/</title>
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:title"
+          content={t({
+            id: "app.meta.title",
+            message: "Swiss Electricity Price Visualization",
+          })}
+        />
+        <meta
+          property="og:description"
+          content={t({
+            id: "app.meta.description",
+            message:
+              "Explore and compare electricity prices across Switzerland with interactive visualizations and detailed tariff information.",
+          })}
+        />
+        <meta property="og:image" content={`${PUBLIC_URL}/og-image.png`} />
+        <meta property="og:url" content={`${PUBLIC_URL}${asPath}`} />
         {preloadFonts.map((src) => (
           <link
             key={src}
