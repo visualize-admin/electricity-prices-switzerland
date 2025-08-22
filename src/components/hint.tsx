@@ -243,7 +243,7 @@ export const HintBlue = ({
         {children}
       </Typography>
       {onRemove && (
-        <IconButton size="sm" onClick={onRemove}>
+        <IconButton size="sm" onClick={onRemove} sx={{ ml: "auto" }}>
           <Icon name={"cancel"} color={palette.blue[700]} size={24} />
         </IconButton>
       )}
