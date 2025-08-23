@@ -22,7 +22,7 @@ generates:
     config:
       useIndexSignature: true
       noSchemaStitching: true
-      contextType: "./server-context#ServerContext"
+      contextType: "./server-context#GraphqlRequestContext"
       mappers:
         Canton: "./resolver-mapped-types#ResolvedCanton"
         Municipality: "./resolver-mapped-types#ResolvedMunicipality"
