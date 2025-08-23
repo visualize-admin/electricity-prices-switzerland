@@ -80,7 +80,6 @@ type OperatorObservation @cacheControl(maxAge: 300) {
   cantonLabel: String
   category: String!
   period: String!
-
   value(priceComponent: PriceComponent!): Float
 }
 

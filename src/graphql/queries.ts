@@ -229,6 +229,7 @@ export type OperatorObservation = {
   canton: Scalars["String"]["output"];
   cantonLabel?: Maybe<Scalars["String"]["output"]>;
   category: Scalars["String"]["output"];
+  coverageRatio: Scalars["Float"]["output"];
   municipality: Scalars["String"]["output"];
   municipalityLabel?: Maybe<Scalars["String"]["output"]>;
   operator: Scalars["String"]["output"];

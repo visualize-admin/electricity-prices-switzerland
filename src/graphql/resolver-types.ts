@@ -245,6 +245,7 @@ export type OperatorObservation = {
   canton: Scalars["String"]["output"];
   cantonLabel?: Maybe<Scalars["String"]["output"]>;
   category: Scalars["String"]["output"];
+  coverageRatio: Scalars["Float"]["output"];
   municipality: Scalars["String"]["output"];
   municipalityLabel?: Maybe<Scalars["String"]["output"]>;
   operator: Scalars["String"]["output"];
@@ -1173,6 +1174,7 @@ export type OperatorObservationResolvers<
     ContextType
   >;
   category?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  coverageRatio?: Resolver<ResolversTypes["Float"], ParentType, ContextType>;
   municipality?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   municipalityLabel?: Resolver<
     Maybe<ResolversTypes["String"]>,
