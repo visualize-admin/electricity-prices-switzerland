@@ -35,7 +35,7 @@ export const MapTooltipContent: React.FC<{
         display="grid"
         sx={{
           width: "100%",
-          gridTemplateColumns: "1fr auto",
+          gridTemplateColumns: "1fr max-content",
           gap: 1,
           alignItems: "center",
         }}

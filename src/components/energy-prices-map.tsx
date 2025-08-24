@@ -29,6 +29,7 @@ import { useFormatCurrency } from "src/domain/helpers";
 import { OperatorObservationFieldsFragment } from "src/graphql/queries";
 import { PriceComponent } from "src/graphql/resolver-types";
 import { maxBy } from "src/lib/array";
+import { useFlag } from "src/utils/flags";
 import { isDefined } from "src/utils/is-defined";
 import { weightedMean } from "src/utils/weighted-mean";
 
@@ -126,6 +127,8 @@ export const EnergyPricesMap = ({
 
   const { value: highlightContext } = useContext(HighlightContext);
 
+  const coverageRatioFlag = useFlag("coverageRatio");
+
   const indexes = useMemo(() => {
     if (geoData.state !== "loaded") {
       return;
@@ -160,13 +163,15 @@ export const EnergyPricesMap = ({
           caption={<Trans id="municipality">Municipality</Trans>}
           values={
             hoveredObservations?.length
-              ? hoveredObservations.map((d) => {
-                  return {
-                    label: d.operatorLabel,
-                    formattedValue: d.value ? formatNumber(d.value) : "",
-                    color: isDefined(d.value) ? colorScale(d.value) : "",
-                  };
-                })
+              ? hoveredObservations.map((d) => ({
+                  label: d.operatorLabel,
+                  formattedValue: `${
+                    d.value !== undefined && d.value !== null
+                      ? formatNumber(d.value)
+                      : ""
+                  }${coverageRatioFlag ? ` (ratio: ${d.coverageRatio})` : ""}`,
+                  color: isDefined(d.value) ? colorScale(d.value) : "",
+                }))
               : []
           }
         />
@@ -198,6 +203,7 @@ export const EnergyPricesMap = ({
     observationsByMunicipalityId,
     municipalityNames,
     formatNumber,
+    coverageRatioFlag,
   ]);
 
   const getEntityFromHighlight = useCallback(
@@ -227,7 +233,7 @@ export const EnergyPricesMap = ({
       (values) =>
         weightedMean(
           values,
-          (d) => d.value,
+          (d) => d.value ?? 0,
           (d) => d.coverageRatio
         ),
       (d) => d.municipality
