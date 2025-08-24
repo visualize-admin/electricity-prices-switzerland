@@ -69,6 +69,11 @@ const expectedCubeDimensions = [
   "https://cube.link/observedBy",
 ];
 
+/**
+ * Under this threshold, observations are not returned
+ */
+const COVERAGE_RATIO_THRESHOLD = 0.25;
+
 const Query: QueryResolvers = {
   sunshineData: async (_parent, args, context) => {
     const { filter } = args;
@@ -240,7 +245,16 @@ const Query: QueryResolvers = {
         return x;
       });
     }
-    return operatorObservations;
+
+    return operatorObservations.filter((o) => {
+      if (
+        o.coverageRatio !== undefined &&
+        o.coverageRatio < COVERAGE_RATIO_THRESHOLD
+      ) {
+        return false;
+      }
+      return true;
+    });
   },
   cantonMedianObservations: async (
     _,
