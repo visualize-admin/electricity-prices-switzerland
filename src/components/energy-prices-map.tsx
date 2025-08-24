@@ -1,6 +1,6 @@
 import { Layer, PickingInfo } from "@deck.gl/core/typed";
 import { t, Trans } from "@lingui/macro";
-import { extent, group, mean, rollup, ScaleThreshold } from "d3";
+import { extent, group, rollup, ScaleThreshold } from "d3";
 import React, {
   ComponentProps,
   useCallback,
@@ -30,6 +30,7 @@ import { OperatorObservationFieldsFragment } from "src/graphql/queries";
 import { PriceComponent } from "src/graphql/resolver-types";
 import { maxBy } from "src/lib/array";
 import { isDefined } from "src/utils/is-defined";
+import { weightedMean } from "src/utils/weighted-mean";
 
 import { GenericMap, GenericMapControls } from "./generic-map";
 import { useMap } from "./map-context";
@@ -223,7 +224,12 @@ export const EnergyPricesMap = ({
   const valuesExtent = useMemo(() => {
     const meansByMunicipality = rollup(
       observations,
-      (values) => mean(values, (d) => d.value),
+      (values) =>
+        weightedMean(
+          values,
+          (d) => d.value,
+          (d) => d.coverageRatio
+        ),
       (d) => d.municipality
     ).values();
     return extent(meansByMunicipality, (d) => d) as [number, number];

@@ -229,7 +229,7 @@ export type OperatorObservation = {
   canton: Scalars["String"]["output"];
   cantonLabel?: Maybe<Scalars["String"]["output"]>;
   category: Scalars["String"]["output"];
-  coverageRatio: Scalars["Float"]["output"];
+  coverageRatio?: Maybe<Scalars["Float"]["output"]>;
   municipality: Scalars["String"]["output"];
   municipalityLabel?: Maybe<Scalars["String"]["output"]>;
   operator: Scalars["String"]["output"];
@@ -641,6 +641,7 @@ export type OperatorObservationFieldsFragment = {
   cantonLabel?: string | null;
   category: string;
   value?: number | null;
+  coverageRatio?: number | null;
 };
 
 export type CantonMedianObservationFieldsFragment = {
@@ -679,6 +680,7 @@ export type ObservationsQuery = {
     cantonLabel?: string | null;
     category: string;
     value?: number | null;
+    coverageRatio?: number | null;
   }> | null;
   cantonMedianObservations?: Array<{
     __typename: "CantonMedianObservation";
@@ -1125,6 +1127,7 @@ export const OperatorObservationFieldsFragmentDoc = gql`
     cantonLabel
     category
     value(priceComponent: $priceComponent)
+    coverageRatio
   }
 `;
 export const CantonMedianObservationFieldsFragmentDoc = gql`

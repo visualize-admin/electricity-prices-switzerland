@@ -10,6 +10,7 @@ import {
   OperatorObservationFieldsFragment,
   SunshineDataIndicatorRow,
 } from "src/graphql/queries";
+import { weightedMean } from "src/utils/weighted-mean";
 
 // Common types for layer options
 type LayerHoverHandler = (info: PickingInfo) => void;
@@ -95,7 +96,11 @@ export function makeMunicipalityLayer(options: MunicipalityLayerOptions) {
         return obs
           ? getFillColor(
               colorScale,
-              mean(obs, (d) => d.value),
+              weightedMean(
+                obs,
+                (d) => d.value,
+                (d) => d.coverageRatio
+              ),
               highlightId === id
             )
           : styles.municipalities.base.fillColor.withoutData;
