@@ -2,7 +2,7 @@ import { Literal, NamedNode } from "rdf-js";
 
 import * as ns from "src/rdf/namespace";
 
-type ObservationValue = string | number | boolean;
+type ObservationValue = string | number | boolean | null;
 
 export type Observation = Record<string, ObservationValue>;
 
@@ -10,6 +10,9 @@ const xmlSchema = "http://www.w3.org/2001/XMLSchema#";
 const parseRDFLiteral = (value: Literal): ObservationValue => {
   const v = value.value;
   const dt = value.datatype.value.replace(xmlSchema, "");
+  if (dt === "https://cube.link/Undefined") {
+    return null;
+  }
   switch (dt) {
     case "string":
       return v;
@@ -62,15 +65,15 @@ const parseObservationValue = (
 };
 
 export const parseObservation = (
-  d: Record<string, Literal | NamedNode<string>>
+  d: Record<string, Literal | NamedNode<string> | null>
 ) => {
-  const parsed: { [k: string]: string | number | boolean } = {};
+  const parsed: { [k: string]: string | number | boolean | null } = {};
   const electricityPriceDimensionPrefix = ns.electricityPriceDimension().value;
 
   for (const [k, v] of Object.entries(d)) {
     const key = k.replace(electricityPriceDimensionPrefix, "");
 
-    const parsedValue = parseObservationValue(v);
+    const parsedValue = v ? parseObservationValue(v) : null;
 
     parsed[key] =
       typeof parsedValue === "string"

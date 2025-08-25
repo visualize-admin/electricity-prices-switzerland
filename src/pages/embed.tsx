@@ -68,12 +68,16 @@ const IndexPage = ({ locale }: Props) => {
 
   const medianValue = swissMedianObservations[0]?.value;
 
+  const isValidValue = <T extends { value?: number | null | undefined }>(
+    x: T
+  ): x is T & { value: number } => x.value !== undefined && x.value !== null;
+
   const colorAccessor = useCallback((d: { value: number }) => d.value, []);
   const colorScale = useMemo(() => {
     return makeColorScale(
       colorScaleSpecs.default,
       medianValue,
-      observations.map(colorAccessor)
+      observations.filter(isValidValue).map(colorAccessor)
     );
   }, [colorAccessor, medianValue, observations]);
 

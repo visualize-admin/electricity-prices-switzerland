@@ -14,6 +14,7 @@ import {
   SunshineDataIndicatorRow,
 } from "src/graphql/queries";
 import { Icon } from "src/icons";
+import { isDefined } from "src/utils/is-defined";
 
 import { AnchorNav } from "./anchor-nav";
 import { InlineDrawer } from "./drawer";
@@ -398,14 +399,15 @@ export function groupsFromElectricityMunicipalities(
 ): Groups {
   return Array.from(
     rollup(
-      observations,
+      observations.filter((x) => isDefined(x.value)),
       (values) => {
         const first = values[0];
         const operatorIds = new Set(values.map((v) => v.operator));
         return {
           id: first.municipality,
           label: first.municipalityLabel,
-          value: mean(values, (d) => d.value) ?? first.value,
+          // first.value asserted above
+          value: mean(values, (d) => d.value) ?? first.value!,
           canton: first.canton,
           cantonLabel: first.cantonLabel,
           operators: observations
@@ -414,11 +416,13 @@ export function groupsFromElectricityMunicipalities(
               (acc, o) => {
                 if (acc.seen.has(o.operator)) return acc;
                 acc.seen.add(o.operator);
-                acc.result?.push({
-                  id: o.operator,
-                  label: o.operatorLabel,
-                  value: o.value,
-                });
+                if (o.value) {
+                  acc.result?.push({
+                    id: o.operator,
+                    label: o.operatorLabel,
+                    value: o.value,
+                  });
+                }
                 return acc;
               },
               {
@@ -471,22 +475,25 @@ export function groupsFromElectricityOperators(
 ): Groups {
   return Array.from(
     rollup(
-      observations,
+      observations.filter((x) => x.value !== undefined && x.value !== null),
       (values) => {
         const first = values[0];
         return {
           id: first.operator,
           label: first.operatorLabel,
-          value: mean(values, (d) => d.value) ?? first.value,
+          // first.value asserted above
+          value: mean(values, (d) => d.value) ?? first.value!,
           canton: first.canton,
           cantonLabel: first.cantonLabel,
-          operators: [
-            {
-              id: first.operator,
-              label: first.operatorLabel,
-              value: first.value,
-            },
-          ],
+          operators: first.value
+            ? [
+                {
+                  id: first.operator,
+                  label: first.operatorLabel,
+                  value: first.value,
+                },
+              ]
+            : [],
         };
       },
       (d) => d.operator
