@@ -16,9 +16,11 @@ const clientSchema = z.object({
         return [];
       }
     }),
+  PUBLIC_URL: z.string(),
 });
 
 export default clientSchema.parse({
   NEXT_PUBLIC_VERCEL_ENV: process.env.NEXT_PUBLIC_VERCEL_ENV,
   NEXT_PUBLIC_FLAGS: process.env.NEXT_PUBLIC_FLAGS,
+  PUBLIC_URL: process.env.VERCEL_URL || process.env.PUBLIC_URL,
 });

@@ -7,4 +7,5 @@ export default buildSchema.parse({
   FIRST_PERIOD: process.env.FIRST_PERIOD,
   VERSION: process.env.VERSION,
   ALLOW_ENGLISH: process.env.ALLOW_ENGLISH === "true",
+  PUBLIC_URL: process.env.PUBLIC_URL,
 });

@@ -19,6 +19,14 @@ msgstr "Nein"
 msgid "Yes"
 msgstr "Ja"
 
+#: src/pages/_app.tsx
+msgid "app.meta.description"
+msgstr "Detaillierte Preisanalysen von Kantonen, Gemeinden und Netzbetreibern."
+
+#: src/pages/_app.tsx
+msgid "app.meta.title"
+msgstr "Stromtarife in der Schweiz"
+
 #: src/components/energy-prices-map.tsx
 msgid "canton"
 msgstr "Kanton"

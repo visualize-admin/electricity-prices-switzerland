@@ -19,6 +19,14 @@ msgstr "No"
 msgid "Yes"
 msgstr "Sì"
 
+#: src/pages/_app.tsx
+msgid "app.meta.description"
+msgstr "Analisi dettagliate dei prezzi di cantoni, comuni e operatori di rete."
+
+#: src/pages/_app.tsx
+msgid "app.meta.title"
+msgstr "Tariffe elettriche in Svizzera"
+
 #: src/components/energy-prices-map.tsx
 msgid "canton"
 msgstr "Canton"
