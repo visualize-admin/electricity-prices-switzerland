@@ -132,6 +132,7 @@ export const MultiCombobox = ({
               label={getItemLabel(option)}
               {...tagProps}
               sx={{
+                margin: "2px !important",
                 backgroundColor: colorful
                   ? colorful[index % colorful.length]
                   : undefined,
