@@ -25,13 +25,13 @@ import {
 } from "src/components/map-layers";
 import { MapTooltipContent } from "src/components/map-tooltip";
 import { useGeoData } from "src/data/geo";
+import { getObservationsWeightedMean } from "src/domain/data";
 import { useFormatCurrency } from "src/domain/helpers";
 import { OperatorObservationFieldsFragment } from "src/graphql/queries";
 import { PriceComponent } from "src/graphql/resolver-types";
 import { maxBy } from "src/lib/array";
 import { useFlag } from "src/utils/flags";
 import { isDefined } from "src/utils/is-defined";
-import { weightedMean } from "src/utils/weighted-mean";
 
 import { GenericMap, GenericMapControls } from "./generic-map";
 import { useMap } from "./map-context";
@@ -230,12 +230,7 @@ export const EnergyPricesMap = ({
   const valuesExtent = useMemo(() => {
     const meansByMunicipality = rollup(
       observations,
-      (values) =>
-        weightedMean(
-          values,
-          (d) => d.value ?? 0,
-          (d) => d.coverageRatio
-        ),
+      (values) => getObservationsWeightedMean(values),
       (d) => d.municipality
     ).values();
     return extent(meansByMunicipality, (d) => d) as [number, number];

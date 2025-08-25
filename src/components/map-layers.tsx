@@ -5,12 +5,12 @@ import { Feature, Geometry } from "geojson";
 
 import { getFillColor, HoverState, styles } from "src/components/map-helpers";
 import { OperatorFeature, OperatorLayerProperties } from "src/data/geo";
+import { getObservationsWeightedMean } from "src/domain/data";
 import {
   Maybe,
   OperatorObservationFieldsFragment,
   SunshineDataIndicatorRow,
 } from "src/graphql/queries";
-import { weightedMean } from "src/utils/weighted-mean";
 
 // Common types for layer options
 type LayerHoverHandler = (info: PickingInfo) => void;
@@ -96,11 +96,7 @@ export function makeMunicipalityLayer(options: MunicipalityLayerOptions) {
         return obs
           ? getFillColor(
               colorScale,
-              weightedMean(
-                obs,
-                (d) => d.value,
-                (d) => d.coverageRatio
-              ),
+              getObservationsWeightedMean(obs),
               highlightId === id
             )
           : styles.municipalities.base.fillColor.withoutData;
