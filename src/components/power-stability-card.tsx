@@ -14,7 +14,7 @@ import CardSource from "src/components/card-source";
 import { filterBySeparator } from "src/domain/helpers";
 import { useQueryStatePowerStabilityCardFilters } from "src/domain/query-states";
 import { PeerGroup, SunshinePowerStabilityData } from "src/domain/sunshine";
-import { getPeerGroupLabels } from "src/domain/translation";
+import { getLocalizedLabel, getPeerGroupLabels } from "src/domain/translation";
 
 import { CardHeader } from "./detail-page/card";
 import { Download, DownloadImage } from "./detail-page/download-image";
@@ -175,23 +175,26 @@ export const PowerStabilityCard: React.FC<PowerStabilityCardProps> = (
           <Grid item xs={12} sm={4} sx={{ mt: 2.5 }}>
             <ButtonGroup
               id="view-by-button-group-1"
-              label={t({
-                id: "sunshine.power-stability.view-by",
-                message: "View By",
+              label={getLocalizedLabel({
+                id: "power-stability.view-by",
               })}
               options={[
                 {
                   value: "latest",
-                  label: t({
-                    id: "sunshine.power-stability.latest-year-option",
-                    message: "Latest year",
+                  label: getLocalizedLabel({
+                    id: "power-stability.latest-year-option",
+                  }),
+                  content: getLocalizedLabel({
+                    id: "power-stability.latest-year-option-content",
                   }),
                 },
                 {
                   value: "progress",
-                  label: t({
-                    id: "sunshine.power-stability.progress-over-time",
-                    message: "Progress over time",
+                  label: getLocalizedLabel({
+                    id: "power-stability.progress-over-time",
+                  }),
+                  content: getLocalizedLabel({
+                    id: "power-stability.progress-over-time-content",
                   }),
                 },
               ]}
@@ -205,33 +208,26 @@ export const PowerStabilityCard: React.FC<PowerStabilityCardProps> = (
             {viewBy === "latest" ? (
               <ButtonGroup
                 id="view-by-button-group-2"
-                label={t({
-                  id: "sunshine.power-stability.view-by",
-                  message: "View By",
+                label={getLocalizedLabel({
+                  id: "power-stability.view-by",
                 })}
                 options={[
                   {
                     value: "overall",
-                    label: t({
-                      id: "sunshine.power-stability.overall-option",
-                      message: "Overall",
+                    label: getLocalizedLabel({
+                      id: "power-stability.overall-option",
                     }),
-                    content: t({
-                      id: "sunshine.power-stability.overall-tooltip",
-                      message:
-                        "Shows the total outage duration per operator, combining planned and unplanned outages for direct comparison.",
+                    content: getLocalizedLabel({
+                      id: "power-stability.overall-tooltip",
                     }),
                   },
                   {
                     value: "ratio",
-                    label: t({
-                      id: "sunshine.power-stability.ratio-option",
-                      message: "Ratio",
+                    label: getLocalizedLabel({
+                      id: "power-stability.ratio-option",
                     }),
-                    content: t({
-                      id: "sunshine.power-stability.ratio-tooltip",
-                      message:
-                        "Shows the ratio of unplanned outages to total outages, providing insight into the stability of the power supply.",
+                    content: getLocalizedLabel({
+                      id: "power-stability.ratio-tooltip",
                     }),
                   },
                 ]}
@@ -246,30 +242,35 @@ export const PowerStabilityCard: React.FC<PowerStabilityCardProps> = (
             ) : (
               <ButtonGroup
                 id="view-by-button-group-3"
-                label={t({
-                  id: "sunshine.power-stability.duration",
-                  message: "Duration",
+                label={getLocalizedLabel({
+                  id: "power-stability.duration",
                 })}
                 options={[
                   {
                     value: "total",
-                    label: t({
-                      id: "sunshine.power-stability.total-option",
-                      message: "Total",
+                    label: getLocalizedLabel({
+                      id: "power-stability.total-option",
+                    }),
+                    content: getLocalizedLabel({
+                      id: "power-stability.total-tooltip",
                     }),
                   },
                   {
                     value: "planned",
-                    label: t({
-                      id: "sunshine.power-stability.planned-option",
-                      message: "Planned",
+                    label: getLocalizedLabel({
+                      id: "power-stability.planned-option",
+                    }),
+                    content: getLocalizedLabel({
+                      id: "power-stability.planned-tooltip",
                     }),
                   },
                   {
                     value: "unplanned",
-                    label: t({
-                      id: "sunshine.power-stability.unplanned-option",
-                      message: "Unplanned",
+                    label: getLocalizedLabel({
+                      id: "power-stability.unplanned-option",
+                    }),
+                    content: getLocalizedLabel({
+                      id: "power-stability.unplanned-tooltip",
                     }),
                   },
                 ]}

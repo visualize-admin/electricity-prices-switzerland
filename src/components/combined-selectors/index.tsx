@@ -1,10 +1,11 @@
-import { t, Trans } from "@lingui/macro";
+import { Trans } from "@lingui/macro";
 import { Box, BoxProps, Typography, useTheme } from "@mui/material";
 
 import { ButtonGroup } from "src/components/button-group";
 import { ElectricitySelectors } from "src/components/electricity-selectors";
 import { SunshineSelectors } from "src/components/sunshine-selectors";
 import { useQueryStateMapCommon } from "src/domain/query-states";
+import { getLocalizedLabel } from "src/domain/translation";
 import { useFlag } from "src/utils/flags";
 
 type TabValue = "electricity" | "sunshine";
@@ -46,16 +47,16 @@ export const CombinedSelectors = (props: BoxProps) => {
             options={[
               {
                 value: "electricity",
-                label: t({
-                  id: "selector.tab.electricity",
-                  message: "Electricity Tariffs",
+                label: getLocalizedLabel({ id: "selector-tab.electricity" }),
+                content: getLocalizedLabel({
+                  id: "selector-tab.electricity-content",
                 }),
               },
               {
                 value: "sunshine",
-                label: t({
-                  id: "selector.tab.indicators",
-                  message: "Indicators",
+                label: getLocalizedLabel({ id: "selector-tab.indicators" }),
+                content: getLocalizedLabel({
+                  id: "selector-tab.indicators-content",
                 }),
               },
             ]}

@@ -13,7 +13,7 @@ import { ButtonGroup } from "src/components/button-group";
 import CardSource from "src/components/card-source";
 import { useQueryStateTariffsTrendCardFilters } from "src/domain/query-states";
 import { PeerGroup, SunshineCostsAndTariffsData } from "src/domain/sunshine";
-import { getPeerGroupLabels } from "src/domain/translation";
+import { getLocalizedLabel, getPeerGroupLabels } from "src/domain/translation";
 
 import { CardHeader } from "./detail-page/card";
 import { Download, DownloadImage } from "./detail-page/download-image";
@@ -144,23 +144,26 @@ export const TariffsTrendCard: React.FC<TariffsTrendCardProps> = (props) => {
           >
             <ButtonGroup
               id="view-by-button-group"
-              label={t({
-                id: "sunshine.costs-and-tariffs.view-by",
-                message: "View By",
+              label={getLocalizedLabel({
+                id: "costs-and-tariffs.view-by",
               })}
               options={[
                 {
                   value: "latest",
-                  label: t({
-                    id: "sunshine.costs-and-tariffs.latest-year-option",
-                    message: "Latest year",
+                  label: getLocalizedLabel({
+                    id: "costs-and-tariffs.latest-year-option",
+                  }),
+                  content: getLocalizedLabel({
+                    id: "costs-and-tariffs.latest-year-option-content",
                   }),
                 },
                 {
                   value: "progress",
-                  label: t({
-                    id: "sunshine.costs-and-tariffs.progress-over-time",
-                    message: "Progress over time",
+                  label: getLocalizedLabel({
+                    id: "costs-and-tariffs.progress-over-time",
+                  }),
+                  content: getLocalizedLabel({
+                    id: "costs-and-tariffs.progress-over-time-content",
                   }),
                 },
               ]}

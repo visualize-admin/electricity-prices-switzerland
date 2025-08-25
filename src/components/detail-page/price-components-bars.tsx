@@ -188,11 +188,17 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
                   label: getLocalizedLabel({
                     id: `collapsed-${entity}`,
                   }),
+                  content: getLocalizedLabel({
+                    id: "price-components.collapsed-content",
+                  }),
                 },
                 {
                   value: "expanded",
                   label: getLocalizedLabel({
                     id: `expanded-${entity}`,
+                  }),
+                  content: getLocalizedLabel({
+                    id: "price-components.expanded-content",
                   }),
                 },
               ]}
