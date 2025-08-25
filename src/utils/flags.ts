@@ -33,6 +33,8 @@ const specs = {
 
   /** Show mock operational standards chart */
   mockOperationalStandardsChart: {},
+
+  coverageRatio: {},
 } as const;
 
 const keysAsValues = <R extends Record<string | number | symbol, unknown>>(

@@ -96,9 +96,10 @@ const IndexPage = ({ locale }: Props) => {
           observations={observations}
           priceComponent={priceComponent}
           municipalities={municipalities}
-          observationsQueryFetching={
-            observationsQuery.fetching || municipalitiesQuery.fetching
-          }
+          observationsFetching={observationsQuery.fetching}
+          municipalitiesFetching={municipalitiesQuery.fetching}
+          observationsError={observationsQuery.error}
+          municipalitiesError={municipalitiesQuery.error}
           medianValue={medianValue}
           colorScale={colorScale}
         />

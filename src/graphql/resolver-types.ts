@@ -13,7 +13,7 @@ import {
   ResolvedOperatorObservation,
   ResolvedSearchResult,
 } from "./resolver-mapped-types";
-import { ServerContext } from "./server-context";
+import { GraphqlRequestContext } from "./server-context";
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = {
@@ -245,6 +245,7 @@ export type OperatorObservation = {
   canton: Scalars["String"]["output"];
   cantonLabel?: Maybe<Scalars["String"]["output"]>;
   category: Scalars["String"]["output"];
+  coverageRatio: Scalars["Float"]["output"];
   municipality: Scalars["String"]["output"];
   municipalityLabel?: Maybe<Scalars["String"]["output"]>;
   operator: Scalars["String"]["output"];
@@ -812,12 +813,12 @@ export type CacheControlDirectiveArgs = {
 export type CacheControlDirectiveResolver<
   Result,
   Parent,
-  ContextType = ServerContext,
+  ContextType = GraphqlRequestContext,
   Args = CacheControlDirectiveArgs
 > = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export type CantonResolvers<
-  ContextType = ServerContext,
+  ContextType = GraphqlRequestContext,
   ParentType extends ResolversParentTypes["Canton"] = ResolversParentTypes["Canton"]
 > = ResolversObject<{
   id?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
@@ -836,7 +837,7 @@ export type CantonResolvers<
 }>;
 
 export type CantonMedianObservationResolvers<
-  ContextType = ServerContext,
+  ContextType = GraphqlRequestContext,
   ParentType extends ResolversParentTypes["CantonMedianObservation"] = ResolversParentTypes["CantonMedianObservation"]
 > = ResolversObject<{
   canton?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
@@ -857,7 +858,7 @@ export type CantonMedianObservationResolvers<
 }>;
 
 export type CantonResultResolvers<
-  ContextType = ServerContext,
+  ContextType = GraphqlRequestContext,
   ParentType extends ResolversParentTypes["CantonResult"] = ResolversParentTypes["CantonResult"]
 > = ResolversObject<{
   id?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
@@ -866,7 +867,7 @@ export type CantonResultResolvers<
 }>;
 
 export type CubeHealthResolvers<
-  ContextType = ServerContext,
+  ContextType = GraphqlRequestContext,
   ParentType extends ResolversParentTypes["CubeHealth"] = ResolversParentTypes["CubeHealth"]
 > = ResolversObject<{
   dimensions?: Resolver<
@@ -884,7 +885,7 @@ export interface ElectricityCategoryScalarConfig
 }
 
 export type MunicipalityResolvers<
-  ContextType = ServerContext,
+  ContextType = GraphqlRequestContext,
   ParentType extends ResolversParentTypes["Municipality"] = ResolversParentTypes["Municipality"]
 > = ResolversObject<{
   canton?: Resolver<ResolversTypes["Canton"], ParentType, ContextType>;
@@ -904,7 +905,7 @@ export type MunicipalityResolvers<
 }>;
 
 export type MunicipalityResultResolvers<
-  ContextType = ServerContext,
+  ContextType = GraphqlRequestContext,
   ParentType extends ResolversParentTypes["MunicipalityResult"] = ResolversParentTypes["MunicipalityResult"]
 > = ResolversObject<{
   id?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
@@ -913,7 +914,7 @@ export type MunicipalityResultResolvers<
 }>;
 
 export type NetworkCostRowResolvers<
-  ContextType = ServerContext,
+  ContextType = GraphqlRequestContext,
   ParentType extends ResolversParentTypes["NetworkCostRow"] = ResolversParentTypes["NetworkCostRow"]
 > = ResolversObject<{
   network_level?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
@@ -925,7 +926,7 @@ export type NetworkCostRowResolvers<
 }>;
 
 export type NetworkCostsDataResolvers<
-  ContextType = ServerContext,
+  ContextType = GraphqlRequestContext,
   ParentType extends ResolversParentTypes["NetworkCostsData"] = ResolversParentTypes["NetworkCostsData"]
 > = ResolversObject<{
   networkLevel?: Resolver<
@@ -962,7 +963,7 @@ export type NetworkCostsDataResolvers<
 }>;
 
 export type NetworkLevelResolvers<
-  ContextType = ServerContext,
+  ContextType = GraphqlRequestContext,
   ParentType extends ResolversParentTypes["NetworkLevel"] = ResolversParentTypes["NetworkLevel"]
 > = ResolversObject<{
   id?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
@@ -970,7 +971,7 @@ export type NetworkLevelResolvers<
 }>;
 
 export type ObservationResolvers<
-  ContextType = ServerContext,
+  ContextType = GraphqlRequestContext,
   ParentType extends ResolversParentTypes["Observation"] = ResolversParentTypes["Observation"]
 > = ResolversObject<{
   __resolveType: TypeResolveFn<
@@ -983,7 +984,7 @@ export type ObservationResolvers<
 }>;
 
 export type OperationalStandardsComplianceResolvers<
-  ContextType = ServerContext,
+  ContextType = GraphqlRequestContext,
   ParentType extends ResolversParentTypes["OperationalStandardsCompliance"] = ResolversParentTypes["OperationalStandardsCompliance"]
 > = ResolversObject<{
   francsRule?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
@@ -1001,7 +1002,7 @@ export type OperationalStandardsComplianceResolvers<
 }>;
 
 export type OperationalStandardsDataResolvers<
-  ContextType = ServerContext,
+  ContextType = GraphqlRequestContext,
   ParentType extends ResolversParentTypes["OperationalStandardsData"] = ResolversParentTypes["OperationalStandardsData"]
 > = ResolversObject<{
   compliance?: Resolver<
@@ -1030,7 +1031,7 @@ export type OperationalStandardsDataResolvers<
 }>;
 
 export type OperationalStandardsOperatorResolvers<
-  ContextType = ServerContext,
+  ContextType = GraphqlRequestContext,
   ParentType extends ResolversParentTypes["OperationalStandardsOperator"] = ResolversParentTypes["OperationalStandardsOperator"]
 > = ResolversObject<{
   peerGroup?: Resolver<ResolversTypes["PeerGroup"], ParentType, ContextType>;
@@ -1038,7 +1039,7 @@ export type OperationalStandardsOperatorResolvers<
 }>;
 
 export type OperationalStandardsOperatorFrancsResolvers<
-  ContextType = ServerContext,
+  ContextType = GraphqlRequestContext,
   ParentType extends ResolversParentTypes["OperationalStandardsOperatorFrancs"] = ResolversParentTypes["OperationalStandardsOperatorFrancs"]
 > = ResolversObject<{
   francsPerInvoice?: Resolver<ResolversTypes["Float"], ParentType, ContextType>;
@@ -1048,7 +1049,7 @@ export type OperationalStandardsOperatorFrancsResolvers<
 }>;
 
 export type OperationalStandardsOperatorNotificationResolvers<
-  ContextType = ServerContext,
+  ContextType = GraphqlRequestContext,
   ParentType extends ResolversParentTypes["OperationalStandardsOperatorNotification"] = ResolversParentTypes["OperationalStandardsOperatorNotification"]
 > = ResolversObject<{
   days?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
@@ -1058,7 +1059,7 @@ export type OperationalStandardsOperatorNotificationResolvers<
 }>;
 
 export type OperationalStandardsOperatorProductResolvers<
-  ContextType = ServerContext,
+  ContextType = GraphqlRequestContext,
   ParentType extends ResolversParentTypes["OperationalStandardsOperatorProduct"] = ResolversParentTypes["OperationalStandardsOperatorProduct"]
 > = ResolversObject<{
   ecoFriendlyProductsOffered?: Resolver<
@@ -1072,7 +1073,7 @@ export type OperationalStandardsOperatorProductResolvers<
 }>;
 
 export type OperationalStandardsProductVarietyResolvers<
-  ContextType = ServerContext,
+  ContextType = GraphqlRequestContext,
   ParentType extends ResolversParentTypes["OperationalStandardsProductVariety"] = ResolversParentTypes["OperationalStandardsProductVariety"]
 > = ResolversObject<{
   ecoFriendlyProductsOffered?: Resolver<
@@ -1094,7 +1095,7 @@ export type OperationalStandardsProductVarietyResolvers<
 }>;
 
 export type OperationalStandardsServiceQualityResolvers<
-  ContextType = ServerContext,
+  ContextType = GraphqlRequestContext,
   ParentType extends ResolversParentTypes["OperationalStandardsServiceQuality"] = ResolversParentTypes["OperationalStandardsServiceQuality"]
 > = ResolversObject<{
   informingCustomersOfOutage?: Resolver<
@@ -1116,7 +1117,7 @@ export type OperationalStandardsServiceQualityResolvers<
 }>;
 
 export type OperatorResolvers<
-  ContextType = ServerContext,
+  ContextType = GraphqlRequestContext,
   ParentType extends ResolversParentTypes["Operator"] = ResolversParentTypes["Operator"]
 > = ResolversObject<{
   cantons?: Resolver<Array<ResolversTypes["Canton"]>, ParentType, ContextType>;
@@ -1147,7 +1148,7 @@ export type OperatorResolvers<
 }>;
 
 export type OperatorDocumentResolvers<
-  ContextType = ServerContext,
+  ContextType = GraphqlRequestContext,
   ParentType extends ResolversParentTypes["OperatorDocument"] = ResolversParentTypes["OperatorDocument"]
 > = ResolversObject<{
   category?: Resolver<
@@ -1163,7 +1164,7 @@ export type OperatorDocumentResolvers<
 }>;
 
 export type OperatorObservationResolvers<
-  ContextType = ServerContext,
+  ContextType = GraphqlRequestContext,
   ParentType extends ResolversParentTypes["OperatorObservation"] = ResolversParentTypes["OperatorObservation"]
 > = ResolversObject<{
   canton?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
@@ -1173,6 +1174,7 @@ export type OperatorObservationResolvers<
     ContextType
   >;
   category?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  coverageRatio?: Resolver<ResolversTypes["Float"], ParentType, ContextType>;
   municipality?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   municipalityLabel?: Resolver<
     Maybe<ResolversTypes["String"]>,
@@ -1196,7 +1198,7 @@ export type OperatorObservationResolvers<
 }>;
 
 export type OperatorResultResolvers<
-  ContextType = ServerContext,
+  ContextType = GraphqlRequestContext,
   ParentType extends ResolversParentTypes["OperatorResult"] = ResolversParentTypes["OperatorResult"]
 > = ResolversObject<{
   id?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
@@ -1205,7 +1207,7 @@ export type OperatorResultResolvers<
 }>;
 
 export type PeerGroupResolvers<
-  ContextType = ServerContext,
+  ContextType = GraphqlRequestContext,
   ParentType extends ResolversParentTypes["PeerGroup"] = ResolversParentTypes["PeerGroup"]
 > = ResolversObject<{
   energyDensity?: Resolver<
@@ -1222,7 +1224,7 @@ export type PeerGroupResolvers<
 }>;
 
 export type QueryResolvers<
-  ContextType = ServerContext,
+  ContextType = GraphqlRequestContext,
   ParentType extends ResolversParentTypes["Query"] = ResolversParentTypes["Query"]
 > = ResolversObject<{
   allMunicipalities?: Resolver<
@@ -1384,7 +1386,7 @@ export type QueryResolvers<
 }>;
 
 export type SearchResultResolvers<
-  ContextType = ServerContext,
+  ContextType = GraphqlRequestContext,
   ParentType extends ResolversParentTypes["SearchResult"] = ResolversParentTypes["SearchResult"]
 > = ResolversObject<{
   __resolveType: TypeResolveFn<
@@ -1397,7 +1399,7 @@ export type SearchResultResolvers<
 }>;
 
 export type StabilityDataResolvers<
-  ContextType = ServerContext,
+  ContextType = GraphqlRequestContext,
   ParentType extends ResolversParentTypes["StabilityData"] = ResolversParentTypes["StabilityData"]
 > = ResolversObject<{
   operatorTotal?: Resolver<ResolversTypes["Float"], ParentType, ContextType>;
@@ -1411,7 +1413,7 @@ export type StabilityDataResolvers<
 }>;
 
 export type StabilityDataRowResolvers<
-  ContextType = ServerContext,
+  ContextType = GraphqlRequestContext,
   ParentType extends ResolversParentTypes["StabilityDataRow"] = ResolversParentTypes["StabilityDataRow"]
 > = ResolversObject<{
   operator?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
@@ -1423,7 +1425,7 @@ export type StabilityDataRowResolvers<
 }>;
 
 export type SunshineDataByIndicatorResultResolvers<
-  ContextType = ServerContext,
+  ContextType = GraphqlRequestContext,
   ParentType extends ResolversParentTypes["SunshineDataByIndicatorResult"] = ResolversParentTypes["SunshineDataByIndicatorResult"]
 > = ResolversObject<{
   data?: Resolver<
@@ -1436,7 +1438,7 @@ export type SunshineDataByIndicatorResultResolvers<
 }>;
 
 export type SunshineDataIndicatorRowResolvers<
-  ContextType = ServerContext,
+  ContextType = GraphqlRequestContext,
   ParentType extends ResolversParentTypes["SunshineDataIndicatorRow"] = ResolversParentTypes["SunshineDataIndicatorRow"]
 > = ResolversObject<{
   name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
@@ -1448,7 +1450,7 @@ export type SunshineDataIndicatorRowResolvers<
 }>;
 
 export type SunshineDataRowResolvers<
-  ContextType = ServerContext,
+  ContextType = GraphqlRequestContext,
   ParentType extends ResolversParentTypes["SunshineDataRow"] = ResolversParentTypes["SunshineDataRow"]
 > = ResolversObject<{
   francRule?: Resolver<Maybe<ResolversTypes["Float"]>, ParentType, ContextType>;
@@ -1530,7 +1532,7 @@ export type SunshineDataRowResolvers<
 }>;
 
 export type SwissMedianObservationResolvers<
-  ContextType = ServerContext,
+  ContextType = GraphqlRequestContext,
   ParentType extends ResolversParentTypes["SwissMedianObservation"] = ResolversParentTypes["SwissMedianObservation"]
 > = ResolversObject<{
   category?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
@@ -1545,7 +1547,7 @@ export type SwissMedianObservationResolvers<
 }>;
 
 export type SystemInfoResolvers<
-  ContextType = ServerContext,
+  ContextType = GraphqlRequestContext,
   ParentType extends ResolversParentTypes["SystemInfo"] = ResolversParentTypes["SystemInfo"]
 > = ResolversObject<{
   SPARQL_ENDPOINT?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
@@ -1554,7 +1556,7 @@ export type SystemInfoResolvers<
 }>;
 
 export type TariffRowResolvers<
-  ContextType = ServerContext,
+  ContextType = GraphqlRequestContext,
   ParentType extends ResolversParentTypes["TariffRow"] = ResolversParentTypes["TariffRow"]
 > = ResolversObject<{
   category?: Resolver<
@@ -1570,7 +1572,7 @@ export type TariffRowResolvers<
 }>;
 
 export type TariffsDataResolvers<
-  ContextType = ServerContext,
+  ContextType = GraphqlRequestContext,
   ParentType extends ResolversParentTypes["TariffsData"] = ResolversParentTypes["TariffsData"]
 > = ResolversObject<{
   category?: Resolver<
@@ -1597,7 +1599,7 @@ export type TariffsDataResolvers<
 }>;
 
 export type WikiContentResolvers<
-  ContextType = ServerContext,
+  ContextType = GraphqlRequestContext,
   ParentType extends ResolversParentTypes["WikiContent"] = ResolversParentTypes["WikiContent"]
 > = ResolversObject<{
   html?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
@@ -1614,7 +1616,7 @@ export interface WikiContentInfoScalarConfig
   name: "WikiContentInfo";
 }
 
-export type Resolvers<ContextType = ServerContext> = ResolversObject<{
+export type Resolvers<ContextType = GraphqlRequestContext> = ResolversObject<{
   Canton?: CantonResolvers<ContextType>;
   CantonMedianObservation?: CantonMedianObservationResolvers<ContextType>;
   CantonResult?: CantonResultResolvers<ContextType>;
@@ -1654,6 +1656,7 @@ export type Resolvers<ContextType = ServerContext> = ResolversObject<{
   WikiContentInfo?: GraphQLScalarType;
 }>;
 
-export type DirectiveResolvers<ContextType = ServerContext> = ResolversObject<{
-  cacheControl?: CacheControlDirectiveResolver<any, any, ContextType>;
-}>;
+export type DirectiveResolvers<ContextType = GraphqlRequestContext> =
+  ResolversObject<{
+    cacheControl?: CacheControlDirectiveResolver<any, any, ContextType>;
+  }>;

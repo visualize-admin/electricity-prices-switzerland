@@ -47,6 +47,7 @@ fragment operatorObservationFields on OperatorObservation {
   cantonLabel
   category
   value(priceComponent: $priceComponent)
+  coverageRatio
 }
 
 fragment cantonMedianObservationFields on CantonMedianObservation {

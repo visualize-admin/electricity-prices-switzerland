@@ -176,33 +176,6 @@ export const NoContentHint = () => (
   </Box>
 );
 
-export const NoGeoDataHint = () => (
-  <Box
-    sx={{
-      width: "100%",
-      height: "100%",
-      color: "hint.main",
-      margin: "auto",
-      textAlign: "center",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
-      flexGrow: 1,
-    }}
-    display="flex"
-  >
-    <Icon name="warningcircle" size={64} />
-    <Typography variant="h2" sx={{ my: 3 }}>
-      <Trans id="hint.nogeodata.title">No map display possible</Trans>
-    </Typography>
-    <Typography variant="body2" sx={{ maxWidth: "40rem" }}>
-      <Trans id="hint.nogeodata.message">
-        No map can be displayed for the selected year.
-      </Trans>
-    </Typography>
-  </Box>
-);
-
 export const HintBlue = ({
   iconName,
   children,
