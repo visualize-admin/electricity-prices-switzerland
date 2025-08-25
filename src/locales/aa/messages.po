@@ -19,6 +19,14 @@ msgstr "No"
 msgid "Yes"
 msgstr "Yes"
 
+#: src/pages/_app.tsx
+msgid "app.meta.description"
+msgstr "app.meta.description"
+
+#: src/pages/_app.tsx
+msgid "app.meta.title"
+msgstr "app.meta.title"
+
 #: src/components/energy-prices-map.tsx
 msgid "canton"
 msgstr "canton"

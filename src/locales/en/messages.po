@@ -19,6 +19,14 @@ msgstr "No"
 msgid "Yes"
 msgstr "Yes"
 
+#: src/pages/_app.tsx
+msgid "app.meta.description"
+msgstr "Detailed price analyses of cantons, municipalities and grid operators."
+
+#: src/pages/_app.tsx
+msgid "app.meta.title"
+msgstr "Electricity tariffs in Switzerland"
+
 #: src/components/energy-prices-map.tsx
 msgid "canton"
 msgstr "Canton"
