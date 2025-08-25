@@ -40,7 +40,7 @@ const TableComparisonCard: React.FC<
         {title}
       </Typography>
       {subtitle && (
-        <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+        <Typography variant="body2" color="text.primary" gutterBottom>
           {subtitle}
         </Typography>
       )}
@@ -49,7 +49,7 @@ const TableComparisonCard: React.FC<
         <TableBody>
           {rows.map((row, index) => (
             <TableRow key={index}>
-              <TableCell>
+              <TableCell sx={{ width: "100% !important" }}>
                 <Typography variant="body3" color="text.secondary">
                   {row.label}
                 </Typography>
