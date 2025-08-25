@@ -14,6 +14,7 @@
 | `MATOMO_ID`                                 |          | `123`                                                                                            |
 | `CURRENT_PERIOD`                            |          | `2022`                                                                                           |
 | `FIRST_PERIOD`                              |          | `2009`                                                                                           |
+| `PUBLIC_URL`                                | no       | `http://localhost:3000`                                                                          |
 | `EIAM_CERTIFICATE_PASSWORD`                 | yes      | See in Elcom PWD certificates in 1Password                                                       |
 | `EIAM_CERTIFICATE_CONTENT`                  | yes      | See in Elcom PWD certificates in 1Password. Result of `cat certificate.p12 \| base64`            |
 | `GEVER_BINDING_IPSTS`                       |          | `https://idp-cert.gate-r.eiam.admin.ch/auth/sts/v14/certificatetransport`. Ask Roger Flurry.     |
