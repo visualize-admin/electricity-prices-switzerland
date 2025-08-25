@@ -10,8 +10,8 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 import { analyticsPageView } from "src/domain/analytics";
-import { PUBLIC_URL } from "src/domain/env";
 import createEmotionCache from "src/emotion-cache";
+import { PUBLIC_URL } from "src/env/client";
 import { GraphqlProvider } from "src/graphql/context";
 import { LocaleProvider } from "src/lib/use-locale";
 import { useNProgress } from "src/lib/use-nprogress";
