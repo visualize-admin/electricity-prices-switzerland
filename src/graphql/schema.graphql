@@ -81,7 +81,7 @@ type OperatorObservation @cacheControl(maxAge: 300) {
   category: String!
   period: String!
   value(priceComponent: PriceComponent!): Float
-  coverageRatio: Float
+  coverageRatio: Float!
 }
 
 type CantonMedianObservation @cacheControl(maxAge: 300) {
