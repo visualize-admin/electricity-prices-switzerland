@@ -20,6 +20,7 @@ const buildEnv = {
   CURRENT_PERIOD: process.env.CURRENT_PERIOD,
   FIRST_PERIOD: process.env.FIRST_PERIOD,
   ALLOW_ENGLISH: process.env.ALLOW_ENGLISH,
+  PUBLIC_URL: process.env.PUBLIC_URL,
 };
 
 console.info("Build Environment:", buildEnv);
