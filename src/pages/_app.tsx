@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 
 import { analyticsPageView } from "src/domain/analytics";
 import createEmotionCache from "src/emotion-cache";
-import { PUBLIC_URL } from "src/env/client";
+import clientEnv from "src/env/client";
 import { GraphqlProvider } from "src/graphql/context";
 import { LocaleProvider } from "src/lib/use-locale";
 import { useNProgress } from "src/lib/use-nprogress";
@@ -84,10 +84,16 @@ export default function App(props: AppProps & { emotionCache?: EmotionCache }) {
               "Detailed price analyses of cantons, municipalities and grid operators.",
           })}
         />
-        <meta property="og:image" content={`${PUBLIC_URL}/og-image.png`} />
-        <meta property="og:url" content={`${PUBLIC_URL}${asPath}`} />
+        <meta
+          property="og:image"
+          content={`${clientEnv.PUBLIC_URL}/og-image.png`}
+        />
+        <meta property="og:url" content={`${clientEnv.PUBLIC_URL}${asPath}`} />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:image" content={`${PUBLIC_URL}/og-image.png`} />
+        <meta
+          name="twitter:image"
+          content={`${clientEnv.PUBLIC_URL}/og-image.png`}
+        />
         {preloadFonts.map((src) => (
           <link
             key={src}
