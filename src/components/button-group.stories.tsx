@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 import { StoryGrid } from "src/components/storybook/story-grid";
 
@@ -61,6 +61,8 @@ export const LongLabels: Story = {
               value: "option2",
               label:
                 "Another extremely long option that demonstrates text overflow handling",
+              content:
+                "This is a very long option label that will overflow, to ensure you understand we added a tooltip",
             },
             { value: "option3", label: "Short option" },
           ]}

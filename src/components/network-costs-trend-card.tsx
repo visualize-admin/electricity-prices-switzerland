@@ -179,19 +179,17 @@ export const NetworkCostsTrendCard: React.FC<NetworkCostsTrendCardProps> = (
               options={[
                 {
                   value: "latest",
-                  label: (
-                    <Trans id="sunshine.costs-and-tariffs.latest-year-option">
-                      Latest year
-                    </Trans>
-                  ),
+                  label: t({
+                    id: "sunshine.costs-and-tariffs.latest-year-option",
+                    message: "Latest year",
+                  }),
                 },
                 {
                   value: "progress",
-                  label: (
-                    <Trans id="sunshine.costs-and-tariffs.progress-over-time">
-                      Progress over time
-                    </Trans>
-                  ),
+                  label: t({
+                    id: "sunshine.costs-and-tariffs.progress-over-time",
+                    message: "Progress over time",
+                  }),
                 },
               ]}
               value={viewBy}

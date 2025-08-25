@@ -1,14 +1,21 @@
-import { Box, BoxProps, Typography } from "@mui/material";
-import { ChangeEventHandler, ReactNode, useCallback } from "react";
+import { Box, BoxProps, Tooltip, Typography } from "@mui/material";
+import { ChangeEventHandler, useCallback } from "react";
 
 import { VisuallyHidden } from "src/components/visually-hidden";
 import { WikiPageSlug } from "src/domain/wiki";
 
 import { InfoDialogButton } from "./info-dialog";
+import TooltipContent from "./tooltip-content";
+
+type ButtonGroupOption<T> = {
+  content?: string;
+  value: T;
+  label: string;
+};
 
 type ButtonGroupProps<T> = {
   id: string;
-  options: { value: T; label: ReactNode }[];
+  options: ButtonGroupOption<T>[];
   value: T;
   setValue: (value: T) => void;
   label?: string;
@@ -28,7 +35,7 @@ const STYLES = {
       textAlign: "center",
       px: 4,
       py: 2.5,
-      fontSize: "1rem",
+      fontSize: "0.875rem",
       borderStyle: "solid",
       borderWidth: 1,
       borderColor: "monochrome.200",
@@ -131,41 +138,54 @@ export const ButtonGroup = <T extends string>({
       >
         {options.map((option) => {
           const isActive = option.value === value;
+          const { label, content } = option;
 
           return (
-            <Box
-              key={option.value}
-              component="label"
-              title={
-                typeof option.label === "string" ? option.label : undefined
-              }
-              sx={{
-                flexBasis: "100%",
-                ...STYLES.tabs.common,
-                ...(isActive ? STYLES.tabs.active : STYLES.tabs.inactive),
+            <Tooltip
+              hidden={!label && !content}
+              title={<TooltipContent title={label} content={content} />}
+              arrow
+              placement="top"
+              slotProps={{
+                tooltip: {
+                  sx: {
+                    padding: 0,
+                  },
+                },
               }}
             >
-              <VisuallyHidden>
-                <input
-                  key={option.value}
-                  id={id}
-                  type="radio"
-                  value={option.value}
-                  onChange={onTabChange}
-                  checked={isActive}
-                />
-              </VisuallyHidden>
-
-              <span
-                style={{
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  whiteSpace: "nowrap",
+              <Box
+                key={option.value}
+                component="label"
+                title=""
+                sx={{
+                  flexBasis: "100%",
+                  ...STYLES.tabs.common,
+                  ...(isActive ? STYLES.tabs.active : STYLES.tabs.inactive),
                 }}
               >
-                {option.label}
-              </span>
-            </Box>
+                <VisuallyHidden>
+                  <input
+                    key={option.value}
+                    id={id}
+                    type="radio"
+                    value={option.value}
+                    onChange={onTabChange}
+                    checked={isActive}
+                  />
+                </VisuallyHidden>
+
+                <span
+                  style={{
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  <span>{label}</span>
+                </span>
+              </Box>
+            </Tooltip>
           );
         })}
       </Box>
