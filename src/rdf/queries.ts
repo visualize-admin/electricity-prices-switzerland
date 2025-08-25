@@ -204,6 +204,10 @@ export const getElectricityPriceObservations = async (
           cubeDimension: ns.electricityPriceDimension(d),
         });
 
+        if (!dimension) {
+          console.warn(`No dimension found for ${d}`);
+        }
+
         return dimension ? [dimension] : [];
       })
     : view.dimensions;

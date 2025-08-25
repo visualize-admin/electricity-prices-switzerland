@@ -216,9 +216,9 @@ const Query: QueryResolvers = {
     const operatorObservations = rawOperatorObservations.map((o) => ({
       __typename: "OperatorObservation",
       ...o,
-    }));
+    })) as ResolvedOperatorObservation[];
 
-    return operatorObservations as ResolvedOperatorObservation[];
+    return operatorObservations;
   },
   cantonMedianObservations: async (
     _,
@@ -276,16 +276,16 @@ const Query: QueryResolvers = {
         : [];
 
     const medianObservations = rawMedianObservations.map((x) => ({
-      __typename: "MedianObservation",
+      __typename: "CantonMedianObservation",
       ...x,
-    }));
+    })) as ResolvedCantonMedianObservation[];
 
-    return medianObservations as ResolvedCantonMedianObservation[];
+    return medianObservations;
   },
   swissMedianObservations: async (_, { locale, filters }, ctx, info) => {
-    let cantonCube;
+    let swissCube;
     try {
-      cantonCube = await getElectricityPriceSwissCube();
+      swissCube = await getElectricityPriceSwissCube();
     } catch (e: unknown) {
       const message = `${e instanceof Error ? e.message : e}`;
       console.error(message);
@@ -296,7 +296,7 @@ const Query: QueryResolvers = {
       });
     }
 
-    const cantonObservationsView = getView(cantonCube);
+    const swissObservationsView = getView(swissCube);
 
     // Look ahead to select proper dimensions for query
     const medianObservationFields = getResolverFields(
@@ -318,8 +318,8 @@ const Query: QueryResolvers = {
       medianDimensionKeys.length > 0
         ? await getElectricityPriceObservations(
             {
-              view: cantonObservationsView,
-              source: cantonCube.source,
+              view: swissObservationsView,
+              source: swissCube.source,
               isCantons: true,
               locale: locale ?? defaultLocale,
             },
@@ -332,10 +332,10 @@ const Query: QueryResolvers = {
 
     const medianObservations = rawMedianObservations.map((o) => ({
       ...o,
-      __typename: "MedianObservation",
-    }));
+      __typename: "SwissMedianObservation",
+    })) as ResolvedSwissMedianObservation[];
 
-    return medianObservations as ResolvedSwissMedianObservation[];
+    return medianObservations;
   },
   operators: async (_, { query, ids, locale }) => {
     const results = await search({

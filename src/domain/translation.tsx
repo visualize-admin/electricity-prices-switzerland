@@ -49,6 +49,16 @@ export const getLocalizedLabel = ({ id }: { id: string }): string => {
       });
     case "total":
       return t({ id: "selector.pricecomponent.total", message: "Total" });
+    case "meteringrate":
+      return t({
+        id: "selector.pricecomponent.meteringrate",
+        message: "Metering Rate",
+      });
+    case "annualmeteringcost":
+      return t({
+        id: "selector.pricecomponent.annualmeteringcost",
+        message: "Annual Metering Cost",
+      });
     case "productvariety-trend":
       return t({
         id: "sunshine.operational-standards.product-variety-trend",

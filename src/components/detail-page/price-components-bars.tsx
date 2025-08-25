@@ -33,7 +33,7 @@ import {
   Entity,
   GenericObservation,
   ObservationValue,
-  priceComponents,
+  detailsPriceComponents,
 } from "src/domain/data";
 import { mkNumber, pivot_longer } from "src/domain/helpers";
 import { RP_PER_KWH } from "src/domain/metrics";
@@ -113,7 +113,7 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
 
   const pivoted: GenericObservation[] = pivot_longer({
     data: withUniqueEntityId as $FixMe[],
-    cols: priceComponents,
+    cols: detailsPriceComponents,
     name_to: "priceComponent",
   });
 

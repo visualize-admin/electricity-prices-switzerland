@@ -40,7 +40,11 @@ import { FilterSetDescription } from "src/components/detail-page/filter-set-desc
 import { WithClassName } from "src/components/detail-page/with-classname";
 import { Loading, NoDataHint } from "src/components/hint";
 import { InfoDialogButton } from "src/components/info-dialog";
-import { Entity, GenericObservation, priceComponents } from "src/domain/data";
+import {
+  Entity,
+  GenericObservation,
+  detailsPriceComponents,
+} from "src/domain/data";
 import { RP_PER_KWH } from "src/domain/metrics";
 import { useQueryStateEnergyPricesDetails } from "src/domain/query-states";
 import { getLocalizedLabel } from "src/domain/translation";
@@ -155,15 +159,20 @@ export const PriceDistributionHistograms = ({ id, entity }: SectionProps) => {
                   }),
                 },
                 {
+                  value: "meteringrate",
+                  label: getLocalizedLabel({ id: "meteringrate" }),
+                  content: getLocalizedLabel({
+                    id: "price-components.meteringrate-content",
+                  }),
+                },
+                {
                   value: "aidfee",
                   label: getLocalizedLabel({ id: "aidfee" }),
-                  content: getLocalizedLabel({
-                    id: "price-components.aidfee-content",
-                  }),
                 },
               ]}
               value={priceComponent[0] as string}
               setValue={(pc) => setQueryState({ priceComponent: [pc] })}
+              fitLabelToContent
             />
           </Box>
           <Box sx={{ display: ["block", "block", "none"] }}>
@@ -173,7 +182,7 @@ export const PriceDistributionHistograms = ({ id, entity }: SectionProps) => {
                 id: "selector.priceComponents",
                 message: "Price components",
               })}
-              items={priceComponents}
+              items={detailsPriceComponents}
               getItemLabel={getItemLabel}
               selectedItem={priceComponent[0]}
               setSelectedItem={(pc) => setQueryState({ priceComponent: [pc] })}

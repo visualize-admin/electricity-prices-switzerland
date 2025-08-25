@@ -23,7 +23,7 @@ import {
   PageParams,
   Props,
 } from "src/data/shared-page-props";
-import { priceComponents } from "src/domain/data";
+import { detailsPriceComponents } from "src/domain/data";
 import { getLocalizedLabel } from "src/domain/translation";
 import { defaultLocale } from "src/locales/config";
 
@@ -118,7 +118,7 @@ const ElectricityTariffsPage = (props: Props) => {
 
       <PriceComponentsBarChart id={id} entity={entity} />
       <PriceEvolutionCard
-        priceComponents={priceComponents}
+        priceComponents={detailsPriceComponents}
         id={id}
         entity={entity}
       />

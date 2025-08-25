@@ -97,6 +97,8 @@ fragment operatorObservationWithAllPriceComponentsFields on OperatorObservation 
   category
 
   aidfee: value(priceComponent: aidfee)
+  annualmeteringcost: value(priceComponent: annualmeteringcost)
+  meteringrate: value(priceComponent: meteringrate)
   fixcosts: value(priceComponent: fixcosts)
   charge: value(priceComponent: charge)
   gridusage: value(priceComponent: gridusage)

@@ -250,7 +250,7 @@ export type OperatorObservation = {
   operator: Scalars["String"]["output"];
   operatorLabel?: Maybe<Scalars["String"]["output"]>;
   period: Scalars["String"]["output"];
-  value: Scalars["Float"]["output"];
+  value?: Maybe<Scalars["Float"]["output"]>;
 };
 
 export type OperatorObservationValueArgs = {
@@ -271,11 +271,13 @@ export type PeerGroup = {
 
 export enum PriceComponent {
   Aidfee = "aidfee",
+  Annualmeteringcost = "annualmeteringcost",
   Charge = "charge",
   Energy = "energy",
   Fixcosts = "fixcosts",
   Fixcostspercent = "fixcostspercent",
   Gridusage = "gridusage",
+  Meteringrate = "meteringrate",
   Total = "total",
 }
 
@@ -1185,7 +1187,7 @@ export type OperatorObservationResolvers<
   >;
   period?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   value?: Resolver<
-    ResolversTypes["Float"],
+    Maybe<ResolversTypes["Float"]>,
     ParentType,
     ContextType,
     RequireFields<OperatorObservationValueArgs, "priceComponent">

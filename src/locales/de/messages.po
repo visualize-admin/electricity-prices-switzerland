@@ -205,6 +205,10 @@ msgstr "dynamisch"
 msgid "energy-prices-map.legend.title"
 msgstr "Vergleich in Rp./kWh (Angaben exkl. MwSt.)"
 
+#: src/components/energy-prices-map.tsx
+msgid "energy-prices-map.legend.title-annualmeteringcost"
+msgstr "Tarifvergleich in CHF / Jahr"
+
 #: src/components/not-found.tsx
 msgid "error.page.404.back-link"
 msgstr "Klicken Sie hier, um zur Startseite zurückzukehren"
@@ -1046,6 +1050,10 @@ msgid "selector.pricecomponent.aidfee"
 msgstr "Netzzuschlag gem. Art. 35 EnG"
 
 #: src/domain/translation.tsx
+msgid "selector.pricecomponent.annualmeteringcost"
+msgstr "Jährliche Zählerkosten"
+
+#: src/domain/translation.tsx
 msgid "selector.pricecomponent.charge"
 msgstr "Abgaben an das Gemeinwesen"
 
@@ -1056,6 +1064,10 @@ msgstr "Energie"
 #: src/domain/translation.tsx
 msgid "selector.pricecomponent.gridusage"
 msgstr "Netznutzung"
+
+#: src/domain/translation.tsx
+msgid "selector.pricecomponent.meteringrate"
+msgstr "Messrate"
 
 #: src/domain/translation.tsx
 msgid "selector.pricecomponent.total"

@@ -234,7 +234,7 @@ export type OperatorObservation = {
   operator: Scalars["String"]["output"];
   operatorLabel?: Maybe<Scalars["String"]["output"]>;
   period: Scalars["String"]["output"];
-  value: Scalars["Float"]["output"];
+  value?: Maybe<Scalars["Float"]["output"]>;
 };
 
 export type OperatorObservationValueArgs = {
@@ -255,11 +255,13 @@ export type PeerGroup = {
 
 export enum PriceComponent {
   Aidfee = "aidfee",
+  Annualmeteringcost = "annualmeteringcost",
   Charge = "charge",
   Energy = "energy",
   Fixcosts = "fixcosts",
   Fixcostspercent = "fixcostspercent",
   Gridusage = "gridusage",
+  Meteringrate = "meteringrate",
   Total = "total",
 }
 
@@ -637,7 +639,7 @@ export type OperatorObservationFieldsFragment = {
   canton: string;
   cantonLabel?: string | null;
   category: string;
-  value: number;
+  value?: number | null;
 };
 
 export type CantonMedianObservationFieldsFragment = {
@@ -675,7 +677,7 @@ export type ObservationsQuery = {
     canton: string;
     cantonLabel?: string | null;
     category: string;
-    value: number;
+    value?: number | null;
   }> | null;
   cantonMedianObservations?: Array<{
     __typename: "CantonMedianObservation";
@@ -701,13 +703,15 @@ export type OperatorObservationWithAllPriceComponentsFieldsFragment = {
   operator: string;
   operatorLabel?: string | null;
   category: string;
-  aidfee: number;
-  fixcosts: number;
-  charge: number;
-  gridusage: number;
-  energy: number;
-  fixcostspercent: number;
-  total: number;
+  aidfee?: number | null;
+  annualmeteringcost?: number | null;
+  meteringrate?: number | null;
+  fixcosts?: number | null;
+  charge?: number | null;
+  gridusage?: number | null;
+  energy?: number | null;
+  fixcostspercent?: number | null;
+  total?: number | null;
 };
 
 export type CantonMedianObservationWithAllPriceComponentsFieldsFragment = {
@@ -739,13 +743,15 @@ export type ObservationsWithAllPriceComponentsQuery = {
     operator: string;
     operatorLabel?: string | null;
     category: string;
-    aidfee: number;
-    fixcosts: number;
-    charge: number;
-    gridusage: number;
-    energy: number;
-    fixcostspercent: number;
-    total: number;
+    aidfee?: number | null;
+    annualmeteringcost?: number | null;
+    meteringrate?: number | null;
+    fixcosts?: number | null;
+    charge?: number | null;
+    gridusage?: number | null;
+    energy?: number | null;
+    fixcostspercent?: number | null;
+    total?: number | null;
   }> | null;
   cantonMedianObservations?: Array<{
     __typename: "CantonMedianObservation";
@@ -1145,6 +1151,8 @@ export const OperatorObservationWithAllPriceComponentsFieldsFragmentDoc = gql`
     operatorLabel
     category
     aidfee: value(priceComponent: aidfee)
+    annualmeteringcost: value(priceComponent: annualmeteringcost)
+    meteringrate: value(priceComponent: meteringrate)
     fixcosts: value(priceComponent: fixcosts)
     charge: value(priceComponent: charge)
     gridusage: value(priceComponent: gridusage)
