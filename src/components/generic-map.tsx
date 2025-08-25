@@ -8,7 +8,13 @@ import {
 import { ViewStateChangeParameters } from "@deck.gl/core/typed/controllers/controller";
 import DeckGL, { DeckGLRef } from "@deck.gl/react/typed";
 import { Trans } from "@lingui/macro";
-import { Box, IconButton, iconButtonClasses, Typography } from "@mui/material";
+import {
+  Alert,
+  Box,
+  IconButton,
+  iconButtonClasses,
+  Typography,
+} from "@mui/material";
 import bbox from "@turf/bbox";
 import centroid from "@turf/centroid";
 import { Feature, FeatureCollection } from "geojson";
@@ -27,7 +33,7 @@ import {
   HighlightContext,
   HighlightValue,
 } from "src/components/highlight-context";
-import { Loading, NoDataHint, NoGeoDataHint } from "src/components/hint";
+import { Loading, NoDataHint } from "src/components/hint";
 import {
   BBox,
   constrainZoom,
@@ -128,7 +134,7 @@ export const GenericMap = ({
   layers,
   isLoading = false,
   hasNoData = false,
-  hasError = false,
+  error = undefined,
   tooltipContent,
   legend,
   downloadId,
@@ -143,7 +149,7 @@ export const GenericMap = ({
   layers: Layer[];
   isLoading?: boolean;
   hasNoData?: boolean;
-  hasError?: boolean;
+  error?: { message: string };
   tooltipContent?: {
     hoveredState: HoverState | undefined;
     content: React.ReactNode | null;
@@ -397,13 +403,13 @@ export const GenericMap = ({
         <HintBox>
           <Loading delayMs={0} />
         </HintBox>
+      ) : error ? (
+        <HintBox>
+          <Alert severity="error">{error.message}</Alert>
+        </HintBox>
       ) : hasNoData ? (
         <HintBox>
           <NoDataHint />
-        </HintBox>
-      ) : hasError ? (
-        <HintBox>
-          <NoGeoDataHint />
         </HintBox>
       ) : null}
 

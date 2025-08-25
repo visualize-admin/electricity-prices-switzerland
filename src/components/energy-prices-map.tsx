@@ -10,6 +10,7 @@ import React, {
   useMemo,
   useState,
 } from "react";
+import { UseQueryState } from "urql";
 
 import { MapColorLegend } from "src/components/color-legend";
 import {
@@ -27,9 +28,15 @@ import { MapTooltipContent } from "src/components/map-tooltip";
 import { useGeoData } from "src/data/geo";
 import { getObservationsWeightedMean } from "src/domain/data";
 import { useFormatCurrency } from "src/domain/helpers";
-import { OperatorObservationFieldsFragment } from "src/graphql/queries";
+import {
+  AllMunicipalitiesQuery,
+  ObservationsQuery,
+  OperatorObservationFieldsFragment,
+} from "src/graphql/queries";
 import { PriceComponent } from "src/graphql/resolver-types";
 import { maxBy } from "src/lib/array";
+import { truthy } from "src/lib/truthy";
+import { combineErrors } from "src/utils/combine-errors";
 import { useFlag } from "src/utils/flags";
 import { isDefined } from "src/utils/is-defined";
 
@@ -72,7 +79,10 @@ const __debugCheckObservationsWithoutShapes = (
 export const EnergyPricesMap = ({
   year,
   observations,
-  observationsQueryFetching,
+  observationsFetching,
+  municipalitiesFetching,
+  observationsError,
+  municipalitiesError,
   medianValue,
   municipalities,
   colorScale,
@@ -81,7 +91,10 @@ export const EnergyPricesMap = ({
 }: {
   year: string;
   observations: OperatorObservationFieldsFragment[];
-  observationsQueryFetching: boolean;
+  observationsFetching: UseQueryState<ObservationsQuery>["fetching"];
+  municipalitiesFetching: UseQueryState<AllMunicipalitiesQuery>["fetching"];
+  observationsError: UseQueryState<ObservationsQuery>["error"];
+  municipalitiesError: UseQueryState<AllMunicipalitiesQuery>["error"];
   medianValue: number | undefined;
   municipalities: { id: string; name: string }[];
   colorScale: ScaleThreshold<number, string> | undefined;
@@ -356,9 +369,27 @@ export const EnergyPricesMap = ({
   return (
     <GenericMap
       layers={(layers as unknown as Layer[]) || []}
-      isLoading={geoData.state === "fetching" || observationsQueryFetching}
+      isLoading={
+        geoData.state === "fetching" ||
+        observationsFetching ||
+        municipalitiesFetching
+      }
       hasNoData={observations.length === 0}
-      hasError={geoData.state === "error"}
+      error={combineErrors(
+        [
+          geoData.state === "error"
+            ? geoData.error instanceof Error
+              ? { error: geoData.error, label: "GeoData" }
+              : { message: "Unknown geoData error" }
+            : undefined,
+          observationsError
+            ? { error: observationsError, label: "Observations" }
+            : undefined,
+          municipalitiesError
+            ? { error: municipalitiesError, label: "Municipalities" }
+            : undefined,
+        ].filter(truthy)
+      )}
       tooltipContent={tooltipContent}
       legend={renderLegend()}
       downloadId={DOWNLOAD_ID}
