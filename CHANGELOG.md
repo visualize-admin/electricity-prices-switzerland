@@ -13,6 +13,9 @@ You can also check the
 
 - Feat
   - Added OG tags to the app
+ 
+- Feat 
+  - Added custom tooltip to all button groups 
 
 # 2.9.0
 

@@ -1420,7 +1420,6 @@ msgid "sunshine.power-stability.operator"
 msgstr "{operatorLabel}"
 
 #: src/components/power-stability-card.tsx
-#: src/components/power-stability-card.tsx
 msgid "sunshine.power-stability.overall-option"
 msgstr "Dans l'ensemble"
 
@@ -1436,7 +1435,6 @@ msgstr "Prévu"
 msgid "sunshine.power-stability.progress-over-time"
 msgstr "Progrès dans le temps"
 
-#: src/components/power-stability-card.tsx
 #: src/components/power-stability-card.tsx
 msgid "sunshine.power-stability.ratio-option"
 msgstr "Ratio"
