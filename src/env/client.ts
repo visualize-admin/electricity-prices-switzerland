@@ -16,7 +16,7 @@ const clientSchema = z.object({
         return [];
       }
     }),
-  PUBLIC_URL: z.string().optional(),
+  PUBLIC_URL: z.string(),
 });
 
 export default clientSchema.parse({
