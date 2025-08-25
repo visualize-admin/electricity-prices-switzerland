@@ -227,18 +227,9 @@ const Query: QueryResolvers = {
 
     const years = filters?.period;
     if (years && observationFields && "coverageRatio" in observationFields) {
-      const start = Date.now();
-      console.log(`Preparing coverage data for years: ${years.join(", ")}`);
       const defaultNetworkLevel = "NE7";
       const coverageManager = new CoverageCacheManager(sparqlClient);
       await coverageManager.prepare(years);
-      const end = Date.now();
-      console.log(
-        `Finished preparing coverage data for years: ${years.join(", ")} in ${
-          end - start
-        }ms`
-      );
-      console.log(`Coverage data prepared in ${end - start}ms`);
       operatorObservations.forEach((x) => {
         x.coverageRatio =
           coverageManager.getCoverage(x, defaultNetworkLevel) ?? 1;
