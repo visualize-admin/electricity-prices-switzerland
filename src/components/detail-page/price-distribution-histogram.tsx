@@ -129,22 +129,37 @@ export const PriceDistributionHistograms = ({ id, entity }: SectionProps) => {
                 {
                   value: "total",
                   label: getLocalizedLabel({ id: "total" }),
+                  content: getLocalizedLabel({
+                    id: "price-components.total-content",
+                  }),
                 },
                 {
                   value: "gridusage",
                   label: getLocalizedLabel({ id: "gridusage" }),
+                  content: getLocalizedLabel({
+                    id: "price-components.gridusage-content",
+                  }),
                 },
                 {
                   value: "energy",
                   label: getLocalizedLabel({ id: "energy" }),
+                  content: getLocalizedLabel({
+                    id: "price-components.energy-content",
+                  }),
                 },
                 {
                   value: "charge",
                   label: getLocalizedLabel({ id: "charge" }),
+                  content: getLocalizedLabel({
+                    id: "price-components.charge-content",
+                  }),
                 },
                 {
                   value: "aidfee",
                   label: getLocalizedLabel({ id: "aidfee" }),
+                  content: getLocalizedLabel({
+                    id: "price-components.aidfee-content",
+                  }),
                 },
               ]}
               value={priceComponent[0] as string}

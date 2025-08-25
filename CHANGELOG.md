@@ -13,6 +13,9 @@ You can also check the
 
 - Style
   - Improved the styling of the info banner fixed alignment
+ 
+- Feat 
+  - Added custom tooltip to all button groups 
 
 # 2.9.0
 

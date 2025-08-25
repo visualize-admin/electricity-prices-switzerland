@@ -5,18 +5,16 @@ import {
   CardProps,
   Grid,
   Stack,
-  Tooltip,
   Typography,
 } from "@mui/material";
 import React, { ReactNode } from "react";
 
 import { ButtonGroup } from "src/components/button-group";
 import CardSource from "src/components/card-source";
-import TooltipContent from "src/components/tooltip-content";
 import { filterBySeparator } from "src/domain/helpers";
 import { useQueryStatePowerStabilityCardFilters } from "src/domain/query-states";
 import { PeerGroup, SunshinePowerStabilityData } from "src/domain/sunshine";
-import { getPeerGroupLabels } from "src/domain/translation";
+import { getLocalizedLabel, getPeerGroupLabels } from "src/domain/translation";
 
 import { CardHeader } from "./detail-page/card";
 import { Download, DownloadImage } from "./detail-page/download-image";
@@ -177,26 +175,27 @@ export const PowerStabilityCard: React.FC<PowerStabilityCardProps> = (
           <Grid item xs={12} sm={4} sx={{ mt: 2.5 }}>
             <ButtonGroup
               id="view-by-button-group-1"
-              label={t({
-                id: "sunshine.power-stability.view-by",
-                message: "View By",
+              label={getLocalizedLabel({
+                id: "power-stability.view-by",
               })}
               options={[
                 {
                   value: "latest",
-                  label: (
-                    <Trans id="sunshine.power-stability.latest-year-option">
-                      Latest year
-                    </Trans>
-                  ),
+                  label: getLocalizedLabel({
+                    id: "power-stability.latest-year-option",
+                  }),
+                  content: getLocalizedLabel({
+                    id: "power-stability.latest-year-option-content",
+                  }),
                 },
                 {
                   value: "progress",
-                  label: (
-                    <Trans id="sunshine.power-stability.progress-over-time">
-                      Progress over time
-                    </Trans>
-                  ),
+                  label: getLocalizedLabel({
+                    id: "power-stability.progress-over-time",
+                  }),
+                  content: getLocalizedLabel({
+                    id: "power-stability.progress-over-time-content",
+                  }),
                 },
               ]}
               value={viewBy}
@@ -209,83 +208,27 @@ export const PowerStabilityCard: React.FC<PowerStabilityCardProps> = (
             {viewBy === "latest" ? (
               <ButtonGroup
                 id="view-by-button-group-2"
-                label={t({
-                  id: "sunshine.power-stability.view-by",
-                  message: "View By",
+                label={getLocalizedLabel({
+                  id: "power-stability.view-by",
                 })}
                 options={[
                   {
                     value: "overall",
-                    label: (
-                      <Tooltip
-                        title={
-                          <TooltipContent
-                            title={
-                              <Trans id="sunshine.power-stability.overall-option">
-                                Overall
-                              </Trans>
-                            }
-                            content={
-                              <Trans id="sunshine.power-stability.overall-tooltip">
-                                Shows the total outage duration per operator,
-                                combining planned and unplanned outages for
-                                direct comparison.
-                              </Trans>
-                            }
-                          />
-                        }
-                        arrow
-                        placement="top"
-                        slotProps={{
-                          tooltip: {
-                            sx: {
-                              padding: 0,
-                            },
-                          },
-                        }}
-                      >
-                        <span>
-                          <Trans id="sunshine.power-stability.overall-option">
-                            Overall
-                          </Trans>
-                        </span>
-                      </Tooltip>
-                    ),
+                    label: getLocalizedLabel({
+                      id: "power-stability.overall-option",
+                    }),
+                    content: getLocalizedLabel({
+                      id: "power-stability.overall-tooltip",
+                    }),
                   },
                   {
                     value: "ratio",
-                    label: (
-                      <Tooltip
-                        title={
-                          <TooltipContent
-                            title={t({
-                              id: "sunshine.power-stability.ratio-option",
-                              message: "Ratio",
-                            })}
-                            content={t({
-                              id: "sunshine.power-stability.ratio-tooltip",
-                              message:
-                                "Shows the ratio of unplanned outages to total outages, providing insight into the stability of the power supply.",
-                            })}
-                          />
-                        }
-                        arrow
-                        placement="top"
-                        slotProps={{
-                          tooltip: {
-                            sx: {
-                              padding: 0,
-                            },
-                          },
-                        }}
-                      >
-                        <span>
-                          <Trans id="sunshine.power-stability.ratio-option">
-                            Ratio
-                          </Trans>
-                        </span>
-                      </Tooltip>
-                    ),
+                    label: getLocalizedLabel({
+                      id: "power-stability.ratio-option",
+                    }),
+                    content: getLocalizedLabel({
+                      id: "power-stability.ratio-tooltip",
+                    }),
                   },
                 ]}
                 value={overallOrRatio}
@@ -299,34 +242,36 @@ export const PowerStabilityCard: React.FC<PowerStabilityCardProps> = (
             ) : (
               <ButtonGroup
                 id="view-by-button-group-3"
-                label={t({
-                  id: "sunshine.power-stability.duration",
-                  message: "Duration",
+                label={getLocalizedLabel({
+                  id: "power-stability.duration",
                 })}
                 options={[
                   {
                     value: "total",
-                    label: (
-                      <Trans id="sunshine.power-stability.total-option">
-                        Total
-                      </Trans>
-                    ),
+                    label: getLocalizedLabel({
+                      id: "power-stability.total-option",
+                    }),
+                    content: getLocalizedLabel({
+                      id: "power-stability.total-tooltip",
+                    }),
                   },
                   {
                     value: "planned",
-                    label: (
-                      <Trans id="sunshine.power-stability.planned-option">
-                        Planned
-                      </Trans>
-                    ),
+                    label: getLocalizedLabel({
+                      id: "power-stability.planned-option",
+                    }),
+                    content: getLocalizedLabel({
+                      id: "power-stability.planned-tooltip",
+                    }),
                   },
                   {
                     value: "unplanned",
-                    label: (
-                      <Trans id="sunshine.power-stability.unplanned-option">
-                        Unplanned
-                      </Trans>
-                    ),
+                    label: getLocalizedLabel({
+                      id: "power-stability.unplanned-option",
+                    }),
+                    content: getLocalizedLabel({
+                      id: "power-stability.unplanned-tooltip",
+                    }),
                   },
                 ]}
                 value={duration}

@@ -477,6 +477,14 @@ msgstr "Power Outage Frequency (SAIFI)"
 msgid "indicator.serviceQuality"
 msgstr "Service quality"
 
+#: src/components/sunshine-map.tsx
+msgid "legend.no"
+msgstr "No"
+
+#: src/components/sunshine-map.tsx
+msgid "legend.yes"
+msgstr "Yes"
+
 #: src/components/list.tsx
 msgid "list.order.prices.asc"
 msgstr "Ascending"
@@ -1404,7 +1412,6 @@ msgid "sunshine.power-stability.operator"
 msgstr "{operatorLabel}"
 
 #: src/components/power-stability-card.tsx
-#: src/components/power-stability-card.tsx
 msgid "sunshine.power-stability.overall-option"
 msgstr "Overall"
 
@@ -1420,7 +1427,6 @@ msgstr "Planned"
 msgid "sunshine.power-stability.progress-over-time"
 msgstr "Progress over time"
 
-#: src/components/power-stability-card.tsx
 #: src/components/power-stability-card.tsx
 msgid "sunshine.power-stability.ratio-option"
 msgstr "Ratio"
