@@ -477,6 +477,14 @@ msgstr "indicator.saifi"
 msgid "indicator.serviceQuality"
 msgstr "indicator.serviceQuality"
 
+#: src/components/sunshine-map.tsx
+msgid "legend.no"
+msgstr "legend.no"
+
+#: src/components/sunshine-map.tsx
+msgid "legend.yes"
+msgstr "legend.yes"
+
 #: src/components/list.tsx
 msgid "list.order.prices.asc"
 msgstr "list.order.prices.asc"
@@ -1404,7 +1412,6 @@ msgid "sunshine.power-stability.operator"
 msgstr "sunshine.power-stability.operator"
 
 #: src/components/power-stability-card.tsx
-#: src/components/power-stability-card.tsx
 msgid "sunshine.power-stability.overall-option"
 msgstr "sunshine.power-stability.overall-option"
 
@@ -1420,7 +1427,6 @@ msgstr "sunshine.power-stability.planned-option"
 msgid "sunshine.power-stability.progress-over-time"
 msgstr "sunshine.power-stability.progress-over-time"
 
-#: src/components/power-stability-card.tsx
 #: src/components/power-stability-card.tsx
 msgid "sunshine.power-stability.ratio-option"
 msgstr "sunshine.power-stability.ratio-option"
