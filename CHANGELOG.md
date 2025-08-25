@@ -12,10 +12,13 @@ You can also check the
 # Unreleased
 
 - Feat
+
   - Added OG tags to the app
- 
-- Feat 
-  - Added custom tooltip to all button groups 
+  - Added custom tooltip to all button groups
+
+- Fix
+
+  - Minor UI styling issues
 
 # 2.9.0
 
