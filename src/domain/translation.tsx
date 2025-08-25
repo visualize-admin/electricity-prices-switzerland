@@ -231,44 +231,44 @@ export const getLocalizedLabel = ({ id }: { id: string }): string => {
       });
 
     // Sunshine selectors labels
-    case "peerGroup.all_grid_operators":
+    case "peer-group.all-grid-operators":
       return t({
         id: "peerGroup.all_grid_operators",
         message: "All grid operators",
       });
-    case "peerGroup.A":
+    case "peer-group.A":
       return t({
         id: "peerGroup.A",
         message: "High energy density / Medium settlement density",
       });
-    case "peerGroup.B":
+    case "peer-group.B":
       return t({
         id: "peerGroup.B",
         message: "High energy density / Rural settlement density",
       });
-    case "peerGroup.C":
+    case "peer-group.C":
       return t({
         id: "peerGroup.C",
         message: "High energy density / Mountain region",
       });
-    case "peerGroup.D":
+    case "peer-group.D":
       return t({ id: "peerGroup.D", message: "High energy density / Unknown" });
-    case "peerGroup.E":
+    case "peer-group.E":
       return t({
         id: "peerGroup.E",
         message: "Low energy density / Medium settlement density",
       });
-    case "peerGroup.F":
+    case "peer-group.F":
       return t({
         id: "peerGroup.F",
         message: "Low energy density / Rural settlement density",
       });
-    case "peerGroup.G":
+    case "peer-group.G":
       return t({
         id: "peerGroup.G",
         message: "Low energy density / Mountain region",
       });
-    case "peerGroup.H":
+    case "peer-group.H":
       return t({ id: "peerGroup.H", message: "Low energy density / Tourism" });
     case "planned":
       return t({
@@ -402,6 +402,176 @@ export const getLocalizedLabel = ({ id }: { id: string }): string => {
       return t({
         id: "sunshine.costs-and-tariffs.selected-operators",
         message: `Selected network operators`,
+      });
+
+    // ButtonGroup labels and content
+    case "power-stability.view-by":
+      return t({
+        id: "sunshine.power-stability.view-by",
+        message: "View By",
+      });
+    case "power-stability.latest-year-option":
+      return t({
+        id: "sunshine.power-stability.latest-year-option",
+        message: "Latest year",
+      });
+    case "power-stability.latest-year-option-content":
+      return t({
+        id: "sunshine.power-stability.latest-year-option-content",
+        message: "Lorem ipsum",
+      });
+    case "power-stability.progress-over-time":
+      return t({
+        id: "sunshine.power-stability.progress-over-time",
+        message: "Progress over time",
+      });
+    case "power-stability.progress-over-time-content":
+      return t({
+        id: "sunshine.power-stability.progress-over-time-content",
+        message: "Lorem ipsum",
+      });
+    case "power-stability.overall-option":
+      return t({
+        id: "sunshine.power-stability.overall-option",
+        message: "Overall",
+      });
+    case "power-stability.overall-tooltip":
+      return t({
+        id: "sunshine.power-stability.overall-tooltip",
+        message:
+          "Shows the total outage duration per operator, combining planned and unplanned outages for direct comparison.",
+      });
+    case "power-stability.ratio-option":
+      return t({
+        id: "sunshine.power-stability.ratio-option",
+        message: "Ratio",
+      });
+    case "power-stability.ratio-tooltip":
+      return t({
+        id: "sunshine.power-stability.ratio-tooltip",
+        message:
+          "Shows the ratio of unplanned outages to total outages, providing insight into the stability of the power supply.",
+      });
+    case "power-stability.duration":
+      return t({
+        id: "sunshine.power-stability.duration",
+        message: "Duration",
+      });
+    case "power-stability.total-option":
+      return t({
+        id: "sunshine.power-stability.total-option",
+        message: "Total",
+      });
+    case "power-stability.total-tooltip":
+      return t({
+        id: "sunshine.power-stability.total-tooltip",
+        message:
+          "Shows the total outage duration per operator, combining planned and unplanned outages for direct comparison.",
+      });
+    case "power-stability.planned-option":
+      return t({
+        id: "sunshine.power-stability.planned-option",
+        message: "Planned",
+      });
+    case "power-stability.planned-tooltip":
+      return t({
+        id: "sunshine.power-stability.planned-tooltip",
+        message:
+          "Shows only planned outages, which are scheduled maintenance or upgrades.",
+      });
+    case "power-stability.unplanned-option":
+      return t({
+        id: "sunshine.power-stability.unplanned-option",
+        message: "Unplanned",
+      });
+    case "power-stability.unplanned-tooltip":
+      return t({
+        id: "sunshine.power-stability.unplanned-tooltip",
+        message:
+          "Shows only unplanned outages, which are unexpected interruptions.",
+      });
+
+    case "costs-and-tariffs.view-by":
+      return t({
+        id: "sunshine.costs-and-tariffs.view-by",
+        message: "View By",
+      });
+    case "costs-and-tariffs.latest-year-option":
+      return t({
+        id: "sunshine.costs-and-tariffs.latest-year-option",
+        message: "Latest year",
+      });
+    case "costs-and-tariffs.progress-over-time":
+      return t({
+        id: "sunshine.costs-and-tariffs.progress-over-time",
+        message: "Progress over time",
+      });
+    case "costs-and-tariffs.latest-year-option-content":
+      return t({
+        id: "sunshine.costs-and-tariffs.latest-year-option-content",
+        message: "Lorem ipsum",
+      });
+    case "costs-and-tariffs.progress-over-time-content":
+      return t({
+        id: "sunshine.costs-and-tariffs.progress-over-time-content",
+        message: "Lorem ipsum",
+      });
+
+    case "price-components.collapsed-content":
+      return t({
+        id: "selector.priceComponents.collapsed-content",
+        message: "Lorem ipsum",
+      });
+    case "price-components.expanded-content":
+      return t({
+        id: "selector.priceComponents.expanded-content",
+        message: "Lorem ipsum",
+      });
+    case "price-components.total-content":
+      return t({
+        id: "selector.priceComponents.total-content",
+        message: "Lorem ipsum",
+      });
+    case "price-components.gridusage-content":
+      return t({
+        id: "selector.priceComponents.gridusage-content",
+        message: "Lorem ipsum",
+      });
+    case "price-components.energy-content":
+      return t({
+        id: "selector.priceComponents.energy-content",
+        message: "Lorem ipsum",
+      });
+    case "price-components.charge-content":
+      return t({
+        id: "selector.priceComponents.charge-content",
+        message: "Lorem ipsum",
+      });
+    case "price-components.aidfee-content":
+      return t({
+        id: "selector.priceComponents.aidfee-content",
+        message: "Lorem ipsum",
+      });
+
+    case "selector-tab.electricity":
+      return t({
+        id: "selector.tab.electricity",
+        message: "Electricity Tariffs",
+      });
+    case "selector-tab.electricity-content":
+      return t({
+        id: "selector.tab.electricity-content",
+        message: "Lorem ipsum",
+      });
+    case "selector-tab.indicators":
+      return t({
+        id: "selector.tab.indicators",
+        message: "Indicators",
+      });
+    case "selector-tab.indicators-content":
+      return t({
+        id: "selector.tab.indicators-content",
+        message: "Lorem ipsum",
       });
 
     default:

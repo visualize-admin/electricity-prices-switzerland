@@ -9,6 +9,11 @@ and this project adheres to
 You can also check the
 [release page](https://github.com/visualize-admin/electricity-prices-switzerland/releases)
 
+# Unreleased
+
+- Feat 
+  - Added custom tooltip to all button groups 
+
 # 2.9.0
 
 - Feat
