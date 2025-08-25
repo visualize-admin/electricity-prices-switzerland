@@ -86,6 +86,8 @@ export default function App(props: AppProps & { emotionCache?: EmotionCache }) {
         />
         <meta property="og:image" content={`${PUBLIC_URL}/og-image.png`} />
         <meta property="og:url" content={`${PUBLIC_URL}${asPath}`} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:image" content={`${PUBLIC_URL}/og-image.png`} />
         {preloadFonts.map((src) => (
           <link
             key={src}
