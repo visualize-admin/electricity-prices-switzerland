@@ -13,10 +13,7 @@ import {
 } from "d3";
 import { ReactNode, useCallback } from "react";
 
-import {
-  LEFT_MARGIN_OFFSET,
-  LEFT_MARGIN_OFFSET_GROUPED,
-} from "src/components/charts-generic/constants";
+import { LEFT_MARGIN_OFFSET } from "src/components/charts-generic/constants";
 import { Tooltip } from "src/components/charts-generic/interaction/tooltip";
 import { LegendSymbol } from "src/components/charts-generic/legends/color";
 import {
@@ -248,7 +245,7 @@ const useHistogramState = ({
     top: isMobile ? 140 : 70,
     right: 40,
     bottom: 100,
-    left: left + (groupedBy ? LEFT_MARGIN_OFFSET_GROUPED : LEFT_MARGIN_OFFSET),
+    left: left + LEFT_MARGIN_OFFSET,
   };
 
   const chartWidth = width - margins.left - margins.right;
