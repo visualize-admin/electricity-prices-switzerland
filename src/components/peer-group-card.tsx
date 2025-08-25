@@ -19,7 +19,7 @@ const PeerGroupCard: React.FC<
         <Typography variant="h3" gutterBottom>
           <Trans id="sunshine.costs-and-tariffs.peer-group">Peer Group</Trans>
         </Typography>
-        <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+        <Typography variant="body2" color="text.primary" gutterBottom>
           <Trans id="sunshine.costs-and-tariffs.latest-year">
             Latest year ({latestYear})
           </Trans>
