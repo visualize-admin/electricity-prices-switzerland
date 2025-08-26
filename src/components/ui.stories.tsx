@@ -8,6 +8,7 @@ import {
   IconButton,
   Link,
   Stack,
+  TextField,
 } from "@mui/material";
 import { useState } from "react";
 
@@ -609,6 +610,7 @@ export const ButtonGroupStory = () => {
 
 const selectStates = ["enabled", "disabled", "error"];
 const selectItems = ["tag 1", "tag 2", "tag 3", "tag 4", "tag 5", "tag 6"];
+const sizes = ["small", "medium"] as const;
 
 export const FormStory = () => {
   const [multiSelectValue, setMultiSelectValue] = useState<string[]>([
@@ -619,48 +621,82 @@ export const FormStory = () => {
   const [selectValue, setSelectValue] = useState<string>("tag 1");
   return (
     <DesignStory title="Form Elements" reference="BUND Library">
-      <DesignGrid>
+      <DesignGrid gridTemplateColumns="1fr">
         <DesignSection
           title="Select"
           note="Currently using Combobox + Autocomplete Component!"
           sx={{
             gap: 8,
-            maxWidth: 300,
           }}
         >
-          {selectStates.map((state) => (
-            <Combobox
-              key={state}
-              id={`select-${state}`}
-              label={capitalize(state)}
-              disabled={state === "disabled"}
-              error={state === "error"}
-              items={selectItems}
-              setSelectedItem={setSelectValue}
-              selectedItem={selectValue}
-            />
-          ))}
+          <Grid container spacing={2} columns={2}>
+            {selectStates.flatMap((state) =>
+              sizes.map((size) => (
+                <Grid item xs={1} key={`${state}-${size}`}>
+                  <Combobox
+                    id={`select-${state}-${size}`}
+                    label={`${capitalize(state)} ${capitalize(size)}`}
+                    disabled={state === "disabled"}
+                    error={state === "error"}
+                    textFieldProps={{ size }}
+                    items={selectItems}
+                    setSelectedItem={setSelectValue}
+                    selectedItem={selectValue}
+                  />
+                </Grid>
+              ))
+            )}
+          </Grid>
         </DesignSection>
         <DesignSection
           title="Multi-Select"
           note="Currently using MultiCombobox + Autocomplete Component!"
           sx={{
             gap: 8,
-            maxWidth: 300,
           }}
         >
-          {selectStates.map((state) => (
-            <MultiCombobox
-              key={state}
-              id={`multi-select-${state}`}
-              disabled={state === "disabled"}
-              error={state === "error"}
-              label={capitalize(state)}
-              items={selectItems}
-              setSelectedItems={setMultiSelectValue}
-              selectedItems={multiSelectValue}
-            />
-          ))}
+          <Grid container spacing={2} columns={2}>
+            {selectStates.flatMap((state) =>
+              sizes.map((size) => (
+                <Grid item xs={1} key={`${state}-${size}`}>
+                  <MultiCombobox
+                    id={`multi-select-${state}-${size}`}
+                    disabled={state === "disabled"}
+                    error={state === "error"}
+                    label={`${capitalize(state)} ${capitalize(size)}`}
+                    textFieldProps={{ size }}
+                    items={selectItems}
+                    setSelectedItems={setMultiSelectValue}
+                    selectedItems={multiSelectValue}
+                  />
+                </Grid>
+              ))
+            )}
+          </Grid>
+        </DesignSection>
+        <DesignSection
+          title="TextField"
+          sx={{
+            gap: 8,
+          }}
+        >
+          <Grid container spacing={2} columns={2}>
+            {selectStates.flatMap((state) =>
+              sizes.map((size) => (
+                <Grid item xs={1} key={`${state}-${size}`}>
+                  <TextField
+                    id={`textfield-${state}-${size}`}
+                    label={`${capitalize(state)} ${capitalize(size)}`}
+                    disabled={state === "disabled"}
+                    error={state === "error"}
+                    size={size}
+                    variant="outlined"
+                    placeholder="Enter text..."
+                  />
+                </Grid>
+              ))
+            )}
+          </Grid>
         </DesignSection>
       </DesignGrid>
     </DesignStory>

@@ -312,6 +312,8 @@ export const components = (theme: Theme): Components => ({
   MuiInputBase: {
     styleOverrides: {
       root: {
+        minHeight: "40px",
+
         display: "flex",
         alignItems: "center",
         width: "100%",
@@ -322,7 +324,6 @@ export const components = (theme: Theme): Components => ({
         paddingBottom: "4px !important",
         paddingLeft: "16px ",
         borderRadius: 0.5,
-        minHeight: "40px",
         height: "100%",
         borderColor: palette.monochrome[500],
 
