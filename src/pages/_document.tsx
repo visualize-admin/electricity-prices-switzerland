@@ -3,6 +3,7 @@ import createEmotionServer from "@emotion/server/create-instance";
 import Document, { Head, Html, Main, NextScript } from "next/document";
 import * as React from "react";
 
+import RuntimeClientVars from "src/components/runtime-client-vars";
 import createEmotionCache from "src/emotion-cache";
 import buildEnv from "src/env/build";
 import UrqlSSRScript from "src/graphql/urql-ssr-script";
@@ -13,6 +14,7 @@ class MyDocument extends Document {
       <Html data-app-version={`${buildEnv.VERSION}`}>
         <Head />
         <body>
+          <RuntimeClientVars />
           <UrqlSSRScript />
           <Main />
           <script noModule src="/static/ie-check.js"></script>
