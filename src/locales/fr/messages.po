@@ -7,7 +7,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language: fr\n"
 "Language-Team: \n"
-"Content-Type: text/plain\n"
+"Content-Type: \n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
@@ -259,7 +259,7 @@ msgstr "À propos de nous"
 
 #: src/components/footer.tsx
 msgid "footer.about_us.text"
-msgstr "ElCom, le régulateur indépendant de l’électricité en Suisse, veille au respect de la législation sur l’électricité et l’énergie. Elle surveille les prix de l’électricité, la sécurité d’approvisionnement, le commerce international et arbitre les litiges liés à l’accès au réseau et aux tarifs."
+msgstr "ElCom, le régulateur indépendant de l’électricité en Suisse, veille au respect de la législation sur l’électricité et l’énergie."
 
 #: src/components/footer.tsx
 msgid "footer.additional-information"
@@ -395,7 +395,7 @@ msgstr "La réglementation Sunshine"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.card.compliance.description"
-msgstr "La variété des produits reflète la gamme de produits d'électricité écologiques proposés. La qualité du service reflète la qualité de l'information des clients sur les pannes. La conformité mesure la constance avec laquelle un gestionnaire de réseau respecte les lois, les réglementations et les normes internes."
+msgstr "La qualité du service reflète la qualité de l'information des clients sur les pannes. La conformité mesure la constance avec laquelle un gestionnaire de réseau respecte les lois, les réglementations et les normes internes."
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.card.compliance.title"
@@ -1394,7 +1394,7 @@ msgstr "Part des opérateurs"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.description"
-msgstr "La page Normes opérationnelles évalue les indicateurs de performance clés qui mettent en évidence la qualité du service fourni par les entreprises d'électricité. Ces indicateurs comprennent la variété des produits, qui mesure la gamme de produits écologiques et d'énergie combinée proposés ; la qualité du service, qui évalue la manière dont les entreprises informent les consommateurs des interruptions de courant prévues et du délai de préavis ; et la conformité, qui assure le respect de la règle des 75 francs et la soumission en temps voulu des documents officiels à la Commission fédérale de l'électricité (ElCom)."
+msgstr "La page Normes opérationnelles évalue les indicateurs de performance clés qui mettent en évidence la qualité du service fourni par les entreprises d'électricité. Ces indicateurs comprennent la qualité du service, qui évalue la manière dont les entreprises informent les consommateurs des interruptions de courant prévues et du délai de préavis et la conformité, qui assure le respect de la règle des francs et la soumission en temps voulu des documents officiels à la Commission fédérale de l'électricité (ElCom)."
 
 #: src/domain/translation.tsx
 msgid "sunshine.operational-standards.product-variety-trend"

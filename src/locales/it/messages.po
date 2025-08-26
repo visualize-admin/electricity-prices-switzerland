@@ -7,7 +7,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language: it\n"
 "Language-Team: \n"
-"Content-Type: text/plain\n"
+"Content-Type: \n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
@@ -267,7 +267,7 @@ msgstr "Ulteriori informazioni sulle tariffe in Svizzera"
 
 #: src/components/footer.tsx
 msgid "footer.basis-of-calculation"
-msgstr "Base del calcolo"
+msgstr "Basi di calcolo"
 
 #: src/components/footer.tsx
 msgid "footer.create-data-visualizations"
@@ -395,7 +395,7 @@ msgstr "The Sunshine Regulation"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.card.compliance.description"
-msgstr "La varietà dei prodotti riflette la gamma di prodotti elettrici ecologici offerti. La qualità del servizio misura il livello di informazione dei clienti sulle interruzioni. La conformità misura la coerenza con cui un gestore di rete rispetta leggi, regolamenti e standard interni."
+msgstr "La qualità del servizio misura il livello di informazione dei clienti sulle interruzioni. La conformità misura la coerenza con cui un gestore di rete rispetta leggi, regolamenti e standard interni."
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.card.compliance.title"
@@ -499,19 +499,19 @@ msgstr "decrescente"
 
 #: src/components/list.tsx
 msgid "list.order.quality.asc"
-msgstr "In salita"
+msgstr "crescente"
 
 #: src/components/list.tsx
 msgid "list.order.quality.desc"
-msgstr "In discesa"
+msgstr "decrescente"
 
 #: src/components/list.tsx
 msgid "list.order.timely.asc"
-msgstr "In salita"
+msgstr "crescente"
 
 #: src/components/list.tsx
 msgid "list.order.timely.desc"
-msgstr "In discesa"
+msgstr "decrescente"
 
 #: src/components/list.tsx
 msgid "list.search.label"
@@ -1394,7 +1394,7 @@ msgstr "Quota di operatori"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.description"
-msgstr "La pagina degli Standard operativi valuta gli indicatori chiave di performance che evidenziano la qualità del servizio fornito dalle aziende elettriche. Questi indicatori comprendono la Varietà dei prodotti, che misura la gamma di prodotti energetici ecologici e combinati offerti; la Qualità del servizio, che valuta quanto le aziende informano i consumatori sulle interruzioni elettriche programmate e sul periodo di preavviso previsto; e la Conformità, che garantisce il rispetto della regola dei 75 franchi e la presentazione tempestiva dei documenti ufficiali alla Commissione federale dell'energia elettrica (ElCom)."
+msgstr "La pagina degli Standard operativi valuta gli indicatori chiave di performance che evidenziano la qualità del servizio fornito dalle aziende elettriche. Questi indicatori comprendono la Qualità del servizio, che valuta quanto le aziende informano i consumatori sulle interruzioni elettriche programmate e sul periodo di preavviso previsto e la Conformità, che garantisce il rispetto della regola dei franchi e la presentazione tempestiva dei documenti ufficiali alla Commissione federale dell'energia elettrica (ElCom)."
 
 #: src/domain/translation.tsx
 msgid "sunshine.operational-standards.product-variety-trend"

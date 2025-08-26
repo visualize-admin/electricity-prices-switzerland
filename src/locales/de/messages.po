@@ -7,7 +7,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language: de\n"
 "Language-Team: \n"
-"Content-Type: text/plain\n"
+"Content-Type: \n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -25,7 +25,7 @@ msgstr "Detaillierte Preisanalysen von Kantonen, Gemeinden und Netzbetreibern."
 
 #: src/pages/_app.tsx
 msgid "app.meta.title"
-msgstr "Stromtarife in der Schweiz"
+msgstr "Strompreise Schweiz"
 
 #: src/components/energy-prices-map.tsx
 msgid "canton"
@@ -195,7 +195,7 @@ msgstr "Download Reports"
 
 #: src/components/detail-page/price-components-bars.tsx
 msgid "dynamic-tariffs.hint"
-msgstr "Die Preise mit den in Klammern angegebenen Werten sind dynamisch."
+msgstr "Es handelt sich um einen dynamischen Tarif."
 
 #: src/components/charts-generic/bars/bars-grouped.tsx
 msgid "dynamic.tariff"
@@ -207,7 +207,7 @@ msgstr "Vergleich in Rp./kWh (Angaben exkl. MwSt.)"
 
 #: src/components/energy-prices-map.tsx
 msgid "energy-prices-map.legend.title-annualmeteringcost"
-msgstr "Tarifvergleich in CHF / Jahr"
+msgstr "Vergleich in CHF pro Jahr und Messpunkt"
 
 #: src/components/not-found.tsx
 msgid "error.page.404.back-link"
@@ -259,7 +259,7 @@ msgstr "Über uns"
 
 #: src/components/footer.tsx
 msgid "footer.about_us.text"
-msgstr "Die ElCom ist die unabhängige staatliche Regulierungsbehörde im Elektrizitätsbereich. Sie überwacht die Einhaltung des Stromversorgungs- und Energiegesetzes, trifft die dazu nötigen Entscheide und erlässt Verfügungen. Sie beaufsichtigt die Strompreise und entscheidet bei Differenzen betreffend den Netzzugang. Sie überwacht zudem die Versorgungssicherheit im Strombereich und regelt Fragen zum internationalen Stromtransport und -handel. Schliesslich entscheidet die ElCom in Streitigkeiten zu Rückliefervergütungen sowie zwischen Netzbetreiber und Eigenverbraucher."
+msgstr "Die ElCom ist die unabhängige staatliche Regulierungsbehörde im Elektrizitätsbereich."
 
 #: src/components/footer.tsx
 msgid "footer.additional-information"
@@ -1039,31 +1039,31 @@ msgstr "Preiskomponenten"
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.aidfee-content"
-msgstr "Lorem ipsum"
+msgstr "selector.priceComponents.aidfee-content"
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.charge-content"
-msgstr "Lorem ipsum"
+msgstr "selector.priceComponents.charge-content"
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.collapsed-content"
-msgstr "Lorem ipsum"
+msgstr "Detaillierte Aufschlüsselung aller vorgeschriebenen Preiskomponenten, die separat ausgewiesen werden"
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.energy-content"
-msgstr "Lorem ipsum"
+msgstr "Preis für die gelieferte elektrische Energie. Diese Energie erzeugt der Netzbetreiber entweder mit eigenen Kraftwerken, oder er kauft sie von Vorlieferanten ein. Der Energiepreis wird auch von der Art der Energiequelle beeinflusst.  So führen hohe Anteile an erneuerbaren Energien (z.B. Wind-, Solar-, Biomasse-Energie) in der Regel zu höheren Energiepreisen."
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.expanded-content"
-msgstr "Lorem ipsum"
+msgstr "Detaillierte Aufschlüsselung aller vorgeschriebenen Preiskomponenten, die separat ausgewiesen werden"
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.gridusage-content"
-msgstr "Lorem ipsum"
+msgstr "Preis für den Stromtransport vom Kraftwerk bis ins Haus."
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.total-content"
-msgstr "Lorem ipsum"
+msgstr "Gesamtstrompreis bestehend aus allen regulierten Preiskomponenten."
 
 #: src/domain/translation.tsx
 msgid "selector.pricecomponent.aidfee"
@@ -1071,7 +1071,7 @@ msgstr "Netzzuschlag gem. Art. 35 EnG"
 
 #: src/domain/translation.tsx
 msgid "selector.pricecomponent.annualmeteringcost"
-msgstr "Jährliche Zählerkosten"
+msgstr "Jährlicher Messtarif"
 
 #: src/domain/translation.tsx
 msgid "selector.pricecomponent.charge"
@@ -1087,7 +1087,7 @@ msgstr "Netznutzung"
 
 #: src/domain/translation.tsx
 msgid "selector.pricecomponent.meteringrate"
-msgstr "Messrate"
+msgstr "Messtarif"
 
 #: src/domain/translation.tsx
 msgid "selector.pricecomponent.total"
@@ -1112,7 +1112,7 @@ msgstr "Stromtarife"
 
 #: src/domain/translation.tsx
 msgid "selector.tab.electricity-content"
-msgstr "Lorem ipsum"
+msgstr "Stromtarife und Preisdaten für Schweizer Verteilnetzbetreiber in verschiedenen Regionen"
 
 #: src/domain/translation.tsx
 msgid "selector.tab.indicators"
@@ -1120,7 +1120,7 @@ msgstr "Indikatoren"
 
 #: src/domain/translation.tsx
 msgid "selector.tab.indicators-content"
-msgstr "Lorem ipsum"
+msgstr "Wichtige Effizienz-Indikatoren einschliesslich Preistrends."
 
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.typology"
@@ -1217,7 +1217,7 @@ msgstr "Aktuelles Jahr"
 
 #: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.latest-year-option-content"
-msgstr "Lorem ipsum"
+msgstr "sunshine.costs-and-tariffs.latest-year-option-content"
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
@@ -1289,7 +1289,7 @@ msgstr "Entwicklung über die Zeit"
 
 #: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.progress-over-time-content"
-msgstr "Lorem ipsum"
+msgstr "sunshine.costs-and-tariffs.progress-over-time-content"
 
 #: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.selected-operators"
@@ -1448,7 +1448,7 @@ msgstr "Aktuelles Jahr"
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.latest-year-option-content"
-msgstr "Lorem ipsum"
+msgstr "sunshine.power-stability.latest-year-option-content"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
@@ -1490,7 +1490,7 @@ msgstr "Entwicklung über die Zeit"
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.progress-over-time-content"
-msgstr "Lorem ipsum"
+msgstr "sunshine.power-stability.progress-over-time-content"
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.ratio-option"
