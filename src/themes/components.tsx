@@ -24,6 +24,14 @@ export const components = (theme: Theme): Components => ({
   },
   MuiAutocomplete: {
     styleOverrides: {
+      root: {
+        "& .MuiOutlinedInput-root": {
+          padding: "0px 8px",
+        },
+        "& .MuiOutlinedInput-root.MuiInputBase-sizeSmall": {
+          padding: "0px 8px",
+        },
+      },
       popper: {
         zIndex: 1300,
       },
@@ -311,28 +319,25 @@ export const components = (theme: Theme): Components => ({
   },
   MuiInputBase: {
     styleOverrides: {
-      root: {
+      sizeSmall: {
         minHeight: "40px",
-
+        fontSize: "14px",
+      },
+      root: {
+        minHeight: "44px",
         display: "flex",
         alignItems: "center",
         width: "100%",
         border: `1px solid`,
         backgroundColor: palette.background.paper,
         color: palette.text.primary,
-        paddingTop: "4px !important",
-        paddingBottom: "4px !important",
-        paddingLeft: "16px ",
-        borderRadius: 0.5,
+        paddingLeft: "16px",
+        borderRadius: "2px",
         height: "100%",
         borderColor: palette.monochrome[500],
 
         "& input::placeholder": {
           color: palette.text[500],
-        },
-
-        "& input": {
-          padding: "0px !important",
         },
 
         "&.Mui-error": {
@@ -382,10 +387,27 @@ export const components = (theme: Theme): Components => ({
       },
     },
   },
+  MuiInputLabel: {
+    styleOverrides: {
+      sizeSmall: {
+        [theme.breakpoints.up("sm")]: {
+          fontSize: "14px",
+        },
+      },
+    },
+  },
   MuiOutlinedInput: {
     styleOverrides: {
       root: {
         borderRadius: 2,
+        [theme.breakpoints.up("sm")]: {
+          fontSize: "16px",
+        },
+      },
+      sizeSmall: {
+        [theme.breakpoints.up("sm")]: {
+          fontSize: "14px",
+        },
       },
     },
   },

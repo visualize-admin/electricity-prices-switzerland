@@ -8,7 +8,6 @@ import {
   IconButton,
   Link,
   Stack,
-  TextField,
 } from "@mui/material";
 import { useState } from "react";
 
@@ -638,7 +637,7 @@ export const FormStory = () => {
                     label={`${capitalize(state)} ${capitalize(size)}`}
                     disabled={state === "disabled"}
                     error={state === "error"}
-                    textFieldProps={{ size }}
+                    size={size}
                     items={selectItems}
                     setSelectedItem={setSelectValue}
                     selectedItem={selectValue}
@@ -664,34 +663,10 @@ export const FormStory = () => {
                     disabled={state === "disabled"}
                     error={state === "error"}
                     label={`${capitalize(state)} ${capitalize(size)}`}
-                    textFieldProps={{ size }}
+                    size={size}
                     items={selectItems}
                     setSelectedItems={setMultiSelectValue}
                     selectedItems={multiSelectValue}
-                  />
-                </Grid>
-              ))
-            )}
-          </Grid>
-        </DesignSection>
-        <DesignSection
-          title="TextField"
-          sx={{
-            gap: 8,
-          }}
-        >
-          <Grid container spacing={2} columns={2}>
-            {selectStates.flatMap((state) =>
-              sizes.map((size) => (
-                <Grid item xs={1} key={`${state}-${size}`}>
-                  <TextField
-                    id={`textfield-${state}-${size}`}
-                    label={`${capitalize(state)} ${capitalize(size)}`}
-                    disabled={state === "disabled"}
-                    error={state === "error"}
-                    size={size}
-                    variant="outlined"
-                    placeholder="Enter text..."
                   />
                 </Grid>
               ))

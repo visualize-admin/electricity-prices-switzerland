@@ -25,6 +25,7 @@ export type ComboboxMultiProps = {
   onInputValueChange?: (inputValue: string) => void;
   isLoading?: boolean;
   isOptionEqualToValue?: (option: unknown, value: string) => boolean;
+  size?: "small" | "medium";
 };
 
 const defaultGetItemLabel = (d: string) => d;
@@ -51,6 +52,7 @@ export const MultiCombobox = ({
   error,
   colorful,
   max,
+  size,
 }: ComboboxMultiProps) => {
   const [inputValue, setInputValue] = useState("");
 
@@ -61,6 +63,7 @@ export const MultiCombobox = ({
       disabled={disabled}
       multiple
       id={id}
+      size={size}
       options={items}
       value={selectedItems}
       onChange={(_, newValue) => {
@@ -102,6 +105,7 @@ export const MultiCombobox = ({
               setInputValue(e.target.value);
               onInputValueChange?.(e.target.value);
             }}
+            size={size}
             error={error}
             helperText={
               max && selectedItems.length >= max
@@ -187,6 +191,7 @@ export const Combobox = <T extends string>({
   disabled,
   error,
   sx,
+  size,
 }: {
   id: string;
   label: string;
@@ -199,6 +204,7 @@ export const Combobox = <T extends string>({
   disabled?: boolean;
   error?: boolean;
   sx?: BoxProps["sx"];
+  size?: "small" | "medium";
 }) => {
   const [inputValue, setInputValue] = useState(getItemLabel(selectedItem));
 
@@ -307,9 +313,7 @@ export const Combobox = <T extends string>({
             variant="outlined"
             fullWidth
             error={error}
-            InputProps={{
-              ...params.InputProps,
-            }}
+            size={size}
           />
         )}
         noOptionsText={t({ id: "combobox.noitems", message: "No results" })}

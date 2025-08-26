@@ -31,6 +31,7 @@ export const YearSelection: Story = {
           items={years}
           selectedItem={selectedYear}
           setSelectedItem={setSelectedYear}
+          size="small"
         />
       </div>
     );
