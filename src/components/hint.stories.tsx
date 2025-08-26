@@ -6,7 +6,6 @@ import {
   LoadingIconInline,
   NoDataHint,
   NoContentHint,
-  NoGeoDataHint,
   HintBlue,
 } from "./hint";
 
@@ -43,10 +42,6 @@ export function NoDataHintStory() {
 
 export function NoContentHintStory() {
   return <NoContentHint />;
-}
-
-export function NoGeoDataHintStory() {
-  return <NoGeoDataHint />;
 }
 
 export function HintBlueStory() {
