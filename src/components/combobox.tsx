@@ -36,7 +36,7 @@ const defaultOptionEqualToValue = (
   return option === value;
 };
 
-export const ComboboxLabel = ({
+const ComboboxLabel = ({
   label,
   icon,
 }: {
