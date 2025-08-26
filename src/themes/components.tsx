@@ -31,6 +31,10 @@ export const components = (theme: Theme): Components => ({
         "& .MuiOutlinedInput-root.MuiInputBase-sizeSmall": {
           padding: "0px 8px",
         },
+        "& .MuiAutocomplete-popupIndicator": {
+          width: "auto",
+          height: "auto",
+        },
       },
       popper: {
         zIndex: 1300,
@@ -246,22 +250,36 @@ export const components = (theme: Theme): Components => ({
           switch (size) {
             case "sm":
               return {
-                padding: "10px",
+                width: "40px",
+                height: "40px",
                 ...typography.body3,
+
+                // icon size 20
+                "& svg": {
+                  margin: -2,
+                },
               };
             case "md":
               return {
-                padding: "11px",
+                width: "44px",
+                height: "44px",
                 ...typography.body2,
+
+                // icon size 22
+                "& svg": {
+                  marginTop: -1,
+                },
               };
             case "lg":
               return {
-                padding: "12px",
+                width: "48px",
+                height: "48px",
                 ...typography.body1,
               };
             case "xl":
               return {
-                padding: "14px",
+                width: "52px",
+                height: "52px",
                 ...typography.h3,
               };
             default:
@@ -354,6 +372,7 @@ export const components = (theme: Theme): Components => ({
 
           "& .MuiAutocomplete-endAdornment": {
             borderColor: palette.error.main,
+
             "& button svg": {
               color: palette.error.main,
             },
