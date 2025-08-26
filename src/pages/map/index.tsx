@@ -186,18 +186,19 @@ const IndexPageContent = ({
       specKey in colorScaleSpecs && colorScaleSpecs[specKey]
         ? colorScaleSpecs[specKey]
         : colorScaleSpecs.default;
-    const isValidValue = (
-      x: SunshineDataIndicatorRow
-    ): x is SunshineDataIndicatorRow & { value: number } =>
-      x.value !== undefined && x.value !== null;
+    const isValidValue = <T extends { value?: number | null | undefined }>(
+      x: T
+    ): x is T & { value: number } => x.value !== undefined && x.value !== null;
 
     const sunshineValues = sunshineObservations
       .filter(isValidValue)
       .map((x) => x.value);
+
+    const validObservations = observations.filter(isValidValue);
     return makeColorScale(
       spec,
       medianValue,
-      isElectricityTab ? observations.map(colorAccessor) : sunshineValues
+      isElectricityTab ? validObservations.map(colorAccessor) : sunshineValues
     );
   }, [
     colorAccessor,
@@ -242,6 +243,7 @@ const IndexPageContent = ({
       year={mapYear}
       observations={observations}
       municipalities={municipalities}
+      priceComponent={priceComponent}
       observationsQueryFetching={isMapDataLoading}
       medianValue={medianValue}
       colorScale={colorScale}

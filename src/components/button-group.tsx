@@ -21,6 +21,7 @@ type ButtonGroupProps<T> = {
   label?: string;
   showLabel?: boolean;
   infoDialogSlug?: WikiPageSlug;
+  fitLabelToContent?: boolean;
 };
 
 const STYLES = {
@@ -81,6 +82,7 @@ export const ButtonGroup = <T extends string>({
   label,
   showLabel = true,
   infoDialogSlug,
+  fitLabelToContent = false,
   ...props
 }: ButtonGroupProps<T> & BoxProps) => {
   const onTabChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
@@ -163,6 +165,13 @@ export const ButtonGroup = <T extends string>({
                   flexBasis: "100%",
                   ...STYLES.tabs.common,
                   ...(isActive ? STYLES.tabs.active : STYLES.tabs.inactive),
+                  ...(fitLabelToContent
+                    ? {
+                        "& label": {
+                          flexBasis: "content",
+                        },
+                      }
+                    : {}),
                 }}
               >
                 <VisuallyHidden>
