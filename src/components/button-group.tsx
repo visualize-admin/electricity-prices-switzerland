@@ -36,6 +36,7 @@ const STYLES = {
       textAlign: "center",
       px: 4,
       py: 2.5,
+      height: "40px",
       fontSize: "0.875rem",
       borderStyle: "solid",
       borderWidth: 1,

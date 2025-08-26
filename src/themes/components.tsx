@@ -322,7 +322,7 @@ export const components: Components = {
         paddingBottom: "4px !important",
         paddingLeft: "16px ",
         borderRadius: 0.5,
-        minHeight: "44px",
+        minHeight: "40px",
         height: "100%",
         borderColor: palette.monochrome[500],
 
@@ -363,7 +363,7 @@ export const components: Components = {
           borderColor: palette.monochrome[500],
           marginLeft: "4px",
           paddingLeft: "4px",
-          minHeight: "44px",
+          minHeight: "40px",
           height: "100%",
           display: "flex",
           alignItems: "center",

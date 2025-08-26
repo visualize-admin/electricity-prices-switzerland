@@ -14,8 +14,14 @@ You can also check the
 - Style
   - Improved the styling of the info banner fixed alignment
 - Feat
+
   - Added OG tags to the app
   - Added custom tooltip to all button groups
+
+- Fix
+
+  - Minor UI styling issues
+  - Added custom tooltip to all button groups 
   - Support for meteringrate and annualmeteringcost predicates
     - Annual metering cost is shown on the map (CHF/year)
     - Metering rate is derived from annual metering cost and shown in Rp./kWh to be consistent with other price components. It is displayed in the operator details page.
