@@ -50,13 +50,9 @@ WHERE {
 ORDER BY ?municipality ?networkLevel
     `;
 
-  console.log("query", query);
-  const start = Date.now();
   const promise = client.query
     .select(query)
     .then((results: $IntentionalAny[]) => {
-      const end = Date.now();
-      console.log(`Fetched coverage data in ${end - start}ms`);
       const coverageMap = new Map<string, number>();
 
       results.forEach((result) => {
