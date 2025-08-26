@@ -147,6 +147,7 @@ export const ButtonGroup = <T extends string>({
               hidden={!label && !content}
               title={<TooltipContent title={label} content={content} />}
               arrow
+              key={option.value}
               placement="top"
               slotProps={{
                 tooltip: {
@@ -157,7 +158,6 @@ export const ButtonGroup = <T extends string>({
               }}
             >
               <Box
-                key={option.value}
                 component="label"
                 title=""
                 sx={{

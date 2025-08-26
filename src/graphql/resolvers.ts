@@ -47,6 +47,8 @@ import { fetchOperatorInfo, search } from "src/rdf/search-queries";
 import { asElectricityCategory } from "src/domain/data";
 import { asNetworkLevel } from "src/domain/sunshine";
 import { last, sortBy } from "lodash";
+import { CoverageCacheManager } from "src/rdf/coverage-ratio";
+import { sparqlClient } from "src/rdf/sparql-client";
 
 const gfmSyntax = require("micromark-extension-gfm");
 const gfmHtml = require("micromark-extension-gfm/html");
@@ -66,6 +68,11 @@ const expectedCubeDimensions = [
   "https://energy.ld.admin.ch/elcom/electricityprice/dimension/product",
   "https://cube.link/observedBy",
 ];
+
+/**
+ * Under this threshold, observations are not returned
+ */
+const COVERAGE_RATIO_THRESHOLD = 0.25;
 
 const Query: QueryResolvers = {
   sunshineData: async (_parent, args, context) => {
@@ -218,7 +225,27 @@ const Query: QueryResolvers = {
       ...o,
     })) as ResolvedOperatorObservation[];
 
-    return operatorObservations;
+    const years = filters?.period;
+    if (years && observationFields && "coverageRatio" in observationFields) {
+      const defaultNetworkLevel = "NE7";
+      const coverageManager = new CoverageCacheManager(sparqlClient);
+      await coverageManager.prepare(years);
+      operatorObservations.forEach((x) => {
+        x.coverageRatio =
+          coverageManager.getCoverage(x, defaultNetworkLevel) ?? 1;
+        return x;
+      });
+    }
+
+    return operatorObservations.filter((o) => {
+      if (
+        o.coverageRatio !== undefined &&
+        o.coverageRatio < COVERAGE_RATIO_THRESHOLD
+      ) {
+        return false;
+      }
+      return true;
+    });
   },
   cantonMedianObservations: async (
     _,

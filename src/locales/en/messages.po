@@ -345,14 +345,6 @@ msgstr "No data could be loaded for the current selection."
 msgid "hint.nodata.title"
 msgstr "No data"
 
-#: src/components/hint.tsx
-msgid "hint.nogeodata.message"
-msgstr "No map can be displayed for the selected year."
-
-#: src/components/hint.tsx
-msgid "hint.nogeodata.title"
-msgstr "No map display possible"
-
 #: src/components/detail-page/price-distribution-histogram.tsx
 msgid "histogram.canton-count"
 msgstr "Number of cantons"
@@ -1046,6 +1038,34 @@ msgid "selector.priceComponents"
 msgstr "Price components"
 
 #: src/domain/translation.tsx
+msgid "selector.priceComponents.aidfee-content"
+msgstr "Lorem ipsum"
+
+#: src/domain/translation.tsx
+msgid "selector.priceComponents.charge-content"
+msgstr "Lorem ipsum"
+
+#: src/domain/translation.tsx
+msgid "selector.priceComponents.collapsed-content"
+msgstr "Lorem ipsum"
+
+#: src/domain/translation.tsx
+msgid "selector.priceComponents.energy-content"
+msgstr "Lorem ipsum"
+
+#: src/domain/translation.tsx
+msgid "selector.priceComponents.expanded-content"
+msgstr "Lorem ipsum"
+
+#: src/domain/translation.tsx
+msgid "selector.priceComponents.gridusage-content"
+msgstr "Lorem ipsum"
+
+#: src/domain/translation.tsx
+msgid "selector.priceComponents.total-content"
+msgstr "Lorem ipsum"
+
+#: src/domain/translation.tsx
 msgid "selector.pricecomponent.aidfee"
 msgstr "Grid surcharge pursuant to Art. 35 EnG"
 
@@ -1086,13 +1106,21 @@ msgstr "Cheapest"
 msgid "selector.product.standard"
 msgstr "Standard"
 
-#: src/components/combined-selectors/index.tsx
+#: src/domain/translation.tsx
 msgid "selector.tab.electricity"
 msgstr "Electricity Tariffs"
 
-#: src/components/combined-selectors/index.tsx
+#: src/domain/translation.tsx
+msgid "selector.tab.electricity-content"
+msgstr "Lorem ipsum"
+
+#: src/domain/translation.tsx
 msgid "selector.tab.indicators"
 msgstr "Indicators"
+
+#: src/domain/translation.tsx
+msgid "selector.tab.indicators-content"
+msgstr "Lorem ipsum"
 
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.typology"
@@ -1183,10 +1211,13 @@ msgstr "Energy Tariffs"
 msgid "sunshine.costs-and-tariffs.latest-year"
 msgstr "Latest year ({latestYear})"
 
-#: src/components/network-costs-trend-card.tsx
-#: src/components/tariffs-trend-card.tsx
+#: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.latest-year-option"
 msgstr "Latest year"
+
+#: src/domain/translation.tsx
+msgid "sunshine.costs-and-tariffs.latest-year-option-content"
+msgstr "Lorem ipsum"
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
@@ -1252,10 +1283,13 @@ msgstr "{operatorLabel}"
 msgid "sunshine.costs-and-tariffs.peer-group"
 msgstr "Peer Group"
 
-#: src/components/network-costs-trend-card.tsx
-#: src/components/tariffs-trend-card.tsx
+#: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.progress-over-time"
 msgstr "Progress over time"
+
+#: src/domain/translation.tsx
+msgid "sunshine.costs-and-tariffs.progress-over-time-content"
+msgstr "Lorem ipsum"
 
 #: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.selected-operators"
@@ -1270,8 +1304,7 @@ msgstr "Source: {dataSource}"
 msgid "sunshine.costs-and-tariffs.title"
 msgstr "Costs and Tariffs"
 
-#: src/components/network-costs-trend-card.tsx
-#: src/components/tariffs-trend-card.tsx
+#: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.view-by"
 msgstr "View By"
 
@@ -1400,7 +1433,7 @@ msgstr "Sunshine Indicators Overview"
 msgid "sunshine.power-stability.description"
 msgstr "The Power Stability page provides insights into the reliability of the electricity supply through two key indicators: SAIFI (System Average Interruption Frequency Index) and SAIDI (System Average Interruption Duration Index). These indicators measure the frequency and duration of power interruptions. The data is comparable within the same grid operator group, allowing for a clear assessment of power stability and reliability across the network."
 
-#: src/components/power-stability-card.tsx
+#: src/domain/translation.tsx
 msgid "sunshine.power-stability.duration"
 msgstr "Duration"
 
@@ -1409,9 +1442,13 @@ msgstr "Duration"
 msgid "sunshine.power-stability.latest-year"
 msgstr "Latest year ({latestYear})"
 
-#: src/components/power-stability-card.tsx
+#: src/domain/translation.tsx
 msgid "sunshine.power-stability.latest-year-option"
 msgstr "Latest year"
+
+#: src/domain/translation.tsx
+msgid "sunshine.power-stability.latest-year-option-content"
+msgstr "Lorem ipsum"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
@@ -1431,27 +1468,35 @@ msgstr "No SAIFI data available for this operator in the selected year."
 msgid "sunshine.power-stability.operator"
 msgstr "{operatorLabel}"
 
-#: src/components/power-stability-card.tsx
+#: src/domain/translation.tsx
 msgid "sunshine.power-stability.overall-option"
 msgstr "Overall"
 
-#: src/components/power-stability-card.tsx
+#: src/domain/translation.tsx
 msgid "sunshine.power-stability.overall-tooltip"
 msgstr "Shows the total outage duration per operator, combining planned and unplanned outages for direct comparison."
 
-#: src/components/power-stability-card.tsx
+#: src/domain/translation.tsx
 msgid "sunshine.power-stability.planned-option"
 msgstr "Planned"
 
-#: src/components/power-stability-card.tsx
+#: src/domain/translation.tsx
+msgid "sunshine.power-stability.planned-tooltip"
+msgstr "Shows only planned outages, which are scheduled maintenance or upgrades."
+
+#: src/domain/translation.tsx
 msgid "sunshine.power-stability.progress-over-time"
 msgstr "Progress over time"
 
-#: src/components/power-stability-card.tsx
+#: src/domain/translation.tsx
+msgid "sunshine.power-stability.progress-over-time-content"
+msgstr "Lorem ipsum"
+
+#: src/domain/translation.tsx
 msgid "sunshine.power-stability.ratio-option"
 msgstr "Ratio"
 
-#: src/components/power-stability-card.tsx
+#: src/domain/translation.tsx
 msgid "sunshine.power-stability.ratio-tooltip"
 msgstr "Shows the ratio of unplanned outages to total outages, providing insight into the stability of the power supply."
 
@@ -1511,16 +1556,23 @@ msgstr "Total Outage Frequency"
 msgid "sunshine.power-stability.title"
 msgstr "Power Stability"
 
-#: src/components/power-stability-card.tsx
+#: src/domain/translation.tsx
 msgid "sunshine.power-stability.total-option"
 msgstr "Total"
 
-#: src/components/power-stability-card.tsx
+#: src/domain/translation.tsx
+msgid "sunshine.power-stability.total-tooltip"
+msgstr "Shows the total outage duration per operator, combining planned and unplanned outages for direct comparison."
+
+#: src/domain/translation.tsx
 msgid "sunshine.power-stability.unplanned-option"
 msgstr "Unplanned"
 
-#: src/components/power-stability-card.tsx
-#: src/components/power-stability-card.tsx
+#: src/domain/translation.tsx
+msgid "sunshine.power-stability.unplanned-tooltip"
+msgstr "Shows only unplanned outages, which are unexpected interruptions."
+
+#: src/domain/translation.tsx
 msgid "sunshine.power-stability.view-by"
 msgstr "View By"
 
