@@ -17,15 +17,22 @@ import {
 } from "src/components/detail-page/layout";
 import { DetailsPageSidebar } from "src/components/detail-page/sidebar";
 import { Loading } from "src/components/hint";
-import { NetworkCostsTrendCardState } from "src/components/network-costs-trend-card";
+import {
+  getNetworkCostsMultiComboboxOptions,
+  NetworkCostsTrendCard,
+} from "src/components/network-costs-trend-card";
 import PeerGroupCard from "src/components/peer-group-card";
+import { AllOrMultiCombobox } from "src/components/query-combobox";
 import { SunshineDataServiceDebug } from "src/components/sunshine-data-service-debug";
 import {
   CostAndTariffsTab,
   CostsAndTariffsNavigation,
 } from "src/components/sunshine-tabs";
 import TableComparisonCard from "src/components/table-comparison-card";
-import { TariffsTrendCard } from "src/components/tariffs-trend-card";
+import {
+  getTariffsMultiComboboxOptions,
+  TariffsTrendCard,
+} from "src/components/tariffs-trend-card";
 import {
   DataServiceProps,
   handleOperatorsEntity,
@@ -33,10 +40,13 @@ import {
   Props as SharedPageProps,
 } from "src/data/shared-page-props";
 import { categories } from "src/domain/data";
+import { filterBySeparator } from "src/domain/helpers";
 import { getNetworkLevelMetrics, RP_PER_KM } from "src/domain/metrics";
 import {
   QueryStateSingleSunshineDetails,
+  useQueryStateNetworkCostsTrendCardFilters,
   useQueryStateSunshineDetails,
+  useQueryStateTariffsTrendCardFilters,
 } from "src/domain/query-states";
 import { NetworkLevel, SunshineCostsAndTariffsData } from "src/domain/sunshine";
 import {
@@ -45,7 +55,6 @@ import {
   getNetworkLevelLabels,
 } from "src/domain/translation";
 import {
-  NetworkCostsQuery,
   useEnergyTariffsQuery,
   useNetTariffsQuery,
   useNetworkCostsQuery,
@@ -149,6 +158,9 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
   } = props.costsAndTariffs;
 
   const [networkLevel, setNetworkLevel] = useState<NetworkLevel["id"]>("NE5");
+  const [state, setQueryState] = useQueryStateNetworkCostsTrendCardFilters();
+  const { compareWith } = state;
+
   const [{ data, fetching }] = useNetworkCostsQuery({
     variables: {
       filter: {
@@ -158,7 +170,15 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
       },
     },
   });
-  const networkCosts = data?.networkCosts as NetworkCostsQuery["networkCosts"];
+  const networkCosts = data?.networkCosts;
+
+  const multiComboboxOptions = networkCosts?.yearlyData
+    ? getNetworkCostsMultiComboboxOptions(
+        networkCosts.yearlyData,
+        parseInt(latestYear, 10),
+        props.id
+      )
+    : [];
 
   if (fetching) {
     return <Loading />;
@@ -246,11 +266,39 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
           // Network costs trend is below them
           // On Mobile, they are stacked
           gridTemplateAreas: [
-            `"selector" "comparison" "peer-group" "trend"`, // One column on small screens
-            `"selector space" "comparison peer-group" "trend trend"`, // Two columns on medium screens
+            `"selector" "compare-selector" "comparison" "peer-group" "trend"`, // One column on small screens
+            `"selector compare-selector" "comparison peer-group" "trend trend"`, // Two columns on medium screens
           ],
         }}
       >
+        <Box sx={{ gridArea: "compare-selector" }}>
+          <AllOrMultiCombobox
+            label={t({
+              id: "sunshine.costs-and-tariffs.compare-with",
+              message: "Compare With",
+            })}
+            items={[
+              { id: "sunshine.select-all" },
+              ...multiComboboxOptions.map((item) => {
+                return {
+                  id: String(item.operator_id),
+                  name: item.operator_name,
+                };
+              }),
+            ]}
+            selectedItems={compareWith}
+            setSelectedItems={(items) =>
+              setQueryState({
+                ...state,
+                compareWith: filterBySeparator(
+                  items,
+                  compareWith ?? [],
+                  "sunshine.select-all"
+                ),
+              })
+            }
+          />
+        </Box>
         <Box sx={{ mb: 2, gridArea: "selector" }}>
           <Combobox
             id="network-level"
@@ -276,7 +324,7 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
           sx={{ gridArea: "comparison" }}
         />
 
-        <NetworkCostsTrendCardState
+        <NetworkCostsTrendCard
           latestYear={Number(latestYear)}
           sx={{ gridArea: "trend" }}
           peerGroup={peerGroup}
@@ -284,6 +332,8 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
           operatorId={props.id}
           operatorLabel={operatorLabel}
           networkCosts={networkCosts}
+          state={state}
+          setQueryState={setQueryState}
           infoDialogProps={{
             slug: "help-network-costs",
             label: t({
@@ -336,6 +386,9 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
   }, []);
 
   const [category, _setCategory] = useState<ElectricityCategory>("C2"); // Default category, can be changed based on user input
+  const [state, setQueryState] = useQueryStateTariffsTrendCardFilters();
+  const { compareWith } = state;
+
   const [{ data, fetching }] = useEnergyTariffsQuery({
     variables: {
       filter: {
@@ -346,6 +399,14 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
     },
   });
   const energyTariffs = data?.energyTariffs;
+
+  const multiComboboxOptions = energyTariffs?.yearlyData
+    ? getTariffsMultiComboboxOptions(
+        energyTariffs.yearlyData,
+        parseInt(latestYear, 10),
+        props.id
+      )
+    : [];
 
   if (fetching) {
     return <Loading />;
@@ -425,11 +486,39 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
           },
           gridTemplateRows: ["auto auto auto", "auto auto"], // Three rows: two for cards, one for trend chart
           gridTemplateAreas: [
-            `"selector" "comparison" "peer-group" "trend"`, // One column on small screens
-            `"selector space" "comparison peer-group" "trend trend"`, // Two columns on medium screens
+            `"selector" "compare-selector" "comparison" "peer-group" "trend"`, // One column on small screens
+            `"selector compare-selector " "comparison peer-group" "trend trend"`, // Two columns on medium screens
           ],
         }}
       >
+        <Box sx={{ gridArea: "compare-selector" }}>
+          <AllOrMultiCombobox
+            label={t({
+              id: "sunshine.costs-and-tariffs.compare-with",
+              message: "Compare With",
+            })}
+            items={[
+              { id: "sunshine.select-all" },
+              ...multiComboboxOptions.map((item) => {
+                return {
+                  id: String(item.operator_id),
+                  name: item.operator_name,
+                };
+              }),
+            ]}
+            selectedItems={compareWith}
+            setSelectedItems={(items) =>
+              setQueryState({
+                ...state,
+                compareWith: filterBySeparator(
+                  items,
+                  compareWith ?? [],
+                  "sunshine.select-all"
+                ),
+              })
+            }
+          />
+        </Box>
         <Box sx={{ mb: 2, gridArea: "selector" }}>
           <Combobox
             id="category"
@@ -476,6 +565,8 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
               message: "Energy Tariffs Trend",
             }),
           }}
+          state={state}
+          setQueryState={setQueryState}
         />
       </CardGrid>
     </>
@@ -521,6 +612,9 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
   }, []);
 
   const [category, _setCategory] = useState<ElectricityCategory>("C2"); // Default category, can be changed based on user input
+  const [state, setQueryState] = useQueryStateTariffsTrendCardFilters();
+  const { compareWith } = state;
+
   const [{ data, fetching }] = useNetTariffsQuery({
     variables: {
       filter: {
@@ -531,6 +625,14 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
     },
   });
   const netTariffs = data?.netTariffs;
+
+  const multiComboboxOptions = netTariffs?.yearlyData
+    ? getTariffsMultiComboboxOptions(
+        netTariffs.yearlyData,
+        parseInt(latestYear, 10),
+        props.id
+      )
+    : [];
 
   if (fetching) {
     return <Loading />;
@@ -609,11 +711,39 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
           },
           gridTemplateRows: ["auto auto auto", "auto auto"], // Three rows: two for cards, one for trend chart
           gridTemplateAreas: [
-            `"selector" "comparison" "peer-group" "trend"`, // One column on small screens
-            `"selector space" "comparison peer-group" "trend trend"`, // Two columns on medium screens
+            `"selector" "compare-selector" "comparison" "peer-group" "trend"`, // One column on small screens
+            `"selector compare-selector " "comparison peer-group" "trend trend"`, // Two columns on medium screens
           ],
         }}
       >
+        <Box sx={{ gridArea: "compare-selector" }}>
+          <AllOrMultiCombobox
+            label={t({
+              id: "sunshine.costs-and-tariffs.compare-with",
+              message: "Compare With",
+            })}
+            items={[
+              { id: "sunshine.select-all" },
+              ...multiComboboxOptions.map((item) => {
+                return {
+                  id: String(item.operator_id),
+                  name: item.operator_name,
+                };
+              }),
+            ]}
+            selectedItems={compareWith}
+            setSelectedItems={(items) =>
+              setQueryState({
+                ...state,
+                compareWith: filterBySeparator(
+                  items,
+                  compareWith ?? [],
+                  "sunshine.select-all"
+                ),
+              })
+            }
+          />
+        </Box>
         <Box sx={{ mb: 2, gridArea: "selector" }}>
           <Combobox
             id="category"
@@ -659,6 +789,8 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
               message: "Net Tariffs Trend",
             }),
           }}
+          state={state}
+          setQueryState={setQueryState}
         />
       </CardGrid>
     </>

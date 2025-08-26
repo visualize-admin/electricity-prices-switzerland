@@ -1,4 +1,4 @@
-import { t, Trans } from "@lingui/macro";
+import { Trans } from "@lingui/macro";
 import {
   Card,
   CardContent,
@@ -19,20 +19,35 @@ import { CardHeader } from "./detail-page/card";
 import { Download, DownloadImage } from "./detail-page/download-image";
 import { InfoDialogButton, InfoDialogButtonProps } from "./info-dialog";
 import { ViewByFilter } from "./power-stability-card";
-import { AllOrMultiCombobox } from "./query-combobox";
 import { TariffsTrendChart } from "./tariffs-trend-chart";
 
 const DOWNLOAD_ID: Download = "costs-and-tariffs";
 
+export const getTariffsMultiComboboxOptions = (
+  yearlyData:
+    | SunshineCostsAndTariffsData["netTariffs"]["yearlyData"]
+    | SunshineCostsAndTariffsData["energyTariffs"]["yearlyData"],
+  latestYear: number,
+  operatorId: string
+) => {
+  return yearlyData.filter(
+    (d) => d.period === latestYear && d.operator_id.toString() !== operatorId
+  );
+};
+
 type TariffsTrendCardProps = {
   peerGroup: PeerGroup;
   updateDate: string;
-  netTariffs: SunshineCostsAndTariffsData["netTariffs"];
+  netTariffs:
+    | SunshineCostsAndTariffsData["netTariffs"]
+    | SunshineCostsAndTariffsData["energyTariffs"];
   operatorId: string;
   operatorLabel: string;
   latestYear: number;
   cardTitle: React.ReactNode;
   infoDialogProps: Pick<InfoDialogButtonProps, "slug" | "label">;
+  state?: ReturnType<typeof useQueryStateTariffsTrendCardFilters>[0];
+  setQueryState?: ReturnType<typeof useQueryStateTariffsTrendCardFilters>[1];
 } & Omit<CardProps, "title">;
 
 export type TariffsTrendCardFilters = {
@@ -40,7 +55,7 @@ export type TariffsTrendCardFilters = {
   viewBy?: ViewByFilter;
 };
 
-const getTariffsTrendCardState = (
+export const getTariffsTrendCardState = (
   props: Omit<TariffsTrendCardProps, "cardTitle" | "infoDialogProps">,
   filters: TariffsTrendCardFilters
 ) => {
@@ -53,9 +68,14 @@ const getTariffsTrendCardState = (
     latestYear,
   } = props;
   const { peerGroupLabel } = getPeerGroupLabels(peerGroup);
+
   const { yearlyData, ...restNetTariffs } = netTariffs;
-  const { observations, multiComboboxOptions } = React.useMemo(() => {
-    const multiComboboxOptions: typeof yearlyData = [];
+  const multiComboboxOptions = getTariffsMultiComboboxOptions(
+    yearlyData,
+    latestYear,
+    operatorId
+  );
+  const observations = React.useMemo(() => {
     const observations: typeof yearlyData = [];
     yearlyData.forEach((d) => {
       const isLatestYear = d.period === latestYear;
@@ -67,11 +87,8 @@ const getTariffsTrendCardState = (
       if ((filters.viewBy === "latest" ? isLatestYear : true) && isSelected) {
         observations.push(d);
       }
-      if (isLatestYear && operatorIdStr !== operatorId) {
-        multiComboboxOptions.push(d);
-      }
     });
-    return { observations, multiComboboxOptions };
+    return observations;
   }, [yearlyData, filters.compareWith, latestYear, operatorId, filters.viewBy]);
   return {
     peerGroupLabel,
@@ -85,13 +102,15 @@ const getTariffsTrendCardState = (
 };
 
 export const TariffsTrendCard: React.FC<TariffsTrendCardProps> = (props) => {
-  const [state, setQueryState] = useQueryStateTariffsTrendCardFilters();
+  const [internalState, setInternalQueryState] =
+    useQueryStateTariffsTrendCardFilters();
+  const state = props.state ?? internalState;
+  const setQueryState = props.setQueryState ?? setInternalQueryState;
   const { compareWith, viewBy } = state;
   const chartData = getTariffsTrendCardState(props, state);
   const {
     peerGroupLabel,
     observations,
-    multiComboboxOptions,
     restNetTariffs,
     updateDate,
     operatorId,
@@ -170,27 +189,6 @@ export const TariffsTrendCard: React.FC<TariffsTrendCardProps> = (props) => {
               value={viewBy}
               setValue={(value) =>
                 setQueryState({ ...state, viewBy: value as ViewByFilter })
-              }
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <AllOrMultiCombobox
-              label={t({
-                id: "sunshine.costs-and-tariffs.compare-with",
-                message: "Compare With",
-              })}
-              items={[
-                { id: "sunshine.select-all" },
-                ...multiComboboxOptions.map((item) => {
-                  return {
-                    id: String(item.operator_id),
-                    name: item.operator_name,
-                  };
-                }),
-              ]}
-              selectedItems={compareWith}
-              setSelectedItems={(items) =>
-                setQueryState({ ...state, compareWith: items })
               }
             />
           </Grid>

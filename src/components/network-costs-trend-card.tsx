@@ -1,4 +1,4 @@
-import { t, Trans } from "@lingui/macro";
+import { Trans } from "@lingui/macro";
 import {
   Card,
   CardContent,
@@ -11,7 +11,6 @@ import React, { ReactNode } from "react";
 
 import { ButtonGroup } from "src/components/button-group";
 import CardSource from "src/components/card-source";
-import { filterBySeparator, getPalette } from "src/domain/helpers";
 import { useQueryStateNetworkCostsTrendCardFilters } from "src/domain/query-states";
 import { PeerGroup, SunshineCostsAndTariffsData } from "src/domain/sunshine";
 import { getLocalizedLabel, getPeerGroupLabels } from "src/domain/translation";
@@ -21,9 +20,18 @@ import { Download, DownloadImage } from "./detail-page/download-image";
 import { InfoDialogButton, InfoDialogButtonProps } from "./info-dialog";
 import { NetworkCostTrendChart } from "./network-cost-trend-chart";
 import { CompareWithFilter, ViewByFilter } from "./power-stability-card";
-import { AllOrMultiCombobox } from "./query-combobox";
 
 const DOWNLOAD_ID: Download = "costs-and-tariffs";
+
+export const getNetworkCostsMultiComboboxOptions = (
+  yearlyData: SunshineCostsAndTariffsData["networkCosts"]["yearlyData"],
+  latestYear: number,
+  operatorId: string
+) => {
+  return yearlyData.filter(
+    (d) => d.year === latestYear && d.operator_id.toString() !== operatorId
+  );
+};
 
 type NetworkCostsTrendCardProps = {
   peerGroup: PeerGroup;
@@ -44,7 +52,7 @@ export type NetworkCostsTrendCardFilters = {
   viewBy?: ViewByFilter;
 };
 
-const getNetworkCostsTrendCardState = (
+export const getNetworkCostsTrendCardState = (
   props: Omit<NetworkCostsTrendCardProps, "state" | "setQueryState">,
   filters: NetworkCostsTrendCardFilters
 ) => {
@@ -59,8 +67,12 @@ const getNetworkCostsTrendCardState = (
   } = props;
   const { peerGroupLabel } = getPeerGroupLabels(peerGroup);
   const { yearlyData, ...restNetworkCosts } = networkCosts;
-  const { observations, multiComboboxOptions } = React.useMemo(() => {
-    const multiComboboxOptions: typeof yearlyData = [];
+  const multiComboboxOptions = getNetworkCostsMultiComboboxOptions(
+    yearlyData,
+    latestYear,
+    operatorId
+  );
+  const observations = React.useMemo(() => {
     const observations: typeof yearlyData = [];
     yearlyData.forEach((d) => {
       const isLatestYear = d.year === latestYear;
@@ -72,11 +84,8 @@ const getNetworkCostsTrendCardState = (
       if ((filters.viewBy === "latest" ? isLatestYear : true) && isSelected) {
         observations.push(d);
       }
-      if (isLatestYear && operatorIdStr !== operatorId) {
-        multiComboboxOptions.push(d);
-      }
     });
-    return { observations, multiComboboxOptions };
+    return observations;
   }, [yearlyData, filters.compareWith, latestYear, operatorId, filters.viewBy]);
   return {
     peerGroupLabel,
@@ -192,39 +201,6 @@ export const NetworkCostsTrendCard: React.FC<NetworkCostsTrendCardProps> = (
               value={viewBy}
               setValue={(value) =>
                 setQueryState({ ...state, viewBy: value as ViewByFilter })
-              }
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <AllOrMultiCombobox
-              colorful={
-                compareWith?.includes("sunshine.select-all")
-                  ? undefined
-                  : getPalette("elcom2")
-              }
-              label={t({
-                id: "sunshine.costs-and-tariffs.compare-with",
-                message: "Compare With",
-              })}
-              items={[
-                { id: "sunshine.select-all" },
-                ...multiComboboxOptions.map((item) => {
-                  return {
-                    id: String(item.operator_id),
-                    name: item.operator_name,
-                  };
-                }),
-              ]}
-              selectedItems={compareWith}
-              setSelectedItems={(items) =>
-                setQueryState({
-                  ...state,
-                  compareWith: filterBySeparator(
-                    items,
-                    compareWith ?? [],
-                    "sunshine.select-all"
-                  ),
-                })
               }
             />
           </Grid>
