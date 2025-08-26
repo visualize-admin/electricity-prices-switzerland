@@ -13,6 +13,10 @@ You can also check the
 
 Nothing yet.
 
+# 2.11.1 (2025-08-26)
+
+- `CURRENT_PERIOD` is 2026
+
 # 2.11.0 (2025-08-26)
 
 - Fix
