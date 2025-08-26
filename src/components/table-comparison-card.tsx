@@ -49,12 +49,12 @@ const TableComparisonCard: React.FC<
         <TableBody>
           {rows.map((row, index) => (
             <TableRow key={index}>
-              <TableCell sx={{ width: "100% !important" }}>
+              <TableCell>
                 <Typography variant="body3" color="text.secondary">
                   {row.label}
                 </Typography>
               </TableCell>
-              <TableCell>
+              <TableCell sx={{ whiteSpace: "nowrap" }}>
                 {"unit" in row.value ? (
                   <UnitValueWithTrend
                     value={row.value.value}
