@@ -2,7 +2,7 @@ import z from "zod";
 
 const FlagSchema = z.array(z.string());
 
-const clientSchema = z.object({
+const clientBuildSchema = z.object({
   NEXT_PUBLIC_VERCEL_ENV: z.string().optional(),
   NEXT_PUBLIC_FLAGS: z
     .string()
@@ -19,7 +19,7 @@ const clientSchema = z.object({
   PUBLIC_URL: z.string(),
 });
 
-export default clientSchema.parse({
+export const clientBuildEnv = clientBuildSchema.parse({
   NEXT_PUBLIC_VERCEL_ENV: process.env.NEXT_PUBLIC_VERCEL_ENV,
   NEXT_PUBLIC_FLAGS: process.env.NEXT_PUBLIC_FLAGS,
   PUBLIC_URL: process.env.VERCEL_URL || process.env.PUBLIC_URL,
