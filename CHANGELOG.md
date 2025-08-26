@@ -13,9 +13,11 @@ You can also check the
 
 - Feat
   - Added OG tags to the app
- 
-- Feat 
-  - Added custom tooltip to all button groups 
+  - Added custom tooltip to all button groups
+
+- Style
+  - Changed Median Peer Group to correct color and shape
+  - Introduced Median Total to line charts  
 
 # 2.9.0
 
