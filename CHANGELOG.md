@@ -13,10 +13,11 @@ You can also check the
 
 - Style
   - Improved the styling of the info banner fixed alignment
-  
+  - Moved comparison selector out of power stability and cost and tariffs cards to the page level.
+
 - Feat
   - Added OG tags to the app
-  - Added custom tooltip to all button groups 
+  - Added custom tooltip to all button groups
 
 # 2.9.0
 
