@@ -52,7 +52,7 @@ export const MultiCombobox = ({
   error,
   colorful,
   max,
-  size,
+  size = "small",
 }: ComboboxMultiProps) => {
   const [inputValue, setInputValue] = useState("");
 
@@ -191,7 +191,7 @@ export const Combobox = <T extends string>({
   disabled,
   error,
   sx,
-  size,
+  size = "small",
 }: {
   id: string;
   label: string;
