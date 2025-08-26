@@ -277,7 +277,9 @@ export const Combobox = <T extends string>({
         renderGroup={(params) => {
           return (
             <li key={params.key}>
-              <div className="MuiAutocomplete-groupLabel">{params.group}</div>
+              {params.group ? (
+                <div className="MuiAutocomplete-groupLabel">{params.group}</div>
+              ) : null}
               <ul className="MuiAutocomplete-groupUl">{params.children}</ul>
             </li>
           );
