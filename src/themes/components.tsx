@@ -1,4 +1,4 @@
-import { Components } from "@mui/material";
+import { Components, Theme } from "@mui/material";
 
 import { Icon } from "src/icons";
 import { IconChevronDown } from "src/icons/ic-chevron-down";
@@ -7,7 +7,7 @@ import { palette } from "./palette";
 import { shadows } from "./shadows";
 import { typography } from "./typography";
 
-export const components: Components = {
+export const components = (theme: Theme): Components => ({
   MuiTooltip: {
     styleOverrides: {
       tooltip: {
@@ -639,4 +639,4 @@ export const components: Components = {
         }
         `,
   },
-};
+});

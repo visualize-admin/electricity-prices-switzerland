@@ -12,7 +12,8 @@ import {
 } from "@interactivethings/swiss-federal-ci";
 import { createTheme } from "@mui/material/styles";
 
-import { components } from "./components";
+import { components } from "src/themes/components";
+
 import { palette } from "./palette";
 import { shadows } from "./shadows";
 import { typography } from "./typography";
@@ -23,8 +24,9 @@ export const theme = createTheme({
   spacing,
   palette,
   typography,
-  components,
 });
+
+theme.components = components(theme);
 
 /**
  * Load these fonts early using <link rel="preload" />
