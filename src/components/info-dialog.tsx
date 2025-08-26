@@ -225,7 +225,9 @@ export const InfoDialogButton = ({
         color="tertiary"
         sx={{
           fontSize: iconSize === 16 ? [2, 2, 2] : [3, 4, 4],
-          paddingRight: 0,
+          paddingRight: "0 !important",
+          width: 32,
+          height: 32,
         }}
         onClick={openDialog}
       >

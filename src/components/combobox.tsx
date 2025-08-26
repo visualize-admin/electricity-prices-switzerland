@@ -36,6 +36,32 @@ const defaultOptionEqualToValue = (
   return option === value;
 };
 
+export const ComboboxLabel = ({
+  label,
+  icon,
+}: {
+  label: React.ReactNode;
+  icon?: React.ReactNode;
+}) => {
+  return (
+    <Box
+      display="flex"
+      justifyContent="space-between"
+      alignItems="center"
+      minHeight={34}
+    >
+      {label ? (
+        <Typography variant="h6" component="label">
+          {label}
+        </Typography>
+      ) : (
+        <div />
+      )}
+      {icon}
+    </Box>
+  );
+};
+
 export const MultiCombobox = ({
   id,
   label,
@@ -89,14 +115,7 @@ export const MultiCombobox = ({
           }}
           display={"flex"}
         >
-          <Typography
-            sx={{ py: 2.5 }}
-            color={"text.primary"}
-            variant="h6"
-            component="label"
-          >
-            {label}
-          </Typography>
+          <ComboboxLabel label={label} />
           <TextField
             {...params}
             variant="outlined"
@@ -238,33 +257,16 @@ export const Combobox = <T extends string>({
       flexDirection="column"
       width="100%"
       display="flex"
-      sx={{
-        gap: infoDialogSlug ? 0 : 2,
-        ...sx,
-      }}
+      sx={sx}
     >
-      <Box
-        typography="meta"
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        {showLabel && (
-          <Typography
-            color={"text.primary"}
-            variant="h6"
-            component="label"
-            htmlFor={`combobox-${id}`}
-          >
-            {label}
-          </Typography>
-        )}
-        {infoDialogSlug && (
-          <InfoDialogButton iconOnly slug={infoDialogSlug} label={label} />
-        )}
-      </Box>
+      <ComboboxLabel
+        label={showLabel ? label : null}
+        icon={
+          infoDialogSlug && (
+            <InfoDialogButton iconOnly slug={infoDialogSlug} label={label} />
+          )
+        }
+      />
       <Autocomplete
         id={`combobox-${id}`}
         disabled={disabled}
