@@ -25,6 +25,7 @@ export type ComboboxMultiProps = {
   onInputValueChange?: (inputValue: string) => void;
   isLoading?: boolean;
   isOptionEqualToValue?: (option: unknown, value: string) => boolean;
+  size?: "small" | "medium";
 };
 
 const defaultGetItemLabel = (d: string) => d;
@@ -33,6 +34,32 @@ const defaultOptionEqualToValue = (
   value: unknown
 ): boolean => {
   return option === value;
+};
+
+const ComboboxLabel = ({
+  label,
+  icon,
+}: {
+  label: React.ReactNode;
+  icon?: React.ReactNode;
+}) => {
+  return (
+    <Box
+      display="flex"
+      justifyContent="space-between"
+      alignItems="center"
+      minHeight={34}
+    >
+      {label ? (
+        <Typography variant="h6" component="label">
+          {label}
+        </Typography>
+      ) : (
+        <div />
+      )}
+      {icon}
+    </Box>
+  );
 };
 
 export const MultiCombobox = ({
@@ -51,6 +78,7 @@ export const MultiCombobox = ({
   error,
   colorful,
   max,
+  size = "small",
 }: ComboboxMultiProps) => {
   const [inputValue, setInputValue] = useState("");
 
@@ -61,6 +89,7 @@ export const MultiCombobox = ({
       disabled={disabled}
       multiple
       id={id}
+      size={size}
       options={items}
       value={selectedItems}
       onChange={(_, newValue) => {
@@ -86,14 +115,7 @@ export const MultiCombobox = ({
           }}
           display={"flex"}
         >
-          <Typography
-            sx={{ py: 2.5 }}
-            color={"text.primary"}
-            variant="h6"
-            component="label"
-          >
-            {label}
-          </Typography>
+          <ComboboxLabel label={label} />
           <TextField
             {...params}
             variant="outlined"
@@ -102,6 +124,7 @@ export const MultiCombobox = ({
               setInputValue(e.target.value);
               onInputValueChange?.(e.target.value);
             }}
+            size={size}
             error={error}
             helperText={
               max && selectedItems.length >= max
@@ -187,6 +210,7 @@ export const Combobox = <T extends string>({
   disabled,
   error,
   sx,
+  size = "small",
 }: {
   id: string;
   label: string;
@@ -199,6 +223,7 @@ export const Combobox = <T extends string>({
   disabled?: boolean;
   error?: boolean;
   sx?: BoxProps["sx"];
+  size?: "small" | "medium";
 }) => {
   const [inputValue, setInputValue] = useState(getItemLabel(selectedItem));
 
@@ -232,33 +257,16 @@ export const Combobox = <T extends string>({
       flexDirection="column"
       width="100%"
       display="flex"
-      sx={{
-        gap: infoDialogSlug ? 0 : 2,
-        ...sx,
-      }}
+      sx={sx}
     >
-      <Box
-        typography="meta"
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        {showLabel && (
-          <Typography
-            color={"text.primary"}
-            variant="h6"
-            component="label"
-            htmlFor={`combobox-${id}`}
-          >
-            {label}
-          </Typography>
-        )}
-        {infoDialogSlug && (
-          <InfoDialogButton iconOnly slug={infoDialogSlug} label={label} />
-        )}
-      </Box>
+      <ComboboxLabel
+        label={showLabel ? label : null}
+        icon={
+          infoDialogSlug && (
+            <InfoDialogButton iconOnly slug={infoDialogSlug} label={label} />
+          )
+        }
+      />
       <Autocomplete
         id={`combobox-${id}`}
         disabled={disabled}
@@ -269,7 +277,9 @@ export const Combobox = <T extends string>({
         renderGroup={(params) => {
           return (
             <li key={params.key}>
-              <div className="MuiAutocomplete-groupLabel">{params.group}</div>
+              {params.group ? (
+                <div className="MuiAutocomplete-groupLabel">{params.group}</div>
+              ) : null}
               <ul className="MuiAutocomplete-groupUl">{params.children}</ul>
             </li>
           );
@@ -307,9 +317,7 @@ export const Combobox = <T extends string>({
             variant="outlined"
             fullWidth
             error={error}
-            InputProps={{
-              ...params.InputProps,
-            }}
+            size={size}
           />
         )}
         noOptionsText={t({ id: "combobox.noitems", message: "No results" })}
