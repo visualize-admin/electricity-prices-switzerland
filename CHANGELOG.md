@@ -11,10 +11,14 @@ You can also check the
 
 # Unreleased
 
-- Fix
-  - PUBLIC_URL can be configured at runtime
+Nothing yet.
 
-# 2.10.0
+# 2.11.0 (2025-08-26)
+
+- Fix
+  - `PUBLIC_URL` can be configured at runtime
+
+# 2.10.0 (2025-08-26)
 
 - Feat
 
