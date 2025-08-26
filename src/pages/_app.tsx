@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 
 import { analyticsPageView } from "src/domain/analytics";
 import createEmotionCache from "src/emotion-cache";
-import { clientBuildEnv } from "src/env/client";
+import { getClientRuntimeEnv } from "src/env/client";
 import { GraphqlProvider } from "src/graphql/context";
 import { LocaleProvider } from "src/lib/use-locale";
 import { useNProgress } from "src/lib/use-nprogress";
@@ -64,6 +64,8 @@ export default function App(props: AppProps & { emotionCache?: EmotionCache }) {
     };
   }, [routerEvents]);
 
+  const clientRuntimeEnv = getClientRuntimeEnv();
+
   return (
     <CacheProvider value={emotionCache}>
       <Head>
@@ -84,19 +86,23 @@ export default function App(props: AppProps & { emotionCache?: EmotionCache }) {
               "Detailed price analyses of cantons, municipalities and grid operators.",
           })}
         />
-        <meta
-          property="og:image"
-          content={`${clientBuildEnv.PUBLIC_URL}/og-image.png`}
-        />
-        <meta
-          property="og:url"
-          content={`${clientBuildEnv.PUBLIC_URL}${asPath}`}
-        />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta
-          name="twitter:image"
-          content={`${clientBuildEnv.PUBLIC_URL}/og-image.png`}
-        />
+        {clientRuntimeEnv ? (
+          <>
+            <meta
+              property="og:image"
+              content={`${clientRuntimeEnv.PUBLIC_URL}/og-image.png`}
+            />
+            <meta
+              property="og:url"
+              content={`${clientRuntimeEnv.PUBLIC_URL}${asPath}`}
+            />
+            <meta name="twitter:card" content="summary_large_image" />
+            <meta
+              name="twitter:image"
+              content={`${clientRuntimeEnv.PUBLIC_URL}/og-image.png`}
+            />
+          </>
+        ) : null}
         {preloadFonts.map((src) => (
           <link
             key={src}
