@@ -36,9 +36,9 @@ export const LegendColor = memo(({ symbol }: { symbol: LegendSymbol }) => {
   );
 });
 
-export const ARROW_WIDTH = 16;
-export const SORTABLE_EXTERNAL_GAP = 16;
-export const SORTABLE_INTERNAL_GAP = 4;
+const ARROW_WIDTH = 16;
+const SORTABLE_EXTERNAL_GAP = 16;
+const SORTABLE_INTERNAL_GAP = 4;
 
 export const LegendSymbol = ({
   symbol,
