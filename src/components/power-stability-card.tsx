@@ -1,4 +1,4 @@
-import { t, Trans } from "@lingui/macro";
+import { Trans } from "@lingui/macro";
 import {
   Card,
   CardContent,
@@ -11,7 +11,6 @@ import React, { ReactNode } from "react";
 
 import { ButtonGroup } from "src/components/button-group";
 import CardSource from "src/components/card-source";
-import { filterBySeparator } from "src/domain/helpers";
 import { useQueryStatePowerStabilityCardFilters } from "src/domain/query-states";
 import { PeerGroup, SunshinePowerStabilityData } from "src/domain/sunshine";
 import { getLocalizedLabel, getPeerGroupLabels } from "src/domain/translation";
@@ -20,7 +19,6 @@ import { CardHeader } from "./detail-page/card";
 import { Download, DownloadImage } from "./detail-page/download-image";
 import { InfoDialogButton, InfoDialogButtonProps } from "./info-dialog";
 import { PowerStabilityChart } from "./power-stability-chart";
-import { AllOrMultiCombobox } from "./query-combobox";
 
 const DOWNLOAD_ID: Download = "power-stability";
 
@@ -52,7 +50,7 @@ type PowerStabilityCardProps = {
   setQueryState: ReturnType<typeof useQueryStatePowerStabilityCardFilters>[1];
 } & CardProps;
 
-const getPowerStabilityCardState = (
+export const getPowerStabilityCardState = (
   props: Omit<
     PowerStabilityCardProps,
     "cardTitle" | "infoDialogProps" | "state" | "setQueryState"
@@ -105,19 +103,6 @@ const getPowerStabilityCardState = (
   };
 };
 
-export const PowerStabilityCardState = (
-  props: Omit<PowerStabilityCardProps, "state" | "setQueryState">
-) => {
-  const [state, setQueryState] = useQueryStatePowerStabilityCardFilters();
-  return (
-    <PowerStabilityCard
-      {...props}
-      state={state}
-      setQueryState={setQueryState}
-    />
-  );
-};
-
 export const PowerStabilityCard: React.FC<PowerStabilityCardProps> = (
   props
 ) => {
@@ -127,7 +112,6 @@ export const PowerStabilityCard: React.FC<PowerStabilityCardProps> = (
   const {
     peerGroupLabel,
     observations,
-    multiComboboxOptions,
     updateDate,
     operatorId,
     operatorLabel,
@@ -280,34 +264,6 @@ export const PowerStabilityCard: React.FC<PowerStabilityCardProps> = (
                 }
               />
             )}
-          </Grid>
-          <Grid item xs={12} sm={4} sx={{ display: "flex" }}>
-            <AllOrMultiCombobox
-              label={t({
-                id: "sunshine.costs-and-tariffs.compare-with",
-                message: "Compare With",
-              })}
-              items={[
-                { id: "sunshine.select-all" },
-                ...multiComboboxOptions.map((item) => {
-                  return {
-                    id: String(item.operator),
-                    name: item.operator_name,
-                  };
-                }),
-              ]}
-              selectedItems={compareWith}
-              setSelectedItems={(items) =>
-                setQueryState({
-                  ...state,
-                  compareWith: filterBySeparator(
-                    items,
-                    compareWith ?? [],
-                    "sunshine.select-all"
-                  ),
-                })
-              }
-            />
           </Grid>
         </Grid>
         <PowerStabilityChart

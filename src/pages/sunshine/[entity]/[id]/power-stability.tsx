@@ -1,5 +1,5 @@
 import { t, Trans } from "@lingui/macro";
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
 import ErrorPage from "next/error";
 import { useRouter } from "next/router";
@@ -16,7 +16,11 @@ import {
 } from "src/components/detail-page/layout";
 import { DetailsPageSidebar } from "src/components/detail-page/sidebar";
 import PeerGroupCard from "src/components/peer-group-card";
-import { PowerStabilityCardState } from "src/components/power-stability-card";
+import {
+  getPowerStabilityCardState,
+  PowerStabilityCard,
+} from "src/components/power-stability-card";
+import { AllOrMultiCombobox } from "src/components/query-combobox";
 import { SunshineDataServiceDebug } from "src/components/sunshine-data-service-debug";
 import {
   PowerStabilityNavigation,
@@ -29,9 +33,11 @@ import {
   PageParams,
   Props as SharedPageProps,
 } from "src/data/shared-page-props";
+import { filterBySeparator } from "src/domain/helpers";
 import { MIN_PER_YEAR } from "src/domain/metrics";
 import {
   QueryStateSingleSunshineDetails,
+  useQueryStatePowerStabilityCardFilters,
   useQueryStateSunshineDetails,
 } from "src/domain/query-states";
 import { SunshinePowerStabilityData } from "src/domain/sunshine";
@@ -151,6 +157,23 @@ const Saidi = (props: Extract<Props, { status: "found" }>) => {
     return data?.saidi?.yearlyData?.filter((x) => x.year === year) ?? [];
   }, [data, latestYear]);
 
+  const [state, setQueryState] = useQueryStatePowerStabilityCardFilters();
+
+  const { compareWith } = state;
+  const chartData = getPowerStabilityCardState(
+    {
+      ...props,
+      latestYear: Number(latestYear),
+      updateDate,
+      operatorId: props.id,
+      peerGroup,
+      operatorLabel: props.name,
+      observations: yearlyObservations,
+    },
+    state
+  );
+  const { multiComboboxOptions } = chartData;
+
   if (!data?.saidi) {
     return (
       <Typography variant="body2" color="text.secondary">
@@ -212,13 +235,41 @@ const Saidi = (props: Extract<Props, { status: "found" }>) => {
             xs: "1fr", // Single column on small screens
             sm: "repeat(2, 1fr)", // Two columns on medium screens
           },
-          gridTemplateRows: ["auto auto auto", "auto auto"], // Three rows: two for cards, one for trend chart
+          gridTemplateRows: ["auto auto auto auto", "auto auto auto"], // Three rows: two for cards, one for trend chart
           gridTemplateAreas: [
-            `"comparison" "peer-group" "trend"`, // One column on small screens
-            `"comparison peer-group" "trend trend"`, // Two columns on medium screens
+            `"compare-selector" "comparison" "peer-group" "trend"`, // One column on small screens
+            `"compare-selector ." "comparison peer-group" "trend trend"`, // Two columns on medium screens
           ],
         }}
       >
+        <Box sx={{ gridArea: "compare-selector" }}>
+          <AllOrMultiCombobox
+            label={t({
+              id: "sunshine.costs-and-tariffs.compare-with",
+              message: "Compare With",
+            })}
+            items={[
+              { id: "sunshine.select-all" },
+              ...multiComboboxOptions.map((item) => {
+                return {
+                  id: String(item.operator),
+                  name: item.operator_name,
+                };
+              }),
+            ]}
+            selectedItems={compareWith}
+            setSelectedItems={(items) =>
+              setQueryState({
+                ...state,
+                compareWith: filterBySeparator(
+                  items,
+                  compareWith ?? [],
+                  "sunshine.select-all"
+                ),
+              })
+            }
+          />
+        </Box>
         <PeerGroupCard
           latestYear={latestYear}
           peerGroup={peerGroup}
@@ -230,14 +281,16 @@ const Saidi = (props: Extract<Props, { status: "found" }>) => {
           sx={{ gridArea: "comparison" }}
         />
 
-        <PowerStabilityCardState
-          latestYear={Number(latestYear)}
+        <PowerStabilityCard
           sx={{ gridArea: "trend" }}
+          latestYear={Number(latestYear)}
           peerGroup={peerGroup}
           updateDate={updateDate}
           operatorId={props.id}
           operatorLabel={operatorLabel}
           observations={yearlyObservations}
+          state={state}
+          setQueryState={setQueryState}
           cardTitle={t({
             id: "sunshine.power-stability.saidi-trend",
             message: "Average Power Outage Duration (SAIDI)",
@@ -275,6 +328,22 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
     const year = parseInt(latestYear, 10);
     return data?.saifi?.yearlyData?.filter((x) => x.year === year) ?? [];
   }, [data, latestYear]);
+
+  const [state, setQueryState] = useQueryStatePowerStabilityCardFilters();
+
+  const { compareWith } = state;
+  const { multiComboboxOptions } = getPowerStabilityCardState(
+    {
+      ...props,
+      latestYear: Number(latestYear),
+      updateDate,
+      operatorId: props.id,
+      peerGroup,
+      operatorLabel: props.name,
+      observations: yearlyObservations,
+    },
+    state
+  );
 
   if (!data?.saifi) {
     return (
@@ -337,13 +406,41 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
             xs: "1fr", // Single column on small screens
             sm: "repeat(2, 1fr)", // Two columns on medium screens
           },
-          gridTemplateRows: ["auto auto auto", "auto auto"], // Three rows: two for cards, one for trend chart
+          gridTemplateRows: ["auto auto auto auto", "auto auto auto"], // Three rows: two for cards, one for trend chart
           gridTemplateAreas: [
-            `"comparison" "peer-group" "trend"`, // One column on small screens
-            `"comparison peer-group" "trend trend"`, // Two columns on medium screens
+            `"compare-selector" "comparison" "peer-group" "trend"`, // One column on small screens
+            `"compare-selector ." "comparison peer-group" "trend trend"`, // Two columns on medium screens
           ],
         }}
       >
+        <Box sx={{ gridArea: "compare-selector" }}>
+          <AllOrMultiCombobox
+            label={t({
+              id: "sunshine.costs-and-tariffs.compare-with",
+              message: "Compare With",
+            })}
+            items={[
+              { id: "sunshine.select-all" },
+              ...multiComboboxOptions.map((item) => {
+                return {
+                  id: String(item.operator),
+                  name: item.operator_name,
+                };
+              }),
+            ]}
+            selectedItems={compareWith}
+            setSelectedItems={(items) =>
+              setQueryState({
+                ...state,
+                compareWith: filterBySeparator(
+                  items,
+                  compareWith ?? [],
+                  "sunshine.select-all"
+                ),
+              })
+            }
+          />
+        </Box>
         <PeerGroupCard
           latestYear={latestYear}
           peerGroup={peerGroup}
@@ -355,7 +452,7 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
           sx={{ gridArea: "comparison" }}
         />
 
-        <PowerStabilityCardState
+        <PowerStabilityCard
           latestYear={Number(latestYear)}
           sx={{ gridArea: "trend" }}
           peerGroup={peerGroup}
@@ -363,6 +460,8 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
           operatorId={props.id}
           operatorLabel={operatorLabel}
           observations={yearlyObservations}
+          state={state}
+          setQueryState={setQueryState}
           cardTitle={t({
             id: "sunshine.power-stability.saifi-trend",
             message: "Average Power Outage Frequency (SAIFI)",
