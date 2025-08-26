@@ -1,6 +1,6 @@
 import { Layer, PickingInfo } from "@deck.gl/core/typed";
 import { t, Trans } from "@lingui/macro";
-import { extent, group, mean, rollup, ScaleThreshold } from "d3";
+import { extent, group, rollup, ScaleThreshold } from "d3";
 import React, {
   ComponentProps,
   useCallback,
@@ -10,6 +10,7 @@ import React, {
   useMemo,
   useState,
 } from "react";
+import { UseQueryState } from "urql";
 
 import { MapColorLegend } from "src/components/color-legend";
 import {
@@ -25,10 +26,18 @@ import {
 } from "src/components/map-layers";
 import { MapTooltipContent } from "src/components/map-tooltip";
 import { useGeoData } from "src/data/geo";
+import { getObservationsWeightedMean } from "src/domain/data";
 import { useFormatCurrency } from "src/domain/helpers";
-import { OperatorObservationFieldsFragment } from "src/graphql/queries";
+import {
+  AllMunicipalitiesQuery,
+  ObservationsQuery,
+  OperatorObservationFieldsFragment,
+} from "src/graphql/queries";
 import { PriceComponent } from "src/graphql/resolver-types";
 import { maxBy } from "src/lib/array";
+import { truthy } from "src/lib/truthy";
+import { combineErrors } from "src/utils/combine-errors";
+import { useFlag } from "src/utils/flags";
 import { isDefined } from "src/utils/is-defined";
 
 import { GenericMap, GenericMapControls } from "./generic-map";
@@ -70,7 +79,10 @@ const __debugCheckObservationsWithoutShapes = (
 export const EnergyPricesMap = ({
   year,
   observations,
-  observationsQueryFetching,
+  observationsFetching,
+  municipalitiesFetching,
+  observationsError,
+  municipalitiesError,
   medianValue,
   municipalities,
   colorScale,
@@ -79,7 +91,10 @@ export const EnergyPricesMap = ({
 }: {
   year: string;
   observations: OperatorObservationFieldsFragment[];
-  observationsQueryFetching: boolean;
+  observationsFetching: UseQueryState<ObservationsQuery>["fetching"];
+  municipalitiesFetching: UseQueryState<AllMunicipalitiesQuery>["fetching"];
+  observationsError: UseQueryState<ObservationsQuery>["error"];
+  municipalitiesError: UseQueryState<AllMunicipalitiesQuery>["error"];
   medianValue: number | undefined;
   municipalities: { id: string; name: string }[];
   colorScale: ScaleThreshold<number, string> | undefined;
@@ -125,6 +140,8 @@ export const EnergyPricesMap = ({
 
   const { value: highlightContext } = useContext(HighlightContext);
 
+  const coverageRatioFlag = useFlag("coverageRatio");
+
   const indexes = useMemo(() => {
     if (geoData.state !== "loaded") {
       return;
@@ -159,13 +176,15 @@ export const EnergyPricesMap = ({
           caption={<Trans id="municipality">Municipality</Trans>}
           values={
             hoveredObservations?.length
-              ? hoveredObservations.map((d) => {
-                  return {
-                    label: d.operatorLabel,
-                    formattedValue: d.value ? formatNumber(d.value) : "",
-                    color: isDefined(d.value) ? colorScale(d.value) : "",
-                  };
-                })
+              ? hoveredObservations.map((d) => ({
+                  label: d.operatorLabel,
+                  formattedValue: `${
+                    d.value !== undefined && d.value !== null
+                      ? formatNumber(d.value)
+                      : ""
+                  }${coverageRatioFlag ? ` (ratio: ${d.coverageRatio})` : ""}`,
+                  color: isDefined(d.value) ? colorScale(d.value) : "",
+                }))
               : []
           }
         />
@@ -197,6 +216,7 @@ export const EnergyPricesMap = ({
     observationsByMunicipalityId,
     municipalityNames,
     formatNumber,
+    coverageRatioFlag,
   ]);
 
   const getEntityFromHighlight = useCallback(
@@ -223,7 +243,7 @@ export const EnergyPricesMap = ({
   const valuesExtent = useMemo(() => {
     const meansByMunicipality = rollup(
       observations,
-      (values) => mean(values, (d) => d.value),
+      (values) => getObservationsWeightedMean(values),
       (d) => d.municipality
     ).values();
     return extent(meansByMunicipality, (d) => d) as [number, number];
@@ -349,9 +369,27 @@ export const EnergyPricesMap = ({
   return (
     <GenericMap
       layers={(layers as unknown as Layer[]) || []}
-      isLoading={geoData.state === "fetching" || observationsQueryFetching}
+      isLoading={
+        geoData.state === "fetching" ||
+        observationsFetching ||
+        municipalitiesFetching
+      }
       hasNoData={observations.length === 0}
-      hasError={geoData.state === "error"}
+      error={combineErrors(
+        [
+          geoData.state === "error"
+            ? geoData.error instanceof Error
+              ? { error: geoData.error, label: "GeoData" }
+              : { message: "Unknown geoData error" }
+            : undefined,
+          observationsError
+            ? { error: observationsError, label: "Observations" }
+            : undefined,
+          municipalitiesError
+            ? { error: municipalitiesError, label: "Municipalities" }
+            : undefined,
+        ].filter(truthy)
+      )}
       tooltipContent={tooltipContent}
       legend={renderLegend()}
       downloadId={DOWNLOAD_ID}

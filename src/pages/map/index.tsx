@@ -238,13 +238,23 @@ const IndexPageContent = ({
 
   const valueFormatter = useIndicatorValueFormatter(indicator);
 
+  const coverageRatioFlag = useFlag("coverageRatio");
+  const mapObservations = coverageRatioFlag
+    ? observations.filter((x) => {
+        return x.coverageRatio !== 1;
+      })
+    : observations;
+
   const map = isElectricityTab ? (
     <EnergyPricesMap
       year={mapYear}
-      observations={observations}
+      observations={mapObservations}
       municipalities={municipalities}
       priceComponent={priceComponent}
-      observationsQueryFetching={isMapDataLoading}
+      observationsFetching={observationsQuery.fetching}
+      municipalitiesFetching={municipalitiesQuery.fetching}
+      observationsError={observationsQuery.error}
+      municipalitiesError={municipalitiesQuery.error}
       medianValue={medianValue}
       colorScale={colorScale}
       controls={controlsRef}

@@ -13,7 +13,6 @@ You can also check the
 
 - Style
   - Improved the styling of the info banner fixed alignment
-  
 - Feat
 
   - Added OG tags to the app
@@ -23,6 +22,10 @@ You can also check the
 
   - Minor UI styling issues
   - Added custom tooltip to all button groups 
+  - Support for meteringrate and annualmeteringcost predicates
+    - Annual metering cost is shown on the map (CHF/year)
+    - Metering rate is derived from annual metering cost and shown in Rp./kWh to be consistent with other price components. It is displayed in the operator details page.
+  - Support for operator coverage ratio: The coverage ratio is used to filter out observations with a coverage ratio inferior to 25% and used to compute a weighted mean when a municipality has multiple operators.
 
 # 2.9.0
 
