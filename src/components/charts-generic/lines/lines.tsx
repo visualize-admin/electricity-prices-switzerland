@@ -1,5 +1,4 @@
 import { ascending, line } from "d3";
-import * as React from "react";
 
 import {
   LinesState,
@@ -7,7 +6,13 @@ import {
 } from "src/components/charts-generic/use-chart-state";
 import { GenericObservation } from "src/domain/data";
 
-export const Lines = () => {
+export const Lines = ({
+  medianGroup,
+  medianTotal,
+}: {
+  medianGroup?: string;
+  medianTotal?: string;
+}) => {
   const { getX, xScale, getY, yScale, grouped, colors, getColor, bounds } =
     useChartState() as LinesState;
 
@@ -35,6 +40,8 @@ export const Lines = () => {
             />
           );
         }
+        const isMedianGroup = medianGroup === lineData[0];
+        const isMedianTotal = medianTotal === lineData[0];
         return (
           <path
             d={
@@ -45,6 +52,10 @@ export const Lines = () => {
             stroke={colors(getColor(lineData[1][0]))}
             fill="none"
             strokeWidth={2}
+            strokeLinecap="round"
+            strokeDasharray={
+              isMedianGroup ? "10,5,3,5" : isMedianTotal ? "3,3" : undefined
+            }
           />
         );
       })}

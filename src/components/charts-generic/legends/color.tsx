@@ -13,7 +13,9 @@ export type LegendSymbol =
   | "circle"
   | "diamond"
   | "triangle"
-  | "arrow";
+  | "arrow"
+  | "dashed-line"
+  | "dash-dot-line";
 
 export const LegendColor = memo(({ symbol }: { symbol: LegendSymbol }) => {
   const { colors } = useChartState() as ColumnsState;
@@ -118,8 +120,76 @@ export const LegendSymbol = ({
         />
       );
 
+    case "dashed-line":
+      return (
+        <Box
+          sx={{
+            width: "1rem",
+            minWidth: "0.5rem",
+            height: "3px",
+            display: "inline-block",
+            position: "relative",
+          }}
+        >
+          <Box
+            sx={{
+              position: "absolute",
+              left: "0",
+              top: "0",
+              width: "0.4rem",
+              height: "3px",
+              bgcolor: color,
+            }}
+          />
+          <Box
+            sx={{
+              position: "absolute",
+              left: "0.6rem",
+              top: "0",
+              width: "0.4rem",
+              height: "3px",
+              bgcolor: color,
+            }}
+          />
+        </Box>
+      );
+
     case "arrow":
       return <Icon name="arrowdown" size={ARROW_WIDTH} />;
+
+    case "dash-dot-line":
+      return (
+        <Box
+          sx={{
+            width: "1rem",
+            minWidth: "0.5rem",
+            height: "3px",
+            display: "inline-block",
+            position: "relative",
+          }}
+        >
+          <Box
+            sx={{
+              position: "absolute",
+              left: "0",
+              top: "0",
+              width: "0.2rem",
+              height: "3px",
+              bgcolor: color,
+            }}
+          />
+          <Box
+            sx={{
+              position: "absolute",
+              left: "0.4rem",
+              top: "0",
+              width: "0.6rem",
+              height: "3px",
+              bgcolor: color,
+            }}
+          />
+        </Box>
+      );
 
     default:
       return null;
