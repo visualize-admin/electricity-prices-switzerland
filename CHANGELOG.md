@@ -11,7 +11,13 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Feat
+
+  - Smaller font sizes for combobox and multi-combobox
+  - Button and IconButton sizes
+
+- Fix
+  - Active state of sidebar links for sunshine sidebar items
 
 # 2.11.1 (2025-08-26)
 
