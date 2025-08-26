@@ -349,7 +349,7 @@ export const ButtonStory = () => {
                     size={size}
                     disabled={state === "disabled"}
                   >
-                    Button Text
+                    Button {size}
                   </Button>
                 ))}
               </Stack>
@@ -397,7 +397,7 @@ export const ButtonStory = () => {
                     size={size}
                     disabled={state === "disabled"}
                   >
-                    Button Text
+                    Button {size}
                   </Button>
                 ))}
               </Stack>
@@ -445,7 +445,7 @@ export const ButtonStory = () => {
                     size={size}
                     disabled={state === "disabled"}
                   >
-                    Button Text
+                    Button {size}
                   </Button>
                 ))}
               </Stack>
@@ -490,7 +490,7 @@ export const ButtonStory = () => {
               color="primary"
               size={size}
             >
-              Button Text
+              Button {size}
             </Link>
           ))}
         </Stack>
@@ -510,7 +510,7 @@ export const ButtonStory = () => {
               color="tertiary"
               size={size}
             >
-              Button Text
+              Button {size}
             </Link>
           ))}
         </Stack>
