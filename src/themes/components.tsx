@@ -133,7 +133,15 @@ export const components = (theme: Theme): Components => ({
         const sizeStyles = (() => {
           switch (size) {
             case "sm":
-              return { padding: "10px 16px", ...typography.body3 };
+              return {
+                padding: "10px 16px",
+                ...typography.body3,
+                "& .MuiButton-icon": {
+                  transform: "scale(0.83)",
+                  marginTop: -4,
+                  marginBottom: -4,
+                },
+              };
             case "md":
               return { padding: "10px 20px", ...typography.body2 };
             case "lg":
