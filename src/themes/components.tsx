@@ -381,6 +381,13 @@ export const components: Components = {
       },
     },
   },
+  MuiOutlinedInput: {
+    styleOverrides: {
+      root: {
+        borderRadius: 2,
+      },
+    },
+  },
   MuiAccordion: {
     defaultProps: {
       disableGutters: true,
