@@ -1046,6 +1046,34 @@ msgid "selector.priceComponents"
 msgstr "selector.priceComponents"
 
 #: src/domain/translation.tsx
+msgid "selector.priceComponents.aidfee-content"
+msgstr "selector.priceComponents.aidfee-content"
+
+#: src/domain/translation.tsx
+msgid "selector.priceComponents.charge-content"
+msgstr "selector.priceComponents.charge-content"
+
+#: src/domain/translation.tsx
+msgid "selector.priceComponents.collapsed-content"
+msgstr "selector.priceComponents.collapsed-content"
+
+#: src/domain/translation.tsx
+msgid "selector.priceComponents.energy-content"
+msgstr "selector.priceComponents.energy-content"
+
+#: src/domain/translation.tsx
+msgid "selector.priceComponents.expanded-content"
+msgstr "selector.priceComponents.expanded-content"
+
+#: src/domain/translation.tsx
+msgid "selector.priceComponents.gridusage-content"
+msgstr "selector.priceComponents.gridusage-content"
+
+#: src/domain/translation.tsx
+msgid "selector.priceComponents.total-content"
+msgstr "selector.priceComponents.total-content"
+
+#: src/domain/translation.tsx
 msgid "selector.pricecomponent.aidfee"
 msgstr "selector.pricecomponent.aidfee"
 
@@ -1086,13 +1114,21 @@ msgstr "selector.product.cheapest"
 msgid "selector.product.standard"
 msgstr "selector.product.standard"
 
-#: src/components/combined-selectors/index.tsx
+#: src/domain/translation.tsx
 msgid "selector.tab.electricity"
 msgstr "selector.tab.electricity"
 
-#: src/components/combined-selectors/index.tsx
+#: src/domain/translation.tsx
+msgid "selector.tab.electricity-content"
+msgstr "selector.tab.electricity-content"
+
+#: src/domain/translation.tsx
 msgid "selector.tab.indicators"
 msgstr "selector.tab.indicators"
+
+#: src/domain/translation.tsx
+msgid "selector.tab.indicators-content"
+msgstr "selector.tab.indicators-content"
 
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.typology"
@@ -1144,9 +1180,11 @@ msgstr "sunshine.compliance.timely-paper-submission.yes"
 msgid "sunshine.costs-and-tariffs.benchmarking-peer-group"
 msgstr "sunshine.costs-and-tariffs.benchmarking-peer-group"
 
-#: src/components/network-costs-trend-card.tsx
-#: src/components/power-stability-card.tsx
-#: src/components/tariffs-trend-card.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.costs-and-tariffs.compare-with"
 msgstr "sunshine.costs-and-tariffs.compare-with"
 
@@ -1183,10 +1221,13 @@ msgstr "sunshine.costs-and-tariffs.energy-tariffs.overview"
 msgid "sunshine.costs-and-tariffs.latest-year"
 msgstr "sunshine.costs-and-tariffs.latest-year"
 
-#: src/components/network-costs-trend-card.tsx
-#: src/components/tariffs-trend-card.tsx
+#: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.latest-year-option"
 msgstr "sunshine.costs-and-tariffs.latest-year-option"
+
+#: src/domain/translation.tsx
+msgid "sunshine.costs-and-tariffs.latest-year-option-content"
+msgstr "sunshine.costs-and-tariffs.latest-year-option-content"
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
@@ -1252,10 +1293,13 @@ msgstr "sunshine.costs-and-tariffs.operator"
 msgid "sunshine.costs-and-tariffs.peer-group"
 msgstr "sunshine.costs-and-tariffs.peer-group"
 
-#: src/components/network-costs-trend-card.tsx
-#: src/components/tariffs-trend-card.tsx
+#: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.progress-over-time"
 msgstr "sunshine.costs-and-tariffs.progress-over-time"
+
+#: src/domain/translation.tsx
+msgid "sunshine.costs-and-tariffs.progress-over-time-content"
+msgstr "sunshine.costs-and-tariffs.progress-over-time-content"
 
 #: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.selected-operators"
@@ -1270,8 +1314,7 @@ msgstr "sunshine.costs-and-tariffs.source"
 msgid "sunshine.costs-and-tariffs.title"
 msgstr "sunshine.costs-and-tariffs.title"
 
-#: src/components/network-costs-trend-card.tsx
-#: src/components/tariffs-trend-card.tsx
+#: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.view-by"
 msgstr "sunshine.costs-and-tariffs.view-by"
 
@@ -1400,7 +1443,7 @@ msgstr "sunshine.overview-sunshine.title"
 msgid "sunshine.power-stability.description"
 msgstr "sunshine.power-stability.description"
 
-#: src/components/power-stability-card.tsx
+#: src/domain/translation.tsx
 msgid "sunshine.power-stability.duration"
 msgstr "sunshine.power-stability.duration"
 
@@ -1409,9 +1452,13 @@ msgstr "sunshine.power-stability.duration"
 msgid "sunshine.power-stability.latest-year"
 msgstr "sunshine.power-stability.latest-year"
 
-#: src/components/power-stability-card.tsx
+#: src/domain/translation.tsx
 msgid "sunshine.power-stability.latest-year-option"
 msgstr "sunshine.power-stability.latest-year-option"
+
+#: src/domain/translation.tsx
+msgid "sunshine.power-stability.latest-year-option-content"
+msgstr "sunshine.power-stability.latest-year-option-content"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
@@ -1431,27 +1478,35 @@ msgstr "sunshine.power-stability.no-saifi-data"
 msgid "sunshine.power-stability.operator"
 msgstr "sunshine.power-stability.operator"
 
-#: src/components/power-stability-card.tsx
+#: src/domain/translation.tsx
 msgid "sunshine.power-stability.overall-option"
 msgstr "sunshine.power-stability.overall-option"
 
-#: src/components/power-stability-card.tsx
+#: src/domain/translation.tsx
 msgid "sunshine.power-stability.overall-tooltip"
 msgstr "sunshine.power-stability.overall-tooltip"
 
-#: src/components/power-stability-card.tsx
+#: src/domain/translation.tsx
 msgid "sunshine.power-stability.planned-option"
 msgstr "sunshine.power-stability.planned-option"
 
-#: src/components/power-stability-card.tsx
+#: src/domain/translation.tsx
+msgid "sunshine.power-stability.planned-tooltip"
+msgstr "sunshine.power-stability.planned-tooltip"
+
+#: src/domain/translation.tsx
 msgid "sunshine.power-stability.progress-over-time"
 msgstr "sunshine.power-stability.progress-over-time"
 
-#: src/components/power-stability-card.tsx
+#: src/domain/translation.tsx
+msgid "sunshine.power-stability.progress-over-time-content"
+msgstr "sunshine.power-stability.progress-over-time-content"
+
+#: src/domain/translation.tsx
 msgid "sunshine.power-stability.ratio-option"
 msgstr "sunshine.power-stability.ratio-option"
 
-#: src/components/power-stability-card.tsx
+#: src/domain/translation.tsx
 msgid "sunshine.power-stability.ratio-tooltip"
 msgstr "sunshine.power-stability.ratio-tooltip"
 
@@ -1511,16 +1566,23 @@ msgstr "sunshine.power-stability.saifi.info-dialog-label"
 msgid "sunshine.power-stability.title"
 msgstr "sunshine.power-stability.title"
 
-#: src/components/power-stability-card.tsx
+#: src/domain/translation.tsx
 msgid "sunshine.power-stability.total-option"
 msgstr "sunshine.power-stability.total-option"
 
-#: src/components/power-stability-card.tsx
+#: src/domain/translation.tsx
+msgid "sunshine.power-stability.total-tooltip"
+msgstr "sunshine.power-stability.total-tooltip"
+
+#: src/domain/translation.tsx
 msgid "sunshine.power-stability.unplanned-option"
 msgstr "sunshine.power-stability.unplanned-option"
 
-#: src/components/power-stability-card.tsx
-#: src/components/power-stability-card.tsx
+#: src/domain/translation.tsx
+msgid "sunshine.power-stability.unplanned-tooltip"
+msgstr "sunshine.power-stability.unplanned-tooltip"
+
+#: src/domain/translation.tsx
 msgid "sunshine.power-stability.view-by"
 msgstr "sunshine.power-stability.view-by"
 

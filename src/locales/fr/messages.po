@@ -1046,6 +1046,34 @@ msgid "selector.priceComponents"
 msgstr "Composantes du prix"
 
 #: src/domain/translation.tsx
+msgid "selector.priceComponents.aidfee-content"
+msgstr ""
+
+#: src/domain/translation.tsx
+msgid "selector.priceComponents.charge-content"
+msgstr ""
+
+#: src/domain/translation.tsx
+msgid "selector.priceComponents.collapsed-content"
+msgstr ""
+
+#: src/domain/translation.tsx
+msgid "selector.priceComponents.energy-content"
+msgstr ""
+
+#: src/domain/translation.tsx
+msgid "selector.priceComponents.expanded-content"
+msgstr ""
+
+#: src/domain/translation.tsx
+msgid "selector.priceComponents.gridusage-content"
+msgstr ""
+
+#: src/domain/translation.tsx
+msgid "selector.priceComponents.total-content"
+msgstr ""
+
+#: src/domain/translation.tsx
 msgid "selector.pricecomponent.aidfee"
 msgstr "Supplément de réseau selon l'art. 35 LEne"
 
@@ -1086,13 +1114,21 @@ msgstr "Meilleur marché"
 msgid "selector.product.standard"
 msgstr "Standard"
 
-#: src/components/combined-selectors/index.tsx
+#: src/domain/translation.tsx
 msgid "selector.tab.electricity"
 msgstr "Tarifs de l'électricité"
 
-#: src/components/combined-selectors/index.tsx
+#: src/domain/translation.tsx
+msgid "selector.tab.electricity-content"
+msgstr ""
+
+#: src/domain/translation.tsx
 msgid "selector.tab.indicators"
 msgstr "Indicateurs"
+
+#: src/domain/translation.tsx
+msgid "selector.tab.indicators-content"
+msgstr ""
 
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.typology"
@@ -1144,9 +1180,11 @@ msgstr "Oui"
 msgid "sunshine.costs-and-tariffs.benchmarking-peer-group"
 msgstr "Analyse comparative au sein du groupe de référence : {peerGroupLabel}"
 
-#: src/components/network-costs-trend-card.tsx
-#: src/components/power-stability-card.tsx
-#: src/components/tariffs-trend-card.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.costs-and-tariffs.compare-with"
 msgstr "Comparer avec"
 
@@ -1183,10 +1221,13 @@ msgstr "Tarifs de l'énergie"
 msgid "sunshine.costs-and-tariffs.latest-year"
 msgstr "Dernière année ({latestYear})"
 
-#: src/components/network-costs-trend-card.tsx
-#: src/components/tariffs-trend-card.tsx
+#: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.latest-year-option"
 msgstr "Dernière année"
+
+#: src/domain/translation.tsx
+msgid "sunshine.costs-and-tariffs.latest-year-option-content"
+msgstr ""
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
@@ -1252,10 +1293,13 @@ msgstr "{operatorLabel}"
 msgid "sunshine.costs-and-tariffs.peer-group"
 msgstr "Groupe de pairs"
 
-#: src/components/network-costs-trend-card.tsx
-#: src/components/tariffs-trend-card.tsx
+#: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.progress-over-time"
 msgstr "Progrès dans le temps"
+
+#: src/domain/translation.tsx
+msgid "sunshine.costs-and-tariffs.progress-over-time-content"
+msgstr ""
 
 #: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.selected-operators"
@@ -1270,8 +1314,7 @@ msgstr "sunshine.costs-and-tariffs.source"
 msgid "sunshine.costs-and-tariffs.title"
 msgstr "Coûts et tarifs"
 
-#: src/components/network-costs-trend-card.tsx
-#: src/components/tariffs-trend-card.tsx
+#: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.view-by"
 msgstr "Voir par"
 
@@ -1400,7 +1443,7 @@ msgstr "Aperçu des indicateurs d'ensoleillement"
 msgid "sunshine.power-stability.description"
 msgstr "La page Stabilité de l'énergie donne un aperçu de la fiabilité de l'approvisionnement en électricité grâce à deux indicateurs clés : SAIFI (System Average Interruption Frequency Index) et SAIDI (System Average Interruption Duration Index). Ces indicateurs mesurent la fréquence et la durée des interruptions de courant. Les données sont comparables au sein d'un même groupe de gestionnaires de réseau, ce qui permet une évaluation claire de la stabilité et de la fiabilité de l'électricité sur l'ensemble du réseau."
 
-#: src/components/power-stability-card.tsx
+#: src/domain/translation.tsx
 msgid "sunshine.power-stability.duration"
 msgstr "Durée de l’accord"
 
@@ -1409,9 +1452,13 @@ msgstr "Durée de l’accord"
 msgid "sunshine.power-stability.latest-year"
 msgstr "Dernière année ({latestYear})"
 
-#: src/components/power-stability-card.tsx
+#: src/domain/translation.tsx
 msgid "sunshine.power-stability.latest-year-option"
 msgstr "Dernière année"
+
+#: src/domain/translation.tsx
+msgid "sunshine.power-stability.latest-year-option-content"
+msgstr ""
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
@@ -1431,27 +1478,35 @@ msgstr "Aucune donnée SAIFI n'est disponible pour cet opérateur pour l'année 
 msgid "sunshine.power-stability.operator"
 msgstr "{operatorLabel}"
 
-#: src/components/power-stability-card.tsx
+#: src/domain/translation.tsx
 msgid "sunshine.power-stability.overall-option"
 msgstr "Dans l'ensemble"
 
-#: src/components/power-stability-card.tsx
+#: src/domain/translation.tsx
 msgid "sunshine.power-stability.overall-tooltip"
 msgstr "Indique la durée totale des arrêts par opérateur, en combinant les arrêts planifiés et non planifiés pour une comparaison directe."
 
-#: src/components/power-stability-card.tsx
+#: src/domain/translation.tsx
 msgid "sunshine.power-stability.planned-option"
 msgstr "Prévu"
 
-#: src/components/power-stability-card.tsx
+#: src/domain/translation.tsx
+msgid "sunshine.power-stability.planned-tooltip"
+msgstr ""
+
+#: src/domain/translation.tsx
 msgid "sunshine.power-stability.progress-over-time"
 msgstr "Progrès dans le temps"
 
-#: src/components/power-stability-card.tsx
+#: src/domain/translation.tsx
+msgid "sunshine.power-stability.progress-over-time-content"
+msgstr ""
+
+#: src/domain/translation.tsx
 msgid "sunshine.power-stability.ratio-option"
 msgstr "Ratio"
 
-#: src/components/power-stability-card.tsx
+#: src/domain/translation.tsx
 msgid "sunshine.power-stability.ratio-tooltip"
 msgstr "Indique le rapport entre les pannes non planifiées et les pannes totales, ce qui donne une idée de la stabilité de l'alimentation électrique."
 
@@ -1511,16 +1566,23 @@ msgstr "Fréquence totale des interruptions"
 msgid "sunshine.power-stability.title"
 msgstr "Stabilité de la puissance"
 
-#: src/components/power-stability-card.tsx
+#: src/domain/translation.tsx
 msgid "sunshine.power-stability.total-option"
 msgstr "Total"
 
-#: src/components/power-stability-card.tsx
+#: src/domain/translation.tsx
+msgid "sunshine.power-stability.total-tooltip"
+msgstr ""
+
+#: src/domain/translation.tsx
 msgid "sunshine.power-stability.unplanned-option"
 msgstr "Non planifié"
 
-#: src/components/power-stability-card.tsx
-#: src/components/power-stability-card.tsx
+#: src/domain/translation.tsx
+msgid "sunshine.power-stability.unplanned-tooltip"
+msgstr ""
+
+#: src/domain/translation.tsx
 msgid "sunshine.power-stability.view-by"
 msgstr "Voir par"
 
