@@ -246,11 +246,14 @@ export type OperatorObservation = {
   cantonLabel?: Maybe<Scalars["String"]["output"]>;
   category: Scalars["String"]["output"];
   coverageRatio: Scalars["Float"]["output"];
+  highestrate?: Maybe<Scalars["Float"]["output"]>;
+  lowestrate?: Maybe<Scalars["Float"]["output"]>;
   municipality: Scalars["String"]["output"];
   municipalityLabel?: Maybe<Scalars["String"]["output"]>;
   operator: Scalars["String"]["output"];
   operatorLabel?: Maybe<Scalars["String"]["output"]>;
   period: Scalars["String"]["output"];
+  urltr?: Maybe<Scalars["String"]["output"]>;
   value?: Maybe<Scalars["Float"]["output"]>;
 };
 
@@ -1175,6 +1178,16 @@ export type OperatorObservationResolvers<
   >;
   category?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   coverageRatio?: Resolver<ResolversTypes["Float"], ParentType, ContextType>;
+  highestrate?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  lowestrate?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
   municipality?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   municipalityLabel?: Resolver<
     Maybe<ResolversTypes["String"]>,
@@ -1188,6 +1201,7 @@ export type OperatorObservationResolvers<
     ContextType
   >;
   period?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  urltr?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
   value?: Resolver<
     Maybe<ResolversTypes["Float"]>,
     ParentType,
