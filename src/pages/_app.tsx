@@ -90,7 +90,7 @@ export default function App(props: AppProps & { emotionCache?: EmotionCache }) {
           <>
             <meta
               property="og:image"
-              content={`${clientRuntimeEnv.PUBLIC_URL}/og-image.png`}
+              content={`${clientRuntimeEnv.PUBLIC_URL}/og-image.jpg`}
             />
             <meta
               property="og:url"
@@ -99,7 +99,7 @@ export default function App(props: AppProps & { emotionCache?: EmotionCache }) {
             <meta name="twitter:card" content="summary_large_image" />
             <meta
               name="twitter:image"
-              content={`${clientRuntimeEnv.PUBLIC_URL}/og-image.png`}
+              content={`${clientRuntimeEnv.PUBLIC_URL}/og-image.jpg`}
             />
           </>
         ) : null}
