@@ -106,6 +106,10 @@ fragment operatorObservationWithAllPriceComponentsFields on OperatorObservation 
   energy: value(priceComponent: energy)
   fixcostspercent: value(priceComponent: fixcostspercent)
   total: value(priceComponent: total)
+
+  highestrate
+  lowestrate
+  urltr
 }
 
 fragment cantonMedianObservationWithAllPriceComponentsFields on CantonMedianObservation {

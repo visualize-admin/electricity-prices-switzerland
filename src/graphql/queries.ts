@@ -230,11 +230,14 @@ export type OperatorObservation = {
   cantonLabel?: Maybe<Scalars["String"]["output"]>;
   category: Scalars["String"]["output"];
   coverageRatio: Scalars["Float"]["output"];
+  highestrate?: Maybe<Scalars["Float"]["output"]>;
+  lowestrate?: Maybe<Scalars["Float"]["output"]>;
   municipality: Scalars["String"]["output"];
   municipalityLabel?: Maybe<Scalars["String"]["output"]>;
   operator: Scalars["String"]["output"];
   operatorLabel?: Maybe<Scalars["String"]["output"]>;
   period: Scalars["String"]["output"];
+  urltr?: Maybe<Scalars["String"]["output"]>;
   value?: Maybe<Scalars["Float"]["output"]>;
 };
 
@@ -706,6 +709,8 @@ export type OperatorObservationWithAllPriceComponentsFieldsFragment = {
   operator: string;
   operatorLabel?: string | null;
   category: string;
+  highestrate?: number | null;
+  lowestrate?: number | null;
   aidfee?: number | null;
   annualmeteringcost?: number | null;
   meteringrate?: number | null;
@@ -746,6 +751,8 @@ export type ObservationsWithAllPriceComponentsQuery = {
     operator: string;
     operatorLabel?: string | null;
     category: string;
+    highestrate?: number | null;
+    lowestrate?: number | null;
     aidfee?: number | null;
     annualmeteringcost?: number | null;
     meteringrate?: number | null;
@@ -1163,6 +1170,8 @@ export const OperatorObservationWithAllPriceComponentsFieldsFragmentDoc = gql`
     energy: value(priceComponent: energy)
     fixcostspercent: value(priceComponent: fixcostspercent)
     total: value(priceComponent: total)
+    highestrate
+    lowestrate
   }
 `;
 export const CantonMedianObservationWithAllPriceComponentsFieldsFragmentDoc = gql`

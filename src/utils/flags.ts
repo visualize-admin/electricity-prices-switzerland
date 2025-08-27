@@ -28,9 +28,6 @@ const specs = {
   /** Show sunshine specific UI */
   sunshine: {},
 
-  /** Show dynamic electricity tariffs */
-  dynamicElectricityTariffs: {},
-
   /** Show mock operational standards chart */
   mockOperationalStandardsChart: {},
 
