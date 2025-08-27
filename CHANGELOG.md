@@ -9,6 +9,11 @@ and this project adheres to
 You can also check the
 [release page](https://github.com/visualize-admin/electricity-prices-switzerland/releases)
 
+# Unreleased
+
+- Feat
+  - Dynamic tariffs coming from Lindas
+
 # 2.11.3 (2025-08-26)
 
 - Feat

@@ -1,5 +1,3 @@
-import { t } from "@lingui/macro";
-
 import { Bar } from "src/components/charts-generic/bars/bars-simple";
 import {
   GroupedBarsState,
@@ -8,7 +6,6 @@ import {
 import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
 import { EXPANDED_TAG } from "src/components/detail-page/price-components-bars";
 import { useFormatCurrency } from "src/domain/helpers";
-import { useFlag } from "src/utils/flags";
 
 import { BAR_HEIGHT, LABEL_PADDING } from "../constants";
 
@@ -110,8 +107,6 @@ export const BarsGroupedLabels = () => {
   const { labelFontSize } = useChartTheme();
   const formatCurrency = useFormatCurrency();
 
-  const dynamicTariffsFlag = useFlag("dynamicElectricityTariffs");
-
   return (
     <g transform={`translate(${margins.left} ${margins.top})`}>
       {sortedData.map((d, i) => {
@@ -120,16 +115,6 @@ export const BarsGroupedLabels = () => {
 
         const value = formatCurrency(getX(d));
         const label = getLabel(d);
-
-        const isDynamic = dynamicTariffsFlag;
-        const dynamicText = isDynamic
-          ? `(${formatCurrency(d.min as number)} - ${formatCurrency(
-              d.max as number
-            )}, ${t({
-              id: "dynamic.tariff",
-              message: "dynamic",
-            })})`
-          : "";
 
         return (
           <text
@@ -142,7 +127,7 @@ export const BarsGroupedLabels = () => {
           >
             {!segment.includes(EXPANDED_TAG) && (
               <tspan fontWeight={700}>
-                {value} {xAxisLabel} {dynamicText}
+                {value} {xAxisLabel}
               </tspan>
             )}{" "}
             {label}

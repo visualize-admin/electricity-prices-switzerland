@@ -47,6 +47,8 @@ export const useFormatCurrency = (alwaysLeaveDecimals: boolean = false) => {
   return formatter;
 };
 
+export type FormatCurrency = ReturnType<typeof useFormatCurrency>;
+
 const useD3Format = (fmtString: string) => {
   const locale = useLocale();
   const formatter = React.useMemo(() => {
