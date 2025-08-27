@@ -1062,6 +1062,10 @@ msgid "selector.priceComponents.gridusage-content"
 msgstr "selector.priceComponents.gridusage-content"
 
 #: src/domain/translation.tsx
+msgid "selector.priceComponents.meteringrate-content"
+msgstr "selector.priceComponents.meteringrate-content"
+
+#: src/domain/translation.tsx
 msgid "selector.priceComponents.total-content"
 msgstr "selector.priceComponents.total-content"
 
