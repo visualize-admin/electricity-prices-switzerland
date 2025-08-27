@@ -205,6 +205,10 @@ msgstr "dynamic.tariff"
 msgid "energy-prices-map.legend.title"
 msgstr "energy-prices-map.legend.title"
 
+#: src/components/energy-prices-map.tsx
+msgid "energy-prices-map.legend.title-annualmeteringcost"
+msgstr "energy-prices-map.legend.title-annualmeteringcost"
+
 #: src/components/not-found.tsx
 msgid "error.page.404.back-link"
 msgstr "error.page.404.back-link"
@@ -340,14 +344,6 @@ msgstr "hint.nodata.message"
 #: src/components/hint.tsx
 msgid "hint.nodata.title"
 msgstr "hint.nodata.title"
-
-#: src/components/hint.tsx
-msgid "hint.nogeodata.message"
-msgstr "hint.nogeodata.message"
-
-#: src/components/hint.tsx
-msgid "hint.nogeodata.title"
-msgstr "hint.nogeodata.title"
 
 #: src/components/detail-page/price-distribution-histogram.tsx
 msgid "histogram.canton-count"
@@ -1074,6 +1070,10 @@ msgid "selector.pricecomponent.aidfee"
 msgstr "selector.pricecomponent.aidfee"
 
 #: src/domain/translation.tsx
+msgid "selector.pricecomponent.annualmeteringcost"
+msgstr "selector.pricecomponent.annualmeteringcost"
+
+#: src/domain/translation.tsx
 msgid "selector.pricecomponent.charge"
 msgstr "selector.pricecomponent.charge"
 
@@ -1084,6 +1084,10 @@ msgstr "selector.pricecomponent.energy"
 #: src/domain/translation.tsx
 msgid "selector.pricecomponent.gridusage"
 msgstr "selector.pricecomponent.gridusage"
+
+#: src/domain/translation.tsx
+msgid "selector.pricecomponent.meteringrate"
+msgstr "selector.pricecomponent.meteringrate"
 
 #: src/domain/translation.tsx
 msgid "selector.pricecomponent.total"

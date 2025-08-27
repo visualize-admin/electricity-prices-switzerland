@@ -5,6 +5,7 @@ import { Feature, Geometry } from "geojson";
 
 import { getFillColor, HoverState, styles } from "src/components/map-helpers";
 import { OperatorFeature, OperatorLayerProperties } from "src/data/geo";
+import { getObservationsWeightedMean } from "src/domain/data";
 import {
   Maybe,
   OperatorObservationFieldsFragment,
@@ -95,7 +96,7 @@ export function makeMunicipalityLayer(options: MunicipalityLayerOptions) {
         return obs
           ? getFillColor(
               colorScale,
-              mean(obs, (d) => d.value),
+              getObservationsWeightedMean(obs),
               highlightId === id
             )
           : styles.municipalities.base.fillColor.withoutData;

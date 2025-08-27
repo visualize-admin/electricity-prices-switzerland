@@ -40,7 +40,7 @@ const TableComparisonCard: React.FC<
         {title}
       </Typography>
       {subtitle && (
-        <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+        <Typography variant="body2" color="text.primary" gutterBottom>
           {subtitle}
         </Typography>
       )}
@@ -54,7 +54,7 @@ const TableComparisonCard: React.FC<
                   {row.label}
                 </Typography>
               </TableCell>
-              <TableCell>
+              <TableCell sx={{ whiteSpace: "nowrap" }}>
                 {"unit" in row.value ? (
                   <UnitValueWithTrend
                     value={row.value.value}

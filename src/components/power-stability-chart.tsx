@@ -3,7 +3,6 @@ import { Box, BoxProps } from "@mui/material";
 import { max, mean } from "d3";
 import { useMemo, useState } from "react";
 
-import { getTextWidth } from "src/domain/helpers";
 import { MIN_PER_YEAR, PERCENT } from "src/domain/metrics";
 import type { SunshinePowerStabilityData } from "src/domain/sunshine";
 import { chartPalette, palette } from "src/themes/palette";
@@ -20,12 +19,7 @@ import {
 } from "./charts-generic/bars/bars-stacked";
 import { StackedBarsChart } from "./charts-generic/bars/bars-stacked-state";
 import { ChartContainer, ChartSvg } from "./charts-generic/containers";
-import {
-  ARROW_WIDTH,
-  SORTABLE_EXTERNAL_GAP,
-  SORTABLE_INTERNAL_GAP,
-  SortableLegendItem,
-} from "./charts-generic/legends/color";
+import { SortableLegendItem } from "./charts-generic/legends/color";
 import { ProgressOvertimeChart } from "./charts-generic/progress-overtime-chart";
 import { SectionProps } from "./detail-page/card";
 import { PowerStabilityCardFilters } from "./power-stability-card";
@@ -131,27 +125,10 @@ const LatestYearChartView = (
     return mean(sortedData.map((d) => d.total)) ?? 0;
   }, [sortedData]);
 
-  const maxYLabelWidth = Math.max(
-    ...sortedData.map((label) =>
-      getTextWidth(label.operator_name, { fontSize: 12, fontWeight: "bold" })
-    )
-  );
-
   const gridOperatorsLabel = t({
     id: "power-stability-trend-chart.legend-item.grid-operators",
     message: "Grid Operators",
   });
-
-  const gridOperatorsLabelWidth = getTextWidth(gridOperatorsLabel, {
-    fontSize: 12,
-    fontWeight: "bold",
-  });
-
-  const SORTABLE_GRID_ITEM_WIDTH =
-    gridOperatorsLabelWidth +
-    ARROW_WIDTH +
-    SORTABLE_EXTERNAL_GAP +
-    SORTABLE_INTERNAL_GAP;
 
   return (
     <StackedBarsChart

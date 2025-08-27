@@ -1,4 +1,5 @@
 import { t, Trans } from "@lingui/macro";
+import { Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
 import ErrorPage from "next/error";
 import { useRouter } from "next/router";
@@ -119,14 +120,18 @@ export const prepServiceQualityCardProps = (
           </Trans>
         ),
         value: {
-          value: serviceQuality.informingCustomersOfOutage ? (
-            <Trans id="sunshine.service-quality.informing-customers-outage.yes">
-              Yes
-            </Trans>
-          ) : (
-            <Trans id="sunshine.service-quality.informing-customers-outage.no">
-              No
-            </Trans>
+          value: (
+            <Typography variant="inherit" fontWeight="bold">
+              {serviceQuality.informingCustomersOfOutage ? (
+                <Trans id="sunshine.service-quality.informing-customers-outage.yes">
+                  Yes
+                </Trans>
+              ) : (
+                <Trans id="sunshine.service-quality.informing-customers-outage.no">
+                  No
+                </Trans>
+              )}
+            </Typography>
           ),
         },
       },
@@ -137,7 +142,11 @@ export const prepServiceQualityCardProps = (
           </Trans>
         ),
         value: {
-          value: `${serviceQuality.notificationPeriodDays}`,
+          value: (
+            <Typography variant="inherit" fontWeight="bold">
+              {serviceQuality.notificationPeriodDays}
+            </Typography>
+          ),
         },
       },
     ],
@@ -229,7 +238,11 @@ export const prepComplianceCardProps = (
         ),
         value: {
           // TODO Translate
-          value: `${compliance.francsRule}`,
+          value: (
+            <Typography variant="inherit" fontWeight="bold">
+              {compliance.francsRule}
+            </Typography>
+          ),
         },
       },
       {
@@ -239,14 +252,18 @@ export const prepComplianceCardProps = (
           </Trans>
         ),
         value: {
-          value: compliance.timelyPaperSubmission ? (
-            <Trans id="sunshine.compliance.timely-paper-submission.yes">
-              Yes
-            </Trans>
-          ) : (
-            <Trans id="sunshine.compliance.timely-paper-submission.no">
-              No
-            </Trans>
+          value: (
+            <Typography variant="inherit" fontWeight="bold">
+              {compliance.timelyPaperSubmission ? (
+                <Trans id="sunshine.compliance.timely-paper-submission.yes">
+                  Yes
+                </Trans>
+              ) : (
+                <Trans id="sunshine.compliance.timely-paper-submission.no">
+                  No
+                </Trans>
+              )}
+            </Typography>
           ),
         },
       },

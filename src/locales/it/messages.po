@@ -7,7 +7,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language: it\n"
 "Language-Team: \n"
-"Content-Type: text/plain\n"
+"Content-Type: \n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
@@ -205,6 +205,10 @@ msgstr "dinamico"
 msgid "energy-prices-map.legend.title"
 msgstr "Confronto tariffe in ct./kWh (IVA esclusa)"
 
+#: src/components/energy-prices-map.tsx
+msgid "energy-prices-map.legend.title-annualmeteringcost"
+msgstr "Confronto tariffario in CHF / anno"
+
 #: src/components/not-found.tsx
 msgid "error.page.404.back-link"
 msgstr "Clicca qui per tornare alla homepage"
@@ -263,7 +267,7 @@ msgstr "Ulteriori informazioni sulle tariffe in Svizzera"
 
 #: src/components/footer.tsx
 msgid "footer.basis-of-calculation"
-msgstr "Base del calcolo"
+msgstr "Basi di calcolo"
 
 #: src/components/footer.tsx
 msgid "footer.create-data-visualizations"
@@ -341,14 +345,6 @@ msgstr "Per i parametri di ricerca selezionati non è stato trovato nessun risul
 msgid "hint.nodata.title"
 msgstr "Nessun dato"
 
-#: src/components/hint.tsx
-msgid "hint.nogeodata.message"
-msgstr "Per l'anno selezionato non ci sono mappe disponibili"
-
-#: src/components/hint.tsx
-msgid "hint.nogeodata.title"
-msgstr "Visualizzazione della mappa non disponibile"
-
 #: src/components/detail-page/price-distribution-histogram.tsx
 msgid "histogram.canton-count"
 msgstr "Numero di cantoni"
@@ -399,7 +395,7 @@ msgstr "The Sunshine Regulation"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.card.compliance.description"
-msgstr "La varietà dei prodotti riflette la gamma di prodotti elettrici ecologici offerti. La qualità del servizio misura il livello di informazione dei clienti sulle interruzioni. La conformità misura la coerenza con cui un gestore di rete rispetta leggi, regolamenti e standard interni."
+msgstr "La qualità del servizio misura il livello di informazione dei clienti sulle interruzioni. La conformità misura la coerenza con cui un gestore di rete rispetta leggi, regolamenti e standard interni."
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.card.compliance.title"
@@ -503,19 +499,19 @@ msgstr "decrescente"
 
 #: src/components/list.tsx
 msgid "list.order.quality.asc"
-msgstr "In salita"
+msgstr "crescente"
 
 #: src/components/list.tsx
 msgid "list.order.quality.desc"
-msgstr "In discesa"
+msgstr "decrescente"
 
 #: src/components/list.tsx
 msgid "list.order.timely.asc"
-msgstr "In salita"
+msgstr "crescente"
 
 #: src/components/list.tsx
 msgid "list.order.timely.desc"
-msgstr "In discesa"
+msgstr "decrescente"
 
 #: src/components/list.tsx
 msgid "list.search.label"
@@ -1043,35 +1039,39 @@ msgstr "Componenti di prezzo"
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.aidfee-content"
-msgstr ""
+msgstr "Lorem ipsum"
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.charge-content"
-msgstr ""
+msgstr "Lorem ipsum"
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.collapsed-content"
-msgstr ""
+msgstr "Lorem ipsum"
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.energy-content"
-msgstr ""
+msgstr "Lorem ipsum"
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.expanded-content"
-msgstr ""
+msgstr "Lorem ipsum"
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.gridusage-content"
-msgstr ""
+msgstr "Lorem ipsum"
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.total-content"
-msgstr ""
+msgstr "Lorem ipsum"
 
 #: src/domain/translation.tsx
 msgid "selector.pricecomponent.aidfee"
 msgstr "Supplemento rete ai sensi dell'art. 35 LEne"
+
+#: src/domain/translation.tsx
+msgid "selector.pricecomponent.annualmeteringcost"
+msgstr "Costo annuale del contatore"
 
 #: src/domain/translation.tsx
 msgid "selector.pricecomponent.charge"
@@ -1084,6 +1084,10 @@ msgstr "Energia"
 #: src/domain/translation.tsx
 msgid "selector.pricecomponent.gridusage"
 msgstr "Utilizzazione della rete"
+
+#: src/domain/translation.tsx
+msgid "selector.pricecomponent.meteringrate"
+msgstr "Tasso di misurazione"
 
 #: src/domain/translation.tsx
 msgid "selector.pricecomponent.total"
@@ -1108,7 +1112,7 @@ msgstr "Tariffe elettriche"
 
 #: src/domain/translation.tsx
 msgid "selector.tab.electricity-content"
-msgstr ""
+msgstr "Lorem ipsum"
 
 #: src/domain/translation.tsx
 msgid "selector.tab.indicators"
@@ -1116,7 +1120,7 @@ msgstr "Indicatori"
 
 #: src/domain/translation.tsx
 msgid "selector.tab.indicators-content"
-msgstr ""
+msgstr "Lorem ipsum"
 
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.typology"
@@ -1213,7 +1217,7 @@ msgstr "Ultimo anno"
 
 #: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.latest-year-option-content"
-msgstr ""
+msgstr "Lorem ipsum"
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
@@ -1285,7 +1289,7 @@ msgstr "Progressi nel tempo"
 
 #: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.progress-over-time-content"
-msgstr ""
+msgstr "Lorem ipsum"
 
 #: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.selected-operators"
@@ -1390,7 +1394,7 @@ msgstr "Quota di operatori"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.description"
-msgstr "La pagina degli Standard operativi valuta gli indicatori chiave di performance che evidenziano la qualità del servizio fornito dalle aziende elettriche. Questi indicatori comprendono la Varietà dei prodotti, che misura la gamma di prodotti energetici ecologici e combinati offerti; la Qualità del servizio, che valuta quanto le aziende informano i consumatori sulle interruzioni elettriche programmate e sul periodo di preavviso previsto; e la Conformità, che garantisce il rispetto della regola dei 75 franchi e la presentazione tempestiva dei documenti ufficiali alla Commissione federale dell'energia elettrica (ElCom)."
+msgstr "La pagina degli Standard operativi valuta gli indicatori chiave di performance che evidenziano la qualità del servizio fornito dalle aziende elettriche. Questi indicatori comprendono la Qualità del servizio, che valuta quanto le aziende informano i consumatori sulle interruzioni elettriche programmate e sul periodo di preavviso previsto e la Conformità, che garantisce il rispetto della regola dei franchi e la presentazione tempestiva dei documenti ufficiali alla Commissione federale dell'energia elettrica (ElCom)."
 
 #: src/domain/translation.tsx
 msgid "sunshine.operational-standards.product-variety-trend"
@@ -1444,7 +1448,7 @@ msgstr "Ultimo anno"
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.latest-year-option-content"
-msgstr ""
+msgstr "Lorem ipsum"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
@@ -1478,7 +1482,7 @@ msgstr "Pianificato"
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.planned-tooltip"
-msgstr ""
+msgstr "Mostra solo le interruzioni pianificate, ovvero la manutenzione o gli aggiornamenti programmati."
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.progress-over-time"
@@ -1486,7 +1490,7 @@ msgstr "Progressi nel tempo"
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.progress-over-time-content"
-msgstr ""
+msgstr "Lorem ipsum"
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.ratio-option"
@@ -1558,7 +1562,7 @@ msgstr "Totale"
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.total-tooltip"
-msgstr ""
+msgstr "Mostra la durata totale delle interruzioni per operatore, combinando le interruzioni pianificate e non pianificate per un confronto diretto."
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.unplanned-option"
@@ -1566,7 +1570,7 @@ msgstr "Non pianificato"
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.unplanned-tooltip"
-msgstr ""
+msgstr "Mostra solo le interruzioni non pianificate, che sono interruzioni inaspettate."
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.view-by"

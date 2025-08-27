@@ -1,6 +1,6 @@
 {
   "name": "elcom-electricity-price-website",
-  "version": "2.9.0",
+  "version": "2.11.3",
   "repository": "git@github.com:interactivethings/elcom-electricity-price-website.git",
   "author": "Federal Electricity Commission ElCom <info@elcom.admin.ch>",
   "license": "BSD-3-Clause",
@@ -23,6 +23,7 @@
     "setup": "yarn && yarn locales:compile && yarn graphql:codegen",
     "locales:extract": "NODE_ENV=development lingui extract --clean && ./scripts/strip-locale-line-numbers.sh && tsx scripts/populate-aa.ts",
     "locales:compile": "lingui compile --verbose --typescript",
+    "locales:export": "accent export && yarn locales:extract",
     "locales:sync": "accent sync --add-translations --merge-type=passive --order-by=key && yarn locales:extract # putting back file location comments",
     "locales:browse": "open 'https://accent.interactivethings.io/app/projects/1ce6adef-33b9-45e5-8eaf-a1f6b6ba1ebd'",
     "graphql:codegen": "graphql-codegen --config codegen.yml",
@@ -205,6 +206,7 @@
     "semver": "7.5.2",
     "@types/react": "19.0.0",
     "@types/react-dom": "19.0.0",
-    "form-data": "4.0.4"
+    "form-data": "4.0.4",
+    "sha.js": "2.4.12"
   }
 }

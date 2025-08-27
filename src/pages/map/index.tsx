@@ -186,18 +186,19 @@ const IndexPageContent = ({
       specKey in colorScaleSpecs && colorScaleSpecs[specKey]
         ? colorScaleSpecs[specKey]
         : colorScaleSpecs.default;
-    const isValidValue = (
-      x: SunshineDataIndicatorRow
-    ): x is SunshineDataIndicatorRow & { value: number } =>
-      x.value !== undefined && x.value !== null;
+    const isValidValue = <T extends { value?: number | null | undefined }>(
+      x: T
+    ): x is T & { value: number } => x.value !== undefined && x.value !== null;
 
     const sunshineValues = sunshineObservations
       .filter(isValidValue)
       .map((x) => x.value);
+
+    const validObservations = observations.filter(isValidValue);
     return makeColorScale(
       spec,
       medianValue,
-      isElectricityTab ? observations.map(colorAccessor) : sunshineValues
+      isElectricityTab ? validObservations.map(colorAccessor) : sunshineValues
     );
   }, [
     colorAccessor,
@@ -237,12 +238,23 @@ const IndexPageContent = ({
 
   const valueFormatter = useIndicatorValueFormatter(indicator);
 
+  const coverageRatioFlag = useFlag("coverageRatio");
+  const mapObservations = coverageRatioFlag
+    ? observations.filter((x) => {
+        return x.coverageRatio !== 1;
+      })
+    : observations;
+
   const map = isElectricityTab ? (
     <EnergyPricesMap
       year={mapYear}
-      observations={observations}
+      observations={mapObservations}
       municipalities={municipalities}
-      observationsQueryFetching={isMapDataLoading}
+      priceComponent={priceComponent}
+      observationsFetching={observationsQuery.fetching}
+      municipalitiesFetching={municipalitiesQuery.fetching}
+      observationsError={observationsQuery.error}
+      municipalitiesError={municipalitiesQuery.error}
       medianValue={medianValue}
       colorScale={colorScale}
       controls={controlsRef}

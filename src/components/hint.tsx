@@ -1,10 +1,19 @@
 import { keyframes } from "@emotion/react";
 import { Trans } from "@lingui/macro";
 import { Box, BoxProps, IconButton, Typography } from "@mui/material";
+import dynamic from "next/dynamic";
 import { ReactNode } from "react";
 
 import { Icon, IconName } from "src/icons";
 import { palette } from "src/themes/palette";
+
+const ContentWrapper = dynamic(
+  () =>
+    import("@interactivethings/swiss-federal-ci/dist/components").then(
+      (mod) => mod.ContentWrapper
+    ),
+  { ssr: false }
+);
 
 const delayedShow = keyframes`
   0% { opacity: 0 }
@@ -167,33 +176,6 @@ export const NoContentHint = () => (
   </Box>
 );
 
-export const NoGeoDataHint = () => (
-  <Box
-    sx={{
-      width: "100%",
-      height: "100%",
-      color: "hint.main",
-      margin: "auto",
-      textAlign: "center",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
-      flexGrow: 1,
-    }}
-    display="flex"
-  >
-    <Icon name="warningcircle" size={64} />
-    <Typography variant="h2" sx={{ my: 3 }}>
-      <Trans id="hint.nogeodata.title">No map display possible</Trans>
-    </Typography>
-    <Typography variant="body2" sx={{ maxWidth: "40rem" }}>
-      <Trans id="hint.nogeodata.message">
-        No map can be displayed for the selected year.
-      </Trans>
-    </Typography>
-  </Box>
-);
-
 export const HintBlue = ({
   iconName,
   children,
@@ -211,27 +193,33 @@ export const HintBlue = ({
       px: 9,
       bgcolor: "blue.50",
       color: "blue.700",
-      textAlign: "center",
-      justifyContent: "flex-start",
-      gap: 4,
-      alignItems: ["flex-start", "center"],
       boxShadow: 1,
     }}
     display="flex"
   >
-    <Box
-      sx={{ width: 24, alignItems: "center", justifyContent: "center" }}
-      display={"flex"}
+    <ContentWrapper
+      sx={{
+        textAlign: "center",
+        justifyContent: "flex-start",
+        gap: 4,
+        alignItems: ["flex-start", "center"],
+        display: "flex",
+      }}
     >
-      <Icon name={iconName} size={24} color={palette.blue[700]} />
-    </Box>
-    <Typography variant="body3" sx={{ textAlign: "left" }}>
-      {children}
-    </Typography>
-    {onRemove && (
-      <IconButton size="sm" onClick={onRemove}>
-        <Icon name={"cancel"} color={palette.blue[700]} size={24} />
-      </IconButton>
-    )}
+      <Box
+        sx={{ width: 24, alignItems: "center", justifyContent: "center" }}
+        display={"flex"}
+      >
+        <Icon name={iconName} size={24} color={palette.blue[700]} />
+      </Box>
+      <Typography variant="body3" sx={{ textAlign: "left" }}>
+        {children}
+      </Typography>
+      {onRemove && (
+        <IconButton size="sm" onClick={onRemove} sx={{ ml: "auto" }}>
+          <Icon name={"cancel"} color={palette.blue[700]} size={24} />
+        </IconButton>
+      )}
+    </ContentWrapper>
   </Box>
 );

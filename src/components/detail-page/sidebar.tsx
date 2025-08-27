@@ -42,6 +42,7 @@ export const DetailsPageSidebar = (props: SectionProps) => {
               </Trans>
             </SidebarSectionTitle>
             <SidebarItem
+              matchMethod="exact"
               href={`/sunshine/${entity}/${id}/overview#main-content`}
             >
               <Trans id="details.page.navigation.sunshine-overview-item">
@@ -49,6 +50,7 @@ export const DetailsPageSidebar = (props: SectionProps) => {
               </Trans>
             </SidebarItem>
             <SidebarItem
+              matchMethod="exact"
               href={`/sunshine/${entity}/${id}/costs-and-tariffs#main-content`}
             >
               <Trans id="details.page.navigation.costs-and-tariffs-item">
@@ -56,6 +58,7 @@ export const DetailsPageSidebar = (props: SectionProps) => {
               </Trans>
             </SidebarItem>
             <SidebarItem
+              matchMethod="exact"
               href={`/sunshine/${entity}/${id}/power-stability#main-content`}
             >
               <Trans id="details.page.navigation.power-stability-item">
@@ -63,6 +66,7 @@ export const DetailsPageSidebar = (props: SectionProps) => {
               </Trans>
             </SidebarItem>
             <SidebarItem
+              matchMethod="exact"
               href={`/sunshine/${entity}/${id}/operational-standards#main-content`}
             >
               <Trans id="details.page.navigation.operational-standards-item">
@@ -118,10 +122,11 @@ const SidebarItem = (props: SidebarItemProps) => {
   const { asPath } = useRouter();
 
   const isActive = () => {
-    const path = asPath.split("?")[0];
+    const hrefPath = href.split("?")[0].split("#")[0];
+    const path = asPath.split("?")[0].split("#")[0];
     switch (matchMethod) {
       case "exact":
-        return path === href;
+        return path === hrefPath;
       case "contains":
         return path.includes(href);
       default:

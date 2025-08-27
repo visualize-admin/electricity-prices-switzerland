@@ -21,6 +21,7 @@ type ButtonGroupProps<T> = {
   label?: string;
   showLabel?: boolean;
   infoDialogSlug?: WikiPageSlug;
+  fitLabelToContent?: boolean;
 };
 
 const STYLES = {
@@ -35,6 +36,7 @@ const STYLES = {
       textAlign: "center",
       px: 4,
       py: 2.5,
+      height: "40px",
       fontSize: "0.875rem",
       borderStyle: "solid",
       borderWidth: 1,
@@ -80,6 +82,7 @@ export const ButtonGroup = <T extends string>({
   label,
   showLabel = true,
   infoDialogSlug,
+  fitLabelToContent = false,
   ...props
 }: ButtonGroupProps<T> & BoxProps) => {
   const onTabChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
@@ -145,6 +148,7 @@ export const ButtonGroup = <T extends string>({
               hidden={!label && !content}
               title={<TooltipContent title={label} content={content} />}
               arrow
+              key={option.value}
               placement="top"
               slotProps={{
                 tooltip: {
@@ -155,13 +159,19 @@ export const ButtonGroup = <T extends string>({
               }}
             >
               <Box
-                key={option.value}
                 component="label"
                 title=""
                 sx={{
                   flexBasis: "100%",
                   ...STYLES.tabs.common,
                   ...(isActive ? STYLES.tabs.active : STYLES.tabs.inactive),
+                  ...(fitLabelToContent
+                    ? {
+                        "& label": {
+                          flexBasis: "content",
+                        },
+                      }
+                    : {}),
                 }}
               >
                 <VisuallyHidden>

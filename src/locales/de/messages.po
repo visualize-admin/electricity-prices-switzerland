@@ -7,7 +7,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language: de\n"
 "Language-Team: \n"
-"Content-Type: text/plain\n"
+"Content-Type: \n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -25,7 +25,7 @@ msgstr "Detaillierte Preisanalysen von Kantonen, Gemeinden und Netzbetreibern."
 
 #: src/pages/_app.tsx
 msgid "app.meta.title"
-msgstr "Stromtarife in der Schweiz"
+msgstr "Strompreise Schweiz"
 
 #: src/components/energy-prices-map.tsx
 msgid "canton"
@@ -195,7 +195,7 @@ msgstr "Download Reports"
 
 #: src/components/detail-page/price-components-bars.tsx
 msgid "dynamic-tariffs.hint"
-msgstr "Die Preise mit den in Klammern angegebenen Werten sind dynamisch."
+msgstr "Es handelt sich um einen dynamischen Tarif."
 
 #: src/components/charts-generic/bars/bars-grouped.tsx
 msgid "dynamic.tariff"
@@ -204,6 +204,10 @@ msgstr "dynamisch"
 #: src/components/energy-prices-map.tsx
 msgid "energy-prices-map.legend.title"
 msgstr "Vergleich in Rp./kWh (Angaben exkl. MwSt.)"
+
+#: src/components/energy-prices-map.tsx
+msgid "energy-prices-map.legend.title-annualmeteringcost"
+msgstr "Vergleich in CHF pro Jahr und Messpunkt"
 
 #: src/components/not-found.tsx
 msgid "error.page.404.back-link"
@@ -255,7 +259,7 @@ msgstr "Über uns"
 
 #: src/components/footer.tsx
 msgid "footer.about_us.text"
-msgstr "Die ElCom ist die unabhängige staatliche Regulierungsbehörde im Elektrizitätsbereich. Sie überwacht die Einhaltung des Stromversorgungs- und Energiegesetzes, trifft die dazu nötigen Entscheide und erlässt Verfügungen. Sie beaufsichtigt die Strompreise und entscheidet bei Differenzen betreffend den Netzzugang. Sie überwacht zudem die Versorgungssicherheit im Strombereich und regelt Fragen zum internationalen Stromtransport und -handel. Schliesslich entscheidet die ElCom in Streitigkeiten zu Rückliefervergütungen sowie zwischen Netzbetreiber und Eigenverbraucher."
+msgstr "Die ElCom ist die unabhängige staatliche Regulierungsbehörde im Elektrizitätsbereich."
 
 #: src/components/footer.tsx
 msgid "footer.additional-information"
@@ -340,14 +344,6 @@ msgstr "Für die aktuelle Auswahl konnten keine Daten geladen werden."
 #: src/components/hint.tsx
 msgid "hint.nodata.title"
 msgstr "Keine Daten"
-
-#: src/components/hint.tsx
-msgid "hint.nogeodata.message"
-msgstr "Für das ausgewählte Jahr kann keine Karte angezeigt werden."
-
-#: src/components/hint.tsx
-msgid "hint.nogeodata.title"
-msgstr "Keine Kartendarstellung möglich"
 
 #: src/components/detail-page/price-distribution-histogram.tsx
 msgid "histogram.canton-count"
@@ -1043,35 +1039,39 @@ msgstr "Preiskomponenten"
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.aidfee-content"
-msgstr ""
+msgstr "selector.priceComponents.aidfee-content"
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.charge-content"
-msgstr ""
+msgstr "selector.priceComponents.charge-content"
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.collapsed-content"
-msgstr ""
+msgstr "Detaillierte Aufschlüsselung aller vorgeschriebenen Preiskomponenten, die separat ausgewiesen werden"
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.energy-content"
-msgstr ""
+msgstr "Preis für die gelieferte elektrische Energie. Diese Energie erzeugt der Netzbetreiber entweder mit eigenen Kraftwerken, oder er kauft sie von Vorlieferanten ein. Der Energiepreis wird auch von der Art der Energiequelle beeinflusst.  So führen hohe Anteile an erneuerbaren Energien (z.B. Wind-, Solar-, Biomasse-Energie) in der Regel zu höheren Energiepreisen."
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.expanded-content"
-msgstr ""
+msgstr "Detaillierte Aufschlüsselung aller vorgeschriebenen Preiskomponenten, die separat ausgewiesen werden"
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.gridusage-content"
-msgstr ""
+msgstr "Preis für den Stromtransport vom Kraftwerk bis ins Haus."
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.total-content"
-msgstr ""
+msgstr "Gesamtstrompreis bestehend aus allen regulierten Preiskomponenten."
 
 #: src/domain/translation.tsx
 msgid "selector.pricecomponent.aidfee"
 msgstr "Netzzuschlag gem. Art. 35 EnG"
+
+#: src/domain/translation.tsx
+msgid "selector.pricecomponent.annualmeteringcost"
+msgstr "Jährlicher Messtarif"
 
 #: src/domain/translation.tsx
 msgid "selector.pricecomponent.charge"
@@ -1084,6 +1084,10 @@ msgstr "Energie"
 #: src/domain/translation.tsx
 msgid "selector.pricecomponent.gridusage"
 msgstr "Netznutzung"
+
+#: src/domain/translation.tsx
+msgid "selector.pricecomponent.meteringrate"
+msgstr "Messtarif"
 
 #: src/domain/translation.tsx
 msgid "selector.pricecomponent.total"
@@ -1108,7 +1112,7 @@ msgstr "Stromtarife"
 
 #: src/domain/translation.tsx
 msgid "selector.tab.electricity-content"
-msgstr ""
+msgstr "Stromtarife und Preisdaten für Schweizer Verteilnetzbetreiber in verschiedenen Regionen"
 
 #: src/domain/translation.tsx
 msgid "selector.tab.indicators"
@@ -1116,7 +1120,7 @@ msgstr "Indikatoren"
 
 #: src/domain/translation.tsx
 msgid "selector.tab.indicators-content"
-msgstr ""
+msgstr "Wichtige Effizienz-Indikatoren einschliesslich Preistrends."
 
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.typology"
@@ -1213,7 +1217,7 @@ msgstr "Aktuelles Jahr"
 
 #: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.latest-year-option-content"
-msgstr ""
+msgstr "sunshine.costs-and-tariffs.latest-year-option-content"
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
@@ -1285,7 +1289,7 @@ msgstr "Entwicklung über die Zeit"
 
 #: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.progress-over-time-content"
-msgstr ""
+msgstr "sunshine.costs-and-tariffs.progress-over-time-content"
 
 #: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.selected-operators"
@@ -1444,7 +1448,7 @@ msgstr "Aktuelles Jahr"
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.latest-year-option-content"
-msgstr ""
+msgstr "sunshine.power-stability.latest-year-option-content"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
@@ -1478,7 +1482,7 @@ msgstr "Geplant"
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.planned-tooltip"
-msgstr ""
+msgstr "Zeigt nur geplante Ausfälle an, d. h. geplante Wartungsarbeiten oder Upgrades."
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.progress-over-time"
@@ -1486,7 +1490,7 @@ msgstr "Entwicklung über die Zeit"
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.progress-over-time-content"
-msgstr ""
+msgstr "sunshine.power-stability.progress-over-time-content"
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.ratio-option"
@@ -1558,7 +1562,7 @@ msgstr "Insgesamt"
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.total-tooltip"
-msgstr ""
+msgstr "Zeigt die Gesamtdauer der Ausfälle pro Betreiber an, wobei geplante und ungeplante Ausfälle für einen direkten Vergleich kombiniert werden."
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.unplanned-option"
@@ -1566,7 +1570,7 @@ msgstr "Ungeplant"
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.unplanned-tooltip"
-msgstr ""
+msgstr "Zeigt nur ungeplante Ausfälle, d. h. unerwartete Unterbrechungen."
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.view-by"

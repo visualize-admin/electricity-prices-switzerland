@@ -80,8 +80,8 @@ type OperatorObservation @cacheControl(maxAge: 300) {
   cantonLabel: String
   category: String!
   period: String!
-
-  value(priceComponent: PriceComponent!): Float!
+  value(priceComponent: PriceComponent!): Float
+  coverageRatio: Float!
 }
 
 type CantonMedianObservation @cacheControl(maxAge: 300) {
@@ -123,6 +123,8 @@ enum PriceComponent {
   energy
   fixcostspercent
   total
+  annualmeteringcost
+  meteringrate
 }
 
 enum ObservationKind {

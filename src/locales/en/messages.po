@@ -205,6 +205,10 @@ msgstr "dynamic"
 msgid "energy-prices-map.legend.title"
 msgstr "Tariff comparison in Rp./kWh (figures excl. VAT)"
 
+#: src/components/energy-prices-map.tsx
+msgid "energy-prices-map.legend.title-annualmeteringcost"
+msgstr "Tariff comparison in CHF / year"
+
 #: src/components/not-found.tsx
 msgid "error.page.404.back-link"
 msgstr "Click here to return to homepage"
@@ -255,7 +259,7 @@ msgstr "About us"
 
 #: src/components/footer.tsx
 msgid "footer.about_us.text"
-msgstr "ElCom, Switzerland's independent electricity regulator, monitors compliance with the Electricity Act and the Energy Act. It monitors electricity prices, security of supply and international trade and settles disputes regarding grid access, feed-in tariffs and between operators and producers."
+msgstr "ElCom, Switzerland's independent electricity regulator, monitors compliance with the Electricity Act and the Energy Act."
 
 #: src/components/footer.tsx
 msgid "footer.additional-information"
@@ -341,14 +345,6 @@ msgstr "No data could be loaded for the current selection."
 msgid "hint.nodata.title"
 msgstr "No data"
 
-#: src/components/hint.tsx
-msgid "hint.nogeodata.message"
-msgstr "No map can be displayed for the selected year."
-
-#: src/components/hint.tsx
-msgid "hint.nogeodata.title"
-msgstr "No map display possible"
-
 #: src/components/detail-page/price-distribution-histogram.tsx
 msgid "histogram.canton-count"
 msgstr "Number of cantons"
@@ -399,7 +395,7 @@ msgstr "The Sunshine Regulation"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.card.compliance.description"
-msgstr "Product variety reflects the range of ecological electricity products offered. Service quality captures how well customers are informed about outages. Compliance measures how consistently a grid operator follows laws, regulations, and internal standards."
+msgstr "Service quality captures how well customers are informed about outages. Compliance measures how consistently a grid operator follows laws, regulations, and internal standards."
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.card.compliance.title"
@@ -1043,35 +1039,39 @@ msgstr "Price components"
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.aidfee-content"
-msgstr "Lorem ipsum"
+msgstr "selector.priceComponents.aidfee-content"
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.charge-content"
-msgstr "Lorem ipsum"
+msgstr "selector.priceComponents.charge-content"
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.collapsed-content"
-msgstr "Lorem ipsum"
+msgstr "selector.priceComponents.collapsed-content"
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.energy-content"
-msgstr "Lorem ipsum"
+msgstr "selector.priceComponents.energy-content"
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.expanded-content"
-msgstr "Lorem ipsum"
+msgstr "selector.priceComponents.expanded-content"
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.gridusage-content"
-msgstr "Lorem ipsum"
+msgstr "selector.priceComponents.gridusage-content"
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.total-content"
-msgstr "Lorem ipsum"
+msgstr "selector.priceComponents.total-content"
 
 #: src/domain/translation.tsx
 msgid "selector.pricecomponent.aidfee"
 msgstr "Grid surcharge pursuant to Art. 35 EnG"
+
+#: src/domain/translation.tsx
+msgid "selector.pricecomponent.annualmeteringcost"
+msgstr "Annual Metering Cost"
 
 #: src/domain/translation.tsx
 msgid "selector.pricecomponent.charge"
@@ -1084,6 +1084,10 @@ msgstr "Energy"
 #: src/domain/translation.tsx
 msgid "selector.pricecomponent.gridusage"
 msgstr "Grid usage"
+
+#: src/domain/translation.tsx
+msgid "selector.pricecomponent.meteringrate"
+msgstr "Metering Rate"
 
 #: src/domain/translation.tsx
 msgid "selector.pricecomponent.total"
@@ -1108,7 +1112,7 @@ msgstr "Electricity Tariffs"
 
 #: src/domain/translation.tsx
 msgid "selector.tab.electricity-content"
-msgstr "Lorem ipsum"
+msgstr "selector.tab.electricity-content"
 
 #: src/domain/translation.tsx
 msgid "selector.tab.indicators"
@@ -1116,7 +1120,7 @@ msgstr "Indicators"
 
 #: src/domain/translation.tsx
 msgid "selector.tab.indicators-content"
-msgstr "Lorem ipsum"
+msgstr "selector.tab.indicators-content"
 
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.typology"
@@ -1213,7 +1217,7 @@ msgstr "Latest year"
 
 #: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.latest-year-option-content"
-msgstr "Lorem ipsum"
+msgstr "sunshine.costs-and-tariffs.latest-year-option-content"
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
@@ -1285,7 +1289,7 @@ msgstr "Progress over time"
 
 #: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.progress-over-time-content"
-msgstr "Lorem ipsum"
+msgstr "sunshine.costs-and-tariffs.progress-over-time-content"
 
 #: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.selected-operators"
@@ -1390,7 +1394,7 @@ msgstr "Share of operators"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.description"
-msgstr "The Operational Standards page evaluates key performance indicators that highlight the quality of service provided by electricity companies. These indicators include Product Variety, measuring the range of eco-friendly and combined energy products offered; Service Quality, assessing how well companies inform consumers about planned electricity interruptions and the notice period provided; and Compliance, ensuring adherence to the 75 francs rule and the timely submission of official documents to the Federal Electricity Commission (ElCom)."
+msgstr "The Operational Standards page evaluates key performance indicators that highlight the quality of service provided by electricity companies. These indicators include Service Quality, assessing how well companies inform consumers about planned electricity interruptions and the notice period provided, and Compliance, ensuring adherence to the francs rule and the timely submission of official documents to the Federal Electricity Commission (ElCom)."
 
 #: src/domain/translation.tsx
 msgid "sunshine.operational-standards.product-variety-trend"
@@ -1444,7 +1448,7 @@ msgstr "Latest year"
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.latest-year-option-content"
-msgstr "Lorem ipsum"
+msgstr "sunshine.power-stability.latest-year-option-content"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
@@ -1486,7 +1490,7 @@ msgstr "Progress over time"
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.progress-over-time-content"
-msgstr "Lorem ipsum"
+msgstr "sunshine.power-stability.progress-over-time-content"
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.ratio-option"

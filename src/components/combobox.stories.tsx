@@ -5,7 +5,7 @@ import { Combobox, ComboboxItem, MultiCombobox } from "./combobox";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta: Meta<typeof Combobox> = {
-  title: "Components/Combobox",
+  title: "ui/Combobox",
   component: Combobox,
   tags: ["autodocs", "e2e:autodocs-screenshot"],
   parameters: {
@@ -31,6 +31,7 @@ export const YearSelection: Story = {
           items={years}
           selectedItem={selectedYear}
           setSelectedItem={setSelectedYear}
+          size="small"
         />
       </div>
     );

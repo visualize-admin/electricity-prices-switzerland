@@ -15,7 +15,7 @@
 
 import { useEffect } from "react";
 
-import clientEnv from "src/env/client";
+import { clientBuildEnv } from "src/env/client";
 import { createComponents, createHooks } from "src/flags";
 
 const specs = {
@@ -33,6 +33,8 @@ const specs = {
 
   /** Show mock operational standards chart */
   mockOperationalStandardsChart: {},
+
+  coverageRatio: {},
 } as const;
 
 const keysAsValues = <R extends Record<string | number | symbol, unknown>>(
@@ -107,15 +109,15 @@ if (typeof window !== "undefined" && window.location) {
   // Development flags
   if (
     process.env.NODE_ENV === "development" ||
-    clientEnv.NEXT_PUBLIC_VERCEL_ENV === "development" ||
-    clientEnv.NEXT_PUBLIC_VERCEL_ENV === "preview"
+    clientBuildEnv.NEXT_PUBLIC_VERCEL_ENV === "development" ||
+    clientBuildEnv.NEXT_PUBLIC_VERCEL_ENV === "preview"
   ) {
     flag.enable([["debug", true]]);
   }
 
-  if (clientEnv.NEXT_PUBLIC_FLAGS) {
+  if (clientBuildEnv.NEXT_PUBLIC_FLAGS) {
     try {
-      const toEnable = clientEnv.NEXT_PUBLIC_FLAGS.filter((x) => {
+      const toEnable = clientBuildEnv.NEXT_PUBLIC_FLAGS.filter((x) => {
         return flag(x) === null;
       });
 

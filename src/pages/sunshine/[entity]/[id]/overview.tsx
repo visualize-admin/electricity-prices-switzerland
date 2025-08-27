@@ -392,7 +392,7 @@ const OverviewPage = (props: Props) => {
                   { tab: "networkCosts" }
                 )}
               >
-                <IconButton variant="outlined" color="primary">
+                <IconButton variant="outlined" color="primary" size="sm">
                   <Icon name="arrowright" />
                 </IconButton>
               </Link>

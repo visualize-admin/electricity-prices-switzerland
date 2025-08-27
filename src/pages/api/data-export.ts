@@ -55,6 +55,8 @@ const dimensions = [
   { attr: "charge", name: "charge (cts./kWh)" },
   { attr: "aidfee", name: "aidfee (cts./kWh)" },
   { attr: "total", name: "total (cts./kWh)" },
+  { attr: "meteringrate", name: "metering rate (cts./kWh)" },
+  { attr: "annualmeteringcost", name: "annual metering cost (CHF p.a.)" },
 ];
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {

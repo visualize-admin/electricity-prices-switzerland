@@ -1,4 +1,4 @@
-import { Components } from "@mui/material";
+import { Components, Theme } from "@mui/material";
 
 import { Icon } from "src/icons";
 import { IconChevronDown } from "src/icons/ic-chevron-down";
@@ -7,7 +7,7 @@ import { palette } from "./palette";
 import { shadows } from "./shadows";
 import { typography } from "./typography";
 
-export const components: Components = {
+export const components = (theme: Theme): Components => ({
   MuiTooltip: {
     styleOverrides: {
       tooltip: {
@@ -24,6 +24,18 @@ export const components: Components = {
   },
   MuiAutocomplete: {
     styleOverrides: {
+      root: {
+        "& .MuiOutlinedInput-root": {
+          padding: "0px 8px",
+        },
+        "& .MuiOutlinedInput-root.MuiInputBase-sizeSmall": {
+          padding: "0px 8px",
+        },
+        "& .MuiAutocomplete-popupIndicator": {
+          width: "auto",
+          height: "auto",
+        },
+      },
       popper: {
         zIndex: 1300,
       },
@@ -125,7 +137,15 @@ export const components: Components = {
         const sizeStyles = (() => {
           switch (size) {
             case "sm":
-              return { padding: "10px 16px", ...typography.body3 };
+              return {
+                padding: "10px 16px",
+                ...typography.body3,
+                "& .MuiButton-icon": {
+                  transform: "scale(0.83)",
+                  marginTop: -4,
+                  marginBottom: -4,
+                },
+              };
             case "md":
               return { padding: "10px 20px", ...typography.body2 };
             case "lg":
@@ -230,22 +250,36 @@ export const components: Components = {
           switch (size) {
             case "sm":
               return {
-                padding: "10px",
+                width: "40px",
+                height: "40px",
                 ...typography.body3,
+
+                // icon size 20
+                "& svg": {
+                  margin: -2,
+                },
               };
             case "md":
               return {
-                padding: "11px",
+                width: "44px",
+                height: "44px",
                 ...typography.body2,
+
+                // icon size 22
+                "& svg": {
+                  marginTop: -1,
+                },
               };
             case "lg":
               return {
-                padding: "12px",
+                width: "48px",
+                height: "48px",
                 ...typography.body1,
               };
             case "xl":
               return {
-                padding: "14px",
+                width: "52px",
+                height: "52px",
                 ...typography.h3,
               };
             default:
@@ -311,27 +345,25 @@ export const components: Components = {
   },
   MuiInputBase: {
     styleOverrides: {
+      sizeSmall: {
+        minHeight: "40px",
+        fontSize: "14px",
+      },
       root: {
+        minHeight: "44px",
         display: "flex",
         alignItems: "center",
         width: "100%",
         border: `1px solid`,
         backgroundColor: palette.background.paper,
         color: palette.text.primary,
-        paddingTop: "4px !important",
-        paddingBottom: "4px !important",
-        paddingLeft: "16px ",
-        borderRadius: 0.5,
-        minHeight: "44px",
+        paddingLeft: "16px",
+        borderRadius: "2px",
         height: "100%",
         borderColor: palette.monochrome[500],
 
         "& input::placeholder": {
           color: palette.text[500],
-        },
-
-        "& input": {
-          padding: "0px !important",
         },
 
         "&.Mui-error": {
@@ -340,6 +372,7 @@ export const components: Components = {
 
           "& .MuiAutocomplete-endAdornment": {
             borderColor: palette.error.main,
+
             "& button svg": {
               color: palette.error.main,
             },
@@ -363,7 +396,7 @@ export const components: Components = {
           borderColor: palette.monochrome[500],
           marginLeft: "4px",
           paddingLeft: "4px",
-          minHeight: "44px",
+          minHeight: "40px",
           height: "100%",
           display: "flex",
           alignItems: "center",
@@ -377,6 +410,30 @@ export const components: Components = {
 
         "& fieldset": {
           display: "none",
+        },
+      },
+    },
+  },
+  MuiInputLabel: {
+    styleOverrides: {
+      sizeSmall: {
+        [theme.breakpoints.up("sm")]: {
+          fontSize: "14px",
+        },
+      },
+    },
+  },
+  MuiOutlinedInput: {
+    styleOverrides: {
+      root: {
+        borderRadius: 2,
+        [theme.breakpoints.up("sm")]: {
+          fontSize: "16px",
+        },
+      },
+      sizeSmall: {
+        [theme.breakpoints.up("sm")]: {
+          fontSize: "14px",
         },
       },
     },
@@ -632,4 +689,4 @@ export const components: Components = {
         }
         `,
   },
-};
+});

@@ -6,7 +6,7 @@ import { Combobox } from "src/components/combobox";
 import {
   categories,
   periods,
-  priceComponents,
+  mapPriceComponents,
   products,
 } from "src/domain/data";
 import { useQueryStateEnergyPricesMap } from "src/domain/query-states";
@@ -51,7 +51,7 @@ export const ElectricitySelectors = () => {
       <Combobox
         id="priceComponent"
         label={t({ id: "selector.priceComponent", message: "Price component" })}
-        items={priceComponents}
+        items={mapPriceComponents}
         getItemLabel={getItemLabel}
         selectedItem={queryState.priceComponent ?? "total"}
         setSelectedItem={(selectedItem) =>
