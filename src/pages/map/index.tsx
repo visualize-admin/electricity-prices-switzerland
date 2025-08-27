@@ -459,11 +459,10 @@ const IndexPageContent = ({
                       right: 0,
                       mb: 0,
                       mr: 3,
-                      px: 4,
-                      py: 3,
+                      p: 1,
                       backgroundColor: "background.paper",
                       display: "flex",
-                      gap: "2rem",
+                      gap: 1,
                       borderRadius: "3px 3px 0 0",
                     }}
                   >

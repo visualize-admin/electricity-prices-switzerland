@@ -8,6 +8,7 @@ import {
   Locator,
   Page,
   PageScreenshotOptions,
+  TestInfo,
 } from "@playwright/test";
 import {
   locatorFixtures as fixtures,
@@ -17,6 +18,15 @@ import {
 import slugify from "./slugify";
 
 type SnapshotOptions = { note?: string; page?: Page; locator?: Locator };
+
+export const snapshotDir = path.join(__dirname, "snapshots");
+
+export const getSnapshotName = (testInfo: TestInfo, note: string) => {
+  return `${testInfo.project.name} > ${testInfo.titlePath
+    .map((x) => x.replace(/\.spec\.ts$/, ""))
+    .map(slugify)
+    .join(" > ")} ${note}`;
+};
 
 const test = base.extend<TestingLibraryFixtures>(fixtures).extend<{
   snapshot: (options?: SnapshotOptions & PageScreenshotOptions) => void;
@@ -33,12 +43,11 @@ const test = base.extend<TestingLibraryFixtures>(fixtures).extend<{
     ) => {
       const { note, page: pageOption, locator, ...screenshotOptions } = options;
       const toScreenshot = pageOption ?? locator ?? page;
-      const name = `${testInfo.project.name} > ${testInfo.titlePath
-        .map((x) => x.replace(/\.spec\.ts$/, ""))
-        .map(slugify)
-        .join(" > ")} ${index++}${note ? ` ${note}` : ""}`;
+      const name = getSnapshotName(
+        testInfo,
+        `${index++}${note ? ` ${note}` : ""}`
+      );
 
-      const snapshotDir = path.join(__dirname, "snapshots");
       await toScreenshot.screenshot({
         animations: "disabled",
         path: path.join(snapshotDir, `${name}.png`),
