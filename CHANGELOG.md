@@ -11,7 +11,8 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Fix
+  - Map image can be downloaded
 
 # 2.11.4 (2025-08-27)
 
