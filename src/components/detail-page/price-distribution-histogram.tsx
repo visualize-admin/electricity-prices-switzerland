@@ -165,10 +165,6 @@ export const PriceDistributionHistograms = ({ id, entity }: SectionProps) => {
                     id: "price-components.meteringrate-content",
                   }),
                 },
-                {
-                  value: "aidfee",
-                  label: getLocalizedLabel({ id: "aidfee" }),
-                },
               ]}
               value={priceComponent[0] as string}
               setValue={(pc) => setQueryState({ priceComponent: [pc] })}
