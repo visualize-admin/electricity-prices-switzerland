@@ -9,6 +9,15 @@ and this project adheres to
 You can also check the
 [release page](https://github.com/visualize-admin/electricity-prices-switzerland/releases)
 
+# Unreleased
+
+Nothing yet.
+
+# 2.11.4 (2025-08-27)
+
+- Feat
+  - Hide "Grid surcharge" from Price Distribution Histogram & Canton Comparison in details page
+
 # 2.11.3 (2025-08-26)
 
 - Feat
