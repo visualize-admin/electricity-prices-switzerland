@@ -822,7 +822,9 @@ msgstr "{rest} weitere …"
 
 #: src/components/app-layout.tsx
 msgid "search.global"
-msgstr "Detailed price analyses of cantons, municipalities and grid operators."
+msgstr ""
+"Detailed price analyses of cantons, municipalities and grid operators.\n"
+"Please note: The data for Sunshine will only contain the final values from the 2026 publication onwards."
 
 #: src/components/search.tsx
 msgid "search.global.hint.canton.muni.operator"
@@ -1060,6 +1062,10 @@ msgstr "selector.priceComponents.expanded-content"
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.gridusage-content"
 msgstr "selector.priceComponents.gridusage-content"
+
+#: src/domain/translation.tsx
+msgid "selector.priceComponents.meteringrate-content"
+msgstr "selector.priceComponents.meteringrate-content"
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.total-content"
