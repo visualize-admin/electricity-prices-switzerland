@@ -237,15 +237,19 @@ const Query: QueryResolvers = {
       });
     }
 
-    return operatorObservations.filter((o) => {
-      if (
-        o.coverageRatio !== undefined &&
-        o.coverageRatio < COVERAGE_RATIO_THRESHOLD
-      ) {
-        return false;
-      }
-      return true;
-    });
+    return operatorObservations
+      .sort((a, b) => {
+        return a.period! < b.period! ? -1 : 1;
+      })
+      .filter((o) => {
+        if (
+          o.coverageRatio !== undefined &&
+          o.coverageRatio < COVERAGE_RATIO_THRESHOLD
+        ) {
+          return false;
+        }
+        return true;
+      });
   },
   cantonMedianObservations: async (
     _,
