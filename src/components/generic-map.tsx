@@ -24,6 +24,7 @@ import React, {
   useCallback,
   useContext,
   useEffect,
+  useId,
   useMemo,
   useRef,
   useState,
@@ -171,6 +172,7 @@ export const GenericMap = ({
   const [screenshotting, setScreenshotting] = useState(false);
 
   const highlightContext = useContext(HighlightContext).value;
+  const legendId = useId();
 
   // Syncs highlight context (coming from the right list hover) with hovered
   useEffect(() => {
@@ -276,13 +278,10 @@ export const GenericMap = ({
             const deck = ref.deck;
             if (!deck) return;
 
-            // Get the legend element if a download ID is provided
-            const legendElement = downloadId
-              ? document.getElementById(downloadId)
+            // Get the legend element if a legend ID is provided
+            const legendElement = legendId
+              ? document.getElementById(legendId)
               : null;
-            if (!legendElement) {
-              return;
-            }
 
             return getImageData(deck, legendElement || undefined);
           } finally {
@@ -349,6 +348,7 @@ export const GenericMap = ({
     featureMatchesId,
     initialBBox,
     layers,
+    legendId,
     mapZoomPadding,
     viewState,
   ]);
@@ -448,6 +448,7 @@ export const GenericMap = ({
                 borderRadius: "2px",
                 p: 4,
               }}
+              id={legendId}
             >
               {legend}
             </Box>

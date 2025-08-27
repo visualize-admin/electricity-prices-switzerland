@@ -49,7 +49,7 @@ jobs:
           BASIC_AUTH_CREDENTIALS: ${{ secrets.BASIC_AUTH_CREDENTIALS }}
           PLAYWRIGHT_BASE_URL: ${{ steps.deployment-url.outputs.deployment-url }}
           PLAYWRIGHT_NO_WEBSERVER: true
-        run: yarn playwright test --grep-invert "@storybook|@har"
+        run: yarn run test:playwright:app
 
       - uses: actions/upload-artifact@v4
         if: always()
@@ -64,7 +64,7 @@ jobs:
           PLAYWRIGHT_BASE_URL: ${{ steps.deployment-url.outputs.deployment-url }}/storybook
         run: |
           curl -u "$BASIC_AUTH_CREDENTIALS" "$PLAYWRIGHT_BASE_URL/index.json" -o storybook-index.json
-          yarn playwright test --grep @storybook
+          yarn run test:playwright:storybook
 
       - uses: actions/upload-artifact@v4
         if: always()

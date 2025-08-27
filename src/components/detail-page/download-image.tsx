@@ -1,5 +1,5 @@
 import { Trans } from "@lingui/macro";
-import { Box, IconButton, Link as MUILink } from "@mui/material";
+import { Box, Button, IconButton } from "@mui/material";
 import html2canvas from "html2canvas";
 import * as React from "react";
 
@@ -101,22 +101,16 @@ export const DownloadImage = ({
   return (
     <Box>
       {!downloading && !iconOnly && (
-        <MUILink
-          variant="body2"
+        <Button
+          variant="text"
           onClick={onDownload}
-          target="_blank"
-          color={"text.primary"}
-          rel="noopener noreferrer"
-          href="#"
+          startIcon={<Icon name="download" size={iconSize} />}
           sx={{
-            display: "flex",
-            alignItems: "center",
-            gap: 1,
+            color: "text.primary",
           }}
         >
-          <Icon name="download" size={iconSize} />
           <Trans id="image.download">Download image</Trans>
-        </MUILink>
+        </Button>
       )}
       {iconOnly && (
         <IconButton
