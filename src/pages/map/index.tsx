@@ -45,6 +45,7 @@ import { MapDetailsContent } from "src/components/map-details-content";
 import ShareButton from "src/components/share-button";
 import { SunshineDataServiceDebug } from "src/components/sunshine-data-service-debug";
 import SunshineMap from "src/components/sunshine-map";
+import useVaulStyles from "src/components/useVaulStyles";
 import { DataServiceProps } from "src/data/shared-page-props";
 import { colorScaleSpecs, makeColorScale } from "src/domain/charts";
 import { Entity, ElectricityCategory } from "src/domain/data";
@@ -68,7 +69,6 @@ import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { getSunshineDataServiceInfo } from "src/lib/sunshine-data-service-context";
 import { useIsMobile } from "src/lib/use-mobile";
 import { defaultLocale } from "src/locales/config";
-import useVaulStyles from "src/pages/map/useVaulStyles";
 import { useFlag } from "src/utils/flags";
 
 const ContentWrapper = dynamic(
@@ -539,7 +539,6 @@ const MobileDrawer = ({
 }) => {
   const { classes } = useVaulStyles();
   const [tab, setTab] = useState("selectors");
-  const { setActiveId } = useMap();
   const vaultContentRef = useRef<HTMLDivElement>(null);
   return (
     <ThemeProvider
@@ -602,7 +601,6 @@ const MobileControls = ({
   details,
   selectors,
   selectedItem,
-  entity,
 }: {
   list: React.ReactNode;
   details: React.ReactNode;
