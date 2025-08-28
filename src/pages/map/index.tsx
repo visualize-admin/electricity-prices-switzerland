@@ -513,6 +513,7 @@ const IndexPageContent = ({
           {!isMobile ? null : (
             <MobileControls
               list={list}
+              listButtonGroup={listButtonGroup}
               details={mobileDetailsContent}
               selectors={<CombinedSelectors />}
               entity={entity}
@@ -527,6 +528,7 @@ const IndexPageContent = ({
 
 const MobileDrawer = ({
   list,
+  listButtonGroup,
   details,
   selectors,
   onClose,
@@ -535,12 +537,14 @@ const MobileDrawer = ({
   list: React.ReactNode;
   details: React.ReactNode;
   selectors: React.ReactNode;
+  listButtonGroup: React.ReactNode;
   onClose?: () => void;
   open: boolean;
 }) => {
   const { classes } = useVaulStyles();
   const [tab, setTab] = useState("selectors");
   const vaultContentRef = useRef<HTMLDivElement>(null);
+  const [queryState] = useQueryStateMapCommon();
   return (
     <ThemeProvider
       theme={(theme: Theme) =>
@@ -592,7 +596,17 @@ const MobileDrawer = ({
                     </Tabs>
                   </Box>
                   <Box mx={tab === "selectors" ? -4 : 1}>
-                    {tab === "list" ? list : selectors}
+                    {tab === "list" ? (
+                      <Box display="flex" flexDirection="column" gap={2}>
+                        {/* Only show the list button group on the electricity tab */}
+                        {queryState.tab === "electricity"
+                          ? listButtonGroup
+                          : null}
+                        {list}
+                      </Box>
+                    ) : (
+                      selectors
+                    )}
                   </Box>
                 </>
               )}
@@ -609,8 +623,10 @@ const MobileControls = ({
   details,
   selectors,
   selectedItem,
+  listButtonGroup,
 }: {
   list: React.ReactNode;
+  listButtonGroup: React.ReactNode;
   details: React.ReactNode;
   selectors: React.ReactNode;
   selectedItem?: ListItemType | null;
@@ -704,6 +720,7 @@ const MobileControls = ({
       </Box>
       <MobileDrawer
         list={list}
+        listButtonGroup={listButtonGroup}
         selectors={selectors}
         details={details}
         open={drawerOpen}
