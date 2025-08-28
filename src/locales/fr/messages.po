@@ -1077,7 +1077,7 @@ msgstr "Supplément de réseau selon l'art. 35 LEne"
 
 #: src/domain/translation.tsx
 msgid "selector.pricecomponent.annualmeteringcost"
-msgstr "Coût annuel du comptage"
+msgstr "Coût annuel de la mesure"
 
 #: src/domain/translation.tsx
 msgid "selector.pricecomponent.charge"
@@ -1135,11 +1135,11 @@ msgstr "Typologie"
 #: src/components/electricity-selectors.tsx
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.year"
-msgstr "année tarifaire"
+msgstr "Année tarifaire"
 
 #: src/components/detail-page/selector-multi.tsx
 msgid "selector.years"
-msgstr "années tarifaires"
+msgstr "Années tarifaires"
 
 #: src/components/share-button.tsx
 msgid "share.url-copied"
