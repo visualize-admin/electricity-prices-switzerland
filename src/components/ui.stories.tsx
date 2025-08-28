@@ -7,6 +7,7 @@ import {
   Grid,
   IconButton,
   Link,
+  NativeSelect,
   Stack,
 } from "@mui/material";
 import { useState } from "react";
@@ -672,6 +673,21 @@ export const FormStory = () => {
               ))
             )}
           </Grid>
+        </DesignSection>
+        <DesignSection
+          title="Native Select"
+          note="Currently used on mobile when a Combobox is displayed"
+        >
+          <NativeSelect
+            value={selectValue}
+            onChange={(e) => setSelectValue(e.target.value)}
+          >
+            {selectItems.map((item) => (
+              <option key={item} value={item}>
+                {item}
+              </option>
+            ))}
+          </NativeSelect>
         </DesignSection>
       </DesignGrid>
     </DesignStory>
