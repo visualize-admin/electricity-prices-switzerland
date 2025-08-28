@@ -74,7 +74,7 @@ export const ProgressOvertimeChart = <T extends GenericObservation>(
 
   const colorMappings = [
     { label: operatorLabel, color: chartPalette.categorical[0] },
-    { label: peerGroupOperatorName, color: chartPalette.categorical[2] },
+    { label: peerGroupOperatorName, color: themePalette.text.primary },
   ];
 
   if (observations.length === 0) {
@@ -139,7 +139,9 @@ export const ProgressOvertimeChart = <T extends GenericObservation>(
                   : item.label
               }
               color={item.color}
-              symbol={"line"}
+              symbol={
+                item.label === peerGroupOperatorName ? "dash-dot-line" : "line"
+              }
             />
           ))}
           {shouldShowOtherOperatorsLegend && (
@@ -159,7 +161,7 @@ export const ProgressOvertimeChart = <T extends GenericObservation>(
         <ChartSvg>
           <AxisHeightLinear format={formatCurrency} />
           <AxisTime />
-          <Lines />
+          <Lines medianGroup={peerGroupOperatorName} />
           {showInteractions && <InteractionHorizontal />}
         </ChartSvg>
         <Ruler />

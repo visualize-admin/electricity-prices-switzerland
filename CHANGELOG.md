@@ -11,7 +11,9 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Style
+  - Changed Median Peer Group to correct color and shape
+  - Introduced Median Total to line charts
 
 # 2.11.5 (2025-08-27)
 
@@ -48,18 +50,18 @@ Nothing yet.
 
   - Added OG tags to the app
   - Added custom tooltip to all button groups
+
+- Style
   - Support for meteringrate and annualmeteringcost predicates
     - Annual metering cost is shown on the map (CHF/year)
     - Metering rate is derived from annual metering cost and shown in Rp./kWh to be consistent with other price components. It is displayed in the operator details page.
   - Support for operator coverage ratio: The coverage ratio is used to filter out observations with a coverage ratio inferior to 25% and used to compute a weighted mean when a municipality has multiple operators.
-
+  - Improved the styling of the info banner fixed alignment
+  -
 - Fix
 
   - Minor UI styling issues
   - Added custom tooltip to all button groups
-
-- Style
-  - Improved the styling of the info banner fixed alignment
 
 # 2.9.0
 
