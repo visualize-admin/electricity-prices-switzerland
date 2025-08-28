@@ -1,5 +1,6 @@
 import { t, Trans } from "@lingui/macro";
 import {
+  alpha,
   Box,
   Card,
   CardContent,
@@ -417,7 +418,7 @@ const IndexPageContent = ({
                 id={DOWNLOAD_ID}
                 sx={{
                   height: "100vw",
-                  maxHeight: "50vh",
+                  maxHeight: "70vh",
                   width: "100%",
                   position: "relative",
                 }}
@@ -561,6 +562,12 @@ const MobileDrawer = ({
           <Vaul.Overlay className={classes.overlay} />
           <Vaul.Content className={classes.content} ref={vaultContentRef}>
             {/* Tabs that can select between list & selectors */}
+            <IconButton
+              onClick={onClose}
+              sx={{ position: "absolute", top: 10, right: 10 }}
+            >
+              <Icon name="close" />
+            </IconButton>
 
             <div className={classes.handle} />
             <Box sx={{ overflowY: "auto", flex: 1, mx: 2 }}>
@@ -568,7 +575,6 @@ const MobileDrawer = ({
                 details
               ) : (
                 <>
-                  {" "}
                   <Box
                     sx={{
                       display: "flex",
@@ -585,7 +591,9 @@ const MobileDrawer = ({
                       <Tab label="List" value="list" />
                     </Tabs>
                   </Box>
-                  {tab === "list" ? list : selectors}
+                  <Box mx={tab === "selectors" ? -4 : 1}>
+                    {tab === "list" ? list : selectors}
+                  </Box>
                 </>
               )}
             </Box>
@@ -647,46 +655,53 @@ const MobileControls = ({
 
   return (
     <>
-      <Card
-        elevation={2}
-        sx={{
-          position: "relative",
-          my: 2,
-          mx: 2,
-          transition: "background-color 0.3s ease",
-          cursor: "pointer",
-          "&:hover": {
-            backgroundColor: "secondary.100",
-          },
-        }}
-        onClick={() => setDrawerOpen(true)}
-      >
-        <CardContent sx={{ pb: "16px !important" }}>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <Box>
-              <Typography
-                variant="subtitle1"
-                sx={{ fontWeight: "bold", mb: 1 }}
-              >
-                <Trans id="selector.legend.select.parameters">
-                  Parameter auswählen
-                </Trans>
-              </Typography>
-              <Typography variant="body2">{status}</Typography>
+      <Box position="relative" sx={{ height: 0 }}>
+        <Card
+          elevation={2}
+          sx={{
+            position: "absolute",
+            bottom: "20px",
+            left: "22px",
+            right: "22px",
+            margin: "auto",
+            transition: "background-color 0.3s ease",
+            cursor: "pointer",
+            backdropFilter: (theme) => `blur(${theme.spacing(1)})`,
+            backgroundColor: (theme) =>
+              alpha(theme.palette.background.paper, 0.8),
+            "&:hover": {
+              backgroundColor: (theme) =>
+                alpha(theme.palette.background.paper, 0.95),
+            },
+          }}
+          onClick={() => setDrawerOpen(true)}
+        >
+          <CardContent sx={{ pb: "16px !important" }}>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <Box>
+                <Typography
+                  variant="subtitle1"
+                  sx={{ fontWeight: "bold", mb: 1 }}
+                >
+                  <Trans id="selector.legend.select.parameters">
+                    Parameter auswählen
+                  </Trans>
+                </Typography>
+                <Typography variant="body2">{status}</Typography>
+              </Box>
+              <IconButton edge="end" aria-label="edit parameters">
+                <Icon name="menu" />
+              </IconButton>
             </Box>
-            <IconButton edge="end" aria-label="edit parameters">
-              <Icon name="menu" />
-            </IconButton>
-          </Box>
-        </CardContent>
-      </Card>
-
+          </CardContent>
+        </Card>
+      </Box>
       <MobileDrawer
         list={list}
         selectors={selectors}

@@ -145,19 +145,21 @@ export type HoverState =
         value: number;
       }[];
     };
-export const INITIAL_VIEW_STATE = {
+export const getInitialViewState = (isMobile: boolean) => ({
   latitude: 46.8182,
   longitude: 8.2275,
   zoom: 2,
   maxZoom: 10,
-  minZoom: 7,
+  minZoom: isMobile ? 5 : 7,
   pitch: 0,
   bearing: 0,
   width: 200,
   height: 200,
   transitionDuration: 0,
   transitionInterpolator: getFlyToInterpolator(),
-};
+});
+
+export type InitialViewState = ReturnType<typeof getInitialViewState>;
 
 export type BBox = [[number, number], [number, number]];
 

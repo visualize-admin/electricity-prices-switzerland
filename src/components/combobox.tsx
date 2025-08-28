@@ -40,16 +40,18 @@ const defaultOptionEqualToValue = (
 const ComboboxLabel = ({
   label,
   icon,
+  ...props
 }: {
   label: React.ReactNode;
   icon?: React.ReactNode;
-}) => {
+} & BoxProps) => {
   return (
     <Box
       display="flex"
       justifyContent="space-between"
       alignItems="center"
       minHeight={34}
+      {...props}
     >
       {label ? (
         <Typography variant="h6" component="label">
@@ -58,7 +60,15 @@ const ComboboxLabel = ({
       ) : (
         <div />
       )}
-      {icon}
+      <Box
+        sx={{
+          maxHeight: "1rem",
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        {icon}
+      </Box>
     </Box>
   );
 };
@@ -256,16 +266,27 @@ export const Combobox = <T extends string>({
 
   if (isMobile) {
     return (
-      <NativeSelect
-        value={selectedItem}
-        onChange={(e) => setSelectedItem(e.target.value as T)}
-      >
-        {filteredItems.map((item) => (
-          <option key={item} value={item}>
-            {getItemLabel(item as T)}
-          </option>
-        ))}
-      </NativeSelect>
+      <Box flexDirection="column" display="flex" width="100%" gap={2}>
+        <ComboboxLabel
+          sx={{ minHeight: "auto" }}
+          label={showLabel ? label : null}
+          icon={
+            infoDialogSlug && (
+              <InfoDialogButton iconOnly slug={infoDialogSlug} label={label} />
+            )
+          }
+        />
+        <NativeSelect
+          value={selectedItem}
+          onChange={(e) => setSelectedItem(e.target.value as T)}
+        >
+          {filteredItems.map((item) => (
+            <option key={item} value={item}>
+              {getItemLabel(item as T)}
+            </option>
+          ))}
+        </NativeSelect>
+      </Box>
     );
   }
 
