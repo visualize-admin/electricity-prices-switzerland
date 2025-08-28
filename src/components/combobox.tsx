@@ -1,5 +1,5 @@
 import { t } from "@lingui/macro";
-import { Box, BoxProps, Chip, Typography } from "@mui/material";
+import { Box, BoxProps, Chip, NativeSelect, Typography } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import { useEffect, useMemo, useState } from "react";
@@ -7,6 +7,7 @@ import { useEffect, useMemo, useState } from "react";
 import { InfoDialogButton } from "src/components/info-dialog";
 import { WikiPageSlug } from "src/domain/wiki";
 import { Icon } from "src/icons";
+import { useIsMobile } from "src/lib/use-mobile";
 
 export type ComboboxMultiProps = {
   id: string;
@@ -39,16 +40,18 @@ const defaultOptionEqualToValue = (
 const ComboboxLabel = ({
   label,
   icon,
+  ...props
 }: {
   label: React.ReactNode;
   icon?: React.ReactNode;
-}) => {
+} & BoxProps) => {
   return (
     <Box
       display="flex"
       justifyContent="space-between"
       alignItems="center"
       minHeight={34}
+      {...props}
     >
       {label ? (
         <Typography variant="h6" component="label">
@@ -57,7 +60,15 @@ const ComboboxLabel = ({
       ) : (
         <div />
       )}
-      {icon}
+      <Box
+        sx={{
+          maxHeight: "1rem",
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        {icon}
+      </Box>
     </Box>
   );
 };
@@ -250,6 +261,34 @@ export const Combobox = <T extends string>({
     }
     return res;
   }, [items]);
+
+  const isMobile = useIsMobile();
+
+  if (isMobile) {
+    return (
+      <Box flexDirection="column" display="flex" width="100%" gap={2}>
+        <ComboboxLabel
+          sx={{ minHeight: "auto" }}
+          label={showLabel ? label : null}
+          icon={
+            infoDialogSlug && (
+              <InfoDialogButton iconOnly slug={infoDialogSlug} label={label} />
+            )
+          }
+        />
+        <NativeSelect
+          value={selectedItem}
+          onChange={(e) => setSelectedItem(e.target.value as T)}
+        >
+          {filteredItems.map((item) => (
+            <option key={item} value={item}>
+              {getItemLabel(item as T)}
+            </option>
+          ))}
+        </NativeSelect>
+      </Box>
+    );
+  }
 
   return (
     <Box

@@ -1,5 +1,4 @@
-import { Trans } from "@lingui/macro";
-import { Box, BoxProps, Typography, useTheme } from "@mui/material";
+import { Box, BoxProps, useTheme } from "@mui/material";
 
 import { ButtonGroup } from "src/components/button-group";
 import { ElectricitySelectors } from "src/components/electricity-selectors";
@@ -28,18 +27,6 @@ export const CombinedSelectors = (props: BoxProps) => {
         "--selector-panel-padding-x": theme.spacing(6),
       }}
     >
-      <Box sx={{ px: "var(--selector-panel-padding-x)", pb: 4 }}>
-        <Typography
-          component="legend"
-          variant="body2"
-          fontWeight={700}
-          sx={{ display: "contents" }}
-        >
-          <Trans id="selector.legend.select.parameters">
-            Filter list and map
-          </Trans>
-        </Typography>
-      </Box>
       {sunshineFlag ? (
         <Box sx={{ px: "var(--selector-panel-padding-x)", width: "100%" }}>
           <ButtonGroup

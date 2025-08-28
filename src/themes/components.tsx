@@ -7,6 +7,16 @@ import { palette } from "./palette";
 import { shadows } from "./shadows";
 import { typography } from "./typography";
 
+const NativeSelectIcon = (props: $IntentionalAny) => {
+  // we need to display the icon inside a container to be able to put
+  // the 24x24 icon into a 40x42 container
+  return (
+    <div {...props}>
+      <IconChevronDown />
+    </div>
+  );
+};
+
 export const components = (theme: Theme): Components => ({
   MuiTooltip: {
     styleOverrides: {
@@ -110,18 +120,28 @@ export const components = (theme: Theme): Components => ({
   },
   MuiNativeSelect: {
     defaultProps: {
-      IconComponent: IconChevronDown,
+      IconComponent: NativeSelectIcon,
+      disableUnderline: true,
     },
     styleOverrides: {
+      root: {
+        "&:before": {
+          display: "none",
+        },
+      },
+      select: {},
       icon: {
-        width: 20,
+        width: 40,
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        height: 20,
-        strokeWidth: 3,
+        height: 42,
+        top: 0,
+        padding: 8,
         pointerEvents: "none",
-        color: palette.background.paper,
+        color: palette.text.primary,
+        borderLeft: "1px solid",
+        borderLeftColor: palette.text.primary,
       },
     },
   },
