@@ -4,7 +4,10 @@
 
 ## Related Issues
 
-<!-- Link any related issues using #issue_number format -->
+<!--
+ Link any related issues using #issue_number format, use "fix #issue_number" to
+ automatically close the issue when the PR is merged
+-->
 
 ## Testing Performed
 
