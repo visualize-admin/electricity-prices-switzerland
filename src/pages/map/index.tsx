@@ -1,17 +1,27 @@
-import { t } from "@lingui/macro";
-import { Box } from "@mui/material";
+import { t, Trans } from "@lingui/macro";
+import {
+  Box,
+  Card,
+  CardContent,
+  createTheme,
+  IconButton,
+  Tab,
+  Tabs,
+  Theme,
+  ThemeProvider,
+  Typography,
+} from "@mui/material";
 import { ScaleThreshold } from "d3";
 import { GetServerSideProps } from "next";
 import dynamic from "next/dynamic";
-import { useCallback, useEffect, useMemo, useRef } from "react";
-
-const ContentWrapper = dynamic(
-  () =>
-    import("@interactivethings/swiss-federal-ci/dist/components").then(
-      (mod) => mod.ContentWrapper
-    ),
-  { ssr: false }
-);
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import * as Vaul from "vaul";
 
 import { CombinedSelectors } from "src/components/combined-selectors";
 import { Combobox } from "src/components/combobox";
@@ -45,6 +55,7 @@ import {
   useQueryStateSunshineMap,
 } from "src/domain/query-states";
 import { NetworkLevel } from "src/domain/sunshine";
+import { getLocalizedLabel } from "src/domain/translation";
 import {
   PriceComponent,
   SunshineDataIndicatorRow,
@@ -52,11 +63,21 @@ import {
   useObservationsQuery,
   useSunshineDataByIndicatorQuery,
 } from "src/graphql/queries";
+import { Icon } from "src/icons";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { getSunshineDataServiceInfo } from "src/lib/sunshine-data-service-context";
 import { useIsMobile } from "src/lib/use-mobile";
 import { defaultLocale } from "src/locales/config";
+import useVaulStyles from "src/pages/map/useVaulStyles";
 import { useFlag } from "src/utils/flags";
+
+const ContentWrapper = dynamic(
+  () =>
+    import("@interactivethings/swiss-federal-ci/dist/components").then(
+      (mod) => mod.ContentWrapper
+    ),
+  { ssr: false }
+);
 
 const ApplicationLayout = dynamic(
   () =>
@@ -345,8 +366,18 @@ const IndexPageContent = ({
       return selected?.[1] ?? null;
     }
   }, [activeId, listGroups]);
+  const { setActiveId } = useMap();
 
-  const detailsDrawer = (
+  const mobileDetailsContent = selectedItem ? (
+    <MapDetailsContent
+      colorScale={colorScale}
+      entity={entity}
+      selectedItem={selectedItem}
+      onBack={() => setActiveId(null)}
+    />
+  ) : null;
+
+  const desktopDetailsDrawer = (
     <DetailsDrawer
       selectedItem={selectedItem}
       colorScale={colorScale}
@@ -419,7 +450,7 @@ const IndexPageContent = ({
                 }}
                 data-testid="map-sidebar"
               >
-                {detailsDrawer}
+                {desktopDetailsDrawer}
                 {selectedItem ? null : (
                   <>
                     <CombinedSelectors />
@@ -479,29 +510,192 @@ const IndexPageContent = ({
           )}
 
           {!isMobile ? null : (
-            <Box
-              sx={{
-                height: `calc(100vh - ${HEADER_HEIGHT_UP})`,
-                maxHeight: `calc(100vh - ${HEADER_HEIGHT_UP})`,
-                overflowY: "auto",
-                display: "block",
-                bgcolor: "background.paper",
-                width: "100%",
-                position: "relative",
-              }}
-              data-testid="map-sidebar"
-            >
-              {detailsDrawer}
-              {selectedItem ? null : (
-                <>
-                  <CombinedSelectors />
-                  {list}
-                </>
-              )}
-            </Box>
+            <MobileControls
+              list={list}
+              details={mobileDetailsContent}
+              selectors={<CombinedSelectors />}
+              entity={entity}
+              selectedItem={selectedItem}
+            />
           )}
         </Box>
       </ApplicationLayout>
+    </>
+  );
+};
+
+const MobileDrawer = ({
+  list,
+  details,
+  selectors,
+  onClose,
+  open,
+}: {
+  list: React.ReactNode;
+  details: React.ReactNode;
+  selectors: React.ReactNode;
+  onClose?: () => void;
+  open: boolean;
+}) => {
+  const { classes } = useVaulStyles();
+  const [tab, setTab] = useState("selectors");
+  const { setActiveId } = useMap();
+  const vaultContentRef = useRef<HTMLDivElement>(null);
+  return (
+    <ThemeProvider
+      theme={(theme: Theme) =>
+        createTheme({
+          ...theme,
+          components: {
+            ...theme.components,
+            MuiPopper: {
+              defaultProps: {
+                container: () => vaultContentRef.current,
+              },
+            },
+          },
+        })
+      }
+    >
+      <Vaul.Root open={open} onClose={onClose}>
+        <Vaul.Portal>
+          <Vaul.Overlay className={classes.overlay} />
+          <Vaul.Content className={classes.content} ref={vaultContentRef}>
+            {/* Tabs that can select between list & selectors */}
+
+            <div className={classes.handle} />
+            <Box sx={{ overflowY: "auto", flex: 1, mx: 2 }}>
+              {details ? (
+                details
+              ) : (
+                <>
+                  {" "}
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      p: 2,
+                    }}
+                  >
+                    <Tabs
+                      value={tab}
+                      sx={{ mb: 6 }}
+                      onChange={(event, newValue) => setTab(newValue)}
+                    >
+                      <Tab label="Selectors" value="selectors" />
+                      <Tab label="List" value="list" />
+                    </Tabs>
+                  </Box>
+                  {tab === "list" ? list : selectors}
+                </>
+              )}
+            </Box>
+          </Vaul.Content>
+        </Vaul.Portal>
+      </Vaul.Root>
+    </ThemeProvider>
+  );
+};
+
+const MobileControls = ({
+  list,
+  details,
+  selectors,
+  selectedItem,
+  entity,
+}: {
+  list: React.ReactNode;
+  details: React.ReactNode;
+  selectors: React.ReactNode;
+  selectedItem?: ListItemType | null;
+  entity?: Entity;
+}) => {
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const [queryState] = useQueryStateMapCommon();
+  const [energyQueryState] = useQueryStateEnergyPricesMap();
+  const [sunshineQueryState] = useQueryStateSunshineMap();
+
+  const tab = queryState.tab;
+
+  // Extract current values with defaults
+  const period = energyQueryState.period || "2020";
+  const priceComponent = energyQueryState.priceComponent || "total";
+  const category = energyQueryState.category || "H4";
+  const product = energyQueryState.product || "standard";
+
+  // sunshine
+  const sunshinePeriod = sunshineQueryState.period || "2020";
+  const sunshinePeerGroup = sunshineQueryState.peerGroup || "total";
+  const sunshineIndicator = sunshineQueryState.indicator || "H4";
+  const sunshineNetworkLevel = sunshineQueryState.networkLevel || "standard";
+
+  // Get localized labels for display
+  const priceComponentLabel = getLocalizedLabel({ id: priceComponent });
+  const categoryLabel = getLocalizedLabel({ id: category });
+  const productLabel = getLocalizedLabel({ id: product });
+
+  // Format the current status string
+  const pricesCurrentStatus = `${period}, ${priceComponentLabel}, ${categoryLabel}, ${productLabel}`;
+  const sunshineCurrentStatus = `${sunshinePeriod}, ${sunshineIndicator}, ${sunshinePeerGroup}, ${sunshineNetworkLevel}`;
+  const selectedItemStatus = selectedItem
+    ? `${selectedItem.label}, ${selectedItem.value}`
+    : "No selection";
+  const status = selectedItem
+    ? selectedItemStatus
+    : tab == "electricity"
+    ? pricesCurrentStatus
+    : sunshineCurrentStatus;
+
+  return (
+    <>
+      <Card
+        elevation={2}
+        sx={{
+          position: "relative",
+          my: 2,
+          mx: 2,
+          transition: "background-color 0.3s ease",
+          cursor: "pointer",
+          "&:hover": {
+            backgroundColor: "secondary.100",
+          },
+        }}
+        onClick={() => setDrawerOpen(true)}
+      >
+        <CardContent sx={{ pb: "16px !important" }}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Box>
+              <Typography
+                variant="subtitle1"
+                sx={{ fontWeight: "bold", mb: 1 }}
+              >
+                <Trans id="selector.legend.select.parameters">
+                  Parameter auswählen
+                </Trans>
+              </Typography>
+              <Typography variant="body2">{status}</Typography>
+            </Box>
+            <IconButton edge="end" aria-label="edit parameters">
+              <Icon name="menu" />
+            </IconButton>
+          </Box>
+        </CardContent>
+      </Card>
+
+      <MobileDrawer
+        list={list}
+        selectors={selectors}
+        details={details}
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+      />
     </>
   );
 };
