@@ -1,5 +1,5 @@
 import { t } from "@lingui/macro";
-import { Box, BoxProps, Chip, Typography } from "@mui/material";
+import { Box, BoxProps, Chip, NativeSelect, Typography } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import { useEffect, useMemo, useState } from "react";
@@ -7,6 +7,7 @@ import { useEffect, useMemo, useState } from "react";
 import { InfoDialogButton } from "src/components/info-dialog";
 import { WikiPageSlug } from "src/domain/wiki";
 import { Icon } from "src/icons";
+import { useIsMobile } from "src/lib/use-mobile";
 
 export type ComboboxMultiProps = {
   id: string;
@@ -250,6 +251,23 @@ export const Combobox = <T extends string>({
     }
     return res;
   }, [items]);
+
+  const isMobile = useIsMobile();
+
+  if (isMobile) {
+    return (
+      <NativeSelect
+        value={selectedItem}
+        onChange={(e) => setSelectedItem(e.target.value as T)}
+      >
+        {filteredItems.map((item) => (
+          <option key={item} value={item}>
+            {getItemLabel(item as T)}
+          </option>
+        ))}
+      </NativeSelect>
+    );
+  }
 
   return (
     <Box
