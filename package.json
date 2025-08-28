@@ -1,6 +1,6 @@
 {
   "name": "elcom-electricity-price-website",
-  "version": "2.11.3",
+  "version": "2.11.5",
   "repository": "git@github.com:interactivethings/elcom-electricity-price-website.git",
   "author": "Federal Electricity Commission ElCom <info@elcom.admin.ch>",
   "license": "BSD-3-Clause",
@@ -19,7 +19,10 @@
     "lint": "eslint .",
     "oxlint": "oxlint .",
     "test": "vitest --project unit",
+    "test:argos": "argos upload ./e2e/snapshots",
     "test:integration": "vitest --project integration",
+    "test:playwright:app": "playwright test --grep-invert \"@storybook|@har\"",
+    "test:playwright:storybook": "playwright test --grep \"@storybook\"",
     "setup": "yarn && yarn locales:compile && yarn graphql:codegen",
     "locales:extract": "NODE_ENV=development lingui extract --clean && ./scripts/strip-locale-line-numbers.sh && tsx scripts/populate-aa.ts",
     "locales:compile": "lingui compile --verbose --typescript",
@@ -41,7 +44,6 @@
     "knip": "knip",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build -o public/storybook",
-    "test:argos": "argos upload ./e2e/snapshots",
     "data:peer-groups": "duckdb -f ./scripts/peer-groups.sql",
     "mocks": "dotenv -e .env.local -- tsx scripts/mocks.ts",
     "mocks:debug-views": "tsx scripts/show-sunshine-views.ts"

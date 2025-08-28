@@ -397,14 +397,13 @@ const IndexPageContent = ({
           </Box>
 
           {isMobile ? null : (
-            <ContentWrapper
+            <Box
               sx={{
-                // Need to have && here to override the default flexbox
-                "&&": {
-                  display: "grid",
-                },
+                position: "relative",
+                display: "grid",
                 gridTemplateColumns: "22.5rem 1fr",
                 gap: 0,
+                width: "100%",
               }}
             >
               <Box
@@ -442,10 +441,9 @@ const IndexPageContent = ({
               <Box
                 id={DOWNLOAD_ID}
                 sx={{
-                  top: HEADER_HEIGHT_UP,
                   width: "100%",
                   height: `calc(100vh - ${HEADER_HEIGHT_UP})`,
-                  position: "sticky",
+                  position: "relative",
                   bgcolor: "secondary.50",
                 }}
               >
@@ -459,11 +457,10 @@ const IndexPageContent = ({
                       right: 0,
                       mb: 0,
                       mr: 3,
-                      px: 4,
-                      py: 3,
+                      p: 1,
                       backgroundColor: "background.paper",
                       display: "flex",
-                      gap: "2rem",
+                      gap: 1,
                       borderRadius: "3px 3px 0 0",
                     }}
                   >
@@ -478,7 +475,7 @@ const IndexPageContent = ({
                   </Box>
                 )}
               </Box>
-            </ContentWrapper>
+            </Box>
           )}
 
           {!isMobile ? null : (

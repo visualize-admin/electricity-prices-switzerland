@@ -15,6 +15,16 @@ You can also check the
   - Changed Median Peer Group to correct color and shape
   - Introduced Median Total to line charts
 
+# 2.11.5 (2025-08-27)
+
+- Fix
+  - Map image can be downloaded
+
+# 2.11.4 (2025-08-27)
+
+- Feat
+  - Hide "Grid surcharge" from Price Distribution Histogram & Canton Comparison in details page
+
 # 2.11.3 (2025-08-26)
 
 - Feat

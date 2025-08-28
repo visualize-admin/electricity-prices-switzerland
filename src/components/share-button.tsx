@@ -1,5 +1,5 @@
 import { t } from "@lingui/macro";
-import { Box, Button, Input, Link, Typography } from "@mui/material";
+import { Box, Button, Input, Typography } from "@mui/material";
 import { useRef } from "react";
 
 import { TooltipBox } from "src/components/charts-generic/interaction/tooltip-box";
@@ -16,7 +16,7 @@ const ShareButton = () => {
     close: setFocusOff,
   } = useDisclosure();
   const tooltipBoxRef = useRef<HTMLDivElement>(null);
-  const linkRef = useRef<HTMLAnchorElement>(null);
+  const linkRef = useRef<HTMLButtonElement>(null);
   const mouse = useRef({ x: 0, y: 0 });
 
   const handleClick = () => {
@@ -46,21 +46,17 @@ const ShareButton = () => {
 
   return (
     <>
-      <Link
-        variant="body2"
-        color="text.primary"
+      <Button
+        variant="text"
         ref={linkRef}
         onClick={handleClick}
+        startIcon={<Icon name="share" size={20} />}
         sx={{
-          cursor: "pointer",
-          display: "flex",
-          alignItems: "center",
-          gap: 1,
+          color: "text.primary",
         }}
       >
-        <Icon name="share" size={20} />
         {t({ id: "map.share", message: "Share" })}
-      </Link>
+      </Button>
       {isOpen && (
         <TooltipBox
           ref={tooltipBoxRef}

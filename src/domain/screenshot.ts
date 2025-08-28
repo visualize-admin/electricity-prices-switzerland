@@ -20,7 +20,10 @@ export const SCREENSHOT_CANVAS_SIZE = {
  * Get the map as an image, using the Deck.gl canvas and html2canvas to get
  * the legend as an image.
  */
-export const getImageData = async (deck: Deck, legend: HTMLElement) => {
+export const getImageData = async (
+  deck: Deck,
+  legend: HTMLElement | undefined
+) => {
   if (!deck || "canvas" in deck === false) {
     return;
   }
@@ -71,20 +74,21 @@ export const getImageData = async (deck: Deck, legend: HTMLElement) => {
     canvas.height
   );
 
-  const legendCanvas = await html2canvas(legend);
+  if (legend) {
+    const legendCanvas = await html2canvas(legend);
+    // We need to draw the legend using the device pixel ratio otherwise we get
+    // difference between different browsers (Safari legend would be bigger somehow)
+    const { width, height } = legend.getBoundingClientRect();
 
-  // We need to draw the legend using the device pixel ratio otherwise we get
-  // difference between different browsers (Safari legend would be bigger somehow)
-  const { width, height } = legend.getBoundingClientRect();
-
-  const legendPadding = 24;
-  context.drawImage(
-    legendCanvas,
-    legendPadding,
-    legendPadding,
-    width * ratio,
-    height * ratio
-  );
+    const legendPadding = 24;
+    context.drawImage(
+      legendCanvas,
+      legendPadding,
+      legendPadding,
+      width * ratio,
+      height * ratio
+    );
+  }
 
   // Returns the canvas as a png
   const res = await toBlob(newCanvas, "image/png").then((blob) =>

@@ -562,7 +562,11 @@ export const getLocalizedLabel = ({ id }: { id: string }): string => {
         id: "selector.priceComponents.aidfee-content",
         message: "Lorem ipsum",
       });
-
+    case "price-components.meteringrate-content":
+      return t({
+        id: "selector.priceComponents.meteringrate-content",
+        message: "Lorem ipsum",
+      });
     case "selector-tab.electricity":
       return t({
         id: "selector.tab.electricity",

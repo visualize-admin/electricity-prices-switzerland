@@ -822,7 +822,9 @@ msgstr "{rest} weitere …"
 
 #: src/components/app-layout.tsx
 msgid "search.global"
-msgstr "Detaillierte Preisanalysen von Kantonen, Gemeinden und Netzbetreibern."
+msgstr ""
+"Detaillierte Preisanalysen von Kantonen, Gemeinden und Netzbetreibern.\n"
+"Achtung: Die Daten zu Sunshine enthalten erst ab der Veröffentlichung 2026 die endgültigen Werte."
 
 #: src/components/search.tsx
 msgid "search.global.hint.canton.muni.operator"
@@ -1039,27 +1041,31 @@ msgstr "Preiskomponenten"
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.aidfee-content"
-msgstr "selector.priceComponents.aidfee-content"
+msgstr "Netzzuschlag zur Förderung erneuerbarer Energien und Gewässersanierungen, der schweizweit einheitlich vom Bundesrat festgelegt wird."
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.charge-content"
-msgstr "selector.priceComponents.charge-content"
+msgstr "Kommunale und kantonale Abgaben und Gebühren. Darunter fallen z.B. Konzessionsabgaben oder lokalpolitische Energieabgaben."
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.collapsed-content"
-msgstr "Detaillierte Aufschlüsselung aller vorgeschriebenen Preiskomponenten, die separat ausgewiesen werden"
+msgstr "Gruppierte Aufschlüsselung aller vorgeschriebenen Preiskomponenten, die separat ausgewiesen werden"
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.energy-content"
-msgstr "Preis für die gelieferte elektrische Energie. Diese Energie erzeugt der Netzbetreiber entweder mit eigenen Kraftwerken, oder er kauft sie von Vorlieferanten ein. Der Energiepreis wird auch von der Art der Energiequelle beeinflusst.  So führen hohe Anteile an erneuerbaren Energien (z.B. Wind-, Solar-, Biomasse-Energie) in der Regel zu höheren Energiepreisen."
+msgstr "Preis für die gelieferte elektrische Energie."
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.expanded-content"
-msgstr "Detaillierte Aufschlüsselung aller vorgeschriebenen Preiskomponenten, die separat ausgewiesen werden"
+msgstr "Individuelle Aufschlüsselung aller vorgeschriebenen Preiskomponenten, die separat ausgewiesen werden"
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.gridusage-content"
 msgstr "Preis für den Stromtransport vom Kraftwerk bis ins Haus."
+
+#: src/domain/translation.tsx
+msgid "selector.priceComponents.meteringrate-content"
+msgstr "Separate Tarife für Messdienstleistungen (werden erst ab 2026 ausgewiesen)."
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.total-content"
