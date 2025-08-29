@@ -98,7 +98,7 @@ describe("Query States", () => {
         period: "2024",
         category: "H7",
         priceComponent: "energy",
-        product: "premium",
+        product: "standard",
       });
 
       const { result } = renderHook(() =>
@@ -110,7 +110,7 @@ describe("Query States", () => {
         period: "2024",
         category: "H7",
         priceComponent: "energy",
-        product: "premium",
+        product: "standard",
         cantonsOrder: "median-asc",
         view: "collapsed",
       });
