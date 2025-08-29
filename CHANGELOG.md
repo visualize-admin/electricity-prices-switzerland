@@ -11,6 +11,9 @@ You can also check the
 
 # Unreleased
 
+- Feat
+  - Validate and sanitize query parameters
+
 - Style
   - Changed Median Peer Group to correct color and shape
   - Introduced Median Total to line charts

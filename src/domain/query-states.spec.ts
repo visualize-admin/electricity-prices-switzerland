@@ -98,7 +98,7 @@ describe("Query States", () => {
         period: "2024",
         category: "H7",
         priceComponent: "energy",
-        product: "premium",
+        product: "standard",
       });
 
       const { result } = renderHook(() =>
@@ -110,7 +110,7 @@ describe("Query States", () => {
         period: "2024",
         category: "H7",
         priceComponent: "energy",
-        product: "premium",
+        product: "standard",
         cantonsOrder: "median-asc",
         view: "collapsed",
       });
@@ -288,6 +288,212 @@ describe("Query States", () => {
       expect(result.current[0]).toEqual({
         tab: "electricity",
         activeId: "fromQuery",
+      });
+    });
+  });
+
+  describe("Parameter Validation", () => {
+    describe("Map Schema Validation - Invalid Value Fallbacks", () => {
+      it("should fallback to default when invalid category is provided", () => {
+        const mockRouter = createMockRouter({
+          category: "INVALID",
+        });
+
+        const { result } = renderHook(() =>
+          queryStates.useQueryStateEnergyPricesMap({ router: mockRouter })
+        );
+
+        expect(result.current[0].category).toBe("H4");
+      });
+
+      it("should fallback to default when invalid product is provided", () => {
+        const mockRouter = createMockRouter({
+          product: "invalidProduct",
+        });
+
+        const { result } = renderHook(() =>
+          queryStates.useQueryStateEnergyPricesMap({ router: mockRouter })
+        );
+
+        expect(result.current[0].product).toBe("standard");
+      });
+
+      it("should fallback to default when invalid priceComponent is provided", () => {
+        const mockRouter = createMockRouter({
+          priceComponent: "invalidComponent",
+        });
+
+        const { result } = renderHook(() =>
+          queryStates.useQueryStateEnergyPricesMap({ router: mockRouter })
+        );
+
+        expect(result.current[0].priceComponent).toBe("total");
+      });
+
+      it("should fallback to default when invalid period is provided", () => {
+        const mockRouter = createMockRouter({
+          period: "9999",
+        });
+
+        const { result } = renderHook(() =>
+          queryStates.useQueryStateEnergyPricesMap({ router: mockRouter })
+        );
+
+        expect(result.current[0].period).toBe(buildEnv.CURRENT_PERIOD);
+      });
+    });
+
+    describe("Details Schema Array Validation", () => {
+      it("should filter invalid categories and keep valid ones", () => {
+        const mockRouter = createMockRouter({
+          category: "H4,INVALID,H7,ALSOINVALID,C6",
+        });
+
+        const { result } = renderHook(() =>
+          queryStates.useQueryStateEnergyPricesDetails({ router: mockRouter })
+        );
+
+        expect(result.current[0].category).toEqual(["H4", "H7", "C6"]);
+      });
+
+      it("should filter invalid products and keep valid ones", () => {
+        const mockRouter = createMockRouter({
+          product: "standard,premium,cheapest,luxury,INVALID",
+        });
+
+        const { result } = renderHook(() =>
+          queryStates.useQueryStateEnergyPricesDetails({ router: mockRouter })
+        );
+
+        expect(result.current[0].product).toEqual(["standard", "cheapest"]);
+      });
+
+      it("should filter invalid periods and keep valid ones", () => {
+        const mockRouter = createMockRouter({
+          period: "2024,9999,2023,1800",
+        });
+
+        const { result } = renderHook(() =>
+          queryStates.useQueryStateEnergyPricesDetails({ router: mockRouter })
+        );
+
+        expect(result.current[0].period).toEqual(
+          expect.arrayContaining(["2024", "2023"])
+        );
+        expect(result.current[0].period).not.toEqual(
+          expect.arrayContaining(["9999", "1800"])
+        );
+      });
+
+      it("should fallback to default when all values are invalid", () => {
+        const mockRouter = createMockRouter({
+          category: "INVALID1,INVALID2,INVALID3",
+        });
+
+        const { result } = renderHook(() =>
+          queryStates.useQueryStateEnergyPricesDetails({ router: mockRouter })
+        );
+
+        expect(result.current[0].category).toEqual(["H4"]);
+      });
+
+      it("should handle priceComponent validation with array filtering", () => {
+        const mockRouter = createMockRouter({
+          priceComponent: "total,invalid1,energy,invalid2,gridusage",
+        });
+
+        const { result } = renderHook(() =>
+          queryStates.useQueryStateEnergyPricesDetails({ router: mockRouter })
+        );
+
+        expect(result.current[0].priceComponent).toEqual([
+          "total",
+          "energy",
+          "gridusage",
+        ]);
+      });
+    });
+
+    describe("Edge Cases and Security Validation", () => {
+      it("should handle empty strings gracefully", () => {
+        const mockRouter = createMockRouter({
+          category: "",
+          product: "",
+        });
+
+        const { result } = renderHook(() =>
+          queryStates.useQueryStateEnergyPricesMap({ router: mockRouter })
+        );
+
+        expect(result.current[0].category).toBe("H4");
+        expect(result.current[0].product).toBe("standard");
+      });
+
+      it("should handle malformed comma-separated values in arrays", () => {
+        const mockRouter = createMockRouter({
+          category: ",,,H4,,,H7,,,",
+        });
+
+        const { result } = renderHook(() =>
+          queryStates.useQueryStateEnergyPricesDetails({ router: mockRouter })
+        );
+
+        expect(result.current[0].category).toEqual(["H4", "H7"]);
+      });
+
+      it("should handle potential XSS attempts in parameters", () => {
+        const mockRouter = createMockRouter({
+          category: "<script>alert('xss')</script>",
+          product: "javascript:alert(1)",
+        });
+
+        const { result } = renderHook(() =>
+          queryStates.useQueryStateEnergyPricesMap({ router: mockRouter })
+        );
+
+        expect(result.current[0].category).toBe("H4");
+        expect(result.current[0].product).toBe("standard");
+      });
+
+      it("should handle SQL injection attempts in parameters", () => {
+        const mockRouter = createMockRouter({
+          category: "'; DROP TABLE users; --",
+          priceComponent: "1' OR '1'='1",
+        });
+
+        const { result } = renderHook(() =>
+          queryStates.useQueryStateEnergyPricesMap({ router: mockRouter })
+        );
+
+        expect(result.current[0].category).toBe("H4");
+        expect(result.current[0].priceComponent).toBe("total");
+      });
+
+      it("should handle extremely long parameter values", () => {
+        const longString = "A".repeat(10000);
+        const mockRouter = createMockRouter({
+          category: longString,
+        });
+
+        const { result } = renderHook(() =>
+          queryStates.useQueryStateEnergyPricesMap({ router: mockRouter })
+        );
+
+        expect(result.current[0].category).toBe("H4");
+      });
+
+      it("should handle unicode and special characters", () => {
+        const mockRouter = createMockRouter({
+          category: "H4üñíçödé",
+          product: "标准产品",
+        });
+
+        const { result } = renderHook(() =>
+          queryStates.useQueryStateEnergyPricesMap({ router: mockRouter })
+        );
+
+        expect(result.current[0].category).toBe("H4");
+        expect(result.current[0].product).toBe("standard");
       });
     });
   });
