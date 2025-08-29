@@ -413,5 +413,88 @@ describe("Query States", () => {
         ]);
       });
     });
+
+    describe("Edge Cases and Security Validation", () => {
+      it("should handle empty strings gracefully", () => {
+        const mockRouter = createMockRouter({
+          category: "",
+          product: "",
+        });
+
+        const { result } = renderHook(() =>
+          queryStates.useQueryStateEnergyPricesMap({ router: mockRouter })
+        );
+
+        expect(result.current[0].category).toBe("H4");
+        expect(result.current[0].product).toBe("standard");
+      });
+
+      it("should handle malformed comma-separated values in arrays", () => {
+        const mockRouter = createMockRouter({
+          category: ",,,H4,,,H7,,,",
+        });
+
+        const { result } = renderHook(() =>
+          queryStates.useQueryStateEnergyPricesDetails({ router: mockRouter })
+        );
+
+        expect(result.current[0].category).toEqual(["H4", "H7"]);
+      });
+
+      it("should handle potential XSS attempts in parameters", () => {
+        const mockRouter = createMockRouter({
+          category: "<script>alert('xss')</script>",
+          product: "javascript:alert(1)",
+        });
+
+        const { result } = renderHook(() =>
+          queryStates.useQueryStateEnergyPricesMap({ router: mockRouter })
+        );
+
+        expect(result.current[0].category).toBe("H4");
+        expect(result.current[0].product).toBe("standard");
+      });
+
+      it("should handle SQL injection attempts in parameters", () => {
+        const mockRouter = createMockRouter({
+          category: "'; DROP TABLE users; --",
+          priceComponent: "1' OR '1'='1",
+        });
+
+        const { result } = renderHook(() =>
+          queryStates.useQueryStateEnergyPricesMap({ router: mockRouter })
+        );
+
+        expect(result.current[0].category).toBe("H4");
+        expect(result.current[0].priceComponent).toBe("total");
+      });
+
+      it("should handle extremely long parameter values", () => {
+        const longString = "A".repeat(10000);
+        const mockRouter = createMockRouter({
+          category: longString,
+        });
+
+        const { result } = renderHook(() =>
+          queryStates.useQueryStateEnergyPricesMap({ router: mockRouter })
+        );
+
+        expect(result.current[0].category).toBe("H4");
+      });
+
+      it("should handle unicode and special characters", () => {
+        const mockRouter = createMockRouter({
+          category: "H4üñíçödé",
+          product: "标准产品",
+        });
+
+        const { result } = renderHook(() =>
+          queryStates.useQueryStateEnergyPricesMap({ router: mockRouter })
+        );
+
+        expect(result.current[0].category).toBe("H4");
+        expect(result.current[0].product).toBe("standard");
+      });
+    });
   });
 });
