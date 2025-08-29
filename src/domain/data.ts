@@ -58,7 +58,7 @@ export const periods = range(
   -1
 ).map((d) => d.toString());
 
-const allPriceComponents = [
+export const allPriceComponents = [
   "total",
   "gridusage",
   "energy",
@@ -84,7 +84,7 @@ export const detailsPriceComponents = allPriceComponents.filter(
   (x) => x !== "annualmeteringcost"
 );
 
-export const products = ["cheapest", "standard"];
+export const products = ["cheapest", "standard"] as const;
 export const categories = [
   "H1",
   "H2",
