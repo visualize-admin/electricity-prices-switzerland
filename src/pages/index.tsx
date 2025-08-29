@@ -12,6 +12,7 @@ import dynamic from "next/dynamic";
 import Head from "next/head";
 import Image from "next/image";
 
+import { MapLink } from "src/components/links";
 import { SunshineTopics } from "src/components/sunshine/sunshine-topics";
 import { Icon } from "src/icons";
 import { defaultLocale } from "src/locales/config";
@@ -103,7 +104,7 @@ const IndexPage = () => {
                   }}
                   color="primary"
                   endIcon={<Icon name="arrowright" />}
-                  href="/map"
+                  component={MapLink}
                 >
                   <Typography variant="h3">
                     <Trans id="home.hero-section.primary-cta">
