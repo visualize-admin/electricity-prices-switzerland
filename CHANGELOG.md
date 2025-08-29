@@ -15,6 +15,9 @@ You can also check the
   - Changed Median Peer Group to correct color and shape
   - Introduced Median Total to line charts
 
+- Fix
+  - Language is persisted when navigating from overview to map page
+
 # 2.11.5 (2025-08-27)
 
 - Fix
