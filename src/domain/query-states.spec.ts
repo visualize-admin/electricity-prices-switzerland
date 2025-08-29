@@ -291,4 +291,127 @@ describe("Query States", () => {
       });
     });
   });
+
+  describe("Parameter Validation", () => {
+    describe("Map Schema Validation - Invalid Value Fallbacks", () => {
+      it("should fallback to default when invalid category is provided", () => {
+        const mockRouter = createMockRouter({
+          category: "INVALID",
+        });
+
+        const { result } = renderHook(() =>
+          queryStates.useQueryStateEnergyPricesMap({ router: mockRouter })
+        );
+
+        expect(result.current[0].category).toBe("H4");
+      });
+
+      it("should fallback to default when invalid product is provided", () => {
+        const mockRouter = createMockRouter({
+          product: "invalidProduct",
+        });
+
+        const { result } = renderHook(() =>
+          queryStates.useQueryStateEnergyPricesMap({ router: mockRouter })
+        );
+
+        expect(result.current[0].product).toBe("standard");
+      });
+
+      it("should fallback to default when invalid priceComponent is provided", () => {
+        const mockRouter = createMockRouter({
+          priceComponent: "invalidComponent",
+        });
+
+        const { result } = renderHook(() =>
+          queryStates.useQueryStateEnergyPricesMap({ router: mockRouter })
+        );
+
+        expect(result.current[0].priceComponent).toBe("total");
+      });
+
+      it("should fallback to default when invalid period is provided", () => {
+        const mockRouter = createMockRouter({
+          period: "9999",
+        });
+
+        const { result } = renderHook(() =>
+          queryStates.useQueryStateEnergyPricesMap({ router: mockRouter })
+        );
+
+        expect(result.current[0].period).toBe(buildEnv.CURRENT_PERIOD);
+      });
+    });
+
+    describe("Details Schema Array Validation", () => {
+      it("should filter invalid categories and keep valid ones", () => {
+        const mockRouter = createMockRouter({
+          category: "H4,INVALID,H7,ALSOINVALID,C6",
+        });
+
+        const { result } = renderHook(() =>
+          queryStates.useQueryStateEnergyPricesDetails({ router: mockRouter })
+        );
+
+        expect(result.current[0].category).toEqual(["H4", "H7", "C6"]);
+      });
+
+      it("should filter invalid products and keep valid ones", () => {
+        const mockRouter = createMockRouter({
+          product: "standard,premium,cheapest,luxury,INVALID",
+        });
+
+        const { result } = renderHook(() =>
+          queryStates.useQueryStateEnergyPricesDetails({ router: mockRouter })
+        );
+
+        expect(result.current[0].product).toEqual(["standard", "cheapest"]);
+      });
+
+      it("should filter invalid periods and keep valid ones", () => {
+        const mockRouter = createMockRouter({
+          period: "2024,9999,2023,1800",
+        });
+
+        const { result } = renderHook(() =>
+          queryStates.useQueryStateEnergyPricesDetails({ router: mockRouter })
+        );
+
+        expect(result.current[0].period).toEqual(
+          expect.arrayContaining(["2024", "2023"])
+        );
+        expect(result.current[0].period).not.toEqual(
+          expect.arrayContaining(["9999", "1800"])
+        );
+      });
+
+      it("should fallback to default when all values are invalid", () => {
+        const mockRouter = createMockRouter({
+          category: "INVALID1,INVALID2,INVALID3",
+        });
+
+        const { result } = renderHook(() =>
+          queryStates.useQueryStateEnergyPricesDetails({ router: mockRouter })
+        );
+
+        expect(result.current[0].category).toEqual(["H4"]);
+      });
+
+      it("should handle priceComponent validation with array filtering", () => {
+        const mockRouter = createMockRouter({
+          priceComponent: "total,invalid1,energy,invalid2,gridusage",
+        });
+
+        const { result } = renderHook(() =>
+          queryStates.useQueryStateEnergyPricesDetails({ router: mockRouter })
+        );
+
+        expect(result.current[0].priceComponent).toEqual([
+          "total",
+          "energy",
+          "gridusage",
+        ]);
+      });
+    });
+  });
 });
