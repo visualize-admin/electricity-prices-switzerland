@@ -84,7 +84,7 @@ export const detailsPriceComponents = allPriceComponents.filter(
   (x) => x !== "annualmeteringcost"
 );
 
-export const products = ["cheapest", "standard"] as const;
+export const products = ["cheapest", "standard"];
 export const categories = [
   "H1",
   "H2",

@@ -69,7 +69,7 @@ const energyPricesMapSchema = z.object({
   canton: z.string().optional(),
   category: z.enum(categories).default("H4"),
   priceComponent: z.enum(allPriceComponents).default("total"),
-  product: z.enum(products).default("standard"),
+  product: z.enum(products as [string, ...string[]]).default("standard"),
   download: z.string().optional(),
   cantonsOrder: z.string().default("median-asc"),
   view: z.string().default("collapsed"),
