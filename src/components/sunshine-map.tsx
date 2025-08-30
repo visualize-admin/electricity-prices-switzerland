@@ -80,6 +80,26 @@ type SunshineMapProps = {
   observationsQueryFetching: boolean;
 };
 
+const getMapTooltipProps = ({
+  hovered,
+  valueFormatter,
+  colorScale,
+}: {
+  hovered: Extract<HoverState, { type: "operator" }>;
+  valueFormatter: ValueFormatter;
+  colorScale: ScaleThreshold<number, string, never>;
+}) => {
+  return {
+    title: "",
+    caption: <Trans id="operator">Operator</Trans>,
+    values: hovered.values.map((x) => ({
+      label: x.operatorName,
+      formattedValue: valueFormatter(x.value),
+      color: colorScale(x.value),
+    })),
+  };
+};
+
 const SunshineMap = ({
   period,
   indicator,
@@ -170,21 +190,11 @@ const SunshineMap = ({
       return { hoveredState: hovered, content: null };
     }
 
+    const props = getMapTooltipProps({ hovered, colorScale, valueFormatter });
+
     return {
       hoveredState: hovered,
-      content: (
-        <MapTooltipContent
-          title={""}
-          caption={<Trans id="operator">Operator</Trans>}
-          values={
-            hovered.values.map((x) => ({
-              label: x.operatorName,
-              formattedValue: valueFormatter(x.value),
-              color: colorScale(x.value),
-            })) ?? []
-          }
-        />
-      ),
+      content: <MapTooltipContent {...props} />,
     };
   }, [hovered, colorScale, valueFormatter]);
 

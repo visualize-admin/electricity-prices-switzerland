@@ -28,6 +28,7 @@ import { MapTooltipContent } from "src/components/map-tooltip";
 import { useGeoData } from "src/data/geo";
 import { getObservationsWeightedMean } from "src/domain/data";
 import { useFormatCurrency } from "src/domain/helpers";
+import { FlagValue } from "src/flags";
 import {
   AllMunicipalitiesQuery,
   ObservationsQuery,
@@ -74,6 +75,69 @@ const __debugCheckObservationsWithoutShapes = (
       console.info("Features without observations", featuresWithoutObs);
     }
   }
+};
+
+const getMapTooltipProps = ({
+  hovered,
+  colorScale,
+  observationsByMunicipalityId,
+  municipalityNames,
+  formatNumber,
+  coverageRatioFlag,
+}: {
+  hovered: HoverState;
+  colorScale: ScaleThreshold<number, string>;
+  observationsByMunicipalityId: Map<
+    string,
+    OperatorObservationFieldsFragment[]
+  >;
+  municipalityNames: Map<string, { id: string; name: string }>;
+  formatNumber: (value: number) => string;
+  coverageRatioFlag: FlagValue;
+}): ComponentProps<typeof MapTooltipContent> | null => {
+  if (hovered.type === "municipality") {
+    const hoveredObservations = observationsByMunicipalityId.get(hovered.id);
+    const hoveredMunicipalityName = municipalityNames.get(hovered.id)?.name;
+    const hoveredCanton = maxBy(
+      hoveredObservations,
+      (x) => x.period
+    )?.cantonLabel;
+
+    const values = hoveredObservations?.length
+      ? hoveredObservations.map((d) => ({
+          label: d.operatorLabel,
+          formattedValue: `${
+            d.value !== undefined && d.value !== null
+              ? formatNumber(d.value)
+              : ""
+          }${coverageRatioFlag ? ` (ratio: ${d.coverageRatio})` : ""}`,
+          color: isDefined(d.value) ? colorScale(d.value) : "",
+        }))
+      : [];
+
+    return {
+      title: `${hoveredMunicipalityName ?? "-"} ${
+        hoveredCanton ? `- ${hoveredCanton}` : ""
+      }`,
+      caption: <Trans id="municipality">Municipality</Trans>,
+      values,
+    };
+  } else if (hovered.type === "canton") {
+    const values = [
+      {
+        label: "",
+        formattedValue: formatNumber(hovered.value),
+        color: colorScale(hovered.value),
+      },
+    ];
+    return {
+      title: hovered.label,
+      caption: <Trans id="canton">Canton</Trans>,
+      values,
+    };
+  }
+
+  return null;
 };
 
 export const EnergyPricesMap = ({
@@ -140,8 +204,6 @@ export const EnergyPricesMap = ({
 
   const { value: highlightContext } = useContext(HighlightContext);
 
-  const coverageRatioFlag = useFlag("coverageRatio");
-
   const indexes = useMemo(() => {
     if (geoData.state !== "loaded") {
       return;
@@ -156,60 +218,28 @@ export const EnergyPricesMap = ({
     };
   }, [geoData]);
 
+  const coverageRatioFlag = useFlag("coverageRatio");
   const tooltipContent = useMemo(() => {
-    if (!hovered || !colorScale)
-      return { hoveredState: undefined, content: null };
-
-    if (hovered.type === "municipality") {
-      const hoveredObservations = observationsByMunicipalityId.get(hovered.id);
-      const hoveredMunicipalityName = municipalityNames.get(hovered.id)?.name;
-      const hoveredCanton = maxBy(
-        hoveredObservations,
-        (x) => x.period
-      )?.cantonLabel;
-
-      const content = (
-        <MapTooltipContent
-          title={`${hoveredMunicipalityName ?? "-"} ${
-            hoveredCanton ? `- ${hoveredCanton}` : ""
-          }`}
-          caption={<Trans id="municipality">Municipality</Trans>}
-          values={
-            hoveredObservations?.length
-              ? hoveredObservations.map((d) => ({
-                  label: d.operatorLabel,
-                  formattedValue: `${
-                    d.value !== undefined && d.value !== null
-                      ? formatNumber(d.value)
-                      : ""
-                  }${coverageRatioFlag ? ` (ratio: ${d.coverageRatio})` : ""}`,
-                  color: isDefined(d.value) ? colorScale(d.value) : "",
-                }))
-              : []
-          }
-        />
-      );
-
-      return { hoveredState: hovered, content };
-    } else if (hovered.type === "canton") {
-      const content = (
-        <MapTooltipContent
-          title={hovered.label}
-          caption={<Trans id="canton">Canton</Trans>}
-          values={[
-            {
-              label: "",
-              formattedValue: formatNumber(hovered.value),
-              color: colorScale(hovered.value),
-            },
-          ]}
-        />
-      );
-
-      return { hoveredState: hovered, content };
+    if (!hovered || !colorScale) {
+      return null;
     }
+    const props = getMapTooltipProps({
+      hovered,
+      colorScale,
+      observationsByMunicipalityId,
+      municipalityNames,
+      formatNumber,
+      coverageRatioFlag,
+    });
+    if (!props) {
+      return null;
+    }
+    const content = <MapTooltipContent {...props} />;
 
-    return { hoveredState: undefined, content: null };
+    return {
+      hoveredState: hovered,
+      content: content,
+    };
   }, [
     hovered,
     colorScale,

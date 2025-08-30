@@ -24,6 +24,7 @@ import React, {
 } from "react";
 import * as Vaul from "vaul";
 
+import { TooltipMultiple } from "src/components/charts-generic/interaction/tooltip-content";
 import { CombinedSelectors } from "src/components/combined-selectors";
 import { Combobox } from "src/components/combobox";
 import { DownloadImage } from "src/components/detail-page/download-image";
@@ -518,6 +519,7 @@ const IndexPageContent = ({
               selectors={<CombinedSelectors />}
               entity={entity}
               selectedItem={selectedItem}
+              colorScale={colorScale}
             />
           )}
         </Box>
@@ -574,7 +576,9 @@ const MobileDrawer = ({
             </IconButton>
 
             <div className={classes.handle} />
-            <Box sx={{ overflowY: "auto", flex: 1, mx: 2 }}>
+            <Box
+              sx={{ overflowY: "auto", overflowX: "hidden", flex: 1, mx: 2 }}
+            >
               {details ? (
                 details
               ) : (
@@ -624,6 +628,7 @@ const MobileControls = ({
   selectors,
   selectedItem,
   listButtonGroup,
+  colorScale,
 }: {
   list: React.ReactNode;
   listButtonGroup: React.ReactNode;
@@ -631,6 +636,7 @@ const MobileControls = ({
   selectors: React.ReactNode;
   selectedItem?: ListItemType | null;
   entity?: Entity;
+  colorScale: (value: number) => string;
 }) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -700,17 +706,57 @@ const MobileControls = ({
                 alignItems: "center",
               }}
             >
-              <Box>
-                <Typography
-                  variant="subtitle1"
-                  sx={{ fontWeight: "bold", mb: 1 }}
-                >
-                  <Trans id="selector.legend.select.parameters">
-                    Parameter auswählen
-                  </Trans>
-                </Typography>
-                <Typography variant="body2">{status}</Typography>
-              </Box>
+              {selectedItem && selectedItem.label ? (
+                <TooltipMultiple
+                  xValue={selectedItem.label}
+                  segmentValues={
+                    /*
+                  type SegmentValue = {
+                    label?: string;
+                    value: string;
+                    color?: string;
+                    yPos?: number;
+                    symbol?: LegendSymbol;
+                  }
+
+                  type SelectedItem = {
+                    id: string;
+                    label?: string | null;
+                    value: number;
+                    canton?: string | null;
+                    cantonLabel?: string | null;
+                    operators?:
+                      | {
+                          id: string;
+                          label?: string | null;
+                          value: number;
+                        }[]
+                      | null;
+                    */
+
+                    // map over selectedItem.operators
+                    selectedItem.operators
+                      ? selectedItem.operators.map((operator) => ({
+                          label: operator.label,
+                          value: operator.value.toString(),
+                          color: colorScale(operator.value),
+                        }))
+                      : []
+                  }
+                />
+              ) : (
+                <Box>
+                  <Typography
+                    variant="subtitle1"
+                    sx={{ fontWeight: "bold", mb: 1 }}
+                  >
+                    <Trans id="selector.legend.select.parameters">
+                      Parameter auswählen
+                    </Trans>
+                  </Typography>
+                  <Typography variant="body2">{status}</Typography>
+                </Box>
+              )}
               <IconButton edge="end" aria-label="edit parameters">
                 <Icon name="menu" />
               </IconButton>

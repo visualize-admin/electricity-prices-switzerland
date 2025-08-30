@@ -156,7 +156,7 @@ export const GenericMap = ({
   tooltipContent?: {
     hoveredState: HoverState | undefined;
     content: React.ReactNode | null;
-  };
+  } | null;
   legend?: React.ReactNode;
   downloadId?: string;
   onViewStateChange?: (viewState: MapViewState) => void;
