@@ -104,6 +104,7 @@ const zoomIn = (state: InitialViewState) => {
   return {
     ...state,
     zoom: Math.min((state.zoom || 0) + 1, state.maxZoom || 20),
+    transitionDuration: 300,
   };
 };
 
@@ -111,6 +112,7 @@ const zoomOut = (state: InitialViewState) => {
   return {
     ...state,
     zoom: Math.max((state.zoom || 0) - 1, state.minZoom || 0),
+    transitionDuration: 300,
   };
 };
 
