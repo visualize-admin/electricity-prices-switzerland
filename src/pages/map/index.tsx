@@ -82,7 +82,7 @@ export const getServerSideProps: GetServerSideProps<
   return { props: { locale: locale ?? defaultLocale, dataService } };
 };
 
-const IndexPageContent = ({
+const MapPageContent = ({
   locale,
   activeId,
 }: Omit<Props, "dataService"> & { activeId: string | null }) => {
@@ -530,7 +530,7 @@ const DetailsDrawer = ({
   );
 };
 
-export const IndexPage = ({ locale, dataService }: Props) => {
+export const MapPage = ({ locale, dataService }: Props) => {
   const [{ activeId }, setQueryState] = useQueryStateMapCommon();
   const setActiveId = useCallback(
     (id: string | null) => {
@@ -544,9 +544,9 @@ export const IndexPage = ({ locale, dataService }: Props) => {
       {!dataService.isDefault && (
         <SunshineDataServiceDebug serviceName={dataService.serviceName} />
       )}
-      <IndexPageContent locale={locale} activeId={activeId} />
+      <MapPageContent locale={locale} activeId={activeId} />
     </MapProvider>
   );
 };
 
-export default IndexPage;
+export default MapPage;
