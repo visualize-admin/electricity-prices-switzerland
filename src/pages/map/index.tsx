@@ -22,9 +22,7 @@ import {
   List,
   ListItemType,
 } from "src/components/list";
-import MobileControls from "src/components/map/MobileControls";
 import { MapProvider, useMap } from "src/components/map-context";
-import { MapDetailsContent } from "src/components/map-details-content";
 import ShareButton from "src/components/share-button";
 import { SunshineDataServiceDebug } from "src/components/sunshine-data-service-debug";
 import SunshineMap from "src/components/sunshine-map";
@@ -50,6 +48,19 @@ import { getSunshineDataServiceInfo } from "src/lib/sunshine-data-service-contex
 import { useIsMobile } from "src/lib/use-mobile";
 import { defaultLocale } from "src/locales/config";
 import { useFlag } from "src/utils/flags";
+
+const MobileControls = dynamic(
+  () => import("src/components/map/mobile-controls").then((mod) => mod),
+  { ssr: false }
+);
+
+const MapDetailsContent = dynamic(
+  () =>
+    import("src/components/map-details-content").then(
+      (mod) => mod.MapDetailsContent
+    ),
+  { ssr: false }
+);
 
 const ContentWrapper = dynamic(
   () =>
