@@ -45,7 +45,6 @@ export const SunshineTopics = () => {
           sx={{
             maxWidth: "880px",
             alignSelf: "stretch",
-            fontFeatureSettings: "'liga' off, 'clig' off",
           }}
         >
           <Trans id="home.sunshine-regulation.description">

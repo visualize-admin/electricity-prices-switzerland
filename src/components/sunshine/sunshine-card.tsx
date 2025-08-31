@@ -54,15 +54,7 @@ export const SunshineCardContent = (props: SunshineCardProps) => {
 export const SunshineCardTitle = (props: SunshineCardProps) => {
   const { children } = props;
   return (
-    <Typography
-      fontWeight={700}
-      component={"h4"}
-      sx={{
-        fontFeatureSettings: "'liga' off, 'clig' off",
-      }}
-      lineHeight={1.4}
-      variant="h3"
-    >
+    <Typography fontWeight={700} component={"h4"} lineHeight={1.4} variant="h3">
       {children}
     </Typography>
   );
@@ -70,16 +62,7 @@ export const SunshineCardTitle = (props: SunshineCardProps) => {
 
 export const SunshineCardDescription = (props: SunshineCardProps) => {
   const { children } = props;
-  return (
-    <Typography
-      variant="body2"
-      sx={{
-        fontFeatureSettings: "'liga' off, 'clig' off",
-      }}
-    >
-      {children}
-    </Typography>
-  );
+  return <Typography variant="body2">{children}</Typography>;
 };
 
 export const SunshineImageWrapper = (props: SunshineCardProps) => {

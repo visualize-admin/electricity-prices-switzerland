@@ -169,7 +169,6 @@ const KeyValueTableRow = <T extends Record<string, string | undefined>>(props: {
         component={component}
         color={component === "span" ? "text.500" : "primary"}
         sx={{
-          fontFeatureSettings: "'liga' off, 'clig' off",
           textDecoration: "none",
           whiteSpace: "nowrap",
           overflow: "hidden",
@@ -186,7 +185,6 @@ const KeyValueTableRow = <T extends Record<string, string | undefined>>(props: {
       ) : (
         <Typography
           sx={{
-            fontFeatureSettings: "'liga' off, 'clig' off",
             textTransform: "capitalize",
             whiteSpace: "nowrap",
             overflow: "hidden",
