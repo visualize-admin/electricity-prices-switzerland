@@ -2,8 +2,6 @@ import { DrawerProps } from "@mui/material";
 import MuiDrawer from "@mui/material/Drawer";
 import { ReactNode } from "react";
 
-const DRAWER_WIDTH = 340;
-
 type CustomDrawerProps = {
   children: ReactNode;
   open?: DrawerProps["open"];
@@ -38,7 +36,7 @@ export const InlineDrawer = ({
           position: "absolute",
           top: 0,
           left: 0,
-          width: DRAWER_WIDTH,
+          width: "100%",
           height: "100%",
           boxShadow: "none",
           backgroundColor: "background.paper",
