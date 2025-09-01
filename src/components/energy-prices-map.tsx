@@ -28,18 +28,16 @@ import { MapTooltipContent } from "src/components/map-tooltip";
 import { useGeoData } from "src/data/geo";
 import { getObservationsWeightedMean } from "src/domain/data";
 import { useFormatCurrency } from "src/domain/helpers";
-import { FlagValue } from "src/flags";
 import {
   AllMunicipalitiesQuery,
   ObservationsQuery,
   OperatorObservationFieldsFragment,
 } from "src/graphql/queries";
 import { PriceComponent } from "src/graphql/resolver-types";
-import { maxBy } from "src/lib/array";
 import { truthy } from "src/lib/truthy";
 import { combineErrors } from "src/utils/combine-errors";
 import { useFlag } from "src/utils/flags";
-import { isDefined } from "src/utils/is-defined";
+import { getEnergyPricesTooltipProps } from "src/utils/map-tooltip-utils";
 
 import { GenericMap, GenericMapControls } from "./generic-map";
 import { useMap } from "./map-context";
@@ -75,69 +73,6 @@ const __debugCheckObservationsWithoutShapes = (
       console.info("Features without observations", featuresWithoutObs);
     }
   }
-};
-
-const getMapTooltipProps = ({
-  hovered,
-  colorScale,
-  observationsByMunicipalityId,
-  municipalityNames,
-  formatNumber,
-  coverageRatioFlag,
-}: {
-  hovered: HoverState;
-  colorScale: ScaleThreshold<number, string>;
-  observationsByMunicipalityId: Map<
-    string,
-    OperatorObservationFieldsFragment[]
-  >;
-  municipalityNames: Map<string, { id: string; name: string }>;
-  formatNumber: (value: number) => string;
-  coverageRatioFlag: FlagValue;
-}): ComponentProps<typeof MapTooltipContent> | null => {
-  if (hovered.type === "municipality") {
-    const hoveredObservations = observationsByMunicipalityId.get(hovered.id);
-    const hoveredMunicipalityName = municipalityNames.get(hovered.id)?.name;
-    const hoveredCanton = maxBy(
-      hoveredObservations,
-      (x) => x.period
-    )?.cantonLabel;
-
-    const values = hoveredObservations?.length
-      ? hoveredObservations.map((d) => ({
-          label: d.operatorLabel,
-          formattedValue: `${
-            d.value !== undefined && d.value !== null
-              ? formatNumber(d.value)
-              : ""
-          }${coverageRatioFlag ? ` (ratio: ${d.coverageRatio})` : ""}`,
-          color: isDefined(d.value) ? colorScale(d.value) : "",
-        }))
-      : [];
-
-    return {
-      title: `${hoveredMunicipalityName ?? "-"} ${
-        hoveredCanton ? `- ${hoveredCanton}` : ""
-      }`,
-      caption: <Trans id="municipality">Municipality</Trans>,
-      values,
-    };
-  } else if (hovered.type === "canton") {
-    const values = [
-      {
-        label: "",
-        formattedValue: formatNumber(hovered.value),
-        color: colorScale(hovered.value),
-      },
-    ];
-    return {
-      title: hovered.label,
-      caption: <Trans id="canton">Canton</Trans>,
-      values,
-    };
-  }
-
-  return null;
 };
 
 export const EnergyPricesMap = ({
@@ -223,7 +158,7 @@ export const EnergyPricesMap = ({
     if (!hovered || !colorScale) {
       return null;
     }
-    const props = getMapTooltipProps({
+    const props = getEnergyPricesTooltipProps({
       hovered,
       colorScale,
       observationsByMunicipalityId,

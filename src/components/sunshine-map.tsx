@@ -1,6 +1,6 @@
 import { PickingInfo } from "@deck.gl/core/typed";
 import { GeoJsonLayerProps } from "@deck.gl/layers/typed";
-import { t, Trans } from "@lingui/macro";
+import { t } from "@lingui/macro";
 import { extent, ScaleThreshold } from "d3";
 import { Feature, GeoJsonProperties, Geometry } from "geojson";
 import { keyBy } from "lodash";
@@ -36,6 +36,7 @@ import {
 import { Maybe, SunshineDataIndicatorRow } from "src/graphql/queries";
 import { truthy } from "src/lib/truthy";
 import { getOperatorsMunicipalities } from "src/rdf/queries";
+import { getSunshineTooltipProps } from "src/utils/map-tooltip-utils";
 
 const indicatorLegendTitleMapping: Record<SunshineIndicator, string> = {
   networkCosts: t({
@@ -78,26 +79,6 @@ type SunshineMapProps = {
   controls?: GenericMapControls;
   medianValue: number | undefined;
   observationsQueryFetching: boolean;
-};
-
-const getMapTooltipProps = ({
-  hovered,
-  valueFormatter,
-  colorScale,
-}: {
-  hovered: Extract<HoverState, { type: "operator" }>;
-  valueFormatter: ValueFormatter;
-  colorScale: ScaleThreshold<number, string, never>;
-}) => {
-  return {
-    title: "",
-    caption: <Trans id="operator">Operator</Trans>,
-    values: hovered.values.map((x) => ({
-      label: x.operatorName,
-      formattedValue: valueFormatter(x.value),
-      color: colorScale(x.value),
-    })),
-  };
 };
 
 const SunshineMap = ({
@@ -190,7 +171,7 @@ const SunshineMap = ({
       return { hoveredState: hovered, content: null };
     }
 
-    const props = getMapTooltipProps({ hovered, colorScale, valueFormatter });
+    const props = getSunshineTooltipProps({ hovered, colorScale, valueFormatter });
 
     return {
       hoveredState: hovered,
