@@ -1049,7 +1049,7 @@ msgstr "Kommunale und kantonale Abgaben und Gebühren. Darunter fallen z.B. Konz
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.collapsed-content"
-msgstr "Gruppierte Aufschlüsselung aller vorgeschriebenen Preiskomponenten, die separat ausgewiesen werden"
+msgstr "Zeigt die Preisbestandteile zusammengefasst pro Netzbetreiber an, ohne die Gemeinden einzeln aufzulisten."
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.energy-content"
@@ -1057,7 +1057,7 @@ msgstr "Preis für die gelieferte elektrische Energie."
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.expanded-content"
-msgstr "Individuelle Aufschlüsselung aller vorgeschriebenen Preiskomponenten, die separat ausgewiesen werden"
+msgstr "Zeigt die Preisbestandteile für jede Gemeinde einzeln an."
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.gridusage-content"
@@ -1081,7 +1081,7 @@ msgstr "Jährlicher Messtarif"
 
 #: src/domain/translation.tsx
 msgid "selector.pricecomponent.charge"
-msgstr "Abgaben an das Gemeinwesen"
+msgstr "Abgaben an Gemeinwesen"
 
 #: src/domain/translation.tsx
 msgid "selector.pricecomponent.energy"

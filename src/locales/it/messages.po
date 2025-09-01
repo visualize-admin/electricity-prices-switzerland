@@ -1077,7 +1077,7 @@ msgstr "Supplemento rete ai sensi dell'art. 35 LEne"
 
 #: src/domain/translation.tsx
 msgid "selector.pricecomponent.annualmeteringcost"
-msgstr "Costo annuale del contatore"
+msgstr "Costi annuali di misurazione"
 
 #: src/domain/translation.tsx
 msgid "selector.pricecomponent.charge"

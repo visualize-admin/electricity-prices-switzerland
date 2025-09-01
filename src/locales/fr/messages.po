@@ -531,7 +531,7 @@ msgstr "Vue selon"
 
 #: src/pages/map/index.tsx
 msgid "list.viewby.municipality"
-msgstr "Municipalité"
+msgstr "Commune"
 
 #: src/pages/map/index.tsx
 msgid "list.viewby.operator"
@@ -766,7 +766,7 @@ msgstr "Min"
 
 #: src/domain/translation.tsx
 msgid "priceComponents.view.collapsed.municipalities"
-msgstr "Grouper les municipalités"
+msgstr "Grouper les communes"
 
 #: src/domain/translation.tsx
 msgid "priceComponents.view.collapsed.operators"
@@ -774,7 +774,7 @@ msgstr "Grouper les gestionnaires"
 
 #: src/domain/translation.tsx
 msgid "priceComponents.view.expanded.municipalities"
-msgstr "Montrer toutes les municipalités"
+msgstr "Montrer toutes les communes"
 
 #: src/domain/translation.tsx
 msgid "priceComponents.view.expanded.operators"
@@ -1077,11 +1077,11 @@ msgstr "Supplément de réseau selon l'art. 35 LEne"
 
 #: src/domain/translation.tsx
 msgid "selector.pricecomponent.annualmeteringcost"
-msgstr "Coût annuel de la mesure"
+msgstr "Coût annuel de mesure"
 
 #: src/domain/translation.tsx
 msgid "selector.pricecomponent.charge"
-msgstr "Taxes à la collectivité publique"
+msgstr "Taxes aux collectivités publiques"
 
 #: src/domain/translation.tsx
 msgid "selector.pricecomponent.energy"
