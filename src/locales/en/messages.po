@@ -387,7 +387,7 @@ msgstr "Overview"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-regulation.description"
-msgstr "In Switzerland, electricity tariffs are based on actual costs (Cost Plus regulation). ElCom introduced Sunshine regulation to promote efficiency and create transparency. The Sunshine indicators enable comparisons between grid operators regarding cost efficiency, supply quality, and compliance. Since topographical and structural differences influence values, comparisons are made both nationwide and within comparison groups based on population density and energy consumption."
+msgstr "In Switzerland, electricity tariffs are based on actual costs (cost-plus regulation). ElCom introduced the Sunshine Regulation to promote efficiency and create transparency. The Sunshine Regulation is a standardized process for publishing indicators of the quality and costs of Swiss electricity network operators. The various indicators enable comparisons between grid operators in terms of cost efficiency, supply quality, and compliance. Since topographical and structural differences influence the values, comparisons are made both across Switzerland and within comparison groups based on population density and energy consumption."
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-regulation.title"
@@ -822,9 +822,7 @@ msgstr "{rest} weitere …"
 
 #: src/components/app-layout.tsx
 msgid "search.global"
-msgstr ""
-"Detailed price analyses of cantons, municipalities and grid operators.\n"
-"Please note: The data for Sunshine will only contain the final values from the 2026 publication onwards."
+msgstr "Detailed price analyses of cantons, municipalities and grid operators."
 
 #: src/components/search.tsx
 msgid "search.global.hint.canton.muni.operator"
@@ -1428,7 +1426,7 @@ msgstr "Operational Standards"
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.overview-sunshine.description"
-msgstr "In Switzerland, electricity tariffs are based on actual costs (Cost Plus regulation). ElCom introduced Sunshine regulation to promote efficiency and create transparency. The Sunshine indicators enable comparisons between grid operators regarding cost efficiency, supply quality, and compliance. Since topographical and structural differences influence values, comparisons are made both nationwide and within comparison groups based on population density and energy consumption."
+msgstr "In Switzerland, electricity tariffs are based on actual costs (cost-plus regulation). ElCom introduced the Sunshine Regulation to promote efficiency and create transparency. The Sunshine Regulation is a standardized process for publishing indicators of the quality and costs of Swiss electricity network operators. The various indicators enable comparisons between grid operators in terms of cost efficiency, supply quality, and compliance. Since topographical and structural differences influence the values, comparisons are made both across Switzerland and within comparison groups based on population density and energy consumption."
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
