@@ -331,7 +331,7 @@ msgstr "Tarifvergleich"
 
 #: src/components/hint.tsx
 msgid "hint.loading.data"
-msgstr "Daten werden laden…"
+msgstr "Daten werden geladen…"
 
 #: src/components/hint.tsx
 msgid "hint.nocontent.message"
