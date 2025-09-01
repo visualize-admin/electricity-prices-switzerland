@@ -236,7 +236,7 @@ const MobileControls = ({
                     // map over selectedItem.operators
                     selectedItem.operators
                       ? selectedItem.operators.map((operator) => ({
-                          label: operator.label,
+                          label: operator.label ?? undefined,
                           value: operator.value.toString(),
                           color: colorScale(operator.value),
                         }))

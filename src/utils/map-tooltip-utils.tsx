@@ -6,9 +6,8 @@ import React from "react";
 import { HoverState } from "src/components/map-helpers";
 import { SelectedEntityCard } from "src/components/map-tooltip";
 import { FlagValue } from "src/flags";
-import { OperatorObservationFieldsFragment, SunshineDataIndicatorRow } from "src/graphql/queries";
+import { OperatorObservationFieldsFragment } from "src/graphql/queries";
 import { maxBy } from "src/lib/array";
-import { truthy } from "src/lib/truthy";
 import { isDefined } from "src/utils/is-defined";
 
 export type MapTooltipProps = ComponentProps<typeof SelectedEntityCard>;
@@ -24,7 +23,10 @@ export const getEnergyPricesTooltipProps = ({
 }: {
   hovered: HoverState;
   colorScale: ScaleThreshold<number, string>;
-  observationsByMunicipalityId: Map<string, OperatorObservationFieldsFragment[]>;
+  observationsByMunicipalityId: Map<
+    string,
+    OperatorObservationFieldsFragment[]
+  >;
   municipalityNames: Map<string, { id: string; name: string }>;
   formatNumber: (value: number) => string;
   coverageRatioFlag: FlagValue;
@@ -32,20 +34,27 @@ export const getEnergyPricesTooltipProps = ({
   if (hovered.type === "municipality") {
     const hoveredObservations = observationsByMunicipalityId.get(hovered.id);
     const hoveredMunicipalityName = municipalityNames.get(hovered.id)?.name;
-    const hoveredCanton = maxBy(hoveredObservations, (x) => x.period)?.cantonLabel;
+    const hoveredCanton = maxBy(
+      hoveredObservations,
+      (x) => x.period
+    )?.cantonLabel;
 
     const values = hoveredObservations?.length
       ? hoveredObservations.map((d) => ({
           label: d.operatorLabel,
           formattedValue: `${
-            d.value !== undefined && d.value !== null ? formatNumber(d.value) : ""
+            d.value !== undefined && d.value !== null
+              ? formatNumber(d.value)
+              : ""
           }${coverageRatioFlag ? ` (ratio: ${d.coverageRatio})` : ""}`,
           color: isDefined(d.value) ? colorScale(d.value) : "",
         }))
       : [];
 
     return {
-      title: `${hoveredMunicipalityName ?? "-"} ${hoveredCanton ? `- ${hoveredCanton}` : ""}`,
+      title: `${hoveredMunicipalityName ?? "-"} ${
+        hoveredCanton ? `- ${hoveredCanton}` : ""
+      }`,
       caption: <Trans id="municipality">Municipality</Trans>,
       values,
     };
@@ -108,11 +117,14 @@ export const getTooltipPropsFromSelectedItem = ({
   // For now, returning a placeholder
   return {
     title: selectedItem.label || selectedItem.name || "Unknown",
-    caption: entity === "municipality" 
-      ? <Trans id="municipality">Municipality</Trans>
-      : entity === "canton"
-      ? <Trans id="canton">Canton</Trans>
-      : <Trans id="operator">Operator</Trans>,
+    caption:
+      entity === "municipality" ? (
+        <Trans id="municipality">Municipality</Trans>
+      ) : entity === "canton" ? (
+        <Trans id="canton">Canton</Trans>
+      ) : (
+        <Trans id="operator">Operator</Trans>
+      ),
     values: [
       {
         label: "",

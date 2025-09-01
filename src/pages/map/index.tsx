@@ -36,13 +36,9 @@ import {
   useQueryStateSunshineMap,
 } from "src/domain/query-states";
 import { NetworkLevel } from "src/domain/sunshine";
-import {
-  PriceComponent,
-  SunshineDataIndicatorRow,
-  useAllMunicipalitiesQuery,
-  useObservationsQuery,
-  useSunshineDataByIndicatorQuery,
-} from "src/graphql/queries";
+import { PriceComponent, SunshineDataIndicatorRow } from "src/graphql/queries";
+import { useEnrichedEnergyPricesData } from "src/hooks/useEnrichedEnergyPricesData";
+import { useEnrichedSunshineData } from "src/hooks/useEnrichedSunshineData";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { getSunshineDataServiceInfo } from "src/lib/sunshine-data-service-context";
 import { useIsMobile } from "src/lib/use-mobile";
@@ -122,64 +118,6 @@ const MapPageContent = ({
   const isElectricityTab = tab === "electricity";
   const isSunshineTab = tab === "sunshine";
 
-  const [observationsQuery] = useObservationsQuery({
-    variables: {
-      locale,
-      priceComponent: priceComponent as PriceComponent,
-      filters: { period: [period], category: [category], product: [product] },
-    },
-    pause: !isElectricityTab,
-  });
-
-  const [sunshineDataQuery] = useSunshineDataByIndicatorQuery({
-    variables: {
-      filter: {
-        period: period || "2024",
-        peerGroup: peerGroup === "all_grid_operators" ? undefined : peerGroup,
-        indicator,
-        typology,
-        networkLevel: networkLevel as NetworkLevel["id"],
-        category:
-          (netElectricityCategory as ElectricityCategory) ||
-          (energyElectricityCategory as ElectricityCategory),
-      },
-    },
-    pause: !isSunshineTab,
-  });
-
-  const [municipalitiesQuery] = useAllMunicipalitiesQuery({
-    variables: { locale },
-  });
-  // Get the right data based on the active tab and indicator
-  const observations = useMemo(() => {
-    return observationsQuery.fetching
-      ? EMPTY_ARRAY
-      : observationsQuery.data?.observations ?? EMPTY_ARRAY;
-  }, [observationsQuery.data?.observations, observationsQuery.fetching]);
-
-  const sunshineObservations = useMemo(() => {
-    return sunshineDataQuery.fetching
-      ? EMPTY_ARRAY
-      : sunshineDataQuery.data?.sunshineDataByIndicator?.data ?? EMPTY_ARRAY;
-  }, [
-    sunshineDataQuery.data?.sunshineDataByIndicator?.data,
-    sunshineDataQuery.fetching,
-  ]);
-
-  const cantonMedianObservations = isElectricityTab
-    ? observationsQuery.fetching
-      ? EMPTY_ARRAY
-      : observationsQuery.data?.cantonMedianObservations ?? EMPTY_ARRAY
-    : EMPTY_ARRAY;
-
-  const swissMedianObservations = isElectricityTab
-    ? observationsQuery.fetching
-      ? EMPTY_ARRAY
-      : observationsQuery.data?.swissMedianObservations ?? EMPTY_ARRAY
-    : EMPTY_ARRAY;
-  const municipalities =
-    municipalitiesQuery.data?.municipalities ?? EMPTY_ARRAY;
-
   const colorAccessor = useCallback((d: { value: number }) => d.value, []);
 
   // Simple accessor for sunshine data - just get the value field
@@ -188,48 +126,7 @@ const MapPageContent = ({
     []
   );
 
-  const medianValue = isElectricityTab
-    ? swissMedianObservations[0]?.value
-    : sunshineDataQuery.data?.sunshineDataByIndicator?.median ?? undefined;
-
-  const colorScale = useMemo(() => {
-    const specKey = isElectricityTab ? "energyPrices" : indicator;
-    const spec =
-      specKey in colorScaleSpecs && colorScaleSpecs[specKey]
-        ? colorScaleSpecs[specKey]
-        : colorScaleSpecs.default;
-    const isValidValue = <T extends { value?: number | null | undefined }>(
-      x: T
-    ): x is T & { value: number } => x.value !== undefined && x.value !== null;
-
-    const sunshineValues = sunshineObservations
-      .filter(isValidValue)
-      .map((x) => x.value);
-
-    const validObservations = observations.filter(isValidValue);
-    return makeColorScale(
-      spec,
-      medianValue,
-      isElectricityTab ? validObservations.map(colorAccessor) : sunshineValues
-    );
-  }, [
-    colorAccessor,
-    indicator,
-    isElectricityTab,
-    medianValue,
-    observations,
-    sunshineObservations,
-  ]);
-
   const hasSunshineFlag = useFlag("sunshine");
-
-  // Determine the data field to use for the map based on the active tab and indicator
-  const mapYear = period;
-
-  // Determine if the map data is loading
-  const isMapDataLoading = isElectricityTab
-    ? observationsQuery.fetching || municipalitiesQuery.fetching
-    : sunshineDataQuery.fetching || municipalitiesQuery.fetching;
 
   const controlsRef: NonNullable<EnergyPricesMapProps["controls"]> =
     useRef(null);
@@ -250,38 +147,83 @@ const MapPageContent = ({
 
   const valueFormatter = useIndicatorValueFormatter(indicator);
 
-  const coverageRatioFlag = useFlag("coverageRatio");
-  const mapObservations = coverageRatioFlag
-    ? observations.filter((x) => {
-        return x.coverageRatio !== 1;
-      })
-    : observations;
+  const energyPricesEnrichedData = useEnrichedEnergyPricesData({
+    locale: locale,
+    priceComponent: priceComponent as PriceComponent,
+    filters: {
+      period: [period],
+      category: [category],
+      product: [product],
+    },
+    enabled: isElectricityTab,
+  });
+
+  const sunshineEnrichedDataResult = useEnrichedSunshineData({
+    filter: {
+      period: period || "2024",
+      peerGroup: peerGroup === "all_grid_operators" ? undefined : peerGroup,
+      indicator,
+      typology,
+      networkLevel: networkLevel as NetworkLevel["id"],
+      category:
+        (netElectricityCategory as ElectricityCategory) ||
+        (energyElectricityCategory as ElectricityCategory),
+    },
+    enabled: isSunshineTab,
+  });
+
+  const colorScale = useMemo(() => {
+    const medianValue = isElectricityTab
+      ? energyPricesEnrichedData.data?.swissMedianObservations[0]?.value
+      : sunshineEnrichedDataResult.data?.median ?? undefined;
+    const specKey = isElectricityTab ? "energyPrices" : indicator;
+    const spec =
+      specKey in colorScaleSpecs && colorScaleSpecs[specKey]
+        ? colorScaleSpecs[specKey]
+        : colorScaleSpecs.default;
+    const isValidValue = <T extends { value?: number | null | undefined }>(
+      x: T
+    ): x is T & { value: number } => x.value !== undefined && x.value !== null;
+
+    const sunshineValues = (sunshineEnrichedDataResult.data?.observations ?? [])
+      .filter(isValidValue)
+      .map((x) => x.value);
+
+    const validObservations = (
+      energyPricesEnrichedData.data?.observations ?? []
+    ).filter(isValidValue);
+    return makeColorScale(
+      spec,
+      medianValue,
+      isElectricityTab ? validObservations.map(colorAccessor) : sunshineValues
+    );
+  }, [
+    colorAccessor,
+    energyPricesEnrichedData.data?.observations,
+    energyPricesEnrichedData.data?.swissMedianObservations,
+    indicator,
+    isElectricityTab,
+    sunshineEnrichedDataResult.data?.median,
+    sunshineEnrichedDataResult.data?.observations,
+  ]);
 
   const map = isElectricityTab ? (
     <EnergyPricesMap
-      year={mapYear}
-      observations={mapObservations}
-      municipalities={municipalities}
-      priceComponent={priceComponent}
-      observationsFetching={observationsQuery.fetching}
-      municipalitiesFetching={municipalitiesQuery.fetching}
-      observationsError={observationsQuery.error}
-      municipalitiesError={municipalitiesQuery.error}
-      medianValue={medianValue}
+      enrichedDataQuery={energyPricesEnrichedData}
       colorScale={colorScale}
       controls={controlsRef}
+      period={period}
+      priceComponent={priceComponent as PriceComponent}
     />
   ) : (
     <SunshineMap
-      accessor={sunshineAccessor}
-      period={mapYear}
-      indicator={indicator}
+      enrichedDataResult={sunshineEnrichedDataResult}
       colorScale={colorScale}
-      observations={sunshineObservations}
-      controls={controlsRef}
+      accessor={sunshineAccessor}
       valueFormatter={valueFormatter}
-      medianValue={medianValue}
-      observationsQueryFetching={isMapDataLoading}
+      controls={controlsRef}
+      period={period}
+      indicator={indicator}
     />
   );
 
@@ -290,20 +232,27 @@ const MapPageContent = ({
 
   const listGroups = useMemo(() => {
     if (isElectricityTab) {
+      const observations =
+        energyPricesEnrichedData.data?.observations ?? EMPTY_ARRAY;
       return entity === "canton"
-        ? groupsFromCantonElectricityObservations(cantonMedianObservations)
+        ? groupsFromCantonElectricityObservations(
+            energyPricesEnrichedData.data?.cantonMedianObservations ??
+              EMPTY_ARRAY
+          )
         : entity === "operator"
         ? groupsFromElectricityOperators(observations)
         : groupsFromElectricityMunicipalities(observations);
     } else {
-      return groupsFromSunshineObservations(sunshineObservations);
+      return groupsFromSunshineObservations(
+        sunshineEnrichedDataResult.data?.observations ?? EMPTY_ARRAY
+      );
     }
   }, [
     isElectricityTab,
+    energyPricesEnrichedData.data?.observations,
+    energyPricesEnrichedData.data?.cantonMedianObservations,
     entity,
-    cantonMedianObservations,
-    observations,
-    sunshineObservations,
+    sunshineEnrichedDataResult.data?.observations,
   ]);
 
   const list = (
@@ -315,8 +264,8 @@ const MapPageContent = ({
       valueFormatter={valueFormatter}
       fetching={
         isElectricityTab
-          ? observationsQuery.fetching
-          : sunshineDataQuery.fetching
+          ? energyPricesEnrichedData.fetching
+          : sunshineEnrichedDataResult.fetching
       }
     />
   );
@@ -378,18 +327,16 @@ const MapPageContent = ({
 
   const isMobile = useIsMobile();
 
+  const shouldShowInfoBanner = !!(
+    energyPricesEnrichedData.fetching === false &&
+    energyPricesEnrichedData.data &&
+    !energyPricesEnrichedData.data.medianValue
+  );
+
   return (
     <>
       <ApplicationLayout>
-        <InfoBanner
-          bypassBannerEnabled={
-            !!(
-              observationsQuery.fetching === false &&
-              observationsQuery.data &&
-              !medianValue
-            )
-          }
-        />
+        <InfoBanner bypassBannerEnabled={shouldShowInfoBanner} />
         <Box
           sx={{
             display: "flex",

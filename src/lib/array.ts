@@ -64,3 +64,21 @@ export const minMaxBy = <T>(arr: T[], by: (d: T) => number) => {
   }
   return [minD, maxD] as [T, T];
 };
+
+// Builds and index while mapping
+export const indexMapper = <T, K, V>(
+  iterable: Iterable<T>,
+  keyFn: (item: T) => K,
+  valueFn: (item: T) => V
+) => {
+  const index = new Map<K, V>();
+  for (const item of iterable) {
+    // early out if already exists
+    const key = keyFn(item);
+    if (index.has(key)) {
+      continue;
+    }
+    index.set(key, valueFn(item));
+  }
+  return index;
+};
