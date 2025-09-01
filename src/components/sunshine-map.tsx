@@ -18,7 +18,7 @@ import {
   makeSunshineOperatorLayer,
   makeSunshineOperatorPickableLayer,
 } from "src/components/map-layers";
-import { MapTooltipContent } from "src/components/map-tooltip";
+import { SelectedEntityCard } from "src/components/map-tooltip";
 import {
   getOperatorsFeatureCollection,
   isOperatorFeature,
@@ -171,11 +171,15 @@ const SunshineMap = ({
       return { hoveredState: hovered, content: null };
     }
 
-    const props = getSunshineTooltipProps({ hovered, colorScale, valueFormatter });
+    const props = getSunshineTooltipProps({
+      hovered,
+      colorScale,
+      valueFormatter,
+    });
 
     return {
       hoveredState: hovered,
-      content: <MapTooltipContent {...props} />,
+      content: <SelectedEntityCard {...props} />,
     };
   }, [hovered, colorScale, valueFormatter]);
 

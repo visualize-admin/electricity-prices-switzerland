@@ -4,14 +4,14 @@ import { ComponentProps } from "react";
 import React from "react";
 
 import { HoverState } from "src/components/map-helpers";
-import { MapTooltipContent } from "src/components/map-tooltip";
+import { SelectedEntityCard } from "src/components/map-tooltip";
 import { FlagValue } from "src/flags";
 import { OperatorObservationFieldsFragment, SunshineDataIndicatorRow } from "src/graphql/queries";
 import { maxBy } from "src/lib/array";
 import { truthy } from "src/lib/truthy";
 import { isDefined } from "src/utils/is-defined";
 
-export type MapTooltipProps = ComponentProps<typeof MapTooltipContent>;
+export type MapTooltipProps = ComponentProps<typeof SelectedEntityCard>;
 
 // Energy prices tooltip data preparation
 export const getEnergyPricesTooltipProps = ({

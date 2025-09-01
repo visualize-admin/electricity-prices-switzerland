@@ -24,7 +24,7 @@ import {
   makeLakesLayer,
   makeMunicipalityLayer,
 } from "src/components/map-layers";
-import { MapTooltipContent } from "src/components/map-tooltip";
+import { SelectedEntityCard } from "src/components/map-tooltip";
 import { useGeoData } from "src/data/geo";
 import { getObservationsWeightedMean } from "src/domain/data";
 import { useFormatCurrency } from "src/domain/helpers";
@@ -169,7 +169,7 @@ export const EnergyPricesMap = ({
     if (!props) {
       return null;
     }
-    const content = <MapTooltipContent {...props} />;
+    const content = <SelectedEntityCard {...props} />;
 
     return {
       hoveredState: hovered,

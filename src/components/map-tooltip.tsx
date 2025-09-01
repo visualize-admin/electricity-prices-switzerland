@@ -5,7 +5,7 @@ import React, { Fragment, ReactNode } from "react";
 import { TooltipBoxWithoutChartState } from "src/components/charts-generic/interaction/tooltip-box";
 import { getContrastColor } from "src/domain/helpers";
 
-export const MapTooltipContent: React.FC<{
+export const SelectedEntityCard: React.FC<{
   title: React.ReactNode;
   caption: React.ReactNode;
   values: {
