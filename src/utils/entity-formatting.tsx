@@ -2,6 +2,7 @@ import { Trans } from "@lingui/macro";
 import { ScaleThreshold } from "d3";
 import React from "react";
 
+import { SunshineIndicator } from "src/domain/sunshine";
 import { EnrichedEnergyObservation } from "src/hooks/useEnrichedEnergyPricesData";
 import { EnrichedSunshineObservation } from "src/hooks/useEnrichedSunshineData";
 
@@ -23,7 +24,7 @@ export interface EntityValue {
 }
 
 export interface EntityDisplayData {
-  title: string;
+  title: React.ReactNode;
   caption: React.ReactNode;
   values: EntityValue[];
 }
@@ -96,7 +97,8 @@ export const formatEnergyPricesEntity = (
 export const formatSunshineEntity = (
   observations: EnrichedSunshineObservation[],
   colorScale: ScaleThreshold<number, string, never>,
-  formatValue: (value: number) => string
+  formatValue: (value: number) => string,
+  indicator: SunshineIndicator
 ): EntityDisplayData => {
   if (!observations || observations.length === 0) {
     return {
@@ -110,13 +112,13 @@ export const formatSunshineEntity = (
   const values: EntityValue[] = observations
     .filter((obs) => obs.value !== null && obs.value !== undefined)
     .map((obs) => ({
-      label: obs.operatorData?.name || obs.name,
+      label: `${indicator}`,
       formattedValue: formatValue(obs.value!),
       color: colorScale(obs.value!),
     }));
 
   return {
-    title: "", // Sunshine entities don't have a specific title
+    title: observations[0].operatorData?.name, // Sunshine entities don't have a specific title
     caption: getEntityCaption("operator"),
     values,
   };

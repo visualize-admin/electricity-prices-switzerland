@@ -1,6 +1,7 @@
 import { ScaleThreshold } from "d3-scale";
 import { useMemo } from "react";
 
+import { useQueryStateSunshineMap } from "src/domain/query-states";
 import {
   EnrichedEnergyObservation,
   EnrichedEnergyPricesData,
@@ -51,6 +52,7 @@ export interface SelectedEntityData {
 export function useSelectedEntityData(
   options: UseSelectedEntityDataOptions
 ): SelectedEntityData {
+  const [queryState] = useQueryStateSunshineMap();
   const { selection, dataType, enrichedData, colorScale, formatValue } =
     options;
 
@@ -143,7 +145,8 @@ export function useSelectedEntityData(
       const formattedData = formatSunshineEntity(
         operatorObservations,
         colorScale,
-        formatValue
+        formatValue,
+        queryState.indicator
       );
 
       return {
