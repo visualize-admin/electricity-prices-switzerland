@@ -175,19 +175,20 @@ export function makeCantonsLayer(options: CantonsLayerOptions) {
   });
 }
 
-interface EnergyPricesMunicipalitiesOverlayLayerOptions {
+interface EnergyPricesOverlayLayerOptions {
   data: GeoJSON.FeatureCollection;
   hovered?: HoverState;
   activeId?: string | null;
+  type: "municipality" | "canton";
 }
 
-export function makeEnergyPricesMunicipalitiesOverlayLayer(
-  options: EnergyPricesMunicipalitiesOverlayLayerOptions
+export function makeEnergyPricesOverlayLayer(
+  options: EnergyPricesOverlayLayerOptions
 ) {
-  const { data, hovered, activeId } = options;
+  const { data, hovered, activeId, type } = options;
 
   return new GeoJsonLayer({
-    id: "municipalities-overlay",
+    id: `${type}-overlay`,
     /** @ts-expect-error bad types */
     data,
     pickable: false,
@@ -196,37 +197,37 @@ export function makeEnergyPricesMunicipalitiesOverlayLayer(
     extruded: false,
     getFillColor: (d) => {
       const id = d?.id?.toString();
-      if (!id) return styles.municipalities.overlay.default.fillColor;
+      if (!id) return styles.overlay.default.fillColor;
 
       const isActive = activeId === id;
-      const isHovered = hovered?.type === "municipality" && hovered.id === id;
+      const isHovered = hovered?.type === type && hovered.id === id;
 
       // Only show overlay for the hovered/active municipality
       if (isActive || isHovered) {
-        return styles.municipalities.overlay.active.fillColor;
+        return styles.overlay.active.fillColor;
       }
       // All other municipalities remain transparent (no reduced opacity overlay)
-      return styles.municipalities.overlay.default.fillColor;
+      return styles.overlay.default.fillColor;
     },
     getLineColor: (d) => {
       const id = d?.id?.toString();
       const isActive = activeId === id;
-      const isHovered = hovered?.type === "municipality" && hovered.id === id;
+      const isHovered = hovered?.type === type && hovered.id === id;
 
       if (isActive || isHovered) {
-        return styles.municipalities.overlay.active.lineColor;
+        return styles.overlay.active.lineColor;
       }
-      return styles.municipalities.overlay.default.lineColor;
+      return styles.overlay.default.lineColor;
     },
     getLineWidth: (d) => {
       const id = d?.id?.toString();
       const isActive = activeId === id;
-      const isHovered = hovered?.type === "municipality" && hovered.id === id;
+      const isHovered = hovered?.type === type && hovered.id === id;
 
       if (isActive || isHovered) {
-        return styles.municipalities.overlay.active.lineWidth;
+        return styles.overlay.active.lineWidth;
       }
-      return styles.municipalities.overlay.default.lineWidth;
+      return styles.overlay.default.lineWidth;
     },
     lineWidthUnits: "pixels",
     updateTriggers: {

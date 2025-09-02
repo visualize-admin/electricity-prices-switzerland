@@ -18,7 +18,7 @@ import {
 import { HoverState } from "src/components/map-helpers";
 import {
   makeCantonsLayer,
-  makeEnergyPricesMunicipalitiesOverlayLayer,
+  makeEnergyPricesOverlayLayer,
   makeLakesLayer,
   makeMunicipalityLayer,
 } from "src/components/map-layers";
@@ -192,10 +192,17 @@ export const EnergyPricesMap = ({
       makeCantonsLayer({
         data: geoData.data.cantonMesh,
       }),
-      makeEnergyPricesMunicipalitiesOverlayLayer({
+      makeEnergyPricesOverlayLayer({
+        data: geoData.data.cantons,
+        hovered,
+        activeId: activeId ?? undefined,
+        type: "canton",
+      }),
+      makeEnergyPricesOverlayLayer({
         data: geoData.data.municipalities,
         hovered,
         activeId: activeId ?? undefined,
+        type: "municipality",
       }),
     ];
   }, [

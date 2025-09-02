@@ -181,22 +181,22 @@ export const styles = {
         withoutData: [221, 225, 227, 255] as Color,
       },
     },
-    overlay: {
-      default: {
-        fillColor: [0, 0, 0, 0] as Color,
-        lineColor: [0, 0, 0, 0] as Color,
-        lineWidth: 0,
-      },
-      active: {
-        fillColor: [0, 0, 0, 50] as Color, // Dark overlay similar to sunshine layers
-        lineColor: [31, 41, 55, 255] as Color,
-        lineWidth: 3,
-      },
-      inactive: {
-        fillColor: [255, 255, 255, 102] as Color,
-        lineColor: [0, 0, 0, 0],
-        lineWidth: 0,
-      },
+  },
+  overlay: {
+    default: {
+      fillColor: [0, 0, 0, 0] as Color,
+      lineColor: [0, 0, 0, 0] as Color,
+      lineWidth: 0,
+    },
+    active: {
+      fillColor: [0, 0, 0, 50] as Color, // Dark overlay similar to sunshine layers
+      lineColor: [31, 41, 55, 255] as Color,
+      lineWidth: 3,
+    },
+    inactive: {
+      fillColor: [255, 255, 255, 102] as Color,
+      lineColor: [0, 0, 0, 0],
+      lineWidth: 0,
     },
   },
   municipalityMesh: {
