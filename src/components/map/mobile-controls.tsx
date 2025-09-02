@@ -15,6 +15,7 @@ import {
 import React, { useRef, useState } from "react";
 import * as Vaul from "vaul";
 
+import { useMap } from "src/components/map-context";
 import { SelectedEntityCard } from "src/components/map-tooltip";
 import useVaulStyles from "src/components/useVaulStyles";
 import { Entity } from "src/domain/data";
@@ -163,14 +164,16 @@ const MobileControls = ({
   // Format the current status string
   const pricesCurrentStatus = `${period}, ${priceComponentLabel}, ${categoryLabel}, ${productLabel}`;
   const sunshineCurrentStatus = `${sunshinePeriod}, ${sunshineIndicator}, ${sunshinePeerGroup}, ${sunshineNetworkLevel}`;
-  const selectedItemStatus = selectedEntityData
+  const selectedItemStatus = selectedEntityData?.entityId
     ? `${selectedEntityData.formattedData?.title}, ${selectedEntityData.formattedData?.title}`
     : "No selection";
-  const status = selectedEntityData
+  const status = selectedEntityData?.entityId
     ? selectedItemStatus
     : tab == "electricity"
     ? pricesCurrentStatus
     : sunshineCurrentStatus;
+
+  const { setActiveId } = useMap();
 
   return (
     <>
@@ -193,8 +196,24 @@ const MobileControls = ({
                 alpha(theme.palette.background.paper, 0.95),
             },
           }}
-          onClick={() => setDrawerOpen(true)}
+          onClick={(ev) => {
+            if (ev.defaultPrevented) {
+              return;
+            }
+            return setDrawerOpen(true);
+          }}
         >
+          {selectedEntityData?.entityId ? (
+            <IconButton
+              sx={{ position: "absolute", top: "0.25rem", right: "0.25rem" }}
+              onClick={(ev) => {
+                ev.preventDefault();
+                return setActiveId(null);
+              }}
+            >
+              <Icon name="close" />
+            </IconButton>
+          ) : null}
           <CardContent sx={{ pb: "16px !important" }}>
             <Box
               sx={{
@@ -204,9 +223,11 @@ const MobileControls = ({
               }}
             >
               {selectedEntityData?.formattedData ? (
-                <div style={{ flex: 1 }}>
+                <Box
+                  style={{ flex: 1, maxHeight: "120px", overflow: "scroll" }}
+                >
                   <SelectedEntityCard {...selectedEntityData.formattedData} />
-                </div>
+                </Box>
               ) : (
                 <Box>
                   <Typography
