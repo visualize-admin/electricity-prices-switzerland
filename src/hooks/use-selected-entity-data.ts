@@ -1,7 +1,9 @@
 import { ScaleThreshold } from "d3";
 import { useMemo } from "react";
 
+import { Entity } from "src/domain/data";
 import { useQueryStateSunshineMap } from "src/domain/query-states";
+import { getLocalizedLabel } from "src/domain/translation";
 import {
   EnrichedEnergyObservation,
   EnrichedEnergyPricesData,
@@ -10,6 +12,7 @@ import {
   EnrichedSunshineData,
   EnrichedSunshineObservation,
 } from "src/hooks/use-enriched-sunshine-data";
+import { truthy } from "src/lib/truthy";
 import {
   formatEnergyPricesEntity,
   formatSunshineEntity,
@@ -18,7 +21,7 @@ import {
 export interface EntitySelection {
   hoveredId: string | null;
   selectedId: string | null;
-  entityType: "municipality" | "canton";
+  entityType: Entity;
 }
 
 interface UseSelectedEntityDataOptions {
@@ -27,6 +30,7 @@ interface UseSelectedEntityDataOptions {
   enrichedData: EnrichedEnergyPricesData | EnrichedSunshineData | null;
   colorScale?: ScaleThreshold<number, string>;
   formatValue?: (value: number) => string;
+  priceComponent: string;
 }
 
 interface SelectedEntityData {
@@ -54,8 +58,14 @@ export function useSelectedEntityData(
   options: UseSelectedEntityDataOptions
 ): SelectedEntityData {
   const [queryState] = useQueryStateSunshineMap();
-  const { selection, dataType, enrichedData, colorScale, formatValue } =
-    options;
+  const {
+    selection,
+    dataType,
+    enrichedData,
+    colorScale,
+    formatValue,
+    priceComponent,
+  } = options;
 
   // Determine the active entity ID (selected takes precedence over hovered)
   const entityId = selection.selectedId || selection.hoveredId;
@@ -94,7 +104,9 @@ export function useSelectedEntityData(
       // Use the pre-built indexes for efficient lookup
       const municipalityObservations =
         energyData.observationsByMunicipality.get(entityId);
-      const cantonObservations = energyData.observationsByCanton.get(entityId);
+      const cantonObservations = [
+        energyData.cantonMedianObservationsByCanton.get(entityId),
+      ].filter(truthy);
 
       const entityObservations =
         (entityType === "municipality"
@@ -115,7 +127,8 @@ export function useSelectedEntityData(
         entityObservations,
         entityType,
         colorScale,
-        formatValue
+        formatValue,
+        getLocalizedLabel({ id: priceComponent })
       );
 
       return {
@@ -178,6 +191,7 @@ export function useSelectedEntityData(
     colorScale,
     formatValue,
     dataType,
+    priceComponent,
     queryState.indicator,
   ]);
 }

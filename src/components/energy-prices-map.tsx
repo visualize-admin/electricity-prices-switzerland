@@ -81,6 +81,7 @@ export const EnergyPricesMap = ({
     enrichedData: enrichedData,
     colorScale: colorScale!,
     formatValue: formatNumber,
+    priceComponent: priceComponent,
   });
 
   const { value: highlightContext } = useContext(HighlightContext);

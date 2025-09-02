@@ -11,7 +11,8 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Fix
+  - Hover on canton list correctly shows the canton median
 
 # 2.12.2 (2025-09-02)
 

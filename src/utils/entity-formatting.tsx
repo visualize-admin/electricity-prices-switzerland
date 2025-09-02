@@ -29,6 +29,7 @@ export const formatEnergyPricesEntity = (
   entityType: Entity,
   colorScale: ScaleThreshold<number, string, never>,
   formatValue: (value: number) => string,
+  priceComponent: string,
   coverageRatioFlag = false
 ): EntityDisplayData => {
   if (!observations || observations.length === 0) {
@@ -62,7 +63,7 @@ export const formatEnergyPricesEntity = (
 
   // Create values array from observations
   const values: EntityValue[] = observations.map((obs) => ({
-    label: obs.operatorLabel || "",
+    label: obs.operatorLabel ?? priceComponent ?? "",
     formattedValue: `${
       obs.value !== undefined && obs.value !== null
         ? formatValue(obs.value)

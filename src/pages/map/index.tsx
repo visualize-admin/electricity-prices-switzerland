@@ -102,6 +102,7 @@ const MapPageContent = ({
       product,
       download,
       tab = "electricity",
+      view: energyPricesView,
     },
   ] = useQueryStateEnergyPricesMap();
 
@@ -342,9 +343,17 @@ const MapPageContent = ({
     selection: {
       selectedId: selectedItem?.id ?? null,
       hoveredId: null,
+      entityType: isElectricityTab
+        ? energyPricesView === "municipality"
+          ? "municipality"
+          : energyPricesView === "canton"
+          ? "canton"
+          : "operator"
+        : "operator",
     },
     colorScale,
     formatValue: valueFormatter,
+    priceComponent: priceComponent,
   });
 
   return (
