@@ -39,6 +39,7 @@ import { NetworkLevel } from "src/domain/sunshine";
 import { PriceComponent, SunshineDataIndicatorRow } from "src/graphql/queries";
 import { useEnrichedEnergyPricesData } from "src/hooks/useEnrichedEnergyPricesData";
 import { useEnrichedSunshineData } from "src/hooks/useEnrichedSunshineData";
+import { useSelectedEntityData } from "src/hooks/useSelectedEntityData";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { getSunshineDataServiceInfo } from "src/lib/sunshine-data-service-context";
 import { useIsMobile } from "src/lib/use-mobile";
@@ -333,6 +334,19 @@ const MapPageContent = ({
     !energyPricesEnrichedData.data.medianValue
   );
 
+  const selectedEntityData = useSelectedEntityData({
+    dataType: isElectricityTab ? "energy-prices" : "sunshine",
+    enrichedData: isElectricityTab
+      ? energyPricesEnrichedData.data
+      : sunshineEnrichedDataResult.data,
+    selection: {
+      selectedId: selectedItem?.id ?? null,
+      hoveredId: null,
+    },
+    colorScale,
+    formatValue: valueFormatter,
+  });
+
   return (
     <>
       <ApplicationLayout>
@@ -454,8 +468,7 @@ const MapPageContent = ({
               details={mobileDetailsContent}
               selectors={<CombinedSelectors />}
               entity={entity}
-              selectedItem={selectedItem}
-              colorScale={colorScale}
+              selectedEntityData={selectedEntityData}
             />
           )}
         </Box>

@@ -15,8 +15,7 @@ import {
 import React, { useRef, useState } from "react";
 import * as Vaul from "vaul";
 
-import { TooltipMultiple } from "src/components/charts-generic/interaction/tooltip-content";
-import { ListItemType } from "src/components/list";
+import { SelectedEntityCard } from "src/components/map-tooltip";
 import useVaulStyles from "src/components/useVaulStyles";
 import { Entity } from "src/domain/data";
 import {
@@ -25,6 +24,7 @@ import {
   useQueryStateSunshineMap,
 } from "src/domain/query-states";
 import { getLocalizedLabel } from "src/domain/translation";
+import { useSelectedEntityData } from "src/hooks/useSelectedEntityData";
 import { Icon } from "src/icons";
 
 const MobileDrawer = ({
@@ -125,17 +125,15 @@ const MobileControls = ({
   list,
   details,
   selectors,
-  selectedItem,
+  selectedEntityData,
   listButtonGroup,
-  colorScale,
 }: {
   list: React.ReactNode;
   listButtonGroup: React.ReactNode;
   details: React.ReactNode;
   selectors: React.ReactNode;
-  selectedItem?: ListItemType | null;
+  selectedEntityData?: ReturnType<typeof useSelectedEntityData> | null;
   entity?: Entity;
-  colorScale: (value: number) => string;
 }) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -165,10 +163,10 @@ const MobileControls = ({
   // Format the current status string
   const pricesCurrentStatus = `${period}, ${priceComponentLabel}, ${categoryLabel}, ${productLabel}`;
   const sunshineCurrentStatus = `${sunshinePeriod}, ${sunshineIndicator}, ${sunshinePeerGroup}, ${sunshineNetworkLevel}`;
-  const selectedItemStatus = selectedItem
-    ? `${selectedItem.label}, ${selectedItem.value}`
+  const selectedItemStatus = selectedEntityData
+    ? `${selectedEntityData.formattedData?.title}, ${selectedEntityData.formattedData?.title}`
     : "No selection";
-  const status = selectedItem
+  const status = selectedEntityData
     ? selectedItemStatus
     : tab == "electricity"
     ? pricesCurrentStatus
@@ -205,44 +203,10 @@ const MobileControls = ({
                 alignItems: "center",
               }}
             >
-              {selectedItem && selectedItem.label ? (
-                <TooltipMultiple
-                  xValue={selectedItem.label}
-                  segmentValues={
-                    /*
-                  type SegmentValue = {
-                    label?: string;
-                    value: string;
-                    color?: string;
-                    yPos?: number;
-                    symbol?: LegendSymbol;
-                  }
-
-                  type SelectedItem = {
-                    id: string;
-                    label?: string | null;
-                    value: number;
-                    canton?: string | null;
-                    cantonLabel?: string | null;
-                    operators?:
-                      | {
-                          id: string;
-                          label?: string | null;
-                          value: number;
-                        }[]
-                      | null;
-                    */
-
-                    // map over selectedItem.operators
-                    selectedItem.operators
-                      ? selectedItem.operators.map((operator) => ({
-                          label: operator.label ?? undefined,
-                          value: operator.value.toString(),
-                          color: colorScale(operator.value),
-                        }))
-                      : []
-                  }
-                />
+              {selectedEntityData?.formattedData ? (
+                <div style={{ flex: 1 }}>
+                  <SelectedEntityCard {...selectedEntityData.formattedData} />
+                </div>
               ) : (
                 <Box>
                   <Typography
