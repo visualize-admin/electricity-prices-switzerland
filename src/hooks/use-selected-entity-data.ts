@@ -1,4 +1,4 @@
-import { ScaleThreshold } from "d3-scale";
+import { ScaleThreshold } from "d3";
 import { useMemo } from "react";
 
 import { useQueryStateSunshineMap } from "src/domain/query-states";
