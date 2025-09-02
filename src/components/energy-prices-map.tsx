@@ -53,7 +53,7 @@ export const EnergyPricesMap = ({
   priceComponent: PriceComponent;
 }) => {
   const [hovered, setHovered] = useState<HoverState>();
-  const { activeId, onEntitySelect } = useMap();
+  const { activeId, onEntitySelect, setEntity } = useMap();
   const legendId = useId();
   const formatNumber = useFormatCurrency();
 
@@ -150,6 +150,7 @@ export const EnergyPricesMap = ({
         return;
       }
 
+      setEntity("municipality");
       onEntitySelect(ev, "municipality", id.toString());
     };
 
@@ -214,6 +215,7 @@ export const EnergyPricesMap = ({
     hovered,
     activeId,
     featureIndexes,
+    setEntity,
     onEntitySelect,
   ]);
 

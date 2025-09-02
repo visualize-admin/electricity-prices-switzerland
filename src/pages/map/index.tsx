@@ -120,6 +120,10 @@ const MapPageContent = ({
   const isElectricityTab = tab === "electricity";
   const isSunshineTab = tab === "sunshine";
 
+  // Entity should be part of the state
+  const { entity: mapEntity, setEntity } = useMap();
+  const entity = isElectricityTab ? mapEntity : "operator";
+
   const colorAccessor = useCallback((d: { value: number }) => d.value, []);
 
   // Simple accessor for sunshine data - just get the value field
@@ -228,9 +232,6 @@ const MapPageContent = ({
       indicator={indicator}
     />
   );
-
-  const { entity: mapEntity, setEntity } = useMap();
-  const entity = isElectricityTab ? mapEntity : "operator";
 
   const listGroups = useMemo(() => {
     if (isElectricityTab) {
@@ -343,13 +344,7 @@ const MapPageContent = ({
     selection: {
       selectedId: selectedItem?.id ?? null,
       hoveredId: null,
-      entityType: isElectricityTab
-        ? energyPricesView === "municipality"
-          ? "municipality"
-          : energyPricesView === "canton"
-          ? "canton"
-          : "operator"
-        : "operator",
+      entityType: entity,
     },
     colorScale,
     formatValue: valueFormatter,
