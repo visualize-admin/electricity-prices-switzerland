@@ -11,12 +11,17 @@ You can also check the
 
 # Unreleased
 
+Nothing yet.
+
+# 2.12.1 (2025-09-02)
+
 - Feat
 
   - Validate and sanitize energy prices query parameters
 
 - Fix
   - Language is persisted when navigating from overview to map page
+  - Server side rendering
 
 # 2.12.0 (2025-09-02)
 
