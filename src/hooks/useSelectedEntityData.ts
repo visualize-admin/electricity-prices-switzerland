@@ -170,9 +170,10 @@ export function useSelectedEntityData(
     entityId,
     selection.hoveredId,
     selection.selectedId,
-    dataType,
     enrichedData,
     colorScale,
     formatValue,
+    dataType,
+    queryState.indicator,
   ]);
 }
