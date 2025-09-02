@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 
+import { MiniSelect } from "src/components/form";
 import { StoryGrid } from "src/components/storybook/story-grid";
 import { getIconSize, Icon } from "src/icons";
 import { chartPalette, palette } from "src/themes/palette";
@@ -688,6 +689,17 @@ export const FormStory = () => {
               </option>
             ))}
           </NativeSelect>
+          <MiniSelect
+            id={""}
+            options={[
+              { value: "tag 1", label: "Tag 1" },
+              { value: "tag 2", label: "Tag 2" },
+              { value: "tag 3", label: "Tag 3" },
+              { value: "tag 4", label: "Tag 4" },
+              { value: "tag 5", label: "Tag 5" },
+              { value: "tag 6", label: "Tag 6" },
+            ]}
+          />
         </DesignSection>
       </DesignGrid>
     </DesignStory>

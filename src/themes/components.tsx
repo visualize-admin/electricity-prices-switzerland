@@ -129,7 +129,6 @@ export const components = (theme: Theme): Components => ({
           display: "none",
         },
       },
-      select: {},
       icon: {
         width: 40,
         display: "flex",

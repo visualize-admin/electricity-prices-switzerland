@@ -5,6 +5,7 @@ import {
   IconButton,
   InputAdornment,
   NativeSelect,
+  nativeSelectClasses,
   NativeSelectProps,
   OutlinedInput,
   Typography,
@@ -93,28 +94,33 @@ export const MiniSelect = ({
     <NativeSelect
       disableUnderline
       sx={{
-        borderColor: "transparent",
         fontSize: ["0.625rem", "0.75rem", "0.75rem"],
-        borderBottom: 0,
-        height: 24,
+        border: 0,
+        height: "auto !important",
         bgcolor: "transparent",
         ".MuiInputBase-root": {
           paddingLeft: "0px !important",
         },
         py: 0,
-        pl: 1,
+        pl: 0,
         pr: 0,
+        minHeight: "unset",
         mr: 1, // Fix for Chrome which cuts of the label otherwise
         "&:focus": {
           bgcolor: "transparent",
           outline: "none",
           borderColor: "primary",
         },
-        ".MuiNativeSelect-icon": {
+        [`.${nativeSelectClasses.select}.${nativeSelectClasses.select}`]: {
+          paddingRight: "12px",
+        },
+        [`.${nativeSelectClasses.icon}`]: {
           color: "text.primary",
-          mr: 2,
-          width: 16,
-          height: 16,
+          margin: -2,
+          marginRight: -2,
+          // width: 16,
+          // height: 16,
+          border: 0,
         },
       }}
       id={id}
