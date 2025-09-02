@@ -2,7 +2,7 @@ import { t } from "@lingui/macro";
 import { Box, BoxProps, Chip, NativeSelect, Typography } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useId, useMemo, useState } from "react";
 
 import { InfoDialogButton } from "src/components/info-dialog";
 import { WikiPageSlug } from "src/domain/wiki";
@@ -40,10 +40,12 @@ const defaultOptionEqualToValue = (
 const ComboboxLabel = ({
   label,
   icon,
+  htmlFor,
   ...props
 }: {
   label: React.ReactNode;
   icon?: React.ReactNode;
+  htmlFor?: string;
 } & BoxProps) => {
   return (
     <Box
@@ -54,7 +56,7 @@ const ComboboxLabel = ({
       {...props}
     >
       {label ? (
-        <Typography variant="h6" component="label">
+        <Typography variant="h6" component="label" htmlFor={htmlFor}>
           {label}
         </Typography>
       ) : (
@@ -95,6 +97,7 @@ export const MultiCombobox = ({
 
   const canRemoveItems = selectedItems.length > minSelectedItems;
 
+  const htmlFor = useId();
   return (
     <Autocomplete
       disabled={disabled}
@@ -126,10 +129,11 @@ export const MultiCombobox = ({
           }}
           display={"flex"}
         >
-          <ComboboxLabel label={label} />
+          <ComboboxLabel label={label} htmlFor={htmlFor} />
           <TextField
             {...params}
             variant="outlined"
+            id={htmlFor}
             value={inputValue}
             onChange={(e) => {
               setInputValue(e.target.value);
@@ -238,6 +242,8 @@ export const Combobox = <T extends string>({
 }) => {
   const [inputValue, setInputValue] = useState(getItemLabel(selectedItem));
 
+  const htmlFor = useId();
+
   useEffect(() => {
     setInputValue(getItemLabel(selectedItem));
   }, [getItemLabel, selectedItem]);
@@ -263,6 +269,7 @@ export const Combobox = <T extends string>({
   }, [items]);
 
   const isMobile = useIsMobile();
+  const inputId = `combobox-${id}`;
 
   if (isMobile) {
     return (
@@ -270,6 +277,7 @@ export const Combobox = <T extends string>({
         <ComboboxLabel
           sx={{ minHeight: "auto" }}
           label={showLabel ? label : null}
+          htmlFor={inputId}
           icon={
             infoDialogSlug && (
               <InfoDialogButton iconOnly slug={infoDialogSlug} label={label} />
@@ -277,6 +285,7 @@ export const Combobox = <T extends string>({
           }
         />
         <NativeSelect
+          id={inputId}
           value={selectedItem}
           onChange={(e) => setSelectedItem(e.target.value as T)}
         >
@@ -299,6 +308,7 @@ export const Combobox = <T extends string>({
       sx={sx}
     >
       <ComboboxLabel
+        htmlFor={inputId}
         label={showLabel ? label : null}
         icon={
           infoDialogSlug && (
@@ -307,7 +317,7 @@ export const Combobox = <T extends string>({
         }
       />
       <Autocomplete
-        id={`combobox-${id}`}
+        id={inputId}
         disabled={disabled}
         options={filteredItems as T[]}
         groupBy={(option) => {
