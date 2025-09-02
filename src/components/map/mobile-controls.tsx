@@ -63,7 +63,7 @@ const MobileDrawer = ({
         })
       }
     >
-      <Vaul.Root open={open} onClose={onClose}>
+      <Vaul.Root open={open} onClose={onClose} repositionInputs={false}>
         <Vaul.Portal>
           <Vaul.Overlay className={classes.overlay} />
           <Vaul.Content
