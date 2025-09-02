@@ -1,9 +1,11 @@
 import { Box, BoxProps, Typography, TypographyProps } from "@mui/material";
+import { GetServerSideProps } from "next";
 import { FormEvent, useCallback, useMemo, useState } from "react";
-import { UseQueryState } from "urql";
+import { Client, OperationResult, UseQueryState } from "urql";
 
 import { LoadingIconInline } from "src/components/hint";
 import * as Queries from "src/graphql/queries";
+import { exchanges as serverExchanges } from "src/graphql/urql-exchanges.server";
 import { DebugDownloadGetResponse } from "src/pages/api/debug-download";
 
 const IndicatorFail = () => (
@@ -78,7 +80,25 @@ const StatusBox = (props: BoxProps) => {
   );
 };
 
-const Status = ({ title, query }: { title: string; query: UseQueryState }) => {
+const Status = ({
+  title,
+  query,
+}: {
+  title: string;
+  query: Pick<UseQueryState, "fetching" | "data"> & {
+    error?:
+      | NonNullable<UseQueryState["error"]>
+      | {
+          message: string;
+        }
+      | undefined
+      | null;
+    operation?:
+      | Pick<NonNullable<UseQueryState["operation"]>, "variables">
+      | undefined
+      | null;
+  };
+}) => {
   return (
     <StatusBox>
       <StatusHeading>
@@ -123,66 +143,43 @@ const Status = ({ title, query }: { title: string; query: UseQueryState }) => {
   );
 };
 
-const SystemInfoStatus = () => {
-  const [query] = Queries.useSystemInfoQuery();
+const SystemInfoStatus = ({ query }: { query: PageProps["systemInfo"] }) => {
   return <Status title="System API" query={query} />;
 };
 
-const WikiContentStatus = () => {
-  const [query] = Queries.useWikiContentQuery({
-    variables: { locale: "de", slug: "help-price-comparison" },
-  });
+const WikiContentStatus = ({ query }: { query: PageProps["wikiContent"] }) => {
   return <Status title="Content API" query={query} />;
 };
 
-const MunicipalitiesStatus = () => {
-  const [query] = Queries.useMunicipalitiesQuery({
-    variables: { locale: "de", ids: ["261", "700"], query: "Ber" },
-  });
+const MunicipalitiesStatus = ({
+  query,
+}: {
+  query: PageProps["municipalities"];
+}) => {
   return <Status title="Municipalities (ID + Query)" query={query} />;
 };
 
-const CantonsStatus = () => {
-  const [query] = Queries.useCantonsQuery({
-    variables: { locale: "de", ids: ["1"], query: "Ber" },
-  });
+const CantonsStatus = ({ query }: { query: PageProps["cantons"] }) => {
   return <Status title="Cantons (ID + Query)" query={query} />;
 };
 
-const OperatorStatus = () => {
-  const [query] = Queries.useOperatorsQuery({
-    variables: { locale: "de", ids: ["565"], query: "lausanne" },
-  });
+const OperatorStatus = ({ query }: { query: PageProps["operators"] }) => {
   return <Status title="Operators (ID + Query)" query={query} />;
 };
 
-const SearchStatus = () => {
-  const [query] = Queries.useSearchQuery({
-    variables: { locale: "de", query: "lausanne" },
-  });
+const SearchStatus = ({ query }: { query: PageProps["search"] }) => {
   return <Status title="Search (Query)" query={query} />;
 };
 
-const SearchZipStatus = () => {
-  const [query] = Queries.useSearchQuery({
-    variables: { locale: "de", query: "3000" },
-  });
+const SearchZipStatus = ({ query }: { query: PageProps["searchZip"] }) => {
   return <Status title="Search (PLZ)" query={query} />;
 };
 
-const ObservationsStatus = () => {
-  const [query] = Queries.useObservationsWithAllPriceComponentsQuery({
-    variables: {
-      locale: "de",
-      observationKind: Queries.ObservationKind.Municipality,
-      filters: {
-        municipality: ["261"],
-        period: ["2021"],
-        category: ["H4"],
-        product: ["standard"],
-      },
-    },
-  });
+const ObservationsStatus = ({
+  query,
+}: {
+  query: PageProps["observations"];
+}) => {
   return (
     <Status
       title="Municipality Observations (All Price Components)"
@@ -191,20 +188,11 @@ const ObservationsStatus = () => {
   );
 };
 
-const CantonMedianStatus = () => {
-  const [query] = Queries.useObservationsWithAllPriceComponentsQuery({
-    variables: {
-      locale: "de",
-      observationKind: Queries.ObservationKind.Canton,
-      filters: {
-        canton: ["1", "2"],
-        period: ["2021"],
-        category: ["H4"],
-        product: ["standard"],
-      },
-    },
-  });
-
+const CantonMedianStatus = ({
+  query,
+}: {
+  query: PageProps["cantonMedian"];
+}) => {
   return (
     <Status
       title="Canton Median Observations (All Price Components)"
@@ -213,26 +201,11 @@ const CantonMedianStatus = () => {
   );
 };
 
-const SwissMedianStatus = () => {
-  const [query] = Queries.useObservationsQuery({
-    variables: {
-      locale: "de",
-      observationKind: Queries.ObservationKind.Canton,
-      priceComponent: Queries.PriceComponent.Total,
-      filters: {
-        canton: [],
-        period: ["2021"],
-        category: ["H4"],
-        product: ["standard"],
-      },
-    },
-  });
+const SwissMedianStatus = ({ query }: { query: PageProps["swissMedian"] }) => {
   return <Status title="Swiss Median Observations " query={query} />;
 };
 
-const CubeHealth = () => {
-  const [query] = Queries.useCubeHealthQuery();
-
+const CubeHealth = ({ query }: { query: PageProps["cubeHealth"] }) => {
   return <Status title="Cube health" query={query} />;
 };
 
@@ -244,28 +217,40 @@ const SectionHeading = (props: TypographyProps) => {
   );
 };
 
-const Page = () => {
+const Page = ({
+  cubeHealth,
+  systemInfo,
+  wikiContent,
+  municipalities,
+  cantons,
+  operators,
+  search,
+  searchZip,
+  observations,
+  cantonMedian,
+  swissMedian,
+}: PageProps) => {
   return (
     <Box sx={{ p: 5 }}>
       <Typography variant="h1">API Status</Typography>
 
       <SectionHeading>Internal</SectionHeading>
 
-      <SystemInfoStatus />
+      <SystemInfoStatus query={systemInfo} />
 
-      <WikiContentStatus />
+      <WikiContentStatus query={wikiContent} />
 
       <Typography variant="h2" sx={{ mt: 3 }}>
         Data (Lindas)
       </Typography>
 
-      <CubeHealth />
+      <CubeHealth query={cubeHealth} />
 
-      <ObservationsStatus />
+      <ObservationsStatus query={observations} />
 
-      <CantonMedianStatus />
+      <CantonMedianStatus query={cantonMedian} />
 
-      <SwissMedianStatus />
+      <SwissMedianStatus query={swissMedian} />
 
       <SunshineMedianStatus />
 
@@ -275,15 +260,15 @@ const Page = () => {
 
       <SectionHeading>Search</SectionHeading>
 
-      <MunicipalitiesStatus />
+      <MunicipalitiesStatus query={municipalities} />
 
-      <CantonsStatus />
+      <CantonsStatus query={cantons} />
 
-      <OperatorStatus />
+      <OperatorStatus query={operators} />
 
-      <SearchStatus />
+      <SearchStatus query={search} />
 
-      <SearchZipStatus />
+      <SearchZipStatus query={searchZip} />
     </Box>
   );
 };
@@ -528,8 +513,6 @@ const SunshineMedianStatus = () => {
   );
 };
 
-// data
-// {"head":{"vars":["obs","group","period","gridcost_ne5","gridcost_ne6","gridcost_ne7","franken_regel","saidi_total","saidi_unplanned","saifi_total","saifi_unplanned","info","days_in_advance","in_time","group_name"]},"results":{"bindings":[{"obs":{"type":"uri","value":"https://energy.ld.admin.ch/elcom/sunshine-median/B-2025"},"group":{"type":"uri","value":"https://en
 const SPARQLTable = ({
   data,
 }: {
@@ -661,5 +644,176 @@ const DocumentDownloadStatus = () => {
     </StatusBox>
   );
 };
+
+const client = new Client({
+  exchanges: serverExchanges,
+
+  // Does not matter as we are using the executeExchange
+  url: "does-not-matter",
+});
+
+const serializeOperation = (operation: OperationResult) => {
+  return {
+    data: operation.data ?? null,
+    error: operation.error
+      ? {
+          message: operation.error.message ?? null,
+        }
+      : null,
+    fetching: false,
+    operation: {
+      variables: operation.operation.variables,
+    },
+  };
+};
+
+const objectPromiseAllSettled = <
+  T extends Record<string, Promise<$IntentionalAny>>
+>(
+  promises: T
+) => {
+  const allSettled = Promise.allSettled(Object.values(promises)).then(
+    (results) => {
+      return Object.fromEntries(
+        results.map((result, index) => {
+          const key = Object.keys(promises)[index];
+          return [key, result];
+        })
+      );
+    }
+  );
+  return allSettled as Promise<{
+    [K in keyof T]: PromiseSettledResult<Awaited<T[K]>>;
+  }>;
+};
+
+export const getServerSideProps = (async () => {
+  // The code is generic enough here to accomodate for all queries of the page
+  // TODO: Put all requests here so that they are executed server side
+  const results = await objectPromiseAllSettled({
+    cubeHealth: client
+      .query<Queries.CubeHealthQuery>(Queries.CubeHealthDocument, {})
+      .toPromise(),
+    systemInfo: client
+      .query<Queries.SystemInfoQuery>(Queries.SystemInfoDocument, {})
+      .toPromise(),
+    wikiContent: client
+      .query<Queries.WikiContentQuery>(Queries.WikiContentDocument, {
+        locale: "de",
+        slug: "help-price-comparison",
+      })
+      .toPromise(),
+    municipalities: client
+      .query<Queries.MunicipalitiesQuery>(Queries.MunicipalitiesDocument, {
+        locale: "de",
+        ids: ["261", "700"],
+        query: "Ber",
+      })
+      .toPromise(),
+    cantons: client
+      .query<Queries.CantonsQuery>(Queries.CantonsDocument, {
+        locale: "de",
+        ids: ["1"],
+        query: "Ber",
+      })
+      .toPromise(),
+    operators: client
+      .query<Queries.OperatorsQuery>(Queries.OperatorsDocument, {
+        locale: "de",
+        ids: ["565"],
+        query: "lausanne",
+      })
+      .toPromise(),
+    search: client
+      .query<Queries.SearchQuery>(Queries.SearchDocument, {
+        locale: "de",
+        query: "lausanne",
+      })
+      .toPromise(),
+    searchZip: client
+      .query<Queries.SearchQuery>(Queries.SearchDocument, {
+        locale: "de",
+        query: "3000",
+      })
+      .toPromise(),
+    observations: client
+      .query<Queries.ObservationsWithAllPriceComponentsQuery>(
+        Queries.ObservationsWithAllPriceComponentsDocument,
+        {
+          locale: "de",
+          observationKind: Queries.ObservationKind.Municipality,
+          filters: {
+            municipality: ["261"],
+            period: ["2021"],
+            category: ["H4"],
+            product: ["standard"],
+          },
+        }
+      )
+      .toPromise(),
+    cantonMedian: client
+      .query<Queries.ObservationsWithAllPriceComponentsQuery>(
+        Queries.ObservationsWithAllPriceComponentsDocument,
+        {
+          locale: "de",
+          observationKind: Queries.ObservationKind.Canton,
+          filters: {
+            canton: ["1", "2"],
+            period: ["2021"],
+            category: ["H4"],
+            product: ["standard"],
+          },
+        }
+      )
+      .toPromise(),
+    swissMedian: client
+      .query<Queries.ObservationsQuery>(Queries.ObservationsDocument, {
+        locale: "de",
+        observationKind: Queries.ObservationKind.Canton,
+        priceComponent: Queries.PriceComponent.Total,
+        filters: {
+          canton: [],
+          period: ["2021"],
+          category: ["H4"],
+          product: ["standard"],
+        },
+      })
+      .toPromise(),
+  });
+
+  if (Object.values(results).some((result) => result.status === "rejected")) {
+    throw new Error(
+      "FAIL: " +
+        JSON.stringify(
+          Object.fromEntries(
+            Object.entries(results).filter(([_, v]) => v.status === "rejected")
+          )
+        )
+    );
+  }
+
+  type Results = typeof results;
+  const validResults = results as {
+    [K in keyof Results]: Extract<Results[K], { status: "fulfilled" }>;
+  };
+
+  return {
+    props: {
+      cubeHealth: serializeOperation(validResults.cubeHealth.value),
+      systemInfo: serializeOperation(validResults.systemInfo.value),
+      wikiContent: serializeOperation(validResults.wikiContent.value),
+      municipalities: serializeOperation(validResults.municipalities.value),
+      cantons: serializeOperation(validResults.cantons.value),
+      operators: serializeOperation(validResults.operators.value),
+      search: serializeOperation(validResults.search.value),
+      searchZip: serializeOperation(validResults.searchZip.value),
+      observations: serializeOperation(validResults.observations.value),
+      cantonMedian: serializeOperation(validResults.cantonMedian.value),
+      swissMedian: serializeOperation(validResults.swissMedian.value),
+    },
+  };
+}) satisfies GetServerSideProps;
+
+type PageProps = Awaited<ReturnType<typeof getServerSideProps>>["props"];
 
 export default Page;
