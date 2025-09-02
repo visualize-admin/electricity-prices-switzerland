@@ -18,6 +18,7 @@ import {
 export interface EntitySelection {
   hoveredId: string | null;
   selectedId: string | null;
+  entityType: "municipality" | "canton";
 }
 
 interface UseSelectedEntityDataOptions {
@@ -88,6 +89,7 @@ export function useSelectedEntityData(
     // Handle energy prices data
     if (dataType === "energy-prices") {
       const energyData = enrichedData as EnrichedEnergyPricesData;
+      const entityType = selection.entityType;
 
       // Use the pre-built indexes for efficient lookup
       const municipalityObservations =
@@ -95,8 +97,9 @@ export function useSelectedEntityData(
       const cantonObservations = energyData.observationsByCanton.get(entityId);
 
       const entityObservations =
-        municipalityObservations || cantonObservations || [];
-      const entityType = municipalityObservations ? "municipality" : "canton";
+        (entityType === "municipality"
+          ? municipalityObservations
+          : cantonObservations) ?? [];
 
       if (entityObservations.length === 0) {
         return {
@@ -170,6 +173,7 @@ export function useSelectedEntityData(
     entityId,
     selection.hoveredId,
     selection.selectedId,
+    selection.entityType,
     enrichedData,
     colorScale,
     formatValue,

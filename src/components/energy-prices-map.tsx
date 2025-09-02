@@ -69,6 +69,7 @@ export const EnergyPricesMap = ({
           ? hovered.id.toString()
           : null,
       selectedId: null,
+      entityType: hovered?.type === "municipality" ? "municipality" : "canton",
     }),
     [hovered]
   );
