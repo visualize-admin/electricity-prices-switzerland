@@ -10,6 +10,7 @@ import { indicatorToChart } from "src/components/map-details-chart-adapters";
 import { Entity } from "src/domain/data";
 import { useFormatCurrency } from "src/domain/helpers";
 import {
+  energyPricesDetailsLink,
   getSunshineDetailsPageFromIndicator,
   QueryStateEnergyPricesMap,
   sunshineDetailsLink,
@@ -204,6 +205,14 @@ export const MapDetailsContent: React.FC<{
   onBack: () => void;
 }> = ({ colorScale, entity, selectedItem, onBack }) => {
   const [{ tab }] = useQueryStateMapCommon();
+  const [
+    {
+      period: energyPricesPeriod,
+      priceComponent: energyPricesPriceComponent,
+      category: energyPricesCategory,
+      product: energyPricesProduct,
+    },
+  ] = useQueryStateEnergyPricesMap();
   const [{ indicator, period }] = useQueryStateSunshineMap();
   return (
     <MapDetailsContentWrapper onBack={onBack}>
@@ -239,7 +248,12 @@ export const MapDetailsContent: React.FC<{
         endIcon={<Icon name="arrowright" />}
         href={
           tab === "electricity"
-            ? `/${entity}/${selectedItem.id}`
+            ? energyPricesDetailsLink(`/${entity}/${selectedItem.id}`, {
+                period: [energyPricesPeriod],
+                priceComponent: [energyPricesPriceComponent],
+                category: [energyPricesCategory],
+                product: [energyPricesProduct],
+              })
             : sunshineDetailsLink(
                 `/sunshine/operator/${
                   selectedItem.id

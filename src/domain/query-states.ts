@@ -125,15 +125,14 @@ const sunshineDetailsSchema = z.object({
   tab: detailTabsSchema,
 });
 
-export const sunshineDetailsLink = (
-  route: string,
-  state: Parameters<
-    ReturnType<typeof makeLinkGenerator<typeof sunshineDetailsSchema.shape>>
-  >[1]
-) => {
-  const baseLink = makeLinkGenerator(sunshineDetailsSchema)(route, state);
-  return `${baseLink}#main-content`;
-};
+export const energyPricesDetailsLink = makeLinkGenerator(
+  energyPricesDetailsSchema,
+  "main-content"
+);
+export const sunshineDetailsLink = makeLinkGenerator(
+  sunshineDetailsSchema,
+  "main-content"
+);
 
 const sunshineOverviewFiltersSchema = z.object({
   year: z.string().default("2025"),

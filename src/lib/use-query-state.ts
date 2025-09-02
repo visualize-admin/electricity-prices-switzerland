@@ -83,9 +83,15 @@ export function makeUseQueryState<T extends z.ZodRawShape>(
 }
 
 export const makeLinkGenerator = <T extends z.ZodRawShape>(
-  _schema: z.ZodObject<T>
+  _schema: z.ZodObject<T>,
+  defaultFragment?: string
 ) => {
-  return (route: string, state: Partial<UseQueryStateSingle<T>>) => {
+  return (
+    route: string,
+    state: Partial<UseQueryStateSingle<T>>,
+    optionsFragment?: string
+  ) => {
+    const fragment = optionsFragment ?? defaultFragment;
     const query: { [key: string]: string } = {};
     for (const key in state) {
       const value = state[key];
@@ -94,6 +100,6 @@ export const makeLinkGenerator = <T extends z.ZodRawShape>(
       }
     }
     const queryString = new URLSearchParams(query).toString();
-    return `${route}?${queryString}`;
+    return `${route}?${queryString}${fragment ? `#${fragment}` : ""}`;
   };
 };
