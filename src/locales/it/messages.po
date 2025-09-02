@@ -387,7 +387,7 @@ msgstr "Panoramica"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-regulation.description"
-msgstr "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum."
+msgstr "In Svizzera, le tariffe elettriche si basano sui costi effettivi (regolamentazione Cost Plus). L'ElCom ha introdotto la regolamentazione Sunshine per promuovere l'efficienza e creare trasparenza. La regolamentazione Sunshine è un processo standardizzato per la pubblicazione di indicatori relativi alla qualità e ai costi dei gestori della rete elettrica svizzera. I diversi indicatori consentono di confrontare i gestori di rete in termini di efficienza dei costi, qualità dell'approvvigionamento e conformità. Poiché le differenze topografiche e strutturali influenzano i valori, i confronti vengono effettuati sia a livello nazionale che all'interno di gruppi di riferimento in base alla densità di popolazione e al consumo energetico."
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-regulation.title"
@@ -822,9 +822,7 @@ msgstr "mostra {rest} di più…"
 
 #: src/components/app-layout.tsx
 msgid "search.global"
-msgstr ""
-"Visualizzare l'analisi dettagliata dei prezzi per cantone, comune e gestore di rete.\n"
-"Attenzione: i dati relativi a Sunshine conterranno i valori definitivi solo a partire dalla pubblicazione nel 2026."
+msgstr "Visualizzare l'analisi dettagliata dei prezzi per cantone, comune e gestore di rete."
 
 #: src/components/search.tsx
 msgid "search.global.hint.canton.muni.operator"
@@ -1077,7 +1075,7 @@ msgstr "Supplemento rete ai sensi dell'art. 35 LEne"
 
 #: src/domain/translation.tsx
 msgid "selector.pricecomponent.annualmeteringcost"
-msgstr "Costo annuale del contatore"
+msgstr "Costi annuali di misurazione"
 
 #: src/domain/translation.tsx
 msgid "selector.pricecomponent.charge"
@@ -1135,7 +1133,7 @@ msgstr "Tipologia"
 #: src/components/electricity-selectors.tsx
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.year"
-msgstr "anno tariffario"
+msgstr "Anno tariffario"
 
 #: src/components/detail-page/selector-multi.tsx
 msgid "selector.years"
@@ -1428,7 +1426,7 @@ msgstr "Standard operativi"
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.overview-sunshine.description"
-msgstr "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at tellus at leo fermentum gravida. Nam eu mollis lacus. Sed libero augue, porttitor at velit fringilla, blandit cursus ipsum. In neque metus, ultricies ut tellus et, ornare condimentu."
+msgstr "In Svizzera, le tariffe elettriche si basano sui costi effettivi (regolamentazione Cost Plus). L'ElCom ha introdotto la regolamentazione Sunshine per promuovere l'efficienza e creare trasparenza. La regolamentazione Sunshine è un processo standardizzato per la pubblicazione di indicatori relativi alla qualità e ai costi dei gestori della rete elettrica svizzera. I diversi indicatori consentono di confrontare i gestori di rete in termini di efficienza dei costi, qualità dell'approvvigionamento e conformità. Poiché le differenze topografiche e strutturali influenzano i valori, i confronti vengono effettuati sia a livello nazionale che all'interno di gruppi di riferimento in base alla densità di popolazione e al consumo energetico."
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 #: src/pages/sunshine/[entity]/[id]/overview.tsx

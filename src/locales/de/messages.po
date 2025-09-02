@@ -331,7 +331,7 @@ msgstr "Tarifvergleich"
 
 #: src/components/hint.tsx
 msgid "hint.loading.data"
-msgstr "Daten werden laden…"
+msgstr "Daten werden geladen…"
 
 #: src/components/hint.tsx
 msgid "hint.nocontent.message"
@@ -822,9 +822,7 @@ msgstr "{rest} weitere …"
 
 #: src/components/app-layout.tsx
 msgid "search.global"
-msgstr ""
-"Detaillierte Preisanalysen von Kantonen, Gemeinden und Netzbetreibern.\n"
-"Achtung: Die Daten zu Sunshine enthalten erst ab der Veröffentlichung 2026 die endgültigen Werte."
+msgstr "Detaillierte Preisanalysen von Kantonen, Gemeinden und Netzbetreibern."
 
 #: src/components/search.tsx
 msgid "search.global.hint.canton.muni.operator"
@@ -1049,7 +1047,7 @@ msgstr "Kommunale und kantonale Abgaben und Gebühren. Darunter fallen z.B. Konz
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.collapsed-content"
-msgstr "Gruppierte Aufschlüsselung aller vorgeschriebenen Preiskomponenten, die separat ausgewiesen werden"
+msgstr "Zeigt die Preisbestandteile zusammengefasst pro Netzbetreiber an, ohne die Gemeinden einzeln aufzulisten."
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.energy-content"
@@ -1057,7 +1055,7 @@ msgstr "Preis für die gelieferte elektrische Energie."
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.expanded-content"
-msgstr "Individuelle Aufschlüsselung aller vorgeschriebenen Preiskomponenten, die separat ausgewiesen werden"
+msgstr "Zeigt die Preisbestandteile für jede Gemeinde einzeln an."
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.gridusage-content"
@@ -1081,7 +1079,7 @@ msgstr "Jährlicher Messtarif"
 
 #: src/domain/translation.tsx
 msgid "selector.pricecomponent.charge"
-msgstr "Abgaben an das Gemeinwesen"
+msgstr "Abgaben an Gemeinwesen"
 
 #: src/domain/translation.tsx
 msgid "selector.pricecomponent.energy"
@@ -1428,7 +1426,7 @@ msgstr "Leistungsindikatoren"
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.overview-sunshine.description"
-msgstr "In der Schweiz basieren Stromtarife auf den tatsächlichen Kosten (Cost Plus-Regulierung). Die ElCom hat die Sunshine-Regulierung eingeführt, um Effizienz zu fördern und Transparenz zu schaffen. Die Effizienz-Indikatoren ermöglichen Vergleiche zwischen Netzbetreibern bezüglich Kosteneffizienz, Versorgungsqualität und Compliance. Da topografische und strukturelle Unterschiede die Werte beeinflussen, erfolgen Vergleiche sowohl schweizweit als auch innerhalb von Vergleichsgruppen nach Bevölkerungsdichte und Energieverbrauch."
+msgstr "In der Schweiz basieren Stromtarife auf den tatsächlichen Kosten (Cost Plus-Regulierung). Die ElCom hat die Sunshine-Regulierung eingeführt, um Effizienz zu fördern und Transparenz zu schaffen. Die Sunshine-Regulierung ist ein standardisierter Prozess zur Veröffentlichung von Indikatoren für die Qualität und Kosten der schweizerischen Stromnetzbetreiber. Die verschiedenen Indikatoren ermöglichen Vergleiche zwischen Netzbetreibern bezüglich Kosteneffizienz, Versorgungsqualität und Compliance. Da topografische und strukturelle Unterschiede die Werte beeinflussen, erfolgen Vergleiche sowohl schweizweit als auch innerhalb von Vergleichsgruppen nach Bevölkerungsdichte und Energieverbrauch."
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 #: src/pages/sunshine/[entity]/[id]/overview.tsx

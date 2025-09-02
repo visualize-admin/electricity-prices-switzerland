@@ -387,7 +387,7 @@ msgstr "Vue d’ensemble"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-regulation.description"
-msgstr "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercice ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in volupté velit esse cillum."
+msgstr "En Suisse, les tarifs d'électricité sont basés sur les coûts réels (réglementation « cost plus »). L'ElCom a introduit la réglementation Sunshine afin de promouvoir l'efficacité et la transparence. La réglementation Sunshine est un processus standardisé de publication d'indicateurs relatifs à la qualité et aux coûts des gestionnaires de réseau électrique suisses. Les différents indicateurs permettent de comparer les gestionnaires de réseau en termes de rentabilité, de qualité d'approvisionnement et de conformité. Étant donné que les différences topographiques et structurelles influencent les valeurs, les comparaisons sont effectuées à l'échelle nationale ainsi qu'au sein de groupes comparables en fonction de la densité de population et de la consommation d'énergie."
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-regulation.title"
@@ -531,7 +531,7 @@ msgstr "Vue selon"
 
 #: src/pages/map/index.tsx
 msgid "list.viewby.municipality"
-msgstr "Municipalité"
+msgstr "Commune"
 
 #: src/pages/map/index.tsx
 msgid "list.viewby.operator"
@@ -766,7 +766,7 @@ msgstr "Min"
 
 #: src/domain/translation.tsx
 msgid "priceComponents.view.collapsed.municipalities"
-msgstr "Grouper les municipalités"
+msgstr "Grouper les communes"
 
 #: src/domain/translation.tsx
 msgid "priceComponents.view.collapsed.operators"
@@ -774,7 +774,7 @@ msgstr "Grouper les gestionnaires"
 
 #: src/domain/translation.tsx
 msgid "priceComponents.view.expanded.municipalities"
-msgstr "Montrer toutes les municipalités"
+msgstr "Montrer toutes les communes"
 
 #: src/domain/translation.tsx
 msgid "priceComponents.view.expanded.operators"
@@ -822,9 +822,7 @@ msgstr "montrer {rest} plus…"
 
 #: src/components/app-layout.tsx
 msgid "search.global"
-msgstr ""
-"Voir l'analyse détaillée des prix par cantons, communes et gestionnaires de réseau.\n"
-"Attention: les données relatives à Sunshine ne contiendront les valeurs définitives qu'à partir de leur publication en 2026."
+msgstr "Voir l'analyse détaillée des prix par cantons, communes et gestionnaires de réseau."
 
 #: src/components/search.tsx
 msgid "search.global.hint.canton.muni.operator"
@@ -1077,11 +1075,11 @@ msgstr "Supplément de réseau selon l'art. 35 LEne"
 
 #: src/domain/translation.tsx
 msgid "selector.pricecomponent.annualmeteringcost"
-msgstr "Coût annuel du comptage"
+msgstr "Coût annuel de mesure"
 
 #: src/domain/translation.tsx
 msgid "selector.pricecomponent.charge"
-msgstr "Taxes à la collectivité publique"
+msgstr "Taxes aux collectivités publiques"
 
 #: src/domain/translation.tsx
 msgid "selector.pricecomponent.energy"
@@ -1135,11 +1133,11 @@ msgstr "Typologie"
 #: src/components/electricity-selectors.tsx
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.year"
-msgstr "année tarifaire"
+msgstr "Année tarifaire"
 
 #: src/components/detail-page/selector-multi.tsx
 msgid "selector.years"
-msgstr "années tarifaires"
+msgstr "Années tarifaires"
 
 #: src/components/share-button.tsx
 msgid "share.url-copied"
@@ -1428,7 +1426,7 @@ msgstr "Normes opérationnelles"
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.overview-sunshine.description"
-msgstr "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at tellus at leo fermentum gravida. Nam eu mollis lacus. Sed libero augue, porttitor at velit fringilla, blandit cursus ipsum. In neque metus, ultricies ut tellus et, ornare condimentu."
+msgstr "En Suisse, les tarifs d'électricité sont basés sur les coûts réels (réglementation « cost plus »). L'ElCom a introduit la réglementation Sunshine afin de promouvoir l'efficacité et la transparence. La réglementation Sunshine est un processus standardisé de publication d'indicateurs relatifs à la qualité et aux coûts des gestionnaires de réseau électrique suisses. Les différents indicateurs permettent de comparer les gestionnaires de réseau en termes de rentabilité, de qualité d'approvisionnement et de conformité. Étant donné que les différences topographiques et structurelles influencent les valeurs, les comparaisons sont effectuées à l'échelle nationale ainsi qu'au sein de groupes comparables en fonction de la densité de population et de la consommation d'énergie."
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
