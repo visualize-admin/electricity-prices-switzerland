@@ -13,7 +13,7 @@ You can also check the
 
 Nothing yet.
 
-# 2.12.1 (2025-09-02)
+# 2.12.2 (2025-09-02)
 
 - Feat
 
