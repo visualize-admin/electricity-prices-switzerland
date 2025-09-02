@@ -271,6 +271,7 @@ const PriceEvolutionLineChart = (props: {
           },
         ]}
         aspectRatio={0.2}
+        mini={mini}
       >
         {i === 0 && hasMultipleLines && (
           <Box sx={{ mb: 6 }}>
