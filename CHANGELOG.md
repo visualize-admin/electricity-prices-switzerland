@@ -12,7 +12,11 @@ You can also check the
 # Unreleased
 
 - Feat
+
   - Validate and sanitize energy prices query parameters
+
+- Fix
+  - Language is persisted when navigating from overview to map page
 
 # 2.12.0 (2025-09-02)
 
