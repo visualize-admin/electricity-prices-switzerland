@@ -32,11 +32,11 @@ import {
   SunshineIndicator,
 } from "src/domain/sunshine";
 import { Maybe, SunshineDataIndicatorRow } from "src/graphql/queries";
-import { UseEnrichedSunshineDataResult } from "src/hooks/useEnrichedSunshineData";
+import { UseEnrichedSunshineDataResult } from "src/hooks/use-enriched-sunshine-data";
 import {
   EntitySelection,
   useSelectedEntityData,
-} from "src/hooks/useSelectedEntityData";
+} from "src/hooks/use-selected-entity-data";
 import { truthy } from "src/lib/truthy";
 
 const indicatorLegendTitleMapping: Record<SunshineIndicator, string> = {

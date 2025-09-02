@@ -37,9 +37,9 @@ import {
 } from "src/domain/query-states";
 import { NetworkLevel } from "src/domain/sunshine";
 import { PriceComponent, SunshineDataIndicatorRow } from "src/graphql/queries";
-import { useEnrichedEnergyPricesData } from "src/hooks/useEnrichedEnergyPricesData";
-import { useEnrichedSunshineData } from "src/hooks/useEnrichedSunshineData";
-import { useSelectedEntityData } from "src/hooks/useSelectedEntityData";
+import { useEnrichedEnergyPricesData } from "src/hooks/use-enriched-energy-prices-data";
+import { useEnrichedSunshineData } from "src/hooks/use-enriched-sunshine-data";
+import { useSelectedEntityData } from "src/hooks/use-selected-entity-data";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { getSunshineDataServiceInfo } from "src/lib/sunshine-data-service-context";
 import { useIsMobile } from "src/lib/use-mobile";

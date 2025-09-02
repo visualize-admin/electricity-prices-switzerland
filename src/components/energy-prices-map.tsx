@@ -26,11 +26,11 @@ import { SelectedEntityCard } from "src/components/map-tooltip";
 import { useGeoData } from "src/data/geo";
 import { useFormatCurrency } from "src/domain/helpers";
 import { PriceComponent } from "src/graphql/resolver-types";
-import { useEnrichedEnergyPricesData } from "src/hooks/useEnrichedEnergyPricesData";
+import { useEnrichedEnergyPricesData } from "src/hooks/use-enriched-energy-prices-data";
 import {
   useSelectedEntityData,
   EntitySelection,
-} from "src/hooks/useSelectedEntityData";
+} from "src/hooks/use-selected-entity-data";
 import { truthy } from "src/lib/truthy";
 import { combineErrors } from "src/utils/combine-errors";
 

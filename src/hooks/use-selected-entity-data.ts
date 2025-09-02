@@ -5,11 +5,11 @@ import { useQueryStateSunshineMap } from "src/domain/query-states";
 import {
   EnrichedEnergyObservation,
   EnrichedEnergyPricesData,
-} from "src/hooks/useEnrichedEnergyPricesData";
+} from "src/hooks/use-enriched-energy-prices-data";
 import {
   EnrichedSunshineData,
   EnrichedSunshineObservation,
-} from "src/hooks/useEnrichedSunshineData";
+} from "src/hooks/use-enriched-sunshine-data";
 import {
   formatEnergyPricesEntity,
   formatSunshineEntity,

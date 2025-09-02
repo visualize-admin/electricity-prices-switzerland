@@ -25,7 +25,7 @@ import {
   useQueryStateSunshineMap,
 } from "src/domain/query-states";
 import { getLocalizedLabel } from "src/domain/translation";
-import { useSelectedEntityData } from "src/hooks/useSelectedEntityData";
+import { useSelectedEntityData } from "src/hooks/use-selected-entity-data";
 import { Icon } from "src/icons";
 
 const MobileDrawer = ({

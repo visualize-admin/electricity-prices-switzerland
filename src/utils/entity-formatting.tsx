@@ -3,8 +3,8 @@ import { ScaleThreshold } from "d3";
 import React from "react";
 
 import { SunshineIndicator } from "src/domain/sunshine";
-import { EnrichedEnergyObservation } from "src/hooks/useEnrichedEnergyPricesData";
-import { EnrichedSunshineObservation } from "src/hooks/useEnrichedSunshineData";
+import { EnrichedEnergyObservation } from "src/hooks/use-enriched-energy-prices-data";
+import { EnrichedSunshineObservation } from "src/hooks/use-enriched-sunshine-data";
 
 // Core entity types for unified handling
 export type EntityType = "municipality" | "canton" | "operator";
