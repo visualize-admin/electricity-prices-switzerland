@@ -49,10 +49,6 @@ export const formatEnergyPricesEntity = (
       firstObs.municipalityData?.name ||
       firstObs.municipalityLabel ||
       "Unknown Municipality"
-    }${
-      firstObs.cantonData?.name || firstObs.cantonLabel
-        ? ` - ${firstObs.cantonData?.name || firstObs.cantonLabel}`
-        : ""
     }`;
   } else if (entityType === "canton") {
     title =
