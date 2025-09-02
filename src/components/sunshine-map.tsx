@@ -131,6 +131,7 @@ const SunshineMap = ({
   const [entitySelection, setEntitySelection] = useState<EntitySelection>({
     hoveredId: null,
     selectedId: null,
+    entityType: "municipality",
   });
 
   // Use the unified entity selection hook
@@ -140,6 +141,7 @@ const SunshineMap = ({
     dataType: "sunshine" as const,
     colorScale,
     formatValue: valueFormatter,
+    priceComponent: "",
   });
 
   // Handle hover on operator layer

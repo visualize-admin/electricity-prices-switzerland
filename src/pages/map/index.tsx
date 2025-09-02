@@ -102,7 +102,6 @@ const MapPageContent = ({
       product,
       download,
       tab = "electricity",
-      view: energyPricesView,
     },
   ] = useQueryStateEnergyPricesMap();
 
