@@ -1,6 +1,6 @@
 import { Trans } from "@lingui/macro";
-import { Button, Divider, Link, Typography } from "@mui/material";
-import { Box, Stack } from "@mui/system";
+import { Button, Chip, Divider, Link, Typography } from "@mui/material";
+import { Stack } from "@mui/system";
 import { ScaleThreshold } from "d3";
 import NextLink from "next/link";
 import { ReactElement, ReactNode } from "react";
@@ -49,7 +49,7 @@ const MapDetailsContentWrapper = (props: MapDetailsContentProps) => {
           onClick={onBack}
         >
           <Trans id="map.details-sidebar-panel.back-button">
-            Back to the filters
+            Back to filters
           </Trans>
         </Button>
       </div>
@@ -129,18 +129,15 @@ const MapDetailsEntityTable = (
             href={`/operator/${operator.id}`}
             key={`${operator.id}-${i}`}
             tag={
-              <Box
-                sx={{
-                  borderRadius: 9999,
-                  px: 2,
-                  flexShrink: 0,
-                }}
+              <Chip
+                size="sm"
                 style={{ background: colorScale(operator.value) }}
-              >
-                <Typography variant="body3" lineHeight={1.4} color="black">
-                  {formatNumber(operator.value)}
-                </Typography>
-              </Box>
+                label={
+                  <Typography variant="body3" color="black">
+                    {formatNumber(operator.value)}
+                  </Typography>
+                }
+              />
             }
           />
         );
@@ -169,7 +166,6 @@ const KeyValueTableRow = <T extends Record<string, string | undefined>>(props: {
         component={component}
         color={component === "span" ? "text.500" : "primary"}
         sx={{
-          fontFeatureSettings: "'liga' off, 'clig' off",
           textDecoration: "none",
           whiteSpace: "nowrap",
           overflow: "hidden",
@@ -186,7 +182,6 @@ const KeyValueTableRow = <T extends Record<string, string | undefined>>(props: {
       ) : (
         <Typography
           sx={{
-            fontFeatureSettings: "'liga' off, 'clig' off",
             textTransform: "capitalize",
             whiteSpace: "nowrap",
             overflow: "hidden",

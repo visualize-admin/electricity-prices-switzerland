@@ -1,9 +1,8 @@
 import { PickingInfo } from "@deck.gl/core/typed";
 import { GeoJsonLayerProps } from "@deck.gl/layers/typed";
-import { t, Trans } from "@lingui/macro";
+import { t } from "@lingui/macro";
 import { extent, ScaleThreshold } from "d3";
 import { Feature, GeoJsonProperties, Geometry } from "geojson";
-import { keyBy } from "lodash";
 import { useCallback, useId, useMemo, useState } from "react";
 
 import { MapColorLegend } from "src/components/color-legend";
@@ -18,7 +17,7 @@ import {
   makeSunshineOperatorLayer,
   makeSunshineOperatorPickableLayer,
 } from "src/components/map-layers";
-import { MapTooltipContent } from "src/components/map-tooltip";
+import { SelectedEntityCard } from "src/components/map-tooltip";
 import {
   getOperatorsFeatureCollection,
   isOperatorFeature,
@@ -27,15 +26,18 @@ import {
   OperatorLayerProperties,
   useGeoData,
 } from "src/data/geo";
-import { useFetch } from "src/data/use-fetch";
 import { ValueFormatter } from "src/domain/data";
 import {
   indicatorWikiPageSlugMapping,
   SunshineIndicator,
 } from "src/domain/sunshine";
 import { Maybe, SunshineDataIndicatorRow } from "src/graphql/queries";
+import { UseEnrichedSunshineDataResult } from "src/hooks/use-enriched-sunshine-data";
+import {
+  EntitySelection,
+  useSelectedEntityData,
+} from "src/hooks/use-selected-entity-data";
 import { truthy } from "src/lib/truthy";
-import { getOperatorsMunicipalities } from "src/rdf/queries";
 
 const indicatorLegendTitleMapping: Record<SunshineIndicator, string> = {
   networkCosts: t({
@@ -69,88 +71,114 @@ const indicatorLegendTitleMapping: Record<SunshineIndicator, string> = {
 };
 
 type SunshineMapProps = {
-  period: string;
-  indicator: SunshineIndicator;
+  enrichedDataResult: UseEnrichedSunshineDataResult;
   colorScale: ScaleThreshold<number, string, never>;
   accessor: (x: SunshineDataIndicatorRow) => Maybe<number> | undefined;
-  observations?: SunshineDataIndicatorRow[];
   valueFormatter: ValueFormatter;
   controls?: GenericMapControls;
-  medianValue: number | undefined;
-  observationsQueryFetching: boolean;
+  enabled?: boolean;
+  period: string;
+  indicator: SunshineIndicator;
 };
 
 const SunshineMap = ({
-  period,
-  indicator,
+  enrichedDataResult,
   colorScale,
   accessor,
-  observations,
-  observationsQueryFetching,
-  controls,
   valueFormatter,
-  medianValue,
+  controls,
+  period,
+  indicator,
 }: SunshineMapProps) => {
-  // TODO Right now we fetch operators municipalities through EC2 indicators
-  // This is not ideal, but we don't have a better way to get the operator municipalities
-  // We should probably add a query to get the operator municipalities directly
-  const electricityCategory = "C2" as const;
-
-  const operatorMunicipalitiesResult = useFetch({
-    key: `operator-municipalities-${period}-${electricityCategory}`,
-    queryFn: () => getOperatorsMunicipalities(period, electricityCategory),
-  });
   const geoDataResult = useGeoData(period);
 
   const isLoading =
-    operatorMunicipalitiesResult.state === "fetching" ||
-    geoDataResult.state === "fetching" ||
-    observationsQueryFetching;
+    enrichedDataResult.fetching || geoDataResult.state === "fetching";
 
-  const operatorMunicipalities = operatorMunicipalitiesResult.data;
+  const enrichedData = enrichedDataResult.data;
   const geoData = geoDataResult.data;
 
+  // Convert enriched data to format expected by map layers
   const observationsByOperator = useMemo(() => {
-    return keyBy(observations ?? [], "operatorId");
-  }, [observations]);
+    if (!enrichedData?.observationsByOperator) {
+      return {};
+    }
+
+    const record: Record<string, SunshineDataIndicatorRow> = {};
+    for (const [
+      operatorId,
+      observations,
+    ] of enrichedData.observationsByOperator) {
+      // Take the first observation for each operator
+      if (observations.length > 0) {
+        record[operatorId] = observations[0];
+      }
+    }
+    return record;
+  }, [enrichedData?.observationsByOperator]);
 
   const enhancedGeoData = useMemo(() => {
-    if (!operatorMunicipalities || !geoData) {
+    if (!enrichedData?.operatorMunicipalities || !geoData) {
       return null;
     }
     return getOperatorsFeatureCollection(
-      operatorMunicipalities,
+      enrichedData.operatorMunicipalities,
       geoData?.municipalities as MunicipalityFeatureCollection
     );
-  }, [operatorMunicipalities, geoData]);
+  }, [enrichedData?.operatorMunicipalities, geoData]);
 
-  // We'll use GenericMap's internal viewState management instead
+  // Entity selection state
+  const [entitySelection, setEntitySelection] = useState<EntitySelection>({
+    hoveredId: null,
+    selectedId: null,
+  });
 
+  // Use the unified entity selection hook
+  const selectedEntityData = useSelectedEntityData({
+    selection: entitySelection,
+    enrichedData,
+    dataType: "sunshine" as const,
+    colorScale,
+    formatValue: valueFormatter,
+  });
+
+  // Handle hover on operator layer
   const [hovered, setHovered] = useState<HoverState>();
   const onHoverOperatorLayer = useCallback(
     (info: PickingInfo) => {
       if (info.object && info.object.properties) {
         const properties = info.object.properties as OperatorLayerProperties;
         const operatorIds = properties.operators;
-        const values = operatorIds.map((x) =>
-          accessor(observationsByOperator[x])
-        );
-        if (!values || values.length === 0) {
+
+        const values = operatorIds.map((operatorId) => {
+          const observation = observationsByOperator[operatorId];
+          return observation ? accessor(observation) : undefined;
+        });
+
+        if (values.every((v) => v === null || v === undefined)) {
           setHovered(undefined);
+          setEntitySelection((prev) => ({ ...prev, hoveredId: null }));
           return;
         }
+
+        // Set entity selection for the unified hook
+        const hoveredId = operatorIds[0]?.toString();
+        setEntitySelection((prev) => ({ ...prev, hoveredId }));
+
         setHovered({
           type: "operator",
           id: operatorIds.join(","),
           values: operatorIds
-            .map((x) => {
-              const value = accessor(observationsByOperator[x]);
+            .map((operatorId) => {
+              const observation = observationsByOperator[operatorId];
+              const value = observation ? accessor(observation) : undefined;
+
               if (value === undefined || value === null) {
                 return undefined;
               }
               return {
                 value,
-                operatorName: observationsByOperator[x]?.name ?? "",
+                operatorName: observation?.name ?? "",
               };
             })
             .filter(truthy),
@@ -159,34 +187,23 @@ const SunshineMap = ({
         });
       } else {
         setHovered(undefined);
+        setEntitySelection((prev) => ({ ...prev, hoveredId: null }));
       }
     },
     [accessor, observationsByOperator]
   );
 
-  // Create tooltip content conditionally, only when there's a hover state
+  // Create tooltip content using the unified entity data
   const tooltipContent = useMemo(() => {
-    if (!hovered || hovered.type !== "operator" || !colorScale) {
+    if (!selectedEntityData?.formattedData) {
       return { hoveredState: hovered, content: null };
     }
 
     return {
       hoveredState: hovered,
-      content: (
-        <MapTooltipContent
-          title={""}
-          caption={<Trans id="operator">Operator</Trans>}
-          values={
-            hovered.values.map((x) => ({
-              label: x.operatorName,
-              formattedValue: valueFormatter(x.value),
-              color: colorScale(x.value),
-            })) ?? []
-          }
-        />
-      ),
+      content: <SelectedEntityCard {...selectedEntityData.formattedData} />,
     };
-  }, [hovered, colorScale, valueFormatter]);
+  }, [hovered, selectedEntityData?.formattedData]);
 
   // Handle click on map layers (primarily for zooming)
   const handleLayerClick = useCallback((info: PickingInfo) => {
@@ -208,8 +225,12 @@ const SunshineMap = ({
         if (!id) {
           return;
         }
-        onEntitySelect(ev, "operator", id.toString());
+
+        const selectedId = id.toString();
+        setEntitySelection((prev) => ({ ...prev, selectedId }));
+        onEntitySelect(ev, "operator", selectedId);
       };
+
     if (!enhancedGeoData || !enhancedGeoData.features) {
       return [];
     }
@@ -292,11 +313,14 @@ const SunshineMap = ({
   );
 
   const valuesExtent = useMemo(() => {
-    if (!observations || observations.length === 0) {
+    if (!enrichedData?.observations || enrichedData.observations.length === 0) {
       return undefined;
     }
-    return extent(observations.map((x) => accessor(x)).filter(truthy));
-  }, [accessor, observations]);
+    return extent(
+      enrichedData.observations.map((x) => accessor(x)).filter(truthy)
+    );
+  }, [accessor, enrichedData?.observations]);
+
   const legendId = useId();
 
   const renderLegend = useCallback(() => {
@@ -315,8 +339,8 @@ const SunshineMap = ({
       );
     }
 
-    if (!valuesExtent || !medianValue || !colorScale) return null;
-    const legendData = [valuesExtent[0], medianValue, valuesExtent[1]];
+    if (!valuesExtent || !enrichedData?.median || !colorScale) return null;
+    const legendData = [valuesExtent[0], enrichedData.median, valuesExtent[1]];
     return (
       <MapColorLegend
         id={legendId}
@@ -335,12 +359,12 @@ const SunshineMap = ({
       />
     );
   }, [
+    indicator,
     valuesExtent,
-    medianValue,
+    enrichedData?.median,
     colorScale,
     legendId,
     valueFormatter,
-    indicator,
   ]);
 
   if (!geoData || !geoData.municipalities || !enhancedGeoData) {

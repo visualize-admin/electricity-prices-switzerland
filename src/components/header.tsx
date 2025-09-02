@@ -1,7 +1,14 @@
 import { TopBar } from "@interactivethings/swiss-federal-ci/dist/components";
 import { Header as SwissFederalCiHeader } from "@interactivethings/swiss-federal-ci/dist/components/pages-router";
 import { t } from "@lingui/macro";
-import { Box, Button, NativeSelect, Popover, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  NativeSelect,
+  nativeSelectClasses,
+  Popover,
+  Typography,
+} from "@mui/material";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
@@ -109,6 +116,13 @@ export const Header = ({
               border: "none !important",
               backgroundColor: "transparent",
               color: "white !important",
+              paddingRight: `0.75rem`,
+
+              [`.${nativeSelectClasses.icon}`]: {
+                color: "white !important",
+                border: 0,
+                marginLeft: 0,
+              },
 
               "&:hover": {
                 textDecoration: "none !important",

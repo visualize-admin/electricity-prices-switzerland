@@ -9,11 +9,8 @@ import {
 import { MapProvider } from "src/components/map-context";
 import { colorScaleSpecs, makeColorScale } from "src/domain/charts";
 import { useQueryStateEnergyPricesMap } from "src/domain/query-states";
-import {
-  PriceComponent,
-  useAllMunicipalitiesQuery,
-  useObservationsQuery,
-} from "src/graphql/queries";
+import { PriceComponent } from "src/graphql/queries";
+import { useEnrichedEnergyPricesData } from "src/hooks/use-enriched-energy-prices-data";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { defaultLocale } from "src/locales/config";
 
@@ -37,34 +34,20 @@ const IndexPage = ({ locale }: Props) => {
   const [{ period, priceComponent, category, product }] =
     useQueryStateEnergyPricesMap();
 
-  const [observationsQuery] = useObservationsQuery({
-    variables: {
-      locale,
-      priceComponent: priceComponent as PriceComponent,
-      filters: {
-        period: [period],
-        category: [category],
-        product: [product],
-      },
+  const enrichedEnergyPrices = useEnrichedEnergyPricesData({
+    locale,
+    priceComponent: priceComponent as PriceComponent,
+    filters: {
+      period: [period],
+      category: [category],
+      product: [product],
     },
   });
 
-  const [municipalitiesQuery] = useAllMunicipalitiesQuery({
-    variables: {
-      locale,
-    },
-  });
+  const observations = enrichedEnergyPrices.data?.observations ?? EMPTY_ARRAY;
 
-  const observations = observationsQuery.fetching
-    ? EMPTY_ARRAY
-    : observationsQuery.data?.observations ?? EMPTY_ARRAY;
-
-  const swissMedianObservations = observationsQuery.fetching
-    ? EMPTY_ARRAY
-    : observationsQuery.data?.swissMedianObservations ?? EMPTY_ARRAY;
-
-  const municipalities =
-    municipalitiesQuery.data?.municipalities ?? EMPTY_ARRAY;
+  const swissMedianObservations =
+    enrichedEnergyPrices.data?.swissMedianObservations ?? EMPTY_ARRAY;
 
   const medianValue = swissMedianObservations[0]?.value;
 
@@ -92,15 +75,9 @@ const IndexPage = ({ locale }: Props) => {
         }}
       >
         <EnergyPricesMap
-          year={period}
-          observations={observations}
-          priceComponent={priceComponent}
-          municipalities={municipalities}
-          observationsFetching={observationsQuery.fetching}
-          municipalitiesFetching={municipalitiesQuery.fetching}
-          observationsError={observationsQuery.error}
-          municipalitiesError={municipalitiesQuery.error}
-          medianValue={medianValue}
+          period={period}
+          enrichedDataQuery={enrichedEnergyPrices}
+          priceComponent={priceComponent as PriceComponent}
           colorScale={colorScale}
         />
       </HighlightContext.Provider>

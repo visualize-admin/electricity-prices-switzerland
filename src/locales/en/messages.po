@@ -539,7 +539,7 @@ msgstr "Operator"
 
 #: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.back-button"
-msgstr "Back to the filters"
+msgstr "Back to filters"
 
 #: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.next-button.compliance"

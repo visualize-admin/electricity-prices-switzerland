@@ -4,7 +4,7 @@ import React from "react";
 import { StoryGrid } from "src/components/storybook/story-grid";
 import { chartPalette } from "src/themes/palette";
 
-import { MapTooltipContent as MapTooltipContentComponent } from "./map-tooltip";
+import { SelectedEntityCard as SelectedEntityCardComponent } from "./map-tooltip";
 
 import type { Decorator, Meta, StoryObj } from "@storybook/react";
 
@@ -29,9 +29,9 @@ const TooltipDecorator: Decorator = (Story) => (
   </Box>
 );
 
-const meta: Meta<typeof MapTooltipContentComponent> = {
-  title: "Components/MapTooltipContent",
-  component: MapTooltipContentComponent,
+const meta: Meta<typeof SelectedEntityCardComponent> = {
+  title: "Components/SelectedEntityCard",
+  component: SelectedEntityCardComponent,
   parameters: {
     layout: "centered",
     docs: {
@@ -43,13 +43,13 @@ const meta: Meta<typeof MapTooltipContentComponent> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof MapTooltipContentComponent>;
+type Story = StoryObj<typeof SelectedEntityCardComponent>;
 
 // Mock color scale
 const greens = chartPalette.sequential.green;
 
 // Basic tooltip with municipality data
-export const MapTooltipContent: Story = {
+export const SelectedEntityCard: Story = {
   args: {
     title: "Zürich",
     caption: "Municipality",

@@ -39,7 +39,11 @@ import {
   BBox,
   constrainZoom,
   flattenBBox,
+  getInitialViewState,
   getZoomedViewState,
+  InitialViewState,
+  CH_BBOX,
+  HoverState,
 } from "src/components/map-helpers";
 import HintBox from "src/components/map-hint-box";
 import { MapTooltip } from "src/components/map-tooltip";
@@ -48,8 +52,6 @@ import { IconMinus } from "src/icons/ic-minus";
 import { IconPlus } from "src/icons/ic-plus";
 import { useIsMobile } from "src/lib/use-mobile";
 import { frame, sleep } from "src/utils/delay";
-
-import { CH_BBOX, HoverState, INITIAL_VIEW_STATE } from "./map-helpers";
 
 const ZoomWidget = ({
   onZoomIn,
@@ -98,17 +100,19 @@ const ZoomWidget = ({
   );
 };
 
-const zoomIn = (state: typeof INITIAL_VIEW_STATE) => {
+const zoomIn = (state: InitialViewState) => {
   return {
     ...state,
     zoom: Math.min((state.zoom || 0) + 1, state.maxZoom || 20),
+    transitionDuration: 300,
   };
 };
 
-const zoomOut = (state: typeof INITIAL_VIEW_STATE) => {
+const zoomOut = (state: InitialViewState) => {
   return {
     ...state,
     zoom: Math.max((state.zoom || 0) - 1, state.minZoom || 0),
+    transitionDuration: 300,
   };
 };
 
@@ -154,7 +158,7 @@ export const GenericMap = ({
   tooltipContent?: {
     hoveredState: HoverState | undefined;
     content: React.ReactNode | null;
-  };
+  } | null;
   legend?: React.ReactNode;
   downloadId?: string;
   onViewStateChange?: (viewState: MapViewState) => void;
@@ -168,7 +172,9 @@ export const GenericMap = ({
   const isMobile = useIsMobile();
   const mapZoomPadding = isMobile ? 20 : 150;
 
-  const [viewState, setViewState] = useState(INITIAL_VIEW_STATE);
+  const [viewState, setViewState] = useState(() =>
+    getInitialViewState(isMobile)
+  );
   const [screenshotting, setScreenshotting] = useState(false);
 
   const highlightContext = useContext(HighlightContext).value;
@@ -230,7 +236,7 @@ export const GenericMap = ({
   const onViewStateChangeHandler = useCallback(
     ({ viewState }: ViewStateChangeParameters) => {
       if (screenshotting) return;
-      const newViewState = viewState as typeof INITIAL_VIEW_STATE;
+      const newViewState = viewState as InitialViewState;
       setViewState(newViewState);
       if (userOnViewStateChange) {
         userOnViewStateChange(newViewState);
@@ -468,36 +474,38 @@ export const GenericMap = ({
             <ZoomWidget
               onZoomIn={() => {
                 setViewState((viewState) =>
-                  zoomIn(viewState || INITIAL_VIEW_STATE)
+                  zoomIn(viewState || getInitialViewState(isMobile))
                 );
               }}
               onZoomOut={() => {
                 setViewState((viewState) =>
-                  zoomOut(viewState || INITIAL_VIEW_STATE)
+                  zoomOut(viewState || getInitialViewState(isMobile))
                 );
               }}
             />
-            <Box
-              sx={{
-                p: 2,
-                display: "flex",
-                alignItems: "center",
-                backgroundColor: "white",
-                opacity: !scrollZoom && displayScrollZoom ? 1 : 0,
-                transition: "opacity 0.25s ease-in",
-              }}
-            >
-              <Typography variant="caption">
-                <Trans
-                  id="map.scrollzoom.hint"
-                  values={{
-                    key: isMacOS ? "⌘" : "Ctrl",
-                  }}
-                >
-                  {`Hold {key} and scroll to zoom`}
-                </Trans>
-              </Typography>
-            </Box>
+            {isMobile ? null : (
+              <Box
+                sx={{
+                  p: 2,
+                  display: "flex",
+                  alignItems: "center",
+                  backgroundColor: "white",
+                  opacity: !scrollZoom && displayScrollZoom ? 1 : 0,
+                  transition: "opacity 0.25s ease-in",
+                }}
+              >
+                <Typography variant="caption">
+                  <Trans
+                    id="map.scrollzoom.hint"
+                    values={{
+                      key: isMacOS ? "⌘" : "Ctrl",
+                    }}
+                  >
+                    {`Hold {key} and scroll to zoom`}
+                  </Trans>
+                </Typography>
+              </Box>
+            )}
           </Box>
 
           <DeckGL

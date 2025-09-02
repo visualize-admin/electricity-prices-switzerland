@@ -25,26 +25,6 @@ export const sortByIndex = <T>({
 export const normalize = (val: number, max: number, min: number): number =>
   (val - min) / (max - min);
 
-export const maxBy = <T>(
-  arr: T[] | undefined,
-  iterator: (item: T) => string | number | undefined
-): T | undefined => {
-  let max = undefined;
-  let maxV = undefined;
-  if (!arr || !arr.length) {
-    return max;
-  }
-  for (let i = 0; i < arr.length; i++) {
-    const item = arr[i];
-    const value = iterator(item);
-    if (maxV === undefined || (value && maxV < value)) {
-      max = item;
-      maxV = value;
-    }
-  }
-  return max;
-};
-
 export const minMaxBy = <T>(arr: T[], by: (d: T) => number) => {
   let minV = Infinity;
   let minD = undefined as undefined | T;
@@ -63,4 +43,22 @@ export const minMaxBy = <T>(arr: T[], by: (d: T) => number) => {
     }
   }
   return [minD, maxD] as [T, T];
+};
+
+// Builds and index while mapping
+export const indexMapper = <T, K, V>(
+  iterable: Iterable<T>,
+  keyFn: (item: T) => K,
+  valueFn: (item: T) => V
+) => {
+  const index = new Map<K, V>();
+  for (const item of iterable) {
+    // early out if already exists
+    const key = keyFn(item);
+    if (index.has(key)) {
+      continue;
+    }
+    index.set(key, valueFn(item));
+  }
+  return index;
 };

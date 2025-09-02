@@ -1,16 +1,14 @@
 import { Layer, PickingInfo } from "@deck.gl/core/typed";
 import { t, Trans } from "@lingui/macro";
-import { extent, group, rollup, ScaleThreshold } from "d3";
+import { index, ScaleThreshold } from "d3";
 import React, {
   ComponentProps,
   useCallback,
   useContext,
-  useEffect,
   useId,
   useMemo,
   useState,
 } from "react";
-import { UseQueryState } from "urql";
 
 import { MapColorLegend } from "src/components/color-legend";
 import {
@@ -24,230 +22,112 @@ import {
   makeLakesLayer,
   makeMunicipalityLayer,
 } from "src/components/map-layers";
-import { MapTooltipContent } from "src/components/map-tooltip";
+import { SelectedEntityCard } from "src/components/map-tooltip";
 import { useGeoData } from "src/data/geo";
-import { getObservationsWeightedMean } from "src/domain/data";
 import { useFormatCurrency } from "src/domain/helpers";
-import {
-  AllMunicipalitiesQuery,
-  ObservationsQuery,
-  OperatorObservationFieldsFragment,
-} from "src/graphql/queries";
 import { PriceComponent } from "src/graphql/resolver-types";
-import { maxBy } from "src/lib/array";
+import { useEnrichedEnergyPricesData } from "src/hooks/use-enriched-energy-prices-data";
+import {
+  useSelectedEntityData,
+  EntitySelection,
+} from "src/hooks/use-selected-entity-data";
 import { truthy } from "src/lib/truthy";
 import { combineErrors } from "src/utils/combine-errors";
-import { useFlag } from "src/utils/flags";
-import { isDefined } from "src/utils/is-defined";
 
 import { GenericMap, GenericMapControls } from "./generic-map";
 import { useMap } from "./map-context";
 
 const DOWNLOAD_ID = "map";
 
-const __debugCheckObservationsWithoutShapes = (
-  observationsByMunicipalityId: Map<
-    string,
-    OperatorObservationFieldsFragment[]
-  >,
-  feature: GeoJSON.FeatureCollection
-) => {
-  const observationIds = new Set(observationsByMunicipalityId.keys());
-  const featureIds = new Set(
-    feature.features.flatMap((f) => (f.id ? [f.id.toString()] : []))
-  );
-
-  if (observationIds.size !== featureIds.size) {
-    const obsWithoutFeatures = [...observationIds].filter(
-      (id) => !featureIds.has(id)
-    );
-
-    if (obsWithoutFeatures.length > 0) {
-      console.info("Obervations without features", obsWithoutFeatures);
-    }
-
-    const featuresWithoutObs = [...featureIds].filter(
-      (id) => !observationIds.has(id)
-    );
-
-    if (featuresWithoutObs.length > 0) {
-      console.info("Features without observations", featuresWithoutObs);
-    }
-  }
-};
-
 export const EnergyPricesMap = ({
-  year,
-  observations,
-  observationsFetching,
-  municipalitiesFetching,
-  observationsError,
-  municipalitiesError,
-  medianValue,
-  municipalities,
+  enrichedDataQuery,
   colorScale,
   controls,
+  period,
   priceComponent,
 }: {
-  year: string;
-  observations: OperatorObservationFieldsFragment[];
-  observationsFetching: UseQueryState<ObservationsQuery>["fetching"];
-  municipalitiesFetching: UseQueryState<AllMunicipalitiesQuery>["fetching"];
-  observationsError: UseQueryState<ObservationsQuery>["error"];
-  municipalitiesError: UseQueryState<AllMunicipalitiesQuery>["error"];
-  medianValue: number | undefined;
-  municipalities: { id: string; name: string }[];
+  enrichedDataQuery: ReturnType<typeof useEnrichedEnergyPricesData>;
   colorScale: ScaleThreshold<number, string> | undefined;
   controls?: GenericMapControls;
-  priceComponent: string;
+  period: string;
+  priceComponent: PriceComponent;
 }) => {
   const [hovered, setHovered] = useState<HoverState>();
   const { activeId, onEntitySelect } = useMap();
   const legendId = useId();
-
-  const geoData = useGeoData(year);
-
-  const observationsByMunicipalityId = useMemo(() => {
-    return group(observations, (d) => d.municipality);
-  }, [observations]);
-
-  const municipalityNames = useMemo(() => {
-    return rollup(
-      municipalities,
-      (values) => {
-        // FIXME: There is no clear way to distinguish which of the labels should be picked. This case seems only to happen on AbolishedMunicipality classes
-        // So for now we just pick the first one.
-
-        // if (values.length > 1) {
-        //   console.log("Duplicate munis", values);
-        // }
-        return values[0];
-      },
-      (d) => d.id
-    );
-  }, [municipalities]);
-
-  useEffect(() => {
-    if (geoData.state === "loaded" && observationsByMunicipalityId.size > 0) {
-      __debugCheckObservationsWithoutShapes(
-        observationsByMunicipalityId,
-        geoData.data.municipalities
-      );
-    }
-  }, [geoData, observationsByMunicipalityId]);
-
   const formatNumber = useFormatCurrency();
+
+  const geoData = useGeoData(period);
+
+  const { data: enrichedData, fetching, error } = enrichedDataQuery;
+
+  // Create entity selection for unified hook
+  const entitySelection: EntitySelection = useMemo(
+    () => ({
+      hoveredId:
+        hovered?.type === "municipality" || hovered?.type === "canton"
+          ? hovered.id.toString()
+          : null,
+      selectedId: null,
+    }),
+    [hovered]
+  );
+
+  // Use the selected entity data hook
+  const selectedEntityData = useSelectedEntityData({
+    selection: entitySelection,
+    dataType: "energy-prices",
+    enrichedData: enrichedData,
+    colorScale: colorScale!,
+    formatValue: formatNumber,
+  });
 
   const { value: highlightContext } = useContext(HighlightContext);
 
-  const coverageRatioFlag = useFlag("coverageRatio");
-
-  const indexes = useMemo(() => {
+  const featureIndexes = useMemo(() => {
     if (geoData.state !== "loaded") {
       return;
     }
     const municipalities = geoData.data.municipalities;
     const cantons = geoData.data.cantons;
     return {
-      municipalities: new Map(
-        municipalities?.features.map((x) => [x.id, x]) ?? []
-      ),
-      cantons: new Map(cantons?.features.map((x) => [x.id, x]) ?? []),
+      municipalities: index(municipalities?.features ?? [], (x) => x.id),
+      cantons: index(cantons?.features ?? [], (x) => x.id),
     };
   }, [geoData]);
 
   const tooltipContent = useMemo(() => {
-    if (!hovered || !colorScale)
-      return { hoveredState: undefined, content: null };
-
-    if (hovered.type === "municipality") {
-      const hoveredObservations = observationsByMunicipalityId.get(hovered.id);
-      const hoveredMunicipalityName = municipalityNames.get(hovered.id)?.name;
-      const hoveredCanton = maxBy(
-        hoveredObservations,
-        (x) => x.period
-      )?.cantonLabel;
-
-      const content = (
-        <MapTooltipContent
-          title={`${hoveredMunicipalityName ?? "-"} ${
-            hoveredCanton ? `- ${hoveredCanton}` : ""
-          }`}
-          caption={<Trans id="municipality">Municipality</Trans>}
-          values={
-            hoveredObservations?.length
-              ? hoveredObservations.map((d) => ({
-                  label: d.operatorLabel,
-                  formattedValue: `${
-                    d.value !== undefined && d.value !== null
-                      ? formatNumber(d.value)
-                      : ""
-                  }${coverageRatioFlag ? ` (ratio: ${d.coverageRatio})` : ""}`,
-                  color: isDefined(d.value) ? colorScale(d.value) : "",
-                }))
-              : []
-          }
-        />
-      );
-
-      return { hoveredState: hovered, content };
-    } else if (hovered.type === "canton") {
-      const content = (
-        <MapTooltipContent
-          title={hovered.label}
-          caption={<Trans id="canton">Canton</Trans>}
-          values={[
-            {
-              label: "",
-              formattedValue: formatNumber(hovered.value),
-              color: colorScale(hovered.value),
-            },
-          ]}
-        />
-      );
-
-      return { hoveredState: hovered, content };
+    if (!selectedEntityData.formattedData) {
+      return null;
     }
 
-    return { hoveredState: undefined, content: null };
-  }, [
-    hovered,
-    colorScale,
-    observationsByMunicipalityId,
-    municipalityNames,
-    formatNumber,
-    coverageRatioFlag,
-  ]);
+    const content = (
+      <SelectedEntityCard {...selectedEntityData.formattedData} />
+    );
+
+    return {
+      hoveredState: hovered,
+      content: content,
+    };
+  }, [selectedEntityData.formattedData, hovered]);
 
   const getEntityFromHighlight = useCallback(
     (highlight: HighlightValue) => {
       const { entity: type, id } = highlight;
-      if (!indexes || !id) {
+      if (!featureIndexes || !id) {
         return;
       }
       const index =
         type === "canton"
-          ? indexes.cantons
+          ? featureIndexes.cantons
           : type === "municipality"
-          ? indexes.municipalities
+          ? featureIndexes.municipalities
           : undefined;
       const entity = index?.get(parseInt(id, 10));
-      if (!entity) {
-        return;
-      }
       return entity;
     },
-    [indexes]
+    [featureIndexes]
   );
-
-  const valuesExtent = useMemo(() => {
-    const meansByMunicipality = rollup(
-      observations,
-      (values) => getObservationsWeightedMean(values),
-      (d) => d.municipality
-    ).values();
-    return extent(meansByMunicipality, (d) => d) as [number, number];
-  }, [observations]);
 
   const layers = useMemo(() => {
     if (geoData.state !== "loaded") {
@@ -255,7 +135,7 @@ export const EnergyPricesMap = ({
     }
 
     const handleMunicipalityLayerClick = (info: PickingInfo, ev: unknown) => {
-      if (!indexes || !info.layer) {
+      if (!featureIndexes || !info.layer) {
         return;
       }
       const id = info.object.id as number;
@@ -263,7 +143,7 @@ export const EnergyPricesMap = ({
         info.layer.id === "municipalities" ? "municipality" : "canton";
       if (
         type === "municipality" &&
-        !observationsByMunicipalityId.get(`${id}`)
+        !enrichedData?.observationsByMunicipality.get(`${id}`)
       ) {
         return;
       }
@@ -286,16 +166,19 @@ export const EnergyPricesMap = ({
     };
 
     return [
-      makeMunicipalityLayer({
-        data: geoData.data.municipalities,
-        observationsByMunicipalityId,
-        colorScale,
-        highlightId: highlightContext?.id,
-        onHover: handleHover,
-        onClick: handleMunicipalityLayerClick,
-        layerId: "municipalities-base",
-        mode: "base",
-      }),
+      enrichedData
+        ? makeMunicipalityLayer({
+            data: geoData.data.municipalities,
+            observationsByMunicipalityId:
+              enrichedData.observationsByMunicipality,
+            colorScale,
+            highlightId: highlightContext?.id,
+            onHover: handleHover,
+            onClick: handleMunicipalityLayerClick,
+            layerId: "municipalities-base",
+            mode: "base",
+          })
+        : null,
       makeMunicipalityLayer({
         data: geoData.data.municipalityMesh,
         layerId: "municipality-mesh",
@@ -316,18 +199,20 @@ export const EnergyPricesMap = ({
   }, [
     geoData.state,
     geoData.data,
-    observationsByMunicipalityId,
+    enrichedData,
+    colorScale,
     highlightContext?.id,
     hovered,
     activeId,
-    indexes,
+    featureIndexes,
     onEntitySelect,
-    colorScale,
   ]);
 
   const formatCurrency = useFormatCurrency();
 
   const renderLegend = useCallback(() => {
+    const medianValue = enrichedData?.medianValue;
+    const valuesExtent = enrichedData?.valuesExtent;
     if (!valuesExtent || !medianValue || !colorScale) return null;
     const legendData = [valuesExtent[0], medianValue, valuesExtent[1]];
     return (
@@ -358,8 +243,8 @@ export const EnergyPricesMap = ({
       />
     );
   }, [
-    valuesExtent,
-    medianValue,
+    enrichedData?.medianValue,
+    enrichedData?.valuesExtent,
     colorScale,
     legendId,
     priceComponent,
@@ -369,12 +254,8 @@ export const EnergyPricesMap = ({
   return (
     <GenericMap
       layers={(layers as unknown as Layer[]) || []}
-      isLoading={
-        geoData.state === "fetching" ||
-        observationsFetching ||
-        municipalitiesFetching
-      }
-      hasNoData={observations.length === 0}
+      isLoading={geoData.state === "fetching" || fetching}
+      hasNoData={!enrichedData?.observations.length}
       error={combineErrors(
         [
           geoData.state === "error"
@@ -382,12 +263,7 @@ export const EnergyPricesMap = ({
               ? { error: geoData.error, label: "GeoData" }
               : { message: "Unknown geoData error" }
             : undefined,
-          observationsError
-            ? { error: observationsError, label: "Observations" }
-            : undefined,
-          municipalitiesError
-            ? { error: municipalitiesError, label: "Municipalities" }
-            : undefined,
+          error ? { error: error, label: "Data" } : undefined,
         ].filter(truthy)
       )}
       tooltipContent={tooltipContent}

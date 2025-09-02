@@ -13,5 +13,10 @@ export const assertBaseDomainOK = (baseDomain: string) => {
     return true;
   }
 
+  if (process.env.NODE_ENV === "development") {
+    // Can be the case when testing via ngrok
+    return;
+  }
+
   throw new Error("Bad baseDomain, baseDomain should end with elcom.admin.ch");
 };
