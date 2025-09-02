@@ -17,7 +17,7 @@ import * as Vaul from "vaul";
 
 import { useMap } from "src/components/map-context";
 import { SelectedEntityCard } from "src/components/map-tooltip";
-import useVaulStyles from "src/components/useVaulStyles";
+import useVaulStyles from "src/components/use-vaul-styles";
 import { Entity } from "src/domain/data";
 import {
   useQueryStateEnergyPricesMap,
@@ -44,7 +44,7 @@ const MobileDrawer = ({
   open: boolean;
 }) => {
   const { classes } = useVaulStyles();
-  const [tab, setTab] = useState("selectors");
+  const [tab, setTab] = useState<"list" | "selectors">("selectors");
   const vaultContentRef = useRef<HTMLDivElement>(null);
   const [queryState] = useQueryStateMapCommon();
   return (
@@ -66,19 +66,19 @@ const MobileDrawer = ({
       <Vaul.Root open={open} onClose={onClose}>
         <Vaul.Portal>
           <Vaul.Overlay className={classes.overlay} />
-          <Vaul.Content className={classes.content} ref={vaultContentRef}>
+          <Vaul.Content
+            className={`${classes.content} ${
+              tab === "list" ? classes.contentFullHeight : ""
+            }`}
+            ref={vaultContentRef}
+          >
             {/* Tabs that can select between list & selectors */}
-            <IconButton
-              onClick={onClose}
-              sx={{ position: "absolute", top: 10, right: 10 }}
-            >
-              <Icon name="close" />
-            </IconButton>
 
             <div className={classes.handle} />
-            <Box
-              sx={{ overflowY: "auto", overflowX: "hidden", flex: 1, mx: 2 }}
-            >
+            <div className={classes.scrollArea}>
+              <IconButton onClick={onClose} className={classes.closeButton}>
+                <Icon name="close" />
+              </IconButton>
               {details ? (
                 details
               ) : (
@@ -114,7 +114,7 @@ const MobileDrawer = ({
                   </Box>
                 </>
               )}
-            </Box>
+            </div>
           </Vaul.Content>
         </Vaul.Portal>
       </Vaul.Root>
@@ -177,7 +177,14 @@ const MobileControls = ({
 
   return (
     <>
-      <Box position="relative" sx={{ height: 0 }}>
+      <Box
+        position="relative"
+        sx={{
+          height: 0,
+          // Necessary to be above No Data UI
+          zIndex: 1,
+        }}
+      >
         <Card
           elevation={2}
           sx={{

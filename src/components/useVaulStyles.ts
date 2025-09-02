@@ -9,8 +9,6 @@ const useVaulStyles = tss.create(({ theme }) => ({
   },
   content: {
     backgroundColor: theme.palette.background.paper,
-    display: "flex",
-    flexDirection: "column",
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
     maxHeight: "85vh",
@@ -20,6 +18,26 @@ const useVaulStyles = tss.create(({ theme }) => ({
     left: 0,
     right: 0,
     zIndex: theme.zIndex.modal,
+  },
+  contentFullHeight: {
+    marginTop: 0,
+    height: "100vh",
+    maxHeight: "none",
+  },
+  scrollArea: {
+    margin: `${theme.spacing(0)} ${theme.spacing(2)}`,
+    overflowY: "scroll",
+    overflowX: "hidden",
+    height: "100%",
+    position: "relative",
+  },
+  closeButton: {
+    position: "absolute",
+    top: -10,
+    right: 0,
+    zIndex: 1000,
+    backgroundColor: theme.palette.background.paper,
+    borderRadius: "100%",
   },
   handle: {
     marginLeft: "auto",
