@@ -7,6 +7,13 @@ import {
   UseQueryStateSingle,
 } from "src/lib/use-query-state";
 
+import {
+  allPriceComponents,
+  categories,
+  mapPriceComponents,
+  periods,
+  products,
+} from "./data";
 import { SunshineIndicator, sunshineIndicatorSchema } from "./sunshine";
 
 /**
@@ -22,6 +29,27 @@ const stringToArray = (defaultValue: string[] = []) => {
     .default(defaultValue.join(","));
 };
 
+/**
+ * Helper function to validate and convert query parameter strings to arrays
+ * @returns Zod schema that transforms comma-separated strings to validated arrays
+ */
+const stringToValidatedArray = <T extends readonly string[]>(
+  validOptions: T,
+  defaultValue: T[number][] = []
+) => {
+  return z
+    .string()
+    .transform((x) => {
+      const values = x ? x.split(",").filter(Boolean) : defaultValue;
+      // Filter to only valid options, fallback to default if none are valid
+      const validValues = values.filter((v) =>
+        validOptions.includes(v as T[number])
+      );
+      return validValues.length > 0 ? validValues : defaultValue;
+    })
+    .default(defaultValue.join(","));
+};
+
 const mapTabsSchema = z.enum(["electricity", "sunshine"] as const);
 
 const mapCommonSchema = z.object({
@@ -29,7 +57,9 @@ const mapCommonSchema = z.object({
   activeId: z.string().nullable().default(null),
 });
 
-const periodSchema = z.string().default(buildEnv.CURRENT_PERIOD);
+const periodSchema = z
+  .enum(periods as [string, ...string[]])
+  .default(buildEnv.CURRENT_PERIOD);
 
 const energyPricesMapSchema = z.object({
   tab: mapTabsSchema.default("electricity"),
@@ -37,26 +67,27 @@ const energyPricesMapSchema = z.object({
   period: periodSchema,
   municipality: z.string().optional(),
   canton: z.string().optional(),
-  category: z.string().default("H4"),
-  priceComponent: z.string().default("total"),
-  product: z.string().default("standard"),
+  category: z.enum(categories).default("H4"),
+  priceComponent: z.enum(allPriceComponents).default("total"),
+  product: z.enum(products as [string, ...string[]]).default("standard"),
   download: z.string().optional(),
   cantonsOrder: z.string().default("median-asc"),
   view: z.string().default("collapsed"),
 });
 const energyPricesDetailsSchema = z.object({
   operator: stringToArray().optional(),
-  period: stringToArray([buildEnv.CURRENT_PERIOD]),
+  period: stringToValidatedArray(periods, [buildEnv.CURRENT_PERIOD]),
   municipality: stringToArray([]),
   canton: stringToArray([]),
-  category: stringToArray(["H4"]),
-  priceComponent: stringToArray(["total"]),
-  product: stringToArray(["standard"]),
+  category: stringToValidatedArray(categories, ["H4"]),
+  priceComponent: stringToValidatedArray(mapPriceComponents, ["total"]),
+  product: stringToValidatedArray(products, ["standard"]),
   cantonsOrder: stringToArray(["median-asc"]),
   download: z.string().optional(),
   view: stringToArray(["collapsed"]),
 });
 
+// TODO: Sunshine params are currently not validated
 const sunshineMapSchema = z.object({
   tab: mapTabsSchema.default("sunshine"),
   period: periodSchema,

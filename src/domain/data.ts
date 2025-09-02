@@ -58,7 +58,7 @@ export const periods = range(
   -1
 ).map((d) => d.toString());
 
-const allPriceComponents = [
+export const allPriceComponents = [
   "total",
   "gridusage",
   "energy",
