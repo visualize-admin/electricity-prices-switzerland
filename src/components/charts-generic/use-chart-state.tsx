@@ -122,7 +122,6 @@ export type LinesState = {
   grouped: [string, Record<string, ObservationValue>[]][];
   wide: ArrayLike<Record<string, ObservationValue>>;
   xKey: string;
-  mini?: boolean;
   getAnnotationInfo: (d: GenericObservation) => Tooltip;
 };
 
