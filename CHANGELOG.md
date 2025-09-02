@@ -12,8 +12,16 @@ You can also check the
 # Unreleased
 
 - Style
+
   - Changed Median Peer Group to correct color and shape
   - Introduced Median Total to line charts
+
+- Feat
+
+  - Introduction of mobile drawer on map
+
+- Fix
+  - Do not show error message for "Annual metering rate" without years
 
 # 2.11.5 (2025-08-27)
 
