@@ -1,3 +1,4 @@
+import namespace from "@rdfjs/namespace";
 import { SELECT } from "@tpluscode/sparql-builder";
 import { Cube, LookupSource, Source, View } from "rdf-cube-view-query";
 import rdf from "rdf-ext";
@@ -7,6 +8,7 @@ import { LRUCache } from "typescript-lru-cache";
 
 import { ElectricityCategory } from "src/domain/data";
 import serverEnv from "src/env/server";
+import { PriceComponent } from "src/graphql/queries";
 import { OperatorDocumentCategory } from "src/graphql/resolver-types";
 import assert from "src/lib/assert";
 import { Observation, parseObservation } from "src/lib/observations";
@@ -32,6 +34,12 @@ const createSource = (cubeIri: string | undefined) => {
     queryOperation: "postDirect",
     endpointUrl,
   });
+};
+
+const priceComponents = Object.values(PriceComponent);
+
+const shouldDimensionFilterUndefined = (dimension: string) => {
+  return priceComponents.includes(dimension as PriceComponent);
 };
 
 const getCube = async ({ iri }: { iri: string }): Promise<Cube | null> => {
@@ -67,6 +75,9 @@ export const getElectricityPriceSwissCube = makeGetCubeAndCheck(
 );
 
 export const getView = (cube: Cube): View => View.fromCube(cube);
+
+const cubeUndefined = namespace("https://cube.link/")("Undefined");
+const undefinedLiteral = rdf.literal("", cubeUndefined);
 
 const getRegionDimensionsAndFilter = ({
   view,
@@ -155,6 +166,9 @@ export const getElectricityPriceObservations = async (
       ? getRegionDimensionsAndFilter({ view, lookupSource, locale })
       : undefined;
 
+  const dimensionsWithUndefinedToFilter =
+    dimensions?.filter(shouldDimensionFilterUndefined) ?? [];
+
   const filterViewDimensions = dimensions
     ? dimensions.flatMap((d) => {
         const labelMatches =
@@ -203,6 +217,16 @@ export const getElectricityPriceObservations = async (
         const dimension = view.dimension({
           cubeDimension: ns.electricityPriceDimension(d),
         });
+
+        if (
+          dimension &&
+          dimensionsWithUndefinedToFilter.length === 1 &&
+          dimensionsWithUndefinedToFilter[0] === d
+        ) {
+          // If we are only querying 1 dimension that can contain undefined, we can
+          // filter out rows with undefined values on this particular column
+          queryFilters.push(dimension.filter.ne(undefinedLiteral));
+        }
 
         if (!dimension) {
           console.warn(`No dimension found for ${d}`);
