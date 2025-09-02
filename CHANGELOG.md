@@ -11,6 +11,10 @@ You can also check the
 
 # Unreleased
 
+Nothing yet.
+
+# 2.12.0 (2025-09-02)
+
 - Style
 
   - Changed Median Peer Group to correct color and shape
