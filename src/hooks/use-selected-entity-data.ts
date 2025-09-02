@@ -162,7 +162,7 @@ export function useSelectedEntityData(
         operatorObservations,
         colorScale,
         formatValue,
-        queryState.indicator
+        getLocalizedLabel({ id: queryState.indicator })
       );
 
       return {

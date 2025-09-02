@@ -3,7 +3,6 @@ import { ScaleThreshold } from "d3";
 import React from "react";
 
 import { Entity } from "src/domain/data";
-import { SunshineIndicator } from "src/domain/sunshine";
 import { EnrichedEnergyObservation } from "src/hooks/use-enriched-energy-prices-data";
 import { EnrichedSunshineObservation } from "src/hooks/use-enriched-sunshine-data";
 
@@ -86,7 +85,7 @@ export const formatSunshineEntity = (
   observations: EnrichedSunshineObservation[],
   colorScale: ScaleThreshold<number, string, never>,
   formatValue: (value: number) => string,
-  indicator: SunshineIndicator
+  formattedIndicator: string
 ): EntityDisplayData => {
   if (!observations || observations.length === 0) {
     return {
@@ -100,7 +99,7 @@ export const formatSunshineEntity = (
   const values: EntityValue[] = observations
     .filter((obs) => obs.value !== null && obs.value !== undefined)
     .map((obs) => ({
-      label: `${indicator}`,
+      label: `${formattedIndicator}`,
       formattedValue: formatValue(obs.value!),
       color: colorScale(obs.value!),
     }));
