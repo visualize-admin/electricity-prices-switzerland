@@ -8,7 +8,7 @@ import { useSunshineDataByIndicatorQuery } from "src/graphql/queries";
 import { indexMapper } from "src/lib/array";
 import { getOperatorsMunicipalities } from "src/rdf/queries";
 
-export interface UseEnrichedSunshineDataParams {
+interface UseEnrichedSunshineDataParams {
   filter: {
     period: string;
     peerGroup?: string;

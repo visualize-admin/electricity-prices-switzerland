@@ -2,28 +2,19 @@ import { Trans } from "@lingui/macro";
 import { ScaleThreshold } from "d3";
 import React from "react";
 
+import { Entity } from "src/domain/data";
 import { SunshineIndicator } from "src/domain/sunshine";
 import { EnrichedEnergyObservation } from "src/hooks/use-enriched-energy-prices-data";
 import { EnrichedSunshineObservation } from "src/hooks/use-enriched-sunshine-data";
 
 // Core entity types for unified handling
-export type EntityType = "municipality" | "canton" | "operator";
-
-export interface SelectedEntityData {
-  id: string;
-  type: EntityType;
-  title: string;
-  caption: React.ReactNode;
-  values: EntityValue[];
-}
-
-export interface EntityValue {
+interface EntityValue {
   label: string;
   formattedValue: string;
   color: string;
 }
 
-export interface EntityDisplayData {
+interface EntityDisplayData {
   title: React.ReactNode;
   caption: React.ReactNode;
   values: EntityValue[];
@@ -35,7 +26,7 @@ export interface EntityDisplayData {
  */
 export const formatEnergyPricesEntity = (
   observations: EnrichedEnergyObservation[],
-  entityType: EntityType,
+  entityType: Entity,
   colorScale: ScaleThreshold<number, string, never>,
   formatValue: (value: number) => string,
   coverageRatioFlag = false
@@ -127,7 +118,7 @@ export const formatSunshineEntity = (
 /**
  * Get the appropriate caption for an entity type.
  */
-const getEntityCaption = (entityType: EntityType): React.ReactNode => {
+const getEntityCaption = (entityType: Entity): React.ReactNode => {
   switch (entityType) {
     case "municipality":
       return <Trans id="municipality">Municipality</Trans>;

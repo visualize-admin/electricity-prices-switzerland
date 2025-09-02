@@ -20,7 +20,7 @@ export interface EntitySelection {
   selectedId: string | null;
 }
 
-export interface UseSelectedEntityDataOptions {
+interface UseSelectedEntityDataOptions {
   selection: EntitySelection;
   dataType: "energy-prices" | "sunshine";
   enrichedData: EnrichedEnergyPricesData | EnrichedSunshineData | null;
@@ -28,7 +28,7 @@ export interface UseSelectedEntityDataOptions {
   formatValue?: (value: number) => string;
 }
 
-export interface SelectedEntityData {
+interface SelectedEntityData {
   entityId: string | null;
   isHovered: boolean;
   isSelected: boolean;

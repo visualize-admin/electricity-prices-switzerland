@@ -9,7 +9,7 @@ import {
 import { PriceComponent } from "src/graphql/resolver-types";
 import { indexMapper } from "src/lib/array";
 
-export interface UseEnrichedEnergyPricesDataParams {
+interface UseEnrichedEnergyPricesDataParams {
   locale: string;
   priceComponent: PriceComponent;
   filters: {
