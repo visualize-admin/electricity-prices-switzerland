@@ -49,7 +49,7 @@ const MapDetailsContentWrapper = (props: MapDetailsContentProps) => {
           onClick={onBack}
         >
           <Trans id="map.details-sidebar-panel.back-button">
-            Back to the filters
+            Back to filters
           </Trans>
         </Button>
       </div>
