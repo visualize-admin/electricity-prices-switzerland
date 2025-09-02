@@ -2,6 +2,7 @@ import { t, Trans } from "@lingui/macro";
 import { Box, Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
 import ErrorPage from "next/error";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { ComponentProps, useCallback, useMemo, useState } from "react";
 import { gql } from "urql";
@@ -711,6 +712,19 @@ const CostsAndTariffs = (props: Props) => {
 
   const mainContent = (
     <>
+      <Head>
+        <title>
+          {t({
+            id: "sunshine.costs-and-tariffs.title",
+            message: "Costs and Tariffs",
+          })}
+          {" - "}
+          {t({
+            id: "site.title",
+            message: "Electricity tariffs in Switzerland",
+          })}
+        </title>
+      </Head>
       <DetailsPageHeader>
         <DetailsPageTitle>
           <Trans id="sunshine.costs-and-tariffs.title">Costs and Tariffs</Trans>

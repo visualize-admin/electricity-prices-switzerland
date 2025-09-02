@@ -2,6 +2,7 @@ import { t, Trans } from "@lingui/macro";
 import { Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
 import ErrorPage from "next/error";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 
@@ -364,6 +365,19 @@ const PowerStability = (props: Props) => {
 
   const mainContent = (
     <>
+      <Head>
+        <title>
+          {t({
+            id: "sunshine.operational-standards.title",
+            message: "Operational Standards",
+          })}
+          {" - "}
+          {t({
+            id: "site.title",
+            message: "Electricity tariffs in Switzerland",
+          })}
+        </title>
+      </Head>
       <DetailsPageHeader>
         <DetailsPageTitle>
           <Trans id="sunshine.operational-standards.title">
