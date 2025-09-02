@@ -10,7 +10,7 @@ import {
 import {
   allPriceComponents,
   categories,
-  mapPriceComponents,
+  detailsPriceComponents,
   periods,
   products,
 } from "./data";
@@ -80,7 +80,7 @@ const energyPricesDetailsSchema = z.object({
   municipality: stringToArray([]),
   canton: stringToArray([]),
   category: stringToValidatedArray(categories, ["H4"]),
-  priceComponent: stringToValidatedArray(mapPriceComponents, ["total"]),
+  priceComponent: stringToValidatedArray(detailsPriceComponents, ["total"]),
   product: stringToValidatedArray(products, ["standard"]),
   cantonsOrder: stringToArray(["median-asc"]),
   download: z.string().optional(),
