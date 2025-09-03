@@ -11,6 +11,10 @@ You can also check the
 
 # Unreleased
 
+Nothing yet.
+
+# 2.13.0
+
 - Feat
 
   - Energy prices details links from details panel passes along the current filter state
