@@ -27,7 +27,7 @@ msgstr "Analisi dettagliate dei prezzi di cantoni, comuni e operatori di rete."
 msgid "app.meta.title"
 msgstr "Tariffe elettriche in Svizzera"
 
-#: src/components/energy-prices-map.tsx
+#: src/utils/entity-formatting.tsx
 msgid "canton"
 msgstr "Canton"
 
@@ -589,7 +589,7 @@ msgstr "Condividi"
 msgid "map.tooltipnodata"
 msgstr "Nessun dato"
 
-#: src/components/energy-prices-map.tsx
+#: src/utils/entity-formatting.tsx
 msgid "municipality"
 msgstr "Comune"
 
@@ -649,7 +649,7 @@ msgstr "Bassa tensione NE7"
 msgid "network-level.NE7.short"
 msgstr "NE7"
 
-#: src/components/sunshine-map.tsx
+#: src/utils/entity-formatting.tsx
 msgid "operator"
 msgstr "Operatore"
 
@@ -1011,7 +1011,7 @@ msgstr "Categoria"
 msgid "selector.indicator"
 msgstr "Indicatore"
 
-#: src/components/combined-selectors/index.tsx
+#: src/components/map/mobile-controls.tsx
 msgid "selector.legend.select.parameters"
 msgstr "Parametri"
 
@@ -1146,6 +1146,11 @@ msgstr "URL copiato ✅"
 #: src/components/app-layout.tsx
 #: src/pages/[entity]/[id]/index.tsx
 #: src/pages/index.tsx
+#: src/pages/map/index.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+#: src/pages/sunshine/[entity]/[id]/overview.tsx
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "site.title"
 msgstr "Tariffe elettriche della Svizzera"
 
@@ -1305,6 +1310,7 @@ msgstr "sunshine.costi-e-tariffe.fonte"
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.title"
 msgstr "Costi e tariffe"
 
@@ -1421,6 +1427,7 @@ msgid "sunshine.operational-standards.service-quality.share-of-operators"
 msgstr "Quota di operatori"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.title"
 msgstr "Standard operativi"
 
@@ -1428,6 +1435,7 @@ msgstr "Standard operativi"
 msgid "sunshine.overview-sunshine.description"
 msgstr "In Svizzera, le tariffe elettriche si basano sui costi effettivi (regolamentazione Cost Plus). L'ElCom ha introdotto la regolamentazione Sunshine per promuovere l'efficienza e creare trasparenza. La regolamentazione Sunshine è un processo standardizzato per la pubblicazione di indicatori relativi alla qualità e ai costi dei gestori della rete elettrica svizzera. I diversi indicatori consentono di confrontare i gestori di rete in termini di efficienza dei costi, qualità dell'approvvigionamento e conformità. Poiché le differenze topografiche e strutturali influenzano i valori, i confronti vengono effettuati sia a livello nazionale che all'interno di gruppi di riferimento in base alla densità di popolazione e al consumo energetico."
 
+#: src/pages/sunshine/[entity]/[id]/overview.tsx
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.overview-sunshine.title"
@@ -1555,6 +1563,7 @@ msgid "sunshine.power-stability.saifi.info-dialog-label"
 msgstr "Frequenza totale delle interruzioni"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.title"

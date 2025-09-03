@@ -123,6 +123,6 @@ const getEntityCaption = (entityType: Entity): React.ReactNode => {
     case "operator":
       return <Trans id="operator">Operator</Trans>;
     default:
-      return <Trans id="entity">Entity</Trans>;
+      return "";
   }
 };
