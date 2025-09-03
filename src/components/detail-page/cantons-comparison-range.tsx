@@ -178,6 +178,13 @@ export const CantonsComparisonRangePlots = ({ id, entity }: SectionProps) => {
                   }),
                 },
                 {
+                  value: "meteringrate",
+                  label: getLocalizedLabel({ id: "meteringrate" }),
+                  content: getLocalizedLabel({
+                    id: "price-components.meteringrate-content",
+                  }),
+                },
+                {
                   value: "energy",
                   label: getLocalizedLabel({ id: "energy" }),
                   content: getLocalizedLabel({
@@ -189,13 +196,6 @@ export const CantonsComparisonRangePlots = ({ id, entity }: SectionProps) => {
                   label: getLocalizedLabel({ id: "charge" }),
                   content: getLocalizedLabel({
                     id: "price-components.charge-content",
-                  }),
-                },
-                {
-                  value: "meteringrate",
-                  label: getLocalizedLabel({ id: "meteringrate" }),
-                  content: getLocalizedLabel({
-                    id: "price-components.meteringrate-content",
                   }),
                 },
               ]}

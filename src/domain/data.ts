@@ -61,8 +61,6 @@ export const periods = range(
 export const allPriceComponents = [
   "total",
   "gridusage",
-  "energy",
-  "charge",
   /**
    * Metering costs are measured in CHF per year. For comparing between operators (on the map),
    * this is the value that is used.
@@ -72,6 +70,8 @@ export const allPriceComponents = [
    * For the details display, they are converted by Elcom to Rp/kWh to align with other price components.
    */
   "meteringrate",
+  "energy",
+  "charge",
 
   /** We need to keep aidfee even if not shown on the map for the total to be OK */
   "aidfee",
