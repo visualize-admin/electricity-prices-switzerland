@@ -687,10 +687,7 @@ const CostsAndTariffs = (props: Props) => {
 
   const { id, name, entity } = props;
 
-  const pageTitle = `${getLocalizedLabel({ id: entity })} ${name} – ${t({
-    id: "sunshine.costs-and-tariffs.title",
-    message: "Costs and Tariffs",
-  })}`;
+  const pageTitle = makePageTitle(name);
 
   const handleTabChange = (
     _: React.SyntheticEvent,
@@ -713,17 +710,7 @@ const CostsAndTariffs = (props: Props) => {
   const mainContent = (
     <>
       <Head>
-        <title>
-          {t({
-            id: "sunshine.costs-and-tariffs.title",
-            message: "Costs and Tariffs",
-          })}
-          {" - "}
-          {t({
-            id: "site.title",
-            message: "Electricity tariffs in Switzerland",
-          })}
-        </title>
+        <title>{pageTitle}</title>
       </Head>
       <DetailsPageHeader>
         <DetailsPageTitle>

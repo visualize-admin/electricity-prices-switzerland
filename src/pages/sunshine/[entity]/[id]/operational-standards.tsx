@@ -37,6 +37,7 @@ import {
   getSunshineDataServiceInfo,
 } from "src/lib/sunshine-data-service-context";
 import { defaultLocale } from "src/locales/config";
+import { makePageTitle } from "src/utils/page-title";
 
 type Props =
   | (Extract<SharedPageProps, { entity: "operator"; status: "found" }> & {
@@ -367,15 +368,12 @@ const PowerStability = (props: Props) => {
     <>
       <Head>
         <title>
-          {t({
-            id: "sunshine.operational-standards.title",
-            message: "Operational Standards",
-          })}
-          {" - "}
-          {t({
-            id: "site.title",
-            message: "Electricity tariffs in Switzerland",
-          })}
+          {makePageTitle(
+            t({
+              id: "sunshine.operational-standards.title",
+              message: "Operational Standards",
+            })
+          )}
         </title>
       </Head>
       <DetailsPageHeader>

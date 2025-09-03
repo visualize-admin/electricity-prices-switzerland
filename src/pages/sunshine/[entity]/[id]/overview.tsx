@@ -61,6 +61,7 @@ import {
   getSunshineDataServiceInfo,
 } from "src/lib/sunshine-data-service-context";
 import { defaultLocale } from "src/locales/config";
+import { makePageTitle } from "src/utils/page-title";
 
 import {
   prepComplianceCardProps,
@@ -280,15 +281,12 @@ const OverviewPage = (props: Props) => {
     <>
       <Head>
         <title>
-          {t({
-            id: "sunshine.overview-sunshine.title",
-            message: "Sunshine Indicators Overview",
-          })}
-          {" - "}
-          {t({
-            id: "site.title",
-            message: "Electricity tariffs in Switzerland",
-          })}
+          {makePageTitle(
+            t({
+              id: "sunshine.overview-sunshine.title",
+              message: "Sunshine Indicators Overview",
+            })
+          )}
         </title>
       </Head>
       <DetailsPageHeader>
