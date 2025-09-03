@@ -14,6 +14,7 @@ You can also check the
 - Feat
 
   - Energy prices details links from details panel passes along the current filter state
+  - Hide metering rate for price evolution charts in detail pages
 
 - Fix
   - Hover on canton list correctly shows the canton median
