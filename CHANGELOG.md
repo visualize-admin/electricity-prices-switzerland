@@ -11,7 +11,14 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Feat
+
+  - Energy prices details links from details panel passes along the current filter state
+  - Hide metering rate for price evolution charts in detail pages
+
+- Fix
+  - Hover on canton list correctly shows the canton median
+  - Hover on canton list draws a canton overlay on the map
 
 # 2.12.2 (2025-09-02)
 

@@ -7,7 +7,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language: de\n"
 "Language-Team: \n"
-"Content-Type: \n"
+"Content-Type: text/plain\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -27,7 +27,7 @@ msgstr "Detaillierte Preisanalysen von Kantonen, Gemeinden und Netzbetreibern."
 msgid "app.meta.title"
 msgstr "Strompreise Schweiz"
 
-#: src/components/energy-prices-map.tsx
+#: src/utils/entity-formatting.tsx
 msgid "canton"
 msgstr "Kanton"
 
@@ -589,7 +589,15 @@ msgstr "Teilen"
 msgid "map.tooltipnodata"
 msgstr "Keine Daten"
 
-#: src/components/energy-prices-map.tsx
+#: src/components/map/mobile-controls.tsx
+msgid "mobile-controls.tabs.list"
+msgstr "Liste"
+
+#: src/components/map/mobile-controls.tsx
+msgid "mobile-controls.tabs.parameters"
+msgstr "Parameter"
+
+#: src/utils/entity-formatting.tsx
 msgid "municipality"
 msgstr "Gemeinde"
 
@@ -649,7 +657,7 @@ msgstr "Verteilnetz und Hausanschlüsse (Netzebene 7)"
 msgid "network-level.NE7.short"
 msgstr "Netzebene 7"
 
-#: src/components/sunshine-map.tsx
+#: src/utils/entity-formatting.tsx
 msgid "operator"
 msgstr "Netzbetreiber"
 
@@ -1011,7 +1019,7 @@ msgstr "Kategorie"
 msgid "selector.indicator"
 msgstr "Indikator"
 
-#: src/components/combined-selectors/index.tsx
+#: src/components/map/mobile-controls.tsx
 msgid "selector.legend.select.parameters"
 msgstr "Parameter"
 
@@ -1146,6 +1154,11 @@ msgstr "URL kopiert ✅"
 #: src/components/app-layout.tsx
 #: src/pages/[entity]/[id]/index.tsx
 #: src/pages/index.tsx
+#: src/pages/map/index.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+#: src/pages/sunshine/[entity]/[id]/overview.tsx
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "site.title"
 msgstr "Strompreise Schweiz"
 
@@ -1305,6 +1318,7 @@ msgstr "Quelle: {dataSource}"
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.title"
 msgstr "Netzkosten und Stromtarife"
 
@@ -1421,6 +1435,7 @@ msgid "sunshine.operational-standards.service-quality.share-of-operators"
 msgstr "Anteil der Netzbetreiber"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.title"
 msgstr "Leistungsindikatoren"
 
@@ -1428,6 +1443,7 @@ msgstr "Leistungsindikatoren"
 msgid "sunshine.overview-sunshine.description"
 msgstr "In der Schweiz basieren Stromtarife auf den tatsächlichen Kosten (Cost Plus-Regulierung). Die ElCom hat die Sunshine-Regulierung eingeführt, um Effizienz zu fördern und Transparenz zu schaffen. Die Sunshine-Regulierung ist ein standardisierter Prozess zur Veröffentlichung von Indikatoren für die Qualität und Kosten der schweizerischen Stromnetzbetreiber. Die verschiedenen Indikatoren ermöglichen Vergleiche zwischen Netzbetreibern bezüglich Kosteneffizienz, Versorgungsqualität und Compliance. Da topografische und strukturelle Unterschiede die Werte beeinflussen, erfolgen Vergleiche sowohl schweizweit als auch innerhalb von Vergleichsgruppen nach Bevölkerungsdichte und Energieverbrauch."
 
+#: src/pages/sunshine/[entity]/[id]/overview.tsx
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.overview-sunshine.title"
@@ -1555,6 +1571,7 @@ msgid "sunshine.power-stability.saifi.info-dialog-label"
 msgstr "Durchschnittliche Häufigkeit von Stromunterbrechungen (SAIFI)"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.title"

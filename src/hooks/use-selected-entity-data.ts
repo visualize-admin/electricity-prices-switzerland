@@ -1,7 +1,9 @@
 import { ScaleThreshold } from "d3";
 import { useMemo } from "react";
 
+import { Entity } from "src/domain/data";
 import { useQueryStateSunshineMap } from "src/domain/query-states";
+import { getLocalizedLabel } from "src/domain/translation";
 import {
   EnrichedEnergyObservation,
   EnrichedEnergyPricesData,
@@ -10,6 +12,7 @@ import {
   EnrichedSunshineData,
   EnrichedSunshineObservation,
 } from "src/hooks/use-enriched-sunshine-data";
+import { truthy } from "src/lib/truthy";
 import {
   formatEnergyPricesEntity,
   formatSunshineEntity,
@@ -18,6 +21,7 @@ import {
 export interface EntitySelection {
   hoveredId: string | null;
   selectedId: string | null;
+  entityType: Entity;
 }
 
 interface UseSelectedEntityDataOptions {
@@ -26,6 +30,7 @@ interface UseSelectedEntityDataOptions {
   enrichedData: EnrichedEnergyPricesData | EnrichedSunshineData | null;
   colorScale?: ScaleThreshold<number, string>;
   formatValue?: (value: number) => string;
+  priceComponent: string;
 }
 
 interface SelectedEntityData {
@@ -53,8 +58,14 @@ export function useSelectedEntityData(
   options: UseSelectedEntityDataOptions
 ): SelectedEntityData {
   const [queryState] = useQueryStateSunshineMap();
-  const { selection, dataType, enrichedData, colorScale, formatValue } =
-    options;
+  const {
+    selection,
+    dataType,
+    enrichedData,
+    colorScale,
+    formatValue,
+    priceComponent,
+  } = options;
 
   // Determine the active entity ID (selected takes precedence over hovered)
   const entityId = selection.selectedId || selection.hoveredId;
@@ -88,15 +99,19 @@ export function useSelectedEntityData(
     // Handle energy prices data
     if (dataType === "energy-prices") {
       const energyData = enrichedData as EnrichedEnergyPricesData;
+      const entityType = selection.entityType;
 
       // Use the pre-built indexes for efficient lookup
       const municipalityObservations =
         energyData.observationsByMunicipality.get(entityId);
-      const cantonObservations = energyData.observationsByCanton.get(entityId);
+      const cantonObservations = [
+        energyData.cantonMedianObservationsByCanton.get(entityId),
+      ].filter(truthy);
 
       const entityObservations =
-        municipalityObservations || cantonObservations || [];
-      const entityType = municipalityObservations ? "municipality" : "canton";
+        (entityType === "municipality"
+          ? municipalityObservations
+          : cantonObservations) ?? [];
 
       if (entityObservations.length === 0) {
         return {
@@ -112,7 +127,8 @@ export function useSelectedEntityData(
         entityObservations,
         entityType,
         colorScale,
-        formatValue
+        formatValue,
+        getLocalizedLabel({ id: priceComponent })
       );
 
       return {
@@ -146,7 +162,7 @@ export function useSelectedEntityData(
         operatorObservations,
         colorScale,
         formatValue,
-        queryState.indicator
+        getLocalizedLabel({ id: queryState.indicator })
       );
 
       return {
@@ -170,10 +186,12 @@ export function useSelectedEntityData(
     entityId,
     selection.hoveredId,
     selection.selectedId,
+    selection.entityType,
     enrichedData,
     colorScale,
     formatValue,
     dataType,
+    priceComponent,
     queryState.indicator,
   ]);
 }

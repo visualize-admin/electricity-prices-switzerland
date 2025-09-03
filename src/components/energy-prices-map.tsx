@@ -18,7 +18,7 @@ import {
 import { HoverState } from "src/components/map-helpers";
 import {
   makeCantonsLayer,
-  makeEnergyPricesMunicipalitiesOverlayLayer,
+  makeEnergyPricesOverlayLayer,
   makeLakesLayer,
   makeMunicipalityLayer,
 } from "src/components/map-layers";
@@ -53,7 +53,7 @@ export const EnergyPricesMap = ({
   priceComponent: PriceComponent;
 }) => {
   const [hovered, setHovered] = useState<HoverState>();
-  const { activeId, onEntitySelect } = useMap();
+  const { activeId, onEntitySelect, setEntity } = useMap();
   const legendId = useId();
   const formatNumber = useFormatCurrency();
 
@@ -69,6 +69,7 @@ export const EnergyPricesMap = ({
           ? hovered.id.toString()
           : null,
       selectedId: null,
+      entityType: hovered?.type === "municipality" ? "municipality" : "canton",
     }),
     [hovered]
   );
@@ -80,6 +81,7 @@ export const EnergyPricesMap = ({
     enrichedData: enrichedData,
     colorScale: colorScale!,
     formatValue: formatNumber,
+    priceComponent: priceComponent,
   });
 
   const { value: highlightContext } = useContext(HighlightContext);
@@ -148,6 +150,7 @@ export const EnergyPricesMap = ({
         return;
       }
 
+      setEntity("municipality");
       onEntitySelect(ev, "municipality", id.toString());
     };
 
@@ -190,10 +193,17 @@ export const EnergyPricesMap = ({
       makeCantonsLayer({
         data: geoData.data.cantonMesh,
       }),
-      makeEnergyPricesMunicipalitiesOverlayLayer({
+      makeEnergyPricesOverlayLayer({
+        data: geoData.data.cantons,
+        hovered,
+        activeId: activeId ?? undefined,
+        type: "canton",
+      }),
+      makeEnergyPricesOverlayLayer({
         data: geoData.data.municipalities,
         hovered,
         activeId: activeId ?? undefined,
+        type: "municipality",
       }),
     ];
   }, [
@@ -205,6 +215,7 @@ export const EnergyPricesMap = ({
     hovered,
     activeId,
     featureIndexes,
+    setEntity,
     onEntitySelect,
   ]);
 

@@ -3,6 +3,7 @@ import { Box } from "@mui/material";
 import { ScaleThreshold } from "d3";
 import { GetServerSideProps } from "next";
 import dynamic from "next/dynamic";
+import Head from "next/head";
 import React, { useCallback, useEffect, useMemo, useRef } from "react";
 
 import { CombinedSelectors } from "src/components/combined-selectors";
@@ -119,6 +120,10 @@ const MapPageContent = ({
   const isElectricityTab = tab === "electricity";
   const isSunshineTab = tab === "sunshine";
 
+  // Entity should be part of the state
+  const { entity: mapEntity, setEntity } = useMap();
+  const entity = isElectricityTab ? mapEntity : "operator";
+
   const colorAccessor = useCallback((d: { value: number }) => d.value, []);
 
   // Simple accessor for sunshine data - just get the value field
@@ -227,9 +232,6 @@ const MapPageContent = ({
       indicator={indicator}
     />
   );
-
-  const { entity: mapEntity, setEntity } = useMap();
-  const entity = isElectricityTab ? mapEntity : "operator";
 
   const listGroups = useMemo(() => {
     if (isElectricityTab) {
@@ -342,9 +344,11 @@ const MapPageContent = ({
     selection: {
       selectedId: selectedItem?.id ?? null,
       hoveredId: null,
+      entityType: entity,
     },
     colorScale,
     formatValue: valueFormatter,
+    priceComponent: priceComponent,
   });
 
   return (
@@ -512,6 +516,14 @@ export const MapPage = ({ locale, dataService }: Props) => {
 
   return (
     <MapProvider activeId={activeId} setActiveId={setActiveId}>
+      <Head>
+        <title>
+          {t({
+            id: "site.title",
+            message: "Electricity tariffs in Switzerland",
+          })}
+        </title>
+      </Head>
       {!dataService.isDefault && (
         <SunshineDataServiceDebug serviceName={dataService.serviceName} />
       )}

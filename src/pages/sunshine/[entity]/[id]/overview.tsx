@@ -2,6 +2,7 @@ import { t, Trans } from "@lingui/macro";
 import { Box, IconButton, Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
 import ErrorPage from "next/error";
+import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { ComponentProps, useMemo } from "react";
@@ -277,6 +278,19 @@ const OverviewPage = (props: Props) => {
 
   const mainContent = (
     <>
+      <Head>
+        <title>
+          {t({
+            id: "sunshine.overview-sunshine.title",
+            message: "Sunshine Indicators Overview",
+          })}
+          {" - "}
+          {t({
+            id: "site.title",
+            message: "Electricity tariffs in Switzerland",
+          })}
+        </title>
+      </Head>
       <DetailsPageHeader>
         <DetailsPageTitle>
           <Trans id="sunshine.overview-sunshine.title">

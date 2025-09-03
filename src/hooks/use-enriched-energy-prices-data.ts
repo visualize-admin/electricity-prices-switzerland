@@ -1,4 +1,4 @@
-import { extent, group } from "d3";
+import { extent, group, index } from "d3";
 import { useMemo } from "react";
 
 import { getObservationsWeightedMean } from "src/domain/data";
@@ -59,7 +59,7 @@ export const useEnrichedEnergyPricesData = ({
 
     const rawObservations = observationsQuery.data.observations || [];
     const municipalities = municipalitiesQuery.data.municipalities || [];
-    const cantonMedianObservations =
+    const rawCantonMedianObservations =
       observationsQuery.data.cantonMedianObservations || [];
     const swissMedianObservations =
       observationsQuery.data.swissMedianObservations || [];
@@ -89,11 +89,27 @@ export const useEnrichedEnergyPricesData = ({
       cantonData: cantonIndex.get(observation.canton),
     }));
 
+    const cantonMedianObservations = rawCantonMedianObservations.map(
+      (observation) => ({
+        ...observation,
+        municipalityData: undefined,
+        cantonData: cantonIndex.get(observation.canton),
+        municipalityLabel: undefined,
+        municipality: "",
+        coverageRatio: 1,
+        operator: "",
+      })
+    );
+
     const observationsByMunicipality = group(
       observations,
       (obs) => obs.municipality
     );
     const observationsByCanton = group(observations, (obs) => obs.canton);
+    const cantonMedianObservationsByCanton = index(
+      cantonMedianObservations,
+      (x) => x.canton
+    );
 
     const medianValue = swissMedianObservations[0]?.value;
     const means = Array.from(observationsByMunicipality.values()).map(
@@ -106,6 +122,7 @@ export const useEnrichedEnergyPricesData = ({
       observationsByMunicipality,
       observationsByCanton,
       cantonMedianObservations,
+      cantonMedianObservationsByCanton,
       swissMedianObservations,
       municipalities: municipalities,
       municipalityIndex,
@@ -141,5 +158,7 @@ export type EnrichedEnergyPricesData = NonNullable<
   ReturnType<typeof useEnrichedEnergyPricesData>["data"]
 >;
 
-export type EnrichedEnergyObservation =
-  EnrichedEnergyPricesData["observations"][number];
+export type EnrichedEnergyObservation = Omit<
+  EnrichedEnergyPricesData["observations"][number],
+  "__typename"
+>;

@@ -1,8 +1,9 @@
 import { PickingInfo } from "@deck.gl/core/typed";
 import { GeoJsonLayerProps } from "@deck.gl/layers/typed";
 import { t } from "@lingui/macro";
-import { extent, ScaleThreshold } from "d3";
+import { extent, mean, ScaleThreshold } from "d3";
 import { Feature, GeoJsonProperties, Geometry } from "geojson";
+import { first } from "lodash";
 import { useCallback, useId, useMemo, useState } from "react";
 
 import { MapColorLegend } from "src/components/color-legend";
@@ -81,6 +82,21 @@ type SunshineMapProps = {
   indicator: SunshineIndicator;
 };
 
+const aggregateFnPerIndicator: Record<
+  SunshineIndicator,
+  (
+    obs: SunshineDataIndicatorRow["value"][]
+  ) => SunshineDataIndicatorRow["value"]
+> = {
+  networkCosts: mean,
+  netTariffs: mean,
+  energyTariffs: mean,
+  saidi: mean,
+  saifi: mean,
+  serviceQuality: first,
+  compliance: first,
+};
+
 const SunshineMap = ({
   enrichedDataResult,
   colorScale,
@@ -100,22 +116,19 @@ const SunshineMap = ({
 
   // Convert enriched data to format expected by map layers
   const observationsByOperator = useMemo(() => {
-    if (!enrichedData?.observationsByOperator) {
-      return {};
-    }
+    const aggregateFn = aggregateFnPerIndicator[indicator];
+    const record: Record<string, SunshineDataIndicatorRow> = Object.fromEntries(
+      (enrichedData?.observationsByOperator.entries() ?? []).map((x) => [
+        x[0],
 
-    const record: Record<string, SunshineDataIndicatorRow> = {};
-    for (const [
-      operatorId,
-      observations,
-    ] of enrichedData.observationsByOperator) {
-      // Take the first observation for each operator
-      if (observations.length > 0) {
-        record[operatorId] = observations[0];
-      }
-    }
+        {
+          ...x[1][0],
+          value: aggregateFn(x[1].map((obs) => obs.value)),
+        },
+      ])
+    );
     return record;
-  }, [enrichedData?.observationsByOperator]);
+  }, [enrichedData?.observationsByOperator, indicator]);
 
   const enhancedGeoData = useMemo(() => {
     if (!enrichedData?.operatorMunicipalities || !geoData) {
@@ -131,6 +144,7 @@ const SunshineMap = ({
   const [entitySelection, setEntitySelection] = useState<EntitySelection>({
     hoveredId: null,
     selectedId: null,
+    entityType: "municipality",
   });
 
   // Use the unified entity selection hook
@@ -140,6 +154,7 @@ const SunshineMap = ({
     dataType: "sunshine" as const,
     colorScale,
     formatValue: valueFormatter,
+    priceComponent: "",
   });
 
   // Handle hover on operator layer

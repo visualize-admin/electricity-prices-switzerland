@@ -3,7 +3,6 @@ import { ScaleThreshold } from "d3";
 import React from "react";
 
 import { Entity } from "src/domain/data";
-import { SunshineIndicator } from "src/domain/sunshine";
 import { EnrichedEnergyObservation } from "src/hooks/use-enriched-energy-prices-data";
 import { EnrichedSunshineObservation } from "src/hooks/use-enriched-sunshine-data";
 
@@ -29,6 +28,7 @@ export const formatEnergyPricesEntity = (
   entityType: Entity,
   colorScale: ScaleThreshold<number, string, never>,
   formatValue: (value: number) => string,
+  priceComponent: string,
   coverageRatioFlag = false
 ): EntityDisplayData => {
   if (!observations || observations.length === 0) {
@@ -48,10 +48,6 @@ export const formatEnergyPricesEntity = (
       firstObs.municipalityData?.name ||
       firstObs.municipalityLabel ||
       "Unknown Municipality"
-    }${
-      firstObs.cantonData?.name || firstObs.cantonLabel
-        ? ` - ${firstObs.cantonData?.name || firstObs.cantonLabel}`
-        : ""
     }`;
   } else if (entityType === "canton") {
     title =
@@ -62,7 +58,7 @@ export const formatEnergyPricesEntity = (
 
   // Create values array from observations
   const values: EntityValue[] = observations.map((obs) => ({
-    label: obs.operatorLabel || "",
+    label: obs.operatorLabel ?? priceComponent ?? "",
     formattedValue: `${
       obs.value !== undefined && obs.value !== null
         ? formatValue(obs.value)
@@ -89,7 +85,7 @@ export const formatSunshineEntity = (
   observations: EnrichedSunshineObservation[],
   colorScale: ScaleThreshold<number, string, never>,
   formatValue: (value: number) => string,
-  indicator: SunshineIndicator
+  formattedIndicator: string
 ): EntityDisplayData => {
   if (!observations || observations.length === 0) {
     return {
@@ -103,7 +99,7 @@ export const formatSunshineEntity = (
   const values: EntityValue[] = observations
     .filter((obs) => obs.value !== null && obs.value !== undefined)
     .map((obs) => ({
-      label: `${indicator}`,
+      label: `${formattedIndicator}`,
       formattedValue: formatValue(obs.value!),
       color: colorScale(obs.value!),
     }));
@@ -127,6 +123,6 @@ const getEntityCaption = (entityType: Entity): React.ReactNode => {
     case "operator":
       return <Trans id="operator">Operator</Trans>;
     default:
-      return <Trans id="entity">Entity</Trans>;
+      return "";
   }
 };

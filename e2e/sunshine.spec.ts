@@ -75,7 +75,7 @@ test.describe("Sunshine map details panel", () => {
     await page.goto("/en/map?flag__sunshine=true");
 
     const tracker = new InflightRequests(page);
-    await page.getByTitle("Indicators").click();
+    await page.getByText("Indicators").click();
     await sleep(1000);
     await page.getByRole("combobox", { name: "Year" }).click();
     await page.getByRole("option", { name: "2025" }).click();
@@ -111,7 +111,11 @@ test.describe("Sunshine map details panel", () => {
       locator: page.getByTestId("map-details-content"),
     });
     await page.getByText("Back to filters").click();
-    await page.getByRole("combobox", { name: "Indicator" }).click();
+    await page
+      .getByLabel("Indicator", {
+        exact: true,
+      })
+      .click();
     await page.getByRole("option", { name: "Network costs" }).click();
     await page
       .locator("a")
@@ -135,9 +139,10 @@ test.describe("Sunshine map details panel", () => {
     await page.goto("/en/map?flag__sunshine=true");
 
     const tracker = new InflightRequests(page);
-    await page.getByTitle("Indicators").click();
+    await page.getByText("Indicators").click();
     await sleep(1000);
-    await page.getByRole("combobox", { name: "Year" }).click();
+    await page.getByLabel("Year").click();
+
     await page.getByRole("option", { name: "2025" }).click();
     await snapshot({
       note: "Sunshine Map - Initial",

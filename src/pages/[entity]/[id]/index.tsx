@@ -118,7 +118,11 @@ const ElectricityTariffsPage = (props: Props) => {
 
       <PriceComponentsBarChart id={id} entity={entity} />
       <PriceEvolutionCard
-        priceComponents={detailsPriceComponents}
+        // We hide meteringrate for now as there is only 1 value
+        // To revisit later
+        priceComponents={detailsPriceComponents.filter(
+          (x) => x !== "meteringrate"
+        )}
         id={id}
         entity={entity}
       />
