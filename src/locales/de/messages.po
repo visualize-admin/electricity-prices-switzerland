@@ -7,7 +7,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language: de\n"
 "Language-Team: \n"
-"Content-Type: \n"
+"Content-Type: text/plain\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -588,6 +588,14 @@ msgstr "Teilen"
 #: src/components/map-tooltip.tsx
 msgid "map.tooltipnodata"
 msgstr "Keine Daten"
+
+#: src/components/map/mobile-controls.tsx
+msgid "mobile-controls.tabs.list"
+msgstr "Liste"
+
+#: src/components/map/mobile-controls.tsx
+msgid "mobile-controls.tabs.parameters"
+msgstr "Parameter"
 
 #: src/utils/entity-formatting.tsx
 msgid "municipality"

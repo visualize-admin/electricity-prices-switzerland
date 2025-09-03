@@ -1,4 +1,4 @@
-import { Trans } from "@lingui/macro";
+import { t, Trans } from "@lingui/macro";
 import {
   alpha,
   Box,
@@ -44,7 +44,7 @@ const MobileDrawer = ({
   open: boolean;
 }) => {
   const { classes } = useVaulStyles();
-  const [tab, setTab] = useState<"list" | "selectors">("selectors");
+  const [tab, setTab] = useState<"list" | "parameters">("parameters");
   const vaultContentRef = useRef<HTMLDivElement>(null);
   const [queryState] = useQueryStateMapCommon();
   return (
@@ -95,11 +95,23 @@ const MobileDrawer = ({
                       sx={{ mb: 6 }}
                       onChange={(event, newValue) => setTab(newValue)}
                     >
-                      <Tab label="Selectors" value="selectors" />
-                      <Tab label="List" value="list" />
+                      <Tab
+                        label={t({
+                          id: "mobile-controls.tabs.parameters",
+                          message: "Parameters",
+                        })}
+                        value="parameters"
+                      />
+                      <Tab
+                        label={t({
+                          id: "mobile-controls.tabs.list",
+                          message: "List",
+                        })}
+                        value="list"
+                      />
                     </Tabs>
                   </Box>
-                  <Box mx={tab === "selectors" ? -4 : 1}>
+                  <Box mx={tab === "parameters" ? -4 : 1}>
                     {tab === "list" ? (
                       <Box display="flex" flexDirection="column" gap={2}>
                         {/* Only show the list button group on the electricity tab */}

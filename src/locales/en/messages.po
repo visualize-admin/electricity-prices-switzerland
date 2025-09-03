@@ -589,6 +589,14 @@ msgstr "Share"
 msgid "map.tooltipnodata"
 msgstr "No data"
 
+#: src/components/map/mobile-controls.tsx
+msgid "mobile-controls.tabs.list"
+msgstr "List"
+
+#: src/components/map/mobile-controls.tsx
+msgid "mobile-controls.tabs.parameters"
+msgstr "Parameters"
+
 #: src/utils/entity-formatting.tsx
 msgid "municipality"
 msgstr "Municipality"
