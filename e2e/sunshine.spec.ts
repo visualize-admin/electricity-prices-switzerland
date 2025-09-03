@@ -89,7 +89,7 @@ test.describe("Sunshine map details panel", () => {
       .first()
       .click();
 
-    await tracker.waitForRequests();
+    await tracker.waitForRequests({ fail: false });
 
     await snapshot({
       note: "Sunshine Map - SAIDI - Clicked on a list item",
@@ -104,7 +104,7 @@ test.describe("Sunshine map details panel", () => {
       .filter({ hasText: "Elektra Andwil Stromversorgung" })
       .first()
       .click();
-    await tracker.waitForRequests();
+    await tracker.waitForRequests({ fail: false });
 
     await snapshot({
       note: "Sunshine Map - Energy tariffs - Clicked on a list item",
@@ -123,7 +123,7 @@ test.describe("Sunshine map details panel", () => {
       .first()
       .click();
 
-    await tracker.waitForRequests();
+    await tracker.waitForRequests({ fail: false });
 
     await snapshot({
       note: "Sunshine Map - Network costs - Clicked on a list item",

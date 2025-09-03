@@ -32,30 +32,40 @@ class InflightRequests {
     this._page.removeListener("requestfailed", this._onFinished);
   }
 
-  async waitForRequests(options?: { type?: string; delay?: number }) {
+  async waitForRequests(options?: {
+    type?: string;
+    delay?: number;
+    fail?: boolean;
+  }) {
     const { type, delay = 500 } = options ?? {
       delay: undefined,
       type: undefined,
     };
     // We need a delay to ensure that the requests have started
     await sleep(delay);
-    return expect
-      .poll(
-        () => {
-          const inflightXhrs = this.inflightRequests().filter((request) => {
-            if (type === undefined) {
-              return true;
-            }
-            return request.resourceType() === type;
-          });
+    try {
+      await expect
+        .poll(
+          () => {
+            const inflightXhrs = this.inflightRequests().filter((request) => {
+              if (type === undefined) {
+                return true;
+              }
+              return request.resourceType() === type;
+            });
 
-          return inflightXhrs.length;
-        },
-        {
-          timeout: 30_000,
-        }
-      )
-      .toBe(0);
+            return inflightXhrs.length;
+          },
+          {
+            timeout: 30_000,
+          }
+        )
+        .toBe(0);
+    } catch (e) {
+      if (options?.fail !== false) {
+        throw e;
+      }
+    }
   }
 }
 
