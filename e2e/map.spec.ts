@@ -6,7 +6,7 @@ import { getSnapshotName, snapshotDir, test } from "e2e/common";
 
 test.describe("The Map Page", () => {
   test("should be possible to download the map", async ({ page }, testInfo) => {
-    const resp = await page.goto("/map");
+    const resp = await page.goto("/en/map");
     await expect(resp?.status()).toEqual(200);
     // click the download button, it has text "Download image"
     const downloadButton = await page.locator(

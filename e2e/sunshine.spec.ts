@@ -111,7 +111,11 @@ test.describe("Sunshine map details panel", () => {
       locator: page.getByTestId("map-details-content"),
     });
     await page.getByText("Back to filters").click();
-    await page.getByLabel("Indicator").click();
+    await page
+      .getByLabel("Indicator", {
+        exact: true,
+      })
+      .click();
     await page.getByRole("option", { name: "Network costs" }).click();
     await page
       .locator("a")
