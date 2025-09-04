@@ -2,7 +2,7 @@
 
 import { renderHook } from "@testing-library/react";
 import { act } from "react";
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { z } from "zod";
 
 import buildEnv from "../../src/env/build";
@@ -36,6 +36,14 @@ const createMockRouter = (query = {}) => {
     isPreview: false,
   });
 };
+
+beforeEach(() => {
+  vi.spyOn(console, "error").mockImplementation(() => {});
+});
+
+afterEach(() => {
+  vi.restoreAllMocks();
+});
 
 describe("Query States", () => {
   describe("Basic Functionality", () => {
