@@ -43,7 +43,7 @@ export type Props =
       status: "notfound";
     };
 
-export const handleMunicipalityEntity = async (
+export const getMunicipalityPageProps = async (
   params: Omit<PageParams, "entity"> & { res: ServerResponse<IncomingMessage> }
 ): Promise<
   Extract<Props, { entity: "municipality" } | { status: "notfound" }>
@@ -75,7 +75,7 @@ export const handleMunicipalityEntity = async (
     locale: locale ?? defaultLocale,
   };
 };
-export const handleOperatorsEntity = async (
+export const getOperatorsPageProps = async (
   params: Omit<PageParams, "entity"> & { res: ServerResponse<IncomingMessage> }
 ): Promise<Extract<Props, { entity: "operator" } | { status: "notfound" }>> => {
   const { id, locale, res } = params!;
@@ -97,7 +97,7 @@ export const handleOperatorsEntity = async (
   };
 };
 
-export const handleCantonEntity = async (
+export const getCantonPageProps = async (
   params: Omit<PageParams, "entity"> & { res: ServerResponse<IncomingMessage> }
 ): Promise<Extract<Props, { entity: "canton" } | { status: "notfound" }>> => {
   const { id, locale, res } = params!;

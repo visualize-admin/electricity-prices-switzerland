@@ -29,7 +29,7 @@ import TableComparisonCard from "src/components/table-comparison-card";
 import { TariffsTrendCard } from "src/components/tariffs-trend-card";
 import {
   DataServiceProps,
-  handleOperatorsEntity,
+  getOperatorsPageProps,
   PageParams,
   Props as SharedPageProps,
 } from "src/data/shared-page-props";
@@ -60,7 +60,7 @@ import {
 } from "src/lib/sunshine-data-service-context";
 import { truthy } from "src/lib/truthy";
 import { defaultLocale } from "src/locales/config";
-
+import { makePageTitle } from "src/utils/page-title";
 type Props =
   | (Extract<SharedPageProps, { entity: "operator"; status: "found" }> & {
       costsAndTariffs: Omit<
@@ -86,7 +86,7 @@ export const getServerSideProps: GetServerSideProps<Props, PageParams> = async (
     };
   }
 
-  const operatorProps = await handleOperatorsEntity({
+  const operatorProps = await getOperatorsPageProps({
     id,
     locale: locale ?? defaultLocale,
     res,

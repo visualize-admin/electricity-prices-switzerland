@@ -17,9 +17,9 @@ import { PriceEvolutionCard } from "src/components/detail-page/price-evolution-l
 import { SelectorMulti } from "src/components/detail-page/selector-multi";
 import { DetailsPageSidebar } from "src/components/detail-page/sidebar";
 import {
-  handleCantonEntity,
-  handleMunicipalityEntity,
-  handleOperatorsEntity,
+  getCantonPageProps,
+  getMunicipalityPageProps,
+  getOperatorsPageProps,
   PageParams,
   Props,
 } from "src/data/shared-page-props";
@@ -37,7 +37,7 @@ export const getServerSideProps: GetServerSideProps<
 
   switch (entity) {
     case "canton":
-      props = await handleCantonEntity({
+      props = await getCantonPageProps({
         id,
         locale: locale ?? defaultLocale,
         res,
@@ -45,7 +45,7 @@ export const getServerSideProps: GetServerSideProps<
 
       break;
     case "municipality":
-      props = await handleMunicipalityEntity({
+      props = await getMunicipalityPageProps({
         id,
         locale: locale ?? defaultLocale,
         res,
@@ -53,7 +53,7 @@ export const getServerSideProps: GetServerSideProps<
 
       break;
     case "operator":
-      props = await handleOperatorsEntity({
+      props = await getOperatorsPageProps({
         id,
         locale: locale ?? defaultLocale,
         res,

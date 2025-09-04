@@ -25,7 +25,7 @@ import {
 import TableComparisonCard from "src/components/table-comparison-card";
 import {
   DataServiceProps,
-  handleOperatorsEntity,
+  getOperatorsPageProps,
   PageParams,
   Props as SharedPageProps,
 } from "src/data/shared-page-props";
@@ -60,7 +60,7 @@ export const getServerSideProps: GetServerSideProps<Props, PageParams> = async (
     };
   }
 
-  const operatorProps = await handleOperatorsEntity({
+  const operatorProps = await getOperatorsPageProps({
     id,
     locale: locale ?? defaultLocale,
     res,
