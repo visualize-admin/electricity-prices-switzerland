@@ -13,7 +13,10 @@ import { PriceComponent } from "src/graphql/queries";
 import { OperatorDocumentCategory } from "src/graphql/resolver-types";
 import assert from "src/lib/assert";
 import { Observation, parseObservation } from "src/lib/observations";
-import { CoverageCacheManager } from "src/rdf/coverage-ratio";
+import {
+  COVERAGE_RATIO_THRESHOLD,
+  CoverageCacheManager,
+} from "src/rdf/coverage-ratio";
 import * as ns from "src/rdf/namespace";
 import { sparqlClient } from "src/rdf/sparql-client";
 
@@ -588,8 +591,7 @@ export const getOperatorsMunicipalities = async (
 export const getMunicipalityOperators = async (
   client: ParsingClient,
   municipalityId: string,
-  years: string[] | null,
-  coverageRatioThreshold = 0.25
+  years: string[] | null
 ) => {
   const queryViaObservations = `
 # from file queries/tariff.rq
@@ -642,17 +644,16 @@ WHERE {
   await coverageManager.prepare(years ?? []);
 
   const viaObservationsFiltered = viaObservations.filter((obs) => {
-    const coverageRatio =
-      coverageManager.getCoverage(
-        {
-          municipality: obs.municipality,
-          operator: obs.id,
-          period: obs.year,
-        },
-        "NE7"
-      ) ?? 1;
+    const coverageRatio = coverageManager.getCoverage(
+      {
+        municipality: obs.municipality,
+        operator: obs.id,
+        period: obs.year,
+      },
+      "NE7"
+    );
 
-    return coverageRatio > coverageRatioThreshold;
+    return coverageRatio > COVERAGE_RATIO_THRESHOLD;
   });
 
   // transform into id, name, years: []
