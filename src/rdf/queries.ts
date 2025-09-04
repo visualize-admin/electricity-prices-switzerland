@@ -591,6 +591,7 @@ export const getMunicipalityOperators = async (
   coverageRatioThreshold = 0.25
 ) => {
   const hasYearCoverage = (year: string) => {
+    // Before 2025, coverage ratio is not available
     return parseInt(year, 10) >= 2025;
   };
   const queryViaCoverage =
@@ -653,21 +654,33 @@ WHERE {
   // execute both queries and combine results
   const [viaCoverage, viaObservations] = await Promise.all([
     queryViaCoverage
-      ? client.query.select(queryViaCoverage).then((results) =>
-          results.map((res) => ({
-            id: ns.stripNamespaceFromIri({ iri: res.operator.value }),
-            name: res.operatorName.value,
-            year: res.year.value,
-          }))
-        )
+      ? client.query
+          .select(queryViaCoverage)
+          .then((results) =>
+            results.map((res) => ({
+              id: ns.stripNamespaceFromIri({ iri: res.operator.value }),
+              name: res.operatorName.value,
+              year: res.year.value,
+            }))
+          )
+          .catch((e) => {
+            console.error("Error executing coverage ratio query:", e);
+            return [];
+          })
       : Promise.resolve([]),
-    client.query.select(queryViaObservations).then((results) =>
-      results.map((res) => ({
-        id: ns.stripNamespaceFromIri({ iri: res.operator.value }),
-        name: res.operatorName.value,
-        year: res.year.value,
-      }))
-    ),
+    client.query
+      .select(queryViaObservations)
+      .then((results) =>
+        results.map((res) => ({
+          id: ns.stripNamespaceFromIri({ iri: res.operator.value }),
+          name: res.operatorName.value,
+          year: res.year.value,
+        }))
+      )
+      .catch((e) => {
+        console.error("Error executing observations query:", e);
+        return [];
+      }),
   ]);
 
   const combined = [...viaCoverage, ...viaObservations];
