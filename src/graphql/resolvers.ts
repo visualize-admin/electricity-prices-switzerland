@@ -52,6 +52,7 @@ import {
   CoverageCacheManager,
 } from "src/rdf/coverage-ratio";
 import { sparqlClient } from "src/rdf/sparql-client";
+import { truthy } from "src/lib/truthy";
 
 const gfmSyntax = require("micromark-extension-gfm");
 const gfmHtml = require("micromark-extension-gfm/html");
@@ -223,8 +224,10 @@ const Query: QueryResolvers = {
       ...o,
     })) as ResolvedOperatorObservation[];
 
-    const years = filters?.period;
-    if (years && observationFields && "coverageRatio" in observationFields) {
+    const years = Array.from(
+      new Set(operatorObservations.map((x) => x.period).filter(truthy))
+    );
+    if (years) {
       const defaultNetworkLevel = "NE7";
       const coverageManager = new CoverageCacheManager(sparqlClient);
       await coverageManager.prepare(years);
