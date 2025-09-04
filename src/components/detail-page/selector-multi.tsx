@@ -83,9 +83,9 @@ export const SelectorMulti = ({ entity }: { entity: Entity }) => {
           selectedItems={queryState.period}
           minSelectedItems={1}
           setSelectedItems={(items) => {
-            // We must hard navigate to make sure the municipality operators
+            // We must use shallow: false to make sure the municipality operators
             // are refreshed (done via getServerSideProps)
-            setQueryState({ period: items }, { hardNavigate: true });
+            setQueryState({ period: items }, { shallow: false });
           }}
         />
         <Combobox
