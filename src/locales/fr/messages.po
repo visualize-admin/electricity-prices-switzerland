@@ -7,7 +7,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language: fr\n"
 "Language-Team: \n"
-"Content-Type: text/plain\n"
+"Content-Type: \n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
@@ -1047,35 +1047,35 @@ msgstr "Composantes du prix"
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.aidfee-content"
-msgstr "selector.priceComponents.aidfee-content"
+msgstr ""
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.charge-content"
-msgstr "selector.priceComponents.charge-content"
+msgstr ""
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.collapsed-content"
-msgstr "selector.priceComponents.collapsed-content"
+msgstr ""
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.energy-content"
-msgstr "selector.priceComponents.energy-content"
+msgstr ""
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.expanded-content"
-msgstr "selector.priceComponents.expanded-content"
+msgstr ""
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.gridusage-content"
-msgstr "selector.priceComponents.gridusage-content"
+msgstr ""
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.meteringrate-content"
-msgstr "selector.priceComponents.meteringrate-content"
+msgstr ""
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.total-content"
-msgstr "selector.priceComponents.total-content"
+msgstr ""
 
 #: src/domain/translation.tsx
 msgid "selector.pricecomponent.aidfee"
@@ -1124,7 +1124,7 @@ msgstr "Tarifs de l'électricité"
 
 #: src/domain/translation.tsx
 msgid "selector.tab.electricity-content"
-msgstr "selector.tab.electricity-content"
+msgstr ""
 
 #: src/domain/translation.tsx
 msgid "selector.tab.indicators"
@@ -1132,7 +1132,7 @@ msgstr "Indicateurs"
 
 #: src/domain/translation.tsx
 msgid "selector.tab.indicators-content"
-msgstr "selector.tab.indicators-content"
+msgstr ""
 
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.typology"
@@ -1230,7 +1230,7 @@ msgstr "Dernière année"
 
 #: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.latest-year-option-content"
-msgstr "sunshine.costs-and-tariffs.latest-year-option-content"
+msgstr ""
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
@@ -1302,7 +1302,7 @@ msgstr "Progrès dans le temps"
 
 #: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.progress-over-time-content"
-msgstr "sunshine.costs-and-tariffs.progress-over-time-content"
+msgstr ""
 
 #: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.selected-operators"
@@ -1462,7 +1462,7 @@ msgstr "Dernière année"
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.latest-year-option-content"
-msgstr "sunshine.power-stability.latest-year-option-content"
+msgstr ""
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
@@ -1504,7 +1504,7 @@ msgstr "Progrès dans le temps"
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.progress-over-time-content"
-msgstr "sunshine.power-stability.progress-over-time-content"
+msgstr ""
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.ratio-option"

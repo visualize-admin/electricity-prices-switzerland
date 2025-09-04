@@ -7,7 +7,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language: de\n"
 "Language-Team: \n"
-"Content-Type: text/plain\n"
+"Content-Type: \n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -1230,7 +1230,7 @@ msgstr "Aktuelles Jahr"
 
 #: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.latest-year-option-content"
-msgstr "sunshine.costs-and-tariffs.latest-year-option-content"
+msgstr ""
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
@@ -1302,7 +1302,7 @@ msgstr "Entwicklung über die Zeit"
 
 #: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.progress-over-time-content"
-msgstr "sunshine.costs-and-tariffs.progress-over-time-content"
+msgstr ""
 
 #: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.selected-operators"
@@ -1462,7 +1462,7 @@ msgstr "Aktuelles Jahr"
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.latest-year-option-content"
-msgstr "sunshine.power-stability.latest-year-option-content"
+msgstr ""
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
@@ -1504,7 +1504,7 @@ msgstr "Entwicklung über die Zeit"
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.progress-over-time-content"
-msgstr "sunshine.power-stability.progress-over-time-content"
+msgstr ""
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.ratio-option"
