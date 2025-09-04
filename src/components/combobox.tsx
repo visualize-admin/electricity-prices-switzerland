@@ -242,8 +242,6 @@ export const Combobox = <T extends string>({
 }) => {
   const [inputValue, setInputValue] = useState(getItemLabel(selectedItem));
 
-  const htmlFor = useId();
-
   useEffect(() => {
     setInputValue(getItemLabel(selectedItem));
   }, [getItemLabel, selectedItem]);
