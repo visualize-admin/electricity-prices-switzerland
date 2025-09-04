@@ -1,5 +1,6 @@
 import namespace from "@rdfjs/namespace";
 import { SELECT } from "@tpluscode/sparql-builder";
+import { rollup } from "d3";
 import { Cube, LookupSource, Source, View } from "rdf-cube-view-query";
 import rdf from "rdf-ext";
 import { Literal, NamedNode } from "rdf-js";
@@ -567,6 +568,124 @@ export const getOperatorsMunicipalities = async (
     };
   });
   return parsed;
+};
+
+/**
+ * Get the list of operators for a given municipality id, optionally filtered by years.
+ * The list is built by combining two queries:
+ * 1. Querying offers with a coverage ratio above a certain threshold (default: 0.25)
+ * 2. Querying observations in the electricity price cube
+ * The results of both queries are combined and deduplicated.
+ * For years <= 2025, we need to query the observations as the coverage ratio is not available.
+ *
+ * @param client - The SPARQL client to use for the queries.
+ * @param municipalityId - The municipality id to get the operators for.
+ * @param years - Optional list of years to filter the operators by, if not passed, all years are considered.
+ * @param coverageRatioThreshold - The minimum coverage ratio for offers to be considered (default: 0.25).
+ * @returns A list of operators with their id, name, and the years they cover in the given municipality.
+ */
+export const getMunicipalityOperators = async (
+  client: ParsingClient,
+  municipalityId: string,
+  years: string[] | null,
+  coverageRatioThreshold = 0.25
+) => {
+  const hasYearCoverage = (year: string) => {
+    return parseInt(year, 10) >= 2025;
+  };
+  const queryViaCoverage =
+    !years || years.some(hasYearCoverage)
+      ? `
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX schema: <http://schema.org/>
+PREFIX : <https://energy.ld.admin.ch/elcom/electricityprice/>
+
+SELECT ?operator ?operatorName ?year
+FROM <https://lindas.admin.ch/elcom/electricityprice>
+WHERE {
+  ${
+    years
+      ? `VALUES ?year { ${years.map((x) => `"${x}"^^xsd:gYear`).join(" ")} }`
+      : ""
+  }
+  VALUES ?municipality { <https://ld.admin.ch/municipality/${municipalityId}> }
+  ?offer a schema:Offer; 
+  	 schema:temporalCoverage ?year;
+     schema:offeredBy ?operator ;
+     schema:areaServed ?municipality ;
+     :coverageRatio ?coverageRatio ; 
+     :networkLevel ?networkLevel .
+  ?operator schema:name ?operatorName .
+  FILTER (?coverageRatio > ${coverageRatioThreshold})
+}
+  `
+      : null;
+
+  const queryViaObservations = `
+# from file queries/tariff.rq
+PREFIX schema: <http://schema.org/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX cube: <https://cube.link/>
+PREFIX strom: <https://energy.ld.admin.ch/elcom/electricityprice/dimension/>
+
+SELECT DISTINCT ?operator ?operatorName ?year
+FROM <https://lindas.admin.ch/elcom/electricityprice>
+WHERE {
+  <https://energy.ld.admin.ch/elcom/electricityprice> a cube:Cube ;
+    cube:observationSet/cube:observation ?obs .
+  
+  VALUES ?municipality { <https://ld.admin.ch/municipality/${municipalityId}> }
+  ${
+    years
+      ? `VALUES ?year { ${years.map((x) => `"${x}"^^xsd:gYear`).join(" ")} }`
+      : ""
+  }
+
+  ?obs strom:period ?year ;
+    strom:municipality ?municipality;
+    strom:operator ?operator.
+
+  ?operator schema:name ?operatorName .
+}
+  `;
+
+  // execute both queries and combine results
+  const [viaCoverage, viaObservations] = await Promise.all([
+    queryViaCoverage
+      ? client.query.select(queryViaCoverage).then((results) =>
+          results.map((res) => ({
+            id: ns.stripNamespaceFromIri({ iri: res.operator.value }),
+            name: res.operatorName.value,
+            year: res.year.value,
+          }))
+        )
+      : Promise.resolve([]),
+    client.query.select(queryViaObservations).then((results) =>
+      results.map((res) => ({
+        id: ns.stripNamespaceFromIri({ iri: res.operator.value }),
+        name: res.operatorName.value,
+        year: res.year.value,
+      }))
+    ),
+  ]);
+
+  const combined = [...viaCoverage, ...viaObservations];
+
+  // transform into id, name, years: []
+  const unique = Array.from(
+    rollup(
+      combined,
+      (v) => ({
+        id: v[0].id,
+        name: v[0].name,
+        years: Array.from(new Set(v.map((d) => d.year))).sort(),
+      }),
+      (d) => d.id
+    ).values()
+  );
+
+  return unique.sort((a, b) => a.name.localeCompare(b.name));
 };
 
 export type OperatorMunicipalityRecord = Awaited<

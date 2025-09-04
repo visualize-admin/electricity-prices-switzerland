@@ -4,12 +4,12 @@ import { Entity } from "src/domain/data";
 import { defaultLocale } from "src/locales/config";
 import {
   getCanton,
-  getDimensionValuesAndLabels,
-  getElectricityPriceCube,
   getMunicipality,
+  getMunicipalityOperators,
   getOperator,
   getOperatorMunicipalities,
 } from "src/rdf/queries";
+import { sparqlClient } from "src/rdf/sparql-client";
 
 export type PageParams = { locale: string; id: string; entity: Entity };
 
@@ -44,11 +44,14 @@ export type Props =
     };
 
 export const getMunicipalityPageProps = async (
-  params: Omit<PageParams, "entity"> & { res: ServerResponse<IncomingMessage> }
+  params: Omit<PageParams, "entity"> & {
+    res: ServerResponse<IncomingMessage>;
+    years: string[];
+  }
 ): Promise<
   Extract<Props, { entity: "municipality" } | { status: "notfound" }>
 > => {
-  const { id, locale, res } = params!;
+  const { id, locale, res, years } = params!;
   const municipality = await getMunicipality({ id });
 
   if (!municipality) {
@@ -56,13 +59,7 @@ export const getMunicipalityPageProps = async (
     return { status: "notfound" };
   }
 
-  const cube = await getElectricityPriceCube();
-
-  const operators = await getDimensionValuesAndLabels({
-    cube,
-    dimensionKey: "operator",
-    filters: { municipality: [id] },
-  });
+  const operators = await getMunicipalityOperators(sparqlClient, id, years);
 
   return {
     entity: "municipality",

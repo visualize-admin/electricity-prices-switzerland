@@ -30,8 +30,14 @@ import { defaultLocale } from "src/locales/config";
 export const getServerSideProps: GetServerSideProps<
   Props,
   PageParams
-> = async ({ params, res, locale }) => {
+> = async ({ params, res, locale, req }) => {
   const { id, entity } = params!;
+  const query = new URL(req.url!, `http://${req.headers.host}`).searchParams;
+  const periodQueryParam = query.getAll("period");
+  const period =
+    periodQueryParam
+      .flatMap((x) => x.split(",").map((y) => y.trim()))
+      .filter((x) => x) ?? [];
 
   let props: Props;
 
@@ -48,6 +54,8 @@ export const getServerSideProps: GetServerSideProps<
       props = await getMunicipalityPageProps({
         id,
         locale: locale ?? defaultLocale,
+        // get years out of the query string from the request
+        years: period ? (Array.isArray(period) ? period : [period]) : [],
         res,
       });
 

@@ -25,12 +25,15 @@ export function makeUseQueryState<T extends z.ZodRawShape>(
     const schemaKeys = Object.keys(schema.shape) as (keyof SchemaType)[];
 
     const routerFn: UseRouter = options?.router ?? useRouter;
-    const { query, replace, pathname } = routerFn();
+    const { query, replace, pathname, reload } = routerFn();
 
     const initial = options?.defaultValue;
 
     const setState = useCallback(
-      (newQueryState: Partial<QueryStateSingle>) => {
+      (
+        newQueryState: Partial<QueryStateSingle>,
+        { hardNavigate } = { hardNavigate: false }
+      ) => {
         const newQuery: { [k: string]: string } = {};
         for (const k of schemaKeys) {
           const v = newQueryState[k as keyof typeof newQueryState];
@@ -50,8 +53,11 @@ export function makeUseQueryState<T extends z.ZodRawShape>(
           query: updatedQuery,
         };
         replace(href, undefined, { shallow: true });
+        if (hardNavigate) {
+          reload();
+        }
       },
-      [replace, pathname, query, schemaKeys]
+      [query, pathname, replace, schemaKeys, reload]
     );
 
     const state: Partial<QueryStateSingle> = {};
