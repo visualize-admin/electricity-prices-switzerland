@@ -9,9 +9,12 @@ import * as ns from "src/rdf/namespace";
 export const COVERAGE_RATIO_THRESHOLD = 0.25;
 const DEFAULT_COVERAGE_RATIO = 1;
 
+/**
+ * The coverage ratios for operators for each year are cached for 5m
+ */
 const coveragesByYearCache = new LRUCache<string, Promise<Map<string, number>>>(
   {
-    entryExpirationTimeInMS: 60 * 1000,
+    entryExpirationTimeInMS: 5 * 60 * 1000,
   }
 );
 
