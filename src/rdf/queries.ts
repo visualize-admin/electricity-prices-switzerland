@@ -1,5 +1,6 @@
 import namespace from "@rdfjs/namespace";
 import { SELECT } from "@tpluscode/sparql-builder";
+import { rollup } from "d3";
 import { Cube, LookupSource, Source, View } from "rdf-cube-view-query";
 import rdf from "rdf-ext";
 import { Literal, NamedNode } from "rdf-js";
@@ -12,6 +13,10 @@ import { PriceComponent } from "src/graphql/queries";
 import { OperatorDocumentCategory } from "src/graphql/resolver-types";
 import assert from "src/lib/assert";
 import { Observation, parseObservation } from "src/lib/observations";
+import {
+  COVERAGE_RATIO_THRESHOLD,
+  CoverageCacheManager,
+} from "src/rdf/coverage-ratio";
 import * as ns from "src/rdf/namespace";
 import { sparqlClient } from "src/rdf/sparql-client";
 
@@ -567,6 +572,104 @@ export const getOperatorsMunicipalities = async (
     };
   });
   return parsed;
+};
+
+/**
+ * Get the list of operators for a given municipality id, optionally filtered by years.
+ * The list is built by combining two queries:
+ * 1. Querying offers with a coverage ratio above a certain threshold (default: 0.25)
+ * 2. Querying observations in the electricity price cube
+ * The results of both queries are combined and deduplicated.
+ * For years <= 2025, we need to query the observations as the coverage ratio is not available.
+ *
+ * @param client - The SPARQL client to use for the queries.
+ * @param municipalityId - The municipality id to get the operators for.
+ * @param years - Optional list of years to filter the operators by, if not passed, all years are considered.
+ * @param coverageRatioThreshold - The minimum coverage ratio for offers to be considered (default: 0.25).
+ * @returns A list of operators with their id, name, and the years they cover in the given municipality.
+ */
+export const getMunicipalityOperators = async (
+  client: ParsingClient,
+  municipalityId: string,
+  years: string[] | null
+) => {
+  const queryViaObservations = `
+# from file queries/tariff.rq
+PREFIX schema: <http://schema.org/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX cube: <https://cube.link/>
+PREFIX strom: <https://energy.ld.admin.ch/elcom/electricityprice/dimension/>
+
+SELECT ?obs ?year ?municipality ?operator ?operatorName ?year
+FROM <https://lindas.admin.ch/elcom/electricityprice>
+WHERE {
+  <https://energy.ld.admin.ch/elcom/electricityprice> a cube:Cube ;
+    cube:observationSet/cube:observation ?obs .
+  
+  VALUES ?municipality { <https://ld.admin.ch/municipality/${municipalityId}> }
+  ${
+    years
+      ? `VALUES ?year { ${years.map((x) => `"${x}"^^xsd:gYear`).join(" ")} }`
+      : ""
+  }
+
+  ?obs strom:period ?year ;
+    strom:municipality ?municipality;
+    strom:operator ?operator.
+
+  ?operator schema:name ?operatorName .
+}
+  `;
+
+  const viaObservations = await client.query
+    .select(queryViaObservations)
+    .then((results) => {
+      return results.map((res) => ({
+        id: ns.stripNamespaceFromIri({ iri: res.operator.value }),
+        name: res.operatorName.value,
+        year: res.year.value,
+        obs: res.obs.value,
+        municipality: ns.stripNamespaceFromIri({
+          iri: res.municipality.value,
+        }),
+      }));
+    })
+    .catch((e) => {
+      console.error("Error executing observations query:", e);
+      return [];
+    });
+
+  const coverageManager = new CoverageCacheManager(sparqlClient);
+  await coverageManager.prepare(years ?? []);
+
+  const viaObservationsFiltered = viaObservations.filter((obs) => {
+    const coverageRatio = coverageManager.getCoverage(
+      {
+        municipality: obs.municipality,
+        operator: obs.id,
+        period: obs.year,
+      },
+      "NE7"
+    );
+
+    return coverageRatio > COVERAGE_RATIO_THRESHOLD;
+  });
+
+  // transform into id, name, years: []
+  const unique = Array.from(
+    rollup(
+      viaObservationsFiltered,
+      (v) => ({
+        id: v[0].id,
+        name: v[0].name,
+        years: Array.from(new Set(v.map((d) => d.year))).sort(),
+      }),
+      (d) => d.id
+    ).values()
+  );
+
+  return unique.sort((a, b) => a.name.localeCompare(b.name));
 };
 
 export type OperatorMunicipalityRecord = Awaited<

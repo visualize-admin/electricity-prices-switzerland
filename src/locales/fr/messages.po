@@ -1153,12 +1153,8 @@ msgstr "URL copiée ✅"
 
 #: src/components/app-layout.tsx
 #: src/pages/[entity]/[id]/index.tsx
-#: src/pages/index.tsx
 #: src/pages/map/index.tsx
-#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
-#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
-#: src/pages/sunshine/[entity]/[id]/overview.tsx
-#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+#: src/utils/page-title.tsx
 msgid "site.title"
 msgstr "Prix de l'électricité en Suisse"
 
@@ -1316,8 +1312,6 @@ msgstr "Opérateurs de réseaux sélectionnés"
 msgid "sunshine.costs-and-tariffs.source"
 msgstr "sunshine.costs-and-tariffs.source"
 
-#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
-#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.title"
 msgstr "Coûts et tarifs"

@@ -1,12 +1,20 @@
 import ParsingClient from "sparql-http-client/ParsingClient";
 import { LRUCache } from "typescript-lru-cache";
 
-import { ResolvedOperatorObservation } from "src/graphql/resolver-mapped-types";
 import * as ns from "src/rdf/namespace";
 
+/**
+ * Under this threshold, observations are not returned
+ */
+export const COVERAGE_RATIO_THRESHOLD = 0.25;
+const DEFAULT_COVERAGE_RATIO = 1;
+
+/**
+ * The coverage ratios for operators for each year are cached for 5m
+ */
 const coveragesByYearCache = new LRUCache<string, Promise<Map<string, number>>>(
   {
-    entryExpirationTimeInMS: 60 * 1000,
+    entryExpirationTimeInMS: 5 * 60 * 1000,
   }
 );
 
@@ -45,7 +53,7 @@ WHERE {
         :networkLevel ?networkLevel .
 
         # Only get non default coverage ratio
-        FILTER(?coverageRatio < 1)
+        FILTER(?coverageRatio < ${DEFAULT_COVERAGE_RATIO})
 }
 ORDER BY ?municipality ?networkLevel
     `;
@@ -102,14 +110,25 @@ export class CoverageCacheManager {
    *
    * Warning: The cache for the specific year must have been prepared before calling this method.
    */
-  getCoverage(observation: ResolvedOperatorObservation, networkLevel = "NE7") {
+  getCoverage(
+    observation: {
+      period?: string | undefined;
+      municipality?: string | undefined;
+      operator?: string | undefined;
+    },
+    networkLevel = "NE7"
+  ) {
     const { period, municipality, operator } = observation;
+    if (period === undefined) {
+      return DEFAULT_COVERAGE_RATIO;
+    }
     const yearCache = this.coverageCachesByYear[period!];
     if (!yearCache || !municipality || !operator) {
-      return undefined;
+      return DEFAULT_COVERAGE_RATIO;
     }
 
     const cacheKey = getCoverageRatioKey(municipality, networkLevel, operator);
-    return yearCache.get(cacheKey);
+    const cached = yearCache.get(cacheKey);
+    return cached ?? DEFAULT_COVERAGE_RATIO;
   }
 }

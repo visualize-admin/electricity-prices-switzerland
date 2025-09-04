@@ -121,7 +121,19 @@ export const PowerStabilityCardState = (
 export const PowerStabilityCard: React.FC<PowerStabilityCardProps> = (
   props
 ) => {
-  const { state, setQueryState, infoDialogProps } = props;
+  const {
+    state,
+    setQueryState,
+    infoDialogProps,
+
+    peerGroup: _peerGroup,
+    updateDate: _updateDate,
+    observations: _observations,
+    operatorId: _operatorId,
+    operatorLabel: _operatorLabel,
+    latestYear: _latestYear,
+    ...cardProps
+  } = props;
   const { compareWith, viewBy, duration, overallOrRatio } = state;
   const chartData = getPowerStabilityCardState(props, state);
   const {
@@ -134,7 +146,7 @@ export const PowerStabilityCard: React.FC<PowerStabilityCardProps> = (
   } = chartData;
 
   return (
-    <Card {...props}>
+    <Card {...cardProps}>
       <CardContent>
         <CardHeader
           trailingContent={

@@ -5,7 +5,7 @@ const ContentWrapper = dynamic(
     ),
   { ssr: false }
 );
-import { t, Trans } from "@lingui/macro";
+import { Trans } from "@lingui/macro";
 import { Box, Button, Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
 import dynamic from "next/dynamic";
@@ -17,6 +17,7 @@ import { SunshineTopics } from "src/components/sunshine/sunshine-topics";
 import { Icon } from "src/icons";
 import { defaultLocale } from "src/locales/config";
 import { useFlag } from "src/utils/flags";
+import { makePageTitle } from "src/utils/page-title";
 
 const ApplicationLayout = dynamic(
   () => import("../components/app-layout").then((mod) => mod.ApplicationLayout),
@@ -44,12 +45,7 @@ const IndexPage = () => {
   return (
     <>
       <Head>
-        <title>
-          {t({
-            id: "site.title",
-            message: "Electricity tariffs in Switzerland",
-          })}
-        </title>
+        <title>{makePageTitle()}</title>
       </Head>
       <ApplicationLayout>
         <Box

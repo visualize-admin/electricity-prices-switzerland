@@ -37,9 +37,11 @@ export const components = (theme: Theme): Components => ({
       root: {
         "& .MuiOutlinedInput-root": {
           padding: "0px 8px",
+          paddingRight: 40,
         },
         "& .MuiOutlinedInput-root.MuiInputBase-sizeSmall": {
           padding: "0px 8px",
+          paddingRight: 40,
         },
         "& .MuiAutocomplete-popupIndicator": {
           width: "auto",

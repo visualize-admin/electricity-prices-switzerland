@@ -17,27 +17,34 @@ import { PriceEvolutionCard } from "src/components/detail-page/price-evolution-l
 import { SelectorMulti } from "src/components/detail-page/selector-multi";
 import { DetailsPageSidebar } from "src/components/detail-page/sidebar";
 import {
-  handleCantonEntity,
-  handleMunicipalityEntity,
-  handleOperatorsEntity,
+  getCantonPageProps,
+  getMunicipalityPageProps,
+  getOperatorsPageProps,
   PageParams,
   Props,
 } from "src/data/shared-page-props";
 import { detailsPriceComponents } from "src/domain/data";
 import { getLocalizedLabel } from "src/domain/translation";
+import buildEnv from "src/env/build";
 import { defaultLocale } from "src/locales/config";
 
 export const getServerSideProps: GetServerSideProps<
   Props,
   PageParams
-> = async ({ params, res, locale }) => {
+> = async ({ params, res, locale, req }) => {
   const { id, entity } = params!;
+  const query = new URL(req.url!, `http://${req.headers.host}`).searchParams;
+  const periodQueryParam = query.getAll("period");
+  const period =
+    periodQueryParam
+      .flatMap((x) => x.split(",").map((y) => y.trim()))
+      .filter((x) => x) ?? [];
 
   let props: Props;
 
   switch (entity) {
     case "canton":
-      props = await handleCantonEntity({
+      props = await getCantonPageProps({
         id,
         locale: locale ?? defaultLocale,
         res,
@@ -45,15 +52,17 @@ export const getServerSideProps: GetServerSideProps<
 
       break;
     case "municipality":
-      props = await handleMunicipalityEntity({
+      props = await getMunicipalityPageProps({
         id,
         locale: locale ?? defaultLocale,
+        // get years out of the query string from the request
+        years: period.length > 0 ? period : [buildEnv.CURRENT_PERIOD],
         res,
       });
 
       break;
     case "operator":
-      props = await handleOperatorsEntity({
+      props = await getOperatorsPageProps({
         id,
         locale: locale ?? defaultLocale,
         res,

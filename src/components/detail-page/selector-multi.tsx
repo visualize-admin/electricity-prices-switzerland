@@ -78,11 +78,15 @@ export const SelectorMulti = ({ entity }: { entity: Entity }) => {
         )}
         <MultiCombobox
           id="periods"
-          label={<Trans id="selector.years">years</Trans>}
+          label={<Trans id="selector.years">Years</Trans>}
           items={periods}
           selectedItems={queryState.period}
           minSelectedItems={1}
-          setSelectedItems={(items) => setQueryState({ period: items })}
+          setSelectedItems={(items) => {
+            // We must use shallow: false to make sure the municipality operators
+            // are refreshed (done via getServerSideProps)
+            setQueryState({ period: items }, { shallow: false });
+          }}
         />
         <Combobox
           id="categories"

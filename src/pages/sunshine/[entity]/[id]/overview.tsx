@@ -25,7 +25,7 @@ import TableComparisonCard from "src/components/table-comparison-card";
 import { TariffsTrendCardMinified } from "src/components/tariffs-trend-card";
 import {
   DataServiceProps,
-  handleOperatorsEntity,
+  getOperatorsPageProps,
   PageParams,
   Props as SharedPageProps,
 } from "src/data/shared-page-props";
@@ -61,6 +61,7 @@ import {
   getSunshineDataServiceInfo,
 } from "src/lib/sunshine-data-service-context";
 import { defaultLocale } from "src/locales/config";
+import { makePageTitle } from "src/utils/page-title";
 
 import {
   prepComplianceCardProps,
@@ -90,7 +91,7 @@ export const getServerSideProps: GetServerSideProps<Props, PageParams> = async (
     };
   }
 
-  const operatorProps = await handleOperatorsEntity({
+  const operatorProps = await getOperatorsPageProps({
     id,
     locale: locale ?? defaultLocale,
     res,
@@ -280,15 +281,12 @@ const OverviewPage = (props: Props) => {
     <>
       <Head>
         <title>
-          {t({
-            id: "sunshine.overview-sunshine.title",
-            message: "Sunshine Indicators Overview",
-          })}
-          {" - "}
-          {t({
-            id: "site.title",
-            message: "Electricity tariffs in Switzerland",
-          })}
+          {makePageTitle(
+            t({
+              id: "sunshine.overview-sunshine.title",
+              message: "Sunshine Indicators Overview",
+            })
+          )}
         </title>
       </Head>
       <DetailsPageHeader>

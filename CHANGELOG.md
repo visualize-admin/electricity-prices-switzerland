@@ -11,7 +11,9 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Fix
+  - Municipality details page: Operator municipalities displayed respect coverage ratio threshold (0.25) and depends on
+    period selected.
 
 # 2.13.0
 

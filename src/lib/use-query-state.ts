@@ -30,7 +30,10 @@ export function makeUseQueryState<T extends z.ZodRawShape>(
     const initial = options?.defaultValue;
 
     const setState = useCallback(
-      (newQueryState: Partial<QueryStateSingle>) => {
+      (
+        newQueryState: Partial<QueryStateSingle>,
+        { shallow } = { shallow: true }
+      ) => {
         const newQuery: { [k: string]: string } = {};
         for (const k of schemaKeys) {
           const v = newQueryState[k as keyof typeof newQueryState];
@@ -49,9 +52,9 @@ export function makeUseQueryState<T extends z.ZodRawShape>(
           pathname,
           query: updatedQuery,
         };
-        replace(href, undefined, { shallow: true });
+        replace(href, undefined, { shallow: shallow === false ? false : true });
       },
-      [replace, pathname, query, schemaKeys]
+      [query, pathname, replace, schemaKeys]
     );
 
     const state: Partial<QueryStateSingle> = {};
