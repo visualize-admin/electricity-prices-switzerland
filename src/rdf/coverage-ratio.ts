@@ -1,7 +1,6 @@
 import ParsingClient from "sparql-http-client/ParsingClient";
 import { LRUCache } from "typescript-lru-cache";
 
-import { ResolvedOperatorObservation } from "src/graphql/resolver-mapped-types";
 import * as ns from "src/rdf/namespace";
 
 const coveragesByYearCache = new LRUCache<string, Promise<Map<string, number>>>(
@@ -102,7 +101,14 @@ export class CoverageCacheManager {
    *
    * Warning: The cache for the specific year must have been prepared before calling this method.
    */
-  getCoverage(observation: ResolvedOperatorObservation, networkLevel = "NE7") {
+  getCoverage(
+    observation: {
+      period: string;
+      municipality: string | undefined;
+      operator: string | undefined;
+    },
+    networkLevel = "NE7"
+  ) {
     const { period, municipality, operator } = observation;
     const yearCache = this.coverageCachesByYear[period!];
     if (!yearCache || !municipality || !operator) {

@@ -13,6 +13,7 @@ import { PriceComponent } from "src/graphql/queries";
 import { OperatorDocumentCategory } from "src/graphql/resolver-types";
 import assert from "src/lib/assert";
 import { Observation, parseObservation } from "src/lib/observations";
+import { CoverageCacheManager } from "src/rdf/coverage-ratio";
 import * as ns from "src/rdf/namespace";
 import { sparqlClient } from "src/rdf/sparql-client";
 
@@ -590,38 +591,6 @@ export const getMunicipalityOperators = async (
   years: string[] | null,
   coverageRatioThreshold = 0.25
 ) => {
-  const hasYearCoverage = (year: string) => {
-    // Before 2025, coverage ratio is not available
-    return parseInt(year, 10) >= 2025;
-  };
-  const queryViaCoverage =
-    !years || years.some(hasYearCoverage)
-      ? `
-PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-PREFIX schema: <http://schema.org/>
-PREFIX : <https://energy.ld.admin.ch/elcom/electricityprice/>
-
-SELECT ?operator ?operatorName ?year
-FROM <https://lindas.admin.ch/elcom/electricityprice>
-WHERE {
-  ${
-    years
-      ? `VALUES ?year { ${years.map((x) => `"${x}"^^xsd:gYear`).join(" ")} }`
-      : ""
-  }
-  VALUES ?municipality { <https://ld.admin.ch/municipality/${municipalityId}> }
-  ?offer a schema:Offer; 
-  	 schema:temporalCoverage ?year;
-     schema:offeredBy ?operator ;
-     schema:areaServed ?municipality ;
-     :coverageRatio ?coverageRatio ; 
-     :networkLevel ?networkLevel .
-  ?operator schema:name ?operatorName .
-  FILTER (?coverageRatio > ${coverageRatioThreshold})
-}
-  `
-      : null;
-
   const queryViaObservations = `
 # from file queries/tariff.rq
 PREFIX schema: <http://schema.org/>
@@ -630,7 +599,7 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX cube: <https://cube.link/>
 PREFIX strom: <https://energy.ld.admin.ch/elcom/electricityprice/dimension/>
 
-SELECT DISTINCT ?operator ?operatorName ?year
+SELECT ?obs ?year ?municipality ?operator ?operatorName ?year
 FROM <https://lindas.admin.ch/elcom/electricityprice>
 WHERE {
   <https://energy.ld.admin.ch/elcom/electricityprice> a cube:Cube ;
@@ -651,44 +620,45 @@ WHERE {
 }
   `;
 
-  // execute both queries and combine results
-  const [viaCoverage, viaObservations] = await Promise.all([
-    queryViaCoverage
-      ? client.query
-          .select(queryViaCoverage)
-          .then((results) =>
-            results.map((res) => ({
-              id: ns.stripNamespaceFromIri({ iri: res.operator.value }),
-              name: res.operatorName.value,
-              year: res.year.value,
-            }))
-          )
-          .catch((e) => {
-            console.error("Error executing coverage ratio query:", e);
-            return [];
-          })
-      : Promise.resolve([]),
-    client.query
-      .select(queryViaObservations)
-      .then((results) =>
-        results.map((res) => ({
-          id: ns.stripNamespaceFromIri({ iri: res.operator.value }),
-          name: res.operatorName.value,
-          year: res.year.value,
-        }))
-      )
-      .catch((e) => {
-        console.error("Error executing observations query:", e);
-        return [];
-      }),
-  ]);
+  const viaObservations = await client.query
+    .select(queryViaObservations)
+    .then((results) => {
+      return results.map((res) => ({
+        id: ns.stripNamespaceFromIri({ iri: res.operator.value }),
+        name: res.operatorName.value,
+        year: res.year.value,
+        obs: res.obs.value,
+        municipality: ns.stripNamespaceFromIri({
+          iri: res.municipality.value,
+        }),
+      }));
+    })
+    .catch((e) => {
+      console.error("Error executing observations query:", e);
+      return [];
+    });
 
-  const combined = [...viaCoverage, ...viaObservations];
+  const coverageManager = new CoverageCacheManager(sparqlClient);
+  await coverageManager.prepare(years ?? []);
+
+  const viaObservationsFiltered = viaObservations.filter((obs) => {
+    const coverageRatio =
+      coverageManager.getCoverage(
+        {
+          municipality: obs.municipality,
+          operator: obs.id,
+          period: obs.year,
+        },
+        "NE7"
+      ) ?? 1;
+
+    return coverageRatio > coverageRatioThreshold;
+  });
 
   // transform into id, name, years: []
   const unique = Array.from(
     rollup(
-      combined,
+      viaObservationsFiltered,
       (v) => ({
         id: v[0].id,
         name: v[0].name,
