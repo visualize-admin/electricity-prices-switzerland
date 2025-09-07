@@ -11,7 +11,13 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Feat
+
+  - CURRENT_PERIOD, FIRST_PERIOD can be set via runtime environment variables
+
+- Refactor
+  - Default flags for application can be set at runtime via the same
+    method as runtime environment variables
 
 # 2.14.0
 
