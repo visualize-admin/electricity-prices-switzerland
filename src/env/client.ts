@@ -22,17 +22,3 @@ export const clientBuildEnv = clientBuildSchema.parse({
   NEXT_PUBLIC_VERCEL_ENV: process.env.NEXT_PUBLIC_VERCEL_ENV,
   NEXT_PUBLIC_FLAGS: process.env.NEXT_PUBLIC_FLAGS,
 });
-
-// When adding a variable here, also add it in runtime-client-vars
-const clientRuntimeSchema = z.object({
-  PUBLIC_URL: z.string(),
-});
-
-export const globalVariableName = `__RUNTIME_ENV__`;
-
-export const getClientRuntimeEnv = () =>
-  typeof window === "undefined"
-    ? null
-    : clientRuntimeSchema.parse(
-        window[globalVariableName as keyof typeof window]
-      );

@@ -1,6 +1,6 @@
 import * as z from "zod";
 
-import { runtimeEnv } from "src/env/client";
+import { runtimeEnv } from "src/env/runtime";
 import {
   makeLinkGenerator,
   makeUseQueryState,

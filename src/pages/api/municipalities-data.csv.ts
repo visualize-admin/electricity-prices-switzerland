@@ -5,7 +5,7 @@ import { mapValues } from "lodash";
 import { NextApiHandler } from "next";
 import { z } from "zod";
 
-import buildEnv from "src/env/build";
+import { runtimeEnv } from "src/env/runtime";
 import serverEnv from "src/env/server";
 
 const MunicipalityInfo = z
@@ -138,7 +138,7 @@ const fetchMunicipalitiesInfo = async (year: number) => {
 
 const handler: NextApiHandler = async (req, res) => {
   const period = Number(
-    req.query.period?.toString() ?? buildEnv.CURRENT_PERIOD
+    req.query.period?.toString() ?? runtimeEnv.CURRENT_PERIOD
   );
   const data = await fetchMunicipalitiesInfo(period);
   const filename = `municipalities-data-${period}.csv`;

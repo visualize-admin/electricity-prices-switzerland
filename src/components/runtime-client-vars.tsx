@@ -3,7 +3,7 @@
 import {
   getRuntimeServerSideEnvVariables,
   globalVariableName,
-} from "src/env/client";
+} from "src/env/runtime";
 
 // This component is server-side rendered and has access to process.env variables
 const RuntimeClientVars = () => {

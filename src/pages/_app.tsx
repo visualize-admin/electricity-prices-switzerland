@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 
 import { analyticsPageView } from "src/domain/analytics";
 import createEmotionCache from "src/emotion-cache";
-import { getClientRuntimeEnv } from "src/env/client";
+import { getClientRuntimeEnv } from "src/env/runtime";
 import { GraphqlProvider } from "src/graphql/context";
 import { LocaleProvider } from "src/lib/use-locale";
 import { useNProgress } from "src/lib/use-nprogress";

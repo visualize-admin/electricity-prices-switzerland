@@ -1,6 +1,6 @@
 import { range } from "d3";
 
-import { runtimeEnv } from "src/env/client";
+import { runtimeEnv } from "src/env/runtime";
 import { OperatorObservationFieldsFragment } from "src/graphql/queries";
 import { weightedMean } from "src/utils/weighted-mean";
 

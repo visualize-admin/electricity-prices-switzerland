@@ -25,7 +25,7 @@ import {
 } from "src/data/shared-page-props";
 import { detailsPriceComponents } from "src/domain/data";
 import { getLocalizedLabel } from "src/domain/translation";
-import buildEnv from "src/env/build";
+import { runtimeEnv } from "src/env/runtime";
 import { defaultLocale } from "src/locales/config";
 
 export const getServerSideProps: GetServerSideProps<
@@ -56,7 +56,7 @@ export const getServerSideProps: GetServerSideProps<
         id,
         locale: locale ?? defaultLocale,
         // get years out of the query string from the request
-        years: period.length > 0 ? period : [buildEnv.CURRENT_PERIOD],
+        years: period.length > 0 ? period : [runtimeEnv.CURRENT_PERIOD],
         res,
       });
 
