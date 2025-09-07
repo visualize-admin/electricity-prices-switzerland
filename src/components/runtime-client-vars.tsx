@@ -6,7 +6,7 @@ import {
 } from "src/env/runtime";
 
 // This component is server-side rendered and has access to process.env variables
-const RuntimeClientVars = () => {
+const RuntimeClientVarsScript = () => {
   return (
     <script
       dangerouslySetInnerHTML={{
@@ -20,4 +20,4 @@ const RuntimeClientVars = () => {
   );
 };
 
-export default RuntimeClientVars;
+export default RuntimeClientVarsScript;
