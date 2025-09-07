@@ -2,11 +2,12 @@ import { RuntimeEnv, runtimeSchema } from "src/env/schema";
 
 export const globalVariableName = `__RUNTIME_ENV__`;
 
-export const getRuntimeServerSideEnvVariables: () => PartialUndefined<RuntimeEnv> =
+export const getRuntimeServerSideEnvVariables: () => StringOrUndefinedValues<RuntimeEnv> =
   () => ({
     PUBLIC_URL: process.env.VERCEL_URL || process.env.PUBLIC_URL,
     CURRENT_PERIOD: process.env.CURRENT_PERIOD,
     FIRST_PERIOD: process.env.FIRST_PERIOD,
+    FLAGS: process.env.FLAGS,
   });
 
 export const getRuntimeClientSideVariables = () =>
@@ -19,6 +20,6 @@ export const getClientRuntimeEnv = () =>
 
 export const runtimeEnv = getClientRuntimeEnv()!;
 
-type PartialUndefined<T> = {
-  [K in keyof T]: T[K] | undefined;
+type StringOrUndefinedValues<T> = {
+  [K in keyof T]: string | undefined;
 };

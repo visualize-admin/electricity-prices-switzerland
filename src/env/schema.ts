@@ -92,10 +92,22 @@ export const serverSchema = z.object({
 
 export type ServerEnv = z.infer<typeof serverSchema>;
 
+const FlagSchema = z.array(z.string());
+
 export const runtimeSchema = z.object({
   PUBLIC_URL: z.string(),
   CURRENT_PERIOD: z.string().default("2026"),
   FIRST_PERIOD: z.string().default("2011"),
+  FLAGS: z
+    .string()
+    .default("[]")
+    .transform((x) => {
+      try {
+        return FlagSchema.parse(JSON.parse(x));
+      } catch {
+        return [];
+      }
+    }),
 });
 
 export type RuntimeEnv = z.infer<typeof runtimeSchema>;
