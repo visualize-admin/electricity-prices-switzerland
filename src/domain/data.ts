@@ -1,6 +1,6 @@
 import { range } from "d3";
 
-import buildEnv from "src/env/build";
+import { runtimeEnv } from "src/env/client";
 import { OperatorObservationFieldsFragment } from "src/graphql/queries";
 import { weightedMean } from "src/utils/weighted-mean";
 
@@ -46,15 +46,15 @@ export type ComponentFieldsFragment =
 
 export type Entity = "municipality" | "operator" | "canton";
 
-if (!buildEnv.FIRST_PERIOD || !buildEnv.CURRENT_PERIOD) {
+if (!runtimeEnv.FIRST_PERIOD || !runtimeEnv.CURRENT_PERIOD) {
   throw Error(
     `Please configure FIRST_PERIOD and CURRENT_PERIOD in next.config.js`
   );
 }
 
 export const periods = range(
-  parseInt(buildEnv.CURRENT_PERIOD, 10),
-  parseInt(buildEnv.FIRST_PERIOD, 10) - 1,
+  parseInt(runtimeEnv.CURRENT_PERIOD, 10),
+  parseInt(runtimeEnv.FIRST_PERIOD, 10) - 1,
   -1
 ).map((d) => d.toString());
 
