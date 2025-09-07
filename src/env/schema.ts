@@ -89,3 +89,13 @@ export const serverSchema = z.object({
     .optional()
     .default("sparql"),
 });
+
+export type ServerEnv = z.infer<typeof serverSchema>;
+
+export const runtimeSchema = z.object({
+  PUBLIC_URL: z.string(),
+  CURRENT_PERIOD: z.string().default("2026"),
+  FIRST_PERIOD: z.string().default("2011"),
+});
+
+export type RuntimeEnv = z.infer<typeof runtimeSchema>;

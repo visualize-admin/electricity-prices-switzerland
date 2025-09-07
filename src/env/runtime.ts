@@ -1,12 +1,4 @@
-import z from "zod";
-
-const runtimeSchema = z.object({
-  PUBLIC_URL: z.string(),
-  CURRENT_PERIOD: z.string().default("2026"),
-  FIRST_PERIOD: z.string().default("2011"),
-});
-
-export type RuntimeEnv = z.infer<typeof runtimeSchema>;
+import { RuntimeEnv, runtimeSchema } from "src/env/schema";
 
 export const globalVariableName = `__RUNTIME_ENV__`;
 
