@@ -1,6 +1,6 @@
 import { RuntimeEnv, runtimeSchema } from "src/env/schema";
 
-export const globalVariableName = `__RUNTIME_ENV__`;
+export const scriptId = `__RUNTIME_ENV__`;
 
 export const getRuntimeServerSideEnvVariables: () => StringOrUndefinedValues<RuntimeEnv> =
   () => ({
@@ -11,7 +11,7 @@ export const getRuntimeServerSideEnvVariables: () => StringOrUndefinedValues<Run
   });
 
 export const getRuntimeClientSideVariables = () =>
-  window[globalVariableName as keyof typeof window];
+  JSON.parse(document.getElementById(scriptId)?.textContent ?? "{}");
 
 export const getClientRuntimeEnv = () =>
   typeof window === "undefined"
