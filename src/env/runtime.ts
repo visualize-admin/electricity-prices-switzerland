@@ -10,7 +10,7 @@ export const getRuntimeServerSideEnvVariables: () => StringOrUndefinedValues<Run
     FLAGS: process.env.FLAGS,
   });
 
-export const getRuntimeClientSideVariables = () =>
+const getRuntimeClientSideVariables = () =>
   JSON.parse(document.getElementById(scriptId)?.textContent ?? "{}");
 
 export const getClientRuntimeEnv = () =>
