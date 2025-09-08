@@ -5,7 +5,8 @@ import { act } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { z } from "zod";
 
-import buildEnv from "../../src/env/build";
+import { runtimeEnv } from "src/env/runtime";
+
 import { makeLinkGenerator } from "../../src/lib/use-query-state";
 
 import * as queryStates from "./query-states";
@@ -156,7 +157,7 @@ describe("Query States", () => {
 
       // Default values should be properly initialized as arrays
       expect(result.current[0]).toEqual({
-        period: [buildEnv.CURRENT_PERIOD],
+        period: [runtimeEnv.CURRENT_PERIOD],
         municipality: [],
         canton: [],
         category: ["H4"],
@@ -347,7 +348,7 @@ describe("Query States", () => {
           queryStates.useQueryStateEnergyPricesMap({ router: mockRouter })
         );
 
-        expect(result.current[0].period).toBe(buildEnv.CURRENT_PERIOD);
+        expect(result.current[0].period).toBe(runtimeEnv.CURRENT_PERIOD);
       });
     });
 

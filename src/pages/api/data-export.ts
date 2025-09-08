@@ -1,7 +1,7 @@
 import { csvFormatBody, format } from "d3";
 import { NextApiRequest, NextApiResponse } from "next";
 
-import buildEnv from "src/env/build";
+import { runtimeEnv } from "src/env/runtime";
 import { parseLocaleString } from "src/locales/locales";
 import {
   getElectricityPriceObservations,
@@ -61,7 +61,7 @@ const dimensions = [
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const locale = parseLocaleString(req.query.locale?.toString());
-  const period = req.query.period?.toString() ?? buildEnv.CURRENT_PERIOD!;
+  const period = req.query.period?.toString() ?? runtimeEnv.CURRENT_PERIOD!;
 
   const cube = await getElectricityPriceCube();
 

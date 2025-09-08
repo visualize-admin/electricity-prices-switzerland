@@ -1,20 +1,18 @@
 // Is used in _document to populate environment variables.
 
-import { globalVariableName } from "src/env/client";
+import { getRuntimeServerSideEnvVariables, scriptId } from "src/env/runtime";
 
 // This component is server-side rendered and has access to process.env variables
-const RuntimeClientVars = () => {
+const RuntimeClientVarsScript = () => {
   return (
     <script
+      id={scriptId}
+      type="application/json"
       dangerouslySetInnerHTML={{
-        __html: `
-                window.${globalVariableName} = JSON.parse('${JSON.stringify({
-          PUBLIC_URL: process.env.VERCEL_URL || process.env.PUBLIC_URL,
-        })}');
-            `,
+        __html: JSON.stringify(getRuntimeServerSideEnvVariables()),
       }}
     />
   );
 };
 
-export default RuntimeClientVars;
+export default RuntimeClientVarsScript;

@@ -3,11 +3,11 @@ import { z } from "zod";
 export const buildSchema = z.object({
   // Used to display a mention of the current deployment in development mode
   DEPLOYMENT: z.string().optional(),
-  CURRENT_PERIOD: z.string().default("2026"),
-  FIRST_PERIOD: z.string().default("2011"),
   VERSION: z.string().optional(),
   ALLOW_ENGLISH: z.boolean().default(false),
 });
+
+export type BuildEnv = z.infer<typeof buildSchema>;
 
 // Define the schema for server-side variables
 export const serverSchema = z.object({
@@ -89,3 +89,25 @@ export const serverSchema = z.object({
     .optional()
     .default("sparql"),
 });
+
+type ServerEnv = z.infer<typeof serverSchema>;
+
+const FlagSchema = z.array(z.string());
+
+export const runtimeSchema = z.object({
+  PUBLIC_URL: z.string().default(""),
+  CURRENT_PERIOD: z.string().default("2025"),
+  FIRST_PERIOD: z.string().default("2011"),
+  FLAGS: z
+    .string()
+    .default("[]")
+    .transform((x) => {
+      try {
+        return FlagSchema.parse(JSON.parse(x));
+      } catch {
+        return [];
+      }
+    }),
+});
+
+export type RuntimeEnv = z.infer<typeof runtimeSchema>;

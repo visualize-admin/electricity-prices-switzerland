@@ -1,6 +1,6 @@
 import * as z from "zod";
 
-import buildEnv from "src/env/build";
+import { runtimeEnv } from "src/env/runtime";
 import {
   makeLinkGenerator,
   makeUseQueryState,
@@ -59,7 +59,7 @@ const mapCommonSchema = z.object({
 
 const periodSchema = z
   .enum(periods as [string, ...string[]])
-  .default(buildEnv.CURRENT_PERIOD);
+  .default(runtimeEnv.CURRENT_PERIOD);
 
 const energyPricesMapSchema = z.object({
   tab: mapTabsSchema.default("electricity"),
@@ -76,7 +76,7 @@ const energyPricesMapSchema = z.object({
 });
 const energyPricesDetailsSchema = z.object({
   operator: stringToArray().optional(),
-  period: stringToValidatedArray(periods, [buildEnv.CURRENT_PERIOD]),
+  period: stringToValidatedArray(periods, [runtimeEnv.CURRENT_PERIOD]),
   municipality: stringToArray([]),
   canton: stringToArray([]),
   category: stringToValidatedArray(categories, ["H4"]),
@@ -135,7 +135,7 @@ export const sunshineDetailsLink = makeLinkGenerator(
 );
 
 const sunshineOverviewFiltersSchema = z.object({
-  year: z.string().default(buildEnv.CURRENT_PERIOD),
+  year: z.string().default(runtimeEnv.CURRENT_PERIOD),
   category: z.string().default("C2"),
   networkLevel: z.enum(["NE5", "NE6", "NE7"]).default("NE5"),
 });

@@ -4,8 +4,7 @@
  * Flags can be set in multiple ways with the following priority (highest to lowest):
  * 1. URL search parameters (e.g., ?flag.debug=true)
  * 2. Runtime environment variables (process.env.FLAGS on server, fetched via /api/flags)
- * 3. Build-time environment variables (process.env.NEXT_PUBLIC_FLAGS)
- * 4. Programmatic defaults (development/preview environments)
+ * 3. Programmatic defaults (development/preview environments)
  *
  * For runtime configuration, use process.env.FLAGS with a JSON array of flag names:
  * FLAGS='["debug", "sunshine"]'
@@ -16,6 +15,7 @@
 import { useEffect } from "react";
 
 import { clientBuildEnv } from "src/env/client";
+import { runtimeEnv } from "src/env/runtime";
 import { createComponents, createHooks } from "src/flags";
 
 const specs = {
@@ -62,32 +62,28 @@ const useRuntimeFlags = () => {
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    const fetchRuntimeFlags = async () => {
+    const setRuntimeFlags = async () => {
       try {
-        const response = await fetch("/api/flags");
-        if (response.ok) {
-          const data = await response.json();
-          const runtimeFlags = data.flags || [];
+        const runtimeFlags = runtimeEnv.FLAGS || [];
 
-          const toEnable = runtimeFlags.filter((x: string) => {
-            return flag(x) === null;
-          });
+        const toEnable = runtimeFlags.filter((x: string) => {
+          return flag(x) === null;
+        });
 
-          if (toEnable.length > 0) {
-            console.info(
-              `Enabling runtime flags ${toEnable.join(
-                ", "
-              )} from server environment (skipped already enabled flags)`
-            );
-            flag.enable(toEnable.map((envFlag: string) => [envFlag, true]));
-          }
+        if (toEnable.length > 0) {
+          console.info(
+            `Enabling runtime flags ${toEnable.join(
+              ", "
+            )} from server environment (skipped already enabled flags)`
+          );
+          flag.enable(toEnable.map((envFlag: string) => [envFlag, true]));
         }
       } catch (error) {
         console.error("Failed to fetch runtime flags:", error);
       }
     };
 
-    fetchRuntimeFlags();
+    setRuntimeFlags();
   }, []);
 };
 
@@ -113,23 +109,6 @@ if (typeof window !== "undefined" && window.location) {
     clientBuildEnv.NEXT_PUBLIC_VERCEL_ENV === "preview"
   ) {
     flag.enable([["debug", true]]);
-  }
-
-  if (clientBuildEnv.NEXT_PUBLIC_FLAGS) {
-    try {
-      const toEnable = clientBuildEnv.NEXT_PUBLIC_FLAGS.filter((x) => {
-        return flag(x) === null;
-      });
-
-      if (toEnable.length) {
-        console.info(
-          `Enabling flags ${toEnable} from environment variable NEXT_PUBLIC_FLAGS (skipped already enabled flags)`
-        );
-        flag.enable(toEnable.map((envFlag) => [envFlag, true]));
-      }
-    } catch (e) {
-      console.error("Failed to parse NEXT_PUBLIC_FLAGS", e);
-    }
   }
 }
 
