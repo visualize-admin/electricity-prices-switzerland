@@ -95,7 +95,7 @@ type ServerEnv = z.infer<typeof serverSchema>;
 const FlagSchema = z.array(z.string());
 
 export const runtimeSchema = z.object({
-  PUBLIC_URL: z.string(),
+  PUBLIC_URL: z.string().default(""),
   CURRENT_PERIOD: z.string().default("2025"),
   FIRST_PERIOD: z.string().default("2011"),
   FLAGS: z
