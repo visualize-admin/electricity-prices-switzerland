@@ -1230,7 +1230,7 @@ msgstr "Latest year"
 
 #: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.latest-year-option-content"
-msgstr "sunshine.costs-and-tariffs.latest-year-option-content"
+msgstr ""
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
@@ -1302,7 +1302,7 @@ msgstr "Progress over time"
 
 #: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.progress-over-time-content"
-msgstr "sunshine.costs-and-tariffs.progress-over-time-content"
+msgstr ""
 
 #: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.selected-operators"
@@ -1504,7 +1504,7 @@ msgstr "Progress over time"
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.progress-over-time-content"
-msgstr "sunshine.power-stability.progress-over-time-content"
+msgstr ""
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.ratio-option"

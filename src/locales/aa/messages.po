@@ -1302,7 +1302,7 @@ msgstr "sunshine.costs-and-tariffs.progress-over-time"
 
 #: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.progress-over-time-content"
-msgstr "sunshine.costs-and-tariffs.progress-over-time-content"
+msgstr ""
 
 #: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.selected-operators"
@@ -1504,7 +1504,7 @@ msgstr "sunshine.power-stability.progress-over-time"
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.progress-over-time-content"
-msgstr "sunshine.power-stability.progress-over-time-content"
+msgstr ""
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.ratio-option"
