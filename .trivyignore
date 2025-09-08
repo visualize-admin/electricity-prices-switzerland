@@ -1,5 +1,13 @@
 # This affects form-data only used in development
 CVE-2025-7783 exp:2026-02-01
+
 # This affects esbuild go version, this is only used in development
 CVE-2025-47907 exp:2026-02-01
+
+# This affects perl which does not run at runtime
+CVE-2023-31484 exp:2026-02-01
+
+# This affects libc and we do not believe the vulnerability can
+# be exploited
+CVE-2025-4802 exp:2026-02-01
 
