@@ -13,7 +13,7 @@ You can also check the
 
 Nothing yet.
 
-# 2.15.2
+# 2.15.3
 
 - Fix
   - Update Perl to remove vuln CVE-2023-31484
