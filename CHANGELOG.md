@@ -13,6 +13,11 @@ You can also check the
 
 Nothing yet.
 
+# 2.15.2
+
+- Fix
+  - Update Perl to remove vuln CVE-2023-31484
+
 # 2.15.1
 
 - Ignore two CVEs that cannot be exploited
