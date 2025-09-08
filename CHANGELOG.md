@@ -13,6 +13,11 @@ You can also check the
 
 Nothing yet.
 
+# 2.15.4
+
+- Fix
+  - Untranslated content for tooltip was removed
+
 # 2.15.3
 
 - Fix
