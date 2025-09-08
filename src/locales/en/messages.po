@@ -1462,7 +1462,7 @@ msgstr "Latest year"
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.latest-year-option-content"
-msgstr "sunshine.power-stability.latest-year-option-content"
+msgstr ""
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
