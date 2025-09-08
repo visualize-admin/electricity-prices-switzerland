@@ -6,6 +6,7 @@ FROM node:22-slim AS base
 
 # Install npm and force cross-spawn version
 RUN apt update && apt install -y --no-install-recommends ca-certificates curl && \
+    apt-get install --only-upgrade perl && \
     apt clean && \
     rm -rf /var/lib/apt/lists/* && \
     npm install -g npm@10.9.0 && \
