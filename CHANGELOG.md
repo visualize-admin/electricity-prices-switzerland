@@ -13,6 +13,10 @@ You can also check the
 
 Nothing yet.
 
+# 2.15.1
+
+- Ignore two CVEs that cannot be exploited
+
 # 2.15.0
 
 - Feat
