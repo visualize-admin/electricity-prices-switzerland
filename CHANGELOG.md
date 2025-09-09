@@ -13,6 +13,11 @@ You can also check the
 
 Nothing yet.
 
+# 2.15.8
+
+- Feat
+  - Update translations
+
 # 2.15.7
 
 - Fix
