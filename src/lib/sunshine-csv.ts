@@ -7,13 +7,8 @@ import { z } from "zod";
 
 import serverEnv from "src/env/server";
 
-const SUNSHINE_ENCRYPTED_DATA_DIR =
-  process.env.SUNSHINE_ENCRYPTED_DATA_DIR ||
-  path.join(process.cwd(), "src/sunshine-data");
-
-const SUNSHINE_CSV_DATA_DIR =
-  process.env.SUNSHINE_CSV_DATA_DIR ||
-  path.join(process.cwd(), "src/sunshine-data");
+const SUNSHINE_ENCRYPTED_DATA_DIR = serverEnv.SUNSHINE_ENCRYPTED_DATA_DIR;
+const SUNSHINE_CSV_DATA_DIR = serverEnv.SUNSHINE_CSV_DATA_DIR;
 
 console.info(
   "Using sunshine encrypted data directory:",
@@ -222,7 +217,9 @@ const parseSunshineCsv = <T extends Id>(id: T): ParsedRowType<T>[] => {
   });
 
   if (id.startsWith("Sunshine ")) {
-    throw new Error("Sunshine files should not be parsed directly through this function.");
+    throw new Error(
+      "Sunshine files should not be parsed directly through this function."
+    );
   }
 
   // Type assertion here is necessary because TypeScript can't infer the connection
