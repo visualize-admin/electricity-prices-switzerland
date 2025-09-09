@@ -16,7 +16,6 @@ const { I18N_DOMAINS, MATOMO_ID } = process.env;
 
 const buildEnv = {
   VERSION: `v${pkg.version}`,
-  DEPLOYMENT: process.env.DEPLOYMENT,
   ALLOW_ENGLISH: process.env.ALLOW_ENGLISH,
 };
 

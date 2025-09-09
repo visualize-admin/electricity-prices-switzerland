@@ -4,7 +4,6 @@ import { z } from "zod";
 
 export const buildSchema = z.object({
   // Used to display a mention of the current deployment in development mode
-  DEPLOYMENT: z.string().optional(),
   VERSION: z.string().optional(),
   ALLOW_ENGLISH: z.boolean().default(false),
 });
