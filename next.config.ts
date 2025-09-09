@@ -58,6 +58,20 @@ const nextConfig = async (): Promise<NextConfig> => {
   const config: NextConfig = {
     output: "standalone",
 
+    experimental: {
+      swcPlugins: [
+        [
+          "@lingui/swc-plugin",
+          {
+            runtimeModules: {
+              i18n: ["@lingui/core", "i18n"],
+              trans: ["@lingui/react", "Trans"],
+            },
+          },
+        ],
+      ],
+    },
+
     outputFileTracingIncludes: {
       "**": [...additionalTracedFiles],
     },
