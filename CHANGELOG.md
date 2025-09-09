@@ -11,6 +11,10 @@ You can also check the
 
 # Unreleased
 
+Nothing yet.
+
+# 2.15.7
+
 - Fix
   - Page change glitch on localized domains
 
