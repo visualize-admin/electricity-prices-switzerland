@@ -17,11 +17,51 @@ import { LocaleProvider } from "src/lib/use-locale";
 import { useNProgress } from "src/lib/use-nprogress";
 import { i18n as appI18n, parseLocaleString } from "src/locales/locales";
 import { preloadFonts, theme } from "src/themes/elcom";
-import { useRuntimeFlags } from "src/utils/flags";
+import { useFlag, useRuntimeFlags } from "src/utils/flags";
 
 import "src/styles/nprogress.css";
 
 const clientSideEmotionCache = createEmotionCache();
+
+const useSetI18nLocale = (locale: string) => {
+  const { events: routerEvents } = useRouter();
+  // Immediately activate locale to avoid re-render
+  if (appI18n.locale !== locale) {
+    appI18n.activate(locale);
+  }
+
+  const noManualLocalActivate = useFlag("noManualLocaleActivate");
+  useEffect(() => {
+    if (noManualLocalActivate) {
+      return;
+    }
+    const handleRouteStart = (url: string) => {
+      const locale = parseLocaleString(url.slice(1));
+      if (appI18n.locale !== locale) {
+        appI18n.activate(locale);
+      }
+    };
+
+    routerEvents.on("routeChangeStart", handleRouteStart);
+    return () => {
+      routerEvents.off("routeChangeStart", handleRouteStart);
+    };
+  }, [noManualLocalActivate, routerEvents]);
+};
+
+const useRouterEventAnalytics = () => {
+  const { events: routerEvents } = useRouter();
+  useEffect(() => {
+    const handleRouteChange = (url: string) => {
+      analyticsPageView(url);
+    };
+
+    routerEvents.on("routeChangeComplete", handleRouteChange);
+    return () => {
+      routerEvents.off("routeChangeComplete", handleRouteChange);
+    };
+  }, [routerEvents]);
+};
 
 export default function App(props: AppProps & { emotionCache?: EmotionCache }) {
   const { Component, pageProps, emotionCache = clientSideEmotionCache } = props;
@@ -35,31 +75,20 @@ export default function App(props: AppProps & { emotionCache?: EmotionCache }) {
 
   const matomoId = useMatomo();
 
+  useSetI18nLocale(locale);
+  useRouterEventAnalytics();
+
   useNProgress();
   // Load runtime flags from server early in app lifecycle
   useRuntimeFlags();
-
-  // Immediately activate locale to avoid re-render
-  if (appI18n.locale !== locale) {
-    appI18n.activate(locale);
-  }
 
   useEffect(() => {
     const handleRouteChange = (url: string) => {
       analyticsPageView(url);
     };
 
-    const handleRouteStart = (url: string) => {
-      const locale = parseLocaleString(url.slice(1));
-      if (appI18n.locale !== locale) {
-        appI18n.activate(locale);
-      }
-    };
-
-    routerEvents.on("routeChangeStart", handleRouteStart);
     routerEvents.on("routeChangeComplete", handleRouteChange);
     return () => {
-      routerEvents.off("routeChangeStart", handleRouteStart);
       routerEvents.off("routeChangeComplete", handleRouteChange);
     };
   }, [routerEvents]);
