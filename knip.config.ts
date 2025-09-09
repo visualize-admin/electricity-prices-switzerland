@@ -62,6 +62,8 @@ const config: KnipConfig = {
     // only used to generate map screenshots, and installed by default with next
     // there was an issue at import time if we directly added it to package.json
     "sharp",
+    // Used in next config experimental.swcPlugins
+    "@lingui/swc-plugin",
   ],
 };
 export default config;

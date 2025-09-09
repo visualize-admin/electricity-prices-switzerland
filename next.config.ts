@@ -78,6 +78,20 @@ const nextConfig = async (): Promise<NextConfig> => {
       console.log("BUILD_ID: Will use nextjs default behavior");
       return null;
     },
+  
+    experimental: {
+      swcPlugins: [
+        [
+          "@lingui/swc-plugin",
+          {
+            runtimeModules: {
+              i18n: ["@lingui/core", "i18n"],
+              trans: ["@lingui/react", "Trans"],
+            },
+          },
+        ],
+      ],
+    },
 
     outputFileTracingIncludes: {
       "**": [...additionalTracedFiles],
