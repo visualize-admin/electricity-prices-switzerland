@@ -34,7 +34,15 @@ const specs = {
   /** Show mock operational standards chart */
   mockOperationalStandardsChart: {},
 
+  /** Shows coverage ratio in map tooltips */
   coverageRatio: {},
+
+  /**
+   * Deactivate setting locale from URL, only rely on Next router locale.
+   * This should be set permanently at some point. The flag is there to
+   * be able to test safely in production.
+   */
+  noManualLocaleActivate: {},
 } as const;
 
 const keysAsValues = <R extends Record<string | number | symbol, unknown>>(

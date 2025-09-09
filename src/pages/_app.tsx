@@ -17,7 +17,7 @@ import { LocaleProvider } from "src/lib/use-locale";
 import { useNProgress } from "src/lib/use-nprogress";
 import { i18n as appI18n, parseLocaleString } from "src/locales/locales";
 import { preloadFonts, theme } from "src/themes/elcom";
-import { useRuntimeFlags } from "src/utils/flags";
+import { useFlag, useRuntimeFlags } from "src/utils/flags";
 
 import "src/styles/nprogress.css";
 
@@ -30,7 +30,11 @@ const useSetI18nLocale = (locale: string) => {
     appI18n.activate(locale);
   }
 
+  const noManualLocalActivate = useFlag("noManualLocaleActivate");
   useEffect(() => {
+    if (noManualLocalActivate) {
+      return;
+    }
     const handleRouteStart = (url: string) => {
       const locale = parseLocaleString(url.slice(1));
       if (appI18n.locale !== locale) {
@@ -42,7 +46,7 @@ const useSetI18nLocale = (locale: string) => {
     return () => {
       routerEvents.off("routeChangeStart", handleRouteStart);
     };
-  }, [routerEvents]);
+  }, [noManualLocalActivate, routerEvents]);
 };
 
 const useRouterEventAnalytics = () => {
