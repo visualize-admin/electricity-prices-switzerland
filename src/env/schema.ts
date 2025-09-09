@@ -58,9 +58,6 @@ export const serverSchema = z.object({
   GITLAB_WIKI_TOKEN: z.string().optional(),
   GITLAB_WIKI_URL: z.string().optional(),
 
-  // Tracking
-  MATOMO_ID: z.string().optional(),
-
   // Apollo plugin
   METRICS_PLUGIN_ENABLED: z.string().optional(),
 
@@ -96,6 +93,7 @@ export const runtimeSchema = z.object({
   PUBLIC_URL: z.string().default(""),
   CURRENT_PERIOD: z.string().default("2025"),
   FIRST_PERIOD: z.string().default("2011"),
+  MATOMO_ID: z.string().optional(),
   FLAGS: z
     .string()
     .default("[]")
