@@ -60,6 +60,9 @@ const config: KnipConfig = {
 
     // global library to auto translate po files
     "tpo-deepl",
+
+    // Used in next config experimental.swcPlugins
+    "@lingui/swc-plugin",
   ],
 };
 export default config;
