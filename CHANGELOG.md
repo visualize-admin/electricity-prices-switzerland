@@ -13,6 +13,11 @@ You can also check the
 
 Nothing yet.
 
+# 2.15.6
+
+- Fix
+  - Domain locale routing should work again on prod
+
 # 2.15.5
 
 - Fix
