@@ -1,3 +1,5 @@
+import path from "path";
+
 import { z } from "zod";
 
 export const buildSchema = z.object({
@@ -85,6 +87,14 @@ export const serverSchema = z.object({
     .union([z.literal("sparql"), z.literal("sql")])
     .optional()
     .default("sparql"),
+
+  SUNSHINE_ENCRYPTED_DATA_DIR: z
+    .string()
+    .default(path.join(process.cwd(), "src/sunshine-data")),
+
+  SUNSHINE_CSV_DATA_DIR: z
+    .string()
+    .default(path.join(process.cwd(), "src/sunshine-data")),
 });
 
 const FlagSchema = z.array(z.string());
