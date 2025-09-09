@@ -159,7 +159,7 @@ msgstr "Comptes annuels"
 
 #: src/components/operator-documents.tsx
 msgid "download.category.annualreports"
-msgstr "Lorem"
+msgstr "Comptes annuels de réseau"
 
 #: src/components/operator-documents.tsx
 msgid "download.category.financial-statement"
@@ -175,7 +175,7 @@ msgstr "Fiche tarifaire"
 
 #: src/components/operator-documents.tsx
 msgid "download.category.tariffs"
-msgstr "Lorem"
+msgstr "Fiches tarifaires"
 
 #: src/components/operator-documents.tsx
 msgid "download.cta"

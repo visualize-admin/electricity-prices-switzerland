@@ -760,17 +760,17 @@ msgstr "Ungeplant"
 #: src/components/color-legend.tsx
 #: src/components/color-legend.tsx
 msgid "price.legend.max"
-msgstr "max"
+msgstr "Max."
 
 #: src/components/color-legend.tsx
 #: src/components/color-legend.tsx
 msgid "price.legend.median"
-msgstr "median"
+msgstr "Median"
 
 #: src/components/color-legend.tsx
 #: src/components/color-legend.tsx
 msgid "price.legend.min"
-msgstr "min"
+msgstr "Min."
 
 #: src/domain/translation.tsx
 msgid "priceComponents.view.collapsed.municipalities"
