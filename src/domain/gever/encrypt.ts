@@ -37,7 +37,3 @@ export const decrypt = (iv_content: string) => {
   return decrypted.toString();
 };
 
-module.exports = {
-  encrypt,
-  decrypt,
-};
