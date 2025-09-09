@@ -45,6 +45,7 @@ RUN apt update && apt install -y --no-install-recommends build-essential make &&
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
+ENV I18N_DOMAINS='{"de":"www.strompreis.elcom.admin.ch","fr":"www.prix-electricite.elcom.admin.ch","it":"www.prezzi-elettricita.elcom.admin.ch"}'
 RUN yarn build
 
 # Runner image, copy all the files and run next
