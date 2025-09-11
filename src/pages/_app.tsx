@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 
 import { analyticsPageView } from "src/domain/analytics";
 import createEmotionCache from "src/emotion-cache";
-import { getClientRuntimeEnv } from "src/env/runtime";
+import { getClientRuntimeEnv, runtimeEnv } from "src/env/runtime";
 import { GraphqlProvider } from "src/graphql/context";
 import { LocaleProvider } from "src/lib/use-locale";
 import { useNProgress } from "src/lib/use-nprogress";
@@ -158,20 +158,6 @@ export default function App(props: AppProps & { emotionCache?: EmotionCache }) {
 }
 
 function useMatomo() {
-  const [matomoId, setMatomoId] = useState<string | undefined>(undefined);
-
-  useEffect(() => {
-    const fetchMatomoId = async () => {
-      try {
-        const res = await fetch("/api/matomo-id").then((r) => r.json());
-        setMatomoId(res.matomoId);
-      } catch (e) {
-        console.error(e);
-      }
-    };
-
-    fetchMatomoId();
-  }, []);
-
+  const [matomoId] = useState<string | undefined>(() => runtimeEnv.MATOMO_ID);
   return matomoId;
 }

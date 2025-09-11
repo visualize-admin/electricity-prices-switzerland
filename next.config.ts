@@ -12,7 +12,7 @@ const withBundleAnalyzerConfig = withBundleAnalyzer({
   enabled: process.env.ANALYZE === "true",
 });
 
-const { I18N_DOMAINS, WEBPACK_ASSET_PREFIX, MATOMO_ID } = process.env;
+const { I18N_DOMAINS, MATOMO_ID } = process.env;
 
 const buildEnv = {
   VERSION: `v${pkg.version}`,
@@ -22,7 +22,6 @@ const buildEnv = {
 
 console.info("Build Environment:", buildEnv);
 console.info("Matomo ID:", MATOMO_ID);
-console.info("Asset prefix:", WEBPACK_ASSET_PREFIX);
 
 type I18NDomains = { domain: string; defaultLocale: string }[];
 let i18nDomains: I18NDomains | undefined;
@@ -58,6 +57,20 @@ const nextConfig = async (): Promise<NextConfig> => {
   const config: NextConfig = {
     output: "standalone",
 
+    experimental: {
+      swcPlugins: [
+        [
+          "@lingui/swc-plugin",
+          {
+            runtimeModules: {
+              i18n: ["@lingui/core", "i18n"],
+              trans: ["@lingui/react", "Trans"],
+            },
+          },
+        ],
+      ],
+    },
+
     outputFileTracingIncludes: {
       "**": [...additionalTracedFiles],
     },
@@ -65,11 +78,6 @@ const nextConfig = async (): Promise<NextConfig> => {
     outputFileTracingExcludes: {
       "/": [".git", ".next/cache"],
     },
-
-    assetPrefix:
-      WEBPACK_ASSET_PREFIX && WEBPACK_ASSET_PREFIX !== ""
-        ? WEBPACK_ASSET_PREFIX
-        : undefined,
 
     env: buildEnv,
 
