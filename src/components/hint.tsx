@@ -20,7 +20,7 @@ const delayedShow = keyframes`
   100% { opacity: 1 }
 `;
 
-const spin = keyframes`
+export const spin = keyframes`
   0% { transform: rotate(-360deg) },
   100% { transform: rotate(0deg) }
 `;

@@ -144,6 +144,7 @@ query ObservationsWithAllPriceComponents(
 
 query OperatorDocuments($id: String!, $locale: String!) {
   operator(id: $id, locale: $locale) {
+    name
     documents {
       id
       name

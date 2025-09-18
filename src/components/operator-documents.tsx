@@ -15,6 +15,7 @@ import { descending, rollup } from "d3";
 import { uniqBy } from "lodash";
 import { useMemo, useState } from "react";
 
+import { spin } from "src/components/hint";
 import {
   OperatorDocument,
   OperatorDocumentCategory,
@@ -78,12 +79,20 @@ const DocumentList = ({
   itemLabel: React.ReactNode;
 }) => {
   return (
-    <Box component="ul" sx={{ listStyle: "none", m: 0, p: 0 }}>
+    <Box
+      component="ul"
+      sx={{
+        listStyle: "none",
+        m: 0,
+        p: 0,
+        "& > * + * ": { mt: 2 },
+      }}
+    >
       {documents.map((doc) => (
         <Box
           component="li"
           key={doc.id + doc.url}
-          sx={{ ml: 0, mb: 2, p: 0 }}
+          sx={{ ml: 0, p: 0 }}
           typography="body2"
         >
           <Link href={doc.url} variant="body2" underline="hover">
@@ -105,46 +114,84 @@ const DocumentList = ({
 
 export const OperatorDocumentsPopoverContent = ({
   documentsByCategory,
+  operatorName,
+  loading,
 }: {
+  operatorName: string;
   documentsByCategory:
     | Map<OperatorDocumentCategory, OperatorDocument[]>
     | Map<OperatorDocumentCategory | null | undefined, OperatorDocument[]>;
+  loading: boolean;
 }) => {
+  const empty = documentsByCategory.size === 0;
   const [expanded, setExpanded] = useState<string | false>(false);
 
   return (
     <>
       <Stack direction={"column"} spacing={2} py={8} px={10}>
-        <Typography variant="h4" fontWeight={700}>
+        <Typography variant="h5" fontWeight={700}>
           <Trans id="download.reports">Download reports</Trans>
         </Typography>
+        <Typography variant="h2">{operatorName}</Typography>
       </Stack>
+      {loading || empty ? (
+        <Box px={10} pb={10}>
+          {loading ? (
+            <Box display="flex" alignItems={"center"} gap={1}>
+              <Box
+                sx={{
+                  animation: `1s linear infinite ${spin}`,
+                  height: 24,
+                  width: 24,
+                }}
+              >
+                <Icon name="loading" size={24} />
+              </Box>
+              <Typography variant="body2" color="text.secondary">
+                <Trans>Loading Reports</Trans>
+              </Typography>
+            </Box>
+          ) : null}
+          {empty && !loading ? (
+            <Typography variant="body2" color="text.secondary">
+              <Trans id="download.nooperatordocuments">
+                No network operator documents
+              </Trans>
+            </Typography>
+          ) : null}
+        </Box>
+      ) : (
+        <>
+          {CATEGORIES.map((category) => {
+            const docs = documentsByCategory.get(category.id);
+            if (!docs) return null;
 
-      {CATEGORIES.map((category) => {
-        const docs = documentsByCategory.get(category.id);
-        if (!docs) return null;
-
-        return (
-          <Accordion
-            key={category.id}
-            expanded={expanded === category.id}
-            onChange={(_, isExpanded) =>
-              setExpanded(isExpanded ? category.id : false)
-            }
-            sx={{
-              px: 10,
-            }}
-            disableGutters
-          >
-            <AccordionSummary expandIcon={<Icon name="chevrondown" />}>
-              {category.categoryLabel}
-            </AccordionSummary>
-            <AccordionDetails>
-              <DocumentList itemLabel={category.itemLabel} documents={docs} />
-            </AccordionDetails>
-          </Accordion>
-        );
-      })}
+            return (
+              <Accordion
+                key={category.id}
+                expanded={true}
+                onChange={(_, isExpanded) =>
+                  setExpanded(isExpanded ? category.id : false)
+                }
+                sx={{
+                  px: 10,
+                }}
+                disableGutters
+              >
+                <AccordionSummary expandIcon={<Icon name="chevrondown" />}>
+                  {category.categoryLabel}
+                </AccordionSummary>
+                <AccordionDetails sx={{ "&&": { px: 0 } }}>
+                  <DocumentList
+                    itemLabel={category.itemLabel}
+                    documents={docs}
+                  />
+                </AccordionDetails>
+              </Accordion>
+            );
+          })}
+        </>
+      )}
     </>
   );
 };
@@ -178,18 +225,6 @@ export const OperatorDocuments = ({ id }: { id: string }) => {
     return groupByCategory(documents);
   }, [documents]);
 
-  if (documentsQuery.fetching) return null;
-
-  if (documents.length === 0) {
-    return (
-      <Typography variant="body2" sx={{ color: "hint.main" }}>
-        <Trans id="download.nooperatordocuments">
-          No network operator documents
-        </Trans>
-      </Typography>
-    );
-  }
-
   return (
     <>
       {/* Button Trigger */}
@@ -217,7 +252,8 @@ export const OperatorDocuments = ({ id }: { id: string }) => {
         anchorEl={anchorEl}
         onClose={handleClose}
         disableScrollLock
-        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        transformOrigin={{ vertical: "top", horizontal: "right" }}
         slotProps={{
           paper: {
             sx: {
@@ -232,6 +268,8 @@ export const OperatorDocuments = ({ id }: { id: string }) => {
       >
         <OperatorDocumentsPopoverContent
           documentsByCategory={documentsByCategory}
+          loading={documentsQuery.fetching}
+          operatorName={documentsQuery.data?.operator?.name || ""}
         />
       </Popover>
     </>

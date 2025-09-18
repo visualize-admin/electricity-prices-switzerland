@@ -779,6 +779,7 @@ export type OperatorDocumentsQuery = {
   __typename: "Query";
   operator?: {
     __typename: "Operator";
+    name: string;
     documents: Array<{
       __typename: "OperatorDocument";
       id: string;
@@ -1343,6 +1344,7 @@ export function useObservationsWithAllPriceComponentsQuery(
 export const OperatorDocumentsDocument = gql`
   query OperatorDocuments($id: String!, $locale: String!) {
     operator(id: $id, locale: $locale) {
+      name
       documents {
         id
         name
