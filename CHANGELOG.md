@@ -11,9 +11,12 @@ You can also check the
 
 # Unreleased
 
+Nothing yet.
+
+# 2.16.0
+
 - Feat
   - Improve download documents (always show button)
-
 
 # 2.15.8
 
