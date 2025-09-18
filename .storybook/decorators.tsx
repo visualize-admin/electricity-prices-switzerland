@@ -19,3 +19,12 @@ export const withAppProviders: Decorator = (Story: any) => {
     </div>
   );
 };
+
+export const withUrqlClient: Decorator = (Story: any) => {
+  const client = new Client({ url: "/graphql", exchanges: [] });
+  return (
+    <Provider value={client}>
+      <Story />
+    </Provider>
+  );
+};

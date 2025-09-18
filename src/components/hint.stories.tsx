@@ -19,7 +19,7 @@ const meta: Meta = {
       page: () => <StoryGrid title={"Hints"} />,
     },
   },
-  tags: ["autodocs", "e2e:autodocs-screenshot"],
+  tags: ["autodocs", "e2e:autodocs-screenshot", "e2e:no-wait-for-loading-icon"],
 };
 
 export default meta;

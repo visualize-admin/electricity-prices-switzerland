@@ -35,7 +35,11 @@ const loadStories = (): StorybookManifestStory[] => {
 };
 
 /** Load Storybook story for Playwright testing */
-export async function loadStory(page: Page, storyId: string) {
+export async function loadStory(
+  page: Page,
+  storyId: string,
+  options?: { waitForLoadingIcon: boolean }
+) {
   const search = new URLSearchParams({ viewMode: "story", id: storyId });
   const resp = await page.goto(
     `${PLAYWRIGHT_BASE_URL}/iframe.html?${search.toString()}`,
@@ -90,9 +94,12 @@ export async function loadStory(page: Page, storyId: string) {
 
   // Wait for the data-testid="loading" to be removed
   // before taking the screenshot
-  await page.waitForSelector("[data-testid='loading']", {
-    state: "hidden",
-  });
+  if (options?.waitForLoadingIcon !== false) {
+    console.log("Waiting for loading icon to disappear", storyId);
+    await page.waitForSelector("[data-testid='loading']", {
+      state: "hidden",
+    });
+  }
 }
 
 const stories = loadStories();
@@ -107,7 +114,10 @@ for (const story of stories) {
     continue;
   }
   test(`Storybook ${storyId} @storybook`, async ({ page, snapshot }) => {
-    await loadStory(page, storyId);
+    const storyOptions = {
+      waitForLoadingIcon: !tags.includes("e2e:no-wait-for-loading-icon"),
+    };
+    await loadStory(page, storyId, storyOptions);
     await snapshot({
       note: storyId,
       fullPage: true,

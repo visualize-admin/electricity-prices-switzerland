@@ -5,6 +5,8 @@ import {
   typologyOptions,
 } from "src/domain/sunshine";
 
+import { withUrqlClient } from "../../../.storybook/decorators";
+
 import { SunshineSelectorsBase } from "./base";
 
 import type { Meta, StoryObj } from "@storybook/react";
@@ -12,6 +14,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 const meta: Meta<typeof SunshineSelectorsBase> = {
   title: "Components/SunshineSelectors",
   component: SunshineSelectorsBase,
+  decorators: [withUrqlClient],
 };
 
 export default meta;
