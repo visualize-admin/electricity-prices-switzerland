@@ -11,6 +11,10 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
+#: src/components/operator-documents.tsx
+msgid "Loading Reports"
+msgstr "Loading Reports"
+
 #: src/domain/helpers.tsx
 msgid "No"
 msgstr "No"

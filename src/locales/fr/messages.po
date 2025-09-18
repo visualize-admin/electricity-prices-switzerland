@@ -7,9 +7,13 @@ msgstr ""
 "Last-Translator: \n"
 "Language: fr\n"
 "Language-Team: \n"
-"Content-Type: \n"
+"Content-Type: text/plain\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: src/components/operator-documents.tsx
+msgid "Loading Reports"
+msgstr "Chargement des rapports"
 
 #: src/domain/helpers.tsx
 msgid "No"

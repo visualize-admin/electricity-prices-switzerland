@@ -11,6 +11,10 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: src/components/operator-documents.tsx
+msgid "Loading Reports"
+msgstr "Loading Reports"
+
 #: src/domain/helpers.tsx
 msgid "No"
 msgstr "No"
