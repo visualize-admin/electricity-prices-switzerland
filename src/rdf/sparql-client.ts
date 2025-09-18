@@ -36,7 +36,7 @@ export function createSparqlClientForCube(
  */
 
 export async function getSparqlClientFromRequest(
-  _req: NextApiRequest | GetServerSidePropsContext["req"] | NextRequest
+  req: NextApiRequest | GetServerSidePropsContext["req"] | NextRequest
 ): Promise<ParsingClient> {
   const endpoint = server.SPARQL_ENDPOINT;
   return createSparqlClient(endpoint);

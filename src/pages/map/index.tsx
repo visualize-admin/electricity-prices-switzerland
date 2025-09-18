@@ -24,10 +24,10 @@ import {
   ListItemType,
 } from "src/components/list";
 import { MapProvider, useMap } from "src/components/map-context";
+import { SessionConfigDebug } from "src/components/session-config-debug";
 import ShareButton from "src/components/share-button";
-import { SunshineDataServiceDebug } from "src/components/sunshine-data-service-debug";
 import SunshineMap from "src/components/sunshine-map";
-import { DataServiceProps } from "src/data/shared-page-props";
+import { SessionConfigDebugProps } from "src/data/shared-page-props";
 import { colorScaleSpecs, makeColorScale } from "src/domain/charts";
 import { Entity, ElectricityCategory } from "src/domain/data";
 import { useIndicatorValueFormatter } from "src/domain/helpers";
@@ -42,9 +42,9 @@ import { useEnrichedEnergyPricesData } from "src/hooks/use-enriched-energy-price
 import { useEnrichedSunshineData } from "src/hooks/use-enriched-sunshine-data";
 import { useSelectedEntityData } from "src/hooks/use-selected-entity-data";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
-import { getSunshineDataServiceInfo } from "src/lib/sunshine-data-service-context";
 import { useIsMobile } from "src/lib/use-mobile";
 import { defaultLocale } from "src/locales/config";
+import { getSessionConfigFlagsInfo } from "src/session-config/info";
 import { useFlag } from "src/utils/flags";
 
 const MobileControls = dynamic(
@@ -79,7 +79,7 @@ const HEADER_HEIGHT_UP = "144px";
 
 type Props = {
   locale: string;
-  dataService: DataServiceProps;
+  sessionConfig: SessionConfigDebugProps;
 };
 
 export const getServerSideProps: GetServerSideProps<
@@ -87,14 +87,21 @@ export const getServerSideProps: GetServerSideProps<
   { locale: string }
 > = async (context) => {
   const { locale } = context;
-  const dataService = getSunshineDataServiceInfo(context);
-  return { props: { locale: locale ?? defaultLocale, dataService } };
+  const sessionConfig = await getSessionConfigFlagsInfo(context);
+  return {
+    props: {
+      locale: locale ?? defaultLocale,
+      sessionConfig,
+    },
+  };
 };
 
 const MapPageContent = ({
   locale,
   activeId,
-}: Omit<Props, "dataService"> & { activeId: string | null }) => {
+}: Omit<Props, "dataService" | "sessionConfig"> & {
+  activeId: string | null;
+}) => {
   const [
     {
       period,
@@ -509,7 +516,10 @@ const DetailsDrawer = ({
   );
 };
 
-export const MapPage = ({ locale, dataService }: Props) => {
+export const MapPage = ({
+  locale,
+  sessionConfig,
+}: Omit<Props, "dataService">) => {
   const [{ activeId }, setQueryState] = useQueryStateMapCommon();
   const setActiveId = useCallback(
     (id: string | null) => {
@@ -528,9 +538,7 @@ export const MapPage = ({ locale, dataService }: Props) => {
           })}
         </title>
       </Head>
-      {!dataService.isDefault && (
-        <SunshineDataServiceDebug serviceName={dataService.serviceName} />
-      )}
+      <SessionConfigDebug flags={sessionConfig.flags} />
       <MapPageContent locale={locale} activeId={activeId} />
     </MapProvider>
   );

@@ -21,7 +21,7 @@ import { LoadingSkeleton } from "src/components/hint";
 import { infoDialogProps } from "src/components/info-dialog-props";
 import { NetworkCostsTrendCardState } from "src/components/network-costs-trend-card";
 import PeerGroupCard from "src/components/peer-group-card";
-import { SunshineDataServiceDebug } from "src/components/sunshine-data-service-debug";
+import { SessionConfigDebug } from "src/components/session-config-debug";
 import {
   CostAndTariffsTab,
   CostsAndTariffsNavigation,
@@ -29,7 +29,7 @@ import {
 import TableComparisonCard from "src/components/table-comparison-card";
 import { TariffsTrendCard } from "src/components/tariffs-trend-card";
 import {
-  DataServiceProps,
+  SessionConfigDebugProps,
   getOperatorsPageProps,
   PageParams,
   Props as SharedPageProps,
@@ -60,12 +60,10 @@ import {
 import { ElectricityCategory } from "src/graphql/resolver-mapped-types";
 import { Trend } from "src/graphql/resolver-types";
 import { fetchOperatorCostsAndTariffsData } from "src/lib/sunshine-data";
-import {
-  getSunshineDataServiceFromGetServerSidePropsContext,
-  getSunshineDataServiceInfo,
-} from "src/lib/sunshine-data-service-context";
+import { getSunshineDataServiceFromGetServerSidePropsContext } from "src/lib/sunshine-data-service";
 import { truthy } from "src/lib/truthy";
 import { defaultLocale } from "src/locales/config";
+import { getSessionConfigFlagsInfo } from "src/session-config/info";
 import { makePageTitle } from "src/utils/page-title";
 type Props =
   | (Extract<SharedPageProps, { entity: "operator"; status: "found" }> & {
@@ -73,7 +71,7 @@ type Props =
         SunshineCostsAndTariffsData,
         "energyTariffs" | "networkCosts" | "netTariffs"
       >;
-      dataService: DataServiceProps;
+      sessionConfig: SessionConfigDebugProps;
     })
   | { status: "notfound" };
 
@@ -108,8 +106,8 @@ export const getServerSideProps: GetServerSideProps<Props, PageParams> = async (
   }
 
   const sunshineDataService =
-    getSunshineDataServiceFromGetServerSidePropsContext(context);
-  const dataService = getSunshineDataServiceInfo(context);
+    await getSunshineDataServiceFromGetServerSidePropsContext(context);
+  const sessionConfig = await getSessionConfigFlagsInfo(context);
   const costsAndTariffs = await fetchOperatorCostsAndTariffsData(
     sunshineDataService,
     {
@@ -123,7 +121,7 @@ export const getServerSideProps: GetServerSideProps<Props, PageParams> = async (
     props: {
       ...operatorProps,
       costsAndTariffs,
-      dataService,
+      sessionConfig,
     },
   };
 };
@@ -713,8 +711,8 @@ const CostsAndTariffs = (props: Props) => {
 
   return (
     <>
-      {props.status === "found" && !props.dataService.isDefault && (
-        <SunshineDataServiceDebug serviceName={props.dataService.serviceName} />
+      {props.status === "found" && (
+        <SessionConfigDebug flags={props.sessionConfig.flags} />
       )}
       <DetailsPageLayout
         title={pageTitle}

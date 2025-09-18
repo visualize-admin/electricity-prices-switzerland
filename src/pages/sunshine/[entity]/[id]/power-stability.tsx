@@ -20,14 +20,14 @@ import { LoadingSkeleton } from "src/components/hint";
 import { infoDialogProps } from "src/components/info-dialog-props";
 import PeerGroupCard from "src/components/peer-group-card";
 import { PowerStabilityCardState } from "src/components/power-stability-card";
-import { SunshineDataServiceDebug } from "src/components/sunshine-data-service-debug";
+import { SessionConfigDebug } from "src/components/session-config-debug";
 import {
   PowerStabilityNavigation,
   PowerStabilityTab,
 } from "src/components/sunshine-tabs";
 import TableComparisonCard from "src/components/table-comparison-card";
 import {
-  DataServiceProps,
+  SessionConfigDebugProps,
   getOperatorsPageProps,
   PageParams,
   Props as SharedPageProps,
@@ -42,17 +42,15 @@ import { getLocalizedLabel } from "src/domain/translation";
 import { useSaidiQuery, useSaifiQuery } from "src/graphql/queries";
 import { Trend } from "src/graphql/resolver-types";
 import { fetchPowerStability } from "src/lib/sunshine-data";
-import {
-  getSunshineDataServiceFromGetServerSidePropsContext,
-  getSunshineDataServiceInfo,
-} from "src/lib/sunshine-data-service-context";
+import { getSunshineDataServiceFromGetServerSidePropsContext } from "src/lib/sunshine-data-service";
 import { defaultLocale } from "src/locales/config";
+import { getSessionConfigFlagsInfo } from "src/session-config/info";
 import { makePageTitle } from "src/utils/page-title";
 
 type Props =
   | (Extract<SharedPageProps, { entity: "operator"; status: "found" }> & {
       powerStability: Omit<SunshinePowerStabilityData, "saidi" | "saifi">;
-      dataService: DataServiceProps;
+      sessionConfig: SessionConfigDebugProps;
     })
   | { status: "notfound" };
 
@@ -86,8 +84,8 @@ export const getServerSideProps: GetServerSideProps<Props, PageParams> = async (
   }
 
   const sunshineDataService =
-    getSunshineDataServiceFromGetServerSidePropsContext(context);
-  const dataService = getSunshineDataServiceInfo(context);
+    await getSunshineDataServiceFromGetServerSidePropsContext(context);
+  const sessionConfig = await getSessionConfigFlagsInfo(context);
 
   const powerStability = await fetchPowerStability(sunshineDataService, {
     operatorId: id,
@@ -97,7 +95,7 @@ export const getServerSideProps: GetServerSideProps<Props, PageParams> = async (
     props: {
       ...operatorProps,
       powerStability,
-      dataService,
+      sessionConfig,
     },
   };
 };
@@ -452,8 +450,8 @@ const PowerStability = (props: Props) => {
 
   return (
     <>
-      {props.status === "found" && !props.dataService.isDefault && (
-        <SunshineDataServiceDebug serviceName={props.dataService.serviceName} />
+      {props.status === "found" && (
+        <SessionConfigDebug flags={props.sessionConfig.flags} />
       )}
       <DetailsPageLayout
         title={pageTitle}

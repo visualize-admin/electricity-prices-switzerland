@@ -17,14 +17,14 @@ import {
 import { DetailsPageSidebar } from "src/components/detail-page/sidebar";
 import OperationalStandardsCard from "src/components/operational-standards-card";
 import PeerGroupCard from "src/components/peer-group-card";
-import { SunshineDataServiceDebug } from "src/components/sunshine-data-service-debug";
+import { SessionConfigDebug } from "src/components/session-config-debug";
 import {
   OperationalStandardsNavigation,
   OperationalStandardsTabOption,
 } from "src/components/sunshine-tabs";
 import TableComparisonCard from "src/components/table-comparison-card";
 import {
-  DataServiceProps,
+  SessionConfigDebugProps,
   getOperatorsPageProps,
   PageParams,
   Props as SharedPageProps,
@@ -32,17 +32,15 @@ import {
 import { SunshineOperationalStandardsData } from "src/domain/sunshine";
 import { getLocalizedLabel } from "src/domain/translation";
 import { fetchOperationalStandards } from "src/lib/sunshine-data";
-import {
-  getSunshineDataServiceFromGetServerSidePropsContext,
-  getSunshineDataServiceInfo,
-} from "src/lib/sunshine-data-service-context";
+import { getSunshineDataServiceFromGetServerSidePropsContext } from "src/lib/sunshine-data-service";
 import { defaultLocale } from "src/locales/config";
+import { getSessionConfigFlagsInfo } from "src/session-config/info";
 import { makePageTitle } from "src/utils/page-title";
 
 type Props =
   | (Extract<SharedPageProps, { entity: "operator"; status: "found" }> & {
       operationalStandards: SunshineOperationalStandardsData;
-      dataService: DataServiceProps;
+      sessionConfig: SessionConfigDebugProps;
     })
   | { status: "notfound" };
 
@@ -77,8 +75,8 @@ export const getServerSideProps: GetServerSideProps<Props, PageParams> = async (
 
   // Get the appropriate database service based on request headers
   const sunshineDataService =
-    getSunshineDataServiceFromGetServerSidePropsContext(context);
-  const dataService = getSunshineDataServiceInfo(context);
+    await getSunshineDataServiceFromGetServerSidePropsContext(context);
+  const sessionConfig = await getSessionConfigFlagsInfo(context);
 
   const operationalStandards = await fetchOperationalStandards(
     sunshineDataService,
@@ -91,7 +89,7 @@ export const getServerSideProps: GetServerSideProps<Props, PageParams> = async (
     props: {
       ...operatorProps,
       operationalStandards,
-      dataService,
+      sessionConfig,
     },
   };
 };
@@ -411,8 +409,8 @@ const PowerStability = (props: Props) => {
 
   return (
     <>
-      {props.status === "found" && !props.dataService.isDefault && (
-        <SunshineDataServiceDebug serviceName={props.dataService.serviceName} />
+      {props.status === "found" && (
+        <SessionConfigDebug flags={props.sessionConfig.flags} />
       )}
       <DetailsPageLayout
         title={pageTitle}
