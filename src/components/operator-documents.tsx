@@ -169,7 +169,7 @@ export const OperatorDocumentsPopoverContent = ({
             return (
               <Accordion
                 key={category.id}
-                expanded={true}
+                expanded={expanded === category.id}
                 onChange={(_, isExpanded) =>
                   setExpanded(isExpanded ? category.id : false)
                 }

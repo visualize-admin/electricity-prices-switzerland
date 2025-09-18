@@ -95,7 +95,6 @@ export async function loadStory(
   // Wait for the data-testid="loading" to be removed
   // before taking the screenshot
   if (options?.waitForLoadingIcon !== false) {
-    console.log("Waiting for loading icon to disappear", storyId);
     await page.waitForSelector("[data-testid='loading']", {
       state: "hidden",
     });
