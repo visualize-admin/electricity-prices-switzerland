@@ -252,7 +252,8 @@ export const OperatorDocuments = ({ id }: { id: string }) => {
         anchorEl={anchorEl}
         onClose={handleClose}
         disableScrollLock
-        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        transformOrigin={{ vertical: "top", horizontal: "right" }}
         slotProps={{
           paper: {
             sx: {
@@ -268,6 +269,7 @@ export const OperatorDocuments = ({ id }: { id: string }) => {
         <OperatorDocumentsPopoverContent
           documentsByCategory={documentsByCategory}
           loading={documentsQuery.fetching}
+          operatorName={documentsQuery.data?.operator?.name || ""}
         />
       </Popover>
     </>
