@@ -1,3 +1,5 @@
+import { Paper } from "@mui/material";
+
 import {
   OperatorDocument,
   OperatorDocumentCategory,
@@ -17,6 +19,13 @@ const meta: Meta<typeof OperatorDocumentsPopoverContent> = {
   parameters: {
     layout: "centered",
   },
+  decorators: [
+    (Story) => (
+      <Paper sx={{ maxWidth: 500 }} elevation={1}>
+        <Story />
+      </Paper>
+    ),
+  ],
 };
 
 export default meta;
@@ -69,38 +78,70 @@ const mockDocuments: OperatorDocument[] = [
 
 export const Default: Story = {
   args: {
+    operatorName: "Elektrizitätswerk Zürich (EWZ)",
     documentsByCategory: groupByCategory(mockDocuments),
-  },
-};
-
-export const WithOnlyTariffs: Story = {
-  args: {
-    documentsByCategory: groupByCategory(
-      mockDocuments.filter(
-        (doc) => doc.category === OperatorDocumentCategory.Tariffs
-      )
-    ),
-  },
-};
-
-export const WithOnlyAnnualReports: Story = {
-  args: {
-    documentsByCategory: groupByCategory(
-      mockDocuments.filter(
-        (doc) => doc.category === OperatorDocumentCategory.AnnualReport
-      )
-    ),
   },
 };
 
 export const EmptyState: Story = {
   args: {
+    operatorName: "Elektrizitätswerk Zürich (EWZ)",
     documentsByCategory: new Map(),
   },
 };
 
 export const SingleDocument: Story = {
   args: {
+    operatorName: "Elektrizitätswerk Zürich (EWZ)",
     documentsByCategory: groupByCategory([mockDocuments[0]]),
   },
+};
+
+const sampleDocs: OperatorDocument[] = [
+  {
+    __typename: "OperatorDocument",
+    id: "1",
+    name: "Tariff Sheet 2023",
+    url: "https://example.com/tariff-2023.pdf",
+    year: "2023",
+    category: OperatorDocumentCategory.Tariffs,
+  },
+  {
+    __typename: "OperatorDocument",
+    id: "2",
+    name: "Annual Report 2022",
+    url: "https://example.com/annual-2022.pdf",
+    year: "2022",
+    category: OperatorDocumentCategory.AnnualReport,
+  },
+];
+
+export const Empty: StoryObj = {
+  render: () => (
+    <OperatorDocumentsPopoverContent
+      operatorName="Elektrizitätswerk Zürich (EWZ)"
+      documentsByCategory={new Map()}
+      loading={false}
+    />
+  ),
+};
+
+export const Loading: StoryObj = {
+  render: () => (
+    <OperatorDocumentsPopoverContent
+      operatorName="Elektrizitätswerk Zürich (EWZ)"
+      documentsByCategory={new Map()}
+      loading={true}
+    />
+  ),
+};
+
+export const WithDocuments: StoryObj = {
+  render: () => (
+    <OperatorDocumentsPopoverContent
+      operatorName="Elektrizitätswerk Zürich (EWZ)"
+      documentsByCategory={groupByCategory(sampleDocs)}
+      loading={false}
+    />
+  ),
 };
