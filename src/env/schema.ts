@@ -90,8 +90,6 @@ export const serverSchema = z.object({
     .default("sparql"),
 });
 
-type ServerEnv = z.infer<typeof serverSchema>;
-
 const FlagSchema = z.array(z.string());
 
 export const runtimeSchema = z.object({
