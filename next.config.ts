@@ -12,15 +12,12 @@ const withBundleAnalyzerConfig = withBundleAnalyzer({
   enabled: process.env.ANALYZE === "true",
 });
 
-const { I18N_DOMAINS, MATOMO_ID } = process.env;
+const { I18N_DOMAINS } = process.env;
 
 const buildEnv = {
   VERSION: `v${pkg.version}`,
   ALLOW_ENGLISH: process.env.ALLOW_ENGLISH,
 };
-
-console.info("Build Environment:", buildEnv);
-console.info("Matomo ID:", MATOMO_ID);
 
 type I18NDomains = { domain: string; defaultLocale: string }[];
 let i18nDomains: I18NDomains | undefined;
