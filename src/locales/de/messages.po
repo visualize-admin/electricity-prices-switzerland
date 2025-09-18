@@ -7,13 +7,13 @@ msgstr ""
 "Last-Translator: \n"
 "Language: de\n"
 "Language-Team: \n"
-"Content-Type: text/plain\n"
+"Content-Type: \n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/components/operator-documents.tsx
 msgid "Loading Reports"
-msgstr "Berichte laden"
+msgstr "Dokumente werden geladen…"
 
 #: src/domain/helpers.tsx
 msgid "No"
@@ -195,7 +195,7 @@ msgstr "Keine Netzbetreiber-Dokumente"
 
 #: src/components/operator-documents.tsx
 msgid "download.reports"
-msgstr "Download Reports"
+msgstr "Download Berichte & Tarife"
 
 #: src/components/detail-page/price-components-bars.tsx
 msgid "dynamic-tariffs.hint"
