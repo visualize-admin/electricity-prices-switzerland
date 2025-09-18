@@ -1,8 +1,9 @@
+import path from "path";
+
 import { z } from "zod";
 
 export const buildSchema = z.object({
   // Used to display a mention of the current deployment in development mode
-  DEPLOYMENT: z.string().optional(),
   VERSION: z.string().optional(),
   ALLOW_ENGLISH: z.boolean().default(false),
 });
@@ -58,9 +59,6 @@ export const serverSchema = z.object({
   GITLAB_WIKI_TOKEN: z.string().optional(),
   GITLAB_WIKI_URL: z.string().optional(),
 
-  // Tracking
-  MATOMO_ID: z.string().optional(),
-
   // Apollo plugin
   METRICS_PLUGIN_ENABLED: z.string().optional(),
 
@@ -88,6 +86,14 @@ export const serverSchema = z.object({
     .union([z.literal("sparql"), z.literal("sql")])
     .optional()
     .default("sparql"),
+
+  SUNSHINE_ENCRYPTED_DATA_DIR: z
+    .string()
+    .default(path.join(process.cwd(), "src/sunshine-data")),
+
+  SUNSHINE_CSV_DATA_DIR: z
+    .string()
+    .default(path.join(process.cwd(), "src/sunshine-data")),
 });
 
 const FlagSchema = z.array(z.string());
@@ -96,6 +102,7 @@ export const runtimeSchema = z.object({
   PUBLIC_URL: z.string().default(""),
   CURRENT_PERIOD: z.string().default("2025"),
   FIRST_PERIOD: z.string().default("2011"),
+  MATOMO_ID: z.string().optional(),
   FLAGS: z
     .string()
     .default("[]")

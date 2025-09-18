@@ -5,7 +5,6 @@ import { buildSchema } from "./schema";
 // jsdoc comment to export
 /** @type {import("./schema").BuildEnv} */
 export default buildSchema.parse({
-  DEPLOYMENT: process.env.DEPLOYMENT,
   VERSION: process.env.VERSION,
   ALLOW_ENGLISH: process.env.ALLOW_ENGLISH === "true",
 });
