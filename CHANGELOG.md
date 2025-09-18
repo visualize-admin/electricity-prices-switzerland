@@ -13,6 +13,14 @@ You can also check the
 
 Nothing yet.
 
+# 2.16.1
+
+- Fix
+  - Translations for loading reports
+
+- Chore
+  - Adjust Sentry sample rate
+
 # 2.16.0
 
 - Feat
