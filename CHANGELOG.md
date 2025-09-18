@@ -13,54 +13,55 @@ You can also check the
 
 Nothing yet.
 
-# 2.16.1
+# 2.16.1 - 2025-09-18
 
 - Fix
+
   - Translations for loading reports
 
 - Chore
   - Adjust Sentry sample rate
 
-# 2.16.0
+# 2.16.0 - 2025-09-18
 
 - Feat
   - Improve download documents (always show button)
 
-# 2.15.8
+# 2.15.8 - 2025-09-10
 
 - Feat
   - Update translations
 
-# 2.15.7
+# 2.15.7 - 2025-09-09
 
 - Fix
   - Page change glitch on localized domains
 
-# 2.15.6
+# 2.15.6 - 2025-09-09
 
 - Fix
   - Domain locale routing should work again on prod
 
-# 2.15.5
+# 2.15.5 - 2025-09-08
 
 - Fix
   - Removed bad string
 
-# 2.15.4
+# 2.15.4 - 2025-09-08
 
 - Fix
   - Untranslated content for tooltip was removed
 
-# 2.15.3
+# 2.15.3 - 2025-09-08
 
 - Fix
   - Update Perl to remove vuln CVE-2023-31484
 
-# 2.15.1
+# 2.15.1 - 2025-09-08
 
 - Ignore two CVEs that cannot be exploited
 
-# 2.15.0
+# 2.15.0 - 2025-09-08
 
 - Feat
 
@@ -70,13 +71,13 @@ Nothing yet.
   - Default flags for application can be set at runtime via the same
     method as runtime environment variables
 
-# 2.14.0
+# 2.14.0 - 2025-09-04
 
 - Fix
   - Municipality details page: Operator municipalities displayed respect coverage ratio threshold (0.25) and depends on
     period selected.
 
-# 2.13.0
+# 2.13.0 - 2025-09-03
 
 - Feat
 
