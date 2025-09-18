@@ -2,3 +2,8 @@
 node_modules
 .git
 public/storybook
+
+# trivy automatically caches to .cache/trivy on the CI
+# It prevents subsequent build to be cached when using "COPY . ."
+# This is why we have to ignore .cache here.
+.cache

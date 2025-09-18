@@ -85,6 +85,7 @@ jobs:
           format: "table"
           exit-code: "1"
           ignore-unfixed: true
+          scanners: "vuln"
           severity: "CRITICAL,HIGH"
 
       - name: Build and Push Docker image to registry
