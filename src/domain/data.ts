@@ -3,6 +3,7 @@ import { range } from "d3";
 import { runtimeEnv } from "src/env/runtime";
 import { OperatorObservationFieldsFragment } from "src/graphql/queries";
 import { weightedMean } from "src/utils/weighted-mean";
+import z from "zod";
 
 export type ObservationValue = string | number | boolean | Date;
 export type GenericObservation = Record<string, ObservationValue>;
@@ -85,7 +86,8 @@ export const detailsPriceComponents = allPriceComponents.filter(
 );
 
 export const products = ["cheapest", "standard"];
-export const categories = [
+
+export const ElectricityCategory = z.enum([
   "H1",
   "H2",
   "H3",
@@ -101,9 +103,11 @@ export const categories = [
   "C5",
   "C6",
   "C7",
-] as const;
+]);
 
-export type ElectricityCategory = (typeof categories)[number];
+export const categories = ElectricityCategory.options;
+
+export type ElectricityCategory = z.infer<typeof ElectricityCategory>;
 
 const isElectricityCategory = (
   category: string

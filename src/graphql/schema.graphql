@@ -64,6 +64,12 @@ type OperatorDocument @cacheControl(maxAge: 300) {
   category: OperatorDocumentCategory
 }
 
+type OperatorMunicipality @cacheControl(maxAge: 300) {
+  municipality: Int!
+  canton: String!
+  operator: String!
+}
+
 type Canton {
   id: String!
   name: String!
@@ -203,6 +209,11 @@ type Query {
 
   wikiContent(locale: String!, slug: String!): WikiContent
     @cacheControl(maxAge: 300)
+
+  operatorMunicipalities(
+    period: String!
+    electricityCategory: String!
+  ): [OperatorMunicipality!]! @cacheControl(maxAge: 300)
 
   cubeHealth: CubeHealth
 }
