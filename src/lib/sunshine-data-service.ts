@@ -207,7 +207,7 @@ export async function getSunshineDataServiceFromApiRequest(
  */
 
 export async function getSunshineDataServiceFromGetServerSidePropsContext(
-  context: GetServerSidePropsContext
+  context: Pick<GetServerSidePropsContext, "req">
 ): Promise<SunshineDataService> {
   const session = await parseSessionFromRequest(context.req as NextApiRequest);
   return getSunshineDataService(session?.flags.sunshineDataService);
