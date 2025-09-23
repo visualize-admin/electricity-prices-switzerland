@@ -49,6 +49,7 @@ export const NetworkCostLatestYearCard = () => {
     >
       <NetworkCostsTrendCard
         peerGroup={{
+          id: "0",
           energyDensity: "na",
           settlementDensity: "unknown",
         }}

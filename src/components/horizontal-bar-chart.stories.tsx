@@ -49,6 +49,7 @@ export const HorizontalBarChartCard = () => {
           newState && setQueryState((prev) => ({ ...prev, ...newState }))
         }
         peerGroup={{
+          id: "0",
           energyDensity: "na",
           settlementDensity: "unknown",
         }}

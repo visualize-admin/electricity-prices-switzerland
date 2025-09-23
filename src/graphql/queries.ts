@@ -257,8 +257,9 @@ export type OperatorResult = SearchResult & {
 
 export type PeerGroup = {
   __typename: "PeerGroup";
-  energyDensity?: Maybe<Scalars["String"]["output"]>;
-  settlementDensity?: Maybe<Scalars["String"]["output"]>;
+  energyDensity: Scalars["String"]["output"];
+  id: Scalars["String"]["output"];
+  settlementDensity: Scalars["String"]["output"];
 };
 
 export enum PriceComponent {
@@ -995,8 +996,8 @@ export type OperationalStandardsQuery = {
       __typename: "OperationalStandardsOperator";
       peerGroup: {
         __typename: "PeerGroup";
-        settlementDensity?: string | null;
-        energyDensity?: string | null;
+        settlementDensity: string;
+        energyDensity: string;
       };
     };
     productVariety: {

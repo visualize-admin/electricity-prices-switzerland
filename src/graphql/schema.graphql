@@ -35,8 +35,9 @@ type Municipality @cacheControl(maxAge: 300) {
 }
 
 type PeerGroup {
-  settlementDensity: String
-  energyDensity: String
+  id: String!
+  settlementDensity: String!
+  energyDensity: String!
 }
 
 type Operator @cacheControl(maxAge: 300) {

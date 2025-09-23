@@ -9,6 +9,7 @@ import {
   StabilityData,
   TariffsData,
 } from "src/graphql/resolver-types";
+import { PeerGroup } from "src/graphql/resolver-types";
 
 export type { PeerGroup } from "src/graphql/resolver-types";
 /**
@@ -92,10 +93,7 @@ export type SunshineCostsAndTariffsData = {
   energyTariffs: TariffsData;
   networkCosts: NetworkCostsData;
   operator: {
-    peerGroup: {
-      energyDensity: string;
-      settlementDensity: string;
-    };
+    peerGroup: PeerGroup;
   };
   updateDate: string;
 };
@@ -106,10 +104,7 @@ export type SunshinePowerStabilityData = {
   saifi: StabilityData;
 
   operator: {
-    peerGroup: {
-      energyDensity: string;
-      settlementDensity: string;
-    };
+    peerGroup: PeerGroup;
   };
   updateDate: string;
 };
@@ -145,10 +140,7 @@ export type SunshineOperationalStandardsData = {
     }[];
   };
   operator: {
-    peerGroup: {
-      energyDensity: string;
-      settlementDensity: string;
-    };
+    peerGroup: PeerGroup;
   };
   updateDate: string;
 };
