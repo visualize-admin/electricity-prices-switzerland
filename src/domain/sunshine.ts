@@ -10,6 +10,7 @@ import {
   TariffsData,
 } from "src/graphql/resolver-types";
 
+export type { PeerGroup } from "src/graphql/resolver-types";
 /**
  * Years available for sunshine data queries
  */
@@ -85,10 +86,6 @@ export const sunshineIndicatorSchema = z.enum([
 ] as const);
 
 export type SunshineIndicator = z.infer<typeof sunshineIndicatorSchema>;
-export type PeerGroup = {
-  energyDensity: string;
-  settlementDensity: string;
-};
 export type SunshineCostsAndTariffsData = {
   latestYear: string;
   netTariffs: TariffsData;
