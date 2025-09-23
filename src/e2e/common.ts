@@ -100,7 +100,7 @@ test.afterEach(async ({ page }, testInfo) => {
 
 export const sleep = (dur: number) => new Promise((r) => setTimeout(r, dur));
 
-export const scrollContainerUntilVisible = async (
+const scrollContainerUntilVisible = async (
   page: Page,
   scrollerLocator: Locator,
   elementLocator: Locator,
@@ -114,4 +114,4 @@ export const scrollContainerUntilVisible = async (
   }
 };
 
-export { describe, expect, it, test };
+export {  expect,  test };
