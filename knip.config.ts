@@ -14,6 +14,8 @@ const config: KnipConfig = {
     "src/**/*.stories.tsx",
     // Used for debugging
     "src/components/page-props-debug.tsx",
+    // Used for generation of static content
+    "src/lib/db/sparql-peer-groups.gen.ts",
   ],
   project: ["src/**", "scripts/**"],
   ignore: [
