@@ -2,7 +2,8 @@ import fs from "fs/promises";
 import path from "path";
 
 import { expect } from "@playwright/test";
-import { getSnapshotName, snapshotDir, test } from "e2e/common";
+
+import { getSnapshotName, snapshotDir, test } from "src/e2e/common";
 
 test.describe("The Map Page", () => {
   test("should be possible to download the map", async ({ page }, testInfo) => {

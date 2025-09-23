@@ -23,7 +23,7 @@ tsconfig.tsbuildinfo
 *.har
 
 *storybook.log
-e2e/snapshots
+src/e2e/snapshots
 
 /src/sunshine-data/*.csv
 tpo.config.json

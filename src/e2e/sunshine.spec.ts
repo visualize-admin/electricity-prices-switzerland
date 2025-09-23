@@ -1,5 +1,6 @@
 import { expect } from "@playwright/test";
-import InflightRequests from "e2e/inflight";
+
+import InflightRequests from "src/e2e/inflight";
 
 import { sleep, test } from "./common";
 

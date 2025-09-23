@@ -1,4 +1,4 @@
-import InflightRequests from "e2e/inflight";
+import InflightRequests from "src/e2e/inflight";
 
 import { expect, test } from "./common";
 
