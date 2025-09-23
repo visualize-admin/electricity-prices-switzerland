@@ -38,7 +38,7 @@
     "heroku-postbuild-DISABLED": "yarn install --production=false && yarn build && yarn install --production",
     "e2e": "npx playwright test  --grep-invert @har",
     "e2e:k6:har": "npx playwright test e2e/generate-k6-har.spec.ts --headed",
-    "e2e:k6:update": "bun e2e/update-k6-test-from-har.ts browsing-test-ref.har 802626",
+    "e2e:k6:update": "bun src/e2e/update-k6-test-from-har.ts browsing-test-ref.har 802626",
     "docker:build": "docker buildx build --platform linux/amd64 -t interactivethings/electricity-prices-switzerland .",
     "docker:trivy": "trivy image interactivethings/electricity-prices-switzerland:latest --offline-scan --image-src docker --scanners vuln --severity HIGH,CRITICAL  --show-suppressed --ignore-unfixed",
     "knip": "knip",

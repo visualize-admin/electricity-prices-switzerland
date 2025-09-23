@@ -9,7 +9,7 @@ const config: KnipConfig = {
     "src/pages/**/*.tsx",
     "src/domain/gever/output/cli.js",
     "src/domain/gever/rollup.config.js",
-    "e2e/common.ts",
+    "src/e2e/common.ts",
     "lingui.config.ts",
     "src/**/*.stories.tsx",
     // Used for debugging
