@@ -18,7 +18,7 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "oxlint": "oxlint .",
-    "test": "vitest --project unit",
+    "test:unit": "vitest --project unit",
     "test:argos": "argos upload ./e2e/snapshots",
     "test:integration": "vitest --project integration",
     "test:playwright:app": "playwright test --grep-invert \"@storybook|@har\"",
