@@ -115,7 +115,7 @@ export const peerGroups: Record<string, PeerGroup> = {
   }
 } as const;
 
-export type PeerGroup = {
+type PeerGroup = {
     id: string;
     uri: string;
     names: {

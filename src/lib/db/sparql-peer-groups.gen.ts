@@ -66,7 +66,7 @@ export const peerGroups: Record<string, PeerGroup> = ${JSON.stringify(
     2
   )} as const;
 
-export type PeerGroup = {
+type PeerGroup = {
     id: string;
     uri: string;
     names: {
