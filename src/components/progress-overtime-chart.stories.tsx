@@ -1,7 +1,7 @@
+import { Trend } from "src/graphql/resolver-types";
 import costsAndTariffsData from "src/mocks/sunshine-costsAndTariffs-426.json";
 import powerStabilityData from "src/mocks/sunshine-powerStability-426.json";
 
-import { Trend } from "src/graphql/resolver-types";
 
 import { NetworkCostTrendChart } from "./network-cost-trend-chart";
 import { PowerStabilityChart } from "./power-stability-chart";

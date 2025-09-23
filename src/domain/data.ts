@@ -1,9 +1,9 @@
 import { range } from "d3";
+import z from "zod";
 
 import { runtimeEnv } from "src/env/runtime";
 import { OperatorObservationFieldsFragment } from "src/graphql/queries";
 import { weightedMean } from "src/utils/weighted-mean";
-import z from "zod";
 
 export type ObservationValue = string | number | boolean | Date;
 export type GenericObservation = Record<string, ObservationValue>;

@@ -1,8 +1,8 @@
-import data from "src/mocks/sunshine-costsAndTariffs-426.json";
 import { useState } from "react";
 
 import { useQueryStateNetworkCostsTrendCardFilters } from "src/domain/query-states";
 import { SunshineCostsAndTariffsData } from "src/domain/sunshine";
+import data from "src/mocks/sunshine-costsAndTariffs-426.json";
 
 import { NetworkCostTrendChart } from "./network-cost-trend-chart";
 import { NetworkCostsTrendCard } from "./network-costs-trend-card";

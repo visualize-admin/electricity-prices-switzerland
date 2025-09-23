@@ -81,8 +81,7 @@ const test = base.extend<TestingLibraryFixtures>(fixtures).extend<{
   },
 });
 
-const { expect, describe } = test;
-const it = test;
+const { expect } = test;
 
 // When running outside CI, pause Playwright when a test failed.
 // See: https://github.com/microsoft/playwright/issues/10132
@@ -100,18 +99,4 @@ test.afterEach(async ({ page }, testInfo) => {
 
 export const sleep = (dur: number) => new Promise((r) => setTimeout(r, dur));
 
-const scrollContainerUntilVisible = async (
-  page: Page,
-  scrollerLocator: Locator,
-  elementLocator: Locator,
-  options: { wheelY?: number; wheelX?: number; delay: number }
-) => {
-  await (await scrollerLocator).hover();
-
-  while (!(await elementLocator.isVisible())) {
-    await page.mouse.wheel(options.wheelX ?? 0, options.wheelY ?? 0);
-    await sleep(options.delay);
-  }
-};
-
-export {  expect,  test };
+export { expect, test };

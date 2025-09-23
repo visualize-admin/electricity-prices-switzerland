@@ -1,8 +1,7 @@
 import { t } from "@lingui/macro";
 import { Box } from "@mui/material";
 import { median as d3Median } from "d3";
-import complianceMock from "src/mocks/sunshine-operationalStandards-compliance-mock.json";
-import serviceQualityMock from "src/mocks/sunshine-operationalStandards-serviceQuality-mock.json";
+
 
 import { AxisHeightLinear } from "src/components/charts-generic/axis/axis-height-linear";
 import { AxisWidthHistogram } from "src/components/charts-generic/axis/axis-width-histogram";
@@ -14,6 +13,8 @@ import { HistogramColumns } from "src/components/charts-generic/histogram/histog
 import { Histogram } from "src/components/charts-generic/histogram/histogram-state";
 import { DAYS, SWISS_FRANCS } from "src/domain/metrics";
 import type { SunshineOperationalStandardsData } from "src/domain/sunshine";
+import complianceMock from "src/mocks/sunshine-operationalStandards-compliance-mock.json";
+import serviceQualityMock from "src/mocks/sunshine-operationalStandards-serviceQuality-mock.json";
 import { useFlag } from "src/utils/flags";
 
 import {
