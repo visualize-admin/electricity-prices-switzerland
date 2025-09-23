@@ -1,8 +1,4 @@
-import {
-  NetworkLevel,
-  peerGroupMapping,
-  SunshineIndicator,
-} from "src/domain/sunshine";
+import { NetworkLevel, SunshineIndicator } from "src/domain/sunshine";
 import {
   SunshineDataIndicatorRow,
   SunshineDataRow,
@@ -10,6 +6,7 @@ import {
 import { getFieldName } from "src/lib/db/common";
 import { query } from "src/lib/db/duckdb";
 import { PeerGroupNotFoundError } from "src/lib/db/errors";
+import { peerGroupMapping } from "src/lib/db/sql-peer-groups-mapping";
 import { IndicatorMedianParams } from "src/lib/sunshine-data";
 import type {
   NetworkCostRecord,

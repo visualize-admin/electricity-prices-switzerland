@@ -409,15 +409,15 @@ describe("SPARQL Sunshine Data Service", () => {
     });
   });
 
-  describe.only("getPeerGroup", () => {
+  describe("getPeerGroup", () => {
     it("should return peer group information", async () => {
       const result = await sunshineDataServiceSparql.getPeerGroup(8);
 
       expect(result).toMatchInlineSnapshot(`
         {
-          "energyDensity": "Variable",
-          "id": "H",
-          "settlementDensity": "Special/Industrial",
+          "energyDensity": "High",
+          "id": "5",
+          "settlementDensity": "Rural",
         }
       `);
     });
@@ -427,9 +427,9 @@ describe("SPARQL Sunshine Data Service", () => {
 
       expect(result).toMatchInlineSnapshot(`
         {
-          "energyDensity": "Variable",
-          "id": "H",
-          "settlementDensity": "Special/Industrial",
+          "energyDensity": "High",
+          "id": "5",
+          "settlementDensity": "Rural",
         }
       `);
     });

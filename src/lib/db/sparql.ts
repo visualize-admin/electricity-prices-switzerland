@@ -11,7 +11,8 @@ import {
   PeerGroupNotFoundError,
   UnknownPeerGroupError,
 } from "src/lib/db/errors";
-import { peerGroups } from "src/lib/db/peerGroups";
+import { peerGroups } from "src/lib/db/sparql-peer-groups";
+import { peerGroupMapping } from "src/lib/db/sparql-peer-groups-mapping";
 import { IndicatorMedianParams } from "src/lib/sunshine-data";
 import type {
   NetworkCostRecord,
@@ -794,8 +795,6 @@ WHERE {
     throw new PeerGroupNotFoundError(_operatorId);
   }
   const groupUri = results[0].group;
-  // Strip the namespace to get the peer group ID, remove zufällig from the id
-  // TODO Review when Peer groups are in better shape in Lindas
   const peerGroupId = stripNamespaceFromIri({ iri: groupUri })
     .slice(0, 1)
     .toUpperCase();
@@ -803,10 +802,12 @@ WHERE {
     throw new UnknownPeerGroupError(_operatorId, peerGroupId);
   }
   const peerGroup = peerGroups[peerGroupId];
+  const mapping = peerGroupMapping[peerGroupId];
 
   return {
-    settlementDensity: peerGroup.settlement_density,
-    energyDensity: peerGroup.energy_density,
+    // TODO see when we have the correct attributes in Lindas
+    settlementDensity: mapping.settlement_density,
+    energyDensity: mapping.energy_density,
     id: `${peerGroup.id}`,
   };
 };
