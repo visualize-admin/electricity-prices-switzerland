@@ -1,4 +1,4 @@
-import data from "mocks/sunshine-powerStability-426.json";
+import data from "src/mocks/sunshine-powerStability-426.json";
 import { useState } from "react";
 
 import { useQueryStatePowerStabilityCardFilters } from "src/domain/query-states";

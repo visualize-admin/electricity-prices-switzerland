@@ -1,4 +1,4 @@
-import data from "mocks/sunshine-costsAndTariffs-426.json";
+import data from "src/mocks/sunshine-costsAndTariffs-426.json";
 import { useState } from "react";
 
 import { useQueryStateNetworkCostsTrendCardFilters } from "src/domain/query-states";

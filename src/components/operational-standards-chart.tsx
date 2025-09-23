@@ -1,8 +1,8 @@
 import { t } from "@lingui/macro";
 import { Box } from "@mui/material";
 import { median as d3Median } from "d3";
-import complianceMock from "mocks/sunshine-operationalStandards-compliance-mock.json";
-import serviceQualityMock from "mocks/sunshine-operationalStandards-serviceQuality-mock.json";
+import complianceMock from "src/mocks/sunshine-operationalStandards-compliance-mock.json";
+import serviceQualityMock from "src/mocks/sunshine-operationalStandards-serviceQuality-mock.json";
 
 import { AxisHeightLinear } from "src/components/charts-generic/axis/axis-height-linear";
 import { AxisWidthHistogram } from "src/components/charts-generic/axis/axis-width-histogram";
