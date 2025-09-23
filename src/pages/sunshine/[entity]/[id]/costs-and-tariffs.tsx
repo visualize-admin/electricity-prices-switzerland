@@ -17,7 +17,7 @@ import {
   DetailsPageTitle,
 } from "src/components/detail-page/layout";
 import { DetailsPageSidebar } from "src/components/detail-page/sidebar";
-import { Loading } from "src/components/hint";
+import { LoadingSkeleton } from "src/components/hint";
 import { NetworkCostsTrendCardState } from "src/components/network-costs-trend-card";
 import PeerGroupCard from "src/components/peer-group-card";
 import { SunshineDataServiceDebug } from "src/components/sunshine-data-service-debug";
@@ -162,7 +162,7 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
   const networkCosts = data?.networkCosts as NetworkCostsQuery["networkCosts"];
 
   if (fetching) {
-    return <Loading />;
+    return <LoadingSkeleton height={700} />;
   }
 
   if (!networkCosts) {
@@ -349,7 +349,7 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
   const energyTariffs = data?.energyTariffs;
 
   if (fetching) {
-    return <Loading />;
+    return <LoadingSkeleton height={700} />;
   }
 
   if (!energyTariffs) {
@@ -534,7 +534,7 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
   const netTariffs = data?.netTariffs;
 
   if (fetching) {
-    return <Loading />;
+    return <LoadingSkeleton height={700} />;
   }
 
   if (!netTariffs) {

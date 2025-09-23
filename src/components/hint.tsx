@@ -1,6 +1,6 @@
 import { keyframes } from "@emotion/react";
 import { Trans } from "@lingui/macro";
-import { Box, BoxProps, IconButton, Typography } from "@mui/material";
+import { Box, BoxProps, IconButton, Skeleton, Typography } from "@mui/material";
 import dynamic from "next/dynamic";
 import { ReactNode } from "react";
 
@@ -58,6 +58,10 @@ export const Loading = ({ delayMs = 1000 }: { delayMs?: number }) => (
     </Typography>
   </Box>
 );
+
+export const LoadingSkeleton = ({ height = 200 }: { height?: number }) => {
+  return <Skeleton variant="rectangular" width="100%" height={height} />;
+};
 
 export const LoadingIcon = ({
   delayMs = 200,

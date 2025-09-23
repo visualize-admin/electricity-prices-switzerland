@@ -1,11 +1,19 @@
 import { ResizeObserver } from "@juggle/resize-observer";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 export const useResizeObserver = <T extends Element>() => {
   const roRef = useRef<ResizeObserver>(undefined);
   const elRef = useRef<T>(null);
   const [width, changeWidth] = useState(1);
   const [height, changeHeight] = useState(1);
+
+  useLayoutEffect(() => {
+    if (elRef.current) {
+      const rect = elRef.current.getBoundingClientRect();
+      changeWidth(rect.width);
+      changeHeight(rect.height);
+    }
+  }, []);
 
   useEffect(() => {
     if (!elRef.current) {

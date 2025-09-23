@@ -27,7 +27,7 @@ import {
   DownloadImage,
 } from "src/components/detail-page/download-image";
 import { WithClassName } from "src/components/detail-page/with-classname";
-import { HintBlue, Loading, NoDataHint } from "src/components/hint";
+import { HintBlue, LoadingSkeleton, NoDataHint } from "src/components/hint";
 import { InfoDialogButton } from "src/components/info-dialog";
 import {
   Entity,
@@ -228,7 +228,7 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
         </HintBlue>
       )}
       {observationsQuery.fetching ? (
-        <Loading />
+        <LoadingSkeleton height={650} />
       ) : observations.length === 0 ? (
         <NoDataHint />
       ) : (

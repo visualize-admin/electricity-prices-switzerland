@@ -28,7 +28,7 @@ import {
 } from "src/components/detail-page/download-image";
 import { FilterSetDescription } from "src/components/detail-page/filter-set-description";
 import { WithClassName } from "src/components/detail-page/with-classname";
-import { Loading, NoDataHint } from "src/components/hint";
+import { LoadingSkeleton, NoDataHint } from "src/components/hint";
 import { InfoDialogButton } from "src/components/info-dialog";
 import { Entity, GenericObservation } from "src/domain/data";
 import { useFormatCurrency } from "src/domain/helpers";
@@ -149,7 +149,7 @@ export const PriceEvolution = ({
   const observations = [...operatorObservations, ...cantonObservations];
 
   return observationsQuery.fetching ? (
-    <Loading />
+    <LoadingSkeleton height={1900} />
   ) : observations.length === 0 ? (
     <NoDataHint />
   ) : (
