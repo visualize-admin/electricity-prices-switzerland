@@ -59,8 +59,16 @@ export const Loading = ({ delayMs = 1000 }: { delayMs?: number }) => (
   </Box>
 );
 
-export const LoadingSkeleton = ({ height = 200 }: { height?: number }) => {
-  return <Skeleton variant="rectangular" width="100%" height={height} />;
+export const LoadingSkeleton = ({
+  height = 200,
+  sx,
+}: {
+  height?: number;
+  sx?: BoxProps["sx"];
+}) => {
+  return (
+    <Skeleton variant="rectangular" width="100%" height={height} sx={sx} />
+  );
 };
 
 export const LoadingIcon = ({
