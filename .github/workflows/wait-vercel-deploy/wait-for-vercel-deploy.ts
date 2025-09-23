@@ -64,12 +64,12 @@ async function waitForDeploymentReady({
     );
 
     if (deployments.length === 0 || deployments[0].state !== "READY") {
-      const state = deployments[0].state;
+      const state = deployments?.[0].state || "NOT YET DEPLOYED";
       if (state === "ERROR") {
         throw new Error("Deployment errored");
       }
       console.log(
-        `Deployment not yet ready (state: ${deployments[0].state}), waiting ${interval}ms for deployment with commit ${commitSha}`
+        `Deployment not yet ready (state: ${state}), waiting ${interval}ms for deployment with commit ${commitSha}`
       );
       await sleep(Math.min(end - Date.now(), interval));
     } else {
