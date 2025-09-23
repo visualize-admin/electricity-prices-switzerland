@@ -64,7 +64,7 @@ async function waitForDeploymentReady({
     );
 
     if (deployments.length === 0 || deployments[0].state !== "READY") {
-      const state = deployments?.[0].state || "NOT YET DEPLOYED";
+      const state = deployments[0]?.state || "NOT YET DEPLOYED";
       if (state === "ERROR") {
         throw new Error("Deployment errored");
       }
