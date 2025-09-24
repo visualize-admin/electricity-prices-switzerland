@@ -86,7 +86,7 @@ test.describe("Sunshine map details panel", () => {
     });
     await page
       .locator("a")
-      .filter({ hasText: "Gemeinde Eichberg, Elektra" })
+      .filter({ hasText: "Elektra Genossenschaft Holderbank" })
       .first()
       .click();
 
@@ -151,7 +151,7 @@ test.describe("Sunshine map details panel", () => {
     });
     await page
       .locator("a")
-      .filter({ hasText: "Gemeinde Eichberg, Elektra" })
+      .filter({ hasText: "Elektra Genossenschaft Holderbank" })
       .first()
       .click();
 
