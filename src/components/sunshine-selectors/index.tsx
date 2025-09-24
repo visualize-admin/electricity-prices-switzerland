@@ -1,28 +1,52 @@
+import { keyBy } from "lodash";
+
+import { LoadingSkeleton } from "src/components/hint";
 import { useQueryStateSunshineMap } from "src/domain/query-states";
 import {
   indicatorOptions,
   netElectricityCategoryOptions,
   networkLevelOptions,
   typologyOptions,
-  peerGroupOptions,
   years,
 } from "src/domain/sunshine";
 import { getLocalizedLabel } from "src/domain/translation";
+import { usePeerGroupsQuery } from "src/graphql/queries";
+import { useLocale } from "src/lib/use-locale";
 
 import { SunshineSelectorsBase } from "./base";
 
 export const SunshineSelectors = () => {
   const [queryState, setQueryState] = useQueryStateSunshineMap();
+  const locale = useLocale();
   const getItemLabel = (id: string) => getLocalizedLabel({ id });
+
+  const [peerGroupsResult] = usePeerGroupsQuery({
+    variables: { locale },
+    requestPolicy: "cache-first",
+  });
+  const peerGroupsById = keyBy(
+    peerGroupsResult.data?.peerGroups ?? [],
+    (x) => x.id
+  );
 
   // Custom label function for peerGroup options
   const getPeerGroupLabel = (value: string) => {
     if (value === "all_grid_operators") {
-      return getLocalizedLabel({ id: "peerGroup.all_grid_operators" });
+      return getLocalizedLabel({ id: "peer-group.all-grid-operators" });
     }
-    // For peer group codes A-H, map to peerGroup.{code}
-    return getLocalizedLabel({ id: `peerGroup.${value}` });
+    return peerGroupsById[value]?.name ?? value;
   };
+
+  const peerGroupOptions = peerGroupsResult.data
+    ? [
+        "all_grid_operators",
+        ...(peerGroupsResult.data?.peerGroups.map((x) => x.id) ?? []),
+      ]
+    : [];
+
+  if (peerGroupsResult.fetching && !peerGroupsResult.data) {
+    return <LoadingSkeleton height={200} />;
+  }
 
   return (
     <SunshineSelectorsBase

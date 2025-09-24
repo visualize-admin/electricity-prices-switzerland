@@ -243,43 +243,10 @@ export const getLocalizedLabel = ({ id }: { id: string }): string => {
     // Sunshine selectors labels
     case "peer-group.all-grid-operators":
       return t({
-        id: "peerGroup.all_grid_operators",
+        id: "peer-group.all-grid-operators",
         message: "All grid operators",
       });
-    case "peer-group.A":
-      return t({
-        id: "peerGroup.A",
-        message: "High energy density / Medium settlement density",
-      });
-    case "peer-group.B":
-      return t({
-        id: "peerGroup.B",
-        message: "High energy density / Rural settlement density",
-      });
-    case "peer-group.C":
-      return t({
-        id: "peerGroup.C",
-        message: "High energy density / Mountain region",
-      });
-    case "peer-group.D":
-      return t({ id: "peerGroup.D", message: "High energy density / Unknown" });
-    case "peer-group.E":
-      return t({
-        id: "peerGroup.E",
-        message: "Low energy density / Medium settlement density",
-      });
-    case "peer-group.F":
-      return t({
-        id: "peerGroup.F",
-        message: "Low energy density / Rural settlement density",
-      });
-    case "peer-group.G":
-      return t({
-        id: "peerGroup.G",
-        message: "Low energy density / Mountain region",
-      });
-    case "peer-group.H":
-      return t({ id: "peerGroup.H", message: "Low energy density / Tourism" });
+
     case "planned":
       return t({
         id: "typology.planned",

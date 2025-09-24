@@ -10,27 +10,11 @@ import {
   TariffsData,
 } from "src/graphql/resolver-types";
 import { PeerGroup } from "src/graphql/resolver-types";
-
 export type { PeerGroup } from "src/graphql/resolver-types";
 /**
  * Years available for sunshine data queries
  */
 export const years = ["2025", "2024", "2023"];
-
-/**
- * View by options for filtering
- */
-export const peerGroupOptions = [
-  "all_grid_operators",
-  "A", // Urban / High
-  "B", // Suburban / Medium-High
-  "C", // Suburban / Medium
-  "D", // Semi-Rural / Medium-Low
-  "E", // Rural / Low
-  "F", // Remote Rural / Very Low
-  "G", // Alpine / Very Low
-  "H", // Special/Industrial / Variable
-];
 
 /**
  * Typology options for filtering

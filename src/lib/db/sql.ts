@@ -1,6 +1,7 @@
 import { NetworkLevel, SunshineIndicator } from "src/domain/sunshine";
 import {
   PeerGroup,
+  PeerGroupItem,
   SunshineDataIndicatorRow,
   SunshineDataRow,
 } from "src/graphql/resolver-types";
@@ -217,7 +218,11 @@ const getSettlementAndEnergyDensity = (peerGroupId: string): PeerGroup => {
   if (!settlementDensity || !energyDensity) {
     throw new Error(`Invalid peer group format: ${peerGroupId}`);
   }
-  return { id: peerGroupId, settlementDensity, energyDensity };
+  return {
+    id: peerGroupId,
+    settlementDensity,
+    energyDensity,
+  };
 };
 
 const getPeerGroupIdFromSettlementAndEnergyDensity = (
@@ -396,14 +401,25 @@ const getPeerGroup = async (
     throw new Error(`No peer group data found for operator ID: ${operatorId}`);
   }
 
+  const peerGroupId = getPeerGroupIdFromSettlementAndEnergyDensity(
+    peerGroupData[0].settlement_density,
+    peerGroupData[0].energy_density
+  );
+
   return {
     settlementDensity: peerGroupData[0].settlement_density,
     energyDensity: peerGroupData[0].energy_density,
-    id: getPeerGroupIdFromSettlementAndEnergyDensity(
-      peerGroupData[0].settlement_density,
-      peerGroupData[0].energy_density
-    ),
+    id: peerGroupId,
   };
+};
+
+const getPeerGroups = async (_locale: string): Promise<PeerGroupItem[]> => {
+  // For SQL implementation, directly return the static mapping
+  // This assumes the names are not localized in the SQL version
+  return Object.entries(peerGroupMapping).map(([id, mapping]) => ({
+    id,
+    name: `${mapping.settlement_density} - ${mapping.energy_density}`,
+  }));
 };
 
 const getSunshineData = async ({
@@ -561,6 +577,7 @@ export const sunshineDataServiceSql = {
   getLatestYearSunshine,
   getLatestYearPowerStability,
   getPeerGroup,
+  getPeerGroups,
   getSunshineData,
   getSunshineDataByIndicator,
 } satisfies SunshineDataService;
