@@ -22,7 +22,7 @@ const PLAYWRIGHT_BASE_URL =
 
 const loadStories = (): StorybookManifestStory[] => {
   // load stories.json
-  const storybookIndex = path.join(PROJECT_ROOT, "storybook-index.json");
+  const storybookIndex = path.join(PROJECT_ROOT, "../storybook-index.json");
   if (!fs.existsSync(storybookIndex)) {
     console.warn(
       `⚠️ Could not find ${storybookIndex}. It needs to be downloaded from storybook /storybook/index.json and saved as ${storybookIndex} prior to running tests`
