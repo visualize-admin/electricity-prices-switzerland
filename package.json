@@ -19,7 +19,7 @@
     "lint": "eslint .",
     "oxlint": "oxlint .",
     "test:unit": "vitest --project unit",
-    "test:argos": "argos upload ./e2e/snapshots",
+    "test:argos": "argos upload ./src/e2e/snapshots",
     "test:integration": "vitest --project integration",
     "test:playwright:app": "playwright test --grep-invert \"@storybook|@har\"",
     "test:playwright:storybook": "playwright test --grep \"@storybook\"",
