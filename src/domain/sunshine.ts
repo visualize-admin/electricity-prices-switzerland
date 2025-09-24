@@ -9,7 +9,9 @@ import {
   StabilityData,
   TariffsData,
 } from "src/graphql/resolver-types";
+import { PeerGroup } from "src/graphql/resolver-types";
 
+export type { PeerGroup } from "src/graphql/resolver-types";
 /**
  * Years available for sunshine data queries
  */
@@ -71,26 +73,6 @@ export const netElectricityCategoryOptions: ElectricityCategory[] = [
   "H7",
 ];
 
-/**
- * Peer group mapping from letters to energy and settlement density
- * FIXME: This is mock data based on the SPARQL hardcoded mapping
- * Should be replaced with actual data from the backend when available
- */
-export const peerGroupMapping: Record<
-  string,
-  { energy_density: string; settlement_density: string }
-> = {
-  A: { energy_density: "High", settlement_density: "Medium" },
-  B: { energy_density: "High", settlement_density: "Rural" },
-  C: { energy_density: "High", settlement_density: "Mountain" },
-  D: { energy_density: "High", settlement_density: "Unknown" },
-  E: { energy_density: "Low", settlement_density: "Medium" },
-  F: { energy_density: "Low", settlement_density: "Rural" },
-  G: { energy_density: "Low", settlement_density: "Mountain" },
-  H: { energy_density: "Low", settlement_density: "Tourist" },
-  NA: { energy_density: "N.A.", settlement_density: "N.A." },
-};
-
 export const peerGroupOperatorId = 10000;
 export const peerGroupOperatorName = "MEDIAN_PEER_GROUP";
 
@@ -105,20 +87,13 @@ export const sunshineIndicatorSchema = z.enum([
 ] as const);
 
 export type SunshineIndicator = z.infer<typeof sunshineIndicatorSchema>;
-export type PeerGroup = {
-  energyDensity: string;
-  settlementDensity: string;
-};
 export type SunshineCostsAndTariffsData = {
   latestYear: string;
   netTariffs: TariffsData;
   energyTariffs: TariffsData;
   networkCosts: NetworkCostsData;
   operator: {
-    peerGroup: {
-      energyDensity: string;
-      settlementDensity: string;
-    };
+    peerGroup: PeerGroup;
   };
   updateDate: string;
 };
@@ -129,10 +104,7 @@ export type SunshinePowerStabilityData = {
   saifi: StabilityData;
 
   operator: {
-    peerGroup: {
-      energyDensity: string;
-      settlementDensity: string;
-    };
+    peerGroup: PeerGroup;
   };
   updateDate: string;
 };
@@ -168,10 +140,7 @@ export type SunshineOperationalStandardsData = {
     }[];
   };
   operator: {
-    peerGroup: {
-      energyDensity: string;
-      settlementDensity: string;
-    };
+    peerGroup: PeerGroup;
   };
   updateDate: string;
 };

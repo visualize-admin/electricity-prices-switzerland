@@ -1,8 +1,8 @@
-import data from "mocks/sunshine-costsAndTariffs-426.json";
 import { useState } from "react";
 
 import { useQueryStateNetworkCostsTrendCardFilters } from "src/domain/query-states";
 import { SunshineCostsAndTariffsData } from "src/domain/sunshine";
+import data from "src/mocks/sunshine-costsAndTariffs-426.json";
 
 import { NetworkCostTrendChart } from "./network-cost-trend-chart";
 import { NetworkCostsTrendCard } from "./network-costs-trend-card";
@@ -49,6 +49,7 @@ export const NetworkCostLatestYearCard = () => {
     >
       <NetworkCostsTrendCard
         peerGroup={{
+          id: "0",
           energyDensity: "na",
           settlementDensity: "unknown",
         }}

@@ -595,10 +595,14 @@ export const getLocalizedLabel = ({ id }: { id: string }): string => {
 
 export const getPeerGroupLabels = function (peerGroup: PeerGroup) {
   const settlementDensityLabel = getLocalizedLabel({
-    id: `peer-group.settlement-density.${peerGroup.settlementDensity.toLowerCase()}`,
+    id: `peer-group.settlement-density.${
+      peerGroup.settlementDensity?.toLowerCase() ?? "na"
+    }`,
   });
   const energyDensityLabel = getLocalizedLabel({
-    id: `peer-group.energy-density.${peerGroup.energyDensity.toLowerCase()}`,
+    id: `peer-group.energy-density.${
+      peerGroup.energyDensity?.toLowerCase() ?? "na"
+    }`,
   });
 
   const peerGroupLabel = `${settlementDensityLabel} / ${energyDensityLabel}`;

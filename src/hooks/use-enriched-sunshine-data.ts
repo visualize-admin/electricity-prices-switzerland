@@ -1,12 +1,13 @@
 import { group } from "d3";
 import { useMemo } from "react";
 
-import { useFetch } from "src/data/use-fetch";
 import { ElectricityCategory } from "src/domain/data";
 import { NetworkLevel } from "src/domain/sunshine";
-import { useSunshineDataByIndicatorQuery } from "src/graphql/queries";
+import {
+  useSunshineDataByIndicatorQuery,
+  useOperatorMunicipalitiesQuery,
+} from "src/graphql/queries";
 import { indexMapper } from "src/lib/array";
-import { getOperatorsMunicipalities } from "src/rdf/queries";
 
 interface UseEnrichedSunshineDataParams {
   filter: {
@@ -49,13 +50,16 @@ export const useEnrichedSunshineData = ({
     pause: !enabled,
   });
 
+  // TODO Should not use hardcoded category
   // Fetch operator municipalities data for the electricity category C2
   // This is needed to link operators with their geographic areas
-  // Note: useFetch doesn't support enabled parameter, so we handle it in the component logic
   const electricityCategory = "C2" as const;
-  const operatorMunicipalitiesResult = useFetch({
-    key: `operator-municipalities-${period}-${electricityCategory}`,
-    queryFn: () => getOperatorsMunicipalities(period, electricityCategory),
+  const [operatorMunicipalitiesQuery] = useOperatorMunicipalitiesQuery({
+    variables: {
+      period,
+      electricityCategory,
+    },
+    pause: !enabled,
   });
 
   // Memoized enriched data computation
@@ -64,9 +68,9 @@ export const useEnrichedSunshineData = ({
     if (
       !enabled ||
       sunshineDataQuery.fetching ||
-      operatorMunicipalitiesResult.state === "fetching" ||
+      operatorMunicipalitiesQuery.fetching ||
       !sunshineDataQuery.data ||
-      !operatorMunicipalitiesResult.data
+      !operatorMunicipalitiesQuery.data
     ) {
       return null;
     }
@@ -75,7 +79,8 @@ export const useEnrichedSunshineData = ({
       sunshineDataQuery.data.sunshineDataByIndicator?.data || [];
     const median =
       sunshineDataQuery.data.sunshineDataByIndicator?.median ?? undefined;
-    const operatorMunicipalities = operatorMunicipalitiesResult.data;
+    const operatorMunicipalities =
+      operatorMunicipalitiesQuery.data.operatorMunicipalities;
 
     // Create operator index from the observations data
     const uniqueOperators = Array.from(
@@ -129,26 +134,25 @@ export const useEnrichedSunshineData = ({
     enabled,
     sunshineDataQuery.data,
     sunshineDataQuery.fetching,
-    operatorMunicipalitiesResult.data,
-    operatorMunicipalitiesResult.state,
+    operatorMunicipalitiesQuery.data,
+    operatorMunicipalitiesQuery.fetching,
   ]);
 
   return {
     data: enrichedData,
     fetching:
-      sunshineDataQuery.fetching ||
-      operatorMunicipalitiesResult.state === "fetching",
-    error:
-      sunshineDataQuery.error ||
-      (operatorMunicipalitiesResult.state === "error"
-        ? new Error(String(operatorMunicipalitiesResult.error))
-        : undefined),
+      sunshineDataQuery.fetching || operatorMunicipalitiesQuery.fetching,
+    error: sunshineDataQuery.error || operatorMunicipalitiesQuery.error,
     sunshineDataQuery: {
       fetching: sunshineDataQuery.fetching,
       error: sunshineDataQuery.error,
       data: sunshineDataQuery.data,
     },
-    operatorMunicipalitiesResult,
+    operatorMunicipalitiesQuery: {
+      fetching: operatorMunicipalitiesQuery.fetching,
+      error: operatorMunicipalitiesQuery.error,
+      data: operatorMunicipalitiesQuery.data,
+    },
   };
 };
 

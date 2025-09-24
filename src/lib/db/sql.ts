@@ -1,15 +1,13 @@
+import { NetworkLevel, SunshineIndicator } from "src/domain/sunshine";
 import {
-  NetworkLevel,
-  peerGroupMapping,
-  SunshineIndicator,
-} from "src/domain/sunshine";
-import {
+  PeerGroup,
   SunshineDataIndicatorRow,
   SunshineDataRow,
 } from "src/graphql/resolver-types";
 import { getFieldName } from "src/lib/db/common";
 import { query } from "src/lib/db/duckdb";
 import { PeerGroupNotFoundError } from "src/lib/db/errors";
+import { peerGroupMapping } from "src/lib/db/sql-peer-groups-mapping";
 import { IndicatorMedianParams } from "src/lib/sunshine-data";
 import type {
   NetworkCostRecord,
@@ -211,20 +209,15 @@ const getOperatorData = async (
   };
 };
 
-const getSettlementAndEnergyDensity = (
-  peerGroup: string // Letter
-): {
-  settlementDensity: string;
-  energyDensity: string;
-} => {
+const getSettlementAndEnergyDensity = (peerGroupId: string): PeerGroup => {
   const {
     settlement_density: settlementDensity,
     energy_density: energyDensity,
-  } = peerGroupMapping[peerGroup];
+  } = peerGroupMapping[peerGroupId];
   if (!settlementDensity || !energyDensity) {
-    throw new Error(`Invalid peer group format: ${peerGroup}`);
+    throw new Error(`Invalid peer group format: ${peerGroupId}`);
   }
-  return { settlementDensity, energyDensity };
+  return { id: peerGroupId, settlementDensity, energyDensity };
 };
 
 const getPeerGroupIdFromSettlementAndEnergyDensity = (
@@ -389,11 +382,7 @@ const getLatestYearPowerStability = async (
 
 const getPeerGroup = async (
   operatorId: number | string
-): Promise<{
-  settlementDensity: string;
-  energyDensity: string;
-  id: string;
-}> => {
+): Promise<PeerGroup> => {
   const peerGroupData = await query<{
     settlement_density: string;
     energy_density: string;

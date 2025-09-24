@@ -410,6 +410,7 @@ export const fetchOperatorCostsAndTariffsData = async (
     latestYear: `${targetPeriod}`,
     operator: {
       peerGroup: {
+        id: operatorData.peer_group,
         settlementDensity: operatorData.settlement_density,
         energyDensity: operatorData.energy_density,
       },
@@ -611,6 +612,7 @@ export const fetchPowerStability = async (
     latestYear,
     operator: {
       peerGroup: {
+        id: operatorData.peer_group,
         settlementDensity: operatorData.settlement_density,
         energyDensity: operatorData.energy_density,
       },
@@ -674,6 +676,7 @@ export const fetchOperationalStandards = async (
     latestYear: `${period}`,
     operator: {
       peerGroup: {
+        id: operatorData.peer_group,
         settlementDensity: operatorData.settlement_density,
         energyDensity: operatorData.energy_density,
       },

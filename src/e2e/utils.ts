@@ -63,7 +63,7 @@ export const testAndSaveHar = async (
   });
 };
 
-export const envs: { name: string; baseUrl: string }[] = [
+const envs: { name: string; baseUrl: string }[] = [
   { name: "ref", baseUrl: "https://strompreis.ref.elcom.admin.ch" },
   { name: "abn", baseUrl: "https://strompreis.abn.elcom.admin.ch" },
   { name: "prod", baseUrl: "https://strompreis.elcom.admin.ch" },

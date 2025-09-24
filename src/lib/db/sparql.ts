@@ -1,4 +1,3 @@
-import { keyBy } from "lodash";
 import ParsingClient from "sparql-http-client/ParsingClient";
 
 import { ElectricityCategory } from "src/domain/data";
@@ -12,6 +11,8 @@ import {
   PeerGroupNotFoundError,
   UnknownPeerGroupError,
 } from "src/lib/db/errors";
+import { peerGroups } from "src/lib/db/sparql-peer-groups";
+import { peerGroupMapping } from "src/lib/db/sparql-peer-groups-mapping";
 import { IndicatorMedianParams } from "src/lib/sunshine-data";
 import type {
   NetworkCostRecord,
@@ -760,57 +761,6 @@ const getLatestYearPowerStability = async (
   return results.length > 0 ? results[0].period : "2024";
 };
 
-// TODO This is a temporary hardcoded peer group mapping
-// We should get the info from Lindas at some point but it
-// does not seem the info is there already
-// DESCRIBE <https://energy.ld.admin.ch/elcom/electricityprice/group/F>
-// does not have this info
-const peerGroups = keyBy(
-  [
-    {
-      id: "A",
-      settlement_density: "Urban",
-      energy_density: "High",
-    },
-    {
-      id: "B",
-      settlement_density: "Suburban",
-      energy_density: "Medium-High",
-    },
-    {
-      id: "C",
-      settlement_density: "Suburban",
-      energy_density: "Medium",
-    },
-    {
-      id: "D",
-      settlement_density: "Semi-Rural",
-      energy_density: "Medium-Low",
-    },
-    {
-      id: "E",
-      settlement_density: "Rural",
-      energy_density: "Low",
-    },
-    {
-      id: "F",
-      settlement_density: "Remote Rural",
-      energy_density: "Very Low",
-    },
-    {
-      id: "G",
-      settlement_density: "Alpine",
-      energy_density: "Very Low",
-    },
-    {
-      id: "H",
-      settlement_density: "Special/Industrial",
-      energy_density: "Variable",
-    },
-  ],
-  (x) => x.id
-);
-
 const getPeerGroup = async (
   _operatorId: number | string
 ): Promise<{
@@ -845,8 +795,6 @@ WHERE {
     throw new PeerGroupNotFoundError(_operatorId);
   }
   const groupUri = results[0].group;
-  // Strip the namespace to get the peer group ID, remove zufällig from the id
-  // TODO Review when Peer groups are in better shape in Lindas
   const peerGroupId = stripNamespaceFromIri({ iri: groupUri })
     .slice(0, 1)
     .toUpperCase();
@@ -854,10 +802,12 @@ WHERE {
     throw new UnknownPeerGroupError(_operatorId, peerGroupId);
   }
   const peerGroup = peerGroups[peerGroupId];
+  const mapping = peerGroupMapping[peerGroupId];
 
   return {
-    settlementDensity: peerGroup.settlement_density,
-    energyDensity: peerGroup.energy_density,
+    // TODO see when we have the correct attributes in Lindas
+    settlementDensity: mapping.settlement_density,
+    energyDensity: mapping.energy_density,
     id: `${peerGroup.id}`,
   };
 };

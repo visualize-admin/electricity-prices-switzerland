@@ -10,7 +10,7 @@ export default defineConfig({
           include: ["**/*.spec.{ts,tsx,js,jsx}", "**/*.test.{ts,tsx,js,jsx}"],
           exclude: [
             "**/node_modules/**",
-            "e2e/**",
+            "src/e2e/**",
             "**/*.integration.spec.{ts,tsx,js,jsx}",
             "**/*.integration.test.{ts,tsx,js,jsx}",
           ],
@@ -31,7 +31,7 @@ export default defineConfig({
             "**/*.integration.spec.{ts,tsx,js,jsx}",
             "**/*.integration.test.{ts,tsx,js,jsx}",
           ],
-          exclude: ["**/node_modules/**", "e2e/**"],
+          exclude: ["**/node_modules/**", "src/e2e/**"],
           // Integration tests might need longer timeouts
           testTimeout: 30000,
         },

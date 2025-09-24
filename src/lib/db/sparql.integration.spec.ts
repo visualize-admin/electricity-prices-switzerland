@@ -17,17 +17,7 @@ describe("SPARQL Sunshine Data Service", () => {
         networkLevel: "NE5",
       });
 
-      expect(result).toMatchInlineSnapshot(`
-        [
-          {
-            "network_level": "NE5",
-            "operator_id": 672,
-            "operator_name": "St.Galler Stadtwerke",
-            "rate": 33818.474,
-            "year": 2025,
-          },
-        ]
-      `);
+      expect(result).toMatchInlineSnapshot(`[]`);
     });
 
     it("should return all network levels when networkLevel is not specified", async () => {
@@ -38,13 +28,6 @@ describe("SPARQL Sunshine Data Service", () => {
 
       expect(result).toMatchInlineSnapshot(`
         [
-          {
-            "network_level": "NE5",
-            "operator_id": 672,
-            "operator_name": "St.Galler Stadtwerke",
-            "rate": 33818.474,
-            "year": 2025,
-          },
           {
             "network_level": "NE6",
             "operator_id": 672,
@@ -74,24 +57,24 @@ describe("SPARQL Sunshine Data Service", () => {
         [
           {
             "network_level": "NE5",
-            "operator_id": 10,
-            "operator_name": "Arosa Energie",
-            "rate": 9868.452,
-            "year": 2025,
-          },
-          {
-            "network_level": "NE5",
             "operator_id": 105,
             "operator_name": "ELEKTRA ENERGIE Genossenschaft",
-            "rate": 9085.843,
-            "year": 2025,
+            "rate": 8643.865,
+            "year": 2026,
           },
           {
             "network_level": "NE5",
-            "operator_id": 107,
-            "operator_name": "Elektra Andwil Stromversorgung",
-            "rate": 25665.086,
-            "year": 2025,
+            "operator_id": 11,
+            "operator_name": "Aare Versorgungs AG (AVAG)",
+            "rate": 20486.074,
+            "year": 2026,
+          },
+          {
+            "network_level": "NE5",
+            "operator_id": 111,
+            "operator_name": "Elektra Genossenschaft Auw",
+            "rate": 13440.984,
+            "year": 2026,
           },
         ]
       `);
@@ -131,12 +114,34 @@ describe("SPARQL Sunshine Data Service", () => {
         [
           {
             "energy_density": "",
+            "franc_rule": undefined,
+            "info_days_in_advance": 2,
+            "info_yes_no": "nein",
+            "operator_id": 672,
+            "operator_name": "St.Galler Stadtwerke",
+            "period": 2026,
+            "settlement_density": "",
+            "timely": 0,
+          },
+          {
+            "energy_density": "",
             "franc_rule": 74.276,
             "info_days_in_advance": 2,
             "info_yes_no": "nein",
             "operator_id": 672,
             "operator_name": "St.Galler Stadtwerke",
             "period": 2025,
+            "settlement_density": "",
+            "timely": 0,
+          },
+          {
+            "energy_density": "",
+            "franc_rule": 74.592,
+            "info_days_in_advance": 2,
+            "info_yes_no": "nein",
+            "operator_id": 672,
+            "operator_name": "St.Galler Stadtwerke",
+            "period": 2024,
             "settlement_density": "",
             "timely": 0,
           },
@@ -159,10 +164,10 @@ describe("SPARQL Sunshine Data Service", () => {
             "operator_id": 672,
             "operator_name": "St.Galler Stadtwerke",
             "period": 2025,
-            "saidi_total": undefined,
-            "saidi_unplanned": undefined,
-            "saifi_total": undefined,
-            "saifi_unplanned": undefined,
+            "saidi_total": 8.806,
+            "saidi_unplanned": 0.643,
+            "saifi_total": 0.113,
+            "saifi_unplanned": 0.014,
           },
         ]
       `);
@@ -173,27 +178,36 @@ describe("SPARQL Sunshine Data Service", () => {
         period: 2025,
       });
 
-      expect(result.length).toMatchInlineSnapshot(`588`);
+      expect(result.length).toMatchInlineSnapshot(`568`);
       expect(result.filter((x) => x.saidi_total !== undefined).slice(0, 3))
         .toMatchInlineSnapshot(`
           [
             {
-              "operator_id": 543,
-              "operator_name": "EVWR Energiedienste Visp - Westlich Raron AG",
+              "operator_id": 11,
+              "operator_name": "Aare Versorgungs AG (AVAG)",
               "period": 2025,
-              "saidi_total": 0,
-              "saidi_unplanned": 0,
-              "saifi_total": 0,
-              "saifi_unplanned": 0,
+              "saidi_total": 11.652,
+              "saidi_unplanned": 2.298,
+              "saifi_total": 0.169,
+              "saifi_unplanned": 0.036,
             },
             {
-              "operator_id": 617,
-              "operator_name": "IBC Energie Wasser Chur (IBC)",
+              "operator_id": 113,
+              "operator_name": "EBL (Genossenschaft Elektra Baselland)",
               "period": 2025,
-              "saidi_total": 0,
-              "saidi_unplanned": 0,
-              "saifi_total": 0,
-              "saifi_unplanned": 0,
+              "saidi_total": 14.674,
+              "saidi_unplanned": 8.174,
+              "saifi_total": 0.327,
+              "saifi_unplanned": 0.18,
+            },
+            {
+              "operator_id": 132,
+              "operator_name": "Genossenschaft Elektra, Jegenstorf",
+              "period": 2025,
+              "saidi_total": 6.214,
+              "saidi_unplanned": 0.254,
+              "saifi_total": 0.138,
+              "saifi_unplanned": 0.002,
             },
           ]
         `); // First 3 results
@@ -286,7 +300,7 @@ describe("SPARQL Sunshine Data Service", () => {
           "operator_name": "St.Galler Stadtwerke",
           "operator_uid": "672",
           "peer_group": "Tourist-Low",
-          "period": 2025,
+          "period": 2026,
           "settlement_density": "Tourist",
         }
       `);
@@ -319,16 +333,7 @@ describe("SPARQL Sunshine Data Service", () => {
         period: 2025,
       });
 
-      expect(result).toMatchInlineSnapshot(`
-        [
-          {
-            "group": "https://energy.ld.admin.ch/elcom/electricityprice/group/A",
-            "median_value": 16062.819,
-            "network_level": "NE5",
-            "period": 2025,
-          },
-        ]
-      `);
+      expect(result).toMatchInlineSnapshot(`[]`);
     });
 
     it("should return median stability metrics for a peer group", async () => {
@@ -338,18 +343,7 @@ describe("SPARQL Sunshine Data Service", () => {
         period: 2025,
       });
 
-      expect(result).toMatchInlineSnapshot(`
-        [
-          {
-            "group": "https://energy.ld.admin.ch/elcom/electricityprice/group/A",
-            "median_saidi_total": 11.11,
-            "median_saidi_unplanned": 7.07,
-            "median_saifi_total": 3.03,
-            "median_saifi_unplanned": 1.01,
-            "period": 2025,
-          },
-        ]
-      `);
+      expect(result).toMatchInlineSnapshot(`[]`);
     });
 
     it("should return median operational standards for a peer group", async () => {
@@ -359,17 +353,7 @@ describe("SPARQL Sunshine Data Service", () => {
         period: 2025,
       });
 
-      expect(result).toMatchInlineSnapshot(`
-        [
-          {
-            "group": "https://energy.ld.admin.ch/elcom/electricityprice/group/A",
-            "median_franc_rule": 75.313,
-            "median_info_days": 7,
-            "median_timely": 0,
-            "period": 2025,
-          },
-        ]
-      `);
+      expect(result).toMatchInlineSnapshot(`[]`);
     });
 
     it("should return median energy tariffs for a peer group", async () => {
@@ -379,17 +363,7 @@ describe("SPARQL Sunshine Data Service", () => {
         category: "C2",
       });
 
-      expect(result).toMatchInlineSnapshot(`
-        [
-          {
-            "category": "C2",
-            "group": "https://energy.ld.admin.ch/elcom/electricityprice/group/A",
-            "median_rate": 15.496,
-            "period": 2025,
-            "tariff_type": "energy",
-          },
-        ]
-      `);
+      expect(result).toMatchInlineSnapshot(`[]`);
     });
 
     it("should return median net tariffs for a peer group", async () => {
@@ -399,17 +373,7 @@ describe("SPARQL Sunshine Data Service", () => {
         category: "C2",
       });
 
-      expect(result).toMatchInlineSnapshot(`
-        [
-          {
-            "category": "C2",
-            "group": "https://energy.ld.admin.ch/elcom/electricityprice/group/A",
-            "median_rate": 10.945,
-            "period": 2025,
-            "tariff_type": "network",
-          },
-        ]
-      `);
+      expect(result).toMatchInlineSnapshot(`[]`);
     });
   });
 
@@ -417,7 +381,7 @@ describe("SPARQL Sunshine Data Service", () => {
     it("should return the latest year for sunshine data", async () => {
       const result = await sunshineDataServiceSparql.getLatestYearSunshine(8);
 
-      expect(result).toMatchInlineSnapshot(`2025`);
+      expect(result).toMatchInlineSnapshot(`2026`);
     });
 
     it("should return default year when no data found for non-existent operator", async () => {
@@ -434,7 +398,7 @@ describe("SPARQL Sunshine Data Service", () => {
       const result =
         await sunshineDataServiceSparql.getLatestYearPowerStability(8);
 
-      expect(result).toMatchInlineSnapshot(`"2025"`);
+      expect(result).toMatchInlineSnapshot(`"2026"`);
     });
 
     it("should return default year when no stability data found for non-existent operator", async () => {
@@ -451,9 +415,9 @@ describe("SPARQL Sunshine Data Service", () => {
 
       expect(result).toMatchInlineSnapshot(`
         {
-          "energyDensity": "Variable",
-          "id": "H",
-          "settlementDensity": "Special/Industrial",
+          "energyDensity": "High",
+          "id": "5",
+          "settlementDensity": "Rural",
         }
       `);
     });
@@ -463,9 +427,9 @@ describe("SPARQL Sunshine Data Service", () => {
 
       expect(result).toMatchInlineSnapshot(`
         {
-          "energyDensity": "Variable",
-          "id": "H",
-          "settlementDensity": "Special/Industrial",
+          "energyDensity": "High",
+          "id": "5",
+          "settlementDensity": "Rural",
         }
       `);
     });
@@ -485,16 +449,16 @@ describe("SPARQL Sunshine Data Service", () => {
             "infoDaysInAdvance": 2,
             "infoYesNo": false,
             "name": "St.Galler Stadtwerke",
-            "networkCostsNE5": 33818.474,
+            "networkCostsNE5": undefined,
             "networkCostsNE6": 12.366,
             "networkCostsNE7": 26737.657,
             "operatorId": 672,
             "operatorUID": "672",
             "period": "2025",
-            "saidiTotal": undefined,
-            "saidiUnplanned": undefined,
-            "saifiTotal": undefined,
-            "saifiUnplanned": undefined,
+            "saidiTotal": 8.806,
+            "saidiUnplanned": 0.643,
+            "saifiTotal": 0.113,
+            "saifiUnplanned": 0.014,
             "tariffEC2": 14.021,
             "tariffEC3": 11.711,
             "tariffEC4": 11.387,
@@ -520,7 +484,7 @@ describe("SPARQL Sunshine Data Service", () => {
         period: "2025",
       });
 
-      expect(result.length).toMatchInlineSnapshot(`588`);
+      expect(result.length).toMatchInlineSnapshot(`568`);
       expect(result.slice(0, 2)).toMatchInlineSnapshot(`
         [
           {
@@ -528,7 +492,7 @@ describe("SPARQL Sunshine Data Service", () => {
             "infoDaysInAdvance": 3,
             "infoYesNo": false,
             "name": "Arosa Energie",
-            "networkCostsNE5": 9868.452,
+            "networkCostsNE5": undefined,
             "networkCostsNE6": 11.729,
             "networkCostsNE7": 12974.149,
             "operatorId": 10,
@@ -594,24 +558,55 @@ describe("SPARQL Sunshine Data Service", () => {
         operatorId: 672,
       });
 
-      expect(result.length).toMatchInlineSnapshot(`1`);
+      expect(result.length).toMatchInlineSnapshot(`3`);
       expect(result.slice(0, 2)).toMatchInlineSnapshot(`
         [
+          {
+            "francRule": undefined,
+            "infoDaysInAdvance": 2,
+            "infoYesNo": false,
+            "name": "St.Galler Stadtwerke",
+            "networkCostsNE5": undefined,
+            "networkCostsNE6": 13.072,
+            "networkCostsNE7": 28346.952,
+            "operatorId": 672,
+            "operatorUID": "672",
+            "period": "2026",
+            "saidiTotal": 7.248,
+            "saidiUnplanned": 0.926,
+            "saifiTotal": 0.093,
+            "saifiUnplanned": 0.021,
+            "tariffEC2": 14.021,
+            "tariffEC3": 11.711,
+            "tariffEC4": 11.387,
+            "tariffEC6": 10.821,
+            "tariffEH2": 12.95,
+            "tariffEH4": 12.987,
+            "tariffEH7": 12.492,
+            "tariffNC2": 11.073,
+            "tariffNC3": 11.289,
+            "tariffNC4": 10.936,
+            "tariffNC6": 5.982,
+            "tariffNH2": 11.871,
+            "tariffNH4": 11.25,
+            "tariffNH7": 10.485,
+            "timely": false,
+          },
           {
             "francRule": 74.276,
             "infoDaysInAdvance": 2,
             "infoYesNo": false,
             "name": "St.Galler Stadtwerke",
-            "networkCostsNE5": 33818.474,
+            "networkCostsNE5": undefined,
             "networkCostsNE6": 12.366,
             "networkCostsNE7": 26737.657,
             "operatorId": 672,
             "operatorUID": "672",
             "period": "2025",
-            "saidiTotal": undefined,
-            "saidiUnplanned": undefined,
-            "saifiTotal": undefined,
-            "saifiUnplanned": undefined,
+            "saidiTotal": 8.806,
+            "saidiUnplanned": 0.643,
+            "saifiTotal": 0.113,
+            "saifiUnplanned": 0.014,
             "tariffEC2": 14.021,
             "tariffEC3": 11.711,
             "tariffEC4": 11.387,

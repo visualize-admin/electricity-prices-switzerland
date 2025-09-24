@@ -1,9 +1,9 @@
 import { Box } from "@mui/material";
 import { median as d3Median } from "d3";
-import operationalStandards from "mocks/sunshine-operationalStandards-426.json";
-import serviceQualityMock from "mocks/sunshine-operationalStandards-serviceQuality-mock.json";
 
 import { RP_PER_KWH } from "src/domain/metrics";
+import operationalStandards from "src/mocks/sunshine-operationalStandards-426.json";
+import serviceQualityMock from "src/mocks/sunshine-operationalStandards-serviceQuality-mock.json";
 
 import { AnnotationX, AnnotationXLabel } from "../annotation/annotation-x";
 import { AxisHeightLinear } from "../axis/axis-height-linear";

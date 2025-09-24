@@ -1,5 +1,6 @@
 import { expect } from "@playwright/test";
-import InflightRequests from "e2e/inflight";
+
+import InflightRequests from "src/e2e/inflight";
 
 import { sleep, test } from "./common";
 
@@ -85,7 +86,7 @@ test.describe("Sunshine map details panel", () => {
     });
     await page
       .locator("a")
-      .filter({ hasText: "Gemeinde Eichberg, Elektra" })
+      .filter({ hasText: "Elektra Genossenschaft Holderbank" })
       .first()
       .click();
 
@@ -150,7 +151,7 @@ test.describe("Sunshine map details panel", () => {
     });
     await page
       .locator("a")
-      .filter({ hasText: "Gemeinde Eichberg, Elektra" })
+      .filter({ hasText: "Elektra Genossenschaft Holderbank" })
       .first()
       .click();
 

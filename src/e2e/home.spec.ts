@@ -1,5 +1,6 @@
 import { expect } from "@playwright/test";
-import { test, sleep } from "e2e/common";
+
+import { test, sleep } from "src/e2e/common";
 
 test.describe("The Home Page", () => {
   test("default language (de) should render on /", async ({ browser }) => {

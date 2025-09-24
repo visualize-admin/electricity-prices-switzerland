@@ -41,6 +41,7 @@ import {
   getElectricityPriceCube,
   getOperatorDocuments,
   getElectricityPriceSwissCube,
+  getOperatorsMunicipalities,
   getView,
 } from "src/rdf/queries";
 import { fetchOperatorInfo, search } from "src/rdf/search-queries";
@@ -544,6 +545,10 @@ const Query: QueryResolvers = {
       operatorId: filter.operatorId.toString(),
       period: filter.period,
     });
+  },
+  operatorMunicipalities: async (_, { period, electricityCategory }) => {
+    const category = asElectricityCategory(electricityCategory);
+    return await getOperatorsMunicipalities(period, category);
   },
 };
 

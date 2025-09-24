@@ -1,7 +1,7 @@
-import data from "mocks/sunshine-powerStability-426.json";
 import { useState } from "react";
 
 import { useQueryStatePowerStabilityCardFilters } from "src/domain/query-states";
+import data from "src/mocks/sunshine-powerStability-426.json";
 
 import { PowerStabilityCard } from "./power-stability-card";
 import { PowerStabilityChart } from "./power-stability-chart";
@@ -49,6 +49,7 @@ export const HorizontalBarChartCard = () => {
           newState && setQueryState((prev) => ({ ...prev, ...newState }))
         }
         peerGroup={{
+          id: "0",
           energyDensity: "na",
           settlementDensity: "unknown",
         }}

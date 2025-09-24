@@ -35,8 +35,9 @@ type Municipality @cacheControl(maxAge: 300) {
 }
 
 type PeerGroup {
-  settlementDensity: String
-  energyDensity: String
+  id: String!
+  settlementDensity: String!
+  energyDensity: String!
 }
 
 type Operator @cacheControl(maxAge: 300) {
@@ -62,6 +63,12 @@ type OperatorDocument @cacheControl(maxAge: 300) {
   url: String!
   year: String!
   category: OperatorDocumentCategory
+}
+
+type OperatorMunicipality @cacheControl(maxAge: 300) {
+  municipality: Int!
+  canton: String!
+  operator: String!
 }
 
 type Canton {
@@ -203,6 +210,11 @@ type Query {
 
   wikiContent(locale: String!, slug: String!): WikiContent
     @cacheControl(maxAge: 300)
+
+  operatorMunicipalities(
+    period: String!
+    electricityCategory: String!
+  ): [OperatorMunicipality!]! @cacheControl(maxAge: 300)
 
   cubeHealth: CubeHealth
 }

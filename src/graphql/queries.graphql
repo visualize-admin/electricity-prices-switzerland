@@ -169,6 +169,17 @@ query WikiContent($locale: String!, $slug: String!) {
   }
 }
 
+query OperatorMunicipalities($period: String!, $electricityCategory: String!) {
+  operatorMunicipalities(
+    period: $period
+    electricityCategory: $electricityCategory
+  ) {
+    municipality
+    canton
+    operator
+  }
+}
+
 query SystemInfo {
   systemInfo {
     SPARQL_ENDPOINT

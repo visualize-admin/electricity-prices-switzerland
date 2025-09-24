@@ -224,6 +224,13 @@ export enum OperatorDocumentCategory {
   Tariffs = "TARIFFS",
 }
 
+export type OperatorMunicipality = {
+  __typename: "OperatorMunicipality";
+  canton: Scalars["String"]["output"];
+  municipality: Scalars["Int"]["output"];
+  operator: Scalars["String"]["output"];
+};
+
 export type OperatorObservation = {
   __typename: "OperatorObservation";
   canton: Scalars["String"]["output"];
@@ -250,8 +257,9 @@ export type OperatorResult = SearchResult & {
 
 export type PeerGroup = {
   __typename: "PeerGroup";
-  energyDensity?: Maybe<Scalars["String"]["output"]>;
-  settlementDensity?: Maybe<Scalars["String"]["output"]>;
+  energyDensity: Scalars["String"]["output"];
+  id: Scalars["String"]["output"];
+  settlementDensity: Scalars["String"]["output"];
 };
 
 export enum PriceComponent {
@@ -281,6 +289,7 @@ export type Query = {
   observations?: Maybe<Array<OperatorObservation>>;
   operationalStandards: OperationalStandardsData;
   operator?: Maybe<Operator>;
+  operatorMunicipalities: Array<OperatorMunicipality>;
   operators: Array<Operator>;
   saidi: StabilityData;
   saifi: StabilityData;
@@ -355,6 +364,11 @@ export type QueryOperatorArgs = {
   geverId?: InputMaybe<Scalars["String"]["input"]>;
   id: Scalars["String"]["input"];
   locale: Scalars["String"]["input"];
+};
+
+export type QueryOperatorMunicipalitiesArgs = {
+  electricityCategory: Scalars["String"]["input"];
+  period: Scalars["String"]["input"];
 };
 
 export type QueryOperatorsArgs = {
@@ -813,6 +827,21 @@ export type WikiContentQuery = {
   } | null;
 };
 
+export type OperatorMunicipalitiesQueryVariables = Exact<{
+  period: Scalars["String"]["input"];
+  electricityCategory: Scalars["String"]["input"];
+}>;
+
+export type OperatorMunicipalitiesQuery = {
+  __typename: "Query";
+  operatorMunicipalities: Array<{
+    __typename: "OperatorMunicipality";
+    municipality: number;
+    canton: string;
+    operator: string;
+  }>;
+};
+
 export type SystemInfoQueryVariables = Exact<{ [key: string]: never }>;
 
 export type SystemInfoQuery = {
@@ -967,8 +996,8 @@ export type OperationalStandardsQuery = {
       __typename: "OperationalStandardsOperator";
       peerGroup: {
         __typename: "PeerGroup";
-        settlementDensity?: string | null;
-        energyDensity?: string | null;
+        settlementDensity: string;
+        energyDensity: string;
       };
     };
     productVariety: {
@@ -1386,6 +1415,33 @@ export function useWikiContentQuery(
     query: WikiContentDocument,
     ...options,
   });
+}
+export const OperatorMunicipalitiesDocument = gql`
+  query OperatorMunicipalities(
+    $period: String!
+    $electricityCategory: String!
+  ) {
+    operatorMunicipalities(
+      period: $period
+      electricityCategory: $electricityCategory
+    ) {
+      municipality
+      canton
+      operator
+    }
+  }
+`;
+
+export function useOperatorMunicipalitiesQuery(
+  options: Omit<
+    Urql.UseQueryArgs<OperatorMunicipalitiesQueryVariables>,
+    "query"
+  >
+) {
+  return Urql.useQuery<
+    OperatorMunicipalitiesQuery,
+    OperatorMunicipalitiesQueryVariables
+  >({ query: OperatorMunicipalitiesDocument, ...options });
 }
 export const SystemInfoDocument = gql`
   query SystemInfo {

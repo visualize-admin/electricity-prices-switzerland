@@ -240,6 +240,13 @@ export enum OperatorDocumentCategory {
   Tariffs = "TARIFFS",
 }
 
+export type OperatorMunicipality = {
+  __typename?: "OperatorMunicipality";
+  canton: Scalars["String"]["output"];
+  municipality: Scalars["Int"]["output"];
+  operator: Scalars["String"]["output"];
+};
+
 export type OperatorObservation = {
   __typename?: "OperatorObservation";
   canton: Scalars["String"]["output"];
@@ -266,8 +273,9 @@ export type OperatorResult = SearchResult & {
 
 export type PeerGroup = {
   __typename?: "PeerGroup";
-  energyDensity?: Maybe<Scalars["String"]["output"]>;
-  settlementDensity?: Maybe<Scalars["String"]["output"]>;
+  energyDensity: Scalars["String"]["output"];
+  id: Scalars["String"]["output"];
+  settlementDensity: Scalars["String"]["output"];
 };
 
 export enum PriceComponent {
@@ -297,6 +305,7 @@ export type Query = {
   observations?: Maybe<Array<OperatorObservation>>;
   operationalStandards: OperationalStandardsData;
   operator?: Maybe<Operator>;
+  operatorMunicipalities: Array<OperatorMunicipality>;
   operators: Array<Operator>;
   saidi: StabilityData;
   saifi: StabilityData;
@@ -371,6 +380,11 @@ export type QueryOperatorArgs = {
   geverId?: InputMaybe<Scalars["String"]["input"]>;
   id: Scalars["String"]["input"];
   locale: Scalars["String"]["input"];
+};
+
+export type QueryOperatorMunicipalitiesArgs = {
+  electricityCategory: Scalars["String"]["input"];
+  period: Scalars["String"]["input"];
 };
 
 export type QueryOperatorsArgs = {
@@ -727,6 +741,7 @@ export type ResolversTypes = ResolversObject<{
   Operator: ResolverTypeWrapper<ResolvedOperator>;
   OperatorDocument: ResolverTypeWrapper<OperatorDocument>;
   OperatorDocumentCategory: OperatorDocumentCategory;
+  OperatorMunicipality: ResolverTypeWrapper<OperatorMunicipality>;
   OperatorObservation: ResolverTypeWrapper<ResolvedOperatorObservation>;
   OperatorResult: ResolverTypeWrapper<ResolvedSearchResult>;
   PeerGroup: ResolverTypeWrapper<PeerGroup>;
@@ -782,6 +797,7 @@ export type ResolversParentTypes = ResolversObject<{
   OperationalStandardsServiceQuality: OperationalStandardsServiceQuality;
   Operator: ResolvedOperator;
   OperatorDocument: OperatorDocument;
+  OperatorMunicipality: OperatorMunicipality;
   OperatorObservation: ResolvedOperatorObservation;
   OperatorResult: ResolvedSearchResult;
   PeerGroup: PeerGroup;
@@ -1163,6 +1179,16 @@ export type OperatorDocumentResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export type OperatorMunicipalityResolvers<
+  ContextType = GraphqlRequestContext,
+  ParentType extends ResolversParentTypes["OperatorMunicipality"] = ResolversParentTypes["OperatorMunicipality"]
+> = ResolversObject<{
+  canton?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  municipality?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  operator?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export type OperatorObservationResolvers<
   ContextType = GraphqlRequestContext,
   ParentType extends ResolversParentTypes["OperatorObservation"] = ResolversParentTypes["OperatorObservation"]
@@ -1210,13 +1236,10 @@ export type PeerGroupResolvers<
   ContextType = GraphqlRequestContext,
   ParentType extends ResolversParentTypes["PeerGroup"] = ResolversParentTypes["PeerGroup"]
 > = ResolversObject<{
-  energyDensity?: Resolver<
-    Maybe<ResolversTypes["String"]>,
-    ParentType,
-    ContextType
-  >;
+  energyDensity?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   settlementDensity?: Resolver<
-    Maybe<ResolversTypes["String"]>,
+    ResolversTypes["String"],
     ParentType,
     ContextType
   >;
@@ -1303,6 +1326,15 @@ export type QueryResolvers<
     ParentType,
     ContextType,
     RequireFields<QueryOperatorArgs, "id" | "locale">
+  >;
+  operatorMunicipalities?: Resolver<
+    Array<ResolversTypes["OperatorMunicipality"]>,
+    ParentType,
+    ContextType,
+    RequireFields<
+      QueryOperatorMunicipalitiesArgs,
+      "electricityCategory" | "period"
+    >
   >;
   operators?: Resolver<
     Array<ResolversTypes["Operator"]>,
@@ -1638,6 +1670,7 @@ export type Resolvers<ContextType = GraphqlRequestContext> = ResolversObject<{
   OperationalStandardsServiceQuality?: OperationalStandardsServiceQualityResolvers<ContextType>;
   Operator?: OperatorResolvers<ContextType>;
   OperatorDocument?: OperatorDocumentResolvers<ContextType>;
+  OperatorMunicipality?: OperatorMunicipalityResolvers<ContextType>;
   OperatorObservation?: OperatorObservationResolvers<ContextType>;
   OperatorResult?: OperatorResultResolvers<ContextType>;
   PeerGroup?: PeerGroupResolvers<ContextType>;
