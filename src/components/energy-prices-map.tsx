@@ -136,7 +136,10 @@ export const EnergyPricesMap = ({
       return [];
     }
 
-    const handleMunicipalityLayerClick = (info: PickingInfo, ev: unknown) => {
+    const handleMunicipalityLayerClick = (
+      info: PickingInfo,
+      ev: { srcEvent: Event }
+    ) => {
       if (!featureIndexes || !info.layer) {
         return;
       }
@@ -151,7 +154,7 @@ export const EnergyPricesMap = ({
       }
 
       setEntity("municipality");
-      onEntitySelect(ev, "municipality", id.toString());
+      onEntitySelect(ev.srcEvent as MouseEvent, "municipality", id.toString());
     };
 
     const handleHover = ({ x, y, object }: PickingInfo) => {

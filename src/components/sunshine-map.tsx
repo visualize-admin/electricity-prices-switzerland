@@ -29,6 +29,10 @@ import {
 } from "src/data/geo";
 import { ValueFormatter } from "src/domain/data";
 import {
+  getSunshineDetailsPageFromIndicator,
+  sunshineDetailsLink,
+} from "src/domain/query-states";
+import {
   indicatorWikiPageSlugMapping,
   SunshineIndicator,
 } from "src/domain/sunshine";
@@ -39,6 +43,7 @@ import {
   useSelectedEntityData,
 } from "src/hooks/use-selected-entity-data";
 import { truthy } from "src/lib/truthy";
+import { shouldOpenInNewTab } from "src/utils/platform";
 
 const indicatorLegendTitleMapping: Record<SunshineIndicator, string> = {
   networkCosts: t({
@@ -245,17 +250,27 @@ const SunshineMap = ({
   // Create map layers
   const mapLayers = useMemo(() => {
     const handleOperatorLayerClick: GeoJsonLayerProps<OperatorFeature>["onClick"] =
-      (ev) => {
+      (info, ev) => {
         // TODO Only the first operator is used
-        const id = (ev.object?.properties as OperatorLayerProperties)
+        const id = (info.object?.properties as OperatorLayerProperties)
           ?.operators?.[0];
         if (!id) {
           return;
         }
 
-        const selectedId = id.toString();
-        setEntitySelection((prev) => ({ ...prev, selectedId }));
-        onEntitySelect(ev, "operator", selectedId);
+        if (shouldOpenInNewTab(ev.srcEvent)) {
+          const href = sunshineDetailsLink(
+            `/sunshine/operator/${id}/${getSunshineDetailsPageFromIndicator(
+              indicator
+            )}`,
+            { tab: indicator }
+          );
+          window.open(href, "_blank");
+        } else {
+          const selectedId = id.toString();
+          setEntitySelection((prev) => ({ ...prev, selectedId }));
+          onEntitySelect(ev.srcEvent, "operator", selectedId);
+        }
       };
 
     if (!enhancedGeoData || !enhancedGeoData.features) {
@@ -305,6 +320,7 @@ const SunshineMap = ({
     geoData?.lakes,
     geoData?.municipalities.features,
     hovered,
+    indicator,
     observationsByOperator,
     onEntitySelect,
     onHoverOperatorLayer,
