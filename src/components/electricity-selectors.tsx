@@ -31,10 +31,9 @@ export const ElectricitySelectors = () => {
         border: 0,
         flexDirection: "column",
         justifyContent: "flex-start",
-        px: "var(--selector-panel-padding-x)",
-        pt: 6,
-        pb: 4,
-        gap: 4,
+        p: 0,
+        m: 0,
+        gap: 3,
         zIndex: 13,
       }}
       display="flex"

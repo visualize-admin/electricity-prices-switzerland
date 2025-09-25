@@ -111,7 +111,7 @@ const MobileDrawer = ({
                       />
                     </Tabs>
                   </Box>
-                  <Box mx={tab === "parameters" ? -4 : 1}>
+                  <Box mx={2}>
                     {tab === "list" ? (
                       <Box display="flex" flexDirection="column" gap={2}>
                         {/* Only show the list button group on the electricity tab */}

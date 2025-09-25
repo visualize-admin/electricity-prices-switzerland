@@ -403,16 +403,21 @@ const MapPageContent = ({
                   borderColor: "divider",
                   maxHeight: `calc(100vh - ${HEADER_HEIGHT_UP})`,
                   paddingTop: "1rem",
+                  "--selector-panel-padding-x": (theme) => theme.spacing(6),
                 }}
                 data-testid="map-sidebar"
               >
                 {desktopDetailsDrawer}
                 {selectedItem ? null : (
                   <>
-                    <CombinedSelectors />
+                    <CombinedSelectors
+                      sx={{
+                        px: `var(--selector-panel-padding-x)`,
+                      }}
+                    />
                     <Box
                       sx={{
-                        px: 6,
+                        px: `var(--selector-panel-padding-x)`,
                         flexDirection: "column",
                         gap: 4,
                       }}

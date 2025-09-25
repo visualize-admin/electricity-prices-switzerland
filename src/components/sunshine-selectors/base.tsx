@@ -55,14 +55,12 @@ export const SunshineSelectorsBase = ({
     <Box
       component="fieldset"
       sx={{
-        border: 0,
         flexDirection: "column",
         justifyContent: "flex-start",
-        px: 6,
-        pt: 6,
-        pb: 4,
-        gap: 4,
+        gap: 3,
         zIndex: 13,
+        p: 0,
+        m: 0,
       }}
       display="flex"
     >

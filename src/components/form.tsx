@@ -170,23 +170,23 @@ export const SearchField = ({
       onChange={onChange}
       placeholder={placeholder}
       endAdornment={
-        <InputAdornment position="end" sx={{ mr: -2 }}>
+        <InputAdornment position="end">
           {value && value !== "" && onReset ? (
-            <IconButton size="sm" sx={{ mr: 0 }} onClick={onReset}>
+            <IconButton size="sm" sx={{ mr: -2 }} onClick={onReset}>
               <VisuallyHidden>
                 <Trans id="controls.search.clear">Clear search field</Trans>
               </VisuallyHidden>
               <Icon name="clear" />
             </IconButton>
           ) : (
-            <InputAdornment position="start">
+            <>
               {label && id && (
                 <label htmlFor={id}>
                   <VisuallyHidden>{label}</VisuallyHidden>
                 </label>
               )}
               <Icon name="search" />
-            </InputAdornment>
+            </>
           )}
         </InputAdornment>
       }

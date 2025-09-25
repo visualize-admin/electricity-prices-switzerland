@@ -1,4 +1,4 @@
-import { Box, BoxProps, useTheme } from "@mui/material";
+import { Box, BoxProps } from "@mui/material";
 
 import { ButtonGroup } from "src/components/button-group";
 import { ElectricitySelectors } from "src/components/electricity-selectors";
@@ -14,7 +14,6 @@ export const CombinedSelectors = (props: BoxProps) => {
   const activeTab = queryState.tab as TabValue;
 
   const sunshineFlag = useFlag("sunshine");
-  const theme = useTheme();
 
   return (
     <Box
@@ -24,11 +23,11 @@ export const CombinedSelectors = (props: BoxProps) => {
         flexDirection: "column",
         width: "100%",
         ...props.sx,
-        "--selector-panel-padding-x": theme.spacing(6),
+        mb: 6,
       }}
     >
       {sunshineFlag ? (
-        <Box sx={{ px: "var(--selector-panel-padding-x)", width: "100%" }}>
+        <Box sx={{ width: "100%" }}>
           <ButtonGroup
             id="data-view-selector"
             options={[
@@ -49,7 +48,7 @@ export const CombinedSelectors = (props: BoxProps) => {
             ]}
             value={activeTab}
             setValue={(newValue) => setQueryState({ tab: newValue })}
-            sx={{ width: "100%" }}
+            sx={{ width: "100%", mb: 2 }}
           />
         </Box>
       ) : null}
