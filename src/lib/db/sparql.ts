@@ -517,7 +517,7 @@ const getYearlyIndicatorMedians = async <
   // Handle optional peer group
   const peerGroupValues = peerGroup
     ? `VALUES ?group { <https://energy.ld.admin.ch/elcom/electricityprice/group/${peerGroup}> }`
-    : "VALUES ?group { <https://energy.ld.admin.ch/elcom/electricityprice/group/0> }";
+    : "VALUES ?group { <https://cube.link/Undefined> }";
 
   const peerGroupPredicate = `:group ?group ;`;
 
