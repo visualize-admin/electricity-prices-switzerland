@@ -1,12 +1,5 @@
 import { t, Trans } from "@lingui/macro";
-import {
-  Card,
-  CardContent,
-  CardProps,
-  Grid,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Card, CardContent, CardProps, Grid, Typography } from "@mui/material";
 import React, { ReactNode } from "react";
 
 import { ButtonGroup } from "src/components/button-group";
@@ -19,6 +12,7 @@ import { getLocalizedLabel, getPeerGroupLabels } from "src/domain/translation";
 import { CardHeader } from "./detail-page/card";
 import { Download, DownloadImage } from "./detail-page/download-image";
 import { InfoDialogButton, InfoDialogButtonProps } from "./info-dialog";
+import { OverviewCard } from "./overview-card";
 import { PowerStabilityChart } from "./power-stability-chart";
 import { AllOrMultiCombobox } from "./query-combobox";
 
@@ -364,17 +358,11 @@ export const PowerStabilityCardMinified: React.FC<
   const { viewBy, duration, overallOrRatio } = state;
   const chartData = getPowerStabilityCardState(rest, state);
   return (
-    <Card {...rest}>
-      <CardContent
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          flex: 1,
-          height: "100%",
-        }}
-      >
-        <Typography variant="h3">{cardTitle}</Typography>
-        <Typography variant="body2">{cardDescription}</Typography>
+    <OverviewCard
+      {...rest}
+      title={cardTitle}
+      description={cardDescription}
+      chart={
         <PowerStabilityChart
           observations={chartData.observations}
           id={chartData.operatorId}
@@ -385,18 +373,8 @@ export const PowerStabilityCardMinified: React.FC<
           compareWith={[]}
           rootProps={{ sx: { mt: 2 } }}
         />
-        <Stack
-          sx={{
-            mt: 2,
-            flexGrow: 1,
-            flexDirection: "column",
-            justifyContent: "flex-end",
-            alignItems: "flex-end",
-          }}
-        >
-          {props.linkContent}
-        </Stack>
-      </CardContent>
-    </Card>
+      }
+      linkContent={props.linkContent}
+    />
   );
 };

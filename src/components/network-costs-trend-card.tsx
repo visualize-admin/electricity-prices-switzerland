@@ -1,12 +1,5 @@
 import { t, Trans } from "@lingui/macro";
-import {
-  Card,
-  CardContent,
-  CardProps,
-  Grid,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Card, CardContent, CardProps, Grid, Typography } from "@mui/material";
 import React, { ReactNode } from "react";
 
 import { ButtonGroup } from "src/components/button-group";
@@ -20,6 +13,7 @@ import { CardHeader } from "./detail-page/card";
 import { Download, DownloadImage } from "./detail-page/download-image";
 import { InfoDialogButton, InfoDialogButtonProps } from "./info-dialog";
 import { NetworkCostTrendChart } from "./network-cost-trend-chart";
+import { OverviewCard } from "./overview-card";
 import { CompareWithFilter, ViewByFilter } from "./power-stability-card";
 import { AllOrMultiCombobox } from "./query-combobox";
 
@@ -268,21 +262,15 @@ export const NetworkCostsTrendCardMinified: React.FC<
   const chartData = getNetworkCostsTrendCardState(rest, state);
 
   return (
-    <Card {...rest}>
-      <CardContent
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          flex: 1,
-          height: "100%",
-        }}
-      >
-        <Typography variant="h3">
-          <Trans id="sunshine.costs-and-tariffs.network-cost-trend.overview">
-            Network Costs
-          </Trans>
-        </Typography>
-        <Typography variant="body2">{cardDescription}</Typography>
+    <OverviewCard
+      {...rest}
+      title={
+        <Trans id="sunshine.costs-and-tariffs.network-cost-trend.overview">
+          Network Costs
+        </Trans>
+      }
+      description={cardDescription}
+      chart={
         <NetworkCostTrendChart
           rootProps={{ sx: { mt: 2 } }}
           id={chartData.operatorId}
@@ -292,18 +280,8 @@ export const NetworkCostsTrendCardMinified: React.FC<
           viewBy={viewBy}
           compareWith={[]}
         />
-        <Stack
-          sx={{
-            mt: 2,
-            flexGrow: 1,
-            flexDirection: "column",
-            justifyContent: "flex-end",
-            alignItems: "flex-end",
-          }}
-        >
-          {props.linkContent}
-        </Stack>
-      </CardContent>
-    </Card>
+      }
+      linkContent={props.linkContent}
+    />
   );
 };

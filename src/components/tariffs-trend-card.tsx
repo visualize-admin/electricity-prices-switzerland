@@ -1,12 +1,5 @@
 import { t, Trans } from "@lingui/macro";
-import {
-  Card,
-  CardContent,
-  CardProps,
-  Grid,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Card, CardContent, CardProps, Grid, Typography } from "@mui/material";
 import React, { ReactNode } from "react";
 
 import { ButtonGroup } from "src/components/button-group";
@@ -18,6 +11,7 @@ import { getLocalizedLabel, getPeerGroupLabels } from "src/domain/translation";
 import { CardHeader } from "./detail-page/card";
 import { Download, DownloadImage } from "./detail-page/download-image";
 import { InfoDialogButton, InfoDialogButtonProps } from "./info-dialog";
+import { OverviewCard } from "./overview-card";
 import { ViewByFilter } from "./power-stability-card";
 import { AllOrMultiCombobox } from "./query-combobox";
 import { TariffsTrendChart } from "./tariffs-trend-chart";
@@ -235,17 +229,11 @@ export const TariffsTrendCardMinified: React.FC<
   const { viewBy } = state;
   const chartData = getTariffsTrendCardState(rest, state);
   return (
-    <Card {...rest}>
-      <CardContent
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          flex: 1,
-          height: "100%",
-        }}
-      >
-        <Typography variant="h3">{cardTitle}</Typography>
-        <Typography variant="body2">{cardDescription}</Typography>
+    <OverviewCard
+      {...rest}
+      title={cardTitle}
+      description={cardDescription}
+      chart={
         <TariffsTrendChart
           id={chartData.operatorId}
           operatorLabel={chartData.operatorLabel}
@@ -255,18 +243,8 @@ export const TariffsTrendCardMinified: React.FC<
           compareWith={[]}
           rootProps={{ sx: { mt: 2 } }}
         />
-        <Stack
-          sx={{
-            mt: 2,
-            flexGrow: 1,
-            flexDirection: "column",
-            justifyContent: "flex-end",
-            alignItems: "flex-end",
-          }}
-        >
-          {props.linkContent}
-        </Stack>
-      </CardContent>
-    </Card>
+      }
+      linkContent={props.linkContent}
+    />
   );
 };
