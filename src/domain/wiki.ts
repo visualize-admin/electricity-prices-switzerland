@@ -12,7 +12,6 @@ export const wikiPageSlugs = {
     "help-dynamic-tariffs",
     "help-energy-tariffs",
     "help-fixcosts",
-    "help-grid-tariffs",
     "help-indicator",
     "help-municipalities-and-grid-operators-info",
     "help-net-tariffs",
