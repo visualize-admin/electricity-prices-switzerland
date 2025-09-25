@@ -34,6 +34,9 @@ const fetchWithTimeout = async (
     ...options,
     signal: timeout !== undefined ? AbortSignal.timeout(timeout) : undefined,
   });
+  if (!value.ok) {
+    throw new Error(`Fetch to ${url} failed with status ${value.status}`);
+  }
   return value as Response;
 };
 
