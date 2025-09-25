@@ -18,6 +18,7 @@ import {
 } from "src/components/detail-page/layout";
 import { DetailsPageSidebar } from "src/components/detail-page/sidebar";
 import { LoadingSkeleton } from "src/components/hint";
+import { infoDialogProps } from "src/components/info-dialog-props";
 import { NetworkCostsTrendCardState } from "src/components/network-costs-trend-card";
 import PeerGroupCard from "src/components/peer-group-card";
 import { SunshineDataServiceDebug } from "src/components/sunshine-data-service-debug";
@@ -285,13 +286,7 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
           operatorId={props.id}
           operatorLabel={operatorLabel}
           networkCosts={networkCosts}
-          infoDialogProps={{
-            slug: "help-network-costs",
-            label: t({
-              id: "sunshine.costs-and-tariffs.network-cost-trend",
-              message: "Network Cost Trend",
-            }),
-          }}
+          infoDialogProps={infoDialogProps["help-network-costs"]}
         />
       </CardGrid>
     </>
@@ -470,13 +465,7 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
               Energy Tariffs Trend
             </Trans>
           }
-          infoDialogProps={{
-            slug: "help-energy-tariffs",
-            label: t({
-              id: "sunshine.costs-and-tariffs.energy-tariffs-trend",
-              message: "Energy Tariffs Trend",
-            }),
-          }}
+          infoDialogProps={infoDialogProps["help-energy-tariffs"]}
         />
       </CardGrid>
     </>
@@ -653,13 +642,7 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
               Net Tariffs Trend
             </Trans>
           }
-          infoDialogProps={{
-            slug: "help-net-tariffs",
-            label: t({
-              id: "sunshine.costs-and-tariffs.net-tariffs-trend",
-              message: "Net Tariffs Trend",
-            }),
-          }}
+          infoDialogProps={infoDialogProps["help-net-tariffs"]}
         />
       </CardGrid>
     </>

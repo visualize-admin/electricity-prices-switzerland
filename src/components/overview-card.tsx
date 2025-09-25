@@ -1,15 +1,14 @@
 import { Card, CardContent, CardProps, Stack, Typography } from "@mui/material";
 import React, { ReactNode } from "react";
 
-import { WikiPageSlug } from "src/domain/wiki";
-
-import { InfoDialogButton } from "./info-dialog";
+import { InfoDialogButton, InfoDialogButtonProps } from "./info-dialog";
 
 interface OverviewCardProps extends Omit<CardProps, "title"> {
   title: ReactNode;
   description?: ReactNode;
   chart: ReactNode;
   linkContent?: ReactNode;
+  infoDialogProps: Pick<InfoDialogButtonProps, "slug" | "label">;
 }
 
 export const OverviewCard: React.FC<OverviewCardProps> = ({
@@ -17,10 +16,22 @@ export const OverviewCard: React.FC<OverviewCardProps> = ({
   description,
   chart,
   linkContent,
+  infoDialogProps,
   ...cardProps
 }) => {
   return (
     <Card {...cardProps} sx={{ position: "relative", ...cardProps.sx }}>
+      <InfoDialogButton
+        sx={{
+          position: "absolute",
+          top: (theme) => theme.spacing(3),
+          right: (theme) => theme.spacing(3),
+        }}
+        iconOnly
+        slug={infoDialogProps.slug}
+        label={infoDialogProps.label}
+        type="outline"
+      />
       <CardContent
         sx={{
           display: "flex",

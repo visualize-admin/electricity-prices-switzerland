@@ -4,6 +4,7 @@ import React, { ReactNode } from "react";
 
 import { ButtonGroup } from "src/components/button-group";
 import CardSource from "src/components/card-source";
+import { infoDialogProps } from "src/components/info-dialog-props";
 import { filterBySeparator } from "src/domain/helpers";
 import { useQueryStatePowerStabilityCardFilters } from "src/domain/query-states";
 import { PeerGroup, SunshinePowerStabilityData } from "src/domain/sunshine";
@@ -344,6 +345,7 @@ export const PowerStabilityCardMinified: React.FC<
     linkContent?: ReactNode;
     filters?: PowerStabilityCardFilters;
     cardDescription?: ReactNode;
+    indicator: "saidi" | "saifi";
   }
 > = (props) => {
   const {
@@ -375,6 +377,7 @@ export const PowerStabilityCardMinified: React.FC<
         />
       }
       linkContent={props.linkContent}
+      infoDialogProps={infoDialogProps[`help-${props.indicator}`]}
     />
   );
 };

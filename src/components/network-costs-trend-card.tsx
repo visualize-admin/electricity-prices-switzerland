@@ -4,6 +4,7 @@ import React, { ReactNode } from "react";
 
 import { ButtonGroup } from "src/components/button-group";
 import CardSource from "src/components/card-source";
+import { infoDialogProps } from "src/components/info-dialog-props";
 import { filterBySeparator, getPalette } from "src/domain/helpers";
 import { useQueryStateNetworkCostsTrendCardFilters } from "src/domain/query-states";
 import { PeerGroup, SunshineCostsAndTariffsData } from "src/domain/sunshine";
@@ -282,6 +283,7 @@ export const NetworkCostsTrendCardMinified: React.FC<
         />
       }
       linkContent={props.linkContent}
+      infoDialogProps={infoDialogProps["help-network-costs"]}
     />
   );
 };

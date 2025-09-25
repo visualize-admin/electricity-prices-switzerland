@@ -4,6 +4,7 @@ import React, { ReactNode } from "react";
 
 import { ButtonGroup } from "src/components/button-group";
 import CardSource from "src/components/card-source";
+import { infoDialogProps } from "src/components/info-dialog-props";
 import { useQueryStateTariffsTrendCardFilters } from "src/domain/query-states";
 import { PeerGroup, SunshineCostsAndTariffsData } from "src/domain/sunshine";
 import { getLocalizedLabel, getPeerGroupLabels } from "src/domain/translation";
@@ -215,6 +216,7 @@ export const TariffsTrendCardMinified: React.FC<
     linkContent?: ReactNode;
     filters?: TariffsTrendCardFilters;
     cardDescription?: ReactNode;
+    indicator: "energyTariffs" | "netTariffs";
   }
 > = (props) => {
   const {
@@ -245,6 +247,16 @@ export const TariffsTrendCardMinified: React.FC<
         />
       }
       linkContent={props.linkContent}
+      infoDialogProps={
+        props.indicator === "netTariffs"
+          ? infoDialogProps["help-net-tariffs"]
+          : props.indicator === "energyTariffs"
+          ? infoDialogProps["help-energy-tariffs"]
+          : ({
+              label: "",
+              slug: "",
+            } as never)
+      }
     />
   );
 };
