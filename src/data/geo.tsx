@@ -78,6 +78,7 @@ export type OperatorLayerProperties = {
   municipalities: number[];
   operators: number[];
   type: "OperatorFeature";
+  id: string; // Combination of operator IDs, e.g. "2/5" for operators 2 and 5
 };
 
 export type OperatorFeature = Feature<
@@ -148,7 +149,9 @@ export const getOperatorsFeatureCollection = (
   // Example: Kilchberg is served by EWL and EWA, it will be part of 3 groups
   // EWL, EWA, EWL/EWA
   const municipalitiesByOperators = multiGroupBy(municipalitySet, (x) => {
-    const operatorIds = operatorsByMunicipality[x].map((x) => x.operator);
+    const operatorIds = (operatorsByMunicipality[x] ?? []).map(
+      (x) => x.operator
+    );
     const all = sort(operatorIds).join("/");
     return [...operatorIds, all];
   });
@@ -188,6 +191,7 @@ export const getOperatorsFeatureCollection = (
         type: "Feature" as const,
         properties: {
           type: "OperatorFeature" as const,
+          id: operators,
           operators: operators.split("/").map((x) => parseInt(x, 10)),
           municipalities: municipalities,
         },

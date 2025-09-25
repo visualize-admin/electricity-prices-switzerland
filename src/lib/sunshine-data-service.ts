@@ -2,6 +2,7 @@ import { ElectricityCategory } from "src/domain/data";
 import { NetworkLevel, SunshineIndicator } from "src/domain/sunshine";
 import {
   PeerGroup,
+  PeerGroupItem,
   SunshineDataIndicatorRow,
   SunshineDataRow,
 } from "src/graphql/resolver-types";
@@ -136,6 +137,8 @@ export interface SunshineDataService {
   getLatestYearPowerStability(operatorId: number): Promise<string>;
 
   getPeerGroup(operatorId: number | string): Promise<PeerGroup>;
+
+  getPeerGroups(locale: string): Promise<PeerGroupItem[]>;
 
   getSunshineData(params: {
     operatorId?: number | undefined | null;

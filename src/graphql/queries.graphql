@@ -30,6 +30,13 @@ query Cantons($locale: String!, $query: String, $ids: [String!]) {
   }
 }
 
+query PeerGroups($locale: String!) {
+  peerGroups(locale: $locale) {
+    id
+    name
+  }
+}
+
 query Search($locale: String!, $query: String) {
   search(locale: $locale, query: $query) {
     id

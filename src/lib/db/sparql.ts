@@ -3,6 +3,7 @@ import ParsingClient from "sparql-http-client/ParsingClient";
 import { ElectricityCategory } from "src/domain/data";
 import { NetworkLevel, SunshineIndicator } from "src/domain/sunshine";
 import {
+  PeerGroup,
   SunshineDataIndicatorRow,
   SunshineDataRow,
 } from "src/graphql/resolver-types";
@@ -516,7 +517,7 @@ const getYearlyIndicatorMedians = async <
   // Handle optional peer group
   const peerGroupValues = peerGroup
     ? `VALUES ?group { <https://energy.ld.admin.ch/elcom/electricityprice/group/${peerGroup}> }`
-    : "VALUES ?group { <https://energy.ld.admin.ch/elcom/electricityprice/group/alle%20EVU> }";
+    : "VALUES ?group { <https://energy.ld.admin.ch/elcom/electricityprice/group/0> }";
 
   const peerGroupPredicate = `:group ?group ;`;
 
@@ -763,11 +764,7 @@ const getLatestYearPowerStability = async (
 
 const getPeerGroup = async (
   _operatorId: number | string
-): Promise<{
-  settlementDensity: string;
-  energyDensity: string;
-  id: string;
-}> => {
+): Promise<PeerGroup> => {
   const operatorId =
     typeof _operatorId === "number" ? _operatorId : parseInt(_operatorId, 10);
   // Get the group via a sparql query, the operator is bound
@@ -810,6 +807,47 @@ WHERE {
     energyDensity: mapping.energy_density,
     id: `${peerGroup.id}`,
   };
+};
+
+const getPeerGroups = async (
+  locale: string
+): Promise<
+  {
+    id: string;
+    name: string;
+    settlementDensity: string;
+    energyDensity: string;
+  }[]
+> => {
+  const query = `
+    PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+    PREFIX schema: <http://schema.org/>
+
+    SELECT ?concept ?name WHERE {
+        ?concept skos:inScheme <https://energy.ld.admin.ch/elcom/electricityprice/group> ;
+                         schema:name ?name .
+        FILTER(LANG(?name) = "${locale}")
+    }
+    ORDER BY ?concept
+  `;
+
+  const results = await executeSparqlQuery<{
+    concept: string;
+    name: string;
+  }>(query);
+
+  return results.map((row) => {
+    const uri = row.concept;
+    const id = stripNamespaceFromIri({ iri: uri });
+    const mapping = peerGroupMapping[id];
+
+    return {
+      id,
+      name: row.name,
+      settlementDensity: mapping?.settlement_density || "",
+      energyDensity: mapping?.energy_density || "",
+    };
+  });
 };
 
 const getSunshineData = async ({
@@ -1043,6 +1081,7 @@ export const sunshineDataServiceSparql = {
   getLatestYearSunshine,
   getLatestYearPowerStability,
   getPeerGroup,
+  getPeerGroups,
   getSunshineData,
   getSunshineDataByIndicator,
 } satisfies SunshineDataService;
