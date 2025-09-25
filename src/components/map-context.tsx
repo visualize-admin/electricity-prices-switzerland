@@ -20,7 +20,11 @@ type MapContextType = {
   setActiveId: (activeId: string | null) => void;
   entity: Entity;
   setEntity: Dispatch<SetStateAction<Entity>>;
-  onEntitySelect: (event: Event, entity: Entity, id: string) => void;
+  onEntitySelect: (
+    event: Event | MouseEvent,
+    entity: Entity,
+    id: string
+  ) => void;
 };
 
 const MapContext = createContext<MapContextType | undefined>(undefined);
