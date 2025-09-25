@@ -868,6 +868,11 @@ const getSunshineData = async ({
       `SPARQL: Peer group filtering for '${peerGroup}' is not yet implemented`
     );
   }
+
+  const groupFilter =
+    peerGroup !== "all_grid_operators" && peerGroup
+      ? `:group <https://energy.ld.admin.ch/elcom/electricityprice/group/${peerGroup}>;`
+      : "";
   const periodFilter = period
     ? `:period "${period}"^^xsd:gYear`
     : `:period ?period`;
@@ -897,6 +902,7 @@ const getSunshineData = async ({
       ?obs
         :operator ?operator ;
         ${periodFilter} ;
+        ${groupFilter}
         :gridcost_ne5 ?gridcost_ne5 ;
         :gridcost_ne6 ?gridcost_ne6 ;
         :gridcost_ne7 ?gridcost_ne7 ;
