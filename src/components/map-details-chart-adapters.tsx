@@ -2,7 +2,7 @@ import { Trans } from "@lingui/macro";
 import { Typography } from "@mui/material";
 import { ReactNode, useMemo } from "react";
 
-import { Loading } from "src/components/hint";
+import { LoadingSkeleton } from "src/components/hint";
 import { NetworkCostTrendChart } from "src/components/network-cost-trend-chart";
 import { PowerStabilityChart } from "src/components/power-stability-chart";
 import { TariffsTrendChart } from "src/components/tariffs-trend-chart";
@@ -61,7 +61,7 @@ const NetTariffsChartAdapter = ({
   }, [data?.netTariffs.yearlyData]);
 
   if (fetching) {
-    return <Loading />;
+    return <LoadingSkeleton height={194} />;
   }
 
   return (
@@ -114,7 +114,7 @@ const EnergyTariffsChartAdapter = ({
   }, [data?.energyTariffs.yearlyData]);
 
   if (fetching) {
-    return <Loading />;
+    return <LoadingSkeleton height={184} />;
   }
 
   return (
@@ -167,7 +167,7 @@ const NetworkCostsChartAdapter = ({
   }, [data?.networkCosts.yearlyData]);
 
   if (fetching) {
-    return <Loading />;
+    return <LoadingSkeleton height={194} />;
   }
 
   return (
@@ -238,7 +238,7 @@ const SaidiSaifiChartAdapter = ({
   }, [data, id, indicator]);
 
   if (fetching) {
-    return <Loading />;
+    return <LoadingSkeleton height={170} />;
   }
 
   return (

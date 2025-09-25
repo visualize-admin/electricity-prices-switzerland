@@ -262,6 +262,12 @@ export type PeerGroup = {
   settlementDensity: Scalars["String"]["output"];
 };
 
+export type PeerGroupItem = {
+  __typename: "PeerGroupItem";
+  id: Scalars["String"]["output"];
+  name: Scalars["String"]["output"];
+};
+
 export enum PriceComponent {
   Aidfee = "aidfee",
   Annualmeteringcost = "annualmeteringcost",
@@ -291,6 +297,7 @@ export type Query = {
   operator?: Maybe<Operator>;
   operatorMunicipalities: Array<OperatorMunicipality>;
   operators: Array<Operator>;
+  peerGroups: Array<PeerGroupItem>;
   saidi: StabilityData;
   saifi: StabilityData;
   search: Array<SearchResult>;
@@ -375,6 +382,10 @@ export type QueryOperatorsArgs = {
   ids?: InputMaybe<Array<Scalars["String"]["input"]>>;
   locale: Scalars["String"]["input"];
   query?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+export type QueryPeerGroupsArgs = {
+  locale: Scalars["String"]["input"];
 };
 
 export type QuerySaidiArgs = {
@@ -628,6 +639,15 @@ export type CantonsQueryVariables = Exact<{
 export type CantonsQuery = {
   __typename: "Query";
   cantons: Array<{ __typename: "CantonResult"; id: string; name: string }>;
+};
+
+export type PeerGroupsQueryVariables = Exact<{
+  locale: Scalars["String"]["input"];
+}>;
+
+export type PeerGroupsQuery = {
+  __typename: "Query";
+  peerGroups: Array<{ __typename: "PeerGroupItem"; id: string; name: string }>;
 };
 
 export type SearchQueryVariables = Exact<{
@@ -1276,6 +1296,23 @@ export function useCantonsQuery(
 ) {
   return Urql.useQuery<CantonsQuery, CantonsQueryVariables>({
     query: CantonsDocument,
+    ...options,
+  });
+}
+export const PeerGroupsDocument = gql`
+  query PeerGroups($locale: String!) {
+    peerGroups(locale: $locale) {
+      id
+      name
+    }
+  }
+`;
+
+export function usePeerGroupsQuery(
+  options: Omit<Urql.UseQueryArgs<PeerGroupsQueryVariables>, "query">
+) {
+  return Urql.useQuery<PeerGroupsQuery, PeerGroupsQueryVariables>({
+    query: PeerGroupsDocument,
     ...options,
   });
 }

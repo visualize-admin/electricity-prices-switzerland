@@ -278,6 +278,12 @@ export type PeerGroup = {
   settlementDensity: Scalars["String"]["output"];
 };
 
+export type PeerGroupItem = {
+  __typename?: "PeerGroupItem";
+  id: Scalars["String"]["output"];
+  name: Scalars["String"]["output"];
+};
+
 export enum PriceComponent {
   Aidfee = "aidfee",
   Annualmeteringcost = "annualmeteringcost",
@@ -307,6 +313,7 @@ export type Query = {
   operator?: Maybe<Operator>;
   operatorMunicipalities: Array<OperatorMunicipality>;
   operators: Array<Operator>;
+  peerGroups: Array<PeerGroupItem>;
   saidi: StabilityData;
   saifi: StabilityData;
   search: Array<SearchResult>;
@@ -391,6 +398,10 @@ export type QueryOperatorsArgs = {
   ids?: InputMaybe<Array<Scalars["String"]["input"]>>;
   locale: Scalars["String"]["input"];
   query?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+export type QueryPeerGroupsArgs = {
+  locale: Scalars["String"]["input"];
 };
 
 export type QuerySaidiArgs = {
@@ -745,6 +756,7 @@ export type ResolversTypes = ResolversObject<{
   OperatorObservation: ResolverTypeWrapper<ResolvedOperatorObservation>;
   OperatorResult: ResolverTypeWrapper<ResolvedSearchResult>;
   PeerGroup: ResolverTypeWrapper<PeerGroup>;
+  PeerGroupItem: ResolverTypeWrapper<PeerGroupItem>;
   PriceComponent: PriceComponent;
   Query: ResolverTypeWrapper<{}>;
   SearchResult: ResolverTypeWrapper<
@@ -801,6 +813,7 @@ export type ResolversParentTypes = ResolversObject<{
   OperatorObservation: ResolvedOperatorObservation;
   OperatorResult: ResolvedSearchResult;
   PeerGroup: PeerGroup;
+  PeerGroupItem: PeerGroupItem;
   Query: {};
   SearchResult: ResolversInterfaceTypes<ResolversParentTypes>["SearchResult"];
   StabilityData: StabilityData;
@@ -1246,6 +1259,15 @@ export type PeerGroupResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export type PeerGroupItemResolvers<
+  ContextType = GraphqlRequestContext,
+  ParentType extends ResolversParentTypes["PeerGroupItem"] = ResolversParentTypes["PeerGroupItem"]
+> = ResolversObject<{
+  id?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export type QueryResolvers<
   ContextType = GraphqlRequestContext,
   ParentType extends ResolversParentTypes["Query"] = ResolversParentTypes["Query"]
@@ -1341,6 +1363,12 @@ export type QueryResolvers<
     ParentType,
     ContextType,
     RequireFields<QueryOperatorsArgs, "locale">
+  >;
+  peerGroups?: Resolver<
+    Array<ResolversTypes["PeerGroupItem"]>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryPeerGroupsArgs, "locale">
   >;
   saidi?: Resolver<
     ResolversTypes["StabilityData"],
@@ -1674,6 +1702,7 @@ export type Resolvers<ContextType = GraphqlRequestContext> = ResolversObject<{
   OperatorObservation?: OperatorObservationResolvers<ContextType>;
   OperatorResult?: OperatorResultResolvers<ContextType>;
   PeerGroup?: PeerGroupResolvers<ContextType>;
+  PeerGroupItem?: PeerGroupItemResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   SearchResult?: SearchResultResolvers<ContextType>;
   StabilityData?: StabilityDataResolvers<ContextType>;

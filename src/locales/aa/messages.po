@@ -742,8 +742,8 @@ msgid "peerGroup.H"
 msgstr "peerGroup.H"
 
 #: src/domain/translation.tsx
-msgid "peerGroup.all_grid_operators"
-msgstr "peerGroup.all_grid_operators"
+msgid "peer-group.all-grid-operators"
+msgstr "peer-group.all-grid-operators"
 
 #: src/components/power-stability-chart.tsx
 msgid "power-stability-trend-chart.legend-item.grid-operators"

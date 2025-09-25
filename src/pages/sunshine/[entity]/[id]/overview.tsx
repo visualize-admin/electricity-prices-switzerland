@@ -17,6 +17,7 @@ import {
   DetailsPageTitle,
 } from "src/components/detail-page/layout";
 import { DetailsPageSidebar } from "src/components/detail-page/sidebar";
+import { LoadingSkeleton } from "src/components/hint";
 import { NetworkCostsTrendCardMinified } from "src/components/network-costs-trend-card";
 import { PowerStabilityCardMinified } from "src/components/power-stability-card";
 import { SunshineDataServiceDebug } from "src/components/sunshine-data-service-debug";
@@ -411,7 +412,7 @@ const OverviewPage = (props: Props) => {
             }
           />
         ) : (
-          <div />
+          <LoadingSkeleton height={280} sx={{ gridArea: "network-costs" }} />
         )}
         {netTariffs ? (
           <TariffsTrendCardMinified
@@ -448,7 +449,7 @@ const OverviewPage = (props: Props) => {
             }
           />
         ) : (
-          <div />
+          <LoadingSkeleton height={280} sx={{ gridArea: "net-tariffs" }} />
         )}
         {energyTariffs ? (
           <TariffsTrendCardMinified
@@ -485,7 +486,7 @@ const OverviewPage = (props: Props) => {
             }
           />
         ) : (
-          <div />
+          <LoadingSkeleton height={280} sx={{ gridArea: "energy-tariffs" }} />
         )}
         <Typography variant="h2" sx={{ gridArea: "row-title-2" }}>
           <Trans id="sunshine.grid.power-stability-title">

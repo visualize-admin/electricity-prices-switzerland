@@ -68,7 +68,7 @@ export function useSelectedEntityData(
   } = options;
 
   // Determine the active entity ID (selected takes precedence over hovered)
-  const entityId = selection.selectedId || selection.hoveredId;
+  const entityId = selection.hoveredId ?? selection.selectedId;
 
   return useMemo(() => {
     // No entity selected

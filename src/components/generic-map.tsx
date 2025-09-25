@@ -509,7 +509,7 @@ export const GenericMap = ({
           </Box>
 
           <DeckGL
-            controller={{ type: MapController, scrollZoom }}
+            controller={{ type: MapController, scrollZoom, dragRotate: false }}
             viewState={viewState}
             onViewStateChange={onViewStateChangeHandler}
             onResize={onResize}

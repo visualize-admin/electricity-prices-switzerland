@@ -16,6 +16,7 @@ import {
   DetailsPageTitle,
 } from "src/components/detail-page/layout";
 import { DetailsPageSidebar } from "src/components/detail-page/sidebar";
+import { LoadingSkeleton } from "src/components/hint";
 import PeerGroupCard from "src/components/peer-group-card";
 import { PowerStabilityCardState } from "src/components/power-stability-card";
 import { SunshineDataServiceDebug } from "src/components/sunshine-data-service-debug";
@@ -139,7 +140,7 @@ const Saidi = (props: Extract<Props, { status: "found" }>) => {
     updateDate,
   } = props.powerStability;
 
-  const [{ data }] = useSaidiQuery({
+  const [{ data, fetching }] = useSaidiQuery({
     variables: {
       filter: {
         operatorId: parseInt(props.id, 10),
@@ -152,6 +153,10 @@ const Saidi = (props: Extract<Props, { status: "found" }>) => {
     const year = parseInt(latestYear, 10);
     return data?.saidi?.yearlyData?.filter((x) => x.year === year) ?? [];
   }, [data, latestYear]);
+
+  if (fetching) {
+    return <LoadingSkeleton height={700} />;
+  }
 
   if (!data?.saidi) {
     return (
@@ -264,7 +269,7 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
     updateDate,
   } = props.powerStability;
 
-  const [{ data }] = useSaifiQuery({
+  const [{ data, fetching }] = useSaifiQuery({
     variables: {
       filter: {
         operatorId: parseInt(props.id, 10),
@@ -277,6 +282,10 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
     const year = parseInt(latestYear, 10);
     return data?.saifi?.yearlyData?.filter((x) => x.year === year) ?? [];
   }, [data, latestYear]);
+
+  if (fetching) {
+    return <LoadingSkeleton height={700} />;
+  }
 
   if (!data?.saifi) {
     return (

@@ -34,6 +34,12 @@ type Municipality @cacheControl(maxAge: 300) {
   operators: [Operator!]!
 }
 
+# Come from the database, no settlement density or energy density yet
+type PeerGroupItem {
+  id: String!
+  name: String!
+}
+
 type PeerGroup {
   id: String!
   settlementDensity: String!
@@ -167,6 +173,8 @@ type Query {
   cantons(locale: String!, query: String, ids: [String!]): [Canton!]!
 
   operators(locale: String!, query: String, ids: [String!]): [Operator!]!
+
+  peerGroups(locale: String!): [PeerGroupItem!]! @cacheControl(maxAge: 300)
 
   search(locale: String!, query: String): [SearchResult!]!
     @cacheControl(maxAge: 300)

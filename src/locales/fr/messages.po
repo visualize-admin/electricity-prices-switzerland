@@ -742,7 +742,7 @@ msgid "peerGroup.H"
 msgstr "Faible densité énergétique / Tourisme"
 
 #: src/domain/translation.tsx
-msgid "peerGroup.all_grid_operators"
+msgid "peer-group.all-grid-operators"
 msgstr "Tous les gestionnaires de réseau"
 
 #: src/components/power-stability-chart.tsx

@@ -134,11 +134,23 @@ const SunshineMap = ({
     if (!enrichedData?.operatorMunicipalities || !geoData) {
       return null;
     }
-    return getOperatorsFeatureCollection(
+    const operatorsFeatureCollection = getOperatorsFeatureCollection(
       enrichedData.operatorMunicipalities,
       geoData?.municipalities as MunicipalityFeatureCollection
     );
-  }, [enrichedData?.operatorMunicipalities, geoData]);
+
+    const features = operatorsFeatureCollection.features;
+    const filteredFeatures = features.filter((feature) => {
+      return feature.properties.operators.some(
+        (opId) => !!(observationsByOperator[opId] ?? {}).value
+      );
+    });
+
+    return {
+      ...operatorsFeatureCollection,
+      features: filteredFeatures,
+    };
+  }, [enrichedData?.operatorMunicipalities, geoData, observationsByOperator]);
 
   // Entity selection state
   const [entitySelection, setEntitySelection] = useState<EntitySelection>({

@@ -326,7 +326,7 @@ export function makeSunshineOperatorPickableLayer(
       getLineWidth: deps,
     },
     getLineColor: (d: Feature<Geometry, OperatorLayerProperties>) => {
-      const id = d.properties.operators?.[0]?.toString();
+      const id = d.properties.id;
       const isActive = activeId === id;
       const isHovered = hovered?.type === "operator" && hovered.id === id;
 
@@ -336,7 +336,7 @@ export function makeSunshineOperatorPickableLayer(
       return styles.operators.overlay.inactive.lineColor;
     },
     getLineWidth: (d: Feature<Geometry, OperatorLayerProperties>) => {
-      const id = d.properties.operators?.[0]?.toString();
+      const id = d.properties.id;
       const isActive = activeId === id;
       const isHovered = hovered?.type === "operator" && hovered.id === id;
 

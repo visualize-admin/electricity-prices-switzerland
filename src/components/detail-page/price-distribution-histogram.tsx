@@ -38,7 +38,7 @@ import {
 } from "src/components/detail-page/download-image";
 import { FilterSetDescription } from "src/components/detail-page/filter-set-description";
 import { WithClassName } from "src/components/detail-page/with-classname";
-import { Loading, NoDataHint } from "src/components/hint";
+import { LoadingSkeleton, NoDataHint } from "src/components/hint";
 import { InfoDialogButton } from "src/components/info-dialog";
 import {
   Entity,
@@ -309,7 +309,7 @@ const PriceDistributionHistogram = ({
   return (
     <Box sx={{ position: "relative" }}>
       {observationsQuery.fetching ? (
-        <Loading />
+        <LoadingSkeleton height={500} />
       ) : observations.length === 0 ? (
         <NoDataHint />
       ) : (

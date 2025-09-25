@@ -78,7 +78,6 @@ export const constrainZoom = (
 const getFlyToInterpolator = () => {
   return new FlyToInterpolator({
     speed: 4,
-    curve: 1.5,
   });
 };
 
