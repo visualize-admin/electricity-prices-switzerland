@@ -674,6 +674,10 @@ msgid "page.electricity-tariffs.title"
 msgstr "page.electricity-tariffs.title"
 
 #: src/domain/translation.tsx
+msgid "peer-group.all-grid-operators"
+msgstr "peer-group.all-grid-operators"
+
+#: src/domain/translation.tsx
 msgid "peer-group.energy-density.high"
 msgstr "peer-group.energy-density.high"
 
@@ -708,42 +712,6 @@ msgstr "peer-group.settlement-density.tourist"
 #: src/domain/translation.tsx
 msgid "peer-group.settlement-density.unknown"
 msgstr "peer-group.settlement-density.unknown"
-
-#: src/domain/translation.tsx
-msgid "peerGroup.A"
-msgstr "peerGroup.A"
-
-#: src/domain/translation.tsx
-msgid "peerGroup.B"
-msgstr "peerGroup.B"
-
-#: src/domain/translation.tsx
-msgid "peerGroup.C"
-msgstr "peerGroup.C"
-
-#: src/domain/translation.tsx
-msgid "peerGroup.D"
-msgstr "peerGroup.D"
-
-#: src/domain/translation.tsx
-msgid "peerGroup.E"
-msgstr "peerGroup.E"
-
-#: src/domain/translation.tsx
-msgid "peerGroup.F"
-msgstr "peerGroup.F"
-
-#: src/domain/translation.tsx
-msgid "peerGroup.G"
-msgstr "peerGroup.G"
-
-#: src/domain/translation.tsx
-msgid "peerGroup.H"
-msgstr "peerGroup.H"
-
-#: src/domain/translation.tsx
-msgid "peer-group.all-grid-operators"
-msgstr "peer-group.all-grid-operators"
 
 #: src/components/power-stability-chart.tsx
 msgid "power-stability-trend-chart.legend-item.grid-operators"

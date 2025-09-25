@@ -674,6 +674,10 @@ msgid "page.electricity-tariffs.title"
 msgstr "Stromtarife"
 
 #: src/domain/translation.tsx
+msgid "peer-group.all-grid-operators"
+msgstr "Alle Netzbetreiber"
+
+#: src/domain/translation.tsx
 msgid "peer-group.energy-density.high"
 msgstr "Hohe Energiedichte"
 
@@ -708,42 +712,6 @@ msgstr "Tourismusgebiet"
 #: src/domain/translation.tsx
 msgid "peer-group.settlement-density.unknown"
 msgstr "Unbekannt"
-
-#: src/domain/translation.tsx
-msgid "peerGroup.A"
-msgstr "Hohe Energiedichte / Mittlere Siedlungsdichte"
-
-#: src/domain/translation.tsx
-msgid "peerGroup.B"
-msgstr "Hohe Energiedichte / Ländliche Siedlungsdichte"
-
-#: src/domain/translation.tsx
-msgid "peerGroup.C"
-msgstr "Hohe Energiedichte / Bergregion"
-
-#: src/domain/translation.tsx
-msgid "peerGroup.D"
-msgstr "Hohe Energiedichte / Unbekannt"
-
-#: src/domain/translation.tsx
-msgid "peerGroup.E"
-msgstr "Geringe Energiedichte / Mittlere Siedlungsdichte"
-
-#: src/domain/translation.tsx
-msgid "peerGroup.F"
-msgstr "Geringe Energiedichte / Ländliche Siedlungsdichte"
-
-#: src/domain/translation.tsx
-msgid "peerGroup.G"
-msgstr "Geringe Energiedichte / Bergregion"
-
-#: src/domain/translation.tsx
-msgid "peerGroup.H"
-msgstr "Geringe Energiedichte / Tourismusgebiet"
-
-#: src/domain/translation.tsx
-msgid "peer-group.all-grid-operators"
-msgstr "Alle Netzbetreiber"
 
 #: src/components/power-stability-chart.tsx
 msgid "power-stability-trend-chart.legend-item.grid-operators"
