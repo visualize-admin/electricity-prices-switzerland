@@ -18,7 +18,6 @@ export const wikiPageSlugs = {
     "help-net-tariffs",
     "help-network-costs",
     "help-network-level",
-    "help-operational-standards",
     "help-peer-group",
     "help-price-comparison",
     "help-price-components",
