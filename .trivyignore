@@ -3,6 +3,7 @@ CVE-2025-7783 exp:2026-02-01
 
 # This affects esbuild go version, this is only used in development
 CVE-2025-47907 exp:2026-02-01
+CVE-2025-47906 exp:2026-02-01
 
 # This affects libc and we do not believe the vulnerability can
 # be exploited
