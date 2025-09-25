@@ -859,16 +859,6 @@ const getSunshineData = async ({
   period?: string | undefined | null;
   peerGroup?: string | undefined | null;
 }): Promise<SunshineDataRow[]> => {
-  // For now, SPARQL implementation doesn't filter by peer group directly
-  // since peer group structure in SPARQL is not well defined
-  // TODO: Implement proper peer group filtering when SPARQL data structure improves
-  if (peerGroup && peerGroup !== "all_grid_operators") {
-    // Log that peer group filtering is not implemented in SPARQL yet
-    console.warn(
-      `SPARQL: Peer group filtering for '${peerGroup}' is not yet implemented`
-    );
-  }
-
   const groupFilter =
     peerGroup !== "all_grid_operators" && peerGroup
       ? `:group <https://energy.ld.admin.ch/elcom/electricityprice/group/${peerGroup}>;`

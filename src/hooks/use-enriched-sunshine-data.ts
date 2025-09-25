@@ -78,7 +78,7 @@ export const useEnrichedSunshineData = ({
     const rawObservations =
       sunshineDataQuery.data.sunshineDataByIndicator?.data || [];
     const median =
-      sunshineDataQuery.data.sunshineDataByIndicator?.median ?? undefined;
+      sunshineDataQuery.data.sunshineMedianByIndicator ?? undefined;
     const operatorMunicipalities =
       operatorMunicipalitiesQuery.data.operatorMunicipalities;
 
