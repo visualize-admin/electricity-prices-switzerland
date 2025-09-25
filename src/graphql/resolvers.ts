@@ -105,7 +105,14 @@ const Query: QueryResolvers = {
     // Get median from the service using the new structured filter
     let medianValue = 0;
     try {
-      const medianParams = createIndicatorMedianParams(filter);
+      const medianParams = createIndicatorMedianParams({
+        ...filter,
+
+        // For median calculation, remove the peer group constraint.
+        // This means that we will always have the median for all switzerland.
+        // This is a decision made by Elcom.
+        peerGroup: undefined,
+      });
       if (medianParams) {
         const medianRows = sortBy(
           await context.sunshineDataService.getYearlyIndicatorMedians(

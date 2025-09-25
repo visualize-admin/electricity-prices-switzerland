@@ -17,6 +17,7 @@ You can also check the
   - Detail pages and map details panel: Skeletons are used when loading charts to prevent layout shifts
   - Holding Cmd/Ctrl key when clicking on map directly opens the link in a new tab
   - Map: Peer group selector filters the map according to the peer group
+  - Map: The median does not change when changing the peer group selector
 
 - Fix
 
