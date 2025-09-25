@@ -11,6 +11,10 @@ You can also check the
 
 # Unreleased
 
+Nothing yet.
+
+# 2.17.0 - 2025-09-25
+
 - Feat
 
   - Sunshine Map: Peer groups are now fetched server side to populate the Sunshine selectors
