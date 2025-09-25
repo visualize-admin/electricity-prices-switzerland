@@ -133,12 +133,13 @@ export const SunshineSelectorsBase = ({
       ) : null}
 
       <Combobox
-        id="viewBy"
-        label={t({ id: "selector.peerGroup", message: "View by" })}
+        id="peer-group"
+        label={t({ id: "selector.peerGroup", message: "Peer Group" })}
         items={peerGroupOptions}
         getItemLabel={getPeerGroupLabel}
         selectedItem={peerGroup}
         setSelectedItem={setPeerGroup}
+        infoDialogSlug="help-peer-group"
       />
     </Box>
   );
