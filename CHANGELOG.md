@@ -11,7 +11,17 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Feat
+
+  - Sunshine Map: Peer groups are now fetched server side to populate the Sunshine selectors
+  - Detail pages and map details panel: Skeletons are used when loading charts to prevent layout shifts
+  - Holding Cmd/Ctrl key when clicking on map directly opens the link in a new tab
+
+- Fix
+
+  - Map: Disable drag rotate on the map (was possible when holding Meta key)
+  - Sunshine Map: Tooltip content was wrong when an operator was selected
+  - Sunshine Map: Wrong layers would sometimes appear selected in case of operator serving multiple municipalities
 
 # 2.16.1 - 2025-09-18
 

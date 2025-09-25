@@ -134,7 +134,7 @@ const ListItems = ({
             colorScale={colorScale}
             valueFormatter={valueFormatter}
             entity={entity}
-            handleClick={(e) => onEntitySelect(e, entity, d.id)}
+            handleClick={(e) => onEntitySelect(e.nativeEvent, entity, d.id)}
           />
         );
       })}
