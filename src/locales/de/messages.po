@@ -1005,7 +1005,7 @@ msgstr "Netzebene"
 
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.peerGroup"
-msgstr "Ansicht von"
+msgstr "Vergleichsgruppe"
 
 #: src/components/detail-page/price-components-bars.tsx
 #: src/components/electricity-selectors.tsx

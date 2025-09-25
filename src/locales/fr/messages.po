@@ -1005,7 +1005,7 @@ msgstr "Niveau du réseau"
 
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.peerGroup"
-msgstr "Voir par"
+msgstr "Groupe de référence"
 
 #: src/components/detail-page/price-components-bars.tsx
 #: src/components/electricity-selectors.tsx
