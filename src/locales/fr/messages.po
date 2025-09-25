@@ -7,7 +7,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language: fr\n"
 "Language-Team: \n"
-"Content-Type: \n"
+"Content-Type: text/plain\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
@@ -102,10 +102,6 @@ msgid "detail.card.title.prices.evolution"
 msgstr "Évolution des tarifs"
 
 #: src/components/detail-page/banner.tsx
-msgid "detail.maplink"
-msgstr "Retour à la carte"
-
-#: src/components/detail-page/banner.tsx
 msgid "detail.municipalities"
 msgstr "Communes"
 
@@ -120,6 +116,10 @@ msgstr "Gestionnaire de réseau"
 #: src/components/detail-page/banner.tsx
 msgid "detail.operators"
 msgstr "Gestionnaires de réseau"
+
+#: src/components/detail-page/sidebar.tsx
+msgid "details.page.navigation.canton-comparison-item"
+msgstr "Comparaison avec le canton"
 
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.costs-and-tariffs-item"
@@ -142,12 +142,24 @@ msgid "details.page.navigation.power-stability-item"
 msgstr "Stabilité de la puissance"
 
 #: src/components/detail-page/sidebar.tsx
+msgid "details.page.navigation.price-components-item"
+msgstr "Composantes du prix"
+
+#: src/components/detail-page/sidebar.tsx
+msgid "details.page.navigation.price-distribution-item"
+msgstr "Répartition des prix en Suisse"
+
+#: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.sunshine-indicators-title"
 msgstr "Indicateurs d'ensoleillement"
 
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.sunshine-overview-item"
 msgstr "Vue d'ensemble"
+
+#: src/components/detail-page/sidebar.tsx
+msgid "details.page.navigation.tariff-development-item"
+msgstr "Développement tarifaire"
 
 #: src/components/info-dialog.tsx
 msgid "dialog.close"
@@ -380,6 +392,10 @@ msgstr "Tarifs d'électricité en Suisse"
 #: src/pages/index.tsx
 msgid "home.hero-section.title"
 msgstr "Découvrez les tarifs d'électricité en vue cartographique"
+
+#: src/components/app-layout.tsx
+msgid "home.menu.details"
+msgstr "Détails"
 
 #: src/components/app-layout.tsx
 msgid "home.menu.map-view"
@@ -1019,35 +1035,35 @@ msgstr "Composantes du prix"
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.aidfee-content"
-msgstr ""
+msgstr "selector.priceComponents.aidfee-content"
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.charge-content"
-msgstr ""
+msgstr "selector.priceComponents.charge-content"
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.collapsed-content"
-msgstr ""
+msgstr "selector.priceComponents.collapsed-content"
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.energy-content"
-msgstr ""
+msgstr "selector.priceComponents.energy-content"
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.expanded-content"
-msgstr ""
+msgstr "selector.priceComponents.expanded-content"
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.gridusage-content"
-msgstr ""
+msgstr "selector.priceComponents.gridusage-content"
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.meteringrate-content"
-msgstr ""
+msgstr "selector.priceComponents.meteringrate-content"
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.total-content"
-msgstr ""
+msgstr "selector.priceComponents.total-content"
 
 #: src/domain/translation.tsx
 msgid "selector.pricecomponent.aidfee"
@@ -1096,7 +1112,7 @@ msgstr "Tarifs de l'électricité"
 
 #: src/domain/translation.tsx
 msgid "selector.tab.electricity-content"
-msgstr ""
+msgstr "selector.tab.electricity-content"
 
 #: src/domain/translation.tsx
 msgid "selector.tab.indicators"
@@ -1104,7 +1120,7 @@ msgstr "Indicateurs"
 
 #: src/domain/translation.tsx
 msgid "selector.tab.indicators-content"
-msgstr ""
+msgstr "selector.tab.indicators-content"
 
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.typology"
@@ -1202,7 +1218,7 @@ msgstr "Dernière année"
 
 #: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.latest-year-option-content"
-msgstr ""
+msgstr "sunshine.costs-and-tariffs.latest-year-option-content"
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
@@ -1274,7 +1290,7 @@ msgstr "Progrès dans le temps"
 
 #: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.progress-over-time-content"
-msgstr ""
+msgstr "sunshine.costs-and-tariffs.progress-over-time-content"
 
 #: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.selected-operators"
@@ -1411,7 +1427,6 @@ msgstr "En Suisse, les tarifs d'électricité sont basés sur les coûts réels 
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
-#: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.overview-sunshine.title"
 msgstr "Aperçu des indicateurs d'ensoleillement"
 
@@ -1434,7 +1449,7 @@ msgstr "Dernière année"
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.latest-year-option-content"
-msgstr ""
+msgstr "sunshine.power-stability.latest-year-option-content"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
@@ -1476,7 +1491,7 @@ msgstr "Progrès dans le temps"
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.progress-over-time-content"
-msgstr ""
+msgstr "sunshine.power-stability.progress-over-time-content"
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.ratio-option"

@@ -102,10 +102,6 @@ msgid "detail.card.title.prices.evolution"
 msgstr "detail.card.title.prices.evolution"
 
 #: src/components/detail-page/banner.tsx
-msgid "detail.maplink"
-msgstr "detail.maplink"
-
-#: src/components/detail-page/banner.tsx
 msgid "detail.municipalities"
 msgstr "detail.municipalities"
 
@@ -120,6 +116,10 @@ msgstr "detail.operator"
 #: src/components/detail-page/banner.tsx
 msgid "detail.operators"
 msgstr "detail.operators"
+
+#: src/components/detail-page/sidebar.tsx
+msgid "details.page.navigation.canton-comparison-item"
+msgstr "details.page.navigation.canton-comparison-item"
 
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.costs-and-tariffs-item"
@@ -142,12 +142,24 @@ msgid "details.page.navigation.power-stability-item"
 msgstr "details.page.navigation.power-stability-item"
 
 #: src/components/detail-page/sidebar.tsx
+msgid "details.page.navigation.price-components-item"
+msgstr "details.page.navigation.price-components-item"
+
+#: src/components/detail-page/sidebar.tsx
+msgid "details.page.navigation.price-distribution-item"
+msgstr "details.page.navigation.price-distribution-item"
+
+#: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.sunshine-indicators-title"
 msgstr "details.page.navigation.sunshine-indicators-title"
 
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.sunshine-overview-item"
 msgstr "details.page.navigation.sunshine-overview-item"
+
+#: src/components/detail-page/sidebar.tsx
+msgid "details.page.navigation.tariff-development-item"
+msgstr "details.page.navigation.tariff-development-item"
 
 #: src/components/info-dialog.tsx
 msgid "dialog.close"
@@ -380,6 +392,10 @@ msgstr "home.hero-section.primary-cta"
 #: src/pages/index.tsx
 msgid "home.hero-section.title"
 msgstr "home.hero-section.title"
+
+#: src/components/app-layout.tsx
+msgid "home.menu.details"
+msgstr "home.menu.details"
 
 #: src/components/app-layout.tsx
 msgid "home.menu.map-view"
@@ -1409,7 +1425,6 @@ msgstr "sunshine.operational-standards.title"
 msgid "sunshine.overview-sunshine.description"
 msgstr "sunshine.overview-sunshine.description"
 
-#: src/pages/sunshine/[entity]/[id]/overview.tsx
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.overview-sunshine.title"
