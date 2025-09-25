@@ -18,12 +18,14 @@ You can also check the
   - Holding Cmd/Ctrl key when clicking on map directly opens the link in a new tab
   - Map: Peer group selector filters the map according to the peer group
   - Map: The median does not change when changing the peer group selector
+  - Sunshine Map: Add info dialog to Peer Group selector
 
 - Fix
 
   - Map: Disable drag rotate on the map (was possible when holding Meta key)
   - Sunshine Map: Tooltip content was wrong when an operator was selected
   - Sunshine Map: Wrong layers would sometimes appear selected in case of operator serving multiple municipalities
+  - Map: Get correctly the overall median from Lindas
 
 # 2.16.1 - 2025-09-18
 
