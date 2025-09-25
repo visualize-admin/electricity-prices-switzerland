@@ -674,6 +674,10 @@ msgid "page.electricity-tariffs.title"
 msgstr "Tariffe elettriche"
 
 #: src/domain/translation.tsx
+msgid "peer-group.all-grid-operators"
+msgstr "Tutti i gestori di rete"
+
+#: src/domain/translation.tsx
 msgid "peer-group.energy-density.high"
 msgstr "Alta densità di energia"
 
@@ -708,42 +712,6 @@ msgstr "Turismo"
 #: src/domain/translation.tsx
 msgid "peer-group.settlement-density.unknown"
 msgstr "Sconosciuto"
-
-#: src/domain/translation.tsx
-msgid "peerGroup.A"
-msgstr "Alta densità energetica / Media densità di insediamento"
-
-#: src/domain/translation.tsx
-msgid "peerGroup.B"
-msgstr "Alta densità energetica / Densità di insediamenti rurali"
-
-#: src/domain/translation.tsx
-msgid "peerGroup.C"
-msgstr "Alta densità energetica / Regione montana"
-
-#: src/domain/translation.tsx
-msgid "peerGroup.D"
-msgstr "Alta densità di energia / Sconosciuto"
-
-#: src/domain/translation.tsx
-msgid "peerGroup.E"
-msgstr "Bassa densità energetica / Media densità di insediamento"
-
-#: src/domain/translation.tsx
-msgid "peerGroup.F"
-msgstr "Bassa densità energetica / Densità di insediamenti rurali"
-
-#: src/domain/translation.tsx
-msgid "peerGroup.G"
-msgstr "Bassa densità energetica / Regione montana"
-
-#: src/domain/translation.tsx
-msgid "peerGroup.H"
-msgstr "Bassa densità energetica / Turismo"
-
-#: src/domain/translation.tsx
-msgid "peer-group.all-grid-operators"
-msgstr "Tutti i gestori di rete"
 
 #: src/components/power-stability-chart.tsx
 msgid "power-stability-trend-chart.legend-item.grid-operators"
@@ -1037,7 +1005,7 @@ msgstr "Livello di rete"
 
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.peerGroup"
-msgstr "Vedi da"
+msgstr "Gruppo di riferimento"
 
 #: src/components/detail-page/price-components-bars.tsx
 #: src/components/electricity-selectors.tsx

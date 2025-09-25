@@ -422,6 +422,7 @@ type Query {
   sunshineDataByIndicator(
     filter: SunshineDataFilter!
   ): SunshineDataByIndicatorResult!
+  sunshineMedianByIndicator(filter: SunshineDataFilter!): Float
   sunshineTariffsByIndicator(
     filter: SunshineDataFilter!
     indicator: String!

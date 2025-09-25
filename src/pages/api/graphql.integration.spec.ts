@@ -106,6 +106,7 @@ const formatForSnapshot = (data: SunshineDataByIndicatorQuery | undefined) => {
         ...data.sunshineDataByIndicator,
         data: data.sunshineDataByIndicator.data.slice(0, 3),
       },
+      sunshineMedianByIndicator: data.sunshineMedianByIndicator,
     },
   };
 };
@@ -155,8 +156,8 @@ describe("GraphQL API Integration Tests", () => {
                   "value": 30451.36646,
                 },
               ],
-              "median": 17515.69443,
             },
+            "sunshineMedianByIndicator": 15548.223885,
           },
         }
       `);
@@ -205,8 +206,8 @@ describe("GraphQL API Integration Tests", () => {
                   "value": 1930.849802,
                 },
               ],
-              "median": 13386.626685,
             },
+            "sunshineMedianByIndicator": 15548.223885,
           },
         }
       `);
@@ -255,8 +256,8 @@ describe("GraphQL API Integration Tests", () => {
                   "value": 8.60052381,
                 },
               ],
-              "median": 8.60052381,
             },
+            "sunshineMedianByIndicator": 8.60052381,
           },
         }
       `);
@@ -305,8 +306,8 @@ describe("GraphQL API Integration Tests", () => {
                   "value": 10897.45675,
                 },
               ],
-              "median": 8896.07945,
             },
+            "sunshineMedianByIndicator": 11449.055805,
           },
         }
       `);
@@ -355,8 +356,8 @@ describe("GraphQL API Integration Tests", () => {
                   "value": 13286.853,
                 },
               ],
-              "median": 12611.89231,
             },
+            "sunshineMedianByIndicator": 11449.055805,
           },
         }
       `);
@@ -404,8 +405,8 @@ describe("GraphQL API Integration Tests", () => {
                   "value": 12034.61858,
                 },
               ],
-              "median": 11449.055805,
             },
+            "sunshineMedianByIndicator": 11449.055805,
           },
         }
       `);
@@ -453,8 +454,8 @@ describe("GraphQL API Integration Tests", () => {
                   "value": 10.36465,
                 },
               ],
-              "median": 10.68,
             },
+            "sunshineMedianByIndicator": 10.68,
           },
         }
       `);
@@ -502,8 +503,8 @@ describe("GraphQL API Integration Tests", () => {
                   "value": 10.517333333333331,
                 },
               ],
-              "median": 10.570666666666668,
             },
+            "sunshineMedianByIndicator": 10.570666666666668,
           },
         }
       `);
@@ -551,8 +552,8 @@ describe("GraphQL API Integration Tests", () => {
                   "value": 9.517866666666666,
                 },
               ],
-              "median": 9.918,
             },
+            "sunshineMedianByIndicator": 9.918,
           },
         }
       `);
@@ -600,8 +601,8 @@ describe("GraphQL API Integration Tests", () => {
                   "value": 4.4350000000000005,
                 },
               ],
-              "median": 6.573944444444445,
             },
+            "sunshineMedianByIndicator": 6.573944444444445,
           },
         }
       `);
@@ -649,8 +650,8 @@ describe("GraphQL API Integration Tests", () => {
                   "value": 13.981714285714284,
                 },
               ],
-              "median": 14.579142857142859,
             },
+            "sunshineMedianByIndicator": 14.579142857142859,
           },
         }
       `);
@@ -698,8 +699,8 @@ describe("GraphQL API Integration Tests", () => {
                   "value": 12034.61858,
                 },
               ],
-              "median": 11449.055805,
             },
+            "sunshineMedianByIndicator": 11449.055805,
           },
         }
       `);
@@ -748,8 +749,8 @@ describe("GraphQL API Integration Tests", () => {
                   "value": 18081.3344,
                 },
               ],
-              "median": 12477.445645,
             },
+            "sunshineMedianByIndicator": 11449.055805,
           },
         }
       `);

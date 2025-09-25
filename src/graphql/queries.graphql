@@ -246,8 +246,8 @@ query SunshineDataByIndicator($filter: SunshineDataFilter!) {
       period
       value
     }
-    median
   }
+  sunshineMedianByIndicator(filter: $filter)
 }
 
 query SunshineTariff($filter: SunshineDataFilter!) {

@@ -425,6 +425,7 @@ const OverviewPage = (props: Props) => {
             netTariffs={netTariffs}
             operatorId={id}
             operatorLabel={name}
+            indicator="netTariffs"
             latestYear={latestYear}
             cardTitle={
               <Trans id="sunshine.costs-and-tariffs.net-tariffs.overview">
@@ -462,6 +463,7 @@ const OverviewPage = (props: Props) => {
             netTariffs={energyTariffs}
             operatorId={id}
             operatorLabel={name}
+            indicator="energyTariffs"
             latestYear={latestYear}
             cardTitle={
               <Trans id="sunshine.costs-and-tariffs.energy-tariffs.overview">
@@ -504,6 +506,7 @@ const OverviewPage = (props: Props) => {
           operatorId={id}
           operatorLabel={name}
           latestYear={latestYear}
+          indicator="saidi"
           cardTitle={
             <Trans id="sunshine.power-stability.saidi-trend.overview">
               Power Outage (SAIDI)
@@ -539,6 +542,7 @@ const OverviewPage = (props: Props) => {
           operatorId={id}
           operatorLabel={name}
           latestYear={latestYear}
+          indicator="saifi"
           cardTitle={
             <Trans id="sunshine.power-stability.saifi-trend.overview">
               Power Outage (SAIFI)

@@ -306,6 +306,7 @@ export type Query = {
   searchOperators: Array<OperatorResult>;
   sunshineData: Array<SunshineDataRow>;
   sunshineDataByIndicator: SunshineDataByIndicatorResult;
+  sunshineMedianByIndicator?: Maybe<Scalars["Float"]["output"]>;
   sunshineTariffs: Array<SunshineDataRow>;
   sunshineTariffsByIndicator: Array<SunshineDataIndicatorRow>;
   swissMedianObservations?: Maybe<Array<SwissMedianObservation>>;
@@ -424,6 +425,10 @@ export type QuerySunshineDataArgs = {
 };
 
 export type QuerySunshineDataByIndicatorArgs = {
+  filter: SunshineDataFilter;
+};
+
+export type QuerySunshineMedianByIndicatorArgs = {
   filter: SunshineDataFilter;
 };
 
@@ -932,9 +937,9 @@ export type SunshineDataByIndicatorQueryVariables = Exact<{
 
 export type SunshineDataByIndicatorQuery = {
   __typename: "Query";
+  sunshineMedianByIndicator?: number | null;
   sunshineDataByIndicator: {
     __typename: "SunshineDataByIndicatorResult";
-    median?: number | null;
     data: Array<{
       __typename: "SunshineDataIndicatorRow";
       operatorId?: number | null;
@@ -1570,8 +1575,8 @@ export const SunshineDataByIndicatorDocument = gql`
         period
         value
       }
-      median
     }
+    sunshineMedianByIndicator(filter: $filter)
   }
 `;
 

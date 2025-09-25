@@ -322,6 +322,7 @@ export type Query = {
   searchOperators: Array<OperatorResult>;
   sunshineData: Array<SunshineDataRow>;
   sunshineDataByIndicator: SunshineDataByIndicatorResult;
+  sunshineMedianByIndicator?: Maybe<Scalars["Float"]["output"]>;
   sunshineTariffs: Array<SunshineDataRow>;
   sunshineTariffsByIndicator: Array<SunshineDataIndicatorRow>;
   swissMedianObservations?: Maybe<Array<SwissMedianObservation>>;
@@ -440,6 +441,10 @@ export type QuerySunshineDataArgs = {
 };
 
 export type QuerySunshineDataByIndicatorArgs = {
+  filter: SunshineDataFilter;
+};
+
+export type QuerySunshineMedianByIndicatorArgs = {
   filter: SunshineDataFilter;
 };
 
@@ -1417,6 +1422,12 @@ export type QueryResolvers<
     ParentType,
     ContextType,
     RequireFields<QuerySunshineDataByIndicatorArgs, "filter">
+  >;
+  sunshineMedianByIndicator?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType,
+    RequireFields<QuerySunshineMedianByIndicatorArgs, "filter">
   >;
   sunshineTariffs?: Resolver<
     Array<ResolversTypes["SunshineDataRow"]>,

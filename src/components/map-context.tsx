@@ -13,13 +13,18 @@ import { Entity } from "src/domain/data";
 import useEvent from "src/lib/use-event";
 import { assertBaseDomainOK } from "src/utils/domain";
 import { useFlag } from "src/utils/flags";
+import { shouldOpenInNewTab } from "src/utils/platform";
 
 type MapContextType = {
   activeId: string | null;
   setActiveId: (activeId: string | null) => void;
   entity: Entity;
   setEntity: Dispatch<SetStateAction<Entity>>;
-  onEntitySelect: (_event: unknown, entity: Entity, id: string) => void;
+  onEntitySelect: (
+    event: Event | MouseEvent,
+    entity: Entity,
+    id: string
+  ) => void;
 };
 
 const MapContext = createContext<MapContextType | undefined>(undefined);
@@ -71,14 +76,20 @@ export const MapProvider = ({
   const embedEntityClick = useEmbedEntityClick();
 
   const onEntitySelect: MapContextType["onEntitySelect"] = useEvent(
-    (_, entity: Entity, id: string) => {
+    (ev, entity: Entity, id: string) => {
       if (embed) {
         return embedEntityClick(entity, id);
       } else {
         if (isSunshine) {
           setActiveId(id);
         } else {
-          router.push(`/${entity}/${id}`);
+          if (shouldOpenInNewTab(ev)) {
+            // Open in new tab if meta key is pressed
+            window.open(`/${entity}/${id}`, "_blank");
+            return;
+          } else {
+            router.push(`/${entity}/${id}`);
+          }
         }
       }
     }

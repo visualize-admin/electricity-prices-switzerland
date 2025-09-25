@@ -57,8 +57,11 @@ const OperationalStandardsCard: React.FC<OperationalStandardsCardProps> = (
                 iconOnly
                 iconSize={24}
                 type="outline"
-                //FIXME: use correct slug
-                slug="help-operational-standards"
+                slug={
+                  attribute === "compliance"
+                    ? "help-compliance"
+                    : "help-service-quality"
+                }
                 label={getLocalizedLabel({
                   id: `${attribute.toLowerCase()}-trend`,
                 })}

@@ -17,6 +17,7 @@ import {
 } from "src/components/detail-page/layout";
 import { DetailsPageSidebar } from "src/components/detail-page/sidebar";
 import { LoadingSkeleton } from "src/components/hint";
+import { infoDialogProps } from "src/components/info-dialog-props";
 import PeerGroupCard from "src/components/peer-group-card";
 import { PowerStabilityCardState } from "src/components/power-stability-card";
 import { SunshineDataServiceDebug } from "src/components/sunshine-data-service-debug";
@@ -249,13 +250,7 @@ const Saidi = (props: Extract<Props, { status: "found" }>) => {
             id: "sunshine.power-stability.saidi-trend",
             message: "Average Power Outage Duration (SAIDI)",
           })}
-          infoDialogProps={{
-            slug: "help-saidi",
-            label: t({
-              id: "sunshine.power-stability.saidi.info-dialog-label",
-              message: "Total Outage Duration",
-            }),
-          }}
+          infoDialogProps={infoDialogProps["help-saidi"]}
         />
       </CardGrid>
     </>
@@ -378,13 +373,7 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
             id: "sunshine.power-stability.saifi-trend",
             message: "Average Power Outage Frequency (SAIFI)",
           })}
-          infoDialogProps={{
-            slug: "help-saifi",
-            label: t({
-              id: "sunshine.power-stability.saifi.info-dialog-label",
-              message: "Total Outage Frequency",
-            }),
-          }}
+          infoDialogProps={infoDialogProps["help-saifi"]}
         />
       </CardGrid>
     </>

@@ -26,21 +26,17 @@ const fetchWithTimeout = async (
   url: string,
   options: RequestInit & { timeout?: number; agent?: https.Agent } = {}
 ) => {
-  const { timeout } = options;
-
-  let id;
-  const aborter = new Promise((_, reject) =>
-    timeout !== undefined
-      ? (id = setTimeout(() => reject(new Error("Timeout")), timeout))
-      : undefined
-  );
   setupUndiciHttpAgent();
 
-  const fetcher = await fetch(url, options);
-  if (id !== undefined) {
-    clearTimeout(id);
+  const { timeout } = options;
+
+  const value = await fetch(url, {
+    ...options,
+    signal: timeout !== undefined ? AbortSignal.timeout(timeout) : undefined,
+  });
+  if (!value.ok) {
+    throw new Error(`Fetch to ${url} failed with status ${value.status}`);
   }
-  const value = await Promise.race([aborter, fetcher]);
   return value as Response;
 };
 

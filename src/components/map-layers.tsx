@@ -14,7 +14,10 @@ import {
 
 // Common types for layer options
 type LayerHoverHandler = (info: PickingInfo) => void;
-type LayerClickHandler = (info: PickingInfo, event?: unknown) => void;
+type LayerClickHandler = (
+  info: PickingInfo,
+  event: { srcEvent: Event }
+) => void;
 
 interface MunicipalityLayerOptions {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

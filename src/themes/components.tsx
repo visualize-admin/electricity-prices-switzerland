@@ -448,6 +448,7 @@ export const components = (theme: Theme): Components => ({
     styleOverrides: {
       root: {
         borderRadius: 2,
+        paddingLeft: 2,
         [theme.breakpoints.up("sm")]: {
           fontSize: "16px",
         },

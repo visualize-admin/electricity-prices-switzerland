@@ -148,6 +148,6 @@ export const indicatorWikiPageSlugMapping: Record<
   energyTariffs: "help-energy-tariffs",
   saidi: "help-saidi",
   saifi: "help-saifi",
-  serviceQuality: "help-operational-standards",
+  serviceQuality: "help-service-quality",
   compliance: "help-compliance",
 };

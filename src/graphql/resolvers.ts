@@ -102,10 +102,30 @@ const Query: QueryResolvers = {
         typology: filter.typology ?? undefined,
       });
 
+    return {
+      data: sunshineData,
+    };
+  },
+  sunshineMedianByIndicator: async (_parent, args, context) => {
+    const { filter } = args;
+
+    if (!filter.indicator) {
+      throw new GraphQLError("Indicator is required", {
+        extensions: { code: "MISSING_INDICATOR" },
+      });
+    }
+
     // Get median from the service using the new structured filter
     let medianValue = 0;
     try {
-      const medianParams = createIndicatorMedianParams(filter);
+      const medianParams = createIndicatorMedianParams({
+        ...filter,
+
+        // For median calculation, remove the peer group constraint.
+        // This means that we will always have the median for all switzerland.
+        // This is a decision made by Elcom.
+        peerGroup: undefined,
+      });
       if (medianParams) {
         const medianRows = sortBy(
           await context.sunshineDataService.getYearlyIndicatorMedians(
@@ -141,10 +161,7 @@ const Query: QueryResolvers = {
       );
     }
 
-    return {
-      data: sunshineData,
-      median: medianValue,
-    };
+    return medianValue;
   },
   sunshineTariffs: async (_parent, args, context) => {
     const { filter } = args;

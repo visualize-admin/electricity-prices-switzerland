@@ -10,6 +10,7 @@ import {
   DialogTitle as MuiDialogTitle,
   IconButton,
   Typography,
+  IconButtonProps,
 } from "@mui/material";
 import parse, {
   DOMNode,
@@ -193,12 +194,14 @@ export const InfoDialogButton = ({
   iconOnly,
   iconSize = 16,
   type = "fill",
+  sx,
 }: {
   label: string;
   slug: WikiPageSlug;
   iconOnly?: boolean;
   iconSize?: number;
   type?: "fill" | "outline";
+  sx?: IconButtonProps["sx"];
 }) => {
   const {
     isOpen: isHelpDialogOpen,
@@ -228,6 +231,7 @@ export const InfoDialogButton = ({
           paddingRight: "0 !important",
           width: 32,
           height: 32,
+          ...sx,
         }}
         onClick={openDialog}
       >
