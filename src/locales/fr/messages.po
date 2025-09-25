@@ -1179,8 +1179,8 @@ msgstr "Tarifs de l'énergie"
 msgid "sunshine.costs-and-tariffs.energy-tariffs-comparison-title"
 msgstr "Tarifs de l'énergie {0}"
 
+#: src/components/info-dialog-props.ts
 #: src/components/map-details-chart-adapters.tsx
-#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.energy-tariffs-trend"
 msgstr "Évolution des tarifs de l'énergie"
@@ -1218,8 +1218,8 @@ msgstr "Tarifs nets"
 msgid "sunshine.costs-and-tariffs.net-tariffs-comparison-title"
 msgstr "Tarifs nets {0}"
 
+#: src/components/info-dialog-props.ts
 #: src/components/map-details-chart-adapters.tsx
-#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.net-tariffs-trend"
 msgstr "Tendance des tarifs nets"
@@ -1228,9 +1228,9 @@ msgstr "Tendance des tarifs nets"
 msgid "sunshine.costs-and-tariffs.net-tariffs.overview"
 msgstr "Tarifs nets"
 
+#: src/components/info-dialog-props.ts
 #: src/components/map-details-chart-adapters.tsx
 #: src/components/network-costs-trend-card.tsx
-#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.network-cost-trend"
 msgstr "Évolution des coûts du réseau"
 
@@ -1507,7 +1507,7 @@ msgstr "Panne d'électricité (SAIDI)"
 msgid "sunshine.power-stability.saidi.comparison-card-title"
 msgstr "Durée totale de l'interruption"
 
-#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+#: src/components/info-dialog-props.ts
 msgid "sunshine.power-stability.saidi.info-dialog-label"
 msgstr "Durée totale de l'interruption"
 
@@ -1532,7 +1532,7 @@ msgstr "Panne d'électricité (SAIFI)"
 msgid "sunshine.power-stability.saifi.comparison-card-title"
 msgstr "Fréquence totale des interruptions"
 
-#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+#: src/components/info-dialog-props.ts
 msgid "sunshine.power-stability.saifi.info-dialog-label"
 msgstr "Fréquence totale des interruptions"
 

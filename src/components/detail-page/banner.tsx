@@ -5,7 +5,6 @@ import { useRouter } from "next/router";
 import { Fragment, useState } from "react";
 
 import { SafeHydration } from "src/components/hydration";
-import { MapLink } from "src/components/links";
 import { Entity } from "src/domain/data";
 import { Icon } from "src/icons";
 import { useIsMobile } from "src/lib/use-mobile";
@@ -89,13 +88,13 @@ export const DetailPageBanner = ({
   return (
     <Box
       sx={{
-        py: 5,
-        bgcolor: "background.paper",
+        pt: 5,
+        pb: 0,
         width: "100%",
       }}
       id="main-content"
     >
-      <Box
+      {/* <Box
         display="grid"
         sx={{
           mb: { md: 6 },
@@ -129,7 +128,7 @@ export const DetailPageBanner = ({
             <Trans id="detail.maplink">Back to map view</Trans>
           </UILink>
         </Box>
-      </Box>
+      </Box> */}
 
       <Box sx={{ mx: "auto", my: 2 }}>
         <Typography

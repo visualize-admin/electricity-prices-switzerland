@@ -1179,8 +1179,8 @@ msgstr "Tariffe energetiche"
 msgid "sunshine.costs-and-tariffs.energy-tariffs-comparison-title"
 msgstr "Tariffe energetiche {0}"
 
+#: src/components/info-dialog-props.ts
 #: src/components/map-details-chart-adapters.tsx
-#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.energy-tariffs-trend"
 msgstr "Andamento delle tariffe energetiche"
@@ -1218,8 +1218,8 @@ msgstr "Tariffe nette"
 msgid "sunshine.costs-and-tariffs.net-tariffs-comparison-title"
 msgstr "Tariffe nette {0}"
 
+#: src/components/info-dialog-props.ts
 #: src/components/map-details-chart-adapters.tsx
-#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.net-tariffs-trend"
 msgstr "Andamento delle tariffe nette"
@@ -1228,9 +1228,9 @@ msgstr "Andamento delle tariffe nette"
 msgid "sunshine.costs-and-tariffs.net-tariffs.overview"
 msgstr "Tariffe nette"
 
+#: src/components/info-dialog-props.ts
 #: src/components/map-details-chart-adapters.tsx
 #: src/components/network-costs-trend-card.tsx
-#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.network-cost-trend"
 msgstr "Andamento dei costi di rete"
 
@@ -1507,7 +1507,7 @@ msgstr "Interruzione di corrente (SAIDI)"
 msgid "sunshine.power-stability.saidi.comparison-card-title"
 msgstr "Durata totale dell'interruzione"
 
-#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+#: src/components/info-dialog-props.ts
 msgid "sunshine.power-stability.saidi.info-dialog-label"
 msgstr "Durata totale dell'interruzione"
 
@@ -1532,7 +1532,7 @@ msgstr "Interruzione di corrente (SAIFI)"
 msgid "sunshine.power-stability.saifi.comparison-card-title"
 msgstr "Frequenza totale delle interruzioni"
 
-#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+#: src/components/info-dialog-props.ts
 msgid "sunshine.power-stability.saifi.info-dialog-label"
 msgstr "Frequenza totale delle interruzioni"
 

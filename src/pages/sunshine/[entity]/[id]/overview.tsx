@@ -14,7 +14,6 @@ import {
   DetailsPageHeader,
   DetailsPageLayout,
   DetailsPageSubtitle,
-  DetailsPageTitle,
 } from "src/components/detail-page/layout";
 import { DetailsPageSidebar } from "src/components/detail-page/sidebar";
 import { LoadingSkeleton } from "src/components/hint";
@@ -291,11 +290,11 @@ const OverviewPage = (props: Props) => {
         </title>
       </Head>
       <DetailsPageHeader>
-        <DetailsPageTitle>
+        {/* <DetailsPageTitle>
           <Trans id="sunshine.overview-sunshine.title">
             Sunshine Indicators Overview
           </Trans>
-        </DetailsPageTitle>
+        </DetailsPageTitle> */}
         <DetailsPageSubtitle>
           <Trans id="sunshine.overview-sunshine.description">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit.

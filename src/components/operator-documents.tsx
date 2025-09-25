@@ -233,6 +233,7 @@ export const OperatorDocuments = ({ id }: { id: string }) => {
         startIcon={<Icon name="download" size={20} />}
         onClick={handleOpen}
         color="tertiary"
+        sx={{ flexShrink: 0 }}
       >
         <Typography
           variant="body2"

@@ -79,7 +79,7 @@ const AppNavigation = () => {
             flexDirection: "column",
             gap: 4,
           }}
-          display="flex"
+          display="none"
         >
           <Typography
             component="h1"
@@ -108,9 +108,6 @@ const AppNavigation = () => {
       <MenuContainer
         sx={{
           px: 3,
-          borderTopWidth: 1,
-          borderTopStyle: "solid",
-          borderTopColor: "monochrome.300",
         }}
       >
         <MenuButton

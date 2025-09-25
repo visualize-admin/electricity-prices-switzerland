@@ -145,7 +145,7 @@ export const Header = ({
         <SwissFederalCiHeader
           longTitle={t({
             id: "header.long-title",
-            message: "Federal Electricity Commission ElCom",
+            message: "Electricity tariffs in Switzerland",
           })}
           shortTitle="ElCom"
           rootHref="/"

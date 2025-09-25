@@ -104,7 +104,7 @@ const IndexPage = () => {
                 >
                   <Typography variant="h3">
                     <Trans id="home.hero-section.primary-cta">
-                      Electricity tariffs in Switzerland
+                      View the map
                     </Trans>
                   </Typography>
                 </Button>
