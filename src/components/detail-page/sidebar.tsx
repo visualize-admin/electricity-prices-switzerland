@@ -32,6 +32,30 @@ export const DetailsPageSidebar = (props: SectionProps) => {
           Electricity tariffs
         </Trans>
       </SidebarItem>
+      <SidebarItem href={`/${entity}/${id}#components`}>
+        <Trans id="details.page.navigation.price-components-item">
+          Price components
+        </Trans>
+      </SidebarItem>
+      <SidebarItem href={`/${entity}/${id}#evolution`}>
+        <Trans id="details.page.navigation.tariff-development-item">
+          Tariff development
+        </Trans>
+      </SidebarItem>
+      <SidebarItem
+        href={`/${entity}/${id}#distribution
+#main-content`}
+      >
+        <Trans id="details.page.navigation.price-distribution-item">
+          Price distribution in Switzerland
+        </Trans>
+      </SidebarItem>
+      <SidebarItem href={`/${entity}/${id}#comparison`}>
+        <Trans id="details.page.navigation.canton-comparison-item">
+          Canton comparison
+        </Trans>
+      </SidebarItem>
+
       {/* FIXME: Make this only a preview and add a coming soon label */}
       {sunshineFlag && entity === "operator" ? (
         <SafeHydration>

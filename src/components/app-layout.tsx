@@ -125,11 +125,7 @@ const AppNavigation = () => {
         />
         <MenuButton
           title={t({ id: "home.menu.map-view", message: "Map view" })}
-          active={
-            asPath === "/map" ||
-            asPath.includes("municipality") ||
-            asPath.includes("canton")
-          }
+          active={asPath === "/map"}
           href={"/map"}
           //FIXME: alter MenuButton for searchbar spacing
           sx={{
@@ -140,6 +136,24 @@ const AppNavigation = () => {
             },
           }}
         />
+        {asPath.includes("canton") ||
+        asPath.includes("municipality") ||
+        asPath.includes("operator") ? (
+          <MenuButton
+            title={t({ id: "home.menu.details", message: "Details" })}
+            active={true}
+            href={"/map"}
+            //FIXME: alter MenuButton for searchbar spacing
+            sx={{
+              ".MuiButtonBase-root": {
+                py: {
+                  md: 6,
+                },
+              },
+            }}
+          />
+        ) : null}
+
         <Box sx={{ flex: 1 }} />
         <Search />
       </MenuContainer>
