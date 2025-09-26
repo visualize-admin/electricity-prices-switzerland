@@ -411,7 +411,7 @@ describe("SPARQL Sunshine Data Service", () => {
 
   describe("getPeerGroup", () => {
     it("should return peer group information", async () => {
-      const result = await sunshineDataServiceSparql.getPeerGroup(8);
+      const result = await sunshineDataServiceSparql.getOperatorPeerGroup(8);
 
       expect(result).toMatchInlineSnapshot(`
         {
@@ -423,7 +423,7 @@ describe("SPARQL Sunshine Data Service", () => {
     });
 
     it("should return peer group information for string id", async () => {
-      const result = await sunshineDataServiceSparql.getPeerGroup("8");
+      const result = await sunshineDataServiceSparql.getOperatorPeerGroup("8");
 
       expect(result).toMatchInlineSnapshot(`
         {

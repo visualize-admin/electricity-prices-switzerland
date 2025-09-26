@@ -136,7 +136,7 @@ export interface SunshineDataService {
 
   getLatestYearPowerStability(operatorId: number): Promise<string>;
 
-  getPeerGroup(operatorId: number | string): Promise<PeerGroup>;
+  getOperatorPeerGroup(operatorId: number | string): Promise<PeerGroup>;
 
   getPeerGroups(locale: string): Promise<PeerGroupItem[]>;
 

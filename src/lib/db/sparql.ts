@@ -12,7 +12,6 @@ import {
   PeerGroupNotFoundError,
   UnknownPeerGroupError,
 } from "src/lib/db/errors";
-import { peerGroups } from "src/lib/db/sparql-peer-groups";
 import { peerGroupMapping } from "src/lib/db/sparql-peer-groups-mapping";
 import { IndicatorMedianParams } from "src/lib/sunshine-data";
 import type {
@@ -762,7 +761,7 @@ const getLatestYearPowerStability = async (
   return results.length > 0 ? results[0].period : "2024";
 };
 
-const getPeerGroup = async (
+const getOperatorPeerGroup = async (
   _operatorId: number | string
 ): Promise<PeerGroup> => {
   const operatorId =
@@ -774,25 +773,28 @@ PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX cube: <https://cube.link/>
 BASE <https://energy.ld.admin.ch/elcom/>
 
-SELECT ?group
+SELECT ?peerGroup
 WHERE {
+  ?peerGroup
+    a <http://www.w3.org/2004/02/skos/core#Concept>.
+
   <sunshine> cube:observationSet/cube:observation ?obs .
   ?obs <sunshine/dimension/operator> <${convertOperatorIdToUri(operatorId)}> .
   ?obs <sunshine/dimension/period> "2025"^^xsd:gYear.
-  ?obs <sunshine/dimension/group> ?group .
+  ?obs <sunshine/dimension/group> ?peerGroup .
 } 
     LIMIT 1
   `;
 
   const results = await executeSparqlQuery<{
-    group: string;
+    peerGroup: string;
   }>(query);
 
   if (results.length === 0) {
     throw new PeerGroupNotFoundError(_operatorId);
   }
-  const groupUri = results[0].group;
-  const peerGroupId = stripNamespaceFromIri({ iri: groupUri })
+  const peerGroupUri = results[0].peerGroup;
+  const peerGroupId = stripNamespaceFromIri({ iri: peerGroupUri })
     .slice(0, 1)
     .toUpperCase();
   if (!(peerGroupId in peerGroupMapping)) {
@@ -1075,7 +1077,7 @@ export const sunshineDataServiceSparql = {
   getYearlyIndicatorMedians,
   getLatestYearSunshine,
   getLatestYearPowerStability,
-  getPeerGroup,
+  getOperatorPeerGroup,
   getPeerGroups,
   getSunshineData,
   getSunshineDataByIndicator,

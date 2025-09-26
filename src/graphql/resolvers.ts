@@ -648,7 +648,9 @@ const Operator: OperatorResolvers = {
   },
 
   peerGroup: async ({ id }, args, context) => {
-    const peerGroups = await context.sunshineDataService.getPeerGroup(id);
+    const peerGroups = await context.sunshineDataService.getOperatorPeerGroup(
+      id
+    );
     return peerGroups;
   },
 };

@@ -576,7 +576,7 @@ export const sunshineDataServiceSql = {
   getYearlyIndicatorMedians,
   getLatestYearSunshine,
   getLatestYearPowerStability,
-  getPeerGroup,
+  getOperatorPeerGroup: getPeerGroup,
   getPeerGroups,
   getSunshineData,
   getSunshineDataByIndicator,
