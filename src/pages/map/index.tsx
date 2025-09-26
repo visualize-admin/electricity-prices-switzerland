@@ -258,6 +258,10 @@ const MapPageContent = ({
     sunshineEnrichedDataResult.data?.observations,
   ]);
 
+  const isFetching = isElectricityTab
+    ? energyPricesEnrichedData.fetching
+    : sunshineEnrichedDataResult.fetching;
+
   const list = (
     <List
       entity={isElectricityTab ? entity : "operator"}
@@ -265,11 +269,7 @@ const MapPageContent = ({
       colorScale={colorScale}
       indicator={indicator}
       valueFormatter={valueFormatter}
-      fetching={
-        isElectricityTab
-          ? energyPricesEnrichedData.fetching
-          : sunshineEnrichedDataResult.fetching
-      }
+      fetching={isFetching}
     />
   );
 

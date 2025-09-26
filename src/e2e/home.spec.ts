@@ -1,6 +1,6 @@
 import { expect } from "@playwright/test";
 
-import { test, sleep } from "src/e2e/common";
+import { test, sleep, ensureLoadingIsComplete } from "src/e2e/common";
 
 test.describe("The Home Page", () => {
   test("default language (de) should render on /", async ({ browser }) => {
@@ -75,6 +75,8 @@ test.describe("The Home Page", () => {
         newPage.waitForLoadState("networkidle"),
         sleep(5000),
       ]);
+
+      await ensureLoadingIsComplete(newPage);
 
       await snapshot({
         note: `Sunshine link - ${link}`,

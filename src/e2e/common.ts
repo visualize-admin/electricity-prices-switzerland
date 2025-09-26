@@ -99,4 +99,9 @@ test.afterEach(async ({ page }, testInfo) => {
 
 export const sleep = (dur: number) => new Promise((r) => setTimeout(r, dur));
 
+export const ensureLoadingIsComplete = async (page: Page) =>
+  await page.waitForSelector("[data-testid='loading']", {
+    state: "hidden",
+  });
+
 export { expect, test };
