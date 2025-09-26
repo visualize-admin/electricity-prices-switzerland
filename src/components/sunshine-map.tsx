@@ -410,10 +410,6 @@ const SunshineMap = ({
     valueFormatter,
   ]);
 
-  if (!geoData || !geoData.municipalities || !enhancedGeoData) {
-    return null;
-  }
-
   return (
     <GenericMap
       layers={mapLayers}
