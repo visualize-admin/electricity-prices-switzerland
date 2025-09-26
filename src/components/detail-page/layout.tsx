@@ -116,7 +116,7 @@ export const DetailsPageHeader = ({ children }: DetailsPageBaseProps) => {
 
 export const DetailsPageTitle = ({ children }: DetailsPageBaseProps) => {
   return (
-    <Typography variant="h1" component={"h2"}>
+    <Typography variant="h2" component={"h2"}>
       {children}
     </Typography>
   );
@@ -154,21 +154,13 @@ export const DetailsPageLayout = ({
         <title>{title}</title>
       </Head>
       <ApplicationLayout>
-        <Box
-          sx={{
-            borderBottomWidth: "1px",
-            borderBottomStyle: "solid",
-            borderBottomColor: "monochrome.300",
-          }}
-        >
+        <Box>
           <ContentWrapper
             sx={{
               flexGrow: 1,
               backgroundColor: "background.paper",
             }}
-          >
-            {BannerContent}
-          </ContentWrapper>
+          ></ContentWrapper>
         </Box>
         <Box
           sx={{
@@ -190,6 +182,7 @@ export const DetailsPageLayout = ({
                 download={download}
                 selector={!isMobile && SidebarContent ? SidebarContent : null}
               >
+                {BannerContent}
                 {MainContent}
               </DetailPageContentLayout>
             </Box>
