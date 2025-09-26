@@ -49,7 +49,7 @@ export function getSunshineDataServiceInfo(
   };
 }
 
-export function getSunshineDataServiceFromCookies(
+function getSunshineDataServiceFromCookies(
   cookies: string | undefined
 ): string {
   if (!cookies) {
