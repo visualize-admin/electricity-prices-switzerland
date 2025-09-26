@@ -15,6 +15,7 @@ You can also check the
 
   - Map: Tooltips z-index is now higher than the filters selects
   - Map: Tooltips no longer cut by window
+  - Sunshine Map: Palette for compliance is reverted
 
 - Chore
   - SPARQL client: Created at request time and part of the GraphQL context
