@@ -145,17 +145,12 @@ const SunshineMap = ({
     );
 
     const features = operatorsFeatureCollection.features;
-    const filteredFeatures = features.filter((feature) => {
-      return feature.properties.operators.some(
-        (opId) => !!(observationsByOperator[opId] ?? {}).value
-      );
-    });
 
     return {
       ...operatorsFeatureCollection,
-      features: filteredFeatures,
+      features,
     };
-  }, [enrichedData?.operatorMunicipalities, geoData, observationsByOperator]);
+  }, [enrichedData?.operatorMunicipalities, geoData]);
 
   // Entity selection state
   const [entitySelection, setEntitySelection] = useState<EntitySelection>({
