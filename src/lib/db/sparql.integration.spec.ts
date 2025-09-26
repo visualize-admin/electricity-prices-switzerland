@@ -178,7 +178,7 @@ describe("SPARQL Sunshine Data Service", () => {
         period: 2025,
       });
 
-      expect(result.length).toMatchInlineSnapshot(`568`);
+      expect(result.length).toMatchInlineSnapshot(`588`);
       expect(result.filter((x) => x.saidi_total !== undefined).slice(0, 3))
         .toMatchInlineSnapshot(`
           [
@@ -484,7 +484,7 @@ describe("SPARQL Sunshine Data Service", () => {
         period: "2025",
       });
 
-      expect(result.length).toMatchInlineSnapshot(`568`);
+      expect(result.length).toMatchInlineSnapshot(`588`);
       expect(result.slice(0, 2)).toMatchInlineSnapshot(`
         [
           {
