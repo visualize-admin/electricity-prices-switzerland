@@ -1,5 +1,6 @@
-import { Box, useTheme } from "@mui/material";
+import { Box, Theme, useTheme } from "@mui/material";
 import React, { forwardRef, ReactNode } from "react";
+import { tss } from "tss-react/mui";
 
 import {
   TOOLTIP_OFFSET,
@@ -22,8 +23,8 @@ type TooltipBoxProps = {
 
 export const TooltipBox = forwardRef<HTMLDivElement, TooltipBoxProps>(
   ({ x, y, placement, margins, children, style, interactive = false }, ref) => {
-    const triangle = mkTriangle(placement);
     const theme = useTheme();
+    const triangle = mkTriangle(theme, placement);
 
     return (
       <Box
@@ -44,7 +45,7 @@ export const TooltipBox = forwardRef<HTMLDivElement, TooltipBoxProps>(
           sx={{
             padding: 3,
             pointerEvents: interactive ? "all" : "none",
-            bgcolor: "background.paper",
+            bgcolor: theme.palette.background.paper,
             filter: `drop-shadow(${theme.shadows[6]})`,
 
             "&::before": {
@@ -56,15 +57,7 @@ export const TooltipBox = forwardRef<HTMLDivElement, TooltipBoxProps>(
               width: 0,
               height: 0,
               borderStyle: "solid",
-              top: triangle.top,
-              right: triangle.right,
-              bottom: triangle.bottom,
-              left: triangle.left,
-              borderWidth: triangle.borderWidth,
-              borderTopColor: triangle.borderTopColor,
-              borderRightColor: triangle.borderRightColor,
-              borderBottomColor: triangle.borderBottomColor,
-              borderLeftColor: triangle.borderLeftColor,
+              ...triangle,
             },
           }}
         >
@@ -75,6 +68,50 @@ export const TooltipBox = forwardRef<HTMLDivElement, TooltipBoxProps>(
   }
 );
 
+const useTooltipStyles = tss
+  .withParams<{
+    placement: TooltipPlacement;
+  }>()
+  .create(({ theme, placement }) => {
+    const triangle = mkTriangle(theme, placement);
+    return {
+      tooltipContainer: {
+        width: "fit-content",
+        zIndex: 2,
+        position: "absolute",
+        pointerEvents: "none",
+        boxShadow: theme.shadows[4],
+      },
+      tooltipBox: {
+        padding: theme.spacing(3, 4),
+        borderRadius: 0.5,
+        pointerEvents: "none" as const,
+        backgroundColor: theme.palette.background.paper,
+        filter: `drop-shadow(${theme.shadows?.[6]})`,
+
+        "&::before": {
+          content: "''",
+          display: "block",
+          position: "absolute",
+          pointerEvents: "none",
+          zIndex: -1,
+          width: 0,
+          height: 0,
+          borderStyle: "solid",
+          top: triangle.top,
+          right: triangle.right,
+          bottom: triangle.bottom,
+          left: triangle.left,
+          borderWidth: triangle.borderWidth,
+          borderTopColor: triangle.borderTopColor,
+          borderRightColor: triangle.borderRightColor,
+          borderBottomColor: triangle.borderBottomColor,
+          borderLeftColor: triangle.borderLeftColor,
+        },
+      },
+    };
+  });
+
 export const TooltipBoxWithoutChartState = ({
   x,
   y,
@@ -82,54 +119,19 @@ export const TooltipBoxWithoutChartState = ({
   margins,
   children,
 }: TooltipBoxProps) => {
-  const triangle = mkTriangle(placement);
   const theme = useTheme();
+  const { classes } = useTooltipStyles({ placement });
 
   return (
     <Box
+      className={classes.tooltipContainer}
       style={{
-        width: "fit-content",
-        zIndex: 2,
-        position: "absolute",
         left: x! + margins.left,
         top: mxYOffset(y!, placement) + margins.top,
-        pointerEvents: "none",
         transform: mkTranslation(placement),
-        boxShadow: theme.shadows[4],
       }}
     >
-      <Box
-        sx={{
-          py: 3,
-          px: 4,
-          borderRadius: 0.5,
-          pointerEvents: "none",
-          backgroundColor: "background.paper",
-          filter: `drop-shadow(${theme.shadows?.[6]})`,
-
-          "&::before": {
-            content: "''",
-            display: "block",
-            position: "absolute",
-            pointerEvents: "none",
-            zIndex: -1,
-            width: 0,
-            height: 0,
-            borderStyle: "solid",
-            top: triangle.top,
-            right: triangle.right,
-            bottom: triangle.bottom,
-            left: triangle.left,
-            borderWidth: triangle.borderWidth,
-            borderTopColor: triangle.borderTopColor,
-            borderRightColor: triangle.borderRightColor,
-            borderBottomColor: triangle.borderBottomColor,
-            borderLeftColor: triangle.borderLeftColor,
-          },
-        }}
-      >
-        {children}
-      </Box>
+      <Box className={classes.tooltipBox}>{children}</Box>
     </Box>
   );
 };
@@ -163,7 +165,7 @@ const mkYTranslation = (yP: YPlacement): YTranslation =>
   yP === "top" ? "-100%" : yP === "middle" ? "-50%" : 0;
 
 // triangle position
-const mkTriangle = (p: TooltipPlacement) => {
+const mkTriangle = (theme: Theme, p: TooltipPlacement) => {
   switch (true) {
     case p.x === "right" && p.y === "bottom":
       return {
@@ -174,8 +176,8 @@ const mkTriangle = (p: TooltipPlacement) => {
         borderWidth: `${TRIANGLE_SIZE}px ${TRIANGLE_SIZE}px ${TRIANGLE_SIZE}px ${TRIANGLE_SIZE}px`,
         borderTopColor: `transparent`,
         borderRightColor: `transparent`,
-        borderBottomColor: `background.paper`,
-        borderLeftColor: `background.paper`,
+        borderBottomColor: theme.palette.background.paper,
+        borderLeftColor: theme.palette.background.paper,
       };
     case p.x === "center" && p.y === "bottom":
       return {
@@ -186,7 +188,7 @@ const mkTriangle = (p: TooltipPlacement) => {
         borderWidth: `0 ${TRIANGLE_SIZE}px ${TRIANGLE_SIZE}px ${TRIANGLE_SIZE}px`,
         borderTopColor: `transparent`,
         borderRightColor: `transparent`,
-        borderBottomColor: `background.paper`,
+        borderBottomColor: theme.palette.background.paper,
         borderLeftColor: `transparent`,
       };
     case p.x === "left" && p.y === "bottom":
@@ -197,8 +199,8 @@ const mkTriangle = (p: TooltipPlacement) => {
         top: `-${TRIANGLE_SIZE}px`,
         borderWidth: `${TRIANGLE_SIZE}px ${TRIANGLE_SIZE}px ${TRIANGLE_SIZE}px ${TRIANGLE_SIZE}px`,
         borderTopColor: `transparent`,
-        borderRightColor: `background.paper`,
-        borderBottomColor: `background.paper`,
+        borderRightColor: theme.palette.background.paper,
+        borderBottomColor: theme.palette.background.paper,
         borderLeftColor: `transparent`,
       };
     // triangle position downwards pointing (placement "top")
@@ -209,10 +211,10 @@ const mkTriangle = (p: TooltipPlacement) => {
         bottom: `-${TRIANGLE_SIZE}px`,
         top: "unset",
         borderWidth: `${TRIANGLE_SIZE}px ${TRIANGLE_SIZE}px ${TRIANGLE_SIZE}px ${TRIANGLE_SIZE}px`,
-        borderTopColor: `background.paper`,
+        borderTopColor: theme.palette.background.paper,
         borderRightColor: `transparent`,
         borderBottomColor: `transparent`,
-        borderLeftColor: `background.paper`,
+        borderLeftColor: theme.palette.background.paper,
       };
     case p.x === "center" && p.y === "top":
       return {
@@ -221,7 +223,7 @@ const mkTriangle = (p: TooltipPlacement) => {
         bottom: `-${TRIANGLE_SIZE}px`,
         top: "unset",
         borderWidth: `${TRIANGLE_SIZE}px ${TRIANGLE_SIZE}px 0 ${TRIANGLE_SIZE}px`,
-        borderTopColor: `background.paper`,
+        borderTopColor: theme.palette.background.paper,
         borderRightColor: `transparent`,
         borderBottomColor: `transparent`,
         borderLeftColor: `transparent`,
@@ -233,8 +235,8 @@ const mkTriangle = (p: TooltipPlacement) => {
         bottom: `-${TRIANGLE_SIZE}px`,
         top: "unset",
         borderWidth: `${TRIANGLE_SIZE}px ${TRIANGLE_SIZE}px ${TRIANGLE_SIZE}px ${TRIANGLE_SIZE}px`,
-        borderTopColor: `background.paper`,
-        borderRightColor: `background.paper`,
+        borderTopColor: theme.palette.background.paper,
+        borderRightColor: theme.palette.background.paper,
         borderBottomColor: `transparent`,
         borderLeftColor: `transparent`,
       };
