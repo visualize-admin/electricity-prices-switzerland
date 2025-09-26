@@ -795,17 +795,16 @@ WHERE {
   const peerGroupId = stripNamespaceFromIri({ iri: groupUri })
     .slice(0, 1)
     .toUpperCase();
-  if (peerGroups[peerGroupId] === undefined) {
-    throw new UnknownPeerGroupError(_operatorId, peerGroupId);
+  if (!(peerGroupId in peerGroupMapping)) {
+    throw new UnknownPeerGroupError(operatorId, peerGroupId);
   }
-  const peerGroup = peerGroups[peerGroupId];
   const mapping = peerGroupMapping[peerGroupId];
 
   return {
     // TODO see when we have the correct attributes in Lindas
     settlementDensity: mapping.settlement_density,
     energyDensity: mapping.energy_density,
-    id: `${peerGroup.id}`,
+    id: `${peerGroupId}`,
   };
 };
 

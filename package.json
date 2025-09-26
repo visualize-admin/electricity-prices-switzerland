@@ -45,8 +45,7 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build -o public/storybook",
     "mocks": "dotenv -e .env.local -- tsx scripts/mocks.ts",
-    "mocks:debug-views": "tsx scripts/show-sunshine-views.ts",
-    "sparql-peer-groups:codegen": "env SPARQL_ENDPOINT=https://test.lindas.admin.ch/query bun src/lib/db/sparql-peer-groups.gen.ts"
+    "mocks:debug-views": "tsx scripts/show-sunshine-views.ts"
   },
   "dependencies": {
     "@apollo/server": "^4.3.3",
