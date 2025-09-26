@@ -52,7 +52,6 @@ import {
   COVERAGE_RATIO_THRESHOLD,
   CoverageCacheManager,
 } from "src/rdf/coverage-ratio";
-import { sparqlClient } from "src/rdf/sparql-client";
 import { truthy } from "src/lib/truthy";
 
 const gfmSyntax = require("micromark-extension-gfm");
@@ -247,7 +246,7 @@ const Query: QueryResolvers = {
     );
     if (years) {
       const defaultNetworkLevel = "NE7";
-      const coverageManager = new CoverageCacheManager(sparqlClient);
+      const coverageManager = new CoverageCacheManager(ctx.sparqlClient);
       await coverageManager.prepare(years);
       operatorObservations.forEach((x) => {
         const coverageRatio = coverageManager.getCoverage(
@@ -386,12 +385,13 @@ const Query: QueryResolvers = {
 
     return medianObservations;
   },
-  operators: async (_, { query, ids, locale }) => {
+  operators: async (_, { query, ids, locale }, context) => {
     const results = await search({
       locale,
       query: query ?? "",
       ids: ids ?? [],
       types: ["operator"],
+      client: context.sparqlClient,
     });
 
     return results;
@@ -400,73 +400,81 @@ const Query: QueryResolvers = {
     const peerGroups = await context.sunshineDataService.getPeerGroups(locale);
     return peerGroups;
   },
-  municipalities: async (_, { query, ids, locale }) => {
+
+  municipalities: async (_, { query, ids, locale }, context) => {
     const results = await search({
       locale,
       query: query ?? "",
       ids: ids ?? [],
       types: ["municipality"],
+      client: context.sparqlClient,
     });
 
     return results;
   },
-  cantons: async (_, { query, ids, locale }) => {
+  cantons: async (_, { query, ids, locale }, context) => {
     const results = await search({
       locale,
       query: query ?? "",
       ids: ids ?? [],
       types: ["canton"],
+      client: context.sparqlClient,
     });
 
     return results;
   },
-  search: async (_, { query, locale }) => {
+  search: async (_, { query, locale }, context) => {
     const results = await search({
       locale,
       query: query ?? "",
       ids: [],
       types: ["municipality", "operator", "canton"],
+      client: context.sparqlClient,
     });
 
     return results;
   },
-  searchMunicipalities: async (_, { query, locale, ids }) => {
+  searchMunicipalities: async (_, { query, locale, ids }, context) => {
     const results = await search({
       locale,
       query: query ?? "",
       ids: ids ?? [],
       types: ["municipality"],
+      client: context.sparqlClient,
     });
 
     return results;
   },
-  allMunicipalities: async (_, { locale }) => {
+  allMunicipalities: async (_, { locale }, context) => {
     const results = await search({
       locale,
       query: ".*",
       ids: [],
       limit: 5000,
       types: ["municipality"],
+      client: context.sparqlClient,
     });
 
     return results;
   },
-  searchOperators: async (_, { query, locale, ids }) => {
+  searchOperators: async (_, { query, locale, ids }, context) => {
     const results = await search({
       locale,
       query: query ?? "",
       ids: ids ?? [],
       types: ["operator"],
+      client: context.sparqlClient,
     });
 
     return results;
   },
-  searchCantons: async (_, { query, locale, ids }) => {
+  searchCantons: async (_, { query, locale, ids }, context) => {
     const results = await search({
       locale,
       query: query ?? "",
       ids: ids ?? [],
       types: ["canton"],
+      client: context.sparqlClient,
     });
 
     return results;
