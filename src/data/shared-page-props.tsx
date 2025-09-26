@@ -1,4 +1,4 @@
-import { IncomingMessage, ServerResponse } from "http";
+import { GetServerSidePropsContext } from "next";
 
 import { Entity } from "src/domain/data";
 import { defaultLocale } from "src/locales/config";
@@ -9,9 +9,13 @@ import {
   getOperator,
   getOperatorMunicipalities,
 } from "src/rdf/queries";
-import { sparqlClient } from "src/rdf/sparql-client";
+import { getSparqlClientFromRequest } from "src/rdf/sparql-client";
 
-export type PageParams = { locale: string; id: string; entity: Entity };
+export type PageParams = {
+  locale: string;
+  id: string;
+  entity: Entity;
+};
 
 export type DataServiceProps = {
   serviceName: string;
@@ -44,22 +48,23 @@ export type Props =
     };
 
 export const getMunicipalityPageProps = async (
-  params: Omit<PageParams, "entity"> & {
-    res: ServerResponse<IncomingMessage>;
-    years: string[];
-  }
+  params: Omit<PageParams, "entity"> &
+    Pick<GetServerSidePropsContext, "res" | "req"> & {
+      years: string[];
+    }
 ): Promise<
   Extract<Props, { entity: "municipality" } | { status: "notfound" }>
 > => {
   const { id, locale, res, years } = params!;
-  const municipality = await getMunicipality({ id });
+  const client = await getSparqlClientFromRequest(params.req);
+  const municipality = await getMunicipality({ id, client });
 
   if (!municipality) {
     res.statusCode = 404;
     return { status: "notfound" };
   }
 
-  const operators = await getMunicipalityOperators(sparqlClient, id, years);
+  const operators = await getMunicipalityOperators(client, id, years);
 
   return {
     entity: "municipality",
@@ -73,17 +78,20 @@ export const getMunicipalityPageProps = async (
   };
 };
 export const getOperatorsPageProps = async (
-  params: Omit<PageParams, "entity"> & { res: ServerResponse<IncomingMessage> }
+  params: Omit<PageParams, "entity"> &
+    Pick<GetServerSidePropsContext, "res" | "req">
 ): Promise<Extract<Props, { entity: "operator" } | { status: "notfound" }>> => {
   const { id, locale, res } = params!;
-  const operator = await getOperator({ id });
+  const client = await getSparqlClientFromRequest(params.req);
+
+  const operator = await getOperator({ id, client });
 
   if (!operator) {
     res.statusCode = 404;
     return { status: "notfound" };
   }
 
-  const municipalities = await getOperatorMunicipalities(id, locale);
+  const municipalities = await getOperatorMunicipalities(id, locale, client);
 
   return {
     entity: "operator",
@@ -95,10 +103,13 @@ export const getOperatorsPageProps = async (
 };
 
 export const getCantonPageProps = async (
-  params: Omit<PageParams, "entity"> & { res: ServerResponse<IncomingMessage> }
+  params: Omit<PageParams, "entity"> &
+    Pick<GetServerSidePropsContext, "res" | "req">
 ): Promise<Extract<Props, { entity: "canton" } | { status: "notfound" }>> => {
   const { id, locale, res } = params!;
-  const canton = await getCanton({ id, locale: locale! });
+  const client = await getSparqlClientFromRequest(params.req);
+
+  const canton = await getCanton({ id, locale: locale!, client });
 
   if (!canton) {
     res.statusCode = 404;

@@ -75,7 +75,7 @@ type Props =
 export const getServerSideProps: GetServerSideProps<Props, PageParams> = async (
   context
 ) => {
-  const { params, res, locale } = context;
+  const { params, res, req, locale } = context;
 
   const { id, entity } = params!;
 
@@ -91,6 +91,7 @@ export const getServerSideProps: GetServerSideProps<Props, PageParams> = async (
     id,
     locale: locale ?? defaultLocale,
     res,
+    req,
   });
 
   if (operatorProps.status === "notfound") {

@@ -18,7 +18,8 @@ import {
   CoverageCacheManager,
 } from "src/rdf/coverage-ratio";
 import * as ns from "src/rdf/namespace";
-import { sparqlClient } from "src/rdf/sparql-client";
+
+import { createSparqlClientForCube } from "./sparql-client";
 
 type Filters = { [key: string]: string[] | null | undefined } | null;
 
@@ -29,15 +30,15 @@ const ELECTRICIY_PRICE_CANTON_CUBE =
 const ELECTRICITY_PRICE_SWISS_CUBE =
   "https://energy.ld.admin.ch/elcom/electricityprice-swiss";
 
-const createSource = (cubeIri: string | undefined) => {
-  assert(!!serverEnv, "serverEnv is not defined");
-  const endpointUrl =
-    cubeIri && serverEnv.SPARQL_ENDPOINT_SUPPORTS_CACHING_PER_CUBE
-      ? `${serverEnv.SPARQL_ENDPOINT}/${encodeURIComponent(cubeIri)}`
-      : serverEnv.SPARQL_ENDPOINT;
+const createSource = (cubeIri: string | undefined, client: ParsingClient) => {
+  const cubeClient = cubeIri
+    ? createSparqlClientForCube(client.query.endpoint.endpointUrl, cubeIri)
+    : client;
+
   return new Source({
     queryOperation: "postDirect",
-    endpointUrl,
+    endpointUrl: cubeClient.query.endpoint.endpointUrl,
+    client: cubeClient,
   });
 };
 
@@ -47,8 +48,14 @@ const shouldDimensionFilterUndefined = (dimension: string) => {
   return priceComponents.includes(dimension as PriceComponent);
 };
 
-const getCube = async ({ iri }: { iri: string }): Promise<Cube | null> => {
-  const source = createSource(iri);
+const getCube = async ({
+  iri,
+  client,
+}: {
+  iri: string;
+  client: ParsingClient;
+}): Promise<Cube | null> => {
+  const source = createSource(iri, client);
   const cube = await source.cube(iri);
 
   if (!cube) {
@@ -58,8 +65,11 @@ const getCube = async ({ iri }: { iri: string }): Promise<Cube | null> => {
   return cube;
 };
 
-const makeGetCubeAndCheck = (iri: string) => async (): Promise<Cube> => {
-  const cube = await getCube({ iri });
+const getCubeAndCheck = async (
+  iri: string,
+  client: ParsingClient
+): Promise<Cube> => {
+  const cube = await getCube({ iri, client });
   if (!cube) {
     throw Error(`Cube ${iri} not found`);
   }
@@ -69,15 +79,12 @@ const makeGetCubeAndCheck = (iri: string) => async (): Promise<Cube> => {
   return cube;
 };
 
-export const getElectricityPriceCube = makeGetCubeAndCheck(
-  ELECTRICITY_PRICE_CUBE
-);
-export const getElectricityPriceCantonCube = makeGetCubeAndCheck(
-  ELECTRICIY_PRICE_CANTON_CUBE
-);
-export const getElectricityPriceSwissCube = makeGetCubeAndCheck(
-  ELECTRICITY_PRICE_SWISS_CUBE
-);
+export const getElectricityPriceCube = (client: ParsingClient) =>
+  getCubeAndCheck(ELECTRICITY_PRICE_CUBE, client);
+export const getElectricityPriceCantonCube = (client: ParsingClient) =>
+  getCubeAndCheck(ELECTRICIY_PRICE_CANTON_CUBE, client);
+export const getElectricityPriceSwissCube = (client: ParsingClient) =>
+  getCubeAndCheck(ELECTRICITY_PRICE_SWISS_CUBE, client);
 
 export const getView = (cube: Cube): View => View.fromCube(cube);
 
@@ -392,10 +399,10 @@ const buildDimensionFilter = (
 
 export const getMunicipality = async ({
   id,
-  client = sparqlClient,
+  client,
 }: {
   id: string;
-  client?: ParsingClient;
+  client: ParsingClient;
 }): Promise<{ id: string; name: string } | null> => {
   const iri = ns.addNamespaceToID({
     dimension: "municipality",
@@ -417,11 +424,11 @@ SELECT DISTINCT ?name {
 
 export const getCanton = async ({
   id,
-  client = sparqlClient,
+  client,
   locale,
 }: {
   id: string;
-  client?: ParsingClient;
+  client: ParsingClient;
   locale: string;
 }): Promise<{ id: string; name: string } | null> => {
   const iri = ns.addNamespaceToID({
@@ -444,10 +451,10 @@ SELECT DISTINCT ?name {
 
 export const getOperator = async ({
   id,
-  client = sparqlClient,
+  client,
 }: {
   id: string;
-  client?: ParsingClient;
+  client: ParsingClient;
 }): Promise<{ id: string; name: string } | null> => {
   const iri = ns.addNamespaceToID({
     dimension: "operator",
@@ -469,10 +476,10 @@ SELECT DISTINCT ?name {
 
 export const getOperatorDocuments = async ({
   operatorId,
-  client = sparqlClient,
+  client,
 }: {
   operatorId: string;
-  client?: ParsingClient;
+  client: ParsingClient;
 }) => {
   const operatorIri = ns.addNamespaceToID({
     dimension: "operator",
@@ -530,7 +537,7 @@ export const getOperatorDocuments = async ({
 export const getOperatorsMunicipalities = async (
   year: string,
   category: ElectricityCategory | "all",
-  client = sparqlClient
+  client: ParsingClient
 ) => {
   const query = `
   SELECT DISTINCT ?period ?operator ?municipality ?canton WHERE {
@@ -640,7 +647,7 @@ WHERE {
       return [];
     });
 
-  const coverageManager = new CoverageCacheManager(sparqlClient);
+  const coverageManager = new CoverageCacheManager(client);
   await coverageManager.prepare(years ?? []);
 
   const viaObservationsFiltered = viaObservations.filter((obs) => {
@@ -676,8 +683,12 @@ export type OperatorMunicipalityRecord = Awaited<
   ReturnType<typeof getOperatorsMunicipalities>
 >[number];
 
-export const getOperatorMunicipalities = async (id: string, locale: string) => {
-  const cube = await getElectricityPriceCube();
+export const getOperatorMunicipalities = async (
+  id: string,
+  locale: string,
+  client: ParsingClient
+) => {
+  const cube = await getElectricityPriceCube(client);
 
   const municipalities = await getDimensionValuesAndLabels({
     cube,

@@ -7,7 +7,6 @@ import ParsingClient from "sparql-http-client/ParsingClient";
 import { defaultLocale } from "src/locales/config";
 
 import * as ns from "./namespace";
-import { sparqlClient } from "./sparql-client";
 
 // regex based search query for municipalities and operators
 type SearchType = "municipality" | "operator" | "canton";
@@ -196,10 +195,10 @@ const getSearchSparqlQuery = ({
 
 export const fetchOperatorInfo = async ({
   operatorId,
-  client = sparqlClient,
+  client,
 }: {
   operatorId: string;
-  client?: ParsingClient<Quad>;
+  client: ParsingClient<Quad>;
 }) => {
   const sparqlQuery = getOperatorQuery({ operatorId });
   const results = (await client.query.select(sparqlQuery.build())) as {
@@ -226,12 +225,12 @@ export const fetchOperatorInfo = async ({
 export const search = async ({
   query,
   ids,
-  client = sparqlClient,
+  client,
   locale = defaultLocale,
   types = ["municipality", "operator"],
   limit = 10,
 }: SearchSparqlQueryOptions & {
-  client?: ParsingClient;
+  client: ParsingClient;
 }) => {
   const { sparqlQuery, abort } = getSearchSparqlQuery({
     query,

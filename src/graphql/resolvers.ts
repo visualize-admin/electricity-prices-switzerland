@@ -200,7 +200,7 @@ const Query: QueryResolvers = {
 
     let observationsCube;
     try {
-      observationsCube = await getElectricityPriceCube();
+      observationsCube = await getElectricityPriceCube(ctx.sparqlClient);
     } catch (e: unknown) {
       console.error(e instanceof Error ? e.message : e);
       return [];
@@ -280,7 +280,7 @@ const Query: QueryResolvers = {
 
     let cantonCube;
     try {
-      cantonCube = await getElectricityPriceCantonCube();
+      cantonCube = await getElectricityPriceCantonCube(ctx.sparqlClient);
     } catch (e: unknown) {
       const message = e instanceof Error ? e.message : `${e}`;
       console.error(message);
@@ -333,7 +333,7 @@ const Query: QueryResolvers = {
   swissMedianObservations: async (_, { locale, filters }, ctx, info) => {
     let swissCube;
     try {
-      swissCube = await getElectricityPriceSwissCube();
+      swissCube = await getElectricityPriceSwissCube(ctx.sparqlClient);
     } catch (e: unknown) {
       const message = `${e instanceof Error ? e.message : e}`;
       console.error(message);
@@ -479,8 +479,8 @@ const Query: QueryResolvers = {
 
     return results;
   },
-  municipality: async (_, { id }) => {
-    const cube = await getElectricityPriceCube();
+  municipality: async (_, { id }, ctx) => {
+    const cube = await getElectricityPriceCube(ctx.sparqlClient);
 
     const results = await getDimensionValuesAndLabels({
       cube,
@@ -491,8 +491,8 @@ const Query: QueryResolvers = {
     return results[0];
   },
   canton: async (_, { id }) => ({ id }),
-  operator: async (_, { id, geverId }) => {
-    const cube = await getElectricityPriceCube();
+  operator: async (_, { id, geverId }, ctx) => {
+    const cube = await getElectricityPriceCube(ctx.sparqlClient);
 
     const results = await getDimensionValuesAndLabels({
       cube,
@@ -502,8 +502,8 @@ const Query: QueryResolvers = {
 
     return { ...results[0], id, geverId: geverId || undefined };
   },
-  cubeHealth: async () => {
-    const cube = await getElectricityPriceCube();
+  cubeHealth: async (_, __, ctx) => {
+    const cube = await getElectricityPriceCube(ctx.sparqlClient);
     const dimensions = cube.dimensions.map((d) => d.path.value);
     const missingDimensions = difference(expectedCubeDimensions, dimensions);
     return {
@@ -575,9 +575,17 @@ const Query: QueryResolvers = {
       period: filter.period,
     });
   },
-  operatorMunicipalities: async (_, { period, electricityCategory }) => {
+  operatorMunicipalities: async (
+    _,
+    { period, electricityCategory },
+    context
+  ) => {
     const category = asElectricityCategory(electricityCategory);
-    return await getOperatorsMunicipalities(period, category);
+    return await getOperatorsMunicipalities(
+      period,
+      category,
+      context.sparqlClient
+    );
   },
 };
 
@@ -593,8 +601,8 @@ const getExtraInfo = async (slug: string) => {
 };
 
 const Municipality: MunicipalityResolvers = {
-  operators: async ({ id }) => {
-    const cube = await getElectricityPriceCube();
+  operators: async ({ id }, _, ctx) => {
+    const cube = await getElectricityPriceCube(ctx.sparqlClient);
     return getDimensionValuesAndLabels({
       cube,
       dimensionKey: "operator",
@@ -604,8 +612,8 @@ const Municipality: MunicipalityResolvers = {
 };
 
 const Operator: OperatorResolvers = {
-  municipalities: async ({ id }) => {
-    const cube = await getElectricityPriceCube();
+  municipalities: async ({ id }, _, ctx) => {
+    const cube = await getElectricityPriceCube(ctx.sparqlClient);
 
     return getDimensionValuesAndLabels({
       cube,
@@ -614,12 +622,15 @@ const Operator: OperatorResolvers = {
     });
   },
 
-  documents: async ({ id }) => {
-    return getOperatorDocuments({ operatorId: id });
+  documents: async ({ id }, _, ctx) => {
+    return getOperatorDocuments({ operatorId: id, client: ctx.sparqlClient });
   },
 
-  geverDocuments: async ({ id: operatorId }) => {
-    const { data: operatorInfo } = await fetchOperatorInfo({ operatorId });
+  geverDocuments: async ({ id: operatorId }, _, ctx) => {
+    const { data: operatorInfo } = await fetchOperatorInfo({
+      operatorId,
+      client: ctx.sparqlClient,
+    });
     const uid = operatorInfo?.uid;
     try {
       const { docs } = await searchGeverDocuments({
