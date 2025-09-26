@@ -16,6 +16,8 @@ import {
   Typography,
 } from "@mui/material";
 import bbox from "@turf/bbox";
+// eslint-disable-next-line
+// @ts-ignore - Package import is reported as a problem in tsgo - TODO Recheck later if we can remove this
 import centroid from "@turf/centroid";
 import { Feature, FeatureCollection } from "geojson";
 import { isObject } from "lodash";

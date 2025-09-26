@@ -1,5 +1,7 @@
 import namespace from "@rdfjs/namespace";
 
+// eslint-disable-next-line
+// @ts-ignore - Package import is reported as a problem in tsgo - TODO Recheck later if we can remove this
 export { rdf, schema } from "@tpluscode/rdf-ns-builders";
 
 export const schemaAdmin = namespace("https://schema.ld.admin.ch/");

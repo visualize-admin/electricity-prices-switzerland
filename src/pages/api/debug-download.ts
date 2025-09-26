@@ -4,7 +4,7 @@ import { searchGeverDocuments } from "src/domain/gever";
 import serverEnv from "src/env/server";
 import assert from "src/lib/assert";
 import { fetchOperatorInfo } from "src/rdf/search-queries";
-import { endpointUrl } from "src/rdf/sparql-client";
+import { endpointUrl, getSparqlClientFromRequest } from "src/rdf/sparql-client";
 import { api } from "src/server/nextkit";
 
 assert(!!serverEnv, "serverEnv is not defined");
@@ -32,7 +32,8 @@ const handler = api({
     if (queryUid && !Array.isArray(queryUid)) {
       uid = queryUid;
     } else if (queryOid && !Array.isArray(queryOid)) {
-      lindasInfo = await fetchOperatorInfo({ operatorId: queryOid });
+      const client = await getSparqlClientFromRequest(req);
+      lindasInfo = await fetchOperatorInfo({ operatorId: queryOid, client });
       uid = lindasInfo?.data.uid;
     } else {
       uid = "Not found";

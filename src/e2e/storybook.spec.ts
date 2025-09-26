@@ -3,7 +3,7 @@ import * as path from "path";
 
 import { Page } from "@playwright/test";
 
-import { test, expect, sleep } from "./common";
+import { test, expect, sleep, ensureLoadingIsComplete } from "./common";
 
 type StorybookManifestStory = {
   id: string;
@@ -92,12 +92,8 @@ export async function loadStory(
     throw new Error("An error happened while rendering the component");
   }
 
-  // Wait for the data-testid="loading" to be removed
-  // before taking the screenshot
   if (options?.waitForLoadingIcon !== false) {
-    await page.waitForSelector("[data-testid='loading']", {
-      state: "hidden",
-    });
+    await ensureLoadingIsComplete(page);
   }
 }
 

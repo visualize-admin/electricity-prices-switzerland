@@ -15,6 +15,7 @@
     "build": "lingui compile && yarn build-storybook && yarn build:next && mkdir .next/server/pages/sunshine-data/ && cp src/sunshine-data/*.enc  .next/server/pages/sunshine-data/",
     "build:next": "NODE_OPTIONS='--max_old_space_size=16384 --openssl-legacy-provider' next build -d",
     "start": "GLOBAL_AGENT_ENVIRONMENT_VARIABLE_NAMESPACE='' NODE_OPTIONS='-r \"./configure-proxy\" --max_old_space_size=2048 --openssl-legacy-provider --unhandled-rejections=warn' next start -p $PORT",
+    "tsgo": "tsgo",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "oxlint": "oxlint .",
@@ -45,8 +46,7 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build -o public/storybook",
     "mocks": "dotenv -e .env.local -- tsx scripts/mocks.ts",
-    "mocks:debug-views": "tsx scripts/show-sunshine-views.ts",
-    "sparql-peer-groups:codegen": "env SPARQL_ENDPOINT=https://test.lindas.admin.ch/query bun src/lib/db/sparql-peer-groups.gen.ts"
+    "mocks:debug-views": "tsx scripts/show-sunshine-views.ts"
   },
   "dependencies": {
     "@apollo/server": "^4.3.3",
@@ -113,7 +113,7 @@
     "nextkit": "^3.4.3",
     "node-fetch": "^2.6.7",
     "nprogress": "^0.2.0",
-    "rdf-cube-view-query": "^1.3.1",
+    "rdf-cube-view-query": "2.1.1",
     "rdf-ext": "^1.3.0",
     "react": "18.3.1",
     "react-dom": "18.3.1",
@@ -174,6 +174,7 @@
     "@types/xml-c14n": "^0.0.1",
     "@typescript-eslint/eslint-plugin": "^8.29.0",
     "@typescript-eslint/parser": "^8.29.0",
+    "@typescript/native-preview": "^7.0.0-dev.20250926.1",
     "@visx/axis": "^3.12.0",
     "@visx/group": "^3.12.0",
     "@visx/scale": "^3.12.0",

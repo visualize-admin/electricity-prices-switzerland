@@ -67,7 +67,13 @@ export const LoadingSkeleton = ({
   sx?: BoxProps["sx"];
 }) => {
   return (
-    <Skeleton variant="rectangular" width="100%" height={height} sx={sx} />
+    <Skeleton
+      variant="rectangular"
+      width="100%"
+      height={height}
+      sx={sx}
+      data-testid="loading"
+    />
   );
 };
 

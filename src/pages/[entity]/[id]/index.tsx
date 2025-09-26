@@ -30,7 +30,7 @@ import { defaultLocale } from "src/locales/config";
 
 export const getServerSideProps: GetServerSideProps<
   Props,
-  PageParams
+  Omit<PageParams, "req">
 > = async ({ params, res, locale, req }) => {
   const { id, entity } = params!;
   const query = new URL(req.url!, `http://${req.headers.host}`).searchParams;
@@ -48,6 +48,7 @@ export const getServerSideProps: GetServerSideProps<
         id,
         locale: locale ?? defaultLocale,
         res,
+        req,
       });
 
       break;
@@ -58,6 +59,7 @@ export const getServerSideProps: GetServerSideProps<
         // get years out of the query string from the request
         years: period.length > 0 ? period : [runtimeEnv.CURRENT_PERIOD],
         res,
+        req,
       });
 
       break;
@@ -66,6 +68,7 @@ export const getServerSideProps: GetServerSideProps<
         id,
         locale: locale ?? defaultLocale,
         res,
+        req,
       });
 
       break;

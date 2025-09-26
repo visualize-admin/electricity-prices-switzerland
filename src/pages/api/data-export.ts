@@ -8,6 +8,7 @@ import {
   getElectricityPriceCube,
   getView,
 } from "src/rdf/queries";
+import { getSparqlClientFromRequest } from "src/rdf/sparql-client";
 
 const formatters: Record<string, ReturnType<typeof format>> = {
   // See if this is needed later
@@ -63,7 +64,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const locale = parseLocaleString(req.query.locale?.toString());
   const period = req.query.period?.toString() ?? runtimeEnv.CURRENT_PERIOD!;
 
-  const cube = await getElectricityPriceCube();
+  const client = await getSparqlClientFromRequest(req);
+  const cube = await getElectricityPriceCube(client);
 
   const view = getView(cube);
 
