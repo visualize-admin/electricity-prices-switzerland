@@ -51,8 +51,6 @@ const fetchWikiPages = async () => {
 
   pages.forEach((page) => {
     // Try to parse slug in the format <page>/<language> with named groups
-    // @ts-expect-error TypeScript does not recognize the named groups in the regex,
-    // but it works at runtime
     const match = page.slug.match(/^(?<page>.+)\/(?<language>[a-z]{2})$/);
     if (match?.groups) {
       const baseSlug = match.groups.page;
