@@ -77,7 +77,7 @@ const useTooltipStyles = tss
     return {
       tooltipContainer: {
         width: "fit-content",
-        zIndex: 2,
+        zIndex: theme.zIndex.tooltip,
         position: "absolute",
         pointerEvents: "none",
         boxShadow: theme.shadows[4],
