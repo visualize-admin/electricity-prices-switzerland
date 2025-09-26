@@ -119,7 +119,6 @@ export const TooltipBoxWithoutChartState = ({
   margins,
   children,
 }: TooltipBoxProps) => {
-  const theme = useTheme();
   const { classes } = useTooltipStyles({ placement });
 
   return (

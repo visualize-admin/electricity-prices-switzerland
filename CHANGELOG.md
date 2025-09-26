@@ -11,7 +11,13 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Fix
+
+  - Map: Tooltips z-index is now higher than the filters selects
+  - Map: Tooltips no longer cut by window
+
+- Chore
+  - SPARQL client: Created at request time and part of the GraphQL context
 
 # 2.17.0 - 2025-09-25
 
