@@ -2,6 +2,7 @@ import { Trans } from "@lingui/macro";
 import { Box, Typography } from "@mui/material";
 import React, { Fragment, ReactNode } from "react";
 
+import { TooltipPlacement } from "src/components/charts-generic/interaction/tooltip";
 import { TooltipBoxWithoutChartState } from "src/components/charts-generic/interaction/tooltip-box";
 import { getContrastColor } from "src/domain/helpers";
 
@@ -79,20 +80,24 @@ export const SelectedEntityCard: React.FC<{
   </>
 );
 
+export const defaultMapTooltipPlacement = { x: "center", y: "top" } as const;
+
 export const MapTooltip = ({
   x,
   y,
   children,
+  placement = defaultMapTooltipPlacement,
 }: {
   x: number;
   y: number;
   children: ReactNode;
+  placement?: TooltipPlacement;
 }) => {
   return (
     <TooltipBoxWithoutChartState
       x={x}
       y={y - 20}
-      placement={{ x: "center", y: "top" }}
+      placement={placement ?? defaultMapTooltipPlacement}
       margins={{ bottom: 0, left: 0, right: 0, top: 0 }}
     >
       <Box

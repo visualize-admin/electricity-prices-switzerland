@@ -41,7 +41,7 @@ export const colorScaleSpecs: Partial<
   },
   compliance: {
     thresholds: () => [75.1],
-    palette: () => yesNoPalette,
+    palette: () => yesNoPalette.slice().reverse(),
   },
 };
 
