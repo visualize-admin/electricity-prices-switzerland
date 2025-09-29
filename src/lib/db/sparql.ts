@@ -1072,6 +1072,25 @@ const getSunshineDataByIndicator = async ({
   });
 };
 
+const fetchUpdateDate = async (): Promise<string> => {
+  const query = `
+    PREFIX schema: <http://schema.org/>
+    
+    SELECT ?dateModified
+    WHERE {
+      <https://energy.ld.admin.ch/elcom/sunshine> schema:dateModified ?dateModified .
+    }
+  `;
+
+  const results = await executeSparqlQuery<{
+    dateModified: string;
+  }>(query);
+
+  return results.length > 0
+    ? results[0].dateModified
+    : new Date().toISOString().split("T")[0];
+};
+
 export const sunshineDataServiceSparql = {
   name: "sparql",
   getNetworkCosts,
@@ -1086,4 +1105,5 @@ export const sunshineDataServiceSparql = {
   getPeerGroups,
   getSunshineData,
   getSunshineDataByIndicator,
+  fetchUpdateDate,
 } satisfies SunshineDataService;
