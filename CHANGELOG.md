@@ -11,6 +11,10 @@ You can also check the
 
 # Unreleased
 
+Nothing yet.
+
+# 2.18.0 - 2025-09-29
+
 - Map
 
   - Fix: Tooltips z-index is now higher than the filters selects
