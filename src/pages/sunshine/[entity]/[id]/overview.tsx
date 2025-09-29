@@ -122,8 +122,8 @@ export const getServerSideProps: GetServerSideProps<Props, PageParams> = async (
       }),
       fetchOperatorCostsAndTariffsData(sunshineDataService, {
         operatorId: id,
-        networkLevel: "NE5",
-        category: "C2",
+        networkLevel: "NE7",
+        category: "H4",
         operatorOnly: true,
       }),
     ]);

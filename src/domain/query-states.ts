@@ -140,8 +140,8 @@ export const sunshineDetailsLink = makeLinkGenerator(
 
 const sunshineOverviewFiltersSchema = z.object({
   year: z.string().default(runtimeEnv.CURRENT_PERIOD),
-  category: z.string().default("C2"),
-  networkLevel: z.enum(["NE5", "NE6", "NE7"]).default("NE5"),
+  category: z.string().default("H4"),
+  networkLevel: z.enum(["NE5", "NE6", "NE7"]).default("NE7"),
 });
 
 // Map pages
