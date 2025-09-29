@@ -239,7 +239,7 @@ const OverviewPage = (props: Props) => {
     variables: {
       filter: {
         operatorId,
-        period: parseInt(overviewFilters.year),
+        period: parseInt(overviewFilters.year, 10),
       },
     },
     pause: overviewFilters.year === props.operationalStandards.latestYear,
