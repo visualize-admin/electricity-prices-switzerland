@@ -7,7 +7,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language: de\n"
 "Language-Team: \n"
-"Content-Type: \n"
+"Content-Type: text/plain\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -1179,10 +1179,6 @@ msgstr "Benchmark innerhalb der Vergleichsgruppe: {peerGroupLabel}"
 msgid "sunshine.costs-and-tariffs.compare-with"
 msgstr "Vergleichen mit"
 
-#: src/components/card-source.tsx
-msgid "sunshine.costs-and-tariffs.date"
-msgstr "Datum: {publicationDate}"
-
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.description"
 msgstr "Auf dieser Seite finden Sie eine detaillierte Aufschlüsselung der Stromkosten anhand von drei wichtigen Indikatoren: Netzkosten, Netztarife und Energietarife. Diese umfassen die Kosten für Betrieb und Unterhalt des Netzes, die Tarife für die Netznutzung und die Kosten für den Energieverbrauch. Da alle angezeigten Daten innerhalb derselben Netzbetreibergruppe vergleichbar sind, lassen sich die verschiedenen Tarife innerhalb des Netzes leicht bewerten."
@@ -1296,10 +1292,6 @@ msgstr ""
 msgid "sunshine.costs-and-tariffs.selected-operators"
 msgstr "Ausgewählte Netzbetreiber"
 
-#: src/components/card-source.tsx
-msgid "sunshine.costs-and-tariffs.source"
-msgstr "Quelle: {dataSource}"
-
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.title"
 msgstr "Netzkosten und Stromtarife"
@@ -1311,6 +1303,10 @@ msgstr "Ansicht von"
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.costs-and-tariffs.year"
 msgstr "{year}"
+
+#: src/components/card-source.tsx
+msgid "sunshine.date"
+msgstr "Datum: {date}"
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.grid.network-costs-title"
@@ -1602,6 +1598,10 @@ msgstr "Aktuelles Jahr ({latestYear})"
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.service-quality.notification-period"
 msgstr "Anzahl Tage der Vorankündigung im Voraus"
+
+#: src/components/card-source.tsx
+msgid "sunshine.source"
+msgstr "Quelle: {source}"
 
 #: src/components/header.tsx
 msgid "topbar.open-flag-menu"

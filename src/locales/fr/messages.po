@@ -7,7 +7,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language: fr\n"
 "Language-Team: \n"
-"Content-Type: \n"
+"Content-Type: text/plain\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
@@ -1179,10 +1179,6 @@ msgstr "Analyse comparative au sein du groupe de référence : {peerGroupLabel}"
 msgid "sunshine.costs-and-tariffs.compare-with"
 msgstr "Comparer avec"
 
-#: src/components/card-source.tsx
-msgid "sunshine.costs-and-tariffs.date"
-msgstr "sunshine.costs-and-tariffs.date"
-
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.description"
 msgstr "Cette page donne un aperçu des coûts et des tarifs de l'électricité, y compris les coûts du réseau, les tarifs nets et les tarifs de l'énergie. Comparez différents fournisseurs et analysez les tendances au sein de votre groupe de référence pour mieux comprendre votre position sur le marché."
@@ -1296,10 +1292,6 @@ msgstr ""
 msgid "sunshine.costs-and-tariffs.selected-operators"
 msgstr "Opérateurs de réseaux sélectionnés"
 
-#: src/components/card-source.tsx
-msgid "sunshine.costs-and-tariffs.source"
-msgstr "sunshine.costs-and-tariffs.source"
-
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.title"
 msgstr "Coûts et tarifs"
@@ -1311,6 +1303,10 @@ msgstr "Voir par"
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.costs-and-tariffs.year"
 msgstr "{year}"
+
+#: src/components/card-source.tsx
+msgid "sunshine.date"
+msgstr "Date : {date}"
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.grid.network-costs-title"
@@ -1602,6 +1598,10 @@ msgstr "Dernière année ({latestYear})"
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.service-quality.notification-period"
 msgstr "Notification jours à l'avance"
+
+#: src/components/card-source.tsx
+msgid "sunshine.source"
+msgstr "Source : {source}"
 
 #: src/components/header.tsx
 msgid "topbar.open-flag-menu"
