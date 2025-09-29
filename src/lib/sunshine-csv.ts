@@ -229,7 +229,7 @@ const parseSunshineCsv = <T extends Id>(id: T): ParsedRowType<T>[] => {
 
 type ParsedRow = ReturnType<typeof parseSunshineCsv>[number];
 
-let sunshineDataCache: ParsedRow[] | undefined = undefined;
+let sunshineDataCache: ParsedRow[] | undefined ;
 export const getSunshineCsvData = async <T extends Id>(
   id: T
 ): Promise<ParsedRowType<T>[]> => {
