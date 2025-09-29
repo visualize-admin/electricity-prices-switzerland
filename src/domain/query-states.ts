@@ -93,6 +93,7 @@ const sunshineMapSchema = z.object({
   period: periodSchema,
   peerGroup: z.string().default("all_grid_operators"),
   saidiSaifiType: z.enum(["total", "planned", "unplanned"]).default("total"),
+  complianceType: z.enum(["franc-rule"]).default("franc-rule"),
   indicator: sunshineIndicatorSchema.default("networkCosts"),
   category: z.string().default("H4"),
   networkLevel: z.string().default("NE7"),
@@ -106,6 +107,8 @@ const detailTabsSchema = z.union([sunshineIndicatorSchema, z.undefined()]); // T
 export type QueryStateSunshineSaidiSaifiType =
   QueryStateSunshineMap["saidiSaifiType"];
 
+export type QueryStateSunshineComplianceType =
+  QueryStateSunshineMap["complianceType"];
 
 export const getSunshineDetailsPageFromIndicator = (
   indicator: SunshineIndicator

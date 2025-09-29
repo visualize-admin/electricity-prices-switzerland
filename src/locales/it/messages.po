@@ -993,11 +993,11 @@ msgstr "Confrontare con il gestore di rete…"
 
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.compliance-type"
-msgstr ""
+msgstr "Tipologia"
 
 #: src/domain/translation.tsx
 msgid "selector.compliance-type.franc-rule"
-msgstr ""
+msgstr "Regola del franco"
 
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.energy-tariffs-category"
@@ -1108,7 +1108,7 @@ msgstr "Standard"
 
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.saidi-saifi-type"
-msgstr ""
+msgstr "Tipologia"
 
 #: src/domain/translation.tsx
 msgid "selector.tab.electricity"

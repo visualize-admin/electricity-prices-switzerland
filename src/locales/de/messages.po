@@ -993,11 +993,11 @@ msgstr "Netzbetreiber zum Vergleich"
 
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.compliance-type"
-msgstr ""
+msgstr "Typologie"
 
 #: src/domain/translation.tsx
 msgid "selector.compliance-type.franc-rule"
-msgstr ""
+msgstr "Frankenregel"
 
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.energy-tariffs-category"

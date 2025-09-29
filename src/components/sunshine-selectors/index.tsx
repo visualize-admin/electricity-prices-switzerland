@@ -3,6 +3,7 @@ import { keyBy } from "lodash";
 import { LoadingSkeleton } from "src/components/hint";
 import { useQueryStateSunshineMap } from "src/domain/query-states";
 import {
+  complianceTypes,
   indicatorOptions,
   netElectricityCategoryOptions,
   networkLevelOptions,
@@ -60,6 +61,9 @@ export const SunshineSelectors = () => {
       saidiSaifiType={queryState.saidiSaifiType}
       setSaidiSaifiType={(saidiSaifiType) => setQueryState({ saidiSaifiType })}
       saidiSaifiTypes={saidiSaifiTypes}
+      complianceType={queryState.complianceType}
+      setComplianceType={(complianceType) => setQueryState({ complianceType })}
+      complianceTypes={complianceTypes}
       indicator={queryState.indicator}
       setIndicator={(indicator) => setQueryState({ indicator })}
       indicatorOptions={indicatorOptions}

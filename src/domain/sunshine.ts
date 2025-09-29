@@ -2,6 +2,7 @@ import * as z from "zod";
 
 import { ElectricityCategory } from "src/domain/data";
 import {
+  QueryStateSunshineComplianceType,
   QueryStateSunshineSaidiSaifiType,
 } from "src/domain/query-states";
 import { WikiPageSlug } from "src/domain/wiki";
@@ -26,6 +27,10 @@ export const saidiSaifiTypes = [
   "planned",
   "unplanned",
 ] satisfies QueryStateSunshineSaidiSaifiType[];
+
+export const complianceTypes = [
+  "franc-rule",
+] satisfies QueryStateSunshineComplianceType[];
 
 /**
  * Indicator options for filtering

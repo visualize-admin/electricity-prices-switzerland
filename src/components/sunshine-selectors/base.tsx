@@ -4,6 +4,7 @@ import { Box } from "@mui/material";
 import { Combobox } from "src/components/combobox";
 import { SunshineIndicator } from "src/domain/sunshine";
 import {
+  QueryStateSunshineComplianceType,
   QueryStateSunshineSaidiSaifiType,
 } from "src/domain/query-states";
 
@@ -19,6 +20,11 @@ type SunshineSelectorsBaseProps = {
   saidiSaifiType: QueryStateSunshineSaidiSaifiType;
   setSaidiSaifiType: (type: QueryStateSunshineSaidiSaifiType) => void;
   saidiSaifiTypes: QueryStateSunshineSaidiSaifiType[];
+
+  complianceType: QueryStateSunshineComplianceType;
+  setComplianceType: (typology: QueryStateSunshineComplianceType) => void;
+  complianceTypes: QueryStateSunshineComplianceType[];
+
   indicator: SunshineIndicator;
   setIndicator: (indicator: SunshineIndicator) => void;
   indicatorOptions: SunshineIndicator[];
@@ -42,6 +48,9 @@ export const SunshineSelectorsBase = ({
   getPeerGroupLabel = (id) => id,
   saidiSaifiType,
   setSaidiSaifiType,
+  complianceType,
+  complianceTypes,
+  setComplianceType,
   saidiSaifiTypes,
   indicator,
   setIndicator,
@@ -95,6 +104,18 @@ export const SunshineSelectorsBase = ({
           infoDialogSlug="help-typology"
         />
       ) : null}
+      {indicator === "compliance" ? (
+        <Combobox<QueryStateSunshineComplianceType>
+          id="typology"
+          label={t({ id: "selector.compliance-type", message: "Typology" })}
+          items={complianceTypes}
+          getItemLabel={getItemLabel}
+          selectedItem={complianceType}
+          setSelectedItem={setComplianceType}
+          infoDialogSlug="help-saifi-saidi-type"
+        />
+      ) : null}
+
       {indicator === "networkCosts" ? (
         <Combobox
           id="networkLevel"

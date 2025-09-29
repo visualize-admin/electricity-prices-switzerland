@@ -993,11 +993,11 @@ msgstr "Comparaison entre gestionnaires de réseau"
 
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.compliance-type"
-msgstr ""
+msgstr "Typologie"
 
 #: src/domain/translation.tsx
 msgid "selector.compliance-type.franc-rule"
-msgstr ""
+msgstr "Règle du franc"
 
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.energy-tariffs-category"
