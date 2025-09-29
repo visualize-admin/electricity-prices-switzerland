@@ -2,11 +2,11 @@ import { t } from "@lingui/macro";
 import { Box } from "@mui/material";
 
 import { Combobox } from "src/components/combobox";
-import { SunshineIndicator } from "src/domain/sunshine";
 import {
   QueryStateSunshineComplianceType,
   QueryStateSunshineSaidiSaifiType,
 } from "src/domain/query-states";
+import { SunshineIndicator } from "src/domain/sunshine";
 
 type SunshineSelectorsBaseProps = {
   year: string;
