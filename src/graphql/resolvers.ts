@@ -98,7 +98,7 @@ const Query: QueryResolvers = {
         indicator: filter.indicator as any, // We'll need to properly type this
         category: filter.category ?? undefined,
         networkLevel: filter.networkLevel ?? undefined,
-        typology: filter.typology ?? undefined,
+        saidiSaifiType: filter.saidiSaifiType ?? undefined,
       });
 
     return {
@@ -139,7 +139,7 @@ const Query: QueryResolvers = {
           getMedianValueFromResult(
             medianResult,
             filter.indicator!,
-            filter.typology ?? undefined
+            filter.saidiSaifiType ?? undefined
           ) ?? 0;
       } else {
         throw new GraphQLError(
@@ -824,7 +824,7 @@ const createIndicatorMedianParams = (
 const getMedianValueFromResult = (
   result: PeerGroupRecord<any> | undefined,
   indicator: string,
-  typology?: string
+  saidiSaifiType?: string
 ): number | undefined => {
   if (!result) return undefined;
 
@@ -835,12 +835,12 @@ const getMedianValueFromResult = (
 
   // Stability metrics
   if (indicator === "saidi") {
-    return typology === "unplanned"
+    return saidiSaifiType === "unplanned"
       ? (result as any).median_saidi_unplanned
       : (result as any).median_saidi_total;
   }
   if (indicator === "saifi") {
-    return typology === "unplanned"
+    return saidiSaifiType === "unplanned"
       ? (result as any).median_saifi_unplanned
       : (result as any).median_saifi_total;
   }

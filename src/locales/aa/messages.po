@@ -800,6 +800,14 @@ msgstr "relations.showless"
 msgid "relations.showmore"
 msgstr "relations.showmore"
 
+#: src/domain/translation.tsx
+msgid "saidi-saify-type.planned"
+msgstr "saidi-saify-type.planned"
+
+#: src/domain/translation.tsx
+msgid "saidi-saify-type.unplanned"
+msgstr "saidi-saify-type.unplanned"
+
 #: src/components/app-layout.tsx
 msgid "search.global"
 msgstr "search.global"
@@ -984,6 +992,14 @@ msgid "selector.compareoperators"
 msgstr "selector.compareoperators"
 
 #: src/components/sunshine-selectors/base.tsx
+msgid "selector.compliance-type"
+msgstr "selector.compliance-type"
+
+#: src/domain/translation.tsx
+msgid "selector.compliance-type.franc-rule"
+msgstr "selector.compliance-type.franc-rule"
+
+#: src/components/sunshine-selectors/base.tsx
 msgid "selector.energy-tariffs-category"
 msgstr "selector.energy-tariffs-category"
 
@@ -1090,6 +1106,10 @@ msgstr "selector.product.cheapest"
 msgid "selector.product.standard"
 msgstr "selector.product.standard"
 
+#: src/components/sunshine-selectors/base.tsx
+msgid "selector.saidi-saifi-type"
+msgstr "selector.saidi-saifi-type"
+
 #: src/domain/translation.tsx
 msgid "selector.tab.electricity"
 msgstr "selector.tab.electricity"
@@ -1105,10 +1125,6 @@ msgstr "selector.tab.indicators"
 #: src/domain/translation.tsx
 msgid "selector.tab.indicators-content"
 msgstr "selector.tab.indicators-content"
-
-#: src/components/sunshine-selectors/base.tsx
-msgid "selector.typology"
-msgstr "selector.typology"
 
 #: src/components/electricity-selectors.tsx
 #: src/components/sunshine-selectors/base.tsx
@@ -1179,8 +1195,8 @@ msgstr "sunshine.costs-and-tariffs.energy-tariffs"
 msgid "sunshine.costs-and-tariffs.energy-tariffs-comparison-title"
 msgstr "sunshine.costs-and-tariffs.energy-tariffs-comparison-title"
 
+#: src/components/info-dialog-props.ts
 #: src/components/map-details-chart-adapters.tsx
-#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.energy-tariffs-trend"
 msgstr "sunshine.costs-and-tariffs.energy-tariffs-trend"
@@ -1218,8 +1234,8 @@ msgstr "sunshine.costs-and-tariffs.net-tariffs"
 msgid "sunshine.costs-and-tariffs.net-tariffs-comparison-title"
 msgstr "sunshine.costs-and-tariffs.net-tariffs-comparison-title"
 
+#: src/components/info-dialog-props.ts
 #: src/components/map-details-chart-adapters.tsx
-#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.net-tariffs-trend"
 msgstr "sunshine.costs-and-tariffs.net-tariffs-trend"
@@ -1228,9 +1244,9 @@ msgstr "sunshine.costs-and-tariffs.net-tariffs-trend"
 msgid "sunshine.costs-and-tariffs.net-tariffs.overview"
 msgstr "sunshine.costs-and-tariffs.net-tariffs.overview"
 
+#: src/components/info-dialog-props.ts
 #: src/components/map-details-chart-adapters.tsx
 #: src/components/network-costs-trend-card.tsx
-#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.network-cost-trend"
 msgstr "sunshine.costs-and-tariffs.network-cost-trend"
 
@@ -1507,7 +1523,7 @@ msgstr "sunshine.power-stability.saidi-trend.overview"
 msgid "sunshine.power-stability.saidi.comparison-card-title"
 msgstr "sunshine.power-stability.saidi.comparison-card-title"
 
-#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+#: src/components/info-dialog-props.ts
 msgid "sunshine.power-stability.saidi.info-dialog-label"
 msgstr "sunshine.power-stability.saidi.info-dialog-label"
 
@@ -1532,7 +1548,7 @@ msgstr "sunshine.power-stability.saifi-trend.overview"
 msgid "sunshine.power-stability.saifi.comparison-card-title"
 msgstr "sunshine.power-stability.saifi.comparison-card-title"
 
-#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+#: src/components/info-dialog-props.ts
 msgid "sunshine.power-stability.saifi.info-dialog-label"
 msgstr "sunshine.power-stability.saifi.info-dialog-label"
 
@@ -1590,11 +1606,3 @@ msgstr "sunshine.service-quality.notification-period"
 #: src/components/header.tsx
 msgid "topbar.open-flag-menu"
 msgstr "topbar.open-flag-menu"
-
-#: src/domain/translation.tsx
-msgid "typology.planned"
-msgstr "typology.planned"
-
-#: src/domain/translation.tsx
-msgid "typology.unplanned"
-msgstr "typology.unplanned"

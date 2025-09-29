@@ -528,7 +528,7 @@ const getSunshineDataByIndicator = async ({
   indicator,
   category,
   networkLevel,
-  typology,
+  saifiSaidiType,
 }: {
   operatorId?: number | undefined | null;
   period?: string | undefined | null;
@@ -537,12 +537,17 @@ const getSunshineDataByIndicator = async ({
   indicator: SunshineIndicator;
   category?: string;
   networkLevel?: string;
-  typology?: string;
+  saifiSaidiType?: string;
 }): Promise<SunshineDataIndicatorRow[]> => {
   // Get the full data with peer group filtering
   const fullData = await getSunshineData({ operatorId, period, peerGroup });
 
-  const fieldName = getFieldName(indicator, category, networkLevel, typology);
+  const fieldName = getFieldName(
+    indicator,
+    category,
+    networkLevel,
+    saifiSaidiType
+  );
 
   // Extract only the value for the specified indicator and return minimal structure
   return fullData.map((row) => {

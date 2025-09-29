@@ -205,7 +205,7 @@ const SaidiSaifiChartAdapter = ({
 }) => {
   const { id, label: operatorLabel } = selectedItem;
   const [queryState] = useQueryStateSunshineMap();
-  const { indicator, typology } = queryState;
+  const { indicator, saidiSaifiType } = queryState;
   const [{ data, fetching }] = (
     indicator === "saidi" ? useSaidiQuery : useSaifiQuery
   )({
@@ -257,7 +257,7 @@ const SaidiSaifiChartAdapter = ({
         operatorLabel={operatorLabel ?? ""}
         viewBy="progress"
         overallOrRatio="overall"
-        duration={typology}
+        duration={saidiSaifiType}
         compareWith={[]}
         mini
       />

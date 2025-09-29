@@ -92,7 +92,7 @@ const sunshineMapSchema = z.object({
   tab: mapTabsSchema.default("sunshine"),
   period: periodSchema,
   peerGroup: z.string().default("all_grid_operators"),
-  typology: z.enum(["total", "planned", "unplanned"]).default("total"),
+  saidiSaifiType: z.enum(["total", "planned", "unplanned"]).default("total"),
   indicator: sunshineIndicatorSchema.default("networkCosts"),
   category: z.string().default("H4"),
   networkLevel: z.string().default("NE7"),
@@ -103,8 +103,9 @@ export const sunshineMapLink = makeLinkGenerator(sunshineMapSchema);
 
 const detailTabsSchema = z.union([sunshineIndicatorSchema, z.undefined()]); // TODO Add Operational Standards page
 
-export type QueryStateSunshineSaidiSaifiTypology =
-  QueryStateSunshineMap["typology"];
+export type QueryStateSunshineSaidiSaifiType =
+  QueryStateSunshineMap["saidiSaifiType"];
+
 
 export const getSunshineDetailsPageFromIndicator = (
   indicator: SunshineIndicator

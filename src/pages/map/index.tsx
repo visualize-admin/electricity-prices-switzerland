@@ -108,7 +108,7 @@ const MapPageContent = ({
 
   const [
     {
-      typology,
+      saidiSaifiType,
       indicator,
       networkLevel,
       category: netElectricityCategory,
@@ -169,7 +169,7 @@ const MapPageContent = ({
       period: period || "2024",
       peerGroup: peerGroup === "all_grid_operators" ? undefined : peerGroup,
       indicator,
-      typology,
+      saidiSaifiType,
       networkLevel: networkLevel as NetworkLevel["id"],
       category:
         (netElectricityCategory as ElectricityCategory) ||

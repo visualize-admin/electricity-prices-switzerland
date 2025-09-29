@@ -281,7 +281,7 @@ input SunshineDataFilter {
   indicator: String
   category: String
   networkLevel: String
-  typology: String
+  saidiSaifiType: String
 }
 
 # TODO Map more closely to predefined strings

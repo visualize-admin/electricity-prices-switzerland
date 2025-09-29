@@ -490,7 +490,7 @@ export type SunshineDataFilter = {
   operatorId?: InputMaybe<Scalars["Int"]["input"]>;
   peerGroup?: InputMaybe<Scalars["String"]["input"]>;
   period?: InputMaybe<Scalars["String"]["input"]>;
-  typology?: InputMaybe<Scalars["String"]["input"]>;
+  saidiSaifiType?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type SunshineDataIndicatorRow = {

@@ -14,7 +14,7 @@ interface UseEnrichedSunshineDataParams {
     period: string;
     peerGroup?: string;
     indicator: string;
-    typology?: string;
+    saidiSaifiType?: string;
     networkLevel: NetworkLevel["id"];
     category: ElectricityCategory;
   };
@@ -32,8 +32,14 @@ export const useEnrichedSunshineData = ({
   filter,
   enabled = true,
 }: UseEnrichedSunshineDataParams) => {
-  const { period, peerGroup, indicator, typology, networkLevel, category } =
-    filter;
+  const {
+    period,
+    peerGroup,
+    indicator,
+    saidiSaifiType,
+    networkLevel,
+    category,
+  } = filter;
 
   // Fetch sunshine data
   const [sunshineDataQuery] = useSunshineDataByIndicatorQuery({
@@ -42,7 +48,7 @@ export const useEnrichedSunshineData = ({
         period,
         peerGroup: peerGroup === "all_grid_operators" ? undefined : peerGroup,
         indicator,
-        typology,
+        saidiSaifiType,
         networkLevel,
         category,
       },

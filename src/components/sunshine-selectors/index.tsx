@@ -6,7 +6,7 @@ import {
   indicatorOptions,
   netElectricityCategoryOptions,
   networkLevelOptions,
-  typologyOptions,
+  saidiSaifiTypes,
   years,
 } from "src/domain/sunshine";
 import { getLocalizedLabel } from "src/domain/translation";
@@ -57,9 +57,9 @@ export const SunshineSelectors = () => {
       setPeerGroup={(peerGroup) => setQueryState({ peerGroup })}
       peerGroupOptions={peerGroupOptions}
       getPeerGroupLabel={getPeerGroupLabel}
-      typology={queryState.typology}
-      setTypology={(typology) => setQueryState({ typology })}
-      typologyOptions={typologyOptions}
+      saidiSaifiType={queryState.saidiSaifiType}
+      setSaidiSaifiType={(saidiSaifiType) => setQueryState({ saidiSaifiType })}
+      saidiSaifiTypes={saidiSaifiTypes}
       indicator={queryState.indicator}
       setIndicator={(indicator) => setQueryState({ indicator })}
       indicatorOptions={indicatorOptions}

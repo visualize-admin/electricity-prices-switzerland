@@ -2,8 +2,10 @@ import { t } from "@lingui/macro";
 import { Box } from "@mui/material";
 
 import { Combobox } from "src/components/combobox";
-import { QueryStateSunshineSaidiSaifiTypology } from "src/domain/query-states";
 import { SunshineIndicator } from "src/domain/sunshine";
+import {
+  QueryStateSunshineSaidiSaifiType,
+} from "src/domain/query-states";
 
 type SunshineSelectorsBaseProps = {
   year: string;
@@ -13,9 +15,10 @@ type SunshineSelectorsBaseProps = {
   setPeerGroup: (viewBy: string) => void;
   peerGroupOptions: string[];
   getPeerGroupLabel?: (id: string) => string;
-  typology: QueryStateSunshineSaidiSaifiTypology;
-  setTypology: (typology: QueryStateSunshineSaidiSaifiTypology) => void;
-  typologyOptions: QueryStateSunshineSaidiSaifiTypology[];
+
+  saidiSaifiType: QueryStateSunshineSaidiSaifiType;
+  setSaidiSaifiType: (type: QueryStateSunshineSaidiSaifiType) => void;
+  saidiSaifiTypes: QueryStateSunshineSaidiSaifiType[];
   indicator: SunshineIndicator;
   setIndicator: (indicator: SunshineIndicator) => void;
   indicatorOptions: SunshineIndicator[];
@@ -37,9 +40,9 @@ export const SunshineSelectorsBase = ({
   setPeerGroup,
   peerGroupOptions,
   getPeerGroupLabel = (id) => id,
-  typology,
-  setTypology,
-  typologyOptions,
+  saidiSaifiType,
+  setSaidiSaifiType,
+  saidiSaifiTypes,
   indicator,
   setIndicator,
   indicatorOptions,
@@ -82,13 +85,13 @@ export const SunshineSelectorsBase = ({
         infoDialogSlug="help-indicator"
       />
       {indicator === "saifi" || indicator === "saidi" ? (
-        <Combobox<QueryStateSunshineSaidiSaifiTypology>
-          id="typology"
-          label={t({ id: "selector.typology", message: "Typology" })}
-          items={typologyOptions}
+        <Combobox<QueryStateSunshineSaidiSaifiType>
+          id="saidiSaifiType"
+          label={t({ id: "selector.saidi-saifi-type", message: "Typology" })}
+          items={saidiSaifiTypes}
           getItemLabel={getItemLabel}
-          selectedItem={typology}
-          setSelectedItem={setTypology}
+          selectedItem={saidiSaifiType}
+          setSelectedItem={setSaidiSaifiType}
           infoDialogSlug="help-typology"
         />
       ) : null}

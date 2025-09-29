@@ -121,7 +121,7 @@ describe("GraphQL API Integration Tests", () => {
           networkLevel: "NE5",
           peerGroup: "A",
           period: "2025",
-          typology: "total",
+          saidiSaifiType: "total",
         },
       };
 
@@ -171,7 +171,7 @@ describe("GraphQL API Integration Tests", () => {
           networkLevel: "NE5",
           peerGroup: "C",
           period: "2025",
-          typology: "total",
+          saidiSaifiType: "total",
         },
       };
 
@@ -221,7 +221,7 @@ describe("GraphQL API Integration Tests", () => {
           networkLevel: "NE6",
           peerGroup: "C",
           period: "2025",
-          typology: "total",
+          saidiSaifiType: "total",
         },
       };
 
@@ -271,7 +271,7 @@ describe("GraphQL API Integration Tests", () => {
           networkLevel: "NE7",
           peerGroup: "C",
           period: "2025",
-          typology: "total",
+          saidiSaifiType: "total",
         },
       };
 
@@ -321,7 +321,7 @@ describe("GraphQL API Integration Tests", () => {
           networkLevel: "NE7",
           peerGroup: "D",
           period: "2025",
-          typology: "total",
+          saidiSaifiType: "total",
         },
       };
 
@@ -370,7 +370,7 @@ describe("GraphQL API Integration Tests", () => {
           indicator: "networkCosts",
           networkLevel: "NE7",
           period: "2025",
-          typology: "total",
+          saidiSaifiType: "total",
         },
       };
 
@@ -419,7 +419,7 @@ describe("GraphQL API Integration Tests", () => {
           indicator: "netTariffs",
           networkLevel: "NE7",
           period: "2025",
-          typology: "total",
+          saidiSaifiType: "total",
         },
       };
 
@@ -468,7 +468,7 @@ describe("GraphQL API Integration Tests", () => {
           indicator: "netTariffs",
           networkLevel: "NE7",
           period: "2025",
-          typology: "total",
+          saidiSaifiType: "total",
         },
       };
 
@@ -517,7 +517,7 @@ describe("GraphQL API Integration Tests", () => {
           indicator: "netTariffs",
           networkLevel: "NE7",
           period: "2025",
-          typology: "total",
+          saidiSaifiType: "total",
         },
       };
 
@@ -566,7 +566,7 @@ describe("GraphQL API Integration Tests", () => {
           indicator: "netTariffs",
           networkLevel: "NE7",
           period: "2025",
-          typology: "total",
+          saidiSaifiType: "total",
         },
       };
 
@@ -615,7 +615,7 @@ describe("GraphQL API Integration Tests", () => {
           indicator: "netTariffs",
           networkLevel: "NE7",
           period: "2025",
-          typology: "total",
+          saidiSaifiType: "total",
         },
       };
 
@@ -664,7 +664,7 @@ describe("GraphQL API Integration Tests", () => {
           indicator: "networkCosts",
           networkLevel: "NE7",
           period: "2025",
-          typology: "total",
+          saidiSaifiType: "total",
         },
       };
 
@@ -714,7 +714,7 @@ describe("GraphQL API Integration Tests", () => {
           networkLevel: "NE7",
           peerGroup: "B",
           period: "2025",
-          typology: "total",
+          saidiSaifiType: "total",
         },
       };
 
