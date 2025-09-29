@@ -157,7 +157,7 @@ const useScatterPlotState = ({
           ? data.find((point) => {
               return (
                 getHighlightEntity(point)?.toString() ===
-                  fields.style!.highlightValue!.toString() &&
+                  fields.style?.highlightValue?.toString() &&
                 getY(point) === getY(d)
               );
             })

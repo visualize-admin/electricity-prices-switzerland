@@ -96,9 +96,9 @@ export const useEnrichedSunshineData = ({
             (obs) => obs.operatorId !== null && obs.operatorId !== undefined
           )
           .map((obs) => [
-            obs.operatorId!.toString(),
+            obs.operatorId?.toString(),
             {
-              id: obs.operatorId!.toString(),
+              id: obs.operatorId?.toString(),
               name: obs.name,
               uid: obs.operatorUID,
             },

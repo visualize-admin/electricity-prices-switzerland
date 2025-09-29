@@ -984,7 +984,7 @@ const getSunshineData = async ({
       tariffsByOperatorPeriod.set(key, new Map());
     }
 
-    tariffsByOperatorPeriod.get(key)!.set(category, {
+    tariffsByOperatorPeriod.get(key)?.set(category, {
       energy: parseFloatOrUndefined(row.energy),
       gridusage: parseFloatOrUndefined(row.gridusage),
     });
