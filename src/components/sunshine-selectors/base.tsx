@@ -101,7 +101,7 @@ export const SunshineSelectorsBase = ({
           getItemLabel={getItemLabel}
           selectedItem={saidiSaifiType}
           setSelectedItem={setSaidiSaifiType}
-          infoDialogSlug="help-typology"
+          infoDialogSlug="help-saidi-saifi-type"
         />
       ) : null}
       {indicator === "compliance" ? (
@@ -112,7 +112,6 @@ export const SunshineSelectorsBase = ({
           getItemLabel={getItemLabel}
           selectedItem={complianceType}
           setSelectedItem={setComplianceType}
-          infoDialogSlug="help-saifi-saidi-type"
         />
       ) : null}
 
