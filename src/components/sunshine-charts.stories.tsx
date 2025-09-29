@@ -607,7 +607,7 @@ export const Template = () => {
         getOptionLabel={(option) => option.name}
         sx={{ width: 300 }}
         value={operators.find((op) => op.iri === operator) || null}
-        onChange={(event: unknown, newValue: Operator | null) => {
+        onChange={(_event: unknown, newValue: Operator | null) => {
           setOperator(newValue?.iri || null);
         }}
         renderInput={(params) => (

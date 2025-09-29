@@ -3,7 +3,7 @@ import nextkit from "nextkit";
 
 export const api = nextkit({
   // On error is responsible for shipping an error message and a status back to the client.
-  async onError(req, res, error) {
+  async onError(_req, _res, error) {
     console.error("error", error);
 
     return {

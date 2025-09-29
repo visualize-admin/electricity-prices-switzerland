@@ -407,7 +407,7 @@ const PowerStability = (props: Props) => {
   })}`;
 
   const handleTabChange = (
-    event: React.SyntheticEvent,
+    _event: React.SyntheticEvent,
     newValue: PowerStabilityTab
   ) => {
     setActiveTab(newValue);

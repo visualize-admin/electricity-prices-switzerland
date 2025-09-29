@@ -37,7 +37,7 @@ export const createLogMiddleware = ({
   filepath: string;
 }) => {
   const queue = new ActionQueue();
-  const middleware: NextApiMiddleware = (req, res, next) => {
+  const middleware: NextApiMiddleware = (req, _res, next) => {
     // log graphql query
     if (req.method === "POST") {
       const body = req.body as {
