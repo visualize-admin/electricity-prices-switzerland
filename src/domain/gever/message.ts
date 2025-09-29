@@ -229,7 +229,7 @@ const makeRpStsRequest = async (ipStsInfo: IPSTSInfo) => {
 
   // Fill timestamp
   const creationDate = new Date().toISOString();
-  const expirationDate = new Date(+new Date() + 5 * 60 * 1000).toISOString();
+  const expirationDate = new Date(Date.now()+ 5 * 60 * 1000).toISOString();
   $(timestampNode, ns.u, "Created").textContent = creationDate;
   $(timestampNode, ns.u, "Expires").textContent = expirationDate;
 
@@ -284,7 +284,7 @@ const setupGeverAPIRequest = (
 
   // Fill timestamp
   const creationDate = new Date().toISOString();
-  const expirationDate = new Date(+new Date() + 5 * 60 * 1000).toISOString();
+  const expirationDate = new Date(Date.now()+ 5 * 60 * 1000).toISOString();
   $(timestampNode, ns.u, "Created").textContent = creationDate;
   $(timestampNode, ns.u, "Expires").textContent = expirationDate;
 
