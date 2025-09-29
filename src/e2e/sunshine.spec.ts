@@ -145,6 +145,8 @@ test.describe("Sunshine map details panel", () => {
     await page.getByLabel("Year").click();
 
     await page.getByRole("option", { name: "2025" }).click();
+    await tracker.waitForRequests();
+
     await snapshot({
       note: "Sunshine Map - Initial",
       locator: page.getByTestId("map-sidebar"),

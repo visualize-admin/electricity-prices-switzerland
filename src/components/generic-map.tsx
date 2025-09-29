@@ -48,7 +48,10 @@ import {
   HoverState,
 } from "src/components/map-helpers";
 import HintBox from "src/components/map-hint-box";
-import { MapTooltip } from "src/components/map-tooltip";
+import {
+  defaultMapTooltipPlacement,
+  MapTooltip,
+} from "src/components/map-tooltip";
 import { getImageData, SCREENSHOT_CANVAS_SIZE } from "src/domain/screenshot";
 import { IconMinus } from "src/icons/ic-minus";
 import { IconPlus } from "src/icons/ic-plus";
@@ -405,6 +408,8 @@ export const GenericMap = ({
     []
   );
 
+  const tooltipMinimumWidth = 200;
+
   return (
     <>
       {isLoading ? (
@@ -428,6 +433,14 @@ export const GenericMap = ({
             <MapTooltip
               x={tooltipContent.hoveredState.x}
               y={tooltipContent.hoveredState.y}
+              placement={
+                tooltipContent.hoveredState.x >
+                viewState.width - tooltipMinimumWidth
+                  ? { x: "left", y: "top" }
+                  : tooltipContent.hoveredState.x < tooltipMinimumWidth
+                  ? { x: "right", y: "top" }
+                  : defaultMapTooltipPlacement
+              }
             >
               {tooltipContent.content}
             </MapTooltip>

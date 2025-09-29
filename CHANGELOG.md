@@ -11,25 +11,37 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Map
+
+  - Fix: Tooltips z-index is now higher than the filters selects
+  - Fix: Tooltips no longer cut by window
+
+- Sunshine Map
+
+  - Fix: Palette for compliance is reverted
+
+- SPARQL client
+  - Feat: Created at request time and part of the GraphQL context
 
 # 2.17.0 - 2025-09-25
 
-- Feat
+- Sunshine Map
 
-  - Sunshine Map: Peer groups are now fetched server side to populate the Sunshine selectors
-  - Detail pages and map details panel: Skeletons are used when loading charts to prevent layout shifts
-  - Holding Cmd/Ctrl key when clicking on map directly opens the link in a new tab
-  - Map: Peer group selector filters the map according to the peer group
-  - Map: The median does not change when changing the peer group selector
-  - Sunshine Map: Add info dialog to Peer Group selector
+  - Feat: Peer groups are now fetched server side to populate the Sunshine selectors
+  - Feat: Add info dialog to Peer Group selector
+  - Fix: Tooltip content was wrong when an operator was selected
+  - Fix: Wrong layers would sometimes appear selected in case of operator serving multiple municipalities
 
-- Fix
+- Map
 
-  - Map: Disable drag rotate on the map (was possible when holding Meta key)
-  - Sunshine Map: Tooltip content was wrong when an operator was selected
-  - Sunshine Map: Wrong layers would sometimes appear selected in case of operator serving multiple municipalities
-  - Map: Get correctly the overall median from Lindas
+  - Feat: Holding Cmd/Ctrl key when clicking on map directly opens the link in a new tab
+  - Feat: Peer group selector filters the map according to the peer group
+  - Feat: The median does not change when changing the peer group selector
+  - Fix: Disable drag rotate on the map (was possible when holding Meta key)
+  - Fix: Get correctly the overall median from Lindas
+
+- Detail pages and map details panel
+  - Feat: Skeletons are used when loading charts to prevent layout shifts
 
 # 2.16.1 - 2025-09-18
 
