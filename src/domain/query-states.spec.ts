@@ -186,10 +186,11 @@ describe("Query States", () => {
         tab: "sunshine",
         period: "2023",
         peerGroup: "all_grid_operators",
-        saifiSaidiType: "total",
+        complianceType: "franc-rule",
+        saidiSaifiType: "total",
         indicator: "saifi",
-        category: "C2",
-        networkLevel: "NE5",
+        category: "H4",
+        networkLevel: "NE7",
         activeId: "abc123",
       });
     });
