@@ -181,7 +181,7 @@ const MobileControls = ({
     : "No selection";
   const status = selectedEntityData?.entityId
     ? selectedItemStatus
-    : tab == "electricity"
+    : tab === "electricity"
     ? pricesCurrentStatus
     : sunshineCurrentStatus;
 

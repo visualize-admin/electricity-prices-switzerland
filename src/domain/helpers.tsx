@@ -206,7 +206,7 @@ export const pivot_longer = <
     .map((col) =>
       data.map((d) => {
         const keysToKeep = Object.keys(d).filter(
-          (k) => !cols.some((c) => c == k)
+          (k) => !cols.some((c) => c === k)
         );
         const keep = keysToKeep.reduce(
           (obj, cur) => ({ ...obj, [cur]: d[cur] }),

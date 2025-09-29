@@ -429,7 +429,7 @@ const featureMatchesId = (
     return false;
   }
   const { operators } = feature.properties;
-  return operators.length === 1 && operators[0] == parseInt(id, 10);
+  return operators.length === 1 && operators[0] === parseInt(id, 10);
 };
 
 export default SunshineMap;
