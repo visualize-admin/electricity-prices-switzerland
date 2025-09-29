@@ -2,7 +2,7 @@ import { t } from "@lingui/macro";
 import { Box, BoxProps, Chip, NativeSelect, Typography } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
-import { useEffect, useId, useMemo, useState } from "react";
+import { ComponentProps, useEffect, useId, useMemo, useState } from "react";
 
 import { InfoDialogButton } from "src/components/info-dialog";
 import { WikiPageSlug } from "src/domain/wiki";
@@ -384,3 +384,5 @@ export const Combobox = <T extends string>({
     </Box>
   );
 };
+
+export type ComboboxProps = ComponentProps<typeof Combobox>;
