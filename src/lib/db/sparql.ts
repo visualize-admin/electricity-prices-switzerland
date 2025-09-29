@@ -694,9 +694,10 @@ const getYearlyIndicatorMedians = async <
         } as unknown as PeerGroupRecord<Metric>;
       }
 
-      default:
+      default: {
         const _check: never = metric;
         throw new Error(`Unhandled metric type: ${metric}`);
+      }
     }
   };
 

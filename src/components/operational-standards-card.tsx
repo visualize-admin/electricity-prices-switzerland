@@ -112,9 +112,10 @@ const OperationalStandardsCard: React.FC<OperationalStandardsCardProps> = (
                   operatorLabel={operatorLabel}
                 />
               );
-            default:
+            default: {
               const _exhaustiveCheck: never = attribute;
               return _exhaustiveCheck;
+            }
           }
         })()}
         {/* Footer Info */}

@@ -22,9 +22,10 @@ export const AxisWidthLinear = ({
       return <AxisWidthLinearTop format={format} />;
     case "bottom":
       return <AxisWidthLinearBottom format={format} />;
-    default:
+    default: {
       const _exhaustiveCheck: never = position;
       return _exhaustiveCheck;
+    }
   }
 };
 

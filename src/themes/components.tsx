@@ -173,9 +173,10 @@ export const components = (theme: Theme): Components => ({
               return { padding: "10px 20px", ...typography.body1 };
             case "xl":
               return { padding: "10px 20px", ...typography.h3 };
-            default:
+            default: {
               const _exhaustiveCheck: never = size;
               return _exhaustiveCheck;
+            }
           }
         })();
 
@@ -237,9 +238,10 @@ export const components = (theme: Theme): Components => ({
                   color: palette.secondary[200],
                 },
               };
-            default:
+            default: {
               const _exhaustiveCheck: never = variant;
               return _exhaustiveCheck;
+            }
           }
         })();
 
@@ -303,9 +305,10 @@ export const components = (theme: Theme): Components => ({
                 height: "52px",
                 ...typography.h3,
               };
-            default:
+            default: {
               const _exhaustiveCheck: never = size;
               return _exhaustiveCheck;
+            }
           }
         })();
 
@@ -350,9 +353,10 @@ export const components = (theme: Theme): Components => ({
                   color: palette.secondary[200],
                 },
               };
-            default:
+            default: {
               const _exhaustiveCheck: never = variant;
               return _exhaustiveCheck;
+            }
           }
         })();
 
@@ -551,9 +555,10 @@ export const components = (theme: Theme): Components => ({
               return { padding: "4px 16px", ...typography.body1 };
             case "xl":
               return { padding: "4px 16px", ...typography.h3 };
-            default:
+            default: {
               const _exhaustiveCheck: never = size;
               return _exhaustiveCheck;
+            }
           }
         })();
 
@@ -626,9 +631,10 @@ export const components = (theme: Theme): Components => ({
               return typography.body1;
             case "xl":
               return typography.h3;
-            default:
+            default: {
               const _exhaustiveCheck: never = size;
               return _exhaustiveCheck;
+            }
           }
         })();
 

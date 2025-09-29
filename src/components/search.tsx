@@ -350,8 +350,9 @@ const getEntity = (e: ResultType) => {
       return "municipality";
     case "CantonResult":
       return "canton";
-    default:
+    default: {
       const _check: never = e;
       throw new Error(`Cannot dettermine entity type from ${e}`);
+    }
   }
 };
