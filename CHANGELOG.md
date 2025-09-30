@@ -11,6 +11,10 @@ You can also check the
 
 # Unreleased
 
+Nothing yet.
+
+# 2.19.0 - 2025-09-30
+
 - Sunshine Map & Detail Pages
 
   - Feat: Periods go from 2024 to 2026
