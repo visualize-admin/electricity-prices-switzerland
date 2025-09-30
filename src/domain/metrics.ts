@@ -10,11 +10,11 @@ export const RP_PER_KM = t({
   id: "sunshine.metric-unit.rp-km",
   message: "Rp./km",
 });
-export const CHF_PER_KM = t({
+const CHF_PER_KM = t({
   id: "sunshine.metric-unit.chf-km",
   message: "CHF/km",
 });
-export const CHF_PER_KVA = t({
+const CHF_PER_KVA = t({
   id: "sunshine.metric-unit.chf-kva",
   message: "CHF/kVA",
 });
