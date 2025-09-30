@@ -167,7 +167,7 @@ test.describe("Sunshine map details panel", () => {
 
 test.describe("Sunshine Costs and Tariffs page", () => {
   test("it should display the correct title", async ({ page }) => {
-    await page.goto("/sunshine/operator/36/costs-and-tariffs");
+    await page.goto("/en/sunshine/operator/36/costs-and-tariffs");
     // Scroll for BKW Energie AG to be at the top
     await page.waitForLoadState("networkidle");
 
