@@ -13,6 +13,14 @@ You can also check the
 
 Nothing yet.
 
+# 2.20.0 - 2025-09-30
+
+- Sunshine Detail Page
+  - Fix Progress Overtime colors when comparing
+
+- Sunshine Map
+  - Fix "Outage Information" on the map
+
 # 2.19.0 - 2025-09-30
 
 - Sunshine Map & Detail Pages
