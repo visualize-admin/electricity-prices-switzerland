@@ -102,7 +102,7 @@ test.describe("Sunshine map details panel", () => {
     await page.getByRole("option", { name: "Energy tariffs" }).click();
     await page
       .locator("a")
-      .filter({ hasText: "Elektra Andwil Stromversorgung" })
+      .filter({ hasText: "Genossenschaft Elektra Augst" })
       .first()
       .click();
     await tracker.waitForRequests({ fail: false });
