@@ -560,7 +560,7 @@ const getSunshineDataByIndicator = async ({
       name: row.name,
       period: row.period,
       value:
-        typeof value === "number" && isFinite(value)
+        typeof value === "number" && Number.isFinite(value)
           ? value
           : typeof value === "boolean"
           ? value

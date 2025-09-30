@@ -31,11 +31,13 @@
         "useIterableCallbackReturn": "off",
         "noShadowRestrictedNames": "off",
         "noImplicitAnyLet": "off",
-        "noExplicitAny": "off"
+        "noExplicitAny": "off",
+        "noTsIgnore": "off"
       },
       "style": {
         "useImportType": "off",
-        "noNonNullAssertion": "off"
+        "noNonNullAssertion": "off",
+        "useNodejsImportProtocol": "off"
       },
       "correctness": {
         "useUniqueElementIds": {
