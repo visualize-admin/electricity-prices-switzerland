@@ -3,10 +3,11 @@ import { keyBy } from "lodash";
 import { LoadingSkeleton } from "src/components/hint";
 import { useQueryStateSunshineMap } from "src/domain/query-states";
 import {
+  complianceTypes,
   indicatorOptions,
   netElectricityCategoryOptions,
   networkLevelOptions,
-  typologyOptions,
+  saidiSaifiTypes,
   years,
 } from "src/domain/sunshine";
 import { getLocalizedLabel } from "src/domain/translation";
@@ -57,9 +58,12 @@ export const SunshineSelectors = () => {
       setPeerGroup={(peerGroup) => setQueryState({ peerGroup })}
       peerGroupOptions={peerGroupOptions}
       getPeerGroupLabel={getPeerGroupLabel}
-      typology={queryState.typology}
-      setTypology={(typology) => setQueryState({ typology })}
-      typologyOptions={typologyOptions}
+      saidiSaifiType={queryState.saidiSaifiType}
+      setSaidiSaifiType={(saidiSaifiType) => setQueryState({ saidiSaifiType })}
+      saidiSaifiTypes={saidiSaifiTypes}
+      complianceType={queryState.complianceType}
+      setComplianceType={(complianceType) => setQueryState({ complianceType })}
+      complianceTypes={complianceTypes}
       indicator={queryState.indicator}
       setIndicator={(indicator) => setQueryState({ indicator })}
       indicatorOptions={indicatorOptions}

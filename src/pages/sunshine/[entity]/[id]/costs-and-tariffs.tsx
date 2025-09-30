@@ -4,7 +4,7 @@ import { GetServerSideProps } from "next";
 import ErrorPage from "next/error";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import React, { ComponentProps, useCallback, useMemo, useState } from "react";
+import React, { ComponentProps, useCallback, useMemo } from "react";
 import { gql } from "urql";
 
 import CardGrid from "src/components/card-grid";
@@ -38,9 +38,10 @@ import { categories } from "src/domain/data";
 import { getNetworkLevelMetrics, RP_PER_KM } from "src/domain/metrics";
 import {
   QueryStateSingleSunshineDetails,
+  useQueryStateSunshineCostsAndTariffs,
   useQueryStateSunshineDetails,
 } from "src/domain/query-states";
-import { NetworkLevel, SunshineCostsAndTariffsData } from "src/domain/sunshine";
+import { SunshineCostsAndTariffsData } from "src/domain/sunshine";
 import {
   getCategoryLabels,
   getLocalizedLabel,
@@ -151,7 +152,8 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
     updateDate,
   } = props.costsAndTariffs;
 
-  const [networkLevel, setNetworkLevel] = useState<NetworkLevel["id"]>("NE5");
+  const [{ networkLevel }, setQueryState] =
+    useQueryStateSunshineCostsAndTariffs();
   const [{ data, fetching }] = useNetworkCostsQuery({
     variables: {
       filter: {
@@ -263,22 +265,19 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
               getLocalizedLabel({ id: `network-level.${item}.short` })
             }
             selectedItem={networkLevel}
-            setSelectedItem={setNetworkLevel}
+            setSelectedItem={(item) => setQueryState({ networkLevel: item })}
             infoDialogSlug="help-network-level"
           />
         </Box>
-
         <PeerGroupCard
           latestYear={latestYear}
           peerGroup={peerGroup}
           sx={{ gridArea: "peer-group" }}
         />
-
         <TableComparisonCard
           {...comparisonCardProps}
           sx={{ gridArea: "comparison" }}
         />
-
         <NetworkCostsTrendCardState
           latestYear={Number(latestYear)}
           sx={{ gridArea: "trend" }}
@@ -321,18 +320,14 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
   const getItemLabel = (id: string) => getLocalizedLabel({ id });
   const groupedCategories = useMemo(() => {
     return [
-      { type: "header", title: getItemLabel("EC-group") },
-      ...categories.filter((x) => x.startsWith("C")),
-      { type: "header", title: getItemLabel("EH-group") },
-      ...categories.filter((x) => x.startsWith("H")),
-      { type: "header", title: getItemLabel("NC-group") },
+      { type: "header", title: getItemLabel("C-group") },
       ...categories.filter((x) => x.startsWith("C")),
       { type: "header", title: getItemLabel("H-group") },
-      ...categories.filter((x) => x.startsWith("NH")),
+      ...categories.filter((x) => x.startsWith("H")),
     ] as ComponentProps<typeof Combobox>["items"];
   }, []);
 
-  const [category, _setCategory] = useState<ElectricityCategory>("C2"); // Default category, can be changed based on user input
+  const [{ category }, setQueryState] = useQueryStateSunshineCostsAndTariffs();
   const [{ data, fetching }] = useEnergyTariffsQuery({
     variables: {
       filter: {
@@ -435,7 +430,7 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
             getItemLabel={getItemLabel}
             selectedItem={category}
             setSelectedItem={(item) =>
-              _setCategory(item as ElectricityCategory)
+              setQueryState({ category: item as ElectricityCategory })
             }
             //FIXME: Might need change
             infoDialogSlug="help-categories"
@@ -500,18 +495,14 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
   const getItemLabel = (id: string) => getLocalizedLabel({ id });
   const groupedCategories = useMemo(() => {
     return [
-      { type: "header", title: getItemLabel("EC-group") },
-      ...categories.filter((x) => x.startsWith("EC")),
-      { type: "header", title: getItemLabel("EH-group") },
-      ...categories.filter((x) => x.startsWith("EH")),
-      { type: "header", title: getItemLabel("NC-group") },
-      ...categories.filter((x) => x.startsWith("NC")),
-      { type: "header", title: getItemLabel("NH-group") },
-      ...categories.filter((x) => x.startsWith("NH")),
+      { type: "header", title: getItemLabel("C-group") },
+      ...categories.filter((x) => x.startsWith("C")),
+      { type: "header", title: getItemLabel("H-group") },
+      ...categories.filter((x) => x.startsWith("H")),
     ] as ComponentProps<typeof Combobox>["items"];
   }, []);
 
-  const [category, _setCategory] = useState<ElectricityCategory>("C2"); // Default category, can be changed based on user input
+  const [{ category }, setQueryState] = useQueryStateSunshineCostsAndTariffs();
   const [{ data, fetching }] = useNetTariffsQuery({
     variables: {
       filter: {
@@ -613,7 +604,7 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
             getItemLabel={getItemLabel}
             selectedItem={category}
             setSelectedItem={(item) =>
-              _setCategory(item as ElectricityCategory)
+              setQueryState({ category: item as ElectricityCategory })
             }
             infoDialogSlug="help-categories"
           />

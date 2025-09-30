@@ -93,7 +93,7 @@ const MobileDrawer = ({
                     <Tabs
                       value={tab}
                       sx={{ mb: 6 }}
-                      onChange={(event, newValue) => setTab(newValue)}
+                      onChange={(_event, newValue) => setTab(newValue)}
                     >
                       <Tab
                         label={t({
@@ -181,7 +181,7 @@ const MobileControls = ({
     : "No selection";
   const status = selectedEntityData?.entityId
     ? selectedItemStatus
-    : tab == "electricity"
+    : tab === "electricity"
     ? pricesCurrentStatus
     : sunshineCurrentStatus;
 

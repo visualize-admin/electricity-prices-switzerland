@@ -60,7 +60,7 @@ it("should digest the timestamp node", async () => {
   const digestValue = await digestTimestampNode(timestampNode);
   const expectedValue = $(resp2, ns.sig, "DigestValue", 1).textContent;
   assert(
-    digestValue == expectedValue,
+    digestValue === expectedValue,
     "Digest value differs from expected value"
   );
 });

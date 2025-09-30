@@ -7,7 +7,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language: it\n"
 "Language-Team: \n"
-"Content-Type: \n"
+"Content-Type: text/plain\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
@@ -800,6 +800,14 @@ msgstr "Mostra meno"
 msgid "relations.showmore"
 msgstr "mostra {rest} di più…"
 
+#: src/domain/translation.tsx
+msgid "saidi-saify-type.planned"
+msgstr "Pianificato"
+
+#: src/domain/translation.tsx
+msgid "saidi-saify-type.unplanned"
+msgstr "Non pianificato"
+
 #: src/components/app-layout.tsx
 msgid "search.global"
 msgstr "Visualizzare l'analisi dettagliata dei prezzi per cantone, comune e gestore di rete."
@@ -984,6 +992,14 @@ msgid "selector.compareoperators"
 msgstr "Confrontare con il gestore di rete…"
 
 #: src/components/sunshine-selectors/base.tsx
+msgid "selector.compliance-type"
+msgstr "Tipologia"
+
+#: src/domain/translation.tsx
+msgid "selector.compliance-type.franc-rule"
+msgstr "Regola del franco"
+
+#: src/components/sunshine-selectors/base.tsx
 msgid "selector.energy-tariffs-category"
 msgstr "Categoria"
 
@@ -1090,6 +1106,10 @@ msgstr "Più economico"
 msgid "selector.product.standard"
 msgstr "Standard"
 
+#: src/components/sunshine-selectors/base.tsx
+msgid "selector.saidi-saifi-type"
+msgstr "Tipologia"
+
 #: src/domain/translation.tsx
 msgid "selector.tab.electricity"
 msgstr "Tariffe elettriche"
@@ -1105,10 +1125,6 @@ msgstr "Indicatori"
 #: src/domain/translation.tsx
 msgid "selector.tab.indicators-content"
 msgstr ""
-
-#: src/components/sunshine-selectors/base.tsx
-msgid "selector.typology"
-msgstr "Tipologia"
 
 #: src/components/electricity-selectors.tsx
 #: src/components/sunshine-selectors/base.tsx
@@ -1163,10 +1179,6 @@ msgstr "Benchmarking all'interno del gruppo di riferimento: {peerGroupLabel}"
 msgid "sunshine.costs-and-tariffs.compare-with"
 msgstr "Confronta con"
 
-#: src/components/card-source.tsx
-msgid "sunshine.costs-and-tariffs.date"
-msgstr "sunshine.costi-e-tariffe.data"
-
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.description"
 msgstr "Questa pagina fornisce una panoramica dei costi e delle tariffe dell'elettricità, compresi i costi di rete, le tariffe nette e le tariffe energetiche. Confrontate i diversi fornitori e analizzate le tendenze all'interno del vostro gruppo di pari per capire meglio la vostra posizione sul mercato."
@@ -1179,8 +1191,8 @@ msgstr "Tariffe energetiche"
 msgid "sunshine.costs-and-tariffs.energy-tariffs-comparison-title"
 msgstr "Tariffe energetiche {0}"
 
+#: src/components/info-dialog-props.ts
 #: src/components/map-details-chart-adapters.tsx
-#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.energy-tariffs-trend"
 msgstr "Andamento delle tariffe energetiche"
@@ -1218,8 +1230,8 @@ msgstr "Tariffe nette"
 msgid "sunshine.costs-and-tariffs.net-tariffs-comparison-title"
 msgstr "Tariffe nette {0}"
 
+#: src/components/info-dialog-props.ts
 #: src/components/map-details-chart-adapters.tsx
-#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.net-tariffs-trend"
 msgstr "Andamento delle tariffe nette"
@@ -1228,9 +1240,9 @@ msgstr "Andamento delle tariffe nette"
 msgid "sunshine.costs-and-tariffs.net-tariffs.overview"
 msgstr "Tariffe nette"
 
+#: src/components/info-dialog-props.ts
 #: src/components/map-details-chart-adapters.tsx
 #: src/components/network-costs-trend-card.tsx
-#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.network-cost-trend"
 msgstr "Andamento dei costi di rete"
 
@@ -1280,10 +1292,6 @@ msgstr ""
 msgid "sunshine.costs-and-tariffs.selected-operators"
 msgstr "Operatori di rete selezionati"
 
-#: src/components/card-source.tsx
-msgid "sunshine.costs-and-tariffs.source"
-msgstr "sunshine.costi-e-tariffe.fonte"
-
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.title"
 msgstr "Costi e tariffe"
@@ -1295,6 +1303,10 @@ msgstr "Vedi da"
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.costs-and-tariffs.year"
 msgstr "{year}"
+
+#: src/components/card-source.tsx
+msgid "sunshine.date"
+msgstr "Data: {date}"
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.grid.network-costs-title"
@@ -1507,7 +1519,7 @@ msgstr "Interruzione di corrente (SAIDI)"
 msgid "sunshine.power-stability.saidi.comparison-card-title"
 msgstr "Durata totale dell'interruzione"
 
-#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+#: src/components/info-dialog-props.ts
 msgid "sunshine.power-stability.saidi.info-dialog-label"
 msgstr "Durata totale dell'interruzione"
 
@@ -1532,7 +1544,7 @@ msgstr "Interruzione di corrente (SAIFI)"
 msgid "sunshine.power-stability.saifi.comparison-card-title"
 msgstr "Frequenza totale delle interruzioni"
 
-#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+#: src/components/info-dialog-props.ts
 msgid "sunshine.power-stability.saifi.info-dialog-label"
 msgstr "Frequenza totale delle interruzioni"
 
@@ -1587,14 +1599,10 @@ msgstr "Ultimo anno ({latestYear})"
 msgid "sunshine.service-quality.notification-period"
 msgstr "Notifica con giorni di anticipo"
 
+#: src/components/card-source.tsx
+msgid "sunshine.source"
+msgstr "Fonte: {source}"
+
 #: src/components/header.tsx
 msgid "topbar.open-flag-menu"
 msgstr "Apri il menu delle bandiere"
-
-#: src/domain/translation.tsx
-msgid "typology.planned"
-msgstr "Pianificato"
-
-#: src/domain/translation.tsx
-msgid "typology.unplanned"
-msgstr "Non pianificato"

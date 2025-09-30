@@ -1,7 +1,10 @@
 import * as z from "zod";
 
 import { ElectricityCategory } from "src/domain/data";
-import { QueryStateSunshineSaidiSaifiTypology } from "src/domain/query-states";
+import {
+  QueryStateSunshineComplianceType,
+  QueryStateSunshineSaidiSaifiType,
+} from "src/domain/query-states";
 import { WikiPageSlug } from "src/domain/wiki";
 import {
   NetworkCostsData,
@@ -19,11 +22,15 @@ export const years = ["2025", "2024", "2023"];
 /**
  * Typology options for filtering
  */
-export const typologyOptions = [
+export const saidiSaifiTypes = [
   "total",
   "planned",
   "unplanned",
-] satisfies QueryStateSunshineSaidiSaifiTypology[];
+] satisfies QueryStateSunshineSaidiSaifiType[];
+
+export const complianceTypes = [
+  "franc-rule",
+] satisfies QueryStateSunshineComplianceType[];
 
 /**
  * Indicator options for filtering

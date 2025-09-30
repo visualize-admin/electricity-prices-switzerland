@@ -3,7 +3,7 @@
  */
 
 export const wikiPageSlugs = {
-  available: [
+  "available": [
     "help-calculation",
     "help-canton-comparison",
     "help-categories",
@@ -23,13 +23,12 @@ export const wikiPageSlugs = {
     "help-price-distribution",
     "help-price-evolution",
     "help-products",
+    "help-saidi-saifi-type",
     "help-saidi",
     "help-saifi",
     "help-search-list",
-    "help-categories",
     "help-service-quality",
-    "help-typology",
-    "home-banner",
+    "home-banner"
   ],
   missing: [],
 } as const;

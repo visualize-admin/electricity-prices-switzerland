@@ -404,7 +404,7 @@ export const GenericMap = ({
   const isMacOS = useMemo(
     () =>
       typeof navigator !== "undefined" &&
-      navigator.userAgent.indexOf("Mac OS X") != -1,
+      navigator.userAgent.indexOf("Mac OS X") !== -1,
     []
   );
 

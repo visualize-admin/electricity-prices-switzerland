@@ -44,7 +44,7 @@ class FlagStore {
   }
 
   get(name: string): FlagValue {
-    if (!Object.prototype.hasOwnProperty.call(this.store, name)) {
+    if (!Object.hasOwn(this.store, name)) {
       this.store[name] = null;
     }
     return this.store[name];

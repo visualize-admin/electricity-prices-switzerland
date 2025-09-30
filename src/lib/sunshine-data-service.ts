@@ -153,6 +153,8 @@ export interface SunshineDataService {
     indicator: SunshineIndicator;
     category?: string;
     networkLevel?: string;
-    typology?: string;
+    saidiSaifiType?: string;
   }): Promise<SunshineDataIndicatorRow[]>;
+
+  fetchUpdateDate(): Promise<string>;
 }

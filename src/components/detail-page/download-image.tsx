@@ -32,7 +32,7 @@ const getImageDataFromElement = async (elementId: string): Promise<string> => {
   downsizedCanvas.width = canvas.width / 2;
   downsizedCanvas.height = canvas.height / 2;
   const ctx = downsizedCanvas.getContext("2d");
-  ctx!.drawImage(
+  ctx?.drawImage(
     canvas,
     0,
     0,
@@ -84,7 +84,7 @@ export const DownloadImage = ({
       const imageData =
         elementId !== undefined
           ? await getImageDataFromElement(elementId)
-          : await getImageData!();
+          : await getImageData?.();
 
       if (!imageData) {
         return;

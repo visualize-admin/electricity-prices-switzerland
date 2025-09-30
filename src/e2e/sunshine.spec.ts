@@ -102,7 +102,7 @@ test.describe("Sunshine map details panel", () => {
     await page.getByRole("option", { name: "Energy tariffs" }).click();
     await page
       .locator("a")
-      .filter({ hasText: "Elektra Andwil Stromversorgung" })
+      .filter({ hasText: "Genossenschaft Elektra Augst" })
       .first()
       .click();
     await tracker.waitForRequests({ fail: false });
@@ -162,5 +162,37 @@ test.describe("Sunshine map details panel", () => {
     await page.keyboard.type("Bern");
     await tracker.waitForRequests();
     await page.locator("#search-global-option-0").getByText("Bern");
+  });
+});
+
+test.describe("Sunshine Costs and Tariffs page", () => {
+  test("it should display the correct title", async ({ page }) => {
+    await page.goto("/en/sunshine/operator/36/costs-and-tariffs");
+    // Scroll for BKW Energie AG to be at the top
+    await page.waitForLoadState("networkidle");
+
+    await page
+      .getByText("Network Costs at Low voltage NE7 Level")
+      .scrollIntoViewIfNeeded();
+    await page.getByText("Grid Tariffs").click();
+    // text: Net Tariffs C2 - Small business (<15 kW)
+    await expect(
+      page.getByText(
+        "Net Tariffs H4 - 5-room apartment with electric stove and dryer"
+      )
+    ).toBeVisible();
+    await page.getByRole("combobox", { name: "Category" }).click();
+    await page.getByRole("option", { name: "H1" }).click();
+    await page
+      .getByRole("heading", { name: "Net Tariffs H1 - 2-Room" })
+      .click();
+    await page.getByTestId("energy-tariffs-tab").click();
+    await page.getByTestId("net-tariffs-tab").click();
+    await page.getByTestId("energy-tariffs-tab").click();
+    await page.getByRole("combobox", { name: "Category" }).click();
+    await page.getByRole("option", { name: "H1" }).click();
+    await page
+      .getByRole("heading", { name: "Energy Tariffs H1 - 2-Room" })
+      .click();
   });
 });

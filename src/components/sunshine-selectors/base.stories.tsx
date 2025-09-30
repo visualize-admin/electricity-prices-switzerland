@@ -2,7 +2,7 @@ import {
   indicatorOptions,
   netElectricityCategoryOptions,
   networkLevelOptions,
-  typologyOptions,
+  saidiSaifiTypes,
 } from "src/domain/sunshine";
 
 import { withUrqlClient } from "../../../.storybook/decorators";
@@ -26,8 +26,8 @@ export const SunshineSelectors: Story = {
     years: ["2024", "2023", "2022"],
     peerGroup: "all_grid_operators",
     peerGroupOptions: ["all_grid_operators", "canton", "municipality"],
-    typology: "total",
-    typologyOptions: typologyOptions,
+    saidiSaifiType: "total",
+    saidiSaifiTypes: saidiSaifiTypes,
     indicator: "saidi",
     indicatorOptions: indicatorOptions,
     categoryOptions: netElectricityCategoryOptions,

@@ -694,9 +694,10 @@ const getYearlyIndicatorMedians = async <
         } as unknown as PeerGroupRecord<Metric>;
       }
 
-      default:
+      default: {
         const _check: never = metric;
         throw new Error(`Unhandled metric type: ${metric}`);
+      }
     }
   };
 
@@ -983,7 +984,7 @@ const getSunshineData = async ({
       tariffsByOperatorPeriod.set(key, new Map());
     }
 
-    tariffsByOperatorPeriod.get(key)!.set(category, {
+    tariffsByOperatorPeriod.get(key)?.set(category, {
       energy: parseFloatOrUndefined(row.energy),
       gridusage: parseFloatOrUndefined(row.gridusage),
     });
@@ -1037,7 +1038,7 @@ const getSunshineDataByIndicator = async ({
   indicator,
   category,
   networkLevel,
-  typology,
+  saifiSaidiType,
 }: {
   operatorId?: number | undefined | null;
   period?: string | undefined | null;
@@ -1045,12 +1046,17 @@ const getSunshineDataByIndicator = async ({
   indicator: SunshineIndicator;
   category?: string;
   networkLevel?: string;
-  typology?: string;
+  saifiSaidiType?: string;
 }): Promise<SunshineDataIndicatorRow[]> => {
   // Get the full data with peer group parameter (though SPARQL doesn't filter by it yet)
   const fullData = await getSunshineData({ operatorId, period, peerGroup });
 
-  const fieldName = getFieldName(indicator, category, networkLevel, typology);
+  const fieldName = getFieldName(
+    indicator,
+    category,
+    networkLevel,
+    saifiSaidiType
+  );
 
   // Extract only the value for the specified indicator and return minimal structure
   return fullData.map((row) => {
@@ -1067,6 +1073,25 @@ const getSunshineDataByIndicator = async ({
   });
 };
 
+const fetchUpdateDate = async (): Promise<string> => {
+  const query = `
+    PREFIX schema: <http://schema.org/>
+    
+    SELECT ?dateModified
+    WHERE {
+      <https://energy.ld.admin.ch/elcom/sunshine> schema:dateModified ?dateModified .
+    }
+  `;
+
+  const results = await executeSparqlQuery<{
+    dateModified: string;
+  }>(query);
+
+  return results.length > 0
+    ? results[0].dateModified
+    : new Date().toISOString().split("T")[0];
+};
+
 export const sunshineDataServiceSparql = {
   name: "sparql",
   getNetworkCosts,
@@ -1081,4 +1106,5 @@ export const sunshineDataServiceSparql = {
   getPeerGroups,
   getSunshineData,
   getSunshineDataByIndicator,
+  fetchUpdateDate,
 } satisfies SunshineDataService;

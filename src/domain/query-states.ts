@@ -61,6 +61,8 @@ const periodSchema = z
   .enum(periods as [string, ...string[]])
   .default(runtimeEnv.CURRENT_PERIOD);
 
+const categorySchema = z.enum(categories).default("H4");
+
 const energyPricesMapSchema = z.object({
   tab: mapTabsSchema.default("electricity"),
   operator: z.string().optional(),
@@ -92,10 +94,11 @@ const sunshineMapSchema = z.object({
   tab: mapTabsSchema.default("sunshine"),
   period: periodSchema,
   peerGroup: z.string().default("all_grid_operators"),
-  typology: z.enum(["total", "planned", "unplanned"]).default("total"),
+  saidiSaifiType: z.enum(["total", "planned", "unplanned"]).default("total"),
+  complianceType: z.enum(["franc-rule"]).default("franc-rule"),
   indicator: sunshineIndicatorSchema.default("networkCosts"),
-  category: z.string().default("C2"),
-  networkLevel: z.string().default("NE5"),
+  category: z.string().default("H4"),
+  networkLevel: z.string().default("NE7"),
   activeId: z.string().optional().nullable(),
 });
 
@@ -103,8 +106,11 @@ export const sunshineMapLink = makeLinkGenerator(sunshineMapSchema);
 
 const detailTabsSchema = z.union([sunshineIndicatorSchema, z.undefined()]); // TODO Add Operational Standards page
 
-export type QueryStateSunshineSaidiSaifiTypology =
-  QueryStateSunshineMap["typology"];
+export type QueryStateSunshineSaidiSaifiType =
+  QueryStateSunshineMap["saidiSaifiType"];
+
+export type QueryStateSunshineComplianceType =
+  QueryStateSunshineMap["complianceType"];
 
 export const getSunshineDetailsPageFromIndicator = (
   indicator: SunshineIndicator
@@ -136,8 +142,13 @@ export const sunshineDetailsLink = makeLinkGenerator(
 
 const sunshineOverviewFiltersSchema = z.object({
   year: z.string().default(runtimeEnv.CURRENT_PERIOD),
-  category: z.string().default("C2"),
-  networkLevel: z.enum(["NE5", "NE6", "NE7"]).default("NE5"),
+  category: z.string().default("H4"),
+  networkLevel: z.enum(["NE5", "NE6", "NE7"]).default("NE7"),
+});
+
+const sunshineCostsAndTariffsSchema = z.object({
+  category: categorySchema,
+  networkLevel: z.enum(["NE5", "NE6", "NE7"]).default("NE7"),
 });
 
 // Map pages
@@ -153,6 +164,9 @@ export const useQueryStateEnergyPricesDetails = makeUseQueryState(
 );
 export const useQueryStateSunshineDetails = makeUseQueryState(
   sunshineDetailsSchema
+);
+export const useQueryStateSunshineCostsAndTariffs = makeUseQueryState(
+  sunshineCostsAndTariffsSchema
 );
 export const useQueryStateSunshineOverviewFilters = makeUseQueryState(
   sunshineOverviewFiltersSchema

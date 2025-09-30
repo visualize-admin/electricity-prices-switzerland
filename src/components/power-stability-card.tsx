@@ -1,10 +1,16 @@
 import { t, Trans } from "@lingui/macro";
-import { Card, CardContent, CardProps, Grid, Typography } from "@mui/material";
-import React, { ReactNode } from "react";
+import {
+  Card,
+  CardContent,
+  CardProps,
+  Grid,
+  Stack,
+  Typography,
+} from "@mui/material";
+import React, { ReactNode, useMemo } from "react";
 
 import { ButtonGroup } from "src/components/button-group";
 import CardSource from "src/components/card-source";
-import { infoDialogProps } from "src/components/info-dialog-props";
 import { filterBySeparator } from "src/domain/helpers";
 import { useQueryStatePowerStabilityCardFilters } from "src/domain/query-states";
 import { PeerGroup, SunshinePowerStabilityData } from "src/domain/sunshine";
@@ -13,7 +19,6 @@ import { getLocalizedLabel, getPeerGroupLabels } from "src/domain/translation";
 import { CardHeader } from "./detail-page/card";
 import { Download, DownloadImage } from "./detail-page/download-image";
 import { InfoDialogButton, InfoDialogButtonProps } from "./info-dialog";
-import { OverviewCard } from "./overview-card";
 import { PowerStabilityChart } from "./power-stability-chart";
 import { AllOrMultiCombobox } from "./query-combobox";
 
@@ -109,6 +114,7 @@ export const PowerStabilityCardState = (
       {...props}
       state={state}
       setQueryState={setQueryState}
+      latestYear={Number(props.latestYear)}
     />
   );
 };
@@ -123,14 +129,27 @@ export const PowerStabilityCard: React.FC<PowerStabilityCardProps> = (
 
     peerGroup: _peerGroup,
     updateDate: _updateDate,
-    observations: _observations,
+    observations: propsObservations,
     operatorId: _operatorId,
     operatorLabel: _operatorLabel,
-    latestYear: _latestYear,
+    latestYear,
     ...cardProps
   } = props;
   const { compareWith, viewBy, duration, overallOrRatio } = state;
-  const chartData = getPowerStabilityCardState(props, state);
+
+  const filteredObservations = useMemo(() => {
+    return viewBy === "latest"
+      ? propsObservations.filter((x) => x.year === latestYear) ?? []
+      : propsObservations;
+  }, [latestYear, propsObservations, viewBy]);
+
+  const chartData = getPowerStabilityCardState(
+    {
+      ...props,
+      observations: filteredObservations,
+    },
+    state
+  );
   const {
     peerGroupLabel,
     observations,
@@ -360,11 +379,17 @@ export const PowerStabilityCardMinified: React.FC<
   const { viewBy, duration, overallOrRatio } = state;
   const chartData = getPowerStabilityCardState(rest, state);
   return (
-    <OverviewCard
-      {...rest}
-      title={cardTitle}
-      description={cardDescription}
-      chart={
+    <Card {...rest}>
+      <CardContent
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          flex: 1,
+          height: "100%",
+        }}
+      >
+        <Typography variant="h3">{cardTitle}</Typography>
+        <Typography variant="body2">{cardDescription}</Typography>
         <PowerStabilityChart
           observations={chartData.observations}
           id={chartData.operatorId}
@@ -375,9 +400,18 @@ export const PowerStabilityCardMinified: React.FC<
           compareWith={[]}
           rootProps={{ sx: { mt: 2 } }}
         />
-      }
-      linkContent={props.linkContent}
-      infoDialogProps={infoDialogProps[`help-${props.indicator}`]}
-    />
+        <Stack
+          sx={{
+            mt: 2,
+            flexGrow: 1,
+            flexDirection: "column",
+            justifyContent: "flex-end",
+            alignItems: "flex-end",
+          }}
+        >
+          {props.linkContent}
+        </Stack>
+      </CardContent>
+    </Card>
   );
 };

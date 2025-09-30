@@ -314,10 +314,11 @@ export const MapDetailsContent: React.FC<{
                   Compliance in detail
                 </Trans>
               );
-            default:
+            default: {
               // This ensures exhaustive checking
               const _exhaustiveCheck: never = indicator;
               return _exhaustiveCheck;
+            }
           }
         })()}
       </Button>

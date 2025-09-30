@@ -261,7 +261,7 @@ const useHistogramState = ({
       })
     : [{ height: 0, nbOfLines: 1 }];
 
-  let bandScale: d3.ScaleBand<string> | undefined = undefined;
+  let bandScale: d3.ScaleBand<string> | undefined ;
   let bandDomain: string[] = [];
   if (groupedBy && binMeta) {
     bandDomain = binMeta.map((b, i) => b.label ?? String(i));

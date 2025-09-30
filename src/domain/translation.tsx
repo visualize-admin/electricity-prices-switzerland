@@ -249,13 +249,19 @@ export const getLocalizedLabel = ({ id }: { id: string }): string => {
 
     case "planned":
       return t({
-        id: "typology.planned",
+        id: "saidi-saify-type.planned",
         message: "Planned",
       });
     case "unplanned":
       return t({
-        id: "typology.unplanned",
+        id: "saidi-saify-type.unplanned",
         message: "Unplanned",
+      });
+
+    case "franc-rule":
+      return t({
+        id: "selector.compliance-type.franc-rule",
+        message: "Franc rule",
       });
     case "saidi":
       return t({

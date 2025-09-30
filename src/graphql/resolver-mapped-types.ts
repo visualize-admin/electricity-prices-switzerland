@@ -57,4 +57,4 @@ export type ResolvedObservation =
   | ResolvedSwissMedianObservation
   | ResolvedOperatorObservation;
 
-export { type ElectricityCategory } from "src/domain/data";
+export type { ElectricityCategory } from "src/domain/data";

@@ -20,7 +20,7 @@ export const HistogramMedian = ({ label }: { label: string }) => {
     useChartTheme();
   const formatCurrency = useFormatCurrency();
 
-  let medianX: number | undefined = undefined;
+  let medianX: number | undefined ;
 
   if (m !== undefined && groupedBy && binMeta && bandScale) {
     const bin = binMeta.find((b) => !b.isNoData && m >= b.x0 && m <= b.x1);

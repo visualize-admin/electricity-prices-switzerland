@@ -386,24 +386,28 @@ export const fetchOperatorCostsAndTariffsData = async (
     targetPeriod = await db.getLatestYearSunshine(operatorId);
   }
 
-  const networkCostsData = await fetchNetworkCostsData(db, {
-    operatorId,
-    networkLevel,
-    period: targetPeriod,
-    operatorOnly,
-  });
-  const netTariffsData = await fetchNetTariffsData(db, {
-    operatorId,
-    category,
-    period: targetPeriod,
-    operatorOnly,
-  });
-  const energyTariffsData = await fetchEnergyTariffsData(db, {
-    operatorId,
-    category,
-    period: targetPeriod,
-    operatorOnly,
-  });
+  const [networkCostsData, netTariffsData, energyTariffsData, updateDate] =
+    await Promise.all([
+      fetchNetworkCostsData(db, {
+        operatorId,
+        networkLevel,
+        period: targetPeriod,
+        operatorOnly,
+      }),
+      fetchNetTariffsData(db, {
+        operatorId,
+        category,
+        period: targetPeriod,
+        operatorOnly,
+      }),
+      fetchEnergyTariffsData(db, {
+        operatorId,
+        category,
+        period: targetPeriod,
+        operatorOnly,
+      }),
+      db.fetchUpdateDate(),
+    ]);
 
   // Create response object
   return {
@@ -418,13 +422,7 @@ export const fetchOperatorCostsAndTariffsData = async (
     networkCosts: networkCostsData,
     netTariffs: netTariffsData,
     energyTariffs: energyTariffsData,
-    updateDate: new Date().toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    }),
+    updateDate,
   };
 };
 
@@ -597,16 +595,20 @@ export const fetchPowerStability = async (
 
   const latestYear = await db.getLatestYearPowerStability(operatorId);
   const targetYear = parseInt(latestYear, 10);
-  const saidiData = await fetchSaidi(db, {
-    operatorId: operatorId,
-    period: targetYear,
-    operatorOnly,
-  });
-  const saifiData = await fetchSaifi(db, {
-    operatorId: operatorId,
-    period: targetYear,
-    operatorOnly,
-  });
+
+  const [saidiData, saifiData, updateDate] = await Promise.all([
+    fetchSaidi(db, {
+      operatorId: operatorId,
+      period: targetYear,
+      operatorOnly,
+    }),
+    fetchSaifi(db, {
+      operatorId: operatorId,
+      period: targetYear,
+      operatorOnly,
+    }),
+    db.fetchUpdateDate(),
+  ]);
 
   return {
     latestYear,
@@ -619,13 +621,7 @@ export const fetchPowerStability = async (
     },
     saidi: saidiData,
     saifi: saifiData,
-    updateDate: new Date().toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    }),
+    updateDate,
   };
 };
 
@@ -655,10 +651,13 @@ export const fetchOperationalStandards = async (
   } else {
     period = await db.getLatestYearSunshine(operatorId);
   }
-  const operationalData = await db.getOperationalStandards({
-    operatorId: operatorId,
-    period: period,
-  });
+  const [operationalData, updateDate] = await Promise.all([
+    db.getOperationalStandards({
+      operatorId: operatorId,
+      period: period,
+    }),
+    db.fetchUpdateDate(),
+  ]);
 
   const data = operationalData[0] || {
     frankenRegel: 0,
@@ -716,12 +715,6 @@ export const fetchOperationalStandards = async (
         },
       ],
     },
-    updateDate: new Date().toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    }),
+    updateDate,
   };
 };

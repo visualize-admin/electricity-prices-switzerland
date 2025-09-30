@@ -111,11 +111,11 @@ const parseObservationRow = (row: RawObservationsRow) => ({
   period: row.SunPeriode,
   francRule: parseNumber(row.SunFrankenRegel),
   infoYesNo: parseGermanBoolean(row.SunInfoJaNein),
-  infoDaysInAdvance: parseInt(row.SunInfoTageimVoraus),
+  infoDaysInAdvance: parseInt(row.SunInfoTageimVoraus, 10),
   networkCostsNE5: parseNumber(row.SunNetzkostenNE5),
   networkCostsNE6: parseNumber(row.SunNetzkostenNE6),
   networkCostsNE7: parseNumber(row.SunNetzkostenNE7),
-  productsCount: parseInt(row.SunProdukteAnzahl),
+  productsCount: parseInt(row.SunProdukteAnzahl, 10),
   productsSelection: parseGermanBoolean(row.SunProdukteAuswahl),
   timely: parseNumberBoolean(row.SunRechtzeitig),
   saidiTotal: parseNumber(row.SunSAIDItotal),
@@ -229,7 +229,7 @@ const parseSunshineCsv = <T extends Id>(id: T): ParsedRowType<T>[] => {
 
 type ParsedRow = ReturnType<typeof parseSunshineCsv>[number];
 
-let sunshineDataCache: ParsedRow[] | undefined = undefined;
+let sunshineDataCache: ParsedRow[] | undefined ;
 export const getSunshineCsvData = async <T extends Id>(
   id: T
 ): Promise<ParsedRowType<T>[]> => {
