@@ -4,7 +4,7 @@ import { ObjectInspector } from "react-inspector";
 
 import { IconClose } from "src/icons/ic-close";
 
-interface PagePropsDebugProps {}
+type PagePropsDebugProps = {}
 
 const PagePropsDebug: React.FC<PagePropsDebugProps> = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
