@@ -11,6 +11,10 @@ You can also check the
 
 # Unreleased
 
+Nothing yet.
+
+# 2.18.1 - 2025-09-30
+
 - Sunshine Map page
 
   - Add Franc Rule support (currently only visible for Compliance indicator)
