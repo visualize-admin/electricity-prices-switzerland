@@ -594,8 +594,8 @@ const getYearlyIndicatorMedians = async <
             ${peerGroupPredicate}
             ${periodPredicate} ;
             :franken_regel ?franken_regel ;
-            :days_in_advance ?days_in_advance ;
-            :in_time ?in_time .
+            :days_in_advance ?days_in_advance
+            .
         }
       `;
       break;

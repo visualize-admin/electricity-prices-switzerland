@@ -462,6 +462,10 @@ msgid "indicator.compliance"
 msgstr "Conformità"
 
 #: src/domain/translation.tsx
+msgid "indicator.days-in-advance-outage-notification"
+msgstr "Notifica di interruzione con giorni di anticipo"
+
+#: src/domain/translation.tsx
 msgid "indicator.energyTariffs"
 msgstr "Tariffe energetiche"
 
@@ -474,16 +478,16 @@ msgid "indicator.networkCosts"
 msgstr "Costi di rete"
 
 #: src/domain/translation.tsx
+msgid "indicator.outage-info"
+msgstr "Informazioni sulle interruzioni"
+
+#: src/domain/translation.tsx
 msgid "indicator.saidi"
 msgstr "Durata dell'interruzione di corrente (SAIDI)"
 
 #: src/domain/translation.tsx
 msgid "indicator.saifi"
 msgstr "Frequenza delle interruzioni di corrente (SAIFI)"
-
-#: src/domain/translation.tsx
-msgid "indicator.serviceQuality"
-msgstr "Qualità del servizio"
 
 #: src/components/sunshine-map.tsx
 msgid "legend.no"
@@ -573,6 +577,7 @@ msgstr "Il SAIDI in dettaglio"
 msgid "map.details-sidebar-panel.next-button.saifi"
 msgstr "SAIFI in dettaglio"
 
+#: src/components/map-details-content.tsx
 #: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.next-button.service-quality"
 msgstr "La qualità del servizio in dettaglio"
@@ -1317,6 +1322,10 @@ msgid "sunshine.indicator.compliance"
 msgstr "Punteggio di conformità"
 
 #: src/components/sunshine-map.tsx
+msgid "sunshine.indicator.daysInAdvanceOutageNotification"
+msgstr "Giorni di anticipo per la notifica delle interruzioni"
+
+#: src/components/sunshine-map.tsx
 msgid "sunshine.indicator.energyTariffs"
 msgstr "Tariffe energetiche in Rp./kWh"
 
@@ -1333,6 +1342,10 @@ msgid "sunshine.indicator.networkCosts-CHF/km"
 msgstr "Costi di rete in CHF/km"
 
 #: src/components/sunshine-map.tsx
+msgid "sunshine.indicator.outageInfo"
+msgstr "Informare il cliente interessato delle interruzioni programmate"
+
+#: src/components/sunshine-map.tsx
 msgid "sunshine.indicator.saidi"
 msgstr "Durata dell'interruzione di corrente (SAIDI) in minuti"
 
@@ -1340,9 +1353,13 @@ msgstr "Durata dell'interruzione di corrente (SAIDI) in minuti"
 msgid "sunshine.indicator.saifi"
 msgstr "Frequenza delle interruzioni di corrente (SAIFI) all'anno"
 
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.serviceQuality"
-msgstr "Punteggio di qualità del servizio"
+#: src/domain/metrics.ts
+msgid "sunshine.metric-unit.chf-km"
+msgstr "CHF/km"
+
+#: src/domain/metrics.ts
+msgid "sunshine.metric-unit.chf-kva"
+msgstr "CHF/kVA"
 
 #: src/domain/metrics.ts
 msgid "sunshine.metric-unit.days"

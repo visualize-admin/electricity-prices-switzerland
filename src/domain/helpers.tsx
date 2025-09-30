@@ -378,7 +378,8 @@ const booleanNumberFormatter = {
 const indicatorFormatterConfig: Record<SunshineIndicator, FormatterConfig> = {
   saidi: { type: "d3", format: ".0~f" },
   saifi: { type: "d3", format: ",.2~f" },
-  serviceQuality: booleanNumberFormatter,
+  outageInfo: booleanNumberFormatter,
+  daysInAdvanceOutageNotification: { type: "d3", format: ".0~f" },
   compliance: { type: "d3", format: ",.2~f" },
   energyTariffs: { type: "d3", format: ",.2~f" },
   netTariffs: { type: "d3", format: ",.2~f" },

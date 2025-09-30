@@ -41,7 +41,8 @@ export const indicatorOptions = [
   "energyTariffs",
   "saidi", // Power Outage Duration
   "saifi", // Power Outage Frequency
-  "serviceQuality",
+  "outageInfo",
+  "daysInAdvanceOutageNotification",
   "compliance",
 ] satisfies SunshineIndicator[];
 
@@ -73,7 +74,8 @@ export const sunshineIndicatorSchema = z.enum([
   "energyTariffs",
   "saidi",
   "saifi",
-  "serviceQuality",
+  "outageInfo",
+  "daysInAdvanceOutageNotification",
   "compliance",
 ] as const);
 
@@ -155,6 +157,7 @@ export const indicatorWikiPageSlugMapping: Record<
   energyTariffs: "help-energy-tariffs",
   saidi: "help-saidi",
   saifi: "help-saifi",
-  serviceQuality: "help-service-quality",
+  outageInfo: "help-compliance",
+  daysInAdvanceOutageNotification: "help-compliance",
   compliance: "help-compliance",
 };

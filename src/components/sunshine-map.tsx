@@ -44,6 +44,7 @@ import {
   useSelectedEntityData,
 } from "src/hooks/use-selected-entity-data";
 import { truthy } from "src/lib/truthy";
+import { chartPalette } from "src/themes/palette";
 import { shouldOpenInNewTab } from "src/utils/platform";
 
 const legendTitleMapping: Record<
@@ -76,9 +77,13 @@ const legendTitleMapping: Record<
     message: "Power outage frequency (SAIFI) per year",
     id: "sunshine.indicator.saifi",
   }),
-  serviceQuality: t({
+  outageInfo: t({
     message: "Informing the affected customer about planned interruptions",
-    id: "sunshine.indicator.serviceQuality",
+    id: "sunshine.indicator.outageInfo",
+  }),
+  daysInAdvanceOutageNotification: t({
+    message: "Days in advance for outage notification",
+    id: "sunshine.indicator.daysInAdvanceOutageNotification",
   }),
   compliance: t({
     message: "Complies with the franc rule",
@@ -110,7 +115,8 @@ const aggregateFnPerIndicator: Record<
   energyTariffs: mean,
   saidi: mean,
   saifi: mean,
-  serviceQuality: first,
+  daysInAdvanceOutageNotification: first,
+  outageInfo: first,
   compliance: first,
 };
 
@@ -375,7 +381,7 @@ const SunshineMap = ({
   const legendId = useId();
 
   const renderLegend = useCallback(() => {
-    if (indicator === "compliance" || indicator === "serviceQuality") {
+    if (indicator === "compliance" || indicator === "outageInfo") {
       const complianceTicks = [
         { value: 0, label: t({ id: "legend.no", message: "No" }) },
         { value: 1, label: t({ id: "legend.yes", message: "Yes" }) },
@@ -386,6 +392,7 @@ const SunshineMap = ({
           title={legendTitleMapping[indicator]}
           ticks={complianceTicks}
           mode="yesNo"
+          palette={chartPalette.diverging.GreenToOrange}
         />
       );
     }
@@ -406,6 +413,11 @@ const SunshineMap = ({
           value,
           label: value !== undefined ? valueFormatter(value) : "",
         }))}
+        palette={
+          indicator === "daysInAdvanceOutageNotification"
+            ? chartPalette.diverging.GreenToOrange.slice().reverse()
+            : chartPalette.diverging.GreenToOrange
+        }
         infoDialogButtonProps={{
           slug: indicatorWikiPageSlugMapping[indicator],
           label: t({

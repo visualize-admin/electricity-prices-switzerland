@@ -233,7 +233,7 @@ export const SunshineTopics = () => {
                   })}
                   href={sunshineMapLink("/map", {
                     tab: "sunshine",
-                    indicator: "serviceQuality",
+                    indicator: "outageInfo",
                   })}
                   icon={<Icon name="arrowright" />}
                 />

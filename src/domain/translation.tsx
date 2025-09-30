@@ -288,16 +288,22 @@ export const getLocalizedLabel = ({ id }: { id: string }): string => {
         id: "indicator.energyTariffs",
         message: "Energy tariffs",
       });
-    case "serviceQuality":
-      return t({
-        id: "indicator.serviceQuality",
-        message: "Service quality",
-      });
     case "compliance":
       return t({
         id: "indicator.compliance",
         message: "Compliance",
       });
+    case "outageInfo":
+      return t({
+        id: "indicator.outage-info",
+        message: "Outage information",
+      });
+    case "daysInAdvanceOutageNotification":
+      return t({
+        id: "indicator.days-in-advance-outage-notification",
+        message: "Days in advance outage notification",
+      });
+
     case "peer-group.settlement-density.na":
       return t({
         id: "peer-group.settlement-density.na",

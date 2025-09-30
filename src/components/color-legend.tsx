@@ -38,12 +38,14 @@ export const MapColorLegend = ({
   title,
   mode = "minMedianMax",
   infoDialogButtonProps,
+  palette,
 }: {
   ticks: Tick[];
   id: string;
   title: React.ReactNode;
   mode?: LegendMode;
   infoDialogButtonProps?: React.ComponentProps<typeof InfoDialogButton>;
+  palette: string[];
 }) => {
   const isMobile = useIsMobile();
   const [open, setOpen] = useState(!isMobile);
@@ -96,7 +98,7 @@ export const MapColorLegend = ({
         }}
       >
         {mode === "minMedianMax" ? (
-          <MinMedianMaxLegend ticks={ticks} />
+          <MinMedianMaxLegend ticks={ticks} palette={palette} />
         ) : (
           <YesNoLegend ticks={ticks} />
         )}
@@ -105,7 +107,13 @@ export const MapColorLegend = ({
   );
 };
 
-const MinMedianMaxLegend = ({ ticks }: { ticks: Tick[] }) => {
+const MinMedianMaxLegend = ({
+  ticks,
+  palette,
+}: {
+  ticks: Tick[];
+  palette: string[];
+}) => {
   return (
     <>
       <Box
@@ -170,7 +178,7 @@ const MinMedianMaxLegend = ({ ticks }: { ticks: Tick[] }) => {
         </Typography>
       </Box>
 
-      <ColorsLine />
+      <ColorsLine palette={palette} />
     </>
   );
 };
@@ -248,12 +256,12 @@ export const ColorLegend = () => {
           <Trans id="price.legend.max">max</Trans>
         </Typography>
       </Box>
-      <ColorsLine />
+      <ColorsLine palette={chartPalette.diverging.GreenToOrange} />
     </Box>
   );
 };
 
-const ColorsLine = () => {
+const ColorsLine = ({ palette }: { palette: string[] }) => {
   return (
     <Box
       sx={{ height: COLOR_HEIGHT + BOTTOM_LABEL_HEIGHT, position: "relative" }}
@@ -279,9 +287,7 @@ const ColorsLine = () => {
           height: 0,
           borderTop: `${COLOR_HEIGHT / 2}px solid transparent`,
           borderBottom: `${COLOR_HEIGHT / 2}px solid transparent`,
-          borderRight: `${COLOR_HEIGHT / 2}px solid  ${
-            chartPalette.diverging.GreenToOrange[0]
-          }`,
+          borderRight: `${COLOR_HEIGHT / 2}px solid  ${palette[0]}`,
         }}
       />
       <Box
@@ -293,7 +299,7 @@ const ColorsLine = () => {
           width: "100%",
         }}
       >
-        {chartPalette.diverging.GreenToOrange.map((bg, i) => (
+        {palette.map((bg, i) => (
           <Box
             key={bg}
             sx={{
@@ -335,9 +341,7 @@ const ColorsLine = () => {
           borderTop: `${COLOR_HEIGHT / 2}px solid transparent`,
           borderBottom: `${COLOR_HEIGHT / 2}px solid transparent`,
           borderLeft: `${COLOR_HEIGHT / 2}px solid ${
-            chartPalette.diverging.GreenToOrange[
-              chartPalette.diverging.GreenToOrange.length - 1
-            ]
+            palette[palette.length - 1]
           }`,
         }}
       />
