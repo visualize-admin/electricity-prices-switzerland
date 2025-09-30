@@ -132,13 +132,12 @@ export const fetchNetworkCostsData = async (
     operatorOnly?: boolean;
   }
 ): Promise<NetworkCostsData> => {
-  const operatorData = await db.getOperatorData(operatorId);
-
   // Get the latest year if period not provided
   let targetPeriod = period;
   if (!targetPeriod) {
     targetPeriod = await db.getLatestYearSunshine(operatorId);
   }
+  const operatorData = await db.getOperatorData(operatorId, targetPeriod);
 
   const yearlyPeerGroupMedianNetworkCosts =
     await db.getYearlyIndicatorMedians<"network_costs">({
@@ -233,7 +232,7 @@ export const fetchNetTariffsData = async (
     operatorOnly?: boolean;
   }
 ): Promise<TariffsData> => {
-  const operatorData = await db.getOperatorData(operatorId);
+  const operatorData = await db.getOperatorData(operatorId, period);
 
   const yearlyPeerGroupMedianNetTariffs =
     await db.getYearlyIndicatorMedians<"net-tariffs">({
@@ -302,7 +301,7 @@ export const fetchEnergyTariffsData = async (
     operatorOnly?: boolean;
   }
 ): Promise<TariffsData> => {
-  const operatorData = await db.getOperatorData(operatorId);
+  const operatorData = await db.getOperatorData(operatorId, period);
 
   //. Get indicator median data for energy tariffs
   const yearlyPeerGroupMedianEnergyTariffs =
@@ -378,13 +377,13 @@ export const fetchOperatorCostsAndTariffsData = async (
   }
 ): Promise<SunshineCostsAndTariffsData> => {
   const operatorId = parseInt(operatorId_, 10);
-  const operatorData = await db.getOperatorData(operatorId);
 
   // Get the latest year if period not provided
   let targetPeriod = period;
   if (!targetPeriod) {
     targetPeriod = await db.getLatestYearSunshine(operatorId);
   }
+  const operatorData = await db.getOperatorData(operatorId, targetPeriod);
 
   const [networkCostsData, netTariffsData, energyTariffsData, updateDate] =
     await Promise.all([
@@ -450,7 +449,7 @@ export const fetchSaidi = async (
     operatorOnly?: boolean;
   }
 ): Promise<StabilityData> => {
-  const operatorData = await db.getOperatorData(operatorId);
+  const operatorData = await db.getOperatorData(operatorId, period);
 
   // Get peer group median SAIDI
   const yearlyPeerGroupMedianStability =
@@ -523,7 +522,7 @@ export const fetchSaifi = async (
     operatorOnly?: boolean;
   }
 ): Promise<StabilityData> => {
-  const operatorData = await service.getOperatorData(operatorId);
+  const operatorData = await service.getOperatorData(operatorId, period);
   if (!operatorData) {
     throw new Error(`Peer group not found for operator ID: ${operatorId}`);
   }
@@ -591,9 +590,12 @@ export const fetchPowerStability = async (
   }
 ): Promise<SunshinePowerStabilityData> => {
   const operatorId = parseInt(operatorId_, 10);
-  const operatorData = await db.getOperatorData(operatorId);
 
   const latestYear = await db.getLatestYearPowerStability(operatorId);
+  const operatorData = await db.getOperatorData(
+    operatorId,
+    parseInt(latestYear, 10)
+  );
   const targetYear = parseInt(latestYear, 10);
 
   const [saidiData, saifiData, updateDate] = await Promise.all([
@@ -642,7 +644,6 @@ export const fetchOperationalStandards = async (
   }
 ): Promise<SunshineOperationalStandardsData> => {
   const operatorId = parseInt(operatorId_, 10);
-  const operatorData = await db.getOperatorData(operatorId);
 
   // Use provided period or get the latest year
   let period: number;
@@ -651,6 +652,7 @@ export const fetchOperationalStandards = async (
   } else {
     period = await db.getLatestYearSunshine(operatorId);
   }
+  const operatorData = await db.getOperatorData(operatorId, period);
   const [operationalData, updateDate] = await Promise.all([
     db.getOperationalStandards({
       operatorId: operatorId,

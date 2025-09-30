@@ -125,7 +125,7 @@ export interface SunshineDataService {
 
   getOperatorData(
     operatorId: number,
-    period?: number
+    period: number
   ): Promise<OperatorDataRecord>;
 
   getYearlyIndicatorMedians<Metric extends IndicatorMedianParams["metric"]>(
@@ -136,7 +136,10 @@ export interface SunshineDataService {
 
   getLatestYearPowerStability(operatorId: number): Promise<string>;
 
-  getOperatorPeerGroup(operatorId: number | string): Promise<PeerGroup>;
+  getOperatorPeerGroup(
+    operatorId: number | string,
+    period: number
+  ): Promise<PeerGroup>;
 
   getPeerGroups(locale: string): Promise<PeerGroupItem[]>;
 

@@ -649,8 +649,12 @@ const Operator: OperatorResolvers = {
   },
 
   peerGroup: async ({ id }, _args, context) => {
+    const latestYear = await context.sunshineDataService.getLatestYearSunshine(
+      parseInt(id, 10)
+    );
     const peerGroups = await context.sunshineDataService.getOperatorPeerGroup(
-      id
+      id,
+      latestYear
     );
     return peerGroups;
   },

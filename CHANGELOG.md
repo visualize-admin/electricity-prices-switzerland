@@ -18,6 +18,7 @@ You can also check the
   - Fix: Use CHF/km for NE5 & NE7, use CHF/kVA for NE6 when viewing Network Costs indicator
   - Fix: Remove mention of Product variety in compliance description
   - Fix: Year is correctly shown in operational standard cards
+  - Fix: Peer group is correctly retrieved
 
 - Localization
   - Feat: Update locales from accent
