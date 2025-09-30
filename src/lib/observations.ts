@@ -17,7 +17,7 @@ const parseRDFLiteral = (value: Literal): ObservationValue => {
     case "string":
       return v;
     case "boolean":
-      return v === "true" ? true : false;
+      return v  === "true";
     case "float":
     case "integer":
     case "long":

@@ -190,7 +190,7 @@ const useRangePlotState = ({
           nbOfLines: annotationSpaces[i + 1].nbOfLines,
           value: formatCurrency(getX(datum)),
           label: getLabel(datum),
-          onTheLeft: xScale(getX(datum)) <= chartWidth / 2 ? false : true,
+          onTheLeft: !(xScale(getX(datum)) <= chartWidth / 2 ),
         };
       });
 
