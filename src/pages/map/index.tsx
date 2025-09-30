@@ -4,7 +4,7 @@ import { ScaleThreshold } from "d3";
 import { GetServerSideProps } from "next";
 import dynamic from "next/dynamic";
 import Head from "next/head";
-import React, { useCallback, useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 
 import { CombinedSelectors } from "src/components/combined-selectors";
 import { Combobox } from "src/components/combobox";

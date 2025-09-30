@@ -1,7 +1,7 @@
 import { Layer, PickingInfo } from "@deck.gl/core/typed";
 import { t, Trans } from "@lingui/macro";
 import { index, ScaleThreshold } from "d3";
-import React, {
+import {
   ComponentProps,
   useCallback,
   useContext,
