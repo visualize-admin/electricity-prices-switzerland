@@ -11,7 +11,8 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Sunshine Map Legend & Sunshine Detail Page Network Costs
+  - Use CHF/km for NE5 & NE7, use CHF/kVA for NE6 when view Network Costs indicator
 
 # 2.18.1 - 2025-09-30
 
