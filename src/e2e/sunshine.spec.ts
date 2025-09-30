@@ -164,3 +164,32 @@ test.describe("Sunshine map details panel", () => {
     await page.locator("#search-global-option-0").getByText("Bern");
   });
 });
+
+test.describe("Sunshine Costs and Tariffs page", () => {
+  test("it should display the correct title", async ({ page, snapshot }) => {
+    await page.goto("/sunshine/operator/36/costs-and-tariffs");
+    await expect(
+      page.getByText("Network Costs at Low voltage NE7 Level")
+    ).toBeVisible();
+    await page.getByText("Grid Tariffs").click();
+    // text: Net Tariffs C2 - Small business (<15 kW)
+    await expect(
+      page.getByText(
+        "Net Tariffs H4 - 5-room apartment with electric stove and dryer"
+      )
+    ).toBeVisible();
+    await page.getByRole("combobox", { name: "Category" }).click();
+    await page.getByRole("option", { name: "H1" }).click();
+    await page
+      .getByRole("heading", { name: "Net Tariffs H1 - 2-Room" })
+      .click();
+    await page.getByTestId("energy-tariffs-tab").click();
+    await page.getByTestId("net-tariffs-tab").click();
+    await page.getByTestId("energy-tariffs-tab").click();
+    await page.getByRole("combobox", { name: "Category" }).click();
+    await page.getByRole("option", { name: "H1" }).click();
+    await page
+      .getByRole("heading", { name: "Energy Tariffs H1 - 2-Room" })
+      .click();
+  });
+});

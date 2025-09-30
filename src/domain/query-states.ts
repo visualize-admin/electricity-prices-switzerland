@@ -61,6 +61,8 @@ const periodSchema = z
   .enum(periods as [string, ...string[]])
   .default(runtimeEnv.CURRENT_PERIOD);
 
+const categorySchema = z.enum(categories).default("H4");
+
 const energyPricesMapSchema = z.object({
   tab: mapTabsSchema.default("electricity"),
   operator: z.string().optional(),
@@ -144,6 +146,11 @@ const sunshineOverviewFiltersSchema = z.object({
   networkLevel: z.enum(["NE5", "NE6", "NE7"]).default("NE7"),
 });
 
+const sunshineCostsAndTariffsSchema = z.object({
+  category: categorySchema,
+  networkLevel: z.enum(["NE5", "NE6", "NE7"]).default("NE7"),
+});
+
 // Map pages
 export const useQueryStateMapCommon = makeUseQueryState(mapCommonSchema);
 export const useQueryStateEnergyPricesMap = makeUseQueryState(
@@ -157,6 +164,9 @@ export const useQueryStateEnergyPricesDetails = makeUseQueryState(
 );
 export const useQueryStateSunshineDetails = makeUseQueryState(
   sunshineDetailsSchema
+);
+export const useQueryStateSunshineCostsAndTariffs = makeUseQueryState(
+  sunshineCostsAndTariffsSchema
 );
 export const useQueryStateSunshineOverviewFilters = makeUseQueryState(
   sunshineOverviewFiltersSchema
