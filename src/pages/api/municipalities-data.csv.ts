@@ -63,8 +63,6 @@ type SparqlResponse = {
   };
 };
 
-type MunicipalityInfo = z.infer<typeof MunicipalityInfo>;
-
 const fetchMunicipalitiesInfo = async (year: number) => {
   const sp = new URLSearchParams();
   const query = /* sparql */ `
