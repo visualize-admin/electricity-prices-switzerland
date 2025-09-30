@@ -94,16 +94,12 @@ msgstr "Price components"
 #: src/components/detail-page/price-distribution-histogram.tsx
 #: src/components/detail-page/price-distribution-histogram.tsx
 msgid "detail.card.title.prices.distribution"
-msgstr "Prize distribution in Switzerland"
+msgstr "Price distribution in Switzerland"
 
 #: src/components/detail-page/price-evolution-line-chart.tsx
 #: src/components/detail-page/price-evolution-line-chart.tsx
 msgid "detail.card.title.prices.evolution"
 msgstr "Tariff development"
-
-#: src/components/detail-page/banner.tsx
-msgid "detail.maplink"
-msgstr "Back to map view"
 
 #: src/components/detail-page/banner.tsx
 msgid "detail.municipalities"
@@ -120,6 +116,10 @@ msgstr "Operator"
 #: src/components/detail-page/banner.tsx
 msgid "detail.operators"
 msgstr "Netzbetreiber"
+
+#: src/components/detail-page/sidebar.tsx
+msgid "details.page.navigation.canton-comparison-item"
+msgstr "Canton comparison"
 
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.costs-and-tariffs-item"
@@ -142,12 +142,24 @@ msgid "details.page.navigation.power-stability-item"
 msgstr "Power Stability"
 
 #: src/components/detail-page/sidebar.tsx
+msgid "details.page.navigation.price-components-item"
+msgstr "Price components"
+
+#: src/components/detail-page/sidebar.tsx
+msgid "details.page.navigation.price-distribution-item"
+msgstr "Price distribution in Switzerland"
+
+#: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.sunshine-indicators-title"
 msgstr "Sunshine Indicators"
 
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.sunshine-overview-item"
 msgstr "Overview"
+
+#: src/components/detail-page/sidebar.tsx
+msgid "details.page.navigation.tariff-development-item"
+msgstr "Tariff development"
 
 #: src/components/info-dialog.tsx
 msgid "dialog.close"
@@ -319,7 +331,7 @@ msgstr "Transmission grid tariff components - Swissgrid"
 
 #: src/components/header.tsx
 msgid "header.long-title"
-msgstr "Federal Electricity Commission ElCom"
+msgstr "Electricity tariffs in Switzerland"
 
 #: src/components/sunshine-map.tsx
 msgid "help."
@@ -375,11 +387,15 @@ msgstr "This website provides up-to-date information on electricity tariffs in S
 
 #: src/pages/index.tsx
 msgid "home.hero-section.primary-cta"
-msgstr "Electricity tariffs in Switzerland"
+msgstr "View the map"
 
 #: src/pages/index.tsx
 msgid "home.hero-section.title"
 msgstr "Discover the electricity tariffs in the map view"
+
+#: src/components/app-layout.tsx
+msgid "home.menu.details"
+msgstr "Details"
 
 #: src/components/app-layout.tsx
 msgid "home.menu.map-view"
@@ -1421,7 +1437,6 @@ msgstr "Operational Standards"
 msgid "sunshine.overview-sunshine.description"
 msgstr "In Switzerland, electricity tariffs are based on actual costs (cost-plus regulation). ElCom introduced the Sunshine Regulation to promote efficiency and create transparency. The Sunshine Regulation is a standardized process for publishing indicators of the quality and costs of Swiss electricity network operators. The various indicators enable comparisons between grid operators in terms of cost efficiency, supply quality, and compliance. Since topographical and structural differences influence the values, comparisons are made both across Switzerland and within comparison groups based on population density and energy consumption."
 
-#: src/pages/sunshine/[entity]/[id]/overview.tsx
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.overview-sunshine.title"
