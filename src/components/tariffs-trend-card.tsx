@@ -5,6 +5,7 @@ import React, { ReactNode } from "react";
 import { ButtonGroup } from "src/components/button-group";
 import CardSource from "src/components/card-source";
 import { infoDialogProps } from "src/components/info-dialog-props";
+import { getPalette } from "src/domain/helpers";
 import { useQueryStateTariffsTrendCardFilters } from "src/domain/query-states";
 import { PeerGroup, SunshineCostsAndTariffsData } from "src/domain/sunshine";
 import { getLocalizedLabel, getPeerGroupLabels } from "src/domain/translation";
@@ -168,6 +169,11 @@ export const TariffsTrendCard: React.FC<TariffsTrendCardProps> = (props) => {
                 id: "sunshine.costs-and-tariffs.compare-with",
                 message: "Compare With",
               })}
+              colorful={
+                compareWith?.includes("sunshine.select-all")
+                  ? undefined
+                  : getPalette("elcom2")
+              }
               items={[
                 { id: "sunshine.select-all" },
                 ...multiComboboxOptions.map((item) => {
@@ -184,7 +190,6 @@ export const TariffsTrendCard: React.FC<TariffsTrendCardProps> = (props) => {
             />
           </Grid>
         </Grid>
-        {/* Scatter Plot */}
         <TariffsTrendChart
           id={operatorId}
           operatorLabel={operatorLabel}

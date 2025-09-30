@@ -224,7 +224,6 @@ export const NetworkCostsTrendCard: React.FC<NetworkCostsTrendCardProps> = (
             />
           </Grid>
         </Grid>
-        {/* Scatter Plot */}
         <NetworkCostTrendChart
           rootProps={{
             sx: {
