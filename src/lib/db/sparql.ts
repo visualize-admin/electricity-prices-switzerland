@@ -947,30 +947,31 @@ const getSunshineData = async ({
     ORDER BY DESC(?period) ?operator ?category
   `;
 
-  const mainResults = await executeSparqlQuery<{
-    operator: string;
-    operator_name: string;
-    period: string;
-    gridcost_ne5: string;
-    gridcost_ne6: string;
-    gridcost_ne7: string;
-    franken_regel: string;
-    info: string;
-    days_in_advance: string;
-    in_time: string;
-    saidi_total: string;
-    saidi_unplanned: string;
-    saifi_total: string;
-    saifi_unplanned: string;
-  }>(mainQuery);
-
-  const tariffResults = await executeSparqlQuery<{
-    operator: string;
-    period: string;
-    category: string;
-    energy: string;
-    gridusage: string;
-  }>(tariffQuery);
+  const [mainResults, tariffResults] = await Promise.all([
+    executeSparqlQuery<{
+      operator: string;
+      operator_name: string;
+      period: string;
+      gridcost_ne5: string;
+      gridcost_ne6: string;
+      gridcost_ne7: string;
+      franken_regel: string;
+      info: string;
+      days_in_advance: string;
+      in_time: string;
+      saidi_total: string;
+      saidi_unplanned: string;
+      saifi_total: string;
+      saifi_unplanned: string;
+    }>(mainQuery),
+    executeSparqlQuery<{
+      operator: string;
+      period: string;
+      category: string;
+      energy: string;
+      gridusage: string;
+    }>(tariffQuery),
+  ]);
 
   // Group tariff data by operator and period
   const tariffsByOperatorPeriod = new Map<
