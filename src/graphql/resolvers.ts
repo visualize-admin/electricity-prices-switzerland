@@ -835,11 +835,6 @@ const getMedianValueFromResult = (
   indicator: SunshineIndicator,
   saidiSaifiType?: string
 ): number | undefined => {
-  console.log("getMedianValueFromResult", {
-    result,
-    indicator,
-    saidiSaifiType,
-  });
   if (!result) return undefined;
 
   // Network costs
