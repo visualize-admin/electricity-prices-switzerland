@@ -148,17 +148,11 @@ export const TariffsTrendCard: React.FC<TariffsTrendCardProps> = (props) => {
                   label: getLocalizedLabel({
                     id: "costs-and-tariffs.latest-year-option",
                   }),
-                  content: getLocalizedLabel({
-                    id: "costs-and-tariffs.latest-year-option-content",
-                  }),
                 },
                 {
                   value: "progress",
                   label: getLocalizedLabel({
                     id: "costs-and-tariffs.progress-over-time",
-                  }),
-                  content: getLocalizedLabel({
-                    id: "costs-and-tariffs.progress-over-time-content",
                   }),
                 },
               ]}

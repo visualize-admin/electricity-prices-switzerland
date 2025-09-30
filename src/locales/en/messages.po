@@ -1212,10 +1212,6 @@ msgstr "Latest year ({latestYear})"
 msgid "sunshine.costs-and-tariffs.latest-year-option"
 msgstr "Latest year"
 
-#: src/domain/translation.tsx
-msgid "sunshine.costs-and-tariffs.latest-year-option-content"
-msgstr ""
-
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
@@ -1283,10 +1279,6 @@ msgstr "Peer Group"
 #: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.progress-over-time"
 msgstr "Progress over time"
-
-#: src/domain/translation.tsx
-msgid "sunshine.costs-and-tariffs.progress-over-time-content"
-msgstr ""
 
 #: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.selected-operators"
@@ -1448,10 +1440,6 @@ msgstr "Latest year ({latestYear})"
 msgid "sunshine.power-stability.latest-year-option"
 msgstr "Latest year"
 
-#: src/domain/translation.tsx
-msgid "sunshine.power-stability.latest-year-option-content"
-msgstr ""
-
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.median-peer-group"
@@ -1489,10 +1477,6 @@ msgstr "Shows only planned outages, which are scheduled maintenance or upgrades.
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.progress-over-time"
 msgstr "Progress over time"
-
-#: src/domain/translation.tsx
-msgid "sunshine.power-stability.progress-over-time-content"
-msgstr ""
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.ratio-option"

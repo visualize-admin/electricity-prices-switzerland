@@ -1212,10 +1212,6 @@ msgstr "Aktuelles Jahr ({latestYear})"
 msgid "sunshine.costs-and-tariffs.latest-year-option"
 msgstr "Aktuelles Jahr"
 
-#: src/domain/translation.tsx
-msgid "sunshine.costs-and-tariffs.latest-year-option-content"
-msgstr ""
-
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
@@ -1283,10 +1279,6 @@ msgstr "Vergleichsgruppe"
 #: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.progress-over-time"
 msgstr "Entwicklung über die Zeit"
-
-#: src/domain/translation.tsx
-msgid "sunshine.costs-and-tariffs.progress-over-time-content"
-msgstr ""
 
 #: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.selected-operators"
@@ -1448,10 +1440,6 @@ msgstr "Aktuelles Jahr ({latestYear})"
 msgid "sunshine.power-stability.latest-year-option"
 msgstr "Aktuelles Jahr"
 
-#: src/domain/translation.tsx
-msgid "sunshine.power-stability.latest-year-option-content"
-msgstr ""
-
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.median-peer-group"
@@ -1489,10 +1477,6 @@ msgstr "Zeigt nur geplante Ausfälle an, d. h. geplante Wartungsarbeiten oder Up
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.progress-over-time"
 msgstr "Entwicklung über die Zeit"
-
-#: src/domain/translation.tsx
-msgid "sunshine.power-stability.progress-over-time-content"
-msgstr ""
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.ratio-option"
