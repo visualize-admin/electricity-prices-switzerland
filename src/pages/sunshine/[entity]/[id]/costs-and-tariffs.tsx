@@ -321,14 +321,10 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
   const getItemLabel = (id: string) => getLocalizedLabel({ id });
   const groupedCategories = useMemo(() => {
     return [
-      { type: "header", title: getItemLabel("EC-group") },
-      ...categories.filter((x) => x.startsWith("C")),
-      { type: "header", title: getItemLabel("EH-group") },
-      ...categories.filter((x) => x.startsWith("H")),
-      { type: "header", title: getItemLabel("NC-group") },
+      { type: "header", title: getItemLabel("C-group") },
       ...categories.filter((x) => x.startsWith("C")),
       { type: "header", title: getItemLabel("H-group") },
-      ...categories.filter((x) => x.startsWith("NH")),
+      ...categories.filter((x) => x.startsWith("H")),
     ] as ComponentProps<typeof Combobox>["items"];
   }, []);
 
@@ -500,14 +496,10 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
   const getItemLabel = (id: string) => getLocalizedLabel({ id });
   const groupedCategories = useMemo(() => {
     return [
-      { type: "header", title: getItemLabel("EC-group") },
-      ...categories.filter((x) => x.startsWith("EC")),
-      { type: "header", title: getItemLabel("EH-group") },
-      ...categories.filter((x) => x.startsWith("EH")),
-      { type: "header", title: getItemLabel("NC-group") },
-      ...categories.filter((x) => x.startsWith("NC")),
-      { type: "header", title: getItemLabel("NH-group") },
-      ...categories.filter((x) => x.startsWith("NH")),
+      { type: "header", title: getItemLabel("C-group") },
+      ...categories.filter((x) => x.startsWith("C")),
+      { type: "header", title: getItemLabel("H-group") },
+      ...categories.filter((x) => x.startsWith("H")),
     ] as ComponentProps<typeof Combobox>["items"];
   }, []);
 
