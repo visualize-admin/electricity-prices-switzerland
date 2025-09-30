@@ -226,7 +226,7 @@ export const PaletteStory = () => {
           {categorical.map((value) => (
             <ColorSwatch
               key={`categorical-${value}`}
-              swatch={{ [""]: value }}
+              swatch={{ "": value }}
               color="Categorical"
             />
           ))}
@@ -242,7 +242,7 @@ export const PaletteStory = () => {
             {chartPalette.sequential.orange.map((value) => (
               <ColorSwatch
                 key={`sequential-orange-${value}`}
-                swatch={{ [""]: value }}
+                swatch={{ "": value }}
                 color="Orange"
               />
             ))}
@@ -251,7 +251,7 @@ export const PaletteStory = () => {
             {chartPalette.sequential.yellow.map((value) => (
               <ColorSwatch
                 key={`sequential-yellow-${value}`}
-                swatch={{ [""]: value }}
+                swatch={{ "": value }}
                 color="Yellow"
               />
             ))}
@@ -260,7 +260,7 @@ export const PaletteStory = () => {
             {chartPalette.sequential.green.map((value) => (
               <ColorSwatch
                 key={`sequential-green-${value}`}
-                swatch={{ [""]: value }}
+                swatch={{ "": value }}
                 color="Green"
               />
             ))}
@@ -269,7 +269,7 @@ export const PaletteStory = () => {
             {chartPalette.sequential.teal.map((value) => (
               <ColorSwatch
                 key={`sequential-teal-${value}`}
-                swatch={{ [""]: value }}
+                swatch={{ "": value }}
                 color="Teal"
               />
             ))}
@@ -278,7 +278,7 @@ export const PaletteStory = () => {
             {chartPalette.sequential.blue.map((value) => (
               <ColorSwatch
                 key={`sequential-blue-${value}`}
-                swatch={{ [""]: value }}
+                swatch={{ "": value }}
                 color="Blue"
               />
             ))}
@@ -287,7 +287,7 @@ export const PaletteStory = () => {
             {chartPalette.sequential.indigo.map((value) => (
               <ColorSwatch
                 key={`sequential-indigo-${value}`}
-                swatch={{ [""]: value }}
+                swatch={{ "": value }}
                 color="Indigo"
               />
             ))}
@@ -304,7 +304,7 @@ export const PaletteStory = () => {
             {chartPalette.diverging.GreenToOrange.map((value) => (
               <ColorSwatch
                 key={`sequential-grToOr-${value}`}
-                swatch={{ [""]: value }}
+                swatch={{ "": value }}
                 color="Green to Orange"
               />
             ))}
