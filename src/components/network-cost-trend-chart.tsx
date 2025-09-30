@@ -202,9 +202,6 @@ const ProgressOvertimeChartView = (
         observations[0].network_level as NetworkLevel["id"]
       )}
       entityField="operator_id"
-      paletteType={
-        compareWith.includes("sunshine.select-all") ? "monochrome" : "elcom2"
-      }
     />
   );
 };

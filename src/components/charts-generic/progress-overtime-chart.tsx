@@ -26,15 +26,13 @@ interface ProgressOvertimeChartProps<
   observations: T[];
   operatorLabel: string;
   operatorsNames: Set<string>;
-  compareWith?: string[];
+  compareWith: string[];
   mini?: boolean;
   // Field configuration
   xField: string;
   yField: string;
   yAxisLabel?: string;
   entityField?: string;
-  // Palette configuration
-  paletteType?: "monochrome" | "elcom2";
 }
 
 export const ProgressOvertimeChart = <T extends GenericObservation>(
@@ -50,7 +48,6 @@ export const ProgressOvertimeChart = <T extends GenericObservation>(
     yField,
     yAxisLabel,
     entityField = "operator_id",
-    paletteType = "monochrome",
   } = props;
 
   const formatCurrency = useFormatCurrency();
@@ -60,7 +57,7 @@ export const ProgressOvertimeChart = <T extends GenericObservation>(
 
   const palette = compareWith.includes("sunshine.select-all")
     ? "monochrome"
-    : paletteType;
+    : "elcom2";
 
   const shouldShowOtherOperatorsLegend = compareWith.includes(
     "sunshine.select-all"

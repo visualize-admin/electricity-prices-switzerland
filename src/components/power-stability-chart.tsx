@@ -269,7 +269,6 @@ const ProgressOvertimeChartView = (
     return new Set(observations.map((d) => d.operator_name));
   }, [observations]);
 
-  // FIXME: Currently not tested as there is only data for 2024
   return (
     <ProgressOvertimeChart
       observations={observations}
@@ -280,7 +279,6 @@ const ProgressOvertimeChartView = (
       xField="year"
       yField={duration}
       entityField="operator"
-      paletteType="monochrome"
     />
   );
 };

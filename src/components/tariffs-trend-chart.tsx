@@ -167,7 +167,6 @@ const ProgressOvertimeChartView = (
       yField="rate"
       yAxisLabel={RP_PER_KM}
       entityField="operator_id"
-      paletteType="monochrome"
     />
   );
 };
