@@ -5,7 +5,7 @@ import { Trend } from "src/graphql/resolver-types";
 
 const roundTo = (value: number, round?: number): number => {
   if (round === undefined) return value;
-  const factor = Math.pow(10, round);
+  const factor = 10 ** round;
   return Math.round(value * factor) / factor;
 };
 
