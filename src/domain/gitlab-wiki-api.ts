@@ -44,7 +44,7 @@ export const getCachedWikiPages = async (
   url: string,
   token: string
 ): Promise<WikiPage[]> => {
-  const filePath = path.join(os.tmpdir(), url.replace(/\W+/g, "-") + ".json");
+  const filePath = path.join(os.tmpdir(), `${url.replace(/\W+/g, "-")}.json`);
 
   if (fs.existsSync(filePath)) {
     const json: WikiCacheJson = await fs.readJSON(filePath);
