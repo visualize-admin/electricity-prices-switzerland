@@ -357,7 +357,7 @@ DESCRIBE <https://ld.admin.ch/municipality/${formData.municipalityId}>
     if (!data) {
       return null;
     }
-    const rx = new RegExp("https://ld.admin.ch/municipality/([0-9]*)");
+    const rx = /https:\/\/ld.admin.ch\/municipality\/([0-9]*)/;
     const match = rx.exec(data);
     return match ? match[1] : null;
   }, [data]);
