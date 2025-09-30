@@ -102,8 +102,7 @@ export const RangePoints = () => {
     interactionState.interaction.d && getY(interactionState.interaction.d);
 
   return (
-    <>
-      <g
+    <g
         transform={`translate(${margins.left}, ${
           margins.top + (margins.annotations ?? 0)
         })`}
@@ -179,6 +178,5 @@ export const RangePoints = () => {
           );
         })}
       </g>
-    </>
   );
 };

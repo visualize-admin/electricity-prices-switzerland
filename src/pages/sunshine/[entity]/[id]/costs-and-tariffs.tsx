@@ -237,8 +237,7 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
   } satisfies React.ComponentProps<typeof TableComparisonCard>;
 
   return (
-    <>
-      <CardGrid
+    <CardGrid
         sx={{
           gridTemplateColumns: {
             xs: "1fr", // Single column on small screens
@@ -289,7 +288,6 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
           infoDialogProps={infoDialogProps["help-network-costs"]}
         />
       </CardGrid>
-    </>
   );
 };
 
@@ -408,8 +406,7 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
   } satisfies React.ComponentProps<typeof TableComparisonCard>;
 
   return (
-    <>
-      <CardGrid
+    <CardGrid
         sx={{
           gridTemplateColumns: {
             xs: "1fr", // Single column on small screens
@@ -464,7 +461,6 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
           infoDialogProps={infoDialogProps["help-energy-tariffs"]}
         />
       </CardGrid>
-    </>
   );
 };
 
@@ -582,8 +578,7 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
   } satisfies React.ComponentProps<typeof TableComparisonCard>;
 
   return (
-    <>
-      <CardGrid
+    <CardGrid
         sx={{
           gridTemplateColumns: {
             xs: "1fr", // Single column on small screens
@@ -637,7 +632,6 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
           infoDialogProps={infoDialogProps["help-net-tariffs"]}
         />
       </CardGrid>
-    </>
   );
 };
 

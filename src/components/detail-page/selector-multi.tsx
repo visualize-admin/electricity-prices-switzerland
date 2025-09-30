@@ -46,7 +46,7 @@ export const SelectorMulti = ({ entity }: { entity: Entity }) => {
         },
       }}
     >
-      <>
+      
         {entity === "operator" ? (
           <OperatorsCombobox
             label={
@@ -110,7 +110,7 @@ export const SelectorMulti = ({ entity }: { entity: Entity }) => {
           }
           infoDialogSlug="help-products"
         />
-      </>
+      
     </Box>
   );
 };

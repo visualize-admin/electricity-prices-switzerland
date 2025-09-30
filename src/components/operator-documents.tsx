@@ -161,8 +161,7 @@ export const OperatorDocumentsPopoverContent = ({
           ) : null}
         </Box>
       ) : (
-        <>
-          {CATEGORIES.map((category) => {
+        CATEGORIES.map((category) => {
             const docs = documentsByCategory.get(category.id);
             if (!docs) return null;
 
@@ -189,8 +188,7 @@ export const OperatorDocumentsPopoverContent = ({
                 </AccordionDetails>
               </Accordion>
             );
-          })}
-        </>
+          })
       )}
     </>
   );

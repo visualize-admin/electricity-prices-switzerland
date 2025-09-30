@@ -32,9 +32,7 @@ const DocsStory: FC<DocBlock.DocsStoryProps & { className?: string }> = ({
   return (
     <>
       {expanded && (
-        <>
-          <div className="py-3">{story.name}</div>
-        </>
+        <div className="py-3">{story.name}</div>
       )}
       <DocBlock.Canvas
         of={of}

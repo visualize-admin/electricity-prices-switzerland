@@ -664,8 +664,7 @@ export const Template = () => {
         }}
       >
         {observations && (
-          <>
-            {chartIndicators.map((indicator) =>
+          chartIndicators.map((indicator) =>
               observations.length > 0 ? (
                 <SunshineChartCard
                   key={indicator}
@@ -676,8 +675,7 @@ export const Template = () => {
                   }))}
                 />
               ) : null
-            )}
-          </>
+            )
         )}
       </div>
     </div>

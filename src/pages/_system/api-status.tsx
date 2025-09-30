@@ -114,8 +114,7 @@ const Status = ({
         </Box>
       </StatusHeading>
       {!query.fetching && (
-        <>
-          <Box sx={{ fontSize: "0.75rem", mt: 2 }}>
+        <Box sx={{ fontSize: "0.75rem", mt: 2 }}>
             <details>
               <summary>Details</summary>
 
@@ -137,7 +136,6 @@ const Status = ({
               )}
             </details>
           </Box>
-        </>
       )}
     </StatusBox>
   );
