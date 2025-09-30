@@ -35,7 +35,7 @@ export const SWISS_FRANCS = t({
   message: "CHF",
 });
 
-const networkLevelUnits = {
+export const networkLevelUnits = {
   NE5: "CHF/km",
   NE6: "CHF/kVA",
   NE7: "CHF/km",

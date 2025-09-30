@@ -28,6 +28,7 @@ import {
   useGeoData,
 } from "src/data/geo";
 import { ValueFormatter } from "src/domain/data";
+import { networkLevelUnits } from "src/domain/metrics";
 import {
   getSunshineDetailsPageFromIndicator,
   sunshineDetailsLink,
@@ -44,12 +45,6 @@ import {
 } from "src/hooks/use-selected-entity-data";
 import { truthy } from "src/lib/truthy";
 import { shouldOpenInNewTab } from "src/utils/platform";
-
-const networkLevelUnits = {
-  NE5: "CHF/km",
-  NE6: "CHF/kVA",
-  NE7: "CHF/km",
-} as const;
 
 const legendTitleMapping: Record<
   | Exclude<SunshineIndicator, "networkCosts">
