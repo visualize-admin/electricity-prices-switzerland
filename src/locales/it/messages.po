@@ -1157,7 +1157,7 @@ msgstr "75 Franchi Regolamento"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.compliance.latest-year"
-msgstr "Ultimo anno ({latestYear})"
+msgstr "Ultimo anno ({year})"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.compliance.notification-period"
@@ -1598,7 +1598,7 @@ msgstr "Sì"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.service-quality.latest-year"
-msgstr "Ultimo anno ({latestYear})"
+msgstr "Ultimo anno ({year})"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.service-quality.notification-period"
