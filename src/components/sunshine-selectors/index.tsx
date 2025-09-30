@@ -69,7 +69,11 @@ export const SunshineSelectors = () => {
       indicatorOptions={indicatorOptions}
       getItemLabel={getItemLabel}
       networkLevel={queryState.networkLevel}
-      setNetworkLevel={(networkLevel) => setQueryState({ networkLevel })}
+      setNetworkLevel={(networkLevel) =>
+        setQueryState({
+          networkLevel: networkLevel as "NE5" | "NE6" | "NE7" | undefined,
+        })
+      }
       networkLevelOptions={networkLevelOptions}
       category={queryState.category}
       categoryOptions={netElectricityCategoryOptions}
