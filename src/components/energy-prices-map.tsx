@@ -32,6 +32,7 @@ import {
   EntitySelection,
 } from "src/hooks/use-selected-entity-data";
 import { truthy } from "src/lib/truthy";
+import { chartPalette } from "src/themes/palette";
 import { combineErrors } from "src/utils/combine-errors";
 
 import { GenericMap, GenericMapControls } from "./generic-map";
@@ -254,6 +255,7 @@ export const EnergyPricesMap = ({
             message: "Tariff comparison",
           }),
         }}
+        palette={chartPalette.diverging.GreenToOrange}
       />
     );
   }, [

@@ -173,7 +173,7 @@ describe("Query States", () => {
     it("should handle sunshine map query params correctly", () => {
       const mockRouter = createMockRouter({
         tab: "sunshine",
-        period: "2023",
+        period: "2025",
         indicator: "saifi",
         activeId: "abc123",
       });
@@ -184,7 +184,7 @@ describe("Query States", () => {
 
       expect(result.current[0]).toEqual({
         tab: "sunshine",
-        period: "2023",
+        period: "2025",
         peerGroup: "all_grid_operators",
         complianceType: "franc-rule",
         saidiSaifiType: "total",

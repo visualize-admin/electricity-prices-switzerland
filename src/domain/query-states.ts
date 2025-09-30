@@ -14,7 +14,11 @@ import {
   periods,
   products,
 } from "./data";
-import { SunshineIndicator, sunshineIndicatorSchema } from "./sunshine";
+import {
+  SunshineIndicator,
+  sunshineIndicatorSchema,
+  sunshineYearsSchema,
+} from "./sunshine";
 
 /**
  * Helper function to convert comma-separated query parameter strings to arrays
@@ -62,6 +66,7 @@ const periodSchema = z
   .default(runtimeEnv.CURRENT_PERIOD);
 
 const categorySchema = z.enum(categories).default("H4");
+const networkLevelSchema = z.enum(["NE5", "NE6", "NE7"]);
 
 const energyPricesMapSchema = z.object({
   tab: mapTabsSchema.default("electricity"),
@@ -92,13 +97,13 @@ const energyPricesDetailsSchema = z.object({
 // TODO: Sunshine params are currently not validated
 const sunshineMapSchema = z.object({
   tab: mapTabsSchema.default("sunshine"),
-  period: periodSchema,
+  period: sunshineYearsSchema,
   peerGroup: z.string().default("all_grid_operators"),
   saidiSaifiType: z.enum(["total", "planned", "unplanned"]).default("total"),
   complianceType: z.enum(["franc-rule"]).default("franc-rule"),
   indicator: sunshineIndicatorSchema.default("networkCosts"),
   category: z.string().default("H4"),
-  networkLevel: z.string().default("NE7"),
+  networkLevel: networkLevelSchema.default("NE7"),
   activeId: z.string().optional().nullable(),
 });
 

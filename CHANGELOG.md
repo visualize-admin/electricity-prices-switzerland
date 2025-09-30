@@ -11,7 +11,17 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Sunshine Map & Detail Pages
+
+  - Feat: Periods go from 2024 to 2026
+  - Feat: Can show outage info days in advance indicator on the map
+  - Fix: Use CHF/km for NE5 & NE7, use CHF/kVA for NE6 when viewing Network Costs indicator
+  - Fix: Remove mention of Product variety in compliance description
+  - Fix: Year is correctly shown in operational standard cards
+  - Fix: Peer group is correctly retrieved
+
+- Localization
+  - Feat: Update locales from accent
 
 # 2.18.1 - 2025-09-30
 

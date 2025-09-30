@@ -587,7 +587,7 @@ const OverviewPage = (props: Props) => {
             <Link
               href={sunshineDetailsLink(
                 `/sunshine/${entity}/${id}/operational-standards`,
-                { tab: "serviceQuality" }
+                { tab: "outageInfo" }
               )}
             >
               <IconButton variant="outlined" size="sm" color="primary">

@@ -210,17 +210,11 @@ export const PowerStabilityCard: React.FC<PowerStabilityCardProps> = (
                   label: getLocalizedLabel({
                     id: "power-stability.latest-year-option",
                   }),
-                  content: getLocalizedLabel({
-                    id: "power-stability.latest-year-option-content",
-                  }),
                 },
                 {
                   value: "progress",
                   label: getLocalizedLabel({
                     id: "power-stability.progress-over-time",
-                  }),
-                  content: getLocalizedLabel({
-                    id: "power-stability.progress-over-time-content",
                   }),
                 },
               ]}

@@ -28,6 +28,7 @@ import {
   useGeoData,
 } from "src/data/geo";
 import { ValueFormatter } from "src/domain/data";
+import { networkLevelUnits } from "src/domain/metrics";
 import {
   getSunshineDetailsPageFromIndicator,
   sunshineDetailsLink,
@@ -43,12 +44,22 @@ import {
   useSelectedEntityData,
 } from "src/hooks/use-selected-entity-data";
 import { truthy } from "src/lib/truthy";
+import { chartPalette } from "src/themes/palette";
 import { shouldOpenInNewTab } from "src/utils/platform";
 
-const indicatorLegendTitleMapping: Record<SunshineIndicator, string> = {
-  networkCosts: t({
-    message: "Network costs in CHF/MWh",
-    id: "sunshine.indicator.networkCosts",
+const legendTitleMapping: Record<
+  | Exclude<SunshineIndicator, "networkCosts">
+  | "networkCosts-CHF/km"
+  | "networkCosts-CHF/kVA",
+  string
+> = {
+  "networkCosts-CHF/km": t({
+    message: "Network costs in CHF/km",
+    id: "sunshine.indicator.networkCosts-CHF/km",
+  }),
+  "networkCosts-CHF/kVA": t({
+    message: "Network costs in CHF/kVA",
+    id: "sunshine.indicator.networkCosts-CHF/kVA",
   }),
   netTariffs: t({
     message: "Net tariffs in Rp./kWh",
@@ -66,9 +77,13 @@ const indicatorLegendTitleMapping: Record<SunshineIndicator, string> = {
     message: "Power outage frequency (SAIFI) per year",
     id: "sunshine.indicator.saifi",
   }),
-  serviceQuality: t({
+  outageInfo: t({
     message: "Informing the affected customer about planned interruptions",
-    id: "sunshine.indicator.serviceQuality",
+    id: "sunshine.indicator.outageInfo",
+  }),
+  daysInAdvanceOutageNotification: t({
+    message: "Days in advance for outage notification",
+    id: "sunshine.indicator.daysInAdvanceOutageNotification",
   }),
   compliance: t({
     message: "Complies with the franc rule",
@@ -85,6 +100,8 @@ type SunshineMapProps = {
   enabled?: boolean;
   period: string;
   indicator: SunshineIndicator;
+  // Necessary when indicator is networkCosts
+  networkLevel?: "NE5" | "NE6" | "NE7";
 };
 
 const aggregateFnPerIndicator: Record<
@@ -98,7 +115,8 @@ const aggregateFnPerIndicator: Record<
   energyTariffs: mean,
   saidi: mean,
   saifi: mean,
-  serviceQuality: first,
+  daysInAdvanceOutageNotification: first,
+  outageInfo: first,
   compliance: first,
 };
 
@@ -110,6 +128,7 @@ const SunshineMap = ({
   controls,
   period,
   indicator,
+  networkLevel,
 }: SunshineMapProps) => {
   const geoDataResult = useGeoData(period);
 
@@ -362,7 +381,7 @@ const SunshineMap = ({
   const legendId = useId();
 
   const renderLegend = useCallback(() => {
-    if (indicator === "compliance" || indicator === "serviceQuality") {
+    if (indicator === "compliance" || indicator === "outageInfo") {
       const complianceTicks = [
         { value: 0, label: t({ id: "legend.no", message: "No" }) },
         { value: 1, label: t({ id: "legend.yes", message: "Yes" }) },
@@ -370,28 +389,40 @@ const SunshineMap = ({
       return (
         <MapColorLegend
           id={legendId}
-          title={indicatorLegendTitleMapping[indicator]}
+          title={legendTitleMapping[indicator]}
           ticks={complianceTicks}
           mode="yesNo"
+          palette={chartPalette.diverging.GreenToOrange}
         />
       );
     }
 
     if (!valuesExtent || !enrichedData?.median || !colorScale) return null;
     const legendData = [valuesExtent[0], enrichedData.median, valuesExtent[1]];
+    const legendKey =
+      indicator === "networkCosts"
+        ? (`${indicator}-${
+            networkLevelUnits[networkLevel ?? ("NE5" as const)]
+          }` as const)
+        : indicator;
     return (
       <MapColorLegend
         id={legendId}
-        title={indicatorLegendTitleMapping[indicator]}
+        title={legendTitleMapping[legendKey]}
         ticks={legendData.map((value) => ({
           value,
           label: value !== undefined ? valueFormatter(value) : "",
         }))}
+        palette={
+          indicator === "daysInAdvanceOutageNotification"
+            ? chartPalette.diverging.GreenToOrange.slice().reverse()
+            : chartPalette.diverging.GreenToOrange
+        }
         infoDialogButtonProps={{
           slug: indicatorWikiPageSlugMapping[indicator],
           label: t({
             id: `help.${indicator}`,
-            message: indicatorLegendTitleMapping[indicator],
+            message: legendTitleMapping[legendKey],
           }),
         }}
       />
@@ -402,6 +433,7 @@ const SunshineMap = ({
     enrichedData?.median,
     colorScale,
     legendId,
+    networkLevel,
     valueFormatter,
   ]);
 

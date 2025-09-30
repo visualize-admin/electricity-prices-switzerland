@@ -441,7 +441,7 @@ const getTariffs = async ({
 
 const getOperatorData = async (
   operatorId: number,
-  period?: number
+  period: number
 ): Promise<OperatorDataRecord> => {
   // For now, we'll need to query sunshine data to get basic operator info
   // In a real implementation, there might be a separate operator metadata cube
@@ -457,13 +457,14 @@ const getOperatorData = async (
     PREFIX schema: <http://schema.org/>
     PREFIX : <https://energy.ld.admin.ch/elcom/sunshine/dimension/>
     
-    SELECT ?operator_name ?period
+    SELECT ?operator_name ?period ?peerGroup
     WHERE {
       <https://energy.ld.admin.ch/elcom/sunshine> cube:observationSet/cube:observation ?obs .
 
       ${values}
       ?obs
         :operator <${convertOperatorIdToUri(operatorId)}> ;
+        :group ?peerGroup ;
         ${periodFilter} .
       
       <${convertOperatorIdToUri(operatorId)}> schema:name ?operator_name .
@@ -475,6 +476,7 @@ const getOperatorData = async (
   const results = await executeSparqlQuery<{
     operator_name: string;
     period: string;
+    peerGroup: string;
   }>(query);
 
   if (results.length === 0) {
@@ -483,19 +485,17 @@ const getOperatorData = async (
 
   const result = results[0];
 
-  // TODO: In a real implementation, we would need to determine settlement_density and energy_density
-  // For now, we'll use placeholder values
-  const settlementDensity = "Tourist"; // This should come from operator metadata
-  const energyDensity = "Low"; // This should come from operator metadata
+  const peerGroup =
+    peerGroupMapping[stripNamespaceFromIri({ iri: result.peerGroup })];
 
   return {
     operator_id: operatorId,
     operator_uid: operatorId.toString(), // TODO: Get actual UID
     operator_name: result.operator_name,
     period: parseInt(result.period, 10),
-    settlement_density: settlementDensity,
-    energy_density: energyDensity,
-    peer_group: `${settlementDensity}-${energyDensity}`,
+    settlement_density: peerGroup.settlement_density,
+    energy_density: peerGroup.energy_density,
+    peer_group: `${peerGroup.settlement_density}-${peerGroup.energy_density}`,
   };
 };
 
@@ -594,8 +594,8 @@ const getYearlyIndicatorMedians = async <
             ${peerGroupPredicate}
             ${periodPredicate} ;
             :franken_regel ?franken_regel ;
-            :days_in_advance ?days_in_advance ;
-            :in_time ?in_time .
+            :days_in_advance ?days_in_advance
+            .
         }
       `;
       break;
@@ -763,7 +763,8 @@ const getLatestYearPowerStability = async (
 };
 
 const getOperatorPeerGroup = async (
-  _operatorId: number | string
+  _operatorId: number | string,
+  period: number
 ): Promise<PeerGroup> => {
   const operatorId =
     typeof _operatorId === "number" ? _operatorId : parseInt(_operatorId, 10);
@@ -781,7 +782,7 @@ WHERE {
 
   <sunshine> cube:observationSet/cube:observation ?obs .
   ?obs <sunshine/dimension/operator> <${convertOperatorIdToUri(operatorId)}> .
-  ?obs <sunshine/dimension/period> "2025"^^xsd:gYear.
+  ?obs <sunshine/dimension/period> "${period}"^^xsd:gYear.
   ?obs <sunshine/dimension/group> ?peerGroup .
 } 
     LIMIT 1

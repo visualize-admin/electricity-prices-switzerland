@@ -15,7 +15,7 @@ type IndicatorColorScaleSpec = {
   palette: (thresholds: number[]) => string[];
 };
 
-const defaulColorScaleSpec: IndicatorColorScaleSpec = {
+const defaultColorScaleSpec: IndicatorColorScaleSpec = {
   thresholds: (medianValue, values) => {
     if (medianValue) {
       const m = medianValue;
@@ -34,10 +34,15 @@ const yesNoPalette = [
 export const colorScaleSpecs: Partial<
   Record<"energyPrices" | SunshineIndicator, IndicatorColorScaleSpec>
 > & { default: IndicatorColorScaleSpec } = {
-  default: defaulColorScaleSpec,
-  serviceQuality: {
+  default: defaultColorScaleSpec,
+  outageInfo: {
     thresholds: () => [0.5],
     palette: () => yesNoPalette,
+  },
+  daysInAdvanceOutageNotification: {
+    palette: (thresholds) =>
+      defaultColorScaleSpec.palette(thresholds).slice().reverse(),
+    thresholds: defaultColorScaleSpec.thresholds,
   },
   compliance: {
     thresholds: () => [75.1],

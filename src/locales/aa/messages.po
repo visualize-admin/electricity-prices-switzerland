@@ -462,6 +462,10 @@ msgid "indicator.compliance"
 msgstr "indicator.compliance"
 
 #: src/domain/translation.tsx
+msgid "indicator.days-in-advance-outage-notification"
+msgstr "indicator.days-in-advance-outage-notification"
+
+#: src/domain/translation.tsx
 msgid "indicator.energyTariffs"
 msgstr "indicator.energyTariffs"
 
@@ -474,16 +478,16 @@ msgid "indicator.networkCosts"
 msgstr "indicator.networkCosts"
 
 #: src/domain/translation.tsx
+msgid "indicator.outage-info"
+msgstr "indicator.outage-info"
+
+#: src/domain/translation.tsx
 msgid "indicator.saidi"
 msgstr "indicator.saidi"
 
 #: src/domain/translation.tsx
 msgid "indicator.saifi"
 msgstr "indicator.saifi"
-
-#: src/domain/translation.tsx
-msgid "indicator.serviceQuality"
-msgstr "indicator.serviceQuality"
 
 #: src/components/sunshine-map.tsx
 msgid "legend.no"
@@ -573,6 +577,7 @@ msgstr "map.details-sidebar-panel.next-button.saidi"
 msgid "map.details-sidebar-panel.next-button.saifi"
 msgstr "map.details-sidebar-panel.next-button.saifi"
 
+#: src/components/map-details-content.tsx
 #: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.next-button.service-quality"
 msgstr "map.details-sidebar-panel.next-button.service-quality"
@@ -1212,10 +1217,6 @@ msgstr "sunshine.costs-and-tariffs.latest-year"
 msgid "sunshine.costs-and-tariffs.latest-year-option"
 msgstr "sunshine.costs-and-tariffs.latest-year-option"
 
-#: src/domain/translation.tsx
-msgid "sunshine.costs-and-tariffs.latest-year-option-content"
-msgstr "sunshine.costs-and-tariffs.latest-year-option-content"
-
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
@@ -1285,10 +1286,6 @@ msgid "sunshine.costs-and-tariffs.progress-over-time"
 msgstr "sunshine.costs-and-tariffs.progress-over-time"
 
 #: src/domain/translation.tsx
-msgid "sunshine.costs-and-tariffs.progress-over-time-content"
-msgstr "sunshine.costs-and-tariffs.progress-over-time-content"
-
-#: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.selected-operators"
 msgstr "sunshine.costs-and-tariffs.selected-operators"
 
@@ -1325,6 +1322,10 @@ msgid "sunshine.indicator.compliance"
 msgstr "sunshine.indicator.compliance"
 
 #: src/components/sunshine-map.tsx
+msgid "sunshine.indicator.daysInAdvanceOutageNotification"
+msgstr "sunshine.indicator.daysInAdvanceOutageNotification"
+
+#: src/components/sunshine-map.tsx
 msgid "sunshine.indicator.energyTariffs"
 msgstr "sunshine.indicator.energyTariffs"
 
@@ -1333,8 +1334,16 @@ msgid "sunshine.indicator.netTariffs"
 msgstr "sunshine.indicator.netTariffs"
 
 #: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.networkCosts"
-msgstr "sunshine.indicator.networkCosts"
+msgid "sunshine.indicator.networkCosts-CHF/kVA"
+msgstr "sunshine.indicator.networkCosts-CHF/kVA"
+
+#: src/components/sunshine-map.tsx
+msgid "sunshine.indicator.networkCosts-CHF/km"
+msgstr "sunshine.indicator.networkCosts-CHF/km"
+
+#: src/components/sunshine-map.tsx
+msgid "sunshine.indicator.outageInfo"
+msgstr "sunshine.indicator.outageInfo"
 
 #: src/components/sunshine-map.tsx
 msgid "sunshine.indicator.saidi"
@@ -1344,9 +1353,13 @@ msgstr "sunshine.indicator.saidi"
 msgid "sunshine.indicator.saifi"
 msgstr "sunshine.indicator.saifi"
 
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.serviceQuality"
-msgstr "sunshine.indicator.serviceQuality"
+#: src/domain/metrics.ts
+msgid "sunshine.metric-unit.chf-km"
+msgstr "sunshine.metric-unit.chf-km"
+
+#: src/domain/metrics.ts
+msgid "sunshine.metric-unit.chf-kva"
+msgstr "sunshine.metric-unit.chf-kva"
 
 #: src/domain/metrics.ts
 msgid "sunshine.metric-unit.days"
@@ -1444,10 +1457,6 @@ msgstr "sunshine.power-stability.latest-year"
 msgid "sunshine.power-stability.latest-year-option"
 msgstr "sunshine.power-stability.latest-year-option"
 
-#: src/domain/translation.tsx
-msgid "sunshine.power-stability.latest-year-option-content"
-msgstr "sunshine.power-stability.latest-year-option-content"
-
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.median-peer-group"
@@ -1485,10 +1494,6 @@ msgstr "sunshine.power-stability.planned-tooltip"
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.progress-over-time"
 msgstr "sunshine.power-stability.progress-over-time"
-
-#: src/domain/translation.tsx
-msgid "sunshine.power-stability.progress-over-time-content"
-msgstr "sunshine.power-stability.progress-over-time-content"
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.ratio-option"

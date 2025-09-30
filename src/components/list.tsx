@@ -231,7 +231,8 @@ const indicatorLabelTypes: Record<"prices" | SunshineIndicator, LabelType> = {
   energyTariffs: "prices",
   saidi: "quality",
   saifi: "quality",
-  serviceQuality: "timely",
+  outageInfo: "timely",
+  daysInAdvanceOutageNotification: "timely",
   compliance: "timely",
 } as const;
 

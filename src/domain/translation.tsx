@@ -288,16 +288,22 @@ export const getLocalizedLabel = ({ id }: { id: string }): string => {
         id: "indicator.energyTariffs",
         message: "Energy tariffs",
       });
-    case "serviceQuality":
-      return t({
-        id: "indicator.serviceQuality",
-        message: "Service quality",
-      });
     case "compliance":
       return t({
         id: "indicator.compliance",
         message: "Compliance",
       });
+    case "outageInfo":
+      return t({
+        id: "indicator.outage-info",
+        message: "Outage information",
+      });
+    case "daysInAdvanceOutageNotification":
+      return t({
+        id: "indicator.days-in-advance-outage-notification",
+        message: "Days in advance outage notification",
+      });
+
     case "peer-group.settlement-density.na":
       return t({
         id: "peer-group.settlement-density.na",
@@ -398,20 +404,11 @@ export const getLocalizedLabel = ({ id }: { id: string }): string => {
         id: "sunshine.power-stability.latest-year-option",
         message: "Latest year",
       });
-    case "power-stability.latest-year-option-content":
-      return t({
-        id: "sunshine.power-stability.latest-year-option-content",
-        message: "Lorem ipsum",
-      });
+
     case "power-stability.progress-over-time":
       return t({
         id: "sunshine.power-stability.progress-over-time",
         message: "Progress over time",
-      });
-    case "power-stability.progress-over-time-content":
-      return t({
-        id: "sunshine.power-stability.progress-over-time-content",
-        message: "Lorem ipsum",
       });
     case "power-stability.overall-option":
       return t({
@@ -488,16 +485,6 @@ export const getLocalizedLabel = ({ id }: { id: string }): string => {
       return t({
         id: "sunshine.costs-and-tariffs.progress-over-time",
         message: "Progress over time",
-      });
-    case "costs-and-tariffs.latest-year-option-content":
-      return t({
-        id: "sunshine.costs-and-tariffs.latest-year-option-content",
-        message: "Lorem ipsum",
-      });
-    case "costs-and-tariffs.progress-over-time-content":
-      return t({
-        id: "sunshine.costs-and-tariffs.progress-over-time-content",
-        message: "Lorem ipsum",
       });
 
     case "price-components.collapsed-content":

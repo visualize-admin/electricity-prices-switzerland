@@ -218,11 +218,10 @@ export const SunshineTopics = () => {
                   </SunshineCardTitle>
                   <SunshineCardDescription>
                     <Trans id="home.sunshine-topics.card.compliance.description">
-                      Product variety reflects the range of ecological
-                      electricity products offered. Service quality captures how
-                      well customers are informed about outages. Compliance
-                      measures how consistently a grid operator follows laws,
-                      regulations, and internal standards.
+                      Service quality captures how well customers are informed
+                      about outages. Compliance measures how consistently a grid
+                      operator follows laws, regulations, and internal
+                      standards.
                     </Trans>
                   </SunshineCardDescription>
                 </Stack>
@@ -233,7 +232,7 @@ export const SunshineTopics = () => {
                   })}
                   href={sunshineMapLink("/map", {
                     tab: "sunshine",
-                    indicator: "serviceQuality",
+                    indicator: "outageInfo",
                   })}
                   icon={<Icon name="arrowright" />}
                 />

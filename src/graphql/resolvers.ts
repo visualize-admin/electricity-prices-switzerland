@@ -46,7 +46,7 @@ import {
 } from "src/rdf/queries";
 import { fetchOperatorInfo, search } from "src/rdf/search-queries";
 import { asElectricityCategory } from "src/domain/data";
-import { asNetworkLevel } from "src/domain/sunshine";
+import { asNetworkLevel, SunshineIndicator } from "src/domain/sunshine";
 import { last, sortBy } from "lodash";
 import {
   COVERAGE_RATIO_THRESHOLD,
@@ -107,14 +107,15 @@ const Query: QueryResolvers = {
   },
   sunshineMedianByIndicator: async (_parent, args, context) => {
     const { filter } = args;
+    const { indicator } = filter;
+    const typedIndicator = indicator as SunshineIndicator | undefined;
 
-    if (!filter.indicator) {
+    if (!typedIndicator) {
       throw new GraphQLError("Indicator is required", {
         extensions: { code: "MISSING_INDICATOR" },
       });
     }
 
-    // Get median from the service using the new structured filter
     let medianValue = 0;
     try {
       const medianParams = createIndicatorMedianParams({
@@ -138,12 +139,12 @@ const Query: QueryResolvers = {
         medianValue =
           getMedianValueFromResult(
             medianResult,
-            filter.indicator!,
+            typedIndicator!,
             filter.saidiSaifiType ?? undefined
           ) ?? 0;
       } else {
         throw new GraphQLError(
-          `Unsupported indicator for median calculation: ${filter.indicator}`,
+          `Unsupported indicator for median calculation: ${typedIndicator}`,
           {
             extensions: { code: "UNSUPPORTED_INDICATOR" },
           }
@@ -648,8 +649,12 @@ const Operator: OperatorResolvers = {
   },
 
   peerGroup: async ({ id }, _args, context) => {
+    const latestYear = await context.sunshineDataService.getLatestYearSunshine(
+      parseInt(id, 10)
+    );
     const peerGroups = await context.sunshineDataService.getOperatorPeerGroup(
-      id
+      id,
+      latestYear
     );
     return peerGroups;
   },
@@ -763,11 +768,14 @@ const createIndicatorMedianParams = (
 ): IndicatorMedianParams | null => {
   if (!filter.indicator) return null;
 
+  const { indicator } = filter;
+  const typedIndicator = indicator as SunshineIndicator;
+
   const periodNum = filter.period ? parseInt(filter.period, 10) : undefined;
   const peerGroup = filter.peerGroup ? filter.peerGroup : undefined;
 
   // Network costs indicators
-  if (filter.indicator === "networkCosts" && filter.networkLevel) {
+  if (typedIndicator === "networkCosts" && filter.networkLevel) {
     return {
       metric: "network_costs" as const,
       networkLevel: filter.networkLevel as "NE5" | "NE6" | "NE7",
@@ -777,7 +785,7 @@ const createIndicatorMedianParams = (
   }
 
   // Stability indicators
-  if (filter.indicator === "saidi" || filter.indicator === "saifi") {
+  if (typedIndicator === "saidi" || typedIndicator === "saifi") {
     return {
       metric: "stability" as const,
       period: periodNum,
@@ -787,8 +795,9 @@ const createIndicatorMedianParams = (
 
   // Operational indicators
   if (
-    filter.indicator === "serviceQuality" ||
-    filter.indicator === "compliance"
+    typedIndicator === "outageInfo" ||
+    typedIndicator === "daysInAdvanceOutageNotification" ||
+    typedIndicator === "compliance"
   ) {
     return {
       metric: "operational" as const,
@@ -823,7 +832,7 @@ const createIndicatorMedianParams = (
 // Helper function to extract median value from service result
 const getMedianValueFromResult = (
   result: PeerGroupRecord<any> | undefined,
-  indicator: string,
+  indicator: SunshineIndicator,
   saidiSaifiType?: string
 ): number | undefined => {
   if (!result) return undefined;
@@ -853,9 +862,13 @@ const getMedianValueFromResult = (
     );
   }
 
-  if (indicator === "serviceQuality") {
+  if (indicator === "outageInfo") {
     // For service quality/compliance, we might need to aggregate multiple metrics
     return (result as any).median_timely;
+  }
+
+  if (indicator === "daysInAdvanceOutageNotification") {
+    return (result as any).median_info_days;
   }
 
   // Tariffs (both energy and network)

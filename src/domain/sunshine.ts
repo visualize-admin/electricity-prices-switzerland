@@ -6,6 +6,7 @@ import {
   QueryStateSunshineSaidiSaifiType,
 } from "src/domain/query-states";
 import { WikiPageSlug } from "src/domain/wiki";
+import { runtimeEnv } from "src/env/runtime";
 import {
   NetworkCostsData,
   NetworkLevel as GraphQLNetworkLevel,
@@ -17,7 +18,11 @@ export type { PeerGroup } from "src/graphql/resolver-types";
 /**
  * Years available for sunshine data queries
  */
-export const years = ["2025", "2024", "2023"];
+export const years = ["2026", "2025", "2024"];
+
+export const sunshineYearsSchema = z
+  .enum(years as [string, ...string[]])
+  .default(runtimeEnv.CURRENT_PERIOD);
 
 /**
  * Typology options for filtering
@@ -41,7 +46,8 @@ export const indicatorOptions = [
   "energyTariffs",
   "saidi", // Power Outage Duration
   "saifi", // Power Outage Frequency
-  "serviceQuality",
+  "outageInfo",
+  "daysInAdvanceOutageNotification",
   "compliance",
 ] satisfies SunshineIndicator[];
 
@@ -73,7 +79,8 @@ export const sunshineIndicatorSchema = z.enum([
   "energyTariffs",
   "saidi",
   "saifi",
-  "serviceQuality",
+  "outageInfo",
+  "daysInAdvanceOutageNotification",
   "compliance",
 ] as const);
 
@@ -155,6 +162,7 @@ export const indicatorWikiPageSlugMapping: Record<
   energyTariffs: "help-energy-tariffs",
   saidi: "help-saidi",
   saifi: "help-saifi",
-  serviceQuality: "help-service-quality",
+  outageInfo: "help-compliance",
+  daysInAdvanceOutageNotification: "help-compliance",
   compliance: "help-compliance",
 };

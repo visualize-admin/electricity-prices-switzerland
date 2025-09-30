@@ -291,17 +291,17 @@ describe("SPARQL Sunshine Data Service", () => {
 
   describe("getOperatorData", () => {
     it("should return operator data for a specific operator", async () => {
-      const result = await sunshineDataServiceSparql.getOperatorData(672);
+      const result = await sunshineDataServiceSparql.getOperatorData(672, 2025);
 
       expect(result).toMatchInlineSnapshot(`
         {
-          "energy_density": "Low",
+          "energy_density": "High",
           "operator_id": 672,
           "operator_name": "St.Galler Stadtwerke",
           "operator_uid": "672",
-          "peer_group": "Tourist-Low",
-          "period": 2026,
-          "settlement_density": "Tourist",
+          "peer_group": "High-High",
+          "period": 2025,
+          "settlement_density": "High",
         }
       `);
     });
@@ -311,13 +311,13 @@ describe("SPARQL Sunshine Data Service", () => {
 
       expect(result).toMatchInlineSnapshot(`
         {
-          "energy_density": "Low",
+          "energy_density": "High",
           "operator_id": 672,
           "operator_name": "St.Galler Stadtwerke",
           "operator_uid": "672",
-          "peer_group": "Tourist-Low",
+          "peer_group": "High-High",
           "period": 2025,
-          "settlement_density": "Tourist",
+          "settlement_density": "High",
         }
       `);
     });
@@ -411,7 +411,10 @@ describe("SPARQL Sunshine Data Service", () => {
 
   describe("getPeerGroup", () => {
     it("should return peer group information", async () => {
-      const result = await sunshineDataServiceSparql.getOperatorPeerGroup(8);
+      const result = await sunshineDataServiceSparql.getOperatorPeerGroup(
+        8,
+        2024
+      );
 
       expect(result).toMatchInlineSnapshot(`
         {
@@ -423,7 +426,10 @@ describe("SPARQL Sunshine Data Service", () => {
     });
 
     it("should return peer group information for string id", async () => {
-      const result = await sunshineDataServiceSparql.getOperatorPeerGroup("8");
+      const result = await sunshineDataServiceSparql.getOperatorPeerGroup(
+        "8",
+        2025
+      );
 
       expect(result).toMatchInlineSnapshot(`
         {

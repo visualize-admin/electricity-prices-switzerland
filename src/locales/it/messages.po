@@ -7,7 +7,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language: it\n"
 "Language-Team: \n"
-"Content-Type: text/plain\n"
+"Content-Type: \n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
@@ -143,7 +143,7 @@ msgstr "Stabilità di potenza"
 
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.sunshine-indicators-title"
-msgstr "Indicatori di luminosità"
+msgstr "Indicatori Sunshine"
 
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.sunshine-overview-item"
@@ -391,7 +391,7 @@ msgstr "Panoramica"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-regulation.description"
-msgstr "In Svizzera, le tariffe elettriche si basano sui costi effettivi (regolamentazione Cost Plus). L'ElCom ha introdotto la regolamentazione Sunshine per promuovere l'efficienza e creare trasparenza. La regolamentazione Sunshine è un processo standardizzato per la pubblicazione di indicatori relativi alla qualità e ai costi dei gestori della rete elettrica svizzera. I diversi indicatori consentono di confrontare i gestori di rete in termini di efficienza dei costi, qualità dell'approvvigionamento e conformità. Poiché le differenze topografiche e strutturali influenzano i valori, i confronti vengono effettuati sia a livello nazionale che all'interno di gruppi di riferimento in base alla densità di popolazione e al consumo energetico."
+msgstr "In Svizzera, le tariffe elettriche si basano sui costi effettivi (regolamentazione Cost Plus). L'ElCom ha introdotto la regolamentazione Sunshine per promuovere l'efficienza e creare trasparenza. La regolamentazione Sunshine è un processo standardizzato per la pubblicazione di indicatori relativi alla qualità e ai costi dei gestori della rete elettrica svizzera. Gli indicatori di efficienza permettono di effettuare confronti tra i gestori di rete in termini di costi, qualità dell'approvvigionamento, qualità del servizio e conformità.Poiché le differenze topografiche e strutturali influenzano i valori, i confronti vengono effettuati sia a livello nazionale che all'interno di gruppi di riferimento in base alla densità di popolazione e al consumo energetico."
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-regulation.title"
@@ -462,6 +462,10 @@ msgid "indicator.compliance"
 msgstr "Conformità"
 
 #: src/domain/translation.tsx
+msgid "indicator.days-in-advance-outage-notification"
+msgstr "Notifica di interruzione con giorni di anticipo"
+
+#: src/domain/translation.tsx
 msgid "indicator.energyTariffs"
 msgstr "Tariffe energetiche"
 
@@ -474,16 +478,16 @@ msgid "indicator.networkCosts"
 msgstr "Costi di rete"
 
 #: src/domain/translation.tsx
+msgid "indicator.outage-info"
+msgstr "Informazioni sulle interruzioni"
+
+#: src/domain/translation.tsx
 msgid "indicator.saidi"
 msgstr "Durata dell'interruzione di corrente (SAIDI)"
 
 #: src/domain/translation.tsx
 msgid "indicator.saifi"
 msgstr "Frequenza delle interruzioni di corrente (SAIFI)"
-
-#: src/domain/translation.tsx
-msgid "indicator.serviceQuality"
-msgstr "Qualità del servizio"
 
 #: src/components/sunshine-map.tsx
 msgid "legend.no"
@@ -574,12 +578,13 @@ msgid "map.details-sidebar-panel.next-button.saifi"
 msgstr "SAIFI in dettaglio"
 
 #: src/components/map-details-content.tsx
+#: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.next-button.service-quality"
 msgstr "La qualità del servizio in dettaglio"
 
 #: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.next-button.sunshine-overview"
-msgstr "Mostra tutti gli indicatori di luce solare"
+msgstr "Mostra tutti gli indicatori Sunshine"
 
 #: src/components/generic-map.tsx
 msgid "map.scrollzoom.hint"
@@ -1116,7 +1121,7 @@ msgstr "Tariffe elettriche"
 
 #: src/domain/translation.tsx
 msgid "selector.tab.electricity-content"
-msgstr ""
+msgstr "Tariffe elettriche e dati sui prezzi per i gestori delle reti di distribuzione svizzere in diverse regioni"
 
 #: src/domain/translation.tsx
 msgid "selector.tab.indicators"
@@ -1152,7 +1157,7 @@ msgstr "75 Franchi Regolamento"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.compliance.latest-year"
-msgstr "Ultimo anno ({latestYear})"
+msgstr "Ultimo anno ({year})"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.compliance.notification-period"
@@ -1211,10 +1216,6 @@ msgstr "Ultimo anno ({latestYear})"
 #: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.latest-year-option"
 msgstr "Ultimo anno"
-
-#: src/domain/translation.tsx
-msgid "sunshine.costs-and-tariffs.latest-year-option-content"
-msgstr ""
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
@@ -1285,10 +1286,6 @@ msgid "sunshine.costs-and-tariffs.progress-over-time"
 msgstr "Progressi nel tempo"
 
 #: src/domain/translation.tsx
-msgid "sunshine.costs-and-tariffs.progress-over-time-content"
-msgstr ""
-
-#: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.selected-operators"
 msgstr "Operatori di rete selezionati"
 
@@ -1325,6 +1322,10 @@ msgid "sunshine.indicator.compliance"
 msgstr "Punteggio di conformità"
 
 #: src/components/sunshine-map.tsx
+msgid "sunshine.indicator.daysInAdvanceOutageNotification"
+msgstr "Giorni di anticipo per la notifica delle interruzioni"
+
+#: src/components/sunshine-map.tsx
 msgid "sunshine.indicator.energyTariffs"
 msgstr "Tariffe energetiche in Rp./kWh"
 
@@ -1333,8 +1334,16 @@ msgid "sunshine.indicator.netTariffs"
 msgstr "Tariffe nette in Rp./kWh"
 
 #: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.networkCosts"
-msgstr "Costi di rete in CHF/MWh"
+msgid "sunshine.indicator.networkCosts-CHF/kVA"
+msgstr "Costi di rete in CHF/kVA"
+
+#: src/components/sunshine-map.tsx
+msgid "sunshine.indicator.networkCosts-CHF/km"
+msgstr "Costi di rete in CHF/km"
+
+#: src/components/sunshine-map.tsx
+msgid "sunshine.indicator.outageInfo"
+msgstr "Informare il cliente interessato delle interruzioni programmate"
 
 #: src/components/sunshine-map.tsx
 msgid "sunshine.indicator.saidi"
@@ -1344,9 +1353,13 @@ msgstr "Durata dell'interruzione di corrente (SAIDI) in minuti"
 msgid "sunshine.indicator.saifi"
 msgstr "Frequenza delle interruzioni di corrente (SAIFI) all'anno"
 
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.serviceQuality"
-msgstr "Punteggio di qualità del servizio"
+#: src/domain/metrics.ts
+msgid "sunshine.metric-unit.chf-km"
+msgstr "CHF/km"
+
+#: src/domain/metrics.ts
+msgid "sunshine.metric-unit.chf-kva"
+msgstr "CHF/kVA"
 
 #: src/domain/metrics.ts
 msgid "sunshine.metric-unit.days"
@@ -1425,7 +1438,7 @@ msgstr "In Svizzera, le tariffe elettriche si basano sui costi effettivi (regola
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.overview-sunshine.title"
-msgstr "Panoramica degli indicatori di sole"
+msgstr "Panoramica degli indicatori Sunshine"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.description"
@@ -1443,10 +1456,6 @@ msgstr "Ultimo anno ({latestYear})"
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.latest-year-option"
 msgstr "Ultimo anno"
-
-#: src/domain/translation.tsx
-msgid "sunshine.power-stability.latest-year-option-content"
-msgstr ""
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
@@ -1468,11 +1477,11 @@ msgstr "{operatorLabel}"
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.overall-option"
-msgstr "In generale"
+msgstr "Complessivo"
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.overall-tooltip"
-msgstr "Mostra la durata totale delle interruzioni per operatore, combinando le interruzioni pianificate e non pianificate per un confronto diretto."
+msgstr "Mostra i valori totali per tutte le categorie."
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.planned-option"
@@ -1487,16 +1496,12 @@ msgid "sunshine.power-stability.progress-over-time"
 msgstr "Progressi nel tempo"
 
 #: src/domain/translation.tsx
-msgid "sunshine.power-stability.progress-over-time-content"
-msgstr ""
-
-#: src/domain/translation.tsx
 msgid "sunshine.power-stability.ratio-option"
 msgstr "Rapporto"
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.ratio-tooltip"
-msgstr "Mostra il rapporto tra le interruzioni non pianificate e le interruzioni totali, fornendo indicazioni sulla stabilità dell'alimentazione."
+msgstr "Mostra come i valori si confrontano in termini relativi."
 
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.power-stability.saidi"
@@ -1593,7 +1598,7 @@ msgstr "Sì"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.service-quality.latest-year"
-msgstr "Ultimo anno ({latestYear})"
+msgstr "Ultimo anno ({year})"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.service-quality.notification-period"

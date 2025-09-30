@@ -302,7 +302,13 @@ export const MapDetailsContent: React.FC<{
                   SAIFI in detail
                 </Trans>
               );
-            case "serviceQuality":
+            case "outageInfo":
+              return (
+                <Trans id="map.details-sidebar-panel.next-button.service-quality">
+                  Service Quality in detail
+                </Trans>
+              );
+            case "daysInAdvanceOutageNotification":
               return (
                 <Trans id="map.details-sidebar-panel.next-button.service-quality">
                   Service Quality in detail

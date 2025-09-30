@@ -10,6 +10,14 @@ export const RP_PER_KM = t({
   id: "sunshine.metric-unit.rp-km",
   message: "Rp./km",
 });
+const CHF_PER_KM = t({
+  id: "sunshine.metric-unit.chf-km",
+  message: "CHF/km",
+});
+const CHF_PER_KVA = t({
+  id: "sunshine.metric-unit.chf-kva",
+  message: "CHF/kVA",
+});
 export const MIN_PER_YEAR = t({
   id: "sunshine.metric-unit.min-year",
   message: "Min./year",
@@ -27,13 +35,17 @@ export const SWISS_FRANCS = t({
   message: "CHF",
 });
 
+export const networkLevelUnits = {
+  NE5: "CHF/km",
+  NE6: "CHF/kVA",
+  NE7: "CHF/km",
+} as const;
+
+const translationByUnits = {
+  "CHF/km": CHF_PER_KM,
+  "CHF/kVA": CHF_PER_KVA,
+} as const;
+
 export const getNetworkLevelMetrics = (level: NetworkLevel["id"]) => {
-  switch (level) {
-    case "NE5":
-      return RP_PER_KWH;
-    case "NE6":
-      return RP_PER_KM;
-    case "NE7":
-      return RP_PER_KWH;
-  }
+  return translationByUnits[networkLevelUnits[level]];
 };

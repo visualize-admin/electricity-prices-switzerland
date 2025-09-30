@@ -195,7 +195,7 @@ const ServiceQuality = (props: Extract<Props, { status: "found" }>) => {
         <TableComparisonCard
           {...prepServiceQualityCardProps(
             props.operationalStandards.serviceQuality,
-            Number(props.operationalStandards.latestYear),
+            Number(latestYear),
             true
           )}
           sx={{ gridArea: "comparison" }}
