@@ -391,7 +391,7 @@ msgstr "Overview"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-regulation.description"
-msgstr "In Switzerland, electricity tariffs are based on actual costs (cost-plus regulation). ElCom introduced the Sunshine Regulation to promote efficiency and create transparency. The Sunshine Regulation is a standardized process for publishing indicators of the quality and costs of Swiss electricity network operators. The various indicators enable comparisons between grid operators in terms of cost efficiency, supply quality, and compliance. Since topographical and structural differences influence the values, comparisons are made both across Switzerland and within comparison groups based on population density and energy consumption."
+msgstr "In Switzerland, electricity tariffs are based on actual costs (cost-plus regulation). ElCom introduced the Sunshine Regulation to promote efficiency and create transparency. The Sunshine Regulation is a standardized process for publishing indicators of the quality and costs of Swiss electricity network operators. The various indicators enable comparisons between grid operators in terms of cost efficiency, supply quality, service quality, and compliance. Since topographical and structural differences influence the values, comparisons are made both across Switzerland and within comparison groups based on population density and energy consumption."
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-regulation.title"
@@ -1481,7 +1481,7 @@ msgstr "Overall"
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.overall-tooltip"
-msgstr "Shows the total outage duration per operator, combining planned and unplanned outages for direct comparison."
+msgstr "Show the total values across all categories."
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.planned-option"
@@ -1501,7 +1501,7 @@ msgstr "Ratio"
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.ratio-tooltip"
-msgstr "Shows the ratio of unplanned outages to total outages, providing insight into the stability of the power supply."
+msgstr "Show how values compare in relative terms."
 
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.power-stability.saidi"

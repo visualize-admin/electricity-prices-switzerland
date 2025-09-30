@@ -7,7 +7,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language: de\n"
 "Language-Team: \n"
-"Content-Type: text/plain\n"
+"Content-Type: \n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -123,7 +123,7 @@ msgstr "Netzbetreiber"
 
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.costs-and-tariffs-item"
-msgstr "Netzkosten und Stromtarife"
+msgstr "Netzkosten und Tarife"
 
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.electricity-insights-title"
@@ -143,7 +143,7 @@ msgstr "Versorgungsqualität"
 
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.sunshine-indicators-title"
-msgstr "Effizienz-Indikatoren"
+msgstr "Sunshine-Indikatoren"
 
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.sunshine-overview-item"
@@ -383,7 +383,7 @@ msgstr "Entdecken Sie die Stromtarife in der Kartenansicht"
 
 #: src/components/app-layout.tsx
 msgid "home.menu.map-view"
-msgstr "Karten Ansicht"
+msgstr "Kartenansicht"
 
 #: src/components/app-layout.tsx
 msgid "home.menu.overview"
@@ -391,7 +391,7 @@ msgstr "Übersicht"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-regulation.description"
-msgstr "In der Schweiz basieren Stromtarife auf den tatsächlichen Kosten (Cost Plus-Regulierung). Die ElCom hat die Sunshine-Regulierung eingeführt, um Effizienz zu fördern und Transparenz zu schaffen. Die Effizienz-Indikatoren ermöglichen Vergleiche zwischen Netzbetreibern bezüglich Kosteneffizienz, Versorgungsqualität und Compliance. Da topografische und strukturelle Unterschiede die Werte beeinflussen, erfolgen Vergleiche sowohl schweizweit als auch innerhalb von Vergleichsgruppen nach Bevölkerungsdichte und Energieverbrauch."
+msgstr "In der Schweiz basieren Stromtarife auf den tatsächlichen Kosten (Cost Plus-Regulierung). Die ElCom hat die Sunshine-Regulierung eingeführt, um Effizienz zu fördern und Transparenz zu schaffen. Die Effizienz-Indikatoren ermöglichen Vergleiche zwischen Netzbetreibern bezüglich Kosteneffizienz, Versorgungsqualität, Service-Qualität und Compliance. Da topografische und strukturelle Unterschiede die Werte beeinflussen, erfolgen Vergleiche sowohl schweizweit als auch innerhalb von Vergleichsgruppen nach Bevölkerungsdichte und Energieverbrauch."
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-regulation.title"
@@ -399,7 +399,7 @@ msgstr "Effizienz-Indikatoren"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.card.compliance.description"
-msgstr "Die Produktvielfalt spiegelt das Angebot an ökologischen Stromprodukten wider. Die Servicequalität gibt Auskunft darüber, wie gut Kunden über geplante Netzausfälle informiert sind. Die Compliance misst, wie konsequent ein Netzbetreiber Gesetze, Vorschriften und interne Standards einhält."
+msgstr "Die Servicequalität gibt Auskunft darüber, wie gut Kunden über geplante Netzausfälle informiert sind. Die Compliance misst, wie konsequent ein Netzbetreiber Gesetze, Vorschriften und interne Standards einhält."
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.card.compliance.title"
@@ -411,7 +411,7 @@ msgstr "Stromrechnungen setzen sich aus Energietarifen und Netzkosten zusammen. 
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.card.costs-and-tariffs.title"
-msgstr "Netzkosten und Stromtarife"
+msgstr "Netzkosten und Energietarife"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.card.power-stability.description"
@@ -427,7 +427,7 @@ msgstr "Compliance"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.energy-tariff.link"
-msgstr "Stromtarife"
+msgstr "Energietarife"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.net-tariff.link"
@@ -459,7 +459,7 @@ msgstr "Bild herunterladen"
 
 #: src/domain/translation.tsx
 msgid "indicator.compliance"
-msgstr "Einhaltung der Vorschriften"
+msgstr "Compliance"
 
 #: src/domain/translation.tsx
 msgid "indicator.days-in-advance-outage-notification"
@@ -467,7 +467,7 @@ msgstr "Benachrichtigung über Ausfälle Tage im Voraus"
 
 #: src/domain/translation.tsx
 msgid "indicator.energyTariffs"
-msgstr "Stromtarife"
+msgstr "Energietarife"
 
 #: src/domain/translation.tsx
 msgid "indicator.netTariffs"
@@ -584,7 +584,7 @@ msgstr "Servicequalität im Detail"
 
 #: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.next-button.sunshine-overview"
-msgstr "Alle Effizienz-Indikatoren anzeigen"
+msgstr "Alle Sunshine-Indikatoren anzeigen"
 
 #: src/components/generic-map.tsx
 msgid "map.scrollzoom.hint"
@@ -1117,7 +1117,7 @@ msgstr "Typologie"
 
 #: src/domain/translation.tsx
 msgid "selector.tab.electricity"
-msgstr "Stromtarife"
+msgstr "Energietarife"
 
 #: src/domain/translation.tsx
 msgid "selector.tab.electricity-content"
@@ -1129,7 +1129,7 @@ msgstr "Indikatoren"
 
 #: src/domain/translation.tsx
 msgid "selector.tab.indicators-content"
-msgstr "Wichtige Effizienz-Indikatoren einschliesslich Preistrends."
+msgstr "Effizienz-Indikatoren einschliesslich Preistrends."
 
 #: src/components/electricity-selectors.tsx
 #: src/components/sunshine-selectors/base.tsx
@@ -1190,11 +1190,11 @@ msgstr "Auf dieser Seite finden Sie eine detaillierte Aufschlüsselung der Strom
 
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.costs-and-tariffs.energy-tariffs"
-msgstr "Stromtarife"
+msgstr "Energietarife"
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.energy-tariffs-comparison-title"
-msgstr "Stromtarife {0}"
+msgstr "Energietarife {0}"
 
 #: src/components/info-dialog-props.ts
 #: src/components/map-details-chart-adapters.tsx
@@ -1215,7 +1215,7 @@ msgstr "Aktuelles Jahr ({latestYear})"
 
 #: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.latest-year-option"
-msgstr "Aktuelles Jahr"
+msgstr "Aktuelles Tarifjahr"
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
@@ -1291,7 +1291,7 @@ msgstr "Ausgewählte Netzbetreiber"
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.title"
-msgstr "Netzkosten und Stromtarife"
+msgstr "Netzkosten und Energietarife"
 
 #: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.view-by"
@@ -1438,7 +1438,7 @@ msgstr "In der Schweiz basieren Stromtarife auf den tatsächlichen Kosten (Cost 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.overview-sunshine.title"
-msgstr "Effizienz-Indikatoren Übersicht"
+msgstr "Sunshine-Indikatoren Übersicht"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.description"
@@ -1477,11 +1477,11 @@ msgstr "{operatorLabel}"
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.overall-option"
-msgstr "Gesamtschau"
+msgstr "Gesamt"
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.overall-tooltip"
-msgstr "Zeigt die Gesamtdauer der Stromunterbrechung pro Netzbetreiber an, wobei geplante und ungeplante Unterbrechungen für einen direkten Vergleich zusammengezählt werden."
+msgstr "Gesamtwerte über alle Kategorien anzeigen."
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.planned-option"
@@ -1501,7 +1501,7 @@ msgstr "Verhältnis"
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.ratio-tooltip"
-msgstr "Zeigt das Verhältnis von ungeplanten zu den gesamten Stromunterbrechungen an und gibt so Aufschluss über die Stabilität der Energieversorgung."
+msgstr "Anzeigen, wie sich die Werte im Verhältnis zueinander vergleichen."
 
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.power-stability.saidi"

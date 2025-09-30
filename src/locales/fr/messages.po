@@ -7,7 +7,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language: fr\n"
 "Language-Team: \n"
-"Content-Type: text/plain\n"
+"Content-Type: \n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
@@ -143,7 +143,7 @@ msgstr "Stabilité de la puissance"
 
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.sunshine-indicators-title"
-msgstr "Indicateurs d'ensoleillement"
+msgstr "Indicateurs Sunshine"
 
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.sunshine-overview-item"
@@ -391,7 +391,7 @@ msgstr "Vue d’ensemble"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-regulation.description"
-msgstr "En Suisse, les tarifs d'électricité sont basés sur les coûts réels (réglementation « cost plus »). L'ElCom a introduit la réglementation Sunshine afin de promouvoir l'efficacité et la transparence. La réglementation Sunshine est un processus standardisé de publication d'indicateurs relatifs à la qualité et aux coûts des gestionnaires de réseau électrique suisses. Les différents indicateurs permettent de comparer les gestionnaires de réseau en termes de rentabilité, de qualité d'approvisionnement et de conformité. Étant donné que les différences topographiques et structurelles influencent les valeurs, les comparaisons sont effectuées à l'échelle nationale ainsi qu'au sein de groupes comparables en fonction de la densité de population et de la consommation d'énergie."
+msgstr "En Suisse, les tarifs d'électricité sont basés sur les coûts réels (réglementation « cost plus »). L'ElCom a introduit la réglementation Sunshine afin de promouvoir l'efficacité et la transparence. La réglementation Sunshine est un processus standardisé de publication d'indicateurs relatifs à la qualité de l'approvisionnement, à la qualité du service et aux coûts des gestionnaires de réseau électrique suisses. Les différents indicateurs permettent de comparer les gestionnaires de réseau en termes de rentabilité, de qualité d'approvisionnement et de conformité. Étant donné que les différences topographiques et structurelles influencent les valeurs, les comparaisons sont effectuées à l'échelle nationale ainsi qu'au sein de groupes comparables en fonction de la densité de population et de la consommation d'énergie."
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-regulation.title"
@@ -1121,7 +1121,7 @@ msgstr "Tarifs de l'électricité"
 
 #: src/domain/translation.tsx
 msgid "selector.tab.electricity-content"
-msgstr ""
+msgstr "Tarifs d'électricité et données tarifaires pour les gestionnaires de réseau de distribution suisses dans différentes régions"
 
 #: src/domain/translation.tsx
 msgid "selector.tab.indicators"
@@ -1477,11 +1477,11 @@ msgstr "{operatorLabel}"
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.overall-option"
-msgstr "Dans l'ensemble"
+msgstr "Global"
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.overall-tooltip"
-msgstr "Indique la durée totale des arrêts par opérateur, en combinant les arrêts planifiés et non planifiés pour une comparaison directe."
+msgstr "Affiche les valeurs totales pour toutes les catégories."
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.planned-option"
@@ -1501,7 +1501,7 @@ msgstr "Ratio"
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.ratio-tooltip"
-msgstr "Indique le rapport entre les pannes non planifiées et les pannes totales, ce qui donne une idée de la stabilité de l'alimentation électrique."
+msgstr "Affiche la comparaison des valeurs en termes relatifs."
 
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.power-stability.saidi"

@@ -7,7 +7,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language: it\n"
 "Language-Team: \n"
-"Content-Type: text/plain\n"
+"Content-Type: \n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
@@ -143,7 +143,7 @@ msgstr "Stabilità di potenza"
 
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.sunshine-indicators-title"
-msgstr "Indicatori di luminosità"
+msgstr "Indicatori Sunshine"
 
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.sunshine-overview-item"
@@ -391,7 +391,7 @@ msgstr "Panoramica"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-regulation.description"
-msgstr "In Svizzera, le tariffe elettriche si basano sui costi effettivi (regolamentazione Cost Plus). L'ElCom ha introdotto la regolamentazione Sunshine per promuovere l'efficienza e creare trasparenza. La regolamentazione Sunshine è un processo standardizzato per la pubblicazione di indicatori relativi alla qualità e ai costi dei gestori della rete elettrica svizzera. I diversi indicatori consentono di confrontare i gestori di rete in termini di efficienza dei costi, qualità dell'approvvigionamento e conformità. Poiché le differenze topografiche e strutturali influenzano i valori, i confronti vengono effettuati sia a livello nazionale che all'interno di gruppi di riferimento in base alla densità di popolazione e al consumo energetico."
+msgstr "In Svizzera, le tariffe elettriche si basano sui costi effettivi (regolamentazione Cost Plus). L'ElCom ha introdotto la regolamentazione Sunshine per promuovere l'efficienza e creare trasparenza. La regolamentazione Sunshine è un processo standardizzato per la pubblicazione di indicatori relativi alla qualità e ai costi dei gestori della rete elettrica svizzera. Gli indicatori di efficienza permettono di effettuare confronti tra i gestori di rete in termini di costi, qualità dell'approvvigionamento, qualità del servizio e conformità.Poiché le differenze topografiche e strutturali influenzano i valori, i confronti vengono effettuati sia a livello nazionale che all'interno di gruppi di riferimento in base alla densità di popolazione e al consumo energetico."
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-regulation.title"
@@ -584,7 +584,7 @@ msgstr "La qualità del servizio in dettaglio"
 
 #: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.next-button.sunshine-overview"
-msgstr "Mostra tutti gli indicatori di luce solare"
+msgstr "Mostra tutti gli indicatori Sunshine"
 
 #: src/components/generic-map.tsx
 msgid "map.scrollzoom.hint"
@@ -1121,7 +1121,7 @@ msgstr "Tariffe elettriche"
 
 #: src/domain/translation.tsx
 msgid "selector.tab.electricity-content"
-msgstr ""
+msgstr "Tariffe elettriche e dati sui prezzi per i gestori delle reti di distribuzione svizzere in diverse regioni"
 
 #: src/domain/translation.tsx
 msgid "selector.tab.indicators"
@@ -1438,7 +1438,7 @@ msgstr "In Svizzera, le tariffe elettriche si basano sui costi effettivi (regola
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.overview-sunshine.title"
-msgstr "Panoramica degli indicatori di sole"
+msgstr "Panoramica degli indicatori Sunshine"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.description"
@@ -1477,11 +1477,11 @@ msgstr "{operatorLabel}"
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.overall-option"
-msgstr "In generale"
+msgstr "Complessivo"
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.overall-tooltip"
-msgstr "Mostra la durata totale delle interruzioni per operatore, combinando le interruzioni pianificate e non pianificate per un confronto diretto."
+msgstr "Mostra i valori totali per tutte le categorie."
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.planned-option"
@@ -1501,7 +1501,7 @@ msgstr "Rapporto"
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.ratio-tooltip"
-msgstr "Mostra il rapporto tra le interruzioni non pianificate e le interruzioni totali, fornendo indicazioni sulla stabilità dell'alimentazione."
+msgstr "Mostra come i valori si confrontano in termini relativi."
 
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.power-stability.saidi"
