@@ -13,6 +13,7 @@ You can also check the
 
 - Sunshine Map & Detail Pages
 
+  - Feat: Periods go from 2024 to 2026
   - Feat: Can show outage info days in advance indicator on the map
   - Fix: Use CHF/km for NE5 & NE7, use CHF/kVA for NE6 when viewing Network Costs indicator
   - Fix: Remove mention of Product variety in compliance description

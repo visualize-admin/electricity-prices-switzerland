@@ -6,6 +6,7 @@ import {
   QueryStateSunshineSaidiSaifiType,
 } from "src/domain/query-states";
 import { WikiPageSlug } from "src/domain/wiki";
+import { runtimeEnv } from "src/env/runtime";
 import {
   NetworkCostsData,
   NetworkLevel as GraphQLNetworkLevel,
@@ -17,7 +18,11 @@ export type { PeerGroup } from "src/graphql/resolver-types";
 /**
  * Years available for sunshine data queries
  */
-export const years = ["2025", "2024", "2023"];
+export const years = ["2026", "2025", "2024"];
+
+export const sunshineYearsSchema = z
+  .enum(years as [string, ...string[]])
+  .default(runtimeEnv.CURRENT_PERIOD);
 
 /**
  * Typology options for filtering
