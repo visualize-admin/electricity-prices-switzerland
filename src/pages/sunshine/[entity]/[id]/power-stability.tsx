@@ -4,7 +4,7 @@ import { GetServerSideProps } from "next";
 import ErrorPage from "next/error";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback } from "react";
 import { gql } from "urql";
 
 import CardGrid from "src/components/card-grid";
@@ -151,11 +151,6 @@ const Saidi = (props: Extract<Props, { status: "found" }>) => {
     },
   });
 
-  const yearlyObservations = useMemo(() => {
-    const year = parseInt(latestYear, 10);
-    return data?.saidi?.yearlyData?.filter((x) => x.year === year) ?? [];
-  }, [data, latestYear]);
-
   if (fetching) {
     return <LoadingSkeleton height={700} />;
   }
@@ -246,7 +241,7 @@ const Saidi = (props: Extract<Props, { status: "found" }>) => {
           updateDate={updateDate}
           operatorId={props.id}
           operatorLabel={operatorLabel}
-          observations={yearlyObservations}
+          observations={data.saidi.yearlyData}
           cardTitle={t({
             id: "sunshine.power-stability.saidi-trend",
             message: "Average Power Outage Duration (SAIDI)",
@@ -273,11 +268,6 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
       },
     },
   });
-
-  const yearlyObservations = useMemo(() => {
-    const year = parseInt(latestYear, 10);
-    return data?.saifi?.yearlyData?.filter((x) => x.year === year) ?? [];
-  }, [data, latestYear]);
 
   if (fetching) {
     return <LoadingSkeleton height={700} />;
@@ -369,7 +359,7 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
           updateDate={updateDate}
           operatorId={props.id}
           operatorLabel={operatorLabel}
-          observations={yearlyObservations}
+          observations={data.saifi.yearlyData}
           cardTitle={t({
             id: "sunshine.power-stability.saifi-trend",
             message: "Average Power Outage Frequency (SAIFI)",
