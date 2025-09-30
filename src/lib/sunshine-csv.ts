@@ -87,7 +87,7 @@ export const decryptSunshineCsvFile = (id: Id) => {
 
 const parseNumber = (val: string): number | null => {
   const num = parseFloat(val);
-  return isNaN(num) ? null : num;
+  return Number.isNaN(num) ? null : num;
 };
 
 const parseGermanBoolean = (val: string): boolean | null => {

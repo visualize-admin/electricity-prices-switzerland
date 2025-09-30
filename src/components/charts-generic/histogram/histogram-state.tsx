@@ -89,7 +89,7 @@ const computeBins = (
 
   const values = data
     .map(getX)
-    .filter((v) => typeof v === "number" && !isNaN(v));
+    .filter((v) => typeof v === "number" && !Number.isNaN(v));
   const nonZero = values.filter((v) => v > 0);
   const max = Math.max(...nonZero, groupedBy);
 

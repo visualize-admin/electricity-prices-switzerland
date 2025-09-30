@@ -19,13 +19,13 @@ export const Lines = ({
   const lineGenerator = line<GenericObservation>()
     .x((d) => xScale(getX(d)))
     .y((d) => yScale(getY(d)))
-    .defined((d) => !isNaN(getY(d)) || getY(d) === undefined);
+    .defined((d) => !Number.isNaN(getY(d)) || getY(d) === undefined);
 
   return (
     <g transform={`translate(${bounds.margins.left} ${bounds.margins.top})`}>
       {grouped.map((lineData, index) => {
         const definedLineData = lineData[1].filter(
-          (d) => !isNaN(getY(d)) || getY(d) === undefined
+          (d) => !Number.isNaN(getY(d)) || getY(d) === undefined
         );
         if (definedLineData.length === 1) {
           // We need to render a point for single data points

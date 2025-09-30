@@ -31,7 +31,7 @@ import { typography } from "src/themes/typography";
 import { SunshineIndicator } from "./sunshine";
 
 export const isNumber = (x: $IntentionalAny): boolean =>
-  typeof x === "number" && !isNaN(x);
+  typeof x === "number" && !Number.isNaN(x);
 export const mkNumber = (x: $IntentionalAny): number => +x;
 
 // We don't use CHF currency because the unit used is Rp./kWh. Intead we just reuse the regular number format:
