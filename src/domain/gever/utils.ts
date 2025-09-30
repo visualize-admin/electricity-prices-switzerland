@@ -46,7 +46,7 @@ export const canonicalizeXML = async (tree: Element): Promise<string> => {
     const canonicaliser = c14n.createCanonicaliser(
       "http://www.w3.org/2001/10/xml-exc-c14n#"
     );
-    canonicaliser.canonicalise(tree, function (err, res) {
+    canonicaliser.canonicalise(tree, (err, res) => {
       if (err) {
         return reject(err);
       }
