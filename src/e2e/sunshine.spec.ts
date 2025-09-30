@@ -166,11 +166,14 @@ test.describe("Sunshine map details panel", () => {
 });
 
 test.describe("Sunshine Costs and Tariffs page", () => {
-  test("it should display the correct title", async ({ page, snapshot }) => {
+  test("it should display the correct title", async ({ page }) => {
     await page.goto("/sunshine/operator/36/costs-and-tariffs");
-    await expect(
-      page.getByText("Network Costs at Low voltage NE7 Level")
-    ).toBeVisible();
+    // Scroll for BKW Energie AG to be at the top
+    await page.waitForLoadState("networkidle");
+
+    await page
+      .getByText("Network Costs at Low voltage NE7 Level")
+      .scrollIntoViewIfNeeded();
     await page.getByText("Grid Tariffs").click();
     // text: Net Tariffs C2 - Small business (<15 kW)
     await expect(
