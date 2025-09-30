@@ -11,7 +11,33 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Sunshine Map page
+
+  - Add Franc Rule support (currently only visible for Compliance indicator)
+
+- Sunshine Details page
+
+  - Fix: Progress over time chart for SAIDI/SAIFI now shows all available years
+  - Fix: Source & date information is now properly displayed from Lindas
+
+- Sunshine Overview page
+
+  - Fix: Filters now default to H4/NE7 instead of previous defaults
+
+- Refactoring
+
+  - Add biome config for improved linting
+  - Update wiki types to latest specifications
+  - Upgrade Lingui to latest version 3
+  - Rename typology into saidiSaifiType for better clarity
+  - Apply some biome linting rules across codebase
+
+- Chore
+
+  - Use checkout v4 in CI/CD pipeline
+
+- Testing
+  - Update tests to reflect recent changes
 
 # 2.18.0 - 2025-09-29
 
