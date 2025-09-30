@@ -30,6 +30,9 @@ const client = new ParsingClient({
   endpointUrl: "https://test.lindas.admin.ch/query",
 });
 
+const yesPredicateValue =
+  "https://energy.ld.admin.ch/elcom/electricityprice/Yes";
+
 // Helper function to execute SPARQL queries
 const executeSparqlQuery = async <T>(query: string): Promise<T[]> => {
   try {
@@ -918,23 +921,6 @@ const getSunshineData = async ({
     ORDER BY DESC(?period) ?operator
   `;
 
-  const mainResults = await executeSparqlQuery<{
-    operator: string;
-    operator_name: string;
-    period: string;
-    gridcost_ne5: string;
-    gridcost_ne6: string;
-    gridcost_ne7: string;
-    franken_regel: string;
-    info: string;
-    days_in_advance: string;
-    in_time: string;
-    saidi_total: string;
-    saidi_unplanned: string;
-    saifi_total: string;
-    saifi_unplanned: string;
-  }>(mainQuery);
-
   // Get tariff data from the category cube
   const tariffQuery = `
     PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
@@ -960,6 +946,23 @@ const getSunshineData = async ({
     }
     ORDER BY DESC(?period) ?operator ?category
   `;
+
+  const mainResults = await executeSparqlQuery<{
+    operator: string;
+    operator_name: string;
+    period: string;
+    gridcost_ne5: string;
+    gridcost_ne6: string;
+    gridcost_ne7: string;
+    franken_regel: string;
+    info: string;
+    days_in_advance: string;
+    in_time: string;
+    saidi_total: string;
+    saidi_unplanned: string;
+    saifi_total: string;
+    saifi_unplanned: string;
+  }>(mainQuery);
 
   const tariffResults = await executeSparqlQuery<{
     operator: string;
@@ -1004,7 +1007,7 @@ const getSunshineData = async ({
       name: row.operator_name,
       period,
       francRule: parseFloatOrUndefined(row.franken_regel),
-      infoYesNo: row.info === "true",
+      infoYesNo: row.info === yesPredicateValue,
       infoDaysInAdvance: parseInt(row.days_in_advance, 10),
       networkCostsNE5: parseFloatOrUndefined(row.gridcost_ne5),
       networkCostsNE6: parseFloatOrUndefined(row.gridcost_ne6),

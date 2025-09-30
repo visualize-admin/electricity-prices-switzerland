@@ -26,7 +26,7 @@ export const getFieldName = (
     case "compliance":
       return "francRule";
     case "outageInfo":
-      return "timely";
+      return "infoYesNo";
     case "daysInAdvanceOutageNotification":
       return "infoDaysInAdvance";
     default:
