@@ -11,7 +11,8 @@ import React, { ReactNode, useMemo } from "react";
 
 import { ButtonGroup } from "src/components/button-group";
 import CardSource from "src/components/card-source";
-import { filterBySeparator, getPalette } from "src/domain/helpers";
+import { createColorMapping } from "src/domain/color-mapping";
+import { filterBySeparator } from "src/domain/helpers";
 import { useQueryStatePowerStabilityCardFilters } from "src/domain/query-states";
 import { PeerGroup, SunshinePowerStabilityData } from "src/domain/sunshine";
 import { getLocalizedLabel, getPeerGroupLabels } from "src/domain/translation";
@@ -158,6 +159,9 @@ export const PowerStabilityCard: React.FC<PowerStabilityCardProps> = (
     operatorId,
     operatorLabel,
   } = chartData;
+
+  // Create color mapping for consistent colors between combobox and chart
+  const colorMapping = createColorMapping(compareWith, "elcom2");
 
   return (
     <Card {...cardProps}>
@@ -307,11 +311,7 @@ export const PowerStabilityCard: React.FC<PowerStabilityCardProps> = (
                 id: "sunshine.costs-and-tariffs.compare-with",
                 message: "Compare With",
               })}
-              colorful={
-                compareWith?.includes("sunshine.select-all")
-                  ? undefined
-                  : getPalette("elcom2")
-              }
+              colorMapping={colorMapping}
               items={[
                 { id: "sunshine.select-all" },
                 ...multiComboboxOptions.map((item) => {
@@ -343,6 +343,7 @@ export const PowerStabilityCard: React.FC<PowerStabilityCardProps> = (
           overallOrRatio={overallOrRatio}
           duration={duration}
           compareWith={compareWith}
+          colorMapping={colorMapping}
           rootProps={{
             sx: {
               mt: 8,

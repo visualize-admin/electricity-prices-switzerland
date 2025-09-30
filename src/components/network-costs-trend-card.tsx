@@ -5,7 +5,8 @@ import React, { ReactNode } from "react";
 import { ButtonGroup } from "src/components/button-group";
 import CardSource from "src/components/card-source";
 import { infoDialogProps } from "src/components/info-dialog-props";
-import { filterBySeparator, getPalette } from "src/domain/helpers";
+import { createColorMapping } from "src/domain/color-mapping";
+import { filterBySeparator } from "src/domain/helpers";
 import { useQueryStateNetworkCostsTrendCardFilters } from "src/domain/query-states";
 import { PeerGroup, SunshineCostsAndTariffsData } from "src/domain/sunshine";
 import { getLocalizedLabel, getPeerGroupLabels } from "src/domain/translation";
@@ -192,11 +193,7 @@ export const NetworkCostsTrendCard: React.FC<NetworkCostsTrendCardProps> = (
           </Grid>
           <Grid item xs={12} sm={6}>
             <AllOrMultiCombobox
-              colorful={
-                compareWith?.includes("sunshine.select-all")
-                  ? undefined
-                  : getPalette("elcom2")
-              }
+              colorMapping={createColorMapping(compareWith, "elcom2")}
               label={t({
                 id: "sunshine.costs-and-tariffs.compare-with",
                 message: "Compare With",
@@ -236,6 +233,7 @@ export const NetworkCostsTrendCard: React.FC<NetworkCostsTrendCardProps> = (
           networkCosts={restNetworkCosts}
           viewBy={viewBy}
           compareWith={compareWith}
+          colorMapping={createColorMapping(compareWith, "elcom2")}
         />
         {/* Footer Info */}
         <CardSource date={`${updateDate}`} source={"Lindas"} />

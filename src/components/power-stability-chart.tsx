@@ -3,6 +3,7 @@ import { Box, BoxProps } from "@mui/material";
 import { max, mean } from "d3";
 import { useMemo, useState } from "react";
 
+import { ColorMapping } from "src/domain/color-mapping";
 import { MIN_PER_YEAR, PERCENT } from "src/domain/metrics";
 import type { SunshinePowerStabilityData } from "src/domain/sunshine";
 import { chartPalette, palette } from "src/themes/palette";
@@ -30,6 +31,7 @@ type PowerStabilityChartProps = {
     | SunshinePowerStabilityData["saidi"]["yearlyData"];
   operatorLabel: string;
   mini?: boolean;
+  colorMapping?: ColorMapping;
   rootProps?: Omit<BoxProps, "children">;
 } & Omit<SectionProps, "entity"> &
   PowerStabilityCardFilters;
@@ -38,7 +40,7 @@ type PowerStabilityRow =
   SunshinePowerStabilityData["saidi"]["yearlyData"][0] & { planned: number };
 
 export const PowerStabilityChart = (props: PowerStabilityChartProps) => {
-  const { viewBy, observations, rootProps, ...restProps } = props;
+  const { viewBy, observations, rootProps, colorMapping, ...restProps } = props;
 
   const dataWithStackFields = useMemo(() => {
     return observations.map((d) => ({
@@ -58,6 +60,7 @@ export const PowerStabilityChart = (props: PowerStabilityChartProps) => {
       ) : (
         <ProgressOvertimeChartView
           observations={dataWithStackFields}
+          colorMapping={colorMapping}
           {...restProps}
         />
       )}
@@ -264,6 +267,7 @@ const ProgressOvertimeChartView = (
     duration = "total",
     mini,
     compareWith = [],
+    colorMapping,
   } = props;
   const operatorsNames = useMemo(() => {
     return new Set(observations.map((d) => d.operator_name));
@@ -275,6 +279,7 @@ const ProgressOvertimeChartView = (
       operatorLabel={operatorLabel}
       operatorsNames={operatorsNames}
       compareWith={compareWith}
+      colorMapping={colorMapping}
       mini={mini}
       xField="year"
       yField={duration}

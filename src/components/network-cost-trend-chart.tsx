@@ -3,6 +3,7 @@ import { Box, BoxProps } from "@mui/material";
 import { useMemo } from "react";
 
 import { NoDataHint } from "src/components/hint";
+import { ColorMapping } from "src/domain/color-mapping";
 import { getNetworkLevelMetrics } from "src/domain/metrics";
 import type {
   NetworkLevel,
@@ -30,11 +31,12 @@ type NetworkCostTrendChartProps = {
   networkCosts: Omit<SunshineCostsAndTariffsData["networkCosts"], "yearlyData">;
   operatorLabel: string;
   mini?: boolean;
+  colorMapping?: ColorMapping;
 } & Omit<SectionProps, "entity"> &
   NetworkCostsTrendCardFilters;
 
 export const NetworkCostTrendChart = (props: NetworkCostTrendChartProps) => {
-  const { observations, viewBy, rootProps, ...restProps } = props;
+  const { observations, viewBy, rootProps, colorMapping, ...restProps } = props;
   const operatorsNames = useMemo(() => {
     return new Set(observations.map((d) => d.operator_name));
   }, [observations]);
@@ -50,6 +52,7 @@ export const NetworkCostTrendChart = (props: NetworkCostTrendChartProps) => {
         <ProgressOvertimeChartView
           observations={observations}
           operatorsNames={operatorsNames}
+          colorMapping={colorMapping}
           {...restProps}
         />
       )}
@@ -182,6 +185,7 @@ const ProgressOvertimeChartView = (
     operatorLabel,
     operatorsNames,
     compareWith = [],
+    colorMapping,
     mini,
   } = props;
 
@@ -195,6 +199,7 @@ const ProgressOvertimeChartView = (
       operatorLabel={operatorLabel}
       operatorsNames={operatorsNames}
       compareWith={compareWith}
+      colorMapping={colorMapping}
       mini={mini}
       xField="year"
       yField="rate"

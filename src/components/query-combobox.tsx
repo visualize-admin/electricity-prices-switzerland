@@ -145,7 +145,7 @@ export const CantonsCombobox = (
 export const AllOrMultiCombobox = (
   comboboxMultiProps: Pick<
     ComboboxMultiProps,
-    "label" | "selectedItems" | "setSelectedItems" | "colorful" | "max"
+    "label" | "selectedItems" | "setSelectedItems" | "colorMapping" | "max"
   > & { items: { id: string; name?: string }[] }
 ) => {
   const { items } = comboboxMultiProps;

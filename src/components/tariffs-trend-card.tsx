@@ -5,7 +5,7 @@ import React, { ReactNode } from "react";
 import { ButtonGroup } from "src/components/button-group";
 import CardSource from "src/components/card-source";
 import { infoDialogProps } from "src/components/info-dialog-props";
-import { getPalette } from "src/domain/helpers";
+import { createColorMapping } from "src/domain/color-mapping";
 import { useQueryStateTariffsTrendCardFilters } from "src/domain/query-states";
 import { PeerGroup, SunshineCostsAndTariffsData } from "src/domain/sunshine";
 import { getLocalizedLabel, getPeerGroupLabels } from "src/domain/translation";
@@ -94,6 +94,10 @@ export const TariffsTrendCard: React.FC<TariffsTrendCardProps> = (props) => {
     operatorLabel,
   } = chartData;
   const { cardTitle: title, infoDialogProps, ...cardProps } = props;
+
+  // Create color mapping for consistent colors between combobox and chart
+  const colorMapping = createColorMapping(compareWith, "elcom2");
+
   return (
     <Card {...cardProps} id={DOWNLOAD_ID}>
       <CardContent>
@@ -169,11 +173,7 @@ export const TariffsTrendCard: React.FC<TariffsTrendCardProps> = (props) => {
                 id: "sunshine.costs-and-tariffs.compare-with",
                 message: "Compare With",
               })}
-              colorful={
-                compareWith?.includes("sunshine.select-all")
-                  ? undefined
-                  : getPalette("elcom2")
-              }
+              colorMapping={colorMapping}
               items={[
                 { id: "sunshine.select-all" },
                 ...multiComboboxOptions.map((item) => {
@@ -197,6 +197,7 @@ export const TariffsTrendCard: React.FC<TariffsTrendCardProps> = (props) => {
           netTariffs={restNetTariffs}
           viewBy={viewBy}
           compareWith={compareWith}
+          colorMapping={colorMapping}
           rootProps={{
             sx: {
               mt: 8,
