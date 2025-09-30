@@ -1333,8 +1333,12 @@ msgid "sunshine.indicator.netTariffs"
 msgstr "sunshine.indicator.netTariffs"
 
 #: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.networkCosts"
-msgstr "sunshine.indicator.networkCosts"
+msgid "sunshine.indicator.networkCosts-CHF/kVA"
+msgstr "sunshine.indicator.networkCosts-CHF/kVA"
+
+#: src/components/sunshine-map.tsx
+msgid "sunshine.indicator.networkCosts-CHF/km"
+msgstr "sunshine.indicator.networkCosts-CHF/km"
 
 #: src/components/sunshine-map.tsx
 msgid "sunshine.indicator.saidi"

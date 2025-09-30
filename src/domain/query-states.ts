@@ -62,6 +62,7 @@ const periodSchema = z
   .default(runtimeEnv.CURRENT_PERIOD);
 
 const categorySchema = z.enum(categories).default("H4");
+const networkLevelSchema = z.enum(["NE5", "NE6", "NE7"]);
 
 const energyPricesMapSchema = z.object({
   tab: mapTabsSchema.default("electricity"),
@@ -98,7 +99,7 @@ const sunshineMapSchema = z.object({
   complianceType: z.enum(["franc-rule"]).default("franc-rule"),
   indicator: sunshineIndicatorSchema.default("networkCosts"),
   category: z.string().default("H4"),
-  networkLevel: z.string().default("NE7"),
+  networkLevel: networkLevelSchema.default("NE7"),
   activeId: z.string().optional().nullable(),
 });
 

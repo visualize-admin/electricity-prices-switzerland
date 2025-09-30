@@ -45,10 +45,25 @@ import {
 import { truthy } from "src/lib/truthy";
 import { shouldOpenInNewTab } from "src/utils/platform";
 
-const indicatorLegendTitleMapping: Record<SunshineIndicator, string> = {
-  networkCosts: t({
-    message: "Network costs in CHF/MWh",
-    id: "sunshine.indicator.networkCosts",
+const networkLevelUnits = {
+  NE5: "CHF/km",
+  NE6: "CHF/kVA",
+  NE7: "CHF/km",
+} as const;
+
+const legendTitleMapping: Record<
+  | Exclude<SunshineIndicator, "networkCosts">
+  | "networkCosts-CHF/km"
+  | "networkCosts-CHF/kVA",
+  string
+> = {
+  "networkCosts-CHF/km": t({
+    message: "Network costs in CHF/km",
+    id: "sunshine.indicator.networkCosts-CHF/km",
+  }),
+  "networkCosts-CHF/kVA": t({
+    message: "Network costs in CHF/kVA",
+    id: "sunshine.indicator.networkCosts-CHF/kVA",
   }),
   netTariffs: t({
     message: "Net tariffs in Rp./kWh",
@@ -85,6 +100,8 @@ type SunshineMapProps = {
   enabled?: boolean;
   period: string;
   indicator: SunshineIndicator;
+  // Necessary when indicator is networkCosts
+  networkLevel?: "NE5" | "NE6" | "NE7";
 };
 
 const aggregateFnPerIndicator: Record<
@@ -110,6 +127,7 @@ const SunshineMap = ({
   controls,
   period,
   indicator,
+  networkLevel,
 }: SunshineMapProps) => {
   const geoDataResult = useGeoData(period);
 
@@ -370,7 +388,7 @@ const SunshineMap = ({
       return (
         <MapColorLegend
           id={legendId}
-          title={indicatorLegendTitleMapping[indicator]}
+          title={legendTitleMapping[indicator]}
           ticks={complianceTicks}
           mode="yesNo"
         />
@@ -379,10 +397,16 @@ const SunshineMap = ({
 
     if (!valuesExtent || !enrichedData?.median || !colorScale) return null;
     const legendData = [valuesExtent[0], enrichedData.median, valuesExtent[1]];
+    const legendKey =
+      indicator === "networkCosts"
+        ? (`${indicator}-${
+            networkLevelUnits[networkLevel ?? ("NE5" as const)]
+          }` as const)
+        : indicator;
     return (
       <MapColorLegend
         id={legendId}
-        title={indicatorLegendTitleMapping[indicator]}
+        title={legendTitleMapping[legendKey]}
         ticks={legendData.map((value) => ({
           value,
           label: value !== undefined ? valueFormatter(value) : "",
@@ -391,7 +415,7 @@ const SunshineMap = ({
           slug: indicatorWikiPageSlugMapping[indicator],
           label: t({
             id: `help.${indicator}`,
-            message: indicatorLegendTitleMapping[indicator],
+            message: legendTitleMapping[legendKey],
           }),
         }}
       />
@@ -402,6 +426,7 @@ const SunshineMap = ({
     enrichedData?.median,
     colorScale,
     legendId,
+    networkLevel,
     valueFormatter,
   ]);
 

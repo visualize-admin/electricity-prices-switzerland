@@ -230,6 +230,7 @@ const MapPageContent = ({
       controls={controlsRef}
       period={period}
       indicator={indicator}
+      networkLevel={networkLevel}
     />
   );
 

@@ -1333,8 +1333,12 @@ msgid "sunshine.indicator.netTariffs"
 msgstr "Tarifs nets en Rp./kWh"
 
 #: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.networkCosts"
-msgstr "Coûts du réseau en CHF/MWh"
+msgid "sunshine.indicator.networkCosts-CHF/kVA"
+msgstr "Coûts du réseau en CHF/kVA"
+
+#: src/components/sunshine-map.tsx
+msgid "sunshine.indicator.networkCosts-CHF/km"
+msgstr "Coûts du réseau en CHF/km"
 
 #: src/components/sunshine-map.tsx
 msgid "sunshine.indicator.saidi"
