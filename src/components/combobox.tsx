@@ -18,7 +18,7 @@ export type ComboboxMultiProps = {
   minSelectedItems?: number;
   getItemLabel?: (item: string) => string;
   max?: number;
-  colorful?: readonly string[];
+  colorMapping?: Record<string, string>;
   // For lazy combobox
   disabled?: boolean;
   error?: boolean;
@@ -89,7 +89,7 @@ export const MultiCombobox = ({
   isLoading,
   disabled,
   error,
-  colorful,
+  colorMapping,
   max,
   size = "small",
 }: ComboboxMultiProps) => {
@@ -164,6 +164,11 @@ export const MultiCombobox = ({
       renderTags={(value, getTagProps) =>
         value.map((option, index) => {
           const { key, ...tagProps } = getTagProps({ index });
+          // Use colorMapping if available, otherwise fall back to colorful array
+          const backgroundColor = colorMapping
+            ? colorMapping[option]
+            : undefined;
+
           return (
             <Chip
               key={`${key}-${id}-chip`}
@@ -171,9 +176,7 @@ export const MultiCombobox = ({
               {...tagProps}
               sx={{
                 margin: "2px !important",
-                backgroundColor: colorful
-                  ? colorful[index % colorful.length]
-                  : undefined,
+                backgroundColor,
               }}
               size="xs"
               disabled={disabled}

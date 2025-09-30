@@ -2,6 +2,7 @@ import { t } from "@lingui/macro";
 import { Box, BoxProps } from "@mui/material";
 import { useMemo } from "react";
 
+import { ColorMapping } from "src/domain/color-mapping";
 import { RP_PER_KM, RP_PER_KWH } from "src/domain/metrics";
 import type { SunshineCostsAndTariffsData } from "src/domain/sunshine";
 import { getLocalizedLabel } from "src/domain/translation";
@@ -26,11 +27,12 @@ type TariffsTrendChartProps = {
   netTariffs: Omit<SunshineCostsAndTariffsData["netTariffs"], "yearlyData">;
   operatorLabel: string;
   mini?: boolean;
+  colorMapping?: ColorMapping;
 } & Omit<SectionProps, "entity"> &
   TariffsTrendCardFilters;
 
 export const TariffsTrendChart = (props: TariffsTrendChartProps) => {
-  const { observations, viewBy, rootProps, ...restProps } = props;
+  const { observations, viewBy, rootProps, colorMapping, ...restProps } = props;
   const operatorsNames = useMemo(() => {
     return new Set(observations.map((d) => d.operator_name));
   }, [observations]);
@@ -47,6 +49,7 @@ export const TariffsTrendChart = (props: TariffsTrendChartProps) => {
         <ProgressOvertimeChartView
           observations={observations}
           operatorsNames={operatorsNames}
+          colorMapping={colorMapping}
           {...restProps}
         />
       )}
@@ -153,6 +156,7 @@ const ProgressOvertimeChartView = (
     operatorLabel,
     operatorsNames,
     compareWith = [],
+    colorMapping,
     mini,
   } = props;
 
@@ -162,12 +166,12 @@ const ProgressOvertimeChartView = (
       operatorLabel={operatorLabel}
       operatorsNames={operatorsNames}
       compareWith={compareWith}
+      colorMapping={colorMapping}
       mini={mini}
       xField="period"
       yField="rate"
       yAxisLabel={RP_PER_KM}
       entityField="operator_id"
-      paletteType="monochrome"
     />
   );
 };

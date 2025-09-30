@@ -81,7 +81,6 @@ const NetTariffsChartAdapter = ({
         }}
         operatorLabel={operatorLabel ?? ""}
         viewBy="progress"
-        compareWith={[]}
         mini
       />
     </ChartAdapterWrapper>

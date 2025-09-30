@@ -26,15 +26,14 @@ interface ProgressOvertimeChartProps<
   observations: T[];
   operatorLabel: string;
   operatorsNames: Set<string>;
-  compareWith?: string[];
+  compareWith: string[];
+  colorMapping?: Record<string, string>;
   mini?: boolean;
   // Field configuration
   xField: string;
   yField: string;
   yAxisLabel?: string;
   entityField?: string;
-  // Palette configuration
-  paletteType?: "monochrome" | "elcom2";
 }
 
 export const ProgressOvertimeChart = <T extends GenericObservation>(
@@ -45,12 +44,12 @@ export const ProgressOvertimeChart = <T extends GenericObservation>(
     operatorLabel,
     operatorsNames,
     compareWith = [],
+    colorMapping,
     mini = false,
     xField,
     yField,
     yAxisLabel,
     entityField = "operator_id",
-    paletteType = "monochrome",
   } = props;
 
   const formatCurrency = useFormatCurrency();
@@ -58,9 +57,12 @@ export const ProgressOvertimeChart = <T extends GenericObservation>(
   const hasNotSelectedAll = !compareWith.includes("sunshine.select-all");
   const showInteractions = hasNotSelectedAll;
 
-  const palette = compareWith.includes("sunshine.select-all")
+  // Use passed colorMapping if available, otherwise fall back to default palette selection
+  const palette = colorMapping
+    ? undefined
+    : compareWith.includes("sunshine.select-all")
     ? "monochrome"
-    : paletteType;
+    : "elcom2";
 
   const shouldShowOtherOperatorsLegend = compareWith.includes(
     "sunshine.select-all"
@@ -72,10 +74,31 @@ export const ProgressOvertimeChart = <T extends GenericObservation>(
     ]).filter((d) => d[entityField] !== operatorLabel);
   }, [observations, entityField, operatorLabel]);
 
-  const colorMappings = [
-    { label: operatorLabel, color: chartPalette.categorical[0] },
-    { label: peerGroupOperatorName, color: themePalette.text.primary },
-  ];
+  // Create chart color mappings - either use provided colorMapping or build default
+  const chartColorMappings = useMemo(() => {
+    const baseMapping: Array<{ label: string; color: string }> = [
+      { label: operatorLabel, color: chartPalette.categorical[0] },
+      { label: peerGroupOperatorName, color: themePalette.text.primary },
+    ];
+
+    if (colorMapping) {
+      // Add colors from the provided colorMapping for other operators
+      const additionalMappings = Object.entries(colorMapping).map(
+        ([operatorId, color]) => {
+          // Find the operator name from the observations
+          const observation = observations.find(
+            (obs) => String(obs[entityField]) === operatorId
+          );
+          const operatorName = observation?.operator_name || operatorId;
+          return { label: String(operatorName), color };
+        }
+      );
+
+      return [...baseMapping, ...additionalMappings];
+    }
+
+    return baseMapping;
+  }, [colorMapping, operatorLabel, observations, entityField]);
 
   if (observations.length === 0) {
     return <NoDataHint />;
@@ -94,9 +117,9 @@ export const ProgressOvertimeChart = <T extends GenericObservation>(
         },
         segment: {
           componentIri: "operator_name",
-          palette,
+          palette: palette || "elcom2",
           colorMapping: Object.fromEntries(
-            colorMappings.map((item) => [item.label, item.color])
+            chartColorMappings.map((item) => [item.label, item.color])
           ),
         },
         style: {
@@ -127,7 +150,7 @@ export const ProgressOvertimeChart = <T extends GenericObservation>(
           }}
           display="flex"
         >
-          {colorMappings.map((item) => (
+          {chartColorMappings.map((item) => (
             <LegendItem
               key={item.label}
               item={

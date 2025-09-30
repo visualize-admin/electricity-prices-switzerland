@@ -453,7 +453,7 @@ describe("SPARQL Sunshine Data Service", () => {
           {
             "francRule": 74.276,
             "infoDaysInAdvance": 2,
-            "infoYesNo": false,
+            "infoYesNo": true,
             "name": "St.Galler Stadtwerke",
             "networkCostsNE5": undefined,
             "networkCostsNE6": 12.366,
@@ -496,7 +496,7 @@ describe("SPARQL Sunshine Data Service", () => {
           {
             "francRule": 45.594,
             "infoDaysInAdvance": 3,
-            "infoYesNo": false,
+            "infoYesNo": true,
             "name": "Arosa Energie",
             "networkCostsNE5": undefined,
             "networkCostsNE6": 11.729,
@@ -527,7 +527,7 @@ describe("SPARQL Sunshine Data Service", () => {
           {
             "francRule": 71.403,
             "infoDaysInAdvance": 14,
-            "infoYesNo": false,
+            "infoYesNo": true,
             "name": "ELEKTRA ENERGIE Genossenschaft",
             "networkCostsNE5": 9085.843,
             "networkCostsNE6": 12.023,
@@ -570,7 +570,7 @@ describe("SPARQL Sunshine Data Service", () => {
           {
             "francRule": undefined,
             "infoDaysInAdvance": 2,
-            "infoYesNo": false,
+            "infoYesNo": true,
             "name": "St.Galler Stadtwerke",
             "networkCostsNE5": undefined,
             "networkCostsNE6": 13.072,
@@ -601,7 +601,7 @@ describe("SPARQL Sunshine Data Service", () => {
           {
             "francRule": 74.276,
             "infoDaysInAdvance": 2,
-            "infoYesNo": false,
+            "infoYesNo": true,
             "name": "St.Galler Stadtwerke",
             "networkCostsNE5": undefined,
             "networkCostsNE6": 12.366,
