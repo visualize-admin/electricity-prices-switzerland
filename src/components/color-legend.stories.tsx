@@ -1,5 +1,6 @@
 import { StoryGrid } from "src/components/storybook/story-grid";
 import withQueryClient from "src/components/storybook/with-query-client";
+import { chartPalette } from "src/themes/palette";
 
 import { MapColorLegend } from "./color-legend";
 
@@ -55,6 +56,7 @@ export const Default: Story = {
       { value: 750, label: "$750" },
       { value: 1000, label: "$1000" },
     ],
+    palette: chartPalette.diverging.GreenToOrange,
   },
 };
 
@@ -67,6 +69,7 @@ export const YesNoMode: Story = {
       { value: 0, label: "Not compliant" },
       { value: 1, label: "Compliant" },
     ],
+    palette: chartPalette.diverging.GreenToOrange,
   },
 };
 
@@ -80,13 +83,14 @@ export const EmptyTicks: Story = {
       { value: undefined, label: "" },
       { value: undefined, label: "" },
     ],
+    palette: chartPalette.diverging.GreenToOrange,
   },
 };
 
-export const LongTitle: Story = {
+export const ReversedColors: Story = {
   args: {
-    id: "map-legend-long-title",
-    title: "Very Long Legend Title That Might Need Truncation",
+    id: "map-legend-reversed-colors",
+    title: "Legend with reversed colors",
     mode: "minMedianMax",
     ticks: [
       { value: 1000, label: "$1,000" },
@@ -95,5 +99,6 @@ export const LongTitle: Story = {
       { value: 50000, label: "$50,000" },
       { value: 100000, label: "$100,000" },
     ],
+    palette: chartPalette.diverging.GreenToOrange.slice().reverse(),
   },
 };
