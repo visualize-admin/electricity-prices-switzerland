@@ -121,7 +121,7 @@ export const PriceEvolution = ({
       : canton;
 
   const entityIds =
-    comparisonIds && comparisonIds?.some((m) => m !== "")
+    comparisonIds?.some((m) => m !== "")
       ? [...comparisonIds, id]
       : [id];
 

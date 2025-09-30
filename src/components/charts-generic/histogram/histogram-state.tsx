@@ -331,9 +331,8 @@ const useHistogramState = ({
   yScale.range([chartHeight, annotationSpace || 0]);
 
   const annotations =
-    annotation &&
     annotation
-      .sort((a, b) => ascending(getX(a), getX(b)))
+      ?.sort((a, b) => ascending(getX(a), getX(b)))
       .map((datum, i) => {
         return {
           datum,
@@ -473,7 +472,7 @@ export const getBarColor = ({
 }): string => {
   if (fields?.style?.colorAcc) {
     const d = bin[0];
-    if (d && d[fields.style.colorAcc]) {
+    if (d?.[fields.style.colorAcc]) {
       return d[fields.style.colorAcc] as string;
     }
   }

@@ -77,7 +77,7 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
       : canton;
 
   const entityIds =
-    comparisonIds && comparisonIds?.some((m) => m !== "")
+    comparisonIds?.some((m) => m !== "")
       ? [...comparisonIds, id]
       : [id];
   const [observationsQuery] = useObservationsWithAllPriceComponentsQuery({

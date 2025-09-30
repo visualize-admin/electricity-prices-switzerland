@@ -21,8 +21,7 @@ const HoverDots = ({ d }: { d: GenericObservation }) => {
 
   return (
     <>
-      {values &&
-        values.map((value, i) => (
+      {values?.map((value, i) => (
           <React.Fragment key={i}>
             <Box
               style={{

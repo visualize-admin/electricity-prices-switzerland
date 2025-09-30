@@ -427,8 +427,7 @@ export const GenericMap = ({
       ) : null}
 
       
-        {tooltipContent &&
-          tooltipContent.hoveredState &&
+        {tooltipContent?.hoveredState &&
           tooltipContent.content && (
             <MapTooltip
               x={tooltipContent.hoveredState.x}

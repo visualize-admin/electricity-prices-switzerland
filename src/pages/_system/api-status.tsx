@@ -603,7 +603,7 @@ const DocumentDownloadStatus = () => {
             </button>
           </Box>
           {query.status === "fetching" ? "Loading...." : ""}
-          {data && data?.searchResp ? (
+          {data?.searchResp ? (
             <Box sx={{ mt: 2 }}>
               <div>
                 Lindas endpoint <pre>{JSON.stringify(data.lindasEndpoint)}</pre>
