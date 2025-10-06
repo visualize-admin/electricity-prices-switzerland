@@ -11,11 +11,13 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Feat
+  - Lakes in blue
 
 # 2.20.0 - 2025-09-30
 
 - Sunshine Detail Page
+
   - Fix Progress Overtime colors when comparing
 
 - Sunshine Map

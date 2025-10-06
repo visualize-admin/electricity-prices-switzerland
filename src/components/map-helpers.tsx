@@ -205,7 +205,7 @@ export const styles = {
     lineWidth: 100,
   },
   lakes: {
-    fillColor: LINE_COLOR,
+    fillColor: [226, 241, 255, 255] as Color,
     lineColor: LINE_COLOR,
     lineWidthMinPixels: 0.5,
     lineWidthMaxPixels: 1,
