@@ -2903,6 +2903,11 @@
     "@babel/runtime" "^7.20.13"
     "@lingui/core" "3.17.2"
 
+"@lingui/swc-plugin@5.5.0":
+  version "5.5.0"
+  resolved "https://registry.yarnpkg.com/@lingui/swc-plugin/-/swc-plugin-5.5.0.tgz#4c6943a534aef2ef9569539339c40bebce05319c"
+  integrity sha512-dj3njulVYeIpC1zofCQHNrzOR1F7HFSHC4fccYeFZVAvQ1o0ptLFBpbS4/zko8AhpuJuU92gWZQMBH0urY/98A==
+
 "@lingui/vite-plugin@^5.3.0":
   version "5.3.2"
   resolved "https://registry.yarnpkg.com/@lingui/vite-plugin/-/vite-plugin-5.3.2.tgz#3c9a1b1db365c0e259f394d4d6556abf217191e0"
