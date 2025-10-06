@@ -32,7 +32,7 @@ import {
   PageParams,
   Props as SharedPageProps,
 } from "src/data/shared-page-props";
-import { MIN_PER_YEAR } from "src/domain/metrics";
+import { ANZAHL_PER_YEAR, MIN_PER_YEAR } from "src/domain/metrics";
 import {
   QueryStateSingleSunshineDetails,
   useQueryStateSunshineDetails,
@@ -210,44 +210,44 @@ const Saidi = (props: Extract<Props, { status: "found" }>) => {
 
   return (
     <CardGrid
-        sx={{
-          gridTemplateColumns: {
-            xs: "1fr", // Single column on small screens
-            sm: "repeat(2, 1fr)", // Two columns on medium screens
-          },
-          gridTemplateRows: ["auto auto auto", "auto auto"], // Three rows: two for cards, one for trend chart
-          gridTemplateAreas: [
-            `"comparison" "peer-group" "trend"`, // One column on small screens
-            `"comparison peer-group" "trend trend"`, // Two columns on medium screens
-          ],
-        }}
-      >
-        <PeerGroupCard
-          latestYear={latestYear}
-          peerGroup={peerGroup}
-          sx={{ gridArea: "peer-group" }}
-        />
+      sx={{
+        gridTemplateColumns: {
+          xs: "1fr", // Single column on small screens
+          sm: "repeat(2, 1fr)", // Two columns on medium screens
+        },
+        gridTemplateRows: ["auto auto auto", "auto auto"], // Three rows: two for cards, one for trend chart
+        gridTemplateAreas: [
+          `"comparison" "peer-group" "trend"`, // One column on small screens
+          `"comparison peer-group" "trend trend"`, // Two columns on medium screens
+        ],
+      }}
+    >
+      <PeerGroupCard
+        latestYear={latestYear}
+        peerGroup={peerGroup}
+        sx={{ gridArea: "peer-group" }}
+      />
 
-        <TableComparisonCard
-          {...comparisonCardProps}
-          sx={{ gridArea: "comparison" }}
-        />
+      <TableComparisonCard
+        {...comparisonCardProps}
+        sx={{ gridArea: "comparison" }}
+      />
 
-        <PowerStabilityCardState
-          latestYear={Number(latestYear)}
-          sx={{ gridArea: "trend" }}
-          peerGroup={peerGroup}
-          updateDate={updateDate}
-          operatorId={props.id}
-          operatorLabel={operatorLabel}
-          observations={data.saidi.yearlyData}
-          cardTitle={t({
-            id: "sunshine.power-stability.saidi-trend",
-            message: "Average Power Outage Duration (SAIDI)",
-          })}
-          infoDialogProps={infoDialogProps["help-saidi"]}
-        />
-      </CardGrid>
+      <PowerStabilityCardState
+        latestYear={Number(latestYear)}
+        sx={{ gridArea: "trend" }}
+        peerGroup={peerGroup}
+        updateDate={updateDate}
+        operatorId={props.id}
+        operatorLabel={operatorLabel}
+        observations={data.saidi.yearlyData}
+        cardTitle={t({
+          id: "sunshine.power-stability.saidi-trend",
+          message: "Average Power Outage Duration (SAIDI)",
+        })}
+        infoDialogProps={infoDialogProps["help-saidi"]}
+      />
+    </CardGrid>
   );
 };
 
@@ -301,7 +301,7 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
         ),
         value: {
           value: data.saifi.operatorTotal,
-          unit: MIN_PER_YEAR,
+          unit: ANZAHL_PER_YEAR,
           round: 2,
           // TODO Compute the trend
           trend: Trend.Down,
@@ -315,7 +315,7 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
         ),
         value: {
           value: data.saifi.peerGroupTotal,
-          unit: MIN_PER_YEAR,
+          unit: ANZAHL_PER_YEAR,
           round: 2,
           // TODO Compute the trend
           trend: Trend.Stable,
@@ -326,44 +326,44 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
 
   return (
     <CardGrid
-        sx={{
-          gridTemplateColumns: {
-            xs: "1fr", // Single column on small screens
-            sm: "repeat(2, 1fr)", // Two columns on medium screens
-          },
-          gridTemplateRows: ["auto auto auto", "auto auto"], // Three rows: two for cards, one for trend chart
-          gridTemplateAreas: [
-            `"comparison" "peer-group" "trend"`, // One column on small screens
-            `"comparison peer-group" "trend trend"`, // Two columns on medium screens
-          ],
-        }}
-      >
-        <PeerGroupCard
-          latestYear={latestYear}
-          peerGroup={peerGroup}
-          sx={{ gridArea: "peer-group" }}
-        />
+      sx={{
+        gridTemplateColumns: {
+          xs: "1fr", // Single column on small screens
+          sm: "repeat(2, 1fr)", // Two columns on medium screens
+        },
+        gridTemplateRows: ["auto auto auto", "auto auto"], // Three rows: two for cards, one for trend chart
+        gridTemplateAreas: [
+          `"comparison" "peer-group" "trend"`, // One column on small screens
+          `"comparison peer-group" "trend trend"`, // Two columns on medium screens
+        ],
+      }}
+    >
+      <PeerGroupCard
+        latestYear={latestYear}
+        peerGroup={peerGroup}
+        sx={{ gridArea: "peer-group" }}
+      />
 
-        <TableComparisonCard
-          {...comparisonCardProps}
-          sx={{ gridArea: "comparison" }}
-        />
+      <TableComparisonCard
+        {...comparisonCardProps}
+        sx={{ gridArea: "comparison" }}
+      />
 
-        <PowerStabilityCardState
-          latestYear={Number(latestYear)}
-          sx={{ gridArea: "trend" }}
-          peerGroup={peerGroup}
-          updateDate={updateDate}
-          operatorId={props.id}
-          operatorLabel={operatorLabel}
-          observations={data.saifi.yearlyData}
-          cardTitle={t({
-            id: "sunshine.power-stability.saifi-trend",
-            message: "Average Power Outage Frequency (SAIFI)",
-          })}
-          infoDialogProps={infoDialogProps["help-saifi"]}
-        />
-      </CardGrid>
+      <PowerStabilityCardState
+        latestYear={Number(latestYear)}
+        sx={{ gridArea: "trend" }}
+        peerGroup={peerGroup}
+        updateDate={updateDate}
+        operatorId={props.id}
+        operatorLabel={operatorLabel}
+        observations={data.saifi.yearlyData}
+        cardTitle={t({
+          id: "sunshine.power-stability.saifi-trend",
+          message: "Average Power Outage Frequency (SAIFI)",
+        })}
+        infoDialogProps={infoDialogProps["help-saifi"]}
+      />
+    </CardGrid>
   );
 };
 

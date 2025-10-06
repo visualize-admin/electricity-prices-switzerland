@@ -11,10 +11,14 @@ You can also check the
 
 # Unreleased
 
-- Feat
+- Map pages
+
   - Lakes in blue on map
-- Fix
-  - Peer group options are sorted numerically
+
+- Sunshine details page
+  - Peer group options are sorted numerically in the selector
+  - Correct unit for grid tariff
+  - Correct unit for SAIFI
 
 # 2.20.0 - 2025-09-30
 

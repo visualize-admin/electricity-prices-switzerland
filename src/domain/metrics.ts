@@ -22,6 +22,10 @@ export const MIN_PER_YEAR = t({
   id: "sunshine.metric-unit.min-year",
   message: "Min./year",
 });
+export const ANZAHL_PER_YEAR = t({
+  id: "sunshine.metric-unit.anzahl-year",
+  message: "Count/year",
+});
 export const PERCENT = t({
   id: "sunshine.metric-unit.percent",
   message: "%",

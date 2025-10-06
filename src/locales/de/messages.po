@@ -1354,6 +1354,10 @@ msgid "sunshine.indicator.saifi"
 msgstr "Häufigkeit von Stromunterbrechungen  (SAIFI) pro Jahr"
 
 #: src/domain/metrics.ts
+msgid "sunshine.metric-unit.anzahl-year"
+msgstr "Anzahl/Jahr"
+
+#: src/domain/metrics.ts
 msgid "sunshine.metric-unit.chf-km"
 msgstr "CHF/km"
 

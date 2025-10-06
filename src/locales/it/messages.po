@@ -1358,6 +1358,10 @@ msgid "sunshine.indicator.saifi"
 msgstr "Frequenza delle interruzioni di corrente (SAIFI) all'anno"
 
 #: src/domain/metrics.ts
+msgid "sunshine.metric-unit.anzahl-year"
+msgstr "Conteggio/anno"
+
+#: src/domain/metrics.ts
 msgid "sunshine.metric-unit.chf-km"
 msgstr "CHF/km"
 
