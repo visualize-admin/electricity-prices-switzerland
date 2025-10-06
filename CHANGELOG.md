@@ -11,6 +11,10 @@ You can also check the
 
 # Unreleased
 
+Nothing yet.
+
+# 2.21.0 - 2025-10-06
+
 - Map pages
 
   - Lakes in blue on map
