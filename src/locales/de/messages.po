@@ -255,7 +255,7 @@ msgstr "Produkt"
 
 #: src/domain/translation.tsx
 msgid "filters.year"
-msgstr "Jahr"
+msgstr "Tarifjahr"
 
 #: src/components/footer.tsx
 msgid "footer.about_us.label"
@@ -411,7 +411,7 @@ msgstr "Stromrechnungen setzen sich aus Energietarifen und Netzkosten zusammen. 
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.card.costs-and-tariffs.title"
-msgstr "Netzkosten und Energietarife"
+msgstr "Netzkosten und Tarife"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.card.power-stability.description"
@@ -1157,7 +1157,7 @@ msgstr "Maximaler Gewinn im Vertrieb"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.compliance.latest-year"
-msgstr "Aktuelles Jahr ({year})"
+msgstr "Aktuelles Tarifjahr ({latestYear})"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.compliance.notification-period"
@@ -1211,7 +1211,7 @@ msgstr "Energietarife"
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.latest-year"
-msgstr "Aktuelles Jahr ({latestYear})"
+msgstr "Aktuelles Tarifjahr ({latestYear})"
 
 #: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.latest-year-option"
@@ -1261,15 +1261,15 @@ msgstr "Netzkosten auf der Netzebene {0}"
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.no-energy-tariffs"
-msgstr "Für diesen Netzbetreiber sind für das ausgewählte Jahr keine Daten zu den Energietarifen verfügbar."
+msgstr "Für diesen Netzbetreiber sind für das ausgewählte Tarifjahr keine Daten zu den Energietarifen verfügbar."
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.no-net-tariffs"
-msgstr "Für diesen Netzbetreiber sind für das ausgewählte Jahr keine Netztarifdaten verfügbar."
+msgstr "Für diesen Netzbetreiber sind für das ausgewählte Tarifjahr keine Netztarifdaten verfügbar."
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.no-network-costs"
-msgstr "Für diesen Netzbetreiber sind für das ausgewählte Jahr keine Daten zu den Netzkosten verfügbar."
+msgstr "Für diesen Netzbetreiber sind für das ausgewählte Tarifjahr keine Daten zu den Netzkosten verfügbar."
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
@@ -1291,7 +1291,7 @@ msgstr "Ausgewählte Netzbetreiber"
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.title"
-msgstr "Netzkosten und Energietarife"
+msgstr "Netzkosten und Tarife"
 
 #: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.view-by"
@@ -1451,11 +1451,11 @@ msgstr "Unterbrechungsdauer"
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.latest-year"
-msgstr "Aktuelles Jahr ({latestYear})"
+msgstr "Aktuelles Tarifjahr ({latestYear})"
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.latest-year-option"
-msgstr "Aktuelles Jahr"
+msgstr "Aktuelles Tarifjahr"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
@@ -1464,11 +1464,11 @@ msgstr "Median der Vergleichsgruppe"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.no-saidi-data"
-msgstr "Für diesen Netzbetreiber sind für das ausgewählte Jahr keine SAIDI-Daten verfügbar."
+msgstr "Für diesen Netzbetreiber sind für das ausgewählte Tarifjahr keine SAIDI-Daten verfügbar."
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.no-saifi-data"
-msgstr "Für diesen Netzbetreiber sind für das ausgewählte Jahr keine SAIFI-Daten verfügbar."
+msgstr "Für diesen Netzbetreiber sind für das ausgewählte Tarifjahr keine SAIFI-Daten verfügbar."
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
@@ -1598,7 +1598,7 @@ msgstr "Ja"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.service-quality.latest-year"
-msgstr "Aktuelles Jahr ({year})"
+msgstr "Aktuelles Tarifjahr ({latestYear})"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.service-quality.notification-period"

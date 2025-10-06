@@ -25,7 +25,9 @@ msgstr "Oui"
 
 #: src/pages/_app.tsx
 msgid "app.meta.description"
-msgstr "Analyses détaillées des prix des cantons, des communes et des gestionnaires de réseau."
+msgstr ""
+"Analyses détaillées des prix des cantons, des communes et des gestionnaires de réseau.\n"
+"Attention: les données relatives à Sunshine ne contiendront les valeurs définitives qu'à partir de leur publication en 2026."
 
 #: src/pages/_app.tsx
 msgid "app.meta.title"
@@ -255,7 +257,7 @@ msgstr "Produit"
 
 #: src/domain/translation.tsx
 msgid "filters.year"
-msgstr "Année"
+msgstr "Année tarifaire"
 
 #: src/components/footer.tsx
 msgid "footer.about_us.label"
@@ -815,7 +817,9 @@ msgstr "Non planifié"
 
 #: src/components/app-layout.tsx
 msgid "search.global"
-msgstr "Voir l'analyse détaillée des prix par cantons, communes et gestionnaires de réseau."
+msgstr ""
+"Voir l'analyse détaillée des prix par cantons, communes et gestionnaires de réseau.\n"
+"Attention: les données relatives à Sunshine ne contiendront les valeurs définitives qu'à partir de leur publication en 2026."
 
 #: src/components/search.tsx
 msgid "search.global.hint.canton.muni.operator"
@@ -1157,7 +1161,7 @@ msgstr "75 Francs Règle Règlement"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.compliance.latest-year"
-msgstr "Dernière année ({year})"
+msgstr "Dernière année tarifaire ({year})"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.compliance.notification-period"
@@ -1211,7 +1215,7 @@ msgstr "Tarifs de l'énergie"
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.latest-year"
-msgstr "Dernière année ({latestYear})"
+msgstr "Dernière année tarifaire ({latestYear})"
 
 #: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.latest-year-option"
@@ -1261,15 +1265,15 @@ msgstr "Coûts du réseau au niveau {0}"
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.no-energy-tariffs"
-msgstr "Aucune donnée sur les tarifs de l'énergie n'est disponible pour cet opérateur pour l'année sélectionnée."
+msgstr "Aucune donnée sur les tarifs de l'énergie n'est disponible pour cet opérateur pour l'année tarifaire sélectionnée."
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.no-net-tariffs"
-msgstr "Aucune donnée sur les tarifs de réseau n'est disponible pour cet opérateur pour l'année sélectionnée."
+msgstr "Aucune donnée sur les tarifs de réseau n'est disponible pour cet opérateur pour l'année tarifaire sélectionnée."
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.no-network-costs"
-msgstr "Aucune donnée sur les coûts de réseau n'est disponible pour cet opérateur au cours de l'année sélectionnée."
+msgstr "Aucune donnée sur les coûts de réseau n'est disponible pour cet opérateur au cours de l'année tarifaire sélectionnée."
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
@@ -1451,7 +1455,7 @@ msgstr "Durée de l’accord"
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.latest-year"
-msgstr "Dernière année ({latestYear})"
+msgstr "Dernière année tarifaire ({latestYear})"
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.latest-year-option"
@@ -1464,11 +1468,11 @@ msgstr "Médiane du groupe de référence"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.no-saidi-data"
-msgstr "Aucune donnée SAIDI n'est disponible pour cet opérateur pour l'année sélectionnée."
+msgstr "Aucune donnée SAIDI n'est disponible pour cet opérateur pour l'année tarifaire sélectionnée."
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.no-saifi-data"
-msgstr "Aucune donnée SAIFI n'est disponible pour cet opérateur pour l'année sélectionnée."
+msgstr "Aucune donnée SAIFI n'est disponible pour cet opérateur pour l'année tarifaire sélectionnée."
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
@@ -1598,7 +1602,7 @@ msgstr "Oui"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.service-quality.latest-year"
-msgstr "Dernière année ({year})"
+msgstr "Dernière année tarifaire ({year})"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.service-quality.notification-period"
