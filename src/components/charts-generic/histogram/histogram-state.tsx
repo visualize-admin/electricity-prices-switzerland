@@ -89,7 +89,7 @@ const computeBins = (
 
   const values = data
     .map(getX)
-    .filter((v) => typeof v === "number" && !isNaN(v));
+    .filter((v) => typeof v === "number" && !Number.isNaN(v));
   const nonZero = values.filter((v) => v > 0);
   const max = Math.max(...nonZero, groupedBy);
 
@@ -331,9 +331,8 @@ const useHistogramState = ({
   yScale.range([chartHeight, annotationSpace || 0]);
 
   const annotations =
-    annotation &&
     annotation
-      .sort((a, b) => ascending(getX(a), getX(b)))
+      ?.sort((a, b) => ascending(getX(a), getX(b)))
       .map((datum, i) => {
         return {
           datum,
@@ -344,7 +343,7 @@ const useHistogramState = ({
           nbOfLines: annotationSpaces[i + 1].nbOfLines,
           value: formatCurrency(getX(datum)),
           label: getLabel(datum),
-          onTheLeft: xScale(getX(datum)) <= chartWidth / 2 ? false : true,
+          onTheLeft: !(xScale(getX(datum)) <= chartWidth / 2 ),
         };
       });
 
@@ -473,7 +472,7 @@ export const getBarColor = ({
 }): string => {
   if (fields?.style?.colorAcc) {
     const d = bin[0];
-    if (d && d[fields.style.colorAcc]) {
+    if (d?.[fields.style.colorAcc]) {
       return d[fields.style.colorAcc] as string;
     }
   }

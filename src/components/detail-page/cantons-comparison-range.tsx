@@ -113,7 +113,7 @@ export const CantonsComparisonRangePlots = ({ id, entity }: SectionProps) => {
       : canton;
 
   const annotationIds =
-    comparisonIds && comparisonIds?.some((m) => m !== "")
+    comparisonIds?.some((m) => m !== "")
       ? [...comparisonIds, id]
       : [id];
 

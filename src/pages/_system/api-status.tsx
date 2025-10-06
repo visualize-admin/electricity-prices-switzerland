@@ -114,8 +114,7 @@ const Status = ({
         </Box>
       </StatusHeading>
       {!query.fetching && (
-        <>
-          <Box sx={{ fontSize: "0.75rem", mt: 2 }}>
+        <Box sx={{ fontSize: "0.75rem", mt: 2 }}>
             <details>
               <summary>Details</summary>
 
@@ -137,7 +136,6 @@ const Status = ({
               )}
             </details>
           </Box>
-        </>
       )}
     </StatusBox>
   );
@@ -359,7 +357,7 @@ DESCRIBE <https://ld.admin.ch/municipality/${formData.municipalityId}>
     if (!data) {
       return null;
     }
-    const rx = new RegExp("https://ld.admin.ch/municipality/([0-9]*)");
+    const rx = /https:\/\/ld.admin.ch\/municipality\/([0-9]*)/;
     const match = rx.exec(data);
     return match ? match[1] : null;
   }, [data]);
@@ -605,7 +603,7 @@ const DocumentDownloadStatus = () => {
             </button>
           </Box>
           {query.status === "fetching" ? "Loading...." : ""}
-          {data && data?.searchResp ? (
+          {data?.searchResp ? (
             <Box sx={{ mt: 2 }}>
               <div>
                 Lindas endpoint <pre>{JSON.stringify(data.lindasEndpoint)}</pre>

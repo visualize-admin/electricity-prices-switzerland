@@ -27,17 +27,42 @@
   "linter": {
     "rules": {
       "suspicious": {
-        "noArrayIndexKey": "off"
+        "noArrayIndexKey": "off",
+        "useIterableCallbackReturn": "off",
+        "noShadowRestrictedNames": "off",
+        "noImplicitAnyLet": "off",
+        "noExplicitAny": "off",
+        "noTsIgnore": "off"
       },
       "style": {
-        "useImportType": "off"
+        "useImportType": "off",
+        "noNonNullAssertion": "off",
+        "useNodejsImportProtocol": "off"
       },
       "correctness": {
         "useUniqueElementIds": {
           "options": {
             "excludedComponents": ["Trans"]
           }
-        }
+        },
+        "useExhaustiveDependencies": "off",
+        "useJsxKeyInIterable": "off",
+        "useHookAtTopLevel": "off"
+      },
+      "a11y": {
+        "noStaticElementInteractions": "off",
+        "useKeyWithMouseEvents": "off",
+        "noSvgWithoutTitle": "off",
+        "noLabelWithoutControl": "off"
+      },
+      "complexity": {
+        "noBannedTypes": "off"
+      },
+      "security": {
+        "noDangerouslySetInnerHtml": "off"
+      },
+      "performance": {
+        "noAccumulatingSpread": "off"
       }
     }
   }

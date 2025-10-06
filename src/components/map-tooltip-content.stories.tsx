@@ -1,5 +1,4 @@
 import { Box, Paper } from "@mui/material";
-import React from "react";
 
 import { StoryGrid } from "src/components/storybook/story-grid";
 import { chartPalette } from "src/themes/palette";

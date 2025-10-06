@@ -4,12 +4,13 @@ import { ObjectInspector } from "react-inspector";
 
 import { IconClose } from "src/icons/ic-close";
 
-interface PagePropsDebugProps {}
+type PagePropsDebugProps = {};
 
 const PagePropsDebug: React.FC<PagePropsDebugProps> = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const pageProps =
+    // biome-ignore lint/complexity/useOptionalChain: window is checked for undefined
     typeof window !== "undefined" && window.__NEXT_DATA__?.props?.pageProps;
 
   if (!pageProps) {

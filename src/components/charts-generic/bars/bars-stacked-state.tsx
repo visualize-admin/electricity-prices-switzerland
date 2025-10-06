@@ -163,8 +163,7 @@ const useStackedBarsState = ({
       .paddingOuter(0.1);
 
     const annotations =
-      annotation &&
-      annotation.map((a) => {
+      annotation?.map((a) => {
         return {
           x: xScale(a.value as number),
           y: yScale("0") ?? 0,

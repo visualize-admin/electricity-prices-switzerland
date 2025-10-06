@@ -426,9 +426,8 @@ export const GenericMap = ({
         </HintBox>
       ) : null}
 
-      <>
-        {tooltipContent &&
-          tooltipContent.hoveredState &&
+      
+        {tooltipContent?.hoveredState &&
           tooltipContent.content && (
             <MapTooltip
               x={tooltipContent.hoveredState.x}
@@ -562,7 +561,7 @@ export const GenericMap = ({
             />
           </Box>
         ) : null}
-      </>
+      
     </>
   );
 };

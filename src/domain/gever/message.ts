@@ -409,7 +409,7 @@ const memoizeSwr = <T, Args extends unknown[]>(
       updatedAt: Date.now(),
     };
   };
-  return async function (...args: Args) {
+  return async (...args: Args) => {
     const cacheKey = makeKey(...args);
     const last = cache[cacheKey]?.last;
     const updatedAt = cache[cacheKey]?.updatedAt;

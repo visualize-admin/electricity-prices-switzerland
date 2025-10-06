@@ -105,7 +105,7 @@ const indicatorPredicates = {
 // The following indicators would only be available when selecting a category,
 // inside the sunshine-cat cube
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const indicatorCategoryPredicates = {
+const _indicatorCategoryPredicates = {
   energy_c3: {
     predicate: "sunshine:energy_c3",
     binding: "?energy_c3",
@@ -664,8 +664,7 @@ export const Template = () => {
         }}
       >
         {observations && (
-          <>
-            {chartIndicators.map((indicator) =>
+          chartIndicators.map((indicator) =>
               observations.length > 0 ? (
                 <SunshineChartCard
                   key={indicator}
@@ -676,8 +675,7 @@ export const Template = () => {
                   }))}
                 />
               ) : null
-            )}
-          </>
+            )
         )}
       </div>
     </div>

@@ -209,8 +209,7 @@ const Saidi = (props: Extract<Props, { status: "found" }>) => {
   } satisfies React.ComponentProps<typeof TableComparisonCard>;
 
   return (
-    <>
-      <CardGrid
+    <CardGrid
         sx={{
           gridTemplateColumns: {
             xs: "1fr", // Single column on small screens
@@ -249,7 +248,6 @@ const Saidi = (props: Extract<Props, { status: "found" }>) => {
           infoDialogProps={infoDialogProps["help-saidi"]}
         />
       </CardGrid>
-    </>
   );
 };
 
@@ -327,8 +325,7 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
   } satisfies React.ComponentProps<typeof TableComparisonCard>;
 
   return (
-    <>
-      <CardGrid
+    <CardGrid
         sx={{
           gridTemplateColumns: {
             xs: "1fr", // Single column on small screens
@@ -367,7 +364,6 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
           infoDialogProps={infoDialogProps["help-saifi"]}
         />
       </CardGrid>
-    </>
   );
 };
 

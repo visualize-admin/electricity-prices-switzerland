@@ -41,8 +41,7 @@ export const SelectedEntityCard: React.FC<{
           alignItems: "center",
         }}
       >
-        <>
-          {values.map((d, i) => {
+        {values.map((d, i) => {
             return (
               <Fragment key={i}>
                 <Typography variant="caption">{d.label}</Typography>
@@ -70,7 +69,6 @@ export const SelectedEntityCard: React.FC<{
               </Fragment>
             );
           })}
-        </>
       </Box>
     ) : (
       <Typography variant="caption" sx={{ color: "secondary.main" }}>

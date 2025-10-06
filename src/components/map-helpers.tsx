@@ -14,7 +14,7 @@ export const getFillColor = (
   if (v === undefined) {
     return [0, 0, 0];
   }
-  const c = colorScale && colorScale(v);
+  const c = colorScale?.(v);
   const rgb =
     c &&
     color(c)

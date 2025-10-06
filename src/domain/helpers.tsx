@@ -31,7 +31,7 @@ import { typography } from "src/themes/typography";
 import { SunshineIndicator } from "./sunshine";
 
 export const isNumber = (x: $IntentionalAny): boolean =>
-  typeof x === "number" && !isNaN(x);
+  typeof x === "number" && !Number.isNaN(x);
 export const mkNumber = (x: $IntentionalAny): number => +x;
 
 // We don't use CHF currency because the unit used is Rp./kWh. Intead we just reuse the regular number format:
@@ -317,7 +317,7 @@ export const getOpacityRanges = (c: number) => {
 const getRelativeLuminance = (r: number, g: number, b: number): number => {
   const [rs, gs, bs] = [r, g, b].map((v) => {
     const s = v / 255;
-    return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
+    return s <= 0.03928 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;
   });
   return 0.2126 * rs + 0.7152 * gs + 0.0722 * bs;
 };

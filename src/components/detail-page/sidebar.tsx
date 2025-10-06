@@ -35,7 +35,7 @@ export const DetailsPageSidebar = (props: SectionProps) => {
       {/* FIXME: Make this only a preview and add a coming soon label */}
       {sunshineFlag && entity === "operator" ? (
         <SafeHydration>
-          <>
+          
             <SidebarSectionTitle>
               <Trans id="details.page.navigation.sunshine-indicators-title">
                 Sunshine Indicators
@@ -73,7 +73,7 @@ export const DetailsPageSidebar = (props: SectionProps) => {
                 Operational Standards
               </Trans>
             </SidebarItem>
-          </>
+          
         </SafeHydration>
       ) : null}
     </Box>

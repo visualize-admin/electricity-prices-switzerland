@@ -95,6 +95,7 @@ const useRuntimeFlags = () => {
   }, []);
 };
 
+// biome-ignore lint/complexity/useOptionalChain: window is checked for undefined
 if (typeof window !== "undefined" && window.location) {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore

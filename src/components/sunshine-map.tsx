@@ -192,7 +192,7 @@ const SunshineMap = ({
   const [hovered, setHovered] = useState<HoverState>();
   const onHoverOperatorLayer = useCallback(
     (info: PickingInfo) => {
-      if (info.object && info.object.properties) {
+      if (info.object?.properties) {
         const properties = info.object.properties as OperatorLayerProperties;
         const operatorIds = properties.operators;
 
@@ -253,7 +253,7 @@ const SunshineMap = ({
 
   // Handle click on map layers (primarily for zooming)
   const handleLayerClick = useCallback((info: PickingInfo) => {
-    if (info.object && info.object.geometry) {
+    if (info.object?.geometry) {
       // No need to handle zoom directly, GenericMap will handle this
       // when we return the object from the click handler
     }

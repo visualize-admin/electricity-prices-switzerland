@@ -553,7 +553,7 @@ export const getLocalizedLabel = ({ id }: { id: string }): string => {
   }
 };
 
-export const getPeerGroupLabels = function (peerGroup: PeerGroup) {
+export const getPeerGroupLabels = (peerGroup: PeerGroup) => {
   const settlementDensityLabel = getLocalizedLabel({
     id: `peer-group.settlement-density.${
       peerGroup.settlementDensity?.toLowerCase() ?? "na"
@@ -573,16 +573,12 @@ export const getPeerGroupLabels = function (peerGroup: PeerGroup) {
   };
 };
 
-export const getNetworkLevelLabels = function (networkLevel: NetworkLevel) {
-  return {
+export const getNetworkLevelLabels = (networkLevel: NetworkLevel) => ({
     short: getLocalizedLabel({ id: `network-level.${networkLevel.id}.short` }),
     long: getLocalizedLabel({ id: `network-level.${networkLevel.id}.long` }),
-  };
-};
+  });
 
-export const getCategoryLabels = function (category: ElectricityCategory) {
-  return {
+export const getCategoryLabels = (category: ElectricityCategory) => ({
     short: getLocalizedLabel({ id: `${category}` }),
     long: getLocalizedLabel({ id: `${category}-long` }),
-  };
-};
+  });

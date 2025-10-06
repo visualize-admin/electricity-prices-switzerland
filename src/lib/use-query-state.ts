@@ -52,7 +52,7 @@ export function makeUseQueryState<T extends z.ZodRawShape>(
           pathname,
           query: updatedQuery,
         };
-        replace(href, undefined, { shallow: shallow === false ? false : true });
+        replace(href, undefined, { shallow: shallow !==false });
       },
       [query, pathname, replace, schemaKeys]
     );

@@ -2,11 +2,6 @@ import { getPalette } from "src/domain/helpers";
 
 export type ColorMapping = Record<string, string> | undefined;
 
-interface ColorMappingItem {
-  id: string;
-  name?: string;
-}
-
 /**
  * Creates a consistent color mapping for items based on compareWith selection and palette.
  * This ensures that AllOrMultiCombobox and chart components use the same colors for the same items.
@@ -60,7 +55,7 @@ export const createColorMapping = (
  * @param colorMapping - The color mapping object
  * @returns The color string or undefined if not found
  */
-const getColorForItem = (
+const _getColorForItem = (
   itemId: string,
   colorMapping: ColorMapping
 ): string | undefined => {
@@ -75,7 +70,7 @@ const getColorForItem = (
  * @param selectedItems - Array of selected item IDs in order
  * @returns Array of colors corresponding to the selected items order
  */
-const colorMappingToArray = (
+const _colorMappingToArray = (
   colorMapping: ColorMapping,
   selectedItems: string[]
 ): string[] | undefined => {

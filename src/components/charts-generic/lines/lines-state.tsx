@@ -66,14 +66,14 @@ const useLinesState = ({
 
   const getSegment = useCallback(
     (d: GenericObservation): string =>
-      fields.segment && fields.segment.componentIri
+      fields.segment?.componentIri
         ? (d[fields.segment.componentIri] as string)
         : "segment",
     [fields.segment]
   );
   const getColor = useCallback(
     (d: GenericObservation): string => {
-      return fields.style && fields.style.colorAcc
+      return fields.style?.colorAcc
         ? (d[fields.style.colorAcc] as string)
         : "municipalityLabel";
     },

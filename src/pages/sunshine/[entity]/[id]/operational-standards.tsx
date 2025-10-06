@@ -167,8 +167,7 @@ const ServiceQuality = (props: Extract<Props, { status: "found" }>) => {
   const operatorLabel = props.name;
 
   return (
-    <>
-      <CardGrid
+    <CardGrid
         sx={{
           gridTemplateColumns: {
             xs: "1fr", // Single column on small screens
@@ -211,7 +210,6 @@ const ServiceQuality = (props: Extract<Props, { status: "found" }>) => {
           attribute="serviceQuality"
         />
       </CardGrid>
-    </>
   );
 };
 
@@ -285,8 +283,7 @@ const Compliance = (props: Extract<Props, { status: "found" }>) => {
   const operatorLabel = props.name;
 
   return (
-    <>
-      <CardGrid
+    <CardGrid
         sx={{
           gridTemplateColumns: {
             xs: "1fr", // Single column on small screens
@@ -329,7 +326,6 @@ const Compliance = (props: Extract<Props, { status: "found" }>) => {
           attribute="compliance"
         />
       </CardGrid>
-    </>
   );
 };
 

@@ -55,8 +55,7 @@ export const AnnotationX = () => {
 
   return (
     <>
-      {annotations &&
-        annotations.map((a, i) => {
+      {annotations?.map((a, i) => {
           let x = a.x;
           if (bandScale && binMeta && groupedBy && getX && a.datum) {
             const value = getX(a.datum);
@@ -64,7 +63,7 @@ export const AnnotationX = () => {
               binMeta.find(
                 (b) => !b.isNoData && value >= b.x0 && value <= b.x1
               ) || binMeta[0];
-            if (bin && bin.label) {
+            if (bin?.label) {
               x = (bandScale(bin.label) ?? 0) + bandScale.bandwidth() / 2;
             }
           }
@@ -115,8 +114,7 @@ export const AnnotationXDataPoint = () => {
 
   return (
     <>
-      {annotations &&
-        annotations.map((a, i) => {
+      {annotations?.map((a, i) => {
           return (
             <React.Fragment key={i}>
               <g
@@ -148,8 +146,7 @@ export const AnnotationXLabel = () => {
 
   return (
     <>
-      {annotations &&
-        annotations.map((a, i) => (
+      {annotations?.map((a, i) => (
           <Box
             key={`${a.label}-${i}`}
             sx={{

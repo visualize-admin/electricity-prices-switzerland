@@ -12,16 +12,12 @@ const SortingType = z.union([
 export type SortingType = z.infer<typeof SortingType>;
 
 const ColorMapping = z.record(z.string(), z.string());
-type ColorMapping = z.infer<typeof ColorMapping>;
 
 const GenericField = z.object({ componentIri: z.string() });
-type GenericField = z.infer<typeof GenericField>;
 
 const AxisField = z.object({
   axisLabel: z.string().optional(),
 });
-type AxisField = z.infer<typeof AxisField>;
-
 const Observation = z.record(
   z.string(),
   z.union([z.string(), z.number(), z.boolean()])
@@ -45,8 +41,6 @@ const SegmentField = z.object({
     })
     .optional(),
 });
-
-type SegmentField = z.infer<typeof SegmentField>;
 
 const BarFields = z.object({
   x: z.intersection(

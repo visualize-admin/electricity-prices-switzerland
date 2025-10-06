@@ -44,28 +44,28 @@ const useGroupedBarsState = ({
 
   const getSegment = useCallback(
     (d: GenericObservation): string =>
-      fields.segment && fields.segment.componentIri
+      fields.segment?.componentIri
         ? (d[fields.segment.componentIri] as string)
         : "segment",
     [fields.segment]
   );
   const getLabel = useCallback(
     (d: GenericObservation): string =>
-      fields.label && fields.label.componentIri
+      fields.label?.componentIri
         ? (d[fields.label.componentIri] as string)
         : "label",
     [fields.label]
   );
   const getColor = useCallback(
     (d: GenericObservation): string =>
-      fields.style && fields.style.colorAcc
+      fields.style?.colorAcc
         ? (d[fields.style.colorAcc] as string)
         : "entity",
     [fields.style]
   );
   const getOpacity = useCallback(
     (d: GenericObservation): string =>
-      fields.style && fields.style.opacityAcc
+      fields.style?.opacityAcc
         ? (d[fields.style.opacityAcc] as string)
         : "period",
     [fields.style]

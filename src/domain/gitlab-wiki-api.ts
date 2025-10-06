@@ -44,7 +44,7 @@ export const getCachedWikiPages = async (
   url: string,
   token: string
 ): Promise<WikiPage[]> => {
-  const filePath = path.join(os.tmpdir(), url.replace(/\W+/g, "-") + ".json");
+  const filePath = path.join(os.tmpdir(), `${url.replace(/\W+/g, "-")}.json`);
 
   if (fs.existsSync(filePath)) {
     const json: WikiCacheJson = await fs.readJSON(filePath);
@@ -89,8 +89,11 @@ export const getWikiPage = async (
     );
 
     return wikiPages.find((page) => page.slug === slug);
-  } catch (e: $IntentionalAny) {
-    console.warn("Getting Wiki from API failed with error", e.message);
+  } catch (e: unknown) {
+    console.warn(
+      "Getting Wiki from API failed with error",
+      e instanceof Error ? e.message : e
+    );
     console.info("Serving build-time Wiki content instead");
     return getStaticWikiPage(slug);
   }
