@@ -12,7 +12,9 @@ You can also check the
 # Unreleased
 
 - Feat
-  - Lakes in blue
+  - Lakes in blue on map
+- Fix
+  - Peer group options are sorted numerically
 
 # 2.20.0 - 2025-09-30
 
