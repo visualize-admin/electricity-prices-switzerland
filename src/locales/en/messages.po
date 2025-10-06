@@ -25,7 +25,9 @@ msgstr "Yes"
 
 #: src/pages/_app.tsx
 msgid "app.meta.description"
-msgstr "Detailed price analyses of cantons, municipalities and grid operators."
+msgstr ""
+"Detailed price analyses of cantons, municipalities and grid operators.\n"
+"Please note: The data for Sunshine will only contain the final values from the 2026 publication onwards."
 
 #: src/pages/_app.tsx
 msgid "app.meta.title"
@@ -815,7 +817,9 @@ msgstr "Unplanned"
 
 #: src/components/app-layout.tsx
 msgid "search.global"
-msgstr "Detailed price analyses of cantons, municipalities and grid operators."
+msgstr ""
+"Detailed price analyses of cantons, municipalities and grid operators.\n"
+"Please note: The data for Sunshine will only contain the final values from the 2026 publication onwards."
 
 #: src/components/search.tsx
 msgid "search.global.hint.canton.muni.operator"
@@ -1352,6 +1356,10 @@ msgstr "Power outage duration (SAIDI) in minutes"
 #: src/components/sunshine-map.tsx
 msgid "sunshine.indicator.saifi"
 msgstr "Power outage frequency (SAIFI) per year"
+
+#: src/domain/metrics.ts
+msgid "sunshine.metric-unit.anzahl-year"
+msgstr "Count/year"
 
 #: src/domain/metrics.ts
 msgid "sunshine.metric-unit.chf-km"

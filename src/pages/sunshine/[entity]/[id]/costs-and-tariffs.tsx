@@ -35,7 +35,11 @@ import {
   Props as SharedPageProps,
 } from "src/data/shared-page-props";
 import { categories } from "src/domain/data";
-import { getNetworkLevelMetrics, RP_PER_KM } from "src/domain/metrics";
+import {
+  getNetworkLevelMetrics,
+  RP_PER_KM,
+  RP_PER_KWH,
+} from "src/domain/metrics";
 import {
   QueryStateSingleSunshineDetails,
   useQueryStateSunshineCostsAndTariffs,
@@ -238,56 +242,56 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
 
   return (
     <CardGrid
-        sx={{
-          gridTemplateColumns: {
-            xs: "1fr", // Single column on small screens
-            sm: "repeat(2, 1fr)", // Two columns on medium screens
-          },
+      sx={{
+        gridTemplateColumns: {
+          xs: "1fr", // Single column on small screens
+          sm: "repeat(2, 1fr)", // Two columns on medium screens
+        },
 
-          gridTemplateRows: ["auto auto auto", "auto auto"], // Three rows: two for cards, one for trend chart
+        gridTemplateRows: ["auto auto auto", "auto auto"], // Three rows: two for cards, one for trend chart
 
-          // On Desktop, peer group and network costs cards are side by side
-          // Network costs trend is below them
-          // On Mobile, they are stacked
-          gridTemplateAreas: [
-            `"selector" "comparison" "peer-group" "trend"`, // One column on small screens
-            `"selector space" "comparison peer-group" "trend trend"`, // Two columns on medium screens
-          ],
-        }}
-      >
-        <Box sx={{ mb: 2, gridArea: "selector" }}>
-          <Combobox
-            id="network-level"
-            label={getLocalizedLabel({ id: "network-level" })}
-            items={["NE5", "NE6", "NE7"]}
-            getItemLabel={(item) =>
-              getLocalizedLabel({ id: `network-level.${item}.short` })
-            }
-            selectedItem={networkLevel}
-            setSelectedItem={(item) => setQueryState({ networkLevel: item })}
-            infoDialogSlug="help-network-level"
-          />
-        </Box>
-        <PeerGroupCard
-          latestYear={latestYear}
-          peerGroup={peerGroup}
-          sx={{ gridArea: "peer-group" }}
+        // On Desktop, peer group and network costs cards are side by side
+        // Network costs trend is below them
+        // On Mobile, they are stacked
+        gridTemplateAreas: [
+          `"selector" "comparison" "peer-group" "trend"`, // One column on small screens
+          `"selector space" "comparison peer-group" "trend trend"`, // Two columns on medium screens
+        ],
+      }}
+    >
+      <Box sx={{ mb: 2, gridArea: "selector" }}>
+        <Combobox
+          id="network-level"
+          label={getLocalizedLabel({ id: "network-level" })}
+          items={["NE5", "NE6", "NE7"]}
+          getItemLabel={(item) =>
+            getLocalizedLabel({ id: `network-level.${item}.short` })
+          }
+          selectedItem={networkLevel}
+          setSelectedItem={(item) => setQueryState({ networkLevel: item })}
+          infoDialogSlug="help-network-level"
         />
-        <TableComparisonCard
-          {...comparisonCardProps}
-          sx={{ gridArea: "comparison" }}
-        />
-        <NetworkCostsTrendCardState
-          latestYear={Number(latestYear)}
-          sx={{ gridArea: "trend" }}
-          peerGroup={peerGroup}
-          updateDate={updateDate}
-          operatorId={props.id}
-          operatorLabel={operatorLabel}
-          networkCosts={networkCosts}
-          infoDialogProps={infoDialogProps["help-network-costs"]}
-        />
-      </CardGrid>
+      </Box>
+      <PeerGroupCard
+        latestYear={latestYear}
+        peerGroup={peerGroup}
+        sx={{ gridArea: "peer-group" }}
+      />
+      <TableComparisonCard
+        {...comparisonCardProps}
+        sx={{ gridArea: "comparison" }}
+      />
+      <NetworkCostsTrendCardState
+        latestYear={Number(latestYear)}
+        sx={{ gridArea: "trend" }}
+        peerGroup={peerGroup}
+        updateDate={updateDate}
+        operatorId={props.id}
+        operatorLabel={operatorLabel}
+        networkCosts={networkCosts}
+        infoDialogProps={infoDialogProps["help-network-costs"]}
+      />
+    </CardGrid>
   );
 };
 
@@ -407,60 +411,60 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
 
   return (
     <CardGrid
-        sx={{
-          gridTemplateColumns: {
-            xs: "1fr", // Single column on small screens
-            sm: "repeat(2, 1fr)", // Two columns on medium screens
-          },
-          gridTemplateRows: ["auto auto auto", "auto auto"], // Three rows: two for cards, one for trend chart
-          gridTemplateAreas: [
-            `"selector" "comparison" "peer-group" "trend"`, // One column on small screens
-            `"selector space" "comparison peer-group" "trend trend"`, // Two columns on medium screens
-          ],
-        }}
-      >
-        <Box sx={{ mb: 2, gridArea: "selector" }}>
-          <Combobox
-            id="category"
-            label={t({ id: "selector.category", message: "Category" })}
-            items={groupedCategories}
-            getItemLabel={getItemLabel}
-            selectedItem={category}
-            setSelectedItem={(item) =>
-              setQueryState({ category: item as ElectricityCategory })
-            }
-            //FIXME: Might need change
-            infoDialogSlug="help-categories"
-          />
-        </Box>
-
-        <PeerGroupCard
-          latestYear={latestYear}
-          peerGroup={peerGroup}
-          sx={{ gridArea: "peer-group" }}
-        />
-
-        <TableComparisonCard
-          {...comparisonCardProps}
-          sx={{ gridArea: "comparison" }}
-        />
-
-        <TariffsTrendCard
-          latestYear={Number(latestYear)}
-          sx={{ gridArea: "trend" }}
-          peerGroup={peerGroup}
-          updateDate={updateDate}
-          operatorId={props.id}
-          operatorLabel={operatorLabel}
-          netTariffs={energyTariffs}
-          cardTitle={
-            <Trans id="sunshine.costs-and-tariffs.energy-tariffs-trend">
-              Energy Tariffs Trend
-            </Trans>
+      sx={{
+        gridTemplateColumns: {
+          xs: "1fr", // Single column on small screens
+          sm: "repeat(2, 1fr)", // Two columns on medium screens
+        },
+        gridTemplateRows: ["auto auto auto", "auto auto"], // Three rows: two for cards, one for trend chart
+        gridTemplateAreas: [
+          `"selector" "comparison" "peer-group" "trend"`, // One column on small screens
+          `"selector space" "comparison peer-group" "trend trend"`, // Two columns on medium screens
+        ],
+      }}
+    >
+      <Box sx={{ mb: 2, gridArea: "selector" }}>
+        <Combobox
+          id="category"
+          label={t({ id: "selector.category", message: "Category" })}
+          items={groupedCategories}
+          getItemLabel={getItemLabel}
+          selectedItem={category}
+          setSelectedItem={(item) =>
+            setQueryState({ category: item as ElectricityCategory })
           }
-          infoDialogProps={infoDialogProps["help-energy-tariffs"]}
+          //FIXME: Might need change
+          infoDialogSlug="help-categories"
         />
-      </CardGrid>
+      </Box>
+
+      <PeerGroupCard
+        latestYear={latestYear}
+        peerGroup={peerGroup}
+        sx={{ gridArea: "peer-group" }}
+      />
+
+      <TableComparisonCard
+        {...comparisonCardProps}
+        sx={{ gridArea: "comparison" }}
+      />
+
+      <TariffsTrendCard
+        latestYear={Number(latestYear)}
+        sx={{ gridArea: "trend" }}
+        peerGroup={peerGroup}
+        updateDate={updateDate}
+        operatorId={props.id}
+        operatorLabel={operatorLabel}
+        netTariffs={energyTariffs}
+        cardTitle={
+          <Trans id="sunshine.costs-and-tariffs.energy-tariffs-trend">
+            Energy Tariffs Trend
+          </Trans>
+        }
+        infoDialogProps={infoDialogProps["help-energy-tariffs"]}
+      />
+    </CardGrid>
   );
 };
 
@@ -551,7 +555,7 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
             ),
             value: {
               value: operatorRate,
-              unit: RP_PER_KM,
+              unit: RP_PER_KWH,
               round: 2,
               // TODO
               trend: "stable" as Trend,
@@ -567,7 +571,7 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
             ),
             value: {
               value: peerGroupMedianRate,
-              unit: RP_PER_KM,
+              unit: RP_PER_KWH,
               round: 2,
               // TODO
               trend: "stable" as Trend,
@@ -579,59 +583,59 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
 
   return (
     <CardGrid
-        sx={{
-          gridTemplateColumns: {
-            xs: "1fr", // Single column on small screens
-            sm: "repeat(2, 1fr)", // Two columns on medium screens
-          },
-          gridTemplateRows: ["auto auto auto", "auto auto"], // Three rows: two for cards, one for trend chart
-          gridTemplateAreas: [
-            `"selector" "comparison" "peer-group" "trend"`, // One column on small screens
-            `"selector space" "comparison peer-group" "trend trend"`, // Two columns on medium screens
-          ],
-        }}
-      >
-        <Box sx={{ mb: 2, gridArea: "selector" }}>
-          <Combobox
-            id="category"
-            label={t({ id: "selector.category", message: "Category" })}
-            items={groupedCategories}
-            getItemLabel={getItemLabel}
-            selectedItem={category}
-            setSelectedItem={(item) =>
-              setQueryState({ category: item as ElectricityCategory })
-            }
-            infoDialogSlug="help-categories"
-          />
-        </Box>
-
-        <PeerGroupCard
-          latestYear={latestYear}
-          peerGroup={peerGroup}
-          sx={{ gridArea: "peer-group" }}
-        />
-
-        <TableComparisonCard
-          {...comparisonCardProps}
-          sx={{ gridArea: "comparison" }}
-        />
-
-        <TariffsTrendCard
-          latestYear={Number(latestYear)}
-          sx={{ gridArea: "trend" }}
-          peerGroup={peerGroup}
-          updateDate={updateDate}
-          operatorId={props.id}
-          operatorLabel={operatorLabel}
-          netTariffs={netTariffs}
-          cardTitle={
-            <Trans id="sunshine.costs-and-tariffs.net-tariffs-trend">
-              Net Tariffs Trend
-            </Trans>
+      sx={{
+        gridTemplateColumns: {
+          xs: "1fr", // Single column on small screens
+          sm: "repeat(2, 1fr)", // Two columns on medium screens
+        },
+        gridTemplateRows: ["auto auto auto", "auto auto"], // Three rows: two for cards, one for trend chart
+        gridTemplateAreas: [
+          `"selector" "comparison" "peer-group" "trend"`, // One column on small screens
+          `"selector space" "comparison peer-group" "trend trend"`, // Two columns on medium screens
+        ],
+      }}
+    >
+      <Box sx={{ mb: 2, gridArea: "selector" }}>
+        <Combobox
+          id="category"
+          label={t({ id: "selector.category", message: "Category" })}
+          items={groupedCategories}
+          getItemLabel={getItemLabel}
+          selectedItem={category}
+          setSelectedItem={(item) =>
+            setQueryState({ category: item as ElectricityCategory })
           }
-          infoDialogProps={infoDialogProps["help-net-tariffs"]}
+          infoDialogSlug="help-categories"
         />
-      </CardGrid>
+      </Box>
+
+      <PeerGroupCard
+        latestYear={latestYear}
+        peerGroup={peerGroup}
+        sx={{ gridArea: "peer-group" }}
+      />
+
+      <TableComparisonCard
+        {...comparisonCardProps}
+        sx={{ gridArea: "comparison" }}
+      />
+
+      <TariffsTrendCard
+        latestYear={Number(latestYear)}
+        sx={{ gridArea: "trend" }}
+        peerGroup={peerGroup}
+        updateDate={updateDate}
+        operatorId={props.id}
+        operatorLabel={operatorLabel}
+        netTariffs={netTariffs}
+        cardTitle={
+          <Trans id="sunshine.costs-and-tariffs.net-tariffs-trend">
+            Net Tariffs Trend
+          </Trans>
+        }
+        infoDialogProps={infoDialogProps["help-net-tariffs"]}
+      />
+    </CardGrid>
   );
 };
 

@@ -11,11 +11,19 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Map pages
+
+  - Lakes in blue on map
+
+- Sunshine details page
+  - Peer group options are sorted numerically in the selector
+  - Correct unit for grid tariff
+  - Correct unit for SAIFI
 
 # 2.20.0 - 2025-09-30
 
 - Sunshine Detail Page
+
   - Fix Progress Overtime colors when comparing
 
 - Sunshine Map

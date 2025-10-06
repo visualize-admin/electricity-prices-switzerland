@@ -25,7 +25,9 @@ msgstr "Sì"
 
 #: src/pages/_app.tsx
 msgid "app.meta.description"
-msgstr "Analisi dettagliate dei prezzi di cantoni, comuni e operatori di rete."
+msgstr ""
+"Analisi dettagliate dei prezzi di cantoni, comuni e operatori di rete.\n"
+"Attenzione: i dati relativi a Sunshine conterranno i valori definitivi solo a partire dalla pubblicazione nel 2026."
 
 #: src/pages/_app.tsx
 msgid "app.meta.title"
@@ -255,7 +257,7 @@ msgstr "Prodotto"
 
 #: src/domain/translation.tsx
 msgid "filters.year"
-msgstr "Anno"
+msgstr "Anno tariffario"
 
 #: src/components/footer.tsx
 msgid "footer.about_us.label"
@@ -411,7 +413,7 @@ msgstr "Le bollette dell'elettricità sono composte dalle tariffe energetiche e 
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.card.costs-and-tariffs.title"
-msgstr "Costi e Tariffe"
+msgstr "Costi e tariffe"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.card.power-stability.description"
@@ -815,7 +817,9 @@ msgstr "Non pianificato"
 
 #: src/components/app-layout.tsx
 msgid "search.global"
-msgstr "Visualizzare l'analisi dettagliata dei prezzi per cantone, comune e gestore di rete."
+msgstr ""
+"Visualizzare l'analisi dettagliata dei prezzi per cantone, comune e gestore di rete.\n"
+"Attenzione: i dati relativi a Sunshine conterranno i valori definitivi solo a partire dalla pubblicazione nel 2026."
 
 #: src/components/search.tsx
 msgid "search.global.hint.canton.muni.operator"
@@ -1138,7 +1142,7 @@ msgstr "Anno tariffario"
 
 #: src/components/detail-page/selector-multi.tsx
 msgid "selector.years"
-msgstr "anni tariffari"
+msgstr "Anni tariffari"
 
 #: src/components/share-button.tsx
 msgid "share.url-copied"
@@ -1157,7 +1161,7 @@ msgstr "75 Franchi Regolamento"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.compliance.latest-year"
-msgstr "Ultimo anno ({year})"
+msgstr "Ultimo anno tariffario ({year})"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.compliance.notification-period"
@@ -1211,7 +1215,7 @@ msgstr "Tariffe energetiche"
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.latest-year"
-msgstr "Ultimo anno ({latestYear})"
+msgstr "Ultimo anno tariffario ({latestYear})"
 
 #: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.latest-year-option"
@@ -1261,15 +1265,15 @@ msgstr "Costi di rete a livello di {0}"
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.no-energy-tariffs"
-msgstr "Non sono disponibili dati sulle tariffe energetiche per questo operatore nell'anno selezionato."
+msgstr "Non sono disponibili dati sulle tariffe energetiche per questo operatore nell'anno tariffario selezionato."
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.no-net-tariffs"
-msgstr "Non sono disponibili dati sulle tariffe di rete per questo operatore nell'anno selezionato."
+msgstr "Non sono disponibili dati sulle tariffe di rete per questo operatore nell'anno tariffario selezionato."
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.no-network-costs"
-msgstr "Non sono disponibili dati sui costi di rete per questo operatore nell'anno selezionato."
+msgstr "Non sono disponibili dati sui costi di rete per questo operatore nell'anno tariffario selezionato."
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
@@ -1352,6 +1356,10 @@ msgstr "Durata dell'interruzione di corrente (SAIDI) in minuti"
 #: src/components/sunshine-map.tsx
 msgid "sunshine.indicator.saifi"
 msgstr "Frequenza delle interruzioni di corrente (SAIFI) all'anno"
+
+#: src/domain/metrics.ts
+msgid "sunshine.metric-unit.anzahl-year"
+msgstr "Conteggio/anno"
 
 #: src/domain/metrics.ts
 msgid "sunshine.metric-unit.chf-km"
@@ -1451,7 +1459,7 @@ msgstr "Durata"
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.latest-year"
-msgstr "Ultimo anno ({latestYear})"
+msgstr "Ultimo anno tariffario ({latestYear})"
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.latest-year-option"
@@ -1464,11 +1472,11 @@ msgstr "Gruppo di riferimento mediano"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.no-saidi-data"
-msgstr "Non sono disponibili dati SAIDI per questo operatore nell'anno selezionato."
+msgstr "Non sono disponibili dati SAIDI per questo operatore nell'anno tariffario selezionato."
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.no-saifi-data"
-msgstr "Non sono disponibili dati SAIFI per questo operatore nell'anno selezionato."
+msgstr "Non sono disponibili dati SAIFI per questo operatore nell'anno tariffario selezionato."
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
@@ -1598,7 +1606,7 @@ msgstr "Sì"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.service-quality.latest-year"
-msgstr "Ultimo anno ({year})"
+msgstr "Ultimo anno tariffario ({year})"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.service-quality.notification-period"

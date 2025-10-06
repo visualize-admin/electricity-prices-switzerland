@@ -41,7 +41,11 @@ export const SunshineSelectors = () => {
   const peerGroupOptions = peerGroupsResult.data
     ? [
         "all_grid_operators",
-        ...(peerGroupsResult.data?.peerGroups.map((x) => x.id) ?? []),
+        ...(peerGroupsResult.data?.peerGroups.map((x) => x.id) ?? []).sort(
+          (a, b) => {
+            return parseFloat(a) - parseFloat(b);
+          }
+        ),
       ]
     : [];
 
