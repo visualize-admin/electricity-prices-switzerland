@@ -211,7 +211,7 @@ msgstr "Vergleich in Rp./kWh (Angaben exkl. MwSt.)"
 
 #: src/components/energy-prices-map.tsx
 msgid "energy-prices-map.legend.title-annualmeteringcost"
-msgstr "Vergleich in CHF pro Jahr und Messpunkt"
+msgstr "Vergleich in CHF pro Jahr"
 
 #: src/components/not-found.tsx
 msgid "error.page.404.back-link"
@@ -1117,7 +1117,7 @@ msgstr "Typologie"
 
 #: src/domain/translation.tsx
 msgid "selector.tab.electricity"
-msgstr "Energietarife"
+msgstr "Stromtarife"
 
 #: src/domain/translation.tsx
 msgid "selector.tab.electricity-content"
@@ -1153,7 +1153,7 @@ msgstr "Strompreise Schweiz"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.compliance.francs-rule-regulation"
-msgstr "Maximaler Gewinn im Vertrieb"
+msgstr "Franken-Regel"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.compliance.latest-year"
@@ -1319,7 +1319,7 @@ msgstr "Versorgungsqualität"
 
 #: src/components/sunshine-map.tsx
 msgid "sunshine.indicator.compliance"
-msgstr "Frankenregel"
+msgstr "Franken-Regel"
 
 #: src/components/sunshine-map.tsx
 msgid "sunshine.indicator.daysInAdvanceOutageNotification"

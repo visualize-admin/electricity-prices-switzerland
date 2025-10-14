@@ -213,7 +213,7 @@ msgstr "Tariff comparison in Rp./kWh (figures excl. VAT)"
 
 #: src/components/energy-prices-map.tsx
 msgid "energy-prices-map.legend.title-annualmeteringcost"
-msgstr "Tariff comparison in CHF / year"
+msgstr "Comparison in CHF per year"
 
 #: src/components/not-found.tsx
 msgid "error.page.404.back-link"
@@ -930,7 +930,7 @@ msgstr "H1"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H1-long"
-msgstr "H1 - 2-Room apartment with induction stove"
+msgstr "H1 - 2-Room apartment"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H2"
@@ -938,7 +938,7 @@ msgstr "H2"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H2-long"
-msgstr "H2 - 4-room apartment with electric stove"
+msgstr "H2 - 4-room apartment"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H3"
@@ -946,7 +946,7 @@ msgstr "H3"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H3-long"
-msgstr "H3 - 4-room apartment with electric stove and electric boiler"
+msgstr "H3 - 4-room apartment with electric boiler"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H4"
@@ -954,7 +954,7 @@ msgstr "H4"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H4-long"
-msgstr "H4 - 5-room apartment with electric stove and dryer"
+msgstr "H4 - 5-room apartment"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H5"
@@ -962,7 +962,7 @@ msgstr "H5"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H5-long"
-msgstr "H5 - 5-room single-family house with electric stove, electric boiler, and dryer"
+msgstr "H5 - 5-room single-family house"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H6"
@@ -970,7 +970,7 @@ msgstr "H6"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H6-long"
-msgstr "H6 - 5-room single-family house with electric resistance heating"
+msgstr "H6 - 5-room single-family house with electric heating"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H7"
@@ -978,7 +978,7 @@ msgstr "H7"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H7-long"
-msgstr "H7 - 5-room single-family house with heat pump for heating"
+msgstr "H7 - 5-room single-family house with heat pump"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H8"
@@ -1125,7 +1125,7 @@ msgstr "Electricity Tariffs"
 
 #: src/domain/translation.tsx
 msgid "selector.tab.electricity-content"
-msgstr "selector.tab.electricity-content"
+msgstr "Electricity tariffs and price data for Swiss distribution network operators in various regions."
 
 #: src/domain/translation.tsx
 msgid "selector.tab.indicators"
@@ -1157,7 +1157,7 @@ msgstr "Electricity tariffs in Switzerland"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.compliance.francs-rule-regulation"
-msgstr "75 Francs Rule Regulation"
+msgstr "Francs Rule"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.compliance.latest-year"
@@ -1383,11 +1383,11 @@ msgstr "%"
 
 #: src/domain/metrics.ts
 msgid "sunshine.metric-unit.rp-km"
-msgstr "Rp./km"
+msgstr "ct./km"
 
 #: src/domain/metrics.ts
 msgid "sunshine.metric-unit.rp-kwh"
-msgstr "Rp./kWh"
+msgstr "ct./kWh"
 
 #: src/domain/metrics.ts
 msgid "sunshine.metric-unit.swiss-francs"
@@ -1594,7 +1594,7 @@ msgstr "Select All"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.service-quality.eco-friendly-products-offered"
-msgstr "Informing customers about power outages"
+msgstr " Information on planned interruptions"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.service-quality.informing-customers-outage.no"

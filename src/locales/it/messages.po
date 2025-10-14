@@ -1044,7 +1044,7 @@ msgstr "Componenti di prezzo"
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.aidfee-content"
-msgstr ""
+msgstr "Supplemento di rete per la promozione delle energie rinnovabili e per il risanamento dei corsi d’acqua, stabilita in modo uniforme dal Consiglio federale a livello nazionale."
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.charge-content"
