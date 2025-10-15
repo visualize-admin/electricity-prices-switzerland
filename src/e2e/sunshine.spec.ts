@@ -177,9 +177,7 @@ test.describe("Sunshine Costs and Tariffs page", () => {
     await page.getByText("Grid Tariffs").click();
     // text: Net Tariffs C2 - Small business (<15 kW)
     await expect(
-      page.getByText(
-        "Net Tariffs H4 - 5-room apartment with electric stove and dryer"
-      )
+      page.getByText("Net Tariffs H4 - 5-room apartment")
     ).toBeVisible();
     await page.getByRole("combobox", { name: "Category" }).click();
     await page.getByRole("option", { name: "H1" }).click();
