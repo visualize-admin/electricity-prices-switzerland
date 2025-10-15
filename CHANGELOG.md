@@ -13,6 +13,13 @@ You can also check the
 
 Nothing yet.
 
+# 2.21.1 - 2025-10-15
+
+- Updated translations from Accent
+
+- Home page
+  - Updated map preview images
+
 # 2.21.0 - 2025-10-06
 
 - Map pages
