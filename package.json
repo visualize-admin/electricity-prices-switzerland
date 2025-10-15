@@ -22,7 +22,7 @@
     "test:unit": "vitest --project unit",
     "test:argos": "argos upload ./src/e2e/snapshots",
     "test:integration": "vitest --project integration",
-    "test:playwright:app": "playwright test --grep-invert \"@storybook|@har\"",
+    "test:playwright:app": "playwright test --grep-invert \"@storybook|@har|@ignore\"",
     "test:playwright:storybook": "playwright test --grep \"@storybook\"",
     "setup": "yarn && yarn locales:compile && yarn graphql:codegen",
     "locales:extract": "NODE_ENV=development lingui extract --clean && ./scripts/strip-locale-line-numbers.sh && tsx scripts/populate-aa.ts",
@@ -46,7 +46,8 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build -o public/storybook",
     "mocks": "dotenv -e .env.local -- tsx scripts/mocks.ts",
-    "mocks:debug-views": "tsx scripts/show-sunshine-views.ts"
+    "mocks:debug-views": "tsx scripts/show-sunshine-views.ts",
+    "design:generate-home-maps": "playwright test src/e2e/map-screenshots.spec.ts --headed"
   },
   "dependencies": {
     "@apollo/server": "^4.3.3",

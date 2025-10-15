@@ -124,10 +124,11 @@ const IndexPage = () => {
                   }}
                 >
                   <Image
-                    src="/assets/map-preview.webp"
+                    src="/assets/map-prices.webp"
                     alt="map preview"
                     layout="fill"
                     objectFit="contain"
+                    quality={90}
                     sizes="(max-width: 768px) 100vw, 800px"
                   />
                 </Box>
