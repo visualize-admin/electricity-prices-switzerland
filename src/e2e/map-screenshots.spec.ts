@@ -2,11 +2,9 @@ import fs from "fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
-import sharp from "sharp";
-
 import { test, expect } from "./common";
 
-test.describe("Map screenshots", () => {
+test.describe("Map screenshots @ignore", () => {
   const screenshotSpecs = [
     {
       name: "prices",
@@ -33,6 +31,8 @@ test.describe("Map screenshots", () => {
       const mapId = "#deckgl-overlay";
 
       test(`it should load the map ${name}`, async ({ page }) => {
+        // Dyanmically import sharp only when needed, as it fails otherwise on CI
+        const sharp = await import("sharp").then((m) => m.default);
         const resp = await page.goto(url);
         await expect(resp?.status()).toEqual(200);
         await page.waitForLoadState("networkidle");
