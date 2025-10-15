@@ -72,7 +72,7 @@ export const SunshineTopics = () => {
               <SunshineCardHeader>
                 <SunshineImageWrapper>
                   <Image
-                    src="/assets/map-sunshine-default.webp"
+                    src="/assets/map-sunshine-networkCosts.webp"
                     alt="map preview"
                     layout="fill"
                     objectFit="contain"
@@ -141,7 +141,7 @@ export const SunshineTopics = () => {
               <SunshineCardHeader>
                 <SunshineImageWrapper>
                   <Image
-                    src="/assets/map-sunshine-mountain.webp"
+                    src="/assets/map-sunshine-saidi.webp"
                     alt="map preview"
                     layout="fill"
                     objectFit="contain"
@@ -199,7 +199,7 @@ export const SunshineTopics = () => {
               <SunshineCardHeader>
                 <SunshineImageWrapper>
                   <Image
-                    src="/assets/map-sunshine-yes-no.webp"
+                    src="/assets/map-sunshine-compliance.webp"
                     alt="map preview"
                     layout="fill"
                     objectFit="contain"

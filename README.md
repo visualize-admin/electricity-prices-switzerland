@@ -303,3 +303,11 @@ The Sunshine pages fetch data server-side in `getServerSideProps`, where:
 3. The data is passed as props to the React components
 
 For components testing in Storybook, the mock files from `mocks/` can be imported to simulate the data flow without needing the decryption key.
+
+### Home map screenshots
+
+It is possible to regenerate the home map screenshots automatically using Playwright.
+
+```bash
+yarn design:generate-home-maps
+```
