@@ -60,6 +60,10 @@ const config: KnipConfig = {
 
     // global library to auto translate po files
     "tpo-deepl",
+
+    // only used to generate map screenshots, and installed by default with next
+    // there was an issue at import time if we directly added it to package.json
+    "sharp",
   ],
 };
 export default config;
