@@ -78,7 +78,7 @@ export function getSunshineDataServiceFromApiRequest(
 }
 
 export function getSunshineDataServiceFromGetServerSidePropsContext(
-  context: GetServerSidePropsContext
+  context: Pick<GetServerSidePropsContext, "req">
 ): SunshineDataService {
   const serviceKey = getSunshineDataServiceFromCookies(
     context.req.headers.cookie

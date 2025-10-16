@@ -1,8 +1,4 @@
-import {
-  GetServerSideProps,
-  GetServerSidePropsContext,
-  NextApiRequest,
-} from "next";
+import { GetServerSidePropsContext, NextApiRequest } from "next";
 import { SunshineDataService } from "src/lib/sunshine-data-service";
 import {
   getSunshineDataServiceFromApiRequest,
@@ -32,7 +28,7 @@ export const contextFromAPIRequest = async (
 };
 
 export const contextFromGetServerSidePropsContext = async (
-  ctx: GetServerSidePropsContext
+  ctx: Pick<GetServerSidePropsContext, "req">
 ): Promise<GraphqlRequestContext> => {
   const sunshineDataService =
     getSunshineDataServiceFromGetServerSidePropsContext(ctx);
