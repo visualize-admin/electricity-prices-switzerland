@@ -13,6 +13,11 @@ You can also check the
 
 Nothing yet.
 
+# 2.22.2 - 2025-10-16
+
+- API Page Status
+  - API queries were broken resulting in false positive alerts.
+
 # 2.21.1 - 2025-10-15
 
 - Updated translations from Accent
