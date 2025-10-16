@@ -73,6 +73,7 @@ const StatusBox = (props: BoxProps) => {
         borderStyle: "solid",
         ...props.sx,
       }}
+      role="listitem"
     >
       {props.children}
     </Box>
