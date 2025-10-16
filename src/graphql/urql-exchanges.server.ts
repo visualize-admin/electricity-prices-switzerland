@@ -15,10 +15,11 @@ export const ssr = ssrExchange({
 });
 
 /** @knipignore */
-export const exchanges: Exchange[] = [
+export const makeExchanges = (context: any) => [
   cacheExchange,
   ssr,
   executeExchange({
     schema,
+    context,
   }) as unknown as Exchange,
 ];
