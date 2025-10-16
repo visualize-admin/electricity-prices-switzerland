@@ -11,7 +11,10 @@ import { NextApiHandler } from "next";
 import serverEnv from "src/env/server";
 import { resolvers } from "src/graphql/resolvers";
 import typeDefs from "src/graphql/schema.graphql";
-import { context, GraphqlRequestContext } from "src/graphql/server-context";
+import {
+  contextFromAPIRequest,
+  GraphqlRequestContext,
+} from "src/graphql/server-context";
 import assert from "src/lib/assert";
 import { metricsPlugin } from "src/pages/api/metricsPlugin";
 import { runMiddleware } from "src/pages/api/run-middleware";
@@ -50,7 +53,7 @@ const server = new ApolloServer({
 });
 
 const handler = startServerAndCreateNextHandler(server, {
-  context,
+  context: contextFromAPIRequest,
 });
 
 const logMiddleware = createLogMiddleware({

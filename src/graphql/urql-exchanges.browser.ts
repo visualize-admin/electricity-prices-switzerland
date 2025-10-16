@@ -29,9 +29,10 @@ const delayExchange: (duration: number) => Exchange =
 const activateDelayExchange = false;
 const delayExchangeDuration = 2000; // Duration in milliseconds
 
-export const exchanges = [
-  cacheExchange,
-  ssr,
-  activateDelayExchange ? delayExchange(delayExchangeDuration) : undefined,
-  fetchExchange,
-].filter(truthy);
+export const makeExchanges = (_context: $IntentionalAny) =>
+  [
+    cacheExchange,
+    ssr,
+    activateDelayExchange ? delayExchange(delayExchangeDuration) : undefined,
+    fetchExchange,
+  ].filter(truthy);

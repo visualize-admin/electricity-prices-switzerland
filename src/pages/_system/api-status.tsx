@@ -1,11 +1,18 @@
 import { Box, BoxProps, Typography, TypographyProps } from "@mui/material";
 import { GetServerSideProps } from "next";
 import { FormEvent, useCallback, useMemo, useState } from "react";
-import { Client, OperationResult, UseQueryState } from "urql";
+import {
+  AnyVariables,
+  Client,
+  DocumentInput,
+  OperationResult,
+  UseQueryState,
+} from "urql";
 
 import { LoadingIconInline } from "src/components/hint";
 import * as Queries from "src/graphql/queries";
-import { exchanges as serverExchanges } from "src/graphql/urql-exchanges.server";
+import { contextFromGetServerSidePropsContext } from "src/graphql/server-context";
+import { makeServerExchanges } from "src/graphql/urql-exchanges.server";
 import { DebugDownloadGetResponse } from "src/pages/api/debug-download";
 
 const IndicatorFail = () => (
@@ -115,27 +122,26 @@ const Status = ({
       </StatusHeading>
       {!query.fetching && (
         <Box sx={{ fontSize: "0.75rem", mt: 2 }}>
-            <details>
-              <summary>Details</summary>
+          <details>
+            <summary>Details</summary>
 
+            <pre>
+              <code>
+                Variables: {JSON.stringify(query.operation?.variables, null, 2)}
+              </code>
+            </pre>
+            {query.error && (
               <pre>
-                <code>
-                  Variables:{" "}
-                  {JSON.stringify(query.operation?.variables, null, 2)}
-                </code>
+                <code>Error: {JSON.stringify(query.error, null, 2)}</code>
               </pre>
-              {query.error && (
-                <pre>
-                  <code>Error: {JSON.stringify(query.error, null, 2)}</code>
-                </pre>
-              )}
-              {query.data && (
-                <pre>
-                  <code>Data: {JSON.stringify(query.data, null, 2)}</code>
-                </pre>
-              )}
-            </details>
-          </Box>
+            )}
+            {query.data && (
+              <pre>
+                <code>Data: {JSON.stringify(query.data, null, 2)}</code>
+              </pre>
+            )}
+          </details>
+        </Box>
       )}
     </StatusBox>
   );
@@ -643,13 +649,6 @@ const DocumentDownloadStatus = () => {
   );
 };
 
-const client = new Client({
-  exchanges: serverExchanges,
-
-  // Does not matter as we are using the executeExchange
-  url: "does-not-matter",
-});
-
 const serializeOperation = (operation: OperationResult) => {
   return {
     data: operation.data ?? null,
@@ -685,87 +684,100 @@ const objectPromiseAllSettled = <
   }>;
 };
 
-export const getServerSideProps = (async () => {
+export const getServerSideProps = (async (serverSidePropsCtx) => {
+  const ctx = await contextFromGetServerSidePropsContext(serverSidePropsCtx);
+  const client = new Client({
+    exchanges: makeServerExchanges(ctx),
+
+    // Does not matter as we are using the executeExchange
+    url: "does-not-matter",
+  });
+  const executeQuery = <
+    TQuery,
+    TDocument extends DocumentInput<TQuery, AnyVariables> = DocumentInput<
+      TQuery,
+      AnyVariables
+    >
+  >(
+    document: TDocument,
+    vars: AnyVariables
+  ) => {
+    return client.query<TQuery>(document, vars, ctx).toPromise();
+  };
+
   // The code is generic enough here to accomodate for all queries of the page
   // TODO: Put all requests here so that they are executed server side
   const results = await objectPromiseAllSettled({
-    cubeHealth: client
-      .query<Queries.CubeHealthQuery>(Queries.CubeHealthDocument, {})
-      .toPromise(),
-    systemInfo: client
-      .query<Queries.SystemInfoQuery>(Queries.SystemInfoDocument, {})
-      .toPromise(),
-    wikiContent: client
-      .query<Queries.WikiContentQuery>(Queries.WikiContentDocument, {
+    cubeHealth: executeQuery<Queries.CubeHealthQuery>(
+      Queries.CubeHealthDocument,
+      {}
+    ),
+    systemInfo: executeQuery<Queries.SystemInfoQuery>(
+      Queries.SystemInfoDocument,
+      {}
+    ),
+    wikiContent: executeQuery<Queries.WikiContentQuery>(
+      Queries.WikiContentDocument,
+      {
         locale: "de",
         slug: "help-price-comparison",
-      })
-      .toPromise(),
-    municipalities: client
-      .query<Queries.MunicipalitiesQuery>(Queries.MunicipalitiesDocument, {
+      }
+    ),
+    municipalities: executeQuery<Queries.MunicipalitiesQuery>(
+      Queries.MunicipalitiesDocument,
+      {
         locale: "de",
         ids: ["261", "700"],
         query: "Ber",
-      })
-      .toPromise(),
-    cantons: client
-      .query<Queries.CantonsQuery>(Queries.CantonsDocument, {
+      }
+    ),
+    cantons: executeQuery<Queries.CantonsQuery>(Queries.CantonsDocument, {
+      locale: "de",
+      ids: ["1"],
+      query: "Ber",
+    }),
+    operators: executeQuery<Queries.OperatorsQuery>(Queries.OperatorsDocument, {
+      locale: "de",
+      ids: ["565"],
+      query: "lausanne",
+    }),
+    search: executeQuery<Queries.SearchQuery>(Queries.SearchDocument, {
+      locale: "de",
+      query: "lausanne",
+    }),
+    searchZip: executeQuery<Queries.SearchQuery>(Queries.SearchDocument, {
+      locale: "de",
+      query: "3000",
+    }),
+    observations: executeQuery<Queries.ObservationsWithAllPriceComponentsQuery>(
+      Queries.ObservationsWithAllPriceComponentsDocument,
+      {
         locale: "de",
-        ids: ["1"],
-        query: "Ber",
-      })
-      .toPromise(),
-    operators: client
-      .query<Queries.OperatorsQuery>(Queries.OperatorsDocument, {
+        observationKind: Queries.ObservationKind.Municipality,
+        filters: {
+          municipality: ["261"],
+          period: ["2021"],
+          category: ["H4"],
+          product: ["standard"],
+        },
+      }
+    ),
+    cantonMedian: executeQuery<Queries.ObservationsWithAllPriceComponentsQuery>(
+      Queries.ObservationsWithAllPriceComponentsDocument,
+      {
         locale: "de",
-        ids: ["565"],
-        query: "lausanne",
-      })
-      .toPromise(),
-    search: client
-      .query<Queries.SearchQuery>(Queries.SearchDocument, {
-        locale: "de",
-        query: "lausanne",
-      })
-      .toPromise(),
-    searchZip: client
-      .query<Queries.SearchQuery>(Queries.SearchDocument, {
-        locale: "de",
-        query: "3000",
-      })
-      .toPromise(),
-    observations: client
-      .query<Queries.ObservationsWithAllPriceComponentsQuery>(
-        Queries.ObservationsWithAllPriceComponentsDocument,
-        {
-          locale: "de",
-          observationKind: Queries.ObservationKind.Municipality,
-          filters: {
-            municipality: ["261"],
-            period: ["2021"],
-            category: ["H4"],
-            product: ["standard"],
-          },
-        }
-      )
-      .toPromise(),
-    cantonMedian: client
-      .query<Queries.ObservationsWithAllPriceComponentsQuery>(
-        Queries.ObservationsWithAllPriceComponentsDocument,
-        {
-          locale: "de",
-          observationKind: Queries.ObservationKind.Canton,
-          filters: {
-            canton: ["1", "2"],
-            period: ["2021"],
-            category: ["H4"],
-            product: ["standard"],
-          },
-        }
-      )
-      .toPromise(),
-    swissMedian: client
-      .query<Queries.ObservationsQuery>(Queries.ObservationsDocument, {
+        observationKind: Queries.ObservationKind.Canton,
+        filters: {
+          canton: ["1", "2"],
+          period: ["2021"],
+          category: ["H4"],
+          product: ["standard"],
+        },
+      }
+    ),
+    swissMedian: executeQuery<Queries.ObservationsQuery>(
+      Queries.ObservationsDocument,
+      {
         locale: "de",
         observationKind: Queries.ObservationKind.Canton,
         priceComponent: Queries.PriceComponent.Total,
@@ -775,8 +787,8 @@ export const getServerSideProps = (async () => {
           category: ["H4"],
           product: ["standard"],
         },
-      })
-      .toPromise(),
+      }
+    ),
   });
 
   if (Object.values(results).some((result) => result.status === "rejected")) {

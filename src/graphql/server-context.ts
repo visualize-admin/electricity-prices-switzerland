@@ -1,7 +1,17 @@
-import { NextApiRequest } from "next";
+import {
+  GetServerSideProps,
+  GetServerSidePropsContext,
+  NextApiRequest,
+} from "next";
 import { SunshineDataService } from "src/lib/sunshine-data-service";
-import { getSunshineDataServiceFromApiRequest } from "src/lib/sunshine-data-service-context";
-import { getSparqlClientFromApiRequest } from "src/lib/sparql-client-context";
+import {
+  getSunshineDataServiceFromApiRequest,
+  getSunshineDataServiceFromGetServerSidePropsContext,
+} from "src/lib/sunshine-data-service-context";
+import {
+  getSparqlClientFromApiRequest,
+  getSparqlClientFromGetServerSidePropsContext,
+} from "src/lib/sparql-client-context";
 import ParsingClient from "sparql-http-client/ParsingClient";
 
 export type GraphqlRequestContext = {
@@ -9,11 +19,24 @@ export type GraphqlRequestContext = {
   sparqlClient: ParsingClient;
 };
 
-export const context = async (
+export const contextFromAPIRequest = async (
   req: NextApiRequest
 ): Promise<GraphqlRequestContext> => {
   const sunshineDataService = getSunshineDataServiceFromApiRequest(req);
   const sparqlClient = await getSparqlClientFromApiRequest(req);
+
+  return {
+    sunshineDataService,
+    sparqlClient,
+  };
+};
+
+export const contextFromGetServerSidePropsContext = async (
+  ctx: GetServerSidePropsContext
+): Promise<GraphqlRequestContext> => {
+  const sunshineDataService =
+    getSunshineDataServiceFromGetServerSidePropsContext(ctx);
+  const sparqlClient = await getSparqlClientFromGetServerSidePropsContext(ctx);
 
   return {
     sunshineDataService,

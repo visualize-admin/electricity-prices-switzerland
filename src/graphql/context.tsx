@@ -1,11 +1,11 @@
 import { ReactNode } from "react";
 import { createClient, Provider } from "urql";
-import { exchanges } from "./urql-exchanges";
+import { makeExchanges } from "./urql-exchanges";
 import { isServerSide } from "src/utils/server-side";
 
 const client = createClient({
   url: "/api/graphql",
-  exchanges,
+  exchanges: makeExchanges({}),
   suspense: isServerSide,
 
   // Uncomment to test correct cache behavior
