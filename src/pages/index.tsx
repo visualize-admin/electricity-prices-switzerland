@@ -7,7 +7,6 @@ const ContentWrapper = dynamic(
 );
 import { Trans } from "@lingui/macro";
 import { Box, Button, Typography } from "@mui/material";
-import { GetServerSideProps } from "next";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import Image from "next/image";
@@ -15,7 +14,7 @@ import Image from "next/image";
 import { MapLink } from "src/components/links";
 import { SunshineTopics } from "src/components/sunshine/sunshine-topics";
 import { Icon } from "src/icons";
-import { defaultLocale } from "src/locales/config";
+import createGetServerSideProps from "src/utils/create-server-side-props";
 import { useFlag } from "src/utils/flags";
 import { makePageTitle } from "src/utils/page-title";
 
@@ -24,20 +23,11 @@ const ApplicationLayout = dynamic(
   { ssr: false }
 );
 
-type Props = {
-  locale: string;
-};
-
-export const getServerSideProps: GetServerSideProps<
-  Props,
-  { locale: string }
-> = async ({ locale }) => {
+export const getServerSideProps = createGetServerSideProps(async () => {
   return {
-    props: {
-      locale: locale ?? defaultLocale,
-    },
+    props: {},
   };
-};
+});
 
 const IndexPage = () => {
   const isSunshine = useFlag("sunshine");
