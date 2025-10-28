@@ -30,10 +30,46 @@ const ELECTRICIY_PRICE_CANTON_CUBE =
 const ELECTRICITY_PRICE_SWISS_CUBE =
   "https://energy.ld.admin.ch/elcom/electricityprice-swiss";
 
-const createSource = (cubeIri: string | undefined, client: ParsingClient) => {
+const makeClientVerbose = (client: ParsingClient): ParsingClient => {
+  const originalQuery = client.query;
+  client.query = {
+    ...originalQuery,
+    select: async (query: string) => {
+      // eslint-disable-next-line no-console
+      console.log("SPARQL Query:\n", query);
+      return originalQuery.select(query);
+    },
+    construct: async (query: string) => {
+      // eslint-disable-next-line no-console
+      console.log("SPARQL Query:\n", query);
+      return originalQuery.construct(query);
+    },
+    ask: async (query: string) => {
+      // eslint-disable-next-line no-console
+      console.log("SPARQL Query:\n", query);
+      return originalQuery.ask(query);
+    },
+    update: async (query: string) => {
+      // eslint-disable-next-line no-console
+      console.log("SPARQL Query:\n", query);
+      return originalQuery.update(query);
+    },
+  };
+  return client;
+};
+
+const createSource = (
+  cubeIri: string | undefined,
+  client: ParsingClient,
+  { verbose = false }: { verbose?: boolean }
+) => {
   const cubeClient = cubeIri
     ? createSparqlClientForCube(client.query.endpoint.endpointUrl, cubeIri)
     : client;
+
+  if (verbose) {
+    makeClientVerbose(cubeClient);
+  }
 
   return new Source({
     queryOperation: "postDirect",
@@ -55,7 +91,7 @@ const getCube = async ({
   iri: string;
   client: ParsingClient;
 }): Promise<Cube | null> => {
-  const source = createSource(iri, client);
+  const source = createSource(iri, client, { verbose: false });
   const cube = await source.cube(iri);
 
   if (!cube) {
