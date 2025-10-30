@@ -418,7 +418,19 @@ export const GenericMap = ({
         </HintBox>
       ) : error ? (
         <HintBox>
-          <Alert severity="error">{error.message}</Alert>
+          <Alert
+            severity="error"
+            sx={{
+              minWidth: 450,
+              maxWidth: "80%",
+              overflow: "scroll",
+              maxHeight: "200px",
+              margin: "auto",
+              wordBreak: "break-word",
+            }}
+          >
+            {error.message}
+          </Alert>
         </HintBox>
       ) : hasNoData ? (
         <HintBox>
