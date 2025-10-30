@@ -426,142 +426,139 @@ export const GenericMap = ({
         </HintBox>
       ) : null}
 
-      
-        {tooltipContent?.hoveredState &&
-          tooltipContent.content && (
-            <MapTooltip
-              x={tooltipContent.hoveredState.x}
-              y={tooltipContent.hoveredState.y}
-              placement={
-                tooltipContent.hoveredState.x >
-                viewState.width - tooltipMinimumWidth
-                  ? { x: "left", y: "top" }
-                  : tooltipContent.hoveredState.x < tooltipMinimumWidth
-                  ? { x: "right", y: "top" }
-                  : defaultMapTooltipPlacement
-              }
-            >
-              {tooltipContent.content}
-            </MapTooltip>
-          )}
+      {tooltipContent?.hoveredState && tooltipContent.content && (
+        <MapTooltip
+          x={tooltipContent.hoveredState.x}
+          y={tooltipContent.hoveredState.y}
+          placement={
+            tooltipContent.hoveredState.x >
+            viewState.width - tooltipMinimumWidth
+              ? { x: "left", y: "top" }
+              : tooltipContent.hoveredState.x < tooltipMinimumWidth
+              ? { x: "right", y: "top" }
+              : defaultMapTooltipPlacement
+          }
+        >
+          {tooltipContent.content}
+        </MapTooltip>
+      )}
 
-        <div
-          className={isLoading ? "" : downloadId || "map"}
-          ref={mapContainerRef}
-          onMouseOver={() => {
-            mouseOverRef.current = true;
-          }}
-          onMouseLeave={() => {
-            mouseOverRef.current = false;
+      <div
+        className={isLoading ? "" : downloadId || "map"}
+        ref={mapContainerRef}
+        onMouseOver={() => {
+          mouseOverRef.current = true;
+        }}
+        onMouseLeave={() => {
+          mouseOverRef.current = false;
+        }}
+      >
+        {legend && (
+          <Box
+            sx={{
+              zIndex: 13,
+              position: "absolute",
+              top: 0,
+              right: 0,
+              mt: 3,
+              mr: 3,
+              backgroundColor: "background.paper",
+              borderRadius: "2px",
+              p: 4,
+            }}
+            id={legendId}
+          >
+            {legend}
+          </Box>
+        )}
+
+        <Box
+          sx={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            zIndex: 10,
+            display: "flex",
+            gap: 2,
+            p: 2,
           }}
         >
-          {legend && (
+          <ZoomWidget
+            onZoomIn={() => {
+              setViewState((viewState) =>
+                zoomIn(viewState || getInitialViewState(isMobile))
+              );
+            }}
+            onZoomOut={() => {
+              setViewState((viewState) =>
+                zoomOut(viewState || getInitialViewState(isMobile))
+              );
+            }}
+          />
+          {isMobile ? null : (
             <Box
               sx={{
-                zIndex: 13,
-                position: "absolute",
-                top: 0,
-                right: 0,
-                mt: 3,
-                mr: 3,
-                backgroundColor: "background.paper",
-                borderRadius: "2px",
-                p: 4,
+                p: 2,
+                display: "flex",
+                alignItems: "center",
+                backgroundColor: "white",
+                opacity: !scrollZoom && displayScrollZoom ? 1 : 0,
+                transition: "opacity 0.25s ease-in",
               }}
-              id={legendId}
             >
-              {legend}
+              <Typography variant="caption">
+                <Trans
+                  id="map.scrollzoom.hint"
+                  values={{
+                    key: isMacOS ? "⌘" : "Ctrl",
+                  }}
+                >
+                  {`Hold {key} and scroll to zoom`}
+                </Trans>
+              </Typography>
             </Box>
           )}
+        </Box>
 
-          <Box
-            sx={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              zIndex: 10,
-              display: "flex",
-              gap: 2,
-              p: 2,
-            }}
-          >
-            <ZoomWidget
-              onZoomIn={() => {
-                setViewState((viewState) =>
-                  zoomIn(viewState || getInitialViewState(isMobile))
-                );
-              }}
-              onZoomOut={() => {
-                setViewState((viewState) =>
-                  zoomOut(viewState || getInitialViewState(isMobile))
-                );
-              }}
-            />
-            {isMobile ? null : (
-              <Box
-                sx={{
-                  p: 2,
-                  display: "flex",
-                  alignItems: "center",
-                  backgroundColor: "white",
-                  opacity: !scrollZoom && displayScrollZoom ? 1 : 0,
-                  transition: "opacity 0.25s ease-in",
-                }}
-              >
-                <Typography variant="caption">
-                  <Trans
-                    id="map.scrollzoom.hint"
-                    values={{
-                      key: isMacOS ? "⌘" : "Ctrl",
-                    }}
-                  >
-                    {`Hold {key} and scroll to zoom`}
-                  </Trans>
-                </Typography>
-              </Box>
-            )}
-          </Box>
+        <DeckGL
+          controller={{ type: MapController, scrollZoom, dragRotate: false }}
+          viewState={viewState}
+          onViewStateChange={onViewStateChangeHandler}
+          onResize={onResize}
+          layers={layers}
+          onClick={onLayerClick}
+          ref={deckRef}
+        ></DeckGL>
+      </div>
 
+      {screenshotting ? (
+        <Box
+          sx={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: 1120,
+            height: 730,
+            opacity: 0,
+          }}
+        >
           <DeckGL
-            controller={{ type: MapController, scrollZoom, dragRotate: false }}
-            viewState={viewState}
-            onViewStateChange={onViewStateChangeHandler}
-            onResize={onResize}
-            layers={layers}
-            onClick={onLayerClick}
             ref={deckRef}
-          ></DeckGL>
-        </div>
-
-        {screenshotting ? (
-          <Box
-            sx={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              width: 1120,
-              height: 730,
-              opacity: 0,
-            }}
-          >
-            <DeckGL
-              ref={deckRef}
-              controller={{ type: MapController }}
-              viewState={constrainZoom(
-                {
-                  ...viewState,
-                  zoom: 5,
-                  width: SCREENSHOT_CANVAS_SIZE.width,
-                  height: SCREENSHOT_CANVAS_SIZE.height,
-                },
-                initialBBox,
-                { padding: mapZoomPadding }
-              )}
-              layers={layers?.map((l) => l?.clone({}))}
-            />
-          </Box>
-        ) : null}
-      
+            controller={{ type: MapController }}
+            viewState={constrainZoom(
+              {
+                ...viewState,
+                zoom: 5,
+                width: SCREENSHOT_CANVAS_SIZE.width,
+                height: SCREENSHOT_CANVAS_SIZE.height,
+              },
+              initialBBox,
+              { padding: mapZoomPadding }
+            )}
+            layers={layers?.map((l) => l?.clone({}))}
+          />
+        </Box>
+      ) : null}
     </>
   );
 };
