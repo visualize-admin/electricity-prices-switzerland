@@ -10,6 +10,7 @@ import DeckGL, { DeckGLRef } from "@deck.gl/react/typed";
 import { Trans } from "@lingui/macro";
 import {
   Alert,
+  AlertTitle,
   Box,
   IconButton,
   iconButtonClasses,
@@ -421,15 +422,40 @@ export const GenericMap = ({
           <Alert
             severity="error"
             sx={{
-              minWidth: 450,
+              width: 800,
               maxWidth: "80%",
               overflow: "scroll",
-              maxHeight: "200px",
+              maxHeight: "400px",
               margin: "auto",
               wordBreak: "break-word",
+              textAlign: "left",
             }}
           >
-            {error.message}
+            <AlertTitle>
+              <Trans id="map.error.title">Could not load data</Trans>
+            </AlertTitle>
+
+            <Trans id="map.error.title">
+              Unfortunately, the data for the map could not be loaded. You'll
+              find technical details below .
+            </Trans>
+            <Box component="details" mt={2}>
+              <Box component="summary" sx={{ cursor: "pointer" }}>
+                <Trans id="map.error.technicaldetails">
+                  Show technical details
+                </Trans>
+              </Box>
+              <Box
+                sx={{
+                  fontFamily: "monospace",
+                  whiteSpace: "pre-wrap",
+                  px: 4,
+                  fontSize: "0.75rem",
+                }}
+              >
+                {error.message}
+              </Box>
+            </Box>
           </Alert>
         </HintBox>
       ) : hasNoData ? (
