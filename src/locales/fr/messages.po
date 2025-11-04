@@ -7,7 +7,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language: fr\n"
 "Language-Team: \n"
-"Content-Type: \n"
+"Content-Type: text/plain\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
@@ -587,6 +587,18 @@ msgstr "Voir le détail de la qualité de service"
 #: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.next-button.sunshine-overview"
 msgstr "Afficher tous les indicateurs Sunshine"
+
+#: src/components/generic-map.tsx
+msgid "map.error.description"
+msgstr "Malheureusement, les données de la carte n'ont pas pu être chargées. Vous trouverez les détails techniques ci-dessous."
+
+#: src/components/generic-map.tsx
+msgid "map.error.technicaldetails"
+msgstr "Afficher les détails techniques"
+
+#: src/components/generic-map.tsx
+msgid "map.error.title"
+msgstr "Impossible de charger les données"
 
 #: src/components/generic-map.tsx
 msgid "map.scrollzoom.hint"

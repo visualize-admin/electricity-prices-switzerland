@@ -435,7 +435,7 @@ export const GenericMap = ({
               <Trans id="map.error.title">Could not load data</Trans>
             </AlertTitle>
 
-            <Trans id="map.error.title">
+            <Trans id="map.error.description">
               Unfortunately, the data for the map could not be loaded. You'll
               find technical details below .
             </Trans>

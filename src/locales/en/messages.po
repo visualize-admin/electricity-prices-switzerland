@@ -589,6 +589,18 @@ msgid "map.details-sidebar-panel.next-button.sunshine-overview"
 msgstr "Show all Sunshine Indicators"
 
 #: src/components/generic-map.tsx
+msgid "map.error.description"
+msgstr "Unfortunately, the data for the map could not be loaded. You'll find technical details below ."
+
+#: src/components/generic-map.tsx
+msgid "map.error.technicaldetails"
+msgstr "Show technical details"
+
+#: src/components/generic-map.tsx
+msgid "map.error.title"
+msgstr "Could not load data"
+
+#: src/components/generic-map.tsx
 msgid "map.scrollzoom.hint"
 msgstr "Hold {key} and scroll to zoom"
 

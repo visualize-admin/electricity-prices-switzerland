@@ -587,6 +587,18 @@ msgid "map.details-sidebar-panel.next-button.sunshine-overview"
 msgstr "map.details-sidebar-panel.next-button.sunshine-overview"
 
 #: src/components/generic-map.tsx
+msgid "map.error.description"
+msgstr "map.error.description"
+
+#: src/components/generic-map.tsx
+msgid "map.error.technicaldetails"
+msgstr "map.error.technicaldetails"
+
+#: src/components/generic-map.tsx
+msgid "map.error.title"
+msgstr "map.error.title"
+
+#: src/components/generic-map.tsx
 msgid "map.scrollzoom.hint"
 msgstr "map.scrollzoom.hint"
 

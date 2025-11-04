@@ -7,7 +7,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language: de\n"
 "Language-Team: \n"
-"Content-Type: \n"
+"Content-Type: text/plain\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -585,6 +585,18 @@ msgstr "Servicequalität im Detail"
 #: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.next-button.sunshine-overview"
 msgstr "Alle Sunshine-Indikatoren anzeigen"
+
+#: src/components/generic-map.tsx
+msgid "map.error.description"
+msgstr "Leider konnten die Daten für die Karte nicht geladen werden. Die technischen Details finden Sie unten."
+
+#: src/components/generic-map.tsx
+msgid "map.error.technicaldetails"
+msgstr "Technische Details anzeigen"
+
+#: src/components/generic-map.tsx
+msgid "map.error.title"
+msgstr "Daten konnten nicht geladen werden"
 
 #: src/components/generic-map.tsx
 msgid "map.scrollzoom.hint"
