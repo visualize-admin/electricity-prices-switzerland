@@ -128,7 +128,7 @@ function generateSessionId(): string {
   return `sess_${Date.now()}_${Math.random().toString(36).substring(2, 15)}`;
 }
 
-export const parseSessionFromCookies = async (
+const parseSessionFromCookies = async (
   cookies: string | undefined
 ): Promise<SessionPayload | null> => {
   const token = getSessionTokenFromCookies(cookies);

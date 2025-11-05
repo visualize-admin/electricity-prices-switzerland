@@ -37,7 +37,7 @@ export const getCookieValue = (token: string, maxAge?: number) => {
   return cookieValue;
 };
 
-export async function createCookieFromFlags(
+async function createCookieFromFlags(
   flags: Partial<SessionConfigFlags>
 ) {
   const token = await createSessionToken(flags);
