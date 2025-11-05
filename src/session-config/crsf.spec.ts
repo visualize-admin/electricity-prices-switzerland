@@ -35,6 +35,7 @@ describe("CSRF Token Implementation", () => {
 
       // Token should validate with the same session ID
       expect(validateCSRFToken(token, sessionId)).toBe(true);
+      expect(validateCSRFToken(token, "abcd")).toBe(false);
     });
 
     it("should generate tokens with cryptographically secure nonces", () => {
@@ -58,18 +59,6 @@ describe("CSRF Token Implementation", () => {
     it("should validate a freshly generated token", () => {
       const token = generateCSRFToken();
       expect(validateCSRFToken(token)).toBe(true);
-    });
-
-    it("should validate token with session binding", () => {
-      const sessionId = "test-session-123";
-      const token = generateCSRFToken(sessionId);
-      expect(validateCSRFToken(token, sessionId)).toBe(true);
-    });
-
-    it("should reject token with wrong session ID", () => {
-      const sessionId = "test-session-123";
-      const token = generateCSRFToken(sessionId);
-      expect(validateCSRFToken(token, "different-session")).toBe(false);
     });
 
     it("should reject tokens with invalid format", () => {
@@ -104,18 +93,12 @@ describe("CSRF Token Implementation", () => {
       const currentTime = Date.now();
       const token = generateCSRFToken();
 
-      // Simulate time passing beyond 1 hour (3600000ms)
-      const futureTime = currentTime + 3600001;
+      const duration = 3600000; // 1 hour in ms
+      const notSofutureTime = currentTime + duration - 1;
+      expect(validateCSRFToken(token, undefined, notSofutureTime)).toBe(true);
+
+      const futureTime = currentTime + duration + 1;
       expect(validateCSRFToken(token, undefined, futureTime)).toBe(false);
-    });
-
-    it("should accept tokens within the valid time window", () => {
-      const currentTime = Date.now();
-      const token = generateCSRFToken();
-
-      // Simulate time passing within 1 hour (3599000ms)
-      const futureTime = currentTime + 3599000;
-      expect(validateCSRFToken(token, undefined, futureTime)).toBe(true);
     });
 
     it("should reject tokens with future timestamps", () => {

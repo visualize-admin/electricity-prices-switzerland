@@ -13,10 +13,16 @@ const CsrfTokenPayload = z.object({
  * CSRF token payload structure
  */
 type CsrfTokenPayload = z.infer<typeof CsrfTokenPayload>;
+
 /**
  * Maximum age for CSRF tokens in milliseconds (1 hour)
  */
 const CSRF_TOKEN_MAX_AGE = 3600 * 1000;
+
+/**
+ * Allowed clock skew in milliseconds when validating timestamps
+ */
+const MAX_CLOCK_SKEW_MS = 5000; // 5 seconds
 
 /**
  * Generates a cryptographically secure CSRF token.
@@ -106,7 +112,7 @@ export function validateCSRFToken(
     }
 
     // Validate timestamp is not in the future (allow 5 second clock skew)
-    if (payload.timestamp > now + 5000) {
+    if (payload.timestamp > now + MAX_CLOCK_SKEW_MS) {
       return false;
     }
 
