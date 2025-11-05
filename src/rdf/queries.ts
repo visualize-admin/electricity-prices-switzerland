@@ -134,7 +134,7 @@ const getCube = async ({
   iri: string;
   client: ParsingClient;
 }): Promise<Cube | null> => {
-  const source = createSource(iri, client, { verbose: true });
+  const source = createSource(iri, client, { verbose: false });
   const cube = await source.cube(iri);
 
   if (!cube) {
