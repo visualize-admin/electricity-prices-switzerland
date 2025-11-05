@@ -37,13 +37,6 @@ export const getCookieValue = (token: string, maxAge?: number) => {
   return cookieValue;
 };
 
-async function createCookieFromFlags(
-  flags: Partial<SessionConfigFlags>
-) {
-  const token = await createSessionToken(flags);
-  return getCookieValue(token);
-}
-
 /**
  * Sets a session cookie with the JWT token.
  */
