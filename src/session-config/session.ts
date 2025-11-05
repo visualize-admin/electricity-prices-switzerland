@@ -1,3 +1,5 @@
+import { randomUUID } from "node:crypto";
+
 import { SignJWT, jwtVerify } from "jose";
 import { GetServerSidePropsContext, NextApiRequest } from "next";
 import { NextRequest } from "next/server";
@@ -125,7 +127,7 @@ export async function createCookieFromFlags(
  * Generates a unique session ID.
  */
 function generateSessionId(): string {
-  return `sess_${Date.now()}_${Math.random().toString(36).substring(2, 15)}`;
+  return `sess_${randomUUID()}`;
 }
 
 const parseSessionFromCookies = async (

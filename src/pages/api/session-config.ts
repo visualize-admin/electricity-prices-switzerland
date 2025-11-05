@@ -68,15 +68,18 @@ export default async function handler(
  */
 async function handleGetRequest(req: NextApiRequest, res: NextApiResponse) {
   const session = await parseSessionFromRequest(req);
-  const csrfToken = generateCSRFToken();
 
   if (session) {
     // User is authenticated, show session config dashboard
+    // Bind CSRF token to session ID for additional security
+    const csrfToken = generateCSRFToken(session.sessionId);
     const html = renderDashboard(session.flags, csrfToken);
     res.setHeader("Content-Type", "text/html");
     return res.status(200).send(html);
   } else {
     // User not authenticated, show login form
+    // No session binding for login form (user doesn't have a session yet)
+    const csrfToken = generateCSRFToken();
     const html = renderLoginForm(csrfToken);
     res.setHeader("Content-Type", "text/html");
     return res.status(200).send(html);
@@ -187,14 +190,14 @@ async function handleFlagUpdateRequest(
     return res.end();
   }
 
-  // Validate CSRF token
-  if (!csrfToken || !validateCSRFToken(csrfToken)) {
-    const newCsrfToken = generateCSRFToken();
+  // Validate CSRF token with session binding
+  if (!csrfToken || !validateCSRFToken(csrfToken, session.sessionId)) {
+    const newCsrfToken = generateCSRFToken(session.sessionId);
     const html = renderDashboard(session.flags, newCsrfToken, {
       error: "Invalid or expired form. Please try again.",
     });
     res.setHeader("Content-Type", "text/html");
-    res.status(400).send(html);
+    return res.status(400).send(html);
   }
 
   try {
@@ -202,19 +205,27 @@ async function handleFlagUpdateRequest(
     const updatedFlags = await updateSessionFlags(session, flags);
     const updatedToken = await createSessionToken(updatedFlags);
     setSessionCookie(res, updatedToken);
-    const html = renderDashboard(updatedFlags, generateCSRFToken(), {
-      message: 'Flags updated successfully. <a href="/">Go to home page</a>.',
-    });
+    const html = renderDashboard(
+      updatedFlags,
+      generateCSRFToken(session.sessionId),
+      {
+        message: "Flags updated successfully.",
+        messageLink: {
+          text: "Go to home page",
+          href: "/",
+        },
+      }
+    );
     res.setHeader("Content-Type", "text/html");
-    res.status(200).send(html);
+    return res.status(200).send(html);
   } catch (error) {
-    const newCsrfToken = generateCSRFToken();
+    const newCsrfToken = generateCSRFToken(session.sessionId);
     const errorMessage =
       error instanceof Error ? error.message : "Failed to update flags";
     const html = renderDashboard(session.flags, newCsrfToken, {
       error: errorMessage,
     });
     res.setHeader("Content-Type", "text/html");
-    res.status(400).send(html);
+    return res.status(400).send(html);
   }
 }

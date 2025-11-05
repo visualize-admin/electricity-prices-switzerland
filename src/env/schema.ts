@@ -96,8 +96,8 @@ export const serverSchema = z.object({
     .default(path.join(process.cwd(), "src/sunshine-data")),
 
   // Admin session management
-  SESSION_CONFIG_PASSWORD: z.string().default("changeme"),
-  SESSION_CONFIG_JWT_SECRET: z.string().default("changeme"),
+  SESSION_CONFIG_PASSWORD: z.string(),
+  SESSION_CONFIG_JWT_SECRET: z.string(),
   SESSION_CONFIG_SESSION_DURATION: z
     .string()
     .optional()

@@ -1,4 +1,4 @@
-import { CssBaseline, Box, Paper, Alert } from "@mui/material";
+import { CssBaseline, Box, Paper, Alert, Link } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import React from "react";
 
@@ -12,6 +12,10 @@ interface DashboardProps {
   flags: SessionConfigFlags;
   csrfToken: string;
   message?: string;
+  messageLink?: {
+    href: string;
+    text: string;
+  };
   error?: string;
 }
 
@@ -19,6 +23,7 @@ const Dashboard: React.FC<DashboardProps> = ({
   flags,
   csrfToken,
   message,
+  messageLink,
   error,
 }) => (
   <html lang="en">
@@ -49,7 +54,12 @@ const Dashboard: React.FC<DashboardProps> = ({
 
             {message && (
               <Alert sx={{ mb: 2 }} severity="success">
-                <div dangerouslySetInnerHTML={{ __html: message }} />
+                {message}
+                {messageLink ? (
+                  <Link href={messageLink.href} sx={{ ml: 1 }}>
+                    {messageLink.text}
+                  </Link>
+                ) : null}
               </Alert>
             )}
             {error && (

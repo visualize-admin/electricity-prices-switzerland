@@ -2,6 +2,10 @@ import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   test: {
+    env: {
+      SESSION_CONFIG_PASSWORD: "testpassword",
+      SESSION_CONFIG_JWT_SECRET: "testsecret",
+    },
     projects: [
       // Unit tests project
       {

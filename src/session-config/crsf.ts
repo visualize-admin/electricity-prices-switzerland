@@ -1,27 +1,123 @@
+import { createHmac, randomBytes, timingSafeEqual } from "crypto";
+
+import { z } from "zod";
+
+import serverEnv from "src/env/server";
+
+const CsrfTokenPayload = z.object({
+  nonce: z.string(),
+  timestamp: z.number(),
+  sessionId: z.string().optional(),
+});
 /**
- * CSRF token generation and validation for forms.
+ * CSRF token payload structure
  */
-export function generateCSRFToken(): string {
-  return `csrf_${Date.now()}_${Math.random().toString(36).substring(2, 15)}`;
+type CsrfTokenPayload = z.infer<typeof CsrfTokenPayload>;
+/**
+ * Maximum age for CSRF tokens in milliseconds (1 hour)
+ */
+const CSRF_TOKEN_MAX_AGE = 3600 * 1000;
+
+/**
+ * Generates a cryptographically secure CSRF token.
+ * The token is signed using HMAC-SHA256 with SESSION_CONFIG_JWT_SECRET.
+ *
+ * @param sessionId Optional session ID to bind the token to a specific session
+ * @returns Base64url-encoded signed CSRF token
+ */
+export function generateCSRFToken(sessionId?: string): string {
+  // Generate cryptographically secure random nonce
+  const nonce = randomBytes(16).toString("base64url");
+
+  const payload: CsrfTokenPayload = {
+    nonce,
+    timestamp: Date.now(),
+    sessionId,
+  };
+
+  // Create payload string
+  const payloadString = JSON.stringify(payload);
+  const payloadB64 = Buffer.from(payloadString).toString("base64url");
+
+  // Sign the payload using HMAC-SHA256
+  const signature = createHmac("sha256", serverEnv.SESSION_CONFIG_JWT_SECRET)
+    .update(payloadB64)
+    .digest("base64url");
+
+  // Return token in format: payload.signature
+  return `${payloadB64}.${signature}`;
 }
+
 /**
- * Validates CSRF token (basic implementation).
- * In a production environment, you might want to store tokens server-side
- * and implement more sophisticated validation.
+ * Validates and verifies a CSRF token.
+ * Uses constant-time comparison to prevent timing attacks.
+ *
+ * @param token The CSRF token to validate
+ * @param sessionId Optional session ID to verify token binding
+ * @param currentTimestamp Optional timestamp for testing purposes
+ * @returns true if token is valid, false otherwise
  */
+export function validateCSRFToken(
+  token: string,
+  sessionId?: string,
+  currentTimestamp?: number
+): boolean {
+  try {
+    // Split token into payload and signature
+    const parts = token.split(".");
+    if (parts.length !== 2) {
+      return false;
+    }
 
-export function validateCSRFToken(token: string, timestamp?: number): boolean {
-  if (!token.startsWith("csrf_")) return false;
+    const [payloadB64, providedSignature] = parts;
 
-  const parts = token.split("_");
-  if (parts.length !== 3) return false;
+    // Verify signature using HMAC-SHA256
+    const expectedSignature = createHmac(
+      "sha256",
+      serverEnv.SESSION_CONFIG_JWT_SECRET
+    )
+      .update(payloadB64)
+      .digest("base64url");
 
-  const tokenTimestamp = parseInt(parts[1], 10);
-  if (isNaN(tokenTimestamp)) return false;
+    // Use constant-time comparison to prevent timing attacks
+    const expectedBuffer = Buffer.from(expectedSignature);
+    const providedBuffer = Buffer.from(providedSignature);
 
-  // Token should not be older than 1 hour
-  const maxAge = 3600 * 1000; // 1 hour in milliseconds
-  const now = timestamp || Date.now();
+    if (expectedBuffer.length !== providedBuffer.length) {
+      return false;
+    }
 
-  return now - tokenTimestamp <= maxAge;
+    if (!timingSafeEqual(expectedBuffer, providedBuffer)) {
+      return false;
+    }
+
+    // Decode and parse payload
+    const payloadString = Buffer.from(payloadB64, "base64url").toString("utf8");
+    const payloadResp = CsrfTokenPayload.safeParse(JSON.parse(payloadString));
+    if (!payloadResp.success) {
+      return false;
+    }
+    const payload = payloadResp.data;
+
+    // Validate timestamp
+    const now = currentTimestamp || Date.now();
+    if (now - payload.timestamp > CSRF_TOKEN_MAX_AGE) {
+      return false;
+    }
+
+    // Validate timestamp is not in the future (allow 5 second clock skew)
+    if (payload.timestamp > now + 5000) {
+      return false;
+    }
+
+    // If sessionId is provided, verify it matches the token's sessionId
+    if (sessionId && payload.sessionId && payload.sessionId !== sessionId) {
+      return false;
+    }
+
+    return true;
+  } catch {
+    // Any error in parsing or validation should result in rejection
+    return false;
+  }
 }

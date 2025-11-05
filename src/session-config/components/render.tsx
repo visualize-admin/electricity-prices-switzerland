@@ -8,6 +8,10 @@ import { Dashboard, LoginForm, ErrorPage } from "./index";
 
 interface RenderDashboardOptions {
   message?: string;
+  messageLink?: {
+    href: string;
+    text: string;
+  };
   error?: string;
 }
 
@@ -23,6 +27,7 @@ export function renderDashboard(
       flags={flags}
       csrfToken={csrfToken}
       message={options?.message}
+      messageLink={options?.messageLink}
       error={options?.error}
     />
   );
