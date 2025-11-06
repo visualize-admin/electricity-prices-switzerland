@@ -1,28 +1,38 @@
 import { GetServerSidePropsContext, NextApiRequest } from "next";
-import { SunshineDataService } from "src/lib/sunshine-data-service";
+import ParsingClient from "sparql-http-client/ParsingClient";
+
+import { getSparqlClientFromRequest } from "src/rdf/sparql-client";
 import {
   getSunshineDataServiceFromApiRequest,
   getSunshineDataServiceFromGetServerSidePropsContext,
-} from "src/lib/sunshine-data-service-context";
+  SunshineDataService,
+} from "src/lib/sunshine-data-service";
 import {
-  getSparqlClientFromApiRequest,
-  getSparqlClientFromGetServerSidePropsContext,
-} from "src/lib/sparql-client-context";
-import ParsingClient from "sparql-http-client/ParsingClient";
+  getDefaultedFlags,
+  getSessionConfigFlagsFromCookies,
+  SessionConfigFlags,
+} from "src/session-config";
+import { getSparqlClientFromGetServerSidePropsContext } from "src/lib/sparql-client-context";
 
 export type GraphqlRequestContext = {
   sunshineDataService: SunshineDataService;
   sparqlClient: ParsingClient;
+  flags: SessionConfigFlags;
 };
 
 export const contextFromAPIRequest = async (
   req: NextApiRequest
 ): Promise<GraphqlRequestContext> => {
-  const sunshineDataService = getSunshineDataServiceFromApiRequest(req);
-  const sparqlClient = await getSparqlClientFromApiRequest(req);
+  const sunshineDataService = await getSunshineDataServiceFromApiRequest(req);
+  const sparqlClient = await getSparqlClientFromRequest(req);
+  const partialFlags = await getSessionConfigFlagsFromCookies(
+    req.headers.cookie
+  );
+  const flags = getDefaultedFlags(partialFlags);
 
   return {
     sunshineDataService,
+    flags,
     sparqlClient,
   };
 };
@@ -31,11 +41,16 @@ export const contextFromGetServerSidePropsContext = async (
   ctx: Pick<GetServerSidePropsContext, "req">
 ): Promise<GraphqlRequestContext> => {
   const sunshineDataService =
-    getSunshineDataServiceFromGetServerSidePropsContext(ctx);
+    await getSunshineDataServiceFromGetServerSidePropsContext(ctx);
   const sparqlClient = await getSparqlClientFromGetServerSidePropsContext(ctx);
+  const partialFlags = await getSessionConfigFlagsFromCookies(
+    ctx.req.headers.cookie
+  );
+  const flags = getDefaultedFlags(partialFlags);
 
   return {
     sunshineDataService,
     sparqlClient,
+    flags,
   };
 };

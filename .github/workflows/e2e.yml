@@ -43,6 +43,9 @@ jobs:
         env:
           BASIC_AUTH_CREDENTIALS: ${{ secrets.BASIC_AUTH_CREDENTIALS }}
           GRAPHQL_BASE_URL: ${{ steps.deployment-url.outputs.deployment-url }}/api/graphql
+          # Necessary to be able to create a session cookie in the tests
+          SESSION_CONFIG_PASSWORD: ${{ secrets.SESSION_CONFIG_PASSWORD }}
+          SESSION_CONFIG_JWT_SECRET: ${{ secrets.SESSION_CONFIG_JWT_SECRET }}
 
       - name: Run application tests
         env:

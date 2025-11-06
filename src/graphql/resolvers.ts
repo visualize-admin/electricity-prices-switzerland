@@ -397,6 +397,7 @@ const Query: QueryResolvers = {
 
     return results;
   },
+
   peerGroups: async (_parent, { locale }, context) => {
     const peerGroups = await context.sunshineDataService.getPeerGroups(locale);
     return peerGroups;

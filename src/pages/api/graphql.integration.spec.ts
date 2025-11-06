@@ -6,13 +6,15 @@ import {
   type SunshineDataByIndicatorQuery,
   type SunshineDataByIndicatorQueryVariables,
 } from "src/graphql/queries";
-import { SUNSHINE_DATA_SERVICE_COOKIE_NAME } from "src/lib/sunshine-data-service-context";
+import { createCookieFromFlags } from "src/session-config";
 
 const GRAPHQL_BASE_URL =
   process.env.GRAPHQL_BASE_URL || "http://localhost:3000/api/graphql";
 
-const headers = {
-  cookie: `${SUNSHINE_DATA_SERVICE_COOKIE_NAME}=sql`,
+const makeHeaders = async () => ({
+  cookie: await createCookieFromFlags({
+    sunshineDataService: "sql",
+  }),
 
   ...(process.env.BASIC_AUTH_CREDENTIALS
     ? {
@@ -22,9 +24,10 @@ const headers = {
         ).toString("base64")}`,
       }
     : {}),
-};
+});
 
-const performHealthCheck = (graphqlEndpoint: string) => {
+const performHealthCheck = async (graphqlEndpoint: string) => {
+  const headers = await makeHeaders();
   return fetch(graphqlEndpoint, {
     method: "POST",
     headers: {
@@ -35,7 +38,9 @@ const performHealthCheck = (graphqlEndpoint: string) => {
   })
     .then((response) => {
       if (!response.ok) {
-        throw new Error(`GraphQL API is not reachable: ${response.statusText}`);
+        throw new Error(
+          `GraphQL API is not reachable at ${graphqlEndpoint}: ${response.statusText}`
+        );
       }
       return response.json();
     })
@@ -53,17 +58,17 @@ beforeAll(async () => {
   await performHealthCheck(GRAPHQL_BASE_URL);
 });
 
-const client = new Client({
-  url: GRAPHQL_BASE_URL,
-  exchanges: [fetchExchange],
-  fetchOptions: {
-    headers,
-  },
-});
-
 async function executeGraphQLQuery(
   variables: SunshineDataByIndicatorQueryVariables
 ): Promise<{ data?: SunshineDataByIndicatorQuery; error?: Error }> {
+  const headers = await makeHeaders();
+  const client = new Client({
+    url: GRAPHQL_BASE_URL,
+    exchanges: [fetchExchange],
+    fetchOptions: {
+      headers,
+    },
+  });
   const result = await client
     .query(SunshineDataByIndicatorDocument, variables)
     .toPromise();

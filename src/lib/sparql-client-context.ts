@@ -8,7 +8,7 @@ import server from "src/env/server";
  * Right now, the client does not depend on the request, but in the future, we
  * want to have different clients based on request headers.
  */
-export async function getSparqlClientFromApiRequest(
+async function getSparqlClientFromApiRequest(
   _req: NextApiRequest
 ): Promise<ParsingClient> {
   const endpoint = server.SPARQL_ENDPOINT;

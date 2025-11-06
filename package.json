@@ -102,6 +102,7 @@
     "har-to-k6": "^0.13.1",
     "html-react-parser": "^5.2.5",
     "html2canvas": "^1.4.1",
+    "jose": "^6.1.0",
     "jscodeshift": "^17.3.0",
     "jsdom": "^26.1.0",
     "lodash": "^4.17.21",

@@ -5,7 +5,7 @@ import * as path from "path";
 import * as argparse from "argparse";
 
 import { ensureDatabaseInitialized } from "src/lib/db/duckdb";
-import { getSunshineDataService } from "src/lib/sunshine-data-service-context";
+import { getSunshineDataService } from "src/lib/sunshine-data-service";
 
 import { closeDuckDB } from "../src/lib/db/duckdb";
 import {

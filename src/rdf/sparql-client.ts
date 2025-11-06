@@ -3,9 +3,9 @@ import { NextRequest } from "next/server";
 import ParsingClient from "sparql-http-client/ParsingClient";
 
 import server from "src/env/server";
+import { parseSessionFromRequest } from "src/session-config";
 
 export const endpointUrl = server.SPARQL_ENDPOINT;
-
 /**
  * Creates a SPARQL client with the specified endpoint URL.
  */
@@ -36,8 +36,12 @@ export function createSparqlClientForCube(
  */
 
 export async function getSparqlClientFromRequest(
-  _req: NextApiRequest | GetServerSidePropsContext["req"] | NextRequest
+  req: NextApiRequest | GetServerSidePropsContext["req"] | NextRequest
 ): Promise<ParsingClient> {
-  const endpoint = server.SPARQL_ENDPOINT;
-  return createSparqlClient(endpoint);
+  const session = await parseSessionFromRequest(req);
+  const endpoint = session?.flags.sparqlEndpoint ?? server.SPARQL_ENDPOINT;
+
+  return new ParsingClient({
+    endpointUrl: endpoint,
+  });
 }

@@ -30,10 +30,89 @@ const ELECTRICIY_PRICE_CANTON_CUBE =
 const ELECTRICITY_PRICE_SWISS_CUBE =
   "https://energy.ld.admin.ch/elcom/electricityprice-swiss";
 
-const createSource = (cubeIri: string | undefined, client: ParsingClient) => {
+const makeClientVerbose = (client: ParsingClient): ParsingClient => {
+  const originalQuery = client.query;
+  client.query = {
+    ...originalQuery,
+    select: async (query: string) => {
+      // eslint-disable-next-line no-console
+      console.log("SPARQL Query:\n", query);
+      return originalQuery.select(query);
+    },
+    construct: async (query: string) => {
+      // eslint-disable-next-line no-console
+      console.log("SPARQL Query:\n", query);
+      return originalQuery.construct(query);
+    },
+    ask: async (query: string) => {
+      // eslint-disable-next-line no-console
+      console.log("SPARQL Query:\n", query);
+      return originalQuery.ask(query);
+    },
+    update: async (query: string) => {
+      // eslint-disable-next-line no-console
+      console.log("SPARQL Query:\n", query);
+      return originalQuery.update(query);
+    },
+  };
+  return client;
+};
+
+const graphDbHosts = ["https://lindas.int.cz-aws.net"];
+
+const replacements = [
+  {
+    // The following works on Stardog but not on GraphDB
+    // Unfortunately, we cannot yet express DATATYPE(?dimension) through the cube-view-query API.
+    // @tomaspluskiewicz will have a look at this.
+    // See https://zulip.zazuko.com/#narrow/channel/32-bar-ld-ext/topic/datatype.20filter.20on.20dimension/near/511315
+    search: /\(\?([a-zA-Z0-9_]+) != ""\^\^<https:\/\/cube\.link\/Undefined>\)/g,
+    replace: "DATATYPE(?$1) != <https://cube.link/Undefined>",
+  },
+];
+const handleQueryForGraphDb = (query: string) => {
+  return replacements.reduce((q, r) => q.replace(r.search, r.replace), query);
+};
+
+const patchClientForGraphDb = (client: ParsingClient) => {
+  const originalQuery = client.query;
+  client.query = {
+    ...originalQuery,
+    select: async (query: string) => {
+      return originalQuery.select(handleQueryForGraphDb(query));
+    },
+    construct: async (query: string) => {
+      return originalQuery.construct(handleQueryForGraphDb(query));
+    },
+    ask: async (query: string) => {
+      return originalQuery.ask(handleQueryForGraphDb(query));
+    },
+    update: async (query: string) => {
+      return originalQuery.update(handleQueryForGraphDb(query));
+    },
+  };
+  return client;
+};
+
+const createSource = (
+  cubeIri: string | undefined,
+  client: ParsingClient,
+  { verbose = false }: { verbose?: boolean }
+) => {
   const cubeClient = cubeIri
     ? createSparqlClientForCube(client.query.endpoint.endpointUrl, cubeIri)
     : client;
+
+  const isGraphDb = graphDbHosts.some((host) =>
+    cubeClient.query.endpoint.endpointUrl.includes(host)
+  );
+  if (verbose) {
+    makeClientVerbose(cubeClient);
+  }
+
+  if (isGraphDb) {
+    patchClientForGraphDb(cubeClient);
+  }
 
   return new Source({
     queryOperation: "postDirect",
@@ -55,7 +134,7 @@ const getCube = async ({
   iri: string;
   client: ParsingClient;
 }): Promise<Cube | null> => {
-  const source = createSource(iri, client);
+  const source = createSource(iri, client, { verbose: false });
   const cube = await source.cube(iri);
 
   if (!cube) {

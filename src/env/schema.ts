@@ -94,6 +94,15 @@ export const serverSchema = z.object({
   SUNSHINE_CSV_DATA_DIR: z
     .string()
     .default(path.join(process.cwd(), "src/sunshine-data")),
+
+  // Admin session management
+  SESSION_CONFIG_PASSWORD: z.string(),
+  SESSION_CONFIG_JWT_SECRET: z.string(),
+  SESSION_CONFIG_SESSION_DURATION: z
+    .string()
+    .optional()
+    .default("86400")
+    .transform((value) => parseInt(value, 10)),
 });
 
 const FlagSchema = z.array(z.string());

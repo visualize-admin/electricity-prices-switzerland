@@ -17,7 +17,17 @@ describe("SPARQL Sunshine Data Service", () => {
         networkLevel: "NE5",
       });
 
-      expect(result).toMatchInlineSnapshot(`[]`);
+      expect(result).toMatchInlineSnapshot(`
+        [
+          {
+            "network_level": "NE5",
+            "operator_id": 672,
+            "operator_name": "St.Galler Stadtwerke",
+            "rate": 29318.506,
+            "year": 2025,
+          },
+        ]
+      `);
     });
 
     it("should return all network levels when networkLevel is not specified", async () => {
@@ -29,6 +39,13 @@ describe("SPARQL Sunshine Data Service", () => {
       expect(result).toMatchInlineSnapshot(`
         [
           {
+            "network_level": "NE5",
+            "operator_id": 672,
+            "operator_name": "St.Galler Stadtwerke",
+            "rate": 29318.506,
+            "year": 2025,
+          },
+          {
             "network_level": "NE6",
             "operator_id": 672,
             "operator_name": "St.Galler Stadtwerke",
@@ -39,7 +56,7 @@ describe("SPARQL Sunshine Data Service", () => {
             "network_level": "NE7",
             "operator_id": 672,
             "operator_name": "St.Galler Stadtwerke",
-            "rate": 26737.657,
+            "rate": 26654.642,
             "year": 2025,
           },
         ]
@@ -57,6 +74,13 @@ describe("SPARQL Sunshine Data Service", () => {
         [
           {
             "network_level": "NE5",
+            "operator_id": 10,
+            "operator_name": "Arosa Energie",
+            "rate": 7325.806,
+            "year": 2026,
+          },
+          {
+            "network_level": "NE5",
             "operator_id": 105,
             "operator_name": "ELEKTRA ENERGIE Genossenschaft",
             "rate": 8643.865,
@@ -64,16 +88,9 @@ describe("SPARQL Sunshine Data Service", () => {
           },
           {
             "network_level": "NE5",
-            "operator_id": 11,
-            "operator_name": "Aare Versorgungs AG (AVAG)",
-            "rate": 20486.074,
-            "year": 2026,
-          },
-          {
-            "network_level": "NE5",
-            "operator_id": 111,
-            "operator_name": "Elektra Genossenschaft Auw",
-            "rate": 13440.984,
+            "operator_id": 107,
+            "operator_name": "Elektra Andwil Stromversorgung",
+            "rate": 32282.548,
             "year": 2026,
           },
         ]
@@ -114,7 +131,7 @@ describe("SPARQL Sunshine Data Service", () => {
         [
           {
             "energy_density": "",
-            "franc_rule": undefined,
+            "franc_rule": 59.619,
             "info_days_in_advance": 2,
             "info_yes_no": "nein",
             "operator_id": 672,
@@ -455,9 +472,9 @@ describe("SPARQL Sunshine Data Service", () => {
             "infoDaysInAdvance": 2,
             "infoYesNo": true,
             "name": "St.Galler Stadtwerke",
-            "networkCostsNE5": undefined,
+            "networkCostsNE5": 29318.506,
             "networkCostsNE6": 12.366,
-            "networkCostsNE7": 26737.657,
+            "networkCostsNE7": 26654.642,
             "operatorId": 672,
             "operatorUID": "672",
             "period": "2025",
@@ -498,9 +515,9 @@ describe("SPARQL Sunshine Data Service", () => {
             "infoDaysInAdvance": 3,
             "infoYesNo": true,
             "name": "Arosa Energie",
-            "networkCostsNE5": undefined,
+            "networkCostsNE5": 9335.065,
             "networkCostsNE6": 11.729,
-            "networkCostsNE7": 12974.149,
+            "networkCostsNE7": 12858.57,
             "operatorId": 10,
             "operatorUID": "10",
             "period": "2025",
@@ -568,13 +585,13 @@ describe("SPARQL Sunshine Data Service", () => {
       expect(result.slice(0, 2)).toMatchInlineSnapshot(`
         [
           {
-            "francRule": undefined,
+            "francRule": 59.619,
             "infoDaysInAdvance": 2,
             "infoYesNo": true,
             "name": "St.Galler Stadtwerke",
-            "networkCostsNE5": undefined,
+            "networkCostsNE5": 32180.946,
             "networkCostsNE6": 13.072,
-            "networkCostsNE7": 28346.952,
+            "networkCostsNE7": 28262.076,
             "operatorId": 672,
             "operatorUID": "672",
             "period": "2026",
@@ -603,9 +620,9 @@ describe("SPARQL Sunshine Data Service", () => {
             "infoDaysInAdvance": 2,
             "infoYesNo": true,
             "name": "St.Galler Stadtwerke",
-            "networkCostsNE5": undefined,
+            "networkCostsNE5": 29318.506,
             "networkCostsNE6": 12.366,
-            "networkCostsNE7": 26737.657,
+            "networkCostsNE7": 26654.642,
             "operatorId": 672,
             "operatorUID": "672",
             "period": "2025",

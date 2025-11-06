@@ -20,12 +20,12 @@ import { DetailsPageSidebar } from "src/components/detail-page/sidebar";
 import { LoadingSkeleton } from "src/components/hint";
 import { NetworkCostsTrendCardMinified } from "src/components/network-costs-trend-card";
 import { PowerStabilityCardMinified } from "src/components/power-stability-card";
-import { SunshineDataServiceDebug } from "src/components/sunshine-data-service-debug";
+import { SessionConfigDebug } from "src/components/session-config-debug";
 import { YearlyNavigation } from "src/components/sunshine-tabs";
 import TableComparisonCard from "src/components/table-comparison-card";
 import { TariffsTrendCardMinified } from "src/components/tariffs-trend-card";
 import {
-  DataServiceProps,
+  SessionConfigDebugProps,
   getOperatorsPageProps,
   PageParams,
   Props as SharedPageProps,
@@ -57,11 +57,9 @@ import {
   fetchOperatorCostsAndTariffsData,
   fetchPowerStability,
 } from "src/lib/sunshine-data";
-import {
-  getSunshineDataServiceFromGetServerSidePropsContext,
-  getSunshineDataServiceInfo,
-} from "src/lib/sunshine-data-service-context";
+import { getSunshineDataServiceFromGetServerSidePropsContext } from "src/lib/sunshine-data-service";
 import { defaultLocale } from "src/locales/config";
+import { getSessionConfigFlagsInfo } from "src/session-config/info";
 import { makePageTitle } from "src/utils/page-title";
 
 import {
@@ -74,7 +72,7 @@ type Props =
       costsAndTariffs: SunshineCostsAndTariffsData;
       powerStability: SunshinePowerStabilityData;
       operationalStandards: SunshineOperationalStandardsData;
-      dataService: DataServiceProps;
+      sessionConfig: SessionConfigDebugProps;
     })
   | { status: "notfound" };
 
@@ -108,8 +106,8 @@ export const getServerSideProps: GetServerSideProps<Props, PageParams> = async (
   }
 
   const sunshineDataService =
-    getSunshineDataServiceFromGetServerSidePropsContext(context);
-  const dataService = getSunshineDataServiceInfo(context);
+    await getSunshineDataServiceFromGetServerSidePropsContext(context);
+  const sessionConfig = await getSessionConfigFlagsInfo(context);
 
   const [operationalStandards, powerStability, costsAndTariffs] =
     await Promise.all([
@@ -134,7 +132,7 @@ export const getServerSideProps: GetServerSideProps<Props, PageParams> = async (
       operationalStandards,
       powerStability,
       costsAndTariffs,
-      dataService,
+      sessionConfig,
     },
   };
 };
@@ -627,8 +625,8 @@ const OverviewPage = (props: Props) => {
 
   return (
     <>
-      {props.status === "found" && !props.dataService.isDefault && (
-        <SunshineDataServiceDebug serviceName={props.dataService.serviceName} />
+      {props.status === "found" && (
+        <SessionConfigDebug flags={props.sessionConfig.flags} />
       )}
       <DetailsPageLayout
         title={pageTitle}

@@ -10,6 +10,7 @@ import {
   getOperatorMunicipalities,
 } from "src/rdf/queries";
 import { getSparqlClientFromRequest } from "src/rdf/sparql-client";
+import { SessionConfigFlagInfo } from "src/session-config/info";
 
 export type PageParams = {
   locale: string;
@@ -17,10 +18,10 @@ export type PageParams = {
   entity: Entity;
 };
 
-export type DataServiceProps = {
-  serviceName: string;
-  isDefault: boolean;
+export type SessionConfigDebugProps = {
+  flags: Record<string, SessionConfigFlagInfo>;
 };
+
 export type Props =
   | {
       entity: "canton";
