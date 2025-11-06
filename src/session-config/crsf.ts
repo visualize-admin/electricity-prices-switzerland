@@ -45,8 +45,15 @@ export function generateCSRFToken(sessionId?: string): string {
   const payloadString = JSON.stringify(payload);
   const payloadB64 = Buffer.from(payloadString).toString("base64url");
 
+  const secret = serverEnv.SESSION_CONFIG_JWT_SECRET;
+  if (!secret) {
+    throw new Error(
+      "SESSION_CONFIG_JWT_SECRET is not set, cannot produce login page"
+    );
+  }
+
   // Sign the payload using HMAC-SHA256
-  const signature = createHmac("sha256", serverEnv.SESSION_CONFIG_JWT_SECRET)
+  const signature = createHmac("sha256", secret)
     .update(payloadB64)
     .digest("base64url");
 
@@ -77,11 +84,13 @@ export function validateCSRFToken(
 
     const [payloadB64, providedSignature] = parts;
 
+    const secret = serverEnv.SESSION_CONFIG_JWT_SECRET;
+    if (!secret) {
+      return false;
+    }
+
     // Verify signature using HMAC-SHA256
-    const expectedSignature = createHmac(
-      "sha256",
-      serverEnv.SESSION_CONFIG_JWT_SECRET
-    )
+    const expectedSignature = createHmac("sha256", secret)
       .update(payloadB64)
       .digest("base64url");
 

@@ -64,6 +64,9 @@ export function getSessionDuration(): number {
  * Validates the password.
  */
 export function validatePassword(password: string): boolean {
+  if (!serverEnv.SESSION_CONFIG_PASSWORD) {
+    return false;
+  }
   return password === serverEnv.SESSION_CONFIG_PASSWORD;
 }
 

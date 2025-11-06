@@ -6,7 +6,13 @@ import serverEnv from "src/env/server";
 
 import { generateCSRFToken, validateCSRFToken } from "./crsf";
 
+const envSessionConfigJwtSecret = serverEnv.SESSION_CONFIG_JWT_SECRET;
+
 describe("CSRF Token Implementation", () => {
+  if (!envSessionConfigJwtSecret) {
+    it.skip("Skipping CSRF tests because SESSION_CONFIG_JWT_SECRET is not set", () => {});
+    return;
+  }
   describe("generateCSRFToken", () => {
     it("should generate a valid token", () => {
       const token = generateCSRFToken();
@@ -114,10 +120,7 @@ describe("CSRF Token Implementation", () => {
       );
 
       // Create HMAC signature
-      const signature = createHmac(
-        "sha256",
-        serverEnv.SESSION_CONFIG_JWT_SECRET
-      )
+      const signature = createHmac("sha256", envSessionConfigJwtSecret)
         .update(payloadB64)
         .digest("base64url");
 
@@ -139,10 +142,7 @@ describe("CSRF Token Implementation", () => {
       );
 
       // Create HMAC signature
-      const signature = createHmac(
-        "sha256",
-        serverEnv.SESSION_CONFIG_JWT_SECRET
-      )
+      const signature = createHmac("sha256", envSessionConfigJwtSecret)
         .update(payloadB64)
         .digest("base64url");
 
@@ -169,10 +169,7 @@ describe("CSRF Token Implementation", () => {
         "base64url"
       );
 
-      const signature = createHmac(
-        "sha256",
-        serverEnv.SESSION_CONFIG_JWT_SECRET
-      )
+      const signature = createHmac("sha256", envSessionConfigJwtSecret)
         .update(payloadB64)
         .digest("base64url");
 
