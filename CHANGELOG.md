@@ -9,9 +9,9 @@ and this project adheres to
 You can also check the
 [release page](https://github.com/visualize-admin/electricity-prices-switzerland/releases)
 
-# Unreleased
+# 2.23.0 - 2025-11-06
 
-Nothing yet.
+- Ability to switch SPARQL endpoint for the current user through a password protected interface
 
 # 2.22.2 - 2025-10-16
 
