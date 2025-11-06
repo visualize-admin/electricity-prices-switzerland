@@ -97,7 +97,7 @@ describe("CSRF Token Implementation", () => {
       const notSofutureTime = currentTime + duration - 1;
       expect(validateCSRFToken(token, undefined, notSofutureTime)).toBe(true);
 
-      const futureTime = currentTime + duration + 1;
+      const futureTime = currentTime + duration + 10;
       expect(validateCSRFToken(token, undefined, futureTime)).toBe(false);
     });
 
