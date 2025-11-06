@@ -3,6 +3,7 @@ import { FormEvent, useCallback, useMemo, useState } from "react";
 import { OperationResult, UseQueryState } from "urql";
 
 import { LoadingIconInline } from "src/components/hint";
+import serverEnv from "src/env/server";
 import * as Queries from "src/graphql/queries";
 import { DebugDownloadGetResponse } from "src/pages/api/debug-download";
 import createGetServerSideProps from "src/utils/create-server-side-props";
@@ -232,6 +233,10 @@ const Page = ({
       <Typography variant="h1">API Status</Typography>
 
       <SectionHeading>Internal</SectionHeading>
+
+      <Typography variant="body1" mb={1}>
+        Default SPARQL Endpoint: {serverEnv.SPARQL_ENDPOINT}
+      </Typography>
 
       <SystemInfoStatus query={systemInfo} />
 
@@ -792,6 +797,7 @@ export const getServerSideProps = createGetServerSideProps(
 
     return {
       props: {
+        endpoint: serverEnv.SPARQL_ENDPOINT,
         cubeHealth: serializeOperation(validResults.cubeHealth.value),
         systemInfo: serializeOperation(validResults.systemInfo.value),
         wikiContent: serializeOperation(validResults.wikiContent.value),
