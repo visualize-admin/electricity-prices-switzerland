@@ -1,10 +1,18 @@
+import { loadEnv } from "vite";
 import { defineConfig } from "vitest/config";
+
+const env = loadEnv("development", process.cwd(), ["SESSION_CONFIG_"]);
 
 export default defineConfig({
   test: {
     env: {
-      SESSION_CONFIG_PASSWORD: "testpassword",
-      SESSION_CONFIG_JWT_SECRET: "testsecret",
+      ...env,
+      ...Object.fromEntries(
+        Object.entries({
+          SESSION_CONFIG_PASSWORD: process.env.SESSION_CONFIG_PASSWORD,
+          SESSION_CONFIG_JWT_SECRET: process.env.SESSION_CONFIG_JWT_SECRET,
+        }).filter(([_key, value]) => value !== undefined)
+      ),
     },
     projects: [
       // Unit tests project

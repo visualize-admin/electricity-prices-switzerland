@@ -38,7 +38,9 @@ const performHealthCheck = async (graphqlEndpoint: string) => {
   })
     .then((response) => {
       if (!response.ok) {
-        throw new Error(`GraphQL API is not reachable: ${response.statusText}`);
+        throw new Error(
+          `GraphQL API is not reachable at ${graphqlEndpoint}: ${response.statusText}`
+        );
       }
       return response.json();
     })
