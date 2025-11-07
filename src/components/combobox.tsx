@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
-import { hsl } from "d3-color";
+import { hsl } from "d3";
 import { useEffect, useId, useMemo, useState } from "react";
 import { makeStyles } from "tss-react/mui";
 
@@ -85,7 +85,7 @@ const ComboboxLabel = ({
   );
 };
 
-const useStyles = makeStyles()((theme, params) => ({
+const useStyles = makeStyles()((theme) => ({
   invertedChip: {
     color: "white",
     "&:hover": {

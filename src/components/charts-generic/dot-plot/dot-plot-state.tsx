@@ -21,19 +21,15 @@ import { chartPalette } from "src/themes/palette";
 import { Tooltip, TooltipValue } from "../interaction/tooltip";
 import { useChartTheme } from "../use-chart-theme";
 
-type ColorScale = ReturnType<typeof scaleOrdinal<string, string>>;
-
 const useScatterPlotState = ({
   data,
   fields,
   aspectRatio,
   medianValue,
-  colorScale,
 }: Pick<ChartProps, "data" | "dimensions" | "measures"> & {
   fields: DotPlotFields;
   aspectRatio: number;
   medianValue?: number;
-  colorScale?: ColorScale;
 }): DotPlotState => {
   const width = useWidth();
   const formatCurrency = useFormatCurrency();
@@ -254,7 +250,6 @@ const DotPlotProvider = ({
   measures,
   aspectRatio,
   medianValue,
-  colorScale,
   children,
 }: Pick<ChartProps, "data" | "dimensions" | "measures"> & {
   children: ReactNode;
@@ -270,7 +265,6 @@ const DotPlotProvider = ({
     measures,
     aspectRatio,
     medianValue,
-    colorScale,
   });
   return (
     <ChartContext.Provider value={state}>{children}</ChartContext.Provider>
