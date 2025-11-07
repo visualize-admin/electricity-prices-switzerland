@@ -113,6 +113,7 @@ export const SunshineSelectorsBase = ({
           getItemLabel={getItemLabel}
           selectedItem={complianceType}
           setSelectedItem={setComplianceType}
+          infoDialogSlug="help-compliance"
         />
       ) : null}
 

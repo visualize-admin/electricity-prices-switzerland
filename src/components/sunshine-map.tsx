@@ -9,6 +9,7 @@ import { useCallback, useId, useMemo, useState } from "react";
 import { MapColorLegend } from "src/components/color-legend";
 import { GenericMap, GenericMapControls } from "src/components/generic-map";
 import { HighlightValue } from "src/components/highlight-context";
+import { infoDialogProps } from "src/components/info-dialog-props";
 import { useMap } from "src/components/map-context";
 import { HoverState } from "src/components/map-helpers";
 import {
@@ -393,6 +394,7 @@ const SunshineMap = ({
           ticks={complianceTicks}
           mode="yesNo"
           palette={chartPalette.diverging.GreenToOrange}
+          infoDialogButtonProps={infoDialogProps["help-compliance"]}
         />
       );
     }
