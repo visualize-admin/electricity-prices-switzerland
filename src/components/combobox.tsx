@@ -27,6 +27,7 @@ export type ComboboxMultiProps = {
   isLoading?: boolean;
   isOptionEqualToValue?: (option: unknown, value: string) => boolean;
   size?: "small" | "medium";
+  InputProps?: Partial<React.ComponentProps<typeof TextField>["InputProps"]>;
 };
 
 const defaultGetItemLabel = (d: string) => d;
@@ -92,6 +93,7 @@ export const MultiCombobox = ({
   colorMapping,
   max,
   size = "small",
+  InputProps,
 }: ComboboxMultiProps) => {
   const [inputValue, setInputValue] = useState("");
 
@@ -152,6 +154,7 @@ export const MultiCombobox = ({
             }
             InputProps={{
               ...params.InputProps,
+              ...InputProps,
             }}
           />
         </Box>

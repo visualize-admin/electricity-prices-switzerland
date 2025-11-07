@@ -256,7 +256,7 @@ const SaidiSaifiChartAdapter = ({
         operatorLabel={operatorLabel ?? ""}
         viewBy="progress"
         overallOrRatio="overall"
-        duration={saidiSaifiType}
+        saidiSaifiType={saidiSaifiType}
         compareWith={[]}
         mini
       />

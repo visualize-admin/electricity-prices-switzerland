@@ -2,7 +2,6 @@ import { Trend } from "src/graphql/resolver-types";
 import costsAndTariffsData from "src/mocks/sunshine-costsAndTariffs-426.json";
 import powerStabilityData from "src/mocks/sunshine-powerStability-426.json";
 
-
 import { NetworkCostTrendChart } from "./network-cost-trend-chart";
 import { PowerStabilityChart } from "./power-stability-chart";
 import { DesignGrid, DesignStory } from "./storybook/base-style";
@@ -48,7 +47,7 @@ const PowerStabilityChartProgressStory = () => {
           operatorLabel="Fluxonomy Energy"
           viewBy="progress"
           overallOrRatio="overall"
-          duration="total"
+          saidiSaifiType="total"
           compareWith={[]}
         />
       </DesignGrid>

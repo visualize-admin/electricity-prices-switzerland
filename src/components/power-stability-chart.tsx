@@ -264,7 +264,7 @@ const ProgressOvertimeChartView = (
   const {
     observations,
     operatorLabel,
-    duration = "total",
+    saidiSaifiType = "total",
     mini,
     compareWith = [],
     colorMapping,
@@ -282,7 +282,7 @@ const ProgressOvertimeChartView = (
       colorMapping={colorMapping}
       mini={mini}
       xField="year"
-      yField={duration}
+      yField={saidiSaifiType}
       entityField="operator"
     />
   );

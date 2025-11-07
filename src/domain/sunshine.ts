@@ -12,8 +12,13 @@ import {
   NetworkLevel as GraphQLNetworkLevel,
   StabilityData,
   TariffsData,
+  StabilityDataRow,
 } from "src/graphql/resolver-types";
-import { PeerGroup } from "src/graphql/resolver-types";
+import {
+  PeerGroup,
+  TariffRow,
+  NetworkCostRow,
+} from "src/graphql/resolver-types";
 export type { PeerGroup } from "src/graphql/resolver-types";
 /**
  * Years available for sunshine data queries
@@ -72,6 +77,12 @@ export const netElectricityCategoryOptions: ElectricityCategory[] = [
 
 export const peerGroupOperatorId = 10000;
 export const peerGroupOperatorName = "MEDIAN_PEER_GROUP";
+
+export const isPeerGroupRow = (
+  row: NetworkCostRow | TariffRow | StabilityDataRow
+) => {
+  return row.operator_id === peerGroupOperatorId;
+};
 
 export const sunshineIndicatorSchema = z.enum([
   "networkCosts",

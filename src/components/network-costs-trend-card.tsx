@@ -7,8 +7,16 @@ import CardSource from "src/components/card-source";
 import { infoDialogProps } from "src/components/info-dialog-props";
 import { createColorMapping } from "src/domain/color-mapping";
 import { filterBySeparator } from "src/domain/helpers";
-import { useQueryStateNetworkCostsTrendCardFilters } from "src/domain/query-states";
-import { PeerGroup, SunshineCostsAndTariffsData } from "src/domain/sunshine";
+import {
+  CompareWithFilter,
+  useQueryStateNetworkCostsTrendCardFilters,
+  ViewByFilter,
+} from "src/domain/query-states";
+import {
+  isPeerGroupRow,
+  PeerGroup,
+  SunshineCostsAndTariffsData,
+} from "src/domain/sunshine";
 import { getLocalizedLabel, getPeerGroupLabels } from "src/domain/translation";
 
 import { CardHeader } from "./detail-page/card";
@@ -16,8 +24,7 @@ import { Download, DownloadImage } from "./detail-page/download-image";
 import { InfoDialogButton, InfoDialogButtonProps } from "./info-dialog";
 import { NetworkCostTrendChart } from "./network-cost-trend-chart";
 import { OverviewCard } from "./overview-card";
-import { CompareWithFilter, ViewByFilter } from "./power-stability-card";
-import { AllOrMultiCombobox } from "./query-combobox";
+import { ItemMultiCombobox } from "./query-combobox";
 
 const DOWNLOAD_ID: Download = "costs-and-tariffs";
 
@@ -40,6 +47,8 @@ export type NetworkCostsTrendCardFilters = {
   viewBy?: ViewByFilter;
 };
 
+// TODO See if can be shared with other cards
+// like getTariffsTrendCardState
 const getNetworkCostsTrendCardState = (
   props: Omit<NetworkCostsTrendCardProps, "state" | "setQueryState">,
   filters: NetworkCostsTrendCardFilters
@@ -64,7 +73,8 @@ const getNetworkCostsTrendCardState = (
       const isSelected =
         filters.compareWith?.includes("sunshine.select-all") ||
         filters.compareWith?.includes(operatorIdStr) ||
-        operatorIdStr === operatorId;
+        operatorIdStr === operatorId ||
+        isPeerGroupRow(d);
       if ((filters.viewBy === "latest" ? isLatestYear : true) && isSelected) {
         observations.push(d);
       }
@@ -73,7 +83,7 @@ const getNetworkCostsTrendCardState = (
       }
     });
     return { observations, multiComboboxOptions };
-  }, [yearlyData, filters.compareWith, latestYear, operatorId, filters.viewBy]);
+  }, [yearlyData, filters, latestYear, operatorId]);
   return {
     peerGroupLabel,
     observations,
@@ -192,21 +202,28 @@ export const NetworkCostsTrendCard: React.FC<NetworkCostsTrendCardProps> = (
             />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <AllOrMultiCombobox
+            <ItemMultiCombobox
               colorMapping={createColorMapping(compareWith, "elcom2")}
               label={t({
                 id: "sunshine.costs-and-tariffs.compare-with",
                 message: "Compare With",
               })}
-              items={[
-                { id: "sunshine.select-all" },
-                ...multiComboboxOptions.map((item) => {
-                  return {
-                    id: String(item.operator_id),
-                    name: item.operator_name,
-                  };
-                }),
-              ]}
+              InputProps={
+                compareWith.length === 0
+                  ? {
+                      placeholder: t({
+                        id: "sunshine.costs-and-tariffs.compare-with-placeholder",
+                        message: "Select operators to compare",
+                      }),
+                    }
+                  : {}
+              }
+              items={multiComboboxOptions.map((item) => {
+                return {
+                  id: String(item.operator_id),
+                  name: item.operator_name,
+                };
+              })}
               selectedItems={compareWith}
               setSelectedItems={(items) =>
                 setQueryState({
