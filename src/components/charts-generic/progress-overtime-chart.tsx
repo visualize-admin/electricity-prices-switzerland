@@ -141,8 +141,8 @@ export const ProgressOvertimeChart = <T extends GenericObservation>(
               item={
                 item.label === peerGroupOperatorName
                   ? t({
-                      id: "progress-overtime-chart.legend-item.peer-group",
-                      message: "Median peer group",
+                      id: "legend-item.peer-group-median",
+                      message: "Peer Group Median",
                     })
                   : item.label
               }

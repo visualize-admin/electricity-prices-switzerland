@@ -223,8 +223,8 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
       peerGroupMedianRate !== null && peerGroupMedianRate !== undefined
         ? {
             label: (
-              <Trans id="sunshine.costs-and-tariffs.median-peer-group">
-                Median Peer Group
+              <Trans id="legend-item.peer-group-median">
+                Peer Group Median
               </Trans>
             ),
             value: {
@@ -391,8 +391,8 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
       peerGroupMedianRate !== null && peerGroupMedianRate !== undefined
         ? {
             label: (
-              <Trans id="sunshine.costs-and-tariffs.median-peer-group">
-                Median Peer Group
+              <Trans id="legend-item.peer-group-median">
+                Peer Group Median
               </Trans>
             ),
             value: {
@@ -563,8 +563,8 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
       peerGroupMedianRate !== null && peerGroupMedianRate !== undefined
         ? {
             label: (
-              <Trans id="sunshine.costs-and-tariffs.median-peer-group">
-                Median Peer Group
+              <Trans id="legend-item.peer-group-median">
+                Peer Group Median
               </Trans>
             ),
             value: {

@@ -29,7 +29,7 @@ export const Example = () => {
         <TableRow>
           <TableCell>
             <Typography variant="body3" color="text.secondary">
-              Median Peer Group
+              Peer Median Group
             </Typography>
           </TableCell>
           <TableCell>

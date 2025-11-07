@@ -491,6 +491,24 @@ msgstr "Power Outage Duration (SAIDI)"
 msgid "indicator.saifi"
 msgstr "Power Outage Frequency (SAIFI)"
 
+#: src/components/network-cost-trend-chart.tsx
+#: src/components/tariffs-trend-chart.tsx
+msgid "legend-item.other-operators"
+msgstr "Other operators"
+
+#: src/components/charts-generic/interaction/tooltip-content.tsx
+#: src/components/charts-generic/latest-year-chart-view.tsx
+#: src/components/charts-generic/progress-overtime-chart.tsx
+#: src/components/network-cost-trend-chart.tsx
+#: src/components/tariffs-trend-chart.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "legend-item.peer-group-median"
+msgstr "Peer Group Median"
+
 #: src/components/sunshine-map.tsx
 msgid "legend.no"
 msgstr "No"
@@ -623,22 +641,6 @@ msgstr "Parameters"
 #: src/utils/entity-formatting.tsx
 msgid "municipality"
 msgstr "Municipality"
-
-#: src/components/tariffs-trend-chart.tsx
-msgid "net-tariffs-trend-chart.legend-item.other-operators"
-msgstr "Other operators"
-
-#: src/components/tariffs-trend-chart.tsx
-msgid "net-tariffs-trend-chart.legend-item.peer-group-median"
-msgstr "Peer Group Median"
-
-#: src/components/network-cost-trend-chart.tsx
-msgid "network-cost-trend-chart.legend-item.other-operators"
-msgstr "Other operators"
-
-#: src/components/network-cost-trend-chart.tsx
-msgid "network-cost-trend-chart.legend-item.peer-group-median"
-msgstr "Peer Group Median"
 
 #: src/domain/translation.tsx
 msgid "network-level"
@@ -782,14 +784,6 @@ msgstr "Show individual network operators"
 #: src/components/charts-generic/progress-overtime-chart.tsx
 msgid "progress-overtime-chart.legend-item.other-operators"
 msgstr "Other operators"
-
-#: src/components/charts-generic/progress-overtime-chart.tsx
-msgid "progress-overtime-chart.legend-item.peer-group"
-msgstr "Median peer group"
-
-#: src/components/charts-generic/interaction/tooltip-content.tsx
-msgid "progress-overtime-chart.operator-name.peer-group"
-msgstr "Median peer group"
 
 #: src/components/detail-page/cantons-comparison-range.tsx
 msgid "rangeplot.select.order.hint"
@@ -1200,6 +1194,12 @@ msgstr "Benchmarking within the Peer Group: {peerGroupLabel}"
 msgid "sunshine.costs-and-tariffs.compare-with"
 msgstr "Compare With"
 
+#: src/components/network-costs-trend-card.tsx
+#: src/components/power-stability-card.tsx
+#: src/components/tariffs-trend-card.tsx
+msgid "sunshine.costs-and-tariffs.compare-with-placeholder"
+msgstr "Select operators to compare"
+
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.description"
 msgstr "This page provides an overview of electricity costs and tariffs, including network costs, net tariffs, and energy tariffs. Compare different providers and analyze trends within your peer group to better understand your position in the market."
@@ -1232,12 +1232,6 @@ msgstr "Latest year ({latestYear})"
 #: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.latest-year-option"
 msgstr "Latest year"
-
-#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
-#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
-#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
-msgid "sunshine.costs-and-tariffs.median-peer-group"
-msgstr "Median Peer Group"
 
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.costs-and-tariffs.net-tariffs"
@@ -1476,11 +1470,6 @@ msgstr "Latest year ({latestYear})"
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.latest-year-option"
 msgstr "Latest year"
-
-#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
-#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
-msgid "sunshine.power-stability.median-peer-group"
-msgstr "Median Peer Group"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.no-saidi-data"

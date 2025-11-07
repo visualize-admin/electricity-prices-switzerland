@@ -191,9 +191,7 @@ const Saidi = (props: Extract<Props, { status: "found" }>) => {
       },
       {
         label: (
-          <Trans id="sunshine.power-stability.median-peer-group">
-            Median Peer Group
-          </Trans>
+          <Trans id="legend-item.peer-group-median">Peer Group Median</Trans>
         ),
         value: {
           value: data.saidi.peerGroupTotal,
@@ -307,9 +305,7 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
       },
       {
         label: (
-          <Trans id="sunshine.power-stability.median-peer-group">
-            Median Peer Group
-          </Trans>
+          <Trans id="legend-item.peer-group-median">Peer Group Median</Trans>
         ),
         value: {
           value: data.saifi.peerGroupTotal,
