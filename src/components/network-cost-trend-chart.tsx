@@ -74,15 +74,18 @@ const LatestYearChartView = (
     compareWith,
   } = props;
 
+  const mappedObservations = useMemo(() => {
+    return observations.map((o) => ({
+      ...o,
+      network_level: getLocalizedLabel({
+        id: `network-level.${o.network_level}.long`,
+      }),
+    }));
+  }, [observations]);
   return (
     <DotPlot
       medianValue={networkCosts.peerGroupMedianRate ?? undefined}
-      data={observations.map((o) => ({
-        ...o,
-        network_level: getLocalizedLabel({
-          id: `network-level.${o.network_level}.long`,
-        }),
-      }))}
+      data={mappedObservations}
       fields={{
         x: {
           componentIri: "rate",
@@ -94,8 +97,8 @@ const LatestYearChartView = (
         segment: {
           componentIri: "operator_name",
           palette: compareWith?.includes("sunshine.select-all")
-            ? "elcom-categorical-3" //Only green hover if all operators are selected
-            : "elcom2", //Corresponding color palette for the tiles inside the selector if not all operators are selected
+            ? "elcom-categorical-3" // Only green hover if all operators are selected
+            : "elcom2", // Corresponding color palette for the tiles inside the selector if not all operators are selected
         },
         style: {
           entity: "operator_id",

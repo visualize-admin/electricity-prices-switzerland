@@ -63,16 +63,20 @@ const LatestYearChartView = (
 ) => {
   const { observations, netTariffs, id, operatorLabel, operatorsNames } = props;
 
+  const mappedObservations = useMemo(() => {
+    return observations.map((o) => ({
+      ...o,
+      category: getLocalizedLabel({
+        id: `${o.category}-long`,
+      }),
+      year: o.period,
+    }));
+  }, [observations]);
+
   return (
     <DotPlot
       medianValue={netTariffs.peerGroupMedianRate ?? undefined}
-      data={observations.map((o) => ({
-        ...o,
-        category: getLocalizedLabel({
-          id: `selector.category.${o.category}`,
-        }),
-        year: o.period,
-      }))}
+      data={mappedObservations}
       fields={{
         x: { componentIri: "rate", axisLabel: RP_PER_KWH },
         y: { componentIri: "category" },
