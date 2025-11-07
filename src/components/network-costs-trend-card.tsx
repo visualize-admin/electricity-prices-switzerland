@@ -21,7 +21,7 @@ import { getLocalizedLabel, getPeerGroupLabels } from "src/domain/translation";
 
 import { CardHeader } from "./detail-page/card";
 import { Download, DownloadImage } from "./detail-page/download-image";
-import { InfoDialogButton, InfoDialogButtonProps } from "./info-dialog";
+import { InfoDialogButtonProps } from "./info-dialog";
 import { NetworkCostTrendChart } from "./network-cost-trend-chart";
 import { OverviewCard } from "./overview-card";
 import { ItemMultiCombobox } from "./query-combobox";
@@ -123,7 +123,6 @@ export const NetworkCostsTrendCard: React.FC<NetworkCostsTrendCardProps> = (
     updateDate,
     operatorId,
     operatorLabel,
-    infoDialogProps,
   } = chartData;
   return (
     <Card {...props} id={DOWNLOAD_ID}>
@@ -131,15 +130,6 @@ export const NetworkCostsTrendCard: React.FC<NetworkCostsTrendCardProps> = (
         <CardHeader
           trailingContent={
             <>
-              {infoDialogProps && (
-                <InfoDialogButton
-                  iconOnly
-                  iconSize={24}
-                  type="outline"
-                  slug={infoDialogProps.slug}
-                  label={infoDialogProps.label}
-                />
-              )}
               <DownloadImage
                 iconOnly
                 iconSize={24}

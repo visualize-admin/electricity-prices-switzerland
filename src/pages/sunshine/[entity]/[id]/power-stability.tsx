@@ -227,6 +227,7 @@ const Saidi = (props: Extract<Props, { status: "found" }>) => {
       <TableComparisonCard
         {...comparisonCardProps}
         sx={{ gridArea: "comparison" }}
+        infoDialogProps={infoDialogProps["help-saidi"]}
       />
 
       <PowerStabilityCardState
@@ -241,7 +242,6 @@ const Saidi = (props: Extract<Props, { status: "found" }>) => {
           id: "sunshine.power-stability.saidi-trend",
           message: "Average Power Outage Duration (SAIDI)",
         })}
-        infoDialogProps={infoDialogProps["help-saidi"]}
       />
     </CardGrid>
   );
@@ -341,6 +341,7 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
       <TableComparisonCard
         {...comparisonCardProps}
         sx={{ gridArea: "comparison" }}
+        infoDialogProps={infoDialogProps["help-saifi"]}
       />
 
       <PowerStabilityCardState
@@ -355,7 +356,6 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
           id: "sunshine.power-stability.saifi-trend",
           message: "Average Power Outage Frequency (SAIFI)",
         })}
-        infoDialogProps={infoDialogProps["help-saifi"]}
       />
     </CardGrid>
   );

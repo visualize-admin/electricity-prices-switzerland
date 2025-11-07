@@ -278,6 +278,7 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
       <TableComparisonCard
         {...comparisonCardProps}
         sx={{ gridArea: "comparison" }}
+        infoDialogProps={infoDialogProps["help-network-costs"]}
       />
       <NetworkCostsTrendCardState
         latestYear={Number(latestYear)}
@@ -445,6 +446,7 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
       <TableComparisonCard
         {...comparisonCardProps}
         sx={{ gridArea: "comparison" }}
+        infoDialogProps={infoDialogProps["help-energy-tariffs"]}
       />
 
       <TariffsTrendCard
@@ -616,6 +618,7 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
       <TableComparisonCard
         {...comparisonCardProps}
         sx={{ gridArea: "comparison" }}
+        infoDialogProps={infoDialogProps["help-net-tariffs"]}
       />
 
       <TariffsTrendCard
