@@ -84,6 +84,17 @@ const LatestYearChartView = (
   const [sortByItem, setSortByItem] =
     useState<PowerStabilitySortableType>("planned");
 
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
+
+  const handleSortByItem = (item: PowerStabilitySortableType) => {
+    if (sortByItem === item) {
+      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+    } else {
+      setSortByItem(item);
+      setSortDirection("asc");
+    }
+  };
+
   const dataWithRatioApplied = useMemo(() => {
     return observations.map((d) => {
       const total = d.planned + d.unplanned;
@@ -124,6 +135,11 @@ const LatestYearChartView = (
         return 0;
     }
   });
+
+  if (sortDirection === "asc") {
+    sortedData.reverse();
+  }
+
   const average = useMemo(() => {
     return mean(sortedData.map((d) => d.total)) ?? 0;
   }, [sortedData]);
@@ -191,7 +207,7 @@ const LatestYearChartView = (
           alignItems: "flex-start",
           flexWrap: "wrap",
           minHeight: "20px",
-          gap: 2,
+          gap: 4,
           mb: 6,
         }}
         display="flex"
@@ -200,8 +216,9 @@ const LatestYearChartView = (
           item={gridOperatorsLabel}
           color={palette.text.primary}
           value={"operator"}
-          state={sortByItem}
-          handleClick={setSortByItem}
+          active={sortByItem === "operator"}
+          direction={sortDirection}
+          handleClick={handleSortByItem}
         />
 
         <SortableLegendItem<PowerStabilitySortableType>
@@ -211,8 +228,9 @@ const LatestYearChartView = (
           })}
           color={chartPalette.categorical[1]}
           value="planned"
-          state={sortByItem}
-          handleClick={setSortByItem}
+          active={sortByItem === "planned"}
+          direction={sortDirection}
+          handleClick={handleSortByItem}
         />
 
         <SortableLegendItem<PowerStabilitySortableType>
@@ -222,8 +240,9 @@ const LatestYearChartView = (
           })}
           color={chartPalette.categorical[2]}
           value="unplanned"
-          state={sortByItem}
-          handleClick={setSortByItem}
+          active={sortByItem === "unplanned"}
+          direction={sortDirection}
+          handleClick={handleSortByItem}
         />
         {overallOrRatio !== "ratio" && (
           <SortableLegendItem<PowerStabilitySortableType>
@@ -233,8 +252,9 @@ const LatestYearChartView = (
             })}
             color={palette.text.primary}
             value="total"
-            state={sortByItem}
-            handleClick={setSortByItem}
+            active={sortByItem === "total"}
+            direction={sortDirection}
+            handleClick={handleSortByItem}
           />
         )}
       </Box>
