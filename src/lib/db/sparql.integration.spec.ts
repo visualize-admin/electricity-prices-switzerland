@@ -316,7 +316,7 @@ describe("SPARQL Sunshine Data Service", () => {
           "operator_id": 672,
           "operator_name": "St.Galler Stadtwerke",
           "operator_uid": "672",
-          "peer_group": "High-High",
+          "peer_group": "1",
           "period": 2025,
           "settlement_density": "High",
         }
@@ -332,7 +332,7 @@ describe("SPARQL Sunshine Data Service", () => {
           "operator_id": 672,
           "operator_name": "St.Galler Stadtwerke",
           "operator_uid": "672",
-          "peer_group": "High-High",
+          "peer_group": "1",
           "period": 2025,
           "settlement_density": "High",
         }
