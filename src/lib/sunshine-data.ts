@@ -478,7 +478,7 @@ export const fetchSaidi = async (
   const peerGroupMedianAsYearlyData = yearlyPeerGroupMedianStability.map(
     (item) => ({
       year: item.period,
-      total: item.median_saidi_total ?? 0,
+      total: item.median_saidi_total ?? null,
       operator_id: peerGroupOperatorId,
       operator_name: peerGroupOperatorName,
       unplanned: 0, // Median data doesn't have unplanned breakdown, default to 0
@@ -488,13 +488,13 @@ export const fetchSaidi = async (
   const combinedYearlyData = [
     ...peerGroupYearlyStability.map((x) => ({
       year: x.period,
-      total: x.saidi_total ?? 0,
+      total: x.saidi_total ?? null,
       operator_id: x.operator_id,
       operator_name: x.operator_name ?? "",
-      unplanned: x.saidi_unplanned ?? 0,
+      unplanned: x.saidi_unplanned ?? null,
     })),
     ...peerGroupMedianAsYearlyData,
-  ];
+  ].filter((x) => x.total !== null); // Filter out entries with null total
 
   return {
     operatorTotal: operatorStability?.[0]?.saidi_total || 0,
@@ -554,7 +554,7 @@ export const fetchSaifi = async (
   const peerGroupMedianAsYearlyData = yearlyPeerGroupMedianStability.map(
     (item) => ({
       year: item.period,
-      total: item.median_saifi_total ?? 0,
+      total: item.median_saifi_total ?? null,
       operator_id: peerGroupOperatorId,
       operator_name: peerGroupOperatorName,
       unplanned: 0, // Median data doesn't have unplanned breakdown, default to 0
@@ -564,13 +564,13 @@ export const fetchSaifi = async (
   const combinedYearlyData = [
     ...peerGroupYearlyStability.map((x) => ({
       year: x.period,
-      total: x.saifi_total ?? 0,
+      total: x.saifi_total ?? null,
       operator_id: x.operator_id,
       operator_name: x.operator_name ?? "",
-      unplanned: x.saifi_unplanned ?? 0,
+      unplanned: x.saifi_unplanned ?? null,
     })),
     ...peerGroupMedianAsYearlyData,
-  ];
+  ].filter((x) => x.total !== null); // Filter out entries with null total
 
   return {
     operatorTotal: operatorStability?.[0]?.saifi_total || 0,
