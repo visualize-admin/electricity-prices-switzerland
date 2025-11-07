@@ -10,10 +10,13 @@ const config: KnipConfig = {
     "src/domain/gever/output/cli.js",
     "src/domain/gever/rollup.config.js",
     "src/e2e/common.ts",
+    "src/e2e/setup.ts", // Playwright global setup
     "lingui.config.ts",
     "src/**/*.stories.tsx",
     // Used for debugging
     "src/components/page-props-debug.tsx",
+    // SPARQL endpoint comparison scripts
+    "src/scripts/compare-endpoints/save-graphql-requests.ts",
   ],
   project: ["src/**", "scripts/**"],
   ignore: [
@@ -32,8 +35,6 @@ const config: KnipConfig = {
     "dotenv",
     // Used for opening accent project in the browser
     "open",
-    // Used for managing mock data, available via nix
-    "duckdb",
     // Used to run security vulnerability scan, available via nix
     "trivy",
   ],
@@ -64,6 +65,9 @@ const config: KnipConfig = {
     // only used to generate map screenshots, and installed by default with next
     // there was an issue at import time if we directly added it to package.json
     "sharp",
+
+    // Used in SPARQL endpoint comparison script
+    "playwright",
   ],
 };
 export default config;

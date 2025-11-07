@@ -2,7 +2,7 @@ import { createHash } from "crypto";
 import { promises as fs } from "fs";
 import { join } from "path";
 
-export interface HarEntry {
+interface HarEntry {
   request: {
     url: string;
     postData?: {
@@ -16,24 +16,24 @@ export interface HarEntry {
   };
 }
 
-export interface HarFile {
+interface HarFile {
   log: {
     entries: HarEntry[];
   };
 }
 
-export interface GraphQLRequest {
+interface GraphQLRequest {
   query: string;
   variables?: Record<string, unknown>;
   operationName?: string;
 }
 
-export interface GraphQLResponse {
+interface GraphQLResponse {
   data?: unknown;
   errors?: unknown[];
 }
 
-export interface SavedGraphQLRequest {
+interface SavedGraphQLRequest {
   timestamp: string;
   operationName: string;
   request: {

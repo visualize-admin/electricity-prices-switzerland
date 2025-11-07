@@ -22,6 +22,7 @@
     "test:unit": "vitest --project unit",
     "test:argos": "argos upload ./src/e2e/snapshots",
     "test:integration": "vitest --project integration",
+    "test:compare-endpoints": "vitest run src/scripts/compare-endpoints/compare-responses.spec.ts --reporter=json --reporter=default --outputFile=src/scripts/compare-endpoints/test-results.json",
     "test:playwright:app": "playwright test --grep-invert \"@storybook|@har|@ignore\"",
     "test:playwright:storybook": "playwright test --grep \"@storybook\"",
     "setup": "yarn && yarn locales:compile && yarn graphql:codegen",
