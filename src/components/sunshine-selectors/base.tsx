@@ -79,6 +79,7 @@ export const SunshineSelectorsBase = ({
       <Combobox
         id="year"
         label={t({ id: "selector.year", message: "Year" })}
+        infoDialogSlug="help-year-indicators"
         items={years}
         selectedItem={year}
         setSelectedItem={setYear}
