@@ -79,7 +79,7 @@ const getPowerStabilityCardState = (
       const chartObservations: typeof observations = [];
       observations.forEach((d) => {
         const isLatestYear = d.year === latestYear;
-        const operatorIdStr = d.operator.toString();
+        const operatorIdStr = d.operator_id.toString();
         const isSelected =
           filters.compareWith?.includes("sunshine.select-all") ||
           filters.compareWith?.includes(operatorIdStr) ||
@@ -335,7 +335,7 @@ export const PowerStabilityCard: React.FC<PowerStabilityCardProps> = (
                 { id: "sunshine.select-all" },
                 ...multiComboboxOptions.map((item) => {
                   return {
-                    id: String(item.operator),
+                    id: String(item.operator_id),
                     name: item.operator_name,
                   };
                 }),

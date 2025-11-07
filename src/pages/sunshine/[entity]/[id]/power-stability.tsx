@@ -110,7 +110,7 @@ export const SaidiDocument = gql`
         year
         total
         unplanned
-        operator
+        operator_id
         operator_name
       }
     }
@@ -126,7 +126,7 @@ export const SaifiDocument = gql`
         year
         total
         unplanned
-        operator
+        operator_id
         operator_name
       }
     }

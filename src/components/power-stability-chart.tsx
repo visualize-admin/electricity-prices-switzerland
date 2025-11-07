@@ -108,8 +108,8 @@ const LatestYearChartView = (
     overallOrRatio === "ratio" ? [0, 100] : [0, maxValue];
 
   const sortedData = [...dataWithRatioApplied].sort((a, b) => {
-    if (a.operator.toString() === id) return -1;
-    if (b.operator.toString() === id) return 1;
+    if (a.operator_id.toString() === id) return -1;
+    if (b.operator_id.toString() === id) return 1;
 
     switch (sortByItem) {
       case "operator":
@@ -283,7 +283,7 @@ const ProgressOvertimeChartView = (
       mini={mini}
       xField="year"
       yField={saidiSaifiType}
-      entityField="operator"
+      entityField="operator_id"
     />
   );
 };

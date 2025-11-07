@@ -212,7 +212,7 @@ async function generateMocks(options: FetcherOptions) {
         const stabilityData = powerStability[attr];
         stabilityData.yearlyData.forEach((data) => {
           data.operator_name = pickName(data.operator_name);
-          data.operator = pickId(data.operator);
+          data.operator_id = pickId(data.operator_id);
         });
       }
       const outputPath = path.join(

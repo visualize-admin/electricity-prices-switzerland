@@ -479,7 +479,7 @@ export const fetchSaidi = async (
     (item) => ({
       year: item.period,
       total: item.median_saidi_total ?? 0,
-      operator: peerGroupOperatorId,
+      operator_id: peerGroupOperatorId,
       operator_name: peerGroupOperatorName,
       unplanned: 0, // Median data doesn't have unplanned breakdown, default to 0
     })
@@ -489,7 +489,7 @@ export const fetchSaidi = async (
     ...peerGroupYearlyStability.map((x) => ({
       year: x.period,
       total: x.saidi_total ?? 0,
-      operator: x.operator_id,
+      operator_id: x.operator_id,
       operator_name: x.operator_name ?? "",
       unplanned: x.saidi_unplanned ?? 0,
     })),
@@ -555,7 +555,7 @@ export const fetchSaifi = async (
     (item) => ({
       year: item.period,
       total: item.median_saifi_total ?? 0,
-      operator: peerGroupOperatorId,
+      operator_id: peerGroupOperatorId,
       operator_name: peerGroupOperatorName,
       unplanned: 0, // Median data doesn't have unplanned breakdown, default to 0
     })
@@ -565,7 +565,7 @@ export const fetchSaifi = async (
     ...peerGroupYearlyStability.map((x) => ({
       year: x.period,
       total: x.saifi_total ?? 0,
-      operator: x.operator_id,
+      operator_id: x.operator_id,
       operator_name: x.operator_name ?? "",
       unplanned: x.saifi_unplanned ?? 0,
     })),

@@ -481,7 +481,7 @@ export type StabilityData = {
 
 export type StabilityDataRow = {
   __typename?: "StabilityDataRow";
-  operator: Scalars["Int"]["output"];
+  operator_id: Scalars["Int"]["output"];
   operator_name: Scalars["String"]["output"];
   total: Scalars["Float"]["output"];
   unplanned: Scalars["Float"]["output"];
@@ -1487,7 +1487,7 @@ export type StabilityDataRowResolvers<
   ContextType = GraphqlRequestContext,
   ParentType extends ResolversParentTypes["StabilityDataRow"] = ResolversParentTypes["StabilityDataRow"]
 > = ResolversObject<{
-  operator?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  operator_id?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
   operator_name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   total?: Resolver<ResolversTypes["Float"], ParentType, ContextType>;
   unplanned?: Resolver<ResolversTypes["Float"], ParentType, ContextType>;
