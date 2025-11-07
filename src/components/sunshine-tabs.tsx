@@ -112,15 +112,13 @@ type YearlyTab = `${number}`;
 
 type YearlyNavigationProps = {
   activeTab: string;
+  years: number[];
   handleTabChange: (event: React.SyntheticEvent, newValue: YearlyTab) => void;
 };
 
 export const YearlyNavigation: React.FC<
   YearlyNavigationProps & Omit<TabsProps, "onChange">
-> = ({ activeTab, handleTabChange, ...props }) => {
-  const currentYear = new Date().getFullYear();
-  const years = [currentYear - 2, currentYear - 1, currentYear];
-
+> = ({ activeTab, handleTabChange, years, ...props }) => {
   return (
     <Tabs value={activeTab} onChange={handleTabChange} {...props}>
       {years.map((year) => (
