@@ -4,7 +4,10 @@ import { useMemo } from "react";
 
 import { ColorMapping } from "src/domain/color-mapping";
 import { RP_PER_KM, RP_PER_KWH } from "src/domain/metrics";
-import type { SunshineCostsAndTariffsData } from "src/domain/sunshine";
+import {
+  isPeerGroupRow,
+  type SunshineCostsAndTariffsData,
+} from "src/domain/sunshine";
 import { getLocalizedLabel } from "src/domain/translation";
 import { chartPalette, palette } from "src/themes/palette";
 
@@ -43,6 +46,7 @@ export const TariffsTrendChart = (props: TariffsTrendChartProps) => {
         <LatestYearChartView
           observations={observations}
           operatorsNames={operatorsNames}
+          colorMapping={colorMapping}
           {...restProps}
         />
       ) : (
@@ -61,16 +65,25 @@ const LatestYearChartView = (
     operatorsNames: Set<string>;
   }
 ) => {
-  const { observations, netTariffs, id, operatorLabel, operatorsNames } = props;
+  const {
+    observations,
+    netTariffs,
+    id,
+    operatorLabel,
+    compareWith,
+    colorMapping,
+  } = props;
 
   const mappedObservations = useMemo(() => {
-    return observations.map((o) => ({
-      ...o,
-      category: getLocalizedLabel({
-        id: `${o.category}-long`,
-      }),
-      year: o.period,
-    }));
+    return observations
+      .map((o) => ({
+        ...o,
+        category: getLocalizedLabel({
+          id: `${o.category}-long`,
+        }),
+        year: o.period,
+      }))
+      .filter((x) => !isPeerGroupRow(x));
   }, [observations]);
 
   return (
@@ -86,7 +99,7 @@ const LatestYearChartView = (
         },
         style: {
           entity: "operator_id",
-          colorDomain: [...operatorsNames] as string[],
+          colorMapping: colorMapping,
           colorAcc: "operator_name",
           highlightValue: id,
         },
@@ -128,20 +141,22 @@ const LatestYearChartView = (
           color={palette.monochrome[800]}
           symbol={"diamond"}
         />
-        <LegendItem
-          item={t({
-            id: "net-tariffs-trend-chart.legend-item.other-operators",
-            message: "Other operators",
-          })}
-          color={palette.monochrome[200]}
-          symbol={"circle"}
-        />
+        {compareWith?.includes("sunshine.select-all") && (
+          <LegendItem
+            item={t({
+              id: "net-tariffs-trend-chart.legend-item.other-operators",
+              message: "Other operators",
+            })}
+            color={palette.monochrome[200]}
+            symbol={"circle"}
+          />
+        )}
       </Box>
       <ChartContainer>
         <ChartSvg>
           <AxisWidthLinear position="top" format="number" />
           <AxisHeightCategories stretch />
-          <Dots />
+          <Dots compareWith={compareWith} />
           <InteractionDotted />
           <DotPlotMedian />
         </ChartSvg>

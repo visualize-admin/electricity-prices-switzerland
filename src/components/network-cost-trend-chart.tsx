@@ -5,9 +5,10 @@ import { useMemo } from "react";
 import { NoDataHint } from "src/components/hint";
 import { ColorMapping } from "src/domain/color-mapping";
 import { getNetworkLevelMetrics } from "src/domain/metrics";
-import type {
-  NetworkLevel,
-  SunshineCostsAndTariffsData,
+import {
+  isPeerGroupRow,
+  type NetworkLevel,
+  type SunshineCostsAndTariffsData,
 } from "src/domain/sunshine";
 import { getLocalizedLabel } from "src/domain/translation";
 import { chartPalette, palette } from "src/themes/palette";
@@ -46,6 +47,7 @@ export const NetworkCostTrendChart = (props: NetworkCostTrendChartProps) => {
         <LatestYearChartView
           observations={observations}
           operatorsNames={operatorsNames}
+          colorMapping={colorMapping}
           {...restProps}
         />
       ) : (
@@ -70,17 +72,20 @@ const LatestYearChartView = (
     networkCosts,
     id,
     operatorLabel,
-    operatorsNames,
     compareWith,
+    colorMapping,
   } = props;
 
   const mappedObservations = useMemo(() => {
-    return observations.map((o) => ({
-      ...o,
-      network_level: getLocalizedLabel({
-        id: `network-level.${o.network_level}.long`,
-      }),
-    }));
+    return observations
+      .map((o) => ({
+        ...o,
+        network_level: getLocalizedLabel({
+          id: `network-level.${o.network_level}.long`,
+        }),
+        year: o.year,
+      }))
+      .filter((x) => !isPeerGroupRow(x));
   }, [observations]);
   return (
     <DotPlot
@@ -102,7 +107,7 @@ const LatestYearChartView = (
         },
         style: {
           entity: "operator_id",
-          colorDomain: [...operatorsNames] as string[],
+          colorMapping: colorMapping,
           colorAcc: "operator_name",
           highlightValue: id,
         },
@@ -136,14 +141,6 @@ const LatestYearChartView = (
           color={chartPalette.categorical[0]}
           symbol={"circle"}
         />
-        {/* <LegendItem
-    item={t({
-      id: "network-cost-trend-chart.legend-item.total-median",
-      message: "Total Median",
-    })}
-    color={palette.monochrome[800]}
-    symbol={"triangle"}
-  /> */}
         <LegendItem
           item={t({
             id: "network-cost-trend-chart.legend-item.peer-group-median",
