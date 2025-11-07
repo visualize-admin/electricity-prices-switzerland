@@ -1,16 +1,11 @@
 import { t, Trans } from "@lingui/macro";
-import {
-  Card,
-  CardContent,
-  CardProps,
-  Grid,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Card, CardContent, CardProps, Grid, Typography } from "@mui/material";
 import React, { ReactNode, useMemo } from "react";
 
 import { ButtonGroup } from "src/components/button-group";
 import CardSource from "src/components/card-source";
+import { infoDialogProps } from "src/components/info-dialog-props";
+import { OverviewCard } from "src/components/overview-card";
 import { createColorMapping } from "src/domain/color-mapping";
 import { filterBySeparator } from "src/domain/helpers";
 import {
@@ -390,6 +385,7 @@ export const PowerStabilityCardMinified: React.FC<
     filters: defaultFilters,
     cardTitle,
     cardDescription,
+    indicator,
     ...rest
   } = props;
   const [state] = useQueryStatePowerStabilityCardFilters({
@@ -398,17 +394,11 @@ export const PowerStabilityCardMinified: React.FC<
   const { viewBy, saidiSaifiType: duration, overallOrRatio } = state;
   const chartData = getPowerStabilityCardState(rest, state);
   return (
-    <Card {...rest}>
-      <CardContent
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          flex: 1,
-          height: "100%",
-        }}
-      >
-        <Typography variant="h3">{cardTitle}</Typography>
-        <Typography variant="body2">{cardDescription}</Typography>
+    <OverviewCard
+      title={cardTitle}
+      description={cardDescription}
+      linkContent={props.linkContent}
+      chart={
         <PowerStabilityChart
           observations={chartData.observations}
           id={chartData.operatorId}
@@ -419,18 +409,13 @@ export const PowerStabilityCardMinified: React.FC<
           compareWith={[]}
           rootProps={{ sx: { mt: 2 } }}
         />
-        <Stack
-          sx={{
-            mt: 2,
-            flexGrow: 1,
-            flexDirection: "column",
-            justifyContent: "flex-end",
-            alignItems: "flex-end",
-          }}
-        >
-          {props.linkContent}
-        </Stack>
-      </CardContent>
-    </Card>
+      }
+      {...rest}
+      infoDialogProps={
+        indicator === "saidi"
+          ? infoDialogProps["help-saidi"]
+          : infoDialogProps["help-saifi"]
+      }
+    />
   );
 };

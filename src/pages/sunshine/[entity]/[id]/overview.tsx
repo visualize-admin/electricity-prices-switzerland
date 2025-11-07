@@ -18,6 +18,7 @@ import {
 } from "src/components/detail-page/layout";
 import { DetailsPageSidebar } from "src/components/detail-page/sidebar";
 import { LoadingSkeleton } from "src/components/hint";
+import { infoDialogProps } from "src/components/info-dialog-props";
 import { NetworkCostsTrendCardMinified } from "src/components/network-costs-trend-card";
 import { PowerStabilityCardMinified } from "src/components/power-stability-card";
 import { SessionConfigDebug } from "src/components/session-config-debug";
@@ -580,6 +581,7 @@ const OverviewPage = (props: Props) => {
         <TableComparisonCard
           {...yearServiceQualityProps}
           subtitle={null}
+          infoDialogProps={infoDialogProps["help-service-quality"]}
           description={
             <YearlyNavigation
               activeTab={year}
@@ -605,6 +607,7 @@ const OverviewPage = (props: Props) => {
         <TableComparisonCard
           {...yearComplianceProps}
           subtitle={null}
+          infoDialogProps={infoDialogProps["help-compliance"]}
           description={
             <YearlyNavigation
               activeTab={year}

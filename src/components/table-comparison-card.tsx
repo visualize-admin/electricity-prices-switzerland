@@ -11,6 +11,10 @@ import {
 import React from "react";
 
 import ComparisonTable from "src/components/comparison-table";
+import {
+  InfoDialogButton,
+  InfoDialogButtonProps,
+} from "src/components/info-dialog";
 import UnitValueWithTrend from "src/components/unit-value-with-trend";
 import { Trend } from "src/graphql/resolver-types";
 
@@ -19,7 +23,7 @@ const TableComparisonCard: React.FC<
     title: React.ReactNode;
     subtitle: React.ReactNode;
     description?: React.ReactNode;
-
+    infoDialogProps?: Pick<InfoDialogButtonProps, "slug" | "label">;
     linkContent?: React.ReactNode;
     rows: {
       label: React.ReactNode;
@@ -33,8 +37,29 @@ const TableComparisonCard: React.FC<
         | { value: React.ReactElement | string };
     }[];
   } & Omit<CardProps, "title" | "subtitle" | "rows">
-> = ({ title, subtitle, rows, linkContent, description, ...props }) => (
-  <Card {...props}>
+> = ({
+  title,
+  subtitle,
+  rows,
+  linkContent,
+  description,
+  infoDialogProps,
+  ...props
+}) => (
+  <Card {...props} sx={{ position: "relative", ...props.sx }}>
+    {infoDialogProps && (
+      <InfoDialogButton
+        sx={{
+          position: "absolute",
+          top: (theme) => theme.spacing(3),
+          right: (theme) => theme.spacing(3),
+        }}
+        iconOnly
+        slug={infoDialogProps.slug}
+        label={infoDialogProps.label}
+        type="outline"
+      />
+    )}
     <CardContent>
       <Typography variant="h3" gutterBottom>
         {title}
