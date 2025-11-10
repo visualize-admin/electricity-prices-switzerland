@@ -78,6 +78,8 @@ export const allPriceComponents = [
   "aidfee",
 ] as const;
 
+export type PriceComponent = (typeof allPriceComponents)[number];
+
 export const mapPriceComponents = allPriceComponents.filter(
   (x) => x !== "meteringrate" && x !== "aidfee"
 );
@@ -85,7 +87,11 @@ export const detailsPriceComponents = allPriceComponents.filter(
   (x) => x !== "annualmeteringcost"
 );
 
-export const products = ["cheapest", "standard"];
+export type DetailPriceComponent = (typeof detailsPriceComponents)[number];
+
+export const products = ["cheapest", "standard"] as const;
+
+export type PriceProduct = (typeof products)[number];
 
 export const ElectricityCategory = z.enum([
   "H1",
@@ -104,6 +110,9 @@ export const ElectricityCategory = z.enum([
   "C6",
   "C7",
 ]);
+
+export const networkLevels = ["NE5", "NE6", "NE7"] as const;
+export type NetworkLevelId = (typeof networkLevels)[number];
 
 export const categories = ElectricityCategory.options;
 

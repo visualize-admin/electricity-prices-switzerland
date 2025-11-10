@@ -10,7 +10,7 @@ import {
   saidiSaifiTypes,
   years,
 } from "src/domain/sunshine";
-import { getLocalizedLabel } from "src/domain/translation";
+import { getLocalizedLabel, TranslationKey } from "src/domain/translation";
 import { usePeerGroupsQuery } from "src/graphql/queries";
 import { useLocale } from "src/lib/use-locale";
 
@@ -19,7 +19,7 @@ import { SunshineSelectorsBase } from "./base";
 export const SunshineSelectors = () => {
   const [queryState, setQueryState] = useQueryStateSunshineMap();
   const locale = useLocale();
-  const getItemLabel = (id: string) => getLocalizedLabel({ id });
+  const getItemLabel = (id: TranslationKey) => getLocalizedLabel({ id });
 
   const [peerGroupsResult] = usePeerGroupsQuery({
     variables: { locale },

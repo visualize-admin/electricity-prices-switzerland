@@ -42,7 +42,7 @@ import {
   SunshineOperationalStandardsData,
   SunshinePowerStabilityData,
 } from "src/domain/sunshine";
-import { getLocalizedLabel } from "src/domain/translation";
+import { getLocalizedLabel, TranslationKey } from "src/domain/translation";
 import { runtimeEnv } from "src/env/runtime";
 import {
   EnergyTariffsQuery,
@@ -170,23 +170,20 @@ const OverviewPage = (props: Props) => {
     return props.powerStability.saifi.yearlyData;
   }, [props.powerStability.saifi.yearlyData]);
 
-  const getItemLabel = (id: string) => getLocalizedLabel({ id });
+  const getItemLabel = (id: TranslationKey) => getLocalizedLabel({ id });
   const groupedCategories = useMemo(() => {
     return [
-      { type: "header", title: getItemLabel("EC-group") },
+      { type: "header", title: getItemLabel("C-group") },
       ...categories.filter((x) => x.startsWith("C")),
-      { type: "header", title: getItemLabel("EH-group") },
-      ...categories.filter((x) => x.startsWith("H")),
-      { type: "header", title: getItemLabel("NC-group") },
-      ...categories.filter((x) => x.startsWith("C")),
-      { type: "header", title: getItemLabel("NH-group") },
+      { type: "header", title: getItemLabel("H-group") },
       ...categories.filter((x) => x.startsWith("H")),
     ] as ComponentProps<typeof Combobox>["items"];
   }, []);
 
   const [overviewFilters, setOverviewFilters] =
     useQueryStateSunshineOverviewFilters();
-  const { year, category, networkLevel } = overviewFilters;
+  const { year, category: _category, networkLevel } = overviewFilters;
+  const category = _category as ElectricityCategory;
 
   const updateYear = (newYear: string) => {
     setOverviewFilters({ ...overviewFilters, year: newYear });

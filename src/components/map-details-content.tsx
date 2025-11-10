@@ -258,7 +258,12 @@ export const MapDetailsContent: React.FC<{
           tab === "electricity"
             ? energyPricesDetailsLink(`/${entity}/${selectedItem.id}`, {
                 period: [energyPricesPeriod],
-                priceComponent: [energyPricesPriceComponent],
+                priceComponent: [
+                  // Annual metering cost is shown as "metering rate" in details
+                  energyPricesPriceComponent === "annualmeteringcost"
+                    ? "meteringrate"
+                    : energyPricesPriceComponent,
+                ],
                 category: [energyPricesCategory],
                 product: [energyPricesProduct],
               })

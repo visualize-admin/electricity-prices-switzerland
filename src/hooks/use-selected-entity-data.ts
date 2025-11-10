@@ -1,7 +1,7 @@
 import { ScaleThreshold } from "d3";
 import { useMemo } from "react";
 
-import { Entity } from "src/domain/data";
+import { Entity, PriceComponent } from "src/domain/data";
 import { useQueryStateSunshineMap } from "src/domain/query-states";
 import { getLocalizedLabel } from "src/domain/translation";
 import {
@@ -30,7 +30,7 @@ interface UseSelectedEntityDataOptions {
   enrichedData: EnrichedEnergyPricesData | EnrichedSunshineData | null;
   colorScale?: ScaleThreshold<number, string>;
   formatValue?: (value: number) => string;
-  priceComponent: string;
+  priceComponent: PriceComponent;
 }
 
 interface SelectedEntityData {

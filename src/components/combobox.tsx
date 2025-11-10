@@ -261,7 +261,7 @@ export const Combobox = <T extends string>({
 }: {
   id: string;
   label: string;
-  items: ComboboxItem[];
+  items: readonly ComboboxItem[];
   selectedItem: T;
   setSelectedItem: (selectedItem: T) => void;
   getItemLabel?: (item: T) => string;

@@ -10,11 +10,11 @@ import {
 } from "src/components/query-combobox";
 import { categories, Entity, periods, products } from "src/domain/data";
 import { useQueryStateEnergyPricesDetails } from "src/domain/query-states";
-import { getLocalizedLabel } from "src/domain/translation";
+import { getLocalizedLabel, TranslationKey } from "src/domain/translation";
 
 export const SelectorMulti = ({ entity }: { entity: Entity }) => {
   const [queryState, setQueryState] = useQueryStateEnergyPricesDetails();
-  const getItemLabel = (id: string) => getLocalizedLabel({ id });
+  const getItemLabel = (id: TranslationKey) => getLocalizedLabel({ id });
   const groupedCategories = useMemo(() => {
     return [
       { type: "header", title: getItemLabel("H-group") },
@@ -46,71 +46,69 @@ export const SelectorMulti = ({ entity }: { entity: Entity }) => {
         },
       }}
     >
-      
-        {entity === "operator" ? (
-          <OperatorsCombobox
-            label={
-              <Trans id="selector.compareoperators">
-                Network operator for comparison
-              </Trans>
-            }
-            selectedItems={queryState.operator ?? []}
-            setSelectedItems={(items) => setQueryState({ operator: items })}
-          />
-        ) : entity === "municipality" ? (
-          <MunicipalitiesCombobox
-            label={
-              <Trans id="selector.comparemunicipalities">
-                Municipalities for comparison
-              </Trans>
-            }
-            selectedItems={queryState.municipality ?? []}
-            setSelectedItems={(items) => setQueryState({ municipality: items })}
-          />
-        ) : (
-          <CantonsCombobox
-            label={
-              <Trans id="selector.comparecantons">Cantons for comparison</Trans>
-            }
-            selectedItems={queryState.canton ?? []}
-            setSelectedItems={(items) => setQueryState({ canton: items })}
-          />
-        )}
-        <MultiCombobox
-          id="periods"
-          label={<Trans id="selector.years">Years</Trans>}
-          items={periods}
-          selectedItems={queryState.period}
-          minSelectedItems={1}
-          setSelectedItems={(items) => {
-            // We must use shallow: false to make sure the municipality operators
-            // are refreshed (done via getServerSideProps)
-            setQueryState({ period: items }, { shallow: false });
-          }}
-        />
-        <Combobox
-          id="categories"
-          label={t({ id: "selector.category", message: "Category" })}
-          items={groupedCategories}
-          getItemLabel={getItemLabel}
-          selectedItem={queryState.category[0]}
-          setSelectedItem={(selectedItem) =>
-            setQueryState({ category: [selectedItem] })
+      {entity === "operator" ? (
+        <OperatorsCombobox
+          label={
+            <Trans id="selector.compareoperators">
+              Network operator for comparison
+            </Trans>
           }
-          infoDialogSlug="help-categories"
+          selectedItems={queryState.operator ?? []}
+          setSelectedItems={(items) => setQueryState({ operator: items })}
         />
-        <Combobox
-          id="products"
-          label={t({ id: "selector.product", message: "Product" })}
-          items={products}
-          getItemLabel={getItemLabel}
-          selectedItem={queryState.product[0]}
-          setSelectedItem={(selectedItem) =>
-            setQueryState({ product: [selectedItem] })
+      ) : entity === "municipality" ? (
+        <MunicipalitiesCombobox
+          label={
+            <Trans id="selector.comparemunicipalities">
+              Municipalities for comparison
+            </Trans>
           }
-          infoDialogSlug="help-products"
+          selectedItems={queryState.municipality ?? []}
+          setSelectedItems={(items) => setQueryState({ municipality: items })}
         />
-      
+      ) : (
+        <CantonsCombobox
+          label={
+            <Trans id="selector.comparecantons">Cantons for comparison</Trans>
+          }
+          selectedItems={queryState.canton ?? []}
+          setSelectedItems={(items) => setQueryState({ canton: items })}
+        />
+      )}
+      <MultiCombobox
+        id="periods"
+        label={<Trans id="selector.years">Years</Trans>}
+        items={periods}
+        selectedItems={queryState.period}
+        minSelectedItems={1}
+        setSelectedItems={(items) => {
+          // We must use shallow: false to make sure the municipality operators
+          // are refreshed (done via getServerSideProps)
+          setQueryState({ period: items }, { shallow: false });
+        }}
+      />
+      <Combobox
+        id="categories"
+        label={t({ id: "selector.category", message: "Category" })}
+        items={groupedCategories}
+        getItemLabel={getItemLabel}
+        selectedItem={queryState.category[0]}
+        setSelectedItem={(selectedItem) =>
+          setQueryState({ category: [selectedItem] })
+        }
+        infoDialogSlug="help-categories"
+      />
+      <Combobox
+        id="products"
+        label={t({ id: "selector.product", message: "Product" })}
+        items={products}
+        getItemLabel={getItemLabel}
+        selectedItem={queryState.product[0]}
+        setSelectedItem={(selectedItem) =>
+          setQueryState({ product: [selectedItem] })
+        }
+        infoDialogSlug="help-products"
+      />
     </Box>
   );
 };

@@ -74,7 +74,7 @@ const NetworkCostLatestYearChartView = (
       .map((o) => ({
         ...o,
         network_level: getLocalizedLabel({
-          id: `network-level.${o.network_level}.long`,
+          id: `network-level.${o.network_level as NetworkLevel["id"]}.long`,
         }),
         year: o.year,
       }))

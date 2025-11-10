@@ -8,7 +8,7 @@ import {
   useChartState,
 } from "src/components/charts-generic/use-chart-state";
 import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
-import { getLocalizedLabel } from "src/domain/translation";
+import { getLocalizedLabel, TranslationKey } from "src/domain/translation";
 import { useIsMobile } from "src/lib/use-mobile";
 
 const TICK_MIN_HEIGHT = 50;
@@ -97,7 +97,8 @@ const AxisLabel = ({ yAxisLabel }: AxisLabelProps) => {
         fontSize={labelFontSize}
         fill={axisLabelColor}
       >
-        {yAxisLabel && getLocalizedLabel({ id: yAxisLabel })}
+        {/* TODO There should not be localisation here */}
+        {yAxisLabel && getLocalizedLabel({ id: yAxisLabel as TranslationKey })}
       </text>
     </g>
   );

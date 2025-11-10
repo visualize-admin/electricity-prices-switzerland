@@ -500,7 +500,7 @@ const table = {
   }),
 } as const;
 
-type TranslationKey = keyof typeof table;
+export type TranslationKey = keyof typeof table;
 
 export type LowercaseWithoutDots<T> = T extends string
   ? Lowercase<T> extends infer L
@@ -513,6 +513,10 @@ export type LowercaseWithoutDots<T> = T extends string
   : never;
 
 export const getLocalizedLabel = ({ id }: { id: TranslationKey }): string => {
+  return table[id as keyof typeof table] || id;
+};
+/** @deprecated Refactor to use getLocalizedLabel */
+export const getLocalizedLabelUnsafe = ({ id }: { id: string }): string => {
   return table[id as keyof typeof table] || id;
 };
 

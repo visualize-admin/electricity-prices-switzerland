@@ -3,6 +3,7 @@ import { Box, BoxProps } from "@mui/material";
 import { useMemo } from "react";
 
 import { ColorMapping } from "src/domain/color-mapping";
+import { ElectricityCategory } from "src/domain/data";
 import { RP_PER_KM, RP_PER_KWH } from "src/domain/metrics";
 import {
   isPeerGroupRow,
@@ -72,7 +73,7 @@ const TariffsLatestYearChartView = (
       .map((o) => ({
         ...o,
         category: getLocalizedLabel({
-          id: `${o.category}-long`,
+          id: `${o.category as ElectricityCategory}-long`,
         }),
         year: o.period,
       }))

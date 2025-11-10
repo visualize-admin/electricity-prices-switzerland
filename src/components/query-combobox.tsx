@@ -2,7 +2,7 @@ import { rollup } from "d3";
 import { useMemo, useState } from "react";
 
 import { ComboboxMultiProps, MultiCombobox } from "src/components/combobox";
-import { getLocalizedLabel } from "src/domain/translation";
+import { getLocalizedLabelUnsafe } from "src/domain/translation";
 import {
   useCantonsQuery,
   useMunicipalitiesQuery,
@@ -170,7 +170,7 @@ export const ItemMultiCombobox = (
       getItemLabel={(id) => {
         return (
           itemById.get(id)?.name ??
-          getLocalizedLabel({
+          getLocalizedLabelUnsafe({
             id,
           }) ??
           `[${id}]`

@@ -7,6 +7,7 @@ import {
   SunshineOperationalStandardsData,
 } from "src/domain/sunshine";
 import { getLocalizedLabel, getPeerGroupLabels } from "src/domain/translation";
+import { lowercase } from "src/utils/str";
 
 import { CardHeader } from "./detail-page/card";
 import { Download, DownloadImage } from "./detail-page/download-image";
@@ -14,6 +15,7 @@ import {
   ComplianceChart,
   ServiceQualityChart,
 } from "./operational-standards-chart";
+
 type AttributeProps =
   | {
       attribute: "serviceQuality";
@@ -64,7 +66,7 @@ const OperationalStandardsCard: React.FC<OperationalStandardsCardProps> = (
         >
           <Typography variant="h3">
             {getLocalizedLabel({
-              id: `${attribute.toLowerCase()}-trend`,
+              id: `${lowercase(attribute)}-trend`,
             })}
           </Typography>
           <Typography

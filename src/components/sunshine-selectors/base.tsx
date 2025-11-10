@@ -2,11 +2,13 @@ import { t } from "@lingui/macro";
 import { Box } from "@mui/material";
 
 import { Combobox } from "src/components/combobox";
+import { ElectricityCategory, NetworkLevelId } from "src/domain/data";
 import {
   QueryStateSunshineComplianceType,
   QueryStateSunshineSaidiSaifiType,
 } from "src/domain/query-states";
 import { SunshineIndicator } from "src/domain/sunshine";
+import { TranslationKey } from "src/domain/translation";
 
 type SunshineSelectorsBaseProps = {
   year: string;
@@ -28,14 +30,15 @@ type SunshineSelectorsBaseProps = {
   indicator: SunshineIndicator;
   setIndicator: (indicator: SunshineIndicator) => void;
   indicatorOptions: SunshineIndicator[];
-  getItemLabel?: (id: string) => string;
-  networkLevel: string;
-  setNetworkLevel: (networkLevel: string) => void;
-  networkLevelOptions: string[];
+  getItemLabel?: (id: TranslationKey) => string;
 
-  category: string;
-  setCategory: (category: string) => void;
-  categoryOptions: string[];
+  networkLevel: NetworkLevelId;
+  setNetworkLevel: (networkLevel: NetworkLevelId) => void;
+  networkLevelOptions: NetworkLevelId[];
+
+  category: ElectricityCategory;
+  setCategory: (category: ElectricityCategory) => void;
+  categoryOptions: ElectricityCategory[];
 };
 
 export const SunshineSelectorsBase = ({
@@ -118,18 +121,18 @@ export const SunshineSelectorsBase = ({
       ) : null}
 
       {indicator === "networkCosts" ? (
-        <Combobox
+        <Combobox<NetworkLevelId>
           id="networkLevel"
           label={t({ id: "selector.network-level", message: "Network level" })}
           items={networkLevelOptions}
-          getItemLabel={getItemLabel}
+          getItemLabel={(x) => getItemLabel(`network-level.${x}.short`)}
           selectedItem={networkLevel}
           setSelectedItem={setNetworkLevel}
           infoDialogSlug="help-network-level"
         />
       ) : null}
       {indicator === "netTariffs" ? (
-        <Combobox
+        <Combobox<ElectricityCategory>
           id="net-tariffs-category"
           label={t({
             id: "selector.net-tariffs-category",
