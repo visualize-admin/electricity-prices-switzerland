@@ -5,7 +5,7 @@ import { useQueryStateSunshineMap } from "src/domain/query-states";
 import {
   complianceTypes,
   indicatorOptions,
-  netElectricityCategoryOptions,
+  sunshineCategories,
   networkLevelOptions,
   saidiSaifiTypes,
   years,
@@ -80,7 +80,7 @@ export const SunshineSelectors = () => {
       }
       networkLevelOptions={networkLevelOptions}
       category={queryState.category}
-      categoryOptions={netElectricityCategoryOptions}
+      categoryOptions={sunshineCategories}
       setCategory={(category) => setQueryState({ category })}
     />
   );
