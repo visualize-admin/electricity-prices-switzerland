@@ -6,16 +6,22 @@ import { ButtonGroup } from "src/components/button-group";
 import CardSource from "src/components/card-source";
 import { infoDialogProps } from "src/components/info-dialog-props";
 import { createColorMapping } from "src/domain/color-mapping";
-import { useQueryStateTariffsTrendCardFilters } from "src/domain/query-states";
-import { PeerGroup, SunshineCostsAndTariffsData } from "src/domain/sunshine";
+import {
+  useQueryStateTariffsTrendCardFilters,
+  ViewByFilter,
+} from "src/domain/query-states";
+import {
+  isPeerGroupRow,
+  PeerGroup,
+  SunshineCostsAndTariffsData,
+} from "src/domain/sunshine";
 import { getLocalizedLabel, getPeerGroupLabels } from "src/domain/translation";
 
 import { CardHeader } from "./detail-page/card";
 import { Download, DownloadImage } from "./detail-page/download-image";
 import { InfoDialogButton, InfoDialogButtonProps } from "./info-dialog";
 import { OverviewCard } from "./overview-card";
-import { ViewByFilter } from "./power-stability-card";
-import { AllOrMultiCombobox } from "./query-combobox";
+import { ItemMultiCombobox } from "./query-combobox";
 import { TariffsTrendChart } from "./tariffs-trend-chart";
 
 const DOWNLOAD_ID: Download = "costs-and-tariffs";
@@ -59,7 +65,8 @@ const getTariffsTrendCardState = (
       const isSelected =
         filters.compareWith?.includes("sunshine.select-all") ||
         filters.compareWith?.includes(operatorIdStr) ||
-        operatorIdStr === operatorId;
+        operatorIdStr === operatorId ||
+        isPeerGroupRow(d);
       if ((filters.viewBy === "latest" ? isLatestYear : true) && isSelected) {
         observations.push(d);
       }
@@ -168,11 +175,21 @@ export const TariffsTrendCard: React.FC<TariffsTrendCardProps> = (props) => {
             />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <AllOrMultiCombobox
+            <ItemMultiCombobox
               label={t({
                 id: "sunshine.costs-and-tariffs.compare-with",
                 message: "Compare With",
               })}
+              InputProps={
+                compareWith.length === 0
+                  ? {
+                      placeholder: t({
+                        id: "sunshine.costs-and-tariffs.compare-with-placeholder",
+                        message: "Select operators to compare",
+                      }),
+                    }
+                  : {}
+              }
               colorMapping={colorMapping}
               items={[
                 { id: "sunshine.select-all" },

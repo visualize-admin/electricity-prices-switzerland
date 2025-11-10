@@ -41,6 +41,7 @@ export const ElectricitySelectors = () => {
       <Combobox
         id="year"
         label={t({ id: "selector.year", message: "Year" })}
+        infoDialogSlug="help-year-electricity"
         items={periods}
         selectedItem={queryState.period ?? "2020"}
         setSelectedItem={(selectedItem) =>

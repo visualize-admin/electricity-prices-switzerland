@@ -465,7 +465,7 @@ export type StabilityData = {
 
 export type StabilityDataRow = {
   __typename: "StabilityDataRow";
-  operator: Scalars["Int"]["output"];
+  operator_id: Scalars["Int"]["output"];
   operator_name: Scalars["String"]["output"];
   total: Scalars["Float"]["output"];
   unplanned: Scalars["Float"]["output"];
@@ -1144,7 +1144,7 @@ export type SaidiQuery = {
       year: number;
       total: number;
       unplanned: number;
-      operator: number;
+      operator_id: number;
       operator_name: string;
     }>;
   };
@@ -1165,7 +1165,7 @@ export type SaifiQuery = {
       year: number;
       total: number;
       unplanned: number;
-      operator: number;
+      operator_id: number;
       operator_name: string;
     }>;
   };
@@ -1798,7 +1798,7 @@ export const SaidiDocument = gql`
         year
         total
         unplanned
-        operator
+        operator_id
         operator_name
       }
     }
@@ -1822,7 +1822,7 @@ export const SaifiDocument = gql`
         year
         total
         unplanned
-        operator
+        operator_id
         operator_name
       }
     }

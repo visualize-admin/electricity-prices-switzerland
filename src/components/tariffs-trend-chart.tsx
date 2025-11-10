@@ -4,19 +4,13 @@ import { useMemo } from "react";
 
 import { ColorMapping } from "src/domain/color-mapping";
 import { RP_PER_KM, RP_PER_KWH } from "src/domain/metrics";
-import type { SunshineCostsAndTariffsData } from "src/domain/sunshine";
+import {
+  isPeerGroupRow,
+  type SunshineCostsAndTariffsData,
+} from "src/domain/sunshine";
 import { getLocalizedLabel } from "src/domain/translation";
-import { chartPalette, palette } from "src/themes/palette";
 
-import { AxisHeightCategories } from "./charts-generic/axis/axis-height-categories";
-import { AxisWidthLinear } from "./charts-generic/axis/axis-width-linear";
-import { ChartContainer, ChartSvg } from "./charts-generic/containers";
-import { DotPlot } from "./charts-generic/dot-plot/dot-plot-state";
-import { Dots } from "./charts-generic/dot-plot/dots";
-import { DotPlotMedian } from "./charts-generic/dot-plot/median";
-import { Tooltip } from "./charts-generic/interaction/tooltip";
-import { LegendItem } from "./charts-generic/legends/color";
-import { InteractionDotted } from "./charts-generic/overlay/interaction-dotted";
+import { LatestYearChartView as LatestYearChartViewGeneric } from "./charts-generic/latest-year-chart-view";
 import { ProgressOvertimeChart } from "./charts-generic/progress-overtime-chart";
 import { SectionProps } from "./detail-page/card";
 import { TariffsTrendCardFilters } from "./tariffs-trend-card";
@@ -40,9 +34,10 @@ export const TariffsTrendChart = (props: TariffsTrendChartProps) => {
   return (
     <Box {...rootProps}>
       {viewBy === "latest" ? (
-        <LatestYearChartView
+        <TariffsLatestYearChartView
           observations={observations}
           operatorsNames={operatorsNames}
+          colorMapping={colorMapping}
           {...restProps}
         />
       ) : (
@@ -56,39 +51,51 @@ export const TariffsTrendChart = (props: TariffsTrendChartProps) => {
     </Box>
   );
 };
-const LatestYearChartView = (
+const TariffsLatestYearChartView = (
   props: Omit<TariffsTrendChartProps, "viewBy"> & {
     operatorsNames: Set<string>;
   }
 ) => {
-  const { observations, netTariffs, id, operatorLabel, operatorsNames } = props;
+  const {
+    observations,
+    netTariffs,
+    id,
+    operatorLabel,
+    compareWith,
+    colorMapping,
+  } = props;
 
-  return (
-    <DotPlot
-      medianValue={netTariffs.peerGroupMedianRate ?? undefined}
-      data={observations.map((o) => ({
+  const entityField = "operator_id";
+
+  const mappedObservations = useMemo(() => {
+    return observations
+      .map((o) => ({
         ...o,
         category: getLocalizedLabel({
-          id: `selector.category.${o.category}`,
+          id: `${o.category}-long`,
         }),
         year: o.period,
-      }))}
-      fields={{
-        x: { componentIri: "rate", axisLabel: RP_PER_KWH },
-        y: { componentIri: "category" },
-        segment: {
-          componentIri: "operator_name",
-          palette: "elcom",
-        },
-        style: {
-          entity: "operator_id",
-          colorDomain: [...operatorsNames] as string[],
-          colorAcc: "operator_name",
-          highlightValue: id,
-        },
-        tooltip: {
-          componentIri: "year",
-        },
+      }))
+      .filter((x) => !isPeerGroupRow(x));
+  }, [observations]);
+
+  return (
+    <LatestYearChartViewGeneric
+      observations={mappedObservations}
+      medianValue={netTariffs.peerGroupMedianRate ?? undefined}
+      id={id}
+      operatorLabel={operatorLabel}
+      compareWith={compareWith}
+      colorMapping={colorMapping}
+      entityField={entityField}
+      xField={{ componentIri: "rate", axisLabel: RP_PER_KWH }}
+      yField={{ componentIri: "category" }}
+      segmentField={{
+        componentIri: "operator_name",
+        palette: "elcom",
+      }}
+      tooltipField={{
+        componentIri: "year",
       }}
       measures={[{ iri: "rate", label: "Rate", __typename: "Measure" }]}
       dimensions={[
@@ -99,51 +106,15 @@ const LatestYearChartView = (
         },
       ]}
       aspectRatio={0.15}
-    >
-      <Box
-        sx={{
-          position: "relative",
-          justifyContent: "flex-start",
-          alignItems: "flex-start",
-          flexWrap: "wrap",
-          minHeight: "20px",
-          gap: 2,
-        }}
-        display="flex"
-      >
-        <LegendItem
-          item={operatorLabel}
-          color={chartPalette.categorical[0]}
-          symbol={"circle"}
-        />
-        <LegendItem
-          item={t({
-            id: "net-tariffs-trend-chart.legend-item.peer-group-median",
-            message: "Peer Group Median",
-          })}
-          color={palette.monochrome[800]}
-          symbol={"diamond"}
-        />
-        <LegendItem
-          item={t({
-            id: "net-tariffs-trend-chart.legend-item.other-operators",
-            message: "Other operators",
-          })}
-          color={palette.monochrome[200]}
-          symbol={"circle"}
-        />
-      </Box>
-      <ChartContainer>
-        <ChartSvg>
-          <AxisWidthLinear position="top" format="number" />
-          <AxisHeightCategories stretch />
-          <Dots />
-          <InteractionDotted />
-          <DotPlotMedian />
-        </ChartSvg>
-        <Tooltip type="multiple" forceYAnchor />
-      </ChartContainer>
-    </DotPlot>
+      medianLegend={t({
+        id: "legend-item.peer-group-median",
+        message: "Peer Group Median",
+      })}
+      otherOperatorsLegend={t({
+        id: "legend-item.other-operators",
+        message: "Other operators",
+      })}
+    />
   );
 };
 const ProgressOvertimeChartView = (

@@ -125,7 +125,7 @@ const DotPlotFields = z.object({
   style: z
     .object({
       entity: z.string(),
-      colorDomain: z.array(z.string()),
+      colorMapping: z.record(z.string()).optional(),
       colorAcc: z.string(),
       highlightValue: z.union([z.string(), z.number()]).optional(),
     })

@@ -39,4 +39,18 @@ export const infoDialogProps = {
       message: "Total Outage Frequency",
     }),
   },
+  "help-compliance": {
+    slug: "help-compliance",
+    label: t({
+      id: "sunshine.operational-standards.compliance.info-dialog-label",
+      message: "Compliance",
+    }),
+  },
+  "help-service-quality": {
+    slug: "help-service-quality",
+    label: t({
+      id: "sunshine.operational-standards.service-quality.info-dialog-label",
+      message: "Service Quality",
+    }),
+  },
 } satisfies Partial<Record<WikiPageSlug, InfoDialogButtonProps>>;

@@ -347,7 +347,7 @@ type StabilityDataRow {
   year: Int!
   total: Float!
   unplanned: Float!
-  operator: Int!
+  operator_id: Int!
   operator_name: String!
 }
 

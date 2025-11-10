@@ -1,3 +1,5 @@
+import { useTheme } from "@mui/material";
+
 import {
   DotPlotState,
   StackedBarsState,
@@ -21,6 +23,12 @@ export const AxisHeightCategories = ({
   const { yScale, bounds } = useChartState() as DotPlotState | StackedBarsState;
   const { labelFontSize } = useChartTheme();
 
+  const theme = useTheme();
+  // I do not know why we use 3 grays, ideally these would be in the palette
+  const gray1 = "#e0e0e0";
+  const gray2 = "#666";
+  const gray3 = theme.palette.monochrome[200];
+
   return (
     <g transform={`translate(${bounds.margins.left} ${bounds.margins.top})`}>
       {yScale.domain().map((category) => {
@@ -37,7 +45,7 @@ export const AxisHeightCategories = ({
               textAnchor="end"
               dominantBaseline="middle"
               fontSize={labelFontSize}
-              fill="#666"
+              fill={gray2}
               fontWeight={highlightedCategory === category ? "bold" : "normal"}
             >
               {category}
@@ -48,7 +56,7 @@ export const AxisHeightCategories = ({
                 x2={stretch ? bounds.width - bounds.margins.left : 0}
                 y1={y + labelFontSize / 2}
                 y2={y + labelFontSize / 2}
-                stroke={stretch ? "#e5e7eb" : "#e0e0e0"}
+                stroke={stretch ? gray3 : gray1}
                 strokeWidth={1}
               />
             )}
@@ -58,7 +66,7 @@ export const AxisHeightCategories = ({
                 x2={stretch ? bounds.width - bounds.margins.left : 0}
                 y1={y}
                 y2={y}
-                stroke={stretch ? "#e5e7eb" : "#e0e0e0"}
+                stroke={stretch ? gray3 : gray1}
                 strokeWidth={1}
               />
             )}

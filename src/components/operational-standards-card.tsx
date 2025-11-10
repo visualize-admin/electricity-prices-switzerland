@@ -10,7 +10,6 @@ import { getLocalizedLabel, getPeerGroupLabels } from "src/domain/translation";
 
 import { CardHeader } from "./detail-page/card";
 import { Download, DownloadImage } from "./detail-page/download-image";
-import { InfoDialogButton } from "./info-dialog";
 import {
   ComplianceChart,
   ServiceQualityChart,
@@ -53,19 +52,6 @@ const OperationalStandardsCard: React.FC<OperationalStandardsCardProps> = (
         <CardHeader
           trailingContent={
             <>
-              <InfoDialogButton
-                iconOnly
-                iconSize={24}
-                type="outline"
-                slug={
-                  attribute === "compliance"
-                    ? "help-compliance"
-                    : "help-service-quality"
-                }
-                label={getLocalizedLabel({
-                  id: `${attribute.toLowerCase()}-trend`,
-                })}
-              />
               <DownloadImage
                 iconOnly
                 iconSize={24}

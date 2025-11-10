@@ -232,7 +232,7 @@ const SaidiSaifiChartAdapter = ({
         : [];
     return yearlyData.filter(
       // TODO Change in graphql to use operatorId
-      (p) => p.operator === operatorId
+      (p) => p.operator_id === operatorId
     );
   }, [data, id, indicator]);
 
@@ -256,7 +256,7 @@ const SaidiSaifiChartAdapter = ({
         operatorLabel={operatorLabel ?? ""}
         viewBy="progress"
         overallOrRatio="overall"
-        duration={saidiSaifiType}
+        saidiSaifiType={saidiSaifiType}
         compareWith={[]}
         mini
       />

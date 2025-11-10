@@ -489,6 +489,24 @@ msgstr "Dauer von Stromunterbrechungen (SAIDI)"
 msgid "indicator.saifi"
 msgstr "Häufigkeit von Stromunterbrechungen (SAIFI)"
 
+#: src/components/network-cost-trend-chart.tsx
+#: src/components/tariffs-trend-chart.tsx
+msgid "legend-item.other-operators"
+msgstr "Andere Betreiber"
+
+#: src/components/charts-generic/interaction/tooltip-content.tsx
+#: src/components/charts-generic/latest-year-chart-view.tsx
+#: src/components/charts-generic/progress-overtime-chart.tsx
+#: src/components/network-cost-trend-chart.tsx
+#: src/components/tariffs-trend-chart.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "legend-item.peer-group-median"
+msgstr "Peer Group Median"
+
 #: src/components/sunshine-map.tsx
 msgid "legend.no"
 msgstr "Nein"
@@ -621,22 +639,6 @@ msgstr "Parameter"
 #: src/utils/entity-formatting.tsx
 msgid "municipality"
 msgstr "Gemeinde"
-
-#: src/components/tariffs-trend-chart.tsx
-msgid "net-tariffs-trend-chart.legend-item.other-operators"
-msgstr "Andere Netzbetreiber"
-
-#: src/components/tariffs-trend-chart.tsx
-msgid "net-tariffs-trend-chart.legend-item.peer-group-median"
-msgstr "Median der Vergleichsgruppe"
-
-#: src/components/network-cost-trend-chart.tsx
-msgid "network-cost-trend-chart.legend-item.other-operators"
-msgstr "Andere Netzbetreiber"
-
-#: src/components/network-cost-trend-chart.tsx
-msgid "network-cost-trend-chart.legend-item.peer-group-median"
-msgstr "Median der Vergleichsgruppe"
 
 #: src/domain/translation.tsx
 msgid "network-level"
@@ -780,14 +782,6 @@ msgstr "Einzelne Netzbetreiber anzeigen"
 #: src/components/charts-generic/progress-overtime-chart.tsx
 msgid "progress-overtime-chart.legend-item.other-operators"
 msgstr "Andere Netzbetreiber"
-
-#: src/components/charts-generic/progress-overtime-chart.tsx
-msgid "progress-overtime-chart.legend-item.peer-group"
-msgstr "Median der Vergleichsgruppe"
-
-#: src/components/charts-generic/interaction/tooltip-content.tsx
-msgid "progress-overtime-chart.operator-name.peer-group"
-msgstr "Median der Vergleichsgruppe"
 
 #: src/components/detail-page/cantons-comparison-range.tsx
 msgid "rangeplot.select.order.hint"
@@ -1196,6 +1190,12 @@ msgstr "Benchmark innerhalb der Vergleichsgruppe: {peerGroupLabel}"
 msgid "sunshine.costs-and-tariffs.compare-with"
 msgstr "Vergleichen mit"
 
+#: src/components/network-costs-trend-card.tsx
+#: src/components/power-stability-card.tsx
+#: src/components/tariffs-trend-card.tsx
+msgid "sunshine.costs-and-tariffs.compare-with-placeholder"
+msgstr "Operatoren zum Vergleich auswählen"
+
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.description"
 msgstr "Auf dieser Seite finden Sie eine detaillierte Aufschlüsselung der Stromkosten anhand von drei wichtigen Indikatoren: Netzkosten, Netztarife und Energietarife. Diese umfassen die Kosten für Betrieb und Unterhalt des Netzes, die Tarife für die Netznutzung und die Kosten für den Energieverbrauch. Da alle angezeigten Daten innerhalb derselben Netzbetreibergruppe vergleichbar sind, lassen sich die verschiedenen Tarife innerhalb des Netzes leicht bewerten."
@@ -1228,12 +1228,6 @@ msgstr "Aktuelles Tarifjahr ({latestYear})"
 #: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.latest-year-option"
 msgstr "Aktuelles Tarifjahr"
-
-#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
-#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
-#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
-msgid "sunshine.costs-and-tariffs.median-peer-group"
-msgstr "Median der Vergleichsgruppe"
 
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.costs-and-tariffs.net-tariffs"
@@ -1472,11 +1466,6 @@ msgstr "Aktuelles Tarifjahr ({latestYear})"
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.latest-year-option"
 msgstr "Aktuelles Tarifjahr"
-
-#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
-#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
-msgid "sunshine.power-stability.median-peer-group"
-msgstr "Median der Vergleichsgruppe"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.no-saidi-data"

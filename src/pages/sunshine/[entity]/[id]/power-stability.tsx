@@ -110,7 +110,7 @@ export const SaidiDocument = gql`
         year
         total
         unplanned
-        operator
+        operator_id
         operator_name
       }
     }
@@ -126,7 +126,7 @@ export const SaifiDocument = gql`
         year
         total
         unplanned
-        operator
+        operator_id
         operator_name
       }
     }
@@ -191,9 +191,7 @@ const Saidi = (props: Extract<Props, { status: "found" }>) => {
       },
       {
         label: (
-          <Trans id="sunshine.power-stability.median-peer-group">
-            Median Peer Group
-          </Trans>
+          <Trans id="legend-item.peer-group-median">Peer Group Median</Trans>
         ),
         value: {
           value: data.saidi.peerGroupTotal,
@@ -229,6 +227,7 @@ const Saidi = (props: Extract<Props, { status: "found" }>) => {
       <TableComparisonCard
         {...comparisonCardProps}
         sx={{ gridArea: "comparison" }}
+        infoDialogProps={infoDialogProps["help-saidi"]}
       />
 
       <PowerStabilityCardState
@@ -243,7 +242,6 @@ const Saidi = (props: Extract<Props, { status: "found" }>) => {
           id: "sunshine.power-stability.saidi-trend",
           message: "Average Power Outage Duration (SAIDI)",
         })}
-        infoDialogProps={infoDialogProps["help-saidi"]}
       />
     </CardGrid>
   );
@@ -307,9 +305,7 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
       },
       {
         label: (
-          <Trans id="sunshine.power-stability.median-peer-group">
-            Median Peer Group
-          </Trans>
+          <Trans id="legend-item.peer-group-median">Peer Group Median</Trans>
         ),
         value: {
           value: data.saifi.peerGroupTotal,
@@ -345,6 +341,7 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
       <TableComparisonCard
         {...comparisonCardProps}
         sx={{ gridArea: "comparison" }}
+        infoDialogProps={infoDialogProps["help-saifi"]}
       />
 
       <PowerStabilityCardState
@@ -359,7 +356,6 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
           id: "sunshine.power-stability.saifi-trend",
           message: "Average Power Outage Frequency (SAIFI)",
         })}
-        infoDialogProps={infoDialogProps["help-saifi"]}
       />
     </CardGrid>
   );

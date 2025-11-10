@@ -488,8 +488,8 @@ const getOperatorData = async (
 
   const result = results[0];
 
-  const peerGroup =
-    peerGroupMapping[stripNamespaceFromIri({ iri: result.peerGroup })];
+  const peerGroupId = stripNamespaceFromIri({ iri: result.peerGroup });
+  const peerGroup = peerGroupMapping[peerGroupId];
 
   return {
     operator_id: operatorId,
@@ -498,7 +498,7 @@ const getOperatorData = async (
     period: parseInt(result.period, 10),
     settlement_density: peerGroup.settlement_density,
     energy_density: peerGroup.energy_density,
-    peer_group: `${peerGroup.settlement_density}-${peerGroup.energy_density}`,
+    peer_group: peerGroupId,
   };
 };
 

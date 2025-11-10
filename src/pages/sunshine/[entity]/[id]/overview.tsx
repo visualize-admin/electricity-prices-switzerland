@@ -18,6 +18,7 @@ import {
 } from "src/components/detail-page/layout";
 import { DetailsPageSidebar } from "src/components/detail-page/sidebar";
 import { LoadingSkeleton } from "src/components/hint";
+import { infoDialogProps } from "src/components/info-dialog-props";
 import { NetworkCostsTrendCardMinified } from "src/components/network-costs-trend-card";
 import { PowerStabilityCardMinified } from "src/components/power-stability-card";
 import { SessionConfigDebug } from "src/components/session-config-debug";
@@ -42,6 +43,7 @@ import {
   SunshinePowerStabilityData,
 } from "src/domain/sunshine";
 import { getLocalizedLabel } from "src/domain/translation";
+import { runtimeEnv } from "src/env/runtime";
 import {
   EnergyTariffsQuery,
   NetTariffsQuery,
@@ -276,6 +278,11 @@ const OverviewPage = (props: Props) => {
       yearServiceQualityProps,
     };
   }, [props, operationalStandardsQuery.data, overviewFilters.year]);
+
+  const years = useMemo(() => {
+    const currentYear = parseInt(runtimeEnv.CURRENT_PERIOD, 10);
+    return [currentYear - 2, currentYear - 1, currentYear];
+  }, []);
 
   const mainContent = (
     <>
@@ -574,10 +581,12 @@ const OverviewPage = (props: Props) => {
         <TableComparisonCard
           {...yearServiceQualityProps}
           subtitle={null}
+          infoDialogProps={infoDialogProps["help-service-quality"]}
           description={
             <YearlyNavigation
               activeTab={year}
               handleTabChange={(_, value) => updateYear(value)}
+              years={years}
               sx={{ mb: 4 }}
             />
           }
@@ -598,10 +607,12 @@ const OverviewPage = (props: Props) => {
         <TableComparisonCard
           {...yearComplianceProps}
           subtitle={null}
+          infoDialogProps={infoDialogProps["help-compliance"]}
           description={
             <YearlyNavigation
               activeTab={year}
               handleTabChange={(_, value) => updateYear(value)}
+              years={years}
               sx={{ mb: 4 }}
             />
           }

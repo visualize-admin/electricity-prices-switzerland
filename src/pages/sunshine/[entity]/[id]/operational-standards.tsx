@@ -15,6 +15,7 @@ import {
   DetailsPageTitle,
 } from "src/components/detail-page/layout";
 import { DetailsPageSidebar } from "src/components/detail-page/sidebar";
+import { infoDialogProps } from "src/components/info-dialog-props";
 import OperationalStandardsCard from "src/components/operational-standards-card";
 import PeerGroupCard from "src/components/peer-group-card";
 import { SessionConfigDebug } from "src/components/session-config-debug";
@@ -166,48 +167,49 @@ const ServiceQuality = (props: Extract<Props, { status: "found" }>) => {
 
   return (
     <CardGrid
-        sx={{
-          gridTemplateColumns: {
-            xs: "1fr", // Single column on small screens
-            sm: "repeat(2, 1fr)", // Two columns on medium screens
-          },
+      sx={{
+        gridTemplateColumns: {
+          xs: "1fr", // Single column on small screens
+          sm: "repeat(2, 1fr)", // Two columns on medium screens
+        },
 
-          gridTemplateRows: ["auto auto auto", "auto auto"], // Three rows: two for cards, one for trend chart
+        gridTemplateRows: ["auto auto auto", "auto auto"], // Three rows: two for cards, one for trend chart
 
-          // On Desktop, peer group and network costs cards are side by side
-          // Network costs trend is below them
-          // On Mobile, they are stacked
-          gridTemplateAreas: [
-            `"comparison" "peer-group" "trend"`, // One column on small screens
-            `"comparison peer-group" "trend trend"`, // Two columns on medium screens
-          ],
-        }}
-      >
-        <PeerGroupCard
-          latestYear={latestYear}
-          peerGroup={peerGroup}
-          sx={{ gridArea: "peer-group" }}
-        />
+        // On Desktop, peer group and network costs cards are side by side
+        // Network costs trend is below them
+        // On Mobile, they are stacked
+        gridTemplateAreas: [
+          `"comparison" "peer-group" "trend"`, // One column on small screens
+          `"comparison peer-group" "trend trend"`, // Two columns on medium screens
+        ],
+      }}
+    >
+      <PeerGroupCard
+        latestYear={latestYear}
+        peerGroup={peerGroup}
+        sx={{ gridArea: "peer-group" }}
+      />
 
-        <TableComparisonCard
-          {...prepServiceQualityCardProps(
-            props.operationalStandards.serviceQuality,
-            Number(latestYear),
-            true
-          )}
-          sx={{ gridArea: "comparison" }}
-        />
+      <TableComparisonCard
+        {...prepServiceQualityCardProps(
+          props.operationalStandards.serviceQuality,
+          Number(latestYear),
+          true
+        )}
+        sx={{ gridArea: "comparison" }}
+        infoDialogProps={infoDialogProps["help-service-quality"]}
+      />
 
-        <OperationalStandardsCard
-          sx={{ gridArea: "trend" }}
-          peerGroup={peerGroup}
-          updateDate={updateDate}
-          operatorId={props.id}
-          operatorLabel={operatorLabel}
-          operationalStandards={data.serviceQuality}
-          attribute="serviceQuality"
-        />
-      </CardGrid>
+      <OperationalStandardsCard
+        sx={{ gridArea: "trend" }}
+        peerGroup={peerGroup}
+        updateDate={updateDate}
+        operatorId={props.id}
+        operatorLabel={operatorLabel}
+        operationalStandards={data.serviceQuality}
+        attribute="serviceQuality"
+      />
+    </CardGrid>
   );
 };
 
@@ -282,48 +284,49 @@ const Compliance = (props: Extract<Props, { status: "found" }>) => {
 
   return (
     <CardGrid
-        sx={{
-          gridTemplateColumns: {
-            xs: "1fr", // Single column on small screens
-            sm: "repeat(2, 1fr)", // Two columns on medium screens
-          },
+      sx={{
+        gridTemplateColumns: {
+          xs: "1fr", // Single column on small screens
+          sm: "repeat(2, 1fr)", // Two columns on medium screens
+        },
 
-          gridTemplateRows: ["auto auto auto", "auto auto"], // Three rows: two for cards, one for trend chart
+        gridTemplateRows: ["auto auto auto", "auto auto"], // Three rows: two for cards, one for trend chart
 
-          // On Desktop, peer group and network costs cards are side by side
-          // Network costs trend is below them
-          // On Mobile, they are stacked
-          gridTemplateAreas: [
-            `"comparison" "peer-group" "trend"`, // One column on small screens
-            `"comparison peer-group" "trend trend"`, // Two columns on medium screens
-          ],
-        }}
-      >
-        <PeerGroupCard
-          latestYear={latestYear}
-          peerGroup={peerGroup}
-          sx={{ gridArea: "peer-group" }}
-        />
+        // On Desktop, peer group and network costs cards are side by side
+        // Network costs trend is below them
+        // On Mobile, they are stacked
+        gridTemplateAreas: [
+          `"comparison" "peer-group" "trend"`, // One column on small screens
+          `"comparison peer-group" "trend trend"`, // Two columns on medium screens
+        ],
+      }}
+    >
+      <PeerGroupCard
+        latestYear={latestYear}
+        peerGroup={peerGroup}
+        sx={{ gridArea: "peer-group" }}
+      />
 
-        <TableComparisonCard
-          {...prepComplianceCardProps(
-            props.operationalStandards.compliance,
-            Number(props.operationalStandards.latestYear),
-            true
-          )}
-          sx={{ gridArea: "comparison" }}
-        />
+      <TableComparisonCard
+        {...prepComplianceCardProps(
+          props.operationalStandards.compliance,
+          Number(props.operationalStandards.latestYear),
+          true
+        )}
+        sx={{ gridArea: "comparison" }}
+        infoDialogProps={infoDialogProps["help-compliance"]}
+      />
 
-        <OperationalStandardsCard
-          sx={{ gridArea: "trend" }}
-          peerGroup={peerGroup}
-          updateDate={updateDate}
-          operatorId={props.id}
-          operatorLabel={operatorLabel}
-          operationalStandards={data.compliance}
-          attribute="compliance"
-        />
-      </CardGrid>
+      <OperationalStandardsCard
+        sx={{ gridArea: "trend" }}
+        peerGroup={peerGroup}
+        updateDate={updateDate}
+        operatorId={props.id}
+        operatorLabel={operatorLabel}
+        operationalStandards={data.compliance}
+        attribute="compliance"
+      />
+    </CardGrid>
   );
 };
 

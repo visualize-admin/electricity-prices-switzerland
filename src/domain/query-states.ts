@@ -94,12 +94,14 @@ const energyPricesDetailsSchema = z.object({
   view: stringToArray(["collapsed"]),
 });
 
+const saidiSaifiTypeSchema = z.enum(["total", "planned", "unplanned"]);
+
 // TODO: Sunshine params are currently not validated
 const sunshineMapSchema = z.object({
   tab: mapTabsSchema.default("sunshine"),
   period: sunshineYearsSchema,
   peerGroup: z.string().default("all_grid_operators"),
-  saidiSaifiType: z.enum(["total", "planned", "unplanned"]).default("total"),
+  saidiSaifiType: saidiSaifiTypeSchema.default("total"),
   complianceType: z.enum(["franc-rule"]).default("franc-rule"),
   indicator: sunshineIndicatorSchema.default("networkCosts"),
   category: z.string().default("H4"),
@@ -181,7 +183,7 @@ export type QueryStateEnergyPricesMap = UseQueryStateSingle<
   typeof energyPricesMapSchema.shape
 >;
 
-type QueryStateSunshineMap = UseQueryStateSingle<
+export type QueryStateSunshineMap = UseQueryStateSingle<
   typeof sunshineMapSchema.shape
 >;
 
@@ -190,32 +192,37 @@ export type QueryStateSingleSunshineDetails = UseQueryStateSingle<
 >;
 
 const viewByFilterSchema = z.enum(["latest", "progress"]);
+export type ViewByFilter = z.infer<typeof viewByFilterSchema>;
+
 const compareWithFilterSchema = z
   .union([
     z.string().transform((x) => (x ? x.split(",").filter(Boolean) : [])),
     z.array(z.string()),
   ])
   .transform((x) => (Array.isArray(x) ? x : []));
-const durationFilterSchema = z.enum(["total", "planned", "unplanned"]);
+export type CompareWithFilter = z.infer<typeof compareWithFilterSchema>;
+
 const overallOrRatioFilterSchema = z.enum(["overall", "ratio"]);
+export type OverallOrRatioFilter = z.infer<typeof overallOrRatioFilterSchema>;
+
 const powerStabilityCardFiltersSchema = z.object({
-  compareWith: compareWithFilterSchema.default(["sunshine.select-all"]),
+  compareWith: compareWithFilterSchema.default([]),
   viewBy: viewByFilterSchema.default("latest"),
-  duration: durationFilterSchema.default("total"),
+  saidiSaifiType: saidiSaifiTypeSchema.default("total"),
   overallOrRatio: overallOrRatioFilterSchema.default("overall"),
 });
 export const useQueryStatePowerStabilityCardFilters = makeUseQueryState(
   powerStabilityCardFiltersSchema
 );
 const networkCostsTrendCardFiltersSchema = z.object({
-  compareWith: compareWithFilterSchema.default(["sunshine.select-all"]),
+  compareWith: compareWithFilterSchema.default([]),
   viewBy: viewByFilterSchema.default("latest"),
 });
 export const useQueryStateNetworkCostsTrendCardFilters = makeUseQueryState(
   networkCostsTrendCardFiltersSchema
 );
 const tariffsTrendCardFiltersSchema = z.object({
-  compareWith: compareWithFilterSchema.default(["sunshine.select-all"]),
+  compareWith: compareWithFilterSchema.default([]),
   viewBy: viewByFilterSchema.default("latest"),
 });
 export const useQueryStateTariffsTrendCardFilters = makeUseQueryState(

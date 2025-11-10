@@ -81,9 +81,13 @@ const useScatterPlotState = ({
   const { sortedData, xScale, yScale, bounds, segments, colors } =
     useMemo(() => {
       const sortedData = [...data];
+      const xs = [
+        ...sortedData.map(getX),
+        ...(medianValue ? [medianValue] : []),
+      ];
 
-      const minValue = min(sortedData, getX) ?? 0;
-      const maxValue = max(sortedData, getX) ?? 0;
+      const minValue = min(xs) ?? 0;
+      const maxValue = max(xs) ?? 0;
       const xDomain = [minValue, maxValue];
       const xScale = scaleLinear().domain(xDomain).nice();
 
@@ -104,9 +108,13 @@ const useScatterPlotState = ({
             .map(getSegment)
         ),
       ];
-      const colors = scaleOrdinal<string, string>()
-        .domain(segments)
-        .range(getPalette(fields.segment?.palette));
+      const colors = fields.style?.colorMapping
+        ? scaleOrdinal<string, string>()
+            .domain(Object.keys(fields.style.colorMapping))
+            .range(Object.values(fields.style.colorMapping))
+        : scaleOrdinal<string, string>()
+            .domain(segments)
+            .range(getPalette(fields.segment?.palette));
 
       const maxYLabelWidth = Math.max(
         ...yDomain.map((label) =>
@@ -137,15 +145,17 @@ const useScatterPlotState = ({
       return { sortedData, xScale, yScale, bounds, segments, colors };
     }, [
       data,
-      width,
-      aspectRatio,
-      fields.segment,
       getX,
+      medianValue,
       getY,
       getSegment,
-      labelFontSize,
+      fields.style?.colorMapping,
       fields.style?.highlightValue,
+      fields.segment?.palette,
+      width,
+      aspectRatio,
       getHighlightEntity,
+      labelFontSize,
     ]);
 
   const getAnnotationInfo = useCallback(
@@ -246,6 +256,7 @@ const DotPlotProvider = ({
   fields: DotPlotFields;
   aspectRatio: number;
   medianValue?: number;
+  colorScale?: ReturnType<typeof scaleOrdinal<string, string>>;
 }) => {
   const state = useScatterPlotState({
     data,
@@ -267,12 +278,14 @@ export const DotPlot = ({
   measures,
   aspectRatio,
   medianValue,
+  colorScale,
   children,
 }: Pick<ChartProps, "data" | "dimensions" | "measures"> & {
   aspectRatio: number;
   fields: DotPlotFields;
   medianValue?: number;
   children: ReactNode;
+  colorScale?: ReturnType<typeof scaleOrdinal<string, string>>;
 }) => {
   return (
     <Observer>
@@ -284,6 +297,7 @@ export const DotPlot = ({
           measures={measures}
           aspectRatio={aspectRatio}
           medianValue={medianValue}
+          colorScale={colorScale}
         >
           {children}
         </DotPlotProvider>

@@ -1,40 +1,39 @@
 import { t, Trans } from "@lingui/macro";
-import {
-  Card,
-  CardContent,
-  CardProps,
-  Grid,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Card, CardContent, CardProps, Grid, Typography } from "@mui/material";
 import React, { ReactNode, useMemo } from "react";
 
 import { ButtonGroup } from "src/components/button-group";
 import CardSource from "src/components/card-source";
+import { infoDialogProps } from "src/components/info-dialog-props";
+import { OverviewCard } from "src/components/overview-card";
 import { createColorMapping } from "src/domain/color-mapping";
 import { filterBySeparator } from "src/domain/helpers";
-import { useQueryStatePowerStabilityCardFilters } from "src/domain/query-states";
-import { PeerGroup, SunshinePowerStabilityData } from "src/domain/sunshine";
+import {
+  CompareWithFilter,
+  OverallOrRatioFilter,
+  QueryStateSunshineMap,
+  useQueryStatePowerStabilityCardFilters,
+  ViewByFilter,
+} from "src/domain/query-states";
+import {
+  isPeerGroupRow,
+  PeerGroup,
+  SunshinePowerStabilityData,
+} from "src/domain/sunshine";
 import { getLocalizedLabel, getPeerGroupLabels } from "src/domain/translation";
 
 import { CardHeader } from "./detail-page/card";
 import { Download, DownloadImage } from "./detail-page/download-image";
 import { InfoDialogButton, InfoDialogButtonProps } from "./info-dialog";
 import { PowerStabilityChart } from "./power-stability-chart";
-import { AllOrMultiCombobox } from "./query-combobox";
+import { ItemMultiCombobox } from "./query-combobox";
 
 const DOWNLOAD_ID: Download = "power-stability";
-
-// TODO Those should come from the query state SunshineMap
-export type ViewByFilter = "latest" | "progress";
-export type CompareWithFilter = string[];
-type OverallOrRatioFilter = "overall" | "ratio";
-type DurationFilter = "total" | "planned" | "unplanned";
 
 export type PowerStabilityCardFilters = {
   compareWith?: CompareWithFilter;
   viewBy?: ViewByFilter;
-  duration?: DurationFilter;
+  saidiSaifiType?: QueryStateSunshineMap["saidiSaifiType"];
   overallOrRatio?: OverallOrRatioFilter;
 };
 
@@ -75,11 +74,12 @@ const getPowerStabilityCardState = (
       const chartObservations: typeof observations = [];
       observations.forEach((d) => {
         const isLatestYear = d.year === latestYear;
-        const operatorIdStr = d.operator.toString();
+        const operatorIdStr = d.operator_id.toString();
         const isSelected =
           filters.compareWith?.includes("sunshine.select-all") ||
           filters.compareWith?.includes(operatorIdStr) ||
-          operatorIdStr === operatorId;
+          operatorIdStr === operatorId ||
+          isPeerGroupRow(d);
         if ((filters.viewBy === "latest" ? isLatestYear : true) && isSelected) {
           chartObservations.push(d);
         }
@@ -136,7 +136,7 @@ export const PowerStabilityCard: React.FC<PowerStabilityCardProps> = (
     latestYear,
     ...cardProps
   } = props;
-  const { compareWith, viewBy, duration, overallOrRatio } = state;
+  const { compareWith, viewBy, saidiSaifiType, overallOrRatio } = state;
 
   const filteredObservations = useMemo(() => {
     return viewBy === "latest"
@@ -298,25 +298,39 @@ export const PowerStabilityCard: React.FC<PowerStabilityCardProps> = (
                     }),
                   },
                 ]}
-                value={duration}
+                value={saidiSaifiType}
                 setValue={(value) =>
-                  setQueryState({ ...state, duration: value as DurationFilter })
+                  setQueryState({
+                    ...state,
+                    saidiSaifiType:
+                      value as QueryStateSunshineMap["saidiSaifiType"],
+                  })
                 }
               />
             )}
           </Grid>
           <Grid item xs={12} sm={4} sx={{ display: "flex" }}>
-            <AllOrMultiCombobox
+            <ItemMultiCombobox
               label={t({
                 id: "sunshine.costs-and-tariffs.compare-with",
                 message: "Compare With",
               })}
               colorMapping={colorMapping}
+              InputProps={
+                compareWith.length === 0
+                  ? {
+                      placeholder: t({
+                        id: "sunshine.costs-and-tariffs.compare-with-placeholder",
+                        message: "Select operators to compare",
+                      }),
+                    }
+                  : undefined
+              }
               items={[
                 { id: "sunshine.select-all" },
                 ...multiComboboxOptions.map((item) => {
                   return {
-                    id: String(item.operator),
+                    id: String(item.operator_id),
                     name: item.operator_name,
                   };
                 }),
@@ -341,7 +355,7 @@ export const PowerStabilityCard: React.FC<PowerStabilityCardProps> = (
           operatorLabel={operatorLabel}
           viewBy={viewBy}
           overallOrRatio={overallOrRatio}
-          duration={duration}
+          saidiSaifiType={saidiSaifiType}
           compareWith={compareWith}
           colorMapping={colorMapping}
           rootProps={{
@@ -371,47 +385,37 @@ export const PowerStabilityCardMinified: React.FC<
     filters: defaultFilters,
     cardTitle,
     cardDescription,
+    indicator,
     ...rest
   } = props;
   const [state] = useQueryStatePowerStabilityCardFilters({
     defaultValue: defaultFilters,
   });
-  const { viewBy, duration, overallOrRatio } = state;
+  const { viewBy, saidiSaifiType: duration, overallOrRatio } = state;
   const chartData = getPowerStabilityCardState(rest, state);
   return (
-    <Card {...rest}>
-      <CardContent
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          flex: 1,
-          height: "100%",
-        }}
-      >
-        <Typography variant="h3">{cardTitle}</Typography>
-        <Typography variant="body2">{cardDescription}</Typography>
+    <OverviewCard
+      title={cardTitle}
+      description={cardDescription}
+      linkContent={props.linkContent}
+      chart={
         <PowerStabilityChart
           observations={chartData.observations}
           id={chartData.operatorId}
           operatorLabel={chartData.operatorLabel}
           viewBy={viewBy ?? "progress"}
           overallOrRatio={overallOrRatio ?? "overall"}
-          duration={duration ?? "total"}
+          saidiSaifiType={duration ?? "total"}
           compareWith={[]}
           rootProps={{ sx: { mt: 2 } }}
         />
-        <Stack
-          sx={{
-            mt: 2,
-            flexGrow: 1,
-            flexDirection: "column",
-            justifyContent: "flex-end",
-            alignItems: "flex-end",
-          }}
-        >
-          {props.linkContent}
-        </Stack>
-      </CardContent>
-    </Card>
+      }
+      {...rest}
+      infoDialogProps={
+        indicator === "saidi"
+          ? infoDialogProps["help-saidi"]
+          : infoDialogProps["help-saifi"]
+      }
+    />
   );
 };

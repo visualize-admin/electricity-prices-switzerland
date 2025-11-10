@@ -491,6 +491,24 @@ msgstr "Durata dell'interruzione di corrente (SAIDI)"
 msgid "indicator.saifi"
 msgstr "Frequenza delle interruzioni di corrente (SAIFI)"
 
+#: src/components/network-cost-trend-chart.tsx
+#: src/components/tariffs-trend-chart.tsx
+msgid "legend-item.other-operators"
+msgstr "Altri operatori"
+
+#: src/components/charts-generic/interaction/tooltip-content.tsx
+#: src/components/charts-generic/latest-year-chart-view.tsx
+#: src/components/charts-generic/progress-overtime-chart.tsx
+#: src/components/network-cost-trend-chart.tsx
+#: src/components/tariffs-trend-chart.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "legend-item.peer-group-median"
+msgstr "Mediana del gruppo di riferimento"
+
 #: src/components/sunshine-map.tsx
 msgid "legend.no"
 msgstr "No"
@@ -623,22 +641,6 @@ msgstr "Parametri"
 #: src/utils/entity-formatting.tsx
 msgid "municipality"
 msgstr "Comune"
-
-#: src/components/tariffs-trend-chart.tsx
-msgid "net-tariffs-trend-chart.legend-item.other-operators"
-msgstr "Altri operatori"
-
-#: src/components/tariffs-trend-chart.tsx
-msgid "net-tariffs-trend-chart.legend-item.peer-group-median"
-msgstr "Mediana del gruppo di riferimento"
-
-#: src/components/network-cost-trend-chart.tsx
-msgid "network-cost-trend-chart.legend-item.other-operators"
-msgstr "Altri operatori"
-
-#: src/components/network-cost-trend-chart.tsx
-msgid "network-cost-trend-chart.legend-item.peer-group-median"
-msgstr "Mediana del gruppo di riferimento"
 
 #: src/domain/translation.tsx
 msgid "network-level"
@@ -782,14 +784,6 @@ msgstr "Mostrare tutti i gestori di rete"
 #: src/components/charts-generic/progress-overtime-chart.tsx
 msgid "progress-overtime-chart.legend-item.other-operators"
 msgstr "Altri operatori"
-
-#: src/components/charts-generic/progress-overtime-chart.tsx
-msgid "progress-overtime-chart.legend-item.peer-group"
-msgstr "Gruppo di riferimento mediano"
-
-#: src/components/charts-generic/interaction/tooltip-content.tsx
-msgid "progress-overtime-chart.operator-name.peer-group"
-msgstr "Gruppo di riferimento mediano"
 
 #: src/components/detail-page/cantons-comparison-range.tsx
 msgid "rangeplot.select.order.hint"
@@ -1200,6 +1194,12 @@ msgstr "Benchmarking all'interno del gruppo di riferimento: {peerGroupLabel}"
 msgid "sunshine.costs-and-tariffs.compare-with"
 msgstr "Confronta con"
 
+#: src/components/network-costs-trend-card.tsx
+#: src/components/power-stability-card.tsx
+#: src/components/tariffs-trend-card.tsx
+msgid "sunshine.costs-and-tariffs.compare-with-placeholder"
+msgstr "Selezionare gli operatori da confrontare"
+
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.description"
 msgstr "Questa pagina fornisce una panoramica dei costi e delle tariffe dell'elettricità, compresi i costi di rete, le tariffe nette e le tariffe energetiche. Confrontate i diversi fornitori e analizzate le tendenze all'interno del vostro gruppo di pari per capire meglio la vostra posizione sul mercato."
@@ -1232,12 +1232,6 @@ msgstr "Ultimo anno tariffario ({latestYear})"
 #: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.latest-year-option"
 msgstr "Ultimo anno"
-
-#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
-#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
-#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
-msgid "sunshine.costs-and-tariffs.median-peer-group"
-msgstr "Gruppo di riferimento mediano"
 
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.costs-and-tariffs.net-tariffs"
@@ -1476,11 +1470,6 @@ msgstr "Ultimo anno tariffario ({latestYear})"
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.latest-year-option"
 msgstr "Ultimo anno"
-
-#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
-#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
-msgid "sunshine.power-stability.median-peer-group"
-msgstr "Gruppo di riferimento mediano"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.no-saidi-data"

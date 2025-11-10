@@ -1,8 +1,17 @@
 import { t } from "@lingui/macro";
-import { Box, BoxProps, Chip, NativeSelect, Typography } from "@mui/material";
+import {
+  Box,
+  BoxProps,
+  Chip,
+  chipClasses,
+  NativeSelect,
+  Typography,
+} from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
+import { hsl } from "d3";
 import { useEffect, useId, useMemo, useState } from "react";
+import { makeStyles } from "tss-react/mui";
 
 import { InfoDialogButton } from "src/components/info-dialog";
 import { WikiPageSlug } from "src/domain/wiki";
@@ -27,6 +36,7 @@ export type ComboboxMultiProps = {
   isLoading?: boolean;
   isOptionEqualToValue?: (option: unknown, value: string) => boolean;
   size?: "small" | "medium";
+  InputProps?: Partial<React.ComponentProps<typeof TextField>["InputProps"]>;
 };
 
 const defaultGetItemLabel = (d: string) => d;
@@ -75,6 +85,18 @@ const ComboboxLabel = ({
   );
 };
 
+const useStyles = makeStyles()((theme) => ({
+  invertedChip: {
+    color: "white",
+    "&:hover": {
+      backgroundColor: theme.palette.monochrome[700],
+    },
+    [`& .${chipClasses.deleteIcon}`]: {
+      color: "white",
+    },
+  },
+}));
+
 export const MultiCombobox = ({
   id,
   label,
@@ -92,8 +114,10 @@ export const MultiCombobox = ({
   colorMapping,
   max,
   size = "small",
+  InputProps,
 }: ComboboxMultiProps) => {
   const [inputValue, setInputValue] = useState("");
+  const { classes } = useStyles();
 
   const canRemoveItems = selectedItems.length > minSelectedItems;
 
@@ -152,6 +176,7 @@ export const MultiCombobox = ({
             }
             InputProps={{
               ...params.InputProps,
+              ...InputProps,
             }}
           />
         </Box>
@@ -169,6 +194,9 @@ export const MultiCombobox = ({
             ? colorMapping[option]
             : undefined;
 
+          const bg = backgroundColor ? hsl(backgroundColor) : undefined;
+          const inverted = bg ? bg.l < 0.4 : false;
+
           return (
             <Chip
               key={`${key}-${id}-chip`}
@@ -178,6 +206,7 @@ export const MultiCombobox = ({
                 margin: "2px !important",
                 backgroundColor,
               }}
+              className={inverted ? classes.invertedChip : undefined}
               size="xs"
               disabled={disabled}
               onDelete={() =>

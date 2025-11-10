@@ -5,22 +5,14 @@ import { useMemo } from "react";
 import { NoDataHint } from "src/components/hint";
 import { ColorMapping } from "src/domain/color-mapping";
 import { getNetworkLevelMetrics } from "src/domain/metrics";
-import type {
-  NetworkLevel,
-  SunshineCostsAndTariffsData,
+import {
+  isPeerGroupRow,
+  type NetworkLevel,
+  type SunshineCostsAndTariffsData,
 } from "src/domain/sunshine";
 import { getLocalizedLabel } from "src/domain/translation";
-import { chartPalette, palette } from "src/themes/palette";
 
-import { AxisHeightCategories } from "./charts-generic/axis/axis-height-categories";
-import { AxisWidthLinear } from "./charts-generic/axis/axis-width-linear";
-import { ChartContainer, ChartSvg } from "./charts-generic/containers";
-import { DotPlot } from "./charts-generic/dot-plot/dot-plot-state";
-import { Dots } from "./charts-generic/dot-plot/dots";
-import { DotPlotMedian } from "./charts-generic/dot-plot/median";
-import { Tooltip } from "./charts-generic/interaction/tooltip";
-import { LegendItem } from "./charts-generic/legends/color";
-import { InteractionDotted } from "./charts-generic/overlay/interaction-dotted";
+import { LatestYearChartView } from "./charts-generic/latest-year-chart-view";
 import { ProgressOvertimeChart } from "./charts-generic/progress-overtime-chart";
 import { SectionProps } from "./detail-page/card";
 import { NetworkCostsTrendCardFilters } from "./network-costs-trend-card";
@@ -43,9 +35,10 @@ export const NetworkCostTrendChart = (props: NetworkCostTrendChartProps) => {
   return (
     <Box {...rootProps}>
       {viewBy === "latest" ? (
-        <LatestYearChartView
+        <NetworkCostLatestYearChartView
           observations={observations}
           operatorsNames={operatorsNames}
+          colorMapping={colorMapping}
           {...restProps}
         />
       ) : (
@@ -60,7 +53,7 @@ export const NetworkCostTrendChart = (props: NetworkCostTrendChartProps) => {
   );
 };
 
-const LatestYearChartView = (
+const NetworkCostLatestYearChartView = (
   props: Omit<NetworkCostTrendChartProps, "viewBy"> & {
     operatorsNames: Set<string>;
   }
@@ -70,42 +63,48 @@ const LatestYearChartView = (
     networkCosts,
     id,
     operatorLabel,
-    operatorsNames,
     compareWith,
+    colorMapping,
   } = props;
 
-  return (
-    <DotPlot
-      medianValue={networkCosts.peerGroupMedianRate ?? undefined}
-      data={observations.map((o) => ({
+  const entityField = "operator_id";
+
+  const mappedObservations = useMemo(() => {
+    return observations
+      .map((o) => ({
         ...o,
         network_level: getLocalizedLabel({
           id: `network-level.${o.network_level}.long`,
         }),
-      }))}
-      fields={{
-        x: {
-          componentIri: "rate",
-          axisLabel: getNetworkLevelMetrics(
-            observations[0]?.network_level as NetworkLevel["id"]
-          ),
-        },
-        y: { componentIri: "network_level" },
-        segment: {
-          componentIri: "operator_name",
-          palette: compareWith?.includes("sunshine.select-all")
-            ? "elcom-categorical-3" //Only green hover if all operators are selected
-            : "elcom2", //Corresponding color palette for the tiles inside the selector if not all operators are selected
-        },
-        style: {
-          entity: "operator_id",
-          colorDomain: [...operatorsNames] as string[],
-          colorAcc: "operator_name",
-          highlightValue: id,
-        },
-        tooltip: {
-          componentIri: "year",
-        },
+        year: o.year,
+      }))
+      .filter((x) => !isPeerGroupRow(x));
+  }, [observations]);
+
+  return (
+    <LatestYearChartView
+      observations={mappedObservations}
+      medianValue={networkCosts.peerGroupMedianRate ?? undefined}
+      id={id}
+      operatorLabel={operatorLabel}
+      compareWith={compareWith}
+      colorMapping={colorMapping}
+      entityField={entityField}
+      xField={{
+        componentIri: "rate",
+        axisLabel: getNetworkLevelMetrics(
+          observations[0]?.network_level as NetworkLevel["id"]
+        ),
+      }}
+      yField={{ componentIri: "network_level" }}
+      segmentField={{
+        componentIri: "operator_name",
+        palette: compareWith?.includes("sunshine.select-all")
+          ? "elcom-categorical-3" // Only green hover if all operators are selected
+          : "elcom2", // Corresponding color palette for the tiles inside the selector if not all operators are selected
+      }}
+      tooltipField={{
+        componentIri: "year",
       }}
       measures={[{ iri: "rate", label: "Rate", __typename: "Measure" }]}
       dimensions={[
@@ -116,62 +115,15 @@ const LatestYearChartView = (
         },
       ]}
       aspectRatio={0.15}
-    >
-      <Box
-        sx={{
-          position: "relative",
-          justifyContent: "flex-start",
-          alignItems: "flex-start",
-          flexWrap: "wrap",
-          minHeight: "20px",
-          gap: 2,
-        }}
-        display="flex"
-      >
-        <LegendItem
-          item={operatorLabel}
-          color={chartPalette.categorical[0]}
-          symbol={"circle"}
-        />
-        {/* <LegendItem
-    item={t({
-      id: "network-cost-trend-chart.legend-item.total-median",
-      message: "Total Median",
-    })}
-    color={palette.monochrome[800]}
-    symbol={"triangle"}
-  /> */}
-        <LegendItem
-          item={t({
-            id: "network-cost-trend-chart.legend-item.peer-group-median",
-            message: "Peer Group Median",
-          })}
-          color={palette.monochrome[800]}
-          symbol={"diamond"}
-        />
-
-        {compareWith?.includes("sunshine.select-all") && (
-          <LegendItem
-            item={t({
-              id: "network-cost-trend-chart.legend-item.other-operators",
-              message: "Other operators",
-            })}
-            color={palette.monochrome[200]}
-            symbol={"circle"}
-          />
-        )}
-      </Box>
-      <ChartContainer>
-        <ChartSvg>
-          <AxisWidthLinear position="top" format="number" />
-          <AxisHeightCategories stretch />
-          <Dots compareWith={compareWith} />
-          <InteractionDotted />
-          <DotPlotMedian />
-        </ChartSvg>
-        <Tooltip type="multiple" forceYAnchor />
-      </ChartContainer>
-    </DotPlot>
+      medianLegend={t({
+        id: "legend-item.peer-group-median",
+        message: "Peer Group Median",
+      })}
+      otherOperatorsLegend={t({
+        id: "legend-item.other-operators",
+        message: "Other operators",
+      })}
+    />
   );
 };
 

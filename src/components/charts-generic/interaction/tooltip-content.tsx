@@ -57,8 +57,8 @@ export const TooltipMultiple = ({
               // FIXME: This is a workaround for the peer group operator name translation
               segment.label === peerGroupOperatorName
                 ? t({
-                    id: "progress-overtime-chart.operator-name.peer-group",
-                    message: "Median peer group",
+                    id: "legend-item.peer-group-median",
+                    message: "Peer Group Median",
                   })
                 : segment.label
             }: ${segment.value}`}

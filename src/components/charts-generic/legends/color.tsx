@@ -1,11 +1,13 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { memo } from "react";
+import { makeStyles } from "tss-react/mui";
 
 import {
   ColumnsState,
   useChartState,
 } from "src/components/charts-generic/use-chart-state";
 import { Icon } from "src/icons";
+import { IconArrowUp } from "src/icons/ic-arrow-up";
 
 export type LegendSymbol =
   | "square"
@@ -39,8 +41,6 @@ export const LegendColor = memo(({ symbol }: { symbol: LegendSymbol }) => {
 });
 
 const ARROW_WIDTH = 16;
-const SORTABLE_EXTERNAL_GAP = 16;
-const SORTABLE_INTERNAL_GAP = 4;
 
 export const LegendSymbol = ({
   symbol,
@@ -225,42 +225,88 @@ export const LegendItem = ({
     {item}
   </Box>
 );
+const useStyles = makeStyles()(() => ({
+  button: {
+    cursor: "pointer",
+    opacity: 1,
+    minWidth: 0,
+    padding: 0,
+    "&:hover": {
+      "--icon-opacity": 0.8,
+    },
+  },
+  iconActive: {
+    "--icon-opacity": 1,
+  },
+  iconInactive: {
+    "--icon-opacity": 0,
+  },
+  icon: {
+    width: 16,
+    height: 16,
+    display: "inline-block",
+    transformOrigin: "center",
+    transition: "opacity 0.1s ease-in-out, transform 0.2s ease-in-out",
+    opacity: "var(--icon-opacity)",
+  },
+  iconAsc: {
+    transform: "rotate(0deg)",
+  },
+  iconDesc: {
+    transform: "rotate(180deg)",
+  },
+}));
 
 export const SortableLegendItem = <T extends string>({
   item,
   color,
   value,
   handleClick,
-  state,
+  active,
+  direction,
 }: {
   item: string;
   color: string;
   value: T;
-  state: T;
+  active: boolean;
+  direction: "asc" | "desc";
   handleClick: (value: T) => void;
-}) => (
-  <Box
-    sx={{
-      all: "unset",
-      display: "flex",
-      position: "relative",
-      mr: `${SORTABLE_EXTERNAL_GAP}px`,
-      justifyContent: "flex-start",
-      alignItems: "center",
-      pl: 0,
-      gap: `${SORTABLE_INTERNAL_GAP}px`,
-      color,
-      cursor: value === state ? "default" : "pointer",
-      opacity: value !== state ? 0.7 : 1,
-      textDecoration: value === state ? "underline" : "none",
-      textDecorationThickness: value === state ? "1.5px" : "0px",
-      textUnderlineOffset: value === state ? "4px" : "0px",
-    }}
-    component={"button"}
-    onClick={() => handleClick(value)}
-  >
-    <Typography variant="caption" fontWeight={700}>
-      {item}
-    </Typography>
-  </Box>
-);
+}) => {
+  const { classes, cx } = useStyles();
+
+  return (
+    <Button
+      variant="text"
+      endIcon={
+        <IconArrowUp
+          width={16}
+          height={16}
+          className={cx(
+            classes.icon,
+
+            active
+              ? direction === "asc"
+                ? classes.iconAsc
+                : classes.iconDesc
+              : undefined
+          )}
+        />
+      }
+      onClick={() => handleClick(value)}
+      className={cx(
+        classes.button,
+        active ? classes.iconActive : classes.iconInactive
+      )}
+      sx={{
+        color: color,
+        "&:hover": {
+          color: color,
+        },
+      }}
+    >
+      <Typography variant="caption" fontWeight={700}>
+        {item}
+      </Typography>
+    </Button>
+  );
+};

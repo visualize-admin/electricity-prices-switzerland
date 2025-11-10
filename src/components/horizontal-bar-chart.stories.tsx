@@ -20,7 +20,7 @@ export const HorizontalBarChart = () => {
           operatorLabel="Elektrizitätswerk des Kantons Schaffhausen AG"
           viewBy="latest"
           overallOrRatio="overall"
-          duration={"total"}
+          saidiSaifiType={"total"}
           compareWith={[]}
         />
       </DesignGrid>
@@ -34,7 +34,7 @@ export const HorizontalBarChartCard = () => {
   >({
     compareWith: [],
     viewBy: "latest",
-    duration: "total",
+    saidiSaifiType: "total",
     overallOrRatio: "overall",
   });
 
