@@ -202,6 +202,8 @@ const getNetworkCosts = async ({
   return networkCosts;
 };
 
+const yesIri = "https://energy.ld.admin.ch/elcom/electricityprice/Yes";
+
 const getOperationalStandards = async ({
   operatorId,
   period,
@@ -253,9 +255,9 @@ const getOperationalStandards = async ({
     operator_name: row.operator_name,
     period: parseInt(row.period, 10),
     franc_rule: parseFloatOrUndefined(row.franken_regel),
-    info_yes_no: row.info === "true" ? "ja" : "nein",
+    info_yes_no: row.info === yesIri ? true : false,
     info_days_in_advance: parseInt(row.days_in_advance, 10),
-    timely: row.in_time === "true" ? 1 : 0,
+    timely: row.in_time === yesIri ? true : false,
     settlement_density: "", // TODO: Need to get this from operator data
     energy_density: "", // TODO: Need to get this from operator data
   }));
