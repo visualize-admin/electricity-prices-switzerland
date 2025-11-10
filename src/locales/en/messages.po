@@ -1594,8 +1594,8 @@ msgid "sunshine.select-all"
 msgstr "Select All"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
-msgid "sunshine.service-quality.eco-friendly-products-offered"
-msgstr " Information on planned interruptions"
+msgid "sunshine.service-quality.informing-customers-outage"
+msgstr "Information on planned interruptions"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.service-quality.informing-customers-outage.no"

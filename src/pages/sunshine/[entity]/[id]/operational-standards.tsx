@@ -117,7 +117,7 @@ export const prepServiceQualityCardProps = (
     rows: [
       {
         label: (
-          <Trans id="sunshine.service-quality.eco-friendly-products-offered">
+          <Trans id="sunshine.service-quality.informing-customers-outage">
             Informing customers about power outages
           </Trans>
         ),

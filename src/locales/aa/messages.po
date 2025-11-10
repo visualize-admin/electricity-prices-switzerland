@@ -1590,8 +1590,8 @@ msgid "sunshine.select-all"
 msgstr "sunshine.select-all"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
-msgid "sunshine.service-quality.eco-friendly-products-offered"
-msgstr "sunshine.service-quality.eco-friendly-products-offered"
+msgid "sunshine.service-quality.informing-customers-outage"
+msgstr "sunshine.service-quality.informing-customers-outage"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.service-quality.informing-customers-outage.no"
