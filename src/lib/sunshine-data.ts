@@ -670,7 +670,6 @@ export const fetchOperationalStandards = async (
     produkteAuswahl: "Nein",
   };
 
-  console.log("Operational data:", data);
   const informingCustomersOfOutage = data.info_yes_no;
   const timelyPaperSubmission = data.timely;
 
