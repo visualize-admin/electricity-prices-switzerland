@@ -304,35 +304,35 @@ export const getLocalizedLabel = ({ id }: { id: string }): string => {
         message: "Days in advance outage notification",
       });
 
-    case "peer-group.settlement-density.na":
+    case "peer-group.settlement-density.high":
       return t({
-        id: "peer-group.settlement-density.na",
-        message: `Not specified`,
-      });
-    case "peer-group.settlement-density.tourist":
-      return t({
-        id: "peer-group.settlement-density.tourist",
-        message: `Tourism`,
-      });
-    case "peer-group.settlement-density.mountain":
-      return t({
-        id: "peer-group.settlement-density.mountain",
-        message: `Mountain region`,
-      });
-    case "peer-group.settlement-density.unknown":
-      return t({
-        id: "peer-group.settlement-density.unknown",
-        message: `Unknown`,
+        id: "peer-group.settlement-density.high",
+        message: `High settlement density`,
       });
     case "peer-group.settlement-density.medium":
       return t({
         id: "peer-group.settlement-density.medium",
         message: `Medium settlement density`,
       });
+    case "peer-group.settlement-density.mountain":
+      return t({
+        id: "peer-group.settlement-density.mountain",
+        message: `Mountain region`,
+      });
+    case "peer-group.settlement-density.na":
+      return t({
+        id: "peer-group.settlement-density.na",
+        message: `Not specified`,
+      });
     case "peer-group.settlement-density.rural":
       return t({
         id: "peer-group.settlement-density.rural",
         message: `Rural settlement density`,
+      });
+    case "peer-group.settlement-density.tourist":
+      return t({
+        id: "peer-group.settlement-density.tourist",
+        message: `Tourism`,
       });
     case "peer-group.energy-density.na":
       return t({
@@ -556,12 +556,12 @@ export const getLocalizedLabel = ({ id }: { id: string }): string => {
 export const getPeerGroupLabels = (peerGroup: PeerGroup) => {
   const settlementDensityLabel = getLocalizedLabel({
     id: `peer-group.settlement-density.${
-      peerGroup.settlementDensity?.toLowerCase() ?? "na"
+      peerGroup.settlementDensity?.toLowerCase().replace(/\./g, "") ?? "na"
     }`,
   });
   const energyDensityLabel = getLocalizedLabel({
     id: `peer-group.energy-density.${
-      peerGroup.energyDensity?.toLowerCase() ?? "na"
+      peerGroup.energyDensity?.toLowerCase().replace(/\./g, "") ?? "na"
     }`,
   });
 
@@ -574,11 +574,11 @@ export const getPeerGroupLabels = (peerGroup: PeerGroup) => {
 };
 
 export const getNetworkLevelLabels = (networkLevel: NetworkLevel) => ({
-    short: getLocalizedLabel({ id: `network-level.${networkLevel.id}.short` }),
-    long: getLocalizedLabel({ id: `network-level.${networkLevel.id}.long` }),
-  });
+  short: getLocalizedLabel({ id: `network-level.${networkLevel.id}.short` }),
+  long: getLocalizedLabel({ id: `network-level.${networkLevel.id}.long` }),
+});
 
 export const getCategoryLabels = (category: ElectricityCategory) => ({
-    short: getLocalizedLabel({ id: `${category}` }),
-    long: getLocalizedLabel({ id: `${category}-long` }),
-  });
+  short: getLocalizedLabel({ id: `${category}` }),
+  long: getLocalizedLabel({ id: `${category}-long` }),
+});
