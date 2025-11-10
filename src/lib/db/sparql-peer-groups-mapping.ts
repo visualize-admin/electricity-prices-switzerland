@@ -1,18 +1,11 @@
-import { z } from "zod";
-
-const SettlementDensitySchema = z.enum([
-  "High",
-  "Medium",
-  "Mountain",
-  "N.A.",
-  "Rural",
-  "Tourist",
-]);
-
-const EnergyDensitySchema = z.enum(["High", "Low", "N.A."]);
-
-export type SettlementDensity = z.infer<typeof SettlementDensitySchema>;
-export type EnergyDensity = z.infer<typeof EnergyDensitySchema>;
+export type SettlementDensity =
+  | "High"
+  | "Medium"
+  | "Rural"
+  | "Mountain"
+  | "Tourist"
+  | "N.A.";
+export type EnergyDensity = "High" | "Low" | "N.A.";
 
 /**
  * Peer group mapping from id to energy and settlement density
