@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const SettlementDensitySchema = z.enum([
+const SettlementDensitySchema = z.enum([
   "High",
   "Medium",
   "Mountain",
@@ -9,7 +9,7 @@ export const SettlementDensitySchema = z.enum([
   "Tourist",
 ]);
 
-export const EnergyDensitySchema = z.enum(["High", "Low", "N.A."]);
+const EnergyDensitySchema = z.enum(["High", "Low", "N.A."]);
 
 export type SettlementDensity = z.infer<typeof SettlementDensitySchema>;
 export type EnergyDensity = z.infer<typeof EnergyDensitySchema>;

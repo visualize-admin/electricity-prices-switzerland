@@ -502,7 +502,7 @@ const table = {
 
 export type TranslationKey = keyof typeof table;
 
-export type LowercaseWithoutDots<T> = T extends string
+type LowercaseWithoutDots<T> = T extends string
   ? Lowercase<T> extends infer L
     ? L extends string
       ? L extends `${infer P}.${infer Q}`
