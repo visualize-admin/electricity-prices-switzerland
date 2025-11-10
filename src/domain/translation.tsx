@@ -6,61 +6,60 @@ import {
   SettlementDensity,
 } from "src/lib/db/sparql-peer-groups-mapping";
 
-import { NetworkLevel, PeerGroup } from "./sunshine";
+import { NetworkLevel, PeerGroup, SunshineIndicator } from "./sunshine";
 
-const table = {
-  "collapsed-operator": t({
-    id: "priceComponents.view.collapsed.municipalities",
-    message: "Group municipalities",
+const settlementDensities: Record<
+  `peer-group.settlement-density.${LowercaseWithoutDots<SettlementDensity>}`,
+  string
+> = {
+  "peer-group.settlement-density.high": t({
+    id: "peer-group.settlement-density.high",
+    message: `High settlement density`,
   }),
-  "expanded-operator": t({
-    id: "priceComponents.view.expanded.municipalities",
-    message: "Show individual municipalities",
+  "peer-group.settlement-density.medium": t({
+    id: "peer-group.settlement-density.medium",
+    message: `Medium settlement density`,
   }),
-  "collapsed-municipality": t({
-    id: "priceComponents.view.collapsed.operators",
-    message: "Grouping network operators",
+  "peer-group.settlement-density.mountain": t({
+    id: "peer-group.settlement-density.mountain",
+    message: `Mountain region`,
   }),
-  "expanded-municipality": t({
-    id: "priceComponents.view.expanded.operators",
-    message: "Show individual network operators",
+  "peer-group.settlement-density.na": t({
+    id: "peer-group.settlement-density.na",
+    message: `Not specified`,
   }),
-  standard: t({ id: "selector.product.standard", message: "Standard" }),
-  cheapest: t({ id: "selector.product.cheapest", message: "Cheapest" }),
-  gridusage: t({
-    id: "selector.pricecomponent.gridusage",
-    message: "Grid usage",
+  "peer-group.settlement-density.rural": t({
+    id: "peer-group.settlement-density.rural",
+    message: `Rural settlement density`,
   }),
-  energy: t({ id: "selector.pricecomponent.energy", message: "Energy" }),
-  charge: t({
-    id: "selector.pricecomponent.charge",
-    message: "Charges to the community",
+  "peer-group.settlement-density.tourist": t({
+    id: "peer-group.settlement-density.tourist",
+    message: `Tourism`,
   }),
-  aidfee: t({
-    id: "selector.pricecomponent.aidfee",
-    message: "Grid surcharge pursuant to Art. 35 EnG",
+} as const;
+
+const energyDensities: Record<
+  `peer-group.energy-density.${LowercaseWithoutDots<EnergyDensity>}`,
+  string
+> = {
+  "peer-group.energy-density.na": t({
+    id: "peer-group.energy-density.na",
+    message: `Not specified`,
   }),
-  total: t({ id: "selector.pricecomponent.total", message: "Total" }),
-  meteringrate: t({
-    id: "selector.pricecomponent.meteringrate",
-    message: "Metering Rate",
+  "peer-group.energy-density.high": t({
+    id: "peer-group.energy-density.high",
+    message: `High energy density`,
   }),
-  annualmeteringcost: t({
-    id: "selector.pricecomponent.annualmeteringcost",
-    message: "Annual Metering Cost",
+  "peer-group.energy-density.low": t({
+    id: "peer-group.energy-density.low",
+    message: `Low energy density`,
   }),
-  "productvariety-trend": t({
-    id: "sunshine.operational-standards.product-variety-trend",
-    message: "Comparison of eco-friendly product diversity",
-  }),
-  "compliance-trend": t({
-    id: "sunshine.operational-standards.compliance-trend",
-    message: "Comparison of francs per invoice recipient",
-  }),
-  "servicequality-trend": t({
-    id: "sunshine.operational-standards.service-quality-trend",
-    message: "Comparison of advance notice periods for planned outages",
-  }),
+} as const;
+
+const categories: Record<
+  ElectricityCategory | `${ElectricityCategory}-long`,
+  string
+> = {
   H1: t({ id: "selector.category.H1", message: "H1" }),
   H2: t({ id: "selector.category.H2", message: "H2" }),
   H3: t({ id: "selector.category.H3", message: "H3" }),
@@ -139,6 +138,145 @@ const table = {
     id: "selector.category.C7-long",
     message: `C7 - Large business (<1,630 kW, medium voltage)`,
   }),
+};
+
+const indicators: Record<SunshineIndicator, string> = {
+  saidi: t({
+    id: "indicator.saidi",
+    message: "Power Outage Duration (SAIDI)",
+  }),
+  saifi: t({
+    id: "indicator.saifi",
+    message: "Power Outage Frequency (SAIFI)",
+  }),
+
+  networkCosts: t({
+    id: "indicator.networkCosts",
+    message: "Network costs",
+  }),
+  netTariffs: t({
+    id: "indicator.netTariffs",
+    message: "Net tariffs",
+  }),
+  energyTariffs: t({
+    id: "indicator.energyTariffs",
+    message: "Energy tariffs",
+  }),
+  compliance: t({
+    id: "indicator.compliance",
+    message: "Compliance",
+  }),
+  outageInfo: t({
+    id: "indicator.outage-info",
+    message: "Outage information",
+  }),
+  daysInAdvanceOutageNotification: t({
+    id: "indicator.days-in-advance-outage-notification",
+    message: "Days in advance outage notification",
+  }),
+};
+
+const networkLevels: Record<
+  | `network-level.${NetworkLevel["id"]}.short`
+  | `network-level.${NetworkLevel["id"]}.long`
+  | `network-level.${NetworkLevel["id"]}.description`,
+  string
+> = {
+  // NE (Not yet sure about translations)
+  "network-level.NE5.short": t({
+    id: "network-level.NE5.short",
+    message: `NE5`,
+  }),
+  "network-level.NE5.long": t({
+    id: "network-level.NE5.long",
+    message: `High voltage NE5`,
+  }),
+  "network-level.NE5.description": t({
+    id: "network-level.NE5.description",
+    message: `At Network Level NE5`,
+  }),
+  "network-level.NE6.short": t({
+    id: "network-level.NE6.short",
+    message: `NE6`,
+  }),
+  "network-level.NE6.description": t({
+    id: "network-level.NE6.description",
+    message: `At Network Level NE6`,
+  }),
+  "network-level.NE6.long": t({
+    id: "network-level.NE6.long",
+    message: `Medium voltage NE6`,
+  }),
+
+  "network-level.NE7.short": t({
+    id: "network-level.NE7.short",
+    message: `NE7`,
+  }),
+  "network-level.NE7.description": t({
+    id: "network-level.NE7.description",
+    message: `At Network Level NE7`,
+  }),
+  "network-level.NE7.long": t({
+    id: "network-level.NE7.long",
+    message: `Low voltage NE7`,
+  }),
+};
+
+const table = {
+  "collapsed-operator": t({
+    id: "priceComponents.view.collapsed.municipalities",
+    message: "Group municipalities",
+  }),
+  "expanded-operator": t({
+    id: "priceComponents.view.expanded.municipalities",
+    message: "Show individual municipalities",
+  }),
+  "collapsed-municipality": t({
+    id: "priceComponents.view.collapsed.operators",
+    message: "Grouping network operators",
+  }),
+  "expanded-municipality": t({
+    id: "priceComponents.view.expanded.operators",
+    message: "Show individual network operators",
+  }),
+  standard: t({ id: "selector.product.standard", message: "Standard" }),
+  cheapest: t({ id: "selector.product.cheapest", message: "Cheapest" }),
+  gridusage: t({
+    id: "selector.pricecomponent.gridusage",
+    message: "Grid usage",
+  }),
+  energy: t({ id: "selector.pricecomponent.energy", message: "Energy" }),
+  charge: t({
+    id: "selector.pricecomponent.charge",
+    message: "Charges to the community",
+  }),
+  aidfee: t({
+    id: "selector.pricecomponent.aidfee",
+    message: "Grid surcharge pursuant to Art. 35 EnG",
+  }),
+  total: t({ id: "selector.pricecomponent.total", message: "Total" }),
+  meteringrate: t({
+    id: "selector.pricecomponent.meteringrate",
+    message: "Metering Rate",
+  }),
+  annualmeteringcost: t({
+    id: "selector.pricecomponent.annualmeteringcost",
+    message: "Annual Metering Cost",
+  }),
+  "productvariety-trend": t({
+    id: "sunshine.operational-standards.product-variety-trend",
+    message: "Comparison of eco-friendly product diversity",
+  }),
+  "compliance-trend": t({
+    id: "sunshine.operational-standards.compliance-trend",
+    message: "Comparison of francs per invoice recipient",
+  }),
+  "servicequality-trend": t({
+    id: "sunshine.operational-standards.service-quality-trend",
+    message: "Comparison of advance notice periods for planned outages",
+  }),
+
+  ...categories,
 
   "H-group": t({ id: "selector.category.H-group", message: "Households" }),
   "C-group": t({
@@ -212,119 +350,19 @@ const table = {
     id: "selector.compliance-type.franc-rule",
     message: "Franc rule",
   }),
-  saidi: t({
-    id: "indicator.saidi",
-    message: "Power Outage Duration (SAIDI)",
-  }),
-  saifi: t({
-    id: "indicator.saifi",
-    message: "Power Outage Frequency (SAIFI)",
-  }),
+
   saidiSaifiType: t({
     id: "selector.saidi-saifi-type",
     message: "Typology",
   }),
-  networkCosts: t({
-    id: "indicator.networkCosts",
-    message: "Network costs",
-  }),
-  netTariffs: t({
-    id: "indicator.netTariffs",
-    message: "Net tariffs",
-  }),
-  energyTariffs: t({
-    id: "indicator.energyTariffs",
-    message: "Energy tariffs",
-  }),
-  compliance: t({
-    id: "indicator.compliance",
-    message: "Compliance",
-  }),
-  outageInfo: t({
-    id: "indicator.outage-info",
-    message: "Outage information",
-  }),
-  daysInAdvanceOutageNotification: t({
-    id: "indicator.days-in-advance-outage-notification",
-    message: "Days in advance outage notification",
-  }),
 
-  "peer-group.settlement-density.high": t({
-    id: "peer-group.settlement-density.high",
-    message: `High settlement density`,
-  }),
-  "peer-group.settlement-density.medium": t({
-    id: "peer-group.settlement-density.medium",
-    message: `Medium settlement density`,
-  }),
-  "peer-group.settlement-density.mountain": t({
-    id: "peer-group.settlement-density.mountain",
-    message: `Mountain region`,
-  }),
-  "peer-group.settlement-density.na": t({
-    id: "peer-group.settlement-density.na",
-    message: `Not specified`,
-  }),
-  "peer-group.settlement-density.rural": t({
-    id: "peer-group.settlement-density.rural",
-    message: `Rural settlement density`,
-  }),
-  "peer-group.settlement-density.tourist": t({
-    id: "peer-group.settlement-density.tourist",
-    message: `Tourism`,
-  }),
-  "peer-group.energy-density.na": t({
-    id: "peer-group.energy-density.na",
-    message: `Not specified`,
-  }),
-  "peer-group.energy-density.high": t({
-    id: "peer-group.energy-density.high",
-    message: `High energy density`,
-  }),
-  "peer-group.energy-density.low": t({
-    id: "peer-group.energy-density.low",
-    message: `Low energy density`,
-  }),
+  ...indicators,
+  ...energyDensities,
+  ...settlementDensities,
 
   "network-level": t({ id: "network-level", message: `Network level` }),
-  // NE (Not yet sure about translations)
-  "network-level.NE5.short": t({
-    id: "network-level.NE5.short",
-    message: `NE5`,
-  }),
-  "network-level.NE5.long": t({
-    id: "network-level.NE5.long",
-    message: `High voltage NE5`,
-  }),
-  "network-level.NE5.description": t({
-    id: "network-level.NE5.description",
-    message: `At Network Level NE5`,
-  }),
-  "network-level.NE6.short": t({
-    id: "network-level.NE6.short",
-    message: `NE6`,
-  }),
-  "network-level.NE6.description": t({
-    id: "network-level.NE6.description",
-    message: `At Network Level NE6`,
-  }),
-  "network-level.NE6.long": t({
-    id: "network-level.NE6.long",
-    message: `Medium voltage NE6`,
-  }),
 
-  "network-level.NE7.short": t({
-    id: "network-level.NE7.short",
-    message: `NE7`,
-  }),
-  "network-level.NE7.description": t({
-    id: "network-level.NE7.description",
-    message: `At Network Level NE7`,
-  }),
-  "network-level.NE7.long": t({
-    id: "network-level.NE7.long",
-    message: `Low voltage NE7`,
-  }),
+  ...networkLevels,
 
   "sunshine.select-all": t({
     id: "sunshine.select-all",
