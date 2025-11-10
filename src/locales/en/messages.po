@@ -1170,8 +1170,8 @@ msgid "sunshine.compliance.latest-year"
 msgstr "Latest year ({year})"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
-msgid "sunshine.compliance.notification-period"
-msgstr "Notification Days in Advance"
+msgid "sunshine.compliance.timely-paper-submission"
+msgstr "Timely Paper Submission to ElCom"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.compliance.timely-paper-submission.no"
@@ -1411,6 +1411,10 @@ msgstr "Comparison of francs per invoice recipient"
 msgid "sunshine.operational-standards.compliance.comparison-card-title"
 msgstr "Compliance"
 
+#: src/components/info-dialog-props.ts
+msgid "sunshine.operational-standards.compliance.info-dialog-label"
+msgstr "Compliance"
+
 #: src/components/operational-standards-chart.tsx
 msgid "sunshine.operational-standards.compliance.share-of-operators"
 msgstr "Share of operators"
@@ -1433,6 +1437,10 @@ msgstr "Comparison of advance notice periods for planned outages"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.service-quality.comparison-card-title"
+msgstr "Service Quality"
+
+#: src/components/info-dialog-props.ts
+msgid "sunshine.operational-standards.service-quality.info-dialog-label"
 msgstr "Service Quality"
 
 #: src/components/operational-standards-chart.tsx

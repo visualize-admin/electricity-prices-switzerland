@@ -1166,8 +1166,8 @@ msgid "sunshine.compliance.latest-year"
 msgstr "sunshine.compliance.latest-year"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
-msgid "sunshine.compliance.notification-period"
-msgstr "sunshine.compliance.notification-period"
+msgid "sunshine.compliance.timely-paper-submission"
+msgstr "sunshine.compliance.timely-paper-submission"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.compliance.timely-paper-submission.no"
@@ -1407,6 +1407,10 @@ msgstr "sunshine.operational-standards.compliance-trend"
 msgid "sunshine.operational-standards.compliance.comparison-card-title"
 msgstr "sunshine.operational-standards.compliance.comparison-card-title"
 
+#: src/components/info-dialog-props.ts
+msgid "sunshine.operational-standards.compliance.info-dialog-label"
+msgstr "sunshine.operational-standards.compliance.info-dialog-label"
+
 #: src/components/operational-standards-chart.tsx
 msgid "sunshine.operational-standards.compliance.share-of-operators"
 msgstr "sunshine.operational-standards.compliance.share-of-operators"
@@ -1430,6 +1434,10 @@ msgstr "sunshine.operational-standards.service-quality-trend"
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.service-quality.comparison-card-title"
 msgstr "sunshine.operational-standards.service-quality.comparison-card-title"
+
+#: src/components/info-dialog-props.ts
+msgid "sunshine.operational-standards.service-quality.info-dialog-label"
+msgstr "sunshine.operational-standards.service-quality.info-dialog-label"
 
 #: src/components/operational-standards-chart.tsx
 msgid "sunshine.operational-standards.service-quality.share-of-operators"
