@@ -29,7 +29,6 @@ type SunshineSelectorsBaseProps = {
   setIndicator: (indicator: SunshineIndicator) => void;
   indicatorOptions: SunshineIndicator[];
   getItemLabel?: (id: string) => string;
-
   networkLevel: string;
   setNetworkLevel: (networkLevel: string) => void;
   networkLevelOptions: string[];

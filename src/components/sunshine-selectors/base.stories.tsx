@@ -1,6 +1,6 @@
 import {
   indicatorOptions,
-  sunshineCategories,
+  netElectricityCategoryOptions,
   networkLevelOptions,
   saidiSaifiTypes,
 } from "src/domain/sunshine";
@@ -30,7 +30,7 @@ export const SunshineSelectors: Story = {
     saidiSaifiTypes: saidiSaifiTypes,
     indicator: "saidi",
     indicatorOptions: indicatorOptions,
-    categoryOptions: sunshineCategories,
+    categoryOptions: netElectricityCategoryOptions,
     networkLevel: "NE5",
     networkLevelOptions: networkLevelOptions,
     getItemLabel: (id) => {

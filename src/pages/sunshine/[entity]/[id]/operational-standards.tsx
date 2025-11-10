@@ -248,8 +248,8 @@ export const prepComplianceCardProps = (
       },
       {
         label: (
-          <Trans id="sunshine.compliance.timely-paper-submission">
-            Timely Paper Submission to ElCom
+          <Trans id="sunshine.compliance.notification-period">
+            Notification Days in Advance
           </Trans>
         ),
         value: {

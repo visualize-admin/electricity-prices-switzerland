@@ -1166,8 +1166,8 @@ msgid "sunshine.compliance.latest-year"
 msgstr "Aktuelles Tarifjahr ({latestYear})"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
-msgid "sunshine.compliance.timely-paper-submission"
-msgstr "Rechtzeitige Einreichung des Papiers bei der ElCom"
+msgid "sunshine.compliance.notification-period"
+msgstr "Anzahl Tage der Vorankündigung im Voraus"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.compliance.timely-paper-submission.no"
@@ -1407,10 +1407,6 @@ msgstr "Vergleich in Franken pro Rechnungsempfänger"
 msgid "sunshine.operational-standards.compliance.comparison-card-title"
 msgstr "Compliance"
 
-#: src/components/info-dialog-props.ts
-msgid "sunshine.operational-standards.compliance.info-dialog-label"
-msgstr "Einhaltung der Vorschriften"
-
 #: src/components/operational-standards-chart.tsx
 msgid "sunshine.operational-standards.compliance.share-of-operators"
 msgstr "Anteil der Netzbetreiber"
@@ -1434,10 +1430,6 @@ msgstr "Vergleich der Vorankündigungsfristen für geplante Ausfälle"
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.service-quality.comparison-card-title"
 msgstr "Servicequalität"
-
-#: src/components/info-dialog-props.ts
-msgid "sunshine.operational-standards.service-quality.info-dialog-label"
-msgstr "Qualität der Dienstleistungen"
 
 #: src/components/operational-standards-chart.tsx
 msgid "sunshine.operational-standards.service-quality.share-of-operators"

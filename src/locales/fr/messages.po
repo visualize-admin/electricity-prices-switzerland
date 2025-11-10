@@ -1170,8 +1170,8 @@ msgid "sunshine.compliance.latest-year"
 msgstr "Dernière année tarifaire ({year})"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
-msgid "sunshine.compliance.timely-paper-submission"
-msgstr "Soumission des documents à l'ElCom dans les délais impartis"
+msgid "sunshine.compliance.notification-period"
+msgstr "Nombre de jours à l’avance"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.compliance.timely-paper-submission.no"
@@ -1414,10 +1414,6 @@ msgstr "Comparaison en francs par destinataire de facture"
 msgid "sunshine.operational-standards.compliance.comparison-card-title"
 msgstr "Conformité"
 
-#: src/components/info-dialog-props.ts
-msgid "sunshine.operational-standards.compliance.info-dialog-label"
-msgstr "Conformité"
-
 #: src/components/operational-standards-chart.tsx
 msgid "sunshine.operational-standards.compliance.share-of-operators"
 msgstr "Part des gestionnaires de réseau"
@@ -1440,10 +1436,6 @@ msgstr "Comparaison des préavis pour les interruptions planifiées"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.service-quality.comparison-card-title"
-msgstr "Qualité du service"
-
-#: src/components/info-dialog-props.ts
-msgid "sunshine.operational-standards.service-quality.info-dialog-label"
 msgstr "Qualité du service"
 
 #: src/components/operational-standards-chart.tsx

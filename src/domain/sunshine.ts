@@ -65,12 +65,11 @@ export const networkLevelOptions: GraphQLNetworkLevel["id"][] = [
   "NE7",
 ];
 
-export const sunshineCategories: ElectricityCategory[] = [
+export const netElectricityCategoryOptions: ElectricityCategory[] = [
   "C2",
   "C3",
   "C4",
   "C6",
-
   "H2",
   "H4",
   "H7",
