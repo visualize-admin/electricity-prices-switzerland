@@ -64,7 +64,7 @@ export const SunshineSelectors = () => {
       getPeerGroupLabel={getPeerGroupLabel}
       saidiSaifiType={queryState.saidiSaifiType}
       setSaidiSaifiType={(saidiSaifiType) => setQueryState({ saidiSaifiType })}
-      saidiSaifiTypes={saidiSaifiTypes}
+      saidiSaifiTypes={saidiSaifiTypes.filter((x) => x !== "planned")}
       complianceType={queryState.complianceType}
       setComplianceType={(complianceType) => setQueryState({ complianceType })}
       complianceTypes={complianceTypes}
