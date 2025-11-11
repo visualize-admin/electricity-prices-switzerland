@@ -1,10 +1,4 @@
-import {
-  ascending,
-  descending,
-  scaleBand,
-  scaleLinear,
-  scaleOrdinal,
-} from "d3";
+import { ascending, descending, scaleLinear, scaleOrdinal } from "d3";
 import { ReactNode, useCallback } from "react";
 
 import {
@@ -20,6 +14,7 @@ import {
 } from "src/components/charts-generic/use-chart-state";
 import { InteractionProvider } from "src/components/charts-generic/use-interaction";
 import { Observer, useWidth } from "src/components/charts-generic/use-width";
+import { EXPANDED_TAG } from "src/components/detail-page/price-components-bars-utils";
 import { BarFields } from "src/domain/config-types";
 import { GenericObservation } from "src/domain/data";
 import { getOpacityRanges, getPalette } from "src/domain/helpers";
@@ -58,9 +53,7 @@ const useGroupedBarsState = ({
   );
   const getColor = useCallback(
     (d: GenericObservation): string =>
-      fields.style?.colorAcc
-        ? (d[fields.style.colorAcc] as string)
-        : "entity",
+      fields.style?.colorAcc ? (d[fields.style.colorAcc] as string) : "entity",
     [fields.style]
   );
   const getOpacity = useCallback(
@@ -105,13 +98,36 @@ const useGroupedBarsState = ({
   const xScale = scaleLinear().domain(fields.domain).nice();
 
   const BAR_FULL_HEIGHT = BAR_HEIGHT + BAR_PADDING + LABEL_PADDING;
-  const chartHeight = BAR_FULL_HEIGHT * segments.length;
 
-  const yScale = scaleBand()
-    .domain(segments)
-    .range([0, chartHeight])
-    .paddingInner(0)
-    .paddingOuter(0);
+  const hs = sortedData
+    .slice()
+    .reverse()
+    .map((x, i) => {
+      const segment = getSegment(x);
+      // Seems like the condition is inverted here but it works as intended
+      const isExpanded = !segment.includes(EXPANDED_TAG);
+      return {
+        segment,
+        height: isExpanded ? BAR_FULL_HEIGHT : 14,
+        marginTop: isExpanded && i !== 0 ? 16 : 0,
+      };
+    });
+
+  const chartHeight = hs.reduce(
+    (sum, curr) => sum + curr.height + curr.marginTop,
+    0
+  );
+  const segmentYs = hs.reduce((acc, curr, index) => {
+    if (index === 0) {
+      acc[curr.segment] = 0;
+    } else {
+      const prev = hs[index - 1];
+      acc[curr.segment] = acc[prev.segment] + prev.height + curr.marginTop;
+    }
+    return acc;
+  }, {} as Record<string, number>);
+
+  const yScale = (x: string) => segmentYs[x];
 
   const margins = {
     top: 50,
