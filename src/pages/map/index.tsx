@@ -209,7 +209,8 @@ const MapPageContent = ({
     return makeColorScale(
       spec,
       medianValue,
-      isElectricityTab ? validObservations.map(colorAccessor) : sunshineValues
+      isElectricityTab ? validObservations.map(colorAccessor) : sunshineValues,
+      +period
     );
   }, [
     colorAccessor,
@@ -217,6 +218,7 @@ const MapPageContent = ({
     energyPricesEnrichedData.data?.swissMedianObservations,
     indicator,
     isElectricityTab,
+    period,
     sunshineEnrichedDataResult.data?.median,
     sunshineEnrichedDataResult.data?.observations,
   ]);

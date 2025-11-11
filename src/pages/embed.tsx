@@ -61,9 +61,10 @@ const IndexPage = ({ locale }: Props) => {
     return makeColorScale(
       colorScaleSpecs.default,
       medianValue,
-      observations.filter(isValidValue).map(colorAccessor)
+      observations.filter(isValidValue).map(colorAccessor),
+      +period
     );
-  }, [colorAccessor, medianValue, observations]);
+  }, [colorAccessor, medianValue, observations, period]);
 
   const [activeId, setActiveId] = useState<string | null>(null);
   const [highlightContext, setHighlightContext] = useState<HighlightValue>();
