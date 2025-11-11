@@ -9,6 +9,49 @@ and this project adheres to
 You can also check the
 [release page](https://github.com/visualize-admin/electricity-prices-switzerland/releases)
 
+# Unreleased
+
+Nothing yet.
+
+# 2.24.0
+
+- Map Page
+
+  - When viewing Sunshine indicators on the map, the details panel now displays the relevant indicator information
+  - Added info dialogs next to compliance indicator selector and in the legend to help users understand the data
+  - Removed "planned" option in typology selector when viewing SAIDI/SAIFI
+  - Compliance color palette on map has a different threshold depending on year (after 2026, we use 60CHF, before 75CHF)
+
+- Detail Pages - Price Components
+
+  - The grouping button now only appears when view an operator serving multiple municipalities or a municipality served by multiple operators
+  - Fixed the layout when viewing grouped price data to be more readable
+
+- Detail Pages - Sunshine Network Costs & Tariffs
+
+  - Added information dialog buttons to overview cards
+  - Fixed navigation years to properly use the current period (2026)
+  - Only display relevant sunshine categories
+
+- Detail Pages - Sunshine SAIDI/SAIFI
+
+  - Improved the sorting in the chart
+  - Do not display values with null
+
+- Detail Pages - Operational Standards (Compliance)
+
+  - Fixed incorrect label for "timely paper submission" on compliance pages
+
+- Data & Technical Improvements
+
+  - Default development period is now set to 2026
+  - Fixed retrieval of peer group data from the database
+  - Improved color mapping for peer group medians in charts
+  - Better handling of electricity price yes/no values from data source
+  - Fixed chip label colors to properly contrast with their background
+  - Added missing translation for "high energy density"
+  - Various translation corrections
+
 # 2.23.0 - 2025-11-06
 
 - Ability to switch SPARQL endpoint for the current user through a password protected interface
