@@ -711,6 +711,10 @@ msgid "peer-group.energy-density.na"
 msgstr "Not specified"
 
 #: src/domain/translation.tsx
+msgid "peer-group.settlement-density.high"
+msgstr "High settlement density"
+
+#: src/domain/translation.tsx
 msgid "peer-group.settlement-density.medium"
 msgstr "Medium settlement density"
 
@@ -729,10 +733,6 @@ msgstr "Rural settlement density"
 #: src/domain/translation.tsx
 msgid "peer-group.settlement-density.tourist"
 msgstr "Tourism"
-
-#: src/domain/translation.tsx
-msgid "peer-group.settlement-density.unknown"
-msgstr "Unknown"
 
 #: src/components/power-stability-chart.tsx
 msgid "power-stability-trend-chart.legend-item.grid-operators"
@@ -847,13 +847,16 @@ msgstr "Open search"
 
 #: src/components/map-details-content.tsx
 #: src/domain/translation.tsx
+#: src/domain/translation.tsx
 msgid "search.result.canton"
 msgstr "Canton"
 
 #: src/domain/translation.tsx
+#: src/domain/translation.tsx
 msgid "search.result.municipality"
 msgstr "Municipality"
 
+#: src/domain/translation.tsx
 #: src/domain/translation.tsx
 msgid "search.result.operator"
 msgstr "Network operator"
@@ -1122,6 +1125,7 @@ msgid "selector.product.standard"
 msgstr "Standard"
 
 #: src/components/sunshine-selectors/base.tsx
+#: src/domain/translation.tsx
 msgid "selector.saidi-saifi-type"
 msgstr "Typology"
 
@@ -1411,6 +1415,10 @@ msgstr "Comparison of francs per invoice recipient"
 msgid "sunshine.operational-standards.compliance.comparison-card-title"
 msgstr "Compliance"
 
+#: src/components/info-dialog-props.ts
+msgid "sunshine.operational-standards.compliance.info-dialog-label"
+msgstr "Compliance"
+
 #: src/components/operational-standards-chart.tsx
 msgid "sunshine.operational-standards.compliance.share-of-operators"
 msgstr "Share of operators"
@@ -1433,6 +1441,10 @@ msgstr "Comparison of advance notice periods for planned outages"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.service-quality.comparison-card-title"
+msgstr "Service Quality"
+
+#: src/components/info-dialog-props.ts
+msgid "sunshine.operational-standards.service-quality.info-dialog-label"
 msgstr "Service Quality"
 
 #: src/components/operational-standards-chart.tsx
