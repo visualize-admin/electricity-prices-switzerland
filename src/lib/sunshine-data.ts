@@ -132,6 +132,7 @@ export const fetchNetworkCostsData = async (
     operatorOnly?: boolean;
   }
 ): Promise<NetworkCostsData> => {
+  console.log("Fetching network costs data for operator:", operatorId);
   // Get the latest year if period not provided
   let targetPeriod = period;
   if (!targetPeriod) {
@@ -145,6 +146,8 @@ export const fetchNetworkCostsData = async (
       metric: "network_costs",
       networkLevel: networkLevel,
     });
+
+  console.log(yearlyPeerGroupMedianNetworkCosts);
 
   const {
     currentData: peerGroupMedianNetworkCosts,

@@ -61,6 +61,8 @@ export const serverSchema = z.object({
 
   // Apollo plugin
   METRICS_PLUGIN_ENABLED: z.string().optional(),
+  SAVE_REQUEST_PLUGIN_ENABLED: z.string().optional().default("false"),
+  SAVE_REQUEST_PLUGIN_FOLDER: z.string().optional().default("/tmp"),
 
   NODE_ENV: z.string().default("development"),
 

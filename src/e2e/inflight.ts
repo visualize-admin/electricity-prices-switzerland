@@ -27,7 +27,7 @@ class InflightRequests {
     return Array.from(this._requests);
   }
 
-  dispose() {
+  [Symbol.dispose]() {
     this._page.removeListener("request", this._onStarted);
     this._page.removeListener("requestfinished", this._onFinished);
     this._page.removeListener("requestfailed", this._onFinished);
