@@ -100,71 +100,76 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
 
   const dynamicTariffsFlag = useFlag("dynamicElectricityTariffs");
 
-  const { perPriceComponent, colorDomain, xDomain, opacityDomain } =
-    React.useMemo(() => {
-      const observations = [...operatorObservations, ...cantonObservations];
-      const withUniqueEntityId = observations.map((obs) => ({
-        uniqueId:
-          obs.__typename === "CantonMedianObservation" // canton
-            ? `${obs.period}, ${obs.cantonLabel}`
-            : `${obs.period}, ${obs.operatorLabel}, ${obs.municipalityLabel}`,
-        ...obs,
-      }));
+  const {
+    perPriceComponent,
+    colorDomain,
+    xDomain,
+    opacityDomain,
+    mirrorEntities,
+  } = React.useMemo(() => {
+    const observations = [...operatorObservations, ...cantonObservations];
+    const withUniqueEntityId = observations.map((obs) => ({
+      uniqueId:
+        obs.__typename === "CantonMedianObservation" // canton
+          ? `${obs.period}, ${obs.cantonLabel}`
+          : `${obs.period}, ${obs.operatorLabel}, ${obs.municipalityLabel}`,
+      ...obs,
+    }));
 
-      const cols = detailsPriceComponents as Exclude<
-        (typeof detailsPriceComponents)[number],
-        "meteringrate"
-      >[];
-      const pivoted = pivot_longer({
-        data: withUniqueEntityId,
-        cols: cols,
-        name_to: "priceComponent" as const,
-      });
+    const cols = detailsPriceComponents as Exclude<
+      (typeof detailsPriceComponents)[number],
+      "meteringrate"
+    >[];
+    const pivoted = pivot_longer({
+      data: withUniqueEntityId,
+      cols: cols,
+      name_to: "priceComponent" as const,
+    });
 
-      const xDomain = extent(pivoted.map((d) => d.value as number)) as [
-        number,
-        number
-      ];
-      const colorDomain = uniq(
-        observations.map((p) => (p as GenericObservation)[entity])
-      ) as string[];
-      const opacityDomain = uniq(pivoted.map((p) => p.period)) as string[];
+    const xDomain = extent(pivoted.map((d) => d.value as number)) as [
+      number,
+      number
+    ];
+    const colorDomain = uniq(
+      observations.map((p) => (p as GenericObservation)[entity])
+    ) as string[];
+    const opacityDomain = uniq(pivoted.map((p) => p.period)) as string[];
 
-      const grouped = groups(pivoted, (d) => d.priceComponent);
-      const perPriceComponent = grouped.map(
-        ([priceComponent, observations]) => {
-          const groupedObservations = groups(
-            observations as GenericObservation[],
-            (d: GenericObservation) => d.period,
-            (d: GenericObservation) => d[entity],
-            (d: GenericObservation) => d.value
-          );
+    const grouped = groups(pivoted, (d) => d.priceComponent);
 
-          const prepared = prepareObservations({
-            groupedObservations,
-            view: view[0],
-            priceComponent: priceComponent as PriceComponent,
-            entity,
-            dynamicTariffsFlag,
-          });
-
-          return [priceComponent, prepared] as const;
-        }
+    const perPriceComponent = grouped.map(([priceComponent, observations]) => {
+      const groupedObservations = groups(
+        observations as GenericObservation[],
+        (d: GenericObservation) => d.period,
+        (d: GenericObservation) => d[entity],
+        (d: GenericObservation) => d.value
       );
 
-      return {
-        perPriceComponent,
-        xDomain,
-        colorDomain,
-        opacityDomain,
-      };
-    }, [
-      operatorObservations,
-      cantonObservations,
-      view,
-      entity,
-      dynamicTariffsFlag,
-    ]);
+      const prepared = prepareObservations({
+        groupedObservations,
+        view: view[0],
+        priceComponent: priceComponent as PriceComponent,
+        entity,
+        dynamicTariffsFlag,
+      });
+
+      return [priceComponent, prepared] as const;
+    });
+
+    return {
+      perPriceComponent,
+      xDomain,
+      colorDomain,
+      opacityDomain,
+      mirrorEntities,
+    };
+  }, [
+    operatorObservations,
+    cantonObservations,
+    view,
+    entity,
+    dynamicTariffsFlag,
+  ]);
 
   const getItemLabel = (id: CollapsedState) => {
     if (entity === "canton") {
