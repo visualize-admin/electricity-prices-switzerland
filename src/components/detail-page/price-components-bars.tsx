@@ -134,6 +134,11 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
     const opacityDomain = uniq(pivoted.map((p) => p.period)) as string[];
 
     const grouped = groups(pivoted, (d) => d.priceComponent);
+    const mirrorEntity =
+      entity === "municipality" ? "operator" : "municipality";
+    const mirrorEntities = uniq(
+      observations.map((p) => (p as GenericObservation)[mirrorEntity])
+    ) as string[];
 
     const perPriceComponent = grouped.map(([priceComponent, observations]) => {
       const groupedObservations = groups(
@@ -212,7 +217,7 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
           <FilterSetDescription filters={filters} />
         </CardDescription>
       </CardHeader>
-      {!download && entity !== "canton" && (
+      {!download && entity !== "canton" && mirrorEntities.length > 1 && (
         <>
           <Box
             sx={{
