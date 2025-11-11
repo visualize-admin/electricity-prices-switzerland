@@ -9,17 +9,20 @@ export const sortByIndex = <T>({
   getCategory: (datum: T) => string;
   sortOrder?: "asc" | "desc";
 }) => {
-  data.sort((a, b) => {
+  return data.slice().sort((a, b) => {
     const A = getCategory(a);
     const B = getCategory(b);
-    if (order.indexOf(A) > order.indexOf(B)) {
+    const indexA = order.indexOf(A);
+    const indexB = order.indexOf(B);
+    if (indexA === indexB) {
+      return 0;
+    }
+    if (indexA > indexB) {
       return sortOrder === "asc" ? 1 : -1;
     } else {
       return sortOrder === "asc" ? -1 : 1;
     }
   });
-
-  return data;
 };
 
 export const normalize = (val: number, max: number, min: number): number =>

@@ -82,7 +82,7 @@ export type GroupedBarsState = {
   bounds: Bounds;
   getX: (d: GenericObservation) => number;
   xScale: ScaleLinear<number, number>;
-  yScale: ScaleBand<string>;
+  yScale: (s: string) => number;
   getSegment: (d: GenericObservation) => string;
   getLabel: (d: GenericObservation) => string;
   getColor: (d: GenericObservation) => string;
