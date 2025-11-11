@@ -832,49 +832,54 @@ const createIndicatorMedianParams = (
 
 // Helper function to extract median value from service result
 const getMedianValueFromResult = (
-  result: PeerGroupRecord<any> | undefined,
+  result_: PeerGroupRecord<any> | undefined,
   indicator: SunshineIndicator,
   saidiSaifiType?: string
 ): number | undefined => {
-  if (!result) return undefined;
+  if (!result_) return undefined;
 
   // Network costs
   if (indicator === "networkCosts") {
-    return (result as any).median_value;
+    const result = result_ as PeerGroupRecord<"network_costs">;
+    return result.median_value;
   }
 
   // Stability metrics
   if (indicator === "saidi") {
+    const result = result_ as PeerGroupRecord<"stability">;
     return saidiSaifiType === "unplanned"
-      ? (result as any).median_saidi_unplanned
-      : (result as any).median_saidi_total;
+      ? result.median_saidi_unplanned
+      : result.median_saidi_total;
   }
   if (indicator === "saifi") {
+    const result = result_ as PeerGroupRecord<"stability">;
     return saidiSaifiType === "unplanned"
-      ? (result as any).median_saifi_unplanned
-      : (result as any).median_saifi_total;
+      ? result.median_saifi_unplanned
+      : result.median_saifi_total;
   }
 
   // Operational metrics
   if (indicator === "compliance") {
+    const result = result_ as PeerGroupRecord<"operational">;
     // For service quality/compliance, we might need to aggregate multiple metrics
-    return (
-      (result as any).median_franc_rule ?? (result as any).median_info_days
-    );
+    return result.median_franc_rule ?? result.median_info_days;
   }
 
   if (indicator === "outageInfo") {
+    const result = result_ as PeerGroupRecord<"operational">;
     // For service quality/compliance, we might need to aggregate multiple metrics
     return (result as any).median_timely;
   }
 
   if (indicator === "daysInAdvanceOutageNotification") {
-    return (result as any).median_info_days;
+    const result = result_ as PeerGroupRecord<"operational">;
+    return result.median_info_days;
   }
 
   // Tariffs (both energy and network)
   if (indicator === "energyTariffs" || indicator === "netTariffs") {
-    return (result as any).median_rate;
+    const result = result_ as PeerGroupRecord<"energy-tariffs" | "net-tariffs">;
+    return result.median_rate;
   }
 
   return undefined;

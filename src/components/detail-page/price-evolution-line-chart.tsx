@@ -30,7 +30,11 @@ import { FilterSetDescription } from "src/components/detail-page/filter-set-desc
 import { WithClassName } from "src/components/detail-page/with-classname";
 import { LoadingSkeleton, NoDataHint } from "src/components/hint";
 import { InfoDialogButton } from "src/components/info-dialog";
-import { Entity, GenericObservation } from "src/domain/data";
+import {
+  DetailPriceComponent,
+  Entity,
+  GenericObservation,
+} from "src/domain/data";
 import { useFormatCurrency } from "src/domain/helpers";
 import { RP_PER_KWH } from "src/domain/metrics";
 import { useQueryStateEnergyPricesDetails } from "src/domain/query-states";
@@ -50,7 +54,7 @@ export const PriceEvolutionCard = ({
   id,
   entity,
   priceComponents,
-}: SectionProps & { priceComponents: string[] }) => {
+}: SectionProps & { priceComponents: DetailPriceComponent[] }) => {
   const [{ category, product, period }] = useQueryStateEnergyPricesDetails();
 
   const filters = {
@@ -108,7 +112,10 @@ export const PriceEvolution = ({
   entity,
   priceComponents,
   mini,
-}: SectionProps & { priceComponents: string[]; mini?: boolean }) => {
+}: SectionProps & {
+  priceComponents: DetailPriceComponent[];
+  mini?: boolean;
+}) => {
   const locale = useLocale();
   const [{ category, municipality, operator, canton, product }] =
     useQueryStateEnergyPricesDetails();
@@ -120,10 +127,9 @@ export const PriceEvolution = ({
       ? operator
       : canton;
 
-  const entityIds =
-    comparisonIds?.some((m) => m !== "")
-      ? [...comparisonIds, id]
-      : [id];
+  const entityIds = comparisonIds?.some((m) => m !== "")
+    ? [...comparisonIds, id]
+    : [id];
 
   const [observationsQuery] = useObservationsWithAllPriceComponentsQuery({
     variables: {
@@ -176,7 +182,7 @@ export const PriceEvolutionLineCharts = memo(
     priceComponents,
     mini,
   }: Pick<SectionProps, "entity"> & {
-    priceComponents: string[];
+    priceComponents: DetailPriceComponent[];
     observations: GenericObservation[];
     mini?: boolean;
   }) => {
@@ -206,7 +212,7 @@ export const PriceEvolutionLineCharts = memo(
 );
 
 const PriceEvolutionLineChart = (props: {
-  pc: string;
+  pc: DetailPriceComponent;
   i: number;
   observations: GenericObservation[];
   entity: Entity;

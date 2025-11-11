@@ -58,3 +58,7 @@ export type ResolvedObservation =
   | ResolvedOperatorObservation;
 
 export type { ElectricityCategory } from "src/domain/data";
+
+type ResolvedNetworkLevel = {
+  id: "NE5" | "NE4" | "NE3" | "NE2" | "NE1";
+};

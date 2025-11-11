@@ -38,7 +38,10 @@ import {
 import { mkNumber, pivot_longer } from "src/domain/helpers";
 import { RP_PER_KWH } from "src/domain/metrics";
 import { useQueryStateEnergyPricesDetails } from "src/domain/query-states";
-import { getLocalizedLabel } from "src/domain/translation";
+import {
+  getLocalizedLabel,
+  getLocalizedLabelUnsafe,
+} from "src/domain/translation";
 import { FlagValue } from "src/flags";
 import {
   ObservationKind,
@@ -53,6 +56,8 @@ import { FilterSetDescription } from "./filter-set-description";
 
 const DOWNLOAD_ID: Download = "components";
 export const EXPANDED_TAG = "expanded";
+
+type CollapsedState = "collapsed" | "expanded";
 
 export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
   const locale = useLocale();
@@ -76,10 +81,9 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
       ? operator
       : canton;
 
-  const entityIds =
-    comparisonIds?.some((m) => m !== "")
-      ? [...comparisonIds, id]
-      : [id];
+  const entityIds = comparisonIds?.some((m) => m !== "")
+    ? [...comparisonIds, id]
+    : [id];
   const [observationsQuery] = useObservationsWithAllPriceComponentsQuery({
     variables: {
       locale,
@@ -127,8 +131,14 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
   const colorDomain = [...new Set(pivoted.map((p) => p[entity]))] as string[];
   const opacityDomain = [...new Set(pivoted.map((p) => p.period))] as string[];
 
-  const getItemLabel = (id: string) =>
-    getLocalizedLabel({ id: `${id}-${entity}` });
+  const getItemLabel = (id: CollapsedState) => {
+    if (entity === "canton") {
+      return "";
+    }
+    return getLocalizedLabel({
+      id: `${id}-${entity}` as `${typeof id}-${typeof entity}`,
+    });
+  };
 
   const filters = {
     period: period[0],
@@ -207,7 +217,7 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
             />
           </Box>
           <Box sx={{ display: ["block", "block", "none"] }}>
-            <Combobox
+            <Combobox<CollapsedState>
               id="price-components-bars-view-dropdown"
               label={""}
               items={["collapsed", "expanded"]}
@@ -303,7 +313,7 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
                     <ChartSvg>
                       <BarsGrouped />
                       <BarsGroupedAxis
-                        title={getLocalizedLabel({
+                        title={getLocalizedLabelUnsafe({
                           id: priceComponent[0] as string,
                         })}
                       />

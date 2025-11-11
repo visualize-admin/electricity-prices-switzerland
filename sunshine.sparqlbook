@@ -8,7 +8,7 @@
   {
     "kind": 1,
     "language": "markdown",
-    "value": "Sunshine indicators are measure dimensions of observations in the cube `<https://energy.ld.admin.ch/elcom/sunshine>`.\n\nThe following query returns the indicators for a specific year and operator:",
+    "value": "Sunshine indicators are measure dimensions of observations in the cube `<https://energy.ld.admin.ch/elcom/sunshine>`.\n\n## Indicator for year and operator\n\nThe following query returns the indicators for a specific year and operator:",
     "metadata": {}
   },
   {
@@ -20,7 +20,19 @@
   {
     "kind": 1,
     "language": "markdown",
-    "value": "To get the same indicators across years, just replace the literal `\"2025\"^^xsd:gYear` with a variable `?period`:",
+    "value": "## Peer Groups",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nPREFIX cube: <https://cube.link/>\nPREFIX : <https://energy.ld.admin.ch/elcom/sunshine/dimension/>\nPREFIX schema: <http://schema.org/>\n\nSELECT ?group ?name\nWHERE {\n  <https://energy.ld.admin.ch/elcom/sunshine> cube:observationSet/cube:observation ?obs . \n  ?obs \n    :operator ?operator ;\n  \t:period \"2025\"^^xsd:gYear ;\n  \t:gridcost_ne5 ?gridcost_ne5 ;\n    :gridcost_ne6 ?gridcost_ne6 ;\n    :gridcost_ne7 ?gridcost_ne7 ;\n    :franken_regel ?franken_regel ;\n    :saidi_total ?saidi_total ;\n    :saidi_unplanned ?saidi_unplanned ;\n    :saifi_total ?saifi_total ;\n    :saifi_unplanned ?saifi_unplanned ;\n    :info ?info ;\n    :days_in_advance ?days_in_advance ;   \n    :in_time ?in_time ;\n    :group ?group .\n  ?group schema:name ?name .\n\n  filter (lang(?name) = \"en\" || lang(?name) = \"\")\n\n} group by ?group ?name limit 10",
+    "metadata": {}
+  },
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "## Indicator across years\n\nTo get the same indicators across years, just replace the literal `\"2025\"^^xsd:gYear` with a variable `?period`:",
     "metadata": {}
   },
   {
@@ -32,7 +44,7 @@
   {
     "kind": 1,
     "language": "markdown",
-    "value": "A separate cube `<https://energy.ld.admin.ch/elcom/sunshine-median>` contains the median values for the same indicators in `<https://energy.ld.admin.ch/elcom/sunshine>` ",
+    "value": "## Median values\n\nA separate cube `<https://energy.ld.admin.ch/elcom/sunshine-median>` contains the median values for the same indicators in `<https://energy.ld.admin.ch/elcom/sunshine>` ",
     "metadata": {}
   },
   {
@@ -44,7 +56,7 @@
   {
     "kind": 1,
     "language": "markdown",
-    "value": "Energy and grid usage costs depend on the category, hence they are in a dedicated cube `<https://energy.ld.admin.ch/elcom/sunshine-cat>`.\n\nThe following query returns the costs for a specific year and operator:\n",
+    "value": "## Energy and grid usage costs\n\nEnergy and grid usage costs depend on the category, hence they are in a dedicated cube `<https://energy.ld.admin.ch/elcom/sunshine-cat>`.\n\nThe following query returns the costs for a specific year and operator:\n",
     "metadata": {}
   },
   {
@@ -56,7 +68,7 @@
   {
     "kind": 1,
     "language": "markdown",
-    "value": "Yet another cube `<https://energy.ld.admin.ch/elcom/sunshine-cat-median>` has median values for the indicators that depend on the category:",
+    "value": "## Energy and grid usage costs median\n\nYet another cube `<https://energy.ld.admin.ch/elcom/sunshine-cat-median>` has median values for the indicators that depend on the category:",
     "metadata": {}
   },
   {
@@ -68,7 +80,7 @@
   {
     "kind": 1,
     "language": "markdown",
-    "value": "The following query provides an overview of the cubes and their dimensions:",
+    "value": "## Overview of cubes and dimension\n\nThe following query provides an overview of the cubes and their dimensions:",
     "metadata": {}
   },
   {

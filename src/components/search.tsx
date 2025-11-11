@@ -232,6 +232,7 @@ const SearchField = ({
     return sortBy(items, (item) => item.__typename);
   }, [items]);
 
+  const groupBy = (option: Item) => option.__typename;
   return (
     <Box sx={{ width: "100%" }}>
       <VisuallyHidden>
@@ -257,11 +258,13 @@ const SearchField = ({
         popupIcon={null}
         size="small"
         sx={{ width: "100%" }}
-        groupBy={(option) => option.__typename}
+        groupBy={groupBy}
         renderGroup={(params) => (
           <React.Fragment key={params.group}>
             <Typography variant="body2" sx={{ mx: 4, mt: 4 }}>
-              {getLocalizedLabel({ id: params.group })}
+              {getLocalizedLabel({
+                id: params.group as ReturnType<typeof groupBy>,
+              })}
             </Typography>
             <Divider sx={{ mx: 4, my: 2 }} />
             {params.children}

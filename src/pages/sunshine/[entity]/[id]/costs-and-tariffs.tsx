@@ -50,6 +50,7 @@ import {
   getCategoryLabels,
   getLocalizedLabel,
   getNetworkLevelLabels,
+  TranslationKey,
 } from "src/domain/translation";
 import {
   NetworkCostsQuery,
@@ -318,7 +319,7 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
     updateDate,
   } = props.costsAndTariffs;
 
-  const getItemLabel = (id: string) => getLocalizedLabel({ id });
+  const getItemLabel = (id: TranslationKey) => getLocalizedLabel({ id });
   const groupedCategories = useMemo(() => {
     return [
       { type: "header", title: getItemLabel("C-group") },
@@ -492,7 +493,7 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
     updateDate,
   } = props.costsAndTariffs;
 
-  const getItemLabel = (id: string) => getLocalizedLabel({ id });
+  const getItemLabel = (id: TranslationKey) => getLocalizedLabel({ id });
   const groupedCategories = useMemo(() => {
     return [
       { type: "header", title: getItemLabel("C-group") },

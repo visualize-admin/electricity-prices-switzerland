@@ -41,13 +41,14 @@ import { WithClassName } from "src/components/detail-page/with-classname";
 import { LoadingSkeleton, NoDataHint } from "src/components/hint";
 import { InfoDialogButton } from "src/components/info-dialog";
 import {
+  DetailPriceComponent,
   Entity,
   GenericObservation,
   detailsPriceComponents,
 } from "src/domain/data";
 import { RP_PER_KWH } from "src/domain/metrics";
 import { useQueryStateEnergyPricesDetails } from "src/domain/query-states";
-import { getLocalizedLabel } from "src/domain/translation";
+import { getLocalizedLabel, TranslationKey } from "src/domain/translation";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { useLocale } from "src/lib/use-locale";
 
@@ -70,7 +71,7 @@ export const PriceDistributionHistograms = ({ id, entity }: SectionProps) => {
     setQueryState,
   ] = useQueryStateEnergyPricesDetails();
 
-  const getItemLabel = (id: string) => getLocalizedLabel({ id });
+  const getItemLabel = (id: TranslationKey) => getLocalizedLabel({ id });
 
   const comparisonIds =
     entity === "municipality"
@@ -79,16 +80,15 @@ export const PriceDistributionHistograms = ({ id, entity }: SectionProps) => {
       ? operator
       : canton;
 
-  const annotationIds =
-    comparisonIds?.some((m) => m !== "")
-      ? [...comparisonIds, id]
-      : [id];
+  const annotationIds = comparisonIds?.some((m) => m !== "")
+    ? [...comparisonIds, id]
+    : [id];
 
   const filters = {
     period: period[0],
     category: category[0],
     product: product[0],
-    priceComponent: getLocalizedLabel({ id: priceComponent[0] }),
+    priceComponent: priceComponent[0],
   };
 
   return (
@@ -127,7 +127,7 @@ export const PriceDistributionHistograms = ({ id, entity }: SectionProps) => {
       {!download && (
         <>
           <Box sx={{ display: ["none", "none", "block"] }}>
-            <ButtonGroup
+            <ButtonGroup<DetailPriceComponent>
               id="priceComponents"
               options={[
                 {
@@ -166,7 +166,7 @@ export const PriceDistributionHistograms = ({ id, entity }: SectionProps) => {
                   }),
                 },
               ]}
-              value={priceComponent[0] as string}
+              value={priceComponent[0]}
               setValue={(pc) => setQueryState({ priceComponent: [pc] })}
               fitLabelToContent
             />

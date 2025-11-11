@@ -24,8 +24,9 @@ import {
 } from "src/components/map-layers";
 import { SelectedEntityCard } from "src/components/map-tooltip";
 import { useGeoData } from "src/data/geo";
+import { PriceComponent } from "src/domain/data";
 import { useFormatCurrency } from "src/domain/helpers";
-import { PriceComponent } from "src/graphql/resolver-types";
+import { PriceComponent as PriceComponentEnum } from "src/graphql/resolver-types";
 import { useEnrichedEnergyPricesData } from "src/hooks/use-enriched-energy-prices-data";
 import {
   useSelectedEntityData,
@@ -234,7 +235,7 @@ export const EnergyPricesMap = ({
       <MapColorLegend
         id={legendId}
         title={
-          priceComponent === PriceComponent.Annualmeteringcost ? (
+          priceComponent === PriceComponentEnum.Annualmeteringcost ? (
             <Trans id="energy-prices-map.legend.title-annualmeteringcost">
               Tariff comparison in CHF / year
             </Trans>

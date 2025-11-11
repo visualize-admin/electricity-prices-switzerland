@@ -8,8 +8,9 @@ import {
 } from "src/components/highlight-context";
 import { MapProvider } from "src/components/map-context";
 import { colorScaleSpecs, makeColorScale } from "src/domain/charts";
+import { PriceComponent } from "src/domain/data";
 import { useQueryStateEnergyPricesMap } from "src/domain/query-states";
-import { PriceComponent } from "src/graphql/queries";
+import { PriceComponent as PriceComponentEnum } from "src/graphql/queries";
 import { useEnrichedEnergyPricesData } from "src/hooks/use-enriched-energy-prices-data";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { defaultLocale } from "src/locales/config";
@@ -36,7 +37,7 @@ const IndexPage = ({ locale }: Props) => {
 
   const enrichedEnergyPrices = useEnrichedEnergyPricesData({
     locale,
-    priceComponent: priceComponent as PriceComponent,
+    priceComponent: priceComponent as PriceComponentEnum,
     filters: {
       period: [period],
       category: [category],

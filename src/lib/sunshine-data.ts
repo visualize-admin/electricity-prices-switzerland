@@ -670,8 +670,8 @@ export const fetchOperationalStandards = async (
     produkteAuswahl: "Nein",
   };
 
-  const informingCustomersOfOutage = data.info_yes_no === "Ja";
-  const timelyPaperSubmission = data.timely === 1;
+  const informingCustomersOfOutage = data.info_yes_no;
+  const timelyPaperSubmission = data.timely;
 
   return {
     latestYear: `${period}`,

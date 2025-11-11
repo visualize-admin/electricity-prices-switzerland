@@ -27,9 +27,9 @@ export type OperationalStandardRecord = {
   operator_name: string;
   period: number;
   franc_rule: number;
-  info_yes_no: string;
+  info_yes_no: boolean;
   info_days_in_advance: number;
-  timely: number;
+  timely: boolean;
   settlement_density: string;
   energy_density: string;
 };

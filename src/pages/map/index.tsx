@@ -29,15 +29,18 @@ import ShareButton from "src/components/share-button";
 import SunshineMap from "src/components/sunshine-map";
 import { SessionConfigDebugProps } from "src/data/shared-page-props";
 import { colorScaleSpecs, makeColorScale } from "src/domain/charts";
-import { Entity, ElectricityCategory } from "src/domain/data";
+import { Entity } from "src/domain/data";
+import { PriceComponent } from "src/domain/data";
 import { useIndicatorValueFormatter } from "src/domain/helpers";
 import {
   useQueryStateEnergyPricesMap,
   useQueryStateMapCommon,
   useQueryStateSunshineMap,
 } from "src/domain/query-states";
-import { NetworkLevel } from "src/domain/sunshine";
-import { PriceComponent, SunshineDataIndicatorRow } from "src/graphql/queries";
+import {
+  PriceComponent as PriceComponentEnum,
+  SunshineDataIndicatorRow,
+} from "src/graphql/queries";
 import { useEnrichedEnergyPricesData } from "src/hooks/use-enriched-energy-prices-data";
 import { useEnrichedSunshineData } from "src/hooks/use-enriched-sunshine-data";
 import { useSelectedEntityData } from "src/hooks/use-selected-entity-data";
@@ -162,7 +165,7 @@ const MapPageContent = ({
 
   const energyPricesEnrichedData = useEnrichedEnergyPricesData({
     locale: locale,
-    priceComponent: priceComponent as PriceComponent,
+    priceComponent: priceComponent as PriceComponentEnum,
     filters: {
       period: [period],
       category: [category],
@@ -177,10 +180,8 @@ const MapPageContent = ({
       peerGroup: peerGroup === "all_grid_operators" ? undefined : peerGroup,
       indicator,
       saidiSaifiType,
-      networkLevel: networkLevel as NetworkLevel["id"],
-      category:
-        (netElectricityCategory as ElectricityCategory) ||
-        (energyElectricityCategory as ElectricityCategory),
+      networkLevel: networkLevel,
+      category: netElectricityCategory || energyElectricityCategory,
     },
     enabled: isSunshineTab,
   });
@@ -361,134 +362,134 @@ const MapPageContent = ({
 
   return (
     <ApplicationLayout>
-        <InfoBanner bypassBannerEnabled={shouldShowInfoBanner} />
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: { xxs: "column", md: "row" },
-            width: "100%",
-            bgcolor: "secondary.50",
-          }}
-        >
-          <Box sx={{ display: { xxs: "block", md: "none" }, width: "100%" }}>
-            <ContentWrapper
+      <InfoBanner bypassBannerEnabled={shouldShowInfoBanner} />
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: { xxs: "column", md: "row" },
+          width: "100%",
+          bgcolor: "secondary.50",
+        }}
+      >
+        <Box sx={{ display: { xxs: "block", md: "none" }, width: "100%" }}>
+          <ContentWrapper
+            sx={{
+              padding: "0px !important",
+            }}
+          >
+            <Box
+              id={DOWNLOAD_ID}
               sx={{
-                padding: "0px !important",
+                height: "100vw",
+                maxHeight: "70vh",
+                width: "100%",
+                position: "relative",
               }}
             >
-              <Box
-                id={DOWNLOAD_ID}
-                sx={{
-                  height: "100vw",
-                  maxHeight: "70vh",
-                  width: "100%",
-                  position: "relative",
-                }}
-              >
-                {map}
-              </Box>
-            </ContentWrapper>
-          </Box>
+              {map}
+            </Box>
+          </ContentWrapper>
+        </Box>
 
-          {isMobile ? null : (
+        {isMobile ? null : (
+          <Box
+            sx={{
+              position: "relative",
+              display: "grid",
+              gridTemplateColumns: "22.5rem 1fr",
+              gap: 0,
+              width: "100%",
+            }}
+          >
             <Box
               sx={{
+                height: "100%",
+                overflowY: "auto",
                 position: "relative",
-                display: "grid",
-                gridTemplateColumns: "22.5rem 1fr",
-                gap: 0,
-                width: "100%",
+                bgcolor: "background.paper",
+                borderRight: "1px solid",
+                borderColor: "divider",
+                maxHeight: `calc(100vh - ${HEADER_HEIGHT_UP})`,
+                paddingTop: "1rem",
+                "--selector-panel-padding-x": (theme) => theme.spacing(6),
               }}
+              data-testid="map-sidebar"
             >
-              <Box
-                sx={{
-                  height: "100%",
-                  overflowY: "auto",
-                  position: "relative",
-                  bgcolor: "background.paper",
-                  borderRight: "1px solid",
-                  borderColor: "divider",
-                  maxHeight: `calc(100vh - ${HEADER_HEIGHT_UP})`,
-                  paddingTop: "1rem",
-                  "--selector-panel-padding-x": (theme) => theme.spacing(6),
-                }}
-                data-testid="map-sidebar"
-              >
-                {desktopDetailsDrawer}
-                {selectedItem ? null : (
-                  <>
-                    <CombinedSelectors
-                      sx={{
-                        px: `var(--selector-panel-padding-x)`,
-                      }}
-                    />
-                    <Box
-                      sx={{
-                        px: `var(--selector-panel-padding-x)`,
-                        flexDirection: "column",
-                        gap: 4,
-                      }}
-                      display="flex"
-                    >
-                      {listButtonGroup}
-                      {list}
-                    </Box>
-                  </>
-                )}
-              </Box>
-
-              <Box
-                id={DOWNLOAD_ID}
-                sx={{
-                  width: "100%",
-                  height: `calc(100vh - ${HEADER_HEIGHT_UP})`,
-                  position: "relative",
-                  bgcolor: "secondary.50",
-                }}
-              >
-                {map}
-                {!download && (
+              {desktopDetailsDrawer}
+              {selectedItem ? null : (
+                <>
+                  <CombinedSelectors
+                    sx={{
+                      px: `var(--selector-panel-padding-x)`,
+                    }}
+                  />
                   <Box
                     sx={{
-                      zIndex: 13,
-                      position: "absolute",
-                      bottom: 0,
-                      right: 0,
-                      mb: 0,
-                      mr: 3,
-                      p: 1,
-                      backgroundColor: "background.paper",
-                      display: "flex",
-                      gap: 1,
-                      borderRadius: "3px 3px 0 0",
+                      px: `var(--selector-panel-padding-x)`,
+                      flexDirection: "column",
+                      gap: 4,
                     }}
+                    display="flex"
                   >
-                    <ShareButton />
-                    <DownloadImage
-                      fileName={"map.png"}
-                      downloadType={DOWNLOAD_ID}
-                      getImageData={async () =>
-                        controlsRef.current?.getImageData()
-                      }
-                    />
+                    {listButtonGroup}
+                    {list}
                   </Box>
-                )}
-              </Box>
+                </>
+              )}
             </Box>
-          )}
 
-          {!isMobile ? null : (
-            <MobileControls
-              list={list}
-              listButtonGroup={listButtonGroup}
-              details={mobileDetailsContent}
-              selectors={<CombinedSelectors />}
-              entity={entity}
-              selectedEntityData={selectedEntityData}
-            />
-          )}
-        </Box>
-      </ApplicationLayout>
+            <Box
+              id={DOWNLOAD_ID}
+              sx={{
+                width: "100%",
+                height: `calc(100vh - ${HEADER_HEIGHT_UP})`,
+                position: "relative",
+                bgcolor: "secondary.50",
+              }}
+            >
+              {map}
+              {!download && (
+                <Box
+                  sx={{
+                    zIndex: 13,
+                    position: "absolute",
+                    bottom: 0,
+                    right: 0,
+                    mb: 0,
+                    mr: 3,
+                    p: 1,
+                    backgroundColor: "background.paper",
+                    display: "flex",
+                    gap: 1,
+                    borderRadius: "3px 3px 0 0",
+                  }}
+                >
+                  <ShareButton />
+                  <DownloadImage
+                    fileName={"map.png"}
+                    downloadType={DOWNLOAD_ID}
+                    getImageData={async () =>
+                      controlsRef.current?.getImageData()
+                    }
+                  />
+                </Box>
+              )}
+            </Box>
+          </Box>
+        )}
+
+        {!isMobile ? null : (
+          <MobileControls
+            list={list}
+            listButtonGroup={listButtonGroup}
+            details={mobileDetailsContent}
+            selectors={<CombinedSelectors />}
+            entity={entity}
+            selectedEntityData={selectedEntityData}
+          />
+        )}
+      </Box>
+    </ApplicationLayout>
   );
 };
 

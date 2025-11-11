@@ -1,6 +1,6 @@
 import * as z from "zod";
 
-import { ElectricityCategory } from "src/domain/data";
+import { ElectricityCategory, NetworkLevelId } from "src/domain/data";
 import {
   QueryStateSunshineComplianceType,
   QueryStateSunshineSaidiSaifiType,
@@ -9,7 +9,6 @@ import { WikiPageSlug } from "src/domain/wiki";
 import { runtimeEnv } from "src/env/runtime";
 import {
   NetworkCostsData,
-  NetworkLevel as GraphQLNetworkLevel,
   StabilityData,
   TariffsData,
   StabilityDataRow,
@@ -59,11 +58,7 @@ export const indicatorOptions = [
 /**
  * Network level options for filtering
  */
-export const networkLevelOptions: GraphQLNetworkLevel["id"][] = [
-  "NE5",
-  "NE6",
-  "NE7",
-];
+export const networkLevelOptions: NetworkLevelId[] = ["NE5", "NE6", "NE7"];
 
 export const netElectricityCategoryOptions: ElectricityCategory[] = [
   "C2",

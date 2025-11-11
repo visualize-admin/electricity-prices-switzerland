@@ -10,11 +10,11 @@ import {
   products,
 } from "src/domain/data";
 import { useQueryStateEnergyPricesMap } from "src/domain/query-states";
-import { getLocalizedLabel } from "src/domain/translation";
+import { getLocalizedLabel, TranslationKey } from "src/domain/translation";
 
 export const ElectricitySelectors = () => {
   const [queryState, setQueryState] = useQueryStateEnergyPricesMap();
-  const getItemLabel = (id: string) => getLocalizedLabel({ id });
+  const getItemLabel = (id: TranslationKey) => getLocalizedLabel({ id });
   const groupedCategories = useMemo(() => {
     return [
       { type: "header", title: getItemLabel("H-group") },

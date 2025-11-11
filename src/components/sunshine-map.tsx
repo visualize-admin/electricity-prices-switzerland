@@ -186,7 +186,7 @@ const SunshineMap = ({
     dataType: "sunshine" as const,
     colorScale,
     formatValue: valueFormatter,
-    priceComponent: "",
+    priceComponent: "total",
   });
 
   // Handle hover on operator layer

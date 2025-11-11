@@ -68,7 +68,9 @@ type MapDetailProps = ListItemType & { entity: Entity };
 
 const MapDetailsEntityHeader = (props: MapDetailProps) => {
   const { entity, label, canton, cantonLabel } = props;
-  const entityValue = getLocalizedLabel({ id: entity.toLowerCase() });
+  const entityValue = getLocalizedLabel({
+    id: entity.toLowerCase() as Lowercase<typeof entity>,
+  });
 
   return (
     <Stack direction={"column"} spacing={2}>
@@ -97,7 +99,7 @@ const MapDetailsEntityHeader = (props: MapDetailProps) => {
   );
 };
 
-const entityTableRows: Record<Entity, (keyof QueryStateEnergyPricesMap)[]> = {
+const entityTableRows: Record<Entity, EntityTableValue[]> = {
   operator: ["period", "priceComponent", "category", "product"],
   municipality: ["period", "priceComponent", "category", "product", "operator"],
   canton: ["period", "priceComponent", "category", "product"],
@@ -147,7 +149,11 @@ const MapDetailsEntityTable = (
   );
 };
 
-const KeyValueTableRow = <T extends Record<string, string | undefined>>(props: {
+type EntityTableValue = keyof QueryStateEnergyPricesMap;
+
+const KeyValueTableRow = <
+  T extends Record<EntityTableValue, string | undefined>
+>(props: {
   state?: T;
   dataKey: keyof T | string;
   component?: "span" | typeof NextLink;
@@ -175,7 +181,7 @@ const KeyValueTableRow = <T extends Record<string, string | undefined>>(props: {
         variant="body3"
       >
         {state
-          ? getLocalizedLabel({ id: dataKey.toString() })
+          ? getLocalizedLabel({ id: dataKey.toString() as $IntentionalAny })
           : dataKey.toString()}
       </Typography>
       {tag ? (
@@ -191,7 +197,9 @@ const KeyValueTableRow = <T extends Record<string, string | undefined>>(props: {
           variant="body3"
           fontWeight={700}
         >
-          {state?.[dataKey]}
+          {state && dataKey in state
+            ? (state[dataKey as keyof typeof state] as $IntentionalAny)
+            : null}
         </Typography>
       )}
     </Stack>
@@ -250,7 +258,12 @@ export const MapDetailsContent: React.FC<{
           tab === "electricity"
             ? energyPricesDetailsLink(`/${entity}/${selectedItem.id}`, {
                 period: [energyPricesPeriod],
-                priceComponent: [energyPricesPriceComponent],
+                priceComponent: [
+                  // Annual metering cost is shown as "metering rate" in details
+                  energyPricesPriceComponent === "annualmeteringcost"
+                    ? "meteringrate"
+                    : energyPricesPriceComponent,
+                ],
                 category: [energyPricesCategory],
                 product: [energyPricesProduct],
               })

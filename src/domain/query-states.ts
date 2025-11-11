@@ -11,6 +11,7 @@ import {
   allPriceComponents,
   categories,
   detailsPriceComponents,
+  networkLevels,
   periods,
   products,
 } from "./data";
@@ -23,12 +24,15 @@ import {
 /**
  * Helper function to convert comma-separated query parameter strings to arrays
  * This is necessary because URL query parameters don't naturally encode arrays
+ * TODO: Not typesafe
  */
-const stringToArray = (defaultValue: string[] = []) => {
+const stringToArray = <T extends readonly string[]>(
+  defaultValue: T[number][] = []
+) => {
   return z
     .string()
     .transform((x) => {
-      return x ? x.split(",").filter(Boolean) : defaultValue;
+      return (x ? x.split(",").filter(Boolean) : defaultValue) as T[number][];
     })
     .default(defaultValue.join(","));
 };
@@ -46,7 +50,7 @@ const stringToValidatedArray = <T extends readonly string[]>(
     .transform((x) => {
       const values = x ? x.split(",").filter(Boolean) : defaultValue;
       // Filter to only valid options, fallback to default if none are valid
-      const validValues = values.filter((v) =>
+      const validValues = values.filter((v): v is T[number] =>
         validOptions.includes(v as T[number])
       );
       return validValues.length > 0 ? validValues : defaultValue;
@@ -66,7 +70,16 @@ const periodSchema = z
   .default(runtimeEnv.CURRENT_PERIOD);
 
 const categorySchema = z.enum(categories).default("H4");
-const networkLevelSchema = z.enum(["NE5", "NE6", "NE7"]);
+const networkLevelSchema = z.enum(networkLevels);
+
+const CantonOrder = z.enum([
+  "median-asc",
+  "median-desc",
+  "alpha-asc",
+  "alpha-desc",
+]);
+type CantonOrder = z.infer<typeof CantonOrder>;
+const defaultCantonOrder: CantonOrder = "median-asc";
 
 const energyPricesMapSchema = z.object({
   tab: mapTabsSchema.default("electricity"),
@@ -76,10 +89,10 @@ const energyPricesMapSchema = z.object({
   canton: z.string().optional(),
   category: z.enum(categories).default("H4"),
   priceComponent: z.enum(allPriceComponents).default("total"),
-  product: z.enum(products as [string, ...string[]]).default("standard"),
+  product: z.enum(products).default("standard"),
   download: z.string().optional(),
-  cantonsOrder: z.string().default("median-asc"),
-  view: z.string().default("collapsed"),
+  cantonsOrder: CantonOrder.default("median-asc"),
+  view: z.enum(["collapsed", "expanded"]).default("collapsed"),
 });
 const energyPricesDetailsSchema = z.object({
   operator: stringToArray().optional(),
@@ -89,9 +102,9 @@ const energyPricesDetailsSchema = z.object({
   category: stringToValidatedArray(categories, ["H4"]),
   priceComponent: stringToValidatedArray(detailsPriceComponents, ["total"]),
   product: stringToValidatedArray(products, ["standard"]),
-  cantonsOrder: stringToArray(["median-asc"]),
+  cantonsOrder: stringToArray<CantonOrder[]>([defaultCantonOrder]),
   download: z.string().optional(),
-  view: stringToArray(["collapsed"]),
+  view: stringToArray<["collapsed", "expanded"]>(["collapsed"]),
 });
 
 const saidiSaifiTypeSchema = z.enum(["total", "planned", "unplanned"]);
@@ -104,7 +117,7 @@ const sunshineMapSchema = z.object({
   saidiSaifiType: saidiSaifiTypeSchema.default("total"),
   complianceType: z.enum(["franc-rule"]).default("franc-rule"),
   indicator: sunshineIndicatorSchema.default("networkCosts"),
-  category: z.string().default("H4"),
+  category: z.enum(categories).default("H4"),
   networkLevel: networkLevelSchema.default("NE7"),
   activeId: z.string().optional().nullable(),
 });
