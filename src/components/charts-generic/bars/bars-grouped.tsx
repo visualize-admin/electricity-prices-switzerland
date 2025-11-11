@@ -6,7 +6,7 @@ import {
   useChartState,
 } from "src/components/charts-generic/use-chart-state";
 import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
-import { EXPANDED_TAG } from "src/components/detail-page/price-components-bars";
+import { EXPANDED_TAG } from "src/components/detail-page/price-components-bars-utils";
 import { useFormatCurrency } from "src/domain/helpers";
 import { useFlag } from "src/utils/flags";
 
