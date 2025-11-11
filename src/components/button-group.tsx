@@ -160,6 +160,7 @@ export const ButtonGroup = <T extends string>({
             >
               <Box
                 component="label"
+                role="button"
                 title=""
                 sx={{
                   flexBasis: "100%",
