@@ -11,7 +11,11 @@ const createThresholdsAroundMedian = (medianValue: number | undefined) => {
 };
 
 type IndicatorColorScaleSpec = {
-  thresholds: (medianValue: number | undefined, values: number[]) => number[];
+  thresholds: (
+    medianValue: number | undefined,
+    values: number[],
+    year: number
+  ) => number[];
   palette: (thresholds: number[]) => string[];
 };
 
@@ -45,7 +49,7 @@ export const colorScaleSpecs: Partial<
     thresholds: defaultColorScaleSpec.thresholds,
   },
   compliance: {
-    thresholds: () => [75.1],
+    thresholds: (_medianValue, _values, year) => [year > 2026 ? 60.01 : 75.01],
     palette: () => yesNoPalette.slice().reverse(),
   },
 };
@@ -53,9 +57,10 @@ export const colorScaleSpecs: Partial<
 export const makeColorScale = (
   spec: IndicatorColorScaleSpec,
   medianValue: number | undefined,
-  values: number[]
+  values: number[],
+  year: number
 ) => {
-  const thresholds = spec.thresholds(medianValue, values);
+  const thresholds = spec.thresholds(medianValue, values, year);
   const palette = spec.palette(thresholds);
   return scaleThreshold<number, string>().domain(thresholds).range(palette);
 };

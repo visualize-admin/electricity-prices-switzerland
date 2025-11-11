@@ -1,6 +1,7 @@
 import { t, Trans } from "@lingui/macro";
 import { Box } from "@mui/material";
-import { ascending, group, groups, max, min } from "d3";
+import { extent, groups } from "d3";
+import { uniq } from "lodash";
 import * as React from "react";
 
 import { ButtonGroup } from "src/components/button-group";
@@ -26,23 +27,15 @@ import {
   Download,
   DownloadImage,
 } from "src/components/detail-page/download-image";
+import { prepareObservations } from "src/components/detail-page/price-components-bars-utils";
 import { WithClassName } from "src/components/detail-page/with-classname";
 import { HintBlue, LoadingSkeleton, NoDataHint } from "src/components/hint";
 import { InfoDialogButton } from "src/components/info-dialog";
-import {
-  Entity,
-  GenericObservation,
-  ObservationValue,
-  detailsPriceComponents,
-} from "src/domain/data";
-import { mkNumber, pivot_longer } from "src/domain/helpers";
+import { GenericObservation, detailsPriceComponents } from "src/domain/data";
+import { pivot_longer } from "src/domain/helpers";
 import { RP_PER_KWH } from "src/domain/metrics";
 import { useQueryStateEnergyPricesDetails } from "src/domain/query-states";
-import {
-  getLocalizedLabel,
-  getLocalizedLabelUnsafe,
-} from "src/domain/translation";
-import { FlagValue } from "src/flags";
+import { getLocalizedLabel } from "src/domain/translation";
 import {
   ObservationKind,
   PriceComponent,
@@ -55,7 +48,6 @@ import { useFlag } from "src/utils/flags";
 import { FilterSetDescription } from "./filter-set-description";
 
 const DOWNLOAD_ID: Download = "components";
-export const EXPANDED_TAG = "expanded";
 
 type CollapsedState = "collapsed" | "expanded";
 
@@ -105,31 +97,84 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
   const cantonObservations = observationsQuery.fetching
     ? EMPTY_ARRAY
     : observationsQuery.data?.cantonMedianObservations ?? EMPTY_ARRAY;
-  const observations = [...operatorObservations, ...cantonObservations];
 
-  const withUniqueEntityId = observations.map((obs) => ({
-    uniqueId:
-      obs.__typename === "CantonMedianObservation" // canton
-        ? `${obs.period}, ${obs.cantonLabel}`
-        : `${obs.period}, ${obs.operatorLabel}, ${obs.municipalityLabel}`,
-    ...obs,
-  }));
+  const dynamicTariffsFlag = useFlag("dynamicElectricityTariffs");
 
-  const pivoted: GenericObservation[] = pivot_longer({
-    data: withUniqueEntityId as $FixMe[],
-    cols: detailsPriceComponents,
-    name_to: "priceComponent",
-  });
+  const {
+    perPriceComponent,
+    colorDomain,
+    xDomain,
+    opacityDomain,
+    mirrorEntities,
+  } = React.useMemo(() => {
+    const observations = [...operatorObservations, ...cantonObservations];
+    const withUniqueEntityId = observations.map((obs) => ({
+      uniqueId:
+        obs.__typename === "CantonMedianObservation" // canton
+          ? `${obs.period}, ${obs.cantonLabel}`
+          : `${obs.period}, ${obs.operatorLabel}, ${obs.municipalityLabel}`,
+      ...obs,
+    }));
 
-  const perPriceComponent = [...group(pivoted, (d) => d.priceComponent)];
-  const minValue = Math.min(
-    mkNumber(min(pivoted, (d) => d.value as number)),
-    0
-  );
-  const maxValue = max(pivoted, (d) => d.value as number);
-  const xDomain = [mkNumber(minValue), mkNumber(maxValue)];
-  const colorDomain = [...new Set(pivoted.map((p) => p[entity]))] as string[];
-  const opacityDomain = [...new Set(pivoted.map((p) => p.period))] as string[];
+    const cols = detailsPriceComponents as Exclude<
+      (typeof detailsPriceComponents)[number],
+      "meteringrate"
+    >[];
+    const pivoted = pivot_longer({
+      data: withUniqueEntityId,
+      cols: cols,
+      name_to: "priceComponent" as const,
+    });
+
+    const xDomain = extent(pivoted.map((d) => d.value as number)) as [
+      number,
+      number
+    ];
+    const colorDomain = uniq(
+      observations.map((p) => (p as GenericObservation)[entity])
+    ) as string[];
+    const opacityDomain = uniq(pivoted.map((p) => p.period)) as string[];
+
+    const grouped = groups(pivoted, (d) => d.priceComponent);
+    const mirrorEntity =
+      entity === "municipality" ? "operator" : "municipality";
+    const mirrorEntities = uniq(
+      observations.map((p) => (p as GenericObservation)[mirrorEntity])
+    ) as string[];
+
+    const perPriceComponent = grouped.map(([priceComponent, observations]) => {
+      const groupedObservations = groups(
+        observations as GenericObservation[],
+        (d: GenericObservation) => d.period,
+        (d: GenericObservation) => d[entity],
+        (d: GenericObservation) => d.value
+      );
+
+      const prepared = prepareObservations({
+        groupedObservations,
+        view: view[0],
+        priceComponent: priceComponent as PriceComponent,
+        entity,
+        dynamicTariffsFlag,
+      });
+
+      return [priceComponent, prepared] as const;
+    });
+
+    return {
+      perPriceComponent,
+      xDomain,
+      colorDomain,
+      opacityDomain,
+      mirrorEntities,
+    };
+  }, [
+    operatorObservations,
+    cantonObservations,
+    view,
+    entity,
+    dynamicTariffsFlag,
+  ]);
 
   const getItemLabel = (id: CollapsedState) => {
     if (entity === "canton") {
@@ -145,8 +190,6 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
     category: category[0],
     product: product[0],
   };
-
-  const dynamicTariffsFlag = useFlag("dynamicElectricityTariffs");
 
   return (
     <Card downloadId={DOWNLOAD_ID}>
@@ -182,7 +225,7 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
           <FilterSetDescription filters={filters} />
         </CardDescription>
       </CardHeader>
-      {!download && entity !== "canton" && (
+      {!download && entity !== "canton" && mirrorEntities.length > 1 && (
         <>
           <Box
             sx={{
@@ -192,6 +235,11 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
           >
             <ButtonGroup
               id="price-components-bars-view-switch"
+              sx={{
+                button: {
+                  maxWidth: "auto",
+                },
+              }}
               options={[
                 {
                   value: "collapsed",
@@ -239,29 +287,14 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
       )}
       {observationsQuery.fetching ? (
         <LoadingSkeleton height={650} />
-      ) : observations.length === 0 ? (
+      ) : perPriceComponent.length === 0 ? (
         <NoDataHint />
       ) : (
         <WithClassName
           downloadId={DOWNLOAD_ID}
           isFetching={observationsQuery.fetching}
         >
-          {perPriceComponent.map((priceComponent, i) => {
-            const groupedObservations = groups(
-              priceComponent[1],
-              (d: GenericObservation) => d.period,
-              (d: GenericObservation) => d[entity],
-              (d: GenericObservation) => d.value
-            );
-
-            const observations = prepareObservations({
-              groupedObservations,
-              view: view[0],
-              priceComponent: priceComponent[0] as PriceComponent,
-              entity,
-              dynamicTariffsFlag,
-            });
-
+          {perPriceComponent.map(([priceComponent, observations], i) => {
             return (
               <React.Fragment key={i}>
                 <GroupedBarsChart
@@ -313,8 +346,8 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
                     <ChartSvg>
                       <BarsGrouped />
                       <BarsGroupedAxis
-                        title={getLocalizedLabelUnsafe({
-                          id: priceComponent[0] as string,
+                        title={getLocalizedLabel({
+                          id: priceComponent,
                         })}
                       />
                       <BarsGroupedLabels />
@@ -330,104 +363,4 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
       {/* <CardFooter date="March 7, 2024, 1:28 PM" source="Lindas" /> */}
     </Card>
   );
-};
-
-const prepareObservations = ({
-  groupedObservations,
-  priceComponent,
-  entity,
-  view,
-  dynamicTariffsFlag,
-}: {
-  groupedObservations: [
-    ObservationValue,
-    [
-      ObservationValue,
-      [ObservationValue, Record<string, ObservationValue>[]][]
-    ][]
-  ][];
-  priceComponent: PriceComponent;
-  entity: Entity;
-  view: string;
-  dynamicTariffsFlag: FlagValue;
-}) => {
-  if (entity === "canton") {
-    return groupedObservations.flatMap((year) =>
-      year[1].flatMap((ent) =>
-        ent[1].flatMap((value) => ({
-          ...value[1][0],
-          ...(dynamicTariffsFlag ? { max: 65.45, min: 12.89 } : {}),
-          label: value[1][0].uniqueId,
-        }))
-      )
-    );
-  } else {
-    return view === "collapsed"
-      ? groupedObservations.flatMap((year) =>
-          year[1].flatMap((ent) =>
-            ent[1].flatMap((value) =>
-              value[1].length === 1
-                ? {
-                    ...value[1][0],
-                    label: value[1][0].uniqueId,
-                    ...(dynamicTariffsFlag ? { max: 65.45, min: 12.89 } : {}),
-                  }
-                : {
-                    priceComponent,
-                    value: value[0],
-                    ...(dynamicTariffsFlag ? { max: 65.45, min: 12.89 } : {}),
-                    [entity]: value[1][0][entity],
-                    period: value[1][0].period,
-                    uniqueId: `${priceComponent}${value[1][0].period}${value[1][0].operatorLabel}${value[1][0].municipalityLabel}${value[1].length}`,
-                    label: `${value[1][0].period}, ${
-                      value[1][0].operatorLabel
-                    }, ${value[1].length} ${getLocalizedLabel({
-                      id:
-                        entity === "operator" ? "municipalities" : "operators",
-                    })}`,
-                    entities: value[1],
-                  }
-            )
-          )
-        )
-      : groupedObservations.flatMap((year) =>
-          year[1].flatMap((ent) =>
-            ent[1].flatMap((value) => {
-              const singleEntities = value[1]
-                .flatMap((d) => ({
-                  priceComponent,
-                  value: d.value,
-                  ...(dynamicTariffsFlag ? { max: 65.45, min: 12.89 } : {}),
-                  [entity]: d[entity],
-                  period: d.period,
-                  uniqueId: `${priceComponent}${d.period}${d.operatorLabel}${d.municipalityLabel}${value[1].length}${EXPANDED_TAG}`,
-                  label:
-                    entity === "municipality"
-                      ? d.operatorLabel
-                      : d.municipalityLabel,
-                }))
-                .sort((a, b) => ascending(a.label, b.label));
-              const groupPlusSingleValues = [
-                {
-                  priceComponent,
-                  value: value[0],
-                  ...(dynamicTariffsFlag ? { max: 65.45, min: 12.89 } : {}),
-                  [entity]: value[1][0][entity],
-                  period: value[1][0].period,
-                  uniqueId: `${priceComponent}${value[1][0].period}${value[1][0].operatorLabel}${value[1][0].municipalityLabel}${value[1].length}`,
-                  label: `${value[1][0].period}, ${
-                    value[1][0].operatorLabel
-                  }, ${value[1].length} ${getLocalizedLabel({
-                    id: entity === "operator" ? "municipalities" : "operators",
-                  })}`,
-                  entities: value[1],
-                },
-                ...singleEntities,
-              ];
-
-              return groupPlusSingleValues;
-            })
-          )
-        );
-  }
 };

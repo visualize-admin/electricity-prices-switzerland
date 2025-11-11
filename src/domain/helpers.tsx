@@ -17,6 +17,7 @@ import {
   timeParse,
   timeYear,
 } from "d3";
+import { pick } from "lodash";
 import React, { useMemo } from "react";
 
 import { ANNOTATION_TRIANGLE_HEIGHT } from "src/components/charts-generic/annotation/annotation-x";
@@ -189,39 +190,37 @@ export const getPalette = (
   }
 };
 
-type Key = string | number;
 export const pivot_longer = <
-  T extends { [K in Key]: string | number },
-  K extends keyof T
+  T extends Record<string, number | string | null>,
+  TCols extends keyof T,
+  TNameTo extends string
 >({
   data,
   cols,
   name_to,
 }: {
   data: Array<T>;
-  cols: Array<K>;
-  name_to: Key;
+  cols: Array<TCols>;
+  name_to: TNameTo;
 }) => {
-  const pivoted = cols
-    .map((col) =>
-      data.map((d) => {
-        const keysToKeep = Object.keys(d).filter(
-          (k) => !cols.some((c) => c === k)
-        );
-        const keep = keysToKeep.reduce(
-          (obj, cur) => ({ ...obj, [cur]: d[cur] }),
-          {}
-        );
+  const pivoted = cols.flatMap((col) =>
+    data.map((d) => {
+      const keysToKeep = Object.keys(d).filter(
+        (k) => !cols.includes(k as TCols)
+      );
+      const keep = pick(d, keysToKeep) as Omit<T, TCols>;
 
-        return {
-          ...keep,
-          [name_to]: col,
-          value: d[col],
-        };
-      })
-    )
-    .reduce((acc, val) => acc.concat(val), []);
-  return pivoted;
+      return {
+        ...keep,
+        [name_to]: col,
+        value: d[col],
+      };
+    })
+  );
+  type Result = Omit<T, TCols> & { [P in TNameTo]: TCols } & {
+    value: T[TCols];
+  };
+  return pivoted as Array<Result>;
 };
 
 export const getAnnotationSpaces = ({
