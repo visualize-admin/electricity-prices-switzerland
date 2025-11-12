@@ -4,9 +4,14 @@ import { first, last } from "lodash";
 import { SunshineIndicator } from "src/domain/sunshine";
 import { chartPalette } from "src/themes/palette";
 
-const createThresholdsAroundMedian = (medianValue: number | undefined) => {
+type ThresholdCoeffs = [number, number, number, number];
+
+const createThresholdsAroundMedian = (
+  medianValue: number | undefined,
+  coeffs: ThresholdCoeffs
+) => {
   const m = medianValue ?? 0;
-  const domain = [m * 0.85, m * 0.95, m * 1.05, m * 1.15];
+  const domain = [m * coeffs[0], m * coeffs[1], m * coeffs[2], m * coeffs[3]];
   return domain;
 };
 
@@ -19,16 +24,25 @@ type IndicatorColorScaleSpec = {
   palette: (thresholds: number[]) => string[];
 };
 
-const defaultColorScaleSpec: IndicatorColorScaleSpec = {
+const mkThresholdColorScaleSpec: (
+  coeffs: ThresholdCoeffs
+) => IndicatorColorScaleSpec = (coeffs: ThresholdCoeffs) => ({
   thresholds: (medianValue, values) => {
     if (medianValue) {
       const m = medianValue;
-      return createThresholdsAroundMedian(m);
+      return createThresholdsAroundMedian(m, coeffs);
     }
     return extent(values) as [number, number];
   },
   palette: () => chartPalette.diverging.GreenToOrange,
-};
+});
+
+const defaultColorScaleSpec = mkThresholdColorScaleSpec([
+  0.85, 0.95, 1.05, 1.15,
+]);
+const networkCostsColorScaleSpec = mkThresholdColorScaleSpec([
+  0.7, 0.9, 1.1, 1.3,
+]);
 
 const yesNoPalette = [
   last(chartPalette.diverging.GreenToOrange),
@@ -43,6 +57,7 @@ export const colorScaleSpecs: Partial<
     thresholds: () => [0.5],
     palette: () => yesNoPalette,
   },
+  networkCosts: networkCostsColorScaleSpec,
   daysInAdvanceOutageNotification: {
     palette: (thresholds) =>
       defaultColorScaleSpec.palette(thresholds).slice().reverse(),
